@@ -23,8 +23,8 @@ CFG=VPLAppWiz - Win32 Pseudo-Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
+# PROP Scc_ProjName "VPLAppWiz"
+# PROP Scc_LocalPath "."
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -55,7 +55,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"vc6/Release\VPLAppWiz_vc6.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"vc6/Release/VPLAppWiz_vc6.awx"
+# ADD LINK32 Rpcrt4.lib /nologo /subsystem:windows /dll /machine:I386 /out:"vc6/Release/VPLAppWiz_vc6.awx"
 # Begin Custom Build - Copying custom AppWizard to Template directory...
 OutDir=.\vc6/Release
 TargetPath=.\vc6\Release\VPLAppWiz_vc6.awx
