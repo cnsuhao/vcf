@@ -830,7 +830,7 @@ void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
 	// if we select an item, the focus will go to the DropDownListBox instead.
 
 	if ( vkReturn == event->getVirtualCode() ) {
-		if ( NULL != dropDown_ ) { // MP-begin
+		if ( NULL != dropDown_ ) {
 			ListItem* item = ((ComboBoxDropDown*)dropDown_)->getListBox()->getSelectedItem();
 
 			// we close the drodownbox now because if we do it after, 
@@ -1054,6 +1054,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/02/16 17:54:31  marcelloptr
+*removed a mark I forgot
+*
 *Revision 1.3.2.9  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
