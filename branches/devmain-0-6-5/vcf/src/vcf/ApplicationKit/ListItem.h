@@ -50,6 +50,10 @@ public:
 		}
 
 		String getCaption() {
+			if ( ownerItem_->getUseLocaleStrings() ) {
+				return System::getCurrentThreadLocale()->translate( caption_ );
+			}
+
 			return caption_;
 		}
 
@@ -116,6 +120,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -81,10 +81,12 @@ bool Win32FileOpenDialog::executeW()
 
 
 	WCHAR* tmpTitle = NULL;
-	if ( title_.size() > 0 ){
-		tmpTitle = new WCHAR[title_.size()+1];
-		memset( tmpTitle, 0, title_.size()+1 );
-		title_.copy( tmpTitle, title_.size() );
+	int titleSz = title_.size();
+	if ( titleSz > 0 ){
+		tmpTitle = new WCHAR[titleSz+1];
+		memset( tmpTitle, 0, titleSz+1 );
+		title_.copy( tmpTitle, titleSz );
+		tmpTitle[titleSz] = 0;
 	}
 
 	ofn.lpstrTitle = tmpTitle;
@@ -427,6 +429,9 @@ void Win32FileOpenDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.4  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -586,9 +586,24 @@ bool Win32Window::isActiveWindow()
 	return ::GetActiveWindow() == hwnd_ ? true : false;
 }
 
+void Win32Window::setText( const VCF::String& text )
+{	
+	if ( System::isUnicodeEnabled() ) {
+
+		::SetWindowTextW( hwnd_, text.c_str() );
+	}
+	else {
+		::SetWindowTextA( hwnd_, text.ansi_c_str() );
+	}
+
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

@@ -90,6 +90,9 @@ void DefaultListItem::setData( void* data )
 
 String DefaultListItem::getCaption()
 {
+	if ( getUseLocaleStrings() ) {
+		return System::getCurrentThreadLocale()->translate( caption_ );
+	}
 	return caption_;
 }
 
@@ -203,6 +206,9 @@ void DefaultListItem::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 18:48:04  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

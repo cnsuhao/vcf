@@ -107,6 +107,9 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 		info.hSubMenu = (HMENU) itemImpl->getMenuID();
 	}
 	String itemName = child->getCaption();
+	if ( child->getUseLocaleStrings() ) {
+		itemName = System::getCurrentThreadLocale()->translate( itemName );
+	}
 
 	info.cch = itemName.size();
 
@@ -602,6 +605,9 @@ void Win32MenuItem::fillInMeasureItemInfo( MEASUREITEMSTRUCT& measureItemInfo )
 					HFONT menuHFont = CreateFontIndirect( &ncInfo.lfMenuFont );
 					if ( NULL != menuHFont ) {
 						String caption = menuItem_->getCaption();
+						if ( menuItem_->getUseLocaleStrings() ) {
+							caption = System::getCurrentThreadLocale()->translate( caption );
+						}
 
 						HDC dc = ::CreateCompatibleDC( NULL );// screen DC--I won't actually draw on it
 						HFONT oldFont = (HFONT)SelectObject( dc, menuHFont );
@@ -765,6 +771,10 @@ void Win32MenuItem::fillMenuItemRect( HDC dc, const RECT& rc, COLORREF color )
 void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 {
 	String left = menuItem_->getCaption();
+	if ( menuItem_->getUseLocaleStrings() ) {
+		left = System::getCurrentThreadLocale()->translate( left );
+	}
+
 	String right;
 
 	int tabPos = left.find('\t');
@@ -802,6 +812,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

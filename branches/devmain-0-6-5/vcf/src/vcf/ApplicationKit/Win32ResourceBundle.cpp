@@ -33,17 +33,18 @@ Win32ResourceBundle::~Win32ResourceBundle()
 
 String Win32ResourceBundle::getString( const String& resourceName )
 {
+	HINSTANCE hinst = getResourceInstance();
 	String result;
 	HRSRC resHandle = NULL;
 	if ( System::isUnicodeEnabled() ) {
-		resHandle = ::FindResourceW( getResourceInstance(), resourceName.c_str(), String(RT_RCDATA).c_str() );
+		resHandle = ::FindResourceW( hinst, resourceName.c_str(), String(RT_RCDATA).c_str() );
 	}
 	else {
-		resHandle = ::FindResourceA( getResourceInstance(), resourceName.ansi_c_str(), RT_RCDATA );
+		resHandle = ::FindResourceA( hinst, resourceName.ansi_c_str(), RT_RCDATA );
 	}
 
 	if ( NULL != resHandle ){
-		HGLOBAL	data = ::LoadResource( NULL, resHandle );
+		HGLOBAL	data = ::LoadResource( hinst, resHandle );
 		if ( NULL != data ){
 			TCHAR* strData = (TCHAR*)::LockResource( data );
 			result = strData;
@@ -51,7 +52,35 @@ String Win32ResourceBundle::getString( const String& resourceName )
 		}
 	}
 	else {
+		bool failed = false;
+		//try and see if the resourceName is an int id and find it via 
 		//throw exception- resource not found !!!!
+		uint32 stringID = StringUtils::fromStringAsUInt(resourceName);
+		if ( stringID > 0 ) {
+			if ( System::isUnicodeEnabled() ) {
+				wchar_t tmp[256];
+				int ret = ::LoadStringW( hinst, stringID, tmp, 255 );
+				if ( ret ) {
+					tmp[ret] = 0;
+					result = tmp;
+				}				
+			}
+			else {
+				char tmp[256];
+				int ret = ::LoadStringA( hinst, stringID, tmp, 255 );
+				if ( ret ) {
+					tmp[ret] = 0;
+					result = tmp;
+				}
+			}			
+		}
+		else {
+			failed = true;
+		}
+
+		if ( failed ) {
+			//throw exception???
+		}
 	}
 	return result;
 }
@@ -188,6 +217,9 @@ HINSTANCE Win32ResourceBundle::getResourceInstance()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

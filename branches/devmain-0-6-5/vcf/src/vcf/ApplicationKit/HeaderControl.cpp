@@ -317,7 +317,7 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 	drawOptions |= GraphicsContext::tdoCenterVertAlign;
 
 	ButtonState state;
-	state.setPressed( pressedColumn_ );
+	state.setPressed( pressedColumn_ == item );
 	state.setActive( true );
 	state.setEnabled( isEnabled() );
 	//state.buttonCaption_ = item->getCaption();
@@ -360,6 +360,9 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

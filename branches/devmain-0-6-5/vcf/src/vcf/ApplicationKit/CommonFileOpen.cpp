@@ -21,9 +21,10 @@ CommonFileOpen::CommonFileOpen( Control* owner, const String& startDir )
 	}
 
 	if ( startDir.size() > 0 ){
-		this->setDirectory( startDir );
+		setDirectory( startDir );
 	}
 
+	setTitle( "Open" );
 }
 
 CommonFileOpen::~CommonFileOpen()
@@ -44,13 +45,16 @@ Enumerator<String>* CommonFileOpen::getSelectedFiles()
 
 void CommonFileOpen::setFileMustExist( const bool& fileMustExist )
 {
-	this->peer_->setFileMustExist( fileMustExist );
+	peer_->setFileMustExist( fileMustExist );
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 18:48:04  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
