@@ -206,7 +206,7 @@ void System::println(String text, ...)
 	va_start( args, text );
 	int charRequired = 1024;
 	VCFChar* tmpChar = new VCFChar[charRequired];
-	memset( tmpChar, 0, charRequired );
+	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
 
 #ifdef VCF_GCC
   #ifdef VCF_OSX
@@ -683,6 +683,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/01/08 00:06:38  marcelloptr
+*fixed buffer management for println
+*
 *Revision 1.3.2.5  2005/01/07 01:15:23  ddiego
 *fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
 *
