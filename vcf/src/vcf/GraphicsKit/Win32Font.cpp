@@ -326,7 +326,7 @@ double Win32Font::getPointSize()
 
 	
 
-	double result = abs( ((double)lfHeight / ppi) * 72.0 );
+	double result = abs( static_cast<long>(((double)lfHeight / ppi) * 72.0 ));
 
 	if ( GetDeviceCaps( dc, LOGPIXELSY) != this->oldDPI_ ) {
 		result = result * ( ppi / oldDPI_ );
@@ -845,6 +845,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.12  2004/10/04 15:51:15  kiklop74
+*Added explicit cast to avoid ambiquity on BCB6
+*
 *Revision 1.2.2.11  2004/09/21 23:41:25  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

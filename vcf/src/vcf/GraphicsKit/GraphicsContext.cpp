@@ -1363,7 +1363,7 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 {
 	agg::path_storage path;
 	agg::ellipse ellipseShape( x1 + ((x2-x1)/2.0), y1 + ((y2-y1)/2.0),
-								abs(x2-x1), abs(y2-y1), 100 );
+								abs(static_cast<long>(x2-x1)), abs(static_cast<long>(y2-y1)), 100 );
 	path.add_path( ellipseShape );
 
 	agg::path_storage::const_iterator it = path.begin();
@@ -1483,6 +1483,9 @@ double GraphicsContext::getScaleY()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.12  2004/10/04 15:50:49  kiklop74
+*Added explicit cast to avoid ambiquity on BCB6
+*
 *Revision 1.2.2.11  2004/09/09 03:09:26  marcelloptr
 *minor change for style
 *
