@@ -735,10 +735,10 @@ public:
 
 
 
-class DocViewAdvancedApplication : public SDIDocumentBasedApplication {
+class DocViewAdvancedApplication : public MDIDocumentBasedApplication {
 public:
 
-	DocViewAdvancedApplication( int argc, char** argv ) : SDIDocumentBasedApplication(argc, argv) {
+	DocViewAdvancedApplication( int argc, char** argv ) : MDIDocumentBasedApplication(argc, argv) {
 
 	}
 
@@ -747,7 +747,7 @@ public:
 		REGISTER_CLASSINFO( CircleDocument );
 		REGISTER_CLASSINFO( DocViewAdvancedWindow );
 
-		bool result = SDIDocumentBasedApplication::initRunningApplication();
+		bool result = MDIDocumentBasedApplication::initRunningApplication();
 
 		newDefaultDocument();
 

@@ -16,45 +16,25 @@ where you installed the VCF.
 
 namespace VCF {
 
-class APPLICATIONKIT_API DocManagerEvent : public Event {
-public:
-	DocManagerEvent( Object* source, ulong32 type ): Event( source, type ),
-			allowFileOp_(true), fileOperationStatus_(false) {
 
-	}
-
-	bool allowFileOperation() {
-		return allowFileOp_;
-	}
-
-	void setAllowFileOperation( const bool& val ) {
-		allowFileOp_ = val;
-	}
-
-	bool getFileOperationStatus() {
-		return fileOperationStatus_;
-	}
-
-	/**
-	Programs that handle file saving themselves
-	without relying on the base behaviour should call this
-	method on the event. It will dictate what the
-	DocumentManager::saveFile() wil return.
-	@param bool if allowFileOperation() is false it indicates that the
-	event handler handled the file operation and DocumentManager::saveFile()
-	will the value of val, or getFileOperationStatus().
-	*/
-	void setFileOperationStatus( const bool& val ) {
-		fileOperationStatus_ = val;
-	}
-protected:
-	bool allowFileOp_;
-	bool fileOperationStatus_;
-};
-
-
-
-
+/**
+*<p>
+* class DocumentInfo
+* 
+* contains the string infos characterizing a document class or a kind of document.
+*
+*	classID     is the uuid identifying the document. It lets the VCF RTTI to create our document,
+*                with no other information or to get all the DocumentInfo associated to a document
+*                according to the map stored by the DocumentManager.
+*	className   is the name for this class of documents.
+*	view        is the uuid identifying the kind of view to be associated to this kind of document.
+*	window      is the uuid identifying the kind of window to be associated to this kind of document.
+*	fileTypes   is the list of allowed extension (separated by ';') for the files associated to this
+*                kind of document.
+*	mimetype    is the mime type for this kind of document.
+*	description is just a generic description for this class of documents.
+*</p>
+*/
 class APPLICATIONKIT_API DocumentInfo {
 public:
 	String classID;
@@ -67,12 +47,98 @@ public:
 };
 
 
+
+/**
+*<p>
+* class DocManagerEvent
+* 
+* while a normal event is appropriated to notify the user interface
+* that a file operation has been performed on a document,
+* a user will need this special kind of event if he needs to bypass
+* a standard operation on documents as normally execute by the DocumentManager.
+* Even if the DocumentManager is already very flexible, this let the user
+* to have a comlete control in some case he may need ( very unfrequent though ).
+*
+* This how this mechanism works:
+* this event class has two member functions that are normally supposed
+* to work togheter. Yet are normally *not* used.
+* Let's take the case of DocumentManager::saveFile() for example,
+* and imagine that the user needs to completely bypass the way saveFile works 
+* and adopt his personal implementation.
+* In order to do that he needs to add an handler to the manager, that is performing
+* the operation in hte way he needs. He will also have to setAllowFileOperation( false )
+* from inside this handler, and setFileOperationStatus( true ) whenever the saving 
+* operation has been completed successfuly.
+* The standard implementation of saveFile will then call the handler, collect that 
+* fileOperationStatus_ value and return it. See comment for setFileOperationStatus.
+*</p>
+*@see saveFile()
+*/
+class APPLICATIONKIT_API DocManagerEvent : public Event {
+public:
+	DocManagerEvent( Object* source, ulong32 type ): Event( source, type ),
+			allowFileOp_(true), fileOperationStatus_(false) {
+
+	}
+
+	/**
+	* tells if we want to allow the DocumentManager to perform the standard file operation
+	* that he has been requested.
+	*@return bool, false if an event handler has caught this event and performed the file
+	* operation in an alternative way.
+	*/
+	bool allowFileOperation() {
+		return allowFileOp_;
+	}
+
+	/**
+	* sets this flag as false from the event handler in order 
+	* in order to make the manager aware that an alternative way,
+	* implemented by the handler, is preferred.
+	*/
+	void setAllowFileOperation( const bool& val ) {
+		allowFileOp_ = val;
+	}
+
+	/**
+	* gets the status of a file operation after the event handler 
+	* has been executed
+	*/
+	bool getFileOperationStatus() {
+		return fileOperationStatus_;
+	}
+
+	/**
+	* sets the status of a file operation from the event handler.
+	* The value set with this function will be the value returned
+	* by the DocumentManager's member function that was supposed to 
+	* perform the standard implementation of this file operation.
+	* Use setAllowFileOperation( false ) to make this function active.
+	*@param const bool&, true if the file operation has been completed
+	* successfully, false otherwise.
+	*/
+	void setFileOperationStatus( const bool& val ) {
+		fileOperationStatus_ = val;
+	}
+
+protected:
+	bool allowFileOp_;
+	bool fileOperationStatus_;
+};
+
+
+
 /**
 <p>
 The DocumentManager manages the interaction between the application (and any other
-UI classes) a collection of one or more documents, and the DocInterfacePolicy
-(which manages the collection of one or more documents).
-The DocumentManager allows only a single instance, which you can get at by calling the
+UI classes) and a collection of one or more documents.
+A DocumentBasedApplication inherits from this class and from a DocInterfacePolicy
+The DocInterfacePolicy is the template argument class that specifies
+how the DocumentManager is supposed to manage the collection (of one or more) documents.
+The member functions of this DocumentManager class are very general and common to any
+kind document manager interface, and so it contributes to define the Document Interface 
+pattern itself.
+The DocumentManager allows only for a single instance, which you can get at by calling the
 static method DocumentManager::getDocumentManager().
 </p>
 
@@ -85,10 +151,9 @@ static method DocumentManager::getDocumentManager().
 */
 class APPLICATIONKIT_API DocumentManager {
 public:
-	DocumentManager();
-
-	virtual ~DocumentManager();
-
+	/**
+	* events types. See the DELEGATEs of this class.
+	*/
 	enum {
 		dmSaveDocument = 1000,
 		dmOpenDocument,
@@ -115,18 +180,25 @@ public:
 
 	/**
 	@delegate SaveFile this is called when the document manager's saveFile()
-	method is called.
-	@event DocManagerEvent
+	method is called from the UI. It implements the way used to bypass 
+	the normal behaviour of the document manager's saveFile() method itself.
+	It is effective only if a DocManagerEvent event handler is added to this 
+	delegate and setAllowFileOperation( false ) is called from the handler.
+	@event VCF::DocManagerEvent
 	@eventtype DocumentManager::dmSaveDocument
 	@see saveFile()
 	*/
 	DELEGATE(SaveFile);
 
 	/**
-	@delegate OpenFile this is called when the document manager's
-	openFile() method is called.
-	@event DocManagerEvent
+	@delegate OpenFile this is called when the document manager's openFile()
+	method is called from the UI. It implements the way used to bypass 
+	the normal behaviour of the document manager's openFile() method itself.
+	It is effective only if a DocManagerEvent event handler is added to this 
+	delegate and setAllowFileOperation( false ) is called from the handler.
+	@event VCF::DocManagerEvent
 	@eventtype  DocumentManager::dmOpenDocument
+	@see openFile()
 	*/
 	DELEGATE(OpenFile);
 
@@ -135,7 +207,7 @@ public:
 	been fully initialized by the document manager. At this point the document should
 	be connected to it's views (at least as many of them as the document manager knows
 	about), as well as having a window set for it.
-	@event DocManagerEvent
+	@event VCF::Event
 	@eventtype DocumentManager::dmDocumentInitialized
 	@see Document::setWindow
 	*/
@@ -145,7 +217,8 @@ public:
 	@delegate DocumentClosed this is called when the document is closed by
 	the DocInterfacePolicy. It is up to the implementer to call fire the
 	event to the delegate.
-	@event DocManagerEvent
+	@event VCF::Event
+	@eventtype DocumentManager::dmCloseDocument
 	*/
 	DELEGATE(DocumentClosed)
 
@@ -154,192 +227,438 @@ public:
 	currentDocumentChanged() method is called. It is the responsibility of
 	the DocInterfacePolicy to call the currentDocumentChanged() method
 	when appropriate.
-	@event DocManagerEvent
+	An event fired from this delegate causes the UI to be notified of any changes
+	on any document so it can choose to display them or else.
+	@event VCF::Event
 	@eventtype DocumentManager::dmCurrentDocumentChanged
 	*/
 	DELEGATE(CurrentDocumentChanged)
 
+public:
+	DocumentManager();
 
+	virtual ~DocumentManager();
+
+	/**
+	* inizialization function for document based applications.
+	* This is called just after Application::initRunningApplication().
+	*/
 	virtual void init();
 
+	/**
+	* termination function for document based applications.
+	* This is called just before Application::terminateRunningApplication().
+	*/
 	virtual void terminate();
 
-	UndoRedoStack& getUndoRedoStack( Document* doc );
+	/**
+	* gives the current document manager instance.
+	* This is a singleton, so this function is static.
+	*@return DocumentManager*, a pointer to the only DocumentManager for the application.
+	*/
+	static DocumentManager* getDocumentManager();
 
-	Menu* getStandardMenu() {
-		return standardMenu_;
+
+	/**
+	* gets the current document.
+	* The current document is the document having the focus, so to speak.
+	* It is also called the active document, as the default operations
+	* are performed on this one.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@return Document*, the currently active document.
+	*/
+	virtual Document* getCurrentDocument() {
+		return NULL;
 	}
 
-	virtual void cutFromDocument( Document* doc );
+	/**
+	* sets the new current document.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param Document*, the document that we want to be active.
+	*/
+	virtual void setCurrentDocument( Document* newCurrentDocument ) {
 
-	virtual void copyFromDocument( Document* doc );
+	}
 
-	virtual void pasteToDocument( Document* doc );
+	/**
+	* saves the specified document.
+	*@param Document* doc, the document.
+	*/
+	bool saveDocument( Document* doc );
 
-	virtual void undoForDocument( Document* doc );
-
-	virtual void redoForDocument( Document* doc );
-
-	virtual void editPreferences(){};
-
+	/**
+	* save a document into a file.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param Document* doc, the document.
+	*@return bool, true if the operation completed successfully.
+	*/
 	virtual bool saveFile( Document* document ){
 		return false;
 	}
 
-	virtual void openFile(){};
+	/**
+	* opens a document instance from a file.
+	* the mime type identifying the document is extracted from
+	* the file extension stored with all the DocumentInfo(s)
+	* registered to the manager.
+	*@param const String&, the filename.
+	*@return Document*, the opened document.
+	*/
+	virtual Document* openFromFileName( const String& fileName );
 
-	virtual void closeCurrentDocument(){};
+	/**
+	* opens a file.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*/
+	virtual void openFile() {
+	
+	};
 
+	/**
+	* close the current ( active ) document.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*/
+	virtual void closeCurrentDocument(){
+	
+	};
+
+	/**
+	* function called to notify any change on the current document.
+	* The associated event is fired.
+	*/
 	void currentDocumentChanged() {
 		DocManagerEvent event( getCurrentDocument(), DocumentManager::dmCurrentDocumentChanged );
 		CurrentDocumentChanged.fireEvent( &event );
 	}
 
-	virtual Document* openFromFileName( const String& fileName );
-
-	virtual void newDocument(){
+	/**
+	* creates a new document.
+	* The default implementation is to create a default document
+	* as this is what happens in a SDI policy ( where only one DocumentInfo
+	* has been registered into this DocumentManager).
+	* By overriding this function the user could change this default 
+	* implementation and open an appropriate New File dialog.
+	*/
+	virtual void newDocument() {
 		newDefaultDocument();
 	}
 
-	virtual Document* newDefaultDocument( const String& mimetype="" ){
+	/**
+	* creates a new default document.
+	* The mimetype of the document to be opened can be optionally specified.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param const String& mimetype, the mime type. Default is an empty String, as this 
+	*function will be called only from an SDI policy.
+	*in which case the only registered DocumentInfo is used to open the document.
+	*@return Document*, the newly created document.
+	*/
+	virtual Document* newDefaultDocument( const String& mimetype=L"" ) {
 		return NULL;
 	};
 
-
+	/**
+	* creates a new document with specified Document infos.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param const DocumentInfo& info, the characteristic infos of the document to be created.
+	*@return Document*, the newly created document.
+	*/
 	virtual Document* createDocumentFromType( const DocumentInfo& info ){
 		return NULL;
 	};
 
-	virtual Document* getCurrentDocument() {
-		return NULL;
-	}
-
-	virtual void setCurrentDocument( Document* newCurrentDocument ) {
-
-	}
-
-	virtual void createMenus(){};
-
-	static DocumentManager* getDocumentManager();
-
-	String getMimeTypeFromFileExtension( const String& fileName );
-
-	DocumentInfo getDocumentInfo( const String& mimeType );
-
+	/**
+	* gets the appropriate window to be associated to a new document.
+	* The standard implementation of a Document Interface is 
+	* a one to one relationship between documents and windows.
+	* The basic functionality is empty. The real implementation is dependent on the policy, 
+	* as this is depending on the type of Document Interface.
+	*@param const Document* doc, the document.
+	*@param const DocumentInfo& info, the DocInfo to create the window from if necessary.
+	*@return Window*, the window to be associated with the document.
+	*/
 	virtual Window* getWindowForNewDocument( Document* document, const DocumentInfo& info ) {
 		return NULL;
 	}
 
-	virtual void initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info  ) {}
-
+	/**
+	*there is an internal association map between a mimeType and the DocumentInfo
+	*this function adds an item to this map.
+	*@param const String&, the mime type.
+	*@param const DocumentInfo& info, the DocumentInfo.
+	*/
 	void addDocumentInfo( const VCF::String& mimeType, const DocumentInfo& info );
 
-	bool saveDocument( Document* doc );
+	/**
+	* gets a pointer to the enumerator of all the registered DocumentInfo(s).
+	*@param Enumerator<DocumentInfo>*, the pointer to this enumerator.
+	*/
+	Enumerator<DocumentInfo>* getRegisteredDocumentInfo();
 
-	virtual void setNewView( DocumentInfo info, View* view, Window* window, Document* newDocument ) {
+	/**
+	* gets the DocumentInfo of a document from its mime type only.
+	*@param const String&, the mime type.
+	*@return DocumentInfo, the document infos.
+	*/
+	DocumentInfo getDocumentInfo( const String& mimeType );
+
+	/**
+	* gets the mime type of a document from the extension of its associated file.
+	*@param const String&, the filename.
+	*@return String, the mime type.
+	*/
+	String getMimeTypeFromFileExtension( const String& fileName );
+
+	/**
+	* sets a specified view for a specified new document and its window
+	* The DocumentInfo is also specified because we can decide to select
+	* which documents to add a view to.
+	*@param DocumentInfo& info, the DocumentInfo.
+	*@param View* view, the specified view.
+	*@param Window* window, the window.
+	*@param Document* newDocument, the new document.
+	*/
+	virtual void setNewView( const DocumentInfo& info, View* view, Window* window, Document* newDocument ) {
 		view->setViewControl( window );
 		window->setView( view );
 		newDocument->addView( window );
 	}
 
 
-	Enumerator<DocumentInfo>* getRegisteredDocumentInfo();
+	/**
+	* preferences support.
+	* performs any editing operation on the application's preferences.
+	* The basic functionality is empty. Override this to implement one.
+	*/
+	virtual void editPreferences(){
+	
+	};
 
+	/**
+	* tells if our Document manager is expected to have (create) a User Interface.
+	*@return bool, true if it does.
+	*/
 	bool getShouldCreateUI() {
 		return shouldCreateUI_;
 	}
 
+	/**
+	* states if our Document manager should create a User Interface.
+	*@param bool, true if we want to have it.
+	*/
 	void setShouldCreateUI( bool val ) {
 		shouldCreateUI_ = val;
 	}
 
-	virtual void attachUIToDocument( const String& mimeType, Document* document ) {};
+	/**
+	* attaches a document specific User Interface to a document.
+	* using the appropriate DocumentInfo extracted from the mimeType.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*/
+	virtual void attachUIToDocument( const String& mimeType, Document* document ) {
+	
+	};
 
+	/**
+	* gets a pointer to an enumerator of all the opened documents in the application.
+	*@return Enumerator<Document*>* , the pointer to this enumerator.
+	*/
+	Enumerator<Document*>* getOpenedDocuments();
+
+
+	/**
+	* gets the standard menu built for any document based application.
+	*/
+	Menu* getStandardMenu() {
+		return standardMenu_;
+	}
+
+	/**
+	* creates the menus associated to our document based application.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*/
+	virtual void createMenus(){
+	
+	};
+
+	/**
+	* initializes the menu for the window associated to a document.
+	* The DocumentInfo is also specified.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param DocumentInfo& info, the DocumentInfo.
+	*@param Window* window, the window.
+	*@param Document* document, the document.
+	*/
+	virtual void initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info ) {
+	
+	}
+
+	/**
+	* gets the action associated to an action tag, as specified by this document manager.
+	*@param ActionTag, the action's tag.
+	*@return Action*, the pointer to the associated action.
+	*@see Action
+	*/
 	Action* getAction( ActionTag tag );
 
-	Enumerator<Document*>* getOpenedDocuments();
+	/**
+	* performs a cut operation on the document,
+	* if the document allows for it.
+	*@param Document* doc, the document.
+	*/
+	virtual void cutFromDocument( Document* doc );
+
+	/**
+	* performs a copy operation on the document,
+	* if the document allows for it.
+	*@param Document* doc, the document.
+	*/
+	virtual void copyFromDocument( Document* doc );
+
+	/**
+	* performs a paste operation on the document,
+	* if the document allows for it.
+	*@param Document* doc, the document.
+	*/
+	virtual void pasteToDocument( Document* doc );
+
+	/**
+	* performs an undo operation on the document.
+	*@param Document* doc, the document.
+	*/
+	virtual void undoForDocument( Document* doc );
+
+	/**
+	* performs a redo operation on the document.
+	*@param Document* doc, the document.
+	*/
+	virtual void redoForDocument( Document* doc );
+
+	/**
+	* gets the undo-redo stack associated to a document.
+	*@param Document& doc, the document.
+	*@return UndoRedoStack&, a reference to the document's stack.
+	*/
+	UndoRedoStack& getUndoRedoStack( Document* doc );
+
+
 protected:
-	virtual void prepareOpenDialog( CommonFileOpen* openDialog );
 
-	virtual void openDialogFinished( CommonFileOpen* openDialog ){};
-
-	virtual void prepareSaveDialog( CommonFileSave* saveDialog, Document* doc );
-
-	virtual void saveDialogFinished( CommonFileSave* saveDialog ){};
-
+	/**
+	* gives the document info associated to the document
+	* this implementation uses the VCF RTTI for this document.
+	*/
 	DocumentInfo* getDocumentInfo( Document* doc );
 
-	void updatePaste( ActionEvent* event, Document* doc );
+	/* called to prepare a file open dialog */
+	virtual void prepareOpenDialog( CommonFileOpen* openDialog );
 
+	/* called after the file open dialog has been closed by the user and confirmed Ok */
+	virtual void openDialogFinished( CommonFileOpen* openDialog ){};
+
+	/* called to prepare a file save dialog */
+	virtual void prepareSaveDialog( CommonFileSave* saveDialog, Document* doc );
+
+	/* called after the file save dialog has been closed by the user and confirmed Ok */
+	virtual void saveDialogFinished( CommonFileSave* saveDialog ){};
+
+	/* called to update ... a cut operation */
 	void updateCut( ActionEvent* event, Document* doc );
 
+	/* called to update ... a copy operation */
 	void updateCopy( ActionEvent* event, Document* doc );
 
+	/* called to update ... a paste operation */
+	void updatePaste( ActionEvent* event, Document* doc );
+
+	/* called to update ... an undo operation */
 	void updateUndo( ActionEvent* event, Document* doc );
 
+	/* called to update ... a redo operation */
 	void updateRedo( ActionEvent* event, Document* doc );
 
+	/* removes the undo redo stack from the specified document */
 	void removeUndoRedoStackForDocument( Document* doc );
 
+	/* called to save the changes done on a specified document */
 	UIToolkit::ModalReturnType saveChanges( Document* document );
 
+	/* add an action to the internal action map */
 	void addAction( ActionTag tag, Action* action );
 
+	/* called to add a document to the document based application */
 	void addDocument( Document* document );
+
+	/* called to remove a document from the document based application */
 	void removeDocument( Document* document );
 
+protected:
 	typedef std::map<String,DocumentInfo> DocumentInfoMap;
 	typedef std::map<Document*,UndoRedoStack*> DocumentUndoRedoMap;
+	typedef std::map< ulong32, Action* > ActionMap;
 
-	typedef std::map<ulong32,Action*> ActionMap;
-
-	DocumentInfoMap docInfo_;
-
-	EnumeratorMapContainer<DocumentInfoMap,DocumentInfo> docInfoContainer_;
-
+	/* the only document manager instance for the application */
 	static DocumentManager* docManagerInstance;
 
-	DocumentUndoRedoMap undoRedoStack_;
-	Menu* standardMenu_;
+	/* the map of all registered DocumentInfo(s) */
+	DocumentInfoMap docInfo_;
+	EnumeratorMapContainer< DocumentInfoMap, DocumentInfo > docInfoContainer_;
+
+	/* the list of all the opened document at this moment */
+	std::vector<Document*> openDocuments_;
+	EnumeratorContainer< std::vector<Document*>, Document* > openDocContainer_;
+
+	/* this DocumentManager has a User Interface */
 	bool shouldCreateUI_;
 
+	/* the standard menu for a Document based application */
+	Menu* standardMenu_;
+
+	/* the map of all actions and their associated tags according to our document manager */
 	ActionMap actionsMap_;
-	std::vector<Document*> openDocuments_;
-	EnumeratorContainer<std::vector<Document*>,Document*> openDocContainer_;
+
+	/* the map of all undo redo stack associated to each document */
+	DocumentUndoRedoMap undoRedoStack_;
 };
 
 
+
 /**
-class DocumentManagerImpl documentation
+* class DocumentManagerImpl
+* implementation of the DocumentManager for which also the DocInterfacePolicy
+* is specified.
+* The DocInterfacePolicy is the template argument class that specifies
+* how the DocumentManager is supposed to manage the collection (of one or more) documents.
+* We can say than DocumentManagerImpl is the part of the DocumentManager 
+* whose member functions are depending on the DocInterfacePolicy chosen by the user.
 */
-template < typename AppClass,
-			typename DocInterfacePolicy >
+template < typename AppClass, typename DocInterfacePolicy >
 class DocumentManagerImpl : public DocumentManager, public DocInterfacePolicy {
+
 public:
-	DocumentManagerImpl(): app_(NULL), closingDocument_(false), documentClosedOK_(false) {}
+	DocumentManagerImpl(): 
+		app_(NULL), closingDocument_(false), documentClosedOK_(false) {
+	}
 
+	/**
+	* functions overrides with implementation depending on the DocInterfacePolicy.
+	**/
 
-
-
+	/**
+	* inizialization function for document based applications.
+	* This is called just after Application::initRunningApplication().
+	*/
 	virtual void init();
 
-	virtual bool saveFile( Document* document );
-
-	virtual void openFile();
-
-	virtual void closeCurrentDocument();
-
-	virtual Document* newDefaultDocument( const String& mimetype="" );
-
-
-	virtual Document* createDocumentFromType( const DocumentInfo& info );
-
-	virtual void createMenus();
-
+	/**
+	* gets a pointer to the active document.
+	*/
 	virtual Document* getCurrentDocument() {
 		return DocInterfacePolicy::getCurrentDocument();
 	}
 
+	/**
+	* sets the given document as the active one
+	*/
 	virtual void setCurrentDocument( Document* newCurrentDocument ) {
 
 		DocInterfacePolicy::setCurrentDocument(newCurrentDocument);
@@ -347,25 +666,110 @@ public:
 		VCF::DocumentManager::getDocumentManager()->currentDocumentChanged();
 	}
 
+	/**
+	* save a document into a file.
+	* the standard behaviour is to show a dialog asking the user which file to open.
+	* If we don't want this base behaviour, an event handler must be implemented
+	* and added to the SaveFile delegate.
+	*@param Document* doc, the document.
+	*@return bool, true if the operation completed successfully.
+	*@fire DocumentManager::SaveFile
+	*@see DocManagerEvent
+	*/
+	virtual bool saveFile( Document* document );
+
+	/**
+	* opens a file.
+	* the standard behaviour is to show a dialog asking the user which file to open.
+	* If we don't want this base behaviour, an event handler must be implemented
+	* and added to the SaveFile delegate.
+	*@fire DocumentManager::OpenFile
+	*@see DocManagerEvent
+	*/
+	virtual void openFile();
+
+	/**
+	* closes the current document.
+	*/
+	virtual void closeCurrentDocument();
+
+	/**
+	* the default implementation is appropriate for an SDI policy:
+	* if we create a new document while the current document has been modified
+	* we need to ask the user what to do, and abort the operation if the user wants to.
+	* If getShouldCreateUI() returns true then a document specific user interface 
+	* is also added to the document and shown to the user, so he can view it and edit it.
+	* This function is never called from an MDI policy and from any other policy having
+	* saveBeforeNewDocument() returning false.
+	*/
+	virtual Document* newDefaultDocument( const String& mimetype=L"" );
+
+	/*
+	* MP ?
+	* MP ?
+	* MP ?
+	*/
+	virtual Document* createDocumentFromType( const DocumentInfo& info );
+
+	/*
+	* MP ?
+	* MP ?
+	* MP ?
+	*/
 	virtual Window* getWindowForNewDocument( Document* document, const DocumentInfo& info );
 
+	/**
+	* attaches a document specific User Interface to a document
+	* using the appropriate DocumentInfo extracted from the mimeType.
+	* In this standard implementation:
+	*   first it saves the current document if the policy requests this
+	*   then it does the work of attaching the UI
+	*   finally it notifyes the document has been changed
+	*see 
+	*/
+	virtual void attachUIToDocument( const String& mimeType, Document* document );
+
+	/*
+	* MP ?
+	* MP ?
+	* MP ?
+	*/
+	virtual void createMenus();
+
+	/*
+	* MP ?
+	* MP ?
+	* MP ?
+	*/
 	virtual void initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info  );
 
-	virtual void attachUIToDocument( const String& mimeType, Document* document );
+
 protected:
+	/* attaches a UI to the specified document */
+	void attachUI( const DocumentInfo& info, Document* document );
 
-	AppClass* app_;
-	bool closingDocument_;
-	bool documentClosedOK_;
+	/**
+	* initializes the actions for the application.
+	* These are tipical for any document based application.
+	*/
+	void initActions();
 
-	void onNew( Event* e ) {
-		newDocument();
-	}
+protected:
+	/**
+	* message handlers.
+	* many of the associated events are called for the UI.
+	**/
 
+	/*
+	* saves the current document.
+	*/
 	void onSave( Event* e ) {
 		saveFile( DocInterfacePolicy::getCurrentDocument() );
 	}
 
+	/*
+	* saves the current document, but let the user to specify an alternative filename and type.
+	*/
 	void onSaveAs( Event* e ) {
 		Document* doc = DocInterfacePolicy::getCurrentDocument();
 		doc->setFileName( "" );
@@ -373,68 +777,44 @@ protected:
 		saveFile( doc );
 	}
 
+	/*
+	* opens a document.
+	*/
 	void onOpen( Event* e ) {
 		openFile();
 	}
 
+	/*
+	* closes a document.
+	*/
 	void onClose( Event* e ) {
 		closeCurrentDocument();
 	}
 
-	void onUndo( Event* e ) {
-		undoForDocument( DocInterfacePolicy::getCurrentDocument() );
+	/*
+	* creates a new document.
+	*/
+	void onNew( Event* e ) {
+		newDocument();
 	}
 
-	void onUpdateUndo( ActionEvent* e ) {
-
-		updateUndo( e, DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onRedo( Event* e ) {
-		redoForDocument( DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onUpdateRedo( ActionEvent* e ) {
-
-		updateRedo( e, DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onCut( Event* e ) {
-		cutFromDocument( DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onUpdateCut( ActionEvent* e ) {
-
-
-		updateCut( e, DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onCopy( Event* e ) {
-		copyFromDocument( DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onUpdateCopy( ActionEvent* e ) {
-
-		updateCopy( e, DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onPaste( Event* e ) {
-		pasteToDocument( DocInterfacePolicy::getCurrentDocument() );
-	}
-
-	void onUpdatePaste( ActionEvent* e ) {
-
-		updatePaste( e, DocInterfacePolicy::getCurrentDocument() );
-	}
-
+	/*
+	* let the user to change preferences.
+	*/
 	void onPreferences( Event* e ) {
 		editPreferences();
 	}
 
+	/*
+	* handles notification that the user preferences has been changed
+	*/
 	void onUpdatePreferences( ActionEvent* e ) {
 
 	}
 
+	/*
+	* closes the document's window
+	*/
 	void onDocWindowClosing( FrameEvent* e ) {
 
 		if ( !DocInterfacePolicy::closeDocumentWindow( (Window*)e->getSource() ) ) {
@@ -443,6 +823,9 @@ protected:
 
 	}
 
+	/*
+	* activates a window and its document
+	*/
 	void onDocWindowActive( WindowEvent* e ) {
 		Window* window = (Window*)e->getSource();
 
@@ -451,6 +834,9 @@ protected:
 		}
 	}
 
+	/*
+	* handles notification that a document ( specified  by the event ) has been changed.
+	*/
 	void onDocModified( ModelEvent* e ) {
 		Document* doc = (Document*)e->getSource();
 		String caption = DocInterfacePolicy::getDocumentWindowCaption();
@@ -460,16 +846,98 @@ protected:
 		}
 	}
 
-	void attachUI( const DocumentInfo& info, Document* document );
+	/*
+	* starts cut operation
+	*/
+	void onCut( Event* e ) {
+		cutFromDocument( DocInterfacePolicy::getCurrentDocument() );
+	}
 
-	void initActions();
+	/*
+	* handles notification that a cut operation has been performed.
+	*/
+	void onUpdateCut( ActionEvent* e ) {
+
+
+		updateCut( e, DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* starts copy operation
+	*/
+	void onCopy( Event* e ) {
+		copyFromDocument( DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* handles notification that a copy operation has been performed.
+	*/
+	void onUpdateCopy( ActionEvent* e ) {
+
+		updateCopy( e, DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* starts paste operation
+	*/
+	void onPaste( Event* e ) {
+		pasteToDocument( DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* handles notification that a paste operation has been performed.
+	*/
+	void onUpdatePaste( ActionEvent* e ) {
+
+		updatePaste( e, DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* starts undo operation
+	*/
+	void onUndo( Event* e ) {
+		undoForDocument( DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* handles notification that an undo operation has been performed.
+	*/
+	void onUpdateUndo( ActionEvent* e ) {
+
+		updateUndo( e, DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* starts redo operation
+	*/
+	void onRedo( Event* e ) {
+		redoForDocument( DocInterfacePolicy::getCurrentDocument() );
+	}
+
+	/*
+	* handles notification that a redo operation has been performed.
+	*/
+	void onUpdateRedo( ActionEvent* e ) {
+
+		updateRedo( e, DocInterfacePolicy::getCurrentDocument() );
+	}
+
+
+protected:
+	/* pointer to the application */
+	AppClass* app_;
+
+	bool closingDocument_;
+
+	bool documentClosedOK_;
 };
 
 
 
 
 
-
+///////////////////////////////////////////////////////////////////////////////
+// inlines
 
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::init()
@@ -487,59 +955,57 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 	Action* action = new Action();
 	action->setName("FileNew");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onNew,
-													"onNew" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onNew,
+	                        "onNew" );
 	addAction( DocumentManager::atFileNew, action );
 
 	action = new Action();
 	action->setName("FileOpen");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onOpen,
-													"onOpen" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onOpen,
+	                        "onOpen" );
 	addAction( DocumentManager::atFileOpen, action );
 
 	action = new Action();
 	action->setName("FileSave");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSave,
-													"onSave" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSave,
+	                        "onSave" );
 	addAction( DocumentManager::atFileSave, action );
 
 	action = new Action();
 	action->setName("FileSaveAs");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSaveAs,
-													"onSaveAs" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSaveAs,
+	                        "onSaveAs" );
 	addAction( DocumentManager::atFileSaveAs, action );
 
 	action = new Action();
 	action->setName("FileClose");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onClose,
-													"onClose" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onClose,
+	                        "onClose" );
 	addAction( DocumentManager::atFileClose, action );
 
 	action = new Action();
 	action->setName("EditUndo");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUndo,
-													"onUndo" );
-	action->Update +=
-			new EventHandlerInstance<AppClass,ActionEvent>( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateUndo,
-													"onUpdateUndo" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUndo,
+	                        "onUndo" );
+	action->Update += new EventHandlerInstance<AppClass,ActionEvent>( app_,
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateUndo,
+	                        "onUpdateUndo" );
 
 	addAction( DocumentManager::atEditUndo, action );
 
 	action = new Action();
 	action->setName("EditRedo");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onRedo,
-													"onRedo" );
-	action->Update +=
-			new EventHandlerInstance<AppClass,ActionEvent>( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateRedo,
-													"onUpdateRedo" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onRedo,
+	                        "onRedo" );
+	action->Update += new EventHandlerInstance<AppClass,ActionEvent>( app_,
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateRedo,
+	                        "onUpdateRedo" );
 
 	addAction( DocumentManager::atEditRedo, action );
 
@@ -547,24 +1013,22 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 	action = new Action();
 	action->setName("EditCut");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCut,
-													"onCut" );
-	action->Update +=
-			new EventHandlerInstance<AppClass,ActionEvent>( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCut,
-													"onUpdateCut" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCut,
+	                        "onCut" );
+	action->Update += new EventHandlerInstance<AppClass,ActionEvent>( app_,
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCut,
+	                        "onUpdateCut" );
 
 	addAction( DocumentManager::atEditCut, action );
 
 	action = new Action();
 	action->setName("EditCopy");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCopy,
-													"onCopy" );
-	action->Update +=
-			new EventHandlerInstance<AppClass,ActionEvent>( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCopy,
-													"onUpdateCopy" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCopy,
+	                        "onCopy" );
+	action->Update += new EventHandlerInstance<AppClass,ActionEvent>( app_,
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCopy,
+	                        "onUpdateCopy" );
 
 	addAction( DocumentManager::atEditCopy, action );
 
@@ -572,12 +1036,11 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 	action = new Action();
 	action->setName("EditPaste");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPaste,
-													"onPaste" );
-	action->Update +=
-			new EventHandlerInstance<AppClass,ActionEvent>( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePaste,
-													"onUpdatePaste" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPaste,
+	                        "onPaste" );
+	action->Update += new EventHandlerInstance<AppClass,ActionEvent>( app_,
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePaste,
+	                        "onUpdatePaste" );
 
 	addAction( DocumentManager::atEditPaste, action );
 
@@ -585,12 +1048,11 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 	action = new Action();
 	action->setName("EditPreferences");
 	action->Performed += new GenericEventHandler< AppClass >( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPreferences,
-													"onPreferences" );
-	action->Update +=
-			new EventHandlerInstance<AppClass,ActionEvent>( app_,
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePreferences,
-													"onUpdatePreferences" );
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPreferences,
+	                        "onPreferences" );
+	action->Update += new EventHandlerInstance<AppClass,ActionEvent>( app_,
+	                        &DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePreferences,
+	                        "onUpdatePreferences" );
 
 	addAction( DocumentManager::atEditPreferences, action );
 
@@ -607,7 +1069,10 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 	}
 
 	if ( doc->isModified() ) {
-
+		/**
+		* allow the base behaviour to be bypassed if necessary.
+		*@see DocManagerEvent
+		*/
 		DocManagerEvent event( doc, DocumentManager::dmSaveDocument );
 		SaveFile.fireEvent( &event );
 		if ( !event.allowFileOperation() ) {
@@ -686,6 +1151,10 @@ template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile() {
 	Document* doc = DocInterfacePolicy::getCurrentDocument();
 
+	/**
+	* allow the base behaviour to be bypassed if necessary.
+	*@see DocManagerEvent
+	*/
 	DocManagerEvent event( NULL, DocumentManager::dmOpenDocument );
 	OpenFile.fireEvent( &event );
 	if ( !event.allowFileOperation() ) {
@@ -725,6 +1194,7 @@ Window* DocumentManagerImpl<AppClass,DocInterfacePolicy>::getWindowForNewDocumen
 	Window* result;
 
 	if ( DocInterfacePolicy::usesMainWindow() ) {
+		/* the new window for the document is the main window */
 		if ( NULL == app_->getMainWindow() ) {
 			if ( info.window.empty() ) {
 				result = new Window();
@@ -742,6 +1212,7 @@ Window* DocumentManagerImpl<AppClass,DocInterfacePolicy>::getWindowForNewDocumen
 		}
 	}
 	else {
+		/* the new window for the document is a new window */
 		if ( info.window.empty() ) {
 			result = new Window();
 		}
@@ -758,6 +1229,7 @@ Window* DocumentManagerImpl<AppClass,DocInterfacePolicy>::getWindowForNewDocumen
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info )
 {
+	/* if the window has no menu yet, we need to have one */
 	if ( NULL == window->getMenuBar() ) {
 		MenuBar* menu = new MenuBar();
 		window->setMenuBar(menu);
@@ -791,7 +1263,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 	document->addModelHandler( docEv );
 
 	/**
-	create a view from the Docinfo if neccessary
+	create a view from the DocInfo if necessary
 	*/
 	View* view = NULL;
 	if ( !info.view.empty() ) {
@@ -886,25 +1358,36 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 template < typename AppClass, typename DocInterfacePolicy >
 Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( const String& mimetype )
 {
-
+	/**
+	* this function is supposed to be called only with a SDI policy
+	* if we create a new document while the current document has been modified
+	* we need to ask the user what to do, and abort the operation if the user wants to.
+	*/
 	DocumentInfo info = getDocumentInfo( mimetype );
 
 	Window* window = NULL;
 
+	/* this handler notifies the UI to display any changes on the document */
 	EventHandler* docEv = app_->getEventHandler("onDocModified");
 
 	if ( DocumentManager::getShouldCreateUI() ) {
-
+		/* only in a SDI policy */
 		if ( DocInterfacePolicy::saveBeforeNewDocument() ) {
 			Document* doc = DocInterfacePolicy::getCurrentDocument();
 			if ( NULL != doc ) {
+				/* we remove this handler as we don't want the UI to display any changes at this point */
 				doc->removeModelHandler( docEv );
 				if ( doc->isModified() ) {
+					/* a dialog is shown to the user asking him to save the changes 
+					   of the current document previously modified */
 					switch ( saveChanges( doc ) ) {
 					case UIToolkit::mrCancel : {
-						doc->addModelHandler( docEv );
-						return NULL;
-											   }
+							/* the user wanted to abort saving the previous document
+							   no new document is created, and
+								 we put the handler back to the unsaved document */
+							doc->addModelHandler( docEv );
+							return NULL;
+						}
 						break;
 					}
 				}
@@ -1040,6 +1523,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
+*Document Window documentation
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
@@ -1104,7 +1590,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 *minor header changes
 *
 *Revision 1.2.2.15  2003/09/22 01:48:03  ddiego
-*some minor additions ot teh DropTarget to allow it to have multiple
+*some minor additions ot the DropTarget to allow it to have multiple
 *control targets
 *also a few other misc fixes
 *

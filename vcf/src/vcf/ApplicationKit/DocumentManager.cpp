@@ -38,31 +38,6 @@ DocumentManager::~DocumentManager()
 
 }
 
-void DocumentManager::terminate() {
-	standardMenu_->free();
-	standardMenu_ = NULL;
-
-	ActionMap::iterator actionIt =  actionsMap_.begin();
-	while ( actionIt != actionsMap_.end() ) {
-		actionIt->second->free();
-		actionIt ++;
-	}
-
-	DocumentUndoRedoMap::iterator it = undoRedoStack_.begin();
-	while ( it != undoRedoStack_.end() ) {
-		delete it->second;
-		it ++;
-	}
-	undoRedoStack_.clear();
-
-	std::vector<Document*>::iterator it2 = openDocuments_.begin();
-	while ( it2 != openDocuments_.end() ) {
-		Document* document = *it2;
-		document->release();
-		it2 ++;
-	}
-}
-
 Enumerator<DocumentInfo>* DocumentManager::getRegisteredDocumentInfo()
 {
 	return docInfoContainer_.getEnumerator();
@@ -124,8 +99,31 @@ void DocumentManager::init()
 		}
 	}
 
+}
 
+void DocumentManager::terminate() {
+	standardMenu_->free();
+	standardMenu_ = NULL;
 
+	ActionMap::iterator actionIt =  actionsMap_.begin();
+	while ( actionIt != actionsMap_.end() ) {
+		actionIt->second->free();
+		actionIt ++;
+	}
+
+	DocumentUndoRedoMap::iterator it = undoRedoStack_.begin();
+	while ( it != undoRedoStack_.end() ) {
+		delete it->second;
+		it ++;
+	}
+	undoRedoStack_.clear();
+
+	std::vector<Document*>::iterator it2 = openDocuments_.begin();
+	while ( it2 != openDocuments_.end() ) {
+		Document* document = *it2;
+		document->release();
+		it2 ++;
+	}
 }
 
 
@@ -580,6 +578,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
+*Document Window documentation
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
@@ -638,7 +639,7 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 *empty() by default - not exactly nice behaviour.
 *
 *Revision 1.2.2.9  2003/09/22 01:48:04  ddiego
-*some minor additions ot teh DropTarget to allow it to have multiple
+*some minor additions ot the DropTarget to allow it to have multiple
 *control targets
 *also a few other misc fixes
 *
@@ -658,7 +659,7 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 *classes. Began some fixes to the html browser implementation on Win32
 *
 *Revision 1.2.2.4  2003/08/27 20:11:33  ddiego
-*adjustments to how hte DataObject class work and copy/paste
+*adjustments to how the DataObject class work and copy/paste
 *
 *Revision 1.2.2.3  2003/08/26 21:41:17  ddiego
 *miscellanesous stuff, minor bugs
