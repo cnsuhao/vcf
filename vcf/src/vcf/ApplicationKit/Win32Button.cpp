@@ -94,167 +94,11 @@ void Win32Button::setImage( Image* image )
 
 }
 
-ulong32 Win32Button::getState()
+ButtonState Win32Button::getState()
 {
-	ulong32 result = 0;
-
-	return result;
+	return state_;
 }
 
-void Win32Button::setState( const ulong32& state )
-{
-
-}
-
-void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
-{
-
-	COLORREF backColor = RGB( peerControl_->getColor()->getRed() * 255.0,
-								peerControl_->getColor()->getGreen() * 255.0,
-								peerControl_->getColor()->getBlue() * 255.0 );
-
-	HBRUSH backBrush = CreateSolidBrush( backColor );
-	HPEN hilightPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DHIGHLIGHT ) );
-	HPEN shadowPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DSHADOW ) );
-	HPEN blackPen = CreatePen( PS_SOLID, 0, 0 );
-
-	HBRUSH oldBrush = (HBRUSH)::SelectObject( hdc, backBrush );
-	::FillRect( hdc, &drawStruct.rcItem, backBrush );
-
-	bool isPressed = (drawStruct.itemState & ODS_SELECTED) != 0;
-
-	commandButton_->setIsPressed( isPressed );
-
-	HPEN oldPen = NULL;
-
-	RECT tmpRect = drawStruct.rcItem;
-	InflateRect( &tmpRect, -1, -1 );
-
-	RECT captionRect = drawStruct.rcItem;
-
-	if ( true == isPressed ) {
-		HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
-		::FrameRect( hdc, &tmpRect, shadowBrush );
-		DeleteObject( shadowBrush );
-		::OffsetRect( &captionRect, 1, 1 );
-	}
-	else {
-		oldPen = (HPEN) ::SelectObject( hdc, hilightPen );
-
-		::MoveToEx( hdc, tmpRect.right-1, tmpRect.top, NULL );
-		::LineTo( hdc, tmpRect.left, tmpRect.top );
-		::LineTo( hdc, tmpRect.left, tmpRect.bottom-1 );
-
-		::SelectObject( hdc, shadowPen );
-		::MoveToEx( hdc, tmpRect.right-2, tmpRect.top+1, NULL );
-		::LineTo( hdc, tmpRect.right-2, tmpRect.bottom-2 );
-		::LineTo( hdc, tmpRect.left, tmpRect.bottom-2 );
-
-		::SelectObject( hdc, blackPen );
-		::MoveToEx( hdc, tmpRect.right-1, tmpRect.top, NULL );
-		::LineTo( hdc, tmpRect.right-1, tmpRect.bottom-1 );
-		::LineTo( hdc, tmpRect.left-1, tmpRect.bottom-1 );
-	}
-
-	bool enabled = !(drawStruct.itemState & ODS_DISABLED);
-
-	windowCaption_ = commandButton_->getCaption();
-
-
-	HFONT font = NULL;
-	HFONT oldFont = NULL;
-
-	Rect centerRect( captionRect.left, captionRect.top, captionRect.right, captionRect.bottom );
-	if ( System::isUnicodeEnabled() ) {
-		LOGFONTW* lf = (LOGFONTW*) commandButton_->getFont()->getFontPeer()->getFontHandleID();
-		font = ::CreateFontIndirectW( lf );
-		oldFont = (HFONT) ::SelectObject( hdc, font );
-
-		::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
-	}
-	else {
-		LOGFONTA* lf = (LOGFONTA*) commandButton_->getFont()->getFontPeer()->getFontHandleID();
-		font = ::CreateFontIndirectA( lf );
-		oldFont = (HFONT) ::SelectObject( hdc, font );
-
-		::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
-	}
-
-
-	::OffsetRect( &captionRect,
-		(centerRect.getWidth() - (captionRect.right - captionRect.left))/2,
-		(centerRect.getHeight() - (captionRect.bottom - captionRect.top))/2 );
-
-	int oldBkMode = SetBkMode( hdc, TRANSPARENT );
-
-
-	COLORREF textColor = 0;
-	if ( true == enabled ) {
-		textColor = RGB( peerControl_->getFont()->getColor()->getRed() * 255.0,
-								peerControl_->getFont()->getColor()->getGreen() * 255.0,
-								peerControl_->getFont()->getColor()->getBlue() * 255.0 );
-	}
-	else {
-		textColor = ::GetSysColor( COLOR_GRAYTEXT );
-	}
-
-
-
-	COLORREF oldTextColor = SetTextColor( hdc, textColor );
-
-	if ( false == enabled ) {
-		SetTextColor( hdc, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
-
-		OffsetRect( &captionRect, 1, 1 );
-
-		if ( System::isUnicodeEnabled() ) {
-			::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
-		}
-		else {
-			::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
-		}
-
-		OffsetRect( &captionRect, -1, -1 );
-
-		SetTextColor( hdc, textColor );
-	}
-
-	if ( System::isUnicodeEnabled() ) {
-		::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
-	}
-	else {
-		::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
-	}
-
-
-
-	SetTextColor( hdc, oldTextColor );
-	SetBkMode( hdc, oldBkMode );
-
-	::SelectObject( hdc, oldFont );
-	::DeleteObject( font );
-
-
-
-	if ( (drawStruct.itemState & ODS_FOCUS) || peerControl_->isFocused() ) {
-		RECT focusRect = drawStruct.rcItem;
-		InflateRect( &focusRect, -4, -4 );
-		::DrawFocusRect( hdc, &focusRect );
-	}
-
-	if ( NULL != oldBrush ) {
-		::SelectObject( hdc, oldBrush );
-	}
-	if ( NULL != oldPen ) {
-		::SelectObject( hdc, oldPen );
-	}
-
-	::DeleteObject( hilightPen );
-	::DeleteObject( shadowPen );
-	::DeleteObject( blackPen );
-	::DeleteObject( backBrush );
-
-}
 
 bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
@@ -275,7 +119,12 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_DRAWITEM:{
 			DRAWITEMSTRUCT* drawItem = (DRAWITEMSTRUCT*)lParam;
-			if ( true == peerControl_->isDoubleBuffered() ){
+
+			state_.setFocused( (drawItem->itemState & ODS_FOCUS) || peerControl_->isFocused() );
+			state_.setEnabled( !(drawItem->itemState & ODS_DISABLED) );
+			state_.setPressed( drawItem->itemState & ODS_SELECTED );
+
+			if ( peerControl_->isDoubleBuffered() ){
 
 				if ( NULL == memDC_ ) {
 						//create here
@@ -304,7 +153,6 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				//HDC memDC = (HDC)memCtx.getPeer()->getContextID();
 
-				drawBasicButton( memDC_, *drawItem );
 
 				ctx->getPeer()->setContextID( (long)memDC_ );
 
@@ -338,12 +186,23 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				ctx->getPeer()->setContextID( (long)drawItem->hDC );
 
-				drawBasicButton( drawItem->hDC, *drawItem );
-
 				peerControl_->paint( ctx );
 			}
 			wndProcResult = TRUE;
 			result = true;
+		}
+		break;
+
+		case WM_NCCALCSIZE: {
+			wndProcResult = handleNCCalcSize( wParam, lParam );
+			result = true;
+		}
+		break;
+
+		case WM_NCPAINT: {	
+
+			wndProcResult = handleNCPaint( wParam, lParam );
+			return true;
 		}
 		break;
 
@@ -405,6 +264,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/06 23:05:55  ddiego
+*fixed border in button class
+*
 *Revision 1.2.2.2  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

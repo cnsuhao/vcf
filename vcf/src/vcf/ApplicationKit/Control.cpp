@@ -209,7 +209,7 @@ Rect Control::getClientBounds( const bool& includeBorder ) /**throw( InvalidPeer
 	Rect r = peer_->getBounds();
 	clientBounds_->setRect( 0.0, 0.0, r.getWidth(), r.getHeight() );
 
-	if ( (true == includeBorder) && (NULL != border_) ){
+	if ( (includeBorder) && (NULL != border_) ){
 		r = *clientBounds_;
 		*clientBounds_ = border_->getClientRect( &r, this );
 	}
@@ -1490,6 +1490,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/06 23:05:55  ddiego
+*fixed border in button class
+*
 *Revision 1.2.2.3  2004/09/06 21:30:19  ddiego
 *added a separate paintBorder call to Control class
 *

@@ -1321,6 +1321,17 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 		::DrawFocusRect( dc_, &focusRect );
 	}
 
+
+	if ( state.isDefaultButton() ) {
+		RECT defRect = btnRect;
+
+		//defRect.right -= 1;
+		//defRect.bottom -= 1;
+
+
+		FrameRect( dc_, &defRect, (HBRUSH)GetStockObject(BLACK_BRUSH) );
+	}
+
 	if ( NULL != oldBrush ) {
 		::SelectObject( dc_, oldBrush );
 	}
@@ -2402,6 +2413,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2004/09/06 23:06:51  ddiego
+*fixed border in button class
+*
 *Revision 1.2.2.8  2004/09/06 18:34:24  ddiego
 *fixed some more transparent drawing issues
 *
