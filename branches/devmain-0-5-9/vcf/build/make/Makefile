@@ -38,10 +38,14 @@ CXX_FLAGS_D=-ggdb -D VCF_GCC -D_DEBUG -I $(CXX_INC) -c
 
 GK_CXX_FLAGS_D=-I $(X11_INC) -I $(IMLIB2_INC) -DVCF_X11 $(CXX_FLAGS_D)
 
+AK_CXX_FLAGS_D=$(GK_CXX_FLAGS_D)
+
 NK_CXX_FLAGS_D=$(CXX_FLAGS_D)
 
 CXX_FLAGS=-D VCF_GCC -I $(CXX_INC) -O2 -c
 GK_CXX_FLAGS=-I $(X11_INC) -I $(IMLIB2_INC) -DVCF_X11 $(CXX_FLAGS)
+
+AK_CXX_FLAGS=$(GK_CXX_FLAGS)
 
 NK_CXX_FLAGS=$(CXX_FLAGS)
 
@@ -168,7 +172,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 
 
 #GraphicsKit Objects
-GRAFKIT_OBJECT_FILES_D=GraphicsKit.o \
+GRAFKIT_OBJECT_FILES_D=$(OUTDIR_GK_D)/GraphicsKit.o \
 			$(OUTDIR_GK_D)/AbstractImage.o \
 			$(OUTDIR_GK_D)/BasicFill.o \
 			$(OUTDIR_GK_D)/BasicStroke.o \
@@ -178,8 +182,8 @@ GRAFKIT_OBJECT_FILES_D=GraphicsKit.o \
 			$(OUTDIR_GK_D)/GlyphCollection.o \
 			$(OUTDIR_GK_D)/GraphicsContext.o \
 			$(OUTDIR_GK_D)/GraphicsObject.o \
-			$(OUTDIR_GK_D)/Utils/GraphicsToolKit.o \
-			$(OUTDIR_GK_D)/Events/ImageEvent.o \
+			$(OUTDIR_GK_D)/GraphicsToolKit.o \
+			$(OUTDIR_GK_D)/ImageEvent.o \
 			$(OUTDIR_GK_D)/Matrix2D.o \
 			$(OUTDIR_GK_D)/Polygon.o \
 			$(OUTDIR_GK_D)/Vector2D.o \
@@ -195,7 +199,7 @@ GRAFKIT_OBJECT_FILES_D=GraphicsKit.o \
 			$(OUTDIR_GK_D)/MgcMath.o 
 
 
-GRAFKIT_OBJECT_FILES=GraphicsKit.o \
+GRAFKIT_OBJECT_FILES=$(OUTDIR_GK)/GraphicsKit.o \
 			$(OUTDIR_GK)/AbstractImage.o \
 			$(OUTDIR_GK)/BasicFill.o \
 			$(OUTDIR_GK)/BasicStroke.o \
@@ -205,8 +209,8 @@ GRAFKIT_OBJECT_FILES=GraphicsKit.o \
 			$(OUTDIR_GK)/GlyphCollection.o \
 			$(OUTDIR_GK)/GraphicsContext.o \
 			$(OUTDIR_GK)/GraphicsObject.o \
-			$(OUTDIR_GK)/Utils/GraphicsToolKit.o \
-			$(OUTDIR_GK)/Events/ImageEvent.o \
+			$(OUTDIR_GK)/GraphicsToolKit.o \
+			$(OUTDIR_GK)/ImageEvent.o \
 			$(OUTDIR_GK)/Matrix2D.o \
 			$(OUTDIR_GK)/Polygon.o \
 			$(OUTDIR_GK)/Vector2D.o \
@@ -536,18 +540,18 @@ FoundationKit_debug : prep_dirs_FK_D $(FOUNDATION_KIT_SO_D)
 FoundationKit_release : prep_dirs_FK $(FOUNDATION_KIT_SO)
 
 
-GraphicsKit_debug : prep_dirs_GK_D $(GRAPHICS_KIT_SO_D)
+GraphicsKit_debug : prep_dirs_GK_D FoundationKit_debug $(GRAPHICS_KIT_SO_D)
 
-GraphicsKit_release : prep_dirs_GK $(GRAPHICS_KIT_SO)
+GraphicsKit_release : prep_dirs_GK FoundationKit_release $(GRAPHICS_KIT_SO)
 
-ApplicationKit_debug : prep_dirs_AK_D $(APPLICATION_KIT_SO_D)
+ApplicationKit_debug : prep_dirs_AK_D GraphicsKit_debug $(APPLICATION_KIT_SO_D)
 
-ApplicationKit_release : prep_dirs_AK $(APPLICATION_KIT_SO)
+ApplicationKit_release : prep_dirs_AK GraphicsKit_release $(APPLICATION_KIT_SO)
 
 
-NetworkKit_debug : prep_dirs_NK_D $(NETWORK_KIT_SO_D)
+NetworkKit_debug : prep_dirs_NK_D FoundationKit_debug $(NETWORK_KIT_SO_D)
 
-NetworkKit_release : prep_dirs_NK $(NETWORK_KIT_SO)
+NetworkKit_release : prep_dirs_NK FoundationKit_release $(NETWORK_KIT_SO)
 
 
 
@@ -685,19 +689,73 @@ $(NETWORK_KIT_SO) : $(NETKIT_OBJECT_FILES)
 
 include FoundationKitObjects.mak
 
+
+include GraphicsKitObjects.mak
+
+include ApplicationKitObjects.mak
+
+
 include NetworkKitObjects.mak
+
 
 
 
 #to clean just run "make clean-debug" 
 #note that clean does not depend on anything else
-clean-debug : 
-	rm $(OBJECT_FILES_D)
+clean-FoundationKit-debug :
+	rm $(FK_OBJECT_FILES_D)
 	rm $(FOUNDATION_KIT_SO_D)
+	
+clean-FoundationKit-release :
+	rm $(FK_OBJECT_FILES)
+	rm $(FOUNDATION_KIT_SO)
+
+clean-GraphicsKit-debug : clean-FoundationKit-debug
+	rm $(GRAFKIT_OBJECT_FILES_D)
+	rm $(GRAPHICS_KIT_SO_D)
+	
+clean-GraphicsKit-release : clean-FoundationKit-release
+	rm $(GRAFKIT_OBJECT_FILES)
+	rm $(GRAPHICS_KIT_SO)
+	
+	
+clean-ApplicationKit-debug : clean-GraphicsKit-debug
+	rm $(APPKIT_OBJECT_FILES_D)
+	rm $(APPLICATION_KIT_SO_D)
+	
+clean-ApplicationKit-release : clean-GraphicsKit-release
+	rm $(APPKIT_OBJECT_FILES)
+	rm $(APPLICATION_KIT_SO)	
+
+
+clean-NetworkKit-debug : clean-FoundationKit-debug
+	rm $(NETKIT_OBJECT_FILES_D)
+	rm $(NETWORK_KIT_SO_D)
+
+clean-NetworkKit-release : clean-FoundationKit-release
+	rm $(NETKIT_OBJECT_FILES)
+	rm $(NETWORK_KIT_SO)
+
+clean-debug : 
+	rm $(FK_OBJECT_FILES_D)
+	rm $(GRAFKIT_OBJECT_FILES_D)
+	rm $(APPKIT_OBJECT_FILES_D)
+	rm $(NETKIT_OBJECT_FILES_D)
+	rm $(FOUNDATION_KIT_SO_D)
+	rm $(GRAPHICS_KIT_SO_D)
+	rm $(APPLICATION_KIT_SO_D)
+	rm $(NETWORK_KIT_SO_D)
+	
 
 clean-release : 
-	rm $(OBJECT_FILES)
+	rm $(FK_OBJECT_FILES)
+	rm $(GRAFKIT_OBJECT_FILES)
+	rm $(APPKIT_OBJECT_FILES)
+	rm $(NETKIT_OBJECT_FILES)
 	rm $(FOUNDATION_KIT_SO)
+	rm $(GRAPHICS_KIT_SO)
+	rm $(APPLICATION_KIT_SO)
+	rm $(NETWORK_KIT_SO)
 
 clean : clean-debug clean-release
 	

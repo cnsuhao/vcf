@@ -64,7 +64,7 @@
 					<flags>
 						<flag value="-I $(INC)"/>
 						<flag value="-I $(X11_INC)"/>
-						<flag value="-c -DVCF_GCC -DVCF_X11 -fPIC -O3"/>
+						<flag value="-c -DVCF_GCC -DVCF_X11 -fPIC -O2"/>
 					</flags>
 				</compiler>	
 

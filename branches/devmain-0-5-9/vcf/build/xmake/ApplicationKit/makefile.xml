@@ -47,6 +47,9 @@
 			</config>
 
 			<config name="GCC Debug" srcBinaryExt=".o">
+				<includes>
+					<include path="$(INC)"/>
+				</includes>
 				<compiler name="g++" >
 					<flags>
 						<!--turn off all warnings, for now -->
