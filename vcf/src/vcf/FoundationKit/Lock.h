@@ -52,14 +52,14 @@ private:
 	Lock& operator = ( const Lock& lock ) { return *this; };
 
 };
-} // end of namespace VCF
+} // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.1  2004/12/20 23:48:07  marcelloptr
-*forbidden assignment operator for the Lock class
+*Revision 1.2.4.2  2004/12/20 23:48:43  marcelloptr
+*forbidden the assignment operator for the Lock class
 *
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
