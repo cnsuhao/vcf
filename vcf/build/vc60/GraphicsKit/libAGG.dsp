@@ -134,29 +134,7 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_path_storage.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\thirdparty\common\agg\src\agg_rasterizer.cpp
-
-!IF  "$(CFG)" == "libAGG - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "libAGG - Win32 Debug"
-
-!ELSEIF  "$(CFG)" == "libAGG - Win32 GTK Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\thirdparty\common\agg\src\agg_rendering_buffer.cpp
-
-!IF  "$(CFG)" == "libAGG - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "libAGG - Win32 Debug"
-
-!ELSEIF  "$(CFG)" == "libAGG - Win32 GTK Debug"
-
-!ENDIF 
-
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp
 # End Source File
 # Begin Source File
 

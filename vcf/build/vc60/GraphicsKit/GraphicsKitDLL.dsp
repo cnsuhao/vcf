@@ -221,6 +221,10 @@ SOURCE=..\..\..\include\graphics\PixelFormats.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\Point.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\graphics\Polygon.h
 # End Source File
 # Begin Source File
@@ -230,6 +234,14 @@ SOURCE=..\..\..\include\graphics\Printable.h
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\PrintContext.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Rect.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Size.h
 # End Source File
 # Begin Source File
 
