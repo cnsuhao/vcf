@@ -89,6 +89,10 @@ public:
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
 
+		/**
+		This sets the icons for the window. This will determine how the icon in
+		the Windows Task Manager will appear.
+		*/
 		Image* img = Application::getRunningInstance()->getResourceBundle()->getImage( "icon1" );
 		mainWindow->setIconImage( img );
 		delete img;
@@ -114,6 +118,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.2  2004/12/10 21:30:31  ddiego
+*fixed bug 1082362 App Icons do not appear.
+*
 *Revision 1.4.4.1  2004/12/10 21:12:27  ddiego
 *fixed bug 1082362 App Icons do not appear.
 *
