@@ -86,14 +86,14 @@ public:
 
 class FOUNDATIONKIT_API EnumValue {
 public:
-	Enum* getEnum() {
+	Enum* getEnum() const {
 		if ( NULL != enum_ ) {
 			enum_->set( enumValue_ );
 		}
 		return enum_;
 	}
 
-	int getEnumVal() {
+	int getEnumVal() const {
 		return 	enumValue_;
 	}
 
@@ -138,6 +138,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/18 14:16:09  marcelloptr
+*added some const specifiers
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
