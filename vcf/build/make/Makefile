@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.4  2003/10/03 01:07:48  ddiego
+#added/fixed problems to get it to compile under linux
+#
 #Revision 1.3.4.3  2003/10/02 04:50:34  ddiego
 #changes to ensure the code compiles on linux. made a bunch of updates to
 #the makefiles
@@ -454,7 +457,7 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/ButtonEvent.o \
 			$(OUTDIR_AK)/CheckBoxControl.o \
 			$(OUTDIR_AK)/Clipboard.o \
-			$(OUTDIR_AK)/ClipboardDataObject.o \
+			$(OUTDIR_AK)/DataObject.o \
 			$(OUTDIR_AK)/ClipboardEvent.o \
 			$(OUTDIR_AK)/ColumnItemEvent.o \
 			$(OUTDIR_AK)/ColumnModelEvent.o \
@@ -478,7 +481,6 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/Cursor.o \
 			$(OUTDIR_AK)/CursorManager.o \
 			$(OUTDIR_AK)/CustomControl.o \
-			$(OUTDIR_AK)/DataType.o \
 			$(OUTDIR_AK)/DefaultColumnItem.o \
 			$(OUTDIR_AK)/DefaultColumnModel.o \
 			$(OUTDIR_AK)/DefaultListItem.o \
@@ -494,9 +496,7 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/DefaultTreeModel.o \
 			$(OUTDIR_AK)/Desktop.o \
 			$(OUTDIR_AK)/Dialog.o \
-			$(OUTDIR_AK)/DragEvent.o \
 			$(OUTDIR_AK)/DragSource.o \
-			$(OUTDIR_AK)/DropEvent.o \
 			$(OUTDIR_AK)/DropTarget.o \
 			$(OUTDIR_AK)/FocusEvent.o \
 			$(OUTDIR_AK)/Frame.o \
@@ -557,6 +557,10 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/WhatsThisHelpEvent.o \
 			$(OUTDIR_AK)/Window.o \
 			$(OUTDIR_AK)/WindowEvent.o \
+			$(OUTDIR_AK)/Containers.o \
+			$(OUTDIR_AK)/PackageInfo.o \
+			$(OUTDIR_AK)/DocumentManager.o \
+			$(OUTDIR_AK)/MessageDialog.o \
 			$(OUTDIR_AK)/GTKUIToolkit.o \
 			$(OUTDIR_AK)/GTKDesktop.o \
 			$(OUTDIR_AK)/GTKApplication.o \
@@ -564,7 +568,13 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/GTKControl.o \
 			$(OUTDIR_AK)/GTKWindow.o \
 			$(OUTDIR_AK)/GTKControlContext.o \
-			$(OUTDIR_AK)/GTKCursor.o 
+			$(OUTDIR_AK)/GTKCursor.o \
+			$(OUTDIR_AK)/GTKTextControl.o \
+			$(OUTDIR_AK)/GTKFileOpenDialog.o \
+			$(OUTDIR_AK)/GTKDialog.o \
+			$(OUTDIR_AK)/GTKCommandButton.o 
+
+
 
 
 #NetworkKit objects
@@ -601,7 +611,7 @@ debug : FoundationKit_debug GraphicsKit_debug ApplicationKit_debug
 
 #release target
 
-release : prep_dirs_FK $(FOUNDATION_KIT_SO)
+release : FoundationKit_release GraphicsKit_release ApplicationKit_release
 
 
 #all target, builds release and debug builds
@@ -729,7 +739,7 @@ $(GRAPHICS_KIT_SO_D) : $(LIBAGG_LIB_D) $(GRAFKIT_OBJECT_FILES_D)
 
 #this is the release build target for the 
 #GraphicsKit shared object library
-$(GRAPHICS_KIT_SO) : $(GRAFKIT_OBJECT_FILES)
+$(GRAPHICS_KIT_SO) : $(LIBAGG_LIB) $(GRAFKIT_OBJECT_FILES)
 	$(LINKER) $(GK_LINKER_FLAGS) $(GRAPHICS_KIT_SO) $(GRAFKIT_OBJECT_FILES)
 
 #this is the debug build target for the 

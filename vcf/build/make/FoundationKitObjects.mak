@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.6.2  2003/10/03 01:07:48  ddiego
+#added/fixed problems to get it to compile under linux
+#
 #Revision 1.2.6.1  2003/10/02 04:50:34  ddiego
 #changes to ensure the code compiles on linux. made a bunch of updates to
 #the makefiles
@@ -106,9 +109,6 @@ $(OUTDIR_FK_D)/ObjectWithEvents.o : $(SRC_CORE)/ObjectWithEvents.cpp $(FOUNDATIO
 
 $(OUTDIR_FK_D)/Parser.o : $(SRC_UTILS)/Parser.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Parser.cpp -o $(OUTDIR_FK_D)/Parser.o
-
-$(OUTDIR_FK_D)/Point.o : $(SRC_CORE)/Point.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Point.cpp -o $(OUTDIR_FK_D)/Point.o
 
 $(OUTDIR_FK_D)/PropertyChangeEvent.o : $(SRC_EVENT)/PropertyChangeEvent.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/PropertyChangeEvent.cpp -o $(OUTDIR_FK_D)/PropertyChangeEvent.o
@@ -264,14 +264,9 @@ $(OUTDIR_FK)/ObjectWithEvents.o : $(SRC_CORE)/ObjectWithEvents.cpp $(FOUNDATIONK
 $(OUTDIR_FK)/Parser.o : $(SRC_UTILS)/Parser.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Parser.cpp -o $(OUTDIR_FK)/Parser.o
 
-$(OUTDIR_FK)/Point.o : $(SRC_CORE)/Point.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Point.cpp -o $(OUTDIR_FK)/Point.o
 
 $(OUTDIR_FK)/PropertyChangeEvent.o : $(SRC_EVENT)/PropertyChangeEvent.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_EVENT)/PropertyChangeEvent.cpp -o $(OUTDIR_FK)/PropertyChangeEvent.o
-
-$(OUTDIR_FK)/Rect.o : $(SRC_CORE)/Rect.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_FK)/Rect.o
 
 $(OUTDIR_FK)/Registry.o : $(SRC_UTILS)/Registry.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Registry.cpp -o $(OUTDIR_FK)/Registry.o
@@ -303,6 +298,9 @@ $(OUTDIR_FK)/ThreadEvent.o : $(SRC_EVENT)/ThreadEvent.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK)/VCFMath.o
 
+$(OUTDIR_FK)/Condition.o : $(SRC_UTILS)/Condition.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Condition.cpp -o $(OUTDIR_FK)/Condition.o
+	
 $(OUTDIR_FK)/VCFProcess.o : $(SRC_UTILS)/VCFProcess.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/VCFProcess.cpp -o $(OUTDIR_FK)/VCFProcess.o
 
@@ -321,6 +319,12 @@ $(OUTDIR_FK)/LinuxFileStream.o : $(SRC_IMPLKIT)/LinuxFileStream.cpp $(FOUNDATION
 $(OUTDIR_FK)/PosixThread.o : $(SRC_IMPLKIT)/PosixThread.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/PosixThread.cpp -o $(OUTDIR_FK)/PosixThread.o
 
+$(OUTDIR_FK)/PosixMutex.o : $(SRC_IMPLKIT)/PosixMutex.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/PosixMutex.cpp -o $(OUTDIR_FK)/PosixMutex.o
+	
+$(OUTDIR_FK)/PosixCondition.o : $(SRC_IMPLKIT)/PosixCondition.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/PosixCondition.cpp -o $(OUTDIR_FK)/PosixCondition.o	
+	
 $(OUTDIR_FK)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp -o $(OUTDIR_FK)/LinuxLibraryPeer.o
 

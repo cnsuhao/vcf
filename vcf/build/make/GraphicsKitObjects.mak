@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.2  2003/10/03 01:07:48  ddiego
+#added/fixed problems to get it to compile under linux
+#
 #Revision 1.3.4.1  2003/10/02 04:50:34  ddiego
 #changes to ensure the code compiles on linux. made a bunch of updates to
 #the makefiles
@@ -195,6 +198,10 @@ $(OUTDIR_GK)/MgcSingleCurve2.o : $(SRC_GRF)/MgcSingleCurve2.cpp $(GRAPHICSKIT_HD
 $(OUTDIR_GK)/MgcMath.o  : $(SRC_GRF)/MgcMath.cpp $(GRAPHICSKIT_HDRS)
 	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcMath.cpp -o $(OUTDIR_GK)/MgcMath.o
 	
+$(OUTDIR_GK)/Rect.o : $(SRC_CORE)/Rect.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_GK)/Rect.o	
 	
+$(OUTDIR_GK)/Point.o : $(SRC_CORE)/Point.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_CORE)/Point.cpp -o $(OUTDIR_GK)/Point.o			
 
 
