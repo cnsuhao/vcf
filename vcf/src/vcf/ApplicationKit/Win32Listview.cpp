@@ -932,18 +932,21 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 			NMLVDISPINFOW* displayInfo = (NMLVDISPINFOW*)lParam;
 			if ( displayInfo->hdr.hwndFrom == hwnd_ ) {
 
-				if ( displayInfo->item.iSubItem > 0 ) {
-					ListItem* item = (ListItem*)displayInfo->item.lParam;
-					if ( NULL != item ) {
-						if ( (displayInfo->item.iSubItem <= item->getSubItemCount()) && ( displayInfo->item.mask & LVIF_TEXT) ) {
-							ListItem::SubItem* subItem = item->getSubItem( displayInfo->item.iSubItem - 1 );
-							String caption = subItem->getCaption();
-							int size = min( caption.size(), displayInfo->item.cchTextMax );
-							caption.copy( displayInfo->item.pszText, size );
-							if ( size < displayInfo->item.cchTextMax ) {
-								displayInfo->item.pszText[size] = '\0';
-							}
-						}
+				ListItem* item = (ListItem*)displayInfo->item.lParam;
+				if ( NULL != item ) {
+					String caption;
+					if ( displayInfo->item.iSubItem > 0 ) {
+						ListItem::SubItem* subItem = item->getSubItem( displayInfo->item.iSubItem - 1 );
+						caption = subItem->getCaption();
+					}
+					else{
+						caption = item->getCaption();
+					}
+
+					int size = min( caption.size(), displayInfo->item.cchTextMax );
+					caption.copy( displayInfo->item.pszText, size );
+					if ( size < displayInfo->item.cchTextMax ) {
+						displayInfo->item.pszText[size] = '\0';
 					}
 				}
 			}
@@ -953,19 +956,21 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 		case LVN_GETDISPINFOA:{
 			NMLVDISPINFOA* displayInfo = (NMLVDISPINFOA*)lParam;
 			if ( displayInfo->hdr.hwndFrom == hwnd_ ) {
+				ListItem* item = (ListItem*)displayInfo->item.lParam;
+				if ( NULL != item ) {
+					AnsiString caption;
+					if ( displayInfo->item.iSubItem > 0 ) {
+						ListItem::SubItem* subItem = item->getSubItem( displayInfo->item.iSubItem - 1 );
+						caption = subItem->getCaption();
+					}
+					else{
+						caption = item->getCaption();
+					}
 
-				if ( displayInfo->item.iSubItem > 0 ) {
-					ListItem* item = (ListItem*)displayInfo->item.lParam;
-					if ( NULL != item ) {
-						if ( (displayInfo->item.iSubItem <= item->getSubItemCount()) && ( displayInfo->item.mask & LVIF_TEXT) ) {
-							ListItem::SubItem* subItem = item->getSubItem( displayInfo->item.iSubItem - 1 );
-							AnsiString caption = subItem->getCaption();
-							int size = min( caption.size(), displayInfo->item.cchTextMax );
-							caption.copy( displayInfo->item.pszText, size );
-							if ( size < displayInfo->item.cchTextMax ) {
-								displayInfo->item.pszText[size] = '\0';
-							}
-						}
+					int size = min( caption.size(), displayInfo->item.cchTextMax );
+					caption.copy( displayInfo->item.pszText, size );
+					if ( size < displayInfo->item.cchTextMax ) {
+						displayInfo->item.pszText[size] = '\0';
 					}
 				}
 			}
@@ -1139,15 +1144,15 @@ void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 			memset( &lvItem, 0, sizeof(lvItem) );
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 			lvItem.iItem = itemIndex;
-			String caption = item->getCaption();
+			//String caption = item->getCaption();
 
-			VCFChar* tmp = new VCFChar[ caption.size()+1 ];
-			memset( tmp, 0, sizeof(VCFChar)*(caption.size()+1) );
-			caption.copy( tmp, caption.size() );
+			//VCFChar* tmp = new VCFChar[ caption.size()+1 ];
+			//memset( tmp, 0, sizeof(VCFChar)*(caption.size()+1) );
+			//caption.copy( tmp, caption.size() );
 
 
-			lvItem.pszText = tmp;
-			lvItem.cchTextMax = caption.size();
+			lvItem.pszText = LPSTR_TEXTCALLBACKW;
+			//lvItem.cchTextMax = caption.size();
 			lvItem.lParam = (LPARAM)item;
 			lvItem.iImage = item->getImageIndex();
 			itemIndex = SendMessage( hwnd_, LVM_INSERTITEMW, 0, (LPARAM) &lvItem );
@@ -1158,15 +1163,15 @@ void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 			memset( &lvItem, 0, sizeof(lvItem) );
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 			lvItem.iItem = itemIndex;
-			AnsiString caption = item->getCaption();
+			//AnsiString caption = item->getCaption();
 
-			char* tmp = new char[ caption.size()+1 ];
-			memset( tmp, 0, sizeof(char)*(caption.size()+1) );
-			caption.copy( tmp, caption.size() );
+			//char* tmp = new char[ caption.size()+1 ];
+			//memset( tmp, 0, sizeof(char)*(caption.size()+1) );
+			//caption.copy( tmp, caption.size() );
 
 
-			lvItem.pszText = tmp;
-			lvItem.cchTextMax = caption.size();
+			lvItem.pszText = LPSTR_TEXTCALLBACKA;
+			//lvItem.cchTextMax = caption.size();
 			lvItem.lParam = (LPARAM)item;
 			lvItem.iImage = item->getImageIndex();
 			itemIndex = SendMessage( hwnd_, LVM_INSERTITEMA, 0, (LPARAM) &lvItem );
@@ -1899,18 +1904,18 @@ void Win32Listview::onItemChanged( ItemEvent* event )
 				memset( &lvItem, 0, sizeof(lvItem) );
 				lvItem.mask = LVIF_TEXT | LVIF_IMAGE ;
 				lvItem.iImage = item->getImageIndex();
-				String caption = item->getCaption();
-				lvItem.cchTextMax = caption.size()+1;
+				//String caption = item->getCaption();
+				//lvItem.cchTextMax = caption.size()+1;
 				lvItem.iItem = item->getIndex();
 
-				VCFChar* tmp = new VCFChar[lvItem.cchTextMax];
-				memset( tmp, 0, lvItem.cchTextMax * sizeof(VCFChar) );
+				//VCFChar* tmp = new VCFChar[lvItem.cchTextMax];
+				//memset( tmp, 0, lvItem.cchTextMax * sizeof(VCFChar) );
 
-				caption.copy( tmp, lvItem.cchTextMax-1 );
-				lvItem.pszText = tmp;
+				//caption.copy( tmp, lvItem.cchTextMax-1 );
+				lvItem.pszText = LPSTR_TEXTCALLBACKW;
 				SendMessage( hwnd_, LVM_SETITEMW, 0, (LPARAM)&lvItem );
 
-				delete [] tmp;
+				//delete [] tmp;
 			}
 			else {
 				LVITEMA lvItem;
@@ -1918,17 +1923,17 @@ void Win32Listview::onItemChanged( ItemEvent* event )
 				lvItem.mask = LVIF_TEXT | LVIF_IMAGE ;
 				lvItem.iImage = item->getImageIndex();
 
-				AnsiString caption = item->getCaption();
+				//AnsiString caption = item->getCaption();
 
-				lvItem.cchTextMax = caption.size()+1;
+				//lvItem.cchTextMax = caption.size()+1;
 				lvItem.iItem = item->getIndex();
 
-				char* tmp = new char[lvItem.cchTextMax];
-				memset( tmp, 0, lvItem.cchTextMax );
-				caption.copy( tmp, lvItem.cchTextMax-1 );
-				lvItem.pszText = tmp;
+				//char* tmp = new char[lvItem.cchTextMax];
+				//memset( tmp, 0, lvItem.cchTextMax );
+				//caption.copy( tmp, lvItem.cchTextMax-1 );
+				lvItem.pszText = LPSTR_TEXTCALLBACKA;
 				SendMessage( hwnd_, LVM_SETITEMA, 0, (LPARAM)&lvItem );
-				delete [] tmp;
+				//delete [] tmp;
 			}
 
 
@@ -2404,6 +2409,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/07 01:59:50  ddiego
+*minor fix to win32 scroll peer, and fix to win32 list view for display of list items.
+*
 *Revision 1.3.2.3  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
