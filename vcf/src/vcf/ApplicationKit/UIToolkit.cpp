@@ -710,7 +710,7 @@ Control* UIToolkit::getPrevChildControl( Control* control, Control* prevControl 
 
 void internal_handleKeyboardButtonEvent ( Event* e )
 {
-	Button* button = (Button*)e->getUserData();
+	VCF::Button* button = (VCF::Button*)e->getUserData();
 
 	if ( NULL != button ) {
 		button->click();
@@ -1163,6 +1163,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/06 02:56:35  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

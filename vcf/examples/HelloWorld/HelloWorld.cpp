@@ -70,7 +70,8 @@ public:
 		*/
 		mainWindow->setCaption( "Hello World" );
 
-        mainWindow->setBounds( 100, 100, 500, 500 );
+        mainWindow->setBounds( 100, 100, 500, 500 );        
+       
 		/**
 		*show the main window.
 		*By default the window is invisible until
@@ -117,6 +118,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2004/05/06 03:03:43  ddiego
+*checking in OSX updates
+*
 *Revision 1.3.2.4  2004/04/29 03:40:54  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -27,10 +27,10 @@
 */
 
 
-#include "ApplicationKit.h"
-#include "ApplicationKitPrivate.h"
-#include "implementerKit/OSXControl.h"
-#include "implementerKit/OSXControlContextPeer.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/OSXControl.h"
+#include "vcf/ApplicationKit/OSXControlContextPeer.h"
 
 
 using namespace VCF;
@@ -77,6 +77,9 @@ void OSXControlContextPeer::releaseHandle()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 02:56:35  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:33  ddiego
 *added OSX changes for unicode migration
 *

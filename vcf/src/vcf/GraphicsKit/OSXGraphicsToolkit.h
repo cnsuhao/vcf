@@ -124,8 +124,6 @@ public:
 
 	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize );
 	
-	virtual OpenGLPeer* internal_createOpenGLPeer( GraphicsContext* glContext );
-	
 	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height );
 
 	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect );	
@@ -147,6 +145,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/06 03:01:29  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

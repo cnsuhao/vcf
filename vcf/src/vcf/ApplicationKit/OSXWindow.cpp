@@ -26,10 +26,41 @@
 *NB: This software will not save the world.
 */
 
-#include "ApplicationKit.h"
-#include "ApplicationKitPrivate.h"
-#include "implementerKit/OSXWindow.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/OSXWindow.h"
 
+
+class WndSwitchPort {
+public:
+    WndSwitchPort( WindowRef ptr ) :current(GetWindowPort(ptr)){
+        GetPort( &old );
+        if ( old != current ) {
+            //make switch
+            SetPort( current ) ;
+        }
+    }
+    
+    ~WndSwitchPort() {
+        if ( old != current ) {
+            //make switch
+            SetPort( old ) ;
+        }
+    }
+    
+    operator GrafPtr () {
+		return current;
+	}
+    
+    
+    
+    
+private:
+    GrafPtr current;
+    GrafPtr old;
+    WndSwitchPort( const WndSwitchPort& rhs );
+    WndSwitchPort& operator=(const WndSwitchPort& rhs );
+};
 
 
 namespace VCF {
@@ -280,7 +311,28 @@ Rect OSXWindow::getClientBounds()
     ::Rect r;
     GetWindowBounds( windowRef_, kWindowContentRgn, &r );
     
-    VCF::Rect result = RectProxy(r);
+    WndSwitchPort port(windowRef_);
+    
+    ::Point pt;
+    pt.h = r.left;
+    pt.v = r.top;
+    
+    VCF::Rect result;
+    
+    GlobalToLocal(&pt); 
+    
+    result.left_ = pt.h;
+    result.top_ = pt.v;
+    
+    pt.h = r.right;
+    pt.v = r.bottom;
+    
+    GlobalToLocal(&pt); 
+    
+    result.right_ = pt.h;
+    result.bottom_ = pt.v;
+    
+    result.inflate( -1, -1 );
     
     return result;
 }
@@ -372,6 +424,8 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
                                                 NULL, &window );
                     //draw content
                     GrafPtr wndPort = GetWindowPort(window);
+                    
+                    
                     //VCF::GraphicsContext gc( (VCF::ulong32)thePort );
                     VCF::GraphicsContext* ctx = control_->getContext();
                     ctx->getPeer()->setContextID( (VCF::ulong32)wndPort ); 
@@ -472,6 +526,9 @@ OSStatus OSXWindow::handleOSXEvents( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 02:56:35  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:33  ddiego
 *added OSX changes for unicode migration
 *

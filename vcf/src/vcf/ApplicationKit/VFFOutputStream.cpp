@@ -38,12 +38,14 @@ String VFFOutputStream::binToHex( Persistable* persistableObject )
 	//this is slow, we might want to figure out a better way !
 	while ( size < bufSize ) {
 		uchar hexVal = *((uchar*)tmpBuffer);
+        /*
 	#ifdef VCF_POSIX
 		swprintf( hexBytes, sizeof(hexBytes), L"%02X", hexVal );
 	#else
 		swprintf( hexBytes, L"%02X", hexVal );
 	#endif
-		result += hexBytes;
+    */
+		result += StringUtils::toStringFromHexNumber(hexVal);// hexBytes;
 		tmpBuffer++;
 		size +=sizeof( char );
 	}
@@ -195,6 +197,9 @@ void VFFOutputStream::writeComponent( Component* component )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 02:56:36  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.3  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -27,13 +27,13 @@
 */
 
 
-#include "ApplicationKit.h"
-#include "ApplicationKitPrivate.h"
-#include "implementerKit/OSXDesktopPeer.h"
-#include "implementerKit/OSXApplicationPeer.h"
-#include "implementerKit/OSXControlContextPeer.h"
-#include "implementerKit/OSXCursorPeer.h"
-#include "implementerKit/OSXWindow.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/OSXDesktopPeer.h"
+#include "vcf/ApplicationKit/OSXApplicationPeer.h"
+#include "vcf/ApplicationKit/OSXControlContextPeer.h"
+#include "vcf/ApplicationKit/OSXCursorPeer.h"
+#include "vcf/ApplicationKit/OSXWindow.h"
 
 
 
