@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/03/03 05:00:41  ddiego
+added Makefile for creating html, htmlhelp, a tar.gz dist, and cleaning up
+
 Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
 initial check-in of docbook vcf documentation, plus neccesary stylsheets
 and images
@@ -33,7 +36,127 @@ and images
 -->
 
 
+
 <chapter><title>Tutorials</title>
+	<section><title>FoundationKit</title>
+		<section><title>Strings and characters</title>
+		</section>
+		<section><title>Numbers and Math</title>
+		</section>
+		<section><title>Dates and times</title>
+		</section>
+		<section><title>Reflection and RTTI</title>
+		</section>
+		<section><title>Events</title>
+		</section>
+		
+		<section><title>File System handling</title>
+		</section>
+		
+		<section><title>Streams</title>
+		</section>
+		
+		<section><title>Dynamic Library Loading</title>
+		</section>		
+		
+		<section><title>Threads</title>
+		</section>
+		
+		<section><title>Processes</title>
+		</section>
+		
+		<section><title>Internationalization and Unicode</title>
+		</section>
+	</section>
+	<section><title>GraphicsKit</title>
+		<section><title>GraphicsContext (basic GDI classes ?)</title>
+		</section>
+		
+		<section><title>Fonts</title>
+		</section>
+		
+		<section><title>Images</title>
+		</section>
+		
+		<section><title>Printing</title>
+		</section>
+	</section>
+	
+	<section><title>ApplicationKit</title>
+		<section><title>Hello World</title>
+		</section>
+		
+		<section><title>Image viewer</title>
+		</section>
+		
+		<section><title>Clipboard</title>
+		</section>
+		
+		<section><title>Lists and combos</title>
+		</section>
+		
+		<section><title>Scrolling</title>
+		</section>
+		
+		<section><title>Tree view control</title>
+		</section>
+		
+		<section><title>Tree list control</title>
+		</section>
+		
+		<section><title>TableControl</title>
+		</section>
+		
+		<section><title>List view control</title>
+		</section>
+		<section><title>Toolbar</title>
+		</section>
+		
+		<section><title>Cursor handling</title>
+		</section>
+		
+		<section><title>Common dialogs (open, browse dir, select color, select font)</title>
+		</section>
+		<section><title>Display and window handling</title>
+		</section>
+		<section><title>Drag and drop</title>
+		</section>
+		
+		<section><title>Labels</title>
+		</section>
+		
+		<section><title>Text fields</title>
+		</section>
+		
+		<section><title>Progress bar</title>
+		</section>
+		
+		<section><title>Alignment, Anchors, and Layouts</title>
+		</section>
+		
+		<section><title>Menus</title>
+		</section>
+		
+		<section><title>Splitter controls</title>
+		</section>
+		
+		<section><title>Slider</title>
+		</section>
+	</section>
+	
+	<section><title>NetworkKit</title>
+	<!-- maybe off-topic: security, crypto -->
+		<section><title>Basic TCP server</title>
+		</section>
+		
+		<section><title>Basic TCP client</title>
+		</section>
+		
+		<section><title>UDP</title>
+		</section>
+	</section>
+	<section><title>RemoteObjectKit</title>	
+	</section>
 </chapter>
 
 
