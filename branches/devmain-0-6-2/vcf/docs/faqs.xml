@@ -71,13 +71,35 @@ about that? I just saw the installer telling me you own the copyright, is that s
 					yet <emphasis>another</emphasis> framework/toolkit?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>There are a variety of reasons, such as:
+					<itemizedlist>
+					<listitem>	<para>					
+					One of the big ones is the dynamic nature of the 
+					VCF due to the use of advanced RTTI features. For a number of frameworks this 
+					would be difficult to fit in with out serious changes to the framework in question.
+					</para></listitem>	
+					<listitem>	<para>
+					Another reason is simply the way the VCF is designed, for example the use of a Component
+					base class for many of the UI controls, and the presence of Property and Component
+					editors to support RAD design time editing. Supporting these requires certain features 
+					that could be difficult to add in to an existing framework (this was partially the case 
+					with wxWindows). 
+					</para></listitem>	
+					<listitem>	<para>
+					Other issues are the usage of modern C++, such as templates, STL, namespaces, and exceptions. 
+					These require a reasonably up to date C++ compiler (such as GCC, MS VC6 or VC7, 
+					Borland C++, etc), and some of the existing toolkits place a high priority on supporting 
+					older, non-standard	C++ compilers, which greatly reduces what features of the 
+					C++ langauge are available to them.
+					</para></listitem>	
+					</itemizedlist>
+				</para>
 			</answer>
 			<question>
 				<para>Can we use the VCF in commercial applications?</para>
 			</question>
 			<answer>
-				<para>Yes. There are no restrictions made on how hte VCF is 
+				<para>Yes. There are no restrictions made on how the VCF is 
 				used. It can used in both OSS and commercial/proprietary projects.</para>
 			</answer>
 			
@@ -109,19 +131,45 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>What would be required to port my MFC App to VCF?</para>
 			</question>
 			<answer>
-				<para>A miracle?</para>
+				<para>A miracle? Seriously porting an existing code in one framework to another
+				is not a 5 minute job. It would partially depend on what features of MFC you make use of
+				and how you built your app. Many of the function names are different or subtly different.
+				The basic core concepts are pretty much the same, but the fundamental design of the two
+				frameworks is quite different.</para>
 			</answer>
 			<question>
 				<para>What platforms and/or compilers does the VCF support?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Currently the VCF runs on Win32 (Windows 98, Windows NT 4 sp4 or better, Windows 2000
+						and Windows XP). A linux port (with the UI/graphics parts based on GTK) is currently 
+						underway and making good progress). Some work has been done on MacOSX, but it is 
+						sporadic at best.</para>
+				<para>
+				As far as supported compilers, the VCF is known to compile/link with:
+				<itemizedlist>
+					<listitem>	<para>
+					Microsoft Visual C++ 6 (sp5)
+					</para></listitem>
+					<listitem>	<para>
+					Microsoft Visual C++ 7
+					</para></listitem>
+					<listitem>	<para>
+					GCC 2.95
+					</para></listitem>
+					<listitem>	<para>
+					GCC 3.2
+					</para></listitem>
+				</itemizedlist>						
+				</para>
 			</answer>
 			<question>
 				<para>How are the resources handled between OS's?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>On Win32 platforms resources are compiled into the executable using the toolchains rc compiler.
+				For other platforms, the VCF will use whatever native support there is, or come up with an 
+				appropriate scheme.</para>
 			</answer>
 			<question>
 				<para>If a serious security/memory/whatever issue was found 18 months down 
@@ -141,7 +189,24 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>Why do I have to set environment variables?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>The VCF uses three environment variables to identify the following:
+				<itemizedlist>
+					<listitem>	<para>
+					Where the vcf/include directory is (as an absolute path), stored as VCF_INCLUDE.
+					This is the base include directory.
+					</para></listitem>
+					<listitem>	<para>
+					Where the vcf/lib directory is (as an absolute path), stored as VCF_LIB.
+					This is the base library directory.
+					</para></listitem>
+					<listitem>	<para>
+					GCC 2.95
+					</para></listitem>
+					<listitem>	<para>
+					GCC 3.2
+					</para></listitem>
+				</itemizedlist>
+				</para>
 			</answer>
 			
 		</qandaentry>
@@ -988,6 +1053,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.5  2003/10/03 04:34:16  ddiego
+added updates to FAQ
+
 Revision 1.1.2.4  2003/10/03 01:45:29  ddiego
 updates to faqs
 
