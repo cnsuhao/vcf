@@ -141,8 +141,9 @@ public:
 			</para>
 			<para>
 			 	Windows	-> Win32Toolkit	
-				Linux	-> X11UIToolkit
+				Linux	-> GTKUIToolkit
 				OSX	-> OSXUIToolkit
+				X11	-> X11UIToolkit
 			</para>
 			<para>
                         The UIToolkit is a singleton, and there should only be <emphasis>one</emphasis>
@@ -270,9 +271,9 @@ class TimerEx :public EventHandler, Object
 	}
 };                     ]]>
 			</programlisting>
-
-			<Note>
-			Events are not coelesed in this release.  So this means that you could slow 
+ 
+			<note>
+			Events are not coelesced in this release.  So this means that you could slow 
                         the entire application down easily if event handling takes too long.
 			Because all the timer events share one thread by default it is important
 			that the EventHandler::invoke() function return quickly.  It will tie up
@@ -374,8 +375,8 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 			<para>
 			Once you have an event instance ready, you can post the event by either 
 			creating a new event handler instance or getting an existing one, and then 
-			call the <function>UIToolkit::postEvent(EventHandler* eventHandler, Event*
-			event, const bool deleteHandler=true)</function> method.
+			call the <![CDATA[ UIToolkit::postEvent(EventHandler* eventHandler, Event*
+			event, const bool& deleteHandler=true)]]> method.
 			You can optionally tell the toolkit to <emphasis>not</emphasis> 
 			auotmatically delete the handler for you by setting the deleteHandler to 
 			false (the default behaviour is to delete the handler you pass in). The 
@@ -894,7 +895,18 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	<section><title>Frames, Dialogs, and Windows</title>
 		<para>
 		Most applications today are GUI based.  The main components of any 
-		GUI application are frames, dialogs, and windows. 
+		GUI application are frames, dialogs, and windows. Many vendors claim
+		platform independence it usually does not involve the GUI.  Each 
+		platform has its own style guidlines and look and feel.  
+		</para>
+		<para>
+		Java was originally promised to be able to write once and run anywhere.  
+		That did not totally turn out to be true though.  C++ libraries for
+		platfom independet graphics have existed in the past ;however, they were
+		cumbersome to use.  Many also suffered from licensing cost and divergence 
+		from the platforms standard.  VCF provides a clean and easy to use 
+		framework that goes well beyond common graphics packages and adheres 
+		strictly to platform look and feel guidelines.
 		</para>
 		<section><title>Dialog usage in VFC</title>
 		<para>
@@ -902,54 +914,311 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		dialogs do not allow any other GUI interaction while displayed. VFC 
 		supports modal and non modal dialog types.   
 		</para>
+		
+                <section><title>Standard Dialogs</title>
 		<para>
-		There are several standard dialogs already in VCF.  For File IO use CommonFileDialog. 
-		Here is an example of launching the file open dialog and getting the results.
+                There are several standard dialogs already in VCF.
 		</para>
-		<TODO>Code still needs work. </TODO>
+                <note>These common dialogs are fully supported in Windows in this
+		version.  The OSX platform has no support in this release.  The
+		linux platform has partial support in this release.
+		</note>
+		<para>
+		File load and save dialogs are derived from CommonFileDialog.  To open a file load dialog use the
+		CommonFileOpen class. To bring up a save dialog, use the CommonFileSave class. 
+		Another related dialog is the CommonFileBrowse. This dialog is used when you
+		want to browse the folders in a tree. Here is an example of how to use the 
+		common file realated dialogs.
+		</para>
 		<programlisting>
                   <![CDATA[
-		class MyComponent :public Component{
+                  
+class MyWindow :public Window{
+
+	/**
+	* doFindFile
+	* Purpose: Find a file to load
+	* @param filename the filename to look for
+	* @param allowMulti is multiselection allowed
+	* @param startDir where do you want the dialog to initially start looing for the file.
+	* @param title what title do you want to give the dialog.
+	*/
+	void doFindFile(String filename, bool allowMulti, String startDir, String title){
+		// create open file dialog passing in parent component and start directory
+		CommonFileOpen* openDialog = new CommonFileOpen( this, startDir);
+			
+		//Sets up the filters for available file searches.  
+		openDialog.addFilter("All Files", "*.*");
+					
+		// limit selection to a single file.
+		openDialog.setAllowsMultiSelect(allowMulti);
+
+		//Set its title to let the user know what this is all about.
+		openDialog.setTitle(title);
+
+		//limit search to specific file names.
+		openDialog.setCaption("Looking for " + filename);
+		openDialog.setFilename(filename);
 		
-		   void doFindApplicationKitDLL(){
-			// create open file dialog passing in parent component and start directory
-			CommonFileOpen* openDialog = new CommonFileOpen( this, "C:\temp);
-			
-			//Sets up the filters for available file searches.  
-			openDialog.addFilter("dynamic link library", "dll");
-						
-			// limit selection to a single file.
-			openDialog.setAllowsMultiSelect(false);
+		
+		//Now get the results.
+		if(openDialog.execute()){
+		        Enumerator<String>* fileList = openDialog.getSelectedFiles();
 
-			//Set its title to let the user know what this is all about.
-			openDialog.setTitle("Example open dialog");
+		        //cycle through the selected files.  Should only be one in
+		        //this case.
+		        while( fileList.hasMoreElements(){
+			       String file = fileList.nextElement();
 
-			//limit search to specific file names.
-			openDialog.setCaption("Looking for ApplicationKit.dll");
-			openDialog.setFilename("ApplicationKit.dll");
-			
-			// now show the dialog
-			openDialog.showModal();
-			
-			//Now get the results.
-			openDialog.execute();
+		               // additional processing logic based on file goes here.
+		               //The file variable will be null if not found.
+		        }
+		}
+	}
+	/**
+	* doSaveFile
+	* Purpose: Find path to save a file.
+	* @param filename the filename to save.  Initial value only, user can change.
+	* @param path where do you want the dialog to initially set the save path to.
+	* @param title what title do you want to give the dialog.
+	*/
+	void doSaveFile(String filename, String path, String title){
 
-			String dir = openDialog.getDirectory();
-			String file = openDialog.getFilename();
+		// create save file dialog passing in parent component and start directory
+		CommonFileSave* saveDialog = new CommonFileSave( this, path);
 
-			// additional processing logic based on file goes here.  The dir and file vaiables will be null if not found.
 
+		//Set its title to let the user know what this is all about.
+		saveDialog.setTitle(title);
+
+		//limit search to specific file names.
+		saveDialog.setCaption("Saving " + filename);
+		saveDialog.setFilename(filename);
+
+		// now show the dialog
+		saveDialog.showModal();
+
+		//Now get the results.
+		if( openDialog.execute()){
+		    Enumerator<String>* fileList = saveDialog.getSelectedFiles();
+
+		    //cycle through the selected files.  Should only be one in
+		    //this case. Here we are getting the path where the user wants
+		    //to save the file.  It is up to the application to save it there.
+		    while( fileList.hasMoreElements(){
+			String file = fileList.nextElement();
+
+		       // additional processing logic based on file goes here.
+		       //The file variable will be null if not found.
 		    }
-			...
-		 };
+	        }
+	}
+	/**
+	* doBrowseFolders
+	* Purpose: Let user browse through folders
+	* @param path where do you want the dialog to initially set the save path to.
+	* @param title what title do you want to give the dialog.
+	*/
+	void doBrowseFolders(String path, String title){
+
+		// create save file dialog passing in parent component and start directory
+		CommonFileBrowse* browseDialog = new CommonFileBrowse();
+
+
+		//Set its title to let the user know what this is all about.
+		browseDialog.setTitle(title);
+
+		//set initial direcory
+		browseDialog.setDirectory(path);
+
+		// now show the dialog
+		browseDialog.showModal();
+
+		if( browseDialog.execute()){
+			String dir = browseDialog.getDirectory();
+		}
+
+	}
+
+	...
+};
                     ]]>
 		</programlisting>
-                Other topics to cover in section:
-                  Other standard dialogs.  
-                  Creating custom dialogs
-                  Message dialogs
+		<para>
+		<TODO>Add pictures of dialogs.</TODO>
+		</para>
+		<para>
+		 Other dialogs common to all platforms are the color
+		 picker and font chooser.  The VCF::CommonColor class
+		 is a platform independet color picker.  The
+		 VCF::CommonFont class is the platform independent
+		 font picker. Both classes are derived from CommonDialog.
+		 </para>
+
+		 <para>
+		 Using the color and font dialogs is very simple.  The
+		 example below creates and shows an example of the use
+		 of the color and font picker.
+		 </para>
+		<programListing>
+<![CDATA[
+class UserPrefsExample: public Window{
+
+	/**
+	* getUserSelectedColor()
+	* This method lets the user select the desired color.
+	* @return returns the color the user selected or NULL if not selected.
+	*/
+	Color * getUserSelectedColor(){
+		Color * ret = null;
+
+		//Create the dialog and set the window as the paren.
+		CommonColor* colorChooser = new CommonColor(this);
+		colorChooser.showModal();
+		if( colorChooser.execute()){
+			ret = colorChooser.getSelectedColor();
+		}
+		return ret;
+	}
+
+	/**
+	* getUserSelectedFont()
+	* This method lets the user select the desired font.
+	* @return returns the font the user selected or NULL if not selected.
+	*/
+	Font* getUserSelectedFont(){
+		Font * ret = null;
+
+		// Create the font dialog
+		CommonFont * fontChooser = new CommonFont(this);
+		if( fontChooser.execute() ){
+			ret = fontChooser.getSelectedFont();
+		}
+		return ret;
+	}
+	...
+};
+]]>
+</programListing>
+		<TODO>Add pictures of font and color picker</TODO>
+		</section>
+		<para>
+		There is also a common dialog for showing a text
+		message to the user.  This is included in the VCF::Dialog
+		class.  To send a popup message simply call the static method,
+		showMessage() and pass in the message and optionally a caption.
+		The signature for the showMessage() function is:
+		</para>
+
+		<function>
+		<![CDATA[ showMessage(const String& message, const String& caption="")]]>
+		</function>
+
+		If you need custom control of the buttons and message style
+		with the message choose this alternate signature. :
+
+		<function>
+		<![CDATA[ UIToolkit::ModalReturnType showMessage( const String&
+			message, const String& caption,	const long& messageButtons =
+			mbOKCancel,const MessageStyle& messageStyle=msDefault ) ]]>
+		</function>
+		<para>
+		where messageButtons can be any combination of the following :
+		</para>
+		<itemizedlist>
+			<listitem>mbOK 		     - 	Okay button</listitem>
+			<listitem>mbHelp 	     -	a help button</listitem>
+			<listitem>mbYesNo            - 	Yes and No buttons</listitem>
+			<listitem>mbYesNoCancel      - 	Yes No and Cancel buttons</listitem>
+			<listitem>mbOKCancel         - 	Okay and Cancel buttons</listitem>
+			<listitem>mbRetryCancel      - 	Retry and Cancel buttons</listitem>
+			<listitem>mbAbortRetryIgnore - 	Retry and Ignore buttons</listitem>
+		</itemizedlist>
+		<para>
+		and, messageStyle can be any of the following:
+		</para>
+		<itemizedlist>
+			<listitem>msDefault - 	normal message</listitem>
+			<listitem>msError   - 	error message</listitem>
+			<listitem>msInfo    - 	information message</listitem>
+			<listitem>msWarning - 	warning message</listitem>
+		</itemizedlist>
+		<TODO>show pictures of all message styles</TODO>
+
+	<section><title>Custom Dialogs</title>
+		<para>
+		Custom dialogs will typically be derived from the VCF::Dialog class
+		and possibly CustomControl.  The VCF::Dialog class has methods for
+		showing the dialog, and setting the icon. Below is an example of an About box
+		dialog:
+		</para>
+		<programlisting>
+		<![CDATA[
+class MyAbout : public VCF::Dialog {
+   public:
+
+   	/**
+   	* Set up the about dialog.
+	MyAbout(){
+		// here we set the size of the dialog.
+		setBounds( 100, 100, 150, 150 );
+
+		//Add a VFC::Label
+		Label* label = new Label();
+		label->setBounds( &Rect(25, 10, 200, 45) );
+
+		// add label to dialog frame.
+		add( label, AlignClient );
+
+		label->setCaption( "About My Application." );
+
+		Rect clientRect = getClientBounds();
+
+		//Create an okay button.
+		CommandButton* okBtn = new CommandButton();
+		okBtn->setWidth( okBtn->getPreferredWidth() );
+		okBtn->setHeight( okBtn->getPreferredHeight() );
+
+		okBtn->setTop( 10 );
+		okBtn->setLeft( clientRect.right_ + 20 );
+	
+		//now add it 
+		add( okBtn );
+	
+		clientRect.right_ += okBtn->getWidth() + 25 ;
+		
+		okBtn->setFocused();
+		okBtn->setCommandType( BC_OK );
+		okBtn->setCaption( "&OK" );
+	
+		setCaption( "About My Applications" );
+	
+		setClientBounds( &clientRect );	
+	}
+			
+	virtual ~MyAbout(){
+	}
+};
+]]>
+		</programlisting>
+		<para>
+		Typically, this would be tied to the about menu item. The following
+		snippet of code shows how this is shown:
+		</para>
+		<programlisting>
+<![CDATA[
+	void onHelpAbout( VCF::Event* e ){
+		MyAbout myAbout;
+		myAbout.showModal();
+	}	
+]]>
+		</programlisting>
+		
+		</section>
+
 		</section>
 		<section><title>Frame usage in the VFC</title>
+		
 		</section>
 		<section><title>Window usage in the VFC</title>
 		</section>
@@ -1179,6 +1448,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.2.4.3  2004/07/21 22:01:56  emonjay
+Added loding images and completed dialog section minus graphics.
+
 Revision 1.2.4.2  2004/07/21 03:21:34  emonjay
 Reformat and timer update
 
