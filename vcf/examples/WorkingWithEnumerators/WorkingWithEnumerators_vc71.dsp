@@ -80,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"vc71/Debug/WorkingWithEnumerators_vc71.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /subsystem:console /machine:I386 /out:"vc71/Debug/WorkingWithEnumerators_vc71.exe" /debug /pdbtype:sept /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /subsystem:console /debug /machine:I386 /out:"vc71/Debug/WorkingWithEnumerators_vc71.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 

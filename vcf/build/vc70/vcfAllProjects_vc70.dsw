@@ -258,9 +258,6 @@ Package=<4>
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name MVCBasics
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name Processes
     End Project Dependency
     Begin Project Dependency
@@ -636,18 +633,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "MVCBasics"="../../examples/MVCBasics/MVCBasics_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "NetworkKit"="./NetworkKit/NetworkKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -970,9 +955,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name RemoteObjectKitStatic
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ImageFormats
     End Project Dependency
 }}}
 
