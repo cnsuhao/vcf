@@ -400,6 +400,9 @@
 				RelativePath="..\..\..\include\core\Document.h">
 			</File>
 			<File
+				RelativePath="..\..\..\include\core\DocumentBasedApplication.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\core\DocumentManager.cpp">
 			</File>
 			<File
