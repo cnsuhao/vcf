@@ -208,8 +208,8 @@ public:
 				item->setState( Item::idsChecked );
 			}
 			singleModel->addItem( item );
-			//multiModel->addItem( new DefaultListItem( multiModel, capt ) );
-			//extendedModel->addItem( new DefaultListItem( extendedModel, capt ) );
+			multiModel->addItem( new DefaultListItem( multiModel, capt ) );
+			extendedModel->addItem( new DefaultListItem( extendedModel, capt ) );
 		}
 
 		//add buttons for deselecting all selected items
