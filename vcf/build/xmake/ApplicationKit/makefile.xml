@@ -320,6 +320,7 @@
 			<source name="$(SRC)/ImplementerKit/X11Control.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/X11Window.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/X11ControlContext.cpp" partOfConfig="GCC Debug|GCC Release"/>
+			<source name="$(SRC)/ImplementerKit/X11Dialog.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/X11Cursor.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			
 		</sources>
