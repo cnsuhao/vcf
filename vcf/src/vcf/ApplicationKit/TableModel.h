@@ -80,6 +80,49 @@ public:
 
 	virtual ~TableModel(){};
 
+	/**
+	@delegate TableCellAdded
+	@event TableModelEvent
+	*/
+	DELEGATE(TableCellAdded)
+
+	/**
+	@delegate TableCellDeleted
+	@event TableModelEvent
+	*/
+	DELEGATE(TableCellDeleted)
+
+	/**
+	@delegate TableCellsSelected
+	@event TableModelEvent
+	*/
+	DELEGATE(TableCellsSelected)
+
+	/**
+	@delegate TableRowAdded
+	@event TableModelEvent
+	*/
+	DELEGATE(TableRowsAdded)
+
+	/**
+	@delegate TableRowDeleted
+	@event TableModelEvent
+	*/
+	DELEGATE(TableRowsDeleted)
+
+	/**
+	@delegate TableColumnAdded
+	@event TableModelEvent
+	*/
+	DELEGATE(TableColumnsAdded)
+
+	/**
+	@delegate TableColumnDeleted
+	@event TableModelEvent
+	*/
+	DELEGATE(TableColumnsDeleted)
+	
+    virtual void empty() {;}
     virtual void addRow() = 0;
 
 	virtual void insertRow( const uint32& afterRow ) = 0;
@@ -147,6 +190,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/05 03:48:57  kiklop74
+*Another minor fix
+*
 *Revision 1.2.2.2  2004/10/05 02:48:22  kiklop74
 *Added needed changes that will enable Borland compiler to compile RTTI for ApplicationKit
 *
