@@ -29,6 +29,7 @@ public:
 		DefaultTimeOutVal = 5000
 	};
 
+	typedef std::pair<VCF::String,VCF::String> MovieMetaInfo;
 	
 	enum PlayState {
 		psPlaying = 0,
@@ -120,6 +121,8 @@ public:
 
 	void nextFrame();
 	void previousFrame();
+
+	void getMovieMetaInfo( std::vector<MovieMetaInfo>& infoList );
 protected:
 	TimeRecord m_currentTime;
 	Movie m_qtMovie;

@@ -147,40 +147,7 @@ bool QuickTimeMovie::open( const String& filename )
 		else {
 			theFullPath[0] = '\0';
 		}
-	}
-
-	if ( result ) {
-		UserData data = GetMovieUserData( m_qtMovie );	
-
-		OSType udType;
-		Handle hData = NULL;
-		hData = NewHandle(0);
-		udType = GetNextUserDataType(data, 0);
-
-		int count = 0;
-		do {
-			if(0 != udType) {
-				count = CountUserDataType(data, udType);
-				for(int i = 1; i <= count; i++) {
-					unsigned char c = (udType>>24);
-					if( c == 0xA9  ) {
-						int err = GetUserDataText(data, hData, udType, i, langEnglish);
-						int sz = GetHandleSize(hData);
-						if ( sz > 0 ) {
-							char tmp[256];
-							memset( tmp,0,256);
-							memcpy( tmp,*hData,min(255,sz) );
-							String s = tmp;
-						}
-					}
-				}
-			}
-	
-			udType = GetNextUserDataType(data, udType);
-		} while(0 != udType);
-
-		DisposeHandle(hData);
-	}
+	}	
 	return result;
 }
 
@@ -436,4 +403,159 @@ void QuickTimeMovie::previousFrame()
 	UpdateMovie(m_qtMovie);
 	
 	movieTask();
+}
+
+void QuickTimeMovie::getMovieMetaInfo( std::vector<QuickTimeMovie::MovieMetaInfo>& infoList )
+{
+
+	if ( NULL == m_qtMovie ) {
+		return;
+	}
+
+
+
+	UserData data = GetMovieUserData( m_qtMovie );	
+
+	OSType udType;
+	Handle hData = NULL;
+	hData = NewHandle(0);
+	udType = GetNextUserDataType(data, 0);
+
+	int count = 0;
+	do {
+		if(0 != udType) {
+			count = CountUserDataType(data, udType);
+			for(int i = 1; i <= count; i++) {
+				unsigned char c = (udType>>24);
+				if( c == 0xA9  ) {
+					GetUserDataText(data, hData, udType, i, langEnglish);
+					int sz = GetHandleSize(hData);
+					if ( sz > 0 ) {
+						char tmp[256];
+						memset( tmp,0,256);
+						memcpy( tmp,*hData,min(255,sz) );
+						String s = tmp;
+
+						MovieMetaInfo info;
+
+						info.second = s;
+
+						switch( udType ) {
+							case kUserDataTextAuthor : {
+								info.first = L"Author";
+							}
+							break;
+
+							case kUserDataTextComment : {
+								info.first = L"Comments";
+							}
+							break;
+
+							case kUserDataTextCopyright : {
+								info.first = L"Copyright";
+							}
+							break;
+
+							case kUserDataTextCreationDate : {
+								info.first = L"Created on";
+							}
+							break;
+
+							case kUserDataTextDescription : {
+								info.first = L"Description";
+							}
+							break;
+
+							case kUserDataTextDirector : {
+								info.first = L"Director";
+							}
+							break;
+
+							case kUserDataTextDisclaimer : {
+								info.first = L"Disclaimer";
+							}
+							break;
+
+							case kUserDataTextFullName : {
+								info.first = L"Full name";
+							}
+							break;
+
+							case kUserDataTextInformation : {
+								info.first = L"Information";
+							}
+							break;
+
+							case kUserDataTextKeywords : {
+								info.first = L"Keywords";
+							}
+							break;
+
+							case kUserDataTextMake : {
+								info.first = L"Make";
+							}
+							break;
+
+							case kUserDataTextModel : {
+								info.first = L"Model";
+							}
+							break;
+
+							case kUserDataTextOriginalFormat : {
+								info.first = L"Orginal Format";
+							}
+							break;
+
+							case kUserDataTextOriginalSource : {
+								info.first = L"Orginal Source";
+							}
+							break;
+
+							case kUserDataTextPerformers : {
+								info.first = L"Performers";
+							}
+							break;
+
+							case kUserDataTextProducer : {
+								info.first = L"Producer";
+							}
+							break;
+
+							case kUserDataTextProduct : {
+								info.first = L"Product";
+							}
+							break;
+
+							case kUserDataTextSoftware : {
+								info.first = L"Software";
+							}
+							break;
+
+							case kUserDataTextWarning : {
+								info.first = L"Warning";
+							}
+							break;
+
+							case kUserDataTextWriter : {
+								info.first = L"Writer";
+							}
+							break;
+
+							case kUserDataTextChapter : {
+								info.first = L"Chapter";
+							}
+							break;						
+						}
+
+						infoList.push_back(info);
+					}
+				}
+			}
+		}
+
+		udType = GetNextUserDataType(data, udType);
+	} while(0 != udType);
+
+	DisposeHandle(hData);
+
 }
