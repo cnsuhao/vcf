@@ -12,25 +12,23 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/Win32Context.h"
 #include "vcf/OpenGLKit/Win32OpenGLPeer.h"
 #include "vcf/OpenGLKit/VCFOpenGL.h"
+#include "vcf/FoundationKit/Win32Peer.h"
 
 
 using namespace VCF;
 
-Win32OpenGLPeer::Win32OpenGLPeer( GraphicsContext* glContext )
+Win32OpenGLPeer::Win32OpenGLPeer( GraphicsContext* glContext, OpenGLControl* owningControl )
 {
 	this->glContext_ = glContext;
+	this->owningControl_ = owningControl;
 	isInitialized_ = false;
 }
 
 Win32OpenGLPeer::~Win32OpenGLPeer()
 {
 	if ( NULL != glContext_ ){
-		Win32Context* win32Ctx = dynamic_cast<Win32Context*>(glContext_->getPeer());
-		if ( NULL == win32Ctx ){
-			//throw exception - we are screwed !!!!
-		}
-		HDC dc = (HDC)win32Ctx->getContextID();
-		wglMakeCurrent( dc, NULL );
+		// We don't need the DC to release the rendering context
+		wglMakeCurrent( NULL, NULL );
 		wglDeleteContext( hrc_ );
 	}
 }
@@ -42,13 +40,16 @@ void Win32OpenGLPeer::initGL()
 	}
 	if ( NULL != glContext_ ){
 		Win32Context* win32Ctx = dynamic_cast<Win32Context*>(glContext_->getPeer());
+		VCF_ASSERT( NULL != win32Ctx );
 		if ( NULL == win32Ctx ){
-			//throw exception - we are screwed !!!!
+			throw BasicException("Win32OpenGLPeer error: cannot get context peer",__LINE__);		//throw exception for release mode -- this is a bad error!
 		}
 
 		win32Ctx->checkHandle();
 
-		HDC dc = (HDC)win32Ctx->getContextID();
+		HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
+		HDC dc = ::GetDC(hwnd);
+		//HDC dc = (HDC)win32Ctx->getContextID();
 		if ( NULL != dc ){
 			PIXELFORMATDESCRIPTOR pfd =
 			{
@@ -74,19 +75,23 @@ void Win32OpenGLPeer::initGL()
 
 			int pixelformat = ChoosePixelFormat( dc, &pfd );
 			if ( pixelformat == 0 ){
-				//throw exception
-				pixelformat = GetPixelFormat( dc );
-				DescribePixelFormat( dc, pixelformat,
-					                 sizeof(PIXELFORMATDESCRIPTOR), &pfd);
-
+				String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+				StringUtils::traceWithArgs(String("Error selecting pixelformat for GL context (" __FILE__ ":%d):\n")+errmsg,__LINE__);
+				VCF_ASSERT(pixelformat != 0);
+				throw BasicException(errmsg);
 			}
 
-			if ( FALSE == SetPixelFormat( dc, pixelformat, &pfd ) ){
-				//throw exception
+			BOOL setPixelSuccess = SetPixelFormat( dc, pixelformat, &pfd );
+			if ( FALSE == setPixelSuccess ){
+				String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+				StringUtils::traceWithArgs(String("Error setting pixelformat for GL context (" __FILE__ ":%d):\n")+errmsg,__LINE__);
+				VCF_ASSERT(setPixelSuccess);
+				throw BasicException(errmsg);
 			}
 
 			hrc_ = wglCreateContext( dc );
 			isInitialized_ = ( wglMakeCurrent( dc, hrc_ ) ) ? true : false;
+			VCF_ASSERT(isInitialized_);
 			win32Ctx->releaseHandle();
 		}
 	}
@@ -96,12 +101,15 @@ void Win32OpenGLPeer::swapBuffers()
 {
 	if ( NULL != glContext_ ){
 		Win32Context* win32Ctx = dynamic_cast<Win32Context*>(glContext_->getPeer());
+		VCF_ASSERT(NULL != win32Ctx);
 		if ( NULL == win32Ctx ){
-			//throw exception - we are screwed !!!!
+			throw BasicException("Win32OpenGLPeer error: cannot get context peer",__LINE__);		//throw exception for release mode -- this is a bad error!
 		}
 		win32Ctx->checkHandle();
 
-		HDC dc = (HDC)win32Ctx->getContextID();
+		HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
+		HDC dc = ::GetDC(hwnd);
+		//HDC dc = (HDC)win32Ctx->getContextID();
 
 		::SwapBuffers( dc );
 
@@ -113,12 +121,15 @@ void Win32OpenGLPeer::makeCurrent()
 {
 	if ( NULL != glContext_ ){
 		Win32Context* win32Ctx = dynamic_cast<Win32Context*>(glContext_->getPeer());
+		VCF_ASSERT(NULL != win32Ctx);
 		if ( NULL == win32Ctx ){
-			//throw exception - we are screwed !!!!
+			throw BasicException("Win32OpenGLPeer error: cannot get context peer",__LINE__);		//throw exception for release mode -- this is a bad error!
 		}
 		win32Ctx->checkHandle();
 
-		HDC dc = (HDC)win32Ctx->getContextID();
+		HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
+		HDC dc = ::GetDC(hwnd);
+		//HDC dc = (HDC)win32Ctx->getContextID();
 
 		wglMakeCurrent( dc, hrc_ );
 
@@ -130,6 +141,9 @@ void Win32OpenGLPeer::makeCurrent()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/27 22:42:47  augusto_roman
+*Changed Win32 peer to create GL Rendering Context (RC) based off of the Win32 window handle of the control instead of the paintDC.  Also enforced error checking. - aroman
+*
 *Revision 1.2  2004/08/07 02:49:20  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

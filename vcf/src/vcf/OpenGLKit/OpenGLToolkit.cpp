@@ -16,9 +16,9 @@ where you installed the VCF.
 
 using namespace VCF;
 
-OpenGLPeer *OpenGLToolkit::createOpenGLPeer(GraphicsContext *context){
+OpenGLPeer *OpenGLToolkit::createOpenGLPeer(GraphicsContext *context, OpenGLControl* owningControl){
 #ifdef WIN32
-	return new Win32OpenGLPeer(context);
+	return new Win32OpenGLPeer(context,owningControl);
 #else
 	throw BasicException("OpenGLToolkit::createOpenGLPeer: Unsupported on this platform");
 #endif
@@ -28,6 +28,9 @@ OpenGLPeer *OpenGLToolkit::createOpenGLPeer(GraphicsContext *context){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/27 22:42:47  augusto_roman
+*Changed Win32 peer to create GL Rendering Context (RC) based off of the Win32 window handle of the control instead of the paintDC.  Also enforced error checking. - aroman
+*
 *Revision 1.2  2004/08/07 02:49:19  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
