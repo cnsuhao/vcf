@@ -616,7 +616,7 @@ public:
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
 		ctx->setColor( Color::getColor( "black" ) );
-		Rect r(0,0,getWidth(), getHeight() );
+		Rect r(0,0,getWidth() - 1.0, getHeight() - 1.0 );
 		ctx->rectangle( &r );
 		ctx->strokePath();
 
@@ -2038,6 +2038,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/09/29 16:16:24  dougtinkham
+*fixed paint of border around ToolTip
+*
 *Revision 1.2.2.6  2004/09/28 20:18:49  marcelloptr
 *just some spaces for clarity
 *
