@@ -692,11 +692,11 @@ void ListBoxControl::mouseMove( MouseEvent* event )
 					if(!selectedItems_.empty()) {
 					selectedItems_[0] = foundItem;//assumes index 0 exists
 					setSelectedItem( foundItem );
+					}
 				}
 			}
 		}
 	}
-}
 }
 
 void ListBoxControl::mouseUp( MouseEvent* event )
@@ -783,11 +783,12 @@ void ListBoxControl::setSelectedItem( ListItem* selectedItem )
 {
 	if ( NULL != singleSelectedItem_ && true != allowsMultiSelect_ ) {
 		singleSelectedItem_->setSelected( false );
+		if(selectedItems_.size() > 0) selectedItems_.clear();
 	}
 	singleSelectedItem_ = selectedItem;
 	if ( NULL != singleSelectedItem_ ) {
 		singleSelectedItem_->setSelected( true );
-
+		selectedItems_.push_back( selectedItem );
 		selectionChanged( singleSelectedItem_ );
 	}
 
@@ -862,6 +863,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/03/20 20:46:32  dougtinkham
+*fixed to allow selection through code to work properly. BugFix 1166682 by glen_f.
+*
 *Revision 1.5.2.3  2005/03/20 04:29:21  ddiego
 *added ability to set image lists for list box control.
 *
