@@ -453,8 +453,16 @@ DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-def
 	if ( (text.size()-1) > thisPtr->numCharsRemainingToStreamIn_ ) {
 
 		memset( pbBuff, 0, cb );
+		
+		if ( System::isUnicodeEnabled() ) {
+			*pcb = text.copy( (VCFChar*)pbBuff, cb / sizeof(VCFChar), thisPtr->numCharsRemainingToStreamIn_ ) * sizeof(VCFChar);
+		}
+		else{
+			AnsiString tmp = text;
 
-		*pcb = text.copy( (VCFChar*)pbBuff, cb, thisPtr->numCharsRemainingToStreamIn_ );
+			*pcb = tmp.copy( (char*)pbBuff, cb, thisPtr->numCharsRemainingToStreamIn_ );
+		}
+		
 
 		thisPtr->numCharsRemainingToStreamIn_ += *pcb;
 	}
@@ -532,7 +540,7 @@ void Win32Edit::setText( const VCF::String& text )
 
 		int streamedIn = 0;
 		if ( System::isUnicodeEnabled() ) {
-			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_UNICODE, (LPARAM)&editStream );
+			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT | SF_UNICODE, (LPARAM)&editStream );
 		}
 		else{
 			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );
@@ -737,6 +745,11 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/21 00:35:16  ddiego
+*fixed a bug that pallindo found - was not passing
+*in the right flag to the unicode version for calling SendMessage
+*EM_STREAMIN
+*
 *Revision 1.1.2.3  2004/05/04 17:16:07  ddiego
 *updated some win32 stuff for unicode compliance
 *
