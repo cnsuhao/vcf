@@ -220,10 +220,12 @@ catch ( NoToolKitFoundException &amp; e ) {
 			</para>
 			<para>
 			To add a timer all you have to do is call the toolkit's 
+			<function>
                          <![CDATA[
-			<function>UIToolkit::registerTimerHandler(Object* source, EventHandler*
-			handler, const ulong32& timeoutInMilliSeconds )</function> function.
+			UIToolkit::registerTimerHandler(Object* source, EventHandler*
+			handler, const ulong32& timeoutInMilliSeconds )
 			 ]]>
+			 </function> function.
 			This method is not static, so you'll first need to get an instance of the 
 			toolkit. The source is an instance of 
 			a VCF::Object (or some class derived from it), the handler is a
@@ -247,14 +249,13 @@ catch ( NoToolKitFoundException &amp; e ) {
 			<![CDATA[
 class TimerEx :public EventHandler, Object
 {
-	UIToolkit toolkit;
 
     public:
     	TimerEx(){
     		// Here we set up the timer.  This class is the source for
     		// the timer and it is also the event handler.  This timer
     		// will fire every 4 seconds.
-    		toolkit.registerTimerHandler( this, this, 4000L);
+    		UIToolkit::registerTimerHandler( this, this, 4000L);
     	}
 
     	//The invoke takes an Event. For timers the event type is TimerEvent.
@@ -267,7 +268,7 @@ class TimerEx :public EventHandler, Object
 	~TimerEx(){
 		// before destruction remove the timer.  That way we don't
 		// waste system resources.
-		toolkit.unregisterTimerHandler( this );
+		UIToolkit::unregisterTimerHandler( this );
 	}
 };                     ]]>
 			</programlisting>
@@ -296,14 +297,12 @@ class MyTimerCallback : public Thread{
 
 class TimerEx2 :public EventHandler, Object
 {
-	UIToolkit toolkit;
-
     public:
     	TimerEx2(){
     		// Here we set up the timer.  This class is the source for
     		// the timer and it is also the event handler.  This timer
     		// will fire every 4 seconds.
-    		toolkit.registerTimerHandler( this, this, 4000L);
+    		UIToolkit::registerTimerHandler( this, this, 4000L);
     	}
 
     	//The invoke takes an Event. For timers the event type is TimerEvent.
@@ -317,7 +316,7 @@ class TimerEx2 :public EventHandler, Object
 	~TimerEx2(){
 		// before destruction remove the timer.  That way we don't
 		// waste system resources.
-		toolkit.unregisterTimerHandler( this );
+		UIToolkit::unregisterTimerHandler( this );
 	}
 };
 ]]>
@@ -1448,6 +1447,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.2.4.4  2004/07/25 15:06:38  ddiego
+added a few minor corrections.
+
 Revision 1.2.4.3  2004/07/21 22:01:56  emonjay
 Added loding images and completed dialog section minus graphics.
 
