@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/03/06 22:16:51  ddiego
+jkl
+
 Revision 1.1.2.3  2003/03/04 04:53:51  ddiego
 filled some docs
 
@@ -140,6 +143,14 @@ public:
 
 	<section><title>UI Toolkit </title>
 		<para>
+		The UI Toolkit is used to create instances of various peer's needed by the VCF,
+		as well as providing certain low level services, such as modal and non-modal event
+		loops, and getting at UI metrics.
+		</para>
+		<para>
+		The toolkit peer creation methods should never have to be called for general VCF 
+		usage. If you are writing a new component/control that requires a peer to manage
+		part of it's work, then you may have to call the appropriate peer creation method.
 		</para>
 	</section>
 	
