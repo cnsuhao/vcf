@@ -22,7 +22,7 @@ static bool Win32RicheditLibraryLoaded = false;
 Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	AbstractWin32Component( component ),	
 	textControl_(component),
-	numCharsRemainingToStreamIn_(0),
+	numCharsStreamedIn_(0),
 	isRichedit_(false),
 	OKToResetControlText_(true),
 	backgroundBrush_(NULL),
@@ -982,26 +982,33 @@ DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-def
 												LONG *pcb       // pointer to number of bytes transferred
 												)
 {
-
 	Win32Edit* thisPtr = (Win32Edit*)dwCookie;
 	*pcb = 0;
 	TextControl* tc = (TextControl*)thisPtr->getControl();
 	String text = tc->getTextModel()->getText();
-	if ( (text.size()-1) > thisPtr->numCharsRemainingToStreamIn_ ) {
+	String::size_type len = text.size();
 
-		memset( pbBuff, 0, cb );
+
+	memset( pbBuff, 0, cb );
+
+	if ( len > 0 ) {
 
 		if ( System::isUnicodeEnabled() ) {
-			*pcb = text.copy( (VCFChar*)pbBuff, cb / sizeof(VCFChar), thisPtr->numCharsRemainingToStreamIn_ ) * sizeof(VCFChar);
+
+			String::size_type n = VCF::minVal<String::size_type>( cb, len-(thisPtr->numCharsStreamedIn_/sizeof(VCFChar)) );
+
+			*pcb = text.copy( (VCFChar*)pbBuff, n, thisPtr->numCharsStreamedIn_/sizeof(VCFChar) ) * sizeof(VCFChar);
 		}
 		else{
+			String::size_type n = VCF::minVal<String::size_type>( cb, len-thisPtr->numCharsStreamedIn_ );
+
 			AnsiString tmp = text;
 
-			*pcb = tmp.copy( (char*)pbBuff, cb, thisPtr->numCharsRemainingToStreamIn_ );
+			*pcb = tmp.copy( (char*)pbBuff, n, thisPtr->numCharsStreamedIn_ );
 		}
 
+		thisPtr->numCharsStreamedIn_ += *pcb;
 
-		thisPtr->numCharsRemainingToStreamIn_ += *pcb;
 	}
 
 	return 0;//(*pcb>0 ? NOERROR : E_FAIL);
@@ -1073,7 +1080,7 @@ void Win32Edit::setText( const VCF::String& text )
 		memset( &editStream, 0, sizeof(EDITSTREAM) );
 		editStream.dwCookie = (DWORD)this;
 		editStream.pfnCallback = Win32Edit::EditStreamCallback;
-		numCharsRemainingToStreamIn_ = 0;//text.size();
+		numCharsStreamedIn_ = 0;//text.size();
 
 		int streamedIn = 0;
 		if ( System::isUnicodeEnabled() ) {
@@ -1443,6 +1450,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/02/24 05:39:39  marcelloptr
+*bugfix [1150773] - Win32Edit loses last n characters past the last 2048 written
+*
 *Revision 1.3.2.4  2005/02/17 04:06:35  ddiego
 *fixed bug in handling wm_keydown event in win32edit
 *

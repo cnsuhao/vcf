@@ -108,7 +108,7 @@ protected:
 	bool isRichedit_;
 	bool isMultiLined_;
 
-	ulong32 numCharsRemainingToStreamIn_;
+	ulong32 numCharsStreamedIn_;
 	void processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam );
 
 	bool OKToResetControlText_;
@@ -136,6 +136,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/02/24 05:39:39  marcelloptr
+*bugfix [1150773] - Win32Edit loses last n characters past the last 2048 written
+*
 *Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
