@@ -388,7 +388,7 @@ void Win32Listview::postPaintItem( NMLVCUSTOMDRAW* drawItem )
 		if ( true == item->canPaint() ) {
 			RECT tmp = {0,0,0,0};
 			GraphicsContext* ctx = NULL;
-
+			
 			ListView_GetItemRect( hwnd_, drawItem->nmcd.dwItemSpec,
 				&tmp, LVIR_BOUNDS );
 
@@ -819,13 +819,13 @@ void Win32Listview::addItem( ListItem * item )
 void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 {
 	if ( NULL != item ){
-		int index = -1;
+		int itemIndex = index;
 
 		if ( System::isUnicodeEnabled() ) {
 			LVITEMW lvItem;
 			memset( &lvItem, 0, sizeof(lvItem) );
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-			lvItem.iItem = index;
+			lvItem.iItem = itemIndex;
 			String caption = item->getCaption();
 
 			VCFChar* tmp = new VCFChar[ caption.size()+1 ];
@@ -837,14 +837,14 @@ void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 			lvItem.cchTextMax = caption.size();
 			lvItem.lParam = (LPARAM)item;
 			lvItem.iImage = item->getImageIndex();
-			index = SendMessage( hwnd_, LVM_INSERTITEMW, 0, (LPARAM) &lvItem );
+			itemIndex = SendMessage( hwnd_, LVM_INSERTITEMW, 0, (LPARAM) &lvItem );
 
 		}
 		else {
 			LVITEMA lvItem;
 			memset( &lvItem, 0, sizeof(lvItem) );
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-			lvItem.iItem = index;
+			lvItem.iItem = itemIndex;
 			AnsiString caption = item->getCaption();
 
 			char* tmp = new char[ caption.size()+1 ];
@@ -856,11 +856,11 @@ void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 			lvItem.cchTextMax = caption.size();
 			lvItem.lParam = (LPARAM)item;
 			lvItem.iImage = item->getImageIndex();
-			index = SendMessage( hwnd_, LVM_INSERTITEMA, 0, (LPARAM) &lvItem );
+			itemIndex = SendMessage( hwnd_, LVM_INSERTITEMA, 0, (LPARAM) &lvItem );
 		}
 
-		if ( index != -1 ) {
-			item->setIndex( index );
+		if ( itemIndex != -1 ) {
+			item->setIndex( itemIndex );
 			updateItemSubItems( item );
 		}
 		else{
@@ -1815,6 +1815,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/13 04:34:32  ddiego
+*little changes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

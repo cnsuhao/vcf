@@ -9,11 +9,42 @@
 #include "QuickTimeControl.h"
 #include "vcf/FoundationKit/StringTokenizer.h"
 
-#include "StatusBarControl.h"
+#include "vcf/ApplicationKit/DefaultListItem.h"
 
 
 
 using namespace VCF;
+
+
+
+
+
+class PlayListItem : public DefaultListItem {
+public:
+	PlayListItem( const String& caption, Model* model ):
+	  DefaultListItem( model, caption ) {
+
+	}
+
+	virtual void paint( GraphicsContext* gc, VCF::Rect* paintRect ) {
+		//DefaultListItem::paint( gc, paintRect );
+		//Light3DBorder bdr;
+		//bdr.paint( paintRect, gc );
+		VCF::Rect tmp = *paintRect;
+		
+		tmp.right_ += 50;
+
+		gc->setColor( Color::getColor( "purple" ) );
+		gc->rectangle( &tmp );
+		gc->fillPath();
+	}
+	
+	virtual bool canPaint() {
+		return true;
+	}
+};
+
+
 
 class PagedContainer : public StandardContainer {
 public:
@@ -875,6 +906,16 @@ MainQTWindow::MainQTWindow():
 
 	
 	playListCtrl_ = new ListViewControl();
+	playListCtrl_->setIconStyle( isDetails );
+	playListCtrl_->addHeaderColumn( "Song/Movie Name", 80 );
+	playListCtrl_->addHeaderColumn( "Duration", 80 );
+	playListCtrl_->addHeaderColumn( "Movie Size", 80 );
+	playListCtrl_->addHeaderColumn( "Data Size", 80 );
+
+
+	ListModel* lm = playListCtrl_->getListModel();
+
+	lm->addItem( new PlayListItem( "Foo", NULL ) );
 
 	mainViewPanel_->add( playListCtrl_ );
 
@@ -931,6 +972,12 @@ MainQTWindow::MainQTWindow():
 	Splitter* splitter = new Splitter();
 	add( splitter, AlignLeft );
 
+	Label* playlistLabel = new Label();
+	playlistLabel->setHeight( playlistLabel->getPreferredHeight() );
+
+	playlistLabel->setCaption( L"Playlist" );
+	sideBar_->add( playlistLabel, AlignTop );
+
 
 	playListTree_ = new TreeControl();
 	playListTree_->setVisible( true );
@@ -941,9 +988,6 @@ MainQTWindow::MainQTWindow():
 
 
 	TreeModel* model = playListTree_->getTreeModel();
-	TreeItem* rootItem = playListTree_->addItem( NULL, "Playlist", 0 );
-
-
 
 
 	
@@ -1408,6 +1452,10 @@ void MainQTWindow::onPlaylistClick( VCF::Event* e )
 
 void MainQTWindow::onCreatePlaylist(  VCF::Event* event )
 {
+	TreeModel* tm = playListTree_->getTreeModel();
+
+
+	TreeItem* item = playListTree_->addItem( NULL, "New playlist", 0 );
 
 }
 
