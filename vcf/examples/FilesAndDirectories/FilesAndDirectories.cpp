@@ -77,22 +77,25 @@ int main( int argc, char** argv ){
 	fs.close();
 
 
-
+	{
+		
 	/**
 	Use the file object to access the file
-	*/
-	File file( fileName ); 
-	System::println( "The file %s's size: %d", fileName.getFileName().c_str(), file.getSize() );
+		*/
+		File file( fileName ); 
+		System::println( "The file %s's size: %d", fileName.getFileName().c_str(), file.getSize() );
+		
+		
+		/**
+		Make a copy of the file
+		*/
+		file.copyTo( fileName.getPathName(true) + 
+			FilePath::getDirectorySeparator() + 
+			fileName.getName() + "-copy" + fileName.getExtension() );
+		
+	}
 
 	
-	/**
-	Make a copy of the file
-	*/
-	file.copyTo( fileName.getPathName(true) + 
-					FilePath::getDirectorySeparator() + 
-					fileName.getName() + "-copy" + fileName.getExtension() );
-
-
 
 	/**
 	Enumerate all files ending with a .txt extension
@@ -104,10 +107,47 @@ int main( int argc, char** argv ){
 		while ( finder->hasMoreElements() ) {
 			fileName = finder->nextElement();
 			System::println( fileName );
+
+			File f(fileName);
+			f.remove();
 		}
 		finder->free();
 	}
 
+
+
+	/**
+	File chaining - 
+	*/
+
+	{
+		FileOutputStream textFile( "text-file.txt" );
+		TextOutputStream tos(&textFile);
+		
+		tos.write( 100 );
+		tos.write( 200 );
+		tos.write( true );
+		tos.write( 12.433 );
+		tos.write( String("Hello World") );
+
+		textFile.close();
+		
+		int i1;
+		int i2;
+		bool b1;
+		double d1;
+		String s;
+		
+		FileInputStream fis( "text-file.txt" );
+		TextInputStream tis(&fis);
+		tis.read( i1 );
+		tis.read( i2 );
+		tis.read( b1 );
+		tis.read( d1 );
+		tis.read( s );
+
+
+	}
 
 	FoundationKit::terminate();
 	return 0;
