@@ -19,6 +19,9 @@ GraphicsToolkit::GraphicsToolkit()
 
 	initContentTypes();
 
+	colorNameMap_       = new MapStringColorName();
+	systemColorNameMap_ = new MapStringColorName();
+
 	initColorMap();
 
 	fontInfoContainer_.initContainer( availableSystemFonts_ );
@@ -331,8 +334,8 @@ String GraphicsToolkit::internal_getSystemColorNameFromMap( Color& sysColor ) co
 {
 	// not pointer are used, so any color can be compared
 	String result = ColorNames::unknownColorName;
-	GraphicsToolkit::MapStringColorName::const_iterator found = systemColorNameMap_.find( sysColor );
-	if ( found != systemColorNameMap_.end() ){
+	GraphicsToolkit::MapStringColorName::const_iterator found = systemColorNameMap_->find( sysColor );
+	if ( found != systemColorNameMap_->end() ){
 		result = found->second;
 	}
 	return result;
@@ -358,8 +361,8 @@ String GraphicsToolkit::internal_getColorNameFromMap( const Color& color ) const
 {
 	// not pointer are used, so any color can be compared
 	String result = ColorNames::unknownColorName;
-	MapStringColorName::const_iterator found = colorNameMap_.find( color );
-	if ( found != colorNameMap_.end() ){
+	MapStringColorName::const_iterator found = colorNameMap_->find( color );
+	if ( found != colorNameMap_->end() ){
 		result = found->second;
 	}
 	return result;
@@ -367,8 +370,8 @@ String GraphicsToolkit::internal_getColorNameFromMap( const Color& color ) const
 
 void GraphicsToolkit::internal_printColorNameMap( ) const
 {
-	MapStringColorName::const_iterator it = colorNameMap_.begin();
-	while ( it != colorNameMap_.end() ) {
+	MapStringColorName::const_iterator it = colorNameMap_->begin();
+	while ( it != colorNameMap_->end() ) {
 		Color c = it->first;
 		String s = it->second;
 		String sg = getColorNameFromMap(c);
@@ -391,8 +394,8 @@ Color* GraphicsToolkit::internal_getColorMatchFromColormap( const Color& color )
 
 	String sFound;
 
-	MapStringColorName::iterator it = colorNameMap_.find( color );
-	if ( it != colorNameMap_.end() ){
+	MapStringColorName::iterator it = colorNameMap_->find( color );
+	if ( it != colorNameMap_->end() ){
 		closestClr = &it->first;
 		sFound = it->second;
 	}
@@ -404,8 +407,8 @@ Color* GraphicsToolkit::internal_getColorMatchFromColormap( const Color& color )
 		const Color* c = NULL;
 		ColorSpace::HSLtype hsl;
 
-		it = colorNameMap_.begin();
-		while ( it != colorNameMap_.end() )  {
+		it = colorNameMap_->begin();
+		while ( it != colorNameMap_->end() )  {
 			c = &it->first;
 			Color cc = it->first;
 			String ss = it->second;
@@ -431,8 +434,8 @@ Color* GraphicsToolkit::internal_getColorMatchFromColormap( const Color& color )
 		}
 
 		//Note: Colors in colorNameMap_ do not have s_ initialized
-		//it = colorNameMap_.find( *closestClr );
-		//if ( it == colorNameMap_.end() ) {
+		//it = colorNameMap_->find( *closestClr );
+		//if ( it == colorNameMap_->end() ) {
 		//	StringUtils::traceWithArgs("Warning: color not matched ((%s -> ) %0.2f, %0.2f, %0.2f\n", ((closestClr->s_)?closestClr->s_->c_str():"???"), diffMinH, diffMinS, diffMinL );
 		//} else {
 		//	StringUtils::traceWithArgs("Ok: color matched (%s -> %s) %0.2f, %0.2f, %0.2f\n", color.s_->c_str(), ((closestClr->s_)?closestClr->s_->c_str():"???"), diffMinH, diffMinS, diffMinL );
@@ -1294,7 +1297,7 @@ void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const 
 
 	colorMap_[colorName] = color;
 
-	colorNameMap_[*color] = colorName;
+	(*colorNameMap_)[*color] = colorName;
 }
 
 void GraphicsToolkit::destroyColorMaps()
@@ -1308,34 +1311,45 @@ void GraphicsToolkit::destroyColorMaps()
 	}
 	colorMap_.clear();
 
-	// can be destroyed indipendently from colorMap_
-	//MapStringColorName::const_iterator it2 = colorNameMap_.begin();
-	//while ( it2 != colorNameMap_.end() ){
-	//	const String* s = it2->second;
-	//	delete s;
-	//	s = NULL;
-	//	it2 ++;
-	//}
-	colorNameMap_.clear();
+
+	if ( NULL != colorNameMap_ ) {
+		// can be destroyed indipendently from colorMap_
+		//MapStringColorName::const_iterator it2 = colorNameMap_->begin();
+		//while ( it2 != colorNameMap_->end() ){
+		//	const String* s = it2->second;
+		//	delete s;
+		//	s = NULL;
+		//	it2 ++;
+		//}
+		colorNameMap_->clear();
+		delete colorNameMap_;
+	}
 }
 
 void GraphicsToolkit::destroySystemColorNameMap()
 {
 	// can be destroyed indipendently from systemColorMap_
-	//MapStringColorName::const_iterator it = systemColorNameMap_.begin();
-	//while ( it != systemColorNameMap_.end() ){
+	//MapStringColorName::const_iterator it = systemColorNameMap_->begin();
+	//while ( it != systemColorNameMap_->end() ){
 	//	const String* s = it->second;
 	//	delete s;
 	//	s = NULL;
 	//	it ++;
 	//}
-	systemColorNameMap_.clear();
+
+	if ( systemColorNameMap_ ) {
+		systemColorNameMap_->clear();
+		delete systemColorNameMap_;
+	}
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/29 03:58:47  marcelloptr
+*Improvements on Color class - changes so to have Color::getColor inlined
+*
 *Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
 *made a few changes to the new OpenGLKit files, adjusting where the
 *CVS log was put, and changed a few cases for the export-import definition
