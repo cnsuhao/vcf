@@ -384,7 +384,7 @@ public:
 
 		ctx->strokePath();
 
-		theta = (current.getSeconds()/60.0) * (2*M_PI);
+		theta = (current.getSecond()/60.0) * (2*M_PI);
 		c = sin( theta );
 		s = cos( theta );
 
@@ -477,6 +477,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.15  2004/08/04 00:00:31  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.2.2.14  2004/08/02 04:11:21  ddiego
 *added more examples to xcode project
 *
