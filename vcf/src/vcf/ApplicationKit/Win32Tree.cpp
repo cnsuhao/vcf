@@ -229,6 +229,7 @@ void Win32Tree::createParams()
 	styleMask_ = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_NOTOOLTIPS | TVS_SHOWSELALWAYS;
 
 	styleMask_ &= ~WS_BORDER;
+	styleMask_ &= ~WS_VISIBLE;
 
 	styleMask_ |= WS_HSCROLL | WS_VSCROLL;
 }
@@ -347,65 +348,22 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case WM_PAINT:{
 			PAINTSTRUCT ps;
 			HDC dc = BeginPaint( hwnd_, &ps );
+			StringUtils::trace( "Win32Tree::handleEventMessages(WM_PAINT)\n" );
 
 			RECT r;
 			GetClientRect( hwnd_, &r );
 
 			HDC memDC = doControlPaint( dc, r, NULL, cpControlOnly );
-			
-
-			/*
-			if ( NULL == memDC_ ) {
-				//create here
-				HDC dc = ::GetDC(0);
-				memDC_ = ::CreateCompatibleDC( dc );
-				::ReleaseDC( 0,	dc );
-			}
-
-			memBMP_ = ::CreateCompatibleBitmap( dc,
-					r.right - r.left,
-					r.bottom - r.top );
-			memDCState_ = ::SaveDC( memDC_ );
-
-			originalMemBMP_ = (HBITMAP)::SelectObject( memDC_, memBMP_ );
-
-			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
-
-			Color* color = treeControl_->getColor();
-			
-			COLORREF backColor = RGB(color->getRed() * 255.0,
-									color->getGreen() * 255.0,
-									color->getBlue() * 255.0 );
-			HBRUSH bkBrush = CreateSolidBrush( backColor );
-			FillRect( memDC_, &r, bkBrush );
-			DeleteObject( bkBrush );
-
-				
-
-			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
-			*/
-
-			
+						
 			defaultWndProcedure( WM_PAINT, (WPARAM)memDC, 0 );
 
-			
-
-			/*
-			::BitBlt( dc, r.left, r.top,
-					  r.right - r.left,
-					  r.bottom - r.top,
-					  memDC_, r.left, r.top, SRCCOPY );
-			::RestoreDC ( memDC_, memDCState_ );
-			
-			::DeleteObject( memBMP_ );
-			*/
-			
 			updatePaintDC( dc, r, NULL );
 
 			EndPaint( hwnd_, &ps );
 			
-			wndProcResult = 1;
+			wndProcResult = 0;
 			result = true;
+			StringUtils::trace( "Win32Tree::handleEventMessages(WM_PAINT) Done!!!\n" );
 		}
 		break;
 
@@ -646,6 +604,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case TVN_SELCHANGEDW:{
+			StringUtils::trace( "TVN_SELCHANGEDW\n" );
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
 			if ( NULL != item ) {
@@ -671,6 +630,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case TVN_SELCHANGEDA:{
+			StringUtils::trace( "TVN_SELCHANGEDA\n" );
 			NMTREEVIEWA* treeview = (NMTREEVIEWA*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
 			if ( NULL != item ) {
@@ -766,8 +726,10 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 					case CDDS_ITEMPOSTPAINT : {
 						
+						
 						wndProcResult = CDRF_DODEFAULT;
 						result = true;
+						
 						if ( NULL != treeViewDraw->nmcd.lItemlParam ) {
 							TreeItem* item = (TreeItem*)treeViewDraw->nmcd.lItemlParam;
 							std::map<TreeItem*,HTREEITEM>::iterator found =
@@ -781,6 +743,11 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 								
 							}
 							if ( item->canPaint() ) {
+								StringUtils::traceWithArgs( "painting item %p\n", item );
+								RECT r;
+								GetClientRect( hwnd_, &r );
+								itemRect.left_ = r.left;
+								itemRect.right_ = r.right;
 								item->paint( peerControl_->getContext(), &itemRect );
 							}
 						}
@@ -1245,6 +1212,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/08 03:49:05  ddiego
+*minor win32 tree mods
+*
 *Revision 1.2.2.2  2004/09/07 03:57:04  ddiego
 *misc tree control update
 *
