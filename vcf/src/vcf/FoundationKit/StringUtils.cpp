@@ -1576,8 +1576,8 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.3  2004/09/17 21:00:01  marcelloptr
-*fromStringAs... function made 5-10 times faster in debug mode while checking for validity
+*Revision 1.2.2.4  2004/09/17 21:03:02  marcelloptr
+*fromStringAs... function made 5-10 times faster in debug mode with Win32 MS VC CRT while checking for validity
 *
 *Revision 1.2.2.2  2004/08/31 08:50:52  marcelloptr
 *minor fix string <--> signed long64 conversion
