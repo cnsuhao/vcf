@@ -122,6 +122,14 @@ public:
 	*/
 	static VCF::String upperCase( const VCF::String& text );
 
+
+	/**
+	*converts the value to a string
+	*@param uchar the hexadecimal value to convert
+	*@return String the string representation of the hexadecimal value
+	*/
+	static VCF::String toStringFromHexNumber( const uchar& value );
+
 	/**
 	*converts the value to a string
 	*@param int the value to convert
@@ -131,10 +139,31 @@ public:
 
 	/**
 	*converts the value to a string
+	*@param uint32 the value to convert
+	*@return String the string representation of the unsigned int value
+	*/
+	static VCF::String toString( const VCF::uint32& value );
+
+	/**
+	*converts the value to a string
 	*@param long the value to convert
 	*@return String the string representation of the long value
 	*/
 	static VCF::String toString( const long& value );
+
+	/**
+	*converts the value to a string
+	*@param ulong32 the value to convert
+	*@return String the string representation of the unsigned long value
+	*/
+	static VCF::String toString( const VCF::ulong32& value );
+
+	/**
+	*converts the value to a string
+	*@param VCF::ulong64 the value to convert
+	*@return String the string representation of the VCF::ulong64 value
+	*/
+	static VCF::String toString( const VCF::ulong64& value );
 
 	/**
 	*converts the value to a string
@@ -152,27 +181,6 @@ public:
 
 	/**
 	*converts the value to a string
-	*@param unsigned long the value to convert
-	*@return String the string representation of the unsigned long value
-	*/
-	static VCF::String toString( const VCF::ulong32& value );
-
-	/**
-	*converts the value to a string
-	*@param VCF::ulong64 the value to convert
-	*@return String the string representation of the VCF::ulong64 value
-	*/
-	static VCF::String toString( const VCF::ulong64& value );
-
-	/**
-	*converts the value to a string
-	*@param unsigned int the value to convert
-	*@return String the string representation of the unsigned int value
-	*/
-	static VCF::String toString( const VCF::uint32& value );
-
-	/**
-	*converts the value to a string
 	*@param char int the value to convert
 	*@return String the string representation of the char value
 	*/
@@ -186,7 +194,13 @@ public:
 	*/
 	static VCF::String toString( const bool& value );
 
-    static VCF::String toStringFromHexNumber( const uchar& value );
+
+	/**
+	converts the value to an hexadecimal number
+	@param String the value to convert
+	@return int the hexadecimal representation of the String value
+	*/
+	static int fromStringAsHexNumber( const VCF::String& value );
 
 	/**
 	converts the value to an int
@@ -196,26 +210,35 @@ public:
 	static int fromStringAsInt( const VCF::String& value );
 
 	/**
-	converts the value to an int
+	converts the value to an unsigned integer
 	@param String the value to convert
-	@return int the integer representation of the String value
+	@return uint32 the unsigned integer representation of the String value
 	*/
 	static VCF::uint32 fromStringAsUInt( const VCF::String& value );
 
-    static int fromStringAsHexNumber( const VCF::String& value );
 	/**
-	converts the value to an int
+	converts the value to a long
 	@param String the value to convert
-	@return int the integer representation of the String value
+	@return long the long integer representation of the String value
 	*/
-	static char fromStringAsChar( const VCF::String& value );
+	static long fromStringAsLong( const VCF::String& value );
 
 	/**
-	converts the value to an int
+	converts the value to an unsigned long
 	@param String the value to convert
-	@return int the integer representation of the String value
+	@return ulong32 the unsigned long integer representation of the String value
 	*/
-	static short fromStringAsShort( const VCF::String& value );
+	static VCF::ulong32 fromStringAsULong( const VCF::String& value );
+
+	/**
+	converts the value to a 64 bit integer 
+	@param String the value to convert
+	@return ulong64 the 64 bit integer representation of the String value
+	*/
+	static VCF::ulong64 fromStringAsULong64( const VCF::String& value );
+
+
+
 
 	/**
 	converts the value to an int
@@ -236,7 +259,22 @@ public:
 	@param String the value to convert
 	@return int the integer representation of the String value
 	*/
+	static char fromStringAsChar( const VCF::String& value );
+
+	/**
+	converts the value to an int
+	@param String the value to convert
+	@return int the integer representation of the String value
+	*/
+	static short fromStringAsShort( const VCF::String& value );
+
+	/**
+	converts the value to an int
+	@param String the value to convert
+	@return int the integer representation of the String value
+	*/
 	static bool fromStringAsBool( const VCF::String& value );
+
 
 	/**
 	*generates a new UUID and returns the string representation
@@ -253,7 +291,7 @@ public:
 	*</pre>
 	*@return String the name of the class the typeInfo references
 	*/
-	static VCF::String getClassNameFromTypeInfo( const std::type_info& typeInfo  );
+	static VCF::String getClassNameFromTypeInfo( const std::type_info& typeInfo );
 
 	/**
 	Formats a string from date time object using the various argument/formatting
@@ -261,101 +299,101 @@ public:
 	and a formatting string of "%a %B %#d, %Y" will return string that equals
 	"Sunday January 2, 2005". A listing of the possible format codes follows:
 	<table>
-	  <tr>
-	    <td>Format code</td> <td>Meaning</td>
-	  </tr>
-	  <tr>
-	    <td>%%</td>
+		<tr>
+			<td>Format code</td> <td>Meaning</td>
+		</tr>
+		<tr>
+			<td>%%</td>
 		<td>outputs just a "%" character</td>
-	  </tr>
-	  <tr>
-	    <td>%a</td>
+		</tr>
+		<tr>
+			<td>%a</td>
 		<td>Abbreviated weekday name</td>
-	  </tr>
-	  <tr>
-	    <td>%A</td>
+		</tr>
+		<tr>
+			<td>%A</td>
 		<td>Full weekday name</td>
-	  </tr>
-	  <tr>
-	    <td>%b</td>
+		</tr>
+		<tr>
+			<td>%b</td>
 		<td>Abbreviated month name</td>
-	  </tr>
-	  <tr>
-	    <td>%B</td>
+		</tr>
+		<tr>
+			<td>%B</td>
 		<td>Full month name</td>
-	  </tr>
-	  <tr>
-	    <td>%c</td>
+		</tr>
+		<tr>
+			<td>%c</td>
 		<td>Date and time representation appropriate for locale</td>
-	  </tr>
-	  <tr>
-	    <td>%d </td>
+		</tr>
+		<tr>
+			<td>%d </td>
 		<td>Day of month as decimal number (01 – 31)</td>
-	  </tr>
-	  <tr>
-	    <td>%D</td>
+		</tr>
+		<tr>
+			<td>%D</td>
 		<td>Day of the year as decimal number</td>
-	  </tr>
-	  <tr>
-	    <td>%H</td>
+		</tr>
+		<tr>
+			<td>%H</td>
 		<td>Hour in 24-hour format (00 – 23)</td>
-	  </tr>
-	  <tr>
-	    <td>%I</td>
+		</tr>
+		<tr>
+			<td>%I</td>
 		<td>Hour in 12-hour format (01 – 12)</td>
-	  </tr>
-	  <tr>
-	    <td>%j </td>
+		</tr>
+		<tr>
+			<td>%j </td>
 		<td>Day of year as decimal number (001 – 366)</td>
-	  </tr>
-	  <tr>
-	    <td>%m</td>
+		</tr>
+		<tr>
+			<td>%m</td>
 		<td>Month as decimal number (01 – 12) </td>
-	  </tr>
-	  <tr>
-	    <td>%M</td>
+		</tr>
+		<tr>
+			<td>%M</td>
 		<td>Minute as decimal number (00 – 59) </td>
-	  </tr>
-	  <tr>
-	    <td>%p</td>
+		</tr>
+		<tr>
+			<td>%p</td>
 		<td>Current locale's A.M./P.M. indicator for 12-hour clock</td>
-	  </tr>
-	  <tr>
-	    <td>%S</td>
+		</tr>
+		<tr>
+			<td>%S</td>
 		<td>Second as decimal number (00 – 59) </td>
-	  </tr>
-	  <tr>
-	    <td>%U</td>
+		</tr>
+		<tr>
+			<td>%U</td>
 		<td>Week of year as decimal number, with Sunday as first day of week (00 – 53) </td>
-	  </tr>
-	  <tr>
-	    <td>%w</td>
+		</tr>
+		<tr>
+			<td>%w</td>
 		<td>Weekday as decimal number (0 – 6; Sunday is 0) </td>
-	  </tr>
-	  <tr>
-	    <td>%W</td>
+		</tr>
+		<tr>
+			<td>%W</td>
 		<td>Week of year as decimal number, with Monday as first day of week (00 – 53) </td>
-	  </tr>
-	  <tr>
-	    <td>%x</td>
+		</tr>
+		<tr>
+			<td>%x</td>
 		<td>Date representation for current locale</td>
-	  </tr>
-	  <tr>
-	    <td>%X</td>
+		</tr>
+		<tr>
+			<td>%X</td>
 		<td>Time representation for current locale </td>
-	  </tr>
-	  <tr>
-	    <td>%y</td>
+		</tr>
+		<tr>
+			<td>%y</td>
 		<td>Year without century, as decimal number (00 – 99)</td>
-	  </tr>
-	  <tr>
-	    <td>%Y</td>
+		</tr>
+		<tr>
+			<td>%Y</td>
 		<td>Year with century, as decimal number</td>
-	  </tr>
-	  <tr>
-	    <td>%s</td>
+		</tr>
+		<tr>
+			<td>%s</td>
 		<td>millisecond part</td>
-	  </tr>
+		</tr>
 	</table>
 	@param Date the date to use
 	@param String a string with formatting codes in it.
@@ -390,6 +428,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/21 02:06:53  marcelloptr
+*BugFix 985136 cast to (int) and ulong64 and other conversion issues
+*The fromStringAs... functions now throw an exception in case of some errors
+*
 *Revision 1.1.2.7  2004/07/05 01:01:55  marcelloptr
 *added ulong64 ctor, operators and toString conversion
 *

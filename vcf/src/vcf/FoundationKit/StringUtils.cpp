@@ -220,7 +220,7 @@ VCF::String StringUtils::toString( const int& value )
 {
 #ifdef VCF_OSX
 	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_INT_CONVERSION ), value );
 	cfTmp = s;
 	CFRelease( s );
 	return String( cfTmp );
@@ -228,9 +228,29 @@ VCF::String StringUtils::toString( const int& value )
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", value  );
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_INT_CONVERSION, value  );
 	#else
-		swprintf( tmp, L"%d", value );
+		swprintf( tmp, W_STR_INT_CONVERSION, value );
+	#endif
+	return String( tmp );
+#endif
+}
+
+VCF::String StringUtils::toString( const VCF::uint32& value )
+{
+#ifdef VCF_OSX
+	CFTextString cfTmp;
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_UINT_CONVERSION ), value );
+	cfTmp = s;
+	CFRelease( s );
+	return String( cfTmp );
+#else
+	VCFChar tmp[TO_STRING_TXT_SIZE];
+	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+	#ifdef VCF_POSIX
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_UINT_CONVERSION, value  );
+	#else
+		swprintf( tmp, W_STR_UINT_CONVERSION, value );
 	#endif
 	return String( tmp );
 #endif
@@ -240,7 +260,7 @@ VCF::String StringUtils::toString( const long& value )
 {
 #ifdef VCF_OSX
 	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_LONG_CONVERSION ), value );
 	cfTmp = s;
 	CFRelease( s );
 	return String( cfTmp );
@@ -248,13 +268,61 @@ VCF::String StringUtils::toString( const long& value )
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", value  );
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_LONG_CONVERSION, value  );
 	#else
-		swprintf( tmp, L"%d", value );
+		swprintf( tmp, W_STR_LONG_CONVERSION, value );
 	#endif
 	return String( tmp );
 #endif
 
+}
+
+VCF::String StringUtils::toString( const VCF::ulong32& value )
+{
+#ifdef VCF_OSX
+	CFTextString cfTmp;
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_ULONG_CONVERSION ), value );
+	cfTmp = s;
+	CFRelease( s );
+	return String( cfTmp );
+#else
+	VCFChar tmp[TO_STRING_TXT_SIZE];
+	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+	#ifdef VCF_POSIX
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_ULONG_CONVERSION, value  );
+	#else
+		swprintf( tmp, W_STR_ULONG_CONVERSION, value );
+	#endif
+	return String( tmp );
+#endif
+
+}
+
+VCF::String StringUtils::toString( const VCF::ulong64& value )
+{
+#ifdef VCF_OSX
+	CFTextString cfTmp;
+	CFStringRef s;
+	// if ( 0 != valHi )
+	// s = CFStringCreateWithFormat( NULL, NULL, CFSTR( "%lu%lu" ), value.hi(), value.lo() );
+	// would be a wrong implementation
+	s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_ULONG_CONVERSION ), value.lo() );
+	cfTmp = s;
+	CFRelease( s );
+	return String( cfTmp );
+#else
+	VCFChar tmp[TO_STRING_TXT_SIZE];
+	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+	#ifdef VCF_POSIX
+		// if ( 0 != valHi )
+		// swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%lu%lu", value.hi(), value.lo() );
+		// would be a wrong implementation
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_ULONG_CONVERSION, (int)value.lo() );
+	#else
+		swprintf( tmp, L"%I64u", (unsigned __int64)value );
+	#endif
+	return String( tmp );
+#endif
 }
 
 VCF::String StringUtils::toString( const float& value )
@@ -262,7 +330,7 @@ VCF::String StringUtils::toString( const float& value )
 
 #ifdef VCF_OSX
 	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%.5f"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_FLOAT_CONVERSION ), value );
 	cfTmp = s;
 	CFRelease( s );
 
@@ -271,9 +339,9 @@ VCF::String StringUtils::toString( const float& value )
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%.5f", value  );
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_FLOAT_CONVERSION, value  );
 	#else
-		swprintf( tmp, L"%.5f", value );
+		swprintf( tmp, W_STR_FLOAT_CONVERSION, value );
 	#endif
 	return String( tmp );
 #endif
@@ -284,7 +352,7 @@ VCF::String StringUtils::toString( const double& value )
 
 #ifdef VCF_OSX
 	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%.5f"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_DOUBLE_CONVERSION ), value );
 	cfTmp = s;
 	CFRelease( s );
 	return String( cfTmp );
@@ -293,87 +361,9 @@ VCF::String StringUtils::toString( const double& value )
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 
 	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%.5f", value  );
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_DOUBLE_CONVERSION, value  );
 	#else
-		swprintf( tmp, L"%.5f", value );
-	#endif
-	return String( tmp );
-#endif
-}
-
-VCF::String StringUtils::toString( const ulong32& value )
-{
-#ifdef VCF_OSX
-	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
-	cfTmp = s;
-	CFRelease( s );
-	return String( cfTmp );
-#else
-	VCFChar tmp[TO_STRING_TXT_SIZE];
-	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", (int)value );
-	#else
-		swprintf( tmp, L"%d", (int)value );
-	#endif
-	return String( tmp );
-#endif
-}
-
-VCF::String StringUtils::toString( const ulong64& value )
-{
-	/*
-	* this function has been tested only under windows !
-	*/
-
-	ulong32 valHi = value.hi();
-#ifdef VCF_OSX
-	CFTextString cfTmp;
-	CFStringRef s;
-	if ( 0 != valHi ) {
-		s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d%d"), value.hi(), value.lo() );
-	} else {
-		s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value.lo() );
-	}
-	cfTmp = s;
-	CFRelease( s );
-	return String( cfTmp );
-#else
-	VCFChar tmp[TO_STRING_TXT_SIZE];
-	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#ifdef VCF_POSIX
-		if ( 0 != valHi ) {
-			swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d%d", (int)value.hi(), (int)value.lo() );
-		} else {
-			swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", (int)value.lo() );
-		}
-	#else
-		if ( 0 != valHi ) {
-			swprintf( tmp, L"%I64u", (unsigned __int64)value );
-		} else {
-			swprintf( tmp, L"%d", (int)value.lo() );
-		}
-	#endif
-	return String( tmp );
-#endif
-}
-
-VCF::String StringUtils::toString( const uint32& value )
-{
-#ifdef VCF_OSX
-	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
-	cfTmp = s;
-	CFRelease( s );
-	return String( cfTmp );
-#else
-	VCFChar tmp[TO_STRING_TXT_SIZE];
-	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", value  );
-	#else
-		swprintf( tmp, L"%d", value );
+		swprintf( tmp, W_STR_DOUBLE_CONVERSION, value );
 	#endif
 	return String( tmp );
 #endif
@@ -383,7 +373,7 @@ VCF::String StringUtils::toString( const char& value )
 {
 #ifdef VCF_OSX
 	CFTextString cfTmp;
-	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%c"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR( STR_CHAR_CONVERSION ), value );
 	cfTmp = s;
 	CFRelease( s );
 	return String( cfTmp );
@@ -392,9 +382,9 @@ VCF::String StringUtils::toString( const char& value )
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 
 	#ifdef VCF_POSIX
-		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%c", value  );
+		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_CHAR_CONVERSION, value  );
 	#else
-		swprintf( tmp, L"%c", value );
+		swprintf( tmp, W_STR_CHAR_CONVERSION, value );
 	#endif
 	return String( tmp );
 #endif
@@ -533,13 +523,49 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 	return result;
 }
 
+#ifdef VCF_OSX
+// routine to check if it is a real error
+// if your Mac code is brocken, please fix this !
+// What about using sscanf ?
+void check_true_error( const VCF::String& value )
+{
+	if ( 0 == value ) {
+		bool error = false;
+		int len = value.size();
+		if ( 0 == len ) {
+			error = true;
+		} else {
+			VCFChar c = value[0];
+			if ( CFSTR( "0" ) != c ) {
+				if ( CFSTR( "+" ) == c || CFSTR( "-" ) == c ) {
+					if ( CFSTR( "0" ) != value[1] ) {
+						error = true;
+					}
+				} else {
+					error = true;
+				}
+			}
+		}
+		if ( error ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
+	}
+}
+#endif
+
 int StringUtils::fromStringAsHexNumber( const VCF::String& value )
 {
 	int result = 0;
 	#ifdef VCF_OSX
-		sscanf( value.ansi_c_str(), "%X", &result );
+		int ret = sscanf( value.ansi_c_str(), "%X", &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
 	#else
-		swscanf( value.c_str(), L"%X", &result );
+		int ret = swscanf( value.c_str(), L"%X", &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
 	#endif
 	return result;
 }
@@ -553,8 +579,16 @@ int StringUtils::fromStringAsInt( const VCF::String& value )
 		tmp = value;
 
 		result = CFStringGetIntValue( tmp );
+		if ( 0 == result ) {
+			check_true_error( tmp );
+		} else if ( INT_MIN == result || INT_MAX == result ) {
+			throw BasicException( L"Overflow - Unable to convert: " + value );
+		}
 	#else
-		swscanf( value.c_str(), W_STR_INT_CONVERSION, &result );
+		int ret = swscanf( value.c_str(), W_STR_INT_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
 	#endif
 	return result;
 }
@@ -563,11 +597,120 @@ VCF::uint32 StringUtils::fromStringAsUInt( const VCF::String& value )
 {
 	uint32 result = 0;
 	#ifdef VCF_OSX
-			CFTextString tmp;
-			tmp = value;
-			result = CFStringGetIntValue( tmp );
+		CFTextString tmp;
+		tmp = value;
+		result = CFStringGetIntValue( tmp );
+		if ( 0 == result ) {
+			check_true_error( tmp );
+		} else if ( INT_MIN == result || INT_MAX == result ) {
+			throw BasicException( L"Overflow - Unable to convert: " + value );
+		}
 	#else
-		swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &result );
+		int ret = swscanf( value.c_str(), W_STR_UINT_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
+	#endif
+	return result;
+}
+
+long StringUtils::fromStringAsLong( const VCF::String& value )
+{
+	uint32 result = 0;
+	#ifdef VCF_OSX
+		CFTextString tmp;
+		tmp = value;
+		result = CFStringGetIntValue( tmp );
+		if ( 0 == result ) {
+			check_true_error( tmp );
+		} else if ( INT_MIN == result || INT_MAX == result ) {
+			throw BasicException( L"Overflow - Unable to convert: " + value );
+		}
+	#else
+		int ret = swscanf( value.c_str(), W_STR_LONG_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
+	#endif
+	return result;
+}
+
+VCF::ulong32 StringUtils::fromStringAsULong( const VCF::String& value )
+{
+	uint32 result = 0;
+	#ifdef VCF_OSX
+		CFTextString tmp;
+		tmp = value;
+		result = CFStringGetIntValue( tmp );
+		if ( 0 == result ) {
+			check_true_error( tmp );
+		} else if ( INT_MIN == result || INT_MAX == result ) {
+			throw BasicException( L"Overflow - Unable to convert: " + value );
+		}
+	#else
+		int ret = swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
+	#endif
+	return result;
+}
+
+VCF::ulong64 StringUtils::fromStringAsULong64( const VCF::String& value )
+{
+	uint32 result = 0;
+	#ifdef VCF_OSX
+		CFTextString tmp;
+		tmp = value;
+		result = CFStringGetIntValue( tmp );
+		if ( 0 == result ) {
+			check_true_error( tmp );
+		} else if ( INT_MIN == result || INT_MAX == result ) {
+			throw BasicException( L"Overflow - Unable to convert: " + value );
+		}
+	#else
+		int ret = swscanf( value.c_str(), L"%I64u", &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
+	#endif
+	return result;
+}
+
+float StringUtils::fromStringAsFloat( const VCF::String& value )
+{
+	float result = 0;
+	#ifdef VCF_OSX
+		CFTextString tmp;
+		tmp = value;
+		result = (float)CFStringGetDoubleValue( tmp );
+		if ( 0.0 == result ) {
+			check_true_error( tmp );
+		}
+	#else
+		int ret = swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
+	#endif
+	return result;
+}
+
+double StringUtils::fromStringAsDouble( const VCF::String& value )
+{
+	float result = 0;
+	#ifdef VCF_OSX
+		CFTextString tmp;
+		tmp = value;
+		result = CFStringGetDoubleValue( tmp );
+		if ( 0.0 == result ) {
+			check_true_error( tmp );
+		}
+	#else
+		int ret = swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
 	#endif
 	return result;
 }
@@ -578,7 +721,10 @@ char StringUtils::fromStringAsChar( const VCF::String& value )
 	#ifdef VCF_OSX
 		sscanf( value.ansi_c_str(), STR_CHAR_CONVERSION, &result );
 	#else
-		swscanf( value.c_str(), W_STR_CHAR_CONVERSION, &result );
+		int ret = swscanf( value.c_str(), W_STR_CHAR_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
 	#endif
 
 	return result;
@@ -592,45 +738,22 @@ short StringUtils::fromStringAsShort( const VCF::String& value )
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
 	#else
-		swscanf( value.c_str(), W_STR_SHORT_CONVERSION, &result );
+		int ret = swscanf( value.c_str(), W_STR_SHORT_CONVERSION, &result );
+		if ( ret != 1 ) {
+			throw BasicException( L"Unable to convert: " + value );
+		}
 	#endif
 	return (short)result;
-}
-
-float StringUtils::fromStringAsFloat( const VCF::String& value )
-{
-	float result = 0;
-	#ifdef VCF_OSX
-		CFTextString tmp;
-		tmp = value;
-		result = (float)CFStringGetDoubleValue( tmp );
-	#else
-		swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result );
-	#endif
-	return result;
-}
-
-double StringUtils::fromStringAsDouble( const VCF::String& value )
-{
-	float result = 0;
-	#ifdef VCF_OSX
-		CFTextString tmp;
-		tmp = value;
-		result = CFStringGetDoubleValue( tmp );
-	#else
-		swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result );
-	#endif
-	return result;
 }
 
 bool StringUtils::fromStringAsBool( const VCF::String& value )
 {
 	bool result = false;
 	if ( value == W_STR_BOOL_CONVERSION_TRUE ){
-	result = true;
+		result = true;
 	}
 	else if ( value == W_STR_BOOL_CONVERSION_FALSE ){
-	result = false;
+		result = false;
 	}
 
 	return result;
@@ -1326,6 +1449,10 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.13  2004/07/21 02:06:53  marcelloptr
+*BugFix 985136 cast to (int) and ulong64 and other conversion issues
+*The fromStringAs... functions now throw an exception in case of some errors
+*
 *Revision 1.1.2.12  2004/07/05 01:01:51  marcelloptr
 *added ulong64 ctor, operators and toString conversion
 *
