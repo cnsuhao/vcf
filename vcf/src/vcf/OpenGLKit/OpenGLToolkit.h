@@ -35,7 +35,7 @@ class OpenGLPeer;
 
 class GraphicsContext;
 
-class GRAPHICSKIT_API OpenGLToolkit{
+class OPENGLKIT_API OpenGLToolkit{
 public:
 	static OpenGLPeer* createOpenGLPeer(GraphicsContext *context);
 };

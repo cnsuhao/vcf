@@ -37,9 +37,7 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/Circle.h"
 #include "vcf/GraphicsKit/Font.h"
 #include "vcf/GraphicsKit/FontPeer.h"
-#include "vcf/ApplicationKit/OpenGLPeer.h"
 
-//#include "OpenGLContext.h"
 #include "vcf/GraphicsKit/ImageEvent.h"
 #include "vcf/GraphicsKit/PrintContext.h"
 #include "vcf/GraphicsKit/Printable.h"
@@ -84,6 +82,12 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.3  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

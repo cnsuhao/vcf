@@ -93,14 +93,6 @@ FontPeer* Win32GraphicsToolkit::internal_createFontPeer( const String& fontName,
 	return new Win32Font( fontName, pointSize );
 }
 
-OpenGLPeer* Win32GraphicsToolkit::internal_createOpenGLPeer( GraphicsContext* glContext )
-{
-#ifdef VCF_OPENGL
-	return new Win32OpenGLPeer( glContext );
-#else
-	return NULL;
-#endif
-}
 
 Image* Win32GraphicsToolkit::internal_createImage( const unsigned long& width, const unsigned long& height )
 {
@@ -199,6 +191,12 @@ void Win32GraphicsToolkit::loadSystemColors()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -1,6 +1,12 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.1  2004/04/29 15:38:12  pallindo
 *Initial attempt at an OpenGLKit
 *
@@ -64,7 +70,7 @@
 
 namespace VCF {
 
-class OpenGLPeer {
+class  OPENGLKIT_API OpenGLPeer {
 
 public:
 	OpenGLPeer(){};

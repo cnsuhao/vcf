@@ -70,10 +70,6 @@ FontPeer* GraphicsToolkit::createFontPeer( const String& fontName, const double&
 	return GraphicsToolkit::graphicsToolkitInstance->internal_createFontPeer( fontName, pointSize );
 }
 
-OpenGLPeer* GraphicsToolkit::createOpenGLPeer( GraphicsContext* glContext )
-{
-	return GraphicsToolkit::graphicsToolkitInstance->internal_createOpenGLPeer( glContext );
-}
 
 Image* GraphicsToolkit::createImage( const unsigned long& width, const unsigned long& height )
 {
@@ -1340,6 +1336,12 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

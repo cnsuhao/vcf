@@ -258,6 +258,9 @@ Package=<4>
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name MVCBasics
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Processes
     End Project Dependency
     Begin Project Dependency
@@ -520,6 +523,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Localization"="./Localization/Localization_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MVCBasics"="./MVCBasics/MVCBasics_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
