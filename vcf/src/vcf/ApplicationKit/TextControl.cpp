@@ -232,6 +232,7 @@ void TextControl::handleEvent( Event* event )
 		case Control::KEYBOARD_DOWN : case Control::KEYBOARD_PRESSED : {
 			//do not process any events during design mode
 			if ( isDesigning() ) {
+				Control::handleEvent( event );
 				return;
 			}
 
@@ -527,6 +528,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/03/21 04:35:45  ddiego
+*updates
+*
 *Revision 1.3.2.7  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *
