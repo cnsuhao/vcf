@@ -87,6 +87,8 @@ Source: ..\..\docs\VCFSrcDocs.VCF-VERSION.chi; DestDir: {app}\docs; Components: 
 Source: ..\..\thirdparty\win32\MSDNIntegrator\MSDNIntegrator.exe; DestDir: {app}
 Source: D:\Program Files\ISTool 4\psvince.dll; Flags: dontcopy
 Source: ..\..\build\resources\win32\vcf.ico; DestDir: {app}
+Source: ..\..\lib\libAGG_vc6_s.lib; DestDir: {app}\lib; Components: Binaries
+Source: ..\..\lib\libAGG_vc6_sd.lib; DestDir: {app}\lib; Components: Binaries
 
 [Setup]
 OutputDir=..\..\uploadToSF

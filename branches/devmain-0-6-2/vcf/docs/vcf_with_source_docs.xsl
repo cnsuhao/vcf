@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.2.4.3  2003/12/17 05:11:56  ddiego
+minors mods, mostly to support chnages to the installer and some
+problems with the html help docs abnd MSDN integration
+
 Revision 1.2.4.2  2003/12/16 03:47:44  ddiego
 some changes to documentation and a few minor changes to class wiz's
 
@@ -53,7 +57,7 @@ generation
  
 	 <xsl:import href="vcf.xsl"/>
 
-	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="1"/>
+	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="0"/>
 	<xsl:param name="htmlhelp.hhc.binary" select="1"/>
 	<xsl:param name="htmlhelp.hhp" select="'vcf-docbook-with-src.hhp'"></xsl:param>
 
