@@ -408,6 +408,9 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2004/06/05 01:18:41  marcelloptr
+*moved some files to the directory where they logically belong
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
