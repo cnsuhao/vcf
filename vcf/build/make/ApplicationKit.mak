@@ -99,7 +99,6 @@ ListViewControl.cpp \
 Menu.cpp \
 MenuBar.cpp \
 MenuItemEvent.cpp \
-MenuItemShortcut.cpp \
 MessageDialog.cpp \
 Model.cpp \
 MouseEvent.cpp \
