@@ -365,10 +365,6 @@ SOURCE=..\..\..\include\core\MessageDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\ModelViewKit.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\MultilineTextControl.h
 # End Source File
 # Begin Source File
@@ -458,6 +454,10 @@ SOURCE=..\..\..\include\implementer\TreePeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\UIMetricsManager.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\UIPolicyManager.h
 # End Source File
 # Begin Source File
 
@@ -1247,6 +1247,10 @@ SOURCE=..\..\..\include\core\AbstractListModel.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\AbstractModel.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\AbstractTableModel.cpp
 # End Source File
 # Begin Source File
@@ -1383,6 +1387,22 @@ SOURCE=..\..\..\include\core\DefaultTreeModel.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\DocManagerPolicy.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Document.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DocumentManager.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DocumentManager.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\ListItem.h
 # End Source File
 # Begin Source File
@@ -1396,6 +1416,10 @@ SOURCE=..\..\..\src\core\Model.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Model.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\ModelViewKit.h
 # End Source File
 # Begin Source File
 
