@@ -149,10 +149,9 @@ void Win32Font::init()
 	if ( NULL == dc ) {
 		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
 	}
-
 	
 
-	if ( pointSize_ > 0.0 ) {
+	if ( pointSize_ > 0.0 ) {		
 		fontHeight = -MulDiv( pointSize_, GetDeviceCaps( dc, LOGPIXELSY), 72 );
 	}
 
@@ -346,12 +345,16 @@ void Win32Font::setPointSize( const double pointSize )
 		Win32FontManager::removeFont( this );
 	}
 
+	if ( isTrueType() ) {
+		lfHeight = -lfHeight;
+	}
+
 	if ( System::isUnicodeEnabled() ) {
-		((LOGFONTW*)logFont_)->lfHeight = -lfHeight;
+		((LOGFONTW*)logFont_)->lfHeight = lfHeight;
 		((LOGFONTW*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 	else {
-		((LOGFONTA*)logFont_)->lfHeight = -lfHeight;
+		((LOGFONTA*)logFont_)->lfHeight = lfHeight;
 		((LOGFONTA*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 
@@ -381,6 +384,8 @@ void Win32Font::setPixelSize( const double pixelSize )
 {
 	bool needsUpdate = false;
 
+	double pixSize = pixelSize;
+
 	if ( System::isUnicodeEnabled() ) {
 		needsUpdate = (pixelSize != ((LOGFONTW*)logFont_)->lfHeight);
 	}
@@ -392,12 +397,16 @@ void Win32Font::setPixelSize( const double pixelSize )
 		Win32FontManager::removeFont( this );
 	}
 
+	if ( isTrueType() ) {
+		pixSize = -pixelSize;
+	}
+
 	if ( System::isUnicodeEnabled() ) {
-		((LOGFONTW*)logFont_)->lfHeight = -pixelSize;
+		((LOGFONTW*)logFont_)->lfHeight = pixSize;
 		((LOGFONTW*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 	else {
-		((LOGFONTA*)logFont_)->lfHeight = -pixelSize;
+		((LOGFONTA*)logFont_)->lfHeight = pixSize;
 		((LOGFONTA*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 
@@ -756,6 +765,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/26 00:27:49  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
 *Revision 1.2.2.2  2004/08/24 04:29:58  ddiego
 *more printing work, still not yet integrated.
 *
