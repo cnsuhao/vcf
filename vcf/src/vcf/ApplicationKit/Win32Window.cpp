@@ -40,7 +40,7 @@ Win32Window::~Win32Window()
 
 void Win32Window::create( Control* owningControl )
 {
-	styleMask_ = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
+	styleMask_ = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
 
 	String className = getClassName();
 
@@ -585,6 +585,9 @@ void Win32Window::setIconImage( Image* icon )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/01 20:53:43  ddiego
+*minor fix in WS_XXX styles
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

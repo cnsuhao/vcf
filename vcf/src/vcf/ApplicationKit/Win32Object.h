@@ -17,7 +17,7 @@ where you installed the VCF.
 namespace VCF
 {
 
-#define SIMPLE_VIEW				WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
+#define SIMPLE_VIEW				WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPED
 #define BORDERED_VIEW			WS_CHILD | WS_BORDER | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 #define SIMPLE_DIALOG			WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 #define FRAME_WINDOW			WS_OVERLAPPEDWINDOW
@@ -103,6 +103,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/01 20:53:43  ddiego
+*minor fix in WS_XXX styles
+*
 *Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
