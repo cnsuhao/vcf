@@ -40,7 +40,7 @@ macro so that we'll export/import classes as needed for
 dll builds.
 */
 #ifdef _MSC_VER
-  #ifdef BUILD_OPENGLKIT_LIB
+  #ifndef OPENGLKIT_DLL
     #define OPENGLKIT_API
   #else
     #ifdef OPENGLKIT_EXPORTS
