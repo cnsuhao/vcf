@@ -1857,12 +1857,7 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 	else if ( !ctxFont->isTrueType() ) {
 		charSet = DEFAULT_CHARSET;
 	}
-	else {
-
-		/**
-		This doesn't seem to make any difference, other than to 
-		make thefont really small. Need to figure out why!!!
-		*/
+	else {	
 
 		LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
 		WORD langID = LANGIDFROMLCID( lcid );
@@ -2106,6 +2101,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/31 21:12:07  ddiego
+*graphice save and restore state
+*
 *Revision 1.2.2.2  2004/08/31 04:12:13  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out
