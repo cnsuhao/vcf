@@ -80,7 +80,7 @@ MainWindow::MainWindow(CombosApplication* app)
 	btn = new CommandButton();
 	btn->setBounds ( &Rect(100, 20, 200, 55) );
 	btn->setCaption( "Set DropDown Count" );
-	bh = new ButtonEventHandler<MainWindow>( this, MainWindow::onSetDropDownCount, "MainWindow::onSetDropDownCount" );
+	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetDropDownCount, "MainWindow::onSetDropDownCount" );
 	btn->addButtonClickHandler( bh );
 	add( btn );
 
@@ -94,7 +94,7 @@ MainWindow::MainWindow(CombosApplication* app)
 	btn = new CommandButton();
 	btn->setBounds ( &Rect(100, 75, 200, 100) );
 	btn->setCaption( "Set Items count" );
-	bh = new ButtonEventHandler<MainWindow>( this, MainWindow::onSetComboItemCount, "MainWindow::onSetComboItemCount" );
+	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetComboItemCount, "MainWindow::onSetComboItemCount" );
 	btn->addButtonClickHandler( bh );
 	add( btn );
 
@@ -108,7 +108,7 @@ MainWindow::MainWindow(CombosApplication* app)
 	btn = new CommandButton();
 	btn->setBounds ( &Rect(100, 125, 200, 160) );
 	btn->setCaption( "Set DropDown Width" );
-	bh = new ButtonEventHandler<MainWindow>( this, MainWindow::onSetDropDownWidth, "MainWindow::onSetDropDownWidth" );
+	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetDropDownWidth, "MainWindow::onSetDropDownWidth" );
 	btn->addButtonClickHandler( bh );
 	add( btn );
 
@@ -118,7 +118,7 @@ MainWindow::MainWindow(CombosApplication* app)
 	chkDropDownExtendFullScreen_->setToolTipText( "allow the dropdown list of the combo to extend to the full screen" );
 	chkDropDownExtendFullScreen_->setBounds ( &Rect(25, 175, 225, 200) );
 	chkDropDownExtendFullScreen_->setTabStop( true );
-	bh = new ButtonEventHandler<MainWindow>( this, MainWindow::onSetDropDownExtendFullScreen, "MainWindow::onSetDropDownExtendFullScreen" );
+	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetDropDownExtendFullScreen, "MainWindow::onSetDropDownExtendFullScreen" );
 	chkDropDownExtendFullScreen_->addButtonClickHandler( bh );
 	add( chkDropDownExtendFullScreen_ );
 
@@ -129,7 +129,7 @@ MainWindow::MainWindow(CombosApplication* app)
 	chkDiscreteScroll_->setToolTipText( "allow the dropdown list of the combo to be scrolled only by discrete quantities" );
 	chkDiscreteScroll_->setBounds ( &Rect(25, 215, 225, 240) );
 	chkDiscreteScroll_->setTabStop( true );
-	bh = new ButtonEventHandler<MainWindow>( this, MainWindow::onSetDiscreteScroll, "MainWindow::onSetDiscreteScroll" );
+	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetDiscreteScroll, "MainWindow::onSetDiscreteScroll" );
 	chkDiscreteScroll_->addButtonClickHandler( bh );
 	add( chkDiscreteScroll_ );
 }
