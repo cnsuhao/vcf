@@ -290,7 +290,7 @@ protected:
 	ListItem* selectedItem_;
 	ulong32 selectedIndex_;
 	bool arrowPressed_;
-	Rect arrowRect_;
+	//Rect arrowRect_;
 	Rect viewRect_;
 	bool mouseOver_;
 	ComboBoxStyleType comboBoxStyle_;
@@ -314,6 +314,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2004/12/20 21:58:00  ddiego
+*committing cheeseheads patches for the combobox control.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

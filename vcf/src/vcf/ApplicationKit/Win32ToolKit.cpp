@@ -414,14 +414,14 @@ public:
 
 			case UIMetricsManager::htComboBoxHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				Point pt = DLUToPixel( Point(0,14), f );
+				Point pt = DLUToPixel( Point(0,12), f );
 				result = pt.y_;				
 			}
 			break;
 
 			case UIMetricsManager::htListItemHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				Point pt = DLUToPixel( Point(0,14), f );
+				Point pt = DLUToPixel( Point(0,9), f );
 				result = pt.y_;
 			}
 			break;
@@ -430,7 +430,7 @@ public:
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
 				result = (f.getHeight() * 1.75) + 2.50;
 
-				Point pt = DLUToPixel( Point(0,15), f );
+				Point pt = DLUToPixel( Point(0,14), f );
 				result = pt.y_;
 			}
 			break;
@@ -2093,6 +2093,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/20 21:58:00  ddiego
+*committing cheeseheads patches for the combobox control.
+*
 *Revision 1.3.2.1  2004/12/19 07:09:18  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.
