@@ -230,6 +230,37 @@ this define is to fix:
 
 
 
+#if defined (_MSC_VER) || defined (__DMC__) || defined (__GNUWIN32__)
+  // when we use USE_FOUNDATIONKIT_DLL we always want FOUNDATIONKIT_DLL
+	// and we save a MACRO defines at the same time.
+	// Nevertheless USE_FOUNDATIONKIT_DLL cannot replace FOUNDATIONKIT_DLL
+
+	#ifdef USE_FOUNDATIONKIT_DLL
+	# ifndef FOUNDATIONKIT_DLL
+	#		define FOUNDATIONKIT_DLL
+	# endif
+	#endif
+
+	#ifdef USE_GRAPHICSKIT_DLL
+	# ifndef GRAPHICSKIT_DLL
+	#		define GRAPHICSKIT_DLL
+	# endif
+	#endif
+
+	#ifdef USE_APPLICATIONKIT_DLL
+	# ifndef APPLICATIONKIT_DLL
+	#		define APPLICATIONKIT_DLL
+	# endif
+	#endif
+
+	#ifdef USE_NETKIT_DLL
+	# ifndef NETKIT_DLL
+	#		define NETKIT_DLL
+	# endif
+	#endif
+
+#endif
+
 
 
 #ifdef _MSC_VER //we are compiling with Microsoft's Visual C++ compiler
@@ -294,7 +325,10 @@ this define is to fix:
 	#else
 		#define NETKIT_API
 	#endif //NETKIT_DLL
+
+
 #elif __DMC__
+
 	#define _typename_
 	#ifdef FOUNDATIONKIT_DLL
 		#if defined(FOUNDATIONKIT_EXPORTS)
@@ -347,7 +381,9 @@ this define is to fix:
 		#define NETKIT_API
 	#endif //NETKIT_DLL
 
+
 #elif __GNUWIN32__
+
 	#ifdef FOUNDATIONKIT_DLL
 		#if defined(FOUNDATIONKIT_EXPORTS)
 			#define FOUNDATIONKIT_API __declspec(dllexport)
@@ -398,11 +434,15 @@ this define is to fix:
 	#else
 		#define NETKIT_API
 	#endif //NETKIT_DLL
+
+
 #else
+
 	#define FOUNDATIONKIT_API
 	#define GRAPHICSKIT_API
 	#define APPLICATIONKIT_API
 	#define NETKIT_API
+
 #endif //_MSC_VER
 
 
@@ -420,6 +460,9 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/29 03:17:41  marcelloptr
+*minor fixes on import/export library macros
+*
 *Revision 1.1.2.4  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
