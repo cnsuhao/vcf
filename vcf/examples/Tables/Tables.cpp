@@ -16,23 +16,28 @@ public:
 		setCaption( "Tables" );
 		setVisible( true );
 
-
 		TableControl* table = new TableControl();
 
 		add( table, AlignClient );
 
 		TableModel* model = table->getTableModel();
 
-		model->addColumns( 18 );
-		model->addRows(88);
+		model->empty();
+
+		model->addColumns( 2 );
+		model->addRows(12);
 		model->setFixedRowsCount( 1 );
 		model->setFixedColumnsCount( 1 );
 
-		for (int y=0;y<88;y++ ){
-			for ( int x=0;x<18;x++ ) {
+		for (int y=0;y<model->getRowCount();y++ ){
+			for ( int x=0;x<model->getColumnCount();x++ ) {
 				model->getItem( y, x )->setCaption( StringUtils::format( "Cell [%d,%d]", y, x ) );
 			}
 		}
+
+
+
+		table->setAllowFixedRowSelection( false );
 
 	}
 
