@@ -351,12 +351,17 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			RECT r;
 			GetClientRect( hwnd_, &r );
 
+			HDC memDC = doControlPaint( dc, r, NULL, cpControlOnly );
+			
+
+			/*
 			if ( NULL == memDC_ ) {
 				//create here
 				HDC dc = ::GetDC(0);
 				memDC_ = ::CreateCompatibleDC( dc );
 				::ReleaseDC( 0,	dc );
 			}
+
 			memBMP_ = ::CreateCompatibleBitmap( dc,
 					r.right - r.left,
 					r.bottom - r.top );
@@ -378,12 +383,14 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				
 
 			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
+			*/
 
 			
-			defaultWndProcedure( WM_PAINT, (WPARAM)memDC_, 0 );
+			defaultWndProcedure( WM_PAINT, (WPARAM)memDC, 0 );
 
 			
 
+			/*
 			::BitBlt( dc, r.left, r.top,
 					  r.right - r.left,
 					  r.bottom - r.top,
@@ -391,7 +398,9 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			::RestoreDC ( memDC_, memDCState_ );
 			
 			::DeleteObject( memBMP_ );
+			*/
 			
+			updatePaintDC( dc, r, NULL );
 
 			EndPaint( hwnd_, &ps );
 			
@@ -728,6 +737,8 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case NM_CUSTOMDRAW:{
+			static Rect itemRect;
+
 			NMTVCUSTOMDRAW__* treeViewDraw = (NMTVCUSTOMDRAW__*)lParam;
 			if ( NULL != treeViewDraw )	{
 				switch ( treeViewDraw->nmcd.dwDrawStage ) {
@@ -738,7 +749,16 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					break;
 
 					case CDDS_ITEMPREPAINT : {
-						
+						RECT r;
+						TreeView_GetItemRect( hwnd_, 
+											(HTREEITEM) treeViewDraw->nmcd.dwItemSpec,
+											&r, TRUE );
+
+						itemRect.left_ = r.left;
+						itemRect.top_ = r.top;
+						itemRect.right_ = r.right;
+						itemRect.bottom_ = r.bottom;
+
 						wndProcResult = CDRF_NOTIFYPOSTPAINT;
 						result = true;
 					}
@@ -753,11 +773,14 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 							std::map<TreeItem*,HTREEITEM>::iterator found =
 								treeItems_.find( item );
 							if ( found != treeItems_.end() ){
-								Rect itemRect;
-								itemRect.left_ = treeViewDraw->nmcd.rc.left;
-								itemRect.top_ = treeViewDraw->nmcd.rc.top;
-								itemRect.right_ = treeViewDraw->nmcd.rc.right;
-								itemRect.bottom_ = treeViewDraw->nmcd.rc.bottom;
+								
+								//itemRect.left_ = treeViewDraw->nmcd.rc.left;
+								//itemRect.top_ = treeViewDraw->nmcd.rc.top;
+								//itemRect.right_ = treeViewDraw->nmcd.rc.right;
+								//itemRect.bottom_ = treeViewDraw->nmcd.rc.bottom;
+								
+							}
+							if ( item->canPaint() ) {
 								item->paint( peerControl_->getContext(), &itemRect );
 							}
 						}
@@ -1222,6 +1245,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/07 03:57:04  ddiego
+*misc tree control update
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

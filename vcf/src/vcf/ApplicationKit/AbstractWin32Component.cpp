@@ -372,24 +372,28 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 								exclusionRect->right, exclusionRect->bottom );
 				}
 
+				GraphicsContext* paintCtx = ctx->getDrawingArea()->getImageContext();
+				int gcs = paintCtx->saveState();
+
 				switch( whatToPaint ) {
 					case cpBorderOnly : {
-						peerControl_->paintBorder( ctx->getDrawingArea()->getImageContext() );
+						peerControl_->paintBorder( paintCtx );
 					}
 					break;
 
 					case cpControlOnly : {
-						peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+						peerControl_->paint( paintCtx );
 
 					}
 					break;
 
 					case cpBorderAndControl : {
-						peerControl_->paintBorder( ctx->getDrawingArea()->getImageContext() );
-						peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+						peerControl_->paintBorder( paintCtx );
+						peerControl_->paint( paintCtx );
 					}
 					break;
-				}				
+				}
+				paintCtx->restoreState( gcs );
 			}
 			ctx->flushDrawingArea();
 
@@ -429,6 +433,8 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
 			
+			int gcs = ctx->saveState();
+
 			switch( whatToPaint ) {
 				case cpBorderOnly : {
 					peerControl_->paintBorder( ctx );
@@ -448,6 +454,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 				break;
 			}
 
+			ctx->restoreState( gcs );
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 
@@ -476,6 +483,8 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 								exclusionRect->right, exclusionRect->bottom );
 			}
 			
+			int gcs = ctx->saveState();
+
 			switch( whatToPaint ) {
 				case cpBorderOnly : {
 					peerControl_->paintBorder( ctx );
@@ -494,6 +503,8 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 				}
 				break;
 			}
+
+			ctx->restoreState( gcs );
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 			
@@ -1293,7 +1304,7 @@ LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 	ReleaseDC(hwnd_, hdc);
 
 	
-	return 1;
+	return 0;
 }
 
 LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
@@ -1338,12 +1349,15 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 
 	defaultWndProcedure( WM_NCCALCSIZE, wParam, lParam );
 
-	return 1;
+	return 0;
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/07 03:57:04  ddiego
+*misc tree control update
+*
 *Revision 1.2.2.4  2004/09/06 21:30:19  ddiego
 *added a separate paintBorder call to Control class
 *
