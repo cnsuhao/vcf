@@ -12,35 +12,6 @@ where you installed the VCF.
 
 using namespace VCF;
 
-VCF::Point::Point( const double & x, const double & y )
-{
-	init();
-	this->x_ = x;
-	this->y_ = y;
-}
-
-VCF::Point::Point()
-{
-	init();
-}
-
-void VCF::Point::init()
-{
-	this->x_ = 0.0;
-	this->y_ = 0.0;
-}
-
-bool VCF::Point::closeTo( const double& x, const double& y, const double& tolerance )
-{
-	bool result = false;
-	result = (::fabs(x_ - x) <= tolerance) && (::fabs(y_ - y) <= tolerance);
-	return result;
-}
-
-bool VCF::Point::closeTo( const VCF::Point& pt, const double& tolerance )
-{
-	return this->closeTo( pt.x_, pt.y_, tolerance );
-}
 
 String VCF::Point::toString() const
 {
@@ -55,7 +26,7 @@ String VCF::Point::toString() const
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2004/10/26 05:43:00  marcelloptr
+*Revision 1.2.2.2  2004/10/26 06:12:16  marcelloptr
 *bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
 *
 *Revision 1.2  2004/08/07 02:49:18  ddiego

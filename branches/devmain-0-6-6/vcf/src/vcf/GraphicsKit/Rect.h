@@ -179,19 +179,6 @@ public:
 	*/
 	Rect makeUnion( const Rect* rect );
 
-	virtual String toString() const;
-
-	/**
-	*writes the object to the specified output stream
-	*/
-	virtual void saveToStream( OutputStream * stream );
-
-	/**
-	*reads the object from the specified input stream
-	*/
-	virtual void loadFromStream( InputStream * stream );
-
-
 	Point getTopLeft(void) const;
 	Point getTopRight(void) const;
 	Point getBottomLeft(void) const;
@@ -205,7 +192,7 @@ public:
 
 	/**
 	*tells if the point lay within this rectangle's coordinates
-	*Any point on the top or on the left border of hte rectangle 
+	*Any point on the top or on the left border of the rectangle 
 	*is considered inside the rectangle.
 	*@return bool, true if the point is within the rectangle's coordinates,
 	*otherwise false
@@ -214,7 +201,9 @@ public:
 
 	/**
 	*tells if the point lay within this rectangle's coordinates
-	*a given tolerance is admitted in order to consider the point inside the rectangle
+	*a given tolerance is admitted in order to consider the point inside the rectangle.
+	*Again any point on the top or on the left border of the rectangle 
+	*within the given tolerance is considered inside the rectangle.
 	*/
 	bool containsPtCloseTo( Point* point, const double& tolerance ) const;
 
@@ -283,6 +272,21 @@ public:
 	Rect operator* (const double d) const;
 	Rect operator/ (const double d) const;
 
+
+	/**
+	*returns a String giving the infos about this Rect instance.
+	*/
+	virtual String toString() const;
+
+	/**
+	*writes the object to the specified output stream
+	*/
+	virtual void saveToStream( OutputStream * stream );
+
+	/**
+	*reads the object from the specified input stream
+	*/
+	virtual void loadFromStream( InputStream * stream );
 
 
 	/**
@@ -607,7 +611,7 @@ inline Rect Rect::operator/ (const double d) const {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2004/10/26 05:43:00  marcelloptr
+*Revision 1.2.2.2  2004/10/26 06:12:16  marcelloptr
 *bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
 *
 *Revision 1.2  2004/08/07 02:49:18  ddiego
@@ -683,7 +687,7 @@ inline Rect Rect::operator/ (const double d) const {
 *
 *Revision 1.16.2.1  2003/05/30 04:13:10  ddiego
 *added the commandLine class
-*changed the intialization functions for teh FoundationKit, GraphicsKit, and
+*changed the intialization functions for the FoundationKit, GraphicsKit, and
 *ApplicationKit to take command line parameters
 *FoundationKit now allows you to retreive the commandline (it's stored)
 *start up has changed from appMain() to main()
