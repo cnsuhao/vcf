@@ -1247,10 +1247,11 @@ void GraphicsContext::flushDrawingArea()
 	}
 	else {
 
-		drawingArea_->getImageBits()->renderBuffer_->clip_box( agg::rect( viewableBounds_.left_,
-																			viewableBounds_.top_,
-																			viewableBounds_.right_,
-																			viewableBounds_.bottom_ ) );
+		//FIXME!!!!!!!
+		//drawingArea_->getImageBits()->renderBuffer_->clip_box( agg::rect( viewableBounds_.left_,
+		//																	viewableBounds_.top_,
+		//																	viewableBounds_.right_,
+		//																	viewableBounds_.bottom_ ) );
 
 		drawPartialImage(  viewableBounds_.getTopLeft(), &viewableBounds_, drawingArea_ );
 	}
@@ -1482,6 +1483,9 @@ double GraphicsContext::getScaleY()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2004/09/06 03:33:21  ddiego
+*updated the graphic context code to support image transforms.
+*
 *Revision 1.2.2.8  2004/09/03 04:05:46  ddiego
 *fixes to add matrix transform support for images.
 *

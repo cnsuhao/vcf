@@ -361,7 +361,9 @@ public:
 		context->textAt( 200, 200, "Hello There!!" );
 
 
-		Image* img = GraphicsToolkit::createImage( "Prairie Wind.bmp" );
+		//note - you may have to adjust the path to this accordingly
+		//feel free to try different images as well
+		Image* img = GraphicsToolkit::createImage( "test.bmp" );
 		if ( NULL != img ) {
 
 			context->drawImage( 500, 270, img );
