@@ -44,14 +44,14 @@ System::System():
 	systemPeer_ = SystemToolkit::createSystemPeer();
 
 	if ( NULL == systemPeer_ ) {
-		throw InvalidPeer( MAKE_ERROR_MSG_2("Unable to create a System peer!") );
+		throw InvalidPeer( MAKE_ERROR_MSG_2( L"Unable to create a System peer!" ) );
 	}
 
 	unicodeEnabled_ = systemPeer_->isUnicodeEnabled();
 
 	errorLogInstance_ = NULL;
 
-	locale_ = new Locale( "", "" );
+	locale_ = new Locale( L"", L"" );
 }
 
 System::~System()
@@ -155,7 +155,7 @@ void System::println(String text, ...)
     CFStringGetCharacters( res, range, tmpChar );
 
     CFShow( res );
-    CFShow( CFSTR("\n") );
+    CFShow( CFSTR( L"\n" ) );
 
     CFRelease( res );
     CFRelease( fmt );
@@ -170,7 +170,7 @@ void System::println(String text, ...)
 
   #ifndef VCF_OSX
     wprintf( tmpChar );
-    wprintf(L"\n");
+    wprintf( L"\n" );
   #endif
 
 	if ( NULL != System::systemInstance ) {
@@ -184,7 +184,7 @@ void System::println(String text, ...)
 
 void System::errorPrint( BasicException* exception )
 {
-	System::print( "Exception occured ! Error string: %s\n", exception->getMessage().c_str() );
+	System::print( L"Exception occured ! Error string: %s\n", exception->getMessage().c_str() );
 }
 
 bool System::doesFileExist( const String& fileName )
@@ -219,14 +219,14 @@ void System::setDateToLocalTime( DateTime* date )
 
 void System::setCurrentThreadLocale( Locale* locale )
 {
-	System::systemInstance->locale_->getPeer()->setLocale( locale->getLanguageCodeString(), locale->getCountryCodeString(), "" );
+	System::systemInstance->locale_->getPeer()->setLocale( locale->getLanguageCodeString(), locale->getCountryCodeString(), L"" );
 
 	System::systemInstance->systemPeer_->setCurrentThreadLocale( locale );
 }
 
 Locale* System::getCurrentThreadLocale()
 {
-	System::systemInstance->locale_->getPeer()->setLocale( "", "", "" ); //updates it to current thread's locale info
+	System::systemInstance->locale_->getPeer()->setLocale( L"", L"", L"" ); //updates it to current thread's locale info
 
 	return System::systemInstance->locale_;
 }
@@ -240,6 +240,9 @@ bool System::isUnicodeEnabled()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/14 14:40:47  marcelloptr
+*Unicode prefix in front of strings
+*
 *Revision 1.1.2.9  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
