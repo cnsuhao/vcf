@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"./MSDNIntegrator-cmdline_vc70.exe"
+# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"MSDNIntegrator-cmdline_vc70.exe"
 
 !ELSEIF  "$(CFG)" == "MSDNIntegrator - Win32 Debug"
 
