@@ -65,6 +65,23 @@ void TextControl::init()
 	setCursorID( Cursor::SCT_TEXT );
 }
 
+void TextControl::paint( GraphicsContext * context )
+{
+	Border* border = getBorder();
+
+	Rect innerBounds = getClientBounds( false );
+
+	if ( NULL != border ){
+		border->paint( this, context );
+		innerBounds = border->getClientRect( &innerBounds, this );
+	}
+	context->setColor( getColor() );
+
+	context->rectangle( &innerBounds );
+
+	context->fillPath();	
+}
+
 void TextControl::setTextModel( TextModel * model )
 {
 	if ( NULL != model_ ){
@@ -317,6 +334,11 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -52,11 +52,13 @@ public:
 	*value is the available area that the component could use to
 	*place child components
 	*
-	*@param Control* - component that the border belongs to
+	*@param Rect* - the initial bounds to calculate a new client rectangle
+	from.
+	@param Control* - a control that may provide additional information
 	*
 	*@return Rect the client rectangle
 	*/
-	virtual Rect getClientRect( Control* component ) = 0;
+	virtual Rect getClientRect( Rect* initialBounds, Control* control ) = 0;
 
 };
 
@@ -66,6 +68,11 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

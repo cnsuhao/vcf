@@ -42,19 +42,7 @@ public:
 
 	virtual void paint( Rect* bounds, GraphicsContext* context );
 
-	/**
-	*returns a client rect in which contained components may live.
-	*Thus if a particular implementation required a 3 pixel
-	*border at the edges to draw itself, then it would retrieve the
-	*component's border and then reduce it by 3 pixels. This new
-	*value is the available area that the component could use to
-	*place child components
-	*
-	*@param Control* - component that the border belongs to
-	*
-	*@return Rect* the client rectangle
-	*/
-	virtual Rect getClientRect( Control* component );
+	virtual Rect getClientRect( Rect* initialBounds, Control* control );
 
 	void setInverted( const bool& inverted ) {
 		inverted_ = inverted;
@@ -71,6 +59,11 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.4  2004/07/07 22:31:37  dougtinkham
 *added inversion to give border a sunken appearrance.
 *

@@ -157,6 +157,8 @@ void Control::setBorder( Border* border )
 	if ( NULL != border_ ){
 		border_->addRef();
 	}
+
+	peer_->setBorder( border_ );
 }
 
 Rect Control::getBounds()/**throw( InvalidPeer ); -JEC - FIXME later*/
@@ -208,7 +210,8 @@ Rect Control::getClientBounds( const bool& includeBorder ) /**throw( InvalidPeer
 	clientBounds_->setRect( 0.0, 0.0, r.getWidth(), r.getHeight() );
 
 	if ( (true == includeBorder) && (NULL != border_) ){
-		*clientBounds_ = border_->getClientRect( this );
+		r = *clientBounds_;
+		*clientBounds_ = border_->getClientRect( &r, this );
 	}
 
 	return *clientBounds_;
@@ -1432,6 +1435,11 @@ bool Control::isActive()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.4  2004/07/12 02:05:45  ddiego
 *fixed a subtle bug (that only showed up when using a lightweight
 *control) that happened with MouseClick events being handled twice.

@@ -22,13 +22,12 @@ Basic3DBorder::~Basic3DBorder()
 
 }
 
-Rect Basic3DBorder::getClientRect( Control* component )
+Rect Basic3DBorder::getClientRect( Rect* initialBounds, Control* control )
 {
-	Rect result;
-	if ( NULL != component ){
-		result = component->getClientBounds( false );
-		result.inflate( -2.0, -2.0 );
-	}
+	Rect result = *initialBounds;	
+	
+	result.inflate( -2.0, -2.0 );
+	
 	return result;
 }
 
@@ -123,6 +122,11 @@ void Basic3DBorder::paint( Control* component, GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/07/07 22:37:30  dougtinkham
 *added inverstion to give border a sunken appearrance.
 *

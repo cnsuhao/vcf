@@ -91,20 +91,25 @@ void Light3DBorder::paint( Rect* bounds, GraphicsContext* context )
 	}
 }
 
-Rect Light3DBorder::getClientRect( Control* component )
+Rect Light3DBorder::getClientRect( Rect* initialBounds, Control* control )
 {
-	Rect result;
-	if ( NULL != component ){
-		result = component->getClientBounds( false );
-		result.inflate( -2.0, -2.0 );
-	}
+	Rect result = *initialBounds;
+
+	result.inflate( -2.0, -2.0 );
+
 	return result;
 }
+
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *
