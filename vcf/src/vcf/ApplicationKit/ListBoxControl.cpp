@@ -306,7 +306,7 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 	Scrollable* scrollable = this->getScrollable();
 
 	Rect bounds = getClientBounds();
-	//ctx->setClippingRect( &bounds );
+	ctx->setClippingRect( &ctx->getViewableBounds() );
 
 	double width = bounds.getWidth();
 	double scrollW = 0;
@@ -679,6 +679,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/21 02:38:28  ddiego
+*updated listbox
+*
 *Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
 *updates so new system tray code compiles
 *
