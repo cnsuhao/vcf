@@ -1,0 +1,5 @@
+LIBRARY     SIMPLEDLL.DLL
+
+EXPORTS
+    _getAnInteger
+    _vpl_init

@@ -27,6 +27,7 @@ int getAnInteger( int val1, double d )
 }
 
 
+void vpl_init (void) {}
 
 }
 
@@ -34,6 +35,9 @@ int getAnInteger( int val1, double d )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/10/07 15:03:34  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.3.2.1  2004/09/15 04:41:23  ddiego
 *made some minor changes to the SharedLibraries example, and the init and term code of the Library class.
 *

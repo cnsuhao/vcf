@@ -69,7 +69,7 @@ public:
 		: Window()
 	{
 		ControlSized += new ControlEventHandler<TeXLabelWindow>(this,
-			TeXLabelWindow::onResized, "TeXLabelWindow::onResized" );
+			&TeXLabelWindow::onResized, "TeXLabelWindow::onResized" );
 		setContainer(new StandardContainer());
 		setCaption("LaTeX Style Markup for VCF");
 
