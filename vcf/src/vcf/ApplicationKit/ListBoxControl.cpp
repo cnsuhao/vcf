@@ -204,7 +204,7 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 			scrollable->setHorizontalPosition( 0.0 );
 		}
 
-		scrollable->updateVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );
+		scrollable->setVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );
 	}
 	repaint();
 }
@@ -235,7 +235,7 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 			scrollable->setHorizontalPosition( 0.0 );
 		}		
 
-		scrollable->updateVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );	
+		scrollable->setVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );	
 	}
 
 	repaint();
@@ -662,6 +662,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/09/21 05:48:23  dougtinkham
+*mod onItemAdded, onItemDeleted
+*
 *Revision 1.2.2.6  2004/09/13 06:27:31  dougtinkham
 *onItemAdded & onItemDeleted modified to call updateVirtualViewSize
 *
