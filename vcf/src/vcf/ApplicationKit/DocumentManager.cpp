@@ -184,10 +184,11 @@ void DocumentManager::pasteToDocument( Document* doc ) {
 	if ( NULL != info ) {
 		DataObject* data = clipboard->pasteFrom( info->mimetype );
 
+		String type;
 		if ( NULL == data ) {
 			Enumerator<String>* types = doc->getSupportedClipboardFormats();
 			while ( types->hasMoreElements() ) {
-				String type = types->nextElement();
+				type = types->nextElement();
 				data = clipboard->pasteFrom( type );
 				if ( NULL != data ) {
 					break;
@@ -199,12 +200,22 @@ void DocumentManager::pasteToDocument( Document* doc ) {
 		if ( (NULL != data) && (!doc->paste( data )) ) {
 
 			BasicOutputStream bos;
-
-			data->saveToStream( info->mimetype, &bos );
+			if ( !type.empty() ) {				
+				data->saveToStream( type, &bos );
+			}
+			else {
+				data->saveToStream( info->mimetype, &bos );
+			}			
 
 			BasicInputStream bis( bos.getBuffer(), bos.getSize() );
 
-			doc->openFromType( info->mimetype, bis );
+			if ( !type.empty() ) {				
+				doc->openFromType( type, bis );
+			}
+			else {
+				doc->openFromType( info->mimetype, bis );
+			}	
+			
 		}
 
 		if ( NULL != data ) {
@@ -569,6 +580,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/30 21:29:47  ddiego
+*minor mods to copy/paste code in DocumentManager
+*
 *Revision 1.1.2.4  2004/06/29 20:31:35  ddiego
 *some minor fixes to the DocumentManager
 *

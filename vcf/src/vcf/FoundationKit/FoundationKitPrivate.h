@@ -14,7 +14,7 @@ where you installed the VCF.
 #endif
 
 
-#if defined(WIN32)
+#if defined(WIN32) && !defined(VCF_DOTNET)
 #	include "vcf/FoundationKit/Win32SystemToolkit.h"
 #	include "vcf/FoundationKit/Win32SemaphorePeer.h"
 #	include "vcf/FoundationKit/Win32LibraryPeer.h"
@@ -26,6 +26,18 @@ where you installed the VCF.
 #	include "vcf/FoundationKit/Win32Thread.h"
 #	include "vcf/FoundationKit/Win32Registry.h"
 #	include "vcf/FoundationKit/Win32Mutex.h"
+#elif defined(VCF_DOTNET)
+#	include "vcf/FoundationKit/DotNetSystemToolkit.h"
+#	include "vcf/FoundationKit/DotNetSemaphorePeer.h"
+#	include "vcf/FoundationKit/DotNetLibraryPeer.h"
+#	include "vcf/FoundationKit/DotNetPeer.h"
+#	include "vcf/FoundationKit/DotNetFilePeer.h"
+#	include "vcf/FoundationKit/DotNetFileStream.h"
+#	include "vcf/FoundationKit/DotNetProcessPeer.h"
+#	include "vcf/FoundationKit/DotNetSystemPeer.h"
+#	include "vcf/FoundationKit/DotNetThread.h"
+#	include "vcf/FoundationKit/DotNetRegistry.h"
+#	include "vcf/FoundationKit/DotNetMutex.h"
 #elif defined (VCF_POSIX)
 	//pull in the linux headers here
 #	include "vcf/FoundationKit/LinuxSystemToolkit.h"
@@ -61,6 +73,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/30 21:30:03  ddiego
+*minor mods to copy/paste code in DocumentManager
+*
 *Revision 1.1.2.3  2004/06/05 01:55:21  marcelloptr
 *moved some files to the directory where they logically belong
 *
