@@ -629,6 +629,10 @@ SOURCE=..\..\..\include\events\MenuListener.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\MessageDialog.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\Model.h
 # End Source File
 # Begin Source File
@@ -1083,6 +1087,10 @@ SOURCE=..\..\..\include\events\WindowListener.h
 
 SOURCE=..\..\..\include\implementer\WindowPeer.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Wizard.h
+# End Source File
 # End Group
 # Begin Group "Res"
 
@@ -1472,6 +1480,10 @@ SOURCE=..\..\..\src\core\MenuBar.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\Events\MenuItemEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MessageDialog.cpp
 # End Source File
 # Begin Source File
 
