@@ -149,6 +149,12 @@ public:
 	
 	void eraseFromSelectedItems( ListItem* item );
 
+	/**
+	*sets the scrollable for the listbox control, and sets
+	*it for a discrete scrolling, item by item.
+	*/
+	virtual void setScrollable( Scrollable* scrollable );
+
 protected:
 	ListModel* listModel_;
 	double defaultItemHeight_;
@@ -177,6 +183,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/10 00:17:27  marcelloptr
+*set discrete scrolling as default behaviour for ListBoxControls
+*
 *Revision 1.2.4.1  2005/01/17 17:55:06  marcelloptr
 *reformatting
 *

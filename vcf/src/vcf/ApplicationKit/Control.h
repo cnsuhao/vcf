@@ -880,7 +880,7 @@ public:
 	*@see Scrollable::setVirtualViewHeight
 	*@see Scrollable::setVirtualViewWidth
 	*/
-	void setScrollable( Scrollable* scrollable );
+	virtual void setScrollable( Scrollable* scrollable );
 
 	/**
 	Call this method to adjust the view bounds (i.e. what the GraphicsContext::getViewableBounds()
@@ -1278,6 +1278,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/10 00:17:27  marcelloptr
+*set discrete scrolling as default behaviour for ListBoxControls
+*
 *Revision 1.3.2.1  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
