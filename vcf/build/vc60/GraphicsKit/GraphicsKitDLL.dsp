@@ -117,6 +117,10 @@ SOURCE=..\..\..\include\graphics\BasicStroke.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\graphics\BezierCurve.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\graphics\Border.h
 # End Source File
 # Begin Source File
@@ -213,10 +217,6 @@ SOURCE=..\..\..\include\graphics\Path.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\graphics\PathEnumerator.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\PixelFormats.h
 # End Source File
 # Begin Source File
@@ -258,6 +258,10 @@ SOURCE=..\..\..\src\Graphics\BasicFill.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\Graphics\BasicStroke.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\graphics\BezierCurve.cpp
 # End Source File
 # Begin Source File
 

@@ -118,6 +118,10 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_bspline.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_curves.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_gen_stroke.cpp
 # End Source File
 # Begin Source File
@@ -131,10 +135,28 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_path_storage.cpp
 # Begin Source File
 
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_rasterizer.cpp
+
+!IF  "$(CFG)" == "libAGG - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "libAGG - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "libAGG - Win32 GTK Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_rendering_buffer.cpp
+
+!IF  "$(CFG)" == "libAGG - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "libAGG - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "libAGG - Win32 GTK Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

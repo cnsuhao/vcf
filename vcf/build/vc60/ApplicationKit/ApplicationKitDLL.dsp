@@ -715,6 +715,10 @@ SOURCE=..\..\..\src\core\MultilineTextControl.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\PackageInfo.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\PopupMenu.cpp
 # End Source File
 # Begin Source File

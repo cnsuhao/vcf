@@ -1,6 +1,10 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2003/07/21 03:08:29  ddiego
+*added bezier curve editing to Sketchit, fixed a bug in not saving
+*bitmaps, added PackageInfo to the ApplicationKit
+*
 *Revision 1.1.2.1  2003/07/17 03:02:46  ddiego
 *added sketch example
 *
@@ -14,11 +18,13 @@
 
 #include "ModelViewKit.h"
 
+#include "graphics/BezierCurve.h"
+
 
 class Shape {
 public:
 
-	Shape() {
+	Shape() :image_(NULL), fill_(false), width_(1.0), opacity_(1.0){
 
 	}
 
@@ -27,15 +33,30 @@ public:
 	}
 
 	Shape& operator=( const Shape& rhs ) {
-		color_ = rhs.color_;
-		fill_ = rhs.fill_;
+		strokeColor_ = rhs.strokeColor_;
+		fillColor_ = rhs.fillColor_;
+		
+		transform_ = rhs.transform_;		
 		polygon_ = rhs.polygon_;
+
+		fill_ = rhs.fill_;
+		width_ = rhs.width_;
+		opacity_ = rhs.opacity_;
+
+		image_ = rhs.image_;
+
 		return *this;
 	}
 
-	VCF::Polygon polygon_;
-	VCF::Color color_;
+	VCF::BezierCurve polygon_;
+	VCF::Color strokeColor_;
+	VCF::Color fillColor_;	
+	VCF::Matrix2D transform_;
+	VCF::Image* image_;
+
 	bool fill_;
+	double width_;
+	double opacity_;
 };
 
 
@@ -76,6 +97,8 @@ public:
 	virtual void empty();
 
 	void addShape( Shape& shape );
+
+	void removeShape( Shape* shape ) ;
 
 	VCF::Enumerator<Shape*>* getShapes() {
 		return shapesContainer_.getEnumerator();
