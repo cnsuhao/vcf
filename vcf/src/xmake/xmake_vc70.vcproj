@@ -132,30 +132,15 @@
 			<File
 				RelativePath="main.cpp">
 			</File>
-			<File
-				RelativePath="StdAfx.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="StdAfx.h">
+				RelativePath="xmake.h">
 			</File>
 			<File
-				RelativePath="xmake.h">
+				RelativePath="xmake_warnings_off.h">
 			</File>
 		</Filter>
 		<Filter

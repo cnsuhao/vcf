@@ -39,8 +39,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "vc71\Release\"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "./" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /D "USE_LIBXMAKE_LIB" /YX"stdafx.h" /FD /c
+# ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "./" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /D "USE_LIBXMAKE_LIB" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,8 +64,8 @@ LINK32=link.exe
 # PROP Intermediate_Dir "vc71\Debug\"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "./" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "USE_LIBXMAKE_LIB" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "./" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "USE_LIBXMAKE_LIB" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -87,21 +87,7 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=./main.cpp
-
-!IF  "$(CFG)" == "xmake - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "xmake - Win32 Debug"
-
-# ADD CPP /Yu"stdafx.h"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=./StdAfx.cpp
-# ADD CPP /Yc"stdafx.h"
+SOURCE=main.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -109,11 +95,11 @@ SOURCE=./StdAfx.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=./StdAfx.h
+SOURCE=xmake.h
 # End Source File
 # Begin Source File
 
-SOURCE=./xmake.h
+SOURCE=xmake_warnings_off.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -122,11 +108,11 @@ SOURCE=./xmake.h
 # End Group
 # Begin Source File
 
-SOURCE=./makefile.xml
+SOURCE=makefile.xml
 # End Source File
 # Begin Source File
 
-SOURCE=./ReadMe.txt
+SOURCE=ReadMe.txt
 # End Source File
 # End Target
 # End Project
