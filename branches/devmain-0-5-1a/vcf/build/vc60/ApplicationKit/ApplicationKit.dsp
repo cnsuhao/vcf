@@ -1742,5 +1742,21 @@ SOURCE=..\..\resources\win32\ApplicationKit.rc
 SOURCE=..\..\resources\win32\vcf.ico
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=..\..\resources\win32\inform.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\question.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\stop.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\warning.bmp
+# End Source File
 # End Target
 # End Project
