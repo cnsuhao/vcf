@@ -74,16 +74,14 @@ void MainWindow::makeListBoxPage()
 	Panel* panel1 = (Panel*)listBoxPage->getPageComponent();
 
 	//add a panel for ListBoxControl-related controls
-	Panel* listBoxGroup = new Panel();
-	listBoxGroup->setName( L"ListBoxGroup" );
+	Panel* listBoxGroup = new Panel();	
 	( (StandardContainer*)listBoxGroup->getContainer() )->setBorderWidth( borderWidth );	
 	listBoxGroup->setBorder( new TitledBorder( "ListBoxControl" ) );
 	listBoxGroup->setWidth( 160 );	
 	panel1->add( listBoxGroup, AlignLeft );
 	
 	//add a ListBoxControl
-	listBox1 = new ListBoxControl();	
-	listBox1->setUseColorForBackground( true );
+	listBox1 = new ListBoxControl();		
 	listBox1->setBorder( new Basic3DBorder( true ) );
 	listBox1->setAllowsMultiSelect( false );
 	//add scrollbar to listBox1
@@ -102,28 +100,24 @@ void MainWindow::makeListBoxPage()
 	}
 	listBoxModel->addItem( new DefaultListItem( listBoxModel, "Add your own item below." ) );
 	
-	listBoxGroup->add( listBox1, AlignClient );
-	
+	listBoxGroup->add( listBox1, AlignClient );	
 
 	listBoxGroup->add( new VerticalSpacer( borderWidth ), AlignBottom );
 	
-	CommandButton* btnDeselect = new CommandButton();
-	btnDeselect->setBorder( new Basic3DBorder( false ) );
+	CommandButton* btnDeselect = new CommandButton();	
 	btnDeselect->setCaption( "Deselect all" );
 	btnDeselect->setHeight( 24 );
 	listBoxGroup->add( btnDeselect, AlignBottom );
 	
 	listBoxGroup->add( new VerticalSpacer( borderWidth ), AlignBottom );	
 		
-	CommandButton* btnRemove = new CommandButton();
-	btnRemove->setBorder( new Basic3DBorder( false ) );
+	CommandButton* btnRemove = new CommandButton();	
 	btnRemove->setCaption( "Remove selected item" );
 	btnRemove->setHeight( 24 );
 	listBoxGroup->add( btnRemove, AlignBottom );	
 
 	listBoxGroup->add( new VerticalSpacer( 20 ), AlignBottom );
-
-	//
+	
 	//add a panel for Adding items	
 	Panel* listBoxAddGroup = new Panel();
 	StandardContainer* lbAddContainer = new StandardContainer();
@@ -131,29 +125,22 @@ void MainWindow::makeListBoxPage()
 	listBoxAddGroup->setContainer( lbAddContainer );
 	listBoxAddGroup->setBorder( new TitledBorder( "Add item" ) );	
 	//add TextControl to enter item to add
-	txtCtrlAddToListBox = new TextControl();
-	txtCtrlAddToListBox->setName( L"txtCtrlAddToListBox" );
-	txtCtrlAddToListBox->setBorder( new Basic3DBorder( true ) );
+	txtCtrlAddToListBox = new TextControl();	
 	txtCtrlAddToListBox->setHeight( 20 );
 	listBoxAddGroup->add( txtCtrlAddToListBox, AlignTop );
 	
 	listBoxAddGroup->add( new VerticalSpacer( borderWidth ), AlignTop );
 	
 	//add buttons for adding text from textCtrlSingle to listBoxSingl
-	CommandButton* btnAddItem = new CommandButton();
-	btnAddItem->setName( "btnAddItem" );
-	btnAddItem->setBorder( new Basic3DBorder( false ) );	
+	CommandButton* btnAddItem = new CommandButton();	
 	btnAddItem->setCaption( "Add item to ListBox" );
 	btnAddItem->setHeight( 24 );
 	listBoxAddGroup->add( btnAddItem, AlignTop );
-	listBoxAddGroup->setHeight( 2*borderWidth + 20 + 10 + 24 + 15);//the 10 at end is to account for caption height; we should make a member fct. to get this value.
-	listBoxGroup->add( listBoxAddGroup, AlignBottom );
-	//
-	//
+	listBoxAddGroup->setHeight( 2*borderWidth + 20 + 10 + 24 + 15);
+	listBoxGroup->add( listBoxAddGroup, AlignBottom );	
 
 	listBoxGroup->add( new VerticalSpacer( 20 ), AlignBottom );
 
-	//
 	//add panel for listbox selection style
 	Panel* listBoxSelGroup = new Panel();
 	StandardContainer* lbSelContainer = new StandardContainer();
