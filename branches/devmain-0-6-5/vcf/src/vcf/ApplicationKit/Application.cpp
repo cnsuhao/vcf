@@ -387,7 +387,7 @@ bool Application::loadFrameState( Frame* frame )
 		if ( bufSize > 0 ) {
 			BasicInputStream bis(buf,bufSize);
 			Frame::State state;
-			bis >> &state;
+			bis >> static_cast<Persistable*>(&state);
 			state.applyState( frame );
 		}
 		else {
@@ -431,6 +431,9 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:27:13  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

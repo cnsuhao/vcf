@@ -31,12 +31,13 @@
 //   Constants + headers
 // ----------------------------------------------------------
 
-typedef struct {
+struct mngstuff{
+        mngstuff();             //ctor was needed because of bcc
 	FIBITMAP    *bitmap;    // pointer to the bitmap data
 	FreeImage   &freeimage; // pointer to the freeimage access functions
 	FreeImageIO &io;        // pointer to the io functions
 	fi_handle   file;	    // pointer to the file we're decoding
-} mngstuff;
+};
 
 // ----------------------------------------------------------
 //   Callbacks for the mng decoder

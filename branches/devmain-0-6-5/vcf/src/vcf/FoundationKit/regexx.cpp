@@ -52,7 +52,7 @@ where you installed the VCF.
 using namespace VCF;
 using namespace VCF::RegExx;
 
-const unsigned int& Regexx::exec(int _flags) throw(CompileException)
+const unsigned int& Regexx::exec(int _flags) throw(Regexx::CompileException)
 {
     AnsiString tmpStr = str_;
     AnsiString tmpExpr = expr_;
@@ -144,7 +144,7 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 	return matches_;
 }
 
-const String& Regexx::replace(const String& _repstr, int _flags) throw(CompileException)
+const String& Regexx::replace(const String& _repstr, int _flags) throw(Regexx::CompileException)
 {
 	exec(_flags&~nomatch);
 	std::vector< std::pair<unsigned int,String::size_type> > v;
@@ -210,6 +210,9 @@ std::vector<String> splitex(const String& regex, const String& str)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.5  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

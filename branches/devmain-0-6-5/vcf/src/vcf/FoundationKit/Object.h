@@ -287,7 +287,7 @@ public:
 		return ::operator new(  allocationSize, p );
 	}
 
-#ifndef VCF_GCC
+#if !defined(VCF_GCC) && !defined(VCF_BCC)
 	void operator delete( void* objectPointer, void* p ) {
 		::operator delete( objectPointer, p );
 	}
@@ -328,6 +328,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

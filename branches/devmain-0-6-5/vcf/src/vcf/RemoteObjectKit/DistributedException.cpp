@@ -21,7 +21,7 @@ DistributedException::DistributedException():
 
 }
 
-DistributedException::~DistributedException()
+DistributedException::~DistributedException() throw()
 {
 
 }
@@ -30,6 +30,9 @@ DistributedException::~DistributedException()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:31:56  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -140,30 +140,31 @@ ColorSpace::RGBtype ColorSpace::HSVToRGB( const HSVtype& hsv )
 double ColorSpace::HueToColorValue( double Hue, const double dMin, const double dMax )
 {
     double V;
+    double locHue = Hue;
 
-	if (Hue < 0) {
-		Hue = Hue + 1;
+	if (locHue < 0) {
+		locHue = locHue + 1;
 	} else {
-		if (Hue > 1) {
-			Hue = Hue - 1;
+		if (locHue > 1) {
+			locHue = locHue - 1;
 		}
 	}
 
-	if (6 * Hue < 1)
+	if (6 * locHue < 1)
 	{
-		V = dMin + (dMax - dMin) * Hue * 6;
+		V = dMin + (dMax - dMin) * locHue * 6;
 	}
 	else
 	{
-		if (2 * Hue < 1)
+		if (2 * locHue < 1)
 		{
 			V = dMax;
 		}
 		else
 		{
-			if (3 * Hue < 2)
+			if (3 * locHue < 2)
 			{
-				V = dMin + (dMax - dMin) * (2/3 - Hue) * 6;
+				V = dMin + (dMax - dMin) * (2/3 - locHue) * 6;
 			}
 			else
 			{
@@ -1419,6 +1420,9 @@ String ColorNames::unknownColor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/30 17:30:05  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.3  2004/06/25 19:52:48  marcelloptr
 *adjusted macros and other changes for better performance
 *

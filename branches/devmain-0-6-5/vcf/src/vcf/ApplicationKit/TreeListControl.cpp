@@ -572,7 +572,7 @@ void TreeListControl::paint( GraphicsContext * context )
 			scrollable->setVerticalPosition( 0.0 );
 		}
 		else if ( oldVisibleHeight > visibleItemsHeight_ ) {
-			double newPos = minVal<double>( abs(visibleItemsHeight_ - getHeight())+1.0, scrollable->getVerticalPosition() );
+			double newPos = minVal<double>( abs((long)(visibleItemsHeight_ - getHeight()))+1.0, scrollable->getVerticalPosition() );
 
 			scrollable->setVerticalPosition( newPos );
 
@@ -1458,6 +1458,9 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/30 17:27:13  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.5  2004/07/16 04:01:46  ddiego
 *fixed the last of border redraw issues, I hope.
 *

@@ -856,7 +856,7 @@ unsigned long DateTimeSpan::getDays() const
 	DateTime start;
 	start.time_ = start_;
 
-	result = abs(static_cast<float>(end.getDay() - start.getDay()));
+	result = abs((long)static_cast<float>(end.getDay() - start.getDay()));
 
 	return result;
 }
@@ -1024,7 +1024,7 @@ void ByMonth::decr( DateTime& dt, unsigned long offset )
 
 	if ( (m - offset) < 1 ) {
 
-		y -= ( abs(static_cast<float>( m - offset ) ) / 12) + 1;
+		y -= ( abs((long)static_cast<float>( m - offset ) ) / 12) + 1;
 
 		m = 12 - ((m - offset) % 12);
 	}
@@ -1107,6 +1107,9 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.3  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the

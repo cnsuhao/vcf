@@ -280,7 +280,7 @@ namespace RegExx {
      *
      *  @see operator int()
      */
-    inline Regexx(const String& stringToUse, const String& expression, int flags = 0) throw(CompileException)
+    inline Regexx(const String& stringToUse, const String& expression, int flags = 0) throw(Regexx::CompileException)
       : compiled_(false), study_(false), extra_(NULL), matches_(0)
 	{
 		exec( stringToUse, expression, flags);
@@ -295,7 +295,7 @@ namespace RegExx {
      *  @see operator string()
      */
     inline
-    Regexx(const String& stringToUse, const String& expression, const String& repstr, int flags = 0) throw(CompileException)
+    Regexx(const String& stringToUse, const String& expression, const String& repstr, int flags = 0) throw(Regexx::CompileException)
       : compiled_(false), study_(false), extra_(NULL), matches_(0)
 	{
 		replace(stringToUse,expression,repstr,flags);
@@ -338,7 +338,7 @@ namespace RegExx {
      *
      *  @return Number of matches.
      */
-    const unsigned int& exec(int flags = 0) throw(CompileException);
+    const unsigned int& exec(int flags = 0) throw(Regexx::CompileException);
 
     /** Execute a regular expression.
      *
@@ -348,12 +348,12 @@ namespace RegExx {
      *
      *  @return Number of matches.
      */
-    inline const unsigned int& exec(const String& expression, int flags = 0) throw(CompileException);
+    inline const unsigned int& exec(const String& expression, int flags = 0) throw(Regexx::CompileException);
 
     /** Execute a regular expression.
      *  @return Number of matches.
      */
-    inline const unsigned int& exec(const String& stringToUse, const String& expression, int flags = 0) throw(CompileException);
+    inline const unsigned int& exec(const String& stringToUse, const String& expression, int flags = 0) throw(Regexx::CompileException);
 
     /** Replace string with regular expression.
      *
@@ -380,13 +380,13 @@ namespace RegExx {
      *                 character you have to escape it with another '%'.
      *  @return Replaced string.
      */
-    inline const String& replace(const String& expression, const String& repstr, int flags = 0) throw(CompileException);
+    inline const String& replace(const String& expression, const String& repstr, int flags = 0) throw(Regexx::CompileException);
 
     /** Replace string with regular expression.
      *  @return Replaced string.
      */
     inline const String& replace(const String& stringToUse, const String& expression,
-									const String& repstr, int flags = 0)  throw(CompileException);
+									const String& repstr, int flags = 0)  throw(Regexx::CompileException);
 
     /** Customized replace string with regular expression.
      *
@@ -403,7 +403,7 @@ namespace RegExx {
      *  @param func Function/Class to be executed for each match.
      *  @return Replaced string.
      */
-    inline const String& replacef(String (*func)(const RegexxMatch&) , int flags = 0) throw(CompileException);
+    inline const String& replacef(String (*func)(const RegexxMatch&) , int flags = 0) throw(Regexx::CompileException);
 
     /** Customized replace string with regular expression.
      *
@@ -420,7 +420,7 @@ namespace RegExx {
      *  @return Replaced string.
      */
     inline const String& replacef(const String& expression,
-									String (*func)(const RegexxMatch&), int flags = 0) throw(CompileException);
+									String (*func)(const RegexxMatch&), int flags = 0) throw(Regexx::CompileException);
 
     /** Customized replace string with regular expression.
      *
@@ -433,7 +433,7 @@ namespace RegExx {
      *  @return Replaced string.
      */
     inline const String& replacef(const String& stringToUse, const String& expression,
-									String (*func)(const RegexxMatch&), int flags = 0) throw(CompileException);
+									String (*func)(const RegexxMatch&), int flags = 0) throw(Regexx::CompileException);
 
     /** Returns the number of matches of the last exec()/replace()/replacef().
      *
@@ -508,13 +508,13 @@ namespace RegExx {
 	  return *this;
   }
 
-  inline const unsigned int& Regexx::exec(const String& expression, int flags) throw(CompileException)
+  inline const unsigned int& Regexx::exec(const String& expression, int flags) throw(Regexx::CompileException)
   {
 	  expr(expression);
 	  return exec(flags);
   }
 
-  inline const unsigned int& Regexx::exec(const String& stringToUse, const String& expression, int flags) throw(CompileException)
+  inline const unsigned int& Regexx::exec(const String& stringToUse, const String& expression, int flags) throw(Regexx::CompileException)
   {
 	  str(stringToUse);
 	  expr(expression);
@@ -522,21 +522,21 @@ namespace RegExx {
   }
 
 
-  inline const String& Regexx::replace(const String& expression, const String& repstr, int flags) throw(CompileException)
+  inline const String& Regexx::replace(const String& expression, const String& repstr, int flags) throw(Regexx::CompileException)
   {
 	  expr(expression);
 	  return replace(repstr,flags);
   }
 
   inline const String& Regexx::replace(const String& stringToUse, const String& expression,
-										const String& repstr, int flags) throw(CompileException)
+										const String& repstr, int flags) throw(Regexx::CompileException)
   {
 	  str(stringToUse);
 	  expr(expression);
 	  return replace(repstr,flags);
   }
 
-  inline const String& Regexx::replacef(String (*func)(const RegexxMatch&), int flags ) throw(CompileException)
+  inline const String& Regexx::replacef(String (*func)(const RegexxMatch&), int flags ) throw(Regexx::CompileException)
   {
 	  exec( flags & ~nomatch );
 	  replaced_ = str_;
@@ -547,14 +547,14 @@ namespace RegExx {
   }
 
   inline const String& Regexx::replacef(const String& expression,
-										String (*func)(const RegexxMatch&), int flags ) throw(CompileException)
+										String (*func)(const RegexxMatch&), int flags ) throw(Regexx::CompileException)
   {
 	  expr(expression);
 	  return replacef(func,flags);
   }
 
   inline const String& Regexx::replacef(const String& stringToUse, const String& expression,
-										String (*func)(const RegexxMatch&), int flags ) throw(CompileException)
+										String (*func)(const RegexxMatch&), int flags ) throw(Regexx::CompileException)
   {
 	  str(stringToUse);
 	  expr(expression);
@@ -574,6 +574,9 @@ namespace RegExx {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

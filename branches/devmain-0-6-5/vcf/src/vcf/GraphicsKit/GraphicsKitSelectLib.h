@@ -42,6 +42,9 @@ where you installed the VCF.
 #   elif (_MSC_VER >= 1100)
 #     define _LIB_CPLVERNUM "vc5"
 #		endif
+#  ifdef __BORLANDC__
+#     define _LIB_CPLVERNUM "bcc"
+#  endif
 # endif
 
 
@@ -75,6 +78,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/30 17:30:05  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.3  2004/06/29 03:17:41  marcelloptr
 *minor fixes on import/export library macros
 *

@@ -1308,7 +1308,7 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 
 		if ( NULL == imgListHandler ) {
 			imgListHandler =
-				new ImageListEventHandler<Win32Toolbar>(this, Win32Toolbar::onImageListImageChanged, "Win32Toolbar::onImageListImageChanged" );
+				new ImageListEventHandler<Win32Toolbar>(this, &Win32Toolbar::onImageListImageChanged, "Win32Toolbar::onImageListImageChanged" );
 		}
 
 		imageList->SizeChanged.addHandler( imgListHandler );
@@ -1334,6 +1334,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/07/30 17:27:14  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.10  2004/07/21 03:35:49  ddiego
 *some minor updates to the QTPlayer example
 *
