@@ -1,0 +1,50 @@
+<!-- XMake project start -->
+
+
+<project name="docs" id="3d409cb3-046c-4e35-aadc-5ba1c93f987e">
+
+	<dependsOn>
+	</dependsOn>
+
+	<target name="vcfdocs" id="03614354-e48b-44f1-829a-3c85407db31a" parent="f936d9e6-4cf5-4e66-b9de-352b7db36d88" active="true" config="docbook" configID="b7b6e6cc-36f6-4a22-bc6e-61f5c208be37" >
+		<dependsOn>
+			<dependency name="./vcf_docbook.xml" id="76e9e3b1-434b-4751-a82d-8603ab0ded80"/>
+		</dependsOn>
+	</target>
+
+	<config name="docbook" id="b7b6e6cc-36f6-4a22-bc6e-61f5c208be37" parent="b5c0bde4-1ae3-41f6-88c5-bdf5b49f7e9e" uuid="a380b702-2789-4f3b-94dc-73104227c750" active="true" >
+		<variable name="XSL_DIR" value=""/>
+		<variable name="HTMLOUTPUT" value=""/>
+		<variable name="XSL_SHEET" value="vcf.xsl"/>
+		<tool id="xsltproc" name="xsltproc" type=".xml">
+			<flags value="--nonet "/>
+			<exec command="xsltproc --nonet  $(XSL_SHEET) $(dependency.name)"/>
+		</tool>
+	</config>
+	<files>
+		<file src="./corelib_networkKit.xml" id="0639e0ee-6fdf-461f-9ac5-f64c69df42e6" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./corelib_remoteObjectKit.xml" id="097eb36f-004f-4db0-9057-b2e758241341" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./corelib_applicationKit.xml" id="242c582a-b7f1-4912-b141-43c6dee0378f" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./corelib_foundationKit.xml" id="35132f25-0683-4b38-9bda-d475cfb4e043" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./faqs.xml" id="38df6db4-7381-49e2-a764-16b140d0bce5" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./general.xml" id="4d0ae53d-3bd6-4903-b059-fbf2699d1873" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./getting_started.xml" id="5a36fcfb-7241-4856-8036-d3335c1cf67b" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./vcf_docbook.xml" id="76e9e3b1-434b-4751-a82d-8603ab0ded80" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./corelib_componentAuthoring.xml" id="9ea68ce6-ba01-480b-b02a-a682c681bd3a" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./vcf_intro.xml" id="a7d08f6a-02cd-442c-b100-7a0d3640cc73" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./vcf_book.xml" id="b5cc5970-c2d4-4fa3-a5a3-4ef56ff5f722" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./tutorials.xml" id="bac8209f-7694-4b8a-8f3e-23f33c921828" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<file src="./corelib_graphicsKit.xml" id="e9b5df9a-f493-4ae2-9d03-5b1e960f8d3f" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+	</files>
+	<folders>
+		<folder name="stylesheets" ext="" id="52ec4c1c-b3e5-44cf-9d50-9dff14c452a4" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<folder name="content" ext="" id="645f8b31-3856-454d-9c44-91832ecb7450" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+		<folder name="files" ext="" id="a3138d6c-d0a3-48ec-88ae-b5462d8a1074" parent="3d409cb3-046c-4e35-aadc-5ba1c93f987e"/>
+		<folder name="Configurations" ext="" id="b5c0bde4-1ae3-41f6-88c5-bdf5b49f7e9e" parent="3d409cb3-046c-4e35-aadc-5ba1c93f987e"/>
+		<folder name="Targets" ext="" id="f936d9e6-4cf5-4e66-b9de-352b7db36d88" parent="3d409cb3-046c-4e35-aadc-5ba1c93f987e"/>
+		<folder name="images" ext="" id="fd549197-3cb1-4e14-a6a4-d6852a02412a" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
+	</folders>
+</project>
+<!-- XMake project end -->
+
+
