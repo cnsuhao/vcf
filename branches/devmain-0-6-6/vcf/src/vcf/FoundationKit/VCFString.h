@@ -938,6 +938,7 @@ public:
 	static AnsiChar* transformUnicodeToAnsi( const UnicodeString& str );
 
 	static UniChar transformAnsiCharToUnicodeChar( AnsiChar c );
+	static AnsiChar transformUnicodeCharToAnsiChar( UniChar c );
 protected:
 	StringData data_;
 	mutable AnsiChar* ansiDataBuffer_;
@@ -1083,6 +1084,10 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/18 16:54:55  ddiego
+*added a new function to the UnicodeString class to convert from a
+*unicode char to a ansi char.
+*
 *Revision 1.2.2.3  2004/09/11 22:55:45  ddiego
 *changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
 *
