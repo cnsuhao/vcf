@@ -1559,7 +1559,7 @@ void OSXContext::drawThemeTickMarks( Rect* rect, SliderState& state )
     info.max = (int)state.max_;
     info.value = (int)state.position_;
     info.attributes = state.isVertical() ? 0 :  kThemeTrackHorizontal;
-    //info.attributes |= kThemeTrackRightToLeft;
+    info.attributes |= kThemeTrackShowThumb;
 
     info.trackInfo.slider.thumbDir = 0;
     info.trackInfo.slider.pressState = 0;
@@ -1585,20 +1585,43 @@ void OSXContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 		info.trackInfo.slider.pressState = kThemeThumbPressed;
 	}
 
-    if ( state.isTickMarkingOnBottomRight() ) {
-        info.trackInfo.slider.thumbDir = kThemeThumbUpward;
+	bool drawBothSides = false;
+	info.trackInfo.slider.thumbDir = 0;
+	
+    if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
+		
+		drawBothSides = true;
+	}
+    else if ( state.isTickMarkingOnBottomRight() ) {
+		info.trackInfo.slider.thumbDir = kThemeThumbDownward;	
     }
     else if( state.isTickMarkingOnTopLeft() ) {
-        info.trackInfo.slider.thumbDir = kThemeThumbDownward;
+		info.trackInfo.slider.thumbDir = kThemeThumbUpward;        
     }
 
 	
-	GetThemeTrackBounds( &info, r );
-	info.bounds = r;
+	//GetThemeTrackBounds( &info, r );
+	//info.bounds = r;
 
-    if ( noErr != DrawThemeTrackTickMarks( &info, state.tickMarkFrequency_, NULL, 0 ) ) {
-        StringUtils::trace( "DrawThemeTrackTickMarks failed\n" );
-    }
+	if ( drawBothSides ) {
+		info.trackInfo.slider.thumbDir = kThemeThumbUpward;
+		
+		if ( noErr != DrawThemeTrackTickMarks( &info, state.tickMarkFrequency_, NULL, 0 ) ) {
+			StringUtils::trace( "DrawThemeTrackTickMarks failed\n" );
+		}
+		
+		info.trackInfo.slider.thumbDir = kThemeThumbDownward;
+		
+		if ( noErr != DrawThemeTrackTickMarks( &info, state.tickMarkFrequency_, NULL, 0 ) ) {
+			StringUtils::trace( "DrawThemeTrackTickMarks failed\n" );
+		}
+	}
+	else if ( info.trackInfo.slider.thumbDir != 0 ) {//if info.trackInfo.slider.thumbDir == 0 then no track marks
+		if ( noErr != DrawThemeTrackTickMarks( &info, state.tickMarkFrequency_, NULL, 0 ) ) {
+			StringUtils::trace( "DrawThemeTrackTickMarks failed\n" );
+		}
+	}
+    
 	
 	//DrawThemeTrack( &info, NULL, NULL, 0 );
 	
@@ -1779,7 +1802,164 @@ void OSXContext::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 
 void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
+	OSXRect r = rect;
 	
+	//CGContextSaveGState( contextID_ );
+	Color* color = GraphicsToolkit::getSystemColor( state.colorType_ );
+	float colorComponents[4] =
+			{color->getRed(),
+			color->getGreen(),
+			color->getBlue(), 1.0};
+	
+	switch ( state.colorType_ ) {
+		case SYSCOLOR_SHADOW : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+										
+		}
+		break;
+		
+		case SYSCOLOR_FACE : {
+			SetThemeBackground( state.isActive() ? kThemeBrushButtonFaceActive : kThemeBrushButtonFaceInactive,
+									32, TRUE );
+			EraseRect( r );
+			
+			//::SetThemeBackground(kThemeBrushWhite, 24, true);			
+		}
+		break;
+		
+		case SYSCOLOR_HIGHLIGHT : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_ACTIVE_CAPTION : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_ACTIVE_BORDER : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_DESKTOP : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_CAPTION_TEXT : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_SELECTION_TEXT : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_INACTIVE_BORDER : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}
+		break;
+		
+		case SYSCOLOR_INACTIVE_CAPTION : {
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
+		}   
+		break;
+		
+		case SYSCOLOR_TOOLTIP : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_TOOLTIP_TEXT : {
+		
+		}
+		break;
+		
+		case SYSCOLOR_MENU : {
+			SetThemeBackground( state.isHighlighted() ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground,
+									32, TRUE );
+			EraseRect( r );
+			
+			//::SetThemeBackground(kThemeBrushWhite, 24, true);
+		}
+		break;
+		
+		case SYSCOLOR_MENU_TEXT : {
+		
+		}
+		break;
+		
+		case SYSCOLOR_WINDOW : {
+			SetThemeBackground( state.isActive() ? kThemeBrushUtilityWindowBackgroundActive : kThemeBrushUtilityWindowBackgroundInactive,
+									32, TRUE );
+			EraseRect( r );
+			
+			//::SetThemeBackground(kThemeBrushWhite, 24, true);
+		}
+		break;
+		
+		case SYSCOLOR_WINDOW_TEXT : {
+		
+		}
+		break;
+		
+		case SYSCOLOR_WINDOW_FRAME : {
+			SetThemeBackground( state.isActive() ? kThemeBrushDocumentWindowBackground : kThemeBrushDocumentWindowBackground,
+									32, TRUE );
+			EraseRect( r );
+			
+			//::SetThemeBackground(kThemeBrushWhite, 24, true);
+		}
+		break;
+	}
+	//CGContextRestoreGState( contextID_ );
 }
 
 void OSXContext::drawThemeMenuItem( Rect* rect, MenuState& state )
@@ -1797,6 +1977,9 @@ void OSXContext::drawThemeText( Rect* rect, const String& text, DrawUIState& sta
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10.2.3  2004/06/17 03:00:24  ddiego
+*further updates to OSX theme compliant drawing code
+*
 *Revision 1.1.2.10.2.2  2004/06/16 05:18:56  ddiego
 *further updates to OSX theme compliant drawing code
 *
