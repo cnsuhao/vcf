@@ -177,6 +177,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Dialogs"="..\..\examples\Dialogs\Dialogs.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Dictionaries"="..\..\examples\Dictionaries\Dictionaries.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -297,6 +309,9 @@ Package=<4>
     Project_Dep_Name DatesAndTime
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Dialogs
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Dictionaries
     End Project Dependency
     Begin Project Dependency
@@ -373,6 +388,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Reflection
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Resources
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Scrolling
@@ -932,6 +950,42 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name NetworkKit
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Resources"="..\..\examples\Resources\Resources.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SciLexer"="..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ScintillaKit"=".\ScintillaKit\ScintillaKit.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################

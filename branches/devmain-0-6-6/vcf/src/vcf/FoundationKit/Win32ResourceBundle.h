@@ -58,7 +58,13 @@ public:
 	static ProgramInfo* getProgramInfoFromFileName( const String& fileName );
 protected:
 	virtual HINSTANCE getResourceInstance();
-	//ApplicationPeer* appPeer_;
+	bool foundResName_;
+	const char* foundResType_;
+	String searchResName_;
+
+	static BOOL CALLBACK EnumResTypeProcA( HMODULE hModule, char* lpszType, LPARAM lParam );
+	static BOOL CALLBACK EnumResNameProcA( HMODULE hModule, const char* lpszType, char* lpszName, LPARAM lParam );
+
 };
 
 };
@@ -67,6 +73,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/11/17 04:52:49  ddiego
+*added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
+*
 *Revision 1.1.2.5  2004/11/10 19:09:48  marcelloptr
 *fixed documentation for doxygen
 *
