@@ -1,0 +1,672 @@
+<!--
+Copyright (c) 2000-2003, Jim Crafton
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+	Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+
+	Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer in 
+	the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+NB: This software will not save the world.
+
+-->
+
+
+<section><title>General</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>Why are you writing another framework ? Aren't there enough out there ?</para>
+			</question>
+			<answer>
+				<para>
+				The Visual Component Framework (VCF) was designed to make application 
+				programming in general, particularly applications with User Interfaces, 
+				much easier than it currently is with typical development tools. In addition 
+				it was created to be cross platform in design, so a program relying only 
+				on features within the VCF should simply recompile on another platform 
+				supported by the VCF.
+				</para>
+			</answer>
+			<question>
+				<para>Regarding the copyright, is it open-source, gnu license, what are the rules
+about that? I just saw the installer telling me you own the copyright, is that so?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>What would be required to port my MFC App to VCF?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>What platforms and/or compilers does the VCF support?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>How are the resources handled between OS's?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>If a serious security/memory/whatever issue was found 18 months down 
+				the track how is this handled? In general where do I go if I find bugs, and 
+				if I do, how can I get them resolved?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>How do I know what headers to use in my application? </para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>Why do I have to set environment variables?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>Installation/Building the VCF</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>Where the heck do I get this from ?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>Do I have to use CVS ?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>What about SSH ?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>What do I need to build ? Why do I have to build anything ? 
+				Can't I just get the binaries ?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>The documentation mentions a folder named "bin" which must be included 
+				in the system path. I do not see any bin folder. Where is it?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para></para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para></para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>				
+		</qandaentry>
+	</qandaset>	
+	</section>	
+	<section><title>Contributing</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>Do I have to checkout all the code from sourceforge before I can add  something?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+		</qandaentry>
+	</qandaset>			
+	</section>
+	<section><title>Libraries</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>what is that blackbox stuff?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+		</qandaentry>
+	</qandaset>	
+	</section>
+	<section><title>Miscellaneous</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>How do you document the source code?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+			<question>
+				<para>What do you use to produce general documentation?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>Is Doxygen free? Is it easy  to use like javadoc?</para>
+			</question>
+			<answer>
+				<para> </para>
+			</answer>			
+			<question>
+				<para>What is its performance relative to MFC?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+			<question>
+				<para>What is the size/memory footprint difference of an application written with VCF vs MFC?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+			<question>
+				<para>Is there a way to statically link to VCF rather then use the dlls? </para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+			<question>
+				<para>What are the advantages of the VCF versus other libraries like Fox, wxWindows, 
+				Qt, FLTK, etc?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+			<question>
+				<para>If I have written and application in MFC can I still use the VCF libraries in 
+				this app? How hard/easy is it to integrate VCF code with other frameworks or vice-versa?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>			
+			<question>
+				<para>How long will this project last? What happens in the original or current 
+				developers lose interest? </para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
+				<para>Is the VCF help documentation integrated with the MSDN help for Visual Studio users?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>				
+		</qandaentry>
+	</qandaset>	
+	</section>	
+	<section><title>FoundationKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>Does the VCF support XML?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>For what is the VCF::Interface good for?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I create a new thread ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How about Mutexs, Semaphores, etc ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Are the collections thread safe ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I access a file ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I change a files name ? </para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Can I delete the file programmatically ? Does this actually delete the physical file on the hard disk ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Does the VCF support ref counting ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Does the VCF support garbage collecting?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Does the VCF have a set of collection classes?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+			<question>
+				<para>Whats the point of the Object::destroy() and Object::free() methods</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>What is the "proper" or preferred way to delete obejct on the Heap?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>When should I create objects on the heap versus the stack in the VCF?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>What's the deal with the Enumerator class? I thought the VCF only used teh STL for collections?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Does the VCF support i18n and l10n ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I use the Input Output streams?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I persist my objects data to a file?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			
+			<question>
+				<para></para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>GraphicsKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>How do I draw lines ? How do I draw thick lines ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I draw ellipses? Rectangles?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Is there any support for anti-aliased graphics?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I use anti-aliased drawing?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Is there an equivalent for the Win32 API call DrawEdge() ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I change the color of a pen or brush ? Are there even pens or brushes ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>What's the deal with GraphicsContext::strokePath() and GraphicsContext::fillPath()</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I create an Image ? Can I create one from a file ? A resource ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I draw an Image ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I modify Images ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>What's the Stroke class for? What about the Fill class?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I draw text?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I measure the length of some text I'd like to draw? What about the height?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I change the font that is used to render some text?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I change the color of text?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+
+
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>ApplicationKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>How do I create a Timer ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>What is the bare minimum necessary to create a new control ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>What's the difference between a heavyweight and lightweight control ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>How do I override events on my control ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>How do I trap mouse events for my custom control ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>What method do I override to draw or paint the control ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>How do I make a window visible or show up?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>How do I close a window?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>How do I delete the memory for a Window or Dialog instance that I created ?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>Can existing controls be customized?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>	
+			<question>
+				<para>How do add owner draw support to menu items?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>				
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>Component Authoring</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>a question?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+	</section>	
+	<section><title>NetworkKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>a question?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>RemoteObjectKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>a question?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+</section>
+
+
+<!--
+CVS Log info
+
+$Log$
+Revision 1.1.2.1  2003/10/01 01:57:27  ddiego
+added the new faqs docs - all faqs i nthe document are now in one place
+as opposed to being spread out over different chapters.
+
+-->
