@@ -11,6 +11,8 @@ namespace VCF {
 	class StatusBarControl;
 	class DropTargetEvent;
 	class SliderControl;
+	class Panel;
+	class TreeControl;
 };
 
 
@@ -66,9 +68,16 @@ protected:
 
 	void onKeyHandler( VCF::KeyboardEvent* event );
 
+	void onViewSideBar(  VCF::Event* event );
+	void updateViewSideBar( VCF::ActionEvent* e );
+
 	QuickTimeControl* m_quicktimeControl;
 	VCF::StatusBarControl* m_statusBar;
 	VCF::SliderControl* volumeControl_;
+	VCF::Panel* sideBar_;
+	VCF::TreeControl* playListTree_;
+	VCF::Panel* mediaInfo_;
+
 	bool movieLoaded_;
 };
 

@@ -1,6 +1,8 @@
 //MainWindow.h
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/ApplicationKit/TitledBorder.h"
+
 #include "MainWindow.h"
 #include "QTPlayerApplication.h"
 #include "QTPlayerAbout.h"
@@ -13,15 +15,142 @@
 
 using namespace VCF;
 
+class HorizontalLayoutContainer : public StandardContainer {
+public:
+
+	HorizontalLayoutContainer() {
+
+		setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
+
+		setNumberOfColumns(2);
+
+		setColumnWidth( 0, 100 );
+
+		setColumnWidth( 1, 100 );
+
+		setColumnTweenWidth( 0, UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stControlHorizontalSpacing) );
+
+
+		setMaxRowHeight( UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight ) );
+
+		setRowSpacerHeight( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stControlVerticalSpacing) );
+	}
+
+	void setNumberOfColumns( int numColumns ) {
+		columns_.clear();
+		columnTweens_.clear();
+
+		columns_.resize( numColumns, 0.0 );
+
+		columnTweens_.resize( numColumns-1, 0.0 );  
+	}
+
+	void setColumnWidth( int index, double width ) {
+		columns_[index] = width;
+	}
+
+	void setColumnTweenWidth( int index, double width ) {
+		columnTweens_[index] = width;
+	}
+
+	void setMaxRowHeight( double val ) {
+		maxRowHeight_ = val;
+	}
+
+
+
+	virtual void resizeChildren( Control* control ) {
+		VCF::Rect clientBounds = controlContainer_->getClientBounds();
+
+		if ( clientBounds.isEmpty() ) {
+			return; //nothing to do, so just exit the function
+		}
+
+		clientBounds.setRect( clientBounds.left_ + leftBorderWidth_,
+			clientBounds.top_ + topBorderHeight_,
+			clientBounds.right_ - rightBorderWidth_,
+			clientBounds.bottom_ - bottomBorderHeight_ );
+
+
+		std::vector<Control*>::iterator it = controls_.begin();
+
+		int colCount = columns_.size();
+		int tweenCount = columnTweens_.size();
+
+		int col = 0;
+		int tween = 0;
+		VCF::Rect cell = clientBounds;
+		cell.right_ = cell.left_ + columns_[col];
+
+		cell.bottom_ = cell.top_ + maxRowHeight_;
+
+		while ( it != controls_.end() ) {
+
+			Control* control = *it;
+
+
+			if ( col == (colCount-1) ) {
+				cell.right_ = clientBounds.right_;
+			}
+
+
+			control->setBounds( &cell );
+
+
+			col ++;
+
+
+
+			if ( col >= colCount ) {
+				col = 0;
+				tween = 0;
+
+				cell.offset( 0, maxRowHeight_ + rowSpacerHeight_ );
+
+				cell.left_ = clientBounds.left_;
+
+				cell.right_ = cell.left_ + columns_[col];
+
+			}
+			else {
+				cell.offset( cell.getWidth() + columnTweens_[tween], 0 );
+				tween ++;
+			}  
+
+
+			it ++;
+		}
+	}
+
+
+	void setRowSpacerHeight( double val ) {
+		rowSpacerHeight_ = val;
+	}
+
+	std::vector<double> columns_;
+	std::vector<double> columnTweens_;
+
+	double maxRowHeight_;
+	double rowSpacerHeight_;
+};
+
+
+
+class MediaInfoPanel : public Panel {
+public:
+	MediaInfoPanel() {
+		setHeight( 200 );
+	}
+
+};
+
+
 
 
 MainQTWindow::MainQTWindow():
 	m_quicktimeControl(NULL),
 	movieLoaded_(false)
 {
-
-	setContainer( new FixedStandardContainer() );
-
 	//build main menu
 	MenuBar* menuBar = new MenuBar();
 	addComponent( menuBar );
@@ -55,6 +184,13 @@ MainQTWindow::MainQTWindow():
 	sep->setSeparator( true );
 	DefaultMenuItem* viewResizable = new DefaultMenuItem( "&Resizable", view, menuBar );
 	DefaultMenuItem* viewLockAspectRatio = new DefaultMenuItem( "&Lock Aspect Ratio", view, menuBar );	
+
+	sep = new DefaultMenuItem( "", view, menuBar );
+	sep->setSeparator( true );
+
+	DefaultMenuItem* viewSideBar = new DefaultMenuItem( "&SideBar", view, menuBar );
+
+
 
 	//add Help menu
 	DefaultMenuItem* help = new DefaultMenuItem( "&Help", root, menuBar );
@@ -290,9 +426,16 @@ MainQTWindow::MainQTWindow():
 	
 	viewAllowResizeAction->addTarget( viewResizable );
 
-		
-		
 
+
+	Action* viewSideBarAction = new Action();
+	addComponent( viewSideBarAction );
+	viewSideBarAction->Performed += 
+			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewSideBar, "MainQTWindow::onViewSideBar" );
+	viewSideBarAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewSideBar, "MainQTWindow::updateViewSideBar" );
+		
+	viewSideBarAction->addTarget( viewSideBar );
 
 
 
@@ -319,8 +462,6 @@ MainQTWindow::MainQTWindow():
 	bottom->setHeight( bottom->getPreferredHeight() );
 	bottom->setBorderSize( 3 );
 	add( bottom, AlignBottom );
-
-	bottom->setContainer( new FixedStandardContainer() );
 
 	
 	ImageControl* mute = new ImageControl();
@@ -405,11 +546,36 @@ MainQTWindow::MainQTWindow():
 
 
 
+	sideBar_ = new Panel();
+	sideBar_->setWidth( 200 );
+	sideBar_->setBorder( NULL );
+	sideBar_->setBorderSize( 5 );
+	add( sideBar_, AlignLeft );
+
+	playListTree_ = new TreeControl();
+	playListTree_->setVisible( true );
+	sideBar_->add( playListTree_, AlignClient );
+	
+	TitledBorder* tb = new TitledBorder();
+	tb->setCaption( "Media Info" );
+	mediaInfo_ = new MediaInfoPanel();
+	mediaInfo_->setBorder( tb );	
+	sideBar_->add( mediaInfo_, AlignBottom );
 }
 
 MainQTWindow::~MainQTWindow()
 {
 	
+}
+
+void MainQTWindow::onViewSideBar(  VCF::Event* event )
+{
+	sideBar_->setVisible( !sideBar_->getVisible() );
+}
+
+void MainQTWindow::updateViewSideBar( VCF::ActionEvent* e )
+{
+	e->setChecked( sideBar_->getVisible() );
 }
 
 void MainQTWindow::onDraggingOver( VCF::DropTargetEvent* e )
