@@ -105,31 +105,11 @@ SOURCE=..\..\..\include\core\AbstractComponentEditor.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\AbstractListModel.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\AbstractPropertyEditor.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\AbstractScrollable.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\AbstractTableModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\AbstractTextModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\AbstractTreeModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\AbstractView.h
 # End Source File
 # Begin Source File
 
@@ -177,14 +157,6 @@ SOURCE=..\..\..\include\core\Button.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ButtonEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ButtonListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\implementer\ButtonPeer.h
 # End Source File
 # Begin Source File
@@ -201,31 +173,7 @@ SOURCE=..\..\..\include\graphics\ColorEtchedBorder.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ColumnItem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ColumnItemEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ColumnModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ColumnModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ColumnModelEventHandler.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\ComboBoxControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ComboBoxListener.h
 # End Source File
 # Begin Source File
 
@@ -289,15 +237,7 @@ SOURCE=..\..\..\include\core\ComponentEditorManager.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ComponentEvent.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\ComponentInfo.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ComponentListener.h
 # End Source File
 # Begin Source File
 
@@ -313,19 +253,7 @@ SOURCE=..\..\..\include\core\ControlContainer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ControlEvent.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\ControlGraphicsContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\Controller.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ControlListener.h
 # End Source File
 # Begin Source File
 
@@ -365,55 +293,7 @@ SOURCE=..\..\..\include\exceptions\DataTypeNotSupportedException.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\DefaultColumnItem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultColumnModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultListItem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultListModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultMenuItem.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\DefaultPropertyEditors.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTableCellItem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTableModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTabModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTabPage.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTextModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTreeItem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\DefaultTreeModel.h
 # End Source File
 # Begin Source File
 
@@ -449,14 +329,6 @@ SOURCE=..\..\..\include\implementer\FillState.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\FocusEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\FocusListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\implementer\FontState.h
 # End Source File
 # Begin Source File
@@ -465,23 +337,11 @@ SOURCE=..\..\..\include\core\Frame.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\FrameEvent.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\HeaderControl.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\HeaderPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\HelpEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\HelpListener.h
 # End Source File
 # Begin Source File
 
@@ -501,43 +361,11 @@ SOURCE=..\..\..\include\graphics\ImageList.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ImageListEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ImageListListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\exceptions\InvalidStateException.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Item.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ItemEditorEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ItemEditorListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ItemEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ItemListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\KeyboardEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\KeyboardListener.h
 # End Source File
 # Begin Source File
 
@@ -558,22 +386,6 @@ SOURCE=..\..\..\include\implementerKit\LightweightComponent.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ListBoxControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ListItem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ListModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ListModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ListModelListener.h
 # End Source File
 # Begin Source File
 
@@ -601,19 +413,7 @@ SOURCE=..\..\..\include\core\MenuItem.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\MenuItemEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\MenuItemListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\implementer\MenuItemPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\MenuListener.h
 # End Source File
 # Begin Source File
 
@@ -621,43 +421,11 @@ SOURCE=..\..\..\include\core\MessageDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Model.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ModelListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ModelValidationListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\ModelViewKit.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\MouseEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\MouseListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\MultilineTextControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\NotifyEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\NotifyListener.h
 # End Source File
 # Begin Source File
 
@@ -741,10 +509,6 @@ SOURCE=..\..\..\include\core\ScrollbarManager.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ScrollEvent.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\ScrollPeer.h
 # End Source File
 # Begin Source File
@@ -769,10 +533,6 @@ SOURCE=..\..\..\include\core\TabbedPages.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\TableCellItem.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TableControl.h
 # End Source File
 # Begin Source File
@@ -781,47 +541,7 @@ SOURCE=..\..\..\include\core\TableItemEditor.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\TableModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TableModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TableModelListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TabModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TabModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TabModelListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TabPage.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TextControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TextEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TextModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TextModelListener.h
 # End Source File
 # Begin Source File
 
@@ -830,10 +550,6 @@ SOURCE=..\..\..\include\implementer\TextPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TimerComponent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TimerEvent.h
 # End Source File
 # Begin Source File
 
@@ -861,35 +577,11 @@ SOURCE=..\..\..\include\core\ToolbarSeparator.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ToolTipEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ToolTipListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TreeControl.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\TreeItem.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TreeListControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TreeModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TreeModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\TreeModelListener.h
 # End Source File
 # Begin Source File
 
@@ -905,19 +597,7 @@ SOURCE=..\..\..\include\utils\UIToolkit.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\UndoRedoEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\UndoRedoListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\UndoRedoStack.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\ValidationEvent.h
 # End Source File
 # Begin Source File
 
@@ -933,23 +613,7 @@ SOURCE=..\..\..\include\core\View.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\WhatsThisHelpEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\WhatsThisHelpListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Window.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\WindowEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\WindowListener.h
 # End Source File
 # Begin Source File
 
@@ -1005,31 +669,11 @@ SOURCE=..\..\..\src\core\AbstractContainer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\AbstractListModel.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\AbstractPropertyEditor.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\core\AbstractScrollable.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\AbstractTableModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\AbstractTextModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\AbstractTreeModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\AbstractView.cpp
 # End Source File
 # Begin Source File
 
@@ -1054,10 +698,6 @@ SOURCE=..\..\..\src\core\BasicTableItemEditor.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\ButtonEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\CheckBoxControl.cpp
 # End Source File
 # Begin Source File
@@ -1066,19 +706,7 @@ SOURCE=..\..\..\src\core\Clipboard.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Graphics\ColorEtchedBorder.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\ColumnItemEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\ColumnModelEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1142,10 +770,6 @@ SOURCE=..\..\..\src\core\ControlContainer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\ControlEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Graphics\ControlGraphicsContext.cpp
 # End Source File
 # Begin Source File
@@ -1170,51 +794,11 @@ SOURCE=..\..\..\src\core\DefaultColumnItem.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\DefaultColumnModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultListItem.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultListModel.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\DefaultMenuItem.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\core\DefaultPropertyEditors.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTableCellItem.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTableModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTabModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTabPage.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTextModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTreeItem.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultTreeModel.cpp
 # End Source File
 # Begin Source File
 
@@ -1226,15 +810,7 @@ SOURCE=..\..\..\src\core\Dialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\DragEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\DragDrop\DragSource.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\DropEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1243,10 +819,6 @@ SOURCE=..\..\..\src\DragDrop\DropTarget.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\Graphics\EtchedBorder.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\FocusEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1267,10 +839,6 @@ SOURCE=..\..\..\src\core\HeaderControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\HelpEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\HTMLBrowserControl.cpp
 # End Source File
 # Begin Source File
@@ -1284,10 +852,6 @@ SOURCE=..\..\..\src\Graphics\ImageList.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\Events\ImageListEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\ItemEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1315,10 +879,6 @@ SOURCE=..\..\..\src\core\ListBoxControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\ListModelEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\ListViewControl.cpp
 # End Source File
 # Begin Source File
@@ -1331,19 +891,7 @@ SOURCE=..\..\..\src\core\MenuBar.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\MenuItemEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\MessageDialog.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Model.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\MouseEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1399,27 +947,11 @@ SOURCE=..\..\..\src\core\TableControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\TableModelEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\TabModelEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\TextControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\TextEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\TimerComponent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\TimerEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1447,10 +979,6 @@ SOURCE=..\..\..\src\core\ToolbarSeparator.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\ToolTipEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\TreeControl.cpp
 # End Source File
 # Begin Source File
@@ -1459,23 +987,11 @@ SOURCE=..\..\..\src\core\TreeListControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\TreeModelEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Utils\UIToolkit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\UndoRedoEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\UndoRedoStack.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\ValidationEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1484,10 +1000,6 @@ SOURCE=..\..\..\src\IO\VFFInputStream.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\IO\VFFOutputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\WhatsThisHelpEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1756,6 +1268,394 @@ SOURCE=..\..\..\src\ImplementerKit\Win32Window.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\implementerKit\Win32Window.h
+# End Source File
+# End Group
+# Begin Group "Events"
+
+# PROP Default_Filter "*.h;*.cpp"
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ButtonEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ButtonEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ColumnItemEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ColumnItemEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ColumnModelEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ColumnModelEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ComponentEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ControlEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ControlEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\DragEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\DropEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\FocusEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\FocusEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\FrameEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\HelpEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\HelpEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ImageListEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ItemEditorEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ItemEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ItemEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\KeyboardEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ListModelEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ListModelEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\MenuItemEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\MenuItemEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ModelEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\MouseEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\MouseEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\NotifyEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ScrollEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\TableModelEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\TableModelEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\TabModelEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\TabModelEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\TextEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\TextEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\TimerEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\TimerEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ToolTipEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ToolTipEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\TreeModelEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\TreeModelEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\UndoRedoEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\UndoRedoEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ValidationEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ValidationEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\WhatsThisHelpEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\WhatsThisHelpEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\WindowEvent.h
+# End Source File
+# End Group
+# Begin Group "MVC"
+
+# PROP Default_Filter "*.h;*.cpp"
+# Begin Source File
+
+SOURCE=..\..\..\src\core\AbstractListModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\AbstractListModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\AbstractTableModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\AbstractTableModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\AbstractTextModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\AbstractTextModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\AbstractTreeModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\AbstractTreeModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\AbstractView.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\AbstractView.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ColumnItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ColumnModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultColumnItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultColumnModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultColumnModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultListItem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultListItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultListModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultListModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultMenuItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTableCellItem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTableCellItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTableModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTableModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTabModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTabModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTabPage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTabPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTextModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTextModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTreeItem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTreeItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultTreeModel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DefaultTreeModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ListItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ListModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Model.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Model.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TableCellItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TableModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TabModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TabPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TextModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TreeItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TreeModel.h
 # End Source File
 # End Group
 # End Target

@@ -458,19 +458,11 @@ SOURCE=..\..\..\include\events\NotifyEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\NotifyListener.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\events\OutputReadyEvent.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\events\PropertyChangeEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\events\PropertyListener.h
 # End Source File
 # Begin Source File
 
