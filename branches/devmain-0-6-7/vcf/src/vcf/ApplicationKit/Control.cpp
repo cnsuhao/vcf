@@ -473,7 +473,7 @@ void Control::handleEvent( Event* event )
 				ControlSized.fireEvent( (ControlEvent*)event );
 
 				if ( useRenderBuffer_ ) {
-					Rect bounds = getClientBounds();
+					Rect bounds = getClientBounds(false);
 
 					context_->setDrawingArea( bounds );
 				}
@@ -1515,6 +1515,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.11  2005/03/29 04:25:37  ddiego
+*fixed an issue in drawing borders when the controls render buffer is turned on.
+*
 *Revision 1.4.2.10  2005/03/20 04:29:21  ddiego
 *added ability to set image lists for list box control.
 *
