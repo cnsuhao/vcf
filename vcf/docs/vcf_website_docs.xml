@@ -12,17 +12,18 @@
 			<!ENTITY coreLibApplicationKit SYSTEM "corelib_applicationKit.xml">
 			<!ENTITY componentAuthoring SYSTEM "corelib_componentAuthoring.xml">
 			<!ENTITY coreLibNetworkKit SYSTEM "corelib_networkKit.xml">
-			<!ENTITY coreLibRemoteObjectKit SYSTEM "corelib_remoteObjectKit.xml">
-			<!ENTITY coreLibFAQ SYSTEM "corelib_FAQ.xml">
+			<!ENTITY coreLibRemoteObjectKit SYSTEM "corelib_remoteObjectKit.xml">			
 
+			<!ENTITY faqs SYSTEM "faqs.xml">
+			
 			<!ENTITY tutorials SYSTEM "tutorials.xml">
-
 			<!ENTITY helloworld SYSTEM "../examples/HelloWorld/HelloWorld.xml">
 			
 			<!ENTITY applicationicons SYSTEM "../examples/ApplicationIcons/ApplicationIcons.xml">
 			<!ENTITY filesanddirectories SYSTEM "../examples/FilesAndDirectories/FilesAndDirectories.xml">
 			<!ENTITY graphicsandmousemoves SYSTEM "../examples/GraphicsAndMouseMoves/GraphicsAndMouseMoves.xml">
 			<!ENTITY strings SYSTEM "../examples/Strings/Strings.xml">
+			<!ENTITY copyandpaste_src SYSTEM "../examples/CopyAndPaste/CopyAndPaste.cpp">
 			<!ENTITY copyandpaste SYSTEM "../examples/CopyAndPaste/CopyAndPaste.xml">
 			<!ENTITY graphicsbasics SYSTEM "../examples/GraphicsBasics/GraphicsBasics.xml">
 			<!ENTITY strokesandfills SYSTEM "../examples/StrokesAndFills/StrokesAndFills.xml">
@@ -38,8 +39,16 @@
 			<!ENTITY workingwithenumerators SYSTEM "../examples/WorkingWithEnumerators/WorkingWithEnumerators.xml">
 			<!ENTITY scrolling SYSTEM "../examples/Scrolling/Scrolling.xml">
 			<!ENTITY sharedlibraries SYSTEM "../examples/SharedLibraries/SharedLibraries.xml">
+			<!ENTITY heavyandlight SYSTEM "../examples/HeavyAndLight/HeavyAndLight.xml">
+			<!ENTITY alignment SYSTEM "../examples/Alignment/Alignment.xml">
+			<!ENTITY advancedalignment SYSTEM "../examples/AdvancedAlignment/AdvancedAlignment.xml">
+			<!ENTITY anchors SYSTEM "../examples/Anchors/Anchors.xml">
+			<!ENTITY sliders SYSTEM "../examples/Sliders/Sliders.xml">
+			<!ENTITY progressbars SYSTEM "../examples/ProgressBars/ProgressBars.xml">
+			<!ENTITY labels SYSTEM "../examples/Labels/Labels.xml">
+			<!ENTITY dictionaries SYSTEM "../examples/Dictionaries/Dictionaries.xml">
 	
-
+<!--
 			<!ENTITY vcfbuilder_intro SYSTEM "vcfbuilder_intro.xml">
 			<!ENTITY vcfbuilder_quicktut SYSTEM "vcfbuilder_quicktut.xml">
 			<!ENTITY vcfbuilder_ui SYSTEM "vcfbuilder_ui.xml">	
@@ -52,6 +61,7 @@
 			<!ENTITY vcfbuilder_design SYSTEM "vcfbuilder_design.xml">		
 			<!ENTITY vcfbuilder_faq SYSTEM "vcfbuilder_faq.xml">
 			<!ENTITY vcfbuilder_book SYSTEM "vcfbuilder_book.xml">
+			-->
 	]
 >
 
@@ -93,10 +103,11 @@ NB: This software will not save the world.
 	<book>
 		&xmake_book;
 	</book>
-	
+	<!--
 	<book>
 		&vcfbuilder_book;
 	</book>
+	-->
 
 	<index id="index"/>
 </set>
@@ -105,6 +116,13 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/12/08 05:05:27  ddiego
+added a bunch more documentation to classes, and added support for new doc
+keywords (@delegates, @del, @delegate, @event, and @eventtype). This
+makes it easier to see at a glance what events a class fires off.
+Added finishing touches for the Action implementation and have a partially
+complete example for this checked in.
+
 Revision 1.1.2.2  2003/09/29 03:45:38  ddiego
 added some further tweaks to update the docs with the upcoming
 website revision.

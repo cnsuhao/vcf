@@ -3,8 +3,6 @@
 
 #include "ApplicationKit.h"
 #include "ControlsKit.h"
-#include "core/Action.h"
-#include "events/ActionEvent.h"
 
 
 using namespace VCF;
@@ -162,10 +160,10 @@ public:
 
 
 		Action* viewSidebarAction = new Action();
-		addComponent( viewSidebar );
+		addComponent( viewSidebarAction );
 
 		viewSidebarAction->addTarget( viewSidebar );
-		//viewSidebarAction->addTarget( sidebarTBitem );
+		viewSidebarAction->addTarget( sidebarTBitem );
 
 		viewSidebarAction->Performed += 
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onViewSidebar, "ActionsWindow::onViewSidebar" );
@@ -184,7 +182,13 @@ public:
 	}
 
 	void onUpdateViewSidebar( ActionEvent* e ) {
-
+		if ( sideBar_->getVisible() ) {
+			e->setState( e->getState() | ToolbarItem::tisPressed );
+		}
+		else {
+			e->setState( e->getState() & ~ToolbarItem::tisPressed );
+		}
+		e->setChecked( sideBar_->getVisible() );
 	}
 
 };
