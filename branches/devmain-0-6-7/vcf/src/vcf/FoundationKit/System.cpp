@@ -342,7 +342,22 @@ ProgramInfo* System::getProgramInfoFromFileName( const String& fileName )
 				if ( File::exists( infoFilename ) ) {
 					found = true;
 				}
-			}	
+			}
+
+			if ( !found ) {
+				//try Contents dir!
+				infoFilename = fp + "Contents/Info.plist";
+				if ( File::exists( infoFilename ) ) {
+					found = true;
+				}
+				else {
+					infoFilename = fp + "Contents/Info.xml";
+					if ( File::exists( infoFilename ) ) {
+						found = true;
+					}
+				}
+			}
+
 
 			if ( found ) {
 				String name;
@@ -466,6 +481,11 @@ String System::getCompiler()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/11 17:49:59  ddiego
+*added 2 new projects that are command line tools. One is for
+*creating the basic shell for app bundles, the other is for filling in, or
+*updating an info.plist (or info.xml) file.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
