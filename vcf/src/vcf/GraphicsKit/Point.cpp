@@ -42,7 +42,7 @@ bool VCF::Point::closeTo( const VCF::Point& pt, const double& tolerance )
 	return this->closeTo( pt.x_, pt.y_, tolerance );
 }
 
-String VCF::Point::toString()
+String VCF::Point::toString() const
 {
 	char txt[256];
 	memset( txt, 0, 256 );
@@ -55,6 +55,9 @@ String VCF::Point::toString()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/26 05:43:00  marcelloptr
+*bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
