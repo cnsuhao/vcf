@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.6  2003/10/04 20:13:45  ddiego
+#updated the Makefiles - everything works now, including compiling
+#building on GCC 3.3.1
+#
 #Revision 1.3.4.5  2003/10/03 04:33:03  ddiego
 #add precompiled header target - doesn't seem to really work though
 #
@@ -98,7 +102,7 @@ AK_CXX_FLAGS_D=$(GK_CXX_FLAGS_D)
 
 NK_CXX_FLAGS_D=$(CXX_FLAGS_D)
 
-CXX_FLAGS=-D VCF_GCC -DVCF_POSIX -I $(CXX_INC) -O2 -c
+CXX_FLAGS=-DNDEBUG -DVCF_GCC -DVCF_POSIX -I $(CXX_INC) -O2 -c
 GK_CXX_FLAGS=$(GTK_CXX_FLAGS) -DVCF_GTK $(CXX_FLAGS)
 
 AK_CXX_FLAGS=$(GK_CXX_FLAGS)
@@ -112,7 +116,7 @@ GK_LINKER_FLAGS_D=-L $(BIN_OUT) $(GTK_LINKER_FLAGS) -lFoundationKit_d $(LINKER_F
 AK_LINKER_FLAGS_D=-L $(BIN_OUT) $(GTK_LINKER_FLAGS) -lFoundationKit_d -lGraphicsKit_d $(LINKER_FLAGS_D)
 NK_LINKER_FLAGS_D=-L $(BIN_OUT) -lFoundationKit_d $(LINKER_FLAGS_D)
 
-LINKER_FLAGS=-ldl -shared -o
+LINKER_FLAGS=-ldl -lpthread -shared -o
 GK_LINKER_FLAGS=-L $(BIN_OUT) $(GTK_LINKER_FLAGS) -lFoundationKit $(LINKER_FLAGS)
 AK_LINKER_FLAGS=-L $(BIN_OUT) $(GTK_LINKER_FLAGS)  -lFoundationKit -lGraphicsKit $(LINKER_FLAGS)
 NK_LINKER_FLAGS=-L $(BIN_OUT) -lFoundationKit $(LINKER_FLAGS)
@@ -185,6 +189,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/BasicInputStream.o \
 	$(OUTDIR_FK)/BasicOutputStream.o \
 	$(OUTDIR_FK)/Class.o \
+	$(OUTDIR_FK)/CommandLine.o \
 	$(OUTDIR_FK)/ClassRegistry.o \
 	$(OUTDIR_FK)/Directory.o \
 	$(OUTDIR_FK)/ErrorLog.o \
@@ -307,7 +312,8 @@ GRAFKIT_OBJECT_FILES=$(OUTDIR_GK)/GraphicsKit.o \
 			$(OUTDIR_GK)/MgcVector2.o \
 			$(OUTDIR_GK)/MgcIntegrate.o \
 			$(OUTDIR_GK)/MgcSingleCurve2.o \
-			$(OUTDIR_GK)/MgcMath.o 
+			$(OUTDIR_GK)/MgcMath.o \
+			$(LIBAGG_LIB)
 
 
 #ApplicationKit objects

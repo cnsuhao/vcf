@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.3  2003/10/04 20:13:44  ddiego
+#updated the Makefiles - everything works now, including compiling
+#building on GCC 3.3.1
+#
 #Revision 1.3.4.2  2003/10/03 01:07:48  ddiego
 #added/fixed problems to get it to compile under linux
 #
@@ -466,7 +470,7 @@ $(OUTDIR_AK_D)/GTKCommandButton.o : $(SRC_IMPLKIT)/GTKCommandButton.cpp $(APPKIT
 
 
 $(OUTDIR_AK)/ApplicationKit.o : $(SRC_CORE)/ApplicationKit.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/ApplicationKit.cpp -o $(OUTDIR_AK)/ApplicationKit.o
+	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/ApplicationKit.cpp -o $(OUTDIR_AK)/ApplicationKit.o
 
 
 $(OUTDIR_AK)/AbstractApplication.o : $(SRC_CORE)/AbstractApplication.cpp $(APPKIT_HDRS)
