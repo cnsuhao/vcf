@@ -114,7 +114,7 @@ void UIToolkit::init()
 
 	Component::registerComponent( "VCF::TabbedPages", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::Panel", STANDARD_CATEGORY );
-	Component::registerComponent( "VCF::CommandButton", STANDARD_CATEGORY );
+	Component::registerComponent( "VCF::CommandButton", STANDARD_CATEGORY );	
 	Component::registerComponent( "VCF::ListBoxControl", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::ListViewControl", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::TreeControl", STANDARD_CATEGORY );
@@ -122,11 +122,25 @@ void UIToolkit::init()
 	Component::registerComponent( "VCF::MultilineTextControl", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::Label", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::CheckBoxControl", STANDARD_CATEGORY );
+	Component::registerComponent( "VCF::RadioButtonControl", STANDARD_CATEGORY );
+	Component::registerComponent( "VCF::SliderControl", STANDARD_CATEGORY );
+	Component::registerComponent( "VCF::ProgressControl", STANDARD_CATEGORY );
+
 	Component::registerComponent( "VCF::MenuBar", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::PopupMenu", STANDARD_CATEGORY );
+
+	Component::registerComponent( "VCF::TimerComponent", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::ScrollbarManager", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::SystemTray", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::PushButton", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::OpenGLControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::ImageControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::HTMLBrowserControl", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::TableControl", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::Splitter", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::TreeListControl", ADDITIONAL_CATEGORY );
+	Component::registerComponent( "VCF::HeaderControl", ADDITIONAL_CATEGORY );
+	
 
 	internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
 
@@ -983,6 +997,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/02/28 04:51:56  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.3.2.3  2005/02/21 16:20:02  ddiego
 *minor changes to various things, property editors, and tree list control.
 *

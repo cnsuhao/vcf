@@ -65,7 +65,7 @@ void ImageControl::setTransparent( const bool& transparent )
 	}
 }
 
-ImageFilenameString& ImageControl::getFilename()
+ImageFilenameString ImageControl::getFilename()
 {
 	return filename_;
 }
@@ -118,14 +118,13 @@ void ImageFilenamePropertyEditor::edit()
 {
 	CommonFileOpen dlg;
 
-	ImageFilenameString& obj = *((ImageFilenameString*)(Object*)*getValue() );
+	ImageFilenameString fileName = *getValue();
 
-	String s = obj;
-	dlg.setFileName( s );
+	
+	dlg.setFileName( fileName );
 	if ( true == dlg.execute() ) {
-		s = dlg.getFileName();
-		obj = s;
-		VariantData data = &obj;
+		fileName = dlg.getFileName();		
+		VariantData data = fileName;
 		setValue( &data );
 	}
 }
@@ -152,6 +151,9 @@ void ImagePropertyEditor::edit()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/28 04:51:56  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

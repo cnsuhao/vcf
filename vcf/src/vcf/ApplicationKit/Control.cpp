@@ -501,7 +501,7 @@ void Control::handleEvent( Event* event )
 
 
 				MouseEnter.fireEvent( mouseEvent );
-				if (!event->isConsumed()) {
+				if (!event->isConsumed() && !isDesigning()) {
 					mouseEnter( mouseEvent );
 				}
 			}
@@ -514,7 +514,9 @@ void Control::handleEvent( Event* event )
 				
 
 				MouseDown.fireEvent( mouseEvent );
-				if (!event->isConsumed()) {
+
+				//turn off normal mouse behaviour in design mode
+				if ( !event->isConsumed() && !isDesigning() ) {
 					mouseDown( mouseEvent );
 				}
 			}
@@ -536,7 +538,7 @@ void Control::handleEvent( Event* event )
 				
 				peer_->setCursor( cursor_ );
 				MouseMove.fireEvent( mouseEvent );
-				if (!event->isConsumed()) {
+				if (!event->isConsumed() && !isDesigning()) {
 					mouseMove( mouseEvent );
 				}
 			}
@@ -551,10 +553,10 @@ void Control::handleEvent( Event* event )
 
 				bool rightBtn = mouseEvent->hasRightButton();
 				MouseUp.fireEvent( mouseEvent );
-				if (!mouseEvent->isConsumed()) {
+				if (!mouseEvent->isConsumed() && !isDesigning()) {
 					mouseUp( mouseEvent );
 				}
-				if ( (NULL != popupMenu_) && (true == rightBtn) ){
+				if ( (NULL != popupMenu_) && (true == rightBtn) && !isDesigning() ){
 					Point tmpPt = *mouseEvent->getPoint();
 					if ( NULL != scrollable_ ) {
 						tmpPt.x_ -= scrollable_->getHorizontalPosition();
@@ -587,7 +589,7 @@ void Control::handleEvent( Event* event )
 
 
 				MouseLeave.fireEvent( mouseEvent );
-				if (!mouseEvent->isConsumed()) {
+				if (!mouseEvent->isConsumed() && !isDesigning()) {
 					mouseLeave( mouseEvent );
 				}
 			}
@@ -597,7 +599,9 @@ void Control::handleEvent( Event* event )
 				
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
 				MouseClicked.fireEvent( mouseEvent );
-				mouseClick( mouseEvent );
+				if (!mouseEvent->isConsumed() && !isDesigning() ) {
+					mouseClick( mouseEvent );
+				}
 			}
 			break;
 
@@ -605,27 +609,37 @@ void Control::handleEvent( Event* event )
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
 
 				MouseDoubleClicked.fireEvent( mouseEvent );
-				mouseDblClick( mouseEvent );
+				if (!mouseEvent->isConsumed() && !isDesigning() ) {
+					mouseDblClick( mouseEvent );
+				}
 			}
 			break;
 
 			case KEYBOARD_DOWN:{
 				KeyboardEvent* kbEvent = (KeyboardEvent*)event;
-				keyDown( kbEvent );
+				
+				if ( !isDesigning() || (NULL != getContainer()) ) {
+					keyDown( kbEvent );					
+				}
 				KeyDown.fireEvent( kbEvent );
 			}
 			break;
 
 			case KEYBOARD_PRESSED:{
 				KeyboardEvent* kbEvent = (KeyboardEvent*)event;
-				keyPressed( kbEvent );
+				if ( !isDesigning() || (NULL != getContainer()) ) {
+					keyPressed( kbEvent );
+				}
+				
 				KeyPressed.fireEvent( kbEvent );
 			}
 			break;
 
 			case KEYBOARD_UP:{
 				KeyboardEvent* kbEvent = (KeyboardEvent*)event;
-				keyUp ( kbEvent );
+				if ( !isDesigning() || (NULL != getContainer()) ) {
+					keyUp ( kbEvent );
+				}
 				KeyUp.fireEvent( kbEvent );
 			}
 			break;
@@ -1468,6 +1482,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/02/28 04:51:55  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.4.2.5  2005/02/27 01:45:33  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.

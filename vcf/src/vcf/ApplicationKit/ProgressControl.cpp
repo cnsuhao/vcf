@@ -45,7 +45,7 @@ ProgressControl::~ProgressControl()
 }
 
 
-void ProgressControl::setDisplayAlignment( ProgressAlignment val )
+void ProgressControl::setDisplayAlignment( const ProgressAlignment& val )
 {
 	displayAlignment_ = val;
 	repaint();
@@ -256,6 +256,9 @@ Win32 side we can phase in this code
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/28 04:51:56  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.3.2.1  2005/02/27 01:45:33  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.

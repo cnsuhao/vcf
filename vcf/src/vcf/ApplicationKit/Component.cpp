@@ -149,7 +149,21 @@ ulong32 Component::getComponentState()
 
 void Component::setComponentState( const ulong32& componentState )
 {
+	//check for design mode here since we have async creation handling 
+	//at the moment
+	bool designing = isDesigning();
+
 	componentState_ = componentState;
+	
+	if ( !(componentState & Component::csDesigning) ) {
+		if ( designing ) {
+			componentState_ |= Component::csDesigning;
+		}
+		else {
+			componentState_ &= ~Component::csDesigning;
+		}
+	}
+
 	std::vector<Component*>::iterator it = components_.begin();
 	while ( it != components_.end() ){
 		Component* child = *it;
@@ -415,12 +429,12 @@ void Component::saved()
 
 bool Component::isNormal() const
 {
-	return (Component::csNormal == componentState_) ? true : false;
+	return (Component::csNormal & componentState_) ? true : false;
 }
 
 bool Component::isDestroying() const
 {
-	return (Component::csDestroying == componentState_) ? true : false;
+	return (Component::csDestroying & componentState_) ? true : false;
 }
 
 bool Component::isLoading() const
@@ -484,6 +498,9 @@ void Component::setUseLocaleStrings( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/28 04:51:55  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.3  2004/12/01 04:31:20  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

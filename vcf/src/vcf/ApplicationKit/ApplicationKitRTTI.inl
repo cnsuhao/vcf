@@ -432,14 +432,13 @@ BEGIN_CLASSINFO(HeaderControl, "VCF::HeaderControl", "VCF::CustomControl", HEADE
 END_CLASSINFO(HeaderControl)
 
 
-BEGIN_CLASSINFO(ImageFilenameString, "VCF::ImageFilenameString", "VCF::Object", IMAGEFILENAMESTRING_CLASSID);
-END_CLASSINFO( ImageFilenameString );
-
 
 BEGIN_CLASSINFO(ImageControl, "VCF::ImageControl", "VCF::CustomControl", IMAGECONTROL_CLASSID)
 OBJECT_PROPERTY( Image, "image", ImageControl::getImage, ImageControl::setImage );
 PROPERTY(bool, "transparent", ImageControl::getTransparent, ImageControl::setTransparent, pdBool);
-OBJECT_PROPERTY_REF(ImageFilenameString, "filename", ImageControl::getFilename, ImageControl::setFilename);
+//this is a typedef property registration, which allows a normal type, like a string, to 
+//become defined with a different type name.
+PROPERTY_TYPEDEF( String, "filename", ImageControl::getFilename, ImageControl::setFilename, pdString, "VCF::ImageFilenameString" );
 END_CLASSINFO(ImageControl)
 
 
@@ -622,10 +621,30 @@ END_CLASSINFO(Window)
 
 
 BEGIN_CLASSINFO(ProgressControl, "VCF::ProgressControl", "VCF::CustomControl", PROGRESSCONTROL_CLASSID )
+PROPERTY( double, "minValue", ProgressControl::getMinValue, ProgressControl::setMinValue, pdDouble );
+PROPERTY( double, "maxValue", ProgressControl::getMaxValue, ProgressControl::setMaxValue, pdDouble );
+PROPERTY( double, "position", ProgressControl::getPosition, ProgressControl::setPosition, pdDouble );
+PROPERTY( bool, "displayProgressText", ProgressControl::getDisplayProgressText, ProgressControl::setDisplayProgressText, pdBool );
+PROPERTY( bool, "useProgressFormatString", ProgressControl::getUseProgressFormatString, ProgressControl::setUseProgressFormatString, pdBool );
+PROPERTY( double, "stepItIncrement", ProgressControl::getStepItIncrement, ProgressControl::setStepItIncrement, pdDouble );
+OBJECT_PROPERTY( Color, "progressBarColor", ProgressControl::getProgressBarColor, ProgressControl::setProgressBarColor );
+OBJECT_PROPERTY( Color, "progressTextColor", ProgressControl::getProgressTextColor, ProgressControl::setProgressTextColor );
+LABELED_ENUM_PROPERTY( ProgressControl::ProgressAlignment, "displayAlignment", ProgressControl::getDisplayAlignment, ProgressControl::setDisplayAlignment,
+					   ProgressControl::paVertical, ProgressControl::paHorizontal, 2, ProgressAlignmentNames);
+
 END_CLASSINFO(ProgressControl)
 
 
 BEGIN_CLASSINFO(SliderControl, "VCF::SliderControl", "VCF::CustomControl", SLIDERCONTROL_CLASSID )
+LABELED_ENUM_PROPERTY( SliderControl::DisplayOrientation, "displayOrientation", SliderControl::getDisplayOrientation, SliderControl::setDisplayOrientation,
+					   SliderControl::doHorizontal, SliderControl::doVertical, 2, ProgressAlignmentNames);
+PROPERTY( double, "minValue", SliderControl::getMinValue, SliderControl::setMinValue, pdDouble );
+PROPERTY( double, "maxValue", SliderControl::getMaxValue, SliderControl::setMaxValue, pdDouble );
+PROPERTY( double, "position", SliderControl::getPosition, SliderControl::setPosition, pdDouble );
+PROPERTY( bool, "tickMarks", SliderControl::hasTickMarks, SliderControl::setHasTickMarks, pdBool );
+PROPERTY( long, "tickFrequency", SliderControl::getTickFrequency, SliderControl::setTickFrequency, pdLong );
+PROPERTY( double, "stepIncrement", SliderControl::getStepIncrement, SliderControl::setStepIncrement, pdDouble );
+PROPERTY( double, "stepIncrement", SliderControl::getPageIncrement, SliderControl::setPageIncrement, pdDouble );
 END_CLASSINFO(SliderControl)
 
 
@@ -645,6 +664,9 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/02/28 04:51:55  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.3.2.2  2005/02/27 01:45:32  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.
