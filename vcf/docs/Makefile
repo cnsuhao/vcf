@@ -90,3 +90,4 @@ clean :
 	rm *.hhc
 	rm *.hhk
 	rm *.chm
+	rm -rf doxy_html/
