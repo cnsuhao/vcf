@@ -414,7 +414,7 @@ void TableControl::init()
 	addComponent( scroller ) ;
 	scroller->setHasHorizontalScrollbar( true );
 	scroller->setHasVerticalScrollbar( true );
-	scroller->setTarget( this );	
+	scroller->setTarget( this );
 
 	EventHandler* ev = new GenericEventHandler<TableControl>(this, &TableControl::onVerticalScrolling, "TableControl::onVerticalScrolling" );
 	scroller->VerticalScrolling += ev;
@@ -1503,12 +1503,11 @@ void TableControl::cancelEditing()
 
 void TableControl::finishEditing()
 {
-	if ( NULL != currentItemEditor_ ){
-		currentItemEditor_->updateItem();
-	}
-	else {
+	if ( NULL == currentItemEditor_ ){
 		return;
 	}
+
+	currentItemEditor_->updateItem();
 
 	EventHandler* ev =
 		new GenericEventHandler<TableControl>( this, &TableControl::onFinishEditing );
@@ -2368,6 +2367,9 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/31 00:40:53  marcelloptr
+*minor change in the code... easier to debug
+*
 *Revision 1.3.2.1  2005/01/26 20:59:28  ddiego
 *some fixes to table control and to teh table item editor interface
 *
