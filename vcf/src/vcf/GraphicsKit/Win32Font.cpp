@@ -83,14 +83,14 @@ void Win32Font::init()
 	//gives same appearrance on WinXP as ANSI_VAR_FONT. dougtinkham
 	//Unfortunately DEFAULT_GUI_FONT looks like shit on Win2k :( 
 	//we'll check here to see the OS version and then base the decision on that
-	//WinMe or XP = DEFAULT_GUI_FONT, Win2K == DEFAULT_GUI_FONT. JC (aka ddiego)
+	//WinMe or XP = DEFAULT_GUI_FONT, Win2K or 98 = ANSI_VAR_FONT. JC (aka ddiego)
 
 	HFONT defFont = NULL;
 	
 	static OSVERSIONINFO osVersion = {0};
 	if ( 0 == osVersion.dwOSVersionInfoSize ) {
 		osVersion.dwOSVersionInfoSize = sizeof(osVersion);
-		GetVersionEx( &osVersion );
+		::GetVersionEx( &osVersion );
 	}
 	
 
@@ -184,7 +184,7 @@ void Win32Font::init()
 	}
 	
 
-	if ( pointSize_ > 0.0 ) {		
+	if ( pointSize_ > 0.0 ) {
 		fontHeight = -MulDiv( pointSize_, GetDeviceCaps( dc, LOGPIXELSY), 72 );
 	}
 
@@ -801,6 +801,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/08/26 04:06:30  marcelloptr
+*minor change on name of getMillisecond
+*
 *Revision 1.2.2.4  2004/08/26 01:44:40  ddiego
 *fixed font pix size bug that handled non true type fonts poorly.
 *

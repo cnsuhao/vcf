@@ -111,7 +111,7 @@ void DateTime::setTime( const unsigned long& hour,
 	unsigned long d;
 	getYearMonthDay( *this, &y, &m, &d );
 
-	unsigned long ms = getMilliSecond();
+	unsigned long ms = getMillisecond();
 
 	set( y, m, d, hour, minutes, seconds, ms );
 }
@@ -300,7 +300,7 @@ unsigned long DateTime::getSecond() const
 	return result;
 }
 
-unsigned long DateTime::getMilliSecond() const
+unsigned long DateTime::getMillisecond() const
 {
 	unsigned long result = 0;
 
@@ -476,7 +476,7 @@ void DateTime::setAndAdjustForGregorianDay( const unsigned long& year,
 
 	if ( gregorianDate != newGregorianDate ) {
 		if ( !gregorianDate ) {
-			set( getYear(), getMonth(), getDay()+10, getHour(), getMinute(), getSecond(), getMilliSecond() );
+			set( getYear(), getMonth(), getDay()+10, getHour(), getMinute(), getSecond(), getMillisecond() );
 		}
 	}
 }
@@ -565,7 +565,7 @@ unsigned long DateTime::getDayOfYear() const
 	unsigned long result = 0;
 
 	DateTime startOfYear;
-	startOfYear.set( getYear(), 1, 1, getHour(), getMinute(), getSecond(), getMilliSecond() );
+	startOfYear.set( getYear(), 1, 1, getHour(), getMinute(), getSecond(), getMillisecond() );
 
 	ulong64 diff = time_ - startOfYear.time_;
 	//+1 is added so we get a 1 based result - otherwise it'd be zero based
@@ -910,7 +910,7 @@ void ByMonth::incr( DateTime& dt, unsigned long offset )
 
 
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMillisecond() );
 }
 
 void ByMonth::decr( DateTime& dt, unsigned long offset )
@@ -945,7 +945,7 @@ void ByMonth::decr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMillisecond() );
 }
 
 void ByYear::incr( DateTime& dt, unsigned long offset )
@@ -972,7 +972,7 @@ void ByYear::incr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMillisecond() );
 }
 
 void ByYear::decr( DateTime& dt, unsigned long offset )
@@ -999,7 +999,7 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMillisecond() );
 }
 
 
@@ -1106,7 +1106,7 @@ unsigned long DateTimeSpan::getMilliseconds() const
 	DateTime dt;
 	dt.time_ = delta_;
 
-	return dt.getMilliSecond();
+	return dt.getMillisecond();
 }
 
 unsigned long DateTimeSpan::getTotalMonths() const
@@ -1145,6 +1145,9 @@ ulong64 DateTimeSpan::getTotalMilliseconds() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/08/26 04:05:47  marcelloptr
+*minor change on name of getMillisecond
+*
 *Revision 1.2.2.3  2004/08/23 21:25:57  marcelloptr
 *just moved some member definitions around
 *

@@ -204,14 +204,16 @@ DateTime Win32SystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 
 
 	// DateTime --> systemTime
-	st.wYear = date.getYear();
-	st.wMonth = date.getMonth();
+	unsigned long y, m, d, h, min, s, ms;
+	date.get( &y, &m, &d, &h, &min, &s, &ms );
+	st.wYear   = y;
+	st.wMonth  = m;
 	st.wDayOfWeek = date.getWeekDay();
-	st.wDay = date.getDay();
-	st.wHour = date.getHour();
-	st.wMinute = date.getMinute();
-	st.wSecond = date.getSecond();
-	st.wMilliseconds = date.getMilliSecond();
+	st.wDay    = d;
+	st.wHour   = h;
+	st.wMinute = min;
+	st.wSecond = s;
+	st.wMilliseconds = ms;
 
 	// convert system time to filetime
 	if ( !::SystemTimeToFileTime( &st, &ftUTC ) ) { // stUTC --> ftUTC
@@ -254,7 +256,7 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	st.wHour = date.getHour();
 	st.wMinute = date.getMinute();
 	st.wSecond = date.getSecond();
-	st.wMilliseconds = date.getMilliSecond();
+	st.wMilliseconds = date.getMillisecond();
 
 	// convert system time to filetime
 	if ( !::SystemTimeToFileTime( &st, &ftLocal ) ) { // stUTC --> ftUTC
@@ -285,6 +287,9 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/26 04:05:48  marcelloptr
+*minor change on name of getMillisecond
+*
 *Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.
