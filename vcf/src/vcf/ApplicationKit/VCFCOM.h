@@ -14,11 +14,10 @@ where you installed the VCF.
 #endif
 
 
-#ifndef MFC_PEER_H__ //this prevents redeclaring <windows.h>, which cause MFC to barf, thanks M$ (stupid, *&&^#*&*&$*, *&$^$ ) !
+//#ifndef MFC_PEER_H__ //this prevents redeclaring <windows.h>, which cause MFC to barf, thanks M$ (stupid, *&&^#*&*&$*, *&$^$ ) !
+//#	include <windows.h>
+//#endif // MFC_PEER_H__ check
 
-//#include <windows.h>
-
-#endif //MFC_PEER_H__ check
 
 #include <ole2.h>
 #include <ole2ver.h>
@@ -27,6 +26,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/15 20:37:15  marcelloptr
+*minor changes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
