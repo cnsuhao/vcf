@@ -35,19 +35,19 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6/icl7/Release/"
-# PROP Intermediate_Dir "vc6/icl7/Release/"
+# PROP Output_Dir "icl7\Release/"
+# PROP Intermediate_Dir "icl7\Release/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /I "..\Zlib" /I "..\libjpeg" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBMNG_LIB" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(VCF_INCLUDE)" /I "../Zlib" /I "../libjpeg" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBMNG_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x413 /d "NDEBUG"
 # ADD RSC /l 0x413 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"..\..\..\..\lib\LibMNG_icl7_s.bsc"
+# ADD BSC32 /nologo /o"../../../../lib/LibMNG_icl7_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\..\..\..\..\lib\LibMNG_icl7_s.lib"
+# ADD LIB32 /nologo /out:"../../../../../../lib/LibMNG_icl7_s.lib"
 
 !ELSEIF  "$(CFG)" == "LibMNG - Win32 Debug"
 
@@ -58,19 +58,19 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc6/icl7/Debug/"
-# PROP Intermediate_Dir "vc6/icl7/Debug/"
+# PROP Output_Dir "icl7\Debug/"
+# PROP Intermediate_Dir "icl7\Debug/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\Zlib" /I "..\libjpeg" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBMNG_LIB" /Fd"../../../../../lib/LibMNG_icl7_vc6_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "../Zlib" /I "../libjpeg" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBMNG_LIB" /Fd"..\..\..\..\..\..\lib/LibMNG_icl7_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x413 /d "_DEBUG"
 # ADD RSC /l 0x413 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"..\..\..\..\lib\LibMNG_icl7_sd.bsc"
+# ADD BSC32 /nologo /o"../../../../lib/LibMNG_icl7_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\..\..\..\..\lib\LibMNG_icl7_sd.lib"
+# ADD LIB32 /nologo /out:"../../../../../../lib/LibMNG_icl7_sd.lib"
 
 !ENDIF 
 
@@ -83,75 +83,75 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\libmng_callback_xs.c
+SOURCE=libmng_callback_xs.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_chunk_io.c
+SOURCE=libmng_chunk_io.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_chunk_prc.c
+SOURCE=libmng_chunk_prc.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_chunk_xs.c
+SOURCE=libmng_chunk_xs.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_cms.c
+SOURCE=libmng_cms.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_display.c
+SOURCE=libmng_display.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_dither.c
+SOURCE=libmng_dither.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_error.c
+SOURCE=libmng_error.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_filter.c
+SOURCE=libmng_filter.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_hlapi.c
+SOURCE=libmng_hlapi.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_jpeg.c
+SOURCE=libmng_jpeg.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_object_prc.c
+SOURCE=libmng_object_prc.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_pixels.c
+SOURCE=libmng_pixels.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_prop_xs.c
+SOURCE=libmng_prop_xs.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_read.c
+SOURCE=libmng_read.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_trace.c
+SOURCE=libmng_trace.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_write.c
+SOURCE=libmng_write.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_zlib.c
+SOURCE=libmng_zlib.c
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -159,87 +159,87 @@ SOURCE=.\libmng_zlib.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\libmng.h
+SOURCE=libmng.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_chunk_io.h
+SOURCE=libmng_chunk_io.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_chunk_prc.h
+SOURCE=libmng_chunk_prc.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_chunks.h
+SOURCE=libmng_chunks.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_cms.h
+SOURCE=libmng_cms.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_conf.h
+SOURCE=libmng_conf.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_data.h
+SOURCE=libmng_data.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_display.h
+SOURCE=libmng_display.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_dither.h
+SOURCE=libmng_dither.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_error.h
+SOURCE=libmng_error.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_filter.h
+SOURCE=libmng_filter.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_jpeg.h
+SOURCE=libmng_jpeg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_memory.h
+SOURCE=libmng_memory.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_object_prc.h
+SOURCE=libmng_object_prc.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_objects.h
+SOURCE=libmng_objects.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_pixels.h
+SOURCE=libmng_pixels.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_read.h
+SOURCE=libmng_read.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_trace.h
+SOURCE=libmng_trace.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_types.h
+SOURCE=libmng_types.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_write.h
+SOURCE=libmng_write.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\libmng_zlib.h
+SOURCE=libmng_zlib.h
 # End Source File
 # End Group
 # End Target

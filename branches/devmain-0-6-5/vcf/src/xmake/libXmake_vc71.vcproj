@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="vc71\Release\"
-			IntermediateDirectory="vc71\Release\"
+			OutputDirectory=".\vc71\Release/"
+			IntermediateDirectory=".\vc71\Release/"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,10 +28,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile="vc71\Release\libXmake_vc71.pch"
-				AssemblerListingLocation="vc71\Release\"
-				ObjectFile="vc71\Release\"
-				ProgramDataBaseFileName="vc71\Release\"
+				PrecompiledHeaderFile=".\vc71\Release\libXmake_vc71.pch"
+				AssemblerListingLocation=".\vc71\Release/"
+				ObjectFile=".\vc71\Release/"
+				ProgramDataBaseFileName=".\vc71\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
@@ -57,8 +57,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="vc71\Debug\"
-			IntermediateDirectory="vc71\Debug\"
+			OutputDirectory=".\vc71\Debug/"
+			IntermediateDirectory=".\vc71\Debug/"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -70,9 +70,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile="vc71\Debug\libXmake_vc71.pch"
-				AssemblerListingLocation="vc71\Debug\"
-				ObjectFile="vc71\Debug\"
+				PrecompiledHeaderFile=".\vc71\Debug\libXmake_vc71.pch"
+				AssemblerListingLocation=".\vc71\Debug/"
+				ObjectFile=".\vc71\Debug/"
 				ProgramDataBaseFileName="..\lib\libXmake_vc71_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"

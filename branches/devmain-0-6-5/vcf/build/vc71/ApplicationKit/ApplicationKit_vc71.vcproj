@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib\"
-			IntermediateDirectory="vc71\ReleaseS\"
+			OutputDirectory="..\..\..\lib/"
+			IntermediateDirectory=".\vc71\ReleaseS/"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -23,7 +23,7 @@
 				AdditionalOptions="/Zm120 "
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE)\"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NO_MFC;USE_FRAMEWORK_LIB;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB;BUILD_APPKIT_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -31,10 +31,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
-				PrecompiledHeaderFile="vc71\ReleaseS\ApplicationKit_vc71.pch"
-				AssemblerListingLocation="vc71\ReleaseS\"
-				ObjectFile="vc71\ReleaseS\"
-				ProgramDataBaseFileName="vc71\ReleaseS\"
+				PrecompiledHeaderFile=".\vc71\ReleaseS\ApplicationKit_vc71.pch"
+				AssemblerListingLocation=".\vc71\ReleaseS/"
+				ObjectFile=".\vc71\ReleaseS/"
+				ProgramDataBaseFileName=".\vc71\ReleaseS/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -67,8 +67,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib\"
-			IntermediateDirectory="vc71\DebugS\"
+			OutputDirectory="..\..\..\lib/"
+			IntermediateDirectory=".\vc71\DebugS/"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -77,16 +77,16 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/Zm150 "
 				Optimization="0"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE)\"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;NO_MFC;USE_FRAMEWORK_LIB;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB;BUILD_APPKIT_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
-				PrecompiledHeaderFile="vc71\DebugS\ApplicationKit_vc71.pch"
-				AssemblerListingLocation="vc71\DebugS\"
-				ObjectFile="vc71\DebugS\"
+				PrecompiledHeaderFile=".\vc71\DebugS\ApplicationKit_vc71.pch"
+				AssemblerListingLocation=".\vc71\DebugS/"
+				ObjectFile=".\vc71\DebugS/"
 				ProgramDataBaseFileName="..\..\..\Lib\ApplicationKit_vc71_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -386,14 +386,14 @@
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\vcf\build\resources\win32\"/>
+						AdditionalIncludeDirectories=".\vcf\build\resources\win32/"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\vcf\build\resources\win32\"/>
+						AdditionalIncludeDirectories=".\vcf\build\resources\win32/"/>
 				</FileConfiguration>
 			</File>
 			<File

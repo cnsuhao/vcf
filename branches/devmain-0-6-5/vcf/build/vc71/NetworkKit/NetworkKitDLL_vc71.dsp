@@ -36,8 +36,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\..\lib\"
-# PROP Intermediate_Dir "vc71\Release\"
+# PROP Output_Dir "..\..\..\lib/"
+# PROP Intermediate_Dir "vc71\Release/"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /c
@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../bin/NetworkKit_vc71.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 Ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"..\..\..\bin\NetworkKit_vc71.dll" /libpath:"..\..\..\lib"
+# ADD LINK32 Ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"..\..\..\bin/NetworkKit_vc71.dll" /libpath:"..\..\..\lib"
 # SUBTRACT LINK32 /debug
 
 !ELSEIF  "$(CFG)" == "NetworkKitDLL - Win32 Debug"
@@ -63,8 +63,8 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\..\lib\"
-# PROP Intermediate_Dir "vc71\DebugDLL\"
+# PROP Output_Dir "..\..\..\lib/"
+# PROP Intermediate_Dir "vc71\DebugDLL/"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "NETWORKKITDLL_EXPORTS" /YX /FD /GZ /c
@@ -78,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../bin/NetworkKit_vc71_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 Ws2_32.lib comctl32.lib rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"..\..\..\bin\NetworkKit_vc71_d.dll" /libpath:"..\..\..\lib"
+# ADD LINK32 Ws2_32.lib comctl32.lib rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"..\..\..\bin/NetworkKit_vc71_d.dll" /libpath:"..\..\..\lib"
 # SUBTRACT LINK32 /map
 
 !ENDIF 
@@ -92,39 +92,39 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/DatagramSocket.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\DatagramSocket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetToolkit.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\NetToolkit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/ServerSocketEvent.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\ServerSocketEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Socket.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\Socket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketEvent.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketListeningLoop.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketListeningLoop.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/URL.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\URL.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32DatagramSocketPeer.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32DatagramSocketPeer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32SocketPeer.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32SocketPeer.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -132,59 +132,59 @@ SOURCE=../../../src/vcf/NetworkKit/Win32SocketPeer.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/DatagramSocket.h
+SOURCE=..\..\..\src\vcf\NetworkKit\DatagramSocket.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetToolkit.h
+SOURCE=..\..\..\src\vcf\NetworkKit\NetToolkit.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetworkKit.h
+SOURCE=..\..\..\src\vcf\NetworkKit\NetworkKit.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetworkKitSelectLib.h
+SOURCE=..\..\..\src\vcf\NetworkKit\NetworkKitSelectLib.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/ServerSocketEvent.h
+SOURCE=..\..\..\src\vcf\NetworkKit\ServerSocketEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Socket.h
+SOURCE=..\..\..\src\vcf\NetworkKit\Socket.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketEvent.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketException.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketException.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketListener.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketListener.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketListeningLoop.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketListeningLoop.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketPeer.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/URL.h
+SOURCE=..\..\..\src\vcf\NetworkKit\URL.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32DatagramSocketPeer.h
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32DatagramSocketPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32SocketPeer.h
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32SocketPeer.h
 # End Source File
 # End Group
 # End Target

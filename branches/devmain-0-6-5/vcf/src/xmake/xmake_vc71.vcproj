@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="vc71\Release\"
-			IntermediateDirectory="vc71\Release\"
+			OutputDirectory=".\vc71\Release/"
+			IntermediateDirectory=".\vc71\Release/"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -29,10 +29,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile="vc71\Release\xmake_vc71.pch"
-				AssemblerListingLocation="vc71\Release\"
-				ObjectFile="vc71\Release\"
-				ProgramDataBaseFileName="vc71\Release\"
+				PrecompiledHeaderFile=".\vc71\Release\xmake_vc71.pch"
+				AssemblerListingLocation=".\vc71\Release/"
+				ObjectFile=".\vc71\Release/"
+				ProgramDataBaseFileName=".\vc71\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -45,12 +45,12 @@
 				OutputFile="..\bin\xmake_vc71.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\lib\"
-				ProgramDatabaseFile="vc71\Release\xmake_vc71.pdb"
+				AdditionalLibraryDirectories="..\lib/"
+				ProgramDatabaseFile=".\vc71\Release\xmake_vc71.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName="vc71\Release\xmake_vc71.tlb"/>
+				TypeLibraryName=".\vc71\Release\xmake_vc71.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -68,8 +68,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="vc71\Debug\"
-			IntermediateDirectory="vc71\Debug\"
+			OutputDirectory=".\vc71\Debug/"
+			IntermediateDirectory=".\vc71\Debug/"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -82,10 +82,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile="vc71\Debug\xmake_vc71.pch"
-				AssemblerListingLocation="vc71\Debug\"
-				ObjectFile="vc71\Debug\"
-				ProgramDataBaseFileName="vc71\Debug\"
+				PrecompiledHeaderFile=".\vc71\Debug\xmake_vc71.pch"
+				AssemblerListingLocation=".\vc71\Debug/"
+				ObjectFile=".\vc71\Debug/"
+				ProgramDataBaseFileName=".\vc71\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -99,13 +99,13 @@
 				OutputFile="..\bin\xmake_vc71.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\lib\"
+				AdditionalLibraryDirectories="..\lib/"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="vc71\Debug\xmake_vc71.pdb"
+				ProgramDatabaseFile=".\vc71\Debug\xmake_vc71.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName="vc71\Debug\xmake_vc71.tlb"/>
+				TypeLibraryName=".\vc71\Debug\xmake_vc71.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
