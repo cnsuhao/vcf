@@ -44,6 +44,10 @@ where you installed the VCF.
 #include <shellapi.h>
 #include "vcf/ApplicationKit/Win32SystemTrayPeer.h"
 
+//printing
+#include "vcf/GraphicsKit/PrintSessionPeer.h"
+#include "vcf/GraphicsKit/Win32PrintSession.h"
+#include "vcf/ApplicationKit/Win32PrintDialog.h"
 
 
 #ifdef _LIB
@@ -1341,6 +1345,12 @@ CommonFontDialogPeer* Win32ToolKit::internal_createCommonFontDialogPeer( Control
 	return new Win32FontDialog( owner );
 }
 
+CommonPrintDialogPeer* Win32ToolKit::internal_createCommonPrintDialogPeer( Control* owner )
+{
+	return new Win32PrintDialog( owner );
+}
+
+
 DesktopPeer* Win32ToolKit::internal_createDesktopPeer( Desktop* desktop )
 {
 	return new Win32Desktop( desktop );
@@ -2023,6 +2033,11 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.2  2004/08/19 03:22:54  ddiego
 *updates so new system tray code compiles
 *

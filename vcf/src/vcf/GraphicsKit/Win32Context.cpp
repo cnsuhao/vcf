@@ -272,103 +272,6 @@ void Win32Context::arc(const double & x1, const double & y1, const double & x2, 
 				(long)x3, (long)y3, (long)x4, (long)y4 );
 }
 
-/*
-void Win32Context::pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
-					   const double & y3, const double & x4, const double & y4)
-{
-
-	testBuffer();
-	pathStarted_ = true;
-	//swap out the values to ensure they are normalized since windows is brain dead about this
-	double ax1 = x1;
-	double ay1 = y1;
-	double ax2 = x2;
-	double ay2 = y2;
-
-	double tmp = x2;
-	if ( ax1 > ax2 ) {
-		ax2 = ax1;
-		ax1 = tmp;
-	}
-	tmp = ay2;
-	if ( ay1 > ay2 ) {
-		ay2 = ay1;
-		ay1 = tmp;
-	}
-	PointOperation* newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = ax1;
-	newPointOp->y = ay1;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = ax2;
-	newPointOp->y = ay2;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = x3;
-	newPointOp->y = y3;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = x4;
-	newPointOp->y = y4;
-	pathOperations_.push_back( newPointOp );
-
-}
-
-void Win32Context::chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
-						 const double & y3, const double & x4, const double & y4)
-{
-
-	testBuffer();
-	pathStarted_ = true;
-	//swap out the values to ensure they are normalized since windows is brain dead about this
-	double ax1 = x1;
-	double ay1 = y1;
-	double ax2 = x2;
-	double ay2 = y2;
-
-	double tmp = x2;
-	if ( ax1 > ax2 ) {
-		ax2 = ax1;
-		ax1 = tmp;
-	}
-	tmp = ay2;
-	if ( ay1 > ay2 ) {
-		ay2 = ay1;
-		ay1 = tmp;
-	}
-	PointOperation* newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = ax1;
-	newPointOp->y = ay1;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = ax2;
-	newPointOp->y = ay2;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = x3;
-	newPointOp->y = y3;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = x4;
-	newPointOp->y = y4;
-	pathOperations_.push_back( newPointOp );
-
-}
-*/
 
 void Win32Context::polyline( const std::vector<Point>& pts)
 {
@@ -2037,10 +1940,12 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 		}
 	}
 
+
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
 		DWORD oldCharSet = logFont->lfCharSet;
+
 		logFont->lfCharSet = charSet;
 		
 		fontHandle = CreateFontIndirectW( logFont );
@@ -2051,6 +1956,7 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 		LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
 
 		DWORD oldCharSet = logFont->lfCharSet;
+
 		logFont->lfCharSet = charSet;
 
 		fontHandle = CreateFontIndirectA( logFont );
@@ -2200,6 +2106,11 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
 *updates so new system tray code compiles
 *

@@ -396,6 +396,9 @@ Package=<4>
     Project_Dep_Name Toolbars
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Transformations
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name TreeListControls
     End Project Dependency
     Begin Project Dependency
@@ -1045,6 +1048,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Toolbars"="..\..\examples\Toolbars\Toolbars_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Transformations"="..\..\examples\Transformations\Transformations_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

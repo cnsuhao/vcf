@@ -307,6 +307,11 @@ CommonFontDialogPeer* UIToolkit::createCommonFontDialogPeer( Control* owner )
 	return UIToolkit::toolKitInstance->internal_createCommonFontDialogPeer( owner );
 }
 
+CommonPrintDialogPeer* UIToolkit::createCommonPrintDialogPeer( Control* owner )
+{
+	return UIToolkit::toolKitInstance->internal_createCommonPrintDialogPeer( owner );
+}
+
 DesktopPeer* UIToolkit::createDesktopPeer( Desktop* desktop )
 {
 	return UIToolkit::toolKitInstance->internal_createDesktopPeer( desktop );
@@ -1166,6 +1171,11 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.2  2004/08/19 03:22:54  ddiego
 *updates so new system tray code compiles
 *

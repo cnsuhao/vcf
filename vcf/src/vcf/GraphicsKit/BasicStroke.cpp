@@ -45,12 +45,14 @@ void BasicStroke::render( Path * path )
 		context_->setColor( &color_ );
 
 
-		Matrix2D* currentXFrm = context_->getCurrentTransform();
+		//JC - we don't need to grab the current transform since it's 
+		//applied to the points any how
+		//Matrix2D* currentXFrm = context_->getCurrentTransform();
 		std::vector<PathPoint> points;
 		/**
 		JC - changing the Path API a bit here
 		*/
-		path->getPoints( points, currentXFrm );
+		path->getPoints( points, NULL );
 
 		/**
 		JC:
@@ -176,8 +178,23 @@ void BasicStroke::render( Path * path )
 				pathIt++;
 			}
 
-			agg::conv_curve<agg::path_storage> smooth(strokePath);
-			agg::conv_stroke<agg::conv_curve<agg::path_storage> >  stroke(smooth);
+			Matrix2D& currentXFrm = *context_->getCurrentTransform();
+
+			agg::affine_matrix mat( currentXFrm[Matrix2D::mei00],
+									currentXFrm[Matrix2D::mei01],
+									currentXFrm[Matrix2D::mei10],
+									currentXFrm[Matrix2D::mei11],
+									currentXFrm[Matrix2D::mei20],
+									currentXFrm[Matrix2D::mei21] );
+			
+
+			agg::conv_curve< agg::path_storage > smooth(strokePath);
+
+			agg::conv_transform< agg::conv_curve< agg::path_storage > > xfrmedPath(smooth,mat);
+
+			
+			
+			agg::conv_stroke< agg::conv_transform< agg::conv_curve< agg::path_storage > > >  stroke(xfrmedPath);
 
 			stroke.width( maxVal<>( 0.5, width_ ) );
 
@@ -222,6 +239,11 @@ void BasicStroke::line( const double& x1, const double& y1,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

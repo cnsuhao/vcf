@@ -99,7 +99,7 @@ void Win32Font::init()
 
 	if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
 		if ( (osVersion.dwMinorVersion >= 1) && (osVersion.dwMinorVersion != 51) ) { //Windows XP or better
-			defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
 		}
 		else { //Windows 2k or worse
 			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
@@ -801,6 +801,11 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.6  2004/08/26 04:08:15  marcelloptr
 *minor change on a comment
 *

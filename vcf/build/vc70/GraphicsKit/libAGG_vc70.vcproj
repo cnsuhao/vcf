@@ -158,6 +158,9 @@
 				RelativePath="..\..\..\src\thirdparty\common\agg\src\agg_affine_matrix.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\thirdparty\common\agg\src\agg_arc.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\thirdparty\common\agg\src\agg_bspline.cpp">
 			</File>
 			<File

@@ -295,6 +295,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Frame.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.h
 # End Source File
 # Begin Source File
@@ -388,6 +392,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\VFFOutputStream.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\View.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h
 # End Source File
 # Begin Source File
 
@@ -657,6 +665,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\VFFInputStream.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\VFFOutputStream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -1641,14 +1653,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MenuItemPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\PopupMenuPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\PrintContextPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\PrintPeer.h
 # End Source File
 # Begin Source File
 

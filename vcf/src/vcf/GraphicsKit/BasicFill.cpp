@@ -34,9 +34,11 @@ void BasicFill::render( Path* path )
 		context_->setColor( &color_ );
 
 
-		Matrix2D* currentXFrm = context_->getCurrentTransform();
+		//JC - we don't need to grab the current transform since it's 
+		//applied to the points any how
+		//Matrix2D* currentXFrm = context_->getCurrentTransform();
 		std::vector<PathPoint> points;
-		path->getPoints( points, currentXFrm );
+		path->getPoints( points, NULL );
 
 		std::vector<Point> pts;
 
@@ -180,11 +182,23 @@ void BasicFill::render( Path* path )
 				pathIt ++;
 			}
 
+			Matrix2D& currentXFrm = *context_->getCurrentTransform();
+
+			agg::affine_matrix mat( currentXFrm[Matrix2D::mei00],
+									currentXFrm[Matrix2D::mei01],
+									currentXFrm[Matrix2D::mei10],
+									currentXFrm[Matrix2D::mei11],
+									currentXFrm[Matrix2D::mei20],
+									currentXFrm[Matrix2D::mei21] );
+
 			agg::conv_curve<agg::path_storage> smooth(fillPath);
+			
+			agg::conv_transform< agg::conv_curve< agg::path_storage > > xfrmedPath(smooth,mat);
+
 
 			//agg::conv_stroke<agg::conv_curve<agg::path_storage> >  stroke(smooth);
 
-			rasterizer.add_path( smooth );
+			rasterizer.add_path( xfrmedPath );
 
 			renderer.attribute(agg::rgba(color_.getRed(),color_.getGreen(),color_.getBlue(),opacity_));
 
@@ -197,6 +211,11 @@ void BasicFill::render( Path* path )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
