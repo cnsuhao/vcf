@@ -177,7 +177,11 @@ public:
 		bool result = false;
 		try {
 			FileInputStream fs( fileName );
+
 			result = openFromType( fileType, fs );
+
+			// releases the lock as soon as possible
+			fs.close();
 
 			if ( result ) {
 				setModified( false );
@@ -187,8 +191,8 @@ public:
 				ModelChanged.fireEvent( &e );
 			}
 		}
-		catch ( BasicException& ) {
-			StringUtils::trace( "Document::openFromType() failed to open " + fileName + ", type: " + fileType + "\n" );
+		catch ( BasicException& be ) {
+			StringUtils::trace( "Document::openFromType() failed to open " + fileName + ", type: " + fileType + "\n" + be.getMessage() );
 		}
 
 		return result;
@@ -315,6 +319,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/20 23:23:18  marcelloptr
+*openFromType releases the lock asap
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
