@@ -49,6 +49,7 @@ public:
 		ControlPositioned += new ControlEventHandler<SplittersWindow>(this, SplittersWindow::onPosChanged, "SplittersWindow::onPosChanged" );
 
 		Panel* buttonsPanel = new Panel();
+		buttonsPanel->setUseColorForBackground( true );
 		buttonsPanel->setHeight( 30 );
 		buttonsPanel->setColor( Color::getColor("lightyellow") );
 		add( buttonsPanel, AlignTop );
@@ -80,17 +81,20 @@ public:
 
 		main_ = new Panel;
 		main_->setHeight( 25 );
+		main_->setUseColorForBackground( true );
 		main_->setColor( Color::getColor("brown") );
 		main_->setToolTipText( "main: AlignClient, brown" );
 		add( main_, AlignClient );
 
 		panelLeft_ = new Panel;
+		panelLeft_->setUseColorForBackground( true );
 		panelLeft_->setWidth( main_->getWidth()/2 );
 		panelLeft_->setColor( Color::getColor("cyan") );
 		panelLeft_->setToolTipText( "left: AlignLeft, cyan" );
 		main_->add( panelLeft_, AlignLeft );
 
 		panelRight_ = new Panel;
+		panelRight_->setUseColorForBackground( true );
 		panelRight_->setWidth( main_->getWidth()/2 );
 		panelRight_->setColor( Color::getColor("navy") );
 		panelRight_->setToolTipText( "right: AlignRight, navy" );
@@ -129,6 +133,7 @@ public:
 
 		for ( int i = 1; i <= n; i ++ ) {
 			MyPanel* p = new MyPanel( this );
+			p->setUseColorForBackground( true );
 			p->setWidth( width );
 			p->setHeight( height );
 			p->setColor( Color::getColor( colors[i-1] ) );
@@ -269,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2004/07/11 22:54:03  ddiego
+*fixed some miscellaneous examples
+*
 *Revision 1.4.2.5  2004/07/08 15:09:53  ddiego
 *made the change to the StandardContainer name - the
 *old StandardContainer is now called DesignTimeContainer and

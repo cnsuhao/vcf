@@ -72,18 +72,21 @@ public:
 		*/
 		Panel* p1 = new Panel();
 		p1->setHeight( 20 );
+		p1->setUseColorForBackground( true );
 		main->add( p1, AlignBottom );
 		p1->setColor( Color::getColor("yellow") );
 		p1->setToolTipText( "p1: AlignBottom, yellow" );
 
 		Panel* p2 = new Panel();
 		p2->setHeight( 5 );
+		p2->setUseColorForBackground( true );
 		main->add( p2, AlignBottom );
 		p2->setColor( Color::getColor("blue") );
 		p2->setToolTipText( "p2: AlignBottom, blue" );
 
 		Panel* p3 = new Panel();
 		p3->setHeight( 20 );
+		p3->setUseColorForBackground( true );
 		main->add( p3, AlignBottom );
 		p3->setColor( Color::getColor("red") );
 		p3->setToolTipText( "p3: AlignBottom, red" );
@@ -94,6 +97,7 @@ public:
 		*/
 		Panel* p4 = new Panel();
 		p4->setWidth( 23 );
+		p4->setUseColorForBackground( true );
 		main->add( p4, AlignLeft );
 		p4->setColor( Color::getColor("white") );
 		p4->setToolTipText( "p4: AlignLeft, white" );
@@ -101,6 +105,7 @@ public:
 
 		Panel* p4a = new Panel();
 		p4a->setWidth( 50 );
+		p4a->setUseColorForBackground( true );
 		main->add( p4a, AlignLeft );
 		p4a->setColor( Color::getColor("gold") );
 		p4a->setToolTipText( "p4a: AlignLeft, gold" );
@@ -109,12 +114,14 @@ public:
 
 		Panel* p5 = new Panel();
 		p5->setWidth( 45 );
+		p5->setUseColorForBackground( true );
 		main->add( p5, AlignRight );
 		p5->setColor( Color::getColor("green") );
 		p5->setToolTipText( "p5: AlignRight, green" );
 
 		Panel* p5a = new Panel();
 		p5a->setWidth( 45 );
+		p5a->setUseColorForBackground( true );
 		main->add( p5a, AlignRight );
 		p5a->setColor( Color::getColor("pink") );
 		p5a->setToolTipText( "p5a: AlignRight, pink" );
@@ -122,6 +129,7 @@ public:
 
 		Panel* p6 = new Panel();
 		p6->setHeight( 25 );
+		p6->setUseColorForBackground( true );
 		main->add( p6, AlignTop );
 		p6->setColor( Color::getColor("black") );
 		p6->setToolTipText( "p6: AlignTop, black" );
@@ -214,6 +222,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2004/07/11 22:53:45  ddiego
+*fixed some miscellaneous examples
+*
 *Revision 1.3.2.6  2004/07/09 03:39:27  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.
