@@ -70,7 +70,7 @@ public:
 	virtual void updateItem();
 
 	virtual Control* getEditingControl();
-private:
+protected:
 	TableCellItem* editingItem_;
 	Control* editingControl_;
 
@@ -85,6 +85,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2.4.1  2005/01/26 20:59:28  ddiego
 *some fixes to table control and to teh table item editor interface
 *

@@ -29,18 +29,18 @@ Win32Button::~Win32Button()
 
 void Win32Button::create( Control* owningControl )
 {
-	createParams();
-
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND parent = toolkit->getDummyParent();
 
 	String className = getClassName();
 
+	CreateParams params = createParams();
+
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 		                             L"BUTTON",
 									 windowCaption_.c_str(),
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -51,10 +51,10 @@ void Win32Button::create( Control* owningControl )
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 		                             "BUTTON",
 									 windowCaption_.ansi_c_str(),
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -78,9 +78,13 @@ void Win32Button::create( Control* owningControl )
 	setCreated( true );
 }
 
-void Win32Button::createParams()
+Win32Object::CreateParams Win32Button::createParams()
 {
-	styleMask_ = WS_VISIBLE | WS_CHILD | BS_OWNERDRAW;
+	Win32Object::CreateParams result;
+	result.first = WS_VISIBLE | WS_CHILD | BS_OWNERDRAW;
+	result.second = 0;
+
+	return result;
 }
 
 Image* Win32Button::getImage()
@@ -264,6 +268,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

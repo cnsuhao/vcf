@@ -27,7 +27,7 @@ FilePath::FilePath( const String& filename )
 
 
 FilePath::FilePath( const FilePath& filePath )
-: Object(filePath)
+//: Object(filePath)
 {
 	filename_ = transformToNative( filePath.filename_ );
 }
@@ -493,6 +493,9 @@ bool FilePath::wildCharsMatchName( const String& filename, const String& wildCha
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/11 17:49:58  ddiego
 *added 2 new projects that are command line tools. One is for
 *creating the basic shell for app bundles, the other is for filling in, or

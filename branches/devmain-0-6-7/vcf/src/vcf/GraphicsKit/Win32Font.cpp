@@ -792,6 +792,19 @@ double Win32Font::getDescent()
 	return result;
 }
 
+bool Win32Font::isFixedPitch()
+{
+	bool result = false;
+
+	if ( System::isUnicodeEnabled() ) {		
+		result = ((((TEXTMETRICW*)tm_)->tmPitchAndFamily & TMPF_FIXED_PITCH) != 0) ? true : false;
+	}
+	else {
+		result = ((((TEXTMETRICA*)tm_)->tmPitchAndFamily & TMPF_FIXED_PITCH) != 0) ? true : false;
+	}
+
+	return result;
+}
 
 void Win32Font::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
 								const bool& underlined, const bool& struckOut, const String& name )
@@ -904,6 +917,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:34  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 04:05:05  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

@@ -145,7 +145,7 @@ void Win32Tree::create( Control* owningControl )
 {
 	init();
 
-	createParams();
+	CreateParams params = createParams();
 
 	backColor_ = *treeControl_->getColor();
 
@@ -155,10 +155,10 @@ void Win32Tree::create( Control* owningControl )
 	String className = getClassName();
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 										 WC_TREEVIEWW,
 										 NULL,
-										 styleMask_,
+										 params.first,
 										 0,
 										 0,
 										 1,
@@ -169,10 +169,10 @@ void Win32Tree::create( Control* owningControl )
 										 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 										 WC_TREEVIEWA,
 										 NULL,
-										 styleMask_,
+										 params.first,
 										 0,
 										 0,
 										 1,
@@ -229,17 +229,22 @@ void Win32Tree::init()
 
 }
 
-void Win32Tree::createParams()
+Win32Object::CreateParams Win32Tree::createParams()
 {
-	exStyleMask_ = 0;
-	styleMask_ = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_NOTOOLTIPS | TVS_SHOWSELALWAYS;
+	Win32Object::CreateParams result;
 
-	styleMask_ &= ~WS_BORDER;
-	styleMask_ &= ~WS_VISIBLE;
+	
+	result.first = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_NOTOOLTIPS | TVS_SHOWSELALWAYS;
 
-	styleMask_ |= WS_HSCROLL | WS_VSCROLL;
+	result.first &= ~WS_BORDER;
+	result.first &= ~WS_VISIBLE;
 
-	styleMask_ |= TVS_DISABLEDRAGDROP;
+	result.first |= WS_HSCROLL | WS_VSCROLL;
+
+	result.first |= TVS_DISABLEDRAGDROP;
+	result.second = 0;
+
+	return result;
 }
 
 TreeModel* Win32Tree::getTreeModel()
@@ -1377,6 +1382,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.6  2005/01/28 02:49:02  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.

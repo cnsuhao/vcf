@@ -92,14 +92,7 @@ public:
 
 	virtual ~ImageFilenamePropertyEditor();
 
-	virtual bool hasCustomEditor(){
-		return true;
-	};
-
-	virtual Control* getCustomEditor();
-
-	void showFilenameEditor( VariantData* data );
-private:
+	virtual void edit();
 
 };
 
@@ -108,14 +101,8 @@ public:
 	ImagePropertyEditor();
 
 	virtual ~ImagePropertyEditor();
-
-	virtual bool hasCustomEditor(){
-		return true;
-	};
-
-	virtual Control* getCustomEditor();
-
-	void showImageEditor( VariantData* data );
+	
+	void edit();
 private:
 
 };
@@ -126,6 +113,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

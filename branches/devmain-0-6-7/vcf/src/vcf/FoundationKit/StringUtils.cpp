@@ -556,10 +556,24 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 	VCF::String result = "";
 #ifdef WIN32 //don't know if we really need this here
 		std::string tmp = typeInfo.name();  //put back in when we find typeid
-		//strip out the preceding "class" or "enum" or whatever
-		std::string::size_type idx = tmp.find( " " );
-		if ( idx != tmp.npos ) {
-			tmp = tmp.substr( idx+1 );
+		if ( tmp != "void *" ) {//void* is a special case!
+			//strip out the preceding "class" or "enum" or whatever
+			std::string::size_type idx = tmp.find( "class " );
+			if ( idx != tmp.npos ) {
+				tmp = tmp.substr( idx+std::string("class ").size() );
+			}
+			else {
+				idx = tmp.find( "enum " );
+				if ( idx != tmp.npos ) {
+					tmp = tmp.substr( idx+std::string("enum ").size() );
+				}
+				else {
+					idx = tmp.find( "struct " );
+					if ( idx != tmp.npos ) {
+						tmp = tmp.substr( idx+std::string("struct ").size() );
+					}
+				}
+			}
 		}
 
 	#ifndef KEEP_NAMESPACE_IN_CLASSNAME
@@ -1634,10 +1648,23 @@ String StringUtils::convertFormatString( const String& formattedString )
 	#endif
 }
 
+VCF::String StringUtils::toString( const VariantData& value )
+{
+	return value.toString();
+}
+
+
+
+
+
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

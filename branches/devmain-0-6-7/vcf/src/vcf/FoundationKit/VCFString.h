@@ -524,7 +524,7 @@ public:
 
 	UnicodeString& operator+=(AnsiChar c);
 
-	UnicodeString& operator+=(AnsiChar* rhs );
+	UnicodeString& operator+=(const AnsiChar* rhs );
 
 	UnicodeString& append(const UnicodeString& str) {
 		data_.append( str.data_ );
@@ -1084,6 +1084,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.2  2005/01/17 18:04:55  marcelloptr
 *removed unnecessary dllimport/dllexport keyword before global functions defined in the header
 *which was causing problems with the inline keyword. Thank you Fraggle for pointing out and solving this.

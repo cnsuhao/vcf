@@ -400,17 +400,21 @@ public:
 	void getYUV() const;
 	void setYUV();
 
-	virtual void copy( const Color* source );
+	virtual void copyColor( const Color* source );
 
-	virtual void copy( const Color& source );
+	virtual void copyColor( const Color& source );
+
+	virtual void copy( Object* source ) {
+		copyColor( (Color*) source );
+	}
 
 	Color& operator=( const Color* clr ){
-		copy( clr );
+		copyColor( clr );
 		return *this;
 	};
 
 	Color& operator=( const Color& clr ){
-		copy( clr );
+		copyColor( clr );
 		return *this;
 	};
 
@@ -535,6 +539,10 @@ public:
 	calc the complement of the color
 	*/
 	Color getInverted() const ;
+
+	virtual Object* clone( bool deep ) {
+		return new Color(*this);
+	}
 
 	static Color* getColor( const int& gray );
 
@@ -874,7 +882,7 @@ inline void Color::setYUV() {
 }
 
 
-inline void Color::copy( const Color* color ) {
+inline void Color::copyColor( const Color* color ) {
 	if ( NULL != color ){
 		r_ = color->getRed();
 		g_ = color->getGreen();
@@ -882,7 +890,7 @@ inline void Color::copy( const Color* color ) {
 	}
 }
 
-inline void Color::copy( const Color& color ) {
+inline void Color::copyColor( const Color& color ) {
 	r_ = color.getRed();
 	g_ = color.getGreen();
 	b_ = color.getBlue();
@@ -1956,6 +1964,9 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:34  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2005/01/07 22:57:30  marcelloptr
 *fixed scope declaration bug of a static member function
 *

@@ -67,6 +67,7 @@ Control::Control():
 
 Control::~Control()
 {
+	componentState_ = Component::csDestroying;
 	/**
 	this shouldn't happen, but it's
 	possible if an exception is thrown in a constructor
@@ -1466,6 +1467,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.4.2.3  2005/01/01 20:31:07  ddiego
 *made an adjustment to quitting and event loop, and added some changes to the DefaultTabModel.
 *

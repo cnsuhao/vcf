@@ -723,9 +723,19 @@ void ComboBoxControl::setSelectedItem( ListItem* selectedItem )
 	if ( NULL != selectedItem_ ) {
 		selectedItem_->setSelected( true );
 		
+		if ( cbsDropDownWithEdit == comboBoxStyle_	) {
+			edit_->getTextModel()->setText( selectedItem_->getCaption() );
+		}
+
 		setFocused();
 
- 		ItemEvent event( selectedItem_, ITEM_EVENT_SELECTED );
+		/**
+		JC
+		I changed this so that the source is the ComboBoxControl
+		instance as opposed to the selected item
+		*/
+ 		ItemEvent event( this, ITEM_EVENT_SELECTED );
+		event.setUserData( (void*)selectedItem_ );
 		SelectionChanged.fireEvent( &event );
 	}
 
@@ -1044,6 +1054,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.8  2005/01/31 02:47:45  marcelloptr
 *bugfix [1112867] Press Return on ComboBox changes the selected item's caption
 *

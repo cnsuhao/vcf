@@ -119,6 +119,26 @@ namespace VCF{
 	class FOUNDATIONKIT_API FoundationKit {
 	public:
 		/**
+		This is a special case exception used \em only for the
+		triggering of an asertion, through the call to 
+		FoundationKit::assertCondition(). By having this as a 
+		special case and \em not deriving from BasicException,
+		an assertion is prevented from being caught in a BasicException
+		try/catch block.
+		*/
+		class Assertion : public std::exception {
+		public:
+			Assertion( const String& msg ) :msg_(msg){}
+			
+			virtual const char *what() const throw() {
+				return msg_.ansi_c_str();
+			}
+			
+		private:
+			String msg_;
+		};
+
+		/**
 		Initialization takes place here, plus creating the various
 		system resources and peer instances.
 		*/
@@ -295,6 +315,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.4  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

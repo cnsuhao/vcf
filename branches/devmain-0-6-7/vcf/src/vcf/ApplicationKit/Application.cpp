@@ -232,6 +232,17 @@ void Application::main()
 		throw;
 #endif
 	}
+	catch (FoundationKit::Assertion& e){
+		String errString = "Assertion Exception caught.\n\"";
+		errString += e.what();
+		errString += "\".\nApplication exiting abnormally.";
+
+		Dialog::showMessage( errString, "Framework Assertion Exception", Dialog::mbOK, Dialog::msError  );
+
+#ifdef _DEBUG
+		throw;
+#endif
+	}
 	catch (std::exception& e){
 		String errString = "STL C++ exception throw.\nError : \"";
 #ifdef VCF_RTTI
@@ -440,6 +451,9 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 07:09:18  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.

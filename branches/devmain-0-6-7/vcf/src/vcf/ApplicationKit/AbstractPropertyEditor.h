@@ -18,45 +18,73 @@ namespace VCF {
 
 class APPLICATIONKIT_API AbstractPropertyEditor : public ObjectWithEvents, public PropertyEditor {
 public:
-	AbstractPropertyEditor();
+	AbstractPropertyEditor() : attributes_(0) {
 
-	virtual ~AbstractPropertyEditor();
+	}
 
-	virtual Control* getCustomEditor();
+	virtual ~AbstractPropertyEditor(){}
 
-	virtual void paintValue( GraphicsContext* context, const Rect& bounds );
+	virtual int getAttributes() {
+		return attributes_;
+	}
 
-	virtual VariantData* getValue();
+	virtual Control* createEditingControl() {
+		return NULL;	
+	}
 
-	virtual void setSource( Object* source );
+	virtual void edit(){}
 
-	virtual void setProperty( Property* property );
+	virtual void paintValue( VariantData* value, GraphicsContext* context, const Rect& bounds, const DrawUIState& state ) {}
 
-	virtual void setValue( VariantData* value );
+	virtual VariantData* getValue() {
+		return &data_;
+	}
 
-	/**
-	*is it OK to call getCustomEditor ?
-	*/
-	virtual bool hasCustomEditor();
+	virtual void setValue( VariantData* value ) {
+		if ( valueNeedsDuplicating() ) {
+			//don't simply set the pointer value, actually 
+			//copy it's value from the value variant to our
+			//data_ variant
+			VCF_ASSERT( (pdObject == data_.type) || (pdUndefined == data_.type) );
 
-	/**
-	*is OK to call paintValue ?
-	*/
-	virtual bool canPaintValue();
+			Object* obj = data_;
+			Object* obj2 = *value;
+			if ( (NULL == obj) && (NULL != obj2) ) {
+				data_ = obj2->clone();
+			}
+			else if ( NULL != obj ) {
+				obj->copy( *value );
+			}
+		}
+		else {
+			data_ = *value;
+		}
+	}
 
-	virtual String getValueAsText();
+	virtual String getValueAsText() {
+		return data_.toString();
+	}
 
-	virtual void setValueAsText( const String& textValue );
+	virtual void setValueAsText( const String& textValue ) {
+		data_.setFromString( textValue );
+	}
 
-	/**
-	*called by an IDE to get the C++ string representation of
-	the property to insert into C++ code.
-	*/
-	virtual String getCodeString();
+	virtual std::vector<String> getStringValues(){
+		std::vector<String> result;
+		return result;
+	}
+
+	virtual std::vector<PropertyEditor*> getSubProperties(){
+		std::vector<PropertyEditor*> result;
+		return result;
+	}
+
+	bool sort( const String& strVal1, const String& strVal2 ) {
+		return false;
+	}
 
 protected:
-	Property* property_;
-	Object* source_;
+	int attributes_;
 	VariantData data_;
 private:
 
@@ -68,6 +96,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:30  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

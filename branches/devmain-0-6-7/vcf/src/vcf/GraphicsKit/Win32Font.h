@@ -86,6 +86,9 @@ public:
 	virtual double getAscent()  ;
 
 	virtual double getDescent() ;
+
+	virtual bool isFixedPitch();
+
 	/**
 	*returns a GlyphCollection that represents the set of shapes
 	*for the specified text string.
@@ -116,6 +119,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:34  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 04:05:05  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

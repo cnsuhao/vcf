@@ -34,7 +34,8 @@ AbstractWin32Component::AbstractWin32Component():
 	memBMP_(NULL),
 	mouseEnteredControl_(false),	
 	memDCState_(0),
-	destroyed_(false)
+	destroyed_(false),
+	canProcessMessages_(false)
 {
 	init();
 	setPeerControl( NULL );
@@ -46,7 +47,8 @@ AbstractWin32Component::AbstractWin32Component( Control* component ):
 	memBMP_(NULL),
 	mouseEnteredControl_(false),	
 	memDCState_(0),
-	destroyed_(false)
+	destroyed_(false),
+	canProcessMessages_(false)
 {
 	init();
 	setPeerControl( component );
@@ -579,13 +581,41 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
 	
-	bool result = false;
+	bool result = false;	
+
+	/**
+	JC
+	This check is here to prevent us from processing ANY messages before we are ready to.
+	We aren't erady until we have recv'd a VCF_CONTROL_CREATE message. This prevents
+	exceptions thrown in a control constructor from going awry. What happens is that an
+	exception thrown in the contructor will immediately exit the constructor and then
+	the classes destructor is then called. This causes problems with the pointer
+	and just general ugliness, so we put this check in here to prevent weird things from
+	happening.
+	*/
+	if ( !canProcessMessages_ && (VCF_CONTROL_CREATE != message) ) {		
+		
+		return result;
+	}
 
 	Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 
 	Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
 
 	switch ( message ) {
+		case VCF_CONTROL_CREATE : {
+			canProcessMessages_ = true;
+			peerControl_->handleEvent( event );
+
+			Rect r = peerControl_->getBounds();
+
+			peerControl_->setBounds(&r);
+			Container* c = peerControl_->getContainer();
+			if ( NULL != c ) {
+				c->resizeChildren(NULL);
+			}
+		}
+		break;
 
 		case WM_ERASEBKGND :{
 			wndProcResult = 0;
@@ -708,8 +738,13 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		case WM_DESTROY: {
 			VCF_ASSERT( !destroyed_ );
 			
-			if ( (NULL != event) && (NULL != peerControl_) ) {
-				peerControl_->handleEvent( event );
+			if ( isCreated() && (NULL != event) && (NULL != peerControl_) ) {
+				if ( peerControl_->isNormal() || peerControl_->isDestroying() ) {
+					peerControl_->handleEvent( event );
+				}
+				else {
+					StringUtils::trace( "Trying to destroy component in weird state!\n" );
+				}
 			}			
 
 			destroyWindowHandle();
@@ -1491,6 +1526,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/02/16 05:09:30  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.5.2.4  2005/01/28 02:49:01  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.

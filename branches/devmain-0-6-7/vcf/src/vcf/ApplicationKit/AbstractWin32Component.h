@@ -136,6 +136,11 @@ protected:
 	*/
 	bool destroyed_;
 
+	//this starts off false - the control just ignores messages UNTIL 
+	//it recv's a VCF_CONTROL_CREATE message - at that point it's
+	//set to true
+	bool canProcessMessages_;
+
 	/**
 	*
 	*
@@ -156,6 +161,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

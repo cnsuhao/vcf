@@ -101,6 +101,7 @@ void FoundationKit::terminate()
 }
 
 
+
 CommandLine FoundationKit::getCommandLine()
 {
 	return foundationKitCommandLine;
@@ -110,7 +111,7 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 {
 	if ( !condition ) {
 
-		throw RuntimeException( L"Assertion failure: " + failureMessage );
+		throw FoundationKit::Assertion( L"Assertion failure: " + failureMessage );
 	}
 }
 
@@ -118,6 +119,9 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -277,8 +277,8 @@ public:
 		Point result;
 		HDC dc = GetDC( ::GetDesktopWindow() );
 
-		double baseUnitY = 0.0;
-		double cx = 0.0;
+		int baseUnitY = 0;
+		int cx = 0;
 
 		HFONT hf = NULL;
 		HFONT old = NULL;
@@ -319,10 +319,12 @@ public:
 
 
 
-		double baseUnitX = (cx / 26.0 + 1.0) / 2.0;
+		int baseUnitX = (cx / 26 + 1) / 2;
+		result.x_ = MulDiv(dlu.x_, baseUnitX, 4);
+		result.y_ = MulDiv(dlu.y_, baseUnitY, 8);
 
-		result.x_ = (dlu.x_ * baseUnitX) / 4.0;
-		result.y_  = (dlu.y_ * baseUnitY) / 8.0;
+		//(dlu.x_ * baseUnitX) / 4;
+		//result.y_  = (dlu.y_ * baseUnitY) / 8;
 
 		SelectObject(dc, old );
 		DeleteObject( hf );
@@ -409,7 +411,7 @@ public:
 			case UIMetricsManager::htLabelHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
 				//result = f.getHeight();// * 1.75;
-				Point pt = DLUToPixel( Point(0,8), f ) * 1.1;
+				Point pt = DLUToPixel( Point(0,11), f );
 				result = pt.y_;
 			}
 			break;
@@ -438,18 +440,15 @@ public:
 			break;
 
 			case UIMetricsManager::htRadioBoxHeight : case UIMetricsManager::htCheckBoxHeight : {
-				//in Win32 a radio box or check box is ALWAYS 10 dialog units high
-				//dialog units are converted by
-				//(2 * average char height dialog font / average char height system font pixels
-				//where average char height dialog font = TEXTMETRIC.tmHeight field or a Font::getHeight()
-
-
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (9.0 * ((2.0 * f.getHeight()) / f.getHeight())) - 4.0;//0.590909;
-
-
-				Point pt = DLUToPixel( Point(0,9), f );
-				result = pt.y_;
+				/**
+				JC
+				Stripped this all out  - 
+				it turns out that the height/width is ALWAYS 13 pixels - no matter what 
+				the DPI is
+				GetSystemMetrics( SM_CXMENUCHECK ) returns a value that changes based on the DPI
+				13 at 96 DPI and 17 at 120 DPI
+				*/
+				result = 13;
 			}
 			break;
 
@@ -2096,6 +2095,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.4  2005/01/26 20:59:29  ddiego
 *some fixes to table control and to teh table item editor interface
 *
