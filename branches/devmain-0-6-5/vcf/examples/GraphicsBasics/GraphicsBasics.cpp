@@ -160,7 +160,7 @@ public:
 
 		Window* mainWindow = new GraphicsBasicsWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
 		mainWindow->show();
 
 		return result;
@@ -182,6 +182,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2004/08/02 04:11:53  ddiego
+*added more examples to xcode project
+*
 *Revision 1.4.2.4  2004/04/29 03:40:53  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

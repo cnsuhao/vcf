@@ -26,6 +26,15 @@ file_(NULL)
 	
 	int oflags = 0;
 	
+	bool fileExists = true;
+	FILE* f = fopen( filename_.ansi_c_str(), "rb" );
+	if ( NULL == f ) {
+		fileExists = false;
+	}
+	else {
+		fclose(f);
+	}
+	
 	switch ( accessType ){
 		case fsRead : {
 			oflags = O_RDONLY;
@@ -33,7 +42,7 @@ file_(NULL)
 		break;
 
 		case fsWrite : {
-			oflags = O_WRONLY;
+			oflags = O_CREAT | O_WRONLY | O_TRUNC;
 		}
 		break;
 
@@ -50,6 +59,10 @@ file_(NULL)
 		throw FileIOError( CANT_ACCESS_FILE + filename  );
 	}
 	else {
+		if ( !fileExists ) {
+			mode_t mode = S_IRUSR | S_IWUSR | S_IWGRP | S_IROTH;
+			fchmod( fileHandle_, mode );
+		}
 		::lseek( fileHandle_, 0, SEEK_SET );
 	}
 }
@@ -184,6 +197,9 @@ int OSXFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/08/02 04:11:53  ddiego
+*added more examples to xcode project
+*
 *Revision 1.1.2.8  2004/08/01 23:40:16  ddiego
 *fixed a few osx bugs
 *

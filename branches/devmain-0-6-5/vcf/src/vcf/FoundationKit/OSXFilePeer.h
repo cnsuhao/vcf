@@ -43,7 +43,7 @@ public:
 	* updates the informations about the file from the file system
 	*@param statMask the mask indicating the infos we want to update
 	*/
-	virtual void updateStat( File::StatMask = File::smMaskDateAll );
+	virtual void updateStat( File::StatMask statMask );
 
 	/*
 	* set the fileAttributes of the file
@@ -140,6 +140,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.10  2004/08/02 04:11:53  ddiego
+ *added more examples to xcode project
+ *
  *Revision 1.1.2.9  2004/08/01 23:40:16  ddiego
  *fixed a few osx bugs
  *
