@@ -83,7 +83,7 @@ void Win32Font::init()
 	//gives same appearrance on WinXP as ANSI_VAR_FONT. dougtinkham
 	//Unfortunately DEFAULT_GUI_FONT looks like shit on Win2k :( 
 	//we'll check here to see the OS version and then base the decision on that
-	//WinMe = DEFAULT_GUI_FONT, Win98. or Win2K or WinXP = ANSI_VAR_FONT. JC (aka ddiego)
+	//WinMe = DEFAULT_GUI_FONT. But Win98, Win2K, WinXP = ANSI_VAR_FONT. JC (aka ddiego)
 
 	HFONT defFont = NULL;
 	
@@ -801,7 +801,7 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.8  2004/08/31 08:53:36  marcelloptr
+*Revision 1.2.2.9  2004/08/31 08:55:58  marcelloptr
 *minor change on a comment
 *
 *Revision 1.2.2.7  2004/08/31 04:12:13  ddiego
