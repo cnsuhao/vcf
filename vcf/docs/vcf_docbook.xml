@@ -44,6 +44,7 @@
 	<!ENTITY sliders SYSTEM "../examples/Sliders/Sliders.xml">
 	<!ENTITY progressbars SYSTEM "../examples/ProgressBars/ProgressBars.xml">
 	<!ENTITY labels SYSTEM "../examples/Labels/Labels.xml">
+	<!ENTITY dictionaries SYSTEM "../examples/Dictionaries/Dictionaries.xml">
 	
 
 ]>
@@ -92,6 +93,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.7  2003/11/23 15:14:05  ddiego
+added more docs, and updated to account for new Dictionary tutorial
+
 Revision 1.1.2.6  2003/10/25 04:30:20  ddiego
 added two more examples one for progress bars and one for slider controls.
 also added two more control classes to the ApplicationKit, a SliderControl
