@@ -12,6 +12,22 @@ where you installed the VCF.
 
 using namespace VCF;
 
+void DisplayErrMsg(DWORD err) {
+  LPVOID lpMsgBuf;
+  FormatMessage(
+      FORMAT_MESSAGE_ALLOCATE_BUFFER |
+      FORMAT_MESSAGE_FROM_SYSTEM |
+      FORMAT_MESSAGE_IGNORE_INSERTS,
+      NULL,
+      err,
+      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+      reinterpret_cast<LPTSTR>(&lpMsgBuf),
+      0,
+      NULL );
+  ::OutputDebugString(static_cast<const char*>(lpMsgBuf));
+  LocalFree(lpMsgBuf);
+}
+
 Win32Font::Win32Font( const String& fontName ):
 	font_(NULL),
 	pointSize_(-1.0),
@@ -310,11 +326,15 @@ double Win32Font::getPointSize()
 	}
 	
 	if ( NULL == dc ) {
-		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	  dc = GetDC( ::GetDesktopWindow() );//gets screen DC
 	}
 
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
-
+	DWORD err = ::GetLastError();
+	DisplayErrMsg(err);
+	if (err > 0) {
+	  dc = GetDC( ::GetDesktopWindow() );//gets screen DC	
+	}
 	
 	int lfHeight = 0;
 	if ( System::isUnicodeEnabled() ) {
@@ -325,8 +345,9 @@ double Win32Font::getPointSize()
 	}
 
 	
-
-	double result = abs( static_cast<long>(((double)lfHeight / ppi) * 72.0 ));
+        if (ppi == 0.0) ppi = 96.0;
+        if (lfHeight == 0) lfHeight=1;
+	double result = fabs( ((double)lfHeight / ppi) * 72.0 );
 
 	if ( GetDeviceCaps( dc, LOGPIXELSY) != this->oldDPI_ ) {
 		result = result * ( ppi / oldDPI_ );
@@ -338,7 +359,8 @@ double Win32Font::getPointSize()
 	}
 	else if ( NULL == font_->getGraphicsContext() ) {
 		ReleaseDC( ::GetDesktopWindow(), dc );
-	}
+	}else
+         ReleaseDC( ::GetDesktopWindow(), dc );
 
 	return result;
 }
@@ -845,6 +867,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.13  2004/10/11 14:28:47  kiklop74
+*First version of patch for BUG 1042623 - Incorect handling of DC in win32font
+*
 *Revision 1.2.2.12  2004/10/04 15:51:15  kiklop74
 *Added explicit cast to avoid ambiquity on BCB6
 *
