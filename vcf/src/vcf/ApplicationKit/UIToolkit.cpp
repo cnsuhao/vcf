@@ -194,17 +194,17 @@ ContextPeer* UIToolkit::createContextPeer( const unsigned long& width, const uns
 
 ListviewPeer* UIToolkit::createListViewPeer( ListViewControl* component)
 {
-	return UIToolkit::toolKitInstance->internal_createListViewPeer( component, componentType );
+	return UIToolkit::toolKitInstance->internal_createListViewPeer( component );
 }
 
 TreePeer* UIToolkit::createTreePeer( TreeControl* component)
 {
-	return UIToolkit::toolKitInstance->internal_createTreePeer( component, componentType );
+	return UIToolkit::toolKitInstance->internal_createTreePeer( component );
 }
 
 TextPeer* UIToolkit::createTextPeer( TextControl* component, const bool& isMultiLineControl)
 {
-	return UIToolkit::toolKitInstance->internal_createTextPeer( component, isMultiLineControl, componentType );
+	return UIToolkit::toolKitInstance->internal_createTextPeer( component, isMultiLineControl );
 }
 
 HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
@@ -214,12 +214,12 @@ HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
 
 ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component)
 {
-	return UIToolkit::toolKitInstance->internal_createButtonPeer( component, componentType );
+	return UIToolkit::toolKitInstance->internal_createButtonPeer( component );
 }
 
 DialogPeer* UIToolkit::createDialogPeer( Control* owner, Dialog* component)
 {
-	return UIToolkit::toolKitInstance->internal_createDialogPeer( owner, component, componentType );
+	return UIToolkit::toolKitInstance->internal_createDialogPeer( owner, component );
 }
 
 DialogPeer* UIToolkit::createDialogPeer()
@@ -227,10 +227,9 @@ DialogPeer* UIToolkit::createDialogPeer()
 	return UIToolkit::toolKitInstance->internal_createDialogPeer();
 }
 
-WindowPeer* UIToolkit::createWindowPeer( Control* component, Control* owner,
-									ComponentType componentType)
+WindowPeer* UIToolkit::createWindowPeer( Control* component, Control* owner)
 {
-	return UIToolkit::toolKitInstance->internal_createWindowPeer( component, owner, componentType );
+	return UIToolkit::toolKitInstance->internal_createWindowPeer( component, owner );
 }
 
 ToolbarPeer* UIToolkit::createToolbarPeer( Toolbar* toolbar )
@@ -1167,6 +1166,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
 *added initial system tray code for win32
 *

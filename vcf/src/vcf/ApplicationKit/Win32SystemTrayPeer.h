@@ -21,19 +21,19 @@ namespace VCF {
 
 		virtual ~Win32SystemTrayPeer();
 
-		virtual void setIconImage( Image* image ) = 0;
+		virtual void setIconImage( Image* image );
 
-		virtual void setPopupMenu( PopupMenu* popupMenu ) = 0;
+		virtual void setPopupMenu( PopupMenu* popupMenu );
 
-		virtual void setTooltipText( const String& tooltipText ) = 0;
+		virtual void setTooltipText( const String& tooltipText );
 	
-		virtual void addToTray() = 0;
+		virtual void addToTray();
 
-		virtual void removeFromTray() = 0;
+		virtual void removeFromTray();
 
-		virtual void showInTray() = 0;
+		virtual void showInTray();
 
-		virtual void hideFromTray() = 0;
+		virtual void hideFromTray();
 
 	protected:
 		static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
