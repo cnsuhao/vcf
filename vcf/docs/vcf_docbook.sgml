@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/03/03 05:00:41  ddiego
+added Makefile for creating html, htmlhelp, a tar.gz dist, and cleaning up
+
 Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
 initial check-in of docbook vcf documentation, plus neccesary stylsheets
 and images
@@ -180,6 +183,26 @@ and images
 		</qandaset>	
 	</chapter>	
 	
+	<chapter><title>Credits</title>
+		<section>
+			<para>
+			The VCF would like to thank the following people for contributing time and effort to project:
+			<simplelist>
+				<member>Marcello Pietrobon</member>
+				<member>Mike Goebel</member>				
+				<member>Cesar Mello</member>
+				<member>Henrique Sambiase</member>
+				<member>Vic Hargrave</member>
+				<member>Tiziano Franzoi</member>
+				<member>Ning Ke</member>
+				<member>Endre Somogyi</member>
+			</simplelist>
+			If we missed someone please let us know about it!
+			</para>
+		</section>
+	</chapter>	
+	
 	<index id="index"/>
 </book>
+
 
