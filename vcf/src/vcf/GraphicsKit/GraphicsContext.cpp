@@ -15,34 +15,104 @@ where you installed the VCF.
 
 namespace VCF {
 
+class GraphicsState {
+public:	
+
+	GraphicsState();
+	GraphicsState( const GraphicsState& rhs );
+	~GraphicsState();
+
+	GraphicsState& operator=( const GraphicsState& rhs );	
+
+	Fill* fill_;
+	Stroke* stroke_;	
+	Path* clippingPath_;
+	GraphicsContext* owningContext_;
+	Font font_;
+	Matrix2D transformMatrix_;
+	Point currentMoveTo_;
+	Color color_;
+	double strokeWidth_;		
+};
+
+
+
+
+
+GraphicsState::GraphicsState():
+	fill_(NULL),
+	stroke_(NULL),
+	clippingPath_(NULL),
+	owningContext_(NULL),
+	strokeWidth_(1.0)
+{
+	transformMatrix_.identity();
+}
+
+GraphicsState::GraphicsState( const GraphicsState& rhs ):	
+	fill_(NULL),
+	stroke_(NULL),
+	clippingPath_(NULL),
+	owningContext_(NULL),
+	strokeWidth_(1.0)
+{
+	transformMatrix_.identity();
+	*this = rhs;
+}
+
+GraphicsState::~GraphicsState()
+{
+
+}
+
+GraphicsState& GraphicsState::operator=( const GraphicsState& rhs )
+{
+	strokeWidth_ = rhs.strokeWidth_;
+	fill_ = rhs.fill_;
+	stroke_ = rhs.stroke_;
+	font_ = rhs.font_;
+	clippingPath_ = rhs.clippingPath_;
+	owningContext_ = rhs.owningContext_;
+	transformMatrix_ = rhs.transformMatrix_;
+	currentMoveTo_ = rhs.currentMoveTo_;
+	color_ = rhs.color_;
+
+	return *this;
+}
+
+
+
 
 GraphicsContext::GraphicsContext():
 	currentState_(GraphicsContext::gsNone),
-	drawingArea_(NULL),
-	strokeWidth_(1.0),
+	drawingArea_(NULL),	
 	contextPeer_(NULL),
-	currentFill_(NULL),
-	currentStroke_(NULL),
-	currentFont_(NULL),
-	clippingPath_(NULL),
 	renderBuffer_(NULL),
-	renderAreaDirty_(false)
+	renderAreaDirty_(false),
+	graphicsStateIndex_(0)
 {
+	GraphicsState* newState = new GraphicsState();
+	newState->owningContext_ = this;
+	stateCollection_.push_back( newState );
+
+	Font& font = stateCollection_[graphicsStateIndex_]->font_;
+	font.setGraphicsContext( this );
+
 	init();
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned long& height ):
 	currentState_(GraphicsContext::gsNone),
 	drawingArea_(NULL),
-	strokeWidth_(1.0),
 	contextPeer_(NULL),
-	currentFill_(NULL),
-	currentStroke_(NULL),
-	currentFont_(NULL),
-	clippingPath_(NULL),
 	renderBuffer_(NULL),
-	renderAreaDirty_(false)
+	renderAreaDirty_(false),
+	graphicsStateIndex_(0)
 {
+	GraphicsState* newState = new GraphicsState();
+	newState->owningContext_ = this;
+	stateCollection_.push_back( newState );
+
 	contextPeer_ = GraphicsToolkit::createContextPeer( width, height );
 	if ( NULL == contextPeer_ ){
 		//throw exception
@@ -50,28 +120,35 @@ GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned lon
 
 	contextPeer_->setContext( this );
 	init();
-	currentFont_->setPointSize( currentFont_->getPointSize() );
+	Font& font = stateCollection_[graphicsStateIndex_]->font_;
+	font.setGraphicsContext( this );
+
+	font.setPointSize( font.getPointSize() );
+
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& contextID ):
 	currentState_(GraphicsContext::gsNone),
 	drawingArea_(NULL),
-	strokeWidth_(1.0),
 	contextPeer_(NULL),
-	currentFill_(NULL),
-	currentStroke_(NULL),
-	currentFont_(NULL),
-	clippingPath_(NULL),
 	renderBuffer_(NULL),
-	renderAreaDirty_(false)
-{	
+	renderAreaDirty_(false),
+	graphicsStateIndex_(0)
+{
+	GraphicsState* newState = new GraphicsState();
+	newState->owningContext_ = this;
+	stateCollection_.push_back( newState );
+
 	contextPeer_ = GraphicsToolkit::createContextPeer( contextID );
 	if ( NULL == contextPeer_ ){
 		//throw exception
 	}
 	contextPeer_->setContext( this );
 	init();
-	currentFont_->setPointSize( currentFont_->getPointSize() );
+	Font& font = stateCollection_[graphicsStateIndex_]->font_;
+	font.setGraphicsContext( this );
+
+	font.setPointSize( font.getPointSize() );
 }
 
 GraphicsContext::~GraphicsContext()
@@ -80,7 +157,7 @@ GraphicsContext::~GraphicsContext()
 		delete contextPeer_;
 	}
 	contextPeer_ = NULL;
-
+/*
 	if ( NULL != currentFill_ ){
 		delete currentFill_;
 	}
@@ -101,6 +178,7 @@ GraphicsContext::~GraphicsContext()
 		pathObj->release();
 	}
 	clippingPath_ = NULL;
+*/
 
 	if ( NULL != drawingArea_ ) {
 		delete drawingArea_;
@@ -109,44 +187,47 @@ GraphicsContext::~GraphicsContext()
 
 void GraphicsContext::init()
 {
-	currentFont_ = new Font();
-	currentFont_->setGraphicsContext( this );	
+	//currentFont_ = new Font();
+	//currentFont_->setGraphicsContext( this );	
 	//currentFont_->setPointSize( currentFont_->getPointSize() );
 
-	transformMatrix_.identity();
+	//transformMatrix_.identity();
 }
 
 
 void GraphicsContext::setCurrentFont(Font * font)
 {
-	currentFont_->copy( font );	
-	currentFont_->setGraphicsContext( this );
-	currentFont_->setPointSize( currentFont_->getPointSize() );
+	Font& currentFont = stateCollection_[graphicsStateIndex_]->font_;
+	currentFont = *font;	
+	currentFont.setGraphicsContext( this );
+	currentFont.setPointSize( currentFont.getPointSize() );
 }
 
 void GraphicsContext::setCurrentFill(Fill * fill)
-{
-	currentFill_ = fill;
-	if ( NULL != currentFill_ ){
-		currentFill_->setContext( this );
+{	
+	if ( NULL != fill ){
+		fill->setContext( this );
 	}
+	stateCollection_[graphicsStateIndex_]->fill_ = fill;
 }
 
 void GraphicsContext::setCurrentStroke(Stroke * stroke)
 {
-	currentStroke_ = stroke;
-	if ( NULL != currentStroke_ ){
-		currentStroke_->setContext( this );
+	if ( NULL != stroke ){
+		stroke->setContext( this );
 	}
+	stateCollection_[graphicsStateIndex_]->stroke_ = stroke;
 }
 
 void GraphicsContext::draw(Path * path)
 {
-	if ( NULL != currentFill_ ){
-		currentFill_->render( path );
+	Fill* fill = stateCollection_[graphicsStateIndex_]->fill_;
+	Stroke* stroke = stateCollection_[graphicsStateIndex_]->stroke_;
+	if ( NULL != fill ){
+		fill->render( path );
 	}
-	if ( NULL != currentStroke_ ){
-		currentStroke_->render( path );
+	if ( NULL != stroke ){
+		stroke->render( path );
 	}
 }
 
@@ -196,18 +277,18 @@ void GraphicsContext::textWithStateAt( const double& x, const double& y, const S
 	else {
 		Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 		Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
-		Color oldColor = *currentFont_->getColor();
+		Color oldColor = *stateCollection_[graphicsStateIndex_]->font_.getColor();
 
-		currentFont_->setColor( hilight );
+		stateCollection_[graphicsStateIndex_]->font_.setColor( hilight );
 
 		textAt( x+1, y+1, text );
 
-		currentFont_->setColor( shadow );
+		stateCollection_[graphicsStateIndex_]->font_.setColor( shadow );
 
 		textAt( x, y, text );
 
 		//reset the original color
-		currentFont_->setColor( &oldColor );
+		stateCollection_[graphicsStateIndex_]->font_.setColor( &oldColor );
 	}
 }
 
@@ -389,89 +470,71 @@ void GraphicsContext::copyContext( const Rect& sourceRect,
 
 void GraphicsContext::setCurrentTransform( Matrix2D* transform )
 {
-	transformMatrix_ = *transform;
+	stateCollection_[graphicsStateIndex_]->transformMatrix_ = *transform;
 }
 
 Matrix2D* GraphicsContext::getCurrentTransform()
 {
-	return &transformMatrix_;
+	return &stateCollection_[graphicsStateIndex_]->transformMatrix_;
 }
 
 void GraphicsContext::setRotation( const double& theta )
 {	
-	transformMatrix_.rotate( theta );
+	Matrix2D rot;
+	rot.rotate( theta );
+	Matrix2D tmp;
+	tmp.multiply( &rot, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );
+
+	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
 }
 
 void GraphicsContext::setTranslation( const double transX, const double& transY )
 {
-	transformMatrix_.translate( transX, transY );
-}
-
-void GraphicsContext::setShear( const double& shearX, const double& shearY )
-{
-	transformMatrix_.shear( shearX, shearY );
-}
-
-void GraphicsContext::setScale( const double& scaleX, const double& scaleY )
-{
-	transformMatrix_.scale( scaleX, scaleY );
-}
-
-void GraphicsContext::concatRotation( const double& theta )
-{
-	Matrix2D rot;
-	rot.rotate( theta );
-	Matrix2D tmp;
-	tmp.multiply( &rot, &transformMatrix_ );
-	transformMatrix_ = tmp;	
-}
-
-void GraphicsContext::concatTranslation( const double transX, const double& transY )
-{
 	Matrix2D trans;
 	trans.translate( transX, transY );
 	Matrix2D tmp;
-	tmp.multiply( &trans, &transformMatrix_ );
-	transformMatrix_ = tmp;	
+	tmp.multiply( &trans, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );
+
+	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
 }
 
-void GraphicsContext::concatShear( const double& shearX, const double& shearY )
+void GraphicsContext::setShear( const double& shearX, const double& shearY )
 {
 	Matrix2D shear;
 	shear.shear( shearX, shearY );
 
 	Matrix2D tmp;
-	tmp.multiply( &shear, &transformMatrix_ );
+	tmp.multiply( &shear, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );	
 
-	transformMatrix_ = tmp;	
+	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
 }
 
-void GraphicsContext::concatScale( const double& scaleX, const double& scaleY )
+void GraphicsContext::setScale( const double& scaleX, const double& scaleY )
 {
 	Matrix2D scale;
 	scale.scale( scaleX, scaleY );
 	
 	Matrix2D tmp;	
-	tmp.multiply( &scale, &transformMatrix_ );
-	
-	transformMatrix_ = tmp;
+	tmp.multiply( &scale, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );
+
+	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
 }
 
 Font* GraphicsContext::getCurrentFont()
 {
-	return currentFont_;
+	return &stateCollection_[graphicsStateIndex_]->font_;
 }
 
 void GraphicsContext::setColor( Color* color )
-{
-	if ( NULL != color ){
-		color_.copy( color );
+{	
+	if ( NULL != color ) {
+		stateCollection_[graphicsStateIndex_]->color_ = *color;
 	}
 }
 
 Color* GraphicsContext::getColor()
 {
-	return &color_;
+	return &stateCollection_[graphicsStateIndex_]->color_;
 }
 
 
@@ -525,45 +588,55 @@ void GraphicsContext::setClippingRect( Rect* rect )
 		rectClipPath->lineTo( rect->left_, rect->bottom_ );
 		rectClipPath->close();
 	}
+	
+	Path* clipPath = stateCollection_[graphicsStateIndex_]->clippingPath_;
 
-	if ( NULL != clippingPath_ ) { //release the underlying object instance
-		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+	if ( NULL != clipPath ) { //release the underlying object instance
+		Object* pathObj = dynamic_cast<Object*>( clipPath );
 		pathObj->release();
 	}
 
-	clippingPath_ = rectClipPath;
+	clipPath = rectClipPath;
 
-	if ( NULL != clippingPath_ ) { //take ownership of the underlying object instance
-		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+	if ( NULL != clipPath ) { //take ownership of the underlying object instance
+		Object* pathObj = dynamic_cast<Object*>( clipPath );
 		pathObj->addRef();
 	}
+
+	stateCollection_[graphicsStateIndex_]->clippingPath_ = clipPath;
 
 	contextPeer_->setClippingRect( rect );
 }
 
 void GraphicsContext::setClippingPath( Path* clippingPath )
 {
-	if ( NULL != clippingPath_ ) { //release the underlying object instance
-		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+	Path* clipPath = stateCollection_[graphicsStateIndex_]->clippingPath_;
+
+	if ( NULL != clipPath ) { //release the underlying object instance
+		Object* pathObj = dynamic_cast<Object*>( clipPath );
 		pathObj->release();
 	}
 
-	clippingPath_ = clippingPath;
+	clipPath = clippingPath;
 
-	if ( NULL != clippingPath_ ) { //take ownership of the underlying object instance
-		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+	if ( NULL != clipPath ) { //take ownership of the underlying object instance
+		Object* pathObj = dynamic_cast<Object*>( clipPath );
 		pathObj->addRef();
 	}
 
-	contextPeer_->setClippingPath( clippingPath_ );
+	stateCollection_[graphicsStateIndex_]->clippingPath_ = clipPath;
+
+	contextPeer_->setClippingPath( clipPath );
 }
 
 Rect GraphicsContext::getClippingRect()
 {
 	Rect result;
 
-	if ( NULL != clippingPath_ ) {
-		result = clippingPath_->getBounds();
+	Path* clipPath = stateCollection_[graphicsStateIndex_]->clippingPath_;
+
+	if ( NULL != clipPath ) {
+		result = clipPath->getBounds();
 	}
 
 	return result;
@@ -571,7 +644,7 @@ Rect GraphicsContext::getClippingRect()
 
 Path* GraphicsContext::getClippingPath()
 {
-	return clippingPath_;
+	return stateCollection_[graphicsStateIndex_]->clippingPath_;
 }
 
 void GraphicsContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
@@ -677,9 +750,13 @@ void GraphicsContext::drawThemeText( Rect* rect, TextState& state )
 
 void GraphicsContext::setStrokeWidth( const double& width )
 {
-	strokeWidth_ = width;
+	stateCollection_[graphicsStateIndex_]->strokeWidth_ = width;
 }
 
+double GraphicsContext::getStrokeWidth()
+{
+	return stateCollection_[graphicsStateIndex_]->strokeWidth_;
+}
 
 void GraphicsContext::execPathOperations()
 {
@@ -691,15 +768,15 @@ void GraphicsContext::execPathOperations()
 	double tmpY;
 
 	
-	Matrix2D& transform = transformMatrix_;
+	Matrix2D& transform = stateCollection_[graphicsStateIndex_]->transformMatrix_;
 
 	while ( it != pathOperations_.end() ) {
 		PointOperation& pointOp = *it;
 
 		switch ( pointOp.primitive ){
-			case PointOperation::ptMoveTo :{				
-				currentMoveTo_.x_ = pointOp.x;
-				currentMoveTo_.y_ = pointOp.y;
+			case PointOperation::ptMoveTo : {		
+				stateCollection_[graphicsStateIndex_]->currentMoveTo_.x_ = pointOp.x;
+				stateCollection_[graphicsStateIndex_]->currentMoveTo_.y_ = pointOp.y;
 
 				tmpX = pointOp.x * (transform[Matrix2D::mei00]) +
 							pointOp.y * (transform[Matrix2D::mei10]) +
@@ -1153,6 +1230,31 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 	pts.back() = pts[0];
 }
 
+int GraphicsContext::saveState()
+{
+	GraphicsState* newState = new GraphicsState(*stateCollection_.back());
+
+	stateCollection_.push_back( newState );
+	graphicsStateIndex_ = stateCollection_.size() - 1;
+	return graphicsStateIndex_;
+}
+
+void GraphicsContext::restoreState( int state )
+{
+	VCF_ASSERT( state < stateCollection_.size() );
+	VCF_ASSERT( state >= 0 );
+	if ( (stateCollection_.size() - state) > 0 ) {
+		for ( int i=state;i<stateCollection_.size();i++ ) {
+			delete stateCollection_[i];
+		}
+
+		stateCollection_.erase( stateCollection_.begin() + state,
+								stateCollection_.end() );
+	}
+	
+	graphicsStateIndex_ = maxVal<>(0,(state - 1));
+}
+
 
 };	// namespace VCF
 
@@ -1160,6 +1262,9 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/08/31 21:12:07  ddiego
+*graphice save and restore state
+*
 *Revision 1.2.2.5  2004/08/31 10:24:15  marcelloptr
 *project changed postfix operator into prefix where not necessary so to eliminate agg warning
 *

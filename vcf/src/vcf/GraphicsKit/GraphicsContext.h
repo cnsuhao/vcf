@@ -40,6 +40,10 @@ class TabState;
 class BackgroundState;
 class TextState;
 
+class GraphicsState;
+
+
+
 
 /**
 *A Graphics Context provides the lowest level graphics interface to the
@@ -103,7 +107,7 @@ public:
 		doImage
 	};
 
-	enum GraphicsState {
+	enum GraphicsDrawingState {
 		gsNone = 0,
 		gsAddingGraphicsOps,
 		gsExecutingGraphicsOps
@@ -146,7 +150,9 @@ public:
 		ttToolTipFont
 	};
 	
-	
+	typedef std::vector<GraphicsState*> GraphicsStateCollection;
+	typedef GraphicsStateCollection::iterator GraphicsStateIterator;
+	typedef GraphicsStateCollection::const_iterator GraphicsStateConstIterator;
 
 	void init();
 
@@ -292,9 +298,7 @@ public:
 
     void setStrokeWidth( const double& width );
 
-	double getStrokeWidth() {
-		return strokeWidth_;
-	}
+	double getStrokeWidth();
 
 
 	void textAt(const double & x, const double & y, const String & text);
@@ -427,16 +431,7 @@ public:
 	*/
 	void setScale( const double& scaleX, const double& scaleY );
 
-	/**
-	Takes the rotation value, creates a temporary matrix and then
-	concatenates or multiplies this with the current transformation 
-	matrix, to produce a new matrix. The difference between this method
-	and setRotation(), is that repeated calls to setRotation() with
-	an argument of 10.0 will maintain the current transformation matrix's
-	rotation to 10.0 degrees. Repeated calls to concatRotation() with a 
-	value 10.0, may first result in the transformation matrix having a 
-	rotation of 10.0 degrees, and then 20, and then 30, and so on.
-	*/
+	/*
 	void concatRotation( const double& theta );
 
 	void concatTranslation( const double transX, const double& transY );
@@ -444,6 +439,7 @@ public:
 	void concatShear( const double& shearX, const double& shearY );
 
 	void concatScale( const double& scaleX, const double& scaleY );
+	*/
 
 	/**
 	*returns whether or not the XOR Mode is turned on.
@@ -561,6 +557,9 @@ public:
 	void drawThemeMenuItem( Rect* rect, MenuState& state );
 
 	void drawThemeText( Rect* rect, TextState& state );
+
+	int saveState();
+	void restoreState( int state );
 protected:
 
 
@@ -590,24 +589,16 @@ protected:
 	};
 
 
-    ContextPeer * contextPeer_;
-	Fill* currentFill_;
-	Stroke* currentStroke_;
-	Font* currentFont_;
-	Path* clippingPath_;
-	Matrix2D transformMatrix_;
-	Point currentMoveTo_;
-
-	GraphicsState currentState_;
-
-	Color color_;
-	double strokeWidth_;
+    ContextPeer * contextPeer_;		
+	GraphicsDrawingState currentState_;
 	std::vector<PointOperation> pathOperations_;
 	Image* drawingArea_;
 	Point drawingAreaTopLeft_;
 	agg::rendering_buffer* renderBuffer_;
 	bool renderAreaDirty_;
 	Rect viewableBounds_;
+	GraphicsStateCollection stateCollection_;
+	int graphicsStateIndex_;
 
 	void buildArc( double centerX,  double centerY, 
             double radiusWidth, double radiusHeight, 
@@ -721,6 +712,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 21:12:07  ddiego
+*graphice save and restore state
+*
 *Revision 1.2.2.1  2004/08/31 04:12:13  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out
