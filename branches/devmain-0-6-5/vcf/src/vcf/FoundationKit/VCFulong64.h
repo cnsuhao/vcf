@@ -530,7 +530,7 @@ public:
 class FOUNDATIONKIT_API long64 {
 public:
 
-#	ifdef _MSC_VER
+#	if defined(_MSC_VER) || defined(__BORLANDC__)
 		typedef __int64 int64_t;
 #	else
 		typedef long long int64_t;
@@ -997,6 +997,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/31 12:22:52  kiklop74
+*Minor tweak in long64 class needed to properly define type for bcc
+*
 *Revision 1.1.2.7  2004/07/30 17:28:40  kiklop74
 *Added first release of Borland midifications for VCF
 *
