@@ -59,7 +59,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				owned by the authors of the content.</para>
 			</answer>
 			<question>
-				<para>How does the VCF compare to other frameworks or toolkits,
+				<para>How does  the VCF compare to other frameworks or toolkits,
 					such as MFC, Qt, FLTK, FOX, and GTK?</para>
 			</question>
 			<answer>
@@ -219,84 +219,168 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>Where the heck do I get this from ?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				You can get the VCF from the "Files" section at the Source Forge project page.
+				Alternately you can also get the VCF from CVS, either in the current stable 
+				release, or directly from the most recent (potentially <emphasis>unstable</emphasis>)
+				development release.
+				</para>
 			</answer>
 			<question>
 				<para>Do I have to use CVS ?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				If you want to get the VCF sources from the CVS source tree, or be able to contribute 
+				to the VCF as developer, yes. Otherwise you can get the source from the project's
+				file downloads page, and submit patches for VCF devlopers to patch into the CVS tree.
+				</para>
 			</answer>
 			<question>
 				<para>What about SSH ?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				To use allow people to securely use CVS, Source Forge uses SSH. Most linux installations
+				have this installed (as well as CVS), and Win32 users can get this set up and running 
+				by downloading and installing <ulink url="http://www.cygwin.com">Cygwin</ulink>.
+				</para>
 			</answer>
 			<question>
 				<para>What other libraries do I need to get the VCF to run?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				This partly depends on the platform you use. For Win32 platforms the
+				VCF has everything it needs in the source distribution. For Linux platforms
+				you'll need GTK 2 (and whatever libraries that GTK requires).
+				</para>
 			</answer>
 			<question>
 				<para>What do I need to build ? Why do I have to build anything ? 
 				Can't I just get the binaries ?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>For Win32 system's you can download the entire VCF including pre-built
+				binaries, documentation, source, and MSDN integration all in one easy installer.
+				As other platform ports become complete, similar installers will be made available.
+				</para>
+				<para>
+				In terms of what parts of VCF you have build, this is partially dependant on how 
+				you plan to use it. For console applications, it's likely that hte FoundationKit
+				library is all you need. For GUI applications, you'll most likely want the 
+				ApplicationKit, which in turn requires the GraphicsKit and FoundationKit libraries.
+				</para>
 			</answer>
 			<question>
 				<para>The documentation mentions a folder named "bin" which must be included 
 				in the system path. I do not see any bin folder. Where is it?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				When you download the source code, the "bin" and "lib" directories
+				do not exist. When you build the source code, these will be created 
+				automatically as part of the build process. The "bin" directory holds
+				the linked binary files (like .DLL/.so or .exe files) and the "lib"
+				directory holds .lib or .a files. If you installed the VCF 
+				through the installer, these directories will exist since the pre-built
+				binaries will be installed there.
+				</para>
 			</answer>
 			<question>
 				<para>Using Visual C++ I get compiler errors complaining that it can't find certain 
 				files. What do I do? </para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				Make sure that Visual C++ can find the vcf/include directory. This is what the 
+				VCF_INCLUDE environment variable is for. An alternate solution (for Visual C++)
+				is to add the vcf/include directory to the global list of include directories that
+				Visual C++ searches through. To do this
+				<itemizedlist>
+					<listitem>	<para>
+					Go to "Tools > Options..."
+					</para></listitem>
+					<listitem>	<para>
+					Click on the "Options" tab.
+					</para></listitem>
+					<listitem>	<para>
+					In the "Show Directories for:" drop down, select "Include files".
+					</para></listitem>
+					<listitem>	<para>
+					Go to the end of the list, double click a blank item and add teh path to 
+					wherever the vcf/include directory is found on your system.
+					</para></listitem>
+					<listitem>	<para>
+					Click "OK" and you should be good to go.
+					</para></listitem>
+				</itemizedlist>
+				</para>
 			</answer>
 			<question>
 				<para>Using GCC I get compiler errors complaining that it can't find certain 
 				files. What do I do?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				Ensure that the make file is correctly pointing to wherever the vcf/include
+				is on your machine. If your building the VCF from the makefile, this shouldn't 
+				be a problem. If you're having problems with building you own applications that 
+				use the VCF, make sure you are including some thing like "-I $(VCF_INCLUDE)" in your
+				make files.
+				</para>
 			</answer>				
 			<question>
 				<para>Using Visual C++ I get linker errors. What do I do? </para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				You probably do not have the vcf/lib in Visual C++'s lib path. 
+				</para>
 			</answer>				
 			<question>
 				<para>When I run my program (using Visual C++) I get weird crashes and memory 
 				overwrites</para>
 			</question>
 			<answer>
-				<para>check Code Generation, check STL version</para>
+				<para>Make sure your code generation options match the VCF's (or any other 
+				library you may link to). You should be using the "Multi Threaded DLL"
+				or "Debug Multi Threaded DLL" (/MD or /MDd, respectively). If you don't do
+				this, then memory that you allocate and delete will run into problems with 
+				other libraries memory management.</para>
 			</answer>				
 			<question>
-				<para>When I attempt to compile with Visual C++ 6, I get an Internal Compiler Error. What do I do?</para>
+				<para>When I attempt to compile with Visual C++ 6, I get an Internal Compiler Error. 
+				What do I do?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Make sure that you have installed 
+				<ulink url="http://msdn.microsoft.com/vstudio/downloads/updates/sp/vs6/sp5/dnldoverview.aspx">
+				Service Pack 5</ulink> for Visual Studio C++. Also the Standard version of 
+				Visual C++ seems to have some problems, so you'll need to use the Professional 
+				or Enterprise version.
+				</para>
 			</answer>				
 			<question>
-				<para>I am using BoundsChecker, and it claims I have all sorts of memory leaks? Is this really correct?</para>
+				<para>I am using BoundsChecker, and it claims I have all sorts of memory leaks? 
+					Is this really correct?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				Bounds Checker 6.x for Visual C++ tends to "quit" too early, and thus reports any 
+				memory that it thinks is still allocated as "leaks", regardless if the memory is 
+				freed by the application later on. This is a known bug, and affects other libraries
+				that do their own memory reporting, and can safely be ignored. If you are in debug
+				mode, and have the memory traps for VCF enabled (they are on by default), then
+				any objects (that are directly or indirectly derived from VCF::Object) that have 
+				not been freed are reported by the VCF.
+				</para>
 			</answer>				
 			<question>
 				<para>Can I use the VCF without writing a GUI?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>You most certainly can!</para>
 			</answer>							
 		</qandaentry>
 	</qandaset>	
@@ -316,7 +400,11 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>How do I joing the project?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				You must be a member of Source Forge (it's free), which you can do 
+				<ulink url="http://sourceforge.net/account/register.php">here</ulink>. 
+				
+				</para>
 			</answer>
 
 			<question>
@@ -831,7 +919,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>
 				An answer.
 				</para>
-<<<<<<< faqs.xml
+
 			</answer>
 			<question>
 				<para>Can I use threads in my GUI built with the ApplicationKit? If
@@ -1053,6 +1141,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.6  2003/10/04 06:51:58  ddiego
+answered more faq questions
+
 Revision 1.1.2.5  2003/10/03 04:34:16  ddiego
 added updates to FAQ
 
