@@ -43,9 +43,9 @@ compilers
 
 _MSC_VER - compiling with Microsoft's Visual C++ compiler (at least version 6)
 VCF_MSC
-VCF_VC5
-VCF_VC6
-VCF_VC7
+VCF_VC50
+VCF_VC60
+VCF_VC70
 VCF_VC71
 
 VCF_GCC - compiling with GCC's C++ compiler
@@ -616,7 +616,7 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2004/12/22 03:15:50  marcelloptr
+*Revision 1.3.2.4  2004/12/22 03:38:43  marcelloptr
 *fixed VCF_COMPILER_NAME macro so less error prone.
 *This also makes getExecutableNameFromBundlePath() to work right.
 *
