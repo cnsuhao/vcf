@@ -153,7 +153,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitDLL", ".\Found
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "..\..\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_vc71.vcproj", "{830EBCE6-32C2-42D6-B7CC-9A94D86CEDFE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "..\..\src\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_vc71.vcproj", "{830EBCE6-32C2-42D6-B7CC-9A94D86CEDFE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0F25295A-2911-458E-A43F-486A63E92262} = {0F25295A-2911-458E-A43F-486A63E92262}
 		{482CFFD2-C605-4B81-9666-C0D78B91F5F9} = {482CFFD2-C605-4B81-9666-C0D78B91F5F9}
