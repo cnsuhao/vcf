@@ -264,6 +264,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reflection", "..\..\example
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegEnVar", "..\..\src\thirdparty\win32\RegEnVar\RegEnVar_vc71.vcproj", "{be868bf9-23ad-409a-a85e-8d3e108949e6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegExx", ".\FoundationKit\RegExx_vc71.vcproj", "{55F74A0E-5C2B-4B90-B382-6E49EEEBD942}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -543,6 +547,9 @@ Global
 		{5AEE6D4D-E08B-4D5B-BCD0-97ABFDF289C0}.Debug.ActiveCfg = Debug|Win32
 		{5AEE6D4D-E08B-4D5B-BCD0-97ABFDF289C0}.GTK Debug.ActiveCfg = Debug|Win32
 		{5AEE6D4D-E08B-4D5B-BCD0-97ABFDF289C0}.Release.ActiveCfg = Release|Win32
+		{be868bf9-23ad-409a-a85e-8d3e108949e6}.Debug.ActiveCfg = Debug|Win32
+		{be868bf9-23ad-409a-a85e-8d3e108949e6}.GTK Debug.ActiveCfg = Debug|Win32
+		{be868bf9-23ad-409a-a85e-8d3e108949e6}.Release.ActiveCfg = Release|Win32
 		{55F74A0E-5C2B-4B90-B382-6E49EEEBD942}.Debug.ActiveCfg = Debug|Win32
 		{55F74A0E-5C2B-4B90-B382-6E49EEEBD942}.GTK Debug.ActiveCfg = Debug|Win32
 		{55F74A0E-5C2B-4B90-B382-6E49EEEBD942}.Release.ActiveCfg = Release|Win32
