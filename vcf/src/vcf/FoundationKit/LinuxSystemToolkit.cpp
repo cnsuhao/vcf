@@ -11,8 +11,12 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/ProcessIORedirectionPeer.h"
 #include "vcf/FoundationKit/LinuxProcessIORedirector.h"
+
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/FoundationKit/LinuxLocalePeer.h"
+//#include "vcf/FoundationKit/Win32Condition.h" // in Win32SystemToolkit included file
+//#include "vcf/FoundationKit/ResourceBundlePeer.h" // in Win32SystemToolkit included file
+//#include "vcf/FoundationKit/Win32ResourceBundle.h" // in Win32SystemToolkit included file
 
 using namespace VCF;
 
@@ -102,10 +106,18 @@ LocalePeer* LinuxSystemToolkit::internal_createLocalePeer()
 	return new LinuxLocalePeer();
 }
 
+ResourceBundlePeer* LinuxSystemToolkit::internal_createResourceBundlePeer()
+{
+    // TODO : implement
+	return (ResourceBundlePeer*) 0;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/04/06 07:32:57  marcweber
+**** empty log message ***
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
@@ -132,6 +144,10 @@ LocalePeer* LinuxSystemToolkit::internal_createLocalePeer()
 *
 *Revision 1.4.4.2  2003/10/03 01:01:24  ddiego
 *added a fix for compiling in linux
+*
+*Revision 1.4.4.1  2003/10/02 04:50:52  ddiego
+*changes to ensure the code compiles on linux. made a bunch of updates to
+*the makefiles
 *
 *Revision 1.4.4.1  2003/10/02 04:50:52  ddiego
 *changes to ensure the code compiles on linux. made a bunch of updates to
@@ -182,7 +198,4 @@ LocalePeer* LinuxSystemToolkit::internal_createLocalePeer()
 *added linux peer classes for the FoundationKit port to linux
 *this now means the FoundationKit will start up correctly on
 *linu thought it is still not 100% functional yet
-*
 */
-
-
