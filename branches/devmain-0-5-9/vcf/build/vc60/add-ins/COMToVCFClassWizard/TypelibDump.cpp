@@ -1243,3 +1243,5 @@ HRESULT GenerateInterface( ITypeInfo* pTypeInfo, TYPEATTR* pTypeAttr, InterfaceH
 	}
 	return hr;
 }
+
+
