@@ -1,5 +1,17 @@
-#ifndef _SIMPLEDLL_H__
-#define _SIMPLEDLL_H__
+#ifndef _VCF_SIMPLEDLL_H__
+#define _VCF_SIMPLEDLL_H__
+//SimpleDLL.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifdef _MSC_VER
@@ -23,7 +35,16 @@ extern "C" {
 }
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.4.1  2004/04/29 03:04:28  marcelloptr
+*reformatting of source files
+*
+*
+*/
 
-#endif //_SIMPLEDLL_H__
+
+#endif // _VCF_SIMPLEDLL_H__
 
 

@@ -1,4 +1,11 @@
-////Localization.cpp
+//Localization.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
@@ -724,5 +731,14 @@ int main( int argc, char** argv ){
 	return 0;
 }
 
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.2.3  2004/04/29 03:04:27  marcelloptr
+*reformatting of source files
+*
+*
+*/
 
 

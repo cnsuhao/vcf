@@ -1,56 +1,17 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.2  2003/08/09 02:56:42  ddiego
-*merge over from the devmain-0-6-1 branch
-*Changes
-*Features:
-*-Added additional implementation to better support the MVC architecture in
-*the VCF
-*
-*-Added a Document/View architecure that is similar to MFC's or NextSteps's
-*Doc/View architectures
-*
-*-Integrated the Anti Grain Graphics library into the GraphicsKit. There is
-*now basic support for it in terms of drawing vector shapes
-*(fills and strokes). Image support will come in the next release
-*
-*-Added several documented graphics tutorials
-*
-*Bugfixes:
-*
-*[ 775744 ] wrong buttons on a dialog
-*[ 585239 ] Painting weirdness in a modal dialog ?
-*[ 585238 ] Modal dialog which makes a modal Dialog
-*[ 509004 ] Opening a modal Dialog causes flicker
-*[ 524878 ] onDropped not called for MLTcontrol
-*
-*Plus an issue with some focus and getting the right popup window to activate
-*has also been fixed
-*
-*Revision 1.1.2.4  2003/07/24 04:10:43  ddiego
-*added fixes for the following tasks:
-*Task #82279 ApplicationKit: add static methods to singleton objects
-*Task #82277 FoundationKit: add static methods to singleton objects
-*this required a bunch of changes in terms of getting rid of older style code
-*
-*Revision 1.1.2.3  2003/07/21 03:08:29  ddiego
-*added bezier curve editing to Sketchit, fixed a bug in not saving
-*bitmaps, added PackageInfo to the ApplicationKit
-*
-*Revision 1.1.2.2  2003/07/18 04:38:54  ddiego
-*got more work done on the sketch examples plus fixed a bug in the application
-*of a transform ot a path
-*
-*Revision 1.1.2.1  2003/07/17 03:02:46  ddiego
-*added sketch example
-*
+#ifndef _VCF_SKETCHTOOLS_H__
+#define _VCF_SKETCHTOOLS_H__
+//SketchTools.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
-
-#ifndef _SKETCHTOOLS_H__
-#define _SKETCHTOOLS_H__
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 class Tool : public VCF::ObjectWithEvents {
@@ -345,8 +306,59 @@ protected:
 };
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.6.1  2004/04/29 03:04:29  marcelloptr
+*reformatting of source files
+*
+*Revision 1.2  2003/08/09 02:56:42  ddiego
+*merge over from the devmain-0-6-1 branch
+*Changes
+*Features:
+*-Added additional implementation to better support the MVC architecture in
+*the VCF
+*
+*-Added a Document/View architecure that is similar to MFC's or NextSteps's
+*Doc/View architectures
+*
+*-Integrated the Anti Grain Graphics library into the GraphicsKit. There is
+*now basic support for it in terms of drawing vector shapes
+*(fills and strokes). Image support will come in the next release
+*
+*-Added several documented graphics tutorials
+*
+*Bugfixes:
+*
+*[ 775744 ] wrong buttons on a dialog
+*[ 585239 ] Painting weirdness in a modal dialog ?
+*[ 585238 ] Modal dialog which makes a modal Dialog
+*[ 509004 ] Opening a modal Dialog causes flicker
+*[ 524878 ] onDropped not called for MLTcontrol
+*
+*Plus an issue with some focus and getting the right popup window to activate
+*has also been fixed
+*
+*Revision 1.1.2.4  2003/07/24 04:10:43  ddiego
+*added fixes for the following tasks:
+*Task #82279 ApplicationKit: add static methods to singleton objects
+*Task #82277 FoundationKit: add static methods to singleton objects
+*this required a bunch of changes in terms of getting rid of older style code
+*
+*Revision 1.1.2.3  2003/07/21 03:08:29  ddiego
+*added bezier curve editing to Sketchit, fixed a bug in not saving
+*bitmaps, added PackageInfo to the ApplicationKit
+*
+*Revision 1.1.2.2  2003/07/18 04:38:54  ddiego
+*got more work done on the sketch examples plus fixed a bug in the application
+*of a transform ot a path
+*
+*Revision 1.1.2.1  2003/07/17 03:02:46  ddiego
+*added sketch example
+*
+*/
 
-#endif //_SKETCHTOOLS_H__
 
+#endif // _VCF_SKETCHTOOLS_H__
 
 

@@ -1,5 +1,11 @@
 //ImageBasics.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 
@@ -188,5 +194,15 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.3.2.2  2004/04/29 03:04:27  marcelloptr
+*reformatting of source files
+*
+*
+*/
 
 
