@@ -439,13 +439,14 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
 }
 
 void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect )
-{
-	VCF_ASSERT( memDCState_ != 0 );
-	VCF_ASSERT( originalMemBMP_ != 0 );
-	VCF_ASSERT( memBMP_ != 0 );
+{	
 
 	if ( peerControl_->getComponentState() != Component::csDestroying ) {
 		if ( true == peerControl_->isDoubleBuffered() ){
+			VCF_ASSERT( memDCState_ != 0 );
+			VCF_ASSERT( originalMemBMP_ != 0 );
+			VCF_ASSERT( memBMP_ != 0 );
+
 			int err = /*::BitBlt( ps.hdc, 0, 0,
 					  (int)clientBounds.getWidth(),
 					  (int)clientBounds.getHeight(),
@@ -1152,6 +1153,9 @@ void AbstractWin32Component::setBorder( Border* border )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.9  2004/07/14 21:54:40  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting

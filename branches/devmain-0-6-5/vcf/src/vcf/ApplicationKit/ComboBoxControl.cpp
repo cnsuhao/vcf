@@ -727,8 +727,10 @@ Rect ComboBoxControl::getEditBounds()
 {
 	Rect result;
 	result = getClientBounds();
-	result.right_ = result.left_ + (result.getWidth() - result.getHeight());
-	result.right_ += 2;
+
+	Size sz = UIToolkit::getUIMetricsManager()->getDefaultVerticalScrollButtonDimensions();
+
+	result.right_ -= sz.width_;	
 
 	return result;
 }
@@ -936,6 +938,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.6  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting

@@ -12,7 +12,14 @@ where you installed the VCF.
 using namespace VCF;
 
 
-Basic3DBorder::Basic3DBorder()
+Basic3DBorder::Basic3DBorder():
+	inverted_(false)
+{
+
+}
+
+Basic3DBorder::Basic3DBorder( bool inverted ):
+	inverted_(inverted)
 {
 
 }
@@ -122,6 +129,9 @@ void Basic3DBorder::paint( Control* component, GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting

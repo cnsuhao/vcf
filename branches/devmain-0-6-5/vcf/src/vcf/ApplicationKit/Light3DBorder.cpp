@@ -12,9 +12,16 @@ where you installed the VCF.
 
 
 using namespace VCF;
-Light3DBorder::Light3DBorder()
+Light3DBorder::Light3DBorder():
+	inverted_(false)
 {
-	inverted_ = false;
+	
+}
+
+Light3DBorder::Light3DBorder( bool inverted ):
+	inverted_(inverted)
+{
+
 }
 
 Light3DBorder::~Light3DBorder()
@@ -105,6 +112,9 @@ Rect Light3DBorder::getClientRect( Rect* initialBounds, Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting
