@@ -147,20 +147,46 @@ OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 #<target> : <dependency1> <dependency2> ... <dependencyN>
 #<tabchar><program to create target> <arguments, usually dependcies from above>
 
+target : 
+	echo please choose either "debug", "release" or "all" '(for both debug and release)'
 
 #debug target
 
-debug : $(FOUNDATION_KIT_SO_D)
+debug : prep_dirs_FK_D $(FOUNDATION_KIT_SO_D)
 
-
+	
 
 #release target
 
-release : $(FOUNDATION_KIT_SO)
+release : prep_dirs_FK $(FOUNDATION_KIT_SO)
 
 
 #all target, builds release and debug builds
 all : debug release
+
+
+
+#creates the foundationkit output directories for a debug build
+#this works by using the test command to test if the OUTPUT_BASE_FK
+#or OUTDIR_FK_D directories exist. the -d teslls test that we are
+#testing for the existance of the specified directory. the command
+#needs to be in `` backward single quotes so that it executes correctly.
+#if the directory does not exist then we call mkdir to create it.
+prep_dirs_FK_D: 
+	if ! `test -d $(OUTPUT_BASE_FK)`;then mkdir $(OUTPUT_BASE_FK);fi;\
+	if ! `test -d $(OUTDIR_FK_D)`;then mkdir $(OUTDIR_FK_D);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+	
+#creates the foundationkit output directories for a release build
+prep_dirs_FK: 
+	if ! `test -d $(OUTPUT_BASE_FK)`;then mkdir $(OUTPUT_BASE_FK);fi;\
+	if ! `test -d $(OUTDIR_FK)`;then mkdir $(OUTDIR_FK);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+		
+
+
 
 #so to build the FoundationKit debug shared object library
 #i.e. FOUNDATION_KIT_SO_D, we need all the objects (or .o files) 
@@ -326,7 +352,7 @@ $(OUTDIR_FK_D)/LinuxSemaphorePeer.o : $(SRC_IMPLKIT)/LinuxSemaphorePeer.cpp $(FO
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSemaphorePeer.cpp -o $(OUTDIR_FK_D)/LinuxSemaphorePeer.o
 
 $(OUTDIR_FK_D)/LinuxSystemPeer.o : $(SRC_IMPLKIT)/LinuxSystemPeer.cpp $(FOUNDATIONKIT_HDRS)
-#	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSystemPeer.cpp -o $(OUTDIR_FK_D)/LinuxSystemPeer.o
+	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSystemPeer.cpp -o $(OUTDIR_FK_D)/LinuxSystemPeer.o
 
 $(OUTDIR_FK_D)/LinuxSystemToolkit.o : $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp -o $(OUTDIR_FK_D)/LinuxSystemToolkit.o
