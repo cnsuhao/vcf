@@ -292,16 +292,17 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 	return result;
 }
 
-const UnicodeString::AnsiChar* UnicodeString::decode_ansi( TextCodec* codec ) const
+void UnicodeString::decode_ansi( TextCodec* codec, UnicodeString::AnsiChar* str, UnicodeString::size_type& strSize ) const 
 {
 	UnicodeString::AnsiChar* result = NULL;
-	ulong32 size = codec->convertToAnsiString( *this, NULL, 0 );
-	if ( size > 0 ) {
-		result = new UnicodeString::AnsiChar[size+1];
-		codec->convertToAnsiString( *this, result, size );		
-	}
 
-	return result;
+	ulong32 size = codec->convertToAnsiString( *this, str, strSize );	
+	
+	if ( size < strSize ) {
+		str[size] = 0;
+	}
+	
+	strSize = size;
 }
 
 UnicodeString UnicodeString::decode( TextCodec* codec ) const
@@ -752,6 +753,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/11 22:55:45  ddiego
+*changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
+*
 *Revision 1.2.2.1  2004/09/11 19:16:37  ddiego
 *changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
 *
