@@ -40,7 +40,7 @@ NB: This software will not save the world.
 	<xsl:param name="suppress.navigation" select="0"/>
 	<xsl:param name="admon.graphics" select="1"/>
 	<xsl:param name="admon.graphics.path">gfx/</xsl:param>
-	<xsl:param name="htmlhelp.chm" select="'vcf_docs.chm'"/>
+	<xsl:param name="htmlhelp.chm" select="'vcf-docbook.chm'"/>
 	
 	<xsl:param name="htmlhelp.hhc.binary" select="1"/>
 	<xsl:param name="htmlhelp.chi.create" select="1"/>
@@ -52,7 +52,7 @@ NB: This software will not save the world.
 	<xsl:param name="section.label.includes.component.label" select="1"/>
 
 	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="0"/>
-
+	<xsl:param name="htmlhelp.hhp" select="'vcf-docbook.hhp'"></xsl:param>
 
 
 
@@ -462,6 +462,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.11  2003/12/16 03:47:44  ddiego
+some changes to documentation and a few minor changes to class wiz's
+
 Revision 1.5.2.10  2003/11/07 05:08:04  ddiego
 added some more docs
 

@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.13  2003/12/16 03:47:44  ddiego
+#some changes to documentation and a few minor changes to class wiz's
+#
 #Revision 1.5.2.12  2003/12/13 15:56:07  ddiego
 #*** empty log message ***
 #
@@ -279,20 +282,15 @@ alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
 	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.xml > xmake_book.xml.tmp
 	cp xmake_book.xml xmake_book.xml.bak
 	mv xmake_book.xml.tmp xmake_book.xml
-
-	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.xml > vcfbuilder_book.xml.tmp
-	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
-	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
-	
-	xsltproc --nonet vcf.xsl vcf_website_docs.xml
+		
+	xsltproc --nonet vcf.xsl vcf_docbook.xml
 
 	mv vcf_book.xml.bak vcf_book.xml
-	mv xmake_book.xml.bak xmake_book.xml
-	mv vcfbuilder_book.xml.bak vcfbuilder_book.xml
+	mv xmake_book.xml.bak xmake_book.xml	
 
 
 
-alldocs_hh : alldocs htmlhelp.hhp 
+alldocs_hh : alldocs 
 	cp htmlhelp.hhp htmlhelp.hhp.bak
 	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
 	mv htmlhelp.hhp.tmp htmlhelp.hhp
@@ -343,7 +341,7 @@ alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS
 	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
 	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
 
-	xsltproc --nonet vcf_with_source_docs.xsl vcf_website_docs.xml
+	xsltproc --nonet vcf_with_source_docs.xsl vcf_docbook.xml
 
 	mv vcf_book.xml.bak vcf_book.xml
 	mv xmake_book.xml.bak xmake_book.xml
@@ -508,28 +506,6 @@ test_tools :
 
 
 
-stripper.o : stripper.cpp
-	g++ -c -O2 stripper.cpp
-
-stripper : stripper.o
-	g++ -o stripper stripper.o
-
-
-hrefmunger.o : hrefmunger.cpp
-	g++ -c -O2 hrefmunger.cpp
-
-hrefmunger : hrefmunger.o
-	g++ -o hrefmunger hrefmunger.o
-
-
-imgmunger.o : imgmunger.cpp
-	g++ -c -O2 imgmunger.cpp
-
-imgmunger : imgmunger.o
-	g++ -o imgmunger imgmunger.o
-
-
-
 doxy : 
 	cp Doxyfile Doxyfile.bak
 	sed "s?VERSION-NUMBER?$(VERSION)?g" Doxyfile > Doxyfile.tmp
@@ -571,7 +547,7 @@ doxy_hh : doxy_html/index.hhp
 #	rm files.out
 #	rm images.out
 
-dist_all : alldocs
+dist_all : 
 	-mkdir VCFDocs-$(VERSION)	
 	cp *.html VCFDocs-$(VERSION)/
 	cp *.css VCFDocs-$(VERSION)/

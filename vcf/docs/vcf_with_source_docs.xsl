@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.2.4.2  2003/12/16 03:47:44  ddiego
+some changes to documentation and a few minor changes to class wiz's
+
 Revision 1.2.4.1  2003/09/29 03:45:38  ddiego
 added some further tweaks to update the docs with the upcoming
 website revision.
@@ -51,9 +54,11 @@ generation
 	 <xsl:import href="vcf.xsl"/>
 
 	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="1"/>
-	<xsl:param name="htmlhelp.hhc.binary" select="0"/>
-	
+	<xsl:param name="htmlhelp.hhc.binary" select="1"/>
+	<xsl:param name="htmlhelp.hhp" select="'vcf-docbook-with-src.hhp'"></xsl:param>
 
+	<xsl:param name="htmlhelp.chm" select="'vcf-docbook-with-src.chm'"/>
+	
 <xsl:param name="htmlhelp.hhp.tail">
 [MERGE FILES]
 VCF-SOURCE-CHM
