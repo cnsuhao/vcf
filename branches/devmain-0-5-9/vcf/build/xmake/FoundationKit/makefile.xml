@@ -39,7 +39,8 @@
 				<compiler name="g++" >
 					<flags>
 						<flag value="-I $(INC)"/>						
-						<flag value="-c -DVCF_GCC -D_DEBUG -fPIC"/>
+						<flag value="-c -DVCF_GCC -D_DEBUG"/><!-- -fPIC"/ -->
+
 					</flags>
 				</compiler>	
 
