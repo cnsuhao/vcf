@@ -22,7 +22,10 @@ static ListItem* previouslySelectedListItem = NULL;
 ListBoxControl::ListBoxControl():
 	listModel_(NULL),
 	currentMaxWidth_(0),
-	currentMaxHeight_(0)
+	currentMaxHeight_(0),
+	leftGutter_(2),
+	rightGutter_(2),
+	textBounded_(false)
 {
 	setListModel( new DefaultListModel() );
 
@@ -33,7 +36,10 @@ ListBoxControl::ListBoxControl():
 ListBoxControl::ListBoxControl( ListModel* listModel ):
 	listModel_(NULL),
 	currentMaxWidth_(0),
-	currentMaxHeight_(0)
+	currentMaxHeight_(0),
+	leftGutter_(2),
+	rightGutter_(2),
+	textBounded_(false)
 {
 	setListModel( listModel );
 	init();
@@ -44,6 +50,8 @@ void ListBoxControl::init()
 	singleSelectedItem_ = NULL;
 
 	allowsMultiSelect_ = false;
+
+	allowsExtendedSelect_ = true;
 
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
@@ -185,7 +193,7 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 	currentMaxHeight_ += item->getBounds()->getHeight();
 
 
-	currentMaxWidth_ = maxVal<double>( ctx->getTextWidth( item->getCaption() ), currentMaxWidth_ );
+	currentMaxWidth_ = maxVal<double>( ctx->getTextWidth( item->getCaption() ) + leftGutter_ + rightGutter_, currentMaxWidth_ ); 
 
 
 	if ( NULL != scrollable ) {
@@ -296,13 +304,14 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 	Scrollable* scrollable = this->getScrollable();
 
 	Rect bounds = getClientBounds();
+	ctx->setClippingRect( &bounds );
 
 	double width = bounds.getWidth();
 	double scrollW = 0;
-	double offsetx = bounds.left_;
+	double offsetx = bounds.left_ + leftGutter_;
 	if ( NULL != scrollable ) {
 		if ( scrollable->getVirtualViewHeight() > getHeight() ) {
-			scrollW = scrollable->getVerticalScrollbarWidth() + 1;
+			scrollW = scrollable->getVerticalScrollbarWidth();
 		}
 
 		offsetx = maxVal<>( offsetx, offsetx + scrollable->getHorizontalPosition() );
@@ -313,8 +322,9 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 				GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
 
 		Enumerator<ListItem*>* items= lm->getItems();
-		double currentTop = 0.0;
+		double currentTop = bounds.top_;
 		Rect itemRect;
+		Rect itemPaintRect;
 		double totalHeight = 0;
 
 
@@ -324,7 +334,7 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 
 
 		Rect viewBounds = ctx->getViewableBounds();
-		Point origin = ctx->getOrigin();
+		//Point origin = ctx->getOrigin();
 		//viewBounds.offset( -origin.x_, -origin.y_ );
 
 		while ( true == items->hasMoreElements() ) {
@@ -338,7 +348,7 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 				double y = currentTop + ( (itemRect.getHeight()/2.0) - (ctx->getTextHeight( "EM" )/2.0) );
 
 				if ( true == item->isSelected() ) {
-					paintSelectionRect( ctx, &itemRect, item );
+					paintSelectionRect( ctx, &Rect(itemRect.left_-leftGutter_, itemRect.top_, itemRect.right_, itemRect.bottom_), item );
 					ctx->getCurrentFont()->setColor( selectedTextColor );
 					//ctx->setColor( selectedTextColor );
 				}
@@ -346,10 +356,15 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 					ctx->getCurrentFont()->setColor( &oldFontColor );
 					//ctx->setColor( &oldFontColor );
 				}
-
-				ctx->textAt( 4, y, item->getCaption() );
-
-
+				
+				if( textBounded_ ){
+					itemPaintRect.setRect(bounds.left_ + leftGutter_, currentTop, offsetx + width - scrollW - leftGutter_, currentTop + defaultItemHeight_ );
+					ctx->textBoundedBy( &itemPaintRect, item->getCaption(), false );
+				}
+				else{
+					ctx->textAt( bounds.left_ + leftGutter_, y, item->getCaption() );
+				}
+				
 				if ( true == item->canPaint() ) {
 					item->paint( ctx, &itemRect );
 				}
@@ -406,20 +421,82 @@ void ListBoxControl::mouseDown( MouseEvent* event )
 		keepMouseEvents();
 
 		ListItem* foundItem = findSingleSelectedItem( event->getPoint() );
-		if ( NULL != foundItem ) {
-			//rangeSelect( true, foundItem, NULL );
-			if ( true == allowsMultiSelect_ ) {
-				if ( NULL != singleSelectedItem_ ) {
-					singleSelectedItem_->setSelected( false );
+		if ( NULL != foundItem ) {			
+			if ( true == allowsMultiSelect_ && true == allowsExtendedSelect_ ) {
+				if( event->hasShiftKey() ){
+					if( foundItem == singleSelectedItem_ ){
+						for( ulong32 j=0;j<selectedItems_.size();j++ ){
+							selectedItems_[j]->setSelected(false);
+						}
+						selectedItems_.clear();
+						selectedItems_.push_back(foundItem);
+						foundItem->setSelected(true);
+						selectionChanged( foundItem );
+					}
+					else if( NULL != singleSelectedItem_ ){
+						ulong32 foundItemPos = foundItem->getIndex();
+						ulong32 singlePos = singleSelectedItem_->getIndex();
+						for( ulong32 j=0;j<selectedItems_.size();j++ ){
+							selectedItems_[j]->setSelected(false);
+						}
+						if(foundItemPos < singlePos){// rangeSelect clears selectedItems_
+							rangeSelect(true, foundItem, singleSelectedItem_ );
+						}
+						else{
+							rangeSelect(true, singleSelectedItem_, foundItem );
+						}
+						singleSelectedItem_ = foundItem;
+						selectionChanged( foundItem );
+					}
+					else{// needed if no items currently selected.
+						foundItem->setSelected(true);
+						selectedItems_.push_back(foundItem);
+						singleSelectedItem_ = foundItem;
+						selectionChanged( foundItem );
+					}
 				}
-				singleSelectedItem_ = NULL;
-
-				foundItem->setSelected( true );
-				selectedItems_.push_back( foundItem );
-				selectionChanged( foundItem );
+				else if( event->hasControlKey() ){
+					if( foundItem->isSelected() ){
+						foundItem->setSelected(false);
+						singleSelectedItem_ = NULL;
+						eraseFromSelectedItems( foundItem );
+						selectionChanged( foundItem );
+					}
+					else{
+						foundItem->setSelected(true);
+						selectedItems_.push_back(foundItem);
+						singleSelectedItem_ = foundItem;
+						selectionChanged( foundItem );
+					}
+				}
+				else{
+					for( ulong32 j=0;j<selectedItems_.size();j++ ){
+						selectedItems_[j]->setSelected(false);
+					}
+					selectedItems_.clear();
+					selectedItems_.push_back(foundItem);
+					foundItem->setSelected( true );
+					singleSelectedItem_ = foundItem;
+					selectionChanged( foundItem );
+				}
+			}
+			else if ( true == allowsMultiSelect_ && false == allowsExtendedSelect_ ){
+				if( foundItem->isSelected() ){
+					foundItem->setSelected(false);
+					singleSelectedItem_ = NULL;
+					eraseFromSelectedItems( foundItem );
+					selectionChanged( foundItem );
+				}
+				else{
+					foundItem->setSelected( true );
+					singleSelectedItem_ = foundItem;
+					selectedItems_.push_back( foundItem );
+					selectionChanged( foundItem );
+				}
 			}
 			else {
 				selectedItems_.clear();
+				selectedItems_.push_back( foundItem );
 				setSelectedItem( foundItem );
 			}
 		}
@@ -433,11 +510,17 @@ void ListBoxControl::mouseMove( MouseEvent* event )
 		ListItem* foundItem = findSingleSelectedItem( event->getPoint() );
 		if ( NULL != foundItem ) {
 			if ( true == allowsMultiSelect_ ) {
-
+				if ( true == foundItem->isSelected() ){
+					singleSelectedItem_ = foundItem; 
+				}
+				else {
+					selectedItems_.push_back( foundItem );
+					setSelectedItem( foundItem );
+				}
 			}
 			else {
 				if ( foundItem != singleSelectedItem_ ) {
-
+					selectedItems_[0] = foundItem;//assumes index 0 exists
 					setSelectedItem( foundItem );
 				}
 			}
@@ -527,7 +610,7 @@ void ListBoxControl::selectionChanged( ListItem* item )
 
 void ListBoxControl::setSelectedItem( ListItem* selectedItem )
 {
-	if ( NULL != singleSelectedItem_ ) {
+	if ( NULL != singleSelectedItem_ && true != allowsMultiSelect_ ) {
 		singleSelectedItem_->setSelected( false );
 	}
 	singleSelectedItem_ = selectedItem;
@@ -540,10 +623,57 @@ void ListBoxControl::setSelectedItem( ListItem* selectedItem )
 	repaint();
 }
 
+void ListBoxControl::deselectAllItems()
+{
+	for( ulong32 j=0;j<selectedItems_.size();j++ ){
+		selectedItems_[j]->setSelected(false);
+	}
+
+	selectedItems_.clear();
+
+	repaint();
+}
+
+void ListBoxControl::eraseFromSelectedItems(ListItem* item)
+{
+	std::vector<ListItem*>::iterator foundItemPos;
+	foundItemPos = std::find( selectedItems_.begin(), selectedItems_.end(), item );
+	
+	if(foundItemPos != selectedItems_.end() ) selectedItems_.erase( foundItemPos );
+}
+
+void ListBoxControl::setAllowsExtendedSelect (const bool& allowsExtendedSelect)
+{
+	if ( true == allowsExtendedSelect ) {
+		allowsMultiSelect_ = true;
+	}
+
+	allowsExtendedSelect_ = allowsExtendedSelect;
+}
+
+void ListBoxControl::setLeftGutter(const double& leftgutter)
+{
+	leftGutter_ = leftgutter;
+	repaint();
+}
+
+void ListBoxControl::setRightGutter(const double& rightgutter)
+{
+	rightGutter_ = rightgutter;
+	repaint();
+}
+
+void ListBoxControl::setTextBounded( const bool& istextbounded ){
+	textBounded_ = istextbounded;
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/08 19:41:48  dougtinkham
+*implemented multi-selection and extended-selection, modified mouseDown, mouseMove, and paint. Text in list box can be painted using textBoundedBy or textAt, set by making a call to setTextBounded(const bool&). Added double leftGutter_ and double rightGutter_, which control the distance between text left and right edge of borders, respectively.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
