@@ -192,18 +192,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "EventsWithMFC"="./EventsWithMFC/EventsWithMFC.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "Examples"="./Examples/Examples.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -250,9 +238,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name EventBasics
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name EventsWithMFC
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name FilesAndDirectories
@@ -337,9 +322,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TreeListControls
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name VisualFormFiles
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name WorkingWithEnumerators
@@ -529,18 +511,6 @@ Package=<4>
 ###############################################################################
 
 Project: "Labels"="./Labels/Labels.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "libAGG"="../build/vc60/GraphicsKit/libAGG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -829,18 +799,6 @@ Package=<4>
 ###############################################################################
 
 Project: "TreeListControls"="./TreeListControls/TreeListControls.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "VisualFormFiles"="./VisualFormFiles/VisualFormFiles.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
