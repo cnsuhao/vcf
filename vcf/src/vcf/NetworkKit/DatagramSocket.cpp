@@ -1,11 +1,20 @@
+//DatagramSocket.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 // Provides constructors and relegate "real" implementation to
 // DatagramSocketPeer.
 // -- Ning Ke
 
 #ifdef WIN32 //this is a hack - this will be removed when we redo sockets
-			 //and add this to teh toolkit 
+			 //and add this to teh toolkit
 	#include <winsock2.h>
-#endif 
+#endif
 
 #include "vcf/NetworkKit/NetworkKit.h"
 #include "vcf/NetworkKit/NetworkKitPrivate.h"
@@ -93,5 +102,14 @@ int DatagramSocket::send(const char *buf, const int &size) {
 int DatagramSocket::recv(char *buf, int &size) {
 	return peer_->recv(buf, size);
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_OBJECTWITHEVENTS_H__
 #define _VCF_OBJECTWITHEVENTS_H__
-
 //ObjectWithEvents.h
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #define OBJECTWITHEVENTS_CLASSID		"eadd685c-e57b-49c5-b93d-00648641102a"
@@ -48,11 +25,11 @@ class NotifyEvent;
 *ObjectWithEvents is an object that may
 *have 0 or more EventHandlers associated with it,
 *and will automatically clean up these EventHandlers
-*when it is destroyed. This simplifies handling 
+*when it is destroyed. This simplifies handling
 *who has to clean up EventHandlers that have been
 *allocated on the heap (which they always will be).
 */
-class FRAMEWORK_API ObjectWithEvents : public Object { 
+class FRAMEWORK_API ObjectWithEvents : public Object {
 public:
 
 	ObjectWithEvents();
@@ -62,21 +39,21 @@ public:
 	/**
 	*This is a utility method for adding event handlers to an object.
 	*Adding a handler provides a convenient way to store the various events
-	*an object may wish to listen to. Handlers still need to have their method 
+	*an object may wish to listen to. Handlers still need to have their method
 	*callbacks set, otherwise nothing will happen. When the object is destroyed
 	*all the event handlers in this list are also destroyed.
 	*/
 	void addEventHandler( const String& handlerName, EventHandler* handler );
 
 	/**
-	*Finds a EventHandler handler for a given name. If the object has that 
+	*Finds a EventHandler handler for a given name. If the object has that
 	*handler then a pointer to the is returned otherwise null
 	*is returned
 	*/
 	EventHandler* getEventHandler( const String& handlerName );
 
 	/**
-	*Adds the vector of handlers to the master list. This list will be 
+	*Adds the vector of handlers to the master list. This list will be
 	*destroyed when the destructor is called
 	*/
 	void addEventHandlerList( EventHandler::Vector* eventHandlerList );
@@ -88,17 +65,17 @@ public:
 
 protected:
 	/**
-	*This map holds a list of EventHandlers that have been 
+	*This map holds a list of EventHandlers that have been
 	*added to the object
 	*/
 	std::map<String,EventHandler*> eventHandlers_;
 
 	/**
-	*this vector holds a list of vector that in turn hold a series 
+	*this vector holds a list of vector that in turn hold a series
 	*of 0 or more handlers. The idea is to conserve memory, as each
-	*vector defined as a member on the stace in a class adds 16 bytes to 
-	*the class size, which begins to add up, since there will now 
-	*be a vector for each type of event method fired, as opposed to a 
+	*vector defined as a member on the stace in a class adds 16 bytes to
+	*the class size, which begins to add up, since there will now
+	*be a vector for each type of event method fired, as opposed to a
 	*listener for the set
 	*/
 	std::vector<EventHandler::Vector*> masterHandlerList_;
@@ -112,6 +89,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -201,6 +181,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_OBJECTWITHEVENTS_H__
 

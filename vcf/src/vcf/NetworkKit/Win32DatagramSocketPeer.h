@@ -1,10 +1,23 @@
 #ifndef _VCF_WIN32DATAGRAMSOCKETPEER_H__
 #define _VCF_WIN32DATAGRAMSOCKETPEER_H__
+//Win32DatagramSocketPeer.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 namespace VCFNet
 {
 
-class Win32DatagramSocketPeer : public DatagramSocketPeer 
+class Win32DatagramSocketPeer : public DatagramSocketPeer
 {
 public:
 	Win32DatagramSocketPeer(DatagramSocket *);
@@ -30,6 +43,16 @@ private:
 };
 
 };
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 
 #endif // _VCF_WIN32DATAGRAMSOCKETPEER_H__
 

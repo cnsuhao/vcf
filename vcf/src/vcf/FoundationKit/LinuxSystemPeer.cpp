@@ -1,33 +1,11 @@
+//LinuxSystemPeer.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// LinuxSystemPeer.cpp
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -42,7 +20,7 @@ struct timezone LinuxSystemPeer::timeZone;
 struct timeval LinuxSystemPeer::time;
 
 LinuxSystemPeer::LinuxSystemPeer()
-{ 	
+{
  	::gettimeofday( &LinuxSystemPeer::time, &LinuxSystemPeer::timeZone );
 }
 
@@ -59,24 +37,24 @@ unsigned long LinuxSystemPeer::getTickCount()
 
 	double t1, t2;
 
-	t1 =  (double)(LinuxSystemPeer::time.tv_sec * 1000) + 
+	t1 =  (double)(LinuxSystemPeer::time.tv_sec * 1000) +
 		(double)LinuxSystemPeer::time.tv_usec/(1000);
-	
+
 	t2 =  (double)(now.tv_sec * 1000) + (double)now.tv_usec/(1000); //convert to Milliseconds
 
-	
+
 	unsigned long result = (unsigned long)(t2 - t1);
-		
+
 	return result;
 }
 
 void LinuxSystemPeer::sleep( const uint32& milliseconds )
-{ 	
+{
 	if ( 0 == milliseconds ) {
   	return;
 	}
 	struct timespec req = {0};
-	struct timespec rem = {0};	                          	
+	struct timespec rem = {0};
 	req.tv_sec = milliseconds / 1000;
 	req.tv_nsec = (milliseconds % 1000) * 1000;
 	::nanosleep( &req, &rem );
@@ -98,12 +76,12 @@ String LinuxSystemPeer::getCurrentWorkingDirectory()
 String LinuxSystemPeer::getEnvironmentVariable( const String& variableName )
 {
 	String result;
-	
+
 	const char* env = getenv( variableName.ansi_c_str() );
 	if ( NULL != env ) {
 		result = env;
 	}
-	
+
 	return result;
 }
 
@@ -127,9 +105,13 @@ void LinuxSystemPeer::setCurrentThreadLocale( Locale* locale )
 
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles

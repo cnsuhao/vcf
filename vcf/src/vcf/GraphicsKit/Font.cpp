@@ -1,6 +1,328 @@
+//Font.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/GraphicsKit/GraphicsKit.h"
+
+
+using namespace VCF;
+
+Font::Font()
+{
+
+	Peer_ = NULL;
+	Peer_ = GraphicsToolkit::createFontPeer( "" );
+	if ( NULL == Peer_ ){
+		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
+	}
+}
+
+Font::Font( const String& fontName )
+{
+	Peer_ = NULL;
+	Peer_ = GraphicsToolkit::createFontPeer( fontName );
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	}
+}
+
+Font::Font( const String& fontName, const double& pointSize )
+{
+
+	Peer_ = NULL;
+	Peer_ = GraphicsToolkit::createFontPeer( fontName, pointSize );
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	}
+}
+
+Font::Font( const Font& font ):
+    Object( font )
+{
+	Peer_ = NULL;
+
+	Peer_ = GraphicsToolkit::createFontPeer( font.getName() );
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	}
+	*this = font;
+}
+
+Font::~Font()
+{
+	delete Peer_;
+}
+
+
+Font& Font::operator= (const Font& rhs )
+{
+	setAttributes( rhs.getPointSize(), rhs.getBold(), rhs.getItalic(), rhs.getUnderlined(),
+					rhs.getStrikeOut(), rhs.getShear(), rhs.getAngle(), &rhs.color_, rhs.getName() );
+
+	return *this;
+}
+
+bool Font::isTrueType()  const
+
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->isTrueType();
+}
+
+Color* Font::getColor()
+{
+	return &color_;
+}
+
+void Font::setColor( Color* color )
+{
+	if ( NULL != color ) {
+		color_ = *color;
+	}
+}
+
+double Font::getPointSize()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getPointSize();
+}
+
+void Font::setPointSize( const double& pointSize )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setPointSize( pointSize );
+}
+
+double Font::getPixelSize()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getPixelSize();
+}
+
+void Font::setPixelSize( const double& pixelSize )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setPixelSize( pixelSize );
+}
+
+void Font::setBold( const bool& bold )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setBold( bold );
+}
+
+bool Font::getBold()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getBold();
+}
+
+bool Font::getItalic()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getItalic();
+}
+
+void Font::setItalic( const bool& italic )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setItalic( italic );
+}
+
+bool Font::getUnderlined()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getUnderlined();
+}
+
+void Font::setUnderlined( const bool& underlined )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setUnderlined( underlined );
+}
+
+bool Font::getStrikeOut()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getStrikeOut();
+}
+
+void Font::setStrikeOut( const bool& strikeout )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setStrikeOut( strikeout );
+}
+
+double Font::getShear()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getShear();
+}
+
+void Font::setShear(const double& shear )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setShear( shear );
+}
+
+double Font::getAngle()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getAngle();
+}
+
+void Font::setAngle( const double& angle )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setAngle( angle );
+}
+
+GlyphCollection* Font::getGlyphCollection( const String& text )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getGlyphCollection( text );
+}
+
+FontPeer* Font::getFontPeer()
+{
+	return Peer_;
+}
+
+String Font::getName()  const
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	return Peer_->getName();
+}
+
+void Font::setName( const String& name )
+{
+	if ( NULL == Peer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+	Peer_->setName( name );
+}
+
+void Font::copy( Object* source )
+{
+	if ( NULL != source ){
+		Font* srcFont = dynamic_cast<Font*>( source );
+		if ( NULL != srcFont ){
+			setAngle( srcFont->getAngle() );
+			setShear( srcFont->getShear() );
+			setStrikeOut( srcFont->getStrikeOut() );
+			setUnderlined( srcFont->getUnderlined() );
+			setBold( srcFont->getBold() );
+			setItalic( srcFont->getItalic() );
+			setPointSize( srcFont->getPointSize() );
+			setName( srcFont->getName() );
+
+			Color* srcColor = srcFont->getColor();
+			getColor()->copy( srcColor );
+		}
+	}
+}
+
+double Font::getAscent()  const
+{
+	return Peer_->getAscent();
+}
+
+double Font::getDescent()  const
+{
+	return Peer_->getDescent();
+}
+
+double Font::getExternalLeading()  const
+{
+	return Peer_->getExternalLeading();
+}
+
+double Font::getInternalLeading()  const
+{
+	return Peer_->getInternalLeading();
+}
+
+double Font::getHeight()  const
+{
+	return Peer_->getHeight();
+}
+
+VCFChar Font::getWordBreakCharacter()  const
+{
+	return Peer_->getWordBreakCharacter();
+}
+
+VCFChar Font::getFirstCharacter()  const
+{
+	return Peer_->getFirstCharacter();
+}
+
+VCFChar Font::getLastCharacter()  const
+{
+	return Peer_->getLastCharacter();
+}
+
+void Font::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
+								const bool& underlined, const bool& struckOut, const double& shear,
+								const double& angle, const Color* color, const String& name )
+{
+
+	Peer_->setAttributes( pointSize, bold, italic, underlined, struckOut, shear, angle, name );
+	if ( NULL != color ) {
+		color_ = *color;
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -112,343 +434,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-//Font.cpp
-#include "vcf/GraphicsKit/GraphicsKit.h"
-
-
-using namespace VCF;
-
-Font::Font()
-{
-
-	Peer_ = NULL;
-	Peer_ = GraphicsToolkit::createFontPeer( "" ); 
-	if ( NULL == Peer_ ){
-		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
-	}	
-}
-
-Font::Font( const String& fontName )
-{
-	Peer_ = NULL;
-	Peer_ = GraphicsToolkit::createFontPeer( fontName ); 
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-}
-
-Font::Font( const String& fontName, const double& pointSize )
-{
-	
-	Peer_ = NULL;
-	Peer_ = GraphicsToolkit::createFontPeer( fontName, pointSize ); 
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-}
-
-Font::Font( const Font& font ):
-    Object( font )
-{
-	Peer_ = NULL;
-
-	Peer_ = GraphicsToolkit::createFontPeer( font.getName() ); 
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-	*this = font;
-}
-
-Font::~Font()
-{
-	delete Peer_;
-}
-
-
-Font& Font::operator= (const Font& rhs )
-{
-	setAttributes( rhs.getPointSize(), rhs.getBold(), rhs.getItalic(), rhs.getUnderlined(),
-					rhs.getStrikeOut(), rhs.getShear(), rhs.getAngle(), &rhs.color_, rhs.getName() );
-
-	return *this;
-}
-
-bool Font::isTrueType()  const
-
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->isTrueType();
-}
-
-Color* Font::getColor()  
-{
-	return &color_;
-}
-
-void Font::setColor( Color* color )
-{
-	if ( NULL != color ) {
-		color_ = *color;
-	}
-}
-
-double Font::getPointSize()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getPointSize();
-}
-
-void Font::setPointSize( const double& pointSize )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setPointSize( pointSize );
-}
-
-double Font::getPixelSize()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getPixelSize();
-}
-
-void Font::setPixelSize( const double& pixelSize )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setPixelSize( pixelSize );
-}
-
-void Font::setBold( const bool& bold )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setBold( bold );
-}
-
-bool Font::getBold()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getBold();
-}	
-
-bool Font::getItalic()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getItalic();
-}
-
-void Font::setItalic( const bool& italic )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setItalic( italic );
-}
-
-bool Font::getUnderlined()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getUnderlined();
-}
-
-void Font::setUnderlined( const bool& underlined )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setUnderlined( underlined );
-}
-
-bool Font::getStrikeOut()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getStrikeOut();
-}
-
-void Font::setStrikeOut( const bool& strikeout )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setStrikeOut( strikeout );
-}
-
-double Font::getShear()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getShear();
-}
-
-void Font::setShear(const double& shear )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setShear( shear );
-}
-
-double Font::getAngle()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	return Peer_->getAngle();
-}
-
-void Font::setAngle( const double& angle )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	Peer_->setAngle( angle );
-}
-
-GlyphCollection* Font::getGlyphCollection( const String& text )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getGlyphCollection( text );
-}
-
-FontPeer* Font::getFontPeer()  
-{
-	return Peer_;
-}
-
-String Font::getName()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getName();
-}
-
-void Font::setName( const String& name )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setName( name );
-}
-
-void Font::copy( Object* source )
-{
-	if ( NULL != source ){
-		Font* srcFont = dynamic_cast<Font*>( source );
-		if ( NULL != srcFont ){
-			setAngle( srcFont->getAngle() );
-			setShear( srcFont->getShear() );
-			setStrikeOut( srcFont->getStrikeOut() );
-			setUnderlined( srcFont->getUnderlined() );
-			setBold( srcFont->getBold() );
-			setItalic( srcFont->getItalic() );
-			setPointSize( srcFont->getPointSize() );
-			setName( srcFont->getName() );
-
-			Color* srcColor = srcFont->getColor();
-			getColor()->copy( srcColor );
-		}
-	}
-}
-
-double Font::getAscent()  const
-{
-	return Peer_->getAscent();
-}	
-
-double Font::getDescent()  const
-{
-	return Peer_->getDescent();
-}
-
-double Font::getExternalLeading()  const
-{	
-	return Peer_->getExternalLeading();
-}
-
-double Font::getInternalLeading()  const
-{
-	return Peer_->getInternalLeading();
-}	
-
-double Font::getHeight()  const
-{
-	return Peer_->getHeight();
-}
-
-VCFChar Font::getWordBreakCharacter()  const
-{
-	return Peer_->getWordBreakCharacter();
-}
-
-VCFChar Font::getFirstCharacter()  const
-{
-	return Peer_->getFirstCharacter();
-}
-
-VCFChar Font::getLastCharacter()  const
-{
-	return Peer_->getLastCharacter();
-}
-
-void Font::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const Color* color, const String& name )
-{
-
-	Peer_->setAttributes( pointSize, bold, italic, underlined, struckOut, shear, angle, name );
-	if ( NULL != color ) {
-		color_ = *color;
-	}
-}
 
 

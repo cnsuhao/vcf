@@ -1,28 +1,11 @@
-/**
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//DateTime.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/DateTime.h"
@@ -33,10 +16,10 @@ using namespace VCF;
 #define TOSTRING_FORMAT		"%#d %b %Y %H:%M:%S.%s"
 
 #ifdef VCF_GCC
-	#define BASIC_GREGORIAN_TIME_IN_MS	198647424000000LL	
+	#define BASIC_GREGORIAN_TIME_IN_MS	198647424000000LL
 #else
 	#define BASIC_GREGORIAN_TIME_IN_MS	198647424000000
-#endif 
+#endif
 
 
 
@@ -71,12 +54,12 @@ bool DateTime::isGregorianCalendarDate( const DateTime& dt )
 	return result;
 }
 
-bool DateTime::isGregorianCalendarDate( const unsigned long& year, 
-				const unsigned long& month, 
+bool DateTime::isGregorianCalendarDate( const unsigned long& year,
+				const unsigned long& month,
 				const unsigned long& day )
 {
 	/**
-	this is the default determination. The correct determination of this 
+	this is the default determination. The correct determination of this
 	is dependant on the country that the date is being considered for.
 	For more info on the rules used for this, please see:
 	http://www.tondering.dk/claus/cal/node3.html#SECTION00324000000000000000
@@ -102,15 +85,15 @@ bool DateTime::isGregorianCalendarDate( const unsigned long& year,
 	return result;
 }
 
-void DateTime::setDate( const unsigned long& year, 
-					const unsigned long& month, 
+void DateTime::setDate( const unsigned long& year,
+					const unsigned long& month,
 					const unsigned long& day )
 {
 	set( year, month, day, 0, 0, 0, 0 ) ;
 }
 
-void DateTime::setTime( const unsigned long& hour, 
-					const unsigned long& minutes, 
+void DateTime::setTime( const unsigned long& hour,
+					const unsigned long& minutes,
 					const unsigned long& seconds )
 {
 	unsigned long y;
@@ -120,12 +103,12 @@ void DateTime::setTime( const unsigned long& hour,
 	set( y, m, d, hour, minutes, seconds, 0 );
 }
 
-void DateTime::set( const unsigned long& year, 
-				const unsigned long& month, 
+void DateTime::set( const unsigned long& year,
+				const unsigned long& month,
 				const unsigned long& day,
 				const unsigned long& hour,
 				const unsigned long& minutes,
-				const unsigned long& seconds, 
+				const unsigned long& seconds,
 				const unsigned long& milliseconds )
 {
 	/**
@@ -158,13 +141,13 @@ void DateTime::set( const unsigned long& year,
 	if ( (milliseconds > 999) || (milliseconds < 0) ) {
 		throw BadTimeFormat( BAD_MILLISEC_VALUE );
 	}
-	
-	
+
+
 	time_ = 0;
 
 	int a = (14 - month)/12;
 	int y = year + 4800 - a;
-	int m = month + (12 * a ) - 3;	
+	int m = month + (12 * a ) - 3;
 
 	if ( isGregorianCalendarDate( year, month, day ) ) {
 		//use formula for gregorian dates
@@ -177,17 +160,17 @@ void DateTime::set( const unsigned long& year,
 		time_ = (day + ((153*m + 2)/5) + (365*y) + (y/4) - 32083);
 		time_ = time_ * DateTime::ONEDAY;
 		time_ += (hour*60*60*1000) + (minutes*60*1000) + (seconds*1000) + milliseconds;
-	}	
+	}
 }
 
 void DateTime::getYearMonthDay( const DateTime& dt, unsigned long* year, unsigned long* month, unsigned long* day )
 {
-	//need to know if the date is gregorian or not	
+	//need to know if the date is gregorian or not
 	bool gregorianDay = isGregorianCalendarDate( dt );
 
 	int currentDay = dt.time_ / DateTime::ONEDAY;
 
-	
+
 	unsigned int a = currentDay + 32044;
 	unsigned int b = 0;
 	unsigned int c = 0;
@@ -199,7 +182,7 @@ void DateTime::getYearMonthDay( const DateTime& dt, unsigned long* year, unsigne
 	else {
 		c = currentDay + 32082;
 	}
-	
+
 	int d = (4*c + 3)/1461;
 	int e = c - (1461*d)/4;
 	int m = (5*e + 2)/153;
@@ -223,9 +206,9 @@ void DateTime::getYearMonthDay( const DateTime& dt, unsigned long* year, unsigne
 unsigned long DateTime::getYear() const
 {
 	unsigned long result = 0;
-	
+
 	getYearMonthDay( *this, &result, NULL, NULL );
-		
+
 	return result;
 }
 
@@ -249,7 +232,7 @@ unsigned long DateTime::getDay() const
 
 unsigned long DateTime::getHour() const
 {
-	unsigned long result = 0;		
+	unsigned long result = 0;
 
 	result = ((time_ % DateTime::ONEDAY) / DateTime::ONEHOUR );
 
@@ -259,7 +242,7 @@ unsigned long DateTime::getHour() const
 unsigned long DateTime::getMinute() const
 {
 	unsigned long result = 0;
-	
+
 	result = ((time_ % DateTime::ONEHOUR) / DateTime::ONEMINUTE );
 
 	return result;
@@ -268,7 +251,7 @@ unsigned long DateTime::getMinute() const
 unsigned long DateTime::getSeconds() const
 {
 	unsigned long result = 0;
-	
+
 	result = ((time_ % DateTime::ONEMINUTE) / DateTime::ONESECOND );
 
 	return result;
@@ -277,7 +260,7 @@ unsigned long DateTime::getSeconds() const
 unsigned long DateTime::getMilliSeconds() const
 {
 	unsigned long result = 0;
-	
+
 	result = ((time_ % DateTime::ONESECOND));
 
 	return result;
@@ -285,7 +268,7 @@ unsigned long DateTime::getMilliSeconds() const
 
 
 void DateTime::setCurrent( DateTime& dt )
-{	
+{
 	System::setDateToLocalTime( &dt );
 }
 
@@ -302,12 +285,12 @@ void DateTime::incrYear(const unsigned long& by)
 
 void DateTime::incrMonth(const unsigned long& by)
 {
-	
+
 	DateTime::Iterator<ByMonth> it = *this;
 
 	it+=(by);
 
-	*this = *it;	
+	*this = *it;
 }
 
 void DateTime::incrDay(const unsigned long& by)
@@ -316,7 +299,7 @@ void DateTime::incrDay(const unsigned long& by)
 
 	it+=(by);
 
-	*this = *it;	
+	*this = *it;
 }
 
 void DateTime::incrHour(const unsigned long& by)
@@ -419,12 +402,12 @@ void DateTime::decrMilliSecond(const unsigned long& by)
 }
 
 
-void DateTime::setAndAdjustForGregorianDay( const unsigned long& year, 
-				const unsigned long& month, 
+void DateTime::setAndAdjustForGregorianDay( const unsigned long& year,
+				const unsigned long& month,
 				const unsigned long& day,
 				const unsigned long& hour,
 				const unsigned long& minutes,
-				const unsigned long& seconds, 
+				const unsigned long& seconds,
 				const unsigned long& milliseconds )
 {
 	bool gregorianDate = DateTime::isGregorianCalendarDate( *this );
@@ -442,7 +425,7 @@ void DateTime::setAndAdjustForGregorianDay( const unsigned long& year,
 
 
 
-DateTime::WeekDay DateTime::getWeekDay() const 
+DateTime::WeekDay DateTime::getWeekDay() const
 {
 	unsigned long year = 0;
 	unsigned long month = 0;
@@ -454,23 +437,23 @@ DateTime::WeekDay DateTime::getWeekDay() const
 	unsigned long y = year -a ;
 	unsigned long m = month + (12 * a) - 2;
 
-	unsigned long d = (day + y + 
-		floor(static_cast<float>(y / 4.0f)) - 
-		floor(static_cast<float>(y/100)) + 
-		floor(static_cast<float>(y/400)) + 
+	unsigned long d = (day + y +
+		floor(static_cast<float>(y / 4.0f)) -
+		floor(static_cast<float>(y/100)) +
+		floor(static_cast<float>(y/400)) +
 		floor(static_cast<float>((31 * m)/12)));
 
 	return (DateTime::WeekDay)(d % 7);
 }
 
-unsigned long DateTime::getNumberOfDaysInMonth() const{	
-	
+unsigned long DateTime::getNumberOfDaysInMonth() const{
+
 	unsigned long year = 0;
 	unsigned long month = 0;
 
 	getYearMonthDay( *this, &year, &month, NULL );
 
-	
+
 
 	return getNumberOfDaysInMonth( year, (DateTime::Months)month );
 }
@@ -487,7 +470,7 @@ bool DateTime::isLeapYear( unsigned long year )
 	return result;
 }
 
-bool DateTime::isLeapYear() const 
+bool DateTime::isLeapYear() const
 {
 	return DateTime::isLeapYear( getYear() );
 }
@@ -495,10 +478,10 @@ bool DateTime::isLeapYear() const
 unsigned long DateTime::getNumberOfDaysInMonth( unsigned long year, DateTime::Months month )
 {
 	unsigned long result = 0;
-	
+
 	switch( month ) {
 		case DateTime::Feb : {
-			
+
 			result = DateTime::isLeapYear( year ) ? 29 : 28;
 		}
 		break;
@@ -508,7 +491,7 @@ unsigned long DateTime::getNumberOfDaysInMonth( unsigned long year, DateTime::Mo
 		}
 		break;
 
-		case DateTime::Jan : case DateTime::Mar : case DateTime::May : 
+		case DateTime::Jan : case DateTime::Mar : case DateTime::May :
 		case DateTime::Jul : case DateTime::Aug :  case DateTime::Oct : case DateTime::Dec : {
 			result = 31;
 		}
@@ -519,10 +502,10 @@ unsigned long DateTime::getNumberOfDaysInMonth( unsigned long year, DateTime::Mo
 }
 
 
-unsigned long DateTime::getDayOfYear() const 
+unsigned long DateTime::getDayOfYear() const
 {
 	unsigned long result = 0;
-	
+
 	DateTime startOfYear;
 	startOfYear.set( getYear(), 1, 1, getHour(), getMinute(), getSeconds(), getMilliSeconds() );
 
@@ -533,7 +516,7 @@ unsigned long DateTime::getDayOfYear() const
 	return result;
 }
 
-unsigned long DateTime::getDaysInYear() const 
+unsigned long DateTime::getDaysInYear() const
 {
 	unsigned long result = 365;
 	unsigned long year = getYear();
@@ -547,32 +530,32 @@ unsigned long DateTime::getDaysInYear() const
 	return result;
 }
 
-bool DateTime::operator> ( const DateTime& rhs ) const 
+bool DateTime::operator> ( const DateTime& rhs ) const
 {
 	return time_ > rhs.time_;
 }
 
-bool DateTime::operator>= ( const DateTime& rhs ) const 
+bool DateTime::operator>= ( const DateTime& rhs ) const
 {
 	return time_ >= rhs.time_;
 }
 
-bool DateTime::operator< ( const DateTime& rhs ) const 
+bool DateTime::operator< ( const DateTime& rhs ) const
 {
 	return time_ < rhs.time_;
 }
 
-bool DateTime::operator<= ( const DateTime& rhs ) const 
+bool DateTime::operator<= ( const DateTime& rhs ) const
 {
 	return time_ <= rhs.time_;
 }
 
-bool DateTime::operator== ( const DateTime& rhs ) const 
+bool DateTime::operator== ( const DateTime& rhs ) const
 {
 	return time_ == rhs.time_;
 }
 
-bool DateTime::operator!= ( const DateTime& rhs ) const 
+bool DateTime::operator!= ( const DateTime& rhs ) const
 {
 	return time_ != rhs.time_;
 }
@@ -586,7 +569,7 @@ DateTime& DateTime::operator =( const time_t& rhs )
 	return *this;
 }
 
-time_t DateTime::getCTime() const 
+time_t DateTime::getCTime() const
 {
 	time_t result = 0;
 
@@ -597,19 +580,19 @@ time_t DateTime::getCTime() const
 	return result;
 }
 
-DateTime::DayTime DateTime::getDayTime() const 
+DateTime::DayTime DateTime::getDayTime() const
 {
 	DayTime result = DateTime::AM;
 	result = getHour() >= 12 ? DateTime::PM : DateTime::AM;
 	return result;
 }
 
-bool DateTime::isAM() const 
+bool DateTime::isAM() const
 {
 	return getHour() < 12;
 }
 
-bool DateTime::isPM() const 
+bool DateTime::isPM() const
 {
 	return getHour() >= 12;
 }
@@ -648,7 +631,7 @@ bool DateTime::lastDayOfTheYear() const
 DateTime DateTime::operator+( const DateTimeSpan& rhs ) const
 {
 	DateTime result = *this;
-	
+
 	result.time_ += rhs;
 
 	return result;
@@ -665,8 +648,8 @@ DateTime DateTime::operator-( const DateTimeSpan& rhs ) const
 
 DateTimeSpan DateTime::operator-( const DateTime& rhs ) const
 {
-	DateTimeSpan result;	
-	
+	DateTimeSpan result;
+
 	if ( time_ > rhs.time_ ) {
 		result.subtract( *this , rhs );
 	}
@@ -688,13 +671,13 @@ void DateTime::setMilliseconds( const ulong64& milliseconds )
 	time_ = milliseconds;
 }
 
-unsigned long DateTime::getWeekOfYearStartingMon() const 
+unsigned long DateTime::getWeekOfYearStartingMon() const
 {
 	//based on ISO 8601
 	//code shamelessly swiped from http://www.merlyn.demon.co.uk/weekinfo.htm
 	//© J R Stockton, any problems are my fault
 	unsigned long result = 0;
-	
+
 	DateTime dt(*this);
 
 	int day = dt.getWeekDay();
@@ -703,7 +686,7 @@ unsigned long DateTime::getWeekOfYearStartingMon() const
 	}
 	int month = dt.getMonth();
 
-	int d = dt.getDay() + (4 - day);	
+	int d = dt.getDay() + (4 - day);
 
 	int maxDays = dt.getNumberOfDaysInMonth();
 
@@ -716,24 +699,24 @@ unsigned long DateTime::getWeekOfYearStartingMon() const
 		dt.set( dt.getYear(), month, maxVal<>(1, minVal<>(maxDays,d)) ) ;//max( 1, dt.getDay() + 4 - day ) );
 
 		result = floor(static_cast<float>((dt.getDayOfYear()-1) / 7 )) + 1;
-	}	
+	}
 
 	return result;
 }
 
-unsigned long DateTime::getWeekOfYearStartingSun() const 
-{	
+unsigned long DateTime::getWeekOfYearStartingSun() const
+{
 	//based on ISO 8601
 	//code shamelessly swiped from http://www.merlyn.demon.co.uk/weekinfo.htm
 	//© J R Stockton, any problems are my fault
 	unsigned long result = 0;
-	
+
 	DateTime dt(*this);
 
 	int day = dt.getWeekDay() + 1;
 	int month = dt.getMonth();
 
-	int d = dt.getDay() + (4 - day);	
+	int d = dt.getDay() + (4 - day);
 
 	int maxDays = dt.getNumberOfDaysInMonth();
 
@@ -746,12 +729,12 @@ unsigned long DateTime::getWeekOfYearStartingSun() const
 		dt.set( dt.getYear(), month, maxVal<>(1, minVal<>(maxDays,d)) ) ;//max( 1, dt.getDay() + 4 - day ) );
 
 		result = floor(static_cast<float>((dt.getDayOfYear()-1) / 7 )) + 1;
-	}	
+	}
 
 	return result;
 }
 
-unsigned long DateTime::getWeeksInYear() const 
+unsigned long DateTime::getWeeksInYear() const
 {
 	return floor(static_cast<float>(getDaysInYear() / 7) ) + 1;
 }
@@ -823,7 +806,7 @@ void DateTimeSpan::subtract( const DateTime& lhs, const DateTime& rhs )
 	}
 
 	years_ = abs(ey-sy);
-	
+
 	if ( years_ > 0 ) {
 		if ( lhs > rhs ) {
 			if ( lhs.getMonth() < rhs.getMonth() ) {
@@ -837,27 +820,27 @@ void DateTimeSpan::subtract( const DateTime& lhs, const DateTime& rhs )
 		}
 	}
 
-	days_ = delta_ / DateTime::ONEDAY;	
+	days_ = delta_ / DateTime::ONEDAY;
 }
 
-unsigned long DateTimeSpan::getYears() const 
+unsigned long DateTimeSpan::getYears() const
 {
 	return years_;
 }
 
-unsigned long DateTimeSpan::getMonths() const 
+unsigned long DateTimeSpan::getMonths() const
 {
 	return months_ % 12;
 }
 
-unsigned long DateTimeSpan::getDays() const 
+unsigned long DateTimeSpan::getDays() const
 {
 
 	unsigned long result = 0;
-	
-	
+
+
 	DateTime end;
-	end.time_ = end_;		
+	end.time_ = end_;
 
 	DateTime start;
 	start.time_ = start_;
@@ -867,7 +850,7 @@ unsigned long DateTimeSpan::getDays() const
 	return result;
 }
 
-unsigned long DateTimeSpan::getHours() const 
+unsigned long DateTimeSpan::getHours() const
 {
 	DateTime dt;
 	dt.time_ = delta_;
@@ -875,7 +858,7 @@ unsigned long DateTimeSpan::getHours() const
 	return dt.getHour();
 }
 
-unsigned long DateTimeSpan::getMinutes() const 
+unsigned long DateTimeSpan::getMinutes() const
 {
 	DateTime dt;
 	dt.time_ = delta_;
@@ -883,7 +866,7 @@ unsigned long DateTimeSpan::getMinutes() const
 	return dt.getMinute();
 }
 
-unsigned long DateTimeSpan::getSeconds() const 
+unsigned long DateTimeSpan::getSeconds() const
 {
 	DateTime dt;
 	dt.time_ = delta_;
@@ -899,32 +882,32 @@ unsigned long DateTimeSpan::getMilliseconds() const
 	return dt.getMilliSeconds();
 }
 
-unsigned long DateTimeSpan::getTotalMonths() const 
+unsigned long DateTimeSpan::getTotalMonths() const
 {
 	return months_;
 }
 
-unsigned long DateTimeSpan::getTotalDays() const 
+unsigned long DateTimeSpan::getTotalDays() const
 {
 	return days_;
 }
 
-unsigned long DateTimeSpan::getTotalHours() const 
+unsigned long DateTimeSpan::getTotalHours() const
 {
 	return delta_ / DateTime::ONEHOUR;
 }
 
-unsigned long DateTimeSpan::getTotalMinutes() const 
+unsigned long DateTimeSpan::getTotalMinutes() const
 {
 	return delta_ / DateTime::ONEMINUTE;
 }
 
-unsigned long DateTimeSpan::getTotalSeconds() const 
+unsigned long DateTimeSpan::getTotalSeconds() const
 {
 	return delta_ / DateTime::ONESECOND;
 }
 
-ulong64 DateTimeSpan::getTotalMilliseconds() const 
+ulong64 DateTimeSpan::getTotalMilliseconds() const
 {
 	return delta_;
 }
@@ -1015,7 +998,7 @@ void ByMonth::incr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	
+
 
 	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
 }
@@ -1028,7 +1011,7 @@ void ByMonth::decr( DateTime& dt, unsigned long offset )
 
 	int origMaxDaysInMon = DateTime::getNumberOfDaysInMonth( y, (DateTime::Months)m );
 
-	if ( (m - offset) < 1 ) {		
+	if ( (m - offset) < 1 ) {
 
 		y -= ( abs(static_cast<float>( m - offset ) ) / 12) + 1;
 
@@ -1050,7 +1033,7 @@ void ByMonth::decr( DateTime& dt, unsigned long offset )
 			//make it smaller
 			d = minVal<int>( d, newMaxDaysInMon );
 		}
-	}	
+	}
 
 	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
 }
@@ -1109,9 +1092,13 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -1142,6 +1129,5 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 *integrated the DateTime class into the VCF FoundationKit.
 *
 */
-
 
 

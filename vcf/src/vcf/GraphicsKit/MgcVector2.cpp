@@ -1,3 +1,12 @@
+//MgcVector2.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 // Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
@@ -50,7 +59,7 @@ bool Vector2::operator== (const Vector2& rkVector) const
     if ( FUZZ == 0.0f )
         return x == rkVector.x && y == rkVector.y;
     else
-        return Math::FAbs(x-rkVector.x) <= FUZZ 
+        return Math::FAbs(x-rkVector.x) <= FUZZ
             && Math::FAbs(y-rkVector.y) <= FUZZ;
 }
 //----------------------------------------------------------------------------
@@ -298,10 +307,19 @@ void Vector2::Orthonormalize (Vector2 akVector[/*2*/])
     akVector[0].Unitize();
 
     // compute u1
-    Real fDot0 = akVector[0].Dot(akVector[1]); 
+    Real fDot0 = akVector[0].Dot(akVector[1]);
     akVector[1] -= fDot0*akVector[0];
     akVector[1].Unitize();
 }
 //----------------------------------------------------------------------------
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

@@ -1,33 +1,11 @@
+//Win32Thread.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32Thread.cpp
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -97,8 +75,8 @@ Win32Thread::Win32Thread( Thread* thread ):
 }
 
 Win32Thread::~Win32Thread()
-{	
-	if ( 0 != threadHandle_ )	{		
+{
+	if ( 0 != threadHandle_ )	{
 		int err = CloseHandle( (HANDLE)threadHandle_ );
 		if ( !err ) {
 			err = GetLastError();
@@ -109,22 +87,22 @@ Win32Thread::~Win32Thread()
 }
 
 bool Win32Thread::start()
-{	
+{
 	if ( 0 == threadHandle_ ) {
 		threadHandle_ = _beginthreadex( security_, stackSize_, Win32Thread::threadProc, (void*)this, initFlags_, &threadID_ );
-		
+
 		owningProcessID_ = GetCurrentProcessId();
 		SetThreadPriority( (HANDLE)threadHandle_, THREAD_PRIORITY_LOWEST );
 	}
-	
+
 	/**
 	According to MSDN docs on ResumeThread:
-	"If the return value is 0, the specified thread was not suspended. 
-	If the return value is 1, the specified thread was suspended but was 
-	restarted. If the return value is greater than 1, the specified 
+	"If the return value is 0, the specified thread was not suspended.
+	If the return value is 1, the specified thread was suspended but was
+	restarted. If the return value is greater than 1, the specified
 	thread is still suspended."
-	Thus a value of 1, in this case, since the thread was created 
-	with the CREATE_SUSPENDED flag, means we have successfully restarted the 
+	Thus a value of 1, in this case, since the thread was created
+	with the CREATE_SUSPENDED flag, means we have successfully restarted the
 	previously suspended thread.
 	*/
 	return ::ResumeThread( (HANDLE)threadHandle_ ) == 1;
@@ -133,13 +111,13 @@ bool Win32Thread::start()
 
 void Win32Thread::stop()
 {
-	WaitForSingleObject( (HANDLE)threadHandle_, INFINITE );	
+	WaitForSingleObject( (HANDLE)threadHandle_, INFINITE );
 }
 
 unsigned __stdcall Win32Thread::threadProc( void* param )
 {
 	unsigned result = 0;
-	
+
 	Win32Thread* peer = (Win32Thread*)param;
 	if ( NULL != peer->thread_ ){
 
@@ -148,26 +126,26 @@ unsigned __stdcall Win32Thread::threadProc( void* param )
 		Thread* thread = peer->thread_;
 		bool autoDeleteThread = thread->canAutoDelete();
 
-		
+
 		if ( !thread->run() ) {
 			result = 1;
 		}
-		
+
 		peer->active_ = false;
 
 		if ( !thread->internal_isStopped() ) {
 			/**
 			if the thread was NOT shutdown with
-			stop then we can go ahead 
-			and clean up, otherwise the 
+			stop then we can go ahead
+			and clean up, otherwise the
 			clean up will happen in the Thread::stop method
 			*/
 			if ( true == autoDeleteThread )	{
-				
+
 				thread->free();
 			}
 		}
-		
+
 	}
 	return result;
 }
@@ -177,7 +155,7 @@ void Win32Thread::pause()
 	::SuspendThread( (HANDLE)threadHandle_ );
 }
 
-void Win32Thread::sleep( unsigned int milliseconds ) 
+void Win32Thread::sleep( unsigned int milliseconds )
 {
 	::Sleep( milliseconds );
 }
@@ -236,6 +214,9 @@ int Win32Thread::wait( uint32 milliseconds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -320,8 +301,5 @@ int Win32Thread::wait( uint32 milliseconds )
 *to facilitate change tracking
 *
 */
-
-
-
 
 

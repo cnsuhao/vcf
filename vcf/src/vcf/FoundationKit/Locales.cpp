@@ -1,32 +1,12 @@
+//Locales.cpp
 
-/**
-*Copyright (c) 2000-2004, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-// Locales.cpp
+
+
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/FoundationKit/MessageLoader.h"
@@ -76,12 +56,12 @@ Locale::LanguageCodes Locale::getLanguageCode()
 Locale::CountryCodes Locale::getCountryCode()
 {
 	return (Locale::CountryCodes)peer_->getCountryCode();
-}	
+}
 
 UnicodeString Locale::getLanguageName()
 {
 	UnicodeString result ;
-	
+
 	switch ( getLanguageCode() ) {
 		case Locale::lcAfar  : {
 			result="Afar";
@@ -532,7 +512,7 @@ UnicodeString Locale::getLanguageName()
 		}
 		break;
 
-		
+
 
 		case Locale::lcKinyarwanda  : {
 			result="Kinyarwanda";
@@ -1029,7 +1009,7 @@ UnicodeString Locale::getLanguageName()
 		}
 		break;
 
-	
+
 	}
 
 	return result;
@@ -1124,7 +1104,7 @@ UnicodeString Locale::toLowerCase( const UnicodeString& s )
 UnicodeString Locale::toUpperCase( const UnicodeString& s )
 {
 	return peer_->toUpperCase( s );
-}	
+}
 
 UnicodeString Locale::getNumberThousandsSeparator()
 {
@@ -1178,32 +1158,32 @@ bool Locale::isCharA( const long& charTypeMask, const VCFChar& c )
 
 UnicodeString Locale::translate( const UnicodeString& id )
 {
-	
+
 
 
 	/**
 	Steps:
 	1. Get app directory
 	2. Look for "Resources" directory. If not found then fail
-	3. look for sub directory with same name as locale, i.e. 
+	3. look for sub directory with same name as locale, i.e.
 	we should be able to locate (if we are a english American
 	locale) <app dir>/Resources/en_US/
-	4. based on the extension of the file name, attempt to get a 
-	MessageLoader instance. 
+	4. based on the extension of the file name, attempt to get a
+	MessageLoader instance.
 	If we have a MessageLoader then
 		a. Load a text file named <app name>.strings bay calling MessageLoader::loadMessageFile()
 		b. call getMessageFromID on the MessageLoader instance
 
 	If we *don't* have a MessageLoader then:
 		c. peer_->translate( id )
-	
+
 	The default .strings format:
 	Each entry has the following form:
-	
+
 	  entry: " id-string " = " translated-string " ;
 		a. whitespace outside of the quotes is ignored.
 		b. a comment is for one line, and is preceded by a # character
-		
+
 		example:
 
 		#this is my spanish strings file
@@ -1223,11 +1203,11 @@ UnicodeString Locale::translate( const UnicodeString& id )
 		MessageLoader* loader = MessageLoader::getMessageLoader( "text/strings" );
 
 		loader->loadMessageFile( resFile );
-		
-		result = loader->getMessageFromID( id );		
+
+		result = loader->getMessageFromID( id );
 	}
 
-	
+
 
 	//MessageLoader::loadMessageFile
 
@@ -1241,7 +1221,7 @@ UnicodeString Locale::languageCodeToString( LanguageCodes code )
 	UnicodeString result;
 
 	result.append( 1, (char)((code & 0xFF00) >> 8) );
-	result.append( 1, (char)(code & 0xFF) );	
+	result.append( 1, (char)(code & 0xFF) );
 
 	return result;
 }
@@ -1251,7 +1231,7 @@ UnicodeString Locale::countryCodeToString( CountryCodes code )
 	UnicodeString result;
 
 	result.append( 1, (char)((code & 0xFF00) >> 8) );
-	result.append( 1, (char)(code & 0xFF) );	
+	result.append( 1, (char)(code & 0xFF) );
 
 	return result;
 }
@@ -1260,7 +1240,7 @@ UnicodeString Locale::countryCodeToString( CountryCodes code )
 Locale::LanguageCodes Locale::stringToLanguageCode( const UnicodeString& code )
 {
 	LanguageCodes result;
-	
+
 	result = (LanguageCodes) ((code.at(0) << 8) | code.at(1));
 
 	return result;
@@ -1276,10 +1256,12 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -1355,6 +1337,5 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 *to facilitate change tracking
 *
 */
-
 
 

@@ -1,33 +1,10 @@
-/**
-Copyright (c) 2000-2004, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
-*/
-
 //StringsMessageLoader.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 
 #include "vcf/FoundationKit/FoundationKit.h"
@@ -119,7 +96,7 @@ void StringsMessageLoader::processEscapeSequence( UnicodeString& escapeSeqString
 
 			default : {
 				if ( escapeSeqString.size() == 3 ) {
-					
+
 					int c = 0;
 					sscanf( escapeSeqString.ansi_c_str(), "%03o", &c );
 
@@ -169,17 +146,17 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 
 	int line = 1;
 	int col = 1;
-	while ( (P-start) < length ) {		
-		
+	while ( (P-start) < length ) {
+
 		switch ( *P ) {
 
 			case '\n' : case '\r' : {
 
 				//make sure to skip over carriage returns
-				//for token string appending				
-				
+				//for token string appending
+
 				if ( (psKey == parseState_) || (psValue == parseState_) ){
-					tokenString.append( token, P-token );					
+					tokenString.append( token, P-token );
 				}
 
 				if ( *P == '\r' ) {
@@ -198,7 +175,7 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 			break;
 
 			case '/' : {
-				//look 
+				//look
 				if ( psToken == parseState_ ) {
 					if ( *(P+1) == '*' ) {
 						//comment!
@@ -212,7 +189,7 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 			break;
 
 			case '*' : {
-				//look 
+				//look
 				if ( psComment == parseState_ ) {
 					if ( *(P+1) == '/' ) {
 						//comment!
@@ -278,11 +255,11 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 						escapeSeqString = "";
 
 						escapeSeqString.append( token, P-token );
-						
+
 
 						if ( !escapeSeqString.empty() ) {
 							processEscapeSequence( escapeSeqString, tokenString );
-						}					
+						}
 						else {
 							throw Exception( "Invalid escape sequence - no escape code specified.", line, col );
 						}
@@ -290,15 +267,15 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 						//reset the token so we skip over the escape sequence characters
 						token = P;
 
-						//move the pointer back one so we cycle back through and close the 
+						//move the pointer back one so we cycle back through and close the
 						//value or key string
 						P--;
 						col --;
-						
-					
+
+
 					}
 					break;
-				}				
+				}
 			}
 			break;
 
@@ -316,7 +293,7 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 				}
 			}
 			break;
-			
+
 
 			case '\\' : {
 				if ( (psValue == parseState_) || (psKey == parseState_)) {
@@ -337,9 +314,9 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 				bool doEscSequence = false;
 				if ( psEscapeSequence == parseState_ ) {
 					switch ( *token ) {
-						case 'n' : case 'r' : case 't' : case '\\' : 
-							case '"' : case '\'' : case '?' : {								
-							
+						case 'n' : case 'r' : case 't' : case '\\' :
+							case '"' : case '\'' : case '?' : {
+
 							doEscSequence = true;
 						}
 						break;
@@ -368,31 +345,31 @@ void StringsMessageLoader::loadMessageFile( const UnicodeString& fileName )
 
 					if ( doEscSequence ) {
 						parseState_ = previousParseState;
-						
+
 						escapeSeqString = "";
-						
+
 						escapeSeqString.append( token, (P-token)+1 );
-						
+
 						if ( !escapeSeqString.empty() ) {
 							processEscapeSequence( escapeSeqString, tokenString );
 						}
 						else {
 							throw Exception( "Invalid escape sequence - no escape code specified.", line, col );
 						}
-						
+
 						token = P+1;
 					}
 				}
 			}
 			break;
-		}			
-		
+		}
+
 		col ++;
 
 		P++;
 	}
 
-	
+
 
 	if ( keyMapRef.empty() ) {
 		delete keyMap;
@@ -414,15 +391,17 @@ UnicodeString StringsMessageLoader::getMessageFromID( const UnicodeString& id )
 		}
 	}
 
-	
+
 	return "";
 }
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *

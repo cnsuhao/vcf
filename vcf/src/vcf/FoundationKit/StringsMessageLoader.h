@@ -1,5 +1,17 @@
 #ifndef _VCF_STRINGSMESSAGELOADER_H__
 #define _VCF_STRINGSMESSAGELOADER_H__
+//StringsMessageLoader.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_MESSAGELOADER_H__
@@ -7,14 +19,14 @@
 #endif // _VCF_MESSAGELOADER_H__
 
 namespace VCF {
- 
+
 
 class FRAMEWORK_API StringsMessageLoader : public MessageLoader {
 public:
 
 	class FRAMEWORK_API Exception : public BasicException {
 	public:
-		Exception( const String& message, int line, int col ): 
+		Exception( const String& message, int line, int col ):
 		  BasicException( message + StringUtils::format( "\nError occurred on line %d, column %d.", line, col ) ) {	}
 	};
 
@@ -26,7 +38,7 @@ public:
 
 	virtual UnicodeString getMessageFromID( const UnicodeString& id );
 
-	
+
 protected:
 	enum ParseState{
 		psToken,
@@ -51,6 +63,15 @@ protected:
 
 
 };
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 
 #endif // _VCF_STRINGSMESSAGELOADER_H__

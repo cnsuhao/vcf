@@ -1,40 +1,17 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_MEMSTREAMUTILS_H__
 #define _VCF_MEMSTREAMUTILS_H__
+//MemStreamUtils.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -45,13 +22,13 @@ GenericMemoryBuffer
 @version 1.0
 */
 
-template <class DATA_TYPE> 
+template <class DATA_TYPE>
 class GenericMemoryBuffer {
 public:
 	GenericMemoryBuffer( const ulong32 allocationSize = 65536) :
 			allocationSize_(allocationSize),
 			currentBuffer_(NULL),
-			currentAllocationSize_(0),			
+			currentAllocationSize_(0),
 			seekPos_(0),
 			currentSize_(0)
 			{}
@@ -86,7 +63,7 @@ public:
 		if ( seekPos_ > currentSize_ ) {
 			currentSize_ += sizeOfBuffer;
 		}
-		
+
 	}
 
 	inline void read( char* buffer, const ulong32& sizeOfBuffer ) {
@@ -96,7 +73,7 @@ public:
 
 		char* tmp = (char*)currentBuffer_;
 		tmp += seekPos_;
-		
+
 		memcpy( buffer, tmp, sizeOfBuffer );
 
 		seekPos_ += sizeOfBuffer;
@@ -111,7 +88,7 @@ public:
 	}
 
 
-	inline void clear() {		
+	inline void clear() {
 
 		currentAllocationSize_ = 0;
 		delete [] currentBuffer_;
@@ -121,14 +98,14 @@ public:
 protected:
 	inline void allocate( ulong32 sizeToAllocate ) {
 		ulong32 oldSize = currentAllocationSize_;
-		
+
 		sizeToAllocate = (sizeToAllocate - oldSize);
 
-		currentAllocationSize_ += ((sizeToAllocate/allocationSize_) * allocationSize_) + 
+		currentAllocationSize_ += ((sizeToAllocate/allocationSize_) * allocationSize_) +
 			( (sizeToAllocate % allocationSize_) ? allocationSize_ : 0 );
-		
+
 		DATA_TYPE* tmp = new DATA_TYPE[currentAllocationSize_];
-		
+
 		if ( NULL == tmp ) {
 			throw NoFreeMemException();
 		}
@@ -144,9 +121,9 @@ protected:
 private:
 	ulong32 allocationSize_;
 	DATA_TYPE* currentBuffer_;
-	ulong32 currentAllocationSize_;	
+	ulong32 currentAllocationSize_;
 	ulong32 seekPos_;
-	ulong32 currentSize_;	
+	ulong32 currentSize_;
 };
 
 
@@ -171,6 +148,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -235,6 +215,7 @@ public:
 *
 */
 
-#endif // __MemStreah___
+
+#endif // _VCF_MEMSTREAMUTILS_H__
 
 

@@ -1,31 +1,12 @@
+//BasicFill.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/AggCommon.h"
 
@@ -51,8 +32,8 @@ void BasicFill::render( Path* path )
 {
 	if ( (NULL != context_) && (NULL != path) ){
 		context_->setColor( &color_ );
-		
-		
+
+
 		Matrix2D* currentXFrm = context_->getCurrentTransform();
 		Enumerator<PathPoint>* points = path->getPoints( currentXFrm );
 
@@ -61,26 +42,26 @@ void BasicFill::render( Path* path )
 		/**
 		JC:
 		Thanks to Marcello, we have resolved the VC7/7.1 stack corruption
-		bug! Apparently, due to some trickery on my part which involved 
+		bug! Apparently, due to some trickery on my part which involved
 		const PathPoint& pt = points->nextElement();
 		This was causing some weird problems due to referencing a temporary
-		copy of the PathPoint. Marcello found this and discovered that if we replaced 
+		copy of the PathPoint. Marcello found this and discovered that if we replaced
 		that with the a simply assignment to the variables below, we have no more
-		problems! Many, many, many thanks to Marcello for tracking this down and 
+		problems! Many, many, many thanks to Marcello for tracking this down and
 		fixing it!!!
 		*/
 
-		PathPoint pt, p2, c1, c2; 
+		PathPoint pt, p2, c1, c2;
 
 		agg::rendering_buffer* renderingBuffer = context_->getRenderingBuffer();
 		if ( (NULL == renderingBuffer) || (!antiAlias_) ){
-			
+
 
 			while ( true == points->hasMoreElements() ) {
 				pt = points->nextElement();
 
 				switch ( pt.type_ ){
-					case PathPoint::ptMoveTo: {	
+					case PathPoint::ptMoveTo: {
 						if ( !pts.empty() ) {
 							context_->polyline( pts );
 						}
@@ -89,19 +70,19 @@ void BasicFill::render( Path* path )
 					}
 					break;
 
-					case PathPoint::ptLineTo: {						
+					case PathPoint::ptLineTo: {
 						//context_->lineTo( pt.point_.x_, pt.point_.y_ );
 						pts.push_back( pt.point_ );
 					}
 					break;
 
 					case PathPoint::ptQuadTo: {
-						
-						
+
+
 						c1 = points->nextElement();
-						
+
 						c2 = points->nextElement();
-						
+
 						p2 = points->nextElement();
 
 						context_->curve( pt.point_.x_, pt.point_.y_,
@@ -112,14 +93,14 @@ void BasicFill::render( Path* path )
 					break;
 
 					case PathPoint::ptCubicTo: {
-						
+
 					}
 					break;
 
 					case PathPoint::ptClose: {
 						pts.push_back( pt.point_ );
 						context_->polyline( pts );
-						
+
 						pts.clear();
 					}
 					break;
@@ -134,40 +115,40 @@ void BasicFill::render( Path* path )
 			context_->fillPath();
 		}
 		else {
-		
+
 			typedef agg::renderer_scanline<agg::span_solid_rgba8, pixfmt> renderer_solid;
 
 			renderer_solid renderer( *renderingBuffer );
-				
+
 
 			agg::path_storage fillPath;
-			
+
 
 			agg::rasterizer_scanline_aa<agg::scanline_u8, agg::gamma8> rasterizer;
-			
-			
+
+
 			while ( true == points->hasMoreElements() ) {
 				pt = points->nextElement();
 
 				switch ( pt.type_ ){
-					case PathPoint::ptMoveTo: {						
+					case PathPoint::ptMoveTo: {
 						fillPath.move_to( pt.point_.x_, pt.point_.y_ );
 					}
 					break;
 
-					case PathPoint::ptLineTo: {						
+					case PathPoint::ptLineTo: {
 						fillPath.line_to( pt.point_.x_, pt.point_.y_ );
 					}
 					break;
 
 					case PathPoint::ptQuadTo: {
-						
+
 						fillPath.move_to( pt.point_.x_, pt.point_.y_ );
-						
+
 						c1 = points->nextElement();
-						
+
 						c2 = points->nextElement();
-						
+
 						p2 = points->nextElement();
 						fillPath.curve4( c1.point_.x_, c1.point_.y_,
 										c2.point_.x_, c2.point_.y_,
@@ -176,25 +157,25 @@ void BasicFill::render( Path* path )
 					break;
 
 					case PathPoint::ptCubicTo: {
-						
+
 					}
 					break;
 
 					case PathPoint::ptClose: {
-						fillPath.close_polygon();						
+						fillPath.close_polygon();
 					}
 					break;
 				}
 			}
-			
+
 			agg::conv_curve<agg::path_storage> smooth(fillPath);
-			
+
 			//agg::conv_stroke<agg::conv_curve<agg::path_storage> >  stroke(smooth);
 
 			rasterizer.add_path( smooth );
-			
+
 			renderer.attribute(agg::rgba(color_.getRed(),color_.getGreen(),color_.getBlue(),opacity_));
-			
+
 			rasterizer.render(renderer);
 		}
 	}
@@ -204,6 +185,9 @@ void BasicFill::render( Path* path )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:30  ddiego
 *migration towards new directory structure
 *
@@ -308,8 +292,5 @@ void BasicFill::render( Path* path )
 *to facilitate change tracking
 *
 */
-
-
-
 
 

@@ -1,5 +1,12 @@
 //MIMEType.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/MIMEType.h"
 
@@ -52,7 +59,7 @@ String MIMEType::getType() const
 	String result;
 
 	VCF_ASSERT( !data_.empty() ) ;
-	
+
 	int pos = data_.find_first_of("/");
 	if ( pos != String::npos ) {
 		result = data_.substr( 0, pos );
@@ -67,7 +74,7 @@ String MIMEType::getSubType() const
 	String result;
 
 	VCF_ASSERT( !data_.empty() ) ;
-	
+
 	int pos = data_.find_first_of("/");
 	if ( pos != String::npos ) {
 		int pos2 = data_.find_first_of(";");
@@ -144,7 +151,7 @@ std::vector<MIMEType::Parameter> MIMEType::getParameters() const
 String MIMEType::canonicalValue( const String& value )
 {
 	String result;
-	
+
 	const VCFChar* P = value.c_str();
 	const VCFChar* start = P;
 	const VCFChar* current = P;
@@ -291,4 +298,14 @@ void MIMEType::registerExtension( const String& extension, const String& mimeTyp
 {
 	MIMEType::registeredFileExtensions[extension] = mimeType;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 

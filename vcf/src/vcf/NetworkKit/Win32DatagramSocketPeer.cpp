@@ -1,4 +1,13 @@
-// Implements DatagramSocket operations using the Win32 version of 
+//Win32DatagramSocketPeer.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+// Implements DatagramSocket operations using the Win32 version of
 // DGRAM socket. -- by Ning Ke
 
 #include <winsock2.h>
@@ -41,23 +50,23 @@ Win32DatagramSocketPeer::~Win32DatagramSocketPeer() {
 
 bool Win32DatagramSocketPeer::startup() {
 	WORD wVersionRequested = MAKEWORD(1, 1);
-	WSADATA wsaData; 
-	int err = ::WSAStartup(wVersionRequested, &wsaData); 
-	if (err != 0) {		
+	WSADATA wsaData;
+	int err = ::WSAStartup(wVersionRequested, &wsaData);
+	if (err != 0) {
 		//throw exception
 		::WSACleanup();
 		//throw SocketException( "Winsock dll load failed." );
 	}
-	
-	if ( LOBYTE( wsaData.wVersion ) != 1 || 
-		HIBYTE( wsaData.wVersion ) != 1 ) 	{ 
-		::WSACleanup(); 
+
+	if ( LOBYTE( wsaData.wVersion ) != 1 ||
+		HIBYTE( wsaData.wVersion ) != 1 ) 	{
+		::WSACleanup();
 		//throw SocketException( "Winsock version 1.1 not found." );
-	}	
+	}
 
 	// Create Datagram socket
 	sock_ = ::socket(AF_INET, SOCK_DGRAM, 0);
-    if ( sock_ < 0 ) {		
+    if ( sock_ < 0 ) {
 		// throw exception
 		return false;
     }
@@ -87,7 +96,7 @@ bool Win32DatagramSocketPeer::startup() {
 	return true;
 }
 
-// This sets the hisPort_, hisName_ and hisAddr_ to that of the 
+// This sets the hisPort_, hisName_ and hisAddr_ to that of the
 // address the socket is going to be connected to.
 int Win32DatagramSocketPeer::setRemoteHost(const String &toHost, const int &toPort) {
 	remoteHostPort_ = toPort;
@@ -95,10 +104,10 @@ int Win32DatagramSocketPeer::setRemoteHost(const String &toHost, const int &toPo
 
 	memset( &remoteHostAddr_, 0, sizeof(remoteHostAddr_) );
 	remoteHostAddr_.sin_family = AF_INET;
-	
+
 	struct hostent *hp;
 	String tmphost = toHost;
-	hp = ::gethostbyname(tmphost.ansi_c_str());	  //to get host address 
+	hp = ::gethostbyname(tmphost.ansi_c_str());	  //to get host address
 	if (hp == NULL) {
 		// throw exception
 		return -1;
@@ -140,5 +149,14 @@ String Win32DatagramSocketPeer::getRemoteHostName() {
 int Win32DatagramSocketPeer::getRemoteHostPort() {
 	return remoteHostPort_;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

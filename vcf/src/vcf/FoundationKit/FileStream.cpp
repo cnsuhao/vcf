@@ -1,6 +1,226 @@
+//FileStream.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/FoundationKit/FoundationKit.h"
+using namespace VCF;
+
+
+FileStreamBase::FileStreamBase():
+	currentSeekPos_(0),
+	fsPeer_(NULL),
+	access_(fsDontCare)
+{
+
+}
+
+FileStreamBase::~FileStreamBase()
+{
+
+}
+
+void FileStreamBase::init()
+{
+	fsPeer_ = SystemToolkit::createFileStreamPeer( filename_, access_ );
+	if ( NULL == fsPeer_ ) {
+		throw NoPeerFoundException();
+	}
+}
+
+void FileStreamBase::close()
+{
+	if ( NULL != fsPeer_ ) {
+		delete fsPeer_;
+		fsPeer_ = NULL;
+	}
+}
+
+void FileStreamBase::open( const String& filename, FileStreamAccessType accessType )
+{
+	filename_ = filename;
+	access_ = accessType;
+	if ( NULL != fsPeer_ ){
+		delete fsPeer_;
+	}
+	fsPeer_ = NULL;
+
+	init();
+}
+
+
+FileInputStream::FileInputStream( const String& filename )
+{
+	filename_ = filename;
+	access_ = fsRead;
+	try {
+		init();
+	}
+	catch ( BasicException& ){
+		throw;
+	}
+}
+
+
+FileInputStream::~FileInputStream()
+{
+	close();
+}
+
+void FileInputStream::open( const String& filename )
+{
+	FileStreamBase::open( filename, fsRead );
+}
+
+
+void FileInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom )
+{
+	fsPeer_->seek( offset, offsetFrom );
+
+	switch ( offsetFrom ) {
+		case stSeekFromStart: {
+			currentSeekPos_ = offset;
+		}
+		break;
+
+		case stSeekFromEnd: {
+			currentSeekPos_ = fsPeer_->getSize() - offset;
+		}
+		break;
+
+		case stSeekFromRelative: {
+			currentSeekPos_ += offset;
+		}
+		break;
+	}
+}
+
+unsigned long FileInputStream::getSize()
+{
+	return fsPeer_->getSize();
+}
+
+char* FileInputStream::getBuffer()
+{
+	return fsPeer_->getBuffer();
+}
+
+void FileInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
+{
+	fsPeer_->read( bytesToRead, sizeOfBytes );
+
+	currentSeekPos_ += sizeOfBytes;
+}
+
+
+ulong32 FileInputStream::getCurrentSeekPos()
+{
+	return currentSeekPos_;
+}
+
+
+
+
+
+
+FileOutputStream::FileOutputStream( const String& filename, const bool & append/*=false*/ )
+{
+	filename_ = filename;
+	if ( append ) {
+		access_ = fsReadWrite;
+	} else {
+		access_ = fsWrite;
+	}
+	try {
+		init();
+	}
+	catch ( BasicException& e ){
+		throw e;
+	}
+
+	//else throw exception ?
+}
+
+
+FileOutputStream::~FileOutputStream()
+{
+	close();
+}
+
+
+
+void FileOutputStream::open( const String& filename, const bool & append/*=false*/ )
+{
+	if ( append ) {
+		FileStreamBase::open( filename, fsReadWrite );
+	} else {
+		FileStreamBase::open( filename, fsWrite );
+	}
+}
+
+
+void FileOutputStream::seek(const unsigned long& offset, const SeekType& offsetFrom )
+{
+	if ( NULL == fsPeer_ ){
+		throw InvalidPeer( MAKE_ERROR_MSG_2(NO_PEER) );
+	};
+
+	fsPeer_->seek( offset, offsetFrom );
+
+	switch ( offsetFrom ) {
+		case stSeekFromStart: {
+			currentSeekPos_ = offset;
+		}
+		break;
+
+		case stSeekFromEnd: {
+			currentSeekPos_ = fsPeer_->getSize() - offset;
+		}
+		break;
+
+		case stSeekFromRelative: {
+			currentSeekPos_ += offset;
+		}
+		break;
+	}
+}
+
+
+
+unsigned long FileOutputStream::getSize()
+{
+	return fsPeer_->getSize();
+}
+
+char* FileOutputStream::getBuffer()
+{
+	return fsPeer_->getBuffer();
+}
+
+void FileOutputStream::write( const char* bytesToWrite, unsigned long sizeOfBytes )
+{
+	fsPeer_->write( bytesToWrite, sizeOfBytes );
+
+	currentSeekPos_ += sizeOfBytes;
+}
+
+
+ulong32 FileOutputStream::getCurrentSeekPos()
+{
+	return currentSeekPos_;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -116,241 +336,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-//FileStream.cpp
-#include "vcf/FoundationKit/FoundationKit.h"
-using namespace VCF;
-
-
-FileStreamBase::FileStreamBase():
-	currentSeekPos_(0),
-	fsPeer_(NULL),
-	access_(fsDontCare)
-{
-
-}
-
-FileStreamBase::~FileStreamBase()
-{
-
-}
-
-void FileStreamBase::init()
-{
-	fsPeer_ = SystemToolkit::createFileStreamPeer( filename_, access_ );
-	if ( NULL == fsPeer_ ) {
-		throw NoPeerFoundException();	
-	}
-}
-
-void FileStreamBase::close()
-{
-	if ( NULL != fsPeer_ ) {
-		delete fsPeer_;
-		fsPeer_ = NULL;
-	}
-}
-
-void FileStreamBase::open( const String& filename, FileStreamAccessType accessType )
-{
-	filename_ = filename;
-	access_ = accessType;
-	if ( NULL != fsPeer_ ){
-		delete fsPeer_;
-	}
-	fsPeer_ = NULL;
-
-	init();
-}
-
-
-FileInputStream::FileInputStream( const String& filename )
-{
-	filename_ = filename;
-	access_ = fsRead;
-	try {
-		init();
-	}
-	catch ( BasicException& ){
-		throw;
-	}
-}
-
-
-FileInputStream::~FileInputStream()
-{
-	close();
-}
-
-void FileInputStream::open( const String& filename )
-{
-	FileStreamBase::open( filename, fsRead );
-}
-
-
-void FileInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom )
-{
-	fsPeer_->seek( offset, offsetFrom );
-
-	switch ( offsetFrom ) {
-		case stSeekFromStart: {
-			currentSeekPos_ = offset;
-		}
-		break;
-
-		case stSeekFromEnd: {
-			currentSeekPos_ = fsPeer_->getSize() - offset;
-		}
-		break;
-
-		case stSeekFromRelative: {
-			currentSeekPos_ += offset;
-		}
-		break;
-	}
-}
-
-unsigned long FileInputStream::getSize()
-{
-	return fsPeer_->getSize();
-}
-
-char* FileInputStream::getBuffer()
-{
-	return fsPeer_->getBuffer();
-}
-
-void FileInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
-{
-	fsPeer_->read( bytesToRead, sizeOfBytes );
-	
-	currentSeekPos_ += sizeOfBytes;
-}
-
-
-ulong32 FileInputStream::getCurrentSeekPos()
-{	
-	return currentSeekPos_;
-}
-
-
-
-
-
-
-FileOutputStream::FileOutputStream( const String& filename, const bool & append/*=false*/ )
-{
-	filename_ = filename;
-	if ( append ) {
-		access_ = fsReadWrite;
-	} else {
-		access_ = fsWrite;
-	}
-	try {
-		init();
-	}
-	catch ( BasicException& e ){
-		throw e;
-	}
-	
-	//else throw exception ?
-}
-
-
-FileOutputStream::~FileOutputStream()
-{
-	close();
-}
-
-
-
-void FileOutputStream::open( const String& filename, const bool & append/*=false*/ )
-{
-	if ( append ) {
-		FileStreamBase::open( filename, fsReadWrite );
-	} else {
-		FileStreamBase::open( filename, fsWrite );
-	}
-}
-
-
-void FileOutputStream::seek(const unsigned long& offset, const SeekType& offsetFrom )
-{
-	if ( NULL == fsPeer_ ){
-		throw InvalidPeer( MAKE_ERROR_MSG_2(NO_PEER) );
-	};	
-
-	fsPeer_->seek( offset, offsetFrom );
-
-	switch ( offsetFrom ) {
-		case stSeekFromStart: {
-			currentSeekPos_ = offset;
-		}
-		break;
-
-		case stSeekFromEnd: {
-			currentSeekPos_ = fsPeer_->getSize() - offset;
-		}
-		break;
-
-		case stSeekFromRelative: {
-			currentSeekPos_ += offset;
-		}
-		break;
-	}
-}
-
-
-
-unsigned long FileOutputStream::getSize()
-{
-	return fsPeer_->getSize();
-}
-
-char* FileOutputStream::getBuffer()
-{
-	return fsPeer_->getBuffer();
-}
-
-void FileOutputStream::write( const char* bytesToWrite, unsigned long sizeOfBytes )
-{
-	fsPeer_->write( bytesToWrite, sizeOfBytes );
-
-	currentSeekPos_ += sizeOfBytes;
-}
-
-
-ulong32 FileOutputStream::getCurrentSeekPos()
-{	
-	return currentSeekPos_;
-}
 
 

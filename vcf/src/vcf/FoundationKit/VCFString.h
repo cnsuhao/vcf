@@ -1,39 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_VCFSTRING_H__
 #define _VCF_VCFSTRING_H__
+//VCFString.h
 
-/**
-*Copyright (c) 2000-2004, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF{
@@ -47,47 +25,47 @@ class TextCodec;
 
 
 /**
-\par 
-The UnicodeString class represents a thin wrapper around the 
-std::basic_string class since std::basic_string cannot 
-be derived from (it has no virtual destructor). The 
+\par
+The UnicodeString class represents a thin wrapper around the
+std::basic_string class since std::basic_string cannot
+be derived from (it has no virtual destructor). The
 type of std::basic_string is a std::basic_string<wchar_t>
 meaning that the string class maintains unicode data internally.
 \par
-The main purpose of the String class is to provide a 
-drop in replacement for std::basic_string<wchar_t>, with an 
-interface that is 100% compatible. In addition we add a few 
+The main purpose of the String class is to provide a
+drop in replacement for std::basic_string<wchar_t>, with an
+interface that is 100% compatible. In addition we add a few
 extra functions of our own:
-	\li conversion operators for converting to a const char* 
+	\li conversion operators for converting to a const char*
 	or const wchar_t*
-	\li conversion operators for std::basic_string<char> and 
+	\li conversion operators for std::basic_string<char> and
 	std::basic_string<wchar_t>
 	\li assignment operators for char* and wchar_t*
-	\li assignment operators for std::basic_string<char> and 
+	\li assignment operators for std::basic_string<char> and
 	std::basic_string<wchar_t>
-	\li any of the various methods of basic_string that would 
+	\li any of the various methods of basic_string that would
 	ordinarily take a wchar_t* also have a matching method that
-	takes a char*, with automatic conversion taking place from 
+	takes a char*, with automatic conversion taking place from
 	ansi to unicode.
 \par
 These extra functions make it seamless to use with existing code that uses
 either old C style strings and/or std::string/std::wstring instances.
-For complete documentation of the std::basic_string, please see 
+For complete documentation of the std::basic_string, please see
 <a href="http://www.sgi.com/tech/stl/basic_string.html">SGI's documentation</a>.
 
-\par 
-Another set of functions is used to encode or decode text using a 
+\par
+Another set of functions is used to encode or decode text using a
 particular text codec isntance as specified by the TextCodec class.
 These encoding/decoding methods are:
-	\li decoding the current strings unicode data into some other 
+	\li decoding the current strings unicode data into some other
 	form  of unicde data
 	\li decoding the current string's data into an ansi string
-	\li encoding the data from an ansi string and resetting the 
+	\li encoding the data from an ansi string and resetting the
 	content of this string as a result
 	\li encoding the data from another string intance into this string
 
 \par
-In addition there are also a whole series of typedefs, again solely to make the 
+In addition there are also a whole series of typedefs, again solely to make the
 class compatible with the std::basic_string class.
 */
 class FRAMEWORK_API UnicodeString {
@@ -100,13 +78,13 @@ public:
 	typedef std::basic_string<UniChar> StringData;
 	typedef StringData::size_type size_type;
 
-	
+
 	enum {
 		npos = (unsigned int)-1
 	};
-	
 
-	
+
+
 
 	typedef StringData::traits_type traits_type;
     typedef StringData::allocator_type allocator_type;
@@ -136,7 +114,7 @@ public:
 	}
 
 	UnicodeString(const std::string& rhs);
-    
+
     UnicodeString(const AnsiChar* string, size_type stringLength );
 	UnicodeString(const UniChar* string, size_type stringLength );
 
@@ -162,18 +140,18 @@ public:
 	const AnsiChar* decode_ansi( TextCodec* codec ) const ;
 
 	/**
-	Decodes the unicode data in the string and returns a new string with the 
+	Decodes the unicode data in the string and returns a new string with the
 	decoded data as determined by the text codec.
 	@param TextCodec the codec used to decode the string's data
-	@return UnicodeString the new string that is created as a result of 
+	@return UnicodeString the new string that is created as a result of
 	the decode process by the codec.
 	*/
 	UnicodeString decode( TextCodec* codec ) const ;
 
 	/**
-	This encodes the ansi string into unicode, according to the algorithms 
+	This encodes the ansi string into unicode, according to the algorithms
 	in the codec, and replaces the data in the string's data_ value.
-	@param TextCodec* an instance of a TextCodec that represents the 
+	@param TextCodec* an instance of a TextCodec that represents the
 	algorithm used in encoding the data stored in str.
 	@param AnsiChar* the source ansi string buffer
 	@param size_type the number of bytes to encode from the str buffer
@@ -181,10 +159,10 @@ public:
 	void encode( TextCodec* codec, const AnsiChar* str, size_type n );
 
 	/**
-	This encodes the data in the unicode string into another unicode string, 
-	according to the algorithms in the codec, and replaces the data in 
-	the string's data_ value.	
-	@param TextCodec* an instance of a TextCodec that represents the 
+	This encodes the data in the unicode string into another unicode string,
+	according to the algorithms in the codec, and replaces the data in
+	the string's data_ value.
+	@param TextCodec* an instance of a TextCodec that represents the
 	algorithm used in encoding the data stored in str.
 	@param UnicodeString the source unicode string to encode from
 	*/
@@ -194,15 +172,15 @@ public:
 	Returns a const char* pointer. Equivalent to the c_str() method,
 	only this translates the internal unicode data to an ansi string.
 	\par
-	Please note that the pointer returned from this function is only 
-	valid for the lifetime of the string that it was returned from. 
-	Calling this function requires that a new char buffer be allocated. As 
-	a result of this, the string instance that allocates this buffer 
+	Please note that the pointer returned from this function is only
+	valid for the lifetime of the string that it was returned from.
+	Calling this function requires that a new char buffer be allocated. As
+	a result of this, the string instance that allocates this buffer
 	manages the memory for it and when the string instance is destroyed,
-	all allocated ansi string buffers that were allocated as a result of a 
+	all allocated ansi string buffers that were allocated as a result of a
 	call to this method are also destroyed. If a caller needs to maintain
-	this char string beyond the lifetime of the string instance it was 
-	retreived from, they should copy it to a new buffer, or perhaps 
+	this char string beyond the lifetime of the string instance it was
+	retreived from, they should copy it to a new buffer, or perhaps
 	a std::string instance. An example of this might look like:
 	\code
 
@@ -211,7 +189,7 @@ public:
 	{
 		String s = "Hello World"; //new string instance. "Hello World" is stored as unicode
 
-		strPtr = s.ansi_c_str(); 
+		strPtr = s.ansi_c_str();
 
 		printf( "%s", strPtr ); //strPtr now points to an ansi string allocated by the s UnicodeString instance.
 
@@ -222,22 +200,22 @@ public:
 	printf( "%s", strPtr ); //oops! strPtr will point to garbage now!
 
 	printf( "%s", localString.c_str() );  //however localString is OK because it is a copy from strPtr
-	
+
 	\endcode
 	*/
     const AnsiChar* ansi_c_str() const;
 
 
 
-	
+
 
 	/**
-	Returns a const char* pointer s a result of translating the 
+	Returns a const char* pointer s a result of translating the
 	unicode data to an ansi string. In Win32, the default
-	behaviour is to convert this using the UTF8 code page. 
+	behaviour is to convert this using the UTF8 code page.
 	\par
 	This pointer is "garbage collected" and is only valid for the lifetime of
-	the string instance that it was retreived from. Once that 
+	the string instance that it was retreived from. Once that
 	instance is destroyed, the pointer is invalid. For example:
 	\code
 	const char* c_stringPtr = NULL;
@@ -246,8 +224,8 @@ public:
 
 		c_stringPtr = s; //c_stringPtr should equal "Hello World"
 		printf( "c_stringPtr: %s", c_stringPtr );
-	}	
-	
+	}
+
 	//c_stringPtr is now invalid, since s has been destroyed
 	printf( "c_stringPtr: %s", c_stringPtr ); //will print garbage
 
@@ -262,7 +240,7 @@ public:
 	*/
 
 	/**
-	Returns a const UniChar* pointer - equivalent to 
+	Returns a const UniChar* pointer - equivalent to
 	calling c_str().
 	@return const UniChar* a const pointer to the string data
 	@see c_str()
@@ -275,33 +253,33 @@ public:
 
 
 	/**
-	This is a convenience function to get at the string's 
+	This is a convenience function to get at the string's
 	underlying data as a const std::basic_string. Since
-	it's a const reference, you can't modify anything on the 
-	basic_string reference returned. 
-	
+	it's a const reference, you can't modify anything on the
+	basic_string reference returned.
+
 	\code
 	std::basic_string<UniChar> stlString;
 	String myString = "Hello World";
 
 	stlString = myString; //this makes a copy
 
-	const std::basic_string<UniChar>& constRefString = myString; //this is a const reference - immutable	
+	const std::basic_string<UniChar>& constRefString = myString; //this is a const reference - immutable
 	\endcode
 	@returns std::basic_string<UniChar>& a const reference to the string's
-	underlying std::basic_string member variable. 	
+	underlying std::basic_string member variable.
 	*/
 	operator const std::basic_string<UniChar>& () const {
 		return data_;
 	}
 
 	/**
-	This is a convenience function to get at the string's 
+	This is a convenience function to get at the string's
 	underlying data as a const std::basic_string. Since
-	it's a reference, you can modify the basic_string reference returned. 
-	
+	it's a reference, you can modify the basic_string reference returned.
+
 	@returns std::basic_string<UniChar>& a reference to the string's
-	underlying std::basic_string member variable. 
+	underlying std::basic_string member variable.
 	*/
 	operator std::basic_string<UniChar>& () {
 		return data_;
@@ -312,9 +290,9 @@ public:
 	This is a convenience function that converts the string's data from
 	unicode to ansi, and returns a std::basic_string<AnsiChar> (also
 	known as std::string).
-	
+
 	@returns std::basic_string<UniChar>& a reference to the string's
-	underlying std::basic_string member variable. 
+	underlying std::basic_string member variable.
 	*/
 	operator std::basic_string<AnsiChar> () const {
 		return std::basic_string<AnsiChar>(ansi_c_str());
@@ -463,7 +441,7 @@ public:
 		return data_[pos];
 	}
 
-	
+
 
 	const UniChar* c_str() const {
 		return data_.c_str();
@@ -487,7 +465,7 @@ public:
 	}
 
 	/**
-	The number of bytes that make up this string. This is current the size of the 
+	The number of bytes that make up this string. This is current the size of the
 	string times the size of a single character (which is 16 bits, or 2 bytes).
 	*/
 	size_type size_in_bytes() const {
@@ -522,7 +500,7 @@ public:
     UnicodeString& operator+=(const UniChar *s) {
 		data_ += s;
 		return *this;
-	}	
+	}
 
     UnicodeString& operator+=(UniChar c) {
 		data_ += c;
@@ -536,12 +514,12 @@ public:
 	UnicodeString& append(const UnicodeString& str) {
 		data_.append( str.data_ );
 		return *this;
-	}	
+	}
 
     UnicodeString& append(const UnicodeString& str, size_type pos, size_type n) {
 		data_.append( str.data_, pos, n );
 		return *this;
-	}	
+	}
 
     UnicodeString& append(const UniChar *s, size_type n) {
 		data_.append( s, n );
@@ -567,17 +545,17 @@ public:
     UnicodeString& append(const_iterator first, const_iterator last){
 		data_.append( first, last );
 		return *this;
-	}	
+	}
 
     UnicodeString& assign(const UnicodeString& str){
 		data_.assign( str.data_ );
 		return *this;
-	}	
+	}
 
     UnicodeString& assign(const UnicodeString& str, size_type pos, size_type n) {
 		data_.assign( str.data_, pos, n );
 		return *this;
-	}	
+	}
 
     UnicodeString& assign(const UniChar *s, size_type n) {
 		data_.assign( s, n );
@@ -735,11 +713,11 @@ public:
 
     void swap(UnicodeString& str) {
 		data_.swap( str.data_ );
-	}	
+	}
 
     size_type find(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find( str.data_, pos );
-	}	
+	}
 
 	size_type find(const AnsiChar *s, size_type pos, size_type n) const;
 
@@ -762,7 +740,7 @@ public:
 
     size_type rfind(const UnicodeString& str, size_type pos = npos) const {
 		return data_.rfind( str.data_, pos );
-	}	
+	}
 
 	size_type rfind(const AnsiChar *s, size_type pos, size_type n = npos) const;
 
@@ -784,7 +762,7 @@ public:
 
     size_type find_first_of(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find_first_of( str.data_, pos );
-	}	
+	}
 
 	size_type find_first_of(const AnsiChar *s, size_type pos, size_type n) const ;
 
@@ -806,7 +784,7 @@ public:
 
     size_type find_last_of(const UnicodeString& str, size_type pos = npos) const {
 		return data_.find_last_of( str.data_, pos );
-	}	
+	}
 
 	size_type find_last_of(const AnsiChar *s, size_type pos, size_type n = npos) const;
 
@@ -828,7 +806,7 @@ public:
 
     size_type find_first_not_of(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find_first_not_of( str.data_, pos );
-	}	
+	}
 
 	size_type find_first_not_of(const AnsiChar *s, size_type pos, size_type n) const;
 
@@ -850,7 +828,7 @@ public:
 
     size_type find_last_not_of(const UnicodeString& str, size_type pos = npos) const  {
 		return data_.find_last_not_of( str.data_, pos );
-	}	
+	}
 
 	size_type find_last_not_of(const AnsiChar *s, size_type pos, size_type n) const;
 
@@ -872,7 +850,7 @@ public:
 
     UnicodeString substr(size_type pos = 0, size_type n = npos) const  {
 		return data_.substr( pos, n );
-	}	
+	}
 
     int compare(const UnicodeString& str) const {
 		return data_.compare( str.data_ );
@@ -886,7 +864,7 @@ public:
 		return data_.compare( p0, n0, str.data_, pos, n );
 	}
 
-    
+
 	int compare(const AnsiChar *s) const;
 
 	int compare(const UniChar *s) const {
@@ -903,10 +881,10 @@ public:
 
     int compare(size_type p0, size_type n0, const UniChar *s, size_type pos) const {
 		return data_.compare( p0, n0, s, pos );
-	}	
+	}
 
 	static void transformAnsiToUnicode( const AnsiChar* str, size_type stringLength, StringData& newStr );
-	
+
 	static AnsiChar* transformUnicodeToAnsi( const UnicodeString& str );
 
 	static UniChar transformAnsiCharToUnicodeChar( AnsiChar c );
@@ -915,9 +893,9 @@ protected:
 
 	void internal_registerAnsiStringForGarbageCollection( AnsiChar* str ) const;
 
-	
 
-	//a collection of ansi strings that have been allocated as a result of 
+
+	//a collection of ansi strings that have been allocated as a result of
 	//calling to ansi_c_str - these are keyed by a particular UnicodeString instance
 	//and then reclaimed when the string is destroyed
 	typedef std::multimap<const UnicodeString*, char*> AnsiStringMap;
@@ -930,12 +908,12 @@ protected:
 
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString& rhs ) 
+inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result (lhs);
-	
+
 	result += rhs;
-	
+
 	return result;
 
 }
@@ -943,9 +921,9 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar* lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(lhs) ;
-	
+
 	result += rhs;
-	
+
 	return result;
 }
 
@@ -953,9 +931,9 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar* lhs
 inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar* rhs )
 {
 	UnicodeString result(lhs) ;
-	
+
 	result += rhs;
-	
+
 	return result;
 }
 
@@ -963,9 +941,9 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(1,lhs) ;
-	
+
 	result += rhs;
-	
+
 	return result;
 }
 
@@ -973,9 +951,9 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar& lhs
 inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar& rhs )
 {
 	UnicodeString result(lhs) ;
-	
+
 	result += rhs;
-	
+
 	return result;
 }
 
@@ -1020,11 +998,11 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 
 
 
-//typedef std::basic_string<VCFChar> String;	
+//typedef std::basic_string<VCFChar> String;
 
-typedef UnicodeString String;	
+typedef UnicodeString String;
 
-typedef std::basic_string<char> AnsiString;	
+typedef std::basic_string<char> AnsiString;
 
 };
 
@@ -1032,6 +1010,9 @@ typedef std::basic_string<char> AnsiString;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *

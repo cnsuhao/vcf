@@ -1,33 +1,12 @@
+//Class.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//Class.cpp
+
 #include "vcf/FoundationKit/FoundationKit.h"
 using namespace VCF;
 
@@ -44,30 +23,30 @@ Class::Class( const String& className, const String& classID, const String& supe
 	interfaceContainer_.initContainer( interfaces_ );
 	methodContainer_.initContainer(methods_);
 	fieldContainer_.initContainer(fields_);
-	
+
 }
 
 Class::~Class()
-{	
+{
 	std::map<String,Property*>::iterator props = properties_.begin();
 
 	while ( props != properties_.end() ){
-		Property* prop = props->second;		
-		delete prop;		
+		Property* prop = props->second;
+		delete prop;
 		props++;
 	}
-	
+
 	properties_.clear();
 
 
 	std::map<String,Field*>::iterator fields = fields_.begin();
 
 	while ( fields != fields_.end() ){
-		Field* field = fields->second;		
-		delete field;		
+		Field* field = fields->second;
+		delete field;
 		fields++;
 	}
-	
+
 	fields_.clear();
 
 	std::map<String,EventProperty*>::iterator events = events_.begin();
@@ -112,7 +91,7 @@ bool Class::hasProperty( const String& propertyName )
 Property* Class::getProperty( const String& propertyName )
 {
 	Property* result = NULL;
-	
+
 	std::map<String,Property*>::iterator found = properties_.find( propertyName );
 	if ( found != properties_.end() ){
 		result = found->second;
@@ -124,7 +103,7 @@ Property* Class::getProperty( const String& propertyName )
 void Class::addEvent( EventProperty* event )
 {
 	if ( NULL != event ) {
-		String delegateName = event->getDelegateName();		
+		String delegateName = event->getDelegateName();
 		events_[delegateName] = event;
 	}
 }
@@ -148,13 +127,13 @@ bool Class::hasEventHandler( const String& delegateName )
 }
 
 void Class::addProperty( Property* property )
-{	
-	if ( NULL != property ){		
-		
+{
+	if ( NULL != property ){
+
 		String name = property->getName();
-		
-		properties_[name] = property;		
-	}	
+
+		properties_[name] = property;
+	}
 }
 
 void Class::addMethod( Method* method )
@@ -180,7 +159,7 @@ unsigned long Class::getMethodCount(){
 
 Method* Class::getMethod( const String& methodName ){
 	Method* result = NULL;
-	
+
 	std::map<String,Method*>::iterator found = methods_.find( methodName );
 	if ( found != methods_.end() ){
 		result = found->second;
@@ -213,7 +192,7 @@ unsigned long Class::getFieldCount(){
 
 Field* Class::getField( const String& fieldName ){
 	Field* result = NULL;
-	
+
 	std::map<String,Field*>::iterator found = fields_.find( fieldName );
 	if ( found != fields_.end() ){
 		result = found->second;
@@ -265,10 +244,10 @@ String Class::getID()
 
 Class* Class::getSuperClass()
 {
-	if ( NULL == superClass_ ){		
-		
+	if ( NULL == superClass_ ){
+
 		superClass_ = ClassRegistry::getClass( superClassName_ );
-		
+
 	}
 	return superClass_;
 }
@@ -317,7 +296,7 @@ String Class::getClassNameForProperty( Property* property )
 				break;
 
 				case pdObject: {
-					result = property->getTypeClassName();				
+					result = property->getTypeClassName();
 				}
 				break;
 
@@ -330,7 +309,7 @@ String Class::getClassNameForProperty( Property* property )
 					result = CLASS_STRING;
 				}
 				break;
-				
+
 				case pdEnum: {
 					result = CLASS_ENUM;
 				}
@@ -360,7 +339,7 @@ unsigned long Class::getInterfaceCount()
 bool Class::hasInterface( const String& interfaceName )
 {
 	bool result = false;
-	std::map<String, InterfaceClass*>::iterator it = interfaces_.begin();	
+	std::map<String, InterfaceClass*>::iterator it = interfaces_.begin();
 	while ( (false == result) && (it != interfaces_.end()) )  {
 		InterfaceClass* ic = it->second;
 		if ( interfaceName == ic->getInterfaceName() ) {
@@ -381,8 +360,8 @@ bool Class::hasInterfaceID( const String& interfaceID )
 InterfaceClass* Class::getInterfaceByName( const String& interfaceName )
 {
 	InterfaceClass* result = NULL;
-	
-	std::map<String, InterfaceClass*>::iterator it = interfaces_.begin();	
+
+	std::map<String, InterfaceClass*>::iterator it = interfaces_.begin();
 	while ( (NULL == result) && (it != interfaces_.end()) )  {
 		InterfaceClass* ic = it->second;
 		if ( interfaceName == ic->getInterfaceName() ) {
@@ -419,7 +398,7 @@ void Class::addInterface( InterfaceClass* newInterface )
 		Enumerator<Method*>* methods = existingInterface->getMethods();
 		while ( true == methods->hasMoreElements() ) {
 			Method* method = methods->nextElement();
-			
+
 			if ( false == newInterface->hasMethod( method->getName() ) ) {
 				newInterface->addMethod( (Method*)method->clone() );
 			}
@@ -431,6 +410,9 @@ void Class::addInterface( InterfaceClass* newInterface )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

@@ -1,3 +1,19 @@
+#ifndef _VCF_MGCRTLIB_H__
+#define _VCF_MGCRTLIB_H__
+//MgcRTLib.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
 // Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
@@ -10,8 +26,6 @@
 // FREE SOURCE CODE
 // http://www.magic-software.com/License/free.pdf
 
-#ifndef _VCF_MGCRTLIB_H__
-#define _VCF_MGCRTLIB_H__
 
 // A wrapper around some headers for run-time libraries.  I added this because
 // CodeWarrior 6.1 for the Macintosh uses namespace std for functions exposed
@@ -32,10 +46,15 @@ using namespace std;
 #endif
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 
 #endif // _VCF_MGCRTLIB_H__
-
-
-
 
 

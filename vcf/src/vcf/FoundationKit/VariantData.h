@@ -1,50 +1,27 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_VARIANTDATA_H__
 #define _VCF_VARIANTDATA_H__
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//VariantData.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
 
 
 /**
-*VariantData represents an unknown type of variable - similiar to 
-*Visual Basic's Variant object. 
+*VariantData represents an unknown type of variable - similiar to
+*Visual Basic's Variant object.
 *VariantData objects can store int, long, double, bool String, or Object*.
-*VariantData overrides conversion operators and provides operator equals overloads 
+*VariantData overrides conversion operators and provides operator equals overloads
 *to handle the conversion from one type to another. Setting the value of a VariantData
 *automatically sets the type. For example:
 *<pre>
@@ -62,7 +39,7 @@ namespace VCF {
 *	val = 123; <i>//val is now assigned an int (or whatever the compiler assumes 123 is )</i>
 *	i = val;	<i>//i is now equal to 123</i>
 *</pre>
-*Strings are a special case, since the compiler will not allow a union to be made with them, 
+*Strings are a special case, since the compiler will not allow a union to be made with them,
 *thus the reason for the StringVal member outside of the union.
 *VariantData objects can also have their data render as a string and can be assigned strings
 *and convert then to the correct data value.
@@ -254,15 +231,15 @@ public:
 	*/
 	operator int () {
 		return IntVal;
-	};	
-	
+	};
+
 	/**
 	*converts the VariantData to an long
 	*/
 	operator long () {
 		return LongVal;
 	};
-	
+
 	/**
 	*converts the VariantData to an short
 	*/
@@ -297,7 +274,7 @@ public:
 	operator double () {
 		return DblVal;
 	};
-	
+
 	/**
 	*converts the VariantData to an Interface pointer
 	*/
@@ -355,7 +332,7 @@ public:
 		type = pdInt;
 		return *this;
 	};
-	
+
 	/**
 	*Assigns an long value to the VariantData
 	*/
@@ -364,7 +341,7 @@ public:
 		type = pdLong;
 		return *this;
 	};
-	
+
 	/**
 	*Assigns an short value to the VariantData
 	*/
@@ -483,7 +460,7 @@ public:
 		EnumVal.set( const_cast<Enum*>(&newValue) );
 		type = pdEnum;
 		return *this;
-	};	
+	};
 
 	VariantData& operator= ( const VariantData& newValue ) {
 		setValue( newValue );
@@ -496,9 +473,9 @@ public:
 	}
 
 	/**
-	*converts the VariantData to a string, no matter 
+	*converts the VariantData to a string, no matter
 	*what the type. Object* are persisted to a TextOutputStream
-	*if they support Persistable, otherwise the Object's toString() 
+	*if they support Persistable, otherwise the Object's toString()
 	*method is invoked.
 	*/
 	virtual String toString();
@@ -516,9 +493,13 @@ protected:
 
 };
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -577,6 +558,7 @@ protected:
 *
 *
 */
+
 
 #endif // _VCF_VARIANTDATA_H__
 

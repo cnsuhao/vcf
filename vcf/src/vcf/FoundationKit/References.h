@@ -1,11 +1,58 @@
 #ifndef _VCF_REFERENCES_H__
 #define _VCF_REFERENCES_H__
+//References.h
 
-// References.h
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+//References.h
+
+class RefCount {
+
+public:
+    RefCount(){
+		refCount_ = 0;
+	};
+
+    virtual ~RefCount() {
+		//TRACE("goodbye(%d)\n", crefs);
+	};
+
+    void addRef() {
+		++this->refCount_;
+	};
+
+    void removeRef(){
+		if (--refCount_ == 0){
+			delete this;
+		}
+		else{
+
+		}
+	};
+
+private:
+	int refCount_;
+};
+
+//template <class T> itNew
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -32,38 +79,6 @@
 *to facilitate change tracking
 *
 */
-
-//References.h
-
-class RefCount {    
-
-public:
-    RefCount(){ 
-		refCount_ = 0; 
-	};
-
-    virtual ~RefCount() { 
-		//TRACE("goodbye(%d)\n", crefs); 
-	};
-
-    void addRef() { 
-		++this->refCount_;
-	};
-
-    void removeRef(){
-		if (--refCount_ == 0){
-			delete this;
-		}
-		else{
-			
-		}
-	};
-
-private:
-	int refCount_;
-};
-
-//template <class T> itNew
 
 
 #endif // _VCF_REFERENCES_H__

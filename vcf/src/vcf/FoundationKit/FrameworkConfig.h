@@ -1,43 +1,18 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_FRAMEWORKCONFIG_H__
 #define _VCF_FRAMEWORKCONFIG_H__
+//FrameworkConfig.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//FrameworkConfig.h
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 /**
 *Basic setup defines for Foundationkit Classes
@@ -46,13 +21,13 @@
 
 
 /**
-Common #defines for various compilers and platforms. Note that some of these are defined by the 
+Common #defines for various compilers and platforms. Note that some of these are defined by the
 current compiler (i.e. _MSC_VER), but others must be defined in your build script.
 
 platforms:
 VCF_WIN32 - running on some version of 32 bit Windows
 
-VCF_LINUX - running under a linux 
+VCF_LINUX - running under a linux
 
 VCF_SOLARIS - running under solaris
 
@@ -79,7 +54,7 @@ VCF_GCC - compiling with GCC's C++ compiler
 
 #ifdef _MSC_VER
 	#define VCF_MSC
-#endif 
+#endif
 
 
 
@@ -87,9 +62,9 @@ VCF_GCC - compiling with GCC's C++ compiler
 
 
 
-#if (_MSC_VER >= 1310) 
+#if (_MSC_VER >= 1310)
 #	define VCF_VC71
-#elif (_MSC_VER >= 1300) 
+#elif (_MSC_VER >= 1300)
 #	define VCF_VC7
 #elif (_MSC_VER >= 1200)
 #	define VCF_VC6
@@ -103,7 +78,7 @@ VCF_GCC - compiling with GCC's C++ compiler
 
 
 #ifdef WIN32
-	//define VCF_WIN32	
+	//define VCF_WIN32
 	#define VCF_WIN32
 
 
@@ -116,14 +91,14 @@ VCF_GCC - compiling with GCC's C++ compiler
 
 //'identifier' : decorated name length exceeded, name was truncated
 	#pragma warning (disable:4503)
-	
+
 	//disable C++ Exception Specification ignored
-	#pragma warning (disable : 4290)	
+	#pragma warning (disable : 4290)
 
 
 
 	#include "vcf/FoundationKit/WarningsOffVc.h"
-	
+
 #endif
 
 #if ( _MSC_VER < 1300 )
@@ -141,7 +116,7 @@ VCF_GCC - compiling with GCC's C++ compiler
 
 #ifdef VCF_WIN32
 	#ifdef _UNICODE
-		#define VCF_UNICODE_ENABLED 
+		#define VCF_UNICODE_ENABLED
 	#endif
 #endif
 
@@ -181,7 +156,7 @@ namespace VCF {
 
 
 //this section will turn the advanced RTTI features on or off. By default they are on
-//Note: Turning them off means that code that depends on the RTTI API's will fail. 
+//Note: Turning them off means that code that depends on the RTTI API's will fail.
 
 
 #define VCF_RTTI	//comment this define out to turn off RTTI in the framework
@@ -191,23 +166,23 @@ namespace VCF {
 
 #ifdef _DEBUG
 	#define _VCF_DEBUG_NEW
-#endif 
+#endif
 
 //apparently NULL may not always be 0 - this makes it so...
 #ifdef VCF_GCC
   #undef NULL
 
-  #ifdef __GNUWIN32__ 
+  #ifdef __GNUWIN32__
     #define NULL		0
   #endif
-  
+
   //this is for handling the "implicit typename is deprecated" warning of GCC
   #define _typename_    typename
 
 
 #endif //VCF_GCC
 
-#ifndef __GNUWIN32__ 
+#ifndef __GNUWIN32__
 #undef NULL
 #define NULL		0
 #endif //__GNUWIN32__
@@ -258,8 +233,8 @@ this define is to fix:
 
 
 #ifdef _MSC_VER //we are compiling with Microsoft's Visual C++ compiler
-    
-	//don't define  _typename_ as a "typename" keyword because 
+
+	//don't define  _typename_ as a "typename" keyword because
 	//VC6 barfs on it's usage (despite it being part of the C++ standard)
 	//Note the new addition is due to better vc7.1 C++ compiler compliance,
 	//many thanks to Raghavendra Chandrashekara for finding this!
@@ -267,160 +242,160 @@ this define is to fix:
 		#define _typename_
 	#else
 		#define _typename_ typename
-	#endif 
-	
+	#endif
+
 	#ifdef FRAMEWORK_DLL
-		#if defined(FRAMEWORK_EXPORTS) 
+		#if defined(FRAMEWORK_EXPORTS)
 			#define FRAMEWORK_API __declspec(dllexport)
 			#define FRAMEWORK_EXPIMP_TEMPLATE
 		#else
 			#define FRAMEWORK_API __declspec(dllimport)
 			#define FRAMEWORK_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define FRAMEWORK_API
 	#endif //FRAMEWORK_DLL
 
 
 	#ifdef GRAPHICSKIT_DLL
-		#if defined(GRAPHICSKIT_EXPORTS) 
+		#if defined(GRAPHICSKIT_EXPORTS)
 			#define GRAPHICSKIT_API __declspec(dllexport)
 			#define GRAPHICSKIT_EXPIMP_TEMPLATE
 		#else
 			#define GRAPHICSKIT_API __declspec(dllimport)
 			#define GRAPHICSKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define GRAPHICSKIT_API
 	#endif //GRAPHICSKIT_DLL
 
 
 	#ifdef APPKIT_DLL
-		#if defined(APPKIT_EXPORTS) 
+		#if defined(APPKIT_EXPORTS)
 			#define APPKIT_API __declspec(dllexport)
 			#define APPKIT_EXPIMP_TEMPLATE
 		#else
 			#define APPKIT_API __declspec(dllimport)
 			#define APPKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define APPKIT_API
 	#endif //APPKIT_DLL
 
 
 	#ifdef NETKIT_DLL
-		#if defined(NETKIT_EXPORTS) 
+		#if defined(NETKIT_EXPORTS)
 			#define NETKIT_API __declspec(dllexport)
 			#define NETKIT_EXPIMP_TEMPLATE
 		#else
 			#define NETKIT_API __declspec(dllimport)
 			#define NETKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define NETKIT_API
 	#endif //NETKIT_DLL
 #elif __DMC__
 	#define _typename_
 	#ifdef FRAMEWORK_DLL
-		#if defined(FRAMEWORK_EXPORTS) 
+		#if defined(FRAMEWORK_EXPORTS)
 			#define FRAMEWORK_API __declspec(dllexport)
 			#define FRAMEWORK_EXPIMP_TEMPLATE
 		#else
 			#define FRAMEWORK_API __declspec(dllimport)
 			#define FRAMEWORK_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define FRAMEWORK_API
 	#endif //FRAMEWORK_DLL
 
 
 	#ifdef GRAPHICSKIT_DLL
-		#if defined(GRAPHICSKIT_EXPORTS) 
+		#if defined(GRAPHICSKIT_EXPORTS)
 			#define GRAPHICSKIT_API __declspec(dllexport)
 			#define GRAPHICSKIT_EXPIMP_TEMPLATE
 		#else
 			#define GRAPHICSKIT_API __declspec(dllimport)
 			#define GRAPHICSKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define GRAPHICSKIT_API
 	#endif //GRAPHICSKIT_DLL
 
 
 	#ifdef APPKIT_DLL
-		#if defined(APPKIT_EXPORTS) 
+		#if defined(APPKIT_EXPORTS)
 			#define APPKIT_API __declspec(dllexport)
 			#define APPKIT_EXPIMP_TEMPLATE
 		#else
 			#define APPKIT_API __declspec(dllimport)
 			#define APPKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define APPKIT_API
 	#endif //APPKIT_DLL
 
 
 	#ifdef NETKIT_DLL
-		#if defined(NETKIT_EXPORTS) 
+		#if defined(NETKIT_EXPORTS)
 			#define NETKIT_API __declspec(dllexport)
 			#define NETKIT_EXPIMP_TEMPLATE
 		#else
 			#define NETKIT_API __declspec(dllimport)
 			#define NETKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define NETKIT_API
 	#endif //NETKIT_DLL
 
 #elif __GNUWIN32__
 	#ifdef FRAMEWORK_DLL
-		#if defined(FRAMEWORK_EXPORTS) 
+		#if defined(FRAMEWORK_EXPORTS)
 			#define FRAMEWORK_API __declspec(dllexport)
 			#define FRAMEWORK_EXPIMP_TEMPLATE
 		#else
 			#define FRAMEWORK_API __declspec(dllimport)
 			#define FRAMEWORK_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define FRAMEWORK_API
 	#endif //FRAMEWORK_DLL
 
 
 	#ifdef GRAPHICSKIT_DLL
-		#if defined(GRAPHICSKIT_EXPORTS) 
+		#if defined(GRAPHICSKIT_EXPORTS)
 			#define GRAPHICSKIT_API __declspec(dllexport)
 			#define GRAPHICSKIT_EXPIMP_TEMPLATE
 		#else
 			#define GRAPHICSKIT_API __declspec(dllimport)
 			#define GRAPHICSKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define GRAPHICSKIT_API
 	#endif //GRAPHICSKIT_DLL
 
 
 	#ifdef APPKIT_DLL
-		#if defined(APPKIT_EXPORTS) 
+		#if defined(APPKIT_EXPORTS)
 			#define APPKIT_API __declspec(dllexport)
 			#define APPKIT_EXPIMP_TEMPLATE
 		#else
 			#define APPKIT_API __declspec(dllimport)
 			#define APPKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define APPKIT_API
 	#endif //APPKIT_DLL
 
 
 	#ifdef NETKIT_DLL
-		#if defined(NETKIT_EXPORTS) 
+		#if defined(NETKIT_EXPORTS)
 			#define NETKIT_API __declspec(dllexport)
 			#define NETKIT_EXPIMP_TEMPLATE
 		#else
 			#define NETKIT_API __declspec(dllimport)
 			#define NETKIT_EXPIMP_TEMPLATE extern
 		#endif
-	#else	
+	#else
 		#define NETKIT_API
 	#endif //NETKIT_DLL
 #else
@@ -442,10 +417,12 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 #endif
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

@@ -1,41 +1,17 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_PROPERTY_H__
 #define _VCF_PROPERTY_H__
+//Property.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//Property.h
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -43,10 +19,10 @@ namespace VCF
 
 
 /**
-*The Property class represents a member attribute of a class. Properties allow a 
+*The Property class represents a member attribute of a class. Properties allow a
 *programmer to dynamically query a class at runtime for all of it attributes
-*with out knowing the exact type of class the object instance is. Property is 
-*an abstract base class, and only provides an interface to work with. 
+*with out knowing the exact type of class the object instance is. Property is
+*an abstract base class, and only provides an interface to work with.
 *
 *@author Jim Crafton
 *@version 1.0
@@ -61,7 +37,7 @@ public:
 		//prop_count ++;
 		//StringUtils::trace( "Created Property\n\tProperty Count = " + StringUtils::toString(prop_count) + "\n" );
 	};
-	
+
 	Property( const Property& prop ):
 		value_( prop.value_ )	{
 
@@ -72,7 +48,7 @@ public:
 		source_ = prop.source_;
 		isReadOnly_ = prop.isReadOnly_;
 		bound_ = prop.bound_;
-		
+
 		//prop_count ++;
 		//StringUtils::trace( "Created duplicate Property\n\tProperty Count = " + StringUtils::toString(prop_count) + "\n" );
 	};
@@ -81,7 +57,7 @@ public:
 		//prop_count --;
 		//StringUtils::trace( "Deleted Property\n\tProperty Count = " + StringUtils::toString(prop_count) + "\n" );
 	};
-	
+
 	/**
 	*makes a copy of the property. Implemented in the templated
 	*derived classes.
@@ -96,7 +72,7 @@ public:
 	};
 
 	/**
-	*returns the display name, usually something longer and more descriptive 
+	*returns the display name, usually something longer and more descriptive
 	*than the name alone.
 	*/
 	String getDisplayName() const{
@@ -105,7 +81,7 @@ public:
 		}else
 			return name_;
 	};
-	
+
 	/**
 	*gets a description of the property,
 	*telling what the property does or represents.
@@ -113,7 +89,7 @@ public:
 	String getDescription() const{
 		return description_;
 	};
-	
+
 	/**
 	*sets the description of the property
 	*/
@@ -158,11 +134,11 @@ public:
 	void setType( const PropertyDescriptorType& type ){
 		type_ = type;
 		value_.type = type_;
-	};	
+	};
 
 	/**
 	*gets the value of the property for the given instance of source.
-	*@param Object the object to invoke the get method for that 
+	*@param Object the object to invoke the get method for that
 	*particular property.
 	*@return VariantData the value of the given property for that object (source)
 	*/
@@ -172,7 +148,7 @@ public:
 	*sets a value on an object.
 	*/
 	virtual void set( Object* source, VariantData* value ) = 0;
-	
+
 	virtual String toString(){
 		String result;
 		VariantData* val = get();
@@ -187,9 +163,9 @@ public:
 
 	/**
 	*sets the source for the Property instance.
-	*@param Object the source object the property instance is 
+	*@param Object the source object the property instance is
 	*associated with. get() and set() calls will be performed
-	*on this source object. 
+	*on this source object.
 	*/
 	void setSource( Object* source ){
 		source_ = source;
@@ -203,9 +179,9 @@ public:
 	Object* getSource(){
 		return source_;
 	}
-	
+
 	/**
-	*returns a VariandData object that represents the value of this 
+	*returns a VariandData object that represents the value of this
 	*property on the source object that was specified in the setSource()
 	*method.
 	*/
@@ -219,7 +195,7 @@ public:
 	};
 
 	/**
-	*sets the value specified in the VariantData object passed in 
+	*sets the value specified in the VariantData object passed in
 	*on the source obejct that was specified in the setSource()
 	*method.
 	*/
@@ -230,7 +206,7 @@ public:
 	};
 
 	/**
-	*calls the value_'s setFromString method which converts the 
+	*calls the value_'s setFromString method which converts the
 	*string into the right type and then calls set()
 	*/
 	virtual void set( Object* source, const String& value ){
@@ -239,7 +215,7 @@ public:
 	};
 
 	/**
-	*convenience method for calling set on propertys that have their 
+	*convenience method for calling set on propertys that have their
 	*source assigned to a valid pointer.
 	*/
 	void set( const String& value ){
@@ -261,28 +237,28 @@ public:
 	*returns whether or not the property collection has more elements
 	*/
 	virtual bool hasMoreElements( Object* source ){
-		return false;	
+		return false;
 	};
 
 	/**
-	*returns the next element in the collection, currently only forward 
+	*returns the next element in the collection, currently only forward
 	*iterating. Also no support for getting an item from an index
 	*/
 	virtual VariantData* nextElement( Object* source ){
-		return NULL;	
-	}; 
+		return NULL;
+	};
 
 	/**
-	*We can't call get() to grab the collection directly, since 
-	*an Enumerator is a templated class, and this point we 
+	*We can't call get() to grab the collection directly, since
+	*an Enumerator is a templated class, and this point we
 	*don't know the template type. So instead, we call startCollection()
 	*to invoke the some getXXX function that returns an enumerator.
 	*This will mean that derived classes will now have the enumerator
-	*and can start calling methods on it. The base class implementation 
+	*and can start calling methods on it. The base class implementation
 	*does nothing.
 	*/
 	virtual void startCollection( Object* source ){
-		//no-op	
+		//no-op
 	};
 
 	void startCollection(){
@@ -298,11 +274,11 @@ public:
 	};
 
 	virtual void add( Object* source, VariantData* value ) {
-		//no-op	
+		//no-op
 	};
 
 	virtual void insert( Object* source, const unsigned long& index, VariantData* value ){
-		//no-op	
+		//no-op
 	};
 
 	void insert( const unsigned long& index, VariantData* value ){
@@ -312,7 +288,7 @@ public:
 	};
 
 	virtual void remove( Object* source, VariantData* value ){
-		//no-op	
+		//no-op
 	};
 
 	void remove( VariantData* value ){
@@ -322,7 +298,7 @@ public:
 	};
 
 	virtual void remove( Object* source, const unsigned long& index ){
-		//no-op	
+		//no-op
 	}
 
 	void remove( const unsigned long& index ){
@@ -340,10 +316,10 @@ public:
 	}
 
 	DELEGATE( PropertyChanged )
-	
+
 	/**
 	*returns whether or not the property is "bound" to an object.
-	*"Bound" properties cause a onPropertyChanged() method to 
+	*"Bound" properties cause a onPropertyChanged() method to
 	*be fired in any listeners whenever the property's set() method
 	*is called
 	*/
@@ -356,7 +332,7 @@ public:
 	};
 
 protected:
-	VariantData value_;	
+	VariantData value_;
 	bool isCollection_;
 	bool isReadOnly_;
 private:
@@ -376,51 +352,51 @@ public :
 	Typedef for a getter function for returning a delegate
 	*/
 	typedef Delegate& (Object::*DelegateMethod)(void);
-	
+
 	typedef void (Object::*EventHandlerMethod)(Event*);
 
 
 	EventProperty( const String& eventClassName, const String& handlerClassName,
 					const String& delegateName, DelegateMethod delegateMethod ){
 		eventClassName_ = eventClassName;
-		handlerClassName_ = handlerClassName;	
+		handlerClassName_ = handlerClassName;
 		delegateName_ = delegateName;
 		source_ = NULL;
 		delegateMethod_ = delegateMethod;
 	};
 
 
-	virtual ~EventProperty(){};	
-	
+	virtual ~EventProperty(){};
+
 	String getEventClassName(){
-		return eventClassName_;	
+		return eventClassName_;
 	};
-	
+
 	String getHandlerClassName(){
 		return handlerClassName_;
 	};
-	
+
 	String getDelegateName() {
 		return delegateName_;
 	}
-	
+
 	virtual bool isAbstract()  = 0;
 
 	virtual EventProperty* clone() = 0;
 
 	/**
 	creates a new instance of an EventHandler to use
-	@param Object the source for the event handler. If the 
+	@param Object the source for the event handler. If the
 	source doesn't derive directly or indirectly from ObjectWithEvents
-	then the event handler will not be added to it. If this 
+	then the event handler will not be added to it. If this
 	is the case it will be the callers responsibility to clean
 	up the memory for the returned EventHandler instance
-	@param EventHandlerMethod the method that will be called 
+	@param EventHandlerMethod the method that will be called
 	when the EventHandler's invoke() method is called
-	@param String the name of the event handler. If this is 
+	@param String the name of the event handler. If this is
 	empty then the event handler is not added to source
-	@return EventHandler a new event handler that wraps the 
-	passed in method, and optionally attached to source 
+	@return EventHandler a new event handler that wraps the
+	passed in method, and optionally attached to source
 	*/
 	virtual EventHandler* createEventHandler( Object* source, EventHandlerMethod method, const String& name ) = 0;
 
@@ -444,7 +420,7 @@ public :
 	}
 protected:
 	String eventClassName_;
-	String handlerClassName_;	
+	String handlerClassName_;
 	String delegateName_;
 	Object* source_;
 	DelegateMethod delegateMethod_;
@@ -454,7 +430,7 @@ protected:
 class FRAMEWORK_API AbstractEventProperty : public EventProperty {
 public:
 	AbstractEventProperty( const String& eventClassName, const String& handlerClassName,
-			const String& delegateName ): 
+			const String& delegateName ):
 			EventProperty(eventClassName,handlerClassName,delegateName,NULL)	{}
 
 	virtual EventHandler* createEventHandler( Object* source, EventHandlerMethod method, const String& name ) {
@@ -474,10 +450,12 @@ public:
 }; //end of namespace VCF
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -639,7 +617,6 @@ public:
 *to facilitate change tracking
 *
 */
-
 
 
 #endif // _VCF_PROPERTY_H__

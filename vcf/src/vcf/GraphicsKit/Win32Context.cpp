@@ -1,33 +1,11 @@
+//Win32Context.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32Context.cpp
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
@@ -44,7 +22,7 @@ Win32Context::Win32Context()
 Win32Context::Win32Context( const unsigned long& width, const unsigned long& height )
 {
 	init();
-	
+
 	HDC desktopDC = ::GetDC( ::GetDesktopWindow() );
 
 	dc_ = ::CreateCompatibleDC( desktopDC );
@@ -56,7 +34,7 @@ Win32Context::Win32Context( const unsigned long& width, const unsigned long& hei
 	ReleaseDC( ::GetDesktopWindow(), desktopDC );
 	isMemoryCtx_ = true;
 	if ( NULL == memBitmap_ ){
-		//throw exception 
+		//throw exception
 		throw RuntimeException( MAKE_ERROR_MSG_2("Unable to create memory bitmap for win32 context") );
 	}
 }
@@ -75,7 +53,7 @@ Win32Context::~Win32Context()
 
 	if ( NULL != memBitmap_ ){
 		::SelectObject( dc_, originalBitmap_ );
-		::DeleteObject( memBitmap_ );		
+		::DeleteObject( memBitmap_ );
 	}
 
 	if ( true == isMemoryCtx_ ) {
@@ -94,7 +72,7 @@ void Win32Context::init()
 	dc_ = NULL;
 	clipRGN_ = NULL;
 	context_ = NULL;
-	memBitmap_ = NULL;	
+	memBitmap_ = NULL;
 	originalBitmap_ = NULL;
 
 	pathStarted_ = false;
@@ -132,7 +110,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 			oldPalette = ::SelectPalette( dc_, win32image->palette_, FALSE );
 			::RealizePalette( dc_ );
 		}
-		
+
 		BITMAPINFO bmpInfo;
 		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
 		//memset( &bmpInfo.bmiHeader, 0, sizeof (BITMAPINFOHEADER) );
@@ -140,24 +118,24 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		bmpInfo.bmiHeader.biWidth = (long)imageBounds->getWidth();
 		bmpInfo.bmiHeader.biHeight = (long)-imageBounds->getHeight(); // Win32 DIB are upside down - do this to filp it over
 		bmpInfo.bmiHeader.biPlanes = 1;
-		bmpInfo.bmiHeader.biBitCount = 32; 
+		bmpInfo.bmiHeader.biBitCount = 32;
 		bmpInfo.bmiHeader.biCompression = BI_RGB;
 
 		bmpInfo.bmiHeader.biSizeImage = (bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
 
-		
-		
+
+
 		SysPixelType* bmpBuf = NULL;
 		SysPixelType* tmpBmpBuf = NULL;
 
 
-		HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL ); 
+		HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
 
 
 		SysPixelType* imageBuf = image->getImageBits()->pixels_;
 
 		if ( NULL != hbmp ) {
-			
+
 			int incr = (long)((imageBounds->top_ * image->getWidth()) + imageBounds->left_);
 			imageBuf += incr;
 			tmpBmpBuf = bmpBuf;
@@ -166,41 +144,41 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 			int s = (int)imageBounds->top_;
 			int e = (int)imageBounds->bottom_;
 			for (int y1=s;y1<e;y1++) {
-				
-				memcpy( tmpBmpBuf, imageBuf, wIncr*4 );	 
+
+				memcpy( tmpBmpBuf, imageBuf, wIncr*4 );
 
 				tmpBmpBuf += wIncr;
 				imageBuf += imgWidth;
 			}
-			
+
 			if ( true == image->isTransparent() )  {
 				Color* imageTransColor = image->getTransparencyColor();
-				COLORREF transColor = RGB( imageTransColor->getRed()*255, 
-					imageTransColor->getGreen()*255, 
+				COLORREF transColor = RGB( imageTransColor->getRed()*255,
+					imageTransColor->getGreen()*255,
 					imageTransColor->getBlue()*255 );
-				
+
 				Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
 			}
 			else {
-				SetDIBitsToDevice( dc_, 
-									(long)x, 
-									(long)y, 
-									(long)imageBounds->getWidth(), 
-									(long)imageBounds->getHeight(), 
-									0, 
-									0, 
-									0, 
+				SetDIBitsToDevice( dc_,
+									(long)x,
+									(long)y,
+									(long)imageBounds->getWidth(),
+									(long)imageBounds->getHeight(),
+									0,
+									0,
+									0,
 									(long)imageBounds->getHeight(),
 									bmpBuf,
-									&bmpInfo, 
-									DIB_RGB_COLORS );				
+									&bmpInfo,
+									DIB_RGB_COLORS );
 			}
-			
+
 			DeleteObject( hbmp );
 		}
-		
+
 		if ( NULL != oldPalette ){
-			::SelectPalette( dc_, oldPalette, FALSE );			
+			::SelectPalette( dc_, oldPalette, FALSE );
 		}
 
 	}
@@ -223,25 +201,25 @@ void Win32Context::rectangle(const double & x1, const double & y1, const double 
 
 void Win32Context::roundRect(const double & x1, const double & y1, const double & x2, const double & y2,
 							 const double & xc, const double & yc)
-{	
+{
 	int fixVal = 0;
 	if ( true == inFillPath_ ){
 		fixVal = 1;
 	}
 
-	::RoundRect( dc_, (long)x1, (long)y1, (long)x2 + fixVal, (long)y2 + fixVal, (long)xc, (long)yc );	
+	::RoundRect( dc_, (long)x1, (long)y1, (long)x2 + fixVal, (long)y2 + fixVal, (long)xc, (long)yc );
 }
 
 void Win32Context::ellipse(const double & x1, const double & y1, const double & x2, const double & y2)
 {
-	
-	pathStarted_ = true;	
+
+	pathStarted_ = true;
 	//swap out the values to ensure they are normalized since windows is brain dead about this
 	double ax1 = x1;
 	double ay1 = y1;
 	double ax2 = x2;
 	double ay2 = y2;
-	
+
 	double tmp = x2;
 	if ( ax1 > ax2 ) {
 		ax2 = ax1;
@@ -252,26 +230,26 @@ void Win32Context::ellipse(const double & x1, const double & y1, const double & 
 		ay2 = ay1;
 		ay1 = tmp;
 	}
-	
+
 	int fixVal = 0;
 	if ( true == inFillPath_ ){
 		fixVal = 1;
 	}
-	
+
 	::Ellipse( dc_, (long)ax1, (long)ay1, (long)(ax2 + fixVal), (long)(ay2 + fixVal) );
 }
 
-void Win32Context::arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
+void Win32Context::arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
 					   const double & y3, const double & x4, const double & y4)
 {
-	
-	pathStarted_ = true;	
+
+	pathStarted_ = true;
 	//swap out the values to ensure they are normalized since windows is brain dead about this
 	double ax1 = x1;
 	double ay1 = y1;
 	double ax2 = x2;
 	double ay2 = y2;
-	
+
 	double tmp = x2;
 	if ( ax1 > ax2 ) {
 		ax2 = ax1;
@@ -282,29 +260,29 @@ void Win32Context::arc(const double & x1, const double & y1, const double & x2, 
 		ay2 = ay1;
 		ay1 = tmp;
 	}
-	
+
 	int fixVal = 0;
 	if ( true == inFillPath_ ){
 		fixVal = 1;
 	}
 
-	::Arc( dc_, (long)ax1, (long)ay1, (long)ax2 + fixVal, (long)ay2 + fixVal, 
+	::Arc( dc_, (long)ax1, (long)ay1, (long)ax2 + fixVal, (long)ay2 + fixVal,
 				(long)x3, (long)y3, (long)x4, (long)y4 );
 }
 
 /*
-void Win32Context::pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
+void Win32Context::pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
 					   const double & y3, const double & x4, const double & y4)
 {
-	
+
 	testBuffer();
-	pathStarted_ = true;	
+	pathStarted_ = true;
 	//swap out the values to ensure they are normalized since windows is brain dead about this
 	double ax1 = x1;
 	double ay1 = y1;
 	double ax2 = x2;
 	double ay2 = y2;
-	
+
 	double tmp = x2;
 	if ( ax1 > ax2 ) {
 		ax2 = ax1;
@@ -316,43 +294,43 @@ void Win32Context::pie(const double & x1, const double & y1, const double & x2, 
 		ay1 = tmp;
 	}
 	PointOperation* newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;		
+	newPointOp->primitive = PRIMITIVE_PIE;
 	newPointOp->x = ax1;
 	newPointOp->y = ay1;
 	pathOperations_.push_back( newPointOp );
-	
+
 	newPointOp = new PointOperation();
 	newPointOp->primitive = PRIMITIVE_PIE;
 	newPointOp->x = ax2;
 	newPointOp->y = ay2;
 	pathOperations_.push_back( newPointOp );
-	
+
 	newPointOp = new PointOperation();
 	newPointOp->primitive = PRIMITIVE_PIE;
 	newPointOp->x = x3;
 	newPointOp->y = y3;
 	pathOperations_.push_back( newPointOp );
-	
+
 	newPointOp = new PointOperation();
 	newPointOp->primitive = PRIMITIVE_PIE;
 	newPointOp->x = x4;
 	newPointOp->y = y4;
 	pathOperations_.push_back( newPointOp );
-	
+
 }
 
-void Win32Context::chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
+void Win32Context::chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
 						 const double & y3, const double & x4, const double & y4)
 {
-	
+
 	testBuffer();
-	pathStarted_ = true;	
+	pathStarted_ = true;
 	//swap out the values to ensure they are normalized since windows is brain dead about this
 	double ax1 = x1;
 	double ay1 = y1;
 	double ax2 = x2;
 	double ay2 = y2;
-	
+
 	double tmp = x2;
 	if ( ax1 > ax2 ) {
 		ax2 = ax1;
@@ -364,29 +342,29 @@ void Win32Context::chord(const double & x1, const double & y1, const double & x2
 		ay1 = tmp;
 	}
 	PointOperation* newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;		
+	newPointOp->primitive = PRIMITIVE_CHORD;
 	newPointOp->x = ax1;
 	newPointOp->y = ay1;
 	pathOperations_.push_back( newPointOp );
-	
+
 	newPointOp = new PointOperation();
 	newPointOp->primitive = PRIMITIVE_CHORD;
 	newPointOp->x = ax2;
 	newPointOp->y = ay2;
 	pathOperations_.push_back( newPointOp );
-	
+
 	newPointOp = new PointOperation();
 	newPointOp->primitive = PRIMITIVE_CHORD;
 	newPointOp->x = x3;
 	newPointOp->y = y3;
 	pathOperations_.push_back( newPointOp );
-	
+
 	newPointOp = new PointOperation();
 	newPointOp->primitive = PRIMITIVE_CHORD;
 	newPointOp->x = x4;
 	newPointOp->y = y4;
 	pathOperations_.push_back( newPointOp );
-	
+
 }
 */
 
@@ -408,8 +386,8 @@ void Win32Context::polyline( const std::vector<Point>& pts)
 	}
 	else{
 		::Polyline( dc_, polyPts, pts.size() );
-	}					
-	
+	}
+
 	delete[] polyPts;
 }
 
@@ -419,16 +397,16 @@ void Win32Context::curve(const double & x1, const double & y1, const double & x2
 	POINT bezPts[4];
 	memset( &bezPts[0], 0, sizeof(bezPts[0]) * 4 );
 
-	bezPts[0].x = (long)x1;	
+	bezPts[0].x = (long)x1;
 	bezPts[0].y = (long)y1;
 
-	bezPts[1].x = (long)x2;	
+	bezPts[1].x = (long)x2;
 	bezPts[1].y = (long)y2;
-	
-	bezPts[2].x = (long)x3;	
+
+	bezPts[2].x = (long)x3;
 	bezPts[2].y = (long)y3;
-	
-	bezPts[3].x = (long)x4;	
+
+	bezPts[3].x = (long)x4;
 	bezPts[3].y = (long)y4;
 
 	if ( inFillPath_ ){
@@ -491,8 +469,8 @@ Point Win32Context::getOrigin()
 	return origin_;
 }
 
-void Win32Context::copyContext( const Rect& sourceRect, 
-								const Rect& destRect, 
+void Win32Context::copyContext( const Rect& sourceRect,
+								const Rect& destRect,
 								ContextPeer* sourceContext )
 {
 	if ( NULL != sourceContext ){
@@ -500,10 +478,10 @@ void Win32Context::copyContext( const Rect& sourceRect,
 
 		HDC dc = (HDC)sourceContext->getContextID();
 
-		
 
-		::BitBlt( dc_, (long)destRect.left_, (long)destRect.top_, 
-					destRect.getWidth(), destRect.getHeight(), 
+
+		::BitBlt( dc_, (long)destRect.left_, (long)destRect.top_,
+					destRect.getWidth(), destRect.getHeight(),
 					dc, sourceRect.left_, sourceRect.top_, SRCCOPY );
 
 
@@ -543,20 +521,20 @@ void Win32Context::setContextID( const unsigned long& handle )
 	dc_ = (HDC)handle;
 }
 
-    
+
 void Win32Context::textAt( const Rect& bounds, const String& text, const long& drawOptions )
 {
 	//checkHandle();
 	if ( NULL == context_ ){
 		//throw exception !
 	}
-	
+
 
 	UINT textAlignment = (alignToBaseline_) ? TA_BASELINE | TA_LEFT : TA_TOP | TA_LEFT ;
 	UINT oldTextAlignment = ::SetTextAlign( dc_, textAlignment );
 
-	
-	
+
+
 	RECT r = {0,0,0,0};
 	r.left = (long)bounds.left_;
 	r.right = (long)bounds.right_;
@@ -595,10 +573,10 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	DRAWTEXTPARAMS extraParams = {0};
 	extraParams.cbSize = sizeof(DRAWTEXTPARAMS);
 	*/
-	
+
 	/*
 	*determine the size of the text and adjust the rect accordingly.
-	*can't use DrawText to figure out the rect because it doesn't 
+	*can't use DrawText to figure out the rect because it doesn't
 	*calc the bounds correctly.
 	*/
 	//SIZE textSize = {0};
@@ -611,27 +589,27 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 		VCFChar* textToDraw = new VCFChar[text.size()+1];
 		memset( textToDraw, 0, (text.size()+1)*sizeof(VCFChar) );
 		text.copy( textToDraw, text.size() );
-		DrawTextExW( dc_, textToDraw, text.size(), &r, formatOptions, NULL ); 
+		DrawTextExW( dc_, textToDraw, text.size(), &r, formatOptions, NULL );
 
 		//clean up after ourselves
-		delete[] textToDraw;	
+		delete[] textToDraw;
 	}
 	else {
 		AnsiString tmpText = text;
 		char* textToDraw = new char[tmpText.size()+1];
 		memset( textToDraw, 0, tmpText.size()+1 );
 		text.copy( textToDraw, tmpText.size() );
-		DrawTextExA( dc_, textToDraw, tmpText.size(), &r, formatOptions, NULL ); 
+		DrawTextExA( dc_, textToDraw, tmpText.size(), &r, formatOptions, NULL );
 
 		//clean up after ourselves
-		delete[] textToDraw;	
+		delete[] textToDraw;
 	}
 
-	
-	
-	
 
-	//releaseHandle();	
+
+
+
+	//releaseHandle();
 }
 
 bool Win32Context::isXORModeOn()
@@ -656,15 +634,15 @@ double Win32Context::getTextWidth( const String& text )
 		//throw exception
 	}
 	FontPeer* fontImpl = ctxFont->getFontPeer();
-	
+
 	if ( NULL == fontImpl ){
 		//throw exception
 	}
 
 
-	
 
-	
+
+
 	HFONT font = NULL;
 
 	if ( System::isUnicodeEnabled() ) {
@@ -677,11 +655,11 @@ double Win32Context::getTextWidth( const String& text )
 
 		font = CreateFontIndirectA( logFont );
 	}
-	
+
 
 	HFONT oldFont = (HFONT)::SelectObject( dc_, font );
 
-	SIZE textSize = {0,0};	
+	SIZE textSize = {0,0};
 
 	if ( String::npos != text.find( "\t" ) ) {
 		RECT r = {0,0,0,0};
@@ -704,7 +682,7 @@ double Win32Context::getTextWidth( const String& text )
 		else {
 			GetTextExtentPoint32A( dc_, text.ansi_c_str(), text.size(), &textSize );
 		}
-		
+
 		result = textSize.cx;
 	}
 
@@ -725,7 +703,7 @@ double Win32Context::getTextHeight( const String& text )
 		//throw exception
 	}
 	FontPeer* fontImpl = ctxFont->getFontPeer();
-	
+
 	if ( NULL == fontImpl ){
 		//throw exception
 	}
@@ -741,20 +719,20 @@ double Win32Context::getTextHeight( const String& text )
 		LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
 
 		font = CreateFontIndirectA( logFont );
-	}	
-	
+	}
+
 
 	HFONT oldFont = (HFONT)::SelectObject( dc_, font );
 
 	SIZE textSize = {0,0};
-	
+
 	if ( System::isUnicodeEnabled() ) {
 		GetTextExtentPoint32W( dc_, text.c_str(), text.size(), &textSize );
 	}
 	else {
 		GetTextExtentPoint32A( dc_, text.ansi_c_str(), text.size(), &textSize );
 	}
-	
+
 
 	::SelectObject( dc_, oldFont );
 	::DeleteObject( font );
@@ -774,9 +752,9 @@ bool Win32Context::isTextAlignedToBaseline()
 }
 
 /**
-*Utility function to draw a transparent bitmap from MSDN 
+*Utility function to draw a transparent bitmap from MSDN
 *HOWTO: Drawing Transparent Bitmaps
-*Article ID: Q79212  
+*Article ID: Q79212
 *JC: This is an awfult lot of shit to just draw a transparent bmp.
 *Maybe this will be revisited ???
 */
@@ -789,89 +767,89 @@ void Win32Context::drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
 	HBITMAP    bmBackOld, bmObjectOld, bmMemOld, bmSaveOld;
 	HDC        hdcMem, hdcBack, hdcObject, hdcTemp, hdcSave;
 	POINT      ptSize;
-	
+
 	hdcTemp = CreateCompatibleDC( NULL );//hdc);
 	SelectObject(hdcTemp, hBitmap);   // Select the bitmap
-	
+
 	GetObject(hBitmap, sizeof(BITMAP), (LPSTR)&bm);
 	ptSize.x = bm.bmWidth;            // Get width of bitmap
 	ptSize.y = bm.bmHeight;           // Get height of bitmap
 	DPtoLP(hdcTemp, &ptSize, 1);      // Convert from device
 	// to logical points
-	
+
 	// Create some DCs to hold temporary data.
 	hdcBack   = CreateCompatibleDC(hdc);
 	hdcObject = CreateCompatibleDC(hdc);
 	hdcMem    = CreateCompatibleDC(hdc);
 	hdcSave   = CreateCompatibleDC(hdc);
-	
+
 	// Create a bitmap for each DC. DCs are required for a number of
 	// GDI functions.
-	
+
 	// Monochrome DC
 	bmAndBack   = CreateBitmap(ptSize.x, ptSize.y, 1, 1, NULL);
-	
+
 	// Monochrome DC
 	bmAndObject = CreateBitmap(ptSize.x, ptSize.y, 1, 1, NULL);
-	
+
 	bmAndMem    = CreateCompatibleBitmap(hdc, ptSize.x, ptSize.y);
 	bmSave      = CreateCompatibleBitmap(hdc, ptSize.x, ptSize.y);
-	
+
 	// Each DC must select a bitmap object to store pixel data.
 	bmBackOld   = (HBITMAP)SelectObject(hdcBack, bmAndBack);
 	bmObjectOld = (HBITMAP)SelectObject(hdcObject, bmAndObject);
 	bmMemOld    = (HBITMAP)SelectObject(hdcMem, bmAndMem);
 	bmSaveOld   = (HBITMAP)SelectObject(hdcSave, bmSave);
-	
+
 	// Set proper mapping mode.
 	SetMapMode(hdcTemp, GetMapMode(hdc));
-	
+
 	// Save the bitmap sent here, because it will be overwritten.
 	BitBlt(hdcSave, 0, 0, ptSize.x, ptSize.y, hdcTemp, 0, 0, SRCCOPY);
-	
+
 	// Set the background color of the source DC to the color.
 	// contained in the parts of the bitmap that should be transparent
 	cColor = SetBkColor(hdcTemp, cTransparentColor);
-	
+
 	// Create the object mask for the bitmap by performing a BitBlt
 	// from the source bitmap to a monochrome bitmap.
 	BitBlt(hdcObject, 0, 0, ptSize.x, ptSize.y, hdcTemp, 0, 0,
 		SRCCOPY);
-	
+
 	// Set the background color of the source DC back to the original
 	// color.
 	SetBkColor(hdcTemp, cColor);
-	
+
 	// Create the inverse of the object mask.
 	BitBlt(hdcBack, 0, 0, ptSize.x, ptSize.y, hdcObject, 0, 0,
 		NOTSRCCOPY);
-	
+
 	// Copy the background of the main DC to the destination.
 	BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdc, xStart, yStart,
 		SRCCOPY);
-	
+
 	// Mask out the places where the bitmap will be placed.
 	BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdcObject, 0, 0, SRCAND);
-	
+
 	// Mask out the transparent colored pixels on the bitmap.
 	BitBlt(hdcTemp, 0, 0, ptSize.x, ptSize.y, hdcBack, 0, 0, SRCAND);
-	
+
 	// XOR the bitmap with the background on the destination DC.
 	BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdcTemp, 0, 0, SRCPAINT);
-	
+
 	// Copy the destination to the screen.
 	BitBlt(hdc, xStart, yStart, ptSize.x, ptSize.y, hdcMem, 0, 0,
 		SRCCOPY);
-	
+
 	// Place the original bitmap back into the bitmap sent here.
 	BitBlt(hdcTemp, 0, 0, ptSize.x, ptSize.y, hdcSave, 0, 0, SRCCOPY);
-	
+
 	// Delete the memory bitmaps.
 	DeleteObject(SelectObject(hdcBack, bmBackOld));
 	DeleteObject(SelectObject(hdcObject, bmObjectOld));
 	DeleteObject(SelectObject(hdcMem, bmMemOld));
 	DeleteObject(SelectObject(hdcSave, bmSaveOld));
-	
+
 	// Delete the memory DCs.
 	DeleteDC(hdcMem);
 	DeleteDC(hdcBack);
@@ -880,7 +858,7 @@ void Win32Context::drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
 	DeleteDC(hdcTemp);
 }
 
-void Win32Context::drawSelectionRect( Rect* rect ) 
+void Win32Context::drawSelectionRect( Rect* rect )
 {
 	checkHandle();
 
@@ -905,7 +883,7 @@ void Win32Context::drawButtonRect( Rect* rect, const bool& isPressed )
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
 	UINT state =  isPressed ?  DFCS_BUTTONPUSH | DFCS_PUSHED : DFCS_BUTTONPUSH;
-	
+
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
 
 	releaseHandle();
@@ -921,7 +899,7 @@ void Win32Context::drawCheckboxRect( Rect* rect, const bool& isPressed )
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
 	UINT state =  isPressed ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
-	
+
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
 
 	releaseHandle();
@@ -937,7 +915,7 @@ void Win32Context::drawRadioButtonRect( Rect* rect, const bool& isPressed )
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
 	UINT state =  isPressed ?  DFCS_BUTTONRADIO | DFCS_CHECKED : DFCS_BUTTONRADIO;
-	
+
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
 	if ( !err ) {
 		err = GetLastError();
@@ -955,8 +933,8 @@ void Win32Context::drawVerticalScrollButtonRect( Rect* rect, const bool& topButt
 	r.top = (long)rect->top_;
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
-	UINT state =  0;	
-	
+	UINT state =  0;
+
 	if ( true == topButton ) {
 		state |= DFCS_SCROLLUP;
 	}
@@ -967,7 +945,7 @@ void Win32Context::drawVerticalScrollButtonRect( Rect* rect, const bool& topButt
 	if ( true == isPressed ) {
 		state |= DFCS_PUSHED;
 	}
-	
+
 	int err = ::DrawFrameControl( dc_, &r, DFC_SCROLL, state );
 
 	releaseHandle();
@@ -982,8 +960,8 @@ void Win32Context::drawHorizontalScrollButtonRect( Rect* rect, const bool& leftB
 	r.top = (long)rect->top_;
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
-	UINT state =  0;	
-	
+	UINT state =  0;
+
 	if ( true == leftButton ) {
 		state |= DFCS_SCROLLLEFT;
 	}
@@ -994,7 +972,7 @@ void Win32Context::drawHorizontalScrollButtonRect( Rect* rect, const bool& leftB
 	if ( true == isPressed ) {
 		state |= DFCS_PUSHED;
 	}
-	
+
 	int err = ::DrawFrameControl( dc_, &r, DFC_SCROLL, state );
 
 	releaseHandle();
@@ -1005,19 +983,19 @@ void Win32Context::setClippingRect( Rect* clipRect )
 	checkHandle();
 
 	if ( NULL != clipRGN_ ) {
-		::DeleteObject( clipRGN_ );		
+		::DeleteObject( clipRGN_ );
 	}
 
 	clipRGN_ = NULL;
-	
-	if ( NULL != clipRect ) {		
-		
+
+	if ( NULL != clipRect ) {
+
 		clipRGN_ = CreateRectRgn( (long)clipRect->left_, (long)clipRect->top_, (long)clipRect->right_, (long)clipRect->bottom_ );
 	}
 
-	
+
 	::SelectClipRgn( dc_, clipRGN_ );
-	
+
 	releaseHandle();
 }
 
@@ -1026,17 +1004,17 @@ void Win32Context::setClippingPath( Path* clippingPath )
 	checkHandle();
 
 	if ( NULL != clipRGN_ ) {
-		::DeleteObject( clipRGN_ );		
+		::DeleteObject( clipRGN_ );
 	}
 
 	clipRGN_ = NULL;
-	
+
 	if ( NULL != clippingPath ) {
 		::BeginPath( dc_ );
 
 		Matrix2D* currentXFrm = context_->getCurrentTransform();
 		Enumerator<PathPoint>* points = clippingPath->getPoints( currentXFrm );
-		
+
 		while ( true == points->hasMoreElements() ) {
 			PathPoint& pt = points->nextElement();
 			switch ( pt.type_ ){
@@ -1044,22 +1022,22 @@ void Win32Context::setClippingPath( Path* clippingPath )
 					MoveToEx( dc_, (long)pt.point_.x_, (long)pt.point_.y_, NULL );
 				}
 				break;
-				
+
 				case PathPoint::ptLineTo: {
-					LineTo( dc_, (long)pt.point_.x_, (long)pt.point_.y_ );					
+					LineTo( dc_, (long)pt.point_.x_, (long)pt.point_.y_ );
 				}
 				break;
-				
+
 				case PathPoint::ptQuadTo: {
-				
+
 				}
 				break;
-				
+
 				case PathPoint::ptCubicTo: {
-				
+
 				}
 				break;
-				
+
 				case PathPoint::ptClose: {
 					LineTo( dc_, (long)pt.point_.x_, (long)pt.point_.y_ );
 				}
@@ -1067,15 +1045,15 @@ void Win32Context::setClippingPath( Path* clippingPath )
 			}
 
 		}
-		
+
 		::EndPath( dc_ );
-		
+
 		clipRGN_ = ::PathToRegion( dc_ );
 	}
 
-	
+
 	::SelectClipRgn( dc_, clipRGN_ );
-	
+
 	releaseHandle();
 }
 
@@ -1099,8 +1077,8 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 	if ( sliderInfo.tickCount <= 0 ) {
 		return;
 	}
-	
-	
+
+
 	double range = sliderInfo.max - sliderInfo.min;
 
 	context_->setColor( Color::getColor( "black" ) );
@@ -1112,12 +1090,12 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 	else {
 		incr = (1.0/(double)(sliderInfo.tickCount)) * rect->getWidth();
 	}
-	
+
 	double y = rect->top_;
 	double x = rect->left_;
 
 	for (long i=0;i<=sliderInfo.tickCount;i++ ) {
-		if ( sliderInfo.vertical ) {			
+		if ( sliderInfo.vertical ) {
 
 			if ( sliderInfo.topLeftTicks ) {
 				x = rect->left_;
@@ -1130,7 +1108,7 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 
 			if ( sliderInfo.bottomRightTicks ) {
 				x = rect->right_;
-				double x2 = x + 5;				
+				double x2 = x + 5;
 
 				context_->moveTo( x, y );
 				context_->lineTo( x2, y );
@@ -1167,7 +1145,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 	Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 	Color faceTmp = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
 	Color* black = Color::getColor("black");
-	
+
 	//
 
 	if ( (!sliderInfo.enabled) || sliderInfo.pressed ) {
@@ -1179,7 +1157,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 	Color* face = &faceTmp;
 
 
-	if ( sliderInfo.vertical ) {		
+	if ( sliderInfo.vertical ) {
 
 		int x1 = rect->left_;
 		int x2 = rect->right_;
@@ -1187,13 +1165,13 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 		int y2 = rect->bottom_;
 
 
-		if ( sliderInfo.bottomRightTicks && sliderInfo.topLeftTicks ) {			
+		if ( sliderInfo.bottomRightTicks && sliderInfo.topLeftTicks ) {
 			context_->setColor( face );
 			context_->rectangle( rect );
 			context_->fillPath();
 
 			context_->setColor( highlite );
-			
+
 			context_->moveTo( x2, y1 );
 			context_->lineTo( x1, y1 );
 			context_->lineTo( x1, y2 );
@@ -1223,18 +1201,18 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 				pts[3] = Point(xmid,y2);
 				pts[4] = Point(x2,y2);
 				pts[5] = Point(x2,y1);
-				
+
 				context_->setColor( face );
 				context_->polyline( pts );
 				context_->fillPath();
 
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( x2, y1 );
 				context_->lineTo( xmid, y1 );
 				context_->lineTo( x1, ymid );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
 
 				context_->moveTo( x1, ymid );
@@ -1263,19 +1241,19 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 				pts[3] = Point(xmid,y2);
 				pts[4] = Point(x1,y2);
 				pts[5] = Point(x1,y1);
-				
+
 				context_->setColor( face );
 				context_->polyline( pts );
 				context_->fillPath();
 
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( x1, y2 );
 				context_->lineTo( x1, y1 );
 				context_->lineTo( xmid, y1 );
 				context_->lineTo( x2, ymid );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
 
 				context_->moveTo( x2, ymid );
@@ -1293,7 +1271,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 		}
 	}
 	else {
-		
+
 
 		int x1 = rect->left_;
 		int x2 = rect->right_;
@@ -1301,13 +1279,13 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 		int y2 = rect->bottom_;
 
 
-		if ( sliderInfo.bottomRightTicks && sliderInfo.topLeftTicks ) {			
+		if ( sliderInfo.bottomRightTicks && sliderInfo.topLeftTicks ) {
 			context_->setColor( face );
 			context_->rectangle( rect );
 			context_->fillPath();
 
 			context_->setColor( highlite );
-			
+
 			context_->moveTo( x2, y1 );
 			context_->lineTo( x1, y1 );
 			context_->lineTo( x1, y2 );
@@ -1327,8 +1305,8 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 		}
 		else {
 			if ( sliderInfo.topLeftTicks ) {
-				
-				
+
+
 				int xmid = x1 + ((x2-x1)/2);
 				int ymid = y1 + ((x2-x1)/2);
 
@@ -1339,39 +1317,39 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 				pts[3] = Point(x2,y2);
 				pts[4] = Point(x2,ymid);
 				pts[5] = Point(xmid,y1);
-				
+
 				context_->setColor( face );
 				context_->polyline( pts );
 				context_->fillPath();
-				
-				
+
+
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( xmid, y1 );
 				context_->lineTo( x1, ymid );
 				context_->lineTo( x1, y2 );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
-				
+
 				context_->moveTo( x1, y2 );
 				context_->lineTo( x2, y2 );
 				context_->lineTo( x2, ymid );
 				context_->lineTo( xmid-1, y1-1 );
-				
+
 				context_->strokePath();
-				
+
 				context_->setColor( shadow );
-				
+
 				context_->moveTo( x1+1, y2-1 );
 				context_->lineTo( x2-1, y2-1 );
 				context_->lineTo( x2-1, ymid );
 				context_->lineTo( xmid-1, y1 );
-				
+
 				context_->strokePath();
 			}
 			else if (sliderInfo.bottomRightTicks) {
-				
+
 				int xmid = x1 + ((x2-x1)/2);
 				int ymid = y2 - ((x2-x1)/2);
 
@@ -1382,34 +1360,34 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 				pts[3] = Point(x2,ymid);
 				pts[4] = Point(x2,y1);
 				pts[5] = Point(x1,y1);
-				
+
 				context_->setColor( face );
 				context_->polyline( pts );
 				context_->fillPath();
-				
-				
+
+
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( x2, y1 );
 				context_->lineTo( x1, y1 );
 				context_->lineTo( x1, ymid );
 				context_->lineTo( xmid, y2 );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
-				
+
 				context_->moveTo( xmid, y2 );
 				context_->lineTo( x2, ymid );
 				context_->lineTo( x2, y1-1 );
-				
+
 				context_->strokePath();
-				
+
 				context_->setColor( shadow );
-				
+
 				context_->moveTo( xmid, y2-1 );
 				context_->lineTo( x2-1, ymid );
 				context_->lineTo( x2-1, y1 );
-				
+
 				context_->strokePath();
 			}
 		}
@@ -1417,7 +1395,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 }
 
 void Win32Context::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
-{	
+{
 	Rect tmp = *rect;
 
 	if ( sliderInfo.vertical ) {
@@ -1431,7 +1409,7 @@ void Win32Context::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 		tmp.inflate( 0, 2 );
 	}
 
-	context_->drawEdge( &tmp, GraphicsContext::etAllSides, GraphicsContext::etSunken );	
+	context_->drawEdge( &tmp, GraphicsContext::etAllSides, GraphicsContext::etSunken );
 }
 
 void Win32Context::drawHeader( Rect* rect )
@@ -1444,7 +1422,7 @@ void Win32Context::drawHeader( Rect* rect )
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
 	UINT state =  DFCS_BUTTONPUSH;
-	
+
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
 
 	releaseHandle();
@@ -1502,7 +1480,7 @@ void Win32Context::drawEdge( Rect* rect, const long& edgeSides, const long& edge
 	//flags |= BF_SOFT;// | BF_ADJUST;
 	::DrawEdge( dc_, &r, edge, flags );
 
-	releaseHandle();	
+	releaseHandle();
 }
 
 void Win32Context::drawSizeGripper( Rect* rect )
@@ -1529,12 +1507,12 @@ void Win32Context::drawMenuItemBackground( Rect* rect, const bool& selected )
 bool Win32Context::prepareForDrawing( long drawingOperation )
 {
 	bool result = false;
-	
-	checkHandle();	
+
+	checkHandle();
 
 	inFillPath_ = false;
 	//pathStarted_ = false;
-	
+
 	if ( NULL != dc_ ){
 
 		currentDCState_ = SaveDC( dc_ );
@@ -1555,14 +1533,14 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 
 				logPen.lopnStyle = PS_SOLID;//translateStrokeStyle( currentStroke_.style_ );
 				logPen.lopnWidth.x = (long)context_->getStrokeWidth();
-				
+
 				currentHPen_ = ::CreatePenIndirect( &logPen );
-				
+
 				logBrush.lbColor = 0;
 				logBrush.lbHatch = 0;
 				logBrush.lbStyle = BS_HOLLOW;
-				currentHBrush_ = ::CreateBrushIndirect( &logBrush );				
-				
+				currentHBrush_ = ::CreateBrushIndirect( &logBrush );
+
 				if ( isXORModeOn_ ) {
 					SetROP2( dc_, R2_NOTXORPEN );
 				}
@@ -1574,9 +1552,9 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 
 				logBrush.lbStyle = BS_SOLID;
 				logBrush.lbHatch = BS_NULL;
-				
-				currentHBrush_ = ::CreateBrushIndirect( &logBrush );				
-				
+
+				currentHBrush_ = ::CreateBrushIndirect( &logBrush );
+
 				currentHPen_ = ::CreatePen( PS_NULL, 0, 0 );
 
 				inFillPath_ = true;
@@ -1584,7 +1562,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 			break;
 
 			case GraphicsContext::doText : {
-				
+
 				::SetBkMode( dc_, TRANSPARENT );
 
 				Font* ctxFont = context_->getCurrentFont();
@@ -1592,7 +1570,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 					//throw exception
 				}
 				FontPeer* fontImpl = ctxFont->getFontPeer();
-				
+
 				if ( NULL == fontImpl ){
 					//throw exception
 				}
@@ -1602,18 +1580,18 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 				if ( System::isUnicodeEnabled() ) {
 					LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
-				
+
 					currentHFont_ = CreateFontIndirectW( logFont );
 				}
 				else {
 					LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
 
-				
+
 					currentHFont_ = CreateFontIndirectA( logFont );
-				}				
-				
+				}
+
 				Color* fontColor = ctxFont->getColor();
-				
+
 				if ( NULL != fontColor ){
 					::SetTextColor( dc_, fontColor->getRGB() );
 				}
@@ -1635,22 +1613,22 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 		if ( NULL != currentHBrush_ ) {
 			SelectObject( dc_, currentHBrush_ );
 		}
-		
+
 		if ( NULL != currentHPen_ ) {
 			SelectObject( dc_, currentHPen_ );
 		}
 
 		result = true;
-	}	
+	}
 
 	return result;
 }
 
 void Win32Context::finishedDrawing( long drawingOperation )
-{	
+{
 
 	if ( NULL != dc_ ){
-		RestoreDC( dc_, currentDCState_ );		
+		RestoreDC( dc_, currentDCState_ );
 
 		if ( NULL != currentHPen_ ) {
 			DeleteObject( currentHPen_ );
@@ -1675,10 +1653,12 @@ void Win32Context::finishedDrawing( long drawingOperation )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -1882,7 +1862,5 @@ void Win32Context::finishedDrawing( long drawingOperation )
 *to facilitate change tracking
 *
 */
-
-
 
 

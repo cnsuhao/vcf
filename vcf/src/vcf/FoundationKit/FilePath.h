@@ -1,43 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_FILEPATH_H__
 #define _VCF_FILEPATH_H__
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
 //FilePath.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -69,7 +43,7 @@ namespace VCF {
 		static String getExtensionSeparator() {
 			return L".";
 		}
-		
+
 		static bool isPathDirectory( const String& path );
 
 		inline FilePath& operator= ( const FilePath& path ){
@@ -100,15 +74,15 @@ namespace VCF {
 			return filename_.empty();
 		}
 
-		
+
 
 		/**
-		*returns an extension. The extension is the 
+		*returns an extension. The extension is the
 		*<b><i>last</i></b> occurence of the "." to the end
 		*of the filename string. For example:<br>
-		*If the filename is : "foo/bar/baz.1.2a.text" then 
+		*If the filename is : "foo/bar/baz.1.2a.text" then
 		*the return value will be ".text"
-		*@return String the file name extension including the "." character. 
+		*@return String the file name extension including the "." character.
 		*If no extension is found returns an empty string
 		*/
 		String getExtension() const ;
@@ -125,7 +99,7 @@ namespace VCF {
 
 
 		/**
-		*returns the drivename for filesystems that support them (i.e. 
+		*returns the drivename for filesystems that support them (i.e.
 		*VMS and Win32) on 'nix systems this returns an empty string
 		*The 'DriveSeparator' character is excluded
 		*/
@@ -166,16 +140,16 @@ namespace VCF {
 		/**
 		*returns the pathname relative to the working path
 		*@param the working path.
-		*If not given then working path information is retrieved 
+		*If not given then working path information is retrieved
 		*from the system
 		*/
 		String transformToRelativePathName( const String& workingPath="" ) const;
 
 		/**
-		*expand a relative pathname into a full pathname based on the 
+		*expand a relative pathname into a full pathname based on the
 		*working path
 		*@param the working path.
-		*If not given then working path information is retrieved 
+		*If not given then working path information is retrieved
 		*from the system
 		*/
 		String expandRelativePathName( const String& workingPath=L"" ) const;
@@ -191,7 +165,7 @@ namespace VCF {
 	protected:
 		std::vector<String> separatePathComponents( const String& path ) const;
 
-		void convertToNative( String& filename ) const;		
+		void convertToNative( String& filename ) const;
 
 		String filename_;
 
@@ -200,10 +174,12 @@ namespace VCF {
 };
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -280,7 +256,6 @@ namespace VCF {
 *Revision 1.1  2002/06/18 21:18:32  ddiego
 *added FilePath
 */
-
 
 
 #endif // _VCF_FILEPATH_H__

@@ -1,36 +1,18 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-/**
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
 #ifndef _VCF_FOUNDATIONKIT_H__
 #define _VCF_FOUNDATIONKIT_H__
+//FoundationKit.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 #ifdef _MSC_VER
 //disable warnings on 255 char debug symbols
@@ -191,26 +173,26 @@ namespace VCF{
 	*initializes the Foundation Kit runtime.
 	*This includes registering the basic classes in the runtime system
 	*this declared this way for consistencies sake
-	*FoundationKit::init() MUST be called at start up before anything else in the 
+	*FoundationKit::init() MUST be called at start up before anything else in the
 	*VCF is used.
-	*FoundationKit::terminate() MUST be called to free up any resources used by the 
+	*FoundationKit::terminate() MUST be called to free up any resources used by the
 	*FoundationKit
 	*/
 	class FRAMEWORK_API FoundationKit {
 	public:
 		/**
-		*Initialization takes place here, plus creating the various 
+		*Initialization takes place here, plus creating the various
 		*system resources and peer instances
 		*/
 		static void init( int argc, char** argv );
 
-		/**		
+		/**
 		*Frees up any resource allocated in init();
 		*/
 		static void terminate();
 
 		/**
-		returns the CommandLine contents as passed into 
+		returns the CommandLine contents as passed into
 		the FoundationKit::init() function
 		*/
 		static CommandLine getCommandLine();
@@ -223,6 +205,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

@@ -1,6 +1,84 @@
+#ifndef _VCF_GTKGRAPHICSTOOLKIT_H__
+#define _VCF_GTKGRAPHICSTOOLKIT_H__
+//GTKGraphicsToolkit.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+namespace VCF {
+
+/**
+
+*/
+class GRAPHICSKIT_API GTKGraphicsToolkit : public GraphicsToolkit {
+public:
+
+	GTKGraphicsToolkit();
+
+	virtual ~GTKGraphicsToolkit();
+
+	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height );
+
+	virtual ContextPeer* internal_createContextPeer( const unsigned long& contextID );
+
+	virtual FontPeer* internal_createFontPeer( const String& fontName );
+
+	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize );
+
+	virtual OpenGLPeer* internal_createOpenGLPeer( GraphicsContext* glContext );
+
+	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height );
+
+	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect );
+
+	virtual Font* getDefaultSystemFont() {
+		return systemFont_;
+	}
+
+	PangoContext* getGTKPangoContext() {
+		return gtkPangoContext_;
+	}
+
+	bool isInitialized() {
+		return initialized_;
+	}
+
+	void init();
+
+	virtual double getDPI();
+
+	GtkStyle* getDefaultGTKStyle() {
+		return defaultGTKStyle_;
+	}
+protected:
+	bool initialized_;
+	Font* systemFont_;
+	PangoContext* gtkPangoContext_;
+	GtkStyle* defaultGTKStyle_;
+
+	void loadSystemColors();
+	void initSystemFont();
+};
+
+
+}; //end of namespace VCF
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -78,68 +156,6 @@
 *Auto generated header for class GTKGraphicsToolkit
 */
 
-
-#ifndef _VCF_GTKGRAPHICSTOOLKIT_H__
-#define _VCF_GTKGRAPHICSTOOLKIT_H__
-
-
-namespace VCF {
-
-/**
-
-*/
-class GRAPHICSKIT_API GTKGraphicsToolkit : public GraphicsToolkit { 
-public:
-
-	GTKGraphicsToolkit();
-
-	virtual ~GTKGraphicsToolkit();
-
-	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height );	
-
-	virtual ContextPeer* internal_createContextPeer( const unsigned long& contextID );
-
-	virtual FontPeer* internal_createFontPeer( const String& fontName );
-
-	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize );
-	
-	virtual OpenGLPeer* internal_createOpenGLPeer( GraphicsContext* glContext );
-	
-	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height );
-
-	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect );	
-
-	virtual Font* getDefaultSystemFont() {
-		return systemFont_;
-	}
-
-	PangoContext* getGTKPangoContext() {
-		return gtkPangoContext_;
-	}
-
-	bool isInitialized() {
-		return initialized_;
-	}
-
-	void init();
-
-	virtual double getDPI();
-
-	GtkStyle* getDefaultGTKStyle() {
-		return defaultGTKStyle_;
-	}
-protected:
-	bool initialized_;
-	Font* systemFont_;
-	PangoContext* gtkPangoContext_;
-	GtkStyle* defaultGTKStyle_;
-
-	void loadSystemColors();
-	void initSystemFont();
-};
-
-
-}; //end of namespace VCF
 
 #endif // _VCF_GTKGRAPHICSTOOLKIT_H__
 

@@ -1,30 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//Win32LocalePeer.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/LocalePeer.h"
@@ -46,7 +27,7 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 {
 	lcid_ = GetUserDefaultLCID();
 
-	
+
 
 	if ( Win32LocalePeer::langIDs.empty() ) {
 		Win32LocalePeer::langIDs["af"] = LANG_AFRIKAANS;
@@ -80,7 +61,7 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		Win32LocalePeer::langIDs["hu"] = LANG_HUNGARIAN;
 		Win32LocalePeer::langIDs["is"] = LANG_ICELANDIC;
 		Win32LocalePeer::langIDs["id"] = LANG_INDONESIAN;
-		Win32LocalePeer::langIDs["it"] = LANG_ITALIAN;		
+		Win32LocalePeer::langIDs["it"] = LANG_ITALIAN;
 		Win32LocalePeer::langIDs["ja"] = LANG_JAPANESE;
 		Win32LocalePeer::langIDs["kn"] = LANG_KANNADA;
 		Win32LocalePeer::langIDs["ks"] = LANG_KASHMIRI;
@@ -123,8 +104,8 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 
 
 	if ( countryToWin32Country.empty() ) {
-		countryToWin32Country["AU"] = "aus";	
-		countryToWin32Country["AT"] = "aut";	
+		countryToWin32Country["AU"] = "aus";
+		countryToWin32Country["AT"] = "aut";
 		countryToWin32Country["BE"] = "bel";
 		countryToWin32Country["BR"] = "bra";
 		countryToWin32Country["CA"] = "can";
@@ -138,8 +119,8 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		countryToWin32Country["HU"] = "hun";
 		countryToWin32Country["IS"] = "isl";
 		countryToWin32Country["IE"] = "irl";
-		countryToWin32Country["IT"] = "ita";	
-		countryToWin32Country["JP"] = "jpn";	
+		countryToWin32Country["IT"] = "ita";
+		countryToWin32Country["JP"] = "jpn";
 		countryToWin32Country["MX"] = "mex";
 		countryToWin32Country["NL"] = "nld";
 		countryToWin32Country["NZ"] = "nzl";
@@ -153,20 +134,20 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		countryToWin32Country["KR"] = "kor";
 		countryToWin32Country["ES"] = "esp";
 		countryToWin32Country["SE"] = "swe";
-		countryToWin32Country["CH"] = "che";	
-		countryToWin32Country["TW"] = "twn";	
+		countryToWin32Country["CH"] = "che";
+		countryToWin32Country["TW"] = "twn";
 		countryToWin32Country["TR"] = "tur";
 		countryToWin32Country["UK"] = "gbr";
-		countryToWin32Country["US"] = "usa";		
+		countryToWin32Country["US"] = "usa";
 	}
 
 	if ( languageToWin32Language.empty() ) {
 		languageToWin32Language["en"] = "english";
-		
+
 		languageToWin32Language["zh_CN"] = "chinese";
 		languageToWin32Language["zh_HK"] = "chinese";
 		languageToWin32Language["zh_SG"] = "chinese";
-		languageToWin32Language["zh_MO"] = "chinese";		
+		languageToWin32Language["zh_MO"] = "chinese";
 		languageToWin32Language["nl_BK"] = "dutch";
 		languageToWin32Language["nl_BE"] = "dutch-belgian";
 		languageToWin32Language["en_US"] = "english-us";
@@ -174,11 +155,11 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		languageToWin32Language["en_GB"] = "english-uk";
 		languageToWin32Language["en_AU"] = "english-aus";
 		languageToWin32Language["en_CA"] = "english-can";
-		languageToWin32Language["en_NZ"] = "english-nz";		
+		languageToWin32Language["en_NZ"] = "english-nz";
 		languageToWin32Language["fr_FR"] = "french";
 		languageToWin32Language["fr_BE"] = "french-belgian";
 		languageToWin32Language["fr_CA"] = "french-canadian";
-		languageToWin32Language["fr_CH"] = "french-swiss";		
+		languageToWin32Language["fr_CH"] = "french-swiss";
 		languageToWin32Language["de_DE"] = "german";
 		languageToWin32Language["de_CH"] = "german-swiss";
 		languageToWin32Language["de_AT"] = "german-austrian";
@@ -188,17 +169,17 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		languageToWin32Language["el_GR"] = "greek";
 
 		languageToWin32Language["hu_HU"] = "hungarian";
-		
+
 		languageToWin32Language["it_IT"] = "italian";
 		languageToWin32Language["it_CH"] = "italian-swiss";
 		languageToWin32Language["ja_JP"] = "japanese";
-		
+
 		languageToWin32Language["ko_KR"] = "korean";
 		languageToWin32Language["no_BK"] = "norwegian-bokmal";
 		languageToWin32Language["no_NO"] = "norwegian-nynorsk";
 		languageToWin32Language["pl_PL"] = "polish";
 		languageToWin32Language["pt_PT"] = "portuguese";
-		languageToWin32Language["pt_BR"] = "portuguese-brazilian";		
+		languageToWin32Language["pt_BR"] = "portuguese-brazilian";
 		languageToWin32Language["es_ES"] = "spanish";
 		languageToWin32Language["es_MX"] = "spanish-mexican";
 		languageToWin32Language["es_GT"] = "spanish-modern";
@@ -243,7 +224,7 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		Win32LocalePeer::countryIDs["zh_CN"] = SUBLANG_CHINESE_TRADITIONAL;
 		Win32LocalePeer::countryIDs["zh_HK"] = SUBLANG_CHINESE_HONGKONG;
 		Win32LocalePeer::countryIDs["zh_SG"] = SUBLANG_CHINESE_SINGAPORE;
-		Win32LocalePeer::countryIDs["zh_MO"] = SUBLANG_CHINESE_MACAU;		
+		Win32LocalePeer::countryIDs["zh_MO"] = SUBLANG_CHINESE_MACAU;
 		Win32LocalePeer::countryIDs["nl_BK"] = SUBLANG_DUTCH;
 		Win32LocalePeer::countryIDs["nl_BE"] = SUBLANG_DUTCH_BELGIAN;
 		Win32LocalePeer::countryIDs["en_US"] = SUBLANG_ENGLISH_US;
@@ -276,7 +257,7 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 		Win32LocalePeer::countryIDs["it_CH"] = SUBLANG_ITALIAN_SWISS;
 		Win32LocalePeer::countryIDs["ks_IN"] = SUBLANG_KASHMIRI_INDIA;
 		Win32LocalePeer::countryIDs["ko_KR"] = SUBLANG_KOREAN;
-		Win32LocalePeer::countryIDs["lt_LT"] = SUBLANG_LITHUANIAN;		
+		Win32LocalePeer::countryIDs["lt_LT"] = SUBLANG_LITHUANIAN;
 		Win32LocalePeer::countryIDs["ms_BN"] = SUBLANG_MALAY_BRUNEI_DARUSSALAM;
 		Win32LocalePeer::countryIDs["ne_IN"] = SUBLANG_NEPALI_INDIA;
 		Win32LocalePeer::countryIDs["no_BK"] = SUBLANG_NORWEGIAN_BOKMAL;
@@ -320,7 +301,7 @@ void Win32LocalePeer::setLocale( const UnicodeString& language, const UnicodeStr
 		crtLocaleStr_ = setlocale( LC_ALL, NULL );
 	}
 	else {
-		
+
 		WORD langID = 0;
 		USHORT primaryLanguage = 0;
 		USHORT subLanguage = 0;
@@ -331,32 +312,32 @@ void Win32LocalePeer::setLocale( const UnicodeString& language, const UnicodeStr
 		else {
 			primaryLanguage = LANG_NEUTRAL;
 		}
-		
+
 		found = Win32LocalePeer::countryIDs.find( language + "_" + country );
 		if ( found != Win32LocalePeer::countryIDs.end() ) {
 			subLanguage = found->second;
 		}
 		else {
-			subLanguage = SUBLANG_DEFAULT;		
+			subLanguage = SUBLANG_DEFAULT;
 		}
-		
+
 		lcid_ = MAKELCID( MAKELANGID(primaryLanguage,subLanguage), SORT_DEFAULT );
-		
+
 		crtLocaleStr_ = "";
-		
-		std::map<String,String>::iterator found2 = languageToWin32Language.find( language + "_" + country );	
+
+		std::map<String,String>::iterator found2 = languageToWin32Language.find( language + "_" + country );
 		if ( found2 != languageToWin32Language.end() ) {
 			crtLocaleStr_ = found2->second;
 		}
-		
+
 		found2 = countryToWin32Country.find( country );
 		if ( found2 != countryToWin32Country.end() ) {
 			crtLocaleStr_ += "_" + found2->second;
-		}		
+		}
 	}
 
-	
-}	
+
+}
 
 int Win32LocalePeer::collate( const UnicodeString& s1, const UnicodeString& s2 )
 {
@@ -450,7 +431,7 @@ void Win32LocalePeer::initNumberFormatForFloatW( NUMBERFMTW& fmt )
 	GetLocaleInfoW( lcid_, LOCALE_IDIGITS, tmp, 255 );
 	fmt.NumDigits = _wtoi( tmp );
 
-	GetLocaleInfoW( lcid_, LOCALE_ILZERO, tmp, 255 );	
+	GetLocaleInfoW( lcid_, LOCALE_ILZERO, tmp, 255 );
 	fmt.LeadingZero = _wtoi( tmp );
 
 	fmt.lpDecimalSep = new VCFChar[255];
@@ -480,7 +461,7 @@ void Win32LocalePeer::initNumberFormatForFloatA( NUMBERFMTA& fmt )
 	GetLocaleInfoA( lcid_, LOCALE_IDIGITS, tmp, 255 );
 	fmt.NumDigits = atoi( tmp );
 
-	GetLocaleInfoA( lcid_, LOCALE_ILZERO, tmp, 255 );	
+	GetLocaleInfoA( lcid_, LOCALE_ILZERO, tmp, 255 );
 	fmt.LeadingZero = atoi( tmp );
 
 	fmt.lpDecimalSep = new char[255];
@@ -511,41 +492,41 @@ UnicodeString Win32LocalePeer::toString( const int& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		swprintf( tmp, L"%d", val );
-		
+
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
-		
+
 		int size = ::GetNumberFormatW( lcid_, 0, tmp, &fmt, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
 		::GetNumberFormatW( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];
 		sprintf( tmp, "%d", val );
-		
+
 		NUMBERFMTA fmt = {0};
 		initNumberFormatForIntA( fmt );
-		
+
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 
@@ -559,41 +540,41 @@ UnicodeString Win32LocalePeer::toString( const unsigned int& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		swprintf( tmp, L"%d", val );
-		
+
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
-		
+
 		int size = ::GetNumberFormatW( lcid_, 0, tmp, &fmt, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
 		::GetNumberFormatW( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];
 		sprintf( tmp, "%d", val );
-		
+
 		NUMBERFMTA fmt = {0};
 		initNumberFormatForIntA( fmt );
-		
+
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 
@@ -606,41 +587,41 @@ UnicodeString Win32LocalePeer::toString( const long& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
 		swprintf( tmp, L"%d", val );
-		
+
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
-		
+
 		int size = ::GetNumberFormatW( lcid_, 0, tmp, &fmt, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
 		::GetNumberFormatW( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];;
 		sprintf( tmp, "%d", val );
-		
+
 		NUMBERFMTA fmt = {0};
 		initNumberFormatForIntA( fmt );
-		
+
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 
@@ -654,44 +635,44 @@ UnicodeString Win32LocalePeer::toString( const unsigned long& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
 		swprintf( tmp, L"%d", val );
-		
+
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
-		
+
 		int size = ::GetNumberFormatW( lcid_, 0, tmp, &fmt, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
 		::GetNumberFormatW( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];;
 		sprintf( tmp, "%d", val );
-		
+
 		NUMBERFMTA fmt = {0};
 		initNumberFormatForIntA( fmt );
-		
+
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
-	
+
 
 	return result;
 }
@@ -703,41 +684,41 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		swprintf( tmp, L"%.08f", val );
-		
+
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForFloatW( fmt );
-		
+
 		int size = ::GetNumberFormatW( lcid_, 0, tmp, NULL, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
 		::GetNumberFormatW( lcid_, 0, tmp, NULL, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];
 		sprintf( tmp, "%.08f", val );
-		
+
 		NUMBERFMTA fmt = {0};
 		initNumberFormatForFloatA( fmt );
-		
+
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
-		
-		
+
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 
@@ -751,41 +732,41 @@ UnicodeString Win32LocalePeer::toString( const float& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		swprintf( tmp, L"%.08f", val );
-		
+
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForFloatW( fmt );
-		
+
 		int size = ::GetNumberFormatW( lcid_, 0, tmp, NULL, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
 		::GetNumberFormatW( lcid_, 0, tmp, NULL, numStr, size );
-		
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
-		
+
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];
 		sprintf( tmp, "%.08f", val );
-		
+
 		NUMBERFMTA fmt = {0};
 		initNumberFormatForFloatA( fmt );
-		
+
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
-		
+
 		delete [] fmt.lpDecimalSep;
 		delete [] fmt.lpThousandSep;
-		
-		
+
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 
@@ -799,28 +780,28 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		swprintf( tmp, L"%.08f", val );
-		
+
 		int size = ::GetCurrencyFormatW( lcid_, 0, tmp, NULL, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
-		::GetNumberFormatW( lcid_, 0, tmp, NULL, numStr, size );		
-		
+		::GetNumberFormatW( lcid_, 0, tmp, NULL, numStr, size );
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 	else {
 		char tmp[256];
 		sprintf( tmp, "%.08f", val );
-		
+
 		int size = ::GetCurrencyFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,size+1);
 		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
-		
-		
+
+
 		result = numStr;
-		
+
 		delete [] numStr;
 	}
 
@@ -835,18 +816,18 @@ UnicodeString Win32LocalePeer::changeToGenericNumberString( const UnicodeString&
 		VCFChar tmp[256];
 		int err = GetLocaleInfoW( lcid_, LOCALE_SDECIMAL, tmp, 255 );
 		UnicodeString s = tmp;
-		
-		
+
+
 		int pos = result.find( s );
 		if ( pos != UnicodeString::npos ) {
 			result.erase( pos, s.size() );
 			result.insert( pos, L"." );
 		}
-		
+
 		err = GetLocaleInfoW( lcid_, LOCALE_STHOUSAND, tmp, 255 );
-		
-		
-		
+
+
+
 		if ( 0 == err ) {
 			err = GetLastError();
 		}
@@ -861,18 +842,18 @@ UnicodeString Win32LocalePeer::changeToGenericNumberString( const UnicodeString&
 		char tmp[256];
 		int err = GetLocaleInfoA( lcid_, LOCALE_SDECIMAL, tmp, 255 );
 		AnsiString s = tmp;
-		
+
 		AnsiString tmpRes = result;
 		int pos = tmpRes.find( s );
 		if ( pos != AnsiString::npos ) {
 			tmpRes.erase( pos, s.size() );
 			tmpRes.insert( pos, "." );
 		}
-		
+
 		err = GetLocaleInfoA( lcid_, LOCALE_STHOUSAND, tmp, 255 );
-		
-		
-		
+
+
+
 		if ( 0 == err ) {
 			err = GetLastError();
 		}
@@ -886,7 +867,7 @@ UnicodeString Win32LocalePeer::changeToGenericNumberString( const UnicodeString&
 		result = tmpRes;
 	}
 
-	
+
 
 	return result;
 }
@@ -912,7 +893,7 @@ int Win32LocalePeer::toInt( const UnicodeString& str )
 
 unsigned int Win32LocalePeer::toUInt( const UnicodeString& str )
 {
-	unsigned int result;	
+	unsigned int result;
 
 	if ( System::isUnicodeEnabled() ) {
 		float f = 0.0f;
@@ -940,7 +921,7 @@ double Win32LocalePeer::toDouble( const UnicodeString& str )
 	else {
 		result = atof( changeToGenericNumberString(str).ansi_c_str() );
 	}
-	
+
 	return result;
 }
 
@@ -955,7 +936,7 @@ float Win32LocalePeer::toFloat( const UnicodeString& str )
 	else {
 		result = atof( changeToGenericNumberString(str).ansi_c_str() );
 	}
-	
+
 
 	return result;
 }
@@ -964,18 +945,18 @@ double Win32LocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 {
 	double result;
 
-	if ( System::isUnicodeEnabled() ) {		
+	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		GetLocaleInfoW( lcid_, LOCALE_SMONDECIMALSEP, tmp, 255 );
 		UnicodeString s = tmp;
-		
+
 		UnicodeString s2 = str;
 		int pos = s2.find( s );
 		if ( pos != UnicodeString::npos ) {
 			s2.erase( pos, s.size() );
 			s2.insert( pos, L"." );
 		}
-		
+
 		GetLocaleInfoW( lcid_, LOCALE_SMONTHOUSANDSEP, tmp, 255 );
 		s = tmp;
 		pos = s2.find( s );
@@ -983,8 +964,8 @@ double Win32LocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 			s2.erase( pos, s.size() );
 			pos = s2.find( s );
 		}
-		
-		
+
+
 		GetLocaleInfoW( lcid_, LOCALE_SCURRENCY, tmp, 255 );
 		s = tmp;
 		pos = s2.find( s );
@@ -992,7 +973,7 @@ double Win32LocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 			s2.erase( pos, s.size() );
 			pos = s2.find( s );
 		}
-		
+
 		float f = 0.0f;
 		swscanf( s2.c_str(), L"%f", &f );
 		result = f;
@@ -1001,14 +982,14 @@ double Win32LocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 		char tmp[256];
 		GetLocaleInfoA( lcid_, LOCALE_SMONDECIMALSEP, tmp, 255 );
 		AnsiString s = tmp;
-		
+
 		AnsiString s2 = str;
 		int pos = s2.find( s );
 		if ( pos != AnsiString::npos ) {
 			s2.erase( pos, s.size() );
 			s2.insert( pos, "." );
 		}
-		
+
 		GetLocaleInfoA( lcid_, LOCALE_SMONTHOUSANDSEP, tmp, 255 );
 		s = tmp;
 		pos = s2.find( s );
@@ -1016,8 +997,8 @@ double Win32LocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 			s2.erase( pos, s.size() );
 			pos = s2.find( s );
 		}
-		
-		
+
+
 		GetLocaleInfoA( lcid_, LOCALE_SCURRENCY, tmp, 255 );
 		s = tmp;
 		pos = s2.find( s );
@@ -1025,8 +1006,8 @@ double Win32LocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 			s2.erase( pos, s.size() );
 			pos = s2.find( s );
 		}
-		
-		
+
+
 		result = atof( s2.c_str() );
 	}
 
@@ -1041,30 +1022,30 @@ UnicodeString Win32LocalePeer::toLowerCase( const UnicodeString& s )
 
 	if ( System::isUnicodeEnabled() ) {
 		int size = LCMapStringW( lcid_, LCMAP_LOWERCASE, s.c_str(), s.size(), NULL, 0 );
-		
+
 		VCFChar* tmp = new VCFChar[size+1];
 		memset( tmp, 0, (size+1) * sizeof(VCFChar));
-		
+
 		LCMapStringW( lcid_, LCMAP_LOWERCASE, s.c_str(), s.size(), tmp, size );
-		
+
 		result = tmp;
-		
+
 		delete [] tmp;
 	}
 	else {
-		
+
 		const char* ansiStr = s.ansi_c_str();
 		int ansiSize = strlen(ansiStr);
 
 		int size = LCMapStringA( lcid_, LCMAP_LOWERCASE, ansiStr, ansiSize, NULL, 0 );
-		
+
 		char* tmp = new char[size+1];
 		memset( tmp, 0, size+1);
-		
+
 		LCMapStringA( lcid_, LCMAP_LOWERCASE, ansiStr, ansiSize, tmp, size );
-		
+
 		result = tmp;
-		
+
 		delete [] tmp;
 	}
 
@@ -1077,30 +1058,30 @@ UnicodeString Win32LocalePeer::toUpperCase( const UnicodeString& s )
 
 	if ( System::isUnicodeEnabled() ) {
 		int size = LCMapStringW( lcid_, LCMAP_UPPERCASE, s.c_str(), s.size(), NULL, 0 );
-		
+
 		VCFChar* tmp = new VCFChar[size+1];
 		memset( tmp, 0, (size+1) * sizeof(VCFChar));
-		
+
 		LCMapStringW( lcid_, LCMAP_UPPERCASE, s.c_str(), s.size(), tmp, size );
-		
+
 		result = tmp;
-		
+
 		delete [] tmp;
 	}
 	else {
-		
+
 		const char* ansiStr = s.ansi_c_str();
 		int ansiSize = strlen(ansiStr);
 
 		int size = LCMapStringA( lcid_, LCMAP_UPPERCASE, ansiStr, ansiSize, NULL, 0 );
-		
+
 		char* tmp = new char[size+1];
 		memset( tmp, 0, size+1);
-		
+
 		LCMapStringA( lcid_, LCMAP_UPPERCASE, ansiStr, ansiSize, tmp, size );
-		
+
 		result = tmp;
-		
+
 		delete [] tmp;
 	}
 
@@ -1198,7 +1179,7 @@ UnicodeString Win32LocalePeer::getCurrencySymbol()
 	else {
 		char tmp[256];
 		GetLocaleInfoA( lcid_, LOCALE_SCURRENCY, tmp, 255 );
-		result = tmp;	
+		result = tmp;
 	}
 	return result;
 }
@@ -1232,14 +1213,14 @@ UnicodeString Win32LocalePeer::getCurrencyPositiveSign()
 		GetLocaleInfoA( lcid_, LOCALE_SCURRENCY, tmp, 255 );
 		result = tmp;
 	}
-	
+
 	return result;
 }
 
 UnicodeString Win32LocalePeer::getCurrencyNegativeSign()
 {
 	UnicodeString result;
-	
+
 	return result;
 }
 
@@ -1248,10 +1229,10 @@ bool Win32LocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 	long mask = 0;
 
 	UnicodeString oldLocaleStr;
-	
+
 
 	if ( System::isUnicodeEnabled() ) {
-		oldLocaleStr = _wsetlocale( LC_CTYPE, NULL );	
+		oldLocaleStr = _wsetlocale( LC_CTYPE, NULL );
 
 		_wsetlocale( LC_CTYPE, crtLocaleStr_.c_str() );
 
@@ -1261,67 +1242,67 @@ bool Win32LocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 				mask |= ctSpace;
 			}
 		}
-		
+
 		if ( charTypeMask & ctPrint ) {
 			if ( iswprint( c ) ) {
 				mask |= ctPrint;
 			}
 		}
-		
+
 		if ( charTypeMask & ctCntrl ) {
 			if ( iswprint( c ) ) {
 				mask |= ctCntrl;
 			}
 		}
-		
+
 		if ( charTypeMask & ctCntrl ) {
 			if ( iswcntrl( c ) ) {
 				mask |= ctCntrl;
 			}
 		}
-		
+
 		if ( charTypeMask & ctUpper ) {
 			if ( iswupper( c ) ) {
 				mask |= ctUpper;
 			}
 		}
-		
+
 		if ( charTypeMask & ctLower ) {
 			if ( iswlower( c ) ) {
 				mask |= ctLower;
 			}
 		}
-		
+
 		if ( charTypeMask & ctDigit ) {
 			if ( iswdigit( c ) ) {
 				mask |= ctDigit;
 			}
 		}
-		
+
 		if ( charTypeMask & ctPunct ) {
 			if ( iswpunct( c ) ) {
 				mask |= ctPunct;
 			}
 		}
-		
+
 		if ( charTypeMask & ctHexDigit ) {
 			if ( iswxdigit( c ) ) {
 				mask |= ctHexDigit;
 			}
 		}
-		
+
 		if ( charTypeMask & ctAlpha ) {
 			if ( iswalpha( c ) ) {
 				mask |= ctAlpha;
 			}
 		}
-		
+
 		if ( charTypeMask & ctAlphaNumeric ) {
 			if ( iswalnum( c ) ) {
 				mask |= ctAlphaNumeric;
 			}
 		}
-		
+
 		if ( charTypeMask & ctGraph ) {
 			if ( iswgraph( c ) ) {
 				mask |= ctGraph;
@@ -1331,86 +1312,86 @@ bool Win32LocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 		_wsetlocale( LC_CTYPE, oldLocaleStr.c_str() );
 	}
 	else {
-		oldLocaleStr = setlocale( LC_CTYPE, NULL );	
-		
+		oldLocaleStr = setlocale( LC_CTYPE, NULL );
+
 		setlocale( LC_CTYPE, crtLocaleStr_.ansi_c_str() );
-		
+
 		if ( charTypeMask & ctSpace ) {
 			if ( isspace( c ) ) {
 				mask |= ctSpace;
 			}
 		}
-		
+
 		if ( charTypeMask & ctPrint ) {
 			if ( isprint( c ) ) {
 				mask |= ctPrint;
 			}
 		}
-		
+
 		if ( charTypeMask & ctCntrl ) {
 			if ( isprint( c ) ) {
 				mask |= ctCntrl;
 			}
 		}
-		
+
 		if ( charTypeMask & ctCntrl ) {
 			if ( iscntrl( c ) ) {
 				mask |= ctCntrl;
 			}
 		}
-		
+
 		if ( charTypeMask & ctUpper ) {
 			if ( isupper( c ) ) {
 				mask |= ctUpper;
 			}
 		}
-		
+
 		if ( charTypeMask & ctLower ) {
 			if ( islower( c ) ) {
 				mask |= ctLower;
 			}
 		}
-		
+
 		if ( charTypeMask & ctDigit ) {
 			if ( isdigit( c ) ) {
 				mask |= ctDigit;
 			}
 		}
-		
+
 		if ( charTypeMask & ctPunct ) {
 			if ( ispunct( c ) ) {
 				mask |= ctPunct;
 			}
 		}
-		
+
 		if ( charTypeMask & ctHexDigit ) {
 			if ( isxdigit( c ) ) {
 				mask |= ctHexDigit;
 			}
 		}
-		
+
 		if ( charTypeMask & ctAlpha ) {
 			if ( isalpha( c ) ) {
 				mask |= ctAlpha;
 			}
 		}
-		
+
 		if ( charTypeMask & ctAlphaNumeric ) {
 			if ( isalnum( c ) ) {
 				mask |= ctAlphaNumeric;
 			}
 		}
-		
+
 		if ( charTypeMask & ctGraph ) {
 			if ( isgraph( c ) ) {
 				mask |= ctGraph;
 			}
 		}
-		
+
 		setlocale( LC_CTYPE, oldLocaleStr.ansi_c_str() );
 	}
 
-	
+
 	return (0 == mask) ? false : true;
 }
 
@@ -1422,13 +1403,13 @@ UnicodeString Win32LocalePeer::translate( const UnicodeString& id )
 UnicodeString Win32LocalePeer::toStringFromDate( const DateTime& val, const UnicodeString& format )
 {
 	UnicodeString result;
-	
+
 	SYSTEMTIME timeVal = {0};
 
 	timeVal.wYear = val.getYear();
 	timeVal.wMonth = val.getMonth();
 	timeVal.wDay = val.getDay();
-	timeVal.wDayOfWeek = val.getWeekDay();	
+	timeVal.wDayOfWeek = val.getWeekDay();
 
 	int size = 0;
 	DWORD flags = (!format.empty()) ? 0 : LOCALE_NOUSEROVERRIDE;
@@ -1437,15 +1418,15 @@ UnicodeString Win32LocalePeer::toStringFromDate( const DateTime& val, const Unic
 		const VCFChar* formatStr = NULL;
 		if ( !format.empty() ) {
 			formatStr = format.c_str();
-		}		
-		
+		}
+
 		size = GetDateFormatW( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		VCFChar* dateStr = new VCFChar[size+1];
 		memset(dateStr,0,size+1);
-		
-		
+
+
 		GetDateFormatW( lcid_, flags, &timeVal, formatStr, dateStr, size );
-		
+
 		result = dateStr;
 
 		delete [] dateStr;
@@ -1454,19 +1435,19 @@ UnicodeString Win32LocalePeer::toStringFromDate( const DateTime& val, const Unic
 		const char* formatStr = NULL;
 		if ( !format.empty() ) {
 			formatStr = format.ansi_c_str();
-		}		
-		
+		}
+
 		size = GetDateFormatA( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		char* dateStr = new char[size+1];
 		memset(dateStr,0,size+1);
-		
-		
+
+
 		GetDateFormatA( lcid_, flags, &timeVal, formatStr, dateStr, size );
-		
+
 		result = dateStr;
 
 		delete [] dateStr;
-	}	
+	}
 
 	return result;
 }
@@ -1485,8 +1466,8 @@ UnicodeString Win32LocalePeer::toStringFromTime( const DateTime& val, const Unic
 	timeVal.wMinute = val.getMinute();
 	timeVal.wSecond = val.getSeconds();
 	timeVal.wMilliseconds = val.getMilliSeconds();
-	
-	
+
+
 
 	DWORD flags = (!format.empty()) ? 0 : LOCALE_NOUSEROVERRIDE;
 
@@ -1499,12 +1480,12 @@ UnicodeString Win32LocalePeer::toStringFromTime( const DateTime& val, const Unic
 		int size = GetTimeFormatW( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		VCFChar* dateStr = new VCFChar[size+1];
 		memset(dateStr,0,size+1);
-		
-		
+
+
 		GetTimeFormatW( lcid_, flags, &timeVal, formatStr, dateStr, size );
-		
+
 		result = dateStr;
-		
+
 		delete [] dateStr;
 	}
 	else {
@@ -1516,15 +1497,15 @@ UnicodeString Win32LocalePeer::toStringFromTime( const DateTime& val, const Unic
 		int size = GetTimeFormatA( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		char* dateStr = new char[size+1];
 		memset(dateStr,0,size+1);
-		
-		
+
+
 		GetTimeFormatA( lcid_, flags, &timeVal, formatStr, dateStr, size );
-		
+
 		result = dateStr;
-		
+
 		delete [] dateStr;
 	}
-	
+
 
 	return result;
 }
@@ -1535,11 +1516,11 @@ ulong32 Win32LocalePeer::getLanguageCode()
 	UINT subLangID = SUBLANGID(LANGIDFROMLCID(lcid_));
 
 	switch ( languageID ) {
-		
+
 		case LANG_AFRIKAANS : {
 			return Locale::lcAfrikaans;
 		}
-		break;	
+		break;
 
 		case LANG_ALBANIAN : {
 			return Locale::lcAlbanian;
@@ -1555,35 +1536,35 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		case LANG_ASSAMESE : {
 			return Locale::lcAssamese;
 		}
-		break;			
+		break;
 
 		case LANG_ARMENIAN : {
 			return Locale::lcArmenian;
 		}
-		break;	
-		
+		break;
+
 		case LANG_AZERI : {
 			return Locale::lcAzerbaijani;
 		}
-		break;	
+		break;
 
 		case LANG_BASQUE : {
 			return Locale::lcBasque;
 		}
-		break;	
+		break;
 
 
 		case LANG_BELARUSIAN : {
 			return Locale::lcBelarusian;
 		}
-		break;	
+		break;
 
 		case LANG_BENGALI : {
 			return Locale::lcBengali;
 		}
 		break;
-		
-		
+
+
 		case LANG_BULGARIAN : {
 			return Locale::lcBulgarian;
 		}
@@ -1610,18 +1591,18 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		break;
 
 		case LANG_DANISH : {
-			return Locale::lcDanish; 
-		}
-		break;
-		
-		case LANG_DUTCH : {
-			return Locale::lcDutch;		
+			return Locale::lcDanish;
 		}
 		break;
 
-		
+		case LANG_DUTCH : {
+			return Locale::lcDutch;
+		}
+		break;
+
+
 		case LANG_ENGLISH : {
-			return Locale::lcEnglish;	
+			return Locale::lcEnglish;
 		}
 		break;
 
@@ -1629,7 +1610,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 			return Locale::lcEstonian;
 		}
 		break;
-		
+
 		case LANG_FAEROESE : {
 			return Locale::lcFaroese;
 		}
@@ -1648,18 +1629,18 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		case LANG_FRENCH : {
 			return Locale::lcFrench;
 		}
-		break;		
-		
+		break;
+
 		case LANG_GEORGIAN : {
 			return Locale::lcGeorgian;
 		}
-		break;			
+		break;
 
 		case LANG_GERMAN : {
 			return Locale::lcGerman;
 		}
-		break;	
-		
+		break;
+
 		case LANG_GREEK : {
 			return Locale::lcGreek;
 		}
@@ -1668,7 +1649,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		case LANG_GUJARATI : {
 			return Locale::lcGujarati;
 		}
-		break;		
+		break;
 
 		case LANG_HEBREW : {
 			return Locale::lcHebrew;
@@ -1716,7 +1697,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		break;
 
 		case LANG_KAZAK : {
-			return Locale::lcKazakh; 
+			return Locale::lcKazakh;
 		}
 		break;
 
@@ -1726,8 +1707,8 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		break;
 
 
-		
-		
+
+
 		case LANG_LATVIAN : {
 			return Locale::lcLatvian;
 		}
@@ -1744,7 +1725,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		break;
 
 		case LANG_MALAY : {
-			return Locale::lcMalay;			
+			return Locale::lcMalay;
 		}
 		break;
 
@@ -1753,7 +1734,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		}
 		break;
 
-		
+
 
 		case LANG_MARATHI : {
 			return Locale::lcMarathi;
@@ -1761,28 +1742,28 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		break;
 
 		case LANG_NEPALI : {
-			return Locale::lcNepali;			
+			return Locale::lcNepali;
 		}
 		break;
 
 		case LANG_NORWEGIAN : {
 			switch ( subLangID ) {
-				case SUBLANG_NORWEGIAN_BOKMAL : { 
-					return Locale::lcNorwegianBokmal; 
+				case SUBLANG_NORWEGIAN_BOKMAL : {
+					return Locale::lcNorwegianBokmal;
 				}
 				break;
 
-				case SUBLANG_NORWEGIAN_NYNORSK : { 
-					return Locale::lcNorwegianNynorsk; 
+				case SUBLANG_NORWEGIAN_NYNORSK : {
+					return Locale::lcNorwegianNynorsk;
 				}
 				break;
 
-				default : { 
+				default : {
 					return Locale::lcNorwegian;
 				}
 				break;
 			}
-			
+
 		}
 		break;
 
@@ -1894,7 +1875,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		case LANG_VIETNAMESE : {
 			return Locale::lcVietnamese;
 		}
-		break;		
+		break;
 
 	}
 
@@ -1907,7 +1888,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 		*/
 		/*
 		WARNING!  No ISO 2 letter code for LANG_KONKANI41
-		case LANG_KONKANI : { 
+		case LANG_KONKANI : {
 			return Locale::ccIndia;
 		}
 		break;
@@ -1922,7 +1903,7 @@ ulong32 Win32LocalePeer::getLanguageCode()
 
 ulong32 Win32LocalePeer::getCountryCode()
 {
-	
+
 	UINT languageID = PRIMARYLANGID(LANGIDFROMLCID(lcid_));
 	UINT countryID = SUBLANGID(LANGIDFROMLCID(lcid_));
 
@@ -1930,7 +1911,7 @@ ulong32 Win32LocalePeer::getCountryCode()
 		case LANG_AFRIKAANS : {
 			return Locale::ccSouthAfrica;
 		}
-		break;	
+		break;
 
 		case LANG_ALBANIAN : {
 			return Locale::ccAlbania;
@@ -1944,7 +1925,7 @@ ulong32 Win32LocalePeer::getCountryCode()
 					return Locale::ccSaudiArabia;
 				}
 				break;
-				case SUBLANG_ARABIC_IRAQ : { //Win32LocalePeer::countryIDs["ar_IQ"] 
+				case SUBLANG_ARABIC_IRAQ : { //Win32LocalePeer::countryIDs["ar_IQ"]
 					return Locale::ccIraq;
 				}
 				break;
@@ -1954,7 +1935,7 @@ ulong32 Win32LocalePeer::getCountryCode()
 				}
 				break;
 
-				case SUBLANG_ARABIC_LIBYA : { //Win32LocalePeer::countryIDs["ar_LY"] = 
+				case SUBLANG_ARABIC_LIBYA : { //Win32LocalePeer::countryIDs["ar_LY"] =
 					return Locale::ccLibyanArabJamahiriya;
 				}
 				break;
@@ -2025,35 +2006,35 @@ ulong32 Win32LocalePeer::getCountryCode()
 		case LANG_ASSAMESE : {
 			return Locale::ccIndia;
 		}
-		break;			
+		break;
 
 		case LANG_ARMENIAN : {
 			return Locale::ccArmenia;
 		}
-		break;	
-		
+		break;
+
 		case LANG_AZERI : {
 			return Locale::ccAzerbaijan;
 		}
-		break;	
+		break;
 
 		case LANG_BASQUE : {
 			return Locale::ccSpain;
 		}
-		break;	
+		break;
 
 
 		case LANG_BELARUSIAN : {
 			return Locale::ccSpain;
 		}
-		break;	
+		break;
 
 		case LANG_BENGALI : {
 			return Locale::ccIndia;
 		}
 		break;
-		
-		
+
+
 		case LANG_BULGARIAN : {
 			return Locale::ccBulgaria;
 		}
@@ -2066,47 +2047,47 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_CHINESE : {
 			switch ( countryID ) {
-				case SUBLANG_CHINESE_HONGKONG : { 
-					return Locale::ccHongKong; 
+				case SUBLANG_CHINESE_HONGKONG : {
+					return Locale::ccHongKong;
 				}
 				break;
 
-				case SUBLANG_CHINESE_SINGAPORE : { 
-					return Locale::ccSingapore; 
+				case SUBLANG_CHINESE_SINGAPORE : {
+					return Locale::ccSingapore;
 				}
 				break;
 
-				case SUBLANG_CHINESE_MACAU : { 
-					return Locale::ccMacao; 
+				case SUBLANG_CHINESE_MACAU : {
+					return Locale::ccMacao;
 				}
 				break;
 
-				default : { 
-					return Locale::ccChina; 
+				default : {
+					return Locale::ccChina;
 				}
 				break;
-			}	
+			}
 		}
 		break;
 
 		case LANG_CROATIAN : { // equivalent to LANG_SERBIAN in winnt.h
-			
+
 			switch ( countryID ) {
-				case SUBLANG_SERBIAN_CYRILLIC : { 
-					return Locale::ccSerbia; 
+				case SUBLANG_SERBIAN_CYRILLIC : {
+					return Locale::ccSerbia;
 				}
 				break;
 
-				case SUBLANG_SERBIAN_LATIN : { 
-					return Locale::ccSerbia; 
+				case SUBLANG_SERBIAN_LATIN : {
+					return Locale::ccSerbia;
 				}
 				break;
 
-				default : { 
-					return Locale::ccCroatia; 
+				default : {
+					return Locale::ccCroatia;
 				}
 				break;
-			}	
+			}
 		}
 		break;
 
@@ -2116,90 +2097,90 @@ ulong32 Win32LocalePeer::getCountryCode()
 		break;
 
 		case LANG_DANISH : {
-			return Locale::ccDenmark; 
+			return Locale::ccDenmark;
 		}
 		break;
-		
+
 		case LANG_DUTCH : {
 			switch ( countryID ) {
-				case SUBLANG_DUTCH : { 
-					return Locale::ccNetherlands; 
+				case SUBLANG_DUTCH : {
+					return Locale::ccNetherlands;
 				}
 				break;
 
-				case SUBLANG_DUTCH_BELGIAN : { 
-					return Locale::ccBelgium; 
+				case SUBLANG_DUTCH_BELGIAN : {
+					return Locale::ccBelgium;
 				}
 				break;
-			}			
+			}
 		}
 		break;
 
-		
+
 		case LANG_ENGLISH : {
 			switch ( countryID ) {
-				case SUBLANG_ENGLISH_US : { 
-					return Locale::ccUnitedStates; 
+				case SUBLANG_ENGLISH_US : {
+					return Locale::ccUnitedStates;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_UK : { 
-					return Locale::ccUnitedKingdom; 
+				case SUBLANG_ENGLISH_UK : {
+					return Locale::ccUnitedKingdom;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_AUS : { 
-					return Locale::ccAustralia; 
+				case SUBLANG_ENGLISH_AUS : {
+					return Locale::ccAustralia;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_CAN : { 
-					return Locale::ccCanada; 
+				case SUBLANG_ENGLISH_CAN : {
+					return Locale::ccCanada;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_NZ : { 
-					return Locale::ccNewZealand; 
+				case SUBLANG_ENGLISH_NZ : {
+					return Locale::ccNewZealand;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_EIRE : { 
-					return Locale::ccIreland; 
+				case SUBLANG_ENGLISH_EIRE : {
+					return Locale::ccIreland;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_SOUTH_AFRICA : { 
-					return Locale::ccSouthAfrica; 
+				case SUBLANG_ENGLISH_SOUTH_AFRICA : {
+					return Locale::ccSouthAfrica;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_JAMAICA : { 
-					return Locale::ccJamaica; 
+				case SUBLANG_ENGLISH_JAMAICA : {
+					return Locale::ccJamaica;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_CARIBBEAN : { 
-					return Locale::ccJamaica; 
+				case SUBLANG_ENGLISH_CARIBBEAN : {
+					return Locale::ccJamaica;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_BELIZE : { 
-					return Locale::ccBelize; 
+				case SUBLANG_ENGLISH_BELIZE : {
+					return Locale::ccBelize;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_TRINIDAD : { 
-					return Locale::ccTrinidad; 
+				case SUBLANG_ENGLISH_TRINIDAD : {
+					return Locale::ccTrinidad;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_PHILIPPINES : { 
-					return Locale::ccPhilippines; 
+				case SUBLANG_ENGLISH_PHILIPPINES : {
+					return Locale::ccPhilippines;
 				}
 				break;
 
-				case SUBLANG_ENGLISH_ZIMBABWE : { 
-					return Locale::ccZimbabwe; 
+				case SUBLANG_ENGLISH_ZIMBABWE : {
+					return Locale::ccZimbabwe;
 				}
 				break;
 			}
@@ -2210,7 +2191,7 @@ ulong32 Win32LocalePeer::getCountryCode()
 			return Locale::ccEstonia;
 		}
 		break;
-		
+
 		case LANG_FAEROESE : {
 			return Locale::ccFaroIslands;
 		}
@@ -2228,74 +2209,74 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_FRENCH : {
 			switch ( countryID ) {
-				case SUBLANG_FRENCH : { 
-					return Locale::ccFrance; 
+				case SUBLANG_FRENCH : {
+					return Locale::ccFrance;
 				}
 				break;
 
-				case SUBLANG_FRENCH_BELGIAN : { 
-					return Locale::ccBelgium; 
+				case SUBLANG_FRENCH_BELGIAN : {
+					return Locale::ccBelgium;
 				}
 				break;
 
-				case SUBLANG_FRENCH_CANADIAN : { 
-					return Locale::ccCanada; 
+				case SUBLANG_FRENCH_CANADIAN : {
+					return Locale::ccCanada;
 				}
 				break;
 
-				case SUBLANG_FRENCH_SWISS : { 
-					return Locale::ccSwitzerland; 
+				case SUBLANG_FRENCH_SWISS : {
+					return Locale::ccSwitzerland;
 				}
 				break;
 
-				case SUBLANG_FRENCH_LUXEMBOURG : { 
-					return Locale::ccLuxembourg; 
+				case SUBLANG_FRENCH_LUXEMBOURG : {
+					return Locale::ccLuxembourg;
 				}
 				break;
 
-				case SUBLANG_FRENCH_MONACO : { 
-					return Locale::ccMonaco; 
+				case SUBLANG_FRENCH_MONACO : {
+					return Locale::ccMonaco;
 				}
 				break;
 			}
 		}
-		break;		
-		
+		break;
+
 		case LANG_GEORGIAN : {
 			return Locale::ccGeorgia;
 		}
-		break;			
+		break;
 
 		case LANG_GERMAN : {
 			switch ( countryID ) {
-				case SUBLANG_GERMAN : { 
-					return Locale::ccGermany; 
+				case SUBLANG_GERMAN : {
+					return Locale::ccGermany;
 				}
 				break;
 
-				case SUBLANG_GERMAN_SWISS : { 
-					return Locale::ccSwitzerland; 
+				case SUBLANG_GERMAN_SWISS : {
+					return Locale::ccSwitzerland;
 				}
 				break;
 
-				case SUBLANG_GERMAN_AUSTRIAN : { 
-					return Locale::ccAustria; 
+				case SUBLANG_GERMAN_AUSTRIAN : {
+					return Locale::ccAustria;
 				}
 				break;
 
-				case SUBLANG_GERMAN_LUXEMBOURG : { 
-					return Locale::ccLuxembourg; 
+				case SUBLANG_GERMAN_LUXEMBOURG : {
+					return Locale::ccLuxembourg;
 				}
 				break;
 
-				case SUBLANG_GERMAN_LIECHTENSTEIN : { 
-					return Locale::ccLiechtenstein; 
+				case SUBLANG_GERMAN_LIECHTENSTEIN : {
+					return Locale::ccLiechtenstein;
 				}
 				break;
 			}
 		}
-		break;	
-		
+		break;
+
 		case LANG_GREEK : {
 			return Locale::ccGreece;
 		}
@@ -2304,7 +2285,7 @@ ulong32 Win32LocalePeer::getCountryCode()
 		case LANG_GUJARATI : {
 			return Locale::ccIndia;
 		}
-		break;		
+		break;
 
 		case LANG_HEBREW : {
 			return Locale::ccIsrael;
@@ -2333,13 +2314,13 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_ITALIAN : {
 			switch ( countryID ) {
-				case SUBLANG_ITALIAN : { 
-					return Locale::ccItaly; 
+				case SUBLANG_ITALIAN : {
+					return Locale::ccItaly;
 				}
 				break;
 
-				case SUBLANG_ITALIAN_SWISS : { 
-					return Locale::ccSwitzerland; 
+				case SUBLANG_ITALIAN_SWISS : {
+					return Locale::ccSwitzerland;
 				}
 				break;
 			}
@@ -2358,13 +2339,13 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_KASHMIRI : {
 			switch ( countryID ) {
-				case SUBLANG_DEFAULT : { 
+				case SUBLANG_DEFAULT : {
 					return Locale::ccPakistan;  //??? is this right ?
 				}
 				break;
 
-				case SUBLANG_KASHMIRI_INDIA : { 
-					return Locale::ccIndia; 
+				case SUBLANG_KASHMIRI_INDIA : {
+					return Locale::ccIndia;
 				}
 				break;
 			}
@@ -2372,25 +2353,25 @@ ulong32 Win32LocalePeer::getCountryCode()
 		break;
 
 		case LANG_KAZAK : {
-			return Locale::ccKazakhstan; 
+			return Locale::ccKazakhstan;
 		}
 		break;
 
 		case LANG_KOREAN : {
 			switch ( countryID ) {
-				case SUBLANG_KOREAN : { 
-					return Locale::ccSouthKorea; 
+				case SUBLANG_KOREAN : {
+					return Locale::ccSouthKorea;
 				}
 				break;
 			}
 		}
 		break;
-		
+
 		case LANG_KONKANI : {
 			return Locale::ccIndia;
 		}
 		break;
-		
+
 		case LANG_LATVIAN : {
 			return Locale::ccLatvia;
 		}
@@ -2407,19 +2388,19 @@ ulong32 Win32LocalePeer::getCountryCode()
 		break;
 
 		case LANG_MALAY : {
-			
+
 			switch ( countryID ) {
-				case SUBLANG_MALAY_BRUNEI_DARUSSALAM : { 
-					return Locale::ccBrunei; 
+				case SUBLANG_MALAY_BRUNEI_DARUSSALAM : {
+					return Locale::ccBrunei;
 				}
 				break;
 
-				case SUBLANG_MALAY_MALAYSIA : { 
-					return Locale::ccMalaysia; 
+				case SUBLANG_MALAY_MALAYSIA : {
+					return Locale::ccMalaysia;
 				}
 				break;
 
-				default : { 
+				default : {
 					return Locale::ccMalaysia;
 				}
 				break;
@@ -2443,15 +2424,15 @@ ulong32 Win32LocalePeer::getCountryCode()
 		break;
 
 		case LANG_NEPALI : {
-			
+
 			switch ( countryID ) {
-				case SUBLANG_NEPALI_INDIA : { 
-					return Locale::ccIndia; 
+				case SUBLANG_NEPALI_INDIA : {
+					return Locale::ccIndia;
 				}
 				break;
 
-				default : { 
-					return Locale::ccNepal; 
+				default : {
+					return Locale::ccNepal;
 				}
 				break;
 			}
@@ -2460,18 +2441,18 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_NORWEGIAN : {
 			switch ( countryID ) {
-				case SUBLANG_NORWEGIAN_BOKMAL : { 
+				case SUBLANG_NORWEGIAN_BOKMAL : {
 					return Locale::ccNorway;
 				}
 				break;
 
-				case SUBLANG_NORWEGIAN_NYNORSK : { 
+				case SUBLANG_NORWEGIAN_NYNORSK : {
 					return Locale::ccNorway;
 				}
 				break;
 
-				default : { 
-					return Locale::ccNorway; 
+				default : {
+					return Locale::ccNorway;
 				}
 				break;
 			}
@@ -2490,18 +2471,18 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_PORTUGUESE : {
 			switch ( countryID ) {
-				case SUBLANG_PORTUGUESE : { 
-					return Locale::ccPortugal; 
+				case SUBLANG_PORTUGUESE : {
+					return Locale::ccPortugal;
 				}
 				break;
 
-				case SUBLANG_PORTUGUESE_BRAZILIAN : { 
-					return Locale::ccBrazil; 
+				case SUBLANG_PORTUGUESE_BRAZILIAN : {
+					return Locale::ccBrazil;
 				}
 				break;
 
-				default : { 
-					return Locale::ccPortugal; 
+				default : {
+					return Locale::ccPortugal;
 				}
 				break;
 
@@ -2546,98 +2527,98 @@ ulong32 Win32LocalePeer::getCountryCode()
 
 		case LANG_SPANISH : {
 			switch ( countryID ) {
-				case SUBLANG_SPANISH_MEXICAN : { 
-					return Locale::ccMexico; 
+				case SUBLANG_SPANISH_MEXICAN : {
+					return Locale::ccMexico;
 				}
 				break;
 
-				case SUBLANG_SPANISH_GUATEMALA : { 
-					return Locale::ccGuatemala; 
+				case SUBLANG_SPANISH_GUATEMALA : {
+					return Locale::ccGuatemala;
 				}
 				break;
 
-				case SUBLANG_SPANISH_COSTA_RICA : { 
-					return Locale::ccCostaRica; 
+				case SUBLANG_SPANISH_COSTA_RICA : {
+					return Locale::ccCostaRica;
 				}
 				break;
 
-				case SUBLANG_SPANISH_PANAMA : { 
-					return Locale::ccPanama; 
+				case SUBLANG_SPANISH_PANAMA : {
+					return Locale::ccPanama;
 				}
 				break;
 
-				case SUBLANG_SPANISH_DOMINICAN_REPUBLIC : { 
-					return Locale::ccDominicanRepublic; 
+				case SUBLANG_SPANISH_DOMINICAN_REPUBLIC : {
+					return Locale::ccDominicanRepublic;
 				}
 				break;
 
-				case SUBLANG_SPANISH_VENEZUELA : { 
-					return Locale::ccVenezuela; 
+				case SUBLANG_SPANISH_VENEZUELA : {
+					return Locale::ccVenezuela;
 				}
 				break;
 
-				case SUBLANG_SPANISH_COLOMBIA : { 
-					return Locale::ccColombia; 
+				case SUBLANG_SPANISH_COLOMBIA : {
+					return Locale::ccColombia;
 				}
 				break;
 
-				case SUBLANG_SPANISH_PERU : { 
-					return Locale::ccPeru; 
+				case SUBLANG_SPANISH_PERU : {
+					return Locale::ccPeru;
 				}
 				break;
 
-				case SUBLANG_SPANISH_ARGENTINA : { 
-					return Locale::ccArgentina; 
+				case SUBLANG_SPANISH_ARGENTINA : {
+					return Locale::ccArgentina;
 				}
 				break;
 
-				case SUBLANG_SPANISH_ECUADOR : { 
-					return Locale::ccEcuador; 
+				case SUBLANG_SPANISH_ECUADOR : {
+					return Locale::ccEcuador;
 				}
 				break;
 
-				case SUBLANG_SPANISH_CHILE : { 
-					return Locale::ccChile; 
+				case SUBLANG_SPANISH_CHILE : {
+					return Locale::ccChile;
 				}
 				break;
 
-				case SUBLANG_SPANISH_URUGUAY : { 
-					return Locale::ccUruguay; 
+				case SUBLANG_SPANISH_URUGUAY : {
+					return Locale::ccUruguay;
 				}
 				break;
 
-				case SUBLANG_SPANISH_PARAGUAY : { 
-					return Locale::ccParaguay; 
+				case SUBLANG_SPANISH_PARAGUAY : {
+					return Locale::ccParaguay;
 				}
 				break;
 
-				case SUBLANG_SPANISH_BOLIVIA : { 
-					return Locale::ccBolivia; 
+				case SUBLANG_SPANISH_BOLIVIA : {
+					return Locale::ccBolivia;
 				}
 				break;
 
-				case SUBLANG_SPANISH_EL_SALVADOR : { 
-					return Locale::ccElSalvador; 
+				case SUBLANG_SPANISH_EL_SALVADOR : {
+					return Locale::ccElSalvador;
 				}
 				break;
 
-				case SUBLANG_SPANISH_HONDURAS : { 
-					return Locale::ccHonduras; 
+				case SUBLANG_SPANISH_HONDURAS : {
+					return Locale::ccHonduras;
 				}
 				break;
 
-				case SUBLANG_SPANISH_NICARAGUA : { 
-					return Locale::ccNicaragua; 
+				case SUBLANG_SPANISH_NICARAGUA : {
+					return Locale::ccNicaragua;
 				}
 				break;
 
-				case SUBLANG_SPANISH_PUERTO_RICO : { 
-					return Locale::ccPuertoRico; 
+				case SUBLANG_SPANISH_PUERTO_RICO : {
+					return Locale::ccPuertoRico;
 				}
 				break;
 
-				default : { 
-					return Locale::ccSpain; 
+				default : {
+					return Locale::ccSpain;
 				}
 				break;
 			}
@@ -2668,13 +2649,13 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 
 		case LANG_SWEDISH : {
 			switch ( countryID ) {
-				case SUBLANG_SWEDISH_FINLAND : { 
-					return Locale::ccFinland; 
+				case SUBLANG_SWEDISH_FINLAND : {
+					return Locale::ccFinland;
 				}
 				break;
 
-				default : { 
-					return Locale::ccSweden; 
+				default : {
+					return Locale::ccSweden;
 				}
 				break;
 			}
@@ -2713,13 +2694,13 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 
 		case LANG_URDU : {
 			switch ( countryID ) {
-				case SUBLANG_URDU_INDIA : { 
-					return Locale::ccIndia; 
+				case SUBLANG_URDU_INDIA : {
+					return Locale::ccIndia;
 				}
 				break;
 
-				case SUBLANG_URDU_PAKISTAN : { 
-					return Locale::ccPakistan; 
+				case SUBLANG_URDU_PAKISTAN : {
+					return Locale::ccPakistan;
 				}
 				break;
 			}
@@ -2744,6 +2725,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *

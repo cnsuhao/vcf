@@ -1,6 +1,208 @@
+//TextInputStream.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/FoundationKit/FoundationKit.h"
+using namespace VCF;
+
+TextInputStream::TextInputStream( InputStream* inStream )
+{
+	this->init();
+	this->inStream_ = inStream;
+	if ( NULL != inStream_ ){
+		this->size_ = this->inStream_->getSize();
+	}
+}
+
+TextInputStream::~TextInputStream()
+{
+
+}
+
+void TextInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom )
+{
+	if ( NULL != inStream_ ){
+		inStream_->seek( offset, offsetFrom );
+	}
+}
+
+unsigned long TextInputStream::getSize()
+{
+	return size_;
+}
+
+char* TextInputStream::getBuffer()
+{
+	return NULL;
+}
+
+void TextInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
+{
+	if ( NULL != inStream_ ){
+		inStream_->read( bytesToRead, sizeOfBytes );
+	}
+}
+
+void TextInputStream::read( short& val )
+{
+	if ( NULL != this->inStream_ ){
+		String tmp = readTillWhiteSpace();
+		int i = val = 0;
+		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
+		val = (short)i;
+	}
+}
+
+void TextInputStream::read( long& val )
+{
+	if ( NULL != this->inStream_ ){
+		String tmp = readTillWhiteSpace();
+		int i = val = 0;
+		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
+		val = i;
+	}
+}
+
+void TextInputStream::read( int& val )
+{
+	if ( NULL != this->inStream_ ){
+		String tmp = readTillWhiteSpace();
+		int i = val = 0;
+		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
+		val = i;
+	}
+}
+
+void TextInputStream::read( bool& val )
+{
+	if ( NULL != this->inStream_ ){
+		String tmp = readTillWhiteSpace();
+		if ( tmp == W_STR_BOOL_CONVERSION_TRUE ){
+			val = true;
+		}
+		else if ( tmp == W_STR_BOOL_CONVERSION_FALSE ){
+			val = false;
+		}
+	}
+}
+
+void TextInputStream::read( float& val )
+{
+	if ( NULL != this->inStream_ ){
+		String tmp = readTillWhiteSpace();
+		val = 0.0;
+		float f = 0.0;
+		swscanf( tmp.c_str(), W_STR_DOUBLE_CONVERSION, &f );
+		val = f;
+	}
+}
+
+void TextInputStream::read( double& val )
+{
+	if ( NULL != this->inStream_ ){
+		String tmp = readTillWhiteSpace();
+		val = 0.0;
+		float f = 0.0;
+		swscanf( tmp.c_str(), W_STR_DOUBLE_CONVERSION, &f );
+		val = f;
+	}
+}
+
+void TextInputStream::read( String& val )
+{
+	//val = readTillTokenPair( '\n' );
+
+	readLine( val );
+}
+
+
+void TextInputStream::init()
+{
+	this->inStream_ = NULL;
+	this->size_ = 0;
+	totCharRead_ = 0;
+}
+
+void TextInputStream::readLine( String& line )
+{
+	if ( NULL != this->inStream_ )
+	{
+		char c = '\0';
+		inStream_->read( &c, sizeof(c) );
+		totCharRead_++;
+		while ( (c != '\n' && c!= '\r') && (totCharRead_ < size_) )
+		{
+			line += c;
+			inStream_->read( &c, sizeof(c) );
+			totCharRead_++;
+		}
+	}
+}
+
+String TextInputStream::readTillWhiteSpace()
+{
+	String result = "";
+	if ( NULL != this->inStream_ ){
+		char c = '\0';
+		inStream_->read( &c, sizeof(c) );
+		totCharRead_++;
+
+		while ( ((c == ' ') || (c == '\0')) && (totCharRead_ < size_) ){
+			inStream_->read( &c, sizeof(c) );
+			totCharRead_++;
+		}
+		//get all the nonwhitespace characters
+		while ( (c != ' ') && (c != '\0')  && (totCharRead_ < size_) ){
+			result += c;
+			inStream_->read( &c, sizeof(c) );
+			totCharRead_++;
+		}
+	}
+	return result;
+}
+
+String TextInputStream::readTillTokenPair( const char& token )
+{
+	String result = "";
+	if ( NULL != this->inStream_ ){
+		char c = '\0';
+		inStream_->read( &c, sizeof(c) );
+		totCharRead_++;
+
+		while ( (c != token) && (c != ' ') && (totCharRead_ < size_) ){
+			inStream_->read( &c, sizeof(c) );
+			totCharRead_++;
+		}
+
+		while ( (c != token) && (totCharRead_ < size_) ){
+			result += c;
+			inStream_->read( &c, sizeof(c) );
+			totCharRead_++;
+		}
+	}
+	return result;
+}
+
+ulong32 TextInputStream::getCurrentSeekPos()
+{
+	if ( NULL != inStream_ ) {
+		return inStream_->getCurrentSeekPos();
+	}
+	return 0;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -53,224 +255,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// TextInputStream.cpp
-
-#include "vcf/FoundationKit/FoundationKit.h"
-using namespace VCF;
-
-TextInputStream::TextInputStream( InputStream* inStream )
-{
-	this->init();
-	this->inStream_ = inStream;
-	if ( NULL != inStream_ ){
-		this->size_ = this->inStream_->getSize();
-	}	
-}
-
-TextInputStream::~TextInputStream()
-{
-
-}
-
-void TextInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom )
-{
-	if ( NULL != inStream_ ){
-		inStream_->seek( offset, offsetFrom );
-	}
-}
-
-unsigned long TextInputStream::getSize()
-{
-	return size_;
-}
-
-char* TextInputStream::getBuffer()
-{
-	return NULL;
-}
-
-void TextInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
-{
-	if ( NULL != inStream_ ){
-		inStream_->read( bytesToRead, sizeOfBytes );
-	}
-}
-
-void TextInputStream::read( short& val )
-{
-	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();		
-		int i = val = 0;
-		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
-		val = (short)i;		
-	}
-}
-	
-void TextInputStream::read( long& val )
-{
-	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();		
-		int i = val = 0;
-		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
-		val = i;		
-	}
-}
-
-void TextInputStream::read( int& val )
-{
-	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();		
-		int i = val = 0;
-		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
-		val = i;
-	}
-}
-
-void TextInputStream::read( bool& val )
-{
-	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();
-		if ( tmp == W_STR_BOOL_CONVERSION_TRUE ){
-			val = true;
-		}
-		else if ( tmp == W_STR_BOOL_CONVERSION_FALSE ){
-			val = false;
-		}
-	}
-}
-
-void TextInputStream::read( float& val )
-{	
-	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();
-		val = 0.0;
-		float f = 0.0;
-		swscanf( tmp.c_str(), W_STR_DOUBLE_CONVERSION, &f );
-		val = f;
-	}
-}
-
-void TextInputStream::read( double& val )
-{
-	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();
-		val = 0.0;
-		float f = 0.0;
-		swscanf( tmp.c_str(), W_STR_DOUBLE_CONVERSION, &f );
-		val = f;
-	}
-}
-
-void TextInputStream::read( String& val )
-{
-	//val = readTillTokenPair( '\n' );
-
-	readLine( val );
-}
-
-
-void TextInputStream::init()
-{
-	this->inStream_ = NULL;
-	this->size_ = 0;
-	totCharRead_ = 0;
-}
-
-void TextInputStream::readLine( String& line )
-{
-	if ( NULL != this->inStream_ )
-	{
-		char c = '\0';
-		inStream_->read( &c, sizeof(c) );
-		totCharRead_++;
-		while ( (c != '\n' && c!= '\r') && (totCharRead_ < size_) )
-		{ 
-			line += c;
-			inStream_->read( &c, sizeof(c) );			
-			totCharRead_++;
-		}
-	}
-}
-
-String TextInputStream::readTillWhiteSpace()
-{	
-	String result = "";
-	if ( NULL != this->inStream_ ){				
-		char c = '\0';
-		inStream_->read( &c, sizeof(c) );
-		totCharRead_++;
-		
-		while ( ((c == ' ') || (c == '\0')) && (totCharRead_ < size_) ){			
-			inStream_->read( &c, sizeof(c) );			
-			totCharRead_++;
-		}
-		//get all the nonwhitespace characters
-		while ( (c != ' ') && (c != '\0')  && (totCharRead_ < size_) ){
-			result += c;
-			inStream_->read( &c, sizeof(c) );
-			totCharRead_++;
-		}				
-	}
-	return result;
-}
-
-String TextInputStream::readTillTokenPair( const char& token )
-{
-	String result = "";
-	if ( NULL != this->inStream_ ){				
-		char c = '\0';
-		inStream_->read( &c, sizeof(c) );
-		totCharRead_++;
-		
-		while ( (c != token) && (c != ' ') && (totCharRead_ < size_) ){
-			inStream_->read( &c, sizeof(c) );
-			totCharRead_++;
-		}
-		
-		while ( (c != token) && (totCharRead_ < size_) ){
-			result += c;
-			inStream_->read( &c, sizeof(c) );
-			totCharRead_++;
-		}
-	}
-	return result;
-}
-
-ulong32 TextInputStream::getCurrentSeekPos()
-{
-	if ( NULL != inStream_ ) {
-		return inStream_->getCurrentSeekPos();
-	}
-	return 0;
-}
 
 

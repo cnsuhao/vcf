@@ -1,43 +1,17 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_XMLPARSER_H__
 #define _VCF_XMLPARSER_H__
-
-
 //XMLParser.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
@@ -55,7 +29,7 @@ public:
 		value_ = value;
 		node_ = node;
 	}
-	
+
 	XMLAttr ( const XMLAttr& attr ): Object(attr) {
 		name_ = attr.name_;
 		value_ = attr.value_;
@@ -107,9 +81,9 @@ protected:
 /**
 *Class XMLNode represents a single node in a
 *parsed XML document.
-*Nodes have a name, parent node, and 0 or more 
-*attributes represented as XMLAttr(s). In addition 
-*the node may have a string of characters that 
+*Nodes have a name, parent node, and 0 or more
+*attributes represented as XMLAttr(s). In addition
+*the node may have a string of characters that
 *represent character data (CDATA)
 */
 class FRAMEWORK_API XMLNode : public Object {
@@ -140,7 +114,7 @@ public:
 	*gets the parent node of this node. May
 	*return NULL if this is a root, or
 	*top level node of the XML document
-	*@return XMLNode the parent node. NULL if this 
+	*@return XMLNode the parent node. NULL if this
 	*is a root node.
 	*/
 	inline XMLNode* getParentNode() {
@@ -169,15 +143,15 @@ public:
 	XMLAttr* getAttrByIndex( const ulong32& index );
 
 	/**
-	*adds a new attribute to the node. Generally called by 
+	*adds a new attribute to the node. Generally called by
 	*parser.
 	*/
 	inline void addAttr( const XMLAttr& attr ) {
 		attrs_.push_back( attr );
 	}
-	
+
 	/**
-	*adds a new attribute to the node. Generally called by 
+	*adds a new attribute to the node. Generally called by
 	*parser.
 	*/
 	inline void addAttr( const String& name, const String& value ) {
@@ -199,7 +173,7 @@ public:
 	inline String getCDATA() {
 		return CDATA_;
 	}
-	
+
 	/**
 	*sets the character data for this node.
 	*/
@@ -214,7 +188,7 @@ public:
 
 	inline XMLNode* addChildNode( const String& nodeName ) {
 		//node added automagically in the constructor
-		XMLNode* node = new XMLNode( nodeName, this );		
+		XMLNode* node = new XMLNode( nodeName, this );
 		return node;
 	}
 
@@ -235,7 +209,7 @@ protected:
 	String CDATA_;
 	String name_;
 	XMLNode* parentNode_;
-	
+
 	std::vector<XMLNode*> childNodes_;
 	EnumeratorContainer<std::vector<XMLNode*>,XMLNode*> childNodesContainer_;
 
@@ -255,7 +229,7 @@ public:
 		node_ = node;
 	};
 
-	
+
 	virtual ~XMLParserEvent(){};
 
 	/**
@@ -275,46 +249,46 @@ protected:
 */
 template <class SOURCE_TYPE> class XMLParserHandler : public EventHandlerInstance<SOURCE_TYPE,XMLParserEvent> {
 public:
-	XMLParserHandler( SOURCE_TYPE* source, 
-		_typename_ EventHandlerInstance<SOURCE_TYPE,XMLParserEvent>::OnEventHandlerMethod handlerMethod, 
+	XMLParserHandler( SOURCE_TYPE* source,
+		_typename_ EventHandlerInstance<SOURCE_TYPE,XMLParserEvent>::OnEventHandlerMethod handlerMethod,
 		const String& handlerName="") :
 			EventHandlerInstance<SOURCE_TYPE,XMLParserEvent>( source, handlerMethod, handlerName ) {
-			
+
 	}
 
 	virtual ~XMLParserHandler(){};
-	
+
 };
 
 /**
-*XMLParser is a very simple non-validating XML parser. Currently 
+*XMLParser is a very simple non-validating XML parser. Currently
 *only really handles basic XML documents. Does <I><B>not</B></I>
-*handle parsing DTDs yet. Allows outside objects to be notified of 
+*handle parsing DTDs yet. Allows outside objects to be notified of
 *parsing events as the XML document is parsed. Events are:
 *<ul>
 *<li>
 *NodeFound events. These are fired whenever a new node is discovered. The node
 *is created, it's attributes are parsed, and then the event is fired. When receiving this
-*event you can safely assume that any attributes for the node will be correctly filled 
-*out at this point, as well as the node having a valid parent node. CDATA may not be filled out 
+*event you can safely assume that any attributes for the node will be correctly filled
+*out at this point, as well as the node having a valid parent node. CDATA may not be filled out
 *at this point, there is a seperate event for it.
 *</li>
 *<li>
-*NodeCDATAFound events. These are fired off when character data is found. 
-*The current node's CDATA is set, and then the event is fired. Handlers 
-*may safely assume that the node that the event object points to has valid 
+*NodeCDATAFound events. These are fired off when character data is found.
+*The current node's CDATA is set, and then the event is fired. Handlers
+*may safely assume that the node that the event object points to has valid
 *CDATA.
 *</li>
 *</ul>
 *When parsing XML, all XML comments are currently ignored.
 *@author Jim Crafton
 *@version 1.0
-@delegates 
+@delegates
 	@del NodeFound
 	@del NodeCDATAFound
 
 */
-class FRAMEWORK_API XMLParser : public ObjectWithEvents { 
+class FRAMEWORK_API XMLParser : public ObjectWithEvents {
 public:
 	enum XMLTagType {
 		TagCDATA	=	-3,
@@ -337,7 +311,7 @@ public:
 	@event XMLParserEvent
 	*/
 	DELEGATE(NodeFound)
-	
+
 	/**
 	@delegate NodeCDATAFound this is fired whenever CDATA is encountered during the
 	parsing of the xml data.
@@ -347,7 +321,7 @@ public:
 
 
 	/**
-	*tries to parse and process the next node. 
+	*tries to parse and process the next node.
 	*@return bool true if successful, false if the parsing failed.
 	*/
 	bool nextNode();
@@ -370,9 +344,9 @@ protected:
 	String tokenString_;
 	bool dtdStarted_;
 	std::map<String,String> entityMap_;
-	
+
 	XMLTagType token_;
-	
+
 	XMLNode* currentNode_;
 
 	std::vector<XMLNode*> parsedNodes_;
@@ -396,7 +370,7 @@ protected:
 
 	bool whiteSpace( const VCFChar& ch );
 
-	
+
 
 private:
 };
@@ -408,6 +382,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *

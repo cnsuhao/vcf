@@ -1,41 +1,20 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_STRINGTOKENIZER_H__
+#define _VCF_STRINGTOKENIZER_H__
+//StringTokenizer.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
 
 
-#ifndef _VCF_STRINGTOKENIZER_H__
-#define _VCF_STRINGTOKENIZER_H__
-
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
-*/
-//StringTokenizer.h
-namespace VCF { 
+namespace VCF {
 
 
 
@@ -43,7 +22,7 @@ namespace VCF {
 Class for breaking a string into a series of one or more tokens
 
 <p>
-Usage: 
+Usage:
 <pre>
 
 StringTokenizer stk("Diddly piddly, dock, a big fat tock!", " \n\r\f\t" );
@@ -59,14 +38,14 @@ while ( stk.hasMoreElements(true) ) {
 */
 class StringTokenizer : public Object, public Enumerator<String> {
 public:
-	StringTokenizer( const String& data ) : 
+	StringTokenizer( const String& data ) :
 		data_(data), delimiter_(" \n\r\t\f"), start_(NULL), ptr_(NULL), backPtr_(NULL) {
-		reset();	
+		reset();
 	}
 
-	StringTokenizer( const String& data, const String& delimiter ) : 
+	StringTokenizer( const String& data, const String& delimiter ) :
 		data_(data), delimiter_(delimiter), start_(NULL), ptr_(NULL), backPtr_(NULL) {
-		reset();	
+		reset();
 	}
 
 	virtual bool hasMoreElements(const bool& backward=false) {
@@ -81,19 +60,19 @@ public:
 	virtual String nextElement() {
 		String result;
 
-		if ( !backward_ ) {			
+		if ( !backward_ ) {
 			int pos = data_.find_first_of( delimiter_, ptr_-start_ );
-			if ( pos != String::npos ) {			
+			if ( pos != String::npos ) {
 				result.append( ptr_,  (start_ + pos)-ptr_ );
 				ptr_ = start_ + pos+1;
 				pos = delimiter_.find( *ptr_ );
 				while ( (pos != String::npos) && ((ptr_-start_) < dataSize_) ) {
 					ptr_ ++;
-					pos = delimiter_.find( *ptr_ );				
+					pos = delimiter_.find( *ptr_ );
 				}
 			}
 			else {
-				if ( (ptr_-start_) < dataSize_ ) {				
+				if ( (ptr_-start_) < dataSize_ ) {
 					result.append( ptr_, dataSize_ - (ptr_-start_) );
 				}
 				ptr_ = start_ + dataSize_;
@@ -115,11 +94,11 @@ public:
 				pos = delimiter_.find( *ptr_ );
 				while ( (pos != String::npos) && ((ptr_-start_) > 0) ) {
 					ptr_ --;
-					pos = delimiter_.find( *ptr_ );	
+					pos = delimiter_.find( *ptr_ );
 				}
 			}
 			else {
-				if ( (ptr_-start_) > 0 ) {				
+				if ( (ptr_-start_) > 0 ) {
 					result.append( start_, ptr_-start_ +1 );
 				}
 				ptr_ = start_;
@@ -131,19 +110,19 @@ public:
 
 	virtual String prevElement() {
 		String result;
-		if ( backward_ ) {			
+		if ( backward_ ) {
 			int pos = data_.find_first_of( delimiter_, backPtr_-start_ );
-			if ( pos != String::npos ) {			
+			if ( pos != String::npos ) {
 				result.append( backPtr_,  (start_ + pos)-backPtr_ );
 				backPtr_ = start_ + pos+1;
 				pos = delimiter_.find( *backPtr_ );
 				while ( (pos != String::npos) && ((backPtr_-start_) < dataSize_) ) {
 					ptr_ ++;
-					pos = delimiter_.find( *backPtr_ );				
+					pos = delimiter_.find( *backPtr_ );
 				}
 			}
 			else {
-				if ( (backPtr_-start_) < dataSize_ ) {				
+				if ( (backPtr_-start_) < dataSize_ ) {
 					result.append( backPtr_, dataSize_ - (backPtr_-start_) );
 				}
 				backPtr_ = start_ + dataSize_;
@@ -165,11 +144,11 @@ public:
 				pos = delimiter_.find( *backPtr_ );
 				while ( (pos != String::npos) && ((backPtr_-start_) > 0) ) {
 					backPtr_ --;
-					pos = delimiter_.find( *backPtr_ );	
+					pos = delimiter_.find( *backPtr_ );
 				}
 			}
 			else {
-				if ( (backPtr_-start_) > 0 ) {				
+				if ( (backPtr_-start_) > 0 ) {
 					result.append( start_, backPtr_-start_ +1 );
 				}
 				backPtr_ = start_;
@@ -190,7 +169,7 @@ public:
 		}
 	}
 
-	StringTokenizer& operator=( const String& data ) { 
+	StringTokenizer& operator=( const String& data ) {
 		data_ = data;
 		ptr_ = NULL;
 		start_ = NULL;
@@ -203,7 +182,7 @@ protected:
 	//don't allow copy constructorys
 	StringTokenizer( const StringTokenizer& ) {};
 
-	StringTokenizer& operator=( const StringTokenizer& rhs ) { 
+	StringTokenizer& operator=( const StringTokenizer& rhs ) {
 		return *this;
 	}
 
@@ -227,6 +206,9 @@ protected:
 /**
 CVS Log info
 $Log$
+Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+reformatting of source files: macros and csvlog and copyright sections
+
 Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 migration towards new directory structure
 
@@ -259,6 +241,15 @@ the devmain-0-6-0 branch plus a few minor bug fixes
 Revision 1.1.2.1  2003/04/23 03:44:36  ddiego
 added a string tokenizer class, long overdue :)
 
+*/
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 */
 
 

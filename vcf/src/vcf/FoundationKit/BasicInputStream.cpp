@@ -1,6 +1,127 @@
+//BasicInputStream.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/FoundationKit/FoundationKit.h"
+using namespace VCF;
+
+BasicInputStream::BasicInputStream()
+{
+	init();
+}
+
+BasicInputStream::BasicInputStream( const String& textBuffer )
+{
+	init();
+	/**
+	JC
+	WARNING !!!!
+	We are treating this like ascii strings!!!
+	*/
+	inStream_.write( textBuffer.ansi_c_str(), textBuffer.size() );
+	inStream_.setSeekPos( 0 );
+	totalStreamSize_ = textBuffer.size();
+}
+
+BasicInputStream::BasicInputStream( const char* dataBuffer, const unsigned long& dataBufferSize )
+{
+	init();
+	inStream_.write( dataBuffer, dataBufferSize );
+	inStream_.setSeekPos( 0 );
+	totalStreamSize_ = dataBufferSize;
+}
+
+BasicInputStream::BasicInputStream( InputStream* inStream )
+{
+	init();
+	inputStream_ = inStream;
+}
+
+
+void BasicInputStream::init()
+{
+	inputStream_ = NULL;
+	totalStreamSize_ = 0;
+}
+
+BasicInputStream::~BasicInputStream()
+{
+
+}
+
+void BasicInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom)
+{
+	if ( NULL != inputStream_ ) {
+		inputStream_->seek( offset, offsetFrom );
+	}
+
+	switch ( offsetFrom ) {
+		case stSeekFromStart: {
+			inStream_.setSeekPos( offset );
+		}
+		break;
+
+		case stSeekFromEnd: {
+			inStream_.setSeekPos( inStream_.getSize() - offset );
+		}
+		break;
+
+		case stSeekFromRelative: {
+			inStream_.setSeekPos( inStream_.getSeekPos() + offset );
+		}
+		break;
+	}
+}
+
+unsigned long BasicInputStream::getSize()
+{
+	return inStream_.getSize();
+}
+
+char* BasicInputStream::getBuffer()
+{
+	return inStream_.getBuffer();
+}
+
+void BasicInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
+{
+	if ( NULL != inputStream_ ){
+		inputStream_->read( bytesToRead, sizeOfBytes );
+		inStream_.write( bytesToRead, sizeOfBytes );
+	}
+	else {
+		inStream_.read( bytesToRead, sizeOfBytes );
+	}
+}
+
+ulong32 BasicInputStream::getCurrentSeekPos()
+{
+	if ( NULL != inputStream_ ) {
+		return inputStream_->getCurrentSeekPos();
+	}
+	return inStream_.getSeekPos();
+}
+
+bool BasicInputStream::isEOS()
+{
+	if ( NULL != inputStream_ ) {
+		return inputStream_->getCurrentSeekPos() == (inputStream_->getSize()-1);
+	}
+	return inStream_.getSeekPos() == (totalStreamSize_-1);
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -51,141 +172,4 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// BasicInputStream.cpp
-
-#include "vcf/FoundationKit/FoundationKit.h"
-using namespace VCF;
-
-BasicInputStream::BasicInputStream()
-{
-	init();
-}
-
-BasicInputStream::BasicInputStream( const String& textBuffer )
-{
-	init();
-	/**
-	JC
-	WARNING !!!! 
-	We are treating this like ascii strings!!!
-	*/
-	inStream_.write( textBuffer.ansi_c_str(), textBuffer.size() );
-	inStream_.setSeekPos( 0 );
-	totalStreamSize_ = textBuffer.size();
-}
-
-BasicInputStream::BasicInputStream( const char* dataBuffer, const unsigned long& dataBufferSize )
-{	
-	init();
-	inStream_.write( dataBuffer, dataBufferSize );
-	inStream_.setSeekPos( 0 );
-	totalStreamSize_ = dataBufferSize;
-}
-
-BasicInputStream::BasicInputStream( InputStream* inStream )
-{
-	init();
-	inputStream_ = inStream;	
-}
-
-
-void BasicInputStream::init()
-{
-	inputStream_ = NULL;
-	totalStreamSize_ = 0;
-}
-
-BasicInputStream::~BasicInputStream()
-{
-	
-}
-
-void BasicInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom)
-{
-	if ( NULL != inputStream_ ) {
-		inputStream_->seek( offset, offsetFrom );
-	}
-
-	switch ( offsetFrom ) {
-		case stSeekFromStart: {
-			inStream_.setSeekPos( offset );
-		}
-		break;
-
-		case stSeekFromEnd: {			
-			inStream_.setSeekPos( inStream_.getSize() - offset );
-		}
-		break;
-
-		case stSeekFromRelative: {			
-			inStream_.setSeekPos( inStream_.getSeekPos() + offset );
-		}
-		break;
-	}
-}
-
-unsigned long BasicInputStream::getSize()
-{
-	return inStream_.getSize();
-}
-
-char* BasicInputStream::getBuffer()
-{
-	return inStream_.getBuffer();
-}
-
-void BasicInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
-{
-	if ( NULL != inputStream_ ){
-		inputStream_->read( bytesToRead, sizeOfBytes );
-		inStream_.write( bytesToRead, sizeOfBytes );
-	}
-	else {
-		inStream_.read( bytesToRead, sizeOfBytes );
-	}	
-}
-
-ulong32 BasicInputStream::getCurrentSeekPos()
-{
-	if ( NULL != inputStream_ ) {
-		return inputStream_->getCurrentSeekPos();
-	}
-	return inStream_.getSeekPos();
-}
-
-bool BasicInputStream::isEOS()
-{
-	if ( NULL != inputStream_ ) {
-		return inputStream_->getCurrentSeekPos() == (inputStream_->getSize()-1);
-	}
-	return inStream_.getSeekPos() == (totalStreamSize_-1);
-}
 

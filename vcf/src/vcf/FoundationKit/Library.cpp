@@ -1,31 +1,12 @@
+//Library.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/FoundationKit/FoundationKit.h"
 using namespace VCF;
 
@@ -45,9 +26,9 @@ Library::~Library()
 				unload();
 			}
 			catch (...){
-				StringUtils::trace( "failed to unload the libary - probably alread unloaded" ); 
+				StringUtils::trace( "failed to unload the libary - probably alread unloaded" );
 			}
-		}		
+		}
 		delete libPeer_;
 		libPeer_ = NULL;
 	}
@@ -61,11 +42,11 @@ void Library::init()
 
 	libPeer_ = SystemToolkit::createLibraryPeer( this );
 	if ( NULL == libPeer_ ) {
-		throw NoPeerFoundException();	
+		throw NoPeerFoundException();
 	}
 
 	if ( !currentLibName_.empty() ){
-		load( currentLibName_ ); 
+		load( currentLibName_ );
 	}
 }
 
@@ -73,7 +54,7 @@ void Library::load( const String& libraryFilename )
 {
 	libPeer_->load( libraryFilename );
 	currentLibName_ = libraryFilename;
-	
+
 	typedef void (*initFunc)(void);
 
 	initFunc _init = (initFunc) getFunction("_vpl_init");
@@ -84,9 +65,9 @@ void Library::load( const String& libraryFilename )
 		//don't throw the exception - this is *not* a fatal error
 		RuntimeException re( MAKE_ERROR_MSG_2("VCF Package Library does not have a valid _vpl_init function!") );
 
-		System::errorPrint( &re );		
-	}	
-	
+		System::errorPrint( &re );
+	}
+
 }
 
 void Library::unload()
@@ -95,7 +76,7 @@ void Library::unload()
 
 	terminateFunc _terminate = (terminateFunc) getFunction("_vpl_terminate");
 	if ( NULL != _terminate ) {
-		
+
 		_terminate();
 	}
 	else {
@@ -114,10 +95,12 @@ void* Library::getFunction( const String& functionName )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -195,8 +178,5 @@ void* Library::getFunction( const String& functionName )
 *to facilitate change tracking
 *
 */
-
-
-
 
 

@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_CLASSINFO_H__
 #define _VCF_CLASSINFO_H__
+//ClassInfo.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//ClassInfo.h
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -42,12 +19,12 @@ namespace VCF
 
 
 /**
-*RTTI helper classes for properly registering RTTI meta data with the 
+*RTTI helper classes for properly registering RTTI meta data with the
 *class registry
 */
 
 /**
-*The ClassInfo is used to simplify registering 
+*The ClassInfo is used to simplify registering
 *classes with the FoundationKit's runtime ClassRegistry.
 *The class is derived from by using the macros below. It is
 *created on the stack, and the constructor will automatically
@@ -56,24 +33,24 @@ namespace VCF
 */
 template <class CLASS_TYPE> class ClassInfo : public Object {
 public:
-	ClassInfo( const String& className, 
+	ClassInfo( const String& className,
 		       const String& superClassName, const String& classID ){
 		isClassRegistered_ = registerClass<CLASS_TYPE>( NULL, className, superClassName, classID );
 	};
-	
+
 	virtual ~ClassInfo(){};
-	
+
 	bool isClassRegistered(){
 		return isClassRegistered_;
 	}
-	
+
 private:
 	bool isClassRegistered_;
-};	
+};
 
 
 /**
-*The AbstractClassInfo is used to simplify registering 
+*The AbstractClassInfo is used to simplify registering
 *classes with the FoundationKit's runtime ClassRegistry.
 *It is uses specifically with classes that are abstract,
 *in other words are not supposed to be created, only derived from.
@@ -84,39 +61,39 @@ private:
 */
 template <class CLASS_TYPE> class AbstractClassInfo : public Object {
 public:
-	AbstractClassInfo( const String& className, 
+	AbstractClassInfo( const String& className,
 		       const String& superClassName, const String& classID ){
-		
+
 		isClassRegistered_ = registerAbstractClass<CLASS_TYPE>( NULL, className, superClassName, classID );
-		
+
 	};
-	
+
 	virtual ~AbstractClassInfo(){};
-	
+
 	bool isClassRegistered(){
 		return isClassRegistered_;
 	}
-	
+
 private:
 	bool isClassRegistered_;
 };
 
 
 /**
-*The InterfaceInfo class serves bascially 
+*The InterfaceInfo class serves bascially
 *the same purpose as the ClassInfo class.
-*It is used to register interfaces and their 
-*methods with the 
+*It is used to register interfaces and their
+*methods with the
 */
 template <class INTERFACE_TYPE> class InterfaceInfo : public Object
 {
 public:
-	InterfaceInfo( const String& interfaceName, 
-					const String& interfaceID, 
+	InterfaceInfo( const String& interfaceName,
+					const String& interfaceID,
 					const String& superInterfaceClassName ) {
 
 		isInterfaceRegistered_ = registerInterface<INTERFACE_TYPE>( NULL, interfaceName, interfaceID, superInterfaceClassName );
-		
+
 	}
 
 	virtual ~InterfaceInfo(){};
@@ -149,7 +126,7 @@ protected:
 *makes a create() method with the copy constructor pattern.
 *The create() method takes a pointer to a object instance
 *of the same type.
-*@param ClassType a pointer an object to copy it's 
+*@param ClassType a pointer an object to copy it's
 *initial data from
 */
 #define CREATE_COPY( ClassType ) \
@@ -162,7 +139,7 @@ protected:
 
 
 /**
-*makes a create() method with a single argument. Requires a 
+*makes a create() method with a single argument. Requires a
 *constructor to also be declared that accepts a single argument
 *of the same type.
 *@param ArgType the type of argument to use in the create() method
@@ -220,26 +197,26 @@ protected:
 
 
 /**
-*RTTI macros 
+*RTTI macros
 */
 /**
-*When defining your classes RTTI info in the VCF you will always start 
+*When defining your classes RTTI info in the VCF you will always start
 *with either this macro or the BEGIN_ABSTRACT_CLASSINFO macro.
 *This will begin the declaration of a nested class derived from
 *ClassInfo.
-*@param  ClassType the class type to use. If you class is called Foo, 
+*@param  ClassType the class type to use. If you class is called Foo,
 *then you will pass in Foo here.
 *@param ClassName the fully qualified class name to identify your class by.
-*Please note that fully qualified means that namespaces need to also be 
-*in the name. So if your class is called Foo in the namespace Baz, then 
+*Please note that fully qualified means that namespaces need to also be
+*in the name. So if your class is called Foo in the namespace Baz, then
 *you would use then name "Baz::Foo" here
 *@param superClassName the name of the super class for this class. Once
-*again this must be a fully qualified classname (see above). If your class 
-*was called Foo and derived from VCF::Object, then you would pass 
+*again this must be a fully qualified classname (see above). If your class
+*was called Foo and derived from VCF::Object, then you would pass
 *in "VCF::Object" here.
-*@param classID a string that represents a unique id. Preferably a UUID 
+*@param classID a string that represents a unique id. Preferably a UUID
 *that has been converted into a string representation.
-*This macro must be paired with the END_CLASSINFO macro once 
+*This macro must be paired with the END_CLASSINFO macro once
 *you are finished defining your RTTI.
 */
 #define BEGIN_CLASSINFO( ClassType, ClassName, superClassName, classID ) \
@@ -250,25 +227,25 @@ protected:
 			VCF::String tmpClassName = ClassName; \
 			if ( true == isClassRegistered()  ){ \
 			\
-			    		
+
 /**
-*When defining your classes RTTI info in the VCF you will always start 
+*When defining your classes RTTI info in the VCF you will always start
 *with either this macro or the BEGIN_ABSTRACT_CLASSINFO macro.
 *This will begin the declaration of a nested class derived from
-*AbstractClassInfo. 
-*@param  ClassType the class type to use. If you class is called Foo, 
+*AbstractClassInfo.
+*@param  ClassType the class type to use. If you class is called Foo,
 *then you will pass in Foo here.
 *@param ClassName the fully qualified class name to identify your class by.
-*Please note that fully qualified means that namespaces need to also be 
-*in the name. So if your class is called Foo in the namespace Baz, then 
+*Please note that fully qualified means that namespaces need to also be
+*in the name. So if your class is called Foo in the namespace Baz, then
 *you would use then name "Baz::Foo" here
 *@param superClassName the name of the super class for this class. Once
-*again this must be a fully qualified classname (see above). If your class 
-*was called Foo and derived from VCF::Object, then you would pass 
+*again this must be a fully qualified classname (see above). If your class
+*was called Foo and derived from VCF::Object, then you would pass
 *in "VCF::Object" here.
-*@param classID a string that represents a unique id. Preferably a UUID 
+*@param classID a string that represents a unique id. Preferably a UUID
 *that has been converted into a string representation.
-*This macro must be paired with the END_CLASSINFO macro once 
+*This macro must be paired with the END_CLASSINFO macro once
 *you are finished defining your RTTI.
 */
 #define BEGIN_ABSTRACT_CLASSINFO( ClassType, ClassName, superClassName, classID ) \
@@ -281,22 +258,22 @@ protected:
 			\
 
 /**
-*When defining your interfaces RTTI info in the VCF you will always start 
-*with this macro. This will begin the declaration of a nested class 
-*derived from InterfaceInfo. 
+*When defining your interfaces RTTI info in the VCF you will always start
+*with this macro. This will begin the declaration of a nested class
+*derived from InterfaceInfo.
 *@param  InterfaceType the class type to use for your interface. If your
 *interface is called FooInterface, then you will pass in FooInterface here.
 *@param InterfaceName the fully qualified class name to identify your class by.
-*Please note that fully qualified means that namespaces need to also be 
-*in the name. So if your class is called FooInterface in the namespace Baz, then 
+*Please note that fully qualified means that namespaces need to also be
+*in the name. So if your class is called FooInterface in the namespace Baz, then
 *you would use then name "Baz::FooInterface" here
 *@param SuperInterfaceName the name of the interface that this interface derives
-*from. Once again this must be a fully qualified classname (see above). If your class 
-*was called FooInterface and derived from VCF::Interface, then you would pass 
+*from. Once again this must be a fully qualified classname (see above). If your class
+*was called FooInterface and derived from VCF::Interface, then you would pass
 *in "VCF::Interface" here (this will be the case most of the time).
-*@param InterfaceID a string that represents a unique id. Preferably a UUID 
+*@param InterfaceID a string that represents a unique id. Preferably a UUID
 *that has been converted into a string representation.
-*This macro must be paired with the END_INTERFACEINFO macro once 
+*This macro must be paired with the END_INTERFACEINFO macro once
 *you are finished defining your RTTI.
 */
 #define BEGIN_INTERFACEINFO(InterfaceType,InterfaceName,SuperInterfaceName,InterfaceID)\
@@ -311,8 +288,8 @@ protected:
 
 /**
 *This macro is used within a BEGIN_CLASSINFO/END_CLASSINFO block
-*to indicate that this class fully implements the specified 
-*interface. 
+*to indicate that this class fully implements the specified
+*interface.
 */
 #define IMPLEMENTS_INTERFACE( ClassType, InterfaceType, implementationClassName, interfaceName, interfaceID, superInterfaceClassName ) \
 	VCF::registerImplementedInterface<InterfaceType,ClassType>( NULL, VCF::String(implementationClassName), VCF::String(interfaceName), VCF::String(interfaceID), VCF::String(superInterfaceClassName) ); \
@@ -333,13 +310,13 @@ protected:
 *Registers that the class fires an event. By declaring this it is expected that
 *there are methods for adding event handler of the specified type that fire
 *events of the specified event type.
-*@param handlerClassName the name of the EventHandler derived class. This class 
-*will contain a method pointer to some source object that wants to get notified 
-*for the event. 
-*@param eventClassName the class name of the Event type that is fired 
-*by this class. 
-*@param eventMethod the method name that is used in the supporting 
-*event methods. So you might pass in "StreamExhausted". You could then 
+*@param handlerClassName the name of the EventHandler derived class. This class
+*will contain a method pointer to some source object that wants to get notified
+*for the event.
+*@param eventClassName the class name of the Event type that is fired
+*by this class.
+*@param eventMethod the method name that is used in the supporting
+*event methods. So you might pass in "StreamExhausted". You could then
 *expect to find methods as follows declared in the class:
 *<pre>
 *   void addStreamExhaustedHandler( EventHandler* handler ) ;
@@ -740,15 +717,15 @@ protected:
 
 #define PROPERTY( type, propName, getFunc, setFunc, propType )
 
-#define READONLY_PROPERTY( type, propName, getFunc, propType ) 
+#define READONLY_PROPERTY( type, propName, getFunc, propType )
 
 #define OBJECT_PROPERTY( type, propName, getFunc, setFunc )
 
-#define READONLY_OBJECT_PROPERTY( type, propName, getFunc ) 
+#define READONLY_OBJECT_PROPERTY( type, propName, getFunc )
 
-#define OBJECT_PROPERTY_REF( type, propName, getFunc, setFunc ) 
+#define OBJECT_PROPERTY_REF( type, propName, getFunc, setFunc )
 
-#define READONLY_OBJECT_PROPERTY_REF( type, propName, getFunc ) 
+#define READONLY_OBJECT_PROPERTY_REF( type, propName, getFunc )
 
 #define ENUM_PROPERTY(type,propName,getFunc,setFunc, lower, upper)
 
@@ -821,7 +798,7 @@ protected:
 
 #define END_CLASSINFO( ClassType )
 
-#define REGISTER_CLASSINFO( ClassType ) 
+#define REGISTER_CLASSINFO( ClassType )
 
 #define REGISTER_INTERFACEINFO(InterfaceType)
 
@@ -830,10 +807,12 @@ protected:
 #endif //VCF_RTTI
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

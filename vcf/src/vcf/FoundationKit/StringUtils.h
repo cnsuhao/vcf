@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_STRINGUTILS_H__
 #define _VCF_STRINGUTILS_H__
+//StringUtils.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// StringUtils.h
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #define MAX_TRACE_STRING		5000
@@ -42,7 +19,7 @@
 
 
 /**
-*The StringUtils class is a collection of static 
+*The StringUtils class is a collection of static
 *utility methods for operating on strings.
 */
 // forward declaration needed for bcc32
@@ -54,23 +31,23 @@ class DateTime;
 
 class FRAMEWORK_API StringUtils  {
 public:
-	
+
 	/**
 	*outs the text to the debugger output
-	*@param String the text to output 
+	*@param String the text to output
 	*/
 	static void trace( const VCF::String& text );
 
 	/**
-	*Similar to trace() but allows variable arguments. Uses the 
+	*Similar to trace() but allows variable arguments. Uses the
 	*same formatting rules as printf().
 	*@param String the text to trace out after formatting. See printf()
 	*for formatting rules.
 	*/
 	static void traceWithArgs( VCF::String text,... );
-	
+
 	/**
-	*formats a string. Uses the same formatting rules as 
+	*formats a string. Uses the same formatting rules as
 	*sprintf().
 	*@param String the format text to use
 	*@return String the formatted string
@@ -78,8 +55,8 @@ public:
 	static VCF::String format( VCF::String formatText, ... );
 
 	/**
-	*trim all the occurrences of a specified character 
-	* at the beginning of the string 
+	*trim all the occurrences of a specified character
+	* at the beginning of the string
 	* until it is met the first character from the left that is different
 	*@param String the text to trim
 	*@param char the character to trim
@@ -88,8 +65,8 @@ public:
 	static VCF::String trimLeft( const VCF::String& text, const char& c );
 
 	/**
-	*trim all the occurrences of a specified character 
-	* at the end of the string 
+	*trim all the occurrences of a specified character
+	* at the end of the string
 	* until it is met the first character from the right that is different
 	*@param String the text to trim
 	*@param char the character to trim
@@ -98,7 +75,7 @@ public:
 	static VCF::String trimRight( const VCF::String& text, const char& c );
 
 	/**
-	*trim all the occurrences of a specified character 
+	*trim all the occurrences of a specified character
 	* at the beginning and the end of the string
 	* i.e. calls trimLeft + trimRight
 	*@param String the text to trim
@@ -116,7 +93,7 @@ public:
 	static void trimWhiteSpacesLeft( VCF::String& text );
 
 	/**
-	*trim all the occurrences of any <space>, <tab>, <CR> and <LF> 
+	*trim all the occurrences of any <space>, <tab>, <CR> and <LF>
 	* at the end of the string
 	* until it is met the first character from the right that is not a whitespace one
 	*@param String the text to trim
@@ -124,7 +101,7 @@ public:
 	static void trimWhiteSpacesRight( VCF::String& text );
 
 	/**
-	*trim all the occurrences of any <<space>, <tab>, <CR> and <LF> 
+	*trim all the occurrences of any <<space>, <tab>, <CR> and <LF>
 	* at the beginning and the end of the string
 	* i.e. calls trimWhiteSpacesLeft + trimWhiteSpacesRight
 	*@param String the text to trim
@@ -136,14 +113,14 @@ public:
 	*@param String the text to convert
 	*@return String the converted string
 	*/
-	static VCF::String lowerCase( const VCF::String& text );	
+	static VCF::String lowerCase( const VCF::String& text );
 
 	/**
 	*converts the string to upper case
 	*@param String the text to convert
 	*@return String the converted string
 	*/
-	static VCF::String upperCase( const VCF::String& text );	
+	static VCF::String upperCase( const VCF::String& text );
 
 	/**
 	*converts the value to a string
@@ -197,7 +174,7 @@ public:
 	/**
 	*converts the value to a string
 	*@param char bool the value to convert
-	*@return String the string representation of the bool value 
+	*@return String the string representation of the bool value
 	*(either "true" or "false")
 	*/
 	static VCF::String toString( const bool& value );
@@ -205,49 +182,49 @@ public:
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static int fromStringAsInt( const VCF::String& value );
 
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static VCF::uint32 fromStringAsUInt( const VCF::String& value );
 
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static char fromStringAsChar( const VCF::String& value );
 
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static short fromStringAsShort( const VCF::String& value );
 
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static float fromStringAsFloat( const VCF::String& value );
 
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static double fromStringAsDouble( const VCF::String& value );
 
 	/**
 	converts the value to an int
 	@param String the value to convert
-	@return int the integer representation of the String value 
+	@return int the integer representation of the String value
 	*/
 	static bool fromStringAsBool( const VCF::String& value );
 
@@ -258,20 +235,20 @@ public:
 	static VCF::String newUUID();
 
 	/**
-	*gets the class name from a type_info struct. 
-	*@param type_info the value returned from the 
+	*gets the class name from a type_info struct.
+	*@param type_info the value returned from the
 	*expression :
 	*<pre>
 	*	typeid(AClass)
 	*</pre>
-	*@return String the name of the class the typeInfo references 
+	*@return String the name of the class the typeInfo references
 	*/
 	static VCF::String getClassNameFromTypeInfo( const std::type_info& typeInfo  );
 
 	/**
-	Formats a string from date time object using the various argument/formatting 
-	tags in the formatting string. For example, a date that equals "Jan 2, 2005", 
-	and a formatting string of "%a %B %#d, %Y" will return string that equals 
+	Formats a string from date time object using the various argument/formatting
+	tags in the formatting string. For example, a date that equals "Jan 2, 2005",
+	and a formatting string of "%a %B %#d, %Y" will return string that equals
 	"Sunday January 2, 2005". A listing of the possible format codes follows:
 	<table>
 	  <tr>
@@ -308,7 +285,7 @@ public:
 	  <tr>
 	    <td>%D</td>
 		<td>Day of the year as decimal number</td>
-	  </tr>	  
+	  </tr>
 	  <tr>
 	    <td>%H</td>
 		<td>Hour in 24-hour format (00 – 23)</td>
@@ -368,10 +345,10 @@ public:
 	  <tr>
 	    <td>%s</td>
 		<td>millisecond part</td>
-	  </tr>	  
+	  </tr>
 	</table>
-	@param Date the date to use 
-	@param String a string with formatting codes in it. 
+	@param Date the date to use
+	@param String a string with formatting codes in it.
 	@return String the newly formatted string
 	*/
 	static VCF::String format( const DateTime& date, const String& formatting );
@@ -385,9 +362,13 @@ protected:
 
 };//end of namespace VCF
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -466,7 +447,5 @@ protected:
 
 
 #endif // _VCF_STRINGUTILS_H__
-
-	
 
 

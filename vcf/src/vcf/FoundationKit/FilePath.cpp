@@ -1,33 +1,11 @@
-
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
 //FilePath.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
@@ -42,7 +20,7 @@ FilePath::FilePath()
 
 
 FilePath::FilePath( const String& filename ):filename_(filename)
-{	
+{
 	convertToNative(filename_);
 }
 
@@ -75,16 +53,16 @@ String FilePath::getExtension() const
 {
 	String result;
 
-	result = filename_;		
-	
+	result = filename_;
+
 	int lastSlashPos = result.find_last_of( FilePath::getDirectorySeparator() );
-	
-	if ( lastSlashPos != String::npos ) {			
+
+	if ( lastSlashPos != String::npos ) {
 		result = result.substr( lastSlashPos+1, result.size() - (lastSlashPos) );
 	}
 
 	int pos = result.find_last_of( FilePath::getExtensionSeparator() );
-	
+
 	if ( pos != String::npos ) {
 		result.erase( 0, pos );
 	}
@@ -100,23 +78,23 @@ String FilePath::getExtension() const
 String FilePath::getName( const bool& includeExtension ) const
 {
 	String result;
-	
-	result = filename_;		
-	
+
+	result = filename_;
+
 	int lastSlashPos = result.find_last_of( FilePath::getDirectorySeparator() );
-	
-	if ( lastSlashPos != String::npos ) {			
+
+	if ( lastSlashPos != String::npos ) {
 		result = result.substr( lastSlashPos+1, result.size() - (lastSlashPos) );
 	}
-	
+
 	if ( !includeExtension ) {
 		int pos = result.find_last_of( FilePath::getExtensionSeparator() );
-		
+
 		if ( pos != String::npos ) {
 			result.erase( pos, result.size() - pos );
 		}
 	}
-	
+
 	return result;
 }
 
@@ -124,9 +102,9 @@ String FilePath::getName( const bool& includeExtension ) const
 String FilePath::getDriveName() const
 {
 	String result;
-	
+
 	result = filename_;
-	
+
 	int drivePos = result.find_last_of( FilePath::getDriveSeparator() );
 	if ( String::npos == drivePos ) {
 		result = "";
@@ -141,16 +119,16 @@ String FilePath::getDriveName() const
 String FilePath::getPathName( const bool& includeDriveName ) const
 {
 	String result;
-	
+
 	result = filename_;
-	
+
 	int drivePos = result.find_last_of( FilePath::getDriveSeparator() );
 	if ( String::npos != drivePos ) {
 		result.erase( 0, drivePos+1 );
 	}
-	
+
 	int lastSlashPos = result.find_last_of( FilePath::getDirectorySeparator() );
-	
+
 	if ( lastSlashPos != String::npos ) {
 		result = result.substr( 0, lastSlashPos+1 );
 	}
@@ -165,14 +143,14 @@ String FilePath::getPathName( const bool& includeDriveName ) const
 		}
 		result = tmp + result;
 	}
-	
+
 	return result;
 }
 
 
 
 bool FilePath::doesFileExist() const
-{	
+{
 	return System::doesFileExist( filename_ );
 }
 
@@ -210,7 +188,7 @@ bool compareDirectoryComponent( const String& s1, const String& s2 )
 #ifdef WIN32
 	result = (StringUtils::lowerCase(s1) == StringUtils::lowerCase(s2));
 #else
-	result = (s1 == s2);	
+	result = (s1 == s2);
 #endif
 
 	return result;
@@ -221,7 +199,7 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 	String result;
 	String tmp = filename_;
 	String workDir = workingPath;
-	if ( workDir.empty() ) {		
+	if ( workDir.empty() ) {
 		workDir = System::getCurrentWorkingDirectory();
 	}
 	else {
@@ -229,25 +207,25 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 		FilePath dirPath(workingPath);
 		workDir = dirPath.getDriveName() + FilePath::getDriveSeparator() + dirPath.getPathName();
 	}
-	
+
 	if ( workDir.empty() ) {
 		//ok we're screwed - throw an exception
 		return "";
 	}
-	
+
 	if ( workDir[workDir.size()-1] != FilePath::DirectorySeparator ) {
 		workDir += FilePath::getDirectorySeparator();
 	}
-	
-	FilePath workingDirPath = workDir;		
-	
+
+	FilePath workingDirPath = workDir;
+
 	std::vector<String> workPathComponents = separatePathComponents(workingDirPath);
-	
+
 	std::vector<String> currentPathComponents = separatePathComponents(filename_);
-	
+
 	String workingDrive = workingDirPath.getDriveName();
 	String currentDrive	= getDriveName();
-	
+
 	if ( StringUtils::lowerCase(currentDrive) == StringUtils::lowerCase(workingDrive) ) {
 		String tmp;
 		std::vector<String>::iterator workIt = workPathComponents.begin();
@@ -255,7 +233,7 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 		int currentIndex = 0;
 		while ( workIt != workPathComponents.end() ) {
 			if ( (!compareDirectoryComponent( *workIt, currentPathComponents[currentIndex] )) || (workingIndex != currentIndex) ) {
-				tmp += "../";					
+				tmp += "../";
 			}
 			else {
 				currentIndex ++;
@@ -263,13 +241,13 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 					currentIndex = currentPathComponents.size()-1;
 				}
 			}
-			workingIndex ++;			
+			workingIndex ++;
 			workIt ++;
 		}
 
-		if ( currentIndex > 0 ) { //this is because we are at the root / dir, don't 
+		if ( currentIndex > 0 ) { //this is because we are at the root / dir, don't
 			//need the duplicate '/' character
-			
+
 			//test to see if we need to add a local dir
 			if ( tmp.empty() ) {
 				tmp += "./";
@@ -288,14 +266,14 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 				}
 			}
 		}
-		
+
 		result = tmp + getName(true);
 	}
 	else {
 		result = filename_;
 	}
-	
-	
+
+
 	return result;
 }
 
@@ -312,18 +290,18 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 		FilePath dirPath(workingPath);
 		workDir = dirPath.getDriveName() + FilePath::getDriveSeparator() + dirPath.getPathName();
 	}
-	
+
 	if ( workDir.empty() ) {
 		//ok we're screwed - throw an exception
 		return "";
 	}
-	
+
 	if ( workDir[workDir.size()-1] != FilePath::DirectorySeparator ) {
 		workDir += FilePath::getDirectorySeparator();
 	}
-	
+
 	convertToNative(workDir);
-	
+
 	//strip drive if present
 	String drive;
 	int drivePos = workDir.find_last_of( FilePath::getDriveSeparator() );
@@ -334,24 +312,24 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 		drive = workDir.substr( 0, drivePos );
 		//workDir.erase( 0, drivePos );
 	}
-	
+
 	std::vector<String> workPathComponents = separatePathComponents(workDir);
 	int pos = tmp.find( "../" );
-	if ( pos != String::npos ) {			
-		
+	if ( pos != String::npos ) {
+
 		while ( pos != String::npos ) {
 			if ( 0 != pos ) {
-				//OOOOHHH error condition this is 
-				//is a malformed string ! - in other 
+				//OOOOHHH error condition this is
+				//is a malformed string ! - in other
 				//words we have a relative path like foo/../bar - incorrect!!!
 				//throw exception
-				
+
 				return "";
 			}
-			
+
 			//remove the last dir component
 			//equivalent of "going back a dir", or "cd .."
-			workPathComponents.pop_back(); 
+			workPathComponents.pop_back();
 			tmp.erase( 0, pos+3 );
 			pos = tmp.find( "../", 0 );
 		}
@@ -364,11 +342,11 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 		result += tmp;
 		result = drive + FilePath::getDriveSeparator() + result;
 	}
-	else {		
+	else {
 		//ok look for ../ series
 		pos = tmp.find( "./", 0 );
 		//ok simply local working dir
-		//remove the ./ notation and prepend the 
+		//remove the ./ notation and prepend the
 		//working dir to file name
 		if ( pos != String::npos ) {
 			tmp.erase( pos, 2 );
@@ -378,7 +356,7 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 			result = workDir + tmp;
 		}
 	}
-	
+
 	return result;
 }
 
@@ -391,7 +369,7 @@ std::vector<String> FilePath::separatePathComponents( const String& path ) const
 	if ( pos != String::npos ) {
 		tmp.erase( 0, pos + 1 );
 	}
-	
+
 	pos = tmp.find( FilePath::getDirectorySeparator(), 0 );
 	int lastPos = 0;
 	while ( pos != String::npos ) {
@@ -399,7 +377,7 @@ std::vector<String> FilePath::separatePathComponents( const String& path ) const
 		lastPos = pos+1;
 		pos = tmp.find( FilePath::getDirectorySeparator(), pos + 1 );
 	}
-	
+
 	return pathComponents;
 }
 
@@ -409,7 +387,7 @@ std::vector<String> FilePath::separatePathComponents( const String& path ) const
 */
 void FilePath::convertToNative( String& filename ) const
 {
-	std::replace_if( filename.begin(), filename.end(), 
+	std::replace_if( filename.begin(), filename.end(),
 					std::bind2nd(std::equal_to<VCFChar>(),'\\') , '/' );
 
 
@@ -423,7 +401,7 @@ String FilePath::transformToOSSpecific() const
 #endif
 	String result = filename_;
 
-	std::replace_if( result.begin(), result.end(), 
+	std::replace_if( result.begin(), result.end(),
 					std::bind2nd(std::equal_to<VCFChar>(),'/') , convertChar );
 
 	return result;
@@ -439,6 +417,9 @@ bool FilePath::isPathDirectory( const String& path )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -553,7 +534,5 @@ bool FilePath::isPathDirectory( const String& path )
 *Revision 1.1  2002/06/18 21:18:32  ddiego
 *added FilePath
 */
-
-
 
 
