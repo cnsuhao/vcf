@@ -68,7 +68,9 @@ void Win32Font::init()
 
 	int fontHeight = 0;
 
-	HFONT defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );//DEFAULT_GUI_FONT );
+	//ANSI_VAR_FONT produces bold text on WinME. Changed to DEFAULT_GUI_FONT, which
+	//gives same appearrance on WinXP as ANSI_VAR_FONT. dougtinkham
+	HFONT defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
 	//defFont = NULL;
 	if ( NULL != defFont ){
 		if ( System::isUnicodeEnabled() ) {
@@ -658,6 +660,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/20 18:54:21  dougtinkham
+*Changed stock font from ANSI_VAR_FONT to DEFAULT_GUI_FONT to fix WinME problem.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
