@@ -96,14 +96,18 @@ public:
 	
 	
 	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeFocusRect( Rect* rect, DrawUIState& state );
 
 	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state );
 
 	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
 
 	virtual void drawThemeRadioButtonRect( Rect* rect, ButtonState& state );
+	
+	virtual void drawThemeComboboxRect( Rect* rect, ButtonState& state );
 
-	virtual void drawThemeScrollButtonRect( Rect* rect, DrawUIState& state );
+	virtual void drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state );
 
 	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state );
 
@@ -119,7 +123,7 @@ public:
 	
 	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state );
 
-	virtual void drawThemeHeader( Rect* rect, DrawUIState& state );
+	virtual void drawThemeHeader( Rect* rect, ButtonState& state );
 
 	virtual void drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle );
 
@@ -161,6 +165,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7.2.4  2004/06/27 18:19:16  ddiego
+*more osx updates
+*
 *Revision 1.1.2.7.2.3  2004/06/20 00:36:11  ddiego
 *finished the new theme API updates
 *

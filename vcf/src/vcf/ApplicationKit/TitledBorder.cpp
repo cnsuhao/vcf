@@ -9,6 +9,8 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/TitledBorder.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
+
 
 using namespace VCF;
 
@@ -51,8 +53,10 @@ void TitledBorder::paint( Rect* bounds, GraphicsContext* context )
 	context->rectangle( &Rect(bounds->left_, bounds->top_, bounds->right_, bounds->top_ + textHeight + 1 ) );
 	context->fillPath();
 
-
-	context->drawEdge( &edgeRect, sidesToPaint_, GraphicsContext::etEtched );
+	DrawUIState state;
+	state.setActive( true );
+	
+	context->drawThemeEdge( &edgeRect, state, sidesToPaint_, GraphicsContext::etEtched );
 
 	textRect.inflate( 5, 0 );
 	context->rectangle( &textRect );
@@ -87,6 +91,9 @@ Rect TitledBorder::getClientRect( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

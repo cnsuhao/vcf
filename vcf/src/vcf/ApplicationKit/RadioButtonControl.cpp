@@ -9,7 +9,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/RadioButtonControl.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -64,18 +64,14 @@ void RadioButtonControl::paint( GraphicsContext* context )
 
 	r.left_ = radioBtnRect.right_;
 
-	context->drawRadioButtonRect( &radioBtnRect, checked_ );
-
-	r.inflate( -2.0, -2.0 );
-
-	if ( true == isFocused() ) {
-		context->drawSelectionRect( &r );
-	}
-
-	r.inflate( -1.0, -1.0 );
-	r.left_ = radioBtnRect.right_ + 5.0;
-
-	context->textBoundedBy( &r, caption_, false );
+	ButtonState state;
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	state.setPressed( checked_ );
+	state.setFocused( isFocused() );
+	state.buttonCaption_ = caption_;
+	
+	context->drawThemeRadioButtonRect( &radioBtnRect, state );
 }
 
 
@@ -152,6 +148,9 @@ RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

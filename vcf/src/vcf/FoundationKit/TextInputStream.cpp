@@ -124,6 +124,11 @@ void TextInputStream::readLine( String& line )
 			inStream_->read( &c, sizeof(c) );
 			totCharRead_++;
 		}
+		
+		//last character!
+		if ( (c != '\n' && c!= '\r') && (totCharRead_ == size_) ) {
+			line += c;
+		}
 	}
 }
 
@@ -183,6 +188,9 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.5  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

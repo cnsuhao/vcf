@@ -434,13 +434,17 @@ public:
 	*/
 	void drawThemeSelectionRect( Rect* rect, DrawUIState& state );
 
+	void drawThemeFocusRect( Rect* rect, DrawUIState& state );
+
 	void drawThemeButtonRect( Rect* rect, ButtonState& state );
 
 	void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
 
 	void drawThemeRadioButtonRect( Rect* rect, ButtonState& state );
+	
+	void drawThemeComboboxRect( Rect* rect, ButtonState& state );
 
-	void drawThemeScrollButtonRect( Rect* rect, DrawUIState& state );
+	void drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state );
 
 	/**
 	Draws a button that is used to open up more details, for example
@@ -490,7 +494,7 @@ public:
 	Draws a header control that is compliant
 	with the native windowing systems default look and feel
 	*/
-	void drawThemeHeader( Rect* rect, DrawUIState& state );
+	void drawThemeHeader( Rect* rect, ButtonState& state );
 
 	/**
 	draws edges, useful for separators, that is compliant
@@ -674,6 +678,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.4  2004/06/27 18:19:16  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2.2.3  2004/06/20 00:36:11  ddiego
 *finished the new theme API updates
 *

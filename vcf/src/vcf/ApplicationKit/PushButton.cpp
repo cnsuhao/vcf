@@ -12,7 +12,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/PushButton.h"
 #include "vcf/ApplicationKit/Action.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -48,27 +48,27 @@ PushButton::~PushButton()
 void PushButton::drawHighLighted( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
-	tmp.inflate( -1, -1 );
+	//tmp.inflate( -1, -1 );
 
-	ctx->drawButtonRect( &tmp, isPressed_ );
-	if ( !isPressed_ ) {
-		tmp.inflate( 1, 1 );
-		ctx->setColor( Color::getColor( "black" ) );
-		ctx->moveTo( tmp.left_, tmp.top_ );
-		ctx->lineTo( tmp.left_, tmp.bottom_ );
-		ctx->moveTo( tmp.left_, tmp.top_ );
-		ctx->rectangle( &tmp );
-		ctx->strokePath();
-
-	}
+	ButtonState state;
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	state.setPressed( isPressed_ );
+	state.setFocused( true );
+	ctx->drawThemeButtonRect( &tmp, state );	
 }
 
 void PushButton::drawNormal( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
-	tmp.inflate( -1, -1 );
-
-	ctx->drawButtonRect( &tmp, isPressed_ );
+	
+	ButtonState state;
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	state.setPressed( isPressed_ );
+	state.setFocused( isFocused() || (this == UIToolkit::getDefaultButton()) );
+	
+	ctx->drawThemeButtonRect( &tmp, state );
 }
 
 void PushButton::drawImage( Rect* rect, Rect* imageRect, GraphicsContext* context )
@@ -198,13 +198,8 @@ void PushButton::paint(GraphicsContext * context)
 
 	r.normalize();
 
-	if ( (true == isHighlighted_)  ) {
-		drawHighLighted( &r, context );
-
-	}
-	else {
-		drawNormal( &r, context );
-	}
+	drawNormal( &r, context );
+	
 
 	Rect imgRect(0, 0, 0, 0 );
 
@@ -214,7 +209,7 @@ void PushButton::paint(GraphicsContext * context)
 
 
 
-
+/*
 	if ( this == UIToolkit::getDefaultButton() ) {
 
 		Rect rect = getClientBounds();
@@ -228,7 +223,8 @@ void PushButton::paint(GraphicsContext * context)
 		rect.inflate( -5, -5 );
 
 		context->drawSelectionRect( &rect );
-	}
+	}*/
+	
 }
 
 void PushButton::click()
@@ -437,6 +433,9 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

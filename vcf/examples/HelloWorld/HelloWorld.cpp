@@ -26,6 +26,8 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/FoundationKit/DateTime.h"
+
 
 /**
 *use the VCF namespace to make it more convenient
@@ -63,6 +65,8 @@ public:
 		*/
 		setMainWindow( mainWindow );
 
+		DateTime n;
+		n = DateTime::now();
 
 /*
 Experimental - ignore and get rid before 0-6-5 release!!!!!!!
@@ -138,6 +142,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.3.2.10  2004/06/07 03:07:06  ddiego
 *more osx updates dealing with mouse handling
 *

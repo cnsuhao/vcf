@@ -271,9 +271,9 @@ void OSXWindow::setText( const String& text )
 
 void OSXWindow::setBounds( Rect* rect )
 {
-    ::Rect r = RectProxy(rect);
+    OSXRect r = rect;
 
-    SetWindowBounds( windowRef_, kWindowStructureRgn, &r );
+    SetWindowBounds( windowRef_, kWindowStructureRgn, r );
 }
 
 bool OSXWindow::beginSetBounds( const ulong32& numberOfChildren )
@@ -288,10 +288,10 @@ void OSXWindow::endSetBounds()
 
 Rect OSXWindow::getBounds()
 {
-    ::Rect r;
-    GetWindowBounds( windowRef_, kWindowStructureRgn, &r );
+    OSXRect r;
+    GetWindowBounds( windowRef_, kWindowStructureRgn, r );
 
-    VCF::Rect result = RectProxy(r);
+    VCF::Rect result = r;
 
     return result;
 }
@@ -365,15 +365,15 @@ void OSXWindow::setFont( Font* font )
 
 void OSXWindow::repaint( Rect* repaintRect )
 {
-    ::Rect r;
+    OSXRect r;
     if ( NULL == repaintRect ) {
-        r = RectProxy( getClientBounds() );
+        r = getClientBounds();
     }
     else {
-        r = RectProxy(repaintRect);
+        r = repaintRect;
     }
 
-    InvalWindowRect( windowRef_, &r );
+    InvalWindowRect( windowRef_, r );
 }
 
 void OSXWindow::keepMouseEvents()
@@ -451,8 +451,8 @@ Rect OSXWindow::getClientBounds()
 
 void  OSXWindow::setClientBounds( Rect* bounds )
 {
-    ::Rect r = RectProxy(bounds);
-    SetWindowBounds( windowRef_, kWindowContentRgn, &r );
+    OSXRect r = bounds;
+    SetWindowBounds( windowRef_, kWindowContentRgn, r );
 }
 
 void OSXWindow::close()
@@ -524,7 +524,7 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
     
 
     OSXEventMsg msg( theEvent, control_ );
-    Event* vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+    //Event* vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
 
     UInt32 whatHappened = GetEventKind (theEvent);
     UInt32 attributes = 0;   
@@ -966,6 +966,9 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.12  2004/06/07 03:07:07  ddiego
 *more osx updates dealing with mouse handling
 *

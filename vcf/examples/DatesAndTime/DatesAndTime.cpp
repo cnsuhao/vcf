@@ -15,9 +15,6 @@ of the FoundationKit.
 */
 #include "vcf/FoundationKit/DateTime.h"
 
-#define __FF__(x) \
-    String(x) + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__)\
-
 
 
 using namespace VCF;
@@ -26,12 +23,7 @@ int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
 
-    String t2 = String("asdasdasd") + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__);
-    StringUtils::trace( __FF__("sdfsdfsdfsd") );
-
-    StringUtils::trace(  "Assertion failure: " + t2 );
-
-	/**
+    /**
 	retrieve the current time
 	*/
 	DateTime currentTime = DateTime::now();
@@ -40,7 +32,7 @@ int main( int argc, char** argv ){
 	Output the date time instance using the Object::toString method
 	*/
     String timeStr = currentTime.toString();
-	System::println( "currentTime: %s", timeStr.c_str() );
+	System::println( "currentTime: %ls", timeStr.c_str() );
 
 
 	/**
@@ -52,20 +44,20 @@ int main( int argc, char** argv ){
 	/**
 	Output the date time instance using the StringUtils::format() method
 	*/
-	System::println( "currentTime from StringUtils::format():\n\t%s",
+	System::println( "currentTime from StringUtils::format():\n\t%ls",
 					StringUtils::format( currentTime, "Day %#j in the year %Y, week %#U, %A day %#d of %B month %#m" ).c_str() );
 
 	/**
 	Output the time portion of the date time instance using the StringUtils::format() method
 	*/
-	System::println( "currentTime from StringUtils::format():\n\t%s",
+	System::println( "currentTime from StringUtils::format():\n\t%ls",
 					StringUtils::format( currentTime, "%H:%M:%S.%s" ).c_str() );
 
 	/**
 	Modify the time, hours, minutes and seconds
 	*/
 	currentTime.setTime( 9, 45, 12 );
-	System::println( "currentTime from StringUtils::format():\n\t%s",
+	System::println( "currentTime from StringUtils::format():\n\t%ls",
 					StringUtils::format( currentTime, "%H:%M:%S.%s" ).c_str() );
 
 
@@ -74,7 +66,7 @@ int main( int argc, char** argv ){
 	*/
 	currentTime.set( 1982, 5, 21, 18, 23, 10, 456 );
 
-	System::println( "currentTime from StringUtils::format():\n\t%s",
+	System::println( "currentTime from StringUtils::format():\n\t%ls",
 					StringUtils::format( currentTime, "%Y/%m/%d-%H:%M:%S.%s" ).c_str() );
 
 
@@ -103,7 +95,7 @@ int main( int argc, char** argv ){
 	*/
 
 	if ( dt1 == dt2 ) {
-		System::println( "Date {%s} equals date {%s}",
+		System::println( "Date {%ls} equals date {%ls}",
 							dt1.toString().c_str(), dt2.toString().c_str() );
 	}
 
@@ -113,7 +105,7 @@ int main( int argc, char** argv ){
 	dt2.incrHour( 10 );
 
 	if ( dt1 < dt2 ) {
-		System::println( "Date {%s} is earlier than date {%s}",
+		System::println( "Date {%ls} is earlier than date {%ls}",
 							dt1.toString().c_str(), dt2.toString().c_str() );
 	}
 
@@ -123,7 +115,7 @@ int main( int argc, char** argv ){
 	dt2.decrYear( 10 );
 
 	if ( dt1 > dt2 ) {
-		System::println( "Date {%s} is after than date {%s}",
+		System::println( "Date {%ls} is after than date {%ls}",
 							dt1.toString().c_str(), dt2.toString().c_str() );
 	}
 
@@ -167,17 +159,17 @@ int main( int argc, char** argv ){
 
 		fs << &storeMe;
 
-		System::println( "storeMe (%S) saved!", storeMe.toString().c_str() );
+		System::println( "storeMe (%ls) saved!", storeMe.toString().c_str() );
 	}
 
 	DateTime loadMe;
-	System::println( "loadMe is equal to %S", loadMe.toString().c_str() );
+	System::println( "loadMe is equal to %ls", loadMe.toString().c_str() );
 	{
 		FileInputStream fs( "datetime.out" );
 
 		fs >> &loadMe;
 
-		System::println( "loadMe (%S) loaded!", loadMe.toString().c_str() );
+		System::println( "loadMe (%ls) loaded!", loadMe.toString().c_str() );
 	}
 
 
@@ -189,6 +181,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6.2.1  2004/06/27 18:19:14  ddiego
+*more osx updates
+*
 *Revision 1.2.2.6  2004/05/15 17:59:36  marcelloptr
 *minor project changes
 *

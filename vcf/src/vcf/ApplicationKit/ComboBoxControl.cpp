@@ -426,7 +426,11 @@ void ComboBoxControl::paint( GraphicsContext* context )
 	Light3DBorder bdr;
 	bdr.setInverted( true );
 	bdr.paint( &paintRect, context );
-	context->drawVerticalScrollButtonRect( &arrowRect_, false, arrowPressed_ );
+	
+	///////////////
+	//FIX ME!!!!!
+	///////////////
+	//context->drawVerticalScrollButtonRect( &arrowRect_, false, arrowPressed_ );
 
 
 	viewRect_.inflate( -2, -2 );
@@ -907,6 +911,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
