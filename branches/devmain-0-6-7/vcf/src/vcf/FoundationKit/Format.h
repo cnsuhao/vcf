@@ -80,7 +80,9 @@ namespace VCF {
 		~Format() {
 			
 		}
-		
+
+
+		// operator used to concatenate arguments
 		template<typename ValType>
 			Format& operator% ( const ValType& val ) {
 			currentFormatArgCount_  ++;
@@ -136,9 +138,9 @@ namespace VCF {
 		}
 		
 
+		// specialization for a String value.
 		template<>
 			Format& operator% ( const String& val ) {
-			// specialization for a String val.
 
 			currentFormatArgCount_  ++;
 			
@@ -172,7 +174,7 @@ namespace VCF {
 							fmtStr_.resize(0);
 						}
 						
-						char* tmp = new char[fmt.size()+256];
+						char* tmp = new char[fmt.size()+val.size()+10];
 						sprintf( tmp, fmt.ansi_c_str(), val.ansi_c_str() );
 						output_ += tmp;
 						delete [] tmp;
@@ -259,7 +261,7 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.3  2005/03/25 16:32:26  marcelloptr
+*Revision 1.1.2.4  2005/03/25 17:20:04  marcelloptr
 *added template specialization for String so to avoid problems with c_str() ansi_c_str()
 *
 *Revision 1.1.2.2  2005/03/15 01:51:51  ddiego
