@@ -62,9 +62,7 @@ public:
 
 	virtual bool hasHorizontalScrollBar() {
 		return hasHorzScrollbar_;
-	}
-
-	virtual void updateVirtualViewSize( const double& maxWidth, const double& maxHeight );
+	}	
 
 	virtual void setVirtualViewSize( const double& width, const double& height );
 
@@ -83,6 +81,10 @@ public:
 	virtual double getVirtualViewWidth() {
 		return virtualViewWidth_;
 	}
+
+	virtual bool isVerticalScrollbarVisible();
+		
+	virtual bool isHorizontalScrollbarVisible();
 
 	virtual void recalcScrollPositions();
 
@@ -164,11 +166,7 @@ protected:
 	ScrollPeer* scrollPeer_;
 	Control* scrollableControl_;
 	double virtualViewHeight_;
-	double virtualViewWidth_;
-	double objectHeight_;
-	double objectWidth_;
-	double realHeight_;
-	double realWidth_;
+	double virtualViewWidth_;	
 	bool hasVertScrollbar_;
 	bool hasHorzScrollbar_;
 	double vertPosition_;
@@ -191,6 +189,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/21 05:44:36  dougtinkham
+*removed updateVirtualViewSize, added isVerticalScrollbarVisible, isHorizontalScrollbarVisible
+*
 *Revision 1.2.2.3  2004/09/19 19:54:45  marcelloptr
 *scrollbars transitory changes
 *
