@@ -5,9 +5,12 @@
 		<variable name="SRC" value="../../../src"/>
 		<variable name="LIB_OUT" value="../../../lib"/>
 		<variable name="BIN_OUT" value="../../../bin"/>
+		<variable name="X11_INC" value="/usr/X11R6/include"/>
 		<variable name="X11_LIB" value="/usr/X11R6/lib"/>
+
 		<!-- Note that this is a hack not sure what the correct thing to do 
 		here for MINGW_INC, perhaps this should be an env variable ?-->
+
 		<variable name="MINGW_INC" value="E:/mingw/include"/>
 	</substitutions>
 
@@ -39,7 +42,8 @@
 			<config name="GCC Debug" srcBinaryExt=".o">
 				<compiler name="g++" >
 					<flags>
-						<flag value="-I $(INC)"/>						
+						<flag value="-I $(INC)"/>
+						<flag value="-I $(X11_INC)"/>
 						<flag value="-c -DVCF_GCC -DVCF_X11 -D_DEBUG -fPIC"/>
 					</flags>
 				</compiler>	
