@@ -31,7 +31,8 @@ private:
 	//individual TabPage
 	VCF::TabPage* listBoxPage;
 	VCF::TabPage* bordersPage;
-	
+
+public:
 	//related to ListBoxTabPage
 	void makeListBoxPage();
 	void listBox1Change( VCF::ItemEvent* );
@@ -41,14 +42,15 @@ private:
 	void onrbSingleSelClicked( VCF::ButtonEvent* );
 	void onrbMultiSelClicked( VCF::ButtonEvent* );
 	void onrbExtendedSelClicked( VCF::ButtonEvent* );
-	VCF::ListBoxControl* listBox1;
-	VCF::TextControl* txtCtrlAddToListBox;
+
+public:
+	VCF::ListBoxControl* listBox1_;
+	VCF::TextControl* txtCtrlAddToListBox_;
+
 
 	//related to bordersTabPage
+public:
 	void makeBordersPage();
-	
-	
-
 };
 
 
@@ -58,6 +60,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/09/19 19:54:44  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.1.2.2  2004/08/30 03:50:47  dougtinkham
 *added copyright
 *

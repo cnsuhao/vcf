@@ -39,7 +39,9 @@ public:
 
 	virtual void setVirtualViewWidth( const double& virtualViewWidth ) = 0;
 
-	virtual void updateVirtualViewSize( const double& maxWidth, const double& maxHeight ) = 0;
+	virtual void setVirtualViewSize( const double& width, const double& height ) = 0;
+
+	virtual void updateVirtualViewSize( const double& width, const double& height ) = 0;
 
 	virtual void recalcScrollPositions() = 0;
 
@@ -105,8 +107,21 @@ public:
 	*/
 	virtual void getVerticalScrollRects( Rect* scrollBounds, Rect* topBounds=NULL, Rect* bottomBounds=NULL ) = 0;
 
-	virtual void setKeepScrollbarsVisible( const bool& val )  = 0;
-	virtual bool getKeepScrollbarsVisible()  = 0;
+	/**
+	This allows you to control whether or not the scrollbars disappear when they are no longer needed.
+	By default this is false, which means that the scrollabars will disappear when the virtual width
+	or height is less than the control's actual width or height. If this is true, then the
+	scrollbars will stay visible, but become disabled.
+	@param bool visible, true if we want it visible
+	*/
+	virtual void setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible ) = 0;
+
+	/**
+	Gets whether or not the scrollbars disappear when they are no longer needed.
+	@return true if it disappears when not needed
+	*/
+	virtual bool getKeepHorzScrollbarVisible() = 0;
+	virtual bool getKeepVertScrollbarVisible() = 0;
 };
 
 
@@ -116,6 +131,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.2.2.1  2004/09/10 22:28:10  dougtinkham
 *added updateVirtualViewSize member
 *

@@ -9,7 +9,6 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
-#include "MainWindow.h"
 
 #include "vcf/ApplicationKit/DefaultMenuItem.h"
 #include "vcf/ApplicationKit/DefaultListItem.h"
@@ -19,6 +18,8 @@ where you installed the VCF.
 #include "ControlsApplication.h"
 #include "ControlsAbout.h"
 #include "Spacers.h"
+
+#include "MainWindow.h"
 
 using namespace VCF;
 
@@ -89,21 +90,21 @@ void MainWindow::makeListBoxPage()
 	panel1->add( listBoxGroup, AlignLeft );
 	
 	//add a ListBoxControl
-	listBox1 = new ListBoxControl();		
-	listBox1->setBorder( new Basic3DBorder( true ) );
-	listBox1->setAllowsMultiSelect( false );
-	//add scrollbar to listBox1
+	listBox1_ = new ListBoxControl();		
+	listBox1_->setBorder( new Basic3DBorder( true ) );
+	listBox1_->setAllowsMultiSelect( false );
+	//add scrollbar to listBox1_
 	ScrollbarManager* scrollbarManagerSingle = new ScrollbarManager();
 	addComponent( scrollbarManagerSingle );
 	scrollbarManagerSingle->setHasVerticalScrollbar( true );
 	scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
-	scrollbarManagerSingle->setTarget( listBox1 );
+	scrollbarManagerSingle->setTarget( listBox1_ );
 	scrollbarManagerSingle->setKeepScrollbarsVisible( false );
 	
-	listBoxGroup->add( listBox1, AlignClient );
+	listBoxGroup->add( listBox1_, AlignClient );
 	
-	//add some items to listBox1
-	ListModel* listBoxModel = listBox1->getListModel();	
+	//add some items to listBox1_
+	ListModel* listBoxModel = listBox1_->getListModel();	
 	for(int j=0; j<10; j++){
 		String indx = StringUtils::toString(j);
 		String capt = L"ListItem " + indx;		
@@ -135,9 +136,9 @@ void MainWindow::makeListBoxPage()
 	listBoxAddGroup->setContainer( lbAddContainer );
 	listBoxAddGroup->setBorder( new TitledBorder( "Add item" ) );	
 	//add TextControl to enter item to add
-	txtCtrlAddToListBox = new TextControl();	
-	txtCtrlAddToListBox->setHeight( 20 );
-	listBoxAddGroup->add( txtCtrlAddToListBox, AlignTop );
+	txtCtrlAddToListBox_ = new TextControl();	
+	txtCtrlAddToListBox_->setHeight( 20 );
+	listBoxAddGroup->add( txtCtrlAddToListBox_, AlignTop );
 	
 	listBoxAddGroup->add( new VerticalSpacer( borderWidth ), AlignTop );
 	
@@ -183,7 +184,7 @@ void MainWindow::makeListBoxPage()
 
 	// Event Handling for this page
 	//add SelectionChanged handlers for listbox.
-	listBox1->SelectionChanged.addHandler( new ItemEventHandler<MainWindow>(this, &MainWindow::listBox1Change, "MainWindow::listBox1Change"));
+	listBox1_->SelectionChanged.addHandler( new ItemEventHandler<MainWindow>(this, &MainWindow::listBox1Change, "MainWindow::listBox1Change"));
 	
 	//add ButtonClicked handlers for command button.
 	btnRemove->ButtonClicked.addHandler( new ButtonEventHandler<MainWindow>( this, &MainWindow::onbtnRemove, "MainWindow::onbtnRemoveClicked" ) );
@@ -195,17 +196,17 @@ void MainWindow::makeListBoxPage()
 }
 
 void MainWindow::onrbSingleSelClicked( VCF::ButtonEvent* ) {	
-	listBox1->deselectAllItems();
-	listBox1->setAllowsMultiSelect( false );	
+	listBox1_->deselectAllItems();
+	listBox1_->setAllowsMultiSelect( false );	
 }
 
 void MainWindow::onrbMultiSelClicked( VCF::ButtonEvent* ) {
-	listBox1->setAllowsMultiSelect( true );
-	listBox1->setAllowsExtendedSelect( false );	
+	listBox1_->setAllowsMultiSelect( true );
+	listBox1_->setAllowsExtendedSelect( false );	
 }
 
 void MainWindow::onrbExtendedSelClicked( VCF::ButtonEvent* ) {
-	listBox1->setAllowsExtendedSelect( true );	
+	listBox1_->setAllowsExtendedSelect( true );	
 }
 
 void MainWindow::listBox1Change( VCF::ItemEvent* ) {
@@ -213,7 +214,7 @@ void MainWindow::listBox1Change( VCF::ItemEvent* ) {
 }
 
 void MainWindow::onbtnRemove( VCF::ButtonEvent* ) {	
-	ListModel* LBCModel = (ListModel*)(listBox1->getListModel());
+	ListModel* LBCModel = (ListModel*)(listBox1_->getListModel());
 	Enumerator<ListItem*>* items= LBCModel->getItems();
 	int i = 0;
 	i = LBCModel->getCount();
@@ -223,7 +224,7 @@ void MainWindow::onbtnRemove( VCF::ButtonEvent* ) {
 	while ( true == items->hasMoreElements( true ) ) {
 		ListItem* item = items->prevElement();		
 		if ( true == item->isSelected() ) {	
-			listBox1->eraseFromSelectedItems( item );
+			listBox1_->eraseFromSelectedItems( item );
 			item->setSelected(false);			
 			LBCModel->deleteItem( item );			
 		}		
@@ -232,13 +233,13 @@ void MainWindow::onbtnRemove( VCF::ButtonEvent* ) {
 }
 
 void MainWindow::onbtnDeselect( VCF::ButtonEvent* ) {	
-	listBox1->deselectAllItems();
+	listBox1_->deselectAllItems();
 }
 
 void MainWindow::onbtnAddItemClicked( VCF::ButtonEvent* ) {	
-	if(listBox1 != NULL){
-		ListModel* LBCModel = (ListModel*)(listBox1->getListModel());	
-		TextModel* txtModel = txtCtrlAddToListBox->getTextModel();
+	if(listBox1_ != NULL){
+		ListModel* LBCModel = (ListModel*)(listBox1_->getListModel());	
+		TextModel* txtModel = txtCtrlAddToListBox_->getTextModel();
 		String text = txtModel->getText();
 		LBCModel->addItem( new DefaultListItem( LBCModel, text ) );
 	}	
@@ -343,6 +344,9 @@ void MainWindow::makeBordersPage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/09/19 19:54:44  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.1.2.5  2004/09/14 18:24:14  dougtinkham
 *changed keepScrollbarsVisible from true to false
 *
