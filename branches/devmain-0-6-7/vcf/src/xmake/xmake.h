@@ -1,9 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
 #ifndef _XMLMAKE_H__
 #define _XMLMAKE_H__
+//xmake.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if     _MSC_VER > 1000
+#  pragma once
+#endif
 
 //XMLMake.h
 
@@ -81,7 +89,7 @@ Altered by Jim Crafton, Feb,8,2002
 #include <algorithm>
 
 
-// MP - moved here so it compiles with vc7#
+// moved here so it compiles with vc7#
 #ifdef WIN32
 	#include <windows.h>
     #include <io.h>
@@ -439,6 +447,16 @@ protected:
 };
 
 };//namespace xmake;
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.3.2.1  2004/12/21 01:25:17  marcelloptr
+*added cvs log section
+*
+*/
+
 
 #endif  //_XMLMAKE_H__
 
