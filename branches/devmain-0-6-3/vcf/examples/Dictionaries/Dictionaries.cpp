@@ -7,11 +7,16 @@
 using namespace VCF;
 
 
+typedef std::map<String,VariantData> map_t;
 
 
 int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
+
+	map_t m;
+	m["sdfsd"] = 23455;
+
 
 	//create a dictionary
 
