@@ -2,9 +2,9 @@
 
 VERSION = 0.6.0
 
-HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
 
-XSL_HTMLHELP_IMPORT = D:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl
+XSL_HTMLHELP_IMPORT = D:/dork/docbook/xsl/htmlhelp/htmlhelp.xsl
 
 RAW_CHM_FILENAME = vcf_docs.chm
 VERSIONED_CHM_FILENAME = VCFDocs.$(VERSION).chm
