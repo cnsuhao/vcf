@@ -530,6 +530,18 @@ public:
 	bool isEnabled();
 
 	/**
+	This checks not only to see if the control itself is 
+	enabled, but will return false if any parent control is
+	not enabled. This function traverse all the parent child
+	relationships till the frame window is hit, and checks the
+	enabled status of each control. The first control that is 
+	\em not enabled stops the search and the methods returns
+	false, otherwise it continues till it finds a NULL 
+	parent and returns true.
+	*/
+	bool areParentsEnabled();
+
+	/**
 	*sets whether the control is enabled or not.
 	*@param bool true if the control is enabled, otherwise false.
 	*/
@@ -1278,6 +1290,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/15 05:29:01  ddiego
+*makes the accelerator check logic a bit smarter and also changes
+*teh way menu items test to check whether or not they are enabled.
+*
 *Revision 1.3.2.2  2005/03/10 00:17:27  marcelloptr
 *set discrete scrolling as default behaviour for ListBoxControls
 *

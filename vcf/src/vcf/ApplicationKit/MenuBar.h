@@ -50,6 +50,8 @@ public:
 
 	void init();
 
+	Frame* getFrame();
+
 	/**
 	Sets the menu bar's frame. If a NULL frame is passed in
 	the menu is removed from it's frame
@@ -62,9 +64,8 @@ public:
 
 	void handleEvent( Event* event );
 protected:
-	MenuBarPeer* Peer_;
-
-
+	MenuBarPeer* peer_;
+	Frame* frame_;
 
 	virtual void destroy();
 };
@@ -75,6 +76,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/15 05:29:01  ddiego
+*makes the accelerator check logic a bit smarter and also changes
+*teh way menu items test to check whether or not they are enabled.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

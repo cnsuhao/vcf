@@ -313,7 +313,17 @@ MenuItem* DefaultMenuItem::getChildAt( const unsigned long& index )
 
 bool DefaultMenuItem::isEnabled()
 {
-	return isEnabled_;//peer_->isEnabled();
+	bool result = isEnabled_;
+	if ( isEnabled_ ) {
+		MenuBar* menuBar = dynamic_cast<MenuBar*>( menuOwner_ );
+		if ( NULL != menuBar ) {
+			Frame* frame = menuBar->getFrame();
+			if ( NULL != frame ) {
+				result = frame->isEnabled();
+			}
+		}
+	}
+	return result;
 }
 
 void DefaultMenuItem::setEnabled( const bool& enabled )
@@ -516,7 +526,18 @@ Object* DefaultMenuItem::clone(bool deep)
 
 	AcceleratorKey* accel = getAccelerator();
 	if ( NULL != accel ) {		
-		result->setAcceleratorKey( (AcceleratorKey*) accel->clone() );
+		if ( accel->getEventHandler() == 
+				getEventHandler( "DefaultMenuItem::onAccelerator" ) ) {
+
+			VirtualKeyCode keyCode = (VirtualKeyCode)accel->getKeyCode();
+			ulong32 mask = accel->getModifierMask();
+			//remove the old one!
+			UIToolkit::removeAccelerator( keyCode, mask, this );
+			result->setAcceleratorKey( keyCode, mask );
+		}
+		else {
+			result->setAcceleratorKey( (AcceleratorKey*)accel->clone() );
+		}
 	}
 
 	return result;
@@ -624,6 +645,10 @@ MenuItem* DefaultMenuItem::findChildNamed( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/15 05:29:01  ddiego
+*makes the accelerator check logic a bit smarter and also changes
+*teh way menu items test to check whether or not they are enabled.
+*
 *Revision 1.3.2.1  2005/03/14 04:17:23  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *
