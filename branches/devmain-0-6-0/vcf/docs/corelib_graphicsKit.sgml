@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/03/17 21:24:03  ddiego
+blah
+
 Revision 1.1.2.4  2003/03/13 02:34:40  ddiego
 added some more docs and broke apart the various "books" so they can be all
 put together or in separate books. Made to changes to Makefile
@@ -91,20 +94,32 @@ and images
 		for each channel may vary from 8 to 32 bits. The default is 8 bits. The Image has a 
 		descriptor member that defines what the channel depth is, whether it is floating point,
 		or integer based, and the layout order. 
-		</para>		
+		</para>
+		<para>
+		To actually get at the pixel data that makes up the Image class you get an pointer to the 
+		ImageBits class. This class is responsible for actually holding the raw bits that
+		make up the image. This class is a template class that can be specialized for various
+		kinds of data and pixel layout order. The default specialization is dependant on the 
+		platform you compile the VCF for. At a later date you'll be able to create Images
+		of any arbitrary pixel depth. 
+		To get the raw pixel data you call the ImageBits's getData() method
+		which returns a pointer to the pixel buffer. This buffer is seen as a unsigned char*.
+		</para>
 		<para>
 		To work with pixel data in a neutral fashion use the RGBAVals structure. It represents 
 		a single pixel worth of image data. 
 		<programlisting>
+		<![CDATA[
 Image* image = //...get an image from somewhere
 
-RGBAVals* pixels = image-&gt;getPixels();
-for ( ulong32 y=0;y&lt;image-&gt;getHeight() ) {
-	for ( ulong32 x=0;y&lt;image-&gt;getWidth() ) {
+RGBAVals* pixels = image->getPixels();
+for ( ulong32 y=0;y<image->getHeight() ) {
+	for ( ulong32 x=0;x<image->getWidth() ) {
 		//modify only blue values
-		pixels[ y * image-&gt;getWidth() + x ].b += 20;
+		pixels[ y * image->getWidth() + x ].b += 20;
 	}
 } 
+		]]>
 		</programlisting>
 		Value ranges for color channels that are integer based are 0 to 2<superscript>channel depth</superscript> .
 		Value ranges for color channels that are floating point based are 0.0 to 1.0.
