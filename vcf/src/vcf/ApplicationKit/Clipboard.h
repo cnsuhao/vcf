@@ -82,14 +82,14 @@ public:
 	*/
 	DELEGATE(ClipboardItemPasted)
 
-	/*
+	/**
 	*does the Clipboard have a DataObject that
 	*matches the requested dataType
 	*@param String the datatype to look for
 	*@return bool return true if the Clipboard has the kind of
 	*data specified in dataType, otherwise returns false
 	*/
-    bool hasDataType( const String& dataType );
+	bool hasDataType( const String& dataType );
 
 	/**
 	*copies the specified dataObject into the clipboard.
@@ -109,7 +109,7 @@ public:
 	*</pre>
 	*@see DataObject
 	*/
-    void copyTo( DataObject* dataObject );
+	void copyTo( DataObject* dataObject );
 
 	/**
 	*pastes the data, specified in dataType, from the Clipboard
@@ -124,7 +124,7 @@ public:
 	/**
 	*internal VCF use only
 	*/
-    void internal_deleteDataObject( DataObject* dataObject );
+	void internal_deleteDataObject( DataObject* dataObject );
 
 private:
 	ClipboardPeer * clipboardPeer_;
@@ -136,6 +136,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/10 19:07:32  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

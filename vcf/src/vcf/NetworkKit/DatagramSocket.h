@@ -14,11 +14,11 @@ where you installed the VCF.
 #endif
 
 
-/*
- * DatagramSocket is a thin wrapper around the socket using
- * connectionless oriented protocol.
- * -- by Ning Ke
- */
+/**
+* DatagramSocket is a thin wrapper around the socket using
+* connectionless oriented protocol.
+* -- by Ning Ke
+*/
 
 
 namespace VCFNet
@@ -66,6 +66,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/10 19:09:55  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2  2004/08/07 02:49:19  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

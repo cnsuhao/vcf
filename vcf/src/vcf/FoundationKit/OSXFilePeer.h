@@ -33,19 +33,19 @@ public:
 	
 	virtual void setFile( File* file );
 
-	/*
+	/**
 	* gets the size of the file in bytes
 	*@param ulong64 the size
 	*/
 	virtual ulong64 getSize();
 
-	/*
+	/**
 	* updates the informations about the file from the file system
 	*@param statMask the mask indicating the infos we want to update
 	*/
 	virtual void updateStat( File::StatMask statMask );
 
-	/*
+	/**
 	* set the fileAttributes of the file
 	*@param fileAttributes the desired attributes
 	*/
@@ -54,7 +54,7 @@ public:
 
 	virtual bool isExecutable();
 
-	/*
+	/**
 	* set the modification Date of the file
 	*@param date the desired modification date
 	*/
@@ -140,6 +140,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.2.2.1  2004/11/10 19:09:47  marcelloptr
+ *fixed documentation for doxygen
+ *
  *Revision 1.2  2004/08/07 02:49:13  ddiego
  *merged in the devmain-0-6-5 branch to stable
  *

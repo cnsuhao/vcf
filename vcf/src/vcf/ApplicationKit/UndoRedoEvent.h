@@ -36,7 +36,7 @@ class Command;
 */
 class APPLICATIONKIT_API UndoRedoEvent : public Event {
 public:
-	/*
+	/**
 	* constructors
 	*/
 	UndoRedoEvent( Object* source, const unsigned long& eventType, Command* command=NULL );
@@ -47,7 +47,7 @@ public:
 
 	virtual ~UndoRedoEvent();
 
-	/*
+	/**
 	* copy operator
 	*/
 	UndoRedoEvent& operator=( const UndoRedoEvent& rhs ) {
@@ -60,21 +60,21 @@ public:
 		return *this;
 	}
 
-	/*
+	/**
 	* the command associated to the event.
 	*/
 	Command* getCommand(){
 		return command_;
 	}
 
-	/*
+	/**
 	* sets the command to be associated to the event.
 	*/
 	void setCommand( Command* command ) {
 		command_ = command;
 	}
 
-	/*
+	/**
 	*@return bool, false if the user managing this event
 	* doens't want the UndoRedoStack instance to perform
 	* hte default undo action.
@@ -84,7 +84,7 @@ public:
 		return 	allowUndo_;
 	}
 
-	/*
+	/**
 	* if the user wants to bypass the undo action of the 
 	* UndoRedoStack instance, he needs to assign this value
 	* as false.
@@ -93,7 +93,7 @@ public:
 	*/
 	void setAllowsUndo( const bool& allowsUndo );
 
-	/*
+	/**
 	*@return bool, false if the user managing this event
 	* doens't want the UndoRedoStack instance to perform
 	* hte default redo action.
@@ -102,7 +102,7 @@ public:
 		return 	allowRedo_;
 	}
 
-	/*
+	/**
 	* if the user wants to bypass the redo action of the 
 	* UndoRedoStack instance, he needs to assign this value
 	* as false.
@@ -111,7 +111,7 @@ public:
 	*/
 	void setAllowsRedo( const bool& allowsRedo );
 
-	/*
+	/**
 	* creates a new copy of this instance.
 	*/
 	virtual Object* clone( bool deep=false ) {
@@ -119,24 +119,24 @@ public:
 	}
 
 protected:
-	/*
+	/**
 	* the command, potentially undoable, associated to this event.
 	*/
 	Command* command_;
 
-	/*
+	/**
 	* flag to know if the user lets the default undo action of the 
 	* UndoRedoStack instance to be performed.
 	*/
 	bool allowUndo_;
 
-	/*
+	/**
 	* flag to know if the user lets the default redo action of the 
 	* UndoRedoStack instance to be performed.
 	*/
 	bool allowRedo_;
 
-	/*
+	/**
 	* allow for execution
 	* currently unused
 	*/
@@ -175,6 +175,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/10 19:07:37  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.1  2004/11/07 19:32:19  marcelloptr
 *more documentation
 *

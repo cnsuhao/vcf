@@ -30,7 +30,7 @@ namespace VCF  {
 
 class APPLICATIONKIT_API UndoRedoStack : public ObjectWithEvents {
 public:
-	/*
+	/**
 	* Used if the user desires to bypass the default behaviour of 
 	* this UndoRedoStack instance. In this case the user needs 
 	* to add an event handler to this delegate, and setAllowsUndo(false)
@@ -38,7 +38,7 @@ public:
 	*/
 	DELEGATE(UndoCommand);
 
-	/*
+	/**
 	* Used if the user desires to bypass the default action of 
 	* this UndoRedoStack instance. In this case the user needs 
 	* to add an event handler to this delegate, and setAllowsRedo(false)
@@ -46,19 +46,19 @@ public:
 	*/
 	DELEGATE(RedoCommand);
 
-	/*
+	/**
 	* to be notified that the stack is going to be be cleared.
 	* This is called foreward.
 	*/
 	DELEGATE(StackCleared);
 
-	/*
+	/**
 	* to be notified that the stack has been changed.
 	* This is called afterward.
 	*/
 	DELEGATE(StackChanged);
 
-	/*
+	/**
 	* to be notified that a command has been executed.
 	* This is called after the command has been added to the undo stack,
 	* and after the command has been executed
@@ -70,31 +70,31 @@ public:
 
 	virtual ~UndoRedoStack();
 
-	/*
+	/**
 	* undoes the last command.
 	* this default behaviour can be bypassed.
 	*@fire UNDOREDO_EVENT_UNDO event before the default undo action is performed.
 	*/
 	virtual void undo();
 
-	/*
+	/**
 	* redoes the last command ( undoes the previous undo ).
 	* this default behaviour can be bypassed.
 	*@fire UNDOREDO_EVENT_REDO event before the default redo action is performed.
 	*/
 	virtual void redo();
 
-	/*
+	/**
 	* tells if there is any undo item in the stack.
 	*/
 	virtual bool hasUndoableItems();
 
-	/*
+	/**
 	* tells if there is any redo item in the stack.
 	*/
 	virtual bool hasRedoableItems();
 
-	/*
+	/**
 	* adds a command to the undo stack and clears the redo stack.
 	* By default this also executes the command.
 	*@param Command* command, the instance representing
@@ -106,29 +106,29 @@ public:
 	*/
 	virtual void addCommand( Command* command, const bool& autoExecute=true );
 
-	/*
+	/**
 	* gets the first command to undo.
 	*/
 	virtual Command* getCurrentUndoCommand();
 
-	/*
+	/**
 	* gets the first command to redo.
 	*/
 	virtual Command* getCurrentRedoCommand();
 
-	/*
+	/**
 	* clears both the undo/redo stacks.
 	*@fire UNDOREDO_EVENT_STACK_CLEARED event before the stack is cleared.
 	*/
 	void clearCommands();
 
 protected:
-	/*
-	* ???
+	/**
+	* MP ?
 	*/
 	void movetToRedoStack( Command* command );
 
-	/*
+	/**
 	* the undo and redo internal stacks.
 	*/
 	std::deque<Command*> undoStack_;
@@ -137,12 +137,15 @@ private:
 };
 
 
-}; //end of namespace VCF
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/10 19:07:37  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.1  2004/11/07 19:32:19  marcelloptr
 *more documentation
 *

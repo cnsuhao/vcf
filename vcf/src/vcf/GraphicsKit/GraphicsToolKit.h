@@ -155,13 +155,13 @@ public:
 
 	static Color* getColorFromColormap( const String& colorName );
 
-	/*
-	*Find the named color closest to a color with a given RGB value
+	/**
+	* finds the named color closest to a color with a given RGB value
 	*/
 	static Color* getColorMatchFromColormap( const Color& color );
 
-	/*
-	*Find a color with a given luminosity contrast with another given color
+	/**
+	* finds a color with a given luminosity contrast with another given color
 	*/
 	static Color getColorContrast( const Color& clrRef, double deltaL = 0.3 );
 
@@ -240,13 +240,13 @@ protected:
 
 	Color* internal_getColorFromColormap( const String& colorName );
 
-	/*
-	*Find the named color closest to a color with a given RGB value
+	/**
+	* finds the named color closest to a color with a given RGB value
 	*/
 	Color* internal_getColorMatchFromColormap( const Color& color );
 
-	/*
-	*Find a color with a given luminosity contrast with another given color
+	/**
+	* finds a color with a given luminosity contrast with another given color
 	*/
 	Color internal_getColorContrast( const Color& clrRef, double deltaL = 0.3 );
 
@@ -309,6 +309,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/10 19:09:53  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.3  2004/08/27 03:50:47  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe
