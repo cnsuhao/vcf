@@ -25,12 +25,13 @@ PrintSession::~PrintSession()
 
 String PrintSession::getTitle()
 {
-	return peer_->getTitle();
+	return title_;
 }
 
 void PrintSession::setTitle( const String& title )
 {
-	peer_->setTitle(title);
+	title_ = title;
+	peer_->setTitle( title_ );
 }
 
 void PrintSession::setDefaultPageSettings()
@@ -165,19 +166,21 @@ void PrintSession::runDefaultPrintLoop()
 	}
 
 	int page = firstPage;
-	do {
+	while ( page <= lastPage ) {
 
 		currentPage_ = page;
 
 		beginPage( printCtx );
 
-		endPage( printCtx );
+		endPage( printCtx );		
 		
 		page++;
-	} while ( page != lastPage );
+	}
 
 
 	endPrintingDocument();
+
+	printCtx->free();
 }
 
 

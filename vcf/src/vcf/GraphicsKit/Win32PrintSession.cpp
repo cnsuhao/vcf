@@ -31,12 +31,12 @@ Win32PrintSession::~Win32PrintSession()
 
 String Win32PrintSession::getTitle()
 {
-	return "";	
+	return title_;	
 }
 
 void Win32PrintSession::setTitle( const String& title )
 {
-
+	title_ = title;
 }
 
 BOOL CALLBACK Win32PrintSession::AbortProc( HDC hdc, int iError )
@@ -170,6 +170,7 @@ void Win32PrintSession::abort()
 
 PrintContext* Win32PrintSession::beginPrintingDocument()
 {
+	printInfo_.docInfo_.lpszDocName = title_.ansi_c_str();
 	if ( !::StartDoc( printerDC_, &printInfo_.docInfo_ ) ) {
 		//throw exception???		
 		return NULL;

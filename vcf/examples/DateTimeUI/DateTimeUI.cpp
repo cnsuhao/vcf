@@ -173,7 +173,7 @@ public:
 						}
 						ctx->textBoundedBy( &cellRect, StringUtils::format( dt, "%#d") );
 
-						dayIter ++;
+						++dayIter;
 					}
 
 				}
@@ -480,6 +480,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/09/07 00:49:11  ddiego
+*minor fixes in printg code in graphics kit, and added a 2 ways to print in the printing example.
+*
 *Revision 1.3  2004/08/07 02:46:57  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
