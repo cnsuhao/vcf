@@ -1,6 +1,43 @@
+#ifndef _VCF_SKETCHVIEW_H__
+#define _VCF_SKETCHVIEW_H__
+//SketchView.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+#define SKETCHVIEW_CLASSID		"f297d0f2-4ece-4fb7-86ef-bea8b395e4af"
+/**
+class SketchView documentation
+*/
+class SketchView : public VCF::Object, public VCF::AbstractView {
+public: 
+	BEGIN_CLASSINFO( SketchView, "SketchView", "VCF::Object", SKETCHVIEW_CLASSID )
+	END_CLASSINFO( SketchView )
+
+	SketchView();
+	virtual ~SketchView();
+
+	virtual void paintView( VCF::GraphicsContext* ctx );	
+protected:
+
+};
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2004/04/29 03:04:29  marcelloptr
+*reformatting of source files
+*
 *Revision 1.2  2003/08/09 02:56:42  ddiego
 *merge over from the devmain-0-6-1 branch
 *Changes
@@ -40,32 +77,6 @@
 */
 
 
-
-
-#ifndef _SKETCHVIEW_H__
-#define _SKETCHVIEW_H__
-
-#define SKETCHVIEW_CLASSID		"f297d0f2-4ece-4fb7-86ef-bea8b395e4af"
-/**
-class SketchView documentation
-*/
-class SketchView : public VCF::Object, public VCF::AbstractView {
-public: 
-	BEGIN_CLASSINFO( SketchView, "SketchView", "VCF::Object", SKETCHVIEW_CLASSID )
-	END_CLASSINFO( SketchView )
-
-	SketchView();
-	virtual ~SketchView();
-
-	virtual void paintView( VCF::GraphicsContext* ctx );	
-protected:
-
-};
-
-
-
-
-#endif //_SKETCHVIEW_H__
-
+#endif // _VCF_SKETCHVIEW_H__
 
 

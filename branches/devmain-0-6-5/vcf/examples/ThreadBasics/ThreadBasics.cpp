@@ -1,4 +1,11 @@
-////ThreadBasics.cpp
+//ThreadBasics.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
@@ -394,5 +401,15 @@ int main( int argc, char** argv ){
 	FoundationKit::terminate();
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.4.2  2004/04/29 03:04:30  marcelloptr
+*reformatting of source files
+*
+*
+*/
 
 

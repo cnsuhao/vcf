@@ -1,3 +1,12 @@
+//SketchView.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ModelViewKit.h"
 #include "../examples/SketchIt/SketchView.h"
@@ -153,4 +162,15 @@ void SketchView::paintView( GraphicsContext* ctx )
 	}
 	
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.3.4.2  2004/04/29 03:04:29  marcelloptr
+*reformatting of source files
+*
+*
+*/
+
 

@@ -1,5 +1,12 @@
 //Splitters.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #define USING_SPLITTER
 #define NUM_OF_PANELS 5	 // 1-6
 
@@ -257,5 +264,15 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.4.2.2  2004/04/29 03:04:29  marcelloptr
+*reformatting of source files
+*
+*
+*/
 
 
