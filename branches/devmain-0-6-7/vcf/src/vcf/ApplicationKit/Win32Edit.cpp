@@ -780,7 +780,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			method. Otherwise the caretpos is "wrong", for lack of a better 
 			word, which in turn screws up where data is removed from the model.
 			*/
-			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
+			if ( !peerControl_->isDestroying() && !peerControl_->isDesigning() ) {
 
 				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
 				ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
@@ -831,8 +831,12 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				result = true;
 			}
 
-			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
+			if ( !peerControl_->isDesigning() ) {
 				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+				result = true;
+			}
+			else if ( peerControl_->isDesigning() ) {
+				wndProcResult = 0;
 				result = true;
 			}
 		}
@@ -879,7 +883,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 			OKToResetControlText_ = false;		
 
-			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
+			if ( !peerControl_->isDesigning() ) {
 				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
 				result = true;
 			}
@@ -1450,6 +1454,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/03/21 04:35:49  ddiego
+*updates
+*
 *Revision 1.3.2.6  2005/03/15 01:51:50  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
