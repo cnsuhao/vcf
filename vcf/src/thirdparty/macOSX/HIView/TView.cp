@@ -74,8 +74,8 @@ const EventTypeSpec kHIViewEvents[] =
 	{ kEventClassControl, kEventControlValueFieldChanged },
 	{ kEventClassControl, kEventControlTitleChanged },
 	{ kEventClassControl, kEventControlEnabledStateChanged },
-	{ kEventClassControl, kEventControlOwningWindowChanged },
-	{ kEventClassControl, kEventControlVisibilityChanged }
+	{ kEventClassControl, kEventControlOwningWindowChanged }//,
+//	{ kEventClassControl, kEventControlVisibilityChanged }
 };
 
 // This param name was accidentally left unexported for
@@ -742,14 +742,14 @@ TView::HandleEvent(
 						result = noErr;
 					}
 					break;
-
+/*
 				case kEventControlVisibilityChanged:
 					{
 						VisibilityChanged();
 						
 						result = noErr;
 					}
-					break;
+					break;*/
 
 				case kEventControlDragEnter:
 				case kEventControlDragLeave:

@@ -47,7 +47,7 @@ doesn't like std::basic_string<wchar_t> on OSX, go figure :(
 };
 
 
-#ifdef VCF_OSX
+#ifdef VCF_OSX__
 
  
 namespace std {
@@ -162,6 +162,9 @@ struct char_traits<VCF::WideChar> {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/31 22:24:52  ddiego
+*OSX code for handling focus events
+*
 *Revision 1.1.2.3  2004/05/16 02:39:09  ddiego
 *OSX code updates
 *

@@ -120,7 +120,6 @@
 //5E4
 		5E2C800E0641F7AA00A8020D = {
 			children = (
-				5EC402DE0644A34200A8020D,
 				5E2C80180641F7E800A8020D,
 				5E2C80170641F7E200A8020D,
 				5E2C80160641F7DB00A8020D,
@@ -255,7 +254,6 @@
 				5E2C81EA0641F81600A8020D,
 				5E2C81EB0641F81600A8020D,
 				5E2C82050641F81600A8020D,
-				5EC402E20644A35F00A8020D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,7 +330,6 @@
 				5E2C81E40641F81600A8020D,
 				5E2C81E70641F81600A8020D,
 				5E2C82040641F81600A8020D,
-				5EC402E10644A35F00A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3632,6 +3629,7 @@
 		};
 		5E2CDE72064868CD00A8020D = {
 			children = (
+				5EBD9C0E06613DF500A8020D,
 				5E2CDF920648693C00A8020D,
 				5E2CDF940648693C00A8020D,
 				5E2CDF960648693C00A8020D,
@@ -3875,6 +3873,10 @@
 				5E2CE24B0648693C00A8020D,
 				5E2CE24C0648693C00A8020D,
 				5E2CE24D0648693C00A8020D,
+				5EBD9C1806613E0D00A8020D,
+				5EBD9C1A06613E0D00A8020D,
+				5EBD9C1C06613E0D00A8020D,
+				5EBD9C1E06613E0D00A8020D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4025,6 +4027,10 @@
 				5E2CE1FF0648693C00A8020D,
 				5E2CE2480648693C00A8020D,
 				5E2CE24A0648693C00A8020D,
+				5EBD9C1706613E0D00A8020D,
+				5EBD9C1906613E0D00A8020D,
+				5EBD9C1B06613E0D00A8020D,
+				5EBD9C1D06613E0D00A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4059,10 +4065,10 @@
 				BUILD_DIR = "$(VCF_BIN)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin";
+				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\"";
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.1 /Users/jimcrafton/code/vcfdev/dev/vcf/lib";
+				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\" \"$(VCF_INCLUDE)/thirdparty/macOSX/HIView\"";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.1";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DVCF_GCC -D_DEBUG -DVCF_OSX  -Wno-multichar";
 				OTHER_LDFLAGS = "";
@@ -10321,37 +10327,121 @@
 			settings = {
 			};
 		};
-		5EC402DE0644A34200A8020D = {
+		5EBD9C0E06613DF500A8020D = {
 			children = (
-				5EC402DF0644A35F00A8020D,
-				5EC402E00644A35F00A8020D,
+				5EBD9C0F06613E0D00A8020D,
+				5EBD9C1006613E0D00A8020D,
+				5EBD9C1106613E0D00A8020D,
+				5EBD9C1206613E0D00A8020D,
+				5EBD9C1306613E0D00A8020D,
+				5EBD9C1406613E0D00A8020D,
+				5EBD9C1506613E0D00A8020D,
+				5EBD9C1606613E0D00A8020D,
 			);
 			isa = PBXGroup;
-			name = Extras;
+			name = HIView;
 			refType = 4;
 		};
-		5EC402DF0644A35F00A8020D = {
+		5EBD9C0F06613E0D00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = MoreFilesX.c;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/thirdparty/macOSX/MoreFilesX.c;
-			refType = 0;
+			name = TCarbonEvent.cp;
+			path = ../../src/thirdparty/macOSX/HIView/TCarbonEvent.cp;
+			refType = 2;
 		};
-		5EC402E00644A35F00A8020D = {
+		5EBD9C1006613E0D00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = MoreFilesX.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/thirdparty/macOSX/MoreFilesX.h;
-			refType = 0;
+			name = TCarbonEvent.h;
+			path = ../../src/thirdparty/macOSX/HIView/TCarbonEvent.h;
+			refType = 2;
 		};
-		5EC402E10644A35F00A8020D = {
-			fileRef = 5EC402DF0644A35F00A8020D;
+		5EBD9C1106613E0D00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TObject.cp;
+			path = ../../src/thirdparty/macOSX/HIView/TObject.cp;
+			refType = 2;
+		};
+		5EBD9C1206613E0D00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TObject.h;
+			path = ../../src/thirdparty/macOSX/HIView/TObject.h;
+			refType = 2;
+		};
+		5EBD9C1306613E0D00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TRect.cp;
+			path = ../../src/thirdparty/macOSX/HIView/TRect.cp;
+			refType = 2;
+		};
+		5EBD9C1406613E0D00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TRect.h;
+			path = ../../src/thirdparty/macOSX/HIView/TRect.h;
+			refType = 2;
+		};
+		5EBD9C1506613E0D00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TView.cp;
+			path = ../../src/thirdparty/macOSX/HIView/TView.cp;
+			refType = 2;
+		};
+		5EBD9C1606613E0D00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TView.h;
+			path = ../../src/thirdparty/macOSX/HIView/TView.h;
+			refType = 2;
+		};
+		5EBD9C1706613E0D00A8020D = {
+			fileRef = 5EBD9C0F06613E0D00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		5EC402E20644A35F00A8020D = {
-			fileRef = 5EC402E00644A35F00A8020D;
+		5EBD9C1806613E0D00A8020D = {
+			fileRef = 5EBD9C1006613E0D00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD9C1906613E0D00A8020D = {
+			fileRef = 5EBD9C1106613E0D00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD9C1A06613E0D00A8020D = {
+			fileRef = 5EBD9C1206613E0D00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD9C1B06613E0D00A8020D = {
+			fileRef = 5EBD9C1306613E0D00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD9C1C06613E0D00A8020D = {
+			fileRef = 5EBD9C1406613E0D00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD9C1D06613E0D00A8020D = {
+			fileRef = 5EBD9C1506613E0D00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD9C1E06613E0D00A8020D = {
+			fileRef = 5EBD9C1606613E0D00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};

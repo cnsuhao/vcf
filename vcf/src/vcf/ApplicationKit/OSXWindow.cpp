@@ -211,6 +211,9 @@ void OSXWindow::create( Control* owningControl )
                             { kEventClassWindow, kEventWindowClose },
                             { kEventClassWindow, kEventWindowActivated },
                             { kEventClassWindow, kEventWindowDeactivated },
+                            { kEventClassWindow, kEventWindowFocusAcquired },
+                            { kEventClassWindow, kEventWindowFocusRelinquish },
+                            
                             { kEventClassWindow, kEventWindowDrawContent },
                             { kEventClassMouse, kEventMouseDown },
                             { kEventClassMouse, kEventMouseUp },
@@ -648,6 +651,11 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
         
         default : {
             result = CallNextEventHandler( nextHandler, theEvent );
+            if ( !control_->isDestroying() ) {
+				if ( NULL != vcfEvent ) {
+					control_->handleEvent( vcfEvent );
+				}
+            }
         }
         break; 
     }
@@ -817,6 +825,9 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/05/31 22:24:52  ddiego
+*OSX code for handling focus events
+*
 *Revision 1.1.2.9  2004/05/31 19:42:52  ddiego
 *more osx updates
 *

@@ -47,7 +47,10 @@ public:
 	}
 
 	virtual UInt32 GetBehaviors() {
-		return TView::GetBehaviors() | kControlSupportsEmbedding;//kHIViewAllowsSubviews;
+		return TView::GetBehaviors() | 
+            kControlSupportsEmbedding | kControlSupportsFocus |
+            kControlWantsActivate | kControlHandlesTracking |
+            kControlGetsFocusOnClick | kControlSupportsClickActivation;
 	}
 
 	void setOSXControl( VCF::OSXControl* val ) {
@@ -55,7 +58,7 @@ public:
 	}
 									
 	virtual ControlKind GetKind() {
-		const ControlKind result = { 'OSXv', 'OSXv' };	
+		const ControlKind result = { 'OSXv', 'OSXv' };	
 		return result;
 	}
 	
@@ -119,8 +122,9 @@ static const EventTypeSpec osxHIViewEvents[] =
 	{ kEventClassControl, kEventControlValueFieldChanged },
 	{ kEventClassControl, kEventControlTitleChanged },
 	{ kEventClassControl, kEventControlEnabledStateChanged },
-	{ kEventClassControl, kEventControlOwningWindowChanged }
-	//{ kEventClassControl, kEventControlVisibilityChanged }
+	{ kEventClassControl, kEventControlOwningWindowChanged },
+    { kEventClassControl, kEventControlSetFocusPart }
+    
 };
 
 
@@ -307,7 +311,8 @@ bool OSXControl::isFocused()
 
 void OSXControl::setFocused()
 {
-	HIViewSetNextFocus( hiView_->GetViewRef(), NULL );
+    EventModifiers mods = 0;
+	HIViewAdvanceFocus( hiView_->GetViewRef(), mods );    
 }
 
 bool OSXControl::isEnabled()
@@ -376,6 +381,27 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 	switch ( GetEventClass( theEvent ) )  {	
 		case kEventClassControl : {
 			switch( whatHappened ) {
+            
+                case kEventControlSetFocusPart : {
+                    result = ::CallNextEventHandler( nextHandler, theEvent );
+                    TCarbonEvent		event( theEvent );
+                    ControlPartCode		desiredFocus;
+					Boolean				focusEverything;
+					ControlPartCode		actualFocus;
+						
+                    event.GetParameter<ControlPartCode>( kEventParamControlPart, typeControlPartCode, &desiredFocus ); 
+                    
+                    if ( !control_->isDestroying() ) {
+					
+							
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
+						}
+					}
+                    
+                }
+                break;
+                
 				case kEventControlActivate : {
 					result = ::CallNextEventHandler( nextHandler, theEvent ); 
 					
@@ -483,7 +509,18 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 
 /**
 *CVS Log info
+<<<<<<< OSXControl.cpp
 *$Log$
+*Revision 1.1.2.9  2004/05/31 22:24:52  ddiego
+*OSX code for handling focus events
+*
+*Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
+*osx updates
+=======
+*$Log$
+*Revision 1.1.2.9  2004/05/31 22:24:52  ddiego
+*OSX code for handling focus events
+*
 *Revision 1.1.2.8  2004/05/31 19:42:52  ddiego
 *more osx updates
 *
@@ -492,6 +529,7 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
+>>>>>>> 1.1.2.8
 *
 *Revision 1.1.2.5  2004/05/16 05:31:06  ddiego
 *OSX code updates. Add basics for custom control peers.

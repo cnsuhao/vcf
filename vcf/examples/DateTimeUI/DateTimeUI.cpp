@@ -401,9 +401,7 @@ class DateTimeUIWindow : public Window {
 public:
 	DateTimeUIWindow() {
 		setCaption( "DateTimeUI" );
-		setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-
-		setVisible( true );
+				
 
 		Panel* panel = new Panel();
 		panel->setHeight( 250 );
@@ -422,13 +420,10 @@ public:
 
 		Calendar* calendar = new Calendar();
 
-		Rect r = getClientBounds();
-		r.inflate( -10, -10 );
-
-		//calendar->setBounds( 0, 202, 400, 300 );
 		calendar->setColor( Color::getColor("white") );
 
 		add( calendar, AlignClient );
+        
 	}
 
 	virtual ~DateTimeUIWindow(){};
@@ -450,7 +445,8 @@ public:
 
 		Window* mainWindow = new DateTimeUIWindow();
 		setMainWindow(mainWindow);
-
+        mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+        mainWindow->show();
 
 		return result;
 	}
@@ -471,6 +467,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/05/31 22:24:52  ddiego
+*OSX code for handling focus events
+*
 *Revision 1.2.2.6  2004/05/31 19:42:31  ddiego
 *more osx updates
 *
