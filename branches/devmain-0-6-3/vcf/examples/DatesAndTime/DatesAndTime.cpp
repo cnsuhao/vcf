@@ -127,13 +127,13 @@ int main( int argc, char** argv ){
 
 	DateTimeSpan howLong = dt3 - dt4;
 
-	System::println( "Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %d seconds!",
+	System::println( "Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %s seconds!",
 						howLong.getYears(),
 						howLong.getMonths(),
 						howLong.getDays(),
 						howLong.getHours(),
 						howLong.getMinutes(),
-						howLong.getTotalSeconds() );
+						System::getCurrentThreadLocale()->toString( howLong.getTotalSeconds() ).ansi_c_str() );
 
 
 	/**
