@@ -66,6 +66,8 @@ public:
 
 	bool hasHorizontalScrollBar();
 
+	void updateVirtualViewSize( const double& maxWidth, const double& maxHeight );
+
 	double getVirtualViewHeight();
 
 	double getVirtualViewWidth();
@@ -114,6 +116,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/14 21:10:55  dougtinkham
+*added updateVirtualViewSize member
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
