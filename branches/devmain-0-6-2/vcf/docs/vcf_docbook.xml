@@ -39,6 +39,8 @@
 	<!ENTITY sharedlibraries SYSTEM "../examples/SharedLibraries/SharedLibraries.xml">
 	<!ENTITY heavyandlight SYSTEM "../examples/HeavyAndLight/HeavyAndLight.xml">
 	<!ENTITY alignment SYSTEM "../examples/Alignment/Alignment.xml">
+	<!ENTITY advancedalignment SYSTEM "../examples/AdvancedAlignment/AdvancedAlignment.xml">
+	<!ENTITY anchors SYSTEM "../examples/Anchors/Anchors.xml">
 
 ]>
 
@@ -86,6 +88,10 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/10/22 03:56:44  ddiego
+added two more tutorials for advanced alignment and another for anchors
+also finished off the alignment tutorial. yay :)
+
 Revision 1.1.2.4  2003/10/20 03:35:54  ddiego
 added the alignment tutorial to the list
 

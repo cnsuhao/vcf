@@ -48,8 +48,21 @@ public:
 		//set the border width
 		container->setBorderWidth( 10 );
 
+		//set the container. Settings the container will delete and replace the previous one
+		//if one was already set
 		main->setContainer( container );
 
+
+		/**
+		Now lets add a bunch of child controls - each one a panel, each one a 
+		different color. Notice that the order the control is added IS retained
+		as the parent control is resized.
+		*/
+		/**
+		The first set will be aligned to the bottom. This means that the original height of the 
+		control is maintained, but the left and right sides are controlled by the parent, 
+		making the child control's width changed as the parent is resized.		
+		*/
 		Panel* p1 = new Panel();
 		p1->setHeight( 20 );
 		main->add( p1, AlignBottom );
@@ -65,6 +78,10 @@ public:
 		main->add( p3, AlignBottom );
 		p3->setColor( Color::getColor("red") );
 		
+		/**
+		These two  control are aligned to the left. This will maintain the controls
+		width, but alter the height to match that of the parent.
+		*/
 		Panel* p4 = new Panel();
 		p4->setWidth( 23 );
 		main->add( p4, AlignLeft );
@@ -95,8 +112,20 @@ public:
 		p6->setColor( Color::getColor("black") );
 
 
+		/**
+		Now we add a lightweight control that *also* holds a 
+		container - this means you can have container that are *not* 
+		heavy weight controls, and cuts down on resources a bit.
+		*/
 		LightWeightControl* clientControl = new LightWeightControl();
 
+		/**
+		add the control aligned as a client. 
+		A control that is client aligned will take up any remain space left
+		after the bounds for left, top, right, and bottom aligned controls
+		have been calculated (using a standard container - other custom 
+		container may enforce their own layout algorithms).
+		*/
 		main->add( clientControl, AlignClient );
 		clientControl->setBorderSize( 20 );
 

@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.7  2003/10/22 03:56:43  ddiego
+#added two more tutorials for advanced alignment and another for anchors
+#also finished off the alignment tutorial. yay :)
+#
 #Revision 1.3.4.6  2003/10/04 20:13:45  ddiego
 #updated the Makefiles - everything works now, including compiling
 #building on GCC 3.3.1
@@ -738,9 +742,8 @@ $(FOUNDATION_KIT_SO_D) : $(FK_OBJECT_FILES_D)
 
 
 
-
 $(FK_PRECOMP): $(INC)/FoundationKit.h
-	$(CXX) -D VCF_GCC -DVCF_POSIX -I $(CXX_INC) -O2 -c -x c++ $(INC)/FoundationKit.h -o $(FK_PRECOMP)
+	$(CXX) $(CXX_FLAGS_D) -x c++ $(INC)/FoundationKit.h -o $(FK_PRECOMP)
 	
 #this is the release build target for the 
 #FoundationKit shared object library
