@@ -208,6 +208,9 @@
 				RelativePath="..\..\..\include\core\Property.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\core\VariantData.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\include\core\VariantData.h">
 			</File>
 		</Filter>

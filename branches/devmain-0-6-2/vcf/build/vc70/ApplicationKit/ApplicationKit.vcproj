@@ -774,6 +774,12 @@
 				RelativePath="..\..\..\include\implementerKit\Win32SystemPeer.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\implementerkit\Win32Toolbar.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\implementerKit\Win32Toolbar.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\implementerkit\Win32ToolKit.cpp">
 			</File>
 			<File

@@ -959,6 +959,14 @@ SOURCE=..\..\..\include\implementerKit\Win32SystemPeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\implementerkit\Win32Toolbar.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Toolbar.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\implementerkit\Win32ToolKit.cpp
 # End Source File
 # Begin Source File
