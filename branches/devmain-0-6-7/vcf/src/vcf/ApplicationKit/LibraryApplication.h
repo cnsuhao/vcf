@@ -33,6 +33,8 @@ public:
 
 	virtual void setName( const String& name );
 
+	virtual GraphicsResourceBundle* getResourceBundle();
+
 	/**
 	*returns the library's resource bundle, which
 	*contains all the library's resources, such as
@@ -62,8 +64,8 @@ public:
 
 	static void clearLibraryRegistrar();
 protected:
-
-private:
+	
+	GraphicsResourceBundle* resourceBundle_;
 	static std::map<String,LibraryApplication*>* namedLibraryAppMap;
 	static EnumeratorMapContainer<std::map<String,LibraryApplication*>, LibraryApplication*>* namedLibAppContainer;
 };
@@ -75,6 +77,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/19 07:09:18  ddiego
+*more modifications to better handle resource bundles, especially
+*if they are part of a LibraryApplication instance.
+*
 *Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

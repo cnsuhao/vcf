@@ -70,7 +70,14 @@ String System::findResourceDirectory()
 	
 	CommandLine cmdLine = FoundationKit::getCommandLine();
 
-	FilePath appPath = cmdLine.getArgument(0);
+	return System::findResourceDirectoryForExecutable( cmdLine.getArgument(0) );
+}
+
+String System::findResourceDirectoryForExecutable( const String& fileName )
+{
+	String result;	
+
+	FilePath appPath = fileName;
 
 	UnicodeString appDir = appPath.getPathName(true);
 
@@ -119,6 +126,7 @@ String System::findResourceDirectory()
 
 	return result;
 }
+
 
 unsigned long System::getTickCount()
 {
@@ -621,9 +629,60 @@ String System::getBundlePathFromExecutableName( const String& fileName )
 	return result;
 }
 
+String System::getExecutableNameFromBundlePath( const String& fileName )
+{
+	String result;
+
+	File file(fileName);
+	if ( !file.isDirectory() ) {
+		result = fileName;
+		return result;
+	}
+
+	ProgramInfo* info = System::getProgramInfoFromFileName( fileName );
+	if ( NULL == info ) {
+		return result;
+	}
+
+	String executableName = info->getProgramFileName();
+
+	info->free();
+
+	if ( executableName.empty() ) {
+		return result;
+	}
+
+	FilePath fp = FilePath::makeDirectoryName( fileName );
+	//attempt 1
+	result = fp + executableName;
+	if ( !File::exists( result ) ) {
+		//attempt 2!
+		result = fp + "Contents/" + executableName;
+		if ( !File::exists( result ) ) {
+			//attempt 3
+			result = fp + "Contents/" + System::getOSName() + FilePath::getDirectorySeparator() + executableName;
+			if ( !File::exists( result ) ) {
+				result = fp + "Contents/" + System::getOSName() + FilePath::getDirectorySeparator() + 
+							System::getCompiler() + FilePath::getDirectorySeparator() + executableName;
+			}
+		}
+	}
+
+	if ( !File::exists( result ) ) {
+		result = "";
+	}
+
+	return result;
+
+}	
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2004/12/19 07:09:20  ddiego
+*more modifications to better handle resource bundles, especially
+*if they are part of a LibraryApplication instance.
+*
 *Revision 1.3.2.2  2004/12/19 04:05:01  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

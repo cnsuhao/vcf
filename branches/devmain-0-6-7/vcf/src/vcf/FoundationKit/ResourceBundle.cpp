@@ -162,13 +162,20 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 	return result;
 }
 
-
+String ResourceBundle::getResourcesDirectory()
+{
+	return System::findResourceDirectory();
+}
 
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/12/19 07:09:20  ddiego
+*more modifications to better handle resource bundles, especially
+*if they are part of a LibraryApplication instance.
+*
 *Revision 1.2  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
