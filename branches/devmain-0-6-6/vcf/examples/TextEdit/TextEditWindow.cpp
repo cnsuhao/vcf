@@ -3,6 +3,7 @@
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "TextEditWindow.h"
 #include "TextEditDocument.h"
+#include "TextEdit.h"
 
 using namespace VCF;
 
@@ -85,7 +86,18 @@ void TextEditWindow::initToolbar()
 	img = resBundle->getImage( "redo.bmp" );
 	il->addImage( img );
 	delete img;
+
+	img = resBundle->getImage( "find.bmp" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "replace.bmp" );
+	il->addImage( img );
+	delete img;
 	
+	img = resBundle->getImage( "print.bmp" );
+	il->addImage( img );
+	delete img;
 
 	DocumentManager* docMgr = DocumentManager::getDocumentManager();
 
@@ -107,6 +119,12 @@ void TextEditWindow::initToolbar()
 	
 	tb->addToolBarButton( "" )->setAsSeparator();
 
+	ToolbarItem* printItem = tb->addToolBarButton( "Print" );
+	printItem->setImageIndex( 10 );
+	printItem->setTooltip( "Print Document" );
+	docMgr->getAction( TextEdit::atFilePrint )->addTarget( printItem );
+
+	tb->addToolBarButton( "" )->setAsSeparator();
 
 	ToolbarItem* cutItem = tb->addToolBarButton( "Cut" );
 	cutItem->setImageIndex( 3 );
@@ -137,6 +155,18 @@ void TextEditWindow::initToolbar()
 	docMgr->getAction( DocumentManager::atEditRedo )->addTarget( redoItem );
 
 	tb->addToolBarButton( "" )->setAsSeparator();
+
+
+	ToolbarItem* findItem = tb->addToolBarButton( "Find" );
+	findItem->setImageIndex( 8 );
+	findItem->setTooltip( "Find text in document" );
+	docMgr->getAction( TextEdit::atEditFind )->addTarget( findItem );
+
+	ToolbarItem* replaceItem = tb->addToolBarButton( "Replace" );
+	replaceItem->setImageIndex( 9 );
+	replaceItem->setTooltip( "Replace text in document" );
+	docMgr->getAction( TextEdit::atEditReplace )->addTarget( replaceItem );
+
 
 
 }

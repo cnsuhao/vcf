@@ -91,6 +91,10 @@ public:
 	}
 
 	virtual void print( PrintContext* context, const long& page );
+
+	virtual void finishPrinting();
+
+	virtual ulong32 getTotalPrintablePageCount( PrintContext* context );
 protected:
 	//WNDPROC oldEditWndProc_;
 	VCF::Point posAtChar_;
@@ -108,6 +112,8 @@ protected:
 	void processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam );
 
 	bool OKToResetControlText_;
+
+	std::map<ulong32,ulong32> printPageMap_;
 
 	/**
 	this is a fix from Marcello to work around an apparent bug in Win32's handling of
@@ -130,6 +136,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/19 05:54:28  ddiego
+*added some fixes to the text peer for win32 for printing. added toolbars to text edit example anmd added printing
+*
 *Revision 1.2.2.3  2004/11/18 06:45:44  ddiego
 *updated toolbar btn bug, and added text edit sample.
 *

@@ -507,7 +507,7 @@ public:
 	*@return Action*, the pointer to the associated action.
 	*@see Action
 	*/
-	Action* getAction( ActionTag tag );
+	Action* getAction( ulong32 tag );
 
 	/**
 	* performs a cut operation on the document,
@@ -592,7 +592,7 @@ protected:
 	UIToolkit::ModalReturnType saveChanges( Document* document );
 
 	/* add an action to the internal action map */
-	void addAction( ActionTag tag, Action* action );
+	void addAction( ulong32 tag, Action* action );
 
 	/* called to add a document to the document based application */
 	void addDocument( Document* document );
@@ -1586,6 +1586,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2004/11/19 05:54:28  ddiego
+*added some fixes to the text peer for win32 for printing. added toolbars to text edit example anmd added printing
+*
 *Revision 1.2.2.8  2004/11/16 21:35:50  marcelloptr
 *more documentation
 *

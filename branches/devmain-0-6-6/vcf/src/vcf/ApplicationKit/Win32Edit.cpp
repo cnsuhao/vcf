@@ -926,9 +926,144 @@ void Win32Edit::setReadOnly( const bool& readonly )
 	SendMessage( hwnd_, EM_SETREADONLY, readonly ? TRUE : FALSE, 0 );
 }
 
+ulong32 Win32Edit::getTotalPrintablePageCount( PrintContext* context )
+{
+	printPageMap_.clear();
+
+	ulong32 result = 1;
+
+	FORMATRANGE formatRange = {0};
+	//print everything
+	formatRange.chrg.cpMax = -1;
+	formatRange.chrg.cpMin = 0;
+
+	formatRange.hdc = (HDC)context->getPeer()->getContextID();
+	formatRange.hdcTarget = formatRange.hdc;
+
+	Rect printRect = context->getViewableBounds();
+	double dpi = GraphicsToolkit::getDPI(context);
+
+	printRect.left_ = (printRect.left_ / dpi) * 1400.0;
+	printRect.top_ = (printRect.top_ / dpi) * 1400.0;
+	printRect.bottom_ = (printRect.bottom_ / dpi) * 1400.0;
+	printRect.right_ = (printRect.right_ / dpi) * 1400.0;
+
+	formatRange.rcPage.left = printRect.left_;
+	formatRange.rcPage.top = printRect.top_;
+	formatRange.rcPage.right = printRect.right_;
+	formatRange.rcPage.bottom = printRect.bottom_;
+
+	formatRange.rc.left = printRect.left_;
+	formatRange.rc.top = printRect.top_;
+	formatRange.rc.right = printRect.right_;
+	formatRange.rc.bottom = printRect.bottom_;
+
+	HDC dc = GetDC( hwnd_ );
+	double ctrlDPI = (double)GetDeviceCaps( dc, LOGPIXELSY);
+	ReleaseDC( hwnd_, dc );
+
+	DWORD margins = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 );
+	double lm = ((double)LOWORD(margins)/ctrlDPI) * 1400;
+	double rm = ((double)HIWORD(margins)/ctrlDPI) * 1400;
+
+	formatRange.rc.left += lm;
+	formatRange.rc.right -= lm;
+	formatRange.rc.top += 350; //add a 1/4"
+	formatRange.rc.bottom -= 350; //add a 1/4"
+
+	TextControl* tc = (TextControl*)this->getControl();
+	String text = tc->getTextModel()->getText();
+	ulong32 textSize = text.size();
+	
+	SendMessage( hwnd_, EM_FORMATRANGE, 0, 0 );
+
+	printPageMap_[result] = (ulong32)-1;
+
+	DWORD index = SendMessage( hwnd_, EM_FORMATRANGE, 0, (LPARAM)&formatRange );
+	while ( (index <= textSize) && (formatRange.chrg.cpMin != index) ) {
+		printPageMap_[result] = index;
+
+		formatRange.chrg.cpMin = index;
+		index = SendMessage( hwnd_, EM_FORMATRANGE, 0, (LPARAM)&formatRange );
+		result ++;
+	}
+
+	SendMessage( hwnd_, EM_FORMATRANGE, 0, 0 );
+
+
+	return result;
+}
+
 void Win32Edit::print( PrintContext* context, const long& page )
 {
+	VCF_ASSERT( !printPageMap_.empty() );
 
+	if ( printPageMap_.empty() ) {
+
+		return;
+	}
+
+	std::map<ulong32,ulong32>::iterator found = printPageMap_.find( page );
+	if ( found == printPageMap_.end() ) {
+		//clear out of dodge! We are done printing
+		printPageMap_.clear();
+		return;
+	}
+	else {
+		FORMATRANGE formatRange = {0};
+		//print everything
+		formatRange.chrg.cpMax = found->second;
+		if ( 0 == (page-1) ) {
+			formatRange.chrg.cpMin = 0;
+		}
+		else {
+			formatRange.chrg.cpMin = printPageMap_[page-1];
+		}
+
+		
+		formatRange.hdc = (HDC)context->getPeer()->getContextID();
+		formatRange.hdcTarget = formatRange.hdc;
+		
+		Rect printRect = context->getViewableBounds();
+		double dpi = GraphicsToolkit::getDPI(context);
+		
+		printRect.left_ = (printRect.left_ / dpi) * 1400.0;
+		printRect.top_ = (printRect.top_ / dpi) * 1400.0;
+		printRect.bottom_ = (printRect.bottom_ / dpi) * 1400.0;
+		printRect.right_ = (printRect.right_ / dpi) * 1400.0;
+		
+		formatRange.rcPage.left = printRect.left_;
+		formatRange.rcPage.top = printRect.top_;
+		formatRange.rcPage.right = printRect.right_;
+		formatRange.rcPage.bottom = printRect.bottom_;
+		
+		formatRange.rc.left = printRect.left_;
+		formatRange.rc.top = printRect.top_;
+		formatRange.rc.right = printRect.right_;
+		formatRange.rc.bottom = printRect.bottom_;
+		
+		HDC dc = GetDC( hwnd_ );
+		double ctrlDPI = (double)GetDeviceCaps( dc, LOGPIXELSY);
+		ReleaseDC( hwnd_, dc );
+		
+		DWORD margins = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 );
+		double lm = ((double)LOWORD(margins)/ctrlDPI) * 1400;
+		double rm = ((double)HIWORD(margins)/ctrlDPI) * 1400;
+		
+		formatRange.rc.left += lm;
+		formatRange.rc.right -= lm;
+		formatRange.rc.top += 350; //add a 1/4"
+		formatRange.rc.bottom -= 350; //add a 1/4"
+		
+		
+		
+		SendMessage( hwnd_, EM_FORMATRANGE, TRUE, (LPARAM)&formatRange );		
+	}
+}
+
+void Win32Edit::finishPrinting()
+{
+	SendMessage( hwnd_, EM_FORMATRANGE, 0, 0 );
 }
 
 void Win32Edit::onControlModelChanged( Event* e )
@@ -956,6 +1091,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/11/19 05:54:28  ddiego
+*added some fixes to the text peer for win32 for printing. added toolbars to text edit example anmd added printing
+*
 *Revision 1.2.2.5  2004/11/18 06:45:44  ddiego
 *updated toolbar btn bug, and added text edit sample.
 *

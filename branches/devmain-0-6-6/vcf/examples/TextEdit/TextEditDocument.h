@@ -105,7 +105,6 @@ public:
 		teTextSelectionChanged
 	};
 
-
 	TextEditDocument();
 	virtual ~TextEditDocument();
 

@@ -562,7 +562,7 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 	return doc;
 }
 
-Action* DocumentManager::getAction( ActionTag tag )
+Action* DocumentManager::getAction( ulong32 tag )
 {
 	Action* result = NULL;
 
@@ -574,7 +574,7 @@ Action* DocumentManager::getAction( ActionTag tag )
 	return result;
 }
 
-void DocumentManager::addAction( ActionTag tag, Action* action )
+void DocumentManager::addAction( ulong32 tag, Action* action )
 {
 	actionsMap_[tag] = action;
 	action->setTag( tag );
@@ -584,6 +584,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/11/19 05:54:28  ddiego
+*added some fixes to the text peer for win32 for printing. added toolbars to text edit example anmd added printing
+*
 *Revision 1.2.2.4  2004/11/15 05:41:27  ddiego
 *finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
 *
