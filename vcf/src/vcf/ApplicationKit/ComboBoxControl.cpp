@@ -667,6 +667,14 @@ void ComboBoxControl::keyPressed( KeyboardEvent* event )
 		}
 		break;
 
+		case vkEscape : {
+			if ( NULL != dropDown_ ) {
+				Event ev( this );
+				closeDropDown( &ev );
+			}
+		}
+		break;
+
 		case vkReturn : {
 			StringUtils::trace( "ComboBoxControl::keyPressed: vkReturn()\n" );
 			if ( NULL != dropDown_ ) {
@@ -1033,6 +1041,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/01/31 01:37:29  marcelloptr
+*fixed crash when vkEscape pressed
+*
 *Revision 1.3.2.5  2005/01/31 01:36:34  marcelloptr
 *fixed autolookup. Added behaviour when vkReturn is pressed.
 *
