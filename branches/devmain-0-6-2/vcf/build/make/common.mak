@@ -3,6 +3,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.1  2003/09/27 16:11:30  ddiego
+#fixed some minor glitches in the makefile due to changes made on the Win32
+#side.
+#
 #Revision 1.3  2003/05/17 20:36:20  ddiego
 #this is the checkin for the 0.6.1 release - represents the merge over from
 #the devmain-0-6-0 branch plus a few minor bug fixes
@@ -78,17 +82,17 @@ LIB_OUT=../../lib
 
 
 #source file short cut directories
-SRC_COM=$(SRC)/COM
+SRC_COM=$(SRC)/com
 SRC_CORE=$(SRC)/core
-SRC_DND=$(SRC)/DragDrop
-SRC_EVENT=$(SRC)/Events
-SRC_EXCPT=$(SRC)/Exceptions
-SRC_GRF=$(SRC)/Graphics
-SRC_IMPLKIT=$(SRC)/ImplementerKit
-SRC_IO=$(SRC)/IO
+SRC_DND=$(SRC)/dragdrop
+SRC_EVENT=$(SRC)/events
+SRC_EXCPT=$(SRC)/exceptions
+SRC_GRF=$(SRC)/graphics
+SRC_IMPLKIT=$(SRC)/implementerkit
+SRC_IO=$(SRC)/io
 SRC_NET=$(SRC)/net
 SRC_REMOTE=$(SRC)/remote
-SRC_UTILS=$(SRC)/Utils
+SRC_UTILS=$(SRC)/utils
 
 
 #include short cuts
@@ -152,13 +156,9 @@ FOUNDATIONKIT_HDRS=$(INC)/utils/VCFChar.h \
 	$(INC)/utils/Thread.h \
 	$(INC)/utils/Mutex.h \
 	$(INC)/utils/Parser.h \
-	$(INC)/utils/pcre.h \
-	$(INC)/utils/pcreposix.h \
 	$(INC)/utils/ProcessWithRedirectedIO.h \
 	$(INC)/utils/References.h \
-	$(INC)/utils/regexx.h \
 	$(INC)/utils/Registry.h \
-	$(INC)/utils/internal.h \
 	$(INC)/utils/Library.h \
 	$(INC)/utils/Lock.h \
 	$(INC)/utils/Enum.h \
@@ -209,10 +209,8 @@ FOUNDATIONKIT_HDRS=$(INC)/utils/VCFChar.h \
 	$(INC)/exceptions/ClassNotFound.h \
 	$(INC)/exceptions/ErrorStrings.h \
 	$(INC)/events/NotifyEvent.h \
-	$(INC)/events/NotifyListener.h \
 	$(INC)/events/OutputReadyEvent.h \
 	$(INC)/events/PropertyChangeEvent.h \
-	$(INC)/events/PropertyListener.h \
 	$(INC)/core/Class.h \
 	$(INC)/core/ClassInfo.h \
 	$(INC)/core/ClassRegistry.h \
@@ -225,10 +223,7 @@ FOUNDATIONKIT_HDRS=$(INC)/utils/VCFChar.h \
 	$(INC)/core/Method.h \
 	$(INC)/core/Object.h \
 	$(INC)/core/ObjectWithEvents.h \
-	$(INC)/core/Point.h \
 	$(INC)/core/Property.h \
-	$(INC)/core/Rect.h \
-	$(INC)/core/Size.h \
 	$(INC)/core/VCF.h \
 	$(INC)/core/VCFMath.h \
 	$(INC)/core/WarningsOffVc.h \
@@ -291,6 +286,9 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 	$(INC)/graphics/ImageTile.h \
 	$(INC)/graphics/Kernel.h \
 	$(INC)/graphics/Layer.h \
+	$(INC)/core/Point.h \
+	$(INC)/core/Rect.h \
+	$(INC)/core/Size.h \
 	$(INC)/graphics/Light3DBorder.h \
 	$(INC)/graphics/MagicFMLibType.h \
 	$(INC)/graphics/Matrix2D.h \

@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.1  2003/09/27 16:11:30  ddiego
+#fixed some minor glitches in the makefile due to changes made on the Win32
+#side.
+#
 #Revision 1.3  2003/05/17 20:36:20  ddiego
 #this is the checkin for the 0.6.1 release - represents the merge over from
 #the devmain-0-6-0 branch plus a few minor bug fixes
@@ -119,9 +123,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/Object.o \
 	$(OUTDIR_FK_D)/ObjectWithEvents.o \
 	$(OUTDIR_FK_D)/Parser.o \
-	$(OUTDIR_FK_D)/Point.o \
 	$(OUTDIR_FK_D)/PropertyChangeEvent.o \
-	$(OUTDIR_FK_D)/Rect.o \
 	$(OUTDIR_FK_D)/Registry.o \
 	$(OUTDIR_FK_D)/Stream.o \
 	$(OUTDIR_FK_D)/StringUtils.o \
@@ -175,9 +177,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/Object.o \
 	$(OUTDIR_FK)/ObjectWithEvents.o \
 	$(OUTDIR_FK)/Parser.o \
-	$(OUTDIR_FK)/Point.o \
 	$(OUTDIR_FK)/PropertyChangeEvent.o \
-	$(OUTDIR_FK)/Rect.o \
 	$(OUTDIR_FK)/Registry.o \
 	$(OUTDIR_FK)/Stream.o \
 	$(OUTDIR_FK)/StringUtils.o \
@@ -223,6 +223,8 @@ GRAFKIT_OBJECT_FILES_D=$(OUTDIR_GK_D)/GraphicsKit.o \
 			$(OUTDIR_GK_D)/Matrix2D.o \
 			$(OUTDIR_GK_D)/Polygon.o \
 			$(OUTDIR_GK_D)/Vector2D.o \
+			$(OUTDIR_GK_D)/Point.o \
+			$(OUTDIR_GK_D)/Rect.o \
 			$(OUTDIR_GK_D)/GTKFont.o \
 			$(OUTDIR_GK_D)/GTKImage.o \
 			$(OUTDIR_GK_D)/GTKContext.o \
@@ -248,6 +250,8 @@ GRAFKIT_OBJECT_FILES=$(OUTDIR_GK)/GraphicsKit.o \
 			$(OUTDIR_GK)/ImageEvent.o \
 			$(OUTDIR_GK)/Matrix2D.o \
 			$(OUTDIR_GK)/Polygon.o \
+			$(OUTDIR_GK)/Point.o \
+			$(OUTDIR_GK)/Rect.o \
 			$(OUTDIR_GK)/Vector2D.o \
 			$(OUTDIR_GK)/GTKFont.o \
 			$(OUTDIR_GK)/GTKImage.o \
