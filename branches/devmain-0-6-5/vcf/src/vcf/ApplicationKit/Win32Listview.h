@@ -117,6 +117,17 @@ private:
 	static LRESULT CALLBACK Header_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	ListViewControl* listviewControl_;
+	bool headerControlIsTracking_;
+	std::vector<ListItem*> selectedItems_;
+	EnumeratorContainer<std::vector<ListItem*>, ListItem*> enumContainer_;
+	Rect itemRect_;	
+	WNDPROC oldHeaderWndProc_;
+	Color backColor_;
+	HIMAGELIST largeImageListCtrl_;
+	HIMAGELIST smallImageListCtrl_;
+
+
+
 	ItemEventHandler<Win32Listview>* itemAddedHandler_;
 	ItemEventHandler<Win32Listview>* itemDeletedHandler_;
 	ItemEventHandler<Win32Listview>* itemChangedHandler_;
@@ -135,22 +146,12 @@ private:
 
 	void updateItemSubItems( ListItem* item );
 
-	bool headerControlIsTracking_;
-	std::vector<ListItem*> selectedItems_;
-	EnumeratorContainer<std::vector<ListItem*>, ListItem*> enumContainer_;
-	Rect itemRect_;
-	
-	WNDPROC oldHeaderWndProc_;
 
 	IconStyleType translateStyleToIconStyle( const DWORD& wsStyle );
 	DWORD translateIconStyleToStyleBit( const IconStyleType& iconStyle );
 
 	IconAlignType translateStyleToIconAlignment( const DWORD& wsStyle );
 	DWORD translateIconAlignmentToStyleBit( const IconAlignType& iconAlignment );
-	Color backColor_;
-
-	HIMAGELIST largeImageListCtrl_;
-	HIMAGELIST smallImageListCtrl_;
 
 	void onLargeImageListImageChanged( ImageListEvent* event );
 
@@ -168,6 +169,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/15 18:53:00  ddiego
+*more updates
+*
 *Revision 1.1.2.3  2004/07/14 04:56:02  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.
