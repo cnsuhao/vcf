@@ -76,7 +76,7 @@ void Win32Edit::create( Control* owningControl )
 
 
 		try {
-			if ( false == Win32RicheditLibraryLoaded ) {
+			if ( !Win32RicheditLibraryLoaded ) {
 				if  ( NULL != LoadLibraryA( richeditLibrary.c_str() ) ) {
 					Win32RicheditLibraryLoaded = true;
 					isRichedit_ = true;
@@ -89,6 +89,9 @@ void Win32Edit::create( Control* owningControl )
 
 					throw RuntimeException( errMsg );
 				}
+			}
+			else {
+				isRichedit_ = true;
 			}
 		}
 		catch (...) {
@@ -903,6 +906,17 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_ERASEBKGND :{
 			wndProcResult = 1;
+
+			if ( isRichedit_ ) {
+				//EM_SETBKGNDCOLOR
+				Color* color = peerControl_->getColor();
+
+				COLORREF backColor = RGB(color->getRed() * 255.0,
+										color->getGreen() * 255.0,
+										color->getBlue() * 255.0 );
+				SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
+			}
+
 			result = true;
 		}
 		break;
@@ -1454,6 +1468,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/03/23 03:31:23  ddiego
+*fixed rich edit back color bug.
+*
 *Revision 1.3.2.7  2005/03/21 04:35:49  ddiego
 *updates
 *
