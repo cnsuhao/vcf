@@ -1,10 +1,17 @@
-#common definitions
-
-#output directory for debug builds
-
-
-
 ##############################################################
+#
+#
+#CVS Log info
+#$Log$
+#Revision 1.1.2.4  2003/02/08 17:55:44  ddiego
+#modified the makefiles to have cvs Log entries, so we can keepo track of
+#whats going on :)
+#
+#
+#
+#common definitions
+#
+#output directory for debug builds
 #
 #output base directories
 #
