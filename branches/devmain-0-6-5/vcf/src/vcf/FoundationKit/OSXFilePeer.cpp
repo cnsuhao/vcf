@@ -10,7 +10,12 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/OSXFilePeer.h"
-
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
+	  
 //#include "vcf/FoundationKit/regexx.h"
 
 //#include "MoreFilesX.h"
@@ -106,7 +111,7 @@ void OSXFilePeer::open( const String& fileName, ulong32 openFlags, File::ShareFl
 		oflags |= O_RDWR;
 	}
 	
-	fileHandle_ = open( fileName.ansi_c_str(), oflags );
+	fileHandle_ = ::open( fileName.ansi_c_str(), oflags );
 	if ( -1 == fileHandle_ ) {
 		fileHandle_ = 0;
 		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to open the specified file " + fileName));
@@ -116,14 +121,14 @@ void OSXFilePeer::open( const String& fileName, ulong32 openFlags, File::ShareFl
 void OSXFilePeer::close()
 {
 	if ( 0 != fileHandle_ ) {
-		close( fileHandle_ );
+		::close( fileHandle_ );
 	}
 }
 
 void OSXFilePeer::create( ulong32 openFlags )
 {
 	close();
-	AnsiString fname = file_->getName();
+	String fname = file_->getName();
 	VCF_ASSERT( !fname.empty() );
 	
 	FilePath fp = fname;
@@ -137,10 +142,10 @@ void OSXFilePeer::create( ulong32 openFlags )
 			if ( NULL == dir ) {
 				//try and create it?
 				mode_t mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
-				mkdir( dirName.ansi_c_str(), mode );
+				::mkdir( dirName.ansi_c_str(), mode );
 			}
 			else {
-				closedir( dir );
+				::closedir( dir );
 			}
 			
 			it ++;
@@ -161,7 +166,7 @@ void OSXFilePeer::create( ulong32 openFlags )
 			oflags |= O_RDWR;
 		}
 		
-		fileHandle_ = open( fname.c_str(), oflags );
+		fileHandle_ = ::open( fname.ansi_c_str(), oflags );
 		if ( -1 == fileHandle_ ) {
 			fileHandle_ = 0;
 			throw BasicFileError( MAKE_ERROR_MSG_2("Unable to open the specified file " + file_->getName()));
@@ -174,17 +179,50 @@ void OSXFilePeer::remove()
 	AnsiString fname = file_->getName();
 	VCF_ASSERT( !fname.empty() );
 	
-	unlink( fname.c_str() );
+	::remove( fname.c_str() );
 }
 
 void OSXFilePeer::move( const String& newFileName )
 {
-
+	AnsiString fname = file_->getName();
+	VCF_ASSERT( !fname.empty() );
+	
+	::rename( fname.c_str(), newFileName.ansi_c_str() );
 }
 
 void OSXFilePeer::copyTo( const String& copyFileName )
 {
+	AnsiString fname = file_->getName();
 
+	FILE* f = fopen( fname.c_str(), "rb" );
+	if ( NULL != f ) {
+		int size = 0;
+		
+		fseek( f, 0, SEEK_END );		
+		size = ftell(f);
+		fseek( f, 0, SEEK_SET );
+		
+		char* buffer = new char[size];
+		
+		fread( buffer, 1, size, f );
+		fclose(f);
+		
+		f = fopen( copyFileName.ansi_c_str(), "wb" );
+		if ( NULL != f ) {
+			fwrite( buffer, 1, size, f );
+			fclose(f);
+		}
+		else {
+			delete [] buffer;
+			throw BasicFileError( MAKE_ERROR_MSG_2("Unable to copy the specified file " + file_->getName()));	
+		}
+		
+		
+		delete [] buffer;		
+	}
+	else {
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to copy the specified file " + file_->getName()));	
+	}
 }
 
 void OSXFilePeer::initFileSearch( Directory::Finder* finder )
@@ -288,6 +326,9 @@ void OSXFilePeer::copyTo( const String& copyFileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/30 02:15:29  ddiego
+*added some impl in OSXFilePeer
+*
 *Revision 1.1.2.9  2004/07/29 03:55:12  ddiego
 *osx updates
 *
