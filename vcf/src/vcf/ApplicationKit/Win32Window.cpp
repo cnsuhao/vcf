@@ -277,7 +277,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		case WM_ACTIVATEAPP : {
 			BOOL fActive = (BOOL) wParam;
 
-			if ( !fActive ) {
+			if ( !fActive && (NULL != peerControl_) ) {
 				Frame* frame = (Frame*)peerControl_;
 
 				switch ( frame->getFrameStyle() ){
@@ -601,6 +601,13 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/18 14:45:18  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.5  2004/07/09 18:48:05  ddiego
 *added locale translation support for most classes
 *

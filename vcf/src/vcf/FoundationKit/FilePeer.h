@@ -19,7 +19,6 @@ namespace VCF {
 
 class File;
 
-class Directory::Finder;
 
 /**
 *The FilePeer interface is used to describe basic
@@ -33,11 +32,65 @@ public:
 
 	virtual ~FilePeer(){};
 
-	virtual void setFile( File* file ) = 0;
-	/**
-	*deletes the file from the file system
+
+	/*
+	* close any open handles, reset all internal data,
+	*and it associates itself to a given file instance.
+	*@param File* pointer to a File instance
 	*/
-	virtual void remove() = 0;
+	virtual void setFile( File* file ) = 0;
+
+	//virtual String getName() = 0; // we don't need anymore
+
+	/*
+	* gets the size of the file in bytes
+	*@param ulong64 the size
+	*/
+	virtual ulong64 getSize() = 0;
+
+	/*
+	* updates the informations about the file from the file system
+	*@param statMask the mask indicating the infos we want to update
+	*/
+	virtual void updateStat( File::StatMask = File::smMaskDateAll ) = 0;
+
+	/*
+	* set the fileAttributes of the file
+	*@param fileAttributes the desired attributes
+	*/
+	virtual void setFileAttributes( const File::FileAttributes fileAttributes ) = 0;
+
+	/*
+	* set the modification Date of the file
+	*@param date the desired modification date
+	*/
+	virtual void setDateModified( const DateTime& dateModified ) = 0;
+
+	/**
+	* opens the file using the current file name assigned to it
+	*/
+	virtual void open() = 0;
+
+	/**
+	* opens a new file, closes the old one if previously opened
+	*@param fileName the desired new filename
+	*/
+	virtual void openWithFileName( const String& fileName ) = 0;
+
+	/**
+	* opens a file with read/write access
+	* Closes the old one if previously opened
+	*@param fileName the desired new filename
+	*@param openFlags
+	*@param shareFlags
+	*/
+	virtual void openWithRights( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny ) = 0;
+
+	/**
+	* closes the file if open
+	* it can be called even if it was not opened
+	*/
+	virtual void close() = 0;
 
 	/**
 	*creates a new file
@@ -47,23 +100,35 @@ public:
 	*/
 	virtual void create() = 0;
 
+	/**
+	*deletes the file from the file system
+	*/
+	virtual void remove() = 0;
 
 	/**
-	*returns the size of the file in bytes
+	* renames/moves a file
+	*@param newFileName the filename
 	*/
-	virtual uint32 getSize() = 0;
+	//void rename( const String& newFileName );
+	//virtual void rename( const String& newFileName ); //renames the file
+	virtual void move( const String& newFileName ) = 0;   //renames/moves the file
 
-	virtual String getName() = 0;
-
-	virtual void setName( const String& fileName ) = 0;
-
+	/**
+	* copies the file into another one
+	*@param fileNameToCopyTo the filename to create/overwrite.
+	*/
 	virtual void copyTo( const String& copyFileName ) = 0;
 
-	virtual bool beginFileSearch( Directory::Finder* finder ) = 0;
 
-	virtual String findNextFileInSearch( Directory::Finder* finder ) = 0;
+
+	/* Directory::Finder support functions */
+
+	virtual void initFileSearch( Directory::Finder* finder ) = 0;
+
+	virtual File* findNextFileInSearch( Directory::Finder* finder ) = 0;
 
 	virtual void endFileSearch( Directory::Finder* finder ) = 0;
+
 };
 
 }; //end of namespace VCF
@@ -72,6 +137,13 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

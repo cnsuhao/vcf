@@ -53,13 +53,13 @@ public:
 	}
 
 	String getName() {
-		return fileName_.getName(true);
+		return fileName_.getBaseName(true);
 	}
 
 	void setName( const String& name ) {
 		FilePath fp = name;
 
-		fileName_ = fileName_.getPathName(true) + fp.getName(true);
+		fileName_ = fileName_.getPathName(true) + fp.getBaseName(true);
 		if ( fp.getExtension().empty() ) {
 			fileName_ = fileName_.getFileName() + fileName_.getExtension();
 		}
@@ -184,6 +184,13 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/18 14:45:18  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -625,7 +625,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 
 		FilePath tmpName;
 		FilePath fp = doc->getFileName();
-		if ( !fp.doesFileExist() ) {
+		if ( !File::exists( fp ) ) {
 			String currentDir = System::getCurrentWorkingDirectory();
 			CommonFileSave saveDialog( doc->getWindow(), currentDir );
 
@@ -654,7 +654,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 			//save back up
 			File backup( fp );
 			String tmp = fp.getPathName(true);
-			tmp += "~" + fp.getName() + ".tmp";
+			tmp += "~" + fp.getBaseName() + ".tmp";
 			tmpName = tmp;
 			backup.copyTo( tmpName );
 		}
@@ -672,7 +672,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 		}
 
 		if ( result ) {
-			if ( (!doc->getKeepsBackUpFile()) && (tmpName.doesFileExist()) ) {
+			if ( (!doc->getKeepsBackUpFile()) && File::exists( tmpName ) ) {
 				File backup( tmpName );
 				backup.remove();
 			}
@@ -1040,6 +1040,13 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/18 14:45:18  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.4  2004/06/29 20:31:35  ddiego
 *some minor fixes to the DocumentManager
 *

@@ -19,18 +19,17 @@ FilePath::FilePath()
 
 
 
-FilePath::FilePath( const String& filename ):filename_(filename)
+FilePath::FilePath( const String& filename )
 {
-	convertToNative(filename_);
+	filename_ = transformToNative( filename );
 }
 
 
 
-FilePath::FilePath( const FilePath& filePath ):
-    Object(filePath),
-    filename_(filePath.filename_)
+FilePath::FilePath( const FilePath& filePath )
+: Object(filePath)
 {
-	convertToNative(filename_);
+	filename_ = transformToNative( filePath.filename_ );
 }
 
 
@@ -40,7 +39,7 @@ FilePath::~FilePath()
 
 }
 
-String FilePath::getDriveSeparator()
+/*static*/ String FilePath::getDriveSeparator()
 {
 #ifdef WIN32
 	return ":";
@@ -49,140 +48,178 @@ String FilePath::getDriveSeparator()
 #endif
 }
 
-String FilePath::getExtension() const
-{
-	String result;
-
-	result = filename_;
-
-	int lastSlashPos = result.find_last_of( FilePath::getDirectorySeparator() );
-
-	if ( lastSlashPos != String::npos ) {
-		result = result.substr( lastSlashPos+1, result.size() - (lastSlashPos) );
-	}
-
-	int pos = result.find_last_of( FilePath::getExtensionSeparator() );
-
-	if ( pos != String::npos ) {
-		result.erase( 0, pos );
-	}
-	else {
-		result = "";
-	}
-
-	return result;
-}
-
-
-
-String FilePath::getName( const bool& includeExtension ) const
-{
-	String result;
-
-	result = filename_;
-
-	int lastSlashPos = result.find_last_of( FilePath::getDirectorySeparator() );
-
-	if ( lastSlashPos != String::npos ) {
-		result = result.substr( lastSlashPos+1, result.size() - (lastSlashPos) );
-	}
-
-	if ( !includeExtension ) {
-		int pos = result.find_last_of( FilePath::getExtensionSeparator() );
-
-		if ( pos != String::npos ) {
-			result.erase( pos, result.size() - pos );
-		}
-	}
-
-	return result;
-}
-
-
-String FilePath::getDriveName() const
-{
-	String result;
-
-	result = filename_;
-
-	int drivePos = result.find_last_of( FilePath::getDriveSeparator() );
-	if ( String::npos == drivePos ) {
-		result = "";
-	}
-	else {
-		result = result.substr( 0, drivePos );
-	}
-	return result;
-}
-
-
-String FilePath::getPathName( const bool& includeDriveName ) const
-{
-	String result;
-
-	result = filename_;
-
-	int drivePos = result.find_last_of( FilePath::getDriveSeparator() );
-	if ( String::npos != drivePos ) {
-		result.erase( 0, drivePos+1 );
-	}
-
-	int lastSlashPos = result.find_last_of( FilePath::getDirectorySeparator() );
-
-	if ( lastSlashPos != String::npos ) {
-		result = result.substr( 0, lastSlashPos+1 );
-	}
-	else {
-		result = "";
-	}
-
-	if ( includeDriveName ) {
-		String tmp = getDriveName();
-		if ( false ==  tmp.empty() ) {
-			tmp += FilePath::getDriveSeparator();
-		}
-		result = tmp + result;
-	}
-
-	return result;
-}
-
-
-
-bool FilePath::doesFileExist() const
-{
-	return System::doesFileExist( filename_ );
-}
-
-bool FilePath::isRelativePath() const
+/*static*/ bool FilePath::isRelativePath( const String& filename )
 {
 	bool result = false;
-	String drive = getDriveName();
+	String drive = getDriveName( filename );
 
-	if ( (filename_[0] != FilePath::DirectorySeparator) && (drive.empty())  ) {
+	if ( ( filename[0] != FilePath::DirectorySeparator) && (drive.empty())  ) {
 		result = true;
 	}
 	else {
-		int pos = filename_.find( "../" );
+		int pos = filename.find( "../" );
 		if ( pos == 0 ) {
 			result = true;
 		}
 		else {
-			result = (filename_.find( "./" ) == 0);
+			result = ( filename.find( "./" ) == 0 );
 		}
 	}
 	return result;
 }
 
-bool FilePath::isDirectory() const
+/*static*/ bool FilePath::isDirectoryName( const String& path )
 {
-	bool result = filename_[filename_.size()-1] == FilePath::DirectorySeparator;
+	VCFChar c = path[ path.size() - 1 ];
+	bool result = ( c == '/' || c == '\\' );
 	return result;
 }
 
-//returns true if s1 == s2
+/*static*/ void FilePath::splitDrive( const String& fullname, String& drive, String& pathname )
+{
+	// DriveSeparator is included in drive
+
+	int lastDrivePos = fullname.find_last_of( FilePath::getDriveSeparator() );
+
+	if ( String::npos != lastDrivePos ) {
+		drive = fullname.substr( 0, lastDrivePos + 1 );
+		pathname  = fullname.substr( lastDrivePos + 1, fullname.size() - lastDrivePos - 1 );
+	} else {
+		drive.erase();
+		pathname = fullname;
+	}
+
+	VCF_ASSERT( fullname == drive + pathname ); 
+}
+
+/*static*/ String FilePath::getDriveName( const String& fullname )
+{
+	// DriveSeparator is included in drive
+
+	int lastDrivePos = fullname.find_last_of( FilePath::getDriveSeparator() );
+
+	if ( String::npos != lastDrivePos ) {
+		return fullname.substr( 0, lastDrivePos + 1 );
+	} else {
+		return String( L"" );
+	}
+}
+
+/*static*/ void FilePath::splitPath( const String& fullname, String& path, String& name )
+{
+	// DirectorySeparator is included in path
+
+	/**
+	* Remarks:
+	*
+	*   The main reason why FilePath, looks for both '/' and '\\' under Windows in the 
+	*   implementation of some of its member function, is that under Windows they are both used.
+	*   By not doing this we can have the surprising effect of having a different behaviour 
+	*   of the code under a Window and a 'nix platform.
+	*
+	*   A second reason is that this version works with both an OSSpecific and a Native formats,
+	*   with a negligible performance penalty.
+	*/
+
+	int lastDirsepPos = fullname.find_last_of( L"/\\" );
+
+	if ( lastDirsepPos != String::npos ) {
+		path = fullname.substr( 0, lastDirsepPos + 1 );
+		name  = fullname.substr( lastDirsepPos + 1, fullname.size() - lastDirsepPos - 1 );
+	} else {
+		path.erase();
+		name = fullname;
+	}
+
+	VCF_ASSERT( fullname == path + name ); 
+}
+
+/*static*/ String FilePath::getPathName( const String& fullname, const bool& includeDriveName/*=false*/ )
+{
+	// DirectorySeparator is included in path
+
+	int lastDrivePos = String::npos;
+	if ( !includeDriveName ) {
+		lastDrivePos = fullname.find_last_of( FilePath::getDriveSeparator() );
+	}
+
+	int lastDirsepPos = fullname.find_last_of( L"/\\" );
+
+	String path;
+	if ( lastDrivePos != String::npos ) {
+		if ( lastDirsepPos != String::npos ) {
+			path = fullname.substr( lastDrivePos + 1, lastDirsepPos - lastDrivePos );
+		} else {
+			path = fullname.substr( lastDrivePos + 1, fullname.size() - lastDrivePos );
+		}
+	} else {
+		if ( lastDirsepPos != String::npos ) {
+			path = fullname.substr( 0, lastDirsepPos + 1 );
+		} else {
+			path.erase();
+		}
+	}
+	return path;
+}
+
+/*static*/ void FilePath::splitExtension( const String& fullname, String& root, String& ext )
+{
+	// ExtensionSeparator is included in ext
+
+	int lastExtPos   = fullname.find_last_of( FilePath::getExtensionSeparator() );
+	if ( lastExtPos != String::npos ) {
+		root = fullname.substr( 0, lastExtPos );
+		ext  = fullname.substr( lastExtPos, fullname.size() - lastExtPos );
+	} else {
+		root = fullname;
+		ext.erase();
+	}
+
+	VCF_ASSERT( fullname == root + ext ); 
+}
+
+/*static*/ String FilePath::getBaseName( const String& fullname, const bool& includeExtension/*=false*/ )
+{
+	int lastDirsepPos = fullname.find_last_of( L"/\\" );
+
+	int lastExtPos = String::npos;
+	if ( !includeExtension ) {
+		lastExtPos = fullname.find_last_of( FilePath::getExtensionSeparator() );
+	}
+
+	String path;
+	if ( lastDirsepPos != String::npos ) {
+		if ( lastExtPos != String::npos ) {
+			path = fullname.substr( lastDirsepPos + 1, lastExtPos - lastDirsepPos - 1 );
+		} else {
+			path = fullname.substr( lastDirsepPos + 1, fullname.size() - lastDirsepPos - 1 );
+		}
+	} else {
+		if ( lastExtPos != String::npos ) {
+			path = fullname.substr( 0, lastExtPos );
+		} else {
+			path = fullname;
+		}
+	}
+	return path;
+}
+
+/*static*/ String FilePath::getExtension( const String& fullname )
+{
+	String path;
+	int lastExtPos = fullname.find_last_of( FilePath::getExtensionSeparator() );
+	if ( lastExtPos != String::npos ) {
+		path = fullname.substr( lastExtPos, fullname.size() - 1 );
+	}
+	return path;
+}
+
+
+
 bool compareDirectoryComponent( const String& s1, const String& s2 )
 {
+	//returns true if s1 == s2 taking in consideration if the filesystem is case sensitive
+
 	bool result = false;
 
 #ifdef WIN32
@@ -194,18 +231,17 @@ bool compareDirectoryComponent( const String& s1, const String& s2 )
 	return result;
 }
 
-String FilePath::transformToRelativePathName( const String& workingPath ) const
+/*static*/ String FilePath::getTransformedToRelativePathName( const String& fullPath, const String& workingPath/*=L""*/ )
 {
 	String result;
-	String tmp = filename_;
+	String tmp = fullPath;
 	String workDir = workingPath;
 	if ( workDir.empty() ) {
 		workDir = System::getCurrentWorkingDirectory();
 	}
 	else {
 		//make sure it's a dir name
-		FilePath dirPath(workingPath);
-		workDir = dirPath.getDriveName() + FilePath::getDriveSeparator() + dirPath.getPathName();
+		workDir = FilePath::getPathName( workingPath, true );
 	}
 
 	if ( workDir.empty() ) {
@@ -213,18 +249,14 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 		return "";
 	}
 
-	if ( workDir[workDir.size()-1] != FilePath::DirectorySeparator ) {
-		workDir += FilePath::getDirectorySeparator();
-	}
-
 	FilePath workingDirPath = workDir;
 
-	std::vector<String> workPathComponents = separatePathComponents(workingDirPath);
+	std::vector<String> workPathComponents = getPathComponents(workingDirPath);
 
-	std::vector<String> currentPathComponents = separatePathComponents(filename_);
+	std::vector<String> currentPathComponents = getPathComponents( fullPath );
 
 	String workingDrive = workingDirPath.getDriveName();
-	String currentDrive	= getDriveName();
+	String currentDrive	= FilePath::getDriveName( fullPath );
 
 	if ( StringUtils::lowerCase(currentDrive) == StringUtils::lowerCase(workingDrive) ) {
 		String tmp;
@@ -267,28 +299,31 @@ String FilePath::transformToRelativePathName( const String& workingPath ) const
 			}
 		}
 
-		result = tmp + getName(true);
+		result = tmp + FilePath::getBaseName( fullPath, true );
 	}
 	else {
-		result = filename_;
+		result = fullPath;
 	}
 
 
 	return result;
 }
 
-String FilePath::expandRelativePathName( const String& workingPath ) const
+/*static*/ String FilePath::getExpandedRelativePathName( const String& fullPath, const String& workingPath/*=L""*/ )
 {
+	if ( !FilePath::isRelativePath( fullPath ) ) {
+		return fullPath;
+	}
+
 	String result;
-	String tmp = filename_;
+	String tmp = fullPath;
 	String workDir = workingPath;
 	if ( workDir.empty() ) {
 		workDir = System::getCurrentWorkingDirectory();
 	}
 	else {
 		//make sure it's a dir name
-		FilePath dirPath(workingPath);
-		workDir = dirPath.getDriveName() + FilePath::getDriveSeparator() + dirPath.getPathName();
+		workDir = FilePath::getPathName( workingPath, true );
 	}
 
 	if ( workDir.empty() ) {
@@ -296,24 +331,12 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 		return "";
 	}
 
-	if ( workDir[workDir.size()-1] != FilePath::DirectorySeparator ) {
-		workDir += FilePath::getDirectorySeparator();
-	}
+	workDir = FilePath::transformToNative( workDir );
 
-	convertToNative(workDir);
+	//store drive if present because getPathComponents() will remove it
+	String drive = FilePath::getDriveName( workDir );
 
-	//strip drive if present
-	String drive;
-	int drivePos = workDir.find_last_of( FilePath::getDriveSeparator() );
-	if ( String::npos == drivePos ) {
-		drive = "";
-	}
-	else {
-		drive = workDir.substr( 0, drivePos );
-		//workDir.erase( 0, drivePos );
-	}
-
-	std::vector<String> workPathComponents = separatePathComponents(workDir);
+	std::vector<String> workPathComponents = getPathComponents(workDir);
 	int pos = tmp.find( "../" );
 	if ( pos != String::npos ) {
 
@@ -340,7 +363,7 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 			it ++;
 		}
 		result += tmp;
-		result = drive + FilePath::getDriveSeparator() + result;
+		result = drive + result;
 	}
 	else {
 		//ok look for ../ series
@@ -360,17 +383,14 @@ String FilePath::expandRelativePathName( const String& workingPath ) const
 	return result;
 }
 
-std::vector<String> FilePath::separatePathComponents( const String& path ) const
+/*static*/ std::vector<String> FilePath::getPathComponents( const String& path )
 {
 	std::vector<String> pathComponents;
-	String tmp = path;
-	//get rid of drive
-	int pos = tmp.find( FilePath::getDriveSeparator() );
-	if ( pos != String::npos ) {
-		tmp.erase( 0, pos + 1 );
-	}
 
-	pos = tmp.find( FilePath::getDirectorySeparator(), 0 );
+	//gets rid of drive
+	String tmp = FilePath::getPathName( path, false );
+
+	int pos = tmp.find( FilePath::getDirectorySeparator(), 0 );
 	int lastPos = 0;
 	while ( pos != String::npos ) {
 		pathComponents.push_back( tmp.substr( lastPos, (pos - lastPos)+1 ) );
@@ -385,21 +405,22 @@ std::vector<String> FilePath::separatePathComponents( const String& path ) const
 *this will convert the filename to a standard format:
 [<drive_letter>:]/[dir1/][dir2/][dir_n/]
 */
-void FilePath::convertToNative( String& filename ) const
+/*static*/ String FilePath::transformToNative( const String& filename )
 {
-	std::replace_if( filename.begin(), filename.end(),
+	String result = filename;
+	std::replace_if( result.begin(), result.end(),
 					std::bind2nd(std::equal_to<VCFChar>(),'\\') , '/' );
-
-
+	return result;
 }
 
-String FilePath::transformToOSSpecific() const
+/*static*/ String FilePath::transformToOSSpecific( const String& filename )
 {
 	VCFChar convertChar = '/';
 #ifdef WIN32
 	convertChar = '\\';
 #endif
-	String result = filename_;
+
+	String result = filename;
 
 	std::replace_if( result.begin(), result.end(),
 					std::bind2nd(std::equal_to<VCFChar>(),'/') , convertChar );
@@ -407,16 +428,62 @@ String FilePath::transformToOSSpecific() const
 	return result;
 }
 
-bool FilePath::isPathDirectory( const String& path )
+/*static*/ String FilePath::makeDirectoryName(  const String& fullname, const bool& remove/*=false*/ )
 {
-	FilePath tmp = path;
-	return tmp.isDirectory();
+	String fn = fullname;
+
+	int size = fn.size();
+	if ( 0 < size ) {
+		VCFChar c = FilePath::getDirectorySeparator()[0];
+		VCFChar cs = fn[size-1];
+		/* check against both separators under windows */
+		if ( c != cs || remove ) {
+			if ( cs == '\\' ) {
+				fn.erase( size-1, 1 );
+			}
+			if ( !remove ) {
+				fn += c;
+			}
+		}
+	}
+
+	return fn;
 }
+
+/*static*/ bool FilePath::wildCharsMatchName( const String& filename, const String& wildChars )
+{
+	String fname, fext;
+	FilePath::splitExtension( filename, fname, fext );
+
+	String wname, wext;
+	FilePath::splitExtension( wildChars, wname, wext );
+
+	bool match = ( ( wname == L"*" || wname == fname ) &&
+									( wext == L"*" || wext == fext || ( 0 == fext.size() && wext == "." ) ) );
+
+	return match;
+}
+
+
+
+
+
+
+
+
+
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -18,75 +18,550 @@ namespace VCF {
 
 
 class FilePeer;
+class FileInputStream;
+class FileOutputStream;
 
 /**
-*The File class represents a single file or
-*directory.
+*	The File class represents a single file or directory.
+*
+*	File functions that fail throw FileIO exceptions.
 */
 class FOUNDATIONKIT_API File : public Object{
+public:
+	enum FileAttributes {
+		faNone                 = 0x00000000,
+		faReadOnly             = 0x00000001,
+    faHidden               = 0x00000002,
+    faSystem               = 0x00000004,
+    faExecutable           = 0x00000008,
+    faDirectory            = 0x00000010,
+    faArchive              = 0x00000020,
+    faDevice               = 0x00000040,
+    faNormal               = 0x00000080,
+
+		/* these masks affect the Directory search */
+    faMaskFile     = faReadOnly | faHidden | faSystem | faArchive | faNormal,
+    faMaskFileExec = faReadOnly | faHidden | faSystem | faArchive | faNormal | faExecutable,
+		faMaskDir      = faMaskFile | faDirectory,
+		faMaskAll      = faMaskDir  | faDevice | faExecutable
+	};
+
+	enum StatMask {
+		smStatNone       = 0x0,
+
+		smSize           = 0x1,
+		smAttributes     = 0x2,
+
+		smDateCreation   = 0x4,
+		smDateModified   = 0x8,
+		smDateAccess     = 0x10,
+
+		smMaskDateAll = smDateCreation | smDateModified | smDateAccess,
+
+		smMaskAll = smMaskDateAll | smSize | smAttributes
+	};
+
+	enum OpenFlags {
+		ofNone           = 0x0,
+		ofRead           = 0x1,
+		ofWrite          = 0x2,
+		ofAppend         = 0x4,
+
+		/* open for stat: if yo know the way to use it, please do it !
+		   but I don't think we need of it
+		*/
+		ofStat           = 0x4
+
+	};
+
+	enum ShareFlags {
+		shNone           = 0x0,
+		shRead           = 0x1,
+		shWrite          = 0x2,
+
+		shMaskAny = shRead | shWrite
+	};
+
 
 public:
+	/*
+	*  PLEASE SEE COMMENTS WHERE openWithRights() and stat()
+	*/
+	File( const String& fileName, OpenFlags openFlags = File::ofNone, ShareFlags shareFlags = File::shMaskAny );
+	~File();
 
-	File( const String& fileName = "");
+	/*
+	* gets the file peer
+	* returns FilePeer* the file peer
+	*/
+	FilePeer* getPeer() {
+		return filePeer_;
+	}
 
-	virtual ~File();
+	/*
+	* sets the name of the File
+	* and creates the peer if it does not exists yet
+	*@param fileName the name
+	*/
+	virtual void setName( const String& fileName );
+
+	String getName() const;
+
+	/*
+	* gets the owner of the file
+	* returns String the owner of the file
+	*/
+	String getOwner();
+
+	/*
+	* reset infos like the fileAttributes, DateTime stamps
+
+	*/
+	void resetStats();
+
+	/*
+	* updates the informations about the file from the file system
+	*@param statMask the mask indicating the infos we want to update
+	*/
+	void updateStat( File::StatMask statMask = File::smMaskAll );
+
+	/*
+	* tells if the file is a directory file on the file system
+	* returns true if it is a directory
+	*/
+	bool isDirectory();
+
+	/*
+	* tells if the file has a read only attribute on the file system
+	* returns true if it is read only
+	*/
+	bool isExecutable();
+
+	/*
+	* tells if the file has a read only attribute on the file system
+	* returns true if it is read only
+	*/
+	bool isReadOnly();
+
+	/*
+	* tells if the file has a system attribute on the file system
+	* returns true if it is a system file
+	*/
+	bool isSystem();
+
+	/*
+	* tells if the file has a hidden attribute on the file system
+	* returns true if it is a hidden file
+	*/
+	bool isHidden();
+
+	/*
+	* tells if the file has an archive attribute on the file system
+	* returns true if it is archived
+	*/
+	bool isArchive();
+
+	/*
+	* tells if the file has a device attribute on the file system
+	* returns true if it is a device
+	*/
+	bool isDevice();
+
+	/*
+	* tells if the file has a normal attribute on the file system
+	* returns true if it is a normal file
+	*/
+	bool isNormal();
+
+	/*
+	* tells if a file can be opened for reading
+	* returns bool true if can be opened for reading
+	*/
+	bool isReadable();
+
+	/*
+	* tells if a file can be opened for writing
+	* returns bool true if can be opened for reading
+	*/
+	bool isWriteable();
+
+	/*
+	* gets the size of the file in bytes
+	*@param ulong64 the size
+	*/
+	VCF::ulong64 getSize();
+
+	/*
+	* gets the file attributes of the file
+	*@return the file attributes
+	*/
+	FileAttributes getFileAttributes();
+
+	/*
+	* set the fileAttributes of the file
+	*@param fileAttributes the desired attributes
+	*/
+	void setFileAttributes( const File::FileAttributes fileAttributes );
+
+	/*
+	* gets the date of creation of the file
+	*@param DateTime the creation date
+	*/
+	DateTime getDateCreation();
+
+	/*
+	* gets the modification Date of the file
+	*@param DateTime the desired modification date
+	*/
+	DateTime getDateModified();
+
+	/*
+	* gets the date of the last access to the file
+	*@param DateTime the last access date
+	*/
+	DateTime getDateAccess();
+
+	/*
+	* set the modification Date of the file <B>given in UTC time</B>
+	*@param date the desired modification date
+	*/
+	void setDateModified( const DateTime& date );
+
+	/*
+	* updates the file's modified time to the time when call is made
+	* the time is internally converted in UTC time 
+	*before being assigned to the file
+	*/
+	void updateTime();
+
 
 	/**
-	*removes the file from the file system.
-	*If the file is a directory then the contents
-	*are removed as well
+	*tells if a filename actually exists in the filesystem
+	*@param fileName the filename to check for existence
+	*@return true if the filename exists
+	*/
+	static bool exists( const String& fileName );
+
+	/**
+	*tells if a filename actually exists in the filesystem
+	*@return true if the file exists
+	*/
+	bool exists() const;
+
+
+	/**
+	* opens the file using the current file name assigned to it
+	*/
+	void open();
+
+	/**
+	* opens a new file, closes the old one if previously opened
+	*@param fileName the desired new filename
+	*/
+	void openWithFileName( const String& fileName );
+
+	/**
+	* opens a file with read/write access
+	* Closes the old one if previously opened
+	* - is this useful ?        MARCELLO: I really think so
+	* - do we need executable ? MARCELLO: I have no idea - only Linux experience can tell but I guess yes
+	* HOW TO IMPLEMENT THE LPSECURITY_ATTRIBUTES lpSecurityAttributes ( see CreateFile ) ?
+	* FOR SURE, soon or later, somebody will want it and I think it will have to be implemented (IMHO)
+	*@param fileName the desired new filename
+	*@param openFlags
+	*@param shareFlags
+	*/
+	void openWithRights( const String& fileName, OpenFlags openFlags = File::ofRead, ShareFlags shareFlags = File::shMaskAny );
+
+	/**
+	* open a file ONLY for informational purposes. Does this make sense? Do we need this in addition to open ?
+	* Marcello: is this necessary ? MARCELLO: I think that updateStat() is doing all the work, so we don't need of this
+	*     MARCELLO: it is true that the OS uses different functions to get some infos when a file is open or not
+	*               expecially if the file is opened with DO_SHARE_WITH_ANYBODY_! flag
+	*               Should we need to implement updateStat for this case too ? I would do only when we will see it necessary
+	*/
+	void stat();
+
+	/**
+	* closes the file if open
+	* it can be called even if it was not opened
+	*/
+	void close();
+
+	/**
+	* creates a new file
+	*@param newFileName the filename
+	*/
+	void create( const String& newFileName );
+
+	/**
+	* deletes the file from the file system
 	*/
 	void remove();
 
 	/**
-	*creates a new file
-	*if the last character in the filename is a
-	*directory character, then a directory is created
-	*instead of a file.
+	* renames/moves a file
+	* - or should we have move() ?
+	* MARCELLO: maybe is better to have only one function 
+	* MARCELLO: so I would choose move,
+	* MARCELLO: but in this space here I would maybe put the word 'rename'
+	*  so a user can quicly find it ?
+	*@param newFileName the filename
 	*/
-	void create();
+	//void rename( const String& newFileName ); //renames the file
+	void move( const String& newFileName );   //renames/moves the file
+
+	/**
+	* copies the file into another one
+	*@param fileNameToCopyTo the filename to create/overwrite.
+	*/
+	void copyTo( const String& fileNameToCopyTo ); //copies the file
+
+	/**
+	* getInputStream
+	*/
+	FileInputStream* getInputStream();
+
+	/**
+	* getOutputStream
+	*/
+	FileOutputStream* getOutputStream();
 
 
 	/**
-	*returns the size of the file in bytes
-	*returns 0 if the file is a directory
+	functions for modifying the file member values. For internal use only.
 	*/
-	uint32 getSize();
 
-	/**
-	*returns the name of the file/directory
-	*/
-	String getName() const;
+	inline void internal_setStatMask( const StatMask& val ) {
+		validStat_ = val;
+	}
 
-	/**
-	*sets the name of the file object
-	*/
-	void setName( const String& fileName );
+	inline void internal_addToStatMask( const long& val ) {
+		validStat_ = (StatMask)(validStat_ | val);
+	}
 
-	/**
-	*copies the contents of the file to the specified directory
-	*/
-	void copyTo( const String& copyFileName );
+	inline void internal_removeFromStatMask( const long& val ) {
+		validStat_ = (StatMask)(validStat_ & ~val);
+	}
 
-	/**
-	*is this File object a directory
-	*@return bool true if the object represents a directory, otherwise false.
-	*/
-	bool isDirectory();
+	inline void internal_setFileName( const String& val ) {
+		fileName_ = val;
+	}
 
-	FilePeer* getPeer() {
-		return filePeer_;
+	inline void internal_setFileAttributes( const ulong32& val ) {
+		fileAttributes_ = val;
+	}
+
+	inline void internal_setCreationDate( const DateTime& val ) {
+		dateCreation_ = val;
+	}
+
+	inline void internal_setModifiedDate( const DateTime& val ) {
+		dateModified_ = val;
+	}
+
+	inline void internal_setAccessDate( const DateTime& val ) {
+		dateAccess_ = val;
+	}
+
+	inline void internal_setFileSize( const ulong64& val ) {
+		fileSize_ = val;
 	}
 protected:
 	FilePeer* filePeer_;
+	
+	StatMask validStat_;
+	
+	String   fileName_;
+	String   owner_; // a string ?
+	
+	ulong32  fileAttributes_;
+	DateTime dateCreation_; // or maybe just ulong64 ?
+	DateTime dateModified_; // or maybe just ulong64 ?
+	DateTime dateAccess_; // or maybe just ulong64 ?
+	ulong64  fileSize_;
+	
+	FileInputStream*  fileInputStream_;
+	FileOutputStream* fileOutputStream_;
 };
 
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// inlines
+
+
+inline String File::getName() const {
+	return fileName_;
+}	
+
+inline void File::resetStats() {
+    validStat_        = File::smStatNone;
+
+    owner_.empty();
+
+    fileAttributes_   = 0;
+    dateCreation_     = 0;
+    dateModified_     = 0;
+    dateAccess_       = 0;
+    fileSize_         = 0;
+
+}
+
+inline DateTime File::getDateCreation() {
+	if ( 0 == ( validStat_ & File::smDateCreation ) ) {
+		updateStat( File::smDateCreation );
+	}
+	return dateCreation_;
+}
+
+inline DateTime File::getDateModified() {
+	if ( 0 == ( validStat_ & File::smDateModified ) ) {
+		updateStat( File::smDateModified );
+	}
+	return dateModified_;
+}
+
+inline DateTime File::getDateAccess() {
+	if ( 0 == ( validStat_ & File::smDateAccess ) ) {
+		updateStat( File::smDateAccess );
+	}
+	return dateAccess_;
+}
+
+inline VCF::ulong64 File::getSize()
+{
+	/*
+	* this method gets the size through updateStat()
+	* Please use: file->getPeer()->getSize();
+	* to get with an indipendent alternative method
+	*/
+	if ( 0 == ( validStat_ & File::smSize ) ) {
+		updateStat( File::smSize );
+	}
+	return fileSize_;
+}
+
+inline File::FileAttributes File::getFileAttributes()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return (FileAttributes)fileAttributes_;
+}
+
+inline bool File::isDirectory()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faDirectory ) );
+}
+
+inline bool File::isExecutable()
+{
+	//bool executable = false;
+
+	//if ( 0 == ( validStat_ & File::faExecutable ) ) {
+	//	updateStat();
+	//}
+	//executable = ( 0 != ( fileAttributes_ & File::faExecutable ) );
+
+	//// or ?
+
+	String ext = FilePath::getExtension( fileName_ );
+
+	bool executable = ( ext == ".exe" || ext == ".com" || ext == ".dat" );
+
+	return executable;
+}
+
+inline bool File::isReadOnly()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faReadOnly ) );
+}
+
+inline bool File::isSystem()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faSystem ) );
+}
+
+inline bool File::isHidden()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faHidden ) );
+}
+
+inline bool File::isArchive()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faArchive ) );
+}
+
+inline bool File::isDevice()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faDevice ) );
+}
+
+inline bool File::isNormal()
+{
+	if ( 0 == ( validStat_ & File::smAttributes ) ) {
+		updateStat( File::smAttributes );
+	}
+	return ( 0 != ( fileAttributes_ & File::faNormal ) );
+}
+
+inline bool File::exists() const
+{
+	return File::exists( fileName_ );
+}
+
+inline FileInputStream* File::getInputStream()
+{
+	return fileInputStream_;
+}
+
+inline FileOutputStream* File::getOutputStream()
+{
+	return fileOutputStream_;
+}
+
+
+
+
+
+
 }; //end of namespace VCF
+
+
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

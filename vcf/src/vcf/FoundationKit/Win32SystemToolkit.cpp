@@ -83,9 +83,9 @@ LibraryPeer* Win32SystemToolkit::internal_createLibraryPeer( Library* library )
 	return new Win32LibraryPeer();
 }
 
-FilePeer* Win32SystemToolkit::internal_createFilePeer( File* file, const String& filename )
+FilePeer* Win32SystemToolkit::internal_createFilePeer( File* file )
 {
-	return new Win32FilePeer( file, filename );
+	return new Win32FilePeer( file );
 }
 
 FileStreamPeer* Win32SystemToolkit::internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType )
@@ -102,6 +102,13 @@ LocalePeer* Win32SystemToolkit::internal_createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -34,7 +34,7 @@ AbstractWin32Component::AbstractWin32Component():
 	memBMP_(NULL),
 	mouseEnteredControl_(false),	
 	memDCState_(0),
-	parent_(NULL)
+	destroyed_(false)
 {
 	init();
 	setPeerControl( NULL );
@@ -46,7 +46,7 @@ AbstractWin32Component::AbstractWin32Component( Control* component ):
 	memBMP_(NULL),
 	mouseEnteredControl_(false),	
 	memDCState_(0),
-	parent_(NULL)
+	destroyed_(false)
 {
 	init();
 	setPeerControl( component );
@@ -59,31 +59,31 @@ void AbstractWin32Component::create( Control* owningControl )
 
 void AbstractWin32Component::destroyControl()
 {
-	Win32MSG msg( hwnd_, WM_DESTROY, 0, 0, peerControl_ );
-
-	Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
-
-	peerControl_->handleEvent( event );
-
-	event->free();
-	peerControl_ = NULL;
-
-
-	if ( NULL != hwnd_ ){		
-		
-		if ( IsWindow( hwnd_ ) ) {
-			BOOL err = ::DestroyWindow( hwnd_ );
-			if ( FALSE == err )  {
-				//throw RuntimeException( MAKE_ERROR_MSG_2("DestroyWindow failed") );
-				err = GetLastError();
+	if ( !destroyed_ ) {		
+		if ( NULL != hwnd_ ){		
+			if ( IsWindow( hwnd_ ) ) {
+				BOOL err = ::DestroyWindow( hwnd_ );
+				if ( FALSE == err )  {
+					//throw RuntimeException( MAKE_ERROR_MSG_2("DestroyWindow failed") );
+					err = GetLastError();
+				}
+			}
+			else {
+				destroyWindowHandle();
 			}
 		}
-		destroyWindowHandle();
-		hwnd_ = NULL;
-		wndProc_ = NULL;
-		defaultWndProc_ = NULL;
-		
 	}
+	
+	if ( !destroyed_ ) {
+		destroyWindowHandle();
+		destroyed_ = true;
+	}
+	
+	hwnd_ = NULL;
+	wndProc_ = NULL;
+	defaultWndProc_ = NULL;
+	peerControl_ = NULL;
+
 
 	if ( NULL != memDC_ ) {
 		DeleteDC( memDC_ );
@@ -99,10 +99,14 @@ AbstractWin32Component::~AbstractWin32Component()
 
 void AbstractWin32Component::init()
 {
-	winPosInfo_ = NULL;
 	memDC_ = NULL;
 	mouseEnteredControl_ = false;
-	parent_ = NULL;
+	/*
+	JC I remove this cause we don't really need them
+	*/
+	//parent_ = NULL;
+	//winPosInfo_ = NULL;
+	
 }
 
 long AbstractWin32Component::getHandleID()
@@ -269,11 +273,18 @@ void AbstractWin32Component::setControl( VCF::Control* component )
 void AbstractWin32Component::setParent( VCF::Control* parent )
 {
 	VCF::ControlPeer* parentPeer = parent->getPeer();
-	parent_ = NULL;
+	/*
+	JC I remove this cause we don't really need them
+	*/
+	//parent_ = NULL;
+
 	if ( NULL == dynamic_cast<Frame*>(peerControl_) ){
 		HWND wndParent = (HWND)parentPeer->getHandleID();
 
-		parent_ = (AbstractWin32Component*)(parentPeer);
+		/*
+		JC I remove this cause we don't really need them
+		*/
+		//parent_ = (AbstractWin32Component*)(parentPeer);
 
 		if ( NULL == wndParent ){
 			//throw exception !!!
@@ -607,13 +618,16 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 */
 
 		case WM_DESTROY: {
-			if ( NULL != event ) {
-				//peerControl_->handleEvent( event );
-			}
+			VCF_ASSERT( !destroyed_ );
 
-			//result = defaultWndProcedure( message, wParam, lParam );
+			
+			if ( NULL != event ) {
+				peerControl_->handleEvent( event );
+			}			
 
 			destroyWindowHandle();
+
+			result = 0;
 		}
 		break;
 
@@ -1292,6 +1306,13 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.15  2004/07/18 14:45:18  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.14  2004/07/17 17:56:24  ddiego
 *minor mods to the TableControl and the TabbedPages control
 *so that drawing updates get drawn better, and we don't have weird missing

@@ -97,9 +97,9 @@ LibraryPeer* SystemToolkit::createLibraryPeer( Library* library )
 	return SystemToolkit::getSystemToolkit()->internal_createLibraryPeer(library);
 }
 
-FilePeer* SystemToolkit::createFilePeer( File* file, const String& filename )
+FilePeer* SystemToolkit::createFilePeer( File* file )
 {
-	return SystemToolkit::getSystemToolkit()->internal_createFilePeer(file,filename);
+	return SystemToolkit::getSystemToolkit()->internal_createFilePeer( file );
 }
 
 FileStreamPeer* SystemToolkit::createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType )
@@ -116,6 +116,13 @@ LocalePeer* SystemToolkit::createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.3  2004/06/30 21:30:03  ddiego
 *minor mods to copy/paste code in DocumentManager
 *

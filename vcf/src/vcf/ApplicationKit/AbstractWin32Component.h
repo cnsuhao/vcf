@@ -92,9 +92,11 @@ public:
 
 	virtual void setBorder( Border* border );
 
+	/*
 	HDWP getWindPosInfo() {
 		return winPosInfo_;
 	}
+	*/
 
 	HDC doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect );
 	void updatePaintDC( HDC paintDC, RECT paintRect, RECT* exclusionRect );
@@ -103,10 +105,14 @@ protected:
 	HDC memDC_;
 	HBITMAP originalMemBMP_;
 	HBITMAP memBMP_;
-	bool mouseEnteredControl_;
+	bool mouseEnteredControl_;	
 	int memDCState_;
-	HDWP winPosInfo_;
-	AbstractWin32Component* parent_;
+	/*
+	JC I remove this cause we don't really need them
+	//HDWP winPosInfo_;
+	//AbstractWin32Component* parent_;
+	*/
+	bool destroyed_;
 
 	LRESULT handleNCPaint( WPARAM wParam, LPARAM lParam );
 	LRESULT handleNCCalcSize( WPARAM wParam, LPARAM lParam );
@@ -119,6 +125,13 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/18 14:45:18  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.7  2004/07/16 04:01:45  ddiego
 *fixed the last of border redraw issues, I hope.
 *
