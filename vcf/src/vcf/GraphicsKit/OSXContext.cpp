@@ -303,7 +303,7 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	//tdoCenterVertAlign=32,
 	//tdoTopAlign=64
 
-
+	
 	ATSUSetTextPointerLocation( textLayout_,
 								text.c_str(),
 								kATSUFromTextBeginning,
@@ -315,23 +315,58 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 
     Font* ctxFont = context_->getCurrentFont();
 	FontPeer* fontImpl = ctxFont->getFontPeer();
+	
 	ATSUStyle fontStyle = (ATSUStyle)fontImpl->getFontHandleID();
+	
+	ATSUAttributeTag tag = kATSULineFlushFactorTag;
+	ByteCount tagSize = sizeof(Fract);
+	Fract orginalVal = 0;
+	Fract val = 0;
+	ByteCount actualSz = 0;
+	
+	if ( drawOptions & GraphicsContext::tdoLeftAlign ) {
+		val = kATSUStartAlignment;
+	}
+	else if ( drawOptions & GraphicsContext::tdoRightAlign ) {
+		val = kATSUEndAlignment;
+	}
+	else if ( drawOptions & GraphicsContext::tdoCenterHorzAlign ) {
+		val = kATSUCenterAlignment;
+	}
+	
+	ATSUAttributeValuePtr attrVals[] = {&val};
+	
+	
+	OSStatus err = ATSUGetLayoutControl( textLayout_, tag, tagSize, 
+										(ATSUAttributeValuePtr)&orginalVal, &actualSz );
+	
+	if ( err != noErr ) {
+		StringUtils::trace( "ATSUGetLayoutControl(kATSULineFlushFactorTag) failed" );
+	}
+	
+	err = ATSUSetLayoutControls( textLayout_, 1, &tag, &tagSize, attrVals );
+	if ( err != noErr ) {
+		StringUtils::trace( "ATSUSetLayoutControls(kATSULineFlushFactorTag) failed" );
+	}
+	
+	
 	ATSUSetRunStyle( textLayout_, fontStyle, 0, text.length() );
 
-	//::Rect r = RectProxy( bounds );
-	//DrawThemeTextBox( cfStr, kThemeCurrentPortFont, kThemeStateActive, false, &r, 0, contextID_ );
-
-
+	
 	if ( GraphicsContext::tdoWordWrap & drawOptions ) {
 		//do word wrap
 		VCF::Rect r = offsetBounds;
 
-		atsuDrawTextInBox( r );
+		atsuDrawTextInBox( r, drawOptions );
 	}
 	else {
+		double textHeight = getTextHeight("EM");
+		
+		offsetBounds.top_ += bounds.getHeight();
+		
 		setLayoutWidth( textLayout_, 0 );
-		FixedPointNumber x =  offsetBounds.left_;// + portBounds.left;
-		FixedPointNumber y = ((offsetBounds.top_ + getTextHeight("EM"))*-1.0);
+		FixedPointNumber x =  offsetBounds.left_;
+		FixedPointNumber y = ((offsetBounds.top_ + textHeight)*-1.0);
 
 		ATSUDrawText( textLayout_,
 							kATSUFromTextBeginning,
@@ -340,6 +375,9 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 
 	}
 
+	attrVals[0] = &orginalVal;
+	//reset original tag vals
+	ATSUSetLayoutControls( textLayout_, 1, &tag, &tagSize, attrVals );
 }
 
 void OSXContext::setLayoutWidth( ATSUTextLayout layout, double width )
@@ -818,7 +856,7 @@ double OSXContext::getLayoutWidth( ATSUTextLayout layout )
 	return -1.0;
 }
 
-void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
+void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect, const long& drawOptions )
 {
 	OSStatus 			err = noErr;
 	UniCharArrayOffset	textOffset = 0;
@@ -834,8 +872,8 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 		UniCharArrayOffset lineEndOffset = 0;
 
 		FixedPointNumber xPos = rect.left_;
-
-		ATSUTextMeasurement	yPos = vcf_IntToFixed((int) ( rect.top_ + getTextHeight("EM") ));
+		double EMTextHeight = getTextHeight("EM");
+		ATSUTextMeasurement	yPos = vcf_IntToFixed((int) ( rect.top_ + EMTextHeight ));
 
 		ATSUTextMeasurement	lineStart = xPos;
 		ATSUTextMeasurement	lineEnd = vcf_IntToFixed((int)rect.right_);
@@ -959,6 +997,14 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 
 		//	draw each line
 
+		if ( drawOptions & GraphicsContext::tdoBottomAlign ) {
+			yPos = vcf_IntToFixed( rect.bottom_ + EMTextHeight );
+			yPos -=	(lineCount * (maxAscent+maxDescent));
+		}
+		else if ( drawOptions & GraphicsContext::tdoCenterVertAlign ) {
+			yPos = vcf_IntToFixed( rect.top_ + rect.getHeight()/2.0 + EMTextHeight );
+			yPos -=	((lineCount * (maxAscent+maxDescent))/2);
+		}
 
 		for (ln = 0; ln < lineCount; ln++) {
 			lineEndOffset = lineEndOffsets[ln];
@@ -997,12 +1043,97 @@ EXIT:
 
 void OSXContext::setClippingPath( Path* clippingPath )
 {
+	if ( NULL != clippingPath ) {
+		std::vector<PathPoint> points;
+		
+		if ( clippingPath->getPoints( points, NULL ) ) {	
 
+			CGMutablePathRef  pathRef = CGPathCreateMutable();
+	
+			PathPoint p2, c1, c2;			
+			
+			std::vector<PathPoint>::iterator it = points.begin();
+			while ( it != points.end() ) {
+				PathPoint& pt = *it;
+				switch ( pt.type_ ){
+					case PathPoint::ptMoveTo: {
+						CGPathMoveToPoint( pathRef, NULL, pt.point_.x_, pt.point_.y_);
+					}
+					break;
+
+					case PathPoint::ptLineTo: {
+						CGPathAddLineToPoint( pathRef, NULL, pt.point_.x_, pt.point_.y_);						
+					}
+					break;
+
+					case PathPoint::ptQuadTo: {
+					
+						it++;
+						c1 = *it;
+
+						it++;
+						c2 = *it;
+
+						it++;
+						p2 = *it;						
+						
+						if ( it == points.begin() ) {
+							CGPathMoveToPoint( pathRef, NULL, pt.point_.x_, pt.point_.y_);
+							CGPathAddCurveToPoint( pathRef, NULL, 
+													c1.point_.x_,
+													c1.point_.y_,
+													c2.point_.x_,
+													c2.point_.y_,
+													p2.point_.x_,
+													p2.point_.y_ );
+						}
+						else {
+							CGPathAddCurveToPoint( pathRef, NULL, 
+													c1.point_.x_,
+													c1.point_.y_,
+													c2.point_.x_,
+													c2.point_.y_,
+													p2.point_.x_,
+													p2.point_.y_ );
+						}
+					}
+					break;
+
+					case PathPoint::ptCubicTo: {
+
+					}
+					break;
+
+					case PathPoint::ptClose: {
+						CGPathCloseSubpath( pathRef );						
+					}
+					break;
+				}
+				
+				it ++;
+			}
+			
+			CGContextBeginPath ( contextID_ );
+			
+			CGContextAddPath( contextID_, pathRef );
+			
+			CGContextClosePath(contextID_);
+			
+			CGContextClip( contextID_ );
+			
+			CGPathRelease( pathRef );			
+		}
+	}
+	else {
+		//find some way to recover the original clip path???????
+	}
 }
 
 void OSXContext::setClippingRect( Rect* clipRect )
 {
-
+	OSXRect r = clipRect;
+	
+	CGContextClipToRect( contextID_, r );
 }
 
 
@@ -1946,6 +2077,12 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10.2.6  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.10.2.5  2004/06/27 18:19:16  ddiego
 *more osx updates
 *

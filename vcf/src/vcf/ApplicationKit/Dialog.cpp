@@ -312,6 +312,11 @@ void Dialog::keyDown( KeyboardEvent* e )
 	}
 }
 
+bool Dialog::isActiveFrame()
+{
+	return windowPeer_->isActiveWindow();
+}
+
 
 /*
 void Dialog::onModalClose( WindowEvent* e )
@@ -324,6 +329,12 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

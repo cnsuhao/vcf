@@ -228,6 +228,8 @@ public:
 	Returns the current image for the frames icon.
 	*/
 	virtual Image* getIconImage() = 0;
+	
+	virtual bool isActiveFrame() = 0;
 
 	/**
 	A static method uses to determine the current active frame.
@@ -238,7 +240,7 @@ public:
 	/**
 	*don't call - for internal use only
 	*/
-	void setIsActive( const bool& active );
+	void setIsActive( const bool& active );	
 
 	virtual void afterCreate( ComponentEvent* event );
 
@@ -252,6 +254,14 @@ public:
 	*/
 	virtual bool allowClose();
 
+	void setUseColorForBackground( const bool& val ) {
+		useColorForBackground_ = val;
+		repaint();
+	}
+	
+	bool getUseColorForBackground() {
+		return useColorForBackground_;
+	}
 	/**
 	*don't call - for internal use only
 	*/
@@ -261,7 +271,7 @@ protected:
 	String caption_;
 	FrameStyleType frameStyle_;
 	bool isTopmostFrame_;
-
+	bool useColorForBackground_;
 
 
 	virtual void destroy();
@@ -274,6 +284,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

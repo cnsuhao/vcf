@@ -9,6 +9,8 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/Containers.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
+
 
 using namespace VCF;
 
@@ -78,12 +80,13 @@ void Frame::State::saveToStream( OutputStream* stream )
 
 
 
-Frame::Frame()
+Frame::Frame():
+	frameStyle_(fstSizeable),
+	isTopmostFrame_(false),
+	useColorForBackground_(false)
 {
 	setContainerDelegate( this );
-	setContainer( new StandardContainer() );
-	frameStyle_ = fstSizeable;
-	isTopmostFrame_ = false;
+	setContainer( new StandardContainer() );	
 }
 
 Frame::~Frame()
@@ -118,10 +121,24 @@ void Frame::paint( GraphicsContext * context )
 			innerBounds.inflate( -1, -1 );
 		}
 
-
-		context->rectangle( innerBounds.left_, innerBounds.top_, innerBounds.right_, innerBounds.bottom_ );
-		context->setColor( getColor() );
-		context->fillPath();
+		
+		
+		if ( useColorForBackground_ ) {
+			context->setColor( getColor() );
+		
+			context->rectangle( innerBounds.left_, innerBounds.top_, innerBounds.right_, innerBounds.bottom_ );
+		
+			context->fillPath();		
+		}
+		else {	
+			BackgroundState bkg;
+			bkg.setEnabled( isEnabled() );
+			bkg.setActive( (this == Frame::getActiveFrame()) && isActiveFrame() );
+			bkg.colorType_ = SYSCOLOR_WINDOW;	
+			
+			context->drawThemeBackground( &innerBounds, bkg );
+		}
+		
 
 
 		context->setCurrentFont( getFont() );
@@ -222,7 +239,7 @@ void Frame::activate()
 
 bool Frame::isActive()
 {
-	return (this == Frame::currentActiveFrame);
+	return (this == Frame::currentActiveFrame) && (isActiveFrame());
 }
 
 Frame* Frame::getActiveFrame()
@@ -255,6 +272,12 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -167,8 +167,10 @@ public:
 		label2->setTransparent( false );
 		label2->setWordWrap( true );
 		label2->setCaption( "This is Label 2, Aligned to the Bottom!" );
+		label2->setVerticalAlignment( tvaTextBottom );
 		label2->setToolTipText( "clientControl/label2: AlignBottom, gray158" );
-		clientControl->add( label2, AlignBottom );
+		clientControl->add( label2, AlignBottom );		
+		
 	}
 
 	virtual ~AlignmentWindow(){};
@@ -190,7 +192,7 @@ public:
 
 		Window* mainWindow = new AlignmentWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( &VCF::Rect( 100.0, 100.0, 500.0, 500.0 ) );
 		mainWindow->show();
 
 		return result;
@@ -212,6 +214,12 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.3.2.4  2004/04/29 03:40:51  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -15,7 +15,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXCursorPeer.h"
 #include "vcf/ApplicationKit/OSXWindow.h"
 #include "vcf/ApplicationKit/OSXControl.h"
-
+#include "vcf/ApplicationKit/OSXLightweightControl.h"
 
 #define kSleepTime	32767
 
@@ -603,7 +603,20 @@ DialogPeer* OSXUIToolkit::internal_createDialogPeer()
 
 ControlPeer* OSXUIToolkit::internal_createControlPeer( Control* control, ComponentType componentType)
 {
-    return new OSXControl(control);
+	ControlPeer* result = NULL;
+
+	switch ( componentType ){
+		case CT_LIGHTWEIGHT:{
+			result = new OSXLightweightControl( control );
+		}
+		break;
+
+		case CT_DEFAULT: case CT_HEAVYWEIGHT:{
+			result = new OSXControl( control );
+		}
+		break;
+	}
+	return result;	
 }
 
 WindowPeer* OSXUIToolkit::internal_createWindowPeer( Control* control, Control* owner, ComponentType componentType)
@@ -1935,6 +1948,12 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.11  2004/06/07 03:07:07  ddiego
 *more osx updates dealing with mouse handling
 *

@@ -97,6 +97,8 @@ public:
 	virtual void setIconImage( Image* icon );
 
 	virtual Image* getIconImage();
+	
+	virtual bool isActiveFrame();
 
 	Control* getOwner() {
 		return owner_;
@@ -129,6 +131,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

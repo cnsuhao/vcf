@@ -11,7 +11,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/OSXControl.h"
-
+#include "vcf/ApplicationKit/WindowPeer.h"
+#include "vcf/ApplicationKit/OSXLightweightControl.h"
 
 
 class OSXControlView : public TView {
@@ -253,7 +254,18 @@ void OSXControl::setCursor( Cursor* cursor )
 
 void OSXControl::setParent( Control* parent )
 {
-	Window* windowParent = dynamic_cast<Window*>(parent);
+	Window* windowParent = NULL;
+	
+	if ( parent->isLightWeight() ) {
+		OSXLightweightControl* lwPeer = (OSXLightweightControl*) parent->getPeer();
+		
+		windowParent = dynamic_cast<Window*>(lwPeer->getHeavyWeightParent());
+	}
+	else {
+		windowParent = dynamic_cast<Window*>(parent);
+	}
+	
+	
 	if ( NULL != windowParent ) {
  		WindowRef wndRef = (WindowRef)parent->getPeer()->getHandleID();
 		ControlRef root = NULL;
@@ -617,6 +629,12 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11.2.2  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.11.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *
@@ -629,6 +647,12 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.1.2.11.2.2  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.11.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *
