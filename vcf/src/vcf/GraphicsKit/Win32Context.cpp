@@ -25,7 +25,9 @@ where you installed the VCF.
 
 using namespace VCF;
 
-
+#ifdef XPTHEMES
+	std::auto_ptr<CVisualStylesXP> Win32Context::pVStyleXP_;
+#endif
 
 Win32Context::Win32Context()
 {
@@ -101,6 +103,11 @@ void Win32Context::init()
 	currentHBrush_ = NULL;
 	currentHPen_ = NULL;
 	currentHFont_ = NULL;
+
+#ifdef XPTHEMES
+	if (pVStyleXP_.get()==0) pVStyleXP_.reset(new CVisualStylesXP());
+#endif
+
 }
 
 void Win32Context::releaseHandle()
@@ -1187,6 +1194,10 @@ void Win32Context::drawThemeFocusRect( Rect* rect, DrawUIState& state )
 
 void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 {
+#ifdef XPTHEMES
+	if (drawThemeButtonRectXP( rect, state )) return;
+#endif
+
 	checkHandle();
 
 	RECT btnRect;
@@ -1377,6 +1388,42 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 
 	releaseHandle();
 }
+
+#ifdef XPTHEMES
+bool Win32Context::drawThemeButtonRectXP( Rect* rect, ButtonState& state )
+{
+	if (!pVStyleXP_->IsAppThemed()) return false;
+    
+	HWND hWin=::WindowFromDC(dc_);
+    HTHEME hTheme = pVStyleXP_->OpenThemeData(hWin, L"BUTTON");
+
+	if (hTheme==0) return false;
+
+	int BtnState=	state.isPressed()		? PBS_PRESSED	: PBS_NORMAL;
+	BtnState|=		state.isEnabled()		? PBS_NORMAL	: PBS_DISABLED;
+	BtnState|=		state.isHighlighted()	? PBS_HOT		: PBS_NORMAL;
+	BtnState|=		state.isFocused()		? PBS_DEFAULTED : PBS_NORMAL;
+
+	RECT btnRect;
+	btnRect.left = rect->left_;
+	btnRect.top = rect->top_;
+	btnRect.right = rect->right_;
+	btnRect.bottom = rect->bottom_;
+
+    HRESULT res=pVStyleXP_->DrawThemeBackground(hTheme, dc_, BP_PUSHBUTTON, BtnState, &btnRect, 0);
+	if (res!=S_OK) return false;
+
+	res=pVStyleXP_->DrawThemeText(hTheme, dc_, BP_PUSHBUTTON, BtnState,
+		state.buttonCaption_.c_str(),
+		state.buttonCaption_.length(),
+		DT_SINGLELINE | DT_CENTER | DT_VCENTER, NULL, &btnRect);
+	if (res!=S_OK) return false;
+
+    pVStyleXP_->CloseThemeData(hTheme);
+
+	return true;
+}
+#endif
 
 void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 {
@@ -2442,6 +2489,10 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.12  2004/11/06 20:22:32  chriskr
+*added dynamic linking to UxTheme.dll
+*added example xp theme support for drawThemeButtonRect()
+*
 *Revision 1.2.2.11  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
