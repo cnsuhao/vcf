@@ -382,16 +382,6 @@
 			Filter="*.rc;*.bmp;*.ico">
 			<File
 				RelativePath="..\..\resources\win32\ApplicationKit.rc">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\resources\win32\inform.bmp">
