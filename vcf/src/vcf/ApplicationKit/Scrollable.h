@@ -39,6 +39,8 @@ public:
 
 	virtual void setVirtualViewWidth( const double& virtualViewWidth ) = 0;
 
+	virtual void updateVirtualViewSize( const double& maxWidth, const double& maxHeight ) = 0;
+
 	virtual void recalcScrollPositions() = 0;
 
 	virtual void setVerticalPosition( const double& vertPosition ) = 0;
@@ -114,6 +116,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/10 22:28:10  dougtinkham
+*added updateVirtualViewSize member
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
