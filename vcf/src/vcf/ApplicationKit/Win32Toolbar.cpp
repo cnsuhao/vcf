@@ -127,6 +127,11 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 		}
 		break;
 
+		case WM_PAINT :{
+			result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
+		}
+		break;
+
 		case WM_SIZE : {
 
 			switch ( wParam ) {
@@ -1344,6 +1349,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/13 04:34:32  ddiego
+*little changes
+*
 *Revision 1.1.2.5  2004/07/11 18:45:34  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *
