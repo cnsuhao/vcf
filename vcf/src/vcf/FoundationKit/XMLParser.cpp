@@ -186,8 +186,8 @@ String XMLNode::toString()
 		attrIt ++;
 	}
 
-	if ( true == childNodes_.empty() ) {
-		nodeString = "/>\n";
+	if ( true == childNodes_.empty() && true == CDATA_.empty() ) {
+		nodeString = "/>";
 		result += nodeString;
 	}
 	else {
@@ -195,9 +195,8 @@ String XMLNode::toString()
 		result += nodeString;
 
 		if ( !CDATA_.empty() ) {
-			result += CDATA_ + "\n";
+			result += tab + "\t" + CDATA_ + "\n";
 		}
-
 
 		std::vector<XMLNode*>::iterator nodeIt = childNodes_.begin();
 		while ( nodeIt != childNodes_.end() ) {
@@ -205,8 +204,13 @@ String XMLNode::toString()
 			result += node->toString();
 			nodeIt ++;
 		}
-		nodeString = tab + "</" + getName() + ">\n";
+		nodeString = tab + "</" + getName() + ">";
 		result += nodeString;
+	}
+
+	// Only write out the ending newline if we're not the root node
+	if (tabsize>0) {
+		result += "\n";
 	}
 
 	return result;
@@ -775,6 +779,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/01 02:58:35  pallindo
+*XMLNode's toString() now correctly writes out a node correctly if it just has CDATA.  It also now no longer writes out the final newline if it is the root node.
+*
 *Revision 1.2.2.1  2004/09/16 03:26:26  ddiego
 *fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
 *
