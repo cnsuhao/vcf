@@ -155,7 +155,7 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 
 	Rect textRect( x, y, paintRect->right_, paintRect->bottom_ );
 	textRect.inflate( -1, -1 );
-	long options = GraphicsContext::tdoBottomAlign;
+	long options = GraphicsContext::tdoCenterVertAlign;
 	if ( isFixed() ){
 		options |= GraphicsContext::tdoCenterHorzAlign;
 	}
@@ -298,6 +298,9 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/02/24 05:45:02  marcelloptr
+*fixed positioning of text inside a table item. Now is centered and looks better
+*
 *Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
