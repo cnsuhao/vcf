@@ -123,8 +123,8 @@ private:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.4  2005/03/10 00:10:18  marcelloptr
-*set discrete scrolling as default behaviour for ListBoxControls
+*Revision 1.2.4.5  2005/03/10 00:14:27  marcelloptr
+*more comments
 *
 *Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
