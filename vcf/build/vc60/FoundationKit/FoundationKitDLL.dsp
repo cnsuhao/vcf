@@ -101,6 +101,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKitPrivate.h
 
 SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKitSelectLib.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\FrameworkConfig.h
+# End Source File
 # End Group
 # Begin Group "Source Files"
 
@@ -701,10 +705,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\XMLParser.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\CommonDefines.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\FrameworkConfig.h
 # End Source File
 # Begin Source File
 
