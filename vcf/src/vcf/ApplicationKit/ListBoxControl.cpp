@@ -184,7 +184,6 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 		}
 	}
 
-
 	GraphicsContext* ctx = getContext();
 
 	ListItem* item = event->getListItem();
@@ -194,9 +193,7 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 
 	currentMaxHeight_ += item->getBounds()->getHeight();
 
-
 	currentMaxWidth_ = maxVal<double>( ctx->getTextWidth( item->getCaption() ) + leftGutter_ + rightGutter_, currentMaxWidth_ ); 
-
 
 	if ( NULL != scrollable ) {
 		if ( (getHeight() > currentMaxHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {
@@ -207,29 +204,7 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 			scrollable->setHorizontalPosition( 0.0 );
 		}
 
-		double realMaxWidth = currentMaxWidth_;
-		double realMaxHeight = currentMaxHeight_;
-		if ( scrollable->getKeepScrollbarsVisible() ) {
-			if ( currentMaxHeight_ > (getHeight() - scrollable->getHorizontalScrollbarHeight()) ){
-				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
-			}
-
-			if ( currentMaxWidth_ > (getWidth() - scrollable->getVerticalScrollbarWidth()) ){
-				realMaxWidth += scrollable->getVerticalScrollbarWidth();
-			}
-		}
-		else {
-            if ( (currentMaxHeight_ > getHeight())  ) {
-				realMaxWidth += scrollable->getVerticalScrollbarWidth();
-			}
-
-			if ( currentMaxWidth_ > getWidth() ) {
-				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
-			}
-		}
-
-		scrollable->setVirtualViewHeight( realMaxHeight );
-		scrollable->setVirtualViewWidth( realMaxWidth );
+		scrollable->updateVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );
 	}
 	repaint();
 }
@@ -247,6 +222,7 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 	}
 	
 	currentMaxHeight_ -= item->getBounds()->getHeight();
+	//need to recalc currentMaxWidth_ here also if item removed was the widest item. DT
 
 	Scrollable* scrollable = getScrollable();
 
@@ -257,31 +233,9 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 
 		if ( (getWidth() > currentMaxWidth_) && (scrollable->getHorizontalPosition() > 0.0) ) {
 			scrollable->setHorizontalPosition( 0.0 );
-		}
+		}		
 
-		double realMaxWidth = currentMaxWidth_;
-		double realMaxHeight = currentMaxHeight_;
-		if ( scrollable->getKeepScrollbarsVisible() ) {
-			if ( currentMaxHeight_ > (getHeight() - scrollable->getHorizontalScrollbarHeight()) ){
-				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
-			}
-
-			if ( currentMaxWidth_ > (getWidth() - scrollable->getVerticalScrollbarWidth()) ){
-				realMaxWidth += scrollable->getVerticalScrollbarWidth();
-			}
-		}
-		else {
-            if ( (currentMaxHeight_ > getHeight())  ) {
-				realMaxWidth += scrollable->getVerticalScrollbarWidth();
-			}
-
-			if ( currentMaxWidth_ > getWidth() ) {
-				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
-			}
-		}
-
-		scrollable->setVirtualViewHeight( realMaxHeight );
-		scrollable->setVirtualViewWidth( realMaxWidth );		
+		scrollable->updateVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );	
 	}
 
 	repaint();
@@ -708,6 +662,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/13 06:27:31  dougtinkham
+*onItemAdded & onItemDeleted modified to call updateVirtualViewSize
+*
 *Revision 1.2.2.5  2004/09/12 22:34:21  ddiego
 *fixed bug in handling window cleanup when exception thrown from constructor.
 *
