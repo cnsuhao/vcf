@@ -17,7 +17,6 @@ EventHandler.cpp \
 File.cpp \
 FilePath.cpp \
 FileStream.cpp \
-FileUtils.cpp \
 FoundationKit.cpp \
 InterfaceClass.cpp \
 Library.cpp \

@@ -105,10 +105,27 @@ void LinuxSystemPeer::setCurrentThreadLocale( Locale* locale )
 
 }
 
+DateTime LinuxSystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
+{
+	DateTime result;
+	
+	return result;
+}
+
+DateTime LinuxSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
+{
+	DateTime result;
+	
+	return result;
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/08/02 00:48:23  ddiego
+*fixed build errors in linux for FoundationKit
+*
 *Revision 1.1.2.3  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -73,15 +73,21 @@ LibraryPeer* LinuxSystemToolkit::internal_createLibraryPeer( Library* library )
 	return new LinuxLibraryPeer();
 }
 
-FilePeer* LinuxSystemToolkit::internal_createFilePeer( File* file, const String& filename )
+FilePeer* LinuxSystemToolkit::internal_createFilePeer( File* file )
 {
-	return new LinuxFilePeer( file, filename );
+	return new LinuxFilePeer( file );
 }
 
 FileStreamPeer* LinuxSystemToolkit::internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType )
 {
 	return new LinuxFileStream( filename, accessType );
 }
+
+FileStreamPeer* LinuxSystemToolkit::internal_createFileStreamPeer( File* file )
+{
+	return new LinuxFileStream( file );
+}
+
 
 ProcessIORedirectionPeer* LinuxSystemToolkit::internal_createProcessIORedirectionPeer( ProcessWithRedirectedIO* process )
 {
@@ -100,6 +106,9 @@ LocalePeer* LinuxSystemToolkit::internal_createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/08/02 00:48:23  ddiego
+*fixed build errors in linux for FoundationKit
+*
 *Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

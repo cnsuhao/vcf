@@ -44,9 +44,11 @@ public:
 
 	virtual LibraryPeer* internal_createLibraryPeer( Library* library );
 
-	virtual FilePeer* internal_createFilePeer( File* file, const String& filename );
+	virtual FilePeer* internal_createFilePeer( File* file );
 
 	virtual FileStreamPeer* internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType );
+	
+	virtual FileStreamPeer* internal_createFileStreamPeer( File* file );
 
 	virtual LocalePeer* internal_createLocalePeer();
 };
@@ -57,6 +59,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/08/02 00:48:23  ddiego
+*fixed build errors in linux for FoundationKit
+*
 *Revision 1.1.2.4  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
