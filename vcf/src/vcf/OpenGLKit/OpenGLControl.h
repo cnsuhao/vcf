@@ -27,6 +27,8 @@ public:
 
 	virtual void paint(GraphicsContext * context);
 
+	virtual void swapBuffers();
+
 	virtual void afterCreate( ComponentEvent* event );
 
 protected:
@@ -39,6 +41,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/21 20:18:39  pallindo
+*Removed some unused files, and cleaned up the interface to the OpenGLControl
+*
 *Revision 1.1.2.3  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -28,19 +28,21 @@ OpenGLControl::~OpenGLControl()
 
 void OpenGLControl::paint(GraphicsContext * context)
 {
-	CustomControl::paint( context );
+//	Do NOT call CustomControl::paint because it results in flashing, possibly due to the
+//	CustomControl clearing the space with the color, and then the OpenGLControl reclearing it.
+//	CustomControl::paint( context );
+
+	// These initialize the context, if necesary (check is in initGL), and then make it current
 	OpenGLControlContext* glCtx = dynamic_cast<OpenGLControlContext*>(context_);
 	if ( NULL != glCtx ){
 		glCtx->initGL();
-		glViewport( 0, 0, 300, 300 );
-		glLoadIdentity();
-		glOrtho( 0.0f, 300.0f, 0.0f, 300.0f, 1.0f, -1.0f );
-		glClearColor( 0.0f, 0.0f, 1.0f, 1.0f );
-		glClear( GL_COLOR_BUFFER_BIT );
-		glColor3f( 1.0f, 0.0f, 0.0f );
-		glRectf( 100.0f, 150.0f, 150.0f, 200.0f );
-		glFlush();
+		glCtx->makeCurrent();
+	}
+}
 
+void OpenGLControl::swapBuffers(){
+	OpenGLControlContext* glCtx = dynamic_cast<OpenGLControlContext*>(context_);
+	if ( NULL != glCtx ){
 		glCtx->swapBuffers();
 	}
 }
@@ -54,6 +56,9 @@ void OpenGLControl::afterCreate( ComponentEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/21 20:18:39  pallindo
+*Removed some unused files, and cleaned up the interface to the OpenGLControl
+*
 *Revision 1.1.2.6  2004/07/06 06:45:02  pallindo
 *Forgot to remove the reference to aux
 *
