@@ -1,34 +1,10 @@
-
 //ApplicationKit.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -66,7 +42,7 @@ CursorManager* CursorManager::cursorMgrInstance = NULL;
 Desktop* Desktop::desktopInstance = NULL;
 
 DockManager* DockManager::dockManagerInstance = NULL;
-	
+
 
 
 
@@ -74,18 +50,18 @@ void ApplicationKit::init( int argc, char** argv )
 {
 	ApplicationKitRefCount ++;
 	if ( false == ApplicationKitIsInitialized ) {
-				
+
 		GraphicsKit::init( argc, argv );
-		
+
 		REGISTER_CLASSINFO_EXTERNAL( Item );
 		REGISTER_CLASSINFO_EXTERNAL( ListItem );
 		REGISTER_CLASSINFO_EXTERNAL( Model );
-		
+
 		REGISTER_CLASSINFO_EXTERNAL(AbstractModel);
 		REGISTER_CLASSINFO_EXTERNAL(Document);
 
 		REGISTER_CLASSINFO_EXTERNAL( ListModel );
-		REGISTER_CLASSINFO_EXTERNAL( MenuItem );	
+		REGISTER_CLASSINFO_EXTERNAL( MenuItem );
 		REGISTER_CLASSINFO_EXTERNAL(TabModel);
 		REGISTER_CLASSINFO_EXTERNAL(TabPage);
 		REGISTER_CLASSINFO_EXTERNAL( TextModel );
@@ -99,7 +75,7 @@ void ApplicationKit::init( int argc, char** argv )
 		REGISTER_CLASSINFO_EXTERNAL( Control );
 		REGISTER_CLASSINFO_EXTERNAL( CustomControl );
 		REGISTER_CLASSINFO_EXTERNAL( ControlContainer );
-		REGISTER_CLASSINFO_EXTERNAL( TabbedPages );	
+		REGISTER_CLASSINFO_EXTERNAL( TabbedPages );
 		REGISTER_CLASSINFO_EXTERNAL( DefaultListItem );
 		REGISTER_CLASSINFO_EXTERNAL( DefaultMenuItem );
 		REGISTER_CLASSINFO_EXTERNAL( DefaultListModel );
@@ -108,7 +84,7 @@ void ApplicationKit::init( int argc, char** argv )
 		REGISTER_CLASSINFO_EXTERNAL( DefaultTreeModel );
 		REGISTER_CLASSINFO_EXTERNAL( Frame );
 		REGISTER_CLASSINFO_EXTERNAL( Dialog );
-		REGISTER_CLASSINFO_EXTERNAL( Label );	
+		REGISTER_CLASSINFO_EXTERNAL( Label );
 		REGISTER_CLASSINFO_EXTERNAL( ListViewControl );
 		REGISTER_CLASSINFO_EXTERNAL( Panel );
 		REGISTER_CLASSINFO_EXTERNAL( TextControl );
@@ -116,45 +92,45 @@ void ApplicationKit::init( int argc, char** argv )
 		REGISTER_CLASSINFO_EXTERNAL(TreeControl );
 		REGISTER_CLASSINFO_EXTERNAL(Window );
 		REGISTER_CLASSINFO_EXTERNAL( ToggledButton );
-		REGISTER_CLASSINFO_EXTERNAL( CheckBoxControl );	
+		REGISTER_CLASSINFO_EXTERNAL( CheckBoxControl );
 		REGISTER_CLASSINFO_EXTERNAL( RadioButtonControl );
 		REGISTER_CLASSINFO_EXTERNAL( Menu );
 		REGISTER_CLASSINFO_EXTERNAL( MenuBar );
 		REGISTER_CLASSINFO_EXTERNAL( PopupMenu );
 		REGISTER_CLASSINFO_EXTERNAL( ListBoxControl );
 		REGISTER_CLASSINFO_EXTERNAL( Basic3DBorder );
-		REGISTER_CLASSINFO_EXTERNAL( CommandButton );	
+		REGISTER_CLASSINFO_EXTERNAL( CommandButton );
 		//REGISTER_CLASSINFO_EXTERNAL( OpenGLControl );
 		REGISTER_CLASSINFO_EXTERNAL( ComboBoxControl );
 		REGISTER_CLASSINFO_EXTERNAL( ImageControl );
 		REGISTER_CLASSINFO_EXTERNAL( ImageFilenameString );
 		REGISTER_CLASSINFO_EXTERNAL( HTMLBrowserControl );
 		//REGISTER_CLASSINFO_EXTERNAL( ToolbarDock );
-		
-		
-		
-		
-		
+
+
+
+
+
 
 		PropertyEditorManager::initPropertyEditorManager();
 
 		ComponentEditorManager::initComponentEditorManager();
 
 		UIToolkit::initToolKit();
-		
+
 		LibraryApplication::initLibraryRegistrar();
 
 		DockManager::create();
-		
+
 		Desktop::create();
 
 		CursorManager::create();
 
-		//Component::registerComponent( "VCF::ToolbarDock", STANDARD_CATEGORY );	
+		//Component::registerComponent( "VCF::ToolbarDock", STANDARD_CATEGORY );
 		/**
 		*Register known classes here
 		*/
-		
+
 	}
 	ApplicationKitIsInitialized = true;
 }
@@ -166,7 +142,7 @@ void ApplicationKit::terminate()
 	}
 
 	if ( ApplicationKitRefCount == 0 ) {
-		
+
 		LibraryApplication::clearLibraryRegistrar();
 
 		DockManager::getDockManager()->free();
@@ -182,13 +158,16 @@ void ApplicationKit::terminate()
 		UIToolkit::closeToolkit();
 
 		GraphicsKit::terminate();
-	}	
+	}
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -362,6 +341,5 @@ void ApplicationKit::terminate()
 *to facilitate change tracking
 *
 */
-
 
 

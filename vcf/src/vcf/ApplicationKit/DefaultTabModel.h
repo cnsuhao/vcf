@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_DEFAULTTABMODEL_H__
 #define _VCF_DEFAULTTABMODEL_H__
+//DefaultTabModel.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_TABMODEL_H__
@@ -56,7 +33,7 @@ namespace VCF {
 #define DEFAULTTABMODEL_CLASSID		"86F02174-3E7F-11d4-8EA7-00207811CFAB"
 
 /**
-This class represents a default, basic implementation of 
+This class represents a default, basic implementation of
 the TabModel class.
 @delegates
 	@del DefaultTabModel::ModelEmptied
@@ -74,7 +51,7 @@ public:
 
 	/**
 	@delegate ModelEmptied fired when the model's empty() method is
-	called. 	
+	called.
 	@event ModelEvent
 	@see empty()
 	*/
@@ -86,12 +63,12 @@ public:
 	@see validate()
 	*/
 	DELEGATE(ModelValidate)
-	
+
 
     virtual void addModelValidationHandler( EventHandler* handler ) {
 		ModelValidate += handler;
 	}
-	
+
 	virtual void removeModelValidationHandler( EventHandler* handler ) {
 		ModelValidate -= handler;
 	}
@@ -105,7 +82,7 @@ public:
 	}
 
 	/**
-	@delegate TabPageAdded this is fired when a new tab page item is 
+	@delegate TabPageAdded this is fired when a new tab page item is
 	added to the model.
 	@event TabModelEvent
 	@eventtype TAB_MODEL_EVENT_ITEM_ADDED
@@ -120,7 +97,7 @@ public:
 	DELEGATE(TabPageRemoved)
 
 	/**
-	@delegate TabModelEvent - this is fired when a tab page is selected by calling 
+	@delegate TabModelEvent - this is fired when a tab page is selected by calling
 	the setSelectedPage() method
 	@event TabModelEvent
 	@eventtype TAB_MODEL_EVENT_ITEM_SELECTED
@@ -131,7 +108,7 @@ public:
 	virtual void addTabPageAddedHandler( EventHandler* handler ) {
 		TabPageAdded += handler;
 	}
-    
+
 	virtual void removeTabPageAddedHandler( EventHandler* handler ) {
 		TabPageAdded -= handler;
 	}
@@ -139,7 +116,7 @@ public:
 	virtual void addTabPageRemovedHandler( EventHandler* handler ) {
 		TabPageRemoved += handler;
 	}
-    
+
 	virtual void removeTabPageRemovedHandler( EventHandler* handler ) {
 		TabPageRemoved -= handler;
 	}
@@ -147,7 +124,7 @@ public:
 	virtual void addTabPageSelectedHandler( EventHandler* handler ) {
 		TabPageSelected += handler;
 	}
-    
+
 	virtual void removeTabPageSelectedHandler( EventHandler* handler ) {
 		TabPageSelected -= handler;
 	}
@@ -155,7 +132,7 @@ public:
 	virtual void addTabPage( TabPage* page );
 
 	virtual void insertTabPage( const ulong32& index, TabPage* page );
-	
+
 	virtual void deleteTabPage( TabPage* page );
 
 	virtual void deleteTabPage( const ulong32& index );
@@ -173,19 +150,19 @@ public:
 	virtual void setSelectedPage( const ulong32& index );
 
 	virtual Enumerator<TabPage*>* getPages();
-	
+
     /**
-     * validate the model. 
+     * validate the model.
      * The implementation for this can vary widely, or even be nonexistant for model's that do not require validation.
      * The basic idea is to call all the listeners in the list , passing in a local variable to the
      * onModelValidate() methods of the listener's. The variable is initialized to true, and if it is
      * still true at the end of the listener iterations, then it is safe to apply the changes to the
-     * model, other wise the changes are removed. 
+     * model, other wise the changes are removed.
      */
     virtual void validate(){};
 
     /**
-     * clears out the model's data 
+     * clears out the model's data
      */
     virtual void empty(){};
 protected:
@@ -200,6 +177,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -277,6 +257,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_DEFAULTTABMODEL_H__
 

@@ -1,32 +1,13 @@
+//Win32HTMLBrowser.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 //Win32HTMLBrowser.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 
@@ -54,7 +35,7 @@ static CLSID const clsid = { 0x8856f961, 0x340a, 0x11d0, { 0xa9, 0x6b, 0x0, 0xc0
 
 
 // {CBD123C7-4389-4a24-95B3-F971065B6CD5}
-static const GUID LIB_Win32HTMLBrowserGUID = 
+static const GUID LIB_Win32HTMLBrowserGUID =
 { 0xcbd123c7, 0x4389, 0x4a24, { 0x95, 0xb3, 0xf9, 0x71, 0x6, 0x5b, 0x6c, 0xd5 } };
 
 
@@ -68,7 +49,7 @@ HRESULT DoAdvise(IUnknown* unknownConnectionPt, IUnknown* unknown, const IID& ii
 	if (SUCCEEDED(hr)) {
 		hr = connectionPtContainer->FindConnectionPoint(iid, &connectionPt);
 	}
-		
+
 	if (SUCCEEDED(hr)) {
 		hr = connectionPt->Advise(unknown, cookie);
 	}
@@ -119,7 +100,7 @@ void STDMETHODCALLTYPE WebBrowserEvents2Impl::OnStatusTextChange( LPCSTR val )
 
 }
 
-//[id(0x00000068) 
+//[id(0x00000068)
 void STDMETHODCALLTYPE WebBrowserEvents2Impl::OnDownloadComplete()
 {
 
@@ -169,21 +150,21 @@ void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnPrintTemplateTeardown( IDispatc
 
 //[id(0x000000e3)
 void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnUpdatePageStatus(
-												   IDispatch* pDisp, 
-												   VARIANT* nPage, 
-												   VARIANT* fDone) 
+												   IDispatch* pDisp,
+												   VARIANT* nPage,
+												   VARIANT* fDone)
 {
 
-}   
+}
 
 //[id(0x000000fa)
 void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnBeforeNavigate2(
-												  IDispatch* pDisp, 
-												  VARIANT* URL, 
-												  VARIANT* Flags, 
-												  VARIANT* TargetFrameName, 
-												  VARIANT* PostData, 
-												  VARIANT* Headers, 
+												  IDispatch* pDisp,
+												  VARIANT* URL,
+												  VARIANT* Flags,
+												  VARIANT* TargetFrameName,
+												  VARIANT* PostData,
+												  VARIANT* Headers,
 												  BOOL* Cancel )
 {
 
@@ -191,14 +172,14 @@ void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnBeforeNavigate2(
 
 //[id(0x000000fb)
 void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnNewWindow2(
-											 IDispatch** ppDisp, 
+											 IDispatch** ppDisp,
 											 BOOL* Cancel)
 {
 
 }
 
 
-//[id(0x000000fc) 
+//[id(0x000000fc)
 void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnNavigateComplete( IDispatch* dispatchPtr, VARIANT* URL )
 {
 
@@ -213,8 +194,8 @@ void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnQuit()
 
 //[id(0x00000103)
 void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnDocumentComplete(
-												   IDispatch* pDisp, 
-												   VARIANT* URL) 
+												   IDispatch* pDisp,
+												   VARIANT* URL)
 {
 
 }
@@ -245,14 +226,14 @@ void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnFileDownload( VARIANT_BOOL* Can
 
 //[id(0x0000010f)
 void STDMETHODCALLTYPE  WebBrowserEvents2Impl::OnNavigateError(
-												IDispatch* pDisp, 
-												VARIANT* URL, 
-												VARIANT* Frame, 
-												VARIANT* StatusCode, 
+												IDispatch* pDisp,
+												VARIANT* URL,
+												VARIANT* Frame,
+												VARIANT* StatusCode,
 												BOOL* Cancel)
 {
 
-}    
+}
 
 //[id(0x00000110)
 void STDMETHODCALLTYPE WebBrowserEvents2Impl::OnPrivacyImpactedStateChange( BOOL bImpacted )
@@ -260,8 +241,8 @@ void STDMETHODCALLTYPE WebBrowserEvents2Impl::OnPrivacyImpactedStateChange( BOOL
 
 }
 
-HRESULT STDMETHODCALLTYPE WebBrowserEvents2Impl::Invoke( DISPID  dispIdMember, REFIID  riid, LCID  lcid, WORD  wFlags, 
-					DISPPARAMS FAR*  pDispParams, VARIANT FAR*  pVarResult, 
+HRESULT STDMETHODCALLTYPE WebBrowserEvents2Impl::Invoke( DISPID  dispIdMember, REFIID  riid, LCID  lcid, WORD  wFlags,
+					DISPPARAMS FAR*  pDispParams, VARIANT FAR*  pVarResult,
 					EXCEPINFO FAR*  pExcepInfo, unsigned int FAR* puArgErr )
 {
 
@@ -342,18 +323,18 @@ Win32HTMLBrowser::Win32HTMLBrowser():
 	connectionPtCookie_(0),
 	docHostUIFlags_(0)
 {
-	webInterfaces_.addInterface( IID_IOleClientSite, &clientSite_ );	
+	webInterfaces_.addInterface( IID_IOleClientSite, &clientSite_ );
 	webInterfaces_.addInterface( DIID_DWebBrowserEvents2, &browserEvents_ );
-	webInterfaces_.addInterface( IID_IOleInPlaceSite, &inPlaceSite_ );	
-	webInterfaces_.addInterface( IID_IDocHostUIHandler, &docHostHandler_ );	
-	
+	webInterfaces_.addInterface( IID_IOleInPlaceSite, &inPlaceSite_ );
+	webInterfaces_.addInterface( IID_IDocHostUIHandler, &docHostHandler_ );
+
 	docHostUIFlags_ = docHostUIFlags_ | DOCHOSTUIFLAG_NO3DBORDER;
 	docHostUIFlags_ = docHostUIFlags_ ^ DOCHOSTUIFLAG_SCROLL_NO;
 }
 
 Win32HTMLBrowser::~Win32HTMLBrowser()
 {
-	
+
 }
 
 void Win32HTMLBrowser::create( VCF::Control* owningControl )
@@ -363,42 +344,42 @@ void Win32HTMLBrowser::create( VCF::Control* owningControl )
 		if ( true != isRegistered() ){
 			registerWin32Class( className, wndProc_  );
 		}
-		
+
 		Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
-		HWND parent = toolkit->getDummyParent();		
-		
+		HWND parent = toolkit->getDummyParent();
+
 		if ( System::isUnicodeEnabled() ) {
-			
-			hwnd_ = ::CreateWindowExW( exStyleMask_, className.c_str(), 
-										L"",	styleMask_, 
-										0, 0, 
-										1, 
-										1, 
-										parent, 
+
+			hwnd_ = ::CreateWindowExW( exStyleMask_, className.c_str(),
+										L"",	styleMask_,
+										0, 0,
+										1,
+										1,
+										parent,
 										NULL, ::GetModuleHandleW(NULL), NULL );
 		}
 		else {
-			hwnd_ = ::CreateWindowExA( exStyleMask_, className.ansi_c_str(), 
-										"",	styleMask_, 
-										0, 0, 
-										1, 
-										1, 
-										parent, 
+			hwnd_ = ::CreateWindowExA( exStyleMask_, className.ansi_c_str(),
+										"",	styleMask_,
+										0, 0,
+										1,
+										1,
+										parent,
 										NULL, ::GetModuleHandleA(NULL), NULL );
 		}
 
-		
+
 		if ( NULL != hwnd_ ){
-			Win32Object::registerWin32Object( this );	
+			Win32Object::registerWin32Object( this );
 		}
 		else {
 			throw RuntimeException( MAKE_ERROR_MSG_2("Unable to create hwnd") );
 		}
-		
-		
+
+
 	}
-		
-	
+
+
 	AtlAxWinInit();
 	RECT r = {0};
 	r.left = 0;
@@ -406,8 +387,8 @@ void Win32HTMLBrowser::create( VCF::Control* owningControl )
 	r.right = 1;
 	r.bottom = 1;
 	String webBrowserCLSID = "{8856F961-340A-11D0-A96B-00C04FD705A2}";
-	
-	browserHwnd_ = browser_.Create( hwnd_, r, webBrowserCLSID.ansi_c_str(), WS_CHILD|WS_VISIBLE, 0, (UINT)-1);  
+
+	browserHwnd_ = browser_.Create( hwnd_, r, webBrowserCLSID.ansi_c_str(), WS_CHILD|WS_VISIBLE, 0, (UINT)-1);
 	if ( NULL == browserHwnd_ ){
 		throw RuntimeException( MAKE_ERROR_MSG_2("Unable to create Browser hwnd") );
 	}
@@ -422,7 +403,7 @@ void Win32HTMLBrowser::create( VCF::Control* owningControl )
 	oleObj->SetClientSite( &clientSite_ );
 
 	connectionPtCookie_ = 0;
-	
+
 	DoAdvise( spBrowser_, &webInterfaces_, DIID_DWebBrowserEvents2, &connectionPtCookie_ );
 
 	//webInterfaces_
@@ -452,7 +433,7 @@ LRESULT Win32HTMLBrowser::handleEventMessages( UINT message, WPARAM wParam, LPAR
 {
 	LRESULT result = 0;
 	switch ( message ) {
-		
+
 		case WM_DESTROY : {
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
@@ -487,13 +468,13 @@ LRESULT Win32HTMLBrowser::handleEventMessages( UINT message, WPARAM wParam, LPAR
 		}
 		break;
 
-		default : {					
+		default : {
 			result = AbstractWin32Component::handleEventMessages( message, wParam,lParam, defaultWndProc );
-			
+
 		}
 		break;
 	}
-	
+
 	return  result;
 }
 
@@ -616,17 +597,17 @@ void initWin32HTMLBrowserLib( HMODULE module )
 
 void terminateWin32HTMLBrowserLib()
 {
-	_Module.Term();		
+	_Module.Term();
 }
 
 
 
-#ifdef _USRDLL 
+#ifdef _USRDLL
 
 BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved )
 {
     switch ( ul_reason_for_call ) {
-		case DLL_PROCESS_ATTACH:  {			
+		case DLL_PROCESS_ATTACH:  {
 			initWin32HTMLBrowserLib((HINSTANCE) hModule);
 		}
 		break;
@@ -652,11 +633,12 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 #endif
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *

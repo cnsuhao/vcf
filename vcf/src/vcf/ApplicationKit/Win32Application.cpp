@@ -1,6 +1,122 @@
+//Win32Application.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/Win32Application.h"
+#include "vcf/ApplicationKit/Win32ResourceBundle.h"
+
+
+using namespace VCFWin32;
+using namespace VCF;
+
+Win32Application::Win32Application()
+{
+	resBundle_ = NULL;
+	resBundle_ = new Win32ResourceBundle();
+	resBundle_->setApplicationPeer( this );
+	instanceHandle_ = NULL;
+}
+
+Win32Application::~Win32Application()
+{
+	delete resBundle_;
+	resBundle_ = NULL;
+}
+
+bool Win32Application::initApp()
+{
+	/**
+	*set the HandleID if it is still NULL
+	*Dy default it should be set in the DLLMain()
+	*function if this is a LibraryApplication
+	*/
+	if ( NULL == instanceHandle_ ) {
+		instanceHandle_ = ::GetModuleHandle( NULL );
+	}
+#ifdef __GNUWIN32__
+	InitCommonControls();
+#else
+	INITCOMMONCONTROLSEX controlsToInit = {0};
+	controlsToInit.dwSize = sizeof(controlsToInit);
+	controlsToInit.dwICC = ICC_WIN95_CLASSES;
+	InitCommonControlsEx( &controlsToInit );
+#endif
+	HRESULT hr = OleInitialize(NULL);
+	if ( !(SUCCEEDED(hr)) ){
+		throw BasicException("OleInitialize failed");
+	}
+
+	return true;
+}
+
+void Win32Application::terminateApp()
+{
+	OleFlushClipboard();
+	OleUninitialize();
+}
+
+VCF::AbstractApplication* Win32Application::getApplication()
+{
+	return this->app_;
+}
+
+void Win32Application::setApplication( VCF::AbstractApplication* application )
+{
+	this->app_ = application;
+}
+
+ResourceBundle* Win32Application::getResourceBundle()
+{
+	return resBundle_;
+}
+
+String Win32Application::getFileName()
+{
+	String result;
+	if ( System::isUnicodeEnabled() ) {
+		VCFChar fileName[MAX_PATH];
+		memset( fileName, 0, MAX_PATH*sizeof(VCFChar) );
+		::GetModuleFileNameW( instanceHandle_, fileName, MAX_PATH );
+
+		result = fileName;
+	}
+	else {
+		char fileName[MAX_PATH];
+		memset( fileName, 0, MAX_PATH*sizeof(char) );
+		::GetModuleFileNameA( instanceHandle_, fileName, MAX_PATH );
+
+		result = fileName;
+	}
+
+
+	return result;
+}
+
+
+long Win32Application::getHandleID()
+{
+	return (long)instanceHandle_;
+}
+
+void Win32Application::setHandleID( const long& handleID )
+{
+	instanceHandle_ = (HINSTANCE)handleID;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -100,137 +216,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32Application.cpp
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-#include "vcf/ApplicationKit/Win32Application.h"
-#include "vcf/ApplicationKit/Win32ResourceBundle.h"
-
-
-using namespace VCFWin32;
-using namespace VCF;
-
-Win32Application::Win32Application()
-{
-	resBundle_ = NULL;
-	resBundle_ = new Win32ResourceBundle();
-	resBundle_->setApplicationPeer( this );
-	instanceHandle_ = NULL;
-}
-
-Win32Application::~Win32Application()
-{
-	delete resBundle_;
-	resBundle_ = NULL;
-}
-
-bool Win32Application::initApp()
-{
-	/**
-	*set the HandleID if it is still NULL
-	*Dy default it should be set in the DLLMain() 
-	*function if this is a LibraryApplication
-	*/
-	if ( NULL == instanceHandle_ ) {
-		instanceHandle_ = ::GetModuleHandle( NULL );
-	}
-#ifdef __GNUWIN32__    
-	InitCommonControls();
-#else
-	INITCOMMONCONTROLSEX controlsToInit = {0};
-	controlsToInit.dwSize = sizeof(controlsToInit);
-	controlsToInit.dwICC = ICC_WIN95_CLASSES;
-	InitCommonControlsEx( &controlsToInit );
-#endif	
-	HRESULT hr = OleInitialize(NULL);
-	if ( !(SUCCEEDED(hr)) ){
-		throw BasicException("OleInitialize failed");
-	}
-	
-	return true;
-}
-
-void Win32Application::terminateApp()
-{
-	OleFlushClipboard();
-	OleUninitialize();	
-}
-
-VCF::AbstractApplication* Win32Application::getApplication()
-{
-	return this->app_;
-}
-
-void Win32Application::setApplication( VCF::AbstractApplication* application )
-{
-	this->app_ = application;
-}
-
-ResourceBundle* Win32Application::getResourceBundle()
-{
-	return resBundle_;
-}	
-
-String Win32Application::getFileName()
-{
-	String result;
-	if ( System::isUnicodeEnabled() ) {
-		VCFChar fileName[MAX_PATH];
-		memset( fileName, 0, MAX_PATH*sizeof(VCFChar) );
-		::GetModuleFileNameW( instanceHandle_, fileName, MAX_PATH );
-
-		result = fileName;
-	}
-	else {
-		char fileName[MAX_PATH];
-		memset( fileName, 0, MAX_PATH*sizeof(char) );
-		::GetModuleFileNameA( instanceHandle_, fileName, MAX_PATH );
-
-		result = fileName;
-	}
-	
-
-	return result;
-}
-
-
-long Win32Application::getHandleID()
-{
-	return (long)instanceHandle_;
-}
-
-void Win32Application::setHandleID( const long& handleID )
-{
-	instanceHandle_ = (HINSTANCE)handleID;
-}
 
 

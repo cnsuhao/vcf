@@ -1,6 +1,105 @@
+//Win32ControlContext.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/Win32ControlContext.h"
+
+
+using namespace VCF;
+
+Win32ControlContext::Win32ControlContext( ControlPeer* controlPeer )
+{
+	Win32Context::init();
+	if ( NULL == controlPeer ){
+		//throw exception
+	}
+
+	//dc_ = GetDC( (HWND)controlPeer->getHandleID() );
+}
+
+Win32ControlContext::~Win32ControlContext()
+{
+
+}
+
+void Win32ControlContext::setContext( GraphicsContext* context )
+{
+	Win32Context::setContext ( context );
+	owningControlCtx_  = (ControlGraphicsContext*)( context );
+}
+
+Control* Win32ControlContext::getOwningControl()
+{
+	Control* result = NULL;
+
+	if ( NULL != owningControlCtx_ ){
+		result = owningControlCtx_->getOwningControl();
+	}
+	return result;
+}
+
+void Win32ControlContext::releaseHandle()
+{
+	Win32Context::releaseHandle();
+
+	if ( (NULL != owningControlCtx_->getOwningControl()) && (NULL != dc_) ){
+		Control* owningControl = owningControlCtx_->getOwningControl();
+		ControlPeer* peer = owningControl->getPeer();
+		if ( true == owningControl->isLightWeight() ) {
+			BOOL result = ::SetViewportOrgEx( dc_, (long)oldOrigin_.x_, (long)oldOrigin_.y_, NULL );
+			if ( FALSE == result ) {
+				throw RuntimeException( MAKE_ERROR_MSG_2("SetViewportOrgEx() failed for win32 Context") );
+			}
+		}
+
+
+		::ReleaseDC( (HWND)peer->getHandleID(), dc_ );
+	}
+
+}
+
+void Win32ControlContext::checkHandle()
+{
+	if ( NULL != owningControlCtx_->getOwningControl() ){
+		Control* owningControl = owningControlCtx_->getOwningControl();
+		ControlPeer* peer = owningControl->getPeer();
+		dc_ = ::GetDC( (HWND)peer->getHandleID() );
+
+		if ( NULL == dc_ ){
+			//throw exception !!!!!!
+			throw RuntimeException( MAKE_ERROR_MSG_2("Win32 Context has NULL Device Context") );
+		}
+
+		//check to see if we need to offset the origin
+		if ( true == owningControl->isLightWeight() ) {
+			Rect bounds = owningControl->getBounds();
+			double originX = bounds.left_;
+			double originY = bounds.top_;
+			POINT oldOrigin = {0,0};
+			BOOL result = ::SetViewportOrgEx( dc_, (long)originX, (long)originY, &oldOrigin );
+			if ( FALSE == result ) {
+				throw RuntimeException( MAKE_ERROR_MSG_2("SetViewportOrgEx() failed for win32 Context") );
+			}
+			oldOrigin_.x_ = oldOrigin.x;
+			oldOrigin_.y_ = oldOrigin.y;
+		}
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -58,118 +157,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-#include "vcf/ApplicationKit/Win32ControlContext.h"
-
-
-using namespace VCF;
-
-Win32ControlContext::Win32ControlContext( ControlPeer* controlPeer )
-{
-	Win32Context::init();
-	if ( NULL == controlPeer ){
-		//throw exception 
-	}
-
-	//dc_ = GetDC( (HWND)controlPeer->getHandleID() );	
-}
-
-Win32ControlContext::~Win32ControlContext()
-{
-
-}
-
-void Win32ControlContext::setContext( GraphicsContext* context )
-{
-	Win32Context::setContext ( context );
-	owningControlCtx_  = (ControlGraphicsContext*)( context );
-}
-
-Control* Win32ControlContext::getOwningControl()
-{
-	Control* result = NULL;
-
-	if ( NULL != owningControlCtx_ ){
-		result = owningControlCtx_->getOwningControl();
-	}
-	return result;
-}
-
-void Win32ControlContext::releaseHandle()
-{
-	Win32Context::releaseHandle();
-
-	if ( (NULL != owningControlCtx_->getOwningControl()) && (NULL != dc_) ){
-		Control* owningControl = owningControlCtx_->getOwningControl();
-		ControlPeer* peer = owningControl->getPeer();
-		if ( true == owningControl->isLightWeight() ) {
-			BOOL result = ::SetViewportOrgEx( dc_, (long)oldOrigin_.x_, (long)oldOrigin_.y_, NULL );
-			if ( FALSE == result ) {
-				throw RuntimeException( MAKE_ERROR_MSG_2("SetViewportOrgEx() failed for win32 Context") );
-			}
-		}
-		
-
-		::ReleaseDC( (HWND)peer->getHandleID(), dc_ );
-	}
-	
-}
-
-void Win32ControlContext::checkHandle()
-{	
-	if ( NULL != owningControlCtx_->getOwningControl() ){
-		Control* owningControl = owningControlCtx_->getOwningControl();
-		ControlPeer* peer = owningControl->getPeer();
-		dc_ = ::GetDC( (HWND)peer->getHandleID() );
-
-		if ( NULL == dc_ ){
-			//throw exception !!!!!!
-			throw RuntimeException( MAKE_ERROR_MSG_2("Win32 Context has NULL Device Context") );
-		}
-
-		//check to see if we need to offset the origin
-		if ( true == owningControl->isLightWeight() ) {
-			Rect bounds = owningControl->getBounds();						
-			double originX = bounds.left_;
-			double originY = bounds.top_;
-			POINT oldOrigin = {0,0};
-			BOOL result = ::SetViewportOrgEx( dc_, (long)originX, (long)originY, &oldOrigin );	
-			if ( FALSE == result ) {
-				throw RuntimeException( MAKE_ERROR_MSG_2("SetViewportOrgEx() failed for win32 Context") );
-			}
-			oldOrigin_.x_ = oldOrigin.x;
-			oldOrigin_.y_ = oldOrigin.y;
-		}
-	}	
-}
 
 

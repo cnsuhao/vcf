@@ -1,6 +1,502 @@
+//TabbedPages.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/TabbedPages.h"
+#include "vcf/ApplicationKit/DefaultTabModel.h"
+#include "vcf/ApplicationKit/DefaultTabPage.h"
+#include "vcf/ApplicationKit/Panel.h"
+#include "vcf/ApplicationKit/Containers.h"
+
+
+
+#define SCROLL_FWD_TAG	200
+#define SCROLL_BKWD_TAG	201
+
+using namespace VCF;
+
+TabbedPages::TabbedPages():
+	CustomControl( true ),
+	model_( NULL )
+{
+	setContainerDelegate( this );
+	setContainer( new StandardContainer() );
+	init();
+}
+
+void TabbedPages::init()
+{
+	setBorder( NULL );
+	//add a listener to the tab model
+
+	setTabModel( new DefaultTabModel() );
+
+
+	borderWidth_ = 8.0;
+	tabHeight_ = 12.0;
+
+	tabViewOffset_ = 0.0;
+
+
+	EventHandler* ev = new ButtonEventHandler<TabbedPages>( this, &TabbedPages::onScrollButtonClicked, "onScrollButtonClicked" );
+	scrollForward_ = new ScrollButton();
+	scrollForward_->setHeight( tabHeight_ );
+	scrollForward_->setWidth(  tabHeight_ );
+
+	scrollBackward_ = new ScrollButton();
+	scrollBackward_->setHeight( tabHeight_ );
+	scrollBackward_->setWidth(  tabHeight_ );
+
+	scrollBackward_->setTag( SCROLL_BKWD_TAG );
+	scrollForward_->setTag( SCROLL_FWD_TAG );
+
+
+	scrollForward_->addButtonClickHandler( ev );
+	scrollBackward_->addButtonClickHandler( ev );
+
+	add( scrollBackward_ );
+	add( scrollForward_ );
+
+	scrollForward_->setVisible( false );
+	scrollBackward_->setVisible( false );
+
+}
+
+TabbedPages::~TabbedPages()
+{
+	if ( NULL != model_ ){
+		model_->release();
+	}
+}
+
+void TabbedPages::recalcScrollerButtonsPos()
+{
+
+	TabModel* model = getModel();
+	double width = 0.0;
+	Enumerator<TabPage*>* pages = model->getPages();
+	while ( true == pages->hasMoreElements() ) {
+		TabPage* aPage = pages->nextElement();
+
+		width += getTabPageWidth( aPage );
+	}
+
+
+	if ( width > this->getWidth() ) {
+		//make the scrollers visible;
+		double h = tabAreaBounds_.top_ - borderWidth_/2.0;
+		double l = getWidth() - (scrollForward_->getWidth() + borderWidth_/2.0);
+
+		scrollForward_->setTop( 1 );
+		scrollForward_->setHeight( h );
+		scrollForward_->setWidth( h );
+
+		scrollForward_->setLeft( l );
+
+
+
+		scrollBackward_->setTop( 1 );
+		scrollBackward_->setHeight( h );
+		scrollBackward_->setWidth( h );
+		scrollBackward_->setLeft( l - scrollBackward_->getWidth() );
+
+
+		scrollForward_->setVisible( true );
+		scrollBackward_->setVisible( true );
+	}
+	else {
+		tabViewOffset_ = 0;
+		scrollForward_->setVisible( false );
+		scrollBackward_->setVisible( false );
+	}
+}
+
+double TabbedPages::getTabPageWidth( TabPage* page, GraphicsContext* ctx )
+{
+	double result;
+
+	GraphicsContext* ctxToUse = ctx;
+
+	if ( NULL == ctxToUse ) {
+		ctxToUse = getContext();
+	}
+
+	result = ctxToUse->getTextWidth( page->getPageName() ) + 5.0 + tabHeight_;
+
+	return result;
+}
+
+void TabbedPages::paint( GraphicsContext* context )
+{
+	CustomControl::paint( context );
+
+	Rect bounds = getBounds();
+	context->setColor( getColor() );
+	context->rectangle( 0, 0, bounds.getWidth(), bounds.getHeight() );
+	context->fillPath();
+
+
+	if ( NULL != model_ ){
+		Enumerator<TabPage*>* pages = model_->getPages();
+
+		Rect oldClipRect = context->getClippingRect();
+		Rect tabClipRect( tabAreaBounds_.left_, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
+
+		context->setClippingRect( &tabClipRect );
+
+		Rect tabsRect(0,0,0,0);
+
+		TabPage* selectedPage = NULL;
+
+		double currentLeft = tabAreaBounds_.left_;
+		double width = 0.0;
+		Rect selectedRect;
+		while ( true == pages->hasMoreElements() ){
+			TabPage* page = pages->nextElement();
+			if ( NULL != page ){
+				width = getTabPageWidth( page, context );
+				tabsRect.setRect( currentLeft, 3,
+						          currentLeft+ width, tabAreaBounds_.top_ -2  );
+
+				tabsRect.offset( tabViewOffset_, 0 );
+
+
+
+				if ( true == page->isSelected() ) {
+					selectedPage = page;
+					selectedRect = tabsRect;
+				}
+				else {
+					page->paint( context, &tabsRect );
+				}
+			}
+			currentLeft += width;
+			width = 0.0;
+		}
+
+		//if ( oldClipRect.isEmpty() ) {
+			oldClipRect.setRect( 0, 0, getWidth(), getHeight() );
+		//}
+
+		context->setClippingRect( &oldClipRect );
+
+		if ( NULL != selectedPage ) {
+
+			Control* component = selectedPage->getPageComponent();
+
+			if ( NULL != component ){
+				Rect tmp( tabAreaBounds_ );//*(component->getBounds()) );
+				tmp.inflate( 3,3 );
+				activePageBorder_.paint( &tmp, context );
+			}
+
+			//fill with blank space first
+			selectedRect.inflate( 0, 1 );
+			context->rectangle( &selectedRect );
+			context->fillPath();
+			selectedPage->paint( context, &selectedRect );
+		}
+	}
+	paintChildren( context );
+}
+
+TabModel* TabbedPages::getModel()
+{
+	return model_;
+}
+
+void TabbedPages::setTabModel( TabModel* model )
+{
+	if ( NULL != model_ ) {
+		model_->release();
+	}
+
+	model_ = model;
+
+
+	if ( NULL != model_ ) {
+		model_->addRef();
+		model_->addView( this );
+
+		EventHandler* ev = getEventHandler( "TabbedPages::tabTabPageAddedHandler" );
+		if ( NULL == ev ) {
+			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageAdded, "TabbedPages::tabTabPageAddedHandler" );
+		}
+		model_->addTabPageAddedHandler( ev );
+
+		ev = getEventHandler( "TabbedPages::tabPageRemovedHandler" );
+		if ( NULL == ev ) {
+			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageRemoved, "TabbedPages::tabPageRemovedHandler" );
+		}
+		model_->addTabPageRemovedHandler( ev );
+
+
+		ev = getEventHandler( "TabbedPages::tabPageSelectedHandler" );
+		if ( NULL == ev ) {
+			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageSelected, "TabbedPages::tabPageSelectedHandler" );
+		}
+		model_->addTabPageSelectedHandler( ev );
+	}
+	else {
+		setViewModel( NULL );
+	}
+}
+
+void TabbedPages::onTabPageAdded( TabModelEvent* event )
+{
+	//calculate the total width
+	//needed by all the tab pages
+	//if the width is gbreater than the controls
+	//width then we need to make the scroll buttons
+	//visible
+	repaint();
+
+	resizeChildren(NULL);
+
+	recalcScrollerButtonsPos();
+}
+
+void TabbedPages::onTabPageRemoved( TabModelEvent* event )
+{
+	TabPage* page = event->getTabPage();
+	TabPage* pageToMakeCurrent = NULL;
+	TabModel* model = getModel();
+	bool next = false;
+	if ( NULL != page ) {
+		Enumerator<TabPage*>* pages = model->getPages();
+
+		while ( true == pages->hasMoreElements() ) {
+			TabPage* aPage = pages->nextElement();
+			if ( next ) {
+				pageToMakeCurrent = aPage;
+				break;
+			}
+			if ( aPage == page ) {
+				next = true;
+			}
+		}
+		if ( (!next) || (NULL == pageToMakeCurrent)  ) {
+			pages->reset();
+			if ( true == pages->hasMoreElements() ) {
+				pageToMakeCurrent = pages->nextElement();
+			}
+		}
+
+		Control* control = page->getPageComponent();
+		page->setPageComponent( NULL );
+
+		remove( control );
+		removeComponent( control );
+		control->free();
+
+
+	}
+	if ( pageToMakeCurrent == page ) {
+		pageToMakeCurrent = NULL;
+	}
+
+	if ( NULL != pageToMakeCurrent ) {
+		model->setSelectedPage( pageToMakeCurrent );
+	}
+	resizeChildren(NULL);
+
+	recalcScrollerButtonsPos();
+}
+
+void TabbedPages::onTabPageSelected( TabModelEvent* event )
+{
+	TabPage* page = event->getTabPage();
+	if ( true == page->isSelected() ){
+		Enumerator<Control*>* children = getChildren();
+		while ( true == children->hasMoreElements() ){
+			Control* comp = children->nextElement();
+			if ( comp != page->getPageComponent() ){
+				comp->setVisible( false );
+			}
+		}
+		page->getPageComponent()->setVisible( true );
+
+		Container* container = page->getPageComponent()->getContainer();
+		if ( NULL != container ) {
+			container->resizeChildren(NULL);
+			/*
+			Control* tabControl = container->getFirstTabControl();
+			if ( NULL != tabControl ) {
+				tabControl->setFocused();
+			}
+			else {
+
+			}
+			*/
+			page->getPageComponent()->setFocused();
+		}
+	}
+	repaint();
+}
+
+TabPage* TabbedPages::addNewPage( const String& caption )
+{
+	DefaultTabPage* page = new DefaultTabPage();
+	page->setModel( getModel() );
+	page->setPageName( caption );
+	Panel* sheet = new Panel();
+	sheet->setBorder( NULL );
+	page->setPageComponent( sheet );
+	add( sheet, AlignClient );
+	sheet->setVisible( true );
+
+	tabHeight_ = maxVal<double>( tabHeight_, page->getPreferredHeight() );
+
+	TabModel* model = getModel();
+	model->addTabPage( page );
+
+	model->setSelectedPage( page );
+
+	recalcScrollerButtonsPos();
+
+	return page;
+}
+
+
+Rect TabbedPages::getClientBounds( const bool& includeBorder )
+{
+	Rect bounds = getBounds();
+
+	if ( bounds.isEmpty() ) {
+		return Rect();
+	}
+
+
+	tabAreaBounds_.setRect( 0, 0, bounds.getWidth(), bounds.getHeight() );
+	tabAreaBounds_.inflate( -borderWidth_, -borderWidth_ );
+	tabAreaBounds_.top_ = tabAreaBounds_.top_ + tabHeight_;
+
+	recalcScrollerButtonsPos();
+
+	return tabAreaBounds_;
+}
+
+/*
+void TabbedPages::resizeChildren()
+{
+	Rect* bounds = getBounds();
+	if ( bounds->isEmpty() ) {
+		return;
+	}
+
+	tabAreaBounds_.setRect( 0, 0, bounds->getWidth(), bounds->getHeight() );
+	tabAreaBounds_.inflate( -borderWidth_, -borderWidth_ );
+	tabAreaBounds_.top_ = tabAreaBounds_.top_ + tabHeight_;
+
+	recalcScrollerButtonsPos();
+
+	resizeChildrenUsingBounds( &tabAreaBounds_ );
+}
+*/
+
+void TabbedPages::mouseDown( MouseEvent* event )
+{
+	CustomControl::mouseDown( event );
+	Rect tabPagesBounds;
+	tabPagesBounds.setRect( 0, 0, getWidth(), tabHeight_ );
+	if ( true == tabPagesBounds.containsPt( event->getPoint() ) ){
+		//find tab
+		TabModel* model = getModel();
+		if ( NULL != model ){
+			Enumerator<TabPage*>* pages = model->getPages();
+			if ( NULL != pages ){
+				while ( true == pages->hasMoreElements() ){
+					TabPage* page = pages->nextElement();
+					if ( NULL != page ){
+						if ( true == page->containsPoint( event->getPoint() ) ){
+							model_->setSelectedPage( page );
+							resizeChildren(NULL);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void TabbedPages::mouseMove( MouseEvent* event )
+{
+	CustomControl::mouseMove( event );
+}
+
+void TabbedPages::mouseUp( MouseEvent* event )
+{
+	CustomControl::mouseUp( event );
+}
+
+double TabbedPages::getBorderWidth()
+{
+	return borderWidth_;
+}
+
+void TabbedPages::setBorderWidth( const double& borderWidth )
+{
+	borderWidth_ = borderWidth;
+}
+
+void TabbedPages::onScrollButtonClicked( ButtonEvent* e )
+{
+	Control* comp = (Control*)e->getSource();
+
+	switch ( comp->getTag() ) {
+		case SCROLL_FWD_TAG : {
+			TabModel* model = getModel();
+			double width = 0.0;
+			Enumerator<TabPage*>* pages = model->getPages();
+			while ( true == pages->hasMoreElements() ) {
+				TabPage* aPage = pages->nextElement();
+
+				width += getTabPageWidth( aPage );
+			}
+
+			double offset = -((width + comp->getWidth()*2) - getWidth());
+			tabViewOffset_ = maxVal<double>( offset, tabViewOffset_ - 25 );
+		}
+		break;
+
+		case SCROLL_BKWD_TAG : {
+			tabViewOffset_ = minVal<double>( 0.0, tabViewOffset_ + 25 );
+		}
+		break;
+	}
+	repaint();
+}
+
+void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
+{
+	PushButton::paint( ctx );
+	switch ( getTag() ) {
+		case SCROLL_FWD_TAG : {
+			ctx->drawHorizontalScrollButtonRect( &getClientBounds(), false, this->isPressed_ );
+		}
+		break;
+
+		case SCROLL_BKWD_TAG : {
+			ctx->drawHorizontalScrollButtonRect( &getClientBounds(), true, this->isPressed_ );
+		}
+		break;
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -167,516 +663,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-//TabbedPages.cpp
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/TabbedPages.h"
-#include "vcf/ApplicationKit/DefaultTabModel.h"
-#include "vcf/ApplicationKit/DefaultTabPage.h"
-#include "vcf/ApplicationKit/Panel.h"
-#include "vcf/ApplicationKit/Containers.h"
-
-
-
-#define SCROLL_FWD_TAG	200
-#define SCROLL_BKWD_TAG	201
-
-using namespace VCF;
-
-TabbedPages::TabbedPages():
-	CustomControl( true ),
-	model_( NULL )
-{
-	setContainerDelegate( this );
-	setContainer( new StandardContainer() );
-	init();
-}
-
-void TabbedPages::init()
-{	
-	setBorder( NULL );
-	//add a listener to the tab model	
-
-	setTabModel( new DefaultTabModel() );	
-	
-
-	borderWidth_ = 8.0;	
-	tabHeight_ = 12.0;
-
-	tabViewOffset_ = 0.0;
-
-
-	EventHandler* ev = new ButtonEventHandler<TabbedPages>( this, &TabbedPages::onScrollButtonClicked, "onScrollButtonClicked" );
-	scrollForward_ = new ScrollButton();
-	scrollForward_->setHeight( tabHeight_ );
-	scrollForward_->setWidth(  tabHeight_ );
-
-	scrollBackward_ = new ScrollButton();
-	scrollBackward_->setHeight( tabHeight_ );
-	scrollBackward_->setWidth(  tabHeight_ );	
-	
-	scrollBackward_->setTag( SCROLL_BKWD_TAG );
-	scrollForward_->setTag( SCROLL_FWD_TAG );
-
-
-	scrollForward_->addButtonClickHandler( ev );
-	scrollBackward_->addButtonClickHandler( ev );
-
-	add( scrollBackward_ );
-	add( scrollForward_ );
-
-	scrollForward_->setVisible( false );
-	scrollBackward_->setVisible( false );
-	
-}
-
-TabbedPages::~TabbedPages()
-{
-	if ( NULL != model_ ){
-		model_->release();
-	}
-}
-
-void TabbedPages::recalcScrollerButtonsPos()
-{
-	
-	TabModel* model = getModel();
-	double width = 0.0;
-	Enumerator<TabPage*>* pages = model->getPages();
-	while ( true == pages->hasMoreElements() ) {
-		TabPage* aPage = pages->nextElement();	
-		
-		width += getTabPageWidth( aPage );
-	}
-
-	
-	if ( width > this->getWidth() ) {
-		//make the scrollers visible;
-		double h = tabAreaBounds_.top_ - borderWidth_/2.0;
-		double l = getWidth() - (scrollForward_->getWidth() + borderWidth_/2.0);
-		
-		scrollForward_->setTop( 1 );
-		scrollForward_->setHeight( h );
-		scrollForward_->setWidth( h );
-
-		scrollForward_->setLeft( l );
-		
-
-		
-		scrollBackward_->setTop( 1 );
-		scrollBackward_->setHeight( h );
-		scrollBackward_->setWidth( h );
-		scrollBackward_->setLeft( l - scrollBackward_->getWidth() );
-		
-
-		scrollForward_->setVisible( true );
-		scrollBackward_->setVisible( true );		
-	}
-	else {
-		tabViewOffset_ = 0;
-		scrollForward_->setVisible( false );
-		scrollBackward_->setVisible( false );
-	}
-}
-
-double TabbedPages::getTabPageWidth( TabPage* page, GraphicsContext* ctx )
-{
-	double result;
-
-	GraphicsContext* ctxToUse = ctx;
-
-	if ( NULL == ctxToUse ) {
-		ctxToUse = getContext();
-	}
-
-	result = ctxToUse->getTextWidth( page->getPageName() ) + 5.0 + tabHeight_;
-
-	return result;
-}
-
-void TabbedPages::paint( GraphicsContext* context )
-{
-	CustomControl::paint( context );
-	
-	Rect bounds = getBounds();
-	context->setColor( getColor() );
-	context->rectangle( 0, 0, bounds.getWidth(), bounds.getHeight() );	
-	context->fillPath();
-
-
-	if ( NULL != model_ ){
-		Enumerator<TabPage*>* pages = model_->getPages();
-		
-		Rect oldClipRect = context->getClippingRect();
-		Rect tabClipRect( tabAreaBounds_.left_, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
-
-		context->setClippingRect( &tabClipRect );
-
-		Rect tabsRect(0,0,0,0);
-
-		TabPage* selectedPage = NULL;
-
-		double currentLeft = tabAreaBounds_.left_;
-		double width = 0.0;
-		Rect selectedRect;
-		while ( true == pages->hasMoreElements() ){
-			TabPage* page = pages->nextElement();
-			if ( NULL != page ){
-				width = getTabPageWidth( page, context );
-				tabsRect.setRect( currentLeft, 3, 
-						          currentLeft+ width, tabAreaBounds_.top_ -2  );
-				
-				tabsRect.offset( tabViewOffset_, 0 );
-				
-				
-
-				if ( true == page->isSelected() ) {
-					selectedPage = page;	
-					selectedRect = tabsRect;
-				}
-				else {
-					page->paint( context, &tabsRect );
-				}
-			}
-			currentLeft += width;
-			width = 0.0;			
-		}
-		
-		//if ( oldClipRect.isEmpty() ) {
-			oldClipRect.setRect( 0, 0, getWidth(), getHeight() );
-		//}
-
-		context->setClippingRect( &oldClipRect );
-
-		if ( NULL != selectedPage ) {
-
-			Control* component = selectedPage->getPageComponent();
-			
-			if ( NULL != component ){
-				Rect tmp( tabAreaBounds_ );//*(component->getBounds()) );
-				tmp.inflate( 3,3 );
-				activePageBorder_.paint( &tmp, context );					
-			}
-
-			//fill with blank space first
-			selectedRect.inflate( 0, 1 );
-			context->rectangle( &selectedRect );
-			context->fillPath();
-			selectedPage->paint( context, &selectedRect );			
-		}
-	}
-	paintChildren( context );
-}
-
-TabModel* TabbedPages::getModel()
-{
-	return model_;
-}
-
-void TabbedPages::setTabModel( TabModel* model )
-{	
-	if ( NULL != model_ ) {
-		model_->release();
-	}
-
-	model_ = model;
-
-
-	if ( NULL != model_ ) {
-		model_->addRef();
-		model_->addView( this );
-
-		EventHandler* ev = getEventHandler( "TabbedPages::tabTabPageAddedHandler" );
-		if ( NULL == ev ) {
-			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageAdded, "TabbedPages::tabTabPageAddedHandler" );
-		}
-		model_->addTabPageAddedHandler( ev );		
-
-		ev = getEventHandler( "TabbedPages::tabPageRemovedHandler" );
-		if ( NULL == ev ) {
-			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageRemoved, "TabbedPages::tabPageRemovedHandler" );
-		}
-		model_->addTabPageRemovedHandler( ev );
-
-	
-		ev = getEventHandler( "TabbedPages::tabPageSelectedHandler" );
-		if ( NULL == ev ) {
-			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageSelected, "TabbedPages::tabPageSelectedHandler" );
-		}
-		model_->addTabPageSelectedHandler( ev );
-	}
-	else {
-		setViewModel( NULL );
-	}
-}
-
-void TabbedPages::onTabPageAdded( TabModelEvent* event )
-{
-	//calculate the total width
-	//needed by all the tab pages
-	//if the width is gbreater than the controls 
-	//width then we need to make the scroll buttons 
-	//visible
-	repaint();
-
-	resizeChildren(NULL);
-
-	recalcScrollerButtonsPos();	
-}
-
-void TabbedPages::onTabPageRemoved( TabModelEvent* event )
-{
-	TabPage* page = event->getTabPage();
-	TabPage* pageToMakeCurrent = NULL;
-	TabModel* model = getModel();
-	bool next = false;
-	if ( NULL != page ) {
-		Enumerator<TabPage*>* pages = model->getPages();
-		
-		while ( true == pages->hasMoreElements() ) {
-			TabPage* aPage = pages->nextElement();
-			if ( next ) {
-				pageToMakeCurrent = aPage;
-				break;
-			}
-			if ( aPage == page ) {
-				next = true;
-			}
-		}
-		if ( (!next) || (NULL == pageToMakeCurrent)  ) {
-			pages->reset();
-			if ( true == pages->hasMoreElements() ) {
-				pageToMakeCurrent = pages->nextElement();
-			}
-		}
-
-		Control* control = page->getPageComponent();
-		page->setPageComponent( NULL );
-		
-		remove( control );
-		removeComponent( control );
-		control->free();
-
-
-	}
-	if ( pageToMakeCurrent == page ) {
-		pageToMakeCurrent = NULL;
-	}
-
-	if ( NULL != pageToMakeCurrent ) {
-		model->setSelectedPage( pageToMakeCurrent );
-	}
-	resizeChildren(NULL);
-
-	recalcScrollerButtonsPos();
-}
-
-void TabbedPages::onTabPageSelected( TabModelEvent* event )
-{
-	TabPage* page = event->getTabPage();
-	if ( true == page->isSelected() ){
-		Enumerator<Control*>* children = getChildren();
-		while ( true == children->hasMoreElements() ){
-			Control* comp = children->nextElement();
-			if ( comp != page->getPageComponent() ){
-				comp->setVisible( false );
-			}
-		}
-		page->getPageComponent()->setVisible( true );
-
-		Container* container = page->getPageComponent()->getContainer();
-		if ( NULL != container ) {
-			container->resizeChildren(NULL);
-			/*
-			Control* tabControl = container->getFirstTabControl();
-			if ( NULL != tabControl ) {
-				tabControl->setFocused();
-			}
-			else {
-				
-			}
-			*/
-			page->getPageComponent()->setFocused();
-		}		
-	}
-	repaint();
-}
-
-TabPage* TabbedPages::addNewPage( const String& caption )
-{
-	DefaultTabPage* page = new DefaultTabPage();
-	page->setModel( getModel() );
-	page->setPageName( caption );	
-	Panel* sheet = new Panel();
-	sheet->setBorder( NULL );
-	page->setPageComponent( sheet );		
-	add( sheet, AlignClient );
-	sheet->setVisible( true );
-	
-	tabHeight_ = maxVal<double>( tabHeight_, page->getPreferredHeight() );
-
-	TabModel* model = getModel();
-	model->addTabPage( page );
-	
-	model->setSelectedPage( page );
-
-	recalcScrollerButtonsPos();
-
-	return page;
-}
-
-
-Rect TabbedPages::getClientBounds( const bool& includeBorder )
-{		
-	Rect bounds = getBounds();
-
-	if ( bounds.isEmpty() ) {
-		return Rect();
-	}
-
-
-	tabAreaBounds_.setRect( 0, 0, bounds.getWidth(), bounds.getHeight() );
-	tabAreaBounds_.inflate( -borderWidth_, -borderWidth_ );
-	tabAreaBounds_.top_ = tabAreaBounds_.top_ + tabHeight_;
-	
-	recalcScrollerButtonsPos();
-
-	return tabAreaBounds_;
-}
-
-/*
-void TabbedPages::resizeChildren()
-{
-	Rect* bounds = getBounds();
-	if ( bounds->isEmpty() ) {
-		return;
-	}
-	
-	tabAreaBounds_.setRect( 0, 0, bounds->getWidth(), bounds->getHeight() );
-	tabAreaBounds_.inflate( -borderWidth_, -borderWidth_ );
-	tabAreaBounds_.top_ = tabAreaBounds_.top_ + tabHeight_;
-	
-	recalcScrollerButtonsPos();
-
-	resizeChildrenUsingBounds( &tabAreaBounds_ );
-}
-*/
-
-void TabbedPages::mouseDown( MouseEvent* event )
-{	
-	CustomControl::mouseDown( event );
-	Rect tabPagesBounds;
-	tabPagesBounds.setRect( 0, 0, getWidth(), tabHeight_ );
-	if ( true == tabPagesBounds.containsPt( event->getPoint() ) ){
-		//find tab
-		TabModel* model = getModel();
-		if ( NULL != model ){
-			Enumerator<TabPage*>* pages = model->getPages();
-			if ( NULL != pages ){
-				while ( true == pages->hasMoreElements() ){
-					TabPage* page = pages->nextElement();
-					if ( NULL != page ){
-						if ( true == page->containsPoint( event->getPoint() ) ){
-							model_->setSelectedPage( page );
-							resizeChildren(NULL);
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-void TabbedPages::mouseMove( MouseEvent* event )
-{
-	CustomControl::mouseMove( event );	
-}
-
-void TabbedPages::mouseUp( MouseEvent* event )
-{
-	CustomControl::mouseUp( event );	
-}
-
-double TabbedPages::getBorderWidth()
-{
-	return borderWidth_;
-}
-
-void TabbedPages::setBorderWidth( const double& borderWidth )
-{
-	borderWidth_ = borderWidth;
-}
-
-void TabbedPages::onScrollButtonClicked( ButtonEvent* e )
-{
-	Control* comp = (Control*)e->getSource();
-	
-	switch ( comp->getTag() ) {
-		case SCROLL_FWD_TAG : {
-			TabModel* model = getModel();
-			double width = 0.0;
-			Enumerator<TabPage*>* pages = model->getPages();
-			while ( true == pages->hasMoreElements() ) {
-				TabPage* aPage = pages->nextElement();	
-				
-				width += getTabPageWidth( aPage );
-			}
-
-			double offset = -((width + comp->getWidth()*2) - getWidth());
-			tabViewOffset_ = maxVal<double>( offset, tabViewOffset_ - 25 );
-		}
-		break;
-
-		case SCROLL_BKWD_TAG : {
-			tabViewOffset_ = minVal<double>( 0.0, tabViewOffset_ + 25 );	
-		}
-		break;
-	}
-	repaint();
-}
-
-void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
-{
-	PushButton::paint( ctx );
-	switch ( getTag() ) {
-		case SCROLL_FWD_TAG : {
-			ctx->drawHorizontalScrollButtonRect( &getClientBounds(), false, this->isPressed_ );
-		}
-		break;
-
-		case SCROLL_BKWD_TAG : {
-			ctx->drawHorizontalScrollButtonRect( &getClientBounds(), true, this->isPressed_ );		
-		}
-		break;
-	}	
-}
 
 

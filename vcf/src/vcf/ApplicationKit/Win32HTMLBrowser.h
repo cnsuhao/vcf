@@ -1,36 +1,18 @@
-
-//Win32HTMLBrowser.h
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
 #ifndef _VCF_WIN32HTMLBROWSER_H__
 #define _VCF_WIN32HTMLBROWSER_H__
+//Win32HTMLBrowser.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 #include "vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h"
 
@@ -40,7 +22,7 @@ NB: This software will not save the world.
 
 
 //this will automatilcally pull in the atl.lib
-//#define _ATL_DLL 
+//#define _ATL_DLL
 
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0400
@@ -166,7 +148,7 @@ public :
 	IUnknownCollection(){}
 
 	virtual ~IUnknownCollection() {
-		
+
 	}
 
 
@@ -177,7 +159,7 @@ public :
 			*obj = (IUnknown*)this;
 			hr = S_OK;
 		}
-		else { 
+		else {
 			std::map<CLSID,IUnknown*,CLSIDPred>::iterator found = interfaces_.find( riid );
 			if ( found != interfaces_.end() ) {
 				*obj = (IUnknown*) found->second;
@@ -187,13 +169,13 @@ public :
 
 		return hr;
 	}
-	virtual ULONG STDMETHODCALLTYPE AddRef( void){ 
+	virtual ULONG STDMETHODCALLTYPE AddRef( void){
 		return 1;
 	}
 
 	virtual ULONG STDMETHODCALLTYPE Release( void){
-		return 1; 
-	} 
+		return 1;
+	}
 
 	void addInterface( CLSID riid, IUnknown* unknown ) {
 		//((AggregateBaseClass*)unknown)->collection = this;
@@ -216,27 +198,27 @@ public:
 	STDMETHOD(SaveObject)(void)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(GetMoniker)(DWORD dwAssign, DWORD dwWhichMoniker, IMoniker **ppmk){
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(GetContainer)(IOleContainer **ppContainer){
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(ShowObject)(void){
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(OnShowWindow)(BOOL fShow){
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(RequestNewObjectLayout)(void){
 		return E_NOTIMPL;
 	}
-protected:	
+protected:
 	STDMETHOD(peerQueryInterface)( REFIID riid, void** obj );
 
 	Win32HTMLBrowser* peer_;
@@ -258,20 +240,20 @@ public:
 			*obj = (IUnknown*)this;
 			hr = S_OK;
 		}
-		else if ( riid == IID_IDispatch ) { 
+		else if ( riid == IID_IDispatch ) {
 			*obj = (IDispatch*)this;
 			hr = S_OK;
 		}
-		else if ( riid == DIID_DWebBrowserEvents2 ) { 
+		else if ( riid == DIID_DWebBrowserEvents2 ) {
 			*obj = (IDispatch*)this;
 			hr = S_OK;
 		}
 		else {
-			hr = peerQueryInterface( riid, obj ); 
+			hr = peerQueryInterface( riid, obj );
 		}
 		return hr;
 	}
-	
+
 
 	STDMETHOD(GetTypeInfoCount)( unsigned int *iTInfo	) {
 		return E_NOTIMPL;
@@ -281,13 +263,13 @@ public:
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(GetIDsOfNames)( REFIID  riid, OLECHAR FAR* FAR*  rgszNames, unsigned int  cNames, 
+	STDMETHOD(GetIDsOfNames)( REFIID  riid, OLECHAR FAR* FAR*  rgszNames, unsigned int  cNames,
 							LCID   lcid, DISPID FAR*  rgDispId ) {
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(Invoke)( DISPID  dispIdMember, REFIID  riid, LCID  lcid, WORD  wFlags, 
-					DISPPARAMS FAR*  pDispParams, VARIANT FAR*  pVarResult, 
+	STDMETHOD(Invoke)( DISPID  dispIdMember, REFIID  riid, LCID  lcid, WORD  wFlags,
+					DISPPARAMS FAR*  pDispParams, VARIANT FAR*  pVarResult,
 					EXCEPINFO FAR*  pExcepInfo, unsigned int FAR* puArgErr );
 
 
@@ -295,7 +277,7 @@ public:
 	//[id(0x00000066)
 	virtual void STDMETHODCALLTYPE OnStatusTextChange( LPCSTR val );
 
-	//[id(0x00000068) 
+	//[id(0x00000068)
 	virtual void STDMETHODCALLTYPE  OnDownloadComplete();
 
 	//[id(0x00000069)
@@ -315,68 +297,68 @@ public:
 
 	//[id(0x000000e1)
     virtual void STDMETHODCALLTYPE  OnPrintTemplateInstantiation( IDispatch* pDisp);
-    
+
 	//[id(0x000000e2)
     virtual void STDMETHODCALLTYPE  OnPrintTemplateTeardown( IDispatch* pDisp );
-    
+
 	//[id(0x000000e3)
     virtual void STDMETHODCALLTYPE  OnUpdatePageStatus(
-                    IDispatch* pDisp, 
-                    VARIANT* nPage, 
-                    VARIANT* fDone) ;    
+                    IDispatch* pDisp,
+                    VARIANT* nPage,
+                    VARIANT* fDone) ;
 
 	//[id(0x000000fa)
     virtual void STDMETHODCALLTYPE  OnBeforeNavigate2(
-                    IDispatch* pDisp, 
-                    VARIANT* URL, 
-                    VARIANT* Flags, 
-                    VARIANT* TargetFrameName, 
-                    VARIANT* PostData, 
-                    VARIANT* Headers, 
+                    IDispatch* pDisp,
+                    VARIANT* URL,
+                    VARIANT* Flags,
+                    VARIANT* TargetFrameName,
+                    VARIANT* PostData,
+                    VARIANT* Headers,
                     BOOL* Cancel );
-    
+
 	//[id(0x000000fb)
     virtual void STDMETHODCALLTYPE  OnNewWindow2(
-                    IDispatch** ppDisp, 
+                    IDispatch** ppDisp,
                     BOOL* Cancel);
-    
 
-	//[id(0x000000fc) 
+
+	//[id(0x000000fc)
 	virtual void STDMETHODCALLTYPE  OnNavigateComplete( IDispatch* dispatchPtr, VARIANT* URL );
-    
+
 
 	//[id(0x000000fd)
     virtual void STDMETHODCALLTYPE  OnQuit();
-    
+
     //[id(0x00000103)
     virtual void STDMETHODCALLTYPE  OnDocumentComplete(
-                    IDispatch* pDisp, 
+                    IDispatch* pDisp,
                     VARIANT* URL) ;
-    
+
 	//[id(0x00000107)
     virtual void STDMETHODCALLTYPE  OnWindowClosing( BOOL IsChildWindow, BOOL* Cancel );
-    
+
 	//[id(0x0000010c)
     virtual void STDMETHODCALLTYPE  OnClientToHostWindow( long* CX, long* CY );
-    
+
 	//[id(0x0000010d)
     virtual void STDMETHODCALLTYPE  OnSetSecureLockIcon( long SecureLockIcon );
-    
+
 	//[id(0x0000010e)
     virtual void STDMETHODCALLTYPE  OnFileDownload( VARIANT_BOOL* Cancel );
-    
+
 	//[id(0x0000010f)
     virtual void STDMETHODCALLTYPE  OnNavigateError(
-                    IDispatch* pDisp, 
-                    VARIANT* URL, 
-                    VARIANT* Frame, 
-                    VARIANT* StatusCode, 
-                    BOOL* Cancel);    
-	
+                    IDispatch* pDisp,
+                    VARIANT* URL,
+                    VARIANT* Frame,
+                    VARIANT* StatusCode,
+                    BOOL* Cancel);
+
 	//[id(0x00000110)
     virtual void STDMETHODCALLTYPE OnPrivacyImpactedStateChange( BOOL bImpacted ) ;
 
-protected:	
+protected:
 	STDMETHOD(peerQueryInterface)( REFIID riid, void** obj );
 
 	Win32HTMLBrowser* peer_;
@@ -393,63 +375,63 @@ public:
 
 	STDMETHOD(ShowContextMenu)(DWORD dwID, POINT FAR* ppt, IUnknown FAR* pcmdtReserved,
 		IDispatch FAR* pdispReserved);
-	
+
 	STDMETHOD(GetHostInfo)(DOCHOSTUIINFO FAR *pInfo);
-	
+
 	STDMETHOD(ShowUI)(DWORD dwID, IOleInPlaceActiveObject FAR* pActiveObject,
 		IOleCommandTarget FAR* pCommandTarget,
 		IOleInPlaceFrame  FAR* pFrame,
 		IOleInPlaceUIWindow FAR* pDoc)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(HideUI)(void)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(UpdateUI)(void)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(EnableModeless)(BOOL fEnable)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(OnDocWindowActivate)(BOOL fActivate)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(OnFrameWindowActivate)(BOOL fActivate)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(ResizeBorder)(LPCRECT prcBorder, IOleInPlaceUIWindow FAR* pUIWindow,
 		BOOL fRameWindow)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(TranslateAccelerator)(LPMSG lpMsg, const GUID FAR* pguidCmdGroup,
 		DWORD nCmdID)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(GetOptionKeyPath)(LPOLESTR FAR* pchKey, DWORD dw)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(GetDropTarget)(IDropTarget* pDropTarget, IDropTarget** ppDropTarget)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(GetExternal)(IDispatch** ppDispatch) {
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(TranslateUrl)(DWORD dwTranslate, OLECHAR* pchURLIn,
 		OLECHAR** ppchURLOut)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(FilterDataObject)(IDataObject* pDO, IDataObject** ppDORet) {
 		return E_NOTIMPL;
 	}
@@ -467,7 +449,7 @@ public :
 	}
 
 	IUNKNOWN_IMPL( IOleInPlaceSite, IID_IOleInPlaceSite )
-		
+
 	STDMETHOD(GetWindow)( HWND * phwnd );
 
 	STDMETHOD(ContextSensitiveHelp)( BOOL fEnterMode ) {
@@ -477,66 +459,66 @@ public :
 	STDMETHOD(CanInPlaceActivate)(void)	{
 		return S_OK;
 	}
-	
+
 	STDMETHOD(OnInPlaceActivate)(void) {
 		inPlaceActive_ = true;
 		return S_OK;
 	}
-	
+
 	STDMETHOD(OnUIActivate)(void) {
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(GetWindowContext)(IOleInPlaceFrame **ppFrame, IOleInPlaceUIWindow **ppDoc,
 		LPRECT lprcPosRect, LPRECT lprcClipRect,
 		LPOLEINPLACEFRAMEINFO lpFrameInfo)	;
-	
+
 	STDMETHOD(Scroll)(SIZE scrollExtant)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(OnUIDeactivate)(BOOL fUndoable) {
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(OnInPlaceDeactivate)( void) {
 		inPlaceActive_ = false;
 		return S_OK;
 	}
-	
+
 	STDMETHOD(DiscardUndoState)( void) {
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(DeactivateAndUndo)( void)	{
 		return E_NOTIMPL;
 	}
-	
+
 	STDMETHOD(OnPosRectChange)(LPCRECT lprcPosRect)	{
 		return E_NOTIMPL;
 	}
-	
+
 	bool inPlaceActive_;
-protected:	
+protected:
 	STDMETHOD(peerQueryInterface)( REFIID riid, void** obj );
-	
+
 	Win32HTMLBrowser* peer_;
 };
 
 /**
 *Class Win32HTMLBrowser documentation
 */
-class WIN32HTMLBROWSERAPI Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer { 
+class WIN32HTMLBROWSERAPI Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer {
 public:
-	BEGIN_CLASSINFO(Win32HTMLBrowser, "VCF::Win32HTMLBrowser", "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )	
+	BEGIN_CLASSINFO(Win32HTMLBrowser, "VCF::Win32HTMLBrowser", "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )
 	END_CLASSINFO(Win32HTMLBrowser)
 
 	Win32HTMLBrowser();
 
-	virtual ~Win32HTMLBrowser();    
+	virtual ~Win32HTMLBrowser();
 
 	virtual void create( VCF::Control* owningControl );
-    
+
 	virtual void setFocused();
 
 	virtual void createParams();
@@ -563,7 +545,7 @@ public:
 	virtual void stopLoadingURL();
 
 	virtual void setFromHTML( const String& html );
-	
+
 	friend class OLEClientSiteImpl;
 	friend class WebBrowserEvents2Impl;
 	friend class OLEInPlaceSite;
@@ -571,7 +553,7 @@ public:
 protected:
 
 	HWND browserHwnd_;
-	
+
 	IUnknownCollection webInterfaces_;
 	OLEClientSiteImpl clientSite_;
 	WebBrowserEvents2Impl browserEvents_;
@@ -597,6 +579,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *

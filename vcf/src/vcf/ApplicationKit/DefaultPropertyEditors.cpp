@@ -1,33 +1,11 @@
+//DefaultPropertyEditors.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//DefaultPropertyEditors.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/DefaultPropertyEditors.h"
@@ -46,25 +24,25 @@ using namespace VCF;
 
 BoolPropertyEditor::BoolPropertyEditor()
 {
-	comboBoxHandler_ = 
-		new ItemEventHandler<BoolPropertyEditor>( this, &BoolPropertyEditor::onSelectionChange, "ComboBoxAdapter" );		
-	
+	comboBoxHandler_ =
+		new ItemEventHandler<BoolPropertyEditor>( this, &BoolPropertyEditor::onSelectionChange, "ComboBoxAdapter" );
+
 }
 
 BoolPropertyEditor::~BoolPropertyEditor()
 {
-	
+
 }
 
 Control* BoolPropertyEditor::getCustomEditor()
 {
 	combo_ = new ComboBoxControl();
 	combo_->SelectionChanged.addHandler( comboBoxHandler_ );
-	
+
 	ListModel* lm = combo_->getListModel();
 	if ( NULL != lm ){
 		lm->addItem( new DefaultListItem( lm, "true" ) );
-		lm->addItem( new DefaultListItem( lm, "false" ) );		
+		lm->addItem( new DefaultListItem( lm, "false" ) );
 	}
 
 	bool val = *(this->getValue());
@@ -81,14 +59,14 @@ void BoolPropertyEditor::onSelectionChange( ItemEvent* event )
 		ulong32 selectedIndex = item->getIndex();
 		this->data_ = (selectedIndex == 0) ? true : false;
 	}
-	
+
 }
 
 EnumPropertyEditor::EnumPropertyEditor()
 {
-	comboBoxHandler_ = 
-		new ItemEventHandler<EnumPropertyEditor>( this, &EnumPropertyEditor::onSelectionChange, "ComboBoxAdapter" );		
-	
+	comboBoxHandler_ =
+		new ItemEventHandler<EnumPropertyEditor>( this, &EnumPropertyEditor::onSelectionChange, "ComboBoxAdapter" );
+
 }
 
 EnumPropertyEditor::~EnumPropertyEditor()
@@ -100,9 +78,9 @@ Control* EnumPropertyEditor::getCustomEditor()
 {
 	combo_ = new ComboBoxControl();
 	combo_->SelectionChanged.addHandler( comboBoxHandler_ );
-	
+
 	ListModel* lm = combo_->getListModel();
-	
+
 	Enum* val = *(this->getValue());
 
 	int current = val->get();
@@ -115,12 +93,12 @@ Control* EnumPropertyEditor::getCustomEditor()
 	if ( NULL != lm ){
 		lm->addItem( new DefaultListItem( lm, s1 ) );
 		lm->addItem( new DefaultListItem( lm, s2 ) );
-		while ( next != end ) {			
+		while ( next != end ) {
 			next = val->next();
 			lm->addItem( new DefaultListItem( lm, val->toString() ) );
 		}
-	}	
-	
+	}
+
 	combo_->setSelectedItemIndex( current );
 
 	return 	combo_;
@@ -143,7 +121,7 @@ void EnumPropertyEditor::onSelectionChange( ItemEvent* event )
 class ColorPanel : public Panel {
 public:
 	ColorPanel(){
-		
+
 	}
 
 	virtual ~ColorPanel(){
@@ -167,9 +145,9 @@ void ColorPropertyEditor::paintValue( GraphicsContext* context, const Rect& boun
 {
 	Color* c = (Color*)(Object*)(*(this->getValue()));
 	Color* oldColor = context->getColor();
-	
+
 	Rect innerBds = bounds;
-	
+
 	innerBds.inflate( -2, -2 );
 	context->setColor( Color::getColor("black") );
 	context->rectangle( &innerBds );
@@ -183,8 +161,8 @@ void ColorPropertyEditor::paintValue( GraphicsContext* context, const Rect& boun
 }
 
 Control* ColorPropertyEditor::getCustomEditor()
-{	
-	return new ModalPropertyEditorControl<ColorPropertyEditor>( 
+{
+	return new ModalPropertyEditorControl<ColorPropertyEditor>(
 			&ColorPropertyEditor::showColorEditor, this->getValue(), this );
 }
 
@@ -217,24 +195,24 @@ void FontPropertyEditor::paintValue( GraphicsContext* context, const Rect& bound
 	Font* oldFont = context->getCurrentFont();
 	Color* oldColor = context->getColor();
 	Rect innerBds = bounds;
-	
+
 	innerBds.inflate( -2, -2 );
 	context->setColor( Color::getColor("black") );
 	context->rectangle( &innerBds );
 	context->strokePath();
-	
+
 	context->setColor( oldColor );
 
 	innerBds.inflate( -3, 0 );
-	//context->setCurrentFont( f );	
+	//context->setCurrentFont( f );
 	context->textAt( innerBds.left_ + 2, innerBds.top_, "ABC" );
-	
-	context->setCurrentFont( oldFont );	
+
+	context->setCurrentFont( oldFont );
 }
 
 Control* FontPropertyEditor::getCustomEditor()
-{	
-	return new ModalPropertyEditorControl<FontPropertyEditor>( 
+{
+	return new ModalPropertyEditorControl<FontPropertyEditor>(
 			&FontPropertyEditor::showFontEditor, this->getValue(), this );
 }
 
@@ -263,7 +241,7 @@ DefaultMenuItemPropertyEditor::~DefaultMenuItemPropertyEditor()
 
 Control* DefaultMenuItemPropertyEditor::getCustomEditor()
 {
-	return new ModalPropertyEditorControl<DefaultMenuItemPropertyEditor>( 
+	return new ModalPropertyEditorControl<DefaultMenuItemPropertyEditor>(
 			&DefaultMenuItemPropertyEditor::showDefaultMenuItemEditor, this->getValue(), this );
 }
 
@@ -284,7 +262,7 @@ DefaultListModelPropertyEditor::~DefaultListModelPropertyEditor()
 
 Control* DefaultListModelPropertyEditor::getCustomEditor()
 {
-	return new ModalPropertyEditorControl<DefaultListModelPropertyEditor>( 
+	return new ModalPropertyEditorControl<DefaultListModelPropertyEditor>(
 			&DefaultListModelPropertyEditor::showDefaultListModelEditor, this->getValue(), this );
 }
 
@@ -292,9 +270,9 @@ Control* DefaultListModelPropertyEditor::getCustomEditor()
 void DefaultListModelPropertyEditor::showDefaultListModelEditor( VariantData* data )
 {
 	Dialog* d = new Dialog();
-	
+
 	d->setBounds( &Rect(400,400,750,650) );
-		
+
 	Panel* contents = new Panel();
 
 	Panel* bottom = new Panel();
@@ -315,17 +293,17 @@ void DefaultListModelPropertyEditor::showDefaultListModelEditor( VariantData* da
 	cancelBtn->setCommandType( BC_CANCEL );
 	bottom->add( okBtn );
 	bottom->add( cancelBtn );
-	
+
 	d->setCaption( "Edit List Model" );
-	
+
 	Rect r = contents->getBounds();
 	r.inflate( -5,-5 );
-	
+
 	ListBoxControl* lbc = new ListBoxControl();
 	lbc->setBounds( &Rect( 5, 5, 120, r.bottom_ ) );
 	contents->add( lbc );
-	
-	ListModel* lm = lbc->getListModel();	
+
+	ListModel* lm = lbc->getListModel();
 
 	Label* l = new Label();
 	TextControl* tc = new TextControl();
@@ -344,7 +322,7 @@ void DefaultListModelPropertyEditor::showDefaultListModelEditor( VariantData* da
 	tcRect = addBtn->getBounds();
 	CommandButton* removeBtn = new CommandButton();
 	removeBtn->setBounds( &Rect( tc->getLeft(), tcRect.getBottom() + 10, tc->getLeft() + 80, tcRect.getBottom() + 35 ) );
-	removeBtn->setCaption( "Remove Item" );		
+	removeBtn->setCaption( "Remove Item" );
 
 	contents->add( addBtn );
 	contents->add( removeBtn );
@@ -355,9 +333,13 @@ void DefaultListModelPropertyEditor::showDefaultListModelEditor( VariantData* da
 	d = NULL;
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -469,6 +451,5 @@ void DefaultListModelPropertyEditor::showDefaultListModelEditor( VariantData* da
 *to facilitate change tracking
 *
 */
-
 
 

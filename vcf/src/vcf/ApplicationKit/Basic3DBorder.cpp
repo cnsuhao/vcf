@@ -1,33 +1,10 @@
+//Basic3DBorder.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-
-// Basic3DBorder.cpp
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -37,12 +14,12 @@ using namespace VCF;
 
 Basic3DBorder::Basic3DBorder()
 {
-	
+
 }
 
 Basic3DBorder::~Basic3DBorder()
 {
-	
+
 }
 
 Rect Basic3DBorder::getClientRect( Control* component )
@@ -57,39 +34,39 @@ Rect Basic3DBorder::getClientRect( Control* component )
 
 void Basic3DBorder::paint( Rect* bounds, GraphicsContext* context )
 {
-	if ( NULL != bounds ){ 
-		
-		Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
-		
-		Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
-		
-		Color* face = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
-		
+	if ( NULL != bounds ){
 
-		
+		Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
+
+		Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
+
+		Color* face = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
+
+
+
 		context->rectangle( bounds->left_, bounds->top_, bounds->right_, bounds->bottom_ );
 		context->setColor( face );
-		context->fillPath();	
-		
-		
-		context->moveTo( bounds->left_+1, bounds->bottom_-2 );	
-		context->lineTo( bounds->left_+1, bounds->top_+1 );	
+		context->fillPath();
+
+
+		context->moveTo( bounds->left_+1, bounds->bottom_-2 );
+		context->lineTo( bounds->left_+1, bounds->top_+1 );
 		context->lineTo( bounds->right_-2, bounds->top_+1 );
-		
+
 		context->setColor( hilight );
-		
+
 		context->strokePath();
-		
-		context->moveTo( bounds->right_-2, bounds->top_+1 );	
-		context->lineTo( bounds->right_-2, bounds->bottom_-2 );	
+
+		context->moveTo( bounds->right_-2, bounds->top_+1 );
+		context->lineTo( bounds->right_-2, bounds->bottom_-2 );
 		context->lineTo( bounds->left_+1, bounds->bottom_-2 );
-		
-		
+
+
 		context->setColor( shadow );
 		context->strokePath();
-		
-		context->moveTo( bounds->right_-1, bounds->top_ );	
-		context->lineTo( bounds->right_-1, bounds->bottom_-1 );	
+
+		context->moveTo( bounds->right_-1, bounds->top_ );
+		context->lineTo( bounds->right_-1, bounds->bottom_-1 );
 		context->lineTo( bounds->left_, bounds->bottom_-1 );
 
 		context->setColor( &Color(0.0,0.0,0.0) );
@@ -103,17 +80,20 @@ void Basic3DBorder::paint( Control* component, GraphicsContext* context )
 		//throw exception
 	}
 	Rect bounds = component->getClientBounds(false);
-	
+
 	if ( !bounds.isEmpty() ) {
 		paint( &bounds, context );
 	}
-	
+
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -218,6 +198,5 @@ void Basic3DBorder::paint( Control* component, GraphicsContext* context )
 *to facilitate change tracking
 *
 */
-
 
 

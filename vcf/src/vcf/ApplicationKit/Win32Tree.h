@@ -1,10 +1,103 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_WIN32TREE_H__
+#define _VCF_WIN32TREE_H__
+//Win32Tree.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
+
+
+#include "vcf/ApplicationKit/TreePeer.h"
+
+#ifndef _VCF_TREEMODEL_H__
+#	include "vcf/ApplicationKit/TreeModel.h"
+#endif // _VCF_TREEMODEL_H__
+
+namespace VCF
+{
+
+class ImageListEvent;
+
+class Win32Tree : public AbstractWin32Component, public TreePeer
+{
+public:
+	Win32Tree( TreeControl* tree );
+
+	virtual ~Win32Tree();
+
+	virtual void create( Control* owningControl );
+
+	virtual TreeModel* getTreeModel();
+
+	virtual void setTreeModel( TreeModel* model );
+
+    virtual double getItemIndent();
+
+    virtual void setItemIndent( const double& indent );
+
+    virtual ImageList* getImageList();
+
+	virtual void setStateImageList( ImageList* imageList );
+
+    virtual void setImageList( ImageList* imageList );
+
+	virtual void addItem( TreeItem* item );
+
+	virtual void clear();
+
+	void init();
+
+	virtual void createParams();
+
+	virtual Rect getItemImageRect( TreeItem* item );
+
+	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
+
+	void onItemPaint( ItemEvent* event );
+
+    void onItemChanged( ItemEvent* event );
+
+    void onItemSelected( ItemEvent* event );
+
+	void onItemAdded( ItemEvent* event );
+
+	void onItemDeleted( ItemEvent* event );
+
+private:
+	ItemEventHandler<Win32Tree>* itemAddedHandler_;
+	ItemEventHandler<Win32Tree>* itemDeletedHandler_;
+	ItemEventHandler<Win32Tree>* itemChangedHandler_;
+	ItemEventHandler<Win32Tree>* itemSelectedHandler_;
+	ItemEventHandler<Win32Tree>* itemPaintedHandler_;
+
+	TreeControl* treeControl_;
+	WNDPROC oldTreeWndProc_;
+	std::map<TreeItem*,HTREEITEM> treeItems_;
+	Color backColor_;
+	HIMAGELIST imageListCtrl_;
+	HIMAGELIST stateImageListCtrl_;
+	bool internalTreeItemExpanded_;
+	void onImageListImageChanged( ImageListEvent* event );
+
+	void onStateImageListImageChanged( ImageListEvent* event );
+};
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -94,116 +187,6 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32Tree.h
-
-#ifndef _VCF_WIN32TREE_H__
-#define _VCF_WIN32TREE_H__
-
-
-#include "vcf/ApplicationKit/TreePeer.h"
-
-#ifndef _VCF_TREEMODEL_H__
-#	include "vcf/ApplicationKit/TreeModel.h"
-#endif // _VCF_TREEMODEL_H__
-
-namespace VCF
-{
-
-class ImageListEvent;
-
-class Win32Tree : public AbstractWin32Component, public TreePeer
-{
-public:
-	Win32Tree( TreeControl* tree );
-
-	virtual ~Win32Tree();
-	
-	virtual void create( Control* owningControl );
-
-	virtual TreeModel* getTreeModel();
-
-	virtual void setTreeModel( TreeModel* model );
-
-    virtual double getItemIndent();
-
-    virtual void setItemIndent( const double& indent );
-
-    virtual ImageList* getImageList();
-
-	virtual void setStateImageList( ImageList* imageList );
-
-    virtual void setImageList( ImageList* imageList );
-
-	virtual void addItem( TreeItem* item );
-
-	virtual void clear();
-
-	void init();
-
-	virtual void createParams();
-
-	virtual Rect getItemImageRect( TreeItem* item );
-
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
-
-	void onItemPaint( ItemEvent* event );
-
-    void onItemChanged( ItemEvent* event );
-
-    void onItemSelected( ItemEvent* event );
-
-	void onItemAdded( ItemEvent* event );
-	
-	void onItemDeleted( ItemEvent* event );
-	
-private:
-	ItemEventHandler<Win32Tree>* itemAddedHandler_;
-	ItemEventHandler<Win32Tree>* itemDeletedHandler_;
-	ItemEventHandler<Win32Tree>* itemChangedHandler_;
-	ItemEventHandler<Win32Tree>* itemSelectedHandler_;
-	ItemEventHandler<Win32Tree>* itemPaintedHandler_;
-
-	TreeControl* treeControl_;
-	WNDPROC oldTreeWndProc_;
-	std::map<TreeItem*,HTREEITEM> treeItems_;
-	Color backColor_;
-	HIMAGELIST imageListCtrl_;
-	HIMAGELIST stateImageListCtrl_;
-	bool internalTreeItemExpanded_;
-	void onImageListImageChanged( ImageListEvent* event );
-
-	void onStateImageListImageChanged( ImageListEvent* event );
-};
-
-};
 
 #endif // _VCF_WIN32TREE_H__
 

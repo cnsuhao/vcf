@@ -1,11 +1,18 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-//AppKitPeerConfig.h
 #ifndef _VCF_APPKITPEERCONFIG_H__
 #define _VCF_APPKITPEERCONFIG_H__
+//AppKitPeerConfig.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 #ifdef WIN32
 //COM stuff
@@ -50,10 +57,12 @@
 #endif
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -103,6 +112,7 @@
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_APPKITPEERCONFIG_H__
 

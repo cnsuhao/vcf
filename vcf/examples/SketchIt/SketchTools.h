@@ -309,8 +309,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.6.2  2004/04/29 03:10:57  marcelloptr
-*reformatting of source files
+*Revision 1.2.6.3  2004/04/29 03:40:56  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
 *
 *Revision 1.2  2003/08/09 02:56:42  ddiego
 *merge over from the devmain-0-6-1 branch

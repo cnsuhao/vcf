@@ -1,33 +1,11 @@
+//Application.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//Application.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationPeer.h"
@@ -71,7 +49,7 @@ public:
 	AppTerm(){}
 
 	~AppTerm() {
-			
+
 	}
 };
 
@@ -81,27 +59,27 @@ static AppTerm appTerm;
 
 Application::Application( int argc, char** argv ):
 	mainWindow_(NULL),
-	autoLoadSaveAppState_(false)	
+	autoLoadSaveAppState_(false)
 {
 	Application::appInstance_ = this;
 
 	//initialize the ApplicationKit!!!
-	ApplicationKit::init( argc, argv );	
-		
+	ApplicationKit::init( argc, argv );
+
 	//gets added automatically to the app list of event handlers
-	WindowEventHandler<Application>* wh = 
+	WindowEventHandler<Application>* wh =
 		new WindowEventHandler<Application>( this,&Application::onMainWindowClose, "AppWindowHandler" );
 
-}	
+}
 
 Application::~Application()
-{		
-	
+{
+
 }
 
 void Application::internal_terminate()
 {
-	applicationPeer_->terminateApp();		
+	applicationPeer_->terminateApp();
 
 	std::map<String,Library*>::iterator it = VPLMap_.begin();
 	while ( it != VPLMap_.end() ){
@@ -111,27 +89,27 @@ void Application::internal_terminate()
 		it++;
 	}
 
-	
-	delete applicationPeer_;	
+
+	delete applicationPeer_;
 
 	Application::appInstance_ = NULL;
 }
 
 void Application::init()
 {
-	
+
 
 	applicationPeer_ = UIToolkit::createApplicationPeer();
-	
+
 	if ( NULL == applicationPeer_ )
 	{
 		throw InvalidPointerException( MAKE_ERROR_MSG_2("Application peer is NULL - UIToolkit::createApplicationPeer() implementation not implemented correctly") );
 	}
-	
+
 	applicationPeer_->setApplication( this );
 
 	//load the BlacBox error trapper
-	try { 
+	try {
 		//at the moment this is only meaningful on Win32 platforms
 		Library lib( "BlackBox.dll" );
 	}
@@ -141,15 +119,15 @@ void Application::init()
 }
 
 void Application::main()
-{	
-	
-	//main try...catch 
+{
+
+	//main try...catch
 	try {
 		if ( NULL == Application::getRunningInstance() ){
-			//throw exception			
+			//throw exception
 		}
-		else{//enter the main loop		
-			
+		else{//enter the main loop
+
 			Application* runningInstance = Application::getRunningInstance();
 			if ( runningInstance->applicationName_.empty() ) {
 				runningInstance->applicationName_ = runningInstance->getClassName();
@@ -159,7 +137,7 @@ void Application::main()
 			runningInstance->init();
 
 			/**
-			*initialize the impementer first - we are not going to rely	
+			*initialize the impementer first - we are not going to rely
 			*on someone remembering to call the base class functionality of the Application
 			*if the Peer returns false then bomb out and terminate
 			*/
@@ -173,7 +151,7 @@ void Application::main()
 				appPeer->terminateApp();
 			}
 			else {
-				if ( true != runningInstance->initRunningApplication() ){ //initialization failed					
+				if ( true != runningInstance->initRunningApplication() ){ //initialization failed
 
 					runningInstance->terminateRunningApplication();
 
@@ -184,7 +162,7 @@ void Application::main()
 					appPeer->terminateApp();
 				}
 				else{
-					
+
 					bool libsInitialized = false;
 					try {
 						initLoadedLibraryApplications();
@@ -192,35 +170,35 @@ void Application::main()
 					}
 					catch ( BasicException& e  ){
 						String errString = e.getMessage().c_str();
-		
-						Dialog::showMessage( errString, "Exception Initializing Library Applications", Dialog::mbOK, Dialog::msError  );	
+
+						Dialog::showMessage( errString, "Exception Initializing Library Applications", Dialog::mbOK, Dialog::msError  );
 					}
 					catch ( ... ){
 						String errString = "unknown error occured attempting to initialize a VCF Library Application";
 						Dialog::showMessage( errString, "Exception Initializing Library Applications", Dialog::mbOK, Dialog::msError  );
 					}
-					
-					if ( libsInitialized ) {						
-						
+
+					if ( libsInitialized ) {
+
 						if ( true == runningInstance->autoLoadSaveAppState_ ) {
 							if ( false == runningInstance->loadState() ) {
-								//note an error								
+								//note an error
 							}
 						}
-						
-						runningInstance->run();							
-						
-						
+
+						runningInstance->run();
+
+
 					}
-					
+
 					terminateLoadedLibraryApplications();
 
 					/**
 					JC - I moved the code to free the main window inside of terminateRunningApplication()
-					This requires that people correctly call the application super class's terminateRunningApplication() 
+					This requires that people correctly call the application super class's terminateRunningApplication()
 					inside of their overide of it.
 					*/
-					runningInstance->terminateRunningApplication();					
+					runningInstance->terminateRunningApplication();
 
 					if ( runningInstance->mainWindow_ != NULL ) {
 						StringUtils::trace( "Oops! The Main window has not been freed.\nDid you forget to call the super class's terminateRunningApplication() method?\n" );
@@ -238,8 +216,8 @@ void Application::main()
 
 	catch ( BasicException& e  ){
 		String errString = e.getMessage().c_str();
-		
-		Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );	
+
+		Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
 
 #ifdef _DEBUG
 		throw;
@@ -255,22 +233,22 @@ void Application::main()
 		errString += " (Exception of type : " + clasName + ")";
 		errString += e.what();
 		errString += "\".\nApplication exiting abnormally.";
-		
-		Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );	
+
+		Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
 
 #ifdef _DEBUG
 		throw;
 #endif
 	}
-	catch (...){		
-		Dialog::showMessage( "Unknown exception occurred. Application exiting abnormally.", 
-								"Framework Exception", Dialog::mbOK, Dialog::msError  );	
+	catch (...){
+		Dialog::showMessage( "Unknown exception occurred. Application exiting abnormally.",
+								"Framework Exception", Dialog::mbOK, Dialog::msError  );
 //#ifdef _DEBUG
 		throw ;
 //#endif
 	}
-	
-	
+
+
 }
 
 Application* Application::getRunningInstance()
@@ -287,11 +265,11 @@ void Application::setMainWindow( Window* mainWindow )
 {
 	EventHandler* wl = getEventHandler("AppWindowHandler");
 	if ( NULL != mainWindow_ ){
-		mainWindow_->FrameClose.removeHandler( wl ); 
+		mainWindow_->FrameClose.removeHandler( wl );
 	}
 	mainWindow_ = mainWindow;
 	if ( NULL != mainWindow_ ) {
-		mainWindow_->FrameClose.addHandler( wl ); 
+		mainWindow_->FrameClose.addHandler( wl );
 	}
 }
 
@@ -303,8 +281,8 @@ bool Application::initRunningApplication()
 void Application::onMainWindowClose( WindowEvent* event )
 {
 	Control* comp = (Control*)event->getSource();
-	
-	
+
+
 }
 
 
@@ -312,12 +290,12 @@ void Application::terminateRunningApplication()
 {
 	if ( true == autoLoadSaveAppState_ ) {
 		if ( false == saveState() ) {
-			//note an error			
+			//note an error
 		}
 	}
 
 	/**
-	JC - I moved this code here to guarantee that the main window is 
+	JC - I moved this code here to guarantee that the main window is
 	destroyed during derinved Application class's terminateRunningApplication()
 	*/
 	if ( NULL != mainWindow_ ){
@@ -331,9 +309,9 @@ void Application::run()
 	//run the event loop from the toolkit
 
 	UIToolkit::runEventLoop();
-		
+
 	//finished with events - app can terminate
-	
+
 }
 
 void Application::loadVPL( const String& vplFileName )
@@ -347,12 +325,12 @@ void Application::loadVPL( const String& vplFileName )
 			InitFunc initFunc = (InitFunc)vplLib->getFunction("initPackage");
 			initFunc();
 
-			VPLMap_[vplFileName] = vplLib; 	
+			VPLMap_[vplFileName] = vplLib;
 		}
 		catch ( BasicException& ex ){
-			Dialog::showMessage( ex.getMessage(), "Framework Exception", Dialog::mbOK, Dialog::msError  );	
-		}		
-	}	
+			Dialog::showMessage( ex.getMessage(), "Framework Exception", Dialog::mbOK, Dialog::msError  );
+		}
+	}
 }
 
 bool Application::loadState()
@@ -400,7 +378,7 @@ bool Application::loadFrameState( Frame* frame )
 
 	reg.setRoot( RKT_CURRENT_USER );
 	if ( true == reg.openKey( "Software\\" + getName() + "\\Frames", false ) ) {
-		
+
 		char* buf = NULL;
 		uint32 bufSize = 0;
 		String valName = "MainWindow";
@@ -450,10 +428,12 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -684,7 +664,5 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 *to facilitate change tracking
 *
 */
-
-
 
 

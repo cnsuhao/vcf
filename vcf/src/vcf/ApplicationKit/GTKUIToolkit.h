@@ -1,7 +1,179 @@
+#ifndef _VCF_GTKUITOOLKIT_H__
+#define _VCF_GTKUITOOLKIT_H__
+//GTKUIToolkit.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+#include <deque>
+
+
+
+
+
+namespace VCF {
+
+
+
+
+class AbstractX11Control;
+
+
+/**
+this class is used as a wrapper around an XEvent.
+*/
+class GTKEventMsg {
+public:
+	GTKEventMsg( GdkEvent* event, Control* control ): gdkEvent_(event), control_(control) {}
+
+
+	GdkEvent* gdkEvent_;
+	Control* control_;
+};
+
+
+
+class TimeOutHandler {
+public:
+	TimeOutHandler():source_(NULL), handler_(NULL), timerID_(0) {
+
+	}
+
+	Object* source_;
+	EventHandler* handler_;
+	guint timerID_;
+};
+
+/**
+*/
+class GTKUIToolkit :  public UIToolkit {
+public:
+
+	GTKUIToolkit();
+
+	virtual ~GTKUIToolkit();
+
+	virtual ApplicationPeer* internal_createApplicationPeer();
+
+	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
+
+	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);
+
+	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
+
+	virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT );
+
+	virtual DialogPeer* internal_createDialogPeer();
+
+	virtual ControlPeer* internal_createControlPeer( Control* component, ComponentType componentType);
+
+	virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner, ComponentType componentType);
+
+	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar );
+
+	virtual MenuItemPeer* internal_createMenuItemPeer( MenuItem* item );
+
+	virtual MenuBarPeer* internal_createMenuBarPeer( MenuBar* menuBar );
+
+	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );
+
+	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType);
+
+	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
+
+	virtual ContextPeer* internal_createContextPeer( Control* component );
+
+	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner );
+
+	virtual CommonFileDialogPeer* internal_createCommonFileSaveDialogPeer( Control* owner );
+
+	virtual CommonColorDialogPeer* internal_createCommonColorDialogPeer( Control* owner );
+
+	virtual CommonFolderBrowseDialogPeer* internal_createCommonFolderBrowseDialogPeer( Control* owner );
+
+	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
+
+	virtual DragDropPeer* internal_createDragDropPeer();
+
+	virtual DataObjectPeer* internal_createDataObjectPeer();
+
+	virtual DropTargetPeer* internal_createDropTargetPeer();
+
+	virtual DesktopPeer* internal_createDesktopPeer( Desktop* desktop );
+
+	virtual ScrollPeer* internal_createScrollPeer( Control* control );
+
+	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor );
+
+	virtual ClipboardPeer* internal_createClipboardPeer();
+
+	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  );
+
+	virtual bool internal_destroyCaret( Control* owningControl );
+
+	virtual void internal_setCaretVisible( const bool& caretVisible );
+
+	virtual void internal_setCaretPos( Point* point );
+
+	virtual void internal_postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler );
+
+	virtual void internal_registerTimerHandler( Object* source, EventHandler* handler, const ulong32& timeoutInMilliSeconds );
+
+	virtual void internal_unregisterTimerHandler( EventHandler* handler );
+
+	virtual void internal_runEventLoop();
+
+	virtual ModalReturnType internal_runModalEventLoopFor( Control* control );
+
+	virtual void internal_quitCurrentEventLoop();
+
+	/**
+	*@param void* in this implementation, the eventData represents a
+	*pointer to an GTK Event structure.
+	*/
+	virtual VCF::Event* internal_createEventFromNativeOSEventData( void* eventData );
+
+	virtual Size internal_getDragDropDelta();
+
+	GtkWidget* getDefaultParent() {
+		return defaultParent_;
+	}
+	static void  internal_gdkEventHandler( GdkEvent* gdkEvent, gpointer data);
+
+	static gboolean internal_gdkIdleHandler(gpointer data);
+
+protected:
+	VirtualKeyCode translateKeyCode( guint code );
+	ulong32 translateKeyMask( GdkModifierType keyState );
+	ulong32 translateButtonMask( GdkModifierType buttonState );
+
+	bool handleGdkEvent( GdkEvent* gdkEvent );
+	void createDefaultParentWnd();
+	GtkWidget* defaultParent_;
+	static gboolean gtkTimeOutHandler(gpointer data);
+
+	std::map<EventHandler*,TimeOutHandler> timeoutHandlers_;
+};
+
+
+}; //end of namespace VCF
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -69,165 +241,6 @@
 *
 */
 
-
-
-
-#ifndef _VCF_GTKUITOOLKIT_H__
-#define _VCF_GTKUITOOLKIT_H__
-
-
-#include <deque>
-
-
-
-
-
-namespace VCF {
-	
-	
-
-	
-class AbstractX11Control;	
-	
-
-/**
-this class is used as a wrapper around an XEvent.
-*/	
-class GTKEventMsg {
-public:
-	GTKEventMsg( GdkEvent* event, Control* control ): gdkEvent_(event), control_(control) {}
-	
-	
-	GdkEvent* gdkEvent_;
-	Control* control_;
-};	
-
-
-
-class TimeOutHandler {
-public:
-	TimeOutHandler():source_(NULL), handler_(NULL), timerID_(0) {
-
-	}
-
-	Object* source_;
-	EventHandler* handler_;
-	guint timerID_;
-};
-
-/**
-*/
-class GTKUIToolkit :  public UIToolkit { 
-public:
-
-	GTKUIToolkit();
-	
-	virtual ~GTKUIToolkit();
-
-	virtual ApplicationPeer* internal_createApplicationPeer();
-	
-	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
-
-	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);	
-
-	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
-
-	virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT );
-
-	virtual DialogPeer* internal_createDialogPeer();
-
-	virtual ControlPeer* internal_createControlPeer( Control* component, ComponentType componentType);
-
-	virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner, ComponentType componentType);
-
-	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar );
-
-	virtual MenuItemPeer* internal_createMenuItemPeer( MenuItem* item );
-
-	virtual MenuBarPeer* internal_createMenuBarPeer( MenuBar* menuBar );
-
-	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );	
-
-	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType);
-
-	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
-
-	virtual ContextPeer* internal_createContextPeer( Control* component );
-
-	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner );
-
-	virtual CommonFileDialogPeer* internal_createCommonFileSaveDialogPeer( Control* owner );
-
-	virtual CommonColorDialogPeer* internal_createCommonColorDialogPeer( Control* owner );
-
-	virtual CommonFolderBrowseDialogPeer* internal_createCommonFolderBrowseDialogPeer( Control* owner );
-
-	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
-
-	virtual DragDropPeer* internal_createDragDropPeer(); 
-
-	virtual DataObjectPeer* internal_createDataObjectPeer();
-
-	virtual DropTargetPeer* internal_createDropTargetPeer();
-
-	virtual DesktopPeer* internal_createDesktopPeer( Desktop* desktop );
-
-	virtual ScrollPeer* internal_createScrollPeer( Control* control );
-
-	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor );
-
-	virtual ClipboardPeer* internal_createClipboardPeer();
-
-	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ); 
-
-	virtual bool internal_destroyCaret( Control* owningControl );
-
-	virtual void internal_setCaretVisible( const bool& caretVisible );
-	
-	virtual void internal_setCaretPos( Point* point );
-
-	virtual void internal_postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler );
-
-	virtual void internal_registerTimerHandler( Object* source, EventHandler* handler, const ulong32& timeoutInMilliSeconds );
-
-	virtual void internal_unregisterTimerHandler( EventHandler* handler );	
-
-	virtual void internal_runEventLoop();
-
-	virtual ModalReturnType internal_runModalEventLoopFor( Control* control );
-
-	virtual void internal_quitCurrentEventLoop();
-
-	/**
-	*@param void* in this implementation, the eventData represents a 
-	*pointer to an GTK Event structure.
-	*/
-	virtual VCF::Event* internal_createEventFromNativeOSEventData( void* eventData );
-
-	virtual Size internal_getDragDropDelta();	
-	
-	GtkWidget* getDefaultParent() {
-		return defaultParent_;
-	}
-	static void  internal_gdkEventHandler( GdkEvent* gdkEvent, gpointer data);
-
-	static gboolean internal_gdkIdleHandler(gpointer data);
-
-protected:
-	VirtualKeyCode translateKeyCode( guint code );
-	ulong32 translateKeyMask( GdkModifierType keyState );
-	ulong32 translateButtonMask( GdkModifierType buttonState );
-
-	bool handleGdkEvent( GdkEvent* gdkEvent );
-	void createDefaultParentWnd();		
-	GtkWidget* defaultParent_;
-	static gboolean gtkTimeOutHandler(gpointer data);
-
-	std::map<EventHandler*,TimeOutHandler> timeoutHandlers_;
-};
-
-
-}; //end of namespace VCF
 
 #endif // _VCF_GTKUITOOLKIT_H__
 

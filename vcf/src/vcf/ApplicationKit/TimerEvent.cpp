@@ -1,6 +1,35 @@
+//TimerEvent.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//TimerEvent.h
+#include "vcf/ApplicationKit/ApplicationKit.h"
+
+
+using namespace VCF;
+TimerEvent::TimerEvent( Object* source, const unsigned long& eventType ):
+	Event( source, eventType )
+{
+
+}
+
+TimerEvent::~TimerEvent()
+{
+
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -25,22 +54,5 @@
 *to facilitate change tracking
 *
 */
-
-
-//TimerEvent.h
-#include "vcf/ApplicationKit/ApplicationKit.h"
-
-
-using namespace VCF;
-TimerEvent::TimerEvent( Object* source, const unsigned long& eventType ):
-	Event( source, eventType )
-{
-
-}
-
-TimerEvent::~TimerEvent()
-{
-
-}
 
 

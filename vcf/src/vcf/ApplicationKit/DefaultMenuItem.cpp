@@ -1,31 +1,12 @@
+//DefaultMenuItem.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/MenuItemPeer.h"
 #include "vcf/ApplicationKit/Action.h"
@@ -54,7 +35,7 @@ DefaultMenuItem::~DefaultMenuItem()
 {
 	if ( NULL != currentAccelerator_ ) {
 		UIToolkit::removeAccelerator( (VirtualKeyCode)currentAccelerator_->getKeyCode(),
-																currentAccelerator_->getModifierMask() );			
+																currentAccelerator_->getModifierMask() );
 	}
 
 	if ( this == previousSelectedItem )	{
@@ -77,10 +58,10 @@ DefaultMenuItem::~DefaultMenuItem()
 	delete Peer_;
 	Peer_ = NULL;
 
-	menuItems_.clear();	
+	menuItems_.clear();
 }
 
-void DefaultMenuItem::init() 
+void DefaultMenuItem::init()
 {
 	tag_ = -1;
 	currentAccelerator_ = NULL;
@@ -93,20 +74,20 @@ void DefaultMenuItem::init()
 	separator_ = false;
 	isEnabled_ = true;
 	menuOwner_ = NULL;
-	
+
 	Peer_ = UIToolkit::createMenuItemPeer( this );
-	
+
 	if ( NULL == Peer_ ){
 		//throw exception
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	Peer_->setMenuItem( this );
 
 	container_.initContainer( menuItems_ );
 
 	EventHandler* ev = new GenericEventHandler<DefaultMenuItem> ( this, &DefaultMenuItem::handleEvent, "DefaultMenuItem::handleEvent" );
-	
+
 	ComponentAdded += ev;
 	ComponentRemoved += ev;
 }
@@ -152,7 +133,7 @@ void DefaultMenuItem::paint( GraphicsContext* context, Rect* paintRect )
 	bounds_ = *paintRect;
 	context->textAt( paintRect->left_, paintRect->top_, caption_ );
 }
-	
+
 bool DefaultMenuItem::isSelected()
 {
 	return selected_;
@@ -160,7 +141,7 @@ bool DefaultMenuItem::isSelected()
 
 void DefaultMenuItem::setSelected( const bool& selected )
 {
-	if ( (NULL != previousSelectedItem) && (previousSelectedItem != this) ) {		
+	if ( (NULL != previousSelectedItem) && (previousSelectedItem != this) ) {
 		previousSelectedItem->setSelected( false );
 	}
 	selected_ = selected;
@@ -181,9 +162,9 @@ void DefaultMenuItem::addChild( MenuItem* child )
 	if ( NULL == Peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	menuItems_.push_back( child );
-	
+
 	child->setParent( this );
 
 	if ( NULL == child->getOwner() ) {
@@ -193,7 +174,7 @@ void DefaultMenuItem::addChild( MenuItem* child )
 	child->setIndex( menuItems_.size() - 1 );
 
 	child->setMenuOwner( getMenuOwner() );
-	
+
 	Peer_->addChild( child );
 
 	ItemEvent event( this, ITEM_EVENT_ADDED );
@@ -223,7 +204,7 @@ void DefaultMenuItem::insertChild( const unsigned long& index, MenuItem* child )
 	ItemEvent event( this, ITEM_EVENT_ADDED );
 	ItemAdded.fireEvent( &event );
 }
-	
+
 void DefaultMenuItem::deleteChild( MenuItem* child )
 {
 	if ( NULL == Peer_ ){
@@ -255,7 +236,7 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 
 	std::vector<MenuItem*>::iterator found = menuItems_.begin() + index;
 	if ( found != menuItems_.end() ){
-		
+
 		ItemEvent event( this, ITEM_EVENT_DELETED );
 		ItemDeleted.fireEvent( &event );
 
@@ -263,7 +244,7 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 
 		menuItems_.erase( found );
 		(*found)->free();
-	}		
+	}
 }
 
 void DefaultMenuItem::clearChildren()
@@ -300,7 +281,7 @@ void DefaultMenuItem::setChecked( const bool& checked )
 
 bool DefaultMenuItem::hasParent()
 {
-	
+
 	return (parent_ != NULL);
 }
 
@@ -319,7 +300,7 @@ MenuItem* DefaultMenuItem::getChildAt( const unsigned long& index )
 	if ( NULL == Peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	if ( index >= menuItems_.size() ) {
 		throw OutOfBoundsException(MAKE_ERROR_MSG(OUT_OF_BOUNDS_EXCEPTION), __LINE__);
 	}
@@ -392,7 +373,7 @@ void DefaultMenuItem::setCaption( const String& caption )
 	ItemChanged.fireEvent( &event );
 }
 
-String DefaultMenuItem::getCaption() 
+String DefaultMenuItem::getCaption()
 {
 	return caption_;
 }
@@ -470,9 +451,9 @@ void DefaultMenuItem::setImageIndex( const long& imageIndex )
 	imageIndex_ = imageIndex;
 }
 
-void DefaultMenuItem::setBounds( Rect* bounds ) 
+void DefaultMenuItem::setBounds( Rect* bounds )
 {
-	bounds_ = *bounds;	
+	bounds_ = *bounds;
 }
 
 void DefaultMenuItem::setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
@@ -491,22 +472,22 @@ void DefaultMenuItem::addAcceleratorKey( AcceleratorKey* accelerator )
 	//remove the old if present
 	if ( NULL != currentAccelerator_ ) {
 		UIToolkit::removeAccelerator( (VirtualKeyCode)currentAccelerator_->getKeyCode(),
-																currentAccelerator_->getModifierMask() );			
+																currentAccelerator_->getModifierMask() );
 	}
 
 	currentAccelerator_ = accelerator;
 
 	if ( NULL != currentAccelerator_ ) {
-		UIToolkit::registerAccelerator( currentAccelerator_ );	
+		UIToolkit::registerAccelerator( currentAccelerator_ );
 	}
-	
+
 }
 
 void DefaultMenuItem::onAccelerator( KeyboardEvent* e )
 {
 	update();
-	
-	click();	
+
+	click();
 }
 
 Object* DefaultMenuItem::clone(bool deep)
@@ -521,12 +502,12 @@ Object* DefaultMenuItem::clone(bool deep)
 	}
 
 	result->setSeparator( isSeparator() );
-	
+
 	AcceleratorKey* accel = getAccelerator();
 	if ( NULL != accel ) {
 		result->setAcceleratorKey( (VCF::VirtualKeyCode)accel->getKeyCode(), accel->getModifierMask() );
 	}
-	
+
 	return result;
 }
 
@@ -538,13 +519,13 @@ unsigned long DefaultMenuItem::getChildCount()
 void DefaultMenuItem::handleEvent( Event* event )
 {
 	Component::handleEvent( event );
-	switch ( event->getType() ){	
+	switch ( event->getType() ){
 			case Action::UpdateEvent : {
 				ActionEvent* actionEvent = (ActionEvent*)event;
 
 				if ( actionEvent->isModified() ) {
 					setEnabled( actionEvent->isEnabled() );
-					
+
 					if ( !actionEvent->getText().empty() ) {
 						setCaption( actionEvent->getText() );
 					}
@@ -556,7 +537,7 @@ void DefaultMenuItem::handleEvent( Event* event )
 						setChecked( actionEvent->isChecked() );
 					}
 				}
-				
+
 			}
 			break;
 
@@ -567,22 +548,26 @@ void DefaultMenuItem::handleEvent( Event* event )
 					MenuItem* item = dynamic_cast<MenuItem*>(child);
 					if ( NULL != item ) {
 						item->setMenuOwner( getMenuOwner() );
-						addChild( item );					
+						addChild( item );
 					}
 				}
 			}
 			break;
 
 			case Component::COMPONENT_REMOVED : {
-				
+
 			}
 			break;
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -757,4 +742,5 @@ void DefaultMenuItem::handleEvent( Event* event )
 *to facilitate change tracking
 *
 */
+
 

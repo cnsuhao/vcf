@@ -1,5 +1,12 @@
 //MessageDialog.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/MessageDialog.h"
 #include "vcf/ApplicationKit/CommandButton.h"
@@ -42,7 +49,7 @@ MessageDialog::MessageDialog():
 
 	add( labelsPane_, AlignClient );
 
-	
+
 
 	messageLabel_ = new Label();
 	messageLabel_->setWordWrap( true );
@@ -55,44 +62,44 @@ MessageDialog::MessageDialog():
 	double x = metricMgr->getPreferredSpacingFor( UIMetricsManager::stControlHorizontalSpacing );
 	double y = metricMgr->getPreferredSpacingFor( UIMetricsManager::stControlVerticalSpacing );
 
-	messageHeight = messageLabel_->getPreferredHeight() * 2.0 + 
+	messageHeight = messageLabel_->getPreferredHeight() * 2.0 +
 					metricMgr->getPreferredSpacingFor( UIMetricsManager::stControlVerticalSpacing ) +
 					metricMgr->getPreferredSpacingFor( UIMetricsManager::stInformationControlTopSpacer ) +
 					metricMgr->getPreferredSpacingFor( UIMetricsManager::stInformationControlBottomSpacer );
 
 	font = metricMgr->getDefaultFontFor( UIMetricsManager::ftToolTipFont );
-	
-	double w = labelsPane_->getWidth() - (metricMgr->getPreferredSpacingFor( UIMetricsManager::stControlHorizontalSpacing ) *2) ;	
+
+	double w = labelsPane_->getWidth() - (metricMgr->getPreferredSpacingFor( UIMetricsManager::stControlHorizontalSpacing ) *2) ;
 
 	messageLabel_->setBounds(x, y, w, messageLabel_->getPreferredHeight()*2.0 );
 
 	labelsPane_->add( messageLabel_ );
 
-	y =  messageLabel_->getBottom() + 
+	y =  messageLabel_->getBottom() +
 				metricMgr->getPreferredSpacingFor( UIMetricsManager::stInformationControlTopSpacer );
 
 	infoLabel_ = new Label();
 
 	infoLabel_->setFont( &font );
-	 
+
 	infoLabel_->setBounds( x, y, w, infoLabel_->getPreferredHeight() * 2.0 );
 
 	infoLabel_->setVerticalAlignment( tvaTextCenter );
 	infoLabel_->setWordWrap( true );
 
 	labelsPane_->add( infoLabel_ );
-	
+
 
 	Rect clientR = getClientBounds();
 
 	setHeight( 25 + (commandPane_->getHeight() + infoLabel_->getBottom()) );
-	
-	
+
+
 	Image* image = const_cast<Image*>( UIToolkit::getStandardInformationImage() );
 
 	applicationIcon_ = GraphicsToolkit::createImage( image->getWidth(), image->getHeight() );
 
-	
+
 	ImageBits* bits = applicationIcon_->getImageBits();
 
 	memcpy( bits->pixels_, image->getImageBits()->pixels_, image->getHeight() * image->getWidth() * 4 );
@@ -136,63 +143,63 @@ void MessageDialog::addActionButton( const String& caption, const UIToolkit::Mod
 
 	newButton->setCaption( caption );
 	//////////////////////////////////////////////////////////
-	//TODO::: switch the types for the CommandButton::setCommandType()  - 
-	//it should take the same type (UIToolkit::ModalReturnType) and adjust 
+	//TODO::: switch the types for the CommandButton::setCommandType()  -
+	//it should take the same type (UIToolkit::ModalReturnType) and adjust
 	//accordingly
 	//////////////////////////////////////////////////////////
 	switch ( returnVal ) {
 		case UIToolkit::mrNone: {
-			newButton->setCommandType(BC_NONE);		
+			newButton->setCommandType(BC_NONE);
 		}
 		break;
 
 		case UIToolkit::mrOK: {
-			newButton->setCommandType(BC_OK);		
+			newButton->setCommandType(BC_OK);
 		}
 		break;
 
 		case UIToolkit::mrCancel: {
-			newButton->setCommandType(BC_CANCEL);		
+			newButton->setCommandType(BC_CANCEL);
 		}
 		break;
 
 		case UIToolkit::mrYes: {
-			newButton->setCommandType(BC_YES);		
+			newButton->setCommandType(BC_YES);
 		}
 		break;
 
 		case UIToolkit::mrNo: {
-			newButton->setCommandType(BC_NO);		
+			newButton->setCommandType(BC_NO);
 		}
 		break;
 
 		case UIToolkit::mrRetry: {
-			newButton->setCommandType(BC_NONE);		
+			newButton->setCommandType(BC_NONE);
 		}
 		break;
 
 		case UIToolkit::mrIgnore: {
-			newButton->setCommandType(BC_NONE);		
+			newButton->setCommandType(BC_NONE);
 		}
 		break;
 
 		case UIToolkit::mrHelp: {
-			newButton->setCommandType(BC_NONE);		
+			newButton->setCommandType(BC_NONE);
 		}
 		break;
 
 		case UIToolkit::mrAbort: {
-			newButton->setCommandType(BC_NONE);		
+			newButton->setCommandType(BC_NONE);
 		}
 		break;
 	}
 
-	
+
 	//set dimensions
 	newButton->setHeight( newButton->getPreferredHeight() );
 	newButton->setWidth( newButton->getPreferredWidth() );
 
-	//this is a REALLY lame way to do this - need to 
+	//this is a REALLY lame way to do this - need to
 	//add some sort of vertical/horizontal  spacing rules for alignment layout
 	Label* l = new Label();
 	l->setCaption("");
@@ -200,7 +207,7 @@ void MessageDialog::addActionButton( const String& caption, const UIToolkit::Mod
 	l->setWidth( metricMgr->getPreferredSpacingFor( UIMetricsManager::stControlHorizontalSpacing ) );
 	l->setHeight( newButton->getHeight() );
 
-	
+
 	commandPane_->add( newButton, AlignRight );
 	commandPane_->add( l, AlignRight );
 
@@ -216,30 +223,30 @@ void MessageDialog::setMessage( const String& message )
 {
 	message_ = message;
 	messageLabel_->setCaption( message_ );
-	
+
 
 	double msgWidth = messageLabel_->getContext()->getTextWidth( message );
 	double msgHeight = messageLabel_->getContext()->getTextHeight( message );
-	
+
 	if ( msgWidth > messageLabel_->getWidth() ) {
 		//adjust bounds
-		
+
 		Rect bounds = getBounds();
-		
+
 		double prefHeight = messageLabel_->getPreferredHeight();
 		double dy = fabs( messageLabel_->getHeight() - prefHeight );
 
 		bounds.inflate( 0, dy/2.0 );
 		setBounds( &bounds );
 
-		bounds = messageLabel_->getBounds();	
+		bounds = messageLabel_->getBounds();
 
 		messageLabel_->setHeight( prefHeight );
 
 		bounds = infoLabel_->getBounds();
 
-		bounds.offset( 0, dy );		
-		
+		bounds.offset( 0, dy );
+
 		infoLabel_->setBounds( &bounds );
 
 		//infoLabel_->setTop( messageLabel_->getBottom() + 5 );
@@ -250,31 +257,31 @@ void MessageDialog::setMessage( const String& message )
 void MessageDialog::setInformation( const String& information )
 {
 	information_ = information;
-	infoLabel_->setCaption( information_ );	
+	infoLabel_->setCaption( information_ );
 
 	double infoWidth = infoLabel_->getContext()->getTextWidth( information );
-	
+
 	if ( infoWidth > infoLabel_->getWidth() ) {
 		//adjust bounds
-		
+
 		Rect bounds = getBounds();
-		
+
 		double prefHeight = infoLabel_->getPreferredHeight();
 
 		double dy = fabs(infoLabel_->getHeight() - prefHeight);
 
 		bounds.inflate( 0, dy/2.0 );
 
-		setBounds( &bounds );		
+		setBounds( &bounds );
 
-		bounds = infoLabel_->getBounds();		
-		
+		bounds = infoLabel_->getBounds();
+
 		infoLabel_->setHeight( prefHeight );
 	}
 }
 
 void MessageDialog::setApplicationIcon( Image* icon )
-{	
+{
 	applicationIcon_ = icon;
 }
 
@@ -292,7 +299,16 @@ void MessageDialog::verifyUIState()
 		throw InvalidMessageDialogException( MAKE_ERROR_MSG_2("No command buttons are present. This is incorrect and useless - please fix!!!") );
 	}
 
-	
+
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

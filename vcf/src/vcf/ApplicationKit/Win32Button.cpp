@@ -1,33 +1,11 @@
+//Win32Button.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32Button.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
@@ -40,8 +18,8 @@ using namespace VCF;
 Win32Button::Win32Button( CommandButton* component ):
 	AbstractWin32Component( component ),
 	commandButton_(component)
-{	
-		
+{
+
 }
 
 Win32Button::~Win32Button()
@@ -54,44 +32,44 @@ void Win32Button::create( Control* owningControl )
 	createParams();
 
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
-	HWND parent = toolkit->getDummyParent();	
+	HWND parent = toolkit->getDummyParent();
 
 	String className = getClassName();
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_, 
+		hwnd_ = ::CreateWindowExW( exStyleMask_,
 		                             L"BUTTON",
-									 windowCaption_.c_str(),	
-									 styleMask_, 
+									 windowCaption_.c_str(),
+									 styleMask_,
 		                             0,
-									 0, 
-									 1, 
-									 1, 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandle(NULL), 
+									 0,
+									 1,
+									 1,
+									 parent,
+									 NULL,
+									 ::GetModuleHandle(NULL),
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_, 
+		hwnd_ = ::CreateWindowExA( exStyleMask_,
 		                             "BUTTON",
-									 windowCaption_.ansi_c_str(),	
-									 styleMask_, 
+									 windowCaption_.ansi_c_str(),
+									 styleMask_,
 		                             0,
-									 0, 
-									 1, 
-									 1, 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandleA(NULL), 
+									 0,
+									 1,
+									 1,
+									 parent,
+									 NULL,
+									 ::GetModuleHandleA(NULL),
 									 NULL );
 	}
-	
 
 
-	if ( NULL != hwnd_ ){	
+
+	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
-		oldButtonWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ ); 
+		oldButtonWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
 		defaultWndProc_ = oldButtonWndProc_;
 	}
 	else {
@@ -163,54 +141,54 @@ void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
 	}
 	else {
 		oldPen = (HPEN) ::SelectObject( hdc, hilightPen );
-		
+
 		::MoveToEx( hdc, tmpRect.right, tmpRect.top, NULL );
-		::LineTo( hdc, tmpRect.left, tmpRect.top );	
-		::LineTo( hdc, tmpRect.left, tmpRect.bottom-1 );	
-		
+		::LineTo( hdc, tmpRect.left, tmpRect.top );
+		::LineTo( hdc, tmpRect.left, tmpRect.bottom-1 );
+
 		::SelectObject( hdc, shadowPen );
 		::MoveToEx( hdc, tmpRect.right-2, tmpRect.top+1, NULL );
 		::LineTo( hdc, tmpRect.right-2, tmpRect.bottom-2 );
-		::LineTo( hdc, tmpRect.left, tmpRect.bottom-2 );	
-		
+		::LineTo( hdc, tmpRect.left, tmpRect.bottom-2 );
+
 		::SelectObject( hdc, blackPen );
 		::MoveToEx( hdc, tmpRect.right-1, tmpRect.top, NULL );
 		::LineTo( hdc, tmpRect.right-1, tmpRect.bottom-1 );
 		::LineTo( hdc, tmpRect.left-1, tmpRect.bottom-1 );
 	}
-	
+
 	bool enabled = !(drawStruct.itemState & ODS_DISABLED);
-	
+
 	windowCaption_ = commandButton_->getCaption();
-	
-	
+
+
 	HFONT font = NULL;
 	HFONT oldFont = NULL;
-	
+
 	Rect centerRect( captionRect.left, captionRect.top, captionRect.right, captionRect.bottom );
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* lf = (LOGFONTW*) commandButton_->getFont()->getFontPeer()->getFontHandleID();
 		font = ::CreateFontIndirectW( lf );
 		oldFont = (HFONT) ::SelectObject( hdc, font );
 
-		::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);		
+		::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
 	}
 	else {
 		LOGFONTA* lf = (LOGFONTA*) commandButton_->getFont()->getFontPeer()->getFontHandleID();
 		font = ::CreateFontIndirectA( lf );
 		oldFont = (HFONT) ::SelectObject( hdc, font );
 
-		::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);		
+		::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
 	}
-	
-	
-	::OffsetRect( &captionRect, 
-		(centerRect.getWidth() - (captionRect.right - captionRect.left))/2, 
+
+
+	::OffsetRect( &captionRect,
+		(centerRect.getWidth() - (captionRect.right - captionRect.left))/2,
 		(centerRect.getHeight() - (captionRect.bottom - captionRect.top))/2 );
-	
+
 	int oldBkMode = SetBkMode( hdc, TRANSPARENT );
-	
-	
+
+
 	COLORREF textColor = 0;
 	if ( true == enabled ) {
 		textColor = RGB( peerControl_->getFont()->getColor()->getRed() * 255.0,
@@ -221,19 +199,19 @@ void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
 		textColor = ::GetSysColor( COLOR_GRAYTEXT );
 	}
 
-	
+
 
 	COLORREF oldTextColor = SetTextColor( hdc, textColor );
 
 	if ( false == enabled ) {
 		SetTextColor( hdc, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
 
-		OffsetRect( &captionRect, 1, 1 );		
-		
+		OffsetRect( &captionRect, 1, 1 );
+
 		if ( System::isUnicodeEnabled() ) {
 			::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
 		}
-		else {		
+		else {
 			::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
 		}
 
@@ -245,23 +223,23 @@ void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
 	if ( System::isUnicodeEnabled() ) {
 		::DrawTextW( hdc, windowCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
 	}
-	else {		
+	else {
 		::DrawTextA( hdc, windowCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
 	}
-	
-	
-	
+
+
+
 	SetTextColor( hdc, oldTextColor );
 	SetBkMode( hdc, oldBkMode );
-	
+
 	::SelectObject( hdc, oldFont );
 	::DeleteObject( font );
-	
-	
-	
+
+
+
 	if ( (drawStruct.itemState & ODS_FOCUS) || peerControl_->isFocused() ) {
 		RECT focusRect = drawStruct.rcItem;
-		InflateRect( &focusRect, -4, -4 );		
+		InflateRect( &focusRect, -4, -4 );
 		::DrawFocusRect( hdc, &focusRect );
 	}
 
@@ -276,7 +254,7 @@ void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
 	::DeleteObject( shadowPen );
 	::DeleteObject( blackPen );
 	::DeleteObject( backBrush );
-	
+
 }
 
 LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
@@ -296,10 +274,10 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 		case WM_DRAWITEM:{
 			DRAWITEMSTRUCT* drawItem = (DRAWITEMSTRUCT*)lParam;
-			if ( true == peerControl_->isDoubleBuffered() ){								
+			if ( true == peerControl_->isDoubleBuffered() ){
 
 				if ( NULL == memDC_ ) {
-						//create here 
+						//create here
 					HDC dc = ::GetDC(0);
 					memDC_ = ::CreateCompatibleDC( dc );
 					::ReleaseDC( 0,	dc );
@@ -308,57 +286,57 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 				VCF::GraphicsContext* ctx = peerControl_->getContext();
 
 				int dcState = ::SaveDC( drawItem->hDC );
-				Rect tmp(drawItem->rcItem.left, drawItem->rcItem.top, drawItem->rcItem.right, drawItem->rcItem.bottom);					
-				
-				HBITMAP memBitmap = 
-					::CreateCompatibleBitmap( drawItem->hDC, 
+				Rect tmp(drawItem->rcItem.left, drawItem->rcItem.top, drawItem->rcItem.right, drawItem->rcItem.bottom);
+
+				HBITMAP memBitmap =
+					::CreateCompatibleBitmap( drawItem->hDC,
 												drawItem->rcItem.right - drawItem->rcItem.left,
 												drawItem->rcItem.bottom - drawItem->rcItem.top );
 
-				HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );						
-						
+				HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );
+
 				::SetViewportOrgEx( memDC_, -drawItem->rcItem.left, -drawItem->rcItem.top, NULL );
 
 				//VCF::GraphicsContext memCtx( tmp.getWidth(), tmp.getHeight() );
-				
+
 				//memCtx.setOrigin( -tmp.left_, -tmp.top_ );
-				
+
 				//HDC memDC = (HDC)memCtx.getPeer()->getContextID();
 
-				drawBasicButton( memDC_, *drawItem );				
+				drawBasicButton( memDC_, *drawItem );
 
 				ctx->getPeer()->setContextID( (long)memDC_ );
 
 				((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-						
+
 				peerControl_->paint( ctx );
 
 				((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 
-				::SetViewportOrgEx( memDC_, -drawItem->rcItem.left, -drawItem->rcItem.top, NULL );						
-				
-				int err = ::BitBlt( drawItem->hDC, drawItem->rcItem.left, drawItem->rcItem.top, 
-									drawItem->rcItem.right - drawItem->rcItem.left, 
+				::SetViewportOrgEx( memDC_, -drawItem->rcItem.left, -drawItem->rcItem.top, NULL );
+
+				int err = ::BitBlt( drawItem->hDC, drawItem->rcItem.left, drawItem->rcItem.top,
+									drawItem->rcItem.right - drawItem->rcItem.left,
 									drawItem->rcItem.bottom - drawItem->rcItem.top,
 									memDC_, drawItem->rcItem.left, drawItem->rcItem.top, SRCCOPY );
-				
+
 				::SelectObject( memDC_, oldBMP );
 
 				::DeleteObject( memBitmap );
-				
+
 				::RestoreDC ( memDC_, dcState );
-				
+
 				if ( err == FALSE ) {
 					err = GetLastError();
 					StringUtils::traceWithArgs( "error in BitBlt during drawing of double buffered Comp: error code=%d\n",
-						err );	
+						err );
 				}
 			}
 			else {
 				VCF::GraphicsContext* ctx = peerControl_->getContext();
-				
+
 				ctx->getPeer()->setContextID( (long)drawItem->hDC );
-				
+
 				drawBasicButton( drawItem->hDC, *drawItem );
 
 				peerControl_->paint( ctx );
@@ -366,7 +344,7 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			result = TRUE;
 		}
 		break;
-		
+
 		case BN_CLICKED :{
 
 			commandButton_->click();
@@ -375,7 +353,7 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			WPARAM msgWParam = 0;
 			switch ( commandButton_->getCommandType() ){
 				case BC_NONE : {
-					
+
 				}
 				break;
 
@@ -400,7 +378,7 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 				break;
 
 				case BC_MAYBE : {
-					
+
 				}
 				break;
 			}
@@ -412,13 +390,13 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		case WM_COMMAND: {
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			//result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
-			
+
 		}
 
 		default: {
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			//result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
-			
+
 		}
 	}
 	return result;
@@ -428,6 +406,9 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -537,3 +518,5 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 *to facilitate change tracking
 *
 */
+
+

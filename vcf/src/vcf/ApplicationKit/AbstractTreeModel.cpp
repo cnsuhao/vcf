@@ -1,6 +1,165 @@
+//AbstractTreeModel.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/AbstractTreeModel.h"
+
+
+using namespace VCF;
+
+AbstractTreeModel::AbstractTreeModel()
+{
+	init();
+}
+
+AbstractTreeModel::~AbstractTreeModel()
+{
+	std::vector<TreeItem*>::iterator it = rootNodes_.begin();
+	while ( it != rootNodes_.end() ) {
+		TreeItem* rootItem = *it;
+		if ( NULL != rootItem ) {
+			//rootItem->clearChildren();
+			delete rootItem;
+		}
+		rootItem = NULL;
+		it ++;
+	}
+	rootNodes_.clear();
+}
+
+void AbstractTreeModel::init()
+{
+	treeItemContainer_.initContainer( rootNodes_ );
+}
+
+void AbstractTreeModel::validate()
+{
+
+}
+
+void AbstractTreeModel::empty()
+{
+	std::vector<TreeItem*>::iterator it = rootNodes_.begin();
+	while ( it != rootNodes_.end() ) {
+		TreeItem* rootItem = *it;
+		if ( NULL != rootItem ) {
+			rootItem->clearChildren();
+			delete rootItem;
+		}
+		rootItem = NULL;
+		it ++;
+	}
+	rootNodes_.clear();
+	ModelEvent event( this, Model::MODEL_EMPTIED );
+	ModelEmptied.fireEvent( &event );
+}
+
+void AbstractTreeModel::insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter)
+{
+	TreeItem* parent = nodeToInsertAfter->getParent();
+	if ( NULL != parent ) {
+		parent->insertChild( nodeToInsertAfter->getIndex(), node );
+		TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
+		NodeAdded.fireEvent( &event );
+	}
+	else {
+		//bad call throw exception
+	}
+}
+
+void AbstractTreeModel::deleteNodeItem(TreeItem * nodeToDelete)
+{
+	TreeItem* parent = nodeToDelete->getParent();
+
+	TreeModelEvent event(this, nodeToDelete, TreeModel::TREEITEM_DELETED );
+	NodeDeleted.fireEvent( &event );
+
+	if ( NULL != parent ){
+		parent->deleteChild( nodeToDelete );
+	}
+	else {
+		std::vector<TreeItem*>::iterator found = std::find( rootNodes_.begin(), rootNodes_.end(), nodeToDelete );
+		if ( found != rootNodes_.end() ) {
+			TreeItem* item = *found;
+			rootNodes_.erase( found );
+			delete item;
+			item = NULL;
+		}
+	}
+}
+
+void AbstractTreeModel::addNodeItem( TreeItem * node, TreeItem * nodeParent )
+{
+	node->setModel( this );
+	if ( NULL == nodeParent ){
+		rootNodes_.push_back( node );
+		TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
+		RootNodeChanged.fireEvent( &event );
+	}
+	else {
+		nodeParent->addChild( node );
+	}
+
+	TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
+	NodeAdded.fireEvent( &event );
+}
+
+void AbstractTreeModel::sort()
+{
+
+}
+
+void AbstractTreeModel::onItemPaint( ItemEvent* event )
+{
+
+}
+
+void AbstractTreeModel::onItemChanged( ItemEvent* event )
+{
+	if ( NULL != event ){
+		switch ( event->getType() ){
+			case ITEM_EVENT_TEXT_CHANGED:{
+
+			}
+			break;
+		}
+	}
+}
+
+void AbstractTreeModel::onItemSelected( ItemEvent* event )
+{
+
+}
+
+void AbstractTreeModel::onItemAdded( ItemEvent* event )
+{
+
+}
+
+
+void AbstractTreeModel::onItemDeleted( ItemEvent* event )
+{
+
+}
+
+Enumerator<TreeItem*>* AbstractTreeModel::getRootItems()
+{
+	return treeItemContainer_.getEnumerator();
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -87,180 +246,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-//AbstractTreeModel.cpp
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/AbstractTreeModel.h"
-
-
-using namespace VCF;
-
-AbstractTreeModel::AbstractTreeModel()
-{
-	init();	
-}
-
-AbstractTreeModel::~AbstractTreeModel()
-{
-	std::vector<TreeItem*>::iterator it = rootNodes_.begin();
-	while ( it != rootNodes_.end() ) {
-		TreeItem* rootItem = *it;
-		if ( NULL != rootItem ) {
-			//rootItem->clearChildren();
-			delete rootItem;
-		}
-		rootItem = NULL;
-		it ++;
-	}
-	rootNodes_.clear();
-}
-
-void AbstractTreeModel::init()
-{	
-	treeItemContainer_.initContainer( rootNodes_ );
-}
-
-void AbstractTreeModel::validate()
-{
-
-}
-
-void AbstractTreeModel::empty()
-{
-	std::vector<TreeItem*>::iterator it = rootNodes_.begin();
-	while ( it != rootNodes_.end() ) {
-		TreeItem* rootItem = *it;
-		if ( NULL != rootItem ) {
-			rootItem->clearChildren();
-			delete rootItem;
-		}
-		rootItem = NULL;
-		it ++;
-	}
-	rootNodes_.clear();
-	ModelEvent event( this, Model::MODEL_EMPTIED );
-	ModelEmptied.fireEvent( &event );
-}
-
-void AbstractTreeModel::insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter)
-{
-	TreeItem* parent = nodeToInsertAfter->getParent();
-	if ( NULL != parent ) {
-		parent->insertChild( nodeToInsertAfter->getIndex(), node );
-		TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
-		NodeAdded.fireEvent( &event );	
-	}
-	else {
-		//bad call throw exception
-	}
-}
-
-void AbstractTreeModel::deleteNodeItem(TreeItem * nodeToDelete)
-{
-	TreeItem* parent = nodeToDelete->getParent();
-
-	TreeModelEvent event(this, nodeToDelete, TreeModel::TREEITEM_DELETED );			
-	NodeDeleted.fireEvent( &event );	
-
-	if ( NULL != parent ){
-		parent->deleteChild( nodeToDelete );
-	}
-	else {
-		std::vector<TreeItem*>::iterator found = std::find( rootNodes_.begin(), rootNodes_.end(), nodeToDelete );
-		if ( found != rootNodes_.end() ) {
-			TreeItem* item = *found;
-			rootNodes_.erase( found );
-			delete item;
-			item = NULL;
-		}
-	}	
-}
-
-void AbstractTreeModel::addNodeItem( TreeItem * node, TreeItem * nodeParent )
-{
-	node->setModel( this );
-	if ( NULL == nodeParent ){
-		rootNodes_.push_back( node );
-		TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
-		RootNodeChanged.fireEvent( &event );	
-	}
-	else {
-		nodeParent->addChild( node );
-	}
-	
-	TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
-	NodeAdded.fireEvent( &event );	
-}
-
-void AbstractTreeModel::sort()
-{
-
-}
-
-void AbstractTreeModel::onItemPaint( ItemEvent* event )
-{
-
-}
-
-void AbstractTreeModel::onItemChanged( ItemEvent* event )
-{
-	if ( NULL != event ){
-		switch ( event->getType() ){
-			case ITEM_EVENT_TEXT_CHANGED:{
-				
-			}
-			break;
-		}
-	}
-}
-
-void AbstractTreeModel::onItemSelected( ItemEvent* event )
-{
-
-}
-
-void AbstractTreeModel::onItemAdded( ItemEvent* event )
-{
-
-}
-
-	
-void AbstractTreeModel::onItemDeleted( ItemEvent* event )
-{
-
-}
-
-Enumerator<TreeItem*>* AbstractTreeModel::getRootItems()
-{
-	return treeItemContainer_.getEnumerator();
-}
 
 

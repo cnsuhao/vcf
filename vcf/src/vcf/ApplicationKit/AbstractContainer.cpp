@@ -1,34 +1,11 @@
+//AbstractContainer.cpp
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-
-//AbstractContainer.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/AbstractContainer.h"
@@ -60,15 +37,15 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 		tmp.x_ -= scrollable->getHorizontalPosition();
 		tmp.y_ -= scrollable->getVerticalPosition();
 	}
-	
-	
+
+
 	Rect childBounds;
 
 
 	Control* capturedControl = Control::getCapturedMouseControl();
 	if ( NULL != capturedControl ){
 		Control* container = getContainerControl();
-		
+
 		Control* parent = capturedControl->getParent();
 		if ( parent == container ){ //then the captured control is a child of this container so keep sedning it the messages
 			childBounds = capturedControl->getBounds();
@@ -80,7 +57,7 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 			//}
 		}
 	}
-	else {	
+	else {
 		std::vector<Control*>::reverse_iterator it = controls_.rbegin();
 
 		while ( it != controls_.rend() ){
@@ -90,18 +67,18 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 				throw RuntimeException (MAKE_ERROR_MSG_2(INVALID_POINTER_ERROR)) ;
 			}
 
-			
+
 			childBounds = child->getBounds();
 			if ( Control::MOUSE_LEAVE == event->getType() ) {
 				if ( (false == childBounds.containsPt( &tmp )) && (child->isLightWeight() && child->getVisible()) ){
 					if ( (NULL != previousMouseEnteredChild) && (previousMouseEnteredChild == child) ) {
 						//if ( child->isLightWeight() ){
-						child->translateToLocal( &tmp );				
+						child->translateToLocal( &tmp );
 						MouseEvent localEvent( child, event->getType(), event->getButtonMask(), event->getKeyMask(), &tmp );
-						child->handleEvent( &localEvent );						
-						
-						event->setConsumed(true);//localEvent.isConsumed());							
-						break;	
+						child->handleEvent( &localEvent );
+
+						event->setConsumed(true);//localEvent.isConsumed());
+						break;
 					}
 				}
 			}
@@ -110,14 +87,14 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 				tmpRect.inflate( 2, 2 );
 				if ( (tmpRect.containsPt( &tmp )) && (child->isLightWeight() && child->getVisible()) ){
 					Control::setPreviousMouseOverControl( child );
-					child->translateToLocal( &tmp );				
+					child->translateToLocal( &tmp );
 					MouseEvent localEvent( child, event->getType(), event->getButtonMask(), event->getKeyMask(), &tmp );
-					child->handleEvent( &localEvent );						
-					
+					child->handleEvent( &localEvent );
+
 					event->setConsumed(true);//localEvent.isConsumed());
 					break;
 				}
-			} 
+			}
 			else {
 				if ( (true == childBounds.containsPt( &tmp )) && (child->isLightWeight() && child->getVisible()) ){
 					child->translateToLocal( &tmp );
@@ -154,7 +131,7 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 			}
 
 			it ++;
-		}		
+		}
 	}
 }
 
@@ -163,10 +140,10 @@ AbstractContainer::AbstractContainer():
 	currentTabControlIndex_(0),
 	controlHandler_(NULL),
 	mouseHandler_(NULL)
-{		
+{
 	init();
 }
-	
+
 AbstractContainer::~AbstractContainer()
 {
 	if ( NULL != controlContainer_ ){
@@ -180,7 +157,7 @@ AbstractContainer::~AbstractContainer()
 		controlContainer_->MouseLeave -= mouseHandler_;
 		controlContainer_->MouseEnter -= mouseHandler_;
 	}
-	
+
 	/*
 	std::vector<Control*>::iterator it = controls_.begin();
 	while ( it != controls_.end() ){
@@ -190,7 +167,7 @@ AbstractContainer::~AbstractContainer()
 		it++;
 	}
 	*/
-	controls_.clear();	
+	controls_.clear();
 
 }
 
@@ -198,19 +175,19 @@ AbstractContainer::~AbstractContainer()
 
 void AbstractContainer::init()
 {
-	currentTabControlIndex_ = 0;	
+	currentTabControlIndex_ = 0;
 
-	
-	controlHandler_ = 
+
+	controlHandler_ =
 		new ControlEventHandler<AbstractContainer>( this, &AbstractContainer::containerResized,
 													"AbstractContainer::containerResized");
-	
-	mouseHandler_ = 
+
+	mouseHandler_ =
 		new MouseEventHandler<AbstractContainer>( this,&AbstractContainer::onMouseEvent,
 													"AbstractContainer::onMouseEvent");
 
 	controlContainer_ = NULL;
-	initContainer( controls_ );	
+	initContainer( controls_ );
 }
 
 void AbstractContainer::add( Control * child )
@@ -229,7 +206,7 @@ void AbstractContainer::add( Control * child )
 				parentContainer->remove( child );
 			}
 		}
-		
+
 		child->setParent( controlContainer_ );
 		child->setTabOrder( controls_.size()/*-1*/ );
 		resizeChildren( child );
@@ -253,7 +230,7 @@ void AbstractContainer::add( Control * child, const AlignmentType& alignment )
 				parentContainer->remove( child );
 			}
 		}
-		
+
 		child->setParent( controlContainer_ );
 		child->setAlignment( alignment );
 		child->setTabOrder( controls_.size()/*-1*/ );
@@ -284,7 +261,7 @@ void AbstractContainer::remove( Control* child )
 
 
 
-void AbstractContainer::paintChildren( GraphicsContext* context ){	
+void AbstractContainer::paintChildren( GraphicsContext* context ){
 
 	Enumerator<Control*>* children = getEnumerator();
 	if ( NULL == controlContainer_ ){
@@ -295,9 +272,9 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 	double originX = 0.0;
 	double originY = 0.0;
 	Scrollable* scrollable = controlContainer_->getScrollable();
-	
+
 	while ( true == children->hasMoreElements() ){
-		Control* child = children->nextElement(); 
+		Control* child = children->nextElement();
 		if ( NULL != child ){
 			if ( (true == child->isLightWeight()) && (true == child->getVisible()) ){
 				Rect bounds = child->getBounds();
@@ -309,13 +286,13 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 					originY += 	scrollable->getVerticalPosition();
 				}
 				context->setOrigin( originX, originY );
-				
+
 				child->paint( context );
-				
-				context->setOrigin( oldOrigin.x_, oldOrigin.y_ );				
+
+				context->setOrigin( oldOrigin.x_, oldOrigin.y_ );
 			}
 		}
-	}	
+	}
 }
 
 Enumerator<Control*>* AbstractContainer::getChildren()
@@ -362,7 +339,7 @@ void AbstractContainer::updateTabOrder( Control* child, ulong32& newTabOrder )
 		if ( found != tabOrderMap_.end() ) {
 			tabOrderMap_.erase( found );
 		}
-		
+
 		tabOrderMap_[newTabOrder] = child;
 	}
 }
@@ -409,7 +386,7 @@ void AbstractContainer::insertBeforeControl( Control * child, const AlignmentTyp
 		throw InvalidPointerException(MAKE_ERROR_MSG(INVALID_POINTER_ERROR), __LINE__);
 	};
 	std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), child );
-	
+
 	std::vector<Control*>::iterator insertAt = std::find( controls_.begin(), controls_.end(), beforeControl );
 
 	//the control is not present
@@ -421,14 +398,14 @@ void AbstractContainer::insertBeforeControl( Control * child, const AlignmentTyp
 			if ( NULL != parentContainer ) {
 				parentContainer->remove( child );
 			}
-		}		
+		}
 	}
 	else { // OK we already have this child so remove it first before changing it's position in the list
 		controls_.erase( found );
 	}
-	
-	
-	
+
+
+
 	child->setParent( controlContainer_ );
 	child->setAlignment( alignment );
 	child->setTabOrder( controls_.size()/*-1*/ );
@@ -436,11 +413,11 @@ void AbstractContainer::insertBeforeControl( Control * child, const AlignmentTyp
 	resizeChildren( child );
 
 	if ( insertAt != controls_.end() ) {
-		controls_.insert( insertAt, child );	
+		controls_.insert( insertAt, child );
 	}
 	else {
-		controls_.insert( controls_.begin(), child );	
-	}	
+		controls_.insert( controls_.begin(), child );
+	}
 }
 
 void AbstractContainer::insertAtIndex( Control * child, const AlignmentType& alignment, const ulong32& index )
@@ -449,7 +426,7 @@ void AbstractContainer::insertAtIndex( Control * child, const AlignmentType& ali
 		throw InvalidPointerException(MAKE_ERROR_MSG(INVALID_POINTER_ERROR), __LINE__);
 	};
 	std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), child );
-	
+
 	std::vector<Control*>::iterator insertAt = controls_.begin() + index;
 
 	//the control is not present
@@ -461,25 +438,25 @@ void AbstractContainer::insertAtIndex( Control * child, const AlignmentType& ali
 			if ( NULL != parentContainer ) {
 				parentContainer->remove( child );
 			}
-		}		
+		}
 	}
 	else { // OK we already have this child so remove it first before changing it's position in the list
 		controls_.erase( found );
 	}
-	
-	
-	
+
+
+
 	child->setParent( controlContainer_ );
 	child->setAlignment( alignment );
 	child->setTabOrder( controls_.size()/*-1*/ );
-	
+
 	resizeChildren( child );
 
 	if ( insertAt != controls_.end() ) {
-		controls_.insert( insertAt, child );	
+		controls_.insert( insertAt, child );
 	}
 	else {
-		controls_.push_back( child );	
+		controls_.push_back( child );
 	}
 }
 
@@ -489,7 +466,7 @@ void AbstractContainer::sendControlToFront( Control* child )
 
 	if ( found != controls_.end() ) {
 		controls_.erase( found );
-		controls_.insert( controls_.begin(), child );	
+		controls_.insert( controls_.begin(), child );
 		resizeChildren(NULL);
 	}
 	else {
@@ -503,7 +480,7 @@ void AbstractContainer::sendControlToBack( Control* child )
 
 	if ( found != controls_.end() ) {
 		controls_.erase( found );
-		controls_.push_back( child );	
+		controls_.push_back( child );
 		resizeChildren(NULL);
 	}
 	else {
@@ -524,9 +501,9 @@ void AbstractContainer::setContainerControl( Control* control )
 		controlContainer_->MouseLeave.removeHandler( mouseHandler_ );
 		controlContainer_->MouseEnter.removeHandler( mouseHandler_ );
 	}
-	controlContainer_ = control;	
+	controlContainer_ = control;
 	controlContainer_->ControlSized.addHandler( controlHandler_ );
-	
+
 	controlContainer_->MouseDoubleClicked.addHandler( mouseHandler_ );
 	controlContainer_->MouseClicked.addHandler( mouseHandler_ );
 	controlContainer_->MouseMove.addHandler( mouseHandler_ );
@@ -537,12 +514,12 @@ void AbstractContainer::setContainerControl( Control* control )
 }
 
 
-
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:12  ddiego
 *migration towards new directory structure
 *
@@ -738,9 +715,5 @@ void AbstractContainer::setContainerControl( Control* control )
 *to facilitate change tracking
 *
 */
-
-
-
-
 
 

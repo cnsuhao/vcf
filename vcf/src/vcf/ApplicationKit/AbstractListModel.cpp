@@ -1,33 +1,12 @@
+//AbstractListModel.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//AbstractListModel.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ListItem.h"
 #include "vcf/ApplicationKit/AbstractListModel.h"
@@ -41,8 +20,8 @@ AbstractListModel::AbstractListModel()
 
 AbstractListModel::~AbstractListModel()
 {
-	std::vector<ListItem*>::iterator it = listItems_.begin();	
-	while ( it != listItems_.end() ){		
+	std::vector<ListItem*>::iterator it = listItems_.begin();
+	while ( it != listItems_.end() ){
 		delete *it;
 		it ++;
 	}
@@ -61,8 +40,8 @@ void AbstractListModel::deleteItemAtIndex( const unsigned long& index )
 {
 	ListItem* item = listItems_[index];
 	item->setIndex( index );
-	ListModelEvent event( this, item );	
-	ItemDeleted.fireEvent( &event );	
+	ListModelEvent event( this, item );
+	ItemDeleted.fireEvent( &event );
 
 	delete item;
 	listItems_.erase( listItems_.begin() + index );
@@ -71,12 +50,12 @@ void AbstractListModel::deleteItemAtIndex( const unsigned long& index )
 void AbstractListModel::deleteItem( ListItem* item )
 {
 	std::vector<ListItem*>::iterator it = std::find( listItems_.begin(), listItems_.end(), item );
-	if ( it != listItems_.end() ){	
-		
+	if ( it != listItems_.end() ){
+
 		item->setIndex( listItems_.begin() - it );
 
 		ListModelEvent event( this, item );
-		ItemDeleted.fireEvent( &event );		
+		ItemDeleted.fireEvent( &event );
 		delete *it;
 		listItems_.erase( it );
 	}
@@ -96,7 +75,7 @@ void AbstractListModel::empty()
 
 	ListModelEvent event( this, LIST_MODEL_CONTENTS_DELETED );
 	ContentsChanged.fireEvent( &event );
-	
+
 	ModelEvent modelEvent( this, Model::MODEL_EMPTIED );
 	ModelEmptied.fireEvent( &modelEvent );
 }
@@ -134,7 +113,7 @@ ulong32 AbstractListModel::getItemIndex( ListItem* item )
 
 Enumerator<ListItem*>* AbstractListModel::getItems()
 {
-	return listContainer_.getEnumerator();	
+	return listContainer_.getEnumerator();
 }
 
 unsigned long AbstractListModel::getCount()
@@ -158,7 +137,7 @@ void AbstractListModel::saveToStream( OutputStream * stream )
 				String caption = item->getCaption();
 				stream->write( caption );
 			}
-		}	
+		}
 	}
 }
 
@@ -173,10 +152,12 @@ void AbstractListModel::loadFromStream( InputStream * stream )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *

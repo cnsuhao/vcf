@@ -1,33 +1,12 @@
+//Window.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//Window.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 //#include "ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/WindowPeer.h"
@@ -35,7 +14,7 @@
 using namespace VCF;
 
 Window::Window()
-{	
+{
 	Application* app = Application::getRunningInstance();
 	Control* owner = NULL;
 	if ( NULL != app ) {
@@ -43,17 +22,17 @@ Window::Window()
 	}
 
 	windowPeer_ = UIToolkit::createWindowPeer( this, owner );
-	
+
 	peer_ = dynamic_cast<ControlPeer*>(windowPeer_);
 
 	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
-	
+
 	peer_->create( this );
-	peer_->setControl( this );	
-	
-	
+	peer_->setControl( this );
+
+
 	menuBar_ = NULL;
 
 	setHeight( getPreferredHeight() );
@@ -64,25 +43,25 @@ Window::Window()
 	FrameClose.addHandler( new WindowEventHandler<Window>( this, &Window::onClose, "onClose" ) );
 
 	EventHandler* ev = new GenericEventHandler<Frame> ( this, &Frame::handleEvent, "Frame::handleEvent" );
-	
+
 	ComponentAdded += ev;
 }
 
 Window::Window( Control* control )
-{	
-	
+{
+
 	windowPeer_ = UIToolkit::createWindowPeer( this, control );
-	
+
 	peer_ = dynamic_cast<ControlPeer*>(windowPeer_);
 
 	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
-	
+
 	peer_->create( this );
-	peer_->setControl( this );	
-	
-	
+	peer_->setControl( this );
+
+
 	menuBar_ = NULL;
 
 	setHeight( getPreferredHeight() );
@@ -93,13 +72,13 @@ Window::Window( Control* control )
 	FrameClose.addHandler( new WindowEventHandler<Window>( this, &Window::onClose, "onClose" ) );
 
 	EventHandler* ev = new GenericEventHandler<Window> ( this, &Window::handleEvent, "Window::handleEvent" );
-	
+
 	ComponentAdded += ev;
 }
 
 Window::~Window()
 {
-	
+
 }
 
 void Window::destroy()
@@ -121,7 +100,7 @@ void Window::setCaption( const String& caption )
 Rect Window::getClientBounds(const bool& includeBorder)
 {
 	if ( NULL == windowPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 	return windowPeer_->getClientBounds();
 }
@@ -129,7 +108,7 @@ Rect Window::getClientBounds(const bool& includeBorder)
 void  Window::setClientBounds( Rect* bounds )
 {
 	if ( NULL == windowPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 	windowPeer_->setClientBounds( bounds );
 }
@@ -157,7 +136,7 @@ void Window::beforeDestroy( ComponentEvent* event )
 		if ( NULL != parentContainer ) {
 			parentContainer->remove( this );
 		}
-	}	
+	}
 }
 
 MenuBar* Window::getMenuBar()
@@ -173,18 +152,18 @@ void Window::setMenuBar( MenuBar* menuBar )
 	}
 }
 
-void Window::close() 
+void Window::close()
 {
 	if ( this->allowClose() ) {
 		WindowEvent event( this, WINDOW_EVENT_CLOSE );
-		FrameClose.fireEvent( &event );		
+		FrameClose.fireEvent( &event );
 
 		if ( NULL == windowPeer_ ){
-			throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+			throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 		}
 		windowPeer_->close();
 	}
-	
+
 }
 
 void Window::onClose( WindowEvent* e )
@@ -196,17 +175,17 @@ void Window::onClose( WindowEvent* e )
 void Window::postClose( Event* event )
 {
 	//StringUtils::traceWithArgs( "Preparing to destroy window %p after a Window::close() call\n", this );
-	
+
 	Application* app = Application::getRunningInstance();
 	if ( NULL != app ) {
 		if ( app->getMainWindow() == this ) {
-			return; //we're outta here - the main window will 
+			return; //we're outta here - the main window will
 					//get cleaned up automagically
 		}
 	}
-	
-	
-	//check to nake sure we are not parented - if we are then we don't need to do 
+
+
+	//check to nake sure we are not parented - if we are then we don't need to do
 	//delete our selves
 	if ( NULL != getParent() ) {
 		return;
@@ -219,10 +198,10 @@ void Window::postClose( Event* event )
 void Window::setFrameStyle( const FrameStyleType& frameStyle )
 {
 	if ( NULL == windowPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
-	
+
+
 	frameStyle_ = frameStyle;
 
 	if ( !(Component::csDesigning & getComponentState()) ){
@@ -233,12 +212,12 @@ void Window::setFrameStyle( const FrameStyleType& frameStyle )
 void Window::setFrameTopmost( const bool& isTopmost )
 {
 	Frame::setFrameTopmost( isTopmost );
-	
-	if ( !(Component::csDesigning & getComponentState()) ){ 
+
+	if ( !(Component::csDesigning & getComponentState()) ){
 		if ( NULL == windowPeer_ ){
-			throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+			throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 		}
-		
+
 		windowPeer_->setFrameTopmost( isTopmost );
 	}
 }
@@ -265,7 +244,7 @@ void Window::setMaximized( const bool maximized )
 
 
 bool Window::isMinimized()
-{	
+{
 	return windowPeer_->isMinimized();
 }
 
@@ -292,7 +271,7 @@ Image* Window::getIconImage()
 void Window::handleEvent( Event* event )
 {
 	Frame::handleEvent( event );
-	switch ( event->getType() ){	
+	switch ( event->getType() ){
 		case Component::COMPONENT_ADDED : {
 			ComponentEvent* ev = (ComponentEvent*)event;
 			Component* child = ev->getChildComponent();
@@ -306,9 +285,13 @@ void Window::handleEvent( Event* event )
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -483,8 +466,5 @@ void Window::handleEvent( Event* event )
 *to facilitate change tracking
 *
 */
-
-
-
 
 

@@ -1,34 +1,17 @@
-
 #ifndef _VCF_ENUMOBJECT_H__
 #define _VCF_ENUMOBJECT_H__
+//EnumObject.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #pragma warning (disable : 4786) //vector warnings about string too long...
@@ -46,7 +29,7 @@ template <class T> class EnumObject {
 		EnumObject(){
 			currentPos_ = 0;
 		};
-		
+
 		EnumObject( const EnumObject& enumObj ){
 			items_ = enumObj.items_;
 			currentPos_ = enumObj.currentPos_;
@@ -61,37 +44,37 @@ template <class T> class EnumObject {
 		};
 
 
-		virtual ~EnumObject(){};		
-		
+		virtual ~EnumObject(){};
+
 		/**
 		*Use this function to add data to initialize the enum object
 		*/
 		virtual void add( T item ){
 			items_.push_back( item );
-			//StringUtils::traceWithArgs( "added %s, now have %d items\n", 
+			//StringUtils::traceWithArgs( "added %s, now have %d items\n",
 			//							typeid(T).name(), items_.size() );
 		};
 
 		void initList() throw ( VCF::CantCreateObjectException ){
-			
+
 			itemIterator_ = items_.begin();
 		};
 
 		/**
-		*IEnumXXX members 
+		*IEnumXXX members
 		*documentation from the Win32 SDK (MSDN October 1999)
 		*/
 		/**
-		*Retrieves the next elementsRequested items in the enumeration sequence. 
-		*If there are fewer than the requested number of elements left in the sequence, 
-		*it retrieves the remaining elements. The number of elements actually retrieved 
+		*Retrieves the next elementsRequested items in the enumeration sequence.
+		*If there are fewer than the requested number of elements left in the sequence,
+		*it retrieves the remaining elements. The number of elements actually retrieved
 		*is returned through elementsFetched (unless the caller passed in NULL for that parameter).
 		*@param ULONG elementsRequested - number of elements to fetch
 		*@param T *elementList - an array of elements of type <T>
 		*@param ULONG *elementsFetched - the numbers of items in the elementList array
 		*/
         HRESULT _Next( ULONG elementsRequested, T *elementList, ULONG *elementsFetched ){
-			
+
 			HRESULT result = S_FALSE;
 			unsigned long fetchCount = 0;
 			//apparently *SOME* apps will send in a NULL elementsFetched
@@ -100,33 +83,33 @@ template <class T> class EnumObject {
 			//and don't assign a value to it
 			if ( NULL == elementsFetched ){
 				if ( elementsRequested > 0 ){
-					
+
 				}
-			}	
+			}
 
 			if ( (NULL == elementList) || (itemIterator_ == items_.end()) ){
 				if ( NULL != elementsFetched ) {
 					*elementsFetched = 0;
 				}
-				
+
 				result = S_FALSE;
 			}
 			else {
-				while ( (itemIterator_ != items_.end()) && (elementsRequested > 0) ){						
+				while ( (itemIterator_ != items_.end()) && (elementsRequested > 0) ){
 					currentPos_ ++;
 					*elementList = *itemIterator_;
 					elementList++;
 					itemIterator_++;
-					
+
 					fetchCount++;
 					elementsRequested--;
 				}
 				if ( NULL != elementsFetched ) {
-					
+
 					*elementsFetched = fetchCount;
 				}
 				result = S_OK;
-			}			
+			}
 
 			return result;
 		};
@@ -136,7 +119,7 @@ template <class T> class EnumObject {
 		*@param ULONG elementsToSkip - the number of items to skip over
 		*/
         HRESULT _Skip( ULONG elementsToSkip ){
-			
+
 
 			HRESULT result = S_FALSE;
 			if ( itemIterator_ != items_.end() ){
@@ -154,12 +137,12 @@ template <class T> class EnumObject {
 		*Resets the enumeration sequence to the beginning.
 		*/
         HRESULT _Reset(void){
-			
+
 			itemIterator_ = items_.begin();
 			return S_OK;
 		};
-		
-        
+
+
 	protected:
 		std::vector<_typename_ T> items_;
 		_typename_ std::vector<_typename_ T>::iterator itemIterator_;
@@ -173,6 +156,9 @@ template <class T> class EnumObject {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *

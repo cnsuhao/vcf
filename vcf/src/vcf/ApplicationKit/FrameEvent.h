@@ -1,50 +1,26 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_FRAMEEVENT_H__
+#define _VCF_FRAMEEVENT_H__
+//FrameEvent.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
 
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-//FrameEvent.h
-
-#ifndef _VCF_FRAMEEVENT_H__
-#define _VCF_FRAMEEVENT_H__
-
-
 namespace VCF {
-	class APPKIT_API FrameEvent : public Event {		
+	class APPKIT_API FrameEvent : public Event {
 	public:
 		FrameEvent( Object* source ) : Event(source),okToClose_(true) {};
 
 		FrameEvent( Object* source, const unsigned long& eventType ):Event(source, eventType),okToClose_(true) {};
-		
+
 		FrameEvent( const FrameEvent& rhs ):Event(rhs) {
 			*this = rhs;
 		}
@@ -58,14 +34,14 @@ namespace VCF {
 			return *this;
 		}
 		/**
-		*returns whether or not the window can close. 
-		*Windows which are in their closing methods should not close 
+		*returns whether or not the window can close.
+		*Windows which are in their closing methods should not close
 		*if the flag has been set to false
 		*/
 		bool isOkToClose() {
 			return okToClose_;
 		}
-		
+
 		/**
 		*sets the event okToClose_ flag
 		*/
@@ -77,7 +53,7 @@ namespace VCF {
 				setConsumed( true );
 			}
 		}
-		
+
 		virtual Object* clone( bool deep=false ) {
 			return new FrameEvent(*this);
 		}
@@ -88,26 +64,28 @@ namespace VCF {
 
 
 
-	template <class SOURCE_TYPE> 
+	template <class SOURCE_TYPE>
 	class FrameEventHandler : public EventHandlerInstance<SOURCE_TYPE,FrameEvent> {
 	public:
 		FrameEventHandler( SOURCE_TYPE* source,
-			_typename_ EventHandlerInstance<SOURCE_TYPE,FrameEvent>::OnEventHandlerMethod handlerMethod, 
+			_typename_ EventHandlerInstance<SOURCE_TYPE,FrameEvent>::OnEventHandlerMethod handlerMethod,
 			const String& handlerName="") :
 			EventHandlerInstance<SOURCE_TYPE,FrameEvent>( source, handlerMethod, handlerName ) {
-			
+
 		}
-	
+
 		virtual ~FrameEventHandler(){};
-	
+
 	};
 };
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -196,7 +174,6 @@ namespace VCF {
 *the closing event will fail and prevent the widnow from being shutdown. Woo hoo !
 *
 */
-
 
 
 #endif // _VCF_FRAMEEVENT_H__

@@ -1,33 +1,10 @@
+//AbstractWin32Component.cpp
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/ 
-
-// AbstractWin32Component.cpp
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -54,11 +31,11 @@ using namespace VCFWin32;
 AbstractWin32Component::AbstractWin32Component()
 {
 	init();
-	setPeerControl( NULL );	
+	setPeerControl( NULL );
 }
 
 AbstractWin32Component::AbstractWin32Component( Control* component )
-{	
+{
 	init();
 	setPeerControl( component );
 }
@@ -72,22 +49,22 @@ void AbstractWin32Component::destroyControl()
 {
 	Win32MSG msg( hwnd_, WM_DESTROY, 0, 0, peerControl_ );
 
-	Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );	
+	Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
 
 	peerControl_->handleEvent( event );
 
 	event->free();
 
-	
 
-	if ( NULL != hwnd_ ){	
-		
+
+	if ( NULL != hwnd_ ){
+
 		if ( IsWindow( hwnd_ ) ) {
-			BOOL err = ::DestroyWindow( hwnd_ );		
+			BOOL err = ::DestroyWindow( hwnd_ );
 			if ( FALSE == err )  {
 				//throw RuntimeException( MAKE_ERROR_MSG_2("DestroyWindow failed") );
 				err = GetLastError();
-			}			
+			}
 		}
 		destroyWindowHandle();
 		hwnd_ = NULL;
@@ -95,9 +72,9 @@ void AbstractWin32Component::destroyControl()
 		defaultWndProc_ = NULL;
 		peerControl_ = NULL;
 	}
-	
+
 	if ( NULL != memDC_ ) {
-		DeleteDC( memDC_ );				
+		DeleteDC( memDC_ );
 	}
 
 	memDC_ = NULL;
@@ -105,7 +82,7 @@ void AbstractWin32Component::destroyControl()
 
 AbstractWin32Component::~AbstractWin32Component()
 {
-	
+
 }
 
 void AbstractWin32Component::init()
@@ -126,7 +103,7 @@ long AbstractWin32Component::getHandleID()
 VCF::String AbstractWin32Component::getText()
 {
 	VCF::String result;
-	
+
 	if ( System::isUnicodeEnabled() ) {
 		int size = ::GetWindowTextLengthW( hwnd_ )+1;
 		if ( size > 1 ) {
@@ -147,20 +124,20 @@ VCF::String AbstractWin32Component::getText()
 			delete [] tmpText;
 		}
 	}
-	
+
 	return result;
 }
 
 void AbstractWin32Component::setText( const VCF::String& text )
 {
 	if ( System::isUnicodeEnabled() ) {
-		
+
 		::SetWindowTextW( hwnd_, text.c_str() );
 	}
 	else {
 		::SetWindowTextA( hwnd_, text.ansi_c_str() );
 	}
-	
+
 }
 
 void AbstractWin32Component::setBounds( VCF::Rect* rect )
@@ -172,12 +149,12 @@ void AbstractWin32Component::setBounds( VCF::Rect* rect )
 
 
 	if ( NULL != winPosInfo ) {
-		parent_->winPosInfo_ = ::DeferWindowPos( winPosInfo, hwnd_, NULL, (int)rect->left_, (int)rect->top_, 
-													(int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );	
+		parent_->winPosInfo_ = ::DeferWindowPos( winPosInfo, hwnd_, NULL, (int)rect->left_, (int)rect->top_,
+													(int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );
 	}
 	else{
-		::SetWindowPos( hwnd_, NULL, (int)rect->left_, (int)rect->top_, 
-                    (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );	
+		::SetWindowPos( hwnd_, NULL, (int)rect->left_, (int)rect->top_,
+                    (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );
 	}
 	//
 
@@ -199,7 +176,7 @@ bool AbstractWin32Component::beginSetBounds( const ulong32& numberOfChildren )
 }
 
 void AbstractWin32Component::endSetBounds()
-{	
+{
 	::EndDeferWindowPos( winPosInfo_ );
 
 	winPosInfo_ = NULL;
@@ -210,20 +187,20 @@ VCF::Rect AbstractWin32Component::getBounds()
 	VCF::Rect result;
 	RECT r;
  	::GetWindowRect( hwnd_, &r );
-	
+
 	DWORD style = ::GetWindowLong( hwnd_, GWL_STYLE );
 
 	HWND parent = ::GetParent( hwnd_ );
 
-	if ( style & WS_CHILD ){ 		
+	if ( style & WS_CHILD ){
 		POINT pt = {0,0};
-		pt.x = r.left;	
+		pt.x = r.left;
 		pt.y = r.top;
 		::ScreenToClient( parent, &pt );
 		r.left = pt.x;
 		r.top = pt.y;
 
-		pt.x = r.right;	
+		pt.x = r.right;
 		pt.y = r.bottom;
 		::ScreenToClient( parent, &pt );
 
@@ -231,7 +208,7 @@ VCF::Rect AbstractWin32Component::getBounds()
 		r.bottom = pt.y;
 
 		result.setRect( r.left, r.top, r.right, r.bottom );
-		
+
 	}
 	else{
 		result.setRect( r.left, r.top, r.right, r.bottom );
@@ -263,7 +240,7 @@ VCF::Control* AbstractWin32Component::getControl()
 }
 
 void AbstractWin32Component::setControl( VCF::Control* component )
-{	
+{
 	setPeerControl( component );
 }
 
@@ -273,13 +250,13 @@ void AbstractWin32Component::setParent( VCF::Control* parent )
 	parent_ = NULL;
 	if ( NULL == dynamic_cast<Frame*>(peerControl_) ){
 		HWND wndParent = (HWND)parentPeer->getHandleID();
-		
+
 		parent_ = (AbstractWin32Component*)(parentPeer);
 
 		if ( NULL == wndParent ){
 			//throw exception !!!
 		}
-		
+
 		::SetParent( hwnd_, wndParent );
 	}
 }
@@ -298,11 +275,11 @@ bool AbstractWin32Component::isFocused()
 
 void AbstractWin32Component::setFocused()
 {
-	::SetFocus( hwnd_ );	
+	::SetFocus( hwnd_ );
 }
 
 bool AbstractWin32Component::isEnabled()
-{	
+{
 	return (::IsWindowEnabled( hwnd_ ) != 0);
 }
 
@@ -312,7 +289,7 @@ void AbstractWin32Component::setEnabled( const bool& enabled )
 }
 
 void AbstractWin32Component::setFont( Font* font )
-{	
+{
 	if ( NULL != font ){
 		Win32Font* win32FontPeer = NULL;
 		FontPeer* fontPeer = font->getFontPeer();
@@ -331,23 +308,23 @@ void AbstractWin32Component::setFont( Font* font )
 
 LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
 {
-	
-	LRESULT result = TRUE;//0;	
+
+	LRESULT result = TRUE;//0;
 
 	Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 
-	Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );	
-	
+	Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
+
 	switch ( message ) {
 
 		case WM_ERASEBKGND :{
-			result = 0;	
+			result = 0;
 		}
 		break;
 
 		case WM_CTLCOLOREDIT : case WM_CTLCOLORBTN: case WM_CTLCOLORLISTBOX: {
 			if ( peerControl_->getComponentState() != Component::csDestroying ) {
-				HWND hwndCtl = (HWND) lParam; // handle to static control 
+				HWND hwndCtl = (HWND) lParam; // handle to static control
 				if ( hwndCtl != hwnd_ ) {
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
@@ -364,8 +341,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 			Win32Object* obj = Win32Object::getWin32ObjectFromHWND( hwndLoseFocus );
 			if ( NULL != obj ){
 
-				
-				StringUtils::traceWithArgs( "lost focus: %s @ %p\n",  
+
+				StringUtils::traceWithArgs( "lost focus: %s @ %p\n",
 											obj->getPeerControl()->getClassName().c_str(), obj->getPeerControl() );
 
 
@@ -382,8 +359,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 			HWND hwndGetFocus = (HWND) wParam;
 			Win32Object* obj = Win32Object::getWin32ObjectFromHWND( hwndGetFocus );
 			if ( NULL != obj ){
-				
-				StringUtils::traceWithArgs( "gained focus: %s @ %p\n",  
+
+				StringUtils::traceWithArgs( "gained focus: %s @ %p\n",
 											obj->getPeerControl()->getClassName().c_str(), obj->getPeerControl() );
 
 			}
@@ -415,7 +392,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				if ( peerControl_->getComponentState() != Component::csDestroying ) {
 
 					if ( NULL == memDC_ ) {
-						//create here 
+						//create here
 						HDC dc = ::GetDC(0);
 						memDC_ = ::CreateCompatibleDC( dc );
 						::ReleaseDC( 0,	dc );
@@ -427,7 +404,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					PAINTSTRUCT ps;
 					HDC contextID = 0;
 
-					contextID = ::BeginPaint( hwnd_, &ps);						
+					contextID = ::BeginPaint( hwnd_, &ps);
 
 					VCF::GraphicsContext* ctx = peerControl_->getContext();
 
@@ -449,19 +426,19 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 						((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 					}
-					else if ( true == peerControl_->isDoubleBuffered() ){												
+					else if ( true == peerControl_->isDoubleBuffered() ){
 						int dcState = ::SaveDC( memDC_ );
-						
-						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc, 
-																		ps.rcPaint.right - ps.rcPaint.left, 
+
+						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
+																		ps.rcPaint.right - ps.rcPaint.left,
 																		ps.rcPaint.bottom - ps.rcPaint.top );
 
-						HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );						
-						
+						HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );
+
 						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
-										
-						//this is really dippy to have to do this here ? 
-						//by setting the owning control to NULL we 
+
+						//this is really dippy to have to do this here ?
+						//by setting the owning control to NULL we
 						//prevent the origin, and settings like it, from being
 						//lost every time a checkHandle()/releaseHandle() pair
 						//is called
@@ -470,50 +447,50 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						ctx->getPeer()->setContextID( (long)memDC_ );
 
 						((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-						
-						peerControl_->paint( ctx );						
+
+						peerControl_->paint( ctx );
 
 						((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
-						
+
 
 						//reset back to original origin
 						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
-						
-						
-						int err = ::BitBlt( ps.hdc, ps.rcPaint.left, ps.rcPaint.top, 
-											ps.rcPaint.right - ps.rcPaint.left, 
+
+
+						int err = ::BitBlt( ps.hdc, ps.rcPaint.left, ps.rcPaint.top,
+											ps.rcPaint.right - ps.rcPaint.left,
 											ps.rcPaint.bottom - ps.rcPaint.top,
 											memDC_, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY );
-						
+
 						::SelectObject( memDC_, oldBMP );
 
 						::DeleteObject( memBitmap );
-						
+
 						::RestoreDC ( memDC_, dcState );
 
 						if ( err == FALSE ) {
 							err = GetLastError();
 							StringUtils::traceWithArgs( "error in BitBlt during drawing of double buffered Comp: error code=%d\n",
-								err );	
-						}					
+								err );
+						}
 					}
 					else {
-						
+
 						ctx->getPeer()->setContextID( (long)ps.hdc );
-						//this is really dippy to have to do this here ? 
-						//by setting the owning control to NULL we 
+						//this is really dippy to have to do this here ?
+						//by setting the owning control to NULL we
 						//prevent the origin, and settings like it, from being
 						//lost every time a checkHandle()/releaseHandle() pair
 						//is called
 						//this is probably a bug that needs to fixed more completely
 						//internally - however this does get the job done
 						((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-						
-						peerControl_->paint( ctx );						
+
+						peerControl_->paint( ctx );
 
 						((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 					}
-					
+
 					ctx->setViewableBounds( Rect( 0,0,0,0 ) );
 
 					::EndPaint( hwnd_, &ps);
@@ -522,7 +499,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 		}
 		break;
 /*
-		
+
 
 		case WM_HELP : {
 			if ( peerControl_->getComponentState() != Component::csDestroying ) {
@@ -536,71 +513,71 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					HelpEvent event(peerControl_);
 					peerControl_->fireOnHelpRequested( &event );
 				}
-			}			
+			}
 		}
 		break;
-		
+
 */
 
-		case WM_DESTROY: {	
+		case WM_DESTROY: {
 			if ( NULL != event ) {
 				//peerControl_->handleEvent( event );
 			}
 
 			result = defaultWndProcedure( message, wParam, lParam );
-			
-			destroyWindowHandle();			
+
+			destroyWindowHandle();
 		}
 		break;
 
-		case WM_MOUSEMOVE: {			
+		case WM_MOUSEMOVE: {
 			if ( peerControl_->getComponentState() == Component::csNormal ) {
 				result = defaultWndProcedure( message, wParam, lParam );
-			}	
+			}
 
 			if ( false == mouseEnteredControl_ ) {
 				TRACKMOUSEEVENT trackmouseEvent = {0,0,0,0};
 				trackmouseEvent.cbSize = sizeof(trackmouseEvent);
 				trackmouseEvent.dwFlags = TME_LEAVE;
 				trackmouseEvent.hwndTrack = hwnd_;
-				trackmouseEvent.dwHoverTime = HOVER_DEFAULT;					
-				
+				trackmouseEvent.dwHoverTime = HOVER_DEFAULT;
+
 				if ( _TrackMouseEvent( &trackmouseEvent ) ) {
 					event->setType( Control::MOUSE_ENTERED );
 					peerControl_->handleEvent( event );
-				
+
 					event->setType( Control::MOUSE_MOVE );
 				}
 			}
 
-			mouseEnteredControl_ = true;				
-				
+			mouseEnteredControl_ = true;
+
 			peerControl_->handleEvent( event );
-			
+
 		}
 		break;
 
-		
-		case WM_MOUSELEAVE: {			
+
+		case WM_MOUSELEAVE: {
 			if ( peerControl_->getComponentState() == Component::csNormal ) {
 				result = defaultWndProcedure( message, wParam, lParam );
-			}	
-				
-			mouseEnteredControl_ = false;				
-			
+			}
+
+			mouseEnteredControl_ = false;
+
 			if ( NULL != event ) {
 				peerControl_->handleEvent( event );
 			}
-			
+
 		}
 		break;
 
 		case WM_DRAWITEM : {
 			UINT idCtl = (UINT) wParam;
 			DRAWITEMSTRUCT* drawItemStruct = (DRAWITEMSTRUCT*) lParam;
-			
-			if ( (peerControl_->getComponentState() != Component::csDestroying) && (0 == idCtl) 
-					&& (ODT_MENU == drawItemStruct->CtlType) ) { 
+
+			if ( (peerControl_->getComponentState() != Component::csDestroying) && (0 == idCtl)
+					&& (ODT_MENU == drawItemStruct->CtlType) ) {
 				// we have received a draw item for a menu item
 				MenuItem* foundItem = Win32MenuItem::getMenuItemFromID( drawItemStruct->itemID );
 				if ( NULL != foundItem ) {
@@ -611,22 +588,22 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					//foundItem->setEnabled( (drawItemStruct->itemState & ODS_CHECKED) != 0 );
 
 					if ( true == foundItem->canPaint() ) {
-						
+
 						Win32MenuItem* itemPeer = (Win32MenuItem*)foundItem->getPeer();
 
 						itemPeer->drawDefaultMenuItem( idCtl, *drawItemStruct );
 
-						GraphicsContext gc( (long)drawItemStruct->hDC );					
+						GraphicsContext gc( (long)drawItemStruct->hDC );
 						foundItem->paint( &gc, &Rect(drawItemStruct->rcItem.left, drawItemStruct->rcItem.top,
 														drawItemStruct->rcItem.right, drawItemStruct->rcItem.bottom) );
 						gc.getPeer()->setContextID(0);
-						
+
 						result = TRUE;
 					}
 				}
 			}
 			else {
-				if ( (peerControl_->getComponentState() != Component::csDestroying) && (ODT_BUTTON == drawItemStruct->CtlType) ) {  
+				if ( (peerControl_->getComponentState() != Component::csDestroying) && (ODT_BUTTON == drawItemStruct->CtlType) ) {
 					HWND hwndCtl = drawItemStruct->hwndItem;
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
@@ -636,17 +613,17 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				else {
 					result = defaultWndProcedure( message, wParam, lParam );
 				}
-			}			
+			}
 		}
 		break;
-		
+
 		case WM_MEASUREITEM : {
-			
+
 			UINT idCtl = (UINT) wParam;
 			MEASUREITEMSTRUCT* measureInfo = (MEASUREITEMSTRUCT*) lParam;
-			if ( (peerControl_->getComponentState() != Component::csDestroying) && (0 == idCtl) 
-					&& (ODT_MENU == measureInfo->CtlType) ) { 
-				
+			if ( (peerControl_->getComponentState() != Component::csDestroying) && (0 == idCtl)
+					&& (ODT_MENU == measureInfo->CtlType) ) {
+
 				// we have received a draw item for a menu item
 				MenuItem* foundItem = Win32MenuItem::getMenuItemFromID( measureInfo->itemID );
 				if ( NULL != foundItem ) {
@@ -663,33 +640,33 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						}
 						if ( true == needsBounds ) {
 							Win32MenuItem* peer = (Win32MenuItem*)foundItem->getPeer();
-							peer->fillInMeasureItemInfo( *measureInfo );							
+							peer->fillInMeasureItemInfo( *measureInfo );
 						}
 						else {
 							measureInfo->itemHeight = (long)bounds->getHeight();
 							measureInfo->itemWidth = (long)bounds->getWidth();
 						}
 					}
-				}				
+				}
 			}
-			else {			
+			else {
 				result = defaultWndProcedure( message, wParam, lParam );
-			}			
+			}
 		}
 		break;
-			
+
 		case WM_MENUSELECT : {
-			if ( peerControl_->getComponentState() != Component::csDestroying ) { 
+			if ( peerControl_->getComponentState() != Component::csDestroying ) {
 				UINT uItem = (UINT) LOWORD(wParam);
-				UINT fuFlags = (UINT) HIWORD(wParam); 
+				UINT fuFlags = (UINT) HIWORD(wParam);
 				HMENU hmenuPopup = (HMENU) lParam;
-				if ( (MF_MOUSESELECT & fuFlags) != 0 ) {								
+				if ( (MF_MOUSESELECT & fuFlags) != 0 ) {
 					MenuItem* foundItem = Win32MenuItem::getMenuItemFromID( uItem );
 					if ( NULL != foundItem ) {
 						//StringUtils::trace( "MF_MOUSESELECT over item \"" + foundItem->getCaption() + "\"\n" );
 						foundItem->setSelected( true );
 						result = 0;
-					}				
+					}
 				}
 				else {
 					result = defaultWndProcedure( message, wParam, lParam );
@@ -698,8 +675,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 		}
 		break;
 
-		case WM_INITMENUPOPUP : {	
-			if ( peerControl_->getComponentState() != Component::csDestroying ) { 
+		case WM_INITMENUPOPUP : {
+			if ( peerControl_->getComponentState() != Component::csDestroying ) {
 				HMENU hmenuPopup = (HMENU) wParam;//thisis the menu handle of the menu popuping up or dropping down
 				if ( GetMenuItemCount( hmenuPopup ) > 0 ) {
 					//UINT Pos = (UINT) LOWORD(lParam);
@@ -709,7 +686,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					info.cbSize = sizeof(MENUITEMINFO);
 					info.fMask = MIIM_ID;
 
-					
+
 					uint32 id = GetMenuItemID( hmenuPopup, uPos );
 					if ( id == 0xFFFFFFFF ) {
 						//hmmm try again with 0 - cause that also works
@@ -735,7 +712,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						while ( menuItems->hasMoreElements() ) {
 							MenuItem* child = menuItems->nextElement();
 							child->update();
-						}							
+						}
 						result = 0;
 					}
 				}
@@ -748,7 +725,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 		case WM_NOTIFY : {
 			result = defaultWndProcedure( message, wParam, lParam );
-			if ( peerControl_->getComponentState() != Component::csDestroying ) { 	
+			if ( peerControl_->getComponentState() != Component::csDestroying ) {
 				NMHDR* notificationHdr = (LPNMHDR)lParam;
 				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
 				if ( NULL != win32Obj ){
@@ -773,13 +750,13 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						int pos = 0;
 						StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
 						if ( zDelta < 0 ) {
-							pos = min( (long)(scrollable->getVerticalPosition() + 10), 
+							pos = min( (long)(scrollable->getVerticalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewHeight() - peerControl_->getHeight())) );
 						}
 						else if ( zDelta > 0 ) {
 							pos = max( (long)(scrollable->getVerticalPosition() - 10), 0 );
 						}
-								
+
 						scrollable->setVerticalPosition( pos );
 
 					}
@@ -787,27 +764,27 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						int pos = 0;
 						StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
 						if ( zDelta < 0 ) {
-							pos = min( (long)(scrollable->getHorizontalPosition() + 10), 
+							pos = min( (long)(scrollable->getHorizontalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewWidth() - peerControl_->getWidth())) );
 						}
 						else if ( zDelta > 0 ) {
 							pos = max( (long)(scrollable->getHorizontalPosition() - 10), 0 );
 						}
-								
+
 						scrollable->setHorizontalPosition( pos );
-					}					
+					}
 				}
 			}
 		}
 		break;
-#endif		
+#endif
 		case WM_VSCROLL : {
 			result = 0;
 			if ( NULL != peerControl_ ) {
 				if ( peerControl_->getComponentState() != Component::csDestroying ) {
 
-					HWND hwndScrollBar = (HWND) lParam; 
-					
+					HWND hwndScrollBar = (HWND) lParam;
+
 					Scrollable* scrollable = peerControl_->getScrollable();
 					//if it's null then check for children
 					if ( NULL == scrollable ) {
@@ -817,9 +794,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						}
 					}
 					if ( NULL != scrollable ) {
-						int nScrollCode = (int) LOWORD(wParam); // scroll bar value 
-						short int nPos = (short int) HIWORD(wParam);  // scroll box position 
-						// handle to scroll bar 
+						int nScrollCode = (int) LOWORD(wParam); // scroll bar value
+						short int nPos = (short int) HIWORD(wParam);  // scroll box position
+						// handle to scroll bar
 						//use this for 32bit scroll positions
 						SCROLLINFO si;
 						memset( &si, 0, sizeof(si) );
@@ -831,13 +808,13 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						switch ( nScrollCode ) {
 
 							case SB_THUMBPOSITION : case SB_THUMBTRACK : {
-							
-								scrollable->setVerticalPosition( si.nTrackPos );		
+
+								scrollable->setVerticalPosition( si.nTrackPos );
 							}
 							break;
 
-							case SB_LINEDOWN: {		
-								int pos = min( (long)(scrollable->getVerticalPosition() + 5), 
+							case SB_LINEDOWN: {
+								int pos = min( (long)(scrollable->getVerticalPosition() + 5),
 												abs((long)(scrollable->getVirtualViewHeight() - height)) );
 								si.nPos += 5;						// for a text file or a listbox it becomes important !
 								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
@@ -846,34 +823,34 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 							}
 							break;
 
-							case SB_LINEUP: {							
+							case SB_LINEUP: {
 								int pos = max( (long)(scrollable->getVerticalPosition() - 5), 0 );
 								si.nPos -= 5;
 								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
-								scrollable->setVerticalPosition( pos );		
+								scrollable->setVerticalPosition( pos );
 							}
 							break;
 
-							case SB_PAGEDOWN: {							
-								int pos = min( (long)(scrollable->getVerticalPosition() + 50), 
+							case SB_PAGEDOWN: {
+								int pos = min( (long)(scrollable->getVerticalPosition() + 50),
 												abs((long)(scrollable->getVirtualViewHeight() - height)) );
 								si.nPos += si.nPage;
 								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
-								scrollable->setVerticalPosition( pos );		
+								scrollable->setVerticalPosition( pos );
 							}
 							break;
 
-							case SB_PAGEUP: {							
+							case SB_PAGEUP: {
 								int pos = max( (long)(scrollable->getVerticalPosition() - 50), 0 );
 								si.nPos -= si.nPage;
 								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
-								scrollable->setVerticalPosition( pos );		
+								scrollable->setVerticalPosition( pos );
 							}
 							break;
-						}					
+						}
 					}
 				}
 			}
@@ -884,9 +861,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 			result = 0;
 			if ( NULL != peerControl_ ) {
 				if ( peerControl_->getComponentState() != Component::csDestroying ) {
-					
-					HWND hwndScrollBar = (HWND) lParam; 
-					
+
+					HWND hwndScrollBar = (HWND) lParam;
+
 					Scrollable* scrollable = peerControl_->getScrollable();
 					//if it's null then check for children
 					if ( NULL == scrollable ) {
@@ -896,9 +873,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						}
 					}
 					if ( NULL != scrollable ) {
-						int nScrollCode = (int) LOWORD(wParam); // scroll bar value 
-						short int nPos = (short int) HIWORD(wParam);  // scroll box position 
-						// handle to scroll bar 
+						int nScrollCode = (int) LOWORD(wParam); // scroll bar value
+						short int nPos = (short int) HIWORD(wParam);  // scroll box position
+						// handle to scroll bar
 						//use this for 32bit scroll positions
 						SCROLLINFO si;
 						memset( &si, 0, sizeof(si) );
@@ -908,57 +885,57 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						double width = peerControl_->getClientBounds().getWidth();
 
 						switch ( nScrollCode ) {
-							case SB_THUMBPOSITION : case SB_THUMBTRACK : {							
-								scrollable->setHorizontalPosition( si.nTrackPos );		
+							case SB_THUMBPOSITION : case SB_THUMBTRACK : {
+								scrollable->setHorizontalPosition( si.nTrackPos );
 							}
 							break;
 
-							case SB_LEFT : {							
-								
+							case SB_LEFT : {
+
 							}
 							break;
 
-							case SB_RIGHT : {							
-								
+							case SB_RIGHT : {
+
 							}
 							break;
 
 							case SB_LINELEFT : {
-								int pos = max( (long)(scrollable->getHorizontalPosition() - 5), 
+								int pos = max( (long)(scrollable->getHorizontalPosition() - 5),
 												0 );
 
-								scrollable->setHorizontalPosition( pos );		
+								scrollable->setHorizontalPosition( pos );
 							}
 							break;
 
-							case SB_LINERIGHT : {							
-								int pos = min( (long)(scrollable->getHorizontalPosition() + 5), 
+							case SB_LINERIGHT : {
+								int pos = min( (long)(scrollable->getHorizontalPosition() + 5),
 												abs((long)(scrollable->getVirtualViewWidth() - width)) );
 
-								scrollable->setHorizontalPosition( pos );		
+								scrollable->setHorizontalPosition( pos );
 							}
 							break;
 
-							case SB_PAGELEFT : {							
+							case SB_PAGELEFT : {
 								int pos = max( (long)(scrollable->getHorizontalPosition() - 50), 0 );
 
-								scrollable->setHorizontalPosition( pos );		
+								scrollable->setHorizontalPosition( pos );
 							}
 							break;
 
-							case SB_PAGERIGHT : {							
-								int pos = min( (long)(scrollable->getHorizontalPosition() + 50), 
+							case SB_PAGERIGHT : {
+								int pos = min( (long)(scrollable->getHorizontalPosition() + 50),
 												abs((long)( scrollable->getVirtualViewWidth() - width) ) );
 
 								scrollable->setHorizontalPosition( pos );
 							}
 							break;
 
-							case SB_ENDSCROLL : {							
-								
+							case SB_ENDSCROLL : {
+
 							}
 							break;
-						}					
+						}
 					}
 				}
 			}
@@ -967,7 +944,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 		case WM_COMMAND:{
 			if ( peerControl_->getComponentState() != Component::csDestroying ) {
-				UINT notifyCode = HIWORD(wParam); 
+				UINT notifyCode = HIWORD(wParam);
 				HWND hwndCtl = (HWND) lParam;
 				Win32Object* win32Obj = NULL;
 				if ( NULL != hwndCtl ){
@@ -975,7 +952,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				}
 				if ( NULL != win32Obj ){
 					if ( NULL != win32Obj ){
-						win32Obj->handleEventMessages( notifyCode, wParam, lParam );						
+						win32Obj->handleEventMessages( notifyCode, wParam, lParam );
 					}
 					else {
 						StringUtils::trace( "win32Obj == NULL!\n" );
@@ -983,26 +960,26 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						char tmp2[256];
 						memset( tmp2, 0, 256 );
 						sprintf( tmp2, "command ID: %d\n", wID );
-						
+
 						StringUtils::trace( String(tmp2) );
-						
+
 						defaultWndProcedure( message, wParam, lParam );
 					}
 				}
 				else {
 					switch ( notifyCode ) {
 						case 0 : { //menu item command
-							UINT wID = LOWORD(wParam);				
-							
+							UINT wID = LOWORD(wParam);
+
 							MenuItem* item = Win32MenuItem::getMenuItemFromID( wID );
-							if ( NULL != item ){						
+							if ( NULL != item ){
 								item->click();
 							}
 						}
 						break;
 
 						case 1 : { //accellerator
-							
+
 						}
 						break;
 					}
@@ -1020,7 +997,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 		}
 		break;
 	}
-	
+
 	if ( NULL != event ) {
 		delete event;
 		event = NULL;
@@ -1091,6 +1068,9 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -1342,4 +1322,5 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 *to facilitate change tracking
 *
 */
+
 

@@ -1,6 +1,95 @@
+//TitledBorder.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/TitledBorder.h"
+
+using namespace VCF;
+
+TitledBorder::TitledBorder():
+	sidesToPaint_(GraphicsContext::etAllSides)
+{
+
+}
+
+
+void TitledBorder::paint( Control* control, GraphicsContext* context )
+{
+	if ( NULL == control ) {
+		throw InvalidPointerException( MAKE_ERROR_MSG_2( "can't paint a border on a NULL Control." ) );
+	}
+	context->setColor( control->getColor() );
+	paint( &control->getClientBounds(false), context );
+}
+
+void TitledBorder::paint( Rect* bounds, GraphicsContext* context )
+{
+	Rect edgeRect = *bounds;
+
+
+	Rect textRect;
+	Font* oldFont = context->getCurrentFont();
+	context->setCurrentFont( &font_ );
+
+	double textHeight = context->getTextHeight( "EM" );
+	double textWidth = maxVal<double>( context->getTextWidth( "EM" ), context->getTextWidth( caption_ ) );
+
+	edgeRect.top_ += textHeight/2.0;
+
+
+
+	double y = edgeRect.top_ - textHeight/2.0;
+	double x = edgeRect.left_ + 10;
+	textRect.setRect( x, y, x + textWidth, y + textHeight );
+
+	context->rectangle( &Rect(bounds->left_, bounds->top_, bounds->right_, bounds->top_ + textHeight + 1 ) );
+	context->fillPath();
+
+
+	context->drawEdge( &edgeRect, sidesToPaint_, GraphicsContext::etEtched );
+
+	textRect.inflate( 5, 0 );
+	context->rectangle( &textRect );
+	textRect.inflate( -5, 0 );
+	context->fillPath();
+
+	context->textBoundedBy( &textRect, caption_, false );
+
+	context->setCurrentFont( oldFont );
+}
+
+Rect TitledBorder::getClientRect( Control* control )
+{
+	Rect result;
+	if ( NULL != control ){
+		GraphicsContext* context = control->getContext();
+
+		result = control->getClientBounds( false );
+		result.inflate( -2.0, 0.0 );
+		result.bottom_ -= 2.0;
+
+		Font* oldFont = context->getCurrentFont();
+		context->setCurrentFont( &font_ );
+
+		result.top_ += context->getTextHeight( "EM" );
+		context->setCurrentFont( oldFont );
+	}
+	return result;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -52,111 +141,5 @@
 *borders
 *
 */
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
-//TitledBorder.cpp
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/TitledBorder.h"
-
-using namespace VCF;
-
-TitledBorder::TitledBorder():
-	sidesToPaint_(GraphicsContext::etAllSides)	
-{
-
-}
-
-
-void TitledBorder::paint( Control* control, GraphicsContext* context )
-{
-	if ( NULL == control ) {
-		throw InvalidPointerException( MAKE_ERROR_MSG_2( "can't paint a border on a NULL Control." ) );
-	}
-	context->setColor( control->getColor() );
-	paint( &control->getClientBounds(false), context );
-}
-
-void TitledBorder::paint( Rect* bounds, GraphicsContext* context )
-{
-	Rect edgeRect = *bounds;
-
-	
-	Rect textRect;
-	Font* oldFont = context->getCurrentFont();
-	context->setCurrentFont( &font_ );
-
-	double textHeight = context->getTextHeight( "EM" );
-	double textWidth = maxVal<double>( context->getTextWidth( "EM" ), context->getTextWidth( caption_ ) );
-
-	edgeRect.top_ += textHeight/2.0;
-
-	
-
-	double y = edgeRect.top_ - textHeight/2.0;
-	double x = edgeRect.left_ + 10;
-	textRect.setRect( x, y, x + textWidth, y + textHeight );
-	
-	context->rectangle( &Rect(bounds->left_, bounds->top_, bounds->right_, bounds->top_ + textHeight + 1 ) );	
-	context->fillPath();
-
-
-	context->drawEdge( &edgeRect, sidesToPaint_, GraphicsContext::etEtched );
-
-	textRect.inflate( 5, 0 );
-	context->rectangle( &textRect );
-	textRect.inflate( -5, 0 );
-	context->fillPath();
-
-	context->textBoundedBy( &textRect, caption_, false );
-
-	context->setCurrentFont( oldFont );	
-}
-
-Rect TitledBorder::getClientRect( Control* control )
-{
-	Rect result;
-	if ( NULL != control ){
-		GraphicsContext* context = control->getContext();
-
-		result = control->getClientBounds( false );
-		result.inflate( -2.0, 0.0 );
-		result.bottom_ -= 2.0;
-
-		Font* oldFont = context->getCurrentFont();
-		context->setCurrentFont( &font_ );
-
-		result.top_ += context->getTextHeight( "EM" );
-		context->setCurrentFont( oldFont );
-	}
-	return result;
-}
 
 

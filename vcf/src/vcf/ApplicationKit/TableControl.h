@@ -1,57 +1,33 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_TABLECONTROL_H__
 #define _VCF_TABLECONTROL_H__
+//TableControl.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
 /**
-The TableControl is based (partially) on Chris Maunder's 
+The TableControl is based (partially) on Chris Maunder's
 excellent CGridCtrl. What follows is his license for the code:
 
 Written by Chris Maunder <cmaunder@mail.com>
 Copyright (c) 1998-2002. All Rights Reserved.
 
 This code may be used in compiled form in any way you desire. This
-file may be redistributed unmodified by any means PROVIDING it is 
-not sold for profit without the authors written consent, and 
-providing that this notice and the authors name and all copyright 
-notices remains intact. 
+file may be redistributed unmodified by any means PROVIDING it is
+not sold for profit without the authors written consent, and
+providing that this notice and the authors name and all copyright
+notices remains intact.
 
-An email letting me know how you are using it would be nice as well. 
+An email letting me know how you are using it would be nice as well.
 
 This file is provided "as is" with no expressed or implied warranty.
 The author accepts no liability for any damage/loss of business that
@@ -105,9 +81,9 @@ public:
 };
 
 
-class APPKIT_API CellRange {  
+class APPKIT_API CellRange {
 public:
-    
+
 	CellRange(int minRow = -1, int minCol = -1, int maxRow = -1, int maxCol = -1) {
 		set(minRow, minCol, maxRow, maxCol);
 	}
@@ -135,8 +111,8 @@ public:
 		return inRange(cellID.row, cellID.column);
 	}
 
-	int  count() { 
-		return (maxRow_ - minRow_ + 1) * (maxCol_ - minCol_ + 1); 
+	int  count() {
+		return (maxRow_ - minRow_ + 1) * (maxCol_ - minCol_ + 1);
 	}
 
 	CellID  getTopLeft() const {
@@ -181,7 +157,7 @@ public:
 	}
 
 	int getRowSpan() const {
-		return maxRow_ - minRow_ + 1;	
+		return maxRow_ - minRow_ + 1;
 	}
 
 	int getColSpan() const {
@@ -189,7 +165,7 @@ public:
 	}
 
 	CellRange& operator=(const CellRange& rhs) {
-		if (this != &rhs) { 
+		if (this != &rhs) {
 			set(rhs.minRow_, rhs.minCol_, rhs.maxRow_, rhs.maxCol_);
 		}
 
@@ -216,18 +192,18 @@ protected:
 
 
 /**
-Originally started as a basic table control, I quickly realized what an ordeal 
-this was going to turn into, and I began looking at Chris Maunder's excellent 
-CGridCtrl class. At this point, much of the original code that I wrote has 
-been completely dismantled, and in it's place I have ported over most of the 
-basic design/layout/algorithms from the CGridCtrl. The original CGridCtrl was 
-written for MFC, and has a number of very Win32-ish designs implicit in it. 
-These have been heavily changed to fit within the VCF way of doing things. 
-For example, the original TableControl made use of a TableModel with TableCellItem's 
-to represent an individual cell. This is still the case and in migrating over 
-to Chris's code, I had to make allowances for this, since his control doesn't 
-separate the model/data from the control itself (though he does use a CGridCell 
-class for the cell items). In addition most of the enumerations and all of the 
+Originally started as a basic table control, I quickly realized what an ordeal
+this was going to turn into, and I began looking at Chris Maunder's excellent
+CGridCtrl class. At this point, much of the original code that I wrote has
+been completely dismantled, and in it's place I have ported over most of the
+basic design/layout/algorithms from the CGridCtrl. The original CGridCtrl was
+written for MFC, and has a number of very Win32-ish designs implicit in it.
+These have been heavily changed to fit within the VCF way of doing things.
+For example, the original TableControl made use of a TableModel with TableCellItem's
+to represent an individual cell. This is still the case and in migrating over
+to Chris's code, I had to make allowances for this, since his control doesn't
+separate the model/data from the control itself (though he does use a CGridCell
+class for the cell items). In addition most of the enumerations and all of the
 function names have been changed, again to fit in with the VCF's coding standards.
 */
 class APPKIT_API TableControl : public CustomControl, public DelegatedContainer<TableControl> {
@@ -255,7 +231,7 @@ public:
 		asoBoth
 	};
 
-	TableControl( TableModel* model=NULL );	
+	TableControl( TableModel* model=NULL );
 	virtual ~TableControl();
 
 	virtual void paint( GraphicsContext * context );
@@ -269,13 +245,13 @@ public:
 	uint32 getDefaultColumnWidth();
 
 	void setDefaultColumnWidth( const uint32& defaultColumnWidth );
-	
+
 	void setColumnWidth( const uint32& column, const uint32& width );
 
 	void setRowHeight( const uint32& row, const uint32& height );
 
 	double getRowHeight( uint32 row );
-	
+
 	double getColumnWidth( uint32 col );
 
 	TableModel* getTableModel();
@@ -284,8 +260,8 @@ public:
 
 	void setColumnCount( const uint32& colCount );
 
-	void setRowCount( const uint32& rowCount );	
-	
+	void setRowCount( const uint32& rowCount );
+
 
 	virtual void mouseDown( MouseEvent* event );
 
@@ -293,7 +269,7 @@ public:
 
 	virtual void mouseUp( MouseEvent* event );
 
-	virtual void mouseDblClick(  MouseEvent* event );	
+	virtual void mouseDblClick(  MouseEvent* event );
 
 	//virtual void setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating=true ) throw( InvalidPeer );
 
@@ -338,7 +314,7 @@ public:
 	@event TableCellClicked
 	*/
 	DELEGATE(FixedColumnClicked)
-	
+
 	/**
 	@delegate TableSelecting
 	@event TableSelecting
@@ -373,8 +349,8 @@ public:
 		return false;
 	}
 
-	
-	
+
+
 
 	bool getAllowColumnResizing() {
 		return allowColumnResizing_;
@@ -384,7 +360,7 @@ public:
 		allowColumnResizing_ = val;
 	}
 
-	
+
 
 	bool getAllowRowResizing() {
 		return allowRowResizing_;
@@ -417,7 +393,7 @@ public:
 	void setAllowRowHide( bool val ) {
 		allowRowHide_ = val;
 	}
-	
+
 	bool getEnableSelection() {
 		return enableSelection_;
 	}
@@ -456,8 +432,8 @@ public:
 
 	void setAllowFixedRowSelection( bool val ) {
 		allowFixedRowSelection_ = val;
-	}	
-	
+	}
+
 	virtual void keyDown( KeyboardEvent* e );
 protected:
 
@@ -476,13 +452,13 @@ protected:
 		msSelectCells
 	};
 
-	
+
 
 	Rect getBoundsForCell( const CellID& cell );
 
 	Rect getBoundsForItem( TableCellItem* item );
 
-	
+
 
 	double getFixedColumnWidth();
 	double getFixedRowHeight();
@@ -531,9 +507,9 @@ protected:
 	void selectAllCells();
 
 	void selectColumns( CellID currentCell, bool forceRedraw=false, bool selectCells=true );
-    
+
 	void selectRows( CellID currentCell, bool forceRedraw=false, bool selectCells=true );
-    
+
 	void selectCells( CellID currentCell, bool forceRedraw=false, bool selectCells=true );
 
 	void fixedRowClicked( CellID cell );
@@ -549,12 +525,12 @@ protected:
 	double getTotalColumnWidth();
 
 	bool autoSizeColumn( int column, AutoSizeOption autoSizeStyle=asoDefault, bool resetScroll=true );
-	
+
 	bool autoSizeRow( int row, bool resetScroll=true);
 
 	void editCell( const CellID& cell, const Point& pt );
 
-	TableCellItem* selectedCellItem_;	
+	TableCellItem* selectedCellItem_;
 	Control* currentEditingControl_;
 
 	TableItemEditor* currentItemEditor_;
@@ -589,7 +565,7 @@ protected:
 	uint32 dragColumnWidth_;
 
 	double totalRowHeight_;
-	
+
 
 	MouseState mouseState_;
 
@@ -599,21 +575,25 @@ protected:
 
 	uint32 defaultColumnWidth_;
 	uint32 defaultRowHeight_;
-	
+
 	std::vector<uint32> columnWidths_;
 	std::vector<uint32> rowHeights_;
 
-	std::map<CellID,TableCellItem*> previouslySelectedCellMap_;	
+	std::map<CellID,TableCellItem*> previouslySelectedCellMap_;
 
-	
-	
-};
+
 
 };
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *

@@ -1,29 +1,9 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//GTKWindow.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
@@ -39,7 +19,7 @@ GTKWindow::GTKWindow( Control* control, Control* owner ):
 	sizeState_(GTKWindow::wsNone)
 {
 
-	control_ = control;	
+	control_ = control;
 }
 
 GTKWindow::~GTKWindow()
@@ -51,14 +31,14 @@ void GTKWindow::create( Control* owningControl )
 {
 	GTKGraphicsToolkit* grafToolkit = reinterpret_cast<GTKGraphicsToolkit*>(GraphicsToolkit::internal_getDefaultGraphicsToolkit());
 	GTKUIToolkit* toolkit = (GTKUIToolkit*)UIToolkit::internal_getDefaultUIToolkit();
-	
+
 	wndHandle_ = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	if ( NULL == wndHandle_ ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("gtk_window_new() failed") );
 	}
-	gtk_widget_realize ( wndHandle_ );	
+	gtk_widget_realize ( wndHandle_ );
 
-	
+
 
 	g_signal_connect (G_OBJECT (wndHandle_), "delete_event",
 		      G_CALLBACK (GTKWindow::deleteEvent), (gpointer)this);
@@ -70,7 +50,7 @@ void GTKWindow::create( Control* owningControl )
 
 		//
 	gtk_container_add( GTK_CONTAINER( wndHandle_ ), containerWidget_ );
-	
+
 	GtkWindow* wnd = (GTK_WINDOW(wndHandle_) );
 
 	GdkGeometry geom;
@@ -78,12 +58,12 @@ void GTKWindow::create( Control* owningControl )
 	geom.min_width = 1;
 	geom.min_height = 1;
 
-	gtk_window_set_geometry_hints( wnd, wndHandle_, &geom, 
-									(GdkWindowHints)(GDK_HINT_MIN_SIZE) ); 
+	gtk_window_set_geometry_hints( wnd, wndHandle_, &geom,
+									(GdkWindowHints)(GDK_HINT_MIN_SIZE) );
 
-	AbstractGTKControl::registerGTKControl( this );	
+	AbstractGTKControl::registerGTKControl( this );
 
-	
+
 
 	gtk_widget_set_name ( containerWidget_, "VCF::WINDOW-Container" );
 
@@ -102,7 +82,7 @@ void GTKWindow::initGdkEventHandlers()
 	gtk_widget_add_events( containerWidget_, GDK_ALL_EVENTS_MASK );
 
 	g_signal_connect ( G_OBJECT (containerWidget_), "event",
-						G_CALLBACK (GTKWindow::onGdkEventForContainer), 
+						G_CALLBACK (GTKWindow::onGdkEventForContainer),
 						(gpointer)this );
 }
 
@@ -117,7 +97,7 @@ gboolean GTKWindow::onGdkEventForContainer( GtkWidget *widget, GdkEvent *event, 
 }
 
 
-long GTKWindow::getHandleID() 
+long GTKWindow::getHandleID()
 {
 	return (long)containerWidget_;
 }
@@ -137,25 +117,25 @@ void  GTKWindow::setClientBounds( Rect* bounds )
 
 void GTKWindow::setBounds( Rect* rect )
 {
-	if ( GTK_WIDGET_REALIZED (wndHandle_) )  {	
-		
-		gdk_window_move_resize( wndHandle_->window, 
-								(int)rect->left_, 
-								(int)rect->top_, 
-								(int)rect->getWidth(), 
+	if ( GTK_WIDGET_REALIZED (wndHandle_) )  {
+
+		gdk_window_move_resize( wndHandle_->window,
+								(int)rect->left_,
+								(int)rect->top_,
+								(int)rect->getWidth(),
 								(int)rect->getHeight() );
 
-		
+
     }
 }
 
 void GTKWindow::close()
 {
-		
+
 	//GTKUIToolkit* toolkit = reinterpret_cast<GTKUIToolkit*>(UIToolkit::getDefaultUIToolkit());
 	//GTKGraphicsToolkit* grafToolkit = reinterpret_cast<GTKGraphicsToolkit*>(GraphicsToolkit::getDefaultGraphicsToolkit());
-	
-	
+
+
 }
 
 void GTKWindow::setFrameStyle( const FrameStyleType& frameStyle )
@@ -185,7 +165,7 @@ void GTKWindow::setFrameStyle( const FrameStyleType& frameStyle )
 			useDecorations = FALSE;
 			resizeable = FALSE;
 		}
-		break;		
+		break;
 
 		case fstToolbarBorder :{
 			useDecorations = TRUE;
@@ -198,18 +178,18 @@ void GTKWindow::setFrameStyle( const FrameStyleType& frameStyle )
 			resizeable = FALSE;
 		}
 		break;
-		
+
 	}
-	gtk_window_set_decorated( (GtkWindow*)wndHandle_, useDecorations );	
-	gtk_window_set_resizable( (GtkWindow*)wndHandle_, resizeable );	
+	gtk_window_set_decorated( (GtkWindow*)wndHandle_, useDecorations );
+	gtk_window_set_resizable( (GtkWindow*)wndHandle_, resizeable );
 }
 
 void GTKWindow::setFrameTopmost( const bool& isTopmost )
 {
 	if ( true == isTopmost ) {
-		
+
 	}
-	
+
 }
 
 bool GTKWindow::isMaximized()
@@ -243,7 +223,7 @@ void GTKWindow::setMinimized( const bool& minimized )
 	else {
 		sizeState_ = GTKWindow::wsMinimized;
 		gtk_window_deiconify( (GtkWindow*)wndHandle_ );
-	}	
+	}
 }
 
 void GTKWindow::restore()
@@ -259,7 +239,7 @@ void GTKWindow::restore()
 
 void GTKWindow::setIconImage( Image* icon )
 {
-	
+
 }
 
 gint GTKWindow::deleteEvent( GtkWidget *widget, GdkEvent  *event, gpointer data )
@@ -268,19 +248,19 @@ gint GTKWindow::deleteEvent( GtkWidget *widget, GdkEvent  *event, gpointer data 
 	GTKWindow* gtkWnd = (GTKWindow*)data;
 
 	VCF::Window* window = (VCF::Window*)gtkWnd->getControl();
-	
+
 	if ( window->allowClose() ) {
-		
+
 		VCF::WindowEvent event( gtkWnd->getControl(), WINDOW_EVENT_CLOSE );
-		
-		
+
+
 		window->FrameClose.fireEvent( &event );
-		
+
 		//check if the main window is clossing - if it is
 		//then close the app !
-		result = FALSE;		
+		result = FALSE;
 	}
-	
+
 
 	return result;
 }
@@ -301,7 +281,7 @@ void GTKWindow::destroyEvent( GtkWidget *widget, gpointer data )
 }
 
 gboolean GTKWindow::handleEvent( GdkEvent* gtkEvent )
-{	
+{
 	GTKUIToolkit* toolkit = reinterpret_cast<GTKUIToolkit*>(UIToolkit::internal_getDefaultUIToolkit());
 
 	gboolean result = FALSE;
@@ -310,36 +290,36 @@ gboolean GTKWindow::handleEvent( GdkEvent* gtkEvent )
 		StringUtils::trace( "containerWidget_ event\n" );
 	}
 	switch ( gtkEvent->type ) {
-		
+
 		case GDK_EXPOSE : {
 			if ( gtkEvent->any.window == containerWidget_->window ) {
 				GdkEventExpose* gdkExposeEvent = (GdkEventExpose*)gtkEvent;
-				
+
 				GraphicsContext* gc = control_->getContext();
-				
-				gc->getPeer()->setContextID( (ulong32)containerWidget_->window );		
-				
+
+				gc->getPeer()->setContextID( (ulong32)containerWidget_->window );
+
 				control_->paint( gc );
 
 				repainted_ = false;
-				//result = TRUE;	
+				//result = TRUE;
 			}
-			
+
 		}
 		break;
-		
+
 		case GDK_CONFIGURE : {
 			if ( gtkEvent->any.window == wndHandle_->window ) {
 				printf( "GDK_CONFIGURE: gtkEvent->any.window == wndHandle_->window\n" );
 				GdkEventConfigure* configEv = (GdkEventConfigure*)gtkEvent;
 
-				gdk_window_move_resize( containerWidget_->window, 
-								(int)0, 
-								(int)0, 
-								(int)configEv->width, 
+				gdk_window_move_resize( containerWidget_->window,
+								(int)0,
+								(int)0,
+								(int)configEv->width,
 								(int)configEv->height );
 
-				AbstractGTKControl::Container::move( containerWidget_, 
+				AbstractGTKControl::Container::move( containerWidget_,
 
 
 											0, 0, configEv->width, configEv->height );
@@ -348,7 +328,7 @@ gboolean GTKWindow::handleEvent( GdkEvent* gtkEvent )
 
 
 
-						
+
 			}
 			else {
 				printf( "GDK_CONFIGURE: gtkEvent->any.window != wndHandle_->window\n" );
@@ -375,7 +355,7 @@ gboolean GTKWindow::handleEvent( GdkEvent* gtkEvent )
 		break;
 	}
 
-	return result;	
+	return result;
 }
 
 
@@ -385,14 +365,14 @@ String GTKWindow::getText()
 }
 
 /**
- * sets the text for the widget 
+ * sets the text for the widget
  */
 void GTKWindow::setText( const String& text )
 {
 	if ( text == text_ ) {
 		return;
 	}
-	
+
 	text_ = text;
 
 	gtk_window_set_title( (GtkWindow*)wndHandle_, text_.ansi_c_str() );
@@ -417,10 +397,12 @@ Rect GTKWindow::getBounds()
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles
@@ -523,6 +505,5 @@ Rect GTKWindow::getBounds()
 *for the basic peers.
 *
 */
-
 
 

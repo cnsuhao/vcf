@@ -1,33 +1,11 @@
+//CustomControl.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//CustomControl.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 
@@ -39,10 +17,10 @@ using namespace VCF;
 CustomControl::CustomControl():
 	Control(),
 	isLightweight_(false)
-{	
+{
 	peer_ =	UIToolkit::createControlPeer( this );
 	peer_->create( this );
-	
+
 	init();
 }
 
@@ -56,7 +34,7 @@ CustomControl::CustomControl( const bool& useHeavyweightPeer ):
 	else{
 		peer_ = UIToolkit::createControlPeer( this, CT_HEAVYWEIGHT );
 	}
-	
+
 	peer_->create( this );
 	init();
 }
@@ -74,50 +52,50 @@ void CustomControl::paint(GraphicsContext * context)
 
 
 	Border* border = getBorder();
-	
+
 	Rect innerBounds(0,0,getWidth(), getHeight() );
 
 	if ( NULL != border ){
 		border->paint( this, context );
-		innerBounds = border->getClientRect( this );		
+		innerBounds = border->getClientRect( this );
 	}
 
-	if ( (false == isTransparent_) || (false == isLightWeight()) ){		
+	if ( (false == isTransparent_) || (false == isLightWeight()) ){
 		context->rectangle( &innerBounds );
 		context->setColor( getColor() );
 		context->fillPath();
 	}
 
-	
+
 
 	context->setCurrentFont( getFont() );
 /*
 	Scrollable* scrollable = getScrollable();
 	if ( NULL != scrollable ) {
-		Point origin = context->getOrigin();	
-		
+		Point origin = context->getOrigin();
+
 		context->setOrigin( origin.x_ - scrollable->getHorizontalPosition(), origin.y_ - scrollable->getVerticalPosition() );
 
 		Rect viewBounds = context->getViewableBounds();
-		
+
 	}
 	*/
 	Scrollable* scrollable = getScrollable();
 	if ( scrollable ) {
 		Rect viewBounds = context->getViewableBounds();
-		
-		Point origin = context->getOrigin();		
-		
+
+		Point origin = context->getOrigin();
+
 		adjustViewableBoundsAndOriginForScrollable( context, viewBounds, origin );
-		
-		context->setOrigin( origin );		
-		
-		context->setViewableBounds( viewBounds );		
+
+		context->setOrigin( origin );
+
+		context->setViewableBounds( viewBounds );
 	}
 }
 
 void CustomControl::init()
-{	
+{
 	setEnabled( true );
 	setVisible( true );
 	setFocused();
@@ -139,10 +117,12 @@ void CustomControl::setTransparent( const bool& transparent )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -269,4 +249,5 @@ void CustomControl::setTransparent( const bool& transparent )
 *to facilitate change tracking
 *
 */
+
 

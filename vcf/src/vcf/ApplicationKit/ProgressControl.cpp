@@ -1,5 +1,11 @@
 //ProgressControl.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ProgressControl.h"
@@ -9,7 +15,7 @@
 using namespace VCF;
 
 
-ProgressControl::ProgressControl(): 
+ProgressControl::ProgressControl():
 	CustomControl(false),
 	displayAlignment_(paHorizontal),
 	minVal_(0.0),
@@ -40,7 +46,7 @@ ProgressControl::~ProgressControl()
 
 
 void ProgressControl::setDisplayAlignment( ProgressAlignment val )
-{	
+{
 	displayAlignment_ = val;
 	repaint();
 }
@@ -142,8 +148,8 @@ void ProgressControl::paint( GraphicsContext* ctx )
 
 	Rect clientBounds = getClientBounds();
 	clientBounds.inflate( -2, -2 );
-	Rect progressRect = clientBounds;	
-	
+	Rect progressRect = clientBounds;
+
 	if ( paVertical == displayAlignment_ ) {
 		double s = minVal<>( minVal_, maxVal_ );
 		double e = maxVal<>( minVal_, maxVal_ );
@@ -157,7 +163,7 @@ void ProgressControl::paint( GraphicsContext* ctx )
 		progressRect.right_ = progressRect.left_ + ((position_/(e-s)) * clientBounds.getWidth());
 	}
 
-	
+
 
 	ctx->setColor( progressBarColor_ );
 	ctx->rectangle( progressRect );
@@ -180,7 +186,7 @@ void ProgressControl::paint( GraphicsContext* ctx )
 			textBounds.right_ = progressRect.right_;
 
 			double h = minVal<>( ctx->getTextHeight( "EM" ), clientBounds.getHeight()-2 );
-			textBounds.top_ = clientBounds.top_ + 
+			textBounds.top_ = clientBounds.top_ +
 								(clientBounds.getHeight()/2.0 - h/2.0);
 
 			textBounds.bottom_ = textBounds.top_ + h;
@@ -195,7 +201,7 @@ void ProgressControl::paint( GraphicsContext* ctx )
 
 			double w = minVal<>( ctx->getTextWidth( text ), clientBounds.getWidth()-2 );
 
-			textBounds.left_ = clientBounds.left_ + 
+			textBounds.left_ = clientBounds.left_ +
 								(clientBounds.getWidth()/2.0 - w/2.0);
 
 			textBounds.right_ = textBounds.left_ + w;
@@ -220,17 +226,12 @@ void ProgressControl::paint( GraphicsContext* ctx )
 }
 
 
-
-
-
-
-
-
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -243,4 +244,5 @@ void ProgressControl::paint( GraphicsContext* ctx )
 *and a ProgressControl.
 *
 */
+
 

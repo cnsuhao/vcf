@@ -1,32 +1,12 @@
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//Win32Edit.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32Edit.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Edit.h"
@@ -49,7 +29,7 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	backgroundBrush_(NULL),
 	isMultiLined_(isMultiLineControl)
 {
-	
+
 }
 
 Win32Edit::~Win32Edit()
@@ -61,14 +41,14 @@ Win32Edit::~Win32Edit()
 
 void Win32Edit::create( Control* owningControl )
 {
-	
+
 	if ( NULL == textControl_ ){
 		//throw exception !!!!!!
 	}
 	createParams();
 
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
-	HWND parent = toolkit->getDummyParent();	
+	HWND parent = toolkit->getDummyParent();
 
 	String className = "EDIT";
 	AnsiString richeditLibrary = "";
@@ -80,15 +60,15 @@ void Win32Edit::create( Control* owningControl )
 		if ( GetVersionEx( &osInfo ) ) {
 			if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_NT ) {
 				richeditLibrary = "RICHED20.Dll";
-				className = RICHEDIT_CLASS;			
+				className = RICHEDIT_CLASS;
 			}
 			else if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS ) { //Windows 9.x
 				richeditLibrary = "RICHED32.DLL";
-				className = "RichEdit";		
+				className = "RichEdit";
 			}
-		}		
-		
-		
+		}
+
+
 		try {
 			if ( false == Win32RicheditLibraryLoaded ) {
 				if  ( NULL != LoadLibraryA( richeditLibrary.c_str() ) ) {
@@ -96,11 +76,11 @@ void Win32Edit::create( Control* owningControl )
 					isRichedit_ = true;
 				}
 				else {
-					String errMsg = 
+					String errMsg =
 						StringUtils::format( "Failed to load \"%s\", a required DLL when using richedit controls. \n"\
 						"Please make sure this DLL is located in your Windows system, or application directory.",
 						richeditLibrary.c_str() );
-					
+
 					throw RuntimeException( errMsg );
 				}
 			}
@@ -119,52 +99,52 @@ void Win32Edit::create( Control* owningControl )
 	}
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_, 
-		                             className.c_str(), 
-									 NULL,	
-									 style, 
-		                             0, 
-									 0, 
-									 1, 
-									 CW_USEDEFAULT, 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandleW(NULL), 
+		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		                             className.c_str(),
+									 NULL,
+									 style,
+		                             0,
+									 0,
+									 1,
+									 CW_USEDEFAULT,
+									 parent,
+									 NULL,
+									 ::GetModuleHandleW(NULL),
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_, 
-		                             className.ansi_c_str(), 
-									 NULL,	
-									 style, 
-		                             0, 
-									 0, 
-									 1, 
-									 CW_USEDEFAULT, 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandleA(NULL), 
+		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		                             className.ansi_c_str(),
+									 NULL,
+									 style,
+		                             0,
+									 0,
+									 1,
+									 CW_USEDEFAULT,
+									 parent,
+									 NULL,
+									 ::GetModuleHandleA(NULL),
 									 NULL );
 	}
 
-	
+
 
 
 	if ( NULL != hwnd_ ){
-		
+
 		Win32Object::registerWin32Object( this );
-		oldEditWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ ); 
+		oldEditWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
 		defaultWndProc_ = NULL;//oldEditWndProc_;
-		
-		TextModelEventHandler<Win32Edit>* tml = 
+
+		TextModelEventHandler<Win32Edit>* tml =
 			new TextModelEventHandler<Win32Edit>( this, Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
-		
-		
+
+
 		TextModel* tm = textControl_->getTextModel();
 		tm->addTextModelChangedHandler( tml );
-		
+
 		setFont( textControl_->getFont() );
-		
+
 	}
 	else {
 		//throw exception
@@ -192,9 +172,9 @@ unsigned long Win32Edit::getLineCount()
 unsigned long Win32Edit::getCurrentLinePosition()
 {
 	DWORD pos = getSelectionStart();
-	
+
 	ulong32 result = ::SendMessage( hwnd_, EM_LINEFROMCHAR, pos, 0 );
-	
+
 
 	return result;
 }
@@ -202,8 +182,8 @@ unsigned long Win32Edit::getCurrentLinePosition()
 double Win32Edit::getLeftMargin()
 {
 	double result = 0.0;
-	
-	DWORD margin = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 ); 
+
+	DWORD margin = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 );
 	result = LOWORD(margin);
 	return result;
 }
@@ -211,8 +191,8 @@ double Win32Edit::getLeftMargin()
 double Win32Edit::getRightMargin()
 {
 	double result = 0.0;
-	
-	DWORD margin = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 ); 
+
+	DWORD margin = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 );
 	result = HIWORD(margin);
 	return result;
 }
@@ -228,7 +208,7 @@ VCF::Point* Win32Edit::getPositionFromCharIndex( const unsigned long& index )
 unsigned long Win32Edit::getCharIndexFromPosition( VCF::Point* point )
 {
 	DWORD pos = 0;
-	
+
 	pos = MAKEWORD( (long)point->x_, (long)point->y_ );
 
 	unsigned long result = ::SendMessage( hwnd_, EM_CHARFROMPOS, 0, pos );
@@ -238,7 +218,7 @@ unsigned long Win32Edit::getCharIndexFromPosition( VCF::Point* point )
 
 unsigned long Win32Edit::getCaretPosition()
 {
-	
+
 	return getSelectionStart();
 }
 
@@ -259,14 +239,14 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 	if ( NULL != model ){
 		//this is the braindead way - needs to be reworked in the future
 
-		VCF::String newText;	
+		VCF::String newText;
 
 		if ( System::isUnicodeEnabled() ) {
 			int length = ::GetWindowTextLengthW( hwnd_ );
-			
+
 			VCFChar* text = new VCFChar[length+1];
 			memset( text, 0, (length+1)*sizeof(VCFChar));
-			::GetWindowTextW( hwnd_, text, length+1 );  
+			::GetWindowTextW( hwnd_, text, length+1 );
 
 			newText = text;
 
@@ -274,34 +254,34 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 		}
 		else {
 			int length = ::GetWindowTextLengthA( hwnd_ );
-			
+
 			char* text = new char[length+1];
 			memset( text, 0, length+1);
-			::GetWindowTextA( hwnd_, text, length+1 );  
+			::GetWindowTextA( hwnd_, text, length+1 );
 
 			newText = text;
 
 			delete[] text;
 		}
 
-		
-		 
-		
+
+
+
 		OKToResetControlText_ = false;
-		
+
 		model->setText( newText );
 
 		OKToResetControlText_ = true;
 
-		
+
 
 		/**
 		*for the future we need to be able to insertText and deleteText from the
 		*model according to the characters pressed. At first glance this is that
 		*big of a deal: determine if we have a selection, delete the selected
-		*text, and then insert the appropriate character. The problem comes in 
+		*text, and then insert the appropriate character. The problem comes in
 		*determing what causes a delete and what to insert. Normally the only things
-		*that should cause an delete/insert are the set of characters [a..z,A..Z,0..9], 
+		*that should cause an delete/insert are the set of characters [a..z,A..Z,0..9],
 		*back space, space, and delete. This is a valid assumption assuming en/US language
 		*but for other languages this totally falls down...
 		*/
@@ -316,12 +296,12 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 			//text is being deleted
 
 			if ( (keyData.VKeyCode != VK_BACK) || (keyData.VKeyCode == VK_BACK) ){
-				
-			}		
+
+			}
 		}
 
-		
-		unsigned long index = peerControl_->getCaretPosition(); 
+
+		unsigned long index = peerControl_->getCaretPosition();
 		VCF::String text;
 		char ch[2] = {0};
 		ch[0] = (VCF::VCFChar)keyData.character;
@@ -336,15 +316,15 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 	LRESULT result = 0;
 
 	switch ( message ) {
-		
+
 		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP:{
 
 
-			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) { 	
+			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
 				result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
 			}
-			
-			if ( (peerControl_->getComponentState() != Component::csDestroying) ) { 	
+
+			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
 
 				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
 				unsigned long eventType = 0;
@@ -353,12 +333,12 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 						eventType = Control::KEYBOARD_DOWN;
 					}
 					break;
-					
+
 					case WM_KEYDOWN: {
 						eventType = Control::KEYBOARD_PRESSED;//KEYBOARD_EVENT_DOWN;
 					}
 					break;
-					
+
 					case WM_KEYUP: {
 						eventType = Control::KEYBOARD_UP;
 					}
@@ -367,21 +347,21 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
 				ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
-				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount, 
+				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
 				OKToResetControlText_ = false;
-				
+
 				//processTextEvent( keyData, wParam, lParam );
 
 				peerControl_->handleEvent( &event );
 
 				OKToResetControlText_ = true;
 			}
-			
+
 		}
 		break;
-		
+
 		case WM_COMMAND:{
 
 			handleEventMessages( HIWORD(wParam), LOWORD(wParam), lParam );
@@ -390,7 +370,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 		case EN_UPDATE:{
 			OKToResetControlText_ = false;
-		
+
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
 				String text = getText();
@@ -399,7 +379,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 				}
 			}
 
-			OKToResetControlText_ = true;			
+			OKToResetControlText_ = true;
 		}
 		break;
 
@@ -410,13 +390,13 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case WM_CTLCOLOREDIT : {
-			HDC hdcEdit = (HDC) wParam;   // handle to display context 
-			HWND hwndEdit = (HWND) lParam; // handle to static control 
+			HDC hdcEdit = (HDC) wParam;   // handle to display context
+			HWND hwndEdit = (HWND) lParam; // handle to static control
 			if ( NULL != backgroundBrush_ ) {
 				DeleteObject( backgroundBrush_ );
 			}
 			Color* color = peerControl_->getColor();
-			
+
 			COLORREF backColor = RGB(color->getRed() * 255.0,
 									color->getGreen() * 255.0,
 									color->getBlue() * 255.0 );
@@ -428,8 +408,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		/*
-		this may be useful to uncomment, but at the 
-		moment it never gets called, possible because we 
+		this may be useful to uncomment, but at the
+		moment it never gets called, possible because we
 		do not use the default Dialog wnd proc
 		case WM_GETDLGCODE : {
 
@@ -437,10 +417,10 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 		*/
-		
+
 		default: {
 			result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam );			
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 		}
 		break;
 	}
@@ -449,7 +429,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 void Win32Edit::onTextModelTextChanged( TextEvent* event )
 {
-	if ( NULL != event ){ 		
+	if ( NULL != event ){
 		if ( true == OKToResetControlText_ ){
 
 			String text = textControl_->getTextModel()->getText();
@@ -464,29 +444,29 @@ DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-def
 												LONG cb,        // number of bytes to read or write
 												LONG *pcb       // pointer to number of bytes transferred
 												)
-{	
-	
+{
+
 	Win32Edit* thisPtr = (Win32Edit*)dwCookie;
 	*pcb = 0;
 	TextControl* tc = (TextControl*)thisPtr->getControl();
 	String text = tc->getTextModel()->getText();
 	if ( (text.size()-1) > thisPtr->numCharsRemainingToStreamIn_ ) {
-		
+
 		memset( pbBuff, 0, cb );
-		
+
 		*pcb = text.copy( (VCFChar*)pbBuff, cb, thisPtr->numCharsRemainingToStreamIn_ );
 
 		thisPtr->numCharsRemainingToStreamIn_ += *pcb;
 	}
-	
+
 	return 0;//(*pcb>0 ? NOERROR : E_FAIL);
 }
- 
+
 int Win32Edit::getCRCount( const unsigned long& begin, const unsigned long& end, const bool& limitCountsAreExact )
 {
 	// Fixes a Microsoft bug:
 	//	EM_GETSEL doesn't count the '\r' characters: so the '\r' counts must be added to (begin,end) afterword
-	//	EM_SETSEL doesn't count the '\r' characters either: but the effect is the '\r' counts must be subtracted first 
+	//	EM_SETSEL doesn't count the '\r' characters either: but the effect is the '\r' counts must be subtracted first
 	//																			before submitting (begin,end) with EM_SETSEL to the control
 	//
 	// Usage:
@@ -521,7 +501,7 @@ int Win32Edit::getCRCount( const unsigned long& begin, const unsigned long& end,
 		// counts the '\r' characters between the current position and 'finish'
 		// note: it is really possible to have ( p < finish && p < endText ) while ( endText < finish )
 		while ( p < finish && p < endText ) {
-			if ( *p == '\r' ) {			
+			if ( *p == '\r' ) {
 				foundCR++;
 			}
 			p++;
@@ -539,17 +519,17 @@ int Win32Edit::getCRCount( const unsigned long& begin, const unsigned long& end,
 
 
 void Win32Edit::setText( const VCF::String& text )
-{	
+{
 	DWORD start = getSelectionStart();
 	DWORD count = getSelectionCount();
-	
+
 	if ( isRichedit_ ) {
 		EDITSTREAM editStream;
 		memset( &editStream, 0, sizeof(EDITSTREAM) );
 		editStream.dwCookie = (DWORD)this;
 		editStream.pfnCallback = Win32Edit::EditStreamCallback;
 		numCharsRemainingToStreamIn_ = 0;//text.size();
-		int streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );			
+		int streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );
 		int err = UpdateWindow( hwnd_ );
 	}
 	else {
@@ -625,7 +605,7 @@ void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
 	/**
-	Bug fix from Marcello, EM_SETSEL doesn't like temporary vars as it's 
+	Bug fix from Marcello, EM_SETSEL doesn't like temporary vars as it's
 	message parameters
 	*/
 
@@ -656,7 +636,7 @@ void Win32Edit::setSelectionFont( Font* font )
 									font->getColor()->getBlue() * 255.0 );
 
 	font->getName().copy( charFormat.szFaceName, 31 );
-	
+
 	if ( true == font->getBold() ) {
 		charFormat.dwEffects |= CFE_BOLD;
 	}
@@ -739,10 +719,12 @@ void Win32Edit::setReadOnly( const bool& readonly )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *

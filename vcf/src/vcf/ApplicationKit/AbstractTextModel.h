@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// AbstractTextModel.h
-
 #ifndef _VCF_ABSTRACTTEXTMODEL_H__
 #define _VCF_ABSTRACTTEXTMODEL_H__
+//AbstractTextModel.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_TEXTMODEL_H__
@@ -53,11 +30,11 @@ namespace VCF
 
 
 /**
-*An AbstractTextModel repersents a basic implementation of a 
-*TextModel. It is intended to serve as a starting point for 
+*An AbstractTextModel repersents a basic implementation of a
+*TextModel. It is intended to serve as a starting point for
 *concrete TextModel dereived classes and should never be
-*instantiated directly. It handles some of the common chores 
-*such as setting up the event handling routines, and getting and 
+*instantiated directly. It handles some of the common chores
+*such as setting up the event handling routines, and getting and
 *setting text.
 *@see TextModel
 *@see DefaultTextModel
@@ -69,7 +46,7 @@ namespace VCF
 	@del AbstractTextModel::ModelValidate
 	@del AbstractTextModel::TextModelChanged
 */
-class APPKIT_API AbstractTextModel : public TextModel  
+class APPKIT_API AbstractTextModel : public TextModel
 {
 public:
 
@@ -77,7 +54,7 @@ public:
 
 	virtual ~AbstractTextModel();
 
-	
+
 
 	/**
 	@delegate TextModelChanged fired when the model's text data is changed
@@ -93,15 +70,15 @@ public:
 		TextModelChanged -= handler;
 	}
 
-	
+
 
     /**
-     * clears out the model's data 
+     * clears out the model's data
      */
     virtual void empty();
 
 	/**
-	*sets the contents of the text model, completely changes what was previously 
+	*sets the contents of the text model, completely changes what was previously
 	*in the model
 	*/
     virtual void setText( const String& text );
@@ -115,14 +92,14 @@ public:
     virtual void insertText( const unsigned long& index, const String& text );
 
 	/**
-	*replace text into the model in place of the selected text is any, 
+	*replace text into the model in place of the selected text is any,
 	*or at the current position otherwise
 	*@param String the text to replace with
 	*/
     virtual void replaceText( const unsigned long& index, const unsigned long& len, const String& text );
 
 	/**
-	*deletes text from the model, starting at index, and continuing for count characters, 
+	*deletes text from the model, starting at index, and continuing for count characters,
 	*or until the text data is empty.
 	*@param long the starting point. The index is zero based.
 	*@param long the number of characters to delete
@@ -154,6 +131,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *

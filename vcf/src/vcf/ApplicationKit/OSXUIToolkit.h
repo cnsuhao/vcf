@@ -1,62 +1,37 @@
-
-
-
-
-
 #ifndef _VCF_OSXUITOOLKIT_H__
 #define _VCF_OSXUITOOLKIT_H__
+//OSXUIToolkit.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
-
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
-	
-	
 
-	
+
+
+
 
 
 /**
 this class is used as a wrapper around an XEvent.
-*/	
+*/
 class OSXEventMsg {
 public:
 	OSXEventMsg( EventRef event, Control* control ): osxEvent_(event), control_(control) {}
-	
-	
+
+
 	EventRef osxEvent_;
 	Control* control_;
-};	
+};
 
 
 
@@ -73,7 +48,7 @@ public:
 
 /**
 */
-class OSXUIToolkit :  public UIToolkit { 
+class OSXUIToolkit :  public UIToolkit {
 public:
     enum {
         CustomEventClass = 'vcfc', //VCF Event Class
@@ -84,19 +59,19 @@ public:
         SizeOfEventHandler = sizeof(UInt32),
         SizeOfEventHandlerEvent = sizeof(UInt32),
         SizeOfDeletePostedEvent = sizeof(Boolean)
-                
-        
+
+
     };
-    
+
 	OSXUIToolkit();
-	
+
 	virtual ~OSXUIToolkit();
 
 	virtual ApplicationPeer* internal_createApplicationPeer();
-	
+
 	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
 
-	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);	
+	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);
 
 	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
 
@@ -114,7 +89,7 @@ public:
 
 	virtual MenuBarPeer* internal_createMenuBarPeer( MenuBar* menuBar );
 
-	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );	
+	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );
 
 	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType);
 
@@ -132,7 +107,7 @@ public:
 
 	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
 
-	virtual DragDropPeer* internal_createDragDropPeer(); 
+	virtual DragDropPeer* internal_createDragDropPeer();
 
 	virtual DataObjectPeer* internal_createDataObjectPeer();
 
@@ -146,19 +121,19 @@ public:
 
 	virtual ClipboardPeer* internal_createClipboardPeer();
 
-	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ); 
+	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  );
 
 	virtual bool internal_destroyCaret( Control* owningControl );
 
 	virtual void internal_setCaretVisible( const bool& caretVisible );
-	
+
 	virtual void internal_setCaretPos( Point* point );
 
 	virtual void internal_postEvent( VCF::EventHandler* eventHandler, Event* event, const bool& deleteHandler );
 
 	virtual void internal_registerTimerHandler( Object* source, VCF::EventHandler* handler, const ulong32& timeoutInMilliSeconds );
 
-	virtual void internal_unregisterTimerHandler( VCF::EventHandler* handler );	
+	virtual void internal_unregisterTimerHandler( VCF::EventHandler* handler );
 
 	virtual void internal_runEventLoop();
 
@@ -167,14 +142,14 @@ public:
 	virtual void internal_quitCurrentEventLoop();
 
 	/**
-	*@param void* in this implementation, the eventData represents a 
+	*@param void* in this implementation, the eventData represents a
 	*pointer to an OSX EventRef structure.
 	*/
 	virtual VCF::Event* internal_createEventFromNativeOSEventData( void* eventData );
 
-	virtual Size internal_getDragDropDelta();	
-	
-	
+	virtual Size internal_getDragDropDelta();
+
+
 	//static void  internal_osxEventHandler( EventRef osxEvent, gpointer data);
 
 	//static gboolean internal_gdkIdleHandler(gpointer data);
@@ -185,10 +160,10 @@ protected:
 	//ulong32 translateButtonMask( GdkModifierType buttonState );
 
 	static OSStatus handleOSXApplicationEvents( EventHandlerCallRef nextHandler,
-                                                EventRef osxEvent, void* userData );	
+                                                EventRef osxEvent, void* userData );
 
     OSStatus handleAppEvents( EventHandlerCallRef nextHandler, EventRef osxEvent );
-    
+
 	std::map<EventLoopTimerRef,TimeOutHandler> timeoutHandlers_;
     bool quitEventLoop_;
     EventHandlerRef eventHandlerRef_;
@@ -197,21 +172,23 @@ protected:
     EventLoopIdleTimerUPP idleTimerUPP_;
     EventLoopTimerRef idleTimerRef_;
     void processOSXEvent( EventRecord* eventRec );
-  
+
     static void handleTimerEvent( EventLoopTimerRef inTimer, void * inUserData );
     static void handleIdleTimer( EventLoopTimerRef inTimer, EventLoopIdleTimerMessage inState, void *inUserData );
 
-    
+
 };
 
 
 }; //end of namespace VCF
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *

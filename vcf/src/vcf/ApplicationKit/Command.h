@@ -1,44 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-//Command.h
-
-
-
 #ifndef _VCF_COMMAND_H__
 #define _VCF_COMMAND_H__
+//Command.h
 
-
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
@@ -47,16 +20,16 @@ class UndoRedoStack;
 
 
 /**
-*A Command represents an interface describing a single 
+*A Command represents an interface describing a single
 *action, that is potentially undoable.
 *Commands are placed on the application wide UndoRedoStack object
 *during the course of the application. Each command should represent
 *a single user action like, typing text, or removing an item from
-*a tree. The actual implementation will vary widely and will need 
-*whatever state variables are neccessary to both execute/redo the 
+*a tree. The actual implementation will vary widely and will need
+*whatever state variables are neccessary to both execute/redo the
 *command, and undo the command.
 */
-class APPKIT_API Command { 
+class APPKIT_API Command {
 public:
 	virtual ~Command(){};
 
@@ -72,7 +45,7 @@ public:
 	virtual void redo() = 0;
 
 	/**
-	*execute the command. Usually called by the UndoRedoStack after 
+	*execute the command. Usually called by the UndoRedoStack after
 	*the command has been added to it.
 	*/
 	virtual void execute() = 0;
@@ -83,16 +56,16 @@ public:
 	*instance for this command object.
 	*/
 	virtual UndoRedoStack* getOwningStack() = 0;
-	
+
 	/**
 	*sets the owning UndoRedoStack for this command
-	*@param UndoRedoStack the UndoRedoStack that will 
+	*@param UndoRedoStack the UndoRedoStack that will
 	*own this command
 	*/
 	virtual void setOwningStack( UndoRedoStack* stack ) = 0;
 
 	/**
-	*The name of this command. Frequently the name is the basis for the 
+	*The name of this command. Frequently the name is the basis for the
 	*display text that is shown in the "Edit | Undo" or "Edit | Redo" menu
 	*items.
 	*@return String the name of this command
@@ -105,9 +78,9 @@ public:
 	virtual void setName( const String& name ) = 0;
 
 	/**
-	*Is this command undoable ? 
-	*@return bool true if the command's undo()/redo() methods 
-	*can be safely called, otherwise false. Commands that return 
+	*Is this command undoable ?
+	*@return bool true if the command's undo()/redo() methods
+	*can be safely called, otherwise false. Commands that return
 	*false for this method are usually not added to the UndoRedoStack
 	*though they will be executed.
 	*/
@@ -124,6 +97,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:14  ddiego
 *migration towards new directory structure
 *
@@ -150,6 +126,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_COMMAND_H__
 

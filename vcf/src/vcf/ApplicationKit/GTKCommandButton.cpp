@@ -1,31 +1,11 @@
+//GTKCommandButton.cpp
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
@@ -55,12 +35,12 @@ GTKCommandButton::~GTKCommandButton()
 
 void GTKCommandButton::create( Control* owningControl )
 {
-	GTKGraphicsToolkit* grafToolkit = (GTKGraphicsToolkit*)GraphicsToolkit::internal_getDefaultGraphicsToolkit();	
+	GTKGraphicsToolkit* grafToolkit = (GTKGraphicsToolkit*)GraphicsToolkit::internal_getDefaultGraphicsToolkit();
 	GTKUIToolkit* toolkit = (GTKUIToolkit*)UIToolkit::internal_getDefaultUIToolkit();
 
 	wndHandle_ = gtk_button_new_with_label ("");
 
-	
+
 
 	if ( NULL == wndHandle_ ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("gtk_button_new_with_label() failed") );
@@ -68,14 +48,14 @@ void GTKCommandButton::create( Control* owningControl )
 
 	gtkButton_ = GTK_BUTTON( wndHandle_ );
 
-	gtk_container_add( GTK_CONTAINER( toolkit->getDefaultParent() ), wndHandle_ );	
+	gtk_container_add( GTK_CONTAINER( toolkit->getDefaultParent() ), wndHandle_ );
 
 	gtk_widget_show ( wndHandle_ );
 
 	g_signal_connect (G_OBJECT (gtkButton_), "clicked",
 		      G_CALLBACK (GTKCommandButton::gtkButtonClicked), (gpointer) this);
 
-	AbstractGTKControl::registerGTKControl( this );	
+	AbstractGTKControl::registerGTKControl( this );
 }
 
 
@@ -122,38 +102,41 @@ void GTKCommandButton::setText( const String& text )
 }
 
 gboolean GTKCommandButton::handleEvent( GdkEvent* gtkEvent )
-{	
+{
 	GTKUIToolkit* toolkit = reinterpret_cast<GTKUIToolkit*>(UIToolkit::internal_getDefaultUIToolkit());
-	
+
 	gboolean result = FALSE;
 
 	switch ( gtkEvent->type ) {
-		
+
 		case GDK_EXPOSE : {
 			AbstractGTKControl::handleEvent( gtkEvent );
-			
+
 			return FALSE;
 		}
 		break;
-		
+
 		case GDK_BUTTON_PRESS : case GDK_2BUTTON_PRESS : case GDK_3BUTTON_PRESS : {
 			result = AbstractGTKControl::handleEvent( gtkEvent );
 		}
 		break;
 
-		default : {			
+		default : {
 			result = AbstractGTKControl::handleEvent( gtkEvent );
 		}
 		break;
 	}
 
-	return result;	
+	return result;
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles
@@ -209,6 +192,5 @@ gboolean GTKCommandButton::handleEvent( GdkEvent* gtkEvent )
 *added support for posting events, and the stubs for a ButtonPeer
 *
 */
-
 
 

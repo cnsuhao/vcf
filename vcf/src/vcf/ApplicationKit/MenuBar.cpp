@@ -1,31 +1,12 @@
+//MenuBar.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 
 #include "vcf/ApplicationKit/MenuBarPeer.h"
@@ -81,11 +62,11 @@ MenuBar::MenuBar( const String& name ):
 
 
 MenuBar::~MenuBar()
-{	
+{
 
 }
 
-void MenuBar::destroy() 
+void MenuBar::destroy()
 {
 	if ( NULL != Peer_ ){
 		delete Peer_;
@@ -101,19 +82,19 @@ void MenuBar::init()
 
 	setRootMenuItem( new DefaultMenuItem() );
 	MenuItem* item = getRootMenuItem();
-	
-	ItemEventHandler<MenuBar>* mih = 
+
+	ItemEventHandler<MenuBar>* mih =
 		new ItemEventHandler<MenuBar>( this, &MenuBar::onMenutItemAdded, "MenuBar::onMenutItemAdded" );
 
 	item->addItemAddedHandler( mih );
 
-	mih = 
+	mih =
 		new ItemEventHandler<MenuBar>( this, &MenuBar::onMenutItemDeleted, "MenuBar::onMenutItemDeleted" );
 
 	item->addItemDeletedHandler( mih );
 
 	EventHandler* ev = new GenericEventHandler<MenuBar> ( this, &MenuBar::handleEvent, "MenuBar::handleEvent" );
-	
+
 	ComponentAdded += ev;
 	ComponentRemoved += ev;
 }
@@ -140,28 +121,32 @@ void MenuBar::setFrame( Frame* frame )
 void MenuBar::handleEvent( Event* event )
 {
 	Menu::handleEvent( event );
-	switch ( event->getType() ){	
+	switch ( event->getType() ){
 		case Component::COMPONENT_ADDED : {
 			ComponentEvent* ev = (ComponentEvent*)event;
 			Component* child = ev->getChildComponent();
 			MenuItem* item = dynamic_cast<MenuItem*>(child);
 			if ( NULL != item ) {
 				item->setMenuOwner( this );
-				getRootMenuItem()->addChild( item );				
+				getRootMenuItem()->addChild( item );
 			}
 		}
 		break;
 
 		case Component::COMPONENT_REMOVED : {
-			
+
 		}
 		break;
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *
@@ -263,6 +248,5 @@ void MenuBar::handleEvent( Event* event )
 *to facilitate change tracking
 *
 */
-
 
 

@@ -1,30 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//Win32ScrollPeer.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 //Win32ScrollPeer.h
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -40,7 +21,7 @@ std::map<HWND,Control*> Win32ScrollPeer::hScrollBarMap;
 class Win32ScrollCorner : public CustomControl {
 public:
 	Win32ScrollCorner() {
-		
+
 	}
 
 	virtual ~Win32ScrollCorner(){};
@@ -86,14 +67,14 @@ Control* Win32ScrollPeer::getScrollableControlFromHWnd( HWND scrollhWnd )
 	std::map<HWND,Control*>::iterator found = Win32ScrollPeer::hScrollBarMap.find( scrollhWnd );
 	if ( found != Win32ScrollPeer::hScrollBarMap.end() ) {
 		result = found->second;
-	}	
+	}
 	return result;
 }
 
 void Win32ScrollPeer::setScrollableControl( Control* scrollableControl )
 {
-	if ( NULL != scrollableControl_ ) 
-	{	
+	if ( NULL != scrollableControl_ )
+	{
 		removeScrollBarsFromMap();
 		BOOL err = DestroyWindow( vScrollHWnd_ );
 		err = DestroyWindow( hScrollHWnd_ );
@@ -104,7 +85,7 @@ void Win32ScrollPeer::setScrollableControl( Control* scrollableControl )
 	this->scrollableControl_ = scrollableControl;
 	if ( NULL != scrollableControl_ ) {
 		HWND hwnd = (HWND)scrollableControl_->getPeer()->getHandleID();
-		
+
 		Application* app = Application::getRunningInstance();
 		HINSTANCE hInst = NULL;
 		if ( NULL != app ) {
@@ -129,21 +110,21 @@ void Win32ScrollPeer::setScrollableControl( Control* scrollableControl )
 
 void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition )
 {
-	SCROLLINFO si = {0};	
-	
+	SCROLLINFO si = {0};
+
 	Scrollable* scrollable = scrollableControl_->getScrollable();
-	if ( NULL != scrollable ) {			
-		
+	if ( NULL != scrollable ) {
+
 		bool hasVertSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(vScrollHWnd_));
 		bool hasHorzSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
 
-		if ( true == hasVertSB ) {	
+		if ( true == hasVertSB ) {
 			si.cbSize = sizeof(SCROLLINFO);
 			si.fMask = SIF_POS;
 			si.nPos = (long)yPosition;
 			SetScrollInfo( vScrollHWnd_, SB_CTL, &si, TRUE );
 		}
-		
+
 		if ( true == hasHorzSB ) {
 			memset( &si, 0, sizeof(si) );
 			si.cbSize = sizeof(SCROLLINFO);
@@ -157,9 +138,9 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 {
 	/**
-	*if the scrollableControl_ is lightweight then the handle represents the parent's 
+	*if the scrollableControl_ is lightweight then the handle represents the parent's
 	*hwnd, so get the control's bounds, instead of using 0,0 for left,top
-	*/	
+	*/
 	Rect bounds(0,0,0,0);
 	bool hasVertSB = scrollable->hasVerticalScrollBar();
 	bool hasHorzSB = scrollable->hasHorizontalScrollBar();
@@ -170,32 +151,32 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	else {
 		bounds = scrollableControl_->getClientBounds( );
 		//bounds.inflate( -1, -1 );
-	}	
+	}
 
 	SCROLLINFO scrollInfoVert = {0};
 	scrollInfoVert.cbSize = sizeof(SCROLLINFO);
 	scrollInfoVert.fMask = SIF_PAGE | SIF_POS | SIF_RANGE | SIF_DISABLENOSCROLL;
-	
+
 	scrollInfoVert.nPage = (long)((scrollable->getVirtualViewHeight() > bounds.getHeight() ) ? bounds.getHeight() : 0);
 	scrollInfoVert.nPos = (long)( scrollable->getVerticalPosition() );
 	scrollInfoVert.nMin = 0;
-	scrollInfoVert.nMax = (long) ((scrollable->getVirtualViewHeight() > bounds.getHeight() ) ? 
+	scrollInfoVert.nMax = (long) ((scrollable->getVirtualViewHeight() > bounds.getHeight() ) ?
 		scrollable->getVirtualViewHeight() : scrollInfoVert.nMin );
-	
+
 	SCROLLINFO scrollInfoHorz = {0};
 	scrollInfoHorz.cbSize = sizeof(SCROLLINFO);
 	scrollInfoHorz.fMask = SIF_PAGE | SIF_POS | SIF_RANGE | SIF_DISABLENOSCROLL;
 	scrollInfoHorz.nPage = (long)( (scrollable->getVirtualViewWidth() > bounds.getWidth() ) ? bounds.getWidth() : 0 );
 	scrollInfoHorz.nPos = (long)scrollable->getHorizontalPosition();
 	scrollInfoHorz.nMin = 0;
-	scrollInfoHorz.nMax = (long)( (scrollable->getVirtualViewWidth() > bounds.getWidth() ) ? 
+	scrollInfoHorz.nMax = (long)( (scrollable->getVirtualViewWidth() > bounds.getWidth() ) ?
 		scrollable->getVirtualViewWidth() : scrollInfoHorz.nMin );
 
 
 	if ( (true == hasVertSB) && (0 == scrollInfoVert.nMax) ) {
 		hasVertSB = false;
 	}
-	
+
 	if ( (true == hasHorzSB) && (0 == scrollInfoHorz.nMax) ) {
 		hasHorzSB = false;
 	}
@@ -204,7 +185,7 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	int x1 = (long)( bounds.left_ + ((bounds.getWidth() - GetSystemMetrics(SM_CXHTHUMB))) );
 	int y1 = (long)( scrollable->getVerticalTopScrollSpace() + bounds.top_ );
 	int w1 = GetSystemMetrics(SM_CXHTHUMB);
-	int h1 = (long)(bounds.getHeight() - 
+	int h1 = (long)(bounds.getHeight() -
 		(scrollable->getVerticalTopScrollSpace() + scrollable->getVerticalBottomScrollSpace() + GetSystemMetrics(SM_CXHTHUMB)));
 
 	if ( (true == hasVertSB) && (false == hasHorzSB) ) {
@@ -212,7 +193,7 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 			h1 += GetSystemMetrics(SM_CXHTHUMB);
 		}
 	}
-	
+
 	int x2 = (long)(scrollable->getHorizontalLeftScrollSpace() + bounds.left_);
 	int y2 = (long)(bounds.top_ + (bounds.getHeight() - GetSystemMetrics(SM_CYVTHUMB)));
 	int w2 = (long)( bounds.getWidth() - (scrollable->getHorizontalLeftScrollSpace() + scrollable->getHorizontalRightScrollSpace() + GetSystemMetrics(SM_CYVTHUMB)) );
@@ -227,7 +208,7 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	if ( true == hasVertSB ) {
 		::ShowWindow( vScrollHWnd_, SW_NORMAL );
 		::EnableWindow( hScrollHWnd_, TRUE );
-		MoveWindow( vScrollHWnd_, x1, y1, w1, h1, TRUE );		
+		MoveWindow( vScrollHWnd_, x1, y1, w1, h1, TRUE );
 		SetScrollInfo( vScrollHWnd_, SB_CTL, &scrollInfoVert, TRUE );
 	}
 	else {
@@ -239,7 +220,7 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 			scrollInfoVert.nPos = 0;
 			scrollInfoVert.nMin = 0;
 			scrollInfoVert.nMax = 0;
-			SetScrollInfo( vScrollHWnd_, SB_CTL, &scrollInfoVert, TRUE ); 
+			SetScrollInfo( vScrollHWnd_, SB_CTL, &scrollInfoVert, TRUE );
 		}
 		else {
 			::ShowWindow( vScrollHWnd_, SW_HIDE );
@@ -249,8 +230,8 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	if ( true == hasHorzSB ) {
 		::ShowWindow( hScrollHWnd_, SW_NORMAL );
 		::EnableWindow( hScrollHWnd_, TRUE );
-		MoveWindow( hScrollHWnd_, x2, y2, w2, h2, TRUE );		
-		SetScrollInfo( hScrollHWnd_, SB_CTL, &scrollInfoHorz, TRUE );	
+		MoveWindow( hScrollHWnd_, x2, y2, w2, h2, TRUE );
+		SetScrollInfo( hScrollHWnd_, SB_CTL, &scrollInfoHorz, TRUE );
 	}
 	else {
 		if ( scrollable->getKeepScrollbarsVisible() ) {
@@ -271,13 +252,13 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	if ( (true == hasHorzSB) && (true == hasVertSB) ) {
 		scrollCorner_->setVisible( true );
 		scrollCorner_->setEnabled( true );
-		scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );	
+		scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );
 	}
 	else {
 		if ( scrollable->getKeepScrollbarsVisible() ) {
 			scrollCorner_->setVisible( true );
 			scrollCorner_->setEnabled( false );
-			scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );	
+			scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );
 		}
 		else {
 			scrollCorner_->setVisible( false );
@@ -306,7 +287,7 @@ void Win32ScrollPeer::getHorizontalScrollRects( Rect* scrollBounds, Rect* leftBo
 	if ( NULL != rightBounds ) {
 		rightBounds->setNull();
 	}
-	
+
 	if ( ::IsWindowVisible( hScrollHWnd_ ) ) {
 		HWND scHwnd = (HWND)scrollableControl_->getPeer()->getHandleID();
 
@@ -326,7 +307,7 @@ void Win32ScrollPeer::getHorizontalScrollRects( Rect* scrollBounds, Rect* leftBo
 		ScreenToClient( scHwnd, &pt );
 		r.right = pt.x;
 		r.bottom = pt.y;
-		
+
 		if ( NULL != scrollBounds ) {
 			scrollBounds->setRect( r.left, r.top, r.right, r.bottom );
 		}
@@ -351,7 +332,7 @@ void Win32ScrollPeer::getVerticalScrollRects( Rect* scrollBounds, Rect* topBound
 	if ( NULL != bottomBounds ) {
 		bottomBounds->setNull();
 	}
-	
+
 	if ( ::IsWindowVisible( vScrollHWnd_ ) ) {
 		HWND scHwnd = (HWND)scrollableControl_->getPeer()->getHandleID();
 
@@ -371,7 +352,7 @@ void Win32ScrollPeer::getVerticalScrollRects( Rect* scrollBounds, Rect* topBound
 		ScreenToClient( scHwnd, &pt );
 		r.right = pt.x;
 		r.bottom = pt.y;
-		
+
 		if ( NULL != scrollBounds ) {
 			scrollBounds->setRect( r.left, r.top, r.right, r.bottom );
 		}
@@ -388,7 +369,7 @@ void Win32ScrollPeer::getVerticalScrollRects( Rect* scrollBounds, Rect* topBound
 void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition )
 {
 	Scrollable* scrollable = scrollableControl_->getScrollable();
-	if ( NULL != scrollable ) {			
+	if ( NULL != scrollable ) {
 		bool hasVertSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(vScrollHWnd_));
 		bool hasHorzSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
 
@@ -416,9 +397,13 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *

@@ -1,48 +1,12 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
-*migration towards new directory structure
-*
-*Revision 1.10  2003/12/18 05:16:02  ddiego
-*merge from devmain-0-6-2 branch into the stable branch
-*
-*Revision 1.9.4.1  2003/08/18 19:52:38  ddiego
-*changed the Container from being a class you derive from to a separate
-*intance that is created and assigned dynamically to any Control.
-*
-*Revision 1.9  2003/05/17 20:37:24  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.8.2.2  2003/03/23 03:23:56  marcelloptr
-*3 empty lines at the end of the files
-*
-*Revision 1.8.2.1  2003/03/12 03:12:09  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.8  2003/02/26 04:30:47  ddiego
-*merge of code in the devmain-0-5-9 branch into the current tree.
-*most additions are in the area of the current linux port, but the major
-*addition to this release is the addition of a Condition class (currently
-*still under development) and the change over to using the Delegate class
-*exclusively from the older event handler macros.
-*
-*Revision 1.7.20.1  2003/01/08 00:19:51  marcelloptr
-*mispellings and newlines at the end of all source files
-*
-*Revision 1.7  2002/01/24 01:46:49  ddiego
-*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
-*to facilitate change tracking
-*
+//ComponentInputStream.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// ComponentInputStream.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/FoundationKit/VCFChar.h"
 #include "vcf/ApplicationKit/ComponentInputStream.h"
@@ -64,7 +28,7 @@ ComponentInputStream::ComponentInputStream(  InputStream* inStream  )
 {
 	this->init();
 	this->inStream_ = inStream;
-	doEscapes_ = false;	
+	doEscapes_ = false;
 }
 
 ComponentInputStream::~ComponentInputStream()
@@ -76,7 +40,7 @@ ComponentInputStream::~ComponentInputStream()
 
 void ComponentInputStream::init()
 {
-	this->component_ = NULL;	
+	this->component_ = NULL;
 	this->currentContainer_ = NULL;
 	this->prevContainer_ = NULL;
 	this->inStream_ = NULL;
@@ -91,7 +55,7 @@ void ComponentInputStream::init()
 
 void ComponentInputStream::seek(const unsigned long& offset, const SeekType& offsetFrom)
 {
-	
+
 }
 
 unsigned long ComponentInputStream::getSize()
@@ -138,14 +102,14 @@ void ComponentInputStream::warning( const SAXParseException& e )
          << "): " << StrX(e.getMessage()) << endl;
 }
 
-void ComponentInputStream::unparsedEntityDecl(const XMLCh* const name, const XMLCh* const publicId, 
+void ComponentInputStream::unparsedEntityDecl(const XMLCh* const name, const XMLCh* const publicId,
 											  const XMLCh* const systemId, const XMLCh* const notationName )
 {
     // Not used at this time
 }
 
 
-void ComponentInputStream::notationDecl( const XMLCh* const name, const XMLCh* const publicId, 
+void ComponentInputStream::notationDecl( const XMLCh* const name, const XMLCh* const publicId,
 										 const XMLCh* const systemId )
 {
     // Not used at this time
@@ -211,12 +175,12 @@ void ComponentInputStream::endElement( const XMLCh* const name )
 		break;
 
 		case COMP_TOKEN_OBJECT:{
-			
+
 		}
 		break;
 
 		case COMP_TOKEN_CHILDREN:{
-			this->containerPropertyMap_.erase( containerLevel_ );			
+			this->containerPropertyMap_.erase( containerLevel_ );
 			containerLevel_ --;
 			std::map<int,Container*>::iterator found = containerPropertyMap_.find( containerLevel_ );
 			if ( found != containerPropertyMap_.end() ){
@@ -231,7 +195,7 @@ void ComponentInputStream::endElement( const XMLCh* const name )
 		break;
 
 		case COMP_TOKEN_OBJECT_PROPERTY:{
-			this->objectPropertyMap_.erase( objectPropertyLevel_ );			
+			this->objectPropertyMap_.erase( objectPropertyLevel_ );
 			currentObjectProperty_ = NULL;
 			objectPropertyLevel_ --;
 			std::map<int,Object*>::iterator found = objectPropertyMap_.find( objectPropertyLevel_ );
@@ -242,7 +206,7 @@ void ComponentInputStream::endElement( const XMLCh* const name )
 		break;
 
 		case COMP_TOKEN_CLASSID:{
-			
+
 		}
 		break;
 	}
@@ -250,12 +214,12 @@ void ComponentInputStream::endElement( const XMLCh* const name )
 
 void ComponentInputStream::ignorableWhitespace( const XMLCh* const chars, const unsigned int length )
 {
-    
+
 }
 
 void ComponentInputStream::processingInstruction(const XMLCh* const target, const XMLCh* const data )
 {
-    
+
 }
 
 void ComponentInputStream::startDocument()
@@ -279,13 +243,13 @@ void ComponentInputStream::loadProperties( Object* object, AttributeList&  attri
 				property = clazz->getProperty( propertyName );
 				if ( NULL != property ){
 					propValue = StrX( attributes.getValue(index+1) ).localForm();
-					if ( true == property->isCollection() ){						
+					if ( true == property->isCollection() ){
 						ClassRegistry* registry = ClassRegistry::getClassRegistry();
 						VariantData itemVal;
 						Object* item = NULL;
-						if ( NULL != registry ){									
+						if ( NULL != registry ){
 							registry->createNewInstance( propValue, &item );
-							itemVal = item;									
+							itemVal = item;
 						}
 						if ( NULL != item ){
 							property->add( &itemVal );
@@ -299,55 +263,55 @@ void ComponentInputStream::loadProperties( Object* object, AttributeList&  attri
 						}
 					}
 					else {
-						if ( 0 != stricmp( "null", propValue.c_str() ) ){ // now we have a class name							
+						if ( 0 != stricmp( "null", propValue.c_str() ) ){ // now we have a class name
 							VariantData* objVal = property->get();
 							if ( NULL != objVal ){
 								this->currentObjectProperty_ = *objVal;
 								if ( NULL == currentObjectProperty_ ){//go ahead and create one
 									ClassRegistry* registry = ClassRegistry::getClassRegistry();
-									if ( NULL != registry ){									
+									if ( NULL != registry ){
 										registry->createNewInstance( propValue, &currentObjectProperty_ );
 										*objVal = currentObjectProperty_;
 										property->set( objVal );
 									}
 								}
 								objectPropertyLevel_ ++;
-								this->objectPropertyMap_[ objectPropertyLevel_ ] = currentObjectProperty_;								
+								this->objectPropertyMap_[ objectPropertyLevel_ ] = currentObjectProperty_;
 								this->currentPropertyClassName_ = propValue;
-							}							
+							}
 						}
 					}
 				}
 			}
 			index += 2;
-		}		
+		}
 	}
 	else{
-		
-		//throw exception					
+
+		//throw exception
 	}
 }
 
 void ComponentInputStream::startElement(const XMLCh* const name, AttributeList&  attributes )
 {
 	String tokenName = StrX(name).localForm();
-	
+
 	unsigned int index = 0;
 	switch ( getTokenFromString( tokenName ) ){
 		case COMP_TOKEN_UNKNOWN:{
-			
+
 		}
 		break;
 
 		/**
-		*Object token is found. The class name needs to be pulled off and then 
+		*Object token is found. The class name needs to be pulled off and then
 		*the class instantiated
 		*/
-		case COMP_TOKEN_OBJECT:{			
+		case COMP_TOKEN_OBJECT:{
 			ClassRegistry* registry = ClassRegistry::getClassRegistry();
 			if ( NULL != registry ){
 				bool topLevelComp = (NULL == component_) ? true : false;
-				
+
 				String className = StrX( attributes.getValue(index) ).localForm();
 				//this should only be true once
 				if ( (true == this->topLevelComponentAlreadyExists_) && (NULL == component_) ){
@@ -362,7 +326,7 @@ void ComponentInputStream::startElement(const XMLCh* const name, AttributeList& 
 					}
 				}
 				std::map<int,Container*>::iterator it = containerPropertyMap_.find( containerLevel_ );
-				if ( it != containerPropertyMap_.end() ){				
+				if ( it != containerPropertyMap_.end() ){
 					it->second->add( (Control*)component_ );
 				}
 			}
@@ -374,41 +338,41 @@ void ComponentInputStream::startElement(const XMLCh* const name, AttributeList& 
 
 		case COMP_TOKEN_CHILDREN:{
 			Container* tmp = component_->getContainer();
-			if ( NULL != tmp ){//means this component_ is a container				
+			if ( NULL != tmp ){//means this component_ is a container
 				containerLevel_ ++;
 				this->containerPropertyMap_[ containerLevel_ ] = tmp;
 			}
 		}
 		break;
 
-		case COMP_TOKEN_PROPERTY:{			
+		case COMP_TOKEN_PROPERTY:{
 			unsigned int propCount = attributes.getLength();
 			/**
 			*we two cases  - either we are editing the component ( component_!=NULL ) or
 			*we are editing a property of the Component (currentObjectProperty_!=NULL)
 			*/
-			
-			if ( (NULL != component_) && (NULL == currentObjectProperty_) ){				
-				loadProperties( component_, attributes );					
+
+			if ( (NULL != component_) && (NULL == currentObjectProperty_) ){
+				loadProperties( component_, attributes );
 			}
 			else {
 				std::map<int,Object*>::iterator it = objectPropertyMap_.find( objectPropertyLevel_ );
-				if ( it != objectPropertyMap_.end() ){	
+				if ( it != objectPropertyMap_.end() ){
 					currentObjectProperty_ = it->second;
 					loadProperties( currentObjectProperty_, attributes );
-					
+
 				}
 			}
 		}
 		break;
 
 		case COMP_TOKEN_OBJECT_PROPERTY:{
-			
+
 		}
 		break;
 
 		case COMP_TOKEN_CLASSID:{
-			
+
 		}
 		break;
 	}
@@ -416,8 +380,8 @@ void ComponentInputStream::startElement(const XMLCh* const name, AttributeList& 
 
 long ComponentInputStream::getTokenFromString( const String& string )
 {
-	long result = COMP_TOKEN_UNKNOWN;	
-	
+	long result = COMP_TOKEN_UNKNOWN;
+
 	if ( 0 == _stricmp( COMP_OBJECT, string.c_str() ) ){
 		result = COMP_TOKEN_OBJECT;
 	}
@@ -450,22 +414,22 @@ long ComponentInputStream::getTokenFromString( const String& string )
 }
 
 void ComponentInputStream::readControl( Control** controlToReadInto )
-{	
+{
 	topLevelComponentAlreadyExists_ = (*controlToReadInto != NULL) ? true : false;
 
 	if ( true == topLevelComponentAlreadyExists_ ){
 		topLevelControl_ = *controlToReadInto;
 	}
-	
+
 	unsigned long size = this->getSize();
 	char* bufData = NULL;
-	try {		
-		XMLPlatformUtils::Initialize();		
+	try {
+		XMLPlatformUtils::Initialize();
 		bufData = new char[size];
 		memset( bufData, 0, size );
 		this->read( bufData, size );
 		MemBufInputSource* buf = new MemBufInputSource( (const XMLByte*)bufData, size, "MEM_BUF", false );
-		
+
 		SAXParser parser;
 		parser.setValidationScheme( SAXParser::Val_Auto );
 		parser.setDoNamespaces(false);
@@ -481,11 +445,59 @@ void ComponentInputStream::readControl( Control** controlToReadInto )
 		String s = StrX(toCatch.getMessage()).localForm();
 		throw BasicException( "XML Error message: " +  s );
 	}
-	delete [] bufData;	
+	delete [] bufData;
 
 	if ( NULL != topLevelControl_ ){
 		*controlToReadInto = topLevelControl_;
 	}
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
+*migration towards new directory structure
+*
+*Revision 1.10  2003/12/18 05:16:02  ddiego
+*merge from devmain-0-6-2 branch into the stable branch
+*
+*Revision 1.9.4.1  2003/08/18 19:52:38  ddiego
+*changed the Container from being a class you derive from to a separate
+*intance that is created and assigned dynamically to any Control.
+*
+*Revision 1.9  2003/05/17 20:37:24  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.8.2.2  2003/03/23 03:23:56  marcelloptr
+*3 empty lines at the end of the files
+*
+*Revision 1.8.2.1  2003/03/12 03:12:09  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.8  2003/02/26 04:30:47  ddiego
+*merge of code in the devmain-0-5-9 branch into the current tree.
+*most additions are in the area of the current linux port, but the major
+*addition to this release is the addition of a Condition class (currently
+*still under development) and the change over to using the Delegate class
+*exclusively from the older event handler macros.
+*
+*Revision 1.7.20.1  2003/01/08 00:19:51  marcelloptr
+*mispellings and newlines at the end of all source files
+*
+*Revision 1.7  2002/01/24 01:46:49  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
 
 

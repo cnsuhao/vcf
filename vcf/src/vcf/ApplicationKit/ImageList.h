@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
-
 #ifndef _VCF_IMAGELIST_H__
 #define _VCF_IMAGELIST_H__
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//ImageList.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -52,7 +27,7 @@ class GraphicsContext;
 /**
 An image list is a collection of images.
 The image list is used by controls like the TreeControl, ListViewControl, and
-others. The collection of images is implemented by storing them on one single 
+others. The collection of images is implemented by storing them on one single
 image.
 @delegates
 	@del ImageList::SizeChanged
@@ -61,7 +36,7 @@ image.
 */
 class APPKIT_API ImageList : public Component{
 public:
-	
+
 
 	ImageList();
 
@@ -72,8 +47,8 @@ public:
 	ImageList( const String& name );
 
 	/**
-	*Creates a new imagelist from a Image and the 
-	*appropriate width and height. 
+	*Creates a new imagelist from a Image and the
+	*appropriate width and height.
 	*/
 	//ImageList( Image* listOfImages, const unsigned long& imageWidth, const unsigned long& imageHeight );
 
@@ -93,7 +68,7 @@ public:
 	DELEGATE(SizeChanged)
 
 	/**
-	@delegate ImageAdded this is fired when a new image is added. 
+	@delegate ImageAdded this is fired when a new image is added.
 	@event ImageListEvent
 	@eventtype IMAGELIST_EVENT_ITEM_ADDED
 	@see addImage
@@ -131,7 +106,7 @@ public:
 	Color* getTransparentColor();
 
 	void addImage( Image* newImage );
-	
+
 	void insertImage( const unsigned long & index, Image* newImage );
 
 	void deleteImage( const unsigned long & index );
@@ -140,7 +115,7 @@ public:
 
 	/**
 	*Draws the image within the bounds specified in bounds. Where the bounds->left_ and top_
-	*represent the upper left and top coords. If the boudns width or height is less than the 
+	*represent the upper left and top coords. If the boudns width or height is less than the
 	*images, then clipping occurs
 	*/
 	virtual void draw( GraphicsContext* context, const unsigned long& index, Rect* bounds );
@@ -149,7 +124,7 @@ public:
 
 	void setResizeIncrement( const ulong32& resizeIncrement ) {
 		resizeIncrement_ = resizeIncrement;
-	}	
+	}
 
 	virtual void afterCreate( ComponentEvent* event );
 
@@ -175,7 +150,7 @@ private:
 	*displayed within the masterImage_
 	*/
 	uint32 totalImageCount_;
-	Image* masterImage_;	
+	Image* masterImage_;
 	ulong32 resizeIncrement_;
 	void changed();
 };
@@ -186,6 +161,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles
@@ -293,6 +271,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_IMAGELIST_H__
 

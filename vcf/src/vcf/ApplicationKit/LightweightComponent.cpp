@@ -1,6 +1,310 @@
+//LightweightComponent.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/LightweightComponent.h"
+
+
+using namespace VCF;
+
+LightweightComponent::LightweightComponent( Control* component )
+{
+	component_ = component;
+	enabled_ = true;
+	focused_ = false;
+}
+
+LightweightComponent::~LightweightComponent()
+{
+
+}
+
+void LightweightComponent::create( Control* owningControl )
+{
+	component_ = owningControl;
+}
+
+void LightweightComponent::destroyControl()
+{
+
+}
+
+long LightweightComponent::getHandleID()
+{
+	long result = -1;
+	VCF::Control* parent = getHeavyWeightParent();
+	if ( NULL != parent ) {
+		result = parent->getPeer()->getHandleID();
+	}
+	return result;
+}
+
+VCF::String LightweightComponent::getText()
+{
+	VCF::String result = "";
+
+	return result;
+}
+
+void LightweightComponent::setText( const VCF::String& text )
+{
+
+}
+
+void LightweightComponent::setBounds( VCF::Rect* rect )
+{
+	bounds_.inflate(1,1);
+
+	VCF::Control* parent = getHeavyWeightParent();
+	if ( NULL != parent ){
+		parent->repaint( &bounds_ );
+	}
+	bounds_.setRect( rect->left_, rect->top_, rect->right_, rect->bottom_ );
+	VCF::Size sz( bounds_.getWidth(), bounds_.getHeight() );
+	VCF::ControlEvent event( component_, sz );
+	component_->handleEvent( &event );
+}
+
+VCF::Rect LightweightComponent::getBounds()
+{
+	return bounds_;
+}
+
+void LightweightComponent::setVisible( const bool& visible )
+{
+	bool oldVisible = visible_;
+	visible_ = visible;
+
+	if ( visible_ != oldVisible ) {
+		Control* parent = this->getHeavyWeightParent();
+		if ( NULL != parent ) {
+			Container* container = parent->getContainer();
+			if ( NULL != container ) {
+				container->resizeChildren(NULL);
+			}
+		}
+	}
+}
+
+bool LightweightComponent::getVisible()
+{
+	return visible_;
+}
+
+VCF::Control* LightweightComponent::getControl()
+{
+	return component_;
+}
+
+void LightweightComponent::setControl( VCF::Control* component )
+{
+	component_ = component;
+}
+
+void LightweightComponent::setParent( VCF::Control* parent )
+{
+
+}
+
+VCF::Control* LightweightComponent::getParent()
+{
+	return component_->getParent();
+}
+
+bool LightweightComponent::isFocused()
+{
+	return component_ == Control::getCurrentFocusedControl();
+}
+
+void LightweightComponent::setFocused()
+{
+	focused_ = true;
+}
+
+bool LightweightComponent::isEnabled()
+{
+	return enabled_;
+}
+
+void LightweightComponent::setEnabled( const bool& enabled )
+{
+	enabled_ = enabled;
+}
+
+void LightweightComponent::setFont( Font* font )
+{
+
+}
+
+VCF::Control* LightweightComponent::getHeavyWeightParent()
+{
+	Control* result = NULL;
+
+	VCF::Control* parent = getParent();
+	if ( NULL != parent ){
+		bool heavyWeightParent = !parent->isLightWeight();
+		result = parent;
+		while ( (false == heavyWeightParent) && (parent!=NULL) ){
+			parent = result->getParent();
+			if ( NULL != parent ){
+				heavyWeightParent = !parent->isLightWeight();
+				if ( false == heavyWeightParent ){
+					result = parent;
+					parent = NULL;
+				}
+			}
+		}
+	}
+	result = parent;
+	return result;
+}
+
+void LightweightComponent::repaint( Rect* repaintRect )
+{
+	VCF::Control* tmp = NULL;
+	VCF::Control* parent = getHeavyWeightParent();
+	if ( NULL != parent ){
+		Rect tmpRect;
+		if ( NULL == repaintRect ){
+			tmpRect = component_->getBounds();
+			tmpRect.inflate( 2, 2 );
+			repaintRect = &tmpRect;
+		}
+		parent->repaint( repaintRect );
+	}
+}
+
+void LightweightComponent::keepMouseEvents()
+{
+	Control* parent = getHeavyWeightParent();
+	if ( NULL != parent ){
+		parent->keepMouseEvents();
+		Control::setCapturedMouseControl( component_ );
+	}
+}
+
+void LightweightComponent::releaseMouseEvents()
+{
+	Control* parent = getHeavyWeightParent();
+	if ( NULL != parent ){
+		parent->releaseMouseEvents();
+	}
+}
+
+void LightweightComponent::setCursor( Cursor* cursor )
+{
+	Control* parent = getHeavyWeightParent();
+	if ( NULL != parent ){
+		parent->getPeer()->setCursor( cursor );
+	}
+}
+
+bool LightweightComponent::beginSetBounds( const ulong32& numberOfChildren )
+{
+	return true;
+}
+
+
+void LightweightComponent::endSetBounds()
+{
+
+}
+
+void LightweightComponent::translateToScreenCoords( Point* pt )
+{
+	Size offset;
+	VCF::Control* parent = getParent();
+	if ( NULL != parent ){
+		bool lightWeightParent = parent->isLightWeight();
+		Rect bounds = this->bounds_;
+
+		offset.width_ += bounds.left_;
+		offset.height_ += bounds.top_;
+
+		while ( (lightWeightParent) && (parent!=NULL) ){
+
+			parent = parent->getParent();
+
+			if ( NULL != parent ){
+				lightWeightParent = parent->isLightWeight();
+				if ( lightWeightParent ){
+					bounds = parent->getBounds();
+
+					offset.width_ += bounds.left_;
+					offset.height_ += bounds.top_;
+				}
+				else {
+					break;
+				}
+			}
+		}
+
+		if ( NULL != parent ){
+			Point tmpPt = *pt;
+			tmpPt.x_ += offset.width_;
+			tmpPt.y_ += offset.height_;
+
+			parent->translateToScreenCoords( &tmpPt );
+			*pt = tmpPt;
+		}
+	}
+}
+
+void LightweightComponent::translateFromScreenCoords( Point* pt )
+{
+	Size offset;
+	VCF::Control* parent = getParent();
+	if ( NULL != parent ){
+		bool lightWeightParent = parent->isLightWeight();
+		Rect bounds = this->bounds_;
+
+		offset.width_ += bounds.left_;
+		offset.height_ += bounds.top_;
+
+		while ( (lightWeightParent) && (parent!=NULL) ){
+			parent = parent->getParent();
+
+			if ( NULL != parent ){
+				lightWeightParent = parent->isLightWeight();
+				if ( lightWeightParent ){
+					bounds = parent->getBounds();
+
+					offset.width_ += bounds.left_;
+					offset.height_ += bounds.top_;
+				}
+				else {
+
+					break;
+				}
+			}
+		}
+
+		if ( NULL != parent ) {
+			Point tmpPt = *pt;
+
+			parent->translateFromScreenCoords( &tmpPt );
+
+			tmpPt.x_ -= offset.width_;
+			tmpPt.y_ -= offset.height_;
+
+			*pt = tmpPt;
+		}
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *
@@ -105,324 +409,4 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// LightweightComponent.cpp
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/LightweightComponent.h"
-
-
-using namespace VCF;
-
-LightweightComponent::LightweightComponent( Control* component )
-{
-	component_ = component;
-	enabled_ = true;
-	focused_ = false;
-}
-
-LightweightComponent::~LightweightComponent()
-{
-
-}
-
-void LightweightComponent::create( Control* owningControl )
-{
-	component_ = owningControl;
-}
-
-void LightweightComponent::destroyControl()
-{
-
-}
-
-long LightweightComponent::getHandleID()
-{	
-	long result = -1;
-	VCF::Control* parent = getHeavyWeightParent();
-	if ( NULL != parent ) {
-		result = parent->getPeer()->getHandleID();
-	}
-	return result;
-}
-
-VCF::String LightweightComponent::getText()
-{
-	VCF::String result = "";
-
-	return result;
-}
-
-void LightweightComponent::setText( const VCF::String& text )
-{
-	
-}
-
-void LightweightComponent::setBounds( VCF::Rect* rect )
-{
-	bounds_.inflate(1,1);
-
-	VCF::Control* parent = getHeavyWeightParent();
-	if ( NULL != parent ){
-		parent->repaint( &bounds_ );
-	}
-	bounds_.setRect( rect->left_, rect->top_, rect->right_, rect->bottom_ );
-	VCF::Size sz( bounds_.getWidth(), bounds_.getHeight() );
-	VCF::ControlEvent event( component_, sz );
-	component_->handleEvent( &event );					
-}
-
-VCF::Rect LightweightComponent::getBounds()
-{	
-	return bounds_;
-}
-
-void LightweightComponent::setVisible( const bool& visible )
-{
-	bool oldVisible = visible_;
-	visible_ = visible;
-	
-	if ( visible_ != oldVisible ) {
-		Control* parent = this->getHeavyWeightParent();
-		if ( NULL != parent ) {
-			Container* container = parent->getContainer();
-			if ( NULL != container ) {
-				container->resizeChildren(NULL);
-			}
-		}
-	}
-}
-
-bool LightweightComponent::getVisible()
-{	
-	return visible_;
-}
-
-VCF::Control* LightweightComponent::getControl()
-{
-	return component_;
-}
-
-void LightweightComponent::setControl( VCF::Control* component )
-{
-	component_ = component;
-}
-
-void LightweightComponent::setParent( VCF::Control* parent )
-{
-	
-}
-
-VCF::Control* LightweightComponent::getParent()
-{
-	return component_->getParent();
-}
-
-bool LightweightComponent::isFocused()
-{	
-	return component_ == Control::getCurrentFocusedControl();
-}
-
-void LightweightComponent::setFocused()
-{
-	focused_ = true;
-}
-
-bool LightweightComponent::isEnabled()
-{	
-	return enabled_;
-}
-
-void LightweightComponent::setEnabled( const bool& enabled )
-{
-	enabled_ = enabled;
-}
-
-void LightweightComponent::setFont( Font* font )
-{
-	
-}
-
-VCF::Control* LightweightComponent::getHeavyWeightParent()
-{
-	Control* result = NULL;
-
-	VCF::Control* parent = getParent();
-	if ( NULL != parent ){
-		bool heavyWeightParent = !parent->isLightWeight();
-		result = parent;
-		while ( (false == heavyWeightParent) && (parent!=NULL) ){
-			parent = result->getParent();
-			if ( NULL != parent ){
-				heavyWeightParent = !parent->isLightWeight();
-				if ( false == heavyWeightParent ){
-					result = parent;
-					parent = NULL;
-				}
-			}
-		}
-	}
-	result = parent;
-	return result;
-}
-
-void LightweightComponent::repaint( Rect* repaintRect )
-{
-	VCF::Control* tmp = NULL;
-	VCF::Control* parent = getHeavyWeightParent();
-	if ( NULL != parent ){
-		Rect tmpRect;
-		if ( NULL == repaintRect ){
-			tmpRect = component_->getBounds();
-			tmpRect.inflate( 2, 2 );
-			repaintRect = &tmpRect;
-		}
-		parent->repaint( repaintRect );
-	}
-}
-
-void LightweightComponent::keepMouseEvents()
-{
-	Control* parent = getHeavyWeightParent();
-	if ( NULL != parent ){
-		parent->keepMouseEvents();
-		Control::setCapturedMouseControl( component_ );
-	}
-}
-
-void LightweightComponent::releaseMouseEvents()
-{
-	Control* parent = getHeavyWeightParent();
-	if ( NULL != parent ){
-		parent->releaseMouseEvents();
-	}
-}
-
-void LightweightComponent::setCursor( Cursor* cursor )
-{
-	Control* parent = getHeavyWeightParent();
-	if ( NULL != parent ){
-		parent->getPeer()->setCursor( cursor );
-	}
-}
-
-bool LightweightComponent::beginSetBounds( const ulong32& numberOfChildren )
-{
-	return true;
-}
-
-
-void LightweightComponent::endSetBounds()
-{
-
-}
-
-void LightweightComponent::translateToScreenCoords( Point* pt )
-{
-	Size offset;
-	VCF::Control* parent = getParent();
-	if ( NULL != parent ){
-		bool lightWeightParent = parent->isLightWeight();
-		Rect bounds = this->bounds_;
-
-		offset.width_ += bounds.left_;
-		offset.height_ += bounds.top_;
-
-		while ( (lightWeightParent) && (parent!=NULL) ){
-
-			parent = parent->getParent();
-
-			if ( NULL != parent ){
-				lightWeightParent = parent->isLightWeight();
-				if ( lightWeightParent ){
-					bounds = parent->getBounds();					
-
-					offset.width_ += bounds.left_;
-					offset.height_ += bounds.top_;
-				}
-				else {
-					break;
-				}
-			}
-		}
-		
-		if ( NULL != parent ){
-			Point tmpPt = *pt;
-			tmpPt.x_ += offset.width_;
-			tmpPt.y_ += offset.height_;
-			
-			parent->translateToScreenCoords( &tmpPt );
-			*pt = tmpPt;
-		}
-	}
-}
-
-void LightweightComponent::translateFromScreenCoords( Point* pt )
-{
-	Size offset;
-	VCF::Control* parent = getParent();
-	if ( NULL != parent ){
-		bool lightWeightParent = parent->isLightWeight();
-		Rect bounds = this->bounds_;
-
-		offset.width_ += bounds.left_;
-		offset.height_ += bounds.top_;
-
-		while ( (lightWeightParent) && (parent!=NULL) ){
-			parent = parent->getParent();
-
-			if ( NULL != parent ){
-				lightWeightParent = parent->isLightWeight();
-				if ( lightWeightParent ){
-					bounds = parent->getBounds();
-					
-					offset.width_ += bounds.left_;
-					offset.height_ += bounds.top_;
-				}
-				else {					
-
-					break;
-				}
-			}
-		}
-
-		if ( NULL != parent ) {
-			Point tmpPt = *pt;					
-			
-			parent->translateFromScreenCoords( &tmpPt );
-			
-			tmpPt.x_ -= offset.width_;
-			tmpPt.y_ -= offset.height_;
-			
-			*pt = tmpPt;
-		}
-	}	
-}
 

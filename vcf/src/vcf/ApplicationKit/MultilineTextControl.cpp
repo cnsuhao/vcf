@@ -1,30 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//MultilineTextControl.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 //MultilineTextControl.h
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -57,16 +38,16 @@ String MultilineTextControl::getTextForLine( const ulong32& lineIndex )
 	const VCFChar* lineStart = P;
 	long count = result.size();
 	ulong32 lineCount = 0;
-	
+
 	bool lineMatchFound = false;
 	bool lineFound = false;
 	bool trimForCRLF = false;
 
-	while ( (P-start) < count ) {			
+	while ( (P-start) < count ) {
 		lineFound = false;
 		trimForCRLF = false;
 
-		if ( *P == '\n' ) {			
+		if ( *P == '\n' ) {
 			lineFound = true;
 		}
 		else if ( (*P == '\r') && (*(P+1) == '\n') ) {
@@ -75,17 +56,17 @@ String MultilineTextControl::getTextForLine( const ulong32& lineIndex )
 			P++;
 		}
 		else if ( (*P == '\r') ) {
-			lineFound = true;			
-		}		
-		
+			lineFound = true;
+		}
+
 
 		if ( true == lineFound ) {
-			if ( lineIndex == (lineCount) ) {				
+			if ( lineIndex == (lineCount) ) {
 				break;
 			}
 
 			lineCount ++;
-			lineStart = P+1; //move past the current char			
+			lineStart = P+1; //move past the current char
 		}
 		P++;
 	}
@@ -93,13 +74,13 @@ String MultilineTextControl::getTextForLine( const ulong32& lineIndex )
 	lineMatchFound = (lineIndex == lineCount);
 
 	result = "";
-	if ( (true == lineMatchFound) ) { 
+	if ( (true == lineMatchFound) ) {
 		if ( true == trimForCRLF ) {
 			//P--;
 		}
 
 		result.append( lineStart, (P-lineStart) );
-	}	
+	}
 
 	return result;
 }
@@ -119,11 +100,12 @@ void MultilineTextControl::scrollToSelection( const bool& _showEndSel/*=false*/ 
 }
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *
@@ -190,7 +172,5 @@ void MultilineTextControl::scrollToSelection( const bool& _showEndSel/*=false*/ 
 *to facilitate change tracking
 *
 */
-
-
 
 

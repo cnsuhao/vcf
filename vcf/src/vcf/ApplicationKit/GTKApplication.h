@@ -1,6 +1,61 @@
+#ifndef _VCF_GTKAPPLICATION_H__
+#define _VCF_GTKAPPLICATION_H__
+//GTKApplication.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+namespace VCF {
+
+/**
+
+*/
+class GTKApplication : public Object, public ApplicationPeer  {
+public:
+	GTKApplication();
+
+	virtual ~GTKApplication();
+
+	virtual bool initApp();
+
+	virtual void terminateApp();
+
+	virtual VCF::AbstractApplication* getApplication() {
+		return app_;
+	}
+
+	virtual void setApplication( VCF::AbstractApplication* application );
+
+	virtual ResourceBundle* getResourceBundle();
+
+	virtual String getFileName();
+
+	virtual long getHandleID();
+
+	virtual void setHandleID( const long& handleID );
+protected:
+	VCF::AbstractApplication* app_;
+	long handleID_;
+};
+
+}; //end of namespace VCF
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -57,45 +112,6 @@
 *
 */
 
-
-#ifndef _VCF_GTKAPPLICATION_H__
-#define _VCF_GTKAPPLICATION_H__
-
-
-namespace VCF {
-
-/**
-
-*/
-class GTKApplication : public Object, public ApplicationPeer  {
-public:
-	GTKApplication();
-	
-	virtual ~GTKApplication();
-
-	virtual bool initApp();
-
-	virtual void terminateApp(); 
-
-	virtual VCF::AbstractApplication* getApplication() {
-		return app_;
-	}
-
-	virtual void setApplication( VCF::AbstractApplication* application );
-	
-	virtual ResourceBundle* getResourceBundle();
-
-	virtual String getFileName();	
-	
-	virtual long getHandleID();
-
-	virtual void setHandleID( const long& handleID );
-protected:
-	VCF::AbstractApplication* app_;
-	long handleID_;
-};
-
-}; //end of namespace VCF
 
 #endif // _VCF_GTKAPPLICATION_H__
 

@@ -1,45 +1,24 @@
+//Dialog.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//Dialog.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/DialogPeer.h"
 #include "vcf/ApplicationKit/WindowPeer.h"
 
 using namespace VCF;
 
-void Dialog_postClose( Event* e ) 
+void Dialog_postClose( Event* e )
 {
 	e->getSource()->free();
 }
 
-void Dialog_onClose( WindowEvent* e ) 
+void Dialog_onClose( WindowEvent* e )
 {
 	Dialog* dialog = (Dialog*)e->getSource();
 	if ( !dialog->isModal() ) {
@@ -49,9 +28,9 @@ void Dialog_onClose( WindowEvent* e )
 }
 
 Dialog::Dialog( Control* owner )
-{		
+{
 	owner_ = owner;
-	
+
 	modal_ = false;
 
 	previousFocusedControl_ = Control::currentFocusedControl;
@@ -60,7 +39,7 @@ Dialog::Dialog( Control* owner )
 
 	Frame* activeFrame = Frame::getActiveFrame();
 
-	
+
 	Application* app = Application::getRunningInstance();
 	if ( NULL == owner_ ) {
 		if ( NULL != activeFrame ) {
@@ -72,20 +51,20 @@ Dialog::Dialog( Control* owner )
 	}
 
 	dialogPeer_ = UIToolkit::createDialogPeer( owner_, this );
-	
+
 	peer_ = dynamic_cast<ControlPeer*>(dialogPeer_);
-	
+
 
 	windowPeer_ = dynamic_cast<WindowPeer*>(dialogPeer_);
-	
+
 	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
-	
+
 	peer_->create( this );
 
 	peer_->setControl( this );
-	
+
 	setFrameStyle( fstFixed );
 
 	//add a close handler to get notified of the closing window
@@ -93,9 +72,9 @@ Dialog::Dialog( Control* owner )
 }
 
 
-Dialog::~Dialog() 
+Dialog::~Dialog()
 {
-	
+
 }
 
 void Dialog::paint(GraphicsContext * context)
@@ -106,7 +85,7 @@ void Dialog::paint(GraphicsContext * context)
 void Dialog::setCaption( const String& caption )
 {
 	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 	caption_ = caption;
 	peer_->setText( caption_ );
@@ -115,7 +94,7 @@ void Dialog::setCaption( const String& caption )
 Rect Dialog::getClientBounds(const bool& includeBorder)
 {
 	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 	return windowPeer_->getClientBounds();
 }
@@ -123,7 +102,7 @@ Rect Dialog::getClientBounds(const bool& includeBorder)
 void  Dialog::setClientBounds( Rect* bounds )
 {
 	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 	windowPeer_->setClientBounds( bounds );
 }
@@ -147,7 +126,7 @@ public:
 	ControlHolder( Control* control ): control_(control) {
 		updateEventHandler();
 	}
-	
+
 	ControlHolder( const ControlHolder& rhs ) {
 		*this = rhs;
 	}
@@ -155,9 +134,9 @@ public:
 	virtual ~ControlHolder() {
 		if ( NULL != control_ ) {
 			EventHandler* ev = getEventHandler( "onDestroy" );
-			if ( NULL != ev ) {				
+			if ( NULL != ev ) {
 				control_->ComponentDeleted -= ev;
-			}			
+			}
 		}
 	}
 
@@ -198,28 +177,28 @@ protected:
 };
 
 UIToolkit::ModalReturnType Dialog::showModal()
-{	
-	modal_ = true;	
+{
+	modal_ = true;
 
 	UIToolkit::ModalReturnType result = UIToolkit::mrNone;
 
 	ControlHolder prevFocusedControl = previousFocusedControl_;
 
-	Control* owningControl = owner_;	
+	Control* owningControl = owner_;
 
 	if ( NULL != owner_ ) {
 
 		owningControl->setEnabled( false );
-	}	
+	}
 
 	show();
 	result = UIToolkit::runModalEventLoopFor( this );
 	if ( result == UIToolkit::mrTrue ) {
 		result = getModalReturnValue();
 	}
-	
+
 	if ( prevFocusedControl != NULL ) {
-		prevFocusedControl->setFocused();	
+		prevFocusedControl->setFocused();
 	}
 	else if ( NULL != Control::getCurrentFocusedControl() ) {
 		Control::getCurrentFocusedControl()->setFocused();
@@ -236,22 +215,22 @@ UIToolkit::ModalReturnType Dialog::showModal()
 void Dialog::show()
 {
 	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 
 	if ( NULL != owner_ ) {
 		Rect bounds;
-		
+
 		bounds.left_ = owner_->getLeft() + ( owner_->getWidth()/2.0 - getWidth()/2.0 );
 		bounds.top_ = owner_->getTop() + ( owner_->getHeight()/2.0 - getHeight()/2.0 );
 		bounds.right_ = bounds.left_ + getWidth();
-		bounds.bottom_ = bounds.top_ + getHeight();		
+		bounds.bottom_ = bounds.top_ + getHeight();
 		if ( NULL != owner_->getParent() ) {
 			owner_->translateToScreenCoords( &bounds );
 		}
-		
-		setBounds( &bounds );	
-	}	
+
+		setBounds( &bounds );
+	}
 
 	peer_->setVisible(true);
 }
@@ -268,7 +247,7 @@ void Dialog::showMessage( const String& message, const String& caption )
 				realCaption = app->getName();
 			}
 		}
-		
+
 		dialogPeer->showMessage( message, realCaption );
 	}
 
@@ -276,12 +255,12 @@ void Dialog::showMessage( const String& message, const String& caption )
 	dialogPeer = NULL;
 }
 
-UIToolkit::ModalReturnType Dialog::showMessage( const String& message, const String& caption, 
+UIToolkit::ModalReturnType Dialog::showMessage( const String& message, const String& caption,
 														const long& messageButtons,
 														const MessageStyle& messageStyle )
 {
 	UIToolkit::ModalReturnType result = UIToolkit::mrOK;
-	
+
 	DialogPeer* dialogPeer = UIToolkit::createDialogPeer();// owner, this );
 	if ( NULL != dialogPeer ){
 		result = dialogPeer->showMessage( message, caption, messageButtons, messageStyle );
@@ -296,7 +275,7 @@ UIToolkit::ModalReturnType Dialog::showMessage( const String& message, const Str
 void Dialog::close()
 {
 	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 
 	windowPeer_->close();
@@ -305,14 +284,14 @@ void Dialog::close()
 void Dialog::setFrameStyle( const FrameStyleType& frameStyle )
 {
 		if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);	
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 	frameStyle_ = frameStyle;
 
 	if ( !(Component::csDesigning & getComponentState()) ){
 		windowPeer_->setFrameStyle( frameStyle_ );
 	}
-	
+
 }
 
 void Dialog::setIconImage( Image* icon )
@@ -342,10 +321,12 @@ void Dialog::onModalClose( WindowEvent* e )
 */
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -543,3 +524,5 @@ void Dialog::onModalClose( WindowEvent* e )
 *to facilitate change tracking
 *
 */
+
+

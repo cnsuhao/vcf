@@ -1,32 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//VFFInputStream.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//VFFInputStream.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/VFFInputStream.h"
@@ -55,14 +34,14 @@ void VFFInputStream::getOuterClassNameAndUUID( String& className, String& UUID )
 {
 	className = "";
 	UUID = "";
-	
+
 	parser_->resetStream();
 
-	if ( true == parser_->tokenSymbolIs( "object" ) ) {		
+	if ( true == parser_->tokenSymbolIs( "object" ) ) {
 		String currentSymbol;
 		while ( (TO_EOF != parser_->getToken()) && (false == parser_->tokenSymbolIs( "end" )) ) {
 			currentSymbol = parser_->tokenString();
-			try {				
+			try {
 				// do object
 				VCFChar token = parser_->nextToken();
 				switch ( token ) {
@@ -96,12 +75,12 @@ void VFFInputStream::readChildComponents( Component* component )
 	Container* controlContainer = NULL;
 
 	Component* childComponent = NULL;
-	if ( true == parser_->tokenSymbolIs( "object" ) ) {		
+	if ( true == parser_->tokenSymbolIs( "object" ) ) {
 		String currentSymbol;
 		while ( (TO_EOF != parser_->getToken()) && (false == parser_->tokenSymbolIs( "end" )) ) {
 			currentSymbol = parser_->tokenString();
-			try {				
-				// do object				
+			try {
+				// do object
 				VCFChar token = parser_->nextToken();
 				switch ( token ) {
 					case ':' : {
@@ -110,7 +89,7 @@ void VFFInputStream::readChildComponents( Component* component )
 							controlContainer = control->getContainer();
 						}
 
-						
+
 						if ( NULL != controlContainer ) {
 							childComponent = controlContainer->findControl( currentSymbol );
 						}
@@ -125,8 +104,8 @@ void VFFInputStream::readChildComponents( Component* component )
 						parser_->checkToken( ',' );
 						parser_->nextToken();
 						String classID = parser_->tokenString();
-						
-						if ( NULL != childComponent ) {							
+
+						if ( NULL != childComponent ) {
 							clazz = childComponent->getClass();
 							if ( clazz->getID() != classID ) {
 								parser_->error( MAKE_ERROR_MSG_2("ClassID of passed in component doesn't match ClassID encountered in parsing stream") );
@@ -150,9 +129,9 @@ void VFFInputStream::readChildComponents( Component* component )
 				}
 
 				while ( true == parser_->tokenSymbolIs( "object" ) ) {
-					
-					readChildComponents( childComponent );						
-					
+
+					readChildComponents( childComponent );
+
 					parser_->nextToken();
 				}
 			}
@@ -176,7 +155,7 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 					Property* prop = clazz->getProperty( currentSymbol );
 					if ( NULL != prop ) {
 						//need to be a bit smarter here
-						//look at the proeprty type. If the type is 
+						//look at the proeprty type. If the type is
 						//is pdObject, then first assume that value
 						//is actually a string that represents the name of
 						//variable. Search for the value, if something is
@@ -185,12 +164,12 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 						//in the value as is.
 						if ( (pdObject == prop->getType()) && ('@' == value[0]) ) {
 							//OK our value is actually a component name so we are
-							//going to store it in a list for later, because we may not 
+							//going to store it in a list for later, because we may not
 							//have an existing instance of the component yet. To store
 							//this successfully we need the name of the property to set,
-							//the actualy object instance that we are going to set the 
+							//the actualy object instance that we are going to set the
 							//property on, and the name of the component to try and retreive
-							//once we get to that point.	
+							//once we get to that point.
 							parser_->nextToken();
 							String tmp = parser_->tokenString();
 							deferredProperties_.push_back( new DeferredPropertySetter( tmp, prop->getName(), prop->getSource() ) );
@@ -215,7 +194,7 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 
 				case '{': {
 					//parser_->nextToken();
-					String binValue = parser_->binHexToString();								
+					String binValue = parser_->binHexToString();
 					parser_->nextToken();
 					parser_->checkToken( '}' );
 					Property* prop = clazz->getProperty( currentSymbol );
@@ -230,7 +209,7 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 								}
 							}
 						}
-					}								
+					}
 				}
 				break;
 			}
@@ -241,7 +220,7 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 		case '.' : {
 			//we are at the property name so currentSymbol
 			//will be the name of the proeprty we are examining
-			//calling nextToken will take us to the 
+			//calling nextToken will take us to the
 			parser_->nextToken();
 
 			String objPropName = parser_->tokenString();
@@ -253,18 +232,18 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 				Object* object = *value;
 				if ( NULL != object ) {
 					clazz = object->getClass();
-					
-					processAsignmentTokens( newToken, objPropName, clazz );	
+
+					processAsignmentTokens( newToken, objPropName, clazz );
 				}
 			}
 			else {
-				processAsignmentTokens( newToken, objPropName, clazz );	
-			}								
+				processAsignmentTokens( newToken, objPropName, clazz );
+			}
 		}
 		break;
 
 		case '[' : {
-			
+
 		}
 		break;
 
@@ -286,11 +265,11 @@ void VFFInputStream::readComponentInstance( Component* component )
 	Control* control = NULL;
 	Class* clazz = NULL;
 	Container* controlContainer = NULL;
-	if ( true == parser_->tokenSymbolIs( "object" ) ) {		
+	if ( true == parser_->tokenSymbolIs( "object" ) ) {
 		String currentSymbol;
 		while ( (TO_EOF != parser_->getToken()) && (false == parser_->tokenSymbolIs( "end" )) ) {
 			currentSymbol = parser_->tokenString();
-			try {				
+			try {
 				// do object
 				VCFChar token = parser_->nextToken();
 				switch ( token ) {
@@ -301,8 +280,8 @@ void VFFInputStream::readComponentInstance( Component* component )
 						parser_->checkToken( ',' );
 						parser_->nextToken();
 						String classID = parser_->tokenString();
-						
-						if ( NULL != component ) {							
+
+						if ( NULL != component ) {
 							clazz = component->getClass();
 							if ( clazz->getID() != classID ) {
 								parser_->error( MAKE_ERROR_MSG_2("ClassID of passed in component doesn't match ClassID encountered in parsing stream") );
@@ -325,8 +304,8 @@ void VFFInputStream::readComponentInstance( Component* component )
 					break;
 				}
 
-				while ( true == parser_->tokenSymbolIs( "object" ) ) {					
-					readChildComponents( component );					
+				while ( true == parser_->tokenSymbolIs( "object" ) ) {
+					readChildComponents( component );
 					parser_->nextToken();
 				}
 			}
@@ -344,12 +323,12 @@ void VFFInputStream::readComponentInstance( Component* component )
 			Class* clazz = dps->source_->getClass();
 			Property* prop = clazz->getProperty( dps->propertyName_ );
 			if ( NULL != prop ) {
-				Component* foundComponent = NULL;				
+				Component* foundComponent = NULL;
 				if ( true == component->bindVariable( &foundComponent, dps->propertyVal_ ) ) {
 					VariantData data;
 					data = foundComponent;
 					prop->set( &data );
-				}				
+				}
 			}
 			delete dps;
 			dps = NULL;
@@ -361,20 +340,20 @@ void VFFInputStream::readComponentInstance( Component* component )
 }
 
 void VFFInputStream::readComponent( Component** component )
-{	
+{
 	componentInputLevel_ ++;
 	String s;
 	Control* control = NULL;
 	Class* clazz = NULL;
 	Container* controlContainer = NULL;
-	if ( true == parser_->tokenSymbolIs( "object" ) ) {		
+	if ( true == parser_->tokenSymbolIs( "object" ) ) {
 		String currentSymbol;
 		String objectName;
 		while ( (TO_EOF != parser_->getToken()) && (false == parser_->tokenSymbolIs( "end" )) ) {
 			currentSymbol = parser_->tokenString();
-			
-			try {				
-				// do object				
+
+			try {
+				// do object
 				VCFChar token = parser_->nextToken();
 				switch ( token ) {
 					case ':' : {
@@ -412,7 +391,7 @@ void VFFInputStream::readComponent( Component** component )
 						processAsignmentTokens( token, currentSymbol, clazz );
 					}
 					break;
-				}				
+				}
 
 				while ( true == parser_->tokenSymbolIs( "object" ) ) {
 					Component* newComponent = NULL;
@@ -447,7 +426,7 @@ void VFFInputStream::readComponent( Component** component )
 				break;
 			}
 		}
-		
+
 		if ( !objectName.empty() && (NULL != *component) && (*component)->getName().empty() ) {
 			(*component)->setName( objectName );
 			objectName = "";
@@ -461,12 +440,12 @@ void VFFInputStream::readComponent( Component** component )
 			Class* clazz = dps->source_->getClass();
 			Property* prop = clazz->getProperty( dps->propertyName_ );
 			if ( NULL != prop ) {
-				Component* foundComponent = NULL;				
+				Component* foundComponent = NULL;
 				if ( true == (*component)->bindVariable( &foundComponent, dps->propertyVal_ ) ) {
 					VariantData data;
 					data = foundComponent;
 					prop->set( &data );
-				}				
+				}
 			}
 			delete dps;
 			dps = NULL;
@@ -484,25 +463,25 @@ void VFFInputStream::readComponent( Component** component )
 void VFFInputStream::hexToBin( const String& hexString, Persistable* persistableObject )
 {
 	long hexSize = hexString.size();
-	long binSize = hexSize / 2; 
-	VCFChar* binBuffer = new VCFChar[binSize];	
-	
+	long binSize = hexSize / 2;
+	VCFChar* binBuffer = new VCFChar[binSize];
+
 	const VCFChar* hexStringBuf = hexString.c_str();
 
 	memset( binBuffer, 0, binSize*sizeof(VCFChar) );
 	VCFChar tmpHexBuf[3];
 	memset( tmpHexBuf, 0, 3*sizeof(VCFChar) );
 	VCFChar* tmpBinBuffer = binBuffer;
-	
+
 	//THis is Icky code !!!!
-	while ( binSize > 0 ) {		
-		
-		tmpHexBuf[0] = hexStringBuf[0];	
+	while ( binSize > 0 ) {
+
+		tmpHexBuf[0] = hexStringBuf[0];
 		tmpHexBuf[1] = hexStringBuf[1];
 		uchar hex = '\0';
 		swscanf( tmpHexBuf, L"%X", &hex );
-		*tmpBinBuffer = hex;		
-		hexStringBuf += 2;			
+		*tmpBinBuffer = hex;
+		hexStringBuf += 2;
 		binSize --;
 		tmpBinBuffer ++;
 	}
@@ -512,11 +491,12 @@ void VFFInputStream::hexToBin( const String& hexString, Persistable* persistable
 }
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *

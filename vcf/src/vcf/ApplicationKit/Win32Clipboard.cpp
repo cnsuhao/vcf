@@ -1,6 +1,100 @@
+//Win32Clipboard.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//Win32Clipboard.h
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/Win32Clipboard.h"
+#include "vcf/ApplicationKit/COMDataObject.h"
+#include "vcf/ApplicationKit/COMUtils.h"
+
+
+using namespace VCF;
+
+
+
+Win32Clipboard::Win32Clipboard()
+{
+
+}
+
+Win32Clipboard::~Win32Clipboard()
+{
+	HRESULT hr = OleFlushClipboard();
+	if ( !SUCCEEDED(hr) ) {
+		//report the error ?
+	}
+}
+
+void Win32Clipboard::copy( VCF::DataObject* data )
+{
+	VCFCOM::COMDataObject* dataObj = new VCFCOM::COMDataObject();
+
+	dataObj->setDataObject( data );
+
+	HRESULT hr = ::OleSetClipboard( dataObj );
+	if ( !SUCCEEDED(hr) ) {
+
+	}
+}
+
+
+
+
+VCF::DataObject* Win32Clipboard::paste( const String& dataType )
+{
+	VCF::DataObject* result = NULL;
+
+	IDataObject* oleDataObject = NULL;
+	HRESULT hr = ::OleGetClipboard( &oleDataObject );
+	if ( (SUCCEEDED(hr)) && (NULL != oleDataObject) ) {
+		FORMATETC fmtETC = translateDataTypeToWin32( dataType );
+		result = VCFCOM::COMUtils::getDataObjectFromOLEDataObject( dataType, oleDataObject, &fmtETC );
+	}
+	else {
+		//throw exception
+	}
+	return result;
+}
+
+bool Win32Clipboard::hasDataType( const String& dataType )
+{
+	bool result = false;
+
+	IDataObject* oleDataObject = NULL;
+	HRESULT hr = ::OleGetClipboard( &oleDataObject );
+	if ( (SUCCEEDED(hr)) && (NULL != oleDataObject) ) {
+		FORMATETC fmtETC = translateDataTypeToWin32( dataType );
+
+		hr = oleDataObject->QueryGetData( &fmtETC );
+		if ( SUCCEEDED(hr) ) {
+			result = true;
+		}
+	}
+
+	return result;
+}
+
+FORMATETC Win32Clipboard::translateDataTypeToWin32( const String& dataType )
+{
+
+	return VCFCOM::COMUtils::translateDataTypeToWin32( dataType );
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -106,113 +200,5 @@
 *to facilitate change tracking
 *
 */
-
-//Win32Clipboard.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-#include "vcf/ApplicationKit/Win32Clipboard.h"
-#include "vcf/ApplicationKit/COMDataObject.h"
-#include "vcf/ApplicationKit/COMUtils.h"
-
-
-using namespace VCF;
-
-
-
-Win32Clipboard::Win32Clipboard()
-{
-	
-}
-
-Win32Clipboard::~Win32Clipboard()
-{
-	HRESULT hr = OleFlushClipboard();
-	if ( !SUCCEEDED(hr) ) {
-		//report the error ?
-	}
-}
-
-void Win32Clipboard::copy( VCF::DataObject* data )
-{
-	VCFCOM::COMDataObject* dataObj = new VCFCOM::COMDataObject();	
-	
-	dataObj->setDataObject( data );
-	
-	HRESULT hr = ::OleSetClipboard( dataObj );
-	if ( !SUCCEEDED(hr) ) {
-		
-	}
-}
-
-
-
-
-VCF::DataObject* Win32Clipboard::paste( const String& dataType )
-{
-	VCF::DataObject* result = NULL;
-	
-	IDataObject* oleDataObject = NULL;
-	HRESULT hr = ::OleGetClipboard( &oleDataObject );
-	if ( (SUCCEEDED(hr)) && (NULL != oleDataObject) ) {
-		FORMATETC fmtETC = translateDataTypeToWin32( dataType );
-		result = VCFCOM::COMUtils::getDataObjectFromOLEDataObject( dataType, oleDataObject, &fmtETC );
-	}
-	else {
-		//throw exception
-	}
-	return result;
-}
-
-bool Win32Clipboard::hasDataType( const String& dataType )
-{
-	bool result = false;
-
-	IDataObject* oleDataObject = NULL;
-	HRESULT hr = ::OleGetClipboard( &oleDataObject );
-	if ( (SUCCEEDED(hr)) && (NULL != oleDataObject) ) {
-		FORMATETC fmtETC = translateDataTypeToWin32( dataType );
-
-		hr = oleDataObject->QueryGetData( &fmtETC );
-		if ( SUCCEEDED(hr) ) {
-			result = true;
-		}
-	}
-
-	return result;
-}
-
-FORMATETC Win32Clipboard::translateDataTypeToWin32( const String& dataType )
-{
-	
-	return VCFCOM::COMUtils::translateDataTypeToWin32( dataType );
-}
 
 

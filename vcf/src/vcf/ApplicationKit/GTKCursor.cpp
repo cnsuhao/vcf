@@ -1,17 +1,9 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
-*migration towards new directory structure
-*
-*Revision 1.2  2003/05/17 20:37:32  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.1.2.1  2003/04/17 04:29:51  ddiego
-*updated scintilla, added gtk support for the application kit, with stubs
-*for the basic peers.
-*
+//GTKCursor.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
@@ -25,26 +17,26 @@ using namespace VCF;
 GTKCursor::GTKCursor( Cursor* cursor ):
 	cursorID_(CursorManager::UNREGISTERED_ID),
 	cursor_(cursor),
-	gtkCursor_(0)	
+	gtkCursor_(0)
 {
-		
+
 }
 
 GTKCursor::~GTKCursor()
 {
 	if ( 0 != gtkCursor_ ) {
 		gdk_cursor_unref( gtkCursor_ );
-	}		
+	}
 }
 
 void GTKCursor::createFromImage( Image* cursorImage, Point* hotSpot )
 {
-	
+
 }
 
 void GTKCursor::createSystemCursor( const Cursor::SystemCursorType& systemCursor )
 {
-	
+
 	GdkCursorType id = (GdkCursorType)0;
 
 	cursorID_ = (long)systemCursor;
@@ -113,20 +105,40 @@ void GTKCursor::createSystemCursor( const Cursor::SystemCursorType& systemCursor
 			id = GDK_CROSSHAIR;
 		}
 		break;
-		
+
 		case Cursor::SCT_POINTING_HAND : {
 			id = GDK_HAND2;
 		}
-		break;		
-	}		
-	
+		break;
+	}
+
 	gtkCursor_ = gdk_cursor_new ( id );
-	
+
 }
 
 void GTKCursor::createFromResourceName( const String& cursorName, const ulong32& instanceHandle )
 {
-	
+
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
+*migration towards new directory structure
+*
+*Revision 1.2  2003/05/17 20:37:32  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.1.2.1  2003/04/17 04:29:51  ddiego
+*updated scintilla, added gtk support for the application kit, with stubs
+*for the basic peers.
+*
+*/
 
 

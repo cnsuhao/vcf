@@ -1,6 +1,71 @@
+//CommandGroup.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//CommandGroup.h
+#include "vcf/ApplicationKit/ApplicationKit.h"
+
+
+using namespace VCF;
+
+CommandGroup::CommandGroup()
+{
+
+}
+
+CommandGroup::~CommandGroup()
+{
+	std::vector<Command*>::iterator it = commands_.begin();
+	while ( it != commands_.end() ) {
+		Command* command = *it;
+		delete command;
+		command = NULL;
+		it++;
+	}
+}
+
+void CommandGroup::undo()
+{
+	std::vector<Command*>::iterator it = commands_.begin();
+	while ( it != commands_.end() ) {
+		Command* command = *it;
+		command->undo();
+		it++;
+	}
+}
+
+void CommandGroup::redo()
+{
+	std::vector<Command*>::iterator it = commands_.begin();
+	while ( it != commands_.end() ) {
+		Command* command = *it;
+		command->redo();
+		it++;
+	}
+}
+
+void CommandGroup::execute()
+{
+	std::vector<Command*>::iterator it = commands_.begin();
+	while ( it != commands_.end() ) {
+		Command* command = *it;
+		command->execute();
+		it++;
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:14  ddiego
 *migration towards new directory structure
 *
@@ -30,57 +95,5 @@
 *to facilitate change tracking
 *
 */
-
-//CommandGroup.h
-#include "vcf/ApplicationKit/ApplicationKit.h"
-
-
-using namespace VCF;
-
-CommandGroup::CommandGroup()
-{
-
-}
-
-CommandGroup::~CommandGroup()
-{
-	std::vector<Command*>::iterator it = commands_.begin();
-	while ( it != commands_.end() ) {
-		Command* command = *it;
-		delete command;
-		command = NULL;
-		it++;	
-	}
-}
-
-void CommandGroup::undo()
-{
-	std::vector<Command*>::iterator it = commands_.begin();
-	while ( it != commands_.end() ) {
-		Command* command = *it;
-		command->undo();
-		it++;	
-	}
-}
-
-void CommandGroup::redo()
-{
-	std::vector<Command*>::iterator it = commands_.begin();
-	while ( it != commands_.end() ) {
-		Command* command = *it;
-		command->redo();
-		it++;	
-	}
-}
-
-void CommandGroup::execute()
-{
-	std::vector<Command*>::iterator it = commands_.begin();
-	while ( it != commands_.end() ) {
-		Command* command = *it;
-		command->execute();
-		it++;	
-	}
-}
 
 

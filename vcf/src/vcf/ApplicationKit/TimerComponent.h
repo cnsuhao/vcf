@@ -1,12 +1,18 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-//TimerComponent.h
-
 #ifndef _VCF_TIMERCOMPONENT_H__
 #define _VCF_TIMERCOMPONENT_H__
+//TimerComponent.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 #define TIMERCOMPONENT_CLASSID		"69f9637c-6273-4e10-a9d1-fad815095b61"
 
@@ -17,9 +23,9 @@ namespace VCF  {
 /**
 *Class TimerComponent documentation
 */
-class APPKIT_API TimerComponent : public Component { 
+class APPKIT_API TimerComponent : public Component {
 public:
-	
+
 	TimerComponent();
 
 	TimerComponent( Component* owner );
@@ -35,21 +41,21 @@ public:
 	DELEGATE(TimerDeactivated)
 	DELEGATE(TimerPulse)
 
-	
+
 	virtual void afterCreate( ComponentEvent* event );
 
 	bool isActive() {
 		return isActive_;
 	}
 
-	void setActivated( const bool& isActive );	
+	void setActivated( const bool& isActive );
 
 	long getTimeoutInterval() {
 		return timeoutInterval_;
 	}
 
 	void setTimeoutInterval( const long& interval );
-	
+
 protected:
 	bool isActive_;
 	long timeoutInterval_;
@@ -62,11 +68,12 @@ protected:
 }; //end of namespace VCF
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -129,6 +136,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_TIMERCOMPONENT_H__
 

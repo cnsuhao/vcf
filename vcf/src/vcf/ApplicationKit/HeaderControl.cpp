@@ -1,6 +1,354 @@
+//HeaderControl.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//HeaderControl.h
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/HeaderControl.h"
+#include "vcf/ApplicationKit/DefaultColumnModel.h"
+#include "vcf/ApplicationKit/DefaultColumnItem.h"
+
+
+using namespace VCF;
+
+
+
+HeaderControl::HeaderControl():
+	CustomControl( false ),
+	imageList_(NULL),
+	columnModel_(NULL),
+	textAlignment_(taTextLeft),
+	draggingColumnItem_(NULL),
+	pressedColumn_(NULL),
+	minColumnWidth_(5)
+{
+	columnModel_ = new DefaultColumnModel();
+	aligment_ = AlignTop;
+	setHeight( getPreferredHeight() );
+	setTabStop(false);
+}
+
+HeaderControl::~HeaderControl()
+{
+	if ( NULL != columnModel_ ) {
+		columnModel_->release();
+	}
+}
+
+void HeaderControl::setColumnModel( ColumnModel* model )
+{
+	if ( NULL != columnModel_ ) {
+		columnModel_->release();
+	}
+
+	columnModel_ = model;
+
+	if ( NULL != columnModel_ ) {
+		columnModel_->addRef();
+	}
+
+	setViewModel( columnModel_ );
+}
+
+ColumnItem* HeaderControl::addColumn( const String& columnName, const double& width )
+{
+	ColumnItem* result = NULL;
+	result = new DefaultColumnItem();
+	result->setCaption( columnName );
+	result->setWidth( width );
+	columnModel_->addItem( result );
+
+	return result;
+}
+
+void HeaderControl::addColumn( ColumnItem* column )
+{
+	columnModel_->addItem( column );
+}
+
+ColumnItem* HeaderControl::insertColumn( const unsigned long& index, const String& columnName, const double& width )
+{
+	ColumnItem* result = NULL;
+	result = new DefaultColumnItem();
+	result->setCaption( columnName );
+	result->setWidth( width );
+	columnModel_->insertItem( index, result );
+
+	return result;
+}
+
+void HeaderControl::insertColumn( const unsigned long& index, ColumnItem* column )
+{
+	columnModel_->insertItem( index, column );
+}
+
+void HeaderControl::deleteColumn( const unsigned long& index )
+{
+	columnModel_->deleteItem( index );
+}
+
+String HeaderControl::getColumnName( const unsigned long& index )
+{
+	ColumnItem* item = columnModel_->getItemFromIndex( index );
+	return item->getCaption();
+}
+
+void HeaderControl::setColumnName( const unsigned long& index, const String& columnName )
+{
+	ColumnItem* item = columnModel_->getItemFromIndex( index );
+	item->setCaption( columnName );
+}
+
+double HeaderControl::getColumnWidth( const unsigned long& index )
+{
+	ColumnItem* item = columnModel_->getItemFromIndex( index );
+	return item->getWidth();
+}
+
+void HeaderControl::setColumnWidth( const unsigned long& index, const double& width )
+{
+	ColumnItem* item = columnModel_->getItemFromIndex( index );
+	item->setWidth( width );
+	ItemEvent event( this, ITEM_EVENT_CHANGED );
+	ColumnWidthChanged.fireEvent( &event );
+}
+
+void HeaderControl::setImageList( ImageList* imageList )
+{
+	this->imageList_ = imageList;
+}
+
+ColumnItem* HeaderControl::isPtOverItem(Point* point)
+{
+	ColumnItem* result = NULL;
+
+	Enumerator<ColumnItem*>* columns = columnModel_->getItems();
+	Rect r = getClientBounds();
+	r.right_ = r.left_;
+	while ( true == columns->hasMoreElements() ) {
+		ColumnItem* item = columns->nextElement();
+		r.right_ += item->getWidth();
+		if ( true == r.containsPt( point ) ) {
+			result = item;
+			break;
+		}
+		r.left_ = r.right_;
+	}
+
+	return result;
+}
+
+void HeaderControl::paint( GraphicsContext * context )
+{
+	CustomControl::paint( context );
+
+	Rect r = getClientBounds();
+	r.right_ = r.left_;
+
+
+	Enumerator<ColumnItem*>* columns = columnModel_->getItems();
+	ulong32 colCount = columnModel_->getCount();
+
+
+	ulong32 index = 0;
+	while ( columns->hasMoreElements() ) {
+		ColumnItem* item = columns->nextElement();
+		r.right_ += item->getWidth();
+		paintColumn( context, &r, index, item );
+		r.left_ = r.right_;
+		index ++;
+	}
+
+	if ( colCount > 0 ) {
+		if ( r.right_ < getWidth() ) {
+			r.right_ = getWidth() + 2;
+			context->drawButtonRect( &r, false );
+		}
+	}
+}
+
+double HeaderControl::getPreferredHeight()
+{
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+}
+
+double HeaderControl::getPreferredWidth()
+{
+	return 100;
+}
+
+void HeaderControl::setTextAlignment( const TextAlignmentType& textAlignment )
+{
+	textAlignment_ = textAlignment;
+	repaint();
+}
+
+void HeaderControl::mouseDown( MouseEvent* event )
+{
+	CustomControl::mouseDown( event );
+	pressedColumn_ = NULL;
+	ColumnItem* item = isPtOverItem( event->getPoint() );
+	if ( NULL != item ) {
+		Rect* bounds = item->getBounds();
+		Point* pt = event->getPoint();
+		if ( pt->x_ > (bounds->right_-5) ) {
+			draggingColumnItem_ = item;
+			keepMouseEvents();
+		}
+		else {
+			pressedColumn_ = item;
+		}
+	}
+	repaint();
+}
+
+void HeaderControl::mouseMove( MouseEvent* event )
+{
+	CustomControl::mouseMove( event );
+
+	bool needsResizer = false;
+
+
+	if ( NULL != draggingColumnItem_ ) {
+		Rect* bounds = draggingColumnItem_->getBounds();
+		double width = maxVal<double>( minColumnWidth_, event->getPoint()->x_ - bounds->left_ );
+		draggingColumnItem_->setWidth( width );
+
+		ItemEvent itemEvent( draggingColumnItem_, HeaderControl::COLUMN_ITEM_WIDTHCHANGED );
+		handleEvent( &itemEvent );
+
+		repaint();
+		needsResizer = true;
+	}
+	else {
+		ColumnItem* item = isPtOverItem( event->getPoint() );
+		if ( NULL != item ) {
+			Rect* bounds = item->getBounds();
+			Point* pt = event->getPoint();
+			if ( pt->x_ > (bounds->right_-5) ) {
+				needsResizer = true;
+			}
+		}
+	}
+
+	if ( true == needsResizer ) {
+		setCursorID( Cursor::SCT_SPLIT_VERT );
+	}
+	else {
+		setCursorID( Cursor::SCT_DEFAULT );
+	}
+}
+
+void HeaderControl::mouseUp( MouseEvent* event )
+{
+	CustomControl::mouseUp( event );
+	if ( NULL != draggingColumnItem_ ) {
+		Rect* bounds = draggingColumnItem_->getBounds();
+		double width = maxVal<double>( minColumnWidth_, event->getPoint()->x_ - bounds->left_ );
+		draggingColumnItem_->setWidth( width );
+
+		ItemEvent itemEvent( draggingColumnItem_, HeaderControl::COLUMN_ITEM_WIDTHCHANGED );
+		handleEvent( &itemEvent );
+		repaint();
+
+		releaseMouseEvents();
+	}
+	else if ( NULL != pressedColumn_ ) {
+		MouseEvent clickEvent( pressedColumn_,
+								HeaderControl::COLUMN_ITEM_CLICKED,
+								event->getButtonMask(),
+								event->getKeyMask(),
+								event->getPoint() );
+
+		handleEvent( &clickEvent );
+	}
+	pressedColumn_ = NULL;
+	draggingColumnItem_ = NULL;
+
+	repaint();
+}
+
+void HeaderControl::handleEvent( Event* event )
+{
+	CustomControl::handleEvent( event );
+	switch ( event->getType() ) {
+		case HeaderControl::COLUMN_ITEM_CLICKED : {
+			ColumnItemClicked.fireEvent( (MouseEvent*)event );
+		}
+		break;
+
+		case HeaderControl::COLUMN_ITEM_WIDTHCHANGED : {
+			ColumnWidthChanged.fireEvent( (ItemEvent*)event );
+		}
+		break;
+	}
+}
+
+void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, const ulong32& index, ColumnItem* item )
+{
+	long drawOptions = GraphicsContext::tdoNone;
+
+	switch ( textAlignment_ ) {
+		case taTextLeft : {
+			drawOptions |= GraphicsContext::tdoLeftAlign;
+		}
+		break;
+
+		case taTextCenter : {
+			drawOptions |= GraphicsContext::tdoCenterHorzAlign;
+		}
+		break;
+
+		case taTextRight : {
+			drawOptions |= GraphicsContext::tdoRightAlign;
+		}
+		break;
+	}
+	drawOptions |= GraphicsContext::tdoCenterVertAlign;
+
+	context->drawButtonRect( paintRect, (item == pressedColumn_) );
+
+	paintRect->inflate( -5, 0 );
+	Rect captionRect = *paintRect;
+	if ( (NULL != this->imageList_) && (item->getImageIndex() > -1) ) {
+		Rect imageRect;
+		imageRect = *paintRect;
+		imageRect.right_ = imageRect.left_ + imageList_->getImageWidth();
+
+		imageRect.top_ = paintRect->top_ + (paintRect->getHeight()/2.0 - imageList_->getImageHeight()/2.0);
+		imageRect.bottom_ = imageRect.top_ + imageList_->getImageHeight();
+
+		imageRect.inflate( -1, -1 );
+
+		imageList_->draw( context, item->getImageIndex(), &imageRect );
+		captionRect.left_ = imageRect.right_ + 10;
+	}
+
+
+	context->textBoundedBy( &captionRect, item->getCaption(), drawOptions );
+
+	paintRect->inflate( 5, 0 );
+
+
+	item->setBounds( paintRect );
+	if ( true == item->canPaint() ) {
+		item->paint( context, paintRect );
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -137,367 +485,5 @@
 *to facilitate change tracking
 *
 */
-
-//HeaderControl.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/HeaderControl.h"
-#include "vcf/ApplicationKit/DefaultColumnModel.h"
-#include "vcf/ApplicationKit/DefaultColumnItem.h"
-
-
-using namespace VCF;
-
-
-
-HeaderControl::HeaderControl():
-	CustomControl( false ),
-	imageList_(NULL),
-	columnModel_(NULL),	
-	textAlignment_(taTextLeft),
-	draggingColumnItem_(NULL),
-	pressedColumn_(NULL),
-	minColumnWidth_(5)
-{
-	columnModel_ = new DefaultColumnModel();
-	aligment_ = AlignTop;
-	setHeight( getPreferredHeight() );	
-	setTabStop(false);
-}
-
-HeaderControl::~HeaderControl()
-{
-	if ( NULL != columnModel_ ) {
-		columnModel_->release();
-	}
-}
-
-void HeaderControl::setColumnModel( ColumnModel* model )
-{
-	if ( NULL != columnModel_ ) {
-		columnModel_->release();
-	}
-
-	columnModel_ = model;
-
-	if ( NULL != columnModel_ ) {
-		columnModel_->addRef();
-	}
-
-	setViewModel( columnModel_ );
-}
-
-ColumnItem* HeaderControl::addColumn( const String& columnName, const double& width )
-{
-	ColumnItem* result = NULL;
-	result = new DefaultColumnItem();
-	result->setCaption( columnName );
-	result->setWidth( width );	
-	columnModel_->addItem( result );
-
-	return result;
-}
-
-void HeaderControl::addColumn( ColumnItem* column )
-{
-	columnModel_->addItem( column );
-}
-
-ColumnItem* HeaderControl::insertColumn( const unsigned long& index, const String& columnName, const double& width )
-{
-	ColumnItem* result = NULL;
-	result = new DefaultColumnItem();
-	result->setCaption( columnName );
-	result->setWidth( width );
-	columnModel_->insertItem( index, result );
-
-	return result;
-}
-
-void HeaderControl::insertColumn( const unsigned long& index, ColumnItem* column )
-{
-	columnModel_->insertItem( index, column );
-}
-
-void HeaderControl::deleteColumn( const unsigned long& index )
-{
-	columnModel_->deleteItem( index );
-}
-
-String HeaderControl::getColumnName( const unsigned long& index )
-{
-	ColumnItem* item = columnModel_->getItemFromIndex( index );
-	return item->getCaption();
-}
-
-void HeaderControl::setColumnName( const unsigned long& index, const String& columnName )
-{
-	ColumnItem* item = columnModel_->getItemFromIndex( index );
-	item->setCaption( columnName );
-}
-
-double HeaderControl::getColumnWidth( const unsigned long& index )
-{
-	ColumnItem* item = columnModel_->getItemFromIndex( index );
-	return item->getWidth();
-}
-
-void HeaderControl::setColumnWidth( const unsigned long& index, const double& width )
-{
-	ColumnItem* item = columnModel_->getItemFromIndex( index );
-	item->setWidth( width );
-	ItemEvent event( this, ITEM_EVENT_CHANGED );
-	ColumnWidthChanged.fireEvent( &event );
-}
-
-void HeaderControl::setImageList( ImageList* imageList )
-{
-	this->imageList_ = imageList;
-}
-
-ColumnItem* HeaderControl::isPtOverItem(Point* point)
-{
-	ColumnItem* result = NULL;
-
-	Enumerator<ColumnItem*>* columns = columnModel_->getItems();
-	Rect r = getClientBounds();
-	r.right_ = r.left_;
-	while ( true == columns->hasMoreElements() ) {
-		ColumnItem* item = columns->nextElement();
-		r.right_ += item->getWidth();		
-		if ( true == r.containsPt( point ) ) {
-			result = item;
-			break;
-		}
-		r.left_ = r.right_;
-	}
-
-	return result;
-}
-
-void HeaderControl::paint( GraphicsContext * context )
-{
-	CustomControl::paint( context );
-	
-	Rect r = getClientBounds();
-	r.right_ = r.left_;
-	
-
-	Enumerator<ColumnItem*>* columns = columnModel_->getItems();
-	ulong32 colCount = columnModel_->getCount();
-
-	
-	ulong32 index = 0;
-	while ( columns->hasMoreElements() ) {				
-		ColumnItem* item = columns->nextElement();		
-		r.right_ += item->getWidth();				
-		paintColumn( context, &r, index, item );
-		r.left_ = r.right_;
-		index ++;
-	}
-
-	if ( colCount > 0 ) {
-		if ( r.right_ < getWidth() ) {
-			r.right_ = getWidth() + 2;
-			context->drawButtonRect( &r, false );
-		}
-	}
-}
-
-double HeaderControl::getPreferredHeight()
-{	
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
-}
-
-double HeaderControl::getPreferredWidth()
-{
-	return 100;
-}
-
-void HeaderControl::setTextAlignment( const TextAlignmentType& textAlignment )
-{
-	textAlignment_ = textAlignment;
-	repaint();
-}
-
-void HeaderControl::mouseDown( MouseEvent* event )
-{
-	CustomControl::mouseDown( event );
-	pressedColumn_ = NULL;
-	ColumnItem* item = isPtOverItem( event->getPoint() );
-	if ( NULL != item ) {
-		Rect* bounds = item->getBounds();
-		Point* pt = event->getPoint();
-		if ( pt->x_ > (bounds->right_-5) ) {
-			draggingColumnItem_ = item;
-			keepMouseEvents();			
-		}
-		else {
-			pressedColumn_ = item;
-		}				
-	}
-	repaint();	
-}
-
-void HeaderControl::mouseMove( MouseEvent* event )
-{
-	CustomControl::mouseMove( event );
-	
-	bool needsResizer = false;
-
-
-	if ( NULL != draggingColumnItem_ ) {
-		Rect* bounds = draggingColumnItem_->getBounds();
-		double width = maxVal<double>( minColumnWidth_, event->getPoint()->x_ - bounds->left_ );
-		draggingColumnItem_->setWidth( width );	
-		
-		ItemEvent itemEvent( draggingColumnItem_, HeaderControl::COLUMN_ITEM_WIDTHCHANGED );	
-		handleEvent( &itemEvent );
-
-		repaint();
-		needsResizer = true;
-	}
-	else {
-		ColumnItem* item = isPtOverItem( event->getPoint() );
-		if ( NULL != item ) {
-			Rect* bounds = item->getBounds();
-			Point* pt = event->getPoint();
-			if ( pt->x_ > (bounds->right_-5) ) {
-				needsResizer = true;
-			}
-		}
-	}
-
-	if ( true == needsResizer ) {
-		setCursorID( Cursor::SCT_SPLIT_VERT );
-	}
-	else {
-		setCursorID( Cursor::SCT_DEFAULT );
-	}
-}
-
-void HeaderControl::mouseUp( MouseEvent* event )
-{
-	CustomControl::mouseUp( event );
-	if ( NULL != draggingColumnItem_ ) {
-		Rect* bounds = draggingColumnItem_->getBounds();
-		double width = maxVal<double>( minColumnWidth_, event->getPoint()->x_ - bounds->left_ );
-		draggingColumnItem_->setWidth( width );
-		
-		ItemEvent itemEvent( draggingColumnItem_, HeaderControl::COLUMN_ITEM_WIDTHCHANGED );	
-		handleEvent( &itemEvent );
-		repaint();
-
-		releaseMouseEvents();
-	}
-	else if ( NULL != pressedColumn_ ) {
-		MouseEvent clickEvent( pressedColumn_, 
-								HeaderControl::COLUMN_ITEM_CLICKED,
-								event->getButtonMask(),
-								event->getKeyMask(),
-								event->getPoint() );
-
-		handleEvent( &clickEvent );		
-	}
-	pressedColumn_ = NULL;
-	draggingColumnItem_ = NULL;
-
-	repaint();
-}
-
-void HeaderControl::handleEvent( Event* event )
-{
-	CustomControl::handleEvent( event );
-	switch ( event->getType() ) {
-		case HeaderControl::COLUMN_ITEM_CLICKED : {
-			ColumnItemClicked.fireEvent( (MouseEvent*)event );
-		}
-		break;
-
-		case HeaderControl::COLUMN_ITEM_WIDTHCHANGED : {
-			ColumnWidthChanged.fireEvent( (ItemEvent*)event );
-		}
-		break;
-	}	
-}	
-
-void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, const ulong32& index, ColumnItem* item )
-{
-	long drawOptions = GraphicsContext::tdoNone;	
-
-	switch ( textAlignment_ ) {
-		case taTextLeft : {
-			drawOptions |= GraphicsContext::tdoLeftAlign;
-		}
-		break;
-		
-		case taTextCenter : {
-			drawOptions |= GraphicsContext::tdoCenterHorzAlign;
-		}
-		break;
-		
-		case taTextRight : {
-			drawOptions |= GraphicsContext::tdoRightAlign;
-		}
-		break;
-	}
-	drawOptions |= GraphicsContext::tdoCenterVertAlign;
-	
-	context->drawButtonRect( paintRect, (item == pressedColumn_) );
-	
-	paintRect->inflate( -5, 0 );
-	Rect captionRect = *paintRect;
-	if ( (NULL != this->imageList_) && (item->getImageIndex() > -1) ) {
-		Rect imageRect;
-		imageRect = *paintRect;
-		imageRect.right_ = imageRect.left_ + imageList_->getImageWidth();
-
-		imageRect.top_ = paintRect->top_ + (paintRect->getHeight()/2.0 - imageList_->getImageHeight()/2.0);
-		imageRect.bottom_ = imageRect.top_ + imageList_->getImageHeight();
-
-		imageRect.inflate( -1, -1 );
-
-		imageList_->draw( context, item->getImageIndex(), &imageRect );
-		captionRect.left_ = imageRect.right_ + 10;
-	}
-	
-	
-	context->textBoundedBy( &captionRect, item->getCaption(), drawOptions );	
-	
-	paintRect->inflate( 5, 0 );
-
-
-	item->setBounds( paintRect );
-	if ( true == item->canPaint() ) {
-		item->paint( context, paintRect );
-	}
-}
 
 

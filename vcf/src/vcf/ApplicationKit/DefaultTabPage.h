@@ -1,10 +1,183 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_DEFAULTTABPAGE_H__
+#define _VCF_DEFAULTTABPAGE_H__
+//DefaultTabPage.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
+
+
+#include "vcf/ApplicationKit/TabPage.h"
+
+
+namespace VCF {
+
+#define DEFAULTTABPAGE_CLASSID	"86F02173-3E7F-11d4-8EA7-00207811CFAB"
+
+class APPKIT_API DefaultTabPage : public TabPage {
+public:
+
+	DefaultTabPage( Control* component=NULL );
+
+	virtual ~DefaultTabPage();
+
+	DELEGATE(ItemPaint);
+	DELEGATE(ItemChanged);
+	DELEGATE(ItemSelected);
+	DELEGATE(ItemAdded);
+	DELEGATE(ItemDeleted);
+
+	virtual void addItemPaintHandler( EventHandler* handler ){
+		ItemPaint += handler;
+	}
+
+	virtual void addItemChangedHandler( EventHandler* handler ){
+		ItemChanged += handler;
+	}
+
+	virtual void addItemSelectedHandler( EventHandler* handler ){
+		ItemSelected += handler;
+	}
+
+	virtual void addItemAddedHandler( EventHandler* handler ){
+		ItemAdded += handler;
+	}
+
+	virtual void addItemDeletedHandler( EventHandler* handler ){
+		ItemDeleted += handler;
+	}
+
+	virtual void removeItemPaintHandler( EventHandler* handler ){
+		ItemPaint -= handler;
+	}
+
+	virtual void removeItemChangedHandler( EventHandler* handler ){
+		ItemChanged -= handler;
+	}
+
+	virtual void removeItemSelectedHandler( EventHandler* handler ){
+		ItemSelected -= handler;
+	}
+
+	virtual void removeItemAddedHandler( EventHandler* handler ){
+		ItemAdded -= handler;
+	}
+
+	virtual void removeItemDeletedHandler( EventHandler* handler ){
+		ItemDeleted -= handler;
+	}
+
+	virtual bool containsPoint( Point * pt );
+
+    virtual unsigned long getIndex();
+
+	virtual void setIndex( const unsigned long& index );
+
+    virtual void* getData();
+
+	virtual void setData( void* data );
+
+	virtual Model* getModel();
+
+	virtual void setModel( Model* model );
+
+	virtual void setPageName( const String& name );
+
+	virtual String getPageName();
+
+	virtual Control* getPageComponent();
+
+	virtual void setPageComponent( Control* component );
+
+	virtual bool isSelected();
+
+	virtual void setSelected( const bool& selected );
+
+	virtual void paint( GraphicsContext* context, Rect* paintRect );
+
+	virtual ulong32 getPreferredHeight();
+
+	virtual Rect* getBounds() {
+		return &bounds_;
+	}
+
+	virtual Control* getControl() {
+		return owningControl_;
+	}
+
+
+	virtual void setControl( Control* control ) {
+		owningControl_ = control;
+	}
+
+	virtual long getImageIndex() {
+		return imageIndex_;
+	}
+
+	virtual void setImageIndex( const long& imageIndex );
+
+	virtual bool canPaint() {
+		return true;
+	}
+
+	virtual long getState(){
+		return 0;
+	}
+
+	virtual void setState( const long& state ){}
+
+	virtual void setBounds( Rect* bounds );
+
+	/**
+	*not supported
+	*/
+	virtual long getStateImageIndex(){
+		return -1;
+	};
+
+	/**
+	*not supported
+	*/
+	virtual void setStateImageIndex( const long& index ){}
+
+	virtual long getTag() {
+		return tag_;
+	}
+
+	virtual void setTag( const long& tag ) {
+		tag_ = tag;
+	}
+
+private:
+	Model* model_;
+	Control* owningControl_;
+	ulong32 index_;
+	String pageName_;
+	Control* component_;
+	bool selected_;
+	ulong32 preferredHeight_;
+	Rect bounds_;
+	long imageIndex_;
+	void* data_;
+	long tag_;
+};
+
+}; //end of namespace VCF
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -98,194 +271,6 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-#ifndef _VCF_DEFAULTTABPAGE_H__
-#define _VCF_DEFAULTTABPAGE_H__
-
-
-#include "vcf/ApplicationKit/TabPage.h"
-
-
-namespace VCF {
-
-#define DEFAULTTABPAGE_CLASSID	"86F02173-3E7F-11d4-8EA7-00207811CFAB"
-
-class APPKIT_API DefaultTabPage : public TabPage {
-public:
-
-	DefaultTabPage( Control* component=NULL );
-
-	virtual ~DefaultTabPage();
-
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
-    
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
-	virtual bool containsPoint( Point * pt );	
-
-    virtual unsigned long getIndex();
-
-	virtual void setIndex( const unsigned long& index );
-
-    virtual void* getData();
-
-	virtual void setData( void* data );	
-
-	virtual Model* getModel();
-
-	virtual void setModel( Model* model );
-
-	virtual void setPageName( const String& name );
-
-	virtual String getPageName();
-
-	virtual Control* getPageComponent();
-
-	virtual void setPageComponent( Control* component );
-
-	virtual bool isSelected();
-
-	virtual void setSelected( const bool& selected );
-
-	virtual void paint( GraphicsContext* context, Rect* paintRect );
-
-	virtual ulong32 getPreferredHeight();
-
-	virtual Rect* getBounds() {
-		return &bounds_;
-	}
-
-	virtual Control* getControl() {
-		return owningControl_;
-	}
-
-
-	virtual void setControl( Control* control ) {
-		owningControl_ = control;
-	}
-
-	virtual long getImageIndex() {
-		return imageIndex_;
-	}
-
-	virtual void setImageIndex( const long& imageIndex );
-
-	virtual bool canPaint() {
-		return true;	
-	}
-
-	virtual long getState(){
-		return 0;	
-	}
-
-	virtual void setState( const long& state ){}
-
-	virtual void setBounds( Rect* bounds );
-
-	/**
-	*not supported
-	*/
-	virtual long getStateImageIndex(){
-		return -1;
-	};
-
-	/**
-	*not supported
-	*/
-	virtual void setStateImageIndex( const long& index ){}
-
-	virtual long getTag() {
-		return tag_;
-	}
-
-	virtual void setTag( const long& tag ) {
-		tag_ = tag;
-	}
-
-private:
-	Model* model_;
-	Control* owningControl_;
-	ulong32 index_;
-	String pageName_;
-	Control* component_;
-	bool selected_;
-	ulong32 preferredHeight_;
-	Rect bounds_;	
-	long imageIndex_;
-	void* data_;
-	long tag_;
-};
-
-}; //end of namespace VCF
 
 #endif // _VCF_DEFAULTTABPAGE_H__
 

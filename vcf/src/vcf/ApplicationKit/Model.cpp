@@ -1,6 +1,62 @@
+//Model.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//Model.h
+#include "vcf/ApplicationKit/ApplicationKit.h"
+
+#include <algorithm>
+
+using namespace VCF;
+
+
+Model::Model()
+{
+	viewContainer_.initContainer(views_);
+}
+
+Model::~Model()
+{
+
+}
+
+void Model::addView( View* view )
+{
+	view->setViewModel( this );
+	views_.push_back( view );
+}
+
+void Model::removeView( View* view )
+{
+	std::vector<View*>::iterator found = std::find( views_.begin(), views_.end(), view );
+	if ( found != views_.end() ) {
+		views_.erase( found );
+		view->setViewModel( NULL );
+	}
+}
+
+void Model::updateAllViews()
+{
+	std::vector<View*>::iterator it = views_.begin();
+	while ( it != views_.end() ) {
+		View* view = *it;
+		view->updateView( this );
+		it++;
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *
@@ -89,58 +145,5 @@
 *to facilitate change tracking
 *
 */
-
-//Model.h
-/**
-This program is free software; you can redistribute it and/or
-modify it as you choose. In fact, you can do anything you would like
-with it, so long as credit is given if used in commercial applications.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-NB: This software will not save the world. 
-*/
-#include "vcf/ApplicationKit/ApplicationKit.h"
-
-#include <algorithm>
-
-using namespace VCF;
-
-
-Model::Model()
-{
-	viewContainer_.initContainer(views_);
-}
-
-Model::~Model()
-{
-	
-}
-
-void Model::addView( View* view )
-{
-	view->setViewModel( this );
-	views_.push_back( view );
-}
-
-void Model::removeView( View* view )
-{
-	std::vector<View*>::iterator found = std::find( views_.begin(), views_.end(), view );
-	if ( found != views_.end() ) {
-		views_.erase( found );
-		view->setViewModel( NULL );
-	}
-}
-
-void Model::updateAllViews()
-{
-	std::vector<View*>::iterator it = views_.begin();
-	while ( it != views_.end() ) {
-		View* view = *it;
-		view->updateView( this );
-		it++;
-	}
-}
 
 

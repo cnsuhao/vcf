@@ -1,30 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//GTKTextControl.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
@@ -43,7 +24,7 @@ GTKTextControl::GTKTextControl( TextControl* component, const bool& isMultiLineC
 	multiLine_(NULL),
 	internalTextChange_(false)
 {
-	
+
 }
 
 GTKTextControl::~GTKTextControl()
@@ -55,7 +36,7 @@ void GTKTextControl::create( Control* owningControl )
 {
 	control_ = owningControl;
 
-	GTKGraphicsToolkit* grafToolkit = (GTKGraphicsToolkit*)GraphicsToolkit::internal_getDefaultGraphicsToolkit();	
+	GTKGraphicsToolkit* grafToolkit = (GTKGraphicsToolkit*)GraphicsToolkit::internal_getDefaultGraphicsToolkit();
 	GTKUIToolkit* toolkit = (GTKUIToolkit*)UIToolkit::internal_getDefaultUIToolkit();
 
 	if ( isMultiLineControl_ ) {
@@ -75,21 +56,21 @@ void GTKTextControl::create( Control* owningControl )
 			throw RuntimeException( MAKE_ERROR_MSG_2("gtk_entry_new() failed") );
 		}
 
-		singleLine_ = GTK_ENTRY( wndHandle_ );		
-	}	
+		singleLine_ = GTK_ENTRY( wndHandle_ );
+	}
 
-	gtk_container_add( GTK_CONTAINER( toolkit->getDefaultParent() ), wndHandle_ );	
-		
-	gtk_widget_show ( wndHandle_ );		
+	gtk_container_add( GTK_CONTAINER( toolkit->getDefaultParent() ), wndHandle_ );
 
-	TextModelEventHandler<GTKTextControl>* tml = 
+	gtk_widget_show ( wndHandle_ );
+
+	TextModelEventHandler<GTKTextControl>* tml =
 			new TextModelEventHandler<GTKTextControl>( this, &GTKTextControl::onTextModelTextChanged, "GTKTextControl::onTextModelTextChanged" );
-		
-		
+
+
 	TextModel* tm = textControl_->getTextModel();
 	tm->addTextModelChangedHandler( tml );
 
-	AbstractGTKControl::registerGTKControl( this );	
+	AbstractGTKControl::registerGTKControl( this );
 }
 
 void GTKTextControl::setRightMargin( const double & rightMargin )
@@ -98,7 +79,7 @@ void GTKTextControl::setRightMargin( const double & rightMargin )
 		gtk_text_view_set_right_margin( multiLine_, (gint)rightMargin );
 	}
 }
-    
+
 void GTKTextControl::setLeftMargin( const double & leftMargin )
 {
 	if ( isMultiLineControl_ ) {
@@ -158,7 +139,7 @@ unsigned long GTKTextControl::getCharIndexFromPosition( Point* point )
 	}
 	return 0;
 }
-	
+
 unsigned long GTKTextControl::getCaretPosition()
 {
 	unsigned long result = 0;
@@ -172,7 +153,7 @@ unsigned long GTKTextControl::getCaretPosition()
 
 	return result;
 }
-	
+
 void GTKTextControl::setCaretPosition( const unsigned long& caretPos )
 {
 	if ( isMultiLineControl_ ) {
@@ -183,7 +164,7 @@ void GTKTextControl::setCaretPosition( const unsigned long& caretPos )
 		gtk_editable_set_position( editable, caretPos );
 	}
 }
-	
+
 unsigned long GTKTextControl::getSelectionStart()
 {
 	unsigned long result = 0;
@@ -199,7 +180,7 @@ unsigned long GTKTextControl::getSelectionStart()
 
 	return result;
 }
-	
+
 unsigned long GTKTextControl::getSelectionCount()
 {
 	unsigned long result = 0;
@@ -226,7 +207,7 @@ void GTKTextControl::setSelectionMark( const unsigned long& start, const unsigne
 	else {
 		gtk_entry_select_region( singleLine_, start, start + count );
 	}
-	
+
 }
 
 void GTKTextControl::setSelectionFont( Font* font )
@@ -261,22 +242,22 @@ void GTKTextControl::onTextModelTextChanged( TextEvent* e )
 			String text = tm->getText();
 			gtk_text_buffer_set_text( buff, text.ansi_c_str(), text.size() );
 		}
-		else {			
+		else {
 			gtk_entry_set_text( singleLine_, tm->getText().ansi_c_str() );
 		}
 	}
 }
 
 gboolean GTKTextControl::handleEvent( GdkEvent* gtkEvent )
-{	
+{
 	GTKUIToolkit* toolkit = reinterpret_cast<GTKUIToolkit*>(UIToolkit::internal_getDefaultUIToolkit());
-	
+
 	gboolean result = FALSE;
 
-	switch ( gtkEvent->type ) {		
-		
+	switch ( gtkEvent->type ) {
+
 		case GDK_KEY_PRESS : {
-			internalTextChange_ = true;	
+			internalTextChange_ = true;
 
 			result = AbstractGTKControl::handleEvent( gtkEvent );
 
@@ -284,13 +265,13 @@ gboolean GTKTextControl::handleEvent( GdkEvent* gtkEvent )
 		}
 		break;
 
-		default : {			
+		default : {
 			result = AbstractGTKControl::handleEvent( gtkEvent );
 		}
 		break;
 	}
 
-	return result;	
+	return result;
 }
 
 
@@ -329,13 +310,16 @@ void GTKTextControl::scrollToSelection( const bool& showEndSel )
 
 void GTKTextControl::setReadOnly( const bool& readonly )
 {
-	
+
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles
@@ -386,9 +370,5 @@ void GTKTextControl::setReadOnly( const bool& readonly )
 *single line) and the file open common dialog peer as well.
 *
 */
-
-
-
-
 
 

@@ -1,6 +1,131 @@
+//UndoRedoStack.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//UndoRedoStack.h
+#include "vcf/ApplicationKit/ApplicationKit.h"
+using namespace VCF;
+
+
+UndoRedoStack::UndoRedoStack()
+{
+
+}
+
+UndoRedoStack::~UndoRedoStack()
+{
+	clearCommands();
+}
+
+void UndoRedoStack::clearCommands()
+{
+	UndoRedoEvent event( this, UNDOREDO_EVENT_STACK_CLEARED );
+	StackCleared.fireEvent( &event );
+
+	std::deque<Command*>::iterator it = undoStack_.begin();
+	while ( it != undoStack_.end() ) {
+		Command* command = *it;
+		delete command;
+		command = NULL;
+		it++;
+	}
+
+	it = redoStack_.begin();
+	while ( it != redoStack_.end() ) {
+		Command* command = *it;
+		delete command;
+		command = NULL;
+		it++;
+	}
+	undoStack_.clear();
+	redoStack_.clear();
+}
+
+void UndoRedoStack::undo()
+{
+	if ( undoStack_.empty() ) {
+		return;
+	}
+
+	Command* firstCommand = undoStack_.back();
+
+	UndoRedoEvent event( this, UNDOREDO_EVENT_UNDO,firstCommand );
+	UndoCommand.fireEvent( &event );
+	if ( true == event.getAllowsUndo() ) {
+		firstCommand->undo();
+		undoStack_.pop_back();
+		redoStack_.push_front( firstCommand );
+	}
+}
+
+void UndoRedoStack::redo()
+{
+	if ( redoStack_.empty() ) {
+		return;
+	}
+
+	Command* firstCommand = redoStack_.front();
+	UndoRedoEvent event( this, UNDOREDO_EVENT_REDO,firstCommand );
+	RedoCommand.fireEvent( &event );
+	if ( true == event.getAllowsRedo() ) {
+		firstCommand->redo();
+		redoStack_.pop_front();
+		undoStack_.push_back( firstCommand );
+	}
+}
+
+bool UndoRedoStack::hasUndoableItems()
+{
+	return !undoStack_.empty();
+}
+
+bool UndoRedoStack::hasRedoableItems()
+{
+	return !redoStack_.empty();
+}
+
+void UndoRedoStack::addCommand( Command* command, const bool& autoExecute )
+{
+	command->setOwningStack( this );
+	undoStack_.push_back( command );
+	redoStack_.clear();
+	if ( true == autoExecute ) {
+		command->execute();
+		UndoRedoEvent event( this, UNDOREDO_EVENT_EXECUTE,command );
+		ExecuteCommand.fireEvent( &event );
+	}
+
+	UndoRedoEvent event( this, UNDOREDO_EVENT_STACK_CHANGED, command );
+	StackChanged.fireEvent( &event );
+}
+
+void UndoRedoStack::movetToRedoStack( Command* command )
+{
+
+}
+
+Command* UndoRedoStack::getCurrentUndoComand()
+{
+	return undoStack_.back();
+}
+
+Command* UndoRedoStack::getCurrentRedoComand()
+{
+	return redoStack_.front();
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -82,127 +207,5 @@
 *to facilitate change tracking
 *
 */
-
-//UndoRedoStack.h
-/**
-This program is free software; you can redistribute it and/or
-modify it as you choose. In fact, you can do anything you would like
-with it, so long as credit is given if used in commercial applications.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-NB: This software will not save the world. 
-*/
-#include "vcf/ApplicationKit/ApplicationKit.h"
-using namespace VCF;
-
-
-UndoRedoStack::UndoRedoStack()
-{
-
-}
-
-UndoRedoStack::~UndoRedoStack()
-{
-	clearCommands();
-}
-
-void UndoRedoStack::clearCommands()
-{
-	UndoRedoEvent event( this, UNDOREDO_EVENT_STACK_CLEARED );
-	StackCleared.fireEvent( &event );
-
-	std::deque<Command*>::iterator it = undoStack_.begin();
-	while ( it != undoStack_.end() ) {
-		Command* command = *it;
-		delete command;
-		command = NULL;
-		it++;
-	}
-
-	it = redoStack_.begin();
-	while ( it != redoStack_.end() ) {
-		Command* command = *it;
-		delete command;
-		command = NULL;
-		it++;
-	}
-	undoStack_.clear();
-	redoStack_.clear();
-}
-
-void UndoRedoStack::undo()
-{
-	if ( undoStack_.empty() ) {
-		return;
-	}
-
-	Command* firstCommand = undoStack_.back();
-	
-	UndoRedoEvent event( this, UNDOREDO_EVENT_UNDO,firstCommand );
-	UndoCommand.fireEvent( &event );	
-	if ( true == event.getAllowsUndo() ) {
-		firstCommand->undo();
-		undoStack_.pop_back();
-		redoStack_.push_front( firstCommand );
-	}
-}
-
-void UndoRedoStack::redo()
-{
-	if ( redoStack_.empty() ) {
-		return;
-	}
-
-	Command* firstCommand = redoStack_.front();
-	UndoRedoEvent event( this, UNDOREDO_EVENT_REDO,firstCommand );
-	RedoCommand.fireEvent( &event );	
-	if ( true == event.getAllowsRedo() ) {
-		firstCommand->redo();
-		redoStack_.pop_front();
-		undoStack_.push_back( firstCommand );
-	}
-}
-
-bool UndoRedoStack::hasUndoableItems()
-{
-	return !undoStack_.empty();
-}
-
-bool UndoRedoStack::hasRedoableItems()
-{
-	return !redoStack_.empty();
-}
-
-void UndoRedoStack::addCommand( Command* command, const bool& autoExecute )
-{
-	command->setOwningStack( this );
-	undoStack_.push_back( command );
-	redoStack_.clear();
-	if ( true == autoExecute ) {		
-		command->execute();
-		UndoRedoEvent event( this, UNDOREDO_EVENT_EXECUTE,command );
-		ExecuteCommand.fireEvent( &event );				
-	}
-
-	UndoRedoEvent event( this, UNDOREDO_EVENT_STACK_CHANGED, command );
-	StackChanged.fireEvent( &event );	
-}
-
-void UndoRedoStack::movetToRedoStack( Command* command )
-{
-	
-}
-
-Command* UndoRedoStack::getCurrentUndoComand()
-{
-	return undoStack_.back();
-}
-
-Command* UndoRedoStack::getCurrentRedoComand()
-{
-	return redoStack_.front();
-}
 
 

@@ -1,34 +1,11 @@
+//TreeListControl.cpp
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// TreeListControl.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/TreeListControl.h"
@@ -54,7 +31,7 @@ TreeListControl::TreeListControl():
 	treeModel_(NULL),
 	itemHeight_(25.0),
 	columnHeight_(0.0),
-	itemIndent_(19.0),	
+	itemIndent_(19.0),
 	displayOptions_(TreeListControl::tdoNone),
 	allowLabelEditing_(false),
 	allowMultipleSelection_(false),
@@ -64,9 +41,9 @@ TreeListControl::TreeListControl():
 	setContainerDelegate( this );
 	setContainer( new StandardContainer() );
 	init();
-}	
+}
 
-TreeListControl::~TreeListControl()	
+TreeListControl::~TreeListControl()
 {
 	if ( NULL != treeModel_ ) {
 		treeModel_->release();
@@ -74,7 +51,7 @@ TreeListControl::~TreeListControl()
 }
 
 void TreeListControl::init()
-{	
+{
 	draggingSelectionRect_ = false;
 	treeModel_ = NULL;
 	header_ = NULL;
@@ -85,12 +62,12 @@ void TreeListControl::init()
 
 	allowMultipleSelection_ = false;
 	allowLabelEditing_ = false;
-	
 
-	setTreeModel( new DefaultTreeModel() );	
+
+	setTreeModel( new DefaultTreeModel() );
 
 	itemHeight_ = getContext()->getTextHeight("EM") + 2.0;
-	itemIndent_ = 19;	
+	itemIndent_ = 19;
 	stateItemIndent_ = 19;
 
 	visibleItemsHeight_ = 0.0;
@@ -103,18 +80,18 @@ void TreeListControl::init()
 
 	header_ = new HeaderControl();
 	columnHeight_ = header_->getHeight();
-	add( header_, AlignTop );	
+	add( header_, AlignTop );
 
-	header_->ColumnWidthChanged.addHandler( 
-							new ItemEventHandler<TreeListControl>( this, 
+	header_->ColumnWidthChanged.addHandler(
+							new ItemEventHandler<TreeListControl>( this,
 																	&TreeListControl::onColumnWidthChanged,
 																	"TreeListControl::onColumnWidthChanged" ) );
 
 	setDisplayOptions( TreeListControl::tdoNone );
-}	
+}
 
 void TreeListControl::setTreeModel(TreeModel * model)
-{	
+{
     if ( NULL != treeModel_ ) {
 		EventHandler* handler = getEventHandler( "TreeListControl::onModelChanged" );
 		if ( NULL != handler ) {
@@ -151,7 +128,7 @@ void TreeListControl::onModelChanged( TreeModelEvent* event )
 {
 	switch ( event->getType() ) {
 		case TreeModel::TREEITEM_DELETED : {
-			std::vector<TreeItem*>::iterator found = std::find( selectedItems_.begin(), 
+			std::vector<TreeItem*>::iterator found = std::find( selectedItems_.begin(),
 																selectedItems_.end(),
 																event->getTreeItem() );
 			if ( found != selectedItems_.end() ) {
@@ -165,17 +142,17 @@ void TreeListControl::onModelChanged( TreeModelEvent* event )
 
 void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect* paintRect )
 {
-	bool isALeaf = item->isLeaf();	
-	
+	bool isALeaf = item->isLeaf();
+
 	visibleItemsHeight_ += paintRect->getHeight();
-	
+
 	if ( displayOptions_ & TreeListControl::tdoShowRowLines ) {
 		context->setColor( &rowLineColor_ );
 		context->moveTo( paintRect->left_, paintRect->bottom_ );
 		context->lineTo( paintRect->right_, paintRect->bottom_ );
 		context->strokePath();
-	}	
-	
+	}
+
 	item->setBounds( paintRect );
 
 	TreeModel* treeModel = getTreeModel();
@@ -187,26 +164,26 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 	captionRect.left_ = paintRect->left_ + indent + itemHeight_;
 
 	if ( columnModel->getCount() > 0 ) {
-		ColumnItem* col = columnModel->getItemFromIndex( 0 );	
+		ColumnItem* col = columnModel->getItemFromIndex( 0 );
 		if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
-			captionRect.right_ = maxVal<double>( captionRect.left_ + 1.0, 
+			captionRect.right_ = maxVal<double>( captionRect.left_ + 1.0,
 												paintRect->left_ + col->getWidth() );
 		}
 		else {
 			captionRect.right_ = captionRect.left_ + context->getTextWidth( item->getCaption() ) + 5;
-		}		
+		}
 	}
 	else {
 		captionRect.right_ = captionRect.left_ + context->getTextWidth( item->getCaption() ) + 5;
 	}
 
 	captionRect.right_ -= 3;
-	
-	
+
+
 	double textH = context->getTextHeight( item->getCaption() );
 	captionRect.top_ = captionRect.top_ + ((captionRect.getHeight() / 2.0) - textH/2.0);
 	captionRect.bottom_ = captionRect.top_ + textH;
-	
+
 	if ( TreeListControl::tdoShowHierarchyLines & displayOptions_ ) {
 		hierarchyHeightMap_[item] = paintRect->top_ + itemHeight_/2.0;
 
@@ -216,23 +193,23 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 			if ( found != hierarchyHeightMap_.end() ) {
 				double baseIndent = getItemIndent() *  item->getLevel() - 1;
 				double parentIndent = getItemIndent() * parent->getLevel() - 1;
-				
+
 				Color oldColor = *(context->getColor());
 				Color* selectedColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 				context->setColor( selectedColor );
-				
+
 				context->moveTo( paintRect->left_ + baseIndent + itemHeight_/2.0, paintRect->top_ + itemHeight_/2.0 );
 				context->lineTo( paintRect->left_ + parentIndent + itemHeight_/2.0, paintRect->top_ + itemHeight_/2.0 );
-				
+
 				context->lineTo( paintRect->left_ + parentIndent + itemHeight_/2.0, found->second );
 				context->strokePath();
-				
+
 				context->setColor( &oldColor );
 			}
 		}
-	}	
-	
-	
+	}
+
+
 
 
 	if ( true == item->isSelected() ) {
@@ -241,17 +218,17 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 		Color* selectedColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION );
 		context->setColor( selectedColor );
 		Rect tmp = *paintRect;
-		
-		if ( displayOptions_ & TreeListControl::tdoShowFullRowSelection ) {			
+
+		if ( displayOptions_ & TreeListControl::tdoShowFullRowSelection ) {
 			//tmp.inflate( -2, -2 );
 		}
 		else {
 			tmp.left_ = paintRect->left_ + indent + itemHeight_ - 1;
-			
+
 			tmp.right_ = captionRect.right_;
-			//tmp.inflate( 0, -2 );			
+			//tmp.inflate( 0, -2 );
 		}
-		
+
 		tmp.right_ = maxVal<double>( tmp.left_, tmp.right_ );
 
 		context->rectangle( &tmp );
@@ -263,10 +240,10 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 		else {
 			context->strokePath();
 		}
-		
+
 		context->setColor( &oldColor );
-	}	
-	
+	}
+
 
 	bool stateNeedsDrawing = false;
 	bool imageNeedsDrawing = false;
@@ -278,26 +255,26 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 
 	if ( Item::idsNone != item->getState() ) {
 		stateNeedsDrawing = true;
-	}	
+	}
 
 	if ( true == stateNeedsDrawing ) {
 		paintItemState( item, context, paintRect, (long)indent );
 	}
-	
+
 	if ( true == imageNeedsDrawing ) {
 		paintItemImage( item, context, paintRect, (long)indent );
 	}
 
 	if ( false == isALeaf ) {
 		paintExpander( item, context, paintRect );
-	}	
+	}
 
 	long drawOptions = GraphicsContext::tdoNone;
 	drawOptions |= GraphicsContext::tdoLeftAlign;
 
 	Color oldColor = *(context->getCurrentFont()->getColor());
 
-	if ( (true == item->isSelected()) && (true == isFocused()) ) {		
+	if ( (true == item->isSelected()) && (true == isFocused()) ) {
 		Color* selectedColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
 		context->getCurrentFont()->setColor( selectedColor );
 	}
@@ -305,20 +282,20 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 	context->textBoundedBy( &captionRect, item->getCaption(), drawOptions );
 
 	context->getCurrentFont()->setColor( &oldColor );
-	
-	
+
+
 	if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
 
 		Enumerator<ColumnItem*>* columns =  columnModel->getItems();
 		int columnIndex = 0;
-		
+
 		if ( NULL != columns ) {
-			Rect subItemRect = *paintRect;		
+			Rect subItemRect = *paintRect;
 			subItemRect.left_ -= 2;
-			while ( true == columns->hasMoreElements() ) {			
+			while ( true == columns->hasMoreElements() ) {
 				ColumnItem* col = columns->nextElement();
-				
-				if ( columnIndex > 0 ) {				
+
+				if ( columnIndex > 0 ) {
 					subItemRect.right_ = subItemRect.left_ + col->getWidth();
 					paintSubItem( item, context, columnIndex, &subItemRect );
 				}
@@ -333,26 +310,26 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 void TreeListControl::paintSubItem( TreeItem* item, GraphicsContext* context, const ulong32& subItemIndex, Rect* paintRect )
 {
 	if ( displayOptions_ & TreeListControl::tdoShowColumnLines ) {
-		
+
 		context->setColor( &columnLineColor_ );
 
 		ColumnModel* columnModel = header_->getColumnModel();
 
 		context->moveTo( paintRect->left_, paintRect->top_ );
 		context->lineTo( paintRect->left_, paintRect->bottom_ );
-		context->strokePath();		
+		context->strokePath();
 
 		if ( (columnModel->getCount()-1) == subItemIndex ) {
 			context->moveTo( paintRect->right_, paintRect->top_ );
 			context->lineTo( paintRect->right_, paintRect->bottom_ );
 			context->strokePath();
 		}
-	}	
+	}
 
 	if ( subItemIndex > 0 ) {
 		TreeItem::SubItem* subItem = item->getSubItem( subItemIndex-1 );
 		if ( NULL != subItem ) {
-			
+
 			long drawOptions = GraphicsContext::tdoNone;
 			drawOptions |= GraphicsContext::tdoLeftAlign;
 			Rect captionRect = *paintRect;
@@ -362,7 +339,7 @@ void TreeListControl::paintSubItem( TreeItem* item, GraphicsContext* context, co
 			captionRect.bottom_ = captionRect.top_ + textH;
 
 			context->textBoundedBy( &captionRect, subItem->getCaption(), drawOptions );
-			
+
 			if ( subItem->canPaint() ) {
 				subItem->paint( context, paintRect );
 			}
@@ -377,14 +354,14 @@ void TreeListControl::paintExpander( TreeItem* item, GraphicsContext* context, R
 	double dy = expanderRect.getHeight() - getFont()->getHeight();
 
 	expanderRect.left_ = getItemIndent() *  item->getLevel() + 1;
-	
+
 
 	expanderRect.inflate( 0.0, -(dy/2.0) );
 
 	expanderRect.right_ = expanderRect.left_ + expanderRect.getHeight();
 #define TRIANGLE_BTN
 
-#ifndef TRIANGLE_BTN	
+#ifndef TRIANGLE_BTN
 	//expanderRect.inflate( -expanderRect.getWidth()/4.0, -expanderRect.getHeight()/4.0 );
 
 	context->setColor( Color::getColor("white") );
@@ -393,7 +370,7 @@ void TreeListControl::paintExpander( TreeItem* item, GraphicsContext* context, R
 
 	context->setColor( Color::getColor("black") );
 	context->rectangle( &expanderRect );
-	context->strokePath();	
+	context->strokePath();
 
 	if ( true == item->isExpanded() ) {
 		context->moveTo( expanderRect.left_ + expanderRect.getWidth()/2.0 - expanderRect.getWidth()/4.0,
@@ -402,8 +379,8 @@ void TreeListControl::paintExpander( TreeItem* item, GraphicsContext* context, R
 		context->lineTo( expanderRect.right_ - expanderRect.getWidth()/2.0 + expanderRect.getWidth()/4.0,
 						expanderRect.top_ + expanderRect.getHeight()/2.0 );
 
-		context->strokePath();					
-		
+		context->strokePath();
+
 	}
 	else {
 		context->moveTo( expanderRect.left_ + expanderRect.getWidth()/2.0 - expanderRect.getWidth()/4.0,
@@ -443,43 +420,43 @@ void TreeListControl::paintExpander( TreeItem* item, GraphicsContext* context, R
 	context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_FACE ) );
 	context->polyline( triangle );
 	context->fillPath();
-	
+
 	if ( true == item->isExpanded() ) {
-		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW ) );	
+		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW ) );
 		context->moveTo( triangle[1].x_-1, triangle[1].y_ );
 		context->lineTo( triangle[0].x_, triangle[0].y_ );
 		context->lineTo( triangle[2].x_, triangle[2].y_ );
 		context->strokePath();
 
-		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT ) );	
+		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT ) );
 		context->moveTo( triangle[2].x_, triangle[2].y_ );
 		context->lineTo( triangle[1].x_-1, triangle[1].y_ );
 		context->strokePath();
 	}
-	else {		
-		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW ) );	
+	else {
+		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW ) );
 		context->moveTo( triangle[1].x_, triangle[1].y_-1 );
 		context->lineTo( triangle[0].x_, triangle[0].y_ );
 		context->lineTo( triangle[2].x_+1, triangle[2].y_+1 );
 		context->strokePath();
 
-		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT ) );	
+		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT ) );
 		context->moveTo( triangle[2].x_, triangle[2].y_+1 );
 		context->lineTo( triangle[1].x_, triangle[1].y_ );
 		context->strokePath();
 	}
 
-#endif 
+#endif
 }
 
 void TreeListControl::paintItemState( TreeItem* item, GraphicsContext* context, Rect* paintRect, const long& currentIndent )
 {
-	Rect stateRect = getStateRect( item, currentIndent );	
-	
-	stateRect.inflate( -1, -1 );	
-	
+	Rect stateRect = getStateRect( item, currentIndent );
+
+	stateRect.inflate( -1, -1 );
+
 	if ( NULL != stateImageList_ ) {
-		stateImageList_->draw( context, item->getStateImageIndex(), &stateRect );		
+		stateImageList_->draw( context, item->getStateImageIndex(), &stateRect );
 	}
 	else {
 		stateRect.inflate( -1, -1 );
@@ -505,10 +482,10 @@ void TreeListControl::paintItemImage( TreeItem* item, GraphicsContext* context, 
 	if ( (true == item->isExpanded()) && (item->getExpandedImageIndex() < imageList_->getImageCount()) ) {
 		index = item->getExpandedImageIndex();
 	}
-	
+
 	imageRect.top_ = paintRect->top_ + (paintRect->getHeight()/2.0 - imageList_->getImageHeight()/2.0);
 	imageRect.bottom_ = imageRect.top_ + imageList_->getImageHeight();
-	
+
 	if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
 		//get the first column width
 		ColumnItem* item = header_->getColumnModel()->getItemFromIndex(0);
@@ -520,19 +497,19 @@ void TreeListControl::paintItemImage( TreeItem* item, GraphicsContext* context, 
 	}
 
 	if ( false == imageRect.isEmpty() ) {
-		
+
 		imageRect.inflate( -1, -1 );
 
-		imageList_->draw( context, index, &imageRect );	
+		imageList_->draw( context, index, &imageRect );
 	}
 }
 
 
 void TreeListControl::paint( GraphicsContext * context )
 {
-	CustomControl::paint( context );	
+	CustomControl::paint( context );
 
-	paintChildren( context );	
+	paintChildren( context );
 
 	double oldVisibleHeight = visibleItemsHeight_;
 
@@ -548,56 +525,56 @@ void TreeListControl::paint( GraphicsContext * context )
 	if ( NULL != border ) {
 		borderRect = border->getClientRect( this );
 	}
-	
-	Rect itemRect;	
+
+	Rect itemRect;
 
 	double prevTop = borderRect.top_ + header_->getHeight();
 
 	Rect clipRect = borderRect;
 	clipRect.top_ = prevTop;
 	context->setClippingRect( &clipRect );
-	
+
 	std::vector<TreeItem*> visibleItems;
-	
+
 
 	populateVisiblityList( visibleItems );
 
 	std::vector<TreeItem*>::iterator it = visibleItems.begin();
-	
+
 	itemRect.left_ = borderRect.left_;
 	itemRect.right_ = borderRect.right_;
 	Rect tmp;
 	while ( it != visibleItems.end() ) {
 		TreeItem* item = *it;
-		
+
 		itemRect.top_ = prevTop;
 		itemRect.bottom_ = itemRect.top_ + getDefaultItemHeight();
 		tmp = itemRect;
 
-		paintItem( item, context, &itemRect );	
-		
+		paintItem( item, context, &itemRect );
+
 		if ( item->canPaint() ) {
 			item->paint( context, &tmp );
 		}
-		
+
 		prevTop += (itemRect.bottom_ - tmp.top_);
-		
+
 		it ++;
 	}
-	
+
 
 	Scrollable* scrollable = getScrollable();
-	if ( NULL != scrollable ) {				
-		if ( (getHeight() > visibleItemsHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {			
-			scrollable->setVerticalPosition( 0.0 );	
+	if ( NULL != scrollable ) {
+		if ( (getHeight() > visibleItemsHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {
+			scrollable->setVerticalPosition( 0.0 );
 		}
 		else if ( oldVisibleHeight > visibleItemsHeight_ ) {
 			double newPos = minVal<double>( abs(visibleItemsHeight_ - getHeight())+1.0, scrollable->getVerticalPosition() );
-			
+
 			scrollable->setVerticalPosition( newPos );
-			
-		}		
-		
+
+		}
+
 		scrollable->setVirtualViewHeight( visibleItemsHeight_ );
 	}
 }
@@ -647,7 +624,7 @@ TreeItem* TreeListControl::hitTest( Point* pt, TreeItem* itemToTest )
 				Rect tmp = *itemToTest->getBounds();
 				tmp.right_ = tmp.left_ + column->getWidth();
 				if ( true == tmp.containsPt( pt ) ) {
-					result = itemToTest;	
+					result = itemToTest;
 				}
 			}
 			else {
@@ -656,9 +633,9 @@ TreeItem* TreeListControl::hitTest( Point* pt, TreeItem* itemToTest )
 				Rect tmp = *itemToTest->getBounds();
 				tmp.right_ = tmp.left_ + w + getCurrentIndent(itemToTest) ;
 				if ( true == tmp.containsPt( pt ) ) {
-					result = itemToTest;	
+					result = itemToTest;
 				}
-			}			
+			}
 		}
 		else {
 			result = itemToTest;
@@ -686,7 +663,7 @@ bool TreeListControl::stateHitTest( Point* pt, TreeItem* itemToTest )
 	bool result = false;
 
 	Rect stateRect = getStateRect( itemToTest, getCurrentIndent( itemToTest ) );
-	
+
 	result = stateRect.containsPt( pt );
 
 	return result;
@@ -705,31 +682,31 @@ bool TreeListControl::multiSelectionChange( MouseEvent* event )
 	TreeItem* foundItem = NULL;
 	Enumerator<TreeItem*>* rootChildren = treeModel_->getRootItems();
 
-	TreeItem* currentlySelectedItem = getSelectedItem();	
+	TreeItem* currentlySelectedItem = getSelectedItem();
 
 	while ( rootChildren->hasMoreElements() ) {
 		TreeItem* rootItem = rootChildren->nextElement();
 		foundItem = hitTest( event->getPoint(), rootItem );
 		if ( NULL != foundItem ) {
 			Rect expanderRect;
-			
+
 			ulong32 level = foundItem->getLevel();
 			expanderRect = *foundItem->getBounds();
 			expanderRect.left_ += (level * itemIndent_);
-			expanderRect.right_ = expanderRect.left_ + itemIndent_;						
-			
-			//currentSelectedItem_ = foundItem;		
-			
+			expanderRect.right_ = expanderRect.left_ + itemIndent_;
+
+			//currentSelectedItem_ = foundItem;
+
 			if ( true == expanderRect.containsPt( event->getPoint() ) ) {
-				foundItem->expand( !foundItem->isExpanded() );	
+				foundItem->expand( !foundItem->isExpanded() );
 				ItemEvent event( this, ITEM_EVENT_CHANGED );
-				ItemExpanded.fireEvent( &event );	
+				ItemExpanded.fireEvent( &event );
 			}
 			else if ( true == stateHitTest( event->getPoint(), foundItem ) ) {
 				long state = foundItem->getState();
-				//probably need to come up with better id's 
-				//for enum values so that we can mask together 
-				//as opposed to doing a direct 
+				//probably need to come up with better id's
+				//for enum values so that we can mask together
+				//as opposed to doing a direct
 				//assignment
 				if ( Item::idsChecked == state ) {
 					state = Item::idsUnChecked;
@@ -737,17 +714,17 @@ bool TreeListControl::multiSelectionChange( MouseEvent* event )
 				else if ( Item::idsUnChecked == state ) {
 					state = Item::idsChecked;
 				}
-				
+
 				foundItem->setState( state );
 				ItemEvent event( foundItem, TreeListControl::ITEM_STATECHANGE_REQUESTED );
 				ItemStateChangeRequested.fireEvent( &event );
 			}
 			else if ( (true == event->hasLeftButton()) && (true == event->hasShiftKey()) ) {
 				rootChildren->reset();
-				clearSelectedItems();		
-				
+				clearSelectedItems();
+
 				std::vector<TreeItem*> selectedItems;
-				
+
 				bool startFound = false;
 				Rect* bounds1 = currentlySelectedItem->getBounds();
 				Rect* bounds2 = foundItem->getBounds();
@@ -761,20 +738,20 @@ bool TreeListControl::multiSelectionChange( MouseEvent* event )
 				selectedItems.push_back( firstItem );
 
 				while ( rootChildren->hasMoreElements() ) {
-					TreeItem* rootItem = rootChildren->nextElement();				
+					TreeItem* rootItem = rootChildren->nextElement();
 					bool done = listSelectedItems( selectedItems, firstItem, lastItem, rootItem, startFound );
 					if ( true == done ) {
 						break;
 					}
 				}
-				
+
 				std::vector<TreeItem*>::iterator it = selectedItems.begin();
 				while ( it != selectedItems.end() ) {
 					setSelectedItem( *it, true );
 					it ++;
 				}
 			}
-			else {				
+			else {
 				setSelectedItem( foundItem, !foundItem->isSelected() );
 				result = true;
 			}
@@ -787,13 +764,13 @@ bool TreeListControl::multiSelectionChange( MouseEvent* event )
 			dragPoint_ = *event->getPoint();
 			dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, dragPoint_.x_, dragPoint_.y_ );
 		}
-	}	
+	}
 
 	return result;
 }
 
 void TreeListControl::clearSelectedItems()
-{	
+{
 	std::vector<TreeItem*>::iterator it = selectedItems_.begin();
 	while ( it != selectedItems_.end() ) {
 		TreeItem* item = *it;
@@ -810,7 +787,7 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 
 	TreeItem* foundItem = NULL;
 	Enumerator<TreeItem*>* rootChildren = treeModel_->getRootItems();
-	TreeItem* prevSelectedItem = getSelectedItem();	
+	TreeItem* prevSelectedItem = getSelectedItem();
 
 	while ( rootChildren->hasMoreElements() ) {
 		TreeItem* rootItem = rootChildren->nextElement();
@@ -818,24 +795,24 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 		if ( NULL != foundItem ) {
 
 			Rect expanderRect;
-			
+
 			ulong32 level = foundItem->getLevel();
 			expanderRect = *foundItem->getBounds();
 			expanderRect.left_ += (level * itemIndent_);
-			expanderRect.right_ = expanderRect.left_ + itemIndent_;						
+			expanderRect.right_ = expanderRect.left_ + itemIndent_;
 
-			//currentSelectedItem_ = foundItem;		
+			//currentSelectedItem_ = foundItem;
 
 			if ( true == expanderRect.containsPt( event->getPoint() ) ) {
-				foundItem->expand( !foundItem->isExpanded() );	
+				foundItem->expand( !foundItem->isExpanded() );
 				ItemEvent event( this, ITEM_EVENT_CHANGED );
-				ItemExpanded.fireEvent( &event );	
+				ItemExpanded.fireEvent( &event );
 			}
 			else if ( true == stateHitTest( event->getPoint(), foundItem ) ) {
 				long state = foundItem->getState();
-				//probably need to come up with better id's 
-				//for enum values so that we can mask together 
-				//as opposed to doing a direct 
+				//probably need to come up with better id's
+				//for enum values so that we can mask together
+				//as opposed to doing a direct
 				//assignment
 				if ( Item::idsChecked == state ) {
 					state = Item::idsUnChecked;
@@ -848,27 +825,27 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 				ItemEvent event( foundItem, TreeListControl::ITEM_STATECHANGE_REQUESTED );
 				ItemStateChangeRequested.fireEvent( &event );
 			}
-			else {			
-				
+			else {
+
 				if ( prevSelectedItem != NULL ) {
 					if ( prevSelectedItem != foundItem ) {
-						setSelectedItem( prevSelectedItem, false );				
+						setSelectedItem( prevSelectedItem, false );
 					}
 				}
-				
+
 				result = (prevSelectedItem != foundItem);
-				
-				setSelectedItem( foundItem, true );			
+
+				setSelectedItem( foundItem, true );
 			}
 			repaint();
 			break;
 		}
-	}	
+	}
 
 	if ( NULL == foundItem ) {
 		if ( prevSelectedItem != NULL ) {
 			if ( prevSelectedItem != foundItem ) {
-				setSelectedItem( prevSelectedItem, false );				
+				setSelectedItem( prevSelectedItem, false );
 			}
 		}
 	}
@@ -879,9 +856,9 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 void TreeListControl::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
-	
-	draggingSelectionRect_ = false;	
-	Point pt = *event->getPoint();	
+
+	draggingSelectionRect_ = false;
+	Point pt = *event->getPoint();
 	draggingSelectedItems_.clear();
 
 	Rect borderRect(0,0,getWidth(), getHeight() );
@@ -893,14 +870,14 @@ void TreeListControl::mouseDown( MouseEvent* event )
 	if ( event->hasLeftButton() ) {
 		allowMultipleSelection_ = (event->hasControlKey()  || event->hasShiftKey() );
 		//setAllowsMultipleSelection(  );
-		
+
 		if ( allowMultipleSelection_ ) {
-			multiSelectionChange( event );		
+			multiSelectionChange( event );
 		}
 		else {
-			singleSelectionChange( event );	
-		}		
-	}	
+			singleSelectionChange( event );
+		}
+	}
 }
 
 
@@ -908,29 +885,29 @@ bool TreeListControl::hitTest( Rect* rect, TreeItem* item, std::vector<TreeItem*
 {
 	bool result = false;
 	TreeItem* foundItem = NULL;
-	
+
 	Rect itemBounds = *item->getBounds();
-	
+
 	if ( ! (displayOptions_ & TreeListControl::tdoShowFullRowSelection) ) {
 		ColumnItem* column = header_->getColumnModel()->getItemFromIndex(0);
-		
-		itemBounds.right_ = itemBounds.left_ + column->getWidth();	
+
+		itemBounds.right_ = itemBounds.left_ + column->getWidth();
 
 		if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
-			ColumnItem* column = header_->getColumnModel()->getItemFromIndex(0);			
-			itemBounds.right_ = itemBounds.left_ + column->getWidth();			
+			ColumnItem* column = header_->getColumnModel()->getItemFromIndex(0);
+			itemBounds.right_ = itemBounds.left_ + column->getWidth();
 		}
 		else {
 			GraphicsContext* ctx = getContext();
 			double w = ctx->getTextWidth( item->getCaption() );
-			itemBounds.right_ = itemBounds.right_ + w + getCurrentIndent(item) ;			
+			itemBounds.right_ = itemBounds.right_ + w + getCurrentIndent(item) ;
 		}
 	}
 
-		
+
 
 	Rect intersect = itemBounds.makeIntersection( rect );
-	
+
 	if ( !intersect.isEmpty() && !intersect.isNull() ) {
 		hitTestList.push_back( item );
 	}
@@ -949,43 +926,43 @@ bool TreeListControl::hitTest( Rect* rect, TreeItem* item, std::vector<TreeItem*
 void TreeListControl::mouseMove( MouseEvent* event )
 {
 	CustomControl::mouseMove( event );
-	if ( (true == event->hasLeftButton()) && (true == draggingSelectionRect_) ) {		
-		
+	if ( (true == event->hasLeftButton()) && (true == draggingSelectionRect_) ) {
+
 		GraphicsContext* context = getContext();
 
 		context->drawSelectionRect( &dragSelectionRect_ );
 
 		Point* pt = event->getPoint();
-		dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, pt->x_, pt->y_ );		
-		
+		dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, pt->x_, pt->y_ );
+
 		dragSelectionRect_.normalize();
 
 		context->drawSelectionRect( &dragSelectionRect_ );
 
 		bool needsRepaint = false;
-		
+
 		if ( !draggingSelectedItems_.empty() ) {
 			std::vector<TreeItem*>::iterator it = draggingSelectedItems_.begin() ;
-			while ( it != draggingSelectedItems_.end() ) {				
+			while ( it != draggingSelectedItems_.end() ) {
 				(*it)->setSelected( false );
 
 				std::vector<TreeItem*>::iterator found = std::find( selectedItems_.begin(), selectedItems_.end(), *it ) ;
 				if ( found != selectedItems_.end() ) {
 					selectedItems_.erase( found );
 				}
-				
+
 				it ++;
 			}
-			needsRepaint = true;			
+			needsRepaint = true;
 		}
 
 		draggingSelectedItems_.clear();
 
-		Enumerator<TreeItem*>* rootChildren = treeModel_->getRootItems();		
+		Enumerator<TreeItem*>* rootChildren = treeModel_->getRootItems();
 		while ( rootChildren->hasMoreElements() ) {
 			TreeItem* rootItem = rootChildren->nextElement();
 			hitTest( &dragSelectionRect_, rootItem, draggingSelectedItems_ );
-		}		
+		}
 
 		if ( !draggingSelectedItems_.empty() ) {
 			std::vector<TreeItem*>::iterator it = draggingSelectedItems_.begin() ;
@@ -996,14 +973,14 @@ void TreeListControl::mouseMove( MouseEvent* event )
 				}
 				it ++;
 			}
-			needsRepaint = true;			
+			needsRepaint = true;
 		}
 
 		if ( needsRepaint ) {
 			repaint();
 		}
 	}
-		
+
 }
 
 void TreeListControl::mouseUp( MouseEvent* event )
@@ -1014,8 +991,8 @@ void TreeListControl::mouseUp( MouseEvent* event )
 		context->drawSelectionRect( &dragSelectionRect_ );
 
 		Point* pt = event->getPoint();
-		dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, pt->x_, pt->y_ );		
-		
+		dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, pt->x_, pt->y_ );
+
 		dragSelectionRect_.normalize();
 
 		context->drawSelectionRect( &dragSelectionRect_ );
@@ -1085,9 +1062,9 @@ TreeItem* TreeListControl::isPtOverItem(Point* point)
 {
 	TreeItem* result = NULL;
 	std::vector<TreeItem*> visibleItems;
-	
+
 	populateVisiblityList( visibleItems );
-	
+
 	std::vector<TreeItem*>::iterator it = visibleItems.begin();
 	while ( it != visibleItems.end() ) {
 		TreeItem* item = *it;
@@ -1125,13 +1102,13 @@ void TreeListControl::setAllowLabelEditing( const bool& allowLabelEditing )
 
 void TreeListControl::setBounds( Rect* rect, const bool &anchorDeltasNeedUpdating )
 {
-	CustomControl::setBounds( rect, anchorDeltasNeedUpdating );		
+	CustomControl::setBounds( rect, anchorDeltasNeedUpdating );
 }
 
 void TreeListControl::onColumnWidthChanged( ItemEvent* event )
 {
 	ColumnItem* item = (ColumnItem*)event->getSource();
-	
+
 	if ( item->getIndex() == 0 ) {
 		double width = item->getWidth();
 		double minWidth = (itemIndent_ + stateItemIndent_) * 1.5;
@@ -1139,7 +1116,7 @@ void TreeListControl::onColumnWidthChanged( ItemEvent* event )
 			item->setWidth( minWidth );
 		}
 	}
-	
+
 
 	repaint();
 }
@@ -1147,13 +1124,13 @@ void TreeListControl::onColumnWidthChanged( ItemEvent* event )
 void TreeListControl::setAllowsMultipleSelection( const bool& multiSelect )
 {
 	if ( (false == multiSelect) && (false == selectedItems_.empty() ) ) {
-		
+
 		TreeItem* first = NULL;
 		if ( ! selectedItems_.empty() ) {
-			first = selectedItems_[0];		
+			first = selectedItems_[0];
 		}
 
-		clearSelectedItems();		
+		clearSelectedItems();
 
 		if ( NULL != first ) {
 			selectedItems_.push_back( first );
@@ -1177,7 +1154,7 @@ void TreeListControl::setSelectedItem( TreeItem* item, const bool& isSelected )
 			if ( false == isSelected ) {
 				selectedItems_.erase( found );
 			}
-		}		
+		}
 	}
 	else {
 		if ( true == isSelected ) {
@@ -1186,13 +1163,13 @@ void TreeListControl::setSelectedItem( TreeItem* item, const bool& isSelected )
 				selectedItems_.push_back( item );
 			}
 		}
-		else {	
+		else {
 			clearSelectedItems();
 		}
 	}
 
-	item->setSelected( isSelected );	
-	
+	item->setSelected( isSelected );
+
 	if ( true == isSelected ) {
 		ItemEvent event( this, ITEM_EVENT_SELECTED );
 		ItemSelected.fireEvent( &event );
@@ -1202,10 +1179,10 @@ void TreeListControl::setSelectedItem( TreeItem* item, const bool& isSelected )
 Enumerator<TreeItem*>* TreeListControl::getSelectedItems()
 {
 	return selectedItemContainer_.getEnumerator();
-}	
+}
 
 bool TreeListControl::listVisibleItems( std::vector<TreeItem*>& items, TreeItem* itemToSearch, const double& top, const double& bottom )
-{	
+{
 	bool result = false;
 	if ( NULL != itemToSearch ) {
 
@@ -1236,7 +1213,7 @@ void TreeListControl::populateVisiblityList( std::vector<TreeItem*>& items )
 {
 	Enumerator<TreeItem*>* rootItems = treeModel_->getRootItems();
 	Rect clientBounds = getClientBounds();
-	
+
 	clientBounds.top_ += header_->getHeight();
 
 	Scrollable* scrollable = getScrollable();
@@ -1257,13 +1234,13 @@ double TreeListControl::getCurrentIndent( TreeItem* item )
 
 	result += EXPANDER_SPACER*2;  //scootch over for the expander
 	//determine if we have an image list present
-	if ( NULL != imageList_ ) {	
+	if ( NULL != imageList_ ) {
 		result += imageList_->getImageWidth();
 	}
 
 	if ( Item::idsNone != item->getState() ) {
 		if ( NULL != stateImageList_ ) {
-			result += stateImageList_->getImageWidth();	
+			result += stateImageList_->getImageWidth();
 		}
 		else {
 			result += stateItemIndent_;
@@ -1276,9 +1253,9 @@ double TreeListControl::getCurrentIndent( TreeItem* item )
 double TreeListControl::getDefaultItemHeight()
 {
 	double result = itemHeight_;
-	if ( NULL != imageList_ ) {	
+	if ( NULL != imageList_ ) {
 		result = maxVal<double>( result, imageList_->getImageHeight() );
-	}	
+	}
 
 	return result;
 }
@@ -1294,9 +1271,9 @@ Rect TreeListControl::getStateRect( TreeItem* item, const double& indent )
 
 	if ( item->getState() != Item::idsNone ) {
 		Rect* itemBounds = item->getBounds();
-		
+
 		result = *itemBounds;
-		
+
 		result.left_ += indent;
 		if ( NULL != stateImageList_ ) {
 			result.right_ = result.left_ + stateImageList_->getImageWidth();
@@ -1308,7 +1285,7 @@ Rect TreeListControl::getStateRect( TreeItem* item, const double& indent )
 			result.top_ = itemBounds->top_ + (itemBounds->getHeight()/2.0 - (minVal<double>(stateItemIndent_,itemHeight_)/2.0));
 			result.bottom_ = result.top_ + (minVal<double>(stateItemIndent_,itemHeight_));
 		}
-		
+
 		if ( NULL != imageList_ ) {
 			if ( NULL != stateImageList_ ) {
 				result.offset( -(maxVal<double>( imageList_->getImageWidth(), stateImageList_->getImageWidth() )), 0 );
@@ -1325,7 +1302,7 @@ Rect TreeListControl::getStateRect( TreeItem* item, const double& indent )
 				//result.offset( -stateItemIndent_, 0 );
 			}
 		}
-		
+
 	}
 	return result;
 }
@@ -1374,7 +1351,7 @@ void TreeListControl::showFullRowSelection( const bool& show )
 	}
 
 	repaint();
-}	
+}
 
 void TreeListControl::showColumnHeader( const bool& show )
 {
@@ -1386,7 +1363,7 @@ void TreeListControl::showColumnHeader( const bool& show )
 		header_->setHeight( 0 );
 		displayOptions_ &= ~TreeListControl::tdoShowColumnHeader;
 	}
-	
+
 	repaint();
 }
 
@@ -1406,7 +1383,7 @@ double TreeListControl::getColumnWidth( const unsigned long& index )
 
 	return result;
 }
-	
+
 void TreeListControl::setColumnWidth( const unsigned long& index, const double& width )
 {
 	ColumnModel* model = header_->getColumnModel();
@@ -1419,13 +1396,13 @@ void TreeListControl::setColumnWidth( const unsigned long& index, const double& 
 bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem* firstSelectedItem, TreeItem* lastSelectedItem, TreeItem* nextItem, bool& startFound )
 {
 	bool result = false;
-	
+
 	TreeItem* next = NULL;
-	
+
 	if ( false == startFound ) {
 		startFound = (nextItem == firstSelectedItem);
 	}
-	
+
 	if ( (true == startFound) && (nextItem != lastSelectedItem) ){
 		items.push_back( nextItem );
 		result = false;
@@ -1455,11 +1432,11 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 			if ( false == result ) {
 				result = listSelectedItems( items, firstSelectedItem, lastSelectedItem, next, startFound );
 			}
-			
-			next = next->getNextChildNodeItem();			
+
+			next = next->getNextChildNodeItem();
 		}
 	}
-	
+
 
 	return result;
 }
@@ -1468,6 +1445,9 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -1689,6 +1669,5 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 *to facilitate change tracking
 *
 */
-
 
 

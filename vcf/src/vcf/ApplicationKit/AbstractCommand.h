@@ -1,24 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-//AbstractCommand.h
-
-/**
-This program is free software; you can redistribute it and/or
-modify it as you choose. In fact, you can do anything you would like
-with it, so long as credit is given if used in commercial applications.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-NB: This software will not save the world. 
-*/
-
 #ifndef _VCF_ABSTRACTCOMMAND_H__
 #define _VCF_ABSTRACTCOMMAND_H__
+//AbstractCommand.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #include "vcf/ApplicationKit/Command.h"
@@ -28,20 +21,20 @@ namespace VCF  {
 class UndoRedoStack;
 
 /**
-*A partial implementation of the Command interface. 
+*A partial implementation of the Command interface.
 *Useful for using as a base class when creating your own Command based
 *classes.
 */
-class APPKIT_API AbstractCommand : public Object, public Command { 
+class APPKIT_API AbstractCommand : public Object, public Command {
 public:
 	AbstractCommand();
 
-	virtual ~AbstractCommand();		
+	virtual ~AbstractCommand();
 
 	virtual UndoRedoStack* getOwningStack() {
-		return stack_;	
+		return stack_;
 	}
-	
+
 	virtual void setOwningStack( UndoRedoStack* stack ) {
 		stack_ = stack;
 	}
@@ -71,6 +64,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:12  ddiego
 *migration towards new directory structure
 *
@@ -109,6 +105,8 @@ private:
 *to facilitate change tracking
 *
 */
+
+
 #endif // _VCF_ABSTRACTCOMMAND_H__
 
 

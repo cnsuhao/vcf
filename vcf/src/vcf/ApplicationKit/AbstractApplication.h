@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-//AbstractApplication.h
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
 #ifndef _VCF_ABSTRACTAPPLICATION_H__
 #define _VCF_ABSTRACTAPPLICATION_H__
+//AbstractApplication.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
@@ -51,30 +26,30 @@ class AcceleratorKey;
 
 /**
 *An AbstractApplication is a base class for deriving new application types
-*Currently there are two main types, standard Application classes, which 
-*represent the current process the application is associated with and of which there 
-*should only be one, and LibraryApplication classes which are tied to 
+*Currently there are two main types, standard Application classes, which
+*represent the current process the application is associated with and of which there
+*should only be one, and LibraryApplication classes which are tied to
 *shared librarys or DLL's.
 *An application can act as a grouping place for a set of logically connect
 *group of behaviours. For example, you might consider writing an HTML editor
 *and thus want to create an <code>HTMLEditorApplication</code> class. Later
-*you might expand things and break out the text editing functionality into a 
+*you might expand things and break out the text editing functionality into a
 *separate library, thus create a <code>TextEditorLibraryApplication</code>
 *class. You would still have a primary application class ( the HTMLEditorApplication )
 *of which there could be only one per process.
 *However, unlike other frameworks, an AbstractApplication instance is <b><i>NOT</i></b>
 a requirement in the VCF. It is entirely possible to use the VCF <b>without</b> an application
-*object. For example, you may have an existing MFC or raw Win32 application that 
+*object. For example, you may have an existing MFC or raw Win32 application that
 *you wish to enhance using controls or other classes from the VCF. To allow this
 *certain functions are declared again in the AbstractApplication class that were
 *previously declared in the UIToolkit to allow for a central place to call them
-*when using an application object, but still allowing the framework to operate 
-*correctly without the application instance when appropriate. Please note 
+*when using an application object, but still allowing the framework to operate
+*correctly without the application instance when appropriate. Please note
 *that while these functions may be declared again, they are not reimplmented. All
 *the AbstractApplication functions like postEvent() or getAccelerator() do is to
 *call the approriate UIToolkit functions, so no implmentation code is duplicated.
 */
-class APPKIT_API AbstractApplication : public ObjectWithEvents { 
+class APPKIT_API AbstractApplication : public ObjectWithEvents {
 public:
 	AbstractApplication();
 
@@ -82,9 +57,9 @@ public:
 
 	/**
 	*allows for the use of programmable, user friendly names for Applications
-	*/ 
+	*/
 	String getName() {
-		return applicationName_;	
+		return applicationName_;
 	}
 
 	virtual void setName( const String& name );
@@ -93,12 +68,12 @@ public:
 	*and just before the app's run() method is called
 	*successful. if false, it calls terminate() and then kills the app process.
 	*this method also builds the accellerator table used for keyboard shortcuts
-	*@return bool this tells whether or not the initialization of the application was 
+	*@return bool this tells whether or not the initialization of the application was
 	*/
 	virtual bool initRunningApplication() = 0;
-	
+
 	/**
-	*terminates the running application. This is called during normal shutdown of an 
+	*terminates the running application. This is called during normal shutdown of an
 	*application object. You should override this function if your application created
 	*resources and release those resources here.
 	*/
@@ -123,8 +98,8 @@ public:
 
 	/**
 	*returns the full path for the application executable
-	*@return String the fully qualified path to the executable 
-	*that the Application represents. 
+	*@return String the fully qualified path to the executable
+	*that the Application represents.
 	*<p>
 	*for example:
 	*<pre>
@@ -133,7 +108,7 @@ public:
 		Dialog::showMessage( msg );
 	*</pre>
 	*/
-	String getFileName();	
+	String getFileName();
 
 	/**
 	*Creates a Frame from a frame derived class name
@@ -143,30 +118,30 @@ public:
 	*doesn't exist in the ClassRegistry then the return is NULL.
 	*@return Frame a pointer to new instance of the type specified
 	*in the frameClassName argument. NULL if the form resource doesn't exist
-	*or the class doesn't exist. Otherwise it represent a full loaded 
+	*or the class doesn't exist. Otherwise it represent a full loaded
 	*instance, using the data from the resource VFF.
 	*/
 	Frame* createFrame( const String& frameClassName );
 
 	/**
-	*Loads an already existing Frame from a frame derived class name	
+	*Loads an already existing Frame from a frame derived class name
 	*@param Frame a pointer to new instance of the type specified
-	*in the frameClassName argument. 
+	*in the frameClassName argument.
 	*/
 	void loadFrame( Frame** frame );
 
 	/**
-	*This virtual function is called during the event loops idle phase. 
-	*Ovveride this fucntion for application specific processing that can be done during 
+	*This virtual function is called during the event loops idle phase.
+	*Ovveride this fucntion for application specific processing that can be done during
 	*idle time.
 	*/
-	virtual void idleTime();	
+	virtual void idleTime();
 
 	/**
-	*call this method to post an event. You can override it ot provide 
+	*call this method to post an event. You can override it ot provide
 	*extra behaviour. The default behaviour is to simply pass the event
-	*along to the UIToolkit::postEvent() method. The idea in placing this 
-	function here is allow event posting to be bale to happen through 
+	*along to the UIToolkit::postEvent() method. The idea in placing this
+	function here is allow event posting to be bale to happen through
 	*an application where appropriate.
 	*@see UIToolkit::postEvent()
 	*/
@@ -192,6 +167,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:12  ddiego
 *migration towards new directory structure
 *
@@ -294,6 +272,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_ABSTRACTAPPLICATION_H__
 

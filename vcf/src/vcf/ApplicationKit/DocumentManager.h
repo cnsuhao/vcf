@@ -1,51 +1,24 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_DOCUMENTMANAGER_H__
 #define _VCF_DOCUMENTMANAGER_H__
+//DocumentManager.h
 
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
-
-
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
 
 class APPKIT_API DocManagerEvent : public Event {
 public:
-	DocManagerEvent( Object* source, ulong32 type ): Event( source, type ), 
+	DocManagerEvent( Object* source, ulong32 type ): Event( source, type ),
 			allowFileOp_(true), fileOperationStatus_(false) {
 
 	}
@@ -63,11 +36,11 @@ public:
 	}
 
 	/**
-	Programs that handle file saving themselves 
+	Programs that handle file saving themselves
 	without relying on the base behaviour should call this
-	method on the event. It will dictate what the 
+	method on the event. It will dictate what the
 	DocumentManager::saveFile() wil return.
-	@param bool if allowFileOperation() is false it indicates that the 
+	@param bool if allowFileOperation() is false it indicates that the
 	event handler handled the file operation and DocumentManager::saveFile()
 	will the value of val, or getFileOperationStatus().
 	*/
@@ -75,7 +48,7 @@ public:
 		fileOperationStatus_ = val;
 	}
 protected:
-	bool allowFileOp_;	
+	bool allowFileOp_;
 	bool fileOperationStatus_;
 };
 
@@ -99,8 +72,8 @@ public:
 The DocumentManager manages the interaction between the application (and any other
 UI classes) a collection of one or more documents, and the DocInterfacePolicy
 (which manages the collection of one or more documents).
-The DocumentManager allows only a single instance, which you can get at by calling the 
-static method DocumentManager::getDocumentManager(). 
+The DocumentManager allows only a single instance, which you can get at by calling the
+static method DocumentManager::getDocumentManager().
 </p>
 
 @delegates
@@ -111,7 +84,7 @@ static method DocumentManager::getDocumentManager().
 	@del DocumentManager::CurrentDocumentChanged
 */
 class APPKIT_API DocumentManager {
-public: 
+public:
 	DocumentManager();
 
 	virtual ~DocumentManager();
@@ -123,7 +96,7 @@ public:
 		dmCloseDocument,
 		dmDocumentInitialized,
 		dmCurrentDocumentChanged,
-	};	
+	};
 
 
 	enum ActionTag {
@@ -150,17 +123,17 @@ public:
 	DELEGATE(SaveFile);
 
 	/**
-	@delegate OpenFile this is called when the document manager's 
-	openFile() method is called. 
+	@delegate OpenFile this is called when the document manager's
+	openFile() method is called.
 	@event DocManagerEvent
 	@eventtype  DocumentManager::dmOpenDocument
 	*/
 	DELEGATE(OpenFile);
 
 	/**
-	@delegate DocumentInitialized this is called after a newly created document has 
-	been fully initialized by the document manager. At this point the document should 
-	be connected to it's views (at least as many of them as the document manager knows 
+	@delegate DocumentInitialized this is called after a newly created document has
+	been fully initialized by the document manager. At this point the document should
+	be connected to it's views (at least as many of them as the document manager knows
 	about), as well as having a window set for it.
 	@event DocManagerEvent
 	@eventtype DocumentManager::dmDocumentInitialized
@@ -169,17 +142,17 @@ public:
 	DELEGATE(DocumentInitialized)
 
 	/**
-	@delegate DocumentClosed this is called when the document is closed by 
-	the DocInterfacePolicy. It is up to the implementer to call fire the 
+	@delegate DocumentClosed this is called when the document is closed by
+	the DocInterfacePolicy. It is up to the implementer to call fire the
 	event to the delegate.
 	@event DocManagerEvent
 	*/
 	DELEGATE(DocumentClosed)
 
 	/**
-	@delegate CurrentDocumentChanged this is fired whenever the 
-	currentDocumentChanged() method is called. It is the responsibility of 
-	the DocInterfacePolicy to call the currentDocumentChanged() method 
+	@delegate CurrentDocumentChanged this is fired whenever the
+	currentDocumentChanged() method is called. It is the responsibility of
+	the DocInterfacePolicy to call the currentDocumentChanged() method
 	when appropriate.
 	@event DocManagerEvent
 	@eventtype DocumentManager::dmCurrentDocumentChanged
@@ -207,7 +180,7 @@ public:
 
 	virtual void redoForDocument( Document* doc );
 
-	virtual void editPreferences(){};	
+	virtual void editPreferences(){};
 
 	virtual bool saveFile( Document* document ){
 		return false;
@@ -238,7 +211,7 @@ public:
 	};
 
 	virtual Document* getCurrentDocument() {
-		return NULL;	
+		return NULL;
 	}
 
 	virtual void setCurrentDocument( Document* newCurrentDocument ) {
@@ -247,14 +220,14 @@ public:
 
 	virtual void createMenus(){};
 
-	static DocumentManager* getDocumentManager();	
+	static DocumentManager* getDocumentManager();
 
 	String getMimeTypeFromFileExtension( const String& fileName );
 
 	DocumentInfo getDocumentInfo( const String& mimeType );
 
 	virtual Window* getWindowForNewDocument( Document* document, const DocumentInfo& info ) {
-		return NULL;	
+		return NULL;
 	}
 
 	virtual void initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info  ) {}
@@ -264,7 +237,7 @@ public:
 	bool saveDocument( Document* doc );
 
 	virtual void setNewView( DocumentInfo info, View* view, Window* window, Document* newDocument ) {
-		view->setViewControl( window );				
+		view->setViewControl( window );
 		window->setView( view );
 		newDocument->addView( window );
 	}
@@ -301,14 +274,14 @@ protected:
 	void updateCut( ActionEvent* event, Document* doc );
 
 	void updateCopy( ActionEvent* event, Document* doc );
-	
+
 	void updateUndo( ActionEvent* event, Document* doc );
 
 	void updateRedo( ActionEvent* event, Document* doc );
 
 	void removeUndoRedoStackForDocument( Document* doc );
 
-	UIToolkit::ModalReturnType saveChanges( Document* document );	
+	UIToolkit::ModalReturnType saveChanges( Document* document );
 
 	void addAction( ActionTag tag, Action* action );
 
@@ -317,7 +290,7 @@ protected:
 
 	typedef std::map<String,DocumentInfo> DocumentInfoMap;
 	typedef std::map<Document*,UndoRedoStack*> DocumentUndoRedoMap;
-	
+
 	typedef std::map<ulong32,Action*> ActionMap;
 
 	DocumentInfoMap docInfo_;
@@ -325,17 +298,17 @@ protected:
 	EnumeratorMapContainer<DocumentInfoMap,DocumentInfo> docInfoContainer_;
 
 	static DocumentManager* docManagerInstance;
-	
+
 	DocumentUndoRedoMap undoRedoStack_;
 	Menu* standardMenu_;
-	bool shouldCreateUI_;		
+	bool shouldCreateUI_;
 
 	ActionMap actionsMap_;
 	std::vector<Document*> openDocuments_;
 	EnumeratorContainer<std::vector<Document*>,Document*> openDocContainer_;
 };
 
- 
+
 /**
 class DocumentManagerImpl documentation
 */
@@ -345,8 +318,8 @@ class DocumentManagerImpl : public DocumentManager, public DocInterfacePolicy {
 public:
 	DocumentManagerImpl(): app_(NULL), closingDocument_(false), documentClosedOK_(false) {}
 
-	
-	
+
+
 
 	virtual void init();
 
@@ -362,7 +335,7 @@ public:
 	virtual Document* createDocumentFromType( const DocumentInfo& info );
 
 	virtual void createMenus();
-	
+
 	virtual Document* getCurrentDocument() {
 		return DocInterfacePolicy::getCurrentDocument();
 	}
@@ -413,8 +386,8 @@ protected:
 	}
 
 	void onUpdateUndo( ActionEvent* e ) {
-		
-		updateUndo( e, DocInterfacePolicy::getCurrentDocument() );		
+
+		updateUndo( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
 	void onRedo( Event* e ) {
@@ -422,7 +395,7 @@ protected:
 	}
 
 	void onUpdateRedo( ActionEvent* e ) {
-		
+
 		updateRedo( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
@@ -431,9 +404,9 @@ protected:
 	}
 
 	void onUpdateCut( ActionEvent* e ) {
-		
-		
-		updateCut( e, DocInterfacePolicy::getCurrentDocument() );		
+
+
+		updateCut( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
 	void onCopy( Event* e ) {
@@ -450,8 +423,8 @@ protected:
 	}
 
 	void onUpdatePaste( ActionEvent* e ) {
-		
-		updatePaste( e, DocInterfacePolicy::getCurrentDocument() );		
+
+		updatePaste( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
 	void onPreferences( Event* e ) {
@@ -459,10 +432,10 @@ protected:
 	}
 
 	void onUpdatePreferences( ActionEvent* e ) {
-		
+
 	}
-	
-	void onDocWindowClosing( FrameEvent* e ) {	
+
+	void onDocWindowClosing( FrameEvent* e ) {
 
 		if ( !DocInterfacePolicy::closeDocumentWindow( (Window*)e->getSource() ) ) {
 			e->setOkToClose( false );
@@ -472,13 +445,13 @@ protected:
 
 	void onDocWindowActive( WindowEvent* e ) {
 		Window* window = (Window*)e->getSource();
-		
+
 		if ( window->isActive() ) {
 			DocInterfacePolicy::documentWindowActivated( window );
 		}
 	}
 
-	void onDocModified( ModelEvent* e ) {		
+	void onDocModified( ModelEvent* e ) {
 		Document* doc = (Document*)e->getSource();
 		String caption = DocInterfacePolicy::getDocumentWindowCaption();
 
@@ -499,7 +472,7 @@ protected:
 
 
 template < typename AppClass, typename DocInterfacePolicy >
-void DocumentManagerImpl<AppClass,DocInterfacePolicy>::init() 
+void DocumentManagerImpl<AppClass,DocInterfacePolicy>::init()
 {
 	app_ = reinterpret_cast<AppClass*>( Application::getRunningInstance() );
 
@@ -513,84 +486,84 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 {
 	Action* action = new Action();
 	action->setName("FileNew");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onNew, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onNew,
 													"onNew" );
 	addAction( DocumentManager::atFileNew, action );
 
 	action = new Action();
-	action->setName("FileOpen");	
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onOpen, 
-													"onOpen" );	
+	action->setName("FileOpen");
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onOpen,
+													"onOpen" );
 	addAction( DocumentManager::atFileOpen, action );
 
 	action = new Action();
 	action->setName("FileSave");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSave, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSave,
 													"onSave" );
 	addAction( DocumentManager::atFileSave, action );
 
 	action = new Action();
 	action->setName("FileSaveAs");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSaveAs, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onSaveAs,
 													"onSaveAs" );
 	addAction( DocumentManager::atFileSaveAs, action );
 
 	action = new Action();
 	action->setName("FileClose");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onClose, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onClose,
 													"onClose" );
 	addAction( DocumentManager::atFileClose, action );
 
 	action = new Action();
 	action->setName("EditUndo");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUndo, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUndo,
 													"onUndo" );
-	action->Update += 
-			new EventHandlerInstance<AppClass,ActionEvent>( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateUndo, 
+	action->Update +=
+			new EventHandlerInstance<AppClass,ActionEvent>( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateUndo,
 													"onUpdateUndo" );
 
 	addAction( DocumentManager::atEditUndo, action );
 
 	action = new Action();
 	action->setName("EditRedo");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onRedo, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onRedo,
 													"onRedo" );
-	action->Update += 
-			new EventHandlerInstance<AppClass,ActionEvent>( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateRedo, 
+	action->Update +=
+			new EventHandlerInstance<AppClass,ActionEvent>( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateRedo,
 													"onUpdateRedo" );
-	
+
 	addAction( DocumentManager::atEditRedo, action );
-	
-	
+
+
 	action = new Action();
 	action->setName("EditCut");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCut, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCut,
 													"onCut" );
-	action->Update += 
-			new EventHandlerInstance<AppClass,ActionEvent>( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCut, 
+	action->Update +=
+			new EventHandlerInstance<AppClass,ActionEvent>( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCut,
 													"onUpdateCut" );
 
 	addAction( DocumentManager::atEditCut, action );
 
 	action = new Action();
 	action->setName("EditCopy");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCopy, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onCopy,
 													"onCopy" );
-	action->Update += 
-			new EventHandlerInstance<AppClass,ActionEvent>( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCopy, 
+	action->Update +=
+			new EventHandlerInstance<AppClass,ActionEvent>( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdateCopy,
 													"onUpdateCopy" );
 
 	addAction( DocumentManager::atEditCopy, action );
@@ -598,25 +571,25 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 
 	action = new Action();
 	action->setName("EditPaste");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPaste, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPaste,
 													"onPaste" );
-	action->Update += 
-			new EventHandlerInstance<AppClass,ActionEvent>( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePaste, 
+	action->Update +=
+			new EventHandlerInstance<AppClass,ActionEvent>( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePaste,
 													"onUpdatePaste" );
 
 	addAction( DocumentManager::atEditPaste, action );
-	
+
 
 	action = new Action();
 	action->setName("EditPreferences");
-	action->Performed += new GenericEventHandler< AppClass >( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPreferences, 
+	action->Performed += new GenericEventHandler< AppClass >( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onPreferences,
 													"onPreferences" );
-	action->Update += 
-			new EventHandlerInstance<AppClass,ActionEvent>( app_, 
-													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePreferences, 
+	action->Update +=
+			new EventHandlerInstance<AppClass,ActionEvent>( app_,
+													&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onUpdatePreferences,
 													"onUpdatePreferences" );
 
 	addAction( DocumentManager::atEditPreferences, action );
@@ -627,9 +600,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 template < typename AppClass, typename DocInterfacePolicy >
 bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc ) {
 	bool result = false;
-	
+
 	if ( NULL == doc ) {
-		
+
 		return false;
 	}
 
@@ -648,7 +621,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 		if ( NULL != info ) {
 			fileType = info->mimetype;
 			fileTypes = info->fileTypes;
-		}			
+		}
 
 		FilePath tmpName;
 		FilePath fp = doc->getFileName();
@@ -659,7 +632,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 			prepareSaveDialog( &saveDialog, doc );
 
 			if ( saveDialog.execute() ) {
-				
+
 				saveDialogFinished( &saveDialog );
 
 				fp = saveDialog.getFileName();
@@ -669,7 +642,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 					selectedFilter.erase( 0, 1 );
 					fp = saveDialog.getFileName() + selectedFilter;
 				}
-				
+
 				doc->setFileName( fp );
 			}
 			else {
@@ -690,7 +663,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 			fileType = fp.getExtension();
 		}
 
-		try {		
+		try {
 			result = doc->saveAsType( doc->getFileName(), fileType );
 		}
 		catch ( BasicException& e) {
@@ -712,7 +685,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile() {
 	Document* doc = DocInterfacePolicy::getCurrentDocument();
-	
+
 	DocManagerEvent event( NULL, DocumentManager::dmOpenDocument );
 	OpenFile.fireEvent( &event );
 	if ( !event.allowFileOperation() ) {
@@ -725,14 +698,14 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile() {
 
 	prepareOpenDialog( &openDialog );
 
-	
-	
+
+
 	if ( openDialog.execute() ) {
-		
+
 		Document* doc = openFromFileName( openDialog.getFileName() );
 
 		openDialogFinished( &openDialog );
-	}		
+	}
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -743,7 +716,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 	removeDocument( currentDoc );
 	DocInterfacePolicy::closeDocument();
 	closingDocument_ = false;
-	removeUndoRedoStackForDocument( currentDoc );	
+	removeUndoRedoStackForDocument( currentDoc );
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -802,16 +775,16 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 
 	EventHandler* docEv = app_->getEventHandler("onDocModified");
 
-	window = getWindowForNewDocument( document, info );	
-	
-	initializeWindowMenus( window, document, info );	
+	window = getWindowForNewDocument( document, info );
 
-	document->setWindow( window );		
-		
+	initializeWindowMenus( window, document, info );
+
+	document->setWindow( window );
+
 	if ( NULL == docEv ) {
-		
-		docEv = new ModelEventHandler< AppClass >( app_, 
-					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocModified, 
+
+		docEv = new ModelEventHandler< AppClass >( app_,
+					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocModified,
 					"onDocModified" );
 	}
 
@@ -825,7 +798,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 		if ( info.window != info.view ) {
 			Object* viewObject = NULL;
 			viewObject = ClassRegistry::createNewInstance( info.view );
-			
+
 			view = dynamic_cast<View*>(viewObject);
 		}
 		else {
@@ -833,19 +806,19 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 		}
 	}
 	else {
-		view = window;			
-	}	
+		view = window;
+	}
 
 	if ( NULL != view ) {
 		document->addView( view );
 
-		if ( view != window ) {	
-			
+		if ( view != window ) {
+
 			setNewView( info, view, window, document );
 		}
 	}
 
-	//need to provide a common place to 
+	//need to provide a common place to
 	//init everything once all the "connections" are in place
 
 	DocInterfacePolicy::afterNewDocument( document );
@@ -857,23 +830,23 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 	EventHandler* newEv = app_->getEventHandler("onDocWindowClosing");
 	if ( NULL == newEv ) {
 
-		newEv = new FrameEventHandler< AppClass >( app_, 
-					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocWindowClosing, 
-					"onDocWindowClosing" );			
+		newEv = new FrameEventHandler< AppClass >( app_,
+					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocWindowClosing,
+					"onDocWindowClosing" );
 	}
 	window->FrameClosing += newEv;
 
-	
+
 	newEv = app_->getEventHandler("onDocWindowActive");
 	if ( NULL == newEv ) {
 
-		newEv = new WindowEventHandler< AppClass >( app_, 
-					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocWindowActive, 
-					"onDocWindowActive" );	
+		newEv = new WindowEventHandler< AppClass >( app_,
+					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocWindowActive,
+					"onDocWindowActive" );
 	}
 
 	window->FrameActivation += newEv;
-		
+
 	window->show();
 
 	document->updateAllViews();
@@ -882,13 +855,13 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const String& mimeType, Document* document )
 {
-	DocumentInfo info = getDocumentInfo( mimeType );	
+	DocumentInfo info = getDocumentInfo( mimeType );
 	Window* window = NULL;
 
 	EventHandler* docEv = app_->getEventHandler("onDocModified");
 
-	
-	if ( DocInterfacePolicy::saveBeforeNewDocument() ) {			 
+
+	if ( DocInterfacePolicy::saveBeforeNewDocument() ) {
 		Document* doc = DocInterfacePolicy::getCurrentDocument();
 		if ( NULL != doc ) {
 			doc->removeModelHandler( docEv );
@@ -911,10 +884,10 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
-Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( const String& mimetype ) 
+Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( const String& mimetype )
 {
 
-	DocumentInfo info = getDocumentInfo( mimetype );	
+	DocumentInfo info = getDocumentInfo( mimetype );
 
 	Window* window = NULL;
 
@@ -936,12 +909,12 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 					}
 				}
 			}
-		}			
+		}
 	}
 
-	Document* newDocument = createDocumentFromType( info );	
+	Document* newDocument = createDocumentFromType( info );
 
-	
+
 	if ( NULL != newDocument ) {
 
 		if ( DocumentManager::getShouldCreateUI() ) {
@@ -959,7 +932,7 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 template < typename AppClass, typename DocInterfacePolicy >
 Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::createDocumentFromType( const DocumentInfo& info ) {
 	Document* result = NULL;
-	
+
 	Class* clazz = NULL;
 	Object* objInstance = NULL;
 	if ( !info.classID.empty() ) {
@@ -968,11 +941,11 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::createDocumentFromTy
 	else {
 		objInstance = ClassRegistry::createNewInstance( info.className );
 	}
-	
+
 	result = dynamic_cast<Document*>( objInstance );
 	if ( NULL == result ) {
 		objInstance->free();
-	}		
+	}
 
 	return result;
 }
@@ -982,11 +955,11 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	standardMenu_ = new MenuBar();
 	MenuItem* root = standardMenu_->getRootMenuItem();
 	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, standardMenu_);
-	
+
 	DefaultMenuItem* fileNew = new DefaultMenuItem( "&New\tCtrl+N", file, standardMenu_);
 	fileNew->setAcceleratorKey( vkLetterN, kmCtrl );
 	fileNew->setTag( DocumentManager::atFileNew );
-	
+
 
 	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...\tCtrl+O", file, standardMenu_);
 	fileOpen->setAcceleratorKey( vkLetterO, kmCtrl );
@@ -1008,7 +981,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	fileSaveAs->setAcceleratorKey( vkLetterS, kmCtrl | kmShift );
 	fileSaveAs->setTag( DocumentManager::atFileSaveAs );
 
-			
+
 	DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, standardMenu_);
 	DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo\tCtrl+Z", edit, standardMenu_);
 	editUndo->setAcceleratorKey( vkLetterZ, kmCtrl  );
@@ -1038,7 +1011,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 
 	DefaultMenuItem* editPreferences = new DefaultMenuItem( "P&references...", edit, standardMenu_);
 	editPreferences->setTag( DocumentManager::atEditPreferences );
-	
+
 
 	if ( NULL != app_ ) {
 
@@ -1052,7 +1025,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 		DocumentManager::getAction( DocumentManager::atEditCut )->addTarget( editCut );
 		DocumentManager::getAction( DocumentManager::atEditCopy )->addTarget( editCopy );
 		DocumentManager::getAction( DocumentManager::atEditPaste )->addTarget( editPaste );
-		DocumentManager::getAction( DocumentManager::atEditPreferences )->addTarget( editPreferences );		
+		DocumentManager::getAction( DocumentManager::atEditPreferences )->addTarget( editPreferences );
 	}
 
 }
@@ -1062,9 +1035,13 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 
 };
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -1234,8 +1211,6 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 */
 
 
-
 #endif // _VCF_DOCUMENTMANAGER_H__
-
 
 

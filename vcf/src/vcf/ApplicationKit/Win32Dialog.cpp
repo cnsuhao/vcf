@@ -1,31 +1,12 @@
+//Win32Dialog.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Dialog.h"
@@ -38,17 +19,17 @@ using namespace VCF;
 
 Win32Dialog::Win32Dialog():
 	Win32Window()
-{	
+{
 	owner_ = NULL;
-	dialogComponent_ = NULL;	
+	dialogComponent_ = NULL;
 }
 
 
 Win32Dialog::Win32Dialog( Control* owner, Dialog* component ):
 	Win32Window( component, owner )
-{		
-	owner_ = owner;		
-	dialogComponent_ = component;	
+{
+	owner_ = owner;
+	dialogComponent_ = component;
 }
 
 
@@ -58,8 +39,8 @@ Win32Dialog::~Win32Dialog()
 }
 
 void Win32Dialog::init()
-{	
-	createParams();	
+{
+	createParams();
 }
 
 void Win32Dialog::create( Control* owningControl )
@@ -78,43 +59,43 @@ void Win32Dialog::create( Control* owningControl )
 
 		parent = (HWND)owner_->getPeer()->getHandleID();
 	}
-	
+
 	if ( styleMask_ & WS_VISIBLE ) {
 		styleMask_ &= ~WS_VISIBLE;
-	}	
-	
+	}
+
 
 	String caption = dialogComponent_->getCaption();
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_, 
-		                             className.c_str(), 
-									 caption.c_str(),	
-									 styleMask_, 
-		                             0,//bounds_.left_, 
-									 0,//bounds_.top_, 
-									 0,//bounds_.getWidth(), 
-									 0,//bounds_.getHeight(), 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandleW(NULL), 
+		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		                             className.c_str(),
+									 caption.c_str(),
+									 styleMask_,
+		                             0,//bounds_.left_,
+									 0,//bounds_.top_,
+									 0,//bounds_.getWidth(),
+									 0,//bounds_.getHeight(),
+									 parent,
+									 NULL,
+									 ::GetModuleHandleW(NULL),
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_, 
-		                             className.ansi_c_str(), 
-									 caption.ansi_c_str(),	
-									 styleMask_, 
-		                             0,//bounds_.left_, 
-									 0,//bounds_.top_, 
-									 0,//bounds_.getWidth(), 
-									 0,//bounds_.getHeight(), 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandleA(NULL), 
+		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		                             className.ansi_c_str(),
+									 caption.ansi_c_str(),
+									 styleMask_,
+		                             0,//bounds_.left_,
+									 0,//bounds_.top_,
+									 0,//bounds_.getWidth(),
+									 0,//bounds_.getHeight(),
+									 parent,
+									 NULL,
+									 ::GetModuleHandleA(NULL),
 									 NULL );
 	}
-	
+
 
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
@@ -124,12 +105,12 @@ void Win32Dialog::create( Control* owningControl )
 			::RemoveMenu ( sysMenu, SC_MINIMIZE, MF_BYCOMMAND );
 			::RemoveMenu ( sysMenu, SC_RESTORE, MF_BYCOMMAND );
 			//::RemoveMenu ( sysMenu, SC_SIZE, MF_BYCOMMAND );
-			
+
 		}
 
 
 		DWORD style = ::GetWindowLong( hwnd_, GWL_STYLE );
-			
+
 
 			if ( style & WS_MINIMIZEBOX ) {
 				style &= ~WS_MINIMIZEBOX;
@@ -140,14 +121,14 @@ void Win32Dialog::create( Control* owningControl )
 			}
 			::SetWindowLong( hwnd_, GWL_STYLE, style );
 			::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
-		
+
 	}
 	setCreated( true );
 }
 
 void Win32Dialog::createParams()
-{		
-	//WS_CLIPCHILDREN was added to fix bug 585239: Painting weirdness in a modal dialog 
+{
+	//WS_CLIPCHILDREN was added to fix bug 585239: Painting weirdness in a modal dialog
 	styleMask_ = WS_POPUPWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | /*WS_OVERLAPPED | *//*WS_DLGFRAME |*/ DS_MODALFRAME | DS_3DLOOK;
 	exStyleMask_ = WS_EX_RIGHTSCROLLBAR | WS_EX_WINDOWEDGE | WS_EX_DLGMODALFRAME | WS_EX_CONTEXTHELP;
 
@@ -160,7 +141,7 @@ LRESULT Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 	LRESULT result = 0;
 
 	switch ( message ) {
-		
+
 		case WM_SHOWWINDOW :  {
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
@@ -174,7 +155,7 @@ LRESULT Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			if ( style & WS_MAXIMIZEBOX ) {
 				style &= ~WS_MAXIMIZEBOX;
 			}
-			
+
 			if ( tmp != style ) {
 				::SetWindowLong( hwnd_, GWL_STYLE, style );
 				::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
@@ -188,9 +169,9 @@ LRESULT Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			if ( true == dlg->isModal() ) {
 				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
 				VirtualKeyCode vkCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
-				
+
 				if ( vkCode == vkEscape ) {
-					
+
 					PostMessage( hwnd_, WM_CLOSE, 0, 0 );
 				}
 			}
@@ -199,14 +180,14 @@ LRESULT Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 		case WM_CLOSE:{
 			Dialog* dlg = (Dialog*)peerControl_;
-			
+
 			if ( dlg->allowClose() ) {
-				
+
 				VCF::WindowEvent event( dlg, WINDOW_EVENT_CLOSE );
-				
-				
+
+
 				dlg->FrameClose.fireEvent( &event );
-				
+
 				if ( dlg->isModal() ) {
 					if ( NULL != dlg->getOwner() ) {
 						dlg->getOwner()->setEnabled( true );
@@ -219,9 +200,9 @@ LRESULT Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 					}
 				}
 
-				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );				
-			}		
-			
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			}
+
 		}
 		break;
 
@@ -243,9 +224,9 @@ LRESULT Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 void Win32Dialog::showMessage( const String& message, const String& caption )
 {
 	HWND activeWnd = GetActiveWindow();
-	
+
 	String tmp = caption;
-	
+
 	if ( tmp == "" ){
 		TCHAR modFilename[MAX_PATH];
 		memset(modFilename, 0, MAX_PATH );
@@ -261,65 +242,65 @@ void Win32Dialog::showMessage( const String& message, const String& caption )
 	else {
 		MessageBoxA( activeWnd, message.ansi_c_str(), tmp.ansi_c_str(), MB_OK );
 	}
-	
+
 }
 
-UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, const String& caption, 
+UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, const String& caption,
 												 const long& messageButtons, const Dialog::MessageStyle& messageStyle )
 {
 	UIToolkit::ModalReturnType result = UIToolkit::mrNone;
-	
+
 	UINT mbStyle = 0;
 	switch ( messageStyle ){
 		case Dialog::msDefault: {
-			
+
 		}
 		break;
 
 		case Dialog::msError: {
-			mbStyle = MB_ICONERROR;	
+			mbStyle = MB_ICONERROR;
 		}
-		break; 
+		break;
 
 		case Dialog::msInfo: {
-			mbStyle = MB_ICONINFORMATION;	
+			mbStyle = MB_ICONINFORMATION;
 		}
 		break;
 
 		case Dialog::msWarning: {
-			mbStyle = MB_ICONWARNING;	
+			mbStyle = MB_ICONWARNING;
 		}
 		break;
 	}
 
 	if ( messageButtons & Dialog::mbOK ) {
-		mbStyle |= MB_OK;	
+		mbStyle |= MB_OK;
 	}
 	else if ( messageButtons & Dialog::mbOKCancel ) {
-		mbStyle |= MB_OKCANCEL;	
+		mbStyle |= MB_OKCANCEL;
 	}
 	else if ( messageButtons & Dialog::mbYesNo ) {
-		mbStyle |= MB_YESNO;	
+		mbStyle |= MB_YESNO;
 	}
 	else if ( messageButtons & Dialog::mbYesNoCancel ) {
-		mbStyle |= MB_YESNOCANCEL;	
+		mbStyle |= MB_YESNOCANCEL;
 	}
 	else if ( messageButtons & Dialog::mbRetryCancel ) {
-		mbStyle |= MB_RETRYCANCEL;	
+		mbStyle |= MB_RETRYCANCEL;
 	}
 	else if ( messageButtons & Dialog::mbAbortRetryIgnore ) {
-		mbStyle |= MB_ABORTRETRYIGNORE;	
+		mbStyle |= MB_ABORTRETRYIGNORE;
 	}
 
 	if ( messageButtons & Dialog::mbHelp ) {
-		mbStyle |= MB_HELP;	
+		mbStyle |= MB_HELP;
 	}
 
 
 	HWND activeWnd = GetActiveWindow();
-	
+
 	String tmp = caption;
-	
+
 	if ( tmp == "" ){
 		TCHAR modFilename[MAX_PATH];
 		memset(modFilename, 0, MAX_PATH );
@@ -336,7 +317,7 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 	else {
 		returnVal = ::MessageBoxA( activeWnd, message.ansi_c_str(), tmp.ansi_c_str(), mbStyle );
 	}
-	
+
 
 	switch ( returnVal ){
 		case IDABORT:{
@@ -350,7 +331,7 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 		break;
 		/*
 		case IDCONTINUE:{
-			
+
 		}
 		break;
 		*/
@@ -375,7 +356,7 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 		break;
 		/*
 		case IDTRYAGAIN:{
-			
+
 		}
 		break;
 		*/
@@ -389,11 +370,12 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 }
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *

@@ -1,8 +1,17 @@
-
 #ifndef _VCF_GTKCONTROL_H__
 #define _VCF_GTKCONTROL_H__
+//GTKControl.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_ABSTRACTGTKCONTROL_H__
@@ -17,26 +26,30 @@ namespace VCF {
 /**
 
 */
-class GTKControl : public AbstractGTKControl { 
+class GTKControl : public AbstractGTKControl {
 public:
 
 	GTKControl( Control* control );
 
-	virtual ~GTKControl();	
-	
+	virtual ~GTKControl();
+
 	virtual void create( Control* owningControl );
 
 protected:
-	
-};
-
-
 
 };
+
+
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -104,7 +117,6 @@ protected:
 *for the basic peers.
 *
 */
-
 
 
 #endif // _VCF_GTKCONTROL_H__

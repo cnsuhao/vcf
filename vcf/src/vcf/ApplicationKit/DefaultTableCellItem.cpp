@@ -1,33 +1,10 @@
+//DefaultTableCellItem.cpp
 
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -118,9 +95,9 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 				}
 			}
 		}
-		
-		
-		border.paint( &bounds_, context );		
+
+
+		border.paint( &bounds_, context );
 		f->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT ) );
 
 		bounds_.inflate( -1, -1 );
@@ -128,17 +105,17 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 	}
 	else {
 		Rect tmp(bounds_);
-		
+
 		if ( isSelected() ){
 			context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION ) );
 			f->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT ) );
 		}
 		else {
 			f->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT ) );
-			context->setColor( &Color(1.0,1.0,1.0) );			
+			context->setColor( &Color(1.0,1.0,1.0) );
 		}
-		
-		
+
+
 		context->rectangle( &tmp );
 		context->fillPath();
 
@@ -147,20 +124,20 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 		}
 
 	}
-	
+
 	double x = paintRect->left_ + 5;
-	
-	
-	
+
+
+
 	double y = paintRect->top_ + ((paintRect->getHeight() / 2) - (f->getPixelSize()/2));
 
-	Rect textRect( x, y, paintRect->right_, paintRect->bottom_ ); 
+	Rect textRect( x, y, paintRect->right_, paintRect->bottom_ );
 	textRect.inflate( -1, -1 );
 	long options = GraphicsContext::tdoCenterVertAlign;
 	options |= GraphicsContext::tdoLeftAlign;
 
 	bool bold = f->getBold();
-	if ( isFixed() ){		
+	if ( isFixed() ){
 		f->setBold( true );
 	}
 
@@ -176,11 +153,11 @@ void DefaultTableCellItem::setSelected( const bool& val )
 	bool changed = (val != isSelected());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tisSelected ); 
+			setState( state_ | TableCellItem::tisSelected );
 		}
 		else {
 			setState( state_ & ~TableCellItem::tisSelected );
-		}	
+		}
 	}
 }
 
@@ -189,7 +166,7 @@ void DefaultTableCellItem::setFixed( const bool& val )
 	bool changed = (val != isFixed());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tcsFixed ); 
+			setState( state_ | TableCellItem::tcsFixed );
 		}
 		else {
 			setState( state_ & ~TableCellItem::tcsFixed );
@@ -202,7 +179,7 @@ void DefaultTableCellItem::setReadonly( const bool& val )
 	bool changed = (val != isReadonly());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tisReadonly ); 
+			setState( state_ | TableCellItem::tisReadonly );
 		}
 		else {
 			setState( state_ & ~TableCellItem::tisReadonly );
@@ -215,7 +192,7 @@ void DefaultTableCellItem::setFocused( const bool& val )
 	bool changed = (val != isFocused());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tcsFocused ); 
+			setState( state_ | TableCellItem::tcsFocused );
 		}
 		else {
 			setState( state_ & ~TableCellItem::tcsFocused );
@@ -228,7 +205,7 @@ void DefaultTableCellItem::setDropHighlighted( const bool& val )
 	bool changed = (val != isFocused());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tcsDropHighlighted ); 
+			setState( state_ | TableCellItem::tcsDropHighlighted );
 		}
 		else {
 			setState( state_ & ~TableCellItem::tcsDropHighlighted );
@@ -264,7 +241,7 @@ bool DefaultTableCellItem::isItemEditable(){
 	}
 	return result;
 }
-*/	
+*/
 
 
 
@@ -285,7 +262,7 @@ void DefaultTableCellItem::setImageIndex( const long& imageIndex )
 	imageIndex_ = imageIndex;
 }
 
-void DefaultTableCellItem::setBounds( Rect* bounds ) 
+void DefaultTableCellItem::setBounds( Rect* bounds )
 {
 	bounds_ = *bounds;
 }
@@ -294,6 +271,9 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -412,3 +392,5 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 *to facilitate change tracking
 *
 */
+
+

@@ -1,33 +1,12 @@
+//Win32ToolKit.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32ToolKit.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32ToolKit.h"
@@ -63,7 +42,7 @@
 
 
 #ifdef _LIB
-    /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to 
+    /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
        link the Win32HTMLBrowser_StaticLib, but also he will not have to
        link to it either if is not using it in any of his projects */
 #	ifdef USE_WIN32HTMLBROWSER_LIB
@@ -75,7 +54,7 @@
 // Win32HTMLBrowser will be loaded at runtime
 #	define RUNTIME_LOADLIBRARY
 #	pragma message ( "Win32HTMLBrowser linked dynamically" )
-#endif 
+#endif
 
 
 
@@ -117,7 +96,7 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		break;
 
 		case DLL_PROCESS_DETACH:  {
-			
+
 		}
 		break;
     }
@@ -135,17 +114,17 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 class Win32UIPolicyManager : public UIPolicyManager {
 public:
 	Win32UIPolicyManager() {
-		
+
 	}
 
 	virtual ~Win32UIPolicyManager() {
-		
+
 	}
 
 	virtual void mergeMenus( Menu* appMenu, Menu* windowMenu ) {
 		MenuItem* windowRoot = windowMenu->getRootMenuItem();
 		MenuItem* appRoot = appMenu->getRootMenuItem();
-		
+
 		Enumerator<MenuItem*>* appChildren = appRoot->getChildren();
 		while ( appChildren->hasMoreElements() ) {
 			MenuItem* child = appChildren->nextElement();
@@ -168,13 +147,13 @@ public:
 				}
 			}
 			copyMenuItems( child, matchingChild );
-			
+
 		}
 	}
 
 protected:
 
-	void copyMenuItems( MenuItem* appItem, MenuItem* windowItem ) {		
+	void copyMenuItems( MenuItem* appItem, MenuItem* windowItem ) {
 
 		Enumerator<MenuItem*>* appChildren = appItem->getChildren();
 		while ( appChildren->hasMoreElements() ) {
@@ -187,20 +166,20 @@ protected:
 
 					//new DefaultMenuItem( child->getCaption(), windowItem, windowItem->getMenuOwner() );
 				//we need to be able to copy over event handlers??? HOW ?????
-				
+
 			}
 		}
 	}
 
 
 	MenuItem* getMatchingMenuItem( MenuItem* appItem, MenuItem* windowItemToSearch ) {
-		MenuItem* result = NULL;		
+		MenuItem* result = NULL;
 
 		Enumerator<MenuItem*>* children = windowItemToSearch->getChildren();
 		while ( children->hasMoreElements() ) {
-			
 
-			MenuItem* child = children->nextElement();			
+
+			MenuItem* child = children->nextElement();
 
 			if ( (child->getCaption() == appItem->getCaption()) && (!child->isSeparator()) ) {
 				result = child;
@@ -215,7 +194,7 @@ protected:
 				break;
 			}
 		}
-		
+
 		return result;
 	}
 };
@@ -240,13 +219,13 @@ public:
 
 
 			old = (HFONT)SelectObject(dc, hf );
-			
+
 			TEXTMETRICW tm;
 			GetTextMetricsW( dc, &tm );
 			baseUnitY = tm.tmHeight;
 			SIZE sz;
-			::GetTextExtentPointW( dc, 
-								L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 
+			::GetTextExtentPointW( dc,
+								L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
 								52, &sz );
 
 			cx = sz.cx;
@@ -256,30 +235,30 @@ public:
 			hf = ::CreateFontIndirectA( lf );
 
 			old = (HFONT)SelectObject(dc, hf );
-			
+
 			TEXTMETRICA tm;
 			GetTextMetricsA( dc, &tm );
 			baseUnitY = tm.tmHeight;
 			SIZE sz;
-			::GetTextExtentPointA( dc, 
-								"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 
+			::GetTextExtentPointA( dc,
+								"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
 								52, &sz );
 
 			cx = sz.cx;
 		}
-		
-		
 
-		
+
+
+
 		double baseUnitX = (cx / 26.0 + 1.0) / 2.0;
 
 		result.x_ = (dlu.x_ * baseUnitX) / 4.0;
-		result.y_  = (dlu.y_ * baseUnitY) / 8.0;		
-		
+		result.y_  = (dlu.y_ * baseUnitY) / 8.0;
+
 		SelectObject(dc, old );
 		DeleteObject( hf );
 		ReleaseDC( ::GetDesktopWindow(), dc );
-		
+
 
 		return result;
 	}
@@ -325,7 +304,7 @@ public:
 			case UIMetricsManager::ftControlFont :  case UIMetricsManager::ftSystemFont : {
 				//do nothing the Win32Font already is initialized ot this by default
 			}
-			break;			
+			break;
 
 			case UIMetricsManager::ftMessageFont : {
 				if ( SystemParametersInfoA( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 ) ) {
@@ -358,13 +337,13 @@ public:
 
 		return result;
 	}
-	
+
 	virtual double getDefaultHeightFor( const UIMetricsManager::HeightType& type )  {
 		double result = 0.0;
 		switch ( type ) {
 			case UIMetricsManager::htLabelHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.75; 
+				result = f.getHeight() * 1.75;
 			}
 			break;
 
@@ -384,8 +363,8 @@ public:
 
 			case UIMetricsManager::htButtonHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (f.getHeight() * 1.75) + 2.50; 
-				
+				result = (f.getHeight() * 1.75) + 2.50;
+
 				Point pt = DLUToPixel( Point(0,15), f );
 				result = pt.y_;
 			}
@@ -393,13 +372,13 @@ public:
 
 			case UIMetricsManager::htRadioBoxHeight : case UIMetricsManager::htCheckBoxHeight : {
 				//in Win32 a radio box or check box is ALWAYS 10 dialog units high
-				//dialog units are converted by 
+				//dialog units are converted by
 				//(2 * average char height dialog font / average char height system font pixels
 				//where average char height dialog font = TEXTMETRIC.tmHeight field or a Font::getHeight()
 
 
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (9.0 * ((2.0 * f.getHeight()) / f.getHeight())) - 4.0;//0.590909; 
+				result = (9.0 * ((2.0 * f.getHeight()) / f.getHeight())) - 4.0;//0.590909;
 
 
 				Point pt = DLUToPixel( Point(0,9), f );
@@ -409,7 +388,7 @@ public:
 
 			case UIMetricsManager::htToolTipHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftToolTipFont );
-				result = f.getHeight() * 1.2222; 
+				result = f.getHeight() * 1.2222;
 			}
 			break;
 
@@ -421,18 +400,18 @@ public:
 			case UIMetricsManager::htInformationalControl : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
 				Point pt = DLUToPixel( Point(0,11), f );
-				result = pt.y_;//f.getHeight() * 1.75; 
+				result = pt.y_;//f.getHeight() * 1.75;
 			}
 			break;
 		}
 		return result;
 
 	}
-	
-	virtual double getPreferredSpacingFor( const UIMetricsManager::SpacingType& type )  {
-		double result = 0.0;		
 
-		//values largely derived from the Apple HIG at 
+	virtual double getPreferredSpacingFor( const UIMetricsManager::SpacingType& type )  {
+		double result = 0.0;
+
+		//values largely derived from the Apple HIG at
 		//http://developer.apple.com/techpubs/macosx/Essentials/AquaHIGuidelines/AHIGLayout/index.html
 		switch ( type ) {
 			case UIMetricsManager::stWindowBorderDelta : {
@@ -481,7 +460,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultSliderThumbDimensions()  {
 		Size result;
 
@@ -490,7 +469,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultMenuItemDimensions( const String& caption )  {
 		Size result;
 
@@ -501,7 +480,7 @@ public:
 		if ( NULL != menuHFont ) {
 			HDC dc = ::CreateCompatibleDC( NULL );// screen DC--I won't actually draw on it
 			HFONT oldFont = (HFONT)SelectObject( dc, menuHFont );
-			RECT rcText = {0,0,0,0};						
+			RECT rcText = {0,0,0,0};
 			if ( System::isUnicodeEnabled() ) {
 				::DrawTextW( dc, caption.c_str(), caption.size(), &rcText, DT_SINGLELINE|DT_LEFT|DT_VCENTER|DT_CALCRECT);
 			}
@@ -509,38 +488,38 @@ public:
 				AnsiString tmp = caption;
 				::DrawTextA( dc, tmp.c_str(), tmp.size(), &rcText, DT_SINGLELINE|DT_LEFT|DT_VCENTER|DT_CALCRECT);
 			}
-			
-			
+
+
 			SelectObject( dc, oldFont );
-			
+
 			// height of item is just height of a standard menu item
 			result.height_ = __max( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
-			
+
 			const int CXGAP = 1;		// num pixels between button and text
 			const int CXTEXTMARGIN = 2;		// num pixels after hilite to start text
 			const int CXBUTTONMARGIN = 2;		// num pixels wider button is than bitmap
 			const int CYBUTTONMARGIN = 2;		// ditto for height
 
 			// width is width of text plus a bunch of stuff
-			int cx = rcText.right - rcText.left;	// text width 
+			int cx = rcText.right - rcText.left;	// text width
 			cx += CXTEXTMARGIN << 1;		// L/R margin for readability
 			cx += CXGAP;					// space between button and menu text
-			
+
 			//cx += szButton_.cx<<1;		// button width (L=button; R=empty margin)
-			
+
 			// whatever value I return in lpms->itemWidth, Windows will add the
 			// width of a menu checkmark, so I must subtract to defeat Windows. Argh.
 			//
 			cx += GetSystemMetrics(SM_CXMENUCHECK)-1;
-			result.width_ = cx;		// done deal	
-			
+			result.width_ = cx;		// done deal
+
 			::DeleteObject( menuHFont );
 			::DeleteDC( dc );
-		}		
+		}
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultVerticalScrollButtonDimensions()  {
 		Size result;
 
@@ -553,7 +532,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultHorizontalScrollButtonDimensions()  {
 		Size result;
 
@@ -562,7 +541,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultTabDimensions( const String& caption )  {
 		Size result;
 
@@ -587,21 +566,21 @@ public:
 	Win32PostEventRecord( EventHandler* handler, Event* event, bool deleteHandler ) {
 		handler_ = handler;
 		event_ = event;
-		deleteHandler_ = deleteHandler;		
+		deleteHandler_ = deleteHandler;
 	}
 
 	virtual ~Win32PostEventRecord() {
 		delete event_;
 		event_ = NULL;
 		if ( true == deleteHandler_ ) {
-			delete handler_;			
+			delete handler_;
 		}
 		handler_ = NULL;
 	}
 
 	EventHandler* handler_;
 	Event* event_;
-	bool deleteHandler_;	
+	bool deleteHandler_;
 };
 
 
@@ -610,15 +589,15 @@ public:
 class Win32ToolTip : public Window {
 public:
 	Win32ToolTip() {
-		Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::internal_getDefaultUIToolkit();		
+		Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::internal_getDefaultUIToolkit();
 
 		setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP ) );
 		getFont()->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP_TEXT ) );
 		setFrameStyle( fstNoBorderFixed );
 		setFrameTopmost( true );
 		//setBounds( &Rect(200, 200, 400, 235 ) );
-		
-	};	
+
+	};
 
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
@@ -627,8 +606,8 @@ public:
 		ctx->rectangle( &r );
 		ctx->strokePath();
 		ctx->setCurrentFont( getFont() );
-		ctx->textAt( (r.getWidth()/2.0) - (ctx->getTextWidth(getCaption())/2.0), 
-						(r.getHeight()/2.0) - (ctx->getTextHeight("EM")/2.0 + 1), 
+		ctx->textAt( (r.getWidth()/2.0) - (ctx->getTextWidth(getCaption())/2.0),
+						(r.getHeight()/2.0) - (ctx->getTextHeight("EM")/2.0 + 1),
 						getCaption() );
 	}
 
@@ -650,20 +629,20 @@ public:
 	ToolTipWatcher() {
 		currentControlWithTooltip_ = NULL;
 
-		toolTip_ = NULL;		
+		toolTip_ = NULL;
 
 		if ( NULL == toolTip_ ) {
 			toolTip_ = new Win32ToolTip();
-			
+
 			//toolTip_->setVisible( false );
-			toolTip_->FrameActivation.addHandler( new WindowEventHandler<ToolTipWatcher>( this, 
+			toolTip_->FrameActivation.addHandler( new WindowEventHandler<ToolTipWatcher>( this,
 													ToolTipWatcher::onToolTipLostFocus,
 													"toolTipWatcherHandler" ) );
-			
+
 			Frame* f = Window::getActiveFrame();
 			//toolTip_->setParent( f );
 		}
-		
+
 	}
 
 	virtual ~ToolTipWatcher() {
@@ -671,10 +650,10 @@ public:
 			toolTip_->free();
 		}
 	}
-	
+
 	Control* getActualToolTipControl( Control* control, Point* pt ) {
 		Control* result = NULL;
-		
+
 		Container* container = control->getContainer();
 		if ( NULL != container ) {
 			Enumerator<Control*>* children = container->getChildren();
@@ -698,14 +677,14 @@ public:
 			}
 		}
 		else {
-			result = control;			
+			result = control;
 		}
-		
+
 		return result;
 	}
 
 	void showTooltip( Control* control, Point* pt ) {
-		
+
 
 		//pt is in screen coordinates
 		Point tmpPt = *pt;
@@ -716,13 +695,13 @@ public:
 			return;// nothing to do
 		}
 
-		
-		String tooltip = actualToolTipControl->getToolTipText();		
-		
-		ToolTipEvent tooltipEvent( actualToolTipControl, 0 ); 
+
+		String tooltip = actualToolTipControl->getToolTipText();
+
+		ToolTipEvent tooltipEvent( actualToolTipControl, 0 );
 		tooltipEvent.setToolTipLocation( pt );
 		tooltipEvent.setCustomTooltipContext( toolTip_->getContext() );
-		Size sz;		
+		Size sz;
 		tooltipEvent.setToolTipSize( &sz );
 
 		if ( true == tooltip.empty() ) {
@@ -737,16 +716,16 @@ public:
 		}
 
 		if ( false == tooltip.empty() ) {
-			
+
 			actualToolTipControl->ToolTip.fireEvent( &tooltipEvent );
 			Point tmpPt = *tooltipEvent.getToolTipLocation();
 
-			
+
 
 			toolTip_->setLeft( tmpPt.x_ );
 			toolTip_->setTop( tmpPt.y_ );
 
-			sz = *tooltipEvent.getToolTipSize();	
+			sz = *tooltipEvent.getToolTipSize();
 			if ( sz.height_ > 0.0 ) {
 				toolTip_->setHeight( sz.height_ );
 			}
@@ -764,8 +743,8 @@ public:
 			if ( toolTip_->getParent() == NULL ) {
 				//toolTip_->setParent(  );
 			}
-			
-			toolTip_->setCaption( tooltip );			
+
+			toolTip_->setCaption( tooltip );
 			toolTip_->show();
 			//toolTip_->setFrameTopmost( true );
 			currentControlWithTooltip_ = actualToolTipControl;
@@ -774,8 +753,8 @@ public:
 
 	void onToolTipLostFocus( WindowEvent* e ) {
 		Window* w = (Window*)e->getSource();
-		
-		
+
+
 		if ( false == w->isActive() ) {
 			w->hide();
 		}
@@ -793,49 +772,49 @@ LRESULT CALLBACK ToolKitHookWndProc( int nCode, WPARAM wParam, LPARAM lParam );
 
 /**
 *this is a weird case that Win32 gives us, so here's the deal:
-*A hidden dummy window, whose parent is the Desktop, is created and made 
+*A hidden dummy window, whose parent is the Desktop, is created and made
 *available as a temporary parent to Peers before the created window is actually
-*hooked into into the real parent. What seems to happen with the common controls 
-*is the first parent hwnd sent in to the control when it is first created is the 
+*hooked into into the real parent. What seems to happen with the common controls
+*is the first parent hwnd sent in to the control when it is first created is the
 *one to which all future WM_NOTIFY messages are sent to. This is fine and well if
 *you are writing a big fat SDK switch statement (like the one you're looking at now :),
-*but really sucks if you have your code broken up into a well organized 
-*framework (like I am attempting to build here ! ). What this means is 
+*but really sucks if you have your code broken up into a well organized
+*framework (like I am attempting to build here ! ). What this means is
 *that Control objects can never handle their own notifications!
-*So the code below exists to route those messages back to the child Win32Object 
-*where they are handled. So to facilitate this we'll do our processing here 
-*(which at the moment is nothing) and then pass the message right back to the 
+*So the code below exists to route those messages back to the child Win32Object
+*where they are handled. So to facilitate this we'll do our processing here
+*(which at the moment is nothing) and then pass the message right back to the
 *child that sent it !
-*First the lParam is typecasted into a NMHDR structure. This gives us access to 
-*the hwnd and hopefully the Win32Object. If we have a valid Win32Object then we 
-*call the Win32Object::handleEventMessages(), passing the NMHDR.code field as the 
+*First the lParam is typecasted into a NMHDR structure. This gives us access to
+*the hwnd and hopefully the Win32Object. If we have a valid Win32Object then we
+*call the Win32Object::handleEventMessages(), passing the NMHDR.code field as the
 *reflected window message, the original wParam, which gets ignored anyways, and
 *the original lParam, which upon arriving back at the child control will again
-*get typcast back to some other notification structure. 
+*get typcast back to some other notification structure.
 *PS: Yes, this is one of the biggest hacks I've seen  ;-)
 *PPS This also works for WM_COMMAND messages as well
 */
 LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = 0;
-	switch ( message ){			
+	switch ( message ){
 
 		case WM_ACTIVATEAPP: {
 
-			BOOL fActive = (BOOL) wParam;			
+			BOOL fActive = (BOOL) wParam;
 
 			/**
 			this is a total hack to get around the fact that if I create the dummyParentWnd_
 			with a WS_CHILD style it causes a WM_NCACTIVATE with a active=0 to teh new popup
-			window, which de-activates the caption bar and focus. However if I change the 
+			window, which de-activates the caption bar and focus. However if I change the
 			creation style to WS_POPUP it avoids the above, but then any time a popup window
 			(like that of the ComboBox popup) is created it causes the main parent window to
 			lose focus. So...create the dummyParentWnd_ with a WS_POPUP style to avoid the first
 			goof, and then switch it back to a WS_CHILD style here to avoid the other goof.
 			Of course, ideally it would be nice to never get either goof, but...
 			*/
-			static bool changeStyle = true; 
-			
+			static bool changeStyle = true;
+
 			if ( changeStyle ) {
 				Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 				long style = ::GetWindowLong( toolkit->dummyParentWnd_, GWL_STYLE );
@@ -850,8 +829,8 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 			if ( fActive ) {
 
-				ToolTipTimerID = ::SetTimer( hWnd, TOOLTIP_TIMERID, 500, NULL );		
-				Frame* activeFrame = Frame::getActiveFrame();				
+				ToolTipTimerID = ::SetTimer( hWnd, TOOLTIP_TIMERID, 500, NULL );
+				Frame* activeFrame = Frame::getActiveFrame();
 
 				if ( NULL != activeFrame ) {
 					activeFrame->activate();
@@ -861,26 +840,26 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				::KillTimer( hWnd, TOOLTIP_TIMERID );
 
 				//StringUtils::traceWithArgs( "activeFrame: %s\n", activeFrame->toString().c_str() );
-				//Frame* activeFrame = Frame::getActiveFrame();				
+				//Frame* activeFrame = Frame::getActiveFrame();
 				//Frame::setActiveFrame( NULL );
-				//if ( NULL != activeFrame ) {					
+				//if ( NULL != activeFrame ) {
 				//	if ( activeFrame->getComponentState() == CS_NORMAL ) {
-				//		VCF::WindowEvent event( activeFrame, Frame::ACTIVATION_EVENT );		
+				//		VCF::WindowEvent event( activeFrame, Frame::ACTIVATION_EVENT );
 				//		activeFrame->FrameActivation.fireEvent( &event );
 				//	}
 				//}
-				
+
 			}
 		}
 		break;
 
-		case WM_CREATE:	{			
-			
+		case WM_CREATE:	{
+
 		}
 		break;
 
-		case WM_TIMER:	{		
-			
+		case WM_TIMER:	{
+
 			UINT wTimerID = wParam;
 			if ( ToolTipTimerID == wTimerID ) {
 				POINT pt = {0,0};
@@ -895,24 +874,24 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 						HWND childWnd = ChildWindowFromPointEx( hwndCursorIsOver, pt, CWP_SKIPINVISIBLE );
 						if ( childWnd != NULL ) {
 							ClientToScreen( hwndCursorIsOver, &pt );
-							
+
 							hwndCursorIsOver = childWnd;
 
 							ScreenToClient( hwndCursorIsOver, &pt );
 						}
-						
+
 						if ( FALSE != IsWindow( hwndCursorIsOver ) ) {
 							Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCursorIsOver );
-							
+
 							if ( NULL != win32Obj ) {
-								
+
 								if ( NULL != toolTipWatcher->toolTip_ ) {
 									if ( (HWND)toolTipWatcher->toolTip_->getPeer()->getHandleID() == hwndCursorIsOver ) {
 										break;
 									}
 								}
 								tmpPt.y_ += (::GetSystemMetrics( SM_CYCURSOR )*0.66);
-								
+
 								if ( (toolTipWatcher->checkPt_.x_ == tmpPt.x_) && (toolTipWatcher->checkPt_.y_ == tmpPt.y_) ) {
 									toolTipWatcher->showTooltip( win32Obj->getPeerControl(), &tmpPt );
 									ToolTipTimoutTimerID = ::SetTimer( hWnd, TOOLTIP_TIMEOUT_TIMERID, 5000, NULL );
@@ -926,20 +905,20 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 						}
 					}
 					toolTipWatcher->checkPt_ = tmpPt;
-				}				
+				}
 			}
-			
+
 			else if ( ToolTipTimoutTimerID == wTimerID ) {
 				::KillTimer( hWnd, TOOLTIP_TIMEOUT_TIMERID );
-				
+
 				if ( NULL != toolTipWatcher->toolTip_ ) {
 					toolTipWatcher->toolTip_->hide();
 				}
-				
+
 			}
 			else {
 				//we may have a registered timer to look for
-				Win32ToolKit::TimerRec* timerRec = 
+				Win32ToolKit::TimerRec* timerRec =
 					((Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit())->findTimerRec( wTimerID );
 
 				if ( NULL != timerRec ) {
@@ -951,7 +930,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		}
 		break;
 
-		case WM_DESTROY:	{					
+		case WM_DESTROY:	{
 			::KillTimer( hWnd, TOOLTIP_TIMERID );
 			delete toolTipWatcher;
 			if ( System::isUnicodeEnabled() ) {
@@ -963,7 +942,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		}
 		break;
 
-		case WM_NOTIFY:{			
+		case WM_NOTIFY:{
 			NMHDR* notificationHdr = (LPNMHDR)lParam;
 
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
@@ -988,7 +967,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		break;
 
 		case WM_COMMAND:{
-			
+
 			HWND hwndCtl = (HWND) lParam;
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 			if ( NULL != win32Obj ){
@@ -1013,7 +992,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				if ( NULL != win32Obj ){
 					result = win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam );
 				}
-				else {					
+				else {
 					if ( System::isUnicodeEnabled() ) {
 						result =  DefWindowProcW( hWnd, message, wParam, lParam );
 					}
@@ -1034,8 +1013,8 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		break;
 		/*
 		case WM_CTLCOLOREDIT : case WM_CTLCOLORBTN: case WM_CTLCOLORLISTBOX: {
-			
-			HWND hwndCtl = (HWND) lParam; // handle to static control 
+
+			HWND hwndCtl = (HWND) lParam; // handle to static control
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 			if ( NULL != win32Obj ){
 				result = win32Obj->handleEventMessages( message, wParam, lParam );
@@ -1049,8 +1028,8 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		default : {
 			if ( VCF_POST_EVENT == message ) {
 				Win32PostEventRecord* postedRecord = (Win32PostEventRecord*)lParam;
-				
-				postedRecord->handler_->invoke( postedRecord->event_ );	
+
+				postedRecord->handler_->invoke( postedRecord->event_ );
 				delete postedRecord;
 			}
 			else {
@@ -1071,9 +1050,9 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 {
 	if ( System::isUnicodeEnabled() ) {
 		WNDCLASSEXW wcex;
-		
-		wcex.cbSize = sizeof(wcex); 
-		
+
+		wcex.cbSize = sizeof(wcex);
+
 		wcex.style			= CS_HREDRAW | CS_VREDRAW;
 		wcex.lpfnWndProc	= (WNDPROC)Win32ToolKit::wndProc;
 		wcex.cbClsExtra		= 0;
@@ -1085,14 +1064,14 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 		wcex.lpszMenuName	= NULL;
 		wcex.lpszClassName	= L"Win32ToolKit";
 		wcex.hIconSm		= NULL;
-		
+
 		return RegisterClassExW(&wcex);
 	}
 	else{
 		WNDCLASSEXA wcex;
-		
-		wcex.cbSize = sizeof(wcex); 
-		
+
+		wcex.cbSize = sizeof(wcex);
+
 		wcex.style			= CS_HREDRAW | CS_VREDRAW;
 		wcex.lpfnWndProc	= (WNDPROC)Win32ToolKit::wndProc;
 		wcex.cbClsExtra		= 0;
@@ -1104,10 +1083,10 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 		wcex.lpszMenuName	= NULL;
 		wcex.lpszClassName	= "Win32ToolKit";
 		wcex.hIconSm		= NULL;
-		
+
 		return RegisterClassExA(&wcex);
 	}
-	
+
 	return NULL;
 }
 
@@ -1123,7 +1102,7 @@ Win32ToolKit::Win32ToolKit():
 	initWin32HTMLBrowserLib( Win32ToolKit_toolkitHInstance );
 
 #else
-	browserLibAvailable_ = false;	
+	browserLibAvailable_ = false;
 #endif
 
 	VCF_POST_EVENT = RegisterWindowMessage( "VCF_POST_EVENT" );
@@ -1161,7 +1140,7 @@ Win32ToolKit::Win32ToolKit():
 
 
 	VCFCOM::COMUtils::registerDataTypes();
-}	
+}
 
 
 Win32ToolKit::~Win32ToolKit()
@@ -1171,9 +1150,9 @@ Win32ToolKit::~Win32ToolKit()
 #endif
 
 	std::map<UINT,TimerRec*>::iterator it = timerMap_.begin();
-	while ( it != timerMap_.end() ) {		
+	while ( it != timerMap_.end() ) {
 		KillTimer( dummyParentWnd_, it->first );
-		delete it->second;		
+		delete it->second;
 		it++;
 	}
 	timerMap_.clear();
@@ -1212,7 +1191,7 @@ HTMLBrowserPeer* Win32ToolKit::internal_createHTMLBrowserPeer( Control* control 
 {
 	HTMLBrowserPeer* result = NULL;
 	if ( false == browserLibAvailable_ ) {
-		try {			
+		try {
 			browserLib_.load( WIN32HTMLBROWSER_DYNLIB );
 			browserLibAvailable_ = true;
 		}
@@ -1252,7 +1231,7 @@ DialogPeer* Win32ToolKit::internal_createDialogPeer()
 }
 
 void Win32ToolKit::createDummyParentWindow()
-{	
+{
 
 	HWND parent = ::GetDesktopWindow();
 
@@ -1260,14 +1239,14 @@ void Win32ToolKit::createDummyParentWindow()
 	if ( System::isUnicodeEnabled() ) {
 		RegisterWin32ToolKitClass( ::GetModuleHandle( NULL ) );
 
-		dummyParentWnd_ = ::CreateWindowW( L"Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleW( NULL ), NULL ); 		
+		dummyParentWnd_ = ::CreateWindowW( L"Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleW( NULL ), NULL );
 	}
 	else {
 		RegisterWin32ToolKitClass( ::GetModuleHandle( NULL ) );
 
-		dummyParentWnd_ = ::CreateWindowA( "Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleA( NULL ), NULL ); 		
+		dummyParentWnd_ = ::CreateWindowA( "Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleA( NULL ), NULL );
 	}
-	
+
 }
 
 HWND Win32ToolKit::getDummyParent()
@@ -1417,7 +1396,7 @@ void Win32ToolKit::internal_postEvent( EventHandler* eventHandler, Event* event,
 	Win32PostEventRecord* postEventRecord = new Win32PostEventRecord( eventHandler, event, deleteHandler );
 	if ( ! ::PostMessage( dummyParentWnd_, VCF_POST_EVENT, 0, (LPARAM)postEventRecord ) ) {
 		int err = ::GetLastError();
-		StringUtils::traceWithArgs( "!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n",	
+		StringUtils::traceWithArgs( "!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n",
 									err );
 
 	}
@@ -1427,13 +1406,13 @@ void Win32ToolKit::internal_registerTimerHandler( Object* source, EventHandler* 
 {
 	std::map<UINT,TimerRec*>::iterator found = timerMap_.begin();
 	while ( found != timerMap_.end() ) {
-		if ( found->second->handler_ == handler ) {			
+		if ( found->second->handler_ == handler ) {
 			KillTimer( dummyParentWnd_, found->first );
-			
+
 			delete found->second;
 
 			timerMap_.erase( found );
-			
+
 			break;
 		}
 		found ++;
@@ -1453,12 +1432,12 @@ void Win32ToolKit::internal_unregisterTimerHandler( EventHandler* handler )
 {
 	std::map<UINT,TimerRec*>::iterator found = timerMap_.begin();
 	while ( found != timerMap_.end() ) {
-		if ( found->second->handler_ == handler ) {			
+		if ( found->second->handler_ == handler ) {
 			KillTimer( dummyParentWnd_, found->first );
 			delete found->second;
 
 			timerMap_.erase( found );
-			
+
 			break;
 		}
 		found ++;
@@ -1469,17 +1448,17 @@ Win32ToolKit::TimerRec* Win32ToolKit::findTimerRec( UINT id )
 {
 	TimerRec* result = NULL;
 	std::map<UINT,TimerRec*>::iterator found = timerMap_.find( id );
-	if ( found != timerMap_.end() ) {		
+	if ( found != timerMap_.end() ) {
 		result = found->second;
 	}
-	
+
 	return result;
 }
 
 HINSTANCE Win32ToolKit::getInstanceHandle()
 {
 	return Win32ToolKit_toolkitHInstance;
-}	
+}
 
 Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData )
 {
@@ -1488,16 +1467,16 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 	Win32MSG* msg = (Win32MSG*)eventData;
 
 	switch ( msg->msg_.message ) {
-		case WM_SIZE: {			
-			VCF::Size sz( LOWORD(msg->msg_.lParam), HIWORD(msg->msg_.lParam) );				
+		case WM_SIZE: {
+			VCF::Size sz( LOWORD(msg->msg_.lParam), HIWORD(msg->msg_.lParam) );
 			result = new ControlEvent( msg->control_, sz );
 		}
 		break;
 
 		case WM_LBUTTONDOWN: case WM_MBUTTONDOWN: case WM_RBUTTONDOWN:{
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ), 
+			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ),
 							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
-			
+
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
 				pt.x_ += scrollable->getHorizontalPosition();
@@ -1510,11 +1489,11 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 		}
 		break;
 
-		case WM_LBUTTONUP: case WM_MBUTTONUP: case WM_RBUTTONUP:{			
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) , 
+		case WM_LBUTTONUP: case WM_MBUTTONUP: case WM_RBUTTONUP:{
+			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
 						   Win32Utils::getYFromLParam( msg->msg_.lParam ) );
-			
-			
+
+
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
 				pt.x_ += scrollable->getHorizontalPosition();
@@ -1541,47 +1520,47 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 			result = new VCF::MouseEvent( msg->control_, Control::MOUSE_UP,
 											Win32Utils::translateButtonMask( tmpWParam ),
 											Win32Utils::translateKeyMask( tmpWParam ), &pt );
-			
+
 		}
 		break;
 
-		case WM_SETFOCUS: {	
-			result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );			
+		case WM_SETFOCUS: {
+			result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );
 		}
-		break;	
+		break;
 
-		case WM_KILLFOCUS: {			
-			result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );			
+		case WM_KILLFOCUS: {
+			result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );
 		}
-		break;	
+		break;
 
 		case WM_CREATE: {
-			result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_CREATED );							
+			result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_CREATED );
 		}
-		break;	
+		break;
 
 		case WM_HELP : {
-			HELPINFO* helpInfo = (HELPINFO*) msg->msg_.lParam;						
+			HELPINFO* helpInfo = (HELPINFO*) msg->msg_.lParam;
 			result = new HelpEvent(msg->control_);
-			
+
 		}
 		break;
 
 		case VCF_CONTROL_CREATE: {
-			result = new VCF::ComponentEvent ( msg->control_, Component::COMPONENT_CREATED );			
+			result = new VCF::ComponentEvent ( msg->control_, Component::COMPONENT_CREATED );
 		}
-		break;	
+		break;
 
-		case WM_DESTROY: {	
+		case WM_DESTROY: {
 			result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
 		}
 		break;
 
 		case WM_LBUTTONDBLCLK: case WM_MBUTTONDBLCLK: case WM_RBUTTONDBLCLK:{
-			
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) , 
-							Win32Utils::getYFromLParam( msg->msg_.lParam ) );			
-		
+
+			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
+							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
+
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
 				pt.x_ += scrollable->getHorizontalPosition();
@@ -1591,24 +1570,24 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 			result = new VCF::MouseEvent( msg->control_, Control::MOUSE_DBLCLICK,
 											Win32Utils::translateButtonMask( msg->msg_.wParam ),
 											Win32Utils::translateKeyMask( msg->msg_.wParam ), &pt );
-			
-			
+
+
 		}
 		break;
 
-		case WM_MOVE: {			
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) , 
-							Win32Utils::getYFromLParam( msg->msg_.lParam ) );			
+		case WM_MOVE: {
+			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
+							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
 
 			result = new VCF::ControlEvent( msg->control_, pt );
-			
+
 		}
 		break;
 
-		case WM_MOUSEMOVE: {			
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) , 
+		case WM_MOUSEMOVE: {
+			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
 							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
-			
+
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
 				pt.x_ += scrollable->getHorizontalPosition();
@@ -1618,18 +1597,18 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 
 			result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
 											Win32Utils::translateButtonMask( msg->msg_.wParam ),
-											Win32Utils::translateKeyMask( msg->msg_.wParam ), 
-											&pt );			
+											Win32Utils::translateKeyMask( msg->msg_.wParam ),
+											&pt );
 		}
 		break;
 
-		case WM_MOUSELEAVE: {			
+		case WM_MOUSELEAVE: {
 			POINT pt = {0,0};
 			::GetCursorPos( &pt );
 			ScreenToClient( msg->msg_.hwnd, &pt );
-			
-			VCF::Point pt2( pt.x , pt.y );				
-			
+
+			VCF::Point pt2( pt.x , pt.y );
+
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
 				pt2.x_ += scrollable->getHorizontalPosition();
@@ -1650,29 +1629,29 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 					eventType = Control::KEYBOARD_PRESSED;
 				}
 				break;
-				
+
 				case WM_KEYDOWN: {
 					eventType = Control::KEYBOARD_DOWN;//KEYBOARD_EVENT_DOWN;
 				}
 				break;
-				
+
 				case WM_KEYUP: {
 					eventType = Control::KEYBOARD_UP;
 				}
 				break;
-			}			
-			
+			}
+
 			unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
 
 			ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
-			result = new VCF::KeyboardEvent( msg->control_, 
-											eventType, 
-											keyData.repeatCount, 
-											keyMask, 
-											(VCF::VCFChar)keyData.character, 
+			result = new VCF::KeyboardEvent( msg->control_,
+											eventType,
+											keyData.repeatCount,
+											keyMask,
+											(VCF::VCFChar)keyData.character,
 											(VirtualKeyCode)virtKeyCode );
-				
-			
+
+
 		}
 		break;
 
@@ -1700,8 +1679,8 @@ void Win32ToolKit::internal_runEventLoop()
 	while (true) {
 		// phase1: check to see if we can do idle work
 		while ((true == isIdle) && (!::PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE)) ) {
-			
-			if ( NULL != runningApp ) {				
+
+			if ( NULL != runningApp ) {
 				runningApp->idleTime();
 			}
 
@@ -1711,7 +1690,7 @@ void Win32ToolKit::internal_runEventLoop()
 				LibraryApplication* libraryApp = registeredLibs->nextElement();
 				libraryApp->idleTime();
 			}
-			isIdle = false;				
+			isIdle = false;
 		}
 
 		if ( msg.message == WM_QUIT ) {
@@ -1723,21 +1702,21 @@ void Win32ToolKit::internal_runEventLoop()
 		}
 
 		do	{
-			//dispatch message, but quit on WM_QUIT			
+			//dispatch message, but quit on WM_QUIT
 			if ( GetMessage( &msg, NULL, 0, 0 ) ) {
 				/**
 				*we're going to want to handle accelerators here
-				*the steps should 
-				*identify if the message is a 
+				*the steps should
+				*identify if the message is a
 				*WM_KEYPRESS
 				*if it is then check to find the Control associated with the msg
-				*if it is then call the Control's getAccelator and match to the 
-				*key stroke's VK code and modifier keys. if the accelerator is 
-				*found the call the invoke() method on the event handler for hte 
+				*if it is then call the Control's getAccelator and match to the
+				*key stroke's VK code and modifier keys. if the accelerator is
+				*found the call the invoke() method on the event handler for hte
 				*accelerator.
 				*if no accelerator is found on the control or no control is found,
 				*try and get the running Application. if one is found then call
-				*the getAccelerator() on the Application and do the same thing as described 
+				*the getAccelerator() on the Application and do the same thing as described
 				*for the control
 				*if any accelerator is found then do NOT call TranslateMessage() and DispatchMessage()
 				*
@@ -1749,7 +1728,7 @@ void Win32ToolKit::internal_runEventLoop()
 					case WM_KEYDOWN :  case WM_SYSKEYDOWN : {
 
 						KeyboardData keyData = Win32Utils::translateKeyData( msg.hwnd, msg.lParam );
-						
+
 						KeyboardMasks modifierKey = (KeyboardMasks)Win32Utils::translateKeyMask( keyData.keyMask );
 						VirtualKeyCode vkCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
 
@@ -1787,9 +1766,9 @@ void Win32ToolKit::internal_runEventLoop()
 								break;
 							}
 						}
-					
+
 						Win32Object* w = Win32Object::getWin32ObjectFromHWND( msg.hwnd );
-						
+
 						Control* control = NULL;
 						if ( NULL != w ) {
 							control = w->getPeerControl();
@@ -1800,18 +1779,18 @@ void Win32ToolKit::internal_runEventLoop()
 								}
 							}
 						}
-						
-						KeyboardEvent event( control, Control::KEYBOARD_ACCELERATOR, keyData.repeatCount, 
+
+						KeyboardEvent event( control, Control::KEYBOARD_ACCELERATOR, keyData.repeatCount,
 							modifierKey, keyData.character, vkCode );
-						
+
 						handleKeyboardEvent( &event );
 						if ( event.isConsumed() ) {
 							doTranslateAndDispatch = false;
-						}						
-					}	
+						}
+					}
 				}
 
-				if ( doTranslateAndDispatch ) {					
+				if ( doTranslateAndDispatch ) {
 					if (!TranslateAccelerator( msg.hwnd, hAccelTable, &msg ) ) {
 						TranslateMessage( &msg );
 						DispatchMessage( &msg );
@@ -1827,23 +1806,23 @@ void Win32ToolKit::internal_runEventLoop()
 				}
 			}
 			else {
-				return; //we're outta here - nothing more to do 
-			}			
+				return; //we're outta here - nothing more to do
+			}
 
 			/**
 			0x0118 is a WM_SYSTIMER, according to MSDN:
-			"The WM_SYSTIMER message in Windows is an undocumented system message; 
-			it should not be trapped or relied on by an application. This message 
-			can occasionally be viewed in Spy or in CodeView while debugging. 
-			
-			Windows uses the WM_SYSTIMER message internally to control the scroll 
-			rate of highlighted text (text selected by the user) in edit controls, 
-			or highlighted items in list boxes. 
+			"The WM_SYSTIMER message in Windows is an undocumented system message;
+			it should not be trapped or relied on by an application. This message
+			can occasionally be viewed in Spy or in CodeView while debugging.
 
-			NOTE: The WM_SYSTIMER message is for Windows's internal use only and 
+			Windows uses the WM_SYSTIMER message internally to control the scroll
+			rate of highlighted text (text selected by the user) in edit controls,
+			or highlighted items in list boxes.
+
+			NOTE: The WM_SYSTIMER message is for Windows's internal use only and
 			can be changed without prior notice. "
 			*/
-			
+
 			// WM_PAINT and WM_SYSTIMER (caret blink)
 			bool isIdleMessage = ( (msg.message != WM_PAINT) && (msg.message != 0x0118) );
 			if ( true == isIdleMessage ) {
@@ -1856,10 +1835,10 @@ void Win32ToolKit::internal_runEventLoop()
 				isIdle = true;
 			}
 
-		} 
+		}
 		while ( ::PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE) );
 	}
-	
+
 	runEventCount_ --;
 }
 
@@ -1868,7 +1847,7 @@ void Win32ToolKit::internal_runEventLoop()
 UIToolkit::ModalReturnType Win32ToolKit::internal_runModalEventLoopFor( Control* control )
 {
 	UIToolkit::ModalReturnType result = UIToolkit::mrTrue;
-	
+
 	try {
 		HWND controlHwnd = (HWND)control->getPeer()->getHandleID();
 
@@ -1876,31 +1855,31 @@ UIToolkit::ModalReturnType Win32ToolKit::internal_runModalEventLoopFor( Control*
 		int err = 0;
 		MSG msg;
 		memset( &msg, 0, sizeof(MSG) );
-		
+
 		bool done = false;
 		while (false == done) {
-				
+
 			if ( NULL != runningApp ) {
 				runningApp->idleTime();
 			}
-			
+
 			//check library apps;
 			Enumerator<LibraryApplication*>* registeredLibs = LibraryApplication::getRegisteredLibraries();
 			while ( true == registeredLibs->hasMoreElements() ) {
 				LibraryApplication* libraryApp = registeredLibs->nextElement();
 				libraryApp->idleTime();
 			}
-			
-			do	{		
+
+			do	{
 				bool doTranslateAndDispatch = true;
 
 				bool ESCkeyPressed = false;
 				if ( GetMessage(  &msg, NULL, 0, 0 ) ) {
 					switch( msg.message ) {
 
-						case WM_KEYDOWN :  case WM_SYSKEYDOWN : {						
+						case WM_KEYDOWN :  case WM_SYSKEYDOWN : {
 							KeyboardData keyData = Win32Utils::translateKeyData( msg.hwnd, msg.lParam );
-							
+
 							KeyboardMasks modifierKey = (KeyboardMasks)Win32Utils::translateKeyMask( keyData.keyMask );
 							VirtualKeyCode vkCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
 
@@ -1916,43 +1895,43 @@ UIToolkit::ModalReturnType Win32ToolKit::internal_runModalEventLoopFor( Control*
 									if ( (msgControl != currentFocusedControl) && (currentFocusedControl->isLightWeight()) ) {
 										msgControl = currentFocusedControl;
 									}
-								}								
+								}
 							}
 
-							KeyboardEvent event( msgControl, Control::KEYBOARD_ACCELERATOR, keyData.repeatCount, 
+							KeyboardEvent event( msgControl, Control::KEYBOARD_ACCELERATOR, keyData.repeatCount,
 													modifierKey, keyData.character, vkCode );
 
 							handleKeyboardEvent( &event );
 							if ( event.isConsumed() ) {
 								doTranslateAndDispatch = false;
 							}
-						}	
+						}
 					}
 					if ( true == doTranslateAndDispatch ) {
 						TranslateMessage( &msg );
-						DispatchMessage( &msg );	
+						DispatchMessage( &msg );
 					}
 				}
 				else {
 					done = true;
 					break;
-				}				
+				}
 				/*
 				if ( doTranslateAndDispatch ) {
 					// show the window when certain special messages rec'd
-					
+
 					if ((msg.message == 0x118) || (msg.message == WM_SYSKEYDOWN) ) {
 						//err = ::ShowWindow( controlHwnd, SW_SHOWNORMAL );
-						//err = ::UpdateWindow( controlHwnd );	
-						
+						//err = ::UpdateWindow( controlHwnd );
+
 						//this is rather crufty and I'm a bit dubious about it's necessity??
-						if ( (NULL != frame) && (msg.message == WM_SYSKEYDOWN) ) {		
+						if ( (NULL != frame) && (msg.message == WM_SYSKEYDOWN) ) {
 							//frame->activate();
 						}
-					}								
+					}
 				}
 				*/
-				switch ( msg.message ){	
+				switch ( msg.message ){
 					case WM_KEYDOWN : {
 						if ( ESCkeyPressed ) {
 							result = UIToolkit::mrCancel;
@@ -1967,31 +1946,31 @@ UIToolkit::ModalReturnType Win32ToolKit::internal_runModalEventLoopFor( Control*
 						}
 					}
 					break;
-					
+
 					case WM_QUIT:{
-						done = true;	
+						done = true;
 					}
 					break;
 				}
 
 				if ( ! IsWindow( controlHwnd ) ) {
-					
+
 					PostQuitMessage(0);
 				}
-				
+
 			} while (::PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE));
 		} //outer for loop
-		
+
 	}
 	catch (...) {
 		//display error ?
 		result = mrFalse;
-	}	
+	}
 
 	//EnumThreadWindows( GetCurrentThreadId(), EnumThreadWndProc, (LPARAM)this );
 
 
-	
+
 	return result;
 }
 
@@ -2019,6 +1998,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -2365,3 +2347,5 @@ Size Win32ToolKit::internal_getDragDropDelta()
 *to facilitate change tracking
 *
 */
+
+

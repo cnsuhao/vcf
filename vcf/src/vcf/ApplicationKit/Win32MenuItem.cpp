@@ -1,33 +1,11 @@
+//Win32MenuItem.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32MenuItem.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
@@ -50,14 +28,14 @@ std::map<HMENU,MenuItem*> Win32MenuItem::menuItemHandleMap;
 
 Win32MenuItem::Win32MenuItem( MenuItem* item ):
 	itemAdded_(false)
-{	
-	menuItem_ = item;	
+{
+	menuItem_ = item;
 	init();
 }
 
 Win32MenuItem::Win32MenuItem():
 	itemAdded_(false)
-{	
+{
 	init();
 }
 
@@ -66,8 +44,8 @@ Win32MenuItem::~Win32MenuItem()
 	std::map<uint32,MenuItem*>::iterator found = menuItemMap.find( itemId_ );
 	if ( found != menuItemMap.end() ){
 		menuItemMap.erase( found );
-	}	
-	
+	}
+
 	std::map<HMENU,MenuItem*>::iterator found2 = Win32MenuItem::menuItemHandleMap.find( itemHandle_ );
 	if ( found2 != Win32MenuItem::menuItemHandleMap.end() ){
 		Win32MenuItem::menuItemHandleMap.erase( found2 );
@@ -78,7 +56,7 @@ Win32MenuItem::~Win32MenuItem()
 	if ( ::IsMenu( itemHandle_ ) ){
 		DestroyMenu( itemHandle_ );
 	}
-	else if ( NULL != itemHandle_ ){		
+	else if ( NULL != itemHandle_ ){
 		if ( ! DestroyMenu( itemHandle_ ) ) {
 			int err = GetLastError();
 			//StringUtils::traceWithArgs( "Menu Item handle leak for handle %p with id of: %d, GetLastError(): %d\n", itemHandle_, itemId_, err );
@@ -86,14 +64,14 @@ Win32MenuItem::~Win32MenuItem()
 	}
 }
 
-void Win32MenuItem::init() 
+void Win32MenuItem::init()
 {
 	itemHandle_ = NULL;
 
 	globalLastMenuID ++;
 
-	itemId_ = globalLastMenuID;	
-	
+	itemId_ = globalLastMenuID;
+
 	menuItemMap[itemId_] = menuItem_;
 }
 
@@ -117,19 +95,19 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 	else {
 		info.fType = MFT_STRING;
 	}
-	
+
 	//put this back in later
 	if ( true == child->canPaint() ) {
 		info.fType |= MFT_OWNERDRAW;
 	}
 	info.wID = win32ChildImpl->itemId_;
-	
-	if ( child->hasChildren() ){		
+
+	if ( child->hasChildren() ){
 		info.fMask |= MIIM_SUBMENU;
 		info.hSubMenu = (HMENU) itemImpl->getMenuID();
 	}
 	String itemName = child->getCaption();
-	
+
 	info.cch = itemName.size();
 
 	char* tmpName = new char[info.cch+1];
@@ -144,17 +122,17 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 
 
 	MenuItem* parentItem = menuItem_->getParent();
-	
+
 	if ( NULL != parentItem ) {
 		int index = menuItem_->getIndex();
 		MENUITEMINFO thisInfo = {0};
-		
+
 
 		thisInfo.cbSize = sizeof(MENUITEMINFO);
 		thisInfo.fMask = MIIM_SUBMENU;
 		Win32MenuItem* win32ParentImpl = (Win32MenuItem*)parentItem->getPeer();
 		HMENU parentMenuHandle = (HMENU)win32ParentImpl->getMenuID();
-		
+
 		if ( NULL != parentMenuHandle ){
 			if ( GetMenuItemInfo( parentMenuHandle, itemId_, FALSE, &thisInfo ) ){
 				thisInfo.fMask |= MIIM_SUBMENU;
@@ -163,9 +141,9 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 			}
 			else {
 				//throw exception
-			}	
+			}
 		}
-		
+
 	}
 
 	/**
@@ -186,7 +164,7 @@ void Win32MenuItem::fixChildren( MenuItem* child )
 			if ( false == itemPeer->itemAdded_ ) {
 				item->setMenuOwner( child->getMenuOwner() );
 				Win32MenuItem* peer = (Win32MenuItem*) child->getPeer();
-				peer->insertSimpleMenuItem( item, (HMENU)peer->getMenuID() ); 
+				peer->insertSimpleMenuItem( item, (HMENU)peer->getMenuID() );
 			}
 		}
 	}
@@ -205,11 +183,11 @@ void Win32MenuItem::insertChild( const unsigned long& index, MenuItem* child )
 	child->setIndex( index );
 	insertSimpleMenuItem( child, itemHandle_ );
 }
-	
+
 void Win32MenuItem::deleteChild( MenuItem* child )
 {
 	int index = child->getIndex();
-	
+
 	Win32MenuItem* peer = (Win32MenuItem*)child->getPeer();
 	peer->itemAdded_ = false;
 	DeleteMenu( (HMENU)getMenuID(), peer->itemId_, MF_BYCOMMAND );
@@ -272,16 +250,16 @@ void Win32MenuItem::setChecked( const bool& checked )
 		if ( NULL != menuHandle ){
 			if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){
 				if ( checked ){
-					info.fState |= MFS_CHECKED;	
+					info.fState |= MFS_CHECKED;
 					info.fState &= ~MFS_UNCHECKED;
 				}
 				else {
 					info.fState &= ~MFS_CHECKED;
 					info.fState |= MFS_UNCHECKED;
 				}
-				
+
 				SetMenuItemInfo( menuHandle, itemId_, FALSE, &info );
-			}	
+			}
 		}
 	}
 }
@@ -306,12 +284,12 @@ bool Win32MenuItem::isEnabled()
 	if ( true == menuItem_->isSeparator() ){
 		return false;
 	}
-	
+
 	MenuItem* parent = getParent();
 	if ( NULL != parent ) {
 		int index = menuItem_->getIndex();
 
-		
+
 		MENUITEMINFO info = {0};
 		info.cbSize = sizeof(MENUITEMINFO);
 		info.fMask = MIIM_STATE;
@@ -347,7 +325,7 @@ void Win32MenuItem::setEnabled( const bool& enabled )
 		if ( NULL != menuHandle ){
 			if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){
 				if ( true == enabled ){
-					info.fState |= MFS_ENABLED;		
+					info.fState |= MFS_ENABLED;
 					info.fState &= ~MFS_DISABLED;
 				}
 				else {
@@ -355,9 +333,9 @@ void Win32MenuItem::setEnabled( const bool& enabled )
 					info.fState |= MFS_DISABLED;
 
 				}
-				
+
 				SetMenuItemInfo( menuHandle, itemId_, FALSE, &info );
-			}	
+			}
 		}
 	}
 }
@@ -371,7 +349,7 @@ void Win32MenuItem::setVisible( const bool& visible )
 {
 	int index = menuItem_->getIndex();
 	if ( true == visible ){
-		
+
 	}
 	else {
 		//RemoveMenu( itemHandle_, index, MF_BYPOSITION );
@@ -408,22 +386,22 @@ void Win32MenuItem::setRadioItem( const bool& value )
 
 		/*
 
-		
+
 		if ( NULL != menuHandle ){
 			if ( GetMenuItemInfo( menuHandle, index, TRUE, &info ) ){
-				
+
 				info.fType |= MFT_RADIOCHECK | MFT_STRING;
 				info.dwTypeData = 0;
 				info.cch = 0;
-				if ( true == value ){						
-					info.fState |= MFS_CHECKED;	
+				if ( true == value ){
+					info.fState |= MFS_CHECKED;
 				}
 				else {
-					info.fState &= ~MFS_CHECKED;					
+					info.fState &= ~MFS_CHECKED;
 				}
-				
+
 				SetMenuItemInfo( menuHandle, index, TRUE, &info );
-			}	
+			}
 		}
 		*/
 	}
@@ -452,17 +430,17 @@ void Win32MenuItem::setCaption( const String& caption )
 			if ( NULL != menuHandle ){
 				if ( GetMenuItemInfoW( menuHandle, itemId_, FALSE, &info ) ){
 					info.cch = caption.size();
-					
+
 					VCFChar* tmpName = new VCFChar[info.cch+1];
 					memset( tmpName, 0, (info.cch+1)*sizeof(VCFChar) );
 					caption.copy( tmpName, info.cch );
-					
+
 					info.dwTypeData = tmpName;
-					
-					SetMenuItemInfoW( menuHandle, itemId_, FALSE, &info );	
-					
-					delete [] tmpName;				
-				}	
+
+					SetMenuItemInfoW( menuHandle, itemId_, FALSE, &info );
+
+					delete [] tmpName;
+				}
 			}
 		}
 	}
@@ -479,22 +457,22 @@ void Win32MenuItem::setCaption( const String& caption )
 					AnsiString tmpCaption = caption;
 
 					info.cch = tmpCaption.size();
-					
+
 					char* tmpName = new char[info.cch+1];
 					memset( tmpName, 0, info.cch+1 );
 					tmpCaption.copy( tmpName, info.cch );
-					
+
 					info.dwTypeData = tmpName;
-					
-					SetMenuItemInfoA( menuHandle, itemId_, FALSE, &info );	
-					
-					delete [] tmpName;				
-				}	
+
+					SetMenuItemInfoA( menuHandle, itemId_, FALSE, &info );
+
+					delete [] tmpName;
+				}
 			}
 		}
 	}
 
-	
+
 }
 
 ulong32 Win32MenuItem::getMenuID()
@@ -515,8 +493,8 @@ ulong32 Win32MenuItem::getMenuID()
 				parent = parent->getParent();
 			}
 		}
-		
-		if ( (NULL == itemHandle_) && (NULL != menuOwner)  ){			
+
+		if ( (NULL == itemHandle_) && (NULL != menuOwner)  ){
 			PopupMenu* popupOwner = dynamic_cast<PopupMenu*>( menuOwner );
 			if ( NULL != popupOwner ){
 				itemHandle_ = ::CreatePopupMenu();
@@ -532,7 +510,7 @@ ulong32 Win32MenuItem::getMenuID()
 					else {
 						itemHandle_ = ::CreateMenu();
 						Win32MenuItem::menuItemHandleMap[itemHandle_] = menuItem_;
-					}					
+					}
 				}
 				else {
 					throw RuntimeException(MAKE_ERROR_MSG("Unknown or Invalid Menu Item owner"), __LINE__);
@@ -540,9 +518,9 @@ ulong32 Win32MenuItem::getMenuID()
 			}
 
 			if ( NULL == itemHandle_  ){
-				throw RuntimeException(MAKE_ERROR_MSG("Error allocation Resources for Menu Item Peer"), __LINE__);	
+				throw RuntimeException(MAKE_ERROR_MSG("Error allocation Resources for Menu Item Peer"), __LINE__);
 			}
-		}		
+		}
 	}
 	return (ulong32)itemHandle_;
 }
@@ -550,18 +528,18 @@ ulong32 Win32MenuItem::getMenuID()
 MenuItem* Win32MenuItem::getMenuItemFromID( const uint32 id )
 {
 	MenuItem* result = NULL;
-	
+
 	std::map<uint32, MenuItem*>::iterator found = Win32MenuItem::menuItemMap.find( id );
 	if ( found != Win32MenuItem::menuItemMap.end() ){
 		result = found->second;
 	}
-	return result;	
+	return result;
 }
 
 MenuItem* Win32MenuItem::getMenuItemFromHandle( HMENU handle )
 {
 	MenuItem* result = NULL;
-	
+
 	std::map<HMENU, MenuItem*>::iterator found = Win32MenuItem::menuItemHandleMap.find( handle );
 	if ( found != Win32MenuItem::menuItemHandleMap.end() ){
 		result = found->second;
@@ -580,16 +558,16 @@ void Win32MenuItem::setAsSeparator( const bool& isSeperator )
 		MenuItemPeer* parentPeer = parent->getPeer();
 		HMENU menuHandle = (HMENU)parentPeer->getMenuID();
 		if ( NULL != menuHandle ){
-			if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){				
+			if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){
 				if ( true == isSeperator ) {
 					info.fType |= MFT_SEPARATOR;
 				}
 				else {
 					info.fType &= ~MFT_SEPARATOR;
-				}				
-				
+				}
+
 				SetMenuItemInfo( menuHandle, itemId_, FALSE, &info );
-			}	
+			}
 		}
 	}
 }
@@ -610,14 +588,14 @@ void Win32MenuItem::fillInMeasureItemInfo( MEASUREITEMSTRUCT& measureItemInfo )
 				if ( ODT_MENU != measureItemInfo.CtlType ) {
 					return;
 				}
-				
+
 				if ( (info.fType & MFT_SEPARATOR) != 0 ) {
 					// separator: use half system height and zero width
 					measureItemInfo.itemHeight = GetSystemMetrics(SM_CYMENU)>>1;
-					measureItemInfo.itemWidth  = 0;					
-				} 
+					measureItemInfo.itemWidth  = 0;
+				}
 				else {
-					// compute size of text: use DrawText with DT_CALCRECT					
+					// compute size of text: use DrawText with DT_CALCRECT
 					NONCLIENTMETRICS ncInfo;
 					ncInfo.cbSize = sizeof(ncInfo);
 					::SystemParametersInfo (SPI_GETNONCLIENTMETRICS, sizeof(ncInfo), &ncInfo, 0);
@@ -627,8 +605,8 @@ void Win32MenuItem::fillInMeasureItemInfo( MEASUREITEMSTRUCT& measureItemInfo )
 
 						HDC dc = ::CreateCompatibleDC( NULL );// screen DC--I won't actually draw on it
 						HFONT oldFont = (HFONT)SelectObject( dc, menuHFont );
-						RECT rcText = {0,0,0,0};						
-						
+						RECT rcText = {0,0,0,0};
+
 						if ( System::isUnicodeEnabled() ) {
 							::DrawTextW( dc, caption.c_str(), caption.size(), &rcText, DT_SINGLELINE|DT_LEFT|DT_VCENTER|DT_CALCRECT);
 						}
@@ -636,45 +614,45 @@ void Win32MenuItem::fillInMeasureItemInfo( MEASUREITEMSTRUCT& measureItemInfo )
 							AnsiString tmp = caption;
 							::DrawTextA( dc, tmp.c_str(), tmp.size(), &rcText, DT_SINGLELINE|DT_LEFT|DT_VCENTER|DT_CALCRECT);
 						}
-						
-						
+
+
 						SelectObject( dc, oldFont );
-						
+
 						// height of item is just height of a standard menu item
 						measureItemInfo.itemHeight = __max( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
-						
+
 						// width is width of text plus a bunch of stuff
-						int cx = rcText.right - rcText.left;	// text width 
+						int cx = rcText.right - rcText.left;	// text width
 						cx += CXTEXTMARGIN << 1;		// L/R margin for readability
 						cx += CXGAP;					// space between button and menu text
-						
+
 						//cx += szButton_.cx<<1;		// button width (L=button; R=empty margin)
-						
+
 						// whatever value I return in lpms->itemWidth, Windows will add the
 						// width of a menu checkmark, so I must subtract to defeat Windows. Argh.
 						//
 						cx += GetSystemMetrics(SM_CXMENUCHECK)-1;
-						measureItemInfo.itemWidth = cx;		// done deal	
-						
+						measureItemInfo.itemWidth = cx;		// done deal
+
 						::DeleteObject( menuHFont );
 						::DeleteDC( dc );
-					}					
+					}
 				}
-			}	
+			}
 		}
 	}
 }
 
 void Win32MenuItem::drawDefaultMenuItem( const UINT& idCtl, DRAWITEMSTRUCT& drawItemStruct )
-{	
+{
 	if ( drawItemStruct.CtlType != ODT_MENU ) {
 		return; // not handled by me
 	}
-	
+
 	if ( NULL == drawItemStruct.hDC ) {
 		return; //throw exception ??
-	}	
-	
+	}
+
 	int index = menuItem_->getIndex();
 	MENUITEMINFO info = {0};
 	info.cbSize = sizeof(MENUITEMINFO);
@@ -685,15 +663,15 @@ void Win32MenuItem::drawDefaultMenuItem( const UINT& idCtl, DRAWITEMSTRUCT& draw
 		HMENU menuHandle = (HMENU)parentPeer->getMenuID();
 		if ( NULL != menuHandle ){
 			if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){
-				
+
 				if ( (info.fType & MFT_SEPARATOR) != 0 ) {
 					// draw separator
 					RECT tmp = drawItemStruct.rcItem;
 
 					tmp.top += (tmp.bottom - tmp.top) >>1; 	// vertical center
 
-					DrawEdge( drawItemStruct.hDC, &tmp, EDGE_ETCHED, BF_TOP);		// draw separator line					
-				} 
+					DrawEdge( drawItemStruct.hDC, &tmp, EDGE_ETCHED, BF_TOP);		// draw separator line
+				}
 				else {
 					// not a separator
 					bool menuDisabled = (drawItemStruct.itemState & ODS_GRAYED) != 0;
@@ -701,20 +679,20 @@ void Win32MenuItem::drawDefaultMenuItem( const UINT& idCtl, DRAWITEMSTRUCT& draw
 					bool menuChecked  = (drawItemStruct.itemState & ODS_CHECKED) != 0;
 					bool menuHasButn = false;
 
-					
+
 
 					RECT tmpBtnRect = {drawItemStruct.rcItem.left + 2, drawItemStruct.rcItem.top,
 										drawItemStruct.rcItem.left + 2 + (drawItemStruct.rcItem.right - drawItemStruct.rcItem.left),
 										drawItemStruct.rcItem.top + (drawItemStruct.rcItem.bottom - drawItemStruct.rcItem.top) };
 
-					// no button: look for custom checked/unchecked bitmaps																		
+					// no button: look for custom checked/unchecked bitmaps
 					if ( (true == menuChecked) || (NULL != info.hbmpUnchecked) ) {
-						menuHasButn = 
-							draw3DCheckmark( drawItemStruct.hDC, tmpBtnRect, 
-												menuSelected, 
+						menuHasButn =
+							draw3DCheckmark( drawItemStruct.hDC, tmpBtnRect,
+												menuSelected,
 												menuChecked ? info.hbmpChecked : info.hbmpUnchecked );
 					}
-					
+
 					// Done with button, now paint text. First do background if needed.
 					int cxButn = tmpBtnRect.bottom - tmpBtnRect.top;				// width of button
 
@@ -727,19 +705,19 @@ void Win32MenuItem::drawDefaultMenuItem( const UINT& idCtl, DRAWITEMSTRUCT& draw
 						if ( true == menuHasButn) {	// if there's a button:
 							rcBG.left += cxButn + CXGAP;			//  don't paint over it!
 						}
-						fillMenuItemRect( drawItemStruct.hDC, rcBG, colorBG );						
+						fillMenuItemRect( drawItemStruct.hDC, rcBG, colorBG );
 					}
-					
+
 					// compute text rectangle and colors
 					RECT rcText = drawItemStruct.rcItem;				 // start w/whole item
 					rcText.left += cxButn + CXGAP + CXTEXTMARGIN; // left margin
 					rcText.right -= cxButn;				 // right margin
 					::SetBkMode( drawItemStruct.hDC, TRANSPARENT );			 // paint transparent text
-					
-					COLORREF colorText = 
-						GetSysColor( menuDisabled ?  COLOR_GRAYTEXT : 
+
+					COLORREF colorText =
+						GetSysColor( menuDisabled ?  COLOR_GRAYTEXT :
 										(menuSelected ? COLOR_HIGHLIGHTTEXT : COLOR_MENUTEXT));
-					
+
 					// Now paint menu item text.	No need to select font,
 					// because windows sets it up before sending WM_DRAWITEM
 					//
@@ -757,7 +735,7 @@ void Win32MenuItem::drawDefaultMenuItem( const UINT& idCtl, DRAWITEMSTRUCT& draw
 					}
 
 					drawMenuItemText( drawItemStruct.hDC, rcText, colorText ); // finally!
-				}				
+				}
 			}
 		}
 	}
@@ -793,11 +771,11 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 	if ( tabPos != String::npos ) {
 		if ( tabPos >= 0 ) {
 			right = left.substr( tabPos + 1, left.size() - tabPos );
-			
+
 			left  = left.substr( 0, tabPos );
 		}
 	}
-	
+
 	::SetTextColor( dc, color );
 
 	if ( System::isUnicodeEnabled() ) {
@@ -816,16 +794,17 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 			AnsiString tmp = right;
 			DrawTextA( dc, tmp.c_str(), tmp.size(), &rc, DT_SINGLELINE | DT_LEFT | DT_VCENTER | DT_RIGHT);
 		}
-		
+
 	}
 }
-
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -972,6 +951,5 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 *to facilitate change tracking
 *
 */
-
 
 

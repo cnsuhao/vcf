@@ -375,9 +375,8 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.3  2004/04/29 03:10:56  marcelloptr
-*reformatting of source files
-*
+*Revision 1.2.2.4  2004/04/29 03:40:55  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
 *
 */
 

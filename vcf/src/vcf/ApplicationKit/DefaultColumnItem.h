@@ -1,10 +1,204 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_DEFAULTCOLUMNITEM_H__
+#define _VCF_DEFAULTCOLUMNITEM_H__
+//DefaultColumnItem.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
+
+
+#ifndef _VCF_COLUMNITEM_H__
+#	include "vcf/ApplicationKit/ColumnItem.h"
+#endif // _VCF_COLUMNITEM_H__
+
+
+namespace VCF  {
+
+class Image;
+class ColumnModel;
+class Control;
+
+
+#define DEFAULTCOLUMNITEM_CLASSID		"5003340e-98c7-46ac-a27c-1d38dfdd8aa7"
+
+/**
+Class DefaultColumnItem documentation
+
+*/
+class APPKIT_API DefaultColumnItem : public ColumnItem {
+public:
+
+	DefaultColumnItem();
+
+	virtual ~DefaultColumnItem();
+
+	DELEGATE(ItemPaint);
+	DELEGATE(ItemChanged);
+	DELEGATE(ItemSelected);
+	DELEGATE(ItemAdded);
+	DELEGATE(ItemDeleted);
+
+	virtual void addItemPaintHandler( EventHandler* handler ){
+		ItemPaint += handler;
+	}
+
+	virtual void addItemChangedHandler( EventHandler* handler ){
+		ItemChanged += handler;
+	}
+
+	virtual void addItemSelectedHandler( EventHandler* handler ){
+		ItemSelected += handler;
+	}
+
+	virtual void addItemAddedHandler( EventHandler* handler ){
+		ItemAdded += handler;
+	}
+
+	virtual void addItemDeletedHandler( EventHandler* handler ){
+		ItemDeleted += handler;
+	}
+
+	virtual void removeItemPaintHandler( EventHandler* handler ){
+		ItemPaint -= handler;
+	}
+
+	virtual void removeItemChangedHandler( EventHandler* handler ){
+		ItemChanged -= handler;
+	}
+
+	virtual void removeItemSelectedHandler( EventHandler* handler ){
+		ItemSelected -= handler;
+	}
+
+	virtual void removeItemAddedHandler( EventHandler* handler ){
+		ItemAdded -= handler;
+	}
+
+	virtual void removeItemDeletedHandler( EventHandler* handler ){
+		ItemDeleted -= handler;
+	}
+
+	virtual bool containsPoint( Point * pt );
+
+    virtual unsigned long getIndex();
+
+	virtual void setIndex( const unsigned long& index );
+
+    virtual void* getData() {
+		return data_;
+	}
+
+	virtual void setData( void* data );
+
+	virtual String getCaption() {
+		return caption_;
+	}
+
+	virtual void setCaption( const String& caption );
+
+	virtual double getWidth() {
+		return width_;
+	}
+
+	virtual void setWidth( const double& width );
+
+	virtual void setCaptionAlignment( const TextAlignmentType& alignment );
+
+	virtual TextAlignmentType getCaptionAlignment() {
+		return textAlignment_;
+	}
+
+	virtual Model* getModel();
+
+	virtual void setModel( Model* model );
+
+	virtual void paint( GraphicsContext* context, Rect* paintRect );
+
+	virtual bool isSelected();
+
+	virtual void setSelected( const bool& selected );
+
+	virtual long getImageIndex() {
+		return imageIndex_;
+	}
+
+	virtual void setImageIndex( const long& imageIndex );
+
+	virtual Rect* getBounds() {
+		return &bounds_;
+	}
+
+	virtual Control* getControl() {
+		return owningControl_;
+	}
+
+
+	virtual void setControl( Control* control ) {
+		owningControl_ = control;
+	}
+
+	virtual bool canPaint() {
+		return false;
+	}
+
+	virtual long getState(){
+		return 0;
+	}
+
+	virtual void setState( const long& state ){}
+
+	virtual void setBounds( Rect* bounds );
+
+	/**
+	*not supported
+	*/
+	virtual long getStateImageIndex(){
+		return -1;
+	};
+
+	/**
+	*not supported
+	*/
+	virtual void setStateImageIndex( const long& index ){}
+
+	virtual long getTag() {
+		return tag_;
+	}
+
+	virtual void setTag( const long& tag ) {
+		tag_ = tag;
+	}
+protected:
+	Control* owningControl_;
+	String caption_;
+	void* data_;
+	unsigned long index_;
+	Rect bounds_;
+	ColumnModel* model_;
+	bool selected_;
+	long imageIndex_;
+	double width_;
+	TextAlignmentType textAlignment_;
+	long tag_;
+};
+
+
+}; //end of namespace VCF
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -101,216 +295,6 @@
 *
 */
 
-//DefaultColumnItem.h
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
-#ifndef _VCF_DEFAULTCOLUMNITEM_H__
-#define _VCF_DEFAULTCOLUMNITEM_H__
-
-#ifndef _VCF_COLUMNITEM_H__
-#	include "vcf/ApplicationKit/ColumnItem.h"
-#endif // _VCF_COLUMNITEM_H__
-
-
-namespace VCF  {
-
-class Image;
-class ColumnModel;
-class Control;
-
-
-#define DEFAULTCOLUMNITEM_CLASSID		"5003340e-98c7-46ac-a27c-1d38dfdd8aa7"
-
-/**
-Class DefaultColumnItem documentation
-
-*/
-class APPKIT_API DefaultColumnItem : public ColumnItem { 
-public:
-
-	DefaultColumnItem();
-
-	virtual ~DefaultColumnItem();
-
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
-    
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}	
-
-	virtual bool containsPoint( Point * pt );	
-
-    virtual unsigned long getIndex();
-
-	virtual void setIndex( const unsigned long& index );
-
-    virtual void* getData() {
-		return data_;
-	}
-
-	virtual void setData( void* data );	
-
-	virtual String getCaption() {
-		return caption_;
-	}
-	
-	virtual void setCaption( const String& caption );
-
-	virtual double getWidth() {
-		return width_;
-	}
-
-	virtual void setWidth( const double& width );	
-
-	virtual void setCaptionAlignment( const TextAlignmentType& alignment );
-
-	virtual TextAlignmentType getCaptionAlignment() {
-		return textAlignment_;
-	}
-
-	virtual Model* getModel();
-
-	virtual void setModel( Model* model );
-
-	virtual void paint( GraphicsContext* context, Rect* paintRect );
-	
-	virtual bool isSelected();
-
-	virtual void setSelected( const bool& selected );
-
-	virtual long getImageIndex() {
-		return imageIndex_;
-	}
-
-	virtual void setImageIndex( const long& imageIndex );
-
-	virtual Rect* getBounds() {
-		return &bounds_;
-	}
-
-	virtual Control* getControl() {
-		return owningControl_;
-	}
-
-
-	virtual void setControl( Control* control ) {
-		owningControl_ = control;
-	}
-
-	virtual bool canPaint() {
-		return false;	
-	}
-
-	virtual long getState(){
-		return 0;	
-	}
-
-	virtual void setState( const long& state ){}
-
-	virtual void setBounds( Rect* bounds );
-
-	/**
-	*not supported
-	*/
-	virtual long getStateImageIndex(){
-		return -1;
-	};
-
-	/**
-	*not supported
-	*/
-	virtual void setStateImageIndex( const long& index ){}
-
-	virtual long getTag() {
-		return tag_;
-	}
-
-	virtual void setTag( const long& tag ) {
-		tag_ = tag;
-	}
-protected:	
-	Control* owningControl_;
-	String caption_;
-	void* data_;
-	unsigned long index_;
-	Rect bounds_;
-	ColumnModel* model_;
-	bool selected_;
-	long imageIndex_;
-	double width_;
-	TextAlignmentType textAlignment_;
-	long tag_;
-};
-
-
-}; //end of namespace VCF
 
 #endif // _VCF_DEFAULTCOLUMNITEM_H__
 
