@@ -314,7 +314,15 @@ SOURCE=..\..\..\src\Graphics\Matrix2D.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\Point.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Graphics\Polygon.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Rect.cpp
 # End Source File
 # Begin Source File
 
