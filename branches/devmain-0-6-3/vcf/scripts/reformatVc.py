@@ -768,17 +768,17 @@ class DspApp:
         self.createdFiles   = 0
 
         #self.configsection = ''
-
         optparser = OptionParser( usage=self.usage, version=self.version, option_class=OptionEx )
         optparser.add_option(   "-c", "--config"                             , type = "string"  , dest = "config"                        , default=g_default_config      , help="configuration file" )
         optparser.add_option(   "-s", "--section"                            , type = "string"  , dest = "section"                       , default=g_default_section     , help="section in the configuration file" )
 
         optparser.add_option(   "--workingDir"                               , type = "string"  , dest = "workingDir"                    , default='.'                   , help="set the current directory, it uses os.getCwd() if empty" )
 
-        optparser.add_option(   "-f", "--file"                               , type = "string"  , dest = "filename"                      , default=""                    , help="process only filenames containing this string ( case ignored )" )
+        optparser.add_option(   "-f", "--file"                               , type = "string"  , dest = "filename"                      , default=""                    , help="process only filenames containing this string ( lettercase is ignored )" )
         optparser.add_option(   "-r", "--recurse"                            , type = "int"     , dest = "recurse"                       , default=False                 , help="recursion into subdirectories" )
 
-        optparser.add_option(   "-v", "--verbose"                            , type = "int"     , dest = "verbose"                       , default=False                 , help="verbose level. Use -vvv to set verbose level = 3" )
+        optparser.add_option(   "-v", "--verbose"                            , type = "int"     , dest = "verbose"                       , default=0                     , help="verbose level. Use -vvv to set verbose level = 3" )
+        optparser.add_option(   "-w", "--warning"                            , type = "int"     , dest = "warning"                       , default=1                     , help="warning level. Use -www to set warning level = 3" )
         # optparser.add_option(   "-q", "--quiet"                              , type = "int"    , dest = "verbose"                       , default=False                 , help="reset verbose level to zero" )
 
         optparser.add_option(   "-p", "--prompt"                             , type = "int"     , dest = "prompt"                        , default=True                  , help="ask to press any key before continuing" )
@@ -881,6 +881,7 @@ class DspApp:
         print ' --filename       = \'' + str(self.options.filename) + '\''
         print ' --recurse        = ' + str(self.options.recurse)
         print ' --verbose        = ' + str(self.options.verbose)
+        print ' --warning        = ' + str(self.options.warning)
         print ' --prompt         = ' + str(self.options.prompt )
         print ''
         print ' --unixStyle      = ' + str(self.options.unixStyle)
@@ -1010,6 +1011,7 @@ class DspApp:
 
                     self.options.recurse                        = self.getOptionValue( [ 'recurse', 'r' ]                    , comm_sect, 'recurse'                        , "bool"      )
                     self.options.verbose                        = self.getOptionValue( [ 'verbose', 'v' ]                    , comm_sect, 'verbose'                        , "int"       )
+                    self.options.warning                        = self.getOptionValue( [ 'warning', 'w' ]                    , comm_sect, 'verbose'                        , "int"       )
                     self.options.prompt                         = self.getOptionValue( [ 'prompt', 'p' ]                     , comm_sect, 'prompt'                         , "int"       )
 
                     self.options.unixStyle                      = self.getOptionValue( [ 'unixStyle' ]                       , comm_sect, 'unixStyle'                      , "bool"      )
@@ -1730,6 +1732,9 @@ class DspFile:
         self.projectName = ''
         self.configName = ''
         self.addKind = enum_ADD_NONE
+        
+        self.resetWarnings()
+
         return
 
     def reset( self ):
@@ -1758,8 +1763,15 @@ class DspFile:
         self.projectName = ''
         self.configName = ''
         self.addKind = enum_ADD_NONE
+        
+        self.resetWarnings()
+        
         return
 
+    def resetWarnings( self ):
+        self.wdone_dirs_different = False
+        return
+    
     def setFilename( self, filename ):
         self.filename = filename
         self.filetitle = os.path.basename( filename )
@@ -2507,6 +2519,12 @@ class DspFile:
             addDir  = +1 # never remove it
             addFile = +1
             line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.MainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
+            
+        if ( 0 < app.options.warning ):
+            if ( self.appType == enumAppTypeExe and self.OutputDirOut != self.PropIntermeDir ):
+                if ( not self.wdone_dirs_different and self.OutputDirOut == './' or self.OutputDirOut == '\\'  ):
+                    self.wdone_dirs_different = True
+                    print '  Warning!: the executable of %s has a LINK32 /out: directory different than the PROP_Output_Dir: [%s] != [%s]' % ( os.path.basename(self.filename), self.OutputDirOut, self.PropOutputDir )
 
         return line
     
