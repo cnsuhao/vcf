@@ -536,6 +536,7 @@ void ComboBoxControl::closeDropDown( Event* event )
 				setDropDownSelected( false );
 			}
 		}
+
 		if ( cbsDropDownWithEdit == comboBoxStyle_ ) {
 			ListItem* item = getSelectedItem();
 			if ( NULL != item ) {
@@ -632,6 +633,10 @@ void ComboBoxControl::mouseUp( MouseEvent* event )
 
 void ComboBoxControl::keyPressed( KeyboardEvent* event )
 {
+	// this case is called when the focus is on the DropDownListBox
+	//  control, as it happens when an item is selected;
+	// it is not called when the focus is on the edit_ control
+
 	switch ( event->getVirtualCode() ){
 		case vkUpArrow :{
 			ulong32 index = selectedIndex_ + 1;
@@ -661,6 +666,31 @@ void ComboBoxControl::keyPressed( KeyboardEvent* event )
 			this->repaint();
 		}
 		break;
+
+		case vkReturn : {
+			StringUtils::trace( "ComboBoxControl::keyPressed: vkReturn()\n" );
+			if ( NULL != dropDown_ ) {
+				ListItem* item = ((ComboBoxDropDown*)dropDown_)->getListBox()->getSelectedItem();
+
+				// we close the drodownbox here because if we do it after, 
+				// we would set back the current selected item, while
+				// the selected item is going to be changed by this code.
+				Event ev( this );
+				closeDropDown( &ev );
+
+				setSelectedItem( item );
+
+				if ( cbsDropDownWithEdit == comboBoxStyle_ ) {
+					item = getSelectedItem();
+					if ( NULL != item ) {
+						setCurrentText( item->getCaption() );
+					}
+				}
+
+			}
+		}
+		break;
+
 	}
 }
 
@@ -690,6 +720,7 @@ void ComboBoxControl::setSelectedItem( ListItem* selectedItem )
  		ItemEvent event( selectedItem_, ITEM_EVENT_SELECTED );
 		SelectionChanged.fireEvent( &event );
 	}
+
 	repaint();
 }
 
@@ -777,55 +808,98 @@ void ComboBoxControl::onEditKeyPressed( KeyboardEvent* event )
 
 void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
 {
+	// we get here only if the focus is on the edit control;
+	// if we select an item, the focus will go to the DropDownListBox instead.
+
 	if ( vkReturn == event->getVirtualCode() ) {
 		ListItem* item = this->getSelectedItem();
-		if ( NULL != item ) {
-			item->setCaption( edit_->getTextModel()->getText() );
-			repaint();
+
+		if ( NULL != dropDown_ ) { // MP-begin
+			ListItem* item = ((ComboBoxDropDown*)dropDown_)->getListBox()->getSelectedItem();
+
+			// we close the drodownbox now because if we do it after, 
+			// we would set back the current selected item
+			Event ev( this );
+			closeDropDown( &ev );
+
+			setSelectedItem( item );
+
+			if ( cbsDropDownWithEdit == comboBoxStyle_ ) {
+				ListItem* item = getSelectedItem();
+				if ( NULL != item ) {
+					setCurrentText( item->getCaption() );
+				}
+			}
+
+		} // MP-end
+		else {
+			ListItem* item = this->getSelectedItem();
+			if ( NULL != item ) {
+				item->setCaption( edit_->getTextModel()->getText() );
+				repaint();
+			}
 		}
-	} else {
-		if ( autoLookup_ ) {
-			bool hasSpecialKey = ( event->getKeyMask() != 0 );
-			if ( !hasSpecialKey ) {
-				String caption, editCaption;
-				editCaption = edit_->getTextModel()->getText();
-				if ( editCaption != "" ) {
-					if ( autoLookupIgnoreCase_ ) {
-						editCaption = StringUtils::upperCase( editCaption );
-					}
 
-					ListItem* similarItem = NULL;
-					Enumerator<ListItem*>* items = getListModel()->getItems();
-					while ( true == items->hasMoreElements() ) {
-						ListItem* item = items->nextElement();
-						caption = item->getCaption();
-						if ( autoLookupIgnoreCase_ ) {
-							caption = StringUtils::upperCase( caption );
-						}
+	}
+	else {
+		if ( NULL != dropDown_ ) {
+			// find the item and select it
+			if ( autoLookup_ ) {
+				bool hasSpecialKey = ( event->getKeyMask() != 0 );
+				if ( !hasSpecialKey ) {
+					String caption, editCaption;
+					editCaption = edit_->getTextModel()->getText();
 
-						if ( NULL != dropDown_ ) {
-							// this privilege the identical item, otherwise it accept the first more similar to the editCaption in the (unsorted) list
-							if ( caption == editCaption ) {
-								similarItem = item;
-								break;
-							} else if ( NULL == similarItem && 0 == caption.find( editCaption ) ) {
-									similarItem = item;
-							}
-						}
-					}
-
-					if ( NULL != similarItem ) {
+					ListItem* found = lookupItem( editCaption, autoLookupIgnoreCase_ );
+					if ( NULL != found ) {
 						this->selectItems( false );
 
-						((ComboBoxDropDown*)dropDown_)->ensureVisible( similarItem, true );		//setSelectedItem( item );
-						similarItem->setSelected( true );
-
-						//break;
+						((ComboBoxDropDown*)dropDown_)->ensureVisible( found, true );
+						found->setSelected( true );
 					}
+
 				}
 			}
 		}
 	}
+}
+
+ListItem* ComboBoxControl::lookupItem( const String& text, const bool& ignoreCase/*=false*/ )
+{
+	ListItem* found = NULL;
+
+	if ( text != "" ) {
+		String txt = text;
+		if ( ignoreCase ) {
+			txt = StringUtils::lowerCase( text );
+		}
+
+		String caption;
+		ListItem* similarItem = NULL;
+		Enumerator<ListItem*>* items = getListModel()->getItems();
+		while ( true == items->hasMoreElements() ) {
+			ListItem* item = items->nextElement();
+			caption = item->getCaption();
+			if ( ignoreCase ) {
+				caption = StringUtils::lowerCase( caption );
+			}
+
+			// this privilege the identical item, otherwise it accept the first more similar to the text in the (unsorted) list
+			if ( caption == txt ) {
+				similarItem = item;
+				break;
+			} else if ( NULL == similarItem ) {
+				if ( 0 == caption.find( txt ) ) {
+						similarItem = item;
+					}
+			}
+		}
+
+		found = similarItem;
+
+	}
+
+	return found;
 }
 
 void ComboBoxControl::setDropDownCount( const ulong32& dropDownCount )
@@ -959,6 +1033,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/01/31 01:36:34  marcelloptr
+*fixed autolookup. Added behaviour when vkReturn is pressed.
+*
 *Revision 1.3.2.4  2005/01/15 00:52:38  marcelloptr
 *bugfix [ 1099910 ] plus other improvements of the scrolling
 *
