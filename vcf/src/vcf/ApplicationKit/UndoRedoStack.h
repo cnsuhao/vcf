@@ -21,40 +21,116 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
-*Class UndoRedoStack documentation
+* stack class managing any undo redo operation.
+* It is possible to bypass the default undo redo
+* behaviour of this class, without deriving
+* form this class, through the use of its UndoCommand 
+* and RedoCommand delegates.
 */
 
 class APPLICATIONKIT_API UndoRedoStack : public ObjectWithEvents {
+public:
+	/*
+	* Used if the user desires to bypass the default behaviour of 
+	* this UndoRedoStack instance. In this case the user needs 
+	* to add an event handler to this delegate, and setAllowsUndo(false)
+	* inside this handler.
+	*/
+	DELEGATE(UndoCommand);
+
+	/*
+	* Used if the user desires to bypass the default action of 
+	* this UndoRedoStack instance. In this case the user needs 
+	* to add an event handler to this delegate, and setAllowsRedo(false)
+	* inside this handler.
+	*/
+	DELEGATE(RedoCommand);
+
+	/*
+	* to be notified that the stack is going to be be cleared.
+	* This is called foreward.
+	*/
+	DELEGATE(StackCleared);
+
+	/*
+	* to be notified that the stack has been changed.
+	* This is called afterward.
+	*/
+	DELEGATE(StackChanged);
+
+	/*
+	* to be notified that a command has been executed.
+	* This is called after the command has been added to the undo stack,
+	* and after the command has been executed
+	*/
+	DELEGATE(ExecuteCommand);
+
 public:
 	UndoRedoStack();
 
 	virtual ~UndoRedoStack();
 
+	/*
+	* undoes the last command.
+	* this default behaviour can be bypassed.
+	*@fire UNDOREDO_EVENT_UNDO event before the default undo action is performed.
+	*/
 	virtual void undo();
 
+	/*
+	* redoes the last command ( undoes the previous undo ).
+	* this default behaviour can be bypassed.
+	*@fire UNDOREDO_EVENT_REDO event before the default redo action is performed.
+	*/
 	virtual void redo();
 
+	/*
+	* tells if there is any undo item in the stack.
+	*/
 	virtual bool hasUndoableItems();
 
+	/*
+	* tells if there is any redo item in the stack.
+	*/
 	virtual bool hasRedoableItems();
 
+	/*
+	* adds a command to the undo stack and clears the redo stack.
+	* By default this also executes the command.
+	*@param Command* command, the instance representing
+	*the action which is potentially undoable.
+	*@const bool& autoExecute, true if the operation needs also 
+	*to be executed. This is the default.
+	*@fire UNDOREDO_EVENT_EXECUTE event, only if autoExecute== true, after the command has been executed.
+	*@fire UNDOREDO_EVENT_STACK_CHANGED event, after the command has been added.
+	*/
 	virtual void addCommand( Command* command, const bool& autoExecute=true );
 
-	virtual Command* getCurrentUndoComand();
+	/*
+	* gets the first command to undo.
+	*/
+	virtual Command* getCurrentUndoCommand();
 
-	virtual Command* getCurrentRedoComand();
+	/*
+	* gets the first command to redo.
+	*/
+	virtual Command* getCurrentRedoCommand();
 
+	/*
+	* clears both the undo/redo stacks.
+	*@fire UNDOREDO_EVENT_STACK_CLEARED event before the stack is cleared.
+	*/
 	void clearCommands();
 
-	DELEGATE(UndoCommand);
-	DELEGATE(RedoCommand);
-	DELEGATE(StackCleared);
-	DELEGATE(StackChanged);
-	DELEGATE(ExecuteCommand);
-
 protected:
+	/*
+	* ???
+	*/
 	void movetToRedoStack( Command* command );
 
+	/*
+	* the undo and redo internal stacks.
+	*/
 	std::deque<Command*> undoStack_;
 	std::deque<Command*> redoStack_;
 private:
@@ -67,6 +143,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -98,16 +98,17 @@ public:
 	virtual void setClippingRect( Rect* clipRect ) = 0;
 
 	/**
-	*this is used to determine how to
-	*align text when the windowing systems
-	*draws it. Currently the choices are 2:
-	*either it is aligned to the top, or in other
-	*words the coordinates specified represent the
-	*top, left position to start rendering the text,
-	*or aligned to the baseline, in which the top,
-	*left coordinates represent the baseline point of
-	*origin. The latter setting is useful when
-	*drawing text whith different font styles
+	* this is used to determine how to align text 
+	* when the windowing systems draws it. 
+	* Currently the choices are 2:
+	*  either it is aligned to the top, or in other
+	*  words the coordinates specified represent the
+	*  top, left position to start rendering the text,
+	* or 
+	*  aligned to the baseline, in which the top,
+	*  left coordinates represent the baseline point of
+	*  origin. The latter setting is useful when
+	*  drawing text whith different font styles.
 	*/
 	virtual void setTextAlignment( const bool& alignTobaseline ) = 0;
 
@@ -285,6 +286,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/07 19:32:20  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.2  2004/10/27 03:12:18  ddiego
 *integrated chrisk changes
 *

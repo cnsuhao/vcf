@@ -15,6 +15,10 @@ where you installed the VCF.
 
 namespace VCF {
 
+/**
+* The structure used to fully save and restore the state of a Graphics context.
+*@see GraphicsContext::saveState()
+*/
 class GraphicsState {
 public:	
 
@@ -24,9 +28,9 @@ public:
 
 	GraphicsState& operator=( const GraphicsState& rhs );	
 
-
 	void compositeMatrix();
 
+public:
 	Fill* fill_;
 	Stroke* stroke_;	
 	Path* clippingPath_;
@@ -1493,6 +1497,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.14  2004/11/07 19:32:20  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.13  2004/10/27 03:12:18  ddiego
 *integrated chrisk changes
 *

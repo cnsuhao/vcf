@@ -604,6 +604,11 @@ void Win32FilePeer::setDateModified( const DateTime& dateModified )
 
 		unsigned long y, m, d, h, min, s, ms;
 		dateModified.get( &y, &m, &d, &h, &min, &s, &ms );
+
+		if ( ( y < 1601 ) || ( 30827 < y ) ) {
+			throw BasicException( "The SYSTEMTIME structure doesn't allow dates outside the range [1601,30827]" );
+		}
+
 		st.wYear   = y;
 		st.wMonth  = m;
 		st.wDayOfWeek = dateModified.getWeekDay();
@@ -958,6 +963,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.1  2004/08/26 04:05:48  marcelloptr
 *minor change on name of getMillisecond
 *

@@ -45,26 +45,6 @@ Control* Win32ControlContext::getOwningControl()
 	return result;
 }
 
-void Win32ControlContext::releaseHandle()
-{
-	Win32Context::releaseHandle();
-
-	if ( (NULL != owningControlCtx_->getOwningControl()) && (NULL != dc_) ){
-		Control* owningControl = owningControlCtx_->getOwningControl();
-		ControlPeer* peer = owningControl->getPeer();
-		if ( true == owningControl->isLightWeight() ) {
-			BOOL result = ::SetViewportOrgEx( dc_, (long)oldOrigin_.x_, (long)oldOrigin_.y_, NULL );
-			if ( FALSE == result ) {
-				throw RuntimeException( MAKE_ERROR_MSG_2("SetViewportOrgEx() failed for win32 Context") );
-			}
-		}
-
-
-		::ReleaseDC( (HWND)peer->getHandleID(), dc_ );
-		dc_ = NULL;
-	}	
-}
-
 void Win32ControlContext::checkHandle()
 {
 	if ( NULL != owningControlCtx_->getOwningControl() ){
@@ -93,10 +73,33 @@ void Win32ControlContext::checkHandle()
 	}
 }
 
+void Win32ControlContext::releaseHandle()
+{
+	Win32Context::releaseHandle();
+
+	if ( (NULL != owningControlCtx_->getOwningControl()) && (NULL != dc_) ){
+		Control* owningControl = owningControlCtx_->getOwningControl();
+		ControlPeer* peer = owningControl->getPeer();
+		if ( true == owningControl->isLightWeight() ) {
+			BOOL result = ::SetViewportOrgEx( dc_, (long)oldOrigin_.x_, (long)oldOrigin_.y_, NULL );
+			if ( FALSE == result ) {
+				throw RuntimeException( MAKE_ERROR_MSG_2("SetViewportOrgEx() failed for win32 Context") );
+			}
+		}
+
+
+		::ReleaseDC( (HWND)peer->getHandleID(), dc_ );
+		dc_ = NULL;
+	}	
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.1  2004/10/31 15:32:05  ddiego
 *fixed a bug in the way Win32ControlContext::releaseHandle() worked that was causing a problem in Win32Font::getPointSize().
 *

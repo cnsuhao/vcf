@@ -143,7 +143,9 @@ public:
 	virtual void paint( GraphicsContext * context );
 
 	/**
-	Shows the frame. Generally the same as calling Control::setVisible(true)
+	Shows the frame.
+	Generally the same as calling Control::setVisible(true)
+	It also activates it.
 	@see Control::setVisible
 	*/
 	virtual void show();
@@ -204,6 +206,8 @@ public:
 
 	/**
 	Activates this frame.
+	This base implementation activates the window 
+	only if is not already the active one.
 	*/
 	virtual void activate();
 
@@ -296,6 +300,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.1  2004/10/23 13:53:12  marcelloptr
 *comments for setUseColorForBackground; setActiveFrame renamed as internal
 *
