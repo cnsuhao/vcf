@@ -512,9 +512,12 @@ void ComboBoxControl::closeDropDown( Event* event )
 		dropDown_->close();
 
 		if ( NULL != selectedItem  ) {
-			setDropDownSelected( true );
-			setSelectedItem( selectedItem );
-			setDropDownSelected( false );
+			// not when we just lost the focus
+			if ( event->getType() != 888999 ) {
+				setDropDownSelected( true );
+				setSelectedItem( selectedItem );
+				setDropDownSelected( false );
+			}
 		}
 		if ( cbsDropDownWithEdit == comboBoxStyle_ ) {
 			ListItem* item = getSelectedItem();
@@ -934,6 +937,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2004/12/21 21:58:05  marcelloptr
+*bugfix [ 1089382 ] ComboBox fires a SelectionChanged msg when loosing focus
+*
 *Revision 1.3.2.2  2004/12/20 21:57:50  ddiego
 *committing cheeseheads patches for the combobox control.
 *
