@@ -1533,8 +1533,8 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 bool Control::isActive()
 {
 	Frame* parentFrame = getParentFrame();
-	printf( "parentFrame: %p, Frame::getActiveFrame(): %p\n",
-				parentFrame, Frame::getActiveFrame() );
+	//printf( "parentFrame: %p, Frame::getActiveFrame(): %p\n",
+	//			parentFrame, Frame::getActiveFrame() );
 	return (parentFrame == Frame::getActiveFrame()) && (parentFrame->isActiveFrame());
 }
 
@@ -1560,6 +1560,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2004/11/03 05:10:45  ddiego
+*osx open file now 95% functional - woot
+*
 *Revision 1.2.2.8  2004/10/23 18:10:41  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *

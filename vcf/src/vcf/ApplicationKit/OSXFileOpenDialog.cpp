@@ -149,6 +149,16 @@ bool OSXFileOpenDialog::execute()
 		openDlgOptions_.optionFlags &= ~kNavNoTypePopup;																
 	}
 	
+	if ( filter_.empty() ) {
+		openDlgOptions_.optionFlags |= kNavSupportPackages;
+	}
+	
+	if ( !allowsMultiSelect_ ) {
+		openDlgOptions_.optionFlags ^= kNavAllowMultipleFiles;
+	}
+	else {
+//		openDlgOptions_.optionFlags &= ~kNavAllowMultipleFiles;
+	}
 	
 	//Finally!!! Create our goddamn dialog....
 	
@@ -219,15 +229,23 @@ bool OSXFileOpenDialog::execute()
 bool OSXFileOpenDialog::matchFileType( NavFileOrFolderInfo* info, FSRef* fileRef )
 {
 	bool result = false;
+	
+	if ( filter_.empty() ) {
+		return true;
+	}
+	
 	LSItemInfoRecord itemInfo;
 	LSCopyItemInfoForRef( fileRef, kLSRequestAllInfo, &itemInfo );
 	String ext;
 	FilterPair filterEntry = filter_[ selectedFileTypeIndex_ ];
 	
+		
+	
 	if ( info->fileAndFolder.fileInfo.finderInfo.fdType != 0 ) {
 		std::map<String,OSType>::iterator found = fileTypesFilterMap_.begin();
 		while ( found != fileTypesFilterMap_.end() )  {
 			//find and match in the filer entry for the extension
+			
 			if ( filterEntry.second.find( found->first ) != String::npos ) {
 				//check the OSType
 				if ( found->second == info->fileAndFolder.fileInfo.finderInfo.fdType ) {
@@ -240,7 +258,6 @@ bool OSXFileOpenDialog::matchFileType( NavFileOrFolderInfo* info, FSRef* fileRef
 	}
 	
 	if ( !result ) {
-		
 		if ( itemInfo.extension ) {
 			CFTextString tmp;
 			tmp = itemInfo.extension;
@@ -255,6 +272,16 @@ bool OSXFileOpenDialog::matchFileType( NavFileOrFolderInfo* info, FSRef* fileRef
 					if ( type == itemInfo.filetype ) {
 						result = true;
 					} 
+				}
+				else {
+					//no type, so since we are in the filterEntry mask, then assume true!
+					result = true;
+				}
+				
+				if ( !result ) {
+					//damn STILL no match, well again resort to the fact that
+					//our file extension was in our filter mask
+					result = true;
 				}
 			}
 		}
@@ -373,7 +400,7 @@ Enumerator<String>* OSXFileOpenDialog::getSelectedFiles() {
 
 void OSXFileOpenDialog::setAllowsMultiSelect( const bool& allowsMultiSelect ) 
 {
-	
+	allowsMultiSelect_ = allowsMultiSelect;
 }
 
 void OSXFileOpenDialog::setSelectedFilter( const String& selectedFilter ) 
