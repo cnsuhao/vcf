@@ -23,7 +23,7 @@
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -89,7 +89,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -172,7 +172,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
@@ -182,7 +182,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
@@ -197,7 +197,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -206,7 +206,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -221,7 +221,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -230,7 +230,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -244,7 +244,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -253,7 +253,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -267,7 +267,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -276,7 +276,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -290,7 +290,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -299,7 +299,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -313,7 +313,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -322,7 +322,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -336,7 +336,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -345,7 +345,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -359,7 +359,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -368,7 +368,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -382,7 +382,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -391,7 +391,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -405,7 +405,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -414,7 +414,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -428,7 +428,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -437,7 +437,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -451,7 +451,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -460,7 +460,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -474,7 +474,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -483,7 +483,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -497,7 +497,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -506,7 +506,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -520,7 +520,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -529,7 +529,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -547,7 +547,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -556,7 +556,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -631,7 +631,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -640,7 +640,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -654,7 +654,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -663,7 +663,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -683,7 +683,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -692,7 +692,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -706,7 +706,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -715,7 +715,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -733,7 +733,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -742,7 +742,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -756,7 +756,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -765,7 +765,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -779,7 +779,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -788,7 +788,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -802,7 +802,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -811,7 +811,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -825,7 +825,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -834,7 +834,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -851,7 +851,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -860,7 +860,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -877,7 +877,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -886,7 +886,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -906,7 +906,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -915,7 +915,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -929,7 +929,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -938,7 +938,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -952,7 +952,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -961,7 +961,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -982,7 +982,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -991,7 +991,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1005,7 +1005,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1014,7 +1014,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1028,7 +1028,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1037,7 +1037,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1051,7 +1051,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1060,7 +1060,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1077,7 +1077,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1086,7 +1086,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1109,7 +1109,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1118,7 +1118,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1138,7 +1138,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1147,7 +1147,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1167,7 +1167,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1176,7 +1176,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1190,7 +1190,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1199,7 +1199,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1213,7 +1213,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1222,7 +1222,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1239,7 +1239,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1248,7 +1248,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1262,7 +1262,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1271,7 +1271,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1288,7 +1288,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1297,7 +1297,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1314,7 +1314,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1323,7 +1323,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1337,7 +1337,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1346,7 +1346,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1360,7 +1360,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1369,7 +1369,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1383,7 +1383,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1392,7 +1392,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1409,7 +1409,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1418,7 +1418,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1429,7 +1429,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1438,7 +1438,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1452,7 +1452,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1461,7 +1461,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1481,7 +1481,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1490,7 +1490,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1517,7 +1517,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1526,7 +1526,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1540,7 +1540,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1549,7 +1549,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1610,7 +1610,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1619,7 +1619,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1636,7 +1636,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1645,7 +1645,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1665,7 +1665,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1674,7 +1674,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1694,7 +1694,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1703,7 +1703,7 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
