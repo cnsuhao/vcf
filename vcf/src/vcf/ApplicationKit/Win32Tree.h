@@ -20,13 +20,12 @@ where you installed the VCF.
 #	include "vcf/ApplicationKit/TreeModel.h"
 #endif // _VCF_TREEMODEL_H__
 
-namespace VCF
-{
+namespace VCF {
 
+class TreeModelEvent;
 class ImageListEvent;
 
-class Win32Tree : public AbstractWin32Component, public TreePeer
-{
+class Win32Tree : public AbstractWin32Component, public TreePeer  {
 public:
 	Win32Tree( TreeControl* tree );
 
@@ -91,6 +90,9 @@ private:
 	void onImageListImageChanged( ImageListEvent* event );
 
 	void onStateImageListImageChanged( ImageListEvent* event );
+
+	void onControlModelChanged( Event* e );
+	void onTreeNodeDeleted( TreeModelEvent* event );
 };
 
 };
@@ -99,6 +101,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/23 04:20:56  ddiego
+*more checkins
+*
 *Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
 *added support for editing labels on a tree control
 *

@@ -1438,6 +1438,7 @@ bool Control::isActive()
 
 void Control::setViewModel( Model* viewModel )
 {
+	AbstractView::setViewModel( viewModel );
 	ControlEvent event( this, Control::CONTROL_MODELCHANGED );
 	ControlModelChanged.fireEvent(&event);
 }
@@ -1446,6 +1447,9 @@ void Control::setViewModel( Model* viewModel )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/23 04:20:56  ddiego
+*more checkins
+*
 *Revision 1.1.2.7  2004/07/22 04:18:58  ddiego
 *fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
 *prevents the TreePeer from being properly notified when the tree model's

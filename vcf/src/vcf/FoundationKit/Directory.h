@@ -146,6 +146,15 @@ public:
 		*/
 		void reset();
 
+		/*
+       *Are there any more elements in this Finder ?
+       *This function doesn't affect the search in any way.
+       *@return if the there are some more elements to search.
+       */
+		inline bool hasMoreElements() const {
+			return searchHasMoreElements_;
+		}
+
 		/**
 		*returns the Directory object that created
 		*this Finder.
@@ -667,6 +676,9 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/23 04:21:46  ddiego
+*more checkins
+*
 *Revision 1.1.2.7  2004/07/23 00:56:37  ddiego
 *added the latest changes to the File and Directory finder classes.
 *
