@@ -93,6 +93,9 @@ protected:
 	void onSearchIconClick( VCF::Event* e );
 	void onSearchTextEntered( VCF::KeyboardEvent* e );
 
+	
+	void onPlaylistViewDblClick( VCF::Event* e );
+
 	void onPlaylistClick( VCF::Event* e );	
 
 	void onCreatePlaylist(  VCF::Event* event );

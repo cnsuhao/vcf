@@ -149,38 +149,7 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 		break;
 
 		case WM_SIZE : {
-
-			switch ( wParam ) {
-				case SIZE_MAXHIDE : {
-					StringUtils::trace( "SIZE_MAXHIDE\n" );
-				}
-				break;
-
-				case SIZE_MAXIMIZED : {
-					StringUtils::trace( "SIZE_MAXIMIZED\n" );
-				}
-				break;
-
-				case SIZE_MAXSHOW : {
-					StringUtils::trace( "SIZE_MAXSHOW\n" );
-				}
-				break;
-
-				case SIZE_MINIMIZED : {
-					StringUtils::trace( "SIZE_MINIMIZED\n" );
-				}
-				break;
-
-				case SIZE_RESTORED : {
-					StringUtils::trace( "SIZE_RESTORED\n" );
-				}
-				break;
-
-				default : {
-					StringUtils::traceWithArgs( "WM_SIZE wParam unknown. wParam: %d\n",wParam );
-				}
-				break;
-			}
+			
 
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
@@ -1365,6 +1334,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/21 03:35:49  ddiego
+*some minor updates to the QTPlayer example
+*
 *Revision 1.1.2.9  2004/07/15 14:55:11  ddiego
 *borders fixed
 *

@@ -88,7 +88,8 @@ END_CLASSINFO( PlayListDictionary )
 
 class PlayListItem : public DefaultListItem {
 public:
-	PlayListItem( Control* control, const String& caption, Model* model ):
+	PlayListItem( Control* control, const String& caption, 
+					Model* model ):
 	  DefaultListItem( model, caption ),control_(control) {
 
 	}
@@ -137,6 +138,7 @@ public:
 		return false;
 	}
 
+	
 	Control* control_;
 };
 
@@ -721,15 +723,14 @@ void MainQTWindow::buildUI()
 	mediaLabel_->setTransparent( false );
 	mediaLabel_->setUseColorForBackground( true );
 	mediaLabel_->getFont()->setName( "Tahoma" );
-	mediaLabel_->getFont()->setPointSize( 8 );
+	
 
 	Light3DBorder* bdr = new Light3DBorder();
 	bdr->setInverted( true );
 	mediaLabel_->setBorder( bdr );
 	currentMediaPanel->add( mediaLabel_, AlignClient );
 
-
-
+	mediaLabel_->getFont()->setPixelSize( mediaLabel_->getHeight() * 0.45 );
 
 
 
@@ -1069,6 +1070,8 @@ void MainQTWindow::buildUI()
 	playListCtrl_->addHeaderColumn( "Movie Size", 80 );
 	playListCtrl_->addHeaderColumn( "Data Size", 80 );
 
+	playListCtrl_->MouseDoubleClicked += 
+		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistViewDblClick, "MainQTWindow::onPlaylistViewDblClick" );
 
 	ListModel* lm = playListCtrl_->getListModel();
 
@@ -1628,6 +1631,8 @@ void MainQTWindow::onPlaylistClick( VCF::Event* e )
 			Dictionary::pair item = items->nextElement();
 
 			PlayListItem* newItem = new PlayListItem( playListCtrl_, item.first, NULL );
+			newItem->setData( (void*)list );
+
 			lm->addItem( newItem );
 			//newItem->addSubItem(  );
 		}
@@ -1645,6 +1650,9 @@ void MainQTWindow::onPlaylistItemChanged( VCF::ItemEvent* event )
 	String oldName = itemMap_[item];
 	PlayListDictionary* dict = playListDict_->getPlaylist( oldName );
 	if ( NULL != dict ) {
+
+		playListDict_->removePlaylist( oldName );
+
 		(*playListDict_)[item->getCaption()] = dict;
 	}
 
@@ -1692,7 +1700,7 @@ void MainQTWindow::updateViewPlaylist( VCF::ActionEvent* e )
 
 void MainQTWindow::onAddToPlaylist(  VCF::Event* event )
 {
-	//if we have 
+	addFileNameToPlaylist( quicktimeControl_->getMovie()->getFileName() );
 }
 
 void MainQTWindow::updateAddToPlaylist( VCF::ActionEvent* e )
@@ -1816,4 +1824,22 @@ void MainQTWindow::savePlaylist()
 {
 	FileOutputStream fos( playlistFile_ );
 	fos << playListDict_;
+}
+
+void MainQTWindow::onPlaylistViewDblClick( VCF::Event* e )
+{
+	
+
+	ListItem* item = playListCtrl_->getSelectedItem();
+
+	if ( NULL != item ) {
+		PlayListDictionary* dict = (PlayListDictionary*)item->getData();
+		
+		String fileName = (*dict)[ item->getCaption() ];
+		
+		movieLoaded_ = false;
+		if ( !quicktimeControl_->open( fileName ) ) {											
+			((MediaInfoPanel*)mediaInfo_)->setMovie( NULL );
+		}	
+	}
 }

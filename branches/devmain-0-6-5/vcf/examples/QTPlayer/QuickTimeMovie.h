@@ -129,6 +129,9 @@ public:
 		return title_;
 	}
 
+	VCF::String getFileName() const {
+		return filename_;
+	}
 protected:
 	TimeRecord currentTime_;
 	Movie qtMovie_;
