@@ -722,9 +722,15 @@ protected:
 			return dt_ != rhs.dt_;
 		}
 
-		Iterator& operator++() {
+		Iterator& operator++() {		// prefix
 			DateLogic::incr( dt_, 1 );
 			return *this;
+		}
+
+		Iterator& operator++(int) { // postfix
+			Iterator before = (*this);
+			DateLogic::incr( dt_, 1 );
+			return before;
 		}
 
 		Iterator& operator+=( const unsigned long& rhs ) {
@@ -733,9 +739,15 @@ protected:
 			return *this;
 		}
 
-		Iterator& operator--() {
+		Iterator& operator--() {		// prefix
 			DateLogic::decr( dt_, 1 );
 			return *this;
+		}
+
+		Iterator& operator--(int) { // postfix
+			Iterator before = (*this);
+			DateLogic::decr( dt_, 1 );
+			return before;
 		}
 
 		Iterator& operator-=( const unsigned long& rhs ) {
@@ -960,7 +972,7 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.1  2004/12/07 23:09:42  marcelloptr
+*Revision 1.3.2.2  2004/12/07 23:15:31  marcelloptr
 *added postfix iterator for the DateTime::Iterator
 *
 *Revision 1.3  2004/12/01 04:31:40  ddiego
