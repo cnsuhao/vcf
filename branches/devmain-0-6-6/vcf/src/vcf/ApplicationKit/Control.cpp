@@ -1418,19 +1418,56 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 
 		double dx = scrollable->getVirtualViewWidth() - innerBounds.getWidth();
 		double dy = scrollable->getVirtualViewHeight() - innerBounds.getHeight();
-
+		
+		/* 
+		* we need to do a comparison of virtualViewWidth and virtualViewHeight with bounds that have
+		* accounted for the presence of scrollbars if they exist. We need to do this so that origin and
+		* viewable bounds offset are calculated correctly so that when we are scrolled all the way to bottom
+		* and right, the very bottom and right of bounds defined by virtualViewWidth and virtualViewHeight 
+		* are visible. These 'adjusted' bounds are initially set to innerBounds dimensions, and then modified
+		* if scrollbars present. (We alternatively could have increased virtualViewWidth/Height if scrollbars
+		* were present, and compared these to actual innerBounds.)
+		* NOTE: These adjusted values go hand-in-hand with adjustment to SCROLLINFO::nMax in scrollPeer when
+		* both scrollbars present. 
+		*/
+		double scrollAdjustedWidth  = innerBounds.getWidth();
+		double scrollAdjustedHeight = innerBounds.getHeight();	
+		
+		// can't use hasVerticalScrollbar here, we need to know if they are actually visible.
+		bool isVertScrollbarVisible = scrollable->isVerticalScrollbarVisible();
+		bool isHorzScrollbarVisible = scrollable->isHorizontalScrollbarVisible();		
+		
+		/*
+		* since we are no longer adjusting virtualViewWidth and Height for presence of both scrollbars,
+		* we need to tack on the extra to dx and dy here.
+		*/
+		if ( isHorzScrollbarVisible ) {
+			dy += scrollable->getHorizontalScrollbarHeight();
+			scrollAdjustedHeight -= scrollable->getHorizontalScrollbarHeight();
+		}
+		if ( isVertScrollbarVisible ) {
+			dx += scrollable->getVerticalScrollbarWidth();
+			scrollAdjustedWidth -= scrollable->getVerticalScrollbarWidth();
+		}	
+		
+		/*
+		Just a note: this assumes the scroll position units are same as GraphicsContext units (I think).
+		When we implement a user-defined scroll increment, such as by the height of a line of text based
+		on current Context, you may need a conversion here depending on how you implement that technique.
+		*/
 		origin.x_ -= scrollPos.x_;
 		origin.y_ -= scrollPos.y_;
 
 		//offset the viewBounds by the scrollable's offset
 		viewBounds.offset( scrollPos.x_, scrollPos.y_ );
 
-		if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > innerBounds.getWidth()) ) {
+		if ( isHorzScrollbarVisible && ( scrollable->getVirtualViewWidth() > scrollAdjustedWidth ) ) {		
 			Size horzSize = mgr->getDefaultHorizontalScrollButtonDimensions();
 
 			//viewBounds.bottom_ = minVal<>( viewBounds.bottom_-horzSize.height_,viewBounds.bottom_ );
-
+						
 			if ( dx < scrollPos.x_ ) {
+			
 				origin.x_ -= ( dx - scrollPos.x_ );
 
 				viewBounds.offset( dx - scrollPos.x_, 0 );
@@ -1449,8 +1486,8 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 			}
 		}
 
-
-		if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > innerBounds.getHeight()) ) {
+		
+		if ( isVertScrollbarVisible && ( scrollable->getVirtualViewHeight() > scrollAdjustedHeight ) ) {
 			Size vertSize = mgr->getDefaultVerticalScrollButtonDimensions();
 
 			//viewBounds.right_ = minVal<>( viewBounds.right_-vertSize.width_,viewBounds.right_ );
@@ -1503,6 +1540,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/21 05:46:50  dougtinkham
+*modified adjustViewableBoundsAndOriginForScrollable for new scrolling
+*
 *Revision 1.2.2.5  2004/09/12 22:34:21  ddiego
 *fixed bug in handling window cleanup when exception thrown from constructor.
 *
