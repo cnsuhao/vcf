@@ -103,6 +103,10 @@ SOURCE=../../../include/FoundationKitPrivate.h
 
 SOURCE=../../../include/core/FoundationKitSelectLib.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\MIMEType.h
+# End Source File
 # End Group
 # Begin Group "Source Files"
 
@@ -123,6 +127,10 @@ SOURCE=../../../src/utils/Library.cpp
 # Begin Source File
 
 SOURCE=../../../src/core/Locales.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\utils\MIMEType.cpp
 # End Source File
 # End Group
 # Begin Group "Peers"
