@@ -55,11 +55,19 @@ where you installed the VCF.
 # endif
 
 
-#ifdef BUILD_WIN32HTMLBROWSER_LIB
-#define WIN32HTMLBROWSERAPI	__declspec(dllexport)
+
+#ifdef WIN32HTMLBROWSER_DLL
+	#if defined(WIN32HTMLBROWSER_EXPORTS)
+		#define WIN32HTMLBROWSER_API __declspec(dllexport)
+		#define WIN32HTMLBROWSER_EXPIMP_TEMPLATE
+	#else
+		#define WIN32HTMLBROWSER_API __declspec(dllimport)
+		#define WIN32HTMLBROWSER_EXPIMP_TEMPLATE extern
+	#endif
 #else
-#define WIN32HTMLBROWSERAPI	__declspec(dllimport)
-#endif
+	#define WIN32HTMLBROWSER_API
+#endif //WIN32HTMLBROWSER_DLL
+
 
 // does not preload the library if defined
 #ifndef RUNTIME_LOADLIBRARY
@@ -90,6 +98,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/17 05:01:29  marcelloptr
+*improved macros for library selection
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
