@@ -55,28 +55,97 @@ public:
 	*/
 	static void setErrorLog( ErrorLog* errorLog );
 
+	/**
+	\par
+	Prints out the text to stdout. Allows for formatted text, just like printf() does.
+	Please see printf documentation for the various formatting flags.
+	\par
+	When using this to print out strings, there are some special rules to fullow
+	due to the fact that the VCF uses all unicode strings internally. For
+	example:
+	\code
+	String aName = "Bob Jones";
+	System::print( "User Name: %s", aName.c_str() );
+	\endcode
+	On Win32 platforms the use of %s will work fine, but on others it may 
+	not. To ensure that strings get printed out correctly, consider using the 
+	%ls formatter, like so:
+	\code
+	String aName = "Bob Jones";
+	System::print( "User Name: %ls", aName.c_str() );
+	\endcode
+	This will ensure that on all platforms the unicode string gets properly
+	handled and output.
+	*/
 	static void print( String text, ... );
 
+	/**
+	@see System::print
+	*/
 	static void println( String text, ... );
 
+	/**
+	This will print the contents of the exception to stdout and the 
+	error log if it exists.
+	*/
 	static void errorPrint( BasicException* exception );
 
 	static bool doesFileExist( const String& fileName );
 
+	/**
+	This will return the value of the specified environment variable.
+	For example, calling this on a Win32 system might return the following:
+	\code
+	String val = System::getEnvironmentVariable( "PATH" );	
+	\endcode
+	val would equal "C:\WINNT\system32;C:\WINNT;C:\WINNT\System32\Wbem;d:\Program Files\doxygen\bin;E:\dm\bin;E:\code\vcfdev\dev\vcf\bin;D:\Program Files\HTML Help Workshop;D:\cygwin\bin;D:\Program Files\Microsoft Visual Studio\Common\Tools\WinNT;D:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin;D:\Program Files\Microsoft Visual Studio\Common\Tools;D:\Program Files\Microsoft Visual Studio\VC98\bin;D:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin\IDE".
+	*/
 	static String getEnvironmentVariable( const String& variableName );
 
 	static String getCurrentWorkingDirectory();
 
 	static void setCurrentWorkingDirectory( const String& currentDirectory );
 
+	/**
+	Sets the date instance to the current system time (UTC based).
+	*/
 	static void setDateToSystemTime( DateTime* date );
 
+	/**
+	Sets the date instance to the current <b>local</b> time. This may be different
+	from the result of calling System::setDateToSystemTime().
+	*/
 	static void setDateToLocalTime( DateTime* date );
 
+	/**
+	This will convert a date in UTC to that of the system's local time zone,
+	taking into account the system time zone, and DST if neccessary.
+	*/
+	static DateTime convertUTCTimeToLocalTime( const DateTime& date );	
+
+	/**
+	This will convert a date in the system's local time to UTC,
+	taking into account the system time zone, and DST if neccessary.
+	*/	
+	static DateTime convertLocalTimeToUTCTime( const DateTime& date );
+
+	/**
+	Sets the current thread's locale. May not have an impact on some systems.
+	*/
 	static void setCurrentThreadLocale( Locale* locale );
 
+	/**
+	Returns the current thread's locale. This may be the same as the current user locale on 
+	systems that do not allow per thread locale settings (such as Mac OSX).
+	*/
 	static Locale* getCurrentThreadLocale();
 
+	/**
+	Is the system Unicode enabled, i.e. does it support the use of Unicode string in API calls. 
+	For example, if the VCF is running on a Win32 system on Windows 98 or Windows ME, this will 
+	return false. On a Win32 system that is NT based (Windows NT 4.0, Windows 2000, or 
+	Windows XP) this will return true. For Mac OSX this always returns true.
+	*/
 	static bool isUnicodeEnabled();
 private:
 	SystemPeer* systemPeer_;
@@ -94,6 +163,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -72,17 +72,15 @@ public:
 	*/
 	virtual ulong64 getSize();
 
+	virtual DateTime getDateModified();
+
 	virtual void updateStat( File::StatMask statMask = File::smMaskAll );
 
 	virtual void setFileAttributes( const File::FileAttributes fileAttributes );
 
 	virtual void setDateModified( const DateTime& dateModified );
 
-	virtual void open();
-
-	virtual void openWithFileName( const String& fileName );
-
-	virtual void openWithRights( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny );
+	virtual void open( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny );
 
 	virtual void close();
 
@@ -92,7 +90,7 @@ public:
 	*'DirectorySeparator' character, then a directory 
 	*is created instead of a file.
 	*/
-	virtual void create();
+	virtual void create( File::OpenFlags openFlags );
 
 	virtual void remove();
 
@@ -197,6 +195,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

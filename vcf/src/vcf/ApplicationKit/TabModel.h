@@ -41,7 +41,6 @@ public:
 
 	virtual void removeTabPageSelectedHandler( EventHandler* handler ) = 0;
 
-
 	virtual void addTabPage( TabPage* page ) = 0;
 
 	virtual void insertTabPage( const ulong32& index, TabPage* page ) = 0;
@@ -51,6 +50,8 @@ public:
 	virtual void deleteTabPage( const ulong32& index ) = 0;
 
 	virtual void clearTabPages() = 0;
+
+	virtual TabPage* getPageFromPageName( const String& pageName ) = 0;
 
 	virtual TabPage* getPageAt( const ulong32& index ) = 0;
 
@@ -73,6 +74,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/19 04:08:52  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
 *minor mods to the TableControl and the TabbedPages control
 *so that drawing updates get drawn better, and we don't have weird missing

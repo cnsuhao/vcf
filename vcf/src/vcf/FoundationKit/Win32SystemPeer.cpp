@@ -187,10 +187,98 @@ bool Win32SystemPeer::isUnicodeEnabled()
 	return result;
 }
 
+DateTime Win32SystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
+{
+	DateTime result = date;
+
+	FILETIME   ftUTC, ftLocal;
+	SYSTEMTIME st;
+
+
+	// DateTime --> systemTime
+	st.wYear = date.getYear();
+	st.wMonth = date.getMonth();
+	st.wDayOfWeek = date.getWeekDay();
+	st.wDay = date.getDay();
+	st.wHour = date.getHour();
+	st.wMinute = date.getMinute();
+	st.wSecond = date.getSeconds();
+	st.wMilliseconds = date.getMilliSeconds();
+
+	// convert system time to filetime
+	if ( !::SystemTimeToFileTime( &st, &ftUTC ) ) { // stUTC --> ftUTC
+		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		throw BasicException( error );
+	}
+
+	// convert UTC time to local time
+	if (!::FileTimeToLocalFileTime( &ftUTC, &ftLocal ) ) {	// ftUTC --> ftUTC
+		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		throw BasicException( error );
+	}
+
+	// convert the local file time from UTC to system time
+	if ( !::FileTimeToSystemTime( &ftLocal, &st ) ) { // ftLocal --> stLocal
+		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		throw BasicException( error );
+	}
+
+	result.set( st.wYear, st.wMonth, st.wDay,
+						st.wHour, st.wMinute, st.wSecond, 
+						st.wMilliseconds );	
+	return result;
+}
+
+DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
+{
+	DateTime result = date;
+
+	// see also HOWTO: FileTimeToLocalFileTime() Adjusts for Daylight Saving Time
+
+	FILETIME   ftLocal, ftUTC;
+	SYSTEMTIME st;
+
+	// DateTime --> systemTime
+	st.wYear = date.getYear();
+	st.wMonth = date.getMonth();
+	st.wDayOfWeek = date.getWeekDay();
+	st.wDay = date.getDay();
+	st.wHour = date.getHour();
+	st.wMinute = date.getMinute();
+	st.wSecond = date.getSeconds();
+	st.wMilliseconds = date.getMilliSeconds();
+
+	// convert system time to filetime
+	if ( !::SystemTimeToFileTime( &st, &ftLocal ) ) { // stUTC --> ftUTC
+		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		throw BasicException( error );
+	}
+
+	// convert UTC time to local time
+	if (!::LocalFileTimeToFileTime( &ftLocal, &ftUTC ) ) {	// ftUTC --> ftUTC
+		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		throw BasicException( error );
+	}
+
+	// convert the local file time from UTC to system time
+	if ( !::FileTimeToSystemTime( &ftUTC, &st ) ) { // ftLocal --> stLocal
+		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		throw BasicException( error );
+	}
+
+	result.set( st.wYear, st.wMonth, st.wDay,
+						st.wHour, st.wMinute, st.wSecond, 
+						st.wMilliseconds );
+
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

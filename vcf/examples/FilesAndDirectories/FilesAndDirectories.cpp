@@ -44,16 +44,16 @@ int main( int argc, char** argv ){
 
 	String drive = fileName.getDriveName();
 	String directoryPath = fileName.getPathName();
-	String name = fileName.getName();
+	String name = fileName.getBaseName();
 	String extension = fileName.getExtension();
-	String nativeOSFilePath = fileName.transformToOSSpecific();
+	String nativeOSFilePath = FilePath::transformToOSSpecific( fileName );
 
-	System::println( "The filename %S has the following components:\n"\
-						"\tdrive: %S\n"\
-						"\tdirectoryPath: %S\n"\
-						"\tname: %S\n"\
-						"\textension: %S\n"\
-						"\tnativeOSFilePath: %S",
+	System::println( "The filename %ls has the following components:\n"\
+						"\tdrive: %ls\n"\
+						"\tdirectoryPath: %ls\n"\
+						"\tname: %ls\n"\
+						"\textension: %ls\n"\
+						"\tnativeOSFilePath: %ls",
 						fileName.getFileName().c_str(),
 						drive.c_str(),
 						directoryPath.c_str(),
@@ -89,7 +89,7 @@ int main( int argc, char** argv ){
 	/**
 	Use the file object to access the file
 		*/
-		File file( fileName );
+		File file( fileName );		
 		System::println( "The file %S's size: %d", fileName.getFileName().c_str(), file.getSize() );
 
 
@@ -98,27 +98,45 @@ int main( int argc, char** argv ){
 		*/
 		file.copyTo( fileName.getPathName(true) +
 			FilePath::getDirectorySeparator() +
-			fileName.getName() + "-copy" + fileName.getExtension() );
+			fileName.getBaseName() + "-copy" + fileName.getExtension() );
 
 	}
 
 
 
+	{
 	/**
 	Enumerate all files ending with a .txt extension
-	*/
-
-	Directory dir( fileName.getPathName(true) );
-	Directory::Finder* finder = dir.findFiles( "*.txt" );
-	if ( NULL != finder ) {
-		while ( finder->hasMoreElements() ) {
-			fileName = finder->nextElement();
-			System::println( fileName );
-
-			File f(fileName);
-			f.remove();
+		*/
+		
+		Directory dir( fileName.getPathName(true) );
+		
+		FileSearchFilterStandard filter( L"*.cpp" );
+		
+		Directory::Finder* finder = dir.findFiles( "*.txt" );
+		
+		if ( NULL != finder ) {
+			finder->setDisplayMode( Directory::Finder::dmFiles );
+			
+			File* foundFile = finder->nextElement();
+			while ( NULL != foundFile) {
+				fileName = foundFile->getName();
+				
+				System::println( fileName );			
+				
+				try {
+					if ( !foundFile->isDirectory() ) {
+						foundFile->remove();
+					}
+				}
+				catch ( BasicException& e ) {
+					System::errorPrint( &e );
+				}
+				
+				foundFile = finder->nextElement();
+			}
+			finder->free();
 		}
-		finder->free();
 	}
 
 
@@ -164,6 +182,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.6  2004/07/19 04:08:52  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.2.4.5  2004/05/03 03:44:52  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

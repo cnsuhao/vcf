@@ -66,16 +66,8 @@ public:
 	*/
 	virtual void setDateModified( const DateTime& dateModified ) = 0;
 
-	/**
-	* opens the file using the current file name assigned to it
-	*/
-	virtual void open() = 0;
 
-	/**
-	* opens a new file, closes the old one if previously opened
-	*@param fileName the desired new filename
-	*/
-	virtual void openWithFileName( const String& fileName ) = 0;
+	virtual DateTime getDateModified()  = 0;
 
 	/**
 	* opens a file with read/write access
@@ -84,7 +76,7 @@ public:
 	*@param openFlags
 	*@param shareFlags
 	*/
-	virtual void openWithRights( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny ) = 0;
+	virtual void open( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny ) = 0;
 
 	/**
 	* closes the file if open
@@ -93,12 +85,13 @@ public:
 	virtual void close() = 0;
 
 	/**
-	*creates a new file
-	*if the last character in the filename is a
-	*directory character, then a directory is created
-	*instead of a file.
+	creates a new file
+	if the last character in the filename is a
+	directory character, then a directory is created
+	instead of a file. The file name is omitted here as this is stored in the 
+	File instance kept by the peer.
 	*/
-	virtual void create() = 0;
+	virtual void create( File::OpenFlags openFlags ) = 0;
 
 	/**
 	*deletes the file from the file system
@@ -137,6 +130,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out
