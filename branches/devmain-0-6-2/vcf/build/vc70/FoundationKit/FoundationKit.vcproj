@@ -596,6 +596,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\include\FoundationKitRTTI.inl">
+			</File>
+			<File
 				RelativePath="..\..\..\src\utils\Library.cpp">
 			</File>
 			<File

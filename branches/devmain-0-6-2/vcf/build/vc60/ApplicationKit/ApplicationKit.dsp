@@ -1042,6 +1042,11 @@ SOURCE=..\..\..\src\core\ApplicationKit.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\ApplicationKitRTTI.inl
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\graphics\Basic3DBorder.cpp
 
 # End Source File

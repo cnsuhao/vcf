@@ -172,6 +172,10 @@ SOURCE=..\..\..\src\graphics\GraphicsKit.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\GraphicsKitRTTI.inl
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\utils\GraphicsToolKit.cpp
 # End Source File
 # Begin Source File

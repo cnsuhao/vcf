@@ -832,6 +832,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\include\ApplicationKitRTTI.inl">
+			</File>
+			<File
 				RelativePath="..\..\..\src\graphics\Basic3DBorder.cpp">
 			</File>
 			<File
