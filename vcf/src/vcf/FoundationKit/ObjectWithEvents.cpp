@@ -21,13 +21,13 @@ ObjectWithEvents::ObjectWithEvents()
 ObjectWithEvents::~ObjectWithEvents()
 {
 	//destroy all the event handlers
-									
+
 	std::map<String,EventHandler*>::iterator it = eventHandlers_.begin();
 	while ( it != eventHandlers_.end() ){
-		
+
 
 		delete it->second;
-		
+
 		it++;
 	}
 	eventHandlers_.clear();
@@ -40,18 +40,18 @@ ObjectWithEvents::~ObjectWithEvents()
 		handlerIt ++;
 	}
 	masterHandlerList_.clear();
-	
+
 }
 
 void ObjectWithEvents::addEventHandler( const String& handlerName, EventHandler* handler )
 {
-	eventHandlers_[handlerName] = handler;	
+	eventHandlers_[handlerName] = handler;
 }
 
 EventHandler* ObjectWithEvents::getEventHandler( const String& handlerName )
 {
 	EventHandler* result = NULL;
-	
+
 	std::map<String,EventHandler*>::iterator found = eventHandlers_.find( handlerName );
 	if ( found != eventHandlers_.end() ){
 		result = found->second;
@@ -68,6 +68,9 @@ void ObjectWithEvents::addEventHandlerList( EventHandler::Vector* eventHandlerLi
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.5  2004/05/31 13:20:57  ddiego
 *more osx updates
 *

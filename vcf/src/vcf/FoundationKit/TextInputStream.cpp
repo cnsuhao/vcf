@@ -51,23 +51,23 @@ void TextInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
 void TextInputStream::read( short& val )
 {
 	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();		
-		val = StringUtils::fromStringAsShort( tmp );	
+		String tmp = readTillWhiteSpace();
+		val = StringUtils::fromStringAsShort( tmp );
 	}
 }
 
 void TextInputStream::read( long& val )
 {
 	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();		
-		val = (long) StringUtils::fromStringAsInt( tmp );		
+		String tmp = readTillWhiteSpace();
+		val = (long) StringUtils::fromStringAsInt( tmp );
 	}
 }
 
 void TextInputStream::read( int& val )
 {
 	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();		
+		String tmp = readTillWhiteSpace();
 		val = StringUtils::fromStringAsInt( tmp );
 	}
 }
@@ -183,6 +183,9 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

@@ -49,10 +49,10 @@ doesn't like std::basic_string<wchar_t> on OSX, go figure :(
 
 #ifdef VCF_OSX
 
- 
+
 namespace std {
 
-template<> 
+template<>
 struct char_traits<VCF::WideChar> {
 	typedef VCF::WideChar	char_type;
 	typedef wint_t		int_type;
@@ -159,9 +159,13 @@ struct char_traits<VCF::WideChar> {
 
 #endif
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/06/06 04:56:54  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.5  2004/06/01 04:21:52  ddiego
 *fixed a little update mistake
 *

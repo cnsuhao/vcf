@@ -1,3 +1,5 @@
+//OSXLocalePeer.cpp
+
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
@@ -32,30 +34,30 @@ OSXLocalePeer::OSXLocalePeer():
         OSXLocalePeer::localeMaping["en_AU"] = AppleLocalePair(langEnglish,verAustralia);
         OSXLocalePeer::localeMaping["en_CA"] = AppleLocalePair(langEnglish,verEngCanada);
         OSXLocalePeer::localeMaping["en_ZA"] = AppleLocalePair(langEnglish,verAfrikaans);
-        
-        
-        
-        
+
+
+
+
         OSXLocalePeer::localeMaping["fr_FR"] = AppleLocalePair(langFrench,verFrance);
         OSXLocalePeer::localeMaping["fr_CH"] = AppleLocalePair(langFrench,verFrSwiss);
         OSXLocalePeer::localeMaping["fr_CA"] = AppleLocalePair(langFrench,verFrCanada);
         OSXLocalePeer::localeMaping["fr_BE"] = AppleLocalePair(langFrench,verFrBelgium);
-        
-        
+
+
         OSXLocalePeer::localeMaping["de_DE"] = AppleLocalePair(langGerman,verGermany);
         OSXLocalePeer::localeMaping["de_CH"] = AppleLocalePair(langGerman,verGrSwiss);
         OSXLocalePeer::localeMaping["de_AT"] = AppleLocalePair(langGerman,verAustria);
-        
-        
+
+
         OSXLocalePeer::localeMaping["it_IT"] = AppleLocalePair(langItalian,verItaly);
         OSXLocalePeer::localeMaping["it_CH"] = AppleLocalePair(langItalian,verItalianSwiss);
-        
-        
+
+
         OSXLocalePeer::localeMaping["nl_BE"] = AppleLocalePair(langDutch,verFlemish);
         OSXLocalePeer::localeMaping["nl_NL"] = AppleLocalePair(langDutch,verNetherlands);
-        
+
         OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langSwedish,verSweden);
-        
+
         OSXLocalePeer::localeMaping["es_ES"] = AppleLocalePair(langSpanish,verSpain);
         OSXLocalePeer::localeMaping["ca_ES"] = AppleLocalePair(langSpanish,verCatalonia);
         OSXLocalePeer::localeMaping["es_MX"] = AppleLocalePair(langSpanish,verSpLatinAmerica);
@@ -76,22 +78,22 @@ OSXLocalePeer::OSXLocalePeer():
         OSXLocalePeer::localeMaping["es_HN"] = AppleLocalePair(langSpanish,verSpLatinAmerica);
         OSXLocalePeer::localeMaping["es_NI"] = AppleLocalePair(langSpanish,verSpLatinAmerica);
         OSXLocalePeer::localeMaping["es_PR"] = AppleLocalePair(langSpanish,verSpLatinAmerica);
-        
-        
+
+
         OSXLocalePeer::localeMaping["da_DK"] = AppleLocalePair(langDanish,verDenmark);
-        
+
         OSXLocalePeer::localeMaping["pt_PT"] = AppleLocalePair(langPortuguese,verPortugal);
         OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langPortuguese,verBrazil);
-        
+
         OSXLocalePeer::localeMaping["no_NO"] = AppleLocalePair(langNorwegian,verNorway);
         OSXLocalePeer::localeMaping["nb_NO"] = AppleLocalePair(langNorwegian,verNorway);
         OSXLocalePeer::localeMaping["nn_NO"] = AppleLocalePair(langNorwegian,verNynorsk);
-        
+
         OSXLocalePeer::localeMaping["he_IL"] = AppleLocalePair(langHebrew,verIsrael);
         OSXLocalePeer::localeMaping["iw_IL"] = AppleLocalePair(langHebrew,verIsrael);
-        
+
         OSXLocalePeer::localeMaping["ja_JP"] = AppleLocalePair(langJapanese,verJapan);
-        
+
         OSXLocalePeer::localeMaping["ar_SA"] = AppleLocalePair(langArabic,verArabic);
         OSXLocalePeer::localeMaping["ar_IQ"] = AppleLocalePair(langArabic,verArabic);
         OSXLocalePeer::localeMaping["ar_EG"] = AppleLocalePair(langArabic,verArabic);
@@ -107,22 +109,22 @@ OSXLocalePeer::OSXLocalePeer():
         OSXLocalePeer::localeMaping["ar_AE"] = AppleLocalePair(langArabic,verArabic);
         OSXLocalePeer::localeMaping["ar_BH"] = AppleLocalePair(langArabic,verArabic);
         OSXLocalePeer::localeMaping["ar_QA"] = AppleLocalePair(langArabic,verArabic);
-        
+
         OSXLocalePeer::localeMaping["fi_FI"] = AppleLocalePair(langFinnish,verFinland);
-        
+
         OSXLocalePeer::localeMaping["el_GR"] = AppleLocalePair(langGreek,verGreece);
         OSXLocalePeer::localeMaping["is_IS"] = AppleLocalePair(langIcelandic,verIceland);
         OSXLocalePeer::localeMaping["mt_MT"] = AppleLocalePair(langMaltese,verMalta);
         OSXLocalePeer::localeMaping["tr_TR"] = AppleLocalePair(langTurkish,verTurkey);
-        
+
         OSXLocalePeer::localeMaping["hr_HR"] = AppleLocalePair(langCroatian,verCroatia);
         OSXLocalePeer::localeMaping["sh_HR"] = AppleLocalePair(langCroatian,verCroatia);
-        
+
         OSXLocalePeer::localeMaping["zh_TW"] = AppleLocalePair(langTradChinese,verTaiwan);
-        
+
         OSXLocalePeer::localeMaping["ur_PK"] = AppleLocalePair(langUrdu,verPakistanUrdu);
         OSXLocalePeer::localeMaping["ur_IN"] = AppleLocalePair(langUrdu,verIndiaUrdu);
-        
+
         OSXLocalePeer::localeMaping["hi_IN"] = AppleLocalePair(langHindi,verIndiaHindi);
         OSXLocalePeer::localeMaping["th_TH"] = AppleLocalePair(langThai,verThailand);
         OSXLocalePeer::localeMaping["ko_KR"] = AppleLocalePair(langKorean,verKorea);
@@ -131,31 +133,31 @@ OSXLocalePeer::OSXLocalePeer():
         OSXLocalePeer::localeMaping["hu_HU"] = AppleLocalePair(langHungarian,verHungary);
         OSXLocalePeer::localeMaping["et_EE"] = AppleLocalePair(langEstonian,verEstonia);
         OSXLocalePeer::localeMaping["lv_LV"] = AppleLocalePair(langLatvian,verLatvia);
-        
+
         OSXLocalePeer::localeMaping["fo_FO"] = AppleLocalePair(langFaroese,verFaroeIsl);
-        
+
         OSXLocalePeer::localeMaping["fa_IR"] = AppleLocalePair(langFarsi,verIran);
-        
+
         //OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langPersian,verIran); ???
-        
+
         OSXLocalePeer::localeMaping["ru_RU"] = AppleLocalePair(langRussian,verRussia);
-        
+
         OSXLocalePeer::localeMaping["zh_CN"] = AppleLocalePair(langSimpChinese,verChina);
-        
+
         //???OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langFlemish,kTextRegionDontCare);
-        
+
         OSXLocalePeer::localeMaping["ga_IE"] = AppleLocalePair(langIrishGaelic,verIreland);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langAlbanian,kTextRegionDontCare);
-        
+
         OSXLocalePeer::localeMaping["ro_RO"] = AppleLocalePair(langRomanian,verRomania);
         OSXLocalePeer::localeMaping["cs_CZ"] = AppleLocalePair(langCzech,verCzech);
         OSXLocalePeer::localeMaping["sk_SK"] = AppleLocalePair(langSlovak,verSlovak);
         OSXLocalePeer::localeMaping["sl_SI"] = AppleLocalePair(langSlovenian,verSlovenian);
-        
+
         OSXLocalePeer::localeMaping["sr_YU"] = AppleLocalePair(langSerbian,verSerbian);
         OSXLocalePeer::localeMaping["sh_YU"] = AppleLocalePair(langSerbian,verSerbian);
-        
+
         OSXLocalePeer::localeMaping["mk_MK"] = AppleLocalePair(langMacedonian,verMacedonian);
         OSXLocalePeer::localeMaping["bg_BG"] = AppleLocalePair(langBulgarian,verBulgaria);
         OSXLocalePeer::localeMaping["uk_UA"] = AppleLocalePair(langUkrainian,verUkraine);
@@ -164,10 +166,10 @@ OSXLocalePeer::OSXLocalePeer():
 
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langKazakh,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langAzerbaijani,kTextRegionDontCare);
-        
+
         OSXLocalePeer::localeMaping["hy_AM"] = AppleLocalePair(langArmenian,verArmenian);
         OSXLocalePeer::localeMaping["ka_GE"] = AppleLocalePair(langGeorgian,verGeorgian);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langMoldavian,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langKirghiz,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langTajiki,kTextRegionDontCare);
@@ -182,7 +184,7 @@ OSXLocalePeer::OSXLocalePeer():
         OSXLocalePeer::localeMaping["ne_NP"] = AppleLocalePair(langNepali,verNepal);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langSanskrit,kTextRegionDontCare);
         OSXLocalePeer::localeMaping["mr_IN"] = AppleLocalePair(langMarathi,verMarathi);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langBengali,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langAssamese,kTextRegionDontCare);
         OSXLocalePeer::localeMaping["gu_IN"] = AppleLocalePair(langGujarati,verGujarati);
@@ -196,9 +198,9 @@ OSXLocalePeer::OSXLocalePeer():
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langBurmese,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langKhmer,kTextRegionDontCare);
         //OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langLao,kTextRegionDontCare);
-                
+
         OSXLocalePeer::localeMaping["vi_VN"] = AppleLocalePair(langVietnamese,verVietnam);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langIndonesian,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langTagalog,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langMalayRoman,kTextRegionDontCare);
@@ -227,28 +229,28 @@ OSXLocalePeer::OSXLocalePeer():
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langJavaneseRom,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langSundaneseRom,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langGalician,kTextRegionDontCare);
-        
+
         OSXLocalePeer::localeMaping["af_ZA"] = AppleLocalePair(langAfrikaans,verAfrikaans);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langBreton,kTextRegionDontCare);
         OSXLocalePeer::localeMaping["iu_CA"] = AppleLocalePair(langInuktitut,verNunavut);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langScottishGaelic,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langManxGaelic,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langIrishGaelicScript,kTextRegionDontCare);
         OSXLocalePeer::localeMaping["to_TO"] = AppleLocalePair(langTongan,verTonga);
-        
+
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langGreekPoly,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langGreenlandic,kTextRegionDontCare);
         //??OSXLocalePeer::localeMaping["pt_BR"] = AppleLocalePair(langAzerbaijanRoman,kTextRegionDontCare);
     }
-    
+
 }
 
 void OSXLocalePeer::setLocale( const UnicodeString& language, const UnicodeString& country, const UnicodeString& variant )
 {
 	if ( language.empty() && country.empty() ) {
-    
+
 		localeRef_ = NULL;
 	}
 	else {
@@ -259,10 +261,10 @@ void OSXLocalePeer::setLocale( const UnicodeString& language, const UnicodeStrin
             OSStatus err = LocaleRefFromLangOrRegionCode( localePair.first, localePair.second, &localeRef_ );
             if ( err != noErr ) {
                 throw RuntimeException( MAKE_ERROR_MSG_2( "LocaleRefFromLangOrRegionCode failed!" ) );
-            }            
-        }        
+            }
+        }
 	}
-}	
+}
 
 int OSXLocalePeer::collate( const UnicodeString& s1, const UnicodeString& s2 )
 {
@@ -272,21 +274,21 @@ int OSXLocalePeer::collate( const UnicodeString& s1, const UnicodeString& s2 )
     if ( err == noErr ) {
         Boolean matched = FALSE;
         SInt32 order = 0;
-        UCCompareText( collatorRef, s1.c_str(), s1.length(), 
-                        s2.c_str(), s2.length(), 
+        UCCompareText( collatorRef, s1.c_str(), s1.length(),
+                        s2.c_str(), s2.length(),
                         &matched,
                         &order );
-                        
+
         if ( order < 0 ) {
             result = -1;
         }
         else if ( order == 0 ) {
             result = 0;
-        } 
+        }
         else if ( order > 0 ) {
             result = 1;
         }
-        
+
         UCDisposeCollator( &collatorRef );
     }
 	return result;
@@ -301,21 +303,21 @@ int OSXLocalePeer::collateCaseInsensitive( const UnicodeString& s1, const Unicod
     if ( err == noErr ) {
         Boolean matched = FALSE;
         SInt32 order = 0;
-        UCCompareText( collatorRef, s1.c_str(), s1.length(), 
-                        s2.c_str(), s2.length(), 
+        UCCompareText( collatorRef, s1.c_str(), s1.length(),
+                        s2.c_str(), s2.length(),
                         &matched,
                         &order );
-                        
+
         if ( order < 0 ) {
             result = -1;
         }
         else if ( order == 0 ) {
             result = 0;
-        } 
+        }
         else if ( order > 0 ) {
             result = 1;
         }
-        
+
         UCDisposeCollator( &collatorRef );
     }
 	return result;
@@ -375,14 +377,14 @@ unsigned int OSXLocalePeer::toUInt( const UnicodeString& str )
 
 double OSXLocalePeer::toDouble( const UnicodeString& str )
 {
-	double result = StringUtils::fromStringAsDouble( str );	
+	double result = StringUtils::fromStringAsDouble( str );
 	return result;
 }
 
 float OSXLocalePeer::toFloat( const UnicodeString& str )
 {
 	float result = StringUtils::fromStringAsFloat( str );
-	
+
 
 	return result;
 }
@@ -400,7 +402,7 @@ double OSXLocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 UnicodeString OSXLocalePeer::toLowerCase( const UnicodeString& s )
 {
 	UnicodeString result = s;
-	
+
 
 	return result;
 }
@@ -415,63 +417,63 @@ UnicodeString OSXLocalePeer::toUpperCase( const UnicodeString& s )
 UnicodeString OSXLocalePeer::getNumberThousandsSeparator()
 {
 	UnicodeString result = ",";
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getNumberDecimalPoint()
 {
 	UnicodeString result = ".";
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getNumberGrouping()
 {
 	UnicodeString result = "3";
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyDecimalPoint()
 {
 	UnicodeString result = ".";
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyThousandsSeparator()
 {
 	UnicodeString result = ",";
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencySymbol()
 {
 	UnicodeString result = "$";
-	
+
 	return result;
 }
 
 int OSXLocalePeer::getCurrencyFractionalDigits()
 {
 	int result = 2;
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyPositiveSign()
 {
 	UnicodeString result;
-	
+
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyNegativeSign()
 {
 	UnicodeString result = "-";
-	
+
 	return result;
 }
 
@@ -567,15 +569,15 @@ UnicodeString OSXLocalePeer::translate( const UnicodeString& id )
 
 UnicodeString OSXLocalePeer::toStringFromDate( const DateTime& val, const UnicodeString& format )
 {
-	
-	UnicodeString result;	
+
+	UnicodeString result;
 
 	return result;
 }
 
 UnicodeString OSXLocalePeer::toStringFromTime( const DateTime& val, const UnicodeString& format )
-{	
-	UnicodeString result;	
+{
+	UnicodeString result;
 
 	return result;
 }
@@ -590,7 +592,7 @@ ulong32 OSXLocalePeer::getLanguageCode()
 
 ulong32 OSXLocalePeer::getCountryCode()
 {
-	
+
 	return 0;
 }
 
@@ -598,6 +600,9 @@ ulong32 OSXLocalePeer::getCountryCode()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

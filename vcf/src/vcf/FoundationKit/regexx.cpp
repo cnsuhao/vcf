@@ -85,7 +85,7 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 	int ssv[33];
 	int ssc;
 	matches_ = 0;
-	
+
 	ssc = pcre_exec(preg_,extra_,tmpStr.c_str(),tmpStr.length(),0,eflags,ssv,33);
 	bool ret = (ssc > 0);
 
@@ -210,6 +210,9 @@ std::vector<String> splitex(const String& regex, const String& str)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 04:56:54  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

@@ -68,7 +68,7 @@ These encoding/decoding methods are:
 In addition there are also a whole series of typedefs, again solely to make the
 class compatible with the std::basic_string class.
 */
-class FRAMEWORK_API UnicodeString {
+class FOUNDATIONKIT_API UnicodeString {
 public:
 	typedef char AnsiChar;
 
@@ -78,7 +78,7 @@ public:
 	typedef std::basic_string< UniChar, std::char_traits<VCF::WideChar> > StringData;
 #else
 	typedef std::basic_string<UniChar> StringData;
-#endif	
+#endif
 	typedef StringData::size_type size_type;
 
 
@@ -126,7 +126,7 @@ public:
 
 	UnicodeString( size_type n, AnsiChar c );
 	UnicodeString( size_type n, UniChar c );
-	
+
 	#ifdef VCF_OSX
 	UnicodeString(const wchar_t* string );
 	#endif
@@ -324,9 +324,7 @@ public:
 	}
 
 
-	bool operator ==( const UnicodeString& rhs ) const {
-		return data_ == rhs.data_;
-	}
+	friend bool operator ==( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator ==( const StringData& rhs ) const {
 		return data_ == rhs;
@@ -336,9 +334,7 @@ public:
 		return data_ == rhs;
 	}
 
-	bool operator !=( const UnicodeString& rhs ) const {
-		return data_ != rhs.data_;
-	}
+	friend bool operator !=( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator !=( const StringData& rhs ) const {
 		return data_ != rhs;
@@ -348,17 +344,13 @@ public:
 		return data_ != rhs;
 	}
 
-	bool operator <( const UnicodeString& rhs ) const {
-		return data_ < rhs.data_;
-	}
+	friend bool operator <( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator <( const StringData& rhs ) const {
 		return data_ <= rhs;
 	}
 
-	bool operator <=( const UnicodeString& rhs ) const {
-		return data_ <= rhs.data_;
-	}
+	friend bool operator <=( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator <=( const StringData& rhs ) const {
 		return data_ <= rhs;
@@ -368,9 +360,7 @@ public:
 		return data_ <= rhs;
 	}
 
-	bool operator >( const UnicodeString& rhs ) const {
-		return data_ > rhs.data_;
-	}
+	friend bool operator >( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator >( const StringData& rhs ) const {
 		return data_ > rhs;
@@ -380,9 +370,7 @@ public:
 		return data_ > rhs;
 	}
 
-	bool operator >=( const UnicodeString& rhs ) const {
-		return data_ >= rhs.data_;
-	}
+	friend bool operator >=( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator >=( const StringData& rhs ) const {
 		return data_ >= rhs;
@@ -914,7 +902,7 @@ protected:
 
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result (lhs);
 
@@ -924,7 +912,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 
 }
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar* lhs, const UnicodeString& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::UniChar* lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(lhs) ;
 
@@ -934,7 +922,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar* lhs
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar* rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar* rhs )
 {
 	UnicodeString result(lhs) ;
 
@@ -944,7 +932,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar& lhs, const UnicodeString& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::UniChar& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(1,lhs) ;
 
@@ -954,7 +942,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::UniChar& lhs
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar& rhs )
 {
 	UnicodeString result(lhs) ;
 
@@ -964,7 +952,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::AnsiChar& lhs, const UnicodeString& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::AnsiChar& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(1,UnicodeString::transformAnsiCharToUnicodeChar( lhs ));
 	result += rhs;
@@ -972,7 +960,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::AnsiChar& lh
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar& rhs )
 {
 	UnicodeString result(lhs);
 	result += UnicodeString::transformAnsiCharToUnicodeChar( rhs  );
@@ -980,7 +968,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::AnsiChar* lhs, const UnicodeString& rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::AnsiChar* lhs, const UnicodeString& rhs )
 {
 	UnicodeString result;
 	UnicodeString::transformAnsiToUnicode( lhs, strlen(lhs), result );
@@ -990,7 +978,7 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString::AnsiChar* lh
 }
 
 
-inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar* rhs )
+inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar* rhs )
 {
 	UnicodeString result(lhs);
 	UnicodeString tmp;
@@ -1000,6 +988,35 @@ inline FRAMEWORK_API UnicodeString operator +( const UnicodeString& lhs, const U
 	return result;
 }
 
+inline bool operator ==( const UnicodeString& lhs, const UnicodeString& rhs )
+{
+	return lhs.data_ == rhs.data_;
+}
+
+inline bool operator !=( const UnicodeString& lhs, const UnicodeString& rhs )
+{
+	return lhs.data_ != rhs.data_;
+}
+
+inline bool operator <( const UnicodeString& lhs, const UnicodeString& rhs )
+{
+	return lhs.data_ < rhs.data_;
+}
+
+inline bool operator <=( const UnicodeString& lhs, const UnicodeString& rhs )
+{
+	return lhs.data_ <= rhs.data_;
+}
+
+inline bool operator >( const UnicodeString& lhs, const UnicodeString& rhs )
+{
+	return lhs.data_ > rhs.data_;
+}
+
+inline bool operator >=( const UnicodeString& lhs, const UnicodeString& rhs )
+{
+	return lhs.data_ >= rhs.data_;
+}
 
 
 
@@ -1016,6 +1033,9 @@ typedef std::basic_string<char> AnsiString;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/06/06 04:56:54  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.6  2004/05/30 01:36:01  marcelloptr
 *tabs reformatting
 *

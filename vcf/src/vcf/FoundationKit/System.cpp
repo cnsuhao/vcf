@@ -90,34 +90,34 @@ void System::print( String text, ... )
 
 #ifdef VCF_GCC
   #ifdef VCF_OSX
-  
+
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
-    
+
 	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
-    
+
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
-    
+
     int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
-    
-    CFRange range = {0, length };	
+
+    CFRange range = {0, length };
     CFStringGetCharacters( res, range, tmpChar );
-    
+
     CFShow( res );
-    
+
     CFRelease( res );
     CFRelease( fmt );
-    
+
   #else
 	vswprintf( tmpChar, charRequired, text.c_str(), args );
-  #endif	
+  #endif
 #else
 	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
 #endif
-	
-	va_end( args ); 
-    
+
+	va_end( args );
+
   #ifndef VCF_OSX
-    wprintf( tmpChar );	
+    wprintf( tmpChar );
   #endif
 
 	if ( NULL != System::systemInstance ) {
@@ -133,7 +133,7 @@ void System::print( String text, ... )
 void System::println(String text, ...)
 {
 	text = StringUtils::convertFormatString( text );
-	
+
 	va_list args;
 	va_start( args, text );
 	int charRequired = 1024;
@@ -144,32 +144,32 @@ void System::println(String text, ...)
   #ifdef VCF_OSX
 
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
-    
+
 	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
-    
+
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
-    
+
     int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
-    
-    CFRange range = {0, length };	
+
+    CFRange range = {0, length };
     CFStringGetCharacters( res, range, tmpChar );
-    
+
     CFShow( res );
     CFShow( CFSTR("\n") );
-    
+
     CFRelease( res );
     CFRelease( fmt );
   #else
 	vswprintf( tmpChar, charRequired, text.c_str(), args );
-  #endif	
+  #endif
 #else
 	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
 #endif
-	
-	va_end( args ); 
-    
+
+	va_end( args );
+
   #ifndef VCF_OSX
-    wprintf( tmpChar );	
+    wprintf( tmpChar );
     wprintf(L"\n");
   #endif
 
@@ -240,6 +240,9 @@ bool System::isUnicodeEnabled()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.7  2004/05/18 02:07:32  ddiego
 *fixed a bug in StringUtils format and trace  - from osx side
 *
