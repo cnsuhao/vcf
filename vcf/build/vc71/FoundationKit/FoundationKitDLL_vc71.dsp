@@ -124,7 +124,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Library.cpp
 # PROP Default_Filter "*.h;*.cpp"
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Condition.cpp
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32Condition.cpp
 # End Source File
 # Begin Source File
 
@@ -132,7 +132,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Win32Condition.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FilePeer.cpp
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32FilePeer.cpp
 # End Source File
 # Begin Source File
 
@@ -140,7 +140,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Win32FilePeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FileStream.cpp
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32FileStream.cpp
 # End Source File
 # Begin Source File
 
@@ -168,7 +168,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Win32Mutex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Mutex.h
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32Mutex.h
 # End Source File
 # Begin Source File
 
@@ -176,7 +176,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Win32Peer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Peer.h
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32Peer.h
 # End Source File
 # Begin Source File
 

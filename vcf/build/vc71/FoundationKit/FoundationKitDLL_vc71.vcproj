@@ -214,7 +214,7 @@
 			Name="Peers"
 			Filter="*.h;*.cpp">
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Condition.cpp">
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32Condition.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -237,7 +237,7 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\Win32Condition.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32FilePeer.cpp">
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32FilePeer.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -260,7 +260,7 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\Win32FilePeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32FileStream.cpp">
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32FileStream.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -349,7 +349,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Mutex.h">
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32Mutex.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Win32Peer.cpp">
@@ -372,7 +372,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Peer.h">
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32Peer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Win32ProcessIORedirector.cpp">
