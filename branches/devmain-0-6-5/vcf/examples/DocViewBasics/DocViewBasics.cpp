@@ -337,11 +337,30 @@ public:
 		Rect r = control->getClientBounds();
 
 
-
 		ctx->rectangle( &r );
 		ctx->setColor( Color::getColor("white") );
 		ctx->fillPath();
 
+
+		EtchedBorder bdr;
+		bdr.setStyle( GraphicsContext::etSunken );
+		bdr.paint( &r, ctx );
+
+
+		Point oldOrigin = ctx->getOrigin();
+
+		Scrollable* scrollable = control->getScrollable();
+		if ( scrollable ) {
+			Rect viewBounds = ctx->getViewableBounds();
+			
+			Point origin = ctx->getOrigin();
+			
+			control->adjustViewableBoundsAndOriginForScrollable( ctx, viewBounds, origin );
+			
+			ctx->setOrigin( origin );
+			
+			ctx->setViewableBounds( viewBounds );
+		}
 
 
 		CircleDocument* model = (CircleDocument*)getViewModel();
@@ -360,9 +379,7 @@ public:
 
 		}
 
-		EtchedBorder bdr;
-		bdr.setStyle( GraphicsContext::etSunken );
-		bdr.paint( &r, ctx );
+		ctx->setOrigin( oldOrigin );
 	}
 };
 
@@ -373,6 +390,70 @@ class CircleDocController : public Component {
 public:
 
 	CircleDocument* model_;
+	Panel* panel_;
+
+	CircleDocController():model_(NULL), panel_(NULL){}
+
+	void setModel( CircleDocument* model ) {
+		
+		EventHandler* ev = getEventHandler( "CircleDocController::onCircleModelChanged" );
+
+
+		if ( NULL != model_ ) {
+			if ( NULL != ev ) {
+				model_->removeModelHandler( ev );
+			}
+		}
+
+		model_ = model;
+
+		if ( NULL != model_ ) {
+			if ( NULL == ev ) {
+				ev = new GenericEventHandler<CircleDocController>( this, &CircleDocController::onCircleModelChanged, "CircleDocController::onCircleModelChanged" );
+			}
+			model_->addModelHandler( ev );
+		}
+	}
+
+
+	void onCircleModelChanged( Event* e ) {
+		const std::vector<CircleShape>& circles = model_->getCircles();
+
+		std::vector<CircleShape>::const_iterator it = circles.begin();
+
+		Rect bounds;
+		Rect r;
+		while ( it != circles.end() ) {
+			const CircleShape& shape = *it;
+			r.left_ = shape.center_.x_ - shape.radius_;
+			r.top_ = shape.center_.y_ - shape.radius_;
+			r.right_ = shape.center_.x_ + shape.radius_;
+			r.bottom_ = shape.center_.y_ + shape.radius_;
+
+			r.normalize();
+
+			if ( bounds.isEmpty() ) {
+				bounds = r;
+			}
+			else {
+				bounds.left_ = minVal<>( bounds.left_, r.left_ );
+				bounds.top_ = minVal<>( bounds.top_, r.top_ );
+
+
+				bounds.right_ = maxVal<>( bounds.right_, r.right_ );
+				bounds.bottom_ = maxVal<>( bounds.bottom_, r.bottom_ );
+			}
+			
+			it ++;
+		}
+
+		Scrollable* scrollable = panel_->getScrollable();
+
+		if ( NULL != scrollable ) {
+			scrollable->setVirtualViewHeight( bounds.getHeight() );
+			scrollable->setVirtualViewWidth( bounds.getWidth() );
+		}
+	}
 
 	void onMouseClicked( MouseEvent* e ) {
 
@@ -441,6 +522,7 @@ public:
 		controller_ = new CircleDocController();
 		controller_->setName( "CircleDocController" );
 		addComponent( controller_ );
+		controller_->panel_ = circlePanel_;
 
 		circlePanel_->MouseClicked +=
 			new MouseEventHandler<CircleDocController>( controller_, &CircleDocController::onMouseClicked, "CircleDocController::onMouseClicked" );
@@ -454,6 +536,16 @@ public:
 		info_ = new CircleInfoUI();
 		info_->setHeight( 150 );
 		add( info_, AlignBottom );
+
+
+		ScrollbarManager* sbm = new ScrollbarManager();
+
+		sbm->setTarget( circlePanel_ );
+		addComponent( sbm );
+
+		sbm->setHasHorizontalScrollbar( true );
+		sbm->setHasVerticalScrollbar( true );
+		sbm->setKeepScrollbarsVisible( true );
 		
 	}
 
@@ -463,7 +555,7 @@ public:
 	void onDocInitialized( Event* e ) {
 		CircleDocument* doc = (CircleDocument*)e->getSource();		
 
-		controller_->model_ = doc;
+		controller_->setModel( doc );
 		doc->addView( info_ );		
 		doc->addView( circlePanel_->getView() );
 	}
