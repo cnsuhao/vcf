@@ -1,6 +1,12 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2003/07/24 04:10:43  ddiego
+*added fixes for the following tasks:
+*Task #82279 ApplicationKit: add static methods to singleton objects
+*Task #82277 FoundationKit: add static methods to singleton objects
+*this required a bunch of changes in terms of getting rid of older style code
+*
 *Revision 1.1.2.3  2003/07/21 03:08:29  ddiego
 *added bezier curve editing to Sketchit, fixed a bug in not saving
 *bitmaps, added PackageInfo to the ApplicationKit
@@ -196,7 +202,8 @@ void ToolManager::onMenuItemClicked( MenuItemEvent* e )
 		
 		Window* window = DocumentManager::getDocumentManager()->getCurrentDocument()->getWindow();
 
-		currentTool_->attach( window );		
+		currentTool_->attach( window );
+		currentTool_->reset();
 	}
 	else {
 		currentTool_ = NULL;
@@ -240,11 +247,16 @@ Shape* SelectTool::hitTest( Point& pt )
 	while ( shapes->hasMoreElements() ) {
 		Shape* shape = shapes->nextElement();
 		
-		if ( shape->polygon_.intersects( pt ) ) {
+		if ( shape->fill_ && shape->polygon_.contains( pt ) ) {
+			result = shape;
+			break;
+		}
+		else if ( shape->polygon_.intersects( pt ) ) {
 			
 			result = shape;
 			break;
 		}
+		
 	}
 
 	return result;
@@ -259,28 +271,11 @@ void SelectTool::onMouseDown( VCF::MouseEvent* e )
 			doc->setSelectedShape( shape );
 			dragPoint_ = *e->getPoint(); 
 			startDragPoint_ = dragPoint_;
-/*
-			Control* c = (Control*)e->getSource();
-			GraphicsContext* ctx = c->getContext();
-			ctx->setXORModeOn( true );
 
-			BasicStroke bs;
-			ctx->setCurrentStroke( &bs );
-			
-			bs.setAllowAntiAlias( false );
-			bs.setColor( Color::getColor( "green" ) );
-			
-			ctx->draw( &shape->polygon_ );
-			
-			ctx->setCurrentStroke( NULL );
-
-			ctx->setXORModeOn( false );
-			*/
 		}
 		else {
 			doc->setSelectedShape( NULL );	
 		}
-		//currentSelectedShapes_
 	}
 }
 
@@ -927,6 +922,7 @@ void CurveTool::drawCurve( VCF::GraphicsContext* ctx )
 
 void CurveTool::onMouseDown( VCF::MouseEvent* e )
 {
+	StringUtils::traceWithArgs( "CurveTool::onMouseDown, state: %d\n", state_ );
 	if ( e->hasLeftButton() ) {		
 
 		switch ( state_ ) {
@@ -959,16 +955,20 @@ void CurveTool::onMouseDown( VCF::MouseEvent* e )
 		Control* c = (Control*)e->getSource();
 		GraphicsContext* ctx = c->getContext();
 
-		ctx->setXORModeOn( false );
-
-		paintState( ctx );
-
 		
 
-		
 		drawCurve( ctx );
 
 		
+
+		paintSegments( ctx );
+
+		
+
+		
+		
+
+		state_ = CurveTool::sNextPoint;
 		
 	}
 }
@@ -979,7 +979,7 @@ void CurveTool::onMouseMove( VCF::MouseEvent* e )
 		Control* c = (Control*)e->getSource();
 		GraphicsContext* ctx = c->getContext();
 		
-		paintState( ctx );
+		paintSegments( ctx );
 		
 
 		
@@ -1012,40 +1012,26 @@ void CurveTool::onMouseMove( VCF::MouseEvent* e )
 
 void CurveTool::onMouseUp( VCF::MouseEvent* e )
 {
+	StringUtils::traceWithArgs( "CurveTool::onMouseUp, state: %d\n", state_ );
+
 	if ( e->hasLeftButton() ) {
 		Control* c = (Control*)e->getSource();
-		GraphicsContext* ctx = c->getContext();
-		
+		GraphicsContext* ctx = c->getContext();		
 		
 		drawCurve( ctx );
 
-
-		end_ = *e->getPoint();
-
-		switch ( state_ ) {
-			case CurveTool::sFirstPoint : {
-				//segment_.ctrl2 = *e->getPoint();
-			}
-			break;
-
-			case CurveTool::sNextPoint : {
-				segment_.ctrl2.x_ = start_.x_  - (end_.x_ - start_.x_);
-				segment_.ctrl2.y_ = start_.y_  - (end_.y_ - start_.y_);
-			}
-			break;
+		end_ = *e->getPoint();		
+		
+		if ( (!segments_.empty()) && ( CurveTool::sNextPoint == state_) ) {
+			segment_.ctrl2.x_ = start_.x_  - (end_.x_ - start_.x_);
+			segment_.ctrl2.y_ = start_.y_  - (end_.y_ - start_.y_);
 		}
-
-		
+				
 		drawCurve( ctx );
 		
+		segments_.push_back( segment_ );
 
-		
-		paintState( ctx );
-		
-
-		segments_.push_back( segment_ ); 
-		state_ = CurveTool::sNextPoint;
-
+		paintSegments( ctx );
 	}
 	
 }
@@ -1077,10 +1063,18 @@ void CurveTool::finishCurve()
 
 void CurveTool::onDblClick( VCF::MouseEvent* e )
 {
+	StringUtils::traceWithArgs( "CurveTool::onDblClick, state: %d\n", state_ );
+
 	finishCurve();
 }
 
 void CurveTool::paintState( VCF::GraphicsContext* ctx )
+{
+	StringUtils::trace( "CurveTool::paintState\n" );
+	//paintSegments( ctx );
+}
+
+void CurveTool::paintSegments( VCF::GraphicsContext* ctx )
 {
 	
 	std::vector<Segment>::iterator it = segments_.begin();
@@ -1116,6 +1110,14 @@ bool CurveTool::overFirstPoint( VCF::Point& pt )
 
 	return result;
 }
+
+void CurveTool::reset()
+{
+	state_ = CurveTool::sFirstPoint;
+
+	segments_.clear();
+}
+
 
 void ImageTool::onMouseDown( VCF::MouseEvent* e )
 {

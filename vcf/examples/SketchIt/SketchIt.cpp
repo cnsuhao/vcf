@@ -183,7 +183,7 @@ public:
 			SketchDocument* skDoc = (SketchDocument*)doc;
 			Shape* shape = skDoc->getSelectedShape();
 		
-			shape->fill_ = !shape->fill_;
+			shape->fill_ = !shape->fill_;			
 		}
 	}
 

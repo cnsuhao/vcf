@@ -1,6 +1,12 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2003/07/24 04:10:43  ddiego
+*added fixes for the following tasks:
+*Task #82279 ApplicationKit: add static methods to singleton objects
+*Task #82277 FoundationKit: add static methods to singleton objects
+*this required a bunch of changes in terms of getting rid of older style code
+*
 *Revision 1.1.2.3  2003/07/21 03:08:29  ddiego
 *added bezier curve editing to Sketchit, fixed a bug in not saving
 *bitmaps, added PackageInfo to the ApplicationKit
@@ -61,6 +67,8 @@ public:
 	virtual void onKeyUp( VCF::KeyboardEvent* e ) {
 
 	}
+
+	virtual void reset(){};
 
 protected:
 	VCF::Control* currentControl_;
@@ -271,6 +279,8 @@ public:
 	virtual void onDblClick( VCF::MouseEvent* e );
 
 	virtual void paintState( VCF::GraphicsContext* ctx );
+
+	virtual void reset();
 protected:
 	VCF::Point start_;
 	VCF::Point end_;
@@ -284,6 +294,8 @@ protected:
 	void drawCurve( VCF::GraphicsContext* ctx );
 	bool overFirstPoint( VCF::Point& pt );
 	void finishCurve();
+	void paintSegments( VCF::GraphicsContext* ctx );
+	
 };
 
 
