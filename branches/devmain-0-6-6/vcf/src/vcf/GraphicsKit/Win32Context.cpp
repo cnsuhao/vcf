@@ -708,7 +708,11 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	r.top = (long)bounds.top_;
 	r.bottom = (long)bounds.bottom_;
 	UINT formatOptions = 0;
-	formatOptions = 0;
+
+	formatOptions = DT_NOCLIP; //this was put here to make rotated text look better JC
+
+
+
 	if ( drawOptions & GraphicsContext::tdoLeftAlign ) {
 		formatOptions |= DT_LEFT;
 	}
@@ -735,6 +739,17 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	else {
 		formatOptions |= DT_WORD_ELLIPSIS | DT_SINGLELINE;
 	}
+
+
+	if ( formatOptions & DT_SINGLELINE ) {
+		if ( context_->getRotation() != 0.0 ) {
+			/**
+			JC:
+			adjust the rect a bit
+			*/
+		}
+	}
+
 
 	/* Not using for now
 	DRAWTEXTPARAMS extraParams = {0};
@@ -812,6 +827,8 @@ double Win32Context::getTextWidth( const String& text )
 
 	HFONT font = NULL;
 
+	prepareDCWithContextFont( font );
+	/*
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
@@ -822,6 +839,7 @@ double Win32Context::getTextWidth( const String& text )
 
 		font = CreateFontIndirectA( logFont );
 	}
+	*/
 
 
 	HFONT oldFont = (HFONT)::SelectObject( dc_, font );
@@ -877,6 +895,7 @@ double Win32Context::getTextHeight( const String& text )
 
 	HFONT font = NULL;
 
+	/*
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
@@ -887,6 +906,8 @@ double Win32Context::getTextHeight( const String& text )
 
 		font = CreateFontIndirectA( logFont );
 	}
+	*/
+	prepareDCWithContextFont( font );
 
 
 	HFONT oldFont = (HFONT)::SelectObject( dc_, font );
@@ -2201,24 +2222,35 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
+		LONG oldOrientation = logFont->lfOrientation;
+		
 		DWORD oldCharSet = logFont->lfCharSet;
 
 		logFont->lfCharSet = charSet;
 		
+		logFont->lfOrientation = logFont->lfEscapement = (LONG)(-context_->getRotation() * 10.0);
+		
+		
 		fontHandle = CreateFontIndirectW( logFont );
 
 		logFont->lfCharSet = oldCharSet;
+		logFont->lfOrientation = logFont->lfEscapement = oldOrientation;
 	}
 	else {
 		LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
 
+		LONG oldOrientation = logFont->lfOrientation;
+
 		DWORD oldCharSet = logFont->lfCharSet;
+
+		logFont->lfOrientation = logFont->lfEscapement = (LONG)(-context_->getRotation() * 10.0);
 
 		logFont->lfCharSet = charSet;
 
 		fontHandle = CreateFontIndirectA( logFont );
 
 		logFont->lfCharSet = oldCharSet;
+		logFont->lfOrientation = logFont->lfEscapement = oldOrientation;
 	}	
 }
 
@@ -2363,6 +2395,10 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/06 04:40:43  ddiego
+*added font rotation back in, this time with support for matching
+*the graphic contexts current transform.
+*
 *Revision 1.2.2.5  2004/09/06 03:33:21  ddiego
 *updated the graphic context code to support image transforms.
 *

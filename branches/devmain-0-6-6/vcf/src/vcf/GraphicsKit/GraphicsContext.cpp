@@ -377,12 +377,12 @@ void GraphicsContext::textAt(const double & x, const double & y, const String & 
 	Rect bounds( x, y, x + getTextWidth(text), y + getTextHeight(text) );
 	Rect tmp = bounds;
 
-	double xx = x * (currentGraphicsState_->transformMatrix_[Matrix2D::mei00]) +
-							y * (currentGraphicsState_->transformMatrix_[Matrix2D::mei10]) +
+	double xx = bounds.left_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei00]) +
+							bounds.top_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei10]) +
 								(currentGraphicsState_->transformMatrix_[Matrix2D::mei20]);
 
-	double yy = x * (currentGraphicsState_->transformMatrix_[Matrix2D::mei01]) +
-							y * (currentGraphicsState_->transformMatrix_[Matrix2D::mei11]) +
+	double yy = bounds.left_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei01]) +
+							bounds.top_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei11]) +
 								(currentGraphicsState_->transformMatrix_[Matrix2D::mei21]);
 
 	tmp.offset( xx - tmp.left_, yy - tmp.top_ );
@@ -1483,6 +1483,10 @@ double GraphicsContext::getScaleY()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/09/06 04:40:43  ddiego
+*added font rotation back in, this time with support for matching
+*the graphic contexts current transform.
+*
 *Revision 1.2.2.9  2004/09/06 03:33:21  ddiego
 *updated the graphic context code to support image transforms.
 *

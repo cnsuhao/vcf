@@ -358,6 +358,9 @@ public:
 		context->roundRect( 350, 400, 500, 500, 20, 20 );
 		context->strokePath();
 
+		context->getCurrentFont()->setName( "Arial" );
+		context->getCurrentFont()->setPointSize( 15 );
+
 		context->textAt( 200, 200, "Hello There!!" );
 
 
