@@ -17,6 +17,7 @@ where you installed the VCF.
 
 using namespace VCF;
 
+bool System::unicodeEnabled = false;
 
 
 System* System::create()
@@ -39,7 +40,6 @@ System::System():
 	systemPeer_(NULL),
 	errorLogInstance_(NULL),
 	locale_(NULL),
-	unicodeEnabled_(false),
 	resBundle_(NULL)
 {
 	systemPeer_ = SystemToolkit::createSystemPeer();
@@ -48,7 +48,7 @@ System::System():
 		throw InvalidPeer( MAKE_ERROR_MSG_2( L"Unable to create a System peer!" ) );
 	}
 
-	unicodeEnabled_ = systemPeer_->isUnicodeEnabled();
+	System::unicodeEnabled = systemPeer_->isUnicodeEnabled();
 
 	errorLogInstance_ = NULL;
 
@@ -311,7 +311,7 @@ Locale* System::getCurrentThreadLocale()
 
 bool System::isUnicodeEnabled()
 {
-	return System::systemInstance->unicodeEnabled_;
+	return System::unicodeEnabled;
 }
 
 DateTime System::convertUTCTimeToLocalTime( const DateTime& date )
@@ -683,6 +683,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/01/07 01:15:23  ddiego
+*fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
+*
 *Revision 1.3.2.4  2004/12/22 03:26:14  marcelloptr
 *fixed bug in getBundlePathFromExecutableName() coming from the fact
 *that GetModuleFileNameW gives a lowercase path under vc70, but not under vc6

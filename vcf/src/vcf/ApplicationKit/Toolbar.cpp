@@ -63,27 +63,27 @@ void ToolbarItem::handleEvent( Event* event )
 {
 	Component::handleEvent( event );
 	switch ( event->getType() ){
-			case Action::UpdateEvent : {
-				ActionEvent* actionEvent = (ActionEvent*)event;
+		case Action::UpdateEvent : {
+			ActionEvent* actionEvent = (ActionEvent*)event;
 
 
-				setEnabled( actionEvent->isEnabled() );
+			setEnabled( actionEvent->isEnabled() );
 
-				setCaption( actionEvent->getText() );
+			setCaption( actionEvent->getText() );
 
-				if ( this->isChecked() && (actionEvent->getState() & tisPressed) ) {
-					setPressed( true );
-				}
-				else if ( isChecked() ) {
-					setPressed( false );
-				}
+			if ( this->isChecked() && (actionEvent->getState() & tisPressed) ) {
+				setPressed( true );
 			}
-			break;
-
-			case Component::COMPONENT_NEEDS_UPDATING : {
-				update();
+			else if ( isChecked() ) {
+				setPressed( false );
 			}
-			break;
+		}
+		break;
+
+		case Component::COMPONENT_NEEDS_UPDATING : {
+			update();
+		}
+		break;
 	}
 }
 
@@ -528,6 +528,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/07 01:13:58  ddiego
+*fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -353,7 +353,10 @@ protected:
 	ErrorLog* errorLogInstance_;
 
 	Locale* locale_;
-	bool unicodeEnabled_;
+	
+	//this is set in the constructor for the System instance
+	static bool unicodeEnabled;
+
 	ResourceBundle* resBundle_;
 
 	static String getInfoFileFromFileName( const String& fileName );
@@ -365,6 +368,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/01/07 01:15:23  ddiego
+*fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
+*
 *Revision 1.4.2.2  2004/12/19 07:09:20  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.
