@@ -57,6 +57,10 @@ echo -e $VCFCOPYRIGHT \
 "</section>\n\n\n\n\n"\
 "<!--\n"\
 "CVS Log info\n"\
+"\$Log$
+"\Revision 1.1.2.3  2004/03/21 00:39:23  ddiego
+"\merged vc7.1 changes into dev branch
+"\
 "\1.xml,v \$\n"\
 "-->\n\n" > $1.xml
 

@@ -192,6 +192,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "EventsWithMFC"="./EventsWithMFC/EventsWithMFC_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Examples"="./Examples/Examples_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -238,6 +250,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name EventBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name EventsWithMFC
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name FilesAndDirectories
@@ -322,6 +337,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TreeListControls
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name VisualFormFiles
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name WorkingWithEnumerators
@@ -811,6 +829,18 @@ Package=<4>
 ###############################################################################
 
 Project: "TreeListControls"="./TreeListControls/TreeListControls_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VisualFormFiles"="./VisualFormFiles/VisualFormFiles_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -39,6 +39,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "AllTests"="./Tests/AllTests/AllTests_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Anchors"="../../examples/Anchors/Anchors_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -108,6 +120,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "AppServer"="../../AppServer__old/AppServer_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "BBTest"="../../BlackBox/BBTest/BBTest_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -121,6 +145,78 @@ Package=<4>
 ###############################################################################
 
 Project: "BlackBox"="../../BlackBox/BlackBox_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Borders"="../../tests.old/Borders/Borders_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Browser"="../../__VCFBuilder2/Packages/CPPParser/Browser/Browser_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "BugTrack"="../../tests.old/DragNDrop/BugTrack/BugTrack_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ClassServer"="../../ClassServer__old/ClassServer_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ClientTest"="../../tests.old/RemoteObjects/ClientTest/ClientTest_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Components"="../../tests.old/Components/Components_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -156,6 +252,54 @@ Package=<4>
 
 ###############################################################################
 
+Project: "CopyPaste"="../../tests.old/CopyPaste/CopyPaste_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "CPPParser"="../../__VCFBuilder2/Packages/CPPParser/CPPParser_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "DatagramSocketReceiver"="../../tests.old/DatagramSocketTest/DatagramSocketReceiver/DatagramSocketReceiver_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "DatagramSocketSender"="../../tests.old/DatagramSocketTest/DatagramSocketSender/DatagramSocketSender_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "DatesAndTime"="../../examples/DatesAndTime/DatesAndTime_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -180,7 +324,43 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Delegates"="../../tests.old/Delegates/Delegates_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Dialogs"="../../tests.old/Dialogs/Dialogs_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Dictionaries"="../../examples/Dictionaries/Dictionaries_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "DLLs"="../../tests.old/DLLs/DLLs_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -204,7 +384,79 @@ Package=<4>
 
 ###############################################################################
 
+Project: "DragNDrop"="../../tests.old/DragNDrop/DragNDrop_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Drawing"="../../tests.old/Drawing/Drawing_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Edit"="../../__VCFBuilder2/Packages/TextEditor/Edit/Edit_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ErrorLogging"="../../tests.old/ErrorLogging/ErrorLogging_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "EventBasics"="../../examples/EventBasics/EventBasics_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "EventHandlers"="../../tests.old/EventHandlers/EventHandlers_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "EventsWithMFC"="../../examples/EventsWithMFC/EventsWithMFC_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -264,6 +516,9 @@ Package=<4>
     Project_Dep_Name EventBasics
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name EventsWithMFC
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name FilesAndDirectories
     End Project Dependency
     Begin Project Dependency
@@ -274,15 +529,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name HeavyAndLight
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name HelloWorld
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name HelloWorld2
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name HelloWorld3
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ImageBasics
@@ -303,9 +549,6 @@ Package=<4>
     Project_Dep_Name ProgressBars
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name QTPlayer
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name Reflection
     End Project Dependency
     Begin Project Dependency
@@ -324,9 +567,6 @@ Package=<4>
     Project_Dep_Name Splitters
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name Strings
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name StrokesAndFills
     End Project Dependency
     Begin Project Dependency
@@ -342,10 +582,10 @@ Package=<4>
     Project_Dep_Name ThreadsInGUI
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name Toolbars
+    Project_Dep_Name TreeListControls
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name TreeListControls
+    Project_Dep_Name VisualFormFiles
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name WorkingWithEnumerators
@@ -354,7 +594,43 @@ Package=<4>
 
 ###############################################################################
 
+Project: "FilePaths"="../../tests.old/FilePaths/FilePaths_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Files"="../../tests.old/Files/Files_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "FilesAndDirectories"="../../examples/FilesAndDirectories/FilesAndDirectories_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "FileStreaming"="../../tests.old/FileStreaming/FileStreaming_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -489,6 +765,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "GUIThreads"="../../tests.old/GUIThreads/GUIThreads_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "HeavyAndLight"="../../examples/HeavyAndLight/HeavyAndLight_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -501,7 +789,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorld"="../../examples/HelloWorld/HelloWorld_vc70.dsp" - Package Owner=<4>
+Project: "HelloWorld"="../../tests.old/HelloWorld/HelloWorld_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -513,7 +801,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorld2"="../../examples/HelloWorld2/HelloWorld2_vc70.dsp" - Package Owner=<4>
+Project: "HelloWorld"="../../tests.old/HelloWorld/HelloWorld_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -525,7 +813,79 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorld3"="../../examples/HelloWorld3/HelloWorld3_vc70.dsp" - Package Owner=<4>
+Project: "HelloWorld2"="../../tests.old/HelloWorld2/HelloWorld2_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "HelloWorld2"="../../tests.old/HelloWorld2/HelloWorld2_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "HelloWorld3"="../../tests.old/HelloWorld3/HelloWorld3_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "HelloWorld3"="../../tests.old/HelloWorld3/HelloWorld3_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "HelloWorldGtk"="../../tests.old/HelloWorld/HelloWorld-gtk_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "HtmlBrowser"="../../tests.old/HtmlBrowser/HtmlBrowser_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "HTMLBrowserSample"="../../tests.old/HTMLBrowserSample/HTMLBrowserSample_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -576,6 +936,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Interfaces"="../../tests.old/Interfaces/Interfaces_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Labels"="../../examples/Labels/Labels_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -588,7 +960,31 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Layout"="../../tests.old/Layout/Layout_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "libAGG"="./GraphicsKit/libAGG_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libAGGGtk"="../gtk/GraphicsKit/libAGG-gtk_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -660,7 +1056,43 @@ Package=<4>
 
 ###############################################################################
 
+Project: "ListControls"="../../tests.old/ListControls/ListControls_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Localization"="../../examples/Localization/Localization_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Menus"="../../tests.old/Menus/Menus_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MyServer"="../../tests.old/RemoteObjects/MyServer/MyServer_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -702,6 +1134,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Persistence"="../../tests.old/Persistence/Persistence_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Processes"="../../examples/Processes/Processes_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -726,7 +1170,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "QTPlayer"="../../examples/QTPlayer/QTPlayer_vc70.dsp" - Package Owner=<4>
+Project: "QTPlayer"="../../tests.old/QTPlayer/QTPlayer_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "QTPlayer"="../../tests.old/QTPlayer/QTPlayer_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -792,6 +1248,66 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Resources"="../../tests.old/Resources/Resources_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "RTTI"="../../__RTTI Compiler/RTTI_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "RTTI"="../../__RTTI Compiler/RTTI_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SciLexer"="../../__VCFBuilder2/Packages/TextEditor/scintilla/vcbuild/SciLexer_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Scribble"="../../tests.old/Scribble/Scribble_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Scrolling"="../../examples/Scrolling/Scrolling_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -840,6 +1356,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "SocketTest"="../../tests.old/SocketTest/SocketTest_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SplashTest"="../../tests.old/SplashTest/SplashTest_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Splitters"="../../examples/Splitters/Splitters_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -852,7 +1392,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Strings"="../../examples/Strings/Strings_vc70.dsp" - Package Owner=<4>
+Project: "Strings"="../../tests.old/Strings/Strings_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Strings"="../../tests.old/Strings/Strings_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -876,7 +1428,55 @@ Package=<4>
 
 ###############################################################################
 
+Project: "SystemStuff"="../../tests.old/SystemStuff/SystemStuff_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Tables"="../../examples/Tables/Tables_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Tabs"="../../tests.old/Tabs/Tabs_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "test"="../gtk/GraphicsKit/test/test_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TextEditor"="../../__VCFBuilder2/Packages/TextEditor/TextEditor_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -900,7 +1500,31 @@ Package=<4>
 
 ###############################################################################
 
+Project: "TextStuff"="../../tests.old/TextStuff/TextStuff_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ThreadBasics"="../../examples/ThreadBasics/ThreadBasics_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Threads"="../../tests.old/Threads/Threads_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -924,7 +1548,43 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Toolbars"="../../examples/Toolbars/Toolbars_vc70.dsp" - Package Owner=<4>
+Project: "Timer"="../../tests.old/Timer/Timer_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Toolbars"="../../tests.old/Toolbars/Toolbars_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Toolbars"="../../tests.old/Toolbars/Toolbars_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TreeList"="../../tests.old/TreeList/TreeList_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -937,6 +1597,30 @@ Package=<4>
 ###############################################################################
 
 Project: "TreeListControls"="../../examples/TreeListControls/TreeListControls_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Trees"="../../tests.old/Trees/Trees_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "UndoRedo"="../../tests.old/UndoRedo/UndoRedo_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1014,6 +1698,66 @@ Package=<4>
 
 ###############################################################################
 
+Project: "VCFBuilder2"="../../__VCFBuilder2/VCFBuilder2_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCFBuilderUI"="../../__VCFBuilder2/Packages/VCFBuilderUI/VCFBuilderUI_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCFJSEngine"="../../tests.old/VCFJSEngine/VCFJSEngine_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VisualFormFiles"="../../examples/VisualFormFiles/VisualFormFiles_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Win32API"="../../tests.old/Win32API/Win32API_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Win32HTMLBrowser"="./Win32HTMLBrowser/Win32HTMLBrowser_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1057,6 +1801,30 @@ Package=<4>
 ###############################################################################
 
 Project: "xmake"="../../xmake/xmake_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "XmlTest"="../../tests.old/XmlTest/xmltest_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "XWin"="../../tests.old/XWin/XWin_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

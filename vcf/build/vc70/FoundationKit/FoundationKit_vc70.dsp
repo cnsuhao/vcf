@@ -197,18 +197,22 @@ SOURCE=../../../include/implementerkit/Win32ProcessPeer.h
 # Begin Source File
 
 SOURCE=../../../src/implementerkit/Win32Registry.cpp
+
 # End Source File
 # Begin Source File
 
 SOURCE=../../../include/implementerkit/Win32Registry.h
+
 # End Source File
 # Begin Source File
 
 SOURCE=../../../src/ImplementerKit/Win32SemaphorePeer.cpp
+
 # End Source File
 # Begin Source File
 
 SOURCE=../../../include/implementerKit/Win32SemaphorePeer.h
+
 # End Source File
 # Begin Source File
 
@@ -217,14 +221,17 @@ SOURCE=../../../src/ImplementerKit/Win32SystemPeer.cpp
 # Begin Source File
 
 SOURCE=../../../include/implementerKit/Win32SystemPeer.h
+
 # End Source File
 # Begin Source File
 
 SOURCE=../../../src/ImplementerKit/Win32SystemToolkit.cpp
+
 # End Source File
 # Begin Source File
 
 SOURCE=../../../include/implementerKit/Win32SystemToolkit.h
+
 # End Source File
 # Begin Source File
 
@@ -233,6 +240,10 @@ SOURCE=../../../src/ImplementerKit/Win32Thread.cpp
 # Begin Source File
 
 SOURCE=../../../include/implementerKit/Win32Thread.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\VCFRTTIImpl.h
 # End Source File
 # End Group
 # Begin Group "Exceptions"
@@ -309,6 +320,7 @@ SOURCE=../../../include/exceptions/RuntimeException.h
 # Begin Source File
 
 SOURCE=../../../include/exceptions/TypeCastException.h
+
 # End Source File
 # End Group
 # Begin Group "Events"
@@ -481,6 +493,7 @@ SOURCE=../../../src/Utils/Condition.cpp
 # Begin Source File
 
 SOURCE=../../../include/utils/Condition.h
+
 # End Source File
 # Begin Source File
 
@@ -501,6 +514,7 @@ SOURCE=../../../include/utils/Enumerator.h
 # Begin Source File
 
 SOURCE=../../../src/Utils/ErrorLog.cpp
+
 # End Source File
 # Begin Source File
 
