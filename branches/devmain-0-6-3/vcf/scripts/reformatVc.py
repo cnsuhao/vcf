@@ -20,7 +20,7 @@ modules ={}
 
 
 # globals
-compilerVc6 = 'vc6'
+compilerVc6  = 'vc6'
 compilerVc70 = 'vc70'
 compilerVc71 = 'vc71'
 g_default_config = "reformatVcConfig.ini"
@@ -443,7 +443,8 @@ class DspApp:
 
         optparser.add_option(   "--deleteLines"                     , type = "int"     , dest = "deleteLines"                   , default=True  , help="eliminates all lines with string given in deleteLineString" )
         optparser.add_option(   "--deleteLineString"                , type = "string"  , dest = "deleteLineString"              , default=''    , help="string to find for lines to be deleted ( see deleteLines ) ( i.e. \'# PROP Scc_\'" )
-        optparser.add_option(   "--reformatOutputIntermediateDirs"   , type = "int"    , dest = "reformatOutputIntermediateDirs", default=True  , help="reformat the Output Directories [note though that in normal cases we want /out: and vc6 removes the /Fo option ]"        )
+        optparser.add_option(   "--conformLibsToDlls"               , type = "int"     , dest = "conformLibsToDlls"             , default=True  , help="conforms the folders of dsp library projects to the ones of the project for the Dll version( the association table is in inside the code )" )
+        optparser.add_option(   "--reformatOutputIntermediateDirs"  , type = "int"     , dest = "reformatOutputIntermediateDirs", default=True  , help="reformat the Output Directories [note though that in normal cases we want /out: and vc6 removes the /Fo option ]"        )
         optparser.add_option(   "--reformatOptionOutput"            , type = "int"     , dest = "reformatOptionOutput"          , default=True  , help="reformat the option Output                 /Fo"     )
         
         optparser.add_option(   "--reformatOptionPdb"               , type = "int"     , dest = "reformatOptionPdb"             , default=False , help="reformat/delete the option ProgramDatabase /pdb"    )
@@ -514,6 +515,7 @@ class DspApp:
         print ''
         print ' --deleteLines                    = ' + str(self.options.deleteLines                     )
         print ' --deleteLineString               = \'' + str(self.options.deleteLineString              ) + '\''
+        print ' --conformLibsToDlls              = ' + str(self.options.conformLibsToDlls               )
         print ' --reformatOutputIntermediateDirs = ' + str(self.options.reformatOutputIntermediateDirs  )
         print ' --reformatOptionOutput           = ' + str(self.options.reformatOptionOutput            )
 
@@ -588,6 +590,7 @@ class DspApp:
                     self.options.unixStyle                      = self.configGetBool( section, 'unixStyle'                      )
                     self.options.deleteLines                    = self.configGetBool( section, 'deleteLines'                    )
                     self.options.deleteLineString               = self.configGetStr ( section, 'deleteLineString'               )
+                    self.options.conformLibsToDlls              = self.configGetBool( section, 'conformLibsToDlls'              )
 
                     self.options.reformatOutputIntermediateDirs = self.configGetInt( section, 'reformatOutputIntermediateDirs'  )
                     self.options.reformatOptionOutput           = self.configGetInt( section, 'reformatOptionOutput'            )
@@ -775,6 +778,8 @@ class Workspace:
         fd.close
 
         print ' created workspace: %s' % self.workspacename
+        
+        return
 
     def addProject( self, prjName, prjPath ):
         self.prjNames.append( prjName )
@@ -833,6 +838,69 @@ class Workspace:
         elif ( state != 0 ):
             raise Exception( 'wrong state: [%d]  ( but dependencies[%d] == nPrjs[%d] ). Workspace: %s' % ( state, nDeps, nPrjs, dependencyWorkspaceName ) )
 
+        return
+
+    def conformLibsToDlls( self ):
+        if ( not app.options.conformLibsToDlls ):
+            return
+        
+        # %%%
+        #tableAssocLib = [ ( 'FoundationKit'  , 'FoundationKitDll'   ), \
+        #                  ( 'GraphicsKit'    , 'GraphicsKitDll'     ), \
+        #                  ( 'ApplicationKit' , 'ApplicationKitDll'  ), \
+        #                  ( 'NetworkKit'     , 'NetworkKitDll'      ), \
+        #                  ( 'RemoteObjectKit', 'RemoteObjectKitDll' )  \
+        #                ]
+               
+        # first check if the libs exist
+        
+        #sorting to spead up the search
+        projects = zip( self.prjNames, self.prjPaths )
+        projects.sort()
+
+        # very brute force search
+        #for ( libname, dllname ) in tableAssocLib # %%%
+        if ( False ):
+            libNameFound = ''
+            dllNameFound = ''
+            lw_libname = libname.lower()
+            lw_dllname = dllname.lower()
+            for (prjName, prjPath) in projects:
+                prjName = prjName.lower()
+                if ( prjName == lw_libname ):
+                    libNameFound = libname
+                    libPath = prjPath
+                    break
+            for (prjName, prjPath) in projects:
+                prjName = prjName.lower()
+                if ( prjName == lw_dllname ):
+                    dllNameFound = libname
+                    dllPath = prjPath
+                    break
+                
+            if ( libPath and dllPath ):
+                conformLibToDll( self, libPath, dllPath )
+            else:
+                print 'conformLibsToDlls: ( libPath, dllPath ) not found: ( %s, %s )' % ( libNameFound, dllNameFound )
+        
+        conformLibToDll( self, libname, dllname )
+        
+        print ' libraries conformed.'
+        return
+ 
+    def conformLibToDll( self, libname, dllname ):
+        dr = DspFile( app, libname )
+        dr.readlines()
+        
+        dw = DspFile( app, dllname )
+        dw.readlines()
+        
+        target = dr.readTarget()
+        
+        dw.replaceTarget( target )        
+
+        print ' conformed library \'%s\' <-- dll \'%s\'', ( libname, dllname )
+        
         return
 
 
@@ -945,32 +1013,41 @@ class DspFile:
         #print 'tmpFilename ' + tmpFilename
         if ( os.path.exists( tmpFilename ) ) :
             os.remove( tmpFilename );
-
+            
         fd = file( tmpFilename, 'w' );
         fd.writelines( self.lines )
         fd.close()
 
-        if ( os.path.exists( tmpFilename ) ) :
-            if ( os.path.exists( destination ) ) :
-                if ( not filecmp.cmp( tmpFilename, destination ) ):
-                    # some changes
-                    os.remove( destination )
-                    os.rename( tmpFilename, destination )
-                    app.changedFiles += 1
-                else:
-                    # no changes
-                    os.remove( tmpFilename )
-                    app.unchangedFiles += 1
+        if ( not os.path.exists( tmpFilename ) ) :
+            raise Exception( 'saveFile() - the temporary file \'%s\' had not been created !' % source )
 
-                #if ( False ):
-                #    shutil.copyfile( tmpFilename, destination )
-                #    if ( os.path.exists( tmpFilename ) ) :
-                #        os.remove( tmpFilename ) # ' OSError: [Errno 13] Permission denied ' Why ???
+        self.replaceFile( tmpFilename, self.filename )
+            
+        return
+
+    def replaceFile( self, source, destination ):
+
+        if ( not os.path.exists( source ) ) :
+            raise Exception( 'replaceFile() - the source file \'%s\' does not exist!' % source )
+        
+        if ( os.path.exists( destination ) ) :
+            if ( not filecmp.cmp( source, destination ) ):
+                # some changes
+                os.remove( destination )
+                os.rename( source, destination )
+                app.changedFiles += 1
             else:
-                app.createdFiles += 1
-                os.rename( tmpFilename, destination )
+                # no changes
+                os.remove( source )
+                app.unchangedFiles += 1
+                
+            #if ( False ):
+            #    shutil.copyfile( source, destination )
+            #    if ( os.path.exists( source ) ) :
+            #        os.remove( source ) # ' OSError: [Errno 13] Permission denied ' Why ???
         else:
-            raise Exception( 'saveFile() - the temporary file \'%s\' had not been created !' % tmpFilename )
+            app.createdFiles += 1
+            os.rename( source, destination )
 
         return
 
@@ -1026,6 +1103,102 @@ class DspFile:
 
         return
 
+
+    def readTarget( self ):
+        # skips all the configuration lines and copy the all the target body into a string
+            
+        target = ''
+        state = 0
+        for n in range( len(self.lines) ):
+            line = self.lines[n]
+            self.n = n
+
+            # skips the configurations body    
+            if ( state == 0 and re.match( '# Begin Target', line ) ):
+                state = 1
+                break
+        
+            elif ( state == 1 and re.match( '# Begin Group', line ) ):
+                state = 2
+                
+            elif ( state == 2 ):
+                if ( re.match( '# End Target', line ) ):
+                    state = 3
+                else:
+                    target += line
+                
+            elif ( state == 3 and re.match( '# End Project', line ) ):
+                target += line
+                state = 4
+            
+            else:
+                pass
+        
+        if ( state != 4 ):
+            raise Exception( 'wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
+        
+        return target
+
+    def readOutsideTarget( self ):
+        # skips all the configuration lines and copy the all the target body into a string
+            
+        preTarget = ''
+        postTarget = ''
+        state = 0
+        for n in range( len(self.lines) ):
+            line = self.lines[n]
+            self.n = n
+
+            # skips the configurations body    
+            if ( state == 0 ):
+                preTarget += line
+                if ( re.match( '# Begin Target', line ) ):
+                    state = 1
+        
+            elif ( state == 1 ):
+                # the part with the application names is still very specific of this project so we copy this one part too
+                preTarget += line
+                if ( re.match( '# Begin Group', line ) ):
+                    state = 2                
+                
+            elif ( state == 2 ):
+                if ( re.match( '# End Target', line ) ):
+                    postTarget += line
+                    state = 3
+                
+            elif ( state == 3 ):
+                postTarget += line
+                if ( re.match( '# End Project', line ) ):
+                    state = 4
+                                
+            else:
+                pass
+        
+        if ( state != 4 ):
+            raise Exception( 'wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
+        
+        return ( preTarget, postTarget )
+    
+    def replaceTarget( self, preTarget, target, postTarget ):
+        tmpFilename = self.filename + '.$x$y$'
+        
+        #print 'tmpFilename ' + tmpFilename
+        if ( os.path.exists( tmpFilename ) ) :
+            os.remove( tmpFilename );
+            
+        fd = file( tmpFilename, 'w' );
+        fd.writelines( preTarget )
+        fd.writelines( target )
+        fd.writelines( postTarget )
+        fd.close()
+
+        if ( not os.path.exists( tmpFilename ) ) :
+            raise Exception( 'replaceTarget() - the temporary file \'%s\' had not been created !' % source )
+
+        replaceFile( self, tmpFilename, self.filename )
+        
+        return    
+    
     def getDuplicateVcFilename( self, origStr, copyStr ):
         # if the filename is under a origStr/ subdirectory then it is copied into a copyStr/ subdirectory
         # otherwise is copied into a _copyStr file in the same directory
@@ -1283,7 +1456,11 @@ class DspFile:
                     postfix = filename[j+1:i]
                     if ( postfix == compilerVc6 ):
                         basetitle = name
+                    else:
+                        j = i
                 i = j
+            else:
+                i = len( basetitle )
         return ( i, basetitle )
 
     def getPostFix( self ):
@@ -1474,6 +1651,7 @@ class DspFile:
             # this option should always be there ( we always want dir and filename specified for the linker output )
             addDir  = +1 # never remove it
             addFile = +1
+            if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
             line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.MainFileTitleUnique + self.outputExt, False, changeSomething, addDir, addFile )
 
         return line
@@ -1489,11 +1667,13 @@ class DspFile:
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, '', False, changeSomething, addDir, addFile )
             else:
                 # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
+                if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.MainFileTitleUnique + '.pdb', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
             # (*) the reason why we always remove the '/pdb' option in a ADD LINK32 line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
             addDir  = False
             addFile = False # we usually want both in the same way
+            if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
             line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.MainFileTitleUnique + '.pdb', False, changeSomething, addDir, addFile )
             
             if ( self.addKind == enum_ADD_LINK32 ):
@@ -1512,11 +1692,12 @@ class DspFile:
         changeSomething = ( app.options.reformatOptionBrowse != 0 )
         addDir  = app.options.reformatOptionBrowse
         addFile = addDir # we usually want both in the same way
-        if ( self.isDebugCfg[self.nCfg] ):  # it makes sense only for debug mode
+        if ( self.isDebugCfg[self.nCfg] ):  # to add this option it makes sense only for debug mode
             if ( self.addKind == enum_ADD_CPP ):
                 line = self.storeRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
             elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
                 # the bsc file will be placed in the same dir of the main output
+                if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
                 line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.MainFileTitleUnique + '.bsc', False, changeSomething, addDir, addFile )
             elif ( self.addKind == enum_SUBTRACT_CPP ):
                 # /Fr' in # SUBTRACT CPP disable the pdb option
@@ -1795,6 +1976,8 @@ class Walker:
         if ( nFiles ):
             if ( app.options.createWorkspace ):
                 workspace.create()
+            if ( False and app.options.conformLibsToDlls ):
+                workspace.conformLibsToDlls()
 
         if ( 0 < app.options.verbose ):
             print ' %s dsp files processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
@@ -1824,7 +2007,7 @@ Notes:
         and th this script's option is not null, then the order is changed in a 'standard' way
 
 Limitations:
-    1) A program database option is mosly enabled/disabled by the /debug option present 
-        or in the #ADD LINK32 line or in the #SUBTRACT LINK32 line
+    1) A program database option is mosly enabled/disabled by the /debug option ( generate debug info ) 
+        which is present or in the #ADD LINK32 line or in the #SUBTRACT LINK32 line
         But this program doesn't affect (create) any SUBTRACT line if it doesn't exist yet
 """
