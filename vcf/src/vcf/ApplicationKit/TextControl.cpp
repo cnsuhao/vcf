@@ -527,8 +527,8 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.5  2005/02/24 05:37:33  marcelloptr
-*bugfix 1150771 - When selecting all the text in the editor, setText is called
+*Revision 1.3.2.6  2005/02/24 05:38:07  marcelloptr
+*bugfix [1150771] - When selecting all the text in the editor, setText is called
 *
 *Revision 1.3.2.4  2005/01/28 02:49:01  ddiego
 *fixed bug 1111096 where the text control was properly handlind
