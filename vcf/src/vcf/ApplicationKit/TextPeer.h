@@ -90,6 +90,7 @@ public:
 
 	virtual void setReadOnly( const bool& readonly ) = 0;
 
+	virtual ulong32 getTotalPrintablePageCount( PrintContext* context ) = 0;
 	/**
 	This attempts to print a single page and render in to the 
 	printer context that's passed in.
@@ -99,6 +100,8 @@ public:
 	Mac OS X as well.
 	*/
 	virtual void print( PrintContext* context, const long& page ) = 0;
+
+	virtual void finishPrinting() = 0;
 };
 
 };
@@ -107,6 +110,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/19 05:54:28  ddiego
+*added some fixes to the text peer for win32 for printing. added toolbars to text edit example anmd added printing
+*
 *Revision 1.2.2.1  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
