@@ -223,14 +223,6 @@ public:
 
 	virtual void subItemChanged( SubItem* item );
 
-	virtual long getTag() {
-		return tag_;
-	}
-
-	virtual void setTag( const long& tag ) {
-		tag_ = tag;
-	}
-
 protected:
 	virtual void changed( const ulong32& eventType=ITEM_EVENT_CHANGED  );
 
@@ -256,7 +248,6 @@ protected:
 	long selectedImageIndex_;
 	long expandedImageIndex_;
 	long stateImageIndex_;
-	long tag_;
 };
 
 };
@@ -265,6 +256,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

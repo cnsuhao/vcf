@@ -16,7 +16,6 @@ where you installed the VCF.
 
 using namespace VCF;
 
-static GraphicsContext* s_tempDesktopCtx = NULL;
 
 //******************************************************************************
 //ToolbarItem
@@ -24,7 +23,6 @@ static GraphicsContext* s_tempDesktopCtx = NULL;
 
 ToolbarItem::ToolbarItem():
 	control_(NULL),
-	tag_(-1),
 	state_(tisEnabled),
 	model_(NULL),
 	data_(NULL),
@@ -32,7 +30,7 @@ ToolbarItem::ToolbarItem():
 	imageStateIndex_(0),
 	itemControl_(NULL)
 {
-
+	tag_ = -1;
 }
 
 void ToolbarItem::click()
@@ -530,6 +528,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2.2.1  2004/09/06 21:30:20  ddiego
 *added a separate paintBorder call to Control class
 *

@@ -18,10 +18,9 @@ DefaultTabPage::DefaultTabPage( Control* component ):
 	preferredHeight_(8),
 	imageIndex_(0),
 	component_(NULL),
-	owningControl_(NULL),
-	tag_(-1)
+	owningControl_(NULL)
 {
-
+	tag_ = -1;
 	setPageComponent( component );
 }
 
@@ -205,6 +204,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2.2.4  2004/08/17 21:46:55  dougtinkham
 *minor paint changes
 *

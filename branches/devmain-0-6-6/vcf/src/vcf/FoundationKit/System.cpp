@@ -101,9 +101,20 @@ String System::findResourceDirectory()
 			it ++;
 		}
 	}
+	
 
 	if ( !result.empty() ) {
-		 result += FilePath::getDirectorySeparator();
+		//found the top level res dir
+		//now attempt to see if we can use a more locale specific dir
+		//if not, fall back on the default Resources dir
+		String localeName = System::getCurrentThreadLocale()->getName();
+		tmp = result + FilePath::getDirectorySeparator() + localeName;
+		if ( File::exists( tmp ) ) {
+			result = tmp;
+		}
+
+		//add the dir sep at the end to be proper
+		result += FilePath::getDirectorySeparator();
 	}
 
 	return result;
@@ -309,9 +320,29 @@ void System::internal_replaceResourceBundleInstance( ResourceBundle* newInstance
 	System::systemInstance->resBundle_ = newInstance;
 }
 
+String System::getOSName()
+{
+	return System::systemInstance->systemPeer_->getOSName();
+}
+
+String System::getOSVersion()
+{
+	return System::systemInstance->systemPeer_->getOSVersion();
+}
+
+
+String System::getCompiler()
+{
+	String result(VCF_COMPILER_NAME);
+	return result;
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2.2.3  2004/08/27 03:50:46  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe
