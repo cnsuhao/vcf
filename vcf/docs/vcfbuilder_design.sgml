@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/04/22 21:31:14  ddiego
+more docs
+
 Revision 1.1.2.4  2003/04/21 21:06:18  ddiego
 more docs
 
@@ -302,42 +305,41 @@ public:
 	<section><title>Interfaces</title>
 		<section id="EditableDocument"><title>VCFBuilder::EditableDocument</title>
 		<para>
-		<programlisting>
-		<![CDATA[
+		<programlisting>		
 class EditableDocument : public VCF::Interface { 
 public:	
 	
 	//required methods
-	virtual void openFromFile( ProjectFile* file ) = 0;
+	<link linkend="openFromFile">virtual void openFromFile( ProjectFile* file ) = 0;</link>
 	
-	virtual VCF::String getName() = 0;
+	<link linkend="getName">virtual VCF::String getName() = 0;</link>
 
-	virtual VCF::Control* getRootControl() = 0;
+	<link linkend="getRootControl">virtual VCF::Control* getRootControl() = 0;</link>
 
-	virtual bool supportsTextRepresentation() = 0;
+	<link linkend="supportsTextRepresentation">virtual bool supportsTextRepresentation() = 0;</link>
 
-	virtual VCF::String getTextRepresentation() = 0;
+	<link linkend="getTextRepresentation">virtual VCF::String getTextRepresentation() = 0;</link>
 
 
 	//optional methods
-	virtual void setCurrentCharPosition( const long& pos ) {};
+	<link linkend="setCurrentCharPosition">virtual void setCurrentCharPosition( const long&amp; pos ) {};</link>
 
-	virtual void setCurrentLineNumber( const long& lineNumber ) {};
+	<link linkend="setCurrentLineNumber">virtual void setCurrentLineNumber( const long&amp; lineNumber ) {};</link>
 
 
 	//methods that already implemented
-	bool isModified();
+	<link linkend="isModified">bool isModified();</link>
 	
-	VCF::FilePath getFileName();
+	<link linkend="getFileName">VCF::FilePath getFileName();</link>
 
-	void setFileName( const VCF::String& fileName );
+	<link linkend="setFileName">void setFileName( const VCF::String&amp; fileName );</link>
 	
-	ProjectFile* getFileObject();
+	<link linkend="getFileObject">ProjectFile* getFileObject();</link>
 	
-	ProjectObject* getOwningObject();
+	<link linkend="getOwningObject">ProjectObject* getOwningObject();</link>
 
-	void setOwningObject( ProjectObject* owningObject );
-			]]>		
+	<link linkend="setOwningObject">void setOwningObject( ProjectObject* owningObject );</link>
+}
 		</programlisting>
 		</para>
 		<para>
@@ -361,11 +363,83 @@ if ( doc>supportsTextRepresentation() ) {
 			<para id="openFromFile">
 			<programlisting>
 		<![CDATA[
-virtual void openFromFile( ProjectFile* file ) = 0;
+void openFromFile( ProjectFile* file ) = 0;
 			]]>		
 			</programlisting>
-			opens a 
+			opens a file into the EditableDocument. The implementer should have a UI instantiated
+			and be load the contents of the file into the UI. 
 			</para>
+			
+			<para id="getName">			
+			<programlisting>
+VCF::String getName()
+			</programlisting>			
+			</para>
+			
+			<para id="getRootControl">
+			<programlisting>
+VCF::Control* getRootControl()
+			</programlisting>			
+			</para>
+			
+			<para id="supportsTextRepresentation">
+			<programlisting>
+bool supportsTextRepresentation()
+			</programlisting>			
+			</para>
+			
+			<para id="getTextRepresentation">
+			<programlisting>
+VCF::String getTextRepresentation()
+			</programlisting>			
+			</para>
+			</section>
+			
+			<section><title>Optional methods</title>
+			<para id="setCurrentCharPosition">
+			<programlisting>
+void setCurrentCharPosition( const long&amp; pos )			
+			</programlisting>			
+			</para>
+			
+			<para id="setCurrentLineNumber">
+			<programlisting>
+void setCurrentLineNumber( const long&amp; lineNumber )			
+			</programlisting>			
+			</para>
+			</section>
+			
+			<section><title>Already implemented methods</title>
+			<para id="isModified">
+			<programlisting>
+bool isModified()			
+			</programlisting>			
+			</para>
+			
+			<para id="getFileName">
+			<programlisting>
+VCF::FilePath getFileName()			
+			</programlisting>			
+			</para>
+			
+			<para id="getFileObject">
+			<programlisting>
+ProjectFile* getFileObject()		
+			</programlisting>			
+			</para>
+			
+			<para id="getOwningObject">
+			<programlisting>
+ProjectObject* getOwningObject()			
+			</programlisting>			
+			</para>
+			
+			<para id="setOwningObject">
+			<programlisting>
+void setOwningObject( ProjectObject* owningObject )			
+			</programlisting>			
+			</para>
+			
 			</section>
 		</section>
 		
