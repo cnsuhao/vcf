@@ -20,13 +20,13 @@ public:
   }
 
   bool cdtDraw (HDC hdc, int x, int y, int cd, int md, DWORD rgbBgnd) {
-    return cdtDraw_(hdc, x, y, cd, md, rgbBgnd);
+    return ( cdtDraw_(hdc, x, y, cd, md, rgbBgnd) != 0 );
   }
   bool cdtDrawExt(HDC hdc, int x, int y, int dx, int dy,  int cd, int md, DWORD rgbBgnd) {
-    return cdtDrawExt_(hdc, x, y, dx, dy, cd, md, rgbBgnd);
+    return ( cdtDrawExt_(hdc, x, y, dx, dy, cd, md, rgbBgnd) != 0 );
   }
   bool cdtAnimate(HDC hdc, int cd, int x, int y, int ispr) {
-    return cdtAnimate_(hdc, cd, x, y, ispr);
+    return ( cdtAnimate_(hdc, cd, x, y, ispr) != 0 );
   }
   int getWidth() {return cardWidth;}
   int getHeight() {return cardHeight;}
@@ -64,7 +64,7 @@ private:
 
   void DoInitCheck(void) {
     if (!isInit) {
-      isInit = cdtInit_(&cardWidth, &cardHeight);
+      isInit = ( cdtInit_(&cardWidth, &cardHeight) != 0 );
     }
   }
 

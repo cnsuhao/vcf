@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="cards_bcb5_d.exe"/>
-    <OBJFILES value="main.obj"/>
+    <OBJFILES value="Cards.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
