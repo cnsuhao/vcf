@@ -50,73 +50,216 @@ public:
 
 	ScrollbarManager( const String& name );
 
+	/**
+	* gets the control containing the scrollbars and associated to them.
+	* This the control that will be moved by the scrollable.
+	* MP ?
+	*/
 	Control* getTarget() {
 		return target_;
 	}
 
+	/**
+	* sets the control containing the scrollbars and associated to them.
+	* This the control that will be moved by the scrollable.
+	* MP ?
+	*/
 	void setTarget( Control* target );
 
 	virtual void afterCreate( ComponentEvent* event );
 
+	/**
+	* sets if the vertical scrolbar is ever visible
+	*@param const bool& hasVerticalScrollbar, false if it is never visible.
+	*/
 	void setHasVerticalScrollbar( const bool& hasVerticalScrollbar );
 
+	/**
+	* sets if the orizontal scrolbar is ever visible
+	*@param const bool& hasHorizontalScrollbar, false if it is never visible.
+	*/
 	void setHasHorizontalScrollbar( const bool& hasHorizontalScrollbar );
 
+	/**
+	* tells if the vertical scrolbar is ever visible
+	*/
 	bool hasVerticalScrollBar();
 
+	/**
+	* tells if the orizontal scrolbar is ever visible
+	*/
 	bool hasHorizontalScrollBar();	
 
+	/**
+	* gets the height of the area that needs to be displayed.
+	* @see setVirtualViewSize
+	*/
 	double getVirtualViewHeight();
 
+	/**
+	* gets the width of the area that needs to be displayed.
+	* @see setVirtualViewSize
+	*/
 	double getVirtualViewWidth();
 
+	/**
+	* sets the height of the area that needs to be displayed.
+	* @see setVirtualViewSize
+	*/
 	void setVirtualViewHeight( const double& virtualViewHeight );
 
+	/**
+	* sets the width of the area that needs to be displayed.
+	* @see setVirtualViewSize
+	*/
 	void setVirtualViewWidth( const double& virtualViewWidth );
 
+	/**
+	* sets the size (dimensions) of the area that needs to be displayed.
+	* For example if we want to show an image, this size will be set 
+	* the same as the size of the image.
+	* The name virtual comes from the fact that it can be partly hidden.
+	* This area can be larger of the area actually displayed, and in this case
+	* the scrollbars will appear if not visible.
+	*/
 	void setVirtualViewSize( const double& virtualViewWidth, const double& virtualViewHeight );
 
-	virtual void setVirtualViewHorzStep( const double& step );
-
+	/**
+	* sets how many pixel we want to vertically scroll the area to be displayed
+	* when pressing the arrows of the vertical scrollbar.
+	*/
 	virtual void setVirtualViewVertStep( const double& step );
 
-	virtual double getVirtualViewHorzStep();
+	/**
+	* sets how many pixel we want to horizontally scroll the area to be displayed
+	* when pressing the arrows of the horizontal scrollbar.
+	*/
+	virtual void setVirtualViewHorzStep( const double& step );
 
+	/**
+	* tells how many pixel we want the area to be displayed will be vertically 
+	* scrolled when pressing the arrows of the vertical scrollbar.
+	*/
 	virtual double getVirtualViewVertStep();
 
+	/**
+	* tells how many pixel we want the area to be displayed will be vertically 
+	* scrolled when pressing the arrows of the vertical scrollbar.
+	*/
+	virtual double getVirtualViewHorzStep();
+
+	/**
+	* moves the scrollbox of a vertical scrollbar to the specified position.
+	* Keep in mind that the final position may differ fom the specified 
+	* one because the OS may change that actual position because of
+	* roundings and other considerations related to the position 
+	* of other controls.
+	*@see ScrollPeer::getAdjustedPositions()
+	*/
 	void setVerticalPosition( const double& vertPosition );
 
+	/**
+	* moves the scrollbox of a vertical scrollbar to the specified position.
+	* Keep in mind that the final position may differ fom the specified 
+	* one because the OS may change that actual position because of
+	* roundings and other considerations related to the position 
+	* of other controls.
+	*@see ScrollPeer::getAdjustedPositions()
+	*/
 	void setHorizontalPosition( const double& horzPosition );
 
+	/**
+	* gets the position of the scrollbox of a vertical scrollbar.
+	* This is postion is always the one adjusted by the OS according
+	* to internal considerations.
+	*@see ScrollPeer::getAdjustedPositions()
+	*/
 	double getVerticalPosition();
 
+	/**
+	* gets the position of the scrollbox of a horizontal scrollbar.
+	* This is postion is always the one adjusted by the OS according
+	* to internal considerations.
+	*@see ScrollPeer::getAdjustedPositions()
+	*/
 	double getHorizontalPosition();
 
+	/**
+	* gets the height of the space above the vertical scrollbar.
+	*/
 	double getVerticalTopScrollSpace();
 
+	/**
+	* gets the height of the space below the vertical scrollbar.
+	*/
 	double getVerticalBottomScrollSpace();
 
+	/**
+	* the scrollbars are always inside the area to display.
+	* this let us to create a space on the top of the vertical scrollbar,
+	* which can be used to place other controls in there.
+	* As result of this the scrollbar will appear smaller.
+	*/
 	void setVerticalTopScrollSpace( const double& topScrollSpace );
 
+	/**
+	* the scrollbars are always inside the area to display.
+	* this let us to create a space on the bottom of the vertical scrollbar,
+	* which can be used to place other controls in there.
+	* As result of this the scrollbar will appear smaller.
+	*/
 	void setVerticalBottomScrollSpace( const double& bottomScrollSpace );
 
+	/**
+	* gets the width of the space on the left of the horizontal scrollbar.
+	*/
 	double getHorizontalLeftScrollSpace();
 
+	/**
+	* gets the width of the space on the right of the horizontal scrollbar.
+	*/
 	double getHorizontalRightScrollSpace();
 
+	/**
+	* the scrollbars are always inside the area to display.
+	* this let us to create a space on the left of the horizontal scrollbar,
+	* which can be used to place other controls in there.
+	* As result of this the scrollbar will appear smaller.
+	*/
 	void setHorizontalLeftScrollSpace( const double& leftScrollSpace );
 
+	/**
+	* the scrollbars are always inside the area to display.
+	* this let us to create a space on the right of the horizontal scrollbar,
+	* which can be used to place other controls in there.
+	* As result of this the scrollbar will appear smaller.
+	*/
 	void setHorizontalRightScrollSpace( const double& rightScrollSpace );
 
+	/**
+	* sets if we want the horizontal and vertical scrollbar always visible, 
+	* even when not needed, or not.
+	*/
 	void setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible );
-	bool getKeepHorzScrollbarVisible();
+
+	/**
+	* tells if we choosed to have the vertical scrollbar always visible, 
+	* even when not needed.
+	*/
 	bool getKeepVertScrollbarVisible();
+
+	/**
+	* tells if we choosed to have the horizontal scrollbar always visible, 
+	* even when not needed.
+	*/
+	bool getKeepHorzScrollbarVisible();
+
+protected:
+	virtual ~ScrollbarManager();
 
 protected:
 	Scrollable* scrollable_;
 	Control* target_;
-
-	virtual ~ScrollbarManager();
 };
 
 
@@ -126,6 +269,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/13 19:41:48  marcelloptr
+*scrollable documentation and related
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
