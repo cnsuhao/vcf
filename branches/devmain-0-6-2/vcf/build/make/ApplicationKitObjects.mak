@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.1  2003/10/02 04:50:34  ddiego
+#changes to ensure the code compiles on linux. made a bunch of updates to
+#the makefiles
+#
 #Revision 1.3  2003/05/17 20:36:20  ddiego
 #this is the checkin for the 0.6.1 release - represents the merge over from
 #the devmain-0-6-0 branch plus a few minor bug fixes
@@ -95,8 +99,8 @@ $(OUTDIR_AK_D)/CheckBoxControl.o : $(SRC_CORE)/CheckBoxControl.cpp $(APPKIT_HDRS
 $(OUTDIR_AK_D)/Clipboard.o : $(SRC_CORE)/Clipboard.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/Clipboard.cpp -o $(OUTDIR_AK_D)/Clipboard.o
 
-$(OUTDIR_AK_D)/ClipboardDataObject.o : $(SRC_CORE)/ClipboardDataObject.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/ClipboardDataObject.cpp -o $(OUTDIR_AK_D)/ClipboardDataObject.o
+$(OUTDIR_AK_D)/DataObject.o : $(SRC_CORE)/DataObject.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/DataObject.cpp -o $(OUTDIR_AK_D)/DataObject.o
 
 $(OUTDIR_AK_D)/ClipboardEvent.o : $(SRC_EVENT)/ClipboardEvent.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_EVENT)/ClipboardEvent.cpp -o $(OUTDIR_AK_D)/ClipboardEvent.o
@@ -167,8 +171,6 @@ $(OUTDIR_AK_D)/CursorManager.o : $(SRC_CORE)/CursorManager.cpp $(APPKIT_HDRS)
 $(OUTDIR_AK_D)/CustomControl.o : $(SRC_CORE)/CustomControl.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/CustomControl.cpp -o $(OUTDIR_AK_D)/CustomControl.o
 
-$(OUTDIR_AK_D)/DataType.o : $(SRC_CORE)/DataType.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/DataType.cpp -o $(OUTDIR_AK_D)/DataType.o
 
 $(OUTDIR_AK_D)/DefaultColumnItem.o : $(SRC_CORE)/DefaultColumnItem.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/DefaultColumnItem.cpp -o $(OUTDIR_AK_D)/DefaultColumnItem.o
@@ -215,14 +217,10 @@ $(OUTDIR_AK_D)/Desktop.o : $(SRC_CORE)/Desktop.cpp $(APPKIT_HDRS)
 $(OUTDIR_AK_D)/Dialog.o : $(SRC_CORE)/Dialog.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/Dialog.cpp -o $(OUTDIR_AK_D)/Dialog.o
 
-$(OUTDIR_AK_D)/DragEvent.o : $(SRC_EVENT)/DragEvent.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_EVENT)/DragEvent.cpp -o $(OUTDIR_AK_D)/DragEvent.o
 
 $(OUTDIR_AK_D)/DragSource.o : $(SRC_DND)/DragSource.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_DND)/DragSource.cpp -o $(OUTDIR_AK_D)/DragSource.o
 
-$(OUTDIR_AK_D)/DropEvent.o : $(SRC_EVENT)/DropEvent.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_EVENT)/DropEvent.cpp -o $(OUTDIR_AK_D)/DropEvent.o
 
 $(OUTDIR_AK_D)/DropTarget.o : $(SRC_DND)/DropTarget.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_DND)/DropTarget.cpp -o $(OUTDIR_AK_D)/DropTarget.o
@@ -403,6 +401,18 @@ $(OUTDIR_AK_D)/Window.o : $(SRC_CORE)/Window.cpp $(APPKIT_HDRS)
 
 $(OUTDIR_AK_D)/WindowEvent.o : $(SRC_EVENT)/WindowEvent.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_EVENT)/WindowEvent.cpp -o $(OUTDIR_AK_D)/WindowEvent.o
+	
+$(OUTDIR_AK_D)/Containers.o : $(SRC_CORE)/Containers.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/Containers.cpp -o $(OUTDIR_AK_D)/Containers.o	
+	
+$(OUTDIR_AK_D)/PackageInfo.o : $(SRC_CORE)/PackageInfo.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/PackageInfo.cpp -o $(OUTDIR_AK_D)/PackageInfo.o		
+
+$(OUTDIR_AK_D)/DocumentManager.o : $(SRC_CORE)/DocumentManager.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/DocumentManager.cpp -o $(OUTDIR_AK_D)/DocumentManager.o	
+
+$(OUTDIR_AK_D)/MessageDialog.o : $(SRC_CORE)/MessageDialog.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/MessageDialog.cpp -o $(OUTDIR_AK_D)/MessageDialog.o		
 
 $(OUTDIR_AK_D)/GTKUIToolkit.o : $(SRC_IMPLKIT)/GTKUIToolkit.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKUIToolkit.cpp -o $(OUTDIR_AK_D)/GTKUIToolkit.o
@@ -427,6 +437,18 @@ $(OUTDIR_AK_D)/GTKControlContext.o : $(SRC_IMPLKIT)/GTKControlContext.cpp $(APPK
 
 $(OUTDIR_AK_D)/GTKCursor.o : $(SRC_IMPLKIT)/GTKCursor.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKCursor.cpp -o $(OUTDIR_AK_D)/GTKCursor.o
+	
+$(OUTDIR_AK_D)/GTKDialog.o : $(SRC_IMPLKIT)/GTKDialog.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKDialog.cpp -o $(OUTDIR_AK_D)/GTKDialog.o	
+
+$(OUTDIR_AK_D)/GTKTextControl.o : $(SRC_IMPLKIT)/GTKTextControl.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKTextControl.cpp -o $(OUTDIR_AK_D)/GTKTextControl.o	
+	
+$(OUTDIR_AK_D)/GTKFileOpenDialog.o : $(SRC_IMPLKIT)/GTKFileOpenDialog.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKFileOpenDialog.cpp -o $(OUTDIR_AK_D)/GTKFileOpenDialog.o		
+	
+$(OUTDIR_AK_D)/GTKCommandButton.o : $(SRC_IMPLKIT)/GTKCommandButton.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKCommandButton.cpp -o $(OUTDIR_AK_D)/GTKCommandButton.o			
 
 
 

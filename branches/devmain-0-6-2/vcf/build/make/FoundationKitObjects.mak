@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.6.1  2003/10/02 04:50:34  ddiego
+#changes to ensure the code compiles on linux. made a bunch of updates to
+#the makefiles
+#
 #Revision 1.2  2003/02/26 04:30:25  ddiego
 #merge of code in the devmain-0-5-9 branch into the current tree.
 #most additions are in the area of the current linux port, but the major
@@ -109,8 +113,9 @@ $(OUTDIR_FK_D)/Point.o : $(SRC_CORE)/Point.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK_D)/PropertyChangeEvent.o : $(SRC_EVENT)/PropertyChangeEvent.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/PropertyChangeEvent.cpp -o $(OUTDIR_FK_D)/PropertyChangeEvent.o
 
-$(OUTDIR_FK_D)/Rect.o : $(SRC_CORE)/Rect.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_FK_D)/Rect.o
+
+$(OUTDIR_FK_D)/CommandLine.o : $(SRC_UTILS)/CommandLine.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/CommandLine.cpp -o $(OUTDIR_FK_D)/CommandLine.o
 
 $(OUTDIR_FK_D)/Registry.o : $(SRC_UTILS)/Registry.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Registry.cpp -o $(OUTDIR_FK_D)/Registry.o
