@@ -2,6 +2,10 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.1.2.14  2003/05/15 03:00:59  ddiego
+#added initial osx source( FoundationKit only),
+#plus some fixes to compile under GCC 3.x compilers
+#
 #Revision 1.1.2.13  2003/04/17 04:29:44  ddiego
 #updated scintilla, added gtk support for the application kit, with stubs
 #for the basic peers.
@@ -25,9 +29,9 @@ VCFB_VERSION = 1.0.5
 XMAKE_VERSION = 1.0.5
 
 
-HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = /bin/cat
 
-XSL_HTMLHELP_IMPORT = "D:/dork/DocBook/xsl/htmlhelp/htmlhelp.xsl"
+XSL_HTMLHELP_IMPORT = $(HOME)/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl
 
 RAW_CHM_FILENAME = vcf_docs.chm
 RAW_CHI_FILENAME = vcf_docs.chi
