@@ -84,15 +84,7 @@ public:
 
 	virtual void paint( GraphicsContext * context );
 
-	void init();
-
-	void onTreeRootNodeChanged( TreeModelEvent* event );
-
-	void onTreeNodeAdded( TreeModelEvent* event );
-
-	void onTreeNodeDeleted( TreeModelEvent* event );
-
-	void onModelEmptied( ModelEvent* event );
+	void init();	
 
 	TreeItem* findItem( Point* pt );
 
@@ -114,6 +106,15 @@ protected:
 
 	void onTreeItemPaint( ItemEvent* event );
 
+	void onTreeRootNodeChanged( TreeModelEvent* event );
+
+	void onTreeNodeAdded( TreeModelEvent* event );
+
+	void onTreeNodeDeleted( TreeModelEvent* event );
+
+	void onModelEmptied( ModelEvent* event );
+
+
     TreePeer * treePeer_;
     ImageList* imageList_;
 	ImageList* stateImageList_;
@@ -129,6 +130,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/22 04:18:58  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
 *added support for editing labels on a tree control
 *

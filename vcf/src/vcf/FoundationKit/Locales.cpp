@@ -42,6 +42,12 @@ Locale::Locale( const Locale::LanguageCodes& languageCode, const Locale::Country
 	peer_->setLocale( Locale::languageCodeToString(languageCode), Locale::countryCodeToString(countryCode), "" );
 }
 
+Locale::~Locale() 
+{
+	delete peer_;
+	peer_ = NULL;
+}
+
 UnicodeString Locale::getName()
 {
 	return getLanguageCodeString() + "_" + getCountryCodeString();
@@ -1259,6 +1265,11 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/22 04:18:59  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out
