@@ -6,7 +6,7 @@ rm vcfSrcFiles.iss
 
 echo preparing list of all files for distribution in installer...
 
-SRC_DIRS="../../include ../../src ../../ImageFormats ../../build ../../AppServer ../../xmake ../../ClassServer ../../thirdparty"
+SRC_DIRS="../../include ../../src ../../ImageFormats ../../build ../../xmake ../../thirdparty"
 
 echo 1st find
 find $SRC_DIRS -iname '*.h' -o -iname '*.hpp' -o -iname '*.c' \
