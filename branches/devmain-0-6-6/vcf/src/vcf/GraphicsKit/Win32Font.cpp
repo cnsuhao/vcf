@@ -801,8 +801,8 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.5  2004/08/26 04:06:30  marcelloptr
-*minor change on name of getMillisecond
+*Revision 1.2.2.6  2004/08/26 04:08:15  marcelloptr
+*minor change on a comment
 *
 *Revision 1.2.2.4  2004/08/26 01:44:40  ddiego
 *fixed font pix size bug that handled non true type fonts poorly.
