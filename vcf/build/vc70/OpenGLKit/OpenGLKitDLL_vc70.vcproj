@@ -88,7 +88,7 @@
 				PrecompiledHeaderFile=".\vc70\DebugDLL\OpenGLKitDLL_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\DebugDLL\"
 				ObjectFile=".\vc70\DebugDLL\"
-				ProgramDataBaseFileName=".\vc70\DebugDLL\"
+				ProgramDataBaseFileName="..\..\..\bin\OpenGLKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"

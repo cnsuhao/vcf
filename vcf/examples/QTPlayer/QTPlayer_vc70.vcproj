@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="QTPlayer"
-	ProjectGUID="{A7A335D7-6E6F-439D-A956-49E8CA69E12B}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -82,7 +81,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(QTDevWin_INCLUDE)"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32,_DEBUG,NO_MFC,USE_FOUNDATIONKIT_DLL,USE_GRAPHICSKIT_DLL,USE_APPLICATIONKIT_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -104,7 +103,7 @@
 				OutputFile=".\QTPlayer_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="$(VCF_LIB),$(QTDevWin_LIB)"
+				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\vc70\Debug\QTPlayer_vc70.pdb"
 				SubSystem="2"
