@@ -14,6 +14,7 @@ where you installed the VCF.
 #include "vcf/FoundationKit/ResourceBundlePeer.h"
 #include "vcf/FoundationKit/Win32ResourceBundle.h"
 
+#include <lmcons.h>
 
 using namespace VCF;
 
@@ -382,9 +383,260 @@ ProgramInfo* Win32SystemPeer::getProgramInfoFromFileName( const String& fileName
 	return Win32ResourceBundle::getProgramInfoFromFileName( fileName );
 }
 
+String Win32SystemPeer::getCommonDirectory( System::CommonDirectory directory )
+{
+	String result;
+	OSVERSIONINFO osVersion = {0};	
+	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
+	::GetVersionEx( &osVersion );
+
+
+	switch ( directory ) {
+		case System::cdUserHome : {
+			if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
+				result = getEnvironmentVariable( "USERPROFILE" );
+			}
+		}
+		break;
+
+		case System::cdUserProgramData : {
+			if ( System::isUnicodeEnabled() ) {
+				VCF::WideChar tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathW( NULL, tmp, CSIDL_APPDATA, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+			else{
+				char tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathA( NULL, tmp, CSIDL_APPDATA, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+			
+		}
+		break;
+
+		case System::cdUserDesktop : {
+			if ( System::isUnicodeEnabled() ) {
+				VCF::WideChar tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathW( NULL, tmp, CSIDL_DESKTOPDIRECTORY, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+			else{
+				char tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathA( NULL, tmp, CSIDL_DESKTOPDIRECTORY, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+		}
+		break;
+
+		case System::cdUserFavorites : {
+			if ( System::isUnicodeEnabled() ) {
+				VCF::WideChar tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathW( NULL, tmp, CSIDL_FAVORITES, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+			else{
+				char tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathA( NULL, tmp, CSIDL_FAVORITES, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+		}
+		break;
+
+		case System::cdUserDocuments : {
+			if ( System::isUnicodeEnabled() ) {
+				VCF::WideChar tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathW( NULL, tmp, CSIDL_PERSONAL, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+			else{
+				char tmp[MAX_PATH];
+				if ( SUCCEEDED( SHGetSpecialFolderPathA( NULL, tmp, CSIDL_PERSONAL, FALSE ) ) ) {
+					result = tmp;
+				}
+			}
+		}
+		break;
+
+		case System::cdUserTemp : {
+			
+			if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
+				result = getEnvironmentVariable( "TEMP" );
+				/*
+				HKEY key;
+				//HKEY_CURRENT_USER\Environment
+				if ( System::isUnicodeEnabled() ) {
+					if ( ERROR_SUCCESS == RegOpenKeyExW( HKEY_CURRENT_USER, L"Environment", 0, KEY_READ, &key ) ) {
+						DWORD type = 0;
+						DWORD size = 0;
+						RegQueryValueExW( key, L"TEMP", 0, &type, NULL, &size );
+						if ( size > 0 ) {
+							BYTE* buf = NULL;
+							buf = new BYTE[size+sizeof(VCF::WideChar)];
+							memset( buf, 0, size+sizeof(VCF::WideChar) );
+							if ( ERROR_SUCCESS == RegQueryValueExW( key, L"TEMP", 0, &type, buf, &size ) ) {								
+								result = (VCF::WideChar*)buf;
+							}
+						}
+					}
+				}
+				else {
+					if ( ERROR_SUCCESS == RegOpenKeyExA( HKEY_CURRENT_USER, "Environment", 0, KEY_READ, &key ) ) {
+						DWORD type = 0;
+						DWORD size = 0;
+						RegQueryValueExA( key, "TEMP", 0, &type, NULL, &size );
+						if ( size > 0 ) {
+							BYTE* buf = NULL;
+							buf = new BYTE[size+1];
+							memset( buf, 0, size+1 );
+							if ( ERROR_SUCCESS == RegQueryValueExA( key, "TEMP", 0, &type, buf, &size ) ) {
+								buf[size] = 0;
+								result = (char*)buf;
+							}
+						}
+					}
+				}
+				*/
+			}
+			else {
+				result = getEnvironmentVariable( "TEMP" );
+			}
+
+			if ( !result.empty() ) {
+				if ( System::isUnicodeEnabled() ) {
+					VCF::WideChar tmp[MAX_PATH];
+					if ( GetLongPathNameW( result.c_str(), tmp, MAX_PATH ) ) {
+						result = tmp;
+					}
+
+				}
+				else{
+					char tmp[MAX_PATH];
+					if ( GetLongPathNameA( result.ansi_c_str(), tmp, MAX_PATH ) ) {
+						result = tmp;
+					}
+				}
+			}
+		}
+		break;
+
+		case System::cdSystemPrograms : {			
+			result = getEnvironmentVariable( "PROGRAMFILES" );
+		}
+		break;
+
+		case System::cdSystemTemp : {
+			//HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Environment
+
+			if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
+				HKEY key;
+				//HKEY_CURRENT_USER\Environment
+				if ( System::isUnicodeEnabled() ) {
+					if ( ERROR_SUCCESS == RegOpenKeyExW( HKEY_LOCAL_MACHINE, L"SYSTEM\\ControlSet001\\Control\\Session Manager\\Environment", 0, KEY_READ, &key ) ) {
+						DWORD type = 0;
+						DWORD size = 0;
+						RegQueryValueExW( key, L"TEMP", 0, &type, NULL, &size );
+						if ( size > 0 ) {
+							BYTE* buf = NULL;
+							buf = new BYTE[size+sizeof(VCF::WideChar)];
+							memset( buf, 0, size+sizeof(VCF::WideChar) );
+							if ( ERROR_SUCCESS == RegQueryValueExW( key, L"TEMP", 0, &type, buf, &size ) ) {								
+								VCF::WideChar tmp[MAX_PATH];
+								ExpandEnvironmentStringsW( (VCF::WideChar*)buf, tmp, MAX_PATH );
+								result = tmp;
+							}
+						}
+					}
+				}
+				else {
+					if ( ERROR_SUCCESS == RegOpenKeyExA( HKEY_LOCAL_MACHINE, "SYSTEM\\ControlSet001\\Control\\Session Manager\\Environment", 0, KEY_READ, &key ) ) {
+						DWORD type = 0;
+						DWORD size = 0;
+						RegQueryValueExA( key, "TEMP", 0, &type, NULL, &size );
+						if ( size > 0 ) {
+							BYTE* buf = NULL;
+							buf = new BYTE[size+1];
+							memset( buf, 0, size+1 );
+							if ( ERROR_SUCCESS == RegQueryValueExA( key, "TEMP", 0, &type, buf, &size ) ) {
+								char tmp[MAX_PATH];
+								ExpandEnvironmentStringsA( (char*)buf, tmp, MAX_PATH );
+								result = tmp;
+							}
+						}
+					}
+				}	
+			}
+			else {
+				result = getEnvironmentVariable( "TEMP" );
+			}
+		}
+		break;
+
+		case System::cdSystemRoot : {
+			result = getEnvironmentVariable( "SYSTEMROOT" );
+		}
+		break;
+	}
+
+	return result;
+}
+
+String Win32SystemPeer::getComputerName()
+{
+	String result;
+	DWORD size = MAX_COMPUTERNAME_LENGTH + 25;
+	size -= 1;
+	if ( System::isUnicodeEnabled() ) {
+		VCF::WideChar tmp[MAX_COMPUTERNAME_LENGTH + 25];
+		if ( GetComputerNameW( tmp, &size ) ) {			
+			result = tmp;
+		}
+	}		
+	else {
+		char tmp[MAX_COMPUTERNAME_LENGTH + 25];
+		if ( GetComputerNameA( tmp, &size ) ) {			
+			result = tmp;
+		}
+	}	
+
+	return result;
+}
+
+
+String Win32SystemPeer::getUserName()
+{
+	String result;
+
+	DWORD size = UNLEN + 25;
+	size -= 1;
+	if ( System::isUnicodeEnabled() ) {
+		VCF::WideChar tmp[UNLEN + 25];
+		if ( GetUserNameW( tmp, &size ) ) {			
+			result = tmp;
+		}
+	}		
+	else {
+		char tmp[UNLEN + 25];
+		if ( GetUserNameA( tmp, &size ) ) {			
+			result = tmp;
+		}
+	}
+
+	return result;
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/26 00:10:30  ddiego
+*added some minor funs to system class
+*
 *Revision 1.3.2.3  2005/03/15 01:51:52  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

@@ -35,6 +35,83 @@ System peer implementation.
 */
 class FOUNDATIONKIT_API System : public Object {
 public:
+	
+	/**
+	This enum is used to represent various 
+	identifiers for common directories
+	on the system. These each represent a 
+	valid file path, or an empty string if
+	there is no such equivalent for the
+	platform. 
+	@see getCommonDirectory()
+	*/
+	enum CommonDirectory {
+		/**
+		This is the home directory for the current user
+		account that the framework is being executed
+		from.
+		*/
+		cdUserHome = 0,
+
+		/**
+		This is the directory for storing application
+		specific data for the current user
+		account that the framework is being executed
+		from.
+		*/
+		cdUserProgramData,
+
+		/**
+		This is the directory that represents the
+		desktop for the current user
+		account that the framework is being executed
+		from.
+		*/
+		cdUserDesktop,
+
+		/**
+		This is the directory that represents
+		where the user would store "favorites" (typically
+		bookmarks, and the like) for the current user
+		account that the framework is being executed
+		from.
+		*/
+		cdUserFavorites,
+
+		/**
+		This is the directory that represents
+		where the user would store their documents (by default)
+		for the current user account that the framework 
+		is being executed from.
+		*/
+		cdUserDocuments,
+
+		/**
+		This is the temp (or "scratch") directory for the current user
+		account that the framework is being executed
+		from.
+		*/
+		cdUserTemp,		
+
+		/**
+		This is the default, top level directory that the system
+		stores programs/applications in. On Win32 this generally
+		"C:\Program Files\". On Mac OSX this would generally be 
+		"/Applications/".
+		*/
+		cdSystemPrograms,
+
+		/**
+		This is the system temp directory.
+		*/
+		cdSystemTemp,
+
+		/**
+		This is the system root directory.
+		*/
+		cdSystemRoot
+	};
+
 	/**
 	This is for internal usage only - don't call
 	*/
@@ -173,6 +250,18 @@ public:
 	static String getCompiler();
 
 	/**
+	Returns the computer's name, assuming this is supported 
+	by the platform, otherwise an empty string.
+	*/
+	static String getComputerName();
+
+	/**
+	Returns the current user name that the framework is being 
+	executed under.
+	*/
+	static String getUserName();
+
+	/**
 	Returns the current "tick" count. On Win32 systems this is analagous to the 
 	GetTickCount() API. Should be millisecond resolution, but this is not by any means 
 	guaranteed.
@@ -279,6 +368,11 @@ public:
 	static void setCurrentWorkingDirectory( const String& currentDirectory );
 
 	/**
+
+	*/
+	static String getCommonDirectory( CommonDirectory directory );
+
+	/**
 	Sets the date instance to the current system time (UTC based).
 	*/
 	static void setDateToSystemTime( DateTime* date );
@@ -382,6 +476,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/03/26 00:10:30  ddiego
+*added some minor funs to system class
+*
 *Revision 1.4.2.5  2005/03/15 01:51:52  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

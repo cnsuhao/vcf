@@ -341,6 +341,11 @@ void System::setCurrentWorkingDirectory( const String& currentDirectory )
 	System::systemInstance->systemPeer_->setCurrentWorkingDirectory( currentDirectory );
 }
 
+String System::getCommonDirectory( System::CommonDirectory directory )
+{
+	return System::systemInstance->systemPeer_->getCommonDirectory( directory );
+}
+
 void System::setDateToSystemTime( DateTime* date )
 {
 	System::systemInstance->systemPeer_->setDateToSystemTime( date );
@@ -631,6 +636,17 @@ String System::getCompiler()
 	return result;
 }
 
+String System::getComputerName()
+{
+	return System::systemInstance->systemPeer_->getComputerName();
+}
+
+
+String System::getUserName()
+{
+	return System::systemInstance->systemPeer_->getUserName();
+}
+
 String System::getBundlePathFromExecutableName( const String& fileName )
 {
 	String result ;
@@ -739,6 +755,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/03/26 00:10:29  ddiego
+*added some minor funs to system class
+*
 *Revision 1.3.2.8  2005/03/15 01:51:52  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
