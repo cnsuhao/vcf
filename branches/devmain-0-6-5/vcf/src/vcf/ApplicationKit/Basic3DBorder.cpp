@@ -42,35 +42,67 @@ void Basic3DBorder::paint( Rect* bounds, GraphicsContext* context )
 
 		Color* face = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
 
+		if ( true == inverted_ ){
+
+			//outside left and top
+			context->moveTo( bounds->left_, bounds->bottom_-2. );	
+			context->lineTo( bounds->left_, bounds->top_ );
+			context->lineTo( bounds->right_-1.0, bounds->top_ );
+			context->setColor( shadow );		
+			context->strokePath();
+
+			//inside left and top
+			context->moveTo( bounds->left_+1., bounds->bottom_-2. );	
+			context->lineTo( bounds->left_+1., bounds->top_+1. );
+			context->lineTo( bounds->right_-2., bounds->top_+1. );
+			context->setColor( &Color(171.0,171.0,171.0) );// prob. should be 3DdarkShadow		
+			context->strokePath();
+
+			//outside bottom and right
+			context->moveTo( bounds->left_, bounds->bottom_-1. );	
+			context->lineTo( bounds->right_-1., bounds->bottom_-1. );
+			context->lineTo( bounds->right_-1., bounds->top_-1. );
+			context->setColor( hilight );		
+			context->strokePath();
+
+			//inside bottom and right
+			context->moveTo( bounds->left_+1., bounds->bottom_-2. );
+			context->lineTo( bounds->right_-2., bounds->bottom_-2. );
+			context->lineTo( bounds->right_-2., bounds->top_ ); 
+			context->setColor( face );		                   
+			context->strokePath();    
+
+		}
+		else {
+
+			context->rectangle( bounds->left_, bounds->top_, bounds->right_, bounds->bottom_ );
+			context->setColor( face );
+			context->fillPath();
 
 
-		context->rectangle( bounds->left_, bounds->top_, bounds->right_, bounds->bottom_ );
-		context->setColor( face );
-		context->fillPath();
+			context->moveTo( bounds->left_+1, bounds->bottom_-2 );
+			context->lineTo( bounds->left_+1, bounds->top_+1 );
+			context->lineTo( bounds->right_-2, bounds->top_+1 );
+
+			context->setColor( hilight );
+
+			context->strokePath();
+
+			context->moveTo( bounds->right_-2, bounds->top_+1 );
+			context->lineTo( bounds->right_-2, bounds->bottom_-2 );
+			context->lineTo( bounds->left_+1, bounds->bottom_-2 );
 
 
-		context->moveTo( bounds->left_+1, bounds->bottom_-2 );
-		context->lineTo( bounds->left_+1, bounds->top_+1 );
-		context->lineTo( bounds->right_-2, bounds->top_+1 );
+			context->setColor( shadow );
+			context->strokePath();
 
-		context->setColor( hilight );
+			context->moveTo( bounds->right_-1, bounds->top_ );
+			context->lineTo( bounds->right_-1, bounds->bottom_-1 );
+			context->lineTo( bounds->left_, bounds->bottom_-1 );
 
-		context->strokePath();
-
-		context->moveTo( bounds->right_-2, bounds->top_+1 );
-		context->lineTo( bounds->right_-2, bounds->bottom_-2 );
-		context->lineTo( bounds->left_+1, bounds->bottom_-2 );
-
-
-		context->setColor( shadow );
-		context->strokePath();
-
-		context->moveTo( bounds->right_-1, bounds->top_ );
-		context->lineTo( bounds->right_-1, bounds->bottom_-1 );
-		context->lineTo( bounds->left_, bounds->bottom_-1 );
-
-		context->setColor( &Color(0.0,0.0,0.0) );
-		context->strokePath();
+			context->setColor( &Color(0.0,0.0,0.0) );
+			context->strokePath();
+		}
 	}
 }
 
@@ -91,6 +123,9 @@ void Basic3DBorder::paint( Control* component, GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/07 22:37:30  dougtinkham
+*added inverstion to give border a sunken appearrance.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
