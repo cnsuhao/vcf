@@ -107,7 +107,7 @@ namespace VCF {
 		void runDefaultPrintLoop();
 
 	protected:
-
+		String title_;
 		PrintSessionPeer* peer_;		
 		bool errorDuringPrinting_;
 		int currentPage_;

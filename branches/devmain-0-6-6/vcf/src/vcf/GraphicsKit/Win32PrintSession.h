@@ -72,7 +72,7 @@ namespace VCF {
 		
 		static BOOL CALLBACK AbortProc( HDC hdc, int iError );
 
-
+		String title_;
 		Win32PrintInfo printInfo_;
 		HDC printerDC_;		
 	};

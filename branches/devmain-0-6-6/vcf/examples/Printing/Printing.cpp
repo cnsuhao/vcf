@@ -14,6 +14,12 @@ using namespace VCF;
 
 class PrintingWindow : public Window {
 public:
+
+	enum {
+		printEasyWay = 100,
+		printHardWay = 200
+	};
+
 	PrintingWindow() {
 		setCaption( "Printing" );
 		setVisible( true );
@@ -26,9 +32,15 @@ public:
 
 		DefaultMenuItem* printing = new DefaultMenuItem( "Printing", root, menuBar );
 
-		DefaultMenuItem* printingPrint = new DefaultMenuItem( "&Print...", printing, menuBar );
+		DefaultMenuItem* printingPrintHard = new DefaultMenuItem( "Print the &Hard way...", printing, menuBar );
+		printingPrintHard->setTag( printHardWay );
 	
-		printingPrint->addMenuItemClickedHandler( new GenericEventHandler<PrintingWindow>(this,&PrintingWindow::onPrint,"PrintingWindow::onPrint") );
+		printingPrintHard->addMenuItemClickedHandler( new GenericEventHandler<PrintingWindow>(this,&PrintingWindow::onPrint,"PrintingWindow::onPrint") );
+
+		DefaultMenuItem* printingPrintEasy = new DefaultMenuItem( "Print the &Easy Way...", printing, menuBar );
+		printingPrintEasy->setTag( printEasyWay );
+	
+		printingPrintEasy->addMenuItemClickedHandler( getEventHandler("PrintingWindow::onPrint") );
 	}
 
 	virtual void paint( GraphicsContext* context ) {
@@ -88,28 +100,53 @@ public:
 		dlg.setTitle( "Print Dialog from Printing Example" );
 
 		if ( dlg.execute() ) {
-			PrintSession printSession;
+			PrintSession printSession;			
 
 			printSession.setPrintInfoHandle( dlg.getPrintInfo() );
+
+			printSession.setTitle( "My Print Session!" );
+
 			
-			PrintContext* pc = printSession.beginPrintingDocument();
+			Component* source = (Component*)e->getSource();
+
+			switch ( source->getTag() ) {
+				case PrintingWindow::printEasyWay : {
+					printSession.PageBegun += 
+						new EventHandlerInstance<PrintingWindow,PrintEvent>( this, &PrintingWindow::onPrintPage, "PrintingWindow::onPrintPage" );
+
+					printSession.runDefaultPrintLoop();
+				}
+				break;
+
+				case PrintingWindow::printHardWay : {
+					PrintContext* pc = printSession.beginPrintingDocument();
 
 
-			printSession.beginPage( pc );
+					printSession.beginPage( pc );
 
 
-			doDrawing( pc, printSession.getPageDrawingRect() );
+					doDrawing( pc, printSession.getPageDrawingRect() );
 
-			printSession.endPage( pc );
+					printSession.endPage( pc );
 
-			printSession.endPrintingDocument();
+					printSession.endPrintingDocument();
 
-			pc->free();
+					pc->free();
+				}
+				break;
+			}
 		}
 	}
 
 	void onPrintStarting( Event* e ) {
 
+	}
+
+	void onPrintPage( PrintEvent* e ) {
+		StringUtils::traceWithArgs( "Printing page %d\n", e->getCurrentPage() );
+
+		PrintSession* printSession = (PrintSession*)e->getSource();
+		doDrawing( e->getPrintContext(), e->getPageBounds() );
 	}
 
 

@@ -11,7 +11,7 @@
 #include "vcf/FoundationKit/Dictionary.h"
 #include "vcf/ApplicationKit/DefaultListItem.h"
 #include "vcf/ApplicationKit/DefaultTreeItem.h"
-
+#include "vcf/ApplicationKit/HorizontalLayoutContainer.h"
 
 
 using namespace VCF;
@@ -315,7 +315,7 @@ protected:
 
 
 
-
+/*
 class HorizontalLayoutContainer : public StandardContainer {
 public:
 
@@ -434,7 +434,7 @@ public:
 	double maxRowHeight_;
 	double rowSpacerHeight_;
 };
-
+*/
 
 
 class MediaInfoPanel : public Panel {

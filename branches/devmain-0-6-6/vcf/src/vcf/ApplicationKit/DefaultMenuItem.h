@@ -225,15 +225,7 @@ public:
 	virtual AcceleratorKey* getAccelerator() {
 		return currentAccelerator_;
 	}
-
-	virtual long getTag() {
-		return tag_;
-	}
-
-	virtual void setTag( const long& tag ) {
-		tag_ = tag;
-	}
-
+	
 	virtual Object* clone(bool deep=false);
 
 	virtual void handleEvent( Event* event );
@@ -257,7 +249,6 @@ protected:
 	bool isEnabled_;
 	Rect bounds_;
 	AcceleratorKey* currentAccelerator_;
-	long tag_;
 
 };
 
@@ -280,6 +271,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/07 00:49:12  ddiego
+*minor fixes in printg code in graphics kit, and added a 2 ways to print in the printing example.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
