@@ -111,7 +111,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 	Color* face = GraphicsToolkit::getSystemColor(SYSCOLOR_FACE);
 	Color* textColor = GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT );
 	Color* selectedTextColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
-	context->setColor( shadow );
+	context->setColor( face );
 	context->rectangle( paintRect );
 	context->fillPath();
 	Color oldFontColor;
@@ -121,38 +121,48 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 	context->getCurrentFont()->setColor( selectedTextColor );
 
 	if ( true == isSelected() ) {
-		context->setColor( face );
-		context->rectangle( paintRect );
-		context->fillPath();
-
 		context->getCurrentFont()->setColor( textColor );
 
-		context->setColor( Color::getColor( "black" ) );
-		context->moveTo( paintRect->right_-1, paintRect->top_ );
-		context->lineTo( paintRect->right_-1, paintRect->bottom_ );
+		context->setColor( hilite );
+		context->moveTo(paintRect->left_ , paintRect->bottom_ -1 );
+		context->lineTo(paintRect->left_ , paintRect->top_ + 2 );
+		context->lineTo(paintRect->left_ + 2 , paintRect->top_ );
+		context->lineTo(paintRect->right_ - 2 , paintRect->top_);			
 		context->strokePath();
 
-		context->setColor( hilite );
-		context->moveTo( paintRect->left_, paintRect->top_ );
-		context->lineTo( paintRect->right_-1, paintRect->top_ );
-		context->moveTo( paintRect->left_, paintRect->top_+1 );
-		context->lineTo( paintRect->left_, paintRect->bottom_ );
+		context->setColor( Color::getColor( "black" ) );
+		context->moveTo( paintRect->right_ - 2 , paintRect->top_ + 1);
+		context->lineTo( paintRect->right_ - 1 , paintRect->top_ + 2);
+		context->lineTo( paintRect->right_ - 1 , paintRect->bottom_ );
 		context->strokePath();
 
 		context->setColor( shadow );
-
-		context->moveTo( paintRect->right_-2, paintRect->top_+1 );
-		context->lineTo( paintRect->right_-2, paintRect->bottom_ );
+		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);		
+		context->lineTo( paintRect->right_ - 2, paintRect->bottom_ );
 		context->strokePath();
 	}
 	else {
-		context->setColor( face );
-		context->moveTo( paintRect->left_, paintRect->top_ );
-		context->lineTo( paintRect->left_, paintRect->bottom_ );
+		context->setColor( hilite );
+		context->moveTo(paintRect->left_ , paintRect->bottom_ );
+		context->lineTo(paintRect->left_ , paintRect->top_ + 2 );
+		context->lineTo(paintRect->left_ + 2 , paintRect->top_  );
+		context->lineTo(paintRect->right_ - 2 , paintRect->top_ );			
+		context->strokePath();
 
-		context->moveTo( paintRect->right_, paintRect->top_ );
-		context->lineTo( paintRect->right_, paintRect->bottom_ );
+		context->setColor( Color::getColor( "black" ) );
+		context->moveTo( paintRect->right_ - 2 , paintRect->top_ + 1);
+		context->lineTo( paintRect->right_ - 1 , paintRect->top_ + 2);
+		context->lineTo( paintRect->right_ - 1 , paintRect->bottom_ );
+		context->strokePath();
 
+		context->setColor( shadow );
+		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);		
+		context->lineTo( paintRect->right_ - 2, paintRect->bottom_ );
+		context->strokePath();
+
+		context->setColor( hilite );
+		context->moveTo(paintRect->left_ , paintRect->bottom_ );
+		context->moveTo(paintRect->right_ , paintRect->bottom_ );
 		context->strokePath();
 	}
 
@@ -200,6 +210,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/16 20:49:08  dougtinkham
+*modified paint to give Win32 tab appearance.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
