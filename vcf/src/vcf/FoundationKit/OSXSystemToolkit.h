@@ -43,6 +43,8 @@ public:
 		virtual FileStreamPeer* internal_createFileStreamPeer( File* file );
 
         virtual LocalePeer* internal_createLocalePeer();
+		
+		virtual ResourceBundlePeer* internal_createResourceBundlePeer();
 	};
 
 };
@@ -51,6 +53,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 20:42:08  ddiego
+*osx updates
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

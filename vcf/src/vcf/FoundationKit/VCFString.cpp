@@ -243,7 +243,7 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 		throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
 	}
 	
-	size2 = minVal<>( 1, size2 );
+	size2 = minVal<CFIndex>( 1, size2 );
 	
 	
 	if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false,
@@ -815,6 +815,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/10 20:42:08  ddiego
+*osx updates
+*
 *Revision 1.2.2.3  2004/09/18 16:54:55  ddiego
 *added a new function to the UnicodeString class to convert from a
 *unicode char to a ansi char.
