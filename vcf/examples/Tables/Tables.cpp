@@ -15,7 +15,6 @@ public:
 		setVisible( true );
 
 
-
 		TableControl* table = new TableControl();
 
 		add( table, AlignClient );
