@@ -47,20 +47,9 @@ bool Process::createProcess( const String& processName, const String& arguments 
 		//if so we would get the PATH env var, and loop through all the
 		//dir names, try each one until we get a hit, or they all fail
 		//is this too expensive??
-
 		try {
 			if ( processFile.isDirectory() ) {
-				ProgramInfo* info = System::getProgramInfoFromFileName( processName );
-				if ( NULL != info ) {
-					
-					fullProcessName = info->getProgramFileName();				
-					
-					info->free();
-				}
-				else {
-					fullProcessName = "";
-				}
-				
+				fullProcessName = System::getExecutableNameFromBundlePath( processName );				
 			}
 		}
 		catch ( BasicException& ) {
@@ -100,6 +89,9 @@ ulong32 Process::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/19 15:47:35  ddiego
+*more bundle loading fixing.
+*
 *Revision 1.3.2.1  2004/12/11 17:50:00  ddiego
 *added 2 new projects that are command line tools. One is for
 *creating the basic shell for app bundles, the other is for filling in, or
