@@ -2203,7 +2203,9 @@ class GenericFile:
 ################################################################################
 class DspGroupData:
     """Structure to hold all the entries for each group (solution explorer folder) of a dsp/vcproj file"""
-    # THIS structure might be eliminated because we 4444444444
+
+    # This structure can maybe be eliminated because we changed getSouceEntriesDsp
+    # os it uses both this struct and the Vcproj...SectionData structs
 
     def __init__( self ):
         self.reset()
@@ -2716,7 +2718,7 @@ class DspFile( GenericFile ):
 
         #replaceCompilerTuple = ( (  ocplUnderscor, ocplUnderscorLen, ncplUnderscor ), ( ocpl1SepLen, ocpl1SepFixLen, ocpl2SepLen, ocpl2SepFixLen ), \
         #                        ( ocplSep1, ocplSep1FixProblem, ncplSep1 ), ( ocplSep2, ocplSep2FixProblem, ncplSep2 ) )
-        replaceCompilerTuple = ( (  ocplUnderscor, ocplUnderscorLen, ncplUnderscor ), ( ocpl1SepLen, ocpl2SepLen ), \
+        replaceCompilerTuple = ( (oldCompiler, newCompiler), (  ocplUnderscor, ocplUnderscorLen, ncplUnderscor ), ( ocpl1SepLen, ocpl2SepLen ), \
                                 ( ocplSep1, ncplSep1 ), ( ocplSep2, ncplSep2 ) )
         return replaceCompilerTuple
     replaceCompilerTextMakeTuple = staticmethod(replaceCompilerTextMakeTuple)
@@ -2724,14 +2726,17 @@ class DspFile( GenericFile ):
     def replaceCompilerText( text, replaceCompilerTuple ):
         #( (  ocplUnderscor, ocplUnderscorLen ), ( ocpl1SepLen, ocpl1SepFixLen, ocpl2SepLen, ocpl2SepFixLen ), \
         #  ( ocplSep1, ocplSep1FixProblem, ncplSep1 ), ( ocplSep2, ocplSep2FixProblem, ncplSep2 ) ) = replaceCompilerTuple
-        ( (  ocplUnderscor, ocplUnderscorLen, ncplUnderscor ), ( ocpl1SepLen, ocpl2SepLen ), \
+        ( (oldCompiler, newCompiler), (  ocplUnderscor, ocplUnderscorLen, ncplUnderscor ), ( ocpl1SepLen, ocpl2SepLen ), \
           ( ocplSep1, ncplSep1 ), ( ocplSep2, ncplSep2 ) ) = replaceCompilerTuple
 
         # very slow function. We can think of speeding it up if necessary
         # buy just providing all the ( ocpl, ocplUnderscor, ocplSep ) crap
 
         # replaces the entries oldcompiler --> newcompiler only inside the configurations section of a dsp file
-
+        
+        if ( oldCompiler == newCompiler ):
+            return text
+        
         changed = False
         i = 0
         while ( i != -1 ):
@@ -3089,20 +3094,21 @@ class DspFile( GenericFile ):
 
         # read the dsp file
         dsp = DspFile( filenameDsp )
-        dsp.readSouceEntriesDsp()
-        dsp.getSouceEntriesDspAsSourceStruct()
-
-        #dsp.replaceCompilerConfig( newCompiler, True )
-        # get all groups and their filenames
-
+        vcpFilesDsp = dsp.readSouceEntriesDsp()
 
         # now read the vcproj file
-        self.readSouceEntriesVcproj()
-        # get all groups and their filenames
+        self.readEntriesVcproj( newCompiler )
 
+        ( vcpHdr, vcpFiles ) = self.getEntriesVcproj( newCompiler, False )
 
-        #creates/delete SOURCE=.../<File... entries according to the workspace
-        self.updateSouceEntriesVcprojAsDsp( dsp, newCompiler )
+        #if ( oldCompiler != newCompiler ):
+        #    ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, oldCompiler, newCompiler )
+        
+        ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFilesDsp, newCompiler, newCompiler )
+
+        # IMPORTANT: note the vcpFilesDsp instead than vcpFiles: is this too simple ?
+        # this automatically 'converts' to the newCompiler if the entry exists
+        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFilesDsp, newCompiler )
 
         return
 
@@ -3137,25 +3143,19 @@ class DspFile( GenericFile ):
         #    self.resetDspFile()
 
         ( vcpHdr, vcpFiles ) = self.getEntriesVcproj( oldCompiler, False )
-        # get all groups and their filenames
-        #self.getSouceEntriesVcproj( False )
 
-        #creates/delete SOURCE=.../<File... entries according to the workspace
-        #self.updateSouceEntriesVcprojAsDsp( dsp, newCompiler )
-
-        #vcpHdr = VcprojGeneralSectionData()
         if ( oldCompiler != newCompiler ):
             ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, oldCompiler, newCompiler )
 
         # this automatically 'converts' to the newCompiler if the entry exists
-        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, oldCompiler, newCompiler )
+        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, newCompiler )
 
         return
 
     def readSouceEntriesDsp( self ):
         self.readlines()
-        self.getSouceEntriesDsp()
-        return
+        vcpFiles = self.getSouceEntriesDsp()
+        return vcpFiles
 
     def getSouceEntriesDsp( self ):
         state = 0
@@ -3352,26 +3352,16 @@ class DspFile( GenericFile ):
         if ( state != 2 ):
             raise Exception( 'getSouceEntriesDsp: wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
 
-        msg = 'getSouceEntriesDsp: maybe already fully implemented yet'
-        print msg
-        #raise Exception( msg )
+        return vcpFiles
 
-        return
-
-    def getSouceEntriesDspAsSourceStruct( self ):
-        dspSrc = DspSourceData()
-
-        msg = 'getSouceEntriesDspAsSourceStruct: Not implemented yet - maybe never !'
-        print msg
-        #raise Exception( msg )
-        return dspSrc
-
-    def readSouceEntriesVcproj( self, reset = False ):
-        msg = 'readSouceEntriesVcproj: do we really need ?'
-        print msg
+    def readEntriesVcproj( self, compiler ): # reset = False
+        #if ( reset ):
+        #    self.resetDspFile()
 
         self.readlines()
-        self.getSouceEntriesVcproj( reset )
+
+        self.getEntriesVcproj( compiler )
+
         return
 
     def getEntriesVcproj( self, compiler, reset = False ):
@@ -3401,8 +3391,8 @@ class DspFile( GenericFile ):
         for n in range( len(self.lines) ):
             line = self.lines[n]
             self.n = n + 1
-            if ( 157 <= self.n ): # %%%
-                ndbg = 0
+            #if ( 157 <= self.n ): # %%%
+            #    ndbg = 0
 
             # skips the configurations body but save it into sectionBeforeLines
             if ( state == 0 ):
@@ -3902,147 +3892,6 @@ class DspFile( GenericFile ):
 
         return ( vcpHdr, vcpFiles )
 
-    def getConfigEntriesVcproj( self, reset = True ):
-        msg = 'getSouceEntriesVcproj: Not implemented yet: but do we really need ?: getEntriesVcproj should do all the work'
-        #raise Exception( msg )
-        print msg
-        return
-
-    def getSouceEntriesVcproj( self, reset = True ):
-        msg = 'getSouceEntriesVcproj: Not implemented yet: but do we really need ?: getEntriesVcproj should do all the work'
-        #raise Exception( msg )
-        print msg
-        return
-        #dspSrc = DspSourceData()
-
-        state = 0
-
-        if ( reset ):
-            self.resetDspFile()
-
-        groupname = ''
-        isKey = 0 # 1 --> Filter ; 2 --> File; 3 --> FileConfiguration; 4 --> Tool
-        for n in range( len(self.lines) ):
-            line = self.lines[n]
-            self.n = n + 1
-
-            # skips the configurations body but save it into sectionBeforeLines
-            if ( state == 0 ):
-                if ( re_vcp_sectionFiles_beg.match( line ) ):
-                    state =1
-                    continue
-                self.sectionBeforeLines.append( line )
-
-            elif ( state == 1 ):
-                m_vcp_sectionFilter_beg = re_vcp_sectionFilter_beg.match( line )
-                if ( m_vcp_sectionFilter_beg ):
-                    dspData = DspGroupData()
-                    isKey = 1
-                    continue
-
-                m_vcp_keyname = re_vcp_keyname.match( line )
-                if ( m_vcp_keyname ):
-                    keyname = m_vcp_keyname.group( 'keyname' )
-                    if ( isKey == 1 ):
-                        dspData.groupname = keyname
-                        #groupname = m_vcp_group.group( 'groupname' )
-                        groupname = dspData.groupname # with dsp is called group, with vcproj is called filter
-                        dspData.groupname = groupname
-                    elif( isKey == 2 ):
-                        pass
-                    elif( isKey == 3 ):
-                        confignamePlatform = keyname
-                        confignamePlatformLwr = confignamePlatform.lower()
-                        if ( StringUtils.findInList( confignamePlatformLwr, self.listGroupNamesConfigOrPlatformLwr ) == -1 ):
-                            ( config, platform ) = confignamePlatform.split( '|' )
-                            configOrPlatform = '%s|%s' % ( config, platform )
-                            if ( configOrPlatform != confignamePlatform ):
-                                raise Exception( 'bad parsing of <config|platform>: (%s!=%s). Read %d lines in \'%s\'. Line \'%s\'' % ( confignamePlatform, configOrPlatform, self.n, self.filetitle, line.rstrip() ) )
-                            self.listGroupNamesConfigOrPlatform.append( configOrPlatform )
-                            self.listGroupNamesConfigOrPlatformLwr.append( configOrPlatform.lower() )
-                            self.listGroupNamesConfig.append( config )
-                            self.listGroupNamesPlatform.append( platform )
-                    elif( isKey == 4 ):
-                        toolName = keyname
-                        self.dictTools[ basenameLwr ] = toolName
-                    continue
-
-                m_vcp_sectionFilter_content = re_vcp_sectionFilter_content.match( line )
-                if ( m_vcp_sectionFilter_content ):
-                    dspData.filtervalue = m_vcp_sectionFilter_content.group( 'filtervalue' )
-                    continue
-
-                m_vcp_sectionFilter_end = re_vcp_sectionFilter_end.match( line )
-                if ( m_vcp_sectionFilter_end ):
-                    if ( groupname ):
-                        #save previous data
-                        groupnameLwr = groupname.lower()
-                        self.dictDspGroupsData[ groupnameLwr ] = dspData
-                        self.listGroups.append( groupname )
-                        self.dictGroups[ groupnameLwr ] = groupname
-                    continue
-
-                m_vcp_addIncludeDir = re_vcp_addIncludeDir.match( line )
-                if ( m_vcp_addIncludeDir ):
-                    includedir = m_vcp_addIncludeDir.group( 'includedir' )
-                    self.dictCfgIncludeDir[ basenameLwr + '_' + confignamePlatformLwr ] = includedir
-                    continue
-
-                m_vcp_preprocDefin = re_vcp_preprocDefin.match( line )
-                if ( m_vcp_preprocDefin ):
-                    preprocdefin = m_vcp_preprocDefin.group( 'preprocdefin' )
-                    self.dictCfgPreprocDef[ basenameLwr + '_' + confignamePlatformLwr ] = preprocdefin
-                    continue
-
-                # put this one *before* re_vcp_sectionFile_beg because both can be true
-                m_vcp_sectionFileConfig_beg = re_vcp_sectionFileConfig_beg.match( line )
-                if ( m_vcp_sectionFileConfig_beg ):
-                    isKey = 3
-                    continue # this continue is particularly important
-
-                m_vcp_sectionFile_beg = re_vcp_sectionFile_beg.match( line )
-                if ( m_vcp_sectionFile_beg ):
-                    isKey = 2
-                    continue
-
-                m_vcp_sectionTool_beg = re_vcp_sectionTool_beg.match( line )
-                if ( m_vcp_sectionTool_beg ):
-                    isKey = 4
-                    continue
-
-                m_vcp_sectionFile_content = re_vcp_sectionFile_content.match( line )
-                if ( m_vcp_sectionFile_content ):
-                    source = m_vcp_sectionFile_content.group( 'sourcename' )
-                    source = FileUtils.normPath( source, g_internal_unixStyle )
-                    dspData.listSourceNames.append( source )
-
-                    basename = os.path.basename( source )
-                    basenameLwr = basename.lower()
-                    dspData.dictSourceNames[ basenameLwr ] = source
-                    self.dictSourceNames[ basenameLwr ] = source
-                    continue
-
-                m_vcp_sectionFiles_end = re_vcp_sectionFiles_end.match( line )
-                if ( m_vcp_sectionFiles_end ):
-                    state = 2
-                    continue
-
-            elif ( state == 2 ):
-                self.sectionAfterLines.append( line )
-
-            else:
-                pass
-
-        if ( state != 2 ):
-            raise Exception( 'getSouceEntriesVcproj: wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filetitle ) )
-
-        msg = 'getSouceEntriesVcproj: Not implemented yet'
-        print msg
-        #raise Exception( msg )
-        #dspSrc = DspSourceData()
-
-        return
-
     def convertEntriesVcproj( self, vcpHdrSrc, vcpFilesSrc, oldCompiler, newCompiler, convertProjectConfigSection = True ):
         # writelineEntriesVcprojAsStruct does already part of the work by not writing things for the wrong version
         # here we need to add few entries if necessary
@@ -4176,13 +4025,16 @@ class DspFile( GenericFile ):
 
         return ( vcpHdr, vcpFiles )
 
-    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, oldCompiler, newCompiler ):
-        # writelineEntriesVcprojAsStruct does already part of the work by not writing things for the wrong version
+    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, newCompiler ):
+        # writelineEntriesVcprojAsStruct does already part of the work by not writing the entries
+        # that do not exist for the newCompiler
+                
+        # oldCompiler is unused
 
         if ( 0 == len( vcpHdr.configurationFullNamesList ) ):
             raise Exception( 'updateSouceEntriesVcprojAsStruct: vcpHdr.configurationFullNamesList is empty !' )
 
-        oldCompilerVersion = g_mapCompilerNameVersion[ oldCompiler ]
+        #oldCompilerVersion = g_mapCompilerNameVersion[ oldCompiler ]
         newCompilerVersion = g_mapCompilerNameVersion[ newCompiler ]
 
         lines = []
@@ -4372,143 +4224,6 @@ class DspFile( GenericFile ):
 
         lines.append( '</VisualStudioProject>\n' )
 
-        self.lines = lines
-
-        return
-
-    def updateSouceEntriesVcprojAsDsp( self, dsp, newCompiler ):
-        # updates the vcproj
-        # uses almost all infos from the existing vcproj
-        # but it add fills all the files entries according to their existence in in the master dsp file
-
-        msg = 'updateSouceEntriesVcprojAsDsp: was implemented but not well anymore'
-        print msg
-        return
-        #raise Exception( msg )
-
-        # vc70.vcproj files have usually no <FileConfiguration section in thir cpp files, but vc71.vcproj files yes
-        if ( len( self.listGroupNamesConfig ) and len( dsp.listGroupNamesConfig ) != len( self.listGroupNamesConfig ) ):
-            basename = os.path.basename( self.filename )
-            raise Exception( 'different number of configurations in the original dsp file [%d] and the existing proj file [%d:%s].' % ( len( dsp.listGroupNamesConfig ), len( self.listGroupNamesConfig ), basename ) )
-        else:
-            # to display the configs in the order of the original vcproj *if* we have the list in there
-            listGroupNamesConfig = []
-            if ( len( self.listGroupNamesConfig ) ):
-                # used in a tricky way with vcproj
-                for i in range( len( self.listGroupNamesConfigOrPlatform ) ):
-                    listGroupNamesConfig = self.listGroupNamesConfig
-                    listGroupNamesPlatform = self.listGroupNamesPlatform
-                    listGroupNamesConfigOrPlatform = self.listGroupNamesConfigOrPlatform
-            else:
-                for i in range( len( self.listGroupNamesConfig ) ):
-                    listGroupNamesConfig = dsp.listGroupNamesConfig
-                    listGroupNamesPlatform = dsp.listGroupNamesPlatform
-                    listGroupNamesConfigOrPlatform = dsp.listGroupNamesConfigOrPlatform
-
-        lines = []
-
-        isCpp = False
-        isVc71 = ( newCompiler == compilerVc71 )
-        isConfigDebug = False
-
-        for line in self.sectionBeforeLines:
-            lines.append( line )
-
-        lines.append( '\t<Files>\n' )
-
-        # here build all the groups
-        for filter in dsp.listGroups:
-            lines.append( '\t\t<Filter\n' )
-
-            dspData = dsp.dictDspGroupsData[ filter.lower() ]
-            lines.append( '\t\t\tName=\"%s\"\n' % dspData.groupname )
-            lines.append( '\t\t\tFilter=\"%s\">\n' % dspData.filtervalue )
-
-            sz = len( dspData.listSourceNames )
-            for source in dspData.listSourceNames:
-                if ( isVc71 ):
-                    (root,ext) = os.path.splitext( source )
-                    isCpp = ( ext == '.cpp' )
-
-                lines.append( '\t\t\t<File\n' )
-                lines.append( '\t\t\t\tRelativePath=\"%s\">\n' % source )
-                basenameLwr = os.path.basename( source ).lower()
-                haskeyTool = ( self.dictTools.has_key( basenameLwr ) )
-                haskeyPhdr = ( dsp.dictPrecompHeader.has_key( basenameLwr ) )
-
-                #in vc71 always with cpp files
-                if ( isCpp or haskeyTool or haskeyPhdr ):
-                    if ( isCpp or haskeyTool ):
-                        if ( self.dictTools.has_key( basenameLwr ) ):
-                            toolName = self.dictTools[ basenameLwr ]
-                        elif( isCpp ):
-                            toolName = 'VCCLCompilerTool'
-                    if ( haskeyPhdr ):
-                        precompHeader = dsp.dictPrecompHeader[ basenameLwr ]
-
-                    for i in range( len( listGroupNamesConfigOrPlatform ) ):
-                        configOrPlatform = listGroupNamesConfigOrPlatform[i]
-                        config = listGroupNamesConfig[ i ]
-                        platform = listGroupNamesPlatform[ i ]
-                        isConfigDebug = ( config.lower().find( 'debug' ) != -1 )
-                        if ( isVc71 ):
-                            keyConfig = basenameLwr + '_' + configOrPlatform.lower()
-
-                        lines.append( '\t\t\t\t<FileConfiguration\n' )
-                        lines.append( '\t\t\t\t\tName=\"%s|%s\">\n' % ( config, platform ) )
-                        lines.append( '\t\t\t\t\t<Tool\n' )
-                        if ( haskeyTool or isCpp ):
-                            #if ( haskeyPhdr ):
-                            lines.append( '\t\t\t\t\t\tName=\"%s"\n' % toolName )
-                            #else:
-                            #    lines.append( '\t\t\t\t\t\tName=\"%s"\n' % toolName )
-                        if ( isVc71 ):
-                            includedir = ''
-                            if ( self.dictCfgIncludeDir.has_key( keyConfig ) ):
-                                includedir = self.dictCfgIncludeDir[ keyConfig ]
-                            hasKeyPreprocDefin = False
-                            preprocdefin = ''
-                            if ( self.dictCfgPreprocDef.has_key( keyConfig ) ):
-                                hasKeyPreprocDefin = True
-                                preprocdefin = self.dictCfgPreprocDef[ keyConfig ]
-
-                            if ( isConfigDebug ):
-                                if ( isCpp ):
-                                    lines.append( '\t\t\t\t\t\tOptimization="0"\n' )
-                                if ( isCpp and not includedir ):
-                                    # we add this key only if it does *not* exists: because MS is so stupid to put an absolute path in it !
-                                    lines.append( '\t\t\t\t\t\tAdditionalIncludeDirectories=""\n' )
-                                if ( hasKeyPreprocDefin or isCpp ):
-                                    lines.append( '\t\t\t\t\t\tPreprocessorDefinitions="%s"\n' % preprocdefin )
-                                if ( isCpp ):
-                                    lines.append( '\t\t\t\t\t\tBasicRuntimeChecks="3"\n' )
-                            else:
-                                if ( isCpp ):
-                                    lines.append( '\t\t\t\t\t\tOptimization="1"\n' )
-                                if ( isCpp and not includedir ):
-                                    # we add this key only if it does *not* exists: because MS is so stupid to put an absolute path in it !
-                                    lines.append( '\t\t\t\t\t\tAdditionalIncludeDirectories=""\n' )
-                                if ( hasKeyPreprocDefin or isCpp ):
-                                    lines.append( '\t\t\t\t\t\tPreprocessorDefinitions="%s"\n' % preprocdefin )
-                        if ( haskeyPhdr ):
-                            # we should check that the config section has the key: PrecompiledHeaderThrough ... name of the header file
-                            lines.append( '\t\t\t\t\t\tUsePrecompiledHeader=\"1\"\n' )
-                        #puts'/>\n' instead than just '\n' for the last one
-                        lines[-1] = lines[-1].rstrip() + '/>\n'
-                        lines.append( '\t\t\t\t</FileConfiguration>\n' )
-
-                lines.append( '\t\t\t</File>\n' )
-
-            lines.append( '\t\t</Filter>\n' )
-
-
-        lines.append( '\t</Files>\n' )
-
-        for line in self.sectionAfterLines:
-            lines.append( line )
-
-
-        # copy the results
         self.lines = lines
 
         return
