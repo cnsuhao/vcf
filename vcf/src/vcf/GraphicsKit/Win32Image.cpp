@@ -374,30 +374,58 @@ HICON Win32Image::convertToIcon()
 	HICON result = NULL;
 	//this is justa big fat method from HELLLL
 
+	OSVERSIONINFO osVersion = {0};
+	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
+
+	GetVersionEx( &osVersion );
+
 	SysPixelType* bits = getImageBits()->pixels_;
 
-	char* monochromeInfoBuffer = new char[sizeof(BITMAPINFO) + (2 * sizeof( RGBQUAD ))];
+	int alphaColorCount = 2;
+	bool isWindowsXP = (osVersion.dwMajorVersion >=5) && (osVersion.dwMinorVersion >= 1);
+	if ( isWindowsXP ) {
+		alphaColorCount = 256;
+	}
+
+
+	char* monochromeInfoBuffer = new char[sizeof(BITMAPINFO) + (alphaColorCount * sizeof( RGBQUAD ))];
 	BITMAPINFO* monochromeInfo = (BITMAPINFO*) monochromeInfoBuffer;
 
 	monochromeInfo->bmiHeader.biSize = sizeof( BITMAPINFOHEADER );
 	monochromeInfo->bmiHeader.biWidth = getWidth();
 	monochromeInfo->bmiHeader.biHeight = -(getHeight());
 	monochromeInfo->bmiHeader.biPlanes = 1;
-	monochromeInfo->bmiHeader.biBitCount = 1;
+	
+	monochromeInfo->bmiHeader.biBitCount = isWindowsXP ? 8 : 1;
+
 	monochromeInfo->bmiHeader.biCompression = BI_RGB;
 	monochromeInfo->bmiHeader.biSizeImage = 0;
 	monochromeInfo->bmiHeader.biXPelsPerMeter = 0;
 	monochromeInfo->bmiHeader.biYPelsPerMeter = 0;
 	monochromeInfo->bmiHeader.biClrUsed = 0;
 	monochromeInfo->bmiHeader.biClrImportant = 0;
-	monochromeInfo->bmiColors[0].rgbRed = 0;
-	monochromeInfo->bmiColors[0].rgbGreen = 0;
-	monochromeInfo->bmiColors[0].rgbBlue = 0;
-	monochromeInfo->bmiColors[0].rgbReserved = 0;
-	monochromeInfo->bmiColors[1].rgbRed = 255;
-	monochromeInfo->bmiColors[1].rgbGreen = 255;
-	monochromeInfo->bmiColors[1].rgbBlue = 255;
-	monochromeInfo->bmiColors[1].rgbReserved = 0;
+
+	if ( isWindowsXP ) {
+		for ( int i=0;i<alphaColorCount;i++ ) {
+			monochromeInfo->bmiColors[i].rgbRed = i;
+			monochromeInfo->bmiColors[i].rgbGreen = i;
+			monochromeInfo->bmiColors[i].rgbBlue = i;
+			monochromeInfo->bmiColors[i].rgbReserved = i;
+		}
+	}
+	else {
+		monochromeInfo->bmiColors[0].rgbRed = 0;
+		monochromeInfo->bmiColors[0].rgbGreen = 0;
+		monochromeInfo->bmiColors[0].rgbBlue = 0;
+		monochromeInfo->bmiColors[0].rgbReserved = 0;
+		monochromeInfo->bmiColors[1].rgbRed = 255;
+		monochromeInfo->bmiColors[1].rgbGreen = 255;
+		monochromeInfo->bmiColors[1].rgbBlue = 255;
+		monochromeInfo->bmiColors[1].rgbReserved = 0;
+	}
+
+	
+	
 
 	unsigned char* ANDBits = NULL;
 	SysPixelType* XORBits = NULL;
@@ -418,24 +446,33 @@ HICON Win32Image::convertToIcon()
 	HBITMAP hXORBitmap = CreateDIBSection ( dc_, &info, DIB_RGB_COLORS,
 		(void **)&XORBits, NULL, NULL );
 
+	unsigned char andAlphaVal = isTransparent_ ? 255 : 0;
+	unsigned char xorAlphaVal = 255;
+
+	if ( isWindowsXP && isTransparent_ ) {
+		xorAlphaVal = ~andAlphaVal;
+	}
+
 	if ( (NULL != hANDBitmap) && (NULL != hXORBitmap) ) {
 		//white out
 		int sz = info.bmiHeader.biWidth * abs(info.bmiHeader.biHeight);
 
 		for ( int i=0;i<sz;i++){
-			if ( i < sz/8 ) {
-				if ( true == isTransparent_ ) {
-					ANDBits[i] = 255;
-				}
-				else {
-					ANDBits[i] = 0;
+			if ( isWindowsXP ) {
+				ANDBits[i] = andAlphaVal;
+			}
+			else{
+				if ( i < sz/8 ) {
+					ANDBits[i] = andAlphaVal;
 				}
 			}
+
+			
 
 			XORBits[i].b = (unsigned char)0;
 			XORBits[i].g = (unsigned char)0;
 			XORBits[i].r = (unsigned char)0;
-			XORBits[i].a = (unsigned char)255;
+			XORBits[i].a = (unsigned char)xorAlphaVal;
 		}
 
 		SysPixelType maskColor = {(unsigned char)0,
@@ -448,7 +485,8 @@ HICON Win32Image::convertToIcon()
 		maskColor.r = getTransparencyColor()->getRed()*255;
 		maskColor.g = getTransparencyColor()->getGreen()*255;
 
-		long index = 0;
+		int index = 0;
+		int andIndex = 0;
 
 		for ( int y=0;y<abs(info.bmiHeader.biHeight);y++){
 			for ( int x=0;x<info.bmiHeader.biWidth;x++){
@@ -459,7 +497,11 @@ HICON Win32Image::convertToIcon()
 						(maskColor.r != bits[index].r) ) {
 						long bitmaskIndex = 8 - index % 8 - 1;
 
-						ANDBits[index/8] &= ( 255 ^ (1 << bitmaskIndex) );
+						andIndex = isWindowsXP ? index : index/8;
+						
+						andAlphaVal = isWindowsXP ? 0 : (255 ^ (1 << bitmaskIndex));
+
+						ANDBits[andIndex] = isWindowsXP ? 0 : (ANDBits[andIndex] & (255 ^ (1 << bitmaskIndex)));
 
 						XORBits[index].b = bits[index].b;
 						XORBits[index].g = bits[index].g;
@@ -467,6 +509,9 @@ HICON Win32Image::convertToIcon()
 					}
 				}
 				else {
+					if ( isWindowsXP ) {
+						ANDBits[index] = 255;
+					}
 					XORBits[index].b = bits[index].b;
 					XORBits[index].g = bits[index].g;
 					XORBits[index].r = bits[index].r;
@@ -518,6 +563,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/04/03 18:13:45  ddiego
+*fixed bug 1175667 - Lack of SysTray Icon Transparency.
+*
 *Revision 1.3.2.2  2005/03/15 01:51:54  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
