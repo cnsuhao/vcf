@@ -24,7 +24,8 @@ OSXFont::OSXFont( const String& fontName ):
 	attrBold_(FALSE),
 	attrItalic_(FALSE),
 	attrUnderlined_(FALSE),
-    attrFontID_(0)
+    attrFontID_(0),
+	font_(NULL)
 {
 	attrColor_.red = 0;
 	attrColor_.green = 0;
@@ -57,7 +58,8 @@ OSXFont::OSXFont( const String& fontName, const double& pointSize ):
 	attrBold_(FALSE),
 	attrItalic_(FALSE),
 	attrUnderlined_(FALSE),
-    attrFontID_(0)
+    attrFontID_(0),
+	font_(NULL)
 {
 	attrColor_.red = 0;
 	attrColor_.green = 0;
@@ -190,12 +192,12 @@ void OSXFont::setPointSize( const double pointSize )
 
 double OSXFont::getPixelSize()
 {
-	return 0.0;
+	return (double) FixedToInt(attrSize_);
 }
 
 void OSXFont::setPixelSize( const double pixelSize )
 {
-
+	setPointSize( pixelSize );
 }
 
 void OSXFont::setBold( const bool& bold )
@@ -246,7 +248,7 @@ void OSXFont::setStrikeOut( const bool& strikeout )
 
 void OSXFont::setFont( Font* font ) 
 {
-
+	font_ = font;
 }
 
 void OSXFont::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
@@ -272,12 +274,26 @@ void OSXFont::setAttributes( const double& pointSize, const bool& bold, const bo
 
 double OSXFont::getAscent()
 {
-	return 10.0;
+	ATSUTextMeasurement val = 0;
+	ByteCount sz = sizeof(val);
+	OSStatus err = ATSUGetAttribute( fontStyle_, kATSUAscentTag, sizeof(val), &val, &sz );
+	if ( err != noErr ) {
+		return -1.0;
+	}
+	
+	return FixedPointNumber(val);
 }
 
 double OSXFont::getDescent()
 {
-	return 8.0;
+	ATSUTextMeasurement val = 0;
+	ByteCount sz = sizeof(val);
+	OSStatus err = ATSUGetAttribute( fontStyle_, kATSUDescentTag, sizeof(val), &val, &sz );
+	if ( err != noErr ) {
+		return -1.0;
+	}
+	
+	return FixedPointNumber(val);
 }
 
 
@@ -309,6 +325,9 @@ bool OSXFont::isEqual( Object* object )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 15:24:00  ddiego
+*updated os x code in graphics stuff.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -113,6 +113,7 @@ protected:
 	ATSURGBAlphaColor attrColor_;
 	ATSUFontID attrFontID_;
 	Fixed attrSize_;
+	Font* font_;
 
 	void initATSUAttrs();
 	void updateStyleWithAttrs();
@@ -124,6 +125,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 15:24:00  ddiego
+*updated os x code in graphics stuff.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

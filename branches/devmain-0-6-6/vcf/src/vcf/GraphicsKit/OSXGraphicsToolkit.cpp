@@ -33,6 +33,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 	systemColors_[SYSCOLOR_SHADOW] = sysColor;
     (*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SHADOW";
     GetThemeBrushAsColor( kThemeBrushButtonActiveDarkShadow, 32, TRUE, &themeColor );
+	
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
                         ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
@@ -46,12 +47,14 @@ void OSXGraphicsToolkit::loadSystemColors()
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
                         ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
+		
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
 	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_HIGHLIGHT";
 
     GetThemeBrushAsColor( kThemeBrushButtonActiveLightHighlight, 32, TRUE, &themeColor );
+	
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
                         ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
@@ -61,6 +64,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
 
     GetThemeBrushAsColor( kThemeBrushButtonFaceActive, 32, TRUE, &themeColor );
+	
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
                         ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
@@ -235,6 +239,9 @@ double OSXGraphicsToolkit::internal_getDPI( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/10 15:24:00  ddiego
+*updated os x code in graphics stuff.
+*
 *Revision 1.2.2.1  2004/09/22 13:22:01  ddiego
 *removed mgc code for drawing vector shapes. Unneccessary since agg does this just fine.
 *
