@@ -151,6 +151,7 @@ void Win32Font::init()
 	}
 	else {
 		if ( System::isUnicodeEnabled() ) {
+
 			LOGFONTW& tmpLF = *((LOGFONTW*)logFont_);
 			tmpLF.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
 			tmpLF.lfClipPrecision = CLIP_DEFAULT_PRECIS;
@@ -323,9 +324,15 @@ bool Win32Font::isTrueType()
 double Win32Font::getPointSize()
 {
 	HDC dc = NULL;
+	bool releaseDC = true;
+	//this gets a HDC eitehr from the GraphicsContext that is associated with this font
+	//or from the desktop window
 	if ( NULL != font_ ) {
 		if ( NULL != font_->getGraphicsContext() ) {
+			Win32Context* win32Ctx = (Win32Context*)font_->getGraphicsContext()->getPeer();
+
 			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
+			releaseDC = false;
 		}
 	}
 	
@@ -333,20 +340,46 @@ double Win32Font::getPointSize()
 	  dc = GetDC( ::GetDesktopWindow() );//gets screen DC
 	}
 
-	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
-	DWORD err = ::GetLastError();	
 	
-	//JC - I commented this out since we already have this functionality in 
-	//Win32Utils::getErrorString, so there's no need for the extra code here
-	//DisplayErrMsg(err);
 
-	StringUtils::trace( VCFWin32::Win32Utils::getErrorString(err) );
+	if ( NULL == dc ) {
+		//damn! We are well and truly screwed at this point!
+		DWORD err = ::GetLastError();
 
-	if (err > 0) {
-	  dc = GetDC( ::GetDesktopWindow() );//gets screen DC	
+		//JC - I commented this out since we already have this functionality in 
+		//Win32Utils::getErrorString, so there's no need for the extra code here
+		//DisplayErrMsg(err);
+		String msg = "\nNULL dc in Win32Font::getPointSize() - need to fix this!!!!\n\t";
+		msg +=  VCFWin32::Win32Utils::getErrorString(err) + "\n";		
+
+		StringUtils::trace( MAKE_ERROR_MSG_2(msg) );		
 	}
-	
+
+	//this assert stays in  - we should NEVER, EVER, EVER have a NULL HDC at this point.
+	//this would indicate the presence of unspeakable evil, and we should all run for
+	//cover if this is the case
+	VCF_ASSERT( dc != NULL );  
+
+
+
+	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
+
+	if ( ((int)ppi) <= 0 ) {
+		DWORD err = ::GetLastError();
+		String msg = "\nppi <= 0 in Win32Font::getPointSize() - need to fix this!!!!\n\t";
+		msg +=  VCFWin32::Win32Utils::getErrorString(err) + "\n";		
+
+		StringUtils::trace( MAKE_ERROR_MSG_2(msg) );
+	}
+
+	/**
+	The asserts will stay in here for the time being because we should NEVER 
+	EVER be getting them, and if we are it's a sympomatic problem of something else
+	*/
+	VCF_ASSERT( ((int)ppi) > 0 ); 
+
 	int lfHeight = 0;
+
 	if ( System::isUnicodeEnabled() ) {
 		lfHeight = ((LOGFONTW*)logFont_)->lfHeight;
 	}
@@ -354,16 +387,35 @@ double Win32Font::getPointSize()
 		lfHeight = ((LOGFONTA*)logFont_)->lfHeight;
 	}
 
-	
-        if (ppi == 0.0) ppi = 96.0;
-        if (lfHeight == 0) lfHeight=1;
+	VCF_ASSERT( lfHeight != 0 ); 
+	if ( lfHeight == 0 ) {
+		DWORD err = ::GetLastError();
+		String msg = "\nlfHeight == 0 in Win32Font::getPointSize() - need to fix this!!!!\n\t";
+		msg +=  VCFWin32::Win32Utils::getErrorString(err) + "\n";		
+
+		StringUtils::trace( MAKE_ERROR_MSG_2(msg) );
+	}
+
+/*
+	JC I took these out - while I understand the need for a workaround here
+	we don't want to be doing this - ppi of 0 or a lfHeight of 0 is BAD BAD BAD
+	and we need to fix the problem(s) that may be causing them.
+	if (ppi == 0.0){
+		ppi = 96.0;
+	}
+
+	if (lfHeight == 0) {
+		lfHeight=1;
+	}
+	*/
+
 	double result = fabs( ((double)lfHeight / ppi) * 72.0 );
 
 	if ( GetDeviceCaps( dc, LOGPIXELSY) != this->oldDPI_ ) {
 		result = result * ( ppi / oldDPI_ );
 		oldDPI_ = GetDeviceCaps( dc, LOGPIXELSY);
 	}
-
+/*
 	if ( NULL == font_ ) {
 		ReleaseDC( ::GetDesktopWindow(), dc );		
 	}
@@ -371,6 +423,11 @@ double Win32Font::getPointSize()
 		ReleaseDC( ::GetDesktopWindow(), dc );
 	}else
          ReleaseDC( ::GetDesktopWindow(), dc );
+		 */
+
+	if ( releaseDC ){
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
 
 	return result;
 }
@@ -669,6 +726,7 @@ void Win32Font::setStrikeOut( const bool& strikeout )
 		((LOGFONTA*)logFont_)->lfStrikeOut = strikeout ? TRUE : FALSE;
 	}
 
+
 	if ( true == needsUpdate ) {
 		updateTextMetrics();
 
@@ -877,6 +935,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.15  2004/10/31 15:32:29  ddiego
+*fixed a bug in the way Win32ControlContext::releaseHandle() worked that was causing a problem in Win32Font::getPointSize().
+*
 *Revision 1.2.2.14  2004/10/25 03:52:02  ddiego
 *minor changes to osx checkin for win32
 *

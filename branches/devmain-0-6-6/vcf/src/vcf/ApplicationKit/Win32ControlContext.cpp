@@ -61,8 +61,8 @@ void Win32ControlContext::releaseHandle()
 
 
 		::ReleaseDC( (HWND)peer->getHandleID(), dc_ );
-	}
-
+		dc_ = NULL;
+	}	
 }
 
 void Win32ControlContext::checkHandle()
@@ -97,6 +97,9 @@ void Win32ControlContext::checkHandle()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/31 15:32:05  ddiego
+*fixed a bug in the way Win32ControlContext::releaseHandle() worked that was causing a problem in Win32Font::getPointSize().
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
