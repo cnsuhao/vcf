@@ -83,6 +83,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Exam
 		{616AC240-D824-4B9B-9BBB-90C1A8D870C3} = {616AC240-D824-4B9B-9BBB-90C1A8D870C3}
 		{7ABD602B-906F-4BDC-8F03-7303C45D793C} = {7ABD602B-906F-4BDC-8F03-7303C45D793C}
 		{01349F88-F39F-4650-B9BA-AD0B62E0C199} = {01349F88-F39F-4650-B9BA-AD0B62E0C199}
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a} = {f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}
 		{741EC840-022B-4A29-81E9-FC1877B9FA0C} = {741EC840-022B-4A29-81E9-FC1877B9FA0C}
 		{52294DAE-5134-48EF-82F9-5BC36B7E3246} = {52294DAE-5134-48EF-82F9-5BC36B7E3246}
 		{51A16E16-B776-4530-AFD8-D0CC9C17D582} = {51A16E16-B776-4530-AFD8-D0CC9C17D582}
@@ -202,6 +203,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Processes", ".\Processes\Pr
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProgressBars", ".\ProgressBars\ProgressBars_vc71.vcproj", "{741EC840-022B-4A29-81E9-FC1877B9FA0C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QTPlayer", ".\QTPlayer\QTPlayer_vc71.vcproj", "{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -532,6 +537,12 @@ Global
 		{741EC840-022B-4A29-81E9-FC1877B9FA0C}.GTK Debug.Build.0 = Debug|Win32
 		{741EC840-022B-4A29-81E9-FC1877B9FA0C}.Release.ActiveCfg = Release|Win32
 		{741EC840-022B-4A29-81E9-FC1877B9FA0C}.Release.Build.0 = Release|Win32
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}.Debug.ActiveCfg = Debug|Win32
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}.Debug.Build.0 = Debug|Win32
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}.GTK Debug.ActiveCfg = Debug|Win32
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}.GTK Debug.Build.0 = Debug|Win32
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}.Release.ActiveCfg = Release|Win32
+		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}.Release.Build.0 = Release|Win32
 		{01349F88-F39F-4650-B9BA-AD0B62E0C199}.Debug.ActiveCfg = Debug|Win32
 		{01349F88-F39F-4650-B9BA-AD0B62E0C199}.Debug.Build.0 = Debug|Win32
 		{01349F88-F39F-4650-B9BA-AD0B62E0C199}.GTK Debug.ActiveCfg = Debug|Win32
