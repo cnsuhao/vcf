@@ -9,7 +9,6 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
-#include "vcf/FoundationKit/DateTime.h"
 #include "vcf/ApplicationKit/TitledBorder.h"
 
 
@@ -485,6 +484,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.11  2004/06/25 19:45:25  marcelloptr
+*minor changes
+*
 *Revision 1.2.2.10  2004/06/07 03:07:06  ddiego
 *more osx updates dealing with mouse handling
 *
