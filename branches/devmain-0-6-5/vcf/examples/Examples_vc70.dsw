@@ -540,7 +540,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKit
+    Project_Dep_Name Win32HTMLBrowser_StaticLib
     End Project Dependency
 }}}
 
@@ -555,7 +555,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
+    Project_Dep_Name Win32HTMLBrowser
     End Project Dependency
 }}}
 
@@ -803,6 +803,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -815,6 +818,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
 }}}
 
 ###############################################################################
