@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="ApplicationIcons"
-	ProjectGUID="{C57F5C43-69B1-4498-9289-8FF5B31D4FA6}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

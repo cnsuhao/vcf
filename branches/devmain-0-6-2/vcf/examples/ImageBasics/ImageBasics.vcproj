@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="ImageBasics"
-	ProjectGUID="{5CAEB5C8-510C-4818-80B2-5859B5B6D9D9}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

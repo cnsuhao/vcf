@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="HelloWorld3"
-	ProjectGUID="{5F329F31-AD90-4F01-A4BC-40A3F0AF41EF}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

@@ -2,7 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="NetworkKitDLL">
+	Name="NetworkKitDLL"
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

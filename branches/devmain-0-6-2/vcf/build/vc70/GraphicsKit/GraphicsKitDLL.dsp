@@ -23,6 +23,8 @@ CFG=GraphicsKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -139,10 +141,6 @@ SOURCE=..\..\..\include\implementer\Contextpeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\graphics\Curve.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\Ellipse.h
 # End Source File
 # Begin Source File
@@ -176,6 +174,10 @@ SOURCE=..\..\..\include\graphics\GraphicsContext.h
 # Begin Source File
 
 SOURCE=..\..\..\include\GraphicsKit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\graphics\GraphicsKitSelectLib.h
 # End Source File
 # Begin Source File
 

@@ -23,6 +23,8 @@ CFG=FoundationKit - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -710,6 +712,8 @@ SOURCE=..\..\..\include\implementerKit\Win32Thread.h
 SOURCE=..\..\..\src\core\FoundationKit.cpp
 
 !IF  "$(CFG)" == "FoundationKit - Win32 Release"
+
+# ADD CPP /Yc"FoundationKit.h"
 
 !ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
 

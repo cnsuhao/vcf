@@ -2,7 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="ImageFormats">
+	Name="ImageFormats"
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -80,7 +82,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\..\..\ImageFormats\FreeImage\Source"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\..\..\thirdparty\common\FreeImage\Source"
 				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,NO_MFC,IMAGEFORMATS_DLL,IMAGEFORMATS_EXPORTS,FREEIMAGE_LIB,USE_FREEIMAGE_LIB,USE_FRAMEWORK_DLL,USE_GRAPHICSKIT_DLL,USE_APPKIT_DLL,BUILD_IMAGEFORMATS_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

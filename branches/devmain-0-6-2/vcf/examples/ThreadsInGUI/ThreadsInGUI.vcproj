@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="ThreadsInGUI"
-	ProjectGUID="{6990706A-9850-429C-BEE5-940379269F15}"
 	SccProjectName="ThreadsInGUI"
 	SccLocalPath=".">
 	<Platforms>

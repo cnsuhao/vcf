@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="TextLayout"
-	ProjectGUID="{8FE0B5C6-8154-469D-913D-6020D9679371}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

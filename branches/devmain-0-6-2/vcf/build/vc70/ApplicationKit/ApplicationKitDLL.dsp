@@ -23,6 +23,8 @@ CFG=ApplicationKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -41,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPKIT_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /Fo"vc70/ReleaseDLL\obj/" /Yu"ApplicationKit.h" /FD /Zm120 /Zm120 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /Fo"vc70/ReleaseDLL\obj/" /Yu"ApplicationKit.h" /FD /Zm150 /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -68,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPKIT_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /FR"vc70/DebugDLL\obj/" /Fo"vc70/DebugDLL\obj/" /FR /Yu"ApplicationKit.h" /Fd"..\..\..\bin/ApplicationKit_vc70_d.pdb" /FD /GZ /Zm120 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /FR"vc70/DebugDLL\obj/" /Fo"vc70/DebugDLL\obj/" /FR /Yu"ApplicationKit.h" /Fd"..\..\..\bin/ApplicationKit_vc70_d.pdb" /FD /GZ /Zm150 /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -139,10 +141,6 @@ SOURCE=..\..\..\include\ApplicationKitPrivate.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ApplicationPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\exceptions\BadComponentStateException.h
 # End Source File
 # Begin Source File
@@ -152,10 +150,6 @@ SOURCE=..\..\..\include\exceptions\BadModelStateException.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\BasicTableItemEditor.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\ButtonPeer.h
 # End Source File
 # Begin Source File
 
@@ -180,10 +174,6 @@ SOURCE=..\..\..\include\core\CommonColor.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\CommonDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\CommonDialogPeer.h
 # End Source File
 # Begin Source File
 
@@ -243,23 +233,11 @@ SOURCE=..\..\..\include\graphics\ControlGraphicsContext.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ControlPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Cursor.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\CursorManager.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\CursorPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\CustomControlPeer.h
 # End Source File
 # Begin Source File
 
@@ -279,19 +257,19 @@ SOURCE=..\..\..\include\core\Desktop.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\DesktopPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Dialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\DialogPeer.h
+SOURCE=..\..\..\include\events\DragEvent.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\dragdrop\DragSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\DropEvent.h
 # End Source File
 # Begin Source File
 
@@ -307,14 +285,6 @@ SOURCE=..\..\..\include\core\Frame.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\HeaderPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\HTMLBrowserPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\ImageList.h
 # End Source File
 # Begin Source File
@@ -324,10 +294,6 @@ SOURCE=..\..\..\include\exceptions\InvalidStateException.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Item.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\Label.h
 # End Source File
 # Begin Source File
 
@@ -343,10 +309,6 @@ SOURCE=..\..\..\include\implementerKit\LightweightComponent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ListviewPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Menu.h
 # End Source File
 # Begin Source File
@@ -355,23 +317,11 @@ SOURCE=..\..\..\include\core\MenuBar.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\MenuBarPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\MenuItem.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\MenuItemPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\MessageDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\MultilineTextControl.h
 # End Source File
 # Begin Source File
 
@@ -388,18 +338,6 @@ SOURCE=..\..\..\include\core\PackageInfo.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\PopupMenu.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\PopupMenuPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\PrintContextPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\PrintPeer.h
 # End Source File
 # Begin Source File
 
@@ -431,10 +369,6 @@ SOURCE=..\..\..\include\core\Scrollable.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ScrollPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Selectable.h
 # End Source File
 # Begin Source File
@@ -443,19 +377,11 @@ SOURCE=..\..\..\include\core\TableItemEditor.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\TextPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TimerComponent.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\TitledBorder.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\TreePeer.h
 # End Source File
 # Begin Source File
 
@@ -488,10 +414,6 @@ SOURCE=..\..\..\include\core\View.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Window.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\WindowPeer.h
 # End Source File
 # Begin Source File
 
@@ -1021,6 +943,14 @@ SOURCE=..\..\..\include\implementerKit\Win32SystemPeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\implementerkit\Win32Toolbar.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Toolbar.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32ToolKit.cpp
 # End Source File
 # Begin Source File
@@ -1086,14 +1016,6 @@ SOURCE=..\..\..\src\Events\ControlEvent.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\events\ControlEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\DragEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\DropEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1549,6 +1471,10 @@ SOURCE=..\..\..\src\core\Label.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\Label.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\ListBoxControl.cpp
 # End Source File
 # Begin Source File
@@ -1565,6 +1491,10 @@ SOURCE=..\..\..\include\core\ListViewControl.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\MultilineTextControl.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\OpenGLControl.h
 # End Source File
 # Begin Source File
@@ -1574,6 +1504,14 @@ SOURCE=..\..\..\src\core\Panel.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Panel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ProgressControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ProgressControl.h
 # End Source File
 # Begin Source File
 
@@ -1598,6 +1536,14 @@ SOURCE=..\..\..\include\core\ScrollBarControl.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ScrollbarManager.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\SliderControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\SliderControl.h
 # End Source File
 # Begin Source File
 
@@ -1694,6 +1640,98 @@ SOURCE=..\..\..\src\core\TreeListControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TreeListControl.h
+# End Source File
+# End Group
+# Begin Group "Peer Interfaces"
+
+# PROP Default_Filter "*.h"
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ApplicationPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ButtonPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\CommonDialogPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ControlPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\CursorPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DataObjectPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DesktopPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DialogPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DragDropPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DropTargetPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\HTMLBrowserPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ListviewPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\MenuBarPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\MenuItemPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\PopupMenuPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\PrintContextPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\PrintPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ResourceStreamPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ScrollPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\TextPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\TreePeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\WindowPeer.h
 # End Source File
 # End Group
 # End Target

@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="GraphicsAndMouseMoves"
-	ProjectGUID="{5665CE3B-F672-4BEC-8BB8-9003C4D2EA64}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="CopyAndPaste"
-	ProjectGUID="{0CFA7AD2-AEBB-407B-A1DC-F78212D620F5}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

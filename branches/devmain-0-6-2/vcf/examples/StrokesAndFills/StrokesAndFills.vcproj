@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="StrokesAndFills"
-	ProjectGUID="{C313E7B8-C8C7-4E3E-B2B9-C5A837C688A0}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -40,7 +39,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
 				OutputFile="vc70/Release/StrokesAndFills_vc70.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -100,7 +99,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
 				OutputFile="vc70/Debug/StrokesAndFills_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"

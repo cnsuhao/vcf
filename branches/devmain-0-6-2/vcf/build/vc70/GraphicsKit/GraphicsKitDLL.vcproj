@@ -2,7 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="GraphicsKitDLL">
+	Name="GraphicsKitDLL"
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -172,9 +174,6 @@
 				RelativePath="..\..\..\include\implementer\Contextpeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\graphics\Curve.h">
-			</File>
-			<File
 				RelativePath="..\..\..\include\graphics\Ellipse.h">
 			</File>
 			<File
@@ -238,13 +237,10 @@
 				RelativePath="..\..\..\include\core\Point.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\graphics\Polygon.h">
+				RelativePath="..\..\..\include\graphics\Printable.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\graphics\PrintContext.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\graphics\Printable.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\Rect.h">
