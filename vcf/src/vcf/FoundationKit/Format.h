@@ -16,7 +16,50 @@ where you installed the VCF.
 namespace VCF {
 
 	/**
+	\p
+	The Format class is used to format a string, similar to the 
+	sprintf/printf family of functions, only made typesafe for
+	C++, and less likely to encounter buffer overflow errors 
+	that are so easy to do with sprintf and friends.
+	\p
+	The inspiration for this class comes unashamedly from the
+	Boost Format library (http://www.boost.org/libs/format/doc/format.html).
+	Any mistakes in the "translation" are mine, not Boost's.
+	
+	\p
+	The basic idea is to pass in a string to the Format instance,
+	and then use the "%" operator to separate your arguments. 
+	Currently the usage is \e exactly the same as you would use 
+	printf/sprintf, in terms of formatting. For example:
+	\code
+	//printf	
+	printf( "Hello World, %d times!", 10 );
 
+	//Encoding the same using a Format object
+	String s = Format("Hello World, %d times!") % 10;
+	\endcode
+	The "s" variable will now contain "Hello World, 10 times!". 
+	
+	\p
+	The Format object will throw assert exceptions (in debug mode) if too
+	few arguments are passed in, or too many. For example:
+	\code
+	//BAD - too few arguments!!
+	String s = Format("Hello World, %d times!");
+	\endcode
+	The above example is expecting 1 argument, and didn't receive any, and will
+	thus assert. 
+
+	\code
+	//BAD too many arguments!!
+	String s = Format("Hello World, %d times!") % 100 % 0.56564;
+	\endcode
+	The above example expected 1 argument, but received 2, and will assert.
+
+	@see StringUtils::format(const Format&)
+	@see StringUtils::traceWithArgs(const Format&)
+	@see System::print(const Format&)
+	@see System::println(const Format&)
 	*/
 	class Format {
 	public:
@@ -158,6 +201,12 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/03/15 01:51:51  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.1.2.1  2005/03/14 05:44:51  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *

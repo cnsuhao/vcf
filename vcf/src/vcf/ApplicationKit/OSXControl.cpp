@@ -306,7 +306,7 @@ void OSXControl::setParent( Control* parent )
 		ControlRef parentControlRef = (ControlRef)parent->getPeer()->getHandleID();
 		OSStatus err = HIViewAddSubview( parentControlRef, hiView_ );
 		if ( err != noErr ) {
-			StringUtils::traceWithArgs( "HIViewAddSubview failed, err: %d\n", err );
+			StringUtils::traceWithArgs( Format("HIViewAddSubview failed, err: %d\n") % err );
 		}
 	}
 }
@@ -761,6 +761,12 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/15 01:51:49  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3  2004/12/01 04:31:37  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
@@ -805,6 +811,12 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.3.2.1  2005/03/15 01:51:49  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3  2004/12/01 04:31:37  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

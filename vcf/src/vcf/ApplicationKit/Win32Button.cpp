@@ -181,7 +181,7 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				if ( err == FALSE ) {
 					err = GetLastError();
-					StringUtils::traceWithArgs( "error in BitBlt during drawing of double buffered Comp: error code=%d\n",
+					StringUtils::traceWithArgs( Format("error in BitBlt during drawing of double buffered Comp: error code=%d\n") %
 						err );
 				}
 			}
@@ -268,6 +268,12 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/15 01:51:50  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

@@ -481,7 +481,7 @@ void getVersionInfoW( VersionMap& map, const String& fileName )
 				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
 				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[wcslen(element->szKey)+1], element, 4);
 				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
-					entry.second += StringUtils::format( L"%04x%04x ", (int)*wpos++, (int)(*(wpos+1)) );
+					entry.second += StringUtils::format( Format(L"%04x%04x ") % (int)*wpos++ % (int)(*(wpos+1)) );
 				}
 
 				map.insert( entry );
@@ -582,7 +582,7 @@ void getVersionInfoA( VersionMap& map, const String& fileName )
 				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
 				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[strlen(element->szKey)+1], element, 4);
 				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
-					entry.second += StringUtils::format( L"%04x%04x ", (int)*wpos++, (int)(*(wpos+1)) );
+					entry.second += StringUtils::format( Format(L"%04x%04x ") % (int)*wpos++ % (int)(*(wpos+1)) );
 				}
 
 				map.insert( entry );
@@ -699,6 +699,12 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/03/15 01:51:52  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.2  2004/12/01 04:31:42  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -570,8 +570,8 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 			
 			if ( err == FALSE ) {
 				err = GetLastError();
-				StringUtils::traceWithArgs( "error in BitBlt during drawing of double buffered Comp: error code=%d\n",
-					err );
+				StringUtils::traceWithArgs( Format("error in BitBlt during drawing of double buffered Comp: error code=%d\n") %	
+											err );
 			}
 
 		}
@@ -973,7 +973,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 					if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > peerControl_->getHeight() ) ) {
 						int pos = 0;
-						StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
+						//StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
 						if ( zDelta < 0 ) {
 							pos = min( (long)(scrollable->getVerticalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewHeight() - peerControl_->getHeight())) );
@@ -987,7 +987,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 					}
 					else if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > peerControl_->getWidth() ) ) {
 						int pos = 0;
-						StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
+						//StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
 						if ( zDelta < 0 ) {
 							pos = min( (long)(scrollable->getHorizontalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewWidth() - peerControl_->getWidth())) );
@@ -1526,6 +1526,12 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2005/03/15 01:51:49  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.5.2.5  2005/02/16 05:09:30  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

@@ -216,6 +216,11 @@ public:
 	\endcode
 	This will ensure that on all platforms the unicode string gets properly
 	handled and output.
+
+	\deprecated 
+	This is now a deprecated function and should not be used at all. Existing
+	code should be changed to make use of the print( const Format& ) function 
+	instead. It will be removed entirely in an upcoming release.
 	*/
 	static void print( String text, ... );
 
@@ -223,6 +228,10 @@ public:
 
 	/**
 	@see System::print
+	\deprecated 
+	This is now a deprecated function and should not be used at all. Existing
+	code should be changed to make use of the println( const Format& ) function 
+	instead. It will be removed entirely in an upcoming release.
 	*/
 	static void println( String text, ... );
 
@@ -373,6 +382,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/03/15 01:51:52  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.4.2.4  2005/03/14 05:44:51  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *

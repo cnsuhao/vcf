@@ -187,7 +187,7 @@ void OSXWindow::destroyControl()
 	//control_->handleEvent( &event );
 
     DisposeWindow( windowRef_ );
-    StringUtils::traceWithArgs( "windowRef_: %p, destroyed\n", windowRef_ );
+    StringUtils::traceWithArgs( Format("windowRef_: %p, destroyed\n") % windowRef_ );
 
 	//DisposeRgn( mouseTrackRgn_ );
 	ReleaseMouseTrackingRegion( mouseTrackRef_ );
@@ -1034,6 +1034,12 @@ void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/15 01:51:50  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

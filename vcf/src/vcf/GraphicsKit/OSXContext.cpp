@@ -432,7 +432,7 @@ VCF::Size OSXContext::getLayoutDimensions( const String& text )
 	ATSUTextLayout tmpTextLayout = NULL;
 	OSStatus err = ATSUCreateAndCopyTextLayout( textLayout_, &tmpTextLayout );
 	if ( err != noErr ) {
-		String msg = StringUtils::format( "ATSUCreateAndCopyTextLayout failed, err: %d, textLayout_: %p, tmpTextLayout: %p", err, textLayout_, tmpTextLayout );
+		String msg = StringUtils::format( Format("ATSUCreateAndCopyTextLayout failed, err: %d, textLayout_: %p, tmpTextLayout: %p") % err % textLayout_ % tmpTextLayout );
 		throw RuntimeException( MAKE_ERROR_MSG_2(msg) );
 	}	
 	
@@ -1965,7 +1965,7 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 			err = SetThemeBackground( state.isActive() ? kThemeBrushButtonFaceActive : kThemeBrushButtonFaceInactive,
 									32, TRUE );
 			if ( err != noErr ) {
-				StringUtils::traceWithArgs( "SetThemeBackground() failed, err: %d\n", err );
+				StringUtils::traceWithArgs( Format("SetThemeBackground() failed, err: %d\n") % err );
 			}
 			EraseRect( r );
 		}
@@ -2076,7 +2076,7 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 			err = SetThemeBackground( state.isHighlighted() ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground,
 									32, TRUE );
 			if ( err != noErr ) {
-				StringUtils::traceWithArgs( "SetThemeBackground() failed, err: %d\n", err );
+				StringUtils::traceWithArgs( Format("SetThemeBackground() failed, err: %d\n") % err );
 			}
 			
 			EraseRect( r );
@@ -2098,7 +2098,7 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 									32, TRUE );
 									
 			if ( err != noErr ) {
-				StringUtils::traceWithArgs( "SetThemeBackground() failed, err: %d\n", err );
+				StringUtils::traceWithArgs( Format("SetThemeBackground() failed, err: %d\n") % err );
 			}
 			
 			EraseRect( r );
@@ -2271,6 +2271,12 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/15 01:51:54  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3  2004/12/01 04:31:43  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

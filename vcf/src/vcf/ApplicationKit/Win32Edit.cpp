@@ -83,8 +83,8 @@ void Win32Edit::create( Control* owningControl )
 				}
 				else {
 					String errMsg =
-						StringUtils::format( "Failed to load \"%s\", a required DLL when using richedit controls. \n"\
-						"Please make sure this DLL is located in your Windows system, or application directory.",
+						StringUtils::format( Format("Failed to load \"%s\", a required DLL when using richedit controls. \n"\
+						"Please make sure this DLL is located in your Windows system, or application directory.") %
 						richeditLibrary.c_str() );
 
 					throw RuntimeException( errMsg );
@@ -1103,7 +1103,7 @@ void Win32Edit::setText( const VCF::String& text )
 
 		if ( !err ) {
 			err = GetLastError();
-			StringUtils::traceWithArgs( "error is %d\n", err );
+			StringUtils::traceWithArgs( Format("error is %d\n") % err );
 		}
 	}
 
@@ -1450,6 +1450,12 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/03/15 01:51:50  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.5  2005/02/24 05:39:39  marcelloptr
 *bugfix [1150773] - Win32Edit loses last n characters past the last 2048 written
 *
