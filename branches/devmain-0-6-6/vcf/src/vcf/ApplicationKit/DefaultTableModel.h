@@ -40,6 +40,48 @@ public:
 
 	virtual ~DefaultTableModel();
 
+	/**
+	@delegate TableCellAdded
+	@event TableModelEvent
+	*/
+	DELEGATE(TableCellAdded)
+
+	/**
+	@delegate TableCellDeleted
+	@event TableModelEvent
+	*/
+	DELEGATE(TableCellDeleted)
+
+	/**
+	@delegate TableCellsSelected
+	@event TableModelEvent
+	*/
+	DELEGATE(TableCellsSelected)
+
+	/**
+	@delegate TableRowAdded
+	@event TableModelEvent
+	*/
+	DELEGATE(TableRowsAdded)
+
+	/**
+	@delegate TableRowDeleted
+	@event TableModelEvent
+	*/
+	DELEGATE(TableRowsDeleted)
+
+	/**
+	@delegate TableColumnAdded
+	@event TableModelEvent
+	*/
+	DELEGATE(TableColumnsAdded)
+
+	/**
+	@delegate TableColumnDeleted
+	@event TableModelEvent
+	*/
+	DELEGATE(TableColumnsDeleted)
+
 
     /**
      * validate the model.
@@ -141,6 +183,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/05 02:48:22  kiklop74
+*Added needed changes that will enable Borland compiler to compile RTTI for ApplicationKit
+*
 *Revision 1.2.2.1  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

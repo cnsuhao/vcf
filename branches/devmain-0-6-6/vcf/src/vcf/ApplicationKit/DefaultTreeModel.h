@@ -33,6 +33,47 @@ namespace VCF{
 
 class APPLICATIONKIT_API DefaultTreeModel : public AbstractModel, public AbstractTreeModel {
 public:
+	/**
+	@delegate RootNodeChanged
+	@event
+	*/
+	DELEGATE(RootNodeChanged)
+
+	/**
+	@delegate NodeAdded
+	@event
+	*/
+	DELEGATE(NodeAdded)
+
+	/**
+	@delegate NodeDeleted
+	@event
+	*/
+	DELEGATE(NodeDeleted)
+
+	virtual void addTreeRootNodeChangedHandler( EventHandler* handler ) {
+		RootNodeChanged += handler;
+	}
+
+	virtual void removeTreeRootNodeChangedHandler( EventHandler* handler ) {
+		RootNodeChanged -= handler;
+	}
+
+	virtual void addTreeNodeAddedHandler( EventHandler* handler ) {
+		NodeAdded += handler;
+	}
+
+	virtual void removeTreeNodeAddedHandler( EventHandler* handler ) {
+		NodeAdded -= handler;
+	}
+
+	virtual void addTreeNodeDeletedHandler( EventHandler* handler ) {
+		NodeDeleted += handler;
+	}
+
+	virtual void removeTreeNodeDeletedHandler( EventHandler* handler ) {
+		NodeDeleted -= handler;
+	}
 
 	DefaultTreeModel();
 
@@ -67,6 +108,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/05 02:48:22  kiklop74
+*Added needed changes that will enable Borland compiler to compile RTTI for ApplicationKit
+*
 *Revision 1.2.2.1  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
