@@ -21,11 +21,18 @@ ObjectWithEvents::ObjectWithEvents()
 ObjectWithEvents::~ObjectWithEvents()
 {
 	//destroy all the event handlers
+	StringUtils::traceWithArgs( "In ObjectWithEvents::~ObjectWithEvents for instance %p, class: %ls\n",
+									this, getClassName().c_str() );
+									
 	std::map<String,EventHandler*>::iterator it = eventHandlers_.begin();
 	while ( it != eventHandlers_.end() ){
-		if ( NULL != it->second ){
-			delete it->second;
-		}
+		
+		EventHandler* ev = it->second;
+		String name = it->first;
+		StringUtils::traceWithArgs( "Deleting event handler (%p) \"%ls\"\n", ev, name.c_str() );
+			  
+		delete ev;
+		
 		it++;
 	}
 	eventHandlers_.clear();
@@ -38,6 +45,7 @@ ObjectWithEvents::~ObjectWithEvents()
 		handlerIt ++;
 	}
 	masterHandlerList_.clear();
+	
 }
 
 void ObjectWithEvents::addEventHandler( const String& handlerName, EventHandler* handler )
@@ -64,6 +72,9 @@ void ObjectWithEvents::addEventHandlerList( EventHandler::Vector* eventHandlerLi
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/16 02:39:09  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

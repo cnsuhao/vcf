@@ -33,5 +33,84 @@
 */
 
 
+namespace VCF {
+
+
+class OSXControl  public Object, public ControlPeer {
+public:
+
+	OSXControl( Control* control );
+	
+	virtual ~OSXControl();
+
+	virtual long getHandleID();
+	
+	virtual void create( Control* owningControl );
+	
+	virtual void destroyControl();
+	
+    virtual String getText() { 
+		return String();
+	}
+
+    virtual void setText( const String& text ){};
+
+    virtual void setBounds( Rect* rect );
+
+	virtual bool beginSetBounds( const ulong32& numberOfChildren );
+
+	virtual void endSetBounds();
+
+    virtual Rect getBounds();
+
+    virtual void setVisible( const bool& visible );
+
+    virtual bool getVisible();
+
+    virtual Control* getControl();
+
+    virtual void setControl( Control* component );    
+
+    virtual void setCursor( Cursor* cursor );    
+	
+	virtual void setParent( Control* parent );
+
+	virtual Control* getParent();
+
+	virtual bool isFocused();
+
+	virtual void setFocused();
+
+	virtual bool isEnabled();
+
+	virtual void setEnabled( const bool& enabled );
+
+	virtual void setFont( Font* font );
+
+	virtual void repaint( Rect* repaintRect=NULL );
+
+	virtual void keepMouseEvents();
+
+	virtual void releaseMouseEvents();
+	
+	virtual void translateToScreenCoords( Point* pt );
+
+	virtual void translateFromScreenCoords( Point* pt );
+	
+	static void setCurrentCreateHIView( TView* view );
+	
+	static TView* getCurrentCreateHIView() {
+		return OSXControl::currentCreatedView;
+	}
+protected:
+	TView* hiView_;
+	static TView* currentCreatedView;
+};
+
+
+}; //end of namespace VCF
+
+
+
 #endif // _VCF_OSXCONTROL_H__
 

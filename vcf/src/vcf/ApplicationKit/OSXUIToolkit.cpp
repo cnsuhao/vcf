@@ -317,7 +317,7 @@ DialogPeer* OSXUIToolkit::internal_createDialogPeer()
 
 ControlPeer* OSXUIToolkit::internal_createControlPeer( Control* control, ComponentType componentType)
 {
-    return NULL;
+    return new OSXControl(control);
 }
 
 WindowPeer* OSXUIToolkit::internal_createWindowPeer( Control* control, Control* owner, ComponentType componentType)
@@ -512,6 +512,7 @@ void OSXUIToolkit::handleTimerEvent( EventLoopTimerRef inTimer, void * inUserDat
 
 void OSXUIToolkit::internal_registerTimerHandler( Object* source, VCF::EventHandler* handler, const ulong32& timeoutInMilliSeconds )
 {
+	
     TimeOutHandler toh;
     toh.source_ = source;
     toh.handler_ = handler;
@@ -617,8 +618,13 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
                                         OSXUIToolkit::SizeOfDeletePostedEvent,NULL,
                                         &deleteHandler );
                     if ( (NULL != eventHandler) && (NULL != e ) ) {
-                        printf( "event handler (%p) and event (%p) recv'd! Calling event handler's invoke()\n",
-                                    eventHandler, e );
+                        StringUtils::traceWithArgs( "Recv'd a posted event.\n\tEvent handler (%p) \"%ls\" and event (%p, src:[%ls]%p) recv'd! Calling event handler's invoke()\n",
+                                    eventHandler, 
+									eventHandler->getClassName().c_str(), 
+									e, 
+									e->getSource() ?  e->getSource()->getClassName().c_str() : String("NULL").c_str(), 
+									e->getSource() );
+									
                         eventHandler->invoke( e );
                         
                         if ( deleteHandler ) {
@@ -713,7 +719,6 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
             
             switch ( whatHappened ) {            
                 case kEventMouseDown : {
-                    printf( "kEventMouseDown\n" );
                     
                     Scrollable* scrollable = msg->control_->getScrollable();
                     if ( NULL != scrollable ) {

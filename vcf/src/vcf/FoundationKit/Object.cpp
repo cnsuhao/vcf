@@ -99,7 +99,7 @@ String Object::toString()
 {
 	String result = "";
 	char info[256];
-	sprintf( info, "%s @ %p, refcount: %d",
+	sprintf( info, "%ls @ %p, refcount: %d",
 		     this->getClassName().c_str(), this, (int)refCount_ );
 	result += info;
 	return result;
@@ -249,6 +249,9 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/16 02:39:09  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.3  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

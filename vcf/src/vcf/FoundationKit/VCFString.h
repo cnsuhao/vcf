@@ -74,8 +74,11 @@ public:
 
 	//JC - see VCFChar.h for definiton of WideChar
 	typedef VCF::WideChar UniChar;
-
+#ifdef VCF_OSX
+	typedef std::basic_string< UniChar, std::char_traits<VCF::WideChar> > StringData;
+#else
 	typedef std::basic_string<UniChar> StringData;
+#endif	
 	typedef StringData::size_type size_type;
 
 
@@ -1013,6 +1016,9 @@ typedef std::basic_string<char> AnsiString;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/16 02:39:10  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

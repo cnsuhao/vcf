@@ -151,6 +151,9 @@ public:
 	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
 
 	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
+	
+	void setCGContext( CGContextRef cgRef, GrafPtr port );
+	
 protected:
 	CGContextRef contextID_;
     GrafPtr grafPort_;
@@ -178,6 +181,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/16 02:39:10  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

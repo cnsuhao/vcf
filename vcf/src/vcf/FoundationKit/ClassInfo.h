@@ -467,196 +467,196 @@ protected:
 #define METHOD_VOID( classType, method ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(void); \
-	VCF::registerVoidMethodArg0<classType,_T_##classType##method>( NULL, tmpClassName, VCF::String(#method), &classType::##method, "" );\
+	VCF::registerVoidMethodArg0<classType,_T_##classType##method>( NULL, tmpClassName, VCF::String(#method), &classType:: method, "" );\
 	}\
 	\
 
 #define METHOD_1VOID( classType, method, argType, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType); \
-	VCF::registerVoidMethodArg1<classType,_T_##classType##method, argType>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerVoidMethodArg1<classType,_T_##classType##method, argType>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_2VOID( classType, method, argType1, argType2, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2); \
-	VCF::registerVoidMethodArg2<classType,_T_##classType##method,argType1, argType2>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerVoidMethodArg2<classType,_T_##classType##method,argType1, argType2>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_3VOID( classType, method, argType1, argType2, argType3, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3); \
-	VCF::registerVoidMethodArg3<classType,_T_##classType##method,argType1, argType2, argType3>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerVoidMethodArg3<classType,_T_##classType##method,argType1, argType2, argType3>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_4VOID( classType, method, argType1, argType2, argType3, argType4, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3,argType4); \
-	VCF::registerVoidMethodArg4<classType,_T_##classType##method,argType1, argType2, argType3, argType4>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerVoidMethodArg4<classType,_T_##classType##method,argType1, argType2, argType3, argType4>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_5VOID( classType, method, argType1, argType2, argType3, argType4, argType5, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3,argType4,argType5); \
-	VCF::registerVoidMethodArg5<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerVoidMethodArg5<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_6VOID( classType, method, argType1, argType2, argType3, argType4, argType5, argType6, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3,argType4,argType5); \
-	VCF::registerVoidMethodArg6<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerVoidMethodArg6<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_RETURN( classType, method, returnType ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(); \
-	VCF::registerMethod0Return<classType,_T_##classType##method,returnType>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String("") ); \
+	VCF::registerMethod0Return<classType,_T_##classType##method,returnType>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String("") ); \
 	}\
 	  \
 
 #define METHOD_1RETURN( classType, method, returnType, argType,  argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType); \
-	VCF::registerMethod1Return<classType,_T_##classType##method,returnType,argType>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerMethod1Return<classType,_T_##classType##method,returnType,argType>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_2RETURN( classType, method, returnType, argType1, argType2, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1, argType2); \
-	VCF::registerMethod2Return<classType,_T_##classType##method,returnType, argType1, argType2>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerMethod2Return<classType,_T_##classType##method,returnType, argType1, argType2>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_3RETURN( classType, method, returnType, argType1, argType2, argType3, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1, argType2,argType3); \
-	VCF::registerMethod3Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerMethod3Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_4RETURN( classType, method, returnType, argType1, argType2, argType3, argType4, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1, argType2,argType3,argType4); \
-	VCF::registerMethod4Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerMethod4Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_5RETURN( classType, method, returnType, argType1, argType2, argType3, argType4, argType5, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1, argType2,argType3,argType4,argType5); \
-	VCF::registerMethod5Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerMethod5Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define METHOD_6RETURN( classType, method, returnType, argType1, argType2, argType3, argType4, argType5, argType6, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1, argType2,argType3,argType4,argType5,argType6); \
-	VCF::registerMethod6Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpClassName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc) ); \
+	VCF::registerMethod6Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpClassName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc) ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD_VOID( classType, method ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(); \
-	VCF::registerVoidMethodArg0<classType,_T_##classType##method>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, "", true ); \
+	VCF::registerVoidMethodArg0<classType,_T_##classType##method>( NULL, tmpInterfaceName, VCF::String(#method), &classType::method, "", true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD1_VOID( classType, method, argType, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType); \
-	VCF::registerVoidMethodArg1<classType,_T_##classType##method,argType>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerVoidMethodArg1<classType,_T_##classType##method,argType>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD2_VOID( classType, method, argType1, argType2, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2); \
-	VCF::registerVoidMethodArg2<classType,_T_##classType##method,argType1, argType2>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerVoidMethodArg2<classType,_T_##classType##method,argType1, argType2>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD3_VOID( classType, method, argType1, argType2, argType3, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3); \
-	VCF::registerVoidMethodArg3<classType,_T_##classType##method,argType1, argType2, argType3>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerVoidMethodArg3<classType,_T_##classType##method,argType1, argType2, argType3>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD4_VOID( classType, method, argType1, argType2, argType3, argType4, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3argType4); \
-	VCF::registerVoidMethodArg4<classType,_T_##classType##method,argType1, argType2, argType3, argType4>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerVoidMethodArg4<classType,_T_##classType##method,argType1, argType2, argType3, argType4>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD5_VOID( classType, method, argType1, argType2, argType3, argType4, argType5, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3argType4,argType5); \
-	VCF::registerVoidMethodArg5<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerVoidMethodArg5<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD6_VOID( classType, method, argType1, argType2, argType3, argType4, argType5, argType6, argTypeDesc ) \
 	{\
 	typedef  void ( classType::* _T_##classType##method )(argType1,argType2,argType3argType4,argType5,argType6); \
-	VCF::registerVoidMethodArg6<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerVoidMethodArg6<classType,_T_##classType##method,argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD_RETURN( classType, method, returnType ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(); \
-	VCF::registerMethod0Return<classType,_T_##classType##method,returnType>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, "", true ); \
+	VCF::registerMethod0Return<classType,_T_##classType##method,returnType>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, "", true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD1_RETURN( classType, method, returnType, argType, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType); \
-	VCF::registerMethod1Return<classType,_T_##classType##method,returnType, argType>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerMethod1Return<classType,_T_##classType##method,returnType, argType>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD2_RETURN( classType, method, returnType, argType1, argType2, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1,argType2); \
-	VCF::registerMethod2Return<classType,_T_##classType##method,returnType, argType1, argType2>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerMethod2Return<classType,_T_##classType##method,returnType, argType1, argType2>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD3_RETURN( classType, method, returnType, argType1, argType2, argType3, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1,argType2,argType3); \
-	VCF::registerMethod3Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerMethod3Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD4_RETURN( classType, method, returnType, argType1, argType2, argType3, argType4, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1,argType2,argType3,argType4); \
-	VCF::registerMethod4Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerMethod4Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD5_RETURN( classType, method, returnType, argType1, argType2, argType3, argType4, argType5, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1,argType2,argType3,argType4,argType5); \
-	VCF::registerMethod5Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerMethod5Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
 #define INTERFACE_METHOD6_RETURN( classType, method, returnType, argType1, argType2, argType3, argType4, argType5, argType6, argTypeDesc ) \
 	{\
 	typedef  returnType ( classType::* _T_##classType##method )(argType1,argType2,argType3,argType4,argType5,argType6); \
-	VCF::registerMethod6Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpInterfaceName, VCF::String(#method), &classType::##method, VCF::String(argTypeDesc), true ); \
+	VCF::registerMethod6Return<classType,_T_##classType##method,returnType, argType1, argType2, argType3, argType4, argType5, argType6>( NULL, tmpInterfaceName, VCF::String(#method), &classType:: method, VCF::String(argTypeDesc), true ); \
 	}\
 	  \
 
@@ -810,6 +810,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/16 02:39:09  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

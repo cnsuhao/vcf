@@ -35,6 +35,65 @@
 *NB: This software will not save the world.
 */
 
+#include "TCarbonEvent.h"
+#include "TView.h"
+
+
+
+template <typename ViewType >
+class ViewCreator {
+public:
+
+	static OSStatus create( HIViewRef* outControl,
+							const HIRect* inBounds = NULL,
+							WindowRef inWindow = NULL ) {
+	
+		OSStatus			err;
+		EventRef			event = TObject::CreateInitializationEvent();
+		ControlRef			root = NULL;		
+				
+		// Register this class
+		VCF::CFTextString classID;
+		VCF::String className = VCF::StringUtils::getClassNameFromTypeInfo( typeid(ViewType) );
+		classID = className;
+			
+		ViewCreator<ViewType>::RegisterClass(classID);		
+		
+		
+		// Make a new instantiation of this class
+		err = HIObjectCreate( classID, event, (HIObjectRef*) outControl );
+		
+		ReleaseEvent( event );
+
+		if ( err == noErr ) {
+			if ( inWindow != NULL ) {
+				GetRootControl( inWindow, &root );
+				HIViewAddSubview( root, *outControl );
+			}
+
+			HIViewSetFrame( *outControl, inBounds );
+		}
+		return err;
+	}
+	
+	static void RegisterClass( CFStringRef classID ) {
+		static bool sRegistered;
+
+		if ( !sRegistered ) {			
+
+			TView::RegisterSubclass( classID, ViewCreator<ViewType>::Constructor );
+			sRegistered = true;
+		}
+	}
+	
+	static OSStatus	Constructor( HIObjectRef inObjectRef,
+	                           TObject** outObject ) {
+							   
+		*outObject = new ViewType( (HIViewRef) inObjectRef );
+	
+		return noErr;					   
+	}
+};
 
 
 
@@ -212,6 +271,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/16 02:39:01  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:33  ddiego
 *added OSX changes for unicode migration
 *

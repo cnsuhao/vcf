@@ -16,8 +16,6 @@ where you installed the VCF.
 using namespace VCF;
 
 
-
-
 UnicodeString::AnsiStringMap UnicodeString::allocatedAnsiStrings;
 
 
@@ -147,6 +145,7 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
         unicodeText[size] = 0;     
         newStr.assign( unicodeText, size );   
         delete [] unicodeText;
+		CFRelease( cfStr );
 
 
 	#elif VCF_POSIX
@@ -194,7 +193,8 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
     CFRange range = {0,2};	
     CFStringGetCharacters(cfStr,range,unicodeText);
     result = unicodeText[0];   
-    
+    CFRelease( cfStr );
+	
 #elif VCF_POSIX
 	UnicodeString::UniChar tmp[2] = {0,0};
 	int err = mbstowcs( tmp, &c, 1 );
@@ -752,6 +752,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/16 02:39:09  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.5  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

@@ -29,10 +29,12 @@ String StringUtils::abbrevMonths[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 void StringUtils::traceWithArgs( String text,... )
 {
+	String text2 = StringUtils::convertFormatString( text );
+	
 //#ifdef _DEBUG
 	va_list argList;
 
-	va_start( argList, text );     // Initialize variable arguments.
+	va_start( argList, text2 );     // Initialize variable arguments.
 
 	VCFChar* buf = new VCFChar[MAX_TRACE_STRING];
 	memset( buf, 0, MAX_TRACE_STRING*sizeof(VCFChar) );
@@ -41,7 +43,7 @@ void StringUtils::traceWithArgs( String text,... )
     #ifdef VCF_OSX
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, text.c_str(), text.size() );    
+	CFStringAppendCharacters( fmt, text2.c_str(), text2.size() );    
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, argList );
     
@@ -53,10 +55,10 @@ void StringUtils::traceWithArgs( String text,... )
     CFRelease( fmt );
     
     #else
-      vswprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );
+      vswprintf( buf, MAX_TRACE_STRING, text2.c_str(), argList );
     #endif	
 #else
-	_vsnwprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );
+	_vsnwprintf( buf, MAX_TRACE_STRING, text2.c_str(), argList );
 #endif
 
 	va_end( argList );              // Reset variable arguments.
@@ -218,7 +220,9 @@ VCF::String StringUtils::toString( const int& value )
 {	  
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+    cfTmp = s;
+	CFRelease( s );
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -236,7 +240,9 @@ VCF::String StringUtils::toString( const long& value )
 {
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+    cfTmp = s;
+	CFRelease( s );
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -256,7 +262,10 @@ VCF::String StringUtils::toString( const float& value )
     
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%.5f"), value );
+    CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%.5f"), value );
+	cfTmp = s;
+	CFRelease( s );
+	
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -275,7 +284,9 @@ VCF::String StringUtils::toString( const double& value )
     
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%.5f"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%.5f"), value );
+    cfTmp = s;
+	CFRelease( s );
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -294,7 +305,9 @@ VCF::String StringUtils::toString( const ulong32& value )
 {
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+    cfTmp = s;
+	CFRelease( s );
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -312,7 +325,9 @@ VCF::String StringUtils::toString( const uint32& value )
 {
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%d"), value );
+    cfTmp = s;
+	CFRelease( s );
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -330,7 +345,9 @@ VCF::String StringUtils::toString( const char& value )
 {
 #ifdef VCF_OSX    
 	CFTextString cfTmp;
-    cfTmp = CFStringCreateWithFormat( NULL, NULL, CFSTR("%c"), value );
+	CFStringRef s = CFStringCreateWithFormat( NULL, NULL, CFSTR("%c"), value );
+    cfTmp = s;
+	CFRelease( s );
     return String( cfTmp );
 #else
     VCFChar tmp[TO_STRING_TXT_SIZE];
@@ -369,7 +386,9 @@ VCF::String StringUtils::newUUID()
 #elif VCF_OSX
     CFUUIDRef uuidRef = CFUUIDCreate( kCFAllocatorDefault );
     CFTextString tmp;
-    tmp = CFUUIDCreateString( kCFAllocatorDefault, uuidRef );
+	CFStringRef s = CFUUIDCreateString( kCFAllocatorDefault, uuidRef );
+    tmp = s;
+	CFRelease( s );
     result = tmp;
     CFRelease( uuidRef );
 #endif
@@ -380,9 +399,11 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 {
 	VCF::String result = "";
 
+	String formatText2 = StringUtils::convertFormatString( formatText );
+	
 	va_list argList;
 
-	va_start( argList, formatText );     // Initialize variable arguments.
+	va_start( argList, formatText2 );     // Initialize variable arguments.
 
 	VCFChar* buf = new VCFChar[MAX_TRACE_STRING];
 	memset( buf, 0, MAX_TRACE_STRING*sizeof(VCFChar) );
@@ -390,7 +411,7 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 #ifdef VCF_OSX
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, formatText.c_str(), formatText.size() );    
+	CFStringAppendCharacters( fmt, formatText2.c_str(), formatText2.size() );    
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, argList );
     
@@ -402,9 +423,9 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
     CFRelease( fmt );
     
 #elif VCF_POSIX
-	vswprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
+	vswprintf( buf, MAX_TRACE_STRING, formatText2.c_str(), argList );
 #else
-	_vsnwprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
+	_vsnwprintf( buf, MAX_TRACE_STRING, formatText2.c_str(), argList );
 #endif
 
 	va_end( argList );              // Reset variable arguments.
@@ -1208,10 +1229,31 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 	return result;
 }
 
+String StringUtils::convertFormatString( const String& formattedString )
+{
+#ifdef VCF_OSX
+	String result = formattedString;
+	String lsDirective = "%ls";
+	
+	int pos = result.find( lsDirective );
+	while ( pos != String::npos ) {
+		result.erase( pos, lsDirective.length() );
+		result.insert( pos, "%S" );
+		pos = result.find( lsDirective, pos + 1 );
+	}
+	
+	return result;
+#else
+	return formattedString;
+#endif	
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/16 02:39:09  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.5  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

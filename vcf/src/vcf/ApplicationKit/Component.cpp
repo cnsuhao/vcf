@@ -129,6 +129,7 @@ void Component::handleEvent( Event* event )
 
 void Component::beforeDestroy( ComponentEvent* event )
 {
+	StringUtils::traceWithArgs( "Component::beforeDestroy for %p\n", this );
 	setComponentState( Component::csDestroying );
 }
 
@@ -451,6 +452,9 @@ void Component::setDesigning( const bool& designing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/16 02:39:00  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
