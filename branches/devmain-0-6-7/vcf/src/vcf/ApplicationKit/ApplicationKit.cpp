@@ -103,8 +103,18 @@ void ApplicationKit::init( int argc, char** argv )
 		//REGISTER_CLASSINFO_EXTERNAL( OpenGLControl );
 		REGISTER_CLASSINFO_EXTERNAL( ComboBoxControl );
 		REGISTER_CLASSINFO_EXTERNAL( ImageControl );
-		REGISTER_CLASSINFO_EXTERNAL( ImageFilenameString );
+//		REGISTER_CLASSINFO_EXTERNAL( ImageFilenameString );
 		REGISTER_CLASSINFO_EXTERNAL( HTMLBrowserControl );
+		REGISTER_CLASSINFO_EXTERNAL( TimerComponent );
+		REGISTER_CLASSINFO_EXTERNAL( ScrollbarManager );
+		REGISTER_CLASSINFO_EXTERNAL( SystemTray );
+		REGISTER_CLASSINFO_EXTERNAL( PushButton );
+		REGISTER_CLASSINFO_EXTERNAL( SliderControl );
+		REGISTER_CLASSINFO_EXTERNAL( ProgressControl );
+		REGISTER_CLASSINFO_EXTERNAL( TableControl );
+		REGISTER_CLASSINFO_EXTERNAL( Splitter );
+		REGISTER_CLASSINFO_EXTERNAL( TreeListControl );
+		REGISTER_CLASSINFO_EXTERNAL( HeaderControl );
 		//REGISTER_CLASSINFO_EXTERNAL( ToolbarDock );
 
 
@@ -165,6 +175,9 @@ void ApplicationKit::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/28 04:51:55  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.3  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -22,37 +22,14 @@ where you installed the VCF.
 
 namespace VCF  {
 
-class APPLICATIONKIT_API ImageFilenameString : public Object{
-public:
-	ImageFilenameString(){};
-
-	ImageFilenameString( const ImageFilenameString& filename ): Object(filename) {
-		string_ = filename.string_;
-	}
-
-	virtual ~ImageFilenameString(){};
-
-	operator String () {
-		return string_;
-	}
-
-	ImageFilenameString& operator= ( const ImageFilenameString& filename ) {
-		string_ = filename.string_;
-		return *this;
-	}
-
-	ImageFilenameString& operator= ( const String& filename ) {
-		string_ = filename;
-		return *this;
-	}
-
-	virtual String toString() {
-		return string_;
-	}
-
-protected:
-	String string_;
-};
+/**
+This is a typedef for a string. This typedef is then used
+by the RTTI info for this class (see vcf/ApplicationKit/ApplicationKitRTTI.inl)
+to "typedef" the property. So even though this is just a string, the 
+proeprty type is a ImageFilenameString, which then allows us to specify
+a different kind of PropertyEditor for the string.
+*/
+typedef String ImageFilenameString;
 
 /**
 *Class ImageControl documentation
@@ -71,7 +48,7 @@ public:
 
 	void setTransparent( const bool& transparent );
 
-	ImageFilenameString& getFilename();
+	ImageFilenameString getFilename();
 
 	void setFilename( const ImageFilenameString& filename );
 
@@ -113,6 +90,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/28 04:51:56  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

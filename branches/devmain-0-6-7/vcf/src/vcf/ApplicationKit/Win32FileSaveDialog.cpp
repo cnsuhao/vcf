@@ -52,6 +52,9 @@ bool Win32FileSaveDialog::execute()
 	if ( NULL != owner_ ){
 		ControlPeer* impl = owner_->getPeer();
 		ownerWnd = (HWND)impl->getHandleID();
+	}	
+	else {
+		ownerWnd = ::GetActiveWindow();
 	}
 
 	ofn.hwndOwner = ownerWnd;
@@ -233,6 +236,9 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/28 04:51:56  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -230,6 +230,11 @@ void TextControl::handleEvent( Event* event )
 		on the Control::KEYBOARD_PRESSED events
 		*/
 		case Control::KEYBOARD_DOWN : case Control::KEYBOARD_PRESSED : {
+			//do not process any events during design mode
+			if ( isDesigning() ) {
+				return;
+			}
+
 			/**
 			HACK ALERT!
 			this is the braindead way - needs to be reworked in the future
@@ -503,12 +508,7 @@ void TextControl::handleEvent( Event* event )
 			Control::handleEvent( event );
 		}
 		break;
-/*
-		case Control::KEYBOARD_PRESSED : {
-			Control::handleEvent( event );
-		}
-		break;
-*/
+
 		default : {
 			Control::handleEvent( event );
 		}
@@ -527,6 +527,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/02/28 04:51:56  ddiego
+*fixed issue in handling componenent state and events when in design mode
+*
 *Revision 1.3.2.6  2005/02/24 05:38:07  marcelloptr
 *bugfix [1150771] - When selecting all the text in the editor, setText is called
 *
