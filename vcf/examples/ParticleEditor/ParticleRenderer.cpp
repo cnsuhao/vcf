@@ -220,8 +220,8 @@ void ParticleRenderer::renderScreenAlignedParticleSystemWithoutVPs(ParticleSyste
 
 	glGetFloatv(GL_MODELVIEW_MATRIX,mv.getData());
 
-	vrtoad::Vector3 right(mv.at(0,0),mv.at(1,0),mv.at(2,0));
-	vrtoad::Vector3 up(mv.at(0,1),mv.at(1,1),mv.at(2,1));
+	vrtoad::Vector3 right(mv.at(0,0),mv.at(0,1),mv.at(0,2));
+	vrtoad::Vector3 up(mv.at(1,0),mv.at(1,1),mv.at(1,2));
 
 	if(s->getType()==ParticleResource::TYPE_POINTS){
 		glBegin(GL_POINTS);
@@ -487,6 +487,9 @@ GLuint loadVertexProgramFromString(string str, GLuint id)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/11/04 14:26:59  pallindo
+*Fixed screen aligned particles when not using GLEW
+*
 *Revision 1.1.2.2  2004/11/01 17:19:00  marcelloptr
 *just added few lines at the end of file
 *
