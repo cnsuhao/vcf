@@ -153,6 +153,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Directories"="..\..\examples\Directories\Directories_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "DocViewAdvanced"="..\..\examples\DocViewAdvanced\DocViewAdvanced_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -241,6 +253,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Dictionaries
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Directories
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name DocViewAdvanced
