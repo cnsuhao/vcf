@@ -45,6 +45,10 @@ public:
 	virtual bool isUnicodeEnabled() {
 		return false;
 	}
+	
+	virtual DateTime convertUTCTimeToLocalTime( const DateTime& date );	
+
+	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
 
 protected:
   //WEIRDNESS! These member variables need to be
@@ -59,6 +63,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/08/02 00:48:23  ddiego
+*fixed build errors in linux for FoundationKit
+*
 *Revision 1.1.2.5  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -52,7 +52,7 @@ public:
 	* updates the informations about the file from the file system
 	*@param statMask the mask indicating the infos we want to update
 	*/
-	virtual void updateStat( File::StatMask = File::smMaskDateAll ) = 0;
+	virtual void updateStat( File::StatMask statMask = File::smMaskDateAll ) = 0;
 
 	/*
 	* set the fileAttributes of the file
@@ -135,6 +135,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/08/02 00:48:23  ddiego
+*fixed build errors in linux for FoundationKit
+*
 *Revision 1.1.2.7  2004/07/29 02:39:14  ddiego
 *fixed a bug with File::getINputStream and File::getOutputStream.
 *

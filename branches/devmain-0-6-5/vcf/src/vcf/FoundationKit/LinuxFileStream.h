@@ -23,6 +23,8 @@ class FOUNDATIONKIT_API LinuxFileStream : public FileStreamPeer
 public:
 	LinuxFileStream( const String& filename, const FileStreamAccessType& accessType );
 
+	LinuxFileStream( File* file );
+	
 	virtual ~LinuxFileStream();
 
 	virtual void seek( const unsigned long& offset, const SeekType& offsetFrom );
@@ -35,9 +37,9 @@ public:
 
 	virtual char* getBuffer();
 private:
-	FILE* fileHandle_;
+	int fileHandle_;
 	VCF::String filename_;
-	String translateAccessType( const FileStreamAccessType& accessType );
+	VCF::File* file_;
 	int translateSeekTypeToMoveType( const SeekType& offsetFrom );
 };
 
@@ -48,6 +50,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/08/02 00:48:23  ddiego
+*fixed build errors in linux for FoundationKit
+*
 *Revision 1.1.2.4  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
