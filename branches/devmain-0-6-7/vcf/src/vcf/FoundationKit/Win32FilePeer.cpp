@@ -48,13 +48,14 @@ void Win32FilePeer::setFile( File* file )
 
 void Win32FilePeer::create(  ulong32 openFlags  )
 {
-	String filename = getName();
-
+	FilePath fp = getName();
+	String filename = fp.transformToOSSpecific();
+	
 	if ( false == filename.empty() ){
 		if ( NULL != fileHandle_ ){
 			::CloseHandle( fileHandle_ );
 		}
-		if ( filename[filename.size()-1] == '\\' ) {
+		if ( FilePath::isDirectoryName( filename ) ) {
 			fileHandle_ = NULL;
 			std::vector<String> dirPaths;
 			String tmp = filename;
@@ -81,10 +82,10 @@ void Win32FilePeer::create(  ulong32 openFlags  )
 
 				BOOL res = FALSE;
 				if ( System::isUnicodeEnabled() ) {
-					::CreateDirectoryW( dirPath.c_str(), NULL );
+					res = ::CreateDirectoryW( dirPath.c_str(), NULL );
 				}
 				else {
-					::CreateDirectoryA( dirPath.ansi_c_str(), NULL );
+					res = ::CreateDirectoryA( dirPath.ansi_c_str(), NULL );
 				}
 
 				if ( !res ) {
@@ -963,6 +964,10 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/10 22:32:53  ddiego
+*fixed bug in the Win32 file peer class that was not properly
+*creating directories.
+*
 *Revision 1.3  2004/12/01 04:31:42  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
