@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/04/21 21:06:18  ddiego
+more docs
+
 Revision 1.1.2.3  2003/04/17 04:29:45  ddiego
 updated scintilla, added gtk support for the application kit, with stubs
 for the basic peers.
@@ -159,23 +162,23 @@ public:
 								<entry>application</entry>
 								<entry>x-vpl-plugin;type="doc-editor"</entry>
 								<entry>A plugin capable of editing documents.</entry>
-								<entry>VCFBuilder::EditableDocument</entry>
+								<entry><link linkend="EditableDocument">VCFBuilder::EditableDocument</link></entry>
 							</row>
 							
 							<row>
 								<entry>application</entry>
-								<entry>x-vpl-plugin;type="codegen"</entry>
+								<entry>x-vpl-plugin;type="code-gen"</entry>
 								<entry>A plugin capable of generating source
 								code for a specific language.</entry>
-								<entry>VCFBuilder::CodeGenerator</entry>
+								<entry><link linkend="CodeGenerator">VCFBuilder::CodeGenerator</link></entry>
 							</row>
 							
 							<row>
 								<entry>application</entry>
-								<entry>x-vpl-plugin;type="codeparser"</entry>
+								<entry>x-vpl-plugin;type="code-parser"</entry>
 								<entry>A plugin capable of parsing code for a 
 								specific language.</entry>
-								<entry>VCFBuilder::CodeParser</entry>
+								<entry><link linkend="CodeParser">VCFBuilder::CodeParser</link></entry>
 							</row>
 							
 							<row>
@@ -183,14 +186,14 @@ public:
 								<entry>x-vpl-plugin;type="version-control"</entry>
 								<entry>A plugin capable of connecting to a version control system
 								and keeping track of files.</entry>
-								<entry>VCFBuilder::VersionControl</entry>
+								<entry><link linkend="VersionControl">VCFBuilder::VersionControl</link></entry>
 							</row>
 							
 							<row>
 								<entry>application</entry>
 								<entry>x-vpl-plugin;type="config-manager"</entry>
 								<entry>A plugin capable of configuring a toolchain.</entry>
-								<entry>VCFBuilder::ConfigurationManager</entry>
+								<entry><link linkend="ConfigurationManager">VCFBuilder::ConfigurationManager</link></entry>
 							</row>
 							
 							<row>
@@ -198,7 +201,16 @@ public:
 								<entry>x-vpl-plugin;type="project-editor"</entry>
 								<entry>A plugin capable of editing and working with the
 								project model used in the VCF Builder.</entry>
-								<entry>VCFBuilder::ProjectModelEditor</entry>
+								<entry><link linkend="ProjectModelEditor">VCFBuilder::ProjectModelEditor</link></entry>
+							</row>
+							
+							<row>
+								<entry>application</entry>
+								<entry>x-vpl-plugin;type="project-debugger"</entry>
+								<entry>A plugin capable of debugging a project. This will
+								work in concert with the project's ConfigurationManager
+								plug-in.</entry>
+								<entry><link linkend="Debugger">VCFBuilder::Debugger</link></entry>
 							</row>
 						</tbody>
 					</tgroup>	
@@ -215,7 +227,7 @@ public:
 		</para>
 		<para>
 		The Class DOM classes map out all the various parts needed to describe a class,
-		and provide for traversal classes to travers the class graph that gets built. 
+		and provide for traversal classes to traverse the class graph that gets built. 
 		CodeGenerator's exist that can take a fragment of the graph and render into the specific
 		language of the code generator. 
 		</para>
@@ -269,12 +281,123 @@ public:
 		</section>
 		
 		<section><title>Forms</title>
+		A Form is a class that represents a top level Window or Dialog control. A Form represents a 
+		specific instance of a Window or Dialog based class in the Project. For example, if you 
+		had a class called Form1 in you project that derived from VCF::Window, then you'll 
+		end up with a "Form1" class object in the project, and a "Form1" Form object in your 
+		project.
 		</section>
 
 		<section><title>Documents</title>
+		<para>
+		A Document represents a file that may or may not be part of the current project that is 
+		open for editing. A Document is represented by the EditableDocument plug-in class. Each
+		EditableDocument sublclass is associated with a particular mime-type, which is used 
+		you open a file to determine the correct EditableDocument instance to create. 
+		</para>
+		<para>
+		</para>
 		</section>
 	</section>
 	<section><title>Interfaces</title>
+		<section id="EditableDocument"><title>VCFBuilder::EditableDocument</title>
+		<para>
+		<programlisting>
+		<![CDATA[
+class EditableDocument : public VCF::Interface { 
+public:	
+	
+	//required methods
+	virtual void openFromFile( ProjectFile* file ) = 0;
+	
+	virtual VCF::String getName() = 0;
+
+	virtual VCF::Control* getRootControl() = 0;
+
+	virtual bool supportsTextRepresentation() = 0;
+
+	virtual VCF::String getTextRepresentation() = 0;
+
+
+	//optional methods
+	virtual void setCurrentCharPosition( const long& pos ) {};
+
+	virtual void setCurrentLineNumber( const long& lineNumber ) {};
+
+
+	//methods that already implemented
+	bool isModified();
+	
+	VCF::FilePath getFileName();
+
+	void setFileName( const VCF::String& fileName );
+	
+	ProjectFile* getFileObject();
+	
+	ProjectObject* getOwningObject();
+
+	void setOwningObject( ProjectObject* owningObject );
+			]]>		
+		</programlisting>
+		</para>
+		<para>
+		The EditableDocument provides a basic interface for editing files within the 
+		VCF Builder. Creating an instance of this class creates the UI for it as well. The
+		UI is accessed via the getRootControl() method. An EditableDocument may indicate
+		that it is text based (see the supportsTextRepresentation() method ). If it does
+		(supportsTextRepresentation() returns true), then you can access the text model like 
+		so:
+		<programlisting>
+		<![CDATA[
+EditableDocument* doc = //...
+if ( doc>supportsTextRepresentation() ) {
+  TextModel* textModel = dynamic_cast<TextModel*>( doc->getRootControl()->getModel() );
+  //work with text
+}
+		]]>
+		</programlisting>
+		</para>
+			<section><title>Required methods</title>
+			<para id="openFromFile">
+			<programlisting>
+		<![CDATA[
+virtual void openFromFile( ProjectFile* file ) = 0;
+			]]>		
+			</programlisting>
+			opens a 
+			</para>
+			</section>
+		</section>
+		
+		<section id="CodeGenerator"><title>VCFBuilder::CodeGenerator</title>
+		<para>
+		</para>
+		</section>
+		
+		<section id="CodeParser"><title>VCFBuilder::CodeParser</title>
+		<para>
+		</para>
+		</section>
+		
+		<section id="VersionControl"><title>VCFBuilder::VersionControl</title>
+		<para>
+		</para>
+		</section>
+		
+		<section id="ConfigurationManager"><title>VCFBuilder::ConfigurationManager</title>
+		<para>
+		</para>
+		</section>
+		
+		<section id="ProjectModelEditor"><title>VCFBuilder::ProjectModelEditor</title>
+		<para>
+		</para>
+		</section>
+		
+		<section id="Debugger"><title>VCFBuilder::Debugger</title>
+		<para>
+		</para>
+		</section>
 	</section>
 </chapter>
 
