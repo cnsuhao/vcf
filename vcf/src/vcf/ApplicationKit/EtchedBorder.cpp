@@ -21,6 +21,14 @@ EtchedBorder::EtchedBorder():
 
 }
 
+EtchedBorder::EtchedBorder( long sidesToPaint, long style ):
+	sidesToPaint_(sidesToPaint),
+	style_(style)
+{
+
+}
+
+
 void EtchedBorder::paint( Control* control, GraphicsContext* context )
 {
 	if ( NULL == control ) {
@@ -48,6 +56,9 @@ Rect EtchedBorder::getClientRect( Rect* initialBounds, Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting

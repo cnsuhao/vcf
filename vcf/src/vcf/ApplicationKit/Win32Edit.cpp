@@ -390,10 +390,16 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
+		case WM_ERASEBKGND :{
+			result = 1;
+		}
+		break;
+
 		case WM_PAINT:{
 			result = 0;
 		}
 		break;
+		
 
 		case WM_NCCALCSIZE: {
 			RECT* rectToModify = NULL;
@@ -436,6 +442,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case WM_NCPAINT: {
+			
 
 			HDC hdc = GetWindowDC(hwnd_);
 
@@ -446,11 +453,26 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 			//FillRect( hdc, &rect, (HBRUSH)(COLOR_BTNSHADOW+1) );
 
+			bool oldVal = peerControl_->isDoubleBuffered();
+			//peerControl_->setDoubleBuffered( false );
 			HDC memDC = doControlPaint( hdc, rect );
 			updatePaintDC( hdc, rect );
+			//peerControl_->setDoubleBuffered( oldVal );
+
+/*
+			Border* border = peerControl_->getBorder();
+			if ( border ) {
+				GraphicsContext gc((ulong32)hdc);
+				Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
+
+				//border->paint( &clientBounds, &gc );
+			}
+			*/
+
 
 			RestoreDC( hdc, dcs );
 			ReleaseDC(hwnd_, hdc);
+			//defaultWndProcedure(  message, wParam, lParam );
 			return 1;
 		}
 		break;
@@ -813,6 +835,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.8  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting

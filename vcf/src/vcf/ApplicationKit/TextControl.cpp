@@ -63,6 +63,8 @@ void TextControl::init()
 	keepTabbingCharacters_ = false;
 	keepReturnCharacter_ = false;
 	setCursorID( Cursor::SCT_TEXT );
+
+	setBorder( new Basic3DBorder(true) );
 }
 
 void TextControl::paint( GraphicsContext * context )
@@ -334,6 +336,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/15 04:27:14  ddiego
+*more updates for edit nc client painting
+*
 *Revision 1.1.2.3  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting
