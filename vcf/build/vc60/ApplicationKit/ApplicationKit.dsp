@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "ReleaseS\obj"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "..\..\..\include\COM" /I "..\..\..\include\Core" /I "..\..\..\include\Graphics" /I "..\..\..\include\Events" /I "..\..\..\include\Exceptions" /I "..\..\..\include\io" /I "..\..\..\include\Utils" /I "..\..\..\include\Implementer" /I "..\..\..\include\ImplementerKit" /I "..\..\..\include\DragDrop" /I "..\..\..\xml\include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"ApplicationKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "..\..\..\include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"ApplicationKit.h" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "DebugS\obj"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\..\..\include\COM" /I "..\..\..\include\Core" /I "..\..\..\include\Graphics" /I "..\..\..\include\Events" /I "..\..\..\include\Exceptions" /I "..\..\..\include\io" /I "..\..\..\include\Utils" /I "..\..\..\include\Implementer" /I "..\..\..\include\ImplementerKit" /I "..\..\..\include\DragDrop" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"ApplicationKit.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\..\..\include" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"ApplicationKit.h" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -130,10 +130,6 @@ SOURCE=..\..\..\src\core\AbstractTreeModel.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\AbstractView.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\ImplementerKit\AbstractWin32Component.cpp
 # End Source File
 # Begin Source File
@@ -167,15 +163,15 @@ SOURCE=..\..\..\src\core\CheckBoxControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\Clipboard.cpp
+SOURCE=..\..\..\src\core\Clipboard.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\ClipboardDataObject.cpp
+SOURCE=..\..\..\src\core\ClipboardDataObject.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\ClipboardEvent.cpp
+SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -283,7 +279,7 @@ SOURCE=..\..\..\src\core\CustomControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\DataType.cpp
+SOURCE=..\..\..\src\core\DataType.cpp
 # End Source File
 # Begin Source File
 
@@ -347,7 +343,7 @@ SOURCE=..\..\..\src\core\Dialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\DragEvent.cpp
+SOURCE=..\..\..\src\Events\DragEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -355,7 +351,7 @@ SOURCE=..\..\..\src\DragDrop\DragSource.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\DropEvent.cpp
+SOURCE=..\..\..\src\Events\DropEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1746,5 +1742,21 @@ SOURCE=..\..\resources\win32\ApplicationKit.rc
 SOURCE=..\..\resources\win32\vcf.ico
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=..\..\resources\win32\inform.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\question.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\stop.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\warning.bmp
+# End Source File
 # End Target
 # End Project

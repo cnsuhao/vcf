@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPLICATIONKITDLL_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "..\..\..\include\COM" /I "..\..\..\include\Core" /I "..\..\..\include\Graphics" /I "..\..\..\include\Events" /I "..\..\..\include\Exceptions" /I "..\..\..\include\io" /I "..\..\..\include\Utils" /I "..\..\..\include\Implementer" /I "..\..\..\include\ImplementerKit" /I "..\..\..\include\DragDrop" /I "..\..\..\xml\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /Yu"ApplicationKit.h" /FD /Zm120 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /Zi /Od /I "..\..\..\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /Yu"ApplicationKit.h" /FD /Zm120 /Zm120 /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -53,8 +53,8 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 FoundationKit.lib GraphicsKit.lib opengl32.lib glu32.lib glaux.lib comctl32.lib rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"..\..\..\bin/ApplicationKit.dll" /libpath:"..\..\..\lib" /libpath:"..\..\..\xml\lib"
-# SUBTRACT LINK32 /incremental:yes /debug
+# ADD LINK32 FoundationKit.lib GraphicsKit.lib opengl32.lib glu32.lib glaux.lib comctl32.lib rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"..\..\..\bin/ApplicationKit.dll" /libpath:"..\..\..\lib" /libpath:"..\..\..\xml\lib"
+# SUBTRACT LINK32 /incremental:yes
 
 !ELSEIF  "$(CFG)" == "ApplicationKitDLL - Win32 Debug"
 
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPLICATIONKITDLL_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\..\..\include\COM" /I "..\..\..\include\Core" /I "..\..\..\include\Graphics" /I "..\..\..\include\Events" /I "..\..\..\include\Exceptions" /I "..\..\..\include\io" /I "..\..\..\include\Utils" /I "..\..\..\include\Implementer" /I "..\..\..\include\ImplementerKit" /I "..\..\..\include\DragDrop" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /Yu"ApplicationKit.h" /FD /GZ /Zm120 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\..\..\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /Yu"ApplicationKit.h" /FD /GZ /Zm120 /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -109,6 +109,10 @@ SOURCE=..\..\..\include\core\AbstractListModel.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\AbstractPropertyEditor.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\AbstractScrollable.h
 # End Source File
 # Begin Source File
@@ -122,10 +126,6 @@ SOURCE=..\..\..\include\core\AbstractTextModel.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\AbstractTreeModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\AbstractView.h
 # End Source File
 # Begin Source File
 
@@ -149,7 +149,11 @@ SOURCE=..\..\..\include\exceptions\ApplicationException.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ApplicationKit.h
+SOURCE=..\..\..\include\ApplicationKit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\ApplicationKitPrivate.h
 # End Source File
 # Begin Source File
 
@@ -361,6 +365,10 @@ SOURCE=..\..\..\include\implementer\ControlPeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\ControlsKit.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\Cursor.h
 # End Source File
 # Begin Source File
@@ -458,42 +466,6 @@ SOURCE=..\..\..\include\core\Dialog.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\DialogPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DragDropPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DragEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DragScrollEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DragSource.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DragSourceListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DropEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DropTarget.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DropTargetListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DropTargetPeer.h
 # End Source File
 # Begin Source File
 
@@ -682,6 +654,10 @@ SOURCE=..\..\..\include\events\ModelListener.h
 # Begin Source File
 
 SOURCE=..\..\..\include\events\ModelValidationListener.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\ModelViewKit.h
 # End Source File
 # Begin Source File
 
@@ -898,10 +874,6 @@ SOURCE=..\..\..\include\core\ToolbarButton.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ToolbarDock.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\ToolbarPeer.h
 # End Source File
 # Begin Source File
 
@@ -1145,6 +1117,10 @@ SOURCE=..\..\..\src\core\AbstractListModel.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\AbstractPropertyEditor.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\AbstractScrollable.cpp
 # End Source File
 # Begin Source File
@@ -1158,10 +1134,6 @@ SOURCE=..\..\..\src\core\AbstractTextModel.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\AbstractTreeModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\AbstractView.cpp
 # End Source File
 # Begin Source File
 
@@ -1198,15 +1170,15 @@ SOURCE=..\..\..\src\core\CheckBoxControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\Clipboard.cpp
+SOURCE=..\..\..\src\core\Clipboard.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\ClipboardDataObject.cpp
+SOURCE=..\..\..\src\core\ClipboardDataObject.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\ClipboardEvent.cpp
+SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1314,7 +1286,7 @@ SOURCE=..\..\..\src\core\CustomControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\DataType.cpp
+SOURCE=..\..\..\src\core\DataType.cpp
 # End Source File
 # Begin Source File
 
@@ -1378,7 +1350,7 @@ SOURCE=..\..\..\src\core\Dialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\DragEvent.cpp
+SOURCE=..\..\..\src\Events\DragEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1386,7 +1358,7 @@ SOURCE=..\..\..\src\DragDrop\DragSource.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\DragDrop\DropEvent.cpp
+SOURCE=..\..\..\src\Events\DropEvent.cpp
 # End Source File
 # Begin Source File
 
