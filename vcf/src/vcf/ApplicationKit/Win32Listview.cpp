@@ -391,8 +391,9 @@ void Win32Listview::registerHeaderWndProc()
 
 void Win32Listview::createParams()
 {
-	exStyleMask_ = WS_EX_CLIENTEDGE;
+	exStyleMask_ = 0;
 	styleMask_ = BORDERED_VIEW | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_AUTOARRANGE | LVS_ICON | LVS_SHOWSELALWAYS;
+	styleMask_ &= ~WS_BORDER;
 }
 
 LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -405,6 +406,7 @@ LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM w
 			result = 0;
 		}
 		break;
+
 
 		case WM_PAINT:{
 			//result = 
@@ -552,6 +554,17 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 		}
 		break;
 
+		case WM_NCCALCSIZE: {
+			return handleNCCalcSize( wParam, lParam );
+		}
+		break;
+
+		case WM_NCPAINT: {
+			return handleNCPaint();
+		}
+		break;
+		
+
 		case WM_DRAWITEM : {
 			result = TRUE;
 			//CallWindowProc( oldListviewWndProc_, hwnd_, message, wParam, lParam );
@@ -639,9 +652,12 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 			RECT r;
 			GetClientRect( hwnd_, &r );
 
+			
+			
+
 			HWND header = GetDlgItem( hwnd_, 0 );
-			if ( NULL != header ) {
-				RECT headerRect;
+			RECT headerRect = {0};
+			if ( NULL != header ) {				
 				GetWindowRect( header, &headerRect );
 				POINT pt;
 				pt.x = headerRect.left;
@@ -666,13 +682,48 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 			}
 
 
-			//FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) ); 
+			if ( NULL == memDC_ ) {
+				//create here
+				HDC dc = ::GetDC(0);
+				memDC_ = ::CreateCompatibleDC( dc );
+				::ReleaseDC( 0,	dc );
+			}
+			memBMP_ = ::CreateCompatibleBitmap( dc,
+					r.right - r.left,
+					r.bottom - r.top );
+			memDCState_ = ::SaveDC( memDC_ );
 
-			HDC memDC = doControlPaint( dc, r );
+			originalMemBMP_ = (HBITMAP)::SelectObject( memDC_, memBMP_ );
 
-			defaultWndProcedure( WM_PAINT, (WPARAM)memDC, 0 );
+			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
 
-			updatePaintDC( dc, r );
+			Color* color = listviewControl_->getColor();
+			
+			COLORREF backColor = RGB(color->getRed() * 255.0,
+									color->getGreen() * 255.0,
+									color->getBlue() * 255.0 );
+			HBRUSH bkBrush = CreateSolidBrush( backColor );
+			FillRect( memDC_, &r, bkBrush );
+			DeleteObject( bkBrush );
+
+				
+
+			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
+
+			
+			defaultWndProcedure( WM_PAINT, (WPARAM)memDC_, 0 );
+
+			
+
+			::BitBlt( dc, r.left, r.top,
+					  r.right - r.left,
+					  r.bottom - r.top,
+					  memDC_, r.left, r.top, SRCCOPY );
+			::RestoreDC ( memDC_, memDCState_ );
+			
+			::DeleteObject( memBMP_ );
+
+			
 
 			EndPaint( hwnd_, &ps );
 			result = 1;
@@ -2199,6 +2250,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.5  2004/07/14 18:18:14  ddiego
 *fixed problem with edit control. Turns out we were using the wrong
 *subclassed wndproc. This is now fixed.

@@ -402,78 +402,12 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		
 
 		case WM_NCCALCSIZE: {
-			RECT* rectToModify = NULL;
-
-			if ( !wParam ) {
-				RECT* rect = (RECT*)lParam;
-				GetWindowRect(hwnd_, rect);
-				OffsetRect(rect, -rect->left, -rect->top);
-				rectToModify = rect;
-			}
-			else {
-				NCCALCSIZE_PARAMS *windowParams = (NCCALCSIZE_PARAMS*)lParam;
-				windowParams->rgrc[0].left = windowParams->lppos->x; 
-				windowParams->rgrc[0].top = windowParams->lppos->y;
-				windowParams->rgrc[0].right = windowParams->lppos->x + windowParams->lppos->cx;
-				windowParams->rgrc[0].bottom = windowParams->lppos->y + windowParams->lppos->cy;
-
-				rectToModify = &windowParams->rgrc[0];
-			}
-
-			if ( rectToModify && (peerControl_->getComponentState() != Component::csDestroying) ) {
-				Border* border = peerControl_->getBorder();
-				Rect clientBounds( rectToModify->left, rectToModify->top, rectToModify->right, rectToModify->bottom );
-
-				if ( NULL != border ) {
-					clientBounds = border->getClientRect( &clientBounds, peerControl_ );
-				}
-
-				//Rect clientBoundsWithBorder = peerControl_->getClientBounds( true );
-				//Rect clientBoundsWOBorder = peerControl_->getClientBounds( false );
-
-				rectToModify->left = clientBounds.left_;// - clientBoundsWOBorder.left_);
-				rectToModify->top = clientBounds.top_;// - clientBoundsWOBorder.top_);
-				rectToModify->right = clientBounds.right_;// - clientBoundsWithBorder.right_);
-				rectToModify->bottom = clientBounds.bottom_;// - clientBoundsWithBorder.bottom_);
-			}
-			
-			return 1;
+			return handleNCCalcSize( wParam, lParam );
 		}
 		break;
 
 		case WM_NCPAINT: {
-			
-
-			HDC hdc = GetWindowDC(hwnd_);
-
-			int dcs = SaveDC( hdc );
-			RECT rect;
-			GetWindowRect(hwnd_, &rect);
-			OffsetRect(&rect, -rect.left, -rect.top);
-
-			//FillRect( hdc, &rect, (HBRUSH)(COLOR_BTNSHADOW+1) );
-
-			bool oldVal = peerControl_->isDoubleBuffered();
-			//peerControl_->setDoubleBuffered( false );
-			HDC memDC = doControlPaint( hdc, rect );
-			updatePaintDC( hdc, rect );
-			//peerControl_->setDoubleBuffered( oldVal );
-
-/*
-			Border* border = peerControl_->getBorder();
-			if ( border ) {
-				GraphicsContext gc((ulong32)hdc);
-				Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
-
-				//border->paint( &clientBounds, &gc );
-			}
-			*/
-
-
-			RestoreDC( hdc, dcs );
-			ReleaseDC(hwnd_, hdc);
-			//defaultWndProcedure(  message, wParam, lParam );
-			return 1;
+			return handleNCPaint();
 		}
 		break;
 
@@ -835,6 +769,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.9  2004/07/15 04:27:14  ddiego
 *more updates for edit nc client painting
 *

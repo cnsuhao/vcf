@@ -250,6 +250,9 @@ protected:
 
 class ComboBoxEdit : public TextControl {
 public:
+	ComboBoxEdit() {
+		setBorder( NULL );
+	}
 
 	virtual bool keepsArrowKeys() {
 		return true;
@@ -938,6 +941,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.7  2004/07/15 04:27:14  ddiego
 *more updates for edit nc client painting
 *

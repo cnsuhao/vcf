@@ -137,11 +137,11 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 
 			FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) ); 
 
-			HDC memDC = doControlPaint( dc, r );
+			HDC memDC = doControlPaint( dc, r, NULL );
 
 			defaultWndProcedure( WM_PAINT, (WPARAM)memDC, 0 );
 
-			updatePaintDC( dc, r );
+			updatePaintDC( dc, r, NULL );
 
 			EndPaint( hwnd_, &ps );
 			result = 1;
@@ -1365,6 +1365,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.8  2004/07/14 18:18:14  ddiego
 *fixed problem with edit control. Turns out we were using the wrong
 *subclassed wndproc. This is now fixed.

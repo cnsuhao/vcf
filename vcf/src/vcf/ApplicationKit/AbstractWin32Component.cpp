@@ -328,7 +328,7 @@ void AbstractWin32Component::setFont( Font* font )
 	}
 }
 
-HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
+HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect  )
 {
 	HDC result = NULL;
 
@@ -348,45 +348,41 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
 			paintRect.right, paintRect.bottom ) );
 		
 		if ( peerControl_->isUsingRenderBuffer() ) {
-			ctx->getPeer()->setContextID( (long)paintDC );
 			
+			ctx->getPeer()->setContextID( (long)paintDC );
+
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
 			ctx->getDrawingArea()->getImageContext()->setViewableBounds(ctx->getViewableBounds());
-			
+
 			if ( ctx->isRenderAreaDirty() ) {
+
+				if ( NULL != exclusionRect ) {
+					ExcludeClipRect( paintDC, exclusionRect->left, exclusionRect->top,
+								exclusionRect->right, exclusionRect->bottom );
+				}
+
 				peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
 			}
 			ctx->flushDrawingArea();
-			
+
 			ctx->getDrawingArea()->getImageContext()->setViewableBounds( Rect(0,0,0,0) );
-			
+
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
+			
 
 			result = paintDC;
 		}
 		else if ( true == peerControl_->isDoubleBuffered() ){
 			
-			
-			Rect clientBounds = peerControl_->getBounds();
-			
-			/*
-			
-			  HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
-			  (int)clientBounds.getWidth(), //ps.rcPaint.right - ps.rcPaint.left,
-			  (int)clientBounds.getHeight() );//ps.rcPaint.bottom - ps.rcPaint.top );
-			*/
 			memBMP_ = ::CreateCompatibleBitmap( paintDC,
-				paintRect.right - paintRect.left,
-				paintRect.bottom - paintRect.top );
-			
+					paintRect.right - paintRect.left,
+					paintRect.bottom - paintRect.top );
+
 			memDCState_ = ::SaveDC( memDC_ );
-
 			originalMemBMP_ = (HBITMAP)::SelectObject( memDC_, memBMP_ );
-			
-			
-
+		
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, NULL );
-			
+
 			//this is really dippy to have to do this here ?
 			//by setting the owning control to NULL we
 			//prevent the origin, and settings like it, from being
@@ -395,22 +391,21 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
 			//this is probably a bug that needs to fixed more completely
 			//internally - however this does get the job done
 			ctx->getPeer()->setContextID( (long)memDC_ );
-			
-			
-			
-			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-			
+
+
+
+			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
+
 			peerControl_->paint( ctx );
-			
+
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
-			
-			
+
+
 			//reset back to original origin
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, NULL );
-			
-			
-			
+
 			result = memDC_;
+		
 		}
 		else {
 			
@@ -423,11 +418,16 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
 			//this is probably a bug that needs to fixed more completely
 			//internally - however this does get the job done
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-			
-			peerControl_->paint( ctx );
-			
-			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 
+			if ( NULL != exclusionRect ) {
+				ExcludeClipRect( paintDC, exclusionRect->left, exclusionRect->top,
+								exclusionRect->right, exclusionRect->bottom );
+			}
+
+			peerControl_->paint( ctx );
+
+			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
+			
 			result = paintDC;
 		}
 		
@@ -438,7 +438,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
 	return result;
 }
 
-void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect )
+void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* exclusionRect )
 {	
 
 	if ( peerControl_->getComponentState() != Component::csDestroying ) {
@@ -447,11 +447,16 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect )
 			VCF_ASSERT( originalMemBMP_ != 0 );
 			VCF_ASSERT( memBMP_ != 0 );
 
+			if ( NULL != exclusionRect ) {
+				ExcludeClipRect( paintDC, exclusionRect->left, exclusionRect->top,
+									exclusionRect->right, exclusionRect->bottom );
+			}
+
 			int err = /*::BitBlt( ps.hdc, 0, 0,
 					  (int)clientBounds.getWidth(),
 					  (int)clientBounds.getHeight(),
-					  memDC_, 0, 0, SRCCOPY );*/
-					  
+					  memDC_, 0, 0, SRCCOPY );*/			
+
 					  ::BitBlt( paintDC, paintRect.left, paintRect.top,
 					  paintRect.right - paintRect.left,
 					  paintRect.bottom - paintRect.top,
@@ -568,8 +573,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					HDC contextID = 0;
 					contextID = ::BeginPaint( hwnd_, &ps);
 
-					doControlPaint( contextID, ps.rcPaint );
-					updatePaintDC( contextID, ps.rcPaint );
+					doControlPaint( contextID, ps.rcPaint, NULL );
+					updatePaintDC( contextID, ps.rcPaint, NULL );
 
 					::EndPaint( hwnd_, &ps);
 				}
@@ -1149,10 +1154,85 @@ void AbstractWin32Component::setBorder( Border* border )
 	SetWindowPos(hwnd_, NULL,0,0,0,0, SWP_FRAMECHANGED|SWP_NOMOVE|SWP_NOSIZE);
 }
 
+LRESULT AbstractWin32Component::handleNCPaint()
+{
+	HDC hdc = GetWindowDC(hwnd_);
+
+	int dcs = SaveDC( hdc );
+	RECT rect;
+	GetWindowRect(hwnd_, &rect);
+	OffsetRect(&rect, -rect.left, -rect.top);
+
+	
+	Border* border = peerControl_->getBorder();
+
+	RECT clipR = rect;
+	if ( NULL != border ) {		
+		Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
+		clientBounds = border->getClientRect( &clientBounds, peerControl_ );
+		
+		clipR.left = clientBounds.left_;
+		clipR.top = clientBounds.top_;
+		clipR.right = clientBounds.right_;
+		clipR.bottom = clientBounds.bottom_;
+	}
+
+	doControlPaint( hdc, rect, &clipR );
+	updatePaintDC( hdc, rect, &clipR );
+	
+
+
+	RestoreDC( hdc, dcs );
+	ReleaseDC(hwnd_, hdc);
+
+	//InvalidateRect( hwnd_, NULL, FALSE );
+	//UpdateWindow( hwnd_ );
+	return 1;
+}
+
+LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
+{
+	RECT* rectToModify = NULL;
+
+	if ( !wParam ) {
+		RECT* rect = (RECT*)lParam;
+		GetWindowRect(hwnd_, rect);
+		OffsetRect(rect, -rect->left, -rect->top);
+		rectToModify = rect;
+	}
+	else {
+		NCCALCSIZE_PARAMS *windowParams = (NCCALCSIZE_PARAMS*)lParam;
+		windowParams->rgrc[0].left = windowParams->lppos->x; 
+		windowParams->rgrc[0].top = windowParams->lppos->y;
+		windowParams->rgrc[0].right = windowParams->lppos->x + windowParams->lppos->cx;
+		windowParams->rgrc[0].bottom = windowParams->lppos->y + windowParams->lppos->cy;
+
+		rectToModify = &windowParams->rgrc[0];
+	}
+
+	if ( rectToModify && (peerControl_->getComponentState() != Component::csDestroying) ) {
+		Border* border = peerControl_->getBorder();
+		Rect clientBounds( rectToModify->left, rectToModify->top, rectToModify->right, rectToModify->bottom );
+
+		if ( NULL != border ) {
+			clientBounds = border->getClientRect( &clientBounds, peerControl_ );
+		}
+
+		rectToModify->left = clientBounds.left_;
+		rectToModify->top = clientBounds.top_;
+		rectToModify->right = clientBounds.right_;
+		rectToModify->bottom = clientBounds.bottom_;
+	}
+
+	return 1;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.10  2004/07/15 04:27:14  ddiego
 *more updates for edit nc client painting
 *

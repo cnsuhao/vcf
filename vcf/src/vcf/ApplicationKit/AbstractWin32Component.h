@@ -96,8 +96,8 @@ public:
 		return winPosInfo_;
 	}
 
-	HDC doControlPaint( HDC paintDC, RECT paintRect );
-	void updatePaintDC( HDC paintDC, RECT paintRect );
+	HDC doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect );
+	void updatePaintDC( HDC paintDC, RECT paintRect, RECT* exclusionRect );
 protected:
 	void init();
 	HDC memDC_;
@@ -107,6 +107,9 @@ protected:
 	int memDCState_;
 	HDWP winPosInfo_;
 	AbstractWin32Component* parent_;
+
+	LRESULT handleNCPaint();
+	LRESULT handleNCCalcSize( WPARAM wParam, LPARAM lParam );
 };
 
 
@@ -116,6 +119,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting
