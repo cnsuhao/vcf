@@ -34,7 +34,7 @@
 #include "vcf/ApplicationKit/OSXControlContextPeer.h"
 #include "vcf/ApplicationKit/OSXCursorPeer.h"
 #include "vcf/ApplicationKit/OSXWindow.h"
-
+#include "vcf/ApplicationKit/OSXControl.h"
 
 
 #define kSleepTime	32767

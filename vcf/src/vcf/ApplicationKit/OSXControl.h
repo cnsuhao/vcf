@@ -36,7 +36,7 @@
 namespace VCF {
 
 
-class OSXControl  public Object, public ControlPeer {
+class OSXControl : public Object, public ControlPeer {
 public:
 
 	OSXControl( Control* control );
@@ -104,7 +104,15 @@ public:
 	}
 protected:
 	TView* hiView_;
+	Control* control_;
+	EventHandlerRef handlerRef_;
+	
+	OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
+	
 	static TView* currentCreatedView;
+	
+	static EventHandlerUPP getEventHandlerUPP();
+	static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData); 
 };
 
 
