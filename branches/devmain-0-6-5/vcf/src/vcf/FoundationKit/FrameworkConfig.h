@@ -49,6 +49,8 @@ VCF_VC7
 VCF_VC71
 
 VCF_GCC - compiling with GCC's C++ compiler
+
+VCF_DMC - compiling with Digital Mar's C++ compiler
 */
 
 
@@ -72,7 +74,9 @@ VCF_GCC - compiling with GCC's C++ compiler
 #	define VCF_VC5
 #endif
 
-
+#ifdef __DMC__
+	#define VCF_DMC
+#endif
 
 
 
@@ -464,6 +468,9 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/01 04:02:17  ddiego
+*minor stuff
+*
 *Revision 1.1.2.6  2004/06/30 21:30:03  ddiego
 *minor mods to copy/paste code in DocumentManager
 *

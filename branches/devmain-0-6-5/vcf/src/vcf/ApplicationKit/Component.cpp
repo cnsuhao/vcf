@@ -129,7 +129,6 @@ void Component::handleEvent( Event* event )
 
 void Component::beforeDestroy( ComponentEvent* event )
 {
-	StringUtils::traceWithArgs( "Component::beforeDestroy for %p\n", this );
 	setComponentState( Component::csDestroying );
 }
 
@@ -453,6 +452,9 @@ void Component::setDesigning( const bool& designing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/01 04:02:17  ddiego
+*minor stuff
+*
 *Revision 1.1.2.4  2004/06/05 02:57:09  ddiego
 *fixed a syntax mistake that tinkham pointed out.The problem was that the findComponent() method was incorrectly declared.
 *
