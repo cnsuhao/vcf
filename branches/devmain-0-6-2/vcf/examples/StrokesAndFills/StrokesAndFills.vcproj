@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib"
 				OutputFile="vc70/Release/StrokesAndFills_vc70.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -100,7 +100,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib comctl32.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib"
 				OutputFile="vc70/Debug/StrokesAndFills_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
