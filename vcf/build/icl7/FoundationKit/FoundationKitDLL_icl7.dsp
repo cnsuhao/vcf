@@ -876,6 +876,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Property.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\RTTIMacros.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\FoundationKit\VariantData.cpp
 # End Source File
 # Begin Source File
