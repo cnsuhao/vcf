@@ -103,7 +103,14 @@ public:
 					imageRect.bottom_ = viewBounds.bottom_;
 				}
 			}
-			
+			StringUtils::traceWithArgs( "ctx->drawPartialImage( (%.02f,%.02f), %s, %p ), %s\n",
+										viewBounds.left_,
+										viewBounds.top_,
+										imageRect.toString().c_str(),
+										currentImage_,
+										viewBounds.toString().c_str() );
+
+
 			ctx->drawPartialImage( viewBounds.getTopLeft(), &imageRect, currentImage_ );			
 
 
