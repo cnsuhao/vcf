@@ -63,7 +63,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKit"=".\..\build\vc70\ApplicationKit\ApplicationKit_vc70.dsp" - Package Owner=<4>
+Project: "ApplicationKit"="..\build\vc70\ApplicationKit\ApplicationKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -78,7 +78,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKitDLL"=".\..\build\vc70\ApplicationKit\ApplicationKitDLL_vc70.dsp" - Package Owner=<4>
+Project: "ApplicationKitDLL"="..\build\vc70\ApplicationKit\ApplicationKitDLL_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -330,7 +330,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FoundationKit"=".\..\build\vc70\FoundationKit\FoundationKit_vc70.dsp" - Package Owner=<4>
+Project: "FoundationKit"="..\build\vc70\FoundationKit\FoundationKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -345,7 +345,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FoundationKitDLL"=".\..\build\vc70\FoundationKit\FoundationKitDLL_vc70.dsp" - Package Owner=<4>
+Project: "FoundationKitDLL"="..\build\vc70\FoundationKit\FoundationKitDLL_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -384,7 +384,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKit"=".\..\build\vc70\GraphicsKit\GraphicsKit_vc70.dsp" - Package Owner=<4>
+Project: "GraphicsKit"="..\build\vc70\GraphicsKit\GraphicsKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -399,7 +399,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKitDLL"=".\..\build\vc70\GraphicsKit\GraphicsKitDLL_vc70.dsp" - Package Owner=<4>
+Project: "GraphicsKitDLL"="..\build\vc70\GraphicsKit\GraphicsKitDLL_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -498,7 +498,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGG"=".\..\build\vc70\GraphicsKit\libAGG_vc70.dsp" - Package Owner=<4>
+Project: "libAGG"="..\build\vc70\GraphicsKit\libAGG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -510,7 +510,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGG"=".\..\build\vc70\GraphicsKit\libAGG_vc70.dsp" - Package Owner=<4>
+Project: "libAGG"="..\build\vc70\GraphicsKit\libAGG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -546,7 +546,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "NetworkKit"=".\..\build\vc70\NetworkKit\NetworkKit_vc70.dsp" - Package Owner=<4>
+Project: "NetworkKit"="..\build\vc70\NetworkKit\NetworkKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -561,7 +561,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "NetworkKitDLL"=".\..\build\vc70\NetworkKit\NetworkKitDLL_vc70.dsp" - Package Owner=<4>
+Project: "NetworkKitDLL"="..\build\vc70\NetworkKit\NetworkKitDLL_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -612,7 +612,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RemoteObjectKit"=".\..\build\vc70\RemoteObjectKit\RemoteObjectKit_vc70.dsp" - Package Owner=<4>
+Project: "RemoteObjectKit"="..\build\vc70\RemoteObjectKit\RemoteObjectKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -627,7 +627,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RemoteObjectKitStatic"=".\..\build\vc70\RemoteObjectKit\RemoteObjectKitStatic_vc70.dsp" - Package Owner=<4>
+Project: "RemoteObjectKitStatic"="..\build\vc70\RemoteObjectKit\RemoteObjectKitStatic_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -810,7 +810,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser"=".\..\build\vc70\Win32HTMLBrowser\Win32HTMLBrowser_vc70.dsp" - Package Owner=<4>
+Project: "Win32HTMLBrowser"="..\build\vc70\Win32HTMLBrowser\Win32HTMLBrowser_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -825,7 +825,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser_StaticLib"=".\..\build\vc70\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc70.dsp" - Package Owner=<4>
+Project: "Win32HTMLBrowser_StaticLib"="..\build\vc70\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

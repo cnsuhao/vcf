@@ -57,7 +57,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FreeImageLib"=".\..\..\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_icl7.dsp" - Package Owner=<4>
+Project: "FreeImageLib"="..\..\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -132,7 +132,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"=".\..\..\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_icl7.dsp" - Package Owner=<4>
+Project: "LibJPEG"="..\..\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -144,7 +144,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibMNG"=".\..\..\thirdparty\common\FreeImage\Source\LibMNG\LibMNG_icl7.dsp" - Package Owner=<4>
+Project: "LibMNG"="..\..\thirdparty\common\FreeImage\Source\LibMNG\LibMNG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -156,7 +156,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"=".\..\..\thirdparty\common\FreeImage\Source\LibPNG\LibPNG_icl7.dsp" - Package Owner=<4>
+Project: "LibPNG"="..\..\thirdparty\common\FreeImage\Source\LibPNG\LibPNG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -168,7 +168,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibTIFF"=".\..\..\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF_icl7.dsp" - Package Owner=<4>
+Project: "LibTIFF"="..\..\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -276,7 +276,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"=".\..\..\thirdparty\common\FreeImage\Source\ZLib\ZLib_icl7.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\thirdparty\common\FreeImage\Source\ZLib\ZLib_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
