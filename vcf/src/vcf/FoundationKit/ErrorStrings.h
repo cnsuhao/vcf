@@ -60,8 +60,8 @@ namespace VCF
 
 // macros mainly introduced to have the __FILE__ macro to return a unicode literal
 #define VCF_WIDEN2(x) L ## x
-#define VCF_WIDEN(x) VCF_WIDEN2(x)
-#define __WFILE__ VCF_WIDEN(__FILE__)
+#define VCF_WIDEN(x)  VCF_WIDEN2(x)
+#define __WFILE__     VCF_WIDEN( __FILE__ )
 
 };
 
@@ -75,14 +75,14 @@ assert, and a string describing the reason for the assert
 */
 	#define VCF_ASSERT2(condition,msg) \
 		if ( ! (condition) ) { \
-			VCF::FoundationKit::assertCondition( condition, String(msg) + String(L"\nAssertion in file: ") + String( __WFILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__) ); \
+			VCF::FoundationKit::assertCondition( condition, String( msg ) + String( L"\nAssertion in file: " ) + String( __WFILE__ ) + String( L" at line: " ) + StringUtils::toString( __LINE__ ) ); \
 		} \
 		\
 
 /**
 Many thanks to Marcello for contributing this!!
 */
-	#define VCF_ASSERT(condition) VCF_ASSERT2( (condition), #condition )
+	#define VCF_ASSERT(condition) VCF_ASSERT2( (condition), VCF_WIDEN( #condition ) )
 
 
 #else
@@ -94,6 +94,9 @@ Many thanks to Marcello for contributing this!!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/05 20:05:36  marcelloptr
+*other adjustment on the assert macro for better performance with Unicode
+*
 *Revision 1.1.2.3  2004/06/25 20:00:52  marcelloptr
 *adjusted macros and other changes for better performance with Unicode
 *
