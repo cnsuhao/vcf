@@ -1103,14 +1103,6 @@ SOURCE=..\..\..\include\events\ControlEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\DragEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\DropEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Events\FocusEvent.cpp
 # End Source File
 # Begin Source File
