@@ -86,7 +86,6 @@ defined to use the DLL or static libraries.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 
 #include "vcf/OpenGLKit/OpenGLPeer.h"
-#include "vcf/OpenGLKit/OpenGLContext.h"
 #include "vcf/OpenGLKit/OpenGLControlContext.h"
 #include "vcf/OpenGLKit/OpenGLControl.h"
 
@@ -106,6 +105,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/21 20:18:39  pallindo
+*Removed some unused files, and cleaned up the interface to the OpenGLControl
+*
 *Revision 1.1.2.6  2004/07/06 20:09:43  pallindo
 *Added missing "defined" in lib selection code
 *
