@@ -26,8 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
-Revision 1.1.2.2  2003/03/03 05:00:41  ddiego
-added Makefile for creating html, htmlhelp, a tar.gz dist, and cleaning up
+Revision 1.1.2.3  2003/03/03 05:19:06  ddiego
+Added to tutorials
 
 Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
 initial check-in of docbook vcf documentation, plus neccesary stylsheets
@@ -35,18 +35,22 @@ and images
 
 -->
 
-
+<!-- maybe off-topic: security, crypto -->
 
 <chapter><title>Tutorials</title>
 	<section><title>FoundationKit</title>
 		<section><title>Strings and characters</title>
 		</section>
+		
 		<section><title>Numbers and Math</title>
 		</section>
+		
 		<section><title>Dates and times</title>
 		</section>
+		
 		<section><title>Reflection and RTTI</title>
 		</section>
+		
 		<section><title>Events</title>
 		</section>
 		
@@ -68,6 +72,7 @@ and images
 		<section><title>Internationalization and Unicode</title>
 		</section>
 	</section>
+	
 	<section><title>GraphicsKit</title>
 		<section><title>GraphicsContext (basic GDI classes ?)</title>
 		</section>
@@ -104,7 +109,7 @@ and images
 		<section><title>Tree list control</title>
 		</section>
 		
-		<section><title>TableControl</title>
+		<section><title>Table control</title>
 		</section>
 		
 		<section><title>List view control</title>
@@ -117,8 +122,10 @@ and images
 		
 		<section><title>Common dialogs (open, browse dir, select color, select font)</title>
 		</section>
-		<section><title>Display and window handling</title>
+		
+		<section><title>Window handling</title>
 		</section>
+		
 		<section><title>Drag and drop</title>
 		</section>
 		
@@ -144,8 +151,7 @@ and images
 		</section>
 	</section>
 	
-	<section><title>NetworkKit</title>
-	<!-- maybe off-topic: security, crypto -->
+	<section><title>NetworkKit</title>	
 		<section><title>Basic TCP server</title>
 		</section>
 		
