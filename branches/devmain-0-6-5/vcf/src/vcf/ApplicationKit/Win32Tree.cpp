@@ -188,6 +188,12 @@ void Win32Tree::create( Control* owningControl )
 		Win32Object::registerWin32Object( this );
 
 		subclassWindow();
+
+		treeControl_ = (TreeControl*)owningControl;
+		peerControl_ = owningControl;
+
+		peerControl_->ControlModelChanged += 
+			new GenericEventHandler<Win32Tree>( this, Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
 	}
 	else {
 		//throw exception
@@ -1127,9 +1133,39 @@ void Win32Tree::setAllowLabelEditing( const bool& allowLabelEditing )
 	::UpdateWindow( hwnd_ );
 }
 
+void Win32Tree::onControlModelChanged( Event* e )
+{
+	EventHandler* ev = getEventHandler( "Win32Tree::onTreeNodeDeleted" );
+
+	if ( NULL == ev ) {
+		ev = new TreeModelEventHandler<Win32Tree>( this,
+													&Win32Tree::onTreeNodeDeleted,
+													"Win32Tree::onTreeNodeDeleted" );
+	}
+	treeControl_->getTreeModel()->addTreeNodeDeletedHandler( ev );
+}
+
+void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
+{
+	TreeItem* item = event->getTreeItem();
+	if ( NULL != item ){
+		std::map<TreeItem*,HTREEITEM>::iterator found =
+			treeItems_.find( item );
+		if ( found != treeItems_.end() ){
+			HTREEITEM hItem = found->second;
+			treeItems_.erase( found );
+			TreeView_DeleteItem( hwnd_, hItem );
+		}
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/07/23 04:20:56  ddiego
+*more checkins
+*
 *Revision 1.1.2.10  2004/07/16 05:07:18  ddiego
 *added support for editing labels on a tree control
 *
