@@ -215,6 +215,68 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 	return result;
 }
 
+UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeString::UniChar c )
+{
+	AnsiChar result;
+
+#ifdef VCF_WIN32
+	
+	if (  0 == ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)&c, 1,
+									&result, 1, NULL, NULL ) ) {
+		result = 0;
+		throw RuntimeException( L"WideCharToMultiByte() failed" );
+	}
+
+
+#elif VCF_OSX
+	String str;
+	str +=c;
+
+
+	CFTextString tmp;
+	tmp = str;
+	CFRange r = {0,tmp.length()};
+	CFIndex size2 = 0;
+	CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, NULL, 0, &size2 );
+	
+	if ( !(size2 > 0) ) {
+		throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
+	}
+	
+	size2 = minVal<>( 1, size2 );
+	
+	
+	if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false,
+		&result, size2, &size2 ) ) {
+		//CFStringGetBytes failed
+		throw RuntimeException( L"CFStringGetBytes failed" );
+		result = 0;
+	}
+	
+#elif VCF_POSIX
+	int size = wctomb(NULL, c);
+
+
+	if ( size < 0 ) {
+		throw RuntimeException( L"size < 0 wctomb() failed" );
+	}
+
+	UnicodeString::AnsiChar tmp = new UnicodeString::AnsiChar[size+1];
+
+	if ( wctomb( tmp, c ) < 0 ) {
+		throw RuntimeException( L"wctomb() failed" );
+		result = 0;
+	}
+	else {
+		result = tmp[0];
+	}
+
+	delete [] tmp;
+
+#endif
+	return result;
+}
+
 UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeString& str )
 {
 	UnicodeString::AnsiChar* result= NULL;
@@ -753,6 +815,10 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/18 16:54:55  ddiego
+*added a new function to the UnicodeString class to convert from a
+*unicode char to a ansi char.
+*
 *Revision 1.2.2.2  2004/09/11 22:55:45  ddiego
 *changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
 *
