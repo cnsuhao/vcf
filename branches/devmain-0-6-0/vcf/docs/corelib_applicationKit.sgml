@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.11  2003/03/14 05:33:39  ddiego
+added further docs on drag and drop and components
+
 Revision 1.1.2.10  2003/03/13 22:13:43  ddiego
 added more docs, further info on event loops and drag and drop
 
@@ -486,10 +489,45 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		neccessary interaction with the windowing system, and will fire events at the 
 		appropriate times. 
 		</para>
+		<para>
+		The first event fired is the DropTargetEntered event. This is fired the first time the mouse
+		enters within the bounds of the control registered to the DropTarget instance during a Drag 
+		and Drop operation. When the mouse leaves the control's bounds, a DropTargetLeft event is 
+		fired. While the mouse is within the control's bounds a DropTargetDraggingOver event is 
+		fired for each mouse move. When the mouse is released, indicating the source will be dropped,
+		the DropTargetDropped event is fired, completing the Drag and Drop operation.
+		</para>
+		<para>
+		Once the source data has been "dropped" you can retreive the data from the DropEvent instance
+		that is fired because from the DropTargetDropped delegate. With this event you can retreive 
+		the data object and process it accordingly.
+		</para>
 	</section>
 	
 	<section><title>Components </title>
 		<para>
+		Components represent the smallest nonvisual class that can be manipulated at design time.
+		This manipulation takes place through property editors, event editors, and component editors.
+		Technically the VCF RTTI system and event system will work with any class that is derived 
+		(directly or indirectly) from VCF::Object, but the VCF::Component represents the beginning 
+		of user interface related classes. In addition, any class derived from Component can be registered
+		with the run time component information system, and will also show up in an IDE's component
+		palette.
+		</para>
+		<para>
+		Components come in two flavors: non-visual components, such as the TimerComponent, and visual 
+		components, that derive from Control (which is itself derived from Component), and are visible
+		to the user. Examples of visual components are the ListBoxControl, Window, and Panel control.
+		</para>
+		<para>
+		You do <emphasis>not</emphasis> create instances of Component. It is an abstract class that
+		is intended to serve as a base class for other concrete components. 
+		</para>
+		<para>
+		Components maintain a special state variable called component state, that indicates the current 
+		state of the component. This is useful, for example, in determining if the component is in design
+		mode, or normal mode. Unless the component is being edited in a designer, the default state is 
+		normal mode. The state is an enumeration of type ComponentState.
 		</para>
 	</section>
 	
