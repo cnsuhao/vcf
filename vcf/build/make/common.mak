@@ -3,6 +3,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.5.2.2  2004/04/28 18:42:22  ddiego
+#migrating over changes for unicode strings.
+#This contains fixes for the linux port and changes to the Makefiles
+#
 #Revision 1.5.2.1  2004/04/28 14:40:01  ddiego
 #migration towards new directory structure
 #
@@ -261,11 +265,9 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(SRC_GRAPHICSKIT)/ImageEvent.h \
 	$(SRC_GRAPHICSKIT)/BasicFill.h \
 	$(SRC_GRAPHICSKIT)/BasicRectangle.h \
 	$(SRC_GRAPHICSKIT)/BasicStroke.h \
-	$(SRC_GRAPHICSKIT)/Border.h \
 	$(SRC_GRAPHICSKIT)/Circle.h \
 	$(SRC_GRAPHICSKIT)/ClippingRegion.h \
 	$(SRC_GRAPHICSKIT)/Color.h \
-	$(SRC_GRAPHICSKIT)/ColorEtchedBorder.h \
 	$(SRC_GRAPHICSKIT)/Composition.h \
 	$(SRC_GRAPHICSKIT)/BezierCurve.h \
 	$(SRC_GRAPHICSKIT)/Ellipse.h \
@@ -324,6 +326,8 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(SRC_GRAPHICSKIT)/ImageEvent.h \
 
 APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(SRC_APPKIT)/ApplicationKit.h \
 	$(SRC_APPKIT)/ApplicationKitPrivate.h \
+	$(SRC_APPKIT)/Border.h \
+	$(SRC_APPKIT)/ColorEtchedBorder.h \
 	$(SRC_APPKIT)/AbstractApplication.h \
 	$(SRC_APPKIT)/AbstractCommand.h \
 	$(SRC_APPKIT)/AbstractComponentEditor.h \
@@ -462,7 +466,6 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(SRC_APPKIT)/ApplicationKit.h \
 	$(SRC_APPKIT)/TableModelEvent.h \
 	$(SRC_APPKIT)/TabModelEvent.h \
 	$(SRC_APPKIT)/TextEvent.h \
-	$(SRC_APPKIT)/ThreadEvent.h \
 	$(SRC_APPKIT)/TimerEvent.h \
 	$(SRC_APPKIT)/ToolTipEvent.h \
 	$(SRC_APPKIT)/TreeModelEvent.h \
@@ -476,15 +479,12 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(SRC_APPKIT)/ApplicationKit.h \
 	$(SRC_APPKIT)/BadModelStateException.h \
 	$(SRC_APPKIT)/COMException.h \
 	$(SRC_APPKIT)/DataTypeNotSupportedException.h \
-	$(SRC_APPKIT)/InvalidStateException.h \
-	$(SRC_APPKIT)/NoToolKitFoundException.h \
 	$(SRC_APPKIT)/ResourceException.h \
 	$(SRC_APPKIT)/AppKitPeerConfig.h \
 	$(SRC_APPKIT)/ApplicationPeer.h \
 	$(SRC_APPKIT)/ButtonPeer.h \
 	$(SRC_APPKIT)/ClipboardPeer.h \
 	$(SRC_APPKIT)/CommonDialogPeer.h \
-	$(SRC_APPKIT)/ContextPeer.h \
 	$(SRC_APPKIT)/ControlPeer.h \
 	$(SRC_APPKIT)/CursorPeer.h \
 	$(SRC_APPKIT)/DataObjectPeer.h \

@@ -747,7 +747,11 @@ String XMLParser::decodeText( const String& text )
 						}
 						else {
 							VCFChar tmp[256];
+						#ifdef VCF_POSIX
+							swprintf( tmp, sizeof(tmp)-1, L"%d", number );
+						#else
 							swprintf( tmp, L"%d", number );
+						#endif
 							entity = tmp;
 						}
 					}
@@ -789,6 +793,10 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *

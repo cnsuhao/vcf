@@ -59,7 +59,11 @@ String VFFOutputStream::binToHex( Persistable* persistableObject )
 	//this is slow, we might want to figure out a better way !
 	while ( size < bufSize ) {
 		uchar hexVal = *((uchar*)tmpBuffer);
+	#ifdef VCF_POSIX
+		swprintf( hexBytes, sizeof(hexBytes), L"%02X", hexVal );
+	#else
 		swprintf( hexBytes, L"%02X", hexVal );
+	#endif
 		result += hexBytes;
 		tmpBuffer++;
 		size +=sizeof( char );
@@ -213,6 +217,10 @@ void VFFOutputStream::writeComponent( Component* component )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *

@@ -550,7 +550,7 @@ void AbstractGTKControl_onCreateEvent( ComponentEvent* e )
 		Control* control = (Control*)e->getSource();
 		
 		GtkWidget* widget = (GtkWidget*)control->getPeer()->getHandleID();
-		gtk_widget_set_name( widget, control->getClassName().c_str() );
+		gtk_widget_set_name( widget, control->getClassName().ansi_c_str() );
 
 		control->handleEvent( e );		
 	}
@@ -1246,6 +1246,10 @@ void AbstractGTKControl::ContainerClass::init ( ContainerClass *clazz )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:12  ddiego
 *migration towards new directory structure
 *

@@ -259,10 +259,10 @@ void GTKTextControl::onTextModelTextChanged( TextEvent* e )
 		if ( isMultiLineControl_ ) {
 			GtkTextBuffer* buff = gtk_text_view_get_buffer( multiLine_ );
 			String text = tm->getText();
-			gtk_text_buffer_set_text( buff, text.c_str(), text.size() );
+			gtk_text_buffer_set_text( buff, text.ansi_c_str(), text.size() );
 		}
 		else {			
-			gtk_entry_set_text( singleLine_, tm->getText().c_str() );
+			gtk_entry_set_text( singleLine_, tm->getText().ansi_c_str() );
 		}
 	}
 }
@@ -336,6 +336,10 @@ void GTKTextControl::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *

@@ -46,6 +46,7 @@ ImageList::ImageList( Image* listOfImages, const unsigned long& imageWidth, cons
 */
 
 
+
 ImageList::ImageList( Component* owner ):
 	Component( owner )
 {
@@ -338,6 +339,10 @@ void ImageList::afterCreate( ComponentEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *

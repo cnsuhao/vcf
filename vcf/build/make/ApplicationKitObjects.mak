@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.5.4.2  2004/04/28 18:42:22  ddiego
+#migrating over changes for unicode strings.
+#This contains fixes for the linux port and changes to the Makefiles
+#
 #Revision 1.5.4.1  2004/04/28 14:40:01  ddiego
 #migration towards new directory structure
 #
@@ -441,8 +445,8 @@ $(OUTDIR_AK_D)/WindowEvent.o : $(SRC_APPKIT)/WindowEvent.cpp $(APPKIT_HDRS)
 $(OUTDIR_AK_D)/Containers.o : $(SRC_APPKIT)/Containers.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_APPKIT)/Containers.cpp -o $(OUTDIR_AK_D)/Containers.o	
 	
-$(OUTDIR_AK_D)/PackageInfo.o : $(SRC_APPKIT)/PackageInfo.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_APPKIT)/PackageInfo.cpp -o $(OUTDIR_AK_D)/PackageInfo.o		
+#$(OUTDIR_AK_D)/PackageInfo.o : $(SRC_APPKIT)/PackageInfo.cpp $(APPKIT_HDRS)
+#	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_APPKIT)/PackageInfo.cpp -o $(OUTDIR_AK_D)/PackageInfo.o		
 
 $(OUTDIR_AK_D)/DocumentManager.o : $(SRC_APPKIT)/DocumentManager.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_APPKIT)/DocumentManager.cpp -o $(OUTDIR_AK_D)/DocumentManager.o	
@@ -878,8 +882,8 @@ $(OUTDIR_AK)/WindowEvent.o : $(SRC_APPKIT)/WindowEvent.cpp $(APPKIT_HDRS)
 $(OUTDIR_AK)/Containers.o : $(SRC_APPKIT)/Containers.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_APPKIT)/Containers.cpp -o $(OUTDIR_AK)/Containers.o	
 	
-$(OUTDIR_AK)/PackageInfo.o : $(SRC_APPKIT)/PackageInfo.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS) $(SRC_APPKIT)/PackageInfo.cpp -o $(OUTDIR_AK)/PackageInfo.o		
+#$(OUTDIR_AK)/PackageInfo.o : $(SRC_APPKIT)/PackageInfo.cpp $(APPKIT_HDRS)
+#	$(CXX) $(AK_CXX_FLAGS) $(SRC_APPKIT)/PackageInfo.cpp -o $(OUTDIR_AK)/PackageInfo.o		
 
 $(OUTDIR_AK)/DocumentManager.o : $(SRC_APPKIT)/DocumentManager.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_APPKIT)/DocumentManager.cpp -o $(OUTDIR_AK)/DocumentManager.o	
