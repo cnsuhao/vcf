@@ -1659,10 +1659,6 @@ SOURCE=..\..\..\include\implementerKit\Win32FontDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\ImplementerKit\Win32FontManager.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\ImplementerKit\Win32Listview.cpp
 # End Source File
 # Begin Source File
