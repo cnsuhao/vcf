@@ -23,6 +23,12 @@ namespace VCF {
 
 class InputStream;
 class OutputStream;
+class DateTime;
+class DateTimeSpan;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// DateTime exception classes
 
 /**
 This exception is thrown when a bad date format is used. An example
@@ -66,147 +72,9 @@ protected:
 };
 
 
-class DateTime;
 
-/**
-The DateTimeSpan represents an absolute delta value between two date time
-values. You can get the individual components of the span by calling the various
-getYears(), getMonths(), etc methods, or you can get the total amount of time
-this span covers in a praticular format, such the total minutes, or the total
-seconds. An example of this might look like so:
-<pre>
-DateTime dt1(2003,2,10); //2003, Feb 10th
-DateTime dt2(2003,2,23); //2003, Feb 23rd
-DateTimeSpan span = dt1 - dt2;
-int totalHours = span.getTotalHours();//returns 312 (or 24 * 13)
-int totalMinutes = span.getTotalMinutes(); //returns 18,720 (or 60 * 24 * 13)
-
-int days = span.getDays(); //returns 13
-int months = span.getMonths(); //returns 0
-int minutes = span.getMinutes(); //returns 0
-</pre>
-
-*/
-class FOUNDATIONKIT_API DateTimeSpan {
-public:
-	DateTimeSpan() :years_(0), months_(0), days_(0) {
-
-	}
-
-	DateTimeSpan( const DateTimeSpan& rhs ) {
-		*this = rhs;
-	}
-
-	DateTimeSpan& operator= ( const DateTimeSpan& rhs ) {
-		delta_  = rhs.delta_ ;
-		start_  = rhs.start_ ;
-		end_    = rhs.end_   ;
-		years_  = rhs.years_ ;
-		months_ = rhs.months_;
-		days_   = rhs.days_  ;
-
-		return *this;
-	}
-
-	/**
-	allows conversion to a ulong64 ( POD ) data type
-	*/
-	operator ulong64() const {
-		return delta_;
-	}
-
-	/**
-	returns the number of years in this span of time
-	*/
-	unsigned long getYears() const ;
-
-	/**
-	returns the number of months in this span of time
-	*/
-	unsigned long getMonths() const ;
-
-	/**
-	returns the number of days in this span of time
-	*/
-	unsigned long getDays() const ;
-
-	/**
-	returns the number of hours in this span of time
-	*/
-	unsigned long getHours() const ;
-
-	/**
-	returns the number of minutes in this span of time
-	*/
-	unsigned long getMinutes() const ;
-
-	/**
-	returns the number of seconds in this span of time
-	*/
-	unsigned long getSeconds() const ;
-
-	/**
-	returns the number of milliseconds in this span of time
-	*/
-	unsigned long getMilliseconds() const ;
-
-
-	/**
-	returns the total number of whole months if this span of time
-	is evaluated in months as the unit of measurement
-	*/
-	unsigned long getTotalMonths() const ;
-
-	/**
-	returns the total number of whole days if this span of time
-	is evaluated in days as the unit of measurement
-	*/
-	unsigned long getTotalDays() const ;
-
-	/**
-	returns the total number of whole hours if this span of time
-	is evaluated in hours as the unit of measurement
-	*/
-	unsigned long getTotalHours() const ;
-
-	/**
-	returns the total number of whole minutes if this span of time
-	is evaluated in minutes as the unit of measurement
-	*/
-	unsigned long getTotalMinutes() const ;
-
-	/**
-	returns the total number of whole seconds if this span of time
-	is evaluated in seconds as the unit of measurement
-	*/
-	unsigned long getTotalSeconds() const ;
-
-	/**
-	returns the total number of whole milliseconds if this span of time
-	is evaluated in milliseconds as the unit of measurement
-	*/
-	ulong64 getTotalMilliseconds() const ;
-
-	friend class DateTime;
-protected:
-
-	void subtract( const DateTime& lhs, const DateTime& rhs );
-
-	DateTimeSpan& operator=( const ulong64& rhs ) {
-		delta_ = rhs;
-		return *this;
-	}
-	ulong64 delta_;
-
-	ulong64 start_;
-	ulong64 end_;
-	unsigned long years_;
-	unsigned long months_;
-	unsigned long days_;
-};
-
-
-
+///////////////////////////////////////////////////////////////////////////////
+// DateTime class declaration
 
 /**
 <p>
@@ -913,6 +781,151 @@ public :
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// DateTimeSpan class declaration
+
+/**
+The DateTimeSpan represents an absolute delta value between two date time
+values. You can get the individual components of the span by calling the various
+getYears(), getMonths(), etc methods, or you can get the total amount of time
+this span covers in a praticular format, such the total minutes, or the total
+seconds. An example of this might look like so:
+<pre>
+DateTime dt1(2003,2,10); //2003, Feb 10th
+DateTime dt2(2003,2,23); //2003, Feb 23rd
+DateTimeSpan span = dt1 - dt2;
+int totalHours = span.getTotalHours();//returns 312 (or 24 * 13)
+int totalMinutes = span.getTotalMinutes(); //returns 18,720 (or 60 * 24 * 13)
+
+int days = span.getDays(); //returns 13
+int months = span.getMonths(); //returns 0
+int minutes = span.getMinutes(); //returns 0
+</pre>
+
+*/
+class FOUNDATIONKIT_API DateTimeSpan {
+public:
+	DateTimeSpan() :years_(0), months_(0), days_(0) {
+
+	}
+
+	DateTimeSpan( const DateTimeSpan& rhs ) {
+		*this = rhs;
+	}
+
+	DateTimeSpan& operator= ( const DateTimeSpan& rhs ) {
+		delta_  = rhs.delta_ ;
+		start_  = rhs.start_ ;
+		end_    = rhs.end_   ;
+		years_  = rhs.years_ ;
+		months_ = rhs.months_;
+		days_   = rhs.days_  ;
+
+		return *this;
+	}
+
+	/**
+	allows conversion to a ulong64 ( POD ) data type
+	*/
+	operator ulong64() const {
+		return delta_;
+	}
+
+	/**
+	returns the number of years in this span of time
+	*/
+	unsigned long getYears() const ;
+
+	/**
+	returns the number of months in this span of time
+	*/
+	unsigned long getMonths() const ;
+
+	/**
+	returns the number of days in this span of time
+	*/
+	unsigned long getDays() const ;
+
+	/**
+	returns the number of hours in this span of time
+	*/
+	unsigned long getHours() const ;
+
+	/**
+	returns the number of minutes in this span of time
+	*/
+	unsigned long getMinutes() const ;
+
+	/**
+	returns the number of seconds in this span of time
+	*/
+	unsigned long getSeconds() const ;
+
+	/**
+	returns the number of milliseconds in this span of time
+	*/
+	unsigned long getMilliseconds() const ;
+
+
+	/**
+	returns the total number of whole months if this span of time
+	is evaluated in months as the unit of measurement
+	*/
+	unsigned long getTotalMonths() const ;
+
+	/**
+	returns the total number of whole days if this span of time
+	is evaluated in days as the unit of measurement
+	*/
+	unsigned long getTotalDays() const ;
+
+	/**
+	returns the total number of whole hours if this span of time
+	is evaluated in hours as the unit of measurement
+	*/
+	unsigned long getTotalHours() const ;
+
+	/**
+	returns the total number of whole minutes if this span of time
+	is evaluated in minutes as the unit of measurement
+	*/
+	unsigned long getTotalMinutes() const ;
+
+	/**
+	returns the total number of whole seconds if this span of time
+	is evaluated in seconds as the unit of measurement
+	*/
+	unsigned long getTotalSeconds() const ;
+
+	/**
+	returns the total number of whole milliseconds if this span of time
+	is evaluated in milliseconds as the unit of measurement
+	*/
+	ulong64 getTotalMilliseconds() const ;
+
+	friend class DateTime;
+protected:
+
+	void subtract( const DateTime& lhs, const DateTime& rhs );
+
+	DateTimeSpan& operator=( const ulong64& rhs ) {
+		delta_ = rhs;
+		return *this;
+	}
+	ulong64 delta_;
+
+	ulong64 start_;
+	ulong64 end_;
+	unsigned long years_;
+	unsigned long months_;
+	unsigned long days_;
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// DateTime inlines
+
 inline void DateTime::getDate( unsigned long* year, unsigned long* month, unsigned long* day ) const {
 	getYearMonthDay( *this, year, month, day );
 }
@@ -935,7 +948,7 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/08/20 23:19:02  marcelloptr
+*Revision 1.2.2.3  2004/08/23 21:24:04  marcelloptr
 *just moved some member declarations around
 *
 *Revision 1.2.2.1  2004/08/11 04:49:36  marcelloptr
