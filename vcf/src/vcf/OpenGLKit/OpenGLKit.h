@@ -40,20 +40,18 @@ macro so that we'll export/import classes as needed for
 dll builds.
 */
 #ifdef _MSC_VER
-#ifndef OPENGLKIT_LIB
- #define OPENGLKIT_API
+  #ifdef OPENGLKIT_LIB
+    #define OPENGLKIT_API
+  #else
+    #ifdef OPENGLKIT_EXPORTS
+      #define OPENGLKIT_API __declspec(dllexport)
+    #else 
+      #define OPENGLKIT_API __declspec(dllimport)
+    #endif 
+  #endif
 #else
- #ifdef OPENGLKIT_EXPORTS
-  #define OPENGLKIT_API __declspec(dllexport)
- #else 
-  #define OPENGLKIT_API __declspec(dllimport)
- #endif 
+  #define OPENGLKIT_API
 #endif
-#else
-#define OPENGLKIT_API
-#endif
-
-
 
 
 /**
@@ -70,7 +68,7 @@ Handle the extension based on the compiler
 #     define _LIB_CPLVERNUM "vc6"
 #   elif (_MSC_VER >= 1100)
 #     define _LIB_CPLVERNUM "vc5"
-#  endif
+#   endif
 # endif
 
 
@@ -83,26 +81,25 @@ kit needs to have either "USE_OPENGLKIT_DLL" defined or "USE_OPENGLKIT_LIB"
 defined to use the DLL or static libraries.
 */
 #ifdef _MSC_VER
-#ifdef USE_OPENGLKIT_DLL
-// using dynamic link library
-# ifdef _DEBUG
-#  pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_d.lib")
-# else
-#  pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM".lib")
-# endif
-#elif USE_OPENGLKIT_LIB
-// using statically linked library
-# ifdef _DEBUG
-#  pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_sd.lib")
-# else
-#  pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_s.lib")
-# endif
-#endif
+	#ifdef USE_OPENGLKIT_DLL
+		// using dynamic link library
+		#ifdef _DEBUG
+			#pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_d.lib")
+		#else
+			#pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM".lib")
+		#endif
+	#elif USE_OPENGLKIT_LIB
+		// using statically linked library
+		#ifdef _DEBUG
+			#pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_sd.lib")
+		#else
+			#pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_s.lib")
+		#endif
+	#endif
 
-//make sure to link to the open gl libs
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "glu32.lib")
-
+	//make sure to link to the open gl libs
+	#pragma comment(lib, "opengl32.lib")
+	#pragma comment(lib, "glu32.lib")
 #endif //_MSC_VER
 
 
