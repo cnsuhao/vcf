@@ -178,6 +178,8 @@ public:
 	*(either "true" or "false")
 	*/
 	static VCF::String toString( const bool& value );
+    
+    static VCF::String toStringFromHexNumber( const uchar& value );
 
 	/**
 	converts the value to an int
@@ -193,6 +195,7 @@ public:
 	*/
 	static VCF::uint32 fromStringAsUInt( const VCF::String& value );
 
+    static int fromStringAsHexNumber( const VCF::String& value );
 	/**
 	converts the value to an int
 	@param String the value to convert
@@ -366,6 +369,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

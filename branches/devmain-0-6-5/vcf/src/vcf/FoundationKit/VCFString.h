@@ -123,7 +123,12 @@ public:
 
     UnicodeString( size_type n, AnsiChar c );
 	UnicodeString( size_type n, UniChar c );
-
+    
+    #ifdef VCF_OSX
+    UnicodeString(const wchar_t* string ) {
+        *this = (const UniChar*)string;    
+    }
+    #endif
 
 
 
@@ -1010,6 +1015,9 @@ typedef std::basic_string<char> AnsiString;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

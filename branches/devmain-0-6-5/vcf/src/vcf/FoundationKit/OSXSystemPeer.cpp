@@ -1,11 +1,29 @@
-//OSXSystemPeer.cpp
 
-/*
-Copyright 2000-2004 The VCF Project.
-Please see License.txt in the top level directory
-where you installed the VCF.
-*/
+/**
+Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+	Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
 
+	Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer in
+	the documentation and/or other materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
+ OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ NB: This software will not save the world.
+ */
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -18,7 +36,7 @@ using namespace VCF;
 
 
 OSXSystemPeer::OSXSystemPeer()
-{
+{ 	
  	::gettimeofday( &time_, &timeZone_ );
 }
 
@@ -29,31 +47,31 @@ OSXSystemPeer::~OSXSystemPeer()
 
 unsigned long OSXSystemPeer::getTickCount()
 {
-
+	
 	struct timeval now = {0};
 	struct	timezone timeZone;
 	::gettimeofday( &now, &timeZone );
 
 	double t1, t2;
 
-	t1 =  (double)(time_.tv_sec * 1000) +
+	t1 =  (double)(time_.tv_sec * 1000) + 
 		(double)time_.tv_usec/(1000);
-
+	
 	t2 =  (double)(now.tv_sec * 1000) + (double)now.tv_usec/(1000); //convert to Milliseconds
 
-
+	
 	unsigned long result = (unsigned long)(t2 - t1);
-
+		
 	return result;
 }
 
 void OSXSystemPeer::sleep( const uint32& milliseconds )
-{
+{ 	
 	if ( 0 == milliseconds ) {
   	return;
 	}
 	struct timespec req = {0};
-	struct timespec rem = {0};
+	struct timespec rem = {0};	                          	
 	req.tv_sec = milliseconds / 1000;
 	req.tv_nsec = (milliseconds % 1000) * 1000;
 	::nanosleep( &req, &rem );
@@ -62,7 +80,7 @@ void OSXSystemPeer::sleep( const uint32& milliseconds )
 bool OSXSystemPeer::doesFileExist( const String& fileName )
 {
 	bool result = false;
-
+	
 	return result;
 }
 
@@ -77,18 +95,18 @@ String OSXSystemPeer::getCurrentWorkingDirectory()
 String OSXSystemPeer::getEnvironmentVariable( const String& variableName )
 {
 	String result;
-
-	const char* env = getenv( variableName.c_str() );
+	
+	const char* env = getenv( variableName.ansi_c_str() );
 	if ( NULL != env ) {
 		result = env;
 	}
-
+	
 	return result;
 }
 
 void OSXSystemPeer::setCurrentWorkingDirectory( const String& currentDirectory )
 {
-	chdir( currentDirectory.c_str() );
+	chdir( currentDirectory.ansi_c_str() );
 }
 
 void OSXSystemPeer::setDateToSystemTime( DateTime* date )
@@ -110,11 +128,8 @@ void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
-*reformatting of source files: macros and csvlog and copyright sections
-*
-*Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
-*migration towards new directory structure
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
 *
 *Revision 1.4  2004/04/03 15:48:47  ddiego
 *Merged over code from the 0-6-3 branch.
@@ -156,5 +171,6 @@ void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 *removed the .cpp files in favor of .mm files to allow Objective-C++ compiling
 *
 */
+
 
 

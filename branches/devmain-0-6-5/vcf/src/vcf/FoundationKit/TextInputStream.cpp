@@ -51,30 +51,24 @@ void TextInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
 void TextInputStream::read( short& val )
 {
 	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();
-		int i = val = 0;
-		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
-		val = (short)i;
+		String tmp = readTillWhiteSpace();		
+		val = StringUtils::fromStringAsShort( tmp );	
 	}
 }
 
 void TextInputStream::read( long& val )
 {
 	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();
-		int i = val = 0;
-		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
-		val = i;
+		String tmp = readTillWhiteSpace();		
+		val = (long) StringUtils::fromStringAsInt( tmp );		
 	}
 }
 
 void TextInputStream::read( int& val )
 {
 	if ( NULL != this->inStream_ ){
-		String tmp = readTillWhiteSpace();
-		int i = val = 0;
-		swscanf( tmp.c_str(), W_STR_INT_CONVERSION, &i );
-		val = i;
+		String tmp = readTillWhiteSpace();		
+		val = StringUtils::fromStringAsInt( tmp );
 	}
 }
 
@@ -82,12 +76,7 @@ void TextInputStream::read( bool& val )
 {
 	if ( NULL != this->inStream_ ){
 		String tmp = readTillWhiteSpace();
-		if ( tmp == W_STR_BOOL_CONVERSION_TRUE ){
-			val = true;
-		}
-		else if ( tmp == W_STR_BOOL_CONVERSION_FALSE ){
-			val = false;
-		}
+		val = StringUtils::fromStringAsBool( tmp );
 	}
 }
 
@@ -95,10 +84,7 @@ void TextInputStream::read( float& val )
 {
 	if ( NULL != this->inStream_ ){
 		String tmp = readTillWhiteSpace();
-		val = 0.0;
-		float f = 0.0;
-		swscanf( tmp.c_str(), W_STR_DOUBLE_CONVERSION, &f );
-		val = f;
+		val = StringUtils::fromStringAsFloat( tmp );
 	}
 }
 
@@ -106,10 +92,7 @@ void TextInputStream::read( double& val )
 {
 	if ( NULL != this->inStream_ ){
 		String tmp = readTillWhiteSpace();
-		val = 0.0;
-		float f = 0.0;
-		swscanf( tmp.c_str(), W_STR_DOUBLE_CONVERSION, &f );
-		val = f;
+		val = StringUtils::fromStringAsDouble( tmp );
 	}
 }
 
@@ -200,6 +183,9 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

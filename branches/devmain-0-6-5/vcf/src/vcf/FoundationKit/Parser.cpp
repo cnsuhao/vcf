@@ -273,20 +273,14 @@ String Parser::tokenComponentIdent()
 double Parser::tokenFloat()
 {
 	String s = tokenString();
-	double result = 0.0;
-	float f = 0.0;
-	swscanf( s.c_str(), W_STR_DOUBLE_CONVERSION, &f );
-	result = f;
+	double result = StringUtils::fromStringAsFloat( s );	
 	return result;
 }
 
 long Parser::tokenInt()
 {
 	String s = tokenString();
-	long result = 0;
-	int i = 0;
-	swscanf( s.c_str(), W_STR_INT_CONVERSION, &i );
-	result = i;
+	long result = StringUtils::fromStringAsInt( s );
 	return result;
 }
 
@@ -319,6 +313,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

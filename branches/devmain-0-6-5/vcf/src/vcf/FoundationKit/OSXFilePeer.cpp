@@ -1,11 +1,3 @@
-//OSXFilePeer.cpp
-
-/*
-Copyright 2000-2004 The VCF Project.
-Please see License.txt in the top level directory
-where you installed the VCF.
-*/
-
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -41,11 +33,11 @@ bool OSXFilePeer::beginFileSearch( Directory::Finder* finder )
 	searchFilters_.clear();
 	buildSearchFilters( finder->getSearchFilter() );
 
-
-	FileSearchData fsData;
-
-	RegExx::Regexx regex;
-
+	
+	FileSearchData fsData;	
+	
+	RegExx::Regexx regex;	
+	
 	return result;
 }
 
@@ -81,7 +73,7 @@ void OSXFilePeer::remove()
 
 void OSXFilePeer::create()
 {
-
+	
 }
 
 
@@ -89,8 +81,8 @@ uint32 OSXFilePeer::getSize()
 {
 
 	uint32 result = 0;
-
-	return result;
+	
+	return result;	
 }
 
 void OSXFilePeer::setName( const String& fileName )
@@ -106,14 +98,5 @@ void OSXFilePeer::copyTo( const String& copyFileName )
 {
 
 }
-
-
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
-*reformatting of source files: macros and csvlog and copyright sections
-*
-*/
 
 

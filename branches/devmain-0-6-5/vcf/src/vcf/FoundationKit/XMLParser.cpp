@@ -717,23 +717,17 @@ String XMLParser::decodeText( const String& text )
 
 						if( (numRef[0] == 'x') || (numRef[0] == 'X') ) {
 							numRef.erase(0,1);
-							swscanf( numRef.c_str(), L"%X", &number );
+                            number = StringUtils::fromStringAsHexNumber( numRef );
 						}
 						else {
-							swscanf( numRef.c_str(), L"%d", &number );
+                            number = StringUtils::fromStringAsInt( numRef );
 						}
 
 						if( number >= 0 && number <= 255 ) {
 							entity = String( sizeof(VCFChar),(VCFChar)number );
 						}
-						else {
-							VCFChar tmp[256];
-						#ifdef VCF_POSIX
-							swprintf( tmp, sizeof(tmp)-1, L"%d", number );
-						#else
-							swprintf( tmp, L"%d", number );
-						#endif
-							entity = tmp;
+						else {							
+							entity = StringUtils::toString( number );
 						}
 					}
 					else {
@@ -775,6 +769,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.3  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
