@@ -11,6 +11,14 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/GraphicsKit/DrawUIState.h"
+#include "vcf/GraphicsKit/AggCommon.h"
+
+#include "thirdparty/common/agg/include/agg_image_transform.h"
+#include "thirdparty/common/agg/include/agg_span_null_interpolator.h"
+#include "thirdparty/common/agg/include/agg_pixfmt_rgba32_image.h"
+#include "thirdparty/common/agg/include/agg_renderer_scanline.h"
+
+
 
 using namespace VCF;
 
@@ -97,95 +105,321 @@ void Win32Context::releaseHandle()
 	//clearBuffer();
 }
 
+
+
+class ColorAlpha {
+public:
+	ColorAlpha():alphaValue_(255){}
+	int alphaValue_;
+
+	int calculate(int alpha, int c, int, int, int) const {
+		return alphaValue_;
+	}
+};
+
 void Win32Context::drawImage( const double& x, const double& y, Rect* imageBounds, Image* image )
 {
 	//checkHandle();
+	
+
 	if ( (imageBounds->getWidth() > image->getWidth()) || (imageBounds->getHeight() > image->getHeight()) ) {
 		throw BasicException( MAKE_ERROR_MSG("Invalid image bounds requested"), __LINE__);
 	}
-	Win32Image* win32image = (Win32Image*)(image);
-	if ( NULL != win32image ){
-		//HDC bmpDC = win32image->getDC();
-		ImageBits* bits = win32image->getImageBits();
-		HPALETTE oldPalette = NULL;
-		if ( NULL != win32image->palette_ ){
-			oldPalette = ::SelectPalette( dc_, win32image->palette_, FALSE );
-			::RealizePalette( dc_ );
+
+
+	Matrix2D& currentXFrm = *context_->getCurrentTransform();
+
+	if ( !context_->isDefaultTransform() ) {
+		double xx = x * (currentXFrm[Matrix2D::mei00]) +
+							y * (currentXFrm[Matrix2D::mei10]) +
+								(currentXFrm[Matrix2D::mei20]);
+
+		double yy = x * (currentXFrm[Matrix2D::mei01]) +
+							y * (currentXFrm[Matrix2D::mei11]) +
+								(currentXFrm[Matrix2D::mei21]);
+
+
+		agg::affine_matrix mat( currentXFrm[Matrix2D::mei00],
+			currentXFrm[Matrix2D::mei01],
+			currentXFrm[Matrix2D::mei10],
+			currentXFrm[Matrix2D::mei11],
+			currentXFrm[Matrix2D::mei20],
+			currentXFrm[Matrix2D::mei21] );
+		
+		agg::path_storage imagePath;
+		imagePath.move_to( imageBounds->left_, imageBounds->top_ );
+		imagePath.line_to( imageBounds->right_, imageBounds->top_ );
+		imagePath.line_to( imageBounds->right_, imageBounds->bottom_ );
+		imagePath.line_to( imageBounds->left_, imageBounds->bottom_ );
+		imagePath.close_polygon();		
+		
+		mat *= agg::translation_matrix( xx, yy );
+		
+		//agg::conv_curve< agg::path_storage > imgConvCrv(imagePath);
+		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,mat);
+
+		agg::conv_transform< agg::path_storage >::iterator it = xfrmedImgPath.begin(0);
+		
+		agg::vertex_type vert = *it;	
+
+		Rect xfrmedImageRect;
+		Point p1(vert.x, vert.y );
+		
+		it ++;
+		vert = *it;	
+
+		Point p2(vert.x, vert.y );
+		
+		if ( p2.x_ > p1.x_ ) {
+			xfrmedImageRect.left_ = p1.x_;
 		}
+		else {
+			xfrmedImageRect.left_ = p2.x_;
+		}
+
+		if ( p1.x_ < p2.x_ ) {
+			xfrmedImageRect.right_ = p2.x_;
+		}
+		else {
+			xfrmedImageRect.right_ = p1.x_;
+		}
+
+		if ( p2.y_ > p1.y_ ) {
+			xfrmedImageRect.top_ = p1.y_;
+		}
+		else {
+			xfrmedImageRect.top_ = p2.y_;
+		}
+
+		if ( p1.y_ < p2.y_ ) {
+			xfrmedImageRect.bottom_ = p2.y_;
+		}
+		else {
+			xfrmedImageRect.bottom_ = p1.y_;
+		}
+
+
+
+		while ( it != xfrmedImgPath.end() ) {			
+
+			if ( xfrmedImageRect.left_ > (*it).x ) {
+				xfrmedImageRect.left_ = (*it).x;
+			}
+
+			if ( xfrmedImageRect.right_ < (*it).x ) {
+				xfrmedImageRect.right_ = (*it).x;
+			}
+
+			if ( xfrmedImageRect.top_ > (*it).y ) {
+				xfrmedImageRect.top_ = (*it).y;
+			}
+
+			if ( xfrmedImageRect.bottom_ < (*it).y ) {
+				xfrmedImageRect.bottom_ = (*it).y;
+			}
+
+			++it;
+		}
+
+		//xfrmedImageRect.offset( xx, yy );
+		//xfrmedImageRect.offset( -xfrmedImageRect.left_, -xfrmedImageRect.top_ );
+
+
+		typedef agg::image_transform_attr<agg::null_distortions,
+					ColorAlpha,//agg::null_color_alpha,
+					agg::null_gradient_alpha> ImgAttrType;
+
+		typedef agg::span_null_interpolator<ImgAttrType> SpanInterpolator;
+		typedef agg::pixfmt_bgra32_image_bilinear<ImgAttrType> SpanRenderer;
+		typedef agg::renderer_scanline<SpanInterpolator, SpanRenderer> RendererImageType;
+
+
+		agg::null_distortions    distortions;
+		ColorAlpha   colorAlpha;
+		colorAlpha.alphaValue_ = 255.0;
+		agg::null_gradient_alpha gradientAlpha;
+
+
+		
 
 		BITMAPINFO bmpInfo;
 		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
-		//memset( &bmpInfo.bmiHeader, 0, sizeof (BITMAPINFOHEADER) );
 		bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
-		bmpInfo.bmiHeader.biWidth = (long)imageBounds->getWidth();
-		bmpInfo.bmiHeader.biHeight = (long)-imageBounds->getHeight(); // Win32 DIB are upside down - do this to filp it over
+		bmpInfo.bmiHeader.biWidth = (long)xfrmedImageRect.getWidth();
+		bmpInfo.bmiHeader.biHeight = (long)-xfrmedImageRect.getHeight(); // Win32 DIB are upside down - do this to filp it over
 		bmpInfo.bmiHeader.biPlanes = 1;
 		bmpInfo.bmiHeader.biBitCount = 32;
 		bmpInfo.bmiHeader.biCompression = BI_RGB;
 
-		bmpInfo.bmiHeader.biSizeImage = (bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
+		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
 
 
 
 		SysPixelType* bmpBuf = NULL;
-		SysPixelType* tmpBmpBuf = NULL;
+
+		HDC xfrmDC = ::CreateCompatibleDC( NULL );
+		HBITMAP hbmp = CreateDIBSection ( xfrmDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+		HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
+
+		//BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
+			//	dc_, xx, yy, SRCCOPY );
 
 
-		HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+		agg::rendering_buffer xfrmImgRenderBuf;
+		xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth, 
+									-bmpInfo.bmiHeader.biHeight,
+									bmpInfo.bmiHeader.biWidth * 4 );
 
 
-		SysPixelType* imageBuf = image->getImageBits()->pixels_;
+		RendererImageType imgRenderer(xfrmImgRenderBuf);
+		//RendererSolid renderer( xfrmImgRenderBuf );
+		
+		agg::affine_matrix mat2( currentXFrm[Matrix2D::mei00],
+			currentXFrm[Matrix2D::mei01],
+			currentXFrm[Matrix2D::mei10],
+			currentXFrm[Matrix2D::mei11],
+			currentXFrm[Matrix2D::mei20],
+			currentXFrm[Matrix2D::mei21] );
+		//mat2 *= agg::translation_matrix( -xx, -yy );
 
-		if ( NULL != hbmp ) {
+		image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
+		ImgAttrType srcImgAttr( *image->getImageBits()->renderBuffer_, 
+								mat2, 
+								distortions, 
+								colorAlpha, 
+								gradientAlpha);
 
-			int incr = (long)((imageBounds->top_ * image->getWidth()) + imageBounds->left_);
-			imageBuf += incr;
-			tmpBmpBuf = bmpBuf;
-			int imgWidth = image->getWidth();
-			int wIncr = (long)imageBounds->getWidth();
-			int s = (int)imageBounds->top_;
-			int e = (int)imageBounds->bottom_;
-			for (int y1=s;y1<e;y1++) {
+		imgRenderer.attribute (srcImgAttr);
 
-				memcpy( tmpBmpBuf, imageBuf, wIncr*4 );
 
-				tmpBmpBuf += wIncr;
-				imageBuf += imgWidth;
-			}
+		agg::rasterizer_scanline_aa<agg::scanline_u8, agg::gamma8> rasterizer;
 
-			if ( true == image->isTransparent() )  {
-				Color* imageTransColor = image->getTransparencyColor();
-				COLORREF transColor = RGB( imageTransColor->getRed()*255,
-					imageTransColor->getGreen()*255,
-					imageTransColor->getBlue()*255 );
+		rasterizer.add_path( xfrmedImgPath );
 
-				Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
-			}
-			else {
-				SetDIBitsToDevice( dc_,
-									(long)x,
-									(long)y,
-									(long)imageBounds->getWidth(),
-									(long)imageBounds->getHeight(),
-									0,
-									0,
-									0,
-									(long)imageBounds->getHeight(),
-									bmpBuf,
-									&bmpInfo,
-									DIB_RGB_COLORS );
-			}
+		rasterizer.render (imgRenderer);
 
-			DeleteObject( hbmp );
+		SetDIBitsToDevice( dc_,
+							(long)xfrmedImageRect.left_,
+							(long)xfrmedImageRect.top_,
+							(long)xfrmedImageRect.getWidth(),
+							(long)xfrmedImageRect.getHeight(),
+							0,
+							0,
+							0,
+							(long)xfrmedImageRect.getHeight(),
+							bmpBuf,
+							&bmpInfo,
+							DIB_RGB_COLORS );
+
+		SelectObject( xfrmDC, oldBMP );
+		DeleteObject( hbmp );
+		DeleteDC( xfrmDC );
+
+
+		agg::conv_transform< agg::path_storage >::iterator it2 = xfrmedImgPath.begin(0);
+		
+		
+		//this->rectangle( xfrmedImageRect.left_, xfrmedImageRect.top_, xfrmedImageRect.right_, xfrmedImageRect.bottom_ );
+
+
+		POINT pts[256];
+		int i = 0;
+		while ( it2 != xfrmedImgPath.end() ) {
+			const agg::vertex_type& vert = *it2;
+			pts[i].x = vert.x;
+			pts[i].y = vert.y;
+			i++;
+			it2++;
 		}
-
-		if ( NULL != oldPalette ){
-			::SelectPalette( dc_, oldPalette, FALSE );
-		}
+		::Polyline( dc_, &pts[0], i ); 		
 
 	}
 	else {
-		throw InvalidImage( "Image Peer is not usable under MS Windows" );
+
+		Win32Image* win32image = (Win32Image*)(image);
+		if ( NULL != win32image ){
+			//HDC bmpDC = win32image->getDC();
+			ImageBits* bits = win32image->getImageBits();
+			HPALETTE oldPalette = NULL;
+			if ( NULL != win32image->palette_ ){
+				oldPalette = ::SelectPalette( dc_, win32image->palette_, FALSE );
+				::RealizePalette( dc_ );
+			}
+
+			BITMAPINFO bmpInfo;
+			memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
+			//memset( &bmpInfo.bmiHeader, 0, sizeof (BITMAPINFOHEADER) );
+			bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
+			bmpInfo.bmiHeader.biWidth = (long)imageBounds->getWidth();
+			bmpInfo.bmiHeader.biHeight = (long)-imageBounds->getHeight(); // Win32 DIB are upside down - do this to filp it over
+			bmpInfo.bmiHeader.biPlanes = 1;
+			bmpInfo.bmiHeader.biBitCount = 32;
+			bmpInfo.bmiHeader.biCompression = BI_RGB;
+
+			bmpInfo.bmiHeader.biSizeImage = (bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
+
+
+
+			SysPixelType* bmpBuf = NULL;
+			SysPixelType* tmpBmpBuf = NULL;
+
+			
+			HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+
+
+			SysPixelType* imageBuf = image->getImageBits()->pixels_;
+
+			if ( NULL != hbmp ) {
+
+				int incr = (long)((imageBounds->top_ * image->getWidth()) + imageBounds->left_);
+				imageBuf += incr;
+				tmpBmpBuf = bmpBuf;
+				int imgWidth = image->getWidth();
+				int wIncr = (long)imageBounds->getWidth();
+				int s = (int)imageBounds->top_;
+				int e = (int)imageBounds->bottom_;
+				for (int y1=s;y1<e;y1++) {
+
+					memcpy( tmpBmpBuf, imageBuf, wIncr*4 );
+
+					tmpBmpBuf += wIncr;
+					imageBuf += imgWidth;
+				}
+
+				if ( true == image->isTransparent() )  {
+					Color* imageTransColor = image->getTransparencyColor();
+					COLORREF transColor = RGB( imageTransColor->getRed()*255,
+						imageTransColor->getGreen()*255,
+						imageTransColor->getBlue()*255 );
+
+					Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
+				}
+				else {
+					SetDIBitsToDevice( dc_,
+										(long)x,
+										(long)y,
+										(long)imageBounds->getWidth(),
+										(long)imageBounds->getHeight(),
+										0,
+										0,
+										0,
+										(long)imageBounds->getHeight(),
+										bmpBuf,
+										&bmpInfo,
+										DIB_RGB_COLORS );
+				}
+
+				DeleteObject( hbmp );
+			}
+
+			if ( NULL != oldPalette ){
+				::SelectPalette( dc_, oldPalette, FALSE );
+			}
+
+		}
+		else {
+			throw InvalidImage( "Image Peer is not usable under MS Windows" );
+		}
 	}
 
 	//releaseHandle();
@@ -2101,6 +2335,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
 *Revision 1.2.2.3  2004/08/31 21:12:07  ddiego
 *graphice save and restore state
 *

@@ -431,7 +431,7 @@ public:
 	*/
 	void setScale( const double& scaleX, const double& scaleY );
 
-	/*
+	
 	void concatRotation( const double& theta );
 
 	void concatTranslation( const double transX, const double& transY );
@@ -439,7 +439,34 @@ public:
 	void concatShear( const double& shearX, const double& shearY );
 
 	void concatScale( const double& scaleX, const double& scaleY );
+	
+
+	/**
+	This test to see if the current rotation
+	translation, scale, and shear values are all
+	at their default values.
 	*/
+	bool isDefaultTransform();
+
+	/**
+	This (re)sets the current values for rotation,
+	shear, scale, and translation to their default values.
+	*/
+	void makeDefaultTransform();
+
+	double getRotation();
+
+	double getTranslationX();
+
+	double getTranslationY();
+
+	double getShearX();
+
+	double getShearY();
+
+	double getScaleX();
+
+	double getScaleY();
 
 	/**
 	*returns whether or not the XOR Mode is turned on.
@@ -713,6 +740,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
 *Revision 1.2.2.3  2004/09/01 03:50:39  ddiego
 *fixed font drawing bug that tinkham pointed out.
 *
