@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.2.4.1  2003/09/29 03:45:38  ddiego
+added some further tweaks to update the docs with the upcoming
+website revision.
+
 Revision 1.2  2003/05/17 20:36:55  ddiego
 this is the checkin for the 0.6.1 release - represents the merge over from
 the devmain-0-6-0 branch plus a few minor bug fixes
@@ -47,6 +51,8 @@ generation
 	 <xsl:import href="vcf.xsl"/>
 
 	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="1"/>
+	<xsl:param name="htmlhelp.hhc.binary" select="0"/>
+	
 
 <xsl:param name="htmlhelp.hhp.tail">
 [MERGE FILES]
