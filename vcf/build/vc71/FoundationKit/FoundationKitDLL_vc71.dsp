@@ -404,6 +404,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\File.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\FilePath.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\FoundationKit\FilePath.h
 # End Source File
 # Begin Source File
@@ -421,6 +425,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FileStream.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\FileStreamPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\FileUtils.cpp
 # End Source File
 # Begin Source File
 
@@ -520,14 +528,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\FilePath.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\FileUtils.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\FoundationKit\Library.h
 # End Source File
 # Begin Source File
@@ -564,11 +564,11 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Mutex.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.h
+SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.cpp
+SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.h
 # End Source File
 # Begin Source File
 

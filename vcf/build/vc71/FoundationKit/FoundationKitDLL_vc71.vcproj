@@ -818,6 +818,26 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\File.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\FilePath.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						BasicRuntimeChecks="3"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FilePath.h">
 			</File>
 			<File
@@ -848,6 +868,26 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FileStreamPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\FileUtils.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
+						BasicRuntimeChecks="3"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FileUtils.h">
@@ -1076,46 +1116,6 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\ErrorLog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\FilePath.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\FileUtils.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS;BUILD_FOUNDATIONKIT_LIB;$(NoInherit)"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Library.h">
 			</File>
 			<File
@@ -1177,10 +1177,10 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\Mutex.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.h">
+				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.cpp">
+				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Parser.cpp">
