@@ -145,6 +145,10 @@ parse the command line into switches and arguments.
 @return int number of switches found
 	*/
 	int splitLine( int argc, char **argv );
+	
+	int splitLine( const String& commandLine );
+	
+	int splitLine( const std::vector<String>& commandLine );
 
 	/**
 	was the switch found on the command line ?
@@ -213,6 +217,10 @@ parse the command line into switches and arguments.
 	unsigned long getArgCount() {
 		return originalCommandLine_.size();
 	}
+	
+	const std::vector<String>& getOriginalCommandLine() const {
+		return originalCommandLine_;
+	}
 protected:
 
 /**
@@ -228,6 +236,7 @@ the first character of a switch must be non-numeric!
 	std::vector<String> originalCommandLine_;
 	EnumeratorContainer<std::vector<String>,String> commandLineContainer_;
 
+
 };
 
 };
@@ -236,6 +245,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 20:42:07  ddiego
+*osx updates
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

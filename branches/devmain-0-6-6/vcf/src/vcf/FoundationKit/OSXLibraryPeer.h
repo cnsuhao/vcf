@@ -25,8 +25,12 @@ public:
 	virtual void unload();
 
 protected:
+	/**
+	This is either a pointer that dlopen() returned
+	or a CFBundleRef
+	*/
 	void* libHandle_;
-
+	bool handleIsBundle_; 
 
 };
 
@@ -36,6 +40,9 @@ protected:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.2.2.1  2004/10/10 20:42:08  ddiego
+ *osx updates
+ *
  *Revision 1.2  2004/08/07 02:49:13  ddiego
  *merged in the devmain-0-6-5 branch to stable
  *
