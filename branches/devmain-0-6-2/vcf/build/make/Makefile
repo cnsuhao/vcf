@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.11  2003/12/13 19:17:10  ddiego
+#*** empty log message ***
+#
 #Revision 1.3.4.10  2003/12/13 18:19:00  ddiego
 #*** empty log message ***
 #
@@ -116,7 +119,7 @@ AK_CXX_FLAGS_D=$(GK_CXX_FLAGS_D)
 
 NK_CXX_FLAGS_D=$(CXX_FLAGS_D)
 
-CXX_FLAGS=-DNDEBUG -DVCF_GCC -DVCF_POSIX -I $(CXX_INC) -O2 -c
+CXX_FLAGS=-DNDEBUG -DVCF_GCC -DVCF_POSIX -I $(CXX_INC) -Os -c
 GK_CXX_FLAGS=$(GTK_CXX_FLAGS) -DVCF_GTK $(CXX_FLAGS)
 
 AK_CXX_FLAGS=$(GK_CXX_FLAGS)
