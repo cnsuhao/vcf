@@ -154,6 +154,64 @@ void StringUtils::trimWhiteSpaces( String& text )
 	trimWhiteSpacesRight(text);
 }
 
+String StringUtils::eraseLeftOfChar( const String& s, const VCFChar& ch, const bool& included/*=false*/, const int& count/*=1*/ )
+{
+	String str = s;
+	String::size_type pos;
+
+	int cnt = count;
+	if ( cnt < 0 ) {
+		pos = s.rfind( ch );
+		while ( ++cnt != 0 ) {
+			pos = s.find( ch, pos );
+		}
+	} else {
+		pos = s.find( ch );
+		while ( --cnt != 0 ) {
+			pos = s.find( ch, pos );
+		}
+	}
+
+	if ( String::npos != pos ) {
+		if ( included ) {
+			str.erase( 0, pos + 1 );
+		} else {
+			str.erase( 0, pos );
+		}
+	}
+
+	return str;
+}
+
+String StringUtils::eraseRightOfChar( const String& s, const VCFChar& ch, const bool& included/*=false*/, const int& count/*=1*/ )
+{
+	String str = s;
+	String::size_type pos;
+
+	int cnt = count;
+	if ( cnt < 0 ) {
+		pos = s.rfind( ch );
+		while ( ++cnt != 0 ) {
+			pos = s.find( ch, pos );
+		}
+	} else {
+		pos = s.find( ch );
+		while ( --cnt != 0 ) {
+			pos = s.find( ch, pos );
+		}
+	}
+
+	if ( String::npos != pos ) {
+		if ( included ) {
+			str.erase( pos, str.size() - pos );
+		} else {
+			str.erase( pos + 1, str.size() - pos - 1 );
+		}
+	}
+
+	return str;
+}
+
 String StringUtils::lowerCase( const String& text )
 {
 	String result;
@@ -1580,6 +1638,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/10/23 12:20:00  marcelloptr
+*bugfix [1048400] menus are now merged regardless of their shortcut key
+*
 *Revision 1.2.2.5  2004/09/18 16:37:10  marcelloptr
 *changed implementation of fromStringAsDouble as it was crashing on vc6. Thanks Jim for pointing it out. Improved fromStringAsULong64
 *
