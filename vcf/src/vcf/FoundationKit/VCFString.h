@@ -1033,7 +1033,7 @@ typedef std::basic_string<char> AnsiString;
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.7  2004/06/06 04:56:54  marcelloptr
+*Revision 1.1.2.8  2004/06/06 05:50:11  marcelloptr
 *added binary friend operators to UnicodeString
 *
 *Revision 1.1.2.6  2004/05/30 01:36:01  marcelloptr
