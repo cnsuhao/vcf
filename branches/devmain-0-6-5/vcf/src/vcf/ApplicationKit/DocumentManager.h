@@ -917,6 +917,7 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 
 	if ( NULL != newDocument ) {
 
+		newDocument->initNew();
 		if ( DocumentManager::getShouldCreateUI() ) {
 			attachUI( info, newDocument );
 		}
@@ -1039,6 +1040,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/29 20:31:35  ddiego
+*some minor fixes to the DocumentManager
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

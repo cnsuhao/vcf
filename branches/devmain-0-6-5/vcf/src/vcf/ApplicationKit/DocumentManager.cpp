@@ -137,7 +137,13 @@ void DocumentManager::cutFromDocument( Document* doc ) {
 		DocumentInfo* info = getDocumentInfo( doc );
 		if ( NULL != info ) {
 			if ( doc->saveAsType( info->mimetype, bos ) ) {
-				//data = new DataObject( bos.getBuffer(), bos.getSize(), info->mimetype );
+				data = new DataObject();
+				BinaryPersistable* persistable = new BinaryPersistable( (const unsigned char*)bos.getBuffer(), bos.getSize() );
+				data->addSupportedDataType( info->mimetype, persistable );
+
+
+				//clear out the doc
+				doc->empty();
 			}
 		}
 	}
@@ -152,12 +158,14 @@ void DocumentManager::cutFromDocument( Document* doc ) {
 void DocumentManager::copyFromDocument( Document* doc ) {
 	DataObject* data = doc->copy();
 	if ( NULL == data ) {
-		//serialize the whole document and clear it
+		//serialize the whole document
 		BasicOutputStream bos;
 		DocumentInfo* info = getDocumentInfo( doc );
 		if ( NULL != info ) {
 			if ( doc->saveAsType( info->mimetype, bos ) ) {
-				//data = new DataObject( bos.getBuffer(), bos.getSize(), info->mimetype );
+				data = new DataObject();
+				BinaryPersistable* persistable = new BinaryPersistable( (const unsigned char*)bos.getBuffer(), bos.getSize() );
+				data->addSupportedDataType( info->mimetype, persistable );
 			}
 		}
 	}
@@ -561,6 +569,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/29 20:31:35  ddiego
+*some minor fixes to the DocumentManager
+*
 *Revision 1.1.2.3  2004/05/06 21:18:33  ddiego
 *some more minor win32 unicode changes
 *
