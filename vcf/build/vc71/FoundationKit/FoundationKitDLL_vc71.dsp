@@ -428,14 +428,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FileStreamPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\FileUtils.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\FileUtils.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\FoundationKit\MemoryStream.cpp
 # End Source File
 # Begin Source File
