@@ -1477,6 +1477,7 @@ class Workspace:
         return
 
     def copyWorkspaceDependencies( self, dependencyWorkspaceName ):
+    	""" Copies all dependencies from a workspace considered master for this"""
         self.dependencies.clear()
 
         if ( not dependencyWorkspaceName ):
