@@ -542,6 +542,7 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 		break;
 
 		case WM_ERASEBKGND :{
+			/*
 			Color* color = listviewControl_->getColor();
 			if ( (backColor_.getRed() != color->getRed()) || (backColor_.getGreen() != color->getGreen()) || (backColor_.getBlue() != color->getBlue()) ) {
 				COLORREF backColor = RGB(color->getRed() * 255.0,
@@ -552,8 +553,9 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 
 				backColor_.copy( color );
 			}
+			*/
 			
-			wndProcResult = 1;
+			wndProcResult = 0;
 			result= true;
 		}
 		break;
@@ -2376,6 +2378,10 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/09 04:42:04  ddiego
+*fixed some custom draw bugs in win32 tree control. updated
+*advanced ui example.
+*
 *Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
 *added a separate paintBorder call to Control class
 *

@@ -61,6 +61,8 @@ void DefaultTreeItem::init()
 	expandedImageIndex_ = -1;
 	stateImageIndex_ = -1;
 
+	selected_ = false;
+
 	state_ = Item::idsNone;
 
 	bounds_.setRect(0.0,0.0,0.0,0.0);
@@ -444,6 +446,10 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/09 04:42:04  ddiego
+*fixed some custom draw bugs in win32 tree control. updated
+*advanced ui example.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
