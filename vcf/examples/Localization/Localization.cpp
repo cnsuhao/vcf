@@ -319,7 +319,7 @@ private:
 
 void testTime( const String& testName, const HiResClock& clock )
 {
-	printf( "Test \"%s\" took %.8f seconds\n", testName.c_str(), clock.duration() );
+	printf( "Test \"%s\" took %.8f seconds\n", testName.ansi_c_str(), clock.duration() );
 }
 
 
@@ -330,8 +330,7 @@ void testTime( const String& testName, const HiResClock& clock )
 
 void testLocale( Locale& loc )
 {
-	UnicodeString ssss;
-	const char* p = ssss.ansi_c_str();
+		
 
 	wprintf( L"*******************************************************************************\n" );
 
@@ -468,7 +467,7 @@ int main( int argc, char** argv ){
 
 		UnicodeString s1("alsdjkasdjklasd");
 
-		const char* ptr = s1;
+		const char* ptr = s1.ansi_c_str();
 		printf( "ptr: %s\n", ptr );
 
 		wprintf( L"ptr (as wchar_t): %s\n", UnicodeString(ptr).c_str() );

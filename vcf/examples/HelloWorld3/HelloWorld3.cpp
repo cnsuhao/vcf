@@ -59,6 +59,9 @@ public:
 		*/
 		setVisible( true );
 		
+		Locale loc(Locale::lcPolish, Locale::ccPoland );
+		System::setCurrentThreadLocale( &loc );
+		
 	}
 
 	/**
@@ -67,6 +70,13 @@ public:
 	virtual ~HelloWorld3Window(){};
 
 
+	virtual void paint( GraphicsContext* c ) {
+		Window::paint( c );
+
+		Locale loc(Locale::lcPolish, Locale::ccPoland );
+		c->getCurrentFont()->setName( "Arial" );
+		c->textAt( 20, 20, loc.translate( "Hello" ) );
+	}
 };
 
 
