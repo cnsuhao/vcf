@@ -29,7 +29,7 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
-				PrecompiledHeaderFile=".\vc71\DebugDLL\ApplicationKitDLL_vc71.pch"
+				PrecompiledHeaderFile=".\vc71\DebugDLL\ApplicationKitDLL_vc71_d.pch"
 				AssemblerListingLocation=".\vc71\DebugDLL\"
 				ObjectFile=".\vc71\DebugDLL\"
 				ProgramDataBaseFileName=".\vc71\DebugDLL\"
@@ -56,7 +56,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\ApplicationKitDLL_vc71.tlb"
+				TypeLibraryName="..\..\..\lib\ApplicationKitDLL_vc71_d.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -193,6 +193,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ApplicationKitPrivate.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\BadComponentStateException.h">

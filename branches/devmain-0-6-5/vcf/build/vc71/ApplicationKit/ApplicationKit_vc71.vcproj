@@ -31,7 +31,7 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
-				PrecompiledHeaderFile=".\vc71\ReleaseS\ApplicationKit_vc71.pch"
+				PrecompiledHeaderFile=".\vc71\ReleaseS\ApplicationKit_vc71_s.pch"
 				AssemblerListingLocation=".\vc71\ReleaseS\"
 				ObjectFile=".\vc71\ReleaseS\"
 				ProgramDataBaseFileName=".\vc71\ReleaseS\"
@@ -84,7 +84,7 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
-				PrecompiledHeaderFile=".\vc71\DebugS\ApplicationKit_vc71.pch"
+				PrecompiledHeaderFile=".\vc71\DebugS\ApplicationKit_vc71_sd.pch"
 				AssemblerListingLocation=".\vc71\DebugS\"
 				ObjectFile=".\vc71\DebugS\"
 				ProgramDataBaseFileName="..\..\..\Lib\ApplicationKit_vc71_sd.pdb"
@@ -164,6 +164,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ApplicationKitPrivate.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\BadComponentStateException.h">

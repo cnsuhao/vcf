@@ -27,7 +27,7 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\DebugDLL\NetworkKitDLL_vc70.pch"
+				PrecompiledHeaderFile=".\vc70\DebugDLL\NetworkKitDLL_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\DebugDLL\"
 				ObjectFile=".\vc70\DebugDLL\"
 				ProgramDataBaseFileName=".\vc70\DebugDLL\"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\NetworkKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\NetworkKitDLL_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

@@ -28,7 +28,7 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/FoundationKit/FoundationKit.h"
-				PrecompiledHeaderFile=".\vc70\DebugDLL\FoundationKitDLL_vc70.pch"
+				PrecompiledHeaderFile=".\vc70\DebugDLL\FoundationKitDLL_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\DebugDLL\"
 				ObjectFile=".\vc70\DebugDLL\"
 				ProgramDataBaseFileName=".\vc70\DebugDLL\"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\FoundationKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\FoundationKitDLL_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
