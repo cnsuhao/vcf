@@ -31,14 +31,13 @@
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/OSXControl.h"
 
-TView* OSXControl::currentCreatedView = NULL;
 
 
 class OSXControlView : public TView {
 public:
 
 	OSXControlView( HIViewRef inControl ):
-		TView(inControl){
+		TView(inControl), osxControl_(NULL){
 		
 	}
 	
@@ -46,7 +45,9 @@ public:
 	
 	}
 		
-	
+	void setOSXControl( VCF::OSXControl* val ) {
+		osxControl_ = val ;
+	}
 									
 	virtual ControlKind GetKind() {
 		const ControlKind result = { 'vcCv', 'vcCv' };	
@@ -75,16 +76,49 @@ public:
 	
 	}	
 protected:
-		
+	VCF::OSXControl* osxControl_;
 };
 
 
 namespace VCF {
 
+static const EventTypeSpec osxHIViewEvents[] =
+{	{ kEventClassCommand, kEventCommandProcess },
+	{ kEventClassCommand, kEventCommandUpdateStatus },
+	
+	{ kEventClassControl, kEventControlInitialize },
+	{ kEventClassControl, kEventControlDraw },
+	{ kEventClassControl, kEventControlHitTest },
+	{ kEventClassControl, kEventControlGetPartRegion },
+	{ kEventClassControl, kEventControlGetData },
+	{ kEventClassControl, kEventControlSetData },
+	{ kEventClassControl, kEventControlGetOptimalBounds },
+	{ kEventClassControl, kEventControlBoundsChanged },
+	{ kEventClassControl, kEventControlTrack },
+	{ kEventClassControl, kEventControlGetSizeConstraints },
+	{ kEventClassControl, kEventControlHit },
+	
+	{ kEventClassControl, kEventControlHiliteChanged },
+	{ kEventClassControl, kEventControlActivate },
+	{ kEventClassControl, kEventControlDeactivate },
+	{ kEventClassControl, kEventControlValueFieldChanged },
+	{ kEventClassControl, kEventControlTitleChanged },
+	{ kEventClassControl, kEventControlEnabledStateChanged },
+	{ kEventClassControl, kEventControlOwningWindowChanged },
+	{ kEventClassControl, kEventControlVisibilityChanged }
+};
+
+
+
+TView* OSXControl::currentCreatedView = NULL;
+
+
 
 
 OSXControl::OSXControl( Control* control ):
-	hiView_(NULL)
+	hiView_(NULL),
+	control_(control),
+	handlerRef_(NULL)
 {
 
 }
@@ -102,20 +136,52 @@ void OSXControl::setCurrentCreateHIView( TView* view )
 		currentCreateMtx = new Mutex();
 	}
 	
-	Lock l(currentCreateMtx);
+	Lock l(*currentCreateMtx);
 	OSXControl::currentCreatedView = view;
 }
 
 long OSXControl::getHandleID()
 {
-	return (long) hiView_;
+	return (long) hiView_->GetViewRef();
+}
+
+EventHandlerUPP OSXControl::getEventHandlerUPP()
+{
+    static EventHandlerUPP result = NULL;
+    if ( NULL == result ) {
+        result = NewEventHandlerUPP( OSXControl::handleOSXEvents );
+    }
+    return result;
 }
 
 void OSXControl::create( Control* owningControl )
 {
-	if ( noErr == ViewCreator<WndView>::create( &hiView_, r, windowRef_ ) ) {
-		//HIViewSetVisible( windowView_, true );		
+	HIViewRef view = NULL;
+	TRect bounds(0,0,0,0);
+	
+	if ( noErr == ViewCreator<OSXControlView>::create( &view, bounds, NULL ) ) {
+		hiView_ = OSXControl::getCurrentCreateHIView();
+ 		OSXControlView* osxView = (OSXControlView*)hiView_;
+		osxView->setOSXControl( this );
+		control_ = owningControl;
+		
+		SetControlProperty( hiView_->GetViewRef(), 'vcfa', 'vcfc', sizeof(void*), (void*)control_ );
+		
+		
+		OSStatus err = InstallEventHandler( GetControlEventTarget( hiView_->GetViewRef() ), 
+							OSXControl::getEventHandlerUPP(),
+							sizeof(osxHIViewEvents) / sizeof(EventTypeSpec), 
+							osxHIViewEvents, 
+							this, 
+							&handlerRef_ );
+							
+		if ( err != noErr ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXControlView!") );
+		}
 	}
+	else {
+		throw RuntimeException( MAKE_ERROR_MSG_2("OSXControlView failed to be created!") );
+	}	
 }
 
 void OSXControl::destroyControl()
@@ -126,12 +192,13 @@ void OSXControl::destroyControl()
 
 void OSXControl::setBounds( Rect* rect )
 {
-
+	TRect r( rect->left_, rect->top_, rect->getWidth(), rect->getHeight() );	
+	HIViewSetFrame( hiView_->GetViewRef(), r );
 }
 
 bool OSXControl::beginSetBounds( const ulong32& numberOfChildren )
 {
-
+	return true;
 }
 
 void OSXControl::endSetBounds()
@@ -141,27 +208,38 @@ void OSXControl::endSetBounds()
 
 Rect OSXControl::getBounds()
 {
-
+	Rect result;
+	
+	TRect r = hiView_->Frame();
+	
+	result.setRect( r.origin.x, r.origin.y, r.origin.x + r.size.width, r.origin.y + r.size.height ); 
+	
+	return result;
 }
 
 void OSXControl::setVisible( const bool& visible )
 {
-
+	if ( visible ) {
+		hiView_->Show();
+	}
+	else {
+		hiView_->Hide();
+	}
 }
 
 bool OSXControl::getVisible()
 {
-
+	return hiView_->IsVisible() ? true : false;
 }
 
 Control* OSXControl::getControl()
 {
-
+	return control_;
 }
 
 void OSXControl::setControl( Control* component )
 {
-
+	control_ = component;
 }
 
 void OSXControl::setCursor( Cursor* cursor )
@@ -171,32 +249,59 @@ void OSXControl::setCursor( Cursor* cursor )
 
 void OSXControl::setParent( Control* parent )
 {
-
+	Window* windowParent = dynamic_cast<Window*>(parent);
+	if ( NULL != windowParent ) {
+ 		WindowRef wndRef = (WindowRef)parent->getPeer()->getHandleID();
+		ControlRef root = NULL;
+		GetRootControl( wndRef, &root );
+		HIViewAddSubview( root, hiView_->GetViewRef() );		
+	}
+	else {
+		ControlRef parentControlRef = (ControlRef)parent->getPeer()->getHandleID();
+		HIViewAddSubview( parentControlRef, hiView_->GetViewRef() );
+	}
 }
 
 Control* OSXControl::getParent()
 {
-
+	Control* result = NULL;
+	HIViewRef parentRef = HIViewGetSuperview( hiView_->GetViewRef() );	
+	
+	void* ptr = NULL;
+	OSStatus err = GetControlProperty( parentRef, 'vcfa', 'vcfc', sizeof(void*), NULL, &ptr );
+	if ( err == noErr ) {
+		result = (VCF::Control*)ptr;
+	}	
+	return result;
 }
 
 bool OSXControl::isFocused()
 {
-
+	WindowRef wnd = hiView_->GetOwner();
+	ControlRef focusedControl = NULL;
+	GetKeyboardFocus( wnd, &focusedControl );	
+	
+	return ( hiView_->GetViewRef() == focusedControl ) ? true : false;
 }
 
 void OSXControl::setFocused()
 {
-
+	HIViewSetNextFocus( hiView_->GetViewRef(), NULL );
 }
 
 bool OSXControl::isEnabled()
 {
-
+	return hiView_->IsEnabled() ? true : false;
 }
 
 void OSXControl::setEnabled( const bool& enabled )
 {
-
+	if ( enabled ) {
+		EnableControl( hiView_->GetViewRef() );
+	}
+	else {
+		DisableControl( hiView_->GetViewRef() );
+	}
 }
 
 void OSXControl::setFont( Font* font )
@@ -206,7 +311,7 @@ void OSXControl::setFont( Font* font )
 
 void OSXControl::repaint( Rect* repaintRect=NULL )
 {
-
+	hiView_->Invalidate();
 }
 
 void OSXControl::keepMouseEvents()
@@ -228,6 +333,87 @@ void OSXControl::translateFromScreenCoords( Point* pt )
 {
 
 }
+
+
+OSStatus OSXControl::handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData)
+{
+	OSXControl* control = (OSXControl*)userData;
+    
+    return control->handleOSXEvent( nextHandler, theEvent );
+}
+
+OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent )
+{
+	OSStatus result = eventNotHandledErr;
+    
+    OSXEventMsg msg( theEvent, control_ );
+    Event* vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+    
+    UInt32 whatHappened = GetEventKind (theEvent);
+	switch ( GetEventClass( theEvent ) )  {	
+		case kEventClassControl : {
+			switch( whatHappened ) {
+				case kEventControlDraw : {
+					result = ::CallNextEventHandler( nextHandler, theEvent ); 
+				
+					if ( !control_->isDestroying() ) {
+						TCarbonEvent		event( theEvent );
+						
+						GrafPtr port = NULL;										
+						CGContextRef context = NULL;
+						RgnHandle region = NULL;
+						
+						event.GetParameter( kEventParamRgnHandle, &region );
+						event.GetParameter<CGContextRef>( kEventParamCGContextRef, typeCGContextRef, &context );
+						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
+						
+						GrafPtr oldPort;
+						GetPort( &oldPort );
+						SetPort( port );
+						
+						::Rect bounds = RectProxy( getBounds() );
+						
+						EraseRect( &bounds );
+						
+						VCF::GraphicsContext* ctx = control_->getContext();
+						OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
+						osxCtx->setCGContext( context, port );
+		
+						control_->paint( ctx );	
+						
+						osxCtx->setCGContext( NULL, 0 );
+		
+						SetPort( oldPort );
+		
+						result = noErr;
+					}
+				}
+				break;
+				
+				default : {
+                    result = CallNextEventHandler( nextHandler, theEvent );
+					
+                    if ( !control_->isDestroying() ) {
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
+						}
+					}
+                }
+                break;
+			}
+		}
+		break;
+		
+		default : {
+            result = CallNextEventHandler( nextHandler, theEvent );
+        }
+        break; 
+	}
+	
+	return result;
+}
+
+
 	
 };
 
@@ -236,6 +422,9 @@ void OSXControl::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/16 05:31:06  ddiego
+*OSX code updates. Add basics for custom control peers.
+*
 *Revision 1.1.2.4  2004/05/16 02:39:01  ddiego
 *OSX code updates
 *
