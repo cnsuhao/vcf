@@ -396,12 +396,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
-
-			StringUtils::traceWithArgs( "before paint, control( %p, %s ), paintRect[%d,%d,%d,%d], oldOrg[%d,%d]\n",
-										peerControl_, peerControl_->getName().c_str(),
-										paintRect.left,paintRect.top,paintRect.right,paintRect.bottom,
-										oldOrg.x, oldOrg.y );
-
+			
 
 
 			//this is really dippy to have to do this here ?
@@ -425,11 +420,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 			//reset back to original origin
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
 
-			StringUtils::traceWithArgs( "after paint, control( %p, %s ), paintRect[%d,%d,%d,%d], oldOrg[%d,%d]\n",
-										peerControl_, peerControl_->getName().c_str(),
-										paintRect.left,paintRect.top,paintRect.right,paintRect.bottom,
-										oldOrg.x, oldOrg.y );
-
+			
 			result = memDC_;
 		
 		}
@@ -1319,6 +1310,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/26 01:44:38  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
 *Revision 1.2.2.1  2004/08/19 03:22:53  ddiego
 *updates so new system tray code compiles
 *

@@ -81,7 +81,40 @@ void Win32Font::init()
 
 	//ANSI_VAR_FONT produces bold text on WinME. Changed to DEFAULT_GUI_FONT, which
 	//gives same appearrance on WinXP as ANSI_VAR_FONT. dougtinkham
-	HFONT defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+	//Unfortunately DEFAULT_GUI_FONT looks like shit on Win2k :( 
+	//we'll check here to see the OS version and then base the decision on that
+	//WinMe or XP = DEFAULT_GUI_FONT, Win2K == DEFAULT_GUI_FONT. JC (aka ddiego)
+
+	HFONT defFont = NULL;
+	
+	static OSVERSIONINFO osVersion = {0};
+	if ( 0 == osVersion.dwOSVersionInfoSize ) {
+		osVersion.dwOSVersionInfoSize = sizeof(osVersion);
+		GetVersionEx( &osVersion );
+	}
+	
+
+
+	
+
+	if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
+		if ( (osVersion.dwMinorVersion >= 1) && (osVersion.dwMinorVersion != 51) ) { //Windows XP or better
+			defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		}
+		else { //Windows 2k or worse
+			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
+		}
+	}
+	else { //Windows 9x
+		if ( 90 == osVersion.dwMinorVersion ) { //Windows ME
+			defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		}
+		else { //Windows 98
+			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
+		}
+	}
+
+	
 	//defFont = NULL;
 	if ( NULL != defFont ){
 		if ( System::isUnicodeEnabled() ) {
@@ -210,6 +243,9 @@ void Win32Font::updateTextMetrics()
 			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
 		}
 	}
+	if ( NULL == dc ) {
+		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	}
 
 	int dcs = ::SaveDC( dc );
 
@@ -290,7 +326,7 @@ double Win32Font::getPointSize()
 
 	
 
-	double result = ((double)lfHeight / ppi) * 72.0;
+	double result = abs( ((double)lfHeight / ppi) * 72.0 );
 
 	if ( GetDeviceCaps( dc, LOGPIXELSY) != this->oldDPI_ ) {
 		result = result * ( ppi / oldDPI_ );
@@ -765,6 +801,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/08/26 01:44:40  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
 *Revision 1.2.2.3  2004/08/26 00:27:49  ddiego
 *fixed font pix size bug that handled non true type fonts poorly.
 *
