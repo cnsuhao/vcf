@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			OutputDirectory=".\Debug\"
+			IntermediateDirectory=".\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -26,10 +26,10 @@
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Debug/RegEnVar_vc70.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				PrecompiledHeaderFile=".\Debug\RegEnVar_vc70.pch"
+				AssemblerListingLocation=".\Debug\"
+				ObjectFile=".\Debug\"
+				ProgramDataBaseFileName=".\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"/>
@@ -39,15 +39,15 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="RegEnVar_vc70.exe"
+				OutputFile=".\RegEnVar_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/RegEnVar_vc70.pdb"
+				ProgramDatabaseFile=".\Debug\RegEnVar_vc70.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\Debug/RegEnVar_vc70.tlb"/>
+				TypeLibraryName=".\Debug\RegEnVar_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -65,8 +65,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\vcfdev"
-			IntermediateDirectory=".\Release"
+			OutputDirectory="..\..\vcfdev\"
+			IntermediateDirectory=".\Release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -81,10 +81,10 @@
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Release/RegEnVar_vc70.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile=".\Release\RegEnVar_vc70.pch"
+				AssemblerListingLocation=".\Release\"
+				ObjectFile=".\Release\"
+				ProgramDataBaseFileName=".\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
@@ -93,14 +93,14 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="RegEnVar_vc70.exe"
+				OutputFile=".\RegEnVar_vc70.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\..\..\vcfdev/RegEnVar_vc70.pdb"
+				ProgramDatabaseFile="..\..\vcfdev\RegEnVar_vc70.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\..\..\vcfdev/RegEnVar_vc70.tlb"/>
+				TypeLibraryName="..\..\vcfdev\RegEnVar_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -122,13 +122,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\CmdLine.cpp">
+				RelativePath="CmdLine.cpp">
 			</File>
 			<File
-				RelativePath=".\RegEnVar.cpp">
+				RelativePath="RegEnVar.cpp">
 			</File>
 			<File
-				RelativePath=".\StdAfx.cpp">
+				RelativePath="StdAfx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -147,10 +147,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath=".\CmdLine.h">
+				RelativePath="CmdLine.h">
 			</File>
 			<File
-				RelativePath=".\StdAfx.h">
+				RelativePath="StdAfx.h">
 			</File>
 		</Filter>
 		<Filter
@@ -158,7 +158,7 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 		</Filter>
 		<File
-			RelativePath=".\ReadMe.txt">
+			RelativePath="ReadMe.txt">
 		</File>
 	</Files>
 	<Globals>

@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory=".\Release\"
+			IntermediateDirectory=".\Release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,10 +28,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release/Transformations_vc70.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile=".\Release\Transformations_vc70.pch"
+				AssemblerListingLocation=".\Release\"
+				ObjectFile=".\Release\"
+				ProgramDataBaseFileName=".\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -41,11 +41,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="Release\Transformations_vc70.exe"
+				OutputFile=".\Release\Transformations_vc70.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release/Transformations_vc70.pdb"
+				ProgramDatabaseFile=".\Release\Transformations_vc70.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/Transformations_vc70.tlb"/>
+				TypeLibraryName=".\Release\Transformations_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			OutputDirectory=".\Debug\"
+			IntermediateDirectory=".\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -86,10 +86,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug/Transformations_vc70.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				PrecompiledHeaderFile=".\Debug\Transformations_vc70.pch"
+				AssemblerListingLocation=".\Debug\"
+				ObjectFile=".\Debug\"
+				ProgramDataBaseFileName=".\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -100,12 +100,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="Debug\Transformations_vc70.exe"
+				OutputFile=".\Debug\Transformations_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/Transformations_vc70.pdb"
+				ProgramDatabaseFile=".\Debug\Transformations_vc70.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -114,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/Transformations_vc70.tlb"/>
+				TypeLibraryName=".\Debug\Transformations_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -136,7 +136,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\Transformations.cpp">
+				RelativePath="Transformations.cpp">
 			</File>
 		</Filter>
 		<Filter

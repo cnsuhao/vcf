@@ -27,7 +27,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug\Resources_vc71.pch"
+				PrecompiledHeaderFile=".\Debug\Resources.pch"
 				AssemblerListingLocation=".\Debug\"
 				ObjectFile=".\Debug\"
 				ProgramDataBaseFileName=".\Debug\"
@@ -41,12 +41,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\Debug\Resources_vc71.exe"
+				OutputFile=".\Resources.exe\"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\Resources_vc71.pdb"
+				ProgramDatabaseFile=".\Debug\Resources.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug\Resources_vc71.tlb"/>
+				TypeLibraryName=".\Debug\Resources.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -88,7 +88,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release\Resources_vc71.pch"
+				PrecompiledHeaderFile=".\Release\Resources.pch"
 				AssemblerListingLocation=".\Release\"
 				ObjectFile=".\Release\"
 				ProgramDataBaseFileName=".\Release\"
@@ -101,11 +101,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\Release\Resources_vc71.exe"
+				OutputFile=".\Resources.exe\"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release\Resources_vc71.pdb"
+				ProgramDatabaseFile=".\Release\Resources.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -113,7 +113,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release\Resources_vc71.tlb"/>
+				TypeLibraryName=".\Release\Resources.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

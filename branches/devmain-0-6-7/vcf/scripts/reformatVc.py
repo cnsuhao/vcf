@@ -4983,6 +4983,10 @@ class DspFile( GenericProjectFile ):
                             entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                             entryValue = self.fixFilenamePostfix( entryValue, oldCompiler, newCompiler, appType, isDebug, config_name )
                             entryValue = DspFile.replaceCompilerTextTuple( entryValue, replaceCompilerTuple )
+                            if ( self.isInProjectsOutputOnProjectDirList()  ):
+                                if ( entryName == 'OutputFile' ):
+                                    outputDir = vcpCfg.entryNameValueDict[ 'OutputDirectory' ]
+                                    entryValue = self.fixFilenameSubdir( entryValue, outputDir, oldCompiler, newCompiler, appType, isDebug, config_name )
                             changed = True
                         if ( entryName == 'AdditionalDependencies' ):
                             entryValue = self.librariesChangePostfix( entryValue, oldCompiler, newCompiler, appType, isDebug, config_name )
@@ -5918,6 +5922,9 @@ class DspFile( GenericProjectFile ):
         if ( not fm ):
             return pathfilename
 
+        if ( se == '.vcproj' and self.isInProjectsOutputOnProjectDirList()  ):
+            dsdkldk = 10
+
         #if ( self.isFileIn2() ):
         #    msg = 'WARNING: [%s\n fp: %s\nff: %s\n fb: %s\nfe: %s\n] the entry has a postfix [ %s ] NOT different than the unexpected one [ %s ]. Configuration \'%s\'.  File \'%s\'.' % ( pathfilename, fp, ff, fb, fe, fm, sm, config_name, self.filename )
         #    print msg
@@ -5930,8 +5937,8 @@ class DspFile( GenericProjectFile ):
         fn = fm + postfix + fe
 
         putPostfix = True
-        if ( app.projectsNoPostfixList or app.projectsNoPostfixOutputList or app.projectsNoPostfixIfUnderCompilerDirList ):
-            if ( self.isInProjectsNoPostfixList() or self.isInProjectsNoPostfixOutputList() or self.isInProjectsNoPostfixIfUnderCompilerDirList() ):
+        if ( app.projectsNoPostfixList or app.projectsNoPostfixOutputList or app.projectsNoPostfixIfUnderCompilerDirList or app.projectsOutputOnProjectDirList ):
+            if ( self.isInProjectsNoPostfixList() or self.isInProjectsNoPostfixOutputList() or self.isInProjectsNoPostfixIfUnderCompilerDirList() or self.isInProjectsOutputOnProjectDirList() ):
                 putPostfix = False
         if ( putPostfix ):
             fn2 = fm + postfix + fe
@@ -6086,6 +6093,41 @@ class DspFile( GenericProjectFile ):
             list += '\n'
 
         return list
+
+    def fixFilenameSubdir( self, entryValue, outputDir, oldCompiler, newCompiler, appType, isDebug, config_name ):
+        pf = entryValue
+        
+        sep = FileUtils.getNormSep( app.options.unixStyle )
+
+        pf = StringUtils.replace( pf, 'debug' + sep, '', True )
+        pf = StringUtils.replace( pf, 'release' + sep, '', True )
+        pf = StringUtils.replace( pf, oldCompiler + sep, '', True )
+        pf = StringUtils.replace( pf, newCompiler + sep, '', True )
+        pf = FileUtils.normPath( pf, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_True )
+
+#       pathname = FileUtils.normPath( pathname, g_internal_unixStyle )
+#
+#            # Lib
+#            dirname = os.path.dirname( pathname )
+#            dirname =  FileUtils.normDir( dirname, g_internal_unixStyle )
+#
+#            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+#
+#        directory = dir
+#        sep = FileUtils.getNormSep( app.options.unixStyle )
+#        directory = FileUtils.normPath( directory, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_True )
+#        directory = StringUtils.replace( directory, self.configNameList[self.nCfg] + sep, '', True )
+#        directory = FileUtils.normPath( directory, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_True )
+#        directory = StringUtils.replace( directory, compilerVc6 + sep, '', True )
+#        directory = StringUtils.replace( directory, compilerVc70 + sep, '', True )
+#        directory = StringUtils.replace( directory, compilerVc71 + sep, '', True )
+#        directory = StringUtils.replace( directory, compilerIcl7 + sep, '', True )
+#        directory = FileUtils.normPath( directory, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_True )
+#        #line = self.storeAndRemoveOption( line, '/out:', directory, self.mainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile, True, forceNoConfigSubdir, forceNoPostfix )
+#        lin = StringUtils.replace( line, dir, directory, True )
+#        line = lin
+
+        return pf
 
     def isInProjectsNoPostfixList( self ):
         isInList = False

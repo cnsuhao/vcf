@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc70\Debug"
-			IntermediateDirectory=".\vc70\Debug"
+			OutputDirectory=".\vc70\Debug\"
+			IntermediateDirectory=".\vc70\Debug\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -21,14 +21,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),../zlib"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\zlib\"
 				PreprocessorDefinitions="WIN32,_DEBUG,_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Debug/LibPNG_vc70.pch"
-				AssemblerListingLocation=".\vc70\Debug/"
-				ObjectFile=".\vc70\Debug/"
+				PrecompiledHeaderFile=".\vc70\Debug\LibPNG_vc70_sd.pch"
+				AssemblerListingLocation=".\vc70\Debug\"
+				ObjectFile=".\vc70\Debug\"
 				ProgramDataBaseFileName="..\..\..\..\..\..\lib\LibPNG_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -38,7 +38,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../../../../lib/LibPNG_vc70_sd.lib"
+				OutputFile="..\..\..\..\..\..\lib\LibPNG_vc70_sd.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -57,8 +57,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc70\Release"
-			IntermediateDirectory=".\vc70\Release"
+			OutputDirectory=".\vc70\Release\"
+			IntermediateDirectory=".\vc70\Release\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -67,16 +67,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),../zlib"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\zlib\"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Release/LibPNG_vc70.pch"
-				AssemblerListingLocation=".\vc70\Release/"
-				ObjectFile=".\vc70\Release/"
-				ProgramDataBaseFileName=".\vc70\Release/"
+				PrecompiledHeaderFile=".\vc70\Release\LibPNG_vc70_s.pch"
+				AssemblerListingLocation=".\vc70\Release\"
+				ObjectFile=".\vc70\Release\"
+				ProgramDataBaseFileName=".\vc70\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -84,7 +84,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../../../../lib/LibPNG_vc70_s.lib"
+				OutputFile="..\..\..\..\..\..\lib\LibPNG_vc70_s.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -107,68 +107,68 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\png.c">
+				RelativePath="png.c">
 			</File>
 			<File
-				RelativePath=".\pngerror.c">
+				RelativePath="pngerror.c">
 			</File>
 			<File
-				RelativePath=".\pnggccrd.c">
+				RelativePath="pnggccrd.c">
 			</File>
 			<File
-				RelativePath=".\pngget.c">
+				RelativePath="pngget.c">
 			</File>
 			<File
-				RelativePath=".\pngmem.c">
+				RelativePath="pngmem.c">
 			</File>
 			<File
-				RelativePath=".\pngpread.c">
+				RelativePath="pngpread.c">
 			</File>
 			<File
-				RelativePath=".\pngread.c">
+				RelativePath="pngread.c">
 			</File>
 			<File
-				RelativePath=".\pngrio.c">
+				RelativePath="pngrio.c">
 			</File>
 			<File
-				RelativePath=".\pngrtran.c">
+				RelativePath="pngrtran.c">
 			</File>
 			<File
-				RelativePath=".\pngrutil.c">
+				RelativePath="pngrutil.c">
 			</File>
 			<File
-				RelativePath=".\pngset.c">
+				RelativePath="pngset.c">
 			</File>
 			<File
-				RelativePath=".\pngtest.c">
+				RelativePath="pngtest.c">
 			</File>
 			<File
-				RelativePath=".\pngtrans.c">
+				RelativePath="pngtrans.c">
 			</File>
 			<File
-				RelativePath=".\pngvcrd.c">
+				RelativePath="pngvcrd.c">
 			</File>
 			<File
-				RelativePath=".\pngwio.c">
+				RelativePath="pngwio.c">
 			</File>
 			<File
-				RelativePath=".\pngwrite.c">
+				RelativePath="pngwrite.c">
 			</File>
 			<File
-				RelativePath=".\pngwtran.c">
+				RelativePath="pngwtran.c">
 			</File>
 			<File
-				RelativePath=".\pngwutil.c">
+				RelativePath="pngwutil.c">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath=".\png.h">
+				RelativePath="png.h">
 			</File>
 			<File
-				RelativePath=".\pngconf.h">
+				RelativePath="pngconf.h">
 			</File>
 		</Filter>
 	</Files>

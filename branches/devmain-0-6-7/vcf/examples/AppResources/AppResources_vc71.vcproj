@@ -29,7 +29,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release\AppResources_vc71.pch"
+				PrecompiledHeaderFile=".\Release\AppResources.pch"
 				AssemblerListingLocation=".\Release\"
 				ObjectFile=".\Release\"
 				ProgramDataBaseFileName=".\Release\"
@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\Release\AppResources_vc71.exe"
+				OutputFile=".\AppResources.exe\"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release\AppResources_vc71.pdb"
+				ProgramDatabaseFile=".\Release\AppResources.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"
 				TargetMachine="1"/>
@@ -55,7 +55,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release\AppResources_vc71.tlb"
+				TypeLibraryName=".\Release\AppResources.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -94,7 +94,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug\AppResources_vc71.pch"
+				PrecompiledHeaderFile=".\Debug\AppResources.pch"
 				AssemblerListingLocation=".\Debug\"
 				ObjectFile=".\Debug\"
 				ProgramDataBaseFileName=".\Debug\"
@@ -107,12 +107,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\Debug\AppResources_vc71.exe"
+				OutputFile=".\AppResources.exe\"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\AppResources_vc71.pdb"
+				ProgramDatabaseFile=".\Debug\AppResources.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"
 				TargetMachine="1"/>
@@ -122,7 +122,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug\AppResources_vc71.tlb"
+				TypeLibraryName=".\Debug\AppResources.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
