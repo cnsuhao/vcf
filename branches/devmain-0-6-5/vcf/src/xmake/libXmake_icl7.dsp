@@ -35,19 +35,19 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6/icl7/Release/"
-# PROP Intermediate_Dir "vc6/icl7/Release/"
+# PROP Output_Dir "icl7\Release\"
+# PROP Intermediate_Dir "icl7\Release\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBXMAKE_LIB" /Fp"icl7/Release/libXmake.pch" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBXMAKE_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"..\lib\libXmake_icl7_s.bsc"
+# ADD BSC32 /nologo /o"../lib/libXmake_icl7_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\lib\libXmake_icl7_s.lib"
+# ADD LIB32 /nologo /out:"../lib/libXmake_icl7_s.lib"
 
 !ELSEIF  "$(CFG)" == "libXmake - Win32 Debug"
 
@@ -58,19 +58,19 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc6/icl7/Debug/"
-# PROP Intermediate_Dir "vc6/icl7/Debug/"
+# PROP Output_Dir "icl7\Debug\"
+# PROP Intermediate_Dir "icl7\Debug\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBXMAKE_LIB" /Fd"../lib/libXmake_icl7_vc6_sd.pdb" /Fp"icl7/Debug/libXmake.pch" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBXMAKE_LIB" /Fd"..\lib\libXmake_icl7_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"..\lib\libXmake_icl7_sd.bsc"
+# ADD BSC32 /nologo /o"../lib/libXmake_icl7_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\lib\libXmake_icl7_sd.lib"
+# ADD LIB32 /nologo /out:"../lib/libXmake_icl7_sd.lib"
 
 !ENDIF 
 
@@ -83,23 +83,23 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\CmdLine.cpp
+SOURCE=CmdLine.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\FilePath.cpp
+SOURCE=FilePath.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\xmake.cpp
+SOURCE=xmake.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\xmakeUtils.cpp
+SOURCE=xmakeUtils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\XMLParser.cpp
+SOURCE=XMLParser.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -107,31 +107,31 @@ SOURCE=.\XMLParser.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\CmdLine.h
+SOURCE=CmdLine.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\DependencyNodes.h
+SOURCE=DependencyNodes.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Enumerator.h
+SOURCE=Enumerator.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\FilePath.h
+SOURCE=FilePath.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\xmake.h
+SOURCE=xmake.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\xmakeUtils.h
+SOURCE=xmakeUtils.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\XMLParser.h
+SOURCE=XMLParser.h
 # End Source File
 # End Group
 # End Target

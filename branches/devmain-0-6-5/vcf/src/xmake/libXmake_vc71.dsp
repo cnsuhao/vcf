@@ -83,23 +83,23 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=./CmdLine.cpp
+SOURCE=CmdLine.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=./FilePath.cpp
+SOURCE=FilePath.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=./xmake.cpp
+SOURCE=xmake.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=./xmakeUtils.cpp
+SOURCE=xmakeUtils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=./XMLParser.cpp
+SOURCE=XMLParser.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -107,31 +107,31 @@ SOURCE=./XMLParser.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=./CmdLine.h
+SOURCE=CmdLine.h
 # End Source File
 # Begin Source File
 
-SOURCE=./DependencyNodes.h
+SOURCE=DependencyNodes.h
 # End Source File
 # Begin Source File
 
-SOURCE=./Enumerator.h
+SOURCE=Enumerator.h
 # End Source File
 # Begin Source File
 
-SOURCE=./FilePath.h
+SOURCE=FilePath.h
 # End Source File
 # Begin Source File
 
-SOURCE=./xmake.h
+SOURCE=xmake.h
 # End Source File
 # Begin Source File
 
-SOURCE=./xmakeUtils.h
+SOURCE=xmakeUtils.h
 # End Source File
 # Begin Source File
 
-SOURCE=./XMLParser.h
+SOURCE=XMLParser.h
 # End Source File
 # End Group
 # End Target
