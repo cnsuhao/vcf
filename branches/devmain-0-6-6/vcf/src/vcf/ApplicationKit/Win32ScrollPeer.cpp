@@ -196,10 +196,12 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	// determine whether or not scrollbars are needed
 	if ( hasHorzSB && ( virtViewWidth  > bounds.getWidth() ) ) {
 		needHorzSB = true;
+		showHorzSB = true;
 	}
 
 	if ( hasVertSB && ( virtViewHeight > bounds.getHeight() ) ) {
 		needVertSB = true;
+		showVertSB = true;
 	}
 
 	// determine having made one of the scrollbars visible requires the other to be visible also
@@ -455,6 +457,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/22 18:54:42  dougtinkham
+*to get it working again
+*
 *Revision 1.2.2.5  2004/09/21 22:27:09  marcelloptr
 *added setVirtualViewStep functions for the scrollbars and other minor changes
 *
