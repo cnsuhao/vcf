@@ -366,12 +366,14 @@ void TextControl::handleEvent( Event* event )
 								//process the tab
 								
 								if ( !ke->hasShiftKey() && !ke->hasAltKey() && !ke->hasControlKey() ) {
+									// we add the 'tab' text in place of the selection
+
 									ulong32 pos =  textPeer_->getCaretPosition();
 									String text;
 									text += ke->getKeyValue();
 									
-									//determnine if we have sleected text. If we 
-									//have, then delete the selection ant *then*
+									//determine if we have selected text. If we 
+									//have, then delete the selection and *then*
 									//add in the new character(s)
 									
 									ulong32 length = textPeer_->getSelectionCount();
@@ -468,6 +470,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/21 00:25:37  marcelloptr
+*comments
+*
 *Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
