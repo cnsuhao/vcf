@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.3  2003/10/02 04:50:34  ddiego
+#changes to ensure the code compiles on linux. made a bunch of updates to
+#the makefiles
+#
 #Revision 1.3.4.2  2003/09/27 16:19:10  ddiego
 #further mods to bring it up to synch with the current win32 rev
 #
@@ -61,12 +65,14 @@ include common.mak
 #debug target
 FOUNDATION_KIT_SO_D=$(BIN_OUT)/libFoundationKit_d.so
 GRAPHICS_KIT_SO_D=$(BIN_OUT)/libGraphicsKit_d.so
+LIBAGG_LIB_D=$(LIB_OUT)/libAGG_d.a
 APPLICATION_KIT_SO_D=$(BIN_OUT)/libApplicationKit_d.so
 NETWORK_KIT_SO_D=$(BIN_OUT)/libNetworkKit_d.so
 
 #release target
 FOUNDATION_KIT_SO=$(BIN_OUT)/libFoundationKit.so
 GRAPHICS_KIT_SO=$(BIN_OUT)/libGraphicsKit.so
+LIBAGG_LIB=$(LIB_OUT)/libAGG.a
 APPLICATION_KIT_SO=$(BIN_OUT)/libApplicationKit.so
 NETWORK_KIT_SO=$(BIN_OUT)/libNetworkKit.so
 
@@ -99,6 +105,9 @@ LINKER_FLAGS=-ldl -shared -o
 GK_LINKER_FLAGS=-L $(BIN_OUT) $(GTK_LINKER_FLAGS) -lFoundationKit $(LINKER_FLAGS)
 AK_LINKER_FLAGS=-L $(BIN_OUT) $(GTK_LINKER_FLAGS)  -lFoundationKit -lGraphicsKit $(LINKER_FLAGS)
 NK_LINKER_FLAGS=-L $(BIN_OUT) -lFoundationKit $(LINKER_FLAGS)
+
+
+STATIC_LINKER_FLAGS=-cru
 
 #debug object files.
 #note that they are in a different directory
@@ -139,6 +148,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/VCFMath.o \
 	$(OUTDIR_FK_D)/VCFProcess.o \
 	$(OUTDIR_FK_D)/XMLParser.o \
+	$(OUTDIR_FK_D)/CommandLine.o \
 	$(OUTDIR_FK_D)/LinuxPeer.o \
 	$(OUTDIR_FK_D)/LinuxFilePeer.o \
 	$(OUTDIR_FK_D)/LinuxFileStream.o \
@@ -212,6 +222,24 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 
 
 #GraphicsKit Objects
+LIBAGG_OBJECTFILES_D=$(OUTDIR_GK_D)/agg_affine_matrix.o \
+			$(OUTDIR_GK_D)/agg_bspline.o \
+			$(OUTDIR_GK_D)/agg_curves.o \
+			$(OUTDIR_GK_D)/agg_gen_stroke.o \
+			$(OUTDIR_GK_D)/agg_gsv_text.o \
+			$(OUTDIR_GK_D)/agg_path_storage.o \
+			$(OUTDIR_GK_D)/agg_rasterizer_scanline_aa.o \
+			$(OUTDIR_GK_D)/agg_scanline_u8.o 
+
+LIBAGG_OBJECTFILES=$(OUTDIR_GK)/agg_affine_matrix.o \
+			$(OUTDIR_GK)/agg_bspline.o \
+			$(OUTDIR_GK)/agg_curves.o \
+			$(OUTDIR_GK)/agg_gen_stroke.o \
+			$(OUTDIR_GK)/agg_gsv_text.o \
+			$(OUTDIR_GK)/agg_path_storage.o \
+			$(OUTDIR_GK)/agg_rasterizer_scanline_aa.o \
+			$(OUTDIR_GK)/agg_scanline_u8.o 
+			
 GRAFKIT_OBJECT_FILES_D=$(OUTDIR_GK_D)/GraphicsKit.o \
 			$(OUTDIR_GK_D)/AbstractImage.o \
 			$(OUTDIR_GK_D)/BasicFill.o \
@@ -220,11 +248,10 @@ GRAFKIT_OBJECT_FILES_D=$(OUTDIR_GK_D)/GraphicsKit.o \
 			$(OUTDIR_GK_D)/Font.o \
 			$(OUTDIR_GK_D)/GlyphCollection.o \
 			$(OUTDIR_GK_D)/GraphicsContext.o \
-			$(OUTDIR_GK_D)/GraphicsObject.o \
 			$(OUTDIR_GK_D)/GraphicsToolKit.o \
 			$(OUTDIR_GK_D)/ImageEvent.o \
 			$(OUTDIR_GK_D)/Matrix2D.o \
-			$(OUTDIR_GK_D)/Polygon.o \
+			$(OUTDIR_GK_D)/BezierCurve.o \
 			$(OUTDIR_GK_D)/Vector2D.o \
 			$(OUTDIR_GK_D)/Point.o \
 			$(OUTDIR_GK_D)/Rect.o \
@@ -237,7 +264,9 @@ GRAFKIT_OBJECT_FILES_D=$(OUTDIR_GK_D)/GraphicsKit.o \
 			$(OUTDIR_GK_D)/MgcVector2.o \
 			$(OUTDIR_GK_D)/MgcIntegrate.o \
 			$(OUTDIR_GK_D)/MgcSingleCurve2.o \
-			$(OUTDIR_GK_D)/MgcMath.o 
+			$(OUTDIR_GK_D)/MgcMath.o \
+			$(LIBAGG_LIB_D) 
+			
 
 
 GRAFKIT_OBJECT_FILES=$(OUTDIR_GK)/GraphicsKit.o \
@@ -248,11 +277,10 @@ GRAFKIT_OBJECT_FILES=$(OUTDIR_GK)/GraphicsKit.o \
 			$(OUTDIR_GK)/Font.o \
 			$(OUTDIR_GK)/GlyphCollection.o \
 			$(OUTDIR_GK)/GraphicsContext.o \
-			$(OUTDIR_GK)/GraphicsObject.o \
 			$(OUTDIR_GK)/GraphicsToolKit.o \
 			$(OUTDIR_GK)/ImageEvent.o \
 			$(OUTDIR_GK)/Matrix2D.o \
-			$(OUTDIR_GK)/Polygon.o \
+			$(OUTDIR_GK)/BezierCurve.o \
 			$(OUTDIR_GK)/Point.o \
 			$(OUTDIR_GK)/Rect.o \
 			$(OUTDIR_GK)/Vector2D.o \
@@ -289,7 +317,7 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/ButtonEvent.o \
 			$(OUTDIR_AK_D)/CheckBoxControl.o \
 			$(OUTDIR_AK_D)/Clipboard.o \
-			$(OUTDIR_AK_D)/ClipboardDataObject.o \
+			$(OUTDIR_AK_D)/DataObject.o \
 			$(OUTDIR_AK_D)/ClipboardEvent.o \
 			$(OUTDIR_AK_D)/ColumnItemEvent.o \
 			$(OUTDIR_AK_D)/ColumnModelEvent.o \
@@ -313,7 +341,6 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/Cursor.o \
 			$(OUTDIR_AK_D)/CursorManager.o \
 			$(OUTDIR_AK_D)/CustomControl.o \
-			$(OUTDIR_AK_D)/DataType.o \
 			$(OUTDIR_AK_D)/DefaultColumnItem.o \
 			$(OUTDIR_AK_D)/DefaultColumnModel.o \
 			$(OUTDIR_AK_D)/DefaultListItem.o \
@@ -329,9 +356,7 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/DefaultTreeModel.o \
 			$(OUTDIR_AK_D)/Desktop.o \
 			$(OUTDIR_AK_D)/Dialog.o \
-			$(OUTDIR_AK_D)/DragEvent.o \
 			$(OUTDIR_AK_D)/DragSource.o \
-			$(OUTDIR_AK_D)/DropEvent.o \
 			$(OUTDIR_AK_D)/DropTarget.o \
 			$(OUTDIR_AK_D)/FocusEvent.o \
 			$(OUTDIR_AK_D)/Frame.o \
@@ -392,6 +417,10 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/WhatsThisHelpEvent.o \
 			$(OUTDIR_AK_D)/Window.o \
 			$(OUTDIR_AK_D)/WindowEvent.o \
+			$(OUTDIR_AK_D)/Containers.o \
+			$(OUTDIR_AK_D)/PackageInfo.o \
+			$(OUTDIR_AK_D)/DocumentManager.o \
+			$(OUTDIR_AK_D)/MessageDialog.o \
 			$(OUTDIR_AK_D)/GTKUIToolkit.o \
 			$(OUTDIR_AK_D)/GTKDesktop.o \
 			$(OUTDIR_AK_D)/GTKApplication.o \
@@ -399,7 +428,11 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/GTKControl.o \
 			$(OUTDIR_AK_D)/GTKWindow.o \
 			$(OUTDIR_AK_D)/GTKControlContext.o \
-			$(OUTDIR_AK_D)/GTKCursor.o 
+			$(OUTDIR_AK_D)/GTKCursor.o \
+			$(OUTDIR_AK_D)/GTKTextControl.o \
+			$(OUTDIR_AK_D)/GTKFileOpenDialog.o \
+			$(OUTDIR_AK_D)/GTKDialog.o \
+			$(OUTDIR_AK_D)/GTKCommandButton.o 
 
 
 APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
@@ -681,9 +714,16 @@ $(FOUNDATION_KIT_SO) : $(FK_OBJECT_FILES)
 	$(LINKER) $(LINKER_FLAGS) $(FOUNDATION_KIT_SO) $(FK_OBJECT_FILES)
 
 
+
+$(LIBAGG_LIB_D) : $(LIBAGG_OBJECTFILES_D)
+	$(STATIC_LINKER) $(STATIC_LINKER_FLAGS) $(LIBAGG_LIB_D) $(LIBAGG_OBJECTFILES_D)
+
+$(LIBAGG_LIB) : $(LIBAGG_OBJECTFILES)
+	$(STATIC_LINKER) $(STATIC_LINKER_FLAGS) $(LIBAGG_LIB) $(LIBAGG_OBJECTFILES)
+	
 #this is the debug build target for the 
 #GraphicsKit shared object library
-$(GRAPHICS_KIT_SO_D) : $(GRAFKIT_OBJECT_FILES_D)
+$(GRAPHICS_KIT_SO_D) : $(LIBAGG_LIB_D) $(GRAFKIT_OBJECT_FILES_D)
 	$(LINKER) $(GK_LINKER_FLAGS_D) $(GRAPHICS_KIT_SO_D) $(GRAFKIT_OBJECT_FILES_D)
 
 
@@ -726,6 +766,7 @@ $(NETWORK_KIT_SO) : $(NETKIT_OBJECT_FILES)
 
 include FoundationKitObjects.mak
 
+include LibAGGObjects.mak
 
 include GraphicsKitObjects.mak
 
