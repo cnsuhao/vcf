@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\"
-			IntermediateDirectory=".\vc70\Release\"
+			OutputDirectory="."
+			IntermediateDirectory=".\vc70\Release"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,10 +28,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\Release\QTPlayer_vc70.pch"
-				AssemblerListingLocation=".\vc70\Release\"
-				ObjectFile=".\vc70\Release\"
-				ProgramDataBaseFileName=".\vc70\Release\"
+				PrecompiledHeaderFile=".\vc70\Release/QTPlayer_vc70.pch"
+				AssemblerListingLocation=".\vc70\Release/"
+				ObjectFile=".\vc70\Release/"
+				ProgramDataBaseFileName=".\vc70\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -41,11 +41,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib"
-				OutputFile=".\QTPlayer_vc70.exe"
+				OutputFile="QTPlayer.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB),$(QTDevWin_LIB)"
-				ProgramDatabaseFile=".\vc70\Release\QTPlayer_vc70.pdb"
+				ProgramDatabaseFile="./QTPlayer.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc70\Release\QTPlayer_vc70.tlb"/>
+				TypeLibraryName="./QTPlayer_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\"
-			IntermediateDirectory=".\vc70\Debug\"
+			OutputDirectory="."
+			IntermediateDirectory=".\vc70\Debug"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -86,10 +86,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\Debug\QTPlayer_vc70.pch"
-				AssemblerListingLocation=".\vc70\Debug\"
-				ObjectFile=".\vc70\Debug\"
-				ProgramDataBaseFileName=".\vc70\Debug\"
+				PrecompiledHeaderFile=".\vc70\Debug/QTPlayer_vc70.pch"
+				AssemblerListingLocation=".\vc70\Debug/"
+				ObjectFile=".\vc70\Debug/"
+				ProgramDataBaseFileName=".\vc70\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -100,12 +100,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib"
-				OutputFile=".\QTPlayer_vc70.exe"
+				OutputFile="QTPlayer.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\vc70\Debug\QTPlayer_vc70.pdb"
+				ProgramDatabaseFile="./QTPlayer.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -114,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc70\Debug\QTPlayer_vc70.tlb"/>
+				TypeLibraryName="./QTPlayer_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -136,84 +136,84 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="MainWindow.cpp">
+				RelativePath=".\MainWindow.cpp">
 			</File>
 			<File
-				RelativePath="QTPlayer.cpp">
+				RelativePath=".\QTPlayer.cpp">
 			</File>
 			<File
-				RelativePath="QTPlayerAbout.cpp">
+				RelativePath=".\QTPlayerAbout.cpp">
 			</File>
 			<File
-				RelativePath="QTPlayerApplication.cpp">
+				RelativePath=".\QTPlayerApplication.cpp">
 			</File>
 			<File
-				RelativePath="QTResFile.rc">
+				RelativePath=".\QTResFile.rc">
 			</File>
 			<File
-				RelativePath="QuickTimeControl.cpp">
+				RelativePath=".\QuickTimeControl.cpp">
 			</File>
 			<File
-				RelativePath="QuickTimeMovie.cpp">
+				RelativePath=".\QuickTimeMovie.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="MainWindow.h">
+				RelativePath=".\MainWindow.h">
 			</File>
 			<File
-				RelativePath="QTPlayerAbout.h">
+				RelativePath=".\QTPlayerAbout.h">
 			</File>
 			<File
-				RelativePath="QTPlayerApplication.h">
+				RelativePath=".\QTPlayerApplication.h">
 			</File>
 			<File
-				RelativePath="QuickTimeControl.h">
+				RelativePath=".\QuickTimeControl.h">
 			</File>
 			<File
-				RelativePath="QuickTimeMovie.h">
+				RelativePath=".\QuickTimeMovie.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="fullvol.bmp">
+				RelativePath=".\fullvol.bmp">
 			</File>
 			<File
-				RelativePath="mute.bmp">
+				RelativePath=".\mute.bmp">
 			</File>
 			<File
-				RelativePath="open.bmp">
+				RelativePath=".\open.bmp">
 			</File>
 			<File
-				RelativePath="pause.bmp">
+				RelativePath=".\pause.bmp">
 			</File>
 			<File
-				RelativePath="play.bmp">
+				RelativePath=".\play.bmp">
 			</File>
 			<File
-				RelativePath="QTLogo.bmp">
+				RelativePath=".\QTLogo.bmp">
 			</File>
 			<File
-				RelativePath="reset.bmp">
+				RelativePath=".\reset.bmp">
 			</File>
 			<File
-				RelativePath="search.bmp">
+				RelativePath=".\search.bmp">
 			</File>
 			<File
-				RelativePath="stop.bmp">
+				RelativePath=".\stop.bmp">
 			</File>
 			<File
-				RelativePath="view-half.bmp">
+				RelativePath=".\view-half.bmp">
 			</File>
 			<File
-				RelativePath="view-normal.bmp">
+				RelativePath=".\view-normal.bmp">
 			</File>
 			<File
-				RelativePath="view200.bmp">
+				RelativePath=".\view200.bmp">
 			</File>
 		</Filter>
 	</Files>

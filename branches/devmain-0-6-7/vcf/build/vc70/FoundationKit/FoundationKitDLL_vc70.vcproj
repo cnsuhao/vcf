@@ -11,69 +11,9 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib\"
-			IntermediateDirectory=".\vc70\ReleaseDLL\"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="1"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS"
-				StringPooling="TRUE"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="vcf\FoundationKit\FoundationKit.h"
-				PrecompiledHeaderFile=".\vc70\ReleaseDLL\FoundationKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\ReleaseDLL\"
-				ObjectFile=".\vc70\ReleaseDLL\"
-				ProgramDataBaseFileName=".\vc70\ReleaseDLL\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="rpcrt4.lib odbc32.lib odbccp32.lib version.lib"
-				OutputFile="..\..\..\bin\FoundationKit_vc70.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile="..\..\..\lib\FoundationKit_vc70.pdb"
-				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70.lib"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\FoundationKitDLL_vc70.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib\"
-			IntermediateDirectory=".\vc70\DebugDLL\"
+			OutputDirectory=".\..\..\..\lib"
+			IntermediateDirectory=".\vc70\DebugDLL"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -87,10 +27,10 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="vcf\FoundationKit\FoundationKit.h"
-				PrecompiledHeaderFile=".\vc70\DebugDLL\FoundationKitDLL_vc70_d.pch"
-				AssemblerListingLocation=".\vc70\DebugDLL\"
-				ObjectFile=".\vc70\DebugDLL\"
+				PrecompiledHeaderThrough="vcf/FoundationKit/FoundationKit.h"
+				PrecompiledHeaderFile=".\vc70\DebugDLL/FoundationKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\DebugDLL/"
+				ObjectFile=".\vc70\DebugDLL/"
 				ProgramDataBaseFileName="..\..\..\bin\FoundationKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -106,7 +46,7 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="..\..\..\lib\FoundationKit_vc70_d.pdb"
+				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -114,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\FoundationKitDLL_vc70_d.tlb"/>
+				TypeLibraryName=".\..\..\..\lib/FoundationKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -124,6 +64,66 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\..\..\..\lib"
+			IntermediateDirectory=".\vc70\ReleaseDLL"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="1"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				RuntimeTypeInfo="TRUE"
+				UsePrecompiledHeader="3"
+				PrecompiledHeaderThrough="vcf/FoundationKit/FoundationKit.h"
+				PrecompiledHeaderFile=".\vc70\ReleaseDLL/FoundationKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\ReleaseDLL/"
+				ObjectFile=".\vc70\ReleaseDLL/"
+				ProgramDataBaseFileName=".\vc70\ReleaseDLL/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="rpcrt4.lib odbc32.lib odbccp32.lib version.lib"
+				OutputFile="..\..\..\bin\FoundationKit_vc70.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc70.pdb"
+				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70.lib"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\..\lib/FoundationKitDLL_vc70.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -154,13 +154,13 @@
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FoundationKit.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>

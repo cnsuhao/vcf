@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc70\Debug\"
-			IntermediateDirectory=".\vc70\Debug\"
+			OutputDirectory=".\vc70\Debug"
+			IntermediateDirectory=".\vc70\Debug"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -21,14 +21,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\,$(VCF_INCLUDE)"
+				AdditionalIncludeDirectories="../,$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32,_DEBUG,_LIB,USE_LIBMNG_LIB,USE_LIBJPEG_LIB,USE_LIBPNG_LIB,USE_LIBTIFF_LIB,USE_ZLIB_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Debug\FreeImageLib_vc70_sd.pch"
-				AssemblerListingLocation=".\vc70\Debug\"
-				ObjectFile=".\vc70\Debug\"
+				PrecompiledHeaderFile=".\vc70\Debug/FreeImageLib_vc70.pch"
+				AssemblerListingLocation=".\vc70\Debug/"
+				ObjectFile=".\vc70\Debug/"
 				ProgramDataBaseFileName="..\..\..\..\..\..\lib\FreeImage_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -38,7 +38,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\FreeImage_vc70_sd.lib"
+				OutputFile="../../../../../../lib/FreeImage_vc70_sd.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -57,8 +57,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc70\Release\"
-			IntermediateDirectory=".\vc70\Release\"
+			OutputDirectory=".\vc70\Release"
+			IntermediateDirectory=".\vc70\Release"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -67,16 +67,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\,$(VCF_INCLUDE)"
+				AdditionalIncludeDirectories="../,$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB,USE_LIBMNG_LIB,USE_LIBJPEG_LIB,USE_LIBPNG_LIB,USE_LIBTIFF_LIB,USE_ZLIB_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Release\FreeImageLib_vc70_s.pch"
-				AssemblerListingLocation=".\vc70\Release\"
-				ObjectFile=".\vc70\Release\"
-				ProgramDataBaseFileName=".\vc70\Release\"
+				PrecompiledHeaderFile=".\vc70\Release/FreeImageLib_vc70.pch"
+				AssemblerListingLocation=".\vc70\Release/"
+				ObjectFile=".\vc70\Release/"
+				ProgramDataBaseFileName=".\vc70\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -84,7 +84,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\FreeImage_vc70_s.lib"
+				OutputFile="../../../../../../lib/FreeImage_vc70_s.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -106,6 +106,21 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="..\FreeImage\BitmapAccess.cpp">
+			</File>
+			<File
+				RelativePath="..\FreeImage\FreeImage.cpp">
+			</File>
+			<File
+				RelativePath="..\FreeImage\FreeImageIO.cpp">
+			</File>
+			<File
+				RelativePath="..\FreeImage\GetType.cpp">
+			</File>
+			<File
+				RelativePath="..\FreeImage\LoadFunctions.cpp">
+			</File>
 			<Filter
 				Name="Quantizers"
 				Filter="">
@@ -190,21 +205,6 @@
 					RelativePath="..\FreeImage\PluginWBMP.cpp">
 				</File>
 			</Filter>
-			<File
-				RelativePath="..\FreeImage\BitmapAccess.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\FreeImage.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\FreeImageIO.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\GetType.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\LoadFunctions.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
