@@ -55,7 +55,11 @@ void ListBoxControl::init()
 
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
-	defaultItemHeight_ = getContext()->getTextHeight( "EM" ) + 4;
+	GraphicsContext* context = getContext();
+	Font* font = context->getCurrentFont();
+	UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
+	defaultItemHeight_ = mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight ) );//context->getTextHeight("EM") ); //font->getPixelSize() );
+	//defaultItemHeight_ = getContext()->getTextHeight( "EM" ) + 4;
 
 	EventHandler* lmh =
 		new ListModelEventHandler<ListBoxControl>( this, &ListBoxControl::onItemAdded, "ListBoxControl::onItemAdded" );
@@ -75,6 +79,8 @@ void ListBoxControl::init()
 	selectedItemsContainer_.initContainer( selectedItems_ );
 
 	setUseColorForBackground( true );
+
+
 }
 
 ListBoxControl::~ListBoxControl()
@@ -656,10 +662,22 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 	textBounded_ = istextbounded;
 }
 
+void ListBoxControl::setScrollable( Scrollable* scrollable )
+{
+	Control ::setScrollable( scrollable );
+
+	scrollable_->setVirtualViewVertStep( getDefaultItemHeight() );
+	scrollable_->setDiscreteScroll( false, true );
+}
+
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/03/10 00:17:27  marcelloptr
+*set discrete scrolling as default behaviour for ListBoxControls
+*
 *Revision 1.5  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

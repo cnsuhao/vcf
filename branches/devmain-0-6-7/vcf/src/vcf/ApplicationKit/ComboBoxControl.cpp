@@ -27,21 +27,13 @@ public:
 		// Remark: selectedItem_ differs from comboBoxControl->getListModel()->getSelectedItem() because of the DropDownListBox::mouseMove() action
 		comboBoxControl->selectItems( false );
 
-		
-		GraphicsContext* context = getContext();
-		
-		Font* font = context->getCurrentFont();
-
-		UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
-		setDefaultItemHeight( mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight ) );//context->getTextHeight("EM") ); //font->getPixelSize() );
-
 		ScrollbarManager* scrollBarMgr = new ScrollbarManager();
 		scrollBarMgr->setTarget( this );
 		addComponent( scrollBarMgr );
 
 		scrollBarMgr->setHasHorizontalScrollbar( false );
 		scrollBarMgr->setHasVerticalScrollbar( true );
-		scrollBarMgr->setVirtualViewVertStep( getDefaultItemHeight() );
+		//scrollBarMgr->setVirtualViewVertStep( getDefaultItemHeight() );
 		scrollBarMgr->setDiscreteScroll( false, comboBoxControl->getDiscreteScroll() );
 
 		setUseColorForBackground( true );
@@ -1054,6 +1046,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/03/10 00:17:27  marcelloptr
+*set discrete scrolling as default behaviour for ListBoxControls
+*
 *Revision 1.3.2.10  2005/02/16 17:54:31  marcelloptr
 *removed a mark I forgot
 *
