@@ -64,7 +64,7 @@ public:
 
 	bool hasVerticalScrollBar();
 
-	bool hasHorizontalScrollBar();
+	bool hasHorizontalScrollBar();	
 
 	double getVirtualViewHeight();
 
@@ -73,6 +73,16 @@ public:
 	void setVirtualViewHeight( const double& virtualViewHeight );
 
 	void setVirtualViewWidth( const double& virtualViewWidth );
+
+	void setVirtualViewSize( const double& virtualViewWidth, const double& virtualViewHeight );
+
+	virtual void setVirtualViewHorzStep( const double& step );
+
+	virtual void setVirtualViewVertStep( const double& step );
+
+	virtual double getVirtualViewHorzStep();
+
+	virtual double getVirtualViewVertStep();
 
 	void setVerticalPosition( const double& vertPosition );
 
@@ -98,8 +108,10 @@ public:
 
 	void setHorizontalRightScrollSpace( const double& rightScrollSpace );
 
-	void setKeepScrollbarsVisible( const bool& val );
-	bool getKeepScrollbarsVisible();
+	void setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible );
+	bool getKeepHorzScrollbarVisible();
+	bool getKeepVertScrollbarVisible();
+
 protected:
 	Scrollable* scrollable_;
 	Control* target_;
@@ -114,6 +126,18 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
+*Revision 1.2.2.3  2004/09/21 05:49:23  dougtinkham
+*removed updateVirtualViewSize
+*
+*Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
+*Revision 1.2.2.1  2004/09/14 21:10:55  dougtinkham
+*added updateVirtualViewSize member
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

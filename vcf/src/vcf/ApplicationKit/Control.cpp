@@ -66,7 +66,20 @@ Control::Control():
 
 Control::~Control()
 {
-
+	/**
+	this shouldn't happen, but it's
+	possible if an exception is thrown in a constructor
+	and not handled. In this case the Control::destroy
+	method will not be called, but rather the destructor
+	will be called directly.
+	So we double check here and delete the control peer
+	*/
+	if ( NULL != peer_ ) {
+		peer_->setControl( NULL );
+		peer_->destroyControl();
+		delete peer_;
+		peer_ = NULL;
+	}
 }
 
 void Control::destroy()
@@ -209,7 +222,7 @@ Rect Control::getClientBounds( const bool& includeBorder ) /**throw( InvalidPeer
 	Rect r = peer_->getBounds();
 	clientBounds_->setRect( 0.0, 0.0, r.getWidth(), r.getHeight() );
 
-	if ( (true == includeBorder) && (NULL != border_) ){
+	if ( (includeBorder) && (NULL != border_) ){
 		r = *clientBounds_;
 		*clientBounds_ = border_->getClientRect( &r, this );
 	}
@@ -1354,6 +1367,42 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 	if ( NULL != scrollable ) {
 		Rect innerBounds = getClientBounds(true);
 
+		//account for any children that overlap
+		if ( NULL != this->container_ ) {
+			Enumerator<Control*>* children = container_->getChildren();
+			Rect childBounds;
+			while ( children->hasMoreElements() ) {
+				Control* child = children->nextElement();
+
+				
+				if ( child->getAlignment() != AlignNone && child->getVisible() ) {
+					childBounds = child->getBounds();
+					switch( child->getAlignment() ) {
+						case AlignLeft : {
+							innerBounds.left_ += childBounds.getWidth();
+						}
+						break;
+
+						case AlignRight : {
+							innerBounds.right_ -= childBounds.getWidth();
+						}
+						break;
+
+						case AlignTop : {
+							innerBounds.top_ += childBounds.getHeight();
+						}
+						break;
+
+						case AlignBottom : {
+							innerBounds.bottom_ -= childBounds.getHeight();
+						}
+						break;
+					}
+				}
+			}
+		}
+
+
 		Point scrollPos;
 		scrollPos.x_ = scrollable->getHorizontalPosition();
 		scrollPos.y_ = scrollable->getVerticalPosition();
@@ -1369,19 +1418,56 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 
 		double dx = scrollable->getVirtualViewWidth() - innerBounds.getWidth();
 		double dy = scrollable->getVirtualViewHeight() - innerBounds.getHeight();
-
+		
+		/* 
+		* we need to do a comparison of virtualViewWidth and virtualViewHeight with bounds that have
+		* accounted for the presence of scrollbars if they exist. We need to do this so that origin and
+		* viewable bounds offset are calculated correctly so that when we are scrolled all the way to bottom
+		* and right, the very bottom and right of bounds defined by virtualViewWidth and virtualViewHeight 
+		* are visible. These 'adjusted' bounds are initially set to innerBounds dimensions, and then modified
+		* if scrollbars present. (We alternatively could have increased virtualViewWidth/Height if scrollbars
+		* were present, and compared these to actual innerBounds.)
+		* NOTE: These adjusted values go hand-in-hand with adjustment to SCROLLINFO::nMax in scrollPeer when
+		* both scrollbars present. 
+		*/
+		double scrollAdjustedWidth  = innerBounds.getWidth();
+		double scrollAdjustedHeight = innerBounds.getHeight();	
+		
+		// can't use hasVerticalScrollbar here, we need to know if they are actually visible.
+		bool isVertScrollbarVisible = scrollable->isVerticalScrollbarVisible();
+		bool isHorzScrollbarVisible = scrollable->isHorizontalScrollbarVisible();		
+		
+		/*
+		* since we are no longer adjusting virtualViewWidth and Height for presence of both scrollbars,
+		* we need to tack on the extra to dx and dy here.
+		*/
+		if ( isHorzScrollbarVisible ) {
+			dy += scrollable->getHorizontalScrollbarHeight();
+			scrollAdjustedHeight -= scrollable->getHorizontalScrollbarHeight();
+		}
+		if ( isVertScrollbarVisible ) {
+			dx += scrollable->getVerticalScrollbarWidth();
+			scrollAdjustedWidth -= scrollable->getVerticalScrollbarWidth();
+		}	
+		
+		/*
+		Just a note: this assumes the scroll position units are same as GraphicsContext units (I think).
+		When we implement a user-defined scroll increment, such as by the height of a line of text based
+		on current Context, you may need a conversion here depending on how you implement that technique.
+		*/
 		origin.x_ -= scrollPos.x_;
 		origin.y_ -= scrollPos.y_;
 
 		//offset the viewBounds by the scrollable's offset
 		viewBounds.offset( scrollPos.x_, scrollPos.y_ );
 
-		if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > innerBounds.getWidth()) ) {
+		if ( isHorzScrollbarVisible && ( scrollable->getVirtualViewWidth() > scrollAdjustedWidth ) ) {		
 			Size horzSize = mgr->getDefaultHorizontalScrollButtonDimensions();
 
 			//viewBounds.bottom_ = minVal<>( viewBounds.bottom_-horzSize.height_,viewBounds.bottom_ );
-
+						
 			if ( dx < scrollPos.x_ ) {
+			
 				origin.x_ -= ( dx - scrollPos.x_ );
 
 				viewBounds.offset( dx - scrollPos.x_, 0 );
@@ -1400,8 +1486,8 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 			}
 		}
 
-
-		if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > innerBounds.getHeight()) ) {
+		
+		if ( isVertScrollbarVisible && ( scrollable->getVirtualViewHeight() > scrollAdjustedHeight ) ) {
 			Size vertSize = mgr->getDefaultVerticalScrollButtonDimensions();
 
 			//viewBounds.right_ = minVal<>( viewBounds.right_-vertSize.width_,viewBounds.right_ );
@@ -1443,10 +1529,38 @@ void Control::setViewModel( Model* viewModel )
 	ControlModelChanged.fireEvent(&event);
 }
 
+void Control::paintBorder( GraphicsContext * context )
+{
+	Border* border = getBorder();
+	if ( NULL != border ) {
+		border->paint( this, context );
+	}
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/21 05:46:50  dougtinkham
+*modified adjustViewableBoundsAndOriginForScrollable for new scrolling
+*
+*Revision 1.2.2.5  2004/09/12 22:34:21  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
+*Revision 1.2.2.4  2004/09/06 23:05:55  ddiego
+*fixed border in button class
+*
+*Revision 1.2.2.3  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
+*Revision 1.2.2.2  2004/08/21 21:06:52  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
+*Revision 1.2.2.1  2004/08/19 03:22:53  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.3  2004/08/19 02:24:54  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.
 *

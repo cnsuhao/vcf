@@ -184,7 +184,6 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 		}
 	}
 
-
 	GraphicsContext* ctx = getContext();
 
 	ListItem* item = event->getListItem();
@@ -194,9 +193,7 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 
 	currentMaxHeight_ += item->getBounds()->getHeight();
 
-
 	currentMaxWidth_ = maxVal<double>( ctx->getTextWidth( item->getCaption() ) + leftGutter_ + rightGutter_, currentMaxWidth_ ); 
-
 
 	if ( NULL != scrollable ) {
 		if ( (getHeight() > currentMaxHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {
@@ -207,18 +204,7 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 			scrollable->setHorizontalPosition( 0.0 );
 		}
 
-		double realMaxWidth = currentMaxWidth_;
-		double realMaxHeight = currentMaxHeight_;
-		if ( (currentMaxHeight_ > getHeight())  ) {
-			realMaxWidth += scrollable->getVerticalScrollbarWidth();
-		}
-
-		if ( currentMaxWidth_ > getWidth() ) {
-			realMaxHeight += scrollable->getHorizontalScrollbarHeight();
-		}
-
-		scrollable->setVirtualViewHeight( realMaxHeight );
-		scrollable->setVirtualViewWidth( realMaxWidth );
+		scrollable->setVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );
 	}
 	repaint();
 }
@@ -230,8 +216,13 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 	if ( item == singleSelectedItem_ ) {
 		singleSelectedItem_ = NULL;
 	}
-
+	
+	if ( item->isSelected() ) {
+		eraseFromSelectedItems( item );
+	}
+	
 	currentMaxHeight_ -= item->getBounds()->getHeight();
+	//need to recalc currentMaxWidth_ here also if item removed was the widest item. DT
 
 	Scrollable* scrollable = getScrollable();
 
@@ -242,20 +233,9 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 
 		if ( (getWidth() > currentMaxWidth_) && (scrollable->getHorizontalPosition() > 0.0) ) {
 			scrollable->setHorizontalPosition( 0.0 );
-		}
+		}		
 
-		double realMaxWidth = currentMaxWidth_;
-		double realMaxHeight = currentMaxHeight_;
-		if ( (currentMaxHeight_ > getHeight())  ) {
-			realMaxWidth += scrollable->getVerticalScrollbarWidth();
-		}
-
-		if ( currentMaxWidth_ > getWidth() ) {
-			realMaxHeight += scrollable->getHorizontalScrollbarHeight();
-		}
-
-		scrollable->setVirtualViewHeight( realMaxHeight );
-		scrollable->setVirtualViewWidth( realMaxWidth );
+		scrollable->setVirtualViewSize( currentMaxWidth_, currentMaxHeight_ );	
 	}
 
 	repaint();
@@ -527,13 +507,16 @@ void ListBoxControl::mouseMove( MouseEvent* event )
 				}
 			}
 			else {
-				if ( foundItem != singleSelectedItem_ ) {
+				if ( foundItem != singleSelectedItem_ )  {	   
+					//JC - Integrated change by Berkano (Thanks Brian!) - fixes bug [1015368] ListBoxControl Mousemove error 
+					if(!selectedItems_.empty()) {
 					selectedItems_[0] = foundItem;//assumes index 0 exists
 					setSelectedItem( foundItem );
 				}
 			}
 		}
 	}
+}
 }
 
 void ListBoxControl::mouseUp( MouseEvent* event )
@@ -679,8 +662,26 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4  2004/08/20 23:59:16  ddiego
-*minor fix to listboxcontrol
+*Revision 1.2.2.7  2004/09/21 05:48:23  dougtinkham
+*mod onItemAdded, onItemDeleted
+*
+*Revision 1.2.2.6  2004/09/13 06:27:31  dougtinkham
+*onItemAdded & onItemDeleted modified to call updateVirtualViewSize
+*
+*Revision 1.2.2.5  2004/09/12 22:34:21  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
+*Revision 1.2.2.4  2004/09/08 21:12:39  dougtinkham
+*modified onItemAdded for scrolling behavior
+*
+*Revision 1.2.2.3  2004/08/25 19:20:34  dougtinkham
+*modified onItemDeleted
+*
+*Revision 1.2.2.2  2004/08/21 02:38:28  ddiego
+*updated listbox
+*
+*Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
 *
 *Revision 1.3  2004/08/19 02:24:54  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.

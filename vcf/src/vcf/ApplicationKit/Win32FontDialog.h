@@ -18,8 +18,6 @@ namespace VCF {
 
 class Control;
 
-class Control;
-
 class Win32FontDialog : public Object, public CommonFontDialogPeer  {
 public:
 	Win32FontDialog( Control* owner );
@@ -46,6 +44,11 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

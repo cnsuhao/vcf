@@ -65,8 +65,10 @@ where you installed the VCF.
 
 //
 
-#include "vcf/FoundationKit/FoundationKitSelectLib.h"
 #include "vcf/FoundationKit/VCF.h"
+
+#include "vcf/FoundationKit/FoundationKitSelectLib.h"
+
 #include "vcf/FoundationKit/VCFChar.h"
 #include "vcf/FoundationKit/VCFString.h"
 #include "vcf/FoundationKit/CommonDefines.h"
@@ -76,25 +78,30 @@ where you installed the VCF.
 #include "vcf/FoundationKit/Interface.h"
 #include "vcf/FoundationKit/Object.h"
 
-#include "vcf/FoundationKit/BasicException.h"
-#include "vcf/FoundationKit/CantCreateObjectException.h"
 #include "vcf/FoundationKit/ErrorStrings.h"
+
+#include "vcf/FoundationKit/BasicException.h"
+#include "vcf/FoundationKit/BasicFileError.h"
+#include "vcf/FoundationKit/ClassNotFound.h"
+#include "vcf/FoundationKit/CantCreateObjectException.h"
+#include "vcf/FoundationKit/FileNotFound.h"
 #include "vcf/FoundationKit/InvalidPeer.h"
 #include "vcf/FoundationKit/InvalidPointerException.h"
 #include "vcf/FoundationKit/NoFreeMemException.h"
 #include "vcf/FoundationKit/NoPeerFoundException.h"
 #include "vcf/FoundationKit/NoSuchElementException.h"
+#include "vcf/FoundationKit/NotImplementedException.h"
 #include "vcf/FoundationKit/OutOfBoundsException.h"
 #include "vcf/FoundationKit/PropertyChangeException.h"
 #include "vcf/FoundationKit/RuntimeException.h"
 #include "vcf/FoundationKit/TypeCastException.h"
-#include "vcf/FoundationKit/ClassNotFound.h"
-#include "vcf/FoundationKit/BasicFileError.h"
-#include "vcf/FoundationKit/FileNotFound.h"
-#include "vcf/FoundationKit/ClassNotFound.h"
+
 #include "vcf/FoundationKit/ProcessException.h"
 
+
+#include "vcf/FoundationKit/ProgramInfo.h"
 #include "vcf/FoundationKit/PackageInfo.h"
+
 
 #include "vcf/FoundationKit/Persistable.h"
 #include "vcf/FoundationKit/DateTime.h"
@@ -170,6 +177,20 @@ where you installed the VCF.
 #include "vcf/FoundationKit/XMLParser.h"
 #include "vcf/FoundationKit/VariantDataStream.h"
 #include "vcf/FoundationKit/CommandLine.h"
+
+
+
+/**
+*resources handling/management
+*/
+#include "vcf/FoundationKit/Resource.h"
+#include "vcf/FoundationKit/ResourceBundle.h"
+#include "vcf/FoundationKit/ResourceException.h"
+
+
+
+
+
 
 namespace VCF{
 	/**
@@ -252,6 +273,21 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2004/09/15 21:14:28  ddiego
+*added support for getting program info from resource bundle.
+*
+*Revision 1.3.2.3  2004/08/23 22:26:06  marcelloptr
+*added NotImplementedException
+*
+*Revision 1.3.2.2  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
+*Revision 1.3.2.1  2004/08/17 05:01:32  marcelloptr
+*improved macros for library selection
+*
 *Revision 1.3  2004/08/08 22:09:33  ddiego
 *final checkin before the 0-6-5 release
 *

@@ -192,19 +192,19 @@ ContextPeer* UIToolkit::createContextPeer( const unsigned long& width, const uns
 	return UIToolkit::toolKitInstance->internal_createContextPeer( width, height );
 }
 
-ListviewPeer* UIToolkit::createListViewPeer( ListViewControl* component, ComponentType componentType)
+ListviewPeer* UIToolkit::createListViewPeer( ListViewControl* component)
 {
-	return UIToolkit::toolKitInstance->internal_createListViewPeer( component, componentType );
+	return UIToolkit::toolKitInstance->internal_createListViewPeer( component );
 }
 
-TreePeer* UIToolkit::createTreePeer( TreeControl* component, ComponentType componentType)
+TreePeer* UIToolkit::createTreePeer( TreeControl* component)
 {
-	return UIToolkit::toolKitInstance->internal_createTreePeer( component, componentType );
+	return UIToolkit::toolKitInstance->internal_createTreePeer( component );
 }
 
-TextPeer* UIToolkit::createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType)
+TextPeer* UIToolkit::createTextPeer( TextControl* component, const bool& isMultiLineControl)
 {
-	return UIToolkit::toolKitInstance->internal_createTextPeer( component, isMultiLineControl, componentType );
+	return UIToolkit::toolKitInstance->internal_createTextPeer( component, isMultiLineControl );
 }
 
 HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
@@ -212,14 +212,14 @@ HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
 	return UIToolkit::toolKitInstance->internal_createHTMLBrowserPeer( control );
 }
 
-ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component, ComponentType componentType)
+ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component)
 {
-	return UIToolkit::toolKitInstance->internal_createButtonPeer( component, componentType );
+	return UIToolkit::toolKitInstance->internal_createButtonPeer( component );
 }
 
-DialogPeer* UIToolkit::createDialogPeer( Control* owner, Dialog* component, ComponentType componentType)
+DialogPeer* UIToolkit::createDialogPeer( Control* owner, Dialog* component)
 {
-	return UIToolkit::toolKitInstance->internal_createDialogPeer( owner, component, componentType );
+	return UIToolkit::toolKitInstance->internal_createDialogPeer( owner, component );
 }
 
 DialogPeer* UIToolkit::createDialogPeer()
@@ -227,10 +227,9 @@ DialogPeer* UIToolkit::createDialogPeer()
 	return UIToolkit::toolKitInstance->internal_createDialogPeer();
 }
 
-WindowPeer* UIToolkit::createWindowPeer( Control* component, Control* owner,
-									ComponentType componentType)
+WindowPeer* UIToolkit::createWindowPeer( Control* component, Control* owner)
 {
-	return UIToolkit::toolKitInstance->internal_createWindowPeer( component, owner, componentType );
+	return UIToolkit::toolKitInstance->internal_createWindowPeer( component, owner );
 }
 
 ToolbarPeer* UIToolkit::createToolbarPeer( Toolbar* toolbar )
@@ -308,6 +307,11 @@ CommonFontDialogPeer* UIToolkit::createCommonFontDialogPeer( Control* owner )
 	return UIToolkit::toolKitInstance->internal_createCommonFontDialogPeer( owner );
 }
 
+CommonPrintDialogPeer* UIToolkit::createCommonPrintDialogPeer( Control* owner )
+{
+	return UIToolkit::toolKitInstance->internal_createCommonPrintDialogPeer( owner );
+}
+
 DesktopPeer* UIToolkit::createDesktopPeer( Desktop* desktop )
 {
 	return UIToolkit::toolKitInstance->internal_createDesktopPeer( desktop );
@@ -322,6 +326,12 @@ CursorPeer* UIToolkit::createCursorPeer( Cursor* cursor )
 {
 	return UIToolkit::toolKitInstance->internal_createCursorPeer( cursor );
 }
+
+SystemTrayPeer* UIToolkit::createSystemTrayPeer()
+{
+	return UIToolkit::toolKitInstance->internal_createSystemTrayPeer();
+}
+
 
 bool UIToolkit::createCaret( Control* owningControl, Image* caretImage  )
 {
@@ -1161,6 +1171,17 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
+*Revision 1.2.2.2  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
+*Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
+*added initial system tray code for win32
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

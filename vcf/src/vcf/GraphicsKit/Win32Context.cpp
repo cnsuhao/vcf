@@ -11,6 +11,17 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/GraphicsKit/DrawUIState.h"
+#include "vcf/GraphicsKit/AggCommon.h"
+
+
+
+
+#include "thirdparty/common/agg/include/agg_renderer_scanline.h"
+#include "thirdparty/common/agg/include/agg_span_allocator.h"
+#include "thirdparty/common/agg/include/agg_span_interpolator_linear.h"
+#include "thirdparty/common/agg/include/agg_span_image_filter_rgba32.h"
+#include "thirdparty/common/agg/include/agg_scanline_u.h"
+
 
 using namespace VCF;
 
@@ -97,95 +108,365 @@ void Win32Context::releaseHandle()
 	//clearBuffer();
 }
 
+
+
+class ColorAlpha {
+public:
+	ColorAlpha():alphaValue_(255){}
+	int alphaValue_;
+
+	int calculate(int alpha, int c, int, int, int) const {
+		return alphaValue_;
+	}
+};
+
 void Win32Context::drawImage( const double& x, const double& y, Rect* imageBounds, Image* image )
 {
 	//checkHandle();
+	
+
 	if ( (imageBounds->getWidth() > image->getWidth()) || (imageBounds->getHeight() > image->getHeight()) ) {
 		throw BasicException( MAKE_ERROR_MSG("Invalid image bounds requested"), __LINE__);
 	}
-	Win32Image* win32image = (Win32Image*)(image);
-	if ( NULL != win32image ){
-		//HDC bmpDC = win32image->getDC();
-		ImageBits* bits = win32image->getImageBits();
-		HPALETTE oldPalette = NULL;
-		if ( NULL != win32image->palette_ ){
-			oldPalette = ::SelectPalette( dc_, win32image->palette_, FALSE );
-			::RealizePalette( dc_ );
+
+
+	Matrix2D& currentXFrm = *context_->getCurrentTransform();
+
+	if ( !context_->isDefaultTransform() ) {
+
+		bool safeToRender = true;
+
+		double xx = x * (currentXFrm[Matrix2D::mei00]) +
+							y * (currentXFrm[Matrix2D::mei10]) +
+								(currentXFrm[Matrix2D::mei20]);
+
+		double yy = x * (currentXFrm[Matrix2D::mei01]) +
+							y * (currentXFrm[Matrix2D::mei11]) +
+								(currentXFrm[Matrix2D::mei21]);
+
+
+		agg::trans_affine pathMat;
+		
+		
+
+		pathMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		pathMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		pathMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+										Math::degreesToRadians(context_->getShearY()) );
+		
+
+		
+		agg::path_storage imagePath;
+		imagePath.move_to( imageBounds->left_, imageBounds->top_ );
+		imagePath.line_to( imageBounds->right_, imageBounds->top_ );
+		imagePath.line_to( imageBounds->right_, imageBounds->bottom_ );
+		imagePath.line_to( imageBounds->left_, imageBounds->bottom_ );
+		imagePath.close_polygon();		
+		
+		
+		
+		
+		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
+
+		agg::conv_transform< agg::path_storage >::iterator it = xfrmedImgPath.begin(0);
+		
+		
+		agg::vertex_type vert = *it;	
+
+		Rect xfrmedImageRect;
+		Point p1(vert.x, vert.y );
+		
+		++it;
+		vert = *it;	
+
+		Point p2(vert.x, vert.y );
+		
+		if ( p2.x_ > p1.x_ ) {
+			xfrmedImageRect.left_ = p1.x_;
 		}
+		else {
+			xfrmedImageRect.left_ = p2.x_;
+		}
+
+		if ( p1.x_ < p2.x_ ) {
+			xfrmedImageRect.right_ = p2.x_;
+		}
+		else {
+			xfrmedImageRect.right_ = p1.x_;
+		}
+
+		if ( p2.y_ > p1.y_ ) {
+			xfrmedImageRect.top_ = p1.y_;
+		}
+		else {
+			xfrmedImageRect.top_ = p2.y_;
+		}
+
+		if ( p1.y_ < p2.y_ ) {
+			xfrmedImageRect.bottom_ = p2.y_;
+		}
+		else {
+			xfrmedImageRect.bottom_ = p1.y_;
+		}
+
+
+
+		while ( it != xfrmedImgPath.end() ) {			
+
+			if ( xfrmedImageRect.left_ > (*it).x ) {
+				xfrmedImageRect.left_ = (*it).x;
+			}
+
+			if ( xfrmedImageRect.right_ < (*it).x ) {
+				xfrmedImageRect.right_ = (*it).x;
+			}
+
+			if ( xfrmedImageRect.top_ > (*it).y ) {
+				xfrmedImageRect.top_ = (*it).y;
+			}
+
+			if ( xfrmedImageRect.bottom_ < (*it).y ) {
+				xfrmedImageRect.bottom_ = (*it).y;
+			}
+
+			++it;
+		}
+
+		xfrmedImageRect.offset( xx, yy );
+		xfrmedImageRect.inflate( 2, 2 );
+
+
+		double imageTX = imageBounds->getWidth()/2.0;		
+
+		double imageTY = imageBounds->getHeight()/2.0;
+		
+
+		double xfrmImageTX = xfrmedImageRect.getWidth()/2.0;
+		double xfrmImageTY = xfrmedImageRect.getHeight()/2.0;
+
+		agg::trans_affine pathMat2;
+		
+		
+		pathMat2 *= agg::trans_affine_translation( -imageTX, -imageTY );
+		pathMat2 *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		pathMat2 *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		pathMat2 *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+										Math::degreesToRadians(context_->getShearY()) );
+		pathMat2 *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+		
+		
+
+		
+		agg::conv_transform< agg::path_storage > xfrmedImgPath2(imagePath,pathMat2);
+
+		
+		
+		typedef agg::renderer_base<pixfmt> RendererBase;
+        typedef agg::renderer_scanline_u_solid<RendererBase> SolidRenderer;
+		typedef agg::span_allocator<agg::rgba8> SpanAllocator;
+		typedef agg::span_interpolator_linear<> SpanInterpolator;
+		typedef agg::span_image_filter_rgba32_bilinear<agg::order_bgra32, 
+                                                      SpanInterpolator> SpanGenerator;
+        typedef agg::renderer_scanline_u<RendererBase, SpanGenerator> RendererType;
+
+		
 
 		BITMAPINFO bmpInfo;
 		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
-		//memset( &bmpInfo.bmiHeader, 0, sizeof (BITMAPINFOHEADER) );
 		bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
-		bmpInfo.bmiHeader.biWidth = (long)imageBounds->getWidth();
-		bmpInfo.bmiHeader.biHeight = (long)-imageBounds->getHeight(); // Win32 DIB are upside down - do this to filp it over
+		bmpInfo.bmiHeader.biWidth = (long)xfrmedImageRect.getWidth();
+		bmpInfo.bmiHeader.biHeight = (long)-xfrmedImageRect.getHeight(); // Win32 DIB are upside down - do this to filp it over
 		bmpInfo.bmiHeader.biPlanes = 1;
 		bmpInfo.bmiHeader.biBitCount = 32;
 		bmpInfo.bmiHeader.biCompression = BI_RGB;
 
-		bmpInfo.bmiHeader.biSizeImage = (bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
-
-
+		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
 
 		SysPixelType* bmpBuf = NULL;
-		SysPixelType* tmpBmpBuf = NULL;
+		HDC xfrmDC = ::CreateCompatibleDC( NULL );
+		HBITMAP hbmp = CreateDIBSection ( xfrmDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+			
+
+		safeToRender = (NULL != hbmp) ? true : false;
+
+		if ( safeToRender ) {			
+
+			HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
+
+			BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
+					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
-		HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+			agg::rendering_buffer xfrmImgRenderBuf;
+			xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth, 
+										-bmpInfo.bmiHeader.biHeight,
+										bmpInfo.bmiHeader.biWidth * 4 );
 
 
-		SysPixelType* imageBuf = image->getImageBits()->pixels_;
+			
+			pixfmt pixf(xfrmImgRenderBuf);
+			RendererBase rb(pixf);
+			SolidRenderer srcImageRenderer(rb);
 
-		if ( NULL != hbmp ) {
 
-			int incr = (long)((imageBounds->top_ * image->getWidth()) + imageBounds->left_);
-			imageBuf += incr;
-			tmpBmpBuf = bmpBuf;
-			int imgWidth = image->getWidth();
-			int wIncr = (long)imageBounds->getWidth();
-			int s = (int)imageBounds->top_;
-			int e = (int)imageBounds->bottom_;
-			for (int y1=s;y1<e;y1++) {
+			agg::trans_affine imageMat;
+			imageMat *= agg::trans_affine_translation( -imageTX, -imageTY );
+			imageMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+			imageMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+			imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+											Math::degreesToRadians(context_->getShearY()) );
 
-				memcpy( tmpBmpBuf, imageBuf, wIncr*4 );
+			imageMat *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+			imageMat.invert();
 
-				tmpBmpBuf += wIncr;
-				imageBuf += imgWidth;
-			}
+			
+			SpanAllocator spanAllocator;
+			
+			SpanInterpolator interpolator(imageMat);
 
-			if ( true == image->isTransparent() )  {
-				Color* imageTransColor = image->getTransparencyColor();
-				COLORREF transColor = RGB( imageTransColor->getRed()*255,
-					imageTransColor->getGreen()*255,
-					imageTransColor->getBlue()*255 );
 
-				Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
-			}
-			else {
-				SetDIBitsToDevice( dc_,
-									(long)x,
-									(long)y,
-									(long)imageBounds->getWidth(),
-									(long)imageBounds->getHeight(),
-									0,
-									0,
-									0,
-									(long)imageBounds->getHeight(),
-									bmpBuf,
-									&bmpInfo,
-									DIB_RGB_COLORS );
-			}
+			
 
+			image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
+
+			SpanGenerator spanGen(spanAllocator, 
+							 *image->getImageBits()->renderBuffer_, 
+							 agg::rgba(0, 0, 0, 1.0),
+							 interpolator);
+
+			
+			RendererType imageRenderer(rb, spanGen);
+
+			agg::rasterizer_scanline_aa<> rasterizer;
+			agg::scanline_u8 scanLine;
+
+			rasterizer.add_path(xfrmedImgPath2);
+			rasterizer.render(scanLine, imageRenderer);
+			
+			//rasterizer.render(scanLine, srcImageRenderer);
+
+
+
+			SetDIBitsToDevice( dc_,
+								(long)xfrmedImageRect.left_,
+								(long)xfrmedImageRect.top_,
+								(long)xfrmedImageRect.getWidth(),
+								(long)xfrmedImageRect.getHeight(),
+								0,
+								0,
+								0,
+								(long)xfrmedImageRect.getHeight(),
+								bmpBuf,
+								&bmpInfo,
+								DIB_RGB_COLORS );
+
+			SelectObject( xfrmDC, oldBMP );
 			DeleteObject( hbmp );
 		}
-
-		if ( NULL != oldPalette ){
-			::SelectPalette( dc_, oldPalette, FALSE );
-		}
+		DeleteDC( xfrmDC );
 
 	}
 	else {
-		throw InvalidImage( "Image Peer is not usable under MS Windows" );
+
+		Win32Image* win32image = (Win32Image*)(image);
+		if ( NULL != win32image ){
+			//HDC bmpDC = win32image->getDC();
+			ImageBits* bits = win32image->getImageBits();
+			HPALETTE oldPalette = NULL;
+			if ( NULL != win32image->palette_ ){
+				oldPalette = ::SelectPalette( dc_, win32image->palette_, FALSE );
+				::RealizePalette( dc_ );
+			}
+
+			BITMAPINFO bmpInfo;
+			memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
+			//memset( &bmpInfo.bmiHeader, 0, sizeof (BITMAPINFOHEADER) );
+			bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
+			bmpInfo.bmiHeader.biWidth = (long)imageBounds->getWidth();
+			bmpInfo.bmiHeader.biHeight = (long)-imageBounds->getHeight(); // Win32 DIB are upside down - do this to filp it over
+			bmpInfo.bmiHeader.biPlanes = 1;
+			bmpInfo.bmiHeader.biBitCount = 32;
+			bmpInfo.bmiHeader.biCompression = BI_RGB;
+
+			bmpInfo.bmiHeader.biSizeImage = (bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
+
+
+
+			SysPixelType* bmpBuf = NULL;
+			SysPixelType* tmpBmpBuf = NULL;
+
+			
+			HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+
+
+			SysPixelType* imageBuf = image->getImageBits()->pixels_;
+
+			if ( NULL != hbmp ) {
+
+				int incr = (long)((imageBounds->top_ * image->getWidth()) + imageBounds->left_);
+				imageBuf += incr;
+				tmpBmpBuf = bmpBuf;
+				int imgWidth = image->getWidth();
+				int wIncr = (long)imageBounds->getWidth();
+				int s = (int)imageBounds->top_;
+				int e = (int)imageBounds->bottom_;
+				unsigned char * scanLine = new unsigned char[wIncr];
+
+				for (int y1=s;y1<e;y1++) {
+					int xIndex = 0;
+
+					for ( xIndex=0;xIndex<wIncr;xIndex++ ) {
+						tmpBmpBuf[xIndex].r = imageBuf[xIndex].r;
+						tmpBmpBuf[xIndex].g = imageBuf[xIndex].g;
+						tmpBmpBuf[xIndex].b = imageBuf[xIndex].b;
+						tmpBmpBuf[xIndex].a = 0; //JC don't use the alpha val here it mucks 
+												//up the transparent drawing code.
+												//we can replace this once we add in real transparency
+					}			
+
+					tmpBmpBuf += wIncr;
+					imageBuf += imgWidth;
+				}
+
+				if ( true == image->isTransparent() )  {
+					Color* imageTransColor = image->getTransparencyColor();
+					COLORREF transColor = RGB( imageTransColor->getRed()*255,
+						imageTransColor->getGreen()*255,
+						imageTransColor->getBlue()*255 );
+					
+					
+					
+
+					Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
+
+					
+				}
+				else {
+					SetDIBitsToDevice( dc_,
+										(long)x,
+										(long)y,
+										(long)imageBounds->getWidth(),
+										(long)imageBounds->getHeight(),
+										0,
+										0,
+										0,
+										(long)imageBounds->getHeight(),
+										bmpBuf,
+										&bmpInfo,
+										DIB_RGB_COLORS );
+				}
+
+				DeleteObject( hbmp );
+			}
+
+			if ( NULL != oldPalette ){
+				::SelectPalette( dc_, oldPalette, FALSE );
+			}
+
+		}
+		else {
+			throw InvalidImage( "Image Peer is not usable under MS Windows" );
+		}
 	}
 
 	//releaseHandle();
@@ -272,103 +553,6 @@ void Win32Context::arc(const double & x1, const double & y1, const double & x2, 
 				(long)x3, (long)y3, (long)x4, (long)y4 );
 }
 
-/*
-void Win32Context::pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
-					   const double & y3, const double & x4, const double & y4)
-{
-
-	testBuffer();
-	pathStarted_ = true;
-	//swap out the values to ensure they are normalized since windows is brain dead about this
-	double ax1 = x1;
-	double ay1 = y1;
-	double ax2 = x2;
-	double ay2 = y2;
-
-	double tmp = x2;
-	if ( ax1 > ax2 ) {
-		ax2 = ax1;
-		ax1 = tmp;
-	}
-	tmp = ay2;
-	if ( ay1 > ay2 ) {
-		ay2 = ay1;
-		ay1 = tmp;
-	}
-	PointOperation* newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = ax1;
-	newPointOp->y = ay1;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = ax2;
-	newPointOp->y = ay2;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = x3;
-	newPointOp->y = y3;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_PIE;
-	newPointOp->x = x4;
-	newPointOp->y = y4;
-	pathOperations_.push_back( newPointOp );
-
-}
-
-void Win32Context::chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
-						 const double & y3, const double & x4, const double & y4)
-{
-
-	testBuffer();
-	pathStarted_ = true;
-	//swap out the values to ensure they are normalized since windows is brain dead about this
-	double ax1 = x1;
-	double ay1 = y1;
-	double ax2 = x2;
-	double ay2 = y2;
-
-	double tmp = x2;
-	if ( ax1 > ax2 ) {
-		ax2 = ax1;
-		ax1 = tmp;
-	}
-	tmp = ay2;
-	if ( ay1 > ay2 ) {
-		ay2 = ay1;
-		ay1 = tmp;
-	}
-	PointOperation* newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = ax1;
-	newPointOp->y = ay1;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = ax2;
-	newPointOp->y = ay2;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = x3;
-	newPointOp->y = y3;
-	pathOperations_.push_back( newPointOp );
-
-	newPointOp = new PointOperation();
-	newPointOp->primitive = PRIMITIVE_CHORD;
-	newPointOp->x = x4;
-	newPointOp->y = y4;
-	pathOperations_.push_back( newPointOp );
-
-}
-*/
 
 void Win32Context::polyline( const std::vector<Point>& pts)
 {
@@ -543,7 +727,11 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	r.top = (long)bounds.top_;
 	r.bottom = (long)bounds.bottom_;
 	UINT formatOptions = 0;
-	formatOptions = 0;
+
+	formatOptions = DT_NOCLIP; //this was put here to make rotated text look better JC
+
+
+
 	if ( drawOptions & GraphicsContext::tdoLeftAlign ) {
 		formatOptions |= DT_LEFT;
 	}
@@ -570,6 +758,8 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	else {
 		formatOptions |= DT_WORD_ELLIPSIS | DT_SINGLELINE;
 	}
+
+
 
 	/* Not using for now
 	DRAWTEXTPARAMS extraParams = {0};
@@ -647,6 +837,8 @@ double Win32Context::getTextWidth( const String& text )
 
 	HFONT font = NULL;
 
+	prepareDCWithContextFont( font );
+	/*
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
@@ -657,6 +849,7 @@ double Win32Context::getTextWidth( const String& text )
 
 		font = CreateFontIndirectA( logFont );
 	}
+	*/
 
 
 	HFONT oldFont = (HFONT)::SelectObject( dc_, font );
@@ -712,6 +905,7 @@ double Win32Context::getTextHeight( const String& text )
 
 	HFONT font = NULL;
 
+	/*
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
@@ -722,6 +916,8 @@ double Win32Context::getTextHeight( const String& text )
 
 		font = CreateFontIndirectA( logFont );
 	}
+	*/
+	prepareDCWithContextFont( font );
 
 
 	HFONT oldFont = (HFONT)::SelectObject( dc_, font );
@@ -763,6 +959,7 @@ bool Win32Context::isTextAlignedToBaseline()
 void Win32Context::drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
                            long yStart, COLORREF cTransparentColor)
 {
+
 	BITMAP     bm;
 	COLORREF   cColor;
 	HBITMAP    bmAndBack, bmAndObject, bmAndMem, bmSave;
@@ -1126,6 +1323,17 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 		RECT focusRect = btnRect;
 		InflateRect( &focusRect, -4, -4 );
 		::DrawFocusRect( dc_, &focusRect );
+	}
+
+
+	if ( state.isDefaultButton() ) {
+		RECT defRect = btnRect;
+
+		//defRect.right -= 1;
+		//defRect.bottom -= 1;
+
+
+		FrameRect( dc_, &defRect, (HBRUSH)GetStockObject(BLACK_BRUSH) );
 	}
 
 	if ( NULL != oldBrush ) {
@@ -1954,12 +2162,7 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 	else if ( !ctxFont->isTrueType() ) {
 		charSet = DEFAULT_CHARSET;
 	}
-	else {
-
-		/**
-		This doesn't seem to make any difference, other than to 
-		make thefont really small. Need to figure out why!!!
-		*/
+	else {	
 
 		LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
 		WORD langID = LANGIDFROMLCID( lcid );
@@ -2037,25 +2240,39 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 		}
 	}
 
+
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
+		LONG oldOrientation = logFont->lfOrientation;
+		
 		DWORD oldCharSet = logFont->lfCharSet;
+
 		logFont->lfCharSet = charSet;
+		
+		logFont->lfOrientation = logFont->lfEscapement = (LONG)(-context_->getRotation() * 10.0);
+		
 		
 		fontHandle = CreateFontIndirectW( logFont );
 
 		logFont->lfCharSet = oldCharSet;
+		logFont->lfOrientation = logFont->lfEscapement = oldOrientation;
 	}
 	else {
 		LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
 
+		LONG oldOrientation = logFont->lfOrientation;
+
 		DWORD oldCharSet = logFont->lfCharSet;
+
+		logFont->lfOrientation = logFont->lfEscapement = (LONG)(-context_->getRotation() * 10.0);
+
 		logFont->lfCharSet = charSet;
 
 		fontHandle = CreateFontIndirectA( logFont );
 
 		logFont->lfCharSet = oldCharSet;
+		logFont->lfOrientation = logFont->lfEscapement = oldOrientation;
 	}	
 }
 
@@ -2200,6 +2417,40 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/09/08 02:21:57  ddiego
+*fixed bug due to not checking return value of HBITMAP in drawImage.
+*
+*Revision 1.2.2.9  2004/09/06 23:06:51  ddiego
+*fixed border in button class
+*
+*Revision 1.2.2.8  2004/09/06 18:34:24  ddiego
+*fixed some more transparent drawing issues
+*
+*Revision 1.2.2.7  2004/09/06 04:43:51  ddiego
+*added font rotation back in, this time with support for matching
+*the graphic contexts current transform.
+*
+*Revision 1.2.2.6  2004/09/06 04:40:43  ddiego
+*added font rotation back in, this time with support for matching
+*the graphic contexts current transform.
+*
+*Revision 1.2.2.5  2004/09/06 03:33:21  ddiego
+*updated the graphic context code to support image transforms.
+*
+*Revision 1.2.2.4  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
+*Revision 1.2.2.3  2004/08/31 21:12:07  ddiego
+*graphice save and restore state
+*
+*Revision 1.2.2.2  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
+*Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.3  2004/08/19 02:24:54  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.
 *

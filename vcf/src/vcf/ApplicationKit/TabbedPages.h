@@ -78,6 +78,10 @@ public:
 
 	void setBorderWidth( const double& borderWidth );
 
+	double getTabHeight();
+
+	void setTabHeight( const double& tabHeight );
+
 protected:
 	class ScrollButton : public PushButton {
 	public:
@@ -110,6 +114,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/16 20:46:59  dougtinkham
+*added getTabHeight and setTabHeight members
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -116,7 +116,7 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 							}
 						}
 					}
-					
+
 
 					if ( event->getType() != Control::MOUSE_CLICK ) {
 						MouseEvent localEvent( child, event->getType(), event->getButtonMask(), event->getKeyMask(), &tmp );
@@ -316,14 +316,25 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 
 
 			context->setOrigin( originX, originY );
-			context->setClippingRect( &childClipRect );			
-			
+
+
+			//do this to prevent matrix changes from 
+			//screwing up the state for the child control 
+			Matrix2D xfrm;
+			int gcs = context->saveState();
+			context->setCurrentTransform( xfrm );
+			context->setClippingRect( &childClipRect );
+
+			child->paintBorder( context );
+
 			child->paint( context );
-			
+
+			context->restoreState( gcs );
+
 			context->setOrigin( oldOrigin.x_, oldOrigin.y_ );
 			context->setClippingRect( &oldClipRect );
-		}		
-	}	
+		}
+	}
 }
 
 Enumerator<Control*>* AbstractContainer::getChildren()
@@ -548,6 +559,21 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/09 03:09:22  marcelloptr
+*minor change for style
+*
+*Revision 1.2.2.4  2004/09/08 03:49:05  ddiego
+*minor win32 tree mods
+*
+*Revision 1.2.2.3  2004/09/06 21:30:18  ddiego
+*added a separate paintBorder call to Control class
+*
+*Revision 1.2.2.2  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
+*Revision 1.2.2.1  2004/08/19 03:22:53  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.3  2004/08/19 02:24:53  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.
 *

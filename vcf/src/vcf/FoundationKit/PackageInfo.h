@@ -16,7 +16,7 @@ where you installed the VCF.
 
 namespace VCF {
 
-class FOUNDATIONKIT_API PackageInfo : public Object {
+class FOUNDATIONKIT_API PackageInfo : public ProgramInfo {
 public:
 
 	enum LinkageFlags{
@@ -40,7 +40,7 @@ public:
 	returns the name of the package (VPL)
 	*/
 	String getPackageName() {
-		return packageName_;
+		return getProgramName();
 	}
 
 	/**
@@ -48,27 +48,6 @@ public:
 	*/
 	String getPackageUUID() {
 		return packageUUID_;
-	}
-
-	/**
-	*The name of the author of the package
-	*/
-	String getAuthor() {
-		return author_;
-	}
-
-	/**
-	*the copyright, if any, for the package
-	*/
-	String getCopyright() {
-		return copyright_;
-	}
-
-	/**
-	*The name of the company responsible for the package
-	*/
-	String getCompany() {
-		return company_;
 	}
 
 	/**
@@ -118,12 +97,9 @@ public:
 
 	void removeAllSupportedPlatforms();
 
-protected:
-	String packageName_;
+protected:	
 	String packageUUID_;
-	String author_;
-	String copyright_;
-	String company_;
+	
 	String additionalInfo_;
 	String staticLibName_;
 	String sharedLibName_;
@@ -145,6 +121,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/15 21:14:28  ddiego
+*added support for getting program info from resource bundle.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

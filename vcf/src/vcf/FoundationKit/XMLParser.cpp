@@ -389,13 +389,19 @@ bool XMLParser::nextNode()
 				String test;
 				test.append( P, 25 );
 				if ( test.find( "DOCTYPE" ) != String::npos ) {
-					while ( (*P != '[') && (*P != 0) ) {
+					while ( ((*P != XMLParser::TagClose) && (*P != '[')) && (*P != 0) ) {
 						P++;
+					}
+					if ( *P != XMLParser::TagClose ) {
+						dtdStarted_ = true;
+					}
+					else {
+						dtdStarted_ = false;
 					}
 					//skip over the doctype decl
 					P++;
 					sourcePtr_ = P;
-					dtdStarted_ = true;
+					
 					return true;
 
 				}
@@ -769,6 +775,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/16 03:26:26  ddiego
+*fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

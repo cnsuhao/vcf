@@ -40,7 +40,7 @@ void TabbedPages::init()
 
 
 	borderWidth_ = 8.0;
-	tabHeight_ = 12.0;
+	tabHeight_ = 21.0;
 
 	tabViewOffset_ = 0.0;
 
@@ -141,17 +141,32 @@ void TabbedPages::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
 
-	Rect bounds = getBounds();
-	context->setColor( getColor() );
-	context->rectangle( 0, 0, bounds.getWidth(), bounds.getHeight() );
-	context->fillPath();
+	
+	Border* border = getBorder();
+
+	Rect bounds;
+
+	if ( NULL != border ) {
+		bounds = border->getClientRect( &bounds, this );
+	}
+	else {
+		bounds.setRect( 0, 0, getWidth(), getHeight() );
+	}
+	
+	BackgroundState bkg;
+	bkg.setEnabled( isEnabled() );
+	bkg.setActive( isActive() );
+	bkg.colorType_ = SYSCOLOR_FACE;	
+	
+	context->drawThemeBackground( &bounds, bkg );
+	
 
 	if ( NULL != model_ ){
 		Enumerator<TabPage*>* pages = model_->getPages();
 		
 
-		Rect oldClipRect = context->getClippingRect();
-		Rect tabClipRect( tabAreaBounds_.left_, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
+		//Rect oldClipRect = context->getClippingRect();
+		//Rect tabClipRect( tabAreaBounds_.left_ - 2, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
 
 		//context->setClippingRect( &tabClipRect );
 
@@ -173,7 +188,7 @@ void TabbedPages::paint( GraphicsContext* context )
 			TabPage* page = pages->nextElement();
 			VCF_ASSERT( NULL != page );
 				width = minVal<>( tabWidth, getTabPageWidth( page, context ) );
-				tabsRect.setRect( currentLeft, 3,
+				tabsRect.setRect( currentLeft, tabAreaBounds_.top_ - tabHeight_ + 1,
 						          currentLeft+ width, tabAreaBounds_.top_ -2  );
 
 				tabsRect.offset( tabViewOffset_, 0 );
@@ -203,12 +218,12 @@ void TabbedPages::paint( GraphicsContext* context )
 
 			if ( NULL != component ){
 				Rect tmp( tabAreaBounds_ );//*(component->getBounds()) );
-				tmp.inflate( 3,3 );
+				tmp.inflate( 2,2 );
 				activePageBorder_.paint( &tmp, context );
 			}
 
 			//fill with blank space first
-			selectedRect.inflate( 0, 1 );
+			selectedRect.inflate( 2, 2, 2, 1 );
 			context->rectangle( &selectedRect );
 			context->fillPath();
 			selectedPage->paint( context, &selectedRect );
@@ -377,6 +392,11 @@ TabPage* TabbedPages::addNewPage( const String& caption )
 
 Rect TabbedPages::getClientBounds( const bool& includeBorder )
 {
+	if ( !includeBorder ) {
+		return CustomControl::getClientBounds( includeBorder );
+	}
+
+
 	Rect bounds = getBounds();
 
 	if ( bounds.isEmpty() ) {
@@ -415,7 +435,7 @@ void TabbedPages::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
 	Rect tabPagesBounds;
-	tabPagesBounds.setRect( 0, 0, getWidth(), tabHeight_ );
+	tabPagesBounds.setRect( 0, borderWidth_, getWidth(), borderWidth_ + tabHeight_ );
 	if ( true == tabPagesBounds.containsPt( event->getPoint() ) ){
 		//find tab
 		TabModel* model = getModel();
@@ -455,6 +475,16 @@ double TabbedPages::getBorderWidth()
 void TabbedPages::setBorderWidth( const double& borderWidth )
 {
 	borderWidth_ = borderWidth;
+}
+
+double TabbedPages::getTabHeight()
+{
+	return tabHeight_;
+}
+	
+void TabbedPages::setTabHeight( const double& tabHeight )
+{
+	tabHeight_ = tabHeight;
 }
 
 void TabbedPages::onScrollButtonClicked( ButtonEvent* e )
@@ -521,6 +551,21 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/08 01:51:54  ddiego
+*fixed bug in paint of tabbedPages control due to changes from weekend.
+*
+*Revision 1.2.2.4  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
+*Revision 1.2.2.3  2004/08/22 19:03:01  dougtinkham
+*default tab height is now 21. modified paint.
+*
+*Revision 1.2.2.2  2004/08/16 22:31:05  dougtinkham
+*fixed my bug
+*
+*Revision 1.2.2.1  2004/08/16 20:47:57  dougtinkham
+*modified paint to give Win32 tab appearance.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

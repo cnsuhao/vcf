@@ -76,7 +76,7 @@ public:
 
 	virtual void releaseMouseEvents();
 
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL);
+	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
 
 	virtual String toString();
 
@@ -98,7 +98,13 @@ public:
 	}
 	*/
 
-	HDC doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect );
+	enum {
+		cpBorderOnly = 0,
+		cpControlOnly,
+		cpBorderAndControl
+	};
+
+	HDC doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect, int whatToPaint );
 	void updatePaintDC( HDC paintDC, RECT paintRect, RECT* exclusionRect );
 protected:
 	void init();
@@ -125,6 +131,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
+*Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -58,20 +58,19 @@ public:
 
 	virtual ApplicationPeer* internal_createApplicationPeer();
 
-	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
+	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl);
 
-	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);
+	virtual TreePeer* internal_createTreePeer( TreeControl* component);
 
-	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
+	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component);
 
-	virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT );
+	virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component );
 
 	virtual DialogPeer* internal_createDialogPeer();
 
 	virtual ControlPeer* internal_createControlPeer( Control* component, ComponentType componentType);
 
-	virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner,
-											ComponentType componentType);
+	virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner);
 
 	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar );
 
@@ -83,7 +82,7 @@ public:
 
 	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );
 
-	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType);
+	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component);
 
 	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
 
@@ -99,6 +98,8 @@ public:
 
 	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
 
+	virtual CommonPrintDialogPeer* internal_createCommonPrintDialogPeer( Control* owner );
+
 	virtual DragDropPeer* internal_createDragDropPeer();
 
 	virtual DataObjectPeer* internal_createDataObjectPeer();
@@ -112,6 +113,8 @@ public:
 	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor );
 
 	virtual ClipboardPeer* internal_createClipboardPeer();
+
+	virtual SystemTrayPeer* internal_createSystemTrayPeer();
 
 	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  );
 
@@ -175,6 +178,14 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
+*Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
+*added initial system tray code for win32
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

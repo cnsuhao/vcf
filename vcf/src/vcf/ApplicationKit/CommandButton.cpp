@@ -9,6 +9,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/CommandButton.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
 #include "vcf/ApplicationKit/ButtonPeer.h"
 #include "vcf/ApplicationKit/Action.h"
 
@@ -19,18 +20,24 @@ using namespace VCF;
 
 CommandButton::CommandButton()
 {
+	buttonPeer_ = UIToolkit::createButtonPeer( this );
+
+	if ( NULL == buttonPeer_ ){
+		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
+	}
 
 	peer_ =
-		dynamic_cast<ControlPeer*>( UIToolkit::createButtonPeer( this ) );
-
+		dynamic_cast<ControlPeer*>( buttonPeer_ );
 
 	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
+
+	
 	peer_->create( this );
 	peer_->setControl( this );
 
-	buttonPeer_ = (ButtonPeer*)peer_;
+	
 
 	commandType_ = BC_NONE;
 
@@ -127,14 +134,29 @@ String CommandButton::getCaption()
 void CommandButton::paint(GraphicsContext * context)
 {
 
+	Rect rect = getClientBounds( true );
 
+	rect.setRect( 0, 0, rect.getWidth(), rect.getHeight() );
+
+	ButtonState state = buttonPeer_->getState();
+	state.setActive( isActive() );
+
+	state.setDefaultButton( this == UIToolkit::getDefaultButton() );
+	state.buttonCaption_ = getCaption();
+
+	context->drawThemeButtonRect( &rect, state );
+
+//	rect
+
+	/*
 	if ( this == UIToolkit::getDefaultButton() ) {
-
-		Rect rect = getClientBounds();
+		rect.right_ -=1;
+		rect.bottom_ -= 1;
 		context->setColor( Color::getColor( "black" ) );
 		context->rectangle( &rect );
 		context->strokePath();
 	}
+	*/
 }
 
 ButtonCommandType CommandButton::getCommandType()
@@ -188,6 +210,9 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 23:05:55  ddiego
+*fixed border in button class
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

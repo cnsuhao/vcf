@@ -14,10 +14,10 @@ where you installed the VCF.
 #endif
 
 
-
-namespace agg {
-	class rendering_buffer;
-};
+#ifndef AGG_RENDERING_BUFFER_INCLUDED
+#include "thirdparty/common/agg/include/agg_rendering_buffer.h"
+#endif
+	
 
 
 namespace VCF{
@@ -39,6 +39,10 @@ class ScrollBarState;
 class TabState;
 class BackgroundState;
 class TextState;
+
+class GraphicsState;
+
+
 
 
 /**
@@ -103,7 +107,7 @@ public:
 		doImage
 	};
 
-	enum GraphicsState {
+	enum GraphicsDrawingState {
 		gsNone = 0,
 		gsAddingGraphicsOps,
 		gsExecutingGraphicsOps
@@ -146,7 +150,9 @@ public:
 		ttToolTipFont
 	};
 	
-	
+	typedef std::vector<GraphicsState*> GraphicsStateCollection;
+	typedef GraphicsStateCollection::iterator GraphicsStateIterator;
+	typedef GraphicsStateCollection::const_iterator GraphicsStateConstIterator;
 
 	void init();
 
@@ -281,7 +287,7 @@ public:
 	*into the final transform matrix. These matrices represent the various trnasform
 	*values (i.e. theta_, scaleX_, etc)
 	*/
-	void setCurrentTransform( Matrix2D* transform );
+	void setCurrentTransform( const Matrix2D& transform );
 
 	Matrix2D* getCurrentTransform();
 
@@ -292,9 +298,7 @@ public:
 
     void setStrokeWidth( const double& width );
 
-	double getStrokeWidth() {
-		return strokeWidth_;
-	}
+	double getStrokeWidth();
 
 
 	void textAt(const double & x, const double & y, const String & text);
@@ -353,18 +357,19 @@ public:
     void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
     void ellipse(const Point & pt1, const Point & pt2 );
 
-    void arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
-    void arc(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
+    void arc( const double& centerX,  const double& centerY, 
+				const double& radiusWidth, const double& radiusHeight, 
+				const double& startAngle, const double& endAngle);
+
+    void arc(const Point & centerPt, const Size& radius, 
+				const double& startAngle, const double& endAngle);
+
 
     void pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
     void pie(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
 
     void chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
     void chord(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
-
-	void setColor( Color* color );
-
-	Color* getColor();
 
     void polyline( const std::vector<Point> & pts );
 
@@ -377,6 +382,11 @@ public:
 
     void moveTo(const double& x, const double& y);
     void moveTo(const Point & pt);
+
+
+	void setColor( Color* color );
+
+	Color* getColor();
 
     void fillPath();
 
@@ -398,15 +408,65 @@ public:
 	Point getOrigin();
 
 	/**
-	*sets the current rotation value
+	*sets the current rotation value of the transformation matrix. The 
+	theta argument is in degrees.
 	*/
 	void setRotation( const double& theta );
 
+	/**
+	Set the x and y translation values for the transformation matrix.
+	*/
 	void setTranslation( const double transX, const double& transY );
 
+	/**
+	Sets the x and y shear values, in degrees, for the transformation
+	matrix
+	*/
 	void setShear( const double& shearX, const double& shearY );
 
+	/**
+	Sets the x and y scale values for the transformation matrix. To double the 
+	size of drawn elements use a scaleX value of 2.0 and a scaleY value of 
+	2.0. To flip the y coordinates use a scaleY of -1.0.
+	*/
 	void setScale( const double& scaleX, const double& scaleY );
+
+	
+	void concatRotation( const double& theta );
+
+	void concatTranslation( const double transX, const double& transY );
+
+	void concatShear( const double& shearX, const double& shearY );
+
+	void concatScale( const double& scaleX, const double& scaleY );
+	
+
+	/**
+	This test to see if the current rotation
+	translation, scale, and shear values are all
+	at their default values.
+	*/
+	bool isDefaultTransform();
+
+	/**
+	This (re)sets the current values for rotation,
+	shear, scale, and translation to their default values.
+	*/
+	void makeDefaultTransform();
+
+	double getRotation();
+
+	double getTranslationX();
+
+	double getTranslationY();
+
+	double getShearX();
+
+	double getShearY();
+
+	double getScaleX();
+
+	double getScaleY();
 
 	/**
 	*returns whether or not the XOR Mode is turned on.
@@ -524,6 +584,9 @@ public:
 	void drawThemeMenuItem( Rect* rect, MenuState& state );
 
 	void drawThemeText( Rect* rect, TextState& state );
+
+	int saveState();
+	void restoreState( int state );
 protected:
 
 
@@ -553,38 +616,34 @@ protected:
 	};
 
 
-    ContextPeer * contextPeer_;
-	Fill* currentFill_;
-	Stroke* currentStroke_;
-	Font* currentFont_;
-	Path* clippingPath_;
-	Matrix2D transformMatrix_;
-	Point currentMoveTo_;
-
-	GraphicsState currentState_;
-
-	double theta_;
-	double xScale_;
-	double yScale_;
-	double xTranslate_;
-	double yTranslate_;
-	double xShear_;
-	double yShear_;
-	Color color_;
-	double strokeWidth_;
+    ContextPeer * contextPeer_;		
+	GraphicsDrawingState currentDrawingState_;
 	std::vector<PointOperation> pathOperations_;
 	Image* drawingArea_;
 	Point drawingAreaTopLeft_;
 	agg::rendering_buffer* renderBuffer_;
 	bool renderAreaDirty_;
 	Rect viewableBounds_;
+	GraphicsStateCollection stateCollection_;
+	int graphicsStateIndex_;
+	GraphicsState* currentGraphicsState_;
+
+	void buildArc( double centerX,  double centerY, 
+            double radiusWidth, double radiusHeight, 
+            double startAngle, double endAngle, std::vector<Point>& pts, const Matrix2D& transform );
+
+	void buildRoundRect( double x1, double y1, double x2, double y2, 
+							double cornerArcWidth, double cornerArcHeight, 
+							std::vector<Point>& pts, const Matrix2D& transform );
+
+	void buildEllipse( double x1, double y1, double x2, double y2, 
+							std::vector<Point>& pts, const Matrix2D& transform );
 
 
 	void checkPathOperations();
 
 	void execPathOperations();
 
-	void compositeMatrices();
 };
 
 
@@ -639,9 +698,12 @@ inline void GraphicsContext::ellipse(const Point & pt1, const Point & pt2 ) {
 	ellipse( pt1.x_, pt1.y_, pt2.x_, pt2.y_);
 }
 
-inline void GraphicsContext::arc(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
-	arc( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
+
+inline void GraphicsContext::arc(const Point & centerPt, const Size& radius, 
+								 const double& startAngle, const double& endAngle) {
+	arc( centerPt.x_, centerPt.y_, radius.width_, radius.height_, startAngle, endAngle );
 }
+
 
 inline void GraphicsContext::pie(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
 	pie( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
@@ -678,6 +740,26 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/09 03:09:26  marcelloptr
+*minor change for style
+*
+*Revision 1.2.2.5  2004/09/06 03:33:21  ddiego
+*updated the graphic context code to support image transforms.
+*
+*Revision 1.2.2.4  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
+*Revision 1.2.2.3  2004/09/01 03:50:39  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
+*Revision 1.2.2.2  2004/08/31 21:12:07  ddiego
+*graphice save and restore state
+*
+*Revision 1.2.2.1  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

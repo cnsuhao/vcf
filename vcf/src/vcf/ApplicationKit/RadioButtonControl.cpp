@@ -156,6 +156,9 @@ RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.3  2004/08/14 21:13:42  ddiego
 *fixed a drawing bug in the RadioButton. Thanks to duff
 *for pointing this out.

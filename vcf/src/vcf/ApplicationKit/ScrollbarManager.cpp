@@ -118,6 +118,31 @@ void ScrollbarManager::setVirtualViewWidth( const double& virtualViewWidth )
 	scrollable_->setVirtualViewWidth( virtualViewWidth );
 }
 
+void ScrollbarManager::setVirtualViewSize( const double& virtualViewWidth, const double& virtualViewHeight )
+{
+	scrollable_->setVirtualViewSize( virtualViewWidth, virtualViewHeight );
+}
+
+void ScrollbarManager::setVirtualViewHorzStep( const double& step )
+{
+	scrollable_->setVirtualViewHorzStep( step );
+}
+
+void ScrollbarManager::setVirtualViewVertStep( const double& step )
+{
+	scrollable_->setVirtualViewVertStep( step );
+}
+
+double ScrollbarManager::getVirtualViewHorzStep()
+{
+	return scrollable_->getVirtualViewHorzStep();
+}
+
+double ScrollbarManager::getVirtualViewVertStep()
+{
+	return scrollable_->getVirtualViewVertStep();
+}
+
 void ScrollbarManager::setVerticalPosition( const double& vertPosition )
 {
 	scrollable_->setVerticalPosition( vertPosition );
@@ -178,20 +203,37 @@ void ScrollbarManager::setHorizontalRightScrollSpace( const double& rightScrollS
 	scrollable_->setHorizontalRightScrollSpace( rightScrollSpace );
 }
 
-void ScrollbarManager::setKeepScrollbarsVisible( const bool& val )
+void ScrollbarManager::setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible )
 {
-	scrollable_->setKeepScrollbarsVisible( val );
+	scrollable_->setKeepScrollbarsVisible( horzVisible, vertVisible );
 }
 
-bool ScrollbarManager::getKeepScrollbarsVisible()
+bool ScrollbarManager::getKeepHorzScrollbarVisible()
 {
-	return scrollable_->getKeepScrollbarsVisible();
+	return scrollable_->getKeepHorzScrollbarVisible();
+}
+
+bool ScrollbarManager::getKeepVertScrollbarVisible()
+{
+	return scrollable_->getKeepVertScrollbarVisible();
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
+*Revision 1.2.2.3  2004/09/21 05:50:21  dougtinkham
+*removed updateVirtualViewSize
+*
+*Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
+*Revision 1.2.2.1  2004/09/14 21:12:17  dougtinkham
+*added updateVirtualViewSize member
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -39,6 +39,7 @@ class FileSearchFilter;
 *      Directory dir( FilePath::getExpandedRelativePathName( filepath ) );
 *
 *      Directory::Finder* finder = dir.findFiles( "*.cpp" );
+*      finder->setDisplayMode( Directory::Finder::dmFiles );
 *      while ( finder->nextElement() ) {
 *        file = finder->getCurrentElement();
 *        filename = file->getName();
@@ -649,6 +650,8 @@ public:
 	* which is the ';' character by default.
 	* The wildcard character '*' is accepted, 
 	* as in the implementation of FilePath::wildCharsMatchName()
+	* A specification like "*.vpl" does not implies that we are excluding directories
+	* from the search. Please use setDisplayMode( Directory::Finder::dmFiles ) for this.
 	* @param String the separator between items in filterFileList and filterDirList.
 	* @param fileAttributes the file attributes of the files we want to retrieve.
 	*/
@@ -697,6 +700,9 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/18 20:08:17  marcelloptr
+*improved comments
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -34,7 +34,7 @@ public:
 
 		tb->setImageList( il );
 
-		ResourceBundle* resBundle = Application::getRunningInstance()->getResourceBundle();
+		GraphicsResourceBundle* resBundle = Application::getRunningInstance()->getResourceBundle();
 		Image* img = resBundle->getImage( "bmp1" );
 		il->addImage( img );
 		delete img;
@@ -201,6 +201,12 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2004/08/21 21:06:51  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.4  2004/08/07 02:47:41  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

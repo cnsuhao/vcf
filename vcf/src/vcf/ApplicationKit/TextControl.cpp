@@ -72,16 +72,12 @@ void TextControl::paint( GraphicsContext * context )
 	Border* border = getBorder();
 
 	Rect innerBounds = getClientBounds( false );
-
-	if ( NULL != border ){
-		border->paint( this, context );
-		innerBounds = border->getClientRect( &innerBounds, this );
-	}
+	
 	context->setColor( getColor() );
 
 	context->rectangle( &innerBounds );
 
-	context->fillPath();	
+	context->fillPath();
 }
 
 void TextControl::setTextModel( TextModel * model )
@@ -336,6 +332,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

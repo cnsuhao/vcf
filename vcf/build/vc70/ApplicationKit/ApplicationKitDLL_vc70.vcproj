@@ -24,7 +24,7 @@
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS;BUILD_APPLICATIONKIT_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -85,7 +85,7 @@
 				AdditionalOptions="/Zm200 "
 				Optimization="0"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS;BUILD_APPLICATIONKIT_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -94,7 +94,7 @@
 				PrecompiledHeaderFile=".\vc70\DebugDLL\ApplicationKitDLL_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\DebugDLL\"
 				ObjectFile=".\vc70\DebugDLL\"
-				ProgramDataBaseFileName=".\vc70\DebugDLL\"
+				ProgramDataBaseFileName="..\..\..\bin\ApplicationKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -293,6 +293,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Frame.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			</File>
 			<File
@@ -329,16 +332,7 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Resource.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceBundle.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceException.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStream.h">
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Scrollable.h">
@@ -374,6 +368,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\View.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.h">
 			</File>
 			<File
@@ -385,18 +382,6 @@
 			Filter="*.rc;*.bmp;*.ico">
 			<File
 				RelativePath="..\..\resources\win32\ApplicationKit.rc">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories=".\Projs\GShell\Libraries\Vcf\vcf-active\vcf\build\resources\win32;$(NoInherit)"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories=".\Projs\GShell\Libraries\Vcf\vcf-active\vcf\build\resources\win32;$(NoInherit)"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\resources\win32\inform.bmp">
@@ -586,12 +571,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Resource.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TitledBorder.cpp">
 			</File>
 			<File
@@ -605,6 +584,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\VFFOutputStream.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.cpp">
@@ -639,6 +621,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\EnumObject.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\VCFCOM.h">
@@ -770,22 +755,16 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp">
@@ -1247,6 +1226,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\StatusBar.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TabbedPages.cpp">
 			</File>
 			<File
@@ -1350,16 +1332,13 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenuPeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\PrintContextPeer.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\PrintPeer.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStreamPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TextPeer.h">

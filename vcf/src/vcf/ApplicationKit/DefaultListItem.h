@@ -196,13 +196,6 @@ public:
 	*/
 	virtual void setStateImageIndex( const long& index ){}
 
-	virtual long getTag() {
-		return tag_;
-	}
-
-	virtual void setTag( const long& tag ) {
-		tag_ = tag;
-	}
 private:
 	Control* owningControl_;
 	String caption_;
@@ -212,7 +205,6 @@ private:
 	Model* model_;
 	bool selected_;
 	long imageIndex_;
-	long tag_;
 	std::vector<SubItem*> subItems_;
 	EnumeratorContainer<std::vector<SubItem*>,SubItem*> subItemsContainer_;
 };
@@ -223,6 +215,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

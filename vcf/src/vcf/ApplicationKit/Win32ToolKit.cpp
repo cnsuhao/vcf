@@ -39,6 +39,15 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/COMUtils.h"
 #include "vcf/ApplicationKit/Win32Toolbar.h"
 #include "vcf/ApplicationKit/Toolbar.h"
+#include "vcf/ApplicationKit/SystemTrayPeer.h"
+
+#include <shellapi.h>
+#include "vcf/ApplicationKit/Win32SystemTrayPeer.h"
+
+//printing
+#include "vcf/GraphicsKit/PrintSessionPeer.h"
+#include "vcf/GraphicsKit/Win32PrintSession.h"
+#include "vcf/ApplicationKit/Win32PrintDialog.h"
 
 
 #ifdef _LIB
@@ -599,7 +608,8 @@ public:
 		getFont()->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP_TEXT ) );
 		setFrameStyle( fstNoBorderFixed );
 		setFrameTopmost( true );
-		//setBounds( &Rect(200, 200, 400, 235 ) );
+		
+		setUseColorForBackground( true );
 
 	};
 
@@ -609,10 +619,14 @@ public:
 		Rect r(0,0,getWidth(), getHeight() );
 		ctx->rectangle( &r );
 		ctx->strokePath();
+
+		r.inflate( -1, -1 );
+
 		ctx->setCurrentFont( getFont() );
-		ctx->textAt( (r.getWidth()/2.0) - (ctx->getTextWidth(getCaption())/2.0),
-						(r.getHeight()/2.0) - (ctx->getTextHeight("EM")/2.0 + 1),
-						getCaption() );
+
+		long drawingOptions = GraphicsContext::tdoCenterHorzAlign | GraphicsContext::tdoCenterVertAlign;
+
+		ctx->textBoundedBy( &r, getCaption(), drawingOptions );
 	}
 
 	virtual void mouseClick( MouseEvent* e ) {
@@ -956,7 +970,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
 			if ( NULL != win32Obj ){
-				result = win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam );
+				win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam, result );
 			}
 			else {
 				//handle some special case messages here that wouldn't ordinarily get caught
@@ -966,7 +980,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 						HWND parent = ::GetParent( notificationHdr->hwndFrom );
 						win32Obj = Win32Object::getWin32ObjectFromHWND( parent );
 						if ( NULL != win32Obj ){
-							result = win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam );
+							win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam, result );
 						}
 					}
 					break;
@@ -981,7 +995,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 			if ( NULL != win32Obj ){
 				if ( win32Obj->acceptsWMCommandMessages() ) {
-					win32Obj->handleEventMessages( message, wParam, lParam );
+					win32Obj->handleEventMessages( message, wParam, lParam, result );
 				}
 			}
 			if ( System::isUnicodeEnabled() ) {
@@ -999,7 +1013,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				HWND hwndCtl = drawItem->hwndItem;
 				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 				if ( NULL != win32Obj ){
-					result = win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam );
+					win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam, result );
 				}
 				else {
 					if ( System::isUnicodeEnabled() ) {
@@ -1181,17 +1195,17 @@ ApplicationPeer* Win32ToolKit::internal_createApplicationPeer()
 	return new Win32Application();
 }
 
-TextPeer* Win32ToolKit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType)
+TextPeer* Win32ToolKit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl)
 {
 	return new Win32Edit( component, isMultiLineControl );
 }
 
-TreePeer* Win32ToolKit::internal_createTreePeer( TreeControl* component, ComponentType componentType )
+TreePeer* Win32ToolKit::internal_createTreePeer( TreeControl* component )
 {
 	return new Win32Tree( component );
 }
 
-ListviewPeer* Win32ToolKit::internal_createListViewPeer( ListViewControl* component, ComponentType componentType )
+ListviewPeer* Win32ToolKit::internal_createListViewPeer( ListViewControl* component )
 {
 	return new Win32Listview( component );
 }
@@ -1229,7 +1243,7 @@ HTMLBrowserPeer* Win32ToolKit::internal_createHTMLBrowserPeer( Control* control 
 	return result;
 }
 
-DialogPeer* Win32ToolKit::internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType )
+DialogPeer* Win32ToolKit::internal_createDialogPeer( Control* owner, Dialog* component )
 {
 	return new Win32Dialog( owner, component );
 }
@@ -1246,12 +1260,12 @@ void Win32ToolKit::createDummyParentWindow()
 
 
 	if ( System::isUnicodeEnabled() ) {
-		RegisterWin32ToolKitClass( ::GetModuleHandle( NULL ) );
+		RegisterWin32ToolKitClass( ::GetModuleHandleW( NULL ) );
 
 		dummyParentWnd_ = ::CreateWindowW( L"Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleW( NULL ), NULL );
 	}
 	else {
-		RegisterWin32ToolKitClass( ::GetModuleHandle( NULL ) );
+		RegisterWin32ToolKitClass( ::GetModuleHandleA( NULL ) );
 
 		dummyParentWnd_ = ::CreateWindowA( "Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleA( NULL ), NULL );
 	}
@@ -1276,7 +1290,7 @@ MenuBarPeer* Win32ToolKit::internal_createMenuBarPeer( MenuBar* menuBar )
 	return new Win32MenuBar( menuBar );
 }
 
-ButtonPeer* Win32ToolKit::internal_createButtonPeer( CommandButton* component, ComponentType componentType)
+ButtonPeer* Win32ToolKit::internal_createButtonPeer( CommandButton* component)
 {
 	return new Win32Button( component );
 }
@@ -1336,6 +1350,12 @@ CommonFontDialogPeer* Win32ToolKit::internal_createCommonFontDialogPeer( Control
 	return new Win32FontDialog( owner );
 }
 
+CommonPrintDialogPeer* Win32ToolKit::internal_createCommonPrintDialogPeer( Control* owner )
+{
+	return new Win32PrintDialog( owner );
+}
+
+
 DesktopPeer* Win32ToolKit::internal_createDesktopPeer( Desktop* desktop )
 {
 	return new Win32Desktop( desktop );
@@ -1370,7 +1390,7 @@ ControlPeer* Win32ToolKit::internal_createControlPeer( Control* component, Compo
 }
 
 
-WindowPeer* Win32ToolKit::internal_createWindowPeer( Control* component, Control* owner, ComponentType componentType)
+WindowPeer* Win32ToolKit::internal_createWindowPeer( Control* component, Control* owner)
 {
 	return new Win32Window( component, owner );
 }
@@ -1378,6 +1398,11 @@ WindowPeer* Win32ToolKit::internal_createWindowPeer( Control* component, Control
 ToolbarPeer* Win32ToolKit::internal_createToolbarPeer( Toolbar* toolbar )
 {
 	return new Win32Toolbar( toolbar );
+}
+
+SystemTrayPeer* Win32ToolKit::internal_createSystemTrayPeer()
+{
+	return new Win32SystemTrayPeer();
 }
 
 bool Win32ToolKit::internal_createCaret( Control* owningControl, Image* caretImage  )
@@ -2013,6 +2038,23 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
+*Revision 1.2.2.4  2004/09/01 03:50:14  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
+*Revision 1.2.2.3  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
+*Revision 1.2.2.2  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
+*Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
+*added initial system tray code for win32
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -508,7 +508,7 @@ protected:
 /**
 *Class Win32HTMLBrowser documentation
 */
-class WIN32HTMLBROWSERAPI Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer {
+class WIN32HTMLBROWSER_API Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer {
 public:
 	BEGIN_CLASSINFO(Win32HTMLBrowser, "VCF::Win32HTMLBrowser", "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )
 	END_CLASSINFO(Win32HTMLBrowser)
@@ -525,7 +525,8 @@ public:
 
 	virtual void setVisible( const bool& val );
 
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
+	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndResult, WNDPROC defaultWndProc=NULL );
+	
 
 
 	virtual String getCurrentURL();
@@ -579,6 +580,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/08 01:16:50  ddiego
+*fixed incorrect win32htmlbrowser function due to changes from weekend.
+*
+*Revision 1.2.2.1  2004/08/17 05:01:29  marcelloptr
+*improved macros for library selection
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

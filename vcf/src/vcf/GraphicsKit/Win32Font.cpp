@@ -17,8 +17,14 @@ Win32Font::Win32Font( const String& fontName ):
 	pointSize_(-1.0),
 	fontName_(fontName),
 	logFont_(NULL),
-	tm_(NULL)
+	tm_(NULL),
+	oldDPI_(0)
 {
+	HDC dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	oldDPI_ = GetDeviceCaps( dc, LOGPIXELSY);
+
+	ReleaseDC( ::GetDesktopWindow(), dc );
+
 	init();
 }
 
@@ -27,8 +33,14 @@ Win32Font::Win32Font( const String& fontName, const double& pointSize ):
 	pointSize_(pointSize),
 	fontName_(fontName),
 	logFont_(NULL),
-	tm_(NULL)
+	tm_(NULL),
+	oldDPI_(0)
 {
+	HDC dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	oldDPI_ = GetDeviceCaps( dc, LOGPIXELSY);
+
+	ReleaseDC( ::GetDesktopWindow(), dc );
+
 	init();
 }
 
@@ -48,8 +60,7 @@ Win32Font::~Win32Font()
 }
 
 void Win32Font::init()
-{
-
+{	
 
 	if ( System::isUnicodeEnabled() ) {
 		logFont_ = new LOGFONTW;
@@ -68,7 +79,42 @@ void Win32Font::init()
 
 	int fontHeight = 0;
 
-	HFONT defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );//DEFAULT_GUI_FONT );
+	//ANSI_VAR_FONT produces bold text on WinME. Changed to DEFAULT_GUI_FONT, which
+	//gives same appearrance on WinXP as ANSI_VAR_FONT. dougtinkham
+	//Unfortunately DEFAULT_GUI_FONT looks like shit on Win2k :( 
+	//we'll check here to see the OS version and then base the decision on that
+	//WinMe = DEFAULT_GUI_FONT. But Win98, Win2K, WinXP = ANSI_VAR_FONT. JC (aka ddiego)
+
+	HFONT defFont = NULL;
+	
+	static OSVERSIONINFO osVersion = {0};
+	if ( 0 == osVersion.dwOSVersionInfoSize ) {
+		osVersion.dwOSVersionInfoSize = sizeof(osVersion);
+		::GetVersionEx( &osVersion );
+	}
+	
+
+
+	
+
+	if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
+		if ( (osVersion.dwMinorVersion >= 1) && (osVersion.dwMinorVersion != 51) ) { //Windows XP or better
+			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
+		}
+		else { //Windows 2k or worse
+			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
+		}
+	}
+	else { //Windows 9x
+		if ( 90 == osVersion.dwMinorVersion ) { //Windows ME
+			defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		}
+		else { //Windows 98
+			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
+		}
+	}
+
+	
 	//defFont = NULL;
 	if ( NULL != defFont ){
 		if ( System::isUnicodeEnabled() ) {
@@ -125,14 +171,30 @@ void Win32Font::init()
 		fontHeight = ((LOGFONTA*)logFont_)->lfHeight;
 	}
 
-	HDC dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	HDC dc = NULL;
+
+	if ( NULL != font_ ) {
+		if ( NULL != font_->getGraphicsContext() ) {
+			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
+		}
+	}
+	
+	if ( NULL == dc ) {
+		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	}
+	
 
 	if ( pointSize_ > 0.0 ) {
 		fontHeight = -MulDiv( pointSize_, GetDeviceCaps( dc, LOGPIXELSY), 72 );
 	}
 
 
-	ReleaseDC( ::GetDesktopWindow(), dc );
+	if ( NULL == font_ ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );		
+	}
+	else if ( NULL == font_->getGraphicsContext() ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
 
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW& tmpLF = *((LOGFONTW*)logFont_);
@@ -175,7 +237,15 @@ ulong32 Win32Font::getFontHandleID()
 
 void Win32Font::updateTextMetrics()
 {
-	HDC dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	HDC dc = NULL;
+	if ( NULL != font_ ) {
+		if ( NULL != font_->getGraphicsContext() ) {
+			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
+		}
+	}
+	if ( NULL == dc ) {
+		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	}
 
 	int dcs = ::SaveDC( dc );
 
@@ -199,13 +269,18 @@ void Win32Font::updateTextMetrics()
 		GetTextMetricsA( dc, (TEXTMETRICA*)tm_ );
 	}
 
-
 	::RestoreDC( dc, dcs );
 
 	SelectObject( dc, oldFont );
 	DeleteObject( tmpFont );
 
-	ReleaseDC( ::GetDesktopWindow(), dc );
+
+	if ( NULL == font_ ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );		
+	}
+	else if ( NULL == font_->getGraphicsContext() ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
 }
 
 bool Win32Font::isTrueType()
@@ -227,24 +302,60 @@ bool Win32Font::isTrueType()
 
 double Win32Font::getPointSize()
 {
-	HDC dc = GetDC( ::GetDesktopWindow() );
-	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
-	double result = 0.0;
+	HDC dc = NULL;
+	if ( NULL != font_ ) {
+		if ( NULL != font_->getGraphicsContext() ) {
+			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
+		}
+	}
+	
+	if ( NULL == dc ) {
+		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	}
 
+	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
+
+	
+	int lfHeight = 0;
 	if ( System::isUnicodeEnabled() ) {
-		result = ((double)((LOGFONTW*)logFont_)->lfHeight / ppi) * 72.0;
+		lfHeight = ((LOGFONTW*)logFont_)->lfHeight;
 	}
 	else {
-		result = ((double)((LOGFONTA*)logFont_)->lfHeight / ppi) * 72.0;
+		lfHeight = ((LOGFONTA*)logFont_)->lfHeight;
 	}
-	ReleaseDC( ::GetDesktopWindow(), dc );
+
+	
+
+	double result = abs( ((double)lfHeight / ppi) * 72.0 );
+
+	if ( GetDeviceCaps( dc, LOGPIXELSY) != this->oldDPI_ ) {
+		result = result * ( ppi / oldDPI_ );
+		oldDPI_ = GetDeviceCaps( dc, LOGPIXELSY);
+	}
+
+	if ( NULL == font_ ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );		
+	}
+	else if ( NULL == font_->getGraphicsContext() ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
 
 	return result;
 }
 
 void Win32Font::setPointSize( const double pointSize )
 {
-	HDC dc = GetDC( ::GetDesktopWindow() );
+	HDC dc = NULL;
+	if ( NULL != font_ ) {
+		if ( NULL != font_->getGraphicsContext() ) {
+			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
+		}
+	}
+	
+	if ( NULL == dc ) {
+		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	}
+
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
 	long lfHeight = (pointSize / 72) * ppi;
 
@@ -258,10 +369,20 @@ void Win32Font::setPointSize( const double pointSize )
 	}
 
 
-	ReleaseDC( ::GetDesktopWindow(), dc );
+	if ( NULL == font_ ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );		
+	}
+	else if ( NULL == font_->getGraphicsContext() ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
+	
 
 	if ( true == needsUpdate ) {
 		Win32FontManager::removeFont( this );
+	}
+
+	if ( isTrueType() ) {
+		lfHeight = -lfHeight;
 	}
 
 	if ( System::isUnicodeEnabled() ) {
@@ -299,6 +420,8 @@ void Win32Font::setPixelSize( const double pixelSize )
 {
 	bool needsUpdate = false;
 
+	double pixSize = pixelSize;
+
 	if ( System::isUnicodeEnabled() ) {
 		needsUpdate = (pixelSize != ((LOGFONTW*)logFont_)->lfHeight);
 	}
@@ -310,12 +433,16 @@ void Win32Font::setPixelSize( const double pixelSize )
 		Win32FontManager::removeFont( this );
 	}
 
+	if ( isTrueType() ) {
+		pixSize = -pixelSize;
+	}
+
 	if ( System::isUnicodeEnabled() ) {
-		((LOGFONTW*)logFont_)->lfHeight = pixelSize;
+		((LOGFONTW*)logFont_)->lfHeight = pixSize;
 		((LOGFONTW*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 	else {
-		((LOGFONTA*)logFont_)->lfHeight = pixelSize;
+		((LOGFONTA*)logFont_)->lfHeight = pixSize;
 		((LOGFONTA*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 
@@ -610,11 +737,67 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 
 	fontName_ = name;
 
-	HDC dc = GetDC( ::GetDesktopWindow() );
+	HDC dc = NULL;
+
+	if ( NULL != font_ ) {
+		if ( NULL != font_->getGraphicsContext() ) {
+			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
+		}
+	}
+	
+	if ( NULL == dc ) {
+		dc = GetDC( ::GetDesktopWindow() );//gets screen DC
+	}
+
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
 	long lfHeight = (pointSize / 72.0) * ppi;
 
-	ReleaseDC( ::GetDesktopWindow(), dc );
+
+	bool trueTypeFont = false;
+	{ //test for true type
+		LOGFONT lfTmp = {0};
+		lfTmp.lfHeight = 10; //doesn't matter - just testing the name!
+		lfTmp.lfWidth = 0; //let font mapper choose closest match				
+		lfTmp.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
+		lfTmp.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+		lfTmp.lfItalic = FALSE;			
+		lfTmp.lfOutPrecision = OUT_DEFAULT_PRECIS;
+		lfTmp.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+		lfTmp.lfQuality = DEFAULT_QUALITY;
+		lfTmp.lfStrikeOut = FALSE;
+		lfTmp.lfUnderline = FALSE;
+		lfTmp.lfWeight = FW_NORMAL;
+		
+		AnsiString tmpName = fontName_;
+		memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(char) );
+		tmpName.copy( lfTmp.lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
+		
+		HFONT testFnt = CreateFontIndirect( &lfTmp );
+		if ( testFnt ) {
+			HFONT oldFnt = (HFONT)SelectObject( dc, testFnt );		
+
+			TEXTMETRIC tm = {0};
+			if ( GetTextMetrics( dc, &tm ) ) {
+
+				trueTypeFont = ((tm.tmPitchAndFamily & TMPF_TRUETYPE) != 0) ? true : false;
+			}
+
+			SelectObject( dc, oldFnt );
+			DeleteObject( testFnt );
+		}
+
+	}
+
+	if ( trueTypeFont ) {
+		lfHeight = -lfHeight;
+	}
+
+	if ( NULL == font_ ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );		
+	}
+	else if ( NULL == font_->getGraphicsContext() ) {
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
 
 
 	if ( System::isUnicodeEnabled() ) {
@@ -658,6 +841,32 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/09/01 03:50:39  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
+*Revision 1.2.2.9  2004/08/31 08:55:58  marcelloptr
+*minor change on a comment
+*
+*Revision 1.2.2.7  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
+*Revision 1.2.2.6  2004/08/26 04:08:15  marcelloptr
+*minor change on a comment
+*
+*Revision 1.2.2.4  2004/08/26 01:44:40  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
+*Revision 1.2.2.3  2004/08/26 00:27:49  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
+*Revision 1.2.2.2  2004/08/24 04:29:58  ddiego
+*more printing work, still not yet integrated.
+*
+*Revision 1.2.2.1  2004/08/20 18:54:21  dougtinkham
+*Changed stock font from ANSI_VAR_FONT to DEFAULT_GUI_FONT to fix WinME problem.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

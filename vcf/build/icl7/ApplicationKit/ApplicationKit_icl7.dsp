@@ -39,7 +39,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "icl7\ReleaseS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FOUNDATIONKIT_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /D "BUILD_APPLICATIONKIT_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm120 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm120 /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -62,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "icl7\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FOUNDATIONKIT_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /D "BUILD_APPLICATIONKIT_LIB" /Fd"..\..\..\Lib\ApplicationKit_icl7_sd.pdb" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm150 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /Fd"..\..\..\Lib\ApplicationKit_icl7_sd.pdb" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm150 /c
 # SUBTRACT CPP /FR
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
@@ -288,6 +288,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Frame.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.h
 # End Source File
 # Begin Source File
@@ -336,19 +340,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Resource.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceBundle.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceException.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceStream.h
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h
 # End Source File
 # Begin Source File
 
@@ -393,6 +385,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\VFFOutputStream.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\View.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h
 # End Source File
 # Begin Source File
 
@@ -645,14 +641,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Resource.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TitledBorder.cpp
 # End Source File
 # Begin Source File
@@ -670,6 +658,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\VFFInputStream.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\VFFOutputStream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -714,6 +706,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\COMUtils.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\EnumObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\SystemTray.h
 # End Source File
 # Begin Source File
 
@@ -889,27 +885,19 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h
 # End Source File
 # Begin Source File
 
@@ -1521,6 +1509,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\StatusBar.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\SystemTray.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\TabbedPages.cpp
 # End Source File
 # Begin Source File
@@ -1657,19 +1649,15 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\PopupMenuPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\PrintContextPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\PrintPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceStreamPeer.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ScrollPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\SystemTrayPeer.h
 # End Source File
 # Begin Source File
 

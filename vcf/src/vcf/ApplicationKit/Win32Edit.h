@@ -64,7 +64,7 @@ public:
 
 	virtual void createParams();
 
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
+	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
 
 	void onTextModelTextChanged( TextEvent* event );
 
@@ -120,6 +120,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

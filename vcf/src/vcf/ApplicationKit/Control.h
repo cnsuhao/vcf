@@ -557,6 +557,16 @@ public:
     virtual void paint( GraphicsContext * context )=0;
 
 	/**
+	Paints the border for the control. This is called by the framework during the 
+	painting of the control. Do not count on this being called at the same time as the
+	paint() method, as the order in which this is called is dependant on the 
+	underlying windowing system. For example, on Win32 systems this call may
+	be made by the framework outside of the WM_PAINT message handling, while on
+	Mac OS X this will be called in the same event handler that dispatches
+	the control's paint() method.
+	*/
+	void paintBorder( GraphicsContext * context );
+	/**
 	*Called when the mouse first enters the control's bounds.
 	*override this to provide specific behaviours when the control is
 	*first entered, like highlighting the control
@@ -1272,6 +1282,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

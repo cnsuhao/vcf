@@ -129,13 +129,7 @@ void TreeControl::setImageList( ImageList* imageList )
 
 void TreeControl::paint( GraphicsContext * context )
 {
-	Rect innerBounds = getClientBounds( false );
-
-	Border* border = getBorder();
-	if ( NULL != border ){
-		border->paint( this, context );
-		innerBounds = border->getClientRect( &innerBounds, this );
-	}
+	Rect innerBounds = getClientBounds( false );	
 
 	context->setColor( getColor() );
 			
@@ -153,6 +147,9 @@ void TreeControl::onTreeRootNodeChanged( TreeModelEvent* event )
 void TreeControl::onTreeNodeAdded( TreeModelEvent* event )
 {
 	TreeItem* item = event->getTreeItem();
+	
+	item->setControl( this );
+
 	treePeer_->addItem( item );
 	EventHandler* il = getEventHandler( "TreeItemListener" );
 	if  ( il == NULL ) {
@@ -356,6 +353,13 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/09 04:42:04  ddiego
+*fixed some custom draw bugs in win32 tree control. updated
+*advanced ui example.
+*
+*Revision 1.2.2.1  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

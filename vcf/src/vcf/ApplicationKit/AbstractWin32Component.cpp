@@ -339,7 +339,7 @@ void AbstractWin32Component::setFont( Font* font )
 	}
 }
 
-HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect  )
+HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect, int whatToPaint  )
 {
 	HDC result = NULL;
 
@@ -372,7 +372,28 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 								exclusionRect->right, exclusionRect->bottom );
 				}
 
-				peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+				GraphicsContext* paintCtx = ctx->getDrawingArea()->getImageContext();
+				int gcs = paintCtx->saveState();
+
+				switch( whatToPaint ) {
+					case cpBorderOnly : {
+						peerControl_->paintBorder( paintCtx );
+					}
+					break;
+
+					case cpControlOnly : {
+						peerControl_->paint( paintCtx );
+
+					}
+					break;
+
+					case cpBorderAndControl : {
+						peerControl_->paintBorder( paintCtx );
+						peerControl_->paint( paintCtx );
+					}
+					break;
+				}
+				paintCtx->restoreState( gcs );
 			}
 			ctx->flushDrawingArea();
 
@@ -396,8 +417,8 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
-
 			
+
 
 			//this is really dippy to have to do this here ?
 			//by setting the owning control to NULL we
@@ -411,14 +432,36 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
+			
+			int gcs = ctx->saveState();
 
-			peerControl_->paint( ctx );
+			switch( whatToPaint ) {
+				case cpBorderOnly : {
+					peerControl_->paintBorder( ctx );
+				}
+				break;
+
+				case cpControlOnly : {
+					peerControl_->paint( ctx );
+
+				}
+				break;
+
+				case cpBorderAndControl : {
+					peerControl_->paintBorder( ctx );
+					peerControl_->paint( ctx );
+				}
+				break;
+			}
+
+			ctx->restoreState( gcs );
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 
 
 			//reset back to original origin
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
+
 			
 			result = memDC_;
 		
@@ -439,8 +482,29 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 				ExcludeClipRect( paintDC, exclusionRect->left, exclusionRect->top,
 								exclusionRect->right, exclusionRect->bottom );
 			}
+			
+			int gcs = ctx->saveState();
 
-			peerControl_->paint( ctx );
+			switch( whatToPaint ) {
+				case cpBorderOnly : {
+					peerControl_->paintBorder( ctx );
+				}
+				break;
+
+				case cpControlOnly : {
+					peerControl_->paint( ctx );
+
+				}
+				break;
+
+				case cpBorderAndControl : {
+					peerControl_->paintBorder( ctx );
+					peerControl_->paint( ctx );
+				}
+				break;
+			}
+
+			ctx->restoreState( gcs );
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 			
@@ -497,10 +561,10 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 	}
 }
 
-LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
+bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
-
-	LRESULT result = 0;
+	
+	bool result = false;
 
 	Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 
@@ -509,7 +573,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 	switch ( message ) {
 
 		case WM_ERASEBKGND :{
-			result = 1;
+			wndProcResult = 0;
+			result = true;
 		}
 		break;
 
@@ -519,7 +584,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				if ( hwndCtl != hwnd_ ) {
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
-						result = win32Obj->handleEventMessages( message, wParam, lParam );
+						win32Obj->handleEventMessages( message, wParam, lParam, wndProcResult );
+						result = true;
 					}
 				}
 			}
@@ -556,6 +622,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 			}
 			*/
+			
 			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
 				peerControl_->handleEvent( event );
 			}
@@ -582,21 +649,24 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 			if ( true == isCreated() ){
 				if ( peerControl_->getComponentState() != Component::csDestroying ) {
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
-						return 1;
+						wndProcResult = 0;
+						result = true;
+						return result;
 					}
 
 					PAINTSTRUCT ps;
 					HDC contextID = 0;
 					contextID = ::BeginPaint( hwnd_, &ps);
 
-					doControlPaint( contextID, ps.rcPaint, NULL );
+					doControlPaint( contextID, ps.rcPaint, NULL, cpBorderAndControl );
 					updatePaintDC( contextID, ps.rcPaint, NULL );
 
 					::EndPaint( hwnd_, &ps);
 				}
 			}
 
-			result = 1;
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 /*
@@ -622,15 +692,15 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 		case WM_DESTROY: {
 			VCF_ASSERT( !destroyed_ );
-
 			
-			if ( NULL != event ) {
+			if ( (NULL != event) && (NULL != peerControl_) ) {
 				peerControl_->handleEvent( event );
 			}			
 
 			destroyWindowHandle();
 
-			result = 0;
+			wndProcResult = 0;
+			result = false;
 		}
 		break;
 
@@ -702,7 +772,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 														drawItemStruct->rcItem.right, drawItemStruct->rcItem.bottom) );
 						gc.getPeer()->setContextID(0);
 
-						result = TRUE;
+						
+						wndProcResult = TRUE;
+						result = true;
 					}
 				}
 			}
@@ -711,7 +783,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					HWND hwndCtl = drawItemStruct->hwndItem;
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
-						result = win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam );
+						win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam, wndProcResult );
+						result = true;
 					}
 				}
 				else {
@@ -820,20 +893,18 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						result = 0;
 					}
 				}
-				else {
-					//result = defaultWndProcedure( message, wParam, lParam );
-				}
 			}
 		}
 		break;
 
 		case WM_NOTIFY : {
-			result = defaultWndProcedure( message, wParam, lParam );
+			result = true;
+			wndProcResult = defaultWndProcedure( message, wParam, lParam );
 			if ( peerControl_->getComponentState() != Component::csDestroying ) {
 				NMHDR* notificationHdr = (LPNMHDR)lParam;
 				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
 				if ( NULL != win32Obj ){
-					win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam );
+					win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam, wndProcResult );
 				}
 			}
 		}
@@ -918,9 +989,10 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 							break;
 
 							case SB_LINEDOWN: {
-								int pos = min( (long)(scrollable->getVerticalPosition() + 5),
+								int step = scrollable->getVirtualViewVertStep();
+								int pos = min( (long)(scrollable->getVerticalPosition() + step),
 												abs((long)(scrollable->getVirtualViewHeight() - height)) );
-								si.nPos += 5;						// for a text file or a listbox it becomes important !
+								si.nPos += step;
 								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
 								scrollable->setVerticalPosition( pos );
@@ -928,8 +1000,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 							break;
 
 							case SB_LINEUP: {
-								int pos = max( (long)(scrollable->getVerticalPosition() - 5), 0 );
-								si.nPos -= 5;
+								int step = scrollable->getVirtualViewVertStep();
+								int pos = max( (long)( scrollable->getVerticalPosition() - step ), 0 );
+								si.nPos -= step;
 								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
 								scrollable->setVerticalPosition( pos );
@@ -1005,17 +1078,25 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 							break;
 
 							case SB_LINELEFT : {
-								int pos = max( (long)(scrollable->getHorizontalPosition() - 5),
-												0 );
-
+								//copied from SB_LINEUP
+								int step = scrollable->getVirtualViewHorzStep();
+								int pos = max( (long)( scrollable->getHorizontalPosition() - step ), 0 );
+								si.nPos -= step;
+								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
+								pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
 							}
 							break;
 
 							case SB_LINERIGHT : {
-								int pos = min( (long)(scrollable->getHorizontalPosition() + 5),
-												abs((long)(scrollable->getVirtualViewWidth() - width)) );
+								//copied from SB_LINEDOWN
+								int step = scrollable->getVirtualViewHorzStep();
+								int pos = min( (long)( scrollable->getHorizontalPosition() + step ),           
+												abs((long)(scrollable->getVirtualViewWidth() - width)) ); 
 
+								si.nPos += step;
+								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
+								pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
 							}
 							break;
@@ -1056,7 +1137,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				}
 				if ( NULL != win32Obj ){
 					if ( NULL != win32Obj ){
-						win32Obj->handleEventMessages( notifyCode, wParam, lParam );
+						win32Obj->handleEventMessages( notifyCode, wParam, lParam, wndProcResult );
 					}
 					else {
 						StringUtils::trace( "win32Obj == NULL!\n" );
@@ -1224,7 +1305,7 @@ LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 	}
 
 
-	doControlPaint( hdc, rect, &clipR );
+	doControlPaint( hdc, rect, &clipR, cpBorderOnly );
 	updatePaintDC( hdc, rect, &clipR );
 	
 
@@ -1233,7 +1314,7 @@ LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 	ReleaseDC(hwnd_, hdc);
 
 	
-	return 1;
+	return 0;
 }
 
 LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
@@ -1278,39 +1359,35 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 
 	defaultWndProcedure( WM_NCCALCSIZE, wParam, lParam );
 
-	/*
-	if ( NULL != rectToModify ) {
-		int style = GetWindowLong( hwnd_, GWL_STYLE );
-		if ( style & WS_VSCROLL ) {
-			NONCLIENTMETRICS ncm;
-			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-			ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-
-			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-
-			rectToModify->right -= ncm.iScrollWidth;
-		}
-
-		if ( style & WS_HSCROLL ) {
-			NONCLIENTMETRICS ncm;
-			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-			ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-
-			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-
-			rectToModify->bottom -= ncm.iScrollHeight;
-		}
-	}
-	*/
-
-	return 1;
+	return 0;
 }
 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4  2004/08/20 23:59:16  ddiego
-*minor fix to listboxcontrol
+*Revision 1.2.2.8  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
+*Revision 1.2.2.7  2004/09/21 05:37:36  dougtinkham
+*minor mod to handleEventMessages, case WM_HSCROLL, for horiz. scrolling
+*
+*Revision 1.2.2.6  2004/09/12 22:34:20  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
+*Revision 1.2.2.5  2004/09/07 03:57:04  ddiego
+*misc tree control update
+*
+*Revision 1.2.2.4  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
+*Revision 1.2.2.3  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
+*Revision 1.2.2.2  2004/08/26 01:44:38  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
+*Revision 1.2.2.1  2004/08/19 03:22:53  ddiego
+*updates so new system tray code compiles
 *
 *Revision 1.3  2004/08/19 02:24:54  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.

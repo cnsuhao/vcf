@@ -220,7 +220,7 @@ protected:
 
 	bool listSelectedItems( std::vector<TreeItem*>& items, TreeItem* firstSelectedItem, TreeItem* lastSelectedItem, TreeItem* nextItem, bool& startFound );
 
-	void populateVisiblityList( std::vector<TreeItem*>& items );
+	void populateVisiblityList( std::vector<TreeItem*>& items, Rect* bounds=NULL );
 
 	double getCurrentIndent( TreeItem* item );
 
@@ -228,6 +228,7 @@ protected:
 
 	bool hitTest( Rect* rect, TreeItem* item, std::vector<TreeItem*>& hitTestList );
 
+	void recalcScrollable();
 
 };
 
@@ -238,6 +239,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:52  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

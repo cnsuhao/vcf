@@ -279,6 +279,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.3  2004/08/13 18:43:07  ddiego
 *fixed missing roundrect functionality, and incorrect value in vc70/71 projects
 *

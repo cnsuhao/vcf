@@ -24,7 +24,7 @@
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NO_MFC;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB;BUILD_APPLICATIONKIT_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NO_MFC;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -78,7 +78,7 @@
 				AdditionalOptions="/Zm150 "
 				Optimization="0"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;NO_MFC;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB;BUILD_APPLICATIONKIT_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;NO_MFC;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -280,6 +280,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Frame.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			</File>
 			<File
@@ -316,16 +319,7 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Resource.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceBundle.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceException.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStream.h">
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Scrollable.h">
@@ -359,6 +353,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\View.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.h">
@@ -1415,46 +1412,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Resource.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TitledBorder.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1553,6 +1510,9 @@
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.cpp">
@@ -1672,6 +1632,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\EnumObject.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\VCFCOM.h">
@@ -2160,52 +2123,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2227,6 +2144,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp">
@@ -3708,6 +3631,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\StatusBar.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TabbedPages.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -3964,16 +3890,13 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenuPeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\PrintContextPeer.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\PrintPeer.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStreamPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TextPeer.h">

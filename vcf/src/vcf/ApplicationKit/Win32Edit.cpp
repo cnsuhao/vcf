@@ -312,17 +312,20 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 	}
 }
 
-LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc)
+bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
-	LRESULT result = 0;
+	bool result = false;
+	wndProcResult = 0;
 
 	switch ( message ) {
 
 		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP:{
 
 
+
 			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
-				defaultWndProcedure(  message, wParam, lParam );
+				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+				result = true;
 				//result = CallWindowProc( oldEditWndProc_, hwnd_,
 			}
 
@@ -360,7 +363,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 				OKToResetControlText_ = true;
 
-				result = 1;
+				wndProcResult = 1;
+				result = true;
 			}
 
 		}
@@ -369,8 +373,9 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		
 		case WM_COMMAND:{
 
-			handleEventMessages( HIWORD(wParam), LOWORD(wParam), lParam );
-			return 1;
+			handleEventMessages( HIWORD(wParam), LOWORD(wParam), lParam, wndProcResult );
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 
@@ -386,94 +391,34 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			}
 
 			OKToResetControlText_ = true;
-			return 1;
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 
 		case WM_ERASEBKGND :{
-			result = 1;
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 
 		case WM_PAINT:{
-			result = 0;
+			wndProcResult = 0;
+			result = false;
 		}
 		break;
 		
 
 		case WM_NCCALCSIZE: {
-			return handleNCCalcSize( wParam, lParam );
+			wndProcResult = handleNCCalcSize( wParam, lParam );
+			result = true;
 		}
 		break;
-/*
-		case WM_NCHITTEST: { 
-			RECT rect;
-	GetWindowRect(hwnd_, &rect);
-	OffsetRect(&rect, -rect.left, -rect.top);
-	RECT clipR = rect;
-	RECT clientRect = rect;
-	Rect vsRect;
-	Rect hsRect;
-
-	if ( NULL != peerControl_->getBorder() ) {		
-		Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
-		clientBounds = peerControl_->getBorder()->getClientRect( &clientBounds, peerControl_ );
-		
-		clipR.left = clientBounds.left_;
-		clipR.top = clientBounds.top_;
-		clipR.right = clientBounds.right_;
-		clipR.bottom = clientBounds.bottom_;
-		clientRect = clipR;
-	}
-	int style = GetWindowLong( hwnd_, GWL_STYLE );
-	if ( style & WS_VSCROLL ) {
-		NONCLIENTMETRICS ncm;
-		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-		
-		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-		
-		clipR.right -= ncm.iScrollWidth;
-
-		vsRect.setRect( clipR.right, clipR.top, clientRect.right, clipR.bottom );
-
-	}
-	if ( style & WS_HSCROLL ) {
-		NONCLIENTMETRICS ncm;
-		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-		
-		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-		
-		clipR.bottom -= ncm.iScrollHeight;
-		hsRect.setRect( clipR.left, clipR.bottom, clientRect.right, clientRect.bottom );
-	}
-
-	Point pt( LOWORD(lParam), HIWORD(lParam) ); 
-
-	this->translateFromScreenCoords( &pt );
-	if ( !vsRect.isEmpty() ) {
-		if ( vsRect.containsPt( &pt ) ) {
-			return HTVSCROLL;
-		}
-	}
-
-	if ( !hsRect.isEmpty() ) {
-		if ( hsRect.containsPt( &pt ) ) {
-			return HTHSCROLL;
-		}
-	}
-
-
-
-			return 1;
-		}
-		break;
-		*/
 
 		case WM_NCPAINT: {	
 
-			return handleNCPaint( wParam, lParam );
+			wndProcResult = handleNCPaint( wParam, lParam );
+			return true;
 		}
 		break;
 
@@ -492,7 +437,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			backgroundBrush_ = CreateSolidBrush( backColor );
 			SetBkColor( hdcEdit, backColor );
 
-			result = (LRESULT)backgroundBrush_;
+			wndProcResult = (LRESULT)backgroundBrush_;
+			return true;
 		}
 		break;
 
@@ -507,9 +453,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		//break;
 		
 
-		default: {	
-			//result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+		default: {				
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;		
 	}
@@ -835,6 +780,12 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
+*Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
