@@ -576,7 +576,6 @@ VCF::Persistable* COMUtils_createPersistableFromHGlobal( STGMEDIUM& stg, const V
 					fp = String(tmp);
 				}
 
-
 				if ( i > 0 ) {
 					data += "\n";
 				}
@@ -584,7 +583,7 @@ VCF::Persistable* COMUtils_createPersistableFromHGlobal( STGMEDIUM& stg, const V
 				data += fp;
 			}
 
-			result = new BinaryPersistable( (const unsigned char*)data.c_str(), data.size() );
+			result = new BinaryPersistable( (const unsigned char*)data.c_str(), data.size_in_bytes() );
 		}
 	}
 	else {
@@ -911,6 +910,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/23 03:53:31  ddiego
+*fixed a bug in the com translation of file names.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
