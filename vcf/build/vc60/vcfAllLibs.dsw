@@ -312,7 +312,25 @@ Package=<4>
 
 ###############################################################################
 
-Project: "vcfAll"=.\vcfAll.dsp - Package Owner=<4>
+Project: "vcfAllLibs"=.\vcfAllLibs.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name vcfAllDynamicLibs
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vcfAllStaticLibs
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "vcfAllDynamicLibs"=.\vcfAllDynamicLibs.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

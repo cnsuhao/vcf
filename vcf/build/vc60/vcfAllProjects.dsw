@@ -39,18 +39,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "AllTests"=".\Tests\AllTests\AllTests.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "Anchors"="..\..\examples\Anchors\Anchors.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -990,7 +978,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "vcfAll"=".\vcfAll.dsp" - Package Owner=<4>
+Project: "vcfAll"=".\vcfAllLibs_.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
