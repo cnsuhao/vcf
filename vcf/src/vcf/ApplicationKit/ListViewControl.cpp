@@ -523,9 +523,14 @@ void ListViewControl::paint( GraphicsContext * context )
 	context->fillPath();
 }
 
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/20 04:29:21  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.3.2.1  2005/02/27 01:45:33  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.

@@ -63,6 +63,11 @@ public:
 		rows.push_back( maxHeight );
 
 		while ( it != controls_.end() ) {
+			if ( (*it)->isIgnoredForLayout() ) {
+				it ++;
+				continue;
+			}
+
 			maxHeight = maxVal<>(maxHeight,(*it)->getHeight());
 
 			if ( col >= columnCount_ ) {
@@ -84,6 +89,11 @@ public:
 		col = 0;
 		it = controls_.begin();
 		while ( it != controls_.end() ) {
+			if ( (*it)->isIgnoredForLayout() ) {
+				it ++;
+				continue;
+			}
+
 			if ( ((columnCount_-1) == col) &&
 					(ColumnWidthResize == columnWidths_[col]) ) {
 
@@ -141,6 +151,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/20 04:29:20  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.2.4.1  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

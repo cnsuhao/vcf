@@ -381,9 +381,36 @@ public:
     virtual bool getVisible() ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*returns the control's alignment
+	\p
+	Returns the control's alignment. These alignment values are used by 
+	the basic container type, the StandardContainer class, which uses these
+	values to determine how to layout the controls. Other layout implementations
+	may choose to ignore these values. For example, the HorizontalLayoutContainer
+	doesn't pay any attention to these value, it just lays out the controls
+	as they are added.
+	@see isIgnoredForLayout()
+	@see setIgnoredForLayout()
 	*/
     AlignmentType getAlignment();
+
+	/**
+	\p
+	Returns whether this control must be ignored in the control container's
+	layout implementation. Unlike the alignment values returned by getAlignment(),
+	which are optional for the container to use, this \em must be honored. 
+	Failure to do so may result in dire intergalatic consequences, or
+	worse, result in a shortage of SUVs.
+	\p
+	If this is false, the default value, then the control is laid out however the
+	container is implemented to accomplish this. If the value is true, then the
+	container should simply place the control wherever the controls bounds
+	indicate. Container implementations that have some sort of layout that processes
+	controls sequentially, such as the HorizontalLayoutContainer, \em must
+	ignore a control that returns false.
+	*/
+	bool isIgnoredForLayout();
+
+	void setIgnoredForLayout( const bool& val );
 
 	/**
 	sets the bounds of the control. You can pass in left, top, width and height as the
@@ -1274,6 +1301,7 @@ protected:
 	Point clickPt_;
 	bool useRenderBuffer_;
 	Container* container_;
+	bool ignoredForLayout_;
 
 
 	void updateAnchorDeltas();
@@ -1290,6 +1318,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/20 04:29:21  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.3.2.3  2005/03/15 05:29:01  ddiego
 *makes the accelerator check logic a bit smarter and also changes
 *teh way menu items test to check whether or not they are enabled.

@@ -34,6 +34,8 @@ where you installed the VCF.
 
 namespace VCF{
 
+class ImageList;
+
 
 
 #define LISTBOXCONTROL_CLASSID		"ED88C0A5-26AB-11d4-B539-00C04F0196DA"
@@ -41,7 +43,12 @@ namespace VCF{
 class APPLICATIONKIT_API ListBoxControl : public CustomControl {
 
 public:
-	DELEGATE(SelectionChanged)
+	enum ListBoxControlEvents {
+		lbeItemStateChangeRequested = CUSTOM_EVENT_TYPES + ITEM_CONST + 100
+	};
+
+	DELEGATE(SelectionChanged);
+	DELEGATE(ItemStateChangeRequested);
 
 	ListBoxControl();
 
@@ -155,6 +162,20 @@ public:
 	*/
 	virtual void setScrollable( Scrollable* scrollable );
 
+
+	ImageList* getImageList() {
+		return imageList_;
+	}
+
+	ImageList* getStateImageList() {
+		return stateImageList_;
+	}
+
+	void setImageList( ImageList* imageList );
+
+	void setStateImageList( ImageList* stateImageList );
+
+	bool stateHitTest( Point* point, ListItem* item );
 protected:
 	ListModel* listModel_;
 	double defaultItemHeight_;
@@ -168,12 +189,26 @@ protected:
 	ListItem* singleSelectedItem_;
 	std::vector<ListItem*> selectedItems_;
 	EnumeratorContainer<std::vector<ListItem*>,ListItem*> selectedItemsContainer_;
+	ImageList* imageList_;
+	ImageList* stateImageList_;
+	double stateItemIndent_;
 
 	void paintSelectionRect( GraphicsContext* ctx, Rect* rect, ListItem* item );
 
 	ListItem* findSingleSelectedItem( Point* pt );
 
 	void selectionChanged( ListItem* item );
+
+	void paintItem( GraphicsContext* ctx, Rect& itemRect, 
+					double currentTop, Color* selectedTextColor, 
+					const Rect& bounds, double scrollWidth, double offsetX,
+					ListItem* item );
+
+	void paintItemState( GraphicsContext* ctx, Rect& itemRect, ListItem* item );
+
+	void paintItemImage( GraphicsContext* ctx, Rect& itemRect, ListItem* item );
+
+	Rect getStateRect( ListItem* item );
 };
 
 
@@ -183,6 +218,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/20 04:29:21  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.2.4.2  2005/03/10 00:17:27  marcelloptr
 *set discrete scrolling as default behaviour for ListBoxControls
 *

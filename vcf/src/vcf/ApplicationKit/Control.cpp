@@ -42,7 +42,8 @@ Control::Control():
 	tabStop_(true),
 	tabOrder_(-1),
 	useRenderBuffer_(false),
-	container_(NULL)
+	container_(NULL),
+	ignoredForLayout_(false)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -273,6 +274,21 @@ bool Control::getVisible() /**throw( InvalidPeer ); -JEC - FIXME later*/
 AlignmentType Control::getAlignment()
 {
 	return aligment_;
+}
+
+bool Control::isIgnoredForLayout()
+{
+	return ignoredForLayout_;
+}
+
+void Control::setIgnoredForLayout( const bool& val )
+{
+	ignoredForLayout_ = val;
+
+	Control* parent = getParent();
+	if ( NULL != parent ) {
+		parent->getContainer()->resizeChildren( NULL );
+	}
 }
 
 void Control::setBounds( const double& x, const double& y, const double& width, const double& height )
@@ -1494,9 +1510,14 @@ void Control::paintBorder( GraphicsContext * context )
 	}
 }
 
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.10  2005/03/20 04:29:21  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.4.2.9  2005/03/15 05:29:00  ddiego
 *makes the accelerator check logic a bit smarter and also changes
 *teh way menu items test to check whether or not they are enabled.
