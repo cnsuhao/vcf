@@ -135,73 +135,85 @@ public:
 		String filename;
 
 		File* file = NULL;
+		Directory::Finder* finder = NULL;
 		DateTime dt;
 
 		Directory dir( FilePath::getExpandedRelativePathName( filepath ) );
 
 		FileSearchFilterStandard filterFilesObj3( L"*.cpp"/*, L"c/g"*/ );
 
-		Directory::Finder* finder = dir.findFiles( &filterFilesObj3, false );
-		finder->setDisplayMode( g_displayMode ); //Directory::Finder::dmAny );
-		finder->setDisplayOrder( g_displayOrder ); //Directory::Finder::dmFiles );
-		finder->setKeepOSSpecificFormat( true );
-		finder->setMaskFilterFileAttribs ( File::faMaskAll );
-		finder->ignoreStat( File::smMaskDateAll | File::smSize );
-		finder->setRecursion( recurse, 10 );
+		try {
 
-		while ( finder->nextElement() ) {
-			file = finder->getCurrentElement();
-			filename = file->getName();
+			finder = dir.findFiles( &filterFilesObj3, false );
+			finder->setDisplayMode( g_displayMode ); //Directory::Finder::dmAny );
+			finder->setDisplayOrder( g_displayOrder ); //Directory::Finder::dmFiles );
+			finder->setKeepOSSpecificFormat( true );
+			finder->setMaskFilterFileAttribs ( File::faMaskAll );
+			finder->ignoreStat( File::smMaskDateAll | File::smSize );
+			finder->setRecursion( recurse, 10 );
 
-			if ( file->isDirectory() ) {
-				VCF_ASSERT( !( filename == L"." || filename == L".." ) );
+			while ( finder->nextElement() ) {
+				file = finder->getCurrentElement();
+				filename = file->getName();
 
-				countDirectories_ ++;
-				dt = System::convertUTCTimeToLocalTime( file->getDateModified() );
-				String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
-				//String st = StringUtils::format( L"%s", L"%d/%m/%Y %H:%M:%S" );
-				if ( g_showDirnames ) printf ( "[%d] %s %10s %5s [%s]\n", finder->getRecursionLevel(), st.ansi_c_str(), "", "", filename.ansi_c_str() );
-				StringUtils::traceWithArgs( L"[%d] %s %10s %5s [%s]\n", finder->getRecursionLevel(), st.c_str(), L"", L"", filename.c_str() );
-			} 
-			else {
-				countFiles_ ++;
-				String sz = StringUtils::toString( file->getSize() );
-				String sz2 = StringUtils::toString( file->getPeer()->getSize() );
-				
-				dt = System::convertUTCTimeToLocalTime( file->getDateModified() );
+				if ( file->isDirectory() ) {
+					VCF_ASSERT( !( filename == L"." || filename == L".." ) );
 
-				String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
-				String sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
-																					file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
-				if ( g_showFilenames ) printf ( "[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.ansi_c_str(), sz.ansi_c_str(), sa.ansi_c_str(), filename.ansi_c_str() );
-				StringUtils::traceWithArgs( L"[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+					countDirectories_ ++;
+					dt = System::convertUTCTimeToLocalTime( file->getDateModified() );
+					String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
+					//String st = StringUtils::format( L"%s", L"%d/%m/%Y %H:%M:%S" );
+					if ( g_showDirnames ) {
+						printf ( "[%d] %s %10s %5s [%s]\n", finder->getRecursionLevel(), st.ansi_c_str(), "", "", filename.ansi_c_str() );
+						StringUtils::traceWithArgs( L"[%d] %s %10s %5s [%s]\n", finder->getRecursionLevel(), st.c_str(), L"", L"", filename.c_str() );
+					}
+				} 
+				else {
+					countFiles_ ++;
+					String sz = StringUtils::toString( file->getSize() );
+					String sz2 = StringUtils::toString( file->getPeer()->getSize() );
+					
+					dt = System::convertUTCTimeToLocalTime( file->getDateModified() );
 
-				// setting file attributes
-				if ( g_testingFileAttributes ) {
-					File::FileAttributes fa = file->getFileAttributes();
-					file->setFileAttributes( (File::FileAttributes) ( fa | File::faReadOnly ) );
-					fa = file->getFileAttributes();
-					sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
+					String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
+					String sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
 																						file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
-					StringUtils::traceWithArgs( L"[%d]*%s %10s %s  %s\n", finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+					if ( g_showFilenames ) {
+						printf ( "[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.ansi_c_str(), sz.ansi_c_str(), sa.ansi_c_str(), filename.ansi_c_str() );
+						StringUtils::traceWithArgs( L"[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+					}
+
+					// setting file attributes
+					if ( g_testingFileAttributes ) {
+						File::FileAttributes fa = file->getFileAttributes();
+						file->setFileAttributes( (File::FileAttributes) ( fa | File::faReadOnly ) );
+						fa = file->getFileAttributes();
+						sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
+																							file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
+						StringUtils::traceWithArgs( L"[%d]*%s %10s %s  %s\n", finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+					}
+
+
+					// setting time stamp
+					if ( g_testingTimeStamps ) {
+						// this increase the timestamp of one day
+						dt = file->getDateModified();
+						dt.incrDay( 1 );
+						file->setDateModified( dt );
+
+						// this set the time of the file to now
+						// this function must be completed though !
+						// see its implementation
+						//file->updateTime();
+					}
+
 				}
-
-				// setting time stamp
-				if ( g_testingTimeStamps ) {
-					// this increase the timestamp of one day
-					dt = file->getDateModified();
-					dt.incrDay( 1 );
-					file->setDateModified( dt );
-
-					// this set the time of the file to now
-					// this function must be completed though !
-					// see its implementation
-					//file->updateTime();
-				}
-
 			}
-		}
 
+		}
+		catch ( BasicException& e ) {
+			System::errorPrint( &e );
+		}
 
 		Object::objectAllocationCount();
 
