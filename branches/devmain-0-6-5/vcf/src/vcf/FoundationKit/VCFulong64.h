@@ -47,13 +47,13 @@ unsigned long hi = num.hi(); //hi == 0x1234abcd
 class FOUNDATIONKIT_API ulong64 {
 public:
 
-	#ifdef _MSC_VER
-	typedef unsigned __int64 u64_t;
-	typedef __int64 int64_t;
-#else
-	typedef unsigned long long u64_t;
-	typedef long long int64_t;
-#endif
+#	ifdef _MSC_VER
+		typedef unsigned __int64 u64_t;
+		typedef __int64 int64_t;
+#	else
+		typedef unsigned long long u64_t;
+		typedef long long int64_t;
+#	endif
 
 
 
@@ -104,6 +104,13 @@ public:
 	ulong64( const ulong64& rhs ) :data_(rhs.data_){
 
 	}
+
+	ulong64( ulong32 valLow, ulong32 valHigh ){
+		u64_t tmp = valHigh;
+		tmp = tmp << 32;
+		data_ = tmp | (valLow & 0xffffffff);
+	}
+
 
 	ulong64& operator=( const ulong64& rhs ) {
 		data_ = rhs.data_;
@@ -458,6 +465,16 @@ public:
 		return (double)(int64_t)data_;//(signed __int64)data_;
 	}
 
+	operator int64_t() const {
+		return (int64_t)data_;//(signed __int64)data_;
+	}
+
+	operator u64_t() const {
+		return (u64_t)data_;
+	}
+
+
+
 	/**
 	This returns the top 32 bits of the number
 	*/
@@ -510,6 +527,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/05 01:01:55  marcelloptr
+*added ulong64 ctor, operators and toString conversion
+*
 *Revision 1.1.2.4  2004/06/16 15:40:47  marcelloptr
 *just some comments
 *
