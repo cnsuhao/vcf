@@ -97,6 +97,8 @@ public:
 	virtual void setIconImage( Image* icon );
 
 	virtual Image* getIconImage();
+	
+	virtual bool isActiveFrame();
 
 	Control* getOwner() {
 		return owner_;
@@ -129,6 +131,16 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.3.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

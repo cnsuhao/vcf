@@ -103,7 +103,7 @@ void OSXSystemPeer::setDateToSystemTime( DateTime* date )
 
 void OSXSystemPeer::setDateToLocalTime( DateTime* date )
 {
-    time_t now  = 0;
+	time_t now  = 0;
     time( &now );
     *date = now;
 }
@@ -117,6 +117,13 @@ void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.6.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.6  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

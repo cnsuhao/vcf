@@ -198,11 +198,19 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.8  2004/06/28 20:04:11  marcelloptr
 *fixed readLine so it reads cr/lf but it doesn't include it in the string
 *
 *Revision 1.1.2.6  2004/06/27 17:59:52  ddiego
 *fixed an off-by-one style error in the textInputStream::readLine() method
+*
+
+*Revision 1.1.2.5.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
 *
 *Revision 1.1.2.5  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections

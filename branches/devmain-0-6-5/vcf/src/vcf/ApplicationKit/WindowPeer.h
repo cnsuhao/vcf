@@ -43,6 +43,8 @@ public:
 	virtual void restore() = 0;
 
 	virtual void setIconImage( Image* icon ) = 0;
+	
+	virtual bool isActiveWindow() = 0;
 };
 
 };
@@ -51,6 +53,16 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.3.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

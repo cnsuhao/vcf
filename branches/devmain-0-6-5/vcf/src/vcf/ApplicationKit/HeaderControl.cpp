@@ -13,7 +13,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/HeaderControl.h"
 #include "vcf/ApplicationKit/DefaultColumnModel.h"
 #include "vcf/ApplicationKit/DefaultColumnItem.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -168,7 +168,11 @@ void HeaderControl::paint( GraphicsContext * context )
 	if ( colCount > 0 ) {
 		if ( r.right_ < getWidth() ) {
 			r.right_ = getWidth() + 2;
-			context->drawButtonRect( &r, false );
+			ButtonState state;
+			state.setPressed( false );
+			state.setActive( true );
+			state.setEnabled( isEnabled() );
+			context->drawThemeHeader( &r, state );
 		}
 	}
 }
@@ -312,7 +316,12 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 	}
 	drawOptions |= GraphicsContext::tdoCenterVertAlign;
 
-	context->drawButtonRect( paintRect, (item == pressedColumn_) );
+	ButtonState state;
+	state.setPressed( pressedColumn_ );
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	//state.buttonCaption_ = item->getCaption();
+	context->drawThemeHeader( paintRect, state );
 
 	paintRect->inflate( -5, 0 );
 	Rect captionRect = *paintRect;
@@ -330,8 +339,13 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 		captionRect.left_ = imageRect.right_ + 10;
 	}
 
+	String itemText = item->getCaption();
+	if ( getUseLocaleStrings() ) {
+		itemText = System::getCurrentThreadLocale()->translate( itemText );
+	}
 
-	context->textBoundedBy( &captionRect, item->getCaption(), drawOptions );
+
+	context->textBoundedBy( &captionRect, itemText, drawOptions );
 
 	paintRect->inflate( 5, 0 );
 
@@ -346,6 +360,13 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

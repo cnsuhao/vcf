@@ -135,21 +135,24 @@ public:
 
 	virtual bool isTextAlignedToBaseline();
 
-	virtual void drawSelectionRect( Rect* rect );
-
-	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
-
-	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed );
-
 	virtual void setClippingPath( Path* clippingPath );
 
 	virtual void setClippingRect( Rect* clipRect );
+
+
+	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeFocusRect( Rect* rect, DrawUIState& state );
+
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state );
+
+	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
+
+	virtual void drawThemeRadioButtonRect( Rect* rect, ButtonState& state );
+
+	virtual void drawThemeComboboxRect( Rect* rect, ButtonState& state );
+
+	virtual void drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state );
 
 	/**
 	Draws a button that is used to open up more details, for example
@@ -158,45 +161,47 @@ public:
 	On Win32 this is usually represented by the "+" and "-" look as found on
 	the tree controls, while on OSX it is the little triangles
 	*/
-	virtual void drawDisclosureButton( Rect* rect, const long& state );
+	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state );
 
 	/**
 	Draws a tab, the part of the TabbedPages control that acts like a
 	little button to activate a page, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawTab( Rect* rect, const bool& selected, const String& caption );
+	virtual void drawThemeTab( Rect* rect, TabState& state );
 
 	/**
 	Draws a tab page - the page on which other controls for the page are
 	parented to, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawTabPage( Rect* rect );
+	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
 	/**
 	Draws a tick mark, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
-
-	/**
-	Draws a slider thumb control, like that used for a slider control, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
-
+	virtual void drawThemeTickMarks( Rect* rect, SliderState& state );
+	
 	/**
 	Draws a slider control, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
+	virtual void drawThemeSlider( Rect* rect, SliderState& state );
+	
+	/**
+	Draws a progress bar control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeProgress( Rect* rect, ProgressState& state );	
+	
+	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state );
 
 	/**
 	Draws a header control that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawHeader( Rect* rect );
+	virtual void drawThemeHeader( Rect* rect, ButtonState& state );
 
 	/**
 	draws edges, useful for separators, that is compliant
@@ -204,29 +209,18 @@ public:
 	use a mask or 1 or more values of type ContextPeer::EdgeType
 	to indicate which sides of the rect to draw an edge on
 	*/
-	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle );
+	virtual void drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle );
 
 	/**
 	Draws a size gripper for resizing a control/window that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawSizeGripper( Rect* rect );
+	virtual void drawThemeSizeGripper( Rect* rect, DrawUIState& state );
 
 	/**
-	Draws the background appropriate for a control that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a control to give it a standard
-	look and feel in it's background before drawing any thing else
+	Draws a them compliant background
 	*/
-	virtual void drawControlBackground( Rect* rect );
-
-	/**
-	Draws the background appropriate for a window/frame that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a window/frame to give it a standard
-	look and feel in it's background before drawing any thing else
-	*/
-	virtual void drawWindowBackground( Rect* rect );
+	virtual void drawThemeBackground( Rect* rect, BackgroundState& state );
 
 	/**
 	Draws the background appropriate for a menu item that is compliant
@@ -234,7 +228,9 @@ public:
 	This is typically called first by a menu item to give it a standard
 	look and feel in it's background before drawing any thing else
 	*/
-	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
+	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
+
+	virtual void drawThemeText( Rect* rect, TextState& state );
 protected:
 
 	HRGN clipRGN_;
@@ -278,6 +274,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -62,6 +62,8 @@ public:
 	virtual void restore();
 
 	virtual void setIconImage( Image* icon );
+
+	virtual bool isActiveWindow();
 private:
 	bool internalClose_;
 	Control* owner_;
@@ -74,6 +76,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

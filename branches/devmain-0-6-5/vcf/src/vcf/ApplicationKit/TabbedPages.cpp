@@ -479,12 +479,12 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 	PushButton::paint( ctx );
 	switch ( getTag() ) {
 		case SCROLL_FWD_TAG : {
-			ctx->drawHorizontalScrollButtonRect( &getClientBounds(), false, this->isPressed_ );
+			//ctx->drawHorizontalScrollButtonRect( &getClientBounds(), false, this->isPressed_ );
 		}
 		break;
 
 		case SCROLL_BKWD_TAG : {
-			ctx->drawHorizontalScrollButtonRect( &getClientBounds(), true, this->isPressed_ );
+			//ctx->drawHorizontalScrollButtonRect( &getClientBounds(), true, this->isPressed_ );
 		}
 		break;
 	}
@@ -494,6 +494,13 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

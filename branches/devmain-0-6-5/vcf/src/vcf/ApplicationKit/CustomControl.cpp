@@ -8,15 +8,17 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 
 using namespace VCF;
 
-
+	
 CustomControl::CustomControl():
 	Control(),
-	isLightweight_(false)
+	isLightweight_(false),
+	isTransparent_(false),
+	useColorForBackground_(false)
 {
 	peer_ =	UIToolkit::createControlPeer( this );
 	peer_->create( this );
@@ -26,7 +28,9 @@ CustomControl::CustomControl():
 
 CustomControl::CustomControl( const bool& useHeavyweightPeer ):
 	Control(),
-	isLightweight_(!useHeavyweightPeer)
+	isLightweight_(!useHeavyweightPeer),
+	isTransparent_(false),
+	useColorForBackground_(false)
 {
 	if ( isLightweight_ ){
 		peer_ = UIToolkit::createControlPeer( this, CT_LIGHTWEIGHT );
@@ -60,13 +64,23 @@ void CustomControl::paint(GraphicsContext * context)
 		innerBounds = border->getClientRect( this );
 	}
 
-	if ( (false == isTransparent_) || (false == isLightWeight()) ){
-		context->rectangle( &innerBounds );
-		context->setColor( getColor() );
-		context->fillPath();
+	if ( (!isTransparent_) || (!isLightWeight()) ){
+		if ( useColorForBackground_ ) {
+			context->setColor( getColor() );
+			
+			context->rectangle( &innerBounds );
+			
+			context->fillPath();		
+		}
+		else {	
+			BackgroundState bkg;
+			bkg.setEnabled( isEnabled() );
+			bkg.setActive( isActive() );
+			bkg.colorType_ = SYSCOLOR_FACE;	
+			
+			context->drawThemeBackground( &innerBounds, bkg );
+		}
 	}
-
-
 
 	context->setCurrentFont( getFont() );
 /*
@@ -120,6 +134,16 @@ void CustomControl::setTransparent( const bool& transparent )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -27,6 +27,7 @@ Label::Label():
 	focusControl_ = NULL;
 	wordWrap_ = false;
 	setTabStop( false );
+	setUseColorForBackground( true );
 }
 
 void Label::paint( GraphicsContext * context )
@@ -84,7 +85,14 @@ void Label::paint( GraphicsContext * context )
 	if ( true == wordWrap_ ) {
 		drawOptions |= GraphicsContext::tdoWordWrap;
 	}
-	context->textBoundedBy( &bounds, caption_, drawOptions );
+
+	if ( getUseLocaleStrings() ) {
+		String text = System::getCurrentThreadLocale()->translate( caption_ );
+		context->textBoundedBy( &bounds, text, drawOptions );
+	}
+	else {
+		context->textBoundedBy( &bounds, caption_, drawOptions );
+	}
 }
 
 void Label::setCaption( const String& caption )
@@ -196,6 +204,16 @@ double Label::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

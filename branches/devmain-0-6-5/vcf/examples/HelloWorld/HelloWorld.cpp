@@ -27,6 +27,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 
+
 /**
 *use the VCF namespace to make it more convenient
 *to refer to VCF classes
@@ -63,25 +64,6 @@ public:
 		*/
 		setMainWindow( mainWindow );
 
-
-/*
-Experimental - ignore and get rid before 0-6-5 release!!!!!!!
-*/
-        Panel* p1 = new Panel();
-        mainWindow->add( p1, AlignTop );
-        p1->setBounds( 0, 0, 200, 300 );
-
-        p1->setBorderSize( 10 );
-
-        PushButton* pb = new PushButton();
-
-		pb->setHeight( 35 );
-        p1->add( pb, AlignTop );
-        
-		RadioButtonControl* rb = new RadioButtonControl();
-		rb->setBounds( 25, pb->getBottom() + 10, 100, 15 );
-		rb->setCaption( "Radio Button!" );
-		p1->add( rb );
 
 		/**
 		*Set the caption of the main window. Setting the caption
@@ -138,6 +120,18 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2004/07/09 03:39:28  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.3.2.10.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*Revision 1.3.2.10.2.2  2004/07/09 02:01:24  ddiego
+*more osx updates
+*
+*Revision 1.3.2.10.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.3.2.10  2004/06/07 03:07:06  ddiego
 *more osx updates dealing with mouse handling
 *

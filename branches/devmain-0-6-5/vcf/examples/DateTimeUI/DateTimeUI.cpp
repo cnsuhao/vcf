@@ -425,15 +425,12 @@ public:
 		panel->setBorderSize( 5 );
 		add( panel, AlignTop );
 
-
-
 		DigitalClock* clock1 = new DigitalClock();
 		panel->add( clock1, AlignClient );
 
 		AnalogClock* clock2 = new AnalogClock();
 		clock2->setWidth( 200 );
 		panel->add( clock2, AlignLeft );
-
 
 		Calendar* calendar = new Calendar();
 
@@ -484,8 +481,15 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.12  2004/07/09 03:39:27  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.2.2.11  2004/06/25 19:45:25  marcelloptr
 *minor changes
+*
+*Revision 1.2.2.10.2.1  2004/06/27 18:19:14  ddiego
+*more osx updates
 *
 *Revision 1.2.2.10  2004/06/07 03:07:06  ddiego
 *more osx updates dealing with mouse handling

@@ -422,7 +422,11 @@ void ComboBoxControl::paint( GraphicsContext* context )
 	Light3DBorder bdr;
 	bdr.setInverted( true );
 	bdr.paint( &paintRect, context );
-	context->drawVerticalScrollButtonRect( &arrowRect_, false, arrowPressed_ );
+	
+	///////////////
+	//FIX ME!!!!!
+	///////////////
+	//context->drawVerticalScrollButtonRect( &arrowRect_, false, arrowPressed_ );
 
 
 	viewRect_.inflate( -2, -2 );
@@ -903,6 +907,10 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 03:39:28  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.3  2004/07/08 15:07:57  ddiego
 *made the change to the StandardContainer name - the
 *old StandardContainer is now called DesignTimeContainer and
