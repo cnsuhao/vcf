@@ -33,6 +33,7 @@ public:
 		source_ = NULL;
 		isCollection_ = false;
 		isReadOnly_ = false;
+		type_ = pdUndefined;
 		bound_ = false;
 		//prop_count ++;
 		//StringUtils::trace( "Created Property\n\tProperty Count = " + StringUtils::toString(prop_count) + "\n" );
@@ -335,6 +336,7 @@ protected:
 	VariantData value_;
 	bool isCollection_;
 	bool isReadOnly_;
+
 private:
 	bool bound_;
 	String name_;
@@ -453,6 +455,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/07 23:21:48  marcelloptr
+*fixed forgotten initialization
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
