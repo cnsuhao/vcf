@@ -1483,7 +1483,7 @@ SOURCE=..\..\..\src\Events\MenuItemEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MessageDialog.cpp
+SOURCE=..\..\..\src\core\MessageDialog.cpp
 # End Source File
 # Begin Source File
 
