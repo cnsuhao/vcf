@@ -375,7 +375,7 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 
 		SCROLLINFO si;
 
-		if ( hasHorzSB ) {
+		if ( hasVertSB ) {
 			memset( &si, 0, sizeof(si) );
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_POS | SIF_TRACKPOS | SIF_PAGE;
@@ -385,7 +385,7 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 			yPosition = 0;
 		}
 
-		if ( hasVertSB ) {
+		if ( hasHorzSB ) {
 			memset( &si, 0, sizeof(si) );
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_POS | SIF_TRACKPOS | SIF_PAGE;
@@ -401,6 +401,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/14 18:21:13  dougtinkham
+*fixed mistake in last checkin
+*
 *Revision 1.2.2.1  2004/09/14 05:13:45  dougtinkham
 *changes to scrollTo and getAdjustedPositions for horizontal scrolling
 *
