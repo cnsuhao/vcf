@@ -394,6 +394,7 @@ void DefaultTreeItem::addSubItem( const String& caption, void* data )
 	SubItem* subItem = new SubItem(this);
 	subItems_.push_back( subItem );
 	subItem->setCaption( caption );
+	subItem->setData( data );
 
 	changed( ITEM_EVENT_CHANGED );
 }
@@ -446,6 +447,9 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/26 02:09:10  ddiego
+*fixed bug 1108954
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
