@@ -93,6 +93,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Colors"=".\Colors\Colors_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Conditions"=".\Conditions\Conditions_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -238,6 +250,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ApplicationIcons
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Colors
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Conditions
