@@ -23,8 +23,6 @@ CFG=AllTests - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName "AllTests"
-# PROP Scc_LocalPath "."
 MTL=midl.exe
 
 !IF  "$(CFG)" == "AllTests - Win32 Release"
