@@ -128,12 +128,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FilesAndDirectories", ".\Fi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKit", "..\build\vc71\FoundationKit\FoundationKit_vc71.vcproj", "{571374A2-382A-45CB-9965-73CE6B451365}"
 	ProjectSection(ProjectDependencies) = postProject
-		{33E6788C-E2AC-4136-8367-B3F40A3CFA35} = {33E6788C-E2AC-4136-8367-B3F40A3CFA35}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitDLL", "..\build\vc71\FoundationKit\FoundationKitDLL_vc71.vcproj", "{E6F355D1-1BCB-45C9-A919-BAF15B20930D}"
 	ProjectSection(ProjectDependencies) = postProject
-		{33E6788C-E2AC-4136-8367-B3F40A3CFA35} = {33E6788C-E2AC-4136-8367-B3F40A3CFA35}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsAndMouseMoves", ".\GraphicsAndMouseMoves\GraphicsAndMouseMoves_vc71.vcproj", "{1F44500A-E3A9-4CF3-BBD7-0D1F880EFC35}"
