@@ -399,6 +399,9 @@ Package=<4>
     Project_Dep_Name Tables
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name TeXLabel
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name TextLayout
     End Project Dependency
     Begin Project Dependency
@@ -1015,6 +1018,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Tables"="..\..\examples\Tables\Tables_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TeXLabel"="..\..\examples\TeXLabel\TeXLabel_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

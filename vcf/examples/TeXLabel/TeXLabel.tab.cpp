@@ -693,7 +693,7 @@ yydestruct (yytype, yyvaluep)
 
   switch (yytype)
     {
-
+      case 0: /* suppress MSVC default but no case label warning */
       default:
         break;
     }
@@ -1228,6 +1228,7 @@ yyerrlab:
 /*----------------------------------------------------.
 | yyerrlab1 -- error raised explicitly by an action.  |
 `----------------------------------------------------*/
+goto yyerrlab1; /* Suppress MSVC warning that yyerrlab1 is unused when no action */
 yyerrlab1:
 
   /* Suppress GCC warning that yyerrlab1 is unused when no action
