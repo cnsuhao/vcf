@@ -198,7 +198,7 @@ enum KeyboardMasks{
 #define W_STR_SHORT_CONVERSION        L"%hd"
 #define W_STR_USHORT_CONVERSION       L"%hu"
 #define W_STR_FLOAT_CONVERSION        L"%f"
-#define W_STR_DOUBLE_CONVERSION       L"%f"
+#define W_STR_DOUBLE_CONVERSION       L"%lf"
 #define W_STR_BOOL_CONVERSION_TRUE    L"true"
 #define W_STR_BOOL_CONVERSION_FALSE   L"false"
 
@@ -323,6 +323,9 @@ enum VirtualKeyCode{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/26 03:30:39  marcelloptr
+*minor fix string to double conversion
+*
 *Revision 1.1.2.3  2004/07/21 02:06:53  marcelloptr
 *BugFix 985136 cast to (int) and ulong64 and other conversion issues
 *The fromStringAs... functions now throw an exception in case of some errors

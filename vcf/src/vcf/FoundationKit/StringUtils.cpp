@@ -746,7 +746,7 @@ float StringUtils::fromStringAsFloat( const VCF::String& value )
 
 double StringUtils::fromStringAsDouble( const VCF::String& value )
 {
-	float result = 0;
+	double result = 0;
 	#ifdef VCF_OSX
 		CFTextString tmp;
 		tmp = value;
@@ -1497,6 +1497,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.15  2004/07/26 03:30:39  marcelloptr
+*minor fix string to double conversion
+*
 *Revision 1.1.2.14  2004/07/26 00:47:38  marcelloptr
 *added conversions String <-> long64
 *
