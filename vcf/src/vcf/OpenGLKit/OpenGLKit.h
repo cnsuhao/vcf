@@ -37,23 +37,28 @@ dll builds.
 /**
 Handle the extension based on the compiler
 */
-# if defined(__ICL)
+# if defined(__INTEL_COMPILER)
 #   define _LIB_CPLVERNUM "icl7"
+# elif defined(__ICL)
+#   define _LIB_CPLVERNUM "icl6"
 # else
 #   if (_MSC_VER >= 1310)
 #     define _LIB_CPLVERNUM "vc71"
 #   elif (_MSC_VER >= 1300)
 #     define _LIB_CPLVERNUM "vc70"
 #   elif (_MSC_VER >= 1200)
-#     define _LIB_CPLVERNUM "vc6"
+#		ifdef VCF_GTK
+#			define _LIB_CPLVERNUM "gtk"
+#		else
+#			define _LIB_CPLVERNUM "vc6"
+#		endif
 #   elif (_MSC_VER >= 1100)
 #     define _LIB_CPLVERNUM "vc5"
-#   endif
-#ifdef __BORLANDC__
-#  define _LIB_CPLVERNUM "bcc"
-#endif
+#		endif
+#  ifdef __BORLANDC__
+#     define _LIB_CPLVERNUM "bcc"
+#  endif
 # endif
-
 
 
 /**
@@ -108,6 +113,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/01 18:17:02  marcelloptr
+*minor change on automatic lib selection
+*
 *Revision 1.2.2.1  2004/10/27 22:42:47  augusto_roman
 *Changed Win32 peer to create GL Rendering Context (RC) based off of the Win32 window handle of the control instead of the paintDC.  Also enforced error checking. - aroman
 *
