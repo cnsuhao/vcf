@@ -6,38 +6,55 @@ rm vcfSrcFiles.iss
 
 echo preparing list of all files for distribution in installer...
 
-find ../../include ../../src ../../ImageFormats ../../build ../../AppServer ../../xmake ../../ClassServer ../../thirdparty -iname '*.h' -o -iname '*.hpp' -o -iname '*.c' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' > srcfiles.out
-find ../../include ../../src ../../ImageFormats ../../build ../../AppServer ../../xmake ../../ClassServer ../../thirdparty -iname '*.def' -o -iname '*.vcfdir' -o -iname '*.vcp' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.inf' -o -iname '*.vcproj' > srcfiles1.out
-find ../../include ../../src ../../ImageFormats ../../build ../../AppServer ../../xmake ../../ClassServer ../../thirdparty -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.HPP' -o -iname *.cxx -o -iname '*.CXX' -o -iname '*.cur' -o -iname '*.CUR' > srcfiles2.out
+SRC_DIRS=../../include ../../src ../../ImageFormats ../../build ../../AppServer ../../xmake ../../ClassServer ../../thirdparty
 
-find ../../tests -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' > tests.out
-find ../../examples -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' > examples.out
-find ../../BlackBox -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.dll' -o -iname '*.lib' -o -iname '*.html' > blackbox.out
+find $SRC_DIRS -iname '*.h' -o -iname '*.hpp' -o -iname '*.c' \
+					-o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' \
+					-o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.xml' \
+					-o -iname '*.idl' > srcfiles.out
+					
+find $SRC_DIRS -iname '*.def' -o -iname '*.vcfdir' -o -iname '*.vcp' \
+					-o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' \
+					-o -iname '*.vff' -o -iname '*.inf' -o -iname '*.vcproj' > srcfiles1.out
+					
+find $SRC_DIRS -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.HPP' \
+					-o -iname *.cxx -o -iname '*.CXX' -o -iname '*.cur' \
+					-o -iname '*.CUR' > srcfiles2.out
+					
+find ../../examples -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' \
+		-o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' \
+		-o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' \
+		-o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' \
+		-o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' -o -iname '*.xml' > examples.out
+		
+find ../../BlackBox -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' \
+		-o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' \
+		-o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' \
+		-o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.dll' -o -iname '*.lib' \
+		-o -iname '*.html' > blackbox.out
 
 
 
 #combine the outoput into a master list
-cat srcfiles.out srcfiles1.out srcfiles2.out tests.out examples.out blackbox.out> files.out
+cat srcfiles.out srcfiles1.out srcfiles2.out examples.out blackbox.out> files.out
 
-rm srcfiles.out srcfiles1.out srcfiles2.out tests.out examples.out blackbox.out
+rm srcfiles.out srcfiles1.out srcfiles2.out examples.out blackbox.out
 
 
 echo file list built, creating file listing for vcfSrcFiles.iss
 
 numLines=`wc -l files.out`
+echo $numLines
 
+pwd
 numLines=`sed "s?files.out??g" <<< $numLines`
+
+
 
 echo installation will include $numLines source files
 
 
 dirFront=...\\..\\
-
-
-rm out
-rm tmp
-rm vcfSrcFiles.iss
-
 
 touch out
 
@@ -76,7 +93,9 @@ rm tmp.2
 rm out
 rm files.out
 
+unix2dos vcfSrcFiles.iss
+
 echo installation file listing is complete, all files stored in vcfSrcFiles.iss
 
-
+cd ../../scripts
 

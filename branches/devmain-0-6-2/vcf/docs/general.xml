@@ -369,7 +369,8 @@ No package 'gtk+-2.0' found
 			option to ld when linking.
 			</para>
 			<para>
-			There is currently no install target. This needs to be addressed in the very near future!
+			There is currently no install target. This needs to be addressed in the very near future! 
+			Presumably, you can just copy the .so's in the vcf/bin directory into /usr/local/lib.
 			</para>
 		</section>
 		<section><title>MacOSX</title>
@@ -1245,6 +1246,10 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.7  2003/12/14 23:38:41  ddiego
+added some minor changes to teh add-ins projects - their extension had
+been changed from .awx to .dll, so I changed it abck to .awx
+
 Revision 1.1.2.6  2003/11/23 15:14:05  ddiego
 added more docs, and updated to account for new Dictionary tutorial
 
