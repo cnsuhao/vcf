@@ -584,10 +584,24 @@ void ListViewControl::onItemSelected( ItemEvent* event )
 	selectedItem_ = listviewPeer_->getSelectedItem();
 }
 
+void ListViewControl::paint( GraphicsContext * context )
+{
+	Rect innerBounds = getClientBounds( false );
+
+	context->setColor( getColor() );
+			
+	context->rectangle( &innerBounds );
+			
+	context->fillPath();
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -93,10 +93,16 @@ public:
 	HDWP getWindPosInfo() {
 		return winPosInfo_;
 	}
+
+	HDC doControlPaint( HDC paintDC, RECT paintRect );
+	void updatePaintDC( HDC paintDC, RECT paintRect );
 protected:
 	void init();
 	HDC memDC_;
+	HBITMAP originalMemBMP_;
+	HBITMAP memBMP_;
 	bool mouseEnteredControl_;
+	int memDCState_;
 	HDWP winPosInfo_;
 	AbstractWin32Component* parent_;
 };
@@ -108,6 +114,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

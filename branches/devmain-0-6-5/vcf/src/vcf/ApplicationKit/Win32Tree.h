@@ -78,7 +78,7 @@ private:
 	ItemEventHandler<Win32Tree>* itemPaintedHandler_;
 
 	TreeControl* treeControl_;
-	WNDPROC oldTreeWndProc_;
+	//WNDPROC oldTreeWndProc_;
 	std::map<TreeItem*,HTREEITEM> treeItems_;
 	Color backColor_;
 	HIMAGELIST imageListCtrl_;
@@ -95,6 +95,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/14 04:56:02  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

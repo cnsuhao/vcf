@@ -102,8 +102,12 @@ public:
 
 	class Container : public StandardContainer {
 	public:
-		virtual void resizeChildren(Control* control) {
+		Container() {
 			setBorderWidth( 1 );
+		}
+
+		virtual void resizeChildren(Control* control) {
+			
 
 			StandardContainer::resizeChildren( control );
 		}
@@ -907,6 +911,10 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.4  2004/07/09 03:39:28  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

@@ -23,7 +23,11 @@ LRESULT CALLBACK Win32Object_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hWnd );
 
 	if ( NULL != win32Obj ){
-		return  win32Obj->handleEventMessages( message, wParam, lParam );
+		if ( !win32Obj->handleEventMessages( message, wParam, lParam ) ) {
+			return win32Obj->defaultWndProcedure( message, wParam, lParam );
+		}
+
+		return 0;
 	}
 	else {
 		if ( System::isUnicodeEnabled() ) {
@@ -163,12 +167,7 @@ void Win32Object::createParams()
 
 LRESULT Win32Object::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
 {
-	if ( System::isUnicodeEnabled() ) {
-		return DefWindowProcW( hwnd_, message, wParam, lParam );
-	}
-	else {
-		return DefWindowProcA( hwnd_, message, wParam, lParam );
-	}
+	
 	return 0;
 }
 
@@ -206,15 +205,25 @@ void Win32Object::registerWin32Object( Win32Object* wndObj )
 LRESULT Win32Object::defaultWndProcedure( UINT message, WPARAM wParam, LPARAM lParam )
 {
 	LRESULT result = 0;
-	if ( NULL != defaultWndProc_ ){
-		if ( System::isUnicodeEnabled() ) {
+	
+	if ( System::isUnicodeEnabled() ) {
+		if ( NULL != defaultWndProc_ ){
 			result = CallWindowProcW( defaultWndProc_, hwnd_, message, wParam, lParam );
 		}
-		else{
+		else {
+			result = DefWindowProcW( hwnd_, message, wParam, lParam );
+		}
+	}
+	else{
+		
+		if ( NULL != defaultWndProc_ ){
 			result = CallWindowProcA( defaultWndProc_, hwnd_, message, wParam, lParam );
 		}
-
+		else {
+			result = DefWindowProcA( hwnd_, message, wParam, lParam );
+		}
 	}
+	
 
 	return result;
 }
@@ -243,6 +252,10 @@ Control* Win32Object::getPeerControl()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 04:56:02  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.4  2004/07/12 02:05:45  ddiego
 *fixed a subtle bug (that only showed up when using a lightweight
 *control) that happened with MouseClick events being handled twice.

@@ -355,9 +355,7 @@ public:
 
 	ToolbarModel* getToolbarModel() {
 		return (ToolbarModel*)getViewModel();
-	}
-
-	virtual void paint( GraphicsContext* gc );
+	}	
 
 	ToolbarItem* addToolBarButton( const String& caption ) {
 		ToolbarItem* item = new ToolbarItem();
@@ -390,6 +388,8 @@ public:
 	bool isAutoResizeEnabled();
 
 	virtual void handleEvent( Event* event );
+
+	virtual void paint( GraphicsContext* context );
 protected:
 	ToolbarPeer* toolbarPeer_;
 	ImageList* imageList_;
@@ -420,6 +420,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.5  2004/07/11 18:45:34  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *

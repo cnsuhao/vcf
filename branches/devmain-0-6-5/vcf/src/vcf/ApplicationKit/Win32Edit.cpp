@@ -20,8 +20,7 @@ using namespace VCF;
 static bool Win32RicheditLibraryLoaded = false;
 
 Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
-	AbstractWin32Component( component ),
-	oldEditWndProc_(NULL),
+	AbstractWin32Component( component ),	
 	textControl_(component),
 	numCharsRemainingToStreamIn_(0),
 	isRichedit_(false),
@@ -133,8 +132,8 @@ void Win32Edit::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 
 		Win32Object::registerWin32Object( this );
-		oldEditWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
-		defaultWndProc_ = NULL;//oldEditWndProc_;
+
+		defaultWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );		
 
 		TextModelEventHandler<Win32Edit>* tml =
 			new TextModelEventHandler<Win32Edit>( this, Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
@@ -321,7 +320,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 
 			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
-				result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
+				result = this->defaultWndProcedure(  message, wParam, lParam );
+				//result = CallWindowProc( oldEditWndProc_, hwnd_,
 			}
 
 			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
@@ -357,6 +357,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 				peerControl_->handleEvent( &event );
 
 				OKToResetControlText_ = true;
+
+				result = 1;
 			}
 
 		}
@@ -364,7 +366,9 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 		case WM_COMMAND:{
 
+			
 			handleEventMessages( HIWORD(wParam), LOWORD(wParam), lParam );
+			return 1;
 		}
 		break;
 
@@ -385,7 +389,8 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 		case WM_PAINT:{
 
-			result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
+			
 		}
 		break;
 
@@ -419,7 +424,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		*/
 
 		default: {
-			result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 		}
 		break;
@@ -745,6 +750,10 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.5  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
