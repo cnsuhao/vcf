@@ -183,9 +183,8 @@ public:
 int main(int argc, char *argv[])
 {
 	GraphicsAndMouseMovesApplication app( argc, argv );
-	
 
-	Application::main( argc, argv );
+	Application::main();
 	
 	return 0;
 }
