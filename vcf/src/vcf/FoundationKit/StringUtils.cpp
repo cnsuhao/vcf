@@ -698,7 +698,7 @@ VCF::uint32 StringUtils::fromStringAsUInt( const VCF::String& value )
 		if ( 0 == result ) {
 			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
-			throw BasicException( L"Overflow - Unable to convert: " + value );
+			throw BasicException( L"StringUtils::fromStringAsUInt() Overflow - Unable to convert: " + value );
 		}
 	#else
 		#ifdef _MSC_VER
@@ -706,12 +706,12 @@ VCF::uint32 StringUtils::fromStringAsUInt( const VCF::String& value )
 			result = _wtoi64( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_UINT_CONVERSION, &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsUInt() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), W_STR_UINT_CONVERSION, &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsUInt() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -728,19 +728,19 @@ long StringUtils::fromStringAsLong( const VCF::String& value )
 		if ( 0 == result ) {
 			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
-			throw BasicException( L"Overflow - Unable to convert: " + value );
+			throw BasicException( L"StringUtils::fromStringAsLong() Overflow - Unable to convert: " + value );
 		}
 	#else
 		#ifdef _MSC_VER
 			result = _wtol( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_LONG_CONVERSION, &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsLong() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), W_STR_LONG_CONVERSION, &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsLong() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -757,19 +757,19 @@ VCF::ulong32 StringUtils::fromStringAsULong( const VCF::String& value )
 		if ( 0 == result ) {
 			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
-			throw BasicException( L"Overflow - Unable to convert: " + value );
+			throw BasicException( L"StringUtils::fromStringAsULong() Overflow - Unable to convert: " + value );
 		}
 	#else
 		#ifdef _MSC_VER
 			result = _wtoi64( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsULong() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsULong() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -788,19 +788,19 @@ VCF::long64 StringUtils::fromStringAsLong64( const VCF::String& value )
 		} 
 		else */
 		if ( (INT_MIN == (int)result) || (INT_MAX == (int)result) ) {
-			throw BasicException( L"Overflow - Unable to convert: " + value );
+			throw BasicException( L"StringUtils::fromStringAsLong64() Overflow - Unable to convert: " + value );
 		}
 	#else
 		#ifdef _MSC_VER
 			result = _wtoi64( value.c_str() );
 			if ( (long64)0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), L"%I64d", &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsLong64() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), L"%I64d", &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsLong64() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -817,7 +817,7 @@ VCF::ulong64 StringUtils::fromStringAsULong64( const VCF::String& value )
 		if ( 0 == (int)result ) {
 			//check_true_error( tmp );
 		} else if ( (INT_MIN == (int)result) || (INT_MAX == (int)result) ) {
-			throw BasicException( L"Overflow - Unable to convert: " + value );
+			throw BasicException( L"StringUtils::fromStringAsULong64() Overflow - Unable to convert: " + value );
 		}
 	#else
 		#ifdef _MSC_VER
@@ -830,12 +830,12 @@ VCF::ulong64 StringUtils::fromStringAsULong64( const VCF::String& value )
 			#endif
 			if ( (ulong64)0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), L"%I64u", &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsULong64() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), L"%I64u", &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsULong64() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -857,12 +857,12 @@ float StringUtils::fromStringAsFloat( const VCF::String& value )
 			result = _wtof( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsFloat() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsFloat() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -884,12 +884,12 @@ double StringUtils::fromStringAsDouble( const VCF::String& value )
 			result = _wtof( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsDouble() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsDouble() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -904,7 +904,7 @@ char StringUtils::fromStringAsChar( const VCF::String& value )
 	#else
 		int ret = swscanf( value.c_str(), W_STR_CHAR_CONVERSION, &result );
 		if ( ret != 1 ) {
-			throw BasicException( L"Unable to convert: " + value );
+			throw BasicException( L"StringUtils::fromStringAsChar() Unable to convert: " + value );
 		}
 	#endif
 
@@ -923,12 +923,12 @@ short StringUtils::fromStringAsShort( const VCF::String& value )
 			result = _wtoi( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_SHORT_CONVERSION, &result ) ) ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsShort() Unable to convert: " + value );
 			}
 		#else
 			int ret = swscanf( value.c_str(), W_STR_SHORT_CONVERSION, &result );
 			if ( ret != 1 ) {
-				throw BasicException( L"Unable to convert: " + value );
+				throw BasicException( L"StringUtils::fromStringAsShort() Unable to convert: " + value );
 			}
 		#endif
 	#endif
@@ -1638,6 +1638,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/11/17 04:52:49  ddiego
+*added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
+*
 *Revision 1.2.2.6  2004/10/23 12:20:00  marcelloptr
 *bugfix [1048400] menus are now merged regardless of their shortcut key
 *

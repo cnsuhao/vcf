@@ -55,7 +55,7 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 
 		String resDir = System::findResourceDirectory();
 
-		int pos = resDir.find( "Resources" );
+		int pos = resDir.rfind( "Resources" );
 
 		if ( pos != String::npos ) {
 			resDir.erase( pos, resDir.size()-pos );
@@ -145,7 +145,7 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 								author = val->getCDATA();
 							}
 							else if ( node->getCDATA() == "Company" ) {
-								author = val->getCDATA();
+								company = val->getCDATA();
 							}
 							else if ( node->getCDATA() == "Description" ) {
 								description = val->getCDATA();
@@ -169,6 +169,9 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/11/17 04:52:49  ddiego
+*added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
+*
 *Revision 1.1.2.4  2004/09/17 11:38:06  ddiego
 *added program info support in library and process classes.
 *

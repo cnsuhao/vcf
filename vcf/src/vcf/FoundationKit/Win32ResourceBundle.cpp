@@ -16,23 +16,18 @@ where you installed the VCF.
 using namespace VCF;
 
 
-BOOL CALLBACK Win32ResourceBundle_EnumResTypeProc( HMODULE hModule, LPTSTR lpszType, LPARAM lParam );
-BOOL CALLBACK Win32ResourceBundle_EnumResNameProc( HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LPARAM lParam );
+
 
 
 #define RT_RCDATA_W           MAKEINTRESOURCEW(10)
 #define RT_RCDATA_A           MAKEINTRESOURCEA(10)
 
 
-static bool foundResName = false;
-static String foundResType="Hello";
 
-
-
-Win32ResourceBundle::Win32ResourceBundle()
+Win32ResourceBundle::Win32ResourceBundle():
+	foundResName_(false)
 {
 	
-	//appPeer_ = NULL;
 }
 
 Win32ResourceBundle::~Win32ResourceBundle()
@@ -71,11 +66,10 @@ String Win32ResourceBundle::getString( const String& resourceName )
 		//throw exception- resource not found !!!!
 		uint32 stringID = 0;
 		try {
-			StringUtils::fromStringAsUInt(resourceName);
+			stringID = StringUtils::fromStringAsUInt(resourceName);
 		}
 		catch( ... ) {
 			result = L"";
-			return result;
 		}
 
 
@@ -103,9 +97,6 @@ String Win32ResourceBundle::getString( const String& resourceName )
 			failedToFindRes = true;
 		}
 
-		if ( failedToFindRes ) {
-			//throw exception???
-		}
 	}
 
 
@@ -165,8 +156,7 @@ String Win32ResourceBundle::getVFF( const String& resourceName )
 		String localeName = System::getCurrentThreadLocale()->getName();
 
 		bool fileExists = false;
-		String vffFile = System::findResourceDirectory() + localeName + 
-					FilePath::getDirectorySeparator() +	resourceName;
+		String vffFile = System::findResourceDirectory() + resourceName;
 
 		if ( File::exists( vffFile ) ) {
 			fileExists = true;
@@ -195,25 +185,29 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 
 	bool failedToFindRes = true;
 
-	foundResName = false;
-	foundResType = "\0";
+	foundResName_ = false;
+	foundResType_ = "\0";
 
-	::EnumResourceTypes( getResourceInstance(),
-		                 Win32ResourceBundle_EnumResTypeProc,
-						 (LPARAM)resourceName.c_str() );
-	if ( true == foundResName ){
+	searchResName_ = resourceName;
+
+	if ( System::isUnicodeEnabled() ) {
+		::EnumResourceTypesW( getResourceInstance(),
+								Win32ResourceBundle::EnumResTypeProcA,
+							 (LPARAM)this );
+	}
+	else {
+		::EnumResourceTypesA( getResourceInstance(),
+							 Win32ResourceBundle::EnumResTypeProcA,
+							 (LPARAM)this );
+	}
+	if ( true == foundResName_ ){
 		HRSRC resHandle = NULL;
 
-		if ( System::isUnicodeEnabled() ) {
-			resHandle = ::FindResourceW( getResourceInstance(),
-			                              resourceName.c_str(),
-										  foundResType.c_str() );
-		}
-		else {
-			resHandle = ::FindResourceA( getResourceInstance(),
+		
+		resHandle = ::FindResourceA( getResourceInstance(),
 			                              resourceName.ansi_c_str(),
-										  foundResType.ansi_c_str() );
-		}
+										  foundResType_ );
+		
 
 		if ( NULL != resHandle ){
 			HGLOBAL	dataHandle = ::LoadResource( NULL, resHandle );
@@ -233,8 +227,7 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 	String localeName = System::getCurrentThreadLocale()->getName();
 	
 	bool fileExists = false;
-	String fileName = System::findResourceDirectory() + localeName + 
-		FilePath::getDirectorySeparator() +	resourceName;
+	String fileName = System::findResourceDirectory() +	resourceName;
 	
 	if ( File::exists( fileName ) ) {
 		FileInputStream fs(fileName);
@@ -250,37 +243,35 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 	return result;
 }
 
-BOOL CALLBACK Win32ResourceBundle_EnumResTypeProc( HMODULE hModule, LPTSTR lpszType, LPARAM lParam )
+
+
+BOOL CALLBACK Win32ResourceBundle::EnumResTypeProcA( HMODULE hModule, char* lpszType, LPARAM lParam )
 {
-	
-	return ::EnumResourceNames( hModule,
+	const char* rt1 = RT_STRING;
+
+	if ( (RT_STRING == lpszType) || (RT_VERSION == lpszType) || (RT_VXD == lpszType) ) {
+		return TRUE;
+	}
+	return ::EnumResourceNamesA( hModule,
 		                        lpszType,
-								Win32ResourceBundle_EnumResNameProc,
+								Win32ResourceBundle::EnumResNameProcA,
 								lParam );
 }
 
-BOOL CALLBACK Win32ResourceBundle_EnumResNameProc( HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LPARAM lParam )
+
+
+BOOL CALLBACK Win32ResourceBundle::EnumResNameProcA( HMODULE hModule, const char* lpszType, char* lpszName, LPARAM lParam )
 {
 	BOOL result = TRUE;
-	if ( System::isUnicodeEnabled() ) {
-		String resName( (UnicodeString::UniChar*)lParam );
-		if ( resName == lpszName ){
-			foundResName = true;
-			foundResType = lpszType;
-			result = FALSE;
-		}
-	}
-	else {
-		
-		AnsiString resName( (UnicodeString::AnsiChar*)lParam );
-		if ( resName == lpszName ){
-			foundResName = true;
-			foundResType = lpszType;
-			result = FALSE;
-		}
-		
-	}
+	Win32ResourceBundle* thisPtr = (Win32ResourceBundle*)lParam;
+
 	
+	
+	if ( StringUtils::lowerCase(thisPtr->searchResName_) == StringUtils::lowerCase(lpszName) ) {
+		thisPtr->foundResName_ = true;
+		thisPtr->foundResType_ = lpszType;
+		result = FALSE;
+	}
 	return result;
 }
 
@@ -816,6 +807,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/11/17 04:52:49  ddiego
+*added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
+*
 *Revision 1.1.2.6  2004/09/17 11:38:06  ddiego
 *added program info support in library and process classes.
 *

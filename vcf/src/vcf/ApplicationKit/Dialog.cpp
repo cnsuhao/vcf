@@ -247,6 +247,10 @@ void Dialog::showWithModalState( ModalState state )
 	if ( (!(adjustedBounds == getBounds())) && (!adjustedBounds.isEmpty()) && (!adjustedBounds.isNull()) ) {
 		setBounds( &adjustedBounds );
 	}
+	
+	//force a resize here because the actual width/height may not change and therefore
+	//we won't get a size event to be fired.
+	resizeChildren(NULL);
 
 	peer_->setVisible(true);
 }
@@ -350,6 +354,9 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/17 04:52:48  ddiego
+*added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
+*
 *Revision 1.2.2.3  2004/10/28 03:34:16  ddiego
 *more dialog updates for osx
 *

@@ -51,12 +51,24 @@ public:
 		columnTweens_.resize( numColumns-1, 0.0 );  
 	}
 
+	int getNumberOfColumns() const {
+		return columns_.size();
+	}
+
 	void setColumnWidth( int index, double width ) {
 		columns_[index] = width;
 	}
 
+	int getColumnWidth( int index ) const {
+		return columns_[index];
+	}
+
 	void setColumnTweenWidth( int index, double width ) {
 		columnTweens_[index] = width;
+	}
+
+	int getColumnTweenWidth( int index ) const {
+		return columnTweens_[index];
 	}
 
 	void setMaxRowHeight( double val ) {
@@ -189,6 +201,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/11/17 04:52:48  ddiego
+*added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
+*
 *Revision 1.1.2.2  2004/09/07 03:57:04  ddiego
 *misc tree control update
 *
