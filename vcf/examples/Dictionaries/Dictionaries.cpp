@@ -23,10 +23,10 @@ int main( int argc, char** argv ){
 	Dictionary dict;
 
 	//add 2 elements to the dictionary.
-	dict["size"] = 200;
+	dict.insert( "size", 200 );
 	dict["Name"] = "Bob";
 
-	
+	/*
 	//print out the items of the dictionary
 	Dictionary::iterator it = dict.begin();	
 	
@@ -37,6 +37,8 @@ int main( int argc, char** argv ){
 		
 		it ++;
 	}
+	*/
+	
 
 
 	System::println( "Saving dictionary..." );
@@ -72,6 +74,7 @@ int main( int argc, char** argv ){
 	}
 
 
+	/*
 	it = dict.begin();	
 	
 	while ( it != dict.end() ) {
@@ -81,6 +84,7 @@ int main( int argc, char** argv ){
 		
 		it ++;
 	}
+	*/
 
 
 	FoundationKit::terminate();
