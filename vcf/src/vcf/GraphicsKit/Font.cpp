@@ -14,17 +14,21 @@ using namespace VCF;
 
 Font::Font():
 	peer_(NULL),
-	locale_(NULL)
+	locale_(NULL),
+	context_(NULL)
 {
 	peer_ = GraphicsToolkit::createFontPeer( "" );
 	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
+
+	peer_->setFont( this );
 }
 
 Font::Font( const String& fontName ):
 	peer_(NULL),
-	locale_(NULL)
+	locale_(NULL),
+	context_(NULL)
 {
 	peer_ = GraphicsToolkit::createFontPeer( fontName );
 	if ( NULL == peer_ ){
@@ -36,7 +40,8 @@ Font::Font( const String& fontName ):
 
 Font::Font( const String& fontName, const double& pointSize ):
 	peer_(NULL),
-	locale_(NULL)
+	locale_(NULL),
+	context_(NULL)
 {
 
 	peer_ = GraphicsToolkit::createFontPeer( fontName, pointSize );
@@ -50,7 +55,8 @@ Font::Font( const String& fontName, const double& pointSize ):
 Font::Font( const Font& font ):
     Object( font ),
 	peer_(NULL),
-	locale_(NULL)
+	locale_(NULL),
+	context_(NULL)
 {
 	peer_ = GraphicsToolkit::createFontPeer( font.getName() );
 	if ( NULL == peer_ ){
@@ -74,6 +80,7 @@ Font& Font::operator= (const Font& rhs )
 					rhs.getStrikeOut(), &rhs.color_, rhs.getName() );
 
 	locale_ = rhs.locale_;
+	context_ = rhs.context_;
 	return *this;
 }
 
@@ -196,6 +203,8 @@ void Font::copy( Object* source )
 
 			Color* srcColor = srcFont->getColor();
 			getColor()->copy( srcColor );
+
+			context_ = srcFont->context_;
 		}
 	}
 }
@@ -231,6 +240,9 @@ void Font::setAttributes( const double& pointSize, const bool& bold, const bool&
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/24 04:29:58  ddiego
+*more printing work, still not yet integrated.
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

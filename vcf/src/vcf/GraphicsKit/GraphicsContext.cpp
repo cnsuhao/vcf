@@ -14,31 +14,83 @@ where you installed the VCF.
 namespace VCF {
 
 
-GraphicsContext::GraphicsContext()
+GraphicsContext::GraphicsContext():
+	currentState_(GraphicsContext::gsNone),
+	drawingArea_(NULL),
+	strokeWidth_(1.0),
+	contextPeer_(NULL),
+	currentFill_(NULL),
+	currentStroke_(NULL),
+	currentFont_(NULL),
+	clippingPath_(NULL),
+	theta_(0.0),
+	xScale_(1.0),
+	yScale_(1.0),
+	xTranslate_(0.0),
+	yTranslate_(0.0),
+	xShear_(0.0),
+	yShear_(0.0),
+	renderBuffer_(NULL),
+	renderAreaDirty_(false)
 {
 	init();
 }
 
-GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned long& height )
+GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned long& height ):
+	currentState_(GraphicsContext::gsNone),
+	drawingArea_(NULL),
+	strokeWidth_(1.0),
+	contextPeer_(NULL),
+	currentFill_(NULL),
+	currentStroke_(NULL),
+	currentFont_(NULL),
+	clippingPath_(NULL),
+	theta_(0.0),
+	xScale_(1.0),
+	yScale_(1.0),
+	xTranslate_(0.0),
+	yTranslate_(0.0),
+	xShear_(0.0),
+	yShear_(0.0),
+	renderBuffer_(NULL),
+	renderAreaDirty_(false)
 {
-	init();
-
 	contextPeer_ = GraphicsToolkit::createContextPeer( width, height );
 	if ( NULL == contextPeer_ ){
 		//throw exception
 	}
 
 	contextPeer_->setContext( this );
+	init();
+	currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
-GraphicsContext::GraphicsContext( const unsigned long& contextID )
-{
-	init();
+GraphicsContext::GraphicsContext( const unsigned long& contextID ):
+	currentState_(GraphicsContext::gsNone),
+	drawingArea_(NULL),
+	strokeWidth_(1.0),
+	contextPeer_(NULL),
+	currentFill_(NULL),
+	currentStroke_(NULL),
+	currentFont_(NULL),
+	clippingPath_(NULL),
+	theta_(0.0),
+	xScale_(1.0),
+	yScale_(1.0),
+	xTranslate_(0.0),
+	yTranslate_(0.0),
+	xShear_(0.0),
+	yShear_(0.0),
+	renderBuffer_(NULL),
+	renderAreaDirty_(false)
+{	
 	contextPeer_ = GraphicsToolkit::createContextPeer( contextID );
 	if ( NULL == contextPeer_ ){
 		//throw exception
 	}
 	contextPeer_->setContext( this );
+	init();
+	currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
 GraphicsContext::~GraphicsContext()
@@ -76,37 +128,19 @@ GraphicsContext::~GraphicsContext()
 
 void GraphicsContext::init()
 {
-	currentState_ = GraphicsContext::gsNone;
-
-	drawingArea_ = NULL;
-
-	strokeWidth_ = 1.0;
-	contextPeer_ = NULL;
-	currentFill_ = NULL;
-	currentStroke_ = NULL;
-	currentFont_ = NULL;
-	clippingPath_ = NULL;
-
 	currentFont_ = new Font();
+	currentFont_->setGraphicsContext( this );	
 
-	theta_ = 0.0;
-	xScale_ = 1.0;
-	yScale_ = 1.0;
-	xTranslate_ = 0.0;
-	yTranslate_ = 0.0;
-	xShear_ = 0.0;
-	yShear_ = 0.0;
 	transformMatrix_.identity();
-
-	renderBuffer_ = NULL;
-
-	renderAreaDirty_ = false;
 }
 
 
 void GraphicsContext::setCurrentFont(Font * font)
 {
-	currentFont_->copy( font );
+	currentFont_->setGraphicsContext( this );
+	currentFont_->copy( font );	
+
+	currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
 void GraphicsContext::setCurrentFill(Fill * fill)
@@ -975,6 +1009,9 @@ void GraphicsContext::flushDrawingArea()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/24 04:29:58  ddiego
+*more printing work, still not yet integrated.
+*
 *Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
 *updates so new system tray code compiles
 *

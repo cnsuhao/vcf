@@ -12,6 +12,15 @@ IN PROGRESS PLEASE DO NOT BUILD!!!!
 
 namespace VCF {
 
+
+	class PrintContext_ : public GraphicsContext {
+	public:
+		PrintContext_():GraphicsContext() {};
+
+		PrintContext_( ulong32 contextID ):GraphicsContext(contextID) {};
+
+	};
+
 	class PrintSession;
 
 	class PrintManager {
@@ -96,11 +105,11 @@ namespace VCF {
 
 		void abort();
 
-		PrintContext* beginPrintingDocument();
+		PrintContext_* beginPrintingDocument();
 		void endPrintingDocument();
 
-		void beginPage( PrintContext* context );
-		void endPage( PrintContext* context );
+		void beginPage( PrintContext_* context );
+		void endPage( PrintContext_* context );
 
 		void runDefaultPrintLoop();
 		
@@ -111,6 +120,8 @@ namespace VCF {
 
 	class PrintSessionPeer {
 	public:	
+
+		virtual ~PrintSessionPeer(){};
 
 		virtual String getTitle() = 0;
 		virtual void setTitle( const String& title ) = 0;
@@ -136,11 +147,11 @@ namespace VCF {
 
 		virtual void abort() = 0;
 
-		virtual PrintContext* beginPrintingDocument() = 0;
+		virtual PrintContext_* beginPrintingDocument() = 0;
 		virtual void endPrintingDocument() = 0;
 
-		virtual void beginPage( PrintContext* context ) = 0;
-		virtual void endPage( PrintContext* context ) = 0;		
+		virtual void beginPage( PrintContext_* context ) = 0;
+		virtual void endPage( PrintContext_* context ) = 0;		
 	};
 
 
@@ -150,13 +161,13 @@ namespace VCF {
 	public:
 		PrintEvent( Object* source ) : Event(source,0){}
 
-		PrintEvent( Object* source, PrintContext* ctx ): Event(source,0),context_(ctx){}
+		PrintEvent( Object* source, PrintContext_* ctx ): Event(source,0),context_(ctx){}
 
 		PrintEvent( const PrintEvent& rhs ): Event(rhs),context_(rhs.context_) {
 			
 		}
 
-		PrintContext* getPrintContext() {
+		PrintContext_* getPrintContext() {
 			return context_;
 		}
 
@@ -166,7 +177,7 @@ namespace VCF {
 		}
 
 	protected:
-		PrintContext* context_;
+		PrintContext_* context_;
 	};
 
 
@@ -205,11 +216,11 @@ namespace VCF {
 
 		virtual void abort();
 
-		virtual PrintContext* beginPrintingDocument();
+		virtual PrintContext_* beginPrintingDocument();
 		virtual void endPrintingDocument();
 
-		virtual void beginPage( PrintContext* context );
-		virtual void endPage( PrintContext* context );	
+		virtual void beginPage( PrintContext_* context );
+		virtual void endPage( PrintContext_* context );	
 		
 		static BOOL CALLBACK AbortProc( HDC hdc, int iError );
 
@@ -220,6 +231,7 @@ namespace VCF {
 		Size pageSize_;
 		ulong32 startPage_;
 		ulong32 endPage_;
+		Rect pageDrawingRect_;
 	};
 
 	class Win32PrintManager : public Object, public PrintManager {
@@ -326,10 +338,14 @@ void PrintSession::abort()
 	peer_->abort();
 }
 
-PrintContext* PrintSession::beginPrintingDocument()
+PrintContext_* PrintSession::beginPrintingDocument()
 {
 	errorDuringPrinting_ = false;
-	return peer_->beginPrintingDocument();
+	PrintContext_* result = peer_->beginPrintingDocument();
+
+	result->setViewableBounds( getPageDrawingRect() );
+
+	return result;
 }
 
 void PrintSession::endPrintingDocument()
@@ -342,7 +358,7 @@ void PrintSession::endPrintingDocument()
 	}
 }
 
-void PrintSession::beginPage( PrintContext* context )
+void PrintSession::beginPage( PrintContext_* context )
 {
 	try {
 		peer_->beginPage( context );
@@ -352,7 +368,7 @@ void PrintSession::beginPage( PrintContext* context )
 	}
 }
 
-void PrintSession::endPage( PrintContext* context )
+void PrintSession::endPage( PrintContext_* context )
 {
 	try {
 		peer_->endPage( context );
@@ -481,6 +497,8 @@ void Win32PrintSession::setDefaultPageSettings()
 	startPage_ = 1;
 	endPage_ = 1;
 
+	pageDrawingRect_.setRect( 0, 0, pageSize_.width_, pageSize_.height_ );
+
 }
 
 Size Win32PrintSession::getPageSize()
@@ -517,17 +535,16 @@ void Win32PrintSession::setEndPage( const ulong32& endPage )
 ulong32 Win32PrintSession::getEndPage()
 {
 	return endPage_;
-}
 
+}
 Rect Win32PrintSession::getPageDrawingRect()
-{
-	Rect result;
-	return result;
+{	
+	return pageDrawingRect_;
 }
 
 void Win32PrintSession::setPageDrawingRect( const Rect& drawingRect )
 {
-
+	pageDrawingRect_ = drawingRect;
 }
 
 PrintInfoHandle Win32PrintSession::getPrintInfoHandle()
@@ -545,15 +562,15 @@ void Win32PrintSession::abort()
 	::AbortDoc( printerDC_ );
 }
 
-PrintContext* Win32PrintSession::beginPrintingDocument()
+PrintContext_* Win32PrintSession::beginPrintingDocument()
 {
 	if ( !::StartDoc( printerDC_, &info_ ) ) {
 		//throw exception???		
 		return NULL;
 	}
 
-	PrintContext* result = (PrintContext*)new GraphicsContext((ulong32)printerDC_);
-	
+	PrintContext_* result = new PrintContext_((ulong32)printerDC_);
+
 	return result;
 }
 
@@ -564,7 +581,7 @@ void Win32PrintSession::endPrintingDocument()
 	}
 }
 
-void Win32PrintSession::beginPage( PrintContext* context )
+void Win32PrintSession::beginPage( PrintContext_* context )
 {	
 	VCF_ASSERT( (HDC) context->getPeer()->getContextID() == printerDC_ );
 
@@ -573,7 +590,7 @@ void Win32PrintSession::beginPage( PrintContext* context )
 	}
 }
 
-void Win32PrintSession::endPage( PrintContext* context )
+void Win32PrintSession::endPage( PrintContext_* context )
 {
 	VCF_ASSERT( (HDC) context->getPeer()->getContextID() == printerDC_ );
 
@@ -611,20 +628,24 @@ public:
 
 		ps.setDefaultPageSettings();
 
-		PrintContext* ctx = ps.beginPrintingDocument();
+		PrintContext_* ctx = ps.beginPrintingDocument();
 
 		ps.beginPage( ctx );
 
-		ctx->rectangle( 20, 100, 200, 700 );
-		ctx->strokePath();
-		ctx->textAt( 300, 500, "lskdfjsldkfjsldf" );
+		//ctx->rectangle( &ctx->getViewableBounds() );
+
+		//ctx->rectangle( 20, 100, 200, 700 );
+		//ctx->strokePath();
+		ctx->getCurrentFont()->setName( "Arial" ); 
+		ctx->getCurrentFont()->setPointSize( 9 );
+		ctx->textAt( 0, 0, "Hello World" );
 
 		ps.endPage( ctx );
 
 		ps.endPrintingDocument();
 
 		
-		//ctx->free();
+		ctx->free();
 		
 	}
 

@@ -100,15 +100,14 @@ public:
 	void setFont( Font* font ) {
 		font_ = font;
 	}
-private:
+protected:
 	void updateTextMetrics();
-
-private:
 	Font* font_;
 	void* logFont_;
 	void* tm_;
 	double pointSize_;
 	String fontName_;
+	int oldDPI_;
 };
 
 }; //end of namespace VCF
@@ -117,6 +116,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/24 04:29:58  ddiego
+*more printing work, still not yet integrated.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
