@@ -118,16 +118,23 @@ void TextInputStream::readLine( String& line )
 		char c = '\0';
 		inStream_->read( &c, sizeof(c) );
 		totCharRead_++;
+
 		while ( (c != '\n' && c!= '\r') && (totCharRead_ < size_) )
 		{
 			line += c;
 			inStream_->read( &c, sizeof(c) );
 			totCharRead_++;
 		}
-		
+
+		// commented: we don't want the cr/lf in the string
+		// line += c;
+
 		//last character!
-		if ( (c != '\n' && c!= '\r') && (totCharRead_ == size_) ) {
-			line += c;
+		if ( (c == '\n' || c == '\r') && (totCharRead_ < size_) ) {
+			inStream_->read( &c, sizeof(c) );
+			totCharRead_++;
+			// commented: we don't want the cr/lf in the string
+			// line += c;
 		}
 	}
 }
@@ -188,6 +195,9 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/06/28 14:49:46  marcelloptr
+*fixed readLine so it reads cr/lf but it doesn't include it in the string
+*
 *Revision 1.1.2.6  2004/06/27 17:59:52  ddiego
 *fixed an off-by-one style error in the textInputStream::readLine() method
 *
