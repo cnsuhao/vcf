@@ -7,6 +7,7 @@
 		<variable name="BIN_OUT" value="../../../bin"/>
 		<variable name="X11_INC" value="/usr/X11R6/include"/>
 		<variable name="X11_LIB" value="/usr/X11R6/lib"/>
+		<variable name="IMLIB2_INC" value="/usr/local/include/imlib2"/>		
 
 		<!-- Note that this is a hack not sure what the correct thing to do 
 		here for MINGW_INC, perhaps this should be an env variable ?-->
@@ -43,7 +44,7 @@
 				<compiler name="g++" >
 					<flags>
 						<flag value="-I $(INC)"/>
-						<flag value="-I $(X11_INC)"/>
+						<flag value="-I $(X11_INC) -I $(IMLIB2_INC)"/>
 						<flag value="-c -DVCF_GCC -DVCF_X11 -D_DEBUG -fPIC -ggdb"/>
 					</flags>
 				</compiler>	
@@ -53,7 +54,7 @@
 						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
 						<flag value="-ldl"/>
 						<flag value="-L$(X11_LIB)"/>
-						<flag value=" -L $(BIN_OUT) -lFoundationKit_d -lX11 -shared -o $(BIN_OUT)/libGraphicsKit_d.so"/>
+						<flag value=" -L $(BIN_OUT) -lFoundationKit_d -lX11 -lttf -lImlib2 -shared -o $(BIN_OUT)/libGraphicsKit_d.so"/>
 					</flags>
 				</linker>
 			</config>
