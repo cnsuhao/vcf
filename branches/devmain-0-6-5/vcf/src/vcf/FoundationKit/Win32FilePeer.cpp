@@ -725,8 +725,8 @@ void Win32FilePeer::setDateModified( const DateTime& dateModified )
 void Win32FilePeer::open( const String& fileName, File::OpenFlags openFlags, File::ShareFlags shareFlags/*=File::shMaskAny*/ )
 {
 	//check initial arguments
-	VCF_ASSERT( openFlags != File::ofNone );
-	VCF_ASSERT( shareFlags != File::shNone );
+	File::OpenFlags f1 =  File::ofNone;
+	VCF_ASSERT( openFlags != f1 );
 
 
 
@@ -751,7 +751,7 @@ void Win32FilePeer::open( const String& fileName, File::OpenFlags openFlags, Fil
 		rwFlags |= GENERIC_READ;
 	}
 
-	if ( openFlags & File::ofWrite ) {
+	if ( openFlags & File::ofWrite || openFlags & File::ofAppend ) {
 		rwFlags |= GENERIC_WRITE;
 	}
 
@@ -787,6 +787,7 @@ void Win32FilePeer::open( const String& fileName, File::OpenFlags openFlags, Fil
 	if ( (NULL == fileHandle_) || (INVALID_HANDLE_VALUE == fileHandle_) ){
 		fileHandle_ = NULL;
 		//throw exception
+		int err = GetLastError();
 		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to create the specified file " + winFileName));
 	}
 }
@@ -955,6 +956,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/26 03:40:31  ddiego
+*minor changes
+*
 *Revision 1.1.2.5  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the
