@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.1.2.8  2003/02/12 19:33:45  catwallader
+#Added PosixMutex class.
+#
 #Revision 1.1.2.7  2003/02/08 17:55:44  ddiego
 #modified the makefiles to have cvs Log entries, so we can keepo track of
 #whats going on :)
@@ -113,7 +116,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/LinuxFileStream.o \
 	$(OUTDIR_FK_D)/PosixThread.o \
 	$(OUTDIR_FK_D)/LinuxLibraryPeer.o \
-	$(OUTDIR_FK_D)/LinuxMutex.o \
+	$(OUTDIR_FK_D)/PosixMutex.o \
 	$(OUTDIR_FK_D)/LinuxProcessPeer.o \
 	$(OUTDIR_FK_D)/LinuxRegistry.o \
 	$(OUTDIR_FK_D)/LinuxSemaphorePeer.o \
@@ -165,9 +168,9 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/LinuxPeer.o \
 	$(OUTDIR_FK)/LinuxFilePeer.o \
 	$(OUTDIR_FK)/LinuxFileStream.o \
-	$(OUTDIR_FK)/LinuxThread.o \
+	$(OUTDIR_FK)/PosixThread.o \
 	$(OUTDIR_FK)/LinuxLibraryPeer.o \
-	$(OUTDIR_FK)/LinuxMutex.o \
+	$(OUTDIR_FK)/PosixMutex.o \
 	$(OUTDIR_FK)/LinuxProcessPeer.o \
 	$(OUTDIR_FK)/LinuxRegistry.o \
 	$(OUTDIR_FK)/LinuxSemaphorePeer.o \

@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.1.2.4  2003/02/12 19:33:44  catwallader
+#Added PosixMutex class.
+#
 #Revision 1.1.2.3  2003/02/08 17:55:44  ddiego
 #modified the makefiles to have cvs Log entries, so we can keepo track of
 #whats going on :)
@@ -146,8 +149,8 @@ $(OUTDIR_FK_D)/PosixThread.o : $(SRC_IMPLKIT)/PosixThread.cpp $(FOUNDATIONKIT_HD
 $(OUTDIR_FK_D)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp -o $(OUTDIR_FK_D)/LinuxLibraryPeer.o
 
-$(OUTDIR_FK_D)/LinuxMutex.o : $(SRC_IMPLKIT)/LinuxMutex.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxMutex.cpp -o $(OUTDIR_FK_D)/LinuxMutex.o
+$(OUTDIR_FK_D)/PosixMutex.o : $(SRC_IMPLKIT)/PosixMutex.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/PosixMutex.cpp -o $(OUTDIR_FK_D)/PosixMutex.o
 
 $(OUTDIR_FK_D)/LinuxProcessPeer.o : $(SRC_IMPLKIT)/LinuxProcessPeer.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxProcessPeer.cpp -o $(OUTDIR_FK_D)/LinuxProcessPeer.o
