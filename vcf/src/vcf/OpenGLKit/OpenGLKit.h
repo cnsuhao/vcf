@@ -19,7 +19,7 @@ All of this nonsense is to properly declare the OPENGLKIT_API
 macro so that we'll export/import classes as needed for
 dll builds.
 */
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__BORLANDC__)
   #ifndef OPENGLKIT_DLL
     #define OPENGLKIT_API
   #else
@@ -49,6 +49,9 @@ Handle the extension based on the compiler
 #   elif (_MSC_VER >= 1100)
 #     define _LIB_CPLVERNUM "vc5"
 #   endif
+#ifdef __BORLANDC__
+#  define _LIB_CPLVERNUM "bcc"
+#endif
 # endif
 
 
@@ -60,7 +63,7 @@ link to the correct library! This does mean that our app that uses this
 kit needs to have either "USE_OPENGLKIT_DLL" defined or "USE_OPENGLKIT_LIB"
 defined to use the DLL or static libraries.
 */
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__BORLANDC__)
 	#ifdef USE_OPENGLKIT_DLL
 		// using dynamic link library
 		#ifdef _DEBUG
@@ -105,6 +108,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/30 17:31:22  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.7  2004/07/21 20:18:39  pallindo
 *Removed some unused files, and cleaned up the interface to the OpenGLControl
 *

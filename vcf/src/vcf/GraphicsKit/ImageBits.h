@@ -142,7 +142,7 @@ floating point specialization
 */
 template <>
 struct BGRAPixel<float, true > {
-#ifdef VCF_VC71
+#if defined(VCF_VC71) || defined(VCF_BCC)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -195,7 +195,7 @@ floating point specialization
 template <>
 struct RGBAPixel<float, true > {
 
-#ifdef VCF_VC71
+#if defined(VCF_VC71) || defined(VCF_BCC)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -243,7 +243,7 @@ floating point specialization
 template <  >
 struct ARGBPixel<float, true > {
 
-#ifdef VCF_VC71
+#if defined(VCF_VC71) || defined(VCF_BCC)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -294,7 +294,7 @@ floating point specialization
 template <  >
 struct ABGRPixel<float,true> {
 
-#ifdef VCF_VC71
+#if defined(VCF_VC71) || defined(VCF_BCC)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -344,7 +344,7 @@ floating point specialization
 template < >
 struct GrayscalePixel<float,true> {
 
-	#ifdef VCF_VC71
+#if defined(VCF_VC71) || defined(VCF_BCC)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -464,6 +464,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:30:05  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

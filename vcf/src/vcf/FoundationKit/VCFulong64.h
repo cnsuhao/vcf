@@ -47,7 +47,7 @@ unsigned long hi = num.hi(); //hi == 0x1234abcd
 class FOUNDATIONKIT_API ulong64 {
 public:
 
-#	ifdef _MSC_VER
+#	if defined(_MSC_VER) || defined(__BORLANDC__)
 		typedef unsigned __int64 u64_t;
 		typedef __int64 int64_t;
 #	else
@@ -997,6 +997,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the

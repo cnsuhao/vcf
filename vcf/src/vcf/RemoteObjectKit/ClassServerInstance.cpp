@@ -18,7 +18,7 @@ ClassServerInstance::ClassServerInstance()
 	newInstanceProxy_ = NULL;
 
 	EventHandler* sh =
-		new SocketEventHandler<ClassServerInstance>( this, ClassServerInstance::onDataReceived, "SocketHandler" );
+		new SocketEventHandler<ClassServerInstance>( this, &ClassServerInstance::onDataReceived, "SocketHandler" );
 
 }
 
@@ -114,7 +114,7 @@ void ClassServerInstance::onDataReceived( VCFNet::SocketEvent* event )
 			String classID;
 			bis >> classID;
 			newInstanceProxy_ = new Proxy();
-			bis >> newInstanceProxy_;
+			bis >> static_cast<Persistable*>(newInstanceProxy_);
 		}
 		break;
 	}
@@ -156,6 +156,9 @@ VCF::VariantData* ClassServerInstance::invoke( VCF::OutputStream* marshalledData
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:31:56  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

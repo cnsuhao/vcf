@@ -640,7 +640,7 @@ public:
 
 			//toolTip_->setVisible( false );
 			toolTip_->FrameActivation.addHandler( new WindowEventHandler<ToolTipWatcher>( this,
-													ToolTipWatcher::onToolTipLostFocus,
+													&ToolTipWatcher::onToolTipLostFocus,
 													"toolTipWatcherHandler" ) );
 
 			Frame* f = Window::getActiveFrame();
@@ -2013,6 +2013,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/30 17:27:14  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting

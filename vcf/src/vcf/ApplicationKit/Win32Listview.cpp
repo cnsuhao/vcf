@@ -220,28 +220,28 @@ void Win32Listview::create( Control* owningControl )
 
 
 	itemAddedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onItemAdded, "Win32Listview::onItemAdded" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onItemAdded, "Win32Listview::onItemAdded" );
 
 	itemDeletedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onItemDeleted, "Win32Listview::onItemDeleted" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onItemDeleted, "Win32Listview::onItemDeleted" );
 
 	itemChangedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onItemChanged, "Win32Listview::onItemChanged" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onItemChanged, "Win32Listview::onItemChanged" );
 
 	itemSelectedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onItemSelected, "Win32Listview::onItemSelected" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onItemSelected, "Win32Listview::onItemSelected" );
 
 	itemPaintedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onItemPaint, "Win32Listview::onItemPaint" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onItemPaint, "Win32Listview::onItemPaint" );
 
 	subItemAddedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onSubItemAdded, "Win32Listview::onSubItemAdded" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onSubItemAdded, "Win32Listview::onSubItemAdded" );
 
 	subItemDeletedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onSubItemDeleted, "Win32Listview::onSubItemDeleted" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onSubItemDeleted, "Win32Listview::onSubItemDeleted" );
 
 	subItemChangedHandler_ =
-		new ItemEventHandler<Win32Listview>( this, Win32Listview::onSubItemChanged, "Win32Listview::onSubItemChanged" );
+		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onSubItemChanged, "Win32Listview::onSubItemChanged" );
 
 
 	createParams();
@@ -2170,7 +2170,7 @@ void Win32Listview::setLargeImageList( ImageList* imageList )
 		EventHandler* imgListHandler = getEventHandler( "LargeImageListHandler" );
 		if ( NULL == imgListHandler ) {
 			imgListHandler =
-				new ImageListEventHandler<Win32Listview>(this, Win32Listview::onLargeImageListImageChanged, "LargeImageListHandler" );
+				new ImageListEventHandler<Win32Listview>(this, &Win32Listview::onLargeImageListImageChanged, "LargeImageListHandler" );
 
 		}
 
@@ -2211,7 +2211,7 @@ void Win32Listview::setSmallImageList( ImageList* imageList )
 		EventHandler* imgListHandler = getEventHandler( "SmallImageListHandler" );
 		if ( NULL == imgListHandler ) {
 			imgListHandler =
-				new ImageListEventHandler<Win32Listview>(this, Win32Listview::onSmallImageListImageChanged, "SmallImageListHandler" );
+				new ImageListEventHandler<Win32Listview>(this, &Win32Listview::onSmallImageListImageChanged, "SmallImageListHandler" );
 
 		}
 
@@ -2268,6 +2268,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/30 17:27:14  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.9  2004/07/21 03:35:49  ddiego
 *some minor updates to the QTPlayer example
 *

@@ -51,6 +51,8 @@ VCF_VC71
 VCF_GCC - compiling with GCC's C++ compiler
 
 VCF_DMC - compiling with Digital Mar's C++ compiler
+
+VCF_BCC - compiling with Borland's C++ compiler
 */
 
 
@@ -79,6 +81,45 @@ VCF_DMC - compiling with Digital Mar's C++ compiler
 #endif
 
 
+#ifdef __BORLANDC__
+	#define VCF_BCC
+
+#if (__BORLANDC__ >= 0x0570)
+	#define VCF_BCCKLX  //Kylix
+#elif (__BORLANDC__ >= 0x0560) && (__BORLANDC__ < 0x0570)
+	#define VCF_BCC6 //BCB 6
+#elif (__BORLANDC__ >= 0x0550) && (__BORLANDC__ < 0x0560)
+	#define VCF_BCC5 //BCB 5 - Free Compiler
+#elif (__BORLANDC__ >= 0x0540)
+	#define VCF_BCC4 //BCB 4
+#endif //bcc version
+
+#if defined(VCF_BCC6) && !defined(_USE_OLD_RW_STL)
+#define __MINMAX_DEFINED
+#define NOMINMAX    
+	using std::min;
+	using std::max;
+	#define __max max
+	#define __min min
+#endif //minmax defined
+
+//Some pragmas now
+	#pragma warn -inl
+	#pragma warn -aus
+	#pragma warn -ccc
+	#pragma warn -csu
+	#pragma warn -osh
+	#pragma warn -par
+	#pragma warn -pia
+	#pragma warn -rch
+	#pragma warn -rng
+	#pragma warn -hid
+#ifdef VCF_BCC6
+	#pragma warn -8098
+#endif	
+	#pragma warn -ngu
+	#pragma warn -lin
+#endif // __BORLANDC__
 
 
 #ifdef WIN32
@@ -211,7 +252,7 @@ this define is to fix:
 //the wrong menu structs which cause problems in WinNT4
 
 
-#ifndef __GNUWIN32__
+#if !defined(__GNUWIN32__) && !defined(__BORLANDC__) 
 # ifdef WINVER
 #   undef WINVER
 # endif
@@ -238,7 +279,7 @@ this define is to fix:
 
 
 
-#if defined (_MSC_VER) || defined (__DMC__) || defined (__GNUWIN32__)
+#if defined (_MSC_VER) || defined (__DMC__) || defined (__GNUWIN32__) || defined(__BORLANDC__)
   // when we use USE_FOUNDATIONKIT_DLL we always want FOUNDATIONKIT_DLL
 	// and we save a MACRO defines at the same time.
 	// Nevertheless USE_FOUNDATIONKIT_DLL cannot replace FOUNDATIONKIT_DLL
@@ -335,7 +376,7 @@ this define is to fix:
 	#endif //NETKIT_DLL
 
 
-#elif __DMC__
+#elif defined(__DMC__)
 
 	#define _typename_
 	#ifdef FOUNDATIONKIT_DLL
@@ -390,7 +431,7 @@ this define is to fix:
 	#endif //NETKIT_DLL
 
 
-#elif __GNUWIN32__
+#elif defined(__GNUWIN32__)
 
 	#ifdef FOUNDATIONKIT_DLL
 		#if defined(FOUNDATIONKIT_EXPORTS)
@@ -443,6 +484,59 @@ this define is to fix:
 		#define NETKIT_API
 	#endif //NETKIT_DLL
 
+#elif defined(VCF_BCC)
+	#define _typename_ typename
+
+	#ifdef FOUNDATIONKIT_DLL
+		#if defined(FOUNDATIONKIT_EXPORTS)
+			#define FOUNDATIONKIT_API __declspec(dllexport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE
+		#else
+			#define FOUNDATIONKIT_API __declspec(dllimport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE extern
+		#endif
+	#else
+		#define FOUNDATIONKIT_API
+	#endif //FOUNDATIONKIT_DLL
+
+
+	#ifdef GRAPHICSKIT_DLL
+		#if defined(GRAPHICSKIT_EXPORTS)
+			#define GRAPHICSKIT_API __declspec(dllexport)
+			#define GRAPHICSKIT_EXPIMP_TEMPLATE
+		#else
+			#define GRAPHICSKIT_API __declspec(dllimport)
+			#define GRAPHICSKIT_EXPIMP_TEMPLATE extern
+		#endif
+	#else
+		#define GRAPHICSKIT_API
+	#endif //GRAPHICSKIT_DLL
+
+
+	#ifdef APPLICATIONKIT_DLL
+		#if defined(APPLICATIONKIT_EXPORTS)
+			#define APPLICATIONKIT_API __declspec(dllexport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE
+		#else
+			#define APPLICATIONKIT_API __declspec(dllimport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE extern
+		#endif
+	#else
+		#define APPLICATIONKIT_API
+	#endif //APPLICATIONKIT_DLL
+
+
+	#ifdef NETKIT_DLL
+		#if defined(NETKIT_EXPORTS)
+			#define NETKIT_API __declspec(dllexport)
+			#define NETKIT_EXPIMP_TEMPLATE
+		#else
+			#define NETKIT_API __declspec(dllimport)
+			#define NETKIT_EXPIMP_TEMPLATE extern
+		#endif
+	#else
+		#define NETKIT_API
+	#endif //NETKIT_DLL
 
 #else
 
@@ -457,8 +551,9 @@ this define is to fix:
 
 /**
 special macro for handling multi-character constants like 'abcd' which GCC is unhappy with :(
+The same is with BCC.
 */
-#ifdef VCF_GCC
+#if defined(VCF_GCC) || defined(VCF_BCC)
 	#define CHAR_CONST(x) (unsigned long) x
 #else
 	#define CHAR_CONST(x) x
@@ -468,6 +563,9 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.7  2004/07/01 04:02:17  ddiego
 *minor stuff
 *

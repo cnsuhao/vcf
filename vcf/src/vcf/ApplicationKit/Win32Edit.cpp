@@ -137,7 +137,7 @@ void Win32Edit::create( Control* owningControl )
 		subclassWindow();
 
 		TextModelEventHandler<Win32Edit>* tml =
-			new TextModelEventHandler<Win32Edit>( this, Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
+			new TextModelEventHandler<Win32Edit>( this, &Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
 
 
 		TextModel* tm = textControl_->getTextModel();
@@ -835,6 +835,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/07/30 17:27:14  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.11  2004/07/16 04:01:46  ddiego
 *fixed the last of border redraw issues, I hope.
 *

@@ -490,7 +490,7 @@ String Win32HTMLBrowser::getCurrentURL()
 	String result ;
 	CComBSTR bstr;
 	spBrowser_->get_LocationURL(&bstr);
-	_bstr_t tmp = bstr;
+	_bstr_t tmp = bstr.Detach();
 	result = (VCFChar*)tmp;
 
 	return result;
@@ -636,6 +636,9 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:27:14  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

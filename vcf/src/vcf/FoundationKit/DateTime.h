@@ -661,7 +661,11 @@ public:
 	</pre>
 	*/
 	template <typename DateLogic>
-	class Iterator {
+	class Iterator 
+	#ifdef VCF_BCC
+	;
+	#else	
+	{
 	public:
 
 		Iterator()  {
@@ -713,7 +717,7 @@ public:
 	protected:
 		DateTime dt_;
 	};
-
+        #endif //VCF__BCC
 
 	virtual String toString();
 
@@ -750,6 +754,61 @@ protected:
 	ulong64 time_;
 };
 
+#ifdef VCF_BCC
+	template <typename DateLogic>
+	class DateTime::Iterator {
+	public:
+
+		Iterator()  {
+
+		}
+
+		Iterator( const DateTime& dt ) : dt_(dt){
+
+		}
+
+		Iterator& operator=( const DateTime& dt ) {
+			dt_ = dt;
+			return *this;
+		}
+
+		DateTime& operator* () {
+			return dt_;
+		}
+
+		bool operator==( const Iterator& rhs ) const {
+			return dt_ == rhs.dt_;
+		}
+
+		bool operator!=( const Iterator& rhs ) const {
+			return dt_ != rhs.dt_;
+		}
+
+		Iterator& operator++() {
+			DateLogic::incr( dt_, 1 );
+			return *this;
+		}
+
+		Iterator& operator+=( const unsigned long& rhs ) {
+			DateLogic::incr( dt_, rhs );
+
+			return *this;
+		}
+
+		Iterator& operator--() {
+			DateLogic::decr( dt_, 1 );
+			return *this;
+		}
+
+		Iterator& operator-=( const unsigned long& rhs ) {
+			DateLogic::decr( dt_, rhs );
+
+			return *this;
+		}
+	protected:
+		DateTime dt_;
+	};
+#endif
 
 class FOUNDATIONKIT_API ByMillisecond {
 public :
@@ -800,6 +859,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the

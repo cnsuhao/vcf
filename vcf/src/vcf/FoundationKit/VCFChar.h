@@ -37,6 +37,8 @@ doesn't like std::basic_string<wchar_t> on OSX, go figure :(
 	typedef wchar_t WideChar;
 #elif __GNUWIN32__
     typedef wchar_t WideChar;
+#elif (__BORLANDC__)
+    typedef wchar_t WideChar;
 #else
 	typedef unsigned short WideChar;
 #endif
@@ -163,6 +165,9 @@ struct char_traits<VCF::WideChar> {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/30 17:28:40  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.7  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

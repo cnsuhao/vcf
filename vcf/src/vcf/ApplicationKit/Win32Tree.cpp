@@ -193,7 +193,7 @@ void Win32Tree::create( Control* owningControl )
 		peerControl_ = owningControl;
 
 		peerControl_->ControlModelChanged += 
-			new GenericEventHandler<Win32Tree>( this, Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
+			new GenericEventHandler<Win32Tree>( this, &Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
 	}
 	else {
 		//throw exception
@@ -207,19 +207,19 @@ void Win32Tree::init()
 
 
 	itemAddedHandler_ =
-		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemAdded, "Win32Tree::onItemAdded" );
+		new ItemEventHandler<Win32Tree>( this, &Win32Tree::onItemAdded, "Win32Tree::onItemAdded" );
 
 	itemDeletedHandler_ =
-		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemDeleted, "Win32Tree::onItemDeleted" );
+		new ItemEventHandler<Win32Tree>( this, &Win32Tree::onItemDeleted, "Win32Tree::onItemDeleted" );
 
 	itemChangedHandler_ =
-		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemChanged, "Win32Tree::onItemChanged" );
+		new ItemEventHandler<Win32Tree>( this, &Win32Tree::onItemChanged, "Win32Tree::onItemChanged" );
 
 	itemSelectedHandler_ =
-		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemSelected, "Win32Tree::onItemSelected" );
+		new ItemEventHandler<Win32Tree>( this, &Win32Tree::onItemSelected, "Win32Tree::onItemSelected" );
 
 	itemPaintedHandler_ =
-		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemPaint, "Win32Tree::onItemPaint" );
+		new ItemEventHandler<Win32Tree>( this, &Win32Tree::onItemPaint, "Win32Tree::onItemPaint" );
 
 }
 
@@ -305,7 +305,7 @@ void Win32Tree::setImageList( ImageList* imageList )
 		EventHandler* imgListHandler = getEventHandler( "ImageListHandler" );
 		if ( NULL == imgListHandler ) {
 			imgListHandler =
-				new ImageListEventHandler<Win32Tree>(this, Win32Tree::onImageListImageChanged, "ImageListHandler" );
+				new ImageListEventHandler<Win32Tree>(this, &Win32Tree::onImageListImageChanged, "ImageListHandler" );
 
 		}
 		imageList->SizeChanged.addHandler( imgListHandler );
@@ -1103,7 +1103,7 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 		EventHandler* imgListHandler = getEventHandler( "ImageListHandler" );
 		if ( NULL == imgListHandler ) {
 			imgListHandler =
-				new ImageListEventHandler<Win32Tree>(this, Win32Tree::onStateImageListImageChanged, "Win32Tree::onStateImageListImageChanged" );
+				new ImageListEventHandler<Win32Tree>(this, &Win32Tree::onStateImageListImageChanged, "Win32Tree::onStateImageListImageChanged" );
 
 		}
 		imageList->SizeChanged.addHandler( imgListHandler );
@@ -1163,6 +1163,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.13  2004/07/30 17:27:14  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.12  2004/07/26 03:40:31  ddiego
 *minor changes
 *

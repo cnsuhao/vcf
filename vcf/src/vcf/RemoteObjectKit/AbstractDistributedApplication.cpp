@@ -202,7 +202,7 @@ void AbstractDistributedApplication::onDataReceived( VCFNet::SocketEvent* event 
 		case CLASS_SVR_MSG_PROXY_INVOKE : {
 			//System::print( "Client App received invoke\n" );
 			Proxy dummyProxy;
-			bis >> &dummyProxy;
+			bis >> static_cast<Persistable*>(&dummyProxy);
 			String methodName;
 			bis >> methodName;
 			int argCount = 0;
@@ -334,6 +334,9 @@ void AppInfo::loadFromStream( InputStream * stream )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/30 17:31:55  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

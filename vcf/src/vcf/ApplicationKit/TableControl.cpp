@@ -698,7 +698,7 @@ void TableControl::mouseDown( MouseEvent* event ){
 				getVisibleNonFixedCellRange( &visibleRect );
 
 
-				if ( abs( event->getPoint()->x_ - visibleRect.right_ ) < resizeCaptureRange_ ) {
+				if ( abs( (long)((event->getPoint()->x_ - visibleRect.right_ ) < resizeCaptureRange_)) ) {
 
 					clickCell_.column = tm->getColumnCount()-1;
 				}
@@ -714,7 +714,7 @@ void TableControl::mouseDown( MouseEvent* event ){
 			if ( !hiddenColumnUnhide_ ) {
 				//  ignore columns that are hidden and look left towards first visible column
 				bool lookForVisible = true;
-				bool isCellRightBorder = abs(event->getPoint()->x_ - start.x_) >= resizeCaptureRange_;
+				bool isCellRightBorder = abs((long)(event->getPoint()->x_ - start.x_)) >= resizeCaptureRange_;
 
 				if( isCellRightBorder && ((clickCell_.column + 1) >= tm->getColumnCount()) ) {
 					// clicked on last column's right border
@@ -798,7 +798,7 @@ void TableControl::mouseDown( MouseEvent* event ){
 				Rect visibleRect;
 				getVisibleNonFixedCellRange( &visibleRect );
 
-				if ( abs(event->getPoint()->y_ - visibleRect.bottom_) < resizeCaptureRange_ ) {
+				if ( abs((long)(event->getPoint()->y_ - visibleRect.bottom_)) < resizeCaptureRange_ ) {
 					clickCell_.row = tm->getRowCount()-1;
 				}
 			}
@@ -811,7 +811,7 @@ void TableControl::mouseDown( MouseEvent* event ){
 			if( !hiddenRowUnhide_ )  {
 				//  ignore rows that are hidden and look up towards first visible row
 				bool lookForVisible = true;
-				bool isCellBottomBorder = abs(event->getPoint()->y_ - start.y_) >= resizeCaptureRange_;
+				bool isCellBottomBorder = abs((long)(event->getPoint()->y_ - start.y_)) >= resizeCaptureRange_;
 
 				if( isCellBottomBorder && ( clickCell_.row + 1 >= tm->getRowCount()) ) {
 					// clicked on last row's bottom border
@@ -863,7 +863,7 @@ void TableControl::mouseDown( MouseEvent* event ){
 			// If we clicked below the row divide, then reset the click-down cell
 			// as the cell above the row divide - UNLESS we clicked on the last row
 			// and the last row is teensy (kludge fix)
-			if ( abs(event->getPoint()->y_ - start.y_) < resizeCaptureRange_ ) {  // clicked below border
+			if ( abs((long)(event->getPoint()->y_ - start.y_)) < resizeCaptureRange_ ) {  // clicked below border
 				if ( clickCell_.row < tm->getRowCount()-1 ||
 					rowHeights_[tm->getRowCount()-1] >= resizeCaptureRange_ ) {
 
@@ -1672,8 +1672,8 @@ bool TableControl::columnResizeAreaHitTest( const Point& pt )
 
 	bool result = false;
 
-	if ( ((abs(pt.x_ - start.x_) < resizeCaptureRange_) && (cell.column != 0)) ||
-        (abs(endx - pt.x_) < resizeCaptureRange_) )  {
+	if ( ((abs((long)(pt.x_ - start.x_)) < resizeCaptureRange_) && (cell.column != 0)) ||
+        (abs((long)(endx - pt.x_)) < resizeCaptureRange_) )  {
         result = true;
     }
     else {
@@ -1701,8 +1701,8 @@ bool TableControl::rowResizeAreaHitTest( const Point& pt )
 
 	bool result = false;
 
-	if ( ((abs(pt.y_ - start.y_) < resizeCaptureRange_) && (cell.row != 0)) ||
-        (abs(endy - pt.y_) < resizeCaptureRange_) )  {
+	if ( ((abs((long)(pt.y_ - start.y_)) < resizeCaptureRange_) && (cell.row != 0)) ||
+        (abs((long)(endy - pt.y_)) < resizeCaptureRange_) )  {
         result = true;
     }
     else {
@@ -2312,6 +2312,9 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/30 17:27:13  kiklop74
+*Added first release of Borland midifications for VCF
+*
 *Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
 *minor mods to the TableControl and the TabbedPages control
 *so that drawing updates get drawn better, and we don't have weird missing
