@@ -1947,3 +1947,5 @@ void MainQTWindow::onPlayListTreeKeyPressed( VCF::KeyboardEvent* e )
 		
 	}
 }
+
+
