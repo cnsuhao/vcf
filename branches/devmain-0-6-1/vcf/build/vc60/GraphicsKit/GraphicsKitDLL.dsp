@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "GRAPHICSKIT_EXPORTS" /FR /Yu"GraphicsKit.h" /Fd"..\..\..\bin/GraphicsKit_vc6_d.pdb" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "GRAPHICSKIT_EXPORTS" /FR /Yu"GraphicsKit.h" /Fd"..\..\..\bin/GraphicsKit_vc6_d.pdb" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -130,10 +130,6 @@ SOURCE=..\..\..\include\graphics\Color.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\Contextpeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\graphics\ControlGraphicsContext.h
 # End Source File
 # Begin Source File
 
@@ -201,10 +197,6 @@ SOURCE=..\..\..\include\exceptions\ImageLoaderException.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\graphics\Matrix.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\Matrix2D.h
 # End Source File
 # Begin Source File
@@ -218,6 +210,10 @@ SOURCE=..\..\..\include\graphics\Path.h
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\PathEnumerator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\graphics\PixelFormats.h
 # End Source File
 # Begin Source File
 
@@ -242,26 +238,6 @@ SOURCE=..\..\..\include\graphics\VCFOpenGL.h
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\Vector2D.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Context.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Font.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32GraphicsToolkit.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Image.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32OpenGLPeer.h
 # End Source File
 # End Group
 # Begin Group "Source Files"
@@ -328,13 +304,25 @@ SOURCE=..\..\..\src\core\Rect.cpp
 
 SOURCE=..\..\..\src\Graphics\Vector2D.cpp
 # End Source File
+# End Group
+# Begin Group "Peers"
+
+# PROP Default_Filter "*.cpp;*.h"
 # Begin Source File
 
 SOURCE=..\..\..\src\ImplementerKit\Win32Context.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32Context.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32Font.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Font.h
 # End Source File
 # Begin Source File
 
@@ -346,7 +334,127 @@ SOURCE=..\..\..\src\ImplementerKit\Win32GraphicsToolkit.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32GraphicsToolkit.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32Image.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Image.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerkit\Win32OpenGLPeer.h
+# End Source File
+# End Group
+# Begin Group "agg"
+
+# PROP Default_Filter "*.h;*.cpp"
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_affine_matrix.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_bspline.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_gen_stroke.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_gsv_text.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_path_storage.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_rasterizer.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_rendering_buffer.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\thirdparty\common\agg\src\agg_scanline_u8.cpp
+
+!IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
+
+# ADD CPP /YX
+
+!ENDIF 
+
 # End Source File
 # End Group
 # End Target
