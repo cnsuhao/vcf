@@ -1703,29 +1703,29 @@ class DspApp:
         print ' --keepDspCopy                    = ' + str(self.options.keepDspCopy                     )
 
         print ' --allowedExtensions              = \'' + str(self.options.allowedExtensions             ) + '\''
-        
+
         print ' --allowDirs      = ' + str(self.options.allowDirs)
         if ( self.options.allowDirs ):
             print '   ' + str( self.allowedDirsList )
-            
+
         print ' --excludeSubdirs = ' + str( self.options.excludeSubdirs )
         if ( self.options.excludeSubdirs ):
             print '   ' + str( self.excludedSubdirsList )
-            
+
         print '   ' + 'librariesChangePostfix:'
         if ( self.librariesChangePostfixPrintString ):
             # print '   ' + '  ' + str( self.librariesChangePostfixDictList ) # this does not respect the order
             print '   ' + '  ' + self.librariesChangePostfixPrintString
-            
+
         print '   ' + 'projectsNoPostfixList:'
         print '   ' + '  ' + str( self.projectsNoPostfixList )
-        
+
         print '   ' + 'projectsNoPostfixOutputList:'
         print '   ' + '  ' + str( self.projectsNoPostfixOutputList )
-        
+
         print '   ' + 'projectsNoPostfixIfUnderCompilerDirList:'
         print '   ' + '  ' + str( self.projectsNoPostfixIfUnderCompilerDirList )
-        
+
         print ''
 
         # giving time to see the output
