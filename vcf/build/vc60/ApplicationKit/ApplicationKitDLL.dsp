@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPKIT_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /Fo"vc6/ReleaseDLL\obj/" /Yu"ApplicationKit.h" /FD /Zm150 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /Yu"ApplicationKit.h" /FD /Zm150 /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPKIT_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /FR"vc6/DebugDLL\obj/" /Fo"vc6/DebugDLL\obj/" /FR /Yu"ApplicationKit.h" /Fd"..\..\..\bin/ApplicationKit_vc6_d.pdb" /FD /GZ /Zm150 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /FR /Yu"ApplicationKit.h" /Fd"..\..\..\bin/ApplicationKit_vc6_d.pdb" /FD /GZ /Zm150 /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -118,6 +118,10 @@ SOURCE=..\..\..\include\core\AbstractScrollable.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\AcceleratorKey.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Action.h
 # End Source File
 # Begin Source File
 
@@ -474,6 +478,10 @@ SOURCE=..\..\..\src\core\AbstractScrollable.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\AcceleratorKey.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Action.cpp
 # End Source File
 # Begin Source File
 
@@ -1603,27 +1611,11 @@ SOURCE=..\..\..\include\core\Toolbar.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\ToolbarButton.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ToolbarButton.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\ToolbarDock.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ToolbarDock.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ToolbarSeparator.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ToolbarSeparator.h
 # End Source File
 # Begin Source File
 
