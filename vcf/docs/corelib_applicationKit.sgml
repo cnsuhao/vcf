@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.14  2003/03/24 06:05:01  ddiego
+more additions to the doc makefile and for allowing for online doxygen
+generation
+
 Revision 1.1.2.13  2003/03/17 21:24:02  ddiego
 blah
 
@@ -576,7 +580,7 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 
 		<para>
 		Components can be "owned" by other components, freeing the developer from having to worry
-		about deleting the Components later on. More.....
+		about deleting the Components later on. To add a Component you simply call the Component's 
 		</para>
 	</section>
 	
@@ -617,14 +621,19 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		A Container has methods for adding, inserting, and removing
 		controls. A Container instance owns all the child controls it has, and is responsible
 		for deleting them when the container itself is destroyed. The container is owned by the
-		Control it belongs to. 
+		Control it belongs to. The Container class itself cannot be created, as it is an abstract 
+		interface class. Instead you must create some concrete class derived from the Container class.
 		</para>
 
 		<para>
 		A Containers primary job is to manage a collection of child controls
 		and to respond to certain events, forwarding them along to other child controls. 
 		Containers can automatically resize their child controls when a resize event happens
-		to the Control that owns the Container. When this happens, the <emphasis>default<
+		to the Control that owns the Container. When this happens, the 
+		<emphasis>default</emphasis> behaviour is to follow standard <link linkend="Layout">layout rules</link> 
+		depending on the child's alignment or anchor settings. The event forwarding behaviour only 
+		takes place for child controls that are lightweight. Heavyweight controls do not need this, 
+		as they will receive events directly from the windowing system.
 		</para>
 
 
