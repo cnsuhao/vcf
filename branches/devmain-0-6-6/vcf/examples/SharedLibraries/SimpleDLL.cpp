@@ -8,7 +8,7 @@ where you installed the VCF.
 
 
 #include <stdio.h>
-#include "../examples/SharedLibraries/SimpleDLL.h"
+#include "SimpleDLL.h"
 #include <typeinfo>
 
 
@@ -34,6 +34,9 @@ int getAnInteger( int val1, double d )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/09/15 04:41:23  ddiego
+*made some minor changes to the SharedLibraries example, and the init and term code of the Library class.
+*
 *Revision 1.3  2004/08/07 02:47:36  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

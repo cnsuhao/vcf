@@ -57,7 +57,13 @@ void Library::load( const String& libraryFilename )
 
 	typedef void (*initFunc)(void);
 
-	initFunc _init = (initFunc) getFunction( L"_vpl_init" );
+	initFunc _init = NULL;
+	try {
+		_init = (initFunc) getFunction( L"_vpl_init" );
+	}
+	catch ( BasicException& e ) {
+		System::errorPrint( &e );
+	}
 	if ( NULL != _init ) {
 		_init();
 	}
@@ -74,7 +80,15 @@ void Library::unload()
 {
 	typedef void (*terminateFunc)(void);
 
-	terminateFunc _terminate = (terminateFunc) getFunction("_vpl_terminate");
+	terminateFunc _terminate = NULL;
+
+	try {
+		_terminate = (terminateFunc) getFunction("_vpl_terminate");
+	}
+	catch  ( BasicException& e ) {
+		System::errorPrint( &e );
+	}
+
 	if ( NULL != _terminate ) {
 
 		_terminate();
@@ -98,6 +112,9 @@ void* Library::getFunction( const String& functionName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/15 04:41:23  ddiego
+*made some minor changes to the SharedLibraries example, and the init and term code of the Library class.
+*
 *Revision 1.2.2.1  2004/08/27 19:55:44  marcelloptr
 *Color changes
 *
