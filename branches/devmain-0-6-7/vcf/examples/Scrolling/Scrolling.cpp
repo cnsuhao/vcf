@@ -182,8 +182,6 @@ public:
 		scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
 		scrollbarManagerSingle->setTarget( listBox_ );
 		scrollbarManagerSingle->setKeepScrollbarsVisible( true, true );
-		scrollbarManagerSingle->setVirtualViewVertStep( 17 );
-		scrollbarManagerSingle->setDiscreteScroll( false, true );
 		
 		this->add( listBox_, AlignClient );
 		
@@ -350,6 +348,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/03/10 17:27:37  marcelloptr
+*set discrete scrolling as default behaviour for ListBoxControls
+*
 *Revision 1.5.2.2  2005/03/06 22:50:56  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
