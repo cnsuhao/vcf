@@ -23,8 +23,6 @@ CFG=FoundationKit - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -64,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6/DebugS/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /WX /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Yu"vcf/FoundationKit/FoundationKit.h" /Fd"../../../lib/FoundationKit_vc6_sd.pdb" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /WX /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Fd"../../../lib/FoundationKit_vc6_sd.pdb" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -102,17 +100,7 @@ SOURCE=../../../src/vcf/FoundationKit/FoundationKitSelectLib.h
 # Begin Source File
 
 SOURCE=../../../src/vcf/FoundationKit/FoundationKit.cpp
-
-!IF  "$(CFG)" == "FoundationKit - Win32 Release"
-
 # ADD CPP /Yc"vcf/FoundationKit/FoundationKit.h"
-
-!ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
-
-# ADD CPP /Yc"vcf/FoundationKit/FoundationKit.h"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -121,13 +109,6 @@ SOURCE=../../../src/vcf/FoundationKit/FoundationKitRTTI.inl
 # Begin Source File
 
 SOURCE=../../../src/vcf/FoundationKit/Library.cpp
-
-!IF  "$(CFG)" == "FoundationKit - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # End Group
 # Begin Group "Peers"

@@ -59,5 +59,3 @@ MTL=midl.exe
 # Name "vcfAllLibs - Win32 Debug"
 # End Target
 # End Project
-
-

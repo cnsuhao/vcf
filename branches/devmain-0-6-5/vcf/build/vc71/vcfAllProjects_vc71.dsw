@@ -258,6 +258,9 @@ Package=<4>
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name MVCBasics
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Processes
     End Project Dependency
     Begin Project Dependency
@@ -597,7 +600,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libXmake"="../../xmake/libXmake_vc71.dsp" - Package Owner=<4>
+Project: "libXmake"="../../src/xmake/libXmake_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -622,6 +625,18 @@ Package=<4>
 ###############################################################################
 
 Project: "MSDNIntegrator"="../../src/thirdparty/win32/MSDNIntegrator/MSDNIntegrator_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MVCBasics"="../../examples/MVCBasics/MVCBasics_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1017,7 +1032,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xmake"="../../xmake/xmake_vc71.dsp" - Package Owner=<4>
+Project: "xmake"="../../src/xmake/xmake_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

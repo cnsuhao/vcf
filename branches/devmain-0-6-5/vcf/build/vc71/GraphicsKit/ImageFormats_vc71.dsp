@@ -102,6 +102,10 @@ SOURCE=../../../src/ImageFormats/ImageFormats.cpp
 
 SOURCE=../../../src/ImageFormats/ImageFormats.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImageFormats\ImageFormatsSelectLib.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 
