@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REMOTEKIT_DLL" /D "REMOTEKIT_EXPORTS" /D "USE_NETKIT_DLL" /D "USE_FRAMEWORK_DLL" /D "BUILD_REMOTEOBJECTKIT_LIB" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REMOTEKIT_DLL" /D "REMOTEKIT_EXPORTS" /D "USE_NETKIT_DLL" /D "USE_FRAMEWORK_DLL" /D "BUILD_REMOTEOBJECTKIT_LIB" /Yu"vcf/RemoteObjectKit/RemoteObjectKit.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -68,7 +68,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REMOTEKIT_DLL" /D "REMOTEKIT_EXPORTS" /D "USE_NETKIT_DLL" /D "USE_FRAMEWORK_DLL" /D "BUILD_REMOTEOBJECTKIT_LIB" /Fd"..\..\..\bin\RemoteObjectKit_vc6_d.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REMOTEKIT_DLL" /D "REMOTEKIT_EXPORTS" /D "USE_NETKIT_DLL" /D "USE_FRAMEWORK_DLL" /D "BUILD_REMOTEOBJECTKIT_LIB" /Fd"..\..\..\bin\RemoteObjectKit_vc6_d.pdb" /Yu"vcf/RemoteObjectKit/RemoteObjectKit.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -121,6 +121,7 @@ SOURCE=..\..\..\src\vcf\RemoteObjectKit\Proxy.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\RemoteObjectKit\RemoteObjectKit.cpp
+# ADD CPP /Yc"vcf/RemoteObjectKit/RemoteObjectKit.h"
 # End Source File
 # End Group
 # Begin Group "Header Files"

@@ -46,7 +46,7 @@
 				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="..\..\..\lib\OpenGLKit_vc71_d.pdb"
-				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc70_d.lib"/>
+				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc71_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -105,7 +105,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\lib\"
 				ProgramDatabaseFile="..\..\..\lib\OpenGLKit_vc71.pdb"
-				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc70.lib"/>
+				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc71.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

@@ -37,11 +37,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CopyAndPaste", ".\CopyAndPa
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DatesAndTime", ".\DatesAndTime\DatesAndTime_vc71.vcproj", "{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DateTimeUI", ".\DateTimeUI\DateTimeUI_vc71.vcproj", "{E0745295-B323-4662-B497-6B2ED8564BB7}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DateTimeUI", ".\DateTimeUI\DateTimeUI_vc71.vcproj", "{E0745295-B323-4662-B497-6B2ED8564BB7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DatesAndTime", ".\DatesAndTime\DatesAndTime_vc71.vcproj", "{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -92,8 +92,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Exam
 		{31901216-A8EA-470A-B314-AB37626BA115} = {31901216-A8EA-470A-B314-AB37626BA115}
 		{38A605D0-C877-4F1F-A9B1-C8AA83E901F4} = {38A605D0-C877-4F1F-A9B1-C8AA83E901F4}
 		{E5455A72-EB83-40FC-9408-1B2603B6B7E7} = {E5455A72-EB83-40FC-9408-1B2603B6B7E7}
-		{E0745295-B323-4662-B497-6B2ED8564BB7} = {E0745295-B323-4662-B497-6B2ED8564BB7}
 		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D} = {E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}
+		{E0745295-B323-4662-B497-6B2ED8564BB7} = {E0745295-B323-4662-B497-6B2ED8564BB7}
 		{A47C9C97-6643-4B32-9451-95DA123C1C93} = {A47C9C97-6643-4B32-9451-95DA123C1C93}
 		{6564A05C-D0AE-4B3F-BFBE-5E042AF70CFF} = {6564A05C-D0AE-4B3F-BFBE-5E042AF70CFF}
 		{2A84FEDD-C77B-4818-8BC9-11D8E40B9BF8} = {2A84FEDD-C77B-4818-8BC9-11D8E40B9BF8}
@@ -164,14 +164,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Labels", ".\Labels\Labels_v
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\GraphicsKit\libAGG_vc71.vcproj", "{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\GraphicsKit\libAGG_vc71.vcproj", "{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Localization", ".\Localization\Localization_vc71.vcproj", "{35995A7B-89FC-4F9B-BDEB-AC16F231C6E6}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -182,12 +174,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MVCBasics", ".\MVCBasics\MV
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKit", "..\build\vc71\NetworkKit\NetworkKit_vc71.vcproj", "{E9994AF2-1059-4346-A653-27A6C2CCF40D}"
 	ProjectSection(ProjectDependencies) = postProject
-		{DA1E19F3-F48F-4402-9024-190633E9F4A5} = {DA1E19F3-F48F-4402-9024-190633E9F4A5}
+		{571374A2-382A-45CB-9965-73CE6B451365} = {571374A2-382A-45CB-9965-73CE6B451365}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKitDLL", "..\build\vc71\NetworkKit\NetworkKitDLL_vc71.vcproj", "{0DD4DFF0-9EAC-49D5-9641-AE77F94C2CE7}"
 	ProjectSection(ProjectDependencies) = postProject
-		{9DFBD97B-1C30-4434-9B64-0748F33662B9} = {9DFBD97B-1C30-4434-9B64-0748F33662B9}
+		{E6F355D1-1BCB-45C9-A919-BAF15B20930D} = {E6F355D1-1BCB-45C9-A919-BAF15B20930D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Processes", ".\Processes\Processes_vc71.vcproj", "{52294DAE-5134-48EF-82F9-5BC36B7E3246}"
@@ -282,6 +274,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkingWithEnumerators", ".
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\GraphicsKit\libAGG_vc71.vcproj", "{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\GraphicsKit\libAGG_vc71.vcproj", "{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -343,18 +343,18 @@ Global
 		{A47C9C97-6643-4B32-9451-95DA123C1C93}.GTK Debug.Build.0 = Debug|Win32
 		{A47C9C97-6643-4B32-9451-95DA123C1C93}.Release.ActiveCfg = Release|Win32
 		{A47C9C97-6643-4B32-9451-95DA123C1C93}.Release.Build.0 = Release|Win32
-		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Debug.ActiveCfg = Debug|Win32
-		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Debug.Build.0 = Debug|Win32
-		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.GTK Debug.ActiveCfg = Debug|Win32
-		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.GTK Debug.Build.0 = Debug|Win32
-		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Release.ActiveCfg = Release|Win32
-		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Release.Build.0 = Release|Win32
 		{E0745295-B323-4662-B497-6B2ED8564BB7}.Debug.ActiveCfg = Debug|Win32
 		{E0745295-B323-4662-B497-6B2ED8564BB7}.Debug.Build.0 = Debug|Win32
 		{E0745295-B323-4662-B497-6B2ED8564BB7}.GTK Debug.ActiveCfg = Debug|Win32
 		{E0745295-B323-4662-B497-6B2ED8564BB7}.GTK Debug.Build.0 = Debug|Win32
 		{E0745295-B323-4662-B497-6B2ED8564BB7}.Release.ActiveCfg = Release|Win32
 		{E0745295-B323-4662-B497-6B2ED8564BB7}.Release.Build.0 = Release|Win32
+		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Debug.ActiveCfg = Debug|Win32
+		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Debug.Build.0 = Debug|Win32
+		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.GTK Debug.ActiveCfg = Debug|Win32
+		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.GTK Debug.Build.0 = Debug|Win32
+		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Release.ActiveCfg = Release|Win32
+		{E4F23DC0-80C0-4F7E-94A1-64D8239FFC6D}.Release.Build.0 = Release|Win32
 		{E5455A72-EB83-40FC-9408-1B2603B6B7E7}.Debug.ActiveCfg = Debug|Win32
 		{E5455A72-EB83-40FC-9408-1B2603B6B7E7}.Debug.Build.0 = Debug|Win32
 		{E5455A72-EB83-40FC-9408-1B2603B6B7E7}.GTK Debug.ActiveCfg = Debug|Win32
@@ -463,18 +463,6 @@ Global
 		{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}.GTK Debug.Build.0 = Debug|Win32
 		{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}.Release.ActiveCfg = Release|Win32
 		{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}.Release.Build.0 = Release|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.ActiveCfg = Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.Build.0 = Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.ActiveCfg = GTK Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.Build.0 = GTK Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.ActiveCfg = Release|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.Build.0 = Release|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.ActiveCfg = Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.Build.0 = Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.ActiveCfg = GTK Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.Build.0 = GTK Debug|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.ActiveCfg = Release|Win32
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.Build.0 = Release|Win32
 		{35995A7B-89FC-4F9B-BDEB-AC16F231C6E6}.Debug.ActiveCfg = Debug|Win32
 		{35995A7B-89FC-4F9B-BDEB-AC16F231C6E6}.Debug.Build.0 = Debug|Win32
 		{35995A7B-89FC-4F9B-BDEB-AC16F231C6E6}.GTK Debug.ActiveCfg = Debug|Win32
@@ -631,6 +619,18 @@ Global
 		{070F393F-DA87-4BD3-8A3E-C71F847C88B0}.GTK Debug.Build.0 = Debug|Win32
 		{070F393F-DA87-4BD3-8A3E-C71F847C88B0}.Release.ActiveCfg = Release|Win32
 		{070F393F-DA87-4BD3-8A3E-C71F847C88B0}.Release.Build.0 = Release|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.ActiveCfg = Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.Build.0 = Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.ActiveCfg = GTK Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.Build.0 = GTK Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.ActiveCfg = Release|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.Build.0 = Release|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.ActiveCfg = Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Debug.Build.0 = Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.ActiveCfg = GTK Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.GTK Debug.Build.0 = GTK Debug|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.ActiveCfg = Release|Win32
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -117,7 +117,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DatesAndTime"=".\DatesAndTime\DatesAndTime_icl7.dsp" - Package Owner=<4>
+Project: "DateTimeUI"=".\DateTimeUI\DateTimeUI_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -129,7 +129,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DateTimeUI"=".\DateTimeUI\DateTimeUI_icl7.dsp" - Package Owner=<4>
+Project: "DatesAndTime"=".\DatesAndTime\DatesAndTime_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -210,10 +210,10 @@ Package=<4>
     Project_Dep_Name CopyAndPaste
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name DatesAndTime
+    Project_Dep_Name DateTimeUI
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name DateTimeUI
+    Project_Dep_Name DatesAndTime
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Dictionaries
@@ -498,30 +498,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGG"="..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "libAGG"="..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "Localization"=".\Localization\Localization_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -555,7 +531,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKit
+    Project_Dep_Name FoundationKit
     End Project Dependency
 }}}
 
@@ -570,7 +546,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
+    Project_Dep_Name FoundationKitDLL
     End Project Dependency
 }}}
 
@@ -847,6 +823,42 @@ Package=<5>
 }}}
 
 Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libAGG"="..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libAGG"="..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
 {{{
 }}}
 

@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib\"
+			OutputDirectory=".\vc71\DebugS\"
 			IntermediateDirectory=".\vc71\DebugS\"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -26,8 +26,8 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="stdafx.h"
+				UsePrecompiledHeader="3"
+				PrecompiledHeaderThrough="vcf/NetworkKit/NetworkKit.h"
 				PrecompiledHeaderFile=".\vc71\DebugS\NetworkKit_vc71_sd.pch"
 				AssemblerListingLocation=".\vc71\DebugS\"
 				ObjectFile=".\vc71\DebugS\"
@@ -65,7 +65,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib\"
+			OutputDirectory=".\vc71\ReleaseS\"
 			IntermediateDirectory=".\vc71\ReleaseS\"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -81,7 +81,8 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="3"
+				PrecompiledHeaderThrough="vcf/NetworkKit/NetworkKit.h"
 				PrecompiledHeaderFile=".\vc71\ReleaseS\NetworkKit_vc71_s.pch"
 				AssemblerListingLocation=".\vc71\ReleaseS\"
 				ObjectFile=".\vc71\ReleaseS\"
@@ -152,6 +153,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="1"
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -160,7 +162,8 @@
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
+						PreprocessorDefinitions=""
+						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
 			<File

@@ -117,7 +117,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DatesAndTime"="..\..\examples\DatesAndTime\DatesAndTime_vc70.dsp" - Package Owner=<4>
+Project: "DateTimeUI"="..\..\examples\DateTimeUI\DateTimeUI_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -129,7 +129,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DateTimeUI"="..\..\examples\DateTimeUI\DateTimeUI_vc70.dsp" - Package Owner=<4>
+Project: "DatesAndTime"="..\..\examples\DatesAndTime\DatesAndTime_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -210,10 +210,10 @@ Package=<4>
     Project_Dep_Name CopyAndPaste
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name DatesAndTime
+    Project_Dep_Name DateTimeUI
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name DateTimeUI
+    Project_Dep_Name DatesAndTime
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Dictionaries
@@ -540,18 +540,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGG"=".\GraphicsKit\libAGG_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -600,18 +588,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libXmake"="..\..\src\xmake\libXmake_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "Localization"="..\..\examples\Localization\Localization_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -645,7 +621,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKit
+    Project_Dep_Name FoundationKit
     End Project Dependency
 }}}
 
@@ -660,7 +636,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
+    Project_Dep_Name FoundationKitDLL
     End Project Dependency
 }}}
 
@@ -675,7 +651,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
+    Project_Dep_Name ApplicationKit
     End Project Dependency
 }}}
 
@@ -930,69 +906,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "vcfAllDynamicLibs"=".\vcfAllDynamicLibs_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name RemoteObjectKit
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Win32HTMLBrowser
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ImageFormats
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "vcfAllLibs"=".\vcfAllLibs_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name vcfAllDynamicLibs
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name vcfAllStaticLibs
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "vcfAllStaticLibs"=".\vcfAllStaticLibs_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name Win32HTMLBrowser_StaticLib
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKit
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name RemoteObjectKitStatic
-    End Project Dependency
-}}}
-
-###############################################################################
-
 Project: "VisualFormFiles"="..\..\examples\VisualFormFiles\VisualFormFiles_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1047,7 +960,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xmake"="..\..\src\xmake\xmake_vc70.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1059,13 +972,115 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_vc70.dsp" - Package Owner=<4>
+Project: "libAGG"=".\GraphicsKit\libAGG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
 }}}
 
 Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libXmake"="..\..\src\xmake\libXmake_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "vcfAllDynamicLibs"=".\vcfAllDynamicLibs_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RemoteObjectKit
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Win32HTMLBrowser
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ImageFormats
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "vcfAllLibs"=".\vcfAllLibs_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name vcfAllDynamicLibs
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vcfAllStaticLibs
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "vcfAllStaticLibs"=".\vcfAllStaticLibs_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RemoteObjectKitStatic
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Win32HTMLBrowser_StaticLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xmake"="..\..\src\xmake\xmake_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libXmake
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
 {{{
 }}}
 

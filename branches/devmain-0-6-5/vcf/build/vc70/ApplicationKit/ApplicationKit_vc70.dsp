@@ -605,15 +605,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\EtchedBorder.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Frame.cpp
-
-!IF  "$(CFG)" == "ApplicationKitDLL - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "ApplicationKitDLL - Win32 Debug"
-
-# ADD CPP /Yu
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

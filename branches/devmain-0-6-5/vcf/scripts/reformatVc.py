@@ -68,10 +68,11 @@ g_printFilterGroupTrees = False
 addEntriesForVc71WhenSynchToVc70 = False # this will alter the configuration information contained in the vcproj. Better False
 addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration information contained in the vcproj. Better False
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
-g_debugFileList = [ '' ] # [ 'Examples.dsw', 'vcfAllProjects.dsw' ] [ 'win32htmlbrowser_staticlib' ] [ 'docbookarticle_vc70.vcproj' ] [ 'vcmcvs_vc71.vcproj' ] [ 'js' ] [ 'docbookarticle' ] [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ]   ( see isFileIn2() )
+g_debugFileList = [ '' ] # [ 'xmake', 'vcfAllLibs' ] [ 'Examples.dsw', 'vcfAllProjects.dsw' ] [ 'win32htmlbrowser_staticlib' ] [ 'docbookarticle_vc70.vcproj' ] [ 'vcmcvs_vc71.vcproj' ] [ 'js' ] [ 'docbookarticle' ] [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ]   ( see isFileIn2() )
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
 g_keepFirstDot_standard = 4 # === g_keepFirstDot_StandardVc # standard format for paths in projects files has ./ at the beginning
 g_fix_last_slash_in_path = True # True only when we need to fix it. Then put it back
+g_sort_workspace_ignorecase = False # use True: the projects in a workspace are sorted by not ignoring the case by VisualStudio
 
 # vc7 always put '/' at the end of a directory name when it creates one project file,
 # but custom build cannot copy any file into a path like that !
@@ -1490,6 +1491,7 @@ class DspApp:
         self.getProjectDataForEachProject = False
 
         self.resetCounts()
+        self.resetTotCounts()
 
         self.numErrors = 0
         self.numWarnings = 0
@@ -1549,7 +1551,7 @@ class DspApp:
         optparser.add_option(   "--fixFilenamePostfix"                       , type = "int"     , dest = "fixFilenamePostfix"            , default=False                 , help="checks for the correctness of postfixes ( like \'_vc70_sd\' ) of filename entries and fixes them. Suggested put it back to False when not used ( works only for vcproj files and fixes probable bug of vc7 compiler. See note end of script )" )
 
         optparser.add_option(   "--dependenciesWorkspace"                    , type = "string"  , dest = "dependenciesWorkspace"         , default=''                    , help="dependency where to copy all the dependencies from" )
-        optparser.add_option(   "--referenceSolution"                        , type = "string"  , dest = "referenceSolution"             , default=''                    , help="dependency where to copy all the dependencies from" )
+        optparser.add_option(   "--referenceSolution"                        , type = "string"  , dest = "referenceSolution"             , default=''                    , help="reference solution: mainly used to keep the original uuids" )
 
 
         # Remark: unfortunately we cannot use: action = "store_const" , const = 0 for many options like -r, --recurse,
@@ -1602,6 +1604,12 @@ class DspApp:
         self.changedFiles   = 0
         self.unchangedFiles = 0
         self.createdFiles   = 0
+        return
+
+    def resetTotCounts( self ):
+        self.changedFilesTot   = 0
+        self.unchangedFilesTot = 0
+        self.createdFilesTot   = 0
         return
 
     def getcwd( self ):
@@ -2229,6 +2237,15 @@ class DspApp:
 
         return
 
+
+    def addProject( self, prjName, prjNameLwr, baseDir, relPath ):
+        if ( not self.allProjectNamesLwrDict.has_key( prjNameLwr ) ):
+            self.allProjectNamesList.append( prjName )
+            self.allProjectNamesLwrDict[ prjNameLwr ] = prjName
+            absPrjPath = FileUtils.absolutePath( baseDir, relPath, g_internal_unixStyle )
+            self.allProjectPathsList.append( absPrjPath )
+            self.allProjectNamesLwrPathsDict[ prjNameLwr ] = absPrjPath
+
     def checkAllowedDir( self, filename ):
         allow = True
         if ( app.options.allowDirs or app.options.excludeSubdirs ):
@@ -2696,6 +2713,11 @@ class GenericProjectFile( GenericFile ):
 
         ( changedFiles, unchangedFiles, createdFiles ) \
                     = FileUtils.replaceFile( source, destination )
+
+        app.changedFilesTot   += changedFiles
+        app.unchangedFilesTot += unchangedFiles
+        app.createdFilesTot   += createdFiles
+
         if ( count ):
             app.changedFiles   += changedFiles
             app.unchangedFiles += unchangedFiles
@@ -3293,7 +3315,7 @@ class DspFile( GenericProjectFile ):
         return replaceCompilerTuple
     replaceCompilerTextMakeTuple = staticmethod(replaceCompilerTextMakeTuple)
 
-    def replaceCompilerText( text, replaceCompilerTuple ):
+    def replaceCompilerTextTuple( text, replaceCompilerTuple ):
         #( (  ocplUnderscor, ocplUnderscorLen ), ( ocpl1SepLen, ocpl1SepFixLen, ocpl2SepLen, ocpl2SepFixLen ), \
         #  ( ocplSep1, ocplSep1FixProblem, ncplSep1 ), ( ocplSep2, ocplSep2FixProblem, ncplSep2 ) ) = replaceCompilerTuple
         ( (oldCompiler, newCompiler), (  ocplUnderscor, ocplUnderscorLen, ncplUnderscor ), ( ocpl1SepLen, ocpl2SepLen ), \
@@ -3346,7 +3368,16 @@ class DspFile( GenericProjectFile ):
             #        chg = True
 
         return text
-    replaceCompilerText = staticmethod(replaceCompilerText)
+    replaceCompilerTextTuple = staticmethod(replaceCompilerTextTuple)
+
+    def replaceCompilersText( text, newCompiler ):
+        # brute force
+        text = text.replace( compilerVc6 , newCompiler )
+        text = text.replace( compilerIcl7, newCompiler )
+        text = text.replace( compilerVc70, newCompiler )
+        text = text.replace( compilerVc71, newCompiler )
+        return text
+    replaceCompilersText = staticmethod(replaceCompilersText)
 
     def readTargetSection( self ):
         # skips all the configuration lines and copy all the target body into a string
@@ -4775,26 +4806,41 @@ class DspFile( GenericProjectFile ):
                 # reformats/converts all the path entries
                 for entryName in vcpCfg.entryNamesList:
                     entryValue = vcpCfg.entryNameValueDict[ entryName ]
+                    changed = False
                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                        entryValue = self.fixFilenamePostfix( entryValue, newCompiler, appType, isDebug, config_name )
-                        entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
-                        vcpCfg.entryNameValueDict[ entryName ] = entryValue
+                        entryValue = self.fixFilenamePostfix( entryValue, oldCompiler, newCompiler, appType, isDebug, config_name )
+                        entryValue = DspFile.replaceCompilerTextTuple( entryValue, replaceCompilerTuple )
+                        changed = True
                     if ( entryName == 'AdditionalDependencies' ):
-                        entryValue = self.librariesChangePostfix( entryValue, newCompiler, appType, isDebug, config_name )
+                        entryValue = self.librariesChangePostfix( entryValue, oldCompiler, newCompiler, appType, isDebug, config_name )
+                        changed = True
+                    if ( entryName == 'ImportLibrary' ):
+                        entryValue = DspFile.replaceCompilerTextTuple( entryValue, replaceCompilerTuple )
+                        changed = True
+                    # make sure the newCompiler postfix is there instead than the oldCompiler one ( this fixes ImportLibrary= too )
+                    entryValue = DspFile.replaceCompilersText( entryValue, newCompiler )
+                    changed = True
+                    if ( changed ):
                         vcpCfg.entryNameValueDict[ entryName ] = entryValue
 
                 for tool_name in vcpCfg.toolNamesList:
                     vcpTool = vcpCfg.toolNameSectionsDict[ tool_name ]
                     for entryName in vcpTool.entryNamesList:
                         entryValue = vcpTool.entryNameValueDict[ entryName ]
+                        changed = False
                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                             entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                            entryValue = self.fixFilenamePostfix( entryValue, newCompiler, appType, isDebug, config_name )
-                            entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
-                            vcpTool.entryNameValueDict[ entryName ] = entryValue
+                            entryValue = self.fixFilenamePostfix( entryValue, oldCompiler, newCompiler, appType, isDebug, config_name )
+                            entryValue = DspFile.replaceCompilerTextTuple( entryValue, replaceCompilerTuple )
+                            changed = True
                         if ( entryName == 'AdditionalDependencies' ):
-                            entryValue = self.librariesChangePostfix( entryValue, newCompiler, appType, isDebug, config_name )
+                            entryValue = self.librariesChangePostfix( entryValue, oldCompiler, newCompiler, appType, isDebug, config_name )
+                            changed = True
+                        # make sure the newCompiler postfix is there instead than the oldCompiler one ( this fixes ImportLibrary= too )
+                        entryValue = DspFile.replaceCompilersText( entryValue, newCompiler )
+                        changed = True
+                        if ( changed ):
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
                 # add tools and entries existing only on ( compilerVc71 <= compilers )
@@ -4881,7 +4927,7 @@ class DspFile( GenericProjectFile ):
                                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                                             entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                                            entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
+                                            entryValue = DspFile.replaceCompilerTextTuple( entryValue, replaceCompilerTuple )
                                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
         return ( vcpHdr, vcpFiles )
@@ -5191,7 +5237,7 @@ class DspFile( GenericProjectFile ):
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                                        #entryValue = self.fixFilenamePostfix( entryValue, newCompiler, appType, isDebug, fileConfig_name )
+                                        #entryValue = self.fixFilenamePostfix( entryValue, newCompiler, newCompiler, appType, isDebug, fileConfig_name )
 
                                     line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
@@ -5695,7 +5741,7 @@ class DspFile( GenericProjectFile ):
                 postfix += '_s'
         return postfix
 
-    def fixFilenamePostfix( self, pathfilename, compiler, appType, isDebug, config_name = '' ):
+    def fixFilenamePostfix( self, pathfilename, oldCompiler, compiler, appType, isDebug, config_name = '' ):
         if ( not app.options.fixFilenamePostfix ):
             return pathfilename
 
@@ -5756,16 +5802,23 @@ class DspFile( GenericProjectFile ):
 
         if ( pathfilename != pfn2 ):
             if ( 0 < app.options.warning ):
-                if ( 0 < self.n and self.n < len( self.lines ) ):
-                    line = self.lines[ self.n - 1 ]
-                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn2, config_name, self.filename, self.n, line.rstrip() )
-                else:
-                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn2, config_name, self.filename )
-                print msg
+                warn = True
+                fforg = ff
+                if ( oldCompiler != compiler ):
+                    ff = ff.replace( oldCompiler, compiler )
+                    if ( ff == fn2 ):
+                        warn = False
+                if ( warn ):
+                    if ( 0 < self.n and self.n < len( self.lines ) ):
+                        line = self.lines[ self.n - 1 ]
+                        msg = 'WARNING [fixFilenamePostfix]: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn2, config_name, self.filename, self.n, line.rstrip() )
+                    else:
+                        msg = 'WARNING [fixFilenamePostfix]: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn2, config_name, self.filename )
+                    print msg
 
         return pfn2
 
-    def librariesChangePostfix( self, libSlist, compiler, appType, isDebug, config_name = '' ):
+    def librariesChangePostfix( self, libSlist, oldCompiler, compiler, appType, isDebug, config_name = '' ):
         # used for AdditionalDependencies in vc7x
         # return libSlist # uncommenting this disable the function
 
@@ -5830,7 +5883,7 @@ class DspFile( GenericProjectFile ):
                         else:
                             # fix the name
 
-                            # libFixed = self.fixFilenamePostfix( lib, compiler, appType, isDebug, config_name )
+                            # libFixed = self.fixFilenamePostfix( lib, compiler, compiler, appType, isDebug, config_name )
                             if ( xs ):
                                 appType = enumAppTypeLib
                             # isDebug = xd # No! Mistake here: we don't need to specify '_d' in the list (better not). But the config ( debug/non ) tells which lib we want
@@ -5845,12 +5898,19 @@ class DspFile( GenericProjectFile ):
 
                             if ( lib != pfn ):
                                 if ( 0 < app.options.warning ):
-                                    if ( 0 < self.n and self.n < len( self.lines ) ):
-                                        line = self.lines[ self.n - 1 ]
-                                        msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  lf, ln, config_name, self.filename, self.n, line.rstrip() )
-                                    else:
-                                        msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  lf, ln, config_name, self.filename )
-                                    print msg
+                                    warn = True
+                                    lforg = lf
+                                    if ( oldCompiler != compiler ):
+                                        lf = lf.replace( oldCompiler, compiler )
+                                        if ( lf == ln ):
+                                            warn = False
+                                    if ( warn ):
+                                        if ( 0 < self.n and self.n < len( self.lines ) ):
+                                            line = self.lines[ self.n - 1 ]
+                                            msg = 'WARNING [librariesChangePostfix]: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  lf, ln, config_name, self.filename, self.n, line.rstrip() )
+                                        else:
+                                            msg = 'WARNING [librariesChangePostfix]: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  lf, ln, config_name, self.filename )
+                                        print msg
 
                             lib = pfn
 
@@ -6331,7 +6391,7 @@ class DspFile( GenericProjectFile ):
 
             # # ADD LINK32 wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"libxml2\libxml2_vc6_d.dll" /pdbtype:sept
             if ( app.librariesChangePostfixListLwr ):
-                line = self.librariesChangePostfix( line, self.compiler, self.appType, self.isDebugCfg[self.nCfg], self.configFullName )
+                line = self.librariesChangePostfix( line, self.compiler, self.compiler, self.appType, self.isDebugCfg[self.nCfg], self.configFullName )
 
         return line
 
@@ -6878,6 +6938,7 @@ class Workspace( DspFile ):
     def resetWorkspace( self ):
         self.prjNames = []
         self.prjNamesLwr = []
+        self.prjNamesDict = {}
         self.prjRelPaths = []
         self.prjAbsPaths = []
         self.prjNameAbsPathDict = {}
@@ -6922,6 +6983,7 @@ class Workspace( DspFile ):
         self.prjNames.append( prjName )
         prjNameLwr = prjName.lower() # changed 20040603
         self.prjNamesLwr.append( prjNameLwr )
+        self.prjNamesDict[ prjNameLwr ] = prjName
         self.prjAbsPaths.append( absPrjPath )
         self.prjNameAbsPathDict[ prjNameLwr ] = absPrjPath
 
@@ -6934,7 +6996,7 @@ class Workspace( DspFile ):
 
     def duplicateVcs( self, updateOriginal ):
         # duplicates original workspace and/or reformat it in a canonic way
-        if ( updateOriginal ):                # always
+        if ( updateOriginal ):                # always %%% this *must* be *before* the others, so the dependencies are copied right
             self.duplicateVcDswSln( '' )  # this just reformat the original ( see duplicateVc ) - to use it with True or False is the same
 
         if ( app.options.copyToIcl7 ):
@@ -7011,6 +7073,14 @@ class Workspace( DspFile ):
         wspOld.readlines()
 
         wspOld.removeUnwantedLines()
+        if ( self.isFileIn2() ):
+            p = 1
+        # this is not enough: we need to update the dependencies
+        # the best is to re-create the workspace after collecting its data
+        wspOld.getDswProjectEntries()
+        wspOld.copyWorkspaceDependencies( app.options.dependenciesWorkspace )
+        wspOld.createBuildLines( wspOld.prjNames, '', True ) # , wspOld.prjAbsPaths
+        # wspOld.duplicateVcs( True ) # %%% was False, but why not to update and reformat the original ?
 
         Workspace.replaceProjectEntries( wspOld.lines, wspOld, newCompiler, oldFilename )
 
@@ -7093,6 +7163,7 @@ class Workspace( DspFile ):
 
         self.prjNames = []
         self.prjNamesLwr = []
+        self.prjNamesDict = {}
         self.prjRelPaths = []
         self.prjAbsPaths = []
         self.prjNameRelPathDict = {}
@@ -7156,6 +7227,7 @@ class Workspace( DspFile ):
                 self.prjNames.append( prjName )
                 prjNameLwr = prjName.lower()
                 self.prjNamesLwr.append( prjNameLwr )
+                self.prjNamesDict[ prjNameLwr ] = prjName
                 self.prjNameRelPathDict[ prjNameLwr ] = newPath
                 self.prjNameAbsPathDict[ prjNameLwr ] = prjAbsPath
 
@@ -7198,6 +7270,7 @@ class Workspace( DspFile ):
 
         self.prjNames = []
         self.prjNamesLwr = []
+        self.prjNamesDict = {}
         self.prjRelPaths = []
         self.prjAbsPaths = []
         self.prjNameRelPathDict = {}
@@ -7299,6 +7372,7 @@ class Workspace( DspFile ):
 
                     self.prjNames.append( prjName ) #added 200405
                     self.prjNamesLwr.append( prjNameLwr ) #added 200405
+                    self.prjNamesDict[ prjNameLwr ] = prjName
                     self.prjNameRelPathDict[ prjNameLwr ] = prjPath
                     self.prjNameAbsPathDict[ prjNameLwr ] = prjAbsPath
                     self.prjNameUuidDict[ prjNameLwr ] = uuidProj
@@ -8115,7 +8189,7 @@ class Workspace( DspFile ):
                 n = 0
                 if ( g_workspaceHasPrecedenceOverSolution ):
                     depList = wspOld.dswProjnameDependencyListDict[ prjNameLwr ]
-                    # Microsoft likes better a reverse order
+                    # Microsoft likes better a reverse order: which makes it even more unreadable $#@!!
                     for i in range( len( depList )-1, -1, -1 ):
                         dependencyPrjname = depList[i]
                         pnam = prjName
@@ -8230,6 +8304,9 @@ class Workspace( DspFile ):
 
                 lines[n] = newline
 
+            # instead the update the dependencies, better to recreate the workspace itself
+            #m = reDswProjectEntryFull.match()
+
             pass
         return lines
     replaceProjectEntries = staticmethod(replaceProjectEntries)
@@ -8239,10 +8316,11 @@ class Workspace( DspFile ):
         # the list are creating from the list of all the managed projects *filtered* by the condition
         # of having filterString in their PathNames
         self.prjNames = []
+        self.prjNamesDict = {}       # reset but not filled ! Mistake ? @@@
         self.prjAbsPaths = []
         self.prjRelPaths = []
-        self.prjNameAbsPathDict = {}
-        self.prjNameRelPathDict = {}
+        self.prjNameAbsPathDict = {} # reset but not filled ! Mistake ? @@@
+        self.prjNameRelPathDict = {} # reset but not filled ! Mistake ? @@@
 
         #filterStringLwr = filterString.lower()
         #filterStringDir = os.path.dirname( filterStringLwr )
@@ -8299,50 +8377,50 @@ class Workspace( DspFile ):
             app.prjNameAbsPathDict = self.prjNameAbsPathDict
         return
 
-    def create( self, projNamesList, projPathsList, filterString, ignorecase ):
+    def create( self, projNamesList, filterString, ignorecase ): # projPathsList
         # ???
         #if ( not app.options.conformLibraries ):
         #    return
 
-        self.fillProjectsLists( filterString, ignorecase )
+        if ( filterString ):
+            self.fillProjectsLists( filterString, ignorecase )
 
-        filteredList = ( filterString and filterString != '.' and filterString != './' and filterString != '.\\' )
-        self.fillProjectsListsAddLibraries( filteredList )
+            filteredList = ( filterString and filterString != '.' and filterString != './' and filterString != '.\\' )
+            self.fillProjectsListsAddLibraries( filteredList )
+        else:
+            self.prjNames = projNamesList
 
         self.copyWorkspaceDependencies( app.options.dependenciesWorkspace )
 
-        workspacedirname = os.path.dirname( self.filename )
-        if ( not os.path.exists( workspacedirname ) ):
-            raise Exception( 'Workspace directory \'%s\' does not exist.\n           It should have been already created !' % workspacedirname )
+        workspaceDirname = os.path.dirname( self.filename )
+        if ( not os.path.exists( workspaceDirname ) ):
+            raise Exception( 'Workspace directory \'%s\' does not exist.\n           It should have been already created !' % workspaceDirname )
 
         if ( os.path.exists( self.filename ) ):
             os.remove( self.filename )
 
         fd = file( self.filename, 'w' )
 
-        header =  'Microsoft Developer Studio Workspace File, Format Version 6.00\n'
-        header += '# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!\n'
-        header += '\n'
-        header += '###############################################################################\n'
-        header += '\n'
-        fd.writelines( header )
+        self.createBuildLines( projNamesList, filterString, ignorecase )
+
+        fd.writelines( self.lines ) # @@@@
+
+        fd.close
+
+        print ' created workspace: %s' % self.filename
 
 
-        #'Project: "%s"="%s" - Package Owner=<4>\n'
-        prjBody1 =  '\n'
-        prjBody1 += 'Package=<5>\n'
-        prjBody1 += '{{{\n'
-        prjBody1 += '}}}\n'
-        prjBody1 += '\n'
-        prjBody1 += 'Package=<4>\n'
-        prjBody1 += '{{{\n'
-        #'    Begin Project Dependency'
-        #'    Project_Dep_Name Dialogs'
-        #'    End Project Dependency'
-        prjBody2 =  '}}}\n'
-        prjBody2 += '\n'
-        prjBody2 += '###############################################################################\n'
-        prjBody2 += '\n'
+    def createBuildLines( self, projNamesList, filterString, ignorecase ): # projPathsList
+        workspaceDirname = os.path.dirname( self.filename )
+
+        lines = []
+        dependencyList = []
+
+        lines.append( 'Microsoft Developer Studio Workspace File, Format Version 6.00\n' )
+        lines.append( '# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!\n' )
+        lines.append( '\n' )
+        lines.append( '###############################################################################\n' )
+        lines.append( '\n' )
 
         #sorting ( this is one way ... )
         #projects = zip( self.prjNames, self.prjRelPaths )
@@ -8351,48 +8429,99 @@ class Workspace( DspFile ):
 
         #sorting ( ... and this is another way )
         prjNames = self.prjNames
-        # unfortunatly lowercase name goes after so...
-        # prjNames.sort()
         prjNamesLwr = []
-        for name in prjNames:
-            prjNamesLwr.append( name.lower() )
-        prjNamesLwr.sort()
+        if ( g_sort_workspace_ignorecase ):
+            # unfortunatly lowercase name goes after so...
+            # prjNames.sort()
+            for name in prjNames:
+                prjNamesLwr.append( name.lower() )
+            prjNamesLwr.sort()
+        else:
+            prjNames.sort()
+            for name in self.prjNames:
+                prjNamesLwr.append( name.lower() )
 
-        dependencyStringList = ''
         for prjNameLwr in prjNamesLwr:
+            if ( not app.allProjectNamesLwrDict.has_key( prjNameLwr ) ):
+                prjName = self.prjNamesDict[ prjNameLwr ]
+                relPath = self.prjNameRelPathDict[ prjNameLwr ]
+                app.addProject( prjName, prjNameLwr, workspaceDirname, relPath )
+                #app.allProjectNamesList.append( prjName )
+                #app.allProjectNamesLwrDict[ prjNameLwr ] = prjName
+                #absPrjPath = FileUtils.absolutePath( app.currentdir, root + sep + fullname, g_internal_unixStyle )
+                #app.allProjectPathsList.append( absPrjPath )
+                #app.allProjectNamesLwrPathsDict[ prjNameLwr ] = absPrjPath
+
             prjName = app.allProjectNamesLwrDict[ prjNameLwr ]
-            relPrjPath = self.prjNameRelPathDict[ prjNameLwr ]
+            prjAbsPath = app.allProjectNamesLwrPathsDict[ prjNameLwr ]
+
+            relPrjPath = FileUtils.relativePath( workspaceDirname, prjAbsPath, True, g_internal_unixStyle )
+
+            #relPrjPath = self.prjNameRelPathDict[ prjNameLwr ]
 
             relPrjPath = FileUtils.normPath( relPrjPath, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_False ) # g_IsDirForSure_ChkDot ?
 
+            #'Project: "%s"="%s" - Package Owner=<4>\n'
             prjLine = r'Project: "' + prjName + r'"="' + relPrjPath + '" - Package Owner=<4>\n'
-            fd.writelines( prjLine )
+            lines.append( prjLine )
 
-            fd.writelines( prjBody1 )
+
+            lines.append( '\n' )
+            lines.append( 'Package=<5>\n' )
+            lines.append( '{{{\n' )
+            lines.append( '}}}\n' )
+            lines.append( '\n' )
+            lines.append( 'Package=<4>\n' )
+            lines.append( '{{{\n' )
+
+            #'    Begin Project Dependency'
+            #'    Project_Dep_Name Dialogs'
+            #'    End Project Dependency'
 
             # some projects need all the necessary dependencies ( hardcoded )
+            dependencyList = []
             if ( prjNameLwr == 'examples' ): # e.g. 'examples'
-                dependencyStringListLib = self.buildDependencyStringListItem( 'ApplicationKitDLL' )
-                dependencyStringAllProjects = self.calcDependencyStringListAllProjects( prjName, prjNames, g_dependencyFilterExamplesProject )
-                dependencyStringList = dependencyStringListLib + dependencyStringAllProjects
+                dependencyListLib = self.buildDependencyListItem( 'ApplicationKitDLL' )
+                dependencyList.append( dependencyListLib )
+                dependencyAllProjects = self.calcDependencyListAllProjects( prjName, prjNames, g_dependencyFilterExamplesProject )
+                dependencyList += dependencyAllProjects
             else:
                 # disabled the dependencies creation: now they are all copied from app.options.dependenciesWorkspace 2004/04/08
-                #dependencyStringList = self.calcDependencyStringList( prjName )
-                #if ( not dependencyStringList ):
+                #dependencyList = self.calcDependencyStringList( prjName )
+                #if ( not dependencyList ):
                 # for projects without dependencies, copies them from app.options.dependenciesWorkspace
                 if ( self.dependencies ):
                     if ( self.dependencies.has_key( prjNameLwr ) ):
-                        dependencyStringList = self.dependencies[ prjNameLwr ]
+                        dependencyList = self.dependencies[ prjNameLwr ]
 
 
-            if ( dependencyStringList ):
-                fd.writelines( dependencyStringList )
+            for dep in dependencyList:
+                lines.append( '    Begin Project Dependency\n' )
+                lines.append( '    Project_Dep_Name ' + dep + '\n' )
+                lines.append( '    End Project Dependency\n' )
 
-            fd.writelines( prjBody2 )
+            lines.append( '}}}\n' )
+            lines.append( '\n' )
+            lines.append( '###############################################################################\n' )
+            lines.append( '\n' )
 
-        fd.close
+            pass
 
-        print ' created workspace: %s' % self.filename
+        # last part
+        lines.append( 'Global:\n' )
+        lines.append( '\n' )
+        lines.append( 'Package=<5>\n' )
+        lines.append( '{{{\n' )
+        lines.append( '}}}\n' )
+        lines.append( '\n' )
+        lines.append( 'Package=<3>\n' ) # note: 3 not 4
+        lines.append( '{{{\n' )
+        lines.append( '}}}\n' )
+        lines.append( '\n' )
+        lines.append( '###############################################################################\n' )
+        lines.append( '\n' )
+
+        self.lines = lines
 
         return
 
@@ -8413,14 +8542,14 @@ class Workspace( DspFile ):
         wlines = fw.readlines()
         fw.close
 
-        dependencyStringList = ''
+        dependencyList = []
         state = 0
         nPrjs = 0
         for n in range( len( wlines ) ):
             line = wlines[n]
 
             if ( state == 0 ):
-                dependencyStringList = ''
+                dependencyList = []
                 m = reDswProjectEntryMin.match( line )
                 if ( m ):
                     prjName = m.group('prjName')
@@ -8435,10 +8564,13 @@ class Workspace( DspFile ):
             elif ( state == 3 ):
                 if ( re.match( '}}}', line ) ):
                     prjNameLwr = prjName.lower()
-                    self.dependencies[ prjNameLwr ] = dependencyStringList
+                    self.dependencies[ prjNameLwr ] = dependencyList
                     state = 0
                 else:
-                    dependencyStringList += line
+                    m_dsw_projectDependency_entry = re_dsw_projectDependency_entry.match( line )
+                    if ( m_dsw_projectDependency_entry ):
+                        projnamedep = m_dsw_projectDependency_entry.group( 'projnamedep' ) #@@@
+                        dependencyList.append( projnamedep )
             else:
                 pass
 
@@ -8450,30 +8582,36 @@ class Workspace( DspFile ):
 
         return
 
-    def calcDependencyStringListAllProjects( self, projectName, prjNames, filterString ):
+    def calcDependencyListAllProjects( self, projectName, prjNames, filterString ):
         # for a generic projectName it calculates all its dependencies and puts them in string
-        dependencyStringAllProjects = ''
+        #workspaceDirname = os.path.dirname( self.filename )
+
+        dependencyAllProjects = []
         projectNameLwr = projectName.lower()
         filterString = filterString.lower()
         for prjName in prjNames:
             prjNameLwr = prjName.lower()
             # path relative to this workspace
-            relPrjPath = self.prjNameRelPathDict[ prjNameLwr ]
+            #relPrjPath = self.prjNameRelPathDict[ prjNameLwr ]
+
+            #prjAbsPath = app.allProjectNamesLwrPathsDict[ prjNameLwr ]
+            #relPrjPath = FileUtils.relativePath( workspaceDirname, prjAbsPath, True, g_internal_unixStyle )
+
             # path relative to app.currentdir
             absPrjPath = self.prjNameAbsPathDict[ prjNameLwr ]
             relPrjPath = FileUtils.relativePath( app.currentdir, absPrjPath, True, g_internal_unixStyle )
             relPrjPath = relPrjPath.lower()
             relPrjPath = relPrjPath.replace("\\", "/")
-            if ( relPrjPath.find( filterString ) != -1 ):
+            if ( not filterString or relPrjPath.find( filterString ) != -1 ): # @@@
                 if ( prjName.lower() != projectNameLwr ):
-                    dependencyStringAllProjects += self.buildDependencyStringListItem( prjName )
-        return dependencyStringAllProjects
+                    dependencyAllProjects.append( self.buildDependencyListItem( prjName ) )
+        return dependencyAllProjects
 
     def calcDependencyStringList( self, project ):
         # calc the dependency string of the library that a library project is dependent of
         # this string generally consists of the only library project that must be compiled before the library project itself
         lib = ''
-        dependencyStringList = ''
+        dependencyList = []
         libDependList = []
         libDependListLwr = []
         if ( not libDependList ):
@@ -8491,11 +8629,11 @@ class Workspace( DspFile ):
 
         # because of a bug(?) in Visual Studio, it is necessary to put only the highest project in the dependency list
         #for lib in libraryDependencyList:
-        #    dependencyStringList += self.buildDependencyStringListItem( lib )
+        #    dependencyList.append( self.buildDependencyListItem( lib ) )
         if lib:
-            dependencyStringList += self.buildDependencyStringListItem( lib )
+            dependencyList.append( self.buildDependencyListItem( lib ) )
 
-        return dependencyStringList
+        return dependencyList
 
     def calcLibraryDependencyList( self, project, libraryList, libraryListLwr ):
         # calc the list of all libraries that the library project is dependent of
@@ -8515,13 +8653,14 @@ class Workspace( DspFile ):
 
         return ( libraryDependencyList, libraryDependencyListLwr )
 
-    def buildDependencyStringListItem( self, project ):
+    def buildDependencyListItem( self, project ):
         # build the dependency string of a project to be used in a workspace
-        dependencyStringListItem = ''
-        dependencyStringListItem += '    Begin Project Dependency\n'
-        dependencyStringListItem += '    Project_Dep_Name ' + project + '\n'
-        dependencyStringListItem += '    End Project Dependency\n'
-        return dependencyStringListItem
+        #dependencyStringListItem = ''
+        #dependencyStringListItem += '    Begin Project Dependency\n'
+        #dependencyStringListItem += '    Project_Dep_Name ' + project + '\n'
+        #dependencyStringListItem += '    End Project Dependency\n'
+        #return dependencyStringListItem
+        return project
 
     def conformAllLibraries( self ):
         #loop on all libraries files and sinchronize their content
@@ -8664,6 +8803,9 @@ class Walker:
             self.duplicateWorkspaces()
             pass
 
+        nFiles = app.changedFilesTot + app.unchangedFilesTot + app.createdFilesTot
+        print '\n Total: %d dsp file(s) processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFilesTot, app.unchangedFilesTot, app.createdFilesTot )
+
         return
 
     def listProjects( self ):
@@ -8717,11 +8859,12 @@ class Walker:
 
                     prjName = dsp.readTrueProjectName()
                     prjNameLwr = prjName.lower()
-                    app.allProjectNamesList.append( prjName )
-                    app.allProjectNamesLwrDict[ prjNameLwr ] = prjName
-                    absPrjPath = FileUtils.absolutePath( app.currentdir, root + sep + fullname, g_internal_unixStyle )
-                    app.allProjectPathsList.append( absPrjPath )
-                    app.allProjectNamesLwrPathsDict[ prjNameLwr ] = absPrjPath
+                    app.addProject( prjName, prjNameLwr, app.currentdir, root + sep + fullname )
+                    #app.allProjectNamesList.append( prjName )
+                    #app.allProjectNamesLwrDict[ prjNameLwr ] = prjName
+                    #absPrjPath = FileUtils.absolutePath( app.currentdir, root + sep + fullname, g_internal_unixStyle )
+                    #app.allProjectPathsList.append( absPrjPath )
+                    #app.allProjectNamesLwrPathsDict[ prjNameLwr ] = absPrjPath
 
                     #if ( app.options.enableVcfSpecific ):
                     #    dsp.duplicateVcDsps()
@@ -8832,7 +8975,7 @@ class Walker:
                 workspace = Workspace( workspacePath )
                 ( workspaceName, ext ) = os.path.splitext( os.path.basename( workspacePath ) )
                 workspaceName = workspaceName.lower()
-                workspace.create( app.allProjectNamesList, app.allProjectPathsList, g_tableFilterWorkspacesCreation[workspaceName], True )
+                workspace.create( app.allProjectNamesList, g_tableFilterWorkspacesCreation[workspaceName], True ) # app.allProjectPathsList,
                 workspace.duplicateVcs( True ) # %%% was False, but why not to update and reformat the original ?
 
             if ( 0 < app.options.verbose ):
