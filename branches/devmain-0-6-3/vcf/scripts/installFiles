@@ -16,7 +16,7 @@ find $SRC_DIRS -iname '*.h' -o -iname '*.hpp' -o -iname '*.c' \
 
 echo 2nd find
 find $SRC_DIRS -iname '*.def' -o -iname '*.vcfdir' -o -iname '*.vcp' \
--o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' \
+-o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.inl' \
 -o -iname '*.vff' -o -iname '*.inf' -o -iname '*.vcproj' > srcfiles1.out
 			
 echo 3nd find			

@@ -23,6 +23,8 @@ public:
 
 		model->addColumns( 3 );
 		model->addRows(3);
+		model->setFixedRowsCount( 1 );
+		model->setFixedColumnsCount( 1 );
 
 		for (int y=0;y<3;y++ ){
 			for ( int x=0;x<3;x++ ) {
