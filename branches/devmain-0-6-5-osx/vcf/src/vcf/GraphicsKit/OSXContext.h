@@ -107,13 +107,13 @@ public:
 
 	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state );
 
-	virtual void drawThemeTab( Rect* rect, DrawUIState& state );
+	virtual void drawThemeTab( Rect* rect, TabState& state );
 
 	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
-	virtual void drawThemeTickMarks( Rect* rect, DrawUIState& state );
+	virtual void drawThemeTickMarks( Rect* rect, SliderState& state );
 
-	virtual void drawThemeSlider( Rect* rect, DrawUIState& state );
+	virtual void drawThemeSlider( Rect* rect, SliderState& state );
 	
 	virtual void drawThemeProgress( Rect* rect, ProgressState& state );	
 	
@@ -160,6 +160,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7.2.2  2004/06/16 05:18:56  ddiego
+*further updates to OSX theme compliant drawing code
+*
 *Revision 1.1.2.7.2.1  2004/06/15 04:04:38  ddiego
 *revamped osx theme drawing API
 *

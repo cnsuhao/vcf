@@ -660,7 +660,7 @@ void GraphicsContext::drawThemeDisclosureButton( Rect* rect, DisclosureButtonSta
 	contextPeer_->drawThemeDisclosureButton( rect, state );
 }
 
-void GraphicsContext::drawThemeTab( Rect* rect, DrawUIState& state )
+void GraphicsContext::drawThemeTab( Rect* rect, TabState& state )
 {
 	contextPeer_->drawThemeTab( rect, state );
 }
@@ -670,12 +670,12 @@ void GraphicsContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 	contextPeer_->drawThemeTabPage( rect, state );
 }
 
-void GraphicsContext::drawThemeTickMarks( Rect* rect, DrawUIState& state )
+void GraphicsContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 {
 	contextPeer_->drawThemeTickMarks( rect, state );
 }
 
-void GraphicsContext::drawThemeSlider( Rect* rect, DrawUIState& state )
+void GraphicsContext::drawThemeSlider( Rect* rect, SliderState& state )
 {
 	contextPeer_->drawThemeSlider( rect, state );
 }
@@ -957,6 +957,9 @@ void GraphicsContext::flushDrawingArea()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.2  2004/06/16 05:18:56  ddiego
+*further updates to OSX theme compliant drawing code
+*
 *Revision 1.1.2.2.2.1  2004/06/15 04:04:38  ddiego
 *revamped osx theme drawing API
 *

@@ -448,7 +448,7 @@ public:
 	little button to activate a page, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	void drawThemeTab( Rect* rect, DrawUIState& state );
+	void drawThemeTab( Rect* rect, TabState& state );
 
 	/**
 	Draws a tab page - the page on which other controls for the page are
@@ -458,16 +458,16 @@ public:
 	void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
 	/**
-	Draws a tick mark, like that used for a slider control, that is compliant
+	Draws tick marks, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	void drawThemeTickMarks( Rect* rect, DrawUIState& state );
+	void drawThemeTickMarks( Rect* rect, SliderState& state );
 	
 	/**
 	Draws a slider control, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	void drawThemeSlider( Rect* rect, DrawUIState& state );
+	void drawThemeSlider( Rect* rect, SliderState& state );
 	
 	/**
 	Draws a progress bar control, that is compliant
@@ -666,6 +666,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.2  2004/06/16 05:18:56  ddiego
+*further updates to OSX theme compliant drawing code
+*
 *Revision 1.1.2.2.2.1  2004/06/15 04:04:38  ddiego
 *revamped osx theme drawing API
 *
