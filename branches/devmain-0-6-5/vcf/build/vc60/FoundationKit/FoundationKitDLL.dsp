@@ -23,6 +23,8 @@ CFG=FOUNDATIONKITDLL - WIN32 DEBUG
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -41,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FOUNDATIONKITDLL_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "FRAMEWORK_EXPORTS" /D "BUILD_FRAMEWORK_LIB" /Yu"FoundationKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "FRAMEWORK_EXPORTS" /D "BUILD_FRAMEWORK_LIB" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -78,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../bin/FoundationKit_vc6_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 Rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /profile /machine:I386 /out:"../../../bin/FoundationKit_vc6_d.dll" /debug
+# ADD LINK32 Rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /profile /debug /machine:I386 /out:"../../../bin/FoundationKit_vc6_d.dll"
 
 !ENDIF 
 
@@ -108,17 +110,7 @@ SOURCE=../../../src/vcf/FoundationKit/FoundationKitSelectLib.h
 # Begin Source File
 
 SOURCE=../../../src/vcf/FoundationKit/FoundationKit.cpp
-
-!IF  "$(CFG)" == "FoundationKitDLL - Win32 Release"
-
-# ADD CPP /Yc"FoundationKit.h"
-
-!ELSEIF  "$(CFG)" == "FoundationKitDLL - Win32 Debug"
-
 # ADD CPP /Yc"vcf/FoundationKit/FoundationKit.h"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
