@@ -8,6 +8,8 @@
 using namespace VCF;
 
 
+
+
 class TablesWindow : public Window {
 public:
 	TablesWindow() {
@@ -21,13 +23,13 @@ public:
 
 		TableModel* model = table->getTableModel();
 
-		model->addColumns( 3 );
-		model->addRows(3);
-		model->setFixedRowsCount( 1 );
-		model->setFixedColumnsCount( 1 );
+		model->addColumns( 8 );
+		model->addRows(55);
+		model->setFixedRowsCount( 2 );
+		model->setFixedColumnsCount( 2 );
 
-		for (int y=0;y<3;y++ ){
-			for ( int x=0;x<3;x++ ) {
+		for (int y=0;y<55;y++ ){
+			for ( int x=0;x<8;x++ ) {
 				model->getItem( y, x )->setCaption( StringUtils::format( "Cell [%d,%d]", y, x ) );
 			}
 		}
@@ -61,12 +63,14 @@ public:
 };
 
 
+
 int main(int argc, char *argv[])
 {
 	TablesApplication app( argc, argv );
 
 	Application::main();
-	
+
+
 	return 0;
 }
 
