@@ -53,16 +53,14 @@ public:
 	void setFilename( const ImageFilenameString& filename );
 
 	virtual void paint( GraphicsContext* context );
-
-        void setAutoDelete( bool b )
-        {
-                autoDelete_ = b;
-        }
-
-        bool getAutoDelete()
-        {
-                return autoDelete_;
-        }
+	
+	void setAutoDelete( bool b ) {
+		autoDelete_ = b;
+	}
+	
+	bool getAutoDelete() {
+		return autoDelete_;
+	}
 
 protected:
 
@@ -107,6 +105,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/03/28 03:49:08  ddiego
+*format changes.
+*
 *Revision 1.2.4.4  2005/03/27 01:35:02  scottpearson
 *Toggling for AutoDelete added.
 *
