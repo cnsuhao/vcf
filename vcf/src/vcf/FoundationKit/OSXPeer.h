@@ -246,12 +246,19 @@ private:
 
 
 
+
+
+
+
 };
 
 
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.7.2.1  2004/06/15 04:04:37  ddiego
+ *revamped osx theme drawing API
+ *
  *Revision 1.1.2.7  2004/06/06 07:05:32  marcelloptr
  *changed macros, text reformatting, copyright sections
  *

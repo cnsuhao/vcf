@@ -20,34 +20,20 @@ where you installed the VCF.
 namespace VCF{
 
 class Path;
-
 class Font;
-
 class Point;
-
 class Image;
-
 class GraphicsContext;
+class DrawUIState;
+class MenuState;
+class ButtonState;
+class DisclosureButtonState;
+class ProgressState ;
+class SliderState;
+class ScrollBarState;
+class TabState;
+class BackgroundState;
 
-
-struct GRAPHICSKIT_API ProgressInfo {
-	double min;
-	double max;
-	double position;
-	bool vertical;
-};
-
-struct GRAPHICSKIT_API SliderInfo {
-	double min;
-	double max;
-	double position;
-	long tickCount;
-	bool vertical;
-	bool bottomRightTicks;
-	bool topLeftTicks;
-	bool enabled;
-	bool pressed;
-};
 
 /**
 *The ContextPeer serves as a platform neutral interface
@@ -189,32 +175,15 @@ public:
 	virtual void drawImage( const double& x, const double& y, Rect* imageBounds, Image* image ) = 0;
 
 
-	/**
-	Draws an unfilled rectangle for indicating selection or focus
-	of a given item that is compliant with the native windowing systems
-	default look and feel. Possible uses include draw a rubber banding
-	rect for selecting item, as in a drawing program, or the outline over
-	a control to indicate whether or not the control is selected or has focus
-	*/
-	virtual void drawSelectionRect( Rect* rect ) = 0;
+	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state ) = 0;
 
-	/**
-	*draws a standard button rectangle that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawButtonRect( Rect* rect, const bool& isPressed ) = 0;
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state ) = 0;
 
-	/**
-	Draws a check box that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed ) = 0;
+	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state ) = 0;
 
-	/**
-	Draws a radio button that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed ) = 0;
+	virtual void drawThemeRadioButtonRect( Rect* rect, ButtonState& state ) = 0;
+
+	virtual void drawThemeScrollButtonRect( Rect* rect, DrawUIState& state ) = 0;
 
 	/**
 	Draws a button that is used to open up more details, for example
@@ -223,65 +192,47 @@ public:
 	On Win32 this is usually represented by the "+" and "-" look as found on
 	the tree controls, while on OSX it is the little triangles
 	*/
-	virtual void drawDisclosureButton( Rect* rect, const long& state ) = 0;
-
-	/**
-	*draws a vertical scrollbar button that is compliant
-	with the native windowing systems default look and feel
-	*@param Rect* bounding rect of the button
-	*@param bool is the button the "top" button, if true then it is, otherwise
-	*a "bottom" button is drawn
-	*@param bool is the button drawn pressed or not
-	*/
-	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed ) = 0;
-
-	/**
-	*draws a horizontal scrollbar button that is compliant
-	with the native windowing systems default look and feel
-	*@param Rect* bounding rect of the button
-	*@param bool is the button the "left" button, if true then it is, otherwise
-	*a "right" button is drawn
-	*@param bool is the button drawn pressed or not
-	*/
-	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed ) = 0;
+	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state ) = 0;
 
 	/**
 	Draws a tab, the part of the TabbedPages control that acts like a
 	little button to activate a page, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawTab( Rect* rect, const bool& selected, const String& caption ) = 0;
+	virtual void drawThemeTab( Rect* rect, DrawUIState& state ) = 0;
 
 	/**
 	Draws a tab page - the page on which other controls for the page are
 	parented to, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawTabPage( Rect* rect ) = 0;
+	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state ) = 0;
 
 	/**
 	Draws a tick mark, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  ) = 0;
-
-	/**
-	Draws a slider thumb control, like that used for a slider control, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo ) = 0;
-
+	virtual void drawThemeTickMarks( Rect* rect, DrawUIState& state ) = 0;
+	
 	/**
 	Draws a slider control, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo ) = 0;
+	virtual void drawThemeSlider( Rect* rect, DrawUIState& state ) = 0;
+	
+	/**
+	Draws a progress bar control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeProgress( Rect* rect, ProgressState& state ) = 0;	
+	
+	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state ) = 0;
 
 	/**
 	Draws a header control that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawHeader( Rect* rect ) = 0;
+	virtual void drawThemeHeader( Rect* rect, DrawUIState& state ) = 0;
 
 	/**
 	draws edges, useful for separators, that is compliant
@@ -289,38 +240,28 @@ public:
 	use a mask or 1 or more values of type ContextPeer::EdgeType
 	to indicate which sides of the rect to draw an edge on
 	*/
-	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle ) = 0;
+	virtual void drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle ) = 0;
 
 	/**
 	Draws a size gripper for resizing a control/window that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawSizeGripper( Rect* rect ) = 0;
+	virtual void drawThemeSizeGripper( Rect* rect, DrawUIState& state ) = 0;
 
 	/**
-	Draws the background appropriate for a control that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a control to give it a standard
-	look and feel in it's background before drawing any thing else
+	Draws a them compliant background
 	*/
-	virtual void drawControlBackground( Rect* rect ) = 0;
-
-	/**
-	Draws the background appropriate for a window/frame that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a window/frame to give it a standard
-	look and feel in it's background before drawing any thing else
-	*/
-	virtual void drawWindowBackground( Rect* rect ) = 0;
+	virtual void drawThemeBackground( Rect* rect, BackgroundState& state ) = 0;
 
 	/**
 	Draws the background appropriate for a menu item that is compliant
 	with the native windowing systems default look and feel.
 	This is typically called first by a menu item to give it a standard
 	look and feel in it's background before drawing any thing else
-
 	*/
-	virtual void drawMenuItemBackground( Rect* rect, const bool& selected ) = 0;
+	virtual void drawThemeMenuItem( Rect* rect, MenuState& state ) = 0;
+
+	virtual void drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText ) = 0;
 
 };
 
@@ -330,6 +271,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/06/15 04:04:38  ddiego
+*revamped osx theme drawing API
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

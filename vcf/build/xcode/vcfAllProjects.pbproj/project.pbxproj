@@ -3846,7 +3846,6 @@
 				5E2CDF810648693C00A8020D,
 				5E2CDF830648693C00A8020D,
 				5E2CDF840648693C00A8020D,
-				5E2CDF860648693C00A8020D,
 				5E2CDF880648693C00A8020D,
 				5E2CDF8A0648693C00A8020D,
 				5E2CDF8B0648693C00A8020D,
@@ -4225,7 +4224,6 @@
 				5E2CE1780648693C00A8020D,
 				5E2CE17A0648693C00A8020D,
 				5E2CE17B0648693C00A8020D,
-				5E2CE17D0648693C00A8020D,
 				5E2CE17F0648693C00A8020D,
 				5E2CE1810648693C00A8020D,
 				5E2CE1820648693C00A8020D,
@@ -6535,15 +6533,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = MenuItemPeer.h;
 			path = ../../src/vcf/ApplicationKit/MenuItemPeer.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5E2CDF860648693C00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = MenuItemShortcut.h;
-			path = ../../src/vcf/ApplicationKit/MenuItemShortcut.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -9058,12 +9047,6 @@
 			settings = {
 			};
 		};
-		5E2CE17D0648693C00A8020D = {
-			fileRef = 5E2CDF860648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E2CE17E0648693C00A8020D = {
 			fileRef = 5E2CDF870648693C00A8020D;
 			isa = PBXBuildFile;
@@ -10157,6 +10140,7 @@
 				5EAA3D340647393800A8020D,
 				5EAA3D360647393800A8020D,
 				5EAA3D380647393800A8020D,
+				5EB804F7067D0BC1004AF2B4,
 				5EAA3D3A0647393800A8020D,
 				5EAA3D3B0647393800A8020D,
 				5EAA3D3F0647393800A8020D,
@@ -12380,7 +12364,6 @@
 				5EB254DA0673DBBE00DA4A17,
 				5EB254DB0673DBBE00DA4A17,
 				5EB254DC0673DBBE00DA4A17,
-				5EB254DD0673DBBE00DA4A17,
 				5EB254DE0673DBBE00DA4A17,
 				5EB254DF0673DBBE00DA4A17,
 				5EB254E00673DBBE00DA4A17,
@@ -12468,6 +12451,7 @@
 				5EB255320673DBBE00DA4A17,
 				5EB255330673DBBE00DA4A17,
 				5EB255340673DBBE00DA4A17,
+				5EB804F9067D0BC1004AF2B4,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12787,7 +12771,7 @@
 			explicitFileType = "compiled.mach-o.dylib";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = "libAgg-debug";
+			path = libAgg_d.a;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -15263,12 +15247,6 @@
 			settings = {
 			};
 		};
-		5EB254DD0673DBBE00DA4A17 = {
-			fileRef = 5E2CDF860648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EB254DE0673DBBE00DA4A17 = {
 			fileRef = 5E2CDF880648693C00A8020D;
 			isa = PBXBuildFile;
@@ -16751,6 +16729,21 @@
 		};
 		5EB25751067401DC00DA4A17 = {
 			fileRef = 5EAA3D030647365700A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EB804F7067D0BC1004AF2B4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DrawUIState.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/GraphicsKit/DrawUIState.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5EB804F9067D0BC1004AF2B4 = {
+			fileRef = 5EB804F7067D0BC1004AF2B4;
 			isa = PBXBuildFile;
 			settings = {
 			};

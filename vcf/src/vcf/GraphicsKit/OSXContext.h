@@ -89,45 +89,49 @@ public:
 
 	virtual bool isTextAlignedToBaseline();
 
-	virtual void drawSelectionRect( Rect* rect );
-
-	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
-
-	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed );
-
 	virtual void setClippingPath( Path* clippingPath );
 
 	virtual void setClippingRect( Rect* clipRect );
+	
+	
+	
+	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state );
 
-	virtual void drawDisclosureButton( Rect* rect, const long& state );
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state );
 
-	virtual void drawTab( Rect* rect, const bool& selected, const String& caption );
+	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
 
-	virtual void drawTabPage( Rect* rect );
+	virtual void drawThemeRadioButtonRect( Rect* rect, ButtonState& state );
 
-	virtual void drawHeader( Rect* rect );
+	virtual void drawThemeScrollButtonRect( Rect* rect, DrawUIState& state );
 
-	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle );
+	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state );
 
-	virtual void drawSizeGripper( Rect* rect );
+	virtual void drawThemeTab( Rect* rect, DrawUIState& state );
 
-	virtual void drawControlBackground( Rect* rect );
+	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
-	virtual void drawWindowBackground( Rect* rect );
-	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
+	virtual void drawThemeTickMarks( Rect* rect, DrawUIState& state );
 
-    virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
+	virtual void drawThemeSlider( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeProgress( Rect* rect, ProgressState& state );	
+	
+	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state );
 
-	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
+	virtual void drawThemeHeader( Rect* rect, DrawUIState& state );
 
-	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
+	virtual void drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle );
 
+	virtual void drawThemeSizeGripper( Rect* rect, DrawUIState& state );
+
+	virtual void drawThemeBackground( Rect* rect, BackgroundState& state );
+
+	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
+
+	virtual void drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText );
+	
+	
 	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
 protected:
 	CGContextRef contextID_;
@@ -156,6 +160,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7.2.1  2004/06/15 04:04:38  ddiego
+*revamped osx theme drawing API
+*
 *Revision 1.1.2.7  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
