@@ -30,7 +30,7 @@
 				PrecompiledHeaderThrough="FoundationKit.h"
 				PrecompiledHeaderFile=".\vc70/DebugS\obj/FoundationKit.pch"
 				AssemblerListingLocation=".\vc70/DebugS\obj/"
-				ObjectFile="vc70/DebugS\obj/"
+				ObjectFile=".\vc70/DebugS\obj/"
 				ProgramDataBaseFileName="..\..\..\lib/FoundationKit_vc70_sd.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
@@ -69,6 +69,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB,NO_MFC,BUILD_FRAMEWORK_LIB"
@@ -80,7 +81,7 @@
 				PrecompiledHeaderThrough="FoundationKit.h"
 				PrecompiledHeaderFile=".\vc70/ReleaseS\obj/FoundationKit.pch"
 				AssemblerListingLocation=".\vc70/ReleaseS\obj/"
-				ObjectFile="vc70/ReleaseS\obj/"
+				ObjectFile=".\vc70/ReleaseS\obj/"
 				ProgramDataBaseFileName=".\vc70/ReleaseS\obj/"
 				WarningLevel="3"
 				WarnAsError="TRUE"
@@ -239,12 +240,6 @@
 				RelativePath="..\..\..\include\utils\ErrorLog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\utils\FilePath.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\io\FileUtils.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\include\utils\Library.h">
 			</File>
 			<File
@@ -366,6 +361,9 @@
 				RelativePath="..\..\..\include\io\File.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\utils\FilePath.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\include\utils\FilePath.h">
 			</File>
 			<File
@@ -379,6 +377,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\io\FileStreamPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\io\FileUtils.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\include\io\FileUtils.h">
