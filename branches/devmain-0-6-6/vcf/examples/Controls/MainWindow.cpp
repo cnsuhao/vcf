@@ -14,6 +14,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/DefaultListItem.h"
 #include "vcf/ApplicationKit/TitledBorder.h"
 #include "vcf/ApplicationKit/EtchedBorder.h"
+#include "vcf/ApplicationKit/ColorEtchedBorder.h"
 
 #include "ControlsApplication.h"
 #include "ControlsAbout.h"
@@ -254,88 +255,69 @@ void MainWindow::makeBordersPage()
 {
 	double borderWidth = UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta);
 
-	Panel* panel1 = (Panel*)bordersPage->getPageComponent();	
+	Panel* pagePanel = (Panel*)bordersPage->getPageComponent();	
+
+	// 2 panels, just to aid in layout.
+	Panel* leftPanel = new Panel();
+	leftPanel->setWidth( 200 );
+	leftPanel->setBorder( NULL );
+	Panel* rightPanel = new Panel();
+	rightPanel->setBorder( NULL );
+
+	pagePanel->add( leftPanel, AlignLeft );
+	pagePanel->add( new HorizontalSpacer( 8 ), AlignLeft );
+	pagePanel->add( rightPanel, AlignClient );
 	
-	Panel* topPanel = new Panel();
-	topPanel->setBorder( NULL );
-	topPanel->setHeight( 200 );
+	// 4 panels with TitledBorders, in which the panels with various border types/styles will reside.
+	Panel* basic3DBorderTitledPanel = new Panel();
+	TitledBorder* titledBorder1 = new TitledBorder( "Basic3DBorder" );
+	( (StandardContainer*)basic3DBorderTitledPanel->getContainer() )->setBorderWidth( 16 );
+	basic3DBorderTitledPanel->setBorder( titledBorder1 );	
+	basic3DBorderTitledPanel->setHeight( 200 );
+	leftPanel->add( basic3DBorderTitledPanel, AlignTop );
+	leftPanel->add( new VerticalSpacer( 8 ), AlignTop );
 
-	Panel* bottomPanel = new Panel();	
-	TitledBorder* myTitledBorder = new TitledBorder( "Ethed borders (I am a TitledBorder)" );
-	( (StandardContainer*)bottomPanel->getContainer() )->setBorderWidth( borderWidth );
-	bottomPanel->setBorder( myTitledBorder );
+	Panel* light3DBorderTitledPanel = new Panel();
+	TitledBorder* titledBorder2 = new TitledBorder( "Light3DBorder" );
+	( (StandardContainer*)light3DBorderTitledPanel->getContainer() )->setBorderWidth( 16 );
+	light3DBorderTitledPanel->setBorder( titledBorder2 );	
+	leftPanel->add( light3DBorderTitledPanel, AlignClient );
 
-	panel1->add( topPanel, AlignTop );
-	panel1->add( new VerticalSpacer( 3*borderWidth ), AlignTop );
-	panel1->add( bottomPanel, AlignClient );
-	
-	
-	long rightside = VCF::GraphicsContext::etRightSide;
-	long leftside = VCF::GraphicsContext::etLeftSide;
-	long topside = VCF::GraphicsContext::etTopSide;
-	long bottomside = VCF::GraphicsContext::etBottomSide;
-	long allsides = VCF::GraphicsContext::etAllSides;
-	const long raised = VCF::GraphicsContext::etRaised;
-	const long sunken = VCF::GraphicsContext::etSunken;
-	const long recessed = VCF::GraphicsContext::etRecessed;
-	const long etched = VCF::GraphicsContext::etEtched;
-	
-	
-	//build panels with borders
-	Panel* threeDPanel = new Panel();
-	threeDPanel->setBorder( new Basic3DBorder( false ) );
+	Panel* etchedBorderTitledPanel = new Panel();
+	TitledBorder* titledBorder3 = new TitledBorder( "EtchedBorder" );
+	( (StandardContainer*)etchedBorderTitledPanel->getContainer() )->setBorderWidth( 16 );
+	etchedBorderTitledPanel->setBorder( titledBorder3 );
+	etchedBorderTitledPanel->setHeight( 200 );
+	rightPanel->add( etchedBorderTitledPanel, AlignTop );
+	rightPanel->add( new VerticalSpacer( 8 ), AlignTop );
 
-	Panel* threeDinvertedPanel = new Panel();
-	threeDinvertedPanel->setBorder( new Basic3DBorder( true ) );
-	
-	Panel* light3DPanel = new Panel();
-	light3DPanel->setBorder( new Light3DBorder( false ) );
+	Panel* colorEtchedBorderTitledPanel = new Panel();
+	TitledBorder* titledBorder4 = new TitledBorder( "ColorEtchedBorder" );
+	( (StandardContainer*)colorEtchedBorderTitledPanel->getContainer() )->setBorderWidth( 16 );
+	colorEtchedBorderTitledPanel->setBorder( titledBorder4 );	
+	rightPanel->add( colorEtchedBorderTitledPanel, AlignClient );
 
-	Panel* invertedLight3DPanel = new Panel();
-	invertedLight3DPanel->setBorder( new Light3DBorder( true ) );
+	// now add the panels with specific border types/styles
+	basic3DBorderPanel_ = new Panel();
+	basic3DBorderTitledPanel->add( basic3DBorderPanel_, AlignClient );
 
-	Panel* etchedBorderRaisedPanel = new Panel();
-	EtchedBorder* etchedRaisedBorder = new EtchedBorder( allsides, raised );
-	etchedBorderRaisedPanel->setBorder( etchedRaisedBorder );
+	light3DBorderPanel_ = new Panel();
+	light3DBorderTitledPanel->add( light3DBorderPanel_, AlignClient );
 
-	Panel* etchedBorderSunkenPanel = new Panel();
-	EtchedBorder* etchedSunkenBorder = new EtchedBorder( allsides, sunken );
-	etchedBorderSunkenPanel->setBorder( etchedSunkenBorder );
+	etchedBorderPanel_ = new Panel();
+	etchedBorderTitledPanel->add( etchedBorderPanel_, AlignClient );
 
-	Panel* etchedBorderRecessedPanel = new Panel();
-	EtchedBorder* etchedRecessedBorder = new EtchedBorder( allsides, recessed );
-	etchedBorderRecessedPanel->setBorder( etchedRecessedBorder );
+	colorEtchedBorderPanel_ = new Panel();
+	colorEtchedBorderTitledPanel->add( colorEtchedBorderPanel_, AlignClient );
 
-	Panel* etchedBorderEtchedPanel = new Panel();
-	EtchedBorder* etchedEthcedBorder = new EtchedBorder( allsides, etched );
-	etchedBorderEtchedPanel->setBorder( etchedEthcedBorder );	
-
-
-	threeDPanel->setWidth( 120 );
-	threeDinvertedPanel->setWidth( 120 );
-	light3DPanel->setWidth( 120 );
-	invertedLight3DPanel->setWidth( 120 );
-
-	etchedBorderRaisedPanel->setWidth( 120 );
-	etchedBorderSunkenPanel->setWidth( 120 );
-	etchedBorderRecessedPanel->setWidth( 120 );
-	etchedBorderEtchedPanel->setWidth( 120 );
-		
-	topPanel->add( threeDPanel, AlignLeft );
-	topPanel->add( new HorizontalSpacer( 20 ), AlignLeft );
-	topPanel->add( threeDinvertedPanel, AlignLeft );
-	topPanel->add( new HorizontalSpacer( 20 ), AlignLeft );
-	topPanel->add( light3DPanel , AlignLeft );
-	topPanel->add( new HorizontalSpacer( 20 ), AlignLeft );
-	topPanel->add( invertedLight3DPanel , AlignClient );
-	
-	bottomPanel->add( etchedBorderRaisedPanel , AlignLeft );
-	bottomPanel->add( new HorizontalSpacer( 20 ), AlignLeft );
-	bottomPanel->add( etchedBorderSunkenPanel , AlignLeft );
-	bottomPanel->add( new HorizontalSpacer( 20 ), AlignLeft );
-	bottomPanel->add( etchedBorderRecessedPanel , AlignLeft );
-	bottomPanel->add( new HorizontalSpacer( 20 ), AlignLeft );
-	bottomPanel->add( etchedBorderEtchedPanel , AlignClient );	
+	//set the borders
+	basic3DBorderPanel_->setBorder( new Basic3DBorder( false ) );
+	light3DBorderPanel_->setBorder( new Light3DBorder( false ) );
+	etchedBorderPanel_->setBorder( new EtchedBorder( GraphicsContext::etAllSides, GraphicsContext::etEtched ) );
+	colorEtchedBorderPanel_->setBorder( new ColorEtchedBorder() );
+	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setStyle( GraphicsContext::etEtched );
+	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setHighlight( Color::getColor( "white" ) );
+	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setShadow( Color::getColor( "blue" ) );
 }
 // end bordersPage code
 
@@ -344,6 +326,9 @@ void MainWindow::makeBordersPage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/10/01 17:05:27  dougtinkham
+*updated Borders tab page
+*
 *Revision 1.1.2.8  2004/09/21 05:58:24  dougtinkham
 *setKeepScrollbarsVisible back to false
 *
@@ -360,5 +345,6 @@ void MainWindow::makeBordersPage()
 *added copyright
 *
 */
+
 
 

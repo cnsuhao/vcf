@@ -51,6 +51,11 @@ public:
 	//related to bordersTabPage
 public: 
 	void makeBordersPage();
+
+	VCF::Panel* basic3DBorderPanel_;
+	VCF::Panel* light3DBorderPanel_;
+	VCF::Panel* etchedBorderPanel_;
+	VCF::Panel* colorEtchedBorderPanel_;
 };
 
 
@@ -60,6 +65,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/10/01 17:06:00  dougtinkham
+*updated Borders tab page
+*
 *Revision 1.1.2.4  2004/09/19 20:10:31  marcelloptr
 *minor changes
 *
