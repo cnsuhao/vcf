@@ -42,11 +42,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\bin\xmake_vc71.exe"
+				OutputFile="..\..\bin\xmake.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\lib\"
-				ProgramDatabaseFile=".\vc71\Release\xmake_vc71.pdb"
+				AdditionalLibraryDirectories="..\..\lib\"
+				ProgramDatabaseFile=".\vc71\Release\xmake.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -96,12 +96,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\bin\xmake_vc71.exe"
+				OutputFile="..\..\bin\xmake.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\lib\"
+				AdditionalLibraryDirectories="..\..\lib\"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\vc71\Debug\xmake_vc71.pdb"
+				ProgramDatabaseFile=".\vc71\Debug\xmake.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
