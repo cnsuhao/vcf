@@ -44,6 +44,8 @@ public:
 	virtual OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 	
 	virtual WindowAttributes getCreationWinAttrs();
+	
+	virtual void close();
 private:
 	Control* owner_;
 	Dialog* dialogComponent_;
@@ -60,6 +62,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/23 18:10:43  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.1  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *

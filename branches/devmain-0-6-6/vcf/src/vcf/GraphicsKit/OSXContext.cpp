@@ -1200,10 +1200,16 @@ void OSXContext_drawThemeButtonText( const ::Rect * bounds, ThemeButtonKind kind
 										const ThemeButtonDrawInfo * info, UInt32 userData,
 										SInt16 depth, Boolean isColorDev )
 {
+	
 	ButtonState* state = (ButtonState*)userData;
 	CFTextString cfStr;
 	cfStr = state->buttonCaption_;
-	DrawThemeTextBox( cfStr, kThemePushButtonFont, info->state, FALSE, bounds, 0, NULL );
+	::Point textSize;
+	SInt16 baseLine;
+	GetThemeTextDimensions( cfStr, kThemePushButtonFont, info->state, FALSE, &textSize, &baseLine );
+	::Rect adjustedBounds = *bounds;
+	adjustedBounds.top += ((bounds->bottom-bounds->top)/2) - (textSize.v/2);
+	DrawThemeTextBox( cfStr, kThemePushButtonFont, info->state, FALSE, &adjustedBounds, teCenter, NULL );
 }
 
 
@@ -1214,7 +1220,7 @@ void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
 	
-	if ( state.isPressed() ) {
+	if ( state.isPressed() && (state.isActive() && state.isEnabled()) ) {
 		btnInfo.state |= kThemeStatePressed;
 	}
 	
@@ -1227,10 +1233,20 @@ void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
 	
 	if ( state.isFocused() ) {
 		btnInfo.adornment |= kThemeAdornmentFocus;
-	}	
-    
-    
-
+	}
+	
+	if ( state.isDefaultButton() && (state.isActive() && state.isEnabled()) ) {
+		btnInfo.state |= kThemeStatePressed;
+	}
+   /*
+	printf( "state.isPressed() : %s\n", state.isPressed() ? "true" : "false"  );
+	printf( "state.isActive() : %s\n", state.isActive() ? "true" : "false"  );
+	printf( "state.isEnabled() : %s\n", state.isEnabled() ? "true" : "false"  );
+	printf( "state.isFocused() : %s\n", state.isFocused() ? "true" : "false"  );
+	printf( "state.isDefaultButton() : %s\n", state.isDefaultButton() ? "true" : "false"  );
+	printf( "button text : %s\n", state.buttonCaption_.ansi_c_str() );
+	printf( "--------------------------------------------------------\n\n");
+*/
 	ThemeButtonDrawUPP btnDrawUPP = NewThemeButtonDrawUPP(OSXContext_drawThemeButtonText);
 	
     DrawThemeButton( r, kThemePushButton, &btnInfo, NULL, NULL, btnDrawUPP, (UInt32)&state );
@@ -2107,6 +2123,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/23 18:10:46  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.1  2004/10/10 15:24:00  ddiego
 *updated os x code in graphics stuff.
 *

@@ -36,7 +36,7 @@ ButtonState OSXButton::getState()
 {
 	state_.setEnabled( IsControlEnabled( hiView_ ) ? true : false );
 	state_.setActive( IsControlActive( hiView_ ) ? true : false );
-	
+	state_.setFocused( isFocused() ? true : false );
 	
 	return state_;
 }
@@ -56,7 +56,7 @@ void OSXButton::create( Control* owningControl )
 							sizeof(thisPtr), 
 							&thisPtr );
 							
-		
+		SetControlCommandID( hiView_, 'OKBN' );
 		OSStatus err = OSXControl::installStdControlHandler();
 							
 		if ( err != noErr ) {
@@ -71,19 +71,29 @@ void OSXButton::create( Control* owningControl )
 String OSXButton::getText()
 {
 	String result;
-	Str255 title;
-	GetControlTitle( hiView_, title );
-	CFTextString tmp(title);
-	result = tmp;
+	//Str255 title;
+	//GetControlTitle( hiView_, title );
+	
+	
+	CFStringRef tmp;
+	OSStatus err = CopyControlTitleAsCFString( hiView_, &tmp );	
+	if ( err != noErr ) {
+		printf( "CopyControlTitleAsCFString() failed, err: %d\n", err );
+	}
+	CFTextString title(tmp);
+	CFRelease( tmp );
+	result = title;
 	return result;
 }
 
 void OSXButton::setText( const String& text )
 {	
-	Str255 title;
-    CopyCStringToPascal( text.ansi_c_str(), title );
+	CFTextString tmp(text);
 	
-	SetControlTitle( hiView_, title );
+	OSStatus err = SetControlTitleWithCFString( hiView_, tmp );
+	if ( err != noErr ) {
+		printf( "SetControlTitleWithCFString() failed, err: %d\n", err );
+	}
 }
 	
 OSStatus OSXButton::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent )
@@ -93,9 +103,21 @@ OSStatus OSXButton::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
     UInt32 whatHappened = GetEventKind (theEvent);
 	TCarbonEvent event( theEvent );
 	
-	switch ( GetEventClass( theEvent ) )  {	
+	switch ( GetEventClass( theEvent ) )  {
+		case kEventClassCommand : {
+			switch( whatHappened ) {
+				case kEventCommandProcess : {
+					printf( "kEventCommandProcess\n" );
+				}
+				break;
+			}
+		}
+		break;
+		 
 		case kEventClassControl : {
 			switch( whatHappened ) {
+				
+			
 				case kEventControlHitTest : {
 				
 					result = ::CallNextEventHandler( nextHandler, theEvent );
@@ -104,8 +126,9 @@ OSStatus OSXButton::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 					ControlPartCode part;				   
 					GetEventParameter( theEvent, kEventParamControlPart, typeControlPartCode, NULL,
 										sizeof (part), NULL, &part);	
-										
-					state_.setPressed( (part != kControlNoPart) ? true : false );
+					if ( OSXControl::msDown == mouseState_ ) {					
+						state_.setPressed( (part != kControlNoPart) ? true : false );
+					}
 				}
 				break;
 				
@@ -127,13 +150,15 @@ OSStatus OSXButton::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 						if ( bounds.containsPt( &pt ) ) {
 							commandButton_->click();
 						}
+						
+						state_.setPressed( false );
 					}
 				}
 				
 
 				case kEventControlDraw : {
-					result = ::CallNextEventHandler( nextHandler, theEvent );
-					break;
+					result = noErr;//::CallNextEventHandler( nextHandler, theEvent );
+					//break;
 					if ( !control_->isDestroying() ) {
 												
 						GrafPtr port = NULL;										
@@ -144,6 +169,7 @@ OSStatus OSXButton::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 						event.GetParameter<CGContextRef>( kEventParamCGContextRef, typeCGContextRef, &context );
 						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
 						
+												
 						::Rect rgnBds;
 						GetRegionBounds( region, &rgnBds );						
 						
@@ -170,27 +196,29 @@ OSStatus OSXButton::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 										bds.origin.y, 
 										bds.origin.x + bds.size.width,
 										bds.origin.y + bds.size.height );
-																						
+						
+						
+						
+									
 						ctx->setViewableBounds( bounds );
 						
 						
 						OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
 						
 						bounds.setRect( 0, 0, wndR.right-wndR.left, wndR.bottom-wndR.top );
+						
+									
 						osxCtx->setCGContext( context, port, bounds );
 		
 						int gcs = ctx->saveState();
 		
 						control_->paintBorder( ctx );
 		
-						control_->paint( ctx );	
+						control_->paint( ctx );							
 						
 						ctx->restoreState( gcs );
 						
-						osxCtx->setCGContext( NULL, 0, bounds );		
-	
-						
-						//result = noErr;						
+						osxCtx->setCGContext( NULL, 0, bounds );
 					}
 				}
 				break;
