@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\Release"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\Release\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -30,10 +30,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/RemoteObjectKit/RemoteObjectKit.h"
-				PrecompiledHeaderFile=".\vc70\Release/RemoteObjectKit_vc70.pch"
-				AssemblerListingLocation=".\vc70\Release/"
-				ObjectFile=".\vc70\Release/"
-				ProgramDataBaseFileName=".\vc70\Release/"
+				PrecompiledHeaderFile=".\vc70\Release\RemoteObjectKit_vc70.pch"
+				AssemblerListingLocation=".\vc70\Release\"
+				ObjectFile=".\vc70\Release\"
+				ProgramDataBaseFileName=".\vc70\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -46,8 +46,8 @@
 				OutputFile="..\..\..\bin\RemoteObjectKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib"
-				ProgramDatabaseFile=".\..\..\..\lib/RemoteObjectKit_vc70.pdb"
+				AdditionalLibraryDirectories="..\..\..\lib\"
+				ProgramDatabaseFile="..\..\..\lib\RemoteObjectKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/RemoteObjectKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -55,7 +55,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/RemoteObjectKit_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\RemoteObjectKit_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -73,8 +73,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\Debug"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\Debug\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -89,9 +89,9 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/RemoteObjectKit/RemoteObjectKit.h"
-				PrecompiledHeaderFile=".\vc70\Debug/RemoteObjectKit_vc70.pch"
-				AssemblerListingLocation=".\vc70\Debug/"
-				ObjectFile=".\vc70\Debug/"
+				PrecompiledHeaderFile=".\vc70\Debug\RemoteObjectKit_vc70_d.pch"
+				AssemblerListingLocation=".\vc70\Debug\"
+				ObjectFile=".\vc70\Debug\"
 				ProgramDataBaseFileName="..\..\..\bin\RemoteObjectKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -106,9 +106,9 @@
 				OutputFile="..\..\..\bin\RemoteObjectKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/RemoteObjectKit_vc70_d.pdb"
+				ProgramDatabaseFile="..\..\..\lib\RemoteObjectKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/RemoteObjectKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -116,7 +116,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/RemoteObjectKit_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\RemoteObjectKit_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

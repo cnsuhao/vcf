@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\DebugDLL"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\DebugDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,9 +28,9 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/FoundationKit/FoundationKit.h"
-				PrecompiledHeaderFile=".\vc70\DebugDLL/FoundationKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\DebugDLL/"
-				ObjectFile=".\vc70\DebugDLL/"
+				PrecompiledHeaderFile=".\vc70\DebugDLL\FoundationKitDLL_vc70_d.pch"
+				AssemblerListingLocation=".\vc70\DebugDLL\"
+				ObjectFile=".\vc70\DebugDLL\"
 				ProgramDataBaseFileName="..\..\..\bin\FoundationKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -46,7 +46,7 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc70_d.pdb"
+				ProgramDatabaseFile="..\..\..\lib\FoundationKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/FoundationKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\FoundationKitDLL_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\ReleaseDLL"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\ReleaseDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -90,10 +90,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/FoundationKit/FoundationKit.h"
-				PrecompiledHeaderFile=".\vc70\ReleaseDLL/FoundationKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\ReleaseDLL/"
-				ObjectFile=".\vc70\ReleaseDLL/"
-				ProgramDataBaseFileName=".\vc70\ReleaseDLL/"
+				PrecompiledHeaderFile=".\vc70\ReleaseDLL\FoundationKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\ReleaseDLL\"
+				ObjectFile=".\vc70\ReleaseDLL\"
+				ProgramDataBaseFileName=".\vc70\ReleaseDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -106,7 +106,7 @@
 				OutputFile="..\..\..\bin\FoundationKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc70.pdb"
+				ProgramDatabaseFile="..\..\..\lib\FoundationKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -114,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/FoundationKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\FoundationKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

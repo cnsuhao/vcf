@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\DebugDLL"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\DebugDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -26,9 +26,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\DebugDLL/OpenGLKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\DebugDLL/"
-				ObjectFile=".\vc70\DebugDLL/"
+				PrecompiledHeaderFile=".\vc70\DebugDLL\OpenGLKitDLL_vc70_d.pch"
+				AssemblerListingLocation=".\vc70\DebugDLL\"
+				ObjectFile=".\vc70\DebugDLL\"
 				ProgramDataBaseFileName="..\..\..\bin\OpenGLKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -43,9 +43,9 @@
 				OutputFile="..\..\..\bin\OpenGLKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/OpenGLKit_vc70_d.pdb"
+				ProgramDatabaseFile="..\..\..\lib\OpenGLKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -53,7 +53,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/OpenGLKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\OpenGLKitDLL_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -71,8 +71,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\ReleaseDLL"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\ReleaseDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -87,10 +87,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\ReleaseDLL/OpenGLKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\ReleaseDLL/"
-				ObjectFile=".\vc70\ReleaseDLL/"
-				ProgramDataBaseFileName=".\vc70\ReleaseDLL/"
+				PrecompiledHeaderFile=".\vc70\ReleaseDLL\OpenGLKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\ReleaseDLL\"
+				ObjectFile=".\vc70\ReleaseDLL\"
+				ProgramDataBaseFileName=".\vc70\ReleaseDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -103,8 +103,8 @@
 				OutputFile="..\..\..\bin\OpenGLKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib"
-				ProgramDatabaseFile=".\..\..\..\lib/OpenGLKit_vc70.pdb"
+				AdditionalLibraryDirectories="..\..\..\lib\"
+				ProgramDatabaseFile="..\..\..\lib\OpenGLKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -112,7 +112,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/OpenGLKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\OpenGLKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

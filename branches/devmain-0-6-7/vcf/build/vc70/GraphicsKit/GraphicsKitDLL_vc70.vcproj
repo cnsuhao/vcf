@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\DebugDLL"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\DebugDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,9 +28,9 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/GraphicsKit/GraphicsKit.h"
-				PrecompiledHeaderFile=".\vc70\DebugDLL/GraphicsKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\DebugDLL/"
-				ObjectFile=".\vc70\DebugDLL/"
+				PrecompiledHeaderFile=".\vc70\DebugDLL\GraphicsKitDLL_vc70_d.pch"
+				AssemblerListingLocation=".\vc70\DebugDLL\"
+				ObjectFile=".\vc70\DebugDLL\"
 				ProgramDataBaseFileName="..\..\..\bin\GraphicsKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -45,9 +45,9 @@
 				OutputFile="..\..\..\bin\GraphicsKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/GraphicsKit_vc70_d.pdb"
+				ProgramDatabaseFile="..\..\..\lib\GraphicsKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/GraphicsKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -55,7 +55,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/GraphicsKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\GraphicsKitDLL_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -73,8 +73,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc70\ReleaseDLL"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\ReleaseDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -83,7 +83,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)/../thirdparty/common/agg/include/"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;GRAPHICSKIT_DLL;GRAPHICSKIT_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -91,10 +91,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/GraphicsKit/GraphicsKit.h"
-				PrecompiledHeaderFile=".\vc70\ReleaseDLL/GraphicsKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\ReleaseDLL/"
-				ObjectFile=".\vc70\ReleaseDLL/"
-				ProgramDataBaseFileName=".\vc70\ReleaseDLL/"
+				PrecompiledHeaderFile=".\vc70\ReleaseDLL\GraphicsKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\ReleaseDLL\"
+				ObjectFile=".\vc70\ReleaseDLL\"
+				ProgramDataBaseFileName=".\vc70\ReleaseDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -107,8 +107,8 @@
 				OutputFile="..\..\..\bin\GraphicsKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib"
-				ProgramDatabaseFile=".\..\..\..\lib/GraphicsKit_vc70.pdb"
+				AdditionalLibraryDirectories="..\..\..\lib\"
+				ProgramDatabaseFile="..\..\..\lib\GraphicsKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/GraphicsKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -116,7 +116,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib/GraphicsKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\GraphicsKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
