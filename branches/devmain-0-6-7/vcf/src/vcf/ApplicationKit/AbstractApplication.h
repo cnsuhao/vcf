@@ -153,7 +153,7 @@ public:
 	virtual void postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler=true );
 
 
-	AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
+	AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
 	void addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, EventHandler* eventHandler );
 
@@ -172,6 +172,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.2  2005/01/26 22:43:18  ddiego
 *added some docs on event handler and post event mechanics.
 *

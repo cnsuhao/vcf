@@ -381,7 +381,7 @@ public:
 
 	static void registerAccelerator( AcceleratorKey* accelerator );
 
-	static void removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
+	static void removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
 	static Button* getDefaultButton();
 
@@ -389,9 +389,13 @@ public:
 
 	static void removeDefaultButton( Button* defaultButton );
 
-	static AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
+	static AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
 	static void removeAcceleratorKeysForControl( Control* control );
+
+	static void removeAcceleratorKeysForMenuItem( MenuItem* item );
+
+	static void removeAcceleratorKeysForObject( Object* src );
 
 	static void handleKeyboardEvent( KeyboardEvent* event );
 
@@ -417,7 +421,7 @@ protected:
 	static UIToolkit* toolKitInstance;
 
 	std::map<String,ComponentInfo*> componentInfoMap_;
-	std::map<ulong32,AcceleratorKey*> acceleratorMap_;
+	std::multimap<ulong32,AcceleratorKey*> acceleratorMap_;
 	std::vector<Control*> visitedContainers_;
 	Clipboard* systemClipboard_;
     GraphicsToolkit * graphicsToolKit_;
@@ -578,7 +582,7 @@ protected:
 
 	void internal_registerAccelerator( AcceleratorKey* accelerator );
 
-	void internal_removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
+	void internal_removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
 	Button* internal_getDefaultButton();
 
@@ -586,9 +590,13 @@ protected:
 
 	void internal_removeDefaultButton( Button* defaultButton );
 
-	AcceleratorKey* internal_getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
+	AcceleratorKey* internal_getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
 	void internal_removeAcceleratorKeysForControl( Control* control );
+
+	void internal_removeAcceleratorKeysForMenuItem( MenuItem* menuItem );
+
+	void internal_removeAcceleratorKeysForObject( Object* src );
 
 
 
@@ -617,6 +625,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.4  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

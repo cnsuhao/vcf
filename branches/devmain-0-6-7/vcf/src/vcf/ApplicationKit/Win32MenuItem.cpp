@@ -111,6 +111,9 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 		itemName = System::getCurrentThreadLocale()->translate( itemName );
 	}
 
+	itemName = generateCaption( child, itemName );
+
+
 	info.cch = itemName.size();
 
 	char* tmpName = new char[info.cch+1];
@@ -423,6 +426,45 @@ void Win32MenuItem::setMenuItem( MenuItem* item )
 	menuItem_ = item;
 }
 
+String Win32MenuItem::generateCaption( MenuItem* item, String caption )
+{
+	String acceleratorText;
+	VCF::AcceleratorKey* accelerator = item->getAccelerator();
+	//generate accelerator text if we are not owner drawn
+	if ( !item->canPaint() && (NULL != accelerator) ) {
+		
+		if ( accelerator->hasCtrlKey() ) {			
+			acceleratorText += "Ctrl";
+		}
+
+		if ( accelerator->hasShiftKey() ) {
+			if ( !acceleratorText.empty() ) {
+				acceleratorText += "+";
+			}
+			acceleratorText += "Shift";
+		}
+
+		if ( accelerator->hasAltKey() ) {
+			if ( !acceleratorText.empty() ) {
+				acceleratorText += "+";
+			}
+			acceleratorText += "Alt";
+		}
+
+		if ( !acceleratorText.empty() ) {
+			acceleratorText += "+";
+		}
+
+		acceleratorText += StringUtils::translateVKCodeToString( (VirtualKeyCode)accelerator->getKeyCode() );		
+	}
+
+	if ( !acceleratorText.empty() ) {
+		caption = caption + "\t" + acceleratorText;
+	}
+
+	return caption;
+}
+
 void Win32MenuItem::setCaption( const String& caption )
 {
 	if ( true == menuItem_->isSeparator() ){
@@ -430,6 +472,9 @@ void Win32MenuItem::setCaption( const String& caption )
 	}
 	int index = menuItem_->getIndex();
 
+	String realCaption = generateCaption( menuItem_, caption );
+
+	StringUtils::trace( "Original caption: " + caption + ", Real caption: " + realCaption + "\n" );
 	if ( System::isUnicodeEnabled() ) {
 		MENUITEMINFOW info = {0};
 		info.cbSize = sizeof(info);
@@ -440,11 +485,11 @@ void Win32MenuItem::setCaption( const String& caption )
 			HMENU menuHandle = (HMENU)parentPeer->getMenuID();
 			if ( NULL != menuHandle ){
 				if ( GetMenuItemInfoW( menuHandle, itemId_, FALSE, &info ) ){
-					info.cch = caption.size();
+					info.cch = realCaption.size();
 
 					VCFChar* tmpName = new VCFChar[info.cch+1];
 					memset( tmpName, 0, (info.cch+1)*sizeof(VCFChar) );
-					caption.copy( tmpName, info.cch );
+					realCaption.copy( tmpName, info.cch );
 
 					info.dwTypeData = tmpName;
 
@@ -465,7 +510,7 @@ void Win32MenuItem::setCaption( const String& caption )
 			HMENU menuHandle = (HMENU)parentPeer->getMenuID();
 			if ( NULL != menuHandle ){
 				if ( GetMenuItemInfoA( menuHandle, itemId_, FALSE, &info ) ){
-					AnsiString tmpCaption = caption;
+					AnsiString tmpCaption = realCaption;
 
 					info.cch = tmpCaption.size();
 
@@ -558,6 +603,15 @@ MenuItem* Win32MenuItem::getMenuItemFromHandle( HMENU handle )
 	return result;
 }
 
+void Win32MenuItem::setAcceleratorKey( AcceleratorKey* accelerator )
+{
+	//just call set caption to reset the menu item caption, 
+	//which will in turn take into consideration the presence of the
+	//accelerator
+
+	setCaption( menuItem_->getCaption() );
+}
+
 void Win32MenuItem::setAsSeparator( const bool& isSeperator )
 {
 	int index = menuItem_->getIndex();
@@ -616,6 +670,8 @@ void Win32MenuItem::fillInMeasureItemInfo( MEASUREITEMSTRUCT& measureItemInfo )
 						if ( menuItem_->getUseLocaleStrings() ) {
 							caption = System::getCurrentThreadLocale()->translate( caption );
 						}
+
+						caption = generateCaption( menuItem_, caption );
 
 						HDC dc = ::CreateCompatibleDC( NULL );// screen DC--I won't actually draw on it
 						HFONT oldFont = (HFONT)SelectObject( dc, menuHFont );
@@ -783,6 +839,8 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 		left = System::getCurrentThreadLocale()->translate( left );
 	}
 
+	left = generateCaption( menuItem_, left );
+
 	String right;
 
 	int tabPos = left.find('\t');
@@ -820,6 +878,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2.4.2  2005/02/10 19:56:15  ddiego
 *fixed bug 1119206 in isChecked() impl for Win32.
 *

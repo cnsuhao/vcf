@@ -159,6 +159,11 @@ public:
 	virtual void remove( Control* child ) = 0;
 
 	/**
+	removes \em all child controls
+	*/
+	virtual void clear() = 0;
+
+	/**
 	*returns an Enumerator of controls that represents all the
 	*children in this container.
 	*@return Enumerator<Control*> an enunerator of all the child controls
@@ -421,6 +426,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2.4.1  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

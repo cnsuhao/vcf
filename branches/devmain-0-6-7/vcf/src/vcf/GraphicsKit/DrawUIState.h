@@ -257,6 +257,8 @@ public:
 
 class MenuState : public DrawUIState {
 public:
+	MenuState() : DrawUIState(), keyCode_(vkUndefined), modifierMask_(kmUndefined){}
+
 	bool isSelected() const {
 		return (state_ & DrawStates::dsSelected) ? true : false;
 	}
@@ -298,7 +300,8 @@ public:
 		}
 	}
 	
-	
+	VirtualKeyCode keyCode_;
+	ulong32 modifierMask_;
 	String menuCaption_;
 };
 

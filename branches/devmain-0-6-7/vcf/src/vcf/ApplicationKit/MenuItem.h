@@ -135,10 +135,25 @@ public:
 
 	virtual void update() = 0;
 
+	/**
+	\p
+	This sets the accelerator key object for the menu item. If one already exists
+	it is removed for this menu item. The accelerator is assigned the 
+	key code and modifier mask passed in, and is given a default event handler,
+	determined by the implementor.
+	\p
+	A menu item may have only one accelerator associated with it at any given time.
+	*/
 	virtual void setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask ) = 0;
 
-	virtual void addAcceleratorKey( AcceleratorKey* accelerator ) = 0;
+	/**
+	Sets the acclerator object for this menu item. If one already exists then it is removed.
+	*/
+	virtual void setAcceleratorKey( AcceleratorKey* accelerator ) = 0;
 
+	/**
+	Returns the accelerator for the menu item.
+	*/
 	virtual AcceleratorKey* getAccelerator() = 0;
 };
 
@@ -148,6 +163,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -36,7 +36,7 @@ DefaultMenuItem::~DefaultMenuItem()
 
 	if ( NULL != currentAccelerator_ ) {
 		UIToolkit::removeAccelerator( (VirtualKeyCode)currentAccelerator_->getKeyCode(),
-																currentAccelerator_->getModifierMask() );
+																currentAccelerator_->getModifierMask(), this );
 	}
 
 	if ( this == previousSelectedItem )	{
@@ -56,8 +56,8 @@ DefaultMenuItem::~DefaultMenuItem()
 	}
 	*/
 
-	delete Peer_;
-	Peer_ = NULL;
+	delete peer_;
+	peer_ = NULL;
 
 	menuItems_.clear();
 }
@@ -76,14 +76,14 @@ void DefaultMenuItem::init()
 	isEnabled_ = true;
 	menuOwner_ = NULL;
 
-	Peer_ = UIToolkit::createMenuItemPeer( this );
+	peer_ = UIToolkit::createMenuItemPeer( this );
 
-	if ( NULL == Peer_ ){
+	if ( NULL == peer_ ){
 		//throw exception
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 
-	Peer_->setMenuItem( this );
+	peer_->setMenuItem( this );
 
 	container_.initContainer( menuItems_ );
 
@@ -178,7 +178,7 @@ void DefaultMenuItem::addChild( MenuItem* child )
 
 	child->setMenuOwner( getMenuOwner() );
 
-	Peer_->addChild( child );
+	peer_->addChild( child );
 
 	ItemEvent event( this, ITEM_EVENT_ADDED );
 	ItemAdded.fireEvent( &event );
@@ -205,7 +205,7 @@ void DefaultMenuItem::insertChild( const unsigned long& index, MenuItem* child )
 
 	child->setMenuOwner( getMenuOwner() );
 
-	Peer_->insertChild( index, child );
+	peer_->insertChild( index, child );
 
 	ItemEvent event( this, ITEM_EVENT_ADDED );
 	ItemAdded.fireEvent( &event );
@@ -213,7 +213,7 @@ void DefaultMenuItem::insertChild( const unsigned long& index, MenuItem* child )
 
 void DefaultMenuItem::deleteChild( MenuItem* child )
 {
-	Peer_->deleteChild( child );
+	peer_->deleteChild( child );
 
 	std::vector<MenuItem*>::iterator found = std::find( menuItems_.begin(), menuItems_.end(), child );
 	if ( found != menuItems_.end() ){
@@ -241,7 +241,7 @@ void DefaultMenuItem::deleteChild( MenuItem* child )
 
 void DefaultMenuItem::deleteChild( const unsigned long& index )
 {
-	Peer_->deleteChild( index );
+	peer_->deleteChild( index );
 
 	std::vector<MenuItem*>::iterator found = menuItems_.begin() + index;
 	if ( found != menuItems_.end() ){
@@ -274,17 +274,17 @@ void DefaultMenuItem::clearChildren()
 	}
 	menuItems_.clear();
 
-	Peer_->clearChildren();
+	peer_->clearChildren();
 }
 
 bool DefaultMenuItem::isChecked()
 {
-	return Peer_->isChecked();
+	return peer_->isChecked();
 }
 
 void DefaultMenuItem::setChecked( const bool& checked )
 {
-	Peer_->setChecked( checked );
+	peer_->setChecked( checked );
 }
 
 bool DefaultMenuItem::hasParent()
@@ -313,13 +313,13 @@ MenuItem* DefaultMenuItem::getChildAt( const unsigned long& index )
 
 bool DefaultMenuItem::isEnabled()
 {
-	return isEnabled_;//Peer_->isEnabled();
+	return isEnabled_;//peer_->isEnabled();
 }
 
 void DefaultMenuItem::setEnabled( const bool& enabled )
 {
 	isEnabled_ = enabled;
-	Peer_->setEnabled( enabled );
+	peer_->setEnabled( enabled );
 
 	ItemEvent event( this, ITEM_EVENT_CHANGED );
 	ItemChanged.fireEvent( &event );
@@ -333,7 +333,7 @@ bool DefaultMenuItem::isVisible()
 void DefaultMenuItem::setVisible( const bool& visible )
 {
 	visible_ = visible;
-	Peer_->setVisible( visible );
+	peer_->setVisible( visible );
 
 	ItemEvent event( this, ITEM_EVENT_CHANGED );
 	ItemChanged.fireEvent( &event );
@@ -348,7 +348,7 @@ void DefaultMenuItem::setRadioItem( const bool& value )
 {
 	radioItem_ = value;
 	
-	Peer_->setRadioItem( radioItem_ );
+	peer_->setRadioItem( radioItem_ );
 
 	ItemEvent event( this, ITEM_EVENT_CHANGED );
 	ItemChanged.fireEvent( &event );
@@ -360,7 +360,7 @@ void DefaultMenuItem::setCaption( const String& caption )
 
 	
 
-	Peer_->setCaption( caption_ );
+	peer_->setCaption( caption_ );
 
 	ItemEvent event( this, ITEM_EVENT_TEXT_CHANGED );
 	ItemChanged.fireEvent( &event );
@@ -373,7 +373,7 @@ String DefaultMenuItem::getCaption()
 
 MenuItemPeer* DefaultMenuItem::getPeer()
 {
-	return Peer_;
+	return peer_;
 }
 
 bool DefaultMenuItem::hasChildren()
@@ -436,7 +436,7 @@ bool DefaultMenuItem::isSeparator()
 void DefaultMenuItem::setSeparator( const bool& separator )
 {
 	separator_ = separator;
-	Peer_->setAsSeparator( separator_ );
+	peer_->setAsSeparator( separator_ );
 }
 
 void DefaultMenuItem::setImageIndex( const long& imageIndex )
@@ -449,23 +449,40 @@ void DefaultMenuItem::setBounds( Rect* bounds )
 	bounds_ = *bounds;
 }
 
+AcceleratorKey* DefaultMenuItem::getAccelerator() 
+{
+	AcceleratorKey* result = NULL;
+
+	if ( NULL != currentAccelerator_ ) {
+		result = currentAccelerator_;
+	}
+	else {
+		Action* action = getAction();
+		if ( NULL != action ) {
+			result = action->getAccelerator();
+		}
+	}
+
+	return result;
+}
+
 void DefaultMenuItem::setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
 {
 	EventHandler* eventHandler = this->getEventHandler( "DefaultMenuItem::onAccelerator" );
 	if ( NULL == eventHandler ) {
 		eventHandler = new KeyboardEventHandler<DefaultMenuItem>( this, &DefaultMenuItem::onAccelerator, "DefaultMenuItem::onAccelerator" );
 	}
-	AcceleratorKey* newAccelKey = new AcceleratorKey( NULL, keyCode, modifierMask, eventHandler );
+	AcceleratorKey* newAccelKey = new AcceleratorKey( this, keyCode, modifierMask, eventHandler );
 
-	addAcceleratorKey( newAccelKey );
+	setAcceleratorKey( newAccelKey );
 }
 
-void DefaultMenuItem::addAcceleratorKey( AcceleratorKey* accelerator )
+void DefaultMenuItem::setAcceleratorKey( AcceleratorKey* accelerator )
 {
 	//remove the old if present
 	if ( NULL != currentAccelerator_ ) {
 		UIToolkit::removeAccelerator( (VirtualKeyCode)currentAccelerator_->getKeyCode(),
-																currentAccelerator_->getModifierMask() );
+																currentAccelerator_->getModifierMask(), this );
 	}
 
 	currentAccelerator_ = accelerator;
@@ -474,6 +491,7 @@ void DefaultMenuItem::addAcceleratorKey( AcceleratorKey* accelerator )
 		UIToolkit::registerAccelerator( currentAccelerator_ );
 	}
 
+	peer_->setAcceleratorKey( currentAccelerator_ );
 }
 
 void DefaultMenuItem::onAccelerator( KeyboardEvent* e )
@@ -497,8 +515,8 @@ Object* DefaultMenuItem::clone(bool deep)
 	result->setSeparator( isSeparator() );
 
 	AcceleratorKey* accel = getAccelerator();
-	if ( NULL != accel ) {
-		//result->setAcceleratorKey( (VCF::VirtualKeyCode)accel->getKeyCode(), accel->getModifierMask() );
+	if ( NULL != accel ) {		
+		result->setAcceleratorKey( (AcceleratorKey*) accel->clone() );
 	}
 
 	return result;
@@ -531,6 +549,14 @@ void DefaultMenuItem::handleEvent( Event* event )
 					}
 				}
 
+			}
+			break;
+
+			case Action::AcceleratorChanged : {
+				Action* action = (Action*)event->getSource();
+			
+				//update the peer!
+				peer_->setAcceleratorKey( action->getAccelerator() );
 			}
 			break;
 
@@ -598,6 +624,9 @@ MenuItem* DefaultMenuItem::findChildNamed( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/14 04:17:23  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

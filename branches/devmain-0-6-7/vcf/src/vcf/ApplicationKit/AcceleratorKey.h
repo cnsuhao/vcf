@@ -19,22 +19,98 @@ namespace VCF  {
 class Control;
 
 /**
-*An AcceleratorKey represents a link between a specific
-*keyboard keystroke combination and an event handler to
-*be invoked when the combination takes place.
-*An AcceleratorKey object may associated with a control or it
-*may be associated with the current application instance for
-*global behaviour. For example let's say you have a text editor
-*and you want the "Ctrl" and "V" key combination to call an event
-*handler whenever it is pressed to paste in some text from the
-*clipboard. You can register an AcceleratorKey with the keyboard
-*combination and you event handler, and <i>voila!</i> the VCF
-*will take care of the rest.
-*@see UIToolkit::addAcceleratorKey()
+\p
+An AcceleratorKey represents a link between a specific
+keyboard keystroke combination and an event handler to
+be invoked when the combination takes place. There
+may be more than one intance of a AcceleratorKey that 
+is linked to the same keystroke combination. AcceleratorKey 
+objects may associated with a control, a menu item or 
+a some other generic Object instance. 
+\p
+AcceleratorKey objects may also be linked to Action objects
+which allows the action and accelerator to be linked together
+and reused among more than one target, such as a button, and 
+menu item. 
+\p
+Certain classes may have multiple accelerators associated with
+them, while others may have only one. A Control may 0 or more
+accelerators associated with it. A MenuItem or Action may have
+only one accelerator associated with it at any given moment.
+\p
+The UIToolkit is used to store all the various accelerators,
+as well as implemententing the exact logic for how accelerators
+get called. The toolkit will release any accelerators, so once
+assigned, you no longer have to worry about cleaning up the memory
+for the object. 
+\p
+When toolkit receives notification from the underlying window system
+that a keystroke has taken place, it attempts to see if the keystroke
+maps to any registered accelerators, and if it finds one, then the 
+accelerator's event handler is invoked. This logic thus allows you 
+to have multiple accelerators mapped to both a control and to a menu 
+item. Precedence is given to the control, then the menu item, and then 
+anything else.
+The logic for determining the proper accelerator to use is this:
+\li The toolkit attempts to find the current focused control.
+\li It then attemps to match an accelerator, based on the keystroke
+and the current focused control
+\li If no accelerator is found that has a matching control (see 
+Accelerator::getAssociatedControl() ), then a search is made to
+find an accelerator with the keystroke.
+\li The first accelerator found with the matching keystroke, \em and 
+a non NULL menu associated with it (see Accelerator::getAssociatedMenuItem() )
+is then used. 
+\li If no match is found then a similar search is made for any accelerators
+that match the keystroke and have a non NULL object associated with it.
+\p
+An example of how you might use an accelerator is this:
+Let's say you have a text editor and you want the "Ctrl" and "V" key 
+combination to call an event handler whenever it is pressed to paste 
+in some text from the clipboard. You can register an AcceleratorKey with 
+the keyboard combination and you event handler, and <i>voila!</i> the VCF
+will take care of the rest.
+\p
+In addition to this, menu items also work with accelerators to enable 
+the accelerator information to be displayed in the menu item caption/text.
+This will work for any menu item that has an accelerator set "directly",
+or a menu item that is associated with an Action that itself has an
+accelerator assigned to it. This means that instead of having to manually
+set the text for your menu item to hold the key combo associated with it, 
+the framework will do it for you. For example:
+\code
+MenuItem* fileOpen = new DefaultMenuItem( "Open", file, menuBar );
+fileOpen->setAcceleratorKey( vkLetterO, kmCtrl );
+\endcode
+That's it! The fileOpen menu item will be adjusted when it's displayed,
+and instead of just displaying "Open", it will display "Open	Ctrl+O".
+This works with actions as well:
+\code
+MenuItem* fileOpen = new DefaultMenuItem( "Open", file, menuBar );
+Action* fileOpenAction = new Action();
+addComponent( fileOpenAction );
+fileOpenAction->addTarget( fileOpen );
+fileOpenAction->setAcceleratorKey( vkLetterO, kmCtrl );
+\endcode
+The same thing will now happen, the menu will still display 
+"Open	Ctrl+O", despite the accelerator being set on the action
+instead of the menu item directly.
+@see Control::addAcceleratorKey
+@see MenuItem::setAcceleratorKey
+@see Action::setAcceleratorKey
+@see UIToolkit::addAcceleratorKey()
 */
 class APPLICATIONKIT_API AcceleratorKey : public VCF::Object {
 public:
 	AcceleratorKey( Control* associatedControl, const VirtualKeyCode& keyCode,
+					const ulong32& modifierMask, EventHandler* eventHandler,
+					const bool& isMnemonic=false );
+
+	AcceleratorKey( MenuItem* associatedMenuItem, const VirtualKeyCode& keyCode,
+					const ulong32& modifierMask, EventHandler* eventHandler,
+					const bool& isMnemonic=false );
+
+	AcceleratorKey( Object* associatedObject, const VirtualKeyCode& keyCode,
 					const ulong32& modifierMask, EventHandler* eventHandler,
 					const bool& isMnemonic=false );
 
@@ -89,6 +165,24 @@ public:
 	}
 
 	/**
+	*returns the associated menu item. An AcceleratorKey
+	*can have a menu item instance associated with it.
+	*@return MenuItem the associated menu item
+	*/
+	MenuItem* getAssociatedMenuItem() {
+		return associatedMenuItem_;
+	}
+
+	/**
+	*returns the associated object instance. An AcceleratorKey
+	*can have an object instance associated with it.
+	*@return Object the associated object
+	*/
+	Object* getAssociatedObject() {
+		return associatedObject_;
+	}
+
+	/**
 	*The event handler that will be invoked
 	*by the AcceleratorKey when it becomes activated
 	*by the framework.
@@ -124,12 +218,19 @@ public:
 	bool isMnemonic() {
 		return isMnemonic_;
 	}
+
+	virtual Object* clone( bool deep=false );
 protected:
 	VirtualKeyCode keyCode_;
 	ulong32 modifierMask_;
 	Control* associatedControl_;
+	MenuItem* associatedMenuItem_;
+	Object* associatedObject_;
 	EventHandler* eventHandler_;
 	bool isMnemonic_;
+
+	AcceleratorKey( const AcceleratorKey& rhs );
+
 private:
 };
 
@@ -140,6 +241,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2.4.2  2005/02/16 18:22:01  marcelloptr
 *added const specifier to KeyCode and ModifierMask getters
 *

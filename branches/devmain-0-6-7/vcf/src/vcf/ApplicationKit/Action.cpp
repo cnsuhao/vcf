@@ -15,25 +15,29 @@ where you installed the VCF.
 using namespace VCF;
 
 
-Action::Action()
+Action::Action():
+	currentAccelerator_(NULL)
 {
 	targetsContainer_.initContainer(targets_);
 }
 
 Action::Action( Component* owner ):
-	Component(owner)
+	Component(owner),
+	currentAccelerator_(NULL)
 {
 	targetsContainer_.initContainer(targets_);
 }
 
 Action::Action( const String& name, Component* owner ):
-	Component(name, owner)
+	Component(name, owner),
+	currentAccelerator_(NULL)
 {
 	targetsContainer_.initContainer(targets_);
 }
 
 Action::Action( const String& name ):
-	Component(name)
+	Component(name),
+	currentAccelerator_(NULL)
 {
 	targetsContainer_.initContainer(targets_);
 }
@@ -99,10 +103,59 @@ unsigned long Action::getTargetCount()
 	return targets_.size();
 }
 
+void Action::setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+{
+	EventHandler* eventHandler = getEventHandler( "Action::onAccelerator" );
+	if ( NULL == eventHandler ) {
+		eventHandler = 
+			new KeyboardEventHandler<Action>( this, &Action::onAccelerator, "Action::onAccelerator" );
+	}
+	
+	AcceleratorKey* newAccelKey = new AcceleratorKey( this, keyCode, modifierMask, eventHandler );
+
+	setAcceleratorKey( newAccelKey );
+}
+
+void Action::setAcceleratorKey( AcceleratorKey* accelerator )
+{
+	//remove the old if present
+	if ( NULL != currentAccelerator_ ) {
+		UIToolkit::removeAccelerator( (VirtualKeyCode)currentAccelerator_->getKeyCode(),
+																currentAccelerator_->getModifierMask(), this );
+	}
+
+	currentAccelerator_ = accelerator;
+
+	if ( NULL != currentAccelerator_ ) {
+		UIToolkit::registerAccelerator( currentAccelerator_ );
+	}
+
+	std::vector<Component*>::iterator it = targets_.begin();
+
+	Event event(this, Action::AcceleratorChanged );
+
+	while ( it != targets_.end() ) {
+		(*it)->handleEvent( &event );
+		it ++;
+	}
+}
+
+AcceleratorKey* Action::getAccelerator()
+{
+	return currentAccelerator_;
+}
+
+void Action::onAccelerator( KeyboardEvent* e )
+{
+	perform();
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

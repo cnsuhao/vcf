@@ -17,18 +17,67 @@ using namespace VCF;
 
 AcceleratorKey::AcceleratorKey( Control* associatedControl, const VirtualKeyCode& keyCode,
 								const ulong32& modifierMask, EventHandler* eventHandler,
-								const bool& isMnemonic )
+								const bool& isMnemonic ):
+	keyCode_(keyCode),
+	modifierMask_(modifierMask),
+	associatedControl_(associatedControl),
+	associatedMenuItem_(NULL),
+	associatedObject_(NULL),
+	eventHandler_(eventHandler),
+	isMnemonic_(isMnemonic)
 {
-	associatedControl_ = associatedControl;
-	keyCode_ = keyCode;
-	modifierMask_ = modifierMask;
-	eventHandler_ = eventHandler;
-	isMnemonic_ = isMnemonic;
+	
+}
+
+AcceleratorKey::AcceleratorKey( MenuItem* associatedMenuItem, const VirtualKeyCode& keyCode,
+					const ulong32& modifierMask, EventHandler* eventHandler,
+					const bool& isMnemonic ):
+	keyCode_(keyCode),
+	modifierMask_(modifierMask),
+	associatedControl_(NULL),
+	associatedMenuItem_(associatedMenuItem),
+	associatedObject_(NULL),
+	eventHandler_(eventHandler),
+	isMnemonic_(isMnemonic)
+{
+	
+}
+
+AcceleratorKey::AcceleratorKey( Object* associatedObject, const VirtualKeyCode& keyCode,
+					const ulong32& modifierMask, EventHandler* eventHandler,
+					const bool& isMnemonic ):
+	keyCode_(keyCode),
+	modifierMask_(modifierMask),
+	associatedControl_(NULL),
+	associatedMenuItem_(NULL),
+	associatedObject_(associatedObject),
+	eventHandler_(eventHandler),
+	isMnemonic_(isMnemonic)
+{
+	
 }
 
 AcceleratorKey::~AcceleratorKey()
 {
 
+}
+
+AcceleratorKey::AcceleratorKey( const AcceleratorKey& rhs ):
+	keyCode_((VirtualKeyCode)0),
+	modifierMask_(0),
+	associatedControl_(NULL),
+	associatedMenuItem_(NULL),
+	associatedObject_(NULL),
+	eventHandler_(NULL),
+	isMnemonic_(false)
+{
+	keyCode_ = rhs.keyCode_;
+	modifierMask_ = rhs.modifierMask_;
+	associatedControl_ = rhs.associatedControl_;
+	associatedMenuItem_ = rhs.associatedMenuItem_;
+	associatedObject_ = rhs.associatedObject_;
+	eventHandler_ = rhs.eventHandler_;
+	isMnemonic_ = rhs.isMnemonic_;	
 }
 
 bool AcceleratorKey::hasShiftKey()
@@ -58,10 +107,18 @@ void AcceleratorKey::invoke( Event* event )
 	}
 }
 
+Object* AcceleratorKey::clone( bool deep )
+{
+	
+	return new AcceleratorKey(*this);
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

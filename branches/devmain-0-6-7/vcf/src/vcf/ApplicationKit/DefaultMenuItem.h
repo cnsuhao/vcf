@@ -224,11 +224,9 @@ public:
 
 	virtual void setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
 
-	virtual void addAcceleratorKey( AcceleratorKey* accelerator );
+	virtual void setAcceleratorKey( AcceleratorKey* accelerator );
 
-	virtual AcceleratorKey* getAccelerator() {
-		return currentAccelerator_;
-	}
+	virtual AcceleratorKey* getAccelerator();
 	
 	virtual Object* clone(bool deep=false);
 
@@ -237,7 +235,7 @@ protected:
 	void onAccelerator( KeyboardEvent* e );
 
 protected:
-	MenuItemPeer* Peer_;
+	MenuItemPeer* peer_;
 	std::vector<MenuItem*> menuItems_;
 	EnumeratorContainer<std::vector<MenuItem*>, MenuItem*> container_;
 	String caption_;
@@ -276,6 +274,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/14 04:17:23  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.1  2004/12/20 23:15:55  marcelloptr
 *some documentation
 *

@@ -17,6 +17,8 @@ where you installed the VCF.
 namespace VCF {
 
 
+class AcceleratorKey;
+
 /**
 <p>
 The Action class is used to represent an "action" that gets performed because of
@@ -57,8 +59,21 @@ public:
 	virtual ~Action();
 
 	enum {
+		/**
+		This event type is used when the update method is invoked.
+		*/
 		UpdateEvent = 40521,
-		ActionPerformedEvent = 40511
+
+		/**
+		This is used when an action event is fired.
+		*/
+		ActionPerformedEvent = 40511,
+
+		/**
+		This is used when the action's accelerator is changed, specifically
+		by the method setAcceleratorKey().
+		*/
+		AcceleratorChanged = 40541
 	};
 
 	/**
@@ -111,9 +126,45 @@ public:
 	*/
 	unsigned long getTargetCount();
 
+	/**
+	\p
+	This sets the accelerator key object for the action item. If one already exists
+	it is removed for this action item. The accelerator is assigned the 
+	key code and modifier mask passed in, and is given a default event handler which
+	calls the action item's perform method.
+	\p
+	An action may have only one accelerator associated with it at any given time.
+	\p
+	Internally this method creates a new AcceleratorKey isntance and then calls the 
+	setAcceleratorKey( AcceleratorKey* ) method. See this method's documentation for
+	more details.
+	@see setAcceleratorKey
+	*/
+	void setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
+
+	/**
+	\p
+	Sets the acclerator object for this action item. If one already exists then it 
+	is removed.
+	\p
+	To ensure that any targets of this action are properly updated, the action 
+	creates a Event instance, sets it's event type to Action::AcceleratorChanged, 
+	loops through all it's targets, and then calls each target's handleEvent() method
+	passing in the event instance. Targets should respond accordingly to this event
+	if it makes sense.
+	*/
+	void setAcceleratorKey( AcceleratorKey* accelerator );
+
+	/**
+	Returns the accelerator for the action item.
+	*/
+	AcceleratorKey* getAccelerator();
 protected:
+	AcceleratorKey* currentAccelerator_;
 	std::vector<Component*> targets_;
 	EnumeratorContainer<std::vector<Component*>,Component*> targetsContainer_;
+
+	void onAccelerator( KeyboardEvent* e );
 };
 
 
@@ -125,6 +176,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

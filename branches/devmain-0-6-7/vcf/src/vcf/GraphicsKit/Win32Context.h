@@ -405,6 +405,8 @@ public:
 	*/
 	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
 
+	virtual void drawThemeMenuItemText( Rect* rect, MenuState& state );
+
 	/**
 	* 
 	* 
@@ -485,6 +487,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/14 04:17:26  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.1  2004/12/19 04:05:05  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

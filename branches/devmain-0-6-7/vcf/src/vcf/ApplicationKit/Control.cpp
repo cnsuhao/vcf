@@ -1107,7 +1107,7 @@ void Control::updateAnchorDeltas() {
 
 AcceleratorKey* Control::getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
 {
-	return UIToolkit::getAccelerator( keyCode, modifierMask );
+	return UIToolkit::getAccelerator( keyCode, modifierMask, this );
 }
 
 void Control::addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, EventHandler* eventHandler )
@@ -1217,7 +1217,9 @@ void Control::translateFromScreenCoords( Rect* rect )
 
 void Control::setContainer( Container* container )
 {
-	container_ = container;
+	Container* oldContainer = container_;
+
+	container_ = container;	
 
 	if ( NULL != container_ ) {
 		
@@ -1228,6 +1230,21 @@ void Control::setContainer( Container* container )
 		container_->setContainerControl( this );
 	}
 
+	//transfer over container controls!
+	if ( NULL != container_ && NULL != oldContainer ) {
+		container_->clear();
+
+		int count = oldContainer->getChildCount();
+		for ( int i=0;i<count;i++ ) {
+			Control* control = oldContainer->getControlAtIndex( 0 );
+
+			oldContainer->remove( control );
+
+			container_->add( control );
+		}
+
+		oldContainer->clear();
+	}
 }
 
 void Control::buildTabList( Control* control, std::vector<Control*>& tabList )
@@ -1463,6 +1480,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.4.2.7  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

@@ -46,7 +46,7 @@ UIToolkit::UIToolkit():
 
 UIToolkit::~UIToolkit()
 {
-	std::map<ulong32,AcceleratorKey*>::iterator it = acceleratorMap_.begin();
+	std::multimap<ulong32,AcceleratorKey*>::iterator it = acceleratorMap_.begin();
 	while ( it != acceleratorMap_.end() ) {
 		delete it->second;
 		it ++;
@@ -466,9 +466,9 @@ void UIToolkit::registerAccelerator( AcceleratorKey* accelerator )
 	UIToolkit::toolKitInstance->internal_registerAccelerator( accelerator );
 }
 
-void UIToolkit::removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+void UIToolkit::removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
-	UIToolkit::toolKitInstance->internal_removeAccelerator( keyCode, modifierMask );
+	UIToolkit::toolKitInstance->internal_removeAccelerator( keyCode, modifierMask, src );
 }
 
 VCF::Button* UIToolkit::getDefaultButton()
@@ -486,15 +486,26 @@ void UIToolkit::removeDefaultButton( Button* defaultButton )
 	UIToolkit::toolKitInstance->internal_removeDefaultButton( defaultButton );
 }
 
-AcceleratorKey* UIToolkit::getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+AcceleratorKey* UIToolkit::getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
-	return UIToolkit::toolKitInstance->internal_getAccelerator( keyCode, modifierMask );
+	return UIToolkit::toolKitInstance->internal_getAccelerator( keyCode, modifierMask, src );
 }
 
 void UIToolkit::removeAcceleratorKeysForControl( Control* control )
 {
 	UIToolkit::toolKitInstance->internal_removeAcceleratorKeysForControl( control );
 }
+
+void UIToolkit::removeAcceleratorKeysForMenuItem( MenuItem* item )
+{
+	UIToolkit::toolKitInstance->internal_removeAcceleratorKeysForMenuItem( item );
+}
+
+void UIToolkit::removeAcceleratorKeysForObject( Object* src )
+{
+	UIToolkit::toolKitInstance->internal_removeAcceleratorKeysForObject( src );
+}
+
 
 void UIToolkit::handleKeyboardEvent( KeyboardEvent* event )
 {
@@ -606,7 +617,7 @@ void UIToolkit::internal_registerAccelerator( AcceleratorKey* accelerator )
 	ulong32 key = 0;
 	key = accelerator->getKeyCode() << 16;
 	key |= accelerator->getModifierMask();
-
+/*
 	std::map<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
 	if ( found != acceleratorMap_.end() ) {
 		delete found->second;
@@ -615,9 +626,13 @@ void UIToolkit::internal_registerAccelerator( AcceleratorKey* accelerator )
 	else {
 		acceleratorMap_[key] = accelerator;
 	}
-}
+	*/
 
-AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+	std::pair<ulong32,AcceleratorKey*> item(key,accelerator);
+	acceleratorMap_.insert( item );
+}	
+
+AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
 	AcceleratorKey* result = NULL;
 
@@ -625,10 +640,31 @@ AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCod
 	key = keyCode << 16;
 	key |= modifierMask;
 
+	/*
 	std::map<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
 	if ( found != acceleratorMap_.end() ) {
 		result = found->second;
 	}
+	*/
+
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
+	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );
+
+	std::multimap<ulong32,AcceleratorKey*>::iterator it = range.first;
+	while ( it != range.second ) {
+		AcceleratorKey* accel = it->second;
+
+		if ( (src == accel->getAssociatedControl()) || 
+				(src == accel->getAssociatedMenuItem()) || 
+				(src == accel->getAssociatedObject()) ) {
+			
+			result = accel;
+			break;
+		}
+
+		it ++;
+	}
+
 	return result;
 }
 
@@ -657,19 +693,62 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 		}
 	}
 
+	ulong32 key = 0;
+	key = event->getVirtualCode() << 16;
+	key |= event->getKeyMask();
+
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
+	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );
+
 	//look for accelerator in control then app
 	AcceleratorKey* accelerator = NULL;
 	Control* control = (Control*)event->getSource();
-	if ( control ) {
-		accelerator = control->getAccelerator( (VirtualKeyCode)event->getVirtualCode(), event->getKeyMask() );
-	}
 
-	if ( NULL == accelerator ) {
-		Application* app = Application::getRunningInstance();
-		if ( app ) {
-			accelerator = app->getAccelerator( (VirtualKeyCode)event->getVirtualCode(), event->getKeyMask() );
+	AccelMapIter it = range.first;
+	
+	if ( control ) {		
+		while ( it != range.second ) {
+			
+			AcceleratorKey* accel = it->second;
+			if ( accel->getAssociatedControl() == control ) {
+				accelerator = accel;
+				break;
+			}
+			
+			it ++;
 		}
 	}
+
+	//if accelerator is still null try and find the first matchign menu item
+	if ( NULL == accelerator ) {
+		it = range.first;
+		while ( it != range.second ) {
+			
+			AcceleratorKey* accel = it->second;
+			if ( accel->getAssociatedMenuItem() != NULL ) {
+				accelerator = accel;
+				break;
+			}
+			
+			it ++;
+		}		
+	}
+	
+	//if accelerator is still null try and find the first matching object
+	if ( NULL == accelerator ) {
+		it = range.first;
+		while ( it != range.second ) {
+			
+			AcceleratorKey* accel = it->second;
+			if ( accel->getAssociatedObject() != NULL ) {
+				accelerator = accel;
+				break;
+			}
+			
+			it ++;
+		}		
+	}
+
 
 	if ( NULL != accelerator ) {
 
@@ -912,13 +991,13 @@ void UIToolkit::internal_removeDefaultButton( Button* defaultButton )
 	}
 }
 
-void UIToolkit::internal_removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+void UIToolkit::internal_removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
 	ulong32 key = 0;
 	key = keyCode << 16;
 	key |= modifierMask;
 
-	std::map<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
+	std::multimap<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
 	if ( found != acceleratorMap_.end() ) {
 		found->second->release();
 		acceleratorMap_.erase( found );
@@ -927,7 +1006,7 @@ void UIToolkit::internal_removeAccelerator( const VirtualKeyCode& keyCode, const
 
 void UIToolkit::internal_removeAcceleratorKeysForControl( Control* control )
 {
-	typedef std::map<ulong32,AcceleratorKey*>::iterator accel_iter;
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator accel_iter;
 
 	std::vector<accel_iter> removeAccels;
 
@@ -949,6 +1028,55 @@ void UIToolkit::internal_removeAcceleratorKeysForControl( Control* control )
 	}
 
 }
+
+void UIToolkit::internal_removeAcceleratorKeysForMenuItem( MenuItem* menuItem )
+{
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator accel_iter;
+
+	std::vector<accel_iter> removeAccels;
+
+	accel_iter it = acceleratorMap_.begin();
+
+	while ( it != acceleratorMap_.end() ) {
+		AcceleratorKey* accel = it->second;
+		if ( accel->getAssociatedMenuItem() == menuItem ) {
+			accel->release();
+			removeAccels.push_back( it );
+		}
+		it ++;
+	}
+
+	std::vector<accel_iter>::iterator it2 = removeAccels.begin();
+	while ( it2 != removeAccels.end() ) {
+		acceleratorMap_.erase( *it2 );
+		it2 ++;
+	}
+}
+
+void UIToolkit::internal_removeAcceleratorKeysForObject( Object* src )
+{
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator accel_iter;
+
+	std::vector<accel_iter> removeAccels;
+
+	accel_iter it = acceleratorMap_.begin();
+
+	while ( it != acceleratorMap_.end() ) {
+		AcceleratorKey* accel = it->second;
+		if ( accel->getAssociatedObject() == src ) {
+			accel->release();
+			removeAccels.push_back( it );
+		}
+		it ++;
+	}
+
+	std::vector<accel_iter>::iterator it2 = removeAccels.begin();
+	while ( it2 != removeAccels.end() ) {
+		acceleratorMap_.erase( *it2 );
+		it2 ++;
+	}
+}
+
 
 void UIToolkit::addToUpdateTimer( Component* component )
 {
@@ -1010,6 +1138,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.6  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *

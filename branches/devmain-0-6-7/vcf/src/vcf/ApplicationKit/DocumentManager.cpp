@@ -373,10 +373,10 @@ void DocumentManager::updateUndo( ActionEvent* event, Document* doc )
 
 		bool hasUndoableCmds = undoRedoStack.hasUndoableItems();
 		if ( true == hasUndoableCmds ) {
-			event->setText( "Undo " + undoRedoStack.getCurrentUndoCommand()->getName() + "\tCtrl+Z" );
+			event->setText( "Undo " + undoRedoStack.getCurrentUndoCommand()->getName() );
 		}
 		else {
-			event->setText( "Nothing to Undo\tCtrl+Z" );
+			event->setText( "Nothing to Undo" );
 		}
 		event->setEnabled( hasUndoableCmds );
 	}
@@ -388,10 +388,10 @@ void DocumentManager::updateRedo( ActionEvent* event, Document* doc )
 		UndoRedoStack& undoRedoStack = getUndoRedoStack( doc );
 		bool hasRedoableCmds = undoRedoStack.hasRedoableItems();
 		if ( true == hasRedoableCmds ) {
-			event->setText( "Redo " + undoRedoStack.getCurrentRedoCommand()->getName()+ "\tCtrl+Shift+Z" );
+			event->setText( "Redo " + undoRedoStack.getCurrentRedoCommand()->getName() );
 		}
 		else {
-			event->setText( "Nothing to Redo\tCtrl+Shift+Z" );
+			event->setText( "Nothing to Redo" );
 		}
 		event->setEnabled( hasRedoableCmds );
 	}
@@ -608,6 +608,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/14 04:17:23  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.3  2005/03/05 18:21:18  ddiego
 *fixed a bug that marcello found in the vcfbuilder that is actually a bug in the document manager (see bug 1157348).
 *
