@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib/"
+			OutputDirectory="..\..\..\lib/"
 			IntermediateDirectory=".\vc70\Release/"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -46,7 +46,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\lib/"
-				ProgramDatabaseFile=".\..\..\..\lib\RemoteObjectKit_vc70.pdb"
+				ProgramDatabaseFile="..\..\..\lib\RemoteObjectKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/RemoteObjectKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib\RemoteObjectKit_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\RemoteObjectKit_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -72,7 +72,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib/"
+			OutputDirectory="..\..\..\lib/"
 			IntermediateDirectory=".\vc70\Debug/"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -106,7 +106,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\lib/"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib\RemoteObjectKit_vc70_d.pdb"
+				ProgramDatabaseFile="..\..\..\lib\RemoteObjectKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/RemoteObjectKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -114,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib\RemoteObjectKit_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\RemoteObjectKit_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib/"
+			OutputDirectory="..\..\..\lib/"
 			IntermediateDirectory=".\vc70\DebugDLL/"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -47,7 +47,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\lib/"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib\GraphicsKit_vc70_d.pdb"
+				ProgramDatabaseFile="..\..\..\lib\GraphicsKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/GraphicsKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -55,7 +55,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib\GraphicsKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\GraphicsKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -73,7 +73,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib/"
+			OutputDirectory="..\..\..\lib/"
 			IntermediateDirectory=".\vc70\ReleaseDLL/"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -108,7 +108,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\lib/"
-				ProgramDatabaseFile=".\..\..\..\lib\GraphicsKit_vc70.pdb"
+				ProgramDatabaseFile="..\..\..\lib\GraphicsKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/GraphicsKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -116,7 +116,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\..\lib\GraphicsKitDLL_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\GraphicsKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

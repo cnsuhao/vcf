@@ -71,6 +71,7 @@ g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
 g_keepFirstDot_standard = 3 # === g_KeepFirstDot_AddIfNoDots # standard format for paths in projects files has ./ at the beginning
 g_fix_slash_in_path = False # True only when we need to fix it. Then put it back
+
 # under win32 I am forced to get the uuid from a table because the uuid algorithms on win32 are pretty bad
 # this ends up in having a limited number of uuid which can cause problems
 # so it is suggested use this script under win32 only when debugging, even if I can say
@@ -804,11 +805,21 @@ class FileUtils:
         else:
             pass
 
+        # brute force, because I am tired of coding this. I just need it working !
         if ( hasCurr ):
-            if ( keepFirstDot ):
+            if ( keepFirstDot == g_KeepFirstDot_True ):
                 if ( path and path[0] == '.' ):
                     if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
                         path = curr + path
+            elif ( keepFirstDot == g_KeepFirstDot_Add ):
+                if ( path and path[0] == '.' ):
+                    if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
+                        path = curr + path
+            elif ( keepFirstDot == g_KeepFirstDot_AddIfNoDots ):
+                # we do not add '.\' at the beginning if we have: '../'
+                # and not when we have something like: "$(VCF_LIB)\"
+                if ( path and not path[0] == '.' and not path[0] == '$' ):
+                    path = curr + path
             else:
                 if ( path and path[0] == '.' ):
                     if ( 1 < len(path) and path[1] in '/\\' ):
