@@ -435,32 +435,32 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case TVN_GETDISPINFOW: case TVN_GETDISPINFOA: {
-			if ( System::isUnicodeEnabled() && (message == TVN_GETDISPINFOW) ) {
-				LPNMTVDISPINFOW lptvdi = (LPNMTVDISPINFOW) lParam ;
-				if ( lptvdi->item.mask & TVIF_TEXT ) {
-					static String text;
-					TreeItem* item = (TreeItem*)lptvdi->item.lParam;
-					if ( NULL != item ) {
-						text = item->getCaption();
-						text.copy( lptvdi->item.pszText, text.size() );
-						lptvdi->item.pszText[text.size()] = 0;
-					}
+		case TVN_GETDISPINFOW: {
+			LPNMTVDISPINFOW lptvdi = (LPNMTVDISPINFOW) lParam ;
+			if ( lptvdi->item.mask & TVIF_TEXT ) {
+				static String text;
+				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
+				if ( NULL != item ) {
+					text = item->getCaption();
+					text.copy( lptvdi->item.pszText, text.size() );
+					lptvdi->item.pszText[text.size()] = 0;
 				}
 			}
-			else if ( !System::isUnicodeEnabled() && (message == TVN_GETDISPINFOA) ) {
-				LPNMTVDISPINFOA lptvdi = (LPNMTVDISPINFOA) lParam ;
-				if ( lptvdi->item.mask & TVIF_TEXT ) {
-					static String text;
-					TreeItem* item = (TreeItem*)lptvdi->item.lParam;
-					if ( NULL != item ) {
-						AnsiString tmp = item->getCaption();
-						
-						tmp.copy( lptvdi->item.pszText, tmp.size() );
-					}
+		}
+		break;
+
+		case TVN_GETDISPINFOA: {			
+			LPNMTVDISPINFOA lptvdi = (LPNMTVDISPINFOA) lParam ;
+			if ( lptvdi->item.mask & TVIF_TEXT ) {
+				static AnsiString text;
+				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
+				if ( NULL != item ) {
+					text = item->getCaption();
+					
+					text.copy( lptvdi->item.pszText, text.size() );
+					lptvdi->item.pszText[text.size()] = 0;
 				}
-			}
-			
+			}			
 		}
 		break;
 
@@ -469,9 +469,38 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case TVN_ITEMEXPANDED:{
+		case TVN_ITEMEXPANDEDA:{
 			internalTreeItemExpanded_ = true;
-			NMTREEVIEW* treeview = (NMTREEVIEW*)lParam;
+			NMTREEVIEWA* treeview = (NMTREEVIEWA*)lParam;
+			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
+			if ( NULL != item ) {
+
+				if ( treeview->action & TVE_EXPAND ) {
+					item->expand( true );
+				}
+				else if ( treeview->action & TVE_COLLAPSE ) {
+					item->expand( false );
+				}
+
+				POINT tmpPt = {0,0};
+				GetCursorPos( &tmpPt );
+				::ScreenToClient( hwnd_, &tmpPt );
+				ItemEvent event( treeControl_, TREEITEM_EXPANDED );
+
+				event.setUserData( (void*)item );
+
+				Point pt( tmpPt.x, tmpPt.y );
+				event.setPoint( &pt );
+
+				treeControl_->handleEvent( &event );
+			}
+			internalTreeItemExpanded_ = false;
+		}
+		break;
+
+		case TVN_ITEMEXPANDEDW:{
+			internalTreeItemExpanded_ = true;
+			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
 			if ( NULL != item ) {
 
@@ -1021,6 +1050,9 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 21:18:33  ddiego
+*some more minor win32 unicode changes
+*
 *Revision 1.1.2.3  2004/05/04 17:16:07  ddiego
 *updated some win32 stuff for unicode compliance
 *

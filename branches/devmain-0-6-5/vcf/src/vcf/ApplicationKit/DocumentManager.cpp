@@ -505,6 +505,11 @@ Enumerator<Document*>* DocumentManager::getOpenedDocuments()
 
 Document* DocumentManager::openFromFileName( const String& fileName )
 {
+	if ( fileName.empty() ) {
+		return NULL;
+	}
+
+
 	FilePath fp = fileName;
 	String mimetype = getMimeTypeFromFileExtension( fp );
 	Document* doc = NULL;
@@ -556,6 +561,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/06 21:18:33  ddiego
+*some more minor win32 unicode changes
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

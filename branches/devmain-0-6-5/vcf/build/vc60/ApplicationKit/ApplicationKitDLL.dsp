@@ -23,6 +23,8 @@ CFG=ApplicationKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName "ApplicationKitDLL"
+# PROP Scc_LocalPath "..\..\.."
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -1486,10 +1488,6 @@ SOURCE=../../../src/vcf/ApplicationKit/ListViewControl.h
 # Begin Source File
 
 SOURCE=../../../src/vcf/ApplicationKit/MultilineTextControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=../../../src/vcf/ApplicationKit/OpenGLControl.h
 # End Source File
 # Begin Source File
 
