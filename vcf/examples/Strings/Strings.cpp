@@ -9,7 +9,8 @@ using namespace VCF;
 
 /**
 This example show how to work with strings 
-in the VCF abnd some of the extra utility functions in the StringUtils class
+in the VCF and some of the extra utility functions in the StringUtils class.
+Many thanks to Cesar Mello for doing the initial work on this
 */
 int main(int argc, char *argv[])
 {
