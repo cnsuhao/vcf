@@ -1,5 +1,5 @@
 //$$Root$$Application.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "$$Root$$Application.h"
 #include "$$MainWindow$$.h"
 

@@ -1,5 +1,5 @@
 //$$root$$.cpp
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 
 
 #include $$ROOT_INCLUDE$$

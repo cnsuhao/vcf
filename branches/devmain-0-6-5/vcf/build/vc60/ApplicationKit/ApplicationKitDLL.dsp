@@ -23,6 +23,8 @@ CFG=ApplicationKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -141,10 +143,17 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKit.h
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitPrivate.h
 # End Source File
-# Begin Source File
 
+# Begin Source File
+SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=..\..\..\src\vcf\ApplicationKit\BadComponentStateException.h
 # End Source File
+
+
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\BadModelStateException.h

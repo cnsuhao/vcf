@@ -1,9 +1,9 @@
 //$$root$$.cpp
 
 
-#include "ApplicationKit.h"
-#include "LibraryApplication.h"
-#include "Win32Peer.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/LibraryApplication.h"
+#include "vcf/ApplicationKit/Win32Peer.h"
 
 
 
