@@ -21,7 +21,11 @@ namespace VCF  {
 */
 class Scrollable : public Interface {
 public:
-	virtual ~Scrollable(){};
+	Scrollable(){
+	};
+
+	virtual ~Scrollable(){
+	};
 
 	/**
 	* sets if the vertical scrolbar is ever visible
@@ -210,14 +214,17 @@ public:
 	virtual void setHorizontalRightScrollSpace( const double& rightScrollSpace ) = 0;
 
 	/**
-	* gets the control containing the scrollbars and associated to them.
-	* MP ?
+	* gets the control this scrollable has been assogiated to.
+	*@see setScrollableControl()
 	*/
 	virtual Control* getScrollableControl() = 0;
 
 	/**
-	* sets the control containing the scrollbars and associated to them.
-	* MP ?
+	* sets the target control for the scrolling operation of the scrollable
+	* instance. At this point the scrollbars will be resized with the control
+	* and it's content will be scrolled by the scrollable.
+	*@see ScrollbarManager::setTarget()
+	*@see Control::setScrollable()
 	*/
 	virtual void setScrollableControl( Control* scrollableControl ) = 0;
 
@@ -299,7 +306,7 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2005/01/15 00:52:38  marcelloptr
+*Revision 1.3.2.3  2005/01/17 17:52:19  marcelloptr
 *bugfix [ 1099910 ] plus other improvements of the scrolling
 *
 *Revision 1.3.2.1  2005/01/13 19:41:48  marcelloptr
