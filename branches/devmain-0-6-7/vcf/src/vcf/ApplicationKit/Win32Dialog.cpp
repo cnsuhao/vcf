@@ -316,7 +316,13 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 	HWND activeWnd = GetActiveWindow();
 	//if ( !IsWindow ( activeWnd ) ) {
 		Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
-		activeWnd = toolkit->getDummyParent();
+		/**
+		JC - I commented this line out as it was creating a 
+		new entry in the start bar for the window. I do not think that is
+		correct behaviour. In addition, it would not return focus to the 
+		window that called it. Again I think this is incorrect behaviour
+		*/
+		//activeWnd = toolkit->getDummyParent();
 	//}
 
 	String tmp = caption;
@@ -393,6 +399,10 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/02/10 20:13:02  ddiego
+*commented out a line of code that was causing a message dialog
+*to popup with a sepateate start bar window entry and non-modal behaviour.
+*
 *Revision 1.4.2.1  2004/12/10 21:14:00  ddiego
 *fixed bug 1082362 App Icons do not appear.
 *
