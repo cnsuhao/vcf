@@ -71,6 +71,14 @@ public:
 	};
 
 	/**
+	*creates a VariantData initialized by an unsigned int value
+	*/
+	VariantData( const unsigned int& val ) {
+		UIntVal = val;
+		type = pdUInt;
+	};
+
+	/**
 	*creates a VariantData initialized by a long value
 	*/
 	VariantData( const long& val ) {
@@ -202,8 +210,8 @@ public:
 
 	/**
 	*defines the data type of the VariantData, where type can represent
-	*an int, long, unsigned long, short, char, double, float, bool, string,
-	*Enum pointer, or Object pointer.
+	* an int, unsigned int, long, unsigned long, short, char, 
+	* double, float, bool, string, Enum pointer, or Object pointer.
 	*/
 	PropertyDescriptorType type;
 
@@ -211,6 +219,7 @@ public:
 			int IntVal;
 			long LongVal;
 			short ShortVal;
+			unsigned int UIntVal;
 			unsigned long ULongVal;
 			float FloatVal;
 			char CharVal;
@@ -245,6 +254,13 @@ public:
 	*/
 	operator short () const {
 		return ShortVal;
+	};
+
+	/**
+	*converts the VariantData to an unsigned int
+	*/
+	operator unsigned int () const {
+		return UIntVal;
 	};
 
 	/**
@@ -348,6 +364,15 @@ public:
 	VariantData& operator=( const short& newValue ){
 		ShortVal = newValue;
 		type = pdShort;
+		return *this;
+	};
+
+	/**
+	*Assigns an unsigned int value to the VariantData
+	*/
+	VariantData& operator=( const unsigned int& newValue ){
+		UIntVal = newValue;
+		type = pdUInt;
 		return *this;
 	};
 
@@ -498,6 +523,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2004/12/24 04:53:59  marcelloptr
+*added support for unsigned int in VariantData. Fixed other glitches of this class.
+*
 *Revision 1.2.4.1  2004/12/24 00:59:28  marcelloptr
 *VariantData::toString() made const
 *
