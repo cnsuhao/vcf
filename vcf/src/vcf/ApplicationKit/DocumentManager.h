@@ -594,25 +594,25 @@ protected:
 	virtual void saveDialogFinished( CommonFileSave* saveDialog ){};
 
 	/* called to update ... a cut operation */
-	void updateCut( ActionEvent* event, Document* doc );
+	virtual void updateCut( ActionEvent* event, Document* doc );
 
 	/* called to update ... a copy operation */
-	void updateCopy( ActionEvent* event, Document* doc );
+	virtual void updateCopy( ActionEvent* event, Document* doc );
 
 	/* called to update ... a paste operation */
-	void updatePaste( ActionEvent* event, Document* doc );
+	virtual void updatePaste( ActionEvent* event, Document* doc );
 
 	/* called to update ... an undo operation */
-	void updateUndo( ActionEvent* event, Document* doc );
+	virtual void updateUndo( ActionEvent* event, Document* doc );
 
 	/* called to update ... a redo operation */
-	void updateRedo( ActionEvent* event, Document* doc );
+	virtual void updateRedo( ActionEvent* event, Document* doc );
 
 	/* removes the undo redo stack from the specified document */
 	void removeUndoRedoStackForDocument( Document* doc );
 
 	/* called to save the changes done on a specified document */
-	UIToolkit::ModalReturnType saveChanges( Document* document );
+	virtual UIToolkit::ModalReturnType saveChanges( Document* document );
 
 	/* add an action to the internal action map */
 	void addAction( ulong32 tag, Action* action );
@@ -1656,6 +1656,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.3  2005/03/05 18:21:18  ddiego
 *fixed a bug that marcello found in the vcfbuilder that is actually a bug in the document manager (see bug 1157348).
 *

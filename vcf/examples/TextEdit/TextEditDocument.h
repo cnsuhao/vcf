@@ -6,6 +6,13 @@
 
 #include "vcf/ApplicationKit/TextModel.h"
 
+/**
+Include this file to access the various RTTI macros
+for declaring RTTI information for your class(es)
+*/
+#include "vcf/FoundationKit/RTTIMacros.h"
+
+
 
 #define TEXTEDITDOCUMENT_CLASSID		"e0d4c047-60f1-4397-b3af-9e467057b7c4"
 
@@ -74,6 +81,7 @@ public:
 		*this = rhs;
 	}
 
+#ifndef _MSC_VER
 	TextEditDocumentEvent& operator=( const TextEditDocumentEvent& rhs ) {
 		VCF::ModelEvent::operator = (rhs);
 
@@ -81,6 +89,7 @@ public:
 		text_ = rhs.text_;
 		return *this;
 	}
+#endif
 
 	virtual VCF::Object* clone( bool deep=false ) {
 		return new TextEditDocumentEvent(*this);
@@ -96,8 +105,8 @@ class TextEditDocument documentation
 */
 class TextEditDocument : public VCF::Document, public VCF::TextModel {
 public: 
-	BEGIN_CLASSINFO( TextEditDocument, "TextEditDocument", "VCF::Document", TEXTEDITDOCUMENT_CLASSID )
-	END_CLASSINFO(TextEditDocument)
+	_class_rtti_( TextEditDocument, "VCF::Document", TEXTEDITDOCUMENT_CLASSID )
+	_class_rtti_end_
 
 	enum TextDocumentEvents {
 		teTextAdded = VCF::Model::MODEL_CHANGED + 1000,

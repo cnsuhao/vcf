@@ -6,12 +6,18 @@
 
 
 /**
+Include this file to access the various RTTI macros
+for declaring RTTI information for your class(es)
+*/
+#include "vcf/FoundationKit/RTTIMacros.h"
+
+/**
 class TextEditWindow documentation
 */
 class TextEditWindow  : public VCF::Window{
 public: 
-	BEGIN_CLASSINFO( TextEditWindow, "TextEditWindow", "VCF::Window", TEXTEDITWINDOW_CLASSID )
-	END_CLASSINFO( TextEditWindow )
+	_class_rtti_( TextEditWindow, "VCF::Window", TEXTEDITWINDOW_CLASSID )
+	_class_rtti_end_
 
 	TextEditWindow();
 	virtual ~TextEditWindow();

@@ -6,7 +6,11 @@
 #include "vcf/ApplicationKit/ModelViewKit.h"
 #include "vcf/ApplicationKit/EtchedBorder.h"
 
-
+/**
+Include this file to access the various RTTI macros
+for declaring RTTI information for your class(es)
+*/
+#include "vcf/FoundationKit/RTTIMacros.h"
 
 
 using namespace VCF;
@@ -49,8 +53,8 @@ public:
 
 class CircleDocument : public Document {
 public:
-	BEGIN_CLASSINFO( CircleDocument, "CircleDocument", "VCF::Document", CIRCLEDOCUMENT_CLASSID )
-	END_CLASSINFO(CircleDocument)
+	_class_rtti_( CircleDocument, "VCF::Document", CIRCLEDOCUMENT_CLASSID )
+	_class_rtti_end_
 
 
 	enum {
@@ -228,7 +232,7 @@ public:
 	CircleInfoUI() : CustomControl(true) {
 
 		EtchedBorder* bdr = new EtchedBorder();
-		bdr->setStyle( GraphicsContext::etSunken );
+		bdr->setEdgeStyle( GraphicsContext::etSunken );
 		setBorder( bdr );
 
 
@@ -331,7 +335,7 @@ public:
 
 
 		EtchedBorder bdr;
-		bdr.setStyle( GraphicsContext::etSunken );
+		bdr.setEdgeStyle( GraphicsContext::etSunken );
 		bdr.paint( &r, ctx );
 
 
@@ -433,8 +437,8 @@ public:
 
 class DocViewBasicsWindow : public Window {
 public:
-	BEGIN_CLASSINFO( DocViewBasicsWindow, "DocViewBasicsWindow", "VCF::Window", DOCVIEWBASICSWINDOW_CLASSID )
-	END_CLASSINFO(DocViewBasicsWindow)
+	_class_rtti_( DocViewBasicsWindow, "VCF::Window", DOCVIEWBASICSWINDOW_CLASSID )
+	_class_rtti_end_
 
 
 

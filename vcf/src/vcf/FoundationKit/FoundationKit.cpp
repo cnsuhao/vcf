@@ -12,6 +12,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/TextCodec.h"
 #include "vcf/FoundationKit/StringsMessageLoader.h"
 
+#include "vcf/FoundationKit/RTTIMacros.h"
+
 #include "vcf/FoundationKit/FoundationKitRTTI.inl"
 
 //#include "utils/Dictionary.h"
@@ -119,6 +121,9 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2.4.1  2005/02/16 05:09:33  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

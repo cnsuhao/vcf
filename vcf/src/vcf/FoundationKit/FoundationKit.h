@@ -256,8 +256,8 @@ namespace VCF{
 #include "vcf/FoundationKit/ClassRegistry.h"
 #include "vcf/FoundationKit/ObjectWithEvents.h"
 
-#include "vcf/FoundationKit/VCFRTTIImpl.h"
-#include "vcf/FoundationKit/ClassInfo.h"
+//#include "vcf/FoundationKit/VCFRTTIImpl.h"
+//#include "vcf/FoundationKit/ClassInfo.h"
 
 
 #include "vcf/FoundationKit/Runnable.h"
@@ -315,6 +315,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.4.2.1  2005/02/16 05:09:33  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

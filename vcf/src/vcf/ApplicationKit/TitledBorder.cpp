@@ -42,6 +42,13 @@ TitledBorder::TitledBorder(const String& title, long sidesToPaint, const Font& f
 
 }
 
+TitledBorder::TitledBorder( Component* owner ):
+	Border(owner),
+	sidesToPaint_(GraphicsContext::etAllSides)
+{
+
+}
+
 
 
 void TitledBorder::paint( Control* control, GraphicsContext* context )
@@ -119,6 +126,9 @@ Rect TitledBorder::getClientRect( Rect* initialBounds, Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

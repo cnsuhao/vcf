@@ -17,28 +17,19 @@ where you installed the VCF.
 namespace VCF {
 
 
+class Rect;
+class Color;
 class Border;
-
 class Font;
-
 class ControlPeer;
-
 class GraphicsContext;
-
 class ControlGraphicsContext;
-
 class PopupMenu;
-
 class Scrollable;
-
 class Cursor;
-
 class Model;
-
 class AcceleratorKey;
-
 class Container;
-
 class Frame;
 
 #define CONTROL_CLASSID		"B91B1828-3639-4bcf-9882-342F16C90E21"
@@ -333,32 +324,32 @@ public:
 	Border* getBorder();
 
 	/**
-	*sets the border for this control. The control will then
-	*own the border, increasing it's (the border's) reference count.
-	*If the control previously had a valid border object, it will release
-	*it's reference to it.
+	\p
+	Sets the border for this control. The control will check the
+	border's owner value, and if it's NULL then it will set itself
+	as the component owner of the border.
 	*/
 	void setBorder( Border* border );
 
     /**
-     * returns the bounds in parent coordinates of the Control. The Control derived class must call it's Peer's getBounds() method
-     */
+    returns the bounds in parent coordinates of the Control. The Control derived class must call it's Peer's getBounds() method
+    */
     virtual Rect getBounds() ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*returns the bounds in terms of the control's coordinates. Thus the top and
-	*left will typically be 0.0, 0.0, and the right and bottom of the bounds
-	*will typically equal the width and height of the control.
+	Returns the bounds in terms of the control's coordinates. Thus the top and
+	left will typically be 0.0, 0.0, and the right and bottom of the bounds
+	will typically equal the width and height of the control.
 	*/
 	virtual Rect getClientBounds( const bool& includeBorder = true ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*returns the left position in parent coordinates
+	Returns the left position in parent coordinates
 	*/
     virtual double getLeft() ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*returns the right position in parent coordinates
+	Returns the right position in parent coordinates
 	*/
     virtual double getRight() ;
 
@@ -1287,6 +1278,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3  2004/12/01 04:31:20  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

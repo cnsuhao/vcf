@@ -26,7 +26,7 @@ ProgressControl::ProgressControl():
 	stepItIncrement_(1.0)
 {
 	EtchedBorder* border = new EtchedBorder();
-	border->setStyle( GraphicsContext::etSunken );
+	border->setEdgeStyle( GraphicsContext::etSunken );
 	setBorder( border );
 
 	progressBarColor_ = new Color();
@@ -256,6 +256,9 @@ Win32 side we can phase in this code
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.2  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *

@@ -27,6 +27,10 @@ namespace VCF{
 #define SYSTEM_CATEGORY			"System"
 #define DIALOG_CATEGORY			"Dialogs"
 #define NETWORKING_CATEGORY		"Networking"
+#define BORDER_CATEGORY			"Borders"
+#define CONTAINER_CATEGORY		"Containers"
+#define MODEL_CATEGORY			"Models"
+#define VIEW_CATEGORY			"Views"
 
 class ListviewPeer;
 class ComboBoxPeer;
@@ -613,6 +617,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.3  2005/01/26 22:43:18  ddiego
 *added some docs on event handler and post event mechanics.
 *

@@ -118,10 +118,6 @@ void Control::destroy()
 		delete peer_;
 		peer_ = NULL;
 	}
-	if ( NULL != border_ ){
-		border_->release();
-		border_ = NULL;
-	}
 
 	if ( NULL != font_ ){
 		font_->free();
@@ -143,15 +139,7 @@ void Control::destroy()
 	}
 	view_ = NULL;
 
-	if ( NULL != container_ ) {
-		Object* obj = dynamic_cast<Object*>(container_);
-		if ( NULL != obj ) {
-			obj->release();
-		}
-		else {
-			delete container_;
-		}
-	}
+	
 	container_ = NULL;
 
 	Component::destroy();
@@ -163,16 +151,15 @@ Border* Control::getBorder()
 }
 
 void Control::setBorder( Border* border )
-{
-	if ( NULL != border_ ){
-		border_->release();
-		border_ = NULL;
-	}
+{	
 	border_ = border;
-	if ( NULL != border_ ){
-		border_->addRef();
-	}
 
+	if ( NULL != border_ ) {
+		if ( NULL == border_->getOwner() ) {
+			addComponent( border_ );
+		}
+	}
+	
 	peer_->setBorder( border_ );
 }
 
@@ -1230,18 +1217,12 @@ void Control::translateFromScreenCoords( Rect* rect )
 
 void Control::setContainer( Container* container )
 {
-	if ( NULL != container_ ) {
-		Object* obj = dynamic_cast<Object*>(container_);
-		if ( NULL != obj ) {
-			obj->release();
-		}
-	}
 	container_ = container;
 
 	if ( NULL != container_ ) {
-		Object* obj = dynamic_cast<Object*>(container_);
-		if ( NULL != obj ) {
-			obj->addRef();
+		
+		if ( NULL == container_->getOwner() ) {
+			addComponent(container_) ;
 		}
 
 		container_->setContainerControl( this );
@@ -1482,6 +1463,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.4.2.6  2005/02/28 04:51:55  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *

@@ -20,6 +20,8 @@ where you installed the VCF.
 #	include "vcf/ApplicationKit/HTMLBrowserPeer.h"
 #endif // _VCF_HTMLBROWSERPEER_H__
 
+#include "vcf/FoundationKit/RTTIMacros.h"
+
 
 //this will automatilcally pull in the atl.lib
 //#define _ATL_DLL
@@ -510,8 +512,8 @@ protected:
 */
 class WIN32HTMLBROWSER_API Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer {
 public:
-	BEGIN_CLASSINFO(Win32HTMLBrowser, "VCF::Win32HTMLBrowser", "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )
-	END_CLASSINFO(Win32HTMLBrowser)
+	_class_rtti_(Win32HTMLBrowser, "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )
+	_class_rtti_end_
 
 	Win32HTMLBrowser();
 
@@ -580,6 +582,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.1  2005/02/21 19:07:11  ddiego
 *fixed missing code from createParam changes in win32 html browser kit
 *
