@@ -21,15 +21,11 @@ ObjectWithEvents::ObjectWithEvents()
 ObjectWithEvents::~ObjectWithEvents()
 {
 	//destroy all the event handlers
-	StringUtils::traceWithArgs( "In ObjectWithEvents::~ObjectWithEvents for instance %p, class: %ls\n",
-									this, getClassName().c_str() );
 									
 	std::map<String,EventHandler*>::iterator it = eventHandlers_.begin();
 	while ( it != eventHandlers_.end() ){
 		
 		EventHandler* ev = it->second;
-		String name = it->first;
-		StringUtils::traceWithArgs( "Deleting event handler (%p) \"%ls\"\n", ev, name.c_str() );
 			  
 		delete ev;
 		
@@ -72,6 +68,9 @@ void ObjectWithEvents::addEventHandlerList( EventHandler::Vector* eventHandlerLi
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/18 02:07:32  ddiego
+*fixed a bug in StringUtils format and trace  - from osx side
+*
 *Revision 1.1.2.3  2004/05/16 02:39:09  ddiego
 *OSX code updates
 *

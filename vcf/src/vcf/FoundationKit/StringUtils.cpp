@@ -29,12 +29,13 @@ String StringUtils::abbrevMonths[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 void StringUtils::traceWithArgs( String text,... )
 {
-	String text2 = StringUtils::convertFormatString( text );
+	
+	text = StringUtils::convertFormatString( text );
 	
 //#ifdef _DEBUG
 	va_list argList;
 
-	va_start( argList, text2 );     // Initialize variable arguments.
+	va_start( argList, text );     // Initialize variable arguments.
 
 	VCFChar* buf = new VCFChar[MAX_TRACE_STRING];
 	memset( buf, 0, MAX_TRACE_STRING*sizeof(VCFChar) );
@@ -43,7 +44,7 @@ void StringUtils::traceWithArgs( String text,... )
     #ifdef VCF_OSX
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, text2.c_str(), text2.size() );    
+	CFStringAppendCharacters( fmt, text2.c_str(), text.size() );    
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, argList );
     
@@ -55,10 +56,10 @@ void StringUtils::traceWithArgs( String text,... )
     CFRelease( fmt );
     
     #else
-      vswprintf( buf, MAX_TRACE_STRING, text2.c_str(), argList );
+      vswprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );
     #endif	
 #else
-	_vsnwprintf( buf, MAX_TRACE_STRING, text2.c_str(), argList );
+	_vsnwprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );
 #endif
 
 	va_end( argList );              // Reset variable arguments.
@@ -399,11 +400,12 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 {
 	VCF::String result = "";
 
-	String formatText2 = StringUtils::convertFormatString( formatText );
+	
+	formatText = StringUtils::convertFormatString( formatText );
 	
 	va_list argList;
 
-	va_start( argList, formatText2 );     // Initialize variable arguments.
+	va_start( argList, formatText );     // Initialize variable arguments.
 
 	VCFChar* buf = new VCFChar[MAX_TRACE_STRING];
 	memset( buf, 0, MAX_TRACE_STRING*sizeof(VCFChar) );
@@ -425,7 +427,7 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 #elif VCF_POSIX
 	vswprintf( buf, MAX_TRACE_STRING, formatText2.c_str(), argList );
 #else
-	_vsnwprintf( buf, MAX_TRACE_STRING, formatText2.c_str(), argList );
+	_vsnwprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
 #endif
 
 	va_end( argList );              // Reset variable arguments.
@@ -1251,6 +1253,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/05/18 02:07:32  ddiego
+*fixed a bug in StringUtils format and trace  - from osx side
+*
 *Revision 1.1.2.6  2004/05/16 02:39:09  ddiego
 *OSX code updates
 *
