@@ -25,6 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
 
+
 -->
 
 
@@ -143,6 +144,12 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para></para>
 			</answer>
 			<question>
+				<para>What other libraries do I need to get the VCF to run?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			<question>
 				<para>What do I need to build ? Why do I have to build anything ? 
 				Can't I just get the binaries ?</para>
 			</question>
@@ -207,12 +214,34 @@ about that? I just saw the installer telling me you own the copyright, is that s
 	<section><title>Contributing</title>
 	<qandaset>
 		<qandaentry>
-			<question>
-				<para>Do I have to checkout all the code from sourceforge before I can add  something?</para>
+			<question> 
+				<para>Do I have to checkout all the code from sourceforge before 
+					I can add  something?</para> 
 			</question>
 			<answer>
 				<para></para>
-			</answer>			
+			</answer>
+
+			<question>
+				<para>How do I joing the project?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+
+			<question>
+				<para>Can I submit changes with out using CVS?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			
+			<question>
+				<para>Do you accept a patches? </para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
 		</qandaentry>
 	</qandaset>			
 	</section>
@@ -421,6 +450,14 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				</para>
 			</answer>
 			<question>
+				<para>Does the VCF support Unicode?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
 				<para>Does the VCF support i18n and l10n ?</para>
 			</question>
 			<answer>
@@ -444,7 +481,35 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				An answer.
 				</para>
 			</answer>
-			
+			<question>
+				<para>How do I get at the command line arguments sent to my
+						application (for example, if I wanted to know what file 
+						to open)?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>I got the VCF installed fine and my program compiled and 
+						linked fine, but as soon as I run my application
+						it crashes! What's wrong?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>		
+			<question>
+				<para>Is there some kind of sprintf like routine in the VCF? 
+						I can't seem to find anything and I really would like one!</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
 			<question>
 				<para></para>
 			</question>
@@ -588,6 +653,15 @@ about that? I just saw the installer telling me you own the copyright, is that s
 	<qandaset>
 		<qandaentry>
 			<question>
+				<para>What kinds of controls(or widgets) are there in the 
+				VCF?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
 				<para>How do I create a Timer ?</para>
 			</question>
 			<answer>
@@ -674,7 +748,167 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>
 				An answer.
 				</para>
-			</answer>				
+			</answer>
+			<question>
+				<para>Can I use threads in my GUI built with the ApplicationKit? If
+					so what's the best way to do this?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Can I change the parent of a control at runtime?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I set the position of a Control? What about the
+					width and/or height?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I add a context menu?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How can I send an event asynchronously to an event
+						handler? Is there some equivalent to Window's PostMessage?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I add a menu bar and menu items?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I create and display a modal dialog?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I show a message in a modal dialog, such as an 
+					error message?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I tell what the top level window it?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How to I get my control to refresh?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I make a control disabled (or enabled)? How do 
+					I tell if it's already enabled?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I make a floating top level window apear with 
+					no borders or caption/title bar (like a splash screen)?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I set the focus to a particular control? How do 
+						I tell which control is currently focused?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I support drag and drop?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I change the cursor of a Control?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I add support for hot key combinations (like Ctrl+"C")?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>How do I add scrolling support for a control?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>Can I make my own cursor? If so how?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
+			<question>
+				<para>What's the difference bewteen a Component, Control,
+						Frame, Dialog and Window?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
 		</qandaentry>
 	</qandaset>
 	</section>
@@ -726,6 +960,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.3  2003/10/01 21:49:56  ddiego
+*** empty log message ***
+
 Revision 1.1.2.2  2003/10/01 04:34:52  ddiego
 more faq editing
 
