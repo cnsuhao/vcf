@@ -109,72 +109,8 @@ SOURCE=..\..\..\include\core\FoundationKitSelectLib.h
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\..\src\Exceptions\BasicException.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\BasicInputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\BasicOutputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Class.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ClassRegistry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\CommandLine.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\Condition.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\Directory.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\ErrorLog.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\Event.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\EventHandler.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\File.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\FilePath.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\FileStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\FileUtils.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\FoundationKit.cpp
 # ADD CPP /Yc"FoundationKit.h"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\InterfaceClass.cpp
 # End Source File
 # Begin Source File
 
@@ -183,86 +119,6 @@ SOURCE=..\..\..\src\utils\Library.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\Locales.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\MemoryStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\Mutex.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Object.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ObjectWithEvents.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\Parser.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\ProcessWithRedirectedIO.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\PropertyChangeEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\Registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\Semaphore.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\Stream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\StringUtils.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\System.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\SystemToolkit.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\TextInputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\IO\TextOutputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\Thread.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Events\ThreadEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\VCFMath.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\VCFProcess.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\XMLParser.cpp
 # End Source File
 # End Group
 # Begin Group "Peers"
@@ -370,6 +226,10 @@ SOURCE=..\..\..\include\implementerKit\Win32Thread.h
 # PROP Default_Filter "*.h"
 # Begin Source File
 
+SOURCE=..\..\..\src\Exceptions\BasicException.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\exceptions\BasicException.h
 # End Source File
 # Begin Source File
@@ -446,7 +306,15 @@ SOURCE=..\..\..\include\events\Delegate.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Events\Event.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\events\Event.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\EventHandler.cpp
 # End Source File
 # Begin Source File
 
@@ -462,7 +330,15 @@ SOURCE=..\..\..\include\events\OutputReadyEvent.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Events\PropertyChangeEvent.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\events\PropertyChangeEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ThreadEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -474,7 +350,15 @@ SOURCE=..\..\..\include\events\ThreadEvent.h
 # PROP Default_Filter "*.h"
 # Begin Source File
 
+SOURCE=..\..\..\src\IO\BasicInputStream.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\BasicInputStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\BasicOutputStream.cpp
 # End Source File
 # Begin Source File
 
@@ -482,7 +366,15 @@ SOURCE=..\..\..\include\io\BasicOutputStream.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\IO\Directory.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\Directory.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\io\File.cpp
 # End Source File
 # Begin Source File
 
@@ -498,6 +390,10 @@ SOURCE=..\..\..\include\Implementer\FilePeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\IO\FileStream.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\FileStream.h
 # End Source File
 # Begin Source File
@@ -507,6 +403,10 @@ SOURCE=..\..\..\include\io\FileStreamPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\io\FileUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\MemoryStream.cpp
 # End Source File
 # Begin Source File
 
@@ -522,11 +422,23 @@ SOURCE=..\..\..\include\io\Persistable.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\IO\Stream.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\Stream.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\IO\TextInputStream.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\TextInputStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\TextOutputStream.cpp
 # End Source File
 # Begin Source File
 
@@ -542,7 +454,15 @@ SOURCE=..\..\..\include\io\VariantDataStream.h
 # PROP Default_Filter "*.h"
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\CommandLine.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\CommandLine.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Condition.cpp
 # End Source File
 # Begin Source File
 
@@ -554,7 +474,19 @@ SOURCE=..\..\..\include\utils\Enumerator.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\ErrorLog.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\ErrorLog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\FilePath.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\FileUtils.cpp
 # End Source File
 # Begin Source File
 
@@ -566,7 +498,15 @@ SOURCE=..\..\..\include\utils\Lock.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\Mutex.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\Mutex.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Parser.cpp
 # End Source File
 # Begin Source File
 
@@ -574,7 +514,15 @@ SOURCE=..\..\..\include\utils\Parser.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\ProcessWithRedirectedIO.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\ProcessWithRedirectedIO.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Registry.cpp
 # End Source File
 # Begin Source File
 
@@ -586,11 +534,19 @@ SOURCE=..\..\..\include\utils\Runnable.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\Semaphore.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\Semaphore.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\StringTokenizer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\StringUtils.cpp
 # End Source File
 # Begin Source File
 
@@ -602,11 +558,23 @@ SOURCE=..\..\..\include\utils\SynchObject.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\System.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\System.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\SystemToolkit.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\SystemToolkit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Thread.cpp
 # End Source File
 # Begin Source File
 
@@ -622,11 +590,23 @@ SOURCE=..\..\..\include\utils\VCFChar.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\VCFMath.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\VCFProcess.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\VCFProcess.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\VCFString.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\XMLParser.cpp
 # End Source File
 # Begin Source File
 
@@ -638,11 +618,19 @@ SOURCE=..\..\..\include\utils\XMLParser.h
 # PROP Default_Filter "*.h"
 # Begin Source File
 
+SOURCE=..\..\..\src\core\Class.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\Class.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ClassInfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ClassRegistry.cpp
 # End Source File
 # Begin Source File
 
@@ -655,6 +643,10 @@ SOURCE=..\..\..\include\utils\Enum.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Interface.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\InterfaceClass.cpp
 # End Source File
 # Begin Source File
 
@@ -690,7 +682,15 @@ SOURCE=..\..\..\include\core\Locales.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\Object.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\Object.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ObjectWithEvents.cpp
 # End Source File
 # Begin Source File
 
