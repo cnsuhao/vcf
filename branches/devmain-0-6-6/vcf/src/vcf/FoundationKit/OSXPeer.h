@@ -203,6 +203,9 @@ public:
 	}
 
 	int length() const {
+		if ( NULL == cfStringRef ) {
+			return 0;
+		}
 		return CFStringGetLength( cfStringRef );
 	}
 
@@ -352,6 +355,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.2.2.2  2004/11/02 05:19:13  ddiego
+ *more osx updates for open file dialog.
+ *
  *Revision 1.2.2.1  2004/10/10 20:42:08  ddiego
  *osx updates
  *
