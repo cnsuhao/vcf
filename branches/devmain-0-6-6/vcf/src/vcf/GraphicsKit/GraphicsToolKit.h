@@ -25,7 +25,7 @@ class GraphicsContext;
 class Font;
 class FontPeer;
 class GraphicsResourceBundle;
-
+class PrintSessionPeer; 
 
 
 /**
@@ -122,6 +122,8 @@ public:
 
 	static Image* createImage( GraphicsContext* context, Rect* rect );
 
+	static PrintSessionPeer* createPrintSessionPeer();
+
 	static GraphicsResourceBundle* getResourceBundle();
 	/**
 	*Create a image from a filename. The file is loaded into a Bitmap instance.
@@ -164,7 +166,12 @@ public:
 
 	static Font* getDefaultSystemFont() ;
 
-	static double getDPI();
+	/**
+	Returns the crurent DPI for the screen if the context
+	parameter is NULL, otherwise returns the dpi that 
+	is used by the graphics context.
+	*/
+	static double getDPI( GraphicsContext* context = NULL );
 
 	static void initGraphicsToolkit();
 
@@ -186,6 +193,11 @@ protected:
 	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height ) = 0;
 
 	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect ) = 0;
+	
+	virtual PrintSessionPeer* internal_createPrintSessionPeer() = 0;
+
+	virtual double internal_getDPI( GraphicsContext* context ) = 0;
+
 
 	/**
 	*Create a image from a filename. The file is loaded into a Bitmap instance.
@@ -208,9 +220,7 @@ protected:
 		return NULL;
 	}
 
-	virtual double internal_getDPI() {
-		return -1.0;
-	};
+	
 
 
 
@@ -292,6 +302,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
+*migrated the core printing changes into the graphics kit
+*
 *Revision 1.2.2.1  2004/08/21 21:07:10  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.
