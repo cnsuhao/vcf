@@ -44,7 +44,8 @@ Control::Control():
 	useRenderBuffer_(false),
 	container_(NULL)
 {
-	font_ = new Font( UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );	//the cast is to  avoid internal compiler error on some vc6 versions
+	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
+	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
 
 	context_ = new ControlGraphicsContext( this );
 
@@ -1560,6 +1561,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/11/18 15:24:26  pallindo
+*Fixed a line where there was a comment about a Font cast fix for some vc6 compilers, but the fix wasn't actually there.  So I just put it in.
+*
 *Revision 1.2.2.9  2004/11/03 05:10:45  ddiego
 *osx open file now 95% functional - woot
 *
