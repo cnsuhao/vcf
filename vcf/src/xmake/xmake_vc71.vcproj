@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="xmake"
+	ProjectGUID="{F5D5A158-1AF4-4685-ABBE-F8D257363A30}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -28,8 +29,6 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="vc71\Release\xmake_vc71.pch"
 				AssemblerListingLocation="vc71\Release\"
 				ObjectFile="vc71\Release\"
@@ -83,8 +82,6 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="vc71\Debug\xmake_vc71.pch"
 				AssemblerListingLocation="vc71\Debug\"
 				ObjectFile="vc71\Debug\"
