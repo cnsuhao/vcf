@@ -114,7 +114,7 @@ void example1()
 {
 	example1Done = false;
 
-	System::println( "example1 starting" );
+	System::println( "\nexample1 starting" );
 	/**
 	Create the thread - notice it created on the heap
 	*/
@@ -133,8 +133,8 @@ void example1()
 	*/
 	while ( !test1Done ) {
 
-		System::sleep( 1000 );
-		System::println( "Sleeping for a sec..." );
+		System::println( "The main thread is now going to sleep for 1 millisec...\n" );
+		System::sleep( 1 );
 
 	}
 
@@ -148,7 +148,7 @@ void example1()
 
 /**
 This thread will delete itself.
-Note the
+Note the use of the canContinue() check.
 */
 class SimpleThread2 : public Thread {
 public:
@@ -196,14 +196,16 @@ so we have to be a bit careful here.
 void example2()
 {
 	example2Done = false;
-	System::println( "example2 starting" );
+	System::println( "\nexample2 starting" );
 	Thread* thread = new SimpleThread2();
 	thread->start();
 
 
+	System::println( "The main thread is now going to sleep for 100 millisec...\n" );
 	System::sleep( 100 );
 
 	//hopefully the thread has not finished at this point
+	System::println( "The main thread is now going to stop the child thread...\n" );
 	thread->stop();
 
 
@@ -232,7 +234,7 @@ public:
 	}
 
 	/**
-	our run method simply increcements our counter
+	our run method simply increments our counter
 	till it hits 100 or the thread can no longer
 	continue.
 	*/
@@ -274,13 +276,13 @@ responsible for it's clean up.
 void example3()
 {
 	example3Done = false;
-	System::println( "example3 starting" );
+	System::println( "\nexample3 starting" );
 	SimpleThread3* thread = new SimpleThread3();
 	thread->start();
 
 	while ( !thread->done() ) {
+		System::println( "The main thread is now going to sleep for a sec...\n" );
 		System::sleep( 1000 );
-		System::println( "Sleeping for a sec..." );
 	}
 
 	System::println( "Thread process id: 0x%08x, thread id: 0x%08x",
@@ -338,7 +340,7 @@ public:
 	}
 
 	virtual void stop() {
-
+		/* we don't have any cleanup to perform in this example */
 	}
 
 	virtual bool run() {
@@ -358,7 +360,7 @@ threads running together
 */
 void example4()
 {
-	System::println( "example4 starting" );
+	System::println( "\nexample4 starting.\nThis will run all the previous examples in separated simultaneous threads." );
 
 
 
@@ -406,6 +408,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2004/07/05 00:14:14  marcelloptr
+*minor improvements on the messages displayed by this example
+*
 *Revision 1.2.4.4  2004/04/29 03:40:57  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
