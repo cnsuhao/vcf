@@ -478,6 +478,14 @@ SOURCE=..\..\..\include\utils\Condition.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\DateTime.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\DateTime.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\Dictionary.h
 # End Source File
 # Begin Source File
@@ -611,6 +619,10 @@ SOURCE=..\..\..\include\utils\VCFProcess.h
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\VCFString.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\VCFulong64.h
 # End Source File
 # Begin Source File
 
