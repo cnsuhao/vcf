@@ -164,7 +164,7 @@ int main( int argc, char** argv ){
 				try {
 					infoFile.copyTo( contentDir + fp.getBaseName(true) );
 				}
-				catch ( BasicFileError& e ) {
+				catch ( BasicFileError& ) {
 					//is it already there?
 					if ( !File::exists( contentDir ) ) {
 						//nope, throw the exception to our outer handler !
