@@ -117,8 +117,13 @@ namespace VCF {
 							fmtStr_.resize(0);
 						}
 						
-						char* tmp = new char[fmt.size()+256];
-						sprintf( tmp, fmt.ansi_c_str(), val );
+						int cb = fmt.size()+256;
+						char* tmp = new char[cb];
+						int n = sprintf( tmp, fmt.ansi_c_str(), val );
+						if ( (cb-1) < n ) {
+							// we probably had a memory corruption
+							throw RuntimeException( MAKE_ERROR_MSG_2("Format: unable to printout the full string as required.") );
+						}
 						output_ += tmp;
 						delete [] tmp;
 					}
@@ -261,7 +266,7 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2005/03/25 17:20:04  marcelloptr
+*Revision 1.1.2.5  2005/03/25 17:59:18  marcelloptr
 *added template specialization for String so to avoid problems with c_str() ansi_c_str()
 *
 *Revision 1.1.2.2  2005/03/15 01:51:51  ddiego
