@@ -46,7 +46,7 @@ public:
 	*/
 	virtual Resource* getResource( const String& resourceName );
 
-	/*
+	/**
 	This wil be re-implemented on the version for the AppKit
 	void setApplicationPeer( ApplicationPeer* appPeer ) {
 		appPeer_ = appPeer;
@@ -67,6 +67,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/11/10 19:09:48  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.1.2.4  2004/09/17 11:38:06  ddiego
 *added program info support in library and process classes.
 *

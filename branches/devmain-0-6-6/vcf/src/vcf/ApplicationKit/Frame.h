@@ -211,7 +211,7 @@ public:
 	*/
 	virtual void activate();
 
-	/*
+	/**
 	Indicates to the framework whether or not this frame should allow activation.
 	Som frames do <i>not</i> support becoming activated, for example the tooltip frame,
 	or the frame that houses the dropdown list for the ComboBoxControl. Must be implemented
@@ -300,6 +300,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/10 19:07:36  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.2  2004/11/07 19:32:19  marcelloptr
 *more documentation
 *

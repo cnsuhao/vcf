@@ -711,17 +711,17 @@ public:
 	*/
 	virtual Document* newDefaultDocument( const String& mimetype=L"" );
 
-	/*
-	* MP ?
-	* MP ?
-	* MP ?
+	/**
+	* MP
+	* 
+	* 
 	*/
 	virtual Document* createDocumentFromType( const DocumentInfo& info );
 
-	/*
-	* MP ?
-	* MP ?
-	* MP ?
+	/**
+	* MP
+	* 
+	* 
 	*/
 	virtual Window* getWindowForNewDocument( Document* document, const DocumentInfo& info );
 
@@ -736,17 +736,17 @@ public:
 	*/
 	virtual void attachUIToDocument( const String& mimeType, Document* document );
 
-	/*
-	* MP ?
-	* MP ?
-	* MP ?
+	/**
+	* MP
+	* 
+	* 
 	*/
 	virtual void createMenus();
 
-	/*
-	* MP ?
-	* MP ?
-	* MP ?
+	/**
+	* MP
+	* 
+	* 
 	*/
 	virtual void initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info  );
 
@@ -773,14 +773,14 @@ protected:
 	* many of the associated events are called for the UI.
 	**/
 
-	/*
+	/**
 	* saves the current document.
 	*/
 	void onSave( Event* e ) {
 		saveFile( DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* saves the current document, but let the user to specify an alternative filename and type.
 	*/
 	void onSaveAs( Event* e ) {
@@ -790,42 +790,42 @@ protected:
 		saveFile( doc );
 	}
 
-	/*
+	/**
 	* opens a document.
 	*/
 	void onOpen( Event* e ) {
 		openFile();
 	}
 
-	/*
+	/**
 	* closes a document.
 	*/
 	void onClose( Event* e ) {
 		closeCurrentDocument();
 	}
 
-	/*
+	/**
 	* creates a new document.
 	*/
 	void onNew( Event* e ) {
 		newDocument();
 	}
 
-	/*
+	/**
 	* let the user to change preferences.
 	*/
 	void onPreferences( Event* e ) {
 		editPreferences();
 	}
 
-	/*
+	/**
 	* handles notification that the user preferences has been changed
 	*/
 	void onUpdatePreferences( ActionEvent* e ) {
 
 	}
 
-	/*
+	/**
 	* closes the document's window
 	*/
 	void onDocWindowClosing( FrameEvent* e ) {
@@ -836,7 +836,7 @@ protected:
 
 	}
 
-	/*
+	/**
 	* activates a window and its document
 	*/
 	void onDocWindowActive( WindowEvent* e ) {
@@ -847,7 +847,7 @@ protected:
 		}
 	}
 
-	/*
+	/**
 	* handles notification that a document ( specified  by the event ) has been changed.
 	* The UI will set the caption to the caption of modified document's window.
 	*/
@@ -860,14 +860,14 @@ protected:
 		}
 	}
 
-	/*
+	/**
 	* starts cut operation
 	*/
 	void onCut( Event* e ) {
 		cutFromDocument( DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* handles notification that a cut operation has been performed.
 	*/
 	void onUpdateCut( ActionEvent* e ) {
@@ -876,14 +876,14 @@ protected:
 		updateCut( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* starts copy operation
 	*/
 	void onCopy( Event* e ) {
 		copyFromDocument( DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* handles notification that a copy operation has been performed.
 	*/
 	void onUpdateCopy( ActionEvent* e ) {
@@ -891,14 +891,14 @@ protected:
 		updateCopy( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* starts paste operation
 	*/
 	void onPaste( Event* e ) {
 		pasteToDocument( DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* handles notification that a paste operation has been performed.
 	*/
 	void onUpdatePaste( ActionEvent* e ) {
@@ -906,14 +906,14 @@ protected:
 		updatePaste( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* starts undo operation
 	*/
 	void onUndo( Event* e ) {
 		undoForDocument( DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* handles notification that an undo operation has been performed.
 	*/
 	void onUpdateUndo( ActionEvent* e ) {
@@ -921,14 +921,14 @@ protected:
 		updateUndo( e, DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* starts redo operation
 	*/
 	void onRedo( Event* e ) {
 		redoForDocument( DocInterfacePolicy::getCurrentDocument() );
 	}
 
-	/*
+	/**
 	* handles notification that a redo operation has been performed.
 	*/
 	void onUpdateRedo( ActionEvent* e ) {
@@ -1540,6 +1540,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/10 19:07:34  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.3  2004/11/07 19:32:19  marcelloptr
 *more documentation
 *

@@ -371,12 +371,12 @@ which in turn defines the default pixel types and formats
 */
 
 #if defined(WIN32)
-	/*
+	/**
 	defines a default pixel format of BGR which is what win32 uses
 	*/
 	#define AGG_BGRA32
 #elif defined(VCF_X11) || defined(VCF_GTK) || defined(VCF_OSX)
-	/*
+	/**
 	defines a default pixel format of RGB which is what x/gtk uses
 	*/
 	#define AGG_RGBA32
@@ -469,6 +469,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/10 19:09:54  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

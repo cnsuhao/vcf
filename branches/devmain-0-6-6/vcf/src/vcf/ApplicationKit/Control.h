@@ -1101,7 +1101,7 @@ public:
 		return tabStop_;
 	}
 
-	/*
+	/**
 	*sets the tab stop value of the control. The default value
 	*is true.
 	*@param bool the new value for the tab stop property
@@ -1287,6 +1287,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/11/10 19:07:32  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.4  2004/11/07 19:32:18  marcelloptr
 *more documentation
 *

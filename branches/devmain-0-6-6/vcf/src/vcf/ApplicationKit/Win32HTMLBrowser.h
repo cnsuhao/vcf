@@ -49,9 +49,9 @@ extern CComModule _Module;
 
 
 
-/*
-This is a series of smart pointer declarations
-so ICustomDoc, becomes ICustomDocPtr, used on the stack
+/**
+* This is a series of smart pointer declarations
+* so ICustomDoc, becomes ICustomDocPtr, used on the stack
 */
 _COM_SMARTPTR_TYPEDEF(IOleObject, __uuidof(IOleObject));
 _COM_SMARTPTR_TYPEDEF(IConnectionPointContainer, __uuidof(IConnectionPointContainer));
@@ -580,6 +580,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/10 19:07:37  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.2  2004/09/08 01:16:50  ddiego
 *fixed incorrect win32htmlbrowser function due to changes from weekend.
 *

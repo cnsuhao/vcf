@@ -1719,13 +1719,13 @@ public:
         lightpink            ,  //  = "lightpink";              // 0x00FFB6C1
 #endif  // VCF_LARGE_COLOR_LIST
 
-    /*
+    /**
     double colornames
     */
     aqua                 ,  //  = "aqua";           // 0x0000FFFF = cyan
     fuchsia              ,  //  = "fuchsia";        // 0x00FF00FF = magenta
 
-    /*
+    /**
     useful tags
     */
     transparent          ,  //  = "transparent";    // 0xFF000000
@@ -1956,6 +1956,9 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/10 19:09:48  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.2  2004/10/11 12:19:17  marcelloptr
 *added missed function
 *

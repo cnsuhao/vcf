@@ -236,7 +236,7 @@ namespace VCF {
 		*/
 		FilePath& expandRelativePathName( const String& workingPath=L"" );
 		
-		/*
+		/**
 		*separates a path into a vector filled by its components
 		* i.e. the subdirectories composing the path.
 		* each one of them with the 'DirectorySeparator' character at the end
@@ -246,7 +246,7 @@ namespace VCF {
 		*/
 		static std::vector<String> getPathComponents( const String& fullpath );
 		
-		/*
+		/**
 		*separates a path into a vector filled by its components
 		* i.e. the subdirectories composing the path.
 		* each one of them with the 'DirectorySeparator' character at the end
@@ -260,7 +260,7 @@ namespace VCF {
 		
 			
 	public:
-		/*
+		/**
 		* ensures a path to have the 'DirectorySeparator' as its final character.
 		* Under windows it tests against both the '/' and '\' characters.
 		* With VCF the convention is that directory names must be terminated
@@ -275,7 +275,7 @@ namespace VCF {
 		
 	public:
 		
-		/*
+		/**
 		* Split a full fullname into its drive and path components.
 		* The expression ( fullname == drive + pathname ) is invariant.
 		* Under Windows it tests against both the '/' and '\' characters.
@@ -287,7 +287,7 @@ namespace VCF {
 		*/
 		static void splitDrive( const String& fullname, String& drive, String& pathname );
 		
-		/*
+		/**
 		* Splits a full fullname into its path and filename components.
 		* The expression ( fullname == path + filename ) is invariant.
 		* Under windows it tests against both the '/' and '\' characters.
@@ -299,7 +299,7 @@ namespace VCF {
 		*/
 		static void splitPath( const String& fullname, String& path, String& name );
 		
-		/*
+		/**
 		* Splits a full fullname into its root and extension components.
 		* The expression ( fullname == root + ext ) is invariant.
 		* therefore ( as in Python ):
@@ -353,7 +353,7 @@ namespace VCF {
 		
 		
 		
-		/*
+		/**
 		* helper function to check if a filename matches a wildcards pattern
 		* In the current implementation wildcards include only the '*' character.
 		*@param fullname the full filename to separate
@@ -445,6 +445,9 @@ inline std::vector<String> FilePath::getPathComponents() const {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/10 19:09:45  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.2  2004/11/10 01:55:43  marcelloptr
 *[bugfix: 1063548] FilePath crashes on relative non Native paths
 *

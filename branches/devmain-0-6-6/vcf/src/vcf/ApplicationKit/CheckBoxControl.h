@@ -58,7 +58,7 @@ public:
 	*/
 	void setUseFixedCheckboxSize( const bool& fixedCheckboxSize );
 
-	/*
+	/**
 	*returns the fixed check box height
 	*@return double the check box height
 	*/
@@ -84,6 +84,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/10 19:07:32  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

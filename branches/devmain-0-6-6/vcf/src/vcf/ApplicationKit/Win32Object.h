@@ -51,7 +51,7 @@ public:
 	*/
 	void init();
 	
-	/*
+	/**
 	returns true if no further handling is required, otherwise returns false, which means 
 	the rest of the handling needs to be done by the default wnd proc.
 	*/
@@ -110,6 +110,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/10 19:07:38  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

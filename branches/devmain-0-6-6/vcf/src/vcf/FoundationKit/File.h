@@ -92,7 +92,7 @@ public:
 	virtual ~File();
 
 
-	/*
+	/**
 	* gets the file peer
 	* returns FilePeer* the file peer
 	*/
@@ -100,7 +100,7 @@ public:
 		return filePeer_;
 	}
 
-	/*
+	/**
 	* sets the name of the File
 	* and creates the peer if it does not exists yet
 	*@param fileName the name
@@ -109,127 +109,126 @@ public:
 
 	String getName() const;
 
-	/*
+	/**
 	* gets the owner of the file
 	* returns String the owner of the file
 	*/
 	String getOwner();
 
-	/*
+	/**
 	* reset infos like the fileAttributes, DateTime stamps
-
 	*/
 	void resetStats();
 
-	/*
+	/**
 	* updates the informations about the file from the file system
 	*@param statMask the mask indicating the infos we want to update
 	*/
 	void updateStat( File::StatMask statMask = File::smMaskAll );
 
-	/*
+	/**
 	* tells if the file is a directory file on the file system
 	* returns true if it is a directory
 	*/
 	bool isDirectory();
 
-	/*
+	/**
 	* tells if the file has a read only attribute on the file system
 	* returns true if it is read only
 	*/
 	bool isExecutable();
 
-	/*
+	/**
 	* tells if the file has a read only attribute on the file system
 	* returns true if it is read only
 	*/
 	bool isReadOnly();
 
-	/*
+	/**
 	* tells if the file has a system attribute on the file system
 	* returns true if it is a system file
 	*/
 	bool isSystem();
 
-	/*
+	/**
 	* tells if the file has a hidden attribute on the file system
 	* returns true if it is a hidden file
 	*/
 	bool isHidden();
 
-	/*
+	/**
 	* tells if the file has an archive attribute on the file system
 	* returns true if it is archived
 	*/
 	bool isArchive();
 
-	/*
+	/**
 	* tells if the file has a device attribute on the file system
 	* returns true if it is a device
 	*/
 	bool isDevice();
 
-	/*
+	/**
 	* tells if the file has a normal attribute on the file system
 	* returns true if it is a normal file
 	*/
 	bool isNormal();
 
-	/*
+	/**
 	* tells if a file can be opened for reading
 	* returns bool true if can be opened for reading
 	*/
 	bool isReadable();
 
-	/*
+	/**
 	* tells if a file can be opened for writing
 	* returns bool true if can be opened for reading
 	*/
 	bool isWriteable();
 
-	/*
+	/**
 	* gets the size of the file in bytes
 	*@param ulong64 the size
 	*/
 	VCF::ulong64 getSize();
 
-	/*
+	/**
 	* gets the file attributes of the file
 	*@return the file attributes
 	*/
 	FileAttributes getFileAttributes();
 
-	/*
+	/**
 	* set the fileAttributes of the file
 	*@param fileAttributes the desired attributes
 	*/
 	void setFileAttributes( const File::FileAttributes fileAttributes );
 
-	/*
+	/**
 	* gets the date of creation of the file
 	*@param DateTime the creation date
 	*/
 	DateTime getDateCreation();
 
-	/*
+	/**
 	* gets the modification Date of the file
 	*@param DateTime the desired modification date
 	*/
 	DateTime getDateModified();
 
-	/*
+	/**
 	* gets the date of the last access to the file
 	*@param DateTime the last access date
 	*/
 	DateTime getDateAccess();
 
-	/*
+	/**
 	* set the modification Date of the file <B>given in UTC time</B>
 	*@param date the desired modification date
 	*/
 	void setDateModified( const DateTime& date );
 
-	/*
+	/**
 	* updates the file's modified time to the time when call is made
 	* the time is internally converted in UTC time 
 	*before being assigned to the file
@@ -481,6 +480,9 @@ inline void File::updateTime()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/10 19:09:45  marcelloptr
+*fixed documentation for doxygen
+*
 *Revision 1.2.2.2  2004/10/11 12:07:57  marcelloptr
 *improved a comment
 *
