@@ -214,6 +214,28 @@ public:
         
         va_end( argList );
     }
+    
+    void upperCase() {
+        CFStringUppercase( cfStringRef, NULL );
+        
+        if ( NULL != unicodeText ) {
+			delete [] unicodeText;
+            unicodeText = NULL;
+		}
+        
+        buildUnicodeBuffer();
+    }
+    
+    void lowerCase() {
+        CFStringLowercase( cfStringRef, NULL );
+        
+        if ( NULL != unicodeText ) {
+			delete [] unicodeText;
+            unicodeText = NULL;
+		}
+        
+        buildUnicodeBuffer();
+    }
 protected:
 	void cleanup()	{
 		if ( NULL != unicodeText ) {
@@ -250,6 +272,14 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
+ *This checks in a bunch of changes to the FoundationKit for OSX
+ *porting. The thread, mutex, semaphor, condition, and file peers
+ *have all been implemented and tested. The file peer could be improved
+ *and needs search functionality. The locale peer is only partially
+ *complete, but the functions will return values. The unicode transition
+ *is also finished and works OK now.
+ *
  *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
  *added OSX changes for unicode migration
  *

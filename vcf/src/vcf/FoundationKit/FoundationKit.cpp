@@ -107,8 +107,9 @@ CommandLine FoundationKit::getCommandLine()
 }
 
 void FoundationKit::assertCondition( bool condition, const String& failureMessage )
-{
+{    
 	if ( !condition ) {
+    
 		throw RuntimeException( "Assertion failure: " + failureMessage );
 	}
 }
@@ -117,6 +118,14 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/03 03:44:52  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

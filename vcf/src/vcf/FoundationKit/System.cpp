@@ -138,26 +138,7 @@ void System::println(String text, ...)
 
 #ifdef VCF_GCC
   #ifdef VCF_OSX
-    int pos = text.find( "%s" );
-    while ( pos != String::npos ) {
-        
-        if ( pos > 0 && text[pos-1] != '%' ) {
-            text.erase( pos, 2 );
-            text.insert( pos, "%S" );
-        }
-        pos = text.find( "%s", pos+1 );
-    }
-    
-    /*
-    CFTextString cfStr;
-    cfStr = text;
-    
-    CFStringRef strRef = 
-        CFStringCreateWithFormatAndArguments( NULL, NULL, cfStr, args );
-    cfStr = strRef;  
-        
-    cfStr.copy( tmpChar, minVal<uint32>(cfStr.length(),charRequired) );
-    */
+
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
 	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
@@ -255,6 +236,14 @@ bool System::isUnicodeEnabled()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/03 03:44:53  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *
