@@ -346,8 +346,10 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 			}
 		} 
 		else {
+			DWORD searchErr = ::GetLastError();
+			
 			// end of search or error
-			if ( ::GetLastError() == ERROR_NO_MORE_FILES )  {
+			if ( ERROR_NO_MORE_FILES == searchErr )  {
 				if ( INVALID_HANDLE_VALUE != searchHandle_ ) {
 					this->endFileSearch( finder );
 
@@ -355,7 +357,12 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 					continueSearch( finder, file );
 				}
 				break;
-			} 
+			}			
+			else if ( (ERROR_ACCESS_DENIED == searchErr) && (INVALID_HANDLE_VALUE == searchHandle_) )  {
+				endFileSearch( finder );
+				continueSearch( finder, file );
+				break;
+			}
 			else {
 				String error = "findNextFileInSearch: " + VCFWin32::Win32Utils::getErrorString( GetLastError() );
 				throw BasicException( error );
@@ -897,6 +904,10 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/20 02:03:13  ddiego
+*fixed some miscellaneous bugs in directory search code. Many
+*thanks to Marcello for helping out on this.
+*
 *Revision 1.1.2.3  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *

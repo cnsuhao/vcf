@@ -516,6 +516,7 @@ public:
 		finder rootSearchFinder_
 		*/
 		std::vector<Directory*>* subdirs_; 
+		std::vector<Finder*>* subfinders_; 
 		/**
 		current recursion level
 		*/
@@ -673,6 +674,10 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/20 02:03:13  ddiego
+*fixed some miscellaneous bugs in directory search code. Many
+*thanks to Marcello for helping out on this.
+*
 *Revision 1.1.2.5  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *

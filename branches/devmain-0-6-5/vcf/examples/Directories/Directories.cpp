@@ -6,7 +6,7 @@
 using namespace VCF;
 
 
-const String TestDir = L"E:/code/vcfdev/dev/marcello/test/cpp/";
+const String TestDir = L"C:/";//L"E:/code/vcfdev/dev/marcello/test/cpp/";
 
 /*
 DateTime convertUtcToLocal( const DateTime& dtUTC )
@@ -238,7 +238,9 @@ public:
 		finder->ignoreStat( File::smMaskDateAll | File::smSize );
 		finder->setRecursion( recurse, 10 );
 
-		while ( file = finder->nextElement() ) {
+		file = finder->nextElement();
+
+		while ( NULL != file ) {
 			filename = file->getName();
 
 			if ( file->isDirectory() ) {
@@ -288,8 +290,25 @@ public:
 				}
 
 			}
+
+			try {
+				file = finder->nextElement();
+			}
+			catch ( BasicException& e ) {
+				System::errorPrint( &e );
+			}
 		}
+
+
+		Object::objectAllocationCount();
+
+		//Object::dumpDebugInfo();
+
 		finder->free();
+
+		Object::objectAllocationCount();
+
+		//Object::dumpDebugInfo();
 	}
 
 };

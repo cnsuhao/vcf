@@ -17,7 +17,7 @@ using namespace VCF;
 // Directory::Finder
 
 Directory::Finder::Finder( Directory* directoryToSearch, FileSearchFilter* filterFileObject/*=NULL*/, const bool& ownFilterFileObject/*=false*/ )
-: fileInfos_( L"" )
+	: fileInfos_( L"" )	
 {
 	reset();
 
@@ -34,11 +34,25 @@ Directory::Finder::~Finder()
 		dirPeer->endFileSearch( this );
 	}
 
+	if ( NULL != subfinders_ ) {
+
+		std::vector<Directory::Finder*>::iterator it = subfinders_->begin();
+		while ( it != subfinders_->end() ) {
+			Directory::Finder* finder = *it;
+			finder->free();
+			it ++;
+		}
+		subfinders_->clear();
+		delete subfinders_;
+		subfinders_ = NULL;
+	}
+
 	if ( NULL != subdirs_ ) {
-		std::vector<Directory*>::reverse_iterator rit;
-		for ( rit = subdirs_->rbegin(); rit != subdirs_->rend(); rit++ ) {
-			Directory* finder = *rit;
-			delete finder;
+		std::vector<Directory*>::iterator it = subdirs_->begin();
+		while ( it != subdirs_->end() ) {
+			Directory* subDir = *it;
+			subDir->free();
+			it ++;
 		}
 		subdirs_->clear();
 		delete subdirs_;
@@ -48,12 +62,16 @@ Directory::Finder::~Finder()
 	if ( ownFilterFileObject_ && NULL != searchFilterFileObject_ ) {
 		delete searchFilterFileObject_;
 	}
+
+	
 }
 
 void Directory::Finder::reset()
 {
 	fileInfos_								.setName( L"" );
 
+	subfinders_ = NULL;
+	subdirs_ = NULL;
 	owningDirectory_					= NULL;
 	recursionLevel_						= 0;
 	recursionLevelMax_				= -1;
@@ -103,6 +121,9 @@ void Directory::Finder::setDisplayOrder( DisplayMode displayOrder )
 
 void Directory::Finder::setParentFinder( Finder* finder, const String& relPath, const int& previousRecursionLevel )
 {
+	rootSearchFinder_ = finder->rootSearchFinder_;
+	recursionLevel_ = previousRecursionLevel + 1;
+	
 	setRecursion( finder->recurse_, finder->recursionLevelMax_ ); // finder->recurse_ always true here
 	setDisplayMode( finder->displayMode_ );
 	setDisplayOrder( finder->displayOrder_ );
@@ -228,6 +249,11 @@ void Directory::Finder::goDownDir( File* file )
 	Directory::Finder* finderSubdir = dir->findFiles( searchFilterFileObject_, false );
 
 	finderSubdir->setParentFinder( this, relPath, previousRecursionLevel );
+
+	if ( NULL == subfinders_ ) {
+		subfinders_ = new std::vector<Directory::Finder*>();
+	}
+	rootSearchFinder_->subfinders_->push_back( finderSubdir );
 }
 
 void Directory::Finder::goUpDir( File* file )
@@ -295,7 +321,7 @@ void Directory::Finder::setRecursion( const bool& recurse, const int& recursionL
 	recursionLevelMax_ = recursionLevelMax;
 
 	if ( recurse_ ) {
-		if ( 0 == recursionLevel_ ) {
+		if ( 0 == recursionLevel_ && this  == rootSearchFinder_ ) {
 
 			subdirs_ = new std::vector<Directory*>;
 			if ( NULL == subdirs_ ) {
@@ -400,7 +426,7 @@ File* Directory::Finder::nextElement()
 	{
 		FilePeer* dirPeer = rootSearchFinder_->activeFinder_->owningDirectory_->getPeer();
 
-		if ( NULL == rootSearchFinder_->activeFinder_->searchHasMoreElements_ ) {
+		if ( !rootSearchFinder_->activeFinder_->searchHasMoreElements_ ) {
 			dirPeer->initFileSearch( this );
 		}
 
@@ -590,6 +616,10 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/20 02:03:13  ddiego
+*fixed some miscellaneous bugs in directory search code. Many
+*thanks to Marcello for helping out on this.
+*
 *Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *
