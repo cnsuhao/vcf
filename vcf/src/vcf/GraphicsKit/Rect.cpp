@@ -248,7 +248,7 @@ Rect VCF::Rect::makeUnion( const Rect* rect )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2004/10/26 05:43:00  marcelloptr
+*Revision 1.2.2.2  2004/10/26 06:12:16  marcelloptr
 *bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
 *
 *Revision 1.2  2004/08/07 02:49:18  ddiego
