@@ -251,6 +251,8 @@ protected:
 
 	void onDialogClose( Event* event );
 	void onPostClose( Event* e );
+	
+	void showWithModalState( ModalState state );
 
 	virtual ~Dialog();
 };
@@ -261,6 +263,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/28 03:34:16  ddiego
+*more dialog updates for osx
+*
 *Revision 1.2.2.1  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *

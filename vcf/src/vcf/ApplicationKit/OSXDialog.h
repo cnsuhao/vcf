@@ -31,6 +31,11 @@ public:
 
 	virtual void create( Control* owningControl );
 	
+	virtual void setBounds( Rect* rect );
+	
+	virtual Rect getBounds();
+	
+	
 	virtual void showMessage( const String& message, const String& caption );
 	
 	
@@ -53,6 +58,12 @@ private:
 	Dialog* dialogComponent_;
 	DialogRef dialogRef_;
 	WindowRef sheetParent_;
+	bool isWindowSheet_;	
+	VCF::Rect realSheetBounds_;
+	
+	void createAsSheetWindow();
+	
+	void createAsWindow();
 };
 
 
@@ -64,6 +75,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/28 03:34:16  ddiego
+*more dialog updates for osx
+*
 *Revision 1.2.2.3  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *
