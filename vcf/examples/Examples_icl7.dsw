@@ -327,9 +327,6 @@ Package=<4>
     Project_Dep_Name Tables
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name Test1
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name TextLayout
     End Project Dependency
     Begin Project Dependency
@@ -751,18 +748,6 @@ Package=<4>
 ###############################################################################
 
 Project: "Tables"=".\Tables\Tables_icl7.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "Test1"=".\Test1\Test1_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
