@@ -66,7 +66,7 @@ ApplicationKit:: FoundationKit GraphicsKit Win32HTMLBrowser_stat
 	@$(MK) -fApplicationKit.mak -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
-ApplicationKit_dll:: FoundationKit GraphicsKit
+ApplicationKit_dll:: FoundationKit_dll GraphicsKit_dll
 	@cd $(VCFBUILDROOT)\ApplicationKit
 	@$(MK) -fApplicationKit.mak -DBMODE=$(BMODE) -DTARGET=DLL
 	@cd $(VCFBUILDROOT)
@@ -74,6 +74,11 @@ ApplicationKit_dll:: FoundationKit GraphicsKit
 FoundationKit:: RegExx
 	@cd $(VCFBUILDROOT)\FoundationKit
 	@$(MK) -fFoundationKit.mak -DBMODE=$(BMODE) -DTARGET=$(TARGET)
+	@cd $(VCFBUILDROOT)
+
+FoundationKit_dll::
+	@cd $(VCFBUILDROOT)\FoundationKit
+	@$(MK) -fFoundationKit.mak -DBMODE=$(BMODE) -DTARGET=DLL
 	@cd $(VCFBUILDROOT)
 
 FoundationKit_stat::
@@ -91,12 +96,17 @@ GraphicsKit:: FoundationKit libAGG
 	@$(MK) -fGraphicsKit.mak -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
+GraphicsKit_dll:: FoundationKit_dll libAGG
+	@cd $(VCFBUILDROOT)\GraphicsKit
+	@$(MK) -fGraphicsKit.mak -DBMODE=$(BMODE) -DTARGET=DLL
+	@cd $(VCFBUILDROOT)
+
 OpenGLKit:: GraphicsKit ApplicationKit 
 	@cd $(VCFBUILDROOT)\OpenGLKit
 	@$(MK) -fOpenGLKit.mak -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
-GraphicsKit_stat:: FoundationKit libAGG
+GraphicsKit_stat:: FoundationKit_stat libAGG
 	@cd $(VCFBUILDROOT)\GraphicsKit
 	@$(MK) -fGraphicsKit.mak -DBMODE=$(BMODE) -DTARGET=LIB
 	@cd $(VCFBUILDROOT)
