@@ -1,0 +1,84 @@
+<make>
+
+	<substitutions>
+		<variable name="INC" value="../../../include"/>
+		<variable name="SRC" value="../../../src"/>
+		<variable name="LIB_OUT" value="../../../lib"/>
+		<variable name="BIN_OUT" value="../../../bin"/>
+	</substitutions>
+
+
+	
+	<project name="GraphicsKit" >
+		<configurations>
+			<config name="GCC Debug" srcBinaryExt=".o">
+				<compiler name="g++" >
+					<flags>
+						<flag value="-I $(INC)"/>						
+						<flag value="-c -DVCF_GCC -DVCF_X11 -D_DEBUG -fPIC"/>
+					</flags>
+				</compiler>	
+
+				<linker name="g++">
+					<flags>
+						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
+						<flag value="-ldl -L/usr/X11R6/lib -L $(BIN_OUT) -lFoundationKit -lX11 -shared -o $(BIN_OUT)/libGraphicsKit.so"/>
+					</flags>
+				</linker>
+			</config>
+			<config name="GCC Static" srcBinaryExt=".o">
+				<compiler name="g++" >
+					<flags>
+						<flag value="-I $(INC)"/>						
+						<flag value="-c -DVCF_GCC -D_DEBUG"/>
+					</flags>
+				</compiler>	
+
+				<linker name="ar">
+					<flags>						
+						<flag value="-cru $(LIB_OUT)/libGraphicsKit_sd.a"/>
+					</flags>
+				</linker>
+			</config>
+			<config name="VC++ Debug" srcBinaryExt=".obj">
+				<compiler name="cl" >
+					<flags>
+						<flag value="/I $(INC)"/>
+						<flag value="/nologo /MDd /W3 /Gm /GR /GX /ZI /Od"/>
+						<flag value="/D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /D FRAMEWORK_DLL /D FRAMEWORK_EXPORTS"/>
+						<flag value="/c"/>
+					</flags>
+				</compiler>	
+			</config>
+			<config name="BCC55 Debug" srcBinaryExt=".obj">
+				<compiler name="bcc32" >
+					<flags>
+						
+					</flags>
+				</compiler>	
+			</config>
+		</configurations>
+
+		<sources>
+			<source name="$(SRC)/Graphics/GraphicsKit.cpp" partOfConfig="GCC Debug|VC++ Debug|BCC55 Debug"/>
+			<source name="$(SRC)/Graphics/AbstractImage.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/BasicFill.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/BasicStroke.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/Color.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/Font.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/FontState.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/GlyphCollection.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/GraphicsContext.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/GraphicsObject.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Utils/GraphicsToolKit.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Events/ImageEvent.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/Matrix2D.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/Polygon.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/Graphics/Vector2D.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/ImplementerKit/X11Font.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/ImplementerKit/X11Image.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/ImplementerKit/X11Context.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+			<source name="$(SRC)/ImplementerKit/X11GraphicsToolkit.cpp" partOfConfig="GCC Debug|VC++ Debug"/>
+		</sources>
+	</project>
+</make>
