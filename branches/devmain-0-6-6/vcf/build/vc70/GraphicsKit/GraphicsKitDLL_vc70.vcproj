@@ -138,10 +138,54 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKit.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKitRTTI.inl">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKitSelectLib.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKit.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Core"
+			Filter="h;hpp;hxx;hm;inl;cpp;c;cxx;rc;def;r;odl;idl;hpj">
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\AbstractImage.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\AbstractImage.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\AggCommon.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicFill.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicFill.h">
@@ -150,7 +194,13 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicRectangle.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicStroke.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicStroke.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\BezierCurve.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\BezierCurve.h">
@@ -160,6 +210,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\ClippingRegion.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Color.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Color.h">
@@ -180,6 +233,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Filter.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Font.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Font.h">
 			</File>
 			<File
@@ -189,16 +245,19 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Glyph.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GlyphCollection.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GlyphCollection.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsContext.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsContext.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKit.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKitSelectLib.h">
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.h">
@@ -207,13 +266,13 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundlePeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Image.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\ImageBits.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\ImageEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
@@ -223,6 +282,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\ImageLoaderException.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Matrix2D.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Matrix2D.h">
@@ -237,6 +299,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PixelFormats.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Point.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Point.h">
 			</File>
 			<File
@@ -249,10 +314,16 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintEvent.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSessionPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.h">
@@ -264,80 +335,10 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Stroke.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Vector2D.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\AbstractImage.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicFill.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\BasicStroke.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\BezierCurve.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Color.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Font.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GlyphCollection.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsContext.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKit.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKitRTTI.inl">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\ImageEvent.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Matrix2D.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Point.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Vector2D.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp">
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Vector2D.h">
 			</File>
 		</Filter>
 		<Filter
@@ -375,6 +376,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32Image.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp">
 			</File>
 		</Filter>
 	</Files>
