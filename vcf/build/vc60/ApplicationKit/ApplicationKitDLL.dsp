@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPLICATIONKITDLL_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /Zi /Od /I "..\..\..\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /Yu"ApplicationKit.h" /FD /Zm120 /Zm120 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /Zi /Od /I "..\..\..\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /FR /Yu"ApplicationKit.h" /FD /Zm120 /Zm120 /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -242,6 +242,10 @@ SOURCE=..\..\..\include\events\ComboBoxListener.h
 # Begin Source File
 
 SOURCE=..\..\..\include\com\COMDataObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\com\COMDragSource.h
 # End Source File
 # Begin Source File
 
@@ -997,6 +1001,10 @@ SOURCE=..\..\..\include\implementerKit\Win32Dialog.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32DragDropPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\implementerKit\Win32DropTargetPeer.h
 # End Source File
 # Begin Source File
@@ -1195,6 +1203,10 @@ SOURCE=..\..\..\src\core\ComboBoxControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\COM\COMDataObject.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\COM\COMDragSource.cpp
 # End Source File
 # Begin Source File
 
@@ -1636,6 +1648,10 @@ SOURCE=..\..\..\src\ImplementerKit\Win32Desktop.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\ImplementerKit\Win32Dialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32DragDropPeer.cpp
 # End Source File
 # Begin Source File
 
