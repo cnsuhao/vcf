@@ -190,7 +190,7 @@ void GTKContext::drawImage( const double& x, const double& y, Rect* imageBounds,
 
 void GTKContext::textAt(const Rect& bounds, const String & text, const long& drawOptions )
 {
-	pango_layout_set_text ( pangoLayout_, (char *)text.c_str(), text.size());
+	pango_layout_set_text ( pangoLayout_, (char *)text.ansi_c_str(), text.size());
 
 	PangoFontDescription* pf = (PangoFontDescription*)context_->getCurrentFont()->getFontPeer()->getFontHandleID();
 
@@ -248,7 +248,7 @@ void GTKContext::textAt(const Rect& bounds, const String & text, const long& dra
 
 double GTKContext::getTextWidth( const String& text )
 {
-	pango_layout_set_text ( pangoLayout_, (char *)text.c_str(), text.size());
+	pango_layout_set_text ( pangoLayout_, (char *)text.ansi_c_str(), text.size());
 	int width = 0;
 	pango_layout_get_pixel_size (pangoLayout_, &width, NULL);
 	return width;
@@ -839,6 +839,9 @@ void GTKContext::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/09 21:12:50  thrysoee
+*Fix VCF::String (Unicode) related segfaults on Linux
+*
 *Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
