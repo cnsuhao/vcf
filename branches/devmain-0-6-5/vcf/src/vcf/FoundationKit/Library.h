@@ -25,7 +25,7 @@ class LibraryPeer;
 *Library obejct is destroyed if autoUnloadLib is true).
 *Alternatively you may call the load() method which will do the same.
 */
-class FRAMEWORK_API Library : public Object{
+class FOUNDATIONKIT_API Library : public Object{
 
 public:
 	Library( const String& libraryName = "", const bool& autoUnloadLib=false );
@@ -77,6 +77,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

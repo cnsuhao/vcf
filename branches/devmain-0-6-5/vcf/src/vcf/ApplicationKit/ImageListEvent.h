@@ -28,7 +28,7 @@ namespace VCF
 #define IMAGELIST_EVENT_ITEM_DELETED		CUSTOM_EVENT_TYPES + IMAGELIST_CONST + 6
 
 
-class APPKIT_API ImageListEvent : public Event
+class APPLICATIONKIT_API ImageListEvent : public Event
 {
 public:
 
@@ -106,6 +106,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -21,7 +21,7 @@ namespace VCF  {
 *Directories have all the features of a File, and in addition
 *they may be searched for files based on a search filter.
 */
-class FRAMEWORK_API Directory : public File {
+class FOUNDATIONKIT_API Directory : public File {
 public:
 	/**
 	*A Finder object is used to iterate a
@@ -34,7 +34,7 @@ public:
 	*will be an empty string, so callers should test for this
 	*when retrieving the value from the nextElement() method.
 	*/
-	class FRAMEWORK_API Finder : public Object, public Enumerator<String>{
+	class FOUNDATIONKIT_API Finder : public Object, public Enumerator<String>{
 	public:
 
 		virtual ~Finder();
@@ -127,6 +127,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

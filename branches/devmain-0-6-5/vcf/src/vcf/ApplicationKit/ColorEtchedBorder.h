@@ -22,7 +22,7 @@ where you installed the VCF.
 #define COLORETCHEDBORDER_CLASSID		"BA2F53FC-C3B8-4958-A7BA-89458FDF57A5"
 
 namespace VCF {
-	class APPKIT_API ColorEtchedBorder : public EtchedBorder {
+	class APPLICATIONKIT_API ColorEtchedBorder : public EtchedBorder {
 	public:
 
 		ColorEtchedBorder();
@@ -60,6 +60,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

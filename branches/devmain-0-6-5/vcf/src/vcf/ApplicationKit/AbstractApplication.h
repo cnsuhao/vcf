@@ -49,7 +49,7 @@ a requirement in the VCF. It is entirely possible to use the VCF <b>without</b> 
 *the AbstractApplication functions like postEvent() or getAccelerator() do is to
 *call the approriate UIToolkit functions, so no implmentation code is duplicated.
 */
-class APPKIT_API AbstractApplication : public ObjectWithEvents {
+class APPLICATIONKIT_API AbstractApplication : public ObjectWithEvents {
 public:
 	AbstractApplication();
 
@@ -167,6 +167,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

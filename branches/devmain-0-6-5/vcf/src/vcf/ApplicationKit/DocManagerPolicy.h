@@ -20,7 +20,7 @@ namespace VCF {
 class Document;
 
 
-class APPKIT_API SDIPolicy {
+class APPLICATIONKIT_API SDIPolicy {
 public:
 	SDIPolicy(): currentDocument_(NULL), menusMerged_(false) {}
 
@@ -118,7 +118,7 @@ public:
 
 
 
-class APPKIT_API MDIPolicy {
+class APPLICATIONKIT_API MDIPolicy {
 public:
 	MDIPolicy(): currentDocument_(NULL),documentCount_(0) {}
 
@@ -269,6 +269,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -1253,8 +1253,8 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.10  2004/06/06 04:56:53  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.11  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.9  2004/05/31 19:42:52  ddiego
 *more osx updates

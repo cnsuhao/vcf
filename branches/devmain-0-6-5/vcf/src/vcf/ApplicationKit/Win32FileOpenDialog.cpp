@@ -359,12 +359,12 @@ bool Win32FileOpenDialog::execute()
 	bool result = false;
 	if ( System::isUnicodeEnabled() ) {
 		result = executeW();
-	}	
+	}
 	else {
 		result = executeA();
 	}
 	return result;
-	
+
 }
 
 void Win32FileOpenDialog::addFilter( const String & description, const String & extension )
@@ -427,6 +427,9 @@ void Win32FileOpenDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/05/04 17:16:07  ddiego
 *updated some win32 stuff for unicode compliance
 *

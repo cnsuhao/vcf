@@ -30,7 +30,7 @@ Model class's methods.
 	@del AbstractModel::ModelChanged
 	@del AbstractModel::ModelValidate
 */
-class APPKIT_API AbstractModel : public Model {
+class APPLICATIONKIT_API AbstractModel : public Model {
 public:
 
 	virtual void addModelValidationHandler( EventHandler* handler ) {
@@ -69,6 +69,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/04/29 19:05:50  ddiego
 *added MVC example, plus the Model::changed() method. Also
 *added more documentation.

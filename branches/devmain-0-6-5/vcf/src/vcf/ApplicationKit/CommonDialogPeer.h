@@ -23,7 +23,7 @@ class Font;
 /**
 *
 */
-class APPKIT_API CommonDialogPeer : public Interface{
+class APPLICATIONKIT_API CommonDialogPeer : public Interface{
 public:
 	virtual ~CommonDialogPeer(){};
 
@@ -36,7 +36,7 @@ public:
 /**
 *
 */
-class APPKIT_API CommonFileDialogPeer : public CommonDialogPeer{
+class APPLICATIONKIT_API CommonFileDialogPeer : public CommonDialogPeer{
 public:
 	virtual ~CommonFileDialogPeer(){};
 
@@ -68,7 +68,7 @@ public:
 /**
 *
 */
-class APPKIT_API CommonFolderBrowseDialogPeer : public CommonDialogPeer{
+class APPLICATIONKIT_API CommonFolderBrowseDialogPeer : public CommonDialogPeer{
 public:
 	virtual ~CommonFolderBrowseDialogPeer(){};
 
@@ -81,7 +81,7 @@ public:
 /**
 *
 */
-class APPKIT_API CommonColorDialogPeer : public CommonDialogPeer {
+class APPLICATIONKIT_API CommonColorDialogPeer : public CommonDialogPeer {
 public:
 	virtual ~CommonColorDialogPeer(){};
 
@@ -95,7 +95,7 @@ public:
 /**
 *
 */
-class APPKIT_API CommonPrintDialogPeer : public CommonDialogPeer {
+class APPLICATIONKIT_API CommonPrintDialogPeer : public CommonDialogPeer {
 public:
 	virtual ~CommonPrintDialogPeer(){};
 
@@ -105,7 +105,7 @@ public:
 /**
 *
 */
-class APPKIT_API CommonFontDialogPeer : public CommonDialogPeer {
+class APPLICATIONKIT_API CommonFontDialogPeer : public CommonDialogPeer {
 public:
 	virtual ~CommonFontDialogPeer(){};
 
@@ -120,6 +120,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

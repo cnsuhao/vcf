@@ -54,7 +54,7 @@ struct KeyboardData {
 /**
 *what follows are a set of standard utility functions for Win32
 */
-class FRAMEWORK_API Win32Utils {
+class FOUNDATIONKIT_API Win32Utils {
 
 public:
 	static unsigned long translateKeyMask( UINT win32KeyMask );
@@ -89,6 +89,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.1  2004/06/05 01:18:41  marcelloptr
 *moved some files to the directory where they logically belong
 *

@@ -21,7 +21,7 @@ class MenuItemPeer;
 #define DEFAULTMENUITEM_CLASSID		"15307228-7207-44c8-8b22-4d5575648ae8"
 
 
-class APPKIT_API DefaultMenuItem : public MenuItem {
+class APPLICATIONKIT_API DefaultMenuItem : public MenuItem {
 
 public:
 	DefaultMenuItem();
@@ -265,7 +265,7 @@ protected:
 
 
 
-class APPKIT_API SeparatorMenuItem : public DefaultMenuItem {
+class APPLICATIONKIT_API SeparatorMenuItem : public DefaultMenuItem {
 public:
 	SeparatorMenuItem( MenuItem* parent, Menu* menuOwner=NULL ) :
 		DefaultMenuItem( "", parent, menuOwner_) {
@@ -280,6 +280,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

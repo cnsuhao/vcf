@@ -1,5 +1,5 @@
-#ifndef _VCF_FRAMEWORKCONFIG_H__
-#define _VCF_FRAMEWORKCONFIG_H__
+#ifndef _VCF_FOUNDATIONKITCONFIG_H__
+#define _VCF_FOUNDATIONKITCONFIG_H__
 //FrameworkConfig.h
 
 /*
@@ -244,17 +244,17 @@ this define is to fix:
 		#define _typename_ typename
 	#endif
 
-	#ifdef FRAMEWORK_DLL
-		#if defined(FRAMEWORK_EXPORTS)
-			#define FRAMEWORK_API __declspec(dllexport)
-			#define FRAMEWORK_EXPIMP_TEMPLATE
+	#ifdef FOUNDATIONKIT_DLL
+		#if defined(FOUNDATIONKIT_EXPORTS)
+			#define FOUNDATIONKIT_API __declspec(dllexport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE
 		#else
-			#define FRAMEWORK_API __declspec(dllimport)
-			#define FRAMEWORK_EXPIMP_TEMPLATE extern
+			#define FOUNDATIONKIT_API __declspec(dllimport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE extern
 		#endif
 	#else
-		#define FRAMEWORK_API
-	#endif //FRAMEWORK_DLL
+		#define FOUNDATIONKIT_API
+	#endif //FOUNDATIONKIT_DLL
 
 
 	#ifdef GRAPHICSKIT_DLL
@@ -270,17 +270,17 @@ this define is to fix:
 	#endif //GRAPHICSKIT_DLL
 
 
-	#ifdef APPKIT_DLL
-		#if defined(APPKIT_EXPORTS)
-			#define APPKIT_API __declspec(dllexport)
-			#define APPKIT_EXPIMP_TEMPLATE
+	#ifdef APPLICATIONKIT_DLL
+		#if defined(APPLICATIONKIT_EXPORTS)
+			#define APPLICATIONKIT_API __declspec(dllexport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE
 		#else
-			#define APPKIT_API __declspec(dllimport)
-			#define APPKIT_EXPIMP_TEMPLATE extern
+			#define APPLICATIONKIT_API __declspec(dllimport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE extern
 		#endif
 	#else
-		#define APPKIT_API
-	#endif //APPKIT_DLL
+		#define APPLICATIONKIT_API
+	#endif //APPLICATIONKIT_DLL
 
 
 	#ifdef NETKIT_DLL
@@ -296,17 +296,17 @@ this define is to fix:
 	#endif //NETKIT_DLL
 #elif __DMC__
 	#define _typename_
-	#ifdef FRAMEWORK_DLL
-		#if defined(FRAMEWORK_EXPORTS)
-			#define FRAMEWORK_API __declspec(dllexport)
-			#define FRAMEWORK_EXPIMP_TEMPLATE
+	#ifdef FOUNDATIONKIT_DLL
+		#if defined(FOUNDATIONKIT_EXPORTS)
+			#define FOUNDATIONKIT_API __declspec(dllexport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE
 		#else
-			#define FRAMEWORK_API __declspec(dllimport)
-			#define FRAMEWORK_EXPIMP_TEMPLATE extern
+			#define FOUNDATIONKIT_API __declspec(dllimport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE extern
 		#endif
 	#else
-		#define FRAMEWORK_API
-	#endif //FRAMEWORK_DLL
+		#define FOUNDATIONKIT_API
+	#endif //FOUNDATIONKIT_DLL
 
 
 	#ifdef GRAPHICSKIT_DLL
@@ -322,17 +322,17 @@ this define is to fix:
 	#endif //GRAPHICSKIT_DLL
 
 
-	#ifdef APPKIT_DLL
-		#if defined(APPKIT_EXPORTS)
-			#define APPKIT_API __declspec(dllexport)
-			#define APPKIT_EXPIMP_TEMPLATE
+	#ifdef APPLICATIONKIT_DLL
+		#if defined(APPLICATIONKIT_EXPORTS)
+			#define APPLICATIONKIT_API __declspec(dllexport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE
 		#else
-			#define APPKIT_API __declspec(dllimport)
-			#define APPKIT_EXPIMP_TEMPLATE extern
+			#define APPLICATIONKIT_API __declspec(dllimport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE extern
 		#endif
 	#else
-		#define APPKIT_API
-	#endif //APPKIT_DLL
+		#define APPLICATIONKIT_API
+	#endif //APPLICATIONKIT_DLL
 
 
 	#ifdef NETKIT_DLL
@@ -348,17 +348,17 @@ this define is to fix:
 	#endif //NETKIT_DLL
 
 #elif __GNUWIN32__
-	#ifdef FRAMEWORK_DLL
-		#if defined(FRAMEWORK_EXPORTS)
-			#define FRAMEWORK_API __declspec(dllexport)
-			#define FRAMEWORK_EXPIMP_TEMPLATE
+	#ifdef FOUNDATIONKIT_DLL
+		#if defined(FOUNDATIONKIT_EXPORTS)
+			#define FOUNDATIONKIT_API __declspec(dllexport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE
 		#else
-			#define FRAMEWORK_API __declspec(dllimport)
-			#define FRAMEWORK_EXPIMP_TEMPLATE extern
+			#define FOUNDATIONKIT_API __declspec(dllimport)
+			#define FOUNDATIONKIT_EXPIMP_TEMPLATE extern
 		#endif
 	#else
-		#define FRAMEWORK_API
-	#endif //FRAMEWORK_DLL
+		#define FOUNDATIONKIT_API
+	#endif //FOUNDATIONKIT_DLL
 
 
 	#ifdef GRAPHICSKIT_DLL
@@ -374,17 +374,17 @@ this define is to fix:
 	#endif //GRAPHICSKIT_DLL
 
 
-	#ifdef APPKIT_DLL
-		#if defined(APPKIT_EXPORTS)
-			#define APPKIT_API __declspec(dllexport)
-			#define APPKIT_EXPIMP_TEMPLATE
+	#ifdef APPLICATIONKIT_DLL
+		#if defined(APPLICATIONKIT_EXPORTS)
+			#define APPLICATIONKIT_API __declspec(dllexport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE
 		#else
-			#define APPKIT_API __declspec(dllimport)
-			#define APPKIT_EXPIMP_TEMPLATE extern
+			#define APPLICATIONKIT_API __declspec(dllimport)
+			#define APPLICATIONKIT_EXPIMP_TEMPLATE extern
 		#endif
 	#else
-		#define APPKIT_API
-	#endif //APPKIT_DLL
+		#define APPLICATIONKIT_API
+	#endif //APPLICATIONKIT_DLL
 
 
 	#ifdef NETKIT_DLL
@@ -399,9 +399,9 @@ this define is to fix:
 		#define NETKIT_API
 	#endif //NETKIT_DLL
 #else
-	#define FRAMEWORK_API
+	#define FOUNDATIONKIT_API
 	#define GRAPHICSKIT_API
-	#define APPKIT_API
+	#define APPLICATIONKIT_API
 	#define NETKIT_API
 #endif //_MSC_VER
 
@@ -420,8 +420,8 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.3  2004/06/06 04:56:53  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.4  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
@@ -546,6 +546,6 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 */
 
 
-#endif // _VCF_FRAMEWORKCONFIG_H__
+#endif // _VCF_FOUNDATIONKITCONFIG_H__
 
 

@@ -22,7 +22,7 @@ class XMLNode;
 /**
 *Class XMLAttr documentation
 */
-class FRAMEWORK_API XMLAttr : public Object {
+class FOUNDATIONKIT_API XMLAttr : public Object {
 public:
 	XMLAttr ( const String& name="", const String& value="", XMLNode* node=NULL ) {
 		name_ = name;
@@ -86,7 +86,7 @@ protected:
 *the node may have a string of characters that
 *represent character data (CDATA)
 */
-class FRAMEWORK_API XMLNode : public Object {
+class FOUNDATIONKIT_API XMLNode : public Object {
 public:
 	XMLNode( const String& name="", XMLNode* parentNode=NULL );
 
@@ -222,7 +222,7 @@ protected:
 /**
 *Class XMLParserEvent documentation
 */
-class FRAMEWORK_API XMLParserEvent : public Event {
+class FOUNDATIONKIT_API XMLParserEvent : public Event {
 public:
 	XMLParserEvent( Object * source, XMLNode* node ):
 		Event(source){
@@ -288,7 +288,7 @@ public:
 	@del NodeCDATAFound
 
 */
-class FRAMEWORK_API XMLParser : public ObjectWithEvents {
+class FOUNDATIONKIT_API XMLParser : public ObjectWithEvents {
 public:
 	enum XMLTagType {
 		TagCDATA	=	-3,
@@ -382,6 +382,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

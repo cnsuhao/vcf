@@ -34,7 +34,7 @@ class Cursor;
  * Frame Peers, such as WindowPeer and DialogPeer MUST be based on heavyweight controls.
  * @interface */
 
-class APPKIT_API ControlPeer : public VCF::Interface {
+class APPLICATIONKIT_API ControlPeer : public VCF::Interface {
 public:
 
 	virtual ~ControlPeer(){};
@@ -163,6 +163,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -110,7 +110,7 @@ The UIToolkit is a singleton, meaning there is only ever one single instance of 
 Developers porting the VCF to another platform will have to create a derived class
 from UIToolkit and implement various functions.
 */
-class APPKIT_API UIToolkit : public ObjectWithEvents {
+class APPLICATIONKIT_API UIToolkit : public ObjectWithEvents {
 public:
 
 	/**
@@ -558,6 +558,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

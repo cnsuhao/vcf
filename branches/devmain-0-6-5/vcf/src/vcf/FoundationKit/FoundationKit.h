@@ -95,6 +95,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/ClassNotFound.h"
 #include "vcf/FoundationKit/ProcessException.h"
 
+#include "vcf/FoundationKit/PackageInfo.h"
+
 #include "vcf/FoundationKit/FilePath.h"
 
 #include "vcf/FoundationKit/Event.h"
@@ -178,7 +180,7 @@ namespace VCF{
 	*FoundationKit::terminate() MUST be called to free up any resources used by the
 	*FoundationKit
 	*/
-	class FRAMEWORK_API FoundationKit {
+	class FOUNDATIONKIT_API FoundationKit {
 	public:
 		/**
 		*Initialization takes place here, plus creating the various
@@ -205,6 +207,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

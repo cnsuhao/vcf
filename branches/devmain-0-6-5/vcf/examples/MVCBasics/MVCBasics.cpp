@@ -585,8 +585,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2004/06/06 06:03:32  marcelloptr
-*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*Revision 1.1.2.5  2004/06/06 07:05:27  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 */
 

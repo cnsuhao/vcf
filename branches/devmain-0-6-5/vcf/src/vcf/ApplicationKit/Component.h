@@ -62,7 +62,7 @@ instances of classes derived from Component.
 	@del Component::ComponentLoaded
 	@del Component::ComponentSaved
  */
-class APPKIT_API Component : public ObjectWithEvents { //, public Persistable{
+class APPLICATIONKIT_API Component : public ObjectWithEvents { //, public Persistable{
 protected:
 	/**
 	*The constructor and destructor is hidden - this is an abstract class and should NEVER
@@ -454,6 +454,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/06/05 02:57:09  ddiego
 *fixed a syntax mistake that tinkham pointed out.The problem was that the findComponent() method was incorrectly declared.
 *

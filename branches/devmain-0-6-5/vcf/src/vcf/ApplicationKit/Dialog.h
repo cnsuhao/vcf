@@ -31,7 +31,7 @@ class WindowPeer;
 /**
  * A frame with a close button, and optionally a help and system button as well. The caption is the standard height.
  */
-class APPKIT_API Dialog : public Frame {
+class APPLICATIONKIT_API Dialog : public Frame {
 public:
 
 	enum MessageStyle {
@@ -129,6 +129,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

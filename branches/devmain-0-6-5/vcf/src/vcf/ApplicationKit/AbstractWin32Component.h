@@ -25,7 +25,7 @@ class Font;
 *This is the core Win32 control class, does most of the handling
 *of WM_XXX messages.
 */
-class APPKIT_API AbstractWin32Component : public Win32Object, public ControlPeer  {
+class APPLICATIONKIT_API AbstractWin32Component : public Win32Object, public ControlPeer  {
 public:
 	AbstractWin32Component();
 
@@ -108,6 +108,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -27,7 +27,7 @@ class Command;
 /**
 *Class UndoRedoEvent documentation
 */
-class APPKIT_API UndoRedoEvent : public Event {
+class APPLICATIONKIT_API UndoRedoEvent : public Event {
 public:
 	UndoRedoEvent( Object* source, const unsigned long& eventType, Command* command=NULL );
 
@@ -110,6 +110,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

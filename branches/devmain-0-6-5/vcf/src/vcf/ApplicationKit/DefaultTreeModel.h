@@ -25,7 +25,7 @@ namespace VCF{
 
 #define DEFAULTTREEMODEL_CLASSID		"3126B226-2819-11d4-B53A-00C04F0196DA"
 
-class APPKIT_API DefaultTreeModel : public AbstractTreeModel
+class APPLICATIONKIT_API DefaultTreeModel : public AbstractTreeModel
 {
 public:
 
@@ -52,6 +52,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

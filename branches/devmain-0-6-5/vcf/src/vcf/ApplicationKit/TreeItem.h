@@ -27,10 +27,10 @@ class Color;
 
 #define TREEITEM_CLASSID		"3126B223-2819-11d4-B53A-00C04F0196DA"
 
-class APPKIT_API TreeItem : public Item {
+class APPLICATIONKIT_API TreeItem : public Item {
 public:
 
-	class APPKIT_API SubItem : public Object {
+	class APPLICATIONKIT_API SubItem : public Object {
 	public:
 		SubItem( TreeItem* ownerItem ) : data_(NULL){
 			ownerItem_ = ownerItem;
@@ -148,6 +148,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

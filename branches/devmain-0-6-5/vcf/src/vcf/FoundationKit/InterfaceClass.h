@@ -20,7 +20,7 @@ namespace VCF  {
 *The InterfaceClass does much the same for interface classes that the
 *VCF::Class does for classes. It is a base class for RTTI for interfaces
 */
-class FRAMEWORK_API InterfaceClass  {
+class FOUNDATIONKIT_API InterfaceClass  {
 public:
 	InterfaceClass( const String& interfaceName, const String& interfaceID, const String& superInterfaceName );
 
@@ -107,7 +107,7 @@ private:
 /**
 *ImplementedInterfaceClass documentation
 */
-class FRAMEWORK_API ImplementedInterfaceClass : public InterfaceClass {
+class FOUNDATIONKIT_API ImplementedInterfaceClass : public InterfaceClass {
 public:
 	ImplementedInterfaceClass( const String& interfaceName, const String& interfaceID, const String& superInterfaceName );
 
@@ -140,6 +140,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

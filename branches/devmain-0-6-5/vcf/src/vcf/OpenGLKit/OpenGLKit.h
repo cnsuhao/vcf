@@ -1,42 +1,22 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_OPENGLKIT_H__
+#define _VCF_OPENGLKIT_H__
+//OpenGLKit.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
 
 
-#ifndef _OPENGLKIT_H__
-#define _OPENGLKIT_H__
-
-/**
-*Copyright (c) 2004, Alan Fischer
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-* Redistributions of source code must retain the above copyright
-* notice, this list of conditions and the following disclaimer.
-*
-* Redistributions in binary form must reproduce the above copyright
-* notice, this list of conditions and the following disclaimer in 
-* the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
 /**
 All of this nonsense is to properly declare the OPENGLKIT_API
-macro so that we'll export/import classes as needed for 
+macro so that we'll export/import classes as needed for
 dll builds.
 */
 #ifdef _MSC_VER
@@ -45,9 +25,9 @@ dll builds.
   #else
     #ifdef OPENGLKIT_EXPORTS
       #define OPENGLKIT_API __declspec(dllexport)
-    #else 
+    #else
       #define OPENGLKIT_API __declspec(dllimport)
-    #endif 
+    #endif
   #endif
 #else
   #define OPENGLKIT_API
@@ -76,7 +56,7 @@ Handle the extension based on the compiler
 /**
 All of this is here so that if we use this kit in our programs, all we
 have to do is pull in this one file (OpenGLKit.h) and we'll automatically
-link to the correct library! This does mean that our app that uses this 
+link to the correct library! This does mean that our app that uses this
 kit needs to have either "USE_OPENGLKIT_DLL" defined or "USE_OPENGLKIT_LIB"
 defined to use the DLL or static libraries.
 */
@@ -116,12 +96,22 @@ namespace VCF {
 class  OPENGLKIT_API OpenGLKit {
 public:
 	static void init( int argc, char** argv ){;}
- 
+
 	static void terminate(){;}
 };
 
 };
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.5  2004/06/06 07:05:34  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
+*/
 
-#endif //_OPENGLKIT_H__
+
+#endif // _VCF_OPENGLKIT_H__
+
+

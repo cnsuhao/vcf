@@ -29,7 +29,7 @@ namespace VCF{
 *@version 1.0
 *@author Jim Crafton
 */
-class APPKIT_API TextModel : public AbstractModel {
+class APPLICATIONKIT_API TextModel : public AbstractModel {
 public:
 
 	TextModel(){
@@ -102,6 +102,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -23,7 +23,7 @@ namespace VCF  {
 /**
 *Class TimerComponent documentation
 */
-class APPKIT_API TimerComponent : public Component {
+class APPLICATIONKIT_API TimerComponent : public Component {
 public:
 
 	TimerComponent();
@@ -71,6 +71,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

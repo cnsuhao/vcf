@@ -67,7 +67,7 @@ class TableItemEditor;
 
 
 
-class APPKIT_API TableCellClickEvent : public Event {
+class APPLICATIONKIT_API TableCellClickEvent : public Event {
 public:
 	TableCellClickEvent( Object* source, const ulong32& type, const CellID& cell ):
 		Event(source,type), cell_(cell) {
@@ -81,7 +81,7 @@ public:
 };
 
 
-class APPKIT_API CellRange {
+class APPLICATIONKIT_API CellRange {
 public:
 
 	CellRange(int minRow = -1, int minCol = -1, int maxRow = -1, int maxCol = -1) {
@@ -206,7 +206,7 @@ separate the model/data from the control itself (though he does use a CGridCell
 class for the cell items). In addition most of the enumerations and all of the
 function names have been changed, again to fit in with the VCF's coding standards.
 */
-class APPKIT_API TableControl : public CustomControl, public DelegatedContainer<TableControl> {
+class APPLICATIONKIT_API TableControl : public CustomControl, public DelegatedContainer<TableControl> {
 public:
 	enum {
 		TableCellClickedEvent = CUSTOM_EVENT_TYPES + 32131,
@@ -591,6 +591,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

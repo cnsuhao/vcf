@@ -240,8 +240,8 @@ bool System::isUnicodeEnabled()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.8  2004/06/06 04:56:53  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.9  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.7  2004/05/18 02:07:32  ddiego
 *fixed a bug in StringUtils format and trace  - from osx side

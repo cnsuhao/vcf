@@ -16,7 +16,7 @@ where you installed the VCF.
 
 namespace VCF {
 
-class APPKIT_API DocManagerEvent : public Event {
+class APPLICATIONKIT_API DocManagerEvent : public Event {
 public:
 	DocManagerEvent( Object* source, ulong32 type ): Event( source, type ),
 			allowFileOp_(true), fileOperationStatus_(false) {
@@ -55,7 +55,7 @@ protected:
 
 
 
-class APPKIT_API DocumentInfo {
+class APPLICATIONKIT_API DocumentInfo {
 public:
 	String classID;
 	String className;
@@ -83,7 +83,7 @@ static method DocumentManager::getDocumentManager().
 	@del DocumentManager::DocumentClosed
 	@del DocumentManager::CurrentDocumentChanged
 */
-class APPKIT_API DocumentManager {
+class APPLICATIONKIT_API DocumentManager {
 public:
 	DocumentManager();
 
@@ -1039,6 +1039,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

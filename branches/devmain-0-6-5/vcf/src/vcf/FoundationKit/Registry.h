@@ -34,7 +34,7 @@ enum RegistryDataType{
 *a class that wraps up a specific registry value that may
 *be a string, integer, bool, or stream of binary data
 */
-class FRAMEWORK_API RegistryValueInfo : public Object {
+class FOUNDATIONKIT_API RegistryValueInfo : public Object {
 public:
 
 	RegistryValueInfo( VariantData* data, const RegistryDataType& dataType,
@@ -102,7 +102,7 @@ class RegistryPeer;
 *depending on the OS. In Win32, this represents a connection to the
 *Win32 registry data base.
 */
-class FRAMEWORK_API Registry  : public Object{
+class FOUNDATIONKIT_API Registry  : public Object{
 
 public:
 	Registry();
@@ -146,6 +146,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -34,7 +34,7 @@ class View;
 /**
 A Model is the base class for
 */
-class APPKIT_API Model : public Component {
+class APPLICATIONKIT_API Model : public Component {
 public:
 
 
@@ -139,6 +139,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/04/29 19:05:50  ddiego
 *added MVC example, plus the Model::changed() method. Also
 *added more documentation.

@@ -127,9 +127,10 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.8  2004/06/06 06:03:15  marcelloptr
-*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*Revision 1.3.2.9  2004/06/06 07:05:27  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
+
 *Revision 1.3.2.7  2004/05/31 22:24:52  ddiego
 *OSX code for handling focus events
 *

@@ -66,7 +66,7 @@ class Mutex;
 *do not need this. For example, common utility objects like Rect or Point do not need this - they
 *can be created on the stack.
 */
-class FRAMEWORK_API Object {
+class FOUNDATIONKIT_API Object {
 public:
 	Object();
 
@@ -328,6 +328,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -29,7 +29,7 @@ namespace VCF {
 
 class DateTime;
 
-class FRAMEWORK_API StringUtils  {
+class FOUNDATIONKIT_API StringUtils  {
 public:
 
 	/**
@@ -383,8 +383,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.6  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.4  2004/05/16 02:39:09  ddiego
 *OSX code updates

@@ -183,8 +183,8 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2004/06/06 04:56:53  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.5  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration

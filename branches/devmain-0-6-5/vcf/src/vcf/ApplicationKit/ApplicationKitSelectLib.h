@@ -45,14 +45,14 @@ where you installed the VCF.
 # endif
 
 
-#ifdef USE_APPKIT_DLL
+#ifdef USE_APPLICATIONKIT_DLL
 //	using dynamic link library
 #	ifdef _DEBUG
 #		pragma comment(lib, "ApplicationKit_"_LIB_CPLVERNUM"_d.lib")
 #	else
 #		pragma comment(lib, "ApplicationKit_"_LIB_CPLVERNUM".lib")
 #	endif
-#elif USE_APPKIT_LIB
+#elif USE_APPLICATIONKIT_LIB
 //	using statically linked library
 #	ifdef _DEBUG
 #		pragma comment(lib, "ApplicationKit_"_LIB_CPLVERNUM"_sd.lib")
@@ -61,12 +61,15 @@ where you installed the VCF.
 #	endif
 #else
 //	creating the static or dynamic link library
-#endif // APPKIT_LIB
+#endif // APPLICATIONKIT_LIB
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

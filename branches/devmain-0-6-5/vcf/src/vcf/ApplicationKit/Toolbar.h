@@ -36,7 +36,7 @@ class ToolbarPeer;
 
 
 
-class APPKIT_API ToolbarItem : public Item, public Button {
+class APPLICATIONKIT_API ToolbarItem : public Item, public Button {
 public:
 
 	ToolbarItem();
@@ -276,7 +276,7 @@ protected:
 
 class ToolbarModel;
 
-class APPKIT_API ToolbarModelEvent : public ModelEvent {
+class APPLICATIONKIT_API ToolbarModelEvent : public ModelEvent {
 public:
 
 	ToolbarModelEvent( Object* source, ulong32 type ): ModelEvent(source,type),item_(NULL) {
@@ -302,7 +302,7 @@ public:
 
 
 
-class APPKIT_API ToolbarModel : public AbstractModel {
+class APPLICATIONKIT_API ToolbarModel : public AbstractModel {
 public:
 	ToolbarModel();
 
@@ -341,7 +341,7 @@ protected:
  *a floating frame that remains top level, has a close button,
  *and a caption height that is shorter than normal.
  */
-class APPKIT_API Toolbar : public Control {
+class APPLICATIONKIT_API Toolbar : public Control {
 public:
 
 	Toolbar();
@@ -412,6 +412,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

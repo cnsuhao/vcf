@@ -29,7 +29,7 @@ class DataType;
 *in a clipboard.
 *@see Clipboard
 */
-class APPKIT_API ClipboardPeer {
+class APPLICATIONKIT_API ClipboardPeer {
 public:
 	virtual ~ClipboardPeer(){};
 
@@ -47,6 +47,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -22,7 +22,7 @@ namespace VCF  {
 /**
 *Class Splitter documentation
 */
-class APPKIT_API Splitter : public CustomControl {
+class APPLICATIONKIT_API Splitter : public CustomControl {
 public:
 
 	Splitter( const AlignmentType& alignment = AlignLeft );
@@ -78,6 +78,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

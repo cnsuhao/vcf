@@ -20,7 +20,7 @@ namespace VCF {
 #define SLIDERCONTROL_CLASSID		"e5b77d23-4a5f-42e5-adba-e2bde202206e"
 
 
-class APPKIT_API SliderControl : public CustomControl {
+class APPLICATIONKIT_API SliderControl : public CustomControl {
 public:
 
 	enum DisplayOrientation {
@@ -143,6 +143,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -1,32 +1,11 @@
+//OSXGraphicsToolkit.cpp
 
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
@@ -38,200 +17,200 @@ using namespace VCF;
 OSXGraphicsToolkit::OSXGraphicsToolkit()
 {
 	loadSystemColors();
-}	
+}
 
 OSXGraphicsToolkit::~OSXGraphicsToolkit()
 {
-	
-}	
+
+}
 
 void OSXGraphicsToolkit::loadSystemColors()
 {
     RGBColor themeColor;
-    
+
 	Color* sysColor = NULL;
-	sysColor = new Color();    
+	sysColor = new Color();
 	systemColors_[SYSCOLOR_SHADOW] = sysColor;
     systemColorNameMap_[*sysColor] = "SYSCOLOR_SHADOW";
     GetThemeBrushAsColor( kThemeBrushButtonActiveDarkShadow, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
-    
+
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_FACE] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_FACE";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonFaceActive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_HIGHLIGHT";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonActiveLightHighlight, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_ACTIVE_CAPTION] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonFaceActive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_ACTIVE_BORDER] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonFrameActive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color( *Color::getColor("gray128") );
 	systemColors_[SYSCOLOR_DESKTOP] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_DESKTOP";
-    
-    
+
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_CAPTION_TEXT] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
-    
+
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_SELECTION] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION";
-    
+
     GetThemeBrushAsColor( kThemeBrushFocusHighlight, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_SELECTION_TEXT] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
-    
+
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_INACTIVE_BORDER] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonFrameInactive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_INACTIVE_CAPTION] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonFaceInactive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
-                        
+
+
     sysColor = new Color( *Color::getColor("lemonchiffon") );
 	systemColors_[SYSCOLOR_TOOLTIP] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP";
-    
-    
+
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_TOOLTIP_TEXT] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
-    
+
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
-                        
+
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_MENU] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU";
-    
+
     GetThemeBrushAsColor( kThemeBrushMenuBackground, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_MENU_TEXT] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU_TEXT";
-    
+
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_WINDOW] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW";
-    
+
     GetThemeBrushAsColor( kThemeBrushUtilityWindowBackgroundActive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_WINDOW_TEXT] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
-    
+
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
     sysColor = new Color();
 	systemColors_[SYSCOLOR_WINDOW_FRAME] = sysColor;
 	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
-    
+
     GetThemeBrushAsColor( kThemeBrushButtonFrameActive, 32, TRUE, &themeColor );
-    sysColor->setRGB( ((double)themeColor.red)/65535.0, 
-                        ((double)themeColor.green)/65535.0, 
+    sysColor->setRGB( ((double)themeColor.red)/65535.0,
+                        ((double)themeColor.green)/65535.0,
                         ((double)themeColor.blue)/65535.0 );
-                        
+
 }
 
 ContextPeer* OSXGraphicsToolkit::internal_createContextPeer( const unsigned long& width, const unsigned long& height )
 {
 	return new OSXContext( width, height );
-}	
+}
 
 ContextPeer* OSXGraphicsToolkit::internal_createContextPeer( const unsigned long& contextID )
 {
 	return new OSXContext( contextID );
-}	
+}
 
 FontPeer* OSXGraphicsToolkit::internal_createFontPeer( const String& fontName )
 {
 	return new OSXFont( fontName );
-}	
+}
 
 FontPeer* OSXGraphicsToolkit::internal_createFontPeer( const String& fontName, const double& pointSize )
 {
 	return new OSXFont( fontName, pointSize );
-}	
-		
+}
+
 Image* OSXGraphicsToolkit::internal_createImage( const unsigned long& width, const unsigned long& height )
 {
 	return new OSXImage(width, height);
-}	
+}
 
 Image* OSXGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect* rect )
 {
@@ -239,10 +218,12 @@ Image* OSXGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect*
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/06/06 07:05:34  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.6  2004/05/31 13:20:59  ddiego
 *more osx updates
 *
@@ -261,5 +242,3 @@ Image* OSXGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect*
 */
 
 
-
-  	

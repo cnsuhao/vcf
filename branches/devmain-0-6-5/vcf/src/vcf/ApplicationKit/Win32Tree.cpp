@@ -319,7 +319,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			}
 			else{
 				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}			
+			}
 		}
 		break;
 
@@ -351,7 +351,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			else{
 				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 			}
-			
+
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			TVHITTESTINFO hitTestInfo;
@@ -449,18 +449,18 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case TVN_GETDISPINFOA: {			
+		case TVN_GETDISPINFOA: {
 			LPNMTVDISPINFOA lptvdi = (LPNMTVDISPINFOA) lParam ;
 			if ( lptvdi->item.mask & TVIF_TEXT ) {
 				static AnsiString text;
 				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
 				if ( NULL != item ) {
 					text = item->getCaption();
-					
+
 					text.copy( lptvdi->item.pszText, text.size() );
 					lptvdi->item.pszText[text.size()] = 0;
 				}
-			}			
+			}
 		}
 		break;
 
@@ -688,7 +688,7 @@ void Win32Tree::addItem( TreeItem* item )
 		memset( &insert, 0, sizeof(TVINSERTSTRUCTW) );
 		TVITEMW tvItem;
 		memset( &tvItem, 0, sizeof(TVITEMW) );
-		
+
 		TreeItem* parent = item->getParent();
 		HTREEITEM itemParent = NULL;
 		if ( NULL != parent ){
@@ -706,24 +706,24 @@ void Win32Tree::addItem( TreeItem* item )
 			tvItem.mask |= TVIF_IMAGE;
 			tvItem.iImage = item->getImageIndex();
 		}
-		
+
 		if ( item->getStateImageIndex() >= 0 ) {
 			tvItem.mask |= TVIF_STATE;
 			//INDEXTOSTATEIMAGEMASK is one based, but Item::getStateImageIndex() is zero based
 			tvItem.state = INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
 			tvItem.stateMask = TVIS_STATEIMAGEMASK;
 		}
-		
+
 		if ( item->getSelectedImageIndex() >= 0 ) {
 			tvItem.mask |= TVIF_SELECTEDIMAGE ;
 			tvItem.iSelectedImage = item->getSelectedImageIndex();
 		}
-		
+
 		tvItem.cchTextMax = 0;//item->getCaption().size()+1;
 		//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
 		//memset( tmpName, 0, tvItem.cchTextMax );
 		//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
-		
+
 		tvItem.pszText = LPSTR_TEXTCALLBACKW;//tmpName;
 		tvItem.lParam = (LPARAM)item;
 		insert.hParent = itemParent;
@@ -737,7 +737,7 @@ void Win32Tree::addItem( TreeItem* item )
 		memset( &insert, 0, sizeof(TVINSERTSTRUCTA) );
 		TVITEMA tvItem;
 		memset( &tvItem, 0, sizeof(TVITEMA) );
-		
+
 		TreeItem* parent = item->getParent();
 		HTREEITEM itemParent = NULL;
 		if ( NULL != parent ){
@@ -755,24 +755,24 @@ void Win32Tree::addItem( TreeItem* item )
 			tvItem.mask |= TVIF_IMAGE;
 			tvItem.iImage = item->getImageIndex();
 		}
-		
+
 		if ( item->getStateImageIndex() >= 0 ) {
 			tvItem.mask |= TVIF_STATE;
 			//INDEXTOSTATEIMAGEMASK is one based, but Item::getStateImageIndex() is zero based
 			tvItem.state = INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
 			tvItem.stateMask = TVIS_STATEIMAGEMASK;
 		}
-		
+
 		if ( item->getSelectedImageIndex() >= 0 ) {
 			tvItem.mask |= TVIF_SELECTEDIMAGE ;
 			tvItem.iSelectedImage = item->getSelectedImageIndex();
 		}
-		
+
 		tvItem.cchTextMax = 0;//item->getCaption().size()+1;
 		//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
 		//memset( tmpName, 0, tvItem.cchTextMax );
 		//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
-		
+
 		tvItem.pszText = LPSTR_TEXTCALLBACKA;//tmpName;
 		tvItem.lParam = (LPARAM)item;
 		insert.hParent = itemParent;
@@ -781,9 +781,9 @@ void Win32Tree::addItem( TreeItem* item )
 
 		addedItem = (HTREEITEM)SendMessage( hwnd_, TVM_INSERTITEMA, 0, (LPARAM)&insert );
 	}
-	
 
-	
+
+
 
 	//delete [] tmpName;
 
@@ -846,66 +846,66 @@ void Win32Tree::onItemChanged( ItemEvent* event )
 						if ( System::isUnicodeEnabled() ) {
 							TVITEMW tvItem;
 							memset( &tvItem, 0, sizeof(TVITEMW) );
-							
+
 							tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;
 							tvItem.iImage = item->getImageIndex();
-							
+
 							tvItem.mask |= TVIF_STATE;
-							
+
 							if ( item->getTextBold() ) {
 								tvItem.state |= TVIS_BOLD;
 							}
-							
+
 							tvItem.stateMask |= TVIS_BOLD;
-							
-							
+
+
 							if ( item->getStateImageIndex() >= 0 ) {
 								tvItem.mask |= TVIF_STATE;
 								tvItem.state |= INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
 								tvItem.stateMask |= TVIS_STATEIMAGEMASK;
 							}
-							
+
 							if ( item->getSelectedImageIndex() >= 0 ) {
 								tvItem.mask |= TVIF_SELECTEDIMAGE ;
 								tvItem.iSelectedImage = item->getSelectedImageIndex();
 							}
-							
+
 							tvItem.hItem = it->second;
-							
-							
+
+
 							SendMessage( hwnd_, TVM_SETITEMW, 0, (LPARAM)&tvItem );
 						}
 						else {
 							TVITEMA tvItem;
 							memset( &tvItem, 0, sizeof(TVITEMA) );
-							
+
 							tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;
 							tvItem.iImage = item->getImageIndex();
-							
+
 							tvItem.mask |= TVIF_STATE;
-							
+
 							if ( item->getTextBold() ) {
 								tvItem.state |= TVIS_BOLD;
 							}
-							
+
 							tvItem.stateMask |= TVIS_BOLD;
-							
-							
+
+
 							if ( item->getStateImageIndex() >= 0 ) {
 								tvItem.mask |= TVIF_STATE;
 								tvItem.state |= INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
 								tvItem.stateMask |= TVIS_STATEIMAGEMASK;
 							}
-							
+
 							if ( item->getSelectedImageIndex() >= 0 ) {
 								tvItem.mask |= TVIF_SELECTEDIMAGE ;
 								tvItem.iSelectedImage = item->getSelectedImageIndex();
 							}
-							
+
 							tvItem.hItem = it->second;
-							
+
 							SendMessage( hwnd_, TVM_SETITEMA, 0, (LPARAM)&tvItem );
-						}						
+						}
 					}
 				}
 			}
@@ -1050,6 +1050,9 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.4  2004/05/06 21:18:33  ddiego
 *some more minor win32 unicode changes
 *

@@ -23,7 +23,7 @@ class Image;
 *A ResourceBundle is used to represent a collection of resources. ResourceBundle's can
 *be attached to external files or applications.
 */
-class APPKIT_API ResourceBundle : public Interface
+class APPLICATIONKIT_API ResourceBundle : public Interface
 {
 public:
 
@@ -59,6 +59,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

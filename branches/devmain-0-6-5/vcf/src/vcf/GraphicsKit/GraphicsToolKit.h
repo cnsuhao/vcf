@@ -106,7 +106,7 @@ public:
 
 	static FontPeer* createFontPeer( const String& fontName );
 
-	static FontPeer* createFontPeer( const String& fontName, const double& pointSize );	
+	static FontPeer* createFontPeer( const String& fontName, const double& pointSize );
 
 	static Image* createImage( const unsigned long& width, const unsigned long& height );
 
@@ -170,7 +170,7 @@ protected:
 
 	virtual FontPeer* internal_createFontPeer( const String& fontName )  = 0;
 
-	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize )  = 0;	
+	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize )  = 0;
 
 	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height ) = 0;
 
@@ -281,6 +281,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:34  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
 *made a few changes to the new OpenGLKit files, adjusting where the
 *CVS log was put, and changed a few cases for the export-import definition

@@ -28,7 +28,7 @@ class DesktopPeer;
 *MS Windows. A desktop may or may not allow files, i.e. it in fact is
 *an actual location on the filesystem
 */
-class APPKIT_API Desktop : public VCF::Object {
+class APPLICATIONKIT_API Desktop : public VCF::Object {
 public:
 	static Desktop* create();
 
@@ -98,6 +98,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -132,7 +132,7 @@ private:
 /**
 *CharMemStream
 */
-class FRAMEWORK_API CharMemStream : public GenericMemoryBuffer<char> {
+class FOUNDATIONKIT_API CharMemStream : public GenericMemoryBuffer<char> {
 public:
 	CharMemStream( const ulong32& allocationSize = 65536 ) :
 		GenericMemoryBuffer<char> ( allocationSize ) {
@@ -148,6 +148,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -21,7 +21,7 @@ namespace VCF {
 /**
 class Document documentation
 */
-class APPKIT_API Document : public AbstractModel {
+class APPLICATIONKIT_API Document : public AbstractModel {
 public:
 
 
@@ -184,6 +184,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
