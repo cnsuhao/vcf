@@ -10,36 +10,74 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include <errno.h>
-
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 using namespace VCF;
 
 OSXFileStream::OSXFileStream( const String& filename, const FileStreamAccessType& accessType ):
-fileHandle_(NULL)
+fileHandle_(0),
+file_(NULL)
 {
-
 	filename_ = filename;
-	fileHandle_ = fopen( filename_.ansi_c_str(), translateAccessType(accessType).ansi_c_str() ); // TODO: translateAccessType
+	
+	int oflags = 0;
+	
+	switch ( accessType ){
+		case fsRead : {
+			oflags = O_RDONLY;
+		}
+		break;
 
+		case fsWrite : {
+			oflags = O_WRONLY;
+		}
+		break;
+
+		case fsReadWrite : case fsDontCare : {
+			oflags = O_CREAT | O_TRUNC | O_RDWR;
+		}
+		break;
+	}
+	
+	fileHandle_ = ::open( filename_.ansi_c_str(), oflags );
+	
 	if (fileHandle_ < 0)	{
 		fileHandle_ = NULL;
 		throw FileIOError( CANT_ACCESS_FILE + filename  );
 	}
 	else {
-		fseek( fileHandle_, 0, SEEK_SET );
+		::lseek( fileHandle_, 0, SEEK_SET );
 	}
 }
 
 OSXFileStream::OSXFileStream( File* file ):
-	fileHandle_(NULL)
+	fileHandle_(0),
+	file_(file)
 {
-
+	filename_ = file_->getName();	
+	
+	OSXFilePeer* filePeer = file_->getPeer();
+	fileHandle_ = filePeer->getFileHandle();
+	
+	if (fileHandle_ < 0)	{
+		fileHandle_ = NULL;
+		throw FileIOError( CANT_ACCESS_FILE + filename_  );
+	}
+	else {
+		::lseek( fileHandle_, 0, SEEK_SET );
+	}
+	
 }
 
 OSXFileStream::~OSXFileStream()
 {
-	if (fileHandle_ != NULL) {
-		fclose( fileHandle_ );
+
+	if ((file_ == NULL) && (fileHandle_ != NULL)) {
+		::close( fileHandle_ );
 	}
 }
 
@@ -47,7 +85,7 @@ void OSXFileStream::seek(const unsigned long& offset, const SeekType& offsetFrom
 {
 	int seekType = translateSeekTypeToMoveType( offsetFrom );
 
-	int err = fseek( fileHandle_, offset, seekType );
+	int err = ::lseek( fileHandle_, offset, seekType );
 
 	if (err < 0 ) {
 		int errorCode = errno;
@@ -59,20 +97,19 @@ void OSXFileStream::seek(const unsigned long& offset, const SeekType& offsetFrom
 unsigned long OSXFileStream::getSize()
 {
 	unsigned long result = 0;
-	int currentPos = ::ftell( fileHandle_ );
-	::fseek( fileHandle_, 0, SEEK_END );
-
-	result = ::ftell( fileHandle_ );
-
-	::fseek( fileHandle_, currentPos, SEEK_SET );
-
+	
+	struct stat st = {0};
+	if ( -1 != fstat( fileHandle_, &st ) ) {
+		result = st.st_size;
+	}	
+	
 	return result;
 }
 
 void OSXFileStream::read( char* bytesToRead, unsigned long sizeOfBytes )
 {
 	int bytesRead = 0;
-	int err = fread( bytesToRead, 1, sizeOfBytes, fileHandle_);
+	ssize_t err = ::read( fileHandle_, bytesToRead, sizeOfBytes );
 
 	if (err < 0)	{
 		// TODO: peer error string
@@ -93,7 +130,7 @@ void OSXFileStream::read( char* bytesToRead, unsigned long sizeOfBytes )
 void OSXFileStream::write( const char* bytesToWrite, unsigned long sizeOfBytes )
 {
 	int bytesWritten = 0;
-	int err = ::fwrite( bytesToWrite, 1, sizeOfBytes, fileHandle_ );
+	ssize_t err = ::write( fileHandle_, bytesToWrite, sizeOfBytes );
 
 	if (err < 0)
 	{
@@ -117,32 +154,6 @@ char* OSXFileStream::getBuffer()
 {
 	// ???
 	return NULL;
-}
-
-String OSXFileStream::translateAccessType( const FileStreamAccessType& accessType )
-{
-
-	String result;
-
-
-	switch ( accessType ){
-		case fsRead : {
-			result = "rb";
-		}
-			break;
-
-		case fsWrite : {
-			result = "wb";
-		}
-			break;
-
-		case fsReadWrite : case fsDontCare : {
-			result = "a+b";
-		}
-			break;
-	}
-
-	return result;
 }
 
 
@@ -173,6 +184,9 @@ int OSXFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/08/01 23:40:16  ddiego
+*fixed a few osx bugs
+*
 *Revision 1.1.2.7  2004/07/29 03:55:21  ddiego
 *osx updates
 *

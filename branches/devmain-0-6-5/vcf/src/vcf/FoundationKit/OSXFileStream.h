@@ -34,9 +34,9 @@ public:
 
 	virtual char* getBuffer();
 private:
-	FILE* fileHandle_;
+	int fileHandle_;
 	VCF::String filename_;
-	String translateAccessType( const FileStreamAccessType& accessType );
+	VCF::File* file_;
 	int translateSeekTypeToMoveType( const SeekType& offsetFrom );
 };
 
@@ -47,6 +47,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.7  2004/08/01 23:40:16  ddiego
+ *fixed a few osx bugs
+ *
  *Revision 1.1.2.6  2004/07/29 03:55:21  ddiego
  *osx updates
  *
