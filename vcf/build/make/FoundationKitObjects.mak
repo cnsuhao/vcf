@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.2.1  2004/02/16 03:00:25  ddiego
+#*** empty log message ***
+#
 #Revision 1.3  2003/12/18 05:15:47  ddiego
 #merge from devmain-0-6-2 branch into the stable branch
 #
@@ -66,11 +69,15 @@ $(OUTDIR_FK_D)/BasicInputStream.o : $(SRC_IO)/BasicInputStream.cpp $(FOUNDATIONK
 $(OUTDIR_FK_D)/BasicOutputStream.o : $(SRC_IO)/BasicOutputStream.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/BasicOutputStream.cpp -o $(OUTDIR_FK_D)/BasicOutputStream.o
 
-$(OUTDIR_FK_D)/Class.o : $(SRC_CORE)/Class.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Class.cpp -o $(OUTDIR_FK_D)/Class.o
+$(OUTDIR_FK_D)/Class.o : $(SRC_RTTI)/Class.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_RTTI)/Class.cpp -o $(OUTDIR_FK_D)/Class.o
 
-$(OUTDIR_FK_D)/ClassRegistry.o : $(SRC_CORE)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/ClassRegistry.cpp -o $(OUTDIR_FK_D)/ClassRegistry.o
+$(OUTDIR_FK_D)/ClassRegistry.o : $(SRC_RTTI)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_RTTI)/ClassRegistry.cpp -o $(OUTDIR_FK_D)/ClassRegistry.o
+
+$(OUTDIR_FK_D)/ClassRegistry.o : $(SRC_RTTI)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_RTTI)/ClassRegistry.cpp -o $(OUTDIR_FK_D)/ClassRegistry.o
+	
 
 $(OUTDIR_FK_D)/Directory.o : $(SRC_IO)/Directory.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/Directory.cpp -o $(OUTDIR_FK_D)/Directory.o
@@ -99,8 +106,8 @@ $(OUTDIR_FK_D)/FileUtils.o : $(SRC_IO)/FileUtils.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK_D)/FoundationKit.o : $(SRC_CORE)/FoundationKit.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/FoundationKit.cpp -o $(OUTDIR_FK_D)/FoundationKit.o
 
-$(OUTDIR_FK_D)/InterfaceClass.o : $(SRC_CORE)/InterfaceClass.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/InterfaceClass.cpp -o $(OUTDIR_FK_D)/InterfaceClass.o
+$(OUTDIR_FK_D)/InterfaceClass.o : $(SRC_RTTI)/InterfaceClass.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_RTTI)/InterfaceClass.cpp -o $(OUTDIR_FK_D)/InterfaceClass.o
 
 $(OUTDIR_FK_D)/Library.o : $(SRC_UTILS)/Library.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Library.cpp -o $(OUTDIR_FK_D)/Library.o
@@ -226,11 +233,11 @@ $(OUTDIR_FK)/BasicInputStream.o : $(SRC_IO)/BasicInputStream.cpp $(FOUNDATIONKIT
 $(OUTDIR_FK)/BasicOutputStream.o : $(SRC_IO)/BasicOutputStream.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IO)/BasicOutputStream.cpp -o $(OUTDIR_FK)/BasicOutputStream.o
 
-$(OUTDIR_FK)/Class.o : $(SRC_CORE)/Class.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Class.cpp -o $(OUTDIR_FK)/Class.o
+$(OUTDIR_FK)/Class.o : $(SRC_RTTI)/Class.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_RTTI)/Class.cpp -o $(OUTDIR_FK)/Class.o
 
-$(OUTDIR_FK)/ClassRegistry.o : $(SRC_CORE)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/ClassRegistry.cpp -o $(OUTDIR_FK)/ClassRegistry.o
+$(OUTDIR_FK)/ClassRegistry.o : $(SRC_RTTI)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_RTTI)/ClassRegistry.cpp -o $(OUTDIR_FK)/ClassRegistry.o
 
 $(OUTDIR_FK)/CommandLine.o : $(SRC_UTILS)/CommandLine.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/CommandLine.cpp -o $(OUTDIR_FK)/CommandLine.o
@@ -262,8 +269,8 @@ $(OUTDIR_FK)/FileUtils.o : $(SRC_IO)/FileUtils.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK)/FoundationKit.o : $(SRC_CORE)/FoundationKit.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/FoundationKit.cpp -o $(OUTDIR_FK)/FoundationKit.o
 
-$(OUTDIR_FK)/InterfaceClass.o : $(SRC_CORE)/InterfaceClass.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/InterfaceClass.cpp -o $(OUTDIR_FK)/InterfaceClass.o
+$(OUTDIR_FK)/InterfaceClass.o : $(SRC_RTTI)/InterfaceClass.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_RTTI)/InterfaceClass.cpp -o $(OUTDIR_FK)/InterfaceClass.o
 
 $(OUTDIR_FK)/Library.o : $(SRC_UTILS)/Library.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Library.cpp -o $(OUTDIR_FK)/Library.o
