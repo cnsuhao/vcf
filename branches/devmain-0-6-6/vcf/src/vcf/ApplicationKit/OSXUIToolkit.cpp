@@ -567,6 +567,53 @@ public:
 	}
 };
 
+
+
+
+
+
+class OSXUIPolicyManager : public UIPolicyManager {
+public:
+	virtual void mergeMenus( Menu* appMenu, Menu* windowMenu ){
+	
+	}
+
+	virtual Frame* getOwnerForDialog() {
+		return NULL;
+	}
+	
+	virtual Rect adjustInitialDialogBounds( Dialog* dialog ) {
+		Rect result;
+		Control* owner = dialog->getOwner();
+		if ( NULL != owner ) {			
+			result.left_ = owner->getLeft() + ( owner->getWidth()/2.0 - dialog->getWidth()/2.0 );
+			result.top_ = owner->getTop() + ( owner->getHeight()/2.0 - dialog->getHeight()/2.0 );
+			result.right_ = result.left_ + dialog->getWidth();
+			result.bottom_ = result.top_ + dialog->getHeight();
+			if ( NULL != owner->getParent() ) {
+				owner->translateToScreenCoords( &result );
+			}
+		}
+		else {
+			//get the horizontal center of screen, and the vertical position
+			//about 1/3 of the way from the top
+			double w = Desktop::getDesktop()->getWidth();
+			double h = Desktop::getDesktop()->getHeight();
+			
+			result.left_ = result.right_ = w / 2.0;
+			result.top_ = result.bottom_ = h / 3.0;
+			
+			result.inflate( dialog->getWidth()/2.0, dialog->getHeight()/2.0 );
+			
+		}
+		
+		return result;
+	}
+};
+
+
+
+
 };//end of VCF namespace
 
 
@@ -583,7 +630,7 @@ OSXUIToolkit::OSXUIToolkit():
     idleTimerRef_(NULL)
 {
     metricsMgr_ = new OSXUIMetricsManager();
-
+	policyMgr_ = new OSXUIPolicyManager();
     //install event loop callbacks
     handlerUPP_ = NewEventHandlerUPP(OSXUIToolkit::handleOSXApplicationEvents);
     static EventTypeSpec eventsToHandle[] ={
@@ -946,22 +993,24 @@ UIToolkit::ModalReturnType OSXUIToolkit::internal_runModalEventLoopFor( Control*
 	Frame* ownerFrame = control->getParentFrame();
 	WindowRef controlWindow = (WindowRef) ownerFrame->getPeer()->getHandleID();
 	
-	EndAppModalStateForWindow( controlWindow );
-	UIToolkit::ModalReturnType result = UIToolkit::mrFalse;
-	
+	//EndAppModalStateForWindow( controlWindow );
+	UIToolkit::ModalReturnType result = UIToolkit::mrTrue;
+	/*
 	EventRef theEvent;
 	while  ( ReceiveNextEvent(0, NULL,kEventDurationForever,true, &theEvent)== noErr ) {
-		SendEventToEventTarget (theEvent, GetEventDispatcherTarget());
 		
+		SendEventToEventTarget (theEvent, GetEventDispatcherTarget());
+				
 		if ( kEventClassCommand == GetEventKind( theEvent ) ) {
 			HICommand		command;
 			GetEventParameter( theEvent, kEventParamDirectObject, typeHICommand, NULL,
-								sizeof( HICommand ), NULL, &command );
+								sizeof( HICommand ), NULL, &command );							
+								
 			if ( command.attributes & kHICommandFromControl ) {
 				if ( kEventCommandProcess == GetEventKind( theEvent ) ) {
 					switch ( command.commandID ) {
 						case kHICommandOK : {
-							result = UIToolkit::mrOK;
+							//result = UIToolkit::mrOK;
 						}
 						break;
 						
@@ -969,40 +1018,20 @@ UIToolkit::ModalReturnType OSXUIToolkit::internal_runModalEventLoopFor( Control*
 							result = UIToolkit::mrCancel;
 						}
 						break;
-						
-						case OSXUIToolkit::cmdRetry : {
-							result = UIToolkit::mrRetry;
-						}
-						break;
-						
-						case OSXUIToolkit::cmdAbort : {
-							result = UIToolkit::mrAbort;
-						}
-						break;
-						
-						case OSXUIToolkit::cmdIgnore : {
-							result = UIToolkit::mrIgnore;
-						}
-						break;
-						
-						case OSXUIToolkit::cmdYes : {
-							result = UIToolkit::mrYes;
-						}
-						break;
-						
-						case OSXUIToolkit::cmdNo : {
-							result = UIToolkit::mrNo;
-						}
-						break;
 					}
 				}
 			}					
 		}
 		
+		
 		ReleaseEvent(theEvent);
 	}
+	*/
 	
-	EndAppModalStateForWindow( controlWindow );
+	RunAppModalLoopForWindow( controlWindow );
+	
+	
+	//EndAppModalStateForWindow( controlWindow );
 	
     return result;
 }
@@ -2063,6 +2092,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *
