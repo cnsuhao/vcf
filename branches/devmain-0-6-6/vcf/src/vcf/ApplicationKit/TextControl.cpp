@@ -329,6 +329,11 @@ void TextControl::handleEvent( Event* event )
 									ulong32 pos =  textPeer_->getCaretPosition();
 									String text = "\n";
 									
+									ulong32 length = textPeer_->getSelectionCount();
+									if ( length > 0 ) {
+										model->deleteText( pos, length );
+									}
+
 									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 									//	text.c_str(), text[0], text[0], pos );
 									
@@ -347,6 +352,16 @@ void TextControl::handleEvent( Event* event )
 
 								//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 								//	text.c_str(), text[0], text[0], pos );
+
+								//determnine if we have sleected text. If we 
+								//have, then delete the selection ant *then*
+								//add in the new character(s)
+
+								ulong32 length = textPeer_->getSelectionCount();
+								if ( length > 0 ) {
+									model->deleteText( pos, length );
+								}
+
 								
 								model->insertText( pos, text );
 							}
@@ -389,6 +404,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/04 23:47:28  ddiego
+*fixed text control char entry bug.
+*
 *Revision 1.2.2.4  2004/10/03 23:02:29  ddiego
 *fixed a text model bug that incorectly handled deleting chars.
 *
