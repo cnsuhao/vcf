@@ -112,15 +112,18 @@ void OSXWindow::create( Control* owningControl )
         throw RuntimeException( MAKE_ERROR_MSG_2("CreateNewWindow() failed!") );
     }
     else {
+		OSXWindow* thisPtr = this;
         err = SetWindowProperty( windowRef_, 
 								VCF_PROPERTY_CREATOR, 
 								VCF_PROPERTY_WINDOW_VAL, 
 								sizeof(OSXWindow*), 
-								this );
+								&thisPtr );
 
 		if ( noErr != err ) {
             throw RuntimeException( MAKE_ERROR_MSG_2("SetWindowProperty() failed!") );
         }
+		
+		SetThemeWindowBackground( windowRef_, kThemeBrushSheetBackgroundTransparent, true );
 		
         static EventTypeSpec eventsToHandle[] ={
                             // { kEventClassWindow, kEventWindowGetIdealSize },
@@ -153,8 +156,15 @@ void OSXWindow::create( Control* owningControl )
                                     &handlerRef_ );
 		
 				
+		static EventTypeSpec contentViewEvents[] ={ { kEventClassControl, kEventControlDraw } };
 		
-		
+		ControlRef root = getRootControl();
+		InstallEventHandler( GetControlEventTarget( root ), 
+							OSXWindow::wndContentViewHandler,
+							sizeof(contentViewEvents) / sizeof(EventTypeSpec), 
+							contentViewEvents, 
+							this, 
+							NULL );
 		
         UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent ),
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );		
@@ -444,8 +454,22 @@ void OSXWindow::close()
 			}
 		}
 	}
-
-	//::PostMessage( hwnd_, WM_CLOSE, 0, 0 );
+	
+	EventRef closeWindowEvent = NULL;
+	
+	OSStatus err = CreateEvent( NULL,
+                                kEventClassWindow,
+                                kEventWindowClose,
+                                0,
+                                kEventAttributeUserEvent,
+                                &closeWindowEvent );
+	
+	err = SetEventParameter( closeWindowEvent, kEventParamDirectObject,
+							 typeWindowRef, sizeof(WindowRef), &windowRef_ );
+	//SendEventToEventTarget( closeWindowEvent, GetWindowEventTarget(parent) );	
+	//CFRelease( result );				
+	
+	PostEventToQueue( GetCurrentEventQueue(), closeWindowEvent, kEventPriorityStandard );
 }
 
 void OSXWindow::setFrameStyle( const FrameStyleType& frameStyle )
@@ -658,7 +682,7 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
                 case kEventWindowDrawContent: {
 					result = ::CallNextEventHandler( nextHandler, theEvent );
 
-					handleDraw( true, theEvent );
+					//handleDraw( true, theEvent );
                 }
 				break;
 
@@ -667,10 +691,14 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
 					result = CallNextEventHandler( nextHandler, theEvent );
 
                     if ( !control_->isDestroying() ) {
-						handleDraw( false, theEvent );
+						//handleDraw( false, theEvent );
 
 						if ( NULL != vcfEvent ) {
 							control_->handleEvent( vcfEvent );
+						}
+						if ( kEventWindowActivated == whatHappened ) {
+							Frame* frame = (Frame*)control_;
+							frame->activate();
 						}
 					}
 				}
@@ -689,7 +717,7 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
 
 						if ( err == noErr ) 	{
 							if ( attributes & kWindowBoundsChangeSizeChanged ) {
-								handleDraw( false, theEvent );
+								//handleDraw( false, theEvent );
 							}
 						}
 
@@ -737,26 +765,6 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
     return result;
 }
 
-void OSXWindow::updateWindow()
-{
-	if ( IsWindowUpdatePending( windowRef_ ) )
-	{
-		OSStatus	err;
-		EventRef	event;
-
-		err = CreateEvent( NULL, kEventClassWindow, kEventWindowUpdate,
-				GetCurrentEventTime(), 0, &event );
-		if ( err == noErr ) {
-			WindowRef	window = windowRef_;
-
-			SetEventParameter( event, kEventParamDirectObject, typeWindowRef,
-				sizeof( WindowRef ), &window );
-
-			SendEventToEventTarget( event, GetWindowEventTarget( window ) );
-			ReleaseEvent( event );
-		}
-	}
-}
 
 OSStatus OSXWindow::handleOSXEvents( EventHandlerCallRef nextHandler, EventRef theEvent, void* userData)
 {
@@ -798,47 +806,6 @@ void internal_handleChildRepaint( Control* control )
 	}
 }
 
-void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
-{
-	//TCarbonEvent		carbonEvent( event );
-
-	//don't paint if the window's not visible
-	if ( !IsWindowVisible( windowRef_ ) ) {
-		return;
-	}
-	
-	SetPortWindowPort( windowRef_ );
-
-	RgnHandle rgn = determineUnobscuredClientRgn();
-
-	::Rect r;		
-	
-	EraseRgn( rgn );
-
-	DisposeRgn( rgn );
-	
-
-	GrafPtr wndPort = GetWindowPort(windowRef_);
-
-	VCF::GraphicsContext* ctx = control_->getContext();	
-	
-	ctx->getPeer()->setContextID( (VCF::ulong32)wndPort );	
-
-	VCF::Rect clientBounds = getClientBounds();
-	ctx->setViewableBounds( clientBounds );
-	int gcs = ctx->saveState();
-
-	control_->paintBorder( ctx );
-	
-	control_->paint( ctx );
-	
-	ctx->restoreState( gcs );
-	
-	if ( !drawingEvent ) {
-		internal_handleChildRepaint( control_ );		
-	}
-}
-
 OSXWindow* OSXWindow::getWindowFromWindowRef( WindowRef window )
 {
 	OSXWindow* result = NULL;
@@ -854,39 +821,9 @@ OSXWindow* OSXWindow::getWindowFromWindowRef( WindowRef window )
 	return result;
 }
 
-/**
-We use this function to determine the *first* control
-that should get the mouse event - this control is at the top
-of the control hierarchy NOT the bottom. This gets called, because
-apparently some mouse events only get sent to the control's WindowRef
-and not to the HIView/ControlRef instance.
-*/
 Control* OSXWindow::getControlForMouseEvent( EventRef event )
 {	
-/*
-	::Point pt;
-		::Point localPt;
-		WindowRef wnd;
-		HIPoint wndPt;
 	
-		GetEventParameter( event, kEventParamMouseLocation, typeQDPoint, NULL,
-						   sizeof (pt), NULL, &pt);
-		
-		GetEventParameter( event, kEventParamWindowRef, typeWindowRef, NULL,
-						   sizeof (wnd), NULL, &wnd);
-								
-		GetEventParameter( event, kEventParamWindowMouseLocation, typeHIPoint, NULL,
-						   sizeof (wndPt), NULL, &wndPt);
-						   
-localPt = pt;
-
-	GlobalToLocal( &localPt );
-	
-	printf( "\tpt h:%d, v:%d\n", pt.h, pt.v );
-					printf( "\twndPt x:%0.5f, y:%0.5f\n", wndPt.x, wndPt.y );
-					printf( "\tlocalPt h:%d, v:%d\n", localPt.h, localPt.v );
-					
-		*/			
 				
 	Control* result = NULL;
 	ControlRef theControl = NULL;
@@ -895,10 +832,7 @@ localPt = pt;
 	
 	
 	if ( isComposited() ) {
-		if ( noErr == HIViewGetViewForMouseEvent( root, event, &theControl ) ) {
-						
-			//printf( "root: %p, real root: %p, control found: %p\n",
-			//			root, realRoot, theControl );
+		if ( noErr == HIViewGetViewForMouseEvent( root, event, &theControl ) ) {						
 			if ( theControl != root ) {
 				OSXControl* controlPeer =  OSXControl::getControlFromControlRef(theControl);
 				if ( NULL != controlPeer ) {
@@ -1005,7 +939,45 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 
 bool OSXWindow::isActiveWindow()
 {
-	return IsWindowActive(windowRef_) ? true : false;
+	Boolean active = IsWindowActive(windowRef_);
+	printf( "IsWindowActive(windowRef_[%p]): %s\n",
+				windowRef_, active ? "true":"false" );
+	return active ? true : false;
+}
+
+OSStatus OSXWindow::wndContentViewHandler(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData)
+{
+	OSXWindow* thisPtr = (OSXWindow*)userData;
+	return thisPtr->handleContentViewDraw( nextHandler, theEvent );
+}
+
+OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, EventRef theEvent )
+{
+	TCarbonEvent event( theEvent );
+
+	GrafPtr port = NULL;										
+	CGContextRef context = NULL;
+	RgnHandle region = NULL;
+						
+	event.GetParameter( kEventParamRgnHandle, &region );
+	event.GetParameter<CGContextRef>( kEventParamCGContextRef, typeCGContextRef, &context );
+	event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );
+	
+	VCF::GraphicsContext* ctx = control_->getContext();	
+	
+	ctx->getPeer()->setContextID( (VCF::ulong32)port );	
+
+	VCF::Rect clientBounds = getClientBounds();
+	ctx->setViewableBounds( clientBounds );
+	int gcs = ctx->saveState();
+
+	control_->paintBorder( ctx );
+	
+	control_->paint( ctx );
+	
+	ctx->restoreState( gcs );
+	
+	return noErr;
 }
 
 };//end of namespace VCF
@@ -1014,6 +986,9 @@ bool OSXWindow::isActiveWindow()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/23 18:10:43  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.3  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *

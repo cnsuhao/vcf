@@ -57,11 +57,12 @@ void OSXDialog::create( Control* owningControl )
 			throw RuntimeException( MAKE_ERROR_MSG_2("CreateNewWindow() failed!") );
 		}
 		else {
+			OSXDialog* thisPtr = this;
 			err = SetWindowProperty( windowRef_, 
-									 VCF_PROPERTY_CREATOR, 
-									 VCF_PROPERTY_WINDOW_VAL, 
-									 sizeof(OSXWindow*), 
-									 this );
+								VCF_PROPERTY_CREATOR, 
+								VCF_PROPERTY_WINDOW_VAL, 
+								sizeof(OSXDialog*), 
+								&thisPtr );
 			
 			if ( noErr != err ) {
 				throw RuntimeException( MAKE_ERROR_MSG_2("SetWindowProperty() failed!") );
@@ -114,14 +115,56 @@ void OSXDialog::setVisible( const bool& visible )
 	 if ( NULL != owner_ ) {
 		if ( visible ) {
 			ShowSheetWindow( windowRef_, sheetParent_ );
+			ActivateWindow( windowRef_, TRUE );
 		}
 		else {
-			HideSheetWindow( windowRef_ );
+			HideSheetWindow( windowRef_ );			
 		}
 	 }
 	 else {
 		OSXWindow::setVisible( visible ); 
 	 }
+}
+
+void OSXDialog::close()
+{
+	/*
+	if ( NULL != owner_ ) {		
+		
+		
+		Dialog* dlg = (Dialog*)control_;
+
+		if ( dlg->allowClose() ) {
+			
+			VCF::WindowEvent event( dlg, WINDOW_EVENT_CLOSE );
+			
+			
+			dlg->FrameClose.fireEvent( &event );
+			
+			if ( dlg->isModal() ) {
+				//JC - I don't think we need of any this stuff for OS X - this is Win32 behaviour
+				
+				if ( NULL != dlg->getOwner() ) {
+					dlg->getOwner()->setEnabled( true );
+				}
+				else if ( NULL != Application::getRunningInstance() ){
+					Application::getRunningInstance()->getMainWindow()->setEnabled( true );
+				}
+				else {
+					//thorw exception????
+				}
+				
+				HideSheetWindow( windowRef_ );	
+				EventLoopRef currentLoop = GetCurrentEventLoop();
+				QuitEventLoop( currentLoop );
+			}			
+		}
+	 }
+	 else {
+		
+	 }
+	 */
+	 OSXWindow::close(); 
 }
 
 void OSXDialog::showMessage( const String& message, const String& caption )
@@ -302,6 +345,48 @@ void OSXDialog::init()
 
 OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent )
 {
+	UInt32 whatHappened = GetEventKind (theEvent);
+	switch ( GetEventClass( theEvent ) )  {
+		case kEventClassWindow : {
+            switch( whatHappened ) {
+                case kEventWindowClose : {
+
+                    OSStatus result = noErr;//::CallNextEventHandler( nextHandler, theEvent );
+
+                    VCF::Dialog* dlg = (VCF::Dialog*)getControl();
+
+                    if ( dlg->allowClose() ) {
+
+                        VCF::WindowEvent event( getControl(), WINDOW_EVENT_CLOSE );
+
+
+                        dlg->FrameClose.fireEvent( &event );
+
+                        if ( dlg->isModal() ){
+							EventLoopRef currentLoop = GetCurrentEventLoop();
+							QuitEventLoop( currentLoop );
+                        }
+						
+						if ( NULL != owner_ ) {
+							HideSheetWindow( windowRef_ );	
+							EventLoopRef currentLoop = GetCurrentEventLoop();
+							QuitEventLoop( currentLoop );
+						}
+						
+						result = ::CallNextEventHandler( nextHandler, theEvent );
+
+                    }
+					else {
+						result = noErr;
+					}
+					
+					return result;
+                }
+                break;
+			}
+		}
+	}
+				
 	return OSXWindow::handleOSXEvent( nextHandler, theEvent );
 }
 
@@ -309,6 +394,9 @@ OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/23 18:10:43  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.1  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *

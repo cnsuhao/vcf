@@ -271,15 +271,15 @@ void OSXControl::setCursor( Cursor* cursor )
 
 void OSXControl::setParent( Control* parent )
 {
-	Window* windowParent = NULL;
+	Frame* windowParent = NULL;
 	
 	if ( parent->isLightWeight() ) {
 		OSXLightweightControl* lwPeer = (OSXLightweightControl*) parent->getPeer();
 		
-		windowParent = dynamic_cast<Window*>(lwPeer->getHeavyWeightParent());
+		windowParent = dynamic_cast<Frame*>(lwPeer->getHeavyWeightParent());
 	}
 	else {
-		windowParent = dynamic_cast<Window*>(parent);
+		windowParent = dynamic_cast<Frame*>(parent);
 	}
 	
 	
@@ -441,18 +441,16 @@ OSStatus OSXControl::handleWrappedControlHitTest( EventRef theEvent )
 	GetEventParameter( theEvent, kEventParamMouseLocation, typeQDPoint, NULL,
 					   sizeof (lastMousePt_), NULL, &lastMousePt_);
 	
-	printf( "lastMousePt_ X: %d, Y: %d\n", lastMousePt_.h, lastMousePt_.v );				
+	//printf( "lastMousePt_ X: %d, Y: %d\n", lastMousePt_.h, lastMousePt_.v );				
 	OSXEventMsg msg( theEvent, control_ );
 	
 	Event* mouseMove = UIToolkit::createEventFromNativeOSEventData( &msg );
 	if ( NULL != mouseMove ) {
 		MouseEvent* e = (MouseEvent*)mouseMove;
-		printf( "X: %0.2f, Y: %0.2f\n", e->getPoint()->x_, e->getPoint()->y_ );
+		//printf( "X: %0.2f, Y: %0.2f\n", e->getPoint()->x_, e->getPoint()->y_ );
 		control_->handleEvent( mouseMove );
 		mouseMove->free();
 	}
-	
-	mouseState_ = OSXControl::msNoState;
 }
 
 OSStatus OSXControl::handleWrappedControlTrack( EventRef theEvent )
@@ -497,6 +495,8 @@ OSStatus OSXControl::handleWrappedControlTrackDone( EventRef theEvent )
 										   &pt );
 	control_->handleEvent( mouseUp );
 	mouseUp->free();
+	
+	mouseState_ = OSXControl::msUp;
 }
 
 OSStatus OSXControl::handleControlTrack( EventRef theEvent )
@@ -750,6 +750,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/23 18:10:42  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *
@@ -783,6 +786,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.2.2.3  2004/10/23 18:10:42  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *

@@ -1533,6 +1533,8 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 bool Control::isActive()
 {
 	Frame* parentFrame = getParentFrame();
+	printf( "parentFrame: %p, Frame::getActiveFrame(): %p\n",
+				parentFrame, Frame::getActiveFrame() );
 	return (parentFrame == Frame::getActiveFrame()) && (parentFrame->isActiveFrame());
 }
 
@@ -1558,6 +1560,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/10/23 18:10:41  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.7  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

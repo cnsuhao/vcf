@@ -137,28 +137,24 @@ protected:
 	static EventHandlerUPP getEventHandlerUPP();
 
 	WindowRef windowRef_;
-
 	Control* control_;
-
 	Rect bounds_;
     EventHandlerRef handlerRef_;
-	EventHandlerRef contentViewHandlerRef_;
-	
+	EventHandlerRef contentViewHandlerRef_;	
 	//RgnHandle mouseTrackRgn_;
-	MouseTrackingRef mouseTrackRef_;
-	
+	MouseTrackingRef mouseTrackRef_;	
 	unsigned long currentMouseBtn_;
+	bool internalClose_;	
 
 	RgnHandle determineUnobscuredClientRgn();
-
-	void handleDraw( bool drawingEvent, EventRef event );
-
-    bool internalClose_;
-
-    static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
-    void updateWindow();
 	
-	Control* getControlForMouseEvent( EventRef event );
+    static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
+	
+   	Control* getControlForMouseEvent( EventRef event );
+	
+	static OSStatus wndContentViewHandler(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
+	
+	OSStatus handleContentViewDraw( EventHandlerCallRef nextHandler, EventRef theEvent );
 };
 
 
@@ -168,6 +164,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/23 18:10:43  ddiego
+*mac osx updates, some more fixes for dialog code and for command button peer functionality
+*
 *Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *
