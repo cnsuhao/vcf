@@ -90,25 +90,25 @@ public:
 
 
 	typedef StringData::traits_type traits_type;
-    typedef StringData::allocator_type allocator_type;
-    typedef UniChar char_type;
-    typedef StringData::difference_type difference_type;
-    typedef StringData::pointer pointer;
-    typedef StringData::const_pointer const_pointer;
-    typedef StringData::reference reference;
-    typedef StringData::const_reference const_reference;
-    typedef StringData::value_type value_type;
-    typedef StringData::iterator iterator;
-    typedef StringData::const_iterator const_iterator;
-    typedef StringData::reverse_iterator reverse_iterator;
-    typedef StringData::const_reverse_iterator const_reverse_iterator;
+	typedef StringData::allocator_type allocator_type;
+	typedef UniChar char_type;
+	typedef StringData::difference_type difference_type;
+	typedef StringData::pointer pointer;
+	typedef StringData::const_pointer const_pointer;
+	typedef StringData::reference reference;
+	typedef StringData::const_reference const_reference;
+	typedef StringData::value_type value_type;
+	typedef StringData::iterator iterator;
+	typedef StringData::const_iterator const_iterator;
+	typedef StringData::reverse_iterator reverse_iterator;
+	typedef StringData::const_reverse_iterator const_reverse_iterator;
 
 
 	~UnicodeString();
 
 	UnicodeString(){}
 
-    UnicodeString(const UnicodeString& rhs) {
+	UnicodeString(const UnicodeString& rhs) {
 		*this = rhs;
 	}
 
@@ -118,18 +118,18 @@ public:
 
 	UnicodeString(const std::string& rhs);
 
-    UnicodeString(const AnsiChar* string, size_type stringLength );
+	UnicodeString(const AnsiChar* string, size_type stringLength );
 	UnicodeString(const UniChar* string, size_type stringLength );
 
 	UnicodeString(const AnsiChar* string );
 	UnicodeString(const UniChar* string );
 
-    UnicodeString( size_type n, AnsiChar c );
+	UnicodeString( size_type n, AnsiChar c );
 	UnicodeString( size_type n, UniChar c );
-    
-    #ifdef VCF_OSX
-    UnicodeString(const wchar_t* string );
-    #endif
+	
+	#ifdef VCF_OSX
+	UnicodeString(const wchar_t* string );
+	#endif
 
 
 
@@ -209,7 +209,7 @@ public:
 
 	\endcode
 	*/
-    const AnsiChar* ansi_c_str() const;
+	const AnsiChar* ansi_c_str() const;
 
 
 
@@ -309,14 +309,14 @@ public:
 		return *this;
 	}
 
-    UnicodeString& operator=(const AnsiChar *s);
+	UnicodeString& operator=(const AnsiChar *s);
 
 	UnicodeString& operator=(const UniChar *s) {
 		data_ = s;
 		return *this;
 	}
 
-    UnicodeString& operator=(AnsiChar c);
+	UnicodeString& operator=(AnsiChar c);
 
 	UnicodeString& operator=(UniChar c) {
 		data_ = c;
@@ -399,51 +399,51 @@ public:
 	bool operator <( const AnsiChar* rhs ) const;
 	bool operator <=( const AnsiChar* rhs ) const;
 
-    iterator begin() {
+	iterator begin() {
 		return data_.begin();
 	}
 
-    const_iterator begin() const {
+	const_iterator begin() const {
 		return data_.begin();
 	}
 
-    iterator end() {
+	iterator end() {
 		return data_.end();
 	}
 
-    const_iterator end() const {
+	const_iterator end() const {
 		return data_.end();
 	}
 
-    reverse_iterator rbegin(){
+	reverse_iterator rbegin(){
 		return data_.rbegin();
 	}
 
-    const_reverse_iterator rbegin() const{
+	const_reverse_iterator rbegin() const{
 		return data_.rbegin();
 	}
 
-    reverse_iterator rend(){
+	reverse_iterator rend(){
 		return data_.rend();
 	}
 
-    const_reverse_iterator rend() const {
+	const_reverse_iterator rend() const {
 		return data_.rend();
 	}
 
-    const_reference at(size_type pos) const {
+	const_reference at(size_type pos) const {
 		return data_.at(pos);
 	}
 
-    reference at(size_type pos) {
+	reference at(size_type pos) {
 		return data_.at(pos);
 	}
 
-    const_reference operator[](size_type pos) const {
+	const_reference operator[](size_type pos) const {
 		return data_[pos];
 	}
 
-    reference operator[](size_type pos) {
+	reference operator[](size_type pos) {
 		return data_[pos];
 	}
 
@@ -453,11 +453,11 @@ public:
 		return data_.c_str();
 	}
 
-    const UniChar* data() const {
+	const UniChar* data() const {
 		return data_.data();
 	}
 
-    size_type length() const {
+	size_type length() const {
 		return data_.length();
 	}
 
@@ -466,7 +466,7 @@ public:
 	as the number of bytes that make up the string.
 	@see size_in_bytes()
 	*/
-    size_type size() const {
+	size_type size() const {
 		return data_.size();
 	}
 
@@ -478,37 +478,37 @@ public:
 		return data_.size() * sizeof(VCFChar);
 	}
 
-    size_type max_size() const {
+	size_type max_size() const {
 		return data_.max_size();
 	}
 
-    void resize(size_type n, UniChar c = UniChar()) {
+	void resize(size_type n, UniChar c = UniChar()) {
 		data_.resize( n, c );
 	}
 
-    size_type capacity() const {
+	size_type capacity() const {
 		return data_.capacity();
 	}
 
-    void reserve(size_type n = 0) {
+	void reserve(size_type n = 0) {
 		data_.reserve( n );
 	}
 
-    bool empty() const {
+	bool empty() const {
 		return data_.empty();
 	}
 
-    UnicodeString& operator+=(const UnicodeString& rhs) {
+	UnicodeString& operator+=(const UnicodeString& rhs) {
 		data_ += rhs.data_;
 		return *this;
 	}
 
-    UnicodeString& operator+=(const UniChar *s) {
+	UnicodeString& operator+=(const UniChar *s) {
 		data_ += s;
 		return *this;
 	}
 
-    UnicodeString& operator+=(UniChar c) {
+	UnicodeString& operator+=(UniChar c) {
 		data_ += c;
 		return *this;
 	}
@@ -522,351 +522,351 @@ public:
 		return *this;
 	}
 
-    UnicodeString& append(const UnicodeString& str, size_type pos, size_type n) {
+	UnicodeString& append(const UnicodeString& str, size_type pos, size_type n) {
 		data_.append( str.data_, pos, n );
 		return *this;
 	}
 
-    UnicodeString& append(const UniChar *s, size_type n) {
+	UnicodeString& append(const UniChar *s, size_type n) {
 		data_.append( s, n );
 		return *this;
 	}
 
 	UnicodeString& append(const AnsiChar *s, size_type n);
 
-    UnicodeString& append(const UniChar *s){
+	UnicodeString& append(const UniChar *s){
 		data_.append( s );
 		return *this;
 	}
 
 	UnicodeString& append(const AnsiChar *s);
 
-    UnicodeString& append( size_type n, UniChar c){
+	UnicodeString& append( size_type n, UniChar c){
 		data_.append( n, c );
 		return *this;
 	}
 
 	UnicodeString& append( size_type n, AnsiChar c);
 
-    UnicodeString& append(const_iterator first, const_iterator last){
+	UnicodeString& append(const_iterator first, const_iterator last){
 		data_.append( first, last );
 		return *this;
 	}
 
-    UnicodeString& assign(const UnicodeString& str){
+	UnicodeString& assign(const UnicodeString& str){
 		data_.assign( str.data_ );
 		return *this;
 	}
 
-    UnicodeString& assign(const UnicodeString& str, size_type pos, size_type n) {
+	UnicodeString& assign(const UnicodeString& str, size_type pos, size_type n) {
 		data_.assign( str.data_, pos, n );
 		return *this;
 	}
 
-    UnicodeString& assign(const UniChar *s, size_type n) {
+	UnicodeString& assign(const UniChar *s, size_type n) {
 		data_.assign( s, n );
 		return *this;
 	}
 
-    UnicodeString& assign(const UniChar *s) {
+	UnicodeString& assign(const UniChar *s) {
 		data_.assign( s );
 		return *this;
 	}
 
-    UnicodeString& assign( size_type n, UniChar c)  {
+	UnicodeString& assign( size_type n, UniChar c)  {
 		data_.assign( n, c );
 		return *this;
 	}
 
 	UnicodeString& assign(const AnsiChar *s, size_type n);
 
-    UnicodeString& assign(const AnsiChar *s);
+	UnicodeString& assign(const AnsiChar *s);
 
-    UnicodeString& assign( size_type n, AnsiChar c);
+	UnicodeString& assign( size_type n, AnsiChar c);
 
-    UnicodeString& assign(const_iterator first, const_iterator last) {
+	UnicodeString& assign(const_iterator first, const_iterator last) {
 		data_.assign( first, last );
 		return *this;
 	}
 
-    UnicodeString& insert(size_type p0, const UnicodeString& str) {
+	UnicodeString& insert(size_type p0, const UnicodeString& str) {
 		data_.insert( p0, str.data_ );
 		return *this;
 	}
 
-    UnicodeString& insert(size_type p0, const UnicodeString& str, size_type pos, size_type n) {
+	UnicodeString& insert(size_type p0, const UnicodeString& str, size_type pos, size_type n) {
 		data_.insert( p0, str.data_, pos, n );
 		return *this;
 	}
 
 	UnicodeString& insert(size_type p0, const AnsiChar *s, size_type n);
 
-    UnicodeString& insert(size_type p0, const UniChar *s, size_type n) {
+	UnicodeString& insert(size_type p0, const UniChar *s, size_type n) {
 		data_.insert( p0, s, n );
 		return *this;
 	}
 
 	UnicodeString& insert(size_type p0, const AnsiChar *s);
 
-    UnicodeString& insert(size_type p0, const UniChar *s) {
+	UnicodeString& insert(size_type p0, const UniChar *s) {
 		data_.insert( p0, s );
 		return *this;
 	}
 
 	UnicodeString& insert(size_type p0, size_type n, AnsiChar c);
 
-    UnicodeString& insert(size_type p0, size_type n, UniChar c) {
+	UnicodeString& insert(size_type p0, size_type n, UniChar c) {
 		data_.insert( p0, n, c );
 		return *this;
 	}
 
 	iterator insert(iterator it, AnsiChar c) ;
 
-    iterator insert(iterator it, UniChar c) {
+	iterator insert(iterator it, UniChar c) {
 		return data_.insert( it, c );
 	}
 
 	void insert(iterator it, size_type n, AnsiChar c) ;
 
-    void insert(iterator it, size_type n, UniChar c)  {
+	void insert(iterator it, size_type n, UniChar c)  {
 		data_.insert( it, n, c );
 	}
 
-    void insert(iterator it, const_iterator first, const_iterator last){
+	void insert(iterator it, const_iterator first, const_iterator last){
 		data_.insert( it, first, last );
 	}
 
-    UnicodeString& erase(size_type p0 = 0, size_type n = npos) {
+	UnicodeString& erase(size_type p0 = 0, size_type n = npos) {
 		data_.erase( p0, n );
 		return *this;
 	}
 
-    iterator erase(iterator it) {
+	iterator erase(iterator it) {
 		return data_.erase( it );
 	}
 
-    iterator erase(iterator first, iterator last) {
+	iterator erase(iterator first, iterator last) {
 		return data_.erase( first, last );
 	}
 
-    UnicodeString& replace(size_type p0, size_type n0, const UnicodeString& str) {
+	UnicodeString& replace(size_type p0, size_type n0, const UnicodeString& str) {
 		data_.replace( p0, n0, str.data_ );
 		return *this;
 	}
 
-    UnicodeString& replace(size_type p0, size_type n0, const UnicodeString& str, size_type pos, size_type n) {
+	UnicodeString& replace(size_type p0, size_type n0, const UnicodeString& str, size_type pos, size_type n) {
 		data_.replace( p0, n0, str.data_, pos, n );
 		return *this;
 	}
 
 	UnicodeString& replace(size_type p0, size_type n0, const AnsiChar *s, size_type n);
 
-    UnicodeString& replace(size_type p0, size_type n0, const UniChar *s, size_type n) {
+	UnicodeString& replace(size_type p0, size_type n0, const UniChar *s, size_type n) {
 		data_.replace( p0, n0, s, n );
 		return *this;
 	}
 
 	UnicodeString& replace(size_type p0, size_type n0, const AnsiChar *s);
 
-    UnicodeString& replace(size_type p0, size_type n0, const UniChar *s) {
+	UnicodeString& replace(size_type p0, size_type n0, const UniChar *s) {
 		data_.replace( p0, n0, s );
 		return *this;
 	}
 
 	UnicodeString& replace(size_type p0, size_type n0, size_type n, AnsiChar c);
 
-    UnicodeString& replace(size_type p0, size_type n0, size_type n, UniChar c) {
+	UnicodeString& replace(size_type p0, size_type n0, size_type n, UniChar c) {
 		data_.replace( p0, n0, n, c );
 		return *this;
 	}
 
-    UnicodeString& replace(iterator first0, iterator last0, const UnicodeString& str) {
+	UnicodeString& replace(iterator first0, iterator last0, const UnicodeString& str) {
 		data_.replace( first0, last0, str.data_ );
 		return *this;
 	}
 
 	UnicodeString& replace(iterator first0, iterator last0, const AnsiChar *s, size_type n);
 
-    UnicodeString& replace(iterator first0, iterator last0, const UniChar *s, size_type n)  {
+	UnicodeString& replace(iterator first0, iterator last0, const UniChar *s, size_type n)  {
 		data_.replace( first0, last0, s, n );
 		return *this;
 	}
 
 	UnicodeString& replace(iterator first0, iterator last0, const AnsiChar *s);
 
-    UnicodeString& replace(iterator first0, iterator last0, const UniChar *s) {
+	UnicodeString& replace(iterator first0, iterator last0, const UniChar *s) {
 		data_.replace( first0, last0, s );
 		return *this;
 	}
 
 	UnicodeString& replace(iterator first0, iterator last0, size_type n, AnsiChar c);
 
-    UnicodeString& replace(iterator first0, iterator last0, size_type n, UniChar c) {
+	UnicodeString& replace(iterator first0, iterator last0, size_type n, UniChar c) {
 		data_.replace( first0, last0, n, c );
 		return *this;
 	}
 
-    UnicodeString& replace(iterator first0, iterator last0, const_iterator first, const_iterator last) {
+	UnicodeString& replace(iterator first0, iterator last0, const_iterator first, const_iterator last) {
 		data_.replace( first0, last0, first, last );
 		return *this;
 	}
 
 	size_type copy(AnsiChar *s, size_type n, size_type pos = 0) const;
 
-    size_type copy(UniChar *s, size_type n, size_type pos = 0) const {
+	size_type copy(UniChar *s, size_type n, size_type pos = 0) const {
 		return data_.copy( s, n, pos );
 	}
 
-    void swap(UnicodeString& str) {
+	void swap(UnicodeString& str) {
 		data_.swap( str.data_ );
 	}
 
-    size_type find(const UnicodeString& str, size_type pos = 0) const {
+	size_type find(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find( str.data_, pos );
 	}
 
 	size_type find(const AnsiChar *s, size_type pos, size_type n) const;
 
-    size_type find(const UniChar *s, size_type pos, size_type n) const {
+	size_type find(const UniChar *s, size_type pos, size_type n) const {
 		return data_.find( s, pos, n );
 	}
 
 
 	size_type find(const AnsiChar *s, size_type pos = 0) const;
 
-    size_type find(const UniChar *s, size_type pos = 0) const {
+	size_type find(const UniChar *s, size_type pos = 0) const {
 		return data_.find( s, pos );
 	}
 
 	size_type find(AnsiChar c, size_type pos = 0) const;
 
-    size_type find(UniChar c, size_type pos = 0) const {
+	size_type find(UniChar c, size_type pos = 0) const {
 		return data_.find( c, pos );
 	}
 
-    size_type rfind(const UnicodeString& str, size_type pos = npos) const {
+	size_type rfind(const UnicodeString& str, size_type pos = npos) const {
 		return data_.rfind( str.data_, pos );
 	}
 
 	size_type rfind(const AnsiChar *s, size_type pos, size_type n = npos) const;
 
-    size_type rfind(const UniChar *s, size_type pos, size_type n = npos) const {
+	size_type rfind(const UniChar *s, size_type pos, size_type n = npos) const {
 		return data_.rfind( s, pos, n );
 	}
 
 	size_type rfind(const AnsiChar *s, size_type pos = npos) const;
 
-    size_type rfind(const UniChar *s, size_type pos = npos) const {
+	size_type rfind(const UniChar *s, size_type pos = npos) const {
 		return data_.rfind( s, pos );
 	}
 
 	size_type rfind(AnsiChar c, size_type pos = npos) const;
 
-    size_type rfind(UniChar c, size_type pos = npos) const {
+	size_type rfind(UniChar c, size_type pos = npos) const {
 		return data_.rfind( c, pos );
 	}
 
-    size_type find_first_of(const UnicodeString& str, size_type pos = 0) const {
+	size_type find_first_of(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find_first_of( str.data_, pos );
 	}
 
 	size_type find_first_of(const AnsiChar *s, size_type pos, size_type n) const ;
 
-    size_type find_first_of(const UniChar *s, size_type pos, size_type n) const  {
+	size_type find_first_of(const UniChar *s, size_type pos, size_type n) const  {
 		return data_.find_first_of( s, pos, n );
 	}
 
 	size_type find_first_of(const AnsiChar *s, size_type pos = 0) const;
 
-    size_type find_first_of(const UniChar *s, size_type pos = 0) const {
+	size_type find_first_of(const UniChar *s, size_type pos = 0) const {
 		return data_.find_first_of( s, pos );
 	}
 
 	size_type find_first_of(AnsiChar c, size_type pos = 0) const ;
 
-    size_type find_first_of(UniChar c, size_type pos = 0) const {
+	size_type find_first_of(UniChar c, size_type pos = 0) const {
 		return data_.find_first_of( c, pos );
 	}
 
-    size_type find_last_of(const UnicodeString& str, size_type pos = npos) const {
+	size_type find_last_of(const UnicodeString& str, size_type pos = npos) const {
 		return data_.find_last_of( str.data_, pos );
 	}
 
 	size_type find_last_of(const AnsiChar *s, size_type pos, size_type n = npos) const;
 
-    size_type find_last_of(const UniChar *s, size_type pos, size_type n = npos) const {
+	size_type find_last_of(const UniChar *s, size_type pos, size_type n = npos) const {
 		return data_.find_last_of( s, pos, n );
 	}
 
 	size_type find_last_of(const AnsiChar *s, size_type pos = npos) const;
 
-    size_type find_last_of(const UniChar *s, size_type pos = npos) const {
+	size_type find_last_of(const UniChar *s, size_type pos = npos) const {
 		return data_.find_last_of( s, pos );
 	}
 
 	size_type find_last_of(AnsiChar c, size_type pos = npos) const;
 
-    size_type find_last_of(UniChar c, size_type pos = npos) const  {
+	size_type find_last_of(UniChar c, size_type pos = npos) const  {
 		return data_.find_last_of( c, pos );
 	}
 
-    size_type find_first_not_of(const UnicodeString& str, size_type pos = 0) const {
+	size_type find_first_not_of(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find_first_not_of( str.data_, pos );
 	}
 
 	size_type find_first_not_of(const AnsiChar *s, size_type pos, size_type n) const;
 
-    size_type find_first_not_of(const UniChar *s, size_type pos, size_type n) const  {
+	size_type find_first_not_of(const UniChar *s, size_type pos, size_type n) const  {
 		return data_.find_first_not_of( s, pos, n );
 	}
 
 	size_type find_first_not_of(const AnsiChar *s, size_type pos = 0) const;
 
-    size_type find_first_not_of(const UniChar *s, size_type pos = 0) const {
+	size_type find_first_not_of(const UniChar *s, size_type pos = 0) const {
 		return data_.find_first_not_of( s, pos );
 	}
 
 	size_type find_first_not_of(AnsiChar c, size_type pos = 0) const;
 
-    size_type find_first_not_of(UniChar c, size_type pos = 0) const  {
+	size_type find_first_not_of(UniChar c, size_type pos = 0) const  {
 		return data_.find_first_not_of( c, pos );
 	}
 
-    size_type find_last_not_of(const UnicodeString& str, size_type pos = npos) const  {
+	size_type find_last_not_of(const UnicodeString& str, size_type pos = npos) const  {
 		return data_.find_last_not_of( str.data_, pos );
 	}
 
 	size_type find_last_not_of(const AnsiChar *s, size_type pos, size_type n) const;
 
-    size_type find_last_not_of(const UniChar *s, size_type pos, size_type n) const {
+	size_type find_last_not_of(const UniChar *s, size_type pos, size_type n) const {
 		return data_.find_last_not_of( s, pos, n );
 	}
 
 	size_type find_last_not_of(const AnsiChar *s, size_type pos = npos) const;
 
-    size_type find_last_not_of(const UniChar *s, size_type pos = npos) const {
+	size_type find_last_not_of(const UniChar *s, size_type pos = npos) const {
 		return data_.find_last_not_of( s, pos );
 	}
 
 	size_type find_last_not_of(AnsiChar c, size_type pos = npos) const;
 
-    size_type find_last_not_of(UniChar c, size_type pos = npos) const {
+	size_type find_last_not_of(UniChar c, size_type pos = npos) const {
 		return data_.find_last_not_of( c, pos );
 	}
 
-    UnicodeString substr(size_type pos = 0, size_type n = npos) const  {
+	UnicodeString substr(size_type pos = 0, size_type n = npos) const  {
 		return data_.substr( pos, n );
 	}
 
-    int compare(const UnicodeString& str) const {
+	int compare(const UnicodeString& str) const {
 		return data_.compare( str.data_ );
 	}
 
-    int compare(size_type p0, size_type n0, const UnicodeString& str){
+	int compare(size_type p0, size_type n0, const UnicodeString& str){
 		return data_.compare( p0, n0, str.data_ );
 	}
 
-    int compare(size_type p0, size_type n0, const UnicodeString& str, size_type pos, size_type n) {
+	int compare(size_type p0, size_type n0, const UnicodeString& str, size_type pos, size_type n) {
 		return data_.compare( p0, n0, str.data_, pos, n );
 	}
 
@@ -879,13 +879,13 @@ public:
 
 	int compare(size_type p0, size_type n0, const AnsiChar *s) const;
 
-    int compare(size_type p0, size_type n0, const UniChar *s) const {
+	int compare(size_type p0, size_type n0, const UniChar *s) const {
 		return data_.compare( p0, n0, s );
 	}
 
 	int compare(size_type p0, size_type n0, const AnsiChar *s, size_type pos) const;
 
-    int compare(size_type p0, size_type n0, const UniChar *s, size_type pos) const {
+	int compare(size_type p0, size_type n0, const UniChar *s, size_type pos) const {
 		return data_.compare( p0, n0, s, pos );
 	}
 
@@ -1016,6 +1016,9 @@ typedef std::basic_string<char> AnsiString;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/30 01:36:01  marcelloptr
+*tabs reformatting
+*
 *Revision 1.1.2.5  2004/05/16 02:39:10  ddiego
 *OSX code updates
 *
