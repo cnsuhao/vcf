@@ -71,7 +71,9 @@ void DefaultTreeItem::init()
 	childNodeItems_.clear();
 	parent_ = NULL;
 	textBold_ = false;
-	TextColor_.setRGB( 0.0, 0.0, 0.0 );
+
+	TextColor_ = *GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT );
+
 	userData_ = NULL;
 	enumContainer_.initContainer( childNodeItems_ );
 
@@ -459,6 +461,9 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/04 04:41:54  ddiego
+*fixed a bug in the tree list control that was not taking into account the tree item text color or text bold.
+*
 *Revision 1.3.2.3  2005/01/31 02:36:14  marcelloptr
 *member function expandAllChildren() added
 *
