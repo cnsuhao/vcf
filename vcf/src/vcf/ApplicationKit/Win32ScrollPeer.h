@@ -32,7 +32,9 @@ public:
 
 	virtual void getAdjustedPositions( double& xPosition, double& yPosition );
 
-	virtual void updateVirtualViewSize( Scrollable* scrollable );
+	virtual bool isVerticalScrollbarVisible();
+
+	virtual bool isHorizontalScrollbarVisible();	
 
 	virtual void recalcScrollPositions( Scrollable* scrollable );
 
@@ -57,10 +59,10 @@ protected:
 	Control* scrollableControl_;
 	Control* scrollCorner_;
 	HWND vScrollHWnd_;
-	HWND hScrollHWnd_;
+	HWND hScrollHWnd_;	
 
-	double realHeight_;	// to be removed
-	double realWidth_;		// to be removed
+	bool isVertSBVisible_;//move to AbstractScrollable
+	bool isHorzSBVisible_;//move to AbstractScrollable
 };
 
 
@@ -70,6 +72,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/21 05:41:25  dougtinkham
+*modified recalcScrollPositions, removed updateVirtualViewSize
+*
 *Revision 1.2.2.1  2004/09/19 19:54:45  marcelloptr
 *scrollbars transitory changes
 *
