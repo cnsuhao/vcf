@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.5  2003/10/03 04:33:03  ddiego
+#add precompiled header target - doesn't seem to really work though
+#
 #Revision 1.3.4.4  2003/10/03 01:07:48  ddiego
 #added/fixed problems to get it to compile under linux
 #
@@ -79,6 +82,11 @@ LIBAGG_LIB=$(LIB_OUT)/libAGG.a
 APPLICATION_KIT_SO=$(BIN_OUT)/libApplicationKit.so
 NETWORK_KIT_SO=$(BIN_OUT)/libNetworkKit.so
 
+
+
+FK_PRECOMP=$(INC)/FoundationKit.h.gch
+
+
 #toolchain definitions
 CXX_FLAGS_D=-ggdb -D VCF_GCC -DVCF_POSIX -D_DEBUG -I $(CXX_INC) -c
 
@@ -111,6 +119,9 @@ NK_LINKER_FLAGS=-L $(BIN_OUT) -lFoundationKit $(LINKER_FLAGS)
 
 
 STATIC_LINKER_FLAGS=-cru
+
+
+
 
 #debug object files.
 #note that they are in a different directory
@@ -718,9 +729,16 @@ $(FOUNDATION_KIT_SO_D) : $(FK_OBJECT_FILES_D)
 	$(LINKER) $(LINKER_FLAGS_D) $(FOUNDATION_KIT_SO_D) $(FK_OBJECT_FILES_D)
 
 
+
+
+
+
+$(FK_PRECOMP): $(INC)/FoundationKit.h
+	$(CXX) -D VCF_GCC -DVCF_POSIX -I $(CXX_INC) -O2 -c -x c++ $(INC)/FoundationKit.h -o $(FK_PRECOMP)
+	
 #this is the release build target for the 
 #FoundationKit shared object library
-$(FOUNDATION_KIT_SO) : $(FK_OBJECT_FILES)
+$(FOUNDATION_KIT_SO) :  $(FK_OBJECT_FILES)
 	$(LINKER) $(LINKER_FLAGS) $(FOUNDATION_KIT_SO) $(FK_OBJECT_FILES)
 
 
