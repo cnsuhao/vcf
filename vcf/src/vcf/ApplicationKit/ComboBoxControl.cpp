@@ -487,7 +487,9 @@ void ComboBoxControl::paint( GraphicsContext* context )
 
 	if ( NULL != selectedItem ){		
 		if ( selectedItem->canPaint() ) {
-			selectedItem->paint( context, &viewRect_ );
+			Rect r = clientRect;
+			r.right_ -= sz.width_;
+			selectedItem->paint( context, &r );
 		}
 	}
 
@@ -954,6 +956,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/20 05:01:47  ddiego
+*fixed combobox draw bug for selected item
+*
 *Revision 1.3  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
