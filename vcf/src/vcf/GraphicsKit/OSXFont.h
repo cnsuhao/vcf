@@ -76,38 +76,19 @@ public:
 
     virtual void setStrikeOut( const bool& strikeout );
 
-    virtual double getShear() ;
-
-    virtual void setShear(const double& shear );
-
-    virtual double getAngle() ;
-
-    virtual void setAngle( const double& angle );
 
 	virtual void setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const String& name );
+								const bool& underlined, const bool& struckOut, const String& name );
 
 	virtual double getAscent()  ;
 
 	virtual double getDescent() ;
 
-	virtual double getExternalLeading() ;
-
-	virtual double getInternalLeading() ;
-
-	virtual double getHeight() ;
-
-	virtual VCFChar getWordBreakCharacter() ;
-
-	virtual VCFChar getFirstCharacter() ;
-
-	virtual VCFChar getLastCharacter()  ;
-
-
 	virtual VCF::GlyphCollection* getGlyphCollection( const String& text )  ;
 
 	virtual bool isEqual( Object* object );
+	
+	virtual void setFont( Font* font );
 
 	ATSUStyle getATSUStyle() {
 		return fontStyle_;
@@ -143,6 +124,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/27 04:26:05  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.5  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

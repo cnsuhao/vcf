@@ -35,6 +35,9 @@ public:
         return imageRef_;
     }
 protected:
+
+	void setAlpha( float val );
+	
     void createBMP();
     GrafPtr grafPort_;
     CGImageRef imageRef_;
@@ -49,6 +52,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/27 04:26:05  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
+*Revision 1.1.2.4.2.1  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.4  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -1201,6 +1201,7 @@ UnicodeString Locale::translate( const UnicodeString& id )
 	CommandLine cmdLine = FoundationKit::getCommandLine();
 
 	FilePath app = cmdLine.getArgument(0);
+
 	UnicodeString appDir = app.getPathName(true) + "Resources" +
 		FilePath::getDirectorySeparator() + getName() + FilePath::getDirectorySeparator();
 
@@ -1265,6 +1266,9 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.4  2004/07/22 04:18:59  ddiego
 *fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
 *prevents the TreePeer from being properly notified when the tree model's

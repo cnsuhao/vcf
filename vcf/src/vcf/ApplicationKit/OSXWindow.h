@@ -81,6 +81,8 @@ public:
 	virtual void translateToScreenCoords( Point* pt );
 
 	virtual void translateFromScreenCoords( Point* pt );
+	
+	virtual void setBorder( Border* border );
 
 	static OSXWindow* getOSXWindowFromWindowRef( WindowRef windowRef );
 
@@ -115,6 +117,8 @@ public:
 	virtual void restore();
 
 	virtual void setIconImage( Image* icon );
+	
+	virtual bool isActiveWindow();
 
     OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 
@@ -137,6 +141,9 @@ protected:
 	Rect bounds_;
     EventHandlerRef handlerRef_;
 	EventHandlerRef contentViewHandlerRef_;
+	
+	//RgnHandle mouseTrackRgn_;
+	MouseTrackingRef mouseTrackRef_;
 
 	RgnHandle determineUnobscuredClientRgn();
 
@@ -157,6 +164,18 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
+*Revision 1.1.2.8.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
+*Revision 1.1.2.8.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.8  2004/06/07 03:07:07  ddiego
 *more osx updates dealing with mouse handling
 *

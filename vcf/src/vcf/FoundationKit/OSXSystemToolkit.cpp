@@ -69,9 +69,9 @@ LibraryPeer* OSXSystemToolkit::internal_createLibraryPeer( Library* library )
 	return NULL;//new LinuxLibraryPeer();
 }
 
-FilePeer* OSXSystemToolkit::internal_createFilePeer( File* file, const String& filename )
+FilePeer* OSXSystemToolkit::internal_createFilePeer( File* file )
 {
-	return new OSXFilePeer( file, filename );
+	return new OSXFilePeer( file );
 }
 
 FileStreamPeer* OSXSystemToolkit::internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType )
@@ -95,6 +95,9 @@ LocalePeer* OSXSystemToolkit::internal_createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.6  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

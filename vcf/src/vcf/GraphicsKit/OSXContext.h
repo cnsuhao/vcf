@@ -89,46 +89,55 @@ public:
 
 	virtual bool isTextAlignedToBaseline();
 
-	virtual void drawSelectionRect( Rect* rect );
-
-	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
-
-	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed );
-
 	virtual void setClippingPath( Path* clippingPath );
 
 	virtual void setClippingRect( Rect* clipRect );
+	
+	
+	
+	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeFocusRect( Rect* rect, DrawUIState& state );
 
-	virtual void drawDisclosureButton( Rect* rect, const long& state );
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state );
 
-	virtual void drawTab( Rect* rect, const bool& selected, const String& caption );
+	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
 
-	virtual void drawTabPage( Rect* rect );
+	virtual void drawThemeRadioButtonRect( Rect* rect, ButtonState& state );
+	
+	virtual void drawThemeComboboxRect( Rect* rect, ButtonState& state );
 
-	virtual void drawHeader( Rect* rect );
+	virtual void drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state );
 
-	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle );
+	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state );
 
-	virtual void drawSizeGripper( Rect* rect );
+	virtual void drawThemeTab( Rect* rect, TabState& state );
 
-	virtual void drawControlBackground( Rect* rect );
+	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
-	virtual void drawWindowBackground( Rect* rect );
-	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
+	virtual void drawThemeTickMarks( Rect* rect, SliderState& state );
 
-    virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
+	virtual void drawThemeSlider( Rect* rect, SliderState& state );
+	
+	virtual void drawThemeProgress( Rect* rect, ProgressState& state );	
+	
+	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state );
 
-	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
+	virtual void drawThemeHeader( Rect* rect, ButtonState& state );
 
-	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
+	virtual void drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle );
 
+	virtual void drawThemeSizeGripper( Rect* rect, DrawUIState& state );
+
+	virtual void drawThemeBackground( Rect* rect, BackgroundState& state );
+
+	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
+
+	virtual void drawThemeText( Rect* rect, TextState& state );
+	
+	
 	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
+	void setPortFromImage( GrafPtr port, uint32 width, uint32 height );
 protected:
 	CGContextRef contextID_;
     GrafPtr grafPort_;
@@ -142,7 +151,7 @@ protected:
     bool xorModeOn_;
     Rect ownerRect_;
 
-	void atsuDrawTextInBox(	const VCF::Rect& rect );
+	void atsuDrawTextInBox(	const VCF::Rect& rect, const long& drawOptions );
 
 	double getLayoutWidth( ATSUTextLayout layout );
 
@@ -156,6 +165,27 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/27 04:26:05  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
+*Revision 1.1.2.7.2.5  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
+*Revision 1.1.2.7.2.4  2004/06/27 18:19:16  ddiego
+*more osx updates
+*
+*Revision 1.1.2.7.2.3  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
+*Revision 1.1.2.7.2.2  2004/06/16 05:18:56  ddiego
+*further updates to OSX theme compliant drawing code
+*
+*Revision 1.1.2.7.2.1  2004/06/15 04:04:38  ddiego
+*revamped osx theme drawing API
+*
 *Revision 1.1.2.7  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

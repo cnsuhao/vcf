@@ -155,7 +155,7 @@ void System::println(String text, ...)
     CFStringGetCharacters( res, range, tmpChar );
 
     CFShow( res );
-    CFShow( CFSTR( L"\n" ) );
+    CFShow( CFSTR( "\n" ) );
 
     CFRelease( res );
     CFRelease( fmt );
@@ -249,6 +249,9 @@ DateTime System::convertLocalTimeToUTCTime( const DateTime& date )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.11  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *

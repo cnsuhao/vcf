@@ -554,6 +554,7 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 // routine to check if it is a real error
 // if your Mac code is brocken, please fix this !
 // What about using sscanf ?
+/*
 void check_true_error( const VCF::String& value )
 {
 	if ( 0 == value ) {
@@ -578,6 +579,7 @@ void check_true_error( const VCF::String& value )
 		}
 	}
 }
+*/
 #endif
 
 int StringUtils::fromStringAsHexNumber( const VCF::String& value )
@@ -607,7 +609,7 @@ int StringUtils::fromStringAsInt( const VCF::String& value )
 
 		result = CFStringGetIntValue( tmp );
 		if ( 0 == result ) {
-			check_true_error( tmp );
+			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
@@ -628,7 +630,7 @@ VCF::uint32 StringUtils::fromStringAsUInt( const VCF::String& value )
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
 		if ( 0 == result ) {
-			check_true_error( tmp );
+			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
@@ -649,7 +651,7 @@ long StringUtils::fromStringAsLong( const VCF::String& value )
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
 		if ( 0 == result ) {
-			check_true_error( tmp );
+			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
@@ -670,7 +672,7 @@ VCF::ulong32 StringUtils::fromStringAsULong( const VCF::String& value )
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
 		if ( 0 == result ) {
-			check_true_error( tmp );
+			//check_true_error( tmp );
 		} else if ( INT_MIN == result || INT_MAX == result ) {
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
@@ -690,9 +692,11 @@ VCF::long64 StringUtils::fromStringAsLong64( const VCF::String& value )
 		CFTextString tmp;
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
-		if ( 0 == result ) {
-			check_true_error( tmp );
-		} else if ( INT_MIN == result || INT_MAX == result ) {
+		/*if ( result == 0 ) {
+			//check_true_error( tmp );
+		} 
+		else */
+		if ( (INT_MIN == (int)result) || (INT_MAX == (int)result) ) {
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
 	#else
@@ -711,9 +715,9 @@ VCF::ulong64 StringUtils::fromStringAsULong64( const VCF::String& value )
 		CFTextString tmp;
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
-		if ( 0 == result ) {
-			check_true_error( tmp );
-		} else if ( INT_MIN == result || INT_MAX == result ) {
+		if ( 0 == (int)result ) {
+			//check_true_error( tmp );
+		} else if ( (INT_MIN == (int)result) || (INT_MAX == (int)result) ) {
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
 	#else
@@ -733,7 +737,7 @@ float StringUtils::fromStringAsFloat( const VCF::String& value )
 		tmp = value;
 		result = (float)CFStringGetDoubleValue( tmp );
 		if ( 0.0 == result ) {
-			check_true_error( tmp );
+			//check_true_error( tmp );
 		}
 	#else
 		int ret = swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result );
@@ -752,7 +756,7 @@ double StringUtils::fromStringAsDouble( const VCF::String& value )
 		tmp = value;
 		result = CFStringGetDoubleValue( tmp );
 		if ( 0.0 == result ) {
-			check_true_error( tmp );
+			//check_true_error( tmp );
 		}
 	#else
 		int ret = swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result );
@@ -1497,6 +1501,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.17  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.16  2004/07/26 03:40:31  ddiego
 *minor changes
 *

@@ -79,6 +79,8 @@ public:
 	virtual void translateToScreenCoords( Point* pt );
 
 	virtual void translateFromScreenCoords( Point* pt );
+	
+	virtual void setBorder( Border* border );
 
 	static void setCurrentCreateHIView( TView* view );
 
@@ -106,6 +108,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.7  2004/06/07 03:07:07  ddiego
 *more osx updates dealing with mouse handling
 *
