@@ -57,33 +57,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FreeImageLib"="..\..\ImageFormats\FreeImage\Source\FreeImageLib\FreeImageLib.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name LibJPEG
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name LibMNG
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name LibPNG
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name LibTIFF
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ZLib
-    End Project Dependency
-}}}
-
-###############################################################################
-
 Project: "GraphicsKit"=".\GraphicsKit\GraphicsKit.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -133,54 +106,6 @@ Package=<4>
 ###############################################################################
 
 Project: "Interfaces"="..\..\tests\Interfaces\Interfaces.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "LibJPEG"="..\..\ImageFormats\FreeImage\Source\LibJPEG\LibJPEG.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "LibMNG"="..\..\ImageFormats\FreeImage\Source\LibMNG\LibMNG.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "LibPNG"="..\..\ImageFormats\FreeImage\Source\LibPNG\LibPNG.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "LibTIFF"="..\..\ImageFormats\FreeImage\Source\LibTIFF\LibTIFF.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -277,18 +202,6 @@ Package=<4>
 ###############################################################################
 
 Project: "Win32HTMLBrowser_StaticLib"=".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "ZLib"="..\..\ImageFormats\FreeImage\Source\ZLib\ZLib.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
