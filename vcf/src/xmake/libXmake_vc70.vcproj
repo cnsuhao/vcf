@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc70\Release\"
-			IntermediateDirectory=".\vc70\Release\"
+			OutputDirectory=".\vc70\Release"
+			IntermediateDirectory=".\vc70\Release"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -27,17 +27,17 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Release\libXmake_vc70_s.pch"
-				AssemblerListingLocation=".\vc70\Release\"
-				ObjectFile=".\vc70\Release\"
-				ProgramDataBaseFileName=".\vc70\Release\"
+				PrecompiledHeaderFile=".\vc70\Release/libXmake_vc70.pch"
+				AssemblerListingLocation=".\vc70\Release/"
+				ObjectFile=".\vc70\Release/"
+				ProgramDataBaseFileName=".\vc70\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\libXmake_vc70_s.lib"
+				OutputFile="..\..\lib/libXmake_vc70_s.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -56,8 +56,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc70\Debug\"
-			IntermediateDirectory=".\vc70\Debug\"
+			OutputDirectory=".\vc70\Debug"
+			IntermediateDirectory=".\vc70\Debug"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -69,9 +69,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Debug\libXmake_vc70_sd.pch"
-				AssemblerListingLocation=".\vc70\Debug\"
-				ObjectFile=".\vc70\Debug\"
+				PrecompiledHeaderFile=".\vc70\Debug/libXmake_vc70.pch"
+				AssemblerListingLocation=".\vc70\Debug/"
+				ObjectFile=".\vc70\Debug/"
 				ProgramDataBaseFileName="..\..\lib\libXmake_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -80,7 +80,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\libXmake_vc70_sd.lib"
+				OutputFile="..\..\lib/libXmake_vc70_sd.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -103,44 +103,44 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="CmdLine.cpp">
+				RelativePath=".\CmdLine.cpp">
 			</File>
 			<File
-				RelativePath="FilePath.cpp">
+				RelativePath=".\FilePath.cpp">
 			</File>
 			<File
-				RelativePath="xmake.cpp">
+				RelativePath=".\xmake.cpp">
 			</File>
 			<File
-				RelativePath="xmakeUtils.cpp">
+				RelativePath=".\xmakeUtils.cpp">
 			</File>
 			<File
-				RelativePath="XMLParser.cpp">
+				RelativePath=".\XMLParser.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="CmdLine.h">
+				RelativePath=".\CmdLine.h">
 			</File>
 			<File
-				RelativePath="DependencyNodes.h">
+				RelativePath=".\DependencyNodes.h">
 			</File>
 			<File
-				RelativePath="Enumerator.h">
+				RelativePath=".\Enumerator.h">
 			</File>
 			<File
-				RelativePath="FilePath.h">
+				RelativePath=".\FilePath.h">
 			</File>
 			<File
-				RelativePath="xmake.h">
+				RelativePath=".\xmake.h">
 			</File>
 			<File
-				RelativePath="xmakeUtils.h">
+				RelativePath=".\xmakeUtils.h">
 			</File>
 			<File
-				RelativePath="XMLParser.h">
+				RelativePath=".\XMLParser.h">
 			</File>
 		</Filter>
 	</Files>

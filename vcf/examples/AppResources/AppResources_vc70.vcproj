@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="AppResources"
-	ProjectGUID="{04ED368E-C3AD-47A6-9AC2-CA20826FDD5A}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\"
-			IntermediateDirectory=".\Debug\"
+			OutputDirectory="."
+			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -27,10 +26,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug\AppResources_vc70.pch"
-				AssemblerListingLocation=".\Debug\"
-				ObjectFile=".\Debug\"
-				ProgramDataBaseFileName=".\Debug\"
+				PrecompiledHeaderFile=".\Debug/AppResources_vc70.pch"
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -41,12 +40,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\Debug\AppResources_vc70.exe"
+				OutputFile="AppResources.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\AppResources_vc70.pdb"
+				ProgramDatabaseFile="./AppResources.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -55,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug\AppResources_vc70.tlb"/>
+				TypeLibraryName="./AppResources_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -73,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\"
-			IntermediateDirectory=".\Release\"
+			OutputDirectory="."
+			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -89,10 +88,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release\AppResources_vc70.pch"
-				AssemblerListingLocation=".\Release\"
-				ObjectFile=".\Release\"
-				ProgramDataBaseFileName=".\Release\"
+				PrecompiledHeaderFile=".\Release/AppResources_vc70.pch"
+				AssemblerListingLocation=".\Release/"
+				ObjectFile=".\Release/"
+				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -102,11 +101,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\Release\AppResources_vc70.exe"
+				OutputFile="AppResources.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release\AppResources_vc70.pdb"
+				ProgramDatabaseFile="./AppResources.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -115,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release\AppResources_vc70.tlb"/>
+				TypeLibraryName="./AppResources_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -137,49 +136,49 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="AppResources.cpp">
+				RelativePath=".\AppResources.cpp">
 			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl">
 		</Filter>
 		<Filter
 			Name="Resources"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath=".\Resources\brushed-metal.bmp">
+			</File>
+			<File
+				RelativePath=".\Resources\WhatIsVCF.txt">
+			</File>
 			<Filter
 				Name="en_US"
 				Filter="">
 				<File
-					RelativePath="Resources\en_US\brushed-metal.bmp">
+					RelativePath=".\Resources\en_US\brushed-metal.bmp">
 				</File>
 				<File
-					RelativePath="Resources\en_US\WhatIsVCF.txt">
+					RelativePath=".\Resources\en_US\WhatIsVCF.txt">
 				</File>
 			</Filter>
 			<Filter
 				Name="de_DE"
 				Filter="">
 				<File
-					RelativePath="Resources\de_DE\brushed-metal.bmp">
+					RelativePath=".\Resources\de_DE\brushed-metal.bmp">
 				</File>
 			</Filter>
 			<Filter
 				Name="it_IT"
 				Filter="">
 				<File
-					RelativePath="Resources\it_IT\brushed-metal.bmp">
+					RelativePath=".\Resources\it_IT\brushed-metal.bmp">
 				</File>
 				<File
-					RelativePath="Resources\it_IT\WhatIsVCF.txt">
+					RelativePath=".\Resources\it_IT\WhatIsVCF.txt">
 				</File>
 			</Filter>
-			<File
-				RelativePath="Resources\brushed-metal.bmp">
-			</File>
-			<File
-				RelativePath="Resources\WhatIsVCF.txt">
-			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl">
 		</Filter>
 	</Files>
 	<Globals>

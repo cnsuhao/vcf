@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc70\Debug\"
-			IntermediateDirectory=".\vc70\Debug\"
+			OutputDirectory=".\vc70\Debug"
+			IntermediateDirectory=".\vc70\Debug"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -21,14 +21,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\libtiff\libtiff\"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),../libtiff/libtiff"
 				PreprocessorDefinitions="WIN32,_DEBUG,_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Debug\LibTIFF_vc70_sd.pch"
-				AssemblerListingLocation=".\vc70\Debug\"
-				ObjectFile=".\vc70\Debug\"
+				PrecompiledHeaderFile=".\vc70\Debug/LibTIFF_vc70.pch"
+				AssemblerListingLocation=".\vc70\Debug/"
+				ObjectFile=".\vc70\Debug/"
 				ProgramDataBaseFileName="..\..\..\..\..\..\lib\LibTIFF_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -38,7 +38,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\LibTIFF_vc70_sd.lib"
+				OutputFile="../../../../../../lib/LibTIFF_vc70_sd.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -57,8 +57,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc70\Release\"
-			IntermediateDirectory=".\vc70\Release\"
+			OutputDirectory=".\vc70\Release"
+			IntermediateDirectory=".\vc70\Release"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -67,16 +67,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\libtiff\libtiff,..\zlib\"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),../libtiff/libtiff,../zlib"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Release\LibTIFF_vc70_s.pch"
-				AssemblerListingLocation=".\vc70\Release\"
-				ObjectFile=".\vc70\Release\"
-				ProgramDataBaseFileName=".\vc70\Release\"
+				PrecompiledHeaderFile=".\vc70\Release/LibTIFF_vc70.pch"
+				AssemblerListingLocation=".\vc70\Release/"
+				ObjectFile=".\vc70\Release/"
+				ProgramDataBaseFileName=".\vc70\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -84,7 +84,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\LibTIFF_vc70_s.lib"
+				OutputFile="../../../../../../lib/LibTIFF_vc70_s.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -107,134 +107,134 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="fax3sm_winnt.c">
+				RelativePath=".\fax3sm_winnt.c">
 			</File>
 			<File
-				RelativePath="tif_aux.c">
+				RelativePath=".\tif_aux.c">
 			</File>
 			<File
-				RelativePath="tif_close.c">
+				RelativePath=".\tif_close.c">
 			</File>
 			<File
-				RelativePath="tif_codec.c">
+				RelativePath=".\tif_codec.c">
 			</File>
 			<File
-				RelativePath="tif_compress.c">
+				RelativePath=".\tif_compress.c">
 			</File>
 			<File
-				RelativePath="tif_dir.c">
+				RelativePath=".\tif_dir.c">
 			</File>
 			<File
-				RelativePath="tif_dirinfo.c">
+				RelativePath=".\tif_dirinfo.c">
 			</File>
 			<File
-				RelativePath="tif_dirread.c">
+				RelativePath=".\tif_dirread.c">
 			</File>
 			<File
-				RelativePath="tif_dirwrite.c">
+				RelativePath=".\tif_dirwrite.c">
 			</File>
 			<File
-				RelativePath="tif_dumpmode.c">
+				RelativePath=".\tif_dumpmode.c">
 			</File>
 			<File
-				RelativePath="tif_error.c">
+				RelativePath=".\tif_error.c">
 			</File>
 			<File
-				RelativePath="tif_fax3.c">
+				RelativePath=".\tif_fax3.c">
 			</File>
 			<File
-				RelativePath="tif_flush.c">
+				RelativePath=".\tif_flush.c">
 			</File>
 			<File
-				RelativePath="tif_getimage.c">
+				RelativePath=".\tif_getimage.c">
 			</File>
 			<File
-				RelativePath="tif_jpeg.c">
+				RelativePath=".\tif_jpeg.c">
 			</File>
 			<File
-				RelativePath="tif_luv.c">
+				RelativePath=".\tif_luv.c">
 			</File>
 			<File
-				RelativePath="tif_lzw.c">
+				RelativePath=".\tif_lzw.c">
 			</File>
 			<File
-				RelativePath="tif_next.c">
+				RelativePath=".\tif_next.c">
 			</File>
 			<File
-				RelativePath="tif_open.c">
+				RelativePath=".\tif_open.c">
 			</File>
 			<File
-				RelativePath="tif_packbits.c">
+				RelativePath=".\tif_packbits.c">
 			</File>
 			<File
-				RelativePath="tif_pixarlog.c">
+				RelativePath=".\tif_pixarlog.c">
 			</File>
 			<File
-				RelativePath="tif_predict.c">
+				RelativePath=".\tif_predict.c">
 			</File>
 			<File
-				RelativePath="tif_print.c">
+				RelativePath=".\tif_print.c">
 			</File>
 			<File
-				RelativePath="tif_read.c">
+				RelativePath=".\tif_read.c">
 			</File>
 			<File
-				RelativePath="tif_strip.c">
+				RelativePath=".\tif_strip.c">
 			</File>
 			<File
-				RelativePath="tif_swab.c">
+				RelativePath=".\tif_swab.c">
 			</File>
 			<File
-				RelativePath="tif_thunder.c">
+				RelativePath=".\tif_thunder.c">
 			</File>
 			<File
-				RelativePath="tif_tile.c">
+				RelativePath=".\tif_tile.c">
 			</File>
 			<File
-				RelativePath="tif_version.c">
+				RelativePath=".\tif_version.c">
 			</File>
 			<File
-				RelativePath="tif_warning.c">
+				RelativePath=".\tif_warning.c">
 			</File>
 			<File
-				RelativePath="tif_write.c">
+				RelativePath=".\tif_write.c">
 			</File>
 			<File
-				RelativePath="tif_zip.c">
+				RelativePath=".\tif_zip.c">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="t4.h">
+				RelativePath=".\t4.h">
 			</File>
 			<File
-				RelativePath="tif_dir.h">
+				RelativePath=".\tif_dir.h">
 			</File>
 			<File
-				RelativePath="tif_fax3.h">
+				RelativePath=".\tif_fax3.h">
 			</File>
 			<File
-				RelativePath="tif_predict.h">
+				RelativePath=".\tif_predict.h">
 			</File>
 			<File
-				RelativePath="tiff.h">
+				RelativePath=".\tiff.h">
 			</File>
 			<File
-				RelativePath="tiffcomp.h">
+				RelativePath=".\tiffcomp.h">
 			</File>
 			<File
-				RelativePath="tiffconf.h">
+				RelativePath=".\tiffconf.h">
 			</File>
 			<File
-				RelativePath="tiffio.h">
+				RelativePath=".\tiffio.h">
 			</File>
 			<File
-				RelativePath="tiffiop.h">
+				RelativePath=".\tiffiop.h">
 			</File>
 			<File
-				RelativePath="uvcode.h">
+				RelativePath=".\uvcode.h">
 			</File>
 		</Filter>
 	</Files>
