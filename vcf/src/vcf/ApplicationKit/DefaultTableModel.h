@@ -40,49 +40,7 @@ public:
 
 	virtual ~DefaultTableModel();
 
-	/**
-	@delegate TableCellAdded
-	@event TableModelEvent
-	*/
-	DELEGATE(TableCellAdded)
-
-	/**
-	@delegate TableCellDeleted
-	@event TableModelEvent
-	*/
-	DELEGATE(TableCellDeleted)
-
-	/**
-	@delegate TableCellsSelected
-	@event TableModelEvent
-	*/
-	DELEGATE(TableCellsSelected)
-
-	/**
-	@delegate TableRowAdded
-	@event TableModelEvent
-	*/
-	DELEGATE(TableRowsAdded)
-
-	/**
-	@delegate TableRowDeleted
-	@event TableModelEvent
-	*/
-	DELEGATE(TableRowsDeleted)
-
-	/**
-	@delegate TableColumnAdded
-	@event TableModelEvent
-	*/
-	DELEGATE(TableColumnsAdded)
-
-	/**
-	@delegate TableColumnDeleted
-	@event TableModelEvent
-	*/
-	DELEGATE(TableColumnsDeleted)
-
-
+	
     /**
      * validate the model.
      * The implementation for this can vary widely, or even be nonexistant for model's that do not require validation.
@@ -183,6 +141,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/10 23:48:21  ddiego
+*fixed duplicate delegate in DefaultTableModel class.
+*
 *Revision 1.2.2.2  2004/10/05 02:48:22  kiklop74
 *Added needed changes that will enable Borland compiler to compile RTTI for ApplicationKit
 *

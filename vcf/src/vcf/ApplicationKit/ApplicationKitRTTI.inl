@@ -396,6 +396,7 @@ BEGIN_CLASSINFO(DefaultTextModel, "VCF::DefaultTextModel", "VCF::AbstractModel",
 	EVENT("VCF::TextModelEventHandler", DefaultTextModel, VCF::TextEvent, TextModelChanged )
 END_CLASSINFO(DefaultTextModel)
 
+
 BEGIN_CLASSINFO(DefaultTreeItem, "VCF::DefaultTreeItem", "VCF::TreeItem", DEFAULTTREEITEM_CLASSID)
 	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemPaint );
 	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemChanged );
@@ -639,6 +640,9 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/10 23:48:21  ddiego
+*fixed duplicate delegate in DefaultTableModel class.
+*
 *Revision 1.2.2.4  2004/10/04 13:47:49  ddiego
 *applicationkit rtti code fixed. Thanks to darko
 *for finding the bug on bcb5.5
