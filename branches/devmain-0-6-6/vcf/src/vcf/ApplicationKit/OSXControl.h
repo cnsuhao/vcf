@@ -88,11 +88,19 @@ protected:
 	Control* control_;
 	EventHandlerRef handlerRef_;
 	MouseState mouseState_;
+	::Point lastMousePt_;
 	
-	OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
+	virtual OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 
 	OSStatus handleControlTrack( EventRef theEvent );
 	
+	OSStatus handleWrappedControlTrack( EventRef theEvent );
+	
+	OSStatus handleWrappedControlTrackDone( EventRef theEvent );
+	
+	OSStatus handleWrappedControlHitTest( EventRef theEvent );
+	
+	OSStatus installStdControlHandler();
 
 	static EventHandlerUPP getEventHandlerUPP();
 	static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
@@ -105,6 +113,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
 *updated os x code
 *

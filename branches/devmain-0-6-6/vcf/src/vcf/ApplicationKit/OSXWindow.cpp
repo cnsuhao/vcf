@@ -56,7 +56,17 @@ private:
 
 namespace VCF {
 
-OSXWindow::OSXWindowMap OSXWindow::osxWindowMap;
+
+OSXWindow::OSXWindow():
+    windowRef_(0),
+    control_(NULL),
+    handlerRef_(NULL),
+    internalClose_(false),
+	mouseTrackRef_(NULL),
+	currentMouseBtn_(0)
+{
+
+}
 
 
 OSXWindow::OSXWindow( Control* control, Control* owner ):
@@ -84,14 +94,17 @@ EventHandlerUPP OSXWindow::getEventHandlerUPP()
     return result;
 }
 
+WindowAttributes OSXWindow::getCreationWinAttrs()
+{
+	return kWindowCloseBoxAttribute | kWindowFullZoomAttribute | kWindowCollapseBoxAttribute |
+              kWindowResizableAttribute | kWindowCloseBoxAttribute | kWindowCompositingAttribute |
+              kWindowStandardHandlerAttribute | kWindowLiveResizeAttribute | kWindowInWindowMenuAttribute;
+}
 
 void OSXWindow::create( Control* owningControl )
 {
-    WindowAttributes attrs=0;// = kWindowCompositingAttribute | kWindowStandardHandlerAttribute;
-    attrs |=  kWindowCloseBoxAttribute | kWindowFullZoomAttribute | kWindowCollapseBoxAttribute |
-              kWindowResizableAttribute | kWindowCloseBoxAttribute | kWindowCompositingAttribute |
-              kWindowStandardHandlerAttribute | kWindowLiveResizeAttribute | kWindowInWindowMenuAttribute;
-
+    WindowAttributes attrs=getCreationWinAttrs();// = kWindowCompositingAttribute | kWindowStandardHandlerAttribute;
+    
     ::Rect bounds = {0,0,0,0};
 
     OSStatus err = CreateNewWindow( kDocumentWindowClass, attrs, &bounds, &windowRef_ );
@@ -1001,6 +1014,9 @@ bool OSXWindow::isActiveWindow()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/18 03:10:30  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2.2.2  2004/10/10 22:46:59  ddiego
 *os x updates
 *

@@ -56,6 +56,7 @@ public:
 private:
 	Control* owner_;
 	Dialog* dialogComponent_;
+	DialogRef dialogRef_;
 };
 
 
@@ -65,6 +66,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/18 03:10:31  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

@@ -24,6 +24,8 @@ public:
 		wsNormal
 	};
 
+	OSXWindow();
+
 	OSXWindow( Control* control, Control* owner );
 
 	virtual ~OSXWindow();
@@ -118,7 +120,7 @@ public:
 	
 	virtual bool isActiveWindow();
 
-    OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
+    virtual OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 
 	bool isComposited();
 	
@@ -129,16 +131,10 @@ public:
 	unsigned long getCurrentMouseBtn() {
 		return currentMouseBtn_;
 	}
+	
+	virtual WindowAttributes getCreationWinAttrs();
 protected:
 	static EventHandlerUPP getEventHandlerUPP();
-
-	typedef std::map<WindowRef,OSXWindow*> OSXWindowMap;
-
-	static void registerOSXWindow( OSXWindow* osxWindow );
-	static void unRegisterOSXWindow( OSXWindow* osxWindow );
-
-	static OSXWindowMap osxWindowMap;
-
 
 	WindowRef windowRef_;
 
@@ -172,6 +168,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
 *updated os x code
 *

@@ -121,9 +121,12 @@ public:
         DeletePostedEvent = 'dele', //indicates whether to delete an event created for postEvent
         SizeOfEventHandler = sizeof(UInt32),
         SizeOfEventHandlerEvent = sizeof(UInt32),
-        SizeOfDeletePostedEvent = sizeof(Boolean)
-
-
+        SizeOfDeletePostedEvent = sizeof(Boolean),
+		cmdRetry = 'VRty',
+		cmdAbort = 'VAbt',
+		cmdIgnore = 'VIgn',
+		cmdYes = 'VYes',
+		cmdNo = 'VNo '
     };
 
 	OSXUIToolkit();
@@ -253,6 +256,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
 *updated os x code
 *

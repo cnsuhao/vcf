@@ -249,17 +249,15 @@ void Dialog::showMessage( const String& message, const String& caption )
 	DialogPeer* dialogPeer = UIToolkit::createDialogPeer();// owner, this );
 	if ( NULL != dialogPeer ){
 		String captionText = caption;
-			
-		captionText = System::getCurrentThreadLocale()->translate( captionText );
-
-		String realCaption = captionText;
-
-		if ( realCaption.empty() ) {
+		
+		if ( captionText.empty() ) {
 			Application* app = Application::getRunningInstance();
 			if ( NULL != app ) {
-				realCaption = app->getName();
+				captionText = app->getName();
 			}
 		}
+		
+		captionText = System::getCurrentThreadLocale()->translate( captionText );
 		
 		String msgText = message;
 			
@@ -352,6 +350,9 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/18 03:10:29  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
