@@ -189,6 +189,10 @@ SOURCE=..\..\..\include\io\FileUtils.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\FoundationKit.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\FrameworkConfig.h
 # End Source File
 # Begin Source File
