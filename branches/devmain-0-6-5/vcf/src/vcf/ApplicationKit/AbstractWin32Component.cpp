@@ -442,13 +442,20 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 						Rect clientBounds = peerControl_->getBounds();
 
+						/*
+
 						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
 																		(int)clientBounds.getWidth(), //ps.rcPaint.right - ps.rcPaint.left,
 																		(int)clientBounds.getHeight() );//ps.rcPaint.bottom - ps.rcPaint.top );
+																		*/
+						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
+																		ps.rcPaint.right - ps.rcPaint.left,
+																		ps.rcPaint.bottom - ps.rcPaint.top );
+
 
 						HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );
 
-						//::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
+						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
 
 						//this is really dippy to have to do this here ?
 						//by setting the owning control to NULL we
@@ -469,19 +476,19 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 
 						//reset back to original origin
-						//::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
+						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
 
 						
-						int err = ::BitBlt( ps.hdc, 0, 0,
+						int err = /*::BitBlt( ps.hdc, 0, 0,
 											(int)clientBounds.getWidth(),
 											(int)clientBounds.getHeight(),
-											memDC_, 0, 0, SRCCOPY );
-											/*
+											memDC_, 0, 0, SRCCOPY );*/
+											
 								  ::BitBlt( ps.hdc, ps.rcPaint.left, ps.rcPaint.top,
 											ps.rcPaint.right - ps.rcPaint.left,
 											ps.rcPaint.bottom - ps.rcPaint.top,
 											memDC_, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY );
-											*/
+											
 
 						::RestoreDC ( memDC_, dcState );
 
@@ -1088,6 +1095,10 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/11 22:08:06  ddiego
+*fixed an accidental checkin that resulted in scrolled
+*drawing not showing up correctly
+*
 *Revision 1.1.2.4  2004/07/01 04:02:13  ddiego
 *minor stuff
 *
