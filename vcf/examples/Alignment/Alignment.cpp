@@ -50,7 +50,7 @@ public:
 		//create a new container  - agina, by default we do not have top do this
 		//as a panel already has a container instance. Setting it here will destroy
 		//the previous one
-		FixedStandardContainer* container = new FixedStandardContainer();
+		StandardContainer* container = new StandardContainer();
 
 		//set the border width
 		container->setBorderWidth( 10 );
@@ -212,6 +212,11 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2004/07/08 15:09:18  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.3.2.4  2004/04/29 03:40:51  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -103,13 +103,9 @@ public:
 	class Container : public StandardContainer {
 	public:
 		virtual void resizeChildren(Control* control) {
-			Rect bounds( 0, 0,
-							getContainerControl()->getWidth(),
-							getContainerControl()->getHeight() );
+			setBorderWidth( 1 );
 
-			bounds.inflate( -1, -1 );
-
-			resizeChildrenUsingBounds( control, &bounds );
+			StandardContainer::resizeChildren( control );
 		}
 	};
 
@@ -907,6 +903,11 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/08 15:07:57  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

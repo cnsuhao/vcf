@@ -59,5 +59,3 @@ MTL=midl.exe
 # Name "Examples - Win32 Debug"
 # End Target
 # End Project
-
-

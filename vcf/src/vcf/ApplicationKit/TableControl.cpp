@@ -367,7 +367,7 @@ void TableControl::init()
 	currentEditingControl_ = NULL;
 	currentItemEditor_ = NULL;
 
-	setContainer( new FixedStandardContainer() );
+	setContainer( new StandardContainer() );
 
 
 	defaultColumnWidth_ = DEFAULT_COLUMN_WIDTH;
@@ -2309,6 +2309,11 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/08 15:08:05  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

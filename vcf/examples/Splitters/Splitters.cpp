@@ -102,7 +102,7 @@ public:
 
 	void addPanels( Panel* panel, int num, AlignmentType alignment  )
 	{
-		panel->setContainer( new FixedStandardContainer() );
+		panel->setContainer( new StandardContainer() );
 
 		int n = maxVal<int>( minVal<int>( num, NUM_OF_PANELS ), 1 );
 		int width = panel->getWidth() / n;
@@ -269,6 +269,11 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2004/07/08 15:09:53  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.4.2.4  2004/04/29 03:40:56  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
