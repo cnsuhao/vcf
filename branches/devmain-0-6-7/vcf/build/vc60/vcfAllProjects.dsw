@@ -129,6 +129,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Combos"="..\..\examples\Combos\Combos.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Conditions"="..\..\examples\Conditions\Conditions.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -319,6 +331,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Colors
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Combos
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Conditions
