@@ -22,6 +22,23 @@ OUTPUT_BASE_RK=./RemoteObjectKit
 OUTDIR_FK_D=$(OUTPUT_BASE_FK)/Debug
 OUTDIR_FK=$(OUTPUT_BASE_FK)/Release
 
+OUTDIR_GK_D=$(OUTPUT_BASE_GK)/Debug
+OUTDIR_GK=$(OUTPUT_BASE_GK)/Release
+
+OUTDIR_AK_D=$(OUTPUT_BASE_AK)/Debug
+OUTDIR_AK=$(OUTPUT_BASE_AK)/Release
+
+OUTDIR_NK_D=$(OUTPUT_BASE_NK)/Debug
+OUTDIR_NK=$(OUTPUT_BASE_NK)/Release
+
+#imlib2 include path, used by graphics kit
+IMLIB2_INC=/usr/local/include/imlib2
+
+#X11 include path and library, used by ApplicationKit and GraphicsKit
+X11_INC=/usr/X11R6/include
+X11_LIB=/usr/X11R6/lib
+
+
 SRC=../../src
 
 

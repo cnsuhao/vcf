@@ -20,25 +20,42 @@ include common.mak
 
 #debug target
 FOUNDATION_KIT_SO_D=$(BIN_OUT)/libFoundationKit_d.so
+GRAPHICS_KIT_SO_D=$(BIN_OUT)/libGraphicsKit_d.so
+APPLICATION_KIT_SO_D=$(BIN_OUT)/libApplicationKit_d.so
+NETWORK_KIT_SO_D=$(BIN_OUT)/libNetworkKit_d.so
 
 #release target
 FOUNDATION_KIT_SO=$(BIN_OUT)/libFoundationKit.so
+GRAPHICS_KIT_SO=$(BIN_OUT)/libGraphicsKit.so
+APPLICATION_KIT_SO=$(BIN_OUT)/libApplicationKit.so
+NETWORK_KIT_SO=$(BIN_OUT)/libNetworkKit.so
+
+
+
 
 #toolchain definitions
 CXX_FLAGS_D=-ggdb -D VCF_GCC -D_DEBUG -I $(CXX_INC) -c
 
-CXX_FLAGS=-D VCF_GCC -I $(CXX_INC) -O3 -c
+GK_CXX_FLAGS_D=-I $(X11_INC) -I $(IMLIB2_INC) -DVCF_X11 $(CXX_FLAGS_D)
 
+CXX_FLAGS=-D VCF_GCC -I $(CXX_INC) -O2 -c
+GK_CXX_FLAGS=-I $(X11_INC) -I $(IMLIB2_INC) -DVCF_X11 $(CXX_FLAGS)
 
 
 LINKER_FLAGS_D=-ldl -shared -ggdb -o
+GK_LINKER_FLAGS_D=-L $(X11_LIB)  -lFoundationKit_d -lX11  -lttf -lImlib2 $(LINKER_FLAGS_D)
+AK_LINKER_FLAGS_D=-L $(X11_LIB)  -lFoundationKit_d -lGraphicsKit_d -lX11  -lttf -lImlib2 $(LINKER_FLAGS_D)
+NK_LINKER_FLAGS_D=-lFoundationKit_d $(LINKER_FLAGS_D)
 
 LINKER_FLAGS=-ldl -shared -o
+GK_LINKER_FLAGS=-L $(X11_LIB)  -lFoundationKit -lX11  -lttf -lImlib2 $(LINKER_FLAGS)
+AK_LINKER_FLAGS=-L $(X11_LIB)  -lFoundationKit -lGraphicsKit -lX11  -lttf -lImlib2 $(LINKER_FLAGS)
+NK_LINKER_FLAGS=-lFoundationKit $(LINKER_FLAGS)
 
 #debug object files.
 #note that they are in a different directory
 #from their physical source location
-OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
+FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/BasicInputStream.o \
 	$(OUTDIR_FK_D)/BasicOutputStream.o \
 	$(OUTDIR_FK_D)/Class.o \
@@ -92,7 +109,7 @@ OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 #release object files.
 #note that they are in a different directory
 #from their physical source location
-OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
+FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/BasicInputStream.o \
 	$(OUTDIR_FK)/BasicOutputStream.o \
 	$(OUTDIR_FK)/Class.o \
@@ -143,6 +160,349 @@ OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/LinuxProcessIORedirector.o 
 
 
+
+
+
+#GraphicsKit Objects
+GRAFKIT_OBJECT_FILES_D=GraphicsKit.o \
+			$(OUTDIR_GK_D)/AbstractImage.o \
+			$(OUTDIR_GK_D)/BasicFill.o \
+			$(OUTDIR_GK_D)/BasicStroke.o \
+			$(OUTDIR_GK_D)/Color.o \
+			$(OUTDIR_GK_D)/Font.o \
+			$(OUTDIR_GK_D)/FontState.o \
+			$(OUTDIR_GK_D)/GlyphCollection.o \
+			$(OUTDIR_GK_D)/GraphicsContext.o \
+			$(OUTDIR_GK_D)/GraphicsObject.o \
+			$(OUTDIR_GK_D)/Utils/GraphicsToolKit.o \
+			$(OUTDIR_GK_D)/Events/ImageEvent.o \
+			$(OUTDIR_GK_D)/Matrix2D.o \
+			$(OUTDIR_GK_D)/Polygon.o \
+			$(OUTDIR_GK_D)/Vector2D.o \
+			$(OUTDIR_GK_D)/X11Font.o \
+			$(OUTDIR_GK_D)/X11Image.o \
+			$(OUTDIR_GK_D)/X11Context.o \
+			$(OUTDIR_GK_D)/X11GraphicsToolkit.o \
+			$(OUTDIR_GK_D)/MgcBezierCurve2.o \
+			$(OUTDIR_GK_D)/MgcCurve2.o \
+			$(OUTDIR_GK_D)/MgcVector2.o \
+			$(OUTDIR_GK_D)/MgcIntegrate.o \
+			$(OUTDIR_GK_D)/MgcSingleCurve2.o \
+			$(OUTDIR_GK_D)/MgcMath.o 
+
+
+GRAFKIT_OBJECT_FILES=GraphicsKit.o \
+			$(OUTDIR_GK)/AbstractImage.o \
+			$(OUTDIR_GK)/BasicFill.o \
+			$(OUTDIR_GK)/BasicStroke.o \
+			$(OUTDIR_GK)/Color.o \
+			$(OUTDIR_GK)/Font.o \
+			$(OUTDIR_GK)/FontState.o \
+			$(OUTDIR_GK)/GlyphCollection.o \
+			$(OUTDIR_GK)/GraphicsContext.o \
+			$(OUTDIR_GK)/GraphicsObject.o \
+			$(OUTDIR_GK)/Utils/GraphicsToolKit.o \
+			$(OUTDIR_GK)/Events/ImageEvent.o \
+			$(OUTDIR_GK)/Matrix2D.o \
+			$(OUTDIR_GK)/Polygon.o \
+			$(OUTDIR_GK)/Vector2D.o \
+			$(OUTDIR_GK)/X11Font.o \
+			$(OUTDIR_GK)/X11Image.o \
+			$(OUTDIR_GK)/X11Context.o \
+			$(OUTDIR_GK)/X11GraphicsToolkit.o \
+			$(OUTDIR_GK)/MgcBezierCurve2.o \
+			$(OUTDIR_GK)/MgcCurve2.o \
+			$(OUTDIR_GK)/MgcVector2.o \
+			$(OUTDIR_GK)/MgcIntegrate.o \
+			$(OUTDIR_GK)/MgcSingleCurve2.o \
+			$(OUTDIR_GK)/MgcMath.o 
+
+
+#ApplicationKit objects
+
+APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
+			$(OUTDIR_AK_D)/AbstractApplication.o \
+			$(OUTDIR_AK_D)/AbstractCommand.o \
+			$(OUTDIR_AK_D)/AbstractComponentEditor.o \
+			$(OUTDIR_AK_D)/AbstractContainer.o \
+			$(OUTDIR_AK_D)/AbstractListModel.o \
+			$(OUTDIR_AK_D)/AbstractPropertyEditor.o \
+			$(OUTDIR_AK_D)/AbstractScrollable.o \
+			$(OUTDIR_AK_D)/AbstractTableModel.o \
+			$(OUTDIR_AK_D)/AbstractTextModel.o \
+			$(OUTDIR_AK_D)/AbstractTreeModel.o \
+			$(OUTDIR_AK_D)/AbstractView.o \
+			$(OUTDIR_AK_D)/AcceleratorKey.o \
+			$(OUTDIR_AK_D)/Application.o \
+			$(OUTDIR_AK_D)/Basic3DBorder.o \
+			$(OUTDIR_AK_D)/BasicTableItemEditor.o \
+			$(OUTDIR_AK_D)/ButtonEvent.o \
+			$(OUTDIR_AK_D)/CheckBoxControl.o \
+			$(OUTDIR_AK_D)/Clipboard.o \
+			$(OUTDIR_AK_D)/ClipboardDataObject.o \
+			$(OUTDIR_AK_D)/ClipboardEvent.o \
+			$(OUTDIR_AK_D)/ColumnItemEvent.o \
+			$(OUTDIR_AK_D)/ColumnModelEvent.o \
+			$(OUTDIR_AK_D)/ComboBoxControl.o \
+			$(OUTDIR_AK_D)/CommandButton.o \
+			$(OUTDIR_AK_D)/CommandGroup.o \
+			$(OUTDIR_AK_D)/CommonColor.o \
+			$(OUTDIR_AK_D)/CommonFileBrowse.o \
+			$(OUTDIR_AK_D)/CommonFileDialog.o \
+			$(OUTDIR_AK_D)/CommonFileOpen.o \
+			$(OUTDIR_AK_D)/CommonFileSave.o \
+			$(OUTDIR_AK_D)/CommonFont.o \
+			$(OUTDIR_AK_D)/CommonPrint.o \
+			$(OUTDIR_AK_D)/Component.o \
+			$(OUTDIR_AK_D)/ComponentEditorManager.o \
+			$(OUTDIR_AK_D)/ComponentInfo.o \
+			$(OUTDIR_AK_D)/Control.o \
+			$(OUTDIR_AK_D)/ControlContainer.o \
+			$(OUTDIR_AK_D)/ControlEvent.o \
+			$(OUTDIR_AK_D)/ControlGraphicsContext.o \
+			$(OUTDIR_AK_D)/Cursor.o \
+			$(OUTDIR_AK_D)/CursorManager.o \
+			$(OUTDIR_AK_D)/CustomControl.o \
+			$(OUTDIR_AK_D)/DataType.o \
+			$(OUTDIR_AK_D)/DefaultColumnItem.o \
+			$(OUTDIR_AK_D)/DefaultColumnModel.o \
+			$(OUTDIR_AK_D)/DefaultListItem.o \
+			$(OUTDIR_AK_D)/DefaultListModel.o \
+			$(OUTDIR_AK_D)/DefaultMenuItem.o \
+			$(OUTDIR_AK_D)/DefaultPropertyEditors.o \
+			$(OUTDIR_AK_D)/DefaultTableCellItem.o \
+			$(OUTDIR_AK_D)/DefaultTableModel.o \
+			$(OUTDIR_AK_D)/DefaultTabModel.o \
+			$(OUTDIR_AK_D)/DefaultTabPage.o \
+			$(OUTDIR_AK_D)/DefaultTextModel.o \
+			$(OUTDIR_AK_D)/DefaultTreeItem.o \
+			$(OUTDIR_AK_D)/DefaultTreeModel.o \
+			$(OUTDIR_AK_D)/Desktop.o \
+			$(OUTDIR_AK_D)/Dialog.o \
+			$(OUTDIR_AK_D)/DragEvent.o \
+			$(OUTDIR_AK_D)/DragSource.o \
+			$(OUTDIR_AK_D)/DropEvent.o \
+			$(OUTDIR_AK_D)/DropTarget.o \
+			$(OUTDIR_AK_D)/FocusEvent.o \
+			$(OUTDIR_AK_D)/Frame.o \
+			$(OUTDIR_AK_D)/HeaderControl.o \
+			$(OUTDIR_AK_D)/HelpEvent.o \
+			$(OUTDIR_AK_D)/HTMLBrowserControl.o \
+			$(OUTDIR_AK_D)/ImageControl.o \
+			$(OUTDIR_AK_D)/ImageList.o \
+			$(OUTDIR_AK_D)/ImageListEvent.o \
+			$(OUTDIR_AK_D)/ItemEvent.o \
+			$(OUTDIR_AK_D)/KeyboardEvent.o \
+			$(OUTDIR_AK_D)/Label.o \
+			$(OUTDIR_AK_D)/LibraryApplication.o \
+			$(OUTDIR_AK_D)/Light3DBorder.o \
+			$(OUTDIR_AK_D)/LightweightComponent.o \
+			$(OUTDIR_AK_D)/ListBoxControl.o \
+			$(OUTDIR_AK_D)/ListModelEvent.o \
+			$(OUTDIR_AK_D)/ListViewControl.o \
+			$(OUTDIR_AK_D)/Menu.o \
+			$(OUTDIR_AK_D)/MenuBar.o \
+			$(OUTDIR_AK_D)/MenuItemEvent.o \
+			$(OUTDIR_AK_D)/Model.o \
+			$(OUTDIR_AK_D)/MouseEvent.o \
+			$(OUTDIR_AK_D)/MultilineTextControl.o \
+			$(OUTDIR_AK_D)/Panel.o \
+			$(OUTDIR_AK_D)/PopupMenu.o \
+			$(OUTDIR_AK_D)/PropertyEditorManager.o \
+			$(OUTDIR_AK_D)/PushButton.o \
+			$(OUTDIR_AK_D)/RadioButtonControl.o \
+			$(OUTDIR_AK_D)/Resource.o \
+			$(OUTDIR_AK_D)/ResourceStream.o \
+			$(OUTDIR_AK_D)/ScrollbarManager.o \
+			$(OUTDIR_AK_D)/Splitter.o \
+			$(OUTDIR_AK_D)/StatusBar.o \
+			$(OUTDIR_AK_D)/TabbedPages.o \
+			$(OUTDIR_AK_D)/TableControl.o \
+			$(OUTDIR_AK_D)/TableModelEvent.o \
+			$(OUTDIR_AK_D)/TabModelEvent.o \
+			$(OUTDIR_AK_D)/TextControl.o \
+			$(OUTDIR_AK_D)/TextEvent.o \
+			$(OUTDIR_AK_D)/TimerComponent.o \
+			$(OUTDIR_AK_D)/TimerEvent.o \
+			$(OUTDIR_AK_D)/ToggledButton.o \
+			$(OUTDIR_AK_D)/Toolbar.o \
+			$(OUTDIR_AK_D)/ToolbarButton.o \
+			$(OUTDIR_AK_D)/ToolbarDock.o \
+			$(OUTDIR_AK_D)/ToolbarSeparator.o \
+			$(OUTDIR_AK_D)/ToolTipEvent.o \
+			$(OUTDIR_AK_D)/TreeControl.o \
+			$(OUTDIR_AK_D)/TreeListControl.o \
+			$(OUTDIR_AK_D)/TreeModelEvent.o \
+			$(OUTDIR_AK_D)/UIToolkit.o \
+			$(OUTDIR_AK_D)/UndoRedoEvent.o \
+			$(OUTDIR_AK_D)/UndoRedoStack.o \
+			$(OUTDIR_AK_D)/ValidationEvent.o \
+			$(OUTDIR_AK_D)/VFFInputStream.o \
+			$(OUTDIR_AK_D)/VFFOutputStream.o \
+			$(OUTDIR_AK_D)/WhatsThisHelpEvent.o \
+			$(OUTDIR_AK_D)/Window.o \
+			$(OUTDIR_AK_D)/WindowEvent.o \
+			$(OUTDIR_AK_D)/X11UIToolkit.o \
+			$(OUTDIR_AK_D)/X11Desktop.o \
+			$(OUTDIR_AK_D)/X11Application.o \
+			$(OUTDIR_AK_D)/AbstractX11Control.o \
+			$(OUTDIR_AK_D)/X11Control.o \
+			$(OUTDIR_AK_D)/X11Window.o \
+			$(OUTDIR_AK_D)/X11ControlContext.o \
+			$(OUTDIR_AK_D)/X11Cursor.o 
+
+
+APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
+			$(OUTDIR_AK)/AbstractApplication.o \
+			$(OUTDIR_AK)/AbstractCommand.o \
+			$(OUTDIR_AK)/AbstractComponentEditor.o \
+			$(OUTDIR_AK)/AbstractContainer.o \
+			$(OUTDIR_AK)/AbstractListModel.o \
+			$(OUTDIR_AK)/AbstractPropertyEditor.o \
+			$(OUTDIR_AK)/AbstractScrollable.o \
+			$(OUTDIR_AK)/AbstractTableModel.o \
+			$(OUTDIR_AK)/AbstractTextModel.o \
+			$(OUTDIR_AK)/AbstractTreeModel.o \
+			$(OUTDIR_AK)/AbstractView.o \
+			$(OUTDIR_AK)/AcceleratorKey.o \
+			$(OUTDIR_AK)/Application.o \
+			$(OUTDIR_AK)/Basic3DBorder.o \
+			$(OUTDIR_AK)/BasicTableItemEditor.o \
+			$(OUTDIR_AK)/ButtonEvent.o \
+			$(OUTDIR_AK)/CheckBoxControl.o \
+			$(OUTDIR_AK)/Clipboard.o \
+			$(OUTDIR_AK)/ClipboardDataObject.o \
+			$(OUTDIR_AK)/ClipboardEvent.o \
+			$(OUTDIR_AK)/ColumnItemEvent.o \
+			$(OUTDIR_AK)/ColumnModelEvent.o \
+			$(OUTDIR_AK)/ComboBoxControl.o \
+			$(OUTDIR_AK)/CommandButton.o \
+			$(OUTDIR_AK)/CommandGroup.o \
+			$(OUTDIR_AK)/CommonColor.o \
+			$(OUTDIR_AK)/CommonFileBrowse.o \
+			$(OUTDIR_AK)/CommonFileDialog.o \
+			$(OUTDIR_AK)/CommonFileOpen.o \
+			$(OUTDIR_AK)/CommonFileSave.o \
+			$(OUTDIR_AK)/CommonFont.o \
+			$(OUTDIR_AK)/CommonPrint.o \
+			$(OUTDIR_AK)/Component.o \
+			$(OUTDIR_AK)/ComponentEditorManager.o \
+			$(OUTDIR_AK)/ComponentInfo.o \
+			$(OUTDIR_AK)/Control.o \
+			$(OUTDIR_AK)/ControlContainer.o \
+			$(OUTDIR_AK)/ControlEvent.o \
+			$(OUTDIR_AK)/ControlGraphicsContext.o \
+			$(OUTDIR_AK)/Cursor.o \
+			$(OUTDIR_AK)/CursorManager.o \
+			$(OUTDIR_AK)/CustomControl.o \
+			$(OUTDIR_AK)/DataType.o \
+			$(OUTDIR_AK)/DefaultColumnItem.o \
+			$(OUTDIR_AK)/DefaultColumnModel.o \
+			$(OUTDIR_AK)/DefaultListItem.o \
+			$(OUTDIR_AK)/DefaultListModel.o \
+			$(OUTDIR_AK)/DefaultMenuItem.o \
+			$(OUTDIR_AK)/DefaultPropertyEditors.o \
+			$(OUTDIR_AK)/DefaultTableCellItem.o \
+			$(OUTDIR_AK)/DefaultTableModel.o \
+			$(OUTDIR_AK)/DefaultTabModel.o \
+			$(OUTDIR_AK)/DefaultTabPage.o \
+			$(OUTDIR_AK)/DefaultTextModel.o \
+			$(OUTDIR_AK)/DefaultTreeItem.o \
+			$(OUTDIR_AK)/DefaultTreeModel.o \
+			$(OUTDIR_AK)/Desktop.o \
+			$(OUTDIR_AK)/Dialog.o \
+			$(OUTDIR_AK)/DragEvent.o \
+			$(OUTDIR_AK)/DragSource.o \
+			$(OUTDIR_AK)/DropEvent.o \
+			$(OUTDIR_AK)/DropTarget.o \
+			$(OUTDIR_AK)/FocusEvent.o \
+			$(OUTDIR_AK)/Frame.o \
+			$(OUTDIR_AK)/HeaderControl.o \
+			$(OUTDIR_AK)/HelpEvent.o \
+			$(OUTDIR_AK)/HTMLBrowserControl.o \
+			$(OUTDIR_AK)/ImageControl.o \
+			$(OUTDIR_AK)/ImageList.o \
+			$(OUTDIR_AK)/ImageListEvent.o \
+			$(OUTDIR_AK)/ItemEvent.o \
+			$(OUTDIR_AK)/KeyboardEvent.o \
+			$(OUTDIR_AK)/Label.o \
+			$(OUTDIR_AK)/LibraryApplication.o \
+			$(OUTDIR_AK)/Light3DBorder.o \
+			$(OUTDIR_AK)/LightweightComponent.o \
+			$(OUTDIR_AK)/ListBoxControl.o \
+			$(OUTDIR_AK)/ListModelEvent.o \
+			$(OUTDIR_AK)/ListViewControl.o \
+			$(OUTDIR_AK)/Menu.o \
+			$(OUTDIR_AK)/MenuBar.o \
+			$(OUTDIR_AK)/MenuItemEvent.o \
+			$(OUTDIR_AK)/Model.o \
+			$(OUTDIR_AK)/MouseEvent.o \
+			$(OUTDIR_AK)/MultilineTextControl.o \
+			$(OUTDIR_AK)/Panel.o \
+			$(OUTDIR_AK)/PopupMenu.o \
+			$(OUTDIR_AK)/PropertyEditorManager.o \
+			$(OUTDIR_AK)/PushButton.o \
+			$(OUTDIR_AK)/RadioButtonControl.o \
+			$(OUTDIR_AK)/Resource.o \
+			$(OUTDIR_AK)/ResourceStream.o \
+			$(OUTDIR_AK)/ScrollbarManager.o \
+			$(OUTDIR_AK)/Splitter.o \
+			$(OUTDIR_AK)/StatusBar.o \
+			$(OUTDIR_AK)/TabbedPages.o \
+			$(OUTDIR_AK)/TableControl.o \
+			$(OUTDIR_AK)/TableModelEvent.o \
+			$(OUTDIR_AK)/TabModelEvent.o \
+			$(OUTDIR_AK)/TextControl.o \
+			$(OUTDIR_AK)/TextEvent.o \
+			$(OUTDIR_AK)/TimerComponent.o \
+			$(OUTDIR_AK)/TimerEvent.o \
+			$(OUTDIR_AK)/ToggledButton.o \
+			$(OUTDIR_AK)/Toolbar.o \
+			$(OUTDIR_AK)/ToolbarButton.o \
+			$(OUTDIR_AK)/ToolbarDock.o \
+			$(OUTDIR_AK)/ToolbarSeparator.o \
+			$(OUTDIR_AK)/ToolTipEvent.o \
+			$(OUTDIR_AK)/TreeControl.o \
+			$(OUTDIR_AK)/TreeListControl.o \
+			$(OUTDIR_AK)/TreeModelEvent.o \
+			$(OUTDIR_AK)/UIToolkit.o \
+			$(OUTDIR_AK)/UndoRedoEvent.o \
+			$(OUTDIR_AK)/UndoRedoStack.o \
+			$(OUTDIR_AK)/ValidationEvent.o \
+			$(OUTDIR_AK)/VFFInputStream.o \
+			$(OUTDIR_AK)/VFFOutputStream.o \
+			$(OUTDIR_AK)/WhatsThisHelpEvent.o \
+			$(OUTDIR_AK)/Window.o \
+			$(OUTDIR_AK)/WindowEvent.o \
+			$(OUTDIR_AK)/X11UIToolkit.o \
+			$(OUTDIR_AK)/X11Desktop.o \
+			$(OUTDIR_AK)/X11Application.o \
+			$(OUTDIR_AK)/AbstractX11Control.o \
+			$(OUTDIR_AK)/X11Control.o \
+			$(OUTDIR_AK)/X11Window.o \
+			$(OUTDIR_AK)/X11ControlContext.o \
+			$(OUTDIR_AK)/X11Cursor.o 
+
+
+#NetworkKit objects
+
+NETKIT_OBJECT_FILES_D=$(OUTDIR_NK_D)/DatagramSocket.o \
+			$(OUTDIR_NK_D)/NetToolkit.o \
+			$(OUTDIR_NK_D)/ServerSocketEvent.o \
+			$(OUTDIR_NK_D)/Socket.o \
+			$(OUTDIR_NK_D)/SocketEvent.o \
+			$(OUTDIR_NK_D)/SocketListeningLoop.o \
+			$(OUTDIR_NK_D)/URL.o 
+
+NETKIT_OBJECT_FILES=$(OUTDIR_NK)/DatagramSocket.o \
+			$(OUTDIR_NK)/NetToolkit.o \
+			$(OUTDIR_NK)/ServerSocketEvent.o \
+			$(OUTDIR_NK)/Socket.o \
+			$(OUTDIR_NK)/SocketEvent.o \
+			$(OUTDIR_NK)/SocketListeningLoop.o \
+			$(OUTDIR_NK)/URL.o 
+
+
 #define the target and it's dependencies
 #<target> : <dependency1> <dependency2> ... <dependencyN>
 #<tabchar><program to create target> <arguments, usually dependcies from above>
@@ -150,9 +510,11 @@ OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 target : 
 	echo please choose either "debug", "release" or "all" '(for both debug and release)'
 
+
+
 #debug target
 
-debug : prep_dirs_FK_D $(FOUNDATION_KIT_SO_D)
+debug : FoundationKit_debug
 
 	
 
@@ -163,6 +525,30 @@ release : prep_dirs_FK $(FOUNDATION_KIT_SO)
 
 #all target, builds release and debug builds
 all : debug release
+
+
+FoundationKit_debug : prep_dirs_FK_D $(FOUNDATION_KIT_SO_D)
+
+FoundationKit_release : prep_dirs_FK $(FOUNDATION_KIT_SO)
+
+
+GraphicsKit_debug : prep_dirs_GK_D $(GRAPHICS_KIT_SO_D)
+
+GraphicsKit_release : prep_dirs_GK $(GRAPHICS_KIT_SO)
+
+ApplicationKit_debug : prep_dirs_AK_D $(APPLICATION_KIT_SO_D)
+
+ApplicationKit_release : prep_dirs_AK $(APPLICATION_KIT_SO)
+
+
+NetworkKit_debug : prep_dirs_AK_D $(NETWORK_KIT_SO_D)
+
+NetworkKit_release : prep_dirs_AK $(NETWORK_KIT_SO)
+
+
+
+
+
 
 
 
@@ -185,6 +571,49 @@ prep_dirs_FK:
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
 		
+#creates the GraphicsKit output directories for a debug build
+prep_dirs_GK_D: 
+	if ! `test -d $(OUTPUT_BASE_GK)`;then mkdir $(OUTPUT_BASE_GK);fi;\
+	if ! `test -d $(OUTDIR_GK_D)`;then mkdir $(OUTDIR_GK_D);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+	
+#creates the GraphicsKit output directories for a release build
+prep_dirs_GK: 
+	if ! `test -d $(OUTPUT_BASE_GK)`;then mkdir $(OUTPUT_BASE_GK);fi;\
+	if ! `test -d $(OUTDIR_GK)`;then mkdir $(OUTDIR_GK);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+		
+
+#creates the ApplicationKit output directories for a debug build
+prep_dirs_AK_D: 
+	if ! `test -d $(OUTPUT_BASE_AK)`;then mkdir $(OUTPUT_BASE_AK);fi;\
+	if ! `test -d $(OUTDIR_AK_D)`;then mkdir $(OUTDIR_AK_D);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+	
+#creates the ApplicationKit output directories for a release build
+prep_dirs_AK: 
+	if ! `test -d $(OUTPUT_BASE_AK)`;then mkdir $(OUTPUT_BASE_AK);fi;\
+	if ! `test -d $(OUTDIR_AK)`;then mkdir $(OUTDIR_AK);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+		
+		
+#creates the NetworkKit output directories for a debug build
+prep_dirs_NK_D: 
+	if ! `test -d $(OUTPUT_BASE_NK)`;then mkdir $(OUTPUT_BASE_NK);fi;\
+	if ! `test -d $(OUTDIR_NK_D)`;then mkdir $(OUTDIR_NK_D);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
+	
+#creates the NetworkKit output directories for a release build
+prep_dirs_NK: 
+	if ! `test -d $(OUTPUT_BASE_NK)`;then mkdir $(OUTPUT_BASE_NK);fi;\
+	if ! `test -d $(OUTDIR_NK)`;then mkdir $(OUTDIR_NK);fi;\
+	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
+	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
 
 
 
@@ -195,330 +624,64 @@ prep_dirs_FK:
 #in LINKER_FLAGS, outputting the FOUNDATION_KIT_SO_D file, by linking
 #all the OBJECT_FILES_D together
 
-$(FOUNDATION_KIT_SO_D) : $(OBJECT_FILES_D)
+$(FOUNDATION_KIT_SO_D) : $(FK_OBJECT_FILES_D)
 	$(LINKER) $(LINKER_FLAGS_D) $(FOUNDATION_KIT_SO_D) $(OBJECT_FILES_D)
 
 
 #this is the release build target for the 
 #FoundationKit shared object library
-$(FOUNDATION_KIT_SO) : $(OBJECT_FILES)
+$(FOUNDATION_KIT_SO) : $(FK_OBJECT_FILES)
 	$(LINKER) $(LINKER_FLAGS) $(FOUNDATION_KIT_SO) $(OBJECT_FILES)
 
 
-
-###########################################################
-#
-#DEBUG FILES
-#now for the debug source definitions 
-#
-###########################################################
-
-$(OUTDIR_FK_D)/BasicException.o : $(SRC_EXCPT)/BasicException.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_EXCPT)/BasicException.cpp -o $(OUTDIR_FK_D)/BasicException.o
-
-$(OUTDIR_FK_D)/BasicInputStream.o : $(SRC_IO)/BasicInputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/BasicInputStream.cpp -o $(OUTDIR_FK_D)/BasicInputStream.o
-
-$(OUTDIR_FK_D)/BasicOutputStream.o : $(SRC_IO)/BasicOutputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/BasicOutputStream.cpp -o $(OUTDIR_FK_D)/BasicOutputStream.o
-
-$(OUTDIR_FK_D)/Class.o : $(SRC_CORE)/Class.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Class.cpp -o $(OUTDIR_FK_D)/Class.o
-
-$(OUTDIR_FK_D)/ClassRegistry.o : $(SRC_CORE)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/ClassRegistry.cpp -o $(OUTDIR_FK_D)/ClassRegistry.o
-
-$(OUTDIR_FK_D)/Directory.o : $(SRC_IO)/Directory.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/Directory.cpp -o $(OUTDIR_FK_D)/Directory.o
-
-$(OUTDIR_FK_D)/ErrorLog.o : $(SRC_UTILS)/ErrorLog.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/ErrorLog.cpp -o $(OUTDIR_FK_D)/ErrorLog.o
-
-$(OUTDIR_FK_D)/Event.o : $(SRC_EVENT)/Event.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/Event.cpp -o $(OUTDIR_FK_D)/Event.o
-
-$(OUTDIR_FK_D)/EventHandler.o : $(SRC_EVENT)/EventHandler.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/EventHandler.cpp -o $(OUTDIR_FK_D)/EventHandler.o
-
-$(OUTDIR_FK_D)/File.o : $(SRC_IO)/File.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/File.cpp -o $(OUTDIR_FK_D)/File.o
-
-$(OUTDIR_FK_D)/FilePath.o : $(SRC_UTILS)/FilePath.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/FilePath.cpp -o $(OUTDIR_FK_D)/FilePath.o
-
-$(OUTDIR_FK_D)/FileStream.o : $(SRC_IO)/FileStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/FileStream.cpp -o $(OUTDIR_FK_D)/FileStream.o
-
-$(OUTDIR_FK_D)/FileUtils.o : $(SRC_IO)/FileUtils.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/FileUtils.cpp -o $(OUTDIR_FK_D)/FileUtils.o
-
-$(OUTDIR_FK_D)/FoundationKit.o : $(SRC_CORE)/FoundationKit.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/FoundationKit.cpp -o $(OUTDIR_FK_D)/FoundationKit.o
-
-$(OUTDIR_FK_D)/InterfaceClass.o : $(SRC_CORE)/InterfaceClass.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/InterfaceClass.cpp -o $(OUTDIR_FK_D)/InterfaceClass.o
-
-$(OUTDIR_FK_D)/Library.o : $(SRC_UTILS)/Library.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Library.cpp -o $(OUTDIR_FK_D)/Library.o
-
-$(OUTDIR_FK_D)/Locales.o : $(SRC_CORE)/Locales.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Locales.cpp -o $(OUTDIR_FK_D)/Locales.o
-
-$(OUTDIR_FK_D)/MemoryStream.o : $(SRC_IO)/MemoryStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/MemoryStream.cpp -o $(OUTDIR_FK_D)/MemoryStream.o
-
-$(OUTDIR_FK_D)/Mutex.o : $(SRC_UTILS)/Mutex.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Mutex.cpp -o $(OUTDIR_FK_D)/Mutex.o
-
-$(OUTDIR_FK_D)/Object.o : $(SRC_CORE)/Object.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Object.cpp -o $(OUTDIR_FK_D)/Object.o
-
-$(OUTDIR_FK_D)/ObjectWithEvents.o : $(SRC_CORE)/ObjectWithEvents.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/ObjectWithEvents.cpp -o $(OUTDIR_FK_D)/ObjectWithEvents.o
-
-$(OUTDIR_FK_D)/Parser.o : $(SRC_UTILS)/Parser.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Parser.cpp -o $(OUTDIR_FK_D)/Parser.o
-
-$(OUTDIR_FK_D)/Point.o : $(SRC_CORE)/Point.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Point.cpp -o $(OUTDIR_FK_D)/Point.o
-
-$(OUTDIR_FK_D)/PropertyChangeEvent.o : $(SRC_EVENT)/PropertyChangeEvent.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/PropertyChangeEvent.cpp -o $(OUTDIR_FK_D)/PropertyChangeEvent.o
-
-$(OUTDIR_FK_D)/Rect.o : $(SRC_CORE)/Rect.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_FK_D)/Rect.o
-
-$(OUTDIR_FK_D)/Registry.o : $(SRC_UTILS)/Registry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Registry.cpp -o $(OUTDIR_FK_D)/Registry.o
-
-$(OUTDIR_FK_D)/Stream.o : $(SRC_IO)/Stream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/Stream.cpp -o $(OUTDIR_FK_D)/Stream.o
-
-$(OUTDIR_FK_D)/StringUtils.o : $(SRC_UTILS)/StringUtils.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/StringUtils.cpp -o $(OUTDIR_FK_D)/StringUtils.o
-
-$(OUTDIR_FK_D)/System.o : $(SRC_UTILS)/System.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/System.cpp -o $(OUTDIR_FK_D)/System.o
-
-$(OUTDIR_FK_D)/SystemToolkit.o : $(SRC_UTILS)/SystemToolkit.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/SystemToolkit.cpp -o $(OUTDIR_FK_D)/SystemToolkit.o
-
-$(OUTDIR_FK_D)/TextInputStream.o : $(SRC_IO)/TextInputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/TextInputStream.cpp -o $(OUTDIR_FK_D)/TextInputStream.o
-
-$(OUTDIR_FK_D)/TextOutputStream.o : $(SRC_IO)/TextOutputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/TextOutputStream.cpp -o $(OUTDIR_FK_D)/TextOutputStream.o
-
-$(OUTDIR_FK_D)/Thread.o : $(SRC_UTILS)/Thread.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Thread.cpp -o $(OUTDIR_FK_D)/Thread.o
-
-$(OUTDIR_FK_D)/ThreadEvent.o : $(SRC_EVENT)/ThreadEvent.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/ThreadEvent.cpp -o $(OUTDIR_FK_D)/ThreadEvent.o
-
-$(OUTDIR_FK_D)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK_D)/VCFMath.o
-
-$(OUTDIR_FK_D)/VCFProcess.o : $(SRC_UTILS)/VCFProcess.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/VCFProcess.cpp -o $(OUTDIR_FK_D)/VCFProcess.o
-
-$(OUTDIR_FK_D)/XMLParser.o : $(SRC_UTILS)/XMLParser.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/XMLParser.cpp -o $(OUTDIR_FK_D)/XMLParser.o
-
-$(OUTDIR_FK_D)/LinuxPeer.o : $(SRC_IMPLKIT)/LinuxPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxPeer.cpp -o $(OUTDIR_FK_D)/LinuxPeer.o
-
-$(OUTDIR_FK_D)/LinuxFilePeer.o : $(SRC_IMPLKIT)/LinuxFilePeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxFilePeer.cpp -o $(OUTDIR_FK_D)/LinuxFilePeer.o
-
-$(OUTDIR_FK_D)/LinuxFileStream.o : $(SRC_IMPLKIT)/LinuxFileStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxFileStream.cpp -o $(OUTDIR_FK_D)/LinuxFileStream.o
-
-$(OUTDIR_FK_D)/LinuxThread.o : $(SRC_IMPLKIT)/LinuxThread.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxThread.cpp -o $(OUTDIR_FK_D)/LinuxThread.o
-
-$(OUTDIR_FK_D)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp -o $(OUTDIR_FK_D)/LinuxLibraryPeer.o
-
-$(OUTDIR_FK_D)/LinuxMutex.o : $(SRC_IMPLKIT)/LinuxMutex.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxMutex.cpp -o $(OUTDIR_FK_D)/LinuxMutex.o
-
-$(OUTDIR_FK_D)/LinuxProcessPeer.o : $(SRC_IMPLKIT)/LinuxProcessPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxProcessPeer.cpp -o $(OUTDIR_FK_D)/LinuxProcessPeer.o
-
-$(OUTDIR_FK_D)/LinuxRegistry.o : $(SRC_IMPLKIT)/LinuxRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxRegistry.cpp -o $(OUTDIR_FK_D)/LinuxRegistry.o
-
-$(OUTDIR_FK_D)/LinuxSemaphorePeer.o : $(SRC_IMPLKIT)/LinuxSemaphorePeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSemaphorePeer.cpp -o $(OUTDIR_FK_D)/LinuxSemaphorePeer.o
-
-$(OUTDIR_FK_D)/LinuxSystemPeer.o : $(SRC_IMPLKIT)/LinuxSystemPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSystemPeer.cpp -o $(OUTDIR_FK_D)/LinuxSystemPeer.o
-
-$(OUTDIR_FK_D)/LinuxSystemToolkit.o : $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp -o $(OUTDIR_FK_D)/LinuxSystemToolkit.o
-
-$(OUTDIR_FK_D)/LinuxProcessIORedirector.o : $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp -o $(OUTDIR_FK_D)/LinuxProcessIORedirector.o
+#this is the debug build target for the 
+#GraphicsKit shared object library
+$(GRAPHICS_KIT_SO_D) : $(GRAFKIT_OBJECT_FILES_D)
+	$(LINKER) $(GK_LINKER_FLAGS_D) $(GRAPHICS_KIT_SO_D) $(GRAFKIT_OBJECT_FILES_D)
 
 
+#this is the release build target for the 
+#GraphicsKit shared object library
+$(GRAPHICS_KIT_SO) : $(GRAFKIT_OBJECT_FILES)
+	$(LINKER) $(GK_LINKER_FLAGS) $(GRAPHICS_KIT_SO) $(GRAFKIT_OBJECT_FILES)
+	
+#this is the debug build target for the 
+#ApplicationKit shared object library
+$(APPLICATION_KIT_SO_D) : $(APPKIT_OBJECT_FILES_D)
+	$(LINKER) $(AK_LINKER_FLAGS_D) $(GRAPHICS_KIT_SO_D) $(APPKIT_OBJECT_FILES_D)
+
+
+#this is the release build target for the 
+#ApplicationKit shared object library
+$(APPLICATION_KIT_SO) : $(APPKIT_OBJECT_FILES)
+	$(LINKER) $(AK_LINKER_FLAGS) $(APPLICATION_KIT_SO) $(APPKIT_OBJECT_FILES)	
+	
+	
+
+#this is the debug build target for the 
+#ApplicationKit shared object library
+$(NETWORK_KIT_SO_D) : $(NETKIT_OBJECT_FILES_D)
+	$(LINKER) $(NK_LINKER_FLAGS_D) $(NETWORK_KIT_SO_D) $(NETKIT_OBJECT_FILES_D)
+
+
+#this is the release build target for the 
+#ApplicationKit shared object library
+$(NETWORK_KIT_SO) : $(NETKIT_OBJECT_FILES)
+	$(LINKER) $(NK_LINKER_FLAGS) $(NETWORK_KIT_SO) $(NETKIT_OBJECT_FILES)	
 
 
 
 
 ###########################################################
 #
-#RELEASE FILES
-#now for the release source definitions 
+#DEBUG and RELEASE FILES
+#now for the Debug and Release source definitions 
 #
 ###########################################################
 
+include FoundationKitObjects.mak
 
-$(OUTDIR_FK)/BasicException.o : $(SRC_EXCPT)/BasicException.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_EXCPT)/BasicException.cpp -o $(OUTDIR_FK)/BasicException.o
 
-$(OUTDIR_FK)/BasicInputStream.o : $(SRC_IO)/BasicInputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/BasicInputStream.cpp -o $(OUTDIR_FK)/BasicInputStream.o
-
-$(OUTDIR_FK)/BasicOutputStream.o : $(SRC_IO)/BasicOutputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/BasicOutputStream.cpp -o $(OUTDIR_FK)/BasicOutputStream.o
-
-$(OUTDIR_FK)/Class.o : $(SRC_CORE)/Class.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Class.cpp -o $(OUTDIR_FK)/Class.o
-
-$(OUTDIR_FK)/ClassRegistry.o : $(SRC_CORE)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/ClassRegistry.cpp -o $(OUTDIR_FK)/ClassRegistry.o
-
-$(OUTDIR_FK)/Directory.o : $(SRC_IO)/Directory.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/Directory.cpp -o $(OUTDIR_FK)/Directory.o
-
-$(OUTDIR_FK)/ErrorLog.o : $(SRC_UTILS)/ErrorLog.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/ErrorLog.cpp -o $(OUTDIR_FK)/ErrorLog.o
-
-$(OUTDIR_FK)/Event.o : $(SRC_EVENT)/Event.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_EVENT)/Event.cpp -o $(OUTDIR_FK)/Event.o
-
-$(OUTDIR_FK)/EventHandler.o : $(SRC_EVENT)/EventHandler.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_EVENT)/EventHandler.cpp -o $(OUTDIR_FK)/EventHandler.o
-
-$(OUTDIR_FK)/File.o : $(SRC_IO)/File.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/File.cpp -o $(OUTDIR_FK)/File.o
-
-$(OUTDIR_FK)/FilePath.o : $(SRC_UTILS)/FilePath.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/FilePath.cpp -o $(OUTDIR_FK)/FilePath.o
-
-$(OUTDIR_FK)/FileStream.o : $(SRC_IO)/FileStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/FileStream.cpp -o $(OUTDIR_FK)/FileStream.o
-
-$(OUTDIR_FK)/FileUtils.o : $(SRC_IO)/FileUtils.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/FileUtils.cpp -o $(OUTDIR_FK)/FileUtils.o
-
-$(OUTDIR_FK)/FoundationKit.o : $(SRC_CORE)/FoundationKit.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/FoundationKit.cpp -o $(OUTDIR_FK)/FoundationKit.o
-
-$(OUTDIR_FK)/InterfaceClass.o : $(SRC_CORE)/InterfaceClass.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/InterfaceClass.cpp -o $(OUTDIR_FK)/InterfaceClass.o
-
-$(OUTDIR_FK)/Library.o : $(SRC_UTILS)/Library.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Library.cpp -o $(OUTDIR_FK)/Library.o
-
-$(OUTDIR_FK)/Locales.o : $(SRC_CORE)/Locales.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Locales.cpp -o $(OUTDIR_FK)/Locales.o
-
-$(OUTDIR_FK)/MemoryStream.o : $(SRC_IO)/MemoryStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/MemoryStream.cpp -o $(OUTDIR_FK)/MemoryStream.o
-
-$(OUTDIR_FK)/Mutex.o : $(SRC_UTILS)/Mutex.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Mutex.cpp -o $(OUTDIR_FK)/Mutex.o
-
-$(OUTDIR_FK)/Object.o : $(SRC_CORE)/Object.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Object.cpp -o $(OUTDIR_FK)/Object.o
-
-$(OUTDIR_FK)/ObjectWithEvents.o : $(SRC_CORE)/ObjectWithEvents.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/ObjectWithEvents.cpp -o $(OUTDIR_FK)/ObjectWithEvents.o
-
-$(OUTDIR_FK)/Parser.o : $(SRC_UTILS)/Parser.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Parser.cpp -o $(OUTDIR_FK)/Parser.o
-
-$(OUTDIR_FK)/Point.o : $(SRC_CORE)/Point.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Point.cpp -o $(OUTDIR_FK)/Point.o
-
-$(OUTDIR_FK)/PropertyChangeEvent.o : $(SRC_EVENT)/PropertyChangeEvent.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_EVENT)/PropertyChangeEvent.cpp -o $(OUTDIR_FK)/PropertyChangeEvent.o
-
-$(OUTDIR_FK)/Rect.o : $(SRC_CORE)/Rect.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_FK)/Rect.o
-
-$(OUTDIR_FK)/Registry.o : $(SRC_UTILS)/Registry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Registry.cpp -o $(OUTDIR_FK)/Registry.o
-
-$(OUTDIR_FK)/Stream.o : $(SRC_IO)/Stream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/Stream.cpp -o $(OUTDIR_FK)/Stream.o
-
-$(OUTDIR_FK)/StringUtils.o : $(SRC_UTILS)/StringUtils.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/StringUtils.cpp -o $(OUTDIR_FK)/StringUtils.o
-
-$(OUTDIR_FK)/System.o : $(SRC_UTILS)/System.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/System.cpp -o $(OUTDIR_FK)/System.o
-
-$(OUTDIR_FK)/SystemToolkit.o : $(SRC_UTILS)/SystemToolkit.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/SystemToolkit.cpp -o $(OUTDIR_FK)/SystemToolkit.o
-
-$(OUTDIR_FK)/TextInputStream.o : $(SRC_IO)/TextInputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/TextInputStream.cpp -o $(OUTDIR_FK)/TextInputStream.o
-
-$(OUTDIR_FK)/TextOutputStream.o : $(SRC_IO)/TextOutputStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IO)/TextOutputStream.cpp -o $(OUTDIR_FK)/TextOutputStream.o
-
-$(OUTDIR_FK)/Thread.o : $(SRC_UTILS)/Thread.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Thread.cpp -o $(OUTDIR_FK)/Thread.o
-
-$(OUTDIR_FK)/ThreadEvent.o : $(SRC_EVENT)/ThreadEvent.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_EVENT)/ThreadEvent.cpp -o $(OUTDIR_FK)/ThreadEvent.o
-
-$(OUTDIR_FK)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK)/VCFMath.o
-
-$(OUTDIR_FK)/VCFProcess.o : $(SRC_UTILS)/VCFProcess.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/VCFProcess.cpp -o $(OUTDIR_FK)/VCFProcess.o
-
-$(OUTDIR_FK)/XMLParser.o : $(SRC_UTILS)/XMLParser.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/XMLParser.cpp -o $(OUTDIR_FK)/XMLParser.o
-
-$(OUTDIR_FK)/LinuxPeer.o : $(SRC_IMPLKIT)/LinuxPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxPeer.cpp -o $(OUTDIR_FK)/LinuxPeer.o
-
-$(OUTDIR_FK)/LinuxFilePeer.o : $(SRC_IMPLKIT)/LinuxFilePeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxFilePeer.cpp -o $(OUTDIR_FK)/LinuxFilePeer.o
-
-$(OUTDIR_FK)/LinuxFileStream.o : $(SRC_IMPLKIT)/LinuxFileStream.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxFileStream.cpp -o $(OUTDIR_FK)/LinuxFileStream.o
-
-$(OUTDIR_FK)/LinuxThread.o : $(SRC_IMPLKIT)/LinuxThread.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxThread.cpp -o $(OUTDIR_FK)/LinuxThread.o
-
-$(OUTDIR_FK)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp -o $(OUTDIR_FK)/LinuxLibraryPeer.o
-
-$(OUTDIR_FK)/LinuxMutex.o : $(SRC_IMPLKIT)/LinuxMutex.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxMutex.cpp -o $(OUTDIR_FK)/LinuxMutex.o
-
-$(OUTDIR_FK)/LinuxProcessPeer.o : $(SRC_IMPLKIT)/LinuxProcessPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxProcessPeer.cpp -o $(OUTDIR_FK)/LinuxProcessPeer.o
-
-$(OUTDIR_FK)/LinuxRegistry.o : $(SRC_IMPLKIT)/LinuxRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxRegistry.cpp -o $(OUTDIR_FK)/LinuxRegistry.o
-
-$(OUTDIR_FK)/LinuxSemaphorePeer.o : $(SRC_IMPLKIT)/LinuxSemaphorePeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxSemaphorePeer.cpp -o $(OUTDIR_FK)/LinuxSemaphorePeer.o
-
-$(OUTDIR_FK)/LinuxSystemPeer.o : $(SRC_IMPLKIT)/LinuxSystemPeer.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxSystemPeer.cpp -o $(OUTDIR_FK)/LinuxSystemPeer.o
-
-$(OUTDIR_FK)/LinuxSystemToolkit.o : $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp -o $(OUTDIR_FK)/LinuxSystemToolkit.o
-
-$(OUTDIR_FK)/LinuxProcessIORedirector.o : $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp -o $(OUTDIR_FK)/LinuxProcessIORedirector.o
 
 
 
