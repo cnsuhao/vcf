@@ -811,8 +811,10 @@ void OSXContext::setAntiAliasingOn( bool antiAliasingOn )
 
 void OSXContext::endLastPrimitive()
 {
+	if (!isAntiAliasingOn()) return;
+	
 	if ( lastPrimitive_ == OSXContext::lpLine )  {
-		CGContextAddLineToPoint( contextID_, origin_.x_ + lastPrimitiveP1_.x_ + .5 - lastPrimitiveV1_.x_/2.0, origin_.y_ + lastPrimitiveP1_.y_ + .5 - lastPrimitiveV1_.y_/2.0);
+		CGContextAddLineToPoint( contextID_, origin_.x_ + lastPrimitiveP1_.x_ + .5 + lastPrimitiveV1_.x_/2.0, origin_.y_ + lastPrimitiveP1_.y_ + .5 + lastPrimitiveV1_.y_/2.0);
 	}
 	lastPrimitive_ = OSXContext::lpNone;
 }
@@ -823,6 +825,8 @@ void OSXContext::finishLastPrimitive(const double & x, const double & y)
 		return;
 	}
 	if ( lastPrimitive_ == OSXContext::lpMove ) {
+		if (!isAntiAliasingOn()) return;
+		
 		CGPoint pt=CGContextGetPathCurrentPoint ( contextID_ );
 		double dx=x-lastPrimitiveP1_.x_;
 		double dy=y-lastPrimitiveP1_.y_;
@@ -2219,6 +2223,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/06 18:21:51  chriskr
+*small bugfixes and optimizations for line-drawing
+*
 *Revision 1.2.2.3  2004/10/27 03:12:18  ddiego
 *integrated chrisk changes
 *
