@@ -71,7 +71,8 @@ OSXWindow::OSXWindowMap OSXWindow::osxWindowMap;
 OSXWindow::OSXWindow( Control* control, Control* owner ):
     windowRef_(0),
     control_(control),
-    handlerRef_(NULL)
+    handlerRef_(NULL),
+    internalClose_(false)
 {
 
 }
@@ -272,7 +273,7 @@ void OSXWindow::repaint( Rect* repaintRect )
 {	
     ::Rect r;
     if ( NULL == repaintRect ) {        
-        r = RectProxy( getBounds() );
+        r = RectProxy( getClientBounds() );
     }
     else {
         r = RectProxy(repaintRect);
@@ -347,7 +348,18 @@ void  OSXWindow::setClientBounds( Rect* bounds )
 
 void OSXWindow::close()
 {
+    if ( !internalClose_ ){
+		internalClose_ = true;
+		Application* app = Application::getRunningInstance();
+		if ( NULL != app ){
+			Window* mainWindow = app->getMainWindow();
+			if ( mainWindow == getControl() ){
+				//::PostMessage( hwnd_, WM_QUIT, 0, 0 );
+			}
+		}
+	}
 
+	//::PostMessage( hwnd_, WM_CLOSE, 0, 0 );
 }
 
 void OSXWindow::setFrameStyle( const FrameStyleType& frameStyle )
@@ -410,8 +422,37 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
     
         case kEventClassWindow : {
             switch( whatHappened ) {
+                case kEventWindowClose : {
+                    
+                    result = ::CallNextEventHandler( nextHandler, theEvent ); 
+                    
+                    VCF::Window* window = (VCF::Window*)getControl();
+
+                    if ( window->allowClose() ) {
+        
+                        VCF::WindowEvent event( getControl(), WINDOW_EVENT_CLOSE );
+        
+        
+                        window->FrameClose.fireEvent( &event );
+        
+                        if ( false == internalClose_ ){
+                            //check if the main window is clossing - if it is
+                            //then close the app !
+        
+                            Application* app = Application::getRunningInstance();
+                            if ( NULL != app ){
+                                Window* mainWindow = app->getMainWindow();
+                                if ( mainWindow == getControl() ){
+                                    //::PostMessage( hwnd_, WM_QUIT, 0, 0 );
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+                
                 case kEventWindowDrawContent: {
-					::CallNextEventHandler( nextHandler, theEvent );
+					
 					
                     WindowRef window = 0;
                     
@@ -423,7 +464,8 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
                                                 sizeof( window ), 
                                                 NULL, &window );
                     //draw content
-                    GrafPtr wndPort = GetWindowPort(window);
+                    GrafPtr wndPort = NULL;
+                    GetPort( &wndPort );//GetWindowPort(window);
                     
                     
                     //VCF::GraphicsContext gc( (VCF::ulong32)thePort );
@@ -432,12 +474,15 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
                     
                     control_->paint( ctx );	
                     
-					result = noErr;
+                    ctx->getPeer()->setContextID( 0 );
+                    
+                    result = ::CallNextEventHandler( nextHandler, theEvent );
+					//result = noErr;
                 }
 				break;
                 
                 case kEventWindowBoundsChanged: {
-                    ::CallNextEventHandler( nextHandler, theEvent );
+                    result = ::CallNextEventHandler( nextHandler, theEvent );
                 
                 /*
 					OSStatus err = GetEventParameter( theEvent, 
@@ -526,6 +571,9 @@ OSStatus OSXWindow::handleOSXEvents( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/07 23:22:45  ddiego
+*more osx changes
+*
 *Revision 1.1.2.4  2004/05/06 02:56:35  ddiego
 *checking in OSX updates
 *

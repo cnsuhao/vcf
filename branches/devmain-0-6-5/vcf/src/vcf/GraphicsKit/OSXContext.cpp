@@ -160,6 +160,75 @@ void OSXContext::setContextID( const unsigned long& handle )
 	grafPort_ = (GrafPtr)handle;  
     init();  
 }
+
+
+void OSXContext::init()
+{
+    if ( NULL != inMemoryImage_ ) {
+        //allocate a new gworld
+        GWorldPtr newGworld = 0;
+        
+        int bitsPerPix = 32;
+        int componentCount = 4;
+        int bytesPerRow = (imgWidth_ * (bitsPerPix/componentCount) * componentCount) / 8;
+        ::Rect imgRect;
+        imgRect.left = 0;
+        imgRect.top = 0;
+        imgRect.right = imgWidth_;
+        imgRect.bottom = imgHeight_;
+        
+        OSStatus err = 0;
+        err = NewGWorldFromPtr( &newGworld, 
+                            k32RGBAPixelFormat, 
+                            &imgRect, 
+                            NULL, 
+                            NULL, 
+                            0, 
+                            (char*)inMemoryImage_, 
+                            bytesPerRow );
+        if ( noErr == err ) {
+            grafPort_ = newGworld;
+//            printf( "NewGWorldFromPtr() succeeded, grafPort_: %p\n", grafPort_ );
+        }
+        else {
+            throw RuntimeException( MAKE_ERROR_MSG_2("NewGWorldFromPtr() failed to allocate GWorld") );
+        }
+    }
+
+    if ( NULL != grafPort_ ) {
+        CreateCGContextForPort( grafPort_, &contextID_);
+        ::Rect portBounds;
+        GetPortBounds( grafPort_, &portBounds );
+        StringUtils::traceWithArgs( "portBounds: %d, %d, %d, %d\n", 
+                                        portBounds.left,
+                                        portBounds.top,
+                                        portBounds.right,
+                                        portBounds.bottom );
+    
+        
+        CGContextSaveGState( contextID_ );
+    
+        CGContextTranslateCTM(contextID_, 0,
+                                        (float)(portBounds.bottom - portBounds.top));
+        CGContextScaleCTM(contextID_, 1, -1);
+        
+        textLayout_ = nil;
+        ATSUCreateTextLayout( &textLayout_ );
+        
+        ATSUAttributeTag        cgTags[] = {kATSUCGContextTag};
+        ByteCount               cgSize[] = {sizeof (contextID_)};
+        ATSUAttributeValuePtr   cgValue[] = {&contextID_};
+    
+        OSStatus err = ATSUSetLayoutControls (textLayout_, 
+                        1, 
+                        cgTags, 
+                        cgSize, 
+                        cgValue);
+        if ( err != noErr ) {
+            throw RuntimeException( MAKE_ERROR_MSG_2("ATSUSetLayoutControls failed.") );
+        }
+    }
+}
 	
 void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const long& drawOptions )
 {	
@@ -396,69 +465,6 @@ void OSXContext::moveTo(const double & x, const double & y)
 	CGContextMoveToPoint( contextID_, x + origin_.x_, y + origin_.y_ );	
 }
 
-void OSXContext::init()
-{
-    if ( NULL != inMemoryImage_ ) {
-        //allocate a new gworld
-        GWorldPtr newGworld = 0;
-        
-        int bitsPerPix = 32;
-        int componentCount = 4;
-        int bytesPerRow = (imgWidth_ * (bitsPerPix/componentCount) * componentCount) / 8;
-        ::Rect imgRect;
-        imgRect.left = 0;
-        imgRect.top = 0;
-        imgRect.right = imgWidth_;
-        imgRect.bottom = imgHeight_;
-        
-        OSStatus err = 0;
-        err = NewGWorldFromPtr( &newGworld, 
-                            k32RGBAPixelFormat, 
-                            &imgRect, 
-                            NULL, 
-                            NULL, 
-                            0, 
-                            (char*)inMemoryImage_, 
-                            bytesPerRow );
-        if ( noErr == err ) {
-            grafPort_ = newGworld;
-//            printf( "NewGWorldFromPtr() succeeded, grafPort_: %p\n", grafPort_ );
-        }
-        else {
-            throw RuntimeException( MAKE_ERROR_MSG_2("NewGWorldFromPtr() failed to allocate GWorld") );
-        }
-    }
-
-    if ( NULL != grafPort_ ) {
-        CreateCGContextForPort( grafPort_, &contextID_);
-        ::Rect portBounds;
-        GetPortBounds( grafPort_, &portBounds );
-        
-    
-        
-        CGContextSaveGState( contextID_ );
-    
-        CGContextTranslateCTM(contextID_, 0,
-                                        (float)(portBounds.bottom - portBounds.top));
-        CGContextScaleCTM(contextID_, 1, -1);
-        
-        textLayout_ = nil;
-        ATSUCreateTextLayout( &textLayout_ );
-        
-        ATSUAttributeTag        cgTags[] = {kATSUCGContextTag};
-        ByteCount               cgSize[] = {sizeof (contextID_)};
-        ATSUAttributeValuePtr   cgValue[] = {&contextID_};
-    
-        OSStatus err = ATSUSetLayoutControls (textLayout_, 
-                        1, 
-                        cgTags, 
-                        cgSize, 
-                        cgValue);
-        if ( err != noErr ) {
-            throw RuntimeException( MAKE_ERROR_MSG_2("ATSUSetLayoutControls failed.") );
-        }
-    }
-}
 
 void OSXContext::setOrigin( const double& x, const double& y )
 {
@@ -690,7 +696,7 @@ void OSXContext::checkHandle()
 	
 void OSXContext::releaseHandle()
 {
-
+    
 }
 
 bool OSXContext::isXORModeOn()
@@ -1258,6 +1264,9 @@ void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/07 23:23:33  ddiego
+*more osx changes
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *
