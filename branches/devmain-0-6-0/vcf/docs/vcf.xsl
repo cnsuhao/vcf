@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/03/10 03:58:34  ddiego
+fixes ot better support online html, plus the addition of a little C++
+program to stip stuff
+
 Revision 1.1.2.4  2003/03/07 04:33:02  ddiego
 added more docs for appkit. made some mods to the vcf.xsl stylesheet
 to turn on section numbering
@@ -73,37 +77,38 @@ and images
 	   <table class="headerCellBanner" width="250" border="0" cellpadding="0" cellspacing="0">
 	    <tr> 
 	     <td width="250" height="125" align="center" valign="middle">
-		     <a href="http://vcf.sf.net/" name="top"><img alt="void Visual_Component_Framework::Home(bool GoHome);" border="0" src="gfx/vcflogo.jpg" width="142" height="122"/>
-		     </a>
-	     </td>
+	     <a href="http://vcf.sf.net/" name="top">
+	     <img alt="Visual_Component_Framework::Home(bool GoHome);" border="0" src="gfx/vcflogo.jpg"/></a></td>
 	    </tr>
 	   </table>
 	  </td>
 	  <td width="100%" rowspan="2" valign="top">
 	   <table class="headerCell" width="100%" border="0" cellpadding="0" cellspacing="0">
 	    <tr> 
-	     <td width="100%" height="125" valign="top"> </td>
+	     <td width="100%" height="125" valign="top"></td>
 	    </tr>
 	   </table>
 	  </td>
-	  <td width="500" height="100" valign="top">
-	   <table class="headerCell" width="500" border="0" cellpadding="0" cellspacing="0">
+	  <td width="250" height="100" valign="top">
+	   <table class="headerCell" width="250" border="0" cellpadding="0" cellspacing="0">
 	    <tr> 
-	     <td width="500" height="100" align="right" valign="middle">VCF Documentation</td>
+	     <td width="250" height="100" align="right" valign="middle"></td>
 	    </tr>
 	   </table>
 	  </td>
 	 </tr>
 	 <tr> 
 	  <td height="25" valign="top">
-	   <table class="menuBar" width="500" border="0" cellpadding="0" cellspacing="0">
+	   <table class="menuBar" width="250" border="0" cellpadding="0" cellspacing="0">
 	    <tr> 
-	     <td width="500" height="25" align="right" valign="middle">  </td>
+	     <td width="250" height="25" align="center" valign="middle">
+	     <a class="menu" href="http://vcf.sf.net/" target="_blank">Website</a>|<a class="menu" href="http://vcf.sf.net/forums/" target="_blank">Forums</a>|<a class="menu" href="http://sf.net/projects/vcf/" target="_blank">Project Page</a></td>
 	    </tr>
 	   </table>
 	  </td>
 	 </tr>
 	</table>
+	
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 	 <tr> 
 	  <td width="100%" height="25" valign="top">
@@ -131,22 +136,9 @@ and images
 	<hr></hr>
 	<table class="footerCell" width="100%" border="0" cellpadding="0" cellspacing="0">
 	 <tr> 
-	  <td width="100%" height="50" align="center" valign="middle">
-		Copyright (c)2003 Jim Crafton, vcf.sourceforge.net<br></br>
-		<a class="menu" href="http://vcf.sourceforge.net/contact.php">Contacts</a>  |  
-		<a class="menu" href="http://vcf.sourceforge.net/legal.php">Disclaimer</a></td>
+	  <td width="100%" height="50" align="center" valign="middle">(c)2000-2003 Jim Crafton<br></br><a class="menu" href="#top">Back to Top</a></td>
 	 </tr>
 	</table>
-	<table class="footerCellAdv" width="100%" border="0" cellpadding="0" cellspacing="0">
-	 <tr> 
-	  <td width="100%" height="100" align="center" valign="middle">
-		  <a href="http://sourceforge.net/" target="_blank">
-			  <img border="0" src="gfx/sf_net.png"/></a>   
-		  <a href="http://www.vmware.com" target="_blank">
-			  <img alt="VCF Sponser" border="0" src="gfx/vmwarelogo.png" width="157" height="37"/></a></td>
-	 </tr>
-	</table>
-	<hr></hr>
 	
 	<!-- 
 	HACK ALLERT!!!!!!

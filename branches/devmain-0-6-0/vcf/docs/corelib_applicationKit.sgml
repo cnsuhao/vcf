@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.7  2003/03/10 03:58:34  ddiego
+fixes ot better support online html, plus the addition of a little C++
+program to stip stuff
+
 Revision 1.1.2.6  2003/03/07 22:24:07  ddiego
 added initial vcf builders docbook files
 
@@ -183,6 +187,23 @@ catch ( NoToolKitFoundException &amp; e ) {
 			such as the preferred font for controls are, or the preferred vertical 
 			spacing between controls. These values are read only and may not be changed.
 			</para>
+			<para>
+			The UI Metrics are intended to be a guide. It allows you properly control the spacing between controls, 
+			something that is frequently guess work and done with hard coded values. By using the UI Metrics provided
+			by the toolkit, you can ensure that the values you work with are standard and consistent for the platform you
+			app is running on. It also makes sure that the values you use take into account the DPI resolution of the current
+			screen settings, so that a change in these settings does not adversely affect your layout of your GUI.
+			</para>			
+			<para>
+			An example of this is writing code that creates a label and an edit box, and wanting to ensure that the vertical
+			spacing between the two is consistent and in line with the platform UI rules. This is extremely important when creating 
+			a professional UI.
+			</para>
+			<para>
+			Another feature of UI Metrics is the ability to get the right Font for various common controls. For example, the font used for
+			displaying status versus the font used in a message dialog, is frequently different, and may depend on the users settings
+			within the system. By using the UI Metrics you dont' have to resort to guess work as to what this is.
+			</para>			
 		</section>
 		
 		<section><title>Event Loops</title>			
@@ -190,14 +211,63 @@ catch ( NoToolKitFoundException &amp; e ) {
 		more through discussion.
 		</section>
 		
-		<section><title>Timers</title>		
+		<section><title>Timers</title>
+			<para>
+			A timer in the VCF is an instance of the EventHandler class that is called repeatedly until the handler is removed. 
+			The duration between calls is specified in milliseconds, and you can specify the duration in the call to register the 
+			timer handler. Each time the handler is called, a TimerEvent instance is created, with it event type set to 
+			TIMER_EVENT_PULSE. The event is then passed to the handler's invoke() method.
+			</para>
+			<para>
+			A timer in the VCF is not run in a separate thread, instead it is in the thread of execution that started the event 
+			loop. If you need a timer mechanism that is in a separate thread then you should use the Thread class for writing 
+			one.
+			</para>
+			<para>
+			To add a timer all you have to do is call the toolkit's <function>UIToolkit::registerTimerHandler()</function>. This
+			method is not static, so you'll first need to get an instance of the toolkit. To call registerTimerHandler() you need 
+			to pass in an instance of a VCF::Object (or some class derived from it), and a VCF::EventHandler instance. In 
+			addition you specify the duration of the timer, or how long to wait till the next time to call the handler's invoke() 
+			method. The Object you pass in represents the source that is used for all TimerEvents that get created.
+			</para>
+			<para>
+			You can stop a timer by calling the toolkit's <function>UIToolkit::unregisterTimerHandler()</function> method and 
+			passing in the same event handler instance that was passed to 
+			<function>UIToolkit::registerTimerHandler()</function>.
+			</para>
 		</section>
 		
 		<section><title>Carets</title>		
+			<para>
+			A caret is a little rectangular (usually) graphic that flashs and shows the current position within a section of text. 
+			Typically the caret is used in text controls.
+			</para>
 		</section>	
 		
 		
-		<section><title>Posting Events</title>		
+		<section><title>Posting Events</title>
+			<para>
+			Calling functions that fire events, or firing an event yourself via a Delegate is always synchronous behaviour, and 
+			you must wait for any callbacks before proceeding. However you can also <emphasis>post</emphasis> an 
+			event, which allows you to go on with your immediate processing and puts the event on the toolkits event 
+			queue for later processing.
+			</para>
+			<para>
+			To post an event you need to create a an event instance. With synchronous behaviour, you can create an event
+			instance on the stack, for example:
+			<programlisting>
+//get the control some how
+Control* someControl = ...;
+
+MouseEvent e; //event is created on the stack
+//fill in the mouse event
+//send the event to the control for handling
+someControl->handleEvent( &e ); //we block here till all the event handling is done
+			</programlisting>
+			However when you post an event, you <emphasis>must</emphasis> create the event on heap, since you will not
+			have control over when it gets destroyed. If you already have 
+			
+			</para>
 		</section>
 		
 		<section><title>Default Buttons</title>		

@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/03/10 03:58:34  ddiego
+fixes ot better support online html, plus the addition of a little C++
+program to stip stuff
+
 Revision 1.1.2.2  2003/03/05 22:15:58  ddiego
 more docs on images
 
@@ -303,7 +307,19 @@ gc->textAt( 12, 375, "Hello2!" );
 
 	<section><title>Paths</title>
 		<para>
+		Paths represent a series of 1 or more points. The points can form a closed shape or polygon, like a circle, or 
+		rectangle, or an open shape like a line. A Path is "closed" if it has more than one point and it's end point is 
+		equal to it's starting point.
 		</para>
+		<para>
+		A Path itself is not drawn. Instead you "stroke" or "fill" the path with an imaginary brush that paints on the 
+		GraphicsContext. The variopus sub classes of the Stroke and Fill classes are responsible for doing the actual painting.
+		</para>
+		<para>
+		A Path may be transformed, using matrix math and a 3X3 matrix. Basic transformations include scaling, rotating, shearing,
+		and translation.
+		</para>
+		
 	</section>
 	<section><title>Image Loading</title>
 		<para>
