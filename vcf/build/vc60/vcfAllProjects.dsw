@@ -978,7 +978,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "vcfAll"=".\vcfAllLibs_.dsp" - Package Owner=<4>
+Project: "vcfAllDynamicLibs"=".\vcfAllDynamicLibs.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "vcfAllLibs"=".\vcfAllLibs.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
