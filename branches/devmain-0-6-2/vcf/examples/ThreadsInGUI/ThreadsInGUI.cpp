@@ -123,16 +123,14 @@ public:
 		
 		if ( result.empty() ) {
 			CounterThread* thread = (CounterThread*)getData();
-			if ( NULL != thread ) { 			
-				if ( thread->currentCount() == -1 ) {
-					result = thread->toString() + " is dead and gone";
-					setData( NULL );
-					setCaption( result );
-				}
-				else {
-					result = thread->toString();
-					result += " " + StringUtils::toString( thread->currentCount() );
-				}
+			if ( NULL != thread ) { 
+				result = thread->toString();
+				result += " " + StringUtils::toString( thread->currentCount() );
+			}
+			else {
+				result = "Thread died and is dead and gone";
+				setData( NULL );
+				setCaption( result );
 			}
 		}
 
@@ -218,6 +216,15 @@ public:
 	void deleteThread( Event* e ) {
 		Thread* thread = (Thread*)e->getSource();
 		
+		Enumerator<ListItem*>* items = listBox_->getListModel()->getItems();
+		while ( items->hasMoreElements() ) {
+			ListItem* item = items->nextElement();
+			if ( item->getData() == thread ) {
+				item->setData( NULL );
+				break;
+			}
+		}
+
 		thread->free();
 	}
 
