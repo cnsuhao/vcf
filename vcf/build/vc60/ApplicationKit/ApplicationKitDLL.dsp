@@ -222,6 +222,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitRTTI.inl
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationResourceBundle.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationResourceBundle.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\BadComponentStateException.h
 # End Source File
 # Begin Source File
@@ -727,6 +735,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Application.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Application.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32AppResourceBundle.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32AppResourceBundle.h
 # End Source File
 # Begin Source File
 

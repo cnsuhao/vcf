@@ -263,6 +263,8 @@ public:
 
 	static SystemTrayPeer* createSystemTrayPeer();
 
+	static GraphicsResourceBundlePeer* createGraphicsResourceBundlePeer( AbstractApplication* app );
+
 	static bool createCaret( Control* owningControl, Image* caretImage  );
 
 	static bool destroyCaret( Control* owningControl );
@@ -453,6 +455,8 @@ protected:
 
 	virtual SystemTrayPeer* internal_createSystemTrayPeer() = 0;
 
+	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer( AbstractApplication* app ) = 0;
+
 	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ) = 0;
 
 	virtual bool internal_destroyCaret( Control* owningControl ) = 0;
@@ -559,6 +563,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/19 07:09:18  ddiego
+*more modifications to better handle resource bundles, especially
+*if they are part of a LibraryApplication instance.
+*
 *Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

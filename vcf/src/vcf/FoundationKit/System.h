@@ -131,6 +131,8 @@ public:
 	\endcode
 	*/
 	static String findResourceDirectory();
+
+	static String findResourceDirectoryForExecutable( const String& fileName );
 	
 
 
@@ -330,6 +332,15 @@ public:
 	*/
 	static String getBundlePathFromExecutableName( const String& fileName );
 
+	/**
+	This attempts to return the complete path to the executable content in the
+	bundle, as specified by the bundle program info. Attempts are made to 
+	drill down into succesively deeper directories, first the immediate bundle 
+	dir, then the Contents directory, then Contents/<OS-Name>, then 
+	Contents/<OS-Name>/<compiler>
+	*/
+	static String getExecutableNameFromBundlePath( const String& fileName );
+
 
 	static void internal_replaceResourceBundleInstance( ResourceBundle* newInstance );
 protected:
@@ -354,6 +365,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2004/12/19 07:09:20  ddiego
+*more modifications to better handle resource bundles, especially
+*if they are part of a LibraryApplication instance.
+*
 *Revision 1.4.2.1  2004/12/19 04:05:01  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

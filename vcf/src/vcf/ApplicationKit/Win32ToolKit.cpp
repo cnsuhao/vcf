@@ -41,6 +41,11 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Toolbar.h"
 #include "vcf/ApplicationKit/SystemTrayPeer.h"
 
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/FoundationKit/Win32ResourceBundle.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
+#include "vcf/ApplicationKit/Win32AppResourceBundle.h"
+
 #include <shellapi.h>
 #include "vcf/ApplicationKit/Win32SystemTrayPeer.h"
 
@@ -1450,6 +1455,11 @@ SystemTrayPeer* Win32ToolKit::internal_createSystemTrayPeer()
 	return new Win32SystemTrayPeer();
 }
 
+GraphicsResourceBundlePeer* Win32ToolKit::internal_createGraphicsResourceBundlePeer( AbstractApplication* app )
+{
+	return new Win32AppResourceBundle( app );
+}
+
 bool Win32ToolKit::internal_createCaret( Control* owningControl, Image* caretImage  )
 {
 	return false;
@@ -2083,6 +2093,10 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/19 07:09:18  ddiego
+*more modifications to better handle resource bundles, especially
+*if they are part of a LibraryApplication instance.
+*
 *Revision 1.3  2004/12/01 04:31:39  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
