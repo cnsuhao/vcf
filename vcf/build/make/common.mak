@@ -1,8 +1,26 @@
 #common definitions
 
 #output directory for debug builds
-OUTDIR_FK_D=./FoundationKit/Debug
-OUTDIR_FK=./FoundationKit/Release
+
+
+
+##############################################################
+#
+#output base directories
+#
+#see the prep_dirs_XXX targets for auto creation
+#of output directories
+#
+##############################################################
+
+OUTPUT_BASE_FK=./FoundationKit
+OUTPUT_BASE_AK=./ApplicationKit
+OUTPUT_BASE_GK=./GraphicsKit
+OUTPUT_BASE_NK=./NetworkKit
+OUTPUT_BASE_RK=./RemoteObjectKit
+
+OUTDIR_FK_D=$(OUTPUT_BASE_FK)/Debug
+OUTDIR_FK=$(OUTPUT_BASE_FK)/Release
 
 SRC=../../src
 
@@ -11,6 +29,10 @@ INC=../../include
 
 #binary output directory
 BIN_OUT=../../bin
+
+
+#library output directory
+LIB_OUT=../../lib
 
 
 #source file short cut directories
@@ -579,4 +601,6 @@ REMOTEOBJECTKIT_HDRS=$(NETWORKKIT_HDRS) $(INC)/remote/AbstractDistributedApplica
 	$(INC)/remote/RemoteObjectKit.h \
 	$(INC)/remote/RemoteObjectKitSelectLib.h \
 	$(INC)/RemoteObjectKit.h
+
+
 
