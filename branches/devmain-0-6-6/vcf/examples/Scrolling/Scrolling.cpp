@@ -43,6 +43,22 @@ public:
 		fileOpenImageMenu->addMenuItemClickedHandler(
 			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::openImage, "ScrollingWindow::openImage" ) );
 
+		// Scrollbar menu
+		MenuItem* scrollMenu = new DefaultMenuItem( "Scroolbars", menuBar->getRootMenuItem(), menuBar );
+		hasHorizontalScrollbarMenu_ = new DefaultMenuItem( "Horizontal", scrollMenu, menuBar );
+		hasVerticalScrollbarMenu_ = new DefaultMenuItem( "Vertical", scrollMenu, menuBar );
+		MenuItem* separator = new DefaultMenuItem( "", scrollMenu, menuBar );
+		separator->setSeparator(true);
+		separator->setEnabled( true );
+		keepScrollbarsVisibleMenu_   = new DefaultMenuItem( "Visible", scrollMenu, menuBar );
+
+		//add our event handler to the scrollbar menu
+		hasHorizontalScrollbarMenu_->addMenuItemClickedHandler(
+			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::hasHorizontalScrollbar, "ScrollingWindow::hasHorizontalScrollbar" ) );
+		hasVerticalScrollbarMenu_->addMenuItemClickedHandler(
+			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::hasVerticalScrollbar, "ScrollingWindow::hasVerticalScrollbar" ) );
+		keepScrollbarsVisibleMenu_->addMenuItemClickedHandler(
+			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::keepScrollbarsVisible, "ScrollingWindow::keepScrollbarsVisible" ) );
 
 
 		//set the border of the window, this will give us a nice etched border
@@ -59,6 +75,9 @@ public:
 		scrollBarMgr_->setHasHorizontalScrollbar( true );
 		scrollBarMgr_->setHasVerticalScrollbar( true );
 		scrollBarMgr_->setKeepScrollbarsVisible( true );
+		updateMenuHasHorizontalScrollbar();
+		updateMenuHasVerticalScrollbar();
+		updateMenuKeepScrollbarsVisible();
 
 		scrollBarMgr_->setHorizontalLeftScrollSpace( 200 );
 
@@ -178,11 +197,46 @@ public:
 		}
 	}
 
+	void hasHorizontalScrollbar( MenuItemEvent* e ) {
+		scrollBarMgr_->setHasHorizontalScrollbar( !scrollBarMgr_->hasHorizontalScrollBar() );
+		updateMenuHasHorizontalScrollbar();
+	}
+
+	void hasVerticalScrollbar( MenuItemEvent* e ) {
+		scrollBarMgr_->setHasVerticalScrollbar( !scrollBarMgr_->hasVerticalScrollBar() );
+		updateMenuHasVerticalScrollbar();
+	}
+
+	void keepScrollbarsVisible( MenuItemEvent* e ) {
+		scrollBarMgr_->setKeepScrollbarsVisible( !scrollBarMgr_->getKeepScrollbarsVisible() );
+		updateMenuKeepScrollbarsVisible();
+	}
+
+	void updateMenuHasHorizontalScrollbar() {
+		bool has = scrollBarMgr_->hasHorizontalScrollBar();
+		hasHorizontalScrollbarMenu_->setChecked( has );
+	}
+
+	void updateMenuHasVerticalScrollbar() {
+		bool has = scrollBarMgr_->hasVerticalScrollBar();
+		hasVerticalScrollbarMenu_->setChecked( has );
+	}
+
+	void updateMenuKeepScrollbarsVisible() {
+		bool visible = scrollBarMgr_->getKeepScrollbarsVisible();
+		keepScrollbarsVisibleMenu_->setChecked( visible );
+	}
+
+public:
 	Image* currentImage_;
 	Panel* panel_;
 
 	Label* infoLabel_;
 	ScrollbarManager* scrollBarMgr_;
+
+	MenuItem* hasHorizontalScrollbarMenu_;
+	MenuItem* hasVerticalScrollbarMenu_;
+	MenuItem* keepScrollbarsVisibleMenu_;
 };
 
 
@@ -222,6 +276,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2004/09/15 14:19:13  marcelloptr
+*added scrollbar menu
+*
 *Revision 1.4  2004/08/07 02:47:36  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
