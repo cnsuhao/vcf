@@ -35,8 +35,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6\Release\"
-# PROP Intermediate_Dir "vc6\Release\"
+# PROP Output_Dir "vc6\Release/"
+# PROP Intermediate_Dir "vc6\Release/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GX /O1 /I "$(VCF_INCLUDE)" /I "../zlib" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBPNG_LIB" /YX /FD /c
@@ -58,11 +58,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc6\Debug\"
-# PROP Intermediate_Dir "vc6\Debug\"
+# PROP Output_Dir "vc6\Debug/"
+# PROP Intermediate_Dir "vc6\Debug/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "../zlib" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBPNG_LIB" /Fd"..\..\..\..\..\..\lib\LibPNG_vc6_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "../zlib" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBPNG_LIB" /Fd"..\..\..\..\..\..\lib/LibPNG_vc6_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -83,75 +83,75 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=./png.c
+SOURCE=png.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngerror.c
+SOURCE=pngerror.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pnggccrd.c
+SOURCE=pnggccrd.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngget.c
+SOURCE=pngget.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngmem.c
+SOURCE=pngmem.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngpread.c
+SOURCE=pngpread.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngread.c
+SOURCE=pngread.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngrio.c
+SOURCE=pngrio.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngrtran.c
+SOURCE=pngrtran.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngrutil.c
+SOURCE=pngrutil.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngset.c
+SOURCE=pngset.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngtest.c
+SOURCE=pngtest.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngtrans.c
+SOURCE=pngtrans.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngvcrd.c
+SOURCE=pngvcrd.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngwio.c
+SOURCE=pngwio.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngwrite.c
+SOURCE=pngwrite.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngwtran.c
+SOURCE=pngwtran.c
 # End Source File
 # Begin Source File
 
-SOURCE=./pngwutil.c
+SOURCE=pngwutil.c
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -159,11 +159,11 @@ SOURCE=./pngwutil.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=./png.h
+SOURCE=png.h
 # End Source File
 # Begin Source File
 
-SOURCE=./pngconf.h
+SOURCE=pngconf.h
 # End Source File
 # End Group
 # End Target

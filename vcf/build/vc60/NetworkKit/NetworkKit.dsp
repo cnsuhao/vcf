@@ -35,8 +35,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\..\lib\"
-# PROP Intermediate_Dir "vc6\ReleaseS\"
+# PROP Output_Dir "..\..\..\lib/"
+# PROP Intermediate_Dir "vc6\ReleaseS/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_NETWORKKIT_LIB" /YX /FD /c
@@ -58,11 +58,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\..\lib\"
-# PROP Intermediate_Dir "vc6\DebugS\"
+# PROP Output_Dir "..\..\..\lib/"
+# PROP Intermediate_Dir "vc6\DebugS/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_NETWORKKIT_LIB" /Fd"..\..\..\lib\NetworkKit_vc6_sd.pdb" /YX"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_NETWORKKIT_LIB" /Fd"..\..\..\lib/NetworkKit_vc6_sd.pdb" /YX"stdafx.h" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -83,39 +83,39 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/DatagramSocket.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\DatagramSocket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetToolkit.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\NetToolkit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/ServerSocketEvent.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\ServerSocketEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Socket.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\Socket.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketEvent.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketListeningLoop.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketListeningLoop.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/URL.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\URL.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32DatagramSocketPeer.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32DatagramSocketPeer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32SocketPeer.cpp
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32SocketPeer.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -123,59 +123,59 @@ SOURCE=../../../src/vcf/NetworkKit/Win32SocketPeer.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/DatagramSocket.h
+SOURCE=..\..\..\src\vcf\NetworkKit\DatagramSocket.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetToolkit.h
+SOURCE=..\..\..\src\vcf\NetworkKit\NetToolkit.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetworkKit.h
+SOURCE=..\..\..\src\vcf\NetworkKit\NetworkKit.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/NetworkKitSelectLib.h
+SOURCE=..\..\..\src\vcf\NetworkKit\NetworkKitSelectLib.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/ServerSocketEvent.h
+SOURCE=..\..\..\src\vcf\NetworkKit\ServerSocketEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Socket.h
+SOURCE=..\..\..\src\vcf\NetworkKit\Socket.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketEvent.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketException.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketException.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketListener.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketListener.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketListeningLoop.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketListeningLoop.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/SocketPeer.h
+SOURCE=..\..\..\src\vcf\NetworkKit\SocketPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/URL.h
+SOURCE=..\..\..\src\vcf\NetworkKit\URL.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32DatagramSocketPeer.h
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32DatagramSocketPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/NetworkKit/Win32SocketPeer.h
+SOURCE=..\..\..\src\vcf\NetworkKit\Win32SocketPeer.h
 # End Source File
 # End Group
 # End Target

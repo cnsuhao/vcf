@@ -35,8 +35,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc71\Release\"
-# PROP Intermediate_Dir "vc71\Release\"
+# PROP Output_Dir "vc71\Release/"
+# PROP Intermediate_Dir "vc71\Release/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GX /O1 /I "../" /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "USE_LIBMNG_LIB" /D "USE_LIBJPEG_LIB" /D "USE_LIBPNG_LIB" /D "USE_LIBTIFF_LIB" /D "USE_ZLIB_LIB" /D "BUILD_FREEIMAGE_LIB" /YX /FD /c
@@ -58,11 +58,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc71\Debug\"
-# PROP Intermediate_Dir "vc71\Debug\"
+# PROP Output_Dir "vc71\Debug/"
+# PROP Intermediate_Dir "vc71\Debug/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../" /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "USE_LIBMNG_LIB" /D "USE_LIBJPEG_LIB" /D "USE_LIBPNG_LIB" /D "USE_LIBTIFF_LIB" /D "USE_ZLIB_LIB" /D "BUILD_FREEIMAGE_LIB" /Fd"..\..\..\..\..\..\lib\FreeImage_vc71_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../" /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "USE_LIBMNG_LIB" /D "USE_LIBJPEG_LIB" /D "USE_LIBPNG_LIB" /D "USE_LIBTIFF_LIB" /D "USE_ZLIB_LIB" /D "BUILD_FREEIMAGE_LIB" /Fd"..\..\..\..\..\..\lib/FreeImage_vc71_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x413 /d "_DEBUG"
 # ADD RSC /l 0x413 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -86,11 +86,11 @@ LIB32=link.exe -lib
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=../FreeImage/NNQuantizer.cpp
+SOURCE=..\FreeImage\NNQuantizer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/WuQuantizer.cpp
+SOURCE=..\FreeImage\WuQuantizer.cpp
 # End Source File
 # End Group
 # Begin Group "Conversion"
@@ -98,27 +98,27 @@ SOURCE=../FreeImage/WuQuantizer.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=../FreeImage/Conversion.cpp
+SOURCE=..\FreeImage\Conversion.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/Conversion16_555.cpp
+SOURCE=..\FreeImage\Conversion16_555.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/Conversion16_565.cpp
+SOURCE=..\FreeImage\Conversion16_565.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/Conversion24.cpp
+SOURCE=..\FreeImage\Conversion24.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/Conversion32.cpp
+SOURCE=..\FreeImage\Conversion32.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/Conversion8.cpp
+SOURCE=..\FreeImage\Conversion8.cpp
 # End Source File
 # End Group
 # Begin Group "Plugins"
@@ -126,88 +126,88 @@ SOURCE=../FreeImage/Conversion8.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=../FreeImage/Plugin.cpp
+SOURCE=..\FreeImage\Plugin.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginBMP.cpp
+SOURCE=..\FreeImage\PluginBMP.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginICO.cpp
+SOURCE=..\FreeImage\PluginICO.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginIFF.cpp
+SOURCE=..\FreeImage\PluginIFF.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginJPEG.cpp
+SOURCE=..\FreeImage\PluginJPEG.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginKOALA.cpp
+SOURCE=..\FreeImage\PluginKOALA.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginMNG.cpp
+SOURCE=..\FreeImage\PluginMNG.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginPCD.cpp
+SOURCE=..\FreeImage\PluginPCD.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginPCX.cpp
+SOURCE=..\FreeImage\PluginPCX.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginPNG.cpp
+SOURCE=..\FreeImage\PluginPNG.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginPNM.cpp
+SOURCE=..\FreeImage\PluginPNM.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginPSD.cpp
+SOURCE=..\FreeImage\PluginPSD.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginRAS.cpp
+SOURCE=..\FreeImage\PluginRAS.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginTARGA.cpp
+SOURCE=..\FreeImage\PluginTARGA.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginTIFF.cpp
+SOURCE=..\FreeImage\PluginTIFF.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/PluginWBMP.cpp
+SOURCE=..\FreeImage\PluginWBMP.cpp
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE=../FreeImage/BitmapAccess.cpp
+SOURCE=..\FreeImage\BitmapAccess.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/FreeImage.cpp
+SOURCE=..\FreeImage\FreeImage.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/FreeImageIO.cpp
+SOURCE=..\FreeImage\FreeImageIO.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/GetType.cpp
+SOURCE=..\FreeImage\GetType.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImage/LoadFunctions.cpp
+SOURCE=..\FreeImage\LoadFunctions.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -215,27 +215,27 @@ SOURCE=../FreeImage/LoadFunctions.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../FreeImage.h
+SOURCE=..\FreeImage.h
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImageIO.h
+SOURCE=..\FreeImageIO.h
 # End Source File
 # Begin Source File
 
-SOURCE=../FreeImageSelectLib.h
+SOURCE=..\FreeImageSelectLib.h
 # End Source File
 # Begin Source File
 
-SOURCE=../Plugin.h
+SOURCE=..\Plugin.h
 # End Source File
 # Begin Source File
 
-SOURCE=../Quantizers.h
+SOURCE=..\Quantizers.h
 # End Source File
 # Begin Source File
 
-SOURCE=../Utilities.h
+SOURCE=..\Utilities.h
 # End Source File
 # End Group
 # End Target

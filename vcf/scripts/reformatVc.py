@@ -828,11 +828,14 @@ class FileUtils:
         path = FileUtils.normPathSimple( path, unixStyle )
 
         if ( isDirForSure == g_IsDirForSure_True ):
-            if ( path and path[-1] != sep ):
-                path = path + sep
+            if ( path and not path[-1] in '/\\' ):
+                # the standard is '/' not '\', always !!!
+                path = path + '/'
         elif ( isDirForSure == g_IsDirForSure_ChkDot ):
-            if ( path[-1] != sep ):
-                i = path.rfind( sep )
+            if ( not path[-1] in '/\\' ):
+                i = path.rfind( '/' )
+                if ( i == -1 ):
+                    i = path.rfind( '\\' )
                 # does it have a dot ?
                 j = path.rfind( '.' )
                 if ( i < j ):
@@ -842,10 +845,13 @@ class FileUtils:
                     # yes. we guess it is a directory and we add the sep
                     # and not when we have something like: "$(VCF_LIB)\"
                     if ( path and not path[-1] == ')' ):
-                        # the standard is '/' always !!! not '\' !
+                        # the standard is '/' not '\', always !!!
                         path += '/'
             else:
                 #it is a dir for sure and with the '/' at the end
+                if ( path ):
+                    # the standard is '/' not '\', always !!!
+                    path = path[:-1] + '/'
                 pass
             
         # we fix this always if we decide

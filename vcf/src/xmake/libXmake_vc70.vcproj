@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="libXmake"
-	ProjectGUID="{0182CA26-43AB-4498-AF92-7AAF3013FCFD}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="vc70\Release\"
-			IntermediateDirectory="vc70\Release\"
+			OutputDirectory=".\vc70\Release/"
+			IntermediateDirectory=".\vc70\Release/"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,10 +27,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile="vc70\Release\libXmake_vc70.pch"
-				AssemblerListingLocation="vc70\Release\"
-				ObjectFile="vc70\Release\"
-				ProgramDataBaseFileName="vc70\Release\"
+				PrecompiledHeaderFile=".\vc70\Release\libXmake_vc70.pch"
+				AssemblerListingLocation=".\vc70\Release/"
+				ObjectFile=".\vc70\Release/"
+				ProgramDataBaseFileName=".\vc70\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
@@ -57,8 +56,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="vc70\Debug\"
-			IntermediateDirectory="vc70\Debug\"
+			OutputDirectory=".\vc70\Debug/"
+			IntermediateDirectory=".\vc70\Debug/"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -70,9 +69,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile="vc70\Debug\libXmake_vc70.pch"
-				AssemblerListingLocation="vc70\Debug\"
-				ObjectFile="vc70\Debug\"
+				PrecompiledHeaderFile=".\vc70\Debug\libXmake_vc70.pch"
+				AssemblerListingLocation=".\vc70\Debug/"
+				ObjectFile=".\vc70\Debug/"
 				ProgramDataBaseFileName="..\lib\libXmake_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"

@@ -36,8 +36,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\..\lib\"
-# PROP Intermediate_Dir "vc70\Release\"
+# PROP Output_Dir "..\..\..\lib/"
+# PROP Intermediate_Dir "vc70\Release/"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /c
@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../bin/RemoteObjectKit_vc70.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 /nologo /dll /machine:I386 /out:"..\..\..\bin\RemoteObjectKit_vc70.dll" /libpath:"..\..\..\lib"
+# ADD LINK32 /nologo /dll /machine:I386 /out:"..\..\..\bin/RemoteObjectKit_vc70.dll" /libpath:"..\..\..\lib"
 # SUBTRACT LINK32 /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 Debug"
@@ -63,8 +63,8 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\..\lib\"
-# PROP Intermediate_Dir "vc70\Debug\"
+# PROP Output_Dir "..\..\..\lib/"
+# PROP Intermediate_Dir "vc70\Debug/"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /GZ /c
@@ -78,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../bin/RemoteObjectKit_vc70_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /dll /debug /machine:I386 /out:"..\..\..\bin\RemoteObjectKit_vc70_d.dll" /pdbtype:sept /libpath:"..\..\..\lib"
+# ADD LINK32 /nologo /dll /debug /machine:I386 /out:"..\..\..\bin/RemoteObjectKit_vc70_d.dll" /pdbtype:sept /libpath:"..\..\..\lib"
 # SUBTRACT LINK32
 
 !ENDIF 
@@ -92,35 +92,35 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/AbstractDistributedApplication.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\AbstractDistributedApplication.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/ClassRegistryEntry.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\ClassRegistryEntry.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/ClassServerInstance.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\ClassServerInstance.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/DistributedClassRegistry.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\DistributedClassRegistry.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/DistributedException.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\DistributedException.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/InstanceID.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\InstanceID.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/Proxy.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\Proxy.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/RemoteObjectKit.cpp
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\RemoteObjectKit.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -128,43 +128,43 @@ SOURCE=../../../src/vcf/RemoteObjectKit/RemoteObjectKit.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/AbstractDistributedApplication.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\AbstractDistributedApplication.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/ClassRegistryEntry.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\ClassRegistryEntry.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/ClassServerInstance.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\ClassServerInstance.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/DistributedClassRegistry.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\DistributedClassRegistry.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/DistributedException.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\DistributedException.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/InstanceID.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\InstanceID.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/Proxy.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\Proxy.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/RemoteCommon.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\RemoteCommon.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/RemoteConfig.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\RemoteConfig.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/RemoteObjectKit/RemoteObjectKit.h
+SOURCE=..\..\..\src\vcf\RemoteObjectKit\RemoteObjectKit.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

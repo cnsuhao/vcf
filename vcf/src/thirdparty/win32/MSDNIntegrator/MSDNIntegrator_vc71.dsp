@@ -36,8 +36,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 5
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc71\Release\"
-# PROP Intermediate_Dir "vc71\Release\"
+# PROP Output_Dir "vc71\Release/"
+# PROP Intermediate_Dir "vc71\Release/"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /Yu"stdafx.h" /FD /c
@@ -62,8 +62,8 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 5
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc71\Debug\"
-# PROP Intermediate_Dir "vc71\Debug\"
+# PROP Output_Dir "vc71\Debug/"
+# PROP Intermediate_Dir "vc71\Debug/"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /Yu"stdafx.h" /FD /GZ /c
@@ -77,7 +77,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /out:"Debug\MSDNIntegrator-cmdline_vc71.exe"
+# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/MSDNIntegrator-cmdline_vc71.exe"
 
 !ENDIF 
 
@@ -90,27 +90,27 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\LoadLibrary.cpp
+SOURCE=LoadLibrary.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MSDNIntegration.cpp
+SOURCE=MSDNIntegration.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MSDNIntegrator.cpp
+SOURCE=MSDNIntegrator.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MSDNIntegrator.rc
+SOURCE=MSDNIntegrator.rc
 # End Source File
 # Begin Source File
 
-SOURCE=.\SplitPath.cpp
+SOURCE=SplitPath.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\StdAfx.cpp
+SOURCE=StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
 # End Group
@@ -119,27 +119,27 @@ SOURCE=.\StdAfx.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\LoadLibrary.h
+SOURCE=LoadLibrary.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\MSDNIntegration.h
+SOURCE=MSDNIntegration.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\MSDNIntegrator.h
+SOURCE=MSDNIntegrator.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resource.h
+SOURCE=Resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\SplitPath.h
+SOURCE=SplitPath.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\StdAfx.h
+SOURCE=StdAfx.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -147,24 +147,24 @@ SOURCE=.\StdAfx.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=.\Res\Logo.bmp
+SOURCE=Res\Logo.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\res\MSDNIntegrator.ico
+SOURCE=res\MSDNIntegrator.ico
 # End Source File
 # Begin Source File
 
-SOURCE=.\res\MSDNIntegrator.rc2
+SOURCE=res\MSDNIntegrator.rc2
 # End Source File
 # Begin Source File
 
-SOURCE=.\res\ogo.bmp
+SOURCE=res\ogo.bmp
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE=.\ReadMe.txt
+SOURCE=ReadMe.txt
 # End Source File
 # End Target
 # End Project

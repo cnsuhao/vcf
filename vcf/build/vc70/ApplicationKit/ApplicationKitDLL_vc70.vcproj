@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib\"
-			IntermediateDirectory="vc70\DebugDLL\"
+			OutputDirectory=".\..\..\..\lib/"
+			IntermediateDirectory=".\vc70\DebugDLL/"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -22,17 +22,17 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/Zm200 "
 				Optimization="0"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE)\"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;APPKIT_DLL;APPKIT_EXPORTS;BUILD_APPKIT_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/ApplicationKit/ApplicationKit.h"
-				PrecompiledHeaderFile="vc70\DebugDLL\ApplicationKitDLL_vc70.pch"
-				AssemblerListingLocation="vc70\DebugDLL\"
-				ObjectFile="vc70\DebugDLL\"
-				ProgramDataBaseFileName="vc70\DebugDLL\"
+				PrecompiledHeaderFile=".\vc70\DebugDLL\ApplicationKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\DebugDLL/"
+				ObjectFile=".\vc70\DebugDLL/"
+				ProgramDataBaseFileName=".\vc70\DebugDLL/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -46,9 +46,9 @@
 				OutputFile="..\..\..\bin\ApplicationKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib\"
+				AdditionalLibraryDirectories="..\..\..\lib/"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="..\..\..\lib\ApplicationKit_vc70_d.pdb"
+				ProgramDatabaseFile=".\..\..\..\lib\ApplicationKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/ApplicationKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -56,7 +56,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\ApplicationKitDLL_vc70.tlb"/>
+				TypeLibraryName=".\..\..\..\lib\ApplicationKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -74,8 +74,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib\"
-			IntermediateDirectory="vc70\ReleaseDLL\"
+			OutputDirectory=".\..\..\..\lib/"
+			IntermediateDirectory=".\vc70\ReleaseDLL/"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -85,7 +85,7 @@
 				AdditionalOptions="/Zm200 "
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include\"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include/"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;APPKIT_DLL;APPKIT_EXPORTS;BUILD_APPKIT_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -93,10 +93,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/ApplicationKit/ApplicationKit.h"
-				PrecompiledHeaderFile="vc70\ReleaseDLL\ApplicationKitDLL_vc70.pch"
-				AssemblerListingLocation="vc70\ReleaseDLL\"
-				ObjectFile="vc70\ReleaseDLL\"
-				ProgramDataBaseFileName="vc70\ReleaseDLL\"
+				PrecompiledHeaderFile=".\vc70\ReleaseDLL\ApplicationKitDLL_vc70.pch"
+				AssemblerListingLocation=".\vc70\ReleaseDLL/"
+				ObjectFile=".\vc70\ReleaseDLL/"
+				ProgramDataBaseFileName=".\vc70\ReleaseDLL/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -109,8 +109,8 @@
 				OutputFile="..\..\..\bin\ApplicationKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib,..\..\..\xml\lib\"
-				ProgramDatabaseFile="..\..\..\lib\ApplicationKit_vc70.pdb"
+				AdditionalLibraryDirectories="..\..\..\lib,..\..\..\xml\lib/"
+				ProgramDatabaseFile=".\..\..\..\lib\ApplicationKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/ApplicationKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -118,7 +118,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\ApplicationKitDLL_vc70.tlb"/>
+				TypeLibraryName=".\..\..\..\lib\ApplicationKitDLL_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -398,13 +398,13 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="\Projs\GShell\Libraries\Vcf\vcf-active\build\resources\win32;$(NoInherit)\"/>
+						AdditionalIncludeDirectories=".\Projs\GShell\Libraries\Vcf\vcf-active\vcf\build\resources\win32;$(NoInherit)"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="\Projs\GShell\Libraries\Vcf\vcf-active\build\resources\win32;$(NoInherit)\"/>
+						AdditionalIncludeDirectories=".\Projs\GShell\Libraries\Vcf\vcf-active\vcf\build\resources\win32;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
