@@ -927,7 +927,178 @@ int myCoolMethod( void* d, bool b, String s );
 				</para>
 			</section>
 			
-			<section><title>Documentation Standards</title>
+			<section><title>Documentation Standards and Generation</title>
+			<formalpara><title>Introduction</title>
+			The VCF uses DocBook for all documentation that is not generated from source code. For source code 
+			generated documentation, we use doxygen. This section will concentrate on explaining how to edit
+			and work with the VCF DocBook documentation. If y0ou have never used DocBook before, take a glance 
+			at this <ulink url="http://www.codeproject.com/winhelp/docbook_howto.asp">CodeProject article</ulink> 
+			that thoroughly explains how to get set up and running with DocBook on Win32 systems.
+			</formalpara>
+			<formalpara><title>Generating the VCF DocBook files</title>
+			To generate the VCF documentation you have to have a few things set up:
+			<itemizedlist>
+			<listitem><para>
+			You'll need cygwin and xlst_proc
+			</para></listitem>
+			<listitem><para>
+			You'll need the DocBook xsl stylesheets
+			</para></listitem>
+			<listitem><para>
+			If you want to generate HTML Help then you'll need Microsoft's HTML Help. You can get it from:
+			<ulink url="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hwMicrosoftHTMLHelpDownloads.asp">
+			http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hwMicrosoftHTMLHelpDownloads.asp
+			</ulink>. Download it from <ulink url="http://go.microsoft.com/fwlink/?LinkId=14188">http://go.microsoft.com/fwlink/?LinkId=14188</ulink>
+			</para></listitem>
+			</itemizedlist>
+			</formalpara>
+			<para>			
+			Currently certain files used to build the VCF DocBook documentation require hard coded absolute paths
+			to make sure that things work right. To generate the documentation on your own system, you'll need to 
+			edit a few files to make sure the paths are pointing to the right directories.   
+			</para>
+			<para>
+			To start with edit vcf/docs/Makefile in your favourite editor. Make sure the HTMLHELP_COMPILER variable 
+			points to the correct directory on your machine. Keep the directories in quotes or make will barf. Make 
+			sure XSL_DOCBOOK_DIR points to where you have your DocBook xsl stylesheets installed.
+			</para>
+			<para>
+			Next edit vcf/docs/vcf.xsl. Make sure the line:
+			<programlisting>
+			<![CDATA[
+<xsl:import href="d:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
+			]]>
+			</programlisting>
+			Points to the right doc book directory on your system where your DocBook XSL Stylesheets are found. 
+			</para>
+			<para>			
+			Once you've completed this, open a command line (if you are doing this on a Win32 system
+			you'll need cygwin for this) and cd to vcf/docs. Type: 
+			<programlisting>
+make coredocs_hh
+			</programlisting>
+			This should generate the VCF documentation for you in HTML Help chm format (including all tutorials). 
+			Look for a file called "VCFDocs.0.6.2.chm" (or whatever the current version is set at).
+			</para>
+			<formalpara><title>Editing the VCF DocBook Documentation</title>
+			To edit the docs open and edit the various .xml files in the vcf/docs directory in your favorite text
+			or xml editor. The main ones are :
+			<itemizedlist>
+			<listitem><para>
+			corelib_applicationKit.xml - application Kit stuff
+			</para></listitem>
+			<listitem><para>
+			corelib_componentAuthoring.xml - component authoring
+			</para></listitem>
+			<listitem><para>
+			corelib_foundationKit.xml - FoundationKit docs
+			</para></listitem>
+			<listitem><para>
+			corelib_graphicsKit.xml - graphics kit docs
+			</para></listitem>
+			<listitem><para>
+			getting_started.xml - using the vcf and getting around the framework
+			</para></listitem>
+			<listitem><para>
+			general.xml - general vcf docs
+			</para></listitem>
+			</itemizedlist>			
+			</formalpara>
+			
+			<formalpara><title>Generating Tutorials</title>
+			To generate tutorials, opend a command line, cd to vcf/docs and type 
+			<programlisting>
+make tutorials
+			</programlisting>	
+			This will generate separate "articles" in each tutorial directory (with the
+			top level director being vcf/examples). 
+			</formalpara>
+			
+			<formalpara><title>Editing and Adding Tutorials</title>
+			To add a tutorial article you have to edit/create several files to ensure that the tutorial
+			documentation is added to the full VCF DocBook documentation, and that spearate articles 
+			can be created.
+			</formalpara>
+			<para>
+			To start, edit vcf/docs/vcf_docbook.xml. At the top there are a number of ENTITY declarations,
+			each of which point to specific file that contains further documentation. This is done to break
+			the documentation into smaller, more manageable sections. To add a tutorial, you'll need to 
+			add a new entity for each tutorial. Let say we had a tutorial for "FooBar", we'd add and 
+			an entity for your tutorial(after the last ENTITY), like so:
+			<programlisting>
+<![CDATA[
+<!ENTITY foobar SYSTEM "../examples/FooBar/FooBar.xml">
+]]>
+			</programlisting>
+			Now edit the vcf/docs/tutorials.xml file. This is organized first by kit (or library) 
+			and then by section for each tutorial. Find a section or create a new one and insert your 
+			entity that you created earlier. For our FooBar example we'll create a new one under 
+			the FoundationKit. Our example would look like this:
+			
+			<programlisting>
+<![CDATA[
+<section><title>FooBar</title>
+	&foobar;
+</section>
+]]>		
+			</programlisting>
+			Note that the entity name is the same as you declared it in the vcf/docs/vcf_docbook.xml file.
+			</para>
+			<para>
+			Now you need to create the actual content itself. You <emphasis>must</emphasis> follow this 
+			format or things will break. cd to your examples directory
+			<programlisting>
+cd vcf/examples/FooBar
+			</programlisting>
+			Create two files named like so:
+			<itemizedlist>
+			<listitem><para>
+			&lt;tutorial name-case sensitive&gt;.xml
+			</para></listitem>
+			<listitem><para>
+			&lt;tutorial name-case sensitive&gt;Article.xml
+			</para></listitem>
+			</itemizedlist>
+			For our example we'd create FooBar.xml and FooBarArticle.xml. Edit the FooBarArticle.xml file and 
+			add the following (this must go right at the begining of the file):
+			<programlisting>
+<![CDATA[
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE  book  PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [	
+	<!ENTITY foobar SYSTEM "FooBar.xml">	
+]>
+
+
+<article>	
+  &foobar;	
+</article>
+
+]]>
+			</programlisting>
+			This will allow your content in FooBar.xml to either be used in the larger VCF DocBook documentation 
+			or allow it to be generated as a standalone article, suitable for posting on websites such as 
+			<ulink url="http://www.codeproject.com">CodeProject.com</ulink>.	
+			</para>
+			<para>
+			Now add your actual documentation (following DocBook rules) to Foobar.xml.
+			</para>
+			<para>
+			Finally, to be able to actually generate the tutorials in a standalone manner, we need to make one 
+			more change to the vcf/docs/Makefile. Edit vcf/docs/Makefile and add your tutorial to the 
+			TUTORIAL_ARTICLES variable. For our example, we'd add:
+			<programlisting>
+<![CDATA[
+TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml\
+../examples/FooBar/FooBarArticle.xml
+]]>
+			</programlisting>
+			Save the makefile and your're done! cd to vcf/docs and type
+			<programlisting>			
+make tutorials
+			</programlisting>
+			You should end up with a FooBarArticle.html in your tutorials directory.
+			</para>
 			</section>			
 		</section>
 	</section>
@@ -1008,6 +1179,10 @@ int myCoolMethod( void* d, bool b, String s );
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/10/19 22:51:20  ddiego
+added some documetnation explaining how to generate the docs and add
+tutorial documentation
+
 Revision 1.1.2.2  2003/10/01 01:58:31  ddiego
 added more faq documentation
 
