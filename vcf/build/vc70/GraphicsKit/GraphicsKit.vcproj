@@ -176,6 +176,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\include\GraphicsKitRTTI.inl">
+			</File>
+			<File
 				RelativePath="..\..\..\src\utils\GraphicsToolKit.cpp">
 			</File>
 			<File

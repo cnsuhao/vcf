@@ -305,6 +305,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\include\GraphicsKitRTTI.inl">
+			</File>
+			<File
 				RelativePath="..\..\..\src\Utils\GraphicsToolKit.cpp">
 			</File>
 			<File
