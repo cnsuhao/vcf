@@ -98,7 +98,7 @@ void MainWindow::makeListBoxPage()
 	scrollbarManagerSingle->setHasVerticalScrollbar( true );
 	scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
 	scrollbarManagerSingle->setTarget( listBox1 );
-	scrollbarManagerSingle->setKeepScrollbarsVisible( true );
+	scrollbarManagerSingle->setKeepScrollbarsVisible( false );
 	
 	listBoxGroup->add( listBox1, AlignClient );
 	
@@ -343,6 +343,9 @@ void MainWindow::makeBordersPage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/09/14 18:24:14  dougtinkham
+*changed keepScrollbarsVisible from true to false
+*
 *Revision 1.1.2.4  2004/09/11 08:19:58  dougtinkham
 *moved line adding listbox to panel to before items added to listbox
 *
@@ -350,3 +353,5 @@ void MainWindow::makeBordersPage()
 *added copyright
 *
 */
+
+
