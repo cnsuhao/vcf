@@ -36,8 +36,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "icl7/Release"
-# PROP Intermediate_Dir "icl7/Release"
+# PROP Output_Dir "icl7\Release\"
+# PROP Intermediate_Dir "icl7\Release\"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
@@ -48,11 +48,11 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o".\BlackBox_icl7.bsc"
+# ADD BSC32 /nologo /o"./BlackBox_icl7.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 user32.lib gdi32.lib advapi32.lib shell32.lib comdlg32.lib dbghelp.lib PSAPI.lib /nologo /dll /machine:I386 /out:"../bin/BlackBox_icl7.dll" /libpath:"./lib"
-# SUBTRACT LINK32 /pdb:none
+# ADD LINK32 user32.lib gdi32.lib advapi32.lib shell32.lib comdlg32.lib dbghelp.lib PSAPI.lib /nologo /dll /machine:I386 /out:"..\..\bin\BlackBox_icl7.dll" /libpath:".\lib"
+# SUBTRACT LINK32 /pdb:none /debug
 
 !ELSEIF  "$(CFG)" == "BlackBox - Win32 Debug"
 
@@ -63,23 +63,25 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "icl7/Debug"
-# PROP Intermediate_Dir "icl7/Debug"
+# PROP Output_Dir "icl7\Debug\"
+# PROP Intermediate_Dir "icl7\Debug\"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W4 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "BLACKBOX_DLL" /D "BLACKBOX_EXPORTS" /D "STRICT" /D "WORK_AROUND_SRCLINE_BUG" /FR /Yu"stdafx.h" /Fd"./BlackBox_icl7_d.pdb" /FD /GZ /c
-# SUBTRACT CPP /WX
+
+# ADD CPP /nologo /MDd /W4 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "BLACKBOX_DLL" /D "BLACKBOX_EXPORTS" /D "STRICT" /D "WORK_AROUND_SRCLINE_BUG" /Yu"stdafx.h" /FD /GZ /c
+# SUBTRACT CPP /WX /FR
+
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o".\BlackBox_icl7_d.bsc"
+# ADD BSC32 /nologo /o"./BlackBox_icl7_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib dbghelp.lib PSAPI.lib /nologo /dll /debug /machine:I386 /out:"./bin//BlackBox_icl7_d.dll" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib dbghelp.lib PSAPI.lib /nologo /dll /debug /machine:I386 /out:"..\..\bin\BlackBox_icl7_d.dll" /pdbtype:sept
 # SUBTRACT LINK32 /nodefaultlib
 
 !ENDIF 
@@ -93,64 +95,64 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\AllocAndFillProcessModuleList.cpp
+SOURCE=AllocAndFillProcessModuleList.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\BlackBox.cpp
+SOURCE=BlackBox.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\BlackBoxUI.cpp
+SOURCE=BlackBoxUI.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\BSUFunctions.cpp
+SOURCE=BSUFunctions.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\CrashHandler.cpp
+SOURCE=CrashHandler.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\DiagAssert.cpp
+SOURCE=DiagAssert.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\GetLoadedModules.cpp
+SOURCE=GetLoadedModules.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\HookImportedFunctionByName.cpp
+SOURCE=HookImportedFunctionByName.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\HookOrdinalExport.cpp
+SOURCE=HookOrdinalExport.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\IsNT.cpp
+SOURCE=IsNT.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MemDumperValidator.cpp
+SOURCE=MemDumperValidator.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MemStress.cpp
+SOURCE=MemStress.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\NT4ProcessInfo.cpp
+SOURCE=NT4ProcessInfo.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\StdAfx.cpp
+SOURCE=StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
 # Begin Source File
 
-SOURCE=.\TLHELPProcessInfo.cpp
+SOURCE=TLHELPProcessInfo.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -158,75 +160,75 @@ SOURCE=.\TLHELPProcessInfo.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\BlackBox.h
+SOURCE=BlackBox.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\BlackBoxUI.h
+SOURCE=BlackBoxUI.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\BugslayerUtil.h
+SOURCE=BugslayerUtil.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\CrashHandler.h
+SOURCE=CrashHandler.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\CriticalSection.h
+SOURCE=CriticalSection.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\CRTDBG_Internals.h
+SOURCE=CRTDBG_Internals.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\DiagAssert.h
+SOURCE=DiagAssert.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Internal.h
+SOURCE=Internal.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\MemDumperValidator.h
+SOURCE=MemDumperValidator.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\MemStress.h
+SOURCE=MemStress.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\MemStressConstants.h
+SOURCE=MemStressConstants.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\MSJDBG.h
+SOURCE=MSJDBG.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\PSAPI.H
+SOURCE=PSAPI.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\resource.h
+SOURCE=resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\StdAfx.h
+SOURCE=StdAfx.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\SymbolEngine.h
+SOURCE=SymbolEngine.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\WarningsOff.h
+SOURCE=WarningsOff.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\WarningsOn.h
+SOURCE=WarningsOn.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -234,16 +236,16 @@ SOURCE=.\WarningsOn.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=.\BlackBox.rc
+SOURCE=BlackBox.rc
 # End Source File
 # Begin Source File
 
-SOURCE=.\bug.ico
+SOURCE=bug.ico
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE=.\ReadMe.txt
+SOURCE=ReadMe.txt
 # End Source File
 # End Target
 # End Project
