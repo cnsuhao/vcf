@@ -192,17 +192,17 @@ ContextPeer* UIToolkit::createContextPeer( const unsigned long& width, const uns
 	return UIToolkit::toolKitInstance->internal_createContextPeer( width, height );
 }
 
-ListviewPeer* UIToolkit::createListViewPeer( ListViewControl* component, ComponentType componentType)
+ListviewPeer* UIToolkit::createListViewPeer( ListViewControl* component)
 {
 	return UIToolkit::toolKitInstance->internal_createListViewPeer( component, componentType );
 }
 
-TreePeer* UIToolkit::createTreePeer( TreeControl* component, ComponentType componentType)
+TreePeer* UIToolkit::createTreePeer( TreeControl* component)
 {
 	return UIToolkit::toolKitInstance->internal_createTreePeer( component, componentType );
 }
 
-TextPeer* UIToolkit::createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType)
+TextPeer* UIToolkit::createTextPeer( TextControl* component, const bool& isMultiLineControl)
 {
 	return UIToolkit::toolKitInstance->internal_createTextPeer( component, isMultiLineControl, componentType );
 }
@@ -212,12 +212,12 @@ HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
 	return UIToolkit::toolKitInstance->internal_createHTMLBrowserPeer( control );
 }
 
-ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component, ComponentType componentType)
+ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component)
 {
 	return UIToolkit::toolKitInstance->internal_createButtonPeer( component, componentType );
 }
 
-DialogPeer* UIToolkit::createDialogPeer( Control* owner, Dialog* component, ComponentType componentType)
+DialogPeer* UIToolkit::createDialogPeer( Control* owner, Dialog* component)
 {
 	return UIToolkit::toolKitInstance->internal_createDialogPeer( owner, component, componentType );
 }
@@ -322,6 +322,12 @@ CursorPeer* UIToolkit::createCursorPeer( Cursor* cursor )
 {
 	return UIToolkit::toolKitInstance->internal_createCursorPeer( cursor );
 }
+
+SystemTrayPeer* UIToolkit::createSystemTrayPeer()
+{
+	return UIToolkit::toolKitInstance->internal_createSystemTrayPeer();
+}
+
 
 bool UIToolkit::createCaret( Control* owningControl, Image* caretImage  )
 {
@@ -1161,6 +1167,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
+*added initial system tray code for win32
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -39,6 +39,9 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/COMUtils.h"
 #include "vcf/ApplicationKit/Win32Toolbar.h"
 #include "vcf/ApplicationKit/Toolbar.h"
+#include "vcf/ApplicationKit/SytemTrayPeer.h"
+#include "vcf/ApplicationKit/Win32SytemTrayPeer.h"
+
 
 
 #ifdef _LIB
@@ -1181,17 +1184,17 @@ ApplicationPeer* Win32ToolKit::internal_createApplicationPeer()
 	return new Win32Application();
 }
 
-TextPeer* Win32ToolKit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType)
+TextPeer* Win32ToolKit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl)
 {
 	return new Win32Edit( component, isMultiLineControl );
 }
 
-TreePeer* Win32ToolKit::internal_createTreePeer( TreeControl* component, ComponentType componentType )
+TreePeer* Win32ToolKit::internal_createTreePeer( TreeControl* component )
 {
 	return new Win32Tree( component );
 }
 
-ListviewPeer* Win32ToolKit::internal_createListViewPeer( ListViewControl* component, ComponentType componentType )
+ListviewPeer* Win32ToolKit::internal_createListViewPeer( ListViewControl* component )
 {
 	return new Win32Listview( component );
 }
@@ -1229,7 +1232,7 @@ HTMLBrowserPeer* Win32ToolKit::internal_createHTMLBrowserPeer( Control* control 
 	return result;
 }
 
-DialogPeer* Win32ToolKit::internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType )
+DialogPeer* Win32ToolKit::internal_createDialogPeer( Control* owner, Dialog* component )
 {
 	return new Win32Dialog( owner, component );
 }
@@ -1246,12 +1249,12 @@ void Win32ToolKit::createDummyParentWindow()
 
 
 	if ( System::isUnicodeEnabled() ) {
-		RegisterWin32ToolKitClass( ::GetModuleHandle( NULL ) );
+		RegisterWin32ToolKitClass( ::GetModuleHandleW( NULL ) );
 
 		dummyParentWnd_ = ::CreateWindowW( L"Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleW( NULL ), NULL );
 	}
 	else {
-		RegisterWin32ToolKitClass( ::GetModuleHandle( NULL ) );
+		RegisterWin32ToolKitClass( ::GetModuleHandleA( NULL ) );
 
 		dummyParentWnd_ = ::CreateWindowA( "Win32ToolKit", NULL, WS_POPUP , 0, 0, 0, 0, parent, NULL, ::GetModuleHandleA( NULL ), NULL );
 	}
@@ -1276,7 +1279,7 @@ MenuBarPeer* Win32ToolKit::internal_createMenuBarPeer( MenuBar* menuBar )
 	return new Win32MenuBar( menuBar );
 }
 
-ButtonPeer* Win32ToolKit::internal_createButtonPeer( CommandButton* component, ComponentType componentType)
+ButtonPeer* Win32ToolKit::internal_createButtonPeer( CommandButton* component)
 {
 	return new Win32Button( component );
 }
@@ -1370,7 +1373,7 @@ ControlPeer* Win32ToolKit::internal_createControlPeer( Control* component, Compo
 }
 
 
-WindowPeer* Win32ToolKit::internal_createWindowPeer( Control* component, Control* owner, ComponentType componentType)
+WindowPeer* Win32ToolKit::internal_createWindowPeer( Control* component, Control* owner)
 {
 	return new Win32Window( component, owner );
 }
@@ -1378,6 +1381,11 @@ WindowPeer* Win32ToolKit::internal_createWindowPeer( Control* component, Control
 ToolbarPeer* Win32ToolKit::internal_createToolbarPeer( Toolbar* toolbar )
 {
 	return new Win32Toolbar( toolbar );
+}
+
+SystemTrayPeer* Win32ToolKit::internal_createSystemTrayPeer()
+{
+	return new Win32SytemTrayPeer();
 }
 
 bool Win32ToolKit::internal_createCaret( Control* owningControl, Image* caretImage  )
@@ -2013,6 +2021,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
+*added initial system tray code for win32
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

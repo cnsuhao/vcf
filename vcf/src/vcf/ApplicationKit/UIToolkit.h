@@ -81,7 +81,7 @@ class Button;
 class Toolbar;
 class TimerEvent;
 
-
+class SystemTrayPeer;
 
 
 
@@ -182,21 +182,21 @@ public:
 	view a list of data in multiple ways. For Win32 systems this is equivalent to
 	creating a window handle with the WC_LISTVIEW window class name.
 	*/
-    static ListviewPeer* createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
+    static ListviewPeer* createListViewPeer( ListViewControl* component);
 
 	/**
 	This creates a peer that implements the TreePeer interface. A TreePeer allows you to
 	view a data in an outline or hierarchical style. For Win32 systems this is equivalent to
 	creating a window handle with the WC_TREEVIEW window class name.
 	*/
-    static TreePeer* createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);
+    static TreePeer* createTreePeer( TreeControl* component);
 
 	/**
 	This creates a peer that implements the TextPeer interface. A TextPeer allows you to
 	view and edit text, either in a single line edit control, or a multiline edit control.
 	For Win32 systems this is equivalent to creating a Richedit window handle.
 	*/
-    static TextPeer* createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
+    static TextPeer* createTextPeer( TextControl* component, const bool& isMultiLineControl);
 
 	/**
 	This creates a peer that implements the HTMLBrowserPeer interface. The HTMLBrowserPeer
@@ -211,15 +211,14 @@ public:
 	to try and emulate, as opposed to just providing a peer that creates a native button control.
 	For Win32 systems this is equivalent to creating a window handle with the BUTTON window class name.
 	*/
-    static ButtonPeer* createButtonPeer( CommandButton* component, ComponentType componentType=CT_DEFAULT);
+    static ButtonPeer* createButtonPeer( CommandButton* component);
 
 
-    static DialogPeer* createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT);
+    static DialogPeer* createDialogPeer( Control* owner, Dialog* component);
 
 	static DialogPeer* createDialogPeer();
 
-    static WindowPeer* createWindowPeer( Control* component, Control* owner,
-											ComponentType componentType=CT_DEFAULT);
+    static WindowPeer* createWindowPeer( Control* component, Control* owner );
 
 
 	static ToolbarPeer* createToolbarPeer( Toolbar* toolbar );
@@ -257,6 +256,8 @@ public:
 	static ScrollPeer* createScrollPeer( Control* control );
 
 	static CursorPeer* createCursorPeer( Cursor* cursor );
+
+	static SystemTrayPeer* createSystemTrayPeer();
 
 	static bool createCaret( Control* owningControl, Image* caretImage  );
 
@@ -398,22 +399,21 @@ protected:
 
 	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height );
 
-    virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT) = 0;
+    virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component) = 0;
 
-    virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT) = 0;
+    virtual TreePeer* internal_createTreePeer( TreeControl* component) = 0;
 
-    virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT) = 0;
+    virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl) = 0;
 
 	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control ) = 0;
 
-    virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType=CT_DEFAULT) = 0;
+    virtual ButtonPeer* internal_createButtonPeer( CommandButton* component) = 0;
 
-    virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT) = 0;
+    virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component) = 0;
 
 	virtual DialogPeer* internal_createDialogPeer() = 0;
 
-    virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner,
-											ComponentType componentType=CT_DEFAULT) = 0;
+    virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner) = 0;
 
 
 	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar ) = 0;
@@ -451,6 +451,8 @@ protected:
 	virtual ScrollPeer* internal_createScrollPeer( Control* control ) = 0;
 
 	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor ) = 0;
+
+	virtual SystemTrayPeer* internal_createSystemTrayPeer() = 0;
 
 	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ) = 0;
 
@@ -558,6 +560,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
+*added initial system tray code for win32
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
