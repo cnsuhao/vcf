@@ -839,11 +839,39 @@ protected:
 	*/
 	void onSaveAs( Event* e ) {
 		Document* doc = DocInterfacePolicy::getCurrentDocument();
-		if ( NULL != doc ) {
-			doc->setFileName( "" );
-			doc->setModified(true);
-			saveFile( doc );
+
+		/**
+		Store off the old file name and whether or not the 
+		document is currently modified (at the time that this
+		function is called the document may or may not be 
+		modified).
+		*/
+		String oldFileName = doc->getFileName();
+		bool modified = doc->isModified();
+
+		/**
+		Set the file name to empty ("")
+		Set the document modified to true. Doing this ensures that 
+		we actually get prompted for a Save Dialog. 
+		*/
+		doc->setFileName( "" );
+		doc->setModified(true);
+
+		/**
+		Excecute the file save code...
+		*/
+		if ( !saveFile( doc ) ) {
+			/**
+			Oops! The user canceled out the file save operation
+			by either closing the dialog or clicking the "Cancel" 
+			button.
+			This means we need to restore the doc's old file and
+			the modified value
+			*/
+			doc->setFileName( oldFileName );
+			doc->setModified(modified);
 		}
+
 	}
 
 	/**
@@ -1628,6 +1656,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/05 18:21:18  ddiego
+*fixed a bug that marcello found in the vcfbuilder that is actually a bug in the document manager (see bug 1157348).
+*
 *Revision 1.3.2.2  2005/03/02 19:41:13  marcelloptr
 *fixed crash when opening a non existing document
 *

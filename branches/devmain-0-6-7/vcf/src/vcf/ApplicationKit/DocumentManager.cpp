@@ -534,12 +534,23 @@ Enumerator<Document*>* DocumentManager::getOpenedDocuments()
 
 Document* DocumentManager::openFromFileName( const String& fileName )
 {
+	//throw an exception for invalid file names!!
 	if ( fileName.empty() ) {
-		return NULL;
+		throw RuntimeException( MAKE_ERROR_MSG_2("Invalid file name. For whatever reason a file name was passed in that was an empty string (\"\").") );
 	}
 
+	/**
+	Whoops! Someone alert Bozo The Clown, we've been passed a 
+	bogus file name!!!
+	should we throw an exception here? 
+	For the moment we'll be "nice" and just gracefully return a NULL value.
+	*/
 	if ( !File::exists( fileName ) ) {
-		throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager: the file \"" + fileName + "\" does not exists." ) );
+		return NULL;
+
+		//This is another alternative, I have commented it out for the 
+		//moment, but we may choose to use this way in the future.
+		//throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager: the file \"" + fileName + "\" does not exists." ) );
 	}
 
 	FilePath fp = fileName;
@@ -597,6 +608,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/05 18:21:18  ddiego
+*fixed a bug that marcello found in the vcfbuilder that is actually a bug in the document manager (see bug 1157348).
+*
 *Revision 1.3.2.2  2005/03/02 19:41:10  marcelloptr
 *fixed crash when opening a non existing document
 *
