@@ -379,6 +379,31 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		}
 		break;
 
+		case WM_PAINT:{
+			if ( true == isCreated() ){
+				if ( peerControl_->getComponentState() != Component::csDestroying ) {
+					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
+						wndProcResult = 0;
+						result = true;
+						return result;
+					}
+
+					PAINTSTRUCT ps;
+					HDC contextID = 0;
+					contextID = ::BeginPaint( hwnd_, &ps);
+
+					doControlPaint( contextID, ps.rcPaint, NULL, cpControlOnly );
+					updatePaintDC( contextID, ps.rcPaint, NULL );
+
+					::EndPaint( hwnd_, &ps);
+				}
+			}
+
+			wndProcResult = 1;
+			result = true;
+		}
+		break;
+
 		case WM_DESTROY: {
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
@@ -605,6 +630,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

@@ -141,10 +141,13 @@ void TabbedPages::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
 
-	Rect bounds = getBounds();
+	/*
+	JC - I commented this out cause it's already taken care of in CustomControl::paint()
+	Rect bounds = getClientBounds();
 	context->setColor( getColor() );
-	context->rectangle( 0, 0, bounds.getWidth(), bounds.getHeight() );
+	context->rectangle( &bounds );
 	context->fillPath();
+	*/
 
 	if ( NULL != model_ ){
 		Enumerator<TabPage*>* pages = model_->getPages();
@@ -531,6 +534,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.3  2004/08/22 19:03:01  dougtinkham
 *default tab height is now 21. modified paint.
 *

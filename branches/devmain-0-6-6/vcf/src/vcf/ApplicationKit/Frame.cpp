@@ -108,18 +108,17 @@ void Frame::paint( GraphicsContext * context )
 	if ( NULL != getView() ) {
 		getView()->paintView( context );
 	}
-	else {
-
-		Border* border = this->getBorder();
+	else {	
 
 		Rect innerBounds = getClientBounds(false);
-
+/*
 		if ( NULL != border ){
 			border->paint( this, context );
 			Rect tmpBounds = border->getClientRect( &innerBounds, this );
 			innerBounds = tmpBounds;
 			innerBounds.inflate( -1, -1 );
 		}
+		*/
 
 		
 		
@@ -272,6 +271,9 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

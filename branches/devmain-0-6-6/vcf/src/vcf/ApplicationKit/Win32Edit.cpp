@@ -414,71 +414,6 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			result = true;
 		}
 		break;
-/*
-		case WM_NCHITTEST: { 
-			RECT rect;
-	GetWindowRect(hwnd_, &rect);
-	OffsetRect(&rect, -rect.left, -rect.top);
-	RECT clipR = rect;
-	RECT clientRect = rect;
-	Rect vsRect;
-	Rect hsRect;
-
-	if ( NULL != peerControl_->getBorder() ) {		
-		Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
-		clientBounds = peerControl_->getBorder()->getClientRect( &clientBounds, peerControl_ );
-		
-		clipR.left = clientBounds.left_;
-		clipR.top = clientBounds.top_;
-		clipR.right = clientBounds.right_;
-		clipR.bottom = clientBounds.bottom_;
-		clientRect = clipR;
-	}
-	int style = GetWindowLong( hwnd_, GWL_STYLE );
-	if ( style & WS_VSCROLL ) {
-		NONCLIENTMETRICS ncm;
-		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-		
-		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-		
-		clipR.right -= ncm.iScrollWidth;
-
-		vsRect.setRect( clipR.right, clipR.top, clientRect.right, clipR.bottom );
-
-	}
-	if ( style & WS_HSCROLL ) {
-		NONCLIENTMETRICS ncm;
-		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-		
-		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-		
-		clipR.bottom -= ncm.iScrollHeight;
-		hsRect.setRect( clipR.left, clipR.bottom, clientRect.right, clientRect.bottom );
-	}
-
-	Point pt( LOWORD(lParam), HIWORD(lParam) ); 
-
-	this->translateFromScreenCoords( &pt );
-	if ( !vsRect.isEmpty() ) {
-		if ( vsRect.containsPt( &pt ) ) {
-			return HTVSCROLL;
-		}
-	}
-
-	if ( !hsRect.isEmpty() ) {
-		if ( hsRect.containsPt( &pt ) ) {
-			return HTHSCROLL;
-		}
-	}
-
-
-
-			return 1;
-		}
-		break;
-		*/
 
 		case WM_NCPAINT: {	
 
@@ -845,6 +780,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

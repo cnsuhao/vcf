@@ -339,7 +339,7 @@ void AbstractWin32Component::setFont( Font* font )
 	}
 }
 
-HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect  )
+HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* exclusionRect, int whatToPaint  )
 {
 	HDC result = NULL;
 
@@ -372,7 +372,24 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 								exclusionRect->right, exclusionRect->bottom );
 				}
 
-				peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+				switch( whatToPaint ) {
+					case cpBorderOnly : {
+						peerControl_->paintBorder( ctx->getDrawingArea()->getImageContext() );
+					}
+					break;
+
+					case cpControlOnly : {
+						peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+
+					}
+					break;
+
+					case cpBorderAndControl : {
+						peerControl_->paintBorder( ctx->getDrawingArea()->getImageContext() );
+						peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+					}
+					break;
+				}				
 			}
 			ctx->flushDrawingArea();
 
@@ -411,8 +428,26 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
+			
+			switch( whatToPaint ) {
+				case cpBorderOnly : {
+					peerControl_->paintBorder( ctx );
+				}
+				break;
 
-			peerControl_->paint( ctx );
+				case cpControlOnly : {
+					peerControl_->paint( ctx );
+
+				}
+				break;
+
+				case cpBorderAndControl : {
+					peerControl_->paintBorder( ctx );
+					peerControl_->paint( ctx );
+				}
+				break;
+			}
+
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 
@@ -440,8 +475,25 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 				ExcludeClipRect( paintDC, exclusionRect->left, exclusionRect->top,
 								exclusionRect->right, exclusionRect->bottom );
 			}
+			
+			switch( whatToPaint ) {
+				case cpBorderOnly : {
+					peerControl_->paintBorder( ctx );
+				}
+				break;
 
-			peerControl_->paint( ctx );
+				case cpControlOnly : {
+					peerControl_->paint( ctx );
+
+				}
+				break;
+
+				case cpBorderAndControl : {
+					peerControl_->paintBorder( ctx );
+					peerControl_->paint( ctx );
+				}
+				break;
+			}
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 			
@@ -594,7 +646,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 					HDC contextID = 0;
 					contextID = ::BeginPaint( hwnd_, &ps);
 
-					doControlPaint( contextID, ps.rcPaint, NULL );
+					doControlPaint( contextID, ps.rcPaint, NULL, cpBorderAndControl );
 					updatePaintDC( contextID, ps.rcPaint, NULL );
 
 					::EndPaint( hwnd_, &ps);
@@ -1232,7 +1284,7 @@ LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 	}
 
 
-	doControlPaint( hdc, rect, &clipR );
+	doControlPaint( hdc, rect, &clipR, cpBorderOnly );
 	updatePaintDC( hdc, rect, &clipR );
 	
 
@@ -1286,37 +1338,15 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 
 	defaultWndProcedure( WM_NCCALCSIZE, wParam, lParam );
 
-	/*
-	if ( NULL != rectToModify ) {
-		int style = GetWindowLong( hwnd_, GWL_STYLE );
-		if ( style & WS_VSCROLL ) {
-			NONCLIENTMETRICS ncm;
-			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-			ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-
-			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-
-			rectToModify->right -= ncm.iScrollWidth;
-		}
-
-		if ( style & WS_HSCROLL ) {
-			NONCLIENTMETRICS ncm;
-			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-			ncm.cbSize = sizeof(NONCLIENTMETRICS);	
-
-			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-
-			rectToModify->bottom -= ncm.iScrollHeight;
-		}
-	}
-	*/
-
 	return 1;
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.3  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *
