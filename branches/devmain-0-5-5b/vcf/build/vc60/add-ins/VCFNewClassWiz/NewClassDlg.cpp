@@ -95,8 +95,7 @@ void NewClassDlg::DoDataExchange(CDataExchange* pDX)
 		CString classIDName = m_className;
 		classIDName.MakeUpper();
 		classIDName += "_CLASSID";
-		m_classDecl += "#include \"VCF.h\"\n";
-		m_classDecl += "#include \"ClassInfo.h\"\n\n\nusing namespace VCF;\n\n\n";
+		
 		if ( this->m_supportsRTTI ){
 			m_classDecl += "#define " + classIDName + "\t\t\"" + classid + "\"\n\n\n";
 		}
@@ -133,7 +132,7 @@ void NewClassDlg::DoDataExchange(CDataExchange* pDX)
 
 		fillInPropMethods();
 
-		m_classDecl += "protected:\n\nprivate:\n";
+		m_classDecl += "protected:\n\nprivate:\n\n";
 
 		fillInPropMemberVars();
 
@@ -159,7 +158,7 @@ void NewClassDlg::DoDataExchange(CDataExchange* pDX)
 			
 			m_classImpl += "#include \"" + m_className + ".h\"\n\n";
 			
-			m_classImpl += "using namespace VCF;\n";
+			m_classImpl += "using namespace VCF;\n\n\n";
 			
 			if ( (TRUE == this->m_useNameSpace) && (m_nameSpaceText != "VCF") ) { 
 				m_classImpl += "\nusing namespace " + m_nameSpaceText + ";\n\n\n";

@@ -453,6 +453,14 @@ SOURCE=..\..\..\include\implementer\DialogPeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\dragdrop\DragSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\dragdrop\DropTarget.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\implementer\FillState.h
 # End Source File
 # Begin Source File
@@ -978,6 +986,10 @@ SOURCE=..\..\..\include\implementerKit\Win32Desktop.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementerKit\Win32Dialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32DragDropPeer.h
 # End Source File
 # Begin Source File
 
