@@ -161,8 +161,11 @@ public:
 	void openListboxMenu( MenuItemEvent* e ) {
 		if ( NULL != currentImage_ ) {
 			delete currentImage_;
+			currentImage_ = NULL;
 			scrollBarMgr_->setHasHorizontalScrollbar( false );
 			scrollBarMgr_->setHasVerticalScrollbar( false );
+			updateMenuHasHorzScrollbar();
+			updateMenuHasVertScrollbar();
 		}
 
 		//add a ListBoxControl
@@ -190,8 +193,11 @@ public:
 
 	void openImage( MenuItemEvent* e ) {
 		if ( NULL != listBox_ ) {
+			 // try to comment out this !
 			this->remove( listBox_ );
-			delete listBox_; // try uncomment out this !
+			listBox_->getOwner()->removeComponent( listBox_ );
+			listBox_->free();
+			listBox_ = NULL;
 		}
 
 		CommonFileOpen dlg( this );
@@ -334,6 +340,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2004/09/19 22:06:12  marcelloptr
+*fixed bug in listbox and image removal
+*
 *Revision 1.4.2.6  2004/09/19 20:01:04  marcelloptr
 *scrollbars transitory changes
 *
