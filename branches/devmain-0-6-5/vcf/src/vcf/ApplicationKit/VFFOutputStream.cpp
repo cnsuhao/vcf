@@ -1,32 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//VFFOutputStream.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//VFFOutputStream.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/VFFOutputStream.h"
@@ -45,11 +24,11 @@ String VFFOutputStream::getTabString()
 String VFFOutputStream::binToHex( Persistable* persistableObject )
 {
 	String result = "";
-	
+
 	BasicOutputStream bos;
 	bos << persistableObject;
 
-	char* buffer = bos.getBuffer();	
+	char* buffer = bos.getBuffer();
 	char* tmpBuffer = buffer;
 	long size = 0;//bos.getSize();
 	long bufSize = bos.getSize();
@@ -76,7 +55,7 @@ void VFFOutputStream::writeObject( Object* object, const String& objectPropertyN
 {
 	String s;
 	String tabString;
-	
+
 	Persistable* persistable = dynamic_cast<Persistable*>(object);
 	if ( NULL != persistable ) {
 		String hexString = binToHex( persistable );
@@ -95,12 +74,12 @@ void VFFOutputStream::writeObject( Object* object, const String& objectPropertyN
 				tabString = getTabString();
 				while ( true == props->hasMoreElements() ) {
 					Property* prop = props->nextElement();
-					if ( NULL != prop ) {		
+					if ( NULL != prop ) {
 						VariantData* value = prop->get();
 						if ( pdObject == value->type ) {
 							Object* obj = (Object*)(*value);
 							if ( NULL != obj ) {
-								writeObject( obj, objectPropertyName + "." + prop->getName() );							
+								writeObject( obj, objectPropertyName + "." + prop->getName() );
 							}
 							else {
 								s = tabString + prop->getName() + " = null\n";
@@ -109,21 +88,21 @@ void VFFOutputStream::writeObject( Object* object, const String& objectPropertyN
 						}
 						else if ( pdString == value->type ) {
 							s = tabString + objectPropertyName + "." + prop->getName() + " = '" + value->toString() + "'\n";
-							stream_->write( s );			
+							stream_->write( s );
 						}
 						else if ( pdEnumMask == value->type ) {
 							s = tabString + objectPropertyName + "." + prop->getName() + " = [" + prop->toString() + "]\n";
-							stream_->write( s );			
+							stream_->write( s );
 						}
 						else {
 							s = tabString + objectPropertyName + "." + prop->getName() + " = " + value->toString() + "\n";
-							stream_->write( s );			
+							stream_->write( s );
 						}
 					}
 				}
 			}
 		}
-	}	
+	}
 }
 
 void VFFOutputStream::writeComponent( Component* component )
@@ -142,19 +121,19 @@ void VFFOutputStream::writeComponent( Component* component )
 				Property* prop = props->nextElement();
 				if ( NULL != prop ) {
 					VariantData* value = prop->get();
-					if ( pdObject == prop->getType() ) {						
+					if ( pdObject == prop->getType() ) {
 						Object* obj = (Object*)(*value);
 						if ( NULL != obj ) {
 							Component* subComponent = dynamic_cast<Component*>(obj);
 							if ( NULL != subComponent ) {
-								//this is a reference to a component - 
-								//we don't want to write it out here other wise 
+								//this is a reference to a component -
+								//we don't want to write it out here other wise
 								//it will be written out twice
 								s  = tabString + prop->getName() + " = @" + subComponent->getName() + "\n";
 								stream_->write( s );
 							}
 							else {
-								writeObject( obj, prop->getName() );							
+								writeObject( obj, prop->getName() );
 							}
 						}
 						else {
@@ -164,11 +143,11 @@ void VFFOutputStream::writeComponent( Component* component )
 					}
 					else if ( pdString == value->type ) {
 						s = tabString + prop->getName() + " = '" + value->toString() + "'\n";
-						stream_->write( s );			
+						stream_->write( s );
 					}
 					else if ( pdEnumMask == value->type ) {
 						s = tabString + prop->getName() + " = [" + prop->toString() + "]\n";
-						stream_->write( s );			
+						stream_->write( s );
 					}
 					else {
 						s = tabString + prop->getName() + " = " + value->toString() + "\n";
@@ -183,7 +162,7 @@ void VFFOutputStream::writeComponent( Component* component )
 		if ( NULL != control ) {
 			container = control->getContainer();
 		}
-		
+
 		if ( NULL != container ) {
 			Enumerator<Control*>* children = container->getChildren();
 			if ( NULL != children ) {
@@ -200,7 +179,7 @@ void VFFOutputStream::writeComponent( Component* component )
 		if ( NULL != components ) {
 			tabLevel_ ++;
 			while ( true == components->hasMoreElements() ) {
-				Component* childComponent = components->nextElement();				
+				Component* childComponent = components->nextElement();
 				writeComponent( childComponent );
 			}
 			tabLevel_ --;
@@ -213,10 +192,12 @@ void VFFOutputStream::writeComponent( Component* component )
 }
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles
@@ -302,6 +283,5 @@ void VFFOutputStream::writeComponent( Component* component )
 *to facilitate change tracking
 *
 */
-
 
 

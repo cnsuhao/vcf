@@ -1,31 +1,12 @@
+//Win32FileOpenDialog.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32FileOpenDialog.h"
@@ -39,19 +20,19 @@ Win32FileOpenDialog::Win32FileOpenDialog( Control* owner )
 }
 
 
-Win32FileOpenDialog::~Win32FileOpenDialog() 
+Win32FileOpenDialog::~Win32FileOpenDialog()
 {
 
 }
 
 void Win32FileOpenDialog::init()
 {
-	
+
 	allowsMultiSelect_ = false;
 	fileMustExist_ = true;
 	container_.initContainer( selectedFiles_ );
 	owner_ = NULL;
-	
+
 }
 
 void Win32FileOpenDialog::setTitle( const String& title )
@@ -61,7 +42,7 @@ void Win32FileOpenDialog::setTitle( const String& title )
 
 bool Win32FileOpenDialog::execute()
 {
-	
+
 	OPENFILENAME ofn;
 	memset( &ofn, 0, sizeof(OPENFILENAME) );
 	ofn.lStructSize = sizeof(ofn);
@@ -74,7 +55,7 @@ bool Win32FileOpenDialog::execute()
 	ofn.hwndOwner = ownerWnd;
 	ofn.hInstance = NULL;
 
-	
+
 	//allocate enough for 255 long file names
 	TCHAR* tmpFileName = NULL;
 
@@ -88,18 +69,18 @@ bool Win32FileOpenDialog::execute()
 		memset(tmpFileName, 0, MAX_PATH);
 		ofn.nMaxFile = MAX_PATH;
 	}
-	
+
 	TCHAR tmpDir[MAX_PATH];
 	memset(tmpDir, 0, MAX_PATH);
 	directory_.copy( tmpDir, directory_.size() );
-	
+
 	fileName_.copy( tmpFileName, fileName_.size() );
 
 
 	ofn.lpstrFile = tmpFileName;
 	ofn.lpstrInitialDir = tmpDir;
-	
-	
+
+
 	TCHAR* tmpTitle = NULL;
 	if ( title_.size() > 0 ){
 		tmpTitle = new TCHAR[title_.size()+1];
@@ -130,26 +111,26 @@ bool Win32FileOpenDialog::execute()
 	std::vector<String>::iterator filter = filter_.begin();
 
 	if ( !selectedFilter_.empty() ) {
-		std::vector<String>::iterator filter = filter_.begin();	
+		std::vector<String>::iterator filter = filter_.begin();
 		while ( filter != filter_.end() ){
 			filter++;
-			
+
 			String s = *filter;
 			if ( String::npos != s.find( selectedFilter_ ) ) {
 				selectedFilterIndex = ((filter - filter_.begin())/2 )+1;
 				break;
 			}
-			
+
 			filter++;
 		}
 	}
-	
+
 
 	int size = _MAX_PATH * filter_.size();
 	TCHAR *tmpFilter = new TCHAR[size];
-	memset( tmpFilter, 0, size );	
+	memset( tmpFilter, 0, size );
 
-	filter = filter_.begin();	
+	filter = filter_.begin();
 	String tmp;
 	while ( filter != filter_.end() ){
 		tmp += *filter + '\0';
@@ -163,7 +144,7 @@ bool Win32FileOpenDialog::execute()
 	ofn.nFilterIndex = selectedFilterIndex;
 
 	bool result = false;
-	
+
 	selectedFiles_.clear();
 
 	selectedFilter_ = "";
@@ -194,7 +175,7 @@ bool Win32FileOpenDialog::execute()
 		}
 		else {
 			fileName_ = ofn.lpstrFile;
-			
+
 			FilePath fp = fileName_;
 			selectedFiles_.push_back( fp.getName( true ) );
 			directory_ = fp.getPathName(true);
@@ -207,7 +188,7 @@ bool Win32FileOpenDialog::execute()
 		}
 	}
 
-	
+
 	delete [] tmpFileName;
 
 	delete [] tmpTitle;
@@ -227,7 +208,7 @@ void Win32FileOpenDialog::setDirectory( const String & directory )
 {
 	directory_ = directory;
 }
-    
+
 void Win32FileOpenDialog::setFileName( const String & filename )
 {
 	fileName_ = filename;
@@ -239,7 +220,7 @@ String Win32FileOpenDialog::getFileName()
 }
 
 String Win32FileOpenDialog::getDirectory()
-{	
+{
 	return directory_;
 }
 
@@ -274,12 +255,12 @@ void Win32FileOpenDialog::setSelectedFilter( const String& selectedFilter )
 }
 
 
-
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -405,3 +386,5 @@ void Win32FileOpenDialog::setSelectedFilter( const String& selectedFilter )
 *to facilitate change tracking
 *
 */
+
+

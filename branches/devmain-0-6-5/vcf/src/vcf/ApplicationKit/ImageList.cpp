@@ -1,33 +1,11 @@
+//ImageList.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//ImageList.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 
@@ -57,7 +35,7 @@ ImageList::ImageList( const String& name, Component* owner ):
 	Component( name, owner )
 {
 	init();
-}	
+}
 
 ImageList::ImageList( const String& name ):
 	Component( name )
@@ -75,7 +53,7 @@ ImageList::~ImageList()
 }
 
 void ImageList::init()
-{	
+{
 	imageWidth_ = 32;
 	imageHeight_ = 32;
 	imageCount_ = 5;
@@ -132,8 +110,8 @@ void ImageList::addImage( Image* newImage )
 		//throw exception
 		return;
 	}
-	
-	int incr  = imageWidth_ * totalImageCount_;	
+
+	int incr  = imageWidth_ * totalImageCount_;
 
 	totalImageCount_++;
 	if ( totalImageCount_ >= imageCount_ ) {
@@ -149,16 +127,16 @@ void ImageList::addImage( Image* newImage )
 	int scanlineWidthOfMasterImage = masterImage_->getWidth();//scanlineToCopy * imageCount_;
 	for (ulong32 i=0;i<imageHeight_;i++) {
 		memcpy( bits, newImgBits, scanlineWidthToCopy*sizeof(SysPixelType) );
-		
+
 		bits += scanlineWidthOfMasterImage;
 		newImgBits += scanlineWidthToCopy;
 	}
-	
+
 	ImageListEvent event( this, IMAGELIST_EVENT_ITEM_ADDED, newImage );
 	event.setIndexOfImage( totalImageCount_-1 );
 	ImageAdded.fireEvent( &event );
 }
-	
+
 void ImageList::insertImage( const unsigned long & index, Image* newImage )
 {
 	if ( newImage->getHeight() != imageHeight_ ) {
@@ -170,25 +148,25 @@ void ImageList::insertImage( const unsigned long & index, Image* newImage )
 		//throw exception
 		return;
 	}
-	
-	int incr  = (imageWidth_ * sizeof(SysPixelType)) * index;	
+
+	int incr  = (imageWidth_ * sizeof(SysPixelType)) * index;
 	int oldImgCount = totalImageCount_;
 	int tmpSize = (imageHeight_ * imageWidth_ * sizeof(SysPixelType)) * (totalImageCount_-index);
 	int tmpLineIncr = (imageWidth_ * sizeof(SysPixelType)) * (totalImageCount_-index);
 	int fullLineIncr = (imageWidth_ * sizeof(SysPixelType)) * totalImageCount_;
 
-	//save off the old section of the 
+	//save off the old section of the
 	//image that will have to be moved over
 	char* tmpBits = new char[tmpSize];
 	char* tmpBitsPtr = tmpBits;
 	char* oldBits = (char*)this->masterImage_->getImageBits()->pixels_;
-	oldBits += incr;	
+	oldBits += incr;
 	ulong32 y = 0;
 	for ( y=0;y<imageHeight_;y++) {
 		memcpy( tmpBitsPtr, oldBits, tmpLineIncr );
 		tmpBitsPtr += tmpLineIncr;
 		oldBits += fullLineIncr;
-	}	
+	}
 
 	//resize the image if neccessary
 	totalImageCount_++;
@@ -197,7 +175,7 @@ void ImageList::insertImage( const unsigned long & index, Image* newImage )
 		imageCount_ += this->resizeIncrement_;
 		this->changed();
 	}
-	
+
 	int moveOverIncr = (imageWidth_ * sizeof(SysPixelType)) * index+1;
 	int indexIncr = (imageWidth_ * sizeof(SysPixelType)) * index;
 	char* buf = (char*)masterImage_->getImageBits()->pixels_;
@@ -227,21 +205,21 @@ void ImageList::insertImage( const unsigned long & index, Image* newImage )
 }
 
 void ImageList::deleteImage( const unsigned long & index )
-{	
-	int incr  = (imageHeight_ * imageWidth_ * sizeof(SysPixelType)) * index;	
-	
-	int oldImgCount = totalImageCount_;	
+{
+	int incr  = (imageHeight_ * imageWidth_ * sizeof(SysPixelType)) * index;
+
+	int oldImgCount = totalImageCount_;
 
 	int tmpSize = (imageHeight_ * imageWidth_ * sizeof(SysPixelType)) * (oldImgCount-(index+1));
-	//save off the old section of the 
+	//save off the old section of the
 	//image that will have to be moved over
 	char* tmpBits = new char[tmpSize];
 	char* oldBits = (char*)this->masterImage_->getImageBits()->pixels_;
-	oldBits += incr;	
+	oldBits += incr;
 	memcpy( tmpBits, oldBits, tmpSize );
 
 	totalImageCount_--;
-	//resize the image if neccessary	
+	//resize the image if neccessary
 	if ( (totalImageCount_ % imageCount_) == resizeIncrement_ ) {
 		//resize the master image
 		imageCount_ -= this->resizeIncrement_;
@@ -253,7 +231,7 @@ void ImageList::deleteImage( const unsigned long & index )
 	oldBits += moveOverIncr;
 	memcpy( oldBits, tmpBits, tmpSize );
 	delete [] tmpBits;
-	
+
 	ImageListEvent event( this, IMAGELIST_EVENT_ITEM_DELETED );
 	event.setIndexOfImage( index );
 	ImageAdded.fireEvent( &event );
@@ -265,7 +243,7 @@ void ImageList::draw( GraphicsContext* context, const unsigned long& index, Poin
 		return;
 	}
 
-	Rect bounds( index * imageWidth_, 0, index * imageWidth_ + imageWidth_, imageHeight_ ); 	
+	Rect bounds( index * imageWidth_, 0, index * imageWidth_ + imageWidth_, imageHeight_ );
 	masterImage_->setIsTransparent( true );
 	masterImage_->setTransparencyColor( &transparentColor_ );
 	context->drawPartialImage( pt->x_, pt->y_, &bounds, masterImage_ );
@@ -279,7 +257,7 @@ void ImageList::draw( GraphicsContext* context, const unsigned long& index, Rect
 
 	double w = minVal<double>( bounds->getWidth(), imageWidth_ );
 	double h = minVal<double>( bounds->getHeight(), imageHeight_ );
-	Rect tmpBounds( index * imageWidth_, 0, index * imageWidth_ + w, h ); 
+	Rect tmpBounds( index * imageWidth_, 0, index * imageWidth_ + w, h );
 	masterImage_->setIsTransparent( true );
 	masterImage_->setTransparencyColor( &transparentColor_ );
 	//context->drawImage( bounds->left_, bounds->top_, masterImage_ );
@@ -288,7 +266,7 @@ void ImageList::draw( GraphicsContext* context, const unsigned long& index, Rect
 
 void ImageList::copyImage( Image* imageToCopyTo, const unsigned long& index )
 {
-	int incr  = (imageHeight_ * imageWidth_ * sizeof(SysPixelType)) * index;	
+	int incr  = (imageHeight_ * imageWidth_ * sizeof(SysPixelType)) * index;
 	char* buf = (char*)masterImage_->getImageBits()->pixels_;
 	buf += incr;
 	char* copyBuf = (char*)imageToCopyTo->getImageBits()->pixels_;
@@ -298,12 +276,12 @@ void ImageList::copyImage( Image* imageToCopyTo, const unsigned long& index )
 void ImageList::changed()
 {
 	Image* oldImage = masterImage_;
-	
-	
+
+
 	masterImage_ = GraphicsToolkit::createImage( imageWidth_ * imageCount_, imageHeight_ );
 	if ( NULL == masterImage_ ) {
 		throw InvalidImage( "Toolkit couldn't create Image" );
-	}	
+	}
 
 	if ( NULL != oldImage ) {
 		SysPixelType* oldBits = oldImage->getImageBits()->pixels_;
@@ -312,17 +290,17 @@ void ImageList::changed()
 		SysPixelType* newBits = masterImage_->getImageBits()->pixels_;
 		long newWidth = masterImage_->getWidth();
 
-		uint32 size = minVal<uint32>( oldWidth,newWidth ); 
+		uint32 size = minVal<uint32>( oldWidth,newWidth );
 
-		for ( ulong32 i=0;i<imageHeight_;i++ ){	
+		for ( ulong32 i=0;i<imageHeight_;i++ ){
 			if ( i < oldHeight ) {
-				memcpy( newBits, oldBits, size * sizeof(SysPixelType) ); 	
+				memcpy( newBits, oldBits, size * sizeof(SysPixelType) );
 				oldBits +=  oldWidth;
 				newBits += newWidth;
 			}
 			else {
 				break;
-			}			
+			}
 		}
 
 		delete oldImage;
@@ -339,6 +317,9 @@ void ImageList::afterCreate( ComponentEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles

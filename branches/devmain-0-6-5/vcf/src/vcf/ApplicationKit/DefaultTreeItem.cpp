@@ -1,34 +1,11 @@
+//DefaultTreeItem.cpp
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// DefaultTreeItem.cpp
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/DefaultTreeItem.h"
@@ -39,14 +16,14 @@ using namespace VCF;
 DefaultTreeItem::DefaultTreeItem():
 	treeModel_(NULL)
 {
-	init();		
+	init();
 }
 
 DefaultTreeItem::DefaultTreeItem( const String& caption ):
 	treeModel_(NULL)
 {
-	init();	
-	caption_ = caption;	
+	init();
+	caption_ = caption;
 }
 
 DefaultTreeItem::DefaultTreeItem( const String& caption, Control* owningControl, TreeModel* model ):
@@ -83,7 +60,7 @@ void DefaultTreeItem::init()
 	selectedImageIndex_ = -1;
 	expandedImageIndex_ = -1;
 	stateImageIndex_ = -1;
-	
+
 	state_ = Item::idsNone;
 
 	bounds_.setRect(0.0,0.0,0.0,0.0);
@@ -97,7 +74,7 @@ void DefaultTreeItem::init()
 	enumContainer_.initContainer( childNodeItems_ );
 
 	enumSubItemsContainer_.initContainer( subItems_ );
-	
+
 }
 
 bool DefaultTreeItem::containsPoint( Point * pt )
@@ -175,12 +152,12 @@ void DefaultTreeItem::setParent( TreeItem* parent )
 }
 
 TreeItem* DefaultTreeItem::getNextChildNodeItem()
-{	
+{
 	if ( NULL != parent_ ) {
 		DefaultTreeItem* dtParent = dynamic_cast<DefaultTreeItem*>(parent_);
 		if ( NULL != dtParent ) {
 			std::vector<TreeItem*>::iterator it = std::find( dtParent->childNodeItems_.begin(),
-															 dtParent->childNodeItems_.end(), 
+															 dtParent->childNodeItems_.end(),
 															 this );
 
 			it ++;
@@ -198,7 +175,7 @@ TreeItem* DefaultTreeItem::getPrevChildNodeItem()
 		DefaultTreeItem* dtParent = dynamic_cast<DefaultTreeItem*>(parent_);
 		if ( (NULL != dtParent) && (index_ > 0) ) {
 			std::vector<TreeItem*>::iterator it = std::find( dtParent->childNodeItems_.begin(),
-															 dtParent->childNodeItems_.end(), 
+															 dtParent->childNodeItems_.end(),
 															 this );
 			it --;
 
@@ -212,13 +189,13 @@ TreeItem* DefaultTreeItem::getPrevChildNodeItem()
 
 String DefaultTreeItem::getCaption()
 {
-	return caption_;	
+	return caption_;
 }
 
 void DefaultTreeItem::setCaption( const String& caption )
 {
 	caption_ = caption;
-	
+
 	changed( ITEM_EVENT_TEXT_CHANGED );
 }
 
@@ -252,7 +229,7 @@ void DefaultTreeItem::insertChild( const unsigned long& index, TreeItem* child )
 		i++;
 	}
 }
-	
+
 void DefaultTreeItem::deleteChild( TreeItem* child )
 {
 	std::vector<TreeItem*>::iterator found = std::find( childNodeItems_.begin(), childNodeItems_.end(), child );
@@ -284,7 +261,7 @@ void DefaultTreeItem::deleteChildAtIndex( const unsigned long& index )
 		ItemDeleted.fireEvent( &event );
 		childNodeItems_.erase ( found );
 		delete item;
-		item = NULL;		
+		item = NULL;
 		int i = index;
 		std::vector<TreeItem*>::iterator it = childNodeItems_.begin() + index;
 		while ( it != childNodeItems_.end() ) {
@@ -297,10 +274,10 @@ void DefaultTreeItem::deleteChildAtIndex( const unsigned long& index )
 }
 
 void DefaultTreeItem::clearChildren()
-{	
+{
 	for (std::vector<TreeItem*>::iterator it = childNodeItems_.begin(); it != childNodeItems_.end(); it ++ ){
 		TreeItem* item = *it;
-		item->clearChildren();		
+		item->clearChildren();
 		ItemEvent deleteEvent( item, ITEM_EVENT_DELETED );
 		ItemDeleted.fireEvent( &deleteEvent );
 		delete item;
@@ -331,7 +308,7 @@ void DefaultTreeItem::paint( GraphicsContext* context, Rect* paintRect )
 	ItemEvent event( this, context );
 	ItemPaint.fireEvent( &event );
 }
-	
+
 bool DefaultTreeItem::isSelected()
 {
 	return selected_;
@@ -341,7 +318,7 @@ void DefaultTreeItem::setSelected( const bool& selected )
 {
 	selected_ = selected;
 	ItemEvent event( this, ITEM_EVENT_SELECTED );
-	ItemSelected.fireEvent( &event );	
+	ItemSelected.fireEvent( &event );
 }
 
 void DefaultTreeItem::expand( const bool& isExpanded )
@@ -399,7 +376,7 @@ void DefaultTreeItem::setState( const long& state )
 	//ItemChanged( &event );
 }
 
-void DefaultTreeItem::setBounds( Rect* bounds ) 
+void DefaultTreeItem::setBounds( Rect* bounds )
 {
 	bounds_ = *bounds;
 }
@@ -412,7 +389,7 @@ void DefaultTreeItem::setStateImageIndex( const long& index )
 
 void DefaultTreeItem::addSubItem( const String& caption, void* data )
 {
-	SubItem* subItem = new SubItem(this);	
+	SubItem* subItem = new SubItem(this);
 	subItems_.push_back( subItem );
 	subItem->setCaption( caption );
 
@@ -464,14 +441,12 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 }
 
 
-
-
-
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -600,3 +575,5 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 *to facilitate change tracking
 *
 */
+
+

@@ -1,30 +1,11 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//Containers.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/AbstractContainer.h"
@@ -43,21 +24,21 @@ StandardContainer::StandardContainer():
 }
 
 void StandardContainer::resizeChildren( Control* control )
-{	
+{
 	//if ( controlContainer_->getVisible() ) {
 		Rect bounds = controlContainer_->getClientBounds();
 		if ( bounds.isEmpty() ) {
 			//return;
-		}		
-	
-		Rect rect ( bounds.left_ + leftBorderWidth_, 
-						bounds.top_ + topBorderHeight_, 
-						bounds.right_ - rightBorderWidth_, 
-						bounds.bottom_ - bottomBorderHeight_ );		
-		
-		
+		}
 
-		resizeChildrenUsingBounds( control, &rect );	
+		Rect rect ( bounds.left_ + leftBorderWidth_,
+						bounds.top_ + topBorderHeight_,
+						bounds.right_ - rightBorderWidth_,
+						bounds.bottom_ - bottomBorderHeight_ );
+
+
+
+		resizeChildrenUsingBounds( control, &rect );
 	//}
 }
 
@@ -71,22 +52,22 @@ void StandardContainer::resizeChildrenUsingBounds( Control* control, Rect* bound
 
 	if ( NULL != control ) {
 		std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), control );
-		
+
 		controlJustAdded = (found == controls_.end());
 	}
 
-	bool needAnchorWork = anchorWork() || 
+	bool needAnchorWork = anchorWork() ||
 		(controlJustAdded && (control->getAlignment() == AlignNone) && (control->getAnchor() != 0));
 
-	bool needAlignWork = alignWork()|| 
+	bool needAlignWork = alignWork()||
 		(controlJustAdded && (control->getAlignment() != AlignNone));
 
-	
+
 	if ( (true == needAnchorWork) || (true == needAlignWork) ) {
 		controlContainer_->getPeer()->beginSetBounds( controls_.size() );
 	}
 
-	if ( true == needAlignWork ){			
+	if ( true == needAlignWork ){
 
 		doAlign( control, controlJustAdded, AlignTop, bounds );
 		doAlign( control, controlJustAdded, AlignBottom, bounds );
@@ -107,7 +88,7 @@ void StandardContainer::resizeChildrenUsingBounds( Control* control, Rect* bound
 
 
 
-bool StandardContainer::insertBefore( Control* initialControl, const bool& controlJustAdded, 
+bool StandardContainer::insertBefore( Control* initialControl, const bool& controlJustAdded,
 									 Control* c1, Control* c2, const AlignmentType& alignment, Rect* bounds )
 {
 	bool result = false;
@@ -132,13 +113,13 @@ bool StandardContainer::insertBefore( Control* initialControl, const bool& contr
 				result = bounds1.top_ < bounds2.top_;
 			}
 			break;
-			
+
 			case AlignBottom:{
 				//this ->> (bounds1.top_ /*+ bounds1.getHeight()*/)
 				//is wrong - commented out to fix [ 532623 ] alignment problem & [ 525214 ] alignment loss after resize JEC 20-03-2002
 
 				result = (bounds1.top_ + bounds1.getHeight()) > (bounds2.top_ + bounds2.getHeight());
-			}	
+			}
 			break;
 
 			case AlignLeft:{
@@ -165,12 +146,12 @@ bool StandardContainer::insertBefore( Control* initialControl, const bool& contr
 void StandardContainer::doPosition( Control* component, const AlignmentType& alignment, Rect* rect )
 {
 	Rect componentBounds = component->getBounds();
-	double w = componentBounds.getWidth();	
+	double w = componentBounds.getWidth();
 	double h = componentBounds.getHeight();
 
 	switch ( alignment ){
 		case AlignLeft:{
-			rect->left_ = rect->left_ + w;//minVal<>( rect->left_ + w,  rect->right_ );	
+			rect->left_ = rect->left_ + w;//minVal<>( rect->left_ + w,  rect->right_ );
 		}
 		break;
 
@@ -179,13 +160,13 @@ void StandardContainer::doPosition( Control* component, const AlignmentType& ali
 		}
 		break;
 
-		case AlignRight:{			
+		case AlignRight:{
 			rect->right_ = rect->right_ - w;//maxVal<>(rect->left_, rect->right_ - w);//VCF::maxVal<double>( rect->right_ - w, rect->left_ );
 		}
 		break;
 
 		case AlignBottom:{
-			
+
 			rect->bottom_ = rect->bottom_- h;//maxVal<>( rect->bottom_- h, rect->top_);//VCF::maxVal<double>( rect->bottom_ - h, rect->top_ );
 		}
 		break;
@@ -195,7 +176,7 @@ void StandardContainer::doPosition( Control* component, const AlignmentType& ali
 		case AlignLeft:{
 			componentBounds.left_ = rect->left_ - w;//VCF::maxVal<double>( 0.0, rect->left_ - w );
 			componentBounds.top_ = rect->top_;
-			componentBounds.right_ = componentBounds.left_ + w;	
+			componentBounds.right_ = componentBounds.left_ + w;
 			componentBounds.bottom_ = componentBounds.top_;
 			if ( (rect->bottom_ - rect->top_) >= 0 ) {
 				componentBounds.bottom_ += rect->bottom_ - rect->top_;
@@ -260,23 +241,23 @@ void StandardContainer::doPosition( Control* component, const AlignmentType& ali
 		}
 		break;
 
-		case AlignClient:{		
+		case AlignClient:{
 			Rect clientBounds;
 			clientBounds.setRect( maxVal<>(0.0,rect->left_),maxVal<>(0.0,rect->top_),
 									maxVal<>(0.0,rect->right_),maxVal<>(0.0,rect->bottom_) );
 
 			component->setBounds( &clientBounds );
-			
+
 		}
 		break;
 	}
 }
 
-void StandardContainer::doAlign( Control* initialControl, const bool& controlJustAdded, 
+void StandardContainer::doAlign( Control* initialControl, const bool& controlJustAdded,
 									const AlignmentType& alignment, Rect* rect )
 {
 	std::vector< Control* > alignmentList;
-	
+
 	if ( NULL != initialControl ) {
 		if ( (initialControl->getVisible()) && (initialControl->getAlignment() == alignment) ) {
 			alignmentList.push_back( initialControl );
@@ -295,22 +276,22 @@ void StandardContainer::doAlign( Control* initialControl, const bool& controlJus
 				index ++;
 				continue;
 			}
-			while ( (insertIndex < alignmentList.size()) && 
-					!insertBefore( initialControl, controlJustAdded, child, 
+			while ( (insertIndex < alignmentList.size()) &&
+					!insertBefore( initialControl, controlJustAdded, child,
 									alignmentList[insertIndex], alignment, rect ) ){
 
-					
+
 				insertIndex++;
-					
+
 			}
-			
-			alignmentList.insert( alignmentList.begin() + insertIndex, child );			
+
+			alignmentList.insert( alignmentList.begin() + insertIndex, child );
 		}
 
 		it ++;
 		index ++;
 	}
-	
+
 
 	it = alignmentList.begin();
 	while ( it != alignmentList.end() ) {
@@ -322,10 +303,10 @@ void StandardContainer::doAlign( Control* initialControl, const bool& controlJus
 bool StandardContainer::alignWork()
 {
 	bool result = false;
-	
+
 	std::vector<Control*>::iterator it = controls_.begin();
 
-	while ( it != controls_.end() ) {	
+	while ( it != controls_.end() ) {
 		if ( (*it)->getAlignment() != AlignNone ){
 			result = true;
 			break;
@@ -352,7 +333,7 @@ bool StandardContainer::anchorWork()
 }
 
 void StandardContainer::doAnchors( Control* initialControl, const bool& controlJustAdded, Rect* bounds )
-{	
+{
 	Rect tmpBounds = controlContainer_->getClientBounds();
 
 	std::vector<Control*>::iterator it = controls_.begin();
@@ -364,29 +345,29 @@ void StandardContainer::doAnchors( Control* initialControl, const bool& controlJ
 			Rect anchorBounds = child->getBounds();
 			double h = anchorBounds.getHeight();
 			double w = anchorBounds.getWidth();
-			
-			float* anchorDeltas = child->getAnchorDeltas();				
-			
-			if ( (anchorType & AnchorRight) != 0 ) {	
+
+			float* anchorDeltas = child->getAnchorDeltas();
+
+			if ( (anchorType & AnchorRight) != 0 ) {
 				/**
 				JC - Added this to fix incorrect calculation of right and left coords
 				*/
 				if ( anchorBounds.left_ < tmpBounds.right_ ) {
-					anchorBounds.right_ = VCF::maxVal<double>( anchorBounds.left_+1, 
+					anchorBounds.right_ = VCF::maxVal<double>( anchorBounds.left_+1,
 											tmpBounds.getWidth() - anchorDeltas[Control::ANCHOR_DRIGHT] );
 				}
 				else {
-					anchorBounds.right_ = VCF::minVal<double>( anchorBounds.left_+1, 
+					anchorBounds.right_ = VCF::minVal<double>( anchorBounds.left_+1,
 											tmpBounds.getWidth() - anchorDeltas[Control::ANCHOR_DRIGHT] );
 				}
-				
+
 				anchorBounds.left_ = VCF::maxVal<double>( 0.0, anchorBounds.right_ - w );
 			}
-			
+
 			if ( (anchorType & AnchorLeft) != 0 ) {
 				anchorBounds.left_ = anchorDeltas[Control::ANCHOR_DLEFT];
 			}
-			
+
 			if ( (anchorType & AnchorBottom) != 0 ) {
 				/**
 				JC - Added this to fix incorrect calculation of top and bottom coords
@@ -397,15 +378,15 @@ void StandardContainer::doAnchors( Control* initialControl, const bool& controlJ
 				else {
 					anchorBounds.bottom_ = VCF::minVal<double>( anchorBounds.top_+1, tmpBounds.getHeight() - anchorDeltas[Control::ANCHOR_DBOTTOM] );
 				}
-				
+
 				anchorBounds.top_ = VCF::maxVal<double>( 0.0, anchorBounds.bottom_ - h );
 			}
-			
+
 			if ( (anchorType & AnchorTop) != 0 ) {
 				anchorBounds.top_ = anchorDeltas[Control::ANCHOR_DTOP];
 			}
-			
-			
+
+
 			child->setBounds( &anchorBounds, false );
 		}
 		it ++;
@@ -420,7 +401,7 @@ void StandardContainer::calcAlignmentList( const AlignmentType& alignment, std::
 	Rect* rect = NULL;
 
 	alignmentList.clear();
-	
+
 	if ( NULL != initialControl ) {
 		if ( (initialControl->getVisible()) && (initialControl->getAlignment() == alignment) ) {
 			alignmentList.push_back( initialControl );
@@ -439,30 +420,30 @@ void StandardContainer::calcAlignmentList( const AlignmentType& alignment, std::
 				index ++;
 				continue;
 			}
-			while ( (insertIndex < alignmentList.size()) && 
-					!insertBefore( initialControl, controlJustAdded, child, 
+			while ( (insertIndex < alignmentList.size()) &&
+					!insertBefore( initialControl, controlJustAdded, child,
 									alignmentList[insertIndex], alignment, rect ) ){
 
-					
+
 				insertIndex++;
-					
+
 			}
-			
-			alignmentList.insert( alignmentList.begin() + insertIndex, child );			
+
+			alignmentList.insert( alignmentList.begin() + insertIndex, child );
 		}
 
 		it ++;
 		index ++;
-	}	
+	}
 }
 
 Control* StandardContainer::getControlWithAlignment( const AlignmentType& alignment, const bool& first/*=true*/ )
 {
 	Control* control = NULL;
-	
+
 	std::vector<Control*>::iterator it = controls_.begin();
 
-	while ( it != controls_.end() ) {	
+	while ( it != controls_.end() ) {
 		if ( (*it)->getAlignment() == alignment ){
 			control = (*it);
 			if ( first ) {
@@ -548,32 +529,32 @@ void FixedStandardContainer::resizeChildren( Control* control )
 	Rect bounds = controlContainer_->getClientBounds();
 	if ( bounds.isEmpty() ) {
 		//return;
-	}		
-	
+	}
+
 	bounds.left_ += leftBorderWidth_;
 	bounds.top_ += topBorderHeight_;
 	bounds.right_ -= rightBorderWidth_;
-	bounds.bottom_ -= bottomBorderHeight_;		
-	
+	bounds.bottom_ -= bottomBorderHeight_;
+
 	bool controlJustAdded = false;
 	if ( NULL != control ) {
 		std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), control );
-		
+
 		controlJustAdded = (found == controls_.end());
 	}
 
-	bool needAnchorWork = anchorWork() || 
+	bool needAnchorWork = anchorWork() ||
 		(controlJustAdded && (control->getAlignment() == AlignNone) && (control->getAnchor() != 0));
 
-	bool needAlignWork = alignWork()|| 
+	bool needAlignWork = alignWork()||
 		(controlJustAdded && (control->getAlignment() != AlignNone));
 
-	
+
 	if ( (true == needAnchorWork) || (true == needAlignWork) ) {
 		controlContainer_->getPeer()->beginSetBounds( controls_.size() );
 	}
 
-	if ( true == needAlignWork ){			
+	if ( true == needAlignWork ){
 
 		alignFixed( control, controlJustAdded, AlignTop, &bounds );
 		alignFixed( control, controlJustAdded, AlignBottom, &bounds );
@@ -594,7 +575,7 @@ void FixedStandardContainer::resizeChildren( Control* control )
 
 void FixedStandardContainer::alignFixed( Control* initialControl, const bool& controlJustAdded, const AlignmentType& alignment, Rect* rect )
 {
-	std::vector< Control* > alignmentList;	
+	std::vector< Control* > alignmentList;
 
 	std::vector< Control* >::iterator it = controls_.begin();
 	ulong32 index=0;
@@ -606,7 +587,7 @@ void FixedStandardContainer::alignFixed( Control* initialControl, const bool& co
 		}
 
 		it ++;
-	}	
+	}
 
 	if ( NULL != initialControl ) {
 		if ( (initialControl->getVisible()) && (initialControl->getAlignment() == alignment) ) {
@@ -629,6 +610,9 @@ void FixedStandardContainer::alignFixed( Control* initialControl, const bool& co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
 *migration towards new directory structure
 *
@@ -683,7 +667,5 @@ void FixedStandardContainer::alignFixed( Control* initialControl, const bool& co
 *intance that is created and assigned dynamically to any Control.
 *
 */
-
-
 
 

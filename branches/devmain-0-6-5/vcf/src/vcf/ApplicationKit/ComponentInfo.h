@@ -1,39 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-//ComponentInfo.h
-
 #ifndef _VCF_COMPONENTINFO_H__
 #define _VCF_COMPONENTINFO_H__
+//ComponentInfo.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -47,13 +25,13 @@ class Image;
 */
 class APPKIT_API ComponentInfo : public Object {
 public :
-	ComponentInfo( const String& componentUUID, const String& author="", const String& company="", 
-					const String& copyright="", const String& additionalInfo="", 
+	ComponentInfo( const String& componentUUID, const String& author="", const String& company="",
+					const String& copyright="", const String& additionalInfo="",
 					const String& packageName="", const String& packageUUID="",
 					Image* componentImage=NULL );
 
 	virtual ~ComponentInfo();
-	
+
 	/**
 	*The name of the author of the component class
 	*/
@@ -83,7 +61,7 @@ public :
 	}
 
 	/**
-	*the UUID that represents the corresponding component class. 
+	*the UUID that represents the corresponding component class.
 	*This UUID is guaranteed to be able to create a valid instance
 	*of the component at runtime.
 	*/
@@ -100,7 +78,7 @@ public :
 
 	/**
 	returns the package UUID, that is, the unique string id for the package
-	that this component belongs to. The package anme and package UUID 
+	that this component belongs to. The package anme and package UUID
 	<b>must</b> refer to the same package!
 	*/
 	String getPackageUUID() {
@@ -108,7 +86,7 @@ public :
 	}
 
 	/**
-	*an image that represents the component. This image must have 
+	*an image that represents the component. This image must have
 	*dimensions of 25 pixels wide by 25 pixel high.
 	*@return Image a pointer to the image representing the component. May
 	*be NULL if no image exists. In this case a default image will be used.
@@ -116,18 +94,18 @@ public :
 	Image* getComponentImage() {
 		return componentImage_;
 	}
-	
+
 	/**
-	*returns an enumeration of all the headers 
+	*returns an enumeration of all the headers
 	*that are required to successfully compile an implementation file
-	*that uses this component. 
+	*that uses this component.
 	*/
 	Enumerator<String>* getRequiredHeaders();
 
 	/**
-	*returns an enumeration of all the C++ namespaces 
+	*returns an enumeration of all the C++ namespaces
 	*that are required to successfully compile an implementation file
-	*that uses this component. 
+	*that uses this component.
 	*/
 	Enumerator<String>* getRequiredNamespaces();
 
@@ -142,7 +120,7 @@ public :
 	void removeNamespace( const String& aNamespace );
 
 	void removeAllNamespaces();
-	
+
 
 protected:
 	String author_;
@@ -166,11 +144,12 @@ protected:
 };
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
 *migration towards new directory structure
 *
@@ -259,6 +238,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_COMPONENTINFO_H__
 

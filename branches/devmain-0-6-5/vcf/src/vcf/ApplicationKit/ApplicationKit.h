@@ -1,41 +1,18 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
- 
-
+#ifndef _VCF_APPLICATIONKIT_H__
+#define _VCF_APPLICATIONKIT_H__
 //ApplicationKit.h
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
-#ifndef _VCF_APPLICATIONKIT_H__
-#define _VCF_APPLICATIONKIT_H__
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 #include "vcf/ApplicationKit/ApplicationKitSelectLib.h"
 
@@ -99,7 +76,7 @@ Action classes
 
 
 /**
-*Clipboard 
+*Clipboard
 */
 #include "vcf/ApplicationKit/DataTypeNotSupportedException.h"
 #include "vcf/ApplicationKit/DataObject.h"
@@ -223,7 +200,7 @@ Action classes
 #include "vcf/ApplicationKit/AbstractPropertyEditor.h"
 /**
 *
-*You don't need this file unless you are directly working with property 
+*You don't need this file unless you are directly working with property
 editors
 #include "vcf/ApplicationKit/DefaultPropertyEditors.h"
 */
@@ -253,7 +230,7 @@ editors
 
 
 /**
-*Visual Form File streams 
+*Visual Form File streams
 */
 /**
 *
@@ -304,7 +281,7 @@ editors
 #include "vcf/ApplicationKit/ControlPeer.h"
 
 /*
-You only need these if you are going to be directly working with a peer - 
+You only need these if you are going to be directly working with a peer -
 which is not very often
 #include "vcf/ApplicationKit/LightweightComponent.h"
 #include "vcf/ApplicationKit/TextPeer.h"
@@ -331,7 +308,7 @@ namespace VCF {
 		*initializes the Application Kit runtime.
 		*This includes registering the basic classes in the runtime system
 		*This MUST be called first off in the main() function of the app
-		*This will automatically call 
+		*This will automatically call
 			FoundationKit::init();
 		and
 			GraphicsKit::init();
@@ -341,9 +318,14 @@ namespace VCF {
 		static void terminate();
 	};
 };
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles
@@ -566,6 +548,5 @@ namespace VCF {
 
 
 #endif // _VCF_APPLICATIONKIT_H__
-
 
 

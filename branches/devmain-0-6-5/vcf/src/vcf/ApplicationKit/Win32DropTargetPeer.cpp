@@ -1,32 +1,12 @@
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
 //Win32DropTargetPeer.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32DropTargetPeer.h"
@@ -50,14 +30,14 @@ Win32DropTargetPeer::~Win32DropTargetPeer()
 
 void Win32DropTargetPeer::registerTarget( Control* control )
 {
-	
+
 
 	if ( NULL != control ){
 		ControlPeer* peer = control->getPeer();
 		if ( NULL != peer ){
 			HWND hwnd = (HWND)peer->getHandleID();
 			if ( NULL != hwnd ){
-				
+
 				HRESULT result = RegisterDragDrop( hwnd, comDropTarget_ );
 				switch ( result ){
 					case S_OK :{
@@ -126,34 +106,34 @@ HRESULT Win32DropTargetPeer::DragEnter( LPDATAOBJECT dataObject, DWORD keyState,
 
     dataObject_ = dataObject;
 
-	if ( NULL != dataObject_ ){ 
+	if ( NULL != dataObject_ ){
 		dataObject_->AddRef();
 	}
 
 	currentDataObj_ = new VCF::DataObject();
 
 	IEnumFORMATETC* enumFMT = NULL;
-	
+
 	HRESULT hr = dataObject_->EnumFormatEtc( DATADIR_GET, &enumFMT );
 	if ( (SUCCEEDED(hr)) && (NULL != enumFMT) ){
 		FORMATETC fmtETC;
 		memset( &fmtETC, 0, sizeof(FORMATETC) );
-		ULONG fetched = 0;			
+		ULONG fetched = 0;
 
-		hr = enumFMT->Next( 1, &fmtETC, &fetched );		
-		
+		hr = enumFMT->Next( 1, &fmtETC, &fetched );
+
 		while ( (1 == fetched) && (SUCCEEDED(hr)) ){
 			String dataType = VCFCOM::COMUtils::translateWin32ClipboardFormat(fmtETC);
 			if ( !dataType.empty() ) {
 				currentDataObj_->addSupportedDataType( dataType, NULL );
 			}
-			
+
 			enumFMT->Next( 1, &fmtETC, &fetched );
-		}		
+		}
 	}
 
-	VCF::DropTargetEvent event( getDropTarget(), currentDataObj_ );	
-	
+	VCF::DropTargetEvent event( getDropTarget(), currentDataObj_ );
+
 	if ( (*effect) & DROPEFFECT_NONE )  {
 		event.setActionType( daNone );
 	}
@@ -167,7 +147,7 @@ HRESULT Win32DropTargetPeer::DragEnter( LPDATAOBJECT dataObject, DWORD keyState,
 		event.setActionType( daLink );
 	}
 
-	event.setType( DropTarget::DRAG_ENTERED );	
+	event.setType( DropTarget::DRAG_ENTERED );
 
 	POINT pt = {point.x,point.y};
 	::ScreenToClient( (HWND)getDropTarget()->getTarget()->getPeer()->getHandleID(),
@@ -182,9 +162,9 @@ HRESULT Win32DropTargetPeer::DragEnter( LPDATAOBJECT dataObject, DWORD keyState,
 	event.setDropPoint( dropPt );
 
 
-	getDropTarget()->handleEvent( &event );	
-    
-	*effect = COMUtils::translateActionType( event.getAction() );	
+	getDropTarget()->handleEvent( &event );
+
+	*effect = COMUtils::translateActionType( event.getAction() );
 
 	if ( event.getAction() == daNone ) {
 		result = E_FAIL;
@@ -193,7 +173,7 @@ HRESULT Win32DropTargetPeer::DragEnter( LPDATAOBJECT dataObject, DWORD keyState,
 	else {
 		result = NOERROR;
 	}
-	
+
 
 	return result;
 }
@@ -207,16 +187,16 @@ HRESULT Win32DropTargetPeer::DragOver( DWORD keyState, POINTL point, LPDWORD eff
         *effect=DROPEFFECT_NONE;
         result =  NOERROR;
 	}
-	
+
     //We can always drop; return effect flags based on keys.
 	/*
     effect=DROPEFFECT_MOVE;
-	*/	
+	*/
 
     if ( keyState & MK_CONTROL ) {
 	   *effect = DROPEFFECT_COPY;
 	}
-    
+
 	VCF::DropTargetEvent event( getDropTarget(), currentDataObj_ );
 	event.setType( DropTarget::DRAGGING_OVER );
 
@@ -245,19 +225,19 @@ HRESULT Win32DropTargetPeer::DragOver( DWORD keyState, POINTL point, LPDWORD eff
 		event.setActionType( daLink );
 	}
 
-	getDropTarget()->handleEvent( &event );	
-    
-	*effect = COMUtils::translateActionType( event.getAction() );	
+	getDropTarget()->handleEvent( &event );
+
+	*effect = COMUtils::translateActionType( event.getAction() );
 
 	return result;
 }
 
 HRESULT Win32DropTargetPeer::DragLeave(void)
-{	
+{
 	HRESULT result = E_FAIL;
-	
+
 	VCF::DropTargetEvent event( getDropTarget(), NULL );
-	event.setType( DropTarget::DRAG_LEFT );	
+	event.setType( DropTarget::DRAG_LEFT );
 	getDropTarget()->handleEvent( &event );
 
 
@@ -265,12 +245,12 @@ HRESULT Win32DropTargetPeer::DragLeave(void)
 		dataObject_->Release();
 		dataObject_ = NULL;
 	}
-	
+
 	if ( NULL != currentDataObj_ ) {
 		currentDataObj_->free();
 		currentDataObj_ = NULL;
 	}
-	
+
 
     result = NO_ERROR;
 
@@ -280,7 +260,7 @@ HRESULT Win32DropTargetPeer::DragLeave(void)
 HRESULT Win32DropTargetPeer::Drop( LPDATAOBJECT dataObject, DWORD keyState, POINTL point, LPDWORD effect )
 {
 	HRESULT result = E_FAIL;
-	
+
 	if ( NULL != currentDataObj_ ) {
 		currentDataObj_->free();
 		currentDataObj_ = NULL;
@@ -290,31 +270,31 @@ HRESULT Win32DropTargetPeer::Drop( LPDATAOBJECT dataObject, DWORD keyState, POIN
     *pdwEffect=DROPEFFECT_NONE;
 	*/
     if ( NULL != dataObject_ ){
-		
+
 		DragLeave();
-		
+
 		dataObject_ = dataObject;
-		dataObject_->AddRef();		
-		
+		dataObject_->AddRef();
+
 		VCF::DropTarget* target = getDropTarget();
 		unsigned long size = 0;
-		
-		
+
+
 		IEnumFORMATETC* enumFMT = NULL;
-		
+
 		HRESULT result = dataObject_->EnumFormatEtc( DATADIR_GET, &enumFMT );
 		if ( (SUCCEEDED(result)) && (NULL != enumFMT) ){
-			
-			
+
+
 			FORMATETC fmtETC;
 			memset( &fmtETC, 0, sizeof(FORMATETC) );
 			ULONG fetched = 0;
-			
-			
+
+
 
 			HRESULT res = enumFMT->Next( 1, &fmtETC, &fetched );
-			
-			
+
+
 
 			while ( (1 == fetched) && (SUCCEEDED(res)) ){
 				String dataType = VCFCOM::COMUtils::translateWin32ClipboardFormat(fmtETC);
@@ -327,32 +307,32 @@ HRESULT Win32DropTargetPeer::Drop( LPDATAOBJECT dataObject, DWORD keyState, POIN
 					else {
 						Persistable* persistable = VCFCOM::COMUtils::getPersistableFromOLEDataObject(dataType,
 																							dataObject_,
-																							&fmtETC );	
+																							&fmtETC );
 						currentDataObj_->addSupportedDataType( dataType, persistable );
 					}
 				}
-				
+
 				enumFMT->Next( 1, &fmtETC, &fetched );
 			}
-			
+
 			VCF::DropTargetEvent event( target, currentDataObj_ );
 
-			event.setType( DropTarget::DRAG_DROPPED );	
+			event.setType( DropTarget::DRAG_DROPPED );
 			getDropTarget()->handleEvent( &event );
-			
+
 			if ( NULL != currentDataObj_ ) {
 				currentDataObj_->free();
 				currentDataObj_ = NULL;
 			}
-		}			
-		
-		
+		}
+
+
 		//*effect = DROPEFFECT_MOVE;
-		
+
 		if ( keyState & MK_CONTROL ){
 			*effect = DROPEFFECT_COPY;
 		}
-		
+
 		dataObject_->Release();
 		result = NOERROR;
 	}
@@ -366,6 +346,9 @@ HRESULT Win32DropTargetPeer::Drop( LPDATAOBJECT dataObject, DWORD keyState, POIN
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -477,9 +460,5 @@ HRESULT Win32DropTargetPeer::Drop( LPDATAOBJECT dataObject, DWORD keyState, POIN
 *to facilitate change tracking
 *
 */
-
-
-
-
 
 

@@ -1,6 +1,52 @@
+//TextEvent.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/TextEvent.h"
+#include "vcf/ApplicationKit/TextModel.h"
+
+using namespace VCF;
+
+TextEvent::TextEvent( Object * source ):
+	Event( source )
+{
+	this->changeText_ = "";
+}
+
+TextEvent::TextEvent( Object * source, const String& changedText ):
+	Event( source )
+{
+	this->changeText_ = changedText;
+}
+
+TextEvent::~TextEvent()
+{
+
+}
+
+String TextEvent::getChangeText()
+{
+	return this->changeText_;
+}
+
+TextModel* TextEvent::getTextModel()
+{
+	return dynamic_cast<TextModel*>(this->getSource() );
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -44,67 +90,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-//TextEvent.cpp
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/TextEvent.h"
-#include "vcf/ApplicationKit/TextModel.h"
-
-using namespace VCF;
-
-TextEvent::TextEvent( Object * source ):
-	Event( source )
-{
-	this->changeText_ = "";
-}
-
-TextEvent::TextEvent( Object * source, const String& changedText ):
-	Event( source )	
-{
-	this->changeText_ = changedText;
-}
-
-TextEvent::~TextEvent()
-{
-
-}
-
-String TextEvent::getChangeText()
-{
-	return this->changeText_;
-}
-	
-TextModel* TextEvent::getTextModel()
-{
-	return dynamic_cast<TextModel*>(this->getSource() );
-}
 
 

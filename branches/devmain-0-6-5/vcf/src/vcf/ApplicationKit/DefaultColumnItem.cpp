@@ -1,6 +1,131 @@
+//DefaultColumnItem.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//DefaultColumnItem.h
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/DefaultColumnItem.h"
+#include "vcf/ApplicationKit/DefaultColumnModel.h"
+
+
+using namespace VCF;
+
+
+
+
+DefaultColumnItem::DefaultColumnItem()
+{
+	index_ = 0;
+	data_ = NULL;
+	model_ = NULL;
+	width_ = 100.0;
+	imageIndex_ = -1;
+	textAlignment_ = taTextLeft;
+	tag_ = -1;
+}
+
+DefaultColumnItem::~DefaultColumnItem()
+{
+
+}
+
+bool DefaultColumnItem::containsPoint( Point * pt )
+{
+	return false;
+}
+
+unsigned long DefaultColumnItem::getIndex()
+{
+	return index_;
+}
+
+void DefaultColumnItem::setIndex( const unsigned long& index )
+{
+	index_ = index;
+}
+
+void DefaultColumnItem::setImageIndex( const long& imageIndex )
+{
+	imageIndex_ = imageIndex;
+}
+
+void DefaultColumnItem::setData( void* data )
+{
+	data_ = data;
+
+	ItemEvent event( this, ITEM_EVENT_CHANGED );
+	ItemChanged.fireEvent( &event );
+}
+
+void DefaultColumnItem::setCaption( const String& caption )
+{
+	caption_ = caption;
+	ItemEvent event( this, ITEM_EVENT_TEXT_CHANGED );
+	ItemChanged.fireEvent( &event );
+}
+
+Model* DefaultColumnItem::getModel()
+{
+	return model_;
+}
+
+void DefaultColumnItem::setModel( Model* model )
+{
+	model_ = dynamic_cast<ColumnModel*>( model );
+}
+
+void DefaultColumnItem::paint( GraphicsContext* context, Rect* paintRect )
+{
+	bounds_ = *paintRect;
+	ItemEvent event( this, context );
+	ItemPaint.fireEvent( &event );
+}
+
+bool DefaultColumnItem::isSelected()
+{
+	return selected_;
+}
+
+void DefaultColumnItem::setSelected( const bool& selected )
+{
+	selected_ = selected;
+
+	ItemEvent event( this, ITEM_EVENT_SELECTED );
+	ItemChanged.fireEvent( &event );
+}
+
+void DefaultColumnItem::setCaptionAlignment( const TextAlignmentType& alignment )
+{
+	textAlignment_ = alignment;
+	ItemEvent event( this, ITEM_EVENT_CHANGED );
+	ItemChanged.fireEvent( &event );
+}
+
+void DefaultColumnItem::setWidth( const double& width )
+{
+	width_ = width;
+	ItemEvent event( this, ITEM_EVENT_CHANGED );
+	ItemChanged.fireEvent( &event );
+}
+
+
+void DefaultColumnItem::setBounds( Rect* bounds )
+{
+	bounds_ = *bounds;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -89,144 +214,5 @@
 *to facilitate change tracking
 *
 */
-
-//DefaultColumnItem.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/DefaultColumnItem.h"
-#include "vcf/ApplicationKit/DefaultColumnModel.h"
-
-
-using namespace VCF;
-
-
-
-
-DefaultColumnItem::DefaultColumnItem()
-{
-	index_ = 0;
-	data_ = NULL;
-	model_ = NULL;
-	width_ = 100.0;
-	imageIndex_ = -1;
-	textAlignment_ = taTextLeft;
-	tag_ = -1;
-}
-
-DefaultColumnItem::~DefaultColumnItem()
-{
-
-}
-
-bool DefaultColumnItem::containsPoint( Point * pt )
-{
-	return false;
-}
-
-unsigned long DefaultColumnItem::getIndex()
-{
-	return index_;
-}
-
-void DefaultColumnItem::setIndex( const unsigned long& index )
-{
-	index_ = index;
-}
-
-void DefaultColumnItem::setImageIndex( const long& imageIndex )
-{
-	imageIndex_ = imageIndex;
-}
-
-void DefaultColumnItem::setData( void* data )
-{
-	data_ = data;
-
-	ItemEvent event( this, ITEM_EVENT_CHANGED );
-	ItemChanged.fireEvent( &event );
-}
-
-void DefaultColumnItem::setCaption( const String& caption )
-{
-	caption_ = caption;
-	ItemEvent event( this, ITEM_EVENT_TEXT_CHANGED );
-	ItemChanged.fireEvent( &event );	
-}
-
-Model* DefaultColumnItem::getModel()
-{
-	return model_;
-}
-
-void DefaultColumnItem::setModel( Model* model )
-{
-	model_ = dynamic_cast<ColumnModel*>( model );
-}
-
-void DefaultColumnItem::paint( GraphicsContext* context, Rect* paintRect )
-{
-	bounds_ = *paintRect;
-	ItemEvent event( this, context );
-	ItemPaint.fireEvent( &event );	
-}
-
-bool DefaultColumnItem::isSelected()
-{
-	return selected_;
-}
-
-void DefaultColumnItem::setSelected( const bool& selected )
-{
-	selected_ = selected;
-	
-	ItemEvent event( this, ITEM_EVENT_SELECTED );
-	ItemChanged.fireEvent( &event );	
-}
-
-void DefaultColumnItem::setCaptionAlignment( const TextAlignmentType& alignment )
-{
-	textAlignment_ = alignment;
-	ItemEvent event( this, ITEM_EVENT_CHANGED );
-	ItemChanged.fireEvent( &event );
-}
-
-void DefaultColumnItem::setWidth( const double& width )
-{
-	width_ = width;
-	ItemEvent event( this, ITEM_EVENT_CHANGED );
-	ItemChanged.fireEvent( &event );
-}
-
-
-void DefaultColumnItem::setBounds( Rect* bounds ) 
-{
-	bounds_ = *bounds;
-}
 
 

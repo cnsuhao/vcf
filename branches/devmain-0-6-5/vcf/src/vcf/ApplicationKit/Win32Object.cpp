@@ -1,6 +1,244 @@
+//Win32Object.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+
+
+using namespace VCF;
+
+std::vector< String > Win32Object::registeredWindowClasses_;
+
+std::map<HWND, Win32Object*> Win32Object::windowMap_;
+
+
+LRESULT CALLBACK Win32Object_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
+
+	Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hWnd );
+
+	if ( NULL != win32Obj ){
+		return  win32Obj->handleEventMessages( message, wParam, lParam );
+	}
+	else {
+		if ( System::isUnicodeEnabled() ) {
+			return DefWindowProcW(hWnd, message, wParam, lParam);
+		}
+		else {
+			return DefWindowProcA(hWnd, message, wParam, lParam);
+		}
+	}
+	return 0;
+}
+
+
+Win32Object::Win32Object()
+{
+	init();
+	wndProc_ = Win32Object_WndProc;
+	if ( System::isUnicodeEnabled() ) {
+		defaultWndProc_ = ::DefWindowProcW;
+	}
+	else {
+		defaultWndProc_ = ::DefWindowProcA;
+	}
+
+}
+
+Win32Object::~Win32Object()
+{
+
+}
+
+void Win32Object::destroyWindowHandle()
+{
+	if ( Win32Object::windowMap_.empty() ) {
+		return;
+	}
+
+	std::map<HWND, Win32Object*>::iterator found =  Win32Object::windowMap_.find( hwnd_ );
+	if ( found != Win32Object::windowMap_.end() ){
+		Win32Object::windowMap_.erase( found );
+	}
+}
+
+
+void Win32Object::addRegisterWin32Class( const String& className )
+{
+	Win32Object::registeredWindowClasses_.push_back( className );
+}
+
+void Win32Object::registerWin32Class( const String& className, WNDPROC wndProc )
+{
+	BOOL registered = FALSE;
+
+	if ( System::isUnicodeEnabled() ) {
+		WNDCLASSEXW wcex;
+
+		wcex.cbSize = sizeof(wcex);
+
+		wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
+		wcex.lpfnWndProc	= (WNDPROC)wndProc;
+		wcex.cbClsExtra		= 0;
+		wcex.cbWndExtra		= 0;
+		wcex.hInstance		= (HINSTANCE)::GetModuleHandle(NULL);
+		wcex.hIcon			= LoadIconW( Win32ToolKit::getInstanceHandle(), L"DefaultVCFIcon" );
+		wcex.hCursor		= NULL;//LoadCursor(NULL, IDC_ARROW);
+		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_WINDOW+1);
+		wcex.lpszMenuName	= NULL;
+		wcex.lpszClassName	= className.c_str();
+		wcex.hIconSm		= NULL;
+
+		registered = RegisterClassExW(&wcex);
+	}
+	else {
+		WNDCLASSEXA wcex;
+
+		wcex.cbSize = sizeof(wcex);
+
+		wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
+		wcex.lpfnWndProc	= (WNDPROC)wndProc;
+		wcex.cbClsExtra		= 0;
+		wcex.cbWndExtra		= 0;
+		wcex.hInstance		= (HINSTANCE)::GetModuleHandle(NULL);
+		wcex.hIcon			= LoadIconA( Win32ToolKit::getInstanceHandle(), "DefaultVCFIcon" );
+		wcex.hCursor		= NULL;//LoadCursor(NULL, IDC_ARROW);
+		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_WINDOW+1);
+		wcex.lpszMenuName	= NULL;
+		wcex.lpszClassName	= className.ansi_c_str();
+		wcex.hIconSm		= NULL;
+
+		registered = RegisterClassExA(&wcex);
+	}
+
+	if ( registered ){
+		addRegisterWin32Class( className );
+	}
+}
+
+bool Win32Object::isRegistered()
+{
+	bool result = false;
+
+	std::vector<String>::iterator it = std::find( Win32Object::registeredWindowClasses_.begin(),
+													     Win32Object::registeredWindowClasses_.end(),
+					                					 getClassName() );
+
+	result = ( it != Win32Object::registeredWindowClasses_.end() );
+	return result;
+}
+
+void Win32Object::init()
+{
+	exStyleMask_ = 0;
+	styleMask_ = SIMPLE_VIEW;
+
+	hwnd_ = NULL;
+
+	wndProc_ = NULL;
+	defaultWndProc_ = NULL;
+
+	created_ = false;
+
+	peerControl_ = NULL;
+}
+
+void Win32Object::createParams()
+{
+	exStyleMask_ = 0;
+	styleMask_ = SIMPLE_VIEW;
+}
+
+LRESULT Win32Object::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
+{
+	if ( System::isUnicodeEnabled() ) {
+		return DefWindowProcW( hwnd_, message, wParam, lParam );
+	}
+	else {
+		return DefWindowProcA( hwnd_, message, wParam, lParam );
+	}
+	return 0;
+}
+
+Win32Object* Win32Object::getWin32ObjectFromHWND( HWND hwnd )
+{
+	Win32Object* result = NULL;
+
+	if ( !Win32Object::windowMap_.empty() ) {
+
+		std::map<HWND,Win32Object*>::iterator found =
+			Win32Object::windowMap_.find( hwnd );
+
+		if ( found != Win32Object::windowMap_.end() ){
+			result = found->second;
+		}
+	}
+	//result = (Win32Object*)::GetWindowLong( hwnd, GWL_USERDATA );
+
+	return 	result;
+}
+
+HWND Win32Object::getHwnd()
+{
+	return hwnd_;
+}
+
+void Win32Object::registerWin32Object( Win32Object* wndObj )
+{
+	Win32Object::windowMap_[ wndObj->getHwnd() ] = wndObj;
+	//::SetWindowLong( wndObj->getHwnd(), GWL_USERDATA, (LPARAM)wndObj );
+
+	::PostMessage( wndObj->getHwnd(), VCF_CONTROL_CREATE, 0, 0 );
+}
+
+LRESULT Win32Object::defaultWndProcedure( UINT message, WPARAM wParam, LPARAM lParam )
+{
+	LRESULT result = 0;
+	if ( NULL != defaultWndProc_ ){
+		if ( System::isUnicodeEnabled() ) {
+			result = CallWindowProcW( defaultWndProc_, hwnd_, message, wParam, lParam );
+		}
+		else{
+			result = CallWindowProcA( defaultWndProc_, hwnd_, message, wParam, lParam );
+		}
+
+	}
+
+	return result;
+}
+
+void Win32Object::setCreated( const bool& creationComplete )
+{
+	created_ = creationComplete;
+}
+
+bool Win32Object::isCreated()
+{
+	return created_;
+}
+
+void Win32Object::setPeerControl( Control* control )
+{
+	peerControl_ = control;
+}
+
+Control* Win32Object::getPeerControl()
+{
+	return peerControl_;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -77,260 +315,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32Object.cpp
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-
-
-using namespace VCF;
-
-std::vector< String > Win32Object::registeredWindowClasses_;
-
-std::map<HWND, Win32Object*> Win32Object::windowMap_;
-
-
-LRESULT CALLBACK Win32Object_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
-
-	Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hWnd );
-
-	if ( NULL != win32Obj ){
-		return  win32Obj->handleEventMessages( message, wParam, lParam );
-	}
-	else {
-		if ( System::isUnicodeEnabled() ) {
-			return DefWindowProcW(hWnd, message, wParam, lParam);
-		}
-		else {
-			return DefWindowProcA(hWnd, message, wParam, lParam);
-		}
-	}
-	return 0;
-}
-
-
-Win32Object::Win32Object()
-{	
-	init();
-	wndProc_ = Win32Object_WndProc;
-	if ( System::isUnicodeEnabled() ) {
-		defaultWndProc_ = ::DefWindowProcW;	
-	}
-	else {
-		defaultWndProc_ = ::DefWindowProcA;	
-	}
-	
-}
-
-Win32Object::~Win32Object()
-{
-	
-}
-
-void Win32Object::destroyWindowHandle()
-{
-	if ( Win32Object::windowMap_.empty() ) {
-		return;
-	}
-
-	std::map<HWND, Win32Object*>::iterator found =  Win32Object::windowMap_.find( hwnd_ ); 		
-	if ( found != Win32Object::windowMap_.end() ){
-		Win32Object::windowMap_.erase( found );
-	}	
-}
-
-
-void Win32Object::addRegisterWin32Class( const String& className )
-{
-	Win32Object::registeredWindowClasses_.push_back( className );
-}
-
-void Win32Object::registerWin32Class( const String& className, WNDPROC wndProc )
-{
-	BOOL registered = FALSE;
-
-	if ( System::isUnicodeEnabled() ) {
-		WNDCLASSEXW wcex;
-		
-		wcex.cbSize = sizeof(wcex); 
-		
-		wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
-		wcex.lpfnWndProc	= (WNDPROC)wndProc;
-		wcex.cbClsExtra		= 0;
-		wcex.cbWndExtra		= 0;
-		wcex.hInstance		= (HINSTANCE)::GetModuleHandle(NULL);
-		wcex.hIcon			= LoadIconW( Win32ToolKit::getInstanceHandle(), L"DefaultVCFIcon" );
-		wcex.hCursor		= NULL;//LoadCursor(NULL, IDC_ARROW);
-		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_WINDOW+1);
-		wcex.lpszMenuName	= NULL;
-		wcex.lpszClassName	= className.c_str();
-		wcex.hIconSm		= NULL;
-		
-		registered = RegisterClassExW(&wcex);
-	}
-	else {
-		WNDCLASSEXA wcex;
-		
-		wcex.cbSize = sizeof(wcex); 
-		
-		wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
-		wcex.lpfnWndProc	= (WNDPROC)wndProc;
-		wcex.cbClsExtra		= 0;
-		wcex.cbWndExtra		= 0;
-		wcex.hInstance		= (HINSTANCE)::GetModuleHandle(NULL);
-		wcex.hIcon			= LoadIconA( Win32ToolKit::getInstanceHandle(), "DefaultVCFIcon" );
-		wcex.hCursor		= NULL;//LoadCursor(NULL, IDC_ARROW);
-		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_WINDOW+1);
-		wcex.lpszMenuName	= NULL;
-		wcex.lpszClassName	= className.ansi_c_str();
-		wcex.hIconSm		= NULL;
-		
-		registered = RegisterClassExA(&wcex);
-	}
-
-	if ( registered ){
-		addRegisterWin32Class( className );
-	}
-}
-
-bool Win32Object::isRegistered()
-{
-	bool result = false;
-
-	std::vector<String>::iterator it = std::find( Win32Object::registeredWindowClasses_.begin(),
-													     Win32Object::registeredWindowClasses_.end(),
-					                					 getClassName() );
-
-	result = ( it != Win32Object::registeredWindowClasses_.end() );
-	return result;
-}
-
-void Win32Object::init()
-{		
-	exStyleMask_ = 0;
-	styleMask_ = SIMPLE_VIEW;
-	
-	hwnd_ = NULL;
-	
-	wndProc_ = NULL;
-	defaultWndProc_ = NULL;
-
-	created_ = false;
-
-	peerControl_ = NULL;
-}
-
-void Win32Object::createParams()
-{
-	exStyleMask_ = 0;
-	styleMask_ = SIMPLE_VIEW;
-}
-
-LRESULT Win32Object::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
-{
-	if ( System::isUnicodeEnabled() ) {
-		return DefWindowProcW( hwnd_, message, wParam, lParam );
-	}
-	else {
-		return DefWindowProcA( hwnd_, message, wParam, lParam );
-	}
-	return 0;
-}
-
-Win32Object* Win32Object::getWin32ObjectFromHWND( HWND hwnd )
-{
-	Win32Object* result = NULL;
-	
-	if ( !Win32Object::windowMap_.empty() ) {
-
-		std::map<HWND,Win32Object*>::iterator found = 
-			Win32Object::windowMap_.find( hwnd );
-
-		if ( found != Win32Object::windowMap_.end() ){
-			result = found->second;
-		}
-	}
-	//result = (Win32Object*)::GetWindowLong( hwnd, GWL_USERDATA );
-
-	return 	result;
-}
-
-HWND Win32Object::getHwnd()
-{
-	return hwnd_;
-}
-
-void Win32Object::registerWin32Object( Win32Object* wndObj )
-{
-	Win32Object::windowMap_[ wndObj->getHwnd() ] = wndObj;
-	//::SetWindowLong( wndObj->getHwnd(), GWL_USERDATA, (LPARAM)wndObj );
-
-	::PostMessage( wndObj->getHwnd(), VCF_CONTROL_CREATE, 0, 0 );
-}
-
-LRESULT Win32Object::defaultWndProcedure( UINT message, WPARAM wParam, LPARAM lParam )
-{
-	LRESULT result = 0;
-	if ( NULL != defaultWndProc_ ){
-		if ( System::isUnicodeEnabled() ) {
-			result = CallWindowProcW( defaultWndProc_, hwnd_, message, wParam, lParam );				
-		}
-		else{
-			result = CallWindowProcA( defaultWndProc_, hwnd_, message, wParam, lParam );				
-		}
-		
-	}
-
-	return result;
-}
-
-void Win32Object::setCreated( const bool& creationComplete )
-{
-	created_ = creationComplete;
-}
-
-bool Win32Object::isCreated()
-{
-	return created_;
-}
-
-void Win32Object::setPeerControl( Control* control )
-{
-	peerControl_ = control;	
-}
-
-Control* Win32Object::getPeerControl()
-{
-	return peerControl_;
-}
 
 

@@ -1,41 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_TREELISTCONTROL_H__
 #define _VCF_TREELISTCONTROL_H__
+//TreeListControl.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// TreeListControl.h
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_TREEMODEL_H__
@@ -85,7 +61,7 @@ public:
 	void init();
 
 	enum TreeListControlEvents {
-		ITEM_STATECHANGE_REQUESTED = CUSTOM_EVENT_TYPES + ITEM_CONST + 10		
+		ITEM_STATECHANGE_REQUESTED = CUSTOM_EVENT_TYPES + ITEM_CONST + 10
 	};
 
 	enum TreeDisplayOptions {
@@ -97,35 +73,35 @@ public:
 		tdoShowColumnHeader = 16
 	};
 
-	DELEGATE(ItemSelected);	
+	DELEGATE(ItemSelected);
 	DELEGATE(ItemStateChangeRequested);
 	DELEGATE(ItemExpanded);
-	
-	void setTreeModel(TreeModel * model);    
+
+	void setTreeModel(TreeModel * model);
 
 	TreeModel* getTreeModel();
-    
-	ColumnModel* getColumnModel(); 
+
+	ColumnModel* getColumnModel();
 
 	double getColumnWidth( const unsigned long& index );
-	
-	void setColumnWidth( const unsigned long& index, const double& width ); 
+
+	void setColumnWidth( const unsigned long& index, const double& width );
 
 
-	virtual void paint( GraphicsContext * context );	
-	
+	virtual void paint( GraphicsContext * context );
+
 
 	void addItem( TreeItem* item, TreeItem* parent = NULL );
 
 	TreeItem* addItem( TreeItem* parent=NULL, const String& caption="", const ulong32 imageIndex=0 );
-	
+
 	ulong32 getItemIndent() {
 		return itemIndent_;
 	}
 
 	void setItemIndent( const ulong32& itemIndent );
 
-	virtual void mouseDown( MouseEvent* event );	
+	virtual void mouseDown( MouseEvent* event );
 
 	virtual void mouseMove( MouseEvent* event );
 
@@ -137,13 +113,13 @@ public:
 
 	ImageList* getImageList();
 
-	ImageList* getStateImageList();	
+	ImageList* getStateImageList();
 
 	long getDisplayOptions();
 
 	void setDisplayOptions( const long& displayOptions );
 
-	TreeItem* isPtOverItem( Point* point );	
+	TreeItem* isPtOverItem( Point* point );
 
 	void setSelectedItem( TreeItem* item, const bool& isSelected );
 
@@ -151,14 +127,14 @@ public:
 
 	bool getAllowLabelEditing();
 
-	void setAllowLabelEditing( const bool& allowLabelEditing );	
+	void setAllowLabelEditing( const bool& allowLabelEditing );
 
 	virtual void setBounds( Rect* rect, const bool &anchorDeltasNeedUpdating=true );
 
 	HeaderControl* getHeader() {
 		return header_;
 	}
-	
+
 	Enumerator<TreeItem*>* getSelectedItems();
 
 	bool getAllowsMultipleSelection() {
@@ -191,7 +167,7 @@ public:
 	void showColumnHeader( const bool& show );
 
 	void clearSelectedItems();
-protected:	
+protected:
 	void onModelChanged( TreeModelEvent* event );
 
 	HeaderControl* header_;
@@ -204,9 +180,9 @@ protected:
 	double itemHeight_;
 	double columnHeight_;
 	ulong32 itemIndent_;
-	
+
 	long displayOptions_;
-	bool allowLabelEditing_;	
+	bool allowLabelEditing_;
 	bool allowMultipleSelection_;
 
 	double visibleItemsHeight_;
@@ -214,17 +190,17 @@ protected:
 	std::vector<TreeItem*> selectedItems_;
 	EnumeratorContainer<std::vector<TreeItem*>,TreeItem*> selectedItemContainer_;
 
-	long stateItemIndent_;	
+	long stateItemIndent_;
 
 	Color rowLineColor_;
 	Color columnLineColor_;
-	std::map<TreeItem*,double> hierarchyHeightMap_;	
+	std::map<TreeItem*,double> hierarchyHeightMap_;
 	std::vector<TreeItem*> visibleDisplayItems_;
 	Rect dragSelectionRect_;
 	Point dragPoint_;
 	bool draggingSelectionRect_;
 	std::vector<TreeItem*> draggingSelectedItems_;
-	
+
 	bool singleSelectionChange( MouseEvent* event );
 	bool multiSelectionChange( MouseEvent* event );
 
@@ -238,21 +214,21 @@ protected:
 
 	virtual void paintItemImage( TreeItem* item, GraphicsContext* context, Rect* paintRect, const long& currentIndent );
 
-	void onColumnWidthChanged( ItemEvent* event );		
+	void onColumnWidthChanged( ItemEvent* event );
 
 	bool listVisibleItems( std::vector<TreeItem*>& items, TreeItem* itemToSearch, const double& top, const double& bottom );
 
 	bool listSelectedItems( std::vector<TreeItem*>& items, TreeItem* firstSelectedItem, TreeItem* lastSelectedItem, TreeItem* nextItem, bool& startFound );
 
-	void populateVisiblityList( std::vector<TreeItem*>& items );	
+	void populateVisiblityList( std::vector<TreeItem*>& items );
 
-	double getCurrentIndent( TreeItem* item );	 
+	double getCurrentIndent( TreeItem* item );
 
-	Rect getStateRect( TreeItem* item, const double& indent );	
+	Rect getStateRect( TreeItem* item, const double& indent );
 
 	bool hitTest( Rect* rect, TreeItem* item, std::vector<TreeItem*>& hitTestList );
 
-	
+
 };
 
 
@@ -262,6 +238,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -416,7 +395,6 @@ protected:
 *to facilitate change tracking
 *
 */
-
 
 
 #endif // _VCF_TREELISTCONTROL_H__

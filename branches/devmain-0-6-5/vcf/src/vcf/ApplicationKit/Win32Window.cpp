@@ -1,33 +1,12 @@
+//Win32Window.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32Window.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Window.h"
@@ -43,7 +22,7 @@ Win32Window::Win32Window():
 	internalClose_(false),
 	owner_(NULL)
 {
-		
+
 }
 
 Win32Window::Win32Window( Control* component, Control* owner ):
@@ -56,16 +35,16 @@ Win32Window::Win32Window( Control* component, Control* owner ):
 
 Win32Window::~Win32Window()
 {
-	
+
 }
 
 void Win32Window::create( Control* owningControl )
 {
 	styleMask_ = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
-	
+
 	String className = getClassName();
 
-	if ( true != isRegistered() ){		
+	if ( true != isRegistered() ){
 		if ( className.empty() ) {
 			className = "Win32Window::Win32Window";
 		}
@@ -74,39 +53,39 @@ void Win32Window::create( Control* owningControl )
 
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 
-	HWND parent = NULL;//toolkit->getDummyParent();		
-	
+	HWND parent = NULL;//toolkit->getDummyParent();
+
 	if ( NULL != owner_ ){
-		parent = (HWND)owner_->getPeer()->getHandleID();		
+		parent = (HWND)owner_->getPeer()->getHandleID();
 	}
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_, 
-		                             className.c_str(), 
+		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		                             className.c_str(),
 									 NULL,
-									 styleMask_, 
-		                             0, 
-									 0, 
-									 0, 
-									 0, 
-									 parent, 
+									 styleMask_,
+		                             0,
+									 0,
+									 0,
+									 0,
+									 parent,
 									 NULL, ::GetModuleHandleW(NULL), NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_, 
-		                             className.ansi_c_str(), 
+		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		                             className.ansi_c_str(),
 									 NULL,
-									 styleMask_, 
-		                             0, 
-									 0, 
-									 0, 
-									 0, 
-									 parent, 
+									 styleMask_,
+		                             0,
+									 0,
+									 0,
+									 0,
+									 parent,
 									 NULL, ::GetModuleHandleA(NULL), NULL );
 	}
-	
 
-	
+
+
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
 	}
@@ -148,28 +127,28 @@ void  Win32Window::setClientBounds( Rect* bounds )
 
 	if ( (style & WS_DLGFRAME) || (style & WS_THICKFRAME) ) {
 		r.left = (r.left - GetSystemMetrics(SM_CXFRAME));
-		
+
 		r.top = (r.top - GetSystemMetrics(SM_CYFRAME));
-		
+
 		r.right += GetSystemMetrics(SM_CXFRAME);
-		
+
 		r.bottom += GetSystemMetrics(SM_CYFRAME);
 	}
 
 	if ( (style & WS_CAPTION) != 0 ) {
 		int cy = GetSystemMetrics( SM_CYCAPTION );
 		if ( (exStyle & WS_EX_TOOLWINDOW) != 0 ) {
-			cy = GetSystemMetrics( SM_CYSMCAPTION );			
+			cy = GetSystemMetrics( SM_CYSMCAPTION );
 		}
 		else {
-			cy = GetSystemMetrics( SM_CYCAPTION );			
+			cy = GetSystemMetrics( SM_CYCAPTION );
 		}
-		
-		r.top -= cy;		
+
+		r.top -= cy;
 	}
 
 
-	::MoveWindow( hwnd_, r.left, r.top,	
+	::MoveWindow( hwnd_, r.left, r.top,
 			r.right - r.left, r.bottom - r.top, TRUE );
 }
 
@@ -193,11 +172,11 @@ void Win32Window::setVisible( const bool& visible )
 			}
 			break;
 
-			case fstNoBorder : case fstNoBorderFixed : {				
+			case fstNoBorder : case fstNoBorderFixed : {
 				::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );
 			}
-			break;		
-		}		
+			break;
+		}
 	}
 	else{
 		::ShowWindow( hwnd_, SW_HIDE );
@@ -222,14 +201,14 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 				EndPaint( hwnd_, &ps);
 			}
 			else {
-				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );	
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			}
 		}
 		break;
 		*/
-		
+
 		case WM_SIZE : {
-			
+
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			switch ( wParam ) {
 				case SIZE_MAXIMIZED : {
@@ -255,7 +234,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 				break;
 
 				case SIZE_RESTORED : {
-					
+
 					if ( !windowRestoredAlready ) {
 						Frame* frame = (Frame*)peerControl_;
 						Window* window = dynamic_cast<Window*>(frame);
@@ -276,32 +255,32 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			Frame* frame = (Frame*)peerControl_;
 			frame->activate();
 
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam );	
-			
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+
 			result = 0;
 		}
 		break;
 
 		case WM_NCACTIVATE : {
 			BOOL active = (BOOL)wParam;
-			
-			
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );	
+
+
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
 			Frame* frame = (Frame*)peerControl_;
 			if ( active ) {
 				frame->activate();
 			}
 		}
-		break;	
-		
+		break;
+
 		case WM_ACTIVATEAPP : {
 			BOOL fActive = (BOOL) wParam;
-			
+
 			if ( !fActive ) {
 				Frame* frame = (Frame*)peerControl_;
-				
-				switch ( frame->getFrameStyle() ){				
+
+				switch ( frame->getFrameStyle() ){
 
 					case fstNoBorder : case fstNoBorderFixed : {
 						Frame::setActiveFrame( NULL );
@@ -310,19 +289,19 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 							frame->FrameActivation.fireEvent( &event );
 						}
 					}
-					break;		
+					break;
 				}
 			}
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );	
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 		}
 		break;
-		
+
 		case WM_ACTIVATE : {
 
 			BOOL active = LOWORD(wParam);
-								
+
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
-			
+
 			if ( active ) {
 				Frame* frame = (Frame*)peerControl_;
 				frame->activate();
@@ -334,7 +313,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 		case WM_LBUTTONDOWN : {
 			Frame* frame = (Frame*)peerControl_;
-			
+
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
 			frame->activate();
@@ -342,50 +321,50 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 		case WM_MOUSEACTIVATE : {
-			
+
 			Frame* frame = (Frame*)peerControl_;
-			
+
 			switch ( frame->getFrameStyle() ){
-				case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{				
-					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );	
+				case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
+					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 				}
 				break;
 
 				case fstNoBorder : case fstNoBorderFixed : {
 					result = MA_NOACTIVATE;
 				}
-				break;		
-			}		
-			
+				break;
+			}
+
 			frame->activate();
 		}
 		break;
 
-		case WM_CLOSE:{			
+		case WM_CLOSE:{
 			result = 0;
-			//check if we need to re notify the listeners of the close event			
-			
+			//check if we need to re notify the listeners of the close event
+
 			VCF::Window* window = (VCF::Window*)getControl();
-			
+
 			if ( window->allowClose() ) {
-				
+
 				VCF::WindowEvent event( getControl(), WINDOW_EVENT_CLOSE );
-				
-				
+
+
 				window->FrameClose.fireEvent( &event );
-				
+
 				if ( false == internalClose_ ){
 					//check if the main window is clossing - if it is
 					//then close the app !
-					
+
 					Application* app = Application::getRunningInstance();
 					if ( NULL != app ){
 						Window* mainWindow = app->getMainWindow();
 						if ( mainWindow == getControl() ){
-							::PostMessage( hwnd_, WM_QUIT, 0, 0 ); 
+							::PostMessage( hwnd_, WM_QUIT, 0, 0 );
 						}
 						else {
-							result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );			
+							result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 						}
 					}
 				}
@@ -397,10 +376,10 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 		case WM_DESTROY: {
-			
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );			
+
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 		}
-		break;	
+		break;
 
 		default: {
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
@@ -419,12 +398,12 @@ void Win32Window::close()
 		if ( NULL != app ){
 			Window* mainWindow = app->getMainWindow();
 			if ( mainWindow == getControl() ){
-				::PostMessage( hwnd_, WM_QUIT, 0, 0 ); 
+				::PostMessage( hwnd_, WM_QUIT, 0, 0 );
 			}
-		}		
+		}
 	}
-	
-	::PostMessage( hwnd_, WM_CLOSE, 0, 0 ); 	
+
+	::PostMessage( hwnd_, WM_CLOSE, 0, 0 );
 }
 
 void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
@@ -434,7 +413,7 @@ void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
 	bool needsParent = false;
 	switch ( frameStyle ){
 		case fstSizeable :{
-			style |= WS_OVERLAPPEDWINDOW;			
+			style |= WS_OVERLAPPEDWINDOW;
 			exStyle &= ~WS_EX_TOOLWINDOW;
 			style |= WS_THICKFRAME;
 		}
@@ -443,7 +422,7 @@ void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
 		case fstNoBorder :{
 			style &= ~WS_DLGFRAME;
 			style &= ~WS_OVERLAPPEDWINDOW;
-			style |= WS_THICKFRAME;		
+			style |= WS_THICKFRAME;
 			exStyle &= ~WS_EX_TOOLWINDOW;
 			needsParent = true;
 		}
@@ -457,39 +436,39 @@ void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
 		break;
 
 		case fstNoBorderFixed :{
-			style &= ~WS_OVERLAPPEDWINDOW;			
+			style &= ~WS_OVERLAPPEDWINDOW;
 			exStyle &= ~WS_EX_TOOLWINDOW;
 		}
-		break;		
+		break;
 
 		case fstToolbarBorder :{
 			style &= ~WS_OVERLAPPEDWINDOW;
 			style |= WS_POPUPWINDOW | WS_DLGFRAME | WS_THICKFRAME | WS_OVERLAPPED | 0x0003B00;
 
-			exStyle |= WS_EX_TOOLWINDOW;			
+			exStyle |= WS_EX_TOOLWINDOW;
 		}
 		break;
 
 		case fstToolbarBorderFixed :{
 			exStyle |= WS_EX_TOOLWINDOW;
-			style &= ~WS_THICKFRAME;			
+			style &= ~WS_THICKFRAME;
 		}
 		break;
-		
+
 	}
 
 	::SetWindowLong( hwnd_, GWL_STYLE, style );
 	::SetWindowLong( hwnd_, GWL_EXSTYLE, exStyle );
-	
+
 	//Rect* r = peerControl_->getBounds();
 	::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
 
 	::UpdateWindow( hwnd_ );
-	
-	//peerControl_->setBounds( r );	
+
+	//peerControl_->setBounds( r );
 }
 
-void Win32Window::setFrameTopmost( const bool& isTopmost ) 
+void Win32Window::setFrameTopmost( const bool& isTopmost )
 {
 	if ( true == isTopmost ){
 		::SetWindowPos( hwnd_, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
@@ -503,7 +482,7 @@ void Win32Window::setParent( VCF::Control* parent )
 {
 	DWORD oldStyle = ::GetWindowLong( hwnd_, GWL_STYLE );
 	DWORD style = oldStyle;
-	if ( NULL == parent ) {	
+	if ( NULL == parent ) {
 		style &= ~WS_CHILD;
 		style |= WS_POPUP;
 		::SetParent( hwnd_, NULL );
@@ -515,13 +494,13 @@ void Win32Window::setParent( VCF::Control* parent )
 			style |= WS_CHILD;
 		}
 		VCF::ControlPeer* peer = parent->getPeer();
-		HWND wndParent = (HWND)peer->getHandleID();		
+		HWND wndParent = (HWND)peer->getHandleID();
 		::SetParent( hwnd_, wndParent );
 	}
 
 	if ( oldStyle != style ) {
-		::SetWindowLong( hwnd_, GWL_STYLE, style );	
-		::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );	
+		::SetWindowLong( hwnd_, GWL_STYLE, style );
+		::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
 	}
 }
 
@@ -533,9 +512,9 @@ bool Win32Window::isMaximized()
 	memset( &wndPlacement, 0, sizeof(WINDOWPLACEMENT) );
 	wndPlacement.length = sizeof(WINDOWPLACEMENT);
 	GetWindowPlacement( hwnd_, &wndPlacement );
-	
+
 	result = (wndPlacement.showCmd == SW_SHOWMAXIMIZED);
-	
+
 	return result;
 }
 
@@ -544,7 +523,7 @@ void Win32Window::setMaximized( const bool maximised )
 	WINDOWPLACEMENT wndPlacement;
 	memset( &wndPlacement, 0, sizeof(WINDOWPLACEMENT) );
 	wndPlacement.length = sizeof(WINDOWPLACEMENT);
-	
+
 	GetWindowPlacement( hwnd_, &wndPlacement );
 
 	wndPlacement.showCmd = maximised ? SW_SHOWMAXIMIZED : SW_NORMAL;
@@ -560,9 +539,9 @@ bool Win32Window::isMinimized()
 
 	wndPlacement.length = sizeof(WINDOWPLACEMENT);
 	GetWindowPlacement( hwnd_, &wndPlacement );
-	
+
 	result = (wndPlacement.showCmd == SW_SHOWMINIMIZED);
-	
+
 	return result;
 }
 
@@ -571,7 +550,7 @@ void Win32Window::setMinimized( const bool& minimized )
 	WINDOWPLACEMENT wndPlacement ;
 	memset( &wndPlacement, 0, sizeof(WINDOWPLACEMENT) );
 	wndPlacement.length = sizeof(WINDOWPLACEMENT);
-	
+
 	GetWindowPlacement( hwnd_, &wndPlacement );
 
 	wndPlacement.showCmd = minimized ? SW_MINIMIZE : SW_NORMAL;
@@ -583,20 +562,20 @@ void Win32Window::restore()
 	WINDOWPLACEMENT wndPlacement;
 	memset( &wndPlacement, 0, sizeof(WINDOWPLACEMENT) );
 	wndPlacement.length = sizeof(WINDOWPLACEMENT);
-	
+
 	GetWindowPlacement( hwnd_, &wndPlacement );
-	
+
 	wndPlacement.showCmd = SW_RESTORE;
-	
+
 	SetWindowPlacement( hwnd_, &wndPlacement );
 }
 
 void Win32Window::setIconImage( Image* icon )
 {
 	Win32Image* win32Img = (Win32Image*)icon;
-	
-	HICON winIcon = win32Img->convertToIcon();	
-	
+
+	HICON winIcon = win32Img->convertToIcon();
+
 	SetClassLong (hwnd_, GCL_HICON, (LONG)winIcon);
 
 	::DestroyIcon( winIcon );
@@ -606,6 +585,9 @@ void Win32Window::setIconImage( Image* icon )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -833,3 +815,5 @@ void Win32Window::setIconImage( Image* icon )
 *to facilitate change tracking
 *
 */
+
+

@@ -1,10 +1,185 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_ABSTRACTTREEMODEL_H__
+#define _VCF_ABSTRACTTREEMODEL_H__
+//AbstractTreeModel.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
+
+
+#ifndef _VCF_TREEMODEL_H__
+#	include "vcf/ApplicationKit/TreeModel.h"
+#endif // _VCF_TREEMODEL_H__
+
+#ifndef _VCF_TREEMODELEVENT_H__
+#	include "vcf/ApplicationKit/TreeModelEvent.h"
+#endif // _VCF_TREEMODELEVENT_H__
+
+#ifndef _VCF_TREEITEM_H__
+#	include "vcf/ApplicationKit/TreeItem.h"
+#endif // _VCF_TREEITEM_H__
+
+namespace VCF{
+
+#define ABSTRACTTREEMODEL_CLASSID		"3126B227-2819-11d4-B53A-00C04F0196DA"
+
+
+/**
+*AbstractTreeModel is a basic implementation of Treemodel. It used for
+*deriving classes to have a starting point for implementing
+*a concrete TreeModel class.
+*For more information on the methods implemented here please see TreeModel.
+*
+*@see TreeModel
+*@see DefaultTreeModel
+*@version 1.0
+*@author Jim Crafton
+@delegates
+	@del AbstractTreeModel::ModelEmptied
+	@del AbstractTreeModel::ModelValidate
+*/
+class APPKIT_API AbstractTreeModel : public TreeModel {
+public:
+
+
+    AbstractTreeModel();
+
+	virtual ~AbstractTreeModel();
+
+	void init();
+
+	/**
+	@delegate ModelEmptied fired when the model's empty() method is
+	called.
+	@event ModelEvent
+	@see empty()
+	*/
+	DELEGATE(ModelEmptied)
+
+	/**
+	@delegate ModelValidate fired when the model's validate() method is called
+	@event ValidationEvent
+	@see validate()
+	*/
+	DELEGATE(ModelValidate)
+
+
+    virtual void addModelValidationHandler( EventHandler* handler ) {
+		ModelValidate += handler;
+	}
+
+	virtual void removeModelValidationHandler( EventHandler* handler ) {
+		ModelValidate -= handler;
+	}
+
+	virtual void addModelHandler( EventHandler* handler ) {
+		ModelEmptied += handler;
+	}
+
+	virtual void removeModelHandler( EventHandler* handler ) {
+		ModelEmptied -= handler;
+	}
+
+	/**
+	@delegate RootNodeChanged
+	@event
+	*/
+	DELEGATE(RootNodeChanged)
+
+	/**
+	@delegate NodeAdded
+	@event
+	*/
+	DELEGATE(NodeAdded)
+
+	/**
+	@delegate NodeDeleted
+	@event
+	*/
+	DELEGATE(NodeDeleted)
+
+	virtual void addTreeRootNodeChangedHandler( EventHandler* handler ) {
+		RootNodeChanged += handler;
+	}
+
+	virtual void removeTreeRootNodeChangedHandler( EventHandler* handler ) {
+		RootNodeChanged -= handler;
+	}
+
+	virtual void addTreeNodeAddedHandler( EventHandler* handler ) {
+		NodeAdded += handler;
+	}
+
+	virtual void removeTreeNodeAddedHandler( EventHandler* handler ) {
+		NodeAdded -= handler;
+	}
+
+	virtual void addTreeNodeDeletedHandler( EventHandler* handler ) {
+		NodeDeleted += handler;
+	}
+
+	virtual void removeTreeNodeDeletedHandler( EventHandler* handler ) {
+		NodeDeleted -= handler;
+	}
+
+	/**
+     * validate the model.
+     * The implementation for this can vary widely, or even be nonexistant for model's that do not
+	 *require validation.
+     * The basic idea is to call all the listeners in the list , passing in a local variable to the
+     * onModelValidate() methods of the listener's. The variable is initialized to true, and if it is
+     * still true at the end of the listener iterations, then it is safe to apply the changes to the
+     * model, other wise the changes are removed.
+     */
+    virtual void validate();
+
+    /**
+     * clears out the model's data
+     */
+    virtual void empty();
+
+	virtual Enumerator<TreeItem*>* getRootItems();
+
+    virtual void insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter);
+
+    virtual void deleteNodeItem(TreeItem * nodeToDelete);
+
+    virtual void addNodeItem( TreeItem * node, TreeItem * nodeParent=NULL );
+
+    virtual void sort();
+
+	virtual void onItemPaint( ItemEvent* event );
+
+    virtual void onItemChanged( ItemEvent* event );
+
+    virtual void onItemSelected( ItemEvent* event );
+
+	virtual void onItemAdded( ItemEvent* event );
+
+	virtual void onItemDeleted( ItemEvent* event );
+protected:
+	std::vector<TreeItem*> rootNodes_;
+	EnumeratorContainer<std::vector<TreeItem*>,TreeItem*> treeItemContainer_;
+private:
+
+};
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -77,198 +252,7 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
 
-
-
-#ifndef _VCF_ABSTRACTTREEMODEL_H__
-#define _VCF_ABSTRACTTREEMODEL_H__
-
-
-#ifndef _VCF_TREEMODEL_H__
-#	include "vcf/ApplicationKit/TreeModel.h"
-#endif // _VCF_TREEMODEL_H__
-
-#ifndef _VCF_TREEMODELEVENT_H__
-#	include "vcf/ApplicationKit/TreeModelEvent.h"
-#endif // _VCF_TREEMODELEVENT_H__
-
-#ifndef _VCF_TREEITEM_H__
-#	include "vcf/ApplicationKit/TreeItem.h"
-#endif // _VCF_TREEITEM_H__
-
-namespace VCF{
-
-#define ABSTRACTTREEMODEL_CLASSID		"3126B227-2819-11d4-B53A-00C04F0196DA"
-
-
-/**
-*AbstractTreeModel is a basic implementation of Treemodel. It used for
-*deriving classes to have a starting point for implementing 
-*a concrete TreeModel class. 
-*For more information on the methods implemented here please see TreeModel.
-*
-*@see TreeModel
-*@see DefaultTreeModel
-*@version 1.0
-*@author Jim Crafton
-@delegates
-	@del AbstractTreeModel::ModelEmptied
-	@del AbstractTreeModel::ModelValidate
-*/
-class APPKIT_API AbstractTreeModel : public TreeModel {
-public:
-
-
-    AbstractTreeModel();
-
-	virtual ~AbstractTreeModel();    
-
-	void init();
-
-	/**
-	@delegate ModelEmptied fired when the model's empty() method is
-	called. 	
-	@event ModelEvent
-	@see empty()
-	*/
-	DELEGATE(ModelEmptied)
-
-	/**
-	@delegate ModelValidate fired when the model's validate() method is called
-	@event ValidationEvent
-	@see validate()
-	*/
-	DELEGATE(ModelValidate)
-	
-
-    virtual void addModelValidationHandler( EventHandler* handler ) {
-		ModelValidate += handler;
-	}
-	
-	virtual void removeModelValidationHandler( EventHandler* handler ) {
-		ModelValidate -= handler;
-	}
-
-	virtual void addModelHandler( EventHandler* handler ) {
-		ModelEmptied += handler;
-	}
-
-	virtual void removeModelHandler( EventHandler* handler ) {
-		ModelEmptied -= handler;
-	}
-
-	/**
-	@delegate RootNodeChanged
-	@event
-	*/
-	DELEGATE(RootNodeChanged)
-
-	/**
-	@delegate NodeAdded
-	@event
-	*/
-	DELEGATE(NodeAdded)
-
-	/**
-	@delegate NodeDeleted
-	@event
-	*/
-	DELEGATE(NodeDeleted)
-
-	virtual void addTreeRootNodeChangedHandler( EventHandler* handler ) {
-		RootNodeChanged += handler;
-	}
-
-	virtual void removeTreeRootNodeChangedHandler( EventHandler* handler ) {
-		RootNodeChanged -= handler;
-	}
-
-	virtual void addTreeNodeAddedHandler( EventHandler* handler ) {
-		NodeAdded += handler;
-	}
-
-	virtual void removeTreeNodeAddedHandler( EventHandler* handler ) {
-		NodeAdded -= handler;
-	}
-
-	virtual void addTreeNodeDeletedHandler( EventHandler* handler ) {
-		NodeDeleted += handler;
-	}
-
-	virtual void removeTreeNodeDeletedHandler( EventHandler* handler ) {
-		NodeDeleted -= handler;
-	}
-	
-	/**
-     * validate the model. 
-     * The implementation for this can vary widely, or even be nonexistant for model's that do not 
-	 *require validation.
-     * The basic idea is to call all the listeners in the list , passing in a local variable to the
-     * onModelValidate() methods of the listener's. The variable is initialized to true, and if it is
-     * still true at the end of the listener iterations, then it is safe to apply the changes to the
-     * model, other wise the changes are removed. 
-     */
-    virtual void validate();
-
-    /**
-     * clears out the model's data 
-     */
-    virtual void empty();
-    
-	virtual Enumerator<TreeItem*>* getRootItems();
-
-    virtual void insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter);
-
-    virtual void deleteNodeItem(TreeItem * nodeToDelete);
-
-    virtual void addNodeItem( TreeItem * node, TreeItem * nodeParent=NULL );
-
-    virtual void sort();
-	
-	virtual void onItemPaint( ItemEvent* event );
-
-    virtual void onItemChanged( ItemEvent* event );
-
-    virtual void onItemSelected( ItemEvent* event );
-
-	virtual void onItemAdded( ItemEvent* event );
-	
-	virtual void onItemDeleted( ItemEvent* event );
-protected:
-	std::vector<TreeItem*> rootNodes_;
-	EnumeratorContainer<std::vector<TreeItem*>,TreeItem*> treeItemContainer_;
-private:    	
-	
-};
-
-};
 #endif // _VCF_ABSTRACTTREEMODEL_H__
 
 

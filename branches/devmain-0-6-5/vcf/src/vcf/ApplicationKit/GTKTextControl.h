@@ -1,35 +1,17 @@
-
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
-*/
-
 #ifndef _VCF_GTKTEXTCONTROL_H__
 #define _VCF_GTKTEXTCONTROL_H__
+//GTKTextControl.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_TEXTPEER_H__
@@ -45,14 +27,14 @@ class TextEvent;
 class GTKTextControl documentation
 */
 class GTKTextControl : public AbstractGTKControl, public VCF::TextPeer {
-public: 
+public:
 	GTKTextControl( TextControl* component, const bool& isMultiLineControl );
 	virtual ~GTKTextControl();
 
 	virtual void create( Control* owningControl );
 
 	virtual void setRightMargin( const double & rightMargin );
-    
+
 	virtual void setLeftMargin( const double & leftMargin );
 
     virtual unsigned long getLineCount();
@@ -69,7 +51,7 @@ public:
 
 	/**
 	*returns the current caret position with in the text control
-	*this is specified by a zero based number representing the 
+	*this is specified by a zero based number representing the
 	*insertion point with the text control's text (stored in the text
 	*control's Model).
 	*@return long the index of the current insertion point in the Model's text
@@ -106,7 +88,7 @@ public:
     virtual void setText( const String& text );
 
 	virtual void scrollToSelection( const bool& showEndSel = false );
-	
+
 	virtual void setReadOnly( const bool& readonly );
 protected:
 	TextControl* textControl_;
@@ -125,9 +107,13 @@ protected:
 
 };
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -178,7 +164,7 @@ protected:
 *
 */
 
-#endif // _VCF_GTKTEXTCONTROL_H__
 
+#endif // _VCF_GTKTEXTCONTROL_H__
 
 

@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-//AcceleratorKey.h
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
 #ifndef _VCF_ACCELERATORKEY_H__
 #define _VCF_ACCELERATORKEY_H__
+//AcceleratorKey.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
@@ -44,50 +19,50 @@ namespace VCF  {
 class Control;
 
 /**
-*An AcceleratorKey represents a link between a specific 
-*keyboard keystroke combination and an event handler to 
+*An AcceleratorKey represents a link between a specific
+*keyboard keystroke combination and an event handler to
 *be invoked when the combination takes place.
-*An AcceleratorKey object may associated with a control or it 
-*may be associated with the current application instance for 
+*An AcceleratorKey object may associated with a control or it
+*may be associated with the current application instance for
 *global behaviour. For example let's say you have a text editor
 *and you want the "Ctrl" and "V" key combination to call an event
-*handler whenever it is pressed to paste in some text from the 
+*handler whenever it is pressed to paste in some text from the
 *clipboard. You can register an AcceleratorKey with the keyboard
 *combination and you event handler, and <i>voila!</i> the VCF
 *will take care of the rest.
 *@see UIToolkit::addAcceleratorKey()
 */
-class APPKIT_API AcceleratorKey : public VCF::Object { 
+class APPKIT_API AcceleratorKey : public VCF::Object {
 public:
-	AcceleratorKey( Control* associatedControl, const VirtualKeyCode& keyCode, 
-					const ulong32& modifierMask, EventHandler* eventHandler, 
+	AcceleratorKey( Control* associatedControl, const VirtualKeyCode& keyCode,
+					const ulong32& modifierMask, EventHandler* eventHandler,
 					const bool& isMnemonic=false );
 
 	virtual ~AcceleratorKey();
 
 	/**
-	*does the AcceleratorKey have the shift key in it's keyboard 
+	*does the AcceleratorKey have the shift key in it's keyboard
 	*combination.
 	*@return bool returns true if it does, false if it doesn't
 	*/
 	bool hasShiftKey();
 
 	/**
-	*does the AcceleratorKey have the Ctrl key in it's keyboard 
+	*does the AcceleratorKey have the Ctrl key in it's keyboard
 	*combination.
 	*@return bool returns true if it does, false if it doesn't
 	*/
 	bool hasCtrlKey();
 
 	/**
-	*does the AcceleratorKey have the Alt key in it's keyboard 
+	*does the AcceleratorKey have the Alt key in it's keyboard
 	*combination.
 	*@return bool returns true if it does, false if it doesn't
 	*/
 	bool hasAltKey();
 
 	/**
-	*gets the virtual key code that represents the 
+	*gets the virtual key code that represents the
 	*specific alpha numeric key, like "V", or "1" or "F1"
 	*@return ulong32 the keycode for this AcceleratorKey
 	*/
@@ -96,7 +71,7 @@ public:
 	}
 
 	/**
-	*gets the modifier mask for the AcceleratorKey. The 
+	*gets the modifier mask for the AcceleratorKey. The
 	*modifier mask may be made up of any combination
 	*of the Ctrl, Shift, and Alt keys.
 	*/
@@ -114,8 +89,8 @@ public:
 	}
 
 	/**
-	*The event handler that will be invoked 
-	*by the AcceleratorKey when it becomes activated 
+	*The event handler that will be invoked
+	*by the AcceleratorKey when it becomes activated
 	*by the framework.
 	*@return EventHandler the AcceleratorKey's event handler
 	*/
@@ -124,7 +99,7 @@ public:
 	}
 
 	/**
-	*call this method to invoke the 
+	*call this method to invoke the
 	*event handler for this AcceleratorKey.
 	*The implementation simply passes the event
 	*to the invoke()  method on the event handler.
@@ -135,11 +110,11 @@ public:
 	void invoke( Event* event );
 
 	/**
-	*returns whether or not the AcceleratorKey is triggered by a 
-	*keyboard mnemonic. A keyboard mnemonic is a single alpha-numeric key 
+	*returns whether or not the AcceleratorKey is triggered by a
+	*keyboard mnemonic. A keyboard mnemonic is a single alpha-numeric key
 	*plus the "Alt" key that trigger an action on a control. For example
-	*a button might have a caption "Erase" and the mnemonic was the 
-	*"Alt" + "E" keys (this is usually displayed on controls as a 
+	*a button might have a caption "Erase" and the mnemonic was the
+	*"Alt" + "E" keys (this is usually displayed on controls as a
 	*character with an underline). Pressing the "Alt" + "E" key combination
 	*would cause the button's mnemonicActivate() method to be called.
 	*@return bool returns true if the AcceleratorKey is a mnemonic false
@@ -165,6 +140,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -206,6 +184,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_ACCELERATORKEY_H__
 

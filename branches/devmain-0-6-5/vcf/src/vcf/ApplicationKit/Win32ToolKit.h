@@ -1,10 +1,183 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_WIN32TOOLKIT_H__
+#define _VCF_WIN32TOOLKIT_H__
+//Win32ToolKit.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
+
+
+namespace VCF
+{
+
+class Win32MSG {
+public:
+	Win32MSG( const MSG& msg, Control* control=NULL ) :msg_(msg), control_(control) {
+
+	}
+
+
+	Win32MSG( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, Control* control=NULL):
+		control_(control) {
+
+		memset( &msg_, 0, sizeof(MSG) );
+
+		msg_.hwnd = hwnd;
+		msg_.message = message;
+		msg_.wParam = wParam;
+		msg_.lParam = lParam;
+	}
+
+	Win32MSG( const Win32MSG& msg ):msg_(msg.msg_), control_(msg.control_) {
+
+	}
+
+	Win32MSG& operator=( const Win32MSG& msg ) {
+		msg_ = msg.msg_;
+		control_ = msg.control_;
+		return *this;
+	}
+
+	MSG msg_;
+	Control* control_;
+};
+
+
+class APPKIT_API Win32ToolKit : public UIToolkit
+{
+public:
+	Win32ToolKit();
+	virtual ~Win32ToolKit();
+
+	virtual ApplicationPeer* internal_createApplicationPeer();
+
+	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
+
+	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);
+
+	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
+
+	virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT );
+
+	virtual DialogPeer* internal_createDialogPeer();
+
+	virtual ControlPeer* internal_createControlPeer( Control* component, ComponentType componentType);
+
+	virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner,
+											ComponentType componentType);
+
+	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar );
+
+	HWND getDummyParent();
+
+	virtual MenuItemPeer* internal_createMenuItemPeer( MenuItem* item );
+
+	virtual MenuBarPeer* internal_createMenuBarPeer( MenuBar* menuBar );
+
+	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );
+
+	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType);
+
+	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
+
+	virtual ContextPeer* internal_createContextPeer( Control* component );
+
+	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner );
+
+	virtual CommonFileDialogPeer* internal_createCommonFileSaveDialogPeer( Control* owner );
+
+	virtual CommonColorDialogPeer* internal_createCommonColorDialogPeer( Control* owner );
+
+	virtual CommonFolderBrowseDialogPeer* internal_createCommonFolderBrowseDialogPeer( Control* owner );
+
+	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
+
+	virtual DragDropPeer* internal_createDragDropPeer();
+
+	virtual DataObjectPeer* internal_createDataObjectPeer();
+
+	virtual DropTargetPeer* internal_createDropTargetPeer();
+
+	virtual DesktopPeer* internal_createDesktopPeer( Desktop* desktop );
+
+	virtual ScrollPeer* internal_createScrollPeer( Control* control );
+
+	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor );
+
+	virtual ClipboardPeer* internal_createClipboardPeer();
+
+	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  );
+
+	virtual bool internal_destroyCaret( Control* owningControl );
+
+	virtual void internal_setCaretVisible( const bool& caretVisible );
+
+	virtual void internal_setCaretPos( Point* point );
+
+	virtual void internal_postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler );
+
+	virtual void internal_registerTimerHandler( Object* source, EventHandler* handler, const ulong32& timeoutInMilliSeconds );
+
+	virtual void internal_unregisterTimerHandler( EventHandler* handler );
+
+	virtual void internal_runEventLoop();
+
+	virtual ModalReturnType internal_runModalEventLoopFor( Control* control );
+
+	virtual void internal_quitCurrentEventLoop();
+	/**
+	*@param void* in this implementation, the eventData represents a
+	*pointer to a Win32MSG structure.
+	*/
+	virtual Event* internal_createEventFromNativeOSEventData( void* eventData );
+
+	virtual Size internal_getDragDropDelta();
+
+	static HINSTANCE getInstanceHandle();
+protected:
+
+	void createDummyParentWindow();
+	HWND dummyParentWnd_;
+	Library browserLib_;
+	bool browserLibAvailable_;
+	int runEventCount_;
+
+	class TimerRec {
+	public:
+		TimerRec( Object* source, EventHandler* handler ) {
+			source_ = source;
+			handler_ = handler;
+		}
+
+		Object* source_;
+		EventHandler* handler_;
+	};
+
+	std::map<UINT,TimerRec*> timerMap_;
+
+	TimerRec* findTimerRec( UINT id );
+
+	static ATOM RegisterWin32ToolKitClass(HINSTANCE hInstance);
+
+	static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+};
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -115,196 +288,6 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32ToolKit.h
-
-#ifndef _VCF_WIN32TOOLKIT_H__
-#define _VCF_WIN32TOOLKIT_H__
-
-
-namespace VCF
-{
-
-class Win32MSG {
-public:
-	Win32MSG( const MSG& msg, Control* control=NULL ) :msg_(msg), control_(control) {
-
-	}
-
-
-	Win32MSG( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, Control* control=NULL):
-		control_(control) {
-		
-		memset( &msg_, 0, sizeof(MSG) );
-
-		msg_.hwnd = hwnd;
-		msg_.message = message;
-		msg_.wParam = wParam;
-		msg_.lParam = lParam;
-	}
-
-	Win32MSG( const Win32MSG& msg ):msg_(msg.msg_), control_(msg.control_) {
-		
-	}
-
-	Win32MSG& operator=( const Win32MSG& msg ) {
-		msg_ = msg.msg_;
-		control_ = msg.control_;
-		return *this;
-	}
-
-	MSG msg_;
-	Control* control_;
-};
-
-
-class APPKIT_API Win32ToolKit : public UIToolkit  
-{
-public:
-	Win32ToolKit();
-	virtual ~Win32ToolKit();	
-	
-	virtual ApplicationPeer* internal_createApplicationPeer();
-	
-	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
-
-	virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);	
-
-	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
-
-	virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT );
-
-	virtual DialogPeer* internal_createDialogPeer();
-
-	virtual ControlPeer* internal_createControlPeer( Control* component, ComponentType componentType);
-
-	virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner, 
-											ComponentType componentType);
-
-	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar );
-
-	HWND getDummyParent();
-	
-	virtual MenuItemPeer* internal_createMenuItemPeer( MenuItem* item );
-
-	virtual MenuBarPeer* internal_createMenuBarPeer( MenuBar* menuBar );
-
-	virtual PopupMenuPeer* internal_createPopupMenuPeer( PopupMenu* popupMenu );	
-
-	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType);
-
-	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
-
-	virtual ContextPeer* internal_createContextPeer( Control* component );
-
-	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner );
-
-	virtual CommonFileDialogPeer* internal_createCommonFileSaveDialogPeer( Control* owner );
-
-	virtual CommonColorDialogPeer* internal_createCommonColorDialogPeer( Control* owner );
-
-	virtual CommonFolderBrowseDialogPeer* internal_createCommonFolderBrowseDialogPeer( Control* owner );
-
-	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
-
-	virtual DragDropPeer* internal_createDragDropPeer(); 
-
-	virtual DataObjectPeer* internal_createDataObjectPeer();
-
-	virtual DropTargetPeer* internal_createDropTargetPeer();
-
-	virtual DesktopPeer* internal_createDesktopPeer( Desktop* desktop );
-
-	virtual ScrollPeer* internal_createScrollPeer( Control* control );
-
-	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor );
-
-	virtual ClipboardPeer* internal_createClipboardPeer();
-
-	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ); 
-
-	virtual bool internal_destroyCaret( Control* owningControl );
-
-	virtual void internal_setCaretVisible( const bool& caretVisible );
-	
-	virtual void internal_setCaretPos( Point* point );
-
-	virtual void internal_postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler );
-
-	virtual void internal_registerTimerHandler( Object* source, EventHandler* handler, const ulong32& timeoutInMilliSeconds );
-
-	virtual void internal_unregisterTimerHandler( EventHandler* handler );	
-
-	virtual void internal_runEventLoop();
-
-	virtual ModalReturnType internal_runModalEventLoopFor( Control* control );
-
-	virtual void internal_quitCurrentEventLoop();
-	/**
-	*@param void* in this implementation, the eventData represents a 
-	*pointer to a Win32MSG structure.
-	*/
-	virtual Event* internal_createEventFromNativeOSEventData( void* eventData );
-
-	virtual Size internal_getDragDropDelta();
-
-	static HINSTANCE getInstanceHandle();
-protected:
-	
-	void createDummyParentWindow();
-	HWND dummyParentWnd_;
-	Library browserLib_;
-	bool browserLibAvailable_;
-	int runEventCount_;
-
-	class TimerRec {
-	public:
-		TimerRec( Object* source, EventHandler* handler ) {
-			source_ = source;
-			handler_ = handler;
-		}
-
-		Object* source_;
-		EventHandler* handler_;
-	};
-
-	std::map<UINT,TimerRec*> timerMap_;
-
-	TimerRec* findTimerRec( UINT id );	
-	
-	static ATOM RegisterWin32ToolKitClass(HINSTANCE hInstance);
-
-	static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-};
-
-};
 
 #endif // _VCF_WIN32TOOLKIT_H__
 

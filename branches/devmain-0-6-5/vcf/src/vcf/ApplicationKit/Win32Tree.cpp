@@ -1,33 +1,11 @@
+//Win32Tree.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32Tree.cpp
 
 #ifdef __GNUWIN32__
 #define _WIN32_IE   0x0400  //this may be a bogus thing to do !
@@ -42,7 +20,7 @@
 
 
 /**
-this is redifined here because the mingw version is WRONG! (or the MS iversion is 
+this is redifined here because the mingw version is WRONG! (or the MS iversion is
 wrong, depends on how you look at it :) ).
 */
 
@@ -149,8 +127,8 @@ Win32Tree::Win32Tree( TreeControl* tree ):
 	imageListCtrl_(NULL),
 	stateImageListCtrl_(NULL),
 	internalTreeItemExpanded_(false)
-{	
-	
+{
+
 }
 
 Win32Tree::~Win32Tree()
@@ -161,7 +139,7 @@ Win32Tree::~Win32Tree()
 
 	if ( NULL != stateImageListCtrl_ ) {
 		BOOL err = ImageList_Destroy( stateImageListCtrl_ );
-	}	
+	}
 }
 
 void Win32Tree::create( Control* owningControl )
@@ -173,30 +151,30 @@ void Win32Tree::create( Control* owningControl )
 	backColor_.copy( treeControl_->getColor() );
 
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
-	HWND parent = toolkit->getDummyParent();	
+	HWND parent = toolkit->getDummyParent();
 
 	String className = getClassName();
 
-	hwnd_ = ::CreateWindowEx( exStyleMask_, 
+	hwnd_ = ::CreateWindowEx( exStyleMask_,
 		                             WC_TREEVIEW,
 									 NULL,
 									 styleMask_,
-									 0, 
-									 0, 
+									 0,
+									 0,
 									 1,
-									 1, 
-									 parent, 
-									 NULL, 
-									 ::GetModuleHandle(NULL), 
+									 1,
+									 parent,
+									 NULL,
+									 ::GetModuleHandle(NULL),
 									 NULL );
 
 
-	if ( NULL != hwnd_ ){	
+	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
-		oldTreeWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ ); 
+		oldTreeWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
 		defaultWndProc_ = NULL;//oldTreeWndProc_;
-		
-		
+
+
 	}
 	else {
 		//throw exception
@@ -206,22 +184,22 @@ void Win32Tree::create( Control* owningControl )
 }
 
 void Win32Tree::init()
-{	
-	
+{
 
-	itemAddedHandler_ = 
+
+	itemAddedHandler_ =
 		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemAdded, "Win32Tree::onItemAdded" );
 
-	itemDeletedHandler_ = 
+	itemDeletedHandler_ =
 		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemDeleted, "Win32Tree::onItemDeleted" );
 
-	itemChangedHandler_ = 
+	itemChangedHandler_ =
 		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemChanged, "Win32Tree::onItemChanged" );
 
-	itemSelectedHandler_ = 
+	itemSelectedHandler_ =
 		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemSelected, "Win32Tree::onItemSelected" );
 
-	itemPaintedHandler_ = 
+	itemPaintedHandler_ =
 		new ItemEventHandler<Win32Tree>( this, Win32Tree::onItemPaint, "Win32Tree::onItemPaint" );
 
 }
@@ -265,48 +243,48 @@ void Win32Tree::setImageList( ImageList* imageList )
 	}
 	imageListCtrl_ = NULL;
 	TreeView_SetImageList( hwnd_, imageListCtrl_, TVSIL_NORMAL );
-	
+
 	if ( imageList != NULL ) {
-		imageListCtrl_ = ImageList_Create( imageList->getImageWidth(), imageList->getImageHeight(), 
-										ILC_COLOR24|ILC_MASK, imageList->getImageCount(), 4 );	
+		imageListCtrl_ = ImageList_Create( imageList->getImageWidth(), imageList->getImageHeight(),
+										ILC_COLOR24|ILC_MASK, imageList->getImageCount(), 4 );
 
 		Image* masterImage = imageList->getMasterImage();
 		Win32Image* win32Img = (Win32Image*)masterImage;
 		HBITMAP hbmImage = win32Img->getBitmap();
-		
+
 		COLORREF transparentColor = RGB(0,0,0);
 		if ( masterImage->isTransparent() ) {
 			Color* c = masterImage->getTransparencyColor();
 			transparentColor = RGB( c->getRed() * 255, c->getGreen() * 255, c->getBlue() * 255 );
 		}
-		else {			
+		else {
 			transparentColor = ::GetPixel( win32Img->getDC(), 0, 0 );
 		}
 
-		//JEC 11/05/2002 currently on NT4 this call seems to fail, returning the same 
-		//HBITMAP value as hbmImage. This is running on NT4 in VMWare perhaps this is 
+		//JEC 11/05/2002 currently on NT4 this call seems to fail, returning the same
+		//HBITMAP value as hbmImage. This is running on NT4 in VMWare perhaps this is
 		//some weird bug within VMWare? Need to test this on a "real" NT4 install
-		HBITMAP hBMPcopy = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 
-												0, 
-												0, 
+		HBITMAP hBMPcopy = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP,
+												0,
+												0,
 												NULL );
 
 		int err = ImageList_AddMasked( imageListCtrl_, hBMPcopy, transparentColor );
 		if ( err < 0 ) {
 			//error condition !
 		}
-		
+
 		DeleteObject( hBMPcopy );
 
 		TreeView_SetImageList( hwnd_, imageListCtrl_, TVSIL_NORMAL );
 
-		
+
 		EventHandler* imgListHandler = getEventHandler( "ImageListHandler" );
 		if ( NULL == imgListHandler ) {
-			imgListHandler = 
-				new ImageListEventHandler<Win32Tree>(this, Win32Tree::onImageListImageChanged, "ImageListHandler" );	
-		
-		}	
+			imgListHandler =
+				new ImageListEventHandler<Win32Tree>(this, Win32Tree::onImageListImageChanged, "ImageListHandler" );
+
+		}
 		imageList->SizeChanged.addHandler( imgListHandler );
 		imageList->ImageAdded.addHandler( imgListHandler );
 		imageList->ImageDeleted.addHandler( imgListHandler );
@@ -317,8 +295,8 @@ void Win32Tree::setImageList( ImageList* imageList )
 LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
 {
 	LRESULT result = 0;
-	
-	switch ( message ) {		
+
+	switch ( message ) {
 		case WM_PAINT:{
 			result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 		}
@@ -332,14 +310,14 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 									color->getBlue() * 255.0 );
 
 				TreeView_SetBkColor( hwnd_, backColor );
-				
+
 				backColor_.copy( color );
 			}
 			result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 		}
 		break;
 
-		case WM_LBUTTONDOWN : {			
+		case WM_LBUTTONDOWN : {
 
 			CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 
@@ -359,7 +337,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 					if ( TreeView_GetItem( hwnd_, &tvItem ) ) {
 						TreeItem* item = (TreeItem*)tvItem.lParam;
 
-						ItemEvent event( item, TreeControl::ITEM_STATECHANGE_REQUESTED );						
+						ItemEvent event( item, TreeControl::ITEM_STATECHANGE_REQUESTED );
 
 						treeControl_->handleEvent( &event );
 					}
@@ -369,14 +347,14 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case WM_CREATE:{				
+		case WM_CREATE:{
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 		}
 		break;
 
 		case WM_LBUTTONDBLCLK: case WM_MBUTTONDBLCLK: case WM_RBUTTONDBLCLK:{
-			Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );			
-			Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );	
+			Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
+			Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
 
 			CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 
@@ -392,7 +370,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 		case TVN_BEGINDRAG:{
 			NMTREEVIEW* info = (NMTREEVIEW*)lParam ;
-			MouseEvent e(treeControl_);		
+			MouseEvent e(treeControl_);
 			e.setPoint( &Point(info->ptDrag.x,info->ptDrag.y) );
 
 			treeControl_->beginDragDrop( &e );
@@ -400,23 +378,23 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case TVN_BEGINLABELEDIT:{
-			
+
 		}
 		break;
 
 		case TVN_BEGINRDRAG:{
-			
+
 		}
 		break;
 
 		case TVN_DELETEITEM:{
-			
+
 		}
 		break;
 
 
 		case TVN_ENDLABELEDIT:{
-			
+
 		}
 		break;
 
@@ -425,7 +403,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			if ( lptvdi->item.mask & TVIF_TEXT ) {
 				static String text;
 				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
-				if ( NULL != item ) {				
+				if ( NULL != item ) {
 					text = item->getCaption();
 					text.copy( lptvdi->item.pszText, text.size() );
 				}
@@ -434,7 +412,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case TVN_GETINFOTIP:{
-			
+
 		}
 		break;
 
@@ -443,7 +421,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			NMTREEVIEW* treeview = (NMTREEVIEW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
 			if ( NULL != item ) {
-				
+
 				if ( treeview->action & TVE_EXPAND ) {
 					item->expand( true );
 				}
@@ -455,12 +433,12 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 				GetCursorPos( &tmpPt );
 				::ScreenToClient( hwnd_, &tmpPt );
 				ItemEvent event( treeControl_, TREEITEM_EXPANDED );
-				
+
 				event.setUserData( (void*)item );
 
 				Point pt( tmpPt.x, tmpPt.y );
-				event.setPoint( &pt );			
-				
+				event.setPoint( &pt );
+
 				treeControl_->handleEvent( &event );
 			}
 			internalTreeItemExpanded_ = false;
@@ -468,12 +446,12 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case TVN_ITEMEXPANDING:{
-			
+
 		}
 		break;
 
 		case TVN_KEYDOWN:{
-			
+
 		}
 		break;
 
@@ -486,14 +464,14 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 				GetCursorPos( &tmpPt );
 				::ScreenToClient( hwnd_, &tmpPt );
 				ItemEvent event( treeControl_, TREEITEM_SELECTED );
-				
+
 				event.setUserData( (void*)item );
-				
+
 				Point pt( tmpPt.x, tmpPt.y );
-				event.setPoint( &pt );			
-				
+				event.setPoint( &pt );
+
 				treeControl_->handleEvent( &event );
-			}						
+			}
 
 			item = (TreeItem*)treeview->itemOld.lParam;
 			if ( NULL != item ) {
@@ -503,20 +481,20 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case TVN_SELCHANGING:{
-			
+
 		}
 		break;
 
 		case TVN_SETDISPINFO:{
-			
+
 		}
 		break;
 
 		case TVN_SINGLEEXPAND:{
-			
+
 		}
 		break;
-		
+
 		case NM_RCLICK :{
 			POINT pt = {0,0};
 			GetCursorPos( &pt );
@@ -525,8 +503,8 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			VCF::MouseEvent event( getControl(), Control::MOUSE_CLICK,
 						mbmRightButton, kmUndefined, &tmpPt );
 			if ( peerControl_ ) {
-					peerControl_->handleEvent( &event );	
-			}			
+					peerControl_->handleEvent( &event );
+			}
 		}
 		break;
 
@@ -538,8 +516,8 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			VCF::MouseEvent event( getControl(), Control::MOUSE_CLICK,
 						mbmLeftButton, kmUndefined, &tmpPt );
 			if ( peerControl_ ) {
-					peerControl_->handleEvent( &event );	
-			}			
+					peerControl_->handleEvent( &event );
+			}
 		}
 		break;
 
@@ -563,31 +541,31 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 							TreeItem* item = (TreeItem*)treeViewDraw->nmcd.lItemlParam;
 							std::map<TreeItem*,HTREEITEM>::iterator found =
 								treeItems_.find( item );
-							if ( found != treeItems_.end() ){								
+							if ( found != treeItems_.end() ){
 								Rect itemRect;
 								itemRect.left_ = treeViewDraw->nmcd.rc.left;
 								itemRect.top_ = treeViewDraw->nmcd.rc.top;
 								itemRect.right_ = treeViewDraw->nmcd.rc.right;
-								itemRect.bottom_ = treeViewDraw->nmcd.rc.bottom;							
-								item->paint( peerControl_->getContext(), &itemRect );									
+								itemRect.bottom_ = treeViewDraw->nmcd.rc.bottom;
+								item->paint( peerControl_->getContext(), &itemRect );
 							}
 						}
 					}
 					break;
 
 					default : {
-						result = CDRF_DODEFAULT; 
+						result = CDRF_DODEFAULT;
 					}
 					break;
 				}
 			}
 		}
 		break;
-		
+
 		default: {
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			
+
 		}
 		break;
 	}
@@ -607,28 +585,28 @@ void Win32Tree::addItem( TreeItem* item )
 		std::map<TreeItem*,HTREEITEM>::iterator it =
 		treeItems_.find( parent );
 		if ( it != treeItems_.end() ){
-			itemParent = it->second;			
+			itemParent = it->second;
 		}
 		else{
 			//throw exception;
 		}
 	}
-	tvItem.mask = TVIF_TEXT | TVIF_PARAM;	
+	tvItem.mask = TVIF_TEXT | TVIF_PARAM;
 	if ( imageListCtrl_ != NULL ) {
-		tvItem.mask |= TVIF_IMAGE;	
+		tvItem.mask |= TVIF_IMAGE;
 		tvItem.iImage = item->getImageIndex();
 	}
-	
+
 	if ( item->getStateImageIndex() >= 0 ) {
-		tvItem.mask |= TVIF_STATE;	
+		tvItem.mask |= TVIF_STATE;
 		//INDEXTOSTATEIMAGEMASK is one based, but Item::getStateImageIndex() is zero based
 		tvItem.state = INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
 		tvItem.stateMask = TVIS_STATEIMAGEMASK;
 	}
-	
+
 	if ( item->getSelectedImageIndex() >= 0 ) {
 		tvItem.mask |= TVIF_SELECTEDIMAGE ;
-		tvItem.iSelectedImage = item->getSelectedImageIndex();								
+		tvItem.iSelectedImage = item->getSelectedImageIndex();
 	}
 
 	tvItem.cchTextMax = 0;//item->getCaption().size()+1;
@@ -636,13 +614,13 @@ void Win32Tree::addItem( TreeItem* item )
 	//memset( tmpName, 0, tvItem.cchTextMax );
 	//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
 
-	tvItem.pszText = LPSTR_TEXTCALLBACK;//tmpName;	
+	tvItem.pszText = LPSTR_TEXTCALLBACK;//tmpName;
 	tvItem.lParam = (LPARAM)item;
 	insert.hParent = itemParent;
 	insert.hInsertAfter = TVI_LAST;
 	insert.item = tvItem;
 	HTREEITEM addedItem = TreeView_InsertItem( hwnd_, &insert );
-	
+
 	//delete [] tmpName;
 
 	treeItems_[item] = addedItem;
@@ -654,7 +632,7 @@ void Win32Tree::addItem( TreeItem* item )
 	item->addItemSelectedHandler( itemSelectedHandler_ );
 
 	//now check the children
-	
+
 	Enumerator<TreeItem*>* children = item->getChildren();
 	if ( NULL != children ){
 		while ( children->hasMoreElements() ){
@@ -681,7 +659,7 @@ void Win32Tree::onItemPaint( ItemEvent* event )
 void Win32Tree::onItemChanged( ItemEvent* event )
 {
 	if ( (NULL != event) && (peerControl_->getComponentState() != Component::csDestroying) ){
-		
+
 		Object* source = event->getSource();
 		if ( NULL != source ){
 			TreeItem* item = dynamic_cast<TreeItem*>(source);
@@ -703,44 +681,44 @@ void Win32Tree::onItemChanged( ItemEvent* event )
 					else {
 						TVITEM tvItem;
 						memset( &tvItem, 0, sizeof(TVITEM) );
-						
-						tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;							
+
+						tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;
 						tvItem.iImage = item->getImageIndex();
-						
+
 						tvItem.mask |= TVIF_STATE;
 
 						if ( item->getTextBold() ) {
-							tvItem.state |= TVIS_BOLD;							
+							tvItem.state |= TVIS_BOLD;
 						}
 
 						tvItem.stateMask |= TVIS_BOLD;
-						
+
 
 						if ( item->getStateImageIndex() >= 0 ) {
 							tvItem.mask |= TVIF_STATE;
 							tvItem.state |= INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
 							tvItem.stateMask |= TVIS_STATEIMAGEMASK;
-						}	
-						
+						}
+
 						if ( item->getSelectedImageIndex() >= 0 ) {
 							tvItem.mask |= TVIF_SELECTEDIMAGE ;
-							tvItem.iSelectedImage = item->getSelectedImageIndex();								
-						}	
-						
-						tvItem.hItem = it->second;	
-						
-						TreeView_SetItem( hwnd_, &tvItem );						
+							tvItem.iSelectedImage = item->getSelectedImageIndex();
+						}
+
+						tvItem.hItem = it->second;
+
+						TreeView_SetItem( hwnd_, &tvItem );
 					}
 				}
 			}
-		}				
+		}
 	}
 }
 
 void Win32Tree::onItemSelected( ItemEvent* event )
 {
 	if ( (NULL != event) && (peerControl_->getComponentState() != Component::csDestroying) ){
-		
+
 		Object* source = event->getSource();
 		if ( NULL != source ){
 			TreeItem* item = dynamic_cast<TreeItem*>(source);
@@ -762,7 +740,7 @@ void Win32Tree::onItemAdded( ItemEvent* event )
 
 }
 
-	
+
 void Win32Tree::onItemDeleted( ItemEvent* event )
 {
 	Object* source = event->getSource();
@@ -790,27 +768,27 @@ void Win32Tree::onImageListImageChanged( ImageListEvent* event )
 	/*
 	switch ( event->getType() ) {
 		case IMAGELIST_EVENT_WIDTH_CHANGED : {
-			
+
 		}
 		break;
 
 		case IMAGELIST_EVENT_HEIGHT_CHANGED : {
-			
+
 		}
 		break;
 
-		case IMAGELIST_EVENT_ITEM_ADDED : {			
+		case IMAGELIST_EVENT_ITEM_ADDED : {
 			Win32Image* win32Img = (Win32Image*)event->getImage();
 			HBITMAP hbmImage = win32Img->getBitmap();
 			int err = ImageList_Add( imageListCtrl_, hbmImage, NULL );
 			if ( err < 0 ) {
 				//error condition !
-			}			
+			}
 		}
 		break;
 
 		case IMAGELIST_EVENT_ITEM_DELETED : {
-			
+
 		}
 		break;
 	}
@@ -837,33 +815,33 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 	}
 	stateImageListCtrl_ = NULL;
 	TreeView_SetImageList( hwnd_, imageListCtrl_, TVSIL_STATE );
-	
+
 	if ( imageList != NULL ) {
-		stateImageListCtrl_ = ImageList_Create( imageList->getImageWidth(), imageList->getImageHeight(), 
-										ILC_COLOR24|ILC_MASK, imageList->getImageCount(), 4 );	
+		stateImageListCtrl_ = ImageList_Create( imageList->getImageWidth(), imageList->getImageHeight(),
+										ILC_COLOR24|ILC_MASK, imageList->getImageCount(), 4 );
 
 		Image* masterImage = imageList->getMasterImage();
 		Win32Image* win32Img = (Win32Image*)masterImage;
 
 		HBITMAP hBMPcopy = (HBITMAP)CopyImage( win32Img->getBitmap(), IMAGE_BITMAP, 0, 0, NULL );
-		//flip the bits		
+		//flip the bits
 
 		int err = ImageList_AddMasked( stateImageListCtrl_, hBMPcopy, RGB(0,255,0) );
 
 		if ( err < 0 ) {
 			//error condition !
 		}
-		DeleteObject( hBMPcopy );	
+		DeleteObject( hBMPcopy );
 
 		TreeView_SetImageList( hwnd_, stateImageListCtrl_, TVSIL_STATE );
 
-		
+
 		EventHandler* imgListHandler = getEventHandler( "ImageListHandler" );
 		if ( NULL == imgListHandler ) {
-			imgListHandler = 
-				new ImageListEventHandler<Win32Tree>(this, Win32Tree::onStateImageListImageChanged, "Win32Tree::onStateImageListImageChanged" );	
-		
-		}	
+			imgListHandler =
+				new ImageListEventHandler<Win32Tree>(this, Win32Tree::onStateImageListImageChanged, "Win32Tree::onStateImageListImageChanged" );
+
+		}
 		imageList->SizeChanged.addHandler( imgListHandler );
 		imageList->ImageAdded.addHandler( imgListHandler );
 		imageList->ImageDeleted.addHandler( imgListHandler );
@@ -871,11 +849,12 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 }
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -1040,8 +1019,5 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 *to facilitate change tracking
 *
 */
-
-
-
 
 

@@ -1,17 +1,9 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
-*migration towards new directory structure
-*
-*Revision 1.5  2003/05/17 20:37:32  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.4.2.1  2003/04/17 04:29:51  ddiego
-*updated scintilla, added gtk support for the application kit, with stubs
-*for the basic peers.
-*
+//GTKControlContext.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
@@ -54,10 +46,30 @@ void GTKControlContext::checkHandle()
 {
 	GTKContext::checkHandle();
 }
-	
+
 void GTKControlContext::releaseHandle()
 {
 	GTKContext::releaseHandle();
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
+*migration towards new directory structure
+*
+*Revision 1.5  2003/05/17 20:37:32  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.4.2.1  2003/04/17 04:29:51  ddiego
+*updated scintilla, added gtk support for the application kit, with stubs
+*for the basic peers.
+*
+*/
 
 

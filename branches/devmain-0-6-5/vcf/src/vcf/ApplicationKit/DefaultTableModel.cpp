@@ -1,31 +1,12 @@
+//DefaultTableModel.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/DefaultTableModel.h"
 #include "vcf/ApplicationKit/DefaultTableCellItem.h"
@@ -55,7 +36,7 @@ DefaultTableModel::~DefaultTableModel()
 		delete row;
 		row = NULL;
 		rowIter ++;
-	}	
+	}
 	tableData_.clear();
 }
 
@@ -68,7 +49,7 @@ void DefaultTableModel::init()
 
 	selectionContainer_.initContainer( selectionMap_ );
 }
-   
+
 
 Enumerator<TableCellItem*>* DefaultTableModel::getSelectedCells()
 {
@@ -96,13 +77,13 @@ void DefaultTableModel::empty()
 		delete row;
 		row = NULL;
 		rowIter ++;
-	}	
+	}
 	tableData_.clear();
 	columnCount_ = 0;
-	rowCount_ = 0;	
+	rowCount_ = 0;
 	fixedColumnsCount_ = 0;
 	fixedRowsCount_ = 0;
-	
+
 	focusedCell_ = NULL;
 
 	selectionMap_.clear();
@@ -137,7 +118,7 @@ void DefaultTableModel::insertRow( const uint32& afterRow )
 void DefaultTableModel::addRows( const uint32& count )
 {
 	int start = rowCount_;
-	
+
 
 	rowCount_ += count;
 	tableData_.resize( rowCount_, NULL );
@@ -160,7 +141,7 @@ void DefaultTableModel::addRows( const uint32& count )
 			(*newRow)[i] = newItem;
 		}
 	}
-	
+
 	TableModelEvent event( this, ROWS_ADDED, start, count );
 	TableRowsAdded.fireEvent( &event );
 
@@ -184,15 +165,15 @@ void DefaultTableModel::addRows( const uint32& count )
 
 		tableData_.push_back( newRow );
 	}
-	
+
 
 	if ( notifyFirstColumnAdded ) {
 		TableModelEvent columnEvent( this, COLUMN_ADDED, NO_ROW_CHANGED, columnCount_-1 );
-		
-		TableColumnAdded.fireEvent( &columnEvent );	
+
+		TableColumnAdded.fireEvent( &columnEvent );
 	}
 
-	
+
 	*/
 }
 
@@ -217,28 +198,28 @@ void DefaultTableModel::deleteRow( const uint32& row )
 		if ( rowCount_ > 0 ){
 			rowCount_ --;
 		}
-	}	
+	}
 }
 
 void DefaultTableModel::addColumn()
-{	
+{
 	addColumns( 1 );
 }
 
 void DefaultTableModel::addColumns( const uint32& count )
 {
-	
-	
+
+
 	int startCol = columnCount_;
 	for ( int j=0;j<count;j++ ) {
-		columnCount_ ++;		
-		
+		columnCount_ ++;
+
 		int i = 0;
 		std::vector<TTableColumn*>::iterator rowIter = tableData_.begin();
 		while ( rowIter != tableData_.end() ){
 			TTableColumn* row = *rowIter;
 			TableCellItem* newItem = createCell( i, columnCount_-1 );
-			
+
 			newItem->setModel( this );
 
 			if ( columnCount_-1 < this->fixedColumnsCount_ ) {
@@ -249,7 +230,7 @@ void DefaultTableModel::addColumns( const uint32& count )
 			rowIter++;
 			i++;
 		}
-		
+
 	}
 	TableModelEvent event( this, COLUMNS_ADDED, NO_ROW_CHANGED, 0, startCol, count );
 	TableColumnsAdded.fireEvent( &event );
@@ -338,7 +319,7 @@ TableRowItemEnumerator* DefaultTableModel::getRowItemEnumerator( const uint32& r
 {
 	TableRowItemEnumerator* result = NULL;
 	rowEnumContainer_.initContainer( *(tableData_[row]) );
-	
+
 	result = rowEnumContainer_.getEnumerator();
 
 	return result;
@@ -356,11 +337,11 @@ TableCellItem* DefaultTableModel::setSelectedCell( const bool& val, const uint32
 	VCF_ASSERT( (row<rowCount_) && (column<columnCount_) );
 
 	TableCellItem* selectedCell = getItem( row, column );
-	
+
 	selectedCell->setSelected( val );
 
 	ulong32 key = (row << 16) | column;
-	
+
 	if ( true == val ) {
 		selectionMap_[key] = selectedCell;
 	}
@@ -372,7 +353,7 @@ TableCellItem* DefaultTableModel::setSelectedCell( const bool& val, const uint32
 	}
 
 	TableModelEvent event( this, CELL_CHANGED, row, 1, column, 1 );
-	TableCellsSelected.fireEvent( &event );	
+	TableCellsSelected.fireEvent( &event );
 
 	return selectedCell;
 }
@@ -387,7 +368,7 @@ void DefaultTableModel::setSelectedRange( const bool& val, const uint32& startRo
 	for (int i=startRow;i<=endRow;i++ ) {
 		for (int j=startColumn;j<=endColumn;j++ ) {
 			TableCellItem* selectedCell = getItem( i, j );
-	
+
 			selectedCell->setSelected( val );
 
 			ulong32 key = (i << 16) | j;
@@ -405,7 +386,7 @@ void DefaultTableModel::setSelectedRange( const bool& val, const uint32& startRo
 	}
 
 	TableModelEvent event( this, CELL_CHANGED, startRow, endRow-startRow, startColumn, endColumn-startColumn );
-	TableCellsSelected.fireEvent( &event );	
+	TableCellsSelected.fireEvent( &event );
 	//TableCellsSelected
 }
 
@@ -415,7 +396,7 @@ void DefaultTableModel::setFixedColumnsCount( const uint32& count )
 		return;
 	}
 
-	
+
 	if ( columnCount_ < count ) {
 		addColumns( count - columnCount_ );
 	}
@@ -427,10 +408,10 @@ void DefaultTableModel::setFixedColumnsCount( const uint32& count )
 			}
 		}
 	}
-	else {		
+	else {
 		for ( int i=fixedRowsCount_;i<rowCount_;i++ ) {
 			for ( int j=count;j<fixedColumnsCount_;j++ ) {
-				getItem( i, j )->setFixed( false );	
+				getItem( i, j )->setFixed( false );
 			}
 		}
 	}
@@ -467,7 +448,7 @@ void DefaultTableModel::setFixedRowsCount( const uint32& count )
 	}
 
 	fixedRowsCount_ = count ;
-}	
+}
 
 uint32 DefaultTableModel::getFixedColumnsCount()
 {
@@ -491,7 +472,7 @@ void DefaultTableModel::clearSelection()
 
 
 	TableModelEvent event( this, CELL_CHANGED );
-	TableCellsSelected.fireEvent( &event );		
+	TableCellsSelected.fireEvent( &event );
 }
 
 CellID DefaultTableModel::getCellIDForItem( TableCellItem* item )
@@ -528,7 +509,7 @@ void DefaultTableModel::setFocusedCell( const uint32& row, const uint32& column 
 
 	if ( cell.isValid() ) {
 		focusedCell_ = getItem( row, column );
-		
+
 		if ( NULL != focusedCell_ ) {
 			focusedCell_->setFocused( true );
 		}
@@ -538,9 +519,13 @@ void DefaultTableModel::setFocusedCell( const uint32& row, const uint32& column 
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -648,6 +633,5 @@ void DefaultTableModel::setFocusedCell( const uint32& row, const uint32& column 
 *to facilitate change tracking
 *
 */
-
 
 

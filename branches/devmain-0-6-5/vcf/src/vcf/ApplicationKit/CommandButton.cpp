@@ -1,32 +1,12 @@
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//CommandButton.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//CommandButton.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/CommandButton.h"
 #include "vcf/ApplicationKit/ButtonPeer.h"
@@ -39,37 +19,37 @@ using namespace VCF;
 
 CommandButton::CommandButton()
 {
-	
-	peer_ = 
+
+	peer_ =
 		dynamic_cast<ControlPeer*>( UIToolkit::createButtonPeer( this ) );
-			
-	
+
+
 	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
 	peer_->create( this );
 	peer_->setControl( this );
 
-	buttonPeer_ = (ButtonPeer*)peer_;	
+	buttonPeer_ = (ButtonPeer*)peer_;
 
 	commandType_ = BC_NONE;
-	
+
 	isPressed_ = false;
 
 	setVisible( true );
 
-	FocusGained.addHandler( new FocusEventHandler<CommandButton>( this, 
-																&CommandButton::onFocusGained, 
+	FocusGained.addHandler( new FocusEventHandler<CommandButton>( this,
+																&CommandButton::onFocusGained,
 																"CommandButton::onFocusGained" ) );
 
-	FocusLost.addHandler( new FocusEventHandler<CommandButton>( this, 
-																&CommandButton::onFocusLost, 
+	FocusLost.addHandler( new FocusEventHandler<CommandButton>( this,
+																&CommandButton::onFocusLost,
 																"CommandButton::onFocusLost" ) );
 }
 
 CommandButton::~CommandButton()
-{	
-	UIToolkit::removeDefaultButton( this );		
+{
+	UIToolkit::removeDefaultButton( this );
 }
 
 void CommandButton::click()
@@ -82,7 +62,7 @@ void CommandButton::click()
 	else {
 		ButtonClicked.fireEvent( &event );
 	}
-	
+
 	if ( BC_NONE != getCommandType() ) {
 		//try and find hte parent that is a Dialog
 		Control* parent = getParent();
@@ -90,27 +70,27 @@ void CommandButton::click()
 		while ( (NULL == frame) && (parent != NULL) ) {
 			parent = parent->getParent();
 			frame = dynamic_cast<Frame*>( parent );
-		}		
-		
+		}
+
 		if ( NULL != frame ) {
 			Dialog* dialog = dynamic_cast<Dialog*>( frame );
 			if ( NULL != dialog ) {
-				switch ( getCommandType() ){					
+				switch ( getCommandType() ){
 					case BC_OK : {
 						dialog->setModalReturnValue( UIToolkit::mrOK );
 					}
 					break;
-					
+
 					case BC_CANCEL : {
 						dialog->setModalReturnValue( UIToolkit::mrCancel );
 					}
 					break;
-					
+
 					case BC_YES : {
 						dialog->setModalReturnValue( UIToolkit::mrYes );
 					}
 					break;
-					
+
 					case BC_NO : {
 						dialog->setModalReturnValue( UIToolkit::mrNo );
 					}
@@ -125,7 +105,7 @@ void CommandButton::click()
 void CommandButton::setCaption( const String& caption )
 {
 	VirtualKeyCode keyCode = UIToolkit::findMnemonic( caption );
-		
+
 	if ( keyCode != vkUndefined ) {
 		AcceleratorKey* newAccelKey = new AcceleratorKey( this, keyCode, kmAlt, NULL, true );
 		addAcceleratorKey( newAccelKey );
@@ -141,10 +121,10 @@ String CommandButton::getCaption()
 
 void CommandButton::paint(GraphicsContext * context)
 {
-	
+
 
 	if ( this == UIToolkit::getDefaultButton() ) {
-		
+
 		Rect rect = getClientBounds();
 		context->setColor( Color::getColor( "black" ) );
 		context->rectangle( &rect );
@@ -177,10 +157,10 @@ void CommandButton::setDefault( const bool& defaultButton )
 		UIToolkit::removeDefaultButton( this );
 	}
 }
-	
+
 bool CommandButton::isDefault()
 {
-	
+
 	return (this == UIToolkit::getDefaultButton());
 }
 
@@ -203,6 +183,9 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:14  ddiego
 *migration towards new directory structure
 *
@@ -352,6 +335,5 @@ double CommandButton::getPreferredHeight()
 *to facilitate change tracking
 *
 */
-
 
 

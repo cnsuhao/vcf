@@ -1,30 +1,11 @@
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//ComboBoxControl.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 //ComboBoxControl
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -50,13 +31,13 @@ public:
 		ScrollbarManager* scrollBarMgr = new ScrollbarManager();
 		scrollBarMgr->setTarget( this );
 		addComponent( scrollBarMgr );
-		
+
 		scrollBarMgr->setHasHorizontalScrollbar( false );
 		scrollBarMgr->setHasVerticalScrollbar( true );
 	}
 
 	virtual ~DropDownListBox(){
-	
+
 	};
 
 
@@ -70,15 +51,15 @@ public:
 
 
 	virtual void mouseMove( MouseEvent* event ) {
-		CustomControl::mouseMove( event );		
+		CustomControl::mouseMove( event );
 
 		if ( (Component::csNormal == getComponentState()) ) {
 			ListItem* foundItem = findSingleSelectedItem( event->getPoint() );
 			if ( NULL != foundItem ) {
 				comboBoxControl_->selectItems( false );
 
-				if ( true == allowsMultiSelect_ ) { 
-					
+				if ( true == allowsMultiSelect_ ) {
+
 				}
 				else {
 					if ( foundItem != singleSelectedItem_ ) {
@@ -87,12 +68,12 @@ public:
 				}
 
 			}
-		}		
+		}
 	}
 
 	virtual void setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating=true ) {
 		ListBoxControl::setBounds( rect, anchorDeltasNeedUpdating );
-		
+
 		getScrollable()->setVirtualViewWidth( rect->getWidth() );
 		double h = getDefaultItemHeight();
 		int count = getListModel()->getCount();
@@ -122,12 +103,12 @@ public:
 	class Container : public StandardContainer {
 	public:
 		virtual void resizeChildren(Control* control) {
-			Rect bounds( 0, 0, 
-							getContainerControl()->getWidth(), 
+			Rect bounds( 0, 0,
+							getContainerControl()->getWidth(),
 							getContainerControl()->getHeight() );
 
 			bounds.inflate( -1, -1 );
-	
+
 			resizeChildrenUsingBounds( control, &bounds );
 		}
 	};
@@ -145,24 +126,24 @@ public:
 		add( listBox_, AlignClient );
 
 		listBox_->MouseDown.addHandler( new MouseEventHandler<ComboBoxDropDown>( this, &ComboBoxDropDown::onListboxMouseDown, "onListboxMouseDown" ) );
-		
+
 		setColor( Color::getColor( "black" ) );
 		setFrameStyle( fstNoBorderFixed );
 		setFrameTopmost( true );
-		
+
 		Rect itemRect = comboBoxControl_->getBounds();
 		comboBoxControl_->getParent()->translateToScreenCoords( &itemRect );
-		
+
 		ulong32 desktopH = Desktop::getDesktop()->getHeight();
 		ulong32 desktopW = Desktop::getDesktop()->getWidth();
 
-		int count = minVal<>( listBox_->getListModel()->getCount(), comboBoxControl_->getDropDownCount() );	
+		int count = minVal<>( listBox_->getListModel()->getCount(), comboBoxControl_->getDropDownCount() );
 
 		int winHeight = ( itemRect.getHeight() ) * count;
 		if ( desktopH < winHeight ) {
 			winHeight = desktopH;
 		}
-		
+
 		if ( (itemRect.bottom_ + winHeight) > desktopH ) {
 			if ( winHeight <= itemRect.top_ ) {
 				itemRect.top_ = itemRect.top_ - winHeight;
@@ -193,7 +174,7 @@ public:
 		if ( 0 < comboBoxControl_->getDropDownWidth() ) {
 			itemRect.right_ = itemRect.left_ + comboBoxControl_->getDropDownWidth();
 		}
-			
+
 		setBounds( &itemRect );
 
 		selectedItem_ = comboBoxControl_->getSelectedItem();
@@ -204,10 +185,10 @@ public:
 	}
 
 	virtual ~ComboBoxDropDown() {
-		
+
 
 		//StringUtils::traceWithArgs( "ComboBoxDropDown::~ComboBoxDropDown() @ %p\n", this );
-		
+
 	}
 
 
@@ -218,7 +199,7 @@ public:
 	}
 
 	virtual void beforeDestroy( ComponentEvent* e ) {
-		
+
 		Window::beforeDestroy( e );
 	}
 
@@ -239,7 +220,7 @@ public:
 		}
 
 		Event* closeEvent = new Event( this,666777 );
-		UIToolkit::postEvent( closeHandler_, closeEvent, false );		
+		UIToolkit::postEvent( closeHandler_, closeEvent, false );
 	}
 
 	ListItem* getSelectedItem() {
@@ -248,14 +229,14 @@ public:
 
 	ListBoxControl* getListBox() {
 		return listBox_;
-	}	
-		
+	}
+
 	void ensureVisible( ListItem* item, const bool& partialOK ) {
 		DropDownListBox* listBox = (DropDownListBox*)listBox_;
 		listBox->ensureVisible( item, false );
 	}
 
-protected:	
+protected:
 	ListItem* selectedItem_;
 	ComboBoxControl* comboBoxControl_;
 	ListBoxControl* listBox_;
@@ -273,11 +254,11 @@ public:
 };
 
 class ComboBoxContainer : public StandardContainer {
-public:	
+public:
 	virtual void resizeChildren( Control* control ) {
 		Rect bounds = ((ComboBoxControl*)controlContainer_)->getEditBounds();
 
-		std::vector<Control*>::iterator it = controls_.begin();	
+		std::vector<Control*>::iterator it = controls_.begin();
 		while ( it != controls_.end() ) {
 			(*it)->setBounds( &bounds );
 			it ++;
@@ -289,12 +270,12 @@ public:
 ComboBoxControl::ComboBoxControl():
 	CustomControl( true ),//make this a heavyweight control !
 	listModel_(NULL)
-{		
-	init();	
+{
+	init();
 }
 
 void ComboBoxControl::init()
-{	
+{
 	comboBoxStyle_ = cbsDropDown;
 	selectedItem_ = NULL;
 	dropDown_ = NULL;
@@ -305,41 +286,41 @@ void ComboBoxControl::init()
 	autoLookup_ = true;
 	autoLookupIgnoreCase_ = true;
 
-	setListModel( new DefaultListModel() );	
+	setListModel( new DefaultListModel() );
 
 	setContainer( new ComboBoxContainer() );
 
 	selectedIndex_ = 0;
 	arrowPressed_ = false;
 	mouseOver_ = false;
-	
-	
+
+
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
-	edit_ = new ComboBoxEdit();		
-	
+	edit_ = new ComboBoxEdit();
+
 	edit_->setBounds( &Rect(0,0,0,0) );
 
 	getContainer()->add( edit_ );
 	edit_->setVisible( (comboBoxStyle_ == cbsDropDownWithEdit) );
 	edit_->setEnabled( (comboBoxStyle_ == cbsDropDownWithEdit) );
-	
+
 	edit_->setKeepTabbingCharacters( true );
 
-	edit_->KeyPressed.addHandler( 
+	edit_->KeyPressed.addHandler(
 		new KeyboardEventHandler<ComboBoxControl>( this, &ComboBoxControl::onEditKeyPressed, "ComboBoxControl::onEditKeyPressed" ) );
-	
+
 	updateEditBounds();
 
-	FocusGained.addHandler( new FocusEventHandler<ComboBoxControl>( this, &ComboBoxControl::onFocusGained, "ComboBoxControl::onFocusGained" ) );	
+	FocusGained.addHandler( new FocusEventHandler<ComboBoxControl>( this, &ComboBoxControl::onFocusGained, "ComboBoxControl::onFocusGained" ) );
 }
 
 ComboBoxControl::~ComboBoxControl()
 {
-	
+
 }
 
-void ComboBoxControl::destroy() 
+void ComboBoxControl::destroy()
 {
 	CustomControl::destroy();
 
@@ -358,25 +339,25 @@ void ComboBoxControl::setListModel(ListModel * model)
 {
 	EventHandler* changed = getEventHandler( "ComboBox_onListModelContentsChanged" );
 	if ( NULL == changed ) {
-		changed = 
-			new ListModelEventHandler<ComboBoxControl>( this, 
-														&ComboBoxControl::onListModelContentsChanged, 
+		changed =
+			new ListModelEventHandler<ComboBoxControl>( this,
+														&ComboBoxControl::onListModelContentsChanged,
 														"ComboBox_onListModelContentsChanged" );
 	}
 
 	EventHandler* itemAdded = getEventHandler( "ComboBox_onItemAdded" );
 	if ( NULL == itemAdded ) {
-		itemAdded = 
-			new ListModelEventHandler<ComboBoxControl>( this, 
-														&ComboBoxControl::onItemAdded, 
+		itemAdded =
+			new ListModelEventHandler<ComboBoxControl>( this,
+														&ComboBoxControl::onItemAdded,
 														"ComboBox_onItemAdded" );
 	}
 
 	EventHandler* itemDeleted = getEventHandler( "ComboBox_onItemDeleted" );
 	if ( NULL == itemDeleted ) {
-		itemDeleted = 
-			new ListModelEventHandler<ComboBoxControl>( this, 
-														&ComboBoxControl::onItemDeleted, 
+		itemDeleted =
+			new ListModelEventHandler<ComboBoxControl>( this,
+														&ComboBoxControl::onItemDeleted,
 														"ComboBox_onItemDeleted" );
 	}
 
@@ -399,7 +380,7 @@ void ComboBoxControl::setListModel(ListModel * model)
 
 		listModel_->addItemAddedHandler( itemAdded );
 
-		listModel_->addItemDeletedHandler( itemDeleted );	
+		listModel_->addItemDeletedHandler( itemDeleted );
 	}
 
 	setViewModel( listModel_ );
@@ -421,8 +402,8 @@ void ComboBoxControl::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
 
-	
-	Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );	
+
+	Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
 	Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 	Color* face = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
 
@@ -441,20 +422,20 @@ void ComboBoxControl::paint( GraphicsContext* context )
 
 	viewRect_ = paintRect;
 	viewRect_.right_ = arrowRect_.left_-1;
-	
+
 	Light3DBorder bdr;
 	bdr.setInverted( true );
 	bdr.paint( &paintRect, context );
 	context->drawVerticalScrollButtonRect( &arrowRect_, false, arrowPressed_ );
-	
-	
+
+
 	viewRect_.inflate( -2, -2 );
 	viewRect_.right_ += 2;
 
 	context->setColor( getColor() );
 	context->rectangle( &viewRect_ );
 	context->fillPath();
-	
+
 
 	ListItem* selectedItem = getSelectedItem();
 	if ( NULL != selectedItem ){
@@ -470,7 +451,7 @@ void ComboBoxControl::paint( GraphicsContext* context )
 			selectedItem->paint( context, &viewRect_ );
 		}
 	}
-	
+
 	getContainer()->paintChildren( context );
 }
 
@@ -479,7 +460,7 @@ void ComboBoxControl::onListModelContentsChanged( ListModelEvent* event )
 	if ( NULL != event ){
 		switch ( event->getType() ){
 			case LIST_MODEL_CONTENTS_DELETED: {
-				
+
 			}
 			break;
 
@@ -489,7 +470,7 @@ void ComboBoxControl::onListModelContentsChanged( ListModelEvent* event )
 
 				}
 			}
-			break;		
+			break;
 		}
 	}
 }
@@ -526,20 +507,20 @@ void ComboBoxControl::closeDropDown( Event* event )
 				setCurrentText( item->getCaption() );
 			}
 		}
-		
-		//delete dropDown_;		
+
+		//delete dropDown_;
 	}
 	dropDown_ = NULL;
 }
 
-void ComboBoxControl::onDropDownLostFocus( WindowEvent* event ) 
+void ComboBoxControl::onDropDownLostFocus( WindowEvent* event )
 {
 	if ( NULL != dropDown_ ) {
 		Frame* frame = (Frame*)event->getSource();
-		if ( false == frame->isActive() ) {			
+		if ( false == frame->isActive() ) {
 
 			dropDown_->setVisible( false );
-			
+
 			Event* closeEvent = new Event( dropDown_, 888999 );
 			EventHandler* ev = new GenericEventHandler<ComboBoxControl>( this, &ComboBoxControl::closeDropDown );
 			UIToolkit::postEvent( ev, closeEvent );
@@ -552,7 +533,7 @@ void ComboBoxControl::onDropDownLostFocus( WindowEvent* event )
 void ComboBoxControl::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
-	
+
 	this->arrowPressed_ = this->arrowRect_.containsPt( event->getPoint() );
 	if ( true == arrowPressed_ ){
 		if ( dropDown_ != NULL ) {
@@ -569,18 +550,18 @@ void ComboBoxControl::mouseDown( MouseEvent* event )
 				if ( NULL == closeHandler ) {
 					closeHandler = new GenericEventHandler<ComboBoxControl>( this, &ComboBoxControl::closeDropDown, "ComboBoxControl::closeDropDown" );
 				}
-				
+
 				ComboBoxDropDown* dropDown = new ComboBoxDropDown( this, closeHandler );
-				
+
 				EventHandler* lostFocusHandler = getEventHandler( "ComboBoxControl::onDropDownLostFocus" );
 				if ( NULL == lostFocusHandler ) {
-					lostFocusHandler = new WindowEventHandler<ComboBoxControl>( this, 
+					lostFocusHandler = new WindowEventHandler<ComboBoxControl>( this,
 																				&ComboBoxControl::onDropDownLostFocus,
 																				"ComboBoxControl::onDropDownLostFocus" );
 				}
 
 				dropDown->FrameActivation.addHandler( lostFocusHandler );
-				dropDown_ = dropDown;		
+				dropDown_ = dropDown;
 				dropDown_->show();
 			}
 		}
@@ -609,7 +590,7 @@ void ComboBoxControl::keyPressed( KeyboardEvent* event )
 	switch ( event->getVirtualCode() ){
 		case vkUpArrow :{
 			ulong32 index = selectedIndex_ + 1;
-			
+
 			if ( index >=	this->listModel_->getCount() ){
 				index = 0;
 			}
@@ -623,10 +604,10 @@ void ComboBoxControl::keyPressed( KeyboardEvent* event )
 		case vkDownArrow :{
 			ulong32 index = selectedIndex_ - 1;
 			/**
-			* this is done this way because we have an UNSIGNED long so we 
+			* this is done this way because we have an UNSIGNED long so we
 			*won't get negative numbers, anything over the count needs to be wrapped
 			*/
-			if ( index > this->listModel_->getCount() ){ 
+			if ( index > this->listModel_->getCount() ){
 				index = this->listModel_->getCount() -1;
 			}
 
@@ -640,7 +621,7 @@ void ComboBoxControl::keyPressed( KeyboardEvent* event )
 
 ListItem* ComboBoxControl::getSelectedItem()
 {
-			
+
 	return selectedItem_;
 }
 
@@ -681,9 +662,9 @@ void ComboBoxControl::setSelectedItemIndex( const ulong32& selectedIndex )
 void ComboBoxControl::setComboBoxStyle( const ComboBoxStyleType& comboBoxStyle )
 {
 	comboBoxStyle_ = comboBoxStyle;
-	edit_->setVisible( (comboBoxStyle_ == cbsDropDownWithEdit) );	
+	edit_->setVisible( (comboBoxStyle_ == cbsDropDownWithEdit) );
 	edit_->setEnabled( (comboBoxStyle_ == cbsDropDownWithEdit) );
-	
+
 	if ( cbsDropDownWithEdit == comboBoxStyle_ ) {
 		setTabStop( false );
 	}
@@ -700,15 +681,15 @@ void ComboBoxControl::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdatin
 	CustomControl::setBounds( rect, anchorDeltasNeedUpdating );
 
 	if ( comboBoxStyle_ == cbsDropDownWithEdit ) {
-		
-		Rect rectTmp( 0, 0, rect->getWidth() - rect->getHeight(), rect->getHeight() );		
+
+		Rect rectTmp( 0, 0, rect->getWidth() - rect->getHeight(), rect->getHeight() );
 		rectTmp.inflate( -1, -1 );
-		rectTmp.right_ += 2;		
+		rectTmp.right_ += 2;
 
 		edit_->setBounds( &rectTmp );
 	}
 	else {
-		edit_->setBounds( &Rect(0,0,0,0) );	
+		edit_->setBounds( &Rect(0,0,0,0) );
 	}
 }
 */
@@ -725,12 +706,12 @@ Rect ComboBoxControl::getEditBounds()
 
 void ComboBoxControl::updateEditBounds()
 {
-	if ( comboBoxStyle_ == cbsDropDownWithEdit ) {		
+	if ( comboBoxStyle_ == cbsDropDownWithEdit ) {
 
 		edit_->setBounds( &getEditBounds() );
 	}
 	else {
-		edit_->setBounds( &Rect(0,0,0,0) );	
+		edit_->setBounds( &Rect(0,0,0,0) );
 	}
 }
 
@@ -740,8 +721,8 @@ void ComboBoxControl::onEditKeyPressed( KeyboardEvent* event )
 		KeyboardEvent* postedEvent = new KeyboardEvent( event->getSource(), event->getType(),
 														event->getRepeatCount(), event->getKeyMask(),
 														event->getKeyValue(), event->getVirtualCode() );
-		UIToolkit::postEvent( 
-			new KeyboardEventHandler<ComboBoxControl>( this, &ComboBoxControl::onEditReturnKeyPressed ), postedEvent );	
+		UIToolkit::postEvent(
+			new KeyboardEventHandler<ComboBoxControl>( this, &ComboBoxControl::onEditReturnKeyPressed ), postedEvent );
 	//}
 	//VirtualKeyCode key = event->getVirtualCode();
 	//StringUtils::traceWithArgs( "Key: %d\r\n", key );
@@ -874,7 +855,7 @@ String ComboBoxControl::getCurrentText()
 		ListItem* item = getSelectedItem();
 		if ( NULL != item ) {
 			result = item->getCaption();
-		}	
+		}
 	}
 
 	return result;
@@ -898,7 +879,7 @@ void ComboBoxControl::setCurrentText( const String& text )
 				if ( String::npos != pos ) {
 					setSelectedItem( item );
 					break;
-				}			
+				}
 			}
 		}
 	}
@@ -922,9 +903,13 @@ void ComboBoxControl::selectItems( const bool& select )
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:14  ddiego
 *migration towards new directory structure
 *
@@ -1178,6 +1163,5 @@ void ComboBoxControl::selectItems( const bool& select )
 *to facilitate change tracking
 *
 */
-
 
 

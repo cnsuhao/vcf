@@ -1,39 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
+#ifndef _VCF_UITOOLKIT_H__
+#define _VCF_UITOOLKIT_H__
+//UIToolkit.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
-#ifndef _VCF_UITOOLKIT_H__
-#define _VCF_UITOOLKIT_H__
-
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 enum ComponentType{
@@ -110,17 +88,17 @@ class TimerEvent;
 
 
 /**
-The UIToolkit is used to create instances of various peer's needed by the VCF, 
-as well as providing certain low level services, such as modal and non-modal 
-event loops, and getting at UI metrics. Each system the VCF is ported to has 
-a concrete implementation of the UIToolkit. The UIToolkit is a singleton, and 
+The UIToolkit is used to create instances of various peer's needed by the VCF,
+as well as providing certain low level services, such as modal and non-modal
+event loops, and getting at UI metrics. Each system the VCF is ported to has
+a concrete implementation of the UIToolkit. The UIToolkit is a singleton, and
 there should only be one instance for a given process running the VCF libraries.
 
-To work with the toolkit you retreive it's instance via a static function, 
-UIToolkit::getDefaultUIToolkit(). If no toolkit is found (which is an extremely bad thing!) 
+To work with the toolkit you retreive it's instance via a static function,
+UIToolkit::getDefaultUIToolkit(). If no toolkit is found (which is an extremely bad thing!)
 a NoToolKitFoundException is thrown. A quick example:
 <pre>
-try {			
+try {
 	UIToolkit* toolkit = UIToolkit::getDefaultUIToolkit();
 }
 catch ( NoToolKitFoundException & e ) {
@@ -138,7 +116,7 @@ public:
 	/**
 	*These enum values specify the various return values that a modal loop can return.
 	*The most typical values are mrTrue or mrFalse. If used in conjuction with displaying
-	* a modal dialog then some of the other values may come into play ot indicate a 
+	* a modal dialog then some of the other values may come into play ot indicate a
 	*common button that was clicked, such as OK, Cancel, Yes, No, etc.
 	*/
 	enum ModalReturnType {
@@ -169,7 +147,7 @@ public:
 	*functions called
 	*/
 	static void initToolKit();
-	
+
 	/**
 	*cleans up the toolkit instance and deletes it
 	*/
@@ -184,41 +162,41 @@ public:
 	creates a context peer for a control
 	*/
 	static ContextPeer* createContextPeer( Control* component );
-	
+
 	/**
 	creates a context peer given a windowing specific context id. This simply
-	calls the GraphicsToolkit's createContextPeer(). 
+	calls the GraphicsToolkit's createContextPeer().
 	@see GraphicsToolkit::createContextPeer
 	*/
 	static ContextPeer* createContextPeer( const long& contextID );
 
 	/**
 	creates a memory based context peer given a width and height.
-	This simply	calls the GraphicsToolkit's createContextPeer(). 
+	This simply	calls the GraphicsToolkit's createContextPeer().
 	@see GraphicsToolkit::createContextPeer
 	*/
 	static ContextPeer* createContextPeer( const unsigned long& width, const unsigned long& height );
 
 	/**
-	This creates a peer that implements the ListviewPeer interface. A ListviewPeer allows you to 
-	view a list of data in multiple ways. For Win32 systems this is equivalent to 
+	This creates a peer that implements the ListviewPeer interface. A ListviewPeer allows you to
+	view a list of data in multiple ways. For Win32 systems this is equivalent to
 	creating a window handle with the WC_LISTVIEW window class name.
 	*/
     static ListviewPeer* createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT);
 
 	/**
-	This creates a peer that implements the TreePeer interface. A TreePeer allows you to 
-	view a data in an outline or hierarchical style. For Win32 systems this is equivalent to 
+	This creates a peer that implements the TreePeer interface. A TreePeer allows you to
+	view a data in an outline or hierarchical style. For Win32 systems this is equivalent to
 	creating a window handle with the WC_TREEVIEW window class name.
 	*/
-    static TreePeer* createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);        
+    static TreePeer* createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT);
 
 	/**
-	This creates a peer that implements the TextPeer interface. A TextPeer allows you to 
-	view and edit text, either in a single line edit control, or a multiline edit control. 
+	This creates a peer that implements the TextPeer interface. A TextPeer allows you to
+	view and edit text, either in a single line edit control, or a multiline edit control.
 	For Win32 systems this is equivalent to creating a Richedit window handle.
 	*/
-    static TextPeer* createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);    
+    static TextPeer* createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT);
 
 	/**
 	This creates a peer that implements the HTMLBrowserPeer interface. The HTMLBrowserPeer
@@ -229,20 +207,20 @@ public:
 	/**
 	This creates a peer that implements the ButtonPeer interface. This ensures that you have a button
 	control that correctly implements ALL the look and feel requirements for the windowing system.
-	Some windowing systems have a more complex button control than others, making it more complicated 
+	Some windowing systems have a more complex button control than others, making it more complicated
 	to try and emulate, as opposed to just providing a peer that creates a native button control.
 	For Win32 systems this is equivalent to creating a window handle with the BUTTON window class name.
 	*/
-    static ButtonPeer* createButtonPeer( CommandButton* component, ComponentType componentType=CT_DEFAULT);    
+    static ButtonPeer* createButtonPeer( CommandButton* component, ComponentType componentType=CT_DEFAULT);
 
 
     static DialogPeer* createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT);
 
-	static DialogPeer* createDialogPeer();    
+	static DialogPeer* createDialogPeer();
 
-    static WindowPeer* createWindowPeer( Control* component, Control* owner, 
+    static WindowPeer* createWindowPeer( Control* component, Control* owner,
 											ComponentType componentType=CT_DEFAULT);
-    
+
 
 	static ToolbarPeer* createToolbarPeer( Toolbar* toolbar );
 
@@ -254,7 +232,7 @@ public:
 
     static ClipboardPeer* createClipboardPeer();
 
-    static DragDropPeer* createDragDropPeer(); 
+    static DragDropPeer* createDragDropPeer();
 
 	static DataObjectPeer* createDataObjectPeer();
 
@@ -262,8 +240,8 @@ public:
 
 	static ApplicationPeer* createApplicationPeer();
 
-	static Clipboard* getSystemClipboard();				
-	
+	static Clipboard* getSystemClipboard();
+
 	static CommonFileDialogPeer* createCommonFileOpenDialogPeer( Control* owner );
 
 	static CommonFolderBrowseDialogPeer* createCommonFolderBrowseDialogPeer( Control* owner );
@@ -278,15 +256,15 @@ public:
 
 	static ScrollPeer* createScrollPeer( Control* control );
 
-	static CursorPeer* createCursorPeer( Cursor* cursor );	
+	static CursorPeer* createCursorPeer( Cursor* cursor );
 
-	static bool createCaret( Control* owningControl, Image* caretImage  ); 
+	static bool createCaret( Control* owningControl, Image* caretImage  );
 
 	static bool destroyCaret( Control* owningControl );
 
 	static void setCaretVisible( const bool& caretVisible );
-	
-	static void setCaretPos( Point* point );	
+
+	static void setCaretPos( Point* point );
 
 	static void postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler=true );
 
@@ -295,7 +273,7 @@ public:
 	static void unregisterTimerHandler( EventHandler* handler );
 
 	/*
-	*this runs an event loop - the imeplementation is entirely system specific and 
+	*this runs an event loop - the imeplementation is entirely system specific and
 	*in implemented in subclasses of UIToolkit
 	*/
 	static void runEventLoop();
@@ -304,10 +282,10 @@ public:
 
 
 	/**
-	this will attempt to send a message/event to the underlying windowing system's 
+	this will attempt to send a message/event to the underlying windowing system's
 	event loop (started due to a call to runEventLoop() or runModalEventLoopFor(...) )
-	and get it to quit running. It will not block and will return immediately. 
-	If an event loop ends, and there are no more event loops running then the 
+	and get it to quit running. It will not block and will return immediately.
+	If an event loop ends, and there are no more event loops running then the
 	application may quit cleanly.
 	<p>On the Win32 system this is implemented with a PostQuitMessage(0)
 	*/
@@ -316,8 +294,8 @@ public:
 	/**
 	*This method creates a new event from native windowing OS event
 	*data. Each UIToolkit implementation must implement this method
-	*and since we can't possibly know the event data at this point, 
-	*we just specify a void*. The concrete implementation will have to 
+	*and since we can't possibly know the event data at this point,
+	*we just specify a void*. The concrete implementation will have to
 	*typecast this to the specific datatype or structure.
 	*/
 	static Event* createEventFromNativeOSEventData( void* eventData );
@@ -337,13 +315,13 @@ public:
 	static const Image* getStandardInformationImage();
 
 	static void registerComponentInfo( const String& componentUUID, ComponentInfo* info );
-	
-	static void removeComponentInfo( ComponentInfo* info );	
 
-	static void registerAccelerator( AcceleratorKey* accelerator );	
+	static void removeComponentInfo( ComponentInfo* info );
+
+	static void registerAccelerator( AcceleratorKey* accelerator );
 
 	static void removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
-	
+
 	static Button* getDefaultButton();
 
 	static void setDefaultButton( Button* defaultButton );
@@ -356,10 +334,10 @@ public:
 
 	static void handleKeyboardEvent( KeyboardEvent* event );
 
-	static VirtualKeyCode findMnemonic( const String& caption );	
+	static VirtualKeyCode findMnemonic( const String& caption );
 
 	static ComponentInfo* getComponentInfo( const String& componentUUID );
-	
+
 	static ComponentInfo* getComponentInfo( Class* componentClass );
 
 	static UIMetricsManager* getUIMetricsManager();
@@ -369,18 +347,18 @@ public:
 	/**
 	public so platform implementers can get at it easily
 	*/
-	static UIToolkit* internal_getDefaultUIToolkit();	
+	static UIToolkit* internal_getDefaultUIToolkit();
 
 	static void addToUpdateTimer( Component* component );
 	static void removeFromUpdateTimer( Component* component );
 	static void setUpdateTimerSpeed( const unsigned long& milliseconds );
-protected:	
+protected:
 	static UIToolkit* toolKitInstance;
 
 	std::map<String,ComponentInfo*> componentInfoMap_;
 	std::map<ulong32,AcceleratorKey*> acceleratorMap_;
 	std::vector<Control*> visitedContainers_;
-	Clipboard* systemClipboard_;	
+	Clipboard* systemClipboard_;
     GraphicsToolkit * graphicsToolKit_;
 	Image* stopImage_;
 	Image* warningImage_;
@@ -394,7 +372,7 @@ protected:
 
 	std::vector<Component*> componentsToUpdate_;
 
-	
+
 
 
 	void onAcceleratorMnemonic( KeyboardEvent* event );
@@ -404,9 +382,9 @@ protected:
 	Control* getNextChildControl( Control* control, Control* prevControl=NULL );
 
 	Control* getPrevChildControl( Control* control, Control* prevControl=NULL );
-	
 
-	
+
+
 
 	/**
 	*creates a new instance of a ControlPeer
@@ -415,28 +393,28 @@ protected:
     virtual ControlPeer* internal_createControlPeer( Control* component, ComponentType componentType=CT_DEFAULT) = 0;
 
 	virtual ContextPeer* internal_createContextPeer( Control* component );
-	
+
 	virtual ContextPeer* internal_createContextPeer( const long& contextID );
 
 	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height );
 
     virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component, ComponentType componentType=CT_DEFAULT) = 0;
 
-    virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT) = 0;        
+    virtual TreePeer* internal_createTreePeer( TreeControl* component, ComponentType componentType=CT_DEFAULT) = 0;
 
-    virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT) = 0;    
+    virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType=CT_DEFAULT) = 0;
 
 	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control ) = 0;
 
-    virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType=CT_DEFAULT) = 0;    
+    virtual ButtonPeer* internal_createButtonPeer( CommandButton* component, ComponentType componentType=CT_DEFAULT) = 0;
 
     virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component, ComponentType componentType=CT_DEFAULT) = 0;
 
-	virtual DialogPeer* internal_createDialogPeer() = 0;    
+	virtual DialogPeer* internal_createDialogPeer() = 0;
 
-    virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner, 
+    virtual WindowPeer* internal_createWindowPeer( Control* component, Control* owner,
 											ComponentType componentType=CT_DEFAULT) = 0;
-    
+
 
 	virtual ToolbarPeer* internal_createToolbarPeer( Toolbar* toolbar ) = 0;
 
@@ -448,7 +426,7 @@ protected:
 
     virtual ClipboardPeer* internal_createClipboardPeer() = 0;
 
-    virtual DragDropPeer* internal_createDragDropPeer() = 0; 
+    virtual DragDropPeer* internal_createDragDropPeer() = 0;
 
 	virtual DataObjectPeer* internal_createDataObjectPeer() = 0;
 
@@ -456,8 +434,8 @@ protected:
 
 	virtual ApplicationPeer* internal_createApplicationPeer() = 0;
 
-	virtual Clipboard* internal_getSystemClipboard();				
-	
+	virtual Clipboard* internal_getSystemClipboard();
+
 	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner ) = 0;
 
 	virtual CommonFolderBrowseDialogPeer* internal_createCommonFolderBrowseDialogPeer( Control* owner ) = 0;
@@ -472,15 +450,15 @@ protected:
 
 	virtual ScrollPeer* internal_createScrollPeer( Control* control ) = 0;
 
-	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor ) = 0;	
+	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor ) = 0;
 
-	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ) = 0; 
+	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ) = 0;
 
 	virtual bool internal_destroyCaret( Control* owningControl ) = 0;
 
 	virtual void internal_setCaretVisible( const bool& caretVisible ) = 0;
-	
-	virtual void internal_setCaretPos( Point* point ) = 0;	
+
+	virtual void internal_setCaretPos( Point* point ) = 0;
 
 	virtual void internal_postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler=true ) = 0;
 
@@ -489,7 +467,7 @@ protected:
 	virtual void internal_unregisterTimerHandler( EventHandler* handler ) = 0;
 
 	/*
-	*this runs an event loop - the imeplementation is entirely system specific and 
+	*this runs an event loop - the imeplementation is entirely system specific and
 	*in implemented in subclasses of UIToolkit
 	*/
 	virtual void internal_runEventLoop() = 0;
@@ -498,10 +476,10 @@ protected:
 
 
 	/**
-	this will attempt to send a message/event to the underlying windowing system's 
+	this will attempt to send a message/event to the underlying windowing system's
 	event loop (started due to a call to runEventLoop() or runModalEventLoopFor(...) )
-	and get it to quit running. It will not block and will return immediately. 
-	If an event loop ends, and there are no more event loops running then the 
+	and get it to quit running. It will not block and will return immediately.
+	If an event loop ends, and there are no more event loops running then the
 	application may quit cleanly.
 	<p>On the Win32 system this is implemented with a PostQuitMessage(0)
 	*/
@@ -510,8 +488,8 @@ protected:
 	/**
 	*This method creates a new event from native windowing OS event
 	*data. Each UIToolkit implementation must implement this method
-	*and since we can't possibly know the event data at this point, 
-	*we just specify a void*. The concrete implementation will have to 
+	*and since we can't possibly know the event data at this point,
+	*we just specify a void*. The concrete implementation will have to
 	*typecast this to the specific datatype or structure.
 	*/
 	virtual Event* internal_createEventFromNativeOSEventData( void* eventData ) = 0;
@@ -536,13 +514,13 @@ protected:
 	const Image* internal_getStandardInformationImage();
 
 	void internal_registerComponentInfo( const String& componentUUID, ComponentInfo* info );
-	
-	void internal_removeComponentInfo( ComponentInfo* info );	
 
-	void internal_registerAccelerator( AcceleratorKey* accelerator );	
+	void internal_removeComponentInfo( ComponentInfo* info );
+
+	void internal_registerAccelerator( AcceleratorKey* accelerator );
 
 	void internal_removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
-	
+
 	Button* internal_getDefaultButton();
 
 	void internal_setDefaultButton( Button* defaultButton );
@@ -553,10 +531,10 @@ protected:
 
 	void internal_removeAcceleratorKeysForControl( Control* control );
 
-		
+
 
 	ComponentInfo* internal_getComponentInfo( const String& componentUUID );
-	
+
 	ComponentInfo* internal_getComponentInfo( Class* componentClass );
 
 	UIMetricsManager* internal_getUIMetricsManager() {
@@ -577,10 +555,12 @@ protected:
 };
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *

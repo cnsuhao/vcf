@@ -1,6 +1,131 @@
+//Win32FontDialog.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/Win32FontDialog.h"
+
+
+using namespace VCF;
+
+
+Win32FontDialog::Win32FontDialog( Control* owner )
+{
+	owner_ = owner;
+}
+
+Win32FontDialog::~Win32FontDialog()
+{
+
+}
+
+void Win32FontDialog::setTitle( const String& title )
+{
+
+}
+
+bool Win32FontDialog::execute()
+{
+	bool result = false;
+
+	if ( System::isUnicodeEnabled() ) {
+
+		CHOOSEFONTW chooseFont;
+		memset( &chooseFont, 0, sizeof(chooseFont) );
+		chooseFont.lStructSize = sizeof(chooseFont);
+		if ( NULL != owner_ ){
+			chooseFont.hwndOwner = (HWND)owner_->getPeer()->getHandleID();
+		}
+		else {
+			chooseFont.hwndOwner = GetActiveWindow();
+		}
+		LOGFONTW logFont;
+		memset( &logFont, 0, sizeof(logFont) );
+
+		memcpy( &logFont, (LOGFONTW*)font_.getFontPeer()->getFontHandleID(), sizeof(logFont) );
+
+		chooseFont.lpLogFont = &logFont;
+		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
+		Color* c = font_.getColor();
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+		c->getRGB( r, g, b );
+		chooseFont.rgbColors = RGB( c->getRed()*255, c->getGreen()*255, c->getBlue()*255 );
+
+		if ( ChooseFontW( &chooseFont ) ){
+			r = GetRValue( chooseFont.rgbColors );
+			g = GetGValue( chooseFont.rgbColors );
+			b = GetBValue( chooseFont.rgbColors );
+			c->setRGB( r,g,b);
+			LOGFONTW* fontLogFont = (LOGFONTW*)font_.getFontPeer()->getFontHandleID();
+			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTW) );
+			result = true;
+		}
+
+	}
+	else {
+		CHOOSEFONTA chooseFont;
+		memset( &chooseFont, 0, sizeof(chooseFont) );
+		chooseFont.lStructSize = sizeof(chooseFont);
+		if ( NULL != owner_ ){
+			chooseFont.hwndOwner = (HWND)owner_->getPeer()->getHandleID();
+		}
+		else {
+			chooseFont.hwndOwner = GetActiveWindow();
+		}
+		LOGFONTA logFont;
+		memset( &logFont, 0, sizeof(logFont) );
+
+		memcpy( &logFont, (LOGFONTA*)font_.getFontPeer()->getFontHandleID(), sizeof(logFont) );
+
+		chooseFont.lpLogFont = &logFont;
+		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
+		Color* c = font_.getColor();
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+		c->getRGB( r, g, b );
+		chooseFont.rgbColors = RGB( c->getRed()*255, c->getGreen()*255, c->getBlue()*255 );
+
+		if ( ChooseFontA( &chooseFont ) ){
+			r = GetRValue( chooseFont.rgbColors );
+			g = GetGValue( chooseFont.rgbColors );
+			b = GetBValue( chooseFont.rgbColors );
+			c->setRGB( r,g,b);
+			LOGFONTA* fontLogFont = (LOGFONTA*)font_.getFontPeer()->getFontHandleID();
+			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTA) );
+			result = true;
+		}
+	}
+
+
+	return result;
+}
+
+Font* Win32FontDialog::getSelectedFont()
+{
+	return &font_;
+}
+
+void Win32FontDialog::setSelectedFont( Font* selectedFont )
+{
+	font_.copy( selectedFont );
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -58,146 +183,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32FontDialog.cpp
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-#include "vcf/ApplicationKit/Win32FontDialog.h"
-
-
-using namespace VCF;
-
-
-Win32FontDialog::Win32FontDialog( Control* owner )
-{
-	owner_ = owner;
-}
-
-Win32FontDialog::~Win32FontDialog()
-{
-
-}
-
-void Win32FontDialog::setTitle( const String& title )
-{
-
-}
-
-bool Win32FontDialog::execute()
-{
-	bool result = false;
-
-	if ( System::isUnicodeEnabled() ) {
-
-		CHOOSEFONTW chooseFont;
-		memset( &chooseFont, 0, sizeof(chooseFont) );
-		chooseFont.lStructSize = sizeof(chooseFont);
-		if ( NULL != owner_ ){
-			chooseFont.hwndOwner = (HWND)owner_->getPeer()->getHandleID();
-		}
-		else {
-			chooseFont.hwndOwner = GetActiveWindow();
-		}
-		LOGFONTW logFont;
-		memset( &logFont, 0, sizeof(logFont) );
-		
-		memcpy( &logFont, (LOGFONTW*)font_.getFontPeer()->getFontHandleID(), sizeof(logFont) ); 
-		
-		chooseFont.lpLogFont = &logFont;
-		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
-		Color* c = font_.getColor();
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		c->getRGB( r, g, b );
-		chooseFont.rgbColors = RGB( c->getRed()*255, c->getGreen()*255, c->getBlue()*255 );
-		
-		if ( ChooseFontW( &chooseFont ) ){
-			r = GetRValue( chooseFont.rgbColors );
-			g = GetGValue( chooseFont.rgbColors );
-			b = GetBValue( chooseFont.rgbColors );
-			c->setRGB( r,g,b);
-			LOGFONTW* fontLogFont = (LOGFONTW*)font_.getFontPeer()->getFontHandleID();
-			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTW) );
-			result = true;
-		}
-		
-	}
-	else {
-		CHOOSEFONTA chooseFont;
-		memset( &chooseFont, 0, sizeof(chooseFont) );
-		chooseFont.lStructSize = sizeof(chooseFont);
-		if ( NULL != owner_ ){
-			chooseFont.hwndOwner = (HWND)owner_->getPeer()->getHandleID();
-		}
-		else {
-			chooseFont.hwndOwner = GetActiveWindow();
-		}
-		LOGFONTA logFont;
-		memset( &logFont, 0, sizeof(logFont) );
-		
-		memcpy( &logFont, (LOGFONTA*)font_.getFontPeer()->getFontHandleID(), sizeof(logFont) ); 
-		
-		chooseFont.lpLogFont = &logFont;
-		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
-		Color* c = font_.getColor();
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		c->getRGB( r, g, b );
-		chooseFont.rgbColors = RGB( c->getRed()*255, c->getGreen()*255, c->getBlue()*255 );
-		
-		if ( ChooseFontA( &chooseFont ) ){
-			r = GetRValue( chooseFont.rgbColors );
-			g = GetGValue( chooseFont.rgbColors );
-			b = GetBValue( chooseFont.rgbColors );
-			c->setRGB( r,g,b);
-			LOGFONTA* fontLogFont = (LOGFONTA*)font_.getFontPeer()->getFontHandleID();
-			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTA) );
-			result = true;
-		}
-	}
-
-	
-	return result;
-}
-
-Font* Win32FontDialog::getSelectedFont()
-{
-	return &font_;
-}
-
-void Win32FontDialog::setSelectedFont( Font* selectedFont )
-{
-	font_.copy( selectedFont );
-}
 
 

@@ -1,43 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_ABSTRACTLISTMODEL_H__
 #define _VCF_ABSTRACTLISTMODEL_H__
+//AbstractListModel.h
 
-
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #ifndef _VCF_LISTMODEL_H__
@@ -55,8 +29,8 @@ class Stream;
 #define ABSTRACTLISTMODEL_CLASSID		"ED88C0A7-26AB-11d4-B539-00C04F0196DA"
 
 /**
-*The AbstractListModel is basic implementation of ListModel. 
-*Deriving classes can use it as starting point in their own 
+*The AbstractListModel is basic implementation of ListModel.
+*Deriving classes can use it as starting point in their own
 *implementation. See ListModel for more information on the methods
 *implemented here.
 *
@@ -74,14 +48,14 @@ class Stream;
 */
 class APPKIT_API AbstractListModel : public ListModel, public Persistable {
 public:
-	
+
 	AbstractListModel();
 
 	virtual ~AbstractListModel();
 
 	/**
 	@delegate ModelEmptied fired when the model's empty() method is
-	called. 	
+	called.
 	@event ModelEvent
 	@see empty()
 	*/
@@ -93,12 +67,12 @@ public:
 	@see validate()
 	*/
 	DELEGATE(ModelValidate)
-	
+
 
     virtual void addModelValidationHandler( EventHandler* handler ) {
 		ModelValidate +=  handler;
 	}
-	
+
 	virtual void removeModelValidationHandler( EventHandler* handler ) {
 		ModelValidate -=  handler;
 	}
@@ -111,26 +85,26 @@ public:
 		ModelEmptied -=  handler;
 	}
 
-	
+
     /**
-     * validate the model. 
+     * validate the model.
      * The implementation for this can vary widely, or even be nonexistant for model's that do not require validation.
      * The basic idea is to call all the listeners in the list , passing in a local variable to the
      * onModelValidate() methods of the listener's. The variable is initialized to true, and if it is
      * still true at the end of the listener iterations, then it is safe to apply the changes to the
-     * model, other wise the changes are removed. 
+     * model, other wise the changes are removed.
      */
     virtual void validate();
 
     /**
-    * clears out the model's data 
+    * clears out the model's data
     */
     virtual void empty();
-	
+
 	virtual void addListModelHandler(EventHandler * handler) {
 		ModelEmptied += handler;
 	}
-    
+
 	virtual void removeListModelHandler(EventHandler * handler) {
 		ModelEmptied -= handler;
 	}
@@ -167,17 +141,17 @@ public:
 	}
 
 	virtual void removeItemAddedHandler(EventHandler * handler) {
-		ItemAdded -= handler; 
+		ItemAdded -= handler;
 	}
 
 	virtual void addItemDeletedHandler(EventHandler * handler) {
-		ItemDeleted += handler; 
+		ItemDeleted += handler;
 	}
 
 	virtual void removeItemDeletedHandler(EventHandler * handler) {
 		ItemDeleted -= handler;
 	}
-	
+
     virtual void deleteItem(ListItem * item);
 
     virtual void deleteItemAtIndex(const unsigned long & index);
@@ -198,15 +172,15 @@ public:
 	*Write the object to the specified output stream
 	*/
     virtual void saveToStream( OutputStream * stream );
-	
+
 	/**
 	**Read the object from the specified input stream
 	*/
-    virtual void loadFromStream( InputStream * stream );	
-private:    
+    virtual void loadFromStream( InputStream * stream );
+private:
 
     /**
-    * @supplierCardinality 0..* 
+    * @supplierCardinality 0..*
    */
 	std::vector<ListItem*> listItems_;
 	EnumeratorContainer<std::vector<ListItem*>, ListItem*> listContainer_;
@@ -218,6 +192,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -311,6 +288,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_ABSTRACTLISTMODEL_H__
 

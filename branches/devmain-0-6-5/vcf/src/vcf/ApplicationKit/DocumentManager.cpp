@@ -1,31 +1,12 @@
+//DocumentManager.cpp
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ModelViewKit.h"
 
@@ -40,7 +21,7 @@ using namespace VCF;
 
 DocumentManager* DocumentManager::docManagerInstance = NULL;
 
-DocumentManager::DocumentManager(): 
+DocumentManager::DocumentManager():
 	standardMenu_(NULL),
 	shouldCreateUI_(true)
 {
@@ -54,7 +35,7 @@ DocumentManager::DocumentManager():
 
 DocumentManager::~DocumentManager()
 {
-	
+
 }
 
 void DocumentManager::terminate() {
@@ -100,9 +81,9 @@ void DocumentManager::init()
 	while ( nodes->hasMoreElements() ) {
 		XMLNode* node = nodes->nextElement();
 		if ( node->getName() == "document" ) {
-			
+
 			XMLAttr* attr = node->getAttrByName( "classname" );
-			
+
 			DocumentInfo info;
 			info.className = attr->getValue();
 
@@ -122,13 +103,13 @@ void DocumentManager::init()
 						info.mimetype = val->getValue();
 					}
 					else if ( name->getValue() == "role" ) {
-						
+
 					}
 					else if ( name->getValue() == "extension" ) {
 						info.fileTypes = val->getValue();
 					}
 					else if ( name->getValue() == "description" ) {
-						info.description = val->getValue();						
+						info.description = val->getValue();
 					}
 					else if ( name->getValue() == "view" ) {
 						info.view = val->getValue();
@@ -144,7 +125,7 @@ void DocumentManager::init()
 	}
 
 
-	
+
 }
 
 
@@ -205,10 +186,10 @@ void DocumentManager::pasteToDocument( Document* doc ) {
 				}
 			}
 		}
-			
+
 
 		if ( (NULL != data) && (!doc->paste( data )) ) {
-			
+
 			BasicOutputStream bos;
 
 			data->saveToStream( info->mimetype, &bos );
@@ -235,7 +216,7 @@ void DocumentManager::redoForDocument( Document* doc ) {
 }
 
 
-UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document ) 
+UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 {
 	UIToolkit::ModalReturnType result;
 
@@ -245,7 +226,7 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 		caption = app->getName();
 	}
 	MessageDialog saveDocPrompt;
-	String message = StringUtils::format( "Do you want to save the changes you made to document \"%s\" ?", 
+	String message = StringUtils::format( "Do you want to save the changes you made to document \"%s\" ?",
 											document->getName().c_str() );
 	saveDocPrompt.setMessage( message );
 	saveDocPrompt.setCaption( caption );
@@ -253,8 +234,8 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 	saveDocPrompt.addActionButton( "Cancel", UIToolkit::mrCancel );
 	saveDocPrompt.addActionButton( "Don't Save", UIToolkit::mrNo );
 	saveDocPrompt.addActionButton( "Save", UIToolkit::mrYes, true );
-	
-	
+
+
 
 	result = saveDocPrompt.showModal();
 	switch ( result ) {
@@ -269,13 +250,13 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 	return result;
 }
 
-DocumentInfo* DocumentManager::getDocumentInfo( Document* doc ) 
+DocumentInfo* DocumentManager::getDocumentInfo( Document* doc )
 {
 	DocumentInfo* result = NULL;
-	
+
 	DocumentInfoMap::iterator it = docInfo_.begin();
 	Class* clazz = doc->getClass();
-	
+
 	if ( NULL != clazz ) {
 		while ( it != docInfo_.end() ) {
 			DocumentInfo& info = it->second;
@@ -283,11 +264,11 @@ DocumentInfo* DocumentManager::getDocumentInfo( Document* doc )
 				result = &info;
 				break;
 			}
-			
+
 			it ++;
 		}
 	}
-	
+
 	return result;
 }
 
@@ -297,14 +278,14 @@ void DocumentManager::updatePaste( ActionEvent* event, Document* doc )
 	if ( NULL != doc ) {
 		info = getDocumentInfo( doc );
 	}
-	
+
 	if ( (NULL != doc) && (NULL != info) ) {
 		bool enabled = doc->canPasteToDocument();
 		if ( !enabled ) {
 			Clipboard* clipboard = UIToolkit::getSystemClipboard();
 			enabled = clipboard->hasDataType(info->mimetype);
 		}
-		
+
 		event->setEnabled( enabled );
 	}
 	else {
@@ -373,7 +354,7 @@ void DocumentManager::updateUndo( ActionEvent* event, Document* doc )
 }
 
 void DocumentManager::updateRedo( ActionEvent* event, Document* doc )
-{	
+{
 	if ( NULL != event ) {
 		UndoRedoStack& undoRedoStack = getUndoRedoStack( doc );
 		bool hasRedoableCmds = undoRedoStack.hasRedoableItems();
@@ -387,22 +368,22 @@ void DocumentManager::updateRedo( ActionEvent* event, Document* doc )
 	}
 }
 
-bool DocumentManager::saveDocument( Document* doc ) 
+bool DocumentManager::saveDocument( Document* doc )
 {
 	bool result = true;
-	
+
 	if ( doc != NULL ) {
 		if ( doc->isModified() ) {
-			
+
 			switch ( saveChanges( doc ) ) {
-				case UIToolkit::mrCancel : {				
+				case UIToolkit::mrCancel : {
 					result = false;
 				}
 				break;
 			}
 		}
 	}
-	
+
 	return result;
 }
 
@@ -413,19 +394,19 @@ DocumentManager* DocumentManager::getDocumentManager()
 
 void DocumentManager::prepareOpenDialog( CommonFileOpen* openDialog )
 {
-	DocumentInfoMap::iterator it = docInfo_.begin();		
-	
+	DocumentInfoMap::iterator it = docInfo_.begin();
+
 	String fileTypes;
 	while ( it != docInfo_.end() ) {
 		DocumentInfo& info = it->second;
 		fileTypes = info.fileTypes;
-		
+
 		int pos = fileTypes.find( ";" );
 		while ( pos != String::npos ) {
 			String filter = fileTypes.substr( 0 , pos );
 			fileTypes.erase( 0, pos + 1 );
 			openDialog->addFilter( info.description + " (*" + filter + ")", "*" + filter );
-			
+
 			pos = fileTypes.find( ";" );
 		}
 		if ( !fileTypes.empty() ) {
@@ -433,30 +414,30 @@ void DocumentManager::prepareOpenDialog( CommonFileOpen* openDialog )
 		}
 
 		it ++;
-	}		
-	
+	}
+
 }
 
 void DocumentManager::prepareSaveDialog( CommonFileSave* saveDialog, Document* doc )
 {
 	String fileType;
 	String fileTypes;
-	
+
 	DocumentInfo* info = getDocumentInfo( doc );
 	if ( NULL != info ) {
 		fileType = info->mimetype;
 		fileTypes = info->fileTypes;
 	}
-	
+
 	int pos = fileTypes.find( ";" );
 	while ( pos != String::npos ) {
 		String filter = fileTypes.substr( 0 , pos );
 		fileTypes.erase( 0, pos + 1 );
 		saveDialog->addFilter( filter + " files", "*" + filter );
-		
+
 		pos = fileTypes.find( ";" );
 	}
-	if ( !fileTypes.empty() ) {					
+	if ( !fileTypes.empty() ) {
 		saveDialog->addFilter( fileTypes + " files", "*" + fileTypes );
 	}
 }
@@ -468,12 +449,12 @@ String DocumentManager::getMimeTypeFromFileExtension( const String& fileName )
 	String mimetype;
 
 	FilePath fp = fileName;
-		
+
 	while ( it != docInfo_.end() ) {
 		DocumentInfo& info = it->second;
-		
+
 		if ( String::npos != info.fileTypes.find( fp.getExtension() ) ) {
-			
+
 			result = info.mimetype;
 			break;
 		}
@@ -496,7 +477,7 @@ DocumentInfo DocumentManager::getDocumentInfo( const String& mimeType )
 	return result;
 }
 
-void DocumentManager::addDocumentInfo( const VCF::String& mimeType, const DocumentInfo& info ) 
+void DocumentManager::addDocumentInfo( const VCF::String& mimeType, const DocumentInfo& info )
 {
 	docInfo_[mimeType] = info;
 }
@@ -529,8 +510,8 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 	Document* doc = NULL;
 	if ( !mimetype.empty() )  {
 		doc = newDefaultDocument( mimetype );
-	}		
-	
+	}
+
 	if ( NULL != doc ) {
 		doc->setFileName( fp );
 		if ( doc->openFromType( fp, mimetype ) ) {
@@ -540,7 +521,7 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 			setCurrentDocument( doc );
 			closeCurrentDocument();
 			doc = NULL;
-			
+
 			throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager failed to to open file.") );
 		}
 	}
@@ -548,7 +529,7 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 		//put an error message!
 	}
 
-	
+
 
 	return doc;
 }
@@ -571,9 +552,13 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 	action->setTag( tag );
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -704,6 +689,5 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 *  SDI (Single Document Interface) and MDI (Multiple Document Interface)
 *
 */
-
 
 

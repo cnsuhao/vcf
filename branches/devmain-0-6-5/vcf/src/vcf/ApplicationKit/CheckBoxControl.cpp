@@ -1,32 +1,11 @@
-
 //CheckBoxControl.cpp
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/CheckBoxControl.h"
@@ -35,7 +14,7 @@ NB: This software will not save the world.
 using namespace VCF;
 
 CheckBoxControl::CheckBoxControl()
-{		
+{
 	setVisible( true );
 
 	useFixedCheckboxSize_ = true;
@@ -43,7 +22,7 @@ CheckBoxControl::CheckBoxControl()
 	fixedCheckboxHeight_ = UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htCheckBoxHeight );
 }
 
-CheckBoxControl::~CheckBoxControl() 
+CheckBoxControl::~CheckBoxControl()
 {
 
 }
@@ -63,11 +42,11 @@ void CheckBoxControl::paint( GraphicsContext* context )
 	ToggledButton::paint( context );
 
 	Rect r( 0.0, 0.0, getWidth(), getHeight() );
-	
+
 	Rect checkBtnRect = r;
 	if ( true == useFixedCheckboxSize_ ) {
 		checkBtnRect.top_ = maxVal<double>( 0, r.top_ + (r.getHeight() / 2.0 - fixedCheckboxHeight_/2.0));
-		checkBtnRect.bottom_ = minVal<double>( r.bottom_, checkBtnRect.top_ + fixedCheckboxHeight_ );		
+		checkBtnRect.bottom_ = minVal<double>( r.bottom_, checkBtnRect.top_ + fixedCheckboxHeight_ );
 	}
 	else {
 		checkBtnRect.inflate( -3, -3 );
@@ -77,15 +56,15 @@ void CheckBoxControl::paint( GraphicsContext* context )
 	r.left_ = checkBtnRect.right_;
 
 	context->drawCheckboxRect( &checkBtnRect, checked_ );
-	
+
 	r.inflate( -2, -2 );
 	if ( true == isFocused() ) {
-		context->drawSelectionRect( &r );	
+		context->drawSelectionRect( &r );
 	}
 
 	r.inflate( -1, -1 );
 	r.left_ = checkBtnRect.right_ + 5;
-	context->textBoundedBy( &r, caption_, false );	
+	context->textBoundedBy( &r, caption_, false );
 }
 
 
@@ -101,9 +80,13 @@ void CheckBoxControl::setUseFixedCheckboxSize( const bool& fixedCheckboxSize )
 	repaint();
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:14  ddiego
 *migration towards new directory structure
 *
@@ -216,4 +199,5 @@ void CheckBoxControl::setUseFixedCheckboxSize( const bool& fixedCheckboxSize )
 *to facilitate change tracking
 *
 */
+
 

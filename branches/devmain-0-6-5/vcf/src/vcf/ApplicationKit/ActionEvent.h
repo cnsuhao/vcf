@@ -1,35 +1,17 @@
-
-
 #ifndef _VCF_ACTIONEVENT_H__
 #define _VCF_ACTIONEVENT_H__
+//ActionEvent.h
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -37,15 +19,15 @@ namespace VCF {
 
 /**
 The ActionEvent is used to store and read the state about a particular action.
-With the ActionEvent you can store the text, enabled, checked, or user defined 
+With the ActionEvent you can store the text, enabled, checked, or user defined
 state of a particular actions. This ActionEvent is then handled (if appropriate)
 by the rtegistered component target in the target's handleEvent function, where
 the state is read and applied to the target however it makes the most sense.
 */
 class APPKIT_API ActionEvent : public Event {
-public: 
+public:
 
-	ActionEvent( Object* source, const ulong32& eventType ): 
+	ActionEvent( Object* source, const ulong32& eventType ):
 	  Event(source,eventType),enabled_(true), state_(0),modified_(false),
 	  checked_(false),exlusiveChecked_(false){}
 
@@ -64,7 +46,7 @@ public:
 		checked_ = rhs.checked_;
 		exlusiveChecked_ = rhs.exlusiveChecked_;
 		statusText_ = rhs.statusText_;
-		
+
 		return *this;
 	}
 
@@ -91,7 +73,7 @@ public:
 	/**
 	Sets a user defined state, that is up to the target implementer to
 	interpret. For example, a ToolbarItem looks at this value and queries
-	whether the ToolbarItem::tisPressed bits are set. A MenuItem might 
+	whether the ToolbarItem::tisPressed bits are set. A MenuItem might
 	look at this value entirely differently (or even ignore it).
 	*/
 	void setState( const long& val ) {
@@ -110,7 +92,7 @@ public:
 
 	/**
 	Sets whether or not the checked value of this action event should
-	be considered as an exclusive value. For example, if 
+	be considered as an exclusive value. For example, if
 	the action event's exclusive checked is true, then a MenuItem might
 	call it's MenuItem::setRadioItem() with the value of the action
 	events checked member.
@@ -167,8 +149,8 @@ public:
 
 	/**
 	Returns whether the value returned from isChecked() should be interpreted as
-	an exclusive checked state. Useful for user interface items that may have 
-	multiple options but only allow one to be selected, such as radio 
+	an exclusive checked state. Useful for user interface items that may have
+	multiple options but only allow one to be selected, such as radio
 	item menus, or radio buttons.
 	*/
 	bool isExclusiveChecked() {
@@ -200,6 +182,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -229,6 +214,5 @@ protected:
 
 
 #endif // _VCF_ACTIONEVENT_H__
-
 
 

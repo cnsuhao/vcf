@@ -1,6 +1,202 @@
+//DefaultTabPage.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/DefaultTabPage.h"
+
+
+using namespace VCF;
+
+DefaultTabPage::DefaultTabPage( Control* component ):
+	data_(NULL),
+	preferredHeight_(8),
+	imageIndex_(0),
+	component_(NULL),
+	owningControl_(NULL),
+	tag_(-1)
+{
+
+	setPageComponent( component );
+}
+
+DefaultTabPage::~DefaultTabPage()
+{
+
+}
+
+bool DefaultTabPage::containsPoint( Point * pt )
+{
+	return bounds_.containsPt( pt );
+}
+
+unsigned long DefaultTabPage::getIndex()
+{
+	return index_;
+}
+
+void DefaultTabPage::setIndex( const unsigned long& index )
+{
+	index_ = index;
+}
+
+void* DefaultTabPage::getData()
+{
+	return data_;
+}
+
+void DefaultTabPage::setData( void* data )
+{
+	data_ = data;
+}
+
+Model* DefaultTabPage::getModel()
+{
+	return model_;
+}
+
+void DefaultTabPage::setModel( Model* model )
+{
+	model_ = model;
+}
+
+void DefaultTabPage::setPageName( const String& name )
+{
+	pageName_ = name;
+	ItemEvent event( this, ITEM_EVENT_TEXT_CHANGED );
+	ItemChanged.fireEvent( &event );
+}
+
+String DefaultTabPage::getPageName()
+{
+	return pageName_;
+}
+
+Control* DefaultTabPage::getPageComponent()
+{
+	return component_;
+}
+
+void DefaultTabPage::setPageComponent( Control* component )
+{
+	if ( NULL != component_ ){
+		//component_->free();
+		component_ = NULL;
+	}
+	component_ = component;
+
+}
+
+bool DefaultTabPage::isSelected()
+{
+	return selected_;
+}
+
+void DefaultTabPage::setSelected( const bool& selected )
+{
+	selected_ = selected;
+	ItemEvent event( this, ITEM_EVENT_SELECTED );
+	ItemSelected.fireEvent( &event );
+}
+
+void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
+{
+	Color* hilite = GraphicsToolkit::getSystemColor(SYSCOLOR_HIGHLIGHT);
+	Color* shadow = GraphicsToolkit::getSystemColor(SYSCOLOR_SHADOW);
+	Color* face = GraphicsToolkit::getSystemColor(SYSCOLOR_FACE);
+	Color* textColor = GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT );
+	Color* selectedTextColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
+	context->setColor( shadow );
+	context->rectangle( paintRect );
+	context->fillPath();
+	Color oldFontColor;
+
+	oldFontColor = *context->getCurrentFont()->getColor();
+
+	context->getCurrentFont()->setColor( selectedTextColor );
+
+	if ( true == isSelected() ) {
+		context->setColor( face );
+		context->rectangle( paintRect );
+		context->fillPath();
+
+		context->getCurrentFont()->setColor( textColor );
+
+		context->setColor( Color::getColor( "black" ) );
+		context->moveTo( paintRect->right_-1, paintRect->top_ );
+		context->lineTo( paintRect->right_-1, paintRect->bottom_ );
+		context->strokePath();
+
+		context->setColor( hilite );
+		context->moveTo( paintRect->left_, paintRect->top_ );
+		context->lineTo( paintRect->right_-1, paintRect->top_ );
+		context->moveTo( paintRect->left_, paintRect->top_+1 );
+		context->lineTo( paintRect->left_, paintRect->bottom_ );
+		context->strokePath();
+
+		context->setColor( shadow );
+
+		context->moveTo( paintRect->right_-2, paintRect->top_+1 );
+		context->lineTo( paintRect->right_-2, paintRect->bottom_ );
+		context->strokePath();
+	}
+	else {
+		context->setColor( face );
+		context->moveTo( paintRect->left_, paintRect->top_ );
+		context->lineTo( paintRect->left_, paintRect->bottom_ );
+
+		context->moveTo( paintRect->right_, paintRect->top_ );
+		context->lineTo( paintRect->right_, paintRect->bottom_ );
+
+		context->strokePath();
+	}
+
+	Rect tmpR = *paintRect;
+
+	tmpR.left_ = tmpR.left_ + (tmpR.getWidth()/2.0 - context->getTextWidth( pageName_ )/2.0);
+
+	tmpR.top_ = tmpR.top_ + (tmpR.getHeight()/2.0 - context->getTextHeight( "EM" )/2.0);
+
+	context->textBoundedBy( &tmpR, pageName_, false );
+
+	context->getCurrentFont()->setColor( &oldFontColor );
+
+	bounds_.setRect( paintRect->left_, paintRect->top_, paintRect->right_, paintRect->bottom_ );
+}
+
+ulong32 DefaultTabPage::getPreferredHeight()
+{
+	ulong32 result = preferredHeight_;
+	Control* control = getPageComponent();
+	if ( NULL != control ) {
+		result = (ulong32)control->getContext()->getTextHeight( "EM" );
+	}
+	return result;
+}
+
+
+void DefaultTabPage::setImageIndex( const long& imageIndex )
+{
+	imageIndex_ = imageIndex;
+}
+
+void DefaultTabPage::setBounds( Rect* bounds )
+{
+	bounds_ = *bounds;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:16  ddiego
 *migration towards new directory structure
 *
@@ -115,215 +311,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/DefaultTabPage.h"
-
-
-using namespace VCF;
-
-DefaultTabPage::DefaultTabPage( Control* component ):
-	data_(NULL),
-	preferredHeight_(8),
-	imageIndex_(0),
-	component_(NULL),
-	owningControl_(NULL),
-	tag_(-1)
-{
-
-	setPageComponent( component );
-}
-
-DefaultTabPage::~DefaultTabPage()
-{
-
-}
-
-bool DefaultTabPage::containsPoint( Point * pt )
-{
-	return bounds_.containsPt( pt );
-}
-
-unsigned long DefaultTabPage::getIndex()
-{
-	return index_;
-}
-
-void DefaultTabPage::setIndex( const unsigned long& index )
-{
-	index_ = index;
-}
-
-void* DefaultTabPage::getData()
-{
-	return data_;
-}
-
-void DefaultTabPage::setData( void* data )
-{
-	data_ = data;
-}
-
-Model* DefaultTabPage::getModel()
-{
-	return model_;
-}
-
-void DefaultTabPage::setModel( Model* model )
-{
-	model_ = model;
-}
-
-void DefaultTabPage::setPageName( const String& name )
-{
-	pageName_ = name;
-	ItemEvent event( this, ITEM_EVENT_TEXT_CHANGED );
-	ItemChanged.fireEvent( &event );
-}
-
-String DefaultTabPage::getPageName()
-{
-	return pageName_;
-}
-
-Control* DefaultTabPage::getPageComponent()
-{
-	return component_;
-}
-
-void DefaultTabPage::setPageComponent( Control* component )
-{
-	if ( NULL != component_ ){
-		//component_->free();
-		component_ = NULL;
-	}
-	component_ = component;
-	
-}
-
-bool DefaultTabPage::isSelected()
-{
-	return selected_;
-}
-
-void DefaultTabPage::setSelected( const bool& selected )
-{
-	selected_ = selected;
-	ItemEvent event( this, ITEM_EVENT_SELECTED );
-	ItemSelected.fireEvent( &event );	
-}
-
-void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
-{
-	Color* hilite = GraphicsToolkit::getSystemColor(SYSCOLOR_HIGHLIGHT);
-	Color* shadow = GraphicsToolkit::getSystemColor(SYSCOLOR_SHADOW);
-	Color* face = GraphicsToolkit::getSystemColor(SYSCOLOR_FACE);
-	Color* textColor = GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT );
-	Color* selectedTextColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
-	context->setColor( shadow );
-	context->rectangle( paintRect );
-	context->fillPath();
-	Color oldFontColor;
-	
-	oldFontColor = *context->getCurrentFont()->getColor();
-
-	context->getCurrentFont()->setColor( selectedTextColor );	
-
-	if ( true == isSelected() ) {
-		context->setColor( face );
-		context->rectangle( paintRect );
-		context->fillPath();
-
-		context->getCurrentFont()->setColor( textColor );
-		
-		context->setColor( Color::getColor( "black" ) );		
-		context->moveTo( paintRect->right_-1, paintRect->top_ );
-		context->lineTo( paintRect->right_-1, paintRect->bottom_ );
-		context->strokePath();
-
-		context->setColor( hilite );
-		context->moveTo( paintRect->left_, paintRect->top_ );
-		context->lineTo( paintRect->right_-1, paintRect->top_ );
-		context->moveTo( paintRect->left_, paintRect->top_+1 );
-		context->lineTo( paintRect->left_, paintRect->bottom_ );
-		context->strokePath();
-
-		context->setColor( shadow );
-
-		context->moveTo( paintRect->right_-2, paintRect->top_+1 );
-		context->lineTo( paintRect->right_-2, paintRect->bottom_ );
-		context->strokePath();
-	}
-	else {
-		context->setColor( face );
-		context->moveTo( paintRect->left_, paintRect->top_ );
-		context->lineTo( paintRect->left_, paintRect->bottom_ );
-
-		context->moveTo( paintRect->right_, paintRect->top_ );
-		context->lineTo( paintRect->right_, paintRect->bottom_ );
-
-		context->strokePath();
-	}
-
-	Rect tmpR = *paintRect;
-	
-	tmpR.left_ = tmpR.left_ + (tmpR.getWidth()/2.0 - context->getTextWidth( pageName_ )/2.0);
-
-	tmpR.top_ = tmpR.top_ + (tmpR.getHeight()/2.0 - context->getTextHeight( "EM" )/2.0);
-
-	context->textBoundedBy( &tmpR, pageName_, false );
-
-	context->getCurrentFont()->setColor( &oldFontColor );
-
-	bounds_.setRect( paintRect->left_, paintRect->top_, paintRect->right_, paintRect->bottom_ );
-}
-
-ulong32 DefaultTabPage::getPreferredHeight()
-{
-	ulong32 result = preferredHeight_;
-	Control* control = getPageComponent();
-	if ( NULL != control ) {
-		result = (ulong32)control->getContext()->getTextHeight( "EM" );
-	}
-	return result;	
-}
-
-
-void DefaultTabPage::setImageIndex( const long& imageIndex )
-{
-	imageIndex_ = imageIndex;
-}
-
-void DefaultTabPage::setBounds( Rect* bounds ) 
-{
-	bounds_ = *bounds;
-}
 
 

@@ -1,8 +1,102 @@
+#ifndef _VCF_X11VCFUTILS_H__
+#define _VCF_X11VCFUTILS_H__
 //X11VCFUtils.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+namespace VCF {
+
+	/**
+	Used as a placeholder for both a Window and
+	GC, as both are required for most X graphics calls
+	*/
+	class X11GraphicsDevice {
+	public:
+		X11GraphicsDevice() : gc_(0), drawable_((Drawable)0), display_(NULL) {
+			
+		}
+
+		X11GraphicsDevice( GC gc ) : gc_(gc), drawable_((Drawable)0), display_(NULL) {
+
+		}
+
+		X11GraphicsDevice( Drawable drawable ) : gc_(0), drawable_(drawable) , display_(NULL){
+
+		}
+
+		X11GraphicsDevice( GC gc, Drawable drawable, Display* display=NULL ) : gc_(gc), drawable_(drawable), display_(display) {
+
+		}
+
+		X11GraphicsDevice( const X11GraphicsDevice& xgd ) : gc_(0), drawable_((Drawable)0), display_(NULL) {
+			*this = xgd;
+		}
+
+
+		inline X11GraphicsDevice& operator= ( const X11GraphicsDevice& xgd ) {
+			gc_ = xgd.gc_;
+			drawable_ = xgd.drawable_;
+			display_ =  xgd.display_;
+			return *this;
+		}
+
+		inline operator GC () const {
+			return gc_;
+		}
+
+		inline operator Drawable () const {
+			return drawable_;
+		}
+
+
+		inline GC getGC() const {
+			return gc_;
+		}
+
+		inline void setGC( GC gc ) {
+			gc_ = gc;
+		}
+
+		inline Drawable getDrawable() const {
+			return drawable_;
+		}
+
+		inline void setDrawable( Drawable drawable ) {
+			drawable_ = drawable;
+		}
+
+		inline Display* getDisplay() {
+			return display_;	
+		}
+
+		inline void setDisplay( Display* display ) {
+			display_ = display;
+		}
+	protected:
+		GC gc_;
+		Drawable drawable_;
+		Display* display_;
+	};
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -34,113 +128,6 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-#ifndef _VCF_X11VCFUTILS_H__
-#define _VCF_X11VCFUTILS_H__
-
-
-namespace VCF {
-	
-	/**
-	Used as a placeholder for both a Window and 
-	GC, as both are required for most X graphics calls
-	*/
-	class X11GraphicsDevice {
-	public:
-		X11GraphicsDevice() : gc_(0), drawable_((Drawable)0), display_(NULL) {
-			
-		}
-		
-		X11GraphicsDevice( GC gc ) : gc_(gc), drawable_((Drawable)0), display_(NULL) {
-			
-		}
-		
-		X11GraphicsDevice( Drawable drawable ) : gc_(0), drawable_(drawable) , display_(NULL){
-			
-		}		
-		
-		X11GraphicsDevice( GC gc, Drawable drawable, Display* display=NULL ) : gc_(gc), drawable_(drawable), display_(display) {
-			
-		}
-		
-		X11GraphicsDevice( const X11GraphicsDevice& xgd ) : gc_(0), drawable_((Drawable)0), display_(NULL) {
-			*this = xgd;
-		}
-		
-		
-		inline X11GraphicsDevice& operator= ( const X11GraphicsDevice& xgd ) {
-			gc_ = xgd.gc_;
-			drawable_ = xgd.drawable_;			
-			display_ =  xgd.display_;
-			return *this;
-		}
-		
-		inline operator GC () const {
-			return gc_;
-		}		
-		
-		inline operator Drawable () const {
-			return drawable_;
-		}		
-		
-				
-		inline GC getGC() const {
-			return gc_;
-		}
-		
-		inline void setGC( GC gc ) {
-			gc_ = gc;
-		}
-		
-		inline Drawable getDrawable() const {
-			return drawable_;
-		}
-		
-		inline void setDrawable( Drawable drawable ) {
-			drawable_ = drawable;
-		}
-		
-		inline Display* getDisplay() {
-			return display_;	
-		}
-		
-		inline void setDisplay( Display* display ) {
-			display_ = display;	
-		}
-	protected:
-		GC gc_;
-		Drawable drawable_;
-		Display* display_;
-	};
-
-};
 
 #endif // _VCF_X11VCFUTILS_H__
 

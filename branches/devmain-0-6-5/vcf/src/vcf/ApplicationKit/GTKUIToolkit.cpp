@@ -1,31 +1,10 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//GTKUIToolkit.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -68,85 +47,85 @@ using namespace VCF;
 class GTKUIMetricsManager : public UIMetricsManager {
 public:
 	GTKUIMetricsManager(){}
-		
-	virtual ~GTKUIMetricsManager(){}	
-	
+
+	virtual ~GTKUIMetricsManager(){}
+
 	virtual VCF::Font getDefaultFontFor( const UIMetricsManager::FontType& type ) {
-		VCF::Font result("ARIAL", 10);			
+		VCF::Font result("ARIAL", 10);
 
 		result.setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_CAPTION_TEXT ) );
 		switch ( type ) {
 			case UIMetricsManager::ftMenuItemFont : {
-				
+
 			}
 			break;
 
 			case UIMetricsManager::ftSelectedMenuItemFont : {
-				
+
 			}
 			break;
 
 			case UIMetricsManager::ftControlFont :  case UIMetricsManager::ftSystemFont : {
-				
+
 			}
-			break;			
+			break;
 
 			case UIMetricsManager::ftMessageFont : {
-				
+
 			}
 			break;
 
 			case UIMetricsManager::ftToolTipFont : {
-				
+
 			}
 			break;
 		}
 
 		return result;
 	}
-	
+
 	virtual double getDefaultHeightFor( const UIMetricsManager::HeightType& type )  {
 		double result = 0.0;
 		switch ( type ) {
 			case UIMetricsManager::htLabelHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.75; 
+				result = f.getHeight() * 1.75;
 			}
 			break;
 
 			case UIMetricsManager::htComboBoxHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 2.0; 
+				result = f.getHeight() * 2.0;
 			}
 			break;
 
 			case UIMetricsManager::htListItemHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.65; 
+				result = f.getHeight() * 1.65;
 			}
 			break;
 
 			case UIMetricsManager::htButtonHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (f.getHeight() * 1.75) + 2.50; 
+				result = (f.getHeight() * 1.75) + 2.50;
 			}
 			break;
 
 			case UIMetricsManager::htRadioBoxHeight : case UIMetricsManager::htCheckBoxHeight : {
 				//in Win32 a radio box or check box is ALWAYS 10 dialog units high
-				//dialog units are converted by 
+				//dialog units are converted by
 				//(2 * average char height dialog font / average char height system font pixels
 				//where average char height dialog font = TEXTMETRIC.tmHeight field or a Font::getHeight()
 
 
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (9.0 * ((2.0 * f.getHeight()) / f.getHeight())) - 4.0;//0.590909; 
+				result = (9.0 * ((2.0 * f.getHeight()) / f.getHeight())) - 4.0;//0.590909;
 			}
 			break;
 
 			case UIMetricsManager::htToolTipHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftToolTipFont );
-				result = f.getHeight() * 1.2222; 
+				result = f.getHeight() * 1.2222;
 			}
 			break;
 
@@ -157,18 +136,18 @@ public:
 
 			case UIMetricsManager::htInformationalControl : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.75; 
+				result = f.getHeight() * 1.75;
 			}
 			break;
 		}
 		return result;
 
 	}
-	
+
 	virtual double getPreferredSpacingFor( const UIMetricsManager::SpacingType& type )  {
 		double result = 0.0;
 
-		//values largely derived from the Apple HIG at 
+		//values largely derived from the Apple HIG at
 		//http://developer.apple.com/techpubs/macosx/Essentials/AquaHIGuidelines/AHIGLayout/index.html
 		switch ( type ) {
 			case UIMetricsManager::stWindowBorderDelta : {
@@ -204,7 +183,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultSliderThumbDimensions()  {
 		Size result;
 
@@ -214,14 +193,14 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultMenuItemDimensions( const String& caption )  {
 		Size result;
 
-		
+
 		return result;
 	}
-	
+
 	virtual Size getDefaultVerticalScrollButtonDimensions()  {
 		Size result;
 
@@ -230,7 +209,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultHorizontalScrollButtonDimensions()  {
 		Size result;
 
@@ -239,7 +218,7 @@ public:
 
 		return result;
 	}
-	
+
 	virtual Size getDefaultTabDimensions( const String& caption )  {
 		Size result;
 
@@ -259,7 +238,7 @@ public:
 GTKUIToolkit::GTKUIToolkit():
 	defaultParent_(NULL)
 {
-	//this will work, but it means ignoring certain arguments that might be important for 
+	//this will work, but it means ignoring certain arguments that might be important for
 	//gtk initialization - need to figure out a better way
 	gdk_parse_args (NULL, NULL);
 
@@ -267,25 +246,25 @@ GTKUIToolkit::GTKUIToolkit():
 		StringUtils::trace("gdk_display_open_default_libgtk_only () failed!\n");
 		//throw exception????
 	}
-	
-	
+
+
 	metricsMgr_ = new GTKUIMetricsManager();
 	createDefaultParentWnd();
 
-	
+
 	gdk_atom_intern( VCF_GTK_POST_EVENT, FALSE );
 }
 
 GTKUIToolkit::~GTKUIToolkit()
 {
-	
+
 }
 
 ApplicationPeer* GTKUIToolkit::internal_createApplicationPeer()
 {
 	return new GTKApplication();
 }
-	
+
 TextPeer* GTKUIToolkit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl, ComponentType componentType)
 {
 	return new GTKTextControl( component, isMultiLineControl );
@@ -426,31 +405,31 @@ CursorPeer* GTKUIToolkit::internal_createCursorPeer( Cursor* cursor )
 
 ClipboardPeer* GTKUIToolkit::internal_createClipboardPeer()
 {
-	return NULL;	
+	return NULL;
 }
 
 bool GTKUIToolkit::internal_createCaret( Control* owningControl, Image* caretImage  )
 {
 	bool result = false;
-	
-	return result;	
+
+	return result;
 }
 
 bool GTKUIToolkit::internal_destroyCaret( Control* owningControl )
 {
 	bool result = false;
-	
+
 	return result;
 }
 
 void GTKUIToolkit::internal_setCaretVisible( const bool& caretVisible )
 {
-	
+
 }
 
 void GTKUIToolkit::internal_setCaretPos( Point* point )
 {
-	
+
 }
 
 void GTKUIToolkit::internal_postEvent( EventHandler* eventHandler, Event* event, const bool& deleteHandler )
@@ -463,13 +442,13 @@ void GTKUIToolkit::internal_postEvent( EventHandler* eventHandler, Event* event,
 	clientEvent.data.l[0] = (unsigned long)eventHandler;
 	clientEvent.data.l[1] = (unsigned long)event->clone();
 	clientEvent.data.l[2] = deleteHandler ? TRUE : FALSE;
-	
+
 	gdk_event_put( (GdkEvent*)&clientEvent );
 }
 
 void GTKUIToolkit::internal_registerTimerHandler( Object* source, EventHandler* handler, const ulong32& timeoutInMilliSeconds )
 {
-	
+
 
 	std::map<EventHandler*,TimeOutHandler>::iterator found = timeoutHandlers_.find( handler );
 	if ( found != timeoutHandlers_.end() ) {
@@ -482,8 +461,8 @@ void GTKUIToolkit::internal_registerTimerHandler( Object* source, EventHandler* 
 	TimeOutHandler tmHandler;
 	tmHandler.source_ = source;
 	tmHandler.handler_ = handler;
-	tmHandler.timerID_ = gtk_timeout_add( timeoutInMilliSeconds, 
-											GTKUIToolkit::gtkTimeOutHandler, 
+	tmHandler.timerID_ = gtk_timeout_add( timeoutInMilliSeconds,
+											GTKUIToolkit::gtkTimeOutHandler,
 											(gpointer)handler );
 
 	timeoutHandlers_[handler] = tmHandler;
@@ -510,7 +489,7 @@ gboolean GTKUIToolkit::gtkTimeOutHandler(gpointer data)
 	std::map<EventHandler*,TimeOutHandler>::iterator found = toolkit->timeoutHandlers_.find( handler );
 	if ( found != toolkit->timeoutHandlers_.end() ) {
 		TimeOutHandler& tmHandler = found->second;
-		
+
 
 		TimerEvent event( tmHandler.source_, TIMER_EVENT_PULSE );
 		tmHandler.handler_->invoke( &event );
@@ -523,9 +502,9 @@ void  GTKUIToolkit::internal_gdkEventHandler( GdkEvent *gdkEvent, gpointer data)
 {
 	Application* runningApp = Application::getRunningInstance();
 	GTKUIToolkit* toolkit =  (GTKUIToolkit*)data;
-	
-		
-	if ( toolkit->handleGdkEvent( gdkEvent ) ) {	
+
+
+	if ( toolkit->handleGdkEvent( gdkEvent ) ) {
 		gtk_main_do_event( gdkEvent );
 	}
 }
@@ -537,16 +516,16 @@ gboolean GTKUIToolkit::internal_gdkIdleHandler(gpointer data)
 	need to fix this...
 	*/
 	Application* runningApp = Application::getRunningInstance();
-	GTKUIToolkit* toolkit =  (GTKUIToolkit*)data;	
-	
-	if ( NULL != runningApp ) {		
+	GTKUIToolkit* toolkit =  (GTKUIToolkit*)data;
+
+	if ( NULL != runningApp ) {
 		runningApp->idleTime();
 	}
-	
+
 	//check library apps;
 	Enumerator<LibraryApplication*>* registeredLibs = LibraryApplication::getRegisteredLibraries();
 	while ( true == registeredLibs->hasMoreElements() ) {
-		
+
 		LibraryApplication* libraryApp = registeredLibs->nextElement();
 		libraryApp->idleTime();
 	}
@@ -559,14 +538,14 @@ bool GTKUIToolkit::handleGdkEvent( GdkEvent* gdkEvent )
 {
 	bool result = true;
 	AbstractGTKControl* gtkControl = NULL;
-	if ( NULL != gdkEvent ) {	
+	if ( NULL != gdkEvent ) {
 
 		switch( gdkEvent->type ) {
 			case GDK_CLIENT_EVENT : {
-				
+
 				GdkEventClient* clientEvent = (GdkEventClient*)gdkEvent;
 				if ( gdk_atom_intern( VCF_GTK_POST_EVENT, FALSE ) == clientEvent->message_type ) {
-					
+
 					result = false;
 
 					EventHandler* eventHandler = (EventHandler*)(unsigned long)clientEvent->data.l[0];
@@ -586,15 +565,15 @@ bool GTKUIToolkit::handleGdkEvent( GdkEvent* gdkEvent )
 			break;
 
 			case GDK_KEY_PRESS :  case GDK_KEY_RELEASE : {
-				GtkWidget* gtkWidget = gtk_get_event_widget( gdkEvent );		
+				GtkWidget* gtkWidget = gtk_get_event_widget( gdkEvent );
 				gtkControl = AbstractGTKControl::getGTKControlFromWidget( gtkWidget );
 
 				GdkEventKey* gdkKeyEvent = (GdkEventKey*)gdkEvent;
 
 				StringUtils::trace( "GTKUIToolkit::handleGdkEvent() GDK_KEY_PRESS/GDK_KEY_RELEASE\n" );
-				KeyboardMasks modifierKey = (KeyboardMasks)translateKeyMask( (GdkModifierType)gdkKeyEvent->state );				
+				KeyboardMasks modifierKey = (KeyboardMasks)translateKeyMask( (GdkModifierType)gdkKeyEvent->state );
 				VirtualKeyCode vkCode = translateKeyCode( gdkKeyEvent->keyval );
-				
+
 				if ( NULL != gtkControl ) {
 					Control* control = gtkControl->getControl();
 					Control* currentFocusedControl = Control::getCurrentFocusedControl();
@@ -607,7 +586,7 @@ bool GTKUIToolkit::handleGdkEvent( GdkEvent* gdkEvent )
 					if ( gdkKeyEvent->length > 0 ) {
 						keyChar = gdkKeyEvent->string[0];
 					}
-					KeyboardEvent event( control, Control::KEYBOARD_ACCELERATOR, 1, 
+					KeyboardEvent event( control, Control::KEYBOARD_ACCELERATOR, 1,
 											modifierKey, keyChar, vkCode );
 
 					StringUtils::traceWithArgs( "control: %p, keyChar: %c\n", control, keyChar );
@@ -638,8 +617,8 @@ void GTKUIToolkit::internal_runEventLoop()
 UIToolkit::ModalReturnType GTKUIToolkit::internal_runModalEventLoopFor( Control* control )
 {
 	UIToolkit::ModalReturnType result = UIToolkit::mrFalse;
-	printf( "starting GTKUIToolkit runModalEventLoopFor( %p )...\n", control );	
-	
+	printf( "starting GTKUIToolkit runModalEventLoopFor( %p )...\n", control );
+
 	gtk_main ();
 
 	return result;
@@ -651,18 +630,18 @@ void GTKUIToolkit::internal_quitCurrentEventLoop()
 }
 
 /**
-*@param void* in this implementation, the eventData represents a 
+*@param void* in this implementation, the eventData represents a
 *pointer to an GTK XEvent structure.
 */
 VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* eventData )
-{	
+{
 	GTKEventMsg* eventMsg = (GTKEventMsg*)eventData;
 
 	Event* event = NULL;
 
 	switch ( eventMsg->gdkEvent_->type ) {
 		case GDK_DELETE : {
-			
+
 		}
 		break;
 
@@ -676,27 +655,27 @@ VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* event
 			KeyboardMasks modifierKey = (KeyboardMasks)translateKeyMask( (GdkModifierType)gdkMotionEvent->state );
 			translateButtonMask( (GdkModifierType)gdkMotionEvent->state );
 
-			VCF::Point pt( gdkMotionEvent->x, gdkMotionEvent->y );			
+			VCF::Point pt( gdkMotionEvent->x, gdkMotionEvent->y );
 			event = new VCF::MouseEvent ( eventMsg->control_, Control::MOUSE_MOVE,
 											translateButtonMask( (GdkModifierType)gdkMotionEvent->state ),
-											translateKeyMask( (GdkModifierType)gdkMotionEvent->state ), &pt );	
+											translateKeyMask( (GdkModifierType)gdkMotionEvent->state ), &pt );
 
 		}
 		break;
 
 		case GDK_BUTTON_PRESS : case GDK_2BUTTON_PRESS : case GDK_3BUTTON_PRESS : {
 			StringUtils::traceWithArgs( "GDK_BUTTON_PRESS, %p\n", eventMsg->control_ );
-			GdkEventButton* gdkBtnEvent = (GdkEventButton*)eventMsg->gdkEvent_;			
+			GdkEventButton* gdkBtnEvent = (GdkEventButton*)eventMsg->gdkEvent_;
 
-			VCF::Point pt( gdkBtnEvent->x, gdkBtnEvent->y );			
+			VCF::Point pt( gdkBtnEvent->x, gdkBtnEvent->y );
 			event = new VCF::MouseEvent ( eventMsg->control_, Control::MOUSE_DOWN,
 											translateButtonMask( (GdkModifierType)gdkBtnEvent->state ),
-											translateKeyMask( (GdkModifierType)gdkBtnEvent->state ), &pt );	
+											translateKeyMask( (GdkModifierType)gdkBtnEvent->state ), &pt );
 		}
 		break;
 
 		case GDK_BUTTON_RELEASE : {
-			GdkEventButton* gdkBtnEvent = (GdkEventButton*)eventMsg->gdkEvent_;			
+			GdkEventButton* gdkBtnEvent = (GdkEventButton*)eventMsg->gdkEvent_;
 
 			VCF::Point pt( gdkBtnEvent->x, gdkBtnEvent->y );
 
@@ -726,9 +705,9 @@ VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* event
 			if ( gdkKeyEvent->length > 0 ) {
 				keyChar = gdkKeyEvent->string[0];
 			}
-			
-			event = new KeyboardEvent( eventMsg->control_, 
-										(eventMsg->gdkEvent_->type == GDK_KEY_PRESS) ? 
+
+			event = new KeyboardEvent( eventMsg->control_,
+										(eventMsg->gdkEvent_->type == GDK_KEY_PRESS) ?
 											Control::KEYBOARD_DOWN : Control::KEYBOARD_UP,
 										1, modifierKey, keyChar, vkCode );
 
@@ -742,7 +721,7 @@ VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* event
 			ulong32 eventType = (gdkCrossingEvent->type == GDK_ENTER_NOTIFY) ? Control::MOUSE_ENTERED : Control::MOUSE_LEAVE;
 			//the peer will fill out the button and key masks
 			event = new VCF::MouseEvent ( eventMsg->control_, eventType,
-											translateButtonMask( (GdkModifierType)gdkCrossingEvent->state ),	
+											translateButtonMask( (GdkModifierType)gdkCrossingEvent->state ),
 											translateKeyMask( (GdkModifierType)gdkCrossingEvent->state ), &pt );
 		}
 		break;
@@ -754,8 +733,8 @@ VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* event
 		break;
 
 		case GDK_CONFIGURE : {
-			//we are going to return NULL here - 
-			//the problem is that there are two separate VCF event objects that 
+			//we are going to return NULL here -
+			//the problem is that there are two separate VCF event objects that
 			//need to be created, so we are going to let the AbstractGTKControl deal
 			//with this directly
 		}
@@ -776,7 +755,7 @@ VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* event
 		}
 		break;
 
-		
+
 	}
 	return event;
 }
@@ -785,13 +764,13 @@ Size GTKUIToolkit::internal_getDragDropDelta()
 {
 	//this is completely arbitrary - need to read this from a file
 	Size result(4,4);
-	
+
 	return result;
 }
 
 
 void GTKUIToolkit::createDefaultParentWnd()
-{	
+{
 	defaultParent_ = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_realize ( defaultParent_ );
 }
@@ -802,15 +781,15 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 {
 	VirtualKeyCode result;
 
-	
+
 	//please note: all codes from gdk/gdkkeysym.h
-	
+
 	switch ( code ) {
-				
+
 		case GDK_F1 :{
 			result = VCF::vkF1;
 		}
-		break;		
+		break;
 
 		case GDK_F2 :{
 			result = VCF::vkF2;
@@ -875,7 +854,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 		case GDK_KP_Down : case GDK_Down :{
 			result = VCF::vkDownArrow;
 		}
-		break;		
+		break;
 
 		case GDK_KP_Left : case GDK_Left :{
 			result = VCF::vkLeftArrow;
@@ -936,7 +915,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkCtrl;
 		}
 		break;
-		
+
 		case GDK_Alt_R : case GDK_Alt_L :{
 			result = VCF::vkAlt;
 		}
@@ -951,7 +930,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkTab;
 		}
 		break;
-		
+
 		case GDK_0 : case GDK_KP_0 :{
 			result = VCF::vkNumber0;
 		}
@@ -1001,7 +980,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkNumber9;
 		}
 		break;
-		
+
 		case GDK_a : case GDK_A :{
 			result = VCF::vkLetterA;
 		}
@@ -1086,7 +1065,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkLetterQ;
 		}
 		break;
-		
+
 		case GDK_r : case GDK_R :{
 			result = VCF::vkLetterR;
 		}
@@ -1141,7 +1120,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkPause;
 		}
 		break;
-		
+
 		case GDK_Scroll_Lock :{
 			result = VCF::vkScrollLock;
 		}
@@ -1161,7 +1140,7 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkMinusSign;
 		}
 		break;
-		
+
 		case GDK_period : case GDK_KP_Decimal :{
 			result = VCF::vkPeriod;
 		}
@@ -1171,76 +1150,76 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 			result = VCF::vkDivideSign;
 		}
 		break;
-		
+
 		case GDK_backslash :{
 			result = VCF::vkBackSlash;
 		}
 		break;
-		
+
 		case GDK_bracketleft :{
 			result = VCF::vkOpenBracket;
 		}
 		break;
-		
+
 		case GDK_braceleft :{
 			result = VCF::vkOpenBrace;
 		}
 		break;
-		
+
 		case GDK_bracketright :{
 			result = VCF::vkCloseBracket;
 		}
 		break;
-		
-		
+
+
 		case GDK_braceright :{
 			result = VCF::vkCloseBrace;
 		}
 		break;
-		
+
 		case GDK_semicolon :{
-			result = VCF::vkSemiColon;			
+			result = VCF::vkSemiColon;
 		}
 		break;
-		
+
 		case GDK_colon :{
 			result = VCF::vkColon;
 		}
 		break;
-		
+
 		case GDK_quoteright : case GDK_quoteleft :{
 			result = VCF::vkSingleQuote;
 		}
 		break;
-		
+
 		case GDK_quotedbl :{
 			result = VCF::vkDoubleQuote;
 		}
 		break;
-		
+
 		case GDK_comma :{
 			result = VCF::vkComma;
 		}
 		break;
-		
+
 		case GDK_less :{
 			result = VCF::vkLessThan;
 		}
 		break;
-				
+
 		case GDK_greater :{
 			result = VCF::vkGreaterThan;
 		}
 		break;
-		
-		
+
+
 		case GDK_question :{
 			result = VCF::vkQuestionMark;
 		}
 		break;
 	}
-	
-	return result;	
+
+	return result;
 }
 
 
@@ -1248,8 +1227,8 @@ VirtualKeyCode GTKUIToolkit::translateKeyCode( guint code )
 ulong32 GTKUIToolkit::translateButtonMask( GdkModifierType buttonState )
 {
 	ulong32 result = 0;
-	
-	if ( buttonState & GDK_BUTTON1_MASK ) {		
+
+	if ( buttonState & GDK_BUTTON1_MASK ) {
 		result |= VCF::mbmLeftButton;
 	}
 	if ( buttonState & GDK_BUTTON2_MASK ) {
@@ -1258,7 +1237,7 @@ ulong32 GTKUIToolkit::translateButtonMask( GdkModifierType buttonState )
 	if ( buttonState & GDK_BUTTON3_MASK ) {
 		result |= VCF::mbmRightButton;
 	}
-	
+
 	return result;
 }
 
@@ -1266,9 +1245,9 @@ ulong32 GTKUIToolkit::translateButtonMask( GdkModifierType buttonState )
 
 ulong32 GTKUIToolkit::translateKeyMask( GdkModifierType keyState )
 {
-	ulong32 result = VCF::kmUndefined;	
-	
-	if ( keyState & GDK_SHIFT_MASK ) {		
+	ulong32 result = VCF::kmUndefined;
+
+	if ( keyState & GDK_SHIFT_MASK ) {
 		result |= VCF::kmShift;
 	}
 	if ( keyState & GDK_CONTROL_MASK ) {
@@ -1277,16 +1256,18 @@ ulong32 GTKUIToolkit::translateKeyMask( GdkModifierType keyState )
 	if ( keyState & GDK_MOD1_MASK ) {
 		result |= VCF::kmAlt;
 	}
-	
-			
+
+
 	return result;
 }
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -1382,7 +1363,5 @@ ulong32 GTKUIToolkit::translateKeyMask( GdkModifierType keyState )
 *for the basic peers.
 *
 */
-
-
 
 

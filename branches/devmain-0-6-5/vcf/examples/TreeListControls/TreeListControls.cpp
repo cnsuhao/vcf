@@ -399,9 +399,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2004/04/29 03:11:00  marcelloptr
-*reformatting of source files
-*
+*Revision 1.3.2.4  2004/04/29 03:40:58  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
 *
 */
 

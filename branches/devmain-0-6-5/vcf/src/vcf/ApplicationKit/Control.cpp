@@ -1,31 +1,9 @@
+//Control.cpp
 
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
@@ -55,31 +33,31 @@ Control::Control():
 	view_(NULL),
 	useParentFont_(false),
 	doubleBuffered_(true),
-	hasMouseCapture_(false),	
+	hasMouseCapture_(false),
 	autoStartDragDrop_(false),
 	popupMenu_(NULL),
-	scrollable_(NULL),	
+	scrollable_(NULL),
 	cursorID_(0),
-	cursor_(NULL),	
+	cursor_(NULL),
 	tabStop_(true),
-	tabOrder_(-1),	
+	tabOrder_(-1),
 	useRenderBuffer_(false),
 	container_(NULL)
-{		
+{
 	font_ = new Font( UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );	//the cast is to  avoid internal compiler error on some vc6 versions
-	
+
 	context_ = new ControlGraphicsContext( this );
 
 	bounds_ = new Rect();
 	clientBounds_ = new Rect();
 	color_ = new Color;
 
-	setCursorID( (long)Cursor::SCT_DEFAULT );	
-	
-	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_FACE ) );	
-	
-	viewControl_ = this;	
-	
+	setCursorID( (long)Cursor::SCT_DEFAULT );
+
+	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_FACE ) );
+
+	viewControl_ = this;
+
 	anchorDeltas_[ANCHOR_DTOP] = 0.0f;
 	anchorDeltas_[ANCHOR_DLEFT] = 0.0f;
 	anchorDeltas_[ANCHOR_DBOTTOM] = 0.0f;
@@ -88,8 +66,8 @@ Control::Control():
 
 Control::~Control()
 {
-	
-}	
+
+}
 
 void Control::destroy()
 {
@@ -182,14 +160,14 @@ void Control::setBorder( Border* border )
 }
 
 Rect Control::getBounds()/**throw( InvalidPeer ); -JEC - FIXME later*/
-{	
+{
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
 
-	
-	
+
+
+
 	Control* parent = getParent();
 	bool lightweightParent = false;
 	if ( NULL != parent ) {
@@ -198,7 +176,7 @@ Rect Control::getBounds()/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	if ( lightweightParent ) {
 		*bounds_ = peer_->getBounds();
-		
+
 		Rect tmpBounds = *bounds_;
 
 		tmpBounds.offset( -tmpBounds.left_, -tmpBounds.top_ );
@@ -206,8 +184,8 @@ Rect Control::getBounds()/**throw( InvalidPeer ); -JEC - FIXME later*/
 		translateToScreenCoords( &tmpBounds );
 
 		parent->translateFromScreenCoords( &tmpBounds );
-		
-		*bounds_ =  tmpBounds;		
+
+		*bounds_ =  tmpBounds;
 	}
 	else {
 		*bounds_ = peer_->getBounds();
@@ -220,13 +198,13 @@ Rect Control::getBounds()/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 
 Rect Control::getClientBounds( const bool& includeBorder ) /**throw( InvalidPeer ); -JEC - FIXME later*/
-{	
-	
+{
+
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	
-	Rect r = peer_->getBounds(); 
+	};
+
+	Rect r = peer_->getBounds();
 	clientBounds_->setRect( 0.0, 0.0, r.getWidth(), r.getHeight() );
 
 	if ( (true == includeBorder) && (NULL != border_) ){
@@ -241,20 +219,20 @@ double Control::getLeft() /**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	
+	};
+
 	//*bounds_ = peer_->getBounds();
 	getBounds();
 
 	return bounds_->left_;
 }
 
-double Control::getRight() 
+double Control::getRight()
 {
 
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
+	};
 	getBounds();
 	//*bounds_ = peer_->getBounds();
 
@@ -265,8 +243,8 @@ double Control::getBottom() /**throw( InvalidPeer ); -JEC - FIXME later*/
 {
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	
+	};
+
 	getBounds();
 	//*bounds_ = peer_->getBounds();
 
@@ -279,9 +257,9 @@ double Control::getWidth() /**throw( InvalidPeer ); -JEC - FIXME later*/
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	getBounds();
-	//*bounds_ = peer_->getBounds();	
+	//*bounds_ = peer_->getBounds();
 
 	return bounds_->getWidth();
 }
@@ -292,7 +270,7 @@ double Control::getTop() /**throw( InvalidPeer ); -JEC - FIXME later*/
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	getBounds();
 	//*bounds_ = peer_->getBounds();
 
@@ -305,13 +283,13 @@ double Control::getHeight() /**throw( InvalidPeer ); -JEC - FIXME later*/
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	};
-	
+
 	//double result = 0.0;
-	
+
 	getBounds();
 	//*bounds_ = peer_->getBounds();
 	//result = bounds_->getHeight();
-	
+
 
 	return bounds_->getHeight();
 }
@@ -320,7 +298,7 @@ bool Control::getVisible() /**throw( InvalidPeer ); -JEC - FIXME later*/
 {
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
+	};
 
 	return peer_->getVisible();
 }
@@ -331,7 +309,7 @@ AlignmentType Control::getAlignment()
 }
 
 void Control::setBounds( const double& x, const double& y, const double& width, const double& height )
-{	
+{
 	setBounds( &Rect( x, y, x+width, y+height ) );
 }
 
@@ -339,13 +317,13 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 {
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	
-	
+	};
+
+
 	*bounds_ = *rect;
-	
+
 	/**
-	Adjust the bounds to take into account a 
+	Adjust the bounds to take into account a
 	potentially lightweight parent
 	*/
 	Control* parent = getParent();
@@ -364,21 +342,21 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 		}
 
 		if ( NULL != realParent ) {
-			
-			
+
+
 			Rect tmp = *bounds_;
 			Rect tmp2 = *bounds_;
-			
+
 			tmp.offset( -tmp.left_, -tmp.top_ );
-			
+
 			parent->translateToScreenCoords( &tmp );
-			
+
 			realParent->translateFromScreenCoords( &tmp );
-			
+
 			tmp2.offset( tmp.left_, tmp.top_ );
-			
+
 			*bounds_ = tmp2;
-			
+
 			peer_->setBounds( &tmp2 );
 		}
 		else {
@@ -388,7 +366,7 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 	else {
 		peer_->setBounds( bounds_ );
 	}
-	
+
 	if ( true == anchorDeltasNeedUpdating ) {
 		updateAnchorDeltas();
 	}
@@ -401,7 +379,7 @@ void Control::setAlignment( const AlignmentType& alignment )
 	Fix submitted by Marcello - see bug [ 789945 ] Control::setAlignment() does not allow only one align style
 	*/
 	if ( aligment_ != AlignNone ) {
-		anchor_ = AnchorNone; 
+		anchor_ = AnchorNone;
 	}
 
 	Control* parent = getParent();
@@ -411,42 +389,42 @@ void Control::setAlignment( const AlignmentType& alignment )
 			container->resizeChildren(NULL);//this);
 		}
 	}
-	
+
 	updateAnchorDeltas();
 }
 
 void Control::setLeft( const double& left ) /**throw( InvalidPeer ); -JEC - FIXME later*/
-{	
+{
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	};
-	
-	
+
+
 	double dx = bounds_->getWidth();
 	bounds_->left_ = left;
 	bounds_->right_ = left + dx;
-	setBounds( bounds_ );	
+	setBounds( bounds_ );
 }
 
 void Control::setRight( const double& right ) /**throw( InvalidPeer ); -JEC - FIXME later*/
-{	
+{
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
-	
+	};
+
 	bounds_->right_ = right;
-	setBounds( bounds_ );	
+	setBounds( bounds_ );
 }
 
 void Control::setWidth( const double& width ) /**throw( InvalidPeer ); -JEC - FIXME later*/
 {
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
+	};
 
-	
+
 	bounds_->right_ = bounds_->left_ + width;
-	setBounds( bounds_ );	
+	setBounds( bounds_ );
 }
 
 void Control::setTop( const double& top ) /**throw( InvalidPeer ); -JEC - FIXME later*/
@@ -454,11 +432,11 @@ void Control::setTop( const double& top ) /**throw( InvalidPeer ); -JEC - FIXME 
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-		
+
 	double dy = bounds_->getHeight();
 	bounds_->top_ = top;
 	bounds_->bottom_ = top + dy;
-	setBounds( bounds_ );	
+	setBounds( bounds_ );
 }
 
 void Control::setBottom( const double& bottom ) /**throw( InvalidPeer ); -JEC - FIXME later*/
@@ -475,7 +453,7 @@ void Control::setHeight( const double& height ) /**throw( InvalidPeer ); -JEC - 
 {
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
+	};
 
 	if ( NULL != peer_ ){
 		bounds_->bottom_ = bounds_->top_ + height;
@@ -484,10 +462,10 @@ void Control::setHeight( const double& height ) /**throw( InvalidPeer ); -JEC - 
 }
 
 void Control::setVisible( const bool& visible ) /**throw( InvalidPeer ); -JEC - FIXME later*/
-{	
+{
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
+	};
 
 	bool oldVisible = peer_->getVisible();
 
@@ -497,7 +475,7 @@ void Control::setVisible( const bool& visible ) /**throw( InvalidPeer ); -JEC - 
 		if ( NULL != parent ) {
 			Container* container = parent->getContainer();
 			if ( NULL != container ) {
-				if ( visible ) { //(oldVisible == false) && (true == visible) ) {			
+				if ( visible ) { //(oldVisible == false) && (true == visible) ) {
 					container->resizeChildren(NULL);//this);
 				}
 				else {
@@ -521,8 +499,8 @@ void Control::handleEventAndForwardToChildren( Event* event )
 				break;
 			}
 		}
-	}	
-	
+	}
+
 }
 
 void Control::handleEvent( Event* event )
@@ -531,7 +509,7 @@ void Control::handleEvent( Event* event )
 	if ( NULL != event ){
 		unsigned long eventType = event->getType();
 
-		switch ( eventType ){	
+		switch ( eventType ){
 			case Action::UpdateEvent : {
 				ActionEvent* actionEvent = (ActionEvent*)event;
 
@@ -540,22 +518,22 @@ void Control::handleEvent( Event* event )
 			break;
 
 			case CONTROL_SIZED:{
-				ControlEvent* controlEvent = (ControlEvent*)event;				
-				
+				ControlEvent* controlEvent = (ControlEvent*)event;
+
 				//bounds_->right_ = bounds_->left_ + controlEvent->getNewSize().width_;
 				//bounds_->bottom_ = bounds_->top_ + controlEvent->getNewSize().height_;
 				ControlSized.fireEvent( (ControlEvent*)event );
 
 				if ( useRenderBuffer_ ) {
 					Rect bounds = getClientBounds();
-					
+
 					context_->setDrawingArea( bounds );
 				}
 			}
 			break;
 
 			case CONTROL_POSITIONED:{
-				ControlEvent* controlEvent = (ControlEvent*)event;	
+				ControlEvent* controlEvent = (ControlEvent*)event;
 				//double w = bounds_->getWidth();
 				//double h = bounds_->getHeight();
 
@@ -575,7 +553,7 @@ void Control::handleEvent( Event* event )
 
 			case MOUSE_ENTERED:{
 				MouseEvent* mouseEvent = (MouseEvent*)event;
-				
+
 
 				MouseEnter.fireEvent( mouseEvent );
 				if (!event->isConsumed()) {
@@ -596,8 +574,8 @@ void Control::handleEvent( Event* event )
 			}
 			break;
 
-			case MOUSE_MOVE:{	
-				MouseEvent* mouseEvent = (MouseEvent*)event;				
+			case MOUSE_MOVE:{
+				MouseEvent* mouseEvent = (MouseEvent*)event;
 
 				if (mouseEvent->hasLeftButton() || mouseEvent->hasRightButton() || mouseEvent->hasMiddleButton() ) {
 					if ( (true == autoStartDragDrop_) ) { //&& (false == dragDropStarted_) ) {
@@ -606,8 +584,8 @@ void Control::handleEvent( Event* event )
 
 							if ( beginDragDrop ( mouseEvent ) ) {
 								return;
-							}							
-						}						
+							}
+						}
 					}
 				}
 
@@ -623,9 +601,9 @@ void Control::handleEvent( Event* event )
 			case MOUSE_UP:{
 				//mouseUp( mouseEvent );
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
-				
+
 				Point tmpPt = *mouseEvent->getPoint();
-				
+
 
 				bool rightBtn = mouseEvent->hasRightButton();
 				MouseUp.fireEvent( mouseEvent );
@@ -638,20 +616,20 @@ void Control::handleEvent( Event* event )
 						tmpPt.x_ -= scrollable_->getHorizontalPosition();
 						tmpPt.y_ -= scrollable_->getVerticalPosition();
 					}
-					
-					popupMenu_->popup( &tmpPt );	
+
+					popupMenu_->popup( &tmpPt );
 				}
 
 
 				if ( clickPt_.closeTo( tmpPt.x_, tmpPt.y_, 2 ) ){
-					
-					MouseEvent clickEvent( this, 
+
+					MouseEvent clickEvent( this,
 											MOUSE_CLICK,
 											mouseEvent->getButtonMask(),
-											mouseEvent->getKeyMask(), 
+											mouseEvent->getKeyMask(),
 											mouseEvent->getPoint() );
 
-					
+
 					handleEvent( &clickEvent );
 				}
 
@@ -660,7 +638,7 @@ void Control::handleEvent( Event* event )
 
 			case MOUSE_LEAVE:{
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
-				
+
 
 				MouseLeave.fireEvent( mouseEvent );
 				if (!mouseEvent->isConsumed()) {
@@ -677,7 +655,7 @@ void Control::handleEvent( Event* event )
 			break;
 
 			case MOUSE_DBLCLICK:{
-				MouseEvent*  mouseEvent = (MouseEvent*)event;				
+				MouseEvent*  mouseEvent = (MouseEvent*)event;
 
 				MouseDoubleClicked.fireEvent( mouseEvent );
 				mouseDblClick( mouseEvent );
@@ -707,23 +685,23 @@ void Control::handleEvent( Event* event )
 
 			case FOCUS_LOST:{
 				FocusEvent* focusEvent = (FocusEvent*)event;
-				
+
 				//StringUtils::traceWithArgs( "Control::FOCUS_LOST, this[%s]@ %p\n",
 				//					getClassName().c_str(), this );
 
 				FocusLost.fireEvent( focusEvent );
-				
+
 			}
 			break;
 
 			case FOCUS_GAINED:{
 				FocusEvent* focusEvent = (FocusEvent*)event;
-				
+
 				//StringUtils::traceWithArgs( "Control::FOCUS_GAINED, this[%s]@ %p\n",
 				//					getClassName().c_str(), this );
 
 				FocusGained.fireEvent( focusEvent );
-				
+
 			}
 			break;
 		}
@@ -775,7 +753,7 @@ void Control::setParent( Control* parent ) /**throw( InvalidPeer ); -JEC - FIXME
 {
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};	
+	};
 
 	if ( parent != parent_ ) {
 		ControlEvent event( this, parent );
@@ -791,14 +769,14 @@ void Control::setParent( Control* parent ) /**throw( InvalidPeer ); -JEC - FIXME
 		parent->addComponent( this );
 
 		if ( parent_->isLightWeight() ) {
-			
+
 			Rect tmp = peer_->getBounds();
 			Rect tmp2 = tmp;
 			tmp.offset( -tmp.left_, -tmp.top_ );
-			
+
 			translateToScreenCoords( &tmp );
 			parent->translateFromScreenCoords( &tmp );
-			
+
 			tmp2.offset( tmp2.left_ - tmp.left_, tmp2.top_ - tmp.top_ );
 
 			*bounds_ = tmp2;
@@ -820,7 +798,7 @@ Control* Control::getParent() /**throw( InvalidPeer ); -JEC - FIXME later*/
 
 bool Control::isFocused()
 {
-	bool result = (this == currentFocusedControl);	
+	bool result = (this == currentFocusedControl);
 
 	return result;//peer_->isFocused();
 }
@@ -832,8 +810,8 @@ Control* Control::setFocused()
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
-	if ( isNormal() || isCreated() || isDesigning() ) {	//JC added this so that a control recv's focus 
+
+	if ( isNormal() || isCreated() || isDesigning() ) {	//JC added this so that a control recv's focus
 														//only under these conditions
 
 			if ( NULL != currentFocusedControl ) {
@@ -847,7 +825,7 @@ Control* Control::setFocused()
 
 		result = currentFocusedControl;
 		currentFocusedControl = this;
-		
+
 		peer_->setFocused();
 	}
 
@@ -874,7 +852,7 @@ void Control::setEnabled( const bool& enabled )
 
 void Control::mouseEnter( MouseEvent* event )
 {
-	
+
 }
 
 void Control::mouseDown( MouseEvent* event )
@@ -885,42 +863,42 @@ void Control::mouseDown( MouseEvent* event )
 void Control::mouseMove( MouseEvent* event )
 {
 	//probably want to put a modifier here for the scrollable to modify the coords ?
-	
+
 }
 
 void Control::mouseUp( MouseEvent* event )
 {
-	
+
 }
 
 void Control::mouseLeave( MouseEvent* event )
 {
-	
+
 }
 
 void Control::keyDown( KeyboardEvent* event )
 {
-	
+
 }
 
 void Control::mouseClick(  MouseEvent* event )
 {
-	
+
 }
-	
+
 void Control::mouseDblClick(  MouseEvent* event )
 {
-	
+
 }
 
 void Control::keyPressed( KeyboardEvent* event )
-{	
-	
+{
+
 }
 
 void Control::keyUp( KeyboardEvent* event )
 {
-	
+
 }
 
 void Control::translateToParent( Point* point )
@@ -955,12 +933,12 @@ void Control::beforeDestroy( ComponentEvent* event )
 }
 
 bool Control::isLightWeight()
-{	
+{
 	return false;
 }
 
 Control* Control::getHeavyweightParent()
-{	
+{
 	Control* parent = NULL;
 	Control* result = NULL;
 	result = getParent();
@@ -1043,13 +1021,13 @@ void Control::setDoubleBuffered( const bool& doubleBuffered )
 }
 
 void Control::keepMouseEvents()
-{	
+{
 	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	};
 	hasMouseCapture_ = true;
 	Control::setCapturedMouseControl( this );
-	peer_->keepMouseEvents();	
+	peer_->keepMouseEvents();
 }
 
 void Control::releaseMouseEvents()
@@ -1059,21 +1037,21 @@ void Control::releaseMouseEvents()
 	};
 	hasMouseCapture_ = false;
 	Control::setCapturedMouseControl( NULL );
-	peer_->releaseMouseEvents();	
+	peer_->releaseMouseEvents();
 }
 
 Control* Control::getCapturedMouseControl()
 {
 	return Control::capturedMouseControl;
 }
-	
+
 void Control::setCapturedMouseControl( Control* control )
 {
 	Control::capturedMouseControl = control;
 }
 
 GraphicsContext* Control::getContext()
-{		
+{
 	return context_;
 }
 
@@ -1087,7 +1065,7 @@ void Control::setPopupMenu( PopupMenu* popupMenu )
 	if ( NULL != popupMenu_ ){
 		popupMenu_->setControl( NULL );
 	}
-	
+
 	popupMenu_ = popupMenu;
 
 	if ( NULL != popupMenu_ ){
@@ -1151,13 +1129,13 @@ void Control::setAnchor( const unsigned long& anchor )
 	aligment_ = AlignNone;
 	updateAnchorDeltas();
 
-	Control* parent = getParent();	
+	Control* parent = getParent();
 	if ( NULL != parent ){
 		Container* container = parent->getContainer();
 		if ( NULL != container ){
 			container->resizeChildren(NULL);//this);
 		}
-	}	
+	}
 }
 
 void Control::updateAnchorDeltas() {
@@ -1171,13 +1149,13 @@ void Control::updateAnchorDeltas() {
 		Control* parent = getParent();
 		if ( NULL != parent ) {
 			Rect parentBounds = parent->getClientBounds();
-			Rect bounds = getBounds();			
+			Rect bounds = getBounds();
 			anchorDeltas_[ANCHOR_DTOP] = (float) bounds.top_;
 			anchorDeltas_[ANCHOR_DLEFT] = (float) bounds.left_;
 			anchorDeltas_[ANCHOR_DBOTTOM] = (float) parentBounds.bottom_ -  bounds.bottom_;
 			anchorDeltas_[ANCHOR_DRIGHT] = (float) parentBounds.right_ -  bounds.right_;
 		}
-	}	
+	}
 }
 
 AcceleratorKey* Control::getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
@@ -1198,7 +1176,7 @@ void Control::addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& m
 
 void Control::addAcceleratorKey( AcceleratorKey* accelerator )
 {
-	UIToolkit::registerAccelerator( accelerator );		
+	UIToolkit::registerAccelerator( accelerator );
 }
 
 void Control::setTabStop( const bool& tabStop )
@@ -1211,14 +1189,14 @@ void Control::setTabOrder( const long& tabOrder )
 	if ( tabOrder_ == tabOrder ) {
 		return ;
 	}
-	
+
 	Control* parent = getParent();
 	if ( NULL != parent ) {
-		Container* container = parent->getContainer();		
+		Container* container = parent->getContainer();
 		if ( NULL != container ) {
 			ulong32 tmp = tabOrder;
 			container->updateTabOrder( this, tmp );
-			
+
 			tabOrder_ = tmp;
 		}
 	}
@@ -1305,7 +1283,7 @@ void Control::setContainer( Container* container )
 		if ( NULL != obj ) {
 			obj->addRef();
 		}
-		
+
 		container_->setContainerControl( this );
 	}
 
@@ -1324,7 +1302,7 @@ void Control::buildTabList( Control* control, std::vector<Control*>& tabList )
 Frame* Control::getParentFrame()
 {
 	Control* result = NULL;
-	
+
 	Control* parent = getParent();
 	while ( parent != NULL ) {
 		result = parent;
@@ -1363,11 +1341,11 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 {
 	Scrollable* scrollable = getScrollable();
 	if ( NULL != scrollable ) {
-		Rect innerBounds = getClientBounds(true);		
-		
+		Rect innerBounds = getClientBounds(true);
+
 		Point scrollPos;
 		scrollPos.x_ = scrollable->getHorizontalPosition();
-		scrollPos.y_ = scrollable->getVerticalPosition();	
+		scrollPos.y_ = scrollable->getVerticalPosition();
 
 		//clip for border
 		viewBounds.left_ = maxVal<>( innerBounds.left_+1,viewBounds.left_ );
@@ -1375,12 +1353,12 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 
 		viewBounds.right_ = minVal<>( innerBounds.right_-1.0,viewBounds.right_ );
 		viewBounds.bottom_ = minVal<>( innerBounds.bottom_-1.0,viewBounds.bottom_ );
-		
+
 		UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
 
 		double dx = scrollable->getVirtualViewWidth() - innerBounds.getWidth();
-		double dy = scrollable->getVirtualViewHeight() - innerBounds.getHeight();			
-		
+		double dy = scrollable->getVirtualViewHeight() - innerBounds.getHeight();
+
 		origin.x_ -= scrollPos.x_;
 		origin.y_ -= scrollPos.y_;
 
@@ -1389,7 +1367,7 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 
 		if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > innerBounds.getWidth()) ) {
 			Size horzSize = mgr->getDefaultHorizontalScrollButtonDimensions();
-			
+
 			//viewBounds.bottom_ = minVal<>( viewBounds.bottom_-horzSize.height_,viewBounds.bottom_ );
 
 			if ( dx < scrollPos.x_ ) {
@@ -1400,10 +1378,10 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 		}
 		else {
 			Size horzSize = mgr->getDefaultHorizontalScrollButtonDimensions();
-			
+
 			//viewBounds.bottom_ = minVal<>( viewBounds.bottom_-horzSize.height_,viewBounds.bottom_ );
 
-			origin.x_ += scrollPos.x_;				
+			origin.x_ += scrollPos.x_;
 			viewBounds.offset( scrollPos.x_, 0 );
 
 			if ( scrollPos.x_ > 0 ) {
@@ -1413,7 +1391,7 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 
 
 		if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > innerBounds.getHeight()) ) {
-			Size vertSize = mgr->getDefaultVerticalScrollButtonDimensions();		
+			Size vertSize = mgr->getDefaultVerticalScrollButtonDimensions();
 
 			//viewBounds.right_ = minVal<>( viewBounds.right_-vertSize.width_,viewBounds.right_ );
 
@@ -1436,13 +1414,17 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 			}
 		}
 
-					
+
 	}
 }
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
 *migration towards new directory structure
 *
@@ -1470,12 +1452,12 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 *fixed a glitch in setting focus
 *
 *Revision 1.57.2.4  2004/03/01 05:59:19  ddiego
-*and even MORE updates to the TableControl. Most of the core functionality 
-from Chris Maunder's CGridCtrl has been migrated over, and is functional. 
-Item editing and item dragging is still not done. Had to make a minor change 
-to the AbstractScroallable class to allow it have vertical and/or horizontal 
-delegate's set in order to notify them of position changes. This was needed 
-by the TableControl to properly update the top left non fixed cell calculation. 
+*and even MORE updates to the TableControl. Most of the core functionality
+from Chris Maunder's CGridCtrl has been migrated over, and is functional.
+Item editing and item dragging is still not done. Had to make a minor change
+to the AbstractScroallable class to allow it have vertical and/or horizontal
+delegate's set in order to notify them of position changes. This was needed
+by the TableControl to properly update the top left non fixed cell calculation.
 The performance is kind of slow ( :) ) in debug mode, but quite snappy in release.
 
 *Revision 1.57.2.3  2004/01/18 04:52:46  ddiego

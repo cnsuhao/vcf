@@ -1,32 +1,13 @@
+//PushButton.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 //PushButton.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/PushButton.h"
@@ -49,13 +30,13 @@ PushButton::PushButton():
 	isPressed_ = false;
 
 	commandType_ = BC_NONE;
-	
-	FocusGained.addHandler( new FocusEventHandler<PushButton>( this, 
-																&PushButton::onFocusGained, 
+
+	FocusGained.addHandler( new FocusEventHandler<PushButton>( this,
+																&PushButton::onFocusGained,
 																"PushButton::onFocusGained" ) );
 
-	FocusLost.addHandler( new FocusEventHandler<PushButton>( this, 
-																&PushButton::onFocusLost, 
+	FocusLost.addHandler( new FocusEventHandler<PushButton>( this,
+																&PushButton::onFocusLost,
 																"PushButton::onFocusLost" ) );
 }
 
@@ -65,20 +46,20 @@ PushButton::~PushButton()
 }
 
 void PushButton::drawHighLighted( Rect* rect, GraphicsContext* ctx )
-{	
+{
 	Rect tmp = *rect;
 	tmp.inflate( -1, -1 );
-	
+
 	ctx->drawButtonRect( &tmp, isPressed_ );
 	if ( !isPressed_ ) {
-		tmp.inflate( 1, 1 );	
+		tmp.inflate( 1, 1 );
 		ctx->setColor( Color::getColor( "black" ) );
 		ctx->moveTo( tmp.left_, tmp.top_ );
 		ctx->lineTo( tmp.left_, tmp.bottom_ );
 		ctx->moveTo( tmp.left_, tmp.top_ );
 		ctx->rectangle( &tmp );
 		ctx->strokePath();
-		
+
 	}
 }
 
@@ -86,14 +67,14 @@ void PushButton::drawNormal( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
 	tmp.inflate( -1, -1 );
-	
+
 	ctx->drawButtonRect( &tmp, isPressed_ );
 }
 
 void PushButton::drawImage( Rect* rect, Rect* imageRect, GraphicsContext* context )
-{	
+{
 	if ( NULL != this->imageList_ ) {
-		if (this->BtnImageIndex_ >= 0 ) {						
+		if (this->BtnImageIndex_ >= 0 ) {
 			switch ( captionAlignment_ ) {
 				case BCA_RIGHT : {
 					imageRect->top_ = maxVal<double>( rect->top_, (rect->getHeight()/2.0) - (imageList_->getImageHeight()/2.0) );
@@ -106,35 +87,35 @@ void PushButton::drawImage( Rect* rect, Rect* imageRect, GraphicsContext* contex
 
 				case BCA_TOP : {
 					imageRect->top_ += context->getTextHeight( caption_ ) + IMAGE_CAPTION_BUFFER;
-					imageRect->bottom_ = minVal<double>( imageList_->getImageHeight(), rect->getHeight() );	
+					imageRect->bottom_ = minVal<double>( imageList_->getImageHeight(), rect->getHeight() );
 
 					imageRect->left_ = (rect->getWidth()/2.0) - (imageList_->getImageWidth()/2.0);
 					imageRect->right_ = imageList_->getImageWidth();
 				}
 				break;
-				
+
 				case BCA_LEFT : {
 					imageRect->right_ = rect->right_;
 					imageRect->left_ = maxVal<double>( rect->left_, imageRect->right_ - imageList_->getImageWidth() );
 					imageRect->top_ += context->getTextHeight( caption_ ) + IMAGE_CAPTION_BUFFER;
-					imageRect->bottom_ = minVal<double>( imageList_->getImageHeight(), rect->getHeight() );	
+					imageRect->bottom_ = minVal<double>( imageList_->getImageHeight(), rect->getHeight() );
 				}
 				break;
-				
+
 				case BCA_BOTTOM : {
 					imageRect->top_ = rect->top_;//context->getTextHeight( caption_ ) + IMAGE_CAPTION_BUFFER;
-					imageRect->bottom_ = imageRect->top_ + ( minVal<double>( imageList_->getImageHeight(), rect->getHeight() ) );	
+					imageRect->bottom_ = imageRect->top_ + ( minVal<double>( imageList_->getImageHeight(), rect->getHeight() ) );
 
 					imageRect->left_ = (rect->getWidth()/2.0) - (imageList_->getImageWidth()/2.0);
 					imageRect->right_ = imageList_->getImageWidth();
 				}
 				break;
-			}	
+			}
 			//imageRect->inflate( -2, -2 );
 			if ( true == isPressed_ ) {
 				imageRect->setRect( imageRect->left_ + 1.0, imageRect->top_ + 1.0, imageRect->right_ + 1.0, imageRect->bottom_ + 1.0 );
 			}
-			imageList_->draw( context, BtnImageIndex_, imageRect );		
+			imageList_->draw( context, BtnImageIndex_, imageRect );
 		}
 	}
 }
@@ -143,14 +124,14 @@ void PushButton::drawCaption( Rect* rect, Rect* imageRect, GraphicsContext* cont
 {
 	if ( true == showCaption_ ) {
 		Rect textRect = *rect;
-		
+
 		switch ( captionAlignment_ ) {
 			case BCA_RIGHT : {
 				textRect.top_ = maxVal<double>( rect->top_, (rect->getHeight()/2.0) - (context->getTextHeight( caption_ ) / 2.0) );
 				textRect.bottom_ = minVal<double>( rect->bottom_, textRect.top_ + context->getTextHeight( caption_ ) );
 				if ( (NULL != this->imageList_) && (BtnImageIndex_ >= 0) ) {
 					textRect.left_ = imageRect->right_ + IMAGE_CAPTION_BUFFER;
-					textRect.right_ = rect->right_;	
+					textRect.right_ = rect->right_;
 				}
 				else {
 					textRect.left_ = maxVal<double>( rect->left_, (rect->getWidth() / 2.0) - (context->getTextWidth( caption_ )/2.0) );
@@ -172,13 +153,13 @@ void PushButton::drawCaption( Rect* rect, Rect* imageRect, GraphicsContext* cont
 				}
 			}
 			break;
-			
+
 			case BCA_LEFT : {
 				textRect.top_ = maxVal<double>( rect->top_, (rect->getHeight()/2.0) - (context->getTextHeight( caption_ ) / 2.0) );
 				textRect.bottom_ = minVal<double>( rect->bottom_, textRect.top_ + context->getTextHeight( caption_ ) );
 				if ( (NULL != this->imageList_) && (BtnImageIndex_ >= 0) ) {
 					textRect.left_ = rect->left_;
-					textRect.right_ = imageRect->left_ - IMAGE_CAPTION_BUFFER;	
+					textRect.right_ = imageRect->left_ - IMAGE_CAPTION_BUFFER;
 				}
 				else {
 					textRect.left_ = maxVal<double>( rect->left_, (rect->getWidth() / 2.0) - (context->getTextWidth( caption_ )/2.0) );
@@ -186,7 +167,7 @@ void PushButton::drawCaption( Rect* rect, Rect* imageRect, GraphicsContext* cont
 				}
 			}
 			break;
-			
+
 			case BCA_BOTTOM : {
 				textRect.left_ = maxVal<double>( rect->left_, (rect->getWidth() / 2.0) - (context->getTextWidth( caption_ )/2.0) );
 				textRect.right_ = minVal<double>( rect->right_, textRect.left_ + context->getTextWidth( caption_ ) );
@@ -205,8 +186,8 @@ void PushButton::drawCaption( Rect* rect, Rect* imageRect, GraphicsContext* cont
 			textRect.setRect( textRect.left_ + 1.0, textRect.top_ + 1.0, textRect.right_ + 1.0, textRect.bottom_ + 1.0 );
 		}
 		context->setCurrentFont( getFont() );
-		context->textBoundedBy( &textRect, caption_, false ); 	
-	}	
+		context->textBoundedBy( &textRect, caption_, false );
+	}
 }
 
 void PushButton::paint(GraphicsContext * context)
@@ -214,46 +195,46 @@ void PushButton::paint(GraphicsContext * context)
 	CustomControl::paint( context );
 	Rect r( 0,0,getWidth(), getHeight() );
 	r.inflate( 0, -1 );
-	
+
 	r.normalize();
-	
+
 	if ( (true == isHighlighted_)  ) {
 		drawHighLighted( &r, context );
-		
+
 	}
 	else {
 		drawNormal( &r, context );
-	}	
-	
+	}
+
 	Rect imgRect(0, 0, 0, 0 );
 
 	drawImage( &r, &imgRect, context );
 
-	drawCaption( &r, &imgRect, context );	
-	
-	
-	
+	drawCaption( &r, &imgRect, context );
+
+
+
 
 	if ( this == UIToolkit::getDefaultButton() ) {
-		
+
 		Rect rect = getClientBounds();
 		context->setColor( Color::getColor( "black" ) );
 		context->rectangle( &rect );
 		context->strokePath();
 	}
-	
+
 	if ( true == isFocused() ) {
 		Rect rect = getClientBounds();
 		rect.inflate( -5, -5 );
-		
+
 		context->drawSelectionRect( &rect );
 	}
 }
 
 void PushButton::click()
 {
-	ButtonEvent event( this, 0 );	
-	
+	ButtonEvent event( this, 0 );
+
 	Action* action = getAction();
 	if ( NULL != action ) {
 		action->perform( &event );
@@ -269,27 +250,27 @@ void PushButton::click()
 		while ( (NULL == frame) && (parent != NULL) ) {
 			parent = parent->getParent();
 			frame = dynamic_cast<Frame*>( parent );
-		}		
-		
+		}
+
 		if ( NULL != frame ) {
 			Dialog* dialog = dynamic_cast<Dialog*>( frame );
 			if ( NULL != dialog ) {
-				switch ( getCommandType() ){					
+				switch ( getCommandType() ){
 					case BC_OK : {
 						dialog->setModalReturnValue( UIToolkit::mrOK );
 					}
 					break;
-					
+
 					case BC_CANCEL : {
 						dialog->setModalReturnValue( UIToolkit::mrCancel );
 					}
 					break;
-					
+
 					case BC_YES : {
 						dialog->setModalReturnValue( UIToolkit::mrYes );
 					}
 					break;
-					
+
 					case BC_NO : {
 						dialog->setModalReturnValue( UIToolkit::mrNo );
 					}
@@ -326,21 +307,21 @@ void PushButton::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
 	keepMouseEvents();
-	isPressed_ = ( event->hasLeftButton() || event->hasRightButton() );	
+	isPressed_ = ( event->hasLeftButton() || event->hasRightButton() );
 	repaint();
 }
 
 void PushButton::mouseMove( MouseEvent* event )
 {
-	CustomControl::mouseMove( event );	
-	Point* pt = event->getPoint();	
-	
+	CustomControl::mouseMove( event );
+	Point* pt = event->getPoint();
+
 	isPressed_ = false;
 	if ( true == event->hasLeftButton() ) {
 		Rect r (0, 0, getWidth(), getHeight() );
 		isPressed_ = r.containsPt( pt );
 		repaint();
-	}	
+	}
 }
 
 void PushButton::mouseUp( MouseEvent* event )
@@ -370,13 +351,13 @@ void PushButton::mouseLeave( MouseEvent* event )
 
 void PushButton::mouseClick(  MouseEvent* event )
 {
-	
+
 }
 
 void PushButton::keyDown( KeyboardEvent* event )
 {
 	if ( vkReturn == event->getVirtualCode() ) {
-			
+
 	}
 	else if ( vkSpaceBar == event->getVirtualCode() ) {
 		isPressed_ = true;
@@ -387,7 +368,7 @@ void PushButton::keyDown( KeyboardEvent* event )
 void PushButton::keyUp( KeyboardEvent* event )
 {
 	if ( vkReturn == event->getVirtualCode() ) {
-		click();		
+		click();
 	}
 	else if ( vkSpaceBar == event->getVirtualCode() ) {
 		isPressed_ = false;
@@ -431,7 +412,7 @@ void PushButton::setDefault( const bool& defaultButton )
 		UIToolkit::removeDefaultButton( this );
 	}
 }
-	
+
 bool PushButton::isDefault()
 {
 	return (this == UIToolkit::getDefaultButton());
@@ -439,7 +420,7 @@ bool PushButton::isDefault()
 
 void PushButton::onFocusGained( FocusEvent* event )
 {
-	UIToolkit::setDefaultButton( this );	
+	UIToolkit::setDefaultButton( this );
 }
 
 void PushButton::onFocusLost( FocusEvent* event )
@@ -456,6 +437,9 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -602,6 +586,5 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 *to facilitate change tracking
 *
 */
-
 
 

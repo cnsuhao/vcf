@@ -1,33 +1,12 @@
+//ListViewControl.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//ListViewControl.cpp
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ListViewControl.h"
 #include "vcf/ApplicationKit/ListviewPeer.h"
@@ -44,8 +23,8 @@ ListViewControl::ListViewControl():
 	selectedItem_(NULL)
 {
 	listviewPeer_ = UIToolkit::createListViewPeer( this );
-	
-	peer_ = dynamic_cast<ControlPeer*>(listviewPeer_ );	
+
+	peer_ = dynamic_cast<ControlPeer*>(listviewPeer_ );
 
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
@@ -55,20 +34,20 @@ ListViewControl::ListViewControl():
 
 	setListModel( new DefaultListModel() );
 
-	
+
 
 	columnModel_ = new DefaultColumnModel();
-	
+
 	EventHandler* cmh = new ColumnModelEventHandler<ListViewControl>( this, &ListViewControl::onColumnItemAdded, "ListViewControl::onColumnItemAdded" );
 	columnModel_->addItemAddedHandler( cmh );
-	
+
 	cmh = new ColumnModelEventHandler<ListViewControl>( this, &ListViewControl::onColumnItemDeleted, "ListViewControl::onColumnItemDeleted" );
 	columnModel_->addItemDeletedHandler( cmh );
 
 
 	EventHandler* paintHandler = new ItemEventHandler<ListViewControl>( this, &ListViewControl::onItemPaint, "ListViewControl::onItemPaint" );
 
-	ItemSelectionChanged += 
+	ItemSelectionChanged +=
 		new ItemEventHandler<ListViewControl>( this, &ListViewControl::onItemSelected, "ListViewControl::onItemSelected" );
 
 	init();
@@ -85,8 +64,8 @@ ListViewControl::~ListViewControl()
 		columnModel_->release();
 	}
 
-	
-	
+
+
 }
 
 void ListViewControl::init()
@@ -113,7 +92,7 @@ ColumnModel* ListViewControl::getColumnModel()
 }
 
 void ListViewControl::setListModel(ListModel * model)
-{	
+{
 	if ( NULL != listModel_ ) {
 		listModel_->release();
 	}
@@ -123,28 +102,28 @@ void ListViewControl::setListModel(ListModel * model)
 
 	if ( NULL != listModel_ ) {
 		listModel_->addRef();
-		
+
 		EventHandler* ev = getEventHandler( "ListBoxControl::onItemAdded" );
 		if ( NULL == ev ) {
 			ev = new ListModelEventHandler<ListViewControl>( this, &ListViewControl::onItemAdded, "ListBoxControl::onItemAdded" );
 		}
-		
+
 		listModel_->addItemAddedHandler( ev );
-		
+
 		ev = getEventHandler( "ListBoxControl::onItemDeleted" );
 		if ( NULL == ev ) {
 			ev = new ListModelEventHandler<ListViewControl>( this, &ListViewControl::onItemDeleted, "ListBoxControl::onItemDeleted" );
 		}
 
 		listModel_->addItemDeletedHandler( ev );
-		
+
 		ev = getEventHandler( "ListBoxControl::onListModelContentsChanged" );
 		if ( NULL == ev ) {
 			ev = new ListModelEventHandler<ListViewControl>( this, &ListViewControl::onListModelContentsChanged, "ListBoxControl::onListModelContentsChanged" );
 		}
-		
+
 		listModel_->addContentsChangedHandler( ev );
-		
+
 	}
 
 	setViewModel( listModel_ );
@@ -158,7 +137,7 @@ void ListViewControl::onItemPaint( ItemEvent* event )
 	GraphicsContext* context = event->getContext();
 	if ( NULL != context ) {
 		ImageList* il = NULL;
-		
+
 		if (  isLargeIcon == iconStyle_ ) {
 			il = getLargeImageList();
 		}
@@ -182,11 +161,11 @@ void ListViewControl::onItemPaint( ItemEvent* event )
 				}
 				else {
 					il->draw( context, item->getImageIndex(), &imgRect );
-				}	
+				}
 			}
-			else {				
-				il->draw( context, item->getImageIndex(), &imgRect );				
-			}			
+			else {
+				il->draw( context, item->getImageIndex(), &imgRect );
+			}
 		}
 	}
 }
@@ -211,7 +190,7 @@ void ListViewControl::onListModelContentsChanged( ListModelEvent* event )
 					listviewPeer_->insertItem( item->getIndex(), item );
 				}
 			}
-			break; 
+			break;
 		}
 	}
 }
@@ -221,7 +200,7 @@ void ListViewControl::onItemAdded( ListModelEvent* event )
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	EventHandler* paintHandler = this->getEventHandler( "ListViewControl::onItemPaint" );
 	ListItem* item = event->getListItem();
 	if ( NULL != paintHandler ) {
@@ -244,7 +223,7 @@ ColumnItem* ListViewControl::addHeaderColumn( const String& columnName, const do
 	ColumnItem* result = NULL;
 	result = new DefaultColumnItem();
 	result->setCaption( columnName );
-	result->setWidth( width );	
+	result->setWidth( width );
 	columnModel_->addItem( result );
 
 	return result;
@@ -399,7 +378,7 @@ void ListViewControl::onListModelEmptied( ModelEvent* event )
 void ListViewControl::onColumnItemAdded( ColumnModelEvent* event )
 {
 	ColumnItem* item = event->getColumnItem();
-	
+
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
@@ -407,8 +386,8 @@ void ListViewControl::onColumnItemAdded( ColumnModelEvent* event )
 
 	EventHandler* columnItemChanged = getEventHandler( "ListViewControl::onColumnItemChanged" );
 	if ( NULL == columnItemChanged ) {
-		columnItemChanged = new ItemEventHandler<ListViewControl>( this, 
-																	&ListViewControl::onColumnItemChanged, 
+		columnItemChanged = new ItemEventHandler<ListViewControl>( this,
+																	&ListViewControl::onColumnItemChanged,
 																	"ListViewControl::onColumnItemChanged" );
 	}
 
@@ -452,7 +431,7 @@ ListItem* ListViewControl::isPtOverItem(Point* point)
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	return listviewPeer_->isPtOverItem( point );
 }
 
@@ -461,13 +440,13 @@ ListItem* ListViewControl::getFocusedItem()
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	return listviewPeer_->getFocusedItem();
 }
 
 ListItem* ListViewControl::getSelectedItem()
 {
-	return this->selectedItem_;// 
+	return this->selectedItem_;//
 }
 
 Enumerator<ListItem*>* ListViewControl::getSelectedItems()
@@ -475,7 +454,7 @@ Enumerator<ListItem*>* ListViewControl::getSelectedItems()
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	return listviewPeer_->getSelectedItems();
 }
 
@@ -484,7 +463,7 @@ void ListViewControl::rangeSelect( Rect* selectionRect )
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
-	
+
 	listviewPeer_->rangeSelect( selectionRect );
 }
 
@@ -520,7 +499,7 @@ ListItem* ListViewControl::insertItem( const ulong32& index, const String& capti
 void ListViewControl::insertItem( const ulong32& index, ListItem* item )
 {
 	listModel_->insertItem( index, item );
-}	
+}
 
 void ListViewControl::setSmallImageList( ImageList* imageList )
 {
@@ -537,8 +516,8 @@ void ListViewControl::setLargeImageList( ImageList* imageList )
 {
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}	
-	
+	}
+
 	largeImageList_ = imageList;
 
 	listviewPeer_->setLargeImageList( largeImageList_ );
@@ -548,9 +527,9 @@ void ListViewControl::setStateImageList( ImageList* imageList )
 {
 	if ( NULL == this->listviewPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}	
+	}
 
-	stateImageList_ = imageList;	
+	stateImageList_ = imageList;
 }
 
 Rect ListViewControl::getItemImageRect( ListItem* item )
@@ -602,14 +581,16 @@ void ListViewControl::handleEvent( Event* event )
 
 void ListViewControl::onItemSelected( ItemEvent* event )
 {
-	selectedItem_ = listviewPeer_->getSelectedItem();	
+	selectedItem_ = listviewPeer_->getSelectedItem();
 }
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *
@@ -763,6 +744,5 @@ void ListViewControl::onItemSelected( ItemEvent* event )
 *to facilitate change tracking
 *
 */
-
 
 

@@ -1,45 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
+#ifndef _VCF_APPLICATION_H__
+#define _VCF_APPLICATION_H__
+//Application.h
 
-
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
-//Application.h
-
-
-
-#ifndef _VCF_APPLICATION_H__
-#define _VCF_APPLICATION_H__
-
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -52,11 +24,11 @@ class WindowEvent;
 class Library;
 
 /**
- *Represents the main process for a application. 
- *Each application contains a main window, pointed to by  mainWindow_. 
+ *Represents the main process for a application.
+ *Each application contains a main window, pointed to by  mainWindow_.
  *Application are started by some entry point of the executing process.
- *Once the entry point has been called, usually main(), 
- *the static function Application::appMain() is called to start 
+ *Once the entry point has been called, usually main(),
+ *the static function Application::appMain() is called to start
  *the application initializing itself.
  *While the Application instance is optional, if it is present
  *there should only be one instance that is created on the stack.
@@ -65,7 +37,7 @@ class Library;
  *<pre>
  int main( int argc, char** argv ) {
 		Application theApp(argc, argv);
-		
+
 		Application::main();
 
 		return 0;
@@ -81,16 +53,16 @@ class Library;
 class APPKIT_API Application : public AbstractApplication {
 public:
 	/**
-	Every derived class <b>must</b> at least take argc, and argv 
+	Every derived class <b>must</b> at least take argc, and argv
 	arguments to it's constructor. These in turn get passed to
 	the ApplicationKit and it's underlying platform implementation
-	in order to properly initialize them. 
-	These arguments can be retrieved in the form of the 
-	CommandLine instance that is part of the FoundationKit. For 
+	in order to properly initialize them.
+	These arguments can be retrieved in the form of the
+	CommandLine instance that is part of the FoundationKit. For
 	example:
 	<pre>
 	CommandLine cmdLine =  FoundationKit::getCommandLine();
-	//get the first argument 
+	//get the first argument
 	cmdLine.getArgument(0);
 	</pre>
 
@@ -101,37 +73,37 @@ public:
 	virtual ~Application();
 
 	/**
-	*The entry point into the application object starting up. 
-	*/	
+	*The entry point into the application object starting up.
+	*/
 	static void main();
 
 	/**
 	*returns the singleton instance of the current
-	*application for this process. May be null if the 
+	*application for this process. May be null if the
 	*VCF is being used without Application support.
-	*@return Application the single instance for this process. Do not assume 
+	*@return Application the single instance for this process. Do not assume
 	*it will be non NULL.
 	*/
-	static Application* getRunningInstance();	
+	static Application* getRunningInstance();
 
 	/**
 	*starts the application event loop running
 	*/
 	void run();
-	
+
 	/**
 	*This happens after the Application object is constructed, after the initialize() method,
 	*and just before the app's run() method is called
 	*successful. if false, it calls terminate() and then kills the app process.
 	*this method also builds the accellerator table used for keyboard shortcuts
-	*@return bool this tells whether or not the initialization of the application was 
+	*@return bool this tells whether or not the initialization of the application was
 	*/
 	virtual bool initRunningApplication();
-	
+
 	/**
 	*terminates the running application
 	*/
-	virtual void terminateRunningApplication();	
+	virtual void terminateRunningApplication();
 
 	/**
 	*gets the main window of the application. All applications have a main window of some
@@ -149,14 +121,14 @@ public:
 	/**
 	*event handler for the main window closing down.
 	*/
-	void onMainWindowClose( WindowEvent* event );	
+	void onMainWindowClose( WindowEvent* event );
 
 	/**
 	*load a VPL, calls the initPackage() function, and adds the library
 	*to it's list. The library will be unloaded when the app quits.
 	*/
-	void loadVPL( const String& vplFileName );		
-	
+	void loadVPL( const String& vplFileName );
+
 	virtual bool loadState();
 
 	virtual bool saveState();
@@ -176,8 +148,8 @@ public:
 	*/
 	Delegate nativeOSEventReceived;
 
-	/**	
-	default implamentation simply passes the event to the Delegate to be passed off to 
+	/**
+	default implamentation simply passes the event to the Delegate to be passed off to
 	any other EventHandlers. To prevent this from happening, do NOT call the base class's
 	onOSNativeEvent()
 	@param Event this instance has in it's UserData a pointer to a wrapper struct. For Win32
@@ -186,9 +158,9 @@ public:
 	<p>
 	Example (this is pertinent ONLY to Win32 systems):
 	<pre>
-		void MyApp::onOSNativeEvent( Event* e ) 
+		void MyApp::onOSNativeEvent( Event* e )
 		{
-			//comment the next line out if you want to prevent the 
+			//comment the next line out if you want to prevent the
 			//delegate from notifying event handlers
 			Application::onOSNativeEvent(e);
 
@@ -210,17 +182,19 @@ protected:
 	void init();
 
 	void internal_terminate();
-private:    
-    Window * mainWindow_;		
+private:
+    Window * mainWindow_;
 };
 
 };
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *
@@ -346,6 +320,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_APPLICATION_H__
 

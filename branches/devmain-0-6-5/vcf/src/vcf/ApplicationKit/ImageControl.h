@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_IMAGECONTROL_H__
 #define _VCF_IMAGECONTROL_H__
-
-
 //ImageControl.h
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 #define IMAGEFILENAMESTRING_CLASSID		"166982EF-60DB-4476-ABF1-AD4EB82B2B08"
@@ -50,13 +25,13 @@ namespace VCF  {
 class APPKIT_API ImageFilenameString : public Object{
 public:
 	ImageFilenameString(){};
-	
+
 	ImageFilenameString( const ImageFilenameString& filename ): Object(filename) {
 		string_ = filename.string_;
 	}
 
 	virtual ~ImageFilenameString(){};
-	
+
 	operator String () {
 		return string_;
 	}
@@ -65,7 +40,7 @@ public:
 		string_ = filename.string_;
 		return *this;
 	}
-	
+
 	ImageFilenameString& operator= ( const String& filename ) {
 		string_ = filename;
 		return *this;
@@ -82,10 +57,10 @@ protected:
 /**
 *Class ImageControl documentation
 */
-class APPKIT_API ImageControl : public VCF::CustomControl { 
+class APPKIT_API ImageControl : public VCF::CustomControl {
 public:
 
-	ImageControl();	
+	ImageControl();
 	virtual ~ImageControl();
 
 	Image* getImage();
@@ -102,7 +77,7 @@ public:
 
 	virtual void paint( GraphicsContext* context );
 protected:
-	
+
 
 private:
 	Image* image_;
@@ -116,16 +91,16 @@ public:
 	ImageFilenamePropertyEditor();
 
 	virtual ~ImageFilenamePropertyEditor();
-	
+
 	virtual bool hasCustomEditor(){
-		return true;	
-	};	
+		return true;
+	};
 
 	virtual Control* getCustomEditor();
 
 	void showFilenameEditor( VariantData* data );
 private:
-	
+
 };
 
 class APPKIT_API ImagePropertyEditor : public AbstractPropertyEditor {
@@ -133,23 +108,27 @@ public:
 	ImagePropertyEditor();
 
 	virtual ~ImagePropertyEditor();
-	
+
 	virtual bool hasCustomEditor(){
-		return true;	
-	};	
+		return true;
+	};
 
 	virtual Control* getCustomEditor();
 
 	void showImageEditor( VariantData* data );
 private:
-	
+
 };
 
 }; //end of namespace VCF
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *
@@ -213,7 +192,6 @@ private:
 *to facilitate change tracking
 *
 */
-
 
 
 #endif // _VCF_IMAGECONTROL_H__

@@ -1,3 +1,11 @@
+//GTKDialog.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
@@ -41,13 +49,13 @@ void GTKDialog::showMessage( const String& message, const String& caption )
 												message.ansi_c_str() );
 
 	gtk_window_set_title( (GtkWindow*)dialog, caption.ansi_c_str() );
-	
+
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
 	gtk_widget_destroy (dialog);
 }
 
-UIToolkit::ModalReturnType GTKDialog::showMessage( const String& message, const String& caption, 
+UIToolkit::ModalReturnType GTKDialog::showMessage( const String& message, const String& caption,
 											   const long& messageButtons,	const Dialog::MessageStyle& messageStyle )
 {
 
@@ -63,17 +71,17 @@ UIToolkit::ModalReturnType GTKDialog::showMessage( const String& message, const 
 		break;
 
 		case Dialog::msInfo:  {
-			gtkStyle = GTK_MESSAGE_INFO;	
+			gtkStyle = GTK_MESSAGE_INFO;
 		}
-		break; 		
+		break;
 
 		case Dialog::msError: {
-			gtkStyle = GTK_MESSAGE_ERROR;	
+			gtkStyle = GTK_MESSAGE_ERROR;
 		}
-		break; 
+		break;
 
 		case Dialog::msWarning: {
-			gtkStyle = GTK_MESSAGE_WARNING;	
+			gtkStyle = GTK_MESSAGE_WARNING;
 		}
 		break;
 	}
@@ -82,28 +90,28 @@ UIToolkit::ModalReturnType GTKDialog::showMessage( const String& message, const 
 		gtkButtons = GTK_BUTTONS_OK;
 	}
 	else if ( messageButtons & Dialog::mbOKCancel ) {
-		gtkButtons = GTK_BUTTONS_OK_CANCEL;	
+		gtkButtons = GTK_BUTTONS_OK_CANCEL;
 	}
 	else if ( messageButtons & Dialog::mbYesNo ) {
-		gtkButtons = GTK_BUTTONS_YES_NO;	
+		gtkButtons = GTK_BUTTONS_YES_NO;
 	}
-	
+
 
 	GtkWidget* dialog = gtk_message_dialog_new ( NULL,GTK_DIALOG_MODAL,
-												(GtkMessageType)gtkStyle, 
+												(GtkMessageType)gtkStyle,
 												(GtkButtonsType)gtkButtons,
 												message.ansi_c_str() );
 
 	gtk_window_set_title( (GtkWindow*)dialog, caption.ansi_c_str() );
-	
+
 	if ( messageButtons & Dialog::mbYesNoCancel ) {
-		gtkButtons = GTK_BUTTONS_NONE;	
+		gtkButtons = GTK_BUTTONS_NONE;
 	}
 	else if ( messageButtons & Dialog::mbRetryCancel ) {
-		gtkButtons = GTK_BUTTONS_NONE;	
+		gtkButtons = GTK_BUTTONS_NONE;
 	}
 	else if ( messageButtons & Dialog::mbAbortRetryIgnore ) {
-		gtkButtons = GTK_BUTTONS_NONE;	
+		gtkButtons = GTK_BUTTONS_NONE;
 	}
 
 	if ( messageButtons & Dialog::mbHelp ) {
@@ -116,48 +124,58 @@ UIToolkit::ModalReturnType GTKDialog::showMessage( const String& message, const 
 
 	switch (res)  {
 		case GTK_RESPONSE_NONE: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_OK: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_CANCEL: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_CLOSE: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_YES: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_NO: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_APPLY: {
-			
+
 		}
-		break;	
+		break;
 
 		case GTK_RESPONSE_HELP: {
-			
+
 		}
-		break;	
+		break;
     }
 
 	gtk_widget_destroy (dialog);
 
 	return result;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.3  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 

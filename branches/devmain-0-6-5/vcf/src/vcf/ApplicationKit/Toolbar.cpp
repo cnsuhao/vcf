@@ -1,32 +1,12 @@
+//Toolbar.cpp
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/Toolbar.h"
 #include "vcf/ApplicationKit/ToolbarPeer.h"
@@ -57,8 +37,8 @@ ToolbarItem::ToolbarItem():
 
 void ToolbarItem::click()
 {
-	ButtonEvent event( this, ToolbarItem::tbItemClicked );	
-	
+	ButtonEvent event( this, ToolbarItem::tbItemClicked );
+
 	Action* action = getAction();
 	if ( NULL != action ) {
 		action->perform( &event );
@@ -84,15 +64,15 @@ void ToolbarItem::update()
 void ToolbarItem::handleEvent( Event* event )
 {
 	Component::handleEvent( event );
-	switch ( event->getType() ){	
+	switch ( event->getType() ){
 			case Action::UpdateEvent : {
 				ActionEvent* actionEvent = (ActionEvent*)event;
-				
-				
+
+
 				setEnabled( actionEvent->isEnabled() );
 
-				setCaption( actionEvent->getText() );	
-				
+				setCaption( actionEvent->getText() );
+
 				if ( this->isChecked() && (actionEvent->getState() & tisPressed) ) {
 					setPressed( true );
 				}
@@ -200,7 +180,7 @@ void ToolbarItem::setImageIndex( const long& imageIndex )
 	}
 }
 
-void ToolbarItem::setIndex( const unsigned long& index ) 
+void ToolbarItem::setIndex( const unsigned long& index )
 {
 	//no-op
 }
@@ -222,7 +202,7 @@ void ToolbarItem::setSelected( const bool& selected )
 	else {
 		state_ &= ~tisSelected;
 	}
-	
+
 	if ( NULL != model_ ) {
 		((ToolbarModel*)model_)->itemChanged( ToolbarItem::tbSelected, this );
 	}
@@ -332,11 +312,11 @@ bool ToolbarItem::isChecked()
 
 ToolbarModel::ToolbarModel()
 {
-	itemsContainer_.initContainer( toolbarItems_ );	
+	itemsContainer_.initContainer( toolbarItems_ );
 }
 
 ToolbarModel::~ToolbarModel()
-{	
+{
 	std::vector<ToolbarItem*>::iterator it = toolbarItems_.begin();
 	while ( it != toolbarItems_.end() ) {
 		ToolbarItem* item = *it;
@@ -364,9 +344,9 @@ void ToolbarModel::insertItem( ToolbarItem* item, const ulong32& index )
 void ToolbarModel::removeItem( ToolbarItem* item )
 {
 	std::vector<ToolbarItem*>::iterator found = std::find( toolbarItems_.begin(), toolbarItems_.end(), item );
-	if ( found != toolbarItems_.end() ) {		
+	if ( found != toolbarItems_.end() ) {
 
-		toolbarItems_.erase( found );	
+		toolbarItems_.erase( found );
 
 		itemChanged( ToolbarItem::tbRemoved, item );
 	}
@@ -393,7 +373,7 @@ void ToolbarModel::setItemIndex( ToolbarItem* item, const ulong32& newIndex )
 {
 	std::vector<ToolbarItem*>::iterator found = std::find( toolbarItems_.begin(), toolbarItems_.end(), item );
 	if ( found != toolbarItems_.end() ) {
-		toolbarItems_.erase( found );	
+		toolbarItems_.erase( found );
 
 		toolbarItems_.insert( toolbarItems_.begin()+newIndex, item );
 
@@ -437,7 +417,7 @@ Toolbar::~Toolbar()
 	this->removeFromUpdateTimer();
 }
 
-void Toolbar::paint( GraphicsContext* ctx ) 
+void Toolbar::paint( GraphicsContext* ctx )
 {
 
 }
@@ -451,7 +431,7 @@ void Toolbar::setImageList( ImageList* imageList )
 void Toolbar::setShowButtonCaptions( const bool& val )
 {
 	showButtonCaptions_ = val;
-	toolbarPeer_->showButtonCaptions( showButtonCaptions_ );	
+	toolbarPeer_->showButtonCaptions( showButtonCaptions_ );
 
 	Control* parent = getParent();
 	if ( NULL != parent ) {
@@ -485,7 +465,7 @@ void Toolbar::setButtonCaptionsHorizontal( const bool& val )
 void Toolbar::handleEvent( Event* event )
 {
 	Control::handleEvent( event );
-	switch ( event->getType() ){	
+	switch ( event->getType() ){
 			case Component::COMPONENT_NEEDS_UPDATING : {
 				ToolbarModel* model = getToolbarModel();
 				if ( NULL != model ) {
@@ -521,15 +501,12 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 }
 
 
-
-
-
-
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *

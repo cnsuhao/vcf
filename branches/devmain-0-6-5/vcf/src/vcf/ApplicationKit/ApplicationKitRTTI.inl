@@ -1,30 +1,11 @@
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//ApplicationKitRTTI.inl
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 /**
 this declares all the RTTI for the ApplicationKit's classes.
@@ -69,7 +50,7 @@ END_CLASSINFO(TitledBorder)
 
 
 
-BEGIN_ABSTRACT_CLASSINFO(AbstractListModel, "VCF::AbstractListModel", "VCF::ListModel", ABSTRACTLISTMODEL_CLASSID)		
+BEGIN_ABSTRACT_CLASSINFO(AbstractListModel, "VCF::AbstractListModel", "VCF::ListModel", ABSTRACTLISTMODEL_CLASSID)
 EVENT( "VCF::ModelEventHandler", AbstractListModel, VCF::ModelEvent, ModelEmptied )
 EVENT( "VCF::ModelValidationEventHandler", AbstractListModel, VCF::ValidationEvent, ModelValidate )
 EVENT( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, ContentsChanged )
@@ -77,23 +58,23 @@ EVENT( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, Ite
 EVENT( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, ItemDeleted )
 END_CLASSINFO(AbstractListModel)
 
-BEGIN_ABSTRACT_CLASSINFO(AbstractModel, "VCF::AbstractModel", "VCF::Model", ABSTRACTMODEL_CLASSID)	
+BEGIN_ABSTRACT_CLASSINFO(AbstractModel, "VCF::AbstractModel", "VCF::Model", ABSTRACTMODEL_CLASSID)
 EVENT( "VCF::ModelEventHandler", AbstractModel, VCF::ModelEvent, ModelChanged )
 EVENT( "VCF::ModelValidationEventHandler", AbstractModel, VCF::ValidationEvent, ModelValidate )
 END_CLASSINFO(AbstractModel)
 
 
-BEGIN_ABSTRACT_CLASSINFO(TextModel, "VCF::TextModel", "VCF::Model", TEXTMODEL_CLASSID)	
+BEGIN_ABSTRACT_CLASSINFO(TextModel, "VCF::TextModel", "VCF::Model", TEXTMODEL_CLASSID)
 ABSTRACT_EVENT("VCF::TextModelEventHandler", TextModel, VCF::TextEvent, TextModelChanged )
 END_CLASSINFO(TextModel)
 
 
-BEGIN_ABSTRACT_CLASSINFO(AbstractTextModel, "VCF::AbstractTextModel", "VCF::TextModel", ABSTRACTTEXTMODEL_CLASSID)	
+BEGIN_ABSTRACT_CLASSINFO(AbstractTextModel, "VCF::AbstractTextModel", "VCF::TextModel", ABSTRACTTEXTMODEL_CLASSID)
 
 EVENT("VCF::TextModelEventHandler", AbstractTextModel, VCF::TextEvent, TextModelChanged )
 END_CLASSINFO(AbstractTextModel)
 
-		
+
 BEGIN_ABSTRACT_CLASSINFO(ColumnItem, "VCF::ColumnItem", "VCF::Item", COLUMNITEM_CLASSID)
 END_CLASSINFO(ColumnItem)
 
@@ -106,7 +87,7 @@ ABSTRACT_EVENT( "VCF::ColumnModelEventHandler", ColumnModel, VCF::ColumnModelEve
 ABSTRACT_EVENT( "VCF::ColumnModelEventHandler", ColumnModel, VCF::ColumnModelEvent, ItemDeleted )
 END_CLASSINFO(ColumnModel)
 
-BEGIN_ABSTRACT_CLASSINFO(Component, "VCF::Component", "VCF::Object", COMPONENT_CLASSID)			
+BEGIN_ABSTRACT_CLASSINFO(Component, "VCF::Component", "VCF::Object", COMPONENT_CLASSID)
 PROPERTY( long, "tag", Component::getTag, Component::setTag, pdLong );
 PROPERTY( String, "name", Component::getName, Component::setName, pdString );
 EVENT("VCF::ComponentEventHandler", Component, VCF::ComponentEvent, ComponentCreated );
@@ -119,29 +100,29 @@ PROPERTY( double, "left", Control::getLeft, Control::setLeft, pdDouble );
 PROPERTY( double, "top", Control::getTop, Control::setTop, pdDouble );
 PROPERTY( double, "right", Control::getRight, Control::setRight, pdDouble );
 PROPERTY( double, "bottom", Control::getBottom, Control::setBottom, pdDouble );
-PROPERTY( bool, "visible", Control::getVisible, Control::setVisible, pdBool );	
+PROPERTY( bool, "visible", Control::getVisible, Control::setVisible, pdBool );
 PROPERTY( double, "width", Control::getWidth, Control::setWidth, pdDouble );
 PROPERTY( double, "height", Control::getHeight, Control::setHeight, pdDouble );
 PROPERTY( bool, "enabled", Control::isEnabled, Control::setEnabled, pdBool );
 PROPERTY( bool, "doubleBuffered", Control::isDoubleBuffered, Control::setDoubleBuffered, pdBool );
-PROPERTY( bool, "useParentFont", Control::useParentFont, Control::setUseParentFont, pdBool );	
+PROPERTY( bool, "useParentFont", Control::useParentFont, Control::setUseParentFont, pdBool );
 PROPERTY( bool, "autoStartDragDrop", Control::getAutoStartDragDrop, Control::setAutoStartDragDrop, pdBool );
 PROPERTY( bool, "tabStop", Control::getTabStop, Control::setTabStop, pdBool );
 PROPERTY( long, "tabOrder", Control::getTabOrder, Control::setTabOrder, pdLong );
 PROPERTY( String, "whatThisHelpString", Control::getWhatThisHelpString, Control::setWhatThisHelpString, pdString );
 PROPERTY( String, "toolTipText", Control::getToolTipText, Control::setToolTipText, pdString );
-OBJECT_PROPERTY( Border, "border", Control::getBorder, Control::setBorder );	
+OBJECT_PROPERTY( Border, "border", Control::getBorder, Control::setBorder );
 OBJECT_PROPERTY( Color, "color", Control::getColor, Control::setColor );
 OBJECT_PROPERTY( Font, "font", Control::getFont, Control::setFont );
 OBJECT_PROPERTY( PopupMenu, "popupMenu", Control::getPopupMenu, Control::setPopupMenu );
-LABELED_ENUM_PROPERTY( AlignmentType, "alignment", Control::getAlignment, Control::setAlignment, 
-					   AlignNone, AlignClient, 6, AlignmentTypeNames);	
+LABELED_ENUM_PROPERTY( AlignmentType, "alignment", Control::getAlignment, Control::setAlignment,
+					   AlignNone, AlignClient, 6, AlignmentTypeNames);
 
-ENUM_SET_PROPERTY( "anchor", Control::getAnchor, Control::setAnchor, 5, AnchorTypeValues, AnchorTypeNames  );		
+ENUM_SET_PROPERTY( "anchor", Control::getAnchor, Control::setAnchor, 5, AnchorTypeValues, AnchorTypeNames  );
 
 EVENT("VCF::ControlEventHandler", Control, VCF::ControlEvent, ControlSized );
 EVENT("VCF::ControlEventHandler", Control, VCF::ControlEvent, ControlPositioned );
-EVENT("VCF::ControlEventHandler", Control, VCF::ControlEvent, ControlParentChanged );	
+EVENT("VCF::ControlEventHandler", Control, VCF::ControlEvent, ControlParentChanged );
 EVENT("VCF::MouseEventHandler", Control, VCF::MouseEvent, MouseDoubleClicked );
 EVENT("VCF::MouseEventHandler", Control, VCF::MouseEvent, MouseClicked );
 EVENT("VCF::MouseEventHandler", Control, VCF::MouseEvent, MouseMove );
@@ -151,7 +132,7 @@ EVENT("VCF::MouseEventHandler", Control, VCF::MouseEvent, MouseEnter );
 EVENT("VCF::MouseEventHandler", Control, VCF::MouseEvent, MouseLeave );
 EVENT("VCF::KeyboardEventHandler", Control, VCF::KeyboardEvent, KeyPressed  );
 EVENT("VCF::KeyboardEventHandler", Control, VCF::KeyboardEvent, KeyDown  );
-EVENT("VCF::KeyboardEventHandler", Control, VCF::KeyboardEvent, KeyUp  );	
+EVENT("VCF::KeyboardEventHandler", Control, VCF::KeyboardEvent, KeyUp  );
 EVENT("VCF::WhatsThisHelpEventHandler", Control, VCF::WhatsThisHelpEvent, ControlHelpRequested );
 EVENT("VCF::HelpEventHandler", Control, VCF::HelpEvent, HelpRequested );
 EVENT("VCF::FocusEventHandler", Control, VCF::FocusEvent, FocusLost  );
@@ -163,24 +144,24 @@ EVENT("VCF::ToolTipEventHandler", Control, VCF::ToolTipEvent, ToolTip  );
 END_CLASSINFO(Control);
 
 
-BEGIN_ABSTRACT_CLASSINFO(Document, "VCF::Document", "VCF::AbstractModel", DOCUMENT_CLASSID)	
+BEGIN_ABSTRACT_CLASSINFO(Document, "VCF::Document", "VCF::AbstractModel", DOCUMENT_CLASSID)
 END_CLASSINFO(Document)
 
 
 BEGIN_ABSTRACT_CLASSINFO(Frame, "VCF::Frame", "VCF::Control", FRAME_CLASSID )
 PROPERTY( String, "caption", Frame::getCaption, Frame::setCaption, pdString );
 PROPERTY( bool, "isTopmost", Frame::isFrameTopmost, Frame::setFrameTopmost, pdBool );
-LABELED_ENUM_PROPERTY( FrameStyleType, "frameStyle", Frame::getFrameStyle, Frame::setFrameStyle, 
-					   fstSizeable, fstToolbarBorderFixed, 6, FrameStyleTypeNames);	
+LABELED_ENUM_PROPERTY( FrameStyleType, "frameStyle", Frame::getFrameStyle, Frame::setFrameStyle,
+					   fstSizeable, fstToolbarBorderFixed, 6, FrameStyleTypeNames);
 EVENT("VCF::FrameEventHandler", Frame, FrameEvent, FrameClosing)
 EVENT("VCF::WindowEventHandler", Frame, WindowEvent, FrameClose )
-EVENT("VCF::WindowEventHandler", Frame, WindowEvent, FrameActivation )	
+EVENT("VCF::WindowEventHandler", Frame, WindowEvent, FrameActivation )
 END_CLASSINFO(Frame)
 
 
 
 
-BEGIN_ABSTRACT_CLASSINFO(Item, "VCF::Item", "VCF::Object", ITEM_CLASSID)	
+BEGIN_ABSTRACT_CLASSINFO(Item, "VCF::Item", "VCF::Object", ITEM_CLASSID)
 ABSTRACT_EVENT("VCF::ItemEventHandler", Item, VCF::ItemEvent, ItemPaint );
 ABSTRACT_EVENT("VCF::ItemEventHandler", Item, VCF::ItemEvent, ItemChanged );
 ABSTRACT_EVENT("VCF::ItemEventHandler", Item, VCF::ItemEvent, ItemSelected );
@@ -260,7 +241,7 @@ END_CLASSINFO(ToggledButton)
 
 
 BEGIN_ABSTRACT_CLASSINFO(TreeItem, "VCF::TreeItem", "VCF::Item", TREEITEM_CLASSID)
-OBJECT_COLLECTION_PROPERTY(TreeItem*, "children", TreeItem::getChildren, 
+OBJECT_COLLECTION_PROPERTY(TreeItem*, "children", TreeItem::getChildren,
 	           TreeItem::addChild, TreeItem::insertChild, TreeItem::deleteChild, TreeItem::deleteChildAtIndex )
 PROPERTY( String, "name", TreeItem::getCaption, TreeItem::setCaption, pdString )
 END_CLASSINFO(TreeItem)
@@ -281,7 +262,7 @@ END_CLASSINFO(TreeModel)
 */
 
 
-BEGIN_CLASSINFO(AbstractTreeModel, "VCF::AbstractTreeModel", "VCF::TreeModel", ABSTRACTTREEMODEL_CLASSID)	
+BEGIN_CLASSINFO(AbstractTreeModel, "VCF::AbstractTreeModel", "VCF::TreeModel", ABSTRACTTREEMODEL_CLASSID)
 EVENT( "VCF::ModelEventHandler", AbstractTreeModel, VCF::ModelEvent, ModelEmptied )
 EVENT( "VCF::ModelValidationEventHandler", AbstractTreeModel, VCF::ValidationEvent, ModelValidate )
 EVENT( "VCF::TreeModelEventHandler", AbstractTreeModel, VCF::TreeModelEvent, RootNodeChanged )
@@ -299,13 +280,13 @@ END_CLASSINFO(CheckBoxControl)
 
 
 BEGIN_CLASSINFO(ComboBoxControl, "VCF::ComboBoxControl", "VCF::CustomControl", COMBOBOXCONTROL_CLASSID )
-EVENT("ItemEventHandler", ComboBoxControl, VCF::ItemEvent, SelectionChanged )	
+EVENT("ItemEventHandler", ComboBoxControl, VCF::ItemEvent, SelectionChanged )
 END_CLASSINFO(ComboBoxControl)
 
 
 BEGIN_CLASSINFO(CommandButton, "VCF::CommandButton", "VCF::Control", COMMANDBUTTON_CLASSID)
-PROPERTY( String, "caption", CommandButton::getCaption, CommandButton::setCaption, pdString );		
-LABELED_ENUM_PROPERTY( ButtonCommandType, "commandType", CommandButton::getCommandType, CommandButton::setCommandType, 
+PROPERTY( String, "caption", CommandButton::getCaption, CommandButton::setCaption, pdString );
+LABELED_ENUM_PROPERTY( ButtonCommandType, "commandType", CommandButton::getCommandType, CommandButton::setCommandType,
 					   BC_NONE, BC_MAYBE, 6, ButtonCommandTypeNames);
 EVENT( "VCF::ButtonEventHandler", CommandButton, VCF::ButtonEvent, ButtonClicked )
 END_CLASSINFO(CommandButton)
@@ -394,23 +375,23 @@ BEGIN_CLASSINFO(DefaultTableModel, "VCF::DefaultTableModel", "VCF::TableModel", 
 END_CLASSINFO(DefaultTableModel)
 
 
-BEGIN_CLASSINFO(DefaultTextModel, "VCF::DefaultTextModel", "VCF::AbstractTextModel", DEFAULTTEXTMODEL_CLASSID)	
+BEGIN_CLASSINFO(DefaultTextModel, "VCF::DefaultTextModel", "VCF::AbstractTextModel", DEFAULTTEXTMODEL_CLASSID)
 END_CLASSINFO(DefaultTextModel)
 
-BEGIN_CLASSINFO(DefaultTreeItem, "VCF::DefaultTreeItem", "VCF::TreeItem", DEFAULTTREEITEM_CLASSID)	
+BEGIN_CLASSINFO(DefaultTreeItem, "VCF::DefaultTreeItem", "VCF::TreeItem", DEFAULTTREEITEM_CLASSID)
 EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemPaint );
 EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemChanged );
 EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemSelected );
 EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemAdded );
 EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemDeleted );
-END_CLASSINFO(DefaultTreeItem)	
+END_CLASSINFO(DefaultTreeItem)
 
 
-BEGIN_CLASSINFO(DefaultTreeModel, "VCF::DefaultTreeModel", "VCF::AbstractTreeModel", DEFAULTTREEMODEL_CLASSID)	
+BEGIN_CLASSINFO(DefaultTreeModel, "VCF::DefaultTreeModel", "VCF::AbstractTreeModel", DEFAULTTREEMODEL_CLASSID)
 END_CLASSINFO(DefaultTreeModel)
 
 
-BEGIN_CLASSINFO(Dialog, "VCF::Dialog", "VCF::Frame", DIALOG_CLASSID )		
+BEGIN_CLASSINFO(Dialog, "VCF::Dialog", "VCF::Frame", DIALOG_CLASSID )
 END_CLASSINFO(Dialog)
 
 
@@ -419,8 +400,8 @@ END_CLASSINFO(HTMLBrowserControl)
 
 BEGIN_CLASSINFO(HeaderControl, "VCF::HeaderControl", "VCF::CustomControl", HEADERCONTROL_CLASSID)
 OBJECT_PROPERTY( ColumnModel, "columnModel", HeaderControl::getColumnModel, HeaderControl::setColumnModel );
-EVENT("VCF::MouseEventHandler", HeaderControl, VCF::MouseEvent, ColumnItemClicked );	
-EVENT("VCF::ItemEventHandler", HeaderControl, VCF::ItemEvent, ColumnWidthChanged );	
+EVENT("VCF::MouseEventHandler", HeaderControl, VCF::MouseEvent, ColumnItemClicked );
+EVENT("VCF::ItemEventHandler", HeaderControl, VCF::ItemEvent, ColumnWidthChanged );
 END_CLASSINFO(HeaderControl)
 
 
@@ -437,15 +418,15 @@ END_CLASSINFO(ImageControl)
 
 
 BEGIN_CLASSINFO(Label, "VCF::Label", "VCF::CustomControl", LABEL_CLASSID )
-PROPERTY( String, "caption", Label::getCaption, Label::setCaption, pdString );	
-LABELED_ENUM_PROPERTY( TextAlignmentType, "textAlignment", Label::getTextAlignment, Label::setTextAlignment, 
+PROPERTY( String, "caption", Label::getCaption, Label::setCaption, pdString );
+LABELED_ENUM_PROPERTY( TextAlignmentType, "textAlignment", Label::getTextAlignment, Label::setTextAlignment,
 					   taTextLeft, taTextRight, 3, TextAlignmentTypeNames);
-LABELED_ENUM_PROPERTY( TextVerticalAlignment, "verticalAlignment", Label::getVerticalAlignment, Label::setVerticalAlignment, 
+LABELED_ENUM_PROPERTY( TextVerticalAlignment, "verticalAlignment", Label::getVerticalAlignment, Label::setVerticalAlignment,
 					   tvaTextTop, tvaTextBottom, 3, TextVerticalAlignmentNames);
 
-OBJECT_PROPERTY( Control, "focusControl", Label::getFocusControl, Label::setFocusControl );	
+OBJECT_PROPERTY( Control, "focusControl", Label::getFocusControl, Label::setFocusControl );
 
-PROPERTY( bool, "wordWrap", Label::getWordWrap, Label::setWordWrap, pdBool );	
+PROPERTY( bool, "wordWrap", Label::getWordWrap, Label::setWordWrap, pdBool );
 
 END_CLASSINFO(Label)
 
@@ -460,9 +441,9 @@ END_CLASSINFO(ListBoxControl)
 
 
 BEGIN_CLASSINFO(ListViewControl, "VCF::ListViewControl", "VCF::Control", LISTVIEWCONTROL_CLASSID )
-LABELED_ENUM_PROPERTY( IconStyleType, "iconStyle", ListViewControl::getIconStyle, ListViewControl::setIconStyle, 
+LABELED_ENUM_PROPERTY( IconStyleType, "iconStyle", ListViewControl::getIconStyle, ListViewControl::setIconStyle,
 					   isLargeIcon, isDetails, 4, IconStyleTypeNames);
-LABELED_ENUM_PROPERTY( IconAlignType, "iconAlignment", ListViewControl::getIconAlignment, ListViewControl::setIconAlignment, 
+LABELED_ENUM_PROPERTY( IconAlignType, "iconAlignment", ListViewControl::getIconAlignment, ListViewControl::setIconAlignment,
 					   iaNone, iaAutoArrange, 4, IconAlignTypeNames);
 OBJECT_PROPERTY( ListModel, "listModel", ListViewControl::getListModel, ListViewControl::setListModel );
 
@@ -473,7 +454,7 @@ END_CLASSINFO(ListViewControl)
 
 
 BEGIN_CLASSINFO(Menu, "VCF::Menu", "VCF::Component", MENU_CLASSID )
-OBJECT_PROPERTY( MenuItem, "rootMenuItem", Menu::getRootMenuItem, Menu::setRootMenuItem );	
+OBJECT_PROPERTY( MenuItem, "rootMenuItem", Menu::getRootMenuItem, Menu::setRootMenuItem );
 END_CLASSINFO(Menu)
 
 
@@ -508,7 +489,7 @@ END_CLASSINFO(PushButton)
 
 
 BEGIN_CLASSINFO(RadioButtonControl, "VCF::RadioButtonControl", "VCF::ToggledButton", RADIOBUTTONCONTROL_CLASSID )
-PROPERTY( long, "groupID", RadioButtonControl::getGroupID, RadioButtonControl::setGroupID, pdLong );	
+PROPERTY( long, "groupID", RadioButtonControl::getGroupID, RadioButtonControl::setGroupID, pdLong );
 END_CLASSINFO(RadioButtonControl)
 
 
@@ -523,8 +504,8 @@ PROPERTY( double, "verticalTopScrollSpace", ScrollbarManager::getVerticalTopScro
 PROPERTY( double, "verticalBottomScrollSpace", ScrollbarManager::getVerticalBottomScrollSpace, ScrollbarManager::setVerticalBottomScrollSpace, pdDouble );
 PROPERTY( double, "horizontalLeftScrollSpace", ScrollbarManager::getHorizontalLeftScrollSpace, ScrollbarManager::setHorizontalLeftScrollSpace, pdDouble );
 PROPERTY( double, "horizontalRightScrollSpace", ScrollbarManager::getHorizontalRightScrollSpace, ScrollbarManager::setHorizontalRightScrollSpace, pdDouble );
-PROPERTY( bool, "hasVerticalScrollbar", ScrollbarManager::hasVerticalScrollBar, ScrollbarManager::setHasVerticalScrollbar, pdBool );	
-PROPERTY( bool, "hasHorizontalScrollbar", ScrollbarManager::hasHorizontalScrollBar, ScrollbarManager::setHasHorizontalScrollbar, pdBool );	
+PROPERTY( bool, "hasVerticalScrollbar", ScrollbarManager::hasVerticalScrollBar, ScrollbarManager::setHasVerticalScrollbar, pdBool );
+PROPERTY( bool, "hasHorizontalScrollbar", ScrollbarManager::hasHorizontalScrollBar, ScrollbarManager::setHasHorizontalScrollbar, pdBool );
 END_CLASSINFO(ScrollbarManager)
 
 
@@ -548,7 +529,7 @@ END_CLASSINFO(TableControl);
 
 
 
-BEGIN_CLASSINFO(TextControl, "VCF::TextControl", "VCF::Control", TEXTCONTROL_CLASSID )	
+BEGIN_CLASSINFO(TextControl, "VCF::TextControl", "VCF::Control", TEXTCONTROL_CLASSID )
 END_CLASSINFO(TextControl)
 
 
@@ -558,7 +539,7 @@ PROPERTY( long, "timeoutInterval", TimerComponent::getTimeoutInterval, TimerComp
 EVENT("VCF::TimerEventHandler", TimerComponent, VCF::TimerEvent, TimerActivated );
 EVENT("VCF::TimerEventHandler", TimerComponent, VCF::TimerEvent, TimerDeactivated );
 EVENT("VCF::TimerEventHandler", TimerComponent, VCF::TimerEvent, TimerPulse );
-END_CLASSINFO(TimerComponent)	
+END_CLASSINFO(TimerComponent)
 
 
 BEGIN_CLASSINFO(Toolbar, "VCF::Toolbar", "VCF::Control", TOOLBAR_CLASSID);
@@ -567,16 +548,16 @@ END_CLASSINFO(Toolbar);
 
 
 BEGIN_CLASSINFO(ToolbarDock, "VCF::ToolbarDock", "VCF::CustomControl", TOOLBARDOCK_CLASSID);
-LABELED_ENUM_PROPERTY( ToolbarDockSide, "dockSide", ToolbarDock::getDockSide, ToolbarDock::setDockSide, 
-					   tdsTop, tdsBottom, 4, ToolbarDockSideNames);	
+LABELED_ENUM_PROPERTY( ToolbarDockSide, "dockSide", ToolbarDock::getDockSide, ToolbarDock::setDockSide,
+					   tdsTop, tdsBottom, 4, ToolbarDockSideNames);
 
-LABELED_ENUM_PROPERTY( ToolbarBackgroundStyle, "backgroundStyle", ToolbarDock::getBackgroundStyle, ToolbarDock::setBackgroundStyle, 
-					   tbksNone, tbksStretch, 3, ToolbarBackgroundStyleNames);	
+LABELED_ENUM_PROPERTY( ToolbarBackgroundStyle, "backgroundStyle", ToolbarDock::getBackgroundStyle, ToolbarDock::setBackgroundStyle,
+					   tbksNone, tbksStretch, 3, ToolbarBackgroundStyleNames);
 
 OBJECT_PROPERTY( Image, "background", ToolbarDock::getBackground, ToolbarDock::setBackground );
 
-PROPERTY( bool, "usingBackground", ToolbarDock::isUsingBackground, ToolbarDock::setUsingBackground, pdBool );	
-PROPERTY( bool, "allowsDragging", ToolbarDock::allowsDragging, ToolbarDock::setAllowsDragging, pdBool );	
+PROPERTY( bool, "usingBackground", ToolbarDock::isUsingBackground, ToolbarDock::setUsingBackground, pdBool );
+PROPERTY( bool, "allowsDragging", ToolbarDock::allowsDragging, ToolbarDock::setAllowsDragging, pdBool );
 
 END_CLASSINFO(ToolbarDock);
 
@@ -605,7 +586,7 @@ END_CLASSINFO(UIApplication)
 
 
 BEGIN_CLASSINFO(Window, "VCF::Window", "VCF::Frame", WINDOW_CLASSID )
-OBJECT_PROPERTY( MenuBar, "menuBar", Window::getMenuBar, Window::setMenuBar );		
+OBJECT_PROPERTY( MenuBar, "menuBar", Window::getMenuBar, Window::setMenuBar );
 EVENT("VCF::WindowEventHandler", Window, VCF::WindowEvent, WindowRestore )
 EVENT("VCF::WindowEventHandler", Window, VCF::WindowEvent, WindowMaximize )
 EVENT("VCF::WindowEventHandler", Window, VCF::WindowEvent, WindowMinimize )
@@ -626,10 +607,12 @@ END_CLASSINFO(SliderControl)
 };
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *

@@ -1,36 +1,15 @@
+//SliderControl.cpp
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/SliderControl.h"
 
-//SliderControl.cpp
 
 
 
@@ -145,12 +124,12 @@ void SliderControl::paint( GraphicsContext* ctx )
 
 	Rect clientBounds = getClientBounds();
 
-	
+
 	Rect sliderRect;
-	Rect tickMarkRect;	
-	Rect thumbRect;	
-	
-	
+	Rect tickMarkRect;
+	Rect thumbRect;
+
+
 	SliderInfo info;
 	info.bottomRightTicks = hasTickMarksOnBottomRight();
 	info.enabled = isEnabled();
@@ -164,7 +143,7 @@ void SliderControl::paint( GraphicsContext* ctx )
 
 
 	sliderRect = clientBounds;
-	
+
 
 	Size thumbSize = UIToolkit::getUIMetricsManager()->getDefaultSliderThumbDimensions();
 
@@ -194,23 +173,23 @@ void SliderControl::paint( GraphicsContext* ctx )
 	thumbRect = sliderRect;
 	if ( info.vertical ) {
 		thumbRect.top_ = thumbRect.bottom_ - thumbSize.width_;
-		
+
 		thumbRect.offset( 0, (int)(thumbSize.width_/2)-(int)((position_/(maxVal_-minVal_))*sliderRect.getHeight()) );
 	}
 	else {
 		thumbRect.right_ = thumbRect.left_ + thumbSize.width_;
-		
+
 		thumbRect.offset( (int)(((position_-minVal_)/(maxVal_-minVal_))*sliderRect.getWidth()) - (int)(thumbSize.width_/2), 0 );
 	}
 
 	if ( true == isFocused() ) {
 		clientBounds.inflate( -1, -1 );
-		ctx->drawSelectionRect( &clientBounds );	
+		ctx->drawSelectionRect( &clientBounds );
 	}
-	
+
 
 	ctx->drawSlider( &sliderRect, info );
-	
+
 	ctx->drawTickMarks( &tickMarkRect, info );
 
 	ctx->drawSliderThumb( &thumbRect, info );
@@ -231,7 +210,7 @@ void SliderControl::mouseDown( MouseEvent* e )
 		keepMouseEvents();
 		dragPosStart_ = *e->getPoint();
 		movePosition( e );
-	}	
+	}
 }
 
 void SliderControl::mouseMove( MouseEvent* e )
@@ -243,7 +222,7 @@ void SliderControl::mouseMove( MouseEvent* e )
 	}
 
 
-	if ( e->hasLeftButton() ) {		
+	if ( e->hasLeftButton() ) {
 		movePosition( e );
 	}
 }
@@ -257,7 +236,7 @@ void SliderControl::mouseUp( MouseEvent* e )
 
 	releaseMouseEvents();
 	pressed_ = false;
-	if ( e->hasLeftButton() ) {		
+	if ( e->hasLeftButton() ) {
 		movePosition( e );
 	}
 }
@@ -269,7 +248,7 @@ void SliderControl::movePosition( MouseEvent* e )
 
 	Size thumbSize = UIToolkit::getUIMetricsManager()->getDefaultSliderThumbDimensions();
 
-	
+
 	double newPos = 0.0;
 
 	if ( SliderControl::doVertical == orientation_ ) {
@@ -279,11 +258,11 @@ void SliderControl::movePosition( MouseEvent* e )
 		newPos = ((h- ((dragPosStart_.y_ - delta) - thumbSize.width_/2))/h) * range;
 	}
 	else {
-		
+
 		double w = getWidth()-thumbSize.width_;
 		delta = ((e->getPoint()->x_ - dragPosStart_.x_)- thumbSize.width_/2)/w;// - thumbSize.width_/4)/w;
 
-		newPos = ((dragPosStart_.x_/w + delta)) * range;		
+		newPos = ((dragPosStart_.x_/w + delta)) * range;
 	}
 
 	StringUtils::traceWithArgs( "newPos: %0.1f\n", newPos );
@@ -296,9 +275,9 @@ void SliderControl::movePosition( MouseEvent* e )
 			newPos = (newPos - rem) + tickRange;
 		}
 		else {
-			newPos = newPos - rem;			
+			newPos = newPos - rem;
 		}
-		
+
 
 	}
 
@@ -348,11 +327,12 @@ void SliderControl::keyUp( KeyboardEvent* e )
 }
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -369,4 +349,5 @@ void SliderControl::keyUp( KeyboardEvent* e )
 *more tweaks to the Slider control
 *
 */
+
 

@@ -1,10 +1,73 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_WIN32DIALOG_H__
+#define _VCF_WIN32DIALOG_H__
+//Win32Dialog.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
+
+
+// Win32Dialog.h: interface for the Win32Dialog class.
+//
+//////////////////////////////////////////////////////////////////////
+
+
+#include "vcf/ApplicationKit/DialogPeer.h"
+#include "vcf/ApplicationKit/Win32Window.h"
+
+namespace VCF
+{
+
+#define DEFAULT_DLG_WIDTH		120
+#define DEFAULT_DLG_HEIGHT		120
+
+class Win32Dialog : public Win32Window, public DialogPeer
+{
+public:
+	/**
+	*default constructor used for showMessage calls
+	*/
+	Win32Dialog();
+
+	Win32Dialog( Control* owner, Dialog* component );
+
+	virtual ~Win32Dialog();
+
+	virtual void create( Control* owningControl );
+
+	virtual void createParams();
+
+	void init();
+
+	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
+
+	virtual void showMessage( const String& message, const String& caption );
+
+	virtual UIToolkit::ModalReturnType showMessage( const String& message, const String& caption,
+													const long& messageButtons,	const Dialog::MessageStyle& messageStyle );
+
+private:
+	Control* owner_;
+	Dialog* dialogComponent_;
+};
+
+
+};
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:20  ddiego
 *migration towards new directory structure
 *
@@ -94,82 +157,6 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32Dialog.h: interface for the Win32Dialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef _VCF_WIN32DIALOG_H__
-#define _VCF_WIN32DIALOG_H__
-
-#include "vcf/ApplicationKit/DialogPeer.h"
-#include "vcf/ApplicationKit/Win32Window.h"
-
-namespace VCF
-{
-
-#define DEFAULT_DLG_WIDTH		120
-#define DEFAULT_DLG_HEIGHT		120
-
-class Win32Dialog : public Win32Window, public DialogPeer  
-{
-public:
-	/**
-	*default constructor used for showMessage calls
-	*/
-	Win32Dialog();
-
-	Win32Dialog( Control* owner, Dialog* component );
-
-	virtual ~Win32Dialog();		
-    
-	virtual void create( Control* owningControl );
-
-	virtual void createParams();
-
-	void init();
-
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );	
-
-	virtual void showMessage( const String& message, const String& caption );
-
-	virtual UIToolkit::ModalReturnType showMessage( const String& message, const String& caption, 
-													const long& messageButtons,	const Dialog::MessageStyle& messageStyle );
-	
-private:	
-	Control* owner_;
-	Dialog* dialogComponent_;
-};
-
-
-};
 
 #endif // _VCF_WIN32DIALOG_H__
 

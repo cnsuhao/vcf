@@ -1,10 +1,17 @@
-
-
 #ifndef _VCF_ABSTRACTGTKCONTROL_H__
 #define _VCF_ABSTRACTGTKCONTROL_H__
+//AbstractGTKControl.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 
-
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -12,10 +19,10 @@ namespace VCF {
 /**
 This class serves as a common implementation
 for various methods of the ControlPeer interface.
-Usually a class like GTKControl, GTKWindow, etc will share 
+Usually a class like GTKControl, GTKWindow, etc will share
 most of the same functionality, and only differ by a few overridden methods
 */
-class AbstractGTKControl : public Object, public ControlPeer { 
+class AbstractGTKControl : public Object, public ControlPeer {
 public:
 
 	AbstractGTKControl();
@@ -27,21 +34,21 @@ public:
 	}
 
 	virtual void create( Control* owningControl );
-	
+
 	virtual void destroyControl();
-	
+
     /**
-     * returns a text associated with the component. This usually gets used in the Control::getCaption() method. 
+     * returns a text associated with the component. This usually gets used in the Control::getCaption() method.
      */
     virtual String getText();
 
     /**
-     * sets the text for the widget 
+     * sets the text for the widget
      */
     virtual void setText( const String& text );
 
     /**
-     * sets the bounds for the component. Bounds are specified in the coordinate system of the componenents parent. 
+     * sets the bounds for the component. Bounds are specified in the coordinate system of the componenents parent.
      */
     virtual void setBounds( Rect* rect );
 
@@ -53,39 +60,39 @@ public:
 	virtual void endSetBounds();
 
     /**
-     * returns the bounds of the component in the coordinate system of the parent. 
+     * returns the bounds of the component in the coordinate system of the parent.
      */
     virtual Rect getBounds();
 
     /**
-     * shows or hides the component. 
-     * This does NOT close the component (if invoked on a frame based component ). 
+     * shows or hides the component.
+     * This does NOT close the component (if invoked on a frame based component ).
      */
     virtual void setVisible( const bool& visible );
 
     /**
-     * returns wether or not the component is currently visible. 
+     * returns wether or not the component is currently visible.
      */
     virtual bool getVisible();
 
     /**
-     * returns a bit-masked unsigned long that contains style constants. 
-     *  These style constants are defined in the VCF, and must 
-     * be translated to the particular windowing system being used. 
-     */    
+     * returns a bit-masked unsigned long that contains style constants.
+     *  These style constants are defined in the VCF, and must
+     * be translated to the particular windowing system being used.
+     */
 
     /**
-     * returns the component that this Peer is attached to. 
+     * returns the component that this Peer is attached to.
      */
     virtual Control* getControl();
 
     /**
-     * attahces the Peer to a particular component. This should only be done once. 
+     * attahces the Peer to a particular component. This should only be done once.
      */
-    virtual void setControl( Control* component );    
+    virtual void setControl( Control* component );
 
-    virtual void setCursor( Cursor* cursor );    
-	
+    virtual void setCursor( Cursor* cursor );
+
 	virtual void setParent( Control* parent );
 
 	virtual Control* getParent();
@@ -103,7 +110,7 @@ public:
 	virtual void repaint( Rect* repaintRect=NULL );
 
 	/**
-	*this keeps the mouse events being sent to this control, even is the 
+	*this keeps the mouse events being sent to this control, even is the
 	*mouse leaves the physical bounds of the control
 	*/
 	virtual void keepMouseEvents();
@@ -112,14 +119,14 @@ public:
 	*releases mouse events - goes back to normal event handling
 	*/
 	virtual void releaseMouseEvents();
-	
+
 	virtual void translateToScreenCoords( Point* pt );
 
 	virtual void translateFromScreenCoords( Point* pt );
-	
+
 	virtual gboolean handleEvent( GdkEvent* gtkEvent );
 
-	static AbstractGTKControl* getGTKControlFromWidget( GtkWidget* wndHandle );	
+	static AbstractGTKControl* getGTKControlFromWidget( GtkWidget* wndHandle );
 
 	Rect internal_getBounds() {
 		return bounds_;
@@ -133,8 +140,8 @@ protected:
 
 	typedef std::map<GtkWidget*,AbstractGTKControl*> GTKControlMap;
 
-	static void registerGTKControl( AbstractGTKControl* gtkControl );	
-	static void unRegisterGTKControl( AbstractGTKControl* gtkControl );	
+	static void registerGTKControl( AbstractGTKControl* gtkControl );
+	static void unRegisterGTKControl( AbstractGTKControl* gtkControl );
 
 	static GTKControlMap gtkControlMap;
 
@@ -180,13 +187,13 @@ public:
 		int height;
 		GtkWidget* widget;
 	};
-	
-	
+
+
 
 	struct Container {
-		
-		GtkContainer container; 
-		
+
+		GtkContainer container;
+
 		/* The adjustment object that stores the data for this container */
 		GtkAdjustment *adjustment;
 
@@ -203,20 +210,20 @@ public:
 
 		static Rect getBounds( GtkWidget* widget );
 
-		static void move( GtkWidget* widget, 
-							int x, 
-							int y, 
-							int width, 
+		static void move( GtkWidget* widget,
+							int x,
+							int y,
+							int width,
 							int height );
 
-		static void moveChild( Container *container, 
+		static void moveChild( Container *container,
 								GtkWidget* child,
-								int x, 
-								int y, 
-								int width, 
+								int x,
+								int y,
+								int width,
 								int height );
 
-		static Rect getChildBounds( Container *container, 
+		static Rect getChildBounds( Container *container,
 								GtkWidget* child );
 
 
@@ -234,21 +241,21 @@ public:
 
 
 		static void destroy ( GtkObject *object );
-		
+
 		static void realize( GtkWidget *widget );
-		
+
 		static void sizeRequest( GtkWidget *widget, GtkRequisition *requisition );
-		
+
 		static void sizeAllocate( GtkWidget *widget, GtkAllocation *allocation );
-		
+
 		static gboolean expose( GtkWidget *widget, GdkEventExpose *event );
-		
+
 		static void adjustmentChanged( GtkAdjustment *adjustment, gpointer data );
-		
+
 		static void adjustmentValueChanged( GtkAdjustment *adjustment, gpointer data );
-		
+
 		static void add ( GtkContainer* container, GtkWidget* widget );
-		
+
 		static void remove ( GtkContainer* container, GtkWidget* widget );
 
 		static void forall( GtkContainer* container,
@@ -259,12 +266,12 @@ public:
 		static GType getChildType( GtkContainer* container );
 
 	};
-	
+
 	struct ContainerClass {
 		GtkContainerClass parent_class;
 
 		static void init ( ContainerClass *klass );
-	};	
+	};
 };
 
 
@@ -284,10 +291,12 @@ public:
      GTK_CHECK_TYPE (obj, AbstractGTKControl::getGTKType ())
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:12  ddiego
 *migration towards new directory structure
 *

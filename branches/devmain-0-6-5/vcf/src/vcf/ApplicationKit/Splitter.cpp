@@ -1,70 +1,11 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
-*migration towards new directory structure
-*
-*Revision 1.13  2003/12/18 05:16:00  ddiego
-*merge from devmain-0-6-2 branch into the stable branch
-*
-*Revision 1.12.4.4  2003/12/02 05:50:06  ddiego
-*added preliminary support for teh Action class. This will make it easier
-*to hook up complimentary UI elements (such as a "copy" menu item, and a
-*"copy" toolbar item) and have tehm respond to update and actions via a
-*single source.
-*Got rid of the old toolbar button and separator class. Merged in Marcellos
-*new fixes for the Container and Splitter classes.
-*Some misc fixes to the Toolbar, groups and checks now work correctly.
-*
-*Revision 1.12.4.3  2003/10/12 06:34:13  ddiego
-*added some fixes to standard container layout algorithms - thisstill needs
-*to be tested, but it looks like it may fix some outstanding issues
-*with the layout logic
-*
-*Revision 1.12.4.2  2003/08/26 21:41:17  ddiego
-*miscellanesous stuff, minor bugs
-*
-*Revision 1.12.4.1  2003/08/18 19:52:37  ddiego
-*changed the Container from being a class you derive from to a separate
-*intance that is created and assigned dynamically to any Control.
-*
-*Revision 1.12  2003/05/17 20:37:49  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.11.2.1  2003/03/12 03:13:21  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.11  2003/02/26 04:30:57  ddiego
-*merge of code in the devmain-0-5-9 branch into the current tree.
-*most additions are in the area of the current linux port, but the major
-*addition to this release is the addition of a Condition class (currently
-*still under development) and the change over to using the Delegate class
-*exclusively from the older event handler macros.
-*
-*Revision 1.10.14.1  2003/01/08 00:20:01  marcelloptr
-*mispellings and newlines at the end of all source files
-*
-*Revision 1.10  2002/05/09 03:10:46  ddiego
-*merged over code from development branch devmain-0-5-1a into the main CVS trunk
-*
-*Revision 1.9.4.2  2002/04/27 15:52:51  ddiego
-*Changed a bunch of files include and made it a bit faster and added better include
-*guards in the common headers
-*
-*Revision 1.9.4.1  2002/04/08 20:55:31  zzack
-*changed include style
-*
-*Revision 1.9  2002/01/24 01:46:50  ddiego
-*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
-*to facilitate change tracking
-*
+//Splitter.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
 
 //Splitter.h
 #include "vcf/ApplicationKit/ApplicationKit.h"
@@ -83,7 +24,7 @@ Splitter::Splitter( const AlignmentType& alignment/*=AlignLeft*/ ):
 
 void Splitter::init()
 {
-	attachedControl_ = NULL;	
+	attachedControl_ = NULL;
 	//setCursorID( (long)Cursor::SCT_SPLIT_VERT );
 	//setAlignment( AlignLeft );
 	dragPoint_.x_ = 0.0;
@@ -226,7 +167,7 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 	}
 
 	// This doesn't seems to make a difference though for the minor flickering (?) problem
-	// This doesn't really seems to be a flickering problem, but instead the fact that the 
+	// This doesn't really seems to be a flickering problem, but instead the fact that the
 	// scrollbars don't move with the control ( immediately ) as they should
 	// If that is the problem then beginSetBounds / endSetBounds should be removed from here
 	container->getContainerControl()->getPeer()->beginSetBounds( 2 );	// 2 or 3 ? I think 2
@@ -252,7 +193,7 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 						widthMax = attachedControlAlt_->getRight() - minimumWidth_ - this->getWidth();
 						newWidthAlt =  VCF::minVal<double>( widthMax, VCF::maxVal<double>( minimumWidth_, widthAlt - delta ) );
 						deltaAlt = ( newWidthAlt - widthAlt );
-						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {							
+						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {
 							shouldResize = true;	// let the splitter to resize even if the last control is already at the minimum size
 						}
 						if ( shouldResize ) {
@@ -287,7 +228,7 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 						widthMax = attachedControlAlt_->getBottom() - minimumWidth_ - this->getHeight();
 						newWidthAlt =  VCF::minVal<double>( widthMax, VCF::maxVal<double>( minimumWidth_, widthAlt - delta ) );
 						deltaAlt = ( newWidthAlt - widthAlt );
-						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {							
+						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {
 							shouldResize = true;	// let the splitter to resize even if the last control is already at the minimum size
 						}
 						if ( shouldResize ) {
@@ -323,7 +264,7 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 						widthMax = parentWidth - attachedControlAlt_->getLeft() - minimumWidth_ - this->getWidth();	//2ch
 						newWidthAlt =  VCF::minVal<double>( widthMax, VCF::maxVal<double>( minimumWidth_, widthAlt - delta ) );
 						deltaAlt = ( newWidthAlt - widthAlt );
-						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {							
+						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {
 							shouldResize = true;	// let the splitter to resize even if the last control is already at the minimum size
 						}
 						if ( shouldResize ) {
@@ -359,7 +300,7 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 						widthMax = parentHeight - attachedControlAlt_->getTop() - minimumWidth_ - this->getHeight();	//2ch
 						newWidthAlt =  VCF::minVal<double>( widthMax, VCF::maxVal<double>( minimumWidth_, widthAlt - delta ) );
 						deltaAlt = ( newWidthAlt - widthAlt );
-						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {							
+						if ( !shouldResize && minimumWidth_ < newWidthAlt ) {
 							shouldResize = true;	// let the splitter to resize even if the last control is already at the minimum size
 						}
 						if ( shouldResize ) {
@@ -376,11 +317,11 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 			}
 		}
 		break;
-	
+
 	}
 
 	// This doesn't seems to make a difference though for the minor flickering (?) problem
-	// This doesn't really seems to be a flickering problem, but instead the fact that the 
+	// This doesn't really seems to be a flickering problem, but instead the fact that the
 	// scrollbars don't move with the control ( immediately ) as they should
 	// If that is the problem then beginSetBounds / endSetBounds should be removed from here
 	container->getContainerControl()->getPeer()->endSetBounds();
@@ -394,7 +335,7 @@ void Splitter::updateAttachedControl( Point* pt, const bool& shiftAll/*=false*/ 
 void Splitter::mouseMove( MouseEvent* e )
 {
 	CustomControl::mouseMove( e );
-	if ( e->hasLeftButton() ) {		
+	if ( e->hasLeftButton() ) {
 		updateAttachedControl( e->getPoint(), e->hasShiftKey() );
 	}
 }
@@ -427,7 +368,7 @@ void Splitter::mouseDblClick( MouseEvent* e )
 		double newWidth = 0.0;
 
 		switch ( this->getAlignment() ) {
-			case AlignLeft : {			
+			case AlignLeft : {
 				if ( e->hasShiftKey() )
 				{
 					if ( NULL != attachedControl_ ) {
@@ -555,10 +496,10 @@ void Splitter::mouseDblClick( MouseEvent* e )
 				}
 			}
 			break;
-		
+
 		}
 
-		updateAttachedControl( &pt, e->hasShiftKey() );		
+		updateAttachedControl( &pt, e->hasShiftKey() );
 	}
 }
 
@@ -578,3 +519,77 @@ double Splitter::getPreferredWidth()
 {
 	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htSeparatorHeight ) * 3;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
+*migration towards new directory structure
+*
+*Revision 1.13  2003/12/18 05:16:00  ddiego
+*merge from devmain-0-6-2 branch into the stable branch
+*
+*Revision 1.12.4.4  2003/12/02 05:50:06  ddiego
+*added preliminary support for teh Action class. This will make it easier
+*to hook up complimentary UI elements (such as a "copy" menu item, and a
+*"copy" toolbar item) and have tehm respond to update and actions via a
+*single source.
+*Got rid of the old toolbar button and separator class. Merged in Marcellos
+*new fixes for the Container and Splitter classes.
+*Some misc fixes to the Toolbar, groups and checks now work correctly.
+*
+*Revision 1.12.4.3  2003/10/12 06:34:13  ddiego
+*added some fixes to standard container layout algorithms - thisstill needs
+*to be tested, but it looks like it may fix some outstanding issues
+*with the layout logic
+*
+*Revision 1.12.4.2  2003/08/26 21:41:17  ddiego
+*miscellanesous stuff, minor bugs
+*
+*Revision 1.12.4.1  2003/08/18 19:52:37  ddiego
+*changed the Container from being a class you derive from to a separate
+*intance that is created and assigned dynamically to any Control.
+*
+*Revision 1.12  2003/05/17 20:37:49  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.11.2.1  2003/03/12 03:13:21  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.11  2003/02/26 04:30:57  ddiego
+*merge of code in the devmain-0-5-9 branch into the current tree.
+*most additions are in the area of the current linux port, but the major
+*addition to this release is the addition of a Condition class (currently
+*still under development) and the change over to using the Delegate class
+*exclusively from the older event handler macros.
+*
+*Revision 1.10.14.1  2003/01/08 00:20:01  marcelloptr
+*mispellings and newlines at the end of all source files
+*
+*Revision 1.10  2002/05/09 03:10:46  ddiego
+*merged over code from development branch devmain-0-5-1a into the main CVS trunk
+*
+*Revision 1.9.4.2  2002/04/27 15:52:51  ddiego
+*Changed a bunch of files include and made it a bit faster and added better include
+*guards in the common headers
+*
+*Revision 1.9.4.1  2002/04/08 20:55:31  zzack
+*changed include style
+*
+*Revision 1.9  2002/01/24 01:46:50  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
+
+

@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_CONTROL_H__
 #define _VCF_CONTROL_H__
+//Control.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-// Control.h
 
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -71,31 +46,31 @@ class Frame;
 
 /**
  The base class for all visual components in the Visual Component Framework.
- In addition it implements the View interface. This means that the 
- Control is itself a specialized form of a View, though it may not have 
+ In addition it implements the View interface. This means that the
+ Control is itself a specialized form of a View, though it may not have
  have a model, and can hold an external view, separate from itself.
  In addition a control receives a wide variety of events from the user
  such as paint events, mouse events, keyboard events, help events, etc.
  Controls can have parents, thus form a hierarchy of parent-child relationships.
  Controls can also have children if they implement the Container interface.
- Controls can also be aligned or anchored, which can aid in laying out the 
- presentation of a UI. 
- Finally a Control may also be lightweight or heavyweight, which determines 
+ Controls can also be aligned or anchored, which can aid in laying out the
+ presentation of a UI.
+ Finally a Control may also be lightweight or heavyweight, which determines
  how many  window system resources the control consumes. A heavyweight control
- has a native window/widget and takes up resources accordingly. In addition a 
- heavyweight control also has a native graphics context associated with it that 
+ has a native window/widget and takes up resources accordingly. In addition a
+ heavyweight control also has a native graphics context associated with it that
  also takes up resources. In contrast, a lightweight control shares the underlying
- native window and graphics context resources with it's parent, and greatly 
+ native window and graphics context resources with it's parent, and greatly
  reduces the number of resources the application will consume. This is especially
  useful when making complex custom controls that have many moving parts like a tree-list
  control, complete with a header and movable icons, etc.
  To aid in the drawing of a control, all controls are double buffered by default
  to prevent flicker, though this can be turned off and on at will.
- @delegates 
-	@del Control::ItemAdded 
+ @delegates
+	@del Control::ItemAdded
 	@del Control::ControlSized
 	@del Control::ControlPositioned
-	@del Control::ControlParentChanged	
+	@del Control::ControlParentChanged
 	@del Control::MouseDoubleClicked
 	@del Control::MouseClicked
 	@del Control::MouseMove
@@ -103,14 +78,14 @@ class Frame;
 	@del Control::MouseDown
 	@del Control::MouseEnter
 	@del Control::MouseLeave
-	@del Control::KeyPressed 
-	@del Control::KeyDown 
-	@del Control::KeyUp 	
+	@del Control::KeyPressed
+	@del Control::KeyDown
+	@del Control::KeyUp
 	@del Control::ControlHelpRequested
 	@del Control::HelpRequested
 	@del Control::FocusLost
 	@del Control::FocusGained
-	@del Control::ToolTipRequested 
+	@del Control::ToolTipRequested
 	@del Control::ToolTip
  */
 class APPKIT_API Control : public Component, public AbstractView {
@@ -147,26 +122,26 @@ public:
 	};
 
 
-	Control();		
+	Control();
 	virtual ~Control();
 
 	/**
 	@delegate ControlSized fires an ControlEvent, with a type set to Control::CONTROL_SIZED.
-	Fired whenever the control's width or height changes. Calls to setBounds(), setHeight(), or 
+	Fired whenever the control's width or height changes. Calls to setBounds(), setHeight(), or
 	setWidth() can trigger this.
 	@event ControlEvent
 	@eventtype Control::CONTROL_SIZED
 	*/
-	DELEGATE(ControlSized);	
+	DELEGATE(ControlSized);
 
 	/**
 	@delegate ControlPositioned fires an ControlEvent, with a type set to Control::CONTROL_POSITIONED.
-	Fired whenever the control's position (top or left coordinates) changes. Calls to setBounds(), setLeft(), or 
+	Fired whenever the control's position (top or left coordinates) changes. Calls to setBounds(), setLeft(), or
 	setTop() can trigger this.
 	@event ControlEvent
 	@eventtype Control::CONTROL_POSITIONED
 	*/
-	DELEGATE(ControlPositioned);	
+	DELEGATE(ControlPositioned);
 
 	/**
 	@delegate ControlParentChanged fires an ControlEvent, with a type set to Control::CONTROL_PARENT_CHANGED.
@@ -174,145 +149,145 @@ public:
 	@event ControlEvent
 	@eventtype Control::CONTROL_PARENT_CHANGED
 	*/
-	DELEGATE(ControlParentChanged);	
+	DELEGATE(ControlParentChanged);
 
 	/**
 	@delegate MouseDoubleClicked fires an MouseEvent, with a type set to Control::MOUSE_DBLCLICK.
-	Fired whenever the control receives a double click from the mouse. This is triggered by the 
+	Fired whenever the control receives a double click from the mouse. This is triggered by the
 	underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_DBLCLICK
 	*/
-	DELEGATE(MouseDoubleClicked);	
+	DELEGATE(MouseDoubleClicked);
 
 	/**
 	@delegate MouseClicked fires an MouseEvent, with a type set to Control::MOUSE_CLICK.
-	Fired whenever the control receives a click from the mouse. This is triggered by the 
+	Fired whenever the control receives a click from the mouse. This is triggered by the
 	underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_CLICK
 	*/
-	DELEGATE(MouseClicked);	
+	DELEGATE(MouseClicked);
 
 	/**
 	@delegate MouseMove fires an MouseEvent, with a type set to Control::MOUSE_MOVE.
-	Fired whenever the control receives a move event from the mouse. This is triggered by the 
+	Fired whenever the control receives a move event from the mouse. This is triggered by the
 	underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_MOVE
 	*/
-	DELEGATE(MouseMove);	
+	DELEGATE(MouseMove);
 
 	/**
 	@delegate MouseUp fires an MouseEvent, with a type set to Control::MOUSE_UP.
-	Fired whenever the control receives notice that a mouse button has been released, or lifted up. 
+	Fired whenever the control receives notice that a mouse button has been released, or lifted up.
 	This is triggered by the underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_UP
 	*/
-	DELEGATE(MouseUp);	
+	DELEGATE(MouseUp);
 
 	/**
 	@delegate MouseDown fires an MouseEvent, with a type set to Control::MOUSE_DOWN.
-	Fired whenever the control receives notice a mouse button has been pressed down. 
+	Fired whenever the control receives notice a mouse button has been pressed down.
 	This is triggered by the underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_DOWN
 	*/
-	DELEGATE(MouseDown);	
+	DELEGATE(MouseDown);
 
 	/**
 	@delegate MouseEnter fires an MouseEvent, with a type set to Control::MOUSE_ENTERED.
-	Fired whenever the control receives notice the mouse has first entered the control's bounds. 
+	Fired whenever the control receives notice the mouse has first entered the control's bounds.
 	This is triggered by the underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_ENTERED
 	*/
-	DELEGATE(MouseEnter);	
+	DELEGATE(MouseEnter);
 
 	/**
 	@delegate MouseLeave fires an MouseEvent, with a type set to Control::MOUSE_LEAVE.
-	Fired whenever the control receives notice the mouse has left the control's bounds. 
+	Fired whenever the control receives notice the mouse has left the control's bounds.
 	This is triggered by the underlying windowing system.
 	@event MouseEvent
 	@eventtype Control::MOUSE_LEAVE
 	*/
-	DELEGATE(MouseLeave);	
+	DELEGATE(MouseLeave);
 
 	/**
 	@delegate KeyPressed fires an KeyboardEvent, with a type set to Control::KEYBOARD_PRESSED.
-	Fired whenever the control receives a keypress. This is triggered by the 
+	Fired whenever the control receives a keypress. This is triggered by the
 	underlying windowing system.
 	@event KeyboardEvent
 	@eventtype Control::KEYBOARD_PRESSED
 	*/
-	DELEGATE(KeyPressed);	
+	DELEGATE(KeyPressed);
 
 	/**
 	@delegate KeyDown fires an KeyboardEvent, with a type set to Control::KEYBOARD_DOWN.
-	Fired whenever the control receives notice a key has been pressed down. This is triggered by the 
+	Fired whenever the control receives notice a key has been pressed down. This is triggered by the
 	underlying windowing system.
 	@event KeyboardEvent
 	@eventtype Control::KEYBOARD_DOWN
 	*/
-	DELEGATE(KeyDown);	
+	DELEGATE(KeyDown);
 
 	/**
 	@delegate KeyUp fires an KeyboardEvent, with a type set to Control::KEYBOARD_UP.
-	Fired whenever the control receives notice a key has been released. This is triggered by the 
+	Fired whenever the control receives notice a key has been released. This is triggered by the
 	underlying windowing system.
 	@event KeyboardEvent
 	@eventtype Control::KEYBOARD_UP
 	*/
-	DELEGATE(KeyUp);	
+	DELEGATE(KeyUp);
 
 	/**
 	@delegate ControlHelpRequested fires an WhatsThisHelpEvent, with a type set to Control::WHATS_THIS_HELP_REQUESTED.
-	Fired whenever the control receives notice of a context sensitive help event. 
+	Fired whenever the control receives notice of a context sensitive help event.
 	This is triggered by the underlying windowing system. On Win32 this is frequently triggered
 	by right clicking on a control, and clicking on the "Whats This?" context menu item.
 	@event WhatsThisHelpEvent
 	@eventtype Control::WHATS_THIS_HELP_REQUESTED
 	*/
-	DELEGATE(ControlHelpRequested);	
+	DELEGATE(ControlHelpRequested);
 
 	/**
 	@delegate HelpRequested fires an HelpEvent, with a type set to Control::HELP_REQUESTED.
-	Fired whenever the control receives notice the F1 key (or some other acknowledged help key) 
+	Fired whenever the control receives notice the F1 key (or some other acknowledged help key)
 	has been pressed. This is triggered by the underlying windowing system.
 	@event HelpEvent
 	@eventtype Control::HELP_REQUESTED
 	*/
-	DELEGATE(HelpRequested);	
+	DELEGATE(HelpRequested);
 
 	/**
 	@delegate FocusGained fires an FocusEvent, with a type set to Control::FOCUS_GAINED.
-	Fired whenever the control receives notice that it has become the focused control. This is 
+	Fired whenever the control receives notice that it has become the focused control. This is
 	triggered by the underlying windowing system.
 	@event FocusEvent
 	@eventtype Control::FOCUS_GAINED
 	*/
-	DELEGATE(FocusGained);	
+	DELEGATE(FocusGained);
 
 	/**
 	@delegate FocusLost fires an FocusEvent, with a type set to Control::FOCUS_LOST.
-	Fired whenever the control receives notice that it has lost focus. This is 
+	Fired whenever the control receives notice that it has lost focus. This is
 	triggered by the underlying windowing system.
 	@event FocusEvent
 	@eventtype Control::FOCUS_LOST
 	*/
-	DELEGATE(FocusLost);	
+	DELEGATE(FocusLost);
 
 	/**
 	@delegate ToolTipRequested fires an ToolTipEvent, with a type set to TOOLTIP_EVENT_TIP_REQESTED.
-	This is fired if the VCF framework determines a tooltip can be displayed for this 
+	This is fired if the VCF framework determines a tooltip can be displayed for this
 	control, and no tootip text was defined for the control.
 	@event ToolTipEvent
 	@eventtype TOOLTIP_EVENT_TIP_REQESTED
 	@see ToolTipEvent.h for more on TOOLTIP_EVENT_TIP_REQESTED #define
 	@see ToolTipEvent
 	*/
-	DELEGATE(ToolTipRequested);	
+	DELEGATE(ToolTipRequested);
 
 	/**
 	@delegate ToolTip fires an ControlEvent.
@@ -321,20 +296,20 @@ public:
 	of time, usually determine by the underlying windowing system's setting.
 	@event ToolTipEvent
 	*/
-	DELEGATE(ToolTip);		
+	DELEGATE(ToolTip);
 
 	/**
      This gets called by the ControlPeer for any windowing system mouse events,
-	 as well as for any windowing system keyboard events and for any 
+	 as well as for any windowing system keyboard events and for any
 	 windowing system events like size changes, position changes, etc.
      Once inside the event the Control determines the type, and behaves accordingly,
-     as well as notifying any appropriate listeners. 
+     as well as notifying any appropriate listeners.
      */
 	virtual void handleEvent( Event* event );
 
 	/**
 	calls handleEvent on this control, and then
-	calls handleEventToChildren() on any child controls the 
+	calls handleEventToChildren() on any child controls the
 	container of this control may have.
 	*/
 	void handleEventAndForwardToChildren( Event* event );
@@ -345,7 +320,7 @@ public:
 	Border* getBorder();
 
 	/**
-	*sets the border for this control. The control will then 
+	*sets the border for this control. The control will then
 	*own the border, increasing it's (the border's) reference count.
 	*If the control previously had a valid border object, it will release
 	*it's reference to it.
@@ -353,13 +328,13 @@ public:
 	void setBorder( Border* border );
 
     /**
-     * returns the bounds in parent coordinates of the Control. The Control derived class must call it's Peer's getBounds() method 
+     * returns the bounds in parent coordinates of the Control. The Control derived class must call it's Peer's getBounds() method
      */
     virtual Rect getBounds() ;/**throw( InvalidPeer ); -JEC - FIXME later*/
-	
+
 	/**
-	*returns the bounds in terms of the control's coordinates. Thus the top and 
-	*left will typically be 0.0, 0.0, and the right and bottom of the bounds 
+	*returns the bounds in terms of the control's coordinates. Thus the top and
+	*left will typically be 0.0, 0.0, and the right and bottom of the bounds
 	*will typically equal the width and height of the control.
 	*/
 	virtual Rect getClientBounds( const bool& includeBorder = true ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
@@ -407,7 +382,7 @@ public:
     AlignmentType getAlignment();
 
 	/**
-	sets the bounds of the control. You can pass in left, top, width and height as the 
+	sets the bounds of the control. You can pass in left, top, width and height as the
 	new position for the control.
 	@param double x the new left coordinate of the control
 	@param double y the new top coordinate of the control
@@ -417,7 +392,7 @@ public:
 	void setBounds( const double& x, const double& y, const double& width, const double& height );
 
 	/**
-	*sets the bounds of the control. The values in the rect parameter must be 
+	*sets the bounds of the control. The values in the rect parameter must be
 	*in the corrdinate system of the parent control
 	*@param Rect the new bounds of the control. If the control
 	*implements the Container interface, then any child controls
@@ -431,41 +406,41 @@ public:
     void setAlignment( const AlignmentType& alignment );
 
 	/**
-	*sets the left value for the control, immediately updates the 
+	*sets the left value for the control, immediately updates the
 	*controls position.
 	*/
     virtual void setLeft( const double& left ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*sets the right value of the control. This value is in the 
+	*sets the right value of the control. This value is in the
 	*coordinates of the parent control.
 	*/
     virtual void setRight( const double& right ) ;
 
 	/**
 	*sets the width of the control.
-	*If the control implements the Container interface, 
-	*then any child controls will be resized via the 
+	*If the control implements the Container interface,
+	*then any child controls will be resized via the
 	*Container::resizeChildren() automatically.
 	*/
     virtual void setWidth( const double& width ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*sets the top value of the control. This value is in the 
+	*sets the top value of the control. This value is in the
 	*coordinates of the parent control.
 	*/
     virtual void setTop( const double& top ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*sets the bottom value of the control. This value is in the 
+	*sets the bottom value of the control. This value is in the
 	*coordinates of the parent control.
 	*/
     virtual void setBottom( const double& bottom ) ;
 
 	/**
 	*sets the height of the control.
-	*If the control implements the Container interface, 
-	*then any child controls will be resized via the 
+	*If the control implements the Container interface,
+	*then any child controls will be resized via the
 	*Container::resizeChildren() automatically.
 	*/
     virtual void setHeight( const double& height ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
@@ -475,14 +450,14 @@ public:
 	*@param bool true to show the control, false to hide it
 	*/
     virtual void setVisible( const bool& visible ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
-    
+
 
     /**
-     *if autoStartDragDrop_ is true then this method checks to see if 
-	 *the Controls dragging is with the windowing system's tolernace 
-	 *for a drag drop operation to start. other wise it returns false. 
-     *If  autoStartDragDrop_ is false then it returns false unless some 
-	 *derived class overides the functionality. 
+     *if autoStartDragDrop_ is true then this method checks to see if
+	 *the Controls dragging is with the windowing system's tolernace
+	 *for a drag drop operation to start. other wise it returns false.
+     *If  autoStartDragDrop_ is false then it returns false unless some
+	 *derived class overides the functionality.
      */
     virtual bool canBeginDragDrop( Point* point );
 
@@ -498,16 +473,16 @@ public:
 	bool getAutoStartDragDrop();
 
 	/**
-	*Override this to provide functionality for handling the 
+	*Override this to provide functionality for handling the
 	*start of drag-drop operation
-	*This will get called automatically by the framework if it 
-	*detects that a mouse-move has occured that indicates a 
+	*This will get called automatically by the framework if it
+	*detects that a mouse-move has occured that indicates a
 	*drag-drop operation COULD occur.
 	*@return bool must return true if a drag-drop operation
 	*was started, otherwise should return false
 	*/
     virtual bool beginDragDrop( MouseEvent* event );
-	
+
 	/**
 	*returns the control's native peer interface
 	*/
@@ -532,15 +507,15 @@ public:
 	bool isFocused();
 
 	/**
-	Makes this control the currently focused control. A control with focus 
+	Makes this control the currently focused control. A control with focus
 	will receive keyboard events.
-	@return Control - the previously focused control (which will receive a 
+	@return Control - the previously focused control (which will receive a
 	FocusLost event).
 	*/
 	Control* setFocused();
 
 	/**
-	*returns whether the control is enabled or not. A control that is 
+	*returns whether the control is enabled or not. A control that is
 	*enabled can receive mouse events. A control that is not enabled
 	*will not respond to either mouse events or keyboard events.
 	*/
@@ -551,13 +526,13 @@ public:
 	*@param bool true if the control is enabled, otherwise false.
 	*/
 	void setEnabled( const bool& enabled );
-	
+
 	/**
 	*paints the control. Called by the underlying windowing system whenever
 	*the control needs to be painted. Note that in some cases the GraphicsContext
 	*passed in to this method may not be the same pointer as the GraphicsContext
-	*that the control holds itself. During the paint() mehtod you should only 
-	*use the context value for all your drawing and not the one returned in 
+	*that the control holds itself. During the paint() mehtod you should only
+	*use the context value for all your drawing and not the one returned in
 	*getContext(). The value returned by getContext() should be used for drawing
 	*that takes place outside of the paint() method.
 	*<p>Note: This should <b><i>NEVER</i></b> be called
@@ -570,53 +545,53 @@ public:
 
 	/**
 	*Called when the mouse first enters the control's bounds.
-	*override this to provide specific behaviours when the control is 
+	*override this to provide specific behaviours when the control is
 	*first entered, like highlighting the control
 	*/
 	virtual void mouseEnter( MouseEvent* event );
 
 	/**
-	*Called when one (or more) of the mouse buttons are held down. 
-	*override this to provide specific behaviours when 
-	*the mouse buttons are held down 
+	*Called when one (or more) of the mouse buttons are held down.
+	*override this to provide specific behaviours when
+	*the mouse buttons are held down
 	*/
 	virtual void mouseDown( MouseEvent* event );
 
 	/**
 	*Called when the mouse moves over the control.
-	*override this to provide specific behaviours when 
+	*override this to provide specific behaviours when
 	*the mouse moves over the control.
 	*/
 	virtual void mouseMove( MouseEvent* event );
 
 	/**
-	*Called when one (or more) of the mouse buttons are released. 
-	*override this to provide specific behaviours when 
-	*the mouse buttons are released. 
+	*Called when one (or more) of the mouse buttons are released.
+	*override this to provide specific behaviours when
+	*the mouse buttons are released.
 	*/
-	virtual void mouseUp( MouseEvent* event );	
+	virtual void mouseUp( MouseEvent* event );
 
 	/**
-	*Called when one or mouse buttons are held down and 
+	*Called when one or mouse buttons are held down and
 	*immediately released ( a "mouse click" ).
-	**override this to provide specific behaviours when 
+	**override this to provide specific behaviours when
 	*a mouse click occurs
 	*/
 	virtual void mouseClick(  MouseEvent* event );
-	
+
 	/**
-	*Called when one or mouse buttons are held down and 
+	*Called when one or mouse buttons are held down and
 	*immediately released ( a "mouse double click" ) twice, within
-	*some specific time period, as determined on the windowing 
+	*some specific time period, as determined on the windowing
 	*system.
-	**override this to provide specific behaviours when 
+	**override this to provide specific behaviours when
 	*a mouse double click occurs
 	*/
 	virtual void mouseDblClick(  MouseEvent* event );
 
 	/**
 	*Called when the mouse leaves the control's bounds.
-	*override this to provide specific behaviours when the control is 
+	*override this to provide specific behaviours when the control is
 	*left, like highlighting the control
 	*/
 	virtual void mouseLeave( MouseEvent* event );
@@ -627,7 +602,7 @@ public:
 	virtual void keyDown( KeyboardEvent* event );
 
 	/**
-	*called when the user simply presses the key and represents a 
+	*called when the user simply presses the key and represents a
 	*full key cycle having occurred, in other words the key has been
 	*pressed down and then released
 	*/
@@ -639,7 +614,7 @@ public:
 	virtual void keyUp( KeyboardEvent* event );
 
 	/**
-	*translate the point from this controls coordinate system to 
+	*translate the point from this controls coordinate system to
 	*the parent controls coordinate system
 	*/
 	void translateToParent( Point* point );
@@ -652,36 +627,36 @@ public:
 
 	/**
 	Takes the coordinates in pt, which are in the coordinate system of
-	this control, and translates them into the coordinate system of the 
+	this control, and translates them into the coordinate system of the
 	Screen.
-	@param Point the initial point value, in the coordinate system of the 
+	@param Point the initial point value, in the coordinate system of the
 	control this method is called on.
 	*/
 	void translateToScreenCoords( Point* pt );
 
 	/**
 	Takes the coordinates in rect, which are in the coordinate system of
-	this control, and translates them into the coordinate system of the 
+	this control, and translates them into the coordinate system of the
 	Screen.
-	@param Rect the initial rect value, in the coordinate system of the 
+	@param Rect the initial rect value, in the coordinate system of the
 	control this method is called on.
 	*/
 	void translateToScreenCoords( Rect* rect );
 
 	/**
 	Takes the coordinates in pt, which are in the coordinate system of
-	the Screen, and translates them into the coordinate system of this 
+	the Screen, and translates them into the coordinate system of this
 	control.
-	@param Point the initial point value, in the coordinate system of the 
+	@param Point the initial point value, in the coordinate system of the
 	Screen.
 	*/
 	void translateFromScreenCoords( Point* pt );
 
 	/**
 	Takes the coordinates in rect, which are in the coordinate system of
-	the Screen, and translates them into the coordinate system of this 
+	the Screen, and translates them into the coordinate system of this
 	control.
-	@param Rect the initial rect value, in the coordinate system of the 
+	@param Rect the initial rect value, in the coordinate system of the
 	Screen.
 	*/
 	void translateFromScreenCoords( Rect* rect );
@@ -690,7 +665,7 @@ public:
 	/**
 	*identifies the control as a lightweight control. Lightweight control's
 	*do not take up windowing system resources, instead, they rely on all events
-	*and paint notification be sent to them via their parents. The default return for 
+	*and paint notification be sent to them via their parents. The default return for
 	*this is false, so only those controls specifically actign as light weight Controls
 	*need to return true
 	*/
@@ -700,7 +675,7 @@ public:
 	*Returns the first parent of the Control that is a heavweight Control, i.e it's isLighweight()
 	*method return false.
 	*/
-	virtual Control* getHeavyweightParent();	
+	virtual Control* getHeavyweightParent();
 
 	/**
 	*returns the color used to fill the background of this control
@@ -713,9 +688,9 @@ public:
 	void setColor( Color* color );
 
 	virtual void beforeDestroy( ComponentEvent* event );
-	
+
 	virtual void afterCreate( ComponentEvent* event );
-	
+
 	/**
 	*Returns the font associated with this control
 	*/
@@ -727,21 +702,21 @@ public:
 	*passed in to the method.
 	*The caller completely owns the font instance that is passed in, and is
 	*responsible for cleaning up it's memory.
-	*@param Font the font to copy data from in replacing attributes of the 
+	*@param Font the font to copy data from in replacing attributes of the
 	*control's font.
 	*/
 	void setFont( Font* font );
 
 	/**
-	*returns whether this control will use the font settings of the 
-	*parent's font. 
+	*returns whether this control will use the font settings of the
+	*parent's font.
 	*@return bool true if the control does use it's parent's font settings
 	*otherwise false.
 	*/
 	bool useParentFont();
 
 	/**
-	*sets whether the control should use it's parent font's settigns or 
+	*sets whether the control should use it's parent font's settigns or
 	*use it's own independent of it's parent's font.
 	*/
 	void setUseParentFont( const bool& useParentFont );
@@ -750,7 +725,7 @@ public:
 	*repaint the control. This post a message to the windowing systems
 	*message queue.
 	*@param Rect a rectangle may be specified indicating the precise
-	*region of the control that should be repainted. If this is 
+	*region of the control that should be repainted. If this is
 	*NULL, then the entire visible region of the control is repainted
 	*/
 	void repaint( Rect* repaintRect=NULL );
@@ -766,13 +741,13 @@ public:
 	*sets whether or not this control is double buffered. A control
 	*that is double buffered will automatically use a memory graphics
 	*context to draw on, and then blit the contents of this on the
-	*actual graphics context for the control. Doing this results in 
-	*completely flicker free drawing of your controls, but is slighty 
-	*slower. Without double buffering, the painting of the control 
+	*actual graphics context for the control. Doing this results in
+	*completely flicker free drawing of your controls, but is slighty
+	*slower. Without double buffering, the painting of the control
 	*takes place directly on the control's graphics context, and can
-	*result in flicker, but is slighlty faster. Controls have this 
-	*set to true by default, with the exception of the OpenGL control, 
-	*which lets the underlying OpenGL graphics engine take care of 
+	*result in flicker, but is slighlty faster. Controls have this
+	*set to true by default, with the exception of the OpenGL control,
+	*which lets the underlying OpenGL graphics engine take care of
 	*the double buffering for it.
 	*@param bool true to enable the double buffered drawing, otherwise
 	*false
@@ -780,27 +755,27 @@ public:
 	void setDoubleBuffered( const bool& doubleBuffered );
 
 	/**
-	Returns true if the Control should take advantage of the GraphicsContexts' 
+	Returns true if the Control should take advantage of the GraphicsContexts'
 	render buffer for anti-aliased vector graphics (based on the AGG library).
 	*/
 	bool isUsingRenderBuffer() {
-		return useRenderBuffer_;	
+		return useRenderBuffer_;
 	};
 
 	/**
 	sets whether or not the control is using the render buffer of it's
-	GraphicsContext. Using the render buffer allows the control to 
+	GraphicsContext. Using the render buffer allows the control to
 	take advantage of the GraphicsContext's advanced anti-aliasing vector
-	graphics. This will create snapshot image that is retained and used 
+	graphics. This will create snapshot image that is retained and used
 	to draw into. When the drawing is done (i.e. paint() returns), the image
-	contents are copied back to the actual GraphicsContext. If the 
+	contents are copied back to the actual GraphicsContext. If the
 	control is resized the image is resized as well
 	*/
 	void setUsingRenderBuffer( const bool& useRenderBuffer ) {
 		useRenderBuffer_ = useRenderBuffer;
 	}
 	/**
-	*this keeps the mouse events being sent to this control, even if the 
+	*this keeps the mouse events being sent to this control, even if the
 	*mouse leaves the physical bounds of the control
 	*/
 	void keepMouseEvents();
@@ -811,13 +786,13 @@ public:
 	void releaseMouseEvents();
 
 	/**
-	*return a pointer to the graphics context of the control. 
+	*return a pointer to the graphics context of the control.
 	*/
 	GraphicsContext* getContext();
 
 	/**
 	*returns the Control's PopupMenu, if any.
-	*The popupmenu will be displayed whenever the user 
+	*The popupmenu will be displayed whenever the user
 	*right clicks the mouse over the control.
 	*/
 	PopupMenu* getPopupMenu();
@@ -838,40 +813,40 @@ public:
 	void setView( View* view );
 
 	/**
-	*returns the preferred width for this control. This is used 
+	*returns the preferred width for this control. This is used
 	*when determing the width of the control when it is first created.
-	*Override it to provide a different value that is more acceptable 
+	*Override it to provide a different value that is more acceptable
 	*for your control's initial display size.
 	*/
 	virtual double getPreferredWidth(){
-		return 100.0;	
+		return 100.0;
 	};
 
 	/**
-	*returns the preferred height for this control. This is used 
+	*returns the preferred height for this control. This is used
 	*when determing the height of the control when it is first created.
-	*Override it to provide a different value that is more acceptable 
+	*Override it to provide a different value that is more acceptable
 	*for your control's initial display size.
 	*/
 	virtual double getPreferredHeight() {
 		return 25.0;
 	}
-	
+
 	/**
-	*set the preferred width. This is used when determing the height 
+	*set the preferred width. This is used when determing the height
 	*of the control when it is first created.
 	*/
 	virtual void setPreferredWidth( const double& width ){};
 
 	/**
-	*set the preferred height. This is used when determing the height 
+	*set the preferred height. This is used when determing the height
 	*of the control when it is first created.
 	*/
 	virtual void setPreferredHeight( const double& height ){};
 
 	/**
 	*returns an object implementing the Scrollable interface
-	*The default value is NULL, indicating the control does not support 
+	*The default value is NULL, indicating the control does not support
 	*scrolling behaviour
 	*/
 	Scrollable* getScrollable() {
@@ -879,7 +854,7 @@ public:
 	}
 
 	/**
-	*sets the scrollable for the control. Control's with a 
+	*sets the scrollable for the control. Control's with a
 	*scrollable object will be able to provide scroll bars
 	*when neccessary.
 	*@see Scrollable
@@ -916,7 +891,7 @@ public:
 	void processWhatsThisHelpEvent();
 
 	/**
-	*returns a string that is used to display in the tooltip 
+	*returns a string that is used to display in the tooltip
 	*for the control.
 	*/
 	String getToolTipText() {
@@ -924,14 +899,14 @@ public:
 	}
 
 	/**
-	*sets the string that is used to display in the tooltip 
+	*sets the string that is used to display in the tooltip
 	*for the control.
 	*/
 	void setToolTipText( const String& tooltip );
 
 	/**
-	*returns the cursor ID for the control. The cursor id represents an id tag that 
-	*identifies a Cursor object to be used to for controling the display of the 
+	*returns the cursor ID for the control. The cursor id represents an id tag that
+	*identifies a Cursor object to be used to for controling the display of the
 	*mouse cursor. To access the Cursor object directly call the CursorManager::getCursor()
 	*method.
 	*@return long the id of the cursor
@@ -944,21 +919,21 @@ public:
 	}
 
 	/**
-	*sets the cursor ID for the control. This will change the 
+	*sets the cursor ID for the control. This will change the
 	*cursor appearance whenever the mouse is over the control.
 	*/
 	void setCursorID( const long& cursorID );
 
 	/**
 	*returns the anchor mask value for this control.
-	*Anchors allow you to customize the sizing behavior of a particular control. 
-	*Setting the alignment may be done at any time after the control has been instantiated. 
-	*By anchoring a control you can have finer control over how the control gets resized 
-	*when it's parent is resized than simply specifying an alignment value. However, 
-	*changing the anchor value of a control will automatically set the control's alignment 
-	*to ALIGN_NONE, while changing the control's alignment will automatically set the control's 
-	*anchor value to ANCHOR_NONE. The two values are mutually exclusive, you can get one or 
-	*the other, but not both. The following table describes the meanings of the various 
+	*Anchors allow you to customize the sizing behavior of a particular control.
+	*Setting the alignment may be done at any time after the control has been instantiated.
+	*By anchoring a control you can have finer control over how the control gets resized
+	*when it's parent is resized than simply specifying an alignment value. However,
+	*changing the anchor value of a control will automatically set the control's alignment
+	*to ALIGN_NONE, while changing the control's alignment will automatically set the control's
+	*anchor value to ANCHOR_NONE. The two values are mutually exclusive, you can get one or
+	*the other, but not both. The following table describes the meanings of the various
 	*mask values for the anchor value, which can have either the value of ANCHOR_NONE
 	*or any combination of the other four mask types.
 	*<table width="100%" cellpadding="2" cellspacing="0" border="1" bordercolor="#C0C0C0">
@@ -972,45 +947,45 @@ public:
     * <td width="20%" valign=TOP>
     *	<code>ANCHOR_NONE</code></td>
     * <td width="80%" valign=TOP>
-    *   This is the default value for a control's anchor property. No layout 
+    *   This is the default value for a control's anchor property. No layout
 	*	adjustments are performed on the control.</td>
     *</tr>
     *<tr>
     * <td width="20%" valign=TOP>
     *   <code>ANCHOR_TOP</code></td>
     * <td width="80%" valign=TOP>
-    *   The Control is anchored to the top edge of the parent control it 
-	*	belongs to. Whatever the distance between the top edge and the top 
-	*	coordinate of the control when this is set, is maintained whenever 
+    *   The Control is anchored to the top edge of the parent control it
+	*	belongs to. Whatever the distance between the top edge and the top
+	*	coordinate of the control when this is set, is maintained whenever
 	*	the parent control's dimensions change. </td>
     *</tr>
     *<tr>
     * <td width="20%" valign=TOP>
     *   <code>ANCHOR_LEFT</code></td>
     * <td width="80%" valign=TOP>
-    *   The Control is anchored to the left edge of the parent control it 
-	*	belongs to. Whatever the distance between the left edge and the left 
-	*	coordinate of the control when this is set, is maintained whenever 
+    *   The Control is anchored to the left edge of the parent control it
+	*	belongs to. Whatever the distance between the left edge and the left
+	*	coordinate of the control when this is set, is maintained whenever
 	*	the parent control's dimensions change. </td>
     *</tr>
     *<tr>
     * <td width="20%" valign=TOP>
     *   <code>ANCHOR_BOTTOM</code></td>
     * <td width="80%" valign=TOP>
-    *   The Control is anchored to the bottom edge of the parent control it belongs 
-	*	to. Whatever the distance between the bottom edge and the bottom coordinate 
-	*	of the control when this is set, is maintained whenever the parent control's 
+    *   The Control is anchored to the bottom edge of the parent control it belongs
+	*	to. Whatever the distance between the bottom edge and the bottom coordinate
+	*	of the control when this is set, is maintained whenever the parent control's
 	*	dimensions change. </td>
     *</tr>
     *<tr>
     * <td width="20%" valign=TOP>
     *   <code>ANCHOR_RIGHT</code></td>
     * <td width="80%" valign=TOP>
-    *   The Control is anchored to the right edge of the parent control it belongs to. 
-	*	Whatever the distance between the right edge and the right coordinate of the 
-	*	control when this is set, is maintained whenever the parent control's dimensions 
+    *   The Control is anchored to the right edge of the parent control it belongs to.
+	*	Whatever the distance between the right edge and the right coordinate of the
+	*	control when this is set, is maintained whenever the parent control's dimensions
 	*	change.</td>
-    *</tr>    
+    *</tr>
 	*</table>
 	*/
 	unsigned long getAnchor() {
@@ -1018,7 +993,7 @@ public:
 	}
 
 	/**
-	*sets the anchor mask value for the control. See 
+	*sets the anchor mask value for the control. See
 	*getAnchor() for a complete description of the various values
 	*and what they mean for the control's alignment.
 	*@see getAnchor()
@@ -1030,17 +1005,17 @@ public:
 	*There will be a delta for the left, the top, the right,
 	*and the bottom sides. These deltas are recalculated whenever
 	*the controls bounds are set with the anchorDeltasNeedUpdating
-	*param set to true. 
+	*param set to true.
 	*/
 	float* getAnchorDeltas() {
 		return anchorDeltas_;
-	}	
+	}
 
 	/**
 	*this function determines if the control keeps the key event
 	*when the return key is pressed, or if it will relinquish the event
 	*for the system to process. Most controls will return false with the
-	*exception of keyboard entry controls. If the control does keep the 
+	*exception of keyboard entry controls. If the control does keep the
 	*event, then any default buttons will NOT receive their enter key
 	*event until they receive focus.
 	*@see Button::setDefault()
@@ -1050,8 +1025,8 @@ public:
 	}
 
 	/**
-	*This function determines whether or not the 
-	*control should have precedence and prevent the 
+	*This function determines whether or not the
+	*control should have precedence and prevent the
 	*the tab key from switching focus
 	*to another control. Typically this will return
 	*false, with the exception of keyboard entry controls
@@ -1061,15 +1036,15 @@ public:
 	*@return bool returns false, indicating the framework can
 	*go ahead and switch the focus to the next tabbed control
 	*when appropriate, otherwise if it returns true the control
-	*will keep the tabbed key event and process it 
+	*will keep the tabbed key event and process it
 	*/
 	virtual bool keepsTabKey() {
 		return false;
 	}
 
 	/**
-	*This function determines whether or not the 
-	*control should have precedence and prevent the 
+	*This function determines whether or not the
+	*control should have precedence and prevent the
 	*the arrow keys from switching focus
 	*to another control. Typically this will return
 	*false, with the exception of keyboard entry controls
@@ -1079,18 +1054,18 @@ public:
 	*@return bool returns false, indicating the framework can
 	*go ahead and switch the focus to the next tabbed control
 	*when appropriate, otherwise if it returns true the control
-	*will keep the tabbed key event and process it 
+	*will keep the tabbed key event and process it
 	*/
 	virtual bool keepsArrowKeys() {
 		return false;
 	}
-	 
+
 
 	/**
-	*Indicates whether the control responds to the TAB key 
+	*Indicates whether the control responds to the TAB key
 	*to set it's focus when tabbing from control to control.
-	*@return bool whether the control responds to the Tab key. If the 
-	*return value is true then the control will allow itself to become 
+	*@return bool whether the control responds to the Tab key. If the
+	*return value is true then the control will allow itself to become
 	*focused, while a value of false indicates the control does not respond
 	*to the tab key and will not become focused.
 	*/
@@ -1100,7 +1075,7 @@ public:
 
 	/*
 	*sets the tab stop value of the control. The default value
-	*is true. 
+	*is true.
 	*@param bool the new value for the tab stop property
 	*@see getTabStop()
 	*/
@@ -1110,7 +1085,7 @@ public:
 	*Returns the tab order of the control. Tab order may be specified
 	*independently of the controls child order within it's parent
 	*Container.
-	*@return 
+	*@return
 	*/
 	long getTabOrder() {
 		return tabOrder_;
@@ -1123,13 +1098,13 @@ public:
 
 
 	/**
-	*Returns the AcceleratorKey instance that is associated with this control and 
+	*Returns the AcceleratorKey instance that is associated with this control and
 	*the specified key code and modifier mask. The AcceleratorKey will be activated
 	*whenever the corresponding keyboard combination is pressed.
-	*@param VirtualKeyCode the key code that represents this AcceleratorKey. For 
-	*example, vkLetterV is used to indicated an accelerator that is triggered whenever 
+	*@param VirtualKeyCode the key code that represents this AcceleratorKey. For
+	*example, vkLetterV is used to indicated an accelerator that is triggered whenever
 	*the "V" key is pressed.
-	*@param ulong32 a mask of special keys that can be pressed together with the 
+	*@param ulong32 a mask of special keys that can be pressed together with the
 	*specified key code, such as Shift, Alt or Ctrl.
 	*@see AcceleratorKey
 	*/
@@ -1137,7 +1112,7 @@ public:
 
 	/**
 	*Associates a new AcceleratorKey with the Control.
-	*The key code, modifier mask and event handler 
+	*The key code, modifier mask and event handler
 	*all become the attributes of the new AcceleratorKey
 	*/
 	void addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, EventHandler* eventHandler );
@@ -1148,15 +1123,15 @@ public:
 	void addAcceleratorKey( AcceleratorKey* accelerator );
 
 	/**
-	*Pressing the accelerator character will cause the control's 
+	*Pressing the accelerator character will cause the control's
 	*mnemonicActivate() method to be fired, which by default
 	*sets focus to the control
 	*/
-	virtual void mnemonicActivate(); 
+	virtual void mnemonicActivate();
 
 	/**
 	This returns a pointer to the top level frame that this control is associated with
-	@return Frame the top level froma instance for this control. This may not be the 
+	@return Frame the top level froma instance for this control. This may not be the
 	parent instance as the control's current parent.
 	@see Control::getParent()
 	*/
@@ -1166,20 +1141,20 @@ public:
 	Can the control accept focus?
 	This method determines if the control can recieve focus.
 	@return bool returns true if the control is enabled and all
-	of it's parents are enabled as well. Otherwise it returns 
+	of it's parents are enabled as well. Otherwise it returns
 	false.
 	*/
 	bool canAcceptFocus();
 
 	/**
 	returns the current container for this control.
-	The container determines whether or not the control 
+	The container determines whether or not the control
 	can contain child controls. By default a control
-	container is NULL, indicating it cannot hold any 
+	container is NULL, indicating it cannot hold any
 	child controls.
-	@return Container returns the current container for 
+	@return Container returns the current container for
 	the control. If the value returned is NULL, then
-	the control has no container, and cannot have any child 
+	the control has no container, and cannot have any child
 	controls.
 	*/
 	Container* getContainer() {
@@ -1187,7 +1162,7 @@ public:
 	}
 
 	/**
-	sets the current container for a control. Setting 
+	sets the current container for a control. Setting
 	a control's container, will enable (or disable, if
 	the container value passed in is NULL) the control's
 	ability to handle child controls
@@ -1196,10 +1171,10 @@ public:
 
 	/**
 	*returns the current control that has captured the mouse input.
-	*This may return NULL if no control has expressly captured the 
+	*This may return NULL if no control has expressly captured the
 	*mouse input through the Control::keepMouseEvents() method.
 	*/
-	static Control* getCapturedMouseControl();	
+	static Control* getCapturedMouseControl();
 
 	/**
 	*sets the control that has captured the mouse. Used internally
@@ -1220,10 +1195,10 @@ public:
 	static void setPreviousMouseOverControl( Control* control );
 
 	static void buildTabList( Control* control, std::vector<Control*>& tabList );
-protected:	
+protected:
 	static Control* currentFocusedControl;
 	static Control* previousMouseOverControl;
-	static Control* capturedMouseControl;	
+	static Control* capturedMouseControl;
 
 	ControlPeer* peer_;
 	ControlGraphicsContext* context_;
@@ -1238,15 +1213,15 @@ protected:
 	View* view_;
 	bool useParentFont_;
 	bool doubleBuffered_;
-	bool hasMouseCapture_;	
+	bool hasMouseCapture_;
 	bool autoStartDragDrop_;
 	PopupMenu* popupMenu_;
 	Scrollable* scrollable_;
 	String whatThisHelpString_;
 	String toolTip_;
 	long cursorID_;
-	Cursor* cursor_;	
-	float anchorDeltas_[4]; 
+	Cursor* cursor_;
+	float anchorDeltas_[4];
 	bool tabStop_;
 	long tabOrder_;
 	Point clickPt_;
@@ -1257,7 +1232,7 @@ protected:
 	void updateAnchorDeltas();
 
 	virtual void destroy();
-	
+
 };
 
 
@@ -1268,6 +1243,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
 *migration towards new directory structure
 *
@@ -1453,7 +1431,6 @@ protected:
 *to facilitate change tracking
 *
 */
-
 
 
 #endif // _VCF_CONTROL_H__

@@ -1,6 +1,160 @@
+//RadioButtonControl.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/RadioButtonControl.h"
+
+
+using namespace VCF;
+
+
+RadioButtonControl::RadioButtonControl()
+{
+	setVisible( true );
+
+	useFixedRadioButtonSize_ = true;
+
+	groupID_ = 0;
+
+	fixedRadioButtonHeight_ = UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htRadioBoxHeight );
+}
+
+RadioButtonControl::~RadioButtonControl()
+{
+
+}
+
+double RadioButtonControl::getPreferredHeight()
+{
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+}
+
+double RadioButtonControl::getPreferredWidth()
+{
+	return 100;
+}
+
+void RadioButtonControl::paint( GraphicsContext* context )
+{
+	ToggledButton::paint( context );
+
+	Rect r( 0.0, 0.0, getWidth(), getHeight() );
+
+	Rect radioBtnRect = r;
+
+	if ( true == useFixedRadioButtonSize_ ) {
+
+		radioBtnRect.top_ = maxVal<double>( 0.0, r.top_ + (r.getHeight() / 2.0 - fixedRadioButtonHeight_/2.0));
+
+		radioBtnRect.bottom_ = minVal<double>( r.bottom_, radioBtnRect.top_ + fixedRadioButtonHeight_ );
+	}
+	else {
+		radioBtnRect.inflate( -3.0, -3.0 );
+	}
+
+	radioBtnRect.left_ += 3.0;
+
+	radioBtnRect.right_ = radioBtnRect.left_ + radioBtnRect.getHeight();
+
+	r.left_ = radioBtnRect.right_;
+
+	context->drawRadioButtonRect( &radioBtnRect, checked_ );
+
+	r.inflate( -2.0, -2.0 );
+
+	if ( true == isFocused() ) {
+		context->drawSelectionRect( &r );
+	}
+
+	r.inflate( -1.0, -1.0 );
+	r.left_ = radioBtnRect.right_ + 5.0;
+
+	context->textBoundedBy( &r, caption_, false );
+}
+
+
+void RadioButtonControl::setFixedRadioButtonHeight( const double& fixedRadioButtonHeight )
+{
+	fixedRadioButtonHeight_ = minVal<>( fixedRadioButtonHeight, getHeight() );
+	repaint();
+}
+
+void RadioButtonControl::setUseFixedRadioButtonSize( const bool& fixedRadioButtonSize )
+{
+	useFixedRadioButtonSize_ = fixedRadioButtonSize;
+	repaint();
+}
+
+void RadioButtonControl::setGroupID( const long& groupID )
+{
+	groupID_ = groupID;
+}
+
+void RadioButtonControl::setChecked( const bool& checked )
+{
+	ToggledButton::setChecked( checked  );
+	if ( true == checked ) {
+		Control* parent = getParent();
+		if ( NULL != parent ) {
+			Container* container = parent->getContainer();
+			if ( NULL != container ) {
+				Enumerator<Control*>* children = container->getChildren();
+				while ( true == children->hasMoreElements() ) {
+					Control* child = children->nextElement();
+					RadioButtonControl* radioControl = dynamic_cast<RadioButtonControl*>( child );
+					if ( NULL != radioControl ) {
+						if ( (radioControl != this) && (radioControl->getGroupID() == groupID_) ) {
+							radioControl->setChecked( false );
+						}
+					}
+				}
+			}
+			else {
+				//Ooh this is very bad !!
+				throw BadComponentStateException();
+			}
+		}
+	}
+}
+
+RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
+{
+	RadioButtonControl* result = NULL;
+	Container* parent = getParent()->getContainer();
+	if ( NULL != parent ) {
+		Enumerator<Control*>* children = parent->getChildren();
+		while ( true == children->hasMoreElements() ) {
+			Control* child = children->nextElement();
+			RadioButtonControl* radioControl = dynamic_cast<RadioButtonControl*>( child );
+			if ( NULL != radioControl ) {
+				if ( (radioControl->getGroupID() == groupID_) && (true == radioControl->isChecked()) ) {
+					result = radioControl;
+					break;
+				}
+			}
+		}
+	}
+	else {
+		//Ooh this is very bad !!
+		throw BadComponentStateException();
+	}
+
+	return result;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:19  ddiego
 *migration towards new directory structure
 *
@@ -117,176 +271,5 @@
 *to facilitate change tracking
 *
 */
-
-//RadioButtonControl.cpp
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/RadioButtonControl.h"
-
-
-using namespace VCF;
-
-
-RadioButtonControl::RadioButtonControl()
-{		
-	setVisible( true );
-
-	useFixedRadioButtonSize_ = true;
-
-	groupID_ = 0;
-
-	fixedRadioButtonHeight_ = UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htRadioBoxHeight );			
-}
-
-RadioButtonControl::~RadioButtonControl() 
-{
-
-}
-
-double RadioButtonControl::getPreferredHeight()
-{
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
-}
-
-double RadioButtonControl::getPreferredWidth()
-{
-	return 100;
-}
-
-void RadioButtonControl::paint( GraphicsContext* context )
-{
-	ToggledButton::paint( context );
-
-	Rect r( 0.0, 0.0, getWidth(), getHeight() );
-	
-	Rect radioBtnRect = r;
-	
-	if ( true == useFixedRadioButtonSize_ ) {
-		
-		radioBtnRect.top_ = maxVal<double>( 0.0, r.top_ + (r.getHeight() / 2.0 - fixedRadioButtonHeight_/2.0));
-		
-		radioBtnRect.bottom_ = minVal<double>( r.bottom_, radioBtnRect.top_ + fixedRadioButtonHeight_ );
-	}
-	else {
-		radioBtnRect.inflate( -3.0, -3.0 );
-	}	
-	
-	radioBtnRect.left_ += 3.0;	
-	
-	radioBtnRect.right_ = radioBtnRect.left_ + radioBtnRect.getHeight();	
-	
-	r.left_ = radioBtnRect.right_;
-	
-	context->drawRadioButtonRect( &radioBtnRect, checked_ );
-	
-	r.inflate( -2.0, -2.0 );
-	
-	if ( true == isFocused() ) {
-		context->drawSelectionRect( &r );	
-	}
-
-	r.inflate( -1.0, -1.0 );
-	r.left_ = radioBtnRect.right_ + 5.0;
-	
-	context->textBoundedBy( &r, caption_, false );	
-}
-
-
-void RadioButtonControl::setFixedRadioButtonHeight( const double& fixedRadioButtonHeight )
-{
-	fixedRadioButtonHeight_ = minVal<>( fixedRadioButtonHeight, getHeight() );
-	repaint();
-}
-
-void RadioButtonControl::setUseFixedRadioButtonSize( const bool& fixedRadioButtonSize )
-{
-	useFixedRadioButtonSize_ = fixedRadioButtonSize;
-	repaint();
-}
-
-void RadioButtonControl::setGroupID( const long& groupID )
-{
-	groupID_ = groupID;
-}
-
-void RadioButtonControl::setChecked( const bool& checked )
-{
-	ToggledButton::setChecked( checked  );
-	if ( true == checked ) {
-		Control* parent = getParent();
-		if ( NULL != parent ) {
-			Container* container = parent->getContainer();
-			if ( NULL != container ) {
-				Enumerator<Control*>* children = container->getChildren();
-				while ( true == children->hasMoreElements() ) {
-					Control* child = children->nextElement();
-					RadioButtonControl* radioControl = dynamic_cast<RadioButtonControl*>( child );
-					if ( NULL != radioControl ) {
-						if ( (radioControl != this) && (radioControl->getGroupID() == groupID_) ) {
-							radioControl->setChecked( false );
-						}
-					}
-				}
-			}
-			else {
-				//Ooh this is very bad !!
-				throw BadComponentStateException();
-			}
-		}
-	}
-}
-
-RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
-{
-	RadioButtonControl* result = NULL;
-	Container* parent = getParent()->getContainer();
-	if ( NULL != parent ) {
-		Enumerator<Control*>* children = parent->getChildren();
-		while ( true == children->hasMoreElements() ) {
-			Control* child = children->nextElement();
-			RadioButtonControl* radioControl = dynamic_cast<RadioButtonControl*>( child );
-			if ( NULL != radioControl ) {
-				if ( (radioControl->getGroupID() == groupID_) && (true == radioControl->isChecked()) ) {
-					result = radioControl;
-					break;
-				}
-			}
-		}
-	}
-	else {
-		//Ooh this is very bad !!
-		throw BadComponentStateException();
-	}
-
-	return result;
-}
 
 

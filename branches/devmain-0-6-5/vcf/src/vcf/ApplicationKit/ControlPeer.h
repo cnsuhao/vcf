@@ -1,39 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_CONTROLPEER_H__
 #define _VCF_CONTROLPEER_H__
+//ControlPeer.h
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF{
@@ -46,13 +24,13 @@ class Rect;
 
 class Cursor;
 
-/** The base Peer interface. 
- *   In the Visual Control Framework Peers are the equivalent of Peers in Java. 
- *   Peers can be either light weight or heavyweight. 
+/** The base Peer interface.
+ *   In the Visual Control Framework Peers are the equivalent of Peers in Java.
+ *   Peers can be either light weight or heavyweight.
  *  Heavyweight Peers are based on native widgets are consume a certain amount of resources.
  *   On Win32 heavweight Peers have their own window handle and graphics context.
- * 
- * Lightweight Peers use the window handle and graphics context of the parents. 
+ *
+ * Lightweight Peers use the window handle and graphics context of the parents.
  * Frame Peers, such as WindowPeer and DialogPeer MUST be based on heavyweight controls.
  * @interface */
 
@@ -62,7 +40,7 @@ public:
 	virtual ~ControlPeer(){};
 
 	/**
-	This is called to actually create any neccessary windowing system resources specific 
+	This is called to actually create any neccessary windowing system resources specific
 	to a new control (or widget/window/etc) instance for the platform.
 	create() <b>must</b> be called by the containing VCF::Control subclass, typically in the
 	classes constructor, after retreiving the new peer instance from the appropriate
@@ -76,13 +54,13 @@ public:
 	virtual void destroyControl() = 0;
 
     /**
-    returns a ID that identifies this control. On Win32 this corresponds to an HWND. 
+    returns a ID that identifies this control. On Win32 this corresponds to an HWND.
     */
     virtual long getHandleID() = 0;
 
     /**
-    returns a text associated with the component. This usually gets used in the 
-	Control::getCaption() method. 
+    returns a text associated with the component. This usually gets used in the
+	Control::getCaption() method.
     */
     virtual String getText() = 0;
 
@@ -92,7 +70,7 @@ public:
     virtual void setText( const String& text ) = 0;
 
     /**
-    sets the bounds for the component. Bounds are specified in the coordinate system of the componenents parent. 
+    sets the bounds for the component. Bounds are specified in the coordinate system of the componenents parent.
      */
     virtual void setBounds( Rect* rect ) = 0;
 
@@ -105,33 +83,33 @@ public:
 	virtual void endSetBounds() = 0;
 
     /**
-    returns the bounds of the component in the coordinate system of the parent. 
+    returns the bounds of the component in the coordinate system of the parent.
     */
     virtual Rect getBounds() = 0;
 
     /**
-    shows or hides the component. 
-    This does NOT close the component (if invoked on a frame based component ). 
+    shows or hides the component.
+    This does NOT close the component (if invoked on a frame based component ).
     */
     virtual void setVisible( const bool& visible ) = 0;
 
     /**
-    returns wether or not the component is currently visible. 
+    returns wether or not the component is currently visible.
     */
     virtual bool getVisible() = 0;
-    
+
     /**
-     * returns the component that this Peer is attached to. 
+     * returns the component that this Peer is attached to.
      */
     virtual Control* getControl() = 0;
 
     /**
-     * attahces the Peer to a particular component. This should only be done once. 
+     * attahces the Peer to a particular component. This should only be done once.
      */
-    virtual void setControl( Control* component ) = 0;    
+    virtual void setControl( Control* component ) = 0;
 
-    virtual void setCursor( Cursor* cursor ) = 0;    
-	
+    virtual void setCursor( Cursor* cursor ) = 0;
+
 	virtual void setParent( Control* parent ) = 0;
 
 	virtual Control* getParent() = 0;
@@ -149,7 +127,7 @@ public:
 	virtual void repaint( Rect* repaintRect=NULL ) = 0;
 
 	/**
-	*this keeps the mouse events being sent to this control, even is the 
+	*this keeps the mouse events being sent to this control, even is the
 	*mouse leaves the physical bounds of the control
 	*/
 	virtual void keepMouseEvents() = 0;
@@ -161,18 +139,18 @@ public:
 
 	/**
 	Takes the coordinates in pt, which are in the coordinate system of
-	this control, and translates them into the coordinate system of the 
+	this control, and translates them into the coordinate system of the
 	Screen.
-	@param Point the initial point value, in the coordinate system of the 
+	@param Point the initial point value, in the coordinate system of the
 	control this method is called on.
 	*/
 	virtual void translateToScreenCoords( Point* pt ) = 0;
 
 	/**
 	Takes the coordinates in pt, which are in the coordinate system of
-	the Screen, and translates them into the coordinate system of this 
+	the Screen, and translates them into the coordinate system of this
 	control.
-	@param Point the initial point value, in the coordinate system of the 
+	@param Point the initial point value, in the coordinate system of the
 	Screen.
 	*/
 	virtual void translateFromScreenCoords( Point* pt ) = 0;
@@ -182,11 +160,12 @@ public:
 };
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:15  ddiego
 *migration towards new directory structure
 *
@@ -276,6 +255,7 @@ public:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_CONTROLPEER_H__
 

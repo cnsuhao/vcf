@@ -1,6 +1,93 @@
+//X11Application.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/X11Application.h"
+
+
+using namespace VCF;
+
+X11Application::X11Application():
+	app_(NULL),
+	handleID_(0)
+{
+
+}
+
+X11Application::~X11Application()
+{
+
+}
+
+
+bool X11Application::initApp( const std::vector<VCF::String>& appCmdLine )
+{
+	bool result = true;
+
+	//do X11 specific start up crap here
+
+	return result;
+}
+
+void X11Application::terminateApp()
+{
+
+}
+
+
+void X11Application::setApplication( VCF::AbstractApplication* application )
+{
+	app_ = application;
+}
+
+ResourceBundle* X11Application::getResourceBundle()
+{
+	return NULL;
+}
+
+String X11Application::getFileName()
+{
+	String result;
+
+	return result;
+}
+
+String X11Application::getCurrentDirectory()
+{
+	String result;
+
+	return result;
+}
+
+void X11Application::setCurrentDirectory( const String& currentDirectory )
+{
+
+}
+
+long X11Application::getHandleID()
+{
+	return handleID_;
+}
+
+void X11Application::setHandleID( const long& handleID )
+{
+	handleID_ = handleID;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
 *migration towards new directory structure
 *
@@ -36,80 +123,5 @@
 *
 Auto generated C++ implementation for class X11Application
 */
-
-
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-#include "vcf/ApplicationKit/X11Application.h"
-
-
-using namespace VCF;
-
-X11Application::X11Application():
-	app_(NULL),
-	handleID_(0)
-{
-
-}
-
-X11Application::~X11Application()
-{
-
-}
-
-
-bool X11Application::initApp( const std::vector<VCF::String>& appCmdLine )
-{
-	bool result = true;
-	
-	//do X11 specific start up crap here
-	
-	return result;
-}
-
-void X11Application::terminateApp() 
-{
-	
-}
-
-
-void X11Application::setApplication( VCF::AbstractApplication* application )
-{
-	app_ = application;
-}
-
-ResourceBundle* X11Application::getResourceBundle()
-{
-	return NULL;
-}
-
-String X11Application::getFileName()	
-{
-	String result;
-	
-	return result;
-}
-
-String X11Application::getCurrentDirectory()
-{
-	String result;
-	
-	return result;
-}
-
-void X11Application::setCurrentDirectory( const String& currentDirectory )
-{
-	
-}
-
-long X11Application::getHandleID()
-{
-	return handleID_;
-}
-
-void X11Application::setHandleID( const long& handleID )
-{
-	handleID_ = handleID;
-}
 
 

@@ -1,41 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-//LibraryApplication.h
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
 #ifndef _VCF_LIBRARYAPPLICATION_H__
 #define _VCF_LIBRARYAPPLICATION_H__
+//LibraryApplication.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
@@ -43,7 +19,7 @@ namespace VCF  {
 /**
 *Class LibraryApplication documentation
 */
-class APPKIT_API LibraryApplication : public AbstractApplication { 
+class APPKIT_API LibraryApplication : public AbstractApplication {
 public:
 	LibraryApplication();
 
@@ -62,9 +38,9 @@ public:
 	*/
 	static Enumerator<LibraryApplication*>* getRegisteredLibraries();
 
-	static void registerLibrary( LibraryApplication* libraryApp );	
+	static void registerLibrary( LibraryApplication* libraryApp );
 
-	static void unRegisterLibrary( LibraryApplication* libraryApp );	
+	static void unRegisterLibrary( LibraryApplication* libraryApp );
 
 	static LibraryApplication* getRegisteredLibraryApplication( const String& libName );
 
@@ -75,19 +51,23 @@ public:
 	static void initLibraryRegistrar();
 
 	static void clearLibraryRegistrar();
-protected:	
-	
+protected:
+
 private:
-	static std::map<String,LibraryApplication*>* namedLibraryAppMap;	
+	static std::map<String,LibraryApplication*>* namedLibraryAppMap;
 	static EnumeratorMapContainer<std::map<String,LibraryApplication*>, LibraryApplication*>* namedLibAppContainer;
 };
 
 
 }; //end of namespace VCF
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 00:28:18  ddiego
 *migration towards new directory structure
 *
