@@ -20,7 +20,7 @@ where you installed the VCF.
 class SketchWindow documentation
 */
 class SketchWindow : public VCF::Window {
-public: 
+public:
 	BEGIN_CLASSINFO( SketchWindow, "SketchWindow", "VCF::Window", SKETCHWINDOW_CLASSID )
 	END_CLASSINFO( SketchWindow )
 
@@ -38,7 +38,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.6.1  2004/04/29 03:04:29  marcelloptr
+*Revision 1.2.6.2  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *Revision 1.2  2003/08/09 02:56:42  ddiego

@@ -55,7 +55,7 @@ public:
 
 
 		btnShow_ = new CommandButton();
-		btnShow_->ButtonClicked += 
+		btnShow_->ButtonClicked +=
 			new ButtonEventHandler<SplittersWindow>(this,&SplittersWindow::onBtnShow, "SplittersWindow::onBtnShow");
 		btnShow_->setBounds( 120, 2, 100, btnShow_->getPreferredHeight() );
 		btnShow_->setCaption( "Hide" );
@@ -200,7 +200,7 @@ public:
 	}
 */
 	void onResized( ControlEvent*e ) {
-				 
+
 		double w = main_->getWidth()/2;
 		StringUtils::traceWithArgs( "w: %0.2f\n", w );
 
@@ -214,7 +214,7 @@ public:
 	}
 
 	void onPosChanged( ControlEvent*e ) {
-		
+
 	}
 
 public:
@@ -245,11 +245,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new SplittersWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 700.0, 700.0 ) );
-		
+
 		return result;
 	}
 
@@ -261,7 +261,7 @@ int main(int argc, char *argv[])
 	Application* app = new SplittersApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -269,7 +269,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.2  2004/04/29 03:04:29  marcelloptr
+*Revision 1.4.2.3  2004/04/29 03:10:58  marcelloptr
 *reformatting of source files
 *
 *

@@ -40,7 +40,7 @@ public:
 		ProgressControl* progressVert_ = new ProgressControl();
 		progressVert_->setDisplayAlignment( ProgressControl::paVertical );
 
-		progressVert_->setBounds( 20, progressHorz_->getBottom() + 40, 
+		progressVert_->setBounds( 20, progressHorz_->getBottom() + 40,
 									progressVert_->getPreferredWidth()+30, 250 );
 
 		progressVert_->setPosition( 65 );
@@ -48,7 +48,7 @@ public:
 		add( progressVert_ );
 
 		progressVert_->setDisplayProgressText( true );
-		
+
 
 
 
@@ -56,16 +56,16 @@ public:
 		ProgressControl* progressVert2 = new ProgressControl();
 		progressVert2->setDisplayAlignment( ProgressControl::paVertical );
 
-		progressVert2->setBounds( progressVert_->getRight() + 10, 
-									progressVert_->getTop(), 
+		progressVert2->setBounds( progressVert_->getRight() + 10,
+									progressVert_->getTop(),
 									progressVert2->getPreferredWidth(), 250 );
 
 		progressVert2->setPosition( 12 );
 		progressVert2->setAnchor( AnchorTop | AnchorBottom );
 		add( progressVert2 );
 
-		progressVert2->setStepItIncrement( 5 );	
-		
+		progressVert2->setStepItIncrement( 5 );
+
 		progressVert2->setProgressBarColor( Color::getColor("gold") );
 
 
@@ -108,11 +108,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new ProgressBarsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->show();
-		
+
 		return result;
 	}
 
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	Application* app = new ProgressBarsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:28  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:56  marcelloptr
 *reformatting of source files
 *
 *

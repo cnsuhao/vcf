@@ -63,11 +63,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new TablesWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-		
+
 		return result;
 	}
 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/04/29 03:04:30  marcelloptr
+*Revision 1.2.2.3  2004/04/29 03:10:58  marcelloptr
 *reformatting of source files
 *
 *

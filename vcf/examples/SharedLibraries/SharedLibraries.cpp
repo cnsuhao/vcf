@@ -24,11 +24,11 @@ int main( int argc, char** argv )
 {
 	//lets be good and initialize the FoundationKit..
 	FoundationKit::init( argc, argv );
-	
+
 	System::print("Begining test for DynamicLibraries\n");
 
 	//create an instance of the Library on the stack.
-	//This class can be created on the heap or the stack.	
+	//This class can be created on the heap or the stack.
 	Library lib;
 
 	//load the library up. This library name can also be passed in to the
@@ -41,13 +41,13 @@ int main( int argc, char** argv )
 		//make a typedef of our function prototype
 		//you can see this in the SimpleDLL.h header
 		typedef int (*GetInt)(int,double);
-	
+
 		GetInt func;
 		//this will get the function address from the loaded library
 		//if the library has not been loaded this method will throw
 		//an exception
 	 	func = (GetInt)lib.getFunction( "getAnInteger" );
-	
+
 		int i = -1;
 		if ( func ) {
 			//invoke the function
@@ -57,13 +57,13 @@ int main( int argc, char** argv )
 		System::print( "The value of i: %d, from calling func @ %p\n", i, func );
 
 		//unload the library. You can specify for the library to unload automatically
-		//in the constructor of the Library if you want	
+		//in the constructor of the Library if you want
 		lib.unload();
   }
 	catch ( BasicException& e ) {
   	System::print( e.getMessage() + "\n" );
 	}
-	//clean up the FoundationKit by telling it to terminate		
+	//clean up the FoundationKit by telling it to terminate
 	FoundationKit::terminate();
 	return 0;
 }
@@ -72,7 +72,7 @@ int main( int argc, char** argv )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2004/04/29 03:04:28  marcelloptr
+*Revision 1.2.4.3  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *

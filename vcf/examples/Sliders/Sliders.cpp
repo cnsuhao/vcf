@@ -29,7 +29,7 @@ public:
 		Label* label = new Label();
 
 		label->setBounds( 20, y, r.getWidth()-40, label->getPreferredHeight() );
-		label->setAnchor( AnchorLeft|AnchorRight);		
+		label->setAnchor( AnchorLeft|AnchorRight);
 		label->setCaption( "Slider 1 position: " );
 		label->setName( "Label1" );
 		add( label );
@@ -41,7 +41,7 @@ public:
 
 		SliderControl* slider = new SliderControl();
 		slider->setBounds( 20, y, r.getWidth()-40, slider->getPreferredHeight() );
-		
+
 		slider->setAnchor( AnchorLeft|AnchorRight);
 
 		slider->setTickMarkStyle( SliderControl::tmsTopLeft );
@@ -49,17 +49,17 @@ public:
 		add( slider );
 		slider->setPosition( slider->getMaxValue() );
 
-		slider->PositionChanged += 
+		slider->PositionChanged +=
 			new GenericEventHandler<SlidersWindow>( this, &SlidersWindow::onSliderPositionChanged, "SlidersWindow::onSliderPositionChanged" );
 
-		
+
 
 		y = slider->getBottom() + 20;
 
 
 		slider = new SliderControl();
 		slider->setBounds( 20, y, r.getWidth()-40, slider->getPreferredHeight() );
-		
+
 		slider->setAnchor( AnchorLeft|AnchorRight);
 
 		slider->setTickMarkStyle( SliderControl::tmsBottomRight );
@@ -72,7 +72,7 @@ public:
 
 		slider = new SliderControl();
 		slider->setBounds( 20, y, r.getWidth()-40, slider->getPreferredHeight() );
-		
+
 		slider->setAnchor( AnchorLeft|AnchorRight);
 
 		slider->setTickFrequency( 5 );
@@ -92,7 +92,7 @@ public:
 		slider = new SliderControl();
 		slider->setDisplayOrientation( SliderControl::doVertical );
 		slider->setBounds( x, y, slider->getPreferredWidth(), 200 );
-		
+
 		slider->setAnchor( AnchorTop|AnchorBottom);
 		slider->setTickMarkStyle( SliderControl::tmsBottomRight );
 
@@ -104,7 +104,7 @@ public:
 		slider = new SliderControl();
 		slider->setDisplayOrientation( SliderControl::doVertical );
 		slider->setBounds( x, y, slider->getPreferredWidth(), 200 );
-		
+
 		slider->setAnchor( AnchorTop|AnchorBottom);
 		slider->setTickMarkStyle( SliderControl::tmsTopLeft );
 
@@ -117,7 +117,7 @@ public:
 		slider = new SliderControl();
 		slider->setDisplayOrientation( SliderControl::doVertical );
 		slider->setBounds( x, y, slider->getPreferredWidth(), 200 );
-		
+
 		slider->setAnchor( AnchorTop|AnchorBottom);
 		slider->setTickMarkStyle( SliderControl::tmsBottomRight | SliderControl::tmsTopLeft );
 
@@ -152,12 +152,12 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new SlidersWindow();
 		setMainWindow(mainWindow);
 		mainWindow->show();
 
-		
+
 		return result;
 	}
 
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:29  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *

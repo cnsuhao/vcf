@@ -30,10 +30,10 @@ int main( int argc, char** argv ){
 	/**
 	Is this a relative file name?
 	If so, let's expand the relative and change it to an
-	absolute filename using the current directory as our 
+	absolute filename using the current directory as our
 	reference point
 	*/
-	if ( fileName.isRelativePath() ) {		
+	if ( fileName.isRelativePath() ) {
 		fileName = fileName.expandRelativePathName( System::getCurrentWorkingDirectory() );
 	}
 
@@ -85,24 +85,24 @@ int main( int argc, char** argv ){
 
 
 	{
-		
+
 	/**
 	Use the file object to access the file
 		*/
-		File file( fileName ); 
+		File file( fileName );
 		System::println( "The file %s's size: %d", fileName.getFileName().c_str(), file.getSize() );
-		
-		
+
+
 		/**
 		Make a copy of the file
 		*/
-		file.copyTo( fileName.getPathName(true) + 
-			FilePath::getDirectorySeparator() + 
+		file.copyTo( fileName.getPathName(true) +
+			FilePath::getDirectorySeparator() +
 			fileName.getName() + "-copy" + fileName.getExtension() );
-		
+
 	}
 
-	
+
 
 	/**
 	Enumerate all files ending with a .txt extension
@@ -124,13 +124,13 @@ int main( int argc, char** argv ){
 
 
 	/**
-	File chaining - 
+	File chaining -
 	*/
 
 	{
 		FileOutputStream textFile( "text-file.txt" );
 		TextOutputStream tos(&textFile);
-		
+
 		tos.write( 100 );
 		tos.write( 200 );
 		tos.write( true );
@@ -138,13 +138,13 @@ int main( int argc, char** argv ){
 		tos.write( String("Hello World") );
 
 		textFile.close();
-		
+
 		int i1;
 		int i2;
 		bool b1;
 		double d1;
 		String s;
-		
+
 		FileInputStream fis( "text-file.txt" );
 		TextInputStream tis(&fis);
 		tis.read( i1 );
@@ -164,7 +164,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2004/04/29 03:04:26  marcelloptr
+*Revision 1.2.4.3  2004/04/29 03:10:52  marcelloptr
 *reformatting of source files
 *
 *

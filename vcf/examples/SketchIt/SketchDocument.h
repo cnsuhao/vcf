@@ -33,8 +33,8 @@ public:
 	Shape& operator=( const Shape& rhs ) {
 		strokeColor_ = rhs.strokeColor_;
 		fillColor_ = rhs.fillColor_;
-		
-		transform_ = rhs.transform_;		
+
+		transform_ = rhs.transform_;
 		polygon_ = rhs.polygon_;
 
 		fill_ = rhs.fill_;
@@ -48,7 +48,7 @@ public:
 
 	VCF::BezierCurve polygon_;
 	VCF::Color strokeColor_;
-	VCF::Color fillColor_;	
+	VCF::Color fillColor_;
 	VCF::Matrix2D transform_;
 	VCF::Image* image_;
 
@@ -65,7 +65,7 @@ class SketchDocument documentation
 #define SKETCHDOCUMENT_CLASSID		"5e2698e2-bbe0-4f6f-ab6e-938f522a3c0d"
 
 class SketchDocument : public VCF::Document {
-public: 
+public:
 
 	BEGIN_CLASSINFO( SketchDocument, "SketchDocument", "VCF::Document", SKETCHDOCUMENT_CLASSID )
 	END_CLASSINFO( SketchDocument )
@@ -131,7 +131,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.6.2  2004/04/29 03:04:29  marcelloptr
+*Revision 1.2.6.3  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *Revision 1.2.6.1  2004/04/28 00:27:40  ddiego
