@@ -1,0 +1,6 @@
+//BITMAP
+play	BITMAP	"play.bmp"
+pause	BITMAP	"pause.bmp"
+stop	BITMAP	"stop.bmp"
+reset	BITMAP	"reset.bmp"
+open	BITMAP	"open.bmp"

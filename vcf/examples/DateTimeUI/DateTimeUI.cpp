@@ -35,6 +35,9 @@ public:
 		ev = new KeyboardEventHandler<Calendar>( this, &Calendar::onSpaceBar, "Calendar::onSpaceBar" );
 
 		Application::getRunningInstance()->addAcceleratorKey( vkSpaceBar, 0, ev );
+
+
+		current = DateTime::now();
 	}
 
 
