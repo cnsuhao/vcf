@@ -37,6 +37,8 @@
 	<!ENTITY workingwithenumerators SYSTEM "../examples/WorkingWithEnumerators/WorkingWithEnumerators.xml">
 	<!ENTITY scrolling SYSTEM "../examples/Scrolling/Scrolling.xml">
 	<!ENTITY sharedlibraries SYSTEM "../examples/SharedLibraries/SharedLibraries.xml">
+	<!ENTITY heavyandlight SYSTEM "../examples/HeavyAndLight/HeavyAndLight.xml">
+	<!ENTITY alignment SYSTEM "../examples/Alignment/Alignment.xml">
 
 ]>
 
@@ -84,6 +86,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/10/20 03:35:54  ddiego
+added the alignment tutorial to the list
+
 Revision 1.1.2.3  2003/10/01 01:58:31  ddiego
 added more faq documentation
 

@@ -108,6 +108,9 @@ NB: This software will not save the world.
 			&helloworld3;
 		</section>	
 		
+		<section><title>Heavyweight vs. Lightweight Controls</title>
+			&heavyandlight;
+		</section>
 		
 		<section><title>Image viewer</title>
 			&imageviewer;
@@ -161,6 +164,7 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Alignment, Anchors, and Layouts</title>
+			&alignment;
 		</section>
 		
 		<section><title>Menus</title>
@@ -197,6 +201,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/10/20 03:35:54  ddiego
+added the alignment tutorial to the list
+
 Revision 1.1.2.2  2003/09/27 23:04:57  ddiego
 added tutorial sections to documentation
 

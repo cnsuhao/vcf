@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.6  2003/10/20 03:35:54  ddiego
+#added the alignment tutorial to the list
+#
 #Revision 1.5.2.5  2003/10/01 04:34:52  ddiego
 #more faq editing
 #
@@ -149,7 +152,9 @@ TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml \
 ../examples/ImageViewer/ImageViewerArticle.xml \
 ../examples/WorkingWithEnumerators/WorkingWithEnumeratorsArticle.xml \
 ../examples/Scrolling/ScrollingArticle.xml \
-../examples/SharedLibraries/SharedLibrariesArticle.xml 
+../examples/SharedLibraries/SharedLibrariesArticle.xml \
+../examples/HeavyAndLight/HeavyAndLightArticle.xml \
+../examples/Alignment/AlignmentArticle.xml 
 
 
 
