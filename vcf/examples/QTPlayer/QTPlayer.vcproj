@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="QTPlayer"
-	ProjectGUID="{7CFCF90F-F44C-4434-9F1A-3E76601F5FAD}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="QTPlayer">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

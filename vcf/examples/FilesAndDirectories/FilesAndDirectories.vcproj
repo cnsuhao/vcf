@@ -2,9 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="FilesAndDirectories"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="FilesAndDirectories">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

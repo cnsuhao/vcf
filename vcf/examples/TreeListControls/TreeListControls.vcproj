@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="TreeListControls"
-	ProjectGUID="{04C78127-CC15-4D5D-8992-55AF3CF3E527}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="TreeListControls">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

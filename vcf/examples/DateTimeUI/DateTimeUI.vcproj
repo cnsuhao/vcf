@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="DateTimeUI"
-	ProjectGUID="{42D890F2-1F6E-4DEF-AB8B-FE6C2FE2749B}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="DateTimeUI">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

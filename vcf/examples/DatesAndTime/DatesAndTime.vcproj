@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="DatesAndTime"
-	ProjectGUID="{D6269483-DCA3-4448-964E-5E79AB910C8E}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="DatesAndTime">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

@@ -2,9 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="GraphicsKit"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="GraphicsKit">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

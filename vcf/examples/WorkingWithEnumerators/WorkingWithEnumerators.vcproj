@@ -2,9 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="WorkingWithEnumerators"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="WorkingWithEnumerators">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Dictionaries"
-	ProjectGUID="{D5E80CEC-01DB-44E9-98E0-8BA7A1EA9A77}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="Dictionaries">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
