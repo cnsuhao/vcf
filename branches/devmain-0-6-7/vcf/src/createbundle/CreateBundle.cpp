@@ -294,9 +294,8 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2004/12/22 02:57:45  marcelloptr
-*fixed VCF_COMPILER_NAME macro so less error prone.
-*This also makes getExecutableNameFromBundlePath() to work right.
+*Revision 1.1.2.5  2004/12/22 02:58:22  marcelloptr
+*eliminated a warning for unreferenced variable
 *
 */
 
