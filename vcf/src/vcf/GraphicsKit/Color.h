@@ -23,7 +23,12 @@ where you installed the VCF.
 *	this implement a VCF::String memeber variable ( s_ ) showing some infos about the color
 *	Under Visual Studio (vc6 and vc7) modify Autoexp.dat to QuickWatch this variable under debug mode
 */
-#define VCF_DEBUG_COLORS
+
+/**
+JC:
+18/6/2004 - I commented this out per Marcello's instructions.
+*/
+//#define VCF_DEBUG_COLORS
 
 #ifndef _DEBUG
 #	ifdef VCF_DEBUG_COLORS
@@ -1681,6 +1686,9 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/18 14:38:43  ddiego
+*commented out the VCF_DEBUG_COLORS define for Marcello.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
