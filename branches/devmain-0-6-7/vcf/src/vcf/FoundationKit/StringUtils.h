@@ -29,6 +29,7 @@ namespace VCF {
 
 class DateTime;
 class VariantData;
+class Format;
 
 class FOUNDATIONKIT_API StringUtils  {
 public:
@@ -47,6 +48,8 @@ public:
 	*/
 	static void traceWithArgs( VCF::String text,... );
 
+	static void traceWithArgs( const Format& formatter );
+
 	/**
 	*formats a string. Uses the same formatting rules as
 	*sprintf().
@@ -54,6 +57,8 @@ public:
 	*@return String the formatted string
 	*/
 	static VCF::String format( VCF::String formatText, ... );
+
+	static VCF::String format( const Format& formatter );
 
 	/**
 	*trim all the occurrences of a specified character
@@ -781,6 +786,9 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rh
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/14 05:44:51  ddiego
+*added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
+*
 *Revision 1.3.2.3  2005/03/14 04:17:25  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

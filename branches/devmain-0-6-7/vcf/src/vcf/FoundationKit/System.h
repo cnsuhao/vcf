@@ -23,6 +23,7 @@ class BasicException;
 class DateTime;
 class Locale;
 class ResourceBundle;
+class Format;
 
 /**
 The System object represents basic lower level OS functions. 
@@ -218,10 +219,14 @@ public:
 	*/
 	static void print( String text, ... );
 
+	static void print( const Format& formatter );
+
 	/**
 	@see System::print
 	*/
 	static void println( String text, ... );
+
+	static void println( const Format& formatter );
 
 	/**
 	This will print the contents of the exception to stdout and the 
@@ -368,6 +373,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/03/14 05:44:51  ddiego
+*added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
+*
 *Revision 1.4.2.3  2005/01/07 01:15:23  ddiego
 *fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
 *

@@ -85,6 +85,7 @@ where you installed the VCF.
 
 
 
+
 namespace VCF{
 	/**
 	\par
@@ -190,13 +191,9 @@ namespace VCF{
 
 
 
-
-
-
-
-
-#include "vcf/FoundationKit/StringUtils.h"
 #include "vcf/FoundationKit/ErrorStrings.h"
+#include "vcf/FoundationKit/StringUtils.h"
+
 
 
 #include "vcf/FoundationKit/BasicException.h"
@@ -216,6 +213,9 @@ namespace VCF{
 #include "vcf/FoundationKit/TypeCastException.h"
 
 #include "vcf/FoundationKit/ProcessException.h"
+
+
+#include "vcf/FoundationKit/Format.h"
 
 
 #include "vcf/FoundationKit/ProgramInfo.h"
@@ -315,6 +315,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/03/14 05:44:51  ddiego
+*added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
+*
 *Revision 1.4.2.2  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

@@ -198,6 +198,31 @@ void System::print( String text, ... )
 	delete [] tmpChar;
 }
 
+void System::print( const Format& formatter )
+{
+	String output = formatter;
+
+	if ( output.empty() ) {
+		return;
+	}
+
+#ifdef VCF_OSX
+    CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
+
+	CFStringAppendCharacters( tmp, output.c_str(), output.size() );    
+    CFShow( tmp );    
+    CFRelease( tmp );
+#else
+	wprintf( output.c_str() );
+#endif
+
+	if ( NULL != System::systemInstance ) {
+		if ( NULL != System::systemInstance->errorLogInstance_ ) {			
+			System::systemInstance->errorLogInstance_->toLog( output );
+		}
+	}
+}
+
 void System::println(String text, ...)
 {
 	text = StringUtils::convertFormatString( text );
@@ -248,6 +273,33 @@ void System::println(String text, ...)
 		}
 	}
 	delete [] tmpChar;
+}
+
+void System::println( const Format& formatter )
+{
+	String output = formatter;
+
+	if ( output.empty() ) {
+		return;
+	}
+
+	output += "\n";
+
+#ifdef VCF_OSX
+    CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
+
+	CFStringAppendCharacters( tmp, output.c_str(), output.size() );    
+    CFShow( tmp );    
+    CFRelease( tmp );
+#else
+	wprintf( output.c_str() );
+#endif
+
+	if ( NULL != System::systemInstance ) {
+		if ( NULL != System::systemInstance->errorLogInstance_ ) {			
+			System::systemInstance->errorLogInstance_->toLog( output );
+		}
+	}
 }
 
 void System::errorPrint( BasicException* exception )
@@ -683,6 +735,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/03/14 05:44:51  ddiego
+*added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
+*
 *Revision 1.3.2.6  2005/01/08 00:06:38  marcelloptr
 *fixed buffer management for println
 *

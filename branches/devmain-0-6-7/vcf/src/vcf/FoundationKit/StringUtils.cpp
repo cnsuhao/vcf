@@ -69,6 +69,10 @@ text = StringUtils::convertFormatString( text );
 //#endif
 }
 
+void StringUtils::traceWithArgs( const Format& formatter )
+{
+	StringUtils::trace( formatter );
+}
 
 void StringUtils::trace( const String& text )
 {
@@ -506,6 +510,12 @@ VCF::String StringUtils::newUUID()
 	CFRelease( uuidRef );
 #endif
 	return result;
+}
+
+
+VCF::String StringUtils::format( const Format& formatter )
+{
+	return formatter;
 }
 
 VCF::String StringUtils::format( VCF::String formatText, ... )
@@ -2181,6 +2191,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/14 05:44:51  ddiego
+*added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
+*
 *Revision 1.3.2.2  2005/03/14 04:17:24  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *
