@@ -26,8 +26,11 @@ int getAnInteger( int val1, double d )
 	return result;
 }
 
-
+#ifdef __BORLANDC__
 void vpl_init (void) {}
+
+void vpl_terminate (void) {}
+#endif
 
 }
 
@@ -35,6 +38,9 @@ void vpl_init (void) {}
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2004/10/16 16:18:03  kiklop74
+*Updated SharedLibraries sample for compilation with BCB 5/6 with IDE projects
+*
 *Revision 1.3.2.2  2004/10/07 15:03:34  kiklop74
 *Fixed building issues with bcb
 *
