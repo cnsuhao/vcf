@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.10  2003/12/13 18:19:00  ddiego
+#*** empty log message ***
+#
 #Revision 1.3.4.9  2003/11/11 17:43:42  ddiego
 #updated the makefile and foundationKit object to make a VariantData.obj
 #file
@@ -367,6 +370,7 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/Component.o \
 			$(OUTDIR_AK_D)/ComponentEditorManager.o \
 			$(OUTDIR_AK_D)/ComponentInfo.o \
+			$(OUTDIR_AK_D)/Action.o \
 			$(OUTDIR_AK_D)/Control.o \
 			$(OUTDIR_AK_D)/ControlContainer.o \
 			$(OUTDIR_AK_D)/ControlEvent.o \
@@ -434,9 +438,7 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/TimerEvent.o \
 			$(OUTDIR_AK_D)/ToggledButton.o \
 			$(OUTDIR_AK_D)/Toolbar.o \
-			$(OUTDIR_AK_D)/ToolbarButton.o \
 			$(OUTDIR_AK_D)/ToolbarDock.o \
-			$(OUTDIR_AK_D)/ToolbarSeparator.o \
 			$(OUTDIR_AK_D)/ToolTipEvent.o \
 			$(OUTDIR_AK_D)/TreeControl.o \
 			$(OUTDIR_AK_D)/TreeListControl.o \
@@ -505,6 +507,7 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/Component.o \
 			$(OUTDIR_AK)/ComponentEditorManager.o \
 			$(OUTDIR_AK)/ComponentInfo.o \
+			$(OUTDIR_AK)/Action.o \
 			$(OUTDIR_AK)/Control.o \
 			$(OUTDIR_AK)/ControlContainer.o \
 			$(OUTDIR_AK)/ControlEvent.o \
@@ -572,9 +575,7 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/TimerEvent.o \
 			$(OUTDIR_AK)/ToggledButton.o \
 			$(OUTDIR_AK)/Toolbar.o \
-			$(OUTDIR_AK)/ToolbarButton.o \
 			$(OUTDIR_AK)/ToolbarDock.o \
-			$(OUTDIR_AK)/ToolbarSeparator.o \
 			$(OUTDIR_AK)/ToolTipEvent.o \
 			$(OUTDIR_AK)/TreeControl.o \
 			$(OUTDIR_AK)/TreeListControl.o \

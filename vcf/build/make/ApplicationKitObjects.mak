@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.5  2003/12/13 18:19:00  ddiego
+#*** empty log message ***
+#
 #Revision 1.3.4.4  2003/11/01 20:41:00  ddiego
 #updated makefil to add the gtk toolbar class
 #
@@ -160,6 +163,9 @@ $(OUTDIR_AK_D)/ComponentEditorManager.o : $(SRC_CORE)/ComponentEditorManager.cpp
 $(OUTDIR_AK_D)/ComponentInfo.o : $(SRC_CORE)/ComponentInfo.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/ComponentInfo.cpp -o $(OUTDIR_AK_D)/ComponentInfo.o
 
+$(OUTDIR_AK_D)/Action.o : $(SRC_CORE)/Action.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/Action.cpp -o $(OUTDIR_AK_D)/Action.o
+	
 $(OUTDIR_AK_D)/Control.o : $(SRC_CORE)/Control.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/Control.cpp -o $(OUTDIR_AK_D)/Control.o
 
@@ -364,14 +370,10 @@ $(OUTDIR_AK_D)/ToggledButton.o : $(SRC_CORE)/ToggledButton.cpp $(APPKIT_HDRS)
 $(OUTDIR_AK_D)/Toolbar.o : $(SRC_CORE)/Toolbar.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/Toolbar.cpp -o $(OUTDIR_AK_D)/Toolbar.o
 
-$(OUTDIR_AK_D)/ToolbarButton.o : $(SRC_CORE)/ToolbarButton.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/ToolbarButton.cpp -o $(OUTDIR_AK_D)/ToolbarButton.o
 
 $(OUTDIR_AK_D)/ToolbarDock.o : $(SRC_CORE)/ToolbarDock.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/ToolbarDock.cpp -o $(OUTDIR_AK_D)/ToolbarDock.o
 
-$(OUTDIR_AK_D)/ToolbarSeparator.o : $(SRC_CORE)/ToolbarSeparator.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_CORE)/ToolbarSeparator.cpp -o $(OUTDIR_AK_D)/ToolbarSeparator.o
 
 $(OUTDIR_AK_D)/ToolTipEvent.o : $(SRC_EVENT)/ToolTipEvent.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_EVENT)/ToolTipEvent.cpp -o $(OUTDIR_AK_D)/ToolTipEvent.o
@@ -583,6 +585,9 @@ $(OUTDIR_AK)/ComponentEditorManager.o : $(SRC_CORE)/ComponentEditorManager.cpp $
 $(OUTDIR_AK)/ComponentInfo.o : $(SRC_CORE)/ComponentInfo.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/ComponentInfo.cpp -o $(OUTDIR_AK)/ComponentInfo.o
 
+$(OUTDIR_AK)/Action.o : $(SRC_CORE)/Action.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/Action.cpp -o $(OUTDIR_AK)/Action.o
+	
 $(OUTDIR_AK)/Control.o : $(SRC_CORE)/Control.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/Control.cpp -o $(OUTDIR_AK)/Control.o
 
@@ -787,14 +792,10 @@ $(OUTDIR_AK)/ToggledButton.o : $(SRC_CORE)/ToggledButton.cpp $(APPKIT_HDRS)
 $(OUTDIR_AK)/Toolbar.o : $(SRC_CORE)/Toolbar.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/Toolbar.cpp -o $(OUTDIR_AK)/Toolbar.o
 
-$(OUTDIR_AK)/ToolbarButton.o : $(SRC_CORE)/ToolbarButton.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/ToolbarButton.cpp -o $(OUTDIR_AK)/ToolbarButton.o
 
 $(OUTDIR_AK)/ToolbarDock.o : $(SRC_CORE)/ToolbarDock.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/ToolbarDock.cpp -o $(OUTDIR_AK)/ToolbarDock.o
 
-$(OUTDIR_AK)/ToolbarSeparator.o : $(SRC_CORE)/ToolbarSeparator.cpp $(APPKIT_HDRS)
-	$(CXX) $(AK_CXX_FLAGS) $(SRC_CORE)/ToolbarSeparator.cpp -o $(OUTDIR_AK)/ToolbarSeparator.o
 
 $(OUTDIR_AK)/ToolTipEvent.o : $(SRC_EVENT)/ToolTipEvent.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_EVENT)/ToolTipEvent.cpp -o $(OUTDIR_AK)/ToolTipEvent.o

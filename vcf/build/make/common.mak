@@ -3,6 +3,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.4  2003/12/13 18:19:00  ddiego
+#*** empty log message ***
+#
 #Revision 1.3.4.3  2003/10/03 04:33:03  ddiego
 #add precompiled header target - doesn't seem to really work though
 #
@@ -363,7 +366,9 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ApplicationKit.h \
 	$(INC)/core/ComponentEditor.h \
 	$(INC)/core/ComponentEditorManager.h \
 	$(INC)/core/ComponentInfo.h \
+	$(INC)/core/Action.h \
 	$(INC)/core/Container.h \
+	$(INC)/core/Containers.h \
 	$(INC)/core/Control.h \
 	$(INC)/core/ControlContainer.h \
 	$(INC)/core/Cursor.h \
@@ -427,9 +432,6 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ApplicationKit.h \
 	$(INC)/core/TimerComponent.h \
 	$(INC)/core/ToggledButton.h \
 	$(INC)/core/Toolbar.h \
-	$(INC)/core/ToolbarButton.h \
-	$(INC)/core/ToolbarDock.h \
-	$(INC)/core/ToolbarSeparator.h \
 	$(INC)/core/TreeControl.h \
 	$(INC)/core/TreeItem.h \
 	$(INC)/core/TreeListControl.h \
