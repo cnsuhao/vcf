@@ -109,18 +109,12 @@
 			<File
 				RelativePath="..\..\..\src\ImplementerKit\Win32HTMLBrowser.cpp">
 			</File>
-			<File
-				RelativePath="..\..\..\src\ImplementerKit\Win32HTMLBrowserApplication.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
 				RelativePath="..\..\..\include\implementerKit\Win32HTMLBrowser.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\implementerKit\Win32HTMLBrowserApplication.h">
 			</File>
 		</Filter>
 	</Files>

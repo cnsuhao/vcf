@@ -23,8 +23,6 @@ CFG=Win32HTMLBrowser - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -109,3 +107,5 @@ SOURCE=..\..\..\include\implementerKit\Win32HTMLBrowser.h
 # End Group
 # End Target
 # End Project
+
+
