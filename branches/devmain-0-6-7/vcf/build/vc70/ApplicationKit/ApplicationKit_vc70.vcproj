@@ -189,9 +189,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractContainer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractPropertyEditor.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractPropertyEditor.h">
 			</File>
 			<File

@@ -171,10 +171,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractContainer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractPropertyEditor.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractPropertyEditor.h
 # End Source File
 # Begin Source File
