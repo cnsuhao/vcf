@@ -34,8 +34,8 @@ int main(int argc, char **argv){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2004/11/07 19:31:15  marcelloptr
-*more documentation
+*Revision 1.1.2.5  2004/11/07 20:44:51  marcelloptr
+*common sintax inside main
 *
 *Revision 1.1.2.3  2004/11/01 20:44:22  kiklop74
 *Added support for building ParticleEditor in BCB. Fixed some issues in header and cpp files
