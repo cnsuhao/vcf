@@ -23,7 +23,9 @@ CFG=FoundationKit - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-CPP=xicl6.exe
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
+CPP=cl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "FoundationKit - Win32 Release"
@@ -40,13 +42,13 @@ RSC=rc.exe
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /c
-# SUBTRACT CPP /WX /FR
+# SUBTRACT CPP /WX /Fr
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo /o"../../../lib/FoundationKit_vc6_s.bsc"
-LIB32=xilink6.exe -lib
+LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"../../../lib/FoundationKit_vc6_s.lib"
 
@@ -63,14 +65,14 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "vc6\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Fd"..\..\..\lib\FoundationKit_vc6_sd.pdb" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /GZ /c
-# SUBTRACT CPP /WX /FR
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"vcf/FoundationKit/FoundationKit.h" /Fd"..\..\..\lib\FoundationKit_vc6_sd.pdb" /FD /GZ /c
+# SUBTRACT CPP /WX /Fr
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo /o"../../../lib/FoundationKit_vc6_sd.bsc"
-LIB32=xilink6.exe -lib
+LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"../../../lib/FoundationKit_vc6_sd.lib"
 
@@ -527,6 +529,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Formatter.h
 # End Source File
 # Begin Source File
 

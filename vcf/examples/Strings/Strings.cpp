@@ -9,140 +9,6 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
-namespace VCF { 
-
-class Formatter {
-public:
-	
-	Formatter( const String& fmtStr ): fmtStr_(fmtStr),currentPos_(0),
-										expectedFormatArgCount_(0), currentFormatArgCount_(0){
-		
-		expectedFormatArgCount_ = countFormatTokens();
-
-		currentPos_ = fmtStr_.find( "%" );
-		if ( String::npos == currentPos_ ) {
-			output_ += fmtStr_;
-			fmtStr_.resize(0);
-		}
-	}
-
-	//should we add virtual here for customizing the class???
-	~Formatter() {
-		//assert if the % operator wasn't called the correct number of times
-		VCF_ASSERT ( currentFormatArgCount_ < expectedFormatArgCount_ );
-	}
-	
-	template<typename ValType>
-	Formatter& operator% ( const ValType& val ) {
-		currentFormatArgCount_  ++;
-
-		VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
-		if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
-			return *this;
-		}
-
-		if ( !fmtStr_.empty() ) {  
-			if ( String::npos != currentPos_ ) {
-				//look ahead and see if we have two consecutive %% chars
-				//if so treat as one %
-				if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
-					output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
-					fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
-				}
-				else { //we have to format this string
-					int endPos = getNextFormatTokenEndPos( currentPos_ );
-					
-					output_ += fmtStr_.substr( 0, currentPos_ );
-					fmtStr_.erase( 0, currentPos_ );
-					String fmt;
-
-					if ( String::npos != endPos ) {												
-						fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
-						
-						fmtStr_.erase( 0, endPos-currentPos_ );
-					}
-					else{
-						fmt = fmtStr_;						
-						fmtStr_.resize(0);
-					}
-
-					char tmp[256];
-					sprintf( tmp, fmt.ansi_c_str(), val );
-					output_ += tmp;
-				}
-			}
-			else {
-				output_ += fmtStr_;
-				fmtStr_.resize(0);
-			}
-			
-			currentPos_ = fmtStr_.find( "%" );
-			if ( String::npos == currentPos_ ) {
-				output_ += fmtStr_;
-				fmtStr_.resize(0);
-			}
-		}		
-		return *this;
-	}
-	
-	
-	
-	operator String() const {
-		return output_;
-	}
-protected:
-	int countFormatTokens() const {
-		int result = 0;
-		String searchToken = "%";
-		int pos = fmtStr_.find( searchToken );
-
-		while ( pos != String::npos ) {
-			if ( !( (fmtStr_.size() >= (pos+1)) && (fmtStr_[pos+1] == '%') ) ) {
-				result ++;
-			}
-			pos = fmtStr_.find( searchToken, pos+1);
-		}
-
-		return result;
-	}
-
-	int getNextFormatTokenEndPos( int startPos ) const {  
-		
-		int result = String::npos;
-		
-		if ( fmtStr_[startPos] != '%' ) {
-			return result;
-		}
-		
-		
-		//flags: "-+0 #"
-		
-		//width [1..9,0]*
-		
-		//precision ".[1..9,0]"
-		
-		//precision for int? "hlI64L"
-		
-		//type "cCdiouxXeEfgnpsS"
-		
-		
-		String search = "-+0 #123456789*.hlI64LcCdiouxXeEfgnpsS";
-		
-		result = fmtStr_.find_first_not_of( search, startPos+1 );
-		
-		return result;
-	}
-private:
-	String fmtStr_;
-	int currentPos_;
-	String output_;
-	int expectedFormatArgCount_;
-	int currentFormatArgCount_;
-};
-
-
-};
-
 
 
 /**
@@ -157,11 +23,14 @@ public:
 };
 
 
+
+
 /**
 *use the VCF namespace to make it more convenient
 *to refer to VCF classes
 */
 using namespace VCF;
+
 
 
 /**
@@ -282,12 +151,12 @@ int main(int argc, char *argv[])
 		/**
 		format a string
 		*/		
-		String formattedString = Formatter( "hello %d, %0.2f World!!" ) % 1002 % 12.456330;
-		System::println( formattedString );
+		String formattedString = Format( "hello %d, %0.2f World!!" ) % 1002 % 12.456330;
+		System::println( Format( "hello %d, %0.2f World!!" ) % 1002 % 12.456330 );
 
 		//error - too many arguments, expecting 2 argument, recv'd 3!
 		try {
-			formattedString = Formatter( "hello %d, %0.2f World!!" ) % 1002 % 0.0786 % 456;
+			formattedString = Format( "hello %d, %0.2f World!!" ) % 1002 % 0.0786 % 456;
 			System::println( formattedString );
 		}
 		catch ( std::exception& e ) {
@@ -295,14 +164,22 @@ int main(int argc, char *argv[])
 		}
 
 
+		//error - too few arguments, expecting 2 argument, recv'd 1!
+		try {
+			formattedString = Format( "hello %d, %0.2f World!!" ) % 1002;
+			System::println( formattedString );
+		}
+		catch ( std::exception& e ) {
+			printf( "%s\n", e.what() );
+		}
 
 		//StringUtils::format is deprecated - don't use in new code
 		formattedString = StringUtils::format( "Number: %d, as hex: 0x%08X, a string: %ls", 12, 12, toFind.c_str() );
 		System::println( formattedString );
 
 
-		//same thing with a Formatter
-		formattedString = Formatter( "Number: %d, as hex: 0x%08X, a string: %ls") % 12 % 12 % toFind.c_str();
+		//same thing with a Format
+		formattedString = Format( "Number: %d, as hex: 0x%08X, a string: %ls") % 12 % 12 % toFind.c_str();
 		System::println( formattedString );
 
 		
@@ -444,6 +321,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2005/03/14 05:44:50  ddiego
+*added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
+*
 *Revision 1.3.4.2  2005/03/06 22:50:57  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
