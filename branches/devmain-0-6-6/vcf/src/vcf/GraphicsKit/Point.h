@@ -99,13 +99,13 @@ public:
 	*@param double the tolerance to use
 	*@return true if the x and y coordinates are with the tolerance, otherwise false.
 	*/
-	bool closeTo( const double& x, const double& y, const double& tolerance=1.0 );
+	bool closeTo( const double& x, const double& y, const double& tolerance=1.0 ) const;
 
 	/**
 	*determines if this Point instance is close to a specified point
 	* within a given tolerance range.
 	*/
-	bool closeTo( const Point& pt, const double& tolerance=1.0 );
+	bool closeTo( const Point& pt, const double& tolerance=1.0 ) const;
 
 	/**
 	*determines if this Point instance is in the rectangle 
@@ -374,7 +374,7 @@ inline Point Point::operator/(const double d) const {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/10/26 06:12:16  marcelloptr
+*Revision 1.2.2.3  2004/10/26 06:16:00  marcelloptr
 *bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
 *
 *Revision 1.2  2004/08/07 02:49:18  ddiego
