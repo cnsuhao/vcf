@@ -892,6 +892,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				result = true;
 			}
 
+			// copy the control's text into the model
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
 				String text = getText();
@@ -1510,6 +1511,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/03/28 18:23:58  marcelloptr
+*just a comment
+*
 *Revision 1.3.2.10  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *
