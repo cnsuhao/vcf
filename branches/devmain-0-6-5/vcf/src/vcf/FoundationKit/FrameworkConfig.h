@@ -80,7 +80,11 @@ VCF_GCC - compiling with GCC's C++ compiler
 #ifdef WIN32
 	//define VCF_WIN32
 	#define VCF_WIN32
+#endif
 
+
+
+#ifdef WIN32
 
 
 #ifdef VCF_MSC
@@ -460,6 +464,9 @@ special macro for handling multi-character constants like 'abcd' which GCC is un
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/06/30 21:30:03  ddiego
+*minor mods to copy/paste code in DocumentManager
+*
 *Revision 1.1.2.5  2004/06/29 03:17:41  marcelloptr
 *minor fixes on import/export library macros
 *

@@ -13,12 +13,15 @@ where you installed the VCF.
 using namespace VCF;
 
 
+
 SystemToolkit* SystemToolkit::create()
 {
 
 	if ( NULL == SystemToolkit::systemToolkitInstance ) {
-#ifdef WIN32
+#if defined(WIN32) && !defined(VCF_DOTNET)
 		SystemToolkit::systemToolkitInstance = new Win32SystemToolkit();
+#elif defined(VCF_DOTNET)
+		SystemToolkit::systemToolkitInstance = new DotNetSystemToolkit();
 #elif VCF_POSIX
 		SystemToolkit::systemToolkitInstance = new LinuxSystemToolkit();
 #elif VCF_OSX
@@ -113,6 +116,9 @@ LocalePeer* SystemToolkit::createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 21:30:03  ddiego
+*minor mods to copy/paste code in DocumentManager
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
