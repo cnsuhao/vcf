@@ -68,7 +68,7 @@ g_printFilterGroupTrees = False
 addEntriesForVc71WhenSynchToVc70 = False # this will alter the configuration information contained in the vcproj. Better False
 addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration information contained in the vcproj. Better False
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
-g_debugFileList = [ '' ] # [ 'win32htmlbrowser_staticlib' ] [ 'docbookarticle_vc70.vcproj' ] [ 'vcmcvs_vc71.vcproj' ] [ 'js' ] [ 'docbookarticle' ] [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ] ( see isFileIn2() )
+g_debugFileList = [ '' ] # [ 'Examples.dsw', 'vcfAllProjects.dsw' ] [ 'win32htmlbrowser_staticlib' ] [ 'docbookarticle_vc70.vcproj' ] [ 'vcmcvs_vc71.vcproj' ] [ 'js' ] [ 'docbookarticle' ] [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ]   ( see isFileIn2() )
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
 g_keepFirstDot_standard = 4 # === g_keepFirstDot_StandardVc # standard format for paths in projects files has ./ at the beginning
 g_fix_last_slash_in_path = True # True only when we need to fix it. Then put it back
@@ -2186,7 +2186,7 @@ class DspApp:
     def isFileIn( self, file, namelist ):
         found = False
         for name in namelist:
-            #name = name.lower()
+            name = name.lower() # lowercase to make easier to define g_debugFileList
             if ( file.filename.lower().find( name ) != -1 ):
                 found = True
                 break
@@ -8222,7 +8222,7 @@ class Workspace( DspFile ):
             prjName = app.allProjectNamesLwrDict[ prjNameLwr ]
             relPrjPath = self.prjNameRelPathDict[ prjNameLwr ]
 
-            relPrjPath = FileUtils.normPath( relPrjPath, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+            relPrjPath = FileUtils.normPath( relPrjPath, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_False ) # g_IsDirForSure_ChkDot ?
 
             prjLine = r'Project: "' + prjName + r'"="' + relPrjPath + '" - Package Owner=<4>\n'
             fd.writelines( prjLine )
