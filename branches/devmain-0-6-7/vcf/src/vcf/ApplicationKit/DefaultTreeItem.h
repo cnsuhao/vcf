@@ -113,8 +113,20 @@ public:
 
 	virtual void setParent( TreeItem* parent );
 
+	/**
+	* gets the next sibling item in the tree node, i.e. an item
+	* with the same parent and at the same 'level' of this one.
+	*@return TreeItem*, a pointer to the following TreeItem. It
+	*returns NULL if this item is the first between the parent's children.
+	*/
 	virtual TreeItem* getNextChildNodeItem();
 
+	/**
+	* gets the previous sibling item in the tree node, i.e. an item
+	* with the same parent and at the same 'level' of this one.
+	*@return TreeItem*, a pointer to the previous TreeItem. It
+	*returns NULL if this item is the first between the parent's children.
+	*/
 	virtual TreeItem* getPrevChildNodeItem();
 
 	virtual String getCaption();
@@ -259,6 +271,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/04 16:49:25  marcelloptr
+*more comments
+*
 *Revision 1.3.2.1  2005/01/31 02:11:09  marcelloptr
 *member function expandAllChildren() added
 *
