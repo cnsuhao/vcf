@@ -58,6 +58,10 @@ public:
 
 	virtual Rect getItemImageRect( TreeItem* item );
 
+	virtual bool getAllowLabelEditing();
+
+	virtual void setAllowLabelEditing( const bool& allowLabelEditing );
+
 	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
 
 	void onItemPaint( ItemEvent* event );
@@ -95,6 +99,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
+*added support for editing labels on a tree control
+*
 *Revision 1.1.2.3  2004/07/14 04:56:02  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

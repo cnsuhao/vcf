@@ -471,8 +471,27 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 
-		case TVN_ENDLABELEDIT:{
+		case TVN_ENDLABELEDITW:{
+			LPNMTVDISPINFOW lptvdi = (LPNMTVDISPINFOW) lParam ;
+			if ( lptvdi->item.pszText ) {
+				String text = lptvdi->item.pszText;
+				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
+				item->setCaption( text );
+				return 1;
+			}
+			return 0;
+		}
+		break;
 
+		case TVN_ENDLABELEDITA:{
+			LPNMTVDISPINFOA lptvdi = (LPNMTVDISPINFOA) lParam ;
+			if ( lptvdi->item.pszText ) {
+				AnsiString text = lptvdi->item.pszText;
+				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
+				item->setCaption( text );
+				return 1;
+			}
+			return 0;
 		}
 		break;
 
@@ -1087,10 +1106,33 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 	}
 }
 
+bool Win32Tree::getAllowLabelEditing()
+{
+	return ( TVS_EDITLABELS & GetWindowLong( hwnd_, GWL_STYLE ) ) ? true : false;
+}
+
+void Win32Tree::setAllowLabelEditing( const bool& allowLabelEditing )
+{
+	int style = GetWindowLong( hwnd_, GWL_STYLE );
+	if ( allowLabelEditing ) {
+		style |= TVS_EDITLABELS;
+	}
+	else {
+		style &= ~TVS_EDITLABELS;
+	}
+	SetWindowLong( hwnd_, GWL_STYLE, style );
+
+	::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
+
+	::UpdateWindow( hwnd_ );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/16 05:07:18  ddiego
+*added support for editing labels on a tree control
+*
 *Revision 1.1.2.9  2004/07/16 04:01:46  ddiego
 *fixed the last of border redraw issues, I hope.
 *

@@ -105,6 +105,10 @@ public:
 	TreeItem* getSelectedItem();
 
 	Rect getItemImageRect( TreeItem* item );
+
+	bool getAllowLabelEditing();
+
+	void setAllowLabelEditing( const bool& allowLabelEditing );
 protected:
 	TreeItem* hitTestForItem( Point* pt, TreeItem* item );
 
@@ -125,6 +129,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
+*added support for editing labels on a tree control
+*
 *Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
