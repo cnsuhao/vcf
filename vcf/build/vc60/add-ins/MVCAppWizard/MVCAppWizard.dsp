@@ -35,8 +35,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 2
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6/Release"
-# PROP Intermediate_Dir "vc6/Release"
+# PROP Output_Dir "Release"
+# PROP Intermediate_Dir "Release"
 # PROP Target_Ext "awx"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
@@ -48,12 +48,12 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc6/Release\MVCAppWizard_vc6.bsc"
+# ADD BSC32 /nologo /o"Release\MVCAppWizard_vc6.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
 # ADD LINK32 rpcrt4.lib /nologo /subsystem:windows /dll /machine:I386 /out:"Release/MVCAppWizard.awx"
 # Begin Custom Build - Copying custom AppWizard to Template directory...
-OutDir=.\vc6/Release
+OutDir=.\Release
 TargetPath=.\Release\MVCAppWizard.awx
 TargetName=MVCAppWizard
 InputPath=.\Release\MVCAppWizard.awx
