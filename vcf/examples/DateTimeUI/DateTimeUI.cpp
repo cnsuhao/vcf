@@ -50,8 +50,10 @@ public:
 	virtual void paint( GraphicsContext* ctx ) {
 		CustomControl::paint( ctx );
 
-		DateTime tmp( current.getYear(), current.getMonth(), 1 );
-		DateTime::Iterator<ByDay> dayIter = tmp;
+		StringUtils::trace( "Calendar::paint()\n" );
+		
+		DateTime currentMonthDate( current.getYear(), current.getMonth(), 1 );
+		DateTime::Iterator<ByDay> dayIter = currentMonthDate;
 
 		Rect rect = getClientBounds();
 
@@ -65,16 +67,16 @@ public:
 		textRect.inflate( -5, -5 );
 
 		String s =
-			StringUtils::format( "%s. %s",
-						StringUtils::format( tmp, "The current month starts on %A, %B %d, %Y" ).c_str(),
+			StringUtils::format( "%ls. %ls",
+						StringUtils::format( currentMonthDate, "The current month starts on %A, %B %d, %Y" ).c_str(),
 						StringUtils::format( current, "Today is %A, %B %d, %Y week %#W" ).c_str() );
 
 		String s2 =
 			StringUtils::format( "\nThe current month has %d days in it, and the current year has %d days in it, starts on week %d,\nand has %d total weeks in the year\n",
-										tmp.getNumberOfDaysInMonth(),
-										tmp.getDaysInYear(),
-										tmp.getWeekOfYearStartingMon(),
-										tmp.getWeeksInYear() );
+										currentMonthDate.getNumberOfDaysInMonth(),
+										currentMonthDate.getDaysInYear(),
+										currentMonthDate.getWeekOfYearStartingMon(),
+										currentMonthDate.getWeeksInYear() );
 
 		s += s2;
 		s += StringUtils::format( current, "The current time is %#I:%M:%S" );
@@ -82,7 +84,7 @@ public:
 		s += current.isAM() ? " AM" : " PM";
 
 		ctx->textBoundedBy( &textRect, s );
-
+		
 		rect.top_ += 100;
 
 
@@ -96,6 +98,7 @@ public:
 		x = sizeBorder.width_;
 		y = rect.top_ + sizeBorder.height_;
 		Rect cellRect;
+	
 
 		for ( int i=0;i<7;i++ ) {
 			for ( int j=0;j<7;j++) {
@@ -158,7 +161,7 @@ public:
 							drawText = true;
 						}
 					}
-					else if (dt.getMonth() == tmp.getMonth()) {
+					else if (dt.getMonth() == currentMonthDate.getMonth()) {
 						drawText = true;
 					}
 
@@ -247,7 +250,7 @@ public:
 		timer->TimerPulse += ev;
 
 		timer->setTimeoutInterval( 1000 );
-		timer->setActivated( true );
+		//timer->setActivated( true );
 
 		TitledBorder* bdr = new TitledBorder();
 
@@ -258,18 +261,24 @@ public:
 
 
 	virtual void paint( GraphicsContext* ctx ) {
+		StringUtils::trace( "DigitalClock::paint()\n" );
+	
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
 
-		rect.inflate( -5, -5 );
+		//rect.inflate( -5, -5 );
+		//Font oldFont = *ctx->getCurrentFont();
 		ctx->setCurrentFont( getFont() );
 
 		String s = StringUtils::format( current, "%#I:%M:%S");
 		s += current.isAM() ? " AM" : " PM";
 
 		long options = GraphicsContext::tdoCenterVertAlign | GraphicsContext::tdoCenterHorzAlign;
-		ctx->textBoundedBy( &rect, s, options );
+		ctx->textAt( 20, 70, s );
+		//textBoundedBy( &rect, s, options );
+		
+		//ctx->setCurrentFont( &oldFont );
 	}
 
 	void onTimer( Event* e ) {
@@ -310,11 +319,12 @@ public:
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
-
+		
 		rect.inflate( -5, -5 );
 
 		Point center = rect.getCenter();
 		double radius = minVal<>( rect.getHeight()/2.0, rect.getWidth()/2.0);
+		
 		ctx->setColor( Color::getColor("black") );
 		ctx->circle( center, radius );
 		ctx->strokePath();
@@ -356,7 +366,7 @@ public:
 		s = cos( theta );
 
 		ctx->setColor( Color::getColor("red") );
-		ctx->setStrokeWidth( 0 );
+		ctx->setStrokeWidth( 1 );
 		ctx->moveTo( center );
 		ctx->lineTo( center.x_ + c*(radius-minLength),
 							center.y_ - s*(radius-minLength) );
@@ -376,7 +386,7 @@ public:
 		ctx->strokePath();
 
 
-		ctx->setStrokeWidth( 0 );
+		ctx->setStrokeWidth( 1 );
 
 	}
 
@@ -402,25 +412,26 @@ public:
 		setVisible( true );
 
 		Panel* panel = new Panel();
-		panel->setHeight( 100 );
+		panel->setHeight( 250 );
+		panel->setBorderSize( 5 );
 		add( panel, AlignTop );
 
 
 
 		DigitalClock* clock1 = new DigitalClock();
-		clock1->setWidth( panel->getWidth()/2.0 );
 		panel->add( clock1, AlignClient );
-
+		
 		AnalogClock* clock2 = new AnalogClock();
-		clock2->setWidth( panel->getWidth()/2.0 );
+		clock2->setWidth( 200 );
 		panel->add( clock2, AlignLeft );
-
+		
 
 		Calendar* calendar = new Calendar();
 
 		Rect r = getClientBounds();
 		r.inflate( -10, -10 );
 
+		//calendar->setBounds( 0, 202, 400, 300 );
 		calendar->setColor( Color::getColor("white") );
 
 		add( calendar, AlignClient );
@@ -466,6 +477,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/05/31 13:20:52  ddiego
+*more osx updates
+*
 *Revision 1.2.2.4  2004/04/29 03:40:52  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -152,8 +152,7 @@ public:
 
 	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
 	
-	void setCGContext( CGContextRef cgRef, GrafPtr port );
-	
+	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
 protected:
 	CGContextRef contextID_;
     GrafPtr grafPort_;
@@ -165,7 +164,8 @@ protected:
 	ATSUTextLayout textLayout_;
 	VCF::Point origin_;
     bool xorModeOn_;	
-    
+    Rect ownerRect_;
+	
 	void atsuDrawTextInBox(	const VCF::Rect& rect );
 	
 	double getLayoutWidth( ATSUTextLayout layout );
@@ -180,6 +180,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/31 13:20:58  ddiego
+*more osx updates
+*
 *Revision 1.1.2.5  2004/05/23 14:12:18  ddiego
 *osx updates
 *

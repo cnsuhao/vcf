@@ -91,7 +91,7 @@ void createFromName()
 	try {
 		Object* newInstance = ClassRegistry::createNewInstance( "SimpleClass" );
 
-		System::print( "Created newInstance class name: %S\n", newInstance->getClassName().c_str() );
+		System::print( "Created newInstance class name: %ls\n", newInstance->getClassName().c_str() );
 
 		// we're done, free the object
 		newInstance->free();
@@ -120,7 +120,7 @@ void createFromUUID()
 		Object* newInstance =
 			ClassRegistry::createNewInstanceFromClassID( SIMPLECLASS_CLASSID );
 
-		System::print( "Created newInstance class name: %S\n", newInstance->getClassName().c_str() );
+		System::print( "Created newInstance class name: %ls\n", newInstance->getClassName().c_str() );
 		// we're done, free the object
 		newInstance->free();
 	}
@@ -281,13 +281,13 @@ void outputClassInfo( Object* o )
 
 		Method* method = methods->nextElement();
 
-		System::print( "\tMethod name: \"%S\", number of arguments: %d\n",
+		System::print( "\tMethod name: \"%ls\", number of arguments: %d\n",
 			method->getName().c_str(), method->getArgCount() );
 
 		if ( method->getArgCount() == 0 ) {
 			//if the method has no args, lets invoke it
 
-			System::print( "invoking method for Object: %S\n", o->toString().c_str() );
+			System::print( "invoking method for Object: %ls\n", o->toString().c_str() );
 			method->invoke( NULL );
 
 			System::print( "\n\n" );
@@ -309,7 +309,7 @@ void createAndInvoke()
 	try {
 		Object* newInstance = ClassRegistry::createNewInstance( "ClassWithMethods" );
 
-		System::print( "Created newInstance class name: %S\n", newInstance->getClassName().c_str() );
+		System::print( "Created newInstance class name: %ls\n", newInstance->getClassName().c_str() );
 
 		Class* clazz = newInstance->getClass();
 		Method* twoDoubles = clazz->getMethod( "twoDoubles" );
@@ -375,6 +375,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/05/31 13:20:55  ddiego
+*more osx updates
+*
 *Revision 1.2.2.5  2004/05/03 03:44:52  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

@@ -751,21 +751,29 @@ void OSXUIToolkit::internal_postEvent( VCF::EventHandler* eventHandler, Event* e
     EventRef osxEvent = OSXUIToolkit::createUserCarbonEvent(OSXUIToolkit::EventPosted);
     
     
-    SetEventParameter( osxEvent, OSXUIToolkit::EventHandler, 
+    OSStatus err = SetEventParameter( osxEvent, OSXUIToolkit::EventHandler, 
                         typeUInt32, OSXUIToolkit::SizeOfEventHandler, &eventHandler );
-                        
-    SetEventParameter( osxEvent, OSXUIToolkit::EventHandlerEvent, 
+    if ( err != noErr ) {
+        printf( "SetEventParameter failed\n" );
+    }
+	                    
+    err = SetEventParameter( osxEvent, OSXUIToolkit::EventHandlerEvent, 
                         typeUInt32, OSXUIToolkit::SizeOfEventHandlerEvent, &event );
+	if ( err != noErr ) {
+        printf( "SetEventParameter failed\n" );
+    }
 
-    Boolean val = deleteHandler;
-    SetEventParameter( osxEvent, OSXUIToolkit::DeletePostedEvent, 
+    Boolean val = deleteHandler ? TRUE : FALSE;
+    err = SetEventParameter( osxEvent, OSXUIToolkit::DeletePostedEvent, 
                         typeBoolean, OSXUIToolkit::SizeOfDeletePostedEvent, &val );
+	if ( err != noErr ) {
+        printf( "SetEventParameter failed\n" );
+    }
     
-    OSStatus err = PostEventToQueue( GetCurrentEventQueue(), osxEvent, kEventPriorityStandard );
+    err = PostEventToQueue( GetCurrentEventQueue(), osxEvent, kEventPriorityStandard );
     if ( err != noErr ) {
         printf( "PostEventToQueue failed\n" );
     }
-                        
 }
 
 void OSXUIToolkit::handleIdleTimer( EventLoopTimerRef inTimer, EventLoopIdleTimerMessage inState, void *inUserData )
@@ -902,36 +910,33 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
 					
                     UInt32 val;
                     Boolean deleteHandler;
-                    GetEventParameter( osxEvent, 
+                    OSStatus err = GetEventParameter( osxEvent, 
                                         OSXUIToolkit::EventHandler, 
                                         typeUInt32,
                                         NULL,
                                         OSXUIToolkit::SizeOfEventHandler,
                                         NULL,                                        
                                         &val );
-                                        
+					                    
                     VCF::EventHandler* eventHandler  = (VCF::EventHandler*)val;
                     
-                    GetEventParameter( osxEvent, 
+                    err = GetEventParameter( osxEvent, 
                                         OSXUIToolkit::EventHandlerEvent, 
                                         typeUInt32,NULL,
                                         OSXUIToolkit::SizeOfEventHandlerEvent,NULL,
                                         &val );
+					
+					
                     Event* e = (Event*)val;
                      
-                    GetEventParameter( osxEvent, 
+                    err = GetEventParameter( osxEvent, 
                                         OSXUIToolkit::DeletePostedEvent, 
-                                        typeUInt32,NULL,
+                                        typeBoolean,NULL,
                                         OSXUIToolkit::SizeOfDeletePostedEvent,NULL,
                                         &deleteHandler );
+					
+					
                     if ( (NULL != eventHandler) && (NULL != e ) ) {
-					/*
-                        StringUtils::traceWithArgs( "Recv'd a posted event.\n\tEvent handler (%p) \"%ls\" and event (%p, src:[%ls]%p) recv'd! Calling event handler's invoke()\n",
-                                    eventHandler, 
-									eventHandler->getClassName().c_str(), 
-									e, 
-									e->getSource() ?  e->getSource()->getClassName().c_str() : String("NULL").c_str(), 
-									e->getSource() );*/
 									
                         eventHandler->invoke( e );
                         
@@ -1124,8 +1129,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					GetEventParameter( msg->osxEvent_, kEventParamKeyboardType, typeUInt32, NULL,
                                 sizeof (kbType), NULL, &kbType);
 								
-					StringUtils::traceWithArgs( "c:%c, keyCode: %d, keyMods: %d, kbtype: %d\n",
-												c, keyCode, keyMods, kbType );
+					
 					
 					VirtualKeyCode virtKeyValue = translateOSXKeyToVirtKeyCode( c, keyCode, keyMods );
 					unsigned long keyMask = 0;
@@ -1177,8 +1181,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					GetEventParameter( msg->osxEvent_, kEventParamKeyboardType, typeUInt32, NULL,
                                 sizeof (kbType), NULL, &kbType);
 								
-					StringUtils::traceWithArgs( "c:%c, keyCode: %d, keyMods: %d, kbtype: %d\n",
-												c, keyCode, keyMods, kbType );
+					
 					
 					VirtualKeyCode virtKeyValue = translateOSXKeyToVirtKeyCode( c, keyCode, keyMods );
 					unsigned long keyMask = 0;
@@ -1199,8 +1202,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					result = new VCF::KeyboardEvent( msg->control_, Control::KEYBOARD_UP,
 														1, keyMask, c, virtKeyValue );
 														
-					StringUtils::traceWithArgs( "keyMask: %d, virtKeyValue: %d\n",
-												keyMask, virtKeyValue );
+					
                 }
                 break;
                 
@@ -1871,7 +1873,7 @@ EventRef OSXUIToolkit::createUserCarbonEvent( UInt32 eventType )
     OSStatus err = CreateEvent( NULL, 
                                 OSXUIToolkit::CustomEventClass, 
                                 eventType, 
-                                GetCurrentEventTime(), 
+                                0, 
                                 kEventAttributeUserEvent,
                                 &result );
                                 
