@@ -29,11 +29,196 @@ NB: This software will not save the world.
 	<para>
 		This example will discuss the basics of using and creating 
 		a custom model, view, and control classes that make use of the 
-		VCF's MVC architecture.
+		VCF's MVC architecture. Our example will create a simple model 
+		class that contains a series of cirlce shapes. We'll demonstrate
+		5 different ways to work with and put it together with the 
+		VCF's control's, custom views, and a custom controller.
+	</para>
+	<formalpara><title>Defining the CircleModel</title>
+	The first thing we'll start with is the model. Our model will be a collection
+	for circles, and we'll define it's interface like so:
+	<programlisting>
+<![CDATA[
+class CircleModel  {
+public:
+
+	void addCircle( const CircleShape& circle ) {
+		circles_.push_back( circle );
+	}
+
+	void addCircle( const Point& pt, const double& radius ) {
+		addCircle( CircleShape(pt,radius) );
+	}
+	
+	void removeCircle( const CircleShape& circle ) {
+		std::vector<CircleShape>::iterator found = std::find( circles_.begin(), circles_.end(), circle );
+		if ( found != circles_.end() ) {
+			circles_.erase( found );
+		}
+	}
+
+	CircleShape& getCircle( int index ) {
+		return circles_.at(index);
+	}
+
+	const CircleShape& getCircle( int index ) const {
+		return circles_.at(index);
+	}
+
+	std::vector<CircleShape>& getCircles() {
+		return circles_;
+	}
+
+	const std::vector<CircleShape>& getCircles() const {
+		return circles_;
+	}
+
+	int size() const {
+		return circles_.size();
+	}
+protected:
+	std::vector<CircleShape> circles_;
+};
+
+]]>	
+	</programlisting>
+	Our model has a collection (an std::vector to be precise) of CircleShapes. The 
+	CircleShape is defined as 
+	<programlisting>
+<![CDATA[
+class CircleShape {
+public:
+
+	CircleShape( const Point& pt, const double& radius ) :  center_(pt), radius_(radius) {}
+
+	CircleShape():radius_(0.0){}
+	
+	bool operator==( const CircleShape& rhs ) const{
+		return 	center_ == rhs.center_ && radius_ == rhs.radius_;
+	}
+
+	Point center_;
+	double radius_;
+};
+]]>
+	</programlisting>
+	At this point we have specified our custom pieces for the model and how we can alter
+	(add or remove) shapes from the model.
+	</formalpara>
+	
+	<para>
+	Next we'll actually turn the class into a VCF compatible model. For this we need to derive
+	directly, or indirectly, from the VCF::Model class. In our case we'll derive from the 
+	VCF::AbstractModel, which provides some basic implementation of the various virtual
+	methods of a Model.
+	<programlisting>
+<![CDATA[
+class CircleModel : public AbstractModel  {
+... //rest of implemention omitted
+};
+]]>	
+	</programlisting>
+	Next we need to add support for emptying the model by implementing the Model::empty()
+	method. We'll be sure to call the super class's implementation as well, so that the
+	ModelChanged event is fired.
+	<programlisting>
+<![CDATA[
+class CircleModel : public AbstractModel  {
+... //rest of implemention omitted
+
+	virtual void empty() {
+		//remove all the circles!
+		circles_.clear();
+
+		//make sure to call the super class's implementation
+		AbstractModel::empty();
+	}
+};
+]]>		
+	</programlisting>
 	</para>
 	<para>
+	At this point we have a our custom model almost ready to go. The one missing feature
+	is the ability to notify others when our circle model changes, i.e. when a 
+	circle shape is added or removed. To implement this we need to make some subtle changes
+	to our implementation of CircleModel::addCircle() and CircleModel::removeCircle().
+	<programlisting>
+<![CDATA[
+class CircleModel : public AbstractModel  {
+... //rest of implemention omitted
+
+	enum {
+		CircleAdded = Model::MODEL_LAST_EVENT + 100,
+		CircleRemoved
+	};
 	
+	
+	void addCircle( const CircleShape& circle ) {
+		circles_.push_back( circle );
+
+		ModelEvent e( this, CircleModel::CircleAdded );
+		ModelChanged.fireEvent( &e );
+		updateAllViews();
+	}
+	
+	void removeCircle( const CircleShape& circle ) {
+		std::vector<CircleShape>::iterator found = std::find( circles_.begin(), circles_.end(), circle );
+		if ( found != circles_.end() ) {
+
+			circles_.erase( found );
+			
+			ModelEvent e( this, CircleModel::CircleRemoved );
+			ModelChanged.fireEvent( &e );
+			updateAllViews();
+		}
+	}
+	
+};
+]]>	
+	</programlisting>
+	We have added a simple enumeration: a value for adding circles, anda value for 
+	removing circles. This value becomes the model changed event's type when the 
+	change occurs. This allows an event handle to distinguish what type of event occured.
 	</para>
+	<para>
+	The extra code that was added in both the addCircle() and removeCircle() method
+	simply creates and event and initializes it with reasonable values, and then
+	fires the event on the ModelChanged delegate. This will notify any registered 
+	event handlers. Then the Model::updateAllViews() method is called, which also 
+	notifies all the views that are attached to this model. We can simplify this code a
+	bit by changing it like so:
+	<programlisting>
+<![CDATA[
+class CircleModel : public AbstractModel  {
+... //rest of implemention omitted
+	
+	void addCircle( const CircleShape& circle ) {
+		circles_.push_back( circle );
+
+		ModelEvent e( this, CircleModel::CircleAdded );
+		changed( &e );
+	}
+	
+	void removeCircle( const CircleShape& circle ) {
+		std::vector<CircleShape>::iterator found = std::find( circles_.begin(), circles_.end(), circle );
+		if ( found != circles_.end() ) {
+
+			circles_.erase( found );
+			
+			ModelEvent e( this, CircleModel::CircleRemoved );
+			changed( &e );
+		}
+	}
+};
+]]>		
+	</programlisting>
+	Calling the Model::changed() method makes it a bit easier, and prevents 
+	the implementer from forgetting to either fire the event on the delegate, 
+	or notifying all the models views. At this point we know have a usable 
+	model class.
+	</para>
+	<formalpara><title>Example 1</title>
+	</formalpara>
 </section>
 
 
@@ -42,9 +227,11 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
-Revision 1.1.2.1  2004/04/29 19:06:40  ddiego
-added MVC example, plus the Model::changed() method. Also
-added more documentation.
+Revision 1.1.2.2  2004/04/29 21:13:57  ddiego
+made a few changes to the new OpenGLKit files, adjusting where the
+CVS log was put, and changed a few cases for the export-import definition
+was used. Also added the two projects to the vcfAllProject workspace
+and added the script generated VC7 and VC71 projects as well.
 
 Revision 1.2  2003/12/18 05:15:55  ddiego
 merge from devmain-0-6-2 branch into the stable branch

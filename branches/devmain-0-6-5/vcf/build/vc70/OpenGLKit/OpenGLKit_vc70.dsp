@@ -36,7 +36,7 @@ RSC=rc.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "../../../lib/"
-# PROP Intermediate_Dir "vc6/ReleaseS/"
+# PROP Intermediate_Dir "vc70/ReleaseS/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "BUILD_OPENGLKIT_LIB" /FD /c
@@ -45,10 +45,10 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"..\..\..\lib\OpenGLKit_vc6_s.bsc"
+# ADD BSC32 /nologo /o"..\..\..\lib\OpenGLKit_vc70_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\..\..\lib\OpenGLKit_vc6_s.lib"
+# ADD LIB32 /nologo /out:"..\..\..\lib\OpenGLKit_vc70_s.lib"
 
 !ELSEIF  "$(CFG)" == "OpenGLKit - Win32 Debug"
 
@@ -60,19 +60,19 @@ LIB32=link.exe -lib
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "../../../lib/"
-# PROP Intermediate_Dir "vc6/DebugS/"
+# PROP Intermediate_Dir "vc70/DebugS/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "BUILD_OPENGLKIT_LIB" /Fd"../../../lib/OpenGLKit_vc6_sd.pdb" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "BUILD_OPENGLKIT_LIB" /Fd"../../../lib/OpenGLKit_vc70_sd.pdb" /FD /GZ /c
 # SUBTRACT CPP /YX /Yc /Yu /FR
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"..\..\..\lib\OpenGLKit_vc6_sd.bsc"
+# ADD BSC32 /nologo /o"..\..\..\lib\OpenGLKit_vc70_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\..\..\lib\OpenGLKit_vc6_sd.lib"
+# ADD LIB32 /nologo /out:"..\..\..\lib\OpenGLKit_vc70_sd.lib"
 
 !ENDIF 
 

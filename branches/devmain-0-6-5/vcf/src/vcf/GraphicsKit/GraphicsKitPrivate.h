@@ -26,9 +26,7 @@ where you installed the VCF.
 #	include "vcf/GraphicsKit/Win32Font.h"
 #	include "vcf/GraphicsKit/Win32FontManager.h"
 
-	#ifdef VCF_OPENGL
-#		include "vcf/ApplicationKit/Win32OpenGLPeer.h"
-	#endif
+	
 #endif
 
 #ifdef VCF_X11
@@ -67,6 +65,12 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

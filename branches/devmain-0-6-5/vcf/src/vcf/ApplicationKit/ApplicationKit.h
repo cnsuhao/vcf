@@ -175,11 +175,6 @@ Action classes
 #include "vcf/ApplicationKit/ButtonEvent.h"
 
 
-
-//#include "OpenGLControlContext.h"
-
-
-
 #include "vcf/ApplicationKit/Window.h"
 #include "vcf/ApplicationKit/Scrollable.h"
 
@@ -323,6 +318,12 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.3  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

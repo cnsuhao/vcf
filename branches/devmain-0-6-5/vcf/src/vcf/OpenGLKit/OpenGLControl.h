@@ -40,7 +40,7 @@ namespace VCF {
 
 #define OPENGLCONTROL_CLASSID	"5389AAA2-8295-11d4-8F37-00207811CFAB"
 
-class APPKIT_API OpenGLControl : public VCF::CustomControl{
+class OPENGLKIT_API OpenGLControl : public VCF::CustomControl{
 public:
 
 	OpenGLControl();	
@@ -61,6 +61,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
 *Revision 1.1.2.1  2004/04/29 15:38:12  pallindo
 *Initial attempt at an OpenGLKit
 *

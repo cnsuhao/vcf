@@ -1,42 +1,3 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/29 15:38:12  pallindo
-*Initial attempt at an OpenGLKit
-*
-*Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
-*migration towards new directory structure
-*
-*Revision 1.11  2003/05/17 20:37:38  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.10.16.2  2003/03/23 03:23:58  marcelloptr
-*3 empty lines at the end of the files
-*
-*Revision 1.10.16.1  2003/03/12 03:12:40  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.10  2002/05/09 03:10:45  ddiego
-*merged over code from development branch devmain-0-5-1a into the main CVS trunk
-*
-*Revision 1.9.4.1  2002/04/08 20:55:30  zzack
-*changed include style
-*
-*Revision 1.9  2002/01/29 04:41:43  ddiego
-*fixed leak in Win32Button, plus cleaned up some other GetDC stuff and
-*fixed the Tab problem in Win98.
-*
-*Revision 1.8  2002/01/24 01:46:49  ddiego
-*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
-*to facilitate change tracking
-*
-*/
 
 /**
 *Copyright (c) 2000-2001, Jim Crafton
@@ -185,4 +146,49 @@ void Win32OpenGLPeer::makeCurrent()
 	}
 }
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
+*Revision 1.1.2.1  2004/04/29 15:38:12  pallindo
+*Initial attempt at an OpenGLKit
+*
+*Revision 1.1.2.1  2004/04/28 00:28:21  ddiego
+*migration towards new directory structure
+*
+*Revision 1.11  2003/05/17 20:37:38  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.10.16.2  2003/03/23 03:23:58  marcelloptr
+*3 empty lines at the end of the files
+*
+*Revision 1.10.16.1  2003/03/12 03:12:40  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.10  2002/05/09 03:10:45  ddiego
+*merged over code from development branch devmain-0-5-1a into the main CVS trunk
+*
+*Revision 1.9.4.1  2002/04/08 20:55:30  zzack
+*changed include style
+*
+*Revision 1.9  2002/01/29 04:41:43  ddiego
+*fixed leak in Win32Button, plus cleaned up some other GetDC stuff and
+*fixed the Tab problem in Win98.
+*
+*Revision 1.8  2002/01/24 01:46:49  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
 

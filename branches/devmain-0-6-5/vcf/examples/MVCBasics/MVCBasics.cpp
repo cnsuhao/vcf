@@ -120,8 +120,7 @@ public:
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
 		model->addCircle( Point(300,400), 80 );
-
-		setViewModel( model );
+		
 		model->addView( this );
 	}
 
