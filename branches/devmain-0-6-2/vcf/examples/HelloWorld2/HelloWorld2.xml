@@ -25,9 +25,57 @@ NB: This software will not save the world.
 -->
  
 
-<section><title>HelloWorld2</title>
+<section><title>Hello World Part 2</title>
 	<para>
-		Your content here, explaining the usage/functioning of your example.
+		This example builds on our work in the first example, HelloWorld.
+		This will demonstrate customizing the VCF::Application class
+		and positioning the window where we want it.
+	</para>
+	<para>
+	The first step is to create an new application class, and derive it from VCF::Application.
+	We'll call this class HelloWorld2Application. We'll override a single method
+	from VCF::Application, initRunningApplication(). The initRunningApplication() method
+	is called just after the application kit has initialized itself and the rest of the VCF.
+	You custom startup code can safely call any VCF method, or create any neccessary VCF object
+	that you may need. Please note that if you have succesfully initialized your application 
+	then you should return true from initRunningApplication(), otherwise return false, ot have the
+	ApplicationKit gracefully shut the application and itself down. As in other methods you override you should make sure to call the super classes 
+	initRunningApplication(), failure to do this will result in an undefined state for the Application.
+	</para>
+	<para>
+	In our custom initRunningApplication() method we'll create a new instance of a VCF::Window. 
+	<programlisting>
+<![CDATA[
+class HelloWorld2Application : public Application {
+public:
+	//remainder of code ommitted for clarity
+
+	virtual bool initRunningApplication(){ 
+		//call the super classes initRunningApplication()
+		bool result = Application::initRunningApplication();
+		
+		
+		//create the window as before
+		Window* mainWindow = new Window();
+	}
+
+]]>
+</programlisting>
+	Next we'll set application's main window. This is accomplished by calling the VCF::APplication's
+	setMainWindow() method, passing in our new window instance.
+<programlisting>
+<![CDATA[
+	
+
+	virtual bool initRunningApplication(){ 
+		//remainder of code ommitted for clarity
+		
+		setMainWindow( mainWindow );
+	}
+
+]]>
+</programlisting>	
+
 	</para>
 </section>
 
@@ -37,6 +85,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/09/28 02:13:51  ddiego
+further documentation for examples
+
 Revision 1.1.2.1  2003/09/27 23:04:20  ddiego
 added tutorial docbook files
 

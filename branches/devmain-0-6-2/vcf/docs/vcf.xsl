@@ -45,8 +45,8 @@ NB: This software will not save the world.
 	<xsl:param name="htmlhelp.chi.create" select="1"/>
 	<xsl:param name="htmlhelp.hhc.folders.instead.books" select="0"/>
 
-	<xsl:param name="toc.section.depth" select="4"/>
-	<xsl:param name="generate.section.toc.level" select="1"/>
+	<xsl:param name="toc.section.depth" select="3"/>
+	<xsl:param name="generate.section.toc.level" select="3"/>	
 	<xsl:param name="section.autolabel" select="1"/>
 	<xsl:param name="section.label.includes.component.label" select="1"/>
 
@@ -429,6 +429,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.4  2003/09/28 02:13:33  ddiego
+further documentation for examples
+
 Revision 1.5.2.3  2003/09/27 23:04:57  ddiego
 added tutorial sections to documentation
 
