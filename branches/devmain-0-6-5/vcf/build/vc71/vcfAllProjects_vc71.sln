@@ -206,10 +206,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Localization", "../../examp
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSDNIntegrator", "../../src/thirdparty/win32/MSDNIntegrator/MSDNIntegrator_vc71.vcproj", "{EB1E1256-D624-4A6D-B387-8536193DF0BC}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MVCBasics", "../../examples/MVCBasics/MVCBasics_vc71.vcproj", "{4066EA9C-81BF-4A8E-9EDC-D0E939B900F3}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -594,12 +590,6 @@ Global
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4}.GTK Debug.Build.0 = Debug|Win32
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4}.Release.ActiveCfg = Release|Win32
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4}.Release.Build.0 = Release|Win32
-		{EB1E1256-D624-4A6D-B387-8536193DF0BC}.Debug.ActiveCfg = Debug|Win32
-		{EB1E1256-D624-4A6D-B387-8536193DF0BC}.Debug.Build.0 = Debug|Win32
-		{EB1E1256-D624-4A6D-B387-8536193DF0BC}.GTK Debug.ActiveCfg = Debug|Win32
-		{EB1E1256-D624-4A6D-B387-8536193DF0BC}.GTK Debug.Build.0 = Debug|Win32
-		{EB1E1256-D624-4A6D-B387-8536193DF0BC}.Release.ActiveCfg = Release|Win32
-		{EB1E1256-D624-4A6D-B387-8536193DF0BC}.Release.Build.0 = Release|Win32
 		{4066EA9C-81BF-4A8E-9EDC-D0E939B900F3}.Debug.ActiveCfg = Debug|Win32
 		{4066EA9C-81BF-4A8E-9EDC-D0E939B900F3}.Debug.Build.0 = Debug|Win32
 		{4066EA9C-81BF-4A8E-9EDC-D0E939B900F3}.GTK Debug.ActiveCfg = Debug|Win32

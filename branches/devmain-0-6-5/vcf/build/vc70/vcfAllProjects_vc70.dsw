@@ -624,18 +624,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "MSDNIntegrator"="..\..\src\thirdparty\win32\MSDNIntegrator\MSDNIntegrator_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "MVCBasics"="..\..\examples\MVCBasics\MVCBasics_vc70.dsp" - Package Owner=<4>
 
 Package=<5>

@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc71\Release\"
-			IntermediateDirectory=".\vc71\Release\"
+			OutputDirectory=".\Release\"
+			IntermediateDirectory=".\Release\"
 			ConfigurationType="1"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -29,10 +29,10 @@
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\vc71\Release\MSDNIntegrator_vc71.pch"
-				AssemblerListingLocation=".\vc71\Release\"
-				ObjectFile=".\vc71\Release\"
-				ProgramDataBaseFileName=".\vc71\Release\"
+				PrecompiledHeaderFile=".\Release\MSDNIntegrator.pch"
+				AssemblerListingLocation=".\Release\"
+				ObjectFile=".\Release\"
+				ProgramDataBaseFileName=".\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
@@ -40,10 +40,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				OutputFile=".\MSDNIntegrator-cmdline_vc71.exe"
+				OutputFile=".\MSDNIntegrator-cmdline.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\vc71\Release\MSDNIntegrator-cmdline_vc71.pdb"
+				ProgramDatabaseFile=".\Release\MSDNIntegrator-cmdline.pdb"
 				SubSystem="2"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -51,7 +51,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc71\Release\MSDNIntegrator_vc71.tlb"/>
+				TypeLibraryName=".\Release\MSDNIntegrator.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -69,8 +69,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc71\Debug\"
-			IntermediateDirectory=".\vc71\Debug\"
+			OutputDirectory=".\Debug\"
+			IntermediateDirectory=".\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -83,10 +83,10 @@
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\vc71\Debug\MSDNIntegrator_vc71.pch"
-				AssemblerListingLocation=".\vc71\Debug\"
-				ObjectFile=".\vc71\Debug\"
-				ProgramDataBaseFileName=".\vc71\Debug\"
+				PrecompiledHeaderFile=".\Debug\MSDNIntegrator.pch"
+				AssemblerListingLocation=".\Debug\"
+				ObjectFile=".\Debug\"
+				ProgramDataBaseFileName=".\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"/>
@@ -95,11 +95,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				OutputFile=".\Debug\MSDNIntegrator-cmdline_vc71.exe"
+				OutputFile=".\Debug\MSDNIntegrator-cmdline.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\vc71\Debug\MSDNIntegrator-cmdline_vc71.pdb"
+				ProgramDatabaseFile=".\Debug\MSDNIntegrator-cmdline.pdb"
 				SubSystem="2"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -107,7 +107,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc71\Debug\MSDNIntegrator_vc71.tlb"/>
+				TypeLibraryName=".\Debug\MSDNIntegrator.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
