@@ -16,26 +16,93 @@ public:
 
 		Rect r = getClientBounds();
 
+		double y = 20;
+
 		SliderControl* slider = new SliderControl();
-		slider->setBounds( 20, 20, r.getWidth()-40, slider->getPreferredHeight() );
+		slider->setBounds( 20, y, r.getWidth()-40, slider->getPreferredHeight() );
 		
 		slider->setAnchor( AnchorLeft|AnchorRight);
 
 		slider->setTickMarkStyle( SliderControl::tmsTopLeft );
 
 		add( slider );
+		slider->setPosition( slider->getMaxValue() );
+
+		y = slider->getBottom() + 20;
+
+
+		slider = new SliderControl();
+		slider->setBounds( 20, y, r.getWidth()-40, slider->getPreferredHeight() );
+		
+		slider->setAnchor( AnchorLeft|AnchorRight);
+
+		slider->setTickMarkStyle( SliderControl::tmsBottomRight );
+
+		add( slider );
+
+
+		y = slider->getBottom() + 20;
+
+
+		slider = new SliderControl();
+		slider->setBounds( 20, y, r.getWidth()-40, slider->getPreferredHeight() );
+		
+		slider->setAnchor( AnchorLeft|AnchorRight);
+
+		slider->setTickFrequency( 5 );
+
+		slider->setMaxValue( 50 );
+		slider->setMinValue( 20 );
+
+		slider->setTickMarkStyle( SliderControl::tmsBottomRight | SliderControl::tmsTopLeft );
+
+		add( slider );
+
+
+		y = slider->getBottom() + 20;
+		double x = 20;
 
 
 		slider = new SliderControl();
 		slider->setDisplayOrientation( SliderControl::doVertical );
-		slider->setBounds( 20, 100, slider->getPreferredWidth(), 200 );
+		slider->setBounds( x, y, slider->getPreferredWidth(), 200 );
 		
 		slider->setAnchor( AnchorTop|AnchorBottom);
 		slider->setTickMarkStyle( SliderControl::tmsBottomRight );
 
 		add( slider );
 
-		slider->setEnabled( false );
+		x = slider->getRight() + 20;
+
+
+		slider = new SliderControl();
+		slider->setDisplayOrientation( SliderControl::doVertical );
+		slider->setBounds( x, y, slider->getPreferredWidth(), 200 );
+		
+		slider->setAnchor( AnchorTop|AnchorBottom);
+		slider->setTickMarkStyle( SliderControl::tmsTopLeft );
+
+		add( slider );
+
+		x = slider->getRight() + 20;
+
+
+
+		slider = new SliderControl();
+		slider->setDisplayOrientation( SliderControl::doVertical );
+		slider->setBounds( x, y, slider->getPreferredWidth(), 200 );
+		
+		slider->setAnchor( AnchorTop|AnchorBottom);
+		slider->setTickMarkStyle( SliderControl::tmsBottomRight | SliderControl::tmsTopLeft );
+
+		slider->setTickFrequency( 25 );
+
+		add( slider );
+
+		x = slider->getRight() + 20;
+
+
+		//slider->setEnabled( false );
 	}
 
 	virtual ~SlidersWindow(){};
