@@ -28,7 +28,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\Release\xmake_vc70.pch"
+				PrecompiledHeaderFile=".\vc70\Release\xmake.pch"
 				AssemblerListingLocation=".\vc70\Release\"
 				ObjectFile=".\vc70\Release\"
 				ProgramDataBaseFileName=".\vc70\Release\"
@@ -49,7 +49,7 @@
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\vc70\Release\xmake_vc70.tlb"/>
+				TypeLibraryName=".\vc70\Release\xmake.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -81,7 +81,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\Debug\xmake_vc70.pch"
+				PrecompiledHeaderFile=".\vc70\Debug\xmake.pch"
 				AssemblerListingLocation=".\vc70\Debug\"
 				ObjectFile=".\vc70\Debug\"
 				ProgramDataBaseFileName=".\vc70\Debug\"
@@ -104,7 +104,7 @@
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\vc70\Debug\xmake_vc70.tlb"/>
+				TypeLibraryName=".\vc70\Debug\xmake.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
