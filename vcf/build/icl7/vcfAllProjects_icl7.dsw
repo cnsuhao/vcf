@@ -117,6 +117,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Controls"="..\..\examples\Controls\Controls_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "CopyAndPaste"="..\..\examples\CopyAndPaste\CopyAndPaste_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -256,6 +268,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Conditions
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Controls
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name CopyAndPaste
