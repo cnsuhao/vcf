@@ -12,7 +12,7 @@ using namespace VCF;
 
 
 
-String VariantData::toString()
+String VariantData::toString() const
 {
 	String result = "";
 	switch ( type ) {
@@ -320,6 +320,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/24 00:59:28  marcelloptr
+*VariantData::toString() made const
+*
 *Revision 1.3  2004/12/01 04:31:42  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
