@@ -106,6 +106,27 @@ Win32Image::Win32Image( HBITMAP bitmap )
 	loadFromBMPHandle( bitmap );
 }
 
+Win32Image::Win32Image( HICON icon )
+	:AbstractImage(false)
+{
+	flipBits_ = true;
+	ownDC_ = true;
+	init();
+
+	ICONINFO info = {0};
+	if ( GetIconInfo( icon, &info ) ) {
+		BITMAP bmp;
+		if ( GetObject( info.hbmColor, sizeof(BITMAP), &bmp ) ) {
+		
+			setSize( bmp.bmWidth, bmp.bmHeight );
+
+			if ( !DrawIcon( dc_, 0, 0, icon ) ) {
+				StringUtils::traceWithArgs( "DrawIcon failed, err: %d\n", GetLastError()  );
+			}
+		}
+	}
+}
+
 Win32Image::~Win32Image()
 {
 	if ( NULL != hBitmap_ ){
@@ -497,6 +518,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/21 00:19:11  ddiego
+*fixed a few more res loading bugs, and added yet another resource example.
+*
 *Revision 1.2.2.1  2004/09/06 03:33:21  ddiego
 *updated the graphic context code to support image transforms.
 *

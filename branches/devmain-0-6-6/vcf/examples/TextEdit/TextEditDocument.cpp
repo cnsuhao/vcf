@@ -301,25 +301,6 @@ VCF::String TextEditDocument::getText()
 
 void TextEditDocument::setText(const VCF::String& text)
 {
-/*	
-
-	textData_  = text;
-
-	setModified( true );
-
-	TextEditDocumentEvent e( this, TextEditDocument::teTextAdded );
-	e.text_ = text;
-	e.start_ = 0;
-	ModelChanged.fireEvent( &e );
-
-	updateAllViews();	
-	*/
-
-	/*
-	deleteText( 0, textData_.size() );
-
-	insertText( 0, text );
-	*/
 
 	CommandGroup* setTextGrp = new CommandGroup();
 	setTextGrp->setName( "Change Text" );

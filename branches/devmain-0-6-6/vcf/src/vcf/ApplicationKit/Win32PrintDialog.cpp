@@ -27,26 +27,21 @@ Win32PrintDialog::~Win32PrintDialog()
 
 UINT CALLBACK Win32PrintDialog::PrintHookProc( HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam )
 {
-	if ( WM_INITDIALOG  == uiMsg ) {
-		PRINTDLG* printInfo = (PRINTDLG*)lParam;
-		Win32PrintDialog* thisPtr = (Win32PrintDialog*)printInfo->lCustData;
-		
-		if ( !thisPtr->title_.empty() ) {
-			SetWindowText( hdlg, thisPtr->title_.ansi_c_str() );
-		}
-
-		/*
-		if ( System::isUnicodeEnabled() ) {
+	switch ( uiMsg ) {
+		case WM_INITDIALOG : {
+			PRINTDLG* printInfo = (PRINTDLG*)lParam;
+			Win32PrintDialog* thisPtr = (Win32PrintDialog*)printInfo->lCustData;
 			
+			if ( !thisPtr->title_.empty() ) {
+				SetWindowText( hdlg, thisPtr->title_.ansi_c_str() );
+			}
+
+			return TRUE;
 		}
-		else {
-			SetWindowTextA( hdlg, thisPtr->title_.ansi_c_str() );
-		}
-		*/
-		return TRUE;
+		break;
 	}
 	
-	return 0;//::DefWindowProc( hdlg, uiMsg, wParam, lParam );
+	return 0;//The default dialog proc will handle the rest
 }
 
 void Win32PrintDialog::setTitle( const String& title )
@@ -59,20 +54,36 @@ bool Win32PrintDialog::execute()
 	bool result = false;
 
 	printInfo_.printDlg_.Flags |= PD_ENABLEPRINTHOOK | PD_RETURNDC;
+
 	printInfo_.printDlg_.hDC = NULL;
 	printInfo_.printDlg_.lCustData = (DWORD) this;
-	printInfo_.printDlg_.hwndOwner = NULL;
-
 	if ( NULL != owner_ ) {
 		printInfo_.printDlg_.hwndOwner = (HWND)owner_->getPeer()->getHandleID();
 	}
+	else {
+		printInfo_.printDlg_.hwndOwner = NULL;
+	}
+
+	printInfo_.printDlg_.nFromPage = printInfo_.getStartPage();
+	printInfo_.printDlg_.nToPage = printInfo_.getEndPage();
 	
 	printInfo_.printDlg_.lpfnPrintHook = Win32PrintDialog::PrintHookProc;
+	printInfo_.printDlg_.nMinPage = printInfo_.printDlg_.nFromPage;
+	printInfo_.printDlg_.nMaxPage = printInfo_.printDlg_.nToPage;
 
 	if ( PrintDlg( &printInfo_.printDlg_ ) ) {
 		result = true;
 		
 		
+		if ( NULL != printInfo_.printDlg_.hDevMode ) {
+			LPDEVMODE  devModePtr = NULL;
+			devModePtr = (LPDEVMODE)::GlobalLock(printInfo_.printDlg_.hDevMode);
+
+			printInfo_.printDlg_.nCopies = devModePtr->dmCopies;
+
+			::GlobalUnlock(printInfo_.printDlg_.hDevMode);
+		}
+
 		RECT r;
 		r.left = 0;
 		r.top = 0;
@@ -84,8 +95,9 @@ bool Win32PrintDialog::execute()
 		printInfo_.pageSize_.width_ = r.right - r.left;
 		printInfo_.pageSize_.height_ = r.bottom - r.top;
 		
-		printInfo_.startPage_ = printInfo_.printDlg_.nFromPage;
-		printInfo_.endPage_ = printInfo_.printDlg_.nToPage;
+		printInfo_.setStartPage( printInfo_.printDlg_.nFromPage );
+		printInfo_.setEndPage( printInfo_.printDlg_.nToPage );
+		
 		
 		printInfo_.pageDrawingRect_.setRect( 0, 0, printInfo_.pageSize_.width_, printInfo_.pageSize_.height_ );
 	}
@@ -120,6 +132,7 @@ ulong32 Win32PrintDialog::getNumberOfCopies()
 void Win32PrintDialog::setStartPage( const ulong32& val )
 {
 	printInfo_.printDlg_.nFromPage = val;
+	printInfo_.setStartPage( printInfo_.printDlg_.nFromPage );
 }
 
 ulong32 Win32PrintDialog::getStartPage()
@@ -130,6 +143,7 @@ ulong32 Win32PrintDialog::getStartPage()
 void Win32PrintDialog::setEndPage( const ulong32& val )
 {
 	printInfo_.printDlg_.nToPage = val;
+	printInfo_.setEndPage( printInfo_.printDlg_.nToPage );
 }
 
 ulong32 Win32PrintDialog::getEndPage()
@@ -192,6 +206,9 @@ PrintSession::PrintJob Win32PrintDialog::getPrintJobType()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/11/21 00:19:10  ddiego
+*fixed a few more res loading bugs, and added yet another resource example.
+*
 *Revision 1.1.2.1  2004/08/31 04:12:12  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out

@@ -9,6 +9,8 @@ namespace VCF {
 		Win32PrintInfo() {
 			memset( &docInfo_, 0, sizeof(docInfo_) );
 			memset( &printDlg_, 0, sizeof(printDlg_) );
+			//assume a start page of 1
+			setStartPage(1);
 		}
 
 		Win32PrintInfo( const Win32PrintInfo& rhs ) {
@@ -20,25 +22,58 @@ namespace VCF {
 			memcpy( &printDlg_, &rhs.printDlg_, sizeof(printDlg_) );
 
 			pageSize_ = rhs.pageSize_;
-			startPage_ = rhs.startPage_;
-			endPage_ = rhs.endPage_;
 			pageDrawingRect_ = rhs.pageDrawingRect_;
+			pages_ = rhs.pages_;
 
 			return *this;
+		}
+
+		void setStartPage( const ulong32& startPage ) {
+			if ( pages_.empty() ) {
+				pages_.push_back( 0 );
+			}
+			pages_[0] = startPage;
+		}
+
+		void setEndPage( const ulong32& endPage ) {
+			ulong32 start = pages_[0];
+			if ( endPage - start > 1 ) {
+				pages_.resize( (endPage - start)+1 );
+				for ( ulong32 i=0;i<=(endPage - start);i++ ) {
+					pages_[i] = start + i;
+				}
+			}
+			else if ( pages_.size() > 1 ) {
+				//get rid of the rest
+				pages_.erase( pages_.begin()+1, pages_.end() );
+			}
+			else {
+				pages_[0] = endPage;
+			}
+			VCF_ASSERT( pages_.back() == endPage );
+		}
+
+		ulong32 getStartPage() const {
+			return pages_.front();
+		}
+
+		ulong32 getEndPage() const {
+			return pages_.back();
 		}
 
 		DOCINFO docInfo_;
 		PRINTDLG printDlg_;
 		Size pageSize_;
-		ulong32 startPage_;
-		ulong32 endPage_;
 		Rect pageDrawingRect_;
+		std::vector<ulong32> pages_;
 	};
 
 	class GRAPHICSKIT_API Win32PrintSession : public Object, public PrintSessionPeer {
 	public:
 		Win32PrintSession();
 		virtual ~Win32PrintSession();
+
+		virtual double getDPI();
 
 		virtual String getTitle();
 		virtual void setTitle( const String& title );
@@ -70,11 +105,14 @@ namespace VCF {
 		virtual void beginPage( PrintContext* context );
 		virtual void endPage( PrintContext* context );	
 		
+		virtual std::vector<ulong32> getPrintablePages();
+		virtual void setPrintablePages( const std::vector<ulong32>& printablePages );
+
 		static BOOL CALLBACK AbortProc( HDC hdc, int iError );
 
 		String title_;
 		Win32PrintInfo printInfo_;
-		HDC printerDC_;		
+		HDC printerDC_;	
 	};
 
 };

@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			OutputDirectory=".\Debug\"
+			IntermediateDirectory=".\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -27,10 +27,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug/Resources_vc70.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				PrecompiledHeaderFile=".\Debug\Resources_vc70.pch"
+				AssemblerListingLocation=".\Debug\"
+				ObjectFile=".\Debug\"
+				ProgramDataBaseFileName=".\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -41,12 +41,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="Debug\Resources_vc70.exe"
+				OutputFile=".\Debug\Resources_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/Resources_vc70.pdb"
+				ProgramDatabaseFile=".\Debug\Resources_vc70.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/Resources_vc70.tlb"/>
+				TypeLibraryName=".\Debug\Resources_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory=".\Release\"
+			IntermediateDirectory=".\Release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -88,10 +88,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release/Resources_vc70.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile=".\Release\Resources_vc70.pch"
+				AssemblerListingLocation=".\Release\"
+				ObjectFile=".\Release\"
+				ProgramDataBaseFileName=".\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -101,11 +101,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="Release\Resources_vc70.exe"
+				OutputFile=".\Release\Resources_vc70.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release/Resources_vc70.pdb"
+				ProgramDatabaseFile=".\Release\Resources_vc70.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -113,7 +113,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/Resources_vc70.tlb"/>
+				TypeLibraryName=".\Release\Resources_vc70.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -135,28 +135,28 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\Resources.cpp">
+				RelativePath="Resources.cpp">
 			</File>
 			<File
-				RelativePath=".\Resources.rc">
-			</File>
-		</Filter>
-		<Filter
-			Name="Resources"
-			Filter="">
-			<File
-				RelativePath=".\Info.xml">
-			</File>
-			<File
-				RelativePath=".\logo.png">
-			</File>
-			<File
-				RelativePath=".\Resources\Resources.strings">
+				RelativePath="Resources.rc">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
+		</Filter>
+		<Filter
+			Name="Resources"
+			Filter="">
+			<File
+				RelativePath="Info.xml">
+			</File>
+			<File
+				RelativePath="logo.png">
+			</File>
+			<File
+				RelativePath="Resources\Resources.strings">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -11,6 +11,9 @@
 using namespace VCF;
 
 
+
+
+
 Win32PrintSession::Win32PrintSession():
 	printerDC_(0)
 {
@@ -94,8 +97,7 @@ void Win32PrintSession::setDefaultPageSettings()
 	printInfo_.pageSize_.width_ = r.right - r.left;
 	printInfo_.pageSize_.height_ = r.bottom - r.top;
 
-	printInfo_.startPage_ = 1;
-	printInfo_.endPage_ = 1;
+	printInfo_.pages_[0] = 1;
 
 	printInfo_.pageDrawingRect_.setRect( 0, 0, printInfo_.pageSize_.width_, printInfo_.pageSize_.height_ );
 
@@ -118,23 +120,23 @@ void Win32PrintSession::setStandardPageSize( const PrintSession::PageSize& pageS
 }
 
 void Win32PrintSession::setStartPage( const ulong32& startPage )
-{
-
+{	
+	printInfo_.setStartPage( startPage );
 }
 
 ulong32 Win32PrintSession::getStartPage()
-{
-	return printInfo_.startPage_;
+{	
+	return printInfo_.getStartPage();
 }
 
 void Win32PrintSession::setEndPage( const ulong32& endPage )
 {
-
+	printInfo_.setEndPage( endPage );
 }
 
 ulong32 Win32PrintSession::getEndPage()
 {
-	return printInfo_.endPage_;
+	return printInfo_.getEndPage();
 
 }
 Rect Win32PrintSession::getPageDrawingRect()
@@ -197,6 +199,11 @@ void Win32PrintSession::beginPage( PrintContext* context )
 	}
 }
 
+double Win32PrintSession::getDPI()
+{
+	return GetDeviceCaps( printerDC_, LOGPIXELSY );
+}
+
 void Win32PrintSession::endPage( PrintContext* context )
 {
 	VCF_ASSERT( (HDC) context->getPeer()->getContextID() == printerDC_ );
@@ -204,4 +211,14 @@ void Win32PrintSession::endPage( PrintContext* context )
 	if ( ! ::EndPage( (HDC) context->getPeer()->getContextID() ) ) {
 		//throw exception???
 	}
+}
+
+std::vector<ulong32> Win32PrintSession::getPrintablePages()
+{
+	return printInfo_.pages_;
+}
+
+void Win32PrintSession::setPrintablePages( const std::vector<ulong32>& printablePages )
+{
+	printInfo_.pages_ = printablePages;
 }

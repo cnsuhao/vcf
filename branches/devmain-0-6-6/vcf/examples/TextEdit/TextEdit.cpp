@@ -24,6 +24,10 @@ TextEdit::TextEdit( int argc, char *argv[] ) :
 
 }
 
+void TextEdit::onExit( VCF::Event* e )
+{
+	getMainWindow()->close();
+}
 	
 void TextEdit::onPrint( VCF::Event* e )
 {
@@ -38,7 +42,7 @@ void TextEdit::onPrint( VCF::Event* e )
 	dlg.setTitle( "Print Document " + currentDoc->getName() );
 
 	if ( dlg.execute() ) {
-		PrintSession printSession;		
+		PrintSession printSession;				
 
 		printSession.setPrintInfoHandle( dlg.getPrintInfo() );
 		
@@ -49,7 +53,7 @@ void TextEdit::onPrint( VCF::Event* e )
 		Control* textControl = (Control*)currentDoc->getWindow()->findComponent( "EditControl" );
 		TextPeer* textPeer = dynamic_cast<TextPeer*>(textControl->getPeer());
 		ulong32 pageCount = textPeer->getTotalPrintablePageCount( pc );
-		ulong32 page = 1;
+		ulong32 page = printSession.getStartPage();
 		while ( page <= pageCount ) {
 
 			printSession.beginPage( pc );
@@ -210,6 +214,20 @@ bool TextEdit::initRunningApplication()
 		editCount ++;
 		
 		
+		MenuItem* file = root->findChildNamedSimilarTo( "file" );
+
+		sep = new DefaultMenuItem( "" );
+		sep->setSeparator( true );
+		file->addChild( sep );
+
+		DefaultMenuItem* fileExit = new DefaultMenuItem( "E&xit" );	
+		fileExit->addMenuItemClickedHandler( 
+				new GenericEventHandler<TextEdit>( this, &TextEdit::onExit, "TextEdit::onExit" ) );
+
+		file->addChild( fileExit );
+
+		
+
 		newDefaultDocument();
 		
 		DocumentManager* docMgr = DocumentManager::getDocumentManager();
