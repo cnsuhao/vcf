@@ -1507,7 +1507,10 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 	flags |= DFCS_SCROLLDOWN;
 
 	if ( state.isPressed() ) {
-		flags |= DFCS_PUSHED;	
+		// Native win32 pressed combobox buttons are always flat, so
+		// we're going to do our best to make it look flat in our
+		// combobox emulation too
+		flags |= DFCS_PUSHED | DFCS_FLAT;
 	}
 
 	if ( !state.isEnabled() ) {
@@ -2489,6 +2492,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2004/12/20 21:59:09  ddiego
+*committing cheeseheads patches for the combobox control.
+*
 *Revision 1.4.2.1  2004/12/19 04:05:04  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
