@@ -465,8 +465,10 @@ inline bool File::isWriteable()
 	return ((openAccess_ & File::ofWrite) || (openAccess_ & File::ofAppend)) ? true : false;
 }
 
-
-
+inline void File::updateTime()
+{
+	setDateModified ( DateTime::now().toUTC() );
+}
 
 
 
@@ -478,6 +480,9 @@ inline bool File::isWriteable()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/08/03 23:04:38  marcelloptr
+*completed implementation of updateTime
+*
 *Revision 1.1.2.10  2004/07/29 02:39:14  ddiego
 *fixed a bug with File::getINputStream and File::getOutputStream.
 *
