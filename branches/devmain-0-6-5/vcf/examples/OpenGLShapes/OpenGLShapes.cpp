@@ -23,7 +23,6 @@ public:
 	OpenGLShapesControl():OpenGLControl(){
 		initialized=false;
 		angle=0;
-
 		shape=0;
 		sphere=gluNewQuadric();
 
@@ -44,6 +43,7 @@ public:
 		angle++;
 		repaint();
 	}
+
 
 	void paint(GraphicsContext *ctx){
 		OpenGLControlContext* glCtx = dynamic_cast<OpenGLControlContext*>(context_);

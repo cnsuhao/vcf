@@ -25,31 +25,17 @@ StandardContainer::StandardContainer():
 
 void StandardContainer::resizeChildren( Control* control )
 {
-	//if ( controlContainer_->getVisible() ) {
-		Rect bounds = controlContainer_->getClientBounds();
-		if ( bounds.isEmpty() ) {
-			//return;
-		}
+	Rect bounds = controlContainer_->getClientBounds();
+	if ( bounds.isEmpty() ) {
+		//return;
+	}
 
-		Rect rect ( bounds.left_ + leftBorderWidth_,
-						bounds.top_ + topBorderHeight_,
-						bounds.right_ - rightBorderWidth_,
-						bounds.bottom_ - bottomBorderHeight_ );
-
-
-
-		resizeChildrenUsingBounds( control, &rect );
-	//}
-}
-
-void StandardContainer::resizeChildrenUsingBounds( Control* control, Rect* bounds )
-{
-	if ( NULL == controlContainer_ ){
-		throw InvalidPointerException(MAKE_ERROR_MSG_2(INVALID_POINTER_ERROR));
-	};
+	bounds.left_ += leftBorderWidth_;
+	bounds.top_ += topBorderHeight_;
+	bounds.right_ -= rightBorderWidth_;
+	bounds.bottom_ -= bottomBorderHeight_;
 
 	bool controlJustAdded = false;
-
 	if ( NULL != control ) {
 		std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), control );
 
@@ -69,21 +55,57 @@ void StandardContainer::resizeChildrenUsingBounds( Control* control, Rect* bound
 
 	if ( true == needAlignWork ){
 
-		doAlign( control, controlJustAdded, AlignTop, bounds );
-		doAlign( control, controlJustAdded, AlignBottom, bounds );
-		doAlign( control, controlJustAdded, AlignLeft, bounds );
-		doAlign( control, controlJustAdded, AlignRight, bounds );
-		doAlign( control, controlJustAdded, AlignClient, bounds );
+		alignFixed( control, controlJustAdded, AlignTop, &bounds );
+		alignFixed( control, controlJustAdded, AlignBottom, &bounds );
+		alignFixed( control, controlJustAdded, AlignLeft, &bounds );
+		alignFixed( control, controlJustAdded, AlignRight, &bounds );
+		alignFixed( control, controlJustAdded, AlignClient, &bounds );
 	}
 
 	if ( true == needAnchorWork ) {
-		doAnchors( control, controlJustAdded, bounds );
+		doAnchors( control, controlJustAdded, &bounds );
 	}
 
 	if ( (true == needAnchorWork) || (true == needAlignWork) ) {
 		controlContainer_->getPeer()->endSetBounds();
 	}
+
 }
+
+void StandardContainer::alignFixed( Control* initialControl, const bool& controlJustAdded, const AlignmentType& alignment, Rect* rect )
+{
+	std::vector< Control* > alignmentList;
+
+	std::vector< Control* >::iterator it = controls_.begin();
+	ulong32 index=0;
+	while ( it != controls_.end() ){
+		Control* child = *it;
+
+		if ( (child->getAlignment() == alignment) && (child->getVisible()) ){
+			alignmentList.push_back( child );
+		}
+
+		it ++;
+	}
+
+	if ( NULL != initialControl ) {
+		if ( (initialControl->getVisible()) && (initialControl->getAlignment() == alignment) ) {
+			alignmentList.push_back( initialControl );
+		}
+	}
+
+	if ( (alignment == AlignBottom) || (alignment == AlignRight) ) {
+		std::reverse( alignmentList.begin(), alignmentList.end() );
+	}
+
+	it = alignmentList.begin();
+	while ( it != alignmentList.end() ) {
+		doPosition( *it, alignment, rect );
+		it ++;
+	}
+}
+
+
 
 
 
@@ -524,19 +546,41 @@ void StandardContainer::setBorderWidth ( const double& borderWidth )
 
 
 
-void FixedStandardContainer::resizeChildren( Control* control )
-{
-	Rect bounds = controlContainer_->getClientBounds();
-	if ( bounds.isEmpty() ) {
-		//return;
-	}
 
-	bounds.left_ += leftBorderWidth_;
-	bounds.top_ += topBorderHeight_;
-	bounds.right_ -= rightBorderWidth_;
-	bounds.bottom_ -= bottomBorderHeight_;
+
+
+
+
+/**
+DesignTimeContainer class impl
+*/
+void DesignTimeContainer::resizeChildren( Control* control )
+{
+	//if ( controlContainer_->getVisible() ) {
+		Rect bounds = controlContainer_->getClientBounds();
+		if ( bounds.isEmpty() ) {
+			//return;
+		}
+
+		Rect rect ( bounds.left_ + leftBorderWidth_,
+						bounds.top_ + topBorderHeight_,
+						bounds.right_ - rightBorderWidth_,
+						bounds.bottom_ - bottomBorderHeight_ );
+
+
+
+		resizeChildrenUsingBounds( control, &rect );
+	//}
+}
+
+void DesignTimeContainer::resizeChildrenUsingBounds( Control* control, Rect* bounds )
+{
+	if ( NULL == controlContainer_ ){
+		throw InvalidPointerException(MAKE_ERROR_MSG_2(INVALID_POINTER_ERROR));
+	};
 
 	bool controlJustAdded = false;
+
 	if ( NULL != control ) {
 		std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), control );
 
@@ -556,53 +600,19 @@ void FixedStandardContainer::resizeChildren( Control* control )
 
 	if ( true == needAlignWork ){
 
-		alignFixed( control, controlJustAdded, AlignTop, &bounds );
-		alignFixed( control, controlJustAdded, AlignBottom, &bounds );
-		alignFixed( control, controlJustAdded, AlignLeft, &bounds );
-		alignFixed( control, controlJustAdded, AlignRight, &bounds );
-		alignFixed( control, controlJustAdded, AlignClient, &bounds );
+		doAlign( control, controlJustAdded, AlignTop, bounds );
+		doAlign( control, controlJustAdded, AlignBottom, bounds );
+		doAlign( control, controlJustAdded, AlignLeft, bounds );
+		doAlign( control, controlJustAdded, AlignRight, bounds );
+		doAlign( control, controlJustAdded, AlignClient, bounds );
 	}
 
 	if ( true == needAnchorWork ) {
-		doAnchors( control, controlJustAdded, &bounds );
+		doAnchors( control, controlJustAdded, bounds );
 	}
 
 	if ( (true == needAnchorWork) || (true == needAlignWork) ) {
 		controlContainer_->getPeer()->endSetBounds();
-	}
-
-}
-
-void FixedStandardContainer::alignFixed( Control* initialControl, const bool& controlJustAdded, const AlignmentType& alignment, Rect* rect )
-{
-	std::vector< Control* > alignmentList;
-
-	std::vector< Control* >::iterator it = controls_.begin();
-	ulong32 index=0;
-	while ( it != controls_.end() ){
-		Control* child = *it;
-
-		if ( (child->getAlignment() == alignment) && (child->getVisible()) ){
-			alignmentList.push_back( child );
-		}
-
-		it ++;
-	}
-
-	if ( NULL != initialControl ) {
-		if ( (initialControl->getVisible()) && (initialControl->getAlignment() == alignment) ) {
-			alignmentList.push_back( initialControl );
-		}
-	}
-
-	if ( (alignment == AlignBottom) || (alignment == AlignRight) ) {
-		std::reverse( alignmentList.begin(), alignmentList.end() );
-	}
-
-	it = alignmentList.begin();
-	while ( it != alignmentList.end() ) {
-		doPosition( *it, alignment, rect );
-		it ++;
 	}
 }
 
@@ -610,6 +620,11 @@ void FixedStandardContainer::alignFixed( Control* initialControl, const bool& co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/08 15:08:05  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

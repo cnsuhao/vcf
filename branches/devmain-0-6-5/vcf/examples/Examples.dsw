@@ -291,6 +291,9 @@ Package=<4>
     Project_Dep_Name MVCBasics
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name OpenGLShapes
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Processes
     End Project Dependency
     Begin Project Dependency
@@ -322,6 +325,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Tables
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Test1
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TextLayout
@@ -582,6 +588,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "OpenGLShapes"=".\OpenGLShapes\OpenGLShapes.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Processes"=".\Processes\Processes.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -744,6 +762,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Test1"=".\Test1\Test1.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "TextLayout"=".\TextLayout\TextLayout.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -847,6 +877,18 @@ Package=<4>
 ###############################################################################
 
 Project: "WorkingWithEnumerators"=".\WorkingWithEnumerators\WorkingWithEnumerators.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libAGG"="..\build\vc60\GraphicsKit\libAGG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -72,25 +72,28 @@ protected:
 	double rightBorderWidth_;
 	double leftBorderWidth_;
 
-	void resizeChildrenUsingBounds(  Control* control, Rect* bounds );
-
 	bool insertBefore( Control* initialControl, const bool& controlJustAdded, Control* c1, Control* c2, const AlignmentType& alignment, Rect* bounds );
 	void doPosition( Control* component, const AlignmentType& alignment, Rect* rect );
 	void doAlign( Control* initialControl, const bool& controlJustAdded, const AlignmentType& alignment, Rect* rect );
 	bool alignWork();
 	bool anchorWork();
 	void doAnchors( Control* control, const bool& controlJustAdded, Rect* bounds );
-};
 
-
-
-class APPLICATIONKIT_API FixedStandardContainer : public  StandardContainer  {
-public:
-	virtual void resizeChildren( Control* control );
-
-protected:
 	void alignFixed( Control* initialControl, const bool& controlJustAdded, const AlignmentType& alignment, Rect* rect );
 };
+
+
+
+
+class APPLICATIONKIT_API DesignTimeContainer : public  StandardContainer  {
+public:
+	DesignTimeContainer(){};
+
+	virtual void resizeChildren( Control* control );
+protected:
+	void resizeChildrenUsingBounds(  Control* control, Rect* bounds );
+};
+
 
 
 };
@@ -99,6 +102,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/08 15:08:05  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

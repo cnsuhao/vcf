@@ -341,7 +341,7 @@ public:
 		setBorder( bdr );
 
 
-		setContainer( new FixedStandardContainer() );
+		setContainer( new StandardContainer() );
 
 		circleCount_ = new Label();
 		circleCount_->setCaption( "" );
@@ -421,7 +421,7 @@ class MVCBasicsWindow : public Window {
 public:
 
 	MVCBasicsWindow() {
-		setContainer( new FixedStandardContainer() );
+		setContainer( new StandardContainer() );
 
 		setCaption( "MVC Basics" );
 
@@ -585,6 +585,11 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/08 15:09:42  ddiego
+*made the change to the StandardContainer name - the
+*old StandardContainer is now called DesignTimeContainer and
+*the old FixedStandardContainer is now renamed to StandardContainer.
+*
 *Revision 1.1.2.5  2004/06/06 07:05:27  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
