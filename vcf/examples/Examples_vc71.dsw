@@ -27,6 +27,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "AdvancedUI"=".\AdvancedUI\AdvancedUI_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Alignment"=".\Alignment\Alignment_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -253,6 +265,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name AdvancedAlignment
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name AdvancedUI
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Alignment

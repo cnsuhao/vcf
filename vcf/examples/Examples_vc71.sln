@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedAlignment", ".\Adva
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedUI", ".\AdvancedUI\AdvancedUI_vc71.vcproj", "{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alignment", ".\Alignment\Alignment_vc71.vcproj", "{EFF6ACCF-2701-47CB-B0E6-D1900DAA2951}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -82,6 +86,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Exam
 		{9DFBD97B-1C30-4434-9B64-0748F33662B9} = {9DFBD97B-1C30-4434-9B64-0748F33662B9}
 		{878B7E99-C065-4D2B-9E4D-CCC81D7B275B} = {878B7E99-C065-4D2B-9E4D-CCC81D7B275B}
 		{31B25FC7-D9AD-446B-B341-E5D2DC28441B} = {31B25FC7-D9AD-446B-B341-E5D2DC28441B}
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749} = {9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}
 		{EFF6ACCF-2701-47CB-B0E6-D1900DAA2951} = {EFF6ACCF-2701-47CB-B0E6-D1900DAA2951}
 		{7A21E13C-8F77-460F-81DF-4BF1D3578D41} = {7A21E13C-8F77-460F-81DF-4BF1D3578D41}
 		{2A84FEDD-C77B-4818-8BC9-11D8E40B9BF8} = {2A84FEDD-C77B-4818-8BC9-11D8E40B9BF8}
@@ -350,6 +355,9 @@ Global
 		{31B25FC7-D9AD-446B-B341-E5D2DC28441B}.Debug.ActiveCfg = Debug|Win32
 		{31B25FC7-D9AD-446B-B341-E5D2DC28441B}.GTK Debug.ActiveCfg = Debug|Win32
 		{31B25FC7-D9AD-446B-B341-E5D2DC28441B}.Release.ActiveCfg = Release|Win32
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}.Debug.ActiveCfg = Debug|Win32
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}.GTK Debug.ActiveCfg = Debug|Win32
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}.Release.ActiveCfg = Release|Win32
 		{EFF6ACCF-2701-47CB-B0E6-D1900DAA2951}.Debug.ActiveCfg = Debug|Win32
 		{EFF6ACCF-2701-47CB-B0E6-D1900DAA2951}.GTK Debug.ActiveCfg = Debug|Win32
 		{EFF6ACCF-2701-47CB-B0E6-D1900DAA2951}.Release.ActiveCfg = Release|Win32
