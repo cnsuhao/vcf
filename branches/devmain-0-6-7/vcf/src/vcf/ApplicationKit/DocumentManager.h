@@ -839,9 +839,11 @@ protected:
 	*/
 	void onSaveAs( Event* e ) {
 		Document* doc = DocInterfacePolicy::getCurrentDocument();
-		doc->setFileName( "" );
-		doc->setModified(true);
-		saveFile( doc );
+		if ( NULL != doc ) {
+			doc->setFileName( "" );
+			doc->setModified(true);
+			saveFile( doc );
+		}
 	}
 
 	/**
@@ -1500,7 +1502,7 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 
 
 	if ( NULL != newDocument ) {
-		// calls user user implementation
+		// calls user implementation
 		newDocument->initNew();
 
 		if ( DocumentManager::getShouldCreateUI() ) {
@@ -1626,6 +1628,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/02 19:41:13  marcelloptr
+*fixed crash when opening a non existing document
+*
 *Revision 1.3.2.1  2005/01/28 02:49:01  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.
