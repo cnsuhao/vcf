@@ -38,11 +38,6 @@ void AbstractTreeModel::init()
 	treeItemContainer_.initContainer( rootNodes_ );
 }
 
-void AbstractTreeModel::validate()
-{
-
-}
-
 void AbstractTreeModel::empty()
 {
 	std::vector<TreeItem*>::iterator it = rootNodes_.begin();
@@ -56,8 +51,6 @@ void AbstractTreeModel::empty()
 		it ++;
 	}
 	rootNodes_.clear();
-	ModelEvent event( this, Model::MODEL_EMPTIED );
-	ModelEmptied.fireEvent( &event );
 }
 
 void AbstractTreeModel::insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter)
@@ -65,7 +58,7 @@ void AbstractTreeModel::insertNodeItem(TreeItem * node, TreeItem * nodeToInsertA
 	TreeItem* parent = nodeToInsertAfter->getParent();
 	if ( NULL != parent ) {
 		parent->insertChild( nodeToInsertAfter->getIndex(), node );
-		TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
+		TreeModelEvent event(dynamic_cast<Object*>(this), node, TreeModel::TREEITEM_ADDED );
 		NodeAdded.fireEvent( &event );
 	}
 	else {
@@ -77,7 +70,7 @@ void AbstractTreeModel::deleteNodeItem(TreeItem * nodeToDelete)
 {
 	TreeItem* parent = nodeToDelete->getParent();
 
-	TreeModelEvent event(this, nodeToDelete, TreeModel::TREEITEM_DELETED );
+	TreeModelEvent event(dynamic_cast<Object*>(this), nodeToDelete, TreeModel::TREEITEM_DELETED );
 	NodeDeleted.fireEvent( &event );
 
 	if ( NULL != parent ){
@@ -97,17 +90,17 @@ void AbstractTreeModel::deleteNodeItem(TreeItem * nodeToDelete)
 
 void AbstractTreeModel::addNodeItem( TreeItem * node, TreeItem * nodeParent )
 {
-	node->setModel( this );
+	node->setModel( dynamic_cast<Model*>(this) );
 	if ( NULL == nodeParent ){
 		rootNodes_.push_back( node );
-		TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
+		TreeModelEvent event(dynamic_cast<Object*>(this), node, TreeModel::TREEITEM_ADDED );
 		RootNodeChanged.fireEvent( &event );
 	}
 	else {
 		nodeParent->addChild( node );
 	}
 
-	TreeModelEvent event(this, node, TreeModel::TREEITEM_ADDED );
+	TreeModelEvent event(dynamic_cast<Object*>(this), node, TreeModel::TREEITEM_ADDED );
 	NodeAdded.fireEvent( &event );
 }
 
@@ -158,6 +151,15 @@ Enumerator<TreeItem*>* AbstractTreeModel::getRootItems()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

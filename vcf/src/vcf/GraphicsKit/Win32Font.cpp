@@ -433,16 +433,20 @@ void Win32Font::setPixelSize( const double pixelSize )
 		Win32FontManager::removeFont( this );
 	}
 
+	int lfHeight = pixSize;
+
 	if ( isTrueType() ) {
-		pixSize = -pixelSize;
+		if ( !(lfHeight < 0) ) { //if it's NOT negative, then flip it o negative!
+			lfHeight = -lfHeight;
+		}
 	}
 
 	if ( System::isUnicodeEnabled() ) {
-		((LOGFONTW*)logFont_)->lfHeight = pixSize;
+		((LOGFONTW*)logFont_)->lfHeight = lfHeight;
 		((LOGFONTW*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 	else {
-		((LOGFONTA*)logFont_)->lfHeight = pixSize;
+		((LOGFONTA*)logFont_)->lfHeight = lfHeight;
 		((LOGFONTA*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 
@@ -750,7 +754,7 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 	}
 
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
-	long lfHeight = (pointSize / 72.0) * ppi;
+	long lfHeight = ((pointSize / 72.0) * ppi) + 0.5;
 
 
 	bool trueTypeFont = false;
@@ -841,6 +845,15 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.11  2004/09/21 23:41:25  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.10  2004/09/01 03:50:39  ddiego
 *fixed font drawing bug that tinkham pointed out.
 *

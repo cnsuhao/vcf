@@ -511,6 +511,9 @@ public:
 	*/
 	virtual Control* getParent() ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
+
+	void removeFromParent( const bool& freeInstance=true );
+
 	/**
 	*does this control currently have focus?
 	*@return bool true if the control has focus, otehr wise false. If a control
@@ -1282,6 +1285,15 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.1  2004/09/06 21:30:19  ddiego
 *added a separate paintBorder call to Control class
 *

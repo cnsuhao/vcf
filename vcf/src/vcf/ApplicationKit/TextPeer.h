@@ -16,7 +16,9 @@ where you installed the VCF.
 
 namespace VCF{
 
-/** @interface */
+
+class PrintContext;
+
 
 /**
 *A interface for supporting text controls
@@ -87,6 +89,16 @@ public:
 	virtual void scrollToSelection( const bool& showEndSel = false ) = 0;
 
 	virtual void setReadOnly( const bool& readonly ) = 0;
+
+	/**
+	This attempts to print a single page and render in to the 
+	printer context that's passed in.
+	\par 
+	Note that some platforms may not support this, as printing 
+	support varies widely. It will work on Win32, and should work on
+	Mac OS X as well.
+	*/
+	virtual void print( PrintContext* context, const long& page ) = 0;
 };
 
 };
@@ -95,6 +107,15 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/21 23:41:24  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

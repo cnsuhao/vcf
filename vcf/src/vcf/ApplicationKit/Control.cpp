@@ -820,6 +820,20 @@ Control* Control::getParent() /**throw( InvalidPeer ); -JEC - FIXME later*/
 	return parent_;
 }
 
+void Control::removeFromParent( const bool& freeInstance )
+{
+	Control* parent = getParent();
+	if ( NULL != parent ) {
+		Container* container = parent->getContainer();
+		VCF_ASSERT( NULL != container );
+
+		container->remove( this );		
+	}
+
+	removeFromOwner( freeInstance );
+}
+
+
 bool Control::isFocused()
 {
 	bool result = (this == currentFocusedControl);
@@ -1524,9 +1538,13 @@ bool Control::isActive()
 
 void Control::setViewModel( Model* viewModel )
 {
+	bool modelChanged = (viewModel != getViewModel()) ? true : false;
+
 	AbstractView::setViewModel( viewModel );
-	ControlEvent event( this, Control::CONTROL_MODELCHANGED );
-	ControlModelChanged.fireEvent(&event);
+	if ( modelChanged ) {
+		ControlEvent event( this, Control::CONTROL_MODELCHANGED );
+		ControlModelChanged.fireEvent(&event);
+	}
 }
 
 void Control::paintBorder( GraphicsContext * context )
@@ -1540,6 +1558,15 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.6  2004/09/21 05:46:50  dougtinkham
 *modified adjustViewableBoundsAndOriginForScrollable for new scrolling
 *

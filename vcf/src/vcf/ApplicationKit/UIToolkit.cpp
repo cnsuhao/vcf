@@ -595,129 +595,6 @@ AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCod
 	return result;
 }
 
-/*
-void buildTabList( Control* control, std::vector<Control*>& tabList )
-{
-	tabList.push_back( control );
-
-	Container* container = control->getContainer();
-	if ( NULL != container ) {
-		Enumerator<Control*>* children = container->getChildren();
-		while ( children->hasMoreElements() ) {
-			Control* child = children->nextElement();
-			buildTabList( child, tabList );
-		}
-	}
-}
-*/
-
-Control* UIToolkit::getNextChildControl( Control* control, Control* prevControl )
-{
-	Control* result = NULL;
-
-	/*
-	if ( NULL != control ) {
-
-		Container* container = control->getContainer();
-
-
-		bool useContainer = false;
-
-		if ( NULL != container ) {
-			useContainer = ( container->getChildCount() > 0 );
-		}
-
-		if ( true == useContainer ) {
-			std::vector<Control*>::iterator found = std::find( visitedContainers_.begin(),
-																visitedContainers_.end(),
-																control );
-			if ( found != visitedContainers_.end() ) {
-				if ( prevControl == container->getLastTabControl() ) {
-					visitedContainers_.erase( found );
-					result = getNextChildControl( control->getParent(), control );
-				}
-				else {
-					result = container->getNextTabControl( prevControl );
-				}
-			}
-			else {
-				visitedContainers_.push_back( control );
-				result = container->getNextTabControl();
-			}
-
-		}
-		else if ( control->getParent() != NULL ) {
-			container = control->getParent()->getContainer();
-
-			if ( NULL == container ) {
-				container = control->getParent()->getParent()->getContainer();
-			}
-
-			if ( NULL != container ) {
-				result = container->getNextTabControl();
-			}
-		}
-
-		if ( NULL == result ) {
-			result = getNextChildControl( control->getParent(), control );
-		}
-	}
-	*/
-
-	return result;
-}
-
-Control* UIToolkit::getPrevChildControl( Control* control, Control* prevControl )
-{
-	Control* result = NULL;
-/*
-	if ( NULL != control ) {
-
-		Container* container = control->getContainer();
-		bool useContainer = false;
-
-		if ( NULL != container ) {
-			useContainer = ( container->getChildCount() > 0 );
-		}
-
-		if ( true == useContainer ) {
-			std::vector<Control*>::iterator found = std::find( visitedContainers_.begin(),
-																visitedContainers_.end(),
-																control );
-			if ( found != visitedContainers_.end() ) {
-				if ( prevControl == container->getFirstTabControl() ) {
-					visitedContainers_.erase( found );
-					result = getPrevChildControl( control->getParent(), control );
-				}
-				else {
-					result = container->getPrevTabControl( prevControl );
-				}
-			}
-			else {
-				visitedContainers_.push_back( control );
-				result = container->getPrevTabControl();
-			}
-
-		}
-		else if ( control->getParent() != NULL ) {
-			container = control->getParent()->getContainer();
-			if ( NULL == container ) {
-				container = control->getParent()->getParent()->getContainer();
-			}
-
-			if ( NULL != container ) {
-				result = container->getPrevTabControl();
-			}
-		}
-
-		if ( NULL == result ) {
-			result = getPrevChildControl( control->getParent(), control );
-		}
-	}
-*/
-	return result;
-}
-
 void internal_handleKeyboardButtonEvent ( Event* e )
 {
 	VCF::Button* button = (VCF::Button*)e->getUserData();
@@ -859,81 +736,6 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 
 				newFocusedControl = tabList[index];
 				newFocusedControl->setFocused();
-
-
-
-				/*
-				bool goForwards = true;
-				Control* newFocusedControl = NULL;
-				if ( (true == control->keepsTabKey()) && (vkTab == keyCode) ) {
-					event->setConsumed( false );
-					return;
-				}
-				*/
-				/*
-				else if ( (true == control->keepsArrowKeys()) &&
-						((vkUpArrow == keyCode) || (vkDownArrow == keyCode) || (vkLeftArrow == keyCode) || (vkRightArrow == keyCode)) ) {
-					event->setConsumed( false );
-					return;
-				}
-
-
-				if ( (keyCode == vkUpArrow) || (keyCode == vkLeftArrow) ) {
-					goForwards = false;
-				}
-				else
-				*/
-				/*
-				if ( (keyCode == vkTab) && (event->hasShiftKey()) ) {
-					goForwards = false;
-				}
-
-				if ( true == goForwards ) {
-					if ( 2 == prevDirectionWasForward ) {
-						//direction
-					}
-					// go to the next focusable control
-					Control* child = getNextChildControl( control );//UIToolkit_getNextChild( control );
-					if ( NULL != child ) {
-						newFocusedControl = child;
-					}
-					else {
-						Control* parent = control->getParent();
-						if ( NULL != parent ) {
-							newFocusedControl = parent;
-						}
-						else {
-							//ok the hell with it, no parent no child,
-							//let's just set ourself focused
-							newFocusedControl = control;
-						}
-					}
-					prevDirectionWasForward = 1;
-				}
-				else { //go backwards
-					Control* child = getPrevChildControl( control );
-					if ( NULL != child ) {
-						newFocusedControl = child;
-					}
-					else {
-						Control* parent = control->getParent();
-						if ( NULL != parent ) {
-							newFocusedControl = parent;
-						}
-						else {
-							//ok the hell with it, no parent no child,
-							//let's just set ourself focused
-							newFocusedControl = control;
-						}
-					}
-					prevDirectionWasForward = 2;
-				}
-
-				if ( NULL != newFocusedControl ) {
-					newFocusedControl->setFocused();
-					event->setConsumed( true );
-				}
-				*/
 			}
 			break;
 
@@ -1171,6 +973,15 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/21 23:41:24  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.3  2004/08/31 04:12:12  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out
