@@ -1,4 +1,12 @@
 //MainWindow.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "MainWindow.h"
@@ -327,3 +335,13 @@ void MainWindow::makeBordersPage()
 	bottomPanel->add( etchedBorderEtchedPanel , AlignClient );	
 }
 // end bordersPage code
+
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.3  2004/08/30 03:50:47  dougtinkham
+*added copyright
+*
+*/

@@ -1,5 +1,12 @@
 //MainWindow.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #ifndef _MAINWINDOW_H__
 #define _MAINWINDOW_H__
 
@@ -48,3 +55,10 @@ private:
 #endif //_MAINWINDOW_H__
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/08/30 03:50:47  dougtinkham
+*added copyright
+*
+*/
