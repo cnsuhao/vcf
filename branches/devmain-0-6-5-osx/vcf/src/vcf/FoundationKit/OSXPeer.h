@@ -83,9 +83,14 @@ protected:
 
 
 class CFTextString {
-public:
+public:	
+
 	CFTextString() : cfStringRef(nil), unicodeText(NULL){
 
+	}
+	
+	CFTextString( ConstStr255Param str ): cfStringRef(nil), unicodeText(NULL) {
+		assign( str );
 	}
 
 	CFTextString( const String& s ) : cfStringRef(nil), unicodeText(NULL){
@@ -120,7 +125,11 @@ public:
 
 		return *this;
 	}
-
+	
+	CFTextString& operator=( ConstStr255Param str ) {
+		assign( str );
+		return *this;
+	}
 
 	int length() const {
 		return CFStringGetLength( cfStringRef );
@@ -131,6 +140,15 @@ public:
         cfStringRef = CFStringCreateMutable( NULL, 0 );
 		CFStringAppendCharacters( cfStringRef, s.c_str(), s.size() );
 		buildUnicodeBuffer();
+	}
+	
+	void assign( ConstStr255Param str ) {
+		
+		char tmp[256];
+		PLstrcpy( tmp, str );
+		tmp[ PLstrlen(str) ] = 0;
+		
+		assign( tmp );        
 	}
 
     void assign( CFStringRef s ) {
@@ -256,6 +274,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.7.2.2  2004/07/09 02:01:28  ddiego
+ *more osx updates
+ *
  *Revision 1.1.2.7.2.1  2004/06/15 04:04:37  ddiego
  *revamped osx theme drawing API
  *

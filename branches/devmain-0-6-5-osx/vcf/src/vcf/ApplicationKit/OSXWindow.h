@@ -139,6 +139,9 @@ protected:
 	Rect bounds_;
     EventHandlerRef handlerRef_;
 	EventHandlerRef contentViewHandlerRef_;
+	
+	//RgnHandle mouseTrackRgn_;
+	MouseTrackingRef mouseTrackRef_;
 
 	RgnHandle determineUnobscuredClientRgn();
 
@@ -159,6 +162,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.8.2.1  2004/07/06 03:27:13  ddiego
 *more osx updates that add proper support
 *for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix

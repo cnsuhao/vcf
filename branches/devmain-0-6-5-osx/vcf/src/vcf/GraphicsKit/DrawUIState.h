@@ -39,7 +39,9 @@ public:
 		dsScrollBarThumbPressed			= 0x00010000,
 		dsDisclosureClosed				= 0x00020000,
 		dsDisclosurePartialOpened		= 0x00040000,
-		dsDisclosureOpened				= 0x00080000
+		dsDisclosureOpened				= 0x00080000,
+		dsToggledYes					= 0x00100000,
+		dsToggledNo						= 0x00200000		
 	};	
 };
 
@@ -153,6 +155,21 @@ public:
 		}
 		else {
 			state_ &= ~DrawStates::dsPressed;
+		}
+	}
+	
+	bool isToggled() const {
+		return  (state_ & DrawStates::dsToggledYes) ? true : false;
+	}
+	
+	void setToggled( bool val ) {
+		if ( val ) {
+			state_ &= ~DrawStates::dsToggledNo;
+			state_ |= DrawStates::dsToggledYes;
+		}
+		else {
+			state_ &= ~DrawStates::dsToggledYes;
+			state_ |= DrawStates::dsToggledNo;
 		}
 	}
 	

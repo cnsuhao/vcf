@@ -1178,7 +1178,6 @@ void OSXContext_drawThemeButtonText( const ::Rect * bounds, ThemeButtonKind kind
 	ButtonState* state = (ButtonState*)userData;
 	CFTextString cfStr;
 	cfStr = state->buttonCaption_;
-	
 	DrawThemeTextBox( cfStr, kThemePushButtonFont, info->state, FALSE, bounds, 0, NULL );
 }
 
@@ -1225,6 +1224,9 @@ void OSXContext::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	
 	if ( state.isPressed() ) {
 		btnInfo.state |= kThemeStatePressed;
+	}
+	
+	if ( state.isToggled() ) {
 		btnInfo.value = kThemeButtonOn;
 	}
 	
@@ -1259,6 +1261,9 @@ void OSXContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	
 	if ( state.isPressed() ) {
 		btnInfo.state |= kThemeStatePressed;
+	}
+	
+	if ( state.isToggled() ) {
 		btnInfo.value = kThemeButtonOn;
 	}
 	
@@ -2077,6 +2082,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10.2.7  2004/07/09 02:01:29  ddiego
+*more osx updates
+*
 *Revision 1.1.2.10.2.6  2004/07/06 03:27:13  ddiego
 *more osx updates that add proper support
 *for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix

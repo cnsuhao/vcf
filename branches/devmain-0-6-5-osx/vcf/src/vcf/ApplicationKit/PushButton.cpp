@@ -48,20 +48,20 @@ PushButton::~PushButton()
 void PushButton::drawHighLighted( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
-	//tmp.inflate( -1, -1 );
+	tmp.inflate( -1, 0 );
 
 	ButtonState state;
 	state.setActive( true );
 	state.setEnabled( isEnabled() );
 	state.setPressed( isPressed_ );
-	state.setFocused( true );
+	state.setFocused( true );	
 	ctx->drawThemeButtonRect( &tmp, state );	
 }
 
 void PushButton::drawNormal( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
-	
+	tmp.inflate( -1, 0 );
 	ButtonState state;
 	state.setActive( true );
 	state.setEnabled( isEnabled() );
@@ -194,37 +194,21 @@ void PushButton::paint(GraphicsContext * context)
 {
 	CustomControl::paint( context );
 	Rect r( 0,0,getWidth(), getHeight() );
-	r.inflate( 0, -1 );
+	r.inflate( -2, -3 );
 
-	r.normalize();
 
-	drawNormal( &r, context );
 	
-
-	Rect imgRect(0, 0, 0, 0 );
-
-	drawImage( &r, &imgRect, context );
-
-	drawCaption( &r, &imgRect, context );
-
-
-
-/*
-	if ( this == UIToolkit::getDefaultButton() ) {
-
-		Rect rect = getClientBounds();
-		context->setColor( Color::getColor( "black" ) );
-		context->rectangle( &rect );
-		context->strokePath();
+	
+	ButtonState state;
+	state.setActive( isActive() );
+	state.setEnabled( isEnabled() );
+	state.setPressed( isPressed_ );
+	state.setFocused( isFocused() || (this == UIToolkit::getDefaultButton()) );
+	if ( showCaption_ ) {
+		state.buttonCaption_ = caption_;
 	}
-
-	if ( true == isFocused() ) {
-		Rect rect = getClientBounds();
-		rect.inflate( -5, -5 );
-
-		context->drawSelectionRect( &rect );
-	}*/
 	
+	context->drawThemeButtonRect( &r, state );	
 }
 
 void PushButton::click()
@@ -291,7 +275,7 @@ String PushButton::getCaption()
 
 double PushButton::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight ) + 6;
 }
 
 double PushButton::getPreferredWidth()
@@ -433,6 +417,9 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *

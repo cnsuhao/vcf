@@ -335,32 +335,91 @@ public:
 	virtual ~OSXUIMetricsManager(){}
 
 	virtual VCF::Font getDefaultFontFor( const UIMetricsManager::FontType& type ) {
-		VCF::Font result("Arial", 10);
+		VCF::Font result("Arial", 13);
 
 		result.setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_CAPTION_TEXT ) );
+		
+		Str255 fontName;
+		SInt16 fontSize = 0;
+		Style fontStyle = 0;
+		OSStatus err = noErr;
+		
 		switch ( type ) {
 			case UIMetricsManager::ftMenuItemFont : {
-
+				err = GetThemeFont( kThemeSystemFont, smSystemScript, fontName, &fontSize, &fontStyle );	
+				if ( err != noErr ) {
+					CFTextString name(fontName);
+					result.setName( name );
+					result.setPointSize( fontSize );
+					result.setBold ( (fontStyle & bold) ? true : false );
+					result.setItalic ( (fontStyle & italic) ? true : false );
+				}				
 			}
 			break;
 
 			case UIMetricsManager::ftSelectedMenuItemFont : {
-
+				err = GetThemeFont( kThemeSystemFont, smSystemScript, fontName, &fontSize, &fontStyle );	
+				if ( err != noErr ) {
+					CFTextString name(fontName);
+					result.setName( name );
+					result.setPointSize( fontSize );
+					result.setBold ( (fontStyle & bold) ? true : false );
+					result.setItalic ( (fontStyle & italic) ? true : false );
+					result.setUnderlined ( (fontStyle & underline) ? true : false );					
+				}
 			}
 			break;
 
-			case UIMetricsManager::ftControlFont :  case UIMetricsManager::ftSystemFont : {
-
+			case UIMetricsManager::ftSystemFont : {
+				err = GetThemeFont( kThemeSystemFont, smSystemScript, fontName, &fontSize, &fontStyle );	
+				if ( err != noErr ) {
+					CFTextString name(fontName);
+					result.setName( name );
+					result.setPointSize( fontSize );
+					result.setBold ( (fontStyle & bold) ? true : false );
+					result.setItalic ( (fontStyle & italic) ? true : false );
+					result.setUnderlined ( (fontStyle & underline) ? true : false );
+				}
 			}
 			break;
+			
+			case UIMetricsManager::ftControlFont :   {
+				err = GetThemeFont( kThemeLabelFont, smSystemScript, fontName, &fontSize, &fontStyle );	
+				if ( err != noErr ) {
+					CFTextString name(fontName);
+					result.setName( name );
+					result.setPointSize( fontSize );
+					result.setBold ( (fontStyle & bold) ? true : false );
+					result.setItalic ( (fontStyle & italic) ? true : false );
+					result.setUnderlined ( (fontStyle & underline) ? true : false );
+				}
+			}
+			break;
+			
 
 			case UIMetricsManager::ftMessageFont : {
-
+				err = GetThemeFont( kThemeEmphasizedSystemFont, smSystemScript, fontName, &fontSize, &fontStyle );	
+				if ( err != noErr ) {
+					CFTextString name(fontName);
+					result.setName( name );
+					result.setPointSize( fontSize );
+					result.setBold ( (fontStyle & bold) ? true : false );
+					result.setItalic ( (fontStyle & italic) ? true : false );
+					result.setUnderlined ( (fontStyle & underline) ? true : false );
+				}
 			}
 			break;
 
 			case UIMetricsManager::ftToolTipFont : {
-
+				err = GetThemeFont( kThemeSmallSystemFont, smSystemScript, fontName, &fontSize, &fontStyle );	
+				if ( err != noErr ) {
+					CFTextString name(fontName);
+					result.setName( name );
+					result.setPointSize( fontSize );
+					result.setBold ( (fontStyle & bold) ? true : false );
+					result.setItalic ( (fontStyle & italic) ? true : false );
+					result.setUnderlined ( (fontStyle & underline) ? true : false );
+				}
 			}
 			break;
 		}
@@ -372,44 +431,38 @@ public:
 		double result = 0.0;
 		switch ( type ) {
 			case UIMetricsManager::htLabelHeight : {
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.75;
+				result = 18;
 			}
 			break;
 
 			case UIMetricsManager::htComboBoxHeight : {
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 2.0;
+				result = 20;
 			}
 			break;
 
 			case UIMetricsManager::htListItemHeight : {
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.65;
+				result = 18;
 			}
 			break;
 
 			case UIMetricsManager::htButtonHeight : {
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (f.getHeight() * 1.75) + 2.50;
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricPushButtonHeight, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
 			}
 			break;
 
 			case UIMetricsManager::htRadioBoxHeight : case UIMetricsManager::htCheckBoxHeight : {
-				//in Win32 a radio box or check box is ALWAYS 10 dialog units high
-				//dialog units are converted by
-				//(2 * average char height dialog font / average char height system font pixels
-				//where average char height dialog font = TEXTMETRIC.tmHeight field or a Font::getHeight()
-
-
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = (9.0 * ((2.0 * f.getHeight()) / f.getHeight())) - 4.0;//0.590909;
+				result = 18;
 			}
 			break;
 
 			case UIMetricsManager::htToolTipHeight : {
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftToolTipFont );
-				result = f.getHeight() * 1.2222;
+				result = 18;
 			}
 			break;
 
@@ -419,8 +472,7 @@ public:
 			break;
 
 			case UIMetricsManager::htInformationalControl : {
-				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.75;
+				result = 15;
 			}
 			break;
 		}
@@ -440,17 +492,17 @@ public:
 			break;
 
 			case UIMetricsManager::stContainerBorderDelta : {
-				result = 8.0;
+				result = 22;
 			}
 			break;
 
 			case UIMetricsManager::stControlVerticalSpacing : {
-				result = 14.0;
+				result = 12;
 			}
 			break;
 
 			case UIMetricsManager::stControlHorizontalSpacing : {
-				result = 10.0;
+				result = 12;
 			}
 			break;
 
@@ -470,10 +522,11 @@ public:
 
 	virtual Size getDefaultSliderThumbDimensions()  {
 		Size result;
+		SInt32 val = 0;
+		GetThemeMetric( kThemeMetricScrollBarWidth, &val );		
 
-		//where the hell do we get these ????
-		result.width_ = 22;
-		result.height_ = 22;
+		result.width_ = val;
+		result.height_ = val;
 
 		return result;
 	}
@@ -487,9 +540,11 @@ public:
 
 	virtual Size getDefaultVerticalScrollButtonDimensions()  {
 		Size result;
+		SInt32 val = 0;
+		GetThemeMetric( kThemeMetricScrollBarWidth, &val );		
 
-		result.width_ = 22;
-		result.height_ = 22;
+		result.width_ = val;
+		result.height_ = val;
 
 		return result;
 	}
@@ -1948,6 +2003,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.11.2.1  2004/07/06 03:27:13  ddiego
 *more osx updates that add proper support
 *for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix

@@ -49,24 +49,18 @@ void CheckBoxControl::paint( GraphicsContext* context )
 		checkBtnRect.bottom_ = minVal<double>( r.bottom_, checkBtnRect.top_ + fixedCheckboxHeight_ );
 	}
 	else {
-		checkBtnRect.inflate( -3, -3 );
+		//checkBtnRect.inflate( -3, -3 );
 	}
-	checkBtnRect.left_ += 3;
-	checkBtnRect.right_ = checkBtnRect.left_ + checkBtnRect.getHeight();
-	r.left_ = checkBtnRect.right_;
-
+	
 	ButtonState buttonState;
-	buttonState.setActive( true );
+	buttonState.setActive( isActive() );
 	buttonState.setEnabled( isEnabled() );
-	buttonState.setPressed( checked_ );
-	buttonState.setFocused( isFocused() );
+	//buttonState.setPressed( checked_ );
+	buttonState.setToggled( checked_ );
+	buttonState.setFocused( isFocused() && buttonState.isActive() );
+	buttonState.buttonCaption_ = caption_;
 	
 	context->drawThemeCheckboxRect( &checkBtnRect, buttonState );
-	
-
-	r.inflate( -1, -1 );
-	r.left_ = checkBtnRect.right_ + 5;
-	context->textBoundedBy( &r, caption_, false );
 }
 
 
@@ -86,6 +80,9 @@ void CheckBoxControl::setUseFixedCheckboxSize( const bool& fixedCheckboxSize )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *
