@@ -955,7 +955,7 @@ protected:
 
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString& rhs )
+inline UnicodeString operator +( const UnicodeString& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result (lhs);
 
@@ -965,7 +965,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, con
 
 }
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::UniChar* lhs, const UnicodeString& rhs )
+inline UnicodeString operator +( const UnicodeString::UniChar* lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(lhs) ;
 
@@ -975,7 +975,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::UniChar*
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar* rhs )
+inline UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar* rhs )
 {
 	UnicodeString result(lhs) ;
 
@@ -985,7 +985,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, con
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::UniChar& lhs, const UnicodeString& rhs )
+inline UnicodeString operator +( const UnicodeString::UniChar& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(1,lhs) ;
 
@@ -995,7 +995,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::UniChar&
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar& rhs )
+inline UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::UniChar& rhs )
 {
 	UnicodeString result(lhs) ;
 
@@ -1005,7 +1005,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, con
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::AnsiChar& lhs, const UnicodeString& rhs )
+inline UnicodeString operator +( const UnicodeString::AnsiChar& lhs, const UnicodeString& rhs )
 {
 	UnicodeString result(1,UnicodeString::transformAnsiCharToUnicodeChar( lhs ));
 	result += rhs;
@@ -1013,7 +1013,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::AnsiChar
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar& rhs )
+inline UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar& rhs )
 {
 	UnicodeString result(lhs);
 	result += UnicodeString::transformAnsiCharToUnicodeChar( rhs  );
@@ -1021,7 +1021,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, con
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::AnsiChar* lhs, const UnicodeString& rhs )
+inline UnicodeString operator +( const UnicodeString::AnsiChar* lhs, const UnicodeString& rhs )
 {
 	UnicodeString result;
 	UnicodeString::transformAnsiToUnicode( lhs, strlen(lhs), result );
@@ -1031,7 +1031,7 @@ inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString::AnsiChar
 }
 
 
-inline FOUNDATIONKIT_API UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar* rhs )
+inline UnicodeString operator +( const UnicodeString& lhs, const UnicodeString::AnsiChar* rhs )
 {
 	UnicodeString result(lhs);
 	UnicodeString tmp;
@@ -1084,6 +1084,11 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/17 18:02:42  marcelloptr
+*removed unnecessary dllimport/dllexport keyword before global functions defined in the header
+*
+*which was causing problems with the inline keyword. Thank you Fraggle for pointing out and solving this.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
