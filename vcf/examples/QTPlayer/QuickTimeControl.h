@@ -21,6 +21,14 @@ class QuickTimeMovie;
 class QuickTimeControl : public VCF::CustomControl { 
 public:
 
+	enum ViewState {
+		vsNormal=0,
+		vsDouble,
+		vsHalf,
+		vsCustom
+	};
+
+
 	BEGIN_CLASSINFO(QuickTimeControl, "QuickTimeControl", "VCF::CustomControl", QUICKTIMECONTROL_CLASSID)
 	//EVENT("VCF::GenericEventHandler", "VCF::Event", "MovieChanged" );
 	//EVENT("VCF::GenericEventHandler", "VCF::Event", "MovieFrameChanged" );
@@ -67,11 +75,32 @@ public:
 	}
 
 	void setZoomLevel( const double& val );
+
+	void setViewDoubleSize();
+	void setViewHalfSize();
+	void setViewNormalSize();
+
+	bool isDoubleSize() {
+		return viewState_  == vsDouble;
+	}
+
+	bool isHalfSize(){
+		return viewState_  == vsHalf;
+	}
+
+	bool isNormalSize(){
+		return viewState_  == vsNormal;
+	}
+	
+	ViewState getViewState() {
+		return viewState_;
+	}
 protected:
 	QuickTimeMovie* m_currentMovie;
 	double m_zoomLevel;
 	bool m_lockAspectRatio;
 	bool m_allowResizing;
+	ViewState viewState_;
 
 	void setMovieBounds( VCF::Rect* rect );
 

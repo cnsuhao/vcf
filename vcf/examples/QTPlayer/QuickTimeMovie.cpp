@@ -9,7 +9,8 @@ QuickTimeMovie::QuickTimeMovie():
 	m_qtMovie(NULL),
 	m_displayControl(NULL),
 	m_isMovieOpen(false),
-	m_aspectRatio(1.0)
+	m_aspectRatio(1.0),
+	playState_(psStopped)
 {
 	memset( &m_currentTime, 0, sizeof(TimeRecord) );	
 }
@@ -18,7 +19,8 @@ QuickTimeMovie::QuickTimeMovie( VCF::Control* displayControl ):
 	m_qtMovie(NULL),
 	m_displayControl(displayControl),
 	m_isMovieOpen(false),
-	m_aspectRatio(1.0)
+	m_aspectRatio(1.0),
+	playState_(psStopped)
 {
 	memset( &m_currentTime, 0, sizeof(TimeRecord) );
 	if ( NULL == m_displayControl ) {
@@ -33,7 +35,8 @@ QuickTimeMovie::QuickTimeMovie( VCF::Control* displayControl, const String& file
 	m_qtMovie(NULL),
 	m_displayControl(displayControl),
 	m_isMovieOpen(false),
-	m_aspectRatio(1.0)
+	m_aspectRatio(1.0),
+	playState_(psStopped)
 {
 	memset( &m_currentTime, 0, sizeof(TimeRecord) );
 	if ( NULL == m_displayControl ) {
@@ -155,24 +158,29 @@ void QuickTimeMovie::reset()
 	time.base = GetMovieTimeBase( m_qtMovie );
 	SetMovieTime ( m_qtMovie, &time );
 	memset( &m_currentTime, 0, sizeof(TimeRecord) );
+
+	playState_ = psPlaying;
 }
 
 void QuickTimeMovie::play()
 {
 	SetMovieTime ( m_qtMovie, &m_currentTime );
 	StartMovie( m_qtMovie );	
+	playState_ = psPlaying;
 }
 
 void QuickTimeMovie::stop()
 {
 	StopMovie( m_qtMovie );
 	reset();
+	playState_ = psStopped;
 }
 
 void QuickTimeMovie::pause()
 {
 	StopMovie( m_qtMovie );
 	GetMovieTime ( m_qtMovie, &m_currentTime );
+	playState_ = psPaused;
 }
 
 bool QuickTimeMovie::isOpen()
@@ -199,6 +207,7 @@ bool QuickTimeMovie::close()
 	}		
 	
 	m_qtMovie = NULL;
+	playState_ = psStopped;
 
 	return result;
 }
@@ -320,4 +329,79 @@ double QuickTimeMovie::getCurrentTimeValue()
 	return result;
 }
 
+bool QuickTimeMovie::hasMovieTrack()
+{
+	ulong32 count = GetMovieTrackCount( m_qtMovie );		
+	
+	
+	for (ulong32 index = 1; index <= count; index++) {
+		Track track = GetMovieIndTrack(m_qtMovie, index);
 
+		OSType dwType = 0;
+
+		GetMediaHandlerDescription(GetTrackMedia(track), &dwType, NULL, NULL);
+
+		if ( dwType == VideoMediaType ) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+void QuickTimeMovie::nextFrame()
+{
+	TimeValue  currentTime;
+	TimeValue  nextTime;
+	short   flags;
+	OSType   types[1];
+	OSErr   myErr = noErr;
+	
+		
+	flags = nextTimeStep;         // we want the next frame in the movie's media
+	types[0] = VisualMediaCharacteristic;     // we want video samples
+	currentTime = GetMovieTime(m_qtMovie, NULL);
+	
+	unsigned long f = 1 << 16;
+	GetMovieNextInterestingTime(m_qtMovie, flags, 1, types, currentTime, f, &nextTime, NULL);
+	
+	
+	if ( (nextTime < 0) || (nextTime > GetMovieDuration(m_qtMovie)) ) {
+		return ;
+	}
+	
+	SetMovieTimeValue(m_qtMovie, nextTime);
+	
+	UpdateMovie(m_qtMovie);
+	
+	movieTask();
+}
+
+void QuickTimeMovie::previousFrame()
+{
+	TimeValue  currentTime;
+	TimeValue  prevTime;
+	short   flags;
+	OSType   types[1];
+	OSErr   myErr = noErr;
+	
+		
+	flags = nextTimeStep;         // we want the next frame in the movie's media
+	types[0] = VisualMediaCharacteristic;     // we want video samples
+	currentTime = GetMovieTime(m_qtMovie, NULL);
+	
+	long f = 1 << 16;
+
+	GetMovieNextInterestingTime(m_qtMovie, flags, 1, types, currentTime, -f, &prevTime, NULL);
+	
+	
+	if ( (prevTime < 0) || (prevTime > GetMovieDuration(m_qtMovie)) ) {
+		return ;
+	}
+	
+	SetMovieTimeValue(m_qtMovie, prevTime);
+	
+	UpdateMovie(m_qtMovie);
+	
+	movieTask();
+}

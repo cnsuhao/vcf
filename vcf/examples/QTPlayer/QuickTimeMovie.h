@@ -29,6 +29,13 @@ public:
 		DefaultTimeOutVal = 5000
 	};
 
+	
+	enum PlayState {
+		psPlaying = 0,
+		psStopped,
+		psPaused
+	};
+
 	QuickTimeMovie();
 
 	QuickTimeMovie( VCF::Control* displayControl );
@@ -95,6 +102,24 @@ public:
 	VCF::Rect getOriginalBounds() {
 		return m_originalBounds;
 	}
+
+	
+	bool isPlaying() {
+		return playState_ == psPlaying;
+	}
+
+	bool isStopped() {
+		return playState_ == psStopped;
+	}
+
+	bool isPaused() {
+		return playState_ == psPaused;
+	}
+
+	bool hasMovieTrack();
+
+	void nextFrame();
+	void previousFrame();
 protected:
 	TimeRecord m_currentTime;
 	Movie m_qtMovie;
@@ -102,8 +127,12 @@ protected:
 	bool m_isMovieOpen;
 	VCF::String m_filename;
 	VCF::Rect m_originalBounds;
+	
+	PlayState playState_;
+
 	double m_aspectRatio;
 	void redrawMovie();
+
 };
 
 
