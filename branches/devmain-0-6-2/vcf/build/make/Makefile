@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.9  2003/11/11 17:43:42  ddiego
+#updated the makefile and foundationKit object to make a VariantData.obj
+#file
+#
 #Revision 1.3.4.8  2003/11/01 20:41:00  ddiego
 #updated makefil to add the gtk toolbar class
 #
@@ -170,6 +174,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/TextOutputStream.o \
 	$(OUTDIR_FK_D)/Thread.o \
 	$(OUTDIR_FK_D)/ThreadEvent.o \
+	$(OUTDIR_FK_D)/VariantData.o \
 	$(OUTDIR_FK_D)/VCFMath.o \
 	$(OUTDIR_FK_D)/VCFProcess.o \
 	$(OUTDIR_FK_D)/XMLParser.o \
@@ -226,6 +231,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/TextOutputStream.o \
 	$(OUTDIR_FK)/Thread.o \
 	$(OUTDIR_FK)/ThreadEvent.o \
+	$(OUTDIR_FK)/VariantData.o \
 	$(OUTDIR_FK)/VCFMath.o \
 	$(OUTDIR_FK)/VCFProcess.o \
 	$(OUTDIR_FK)/XMLParser.o \
