@@ -524,7 +524,7 @@ void TreeListControl::paint( GraphicsContext * context )
 	Rect borderRect(0,0,getWidth(), getHeight() );
 	Border* border = getBorder();
 	if ( NULL != border ) {
-		borderRect = border->getClientRect( this );
+		borderRect = border->getClientRect( &borderRect, this );
 	}
 
 	Rect itemRect;
@@ -865,7 +865,7 @@ void TreeListControl::mouseDown( MouseEvent* event )
 	Rect borderRect(0,0,getWidth(), getHeight() );
 	Border* border = getBorder();
 	if ( NULL != border ) {
-		borderRect = border->getClientRect( this );
+		borderRect = border->getClientRect( &borderRect, this );
 	}
 
 	if ( event->hasLeftButton() ) {
@@ -1456,6 +1456,11 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

@@ -28,9 +28,12 @@ void ColorEtchedBorder::paint( Rect* bounds, GraphicsContext* context )
 
 }
 
-Rect ColorEtchedBorder::getClientRect( Control* control )
+Rect ColorEtchedBorder::getClientRect( Rect* initialBounds, Control* control )
 {
-	Rect result;
+	Rect result = *initialBounds;
+
+	result.inflate( -2.0, -2.0 );
+
 	return result;
 }
 
@@ -38,6 +41,11 @@ Rect ColorEtchedBorder::getClientRect( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

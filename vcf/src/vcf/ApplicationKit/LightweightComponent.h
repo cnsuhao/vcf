@@ -74,6 +74,8 @@ public:
 	virtual void translateToScreenCoords( Point* pt );
 
 	virtual void translateFromScreenCoords( Point* pt );
+
+	virtual void setBorder( Border* border ) {} //no-op
 private:
 	VCF::Control* getHeavyWeightParent();
 	VCF::Control* component_;
@@ -89,6 +91,11 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -28,7 +28,7 @@ namespace VCF {
 
 		virtual void paint( Rect* bounds, GraphicsContext* context );
 
-		virtual Rect getClientRect( Control* control );
+		virtual Rect getClientRect( Rect* initialBounds, Control* control );
 
 		void setSidesToPaint( const long& sidesToPaint ) {
 			sidesToPaint_ = sidesToPaint;
@@ -55,6 +55,11 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

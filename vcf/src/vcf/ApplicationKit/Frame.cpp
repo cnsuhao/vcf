@@ -116,8 +116,8 @@ void Frame::paint( GraphicsContext * context )
 
 		if ( NULL != border ){
 			border->paint( this, context );
-			Rect tmpBounds = border->getClientRect( this );
-			innerBounds.setRect( tmpBounds.left_, tmpBounds.top_, tmpBounds.right_, tmpBounds.bottom_ );
+			Rect tmpBounds = border->getClientRect( &innerBounds, this );
+			innerBounds = tmpBounds;
 			innerBounds.inflate( -1, -1 );
 		}
 
@@ -272,6 +272,11 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

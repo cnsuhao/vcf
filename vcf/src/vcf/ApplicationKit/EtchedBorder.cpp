@@ -36,20 +36,23 @@ void EtchedBorder::paint( Rect* bounds, GraphicsContext* context )
 	context->drawThemeEdge( bounds, state, sidesToPaint_, style_ );
 }
 
-Rect EtchedBorder::getClientRect( Control* control )
+Rect EtchedBorder::getClientRect( Rect* initialBounds, Control* control )
 {
-	Rect result;
-	if ( NULL != control ){
-		result = control->getClientBounds( false );
-		result.inflate( -1.0, -1.0 );
-	}
+	Rect result = *initialBounds;
+
+	result.inflate( -2.0, -2.0 );
+
 	return result;
 }
-
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

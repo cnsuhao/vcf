@@ -346,7 +346,7 @@ public:
 			case UIMetricsManager::htComboBoxHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
 				Point pt = DLUToPixel( Point(0,14), f );
-				result = pt.y_;
+				result = pt.y_;				
 			}
 			break;
 
@@ -526,6 +526,14 @@ public:
 		result.width_ = w;
 		result.height_ = ::GetSystemMetrics( SM_CYVTHUMB );
 
+		NONCLIENTMETRICS ncm;
+		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+
+		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+
+		result.width_ = ncm.iScrollWidth;
+
 		return result;
 	}
 
@@ -533,7 +541,7 @@ public:
 		Size result;
 
 		result.width_ = ::GetSystemMetrics( SM_CXHTHUMB );
-		result.height_ = ::GetSystemMetrics( SM_CYVTHUMB );
+		result.height_ = ::GetSystemMetrics( SM_CYVTHUMB );	
 
 		return result;
 	}
@@ -2005,6 +2013,11 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
 *added locale translation support for most classes
 *

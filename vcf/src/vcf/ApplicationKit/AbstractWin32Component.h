@@ -90,6 +90,8 @@ public:
 
 	virtual void translateFromScreenCoords( Point* pt );
 
+	virtual void setBorder( Border* border );
+
 	HDWP getWindPosInfo() {
 		return winPosInfo_;
 	}
@@ -114,6 +116,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.4  2004/07/14 04:56:01  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

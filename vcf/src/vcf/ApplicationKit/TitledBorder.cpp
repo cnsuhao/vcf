@@ -71,14 +71,13 @@ void TitledBorder::paint( Rect* bounds, GraphicsContext* context )
 	context->setCurrentFont( oldFont );
 }
 
-Rect TitledBorder::getClientRect( Control* control )
+Rect TitledBorder::getClientRect( Rect* initialBounds, Control* control )
 {
-	Rect result;
-	if ( NULL != control ){
-		GraphicsContext* context = control->getContext();
-
-		result = control->getClientBounds( false );
-		result.inflate( -2.0, 0.0 );
+	Rect result = *initialBounds;
+	
+	if ( NULL != control ) {
+		GraphicsContext* context = control->getContext();	
+		result.inflate( -2.0, 0.0 );	
 		result.bottom_ -= 2.0;
 
 		Font* oldFont = context->getCurrentFont();
@@ -87,6 +86,9 @@ Rect TitledBorder::getClientRect( Control* control )
 		result.top_ += context->getTextHeight( "EM" );
 		context->setCurrentFont( oldFont );
 	}
+	else {
+		result.inflate( -2.0, -2.0 );	
+	}
 	return result;
 }
 
@@ -94,6 +96,11 @@ Rect TitledBorder::getClientRect( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
 *added locale translation support for most classes
 *

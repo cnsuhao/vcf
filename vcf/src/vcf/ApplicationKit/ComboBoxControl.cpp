@@ -15,6 +15,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/TextControl.h"
 #include "vcf/ApplicationKit/DefaultListItem.h"
 #include "vcf/ApplicationKit/Containers.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -34,6 +35,7 @@ public:
 
 		scrollBarMgr->setHasHorizontalScrollbar( false );
 		scrollBarMgr->setHasVerticalScrollbar( true );
+		setUseColorForBackground( true );
 	}
 
 	virtual ~DropDownListBox(){
@@ -128,6 +130,7 @@ public:
 		listBox_->MouseDown.addHandler( new MouseEventHandler<ComboBoxDropDown>( this, &ComboBoxDropDown::onListboxMouseDown, "onListboxMouseDown" ) );
 
 		setColor( Color::getColor( "black" ) );
+		setUseColorForBackground( true );
 		setFrameStyle( fstNoBorderFixed );
 		setFrameTopmost( true );
 
@@ -313,6 +316,12 @@ void ComboBoxControl::init()
 	updateEditBounds();
 
 	FocusGained.addHandler( new FocusEventHandler<ComboBoxControl>( this, &ComboBoxControl::onFocusGained, "ComboBoxControl::onFocusGained" ) );
+
+	setUseColorForBackground( true );
+
+	Basic3DBorder* border = new Basic3DBorder();
+	border->setInverted( true );
+	setBorder( border );
 }
 
 ComboBoxControl::~ComboBoxControl()
@@ -402,7 +411,15 @@ void ComboBoxControl::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
 
+	Rect clientRect = getClientBounds();
 
+	arrowRect_ = clientRect;
+
+	Size sz = UIToolkit::getUIMetricsManager()->getDefaultVerticalScrollButtonDimensions();
+
+	arrowRect_.left_ = clientRect.right_ - sz.width_;
+
+	/*
 	Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
 	Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 	Color* face = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
@@ -423,35 +440,43 @@ void ComboBoxControl::paint( GraphicsContext* context )
 	viewRect_ = paintRect;
 	viewRect_.right_ = arrowRect_.left_-1;
 
-	Light3DBorder bdr;
-	bdr.setInverted( true );
-	bdr.paint( &paintRect, context );
-	
+	//Light3DBorder bdr;
+	//bdr.setInverted( true );
+	//bdr.paint( &paintRect, context );
+	*/
+
 	///////////////
 	//FIX ME!!!!!
 	///////////////
+	
 	//context->drawVerticalScrollButtonRect( &arrowRect_, false, arrowPressed_ );
 
-
+/*
 	viewRect_.inflate( -2, -2 );
 	viewRect_.right_ += 2;
 
 	context->setColor( getColor() );
 	context->rectangle( &viewRect_ );
 	context->fillPath();
+	*/
 
+
+	ButtonState state;
+
+	state.setActive( this->isActive() );
+	state.setEnabled( this->isEnabled() );
+	state.setPressed( arrowPressed_ );
+	state.setFocused( this->isFocused() );
 
 	ListItem* selectedItem = getSelectedItem();
 	if ( NULL != selectedItem ){
-		String caption = selectedItem->getCaption();
-		Font* f = context->getCurrentFont();
-		double sy = h/2 - (f->getPixelSize()/2);
-		Rect textRect = viewRect_;
-		textRect.inflate( -1, -1 );
-		long options = GraphicsContext::tdoCenterVertAlign;
-		context->textBoundedBy( &textRect, caption, options );
+		state.buttonCaption_ = selectedItem->getCaption();
+	}
+	
+	context->drawThemeComboboxRect( &clientRect, state );
 
-		if ( true == selectedItem->canPaint() ) {
+	if ( NULL != selectedItem ){		
+		if ( selectedItem->canPaint() ) {
 			selectedItem->paint( context, &viewRect_ );
 		}
 	}
@@ -911,6 +936,11 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.5  2004/07/14 04:56:01  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

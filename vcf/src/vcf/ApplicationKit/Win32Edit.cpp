@@ -91,6 +91,7 @@ void Win32Edit::create( Control* owningControl )
 		}
 	}
 
+	
 	styleMask_ &= ~WS_VISIBLE;
 	DWORD style = styleMask_ | ES_AUTOHSCROLL | ES_SAVESEL;
 	if ( true == isMultiLined_ ) {
@@ -228,8 +229,9 @@ void Win32Edit::setCaretPosition( const unsigned long& caretPos )
 
 void Win32Edit::createParams()
 {
-	exStyleMask_ = WS_EX_CLIENTEDGE;
+	exStyleMask_ = 0;
 	styleMask_ = SIMPLE_VIEW;
+	styleMask_ &= ~WS_BORDER;
 }
 
 void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam )
@@ -389,9 +391,67 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case WM_PAINT:{
+			result = 0;
+		}
+		break;
 
-			//result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
-			String text = getText();
+		case WM_NCCALCSIZE: {
+			RECT* rectToModify = NULL;
+
+			if ( !wParam ) {
+				RECT* rect = (RECT*)lParam;
+				GetWindowRect(hwnd_, rect);
+				OffsetRect(rect, -rect->left, -rect->top);
+				rectToModify = rect;
+			}
+			else {
+				NCCALCSIZE_PARAMS *windowParams = (NCCALCSIZE_PARAMS*)lParam;
+				windowParams->rgrc[0].left = windowParams->lppos->x; 
+				windowParams->rgrc[0].top = windowParams->lppos->y;
+				windowParams->rgrc[0].right = windowParams->lppos->x + windowParams->lppos->cx;
+				windowParams->rgrc[0].bottom = windowParams->lppos->y + windowParams->lppos->cy;
+
+				rectToModify = &windowParams->rgrc[0];
+			}
+
+			if ( rectToModify && (peerControl_->getComponentState() != Component::csDestroying) ) {
+				Border* border = peerControl_->getBorder();
+				Rect clientBounds( rectToModify->left, rectToModify->top, rectToModify->right, rectToModify->bottom );
+
+				if ( NULL != border ) {
+					clientBounds = border->getClientRect( &clientBounds, peerControl_ );
+				}
+
+				//Rect clientBoundsWithBorder = peerControl_->getClientBounds( true );
+				//Rect clientBoundsWOBorder = peerControl_->getClientBounds( false );
+
+				rectToModify->left = clientBounds.left_;// - clientBoundsWOBorder.left_);
+				rectToModify->top = clientBounds.top_;// - clientBoundsWOBorder.top_);
+				rectToModify->right = clientBounds.right_;// - clientBoundsWithBorder.right_);
+				rectToModify->bottom = clientBounds.bottom_;// - clientBoundsWithBorder.bottom_);
+			}
+			
+			return 1;
+		}
+		break;
+
+		case WM_NCPAINT: {
+
+			HDC hdc = GetWindowDC(hwnd_);
+
+			int dcs = SaveDC( hdc );
+			RECT rect;
+			GetWindowRect(hwnd_, &rect);
+			OffsetRect(&rect, -rect.left, -rect.top);
+
+			//FillRect( hdc, &rect, (HBRUSH)(COLOR_BTNSHADOW+1) );
+
+			HDC memDC = doControlPaint( hdc, rect );
+			updatePaintDC( hdc, rect );
+
+			RestoreDC( hdc, dcs );
+			ReleaseDC(hwnd_, hdc);
+			return 1;
 		}
 		break;
 
@@ -409,6 +469,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 			backgroundBrush_ = CreateSolidBrush( backColor );
 			SetBkColor( hdcEdit, backColor );
+
 			result = (LRESULT)backgroundBrush_;
 		}
 		break;
@@ -752,6 +813,11 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.7  2004/07/14 18:18:14  ddiego
 *fixed problem with edit control. Turns out we were using the wrong
 *subclassed wndproc. This is now fixed.

@@ -24,6 +24,8 @@ class Rect;
 
 class Cursor;
 
+class Border;
+
 /** The base Peer interface.
  *   In the Visual Control Framework Peers are the equivalent of Peers in Java.
  *   Peers can be either light weight or heavyweight.
@@ -154,6 +156,12 @@ public:
 	Screen.
 	*/
 	virtual void translateFromScreenCoords( Point* pt ) = 0;
+
+	/**
+	Called by the control when it's border object changes. May or may not 
+	need to be implemented depending on the windowing system.
+	*/
+	virtual void setBorder( Border* border ) = 0;
 };
 
 
@@ -163,6 +171,11 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
+*attempts to fix problem with borders and drawing on common controls.
+*Sort of works on editor control. There is a subtle repaint problem in painting
+*damaged portions of the control.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
