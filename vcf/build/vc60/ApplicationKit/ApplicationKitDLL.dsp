@@ -373,14 +373,6 @@ SOURCE=..\..\..\include\implementer\CustomControlPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\dragdrop\DataObjectPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DataType.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\exceptions\DataTypeNotSupportedException.h
 # End Source File
 # Begin Source File
@@ -574,10 +566,6 @@ SOURCE=..\..\..\include\implementerKit\LightweightComponent.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ListBoxControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\ListBoxPeer.h
 # End Source File
 # Begin Source File
 
@@ -902,6 +890,10 @@ SOURCE=..\..\..\include\events\TreeModelListener.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\TreePeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\UIMetricsManager.h
 # End Source File
 # Begin Source File
 
