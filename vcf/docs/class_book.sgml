@@ -41,7 +41,7 @@
 
 			<section><title>Public Constructors</title>
 			<table frame="none" pgwide="1">
-				<tgroup cols=2 align=left colsep=1 rowsep=1>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
 					<tbody>
 						<row>
 							<entry>								
@@ -94,7 +94,7 @@
 			<para>
 
 			<table frame="none" pgwide="1">
-				<tgroup cols=1 align=left colsep=1 rowsep=1>
+				<tgroup cols="1" align="left" colsep="1" rowsep="1">
 					<tbody>
 						<row id="class_name_func_name">
 							<entry >

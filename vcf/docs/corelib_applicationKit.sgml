@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.8  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
 Revision 1.1.2.7  2003/03/10 03:58:34  ddiego
 fixes ot better support online html, plus the addition of a little C++
 program to stip stuff
@@ -256,6 +260,7 @@ catch ( NoToolKitFoundException &amp; e ) {
 			To post an event you need to create a an event instance. With synchronous behaviour, you can create an event
 			instance on the stack, for example:
 			<programlisting>
+			<![CDATA[
 //get the control some how
 Control* someControl = ...;
 
@@ -263,6 +268,7 @@ MouseEvent e; //event is created on the stack
 //fill in the mouse event
 //send the event to the control for handling
 someControl->handleEvent( &e ); //we block here till all the event handling is done
+			]]>
 			</programlisting>
 			However when you post an event, you <emphasis>must</emphasis> create the event on heap, since you will not
 			have control over when it gets destroyed. If you already have 

@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
 Revision 1.1.2.2  2003/03/12 02:51:39  ddiego
 more documentation updates
 
@@ -449,7 +453,7 @@ FileStream
 				<para>
 				The following table indicates which styles are used for the various types/identifiers.
 				<table frame="none" pgwide="1">
-					<tgroup cols=3 align=left colsep=1 rowsep=1>
+					<tgroup cols="3" align="left" colsep="1" rowsep="1">
 						<thead>
 							<row>
 								<entry>Type</entry>
