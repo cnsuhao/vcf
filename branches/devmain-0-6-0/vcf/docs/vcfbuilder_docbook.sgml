@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<!DOCTYPE  book  PUBLIC  "-//OASIS//DTD DocBook V4.2//EN" [
+<!DOCTYPE  book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"  [
 	<!ENTITY vcfbuilder_intro SYSTEM "vcfbuilder_intro.sgml">
 	<!ENTITY vcfbuilder_quicktut SYSTEM "vcfbuilder_quicktut.sgml">
 	<!ENTITY vcfbuilder_ui SYSTEM "vcfbuilder_ui.sgml">	
@@ -44,6 +45,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/04/17 04:29:45  ddiego
+updated scintilla, added gtk support for the application kit, with stubs
+for the basic peers.
+
 Revision 1.1.2.4  2003/03/13 02:34:40  ddiego
 added some more docs and broke apart the various "books" so they can be all
 put together or in separate books. Made to changes to Makefile

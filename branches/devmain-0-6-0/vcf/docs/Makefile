@@ -2,6 +2,10 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.1.2.13  2003/04/17 04:29:44  ddiego
+#updated scintilla, added gtk support for the application kit, with stubs
+#for the basic peers.
+#
 #Revision 1.1.2.12  2003/04/07 03:38:46  ddiego
 #did some documentation work, and got everything to compile cleanly with some
 #of the new additions, particularly the chnages inteh Image/ImageBits classes.
@@ -261,7 +265,7 @@ vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
 	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
 	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
 
-	xsltproc --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
+	xsltproc --nonet vcfbuilder.xsl vcfbuilder_docbook.sgml
 
 	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
 
@@ -269,7 +273,7 @@ vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
 vcf_builder_hh : vcf_builder_docs htmlhelp.hhp 
 	-$(HTMLHELP_COMPILER) htmlhelp.hhp
 	mv $(RAW_VCF_BUILDER_CHM_FILENAME) $(VERSIONED_VCFBUILDER_CHM_FILENAME)
-	mv $(RAW_VCF_BUILDER_CHI_FILENAME) $(VERSIONED_VCFBUILDER_CHI_FILENAME)
+	-mv $(RAW_VCF_BUILDER_CHI_FILENAME) $(VERSIONED_VCFBUILDER_CHI_FILENAME)
 
 
 xmake_docs : $(XMAKE_DOCS) test_tools

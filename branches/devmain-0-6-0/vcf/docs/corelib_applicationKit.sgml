@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.16  2003/04/17 04:29:45  ddiego
+updated scintilla, added gtk support for the application kit, with stubs
+for the basic peers.
+
 Revision 1.1.2.15  2003/04/07 03:38:47  ddiego
 did some documentation work, and got everything to compile cleanly with some
 of the new additions, particularly the chnages inteh Image/ImageBits classes.
@@ -678,16 +682,24 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		</para>
 	</section>
 	
-	<section><title>Control Activation </title>
+	<section><title>Control Focus and Activation </title>
 		<para>
-		Controls get activated by receiving focus. A control with focus is able to receive
+		A control with focus is able to receive
 		keyboard events. Without focus, <emphasis>no</emphasis> keyboard events will be received
 		by the control. Only one control at a time may have the focus. 
 		</para>
 		<para>
 		To get the focus, you simply call Control::setFocus(), which will return the control that
-		<emphasis>previously</emphasis> had the focus (but does not anymore). 
+		<emphasis>previously</emphasis> had the focus (but does not anymore). Control::setFocus()
+		will in turn pass the request to the underlying windowing system to get focus. Once the
+		Control receives focus, it will receive a FocusGained event. The previously focused control
+		will recieve a FocusLost event.
 		</para>
+		<para>
+		A control with focus also activates it's parent Frame, if the Frame was not previously active. 
+		This activation will take place within the 
+		</para>
+		
 	</section>
 	
 	<section><title>Accelerator Keys ("Hot Keys") </title>
