@@ -13,11 +13,20 @@ find ./include ./src ./ImageFormats ./build ./AppServer ./xmake ./ClassServer ./
 find ./tests -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' > tests.out
 find ./examples -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' > examples.out
 
+MAKE_FILES="./build/make/Makefile \n\
+./build/make/ApplicationKitObjects.mak \n\
+./build/make/FoundationKitObjects.mak \n\
+./build/make/GraphicsKitObjects.mak \n\
+./build/make/LibAGGObjects.mak \n\
+./build/make/NetworkKitObjects.mak \n\
+./build/make/common.mak "
+
 
 #combine the outoput into a master list
-cat srcfiles.out srcfiles1.out srcfiles2.out tests.out examples.out> files.out
+echo -e $MAKE_FILES > mkfiles.out
+cat srcfiles.out srcfiles1.out srcfiles2.out tests.out examples.out mkfiles.out > files.out
 
-rm srcfiles.out srcfiles1.out srcfiles2.out tests.out examples.out
+rm srcfiles.out srcfiles1.out srcfiles2.out tests.out examples.out mkfiles.out
 
 #display in notepad
 notepad files.out
