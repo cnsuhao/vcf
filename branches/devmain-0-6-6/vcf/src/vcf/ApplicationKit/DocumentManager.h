@@ -1586,8 +1586,8 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.7  2004/11/16 21:34:24  marcelloptr
-*added documentation
+*Revision 1.2.2.8  2004/11/16 21:35:50  marcelloptr
+*more documentation
 *
 *Revision 1.2.2.2  2004/10/26 05:44:12  marcelloptr
 *Document Window documentation
