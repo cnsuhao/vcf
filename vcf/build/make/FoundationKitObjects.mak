@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.6.5  2003/11/11 17:43:43  ddiego
+#updated the makefile and foundationKit object to make a VariantData.obj
+#file
+#
 #Revision 1.2.6.4  2003/10/04 20:13:44  ddiego
 #updated the Makefiles - everything works now, including compiling
 #building on GCC 3.3.1
@@ -152,6 +156,9 @@ $(OUTDIR_FK_D)/Thread.o : $(SRC_UTILS)/Thread.cpp $(FOUNDATIONKIT_HDRS)
 
 $(OUTDIR_FK_D)/ThreadEvent.o : $(SRC_EVENT)/ThreadEvent.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_EVENT)/ThreadEvent.cpp -o $(OUTDIR_FK_D)/ThreadEvent.o
+
+$(OUTDIR_FK_D)/VariantData.o : $(SRC_CORE)/VariantData.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/VariantData.cpp -o $(OUTDIR_FK_D)/VariantData.o
 
 $(OUTDIR_FK_D)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK_D)/VCFMath.o
@@ -306,6 +313,9 @@ $(OUTDIR_FK)/Thread.o : $(SRC_UTILS)/Thread.cpp $(FOUNDATIONKIT_HDRS)
 
 $(OUTDIR_FK)/ThreadEvent.o : $(SRC_EVENT)/ThreadEvent.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_EVENT)/ThreadEvent.cpp -o $(OUTDIR_FK)/ThreadEvent.o
+
+$(OUTDIR_FK)/VariantData.o : $(SRC_CORE)/VariantData.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/VariantData.cpp -o $(OUTDIR_FK)/VariantData.o
 
 $(OUTDIR_FK)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK)/VCFMath.o
