@@ -47,9 +47,17 @@ void Win32OpenGLPeer::initGL()
 
 		win32Ctx->checkHandle();
 
-		HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
-		HDC dc = ::GetDC(hwnd);
-		//HDC dc = (HDC)win32Ctx->getContextID();
+		/**
+		JC  - I commented these out. The problem is that this is always called from a Control::paint
+		method, which is turn is called when a WM_PAINT message occurs. Calling GetDC at this point
+		I am almost 100% sure is not a good thing. Plus we do not properly clean up (by following
+		it with a ReleaseDC() call. using the checkHandle() and releaseHandle() calls will
+		do all of this automatically.
+		*/
+		//HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
+		//HDC dc = ::GetDC(hwnd);
+
+		HDC dc = (HDC)win32Ctx->getContextID();
 		if ( NULL != dc ){
 			PIXELFORMATDESCRIPTOR pfd =
 			{
@@ -82,10 +90,10 @@ void Win32OpenGLPeer::initGL()
 			}
 
 			BOOL setPixelSuccess = SetPixelFormat( dc, pixelformat, &pfd );
-			if ( FALSE == setPixelSuccess ){
+			if ( !setPixelSuccess ){
 				String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
 				StringUtils::traceWithArgs(String("Error setting pixelformat for GL context (" __FILE__ ":%d):\n")+errmsg,__LINE__);
-				VCF_ASSERT(setPixelSuccess);
+				VCF_ASSERT( setPixelSuccess );
 				throw BasicException(errmsg);
 			}
 
@@ -107,9 +115,13 @@ void Win32OpenGLPeer::swapBuffers()
 		}
 		win32Ctx->checkHandle();
 
-		HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
-		HDC dc = ::GetDC(hwnd);
-		//HDC dc = (HDC)win32Ctx->getContextID();
+		/**
+		JC - see Win32OpenGLPeer::initGL for the reason for 
+		commenting this out.
+		*/
+		//HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
+		//HDC dc = ::GetDC(hwnd);
+		HDC dc = (HDC)win32Ctx->getContextID();
 
 		::SwapBuffers( dc );
 
@@ -127,9 +139,13 @@ void Win32OpenGLPeer::makeCurrent()
 		}
 		win32Ctx->checkHandle();
 
-		HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
-		HDC dc = ::GetDC(hwnd);
-		//HDC dc = (HDC)win32Ctx->getContextID();
+		/**
+		JC - see Win32OpenGLPeer::initGL for the reason for 
+		commenting this out.
+		*/
+		//HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
+		//HDC dc = ::GetDC(hwnd);
+		HDC dc = (HDC)win32Ctx->getContextID();
 
 		wglMakeCurrent( dc, hrc_ );
 
@@ -141,6 +157,9 @@ void Win32OpenGLPeer::makeCurrent()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/31 15:32:29  ddiego
+*fixed a bug in the way Win32ControlContext::releaseHandle() worked that was causing a problem in Win32Font::getPointSize().
+*
 *Revision 1.2.2.1  2004/10/27 22:42:47  augusto_roman
 *Changed Win32 peer to create GL Rendering Context (RC) based off of the Win32 window handle of the control instead of the paintDC.  Also enforced error checking. - aroman
 *
