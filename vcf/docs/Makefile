@@ -2,6 +2,11 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.9  2003/10/25 04:30:20  ddiego
+#added two more examples one for progress bars and one for slider controls.
+#also added two more control classes to the ApplicationKit, a SliderControl
+#and a ProgressControl.
+#
 #Revision 1.5.2.8  2003/10/22 21:14:37  ddiego
 #adjusted the xsl stylesheet so it works with new version of xsltproc
 #
@@ -70,8 +75,8 @@ VCFB_VERSION = 1.0.5
 XMAKE_VERSION = 1.0.5
 
 
-HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
-XSL_DOCBOOK_DIR = "d:/code/docbook-xsl-1.60.1"
+HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
+XSL_DOCBOOK_DIR = "d:/docbook-xsl-1.60.1"
 XSL_HTMLHELP_IMPORT = "$(XSL_DOCBOOK_DIR)/htmlhelp/htmlhelp.xsl"
 XSL_HTML_IMPORT = "$(XSL_DOCBOOK_DIR)/html/docbook.xsl"
 
@@ -163,7 +168,10 @@ TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml \
 ../examples/HeavyAndLight/HeavyAndLightArticle.xml \
 ../examples/Alignment/AlignmentArticle.xml \
 ../examples/Alignment/AdvancedAlignmentArticle.xml \
-../examples/Alignment/AnchorsArticle.xml 
+../examples/Alignment/AnchorsArticle.xml \
+../examples/Sliders/SlidersArticle.xml \
+../examples/ProgressBars/ProgressBarsArticle.xml \
+../examples/Labels/LabelsArticle.xml
 
 
 

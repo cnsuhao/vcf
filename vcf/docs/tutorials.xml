@@ -163,12 +163,14 @@ NB: This software will not save the world.
 		</section>		
 		
 		<section><title>Labels</title>
+			&labels;
 		</section>
 		
 		<section><title>Text fields</title>
 		</section>
 		
 		<section><title>Progress bar</title>
+			&progressbars;
 		</section>		
 		
 		<section><title>Menus</title>
@@ -178,6 +180,7 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Slider</title>
+			&sliders;
 		</section>
 		
 		<section><title>Application and Window icons</title>
@@ -205,6 +208,11 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/10/25 04:30:20  ddiego
+added two more examples one for progress bars and one for slider controls.
+also added two more control classes to the ApplicationKit, a SliderControl
+and a ProgressControl.
+
 Revision 1.1.2.4  2003/10/22 03:56:43  ddiego
 added two more tutorials for advanced alignment and another for anchors
 also finished off the alignment tutorial. yay :)
