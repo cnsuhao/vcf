@@ -39,8 +39,10 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/COMUtils.h"
 #include "vcf/ApplicationKit/Win32Toolbar.h"
 #include "vcf/ApplicationKit/Toolbar.h"
-#include "vcf/ApplicationKit/SytemTrayPeer.h"
-#include "vcf/ApplicationKit/Win32SytemTrayPeer.h"
+#include "vcf/ApplicationKit/SystemTrayPeer.h"
+
+#include <shellapi.h>
+#include "vcf/ApplicationKit/Win32SystemTrayPeer.h"
 
 
 
@@ -1385,7 +1387,7 @@ ToolbarPeer* Win32ToolKit::internal_createToolbarPeer( Toolbar* toolbar )
 
 SystemTrayPeer* Win32ToolKit::internal_createSystemTrayPeer()
 {
-	return new Win32SytemTrayPeer();
+	return new Win32SystemTrayPeer();
 }
 
 bool Win32ToolKit::internal_createCaret( Control* owningControl, Image* caretImage  )
@@ -2021,6 +2023,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/19 03:22:54  ddiego
+*updates so new system tray code compiles
+*
 *Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
 *added initial system tray code for win32
 *
