@@ -679,14 +679,6 @@ SOURCE=..\..\..\src\IO\ResourceStream.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\ScrollbarManager.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\TimerComponent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Graphics\TitledBorder.cpp
 # End Source File
 # Begin Source File
@@ -1539,6 +1531,10 @@ SOURCE=..\..\..\include\core\ScrollBarControl.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\ScrollbarManager.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\ScrollbarManager.h
 # End Source File
 # Begin Source File
@@ -1588,6 +1584,10 @@ SOURCE=..\..\..\src\core\TextControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TextControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\TimerComponent.cpp
 # End Source File
 # Begin Source File
 
