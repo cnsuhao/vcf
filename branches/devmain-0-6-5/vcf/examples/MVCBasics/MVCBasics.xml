@@ -218,7 +218,205 @@ class CircleModel : public AbstractModel  {
 	model class.
 	</para>
 	<formalpara><title>Example 1</title>
+	This will demonstrate probably the simplest usage of our model. We'll create a
+	window, a model, and hook the two together.
 	</formalpara>
+	<para>
+	First we'll define a custom Window class:
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart1Window : public Window {
+public:
+	MVCBasicsPart1Window() {}
+};
+]]>	
+	</programlisting>
+	This gives us our basic window. 
+	<note>
+	It's important to remember that a VCF::Window class is derived (indirectly)
+	from VCF::Control. This means that a Window is also a specialized form of a view
+	and we'll take advantage of this later on.
+	</note>
+	Next we'll fill in the constructor implementation. We will create an instance of 
+	our CircleModel class, add three circle shapes, and add our window to the model.
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart1Window : public Window {
+public:
+	MVCBasicsPart1Window() {
+		setCaption( "MVCBasics Part 1" );
+		setVisible( true );
+
+		CircleModel* model = new CircleModel();
+
+		model->addCircle( Point(100,200), 100 );
+		model->addCircle( Point(234,550), 300 );
+		model->addCircle( Point(300,400), 80 );
+		
+		model->addView( this );
+	}
+};
+]]>	
+	</programlisting>	
+	Note the call to the model's addView() passing in the window instance. This will 
+	add the window as a view to the model. This in turn calls the view's setViewModel()
+	method.
+	</para>
+	<para>
+	At this point we have our window, we can create and also create a model for it.
+	But we still need to be able to present the view, or draw it. For this, we'll 
+	override the window's paint() method, and draw the model's content's as a series of
+	circles.
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart1Window : public Window {
+public:
+	...//rest of code ommitted
+	virtual void paint( GraphicsContext* ctx ) {
+		Window::paint( ctx );
+
+		CircleModel* model = (CircleModel*)getViewModel();
+
+		const std::vector<CircleShape>& circles = model->getCircles();
+		for ( std::vector<CircleShape>::const_iterator it = circles.begin(); it!=circles.end(); it++ ) {
+			const CircleShape& circle = *it;
+			ctx->circle( circle.center_, circle.radius_ );
+		}
+		ctx->setColor( Color::getColor("black") );
+		ctx->strokePath();
+	}
+};
+]]>	
+	</programlisting>
+	This calls the super class's paint() method first, then retrieve the model. Recall that
+	in the constructor, we added the window to the model, which in turns sets the model
+	on the view. We then iterate through each circle shape, and draw a circle on the 
+	GraphicsContext.
+	</para>
+	
+	<formalpara><title>Example 2</title>
+	This next example will create a custom window, an instance of our CircleModel, 
+	and a custom view instance, taking the functionality that was in our
+	custom window's paint() method, and putting it in our custom view.
+	</formalpara>
+	<para>
+	First we'll define our custom view class. We'll derive from AbstractView, which 
+	provides a default implementation for most of the virtual methods
+	of the View interface.
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart2View : public AbstractView {
+public:
+	MVCBasicsPart2View(){}
+
+	virtual void paintView( GraphicsContext* ctx ) {
+
+
+		Control* control = AbstractView::getViewControl();
+
+		Rect r = control->getClientBounds();
+
+		ctx->rectangle( &r );
+		ctx->setColor( Color::getColor("white") );
+		ctx->fillPath();
+		
+
+		CircleModel* model = (CircleModel*)getViewModel();
+
+		const std::vector<CircleShape>& circles = model->getCircles();
+		for ( std::vector<CircleShape>::const_iterator it = circles.begin(); it!=circles.end(); it++ ) {
+			const CircleShape& circle = *it;
+
+			ctx->circle( circle.center_, circle.radius_ );
+
+		}
+		ctx->setColor( Color::getColor("black") );
+		ctx->strokePath();
+	}
+};
+]]>	
+	</programlisting>
+	This is basically the same functionality that we had in our previous window's 
+	paint() method. We only need to implement one method (all the others are already
+	implemented by the AbstractView super class), paintView() which takes a 
+	GraphicsContext pointer, just like the Window::paint() method does.
+	</para>
+	<para>
+	Next we'll go ahead an implement our custom window class. This time all we need to 
+	do is implement the constructor, where we'll create our model (just like we
+	did last time) and also create our new view class instance.
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart2Window : public Window {
+public:
+	MVCBasicsPart2Window() {
+		setCaption( "MVCBasics Part 2" );
+		setVisible( true );
+
+		CircleModel* model = new CircleModel();
+
+		model->addCircle( Point(100,200), 100 );
+		model->addCircle( Point(234,550), 300 );
+		model->addCircle( Point(300,400), 80 );
+
+		View* view = new MVCBasicsPart2View();
+
+		this->setView( view );
+		model->addView( view );
+	}
+};
+]]>	
+	</programlisting>
+	We create our model and add circle shapes just like we did the last time. 
+	Next we create our MVCBasicsPart2View view instance. Now we set the window's 
+	view with a call to setView(), passing in our new view instance. Finally we 
+	add our new view instance to the model. Note that we did <emphasis>not</emphasis>
+	add the window instance as a view to the model. Also note that we did not 
+	have to override the Window's paint() method, because we set a view for the 
+	window, the window (or any control instance) will delegate the painting to be
+	handled by the view.
+	</para>
+	
+	<formalpara><title>Example 3</title>
+	Our 3rd example will duplicate the functionality found in the previous example
+	and also add the processing of user input. We will add event handlers for 
+	processesing key up events, and mouse clicked events.
+	</formalpara> 
+	<para>
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart3Window : public Window {
+public:
+	MVCBasicsPart3Window() {
+		setCaption( "MVCBasics Part 3" );
+		setVisible( true );
+
+		CircleModel* model = new CircleModel();
+
+		model->addCircle( Point(100,200), 100 );
+		model->addCircle( Point(234,550), 300 );
+		model->addCircle( Point(300,400), 80 );
+
+		View* view = new MVCBasicsPart2View();
+
+		this->setView( view );
+		model->addView( view );
+
+		MouseClicked += 
+			new MouseEventHandler<MVCBasicsPart3Window>( this, &MVCBasicsPart3Window::onMouseClicked, "MVCBasicsPart3Window::onMouseClicked" );
+
+		KeyUp += 
+			new KeyboardEventHandler<MVCBasicsPart3Window>( this, &MVCBasicsPart3Window::onKeyUp, "MVCBasicsPart3Window::onKeyUp" );
+	}
+
+
+	void onMouseClicked( MouseEvent* e ){}
+
+	void onKeyUp( KeyboardEvent* e ) {}
+};
+]]>	
+	</programlisting>	
+	</para>
 </section>
 
 
@@ -227,11 +425,8 @@ class CircleModel : public AbstractModel  {
 <!--
 CVS Log info
 $Log$
-Revision 1.1.2.2  2004/04/29 21:13:57  ddiego
-made a few changes to the new OpenGLKit files, adjusting where the
-CVS log was put, and changed a few cases for the export-import definition
-was used. Also added the two projects to the vcfAllProject workspace
-and added the script generated VC7 and VC71 projects as well.
+Revision 1.1.2.3  2004/04/29 23:47:33  ddiego
+added more docs
 
 Revision 1.2  2003/12/18 05:15:55  ddiego
 merge from devmain-0-6-2 branch into the stable branch
