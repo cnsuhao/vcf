@@ -62,26 +62,26 @@ UnicodeString::UnicodeString( size_type n, UnicodeString::UniChar c ):
 #ifdef VCF_OSX
 UnicodeString::UnicodeString(const wchar_t* string )
 {
-    //!!!!!!!!!!!!!!!!!!MAJOR HACK ALERT!!!!!!!!!!!!!!!
-    //Because *&^$%'n Apple doesn't provide wcslen we have to do this here - completely 
-    //*&^#$%% LAME!!!!!! :(
-    int strLength = 0;
-    const wchar_t* P = string;
-    while ( *P != 0 ) {        
-        strLength ++;
-        P++;
-        
-        if ( strLength >= 10000 ) { //arbitrarily stop after 10,000 characters? Lame as HELLL
-            break;
-        }
-    }
-     
-    if ( *P == 0 ) {
-        strLength ++;
-    }
-    
-    
-    int size = strLength;
+	//!!!!!!!!!!!!!!!!!!MAJOR HACK ALERT!!!!!!!!!!!!!!!
+	//Because *&^$%'n Apple doesn't provide wcslen we have to do this here - completely 
+	//*&^#$%% LAME!!!!!! :(
+	int strLength = 0;
+	const wchar_t* P = string;
+	while ( *P != 0 ) {		
+		strLength ++;
+		P++;
+		
+		if ( strLength >= 10000 ) { //arbitrarily stop after 10,000 characters? Lame as HELLL
+			break;
+		}
+	}
+	 
+	if ( *P == 0 ) {
+		strLength ++;
+	}
+	
+	
+	int size = strLength;
 
 	if ( !(size > 0) ) {
 		throw RuntimeException( "size < 0 wcstombs() failed" );
@@ -91,10 +91,10 @@ UnicodeString::UnicodeString(const wchar_t* string )
 
 	if ( wcstombs( tmp, string, strLength ) > 0 ) {
 		tmp[size] = 0;
-        UnicodeString::transformAnsiToUnicode( tmp, size, data_ );
+		UnicodeString::transformAnsiToUnicode( tmp, size, data_ );
 	}
 
-    delete [] tmp;
+	delete [] tmp;
 	tmp = NULL;
 }
 #endif
@@ -111,6 +111,7 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 		newStr.erase(0,newStr.size());
 	}
 	else {
+
 	#ifdef VCF_WIN32
 		int size = MultiByteToWideChar( CP_ACP, 0, str, stringLength, NULL, 0 );
 
@@ -128,33 +129,31 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 
 		newStr.assign( tmp, size );
 
-
 		delete [] tmp;
-    #elif VCF_OSX
-        CFStringRef cfStr = 
-            CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
-        
-        int size = CFStringGetLength( cfStr );
-        if ( !(size > 0) ) {
+
+	#elif VCF_OSX
+		CFStringRef cfStr = 
+		CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
+		
+		int size = CFStringGetLength( cfStr );
+		if ( !(size > 0) ) {
 			throw RuntimeException( L"size <= 0 CFStringCreateWithCString() failed in UnicodeString::transformAnsiToUnicode()" );
 		}
 
-	   UniChar* unicodeText = new UniChar[size+1];
-        CFRange range = {0,size};	
-        CFStringGetCharacters(cfStr,range,unicodeText);
-        unicodeText[size] = 0;     
-        newStr.assign( unicodeText, size );   
-        delete [] unicodeText;
+		UniChar* unicodeText = new UniChar[size+1];
+		CFRange range = {0,size};	
+		CFStringGetCharacters(cfStr,range,unicodeText);
+		unicodeText[size] = 0;	 
+		newStr.assign( unicodeText, size );   
+		delete [] unicodeText;
 		CFRelease( cfStr );
-
 
 	#elif VCF_POSIX
 		int size = mbstowcs (NULL, str, stringLength );
 		if ( !(size > 0) ) {
 			throw RuntimeException( L"size < 0 mbstowcs() failed in UnicodeString::transformAnsiToUnicode()" );
 		}
-        
-        
+		
 		UniChar* tmp = new UniChar[size];
 
 		int err = mbstowcs( tmp, str, stringLength );
@@ -163,6 +162,7 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 		}
 
 		delete [] tmp;
+
 	#endif
 	}
 }
@@ -179,26 +179,26 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 	}
 
 #elif VCF_OSX
-    
-    char str[2] = {c,0};
-    CFStringRef cfStr = 
-            CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
-        
-    int size = CFStringGetLength( cfStr );
-    if ( !(size > 0) ) {
-        throw RuntimeException( L"size <= 0 CFStringCreateWithCString() failed in UnicodeString::transformAnsiToUnicode()" );
-    }
+	char str[2] = {c,0};
+	CFStringRef cfStr = 
+			CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
+		
+	int size = CFStringGetLength( cfStr );
+	if ( !(size > 0) ) {
+		throw RuntimeException( L"size <= 0 CFStringCreateWithCString() failed in UnicodeString::transformAnsiToUnicode()" );
+	}
 
-    UniChar unicodeText[2];
-    CFRange range = {0,2};	
-    CFStringGetCharacters(cfStr,range,unicodeText);
-    result = unicodeText[0];   
-    CFRelease( cfStr );
+	UniChar unicodeText[2];
+	CFRange range = {0,2};	
+	CFStringGetCharacters(cfStr,range,unicodeText);
+	result = unicodeText[0];   
+	CFRelease( cfStr );
 	
 #elif VCF_POSIX
 	UnicodeString::UniChar tmp[2] = {0,0};
 	int err = mbstowcs( tmp, &c, 1 );
 	result = tmp[0];
+
 #endif
 
 	return result;
@@ -211,14 +211,12 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 	int strLength = str.data_.size();
 
 #ifdef VCF_WIN32
-
 	if ( str.empty() ) {
 		strLength = 1;
 	}
 
 	size = ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)str.data_.c_str(), strLength,
 							NULL, 0, NULL, NULL );
-
 
 	if ( !(size > 0) ) {
 		throw RuntimeException( L"size > 0 WideCharToMultiByte() failed" );
@@ -236,30 +234,30 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 		result[size] = 0;
 	}
 
-#elif VCF_OSX    
-    if ( str.length() > 0 ) {
-        CFTextString tmp;
-        tmp = str;
-        CFRange r = {0,tmp.length()};
-        CFIndex size2 = 0;
-        CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, NULL, 0, &size2 );
-        
-        if ( !(size2 > 0) ) {
-            throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
-        } 
-        
-        result = new UnicodeString::AnsiChar[size2+1];
-        
-        if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, 
-                                        result, size2, &size2 ) ) {
-            //CFStringGetBytes failed
-            delete [] result;
-            result = NULL;
-        }
-        else {
-            result[size2] = 0;
-        }
-    }
+#elif VCF_OSX
+	if ( str.length() > 0 ) {
+		CFTextString tmp;
+		tmp = str;
+		CFRange r = {0,tmp.length()};
+		CFIndex size2 = 0;
+		CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, NULL, 0, &size2 );
+		
+		if ( !(size2 > 0) ) {
+			throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
+		} 
+		
+		result = new UnicodeString::AnsiChar[size2+1];
+		
+		if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, 
+										result, size2, &size2 ) ) {
+			//CFStringGetBytes failed
+			delete [] result;
+			result = NULL;
+		}
+		else {
+			result[size2] = 0;
+		}
+	}
 
 #elif VCF_POSIX
 	size = wcstombs( NULL, str.data_.c_str(), strLength );
@@ -277,7 +275,9 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 	else {
 		result[size] = 0;
 	}
+
 #endif
+
 	return result;
 }
 
@@ -752,6 +752,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/05/30 01:36:01  marcelloptr
+*tabs reformatting
+*
 *Revision 1.1.2.6  2004/05/16 02:39:09  ddiego
 *OSX code updates
 *
