@@ -10,7 +10,7 @@ AppSupportURL=http://vcf.sourceforge.net
 AppUpdatesURL=http://vcf.sourceforge.net
 DefaultDirName={pf}\VCF Builder
 DefaultGroupName=VCF Builder
-OutputDir=f:\code\vcfdev\dev\vcf\installers\win32
+OutputDir=e:\code\vcfdev\dev\vcf\installers\win32
 OutputBaseFilename=VCFBuilder1.0.1.alpha
 ; uncomment the following line if you want your installation to run on NT 3.51 too.
 ; MinVersion=4,3.51
