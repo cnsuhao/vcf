@@ -68,7 +68,7 @@ defined to use the DLL or static libraries.
 		#else
 			#pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM".lib")
 		#endif
-	#elif USE_OPENGLKIT_LIB
+	#elif defined USE_OPENGLKIT_LIB
 		// using statically linked library
 		#ifdef _DEBUG
 			#pragma comment(lib, "OpenGLKit_"_LIB_CPLVERNUM"_sd.lib")
@@ -106,6 +106,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/06 20:09:43  pallindo
+*Added missing "defined" in lib selection code
+*
 *Revision 1.1.2.5  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
