@@ -58,7 +58,7 @@ void ListBoxControl::init()
 	GraphicsContext* context = getContext();
 	Font* font = context->getCurrentFont();
 	UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
-	defaultItemHeight_ = mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight ) );//context->getTextHeight("EM") ); //font->getPixelSize() );
+	defaultItemHeight_ = mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight );//context->getTextHeight("EM") ); //font->getPixelSize() );
 	//defaultItemHeight_ = getContext()->getTextHeight( "EM" ) + 4;
 
 	EventHandler* lmh =
@@ -675,7 +675,7 @@ void ListBoxControl::setScrollable( Scrollable* scrollable )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5.2.1  2005/03/10 00:17:27  marcelloptr
+*Revision 1.5.2.2  2005/03/10 00:27:47  marcelloptr
 *set discrete scrolling as default behaviour for ListBoxControls
 *
 *Revision 1.5  2004/12/01 04:31:21  ddiego
@@ -683,14 +683,12 @@ void ListBoxControl::setScrollable( Scrollable* scrollable )
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
 *that he found. Many, many thanks for this Marcello.
 *
-
 *Revision 1.4  2004/08/20 23:59:16  ddiego
 *minor fix to listboxcontrol
 *
 *Revision 1.3  2004/08/19 02:24:54  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.
 *
-
 *Revision 1.2.2.8  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
@@ -724,7 +722,6 @@ void ListBoxControl::setScrollable( Scrollable* scrollable )
 *Revision 1.3  2004/08/19 02:24:54  ddiego
 *fixed bug [ 1007039 ] lightweight controls do not paint correctly.
 *
-
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
