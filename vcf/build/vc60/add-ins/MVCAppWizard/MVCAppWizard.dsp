@@ -95,7 +95,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"vc6/Debug\MVCAppWizard_vc6_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386 /out:"vc6/Debug/MVCAppWizard_vc6_d.dll"
+# ADD LINK32 rpcrt4.lib /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386 /out:"vc6/Debug/MVCAppWizard_vc6_d.dll"
 # Begin Custom Build - Copying custom AppWizard to Template directory...
 OutDir=.\vc6/Debug
 TargetPath=.\vc6\Debug\MVCAppWizard_vc6_d.dll
