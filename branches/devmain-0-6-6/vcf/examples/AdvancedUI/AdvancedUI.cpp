@@ -125,6 +125,12 @@ public:
 	virtual void paint( GraphicsContext* ctx, Rect* paintRect ) {
 		DefaultTreeItem::paint( ctx, paintRect );
 
+		int gcs = ctx->saveState();
+		ctx->getCurrentFont()->setPointSize( 10 );
+		ctx->getCurrentFont()->setBold( true );
+		ctx->getCurrentFont()->setColor( Color::getColor("blue") );
+		ctx->getCurrentFont()->setName( "Tahoma" );
+
 		Color col;
 		if ( this->isSelected() ) {
 			col = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
@@ -132,19 +138,113 @@ public:
 			col.getHLS(h,l,s);
 			l += 0.10;
 			col.setHLS( h,l,s );
-			
+			ctx->getCurrentFont()->setColor( Color::getColor("black") );
 		}
 		else {
 			col = *Color::getColor("white");
 		}
+		Rect r = *paintRect;
+		r.left_ = 0;
+		r.right_ = this->getControl()->getRight();
+
 		ctx->setColor( &col );
-		ctx->rectangle( paintRect );
+		ctx->rectangle( &r );
 		ctx->fillPath();
 		long options = GraphicsContext::tdoCenterVertAlign;
-		ctx->textBoundedBy( paintRect, this->getCaption(), options );
+		ctx->textBoundedBy( paintRect, this->getCaption(), options );		
+
+		if ( this->isSelected() ) {
+			ctx->setColor( Color::getColor("black") );
+			ctx->moveTo( r.getTopLeft() );
+			ctx->lineTo( r.getTopRight() );
+			ctx->strokePath();
+			
+			ctx->moveTo( r.left_, r.bottom_ - 1 );
+			ctx->lineTo( r.right_, r.bottom_ - 1 );
+			ctx->strokePath();
+		}		
+
+		ctx->restoreState( gcs );
 	}
 };
 
+
+class TemplateItem : public DefaultListItem {
+public:
+	String getComments() {
+		return comments_;
+	}
+
+	void setComments( const String& val ) {
+		comments_ = val;
+	}
+
+	String comments_;
+};
+
+
+class CategoryPanel : public Panel {
+public:
+	CategoryPanel() {
+		setBorder( NULL );
+
+		selectedItem_ = NULL;
+
+		setColor( Color::getColor("white") );
+		setUseColorForBackground( true );
+	}
+
+	TemplateItem* selectedItem_;
+
+	virtual void paint( GraphicsContext* ctx ) {
+		Panel::paint(ctx);
+		
+		if ( NULL != selectedItem_ ) {
+
+			Rect commentsRect;
+			commentsRect = getClientBounds();
+
+			
+			commentsRect.top_ = commentsRect.bottom_ - 100;
+			commentsRect.offset( 0, -20 );
+			commentsRect.inflate( -10, 0 );
+
+
+			Color col = *GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP );
+			ctx->setColor( &col );
+
+			Point rrSize(15,15);
+
+			ctx->roundRect( &commentsRect, &rrSize );
+			ctx->fillPath();
+
+			ctx->setColor( Color::getColor("black") );
+			ctx->strokePath();
+
+
+			commentsRect.inflate( -5, -5 );
+
+			Rect title = commentsRect;
+			
+
+			ctx->getCurrentFont()->setName( "Tahoma" );
+			ctx->getCurrentFont()->setPointSize( 11 );
+			ctx->getCurrentFont()->setBold( true );
+
+			title.bottom_ = title.top_ + (ctx->getTextHeight("EM") * 1.75);
+
+			long options = GraphicsContext::tdoCenterVertAlign | GraphicsContext::tdoCenterHorzAlign;
+			ctx->textBoundedBy( &title, selectedItem_->getCaption(), options );
+
+			commentsRect.top_ = title.bottom_;
+
+			ctx->getCurrentFont()->setBold( false );
+			ctx->getCurrentFont()->setPointSize( 9 );
+
+			ctx->textBoundedBy( &commentsRect, selectedItem_->getComments(), true );
+		}
+	}
+};
 
 
 class CategoryTemplatePanel : public Panel {
@@ -156,7 +256,7 @@ public:
 		container->setMaximizeLastRow( true );
 		container->setBorderWidth( 15 );
 		container->setColumnTweenWidth( 0, 55 );
-		container->setColumnWidth( 0, 200 );
+		container->setColumnWidth( 0, 275 );
 		container->setRowSpacerHeight( 15 );
 
 		setContainer( container );
@@ -173,11 +273,25 @@ public:
 		label2->setCaption( "Template" );
 		add( label2 );
 
+		catPanel_ = new CategoryPanel();
+
+		add( catPanel_ );
+
 		categories_ = new TreeControl();		
 		categories_->setVisible( true );
 		categories_->setBorder( NULL );
-		add( categories_ );
+		categories_->ItemSelected += 
+			new GenericEventHandler<CategoryTemplatePanel>(this,&CategoryTemplatePanel::onCatItemSelected, "CategoryTemplatePanel::onCatItemSelected");
 
+		categories_->setHeight( 300 );
+
+		catPanel_->add( categories_, AlignTop );
+
+
+		categories_->getFont()->setName( "Tahoma" );
+		categories_->getFont()->setBold( true );
+		categories_->getFont()->setPointSize( 12 );
+		categories_->getFont()->setColor( Color::getColor("blue") );
 
 		CategoryItem* item = new CategoryItem();
 		categories_->getTreeModel()->addNodeItem( item );
@@ -208,12 +322,83 @@ public:
 		templates_->setVisible( true );
 		templates_->setColor( &col );
 		templates_->setBorder( NULL );
+		templates_->getFont()->setName( "Tahoma" );
+		templates_->getFont()->setPointSize( 10 );
+
+
+
+		TemplateItem* templateItem = new TemplateItem();
+		templateItem->setCaption( "Oggle Boggle" );
+		templateItem->setImageIndex( 0 );
+		templateItem->setComments( "Creates structures relevant to value-add propositions within the relevant vertical Oggle markets." );
+
+		templates_->addItem( templateItem );
+		
+		templateItem = new TemplateItem();
+		templateItem->setCaption( "Sub Tactical Design" );
+		templateItem->setImageIndex( 1 );
+		templateItem->setComments( "A refreshing look at non capital markets in Design fetish UML." );
+
+		templates_->addItem( templateItem );
+
+		templateItem = new TemplateItem();
+		templateItem->setCaption( "Dongle Structures" );
+		templateItem->setImageIndex( 2 );
+		templateItem->setComments( "Secure application design and structures through the use of 4 dimensionsal Dongles." );
+
+		templates_->addItem( templateItem );
+
+
+		templates_->ItemSelectionChanged +=
+			new GenericEventHandler<CategoryTemplatePanel>(this,&CategoryTemplatePanel::onTemplItemSelected, "CategoryTemplatePanel::onTemplItemSelected");
+		
+
 		add( templates_ );
+
+		ImageList* il = new ImageList();
+		addComponent( il );
+
+		il->setImageHeight( 93 );
+		il->setImageWidth( 93 );
+		Image* img = GraphicsToolkit::createImage( "template1.bmp" );
+		if ( NULL != img ) {
+			il->addImage( img );
+			delete img;
+		}
+
+		img = GraphicsToolkit::createImage( "template2.bmp" );
+		if ( NULL != img ) {
+			il->addImage( img );
+			delete img;
+		}
+
+		img = GraphicsToolkit::createImage( "template3.bmp" );
+		if ( NULL != img ) {
+			il->addImage( img );
+			delete img;
+		}
+
+		templates_->setLargeImageList( il );
 	}
 
 	ListViewControl* templates_;
 	TreeControl* categories_;
+	CategoryPanel* catPanel_;
 
+	void onCatItemSelected( Event* e ) {
+
+		catPanel_->selectedItem_ = NULL;
+		catPanel_->repaint();
+		repaint();
+	}
+
+	void onTemplItemSelected( Event* e ) {
+		
+		catPanel_->selectedItem_ = (TemplateItem*)templates_->getSelectedItem();
+		catPanel_->repaint();
+
+		repaint();
+	}
 
 	virtual void paint( GraphicsContext* ctx ) {
 		Panel::paint( ctx );
@@ -225,12 +410,23 @@ public:
 		Rect catBounds = categories_->getBounds();
 		catBounds.inflate( 5, 5 );
 
+		Rect itemRect;
+
+		if ( NULL != categories_->getSelectedItem() ) {
+			itemRect = *categories_->getSelectedItem()->getBounds();
+		}
+		
+		categories_->translateToScreenCoords( &itemRect );
+
+		translateFromScreenCoords( &itemRect );
+		itemRect.bottom_ -= 1;
+
 		std::vector<Point> pts(9);
 		pts[0].x_ = catBounds.left_;
-		pts[0].y_ = catBounds.top_ + 50;
+		pts[0].y_ = itemRect.top_;
 
 		pts[1].x_ = templateBounds.left_;
-		pts[1].y_ = catBounds.top_ + 50;
+		pts[1].y_ = itemRect.top_;
 
 		pts[2].x_ = templateBounds.left_;
 		pts[2].y_ = templateBounds.top_;
@@ -245,13 +441,13 @@ public:
 		pts[5].y_ = templateBounds.bottom_;
 
 		pts[6].x_ = templateBounds.left_;
-		pts[6].y_ = catBounds.top_ + 50 + 20;
+		pts[6].y_ = itemRect.top_ + itemRect.getHeight();
 
 		pts[7].x_ = catBounds.left_;
-		pts[7].y_ = catBounds.top_ + 50 + 20;
+		pts[7].y_ = itemRect.top_ + itemRect.getHeight();
 
 		pts[8].x_ = catBounds.left_;
-		pts[8].y_ = catBounds.top_ + 50;
+		pts[8].y_ = itemRect.top_;
 
 
 		Color col = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
@@ -269,9 +465,13 @@ public:
 		ctx->polyline( pts );
 		ctx->fillPath();
 
+
 		ctx->setColor( Color::getColor("black") );
 		ctx->strokePath();
 
+
+
+		
 
 
 		ctx->restoreState( gcs );
