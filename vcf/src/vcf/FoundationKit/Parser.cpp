@@ -302,7 +302,7 @@ String Parser::tokenString()
 bool Parser::tokenSymbolIs(const String& s)
 {
 	//only work under WIN32 for the moment - need to replace _stricmp
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined (VCF_BCC)
 	return (token_ == TO_SYMBOL) && ( _wcsicmp( s.c_str(), tokenString().c_str() ) == 0 );
 #else
 	return false;
@@ -313,6 +313,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/08/02 14:33:15  kiklop74
+*Parser::tokenSymbolIs is now enabled to work under Borland C++
+*
 *Revision 1.1.2.5  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
