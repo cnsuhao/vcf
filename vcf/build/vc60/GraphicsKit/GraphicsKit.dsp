@@ -123,6 +123,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Contextpeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\DrawUIState.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Ellipse.h
 # End Source File
 # Begin Source File
