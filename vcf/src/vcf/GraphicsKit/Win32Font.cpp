@@ -11,26 +11,6 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
 using namespace VCF;
-//JC - I commented this out since we already have this code in 
-//VCFWin32::Win32Utils::getErrorString()
-//prior to the release of 0-6-6 we will need to just delete these lines
-/*
-void DisplayErrMsg(DWORD err) {
-  LPVOID lpMsgBuf;
-  FormatMessage(
-      FORMAT_MESSAGE_ALLOCATE_BUFFER |
-      FORMAT_MESSAGE_FROM_SYSTEM |
-      FORMAT_MESSAGE_IGNORE_INSERTS,
-      NULL,
-      err,
-      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-      reinterpret_cast<LPTSTR>(&lpMsgBuf),
-      0,
-      NULL );
-  ::OutputDebugString(static_cast<const char*>(lpMsgBuf));
-  LocalFree(lpMsgBuf);
-}
-*/
 
 Win32Font::Win32Font( const String& fontName ):
 	font_(NULL),
@@ -325,11 +305,13 @@ double Win32Font::getPointSize()
 {
 	HDC dc = NULL;
 	bool releaseDC = true;
-	//this gets a HDC eitehr from the GraphicsContext that is associated with this font
+
+	//this gets a HDC either from the GraphicsContext that is associated with this font
 	//or from the desktop window
 	if ( NULL != font_ ) {
 		if ( NULL != font_->getGraphicsContext() ) {
-			Win32Context* win32Ctx = (Win32Context*)font_->getGraphicsContext()->getPeer();
+			//look at win32Ctx if we are having problems in the assertions below
+			//Win32Context* win32Ctx = (Win32Context*)font_->getGraphicsContext()->getPeer();
 
 			dc = (HDC) font_->getGraphicsContext()->getPeer()->getContextID();
 			releaseDC = false;
@@ -346,20 +328,16 @@ double Win32Font::getPointSize()
 		//damn! We are well and truly screwed at this point!
 		DWORD err = ::GetLastError();
 
-		//JC - I commented this out since we already have this functionality in 
-		//Win32Utils::getErrorString, so there's no need for the extra code here
-		//DisplayErrMsg(err);
 		String msg = "\nNULL dc in Win32Font::getPointSize() - need to fix this!!!!\n\t";
 		msg +=  VCFWin32::Win32Utils::getErrorString(err) + "\n";		
 
 		StringUtils::trace( MAKE_ERROR_MSG_2(msg) );		
+
+		//this assert stays in  - we should NEVER, EVER, EVER have a NULL HDC at this point.
+		//this would indicate the presence of unspeakable evil, and we should all run for
+		//cover if this is the case
+		VCF_ASSERT( dc != NULL );  
 	}
-
-	//this assert stays in  - we should NEVER, EVER, EVER have a NULL HDC at this point.
-	//this would indicate the presence of unspeakable evil, and we should all run for
-	//cover if this is the case
-	VCF_ASSERT( dc != NULL );  
-
 
 
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
@@ -370,13 +348,13 @@ double Win32Font::getPointSize()
 		msg +=  VCFWin32::Win32Utils::getErrorString(err) + "\n";		
 
 		StringUtils::trace( MAKE_ERROR_MSG_2(msg) );
+	
+		/**
+		The asserts will stay in here for the time being because we should NEVER 
+		EVER be getting them, and if we are it's a sympomatic problem of something else
+		*/
+		VCF_ASSERT( ((int)ppi) > 0 ); 
 	}
-
-	/**
-	The asserts will stay in here for the time being because we should NEVER 
-	EVER be getting them, and if we are it's a sympomatic problem of something else
-	*/
-	VCF_ASSERT( ((int)ppi) > 0 ); 
 
 	int lfHeight = 0;
 
@@ -387,16 +365,16 @@ double Win32Font::getPointSize()
 		lfHeight = ((LOGFONTA*)logFont_)->lfHeight;
 	}
 
-	VCF_ASSERT( lfHeight != 0 ); 
 	if ( lfHeight == 0 ) {
 		DWORD err = ::GetLastError();
 		String msg = "\nlfHeight == 0 in Win32Font::getPointSize() - need to fix this!!!!\n\t";
 		msg +=  VCFWin32::Win32Utils::getErrorString(err) + "\n";		
 
 		StringUtils::trace( MAKE_ERROR_MSG_2(msg) );
+		VCF_ASSERT( lfHeight != 0 ); 
 	}
 
-/*
+	/*
 	JC I took these out - while I understand the need for a workaround here
 	we don't want to be doing this - ppi of 0 or a lfHeight of 0 is BAD BAD BAD
 	and we need to fix the problem(s) that may be causing them.
@@ -415,15 +393,18 @@ double Win32Font::getPointSize()
 		result = result * ( ppi / oldDPI_ );
 		oldDPI_ = GetDeviceCaps( dc, LOGPIXELSY);
 	}
-/*
+
+	/*
 	if ( NULL == font_ ) {
 		ReleaseDC( ::GetDesktopWindow(), dc );		
 	}
 	else if ( NULL == font_->getGraphicsContext() ) {
 		ReleaseDC( ::GetDesktopWindow(), dc );
-	}else
+	}
+	else {
          ReleaseDC( ::GetDesktopWindow(), dc );
-		 */
+	}
+	*/
 
 	if ( releaseDC ){
 		ReleaseDC( ::GetDesktopWindow(), dc );
@@ -935,6 +916,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.16  2004/11/01 19:38:47  marcelloptr
+*minor change
+*
 *Revision 1.2.2.15  2004/10/31 15:32:29  ddiego
 *fixed a bug in the way Win32ControlContext::releaseHandle() worked that was causing a problem in Win32Font::getPointSize().
 *

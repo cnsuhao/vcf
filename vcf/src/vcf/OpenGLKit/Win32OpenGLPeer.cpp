@@ -89,11 +89,10 @@ void Win32OpenGLPeer::initGL()
 				throw BasicException(errmsg);
 			}
 
-			BOOL setPixelSuccess = SetPixelFormat( dc, pixelformat, &pfd );
+			bool setPixelSuccess = ( TRUE == ::SetPixelFormat( dc, pixelformat, &pfd ) );
 			if ( !setPixelSuccess ){
 				String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
 				StringUtils::traceWithArgs(String("Error setting pixelformat for GL context (" __FILE__ ":%d):\n")+errmsg,__LINE__);
-				VCF_ASSERT( setPixelSuccess );
 				throw BasicException(errmsg);
 			}
 
@@ -121,6 +120,7 @@ void Win32OpenGLPeer::swapBuffers()
 		*/
 		//HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
 		//HDC dc = ::GetDC(hwnd);
+
 		HDC dc = (HDC)win32Ctx->getContextID();
 
 		::SwapBuffers( dc );
@@ -145,6 +145,7 @@ void Win32OpenGLPeer::makeCurrent()
 		*/
 		//HWND hwnd = (HWND)(owningControl_->getPeer()->getHandleID());
 		//HDC dc = ::GetDC(hwnd);
+
 		HDC dc = (HDC)win32Ctx->getContextID();
 
 		wglMakeCurrent( dc, hrc_ );
@@ -157,6 +158,9 @@ void Win32OpenGLPeer::makeCurrent()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/01 19:39:23  marcelloptr
+*minor change
+*
 *Revision 1.2.2.2  2004/10/31 15:32:29  ddiego
 *fixed a bug in the way Win32ControlContext::releaseHandle() worked that was causing a problem in Win32Font::getPointSize().
 *
