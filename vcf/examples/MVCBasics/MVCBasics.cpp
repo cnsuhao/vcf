@@ -30,6 +30,13 @@ public:
 		return 	center_ == rhs.center_ && radius_ == rhs.radius_;
 	}
 
+        //Implementation of operator != is needed for BCB 5 because of the
+        //ackward implementation of find algorithm in RW STL
+#ifdef VCF_BCC5
+	bool operator!=( const CircleShape& rhs ) const{
+		return 	center_ != rhs.center_ && radius_ != rhs.radius_;
+	}
+#endif
 	Point center_;
 	double radius_;
 };
@@ -585,6 +592,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/16 15:22:38  kiklop74
+*Updated MVCBasics example to enable compilation on BCB 5
+*
 *Revision 1.2  2004/08/07 02:47:32  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
