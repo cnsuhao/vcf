@@ -1,6 +1,10 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2003/07/21 03:08:29  ddiego
+*added bezier curve editing to Sketchit, fixed a bug in not saving
+*bitmaps, added PackageInfo to the ApplicationKit
+*
 *Revision 1.1.2.2  2003/07/18 04:38:54  ddiego
 *got more work done on the sketch examples plus fixed a bug in the application
 *of a transform ot a path
@@ -39,6 +43,10 @@ public:
 	}
 
 	virtual void onMouseUp( VCF::MouseEvent* e ) {
+
+	}
+
+	virtual void onDblClick( VCF::MouseEvent* e ) {
 
 	}
 
@@ -204,6 +212,100 @@ protected:
 
 	void skewShape( Shape* shape, VCF::Point pt );
 };
+
+
+class RectangleTool : public Tool {
+public: 
+	
+
+	virtual void onMouseDown( VCF::MouseEvent* e );
+
+	virtual void onMouseMove( VCF::MouseEvent* e );
+
+	virtual void onMouseUp( VCF::MouseEvent* e );
+protected:
+	VCF::Point start_;
+	VCF::Point end_;
+};
+
+
+class CurveTool : public Tool {
+public: 
+	enum State {
+		sFirstPoint = 0,
+		sNextPoint
+	};
+
+	struct Segment {
+		VCF::Point pt1;
+		VCF::Point pt2;
+		VCF::Point ctrl1;
+		VCF::Point ctrl2;
+
+		bool operator ==( const Segment& rhs ) const{
+			return (pt1 == rhs.pt1) &&
+						(pt2 == rhs.pt2) &&
+						(ctrl1 == rhs.ctrl1) &&
+						(ctrl2 == rhs.ctrl2);
+		}
+
+		bool operator !=( const Segment& rhs ) const{
+			return (pt1 != rhs.pt1) ||
+						(pt2 != rhs.pt2) ||
+						(ctrl1 != rhs.ctrl1) ||
+						(ctrl2 != rhs.ctrl2);
+		}
+	};	
+
+
+	CurveTool(): state_(sFirstPoint){}	
+
+	
+
+	virtual void onMouseDown( VCF::MouseEvent* e );
+
+	virtual void onMouseMove( VCF::MouseEvent* e );
+
+	virtual void onMouseUp( VCF::MouseEvent* e );
+
+	virtual void onDblClick( VCF::MouseEvent* e );
+
+	virtual void paintState( VCF::GraphicsContext* ctx );
+protected:
+	VCF::Point start_;
+	VCF::Point end_;
+
+	Segment segment_;
+	std::vector<Segment> segments_;
+
+	State state_;
+
+
+	void drawCurve( VCF::GraphicsContext* ctx );
+	bool overFirstPoint( VCF::Point& pt );
+	void finishCurve();
+};
+
+
+class ImageTool : public Tool {
+public: 
+	
+	ImageTool(): img_(NULL){}
+
+	virtual void onMouseDown( VCF::MouseEvent* e );
+
+	virtual void onMouseMove( VCF::MouseEvent* e );
+
+	virtual void onMouseUp( VCF::MouseEvent* e );
+
+	virtual void paintState( VCF::GraphicsContext* ctx );
+protected:
+	VCF::Point start_;
+	VCF::Point end_;
+	VCF::Image* img_;
+};
+
+
 
 #endif //_SKETCHTOOLS_H__
 

@@ -92,9 +92,25 @@ void SketchDocument::addSelectedShape( Shape* shape )
 void SketchDocument::removeSelectedShape( Shape* shape )
 {
 	if ( NULL != shape ) {
-		std::vector<Shape*>::iterator found = std::find( shapes_.begin(), shapes_.end(), shape );
-		if ( found != shapes_.end() ) {
+		std::vector<Shape*>::iterator found = std::find( selectedShapes_.begin(), selectedShapes_.end(), shape );
+		if ( found != selectedShapes_.end() ) {
 			selectedShapes_.erase( found );
+			updateAllViews();
+		}
+	}
+}
+
+void SketchDocument::removeShape( Shape* shape ) 
+{
+	if ( NULL != shape ) {
+		std::vector<Shape*>::iterator found = std::find( selectedShapes_.begin(), selectedShapes_.end(), shape );
+		if ( found != selectedShapes_.end() ) {
+			selectedShapes_.erase( found );			
+		}
+
+		found = std::find( shapes_.begin(), shapes_.end(), shape );
+		if ( found != shapes_.end() ) {
+			shapes_.erase( found );	
 			updateAllViews();
 		}
 	}

@@ -1,6 +1,10 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2003/07/21 03:08:29  ddiego
+*added bezier curve editing to Sketchit, fixed a bug in not saving
+*bitmaps, added PackageInfo to the ApplicationKit
+*
 *Revision 1.1.2.2  2003/07/18 04:38:54  ddiego
 *got more work done on the sketch examples plus fixed a bug in the application
 *of a transform ot a path
@@ -43,6 +47,15 @@ void Tool::attach( VCF::Control* control )
 	}
 
 	control->MouseUp += ev;
+
+	
+	ev = getEventHandler( "Tool::onDblClick" );
+	if ( ev == NULL ) {
+		ev = new MouseEventHandler<Tool>( this, &Tool::onDblClick, "Tool::onDblClick" );
+	}
+
+	control->MouseDoubleClicked += ev;
+
 
 	ev = getEventHandler( "Tool::onKeyPressed" );
 	if ( ev == NULL ) {
@@ -89,7 +102,12 @@ VCF::Control* Tool::detach()
 	if ( ev != NULL ) {
 		currentControl_->MouseUp -= ev;
 	}
-	
+
+	ev = getEventHandler( "Tool::onDblClick" );
+	if ( ev != NULL ) {
+		currentControl_->MouseDoubleClicked -= ev;
+	}	
+
 
 	ev = getEventHandler( "Tool::onKeyPressed" );
 	if ( ev != NULL ) {
@@ -123,7 +141,11 @@ ToolManager::ToolManager():
 
 ToolManager::~ToolManager()
 {
-
+	std::map<VCF::MenuItem*,Tool*>::iterator it = toolMap_.begin();
+	while ( it != toolMap_.end() ) {
+		delete it->second;
+		it ++;
+	}
 }
 
 ToolManager* ToolManager::manager = NULL;
@@ -172,7 +194,9 @@ void ToolManager::onMenuItemClicked( MenuItemEvent* e )
 
 		currentTool_ = found->second;
 		
-		currentTool_->attach( currentControl_ );		
+		Window* window = DocumentManager::getDocumentManager()->getCurrentDocument()->getWindow();
+
+		currentTool_->attach( window );		
 	}
 	else {
 		currentTool_ = NULL;
@@ -762,4 +786,384 @@ void SkewTool::skewShape( Shape* shape, VCF::Point pt )
 	
 	shape->polygon_.applyTransform( *m2.multiply( &m2, &m1 ) );	
 }
+
+
+
+void RectangleTool::onMouseDown( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		end_ = start_ = *e->getPoint();
+
+		Control* c = (Control*)e->getSource();
+		GraphicsContext* ctx = c->getContext();
+
+		ctx->setColor( Color::getColor("blue") );
+		ctx->setXORModeOn( true );
+
+		
+		ctx->rectangle( &Rect(start_.x_,start_.y_,end_.x_,end_.y_) );
+		ctx->strokePath();
+
+		ctx->setXORModeOn( false );
+	}
+}
+
+void RectangleTool::onMouseMove( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		Control* c = (Control*)e->getSource();
+		GraphicsContext* ctx = c->getContext();
+
+		ctx->setColor( Color::getColor("blue") );
+		ctx->setXORModeOn( true );
+		
+		Rect r(start_.x_,start_.y_,end_.x_,end_.y_);
+		r.normalize();
+
+		ctx->rectangle( &r );
+		ctx->strokePath();
+
+		end_ = *e->getPoint();
+
+		r.setRect(start_.x_,start_.y_,end_.x_,end_.y_);
+		r.normalize();
+
+		ctx->rectangle( &r );
+		ctx->strokePath();
+
+		ctx->setXORModeOn( false );
+	}
+}
+
+void RectangleTool::onMouseUp( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		Control* c = (Control*)e->getSource();
+		GraphicsContext* ctx = c->getContext();
+
+		ctx->setColor( Color::getColor("blue") );
+		ctx->setXORModeOn( true );
+		
+		Rect r(start_.x_,start_.y_,end_.x_,end_.y_);
+		r.normalize();
+
+		ctx->rectangle( &r );
+		ctx->strokePath();
+
+		end_ = *e->getPoint();
+
+		r.setRect(start_.x_,start_.y_,end_.x_,end_.y_);
+		r.normalize();
+
+		ctx->rectangle( &r );
+		ctx->strokePath();
+
+		ctx->rectangle( &r );
+		ctx->strokePath();
+
+		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+		Shape shape;
+		shape.polygon_.rectangle( r );
+		doc->addShape( shape );
+
+		ctx->setXORModeOn( false );
+	}
+}
+
+void CurveTool::drawCurve( VCF::GraphicsContext* ctx )
+{
+	ctx->setXORModeOn( true );
+
+	ctx->setColor( Color::getColor("blue") );
+
+	ctx->curve( segment_.pt1.x_, segment_.pt1.y_,
+					segment_.ctrl1.x_, segment_.ctrl1.y_,
+					segment_.ctrl2.x_, segment_.ctrl2.y_,
+					segment_.pt2.x_, segment_.pt2.y_ );
+
+	ctx->strokePath();
+
+	ctx->setColor( Color::getColor("black") );
+
+	ctx->setXORModeOn( false );
+
+	Rect r;
+	r.setRect( segment_.pt2.x_, segment_.pt2.y_,
+				segment_.pt2.x_, segment_.pt2.y_ );
+
+	r.inflate( 2, 2 );
+
+	ctx->rectangle( &r );
+	ctx->fillPath();	
+
+	ctx->setXORModeOn( true );
+
+	ctx->circle( end_, 2 );	
+
+	ctx->moveTo( end_ );
+	ctx->lineTo( segment_.pt2 );
+
+	ctx->lineTo( start_.x_  - (end_.x_ - start_.x_),
+					start_.y_  - (end_.y_ - start_.y_) );
+
+	ctx->circle( start_.x_  - (end_.x_ - start_.x_),
+					start_.y_  - (end_.y_ - start_.y_), 2 );
+
+	ctx->strokePath();
+
+	ctx->setXORModeOn( false );
+
+	//if ( CurveTool::sNextPoint == state_  ) {
+		ctx->moveTo( segment_.pt1 );
+		ctx->lineTo( segment_.ctrl1 );
+
+		ctx->circle( segment_.ctrl1, 2 );		
+//	}
+
+	ctx->strokePath();
+
+
+}	
+
+void CurveTool::onMouseDown( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {		
+
+		switch ( state_ ) {
+			case CurveTool::sFirstPoint : {
+				segments_.clear();
+
+				end_ = start_ = *e->getPoint();
+
+				segment_.pt1 = segment_.pt2 = segment_.ctrl1 = segment_.ctrl2 = start_;
+			}
+			break;
+
+			case CurveTool::sNextPoint : {
+				start_ = *e->getPoint();
+
+				segment_.pt1 = segment_.pt2;
+				segment_.ctrl1 = end_;
+				segment_.pt2 = segment_.ctrl2 = start_;
+
+				end_ = start_;
+
+				if ( overFirstPoint( start_ ) ) {
+					segments_.push_back( segment_ );
+					finishCurve();
+				}
+			}
+			break;
+		}
+
+		Control* c = (Control*)e->getSource();
+		GraphicsContext* ctx = c->getContext();
+
+		ctx->setXORModeOn( false );
+
+		paintState( ctx );
+
+		
+
+		
+		drawCurve( ctx );
+
+		
+		
+	}
+}
+
+void CurveTool::onMouseMove( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		Control* c = (Control*)e->getSource();
+		GraphicsContext* ctx = c->getContext();
+		
+		paintState( ctx );
+		
+
+		
+		drawCurve( ctx );
+
+		end_ = *e->getPoint();
+
+		switch ( state_ ) {
+			case CurveTool::sFirstPoint : {
+				
+			}
+			break;
+
+			case CurveTool::sNextPoint : {
+				segment_.ctrl2.x_ = start_.x_  - (end_.x_ - start_.x_);
+				segment_.ctrl2.y_ = start_.y_  - (end_.y_ - start_.y_);
+
+
+				
+			}
+			break;
+		}		
+
+		
+		drawCurve( ctx );
+
+		
+	}
+}
+
+void CurveTool::onMouseUp( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		Control* c = (Control*)e->getSource();
+		GraphicsContext* ctx = c->getContext();
+		
+		
+		drawCurve( ctx );
+
+
+		end_ = *e->getPoint();
+
+		switch ( state_ ) {
+			case CurveTool::sFirstPoint : {
+				//segment_.ctrl2 = *e->getPoint();
+			}
+			break;
+
+			case CurveTool::sNextPoint : {
+				segment_.ctrl2.x_ = start_.x_  - (end_.x_ - start_.x_);
+				segment_.ctrl2.y_ = start_.y_  - (end_.y_ - start_.y_);
+			}
+			break;
+		}
+
+		
+		drawCurve( ctx );
+		
+
+		
+		paintState( ctx );
+		
+
+		segments_.push_back( segment_ ); 
+		state_ = CurveTool::sNextPoint;
+
+	}
+	
+}
+
+void CurveTool::finishCurve()
+{
+	state_ = CurveTool::sFirstPoint;
+	
+
+	SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+	Shape shape;
+	std::vector<Segment>::iterator it = segments_.begin();
+	while ( it != segments_.end() ) {
+		Segment& segment = *it;
+		shape.polygon_.curve( segment.pt1.x_, segment.pt1.y_,
+							segment.ctrl1.x_, segment.ctrl1.y_,
+							segment.ctrl2.x_, segment.ctrl2.y_,
+							segment.pt2.x_, segment.pt2.y_ );
+		it++;
+	}
+
+	if ( overFirstPoint( start_ ) ) {
+		shape.polygon_.close();
+	}
+	doc->addShape( shape );
+
+	segments_.clear();
+}
+
+void CurveTool::onDblClick( VCF::MouseEvent* e )
+{
+	finishCurve();
+}
+
+void CurveTool::paintState( VCF::GraphicsContext* ctx )
+{
+	
+	std::vector<Segment>::iterator it = segments_.begin();
+	while ( it != segments_.end() ) {
+		Segment& segment = *it;
+		
+		if ( segment != segment_ ) {
+			ctx->curve( segment.pt1.x_, segment.pt1.y_,
+							segment.ctrl1.x_, segment.ctrl1.y_,
+							segment.ctrl2.x_, segment.ctrl2.y_,
+							segment.pt2.x_, segment.pt2.y_ );
+		}
+
+		it ++;
+	}
+
+	ctx->strokePath();
+}
+
+
+bool CurveTool::overFirstPoint( VCF::Point& pt )
+{
+	bool result = false;
+	std::vector<Segment>::iterator it = segments_.begin();
+	while ( it != segments_.end() ) {
+		Segment& segment = *it;
+		if ( pt == segment.pt1 ) {
+			result = true;
+			break;
+		}
+		it++;
+	}
+
+	return result;
+}
+
+void ImageTool::onMouseDown( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		CommonFileOpen openDlg;
+		if ( openDlg.execute() ) {
+			FilePath fp = openDlg.getFileName();
+			
+			Image* img = GraphicsToolkit::getDefaultGraphicsToolkit()->createImage( fp );
+
+	
+			if ( NULL != img ) {
+				Rect imageRect;
+				imageRect.setRect( e->getPoint()->x_, e->getPoint()->y_,
+									e->getPoint()->x_ + img->getWidth(),
+									e->getPoint()->y_ + img->getHeight());
+
+
+				SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+				Shape shape;
+				shape.polygon_.rectangle( imageRect );
+				shape.image_ = img;
+				shape.image_->getImageBits()->attachRenderBuffer( img->getWidth(), img->getHeight() );
+				doc->addShape( shape );
+
+
+
+				GraphicsToolkit::getDefaultGraphicsToolkit()->saveImage( "e:\\code\\futzing.bmp", img );
+			}
+			
+		}
+	}
+}
+
+void ImageTool::onMouseMove( VCF::MouseEvent* e )
+{
+
+}
+
+void ImageTool::onMouseUp( VCF::MouseEvent* e )
+{
+
+}
+
+void ImageTool::paintState( VCF::GraphicsContext* ctx )
+{
+	
+}
+
+
 
