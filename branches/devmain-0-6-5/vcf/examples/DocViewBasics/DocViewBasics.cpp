@@ -195,29 +195,17 @@ public:
 	}
 
 	virtual bool canCutFromDocument() {
-		return true;
+		return !circles_.empty();
 	}
 
 	virtual bool canCopyFromDocument() {
-		return true;
+		return !circles_.empty();
 	}
 
 	virtual bool canPasteToDocument() {
-		return true;
+		Clipboard* clipboard = UIToolkit::getSystemClipboard();
+		return clipboard->hasDataType( "application/x-circledoc" );
 	}
-/*
-	virtual DataObject* copy() {
-		DataObject* result = new DataObject();
-
-		BinaryPersistable* data = new BinaryPersistable( NULL, text.size() + 1 );
-		
-
-
-		result->addSupportedDataType( "text/xml", data );
-
-		return result;
-	}
-	*/
 protected:
 
 	std::vector<CircleShape> circles_;
@@ -347,22 +335,6 @@ public:
 		bdr.paint( &r, ctx );
 
 
-		Point oldOrigin = ctx->getOrigin();
-
-		Scrollable* scrollable = control->getScrollable();
-		if ( scrollable ) {
-			Rect viewBounds = ctx->getViewableBounds();
-			
-			Point origin = ctx->getOrigin();
-			
-			control->adjustViewableBoundsAndOriginForScrollable( ctx, viewBounds, origin );
-			
-			ctx->setOrigin( origin );
-			
-			ctx->setViewableBounds( viewBounds );
-		}
-
-
 		CircleDocument* model = (CircleDocument*)getViewModel();
 
 		const std::vector<CircleShape>& circles = model->getCircles();
@@ -378,8 +350,6 @@ public:
 			ctx->strokePath();
 
 		}
-
-		ctx->setOrigin( oldOrigin );
 	}
 };
 
@@ -417,42 +387,7 @@ public:
 
 
 	void onCircleModelChanged( Event* e ) {
-		const std::vector<CircleShape>& circles = model_->getCircles();
-
-		std::vector<CircleShape>::const_iterator it = circles.begin();
-
-		Rect bounds;
-		Rect r;
-		while ( it != circles.end() ) {
-			const CircleShape& shape = *it;
-			r.left_ = shape.center_.x_ - shape.radius_;
-			r.top_ = shape.center_.y_ - shape.radius_;
-			r.right_ = shape.center_.x_ + shape.radius_;
-			r.bottom_ = shape.center_.y_ + shape.radius_;
-
-			r.normalize();
-
-			if ( bounds.isEmpty() ) {
-				bounds = r;
-			}
-			else {
-				bounds.left_ = minVal<>( bounds.left_, r.left_ );
-				bounds.top_ = minVal<>( bounds.top_, r.top_ );
-
-
-				bounds.right_ = maxVal<>( bounds.right_, r.right_ );
-				bounds.bottom_ = maxVal<>( bounds.bottom_, r.bottom_ );
-			}
-			
-			it ++;
-		}
-
-		Scrollable* scrollable = panel_->getScrollable();
-
-		if ( NULL != scrollable ) {
-			scrollable->setVirtualViewHeight( bounds.getHeight() );
-			scrollable->setVirtualViewWidth( bounds.getWidth() );
-		}
+		//no-op for now
 	}
 
 	void onMouseClicked( MouseEvent* e ) {
@@ -535,18 +470,7 @@ public:
 
 		info_ = new CircleInfoUI();
 		info_->setHeight( 150 );
-		add( info_, AlignBottom );
-
-
-		ScrollbarManager* sbm = new ScrollbarManager();
-
-		sbm->setTarget( circlePanel_ );
-		addComponent( sbm );
-
-		sbm->setHasHorizontalScrollbar( true );
-		sbm->setHasVerticalScrollbar( true );
-		sbm->setKeepScrollbarsVisible( true );
-		
+		add( info_, AlignBottom );		
 	}
 
 	virtual ~DocViewBasicsWindow(){};
