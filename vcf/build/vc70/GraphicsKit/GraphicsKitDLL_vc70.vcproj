@@ -380,6 +380,9 @@
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

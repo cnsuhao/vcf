@@ -45,7 +45,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKit", ".\Foundati
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitDLL", ".\FoundationKit\FoundationKitDLL_vc70.vcproj", "{149BA4D4-0477-4735-B282-7E331631DA83}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "..\..\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_vc70.vcproj", "{830EBCE6-32C2-42D6-B7CC-9A94D86CEDFE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "..\..\src\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_vc70.vcproj", "{830EBCE6-32C2-42D6-B7CC-9A94D86CEDFE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsAndMouseMoves", "..\..\examples\GraphicsAndMouseMoves\GraphicsAndMouseMoves_vc70.vcproj", "{C5E5004F-3A1C-4925-B4DC-4E055AC2C28F}"
 EndProject
