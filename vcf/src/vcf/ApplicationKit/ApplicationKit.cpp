@@ -55,6 +55,20 @@ void ApplicationKit::init( int argc, char** argv )
 	if ( false == ApplicationKitIsInitialized ) {
 
 		GraphicsKit::init( argc, argv );
+		
+		
+		REGISTER_CLASSINFO_EXTERNAL( AbstractPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( ImagePropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( ImageFilenamePropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( DefaultMenuItemPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( FontPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( ColorPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( EnumPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( StringPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( BoolPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( DoublePropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( IntegerPropertyEditor );
+
 
 		REGISTER_CLASSINFO_EXTERNAL( Item );
 		REGISTER_CLASSINFO_EXTERNAL( ListItem );
@@ -192,6 +206,9 @@ void ApplicationKit::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.3.2.2  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

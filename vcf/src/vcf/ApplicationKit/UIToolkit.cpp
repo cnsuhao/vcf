@@ -89,24 +89,24 @@ void UIToolkit::init()
 	*register basic property editors
 	*/
 
-	PropertyEditorManager::registerPropertyEditor( new IntegerPropertyEditor(), CLASS_INTEGER );
-	PropertyEditorManager::registerPropertyEditor( new DoublePropertyEditor(), CLASS_DOUBLE );
-	PropertyEditorManager::registerPropertyEditor( new BoolPropertyEditor(), CLASS_BOOL );
-	PropertyEditorManager::registerPropertyEditor( new StringPropertyEditor(), CLASS_STRING );
+	PropertyEditorManager::registerPropertyEditor( "VCF::IntegerPropertyEditor", CLASS_INTEGER );
+	PropertyEditorManager::registerPropertyEditor( "VCF::DoublePropertyEditor", CLASS_DOUBLE );
+	PropertyEditorManager::registerPropertyEditor( "VCF::BoolPropertyEditor", CLASS_BOOL );
+	PropertyEditorManager::registerPropertyEditor( "VCF::StringPropertyEditor", CLASS_STRING );
 
-	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::AlignmentType" );
-	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::IconStyleType" );
-	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::IconAlignType" );
-	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::TextAlignmentType" );
-	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::TextVerticalAlignment" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::AlignmentType" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::IconStyleType" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::IconAlignType" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextAlignmentType" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextVerticalAlignment" );
 	
-	PropertyEditorManager::registerPropertyEditor( new ColorPropertyEditor(), "VCF::Color" );
-	PropertyEditorManager::registerPropertyEditor( new FontPropertyEditor(), "VCF::Font" );
-	PropertyEditorManager::registerPropertyEditor( new DefaultMenuItemPropertyEditor(), "VCF::DefaultMenuItem" );
-	PropertyEditorManager::registerPropertyEditor( new DefaultListModelPropertyEditor(), "VCF::DefaultListModel" );
-	PropertyEditorManager::registerPropertyEditor( new ImageFilenamePropertyEditor(), "VCF::ImageFilenameString" );
-	PropertyEditorManager::registerPropertyEditor( new ImagePropertyEditor(), "VCF::Image" );
-	PropertyEditorManager::registerPropertyEditor( new ImagePropertyEditor(), "VCF::Win32Image" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::ColorPropertyEditor", "VCF::Color" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::FontPropertyEditor", "VCF::Font" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::DefaultMenuItemPropertyEditor", "VCF::DefaultMenuItem" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::DefaultListModelPropertyEditor", "VCF::DefaultListModel" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::ImageFilenamePropertyEditor", "VCF::ImageFilenameString" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::ImagePropertyEditor", "VCF::Image" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::ImagePropertyEditor", "VCF::Win32Image" );
 
 	/**
 	register the components in categorys
@@ -1010,6 +1010,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.3.2.5  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

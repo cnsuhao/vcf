@@ -13,18 +13,7 @@ where you installed the VCF.
 #   pragma once
 #endif
 
-
-#ifndef _VCF_PANEL_H__
-#	include "vcf/ApplicationKit/Panel.h"
-#endif // _VCF_PANEL_H__
-
-namespace VCF
-{
-
-class Control;
-
-class ItemEvent;
-
+namespace VCF {
 
 
 
@@ -131,12 +120,20 @@ public:
 
 
 
+
+
+
+
+
 };
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.2  2005/02/21 16:20:01  ddiego
 *minor changes to various things, property editors, and tree list control.
 *
