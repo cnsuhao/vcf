@@ -41,7 +41,7 @@ MainWindow::MainWindow()
 	//add Help menu
 	DefaultMenuItem* help = new DefaultMenuItem( "&Help", root, menuBar );
 	DefaultMenuItem* helpAbout = new DefaultMenuItem( "About...", help, menuBar );
-	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onHelpAbout, "helpAbout" );	
+	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, &MainWindow::onHelpAbout, "helpAbout" );	
 	helpAbout->addMenuItemClickedHandler( menuItemHandler );	
 
 	//add TabbedPages
@@ -326,6 +326,9 @@ void MainWindow::makeBordersPage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/10/07 00:59:56  kiklop74
+*Added Set of makefiles and batch files for building part of VCF samples
+*
 *Revision 1.1.2.9  2004/10/01 17:05:27  dougtinkham
 *updated Borders tab page
 *
