@@ -2,6 +2,7 @@
 
 VERSION = 0.6.0
 VCFB_VERSION = 1.0.4
+XMAKE_VERSION = 1.0.4
 
 HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
 
@@ -12,6 +13,7 @@ RAW_VCF_BUILDER_CHM_FILENAME = vcfbuilder_docs.chm
 
 VERSIONED_CHM_FILENAME = VCFDocs.$(VERSION).chm
 VERSIONED_VCFBUILDER_CHM_FILENAME = VCFBuilderDocs.$(VCFB_VERSION).chm
+VERSIONED_XMAKE_CHM_FILENAME = XMakeDocs.$(XMAKE_VERSION).chm
 VERSIONED_SRC_CHM_FILENAME = VCFSrcDocs.$(VERSION).chm
 HTML_TAR_FILENAME = VCFDocs.$(VERSION).tar
 
@@ -49,7 +51,7 @@ vcfbuilder_designer.sgml \
 vcfbuilder_quicktut.sgml 
 
 
-XMAKE_DOCS = vcf.css xmake_docbook.sgml
+XMAKE_DOCS = vcf.css xmake_book.sgml xmake_docbook.sgml
 
 
 
@@ -72,6 +74,10 @@ vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
 
 xmake_docs : $(XMAKE_DOCS) test_tools
 	xsltproc --catalogs vcf.xsl xmake_docbook.sgml
+
+xmake_hh : htmlhelp.hhp xmake_docs
+	$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_XMAKE_CHM_FILENAME)
 
 test_tools : 
 	if ( test -f $(HTMLHELP_COMPILER) )\
