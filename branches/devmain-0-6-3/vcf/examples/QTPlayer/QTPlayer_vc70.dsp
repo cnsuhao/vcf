@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"vc6/Release\QTPlayer_vc70.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"vc70\Release\QTPlayer_vc70.exe" /debug /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"vc70\Release\QTPlayer_vc70.exe" /libpath:"$(VCF_LIB)"
 
 !ELSEIF  "$(CFG)" == "QTPlayer - Win32 Debug"
 
@@ -77,8 +77,8 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"vc6/Debug\QTPlayer_vc70.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"vc70\Debug\QTPlayer_vc70.exe" /debug /pdbtype:sept /libpath:"$(VCF_LIB)"
-# SUBTRACT LINK32 /pdb:none
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"vc70\Debug\QTPlayer_vc70.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
+# SUBTRACT LINK32 /pdb:none /debug
 
 !ENDIF 
 
