@@ -5,6 +5,7 @@
 		<variable name="SRC" value="../../../src"/>
 		<variable name="LIB_OUT" value="../../../lib"/>
 		<variable name="BIN_OUT" value="../../../bin"/>
+		<variable name="X11_LIB" value="/usr/X11R6/lib"/>
 	</substitutions>
 
 
@@ -22,7 +23,9 @@
 				<linker name="g++">
 					<flags>
 						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
-						<flag value="-ldl -L/usr/X11R6/lib -L $(BIN_OUT) -lFoundationKit -lX11 -shared -o $(BIN_OUT)/libGraphicsKit.so"/>
+						<flag value="-ldl"/>
+						<flag value="-L$(X11_LIB)"/>
+						<flag value=" -L $(BIN_OUT) -lFoundationKit -lX11 -shared -o $(BIN_OUT)/libGraphicsKit.so"/>
 					</flags>
 				</linker>
 			</config>
