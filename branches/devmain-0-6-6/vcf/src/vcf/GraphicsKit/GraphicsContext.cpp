@@ -44,7 +44,7 @@ public:
 	double scaleX_;
 	double scaleY_;
 
-	double strokeWidth_;		
+	double strokeWidth_;
 };
 
 
@@ -68,7 +68,7 @@ GraphicsState::GraphicsState():
 	transformMatrix_.identity();
 }
 
-GraphicsState::GraphicsState( const GraphicsState& rhs ):	
+GraphicsState::GraphicsState( const GraphicsState& rhs ):
 	fill_(NULL),
 	stroke_(NULL),
 	clippingPath_(NULL),
@@ -569,9 +569,9 @@ void GraphicsContext::copyContext( const Rect& sourceRect,
 	contextPeer_->copyContext( sourceRect, destRect, context->getPeer() );
 }
 
-void GraphicsContext::setCurrentTransform( Matrix2D* transform )
+void GraphicsContext::setCurrentTransform( const Matrix2D& transform )
 {
-	currentGraphicsState_->transformMatrix_ = *transform;
+	currentGraphicsState_->transformMatrix_ = transform;
 }
 
 Matrix2D* GraphicsContext::getCurrentTransform()
@@ -1091,9 +1091,9 @@ void GraphicsContext::execPathOperations()
 				}
 
 				contextPeer_->polyline( tmpPts );
-				
 
-				
+
+
 				//contextPeer_->rectangle( pt1.x, pt1.y, pt2.x, pt2.y );
 			}
 			break;
@@ -1147,7 +1147,7 @@ void GraphicsContext::execPathOperations()
 				PointOperation& pt3 = *it;
 				++it;
 
-				
+
 				std::vector<Point> tmpPts;
 				buildArc( pt1.x, pt1.y, pt2.x, pt2.y, pt3.x, pt3.y, tmpPts, transform );
 
@@ -1483,6 +1483,9 @@ double GraphicsContext::getScaleY()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.11  2004/09/09 03:09:26  marcelloptr
+*minor change for style
+*
 *Revision 1.2.2.10  2004/09/06 04:40:43  ddiego
 *added font rotation back in, this time with support for matching
 *the graphic contexts current transform.
