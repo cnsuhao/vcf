@@ -98,6 +98,8 @@ public:
 
 	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner );
 
+	virtual CommonPrintDialogPeer* internal_createCommonPrintDialogPeer( Control* owner );
+
 	virtual DragDropPeer* internal_createDragDropPeer();
 
 	virtual DataObjectPeer* internal_createDataObjectPeer();
@@ -176,6 +178,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
 *added initial system tray code for win32
 *

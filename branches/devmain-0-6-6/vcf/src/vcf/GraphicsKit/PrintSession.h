@@ -26,6 +26,16 @@ namespace VCF {
 			PrintingFinishedEvent
 		};
 
+		enum {
+			UnknownPage = -1
+		};
+
+		enum PrintJob {
+			pjPrintAll = 0,
+			pjPrintSelectedPage,
+			pjPrintRange
+		};
+
 		enum PageSize { 
 			psA4, 
 			psB5,
@@ -100,6 +110,7 @@ namespace VCF {
 
 		PrintSessionPeer* peer_;		
 		bool errorDuringPrinting_;
+		int currentPage_;
 	};
 
 };

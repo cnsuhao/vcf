@@ -15,7 +15,6 @@ using namespace VCF;
 
 
 
-
 class TablesWindow : public Window {
 public:
 	TablesWindow() {
@@ -89,6 +88,11 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/08/31 04:12:11  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.3  2004/08/07 02:47:39  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

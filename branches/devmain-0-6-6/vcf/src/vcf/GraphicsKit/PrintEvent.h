@@ -10,11 +10,18 @@ namespace VCF {
 	*/
 	class GRAPHICSKIT_API PrintEvent : public Event{
 	public: 		
-		PrintEvent( Object* source, PrintContext* ctx, ulong32 type ): Event(source,type),context_(ctx){
-			pageBounds_ = ctx->getViewableBounds();
+		PrintEvent( Object* source, PrintContext* ctx, int currentPage, ulong32 type ): Event(source,type),context_(ctx){
+			if ( NULL != ctx ) {
+				pageBounds_ = ctx->getViewableBounds();
+			}
+			currentPage_ = currentPage;
 		}
 		
-		PrintEvent( const PrintEvent& rhs ): Event(rhs),context_(rhs.context_), pageBounds_(rhs.pageBounds_) {
+		PrintEvent( const PrintEvent& rhs ): 
+			Event(rhs),
+				context_(rhs.context_), 
+				pageBounds_(rhs.pageBounds_),
+				currentPage_(rhs.currentPage_){
 			
 		}
 
@@ -30,7 +37,12 @@ namespace VCF {
 		Rect getPageBounds() {
 			return pageBounds_;
 		}
+
+		int getCurrentPage() {
+			return currentPage_;
+		}
 	protected:
+		int currentPage_;
 		PrintContext* context_;
 		Rect pageBounds_;
 		

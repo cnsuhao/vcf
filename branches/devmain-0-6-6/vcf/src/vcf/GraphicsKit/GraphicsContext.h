@@ -353,18 +353,19 @@ public:
     void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
     void ellipse(const Point & pt1, const Point & pt2 );
 
-    void arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
-    void arc(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
+    void arc( const double& centerX,  const double& centerY, 
+				const double& radiusWidth, const double& radiusHeight, 
+				const double& startAngle, const double& endAngle);
+
+    void arc(const Point & centerPt, const Size& radius, 
+				const double& startAngle, const double& endAngle);
+
 
     void pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
     void pie(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
 
     void chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
     void chord(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
-
-	void setColor( Color* color );
-
-	Color* getColor();
 
     void polyline( const std::vector<Point> & pts );
 
@@ -377,6 +378,11 @@ public:
 
     void moveTo(const double& x, const double& y);
     void moveTo(const Point & pt);
+
+
+	void setColor( Color* color );
+
+	Color* getColor();
 
     void fillPath();
 
@@ -398,15 +404,46 @@ public:
 	Point getOrigin();
 
 	/**
-	*sets the current rotation value
+	*sets the current rotation value of the transformation matrix. The 
+	theta argument is in degrees.
 	*/
 	void setRotation( const double& theta );
 
+	/**
+	Set the x and y translation values for the transformation matrix.
+	*/
 	void setTranslation( const double transX, const double& transY );
 
+	/**
+	Sets the x and y shear values, in degrees, for the transformation
+	matrix
+	*/
 	void setShear( const double& shearX, const double& shearY );
 
+	/**
+	Sets the x and y scale values for the transformation matrix. To double the 
+	size of drawn elements use a scaleX value of 2.0 and a scaleY value of 
+	2.0. To flip the y coordinates use a scaleY of -1.0.
+	*/
 	void setScale( const double& scaleX, const double& scaleY );
+
+	/**
+	Takes the rotation value, creates a temporary matrix and then
+	concatenates or multiplies this with the current transformation 
+	matrix, to produce a new matrix. The difference between this method
+	and setRotation(), is that repeated calls to setRotation() with
+	an argument of 10.0 will maintain the current transformation matrix's
+	rotation to 10.0 degrees. Repeated calls to concatRotation() with a 
+	value 10.0, may first result in the transformation matrix having a 
+	rotation of 10.0 degrees, and then 20, and then 30, and so on.
+	*/
+	void concatRotation( const double& theta );
+
+	void concatTranslation( const double transX, const double& transY );
+
+	void concatShear( const double& shearX, const double& shearY );
+
+	void concatScale( const double& scaleX, const double& scaleY );
 
 	/**
 	*returns whether or not the XOR Mode is turned on.
@@ -563,13 +600,6 @@ protected:
 
 	GraphicsState currentState_;
 
-	double theta_;
-	double xScale_;
-	double yScale_;
-	double xTranslate_;
-	double yTranslate_;
-	double xShear_;
-	double yShear_;
 	Color color_;
 	double strokeWidth_;
 	std::vector<PointOperation> pathOperations_;
@@ -579,12 +609,22 @@ protected:
 	bool renderAreaDirty_;
 	Rect viewableBounds_;
 
+	void buildArc( double centerX,  double centerY, 
+            double radiusWidth, double radiusHeight, 
+            double startAngle, double endAngle, std::vector<Point>& pts, const Matrix2D& transform );
+
+	void buildRoundRect( double x1, double y1, double x2, double y2, 
+							double cornerArcWidth, double cornerArcHeight, 
+							std::vector<Point>& pts, const Matrix2D& transform );
+
+	void buildEllipse( double x1, double y1, double x2, double y2, 
+							std::vector<Point>& pts, const Matrix2D& transform );
+
 
 	void checkPathOperations();
 
 	void execPathOperations();
 
-	void compositeMatrices();
 };
 
 
@@ -639,9 +679,12 @@ inline void GraphicsContext::ellipse(const Point & pt1, const Point & pt2 ) {
 	ellipse( pt1.x_, pt1.y_, pt2.x_, pt2.y_);
 }
 
-inline void GraphicsContext::arc(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
-	arc( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
+
+inline void GraphicsContext::arc(const Point & centerPt, const Size& radius, 
+								 const double& startAngle, const double& endAngle) {
+	arc( centerPt.x_, centerPt.y_, radius.width_, radius.height_, startAngle, endAngle );
 }
+
 
 inline void GraphicsContext::pie(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
 	pie( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
@@ -678,6 +721,11 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

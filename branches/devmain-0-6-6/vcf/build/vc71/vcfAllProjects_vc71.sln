@@ -37,7 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Conditions", "..\..\example
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controls", "..\..\examples\Controls\Controls_vc71.vcproj", "{uuidgen: not found}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controls", "..\..\examples\Controls\Controls_vc71.vcproj", "{b8e4ec84-8667-435b-a436-01830630546d}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -87,7 +87,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B} = {4687B23F-F62A-4FD1-BEA9-0EC048748C9B}
 		{9860dc7d-539a-4793-906e-ce9cfd326a01} = {9860dc7d-539a-4793-906e-ce9cfd326a01}
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162} = {DA366BD8-8EA2-4393-9849-C2A4E74F3162}
-		{uuidgen: not found} = {uuidgen: not found}
+		{b8e4ec84-8667-435b-a436-01830630546d} = {b8e4ec84-8667-435b-a436-01830630546d}
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7} = {7EA5507A-C49B-4F94-892E-3CA2CD0589C7}
 		{3B156A14-57D6-4485-8818-DFD99456F391} = {3B156A14-57D6-4485-8818-DFD99456F391}
 		{C23F7734-0900-43A6-8718-3F5F46B6DB61} = {C23F7734-0900-43A6-8718-3F5F46B6DB61}
@@ -129,6 +129,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{3EA1D153-B1AC-4FAF-83DA-96C112E52381} = {3EA1D153-B1AC-4FAF-83DA-96C112E52381}
 		{4312214D-8E26-4707-B32D-28AFE8FF3D0B} = {4312214D-8E26-4707-B32D-28AFE8FF3D0B}
 		{C31405B6-F922-4944-A911-ACE54CAC53FA} = {C31405B6-F922-4944-A911-ACE54CAC53FA}
+		{7a5adc11-11b0-4895-949a-3395b1f062f4} = {7a5adc11-11b0-4895-949a-3395b1f062f4}
 		{F417498C-599C-4995-84FB-2DCD4DB05F4A} = {F417498C-599C-4995-84FB-2DCD4DB05F4A}
 		{0E7EC3DE-E14E-4F71-A9BE-471FE0578493} = {0E7EC3DE-E14E-4F71-A9BE-471FE0578493}
 		{BBC50700-9978-45D1-A60C-3B8D24175BFB} = {BBC50700-9978-45D1-A60C-3B8D24175BFB}
@@ -350,6 +351,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbars", "..\..\examples\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Transformations", "..\..\examples\Transformations\Transformations_vc71.vcproj", "{7a5adc11-11b0-4895-949a-3395b1f062f4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreeListControls", "..\..\examples\TreeListControls\TreeListControls_vc71.vcproj", "{F417498C-599C-4995-84FB-2DCD4DB05F4A}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -444,9 +449,9 @@ Global
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.Debug.ActiveCfg = Debug|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.GTK Debug.ActiveCfg = Debug|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.Release.ActiveCfg = Release|Win32
-		{uuidgen: not found}.Debug.ActiveCfg = Debug|Win32
-		{uuidgen: not found}.GTK Debug.ActiveCfg = Debug|Win32
-		{uuidgen: not found}.Release.ActiveCfg = Release|Win32
+		{b8e4ec84-8667-435b-a436-01830630546d}.Debug.ActiveCfg = Debug|Win32
+		{b8e4ec84-8667-435b-a436-01830630546d}.GTK Debug.ActiveCfg = Debug|Win32
+		{b8e4ec84-8667-435b-a436-01830630546d}.Release.ActiveCfg = Release|Win32
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}.Debug.ActiveCfg = Debug|Win32
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}.GTK Debug.ActiveCfg = Debug|Win32
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}.Release.ActiveCfg = Release|Win32
@@ -627,6 +632,9 @@ Global
 		{C31405B6-F922-4944-A911-ACE54CAC53FA}.Debug.ActiveCfg = Debug|Win32
 		{C31405B6-F922-4944-A911-ACE54CAC53FA}.GTK Debug.ActiveCfg = Debug|Win32
 		{C31405B6-F922-4944-A911-ACE54CAC53FA}.Release.ActiveCfg = Release|Win32
+		{7a5adc11-11b0-4895-949a-3395b1f062f4}.Debug.ActiveCfg = Debug|Win32
+		{7a5adc11-11b0-4895-949a-3395b1f062f4}.GTK Debug.ActiveCfg = Debug|Win32
+		{7a5adc11-11b0-4895-949a-3395b1f062f4}.Release.ActiveCfg = Release|Win32
 		{F417498C-599C-4995-84FB-2DCD4DB05F4A}.Debug.ActiveCfg = Debug|Win32
 		{F417498C-599C-4995-84FB-2DCD4DB05F4A}.GTK Debug.ActiveCfg = Debug|Win32
 		{F417498C-599C-4995-84FB-2DCD4DB05F4A}.Release.ActiveCfg = Release|Win32

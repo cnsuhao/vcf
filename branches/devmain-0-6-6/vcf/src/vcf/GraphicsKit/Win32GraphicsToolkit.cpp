@@ -126,7 +126,7 @@ double Win32GraphicsToolkit::internal_getDPI( GraphicsContext* context )
 	else {
 		result = (double) GetDeviceCaps( (HDC)context->getPeer()->getContextID(), LOGPIXELSY );
 	}
-	return 0.0;
+	return result;
 }
 
 PrintSessionPeer* Win32GraphicsToolkit::internal_createPrintSessionPeer()
@@ -220,6 +220,11 @@ GraphicsResourceBundlePeer* Win32GraphicsToolkit::internal_createGraphicsResourc
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/08/31 04:12:13  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.3  2004/08/27 03:50:48  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe

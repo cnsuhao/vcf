@@ -9,7 +9,8 @@ using namespace VCF;
 
 PrintSession::PrintSession():
 	peer_(NULL),
-	errorDuringPrinting_(false)
+	errorDuringPrinting_(false),
+	currentPage_(PrintSession::UnknownPage)
 {	
 	peer_ = GraphicsToolkit::createPrintSessionPeer();
 	if ( NULL == peer_ ) {
@@ -105,7 +106,7 @@ PrintContext* PrintSession::beginPrintingDocument()
 
 	result->setViewableBounds( getPageDrawingRect() );
 
-	PrintEvent event( this, result, PrintingBegunEvent );
+	PrintEvent event( this, result, PrintSession::UnknownPage, PrintingBegunEvent );
 	PrintingBegun.fireEvent( &event );
 
 	return result;
@@ -116,7 +117,7 @@ void PrintSession::endPrintingDocument()
 	try {
 		peer_->endPrintingDocument();
 
-		PrintEvent event( this, NULL, PrintingFinishedEvent );
+		PrintEvent event( this, NULL, PrintSession::UnknownPage, PrintingFinishedEvent );
 		PrintingFinished.fireEvent( &event );
 	}
 	catch ( BasicException& ) {
@@ -128,7 +129,7 @@ void PrintSession::beginPage( PrintContext* context )
 {
 	try {
 		peer_->beginPage( context );
-		PrintEvent event( this, context, PageBegunEvent );
+		PrintEvent event( this, context, currentPage_, PageBegunEvent );
 		PageBegun.fireEvent( &event );
 	}
 	catch ( BasicException& ) {
@@ -140,7 +141,7 @@ void PrintSession::endPage( PrintContext* context )
 {
 	try {
 		peer_->endPage( context );
-		PrintEvent event( this, context, PageDoneEvent );
+		PrintEvent event( this, context, currentPage_, PageDoneEvent );
 		PageDone.fireEvent( &event );
 	}
 	catch ( BasicException& ) {
@@ -151,6 +152,32 @@ void PrintSession::endPage( PrintContext* context )
 void PrintSession::runDefaultPrintLoop() 
 {
 	errorDuringPrinting_ = false;
+
+	currentPage_ = PrintSession::UnknownPage;
+
+	int firstPage = this->getStartPage();
+	int lastPage = this->getEndPage();
+
+
+	PrintContext* printCtx = beginPrintingDocument();
+	if ( NULL == printCtx ) {
+		throw RuntimeException( MAKE_ERROR_MSG_2("Failed to create a Printer Context") );
+	}
+
+	int page = firstPage;
+	do {
+
+		currentPage_ = page;
+
+		beginPage( printCtx );
+
+		endPage( printCtx );
+		
+		page++;
+	} while ( page != lastPage );
+
+
+	endPrintingDocument();
 }
 
 

@@ -230,6 +230,7 @@ class HiResClock {
 public:
 
 	HiResClock(){
+		QueryPerformanceFrequency( &frequency_ );
 		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
 		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
 	}
@@ -254,12 +255,10 @@ public:
 	}
 
 	double duration() const {
-		LARGE_INTEGER frequency;
-		QueryPerformanceFrequency( &frequency );
-
 		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency.LowPart;
 	}
 protected:
+	LARGE_INTEGER frequency_;
 	LARGE_INTEGER performanceCounter1_;
 	LARGE_INTEGER performanceCounter2_;
 private:
@@ -751,6 +750,11 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/08/31 04:12:10  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.3  2004/08/07 02:47:30  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

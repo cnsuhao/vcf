@@ -21,6 +21,7 @@ ControlGraphicsContext::ControlGraphicsContext( Control* control )
 	}
 	contextPeer_->setContext( this );
 	setOwningControl( control );
+	currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
 ControlGraphicsContext::~ControlGraphicsContext()
@@ -48,6 +49,11 @@ void ControlGraphicsContext::setOwningControl( Control* owningComponent )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

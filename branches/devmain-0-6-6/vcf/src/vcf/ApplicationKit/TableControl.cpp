@@ -288,7 +288,7 @@ void TableControl::paint( GraphicsContext * context )
 						rect.left_ = rect.right_+1;
 						rect.right_ = rect.left_ + colWidth-1;
 
-						StringUtils::traceWithArgs( "Cliprect: %s\n", clipRect.toString().c_str() );
+						//StringUtils::traceWithArgs( "Cliprect: %s\n", clipRect.toString().c_str() );
 
 						if (rect.left_ > clipRect.right_ ) {
 							break;        // gone past cliprect
@@ -2312,6 +2312,11 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

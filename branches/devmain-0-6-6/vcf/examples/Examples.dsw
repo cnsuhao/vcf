@@ -117,6 +117,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Controls"=".\Controls\Controls.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "CopyAndPaste"=".\CopyAndPaste\CopyAndPaste.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -258,6 +270,9 @@ Package=<4>
     Project_Dep_Name Conditions
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Controls
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name CopyAndPaste
     End Project Dependency
     Begin Project Dependency
@@ -379,6 +394,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Toolbars
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Transformations
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TreeListControls
@@ -886,6 +904,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Toolbars"=".\Toolbars\Toolbars.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Transformations"=".\Transformations\Transformations.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

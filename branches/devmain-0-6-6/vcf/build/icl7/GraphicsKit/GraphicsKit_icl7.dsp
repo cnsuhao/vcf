@@ -330,10 +330,12 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Stroke.h
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Vector2D.cpp
 # End Source File
+
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Vector2D.h
 # End Source File
+
 # End Group
 # Begin Group "Peers"
 
@@ -382,9 +384,14 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Win32Image.cpp
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Win32Image.h
 # End Source File
+
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\Win32PrintSession.h
 # End Source File
 # End Group
 # End Target

@@ -112,6 +112,10 @@ SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_affine_matrix.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_arc.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_bspline.cpp
 # End Source File
 # Begin Source File

@@ -268,6 +268,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Frame.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			</File>
 			<File
@@ -338,6 +341,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\View.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.h">
@@ -565,6 +571,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\VFFOutputStream.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.cpp">
@@ -1308,12 +1317,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenuPeer.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\PrintContextPeer.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\PrintPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStreamPeer.h">

@@ -60,6 +60,7 @@ class ComboBoxControl;
 class CommandButton;
 class CommonFileDialogPeer;
 class CommonColorDialogPeer;
+class CommonPrintDialogPeer;
 class Color;
 class Clipboard;
 class GraphicsToolkit;
@@ -250,6 +251,9 @@ public:
 	static CommonColorDialogPeer* createCommonColorDialogPeer( Control* owner );
 
 	static CommonFontDialogPeer* createCommonFontDialogPeer( Control* owner );
+
+	static CommonPrintDialogPeer* createCommonPrintDialogPeer( Control* owner );
+	
 
 	static DesktopPeer* createDesktopPeer( Desktop* desktop );
 
@@ -446,6 +450,8 @@ protected:
 
 	virtual CommonFontDialogPeer* internal_createCommonFontDialogPeer( Control* owner ) = 0;
 
+	virtual CommonPrintDialogPeer* internal_createCommonPrintDialogPeer( Control* owner ) = 0;
+
 	virtual DesktopPeer* internal_createDesktopPeer( Desktop* desktop ) = 0;
 
 	virtual ScrollPeer* internal_createScrollPeer( Control* control ) = 0;
@@ -560,6 +566,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 04:12:12  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
 *Revision 1.2.2.1  2004/08/18 21:20:24  ddiego
 *added initial system tray code for win32
 *

@@ -14,13 +14,13 @@ using namespace VCF;
 Win32PrintSession::Win32PrintSession():
 	printerDC_(0)
 {
-	memset( &info_, 0, sizeof(info_) );
+	
 
-	info_.cbSize = sizeof(info_);
+	printInfo_.docInfo_.cbSize = sizeof(printInfo_.docInfo_);
 
-	memset( &printDlg_, 0, sizeof(printDlg_) );
-	printDlg_.lStructSize = sizeof(printDlg_);
-	printDlg_.Flags |= PD_RETURNDEFAULT;
+	
+	printInfo_.printDlg_.lStructSize = sizeof(printInfo_.printDlg_);
+	printInfo_.printDlg_.Flags |= PD_RETURNDEFAULT;
 }
 
 Win32PrintSession::~Win32PrintSession()
@@ -46,13 +46,13 @@ BOOL CALLBACK Win32PrintSession::AbortProc( HDC hdc, int iError )
 
 void Win32PrintSession::setDefaultPageSettings()
 {
-	printDlg_.Flags |= PD_RETURNDEFAULT;
-	::PrintDlg( &printDlg_ );
+	printInfo_.printDlg_.Flags |= PD_RETURNDEFAULT;
+	::PrintDlg( &printInfo_.printDlg_ );
 
-	LPDEVNAMES devNamesPtr = (LPDEVNAMES)::GlobalLock(printDlg_.hDevNames);
+	LPDEVNAMES devNamesPtr = (LPDEVNAMES)::GlobalLock(printInfo_.printDlg_.hDevNames);
 	LPDEVMODE  devModePtr = NULL;
-	if ( NULL != printDlg_.hDevMode ) {
-		devModePtr = (LPDEVMODE)::GlobalLock(printDlg_.hDevMode);
+	if ( NULL != printInfo_.printDlg_.hDevMode ) {
+		devModePtr = (LPDEVMODE)::GlobalLock(printInfo_.printDlg_.hDevMode);
 	}
 
 
@@ -68,15 +68,15 @@ void Win32PrintSession::setDefaultPageSettings()
 					  (LPCTSTR)devNamesPtr + devNamesPtr->wOutputOffset,
 					  devModePtr);
 
-	::GlobalUnlock(printDlg_.hDevNames);
+	::GlobalUnlock(printInfo_.printDlg_.hDevNames);
 
-	if ( NULL != printDlg_.hDevMode ) {
+	if ( NULL != printInfo_.printDlg_.hDevMode ) {
 
-		::GlobalUnlock(printDlg_.hDevMode);
+		::GlobalUnlock(printInfo_.printDlg_.hDevMode);
 	}
 	
 
-	info_.lpszDocName = "Untitled";
+	printInfo_.docInfo_.lpszDocName = "Untitled";
 
 	printerDC_ = hDC;
 
@@ -91,20 +91,20 @@ void Win32PrintSession::setDefaultPageSettings()
 
 	DPtoLP( printerDC_, (LPPOINT)&r, 2 );
 
-	pageSize_.width_ = r.right - r.left;
-	pageSize_.height_ = r.bottom - r.top;
+	printInfo_.pageSize_.width_ = r.right - r.left;
+	printInfo_.pageSize_.height_ = r.bottom - r.top;
 
-	startPage_ = 1;
-	endPage_ = 1;
+	printInfo_.startPage_ = 1;
+	printInfo_.endPage_ = 1;
 
-	pageDrawingRect_.setRect( 0, 0, pageSize_.width_, pageSize_.height_ );
+	printInfo_.pageDrawingRect_.setRect( 0, 0, printInfo_.pageSize_.width_, printInfo_.pageSize_.height_ );
 
 }
 
 Size Win32PrintSession::getPageSize()
 {
 	Size result;
-	return pageSize_;
+	return printInfo_.pageSize_;
 }
 
 void Win32PrintSession::setPageSize( const Size& pageSize )
@@ -124,7 +124,7 @@ void Win32PrintSession::setStartPage( const ulong32& startPage )
 
 ulong32 Win32PrintSession::getStartPage()
 {
-	return startPage_;
+	return printInfo_.startPage_;
 }
 
 void Win32PrintSession::setEndPage( const ulong32& endPage )
@@ -134,27 +134,33 @@ void Win32PrintSession::setEndPage( const ulong32& endPage )
 
 ulong32 Win32PrintSession::getEndPage()
 {
-	return endPage_;
+	return printInfo_.endPage_;
 
 }
 Rect Win32PrintSession::getPageDrawingRect()
 {	
-	return pageDrawingRect_;
+	return printInfo_.pageDrawingRect_;
 }
 
 void Win32PrintSession::setPageDrawingRect( const Rect& drawingRect )
 {
-	pageDrawingRect_ = drawingRect;
+	printInfo_.pageDrawingRect_ = drawingRect;
 }
 
 PrintInfoHandle Win32PrintSession::getPrintInfoHandle()
 {
-	return NULL;
+	return (PrintInfoHandle)&printInfo_;
 }
 
 void Win32PrintSession::setPrintInfoHandle( PrintInfoHandle info )
 {
+	Win32PrintInfo* infoPtr = (Win32PrintInfo*)info;
 
+	if ( NULL != infoPtr ) {
+		printInfo_ = *infoPtr;
+
+		printerDC_ = printInfo_.printDlg_.hDC;
+	}
 }
 
 void Win32PrintSession::abort()
@@ -164,7 +170,7 @@ void Win32PrintSession::abort()
 
 PrintContext* Win32PrintSession::beginPrintingDocument()
 {
-	if ( !::StartDoc( printerDC_, &info_ ) ) {
+	if ( !::StartDoc( printerDC_, &printInfo_.docInfo_ ) ) {
 		//throw exception???		
 		return NULL;
 	}
