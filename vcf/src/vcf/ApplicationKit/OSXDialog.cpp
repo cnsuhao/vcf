@@ -45,7 +45,18 @@ WindowAttributes OSXDialog::getCreationWinAttrs()
 
 WindowClass OSXDialog::getCreationWinClass()
 {
-	return kMovableModalWindowClass;
+	/*
+	Dialog* dialog = (Dialog*)control_;
+	if ( NULL != dialog ) {
+		if ( dialog->isSheetModal() ) {
+			return kSheetAlertWindowClass;
+		}
+		else if ( dialog->isModal() ) {
+			return kMovableModalWindowClass;
+		}
+	}
+	*/
+	return kDocumentWindowClass;
 }
 
 void OSXDialog::createAsSheetWindow()
@@ -531,14 +542,20 @@ OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 							if ( isWindowSheet_ ) {
 								HideSheetWindow( windowRef_ );
 							}
-						
+							result = ::CallNextEventHandler( nextHandler, theEvent );
+																			
 							//EventLoopRef currentLoop = GetCurrentEventLoop();
 							QuitAppModalLoopForWindow( windowRef_ );
                         }
-						
-						
-						
-						result = ::CallNextEventHandler( nextHandler, theEvent );
+						else if ( dlg->isSheetModal() ) {
+							if ( isWindowSheet_ ) {
+								HideSheetWindow( windowRef_ );
+							}
+							result = ::CallNextEventHandler( nextHandler, theEvent );							
+						}
+						else {						
+							result = ::CallNextEventHandler( nextHandler, theEvent );
+						}
 
                     }
 					else {
@@ -559,6 +576,9 @@ OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/30 20:27:26  ddiego
+*added osx color dialog and browse for folder dialog
+*
 *Revision 1.2.2.4  2004/10/28 03:34:16  ddiego
 *more dialog updates for osx
 *

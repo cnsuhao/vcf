@@ -18,6 +18,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXLightweightControl.h"
 #include "vcf/ApplicationKit/OSXDialog.h"
 #include "vcf/ApplicationKit/OSXButton.h"
+#include "vcf/ApplicationKit/OSXColorDialog.h"
+#include "vcf/ApplicationKit/OSXFolderBrowseDialog.h"
 
 #define kSleepTime	32767
 
@@ -775,12 +777,12 @@ CommonFileDialogPeer* OSXUIToolkit::internal_createCommonFileSaveDialogPeer( Con
 
 CommonColorDialogPeer* OSXUIToolkit::internal_createCommonColorDialogPeer( Control* owner )
 {
-    return NULL;
+    return new OSXColorDialog( owner );
 }
 
 CommonFolderBrowseDialogPeer* OSXUIToolkit::internal_createCommonFolderBrowseDialogPeer( Control* owner )
 {
-    return NULL;
+    return new OSXFolderBrowseDialog( owner );
 }
 
 CommonFontDialogPeer* OSXUIToolkit::internal_createCommonFontDialogPeer( Control* owner )
@@ -2092,6 +2094,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/30 20:27:26  ddiego
+*added osx color dialog and browse for folder dialog
+*
 *Revision 1.2.2.4  2004/10/27 03:11:40  ddiego
 *integrated chrisk changes
 *
