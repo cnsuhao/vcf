@@ -1395,6 +1395,10 @@ SOURCE=..\..\..\include\core\Document.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\DocumentBasedApplication.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\DocumentManager.cpp
 # End Source File
 # Begin Source File
