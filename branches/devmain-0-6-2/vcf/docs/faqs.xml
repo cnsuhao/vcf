@@ -50,6 +50,7 @@ NB: This software will not save the world.
 about that? I just saw the installer telling me you own the copyright, is that so?</para>
 			</question>
 			<answer>
+
 				<para>The VCF license is a BSD license. The only restriction is that
 				the copyright notice may not be stripped out from the source, and
 				you need to give credit to the project and or author(s). Beyond
@@ -100,7 +101,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>Yes. There are no restrictions made on how the VCF is 
-				used. It can used in both OSS and commercial/proprietary projects.</para>
+				used. It can used in both OSS and commercial/proprietary projects.
+				</para>
 			</answer>
 			
 			<question>
@@ -135,7 +137,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				is not a 5 minute job. It would partially depend on what features of MFC you make use of
 				and how you built your app. Many of the function names are different or subtly different.
 				The basic core concepts are pretty much the same, but the fundamental design of the two
-				frameworks is quite different.</para>
+				frameworks is quite different.
+				</para>
 			</answer>
 			<question>
 				<para>What platforms and/or compilers does the VCF support?</para>
@@ -1190,6 +1193,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.8  2003/10/22 21:14:37  ddiego
+adjusted the xsl stylesheet so it works with new version of xsltproc
+
 Revision 1.1.2.7  2003/10/06 04:25:56  ddiego
 updated foundationkit docs
 

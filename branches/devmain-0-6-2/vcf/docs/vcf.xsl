@@ -29,10 +29,11 @@ NB: This software will not save the world.
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	        version="1.0">
  
+ 
  <!--
  this uses a local path - may need to be modified for others
- -->
-	<xsl:import href="d:/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
+ --> 
+	<xsl:import href="d:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
@@ -341,9 +342,40 @@ will be replaced by a sed script in tyhe makefile
 	<!-- 
 	What follows are the header and footer customizations for the vcf docbook
 	-->	
+	<!--
 	<xsl:template name="user.header.navigation">	
 	<![CDATA[	
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
+
+	]]>
+	</xsl:template>
+	-->
+	
+	<!--
+	<xsl:template name="user.footer.navigation">	
+	<![CDATA[
+		
+	]]>	 
+	</xsl:template>
+-->
+
+<xsl:template name="chunk-element-content">
+  <xsl:param name="prev"/>
+  <xsl:param name="next"/>
+  <xsl:param name="nav.context"/>
+  <xsl:param name="content">
+    <xsl:apply-imports/>
+  </xsl:param>
+
+  <html>
+    <xsl:call-template name="html.head">
+      <xsl:with-param name="prev" select="$prev"/>
+      <xsl:with-param name="next" select="$next"/>
+    </xsl:call-template>
+
+    <body>
+      <xsl:call-template name="body.attributes"/>
+	  
+	  <table width="100%" border="0" cellpadding="0" cellspacing="0">
  <tr>
   <td class="logoCell" width="400" height="80" valign="top">
    <table width="400" border="0" cellpadding="0" cellspacing="0">
@@ -356,7 +388,7 @@ will be replaced by a sed script in tyhe makefile
   <td class="logoCell" width="100%" valign="top">
    <table width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
-     <td width="100%" height="80" valign="top">&nbsp;</td>
+     <td width="100%" height="80" valign="top">&#160;</td>
     </tr>
    </table>
   </td>
@@ -372,53 +404,57 @@ will be replaced by a sed script in tyhe makefile
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
  <tr>
   <td class="topCell" width="100%" height="20" align="right" valign="middle">
-   &nbsp;&nbsp;
+   &#160;&#160;
    <a class="topLink" href="http://vcf.sourceforge.net/index.php">The VCF Website Home</a>
-   &nbsp;&nbsp;|&nbsp;&nbsp;
+   &#160;&#160;|&#160;&#160;
    <a class="topLink" href="http://vcf.sourceforge.net/forums/">Online Discussion Forums</a>
-   &nbsp;&nbsp;|&nbsp;&nbsp;	
+   &#160;&#160;|&#160;&#160;	
    <a class="topLink" href="http://sourceforge.net/projects/vcf/">Sourceforge.net Project Page</a>
-   &nbsp;&nbsp;
+   &#160;&#160;
   </td>
  </tr>
 </table>
 <table align="center" width="95%" 
   border="0" cellpadding="0" cellspacing="0"><tr><td 
   width="100%" height="1" valign="top">
-	]]>	
-	</xsl:template>
-	
-	<xsl:template name="user.footer.navigation">	
-	<![CDATA[
-	</td></tr></table>
+  
+      <xsl:call-template name="user.header.navigation"/>
+
+      <xsl:call-template name="header.navigation">
+	<xsl:with-param name="prev" select="$prev"/>
+	<xsl:with-param name="next" select="$next"/>
+	<xsl:with-param name="nav.context" select="$nav.context"/>
+      </xsl:call-template>
+
+      <xsl:call-template name="user.header.content"/>
+
+      <xsl:copy-of select="$content"/>
+
+      <xsl:call-template name="user.footer.content"/>
+	  
+</td></tr></table>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
  <tr>
   <td class="footerCell" width="100%" height="1" align="center" valign="middle">
-   &nbsp;&nbsp;
+   &#160;&#160;
    <a class="footerLink" href="http://vcf.sourceforge.net/comments.php">Comments or Suggestions?</a>   
-   &nbsp;&nbsp;
+   &#160;&#160;
    <a class="footerLink" href="http://vcf.sourceforge.net/license.php">License Information</a>
-   &nbsp;&nbsp;
+   &#160;&#160;
   </td>
  </tr>
 </table>
-]]>
-	
-	
-	<!-- 
-	HACK ALLERT!!!!!!
-	These stupid image tags are here because the hhc html help compiler does not pick up
-	images referenced in the css file. it DOES pick img image references, so we need to 
-	create an img tag for each image that the css file needs
-	-->
-	<!--
-	<img border="0" src="gfx/greybg.jpg" width="0" height="0"/>
-	 <img border="0" src="gfx/left-mangle.jpg" width="0" height="0"/>
-	 -->
-	 
-	</xsl:template>
 
+      <xsl:call-template name="footer.navigation">
+	<xsl:with-param name="prev" select="$prev"/>
+	<xsl:with-param name="next" select="$next"/>
+	<xsl:with-param name="nav.context" select="$nav.context"/>
+      </xsl:call-template>
 
+      <xsl:call-template name="user.footer.navigation"/>
+    </body>
+  </html>
+</xsl:template>
 
 
 </xsl:stylesheet>
@@ -426,6 +462,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.7  2003/10/22 21:14:37  ddiego
+adjusted the xsl stylesheet so it works with new version of xsltproc
+
 Revision 1.5.2.6  2003/10/06 04:25:56  ddiego
 updated foundationkit docs
 

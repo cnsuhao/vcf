@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.8  2003/10/22 21:14:37  ddiego
+#adjusted the xsl stylesheet so it works with new version of xsltproc
+#
 #Revision 1.5.2.7  2003/10/22 03:56:43  ddiego
 #added two more tutorials for advanced alignment and another for anchors
 #also finished off the alignment tutorial. yay :)
@@ -67,8 +70,8 @@ VCFB_VERSION = 1.0.5
 XMAKE_VERSION = 1.0.5
 
 
-HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
-XSL_DOCBOOK_DIR = "d:/docbook-xsl-1.60.1"
+HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
+XSL_DOCBOOK_DIR = "d:/code/docbook-xsl-1.60.1"
 XSL_HTMLHELP_IMPORT = "$(XSL_DOCBOOK_DIR)/htmlhelp/htmlhelp.xsl"
 XSL_HTML_IMPORT = "$(XSL_DOCBOOK_DIR)/html/docbook.xsl"
 
@@ -180,7 +183,7 @@ coredocs-fo :  $(VCF_DOCS) test_tools
 	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
 	cp vcf_book.xml vcf_book.xml.bak
 	mv vcf_book.xml.tmp vcf_book.xml
-	xsltproc --nonet -o vcfbook.fo $(XSL_DOCBOOK_DIR)/tei/docbook.xsl vcf_docbook.xml	
+	xsltproc --nonet -o vcfbook.fo $(XSL_DOCBOOK_DIR)/fo/docbook.xsl vcf_docbook.xml	
 	mv vcf_book.xml.bak vcf_book.xml
 
 coredocs_online :  $(VCF_DOCS) test_tools 
