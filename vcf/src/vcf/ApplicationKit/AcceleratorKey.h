@@ -66,7 +66,7 @@ public:
 	*specific alpha numeric key, like "V", or "1" or "F1"
 	*@return ulong32 the keycode for this AcceleratorKey
 	*/
-	ulong32 getKeyCode() {
+	ulong32 getKeyCode() const {
 		return keyCode_;
 	}
 
@@ -75,7 +75,7 @@ public:
 	*modifier mask may be made up of any combination
 	*of the Ctrl, Shift, and Alt keys.
 	*/
-	ulong32 getModifierMask() {
+	ulong32 getModifierMask() const {
 		return modifierMask_;
 	}
 
@@ -140,6 +140,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 18:17:53  marcelloptr
+*added const specifier to two getters
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
