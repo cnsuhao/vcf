@@ -6090,7 +6090,7 @@ class DspFile( GenericProjectFile ):
 
     def fixFilenameSubdir( self, entryValue, outputDir, oldCompiler, newCompiler, appType, isDebug, config_name ):
         pf = entryValue
-        
+
         sep = FileUtils.getNormSep( app.options.unixStyle )
 
         pf = StringUtils.replace( pf, 'debug' + sep, '', True )
@@ -6754,7 +6754,7 @@ class DspFile( GenericProjectFile ):
                     self.warning_done_dirs_different_between_cfgs = True
                     temp = self.OutputDirOut.lower().replace( self.configNameList[self.nCfg].lower(), self.configNameList[0].lower() )
                     if ( temp != self.OutputDirOutList[0].lower() ):
-                        #if ( not self.isInProjectsOutSameDirAsOutputDirList() ): # commented this if the 2004/12/14 is this correct ?
+                        #if ( self.isInProjectsOutSameDirAsOutputDirList() ): # commented this if the 2004/12/14 is this correct ?
                         print '  Warning!: the project \'%s\' has a LINK32 /out: directory \'%s\' for the config \'%s\' not corresponding with the directory \'%s\' for the config \'%s\'.' % ( os.path.basename(self.filename), self.OutputDirOutList[self.nCfg], self.configNameList[self.nCfg], self.OutputDirOutList[0], self.configNameList[0] )
 
             if ( self.appType == enumAppTypeExe ):
