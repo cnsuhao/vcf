@@ -162,13 +162,14 @@ public:
 		if ( NULL != currentImage_ ) {
 			delete currentImage_;
 			currentImage_ = NULL;
-			/* hide the scrollbars of the main window 
-			as the scrollbars of the listbox will be use */
-			scrollBarMgr_->setHasHorizontalScrollbar( false );
-			scrollBarMgr_->setHasVerticalScrollbar( false );
-			updateMenuHasHorzScrollbar();
-			updateMenuHasVertScrollbar();
 		}
+
+		/* hide the scrollbars of the main window 
+		as the scrollbars of the listbox will be use */
+		scrollBarMgr_->setHasHorizontalScrollbar( false );
+		scrollBarMgr_->setHasVerticalScrollbar( false );
+		updateMenuHasHorzScrollbar();
+		updateMenuHasVertScrollbar();
 
 		//add a ListBoxControl
 		listBox_ = new ListBoxControl();		
@@ -181,6 +182,7 @@ public:
 		scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
 		scrollbarManagerSingle->setTarget( listBox_ );
 		scrollbarManagerSingle->setKeepScrollbarsVisible( true, true );
+		scrollbarManagerSingle->setVirtualViewVertStep( 17 );
 		
 		this->add( listBox_, AlignClient );
 		
@@ -347,6 +349,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.10  2004/09/21 22:47:50  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.4.2.9  2004/09/21 22:26:28  marcelloptr
 *added setVirtualViewStep functions for the scrollbars and other minor changes
 *
