@@ -17,20 +17,20 @@ of the FoundationKit.
 
 #define __FF__(x) \
     String(x) + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__)\
-    
-    
+
+
 
 using namespace VCF;
 
 int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
-    
+
     String t2 = String("asdasdasd") + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__);
     StringUtils::trace( __FF__("sdfsdfsdfsd") );
 
     StringUtils::trace(  "Assertion failure: " + t2 );
-		
+
 	/**
 	retrieve the current time
 	*/
@@ -189,6 +189,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/05/15 17:59:36  marcelloptr
+*minor project changes
+*
 *Revision 1.2.2.5  2004/05/03 03:44:52  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

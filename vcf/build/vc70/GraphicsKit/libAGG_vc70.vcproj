@@ -58,7 +58,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\lib/"
+			OutputDirectory="..\..\..\lib/"
 			IntermediateDirectory=".\vc70\Debug/"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -104,7 +104,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\lib/"
+			OutputDirectory="..\..\..\lib/"
 			IntermediateDirectory=".\vc70\Release/"
 			ConfigurationType="4"
 			UseOfMFC="0"
