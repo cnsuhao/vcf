@@ -130,8 +130,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.1  2004/12/22 03:33:29  marcelloptr
-*just reformattig
+*Revision 1.2.4.2  2004/12/22 03:35:21  marcelloptr
+*just reformatting
 *
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
