@@ -2,6 +2,13 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.11  2003/12/08 05:05:27  ddiego
+#added a bunch more documentation to classes, and added support for new doc
+#keywords (@delegates, @del, @delegate, @event, and @eventtype). This
+#makes it easier to see at a glance what events a class fires off.
+#Added finishing touches for the Action implementation and have a partially
+#complete example for this checked in.
+#
 #Revision 1.5.2.10  2003/11/23 15:14:05  ddiego
 #added more docs, and updated to account for new Dictionary tutorial
 #
@@ -69,7 +76,7 @@
 
 
 #This is the version number for the core VCF - make sure to modify this for new releases
-VERSION = 0.6.2
+VERSION = 0.6.3
 
 #version number for the VCF Builder
 VCFB_VERSION = 1.0.5
@@ -105,14 +112,15 @@ VERSIONED_SRC_CHI_FILENAME = VCFSrcDocs.$(VERSION).chi
 
 HTML_TAR_FILENAME = VCFDocs-$(VERSION).tar
 HTML_ONLINE_TAR_FILENAME = VCFDocs-online-$(VERSION).tar
+HTML_ONLINE_SRC_TAR_FILENAME = VCFDocs-src-online-$(VERSION).tar
 
 
-ONLINE_SRC_DOC_DIR = srcdocs
-ONLINE_DOCS_REF_DIR = docs/ref
+ONLINE_SRC_DOC_DIR = src_manual
+ONLINE_DOCS_DIR = ref_manual
 
 UPLOADS_DIR	= ../uploadToSF
 
-FULL_ONLINE_SRC_DOC_DIR = $(ONLINE_DOCS_REF_DIR)/$(ONLINE_SRC_DOC_DIR)
+#FULL_ONLINE_SRC_DOC_DIR = $(ONLINE_DOCS_REF_DIR)/$(ONLINE_SRC_DOC_DIR)
 
 
 VCF_DOCS = corelib_FAQ.xml \
@@ -587,7 +595,7 @@ dist_online : coredocs_online
 	find gfx/ -type f -name '*' > images.out
 	cat files.out images.out > all.out
 	echo Creating tar file...
-	tar -cf $(HTML_ONLINE_TAR_FILENAME) -T all.out
+	tar -cf $(HTML_ONLINE_TAR_FILENAME) vcf.css -T all.out
 	rm -f $(HTML_ONLINE_TAR_FILENAME).gz
 	gzip $(HTML_ONLINE_TAR_FILENAME)
 	echo HTML files tarred and compressed as $(HTML_ONLINE_TAR_FILENAME).gz		
@@ -596,37 +604,20 @@ dist_online : coredocs_online
 	rm images.out
 
 
-dist_all_online : alldocs_online online_doxy
-	-mkdir docs
-	-mkdir $(ONLINE_DOCS_REF_DIR)
-	-mkdir $(FULL_ONLINE_SRC_DOC_DIR)
-	cp doxy_html/*.htm* $(FULL_ONLINE_SRC_DOC_DIR)/
-	-mkdir gfx_bak
-	cp gfx/*.* gfx_bak/
-	rm -f gfx/*.*
-	cp doxy_html/*.png gfx/
-	
-	cp *.html $(ONLINE_DOCS_REF_DIR)/
-	find $(ONLINE_DOCS_REF_DIR)/*.html > files.out
-	find gfx/ -type f -name '*' > images.out
-	find $(FULL_ONLINE_SRC_DOC_DIR)/ -type f -name '*.html' > srcdocs.out
-	cat files.out images.out srcdocs.out > all.out
+dist_doxy_online : online_doxy  	
 	echo Creating tar file...
-	tar -cf $(HTML_ONLINE_TAR_FILENAME) -T all.out
-	rm -f $(HTML_ONLINE_TAR_FILENAME).gz
-	gzip $(HTML_ONLINE_TAR_FILENAME)
-	echo HTML files tarred and compressed as $(HTML_ONLINE_TAR_FILENAME).gz		
-	rm all.out
-	rm files.out
-	rm images.out
-	rm srcdocs.out
-	rm -rf $(FULL_ONLINE_SRC_DOC_DIR)	
-	rm -r gfx/*.*
-	cp gfx_bak/*.* gfx/ 
-	rm -rf gfx_bak/
+	cd doxy_html; tar -cf ../$(HTML_ONLINE_SRC_TAR_FILENAME) ./
+	rm -f $(HTML_ONLINE_SRC_TAR_FILENAME).gz	
+	gzip $(HTML_ONLINE_SRC_TAR_FILENAME)
+	echo HTML files tarred and compressed as $(HTML_ONLINE_SRC_TAR_FILENAME).gz			
+
+#alldocs_online online_doxy
+dist_all_online : dist_online dist_doxy_online
+	
 	if ( test -d $(UPLOADS_DIR) )\
 	then \
 		mv $(HTML_ONLINE_TAR_FILENAME).gz $(UPLOADS_DIR)/;\
+		mv $(HTML_ONLINE_SRC_TAR_FILENAME).gz $(UPLOADS_DIR)/;\
 	fi
 
 

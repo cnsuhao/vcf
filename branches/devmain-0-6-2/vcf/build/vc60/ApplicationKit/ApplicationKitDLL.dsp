@@ -727,6 +727,10 @@ SOURCE=..\..\..\include\implementerKit\AbstractWin32Component.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementer\ClipboardPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\COMDataObject.cpp
 # End Source File
 # Begin Source File
@@ -996,6 +1000,10 @@ SOURCE=..\..\..\include\events\ButtonEvent.h
 # Begin Source File
 
 SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\events\ClipboardEvent.h
 # End Source File
 # Begin Source File
 
