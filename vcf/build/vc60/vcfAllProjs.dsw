@@ -63,6 +63,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Borders"="..\..\tests\Borders\Borders.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Browser"="..\..\VCFBuilder2\Packages\CPPParser\Browser\Browser.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -147,6 +159,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "DatagramSocketReceiver"="..\..\tests\DatagramSocketTest\DatagramSocketReceiver\DatagramSocketReceiver.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "DatagramSocketSender"="..\..\tests\DatagramSocketTest\DatagramSocketSender\DatagramSocketSender.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Delegates"="..\..\tests\Delegates\Delegates.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -208,6 +244,42 @@ Package=<4>
 ###############################################################################
 
 Project: "EventHandlers"="..\..\tests\EventHandlers\EventHandlers.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "FilePaths"="..\..\tests\FilePaths\FilePaths.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "FileStreaming"="..\..\tests\FileStreaming\FileStreaming.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Files"="..\..\tests\Files\Files.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -507,18 +579,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RTTI"="..\..\tests\RTTI\RTTI.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "RegExx"=".\FoundationKit\RegExx.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -567,6 +627,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "RTTI"="..\..\tests\RTTI\RTTI.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "RTTI"="..\..\RTTI Compiler\RTTI.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "SciLexer"="..\..\VCFBuilder2\Packages\TextEditor\scintilla\vcbuild\SciLexer.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -604,6 +688,18 @@ Package=<4>
 ###############################################################################
 
 Project: "SplashTest"="..\..\tests\SplashTest\SplashTest.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SystemStuff"="..\..\tests\SystemStuff\SystemStuff.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -843,7 +939,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "XmlMain"="..\..\tests\XmlTest\xmltest.dsp" - Package Owner=<4>
+Project: "XmlTest"="..\..\tests\XmlTest\xmltest.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -856,6 +952,18 @@ Package=<4>
 ###############################################################################
 
 Project: "ZLib"="..\..\ImageFormats\FreeImage\Source\ZLib\ZLib.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libXmake"="..\..\xmake\libXmake.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
