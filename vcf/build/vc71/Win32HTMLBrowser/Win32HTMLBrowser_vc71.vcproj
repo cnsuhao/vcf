@@ -28,7 +28,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc71\Debug\Win32HTMLBrowser_vc71.pch"
+				PrecompiledHeaderFile=".\vc71\Debug\Win32HTMLBrowser_vc71_d.pch"
 				AssemblerListingLocation=".\vc71\Debug\"
 				ObjectFile=".\vc71\Debug\"
 				ProgramDataBaseFileName=".\vc71\Debug\"
@@ -56,7 +56,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc71\Debug\Win32HTMLBrowser_vc71.tlb"
+				TypeLibraryName=".\vc71\Debug\Win32HTMLBrowser_vc71_d.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>

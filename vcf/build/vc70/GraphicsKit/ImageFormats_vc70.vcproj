@@ -26,7 +26,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70\Debug\ImageFormats_vc70.pch"
+				PrecompiledHeaderFile=".\vc70\Debug\ImageFormats_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\Debug\"
 				ObjectFile=".\vc70\Debug\"
 				ProgramDataBaseFileName=".\vc70\Debug\"
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc70\Debug\ImageFormats_vc70.tlb"/>
+				TypeLibraryName=".\vc70\Debug\ImageFormats_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

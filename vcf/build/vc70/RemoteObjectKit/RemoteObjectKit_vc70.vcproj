@@ -87,7 +87,7 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\vc70\Debug\RemoteObjectKit_vc70.pch"
+				PrecompiledHeaderFile=".\vc70\Debug\RemoteObjectKit_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\Debug\"
 				ObjectFile=".\vc70\Debug\"
 				ProgramDataBaseFileName=".\vc70\Debug\"
@@ -114,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\..\lib\RemoteObjectKit_vc70.tlb"/>
+				TypeLibraryName="..\..\..\lib\RemoteObjectKit_vc70_d.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
