@@ -97,6 +97,10 @@ public:
 	*/
 	static bool registerPropertyEditor( const String& editorClassName, const String& className );	
 
+	/**
+	Removes a PropertyEditor with a given class/type name from the
+	list of registered propertyEditors.
+	*/
 	static void removePropertyEditor( const String& className );	
 
 private:
@@ -119,6 +123,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/10 00:10:18  marcelloptr
+*set discrete scrolling as default behaviour for ListBoxControls
+*
 *Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *
