@@ -146,7 +146,7 @@ public:
 	*call this method to post an event. You can override it ot provide
 	*extra behaviour. The default behaviour is to simply pass the event
 	*along to the UIToolkit::postEvent() method. The idea in placing this
-	function here is allow event posting to be bale to happen through
+	function here is allow event posting to be able to happen through
 	*an application where appropriate.
 	*@see UIToolkit::postEvent()
 	*/
@@ -172,6 +172,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/26 22:43:18  ddiego
+*added some docs on event handler and post event mechanics.
+*
 *Revision 1.3.2.1  2004/12/19 07:09:18  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.
