@@ -75,8 +75,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "../../src/xmake
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Localization", "../../examples/Localization/Localization_vc70.vcproj", "{F96DB408-AEA5-45AB-8049-E8415AAAC2A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSDNIntegrator", "../../src/thirdparty/win32/MSDNIntegrator/MSDNIntegrator_vc70.vcproj", "{8705D636-FFCA-4251-9086-715CF435CB05}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MVCBasics", "../../examples/MVCBasics/MVCBasics_vc70.vcproj", "{72023AF0-C2E3-4F47-B725-5D948A0EB3CD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKit", "./NetworkKit/NetworkKit_vc70.vcproj", "{7AA66733-D74C-47B7-B637-6FD488EB30EB}"
@@ -455,12 +453,6 @@ Global
 		{F96DB408-AEA5-45AB-8049-E8415AAAC2A3}.GTK Debug.Build.0 = Debug|Win32
 		{F96DB408-AEA5-45AB-8049-E8415AAAC2A3}.Release.ActiveCfg = Release|Win32
 		{F96DB408-AEA5-45AB-8049-E8415AAAC2A3}.Release.Build.0 = Release|Win32
-		{8705D636-FFCA-4251-9086-715CF435CB05}.Debug.ActiveCfg = Debug|Win32
-		{8705D636-FFCA-4251-9086-715CF435CB05}.Debug.Build.0 = Debug|Win32
-		{8705D636-FFCA-4251-9086-715CF435CB05}.GTK Debug.ActiveCfg = Debug|Win32
-		{8705D636-FFCA-4251-9086-715CF435CB05}.GTK Debug.Build.0 = Debug|Win32
-		{8705D636-FFCA-4251-9086-715CF435CB05}.Release.ActiveCfg = Release|Win32
-		{8705D636-FFCA-4251-9086-715CF435CB05}.Release.Build.0 = Release|Win32
 		{72023AF0-C2E3-4F47-B725-5D948A0EB3CD}.Debug.ActiveCfg = Debug|Win32
 		{72023AF0-C2E3-4F47-B725-5D948A0EB3CD}.Debug.Build.0 = Debug|Win32
 		{72023AF0-C2E3-4F47-B725-5D948A0EB3CD}.GTK Debug.ActiveCfg = Debug|Win32
