@@ -947,6 +947,16 @@ inline void Color::invert() {
 	b_ =  ( 1.0 - b_ );
 }
 
+inline Color Color::getInverted() const {
+	// get the complement color
+	Color color;
+	color.r_ =  ( 1.0 - r_ );
+	color.g_ =  ( 1.0 - g_ );
+	color.b_ =  ( 1.0 - b_ );
+
+	return color;
+}
+
 inline Color* Color::getColor( const int& gray ) {
 	return GraphicsToolkit::getColorFromColormap( gray );
 }
@@ -1946,6 +1956,9 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/11 12:19:17  marcelloptr
+*added missed function
+*
 *Revision 1.2.2.1  2004/08/27 19:55:45  marcelloptr
 *Color changes
 *
