@@ -54,7 +54,7 @@ public:
 	*/
 	virtual String getProcessFileName() = 0;
 
-	virtual ulong32 getHandleID() = 0;
+	virtual OSHandleID getHandleID() = 0;
 
 	virtual ulong32 terminate() = 0;
 };
@@ -65,6 +65,11 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2004/12/19 04:05:01  ddiego
+*made modifications to methods that return a handle type. Introduced
+*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
+*which was causing a problem for 64bit compiles.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

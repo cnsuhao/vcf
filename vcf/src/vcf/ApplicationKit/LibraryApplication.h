@@ -38,10 +38,10 @@ public:
 	*contains all the library's resources, such as
 	*images, strings, or form files, or other custom
 	*data.
-	*@return ResourceBundle* the library's resource bundle
-	*@see ResourceBundle
+	*@return GraphicsResourceBundle* the library's resource bundle
+	*@see GraphicsResourceBundle
 	*/
-	ResourceBundle* getResourceBundle();
+	//GraphicsResourceBundle* getResourceBundle();
 
 	/**
 	*gets a collection of named libraries that have been registered
@@ -75,6 +75,11 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
+*made modifications to methods that return a handle type. Introduced
+*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
+*which was causing a problem for 64bit compiles.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

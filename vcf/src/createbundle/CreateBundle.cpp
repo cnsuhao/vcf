@@ -1,11 +1,92 @@
 ////CreateBundle.cpp
+/**
+createbundle is a little utility that creates a bundle diredtory
+tree. It takes a source directory, a destination directory, and a bundle name. 
+From this it creates the proper bundle directory hierarchy like so:
+ <destination dir>/
+	Desktop.ini (created only for Win32)
+	Contents/
+		Info.plist (copied from <source dir>/Info.plist)
+		<OSName>/
+			<CompilerName>/
+		Resources/
+			<bundle name>.ico (copied from the <source dir>/<bundle name>.ico)
 
+The <destination dir> gets marked as a system folder so that the entries in the Desktop.ini
+file will show the correct icon for the folder.
+
+If you were to execute createbundle -src MyApp -dest release/MyApp.exe -name MyApp
+the following would be created (assuming this is run from Win32, with a VC6 build)
+release/MyApp.exe/
+	Desktop.ini 
+	Contents/
+		Info.plist
+		WindowsNT/
+			VC6/
+		Resources/
+			MyApp.ico 
+
+
+If you are going to use this to "bundle-ize" your executable, you should be 
+sure to have a "Resources" right under the src directory. This directory will
+be copied over into the new <destination dir>/Contents/Resources dir that 
+gets created.
+*/
 #include "vcf/FoundationKit/FoundationKit.h"
 
 using namespace VCF;
 
 
-#define USAGE	"Proper arguments to send to me are:\n\t-src <source dir>\n\t-dest <destination dir>\n\t-bundle <bundle name>"
+#define USAGE	"createbundle usage.\n"\
+				"Proper arguments to send to me are:\n"\
+				"\t-src <source dir>\n"\
+				"\t-dest <destination dir>\n"\
+				"\t-bundle <bundle name>"
+
+
+void copyFiles( const String& src, const String& dest ) 
+{
+	Directory srcDir(src);
+	
+	if ( !File::exists( dest ) ) {
+		//create
+		Directory dir;
+		dir.create( dest, File::ofRead | File::ofWrite );
+	}
+
+	Directory::Finder* finder = srcDir.findFiles( "*.*" );
+	if ( NULL != finder ) {
+		try {
+			finder->setDisplayMode( Directory::Finder::dmAny );
+			FilePath srcName;
+			FilePath destName;
+			while ( finder->nextElement() ) {
+				File* srcFile = finder->getCurrentElement();
+				srcName = srcFile->getName();
+				
+				destName = dest + srcName.getBaseName(true);
+
+				if ( srcFile->isDirectory() ) {
+					srcName = FilePath::makeDirectoryName( srcName );
+					destName = FilePath::makeDirectoryName( destName );
+
+					//ignore nested CVS folders!
+					if ( String::npos == destName.getFileName().find( "CVS/" ) ) {
+						copyFiles( srcName, destName ); 
+					}
+				}
+				else {
+					srcFile->copyTo( destName );
+				}
+			}
+		}
+		catch ( BasicException& e ) {
+			System::errorPrint( &e );
+		}				
+		finder->free();
+	}
+}
+
 
 int main( int argc, char** argv ){
 
@@ -39,10 +120,16 @@ int main( int argc, char** argv ){
 		//expand it completely using the current working dir
 		srcDir = FilePath::makeDirectoryName( srcDir.expandRelativePathName( System::getCurrentWorkingDirectory() ) );
 	}
+	else {
+		srcDir = FilePath::makeDirectoryName( srcDir ); 
+	}
 
 	if ( destDir.isRelativePath() ) {
 		//expand it completely using the current working dir
 		destDir = FilePath::makeDirectoryName( destDir.expandRelativePathName( System::getCurrentWorkingDirectory() ) );
+	}
+	else {
+		destDir = FilePath::makeDirectoryName( destDir ); 
 	}
 
 	String contentDir = destDir + "Contents" + FilePath::getDirectorySeparator();
@@ -101,6 +188,26 @@ int main( int argc, char** argv ){
 					dir.create( binDir, File::ofRead | File::ofWrite );
 				}
 
+
+				//see if we can copy over the Resources dir from our source
+				String srcResDir = srcDir + "Resources/";
+				if ( File::exists( srcResDir ) ) {
+					System::println( "Copying resource files from [" + srcDir + "] to [" + resDir + "]." );
+
+					try {
+						copyFiles( srcResDir, resDir );
+					}
+					catch ( BasicException& e ){
+						System::println( "Copy failed: \n" + e.getMessage() );
+					}
+
+				}
+				else{
+					System::println( "No resource directory found in [" + srcDir + "]." );
+				}
+
+
+
 				String srcIcoFile = srcDir + bundleName + ".ico";
 				String missingIcoFile;
 
@@ -143,6 +250,11 @@ int main( int argc, char** argv ){
 				ts << desktopIni;
 				fs.close();
 
+
+
+				//last step - mark the top level directory as a system dir
+				//so that it picks up the icon specified in the Desktop.ini
+				//file
 				Process proc;
 				String dest = destDir;
 				if ( dest[dest.size()-1] == FilePath::DirectorySeparator ) {

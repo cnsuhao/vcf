@@ -255,11 +255,7 @@ namespace VCF {
 		*/
 		std::vector<String> getPathComponents() const;
 
-
 		
-		
-			
-	public:
 		/**
 		* ensures a path to have the 'DirectorySeparator' as its final character.
 		* Under windows it tests against both the '/' and '\' characters.
@@ -272,8 +268,6 @@ namespace VCF {
 		*/
 		static String makeDirectoryName( const String& fullname, const bool& remove = false );
 		
-		
-	public:
 		
 		/**
 		* Split a full fullname into its drive and path components.
@@ -445,6 +439,11 @@ inline std::vector<String> FilePath::getPathComponents() const {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/19 04:05:01  ddiego
+*made modifications to methods that return a handle type. Introduced
+*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
+*which was causing a problem for 64bit compiles.
+*
 *Revision 1.3  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

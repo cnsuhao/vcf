@@ -240,6 +240,19 @@ public:
 	static String getEnvironmentVariable( const String& variableName );
 
 	/**
+	Modifies (or creates) an enviroment variable for the current process. This modification
+	is only good for the lifetime of the process.
+	*/
+	static void setEnvironmentVariable( const String& variableName, const String& newValue );
+
+	/**
+	Adds a directory to the current process's PATH environment variable. If no such environment
+	variable exists, then it does nothing. Note that some systems may not even have 
+	anything resembling a PATH.
+	*/
+	static void addPathDirectory( const String& directory );
+
+	/**
 	Returns the current working directory.
 	*/
 	static String getCurrentWorkingDirectory();
@@ -307,6 +320,17 @@ public:
 	*/
 	static ProgramInfo* getProgramInfoFromFileName( const String& fileName );
 
+
+	/**
+	Returns a string that is the package directory for the
+	executable file name. If the file name is not a bundle, then an
+	empty string is returned. For example, if passed in a file name such as 
+	"c:\Program Files\MyApp\Contents\WindowsNT\MyApp.exe", the function
+	would return "c:\Program Files\MyApp\" as the result. 
+	*/
+	static String getBundlePathFromExecutableName( const String& fileName );
+
+
 	static void internal_replaceResourceBundleInstance( ResourceBundle* newInstance );
 protected:
 	System();
@@ -320,6 +344,8 @@ protected:
 	Locale* locale_;
 	bool unicodeEnabled_;
 	ResourceBundle* resBundle_;
+
+	static String getInfoFileFromFileName( const String& fileName );
 };
 
 };
@@ -328,6 +354,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2004/12/19 04:05:01  ddiego
+*made modifications to methods that return a handle type. Introduced
+*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
+*which was causing a problem for 64bit compiles.
+*
 *Revision 1.4  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
