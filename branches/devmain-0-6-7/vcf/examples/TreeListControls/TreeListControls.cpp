@@ -212,6 +212,7 @@ public:
 
 		TreeItem* child = treeList->addItem( item, "foo 1a" );
 		child = treeList->addItem( item, "foo 1b" );
+		child->setTextBold( true );
 
 		child->addSubItem( "Sub item 1", NULL );
 
@@ -219,6 +220,7 @@ public:
 		child = treeList->addItem( item, "foo 1d" );
 		child = treeList->addItem( item, "foo 1e" );
 		child = treeList->addItem( item, "foo 1f" );
+		child->setTextColor( Color::getColor("red") );
 		child = treeList->addItem( item, "foo 1g" );
 		child = treeList->addItem( item, "foo 1h" );
 		child = treeList->addItem( item, "foo 1i" );
@@ -405,6 +407,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/03/04 04:42:22  ddiego
+*fixed a bug in the tree list control that was not taking into account the tree item text color or text bold.
+*
 *Revision 1.6.2.1  2005/02/16 05:09:30  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

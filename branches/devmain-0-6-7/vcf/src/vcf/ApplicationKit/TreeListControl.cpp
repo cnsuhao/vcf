@@ -354,9 +354,14 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 	Color oldColor = *(context->getCurrentFont()->getColor());
 
 	if ( (true == item->isSelected()) && (true == isFocused()) ) {
-		Color* selectedColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
+		Color* selectedColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );		
 		context->getCurrentFont()->setColor( selectedColor );
 	}
+	else {
+		context->getCurrentFont()->setColor( item->getTextColor() );
+	}
+
+	context->getCurrentFont()->setBold( item->getTextBold() );
 
 	context->textBoundedBy( &captionRect, item->getCaption(), drawOptions );
 
@@ -409,6 +414,14 @@ void TreeListControl::paintSubItem( TreeItem* item, GraphicsContext* context, co
 	}
 
 	if ( subItemIndex > 0 ) {
+		if ( (true == item->isSelected()) && (true == isFocused()) ) {
+			Color* selectedColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );		
+			context->getCurrentFont()->setColor( selectedColor );
+		}
+		else {
+			context->getCurrentFont()->setColor( item->getTextColor() );
+		}
+
 		TreeItem::SubItem* subItem = item->getSubItem( subItemIndex-1 );
 		if ( NULL != subItem ) {
 
@@ -420,6 +433,8 @@ void TreeListControl::paintSubItem( TreeItem* item, GraphicsContext* context, co
 			captionRect.top_ = captionRect.top_ + ((captionRect.getHeight() / 2.0) - textH/2.0);
 			captionRect.bottom_ = captionRect.top_ + textH;
 
+			
+			
 			context->textBoundedBy( &captionRect, subItem->getCaption(), drawOptions );
 
 			if ( subItem->canPaint() ) {
@@ -2126,6 +2141,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/03/04 04:41:55  ddiego
+*fixed a bug in the tree list control that was not taking into account the tree item text color or text bold.
+*
 *Revision 1.3.2.6  2005/02/21 16:20:01  ddiego
 *minor changes to various things, property editors, and tree list control.
 *
