@@ -337,7 +337,7 @@ void DefaultTreeItem::expandAllChildren( const bool& isExpanded )
 	while ( children->hasMoreElements() ) {
 		TreeItem* item = children->nextElement();
 
-		item->expandAll( isExpanded );
+		item->expandAllChildren( isExpanded );
 	}
 }
 
@@ -459,7 +459,7 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2005/01/31 02:08:05  marcelloptr
+*Revision 1.3.2.3  2005/01/31 02:36:14  marcelloptr
 *member function expandAllChildren() added
 *
 *Revision 1.3.2.1  2005/01/26 02:09:10  ddiego
