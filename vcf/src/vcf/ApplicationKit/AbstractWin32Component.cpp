@@ -385,7 +385,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 		}
 		else if ( true == peerControl_->isDoubleBuffered() ){
 			Rect dirtyRect( paintRect.left,paintRect.top,paintRect.right,paintRect.bottom);
-			StringUtils::traceWithArgs( "WM_PAINT: dirtyRect: %s\n", dirtyRect.toString().c_str() );
+			
 
 			memBMP_ = ::CreateCompatibleBitmap( paintDC,
 					paintRect.right - paintRect.left,
@@ -1306,6 +1306,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.16  2004/07/21 03:35:49  ddiego
+*some minor updates to the QTPlayer example
+*
 *Revision 1.1.2.15  2004/07/18 14:45:18  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

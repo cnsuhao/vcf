@@ -762,6 +762,11 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 		}
 		break;
 
+		case NM_DBLCLK : {
+			StringUtils::trace( "NM_DBLCLK\n" );
+		}
+		break;
+
 		case LVN_COLUMNCLICK:{
 
 			NMLISTVIEW* nmlistView = (NMLISTVIEW*)lParam;
@@ -2263,6 +2268,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/21 03:35:49  ddiego
+*some minor updates to the QTPlayer example
+*
 *Revision 1.1.2.8  2004/07/16 04:01:46  ddiego
 *fixed the last of border redraw issues, I hope.
 *
