@@ -54,8 +54,8 @@ public:
 
 	virtual void paint( GraphicsContext* context );
 	
-	void setAutoDelete( bool b ) {
-		autoDelete_ = b;
+	void setAutoDelete( const bool& autoDelete ) {
+		autoDelete_ = autoDelete;
 	}
 	
 	bool getAutoDelete() {
@@ -105,6 +105,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.6  2005/03/28 17:55:51  marcelloptr
+*minor fixes
+*
 *Revision 1.2.4.5  2005/03/28 03:49:08  ddiego
 *format changes.
 *
