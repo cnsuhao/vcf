@@ -1,11 +1,30 @@
-//OSXLocalePeer.cpp
+/**
+Copyright (c) 2000-2001, Jim Crafton
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+	Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
 
-/*
-Copyright 2000-2004 The VCF Project.
-Please see License.txt in the top level directory
-where you installed the VCF.
+	Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer in 
+	the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+NB: This software will not save the world.
 */
-
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/LocalePeer.h"
@@ -20,18 +39,18 @@ using namespace VCF;
 
 OSXLocalePeer::OSXLocalePeer()
 {
-
+	
 }
 
 void OSXLocalePeer::setLocale( const UnicodeString& language, const UnicodeString& country, const UnicodeString& variant )
 {
 	if ( language.empty() && country.empty() ) {
-
+		
 	}
 	else {
-
+		
 	}
-}
+}	
 
 int OSXLocalePeer::collate( const UnicodeString& s1, const UnicodeString& s2 )
 {
@@ -112,15 +131,15 @@ unsigned int OSXLocalePeer::toUInt( const UnicodeString& str )
 double OSXLocalePeer::toDouble( const UnicodeString& str )
 {
 	double result;
-
-
+	
+	
 	return result;
 }
 
 float OSXLocalePeer::toFloat( const UnicodeString& str )
 {
 	float result;
-
+	
 
 	return result;
 }
@@ -138,7 +157,7 @@ double OSXLocalePeer::toDoubleAsCurrency( const UnicodeString& str )
 UnicodeString OSXLocalePeer::toLowerCase( const UnicodeString& s )
 {
 	UnicodeString result;
-
+	
 
 	return result;
 }
@@ -153,63 +172,63 @@ UnicodeString OSXLocalePeer::toUpperCase( const UnicodeString& s )
 UnicodeString OSXLocalePeer::getNumberThousandsSeparator()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getNumberDecimalPoint()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getNumberGrouping()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyDecimalPoint()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyThousandsSeparator()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencySymbol()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 int OSXLocalePeer::getCurrencyFractionalDigits()
 {
 	int result = 0;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyPositiveSign()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
 UnicodeString OSXLocalePeer::getCurrencyNegativeSign()
 {
 	UnicodeString result;
-
+	
 	return result;
 }
 
@@ -219,7 +238,7 @@ bool OSXLocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 
 	UnicodeString oldLocaleStr = setlocale( LC_CTYPE, NULL );
 
-	setlocale( LC_CTYPE, crtLocaleStr_ );
+	setlocale( LC_CTYPE, crtLocaleStr_.ansi_c_str() );
 
 	if ( charTypeMask & ctSpace ) {
 		if ( isspace( c ) ) {
@@ -293,7 +312,7 @@ bool OSXLocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 		}
 	}
 
-	setlocale( LC_CTYPE, oldLocaleStr );
+	setlocale( LC_CTYPE, oldLocaleStr.ansi_c_str() );
 
 	return (0 == mask) ? false : true;
 }
@@ -305,15 +324,15 @@ UnicodeString OSXLocalePeer::translate( const UnicodeString& id )
 
 UnicodeString OSXLocalePeer::toStringFromDate( const DateTime& val, const UnicodeString& format )
 {
-
-	UnicodeString result;
+	
+	UnicodeString result;	
 
 	return result;
 }
 
 UnicodeString OSXLocalePeer::toStringFromTime( const DateTime& val, const UnicodeString& format )
-{
-	UnicodeString result;
+{	
+	UnicodeString result;	
 
 	return result;
 }
@@ -328,7 +347,7 @@ ulong32 OSXLocalePeer::getLanguageCode()
 
 ulong32 OSXLocalePeer::getCountryCode()
 {
-
+	
 	return 0;
 }
 
@@ -336,11 +355,8 @@ ulong32 OSXLocalePeer::getCountryCode()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
-*reformatting of source files: macros and csvlog and copyright sections
-*
-*Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
-*migration towards new directory structure
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
 *
 *Revision 1.2  2004/04/03 15:48:47  ddiego
 *Merged over code from the 0-6-3 branch.

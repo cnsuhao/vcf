@@ -10,6 +10,7 @@ where you installed the VCF.
 //#include <varargs.h>
 
 #include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/FoundationKit/Locales.h"
 
@@ -86,15 +87,36 @@ void System::print( String text, ... )
 	memset( tmpChar, 0, charRequired );
 
 #ifdef VCF_GCC
+  #ifdef VCF_OSX
+  
+    CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
+    
+	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
+    
+    CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
+    
+    int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
+    
+    CFRange range = {0, length };	
+    CFStringGetCharacters( res, range, tmpChar );
+    
+    CFShow( res );
+    
+    CFRelease( res );
+    CFRelease( fmt );
+    
+  #else
 	vswprintf( tmpChar, charRequired, text.c_str(), args );
+  #endif	
 #else
-
 	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
-
 #endif
-
-	va_end( args );
-	wprintf( tmpChar );
+	
+	va_end( args ); 
+    
+  #ifndef VCF_OSX
+    wprintf( tmpChar );	
+  #endif
 
 	if ( NULL != System::systemInstance ) {
 		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
@@ -115,14 +137,56 @@ void System::println(String text, ...)
 	memset( tmpChar, 0, charRequired );
 
 #ifdef VCF_GCC
+  #ifdef VCF_OSX
+    int pos = text.find( "%s" );
+    while ( pos != String::npos ) {
+        
+        if ( pos > 0 && text[pos-1] != '%' ) {
+            text.erase( pos, 2 );
+            text.insert( pos, "%S" );
+        }
+        pos = text.find( "%s", pos+1 );
+    }
+    
+    /*
+    CFTextString cfStr;
+    cfStr = text;
+    
+    CFStringRef strRef = 
+        CFStringCreateWithFormatAndArguments( NULL, NULL, cfStr, args );
+    cfStr = strRef;  
+        
+    cfStr.copy( tmpChar, minVal<uint32>(cfStr.length(),charRequired) );
+    */
+    CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
+    
+	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
+    
+    CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
+    
+    int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
+    
+    CFRange range = {0, length };	
+    CFStringGetCharacters( res, range, tmpChar );
+    
+    CFShow( res );
+    CFShow( CFSTR("\n") );
+    
+    CFRelease( res );
+    CFRelease( fmt );
+  #else
 	vswprintf( tmpChar, charRequired, text.c_str(), args );
+  #endif	
 #else
 	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
 #endif
-
-	va_end( args );
-	wprintf( tmpChar );
-	wprintf(L"\n");
+	
+	va_end( args ); 
+    
+  #ifndef VCF_OSX
+    wprintf( tmpChar );	
+    wprintf(L"\n");
+  #endif
 
 	if ( NULL != System::systemInstance ) {
 		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
@@ -191,6 +255,9 @@ bool System::isUnicodeEnabled()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.3  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

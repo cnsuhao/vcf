@@ -159,112 +159,44 @@ void VariantData::setFromString( const String& value )
 
 	switch( type ){
 		case pdInt:{
-			int i = 0;
-			if ( unicodeEnabled ) {
-				swscanf( value.c_str(), W_STR_INT_CONVERSION, &i );
-			}
-			else {
-				sscanf( value.ansi_c_str(), STR_INT_CONVERSION, &i );
-			}
-
-			IntVal = i;
+            IntVal = StringUtils::fromStringAsInt( value );
 		}
 		break;
 
 		case pdLong:{
-			int i = 0;
-			if ( unicodeEnabled ) {
-				swscanf( value.c_str(), W_STR_LONG_CONVERSION, &i );
-			}
-			else {
-				sscanf( value.ansi_c_str(), STR_LONG_CONVERSION, &i );
-			}
-			LongVal = i;
+			LongVal = StringUtils::fromStringAsInt( value );
 		}
 		break;
 
 		case pdShort:{
-			int i = 0;
-			if ( unicodeEnabled ) {
-				swscanf( value.c_str(), W_STR_SHORT_CONVERSION, &i );
-			}
-			else {
-				sscanf( value.ansi_c_str(), STR_SHORT_CONVERSION, &i );
-			}
-			ShortVal = i;
+			ShortVal = StringUtils::fromStringAsShort( value );
 		}
 		break;
 
 		case pdULong:{
-			int i = 0;
-
-			if ( unicodeEnabled ) {
-				swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &i );
-			}
-			else {
-				sscanf( value.ansi_c_str(), STR_ULONG_CONVERSION, &i );
-			}
-			ULongVal = i;
-		}
+			ULongVal = StringUtils::fromStringAsUInt( value );
+        }
 		break;
 
 		case pdFloat:{
-			float i = 0.0f;
-
-			if ( unicodeEnabled ) {
-				swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &i );
-			}
-			else {
-				sscanf( value.ansi_c_str(), STR_FLOAT_CONVERSION, &i );
-			}
-
-			FloatVal = i;
+			FloatVal = StringUtils::fromStringAsFloat( value );
 		}
 		break;
 
-		case pdChar:{
-
-			if ( unicodeEnabled ) {
-				WideChar i = '\0';
-
-
-				swscanf( value.c_str(), W_STR_CHAR_CONVERSION, &i );
-
-				CharVal = i;
-			}
-			else {
-				char i = '\0';
-
-				sscanf( value.ansi_c_str(), STR_CHAR_CONVERSION, &i );
-
-				CharVal = i;
-			}
-
-
+		case pdChar:{	
+            
+            CharVal = StringUtils::fromStringAsChar( value );
+			
 		}
 		break;
 
 		case pdDouble:{
-			float f = 0;
-
-			if ( unicodeEnabled ) {
-				swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &f );
-			}
-			else {
-				sscanf( value.ansi_c_str(), STR_DOUBLE_CONVERSION, &f );
-			}
-
-			DblVal = f;
+			DblVal = StringUtils::fromStringAsDouble( value );
 		}
 		break;
 
 		case pdBool:{
-			if ( value == STR_BOOL_CONVERSION_TRUE ){
-				BoolVal = true;
-			}
-			else if ( value == STR_BOOL_CONVERSION_FALSE ){
-				BoolVal = false;
-			}
+            BoolVal = StringUtils::fromStringAsBool( value );
 		}
 		break;
 
@@ -388,6 +320,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

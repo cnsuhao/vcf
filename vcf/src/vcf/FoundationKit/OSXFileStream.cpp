@@ -1,11 +1,3 @@
-//OSXFileStream.cpp
-
-/*
-Copyright 2000-2004 The VCF Project.
-Please see License.txt in the top level directory
-where you installed the VCF.
-*/
-
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -19,7 +11,7 @@ fileHandle_(NULL)
 {
 
 	filename_ = filename;
-	fileHandle_ = fopen( filename_.c_str(), translateAccessType(accessType).c_str() ); // TODO: translateAccessType
+	fileHandle_ = fopen( filename_.ansi_c_str(), translateAccessType(accessType).ansi_c_str() ); // TODO: translateAccessType
 
 	if (fileHandle_ < 0)	{
 		fileHandle_ = NULL;
@@ -162,14 +154,5 @@ int OSXFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 	}
 	return result;
 }
-
-
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
-*reformatting of source files: macros and csvlog and copyright sections
-*
-*/
 
 

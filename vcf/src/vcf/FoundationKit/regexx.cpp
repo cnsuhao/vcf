@@ -54,13 +54,15 @@ using namespace VCF::RegExx;
 
 const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 {
+    AnsiString tmpStr = str_;
+    AnsiString tmpExpr = expr_;
 	if(!compiled_) {
 		const char *errptr;
 		int erroffset;
 		int cflags =
 			((_flags&nocase)?PCRE_CASELESS:0)
 			| ((_flags&newline)?PCRE_MULTILINE:0);
-		preg_ = pcre_compile(expr_.c_str(),cflags,&errptr,&erroffset,0);
+		preg_ = pcre_compile(tmpExpr.c_str(),cflags,&errptr,&erroffset,0);
 		if(preg_ == NULL) {
 			throw CompileException(errptr);
 		}
@@ -83,21 +85,21 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 	int ssv[33];
 	int ssc;
 	matches_ = 0;
-
-	ssc = pcre_exec(preg_,extra_,str_.c_str(),str_.length(),0,eflags,ssv,33);
+	
+	ssc = pcre_exec(preg_,extra_,tmpStr.c_str(),tmpStr.length(),0,eflags,ssv,33);
 	bool ret = (ssc > 0);
 
 	if(_flags&global) {
 		if(_flags&nomatch)
 			while(ret) {
 				matches_++;
-				ret = (pcre_exec(preg_,extra_,str_.c_str(),str_.length(),ssv[1],eflags,ssv,33) > 0);
+				ret = (pcre_exec(preg_,extra_,tmpStr.c_str(),tmpStr.length(),ssv[1],eflags,ssv,33) > 0);
 			}
 			else if(_flags&noatom)
 				while(ret) {
 					matches_++;
 					match.push_back(RegexxMatch(str_,ssv[0],ssv[1]-ssv[0]));
-					ret = (pcre_exec(preg_,extra_,str_.c_str(),str_.length(),ssv[1],eflags,ssv,33) > 0);
+					ret = (pcre_exec(preg_,extra_,tmpStr.c_str(),tmpStr.length(),ssv[1],eflags,ssv,33) > 0);
 				}
 				else
 					while(ret) {
@@ -110,7 +112,7 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 							else
 								match.back().atom.push_back(RegexxMatchAtom(str_,0,0));
 						}
-						ret = (pcre_exec(preg_,extra_,str_.c_str(),str_.length(),ssv[1],eflags,ssv,33) > 0);
+						ret = (pcre_exec(preg_,extra_,tmpStr.c_str(),tmpStr.length(),ssv[1],eflags,ssv,33) > 0);
 					}
 	}
 	else {
@@ -135,7 +137,7 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 					else
 						match.back().atom.push_back(RegexxMatchAtom(str_,0,0));
 				}
-				ret = (pcre_exec(preg_,extra_,str_.c_str(),str_.length(),ssv[1],eflags,ssv,33) > 0);
+				ret = (pcre_exec(preg_,extra_,tmpStr.c_str(),tmpStr.length(),ssv[1],eflags,ssv,33) > 0);
 			}
 		}
 	}
@@ -208,6 +210,9 @@ std::vector<String> splitex(const String& regex, const String& str)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+*added OSX changes for unicode migration
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

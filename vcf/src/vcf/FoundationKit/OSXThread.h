@@ -1,19 +1,39 @@
+
+
+ 
 #ifndef _VCF_OSXTHREAD_H__
 #define _VCF_OSXTHREAD_H__
-//OSXThread.h
-
-/*
-Copyright 2000-2004 The VCF Project.
-Please see License.txt in the top level directory
-where you installed the VCF.
-*/
 
 
-#if _MSC_VER > 1000
-#   pragma once
-#endif
 
+/**
+Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+	Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
 
+	Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer in
+	the documentation and/or other materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
+ OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ NB: This software will not save the world.
+ */
+ 
+ 
+ 
 namespace VCF
 {
 
@@ -36,26 +56,26 @@ public:
 
     /* Returns thread id */
 	virtual uint32 getThreadID() {
-		return threadID_;
+		return threadID_; 
 	}
-
+	
 	virtual uint32 getHandleID() {
-		return threadID_;
+		return threadID_; 
 	}
 
     /* Returns process that created thread.  Is this useful? */
 	virtual uint32 getOwningProcessID() {
-		return processID_;
+		return processID_; 
 	}
 
     /* Returns TRUE if thread is running, FALSE if not */
     virtual bool isActive() {
-		return isActive_;
+		return isActive_; 
 	}
 
     /* Returns TRUE if thread is detached, FALSE if not */
     virtual bool isDetached() {
-		return isDetached_;
+		return isDetached_; 
 	}
 
     /* Detaches thread so it does not have to be joined */
@@ -76,7 +96,7 @@ public:
     /* Returns TRUE if called in Thread::run(), FALSE if not */
 	/*
     int inThreadProc() {
-		return pthread_self() == threadID_;
+		return pthread_self() == threadID_; 
 	}
 	*/
 
@@ -95,16 +115,13 @@ protected:
 };
 
 };
-
-
+ 
+ 
 /**
 *CVS Log info
  *$Log$
- *Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
- *reformatting of source files: macros and csvlog and copyright sections
- *
- *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
- *migration towards new directory structure
+ *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
+ *added OSX changes for unicode migration
  *
  *Revision 1.3.2.1  2004/04/26 21:58:43  marcelloptr
  *changes for dir reorganization: _VCF_MACRO_H__
@@ -124,8 +141,8 @@ protected:
  *plus some fixes to compile under GCC 3.x compilers
  *
  */
-
-
+ 
+ 
 #endif // _VCF_OSXTHREAD_H__
-
-
+ 
+ 
