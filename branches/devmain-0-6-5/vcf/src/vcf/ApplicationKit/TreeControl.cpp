@@ -63,6 +63,8 @@ void TreeControl::init()
 
 
 	setTreeModel( new DefaultTreeModel() );
+
+	setBorder( new Basic3DBorder( true ) );
 }
 
 void TreeControl::setTreeModel( TreeModel * model )
@@ -117,7 +119,19 @@ void TreeControl::setImageList( ImageList* imageList )
 
 void TreeControl::paint( GraphicsContext * context )
 {
+	Rect innerBounds = getClientBounds( false );
 
+	Border* border = getBorder();
+	if ( NULL != border ){
+		border->paint( this, context );
+		innerBounds = border->getClientRect( &innerBounds, this );
+	}
+
+	context->setColor( getColor() );
+			
+	context->rectangle( &innerBounds );
+			
+	context->fillPath();
 }
 
 void TreeControl::onTreeRootNodeChanged( TreeModelEvent* event )
@@ -321,6 +335,9 @@ void TreeControl::handleEvent( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/16 04:01:46  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

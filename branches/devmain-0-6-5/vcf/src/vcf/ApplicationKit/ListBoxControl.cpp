@@ -73,6 +73,8 @@ void ListBoxControl::init()
 	listModel_->addContentsChangedHandler( lmh );
 
 	selectedItemsContainer_.initContainer( selectedItems_ );
+
+	setUseColorForBackground( true );
 }
 
 ListBoxControl::~ListBoxControl()
@@ -677,6 +679,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/16 04:01:45  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

@@ -563,7 +563,7 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 		break;
 
 		case WM_NCPAINT: {
-			return handleNCPaint();
+			return handleNCPaint( wParam, lParam );
 		}
 		break;
 		
@@ -2263,6 +2263,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/16 04:01:46  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.7  2004/07/15 18:53:00  ddiego
 *more updates
 *

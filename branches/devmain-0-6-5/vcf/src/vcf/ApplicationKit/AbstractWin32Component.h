@@ -108,7 +108,7 @@ protected:
 	HDWP winPosInfo_;
 	AbstractWin32Component* parent_;
 
-	LRESULT handleNCPaint();
+	LRESULT handleNCPaint( WPARAM wParam, LPARAM lParam );
 	LRESULT handleNCCalcSize( WPARAM wParam, LPARAM lParam );
 };
 
@@ -119,6 +119,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/16 04:01:45  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.6  2004/07/15 14:55:11  ddiego
 *borders fixed
 *

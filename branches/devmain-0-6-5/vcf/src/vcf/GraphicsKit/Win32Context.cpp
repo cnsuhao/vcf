@@ -1842,6 +1842,10 @@ void Win32Context::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
 	Color* backColor = GraphicsToolkit::getSystemColor( state.colorType_ );
 
+	if ( state.colorType_ == SYSCOLOR_WINDOW ) {
+		backColor = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
+	}
+
 	context_->setColor( backColor );
 	context_->rectangle( rect );
 	context_->fillPath();
@@ -2185,6 +2189,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/16 04:01:50  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.8  2004/07/15 01:52:54  ddiego
 *added drawThemeComboboxRect implementation so a combobox
 *control draws itself correctly.

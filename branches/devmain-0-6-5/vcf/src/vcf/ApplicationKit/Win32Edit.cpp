@@ -405,9 +405,75 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			return handleNCCalcSize( wParam, lParam );
 		}
 		break;
+/*
+		case WM_NCHITTEST: { 
+			RECT rect;
+	GetWindowRect(hwnd_, &rect);
+	OffsetRect(&rect, -rect.left, -rect.top);
+	RECT clipR = rect;
+	RECT clientRect = rect;
+	Rect vsRect;
+	Rect hsRect;
 
-		case WM_NCPAINT: {
-			return handleNCPaint();
+	if ( NULL != peerControl_->getBorder() ) {		
+		Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
+		clientBounds = peerControl_->getBorder()->getClientRect( &clientBounds, peerControl_ );
+		
+		clipR.left = clientBounds.left_;
+		clipR.top = clientBounds.top_;
+		clipR.right = clientBounds.right_;
+		clipR.bottom = clientBounds.bottom_;
+		clientRect = clipR;
+	}
+	int style = GetWindowLong( hwnd_, GWL_STYLE );
+	if ( style & WS_VSCROLL ) {
+		NONCLIENTMETRICS ncm;
+		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+		
+		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+		
+		clipR.right -= ncm.iScrollWidth;
+
+		vsRect.setRect( clipR.right, clipR.top, clientRect.right, clipR.bottom );
+
+	}
+	if ( style & WS_HSCROLL ) {
+		NONCLIENTMETRICS ncm;
+		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+		
+		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+		
+		clipR.bottom -= ncm.iScrollHeight;
+		hsRect.setRect( clipR.left, clipR.bottom, clientRect.right, clientRect.bottom );
+	}
+
+	Point pt( LOWORD(lParam), HIWORD(lParam) ); 
+
+	this->translateFromScreenCoords( &pt );
+	if ( !vsRect.isEmpty() ) {
+		if ( vsRect.containsPt( &pt ) ) {
+			return HTVSCROLL;
+		}
+	}
+
+	if ( !hsRect.isEmpty() ) {
+		if ( hsRect.containsPt( &pt ) ) {
+			return HTHSCROLL;
+		}
+	}
+
+
+
+			return 1;
+		}
+		break;
+		*/
+
+		case WM_NCPAINT: {	
+
+			return handleNCPaint( wParam, lParam );
 		}
 		break;
 
@@ -769,6 +835,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/07/16 04:01:46  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.10  2004/07/15 14:55:11  ddiego
 *borders fixed
 *

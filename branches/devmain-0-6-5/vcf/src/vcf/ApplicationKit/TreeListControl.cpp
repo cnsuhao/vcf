@@ -88,6 +88,8 @@ void TreeListControl::init()
 																	"TreeListControl::onColumnWidthChanged" ) );
 
 	setDisplayOptions( TreeListControl::tdoNone );
+
+	setUseColorForBackground( true );
 }
 
 void TreeListControl::setTreeModel(TreeModel * model)
@@ -1456,6 +1458,9 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/16 04:01:46  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.4  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting
