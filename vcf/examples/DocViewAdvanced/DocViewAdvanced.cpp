@@ -52,6 +52,62 @@ public:
 	BEGIN_CLASSINFO( CircleDocument, "CircleDocument", "VCF::Document", CIRCLEDOCUMENT_CLASSID )
 	END_CLASSINFO(CircleDocument)
 
+
+
+
+	class AddCircleCommand : public AbstractCommand {
+	public:
+
+		AddCircleCommand( CircleDocument* doc, const CircleShape& shape ) : doc_(doc), shape_(shape){
+			commandName_ = "Add Circle";
+			isUndoable_ = true;
+		}
+
+		virtual void undo() {
+			doc_->internal_removeCircle( shape_ );
+		}
+
+		virtual void redo() {
+			doc_->internal_addCircle( shape_ );
+		}
+
+		virtual void execute() {
+			doc_->internal_addCircle( shape_ );
+		}
+
+		CircleDocument* doc_;
+		CircleShape shape_;
+	};
+
+	class RemoveCircleCommand : public AbstractCommand {
+	public:
+
+		RemoveCircleCommand( CircleDocument* doc, const CircleShape& shape ) : doc_(doc), shape_(shape){
+			commandName_ = "Remove Circle";
+			isUndoable_ = true;
+		}
+
+		virtual void undo() {
+			doc_->internal_addCircle( shape_ );
+		}
+
+		virtual void redo() {
+			doc_->internal_removeCircle( shape_ );
+		}
+
+		virtual void execute() {
+			doc_->internal_removeCircle( shape_ );
+		}
+
+		CircleDocument* doc_;
+		CircleShape shape_;
+	};
+
+
+	friend class AddCircleCommand;
+	friend class RemoveCircleCommand;
+
+
 	CircleDocument() {
 		this->addSupportedClipboardFormat( STRING_DATA_TYPE );
 	}
@@ -62,13 +118,7 @@ public:
 	};
 
 	void addCircle( const CircleShape& circle ) {
-		circles_.push_back( circle );
-
-		setModified( true );
-
-		ModelEvent e( this, CircleDocument::CircleAdded );
-		ModelChanged.fireEvent( &e );
-		updateAllViews();
+		DocumentManager::getDocumentManager()->getUndoRedoStack(this).addCommand( new AddCircleCommand( this, circle ) );
 	}
 
 	void addCircle( const double& x, const double& y, const double& radius ) {
@@ -80,17 +130,7 @@ public:
 	}
 
 	void removeCircle( const CircleShape& circle ) {
-		std::vector<CircleShape>::iterator found = std::find( circles_.begin(), circles_.end(), circle );
-		if ( found != circles_.end() ) {
-
-			circles_.erase( found );
-
-			setModified( true );
-
-			ModelEvent e( this, CircleDocument::CircleRemoved );
-			ModelChanged.fireEvent( &e );
-			updateAllViews();
-		}
+		DocumentManager::getDocumentManager()->getUndoRedoStack(this).addCommand( new RemoveCircleCommand( this, circle ) );
 	}
 
 	CircleShape& getCircle( int index ) {
@@ -203,8 +243,11 @@ public:
 
 	virtual bool openFromType( const VCF::String& fileType, VCF::InputStream& stream ) {
 		bool result = false;
+		
 
 		if ( fileType == "application/x-circledoc" ) {
+
+			circles_.clear();
 
 			int size = 0;
 			stream.read( size );
@@ -223,6 +266,8 @@ public:
 		}
 		else if ( fileType == STRING_DATA_TYPE ) { 
 			//read as XML format as plain text!
+
+			circles_.clear();
 
 			XMLParser parser;
 			
@@ -309,6 +354,31 @@ public:
 protected:
 
 	std::vector<CircleShape> circles_;
+
+	void internal_addCircle( const CircleShape& circle ) {
+		circles_.push_back( circle );
+
+		setModified( true );
+
+		ModelEvent e( this, CircleDocument::CircleAdded );
+		ModelChanged.fireEvent( &e );
+		updateAllViews();
+	}
+
+
+	void internal_removeCircle( const CircleShape& circle ) {
+		std::vector<CircleShape>::iterator found = std::find( circles_.begin(), circles_.end(), circle );
+		if ( found != circles_.end() ) {
+
+			circles_.erase( found );
+
+			setModified( true );
+
+			ModelEvent e( this, CircleDocument::CircleRemoved );
+			ModelChanged.fireEvent( &e );
+			updateAllViews();
+		}
+	}
 };
 
 
@@ -622,7 +692,7 @@ public:
 
 
 		info_ = new CircleInfoUI();
-		info_->setHeight( 150 );
+		info_->setHeight( 75 );
 		add( info_, AlignBottom );
 
 
@@ -634,6 +704,15 @@ public:
 		sbm->setHasHorizontalScrollbar( true );
 		sbm->setHasVerticalScrollbar( true );
 		sbm->setKeepScrollbarsVisible( true );
+
+
+		//create our custom menus here
+
+		MenuBar* menuBar = new MenuBar();
+		setMenuBar( menuBar );
+		addComponent( menuBar );
+
+
 		
 	}
 
