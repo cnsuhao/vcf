@@ -1,125 +1,131 @@
 //SysTray.cpp
 
-/*
-Copyright 2000-2004 The VCF Project.
-Please see License.txt in the top level directory
-where you installed the VCF.
-*/
-
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ControlsKit.h"
-#include "vcf/ApplicationKit/EtchedBorder.h"
+#include "vcf/ApplicationKit/SystemTray.h"
+#include "vcf/ApplicationKit/DefaultMenuItem.h"
+
+/**
+This is a simple example that demonstrates how to use the SystemTray component
+*/
 
 using namespace VCF;
 
 
+
 class SysTrayWindow : public Window {
 public:
-	SysTrayWindow() : currentImage_(NULL){
+	SysTrayWindow() {
 		setCaption( "SysTray" );
 		setVisible( true );
 
-		//lets create a menu
-
-		//create the menu bar - this will hold the menu items
-		MenuBar* menuBar = new MenuBar();
-
-		//set the window's menu bar
-		setMenuBar( menuBar );
-
-		//add the menu to this window's components
-		addComponent( menuBar );
+		/**
+		Create a new system tray. Passing a pointer to the
+		"owner" (in this case the window itself) will automatically
+		cause the new child component, the system tray, to be added
+		to it's owner. When the owner is destroy, so will any children
+		of the owner.
+		*/
+		SystemTray* tray = new SystemTray(this);
 
 		/**
-		create menu items, first arguemtn is the menu item name,
-		then the parent,
-		then the owning menu bar
+		Make the tray icon area visible
 		*/
-		MenuItem* fileMenu = new DefaultMenuItem( "File", menuBar->getRootMenuItem(), menuBar );
-		MenuItem* fileOpenImageMenu = new DefaultMenuItem( "Open Image...", fileMenu, menuBar );
+		tray->showInTray();
 
-		//add our event handler to the menu item
-		fileOpenImageMenu->addMenuItemClickedHandler(
-			new MenuItemEventHandler<SysTrayWindow>( this,SysTrayWindow::openImage, "SysTrayWindow::openImage" ) );
-
-
-
-		//set the border of the window, this will give us a nice etched border
-		EtchedBorder* bdr = new EtchedBorder();
-		bdr->setStyle( GraphicsContext::etSunken );
-		setBorder( bdr );
-
-	}
-
-	virtual ~SysTrayWindow(){
-		if ( NULL != currentImage_ ) {
-			delete currentImage_;
-		}
-	};
-
-
-	virtual void paint( GraphicsContext* ctx ) {
-		Window::paint(ctx);
-
-		Rect r = getClientBounds();
-
-		r.inflate( -5, -5 );
-
-		if ( NULL != currentImage_ ) {
-			/**
-			if we have an image, draw it centered within the available client
-			rect
-			*/
-			Rect imageRect(0,0,currentImage_->getWidth(),currentImage_->getHeight());
-
-			imageRect.offset( r.getWidth()/2 - imageRect.getWidth()/2,
-								r.getHeight()/2 - imageRect.getHeight()/2 );
-
-			ctx->drawImageWithinBounds( &imageRect, currentImage_ );
-		}
-	}
-
-	void openImage( MenuItemEvent* e ) {
-		CommonFileOpen dlg( this );
-
-		//get the available image loader extensions
-		std::vector< std::pair<String,String> > contentTypes;
 
 		/**
-		this will get a list of all current available types that
-		can currently be loaded by the VCF. The list is a series
-		of std::pair objects. the std::pair.first element is a string
-		that represents the file extension, and the std::pair.second
-		represents a string that is the mime type for the extension
+		Create a new image on the fly, and add it to the tray
 		*/
-		GraphicsToolkit::getAvailableImageTypes( contentTypes );
-		std::vector< std::pair<String,String> >::iterator it = contentTypes.begin();
+		Image* img = GraphicsToolkit::createImage( 32, 32 );
+		img->beginDrawing();
+		GraphicsContext* gc = img->getImageContext();
+		gc->rectangle( 0, 0, 32, 32 );
+		gc->setColor( Color::getColor( "red" ) );
+		gc->fillPath();
 
-		/*
-		For each type, add a new filter to the dialog
+		gc->circle( 16,16, 5 );
+		gc->circle( 10,10, 5 );
+		gc->circle( 20,15, 5 );
+
+		gc->setColor( Color::getColor( "blue" ) );
+		gc->fillPath();
+
+
+
+		img->finishedDrawing();
+		
+		/**
+		Make the image transparent
 		*/
-		while ( it != contentTypes.end() ) {
-			std::pair<String,String>& type = *it;
+		img->setIsTransparent( true );
+		/**
+		Sets the transparency color
+		*/
+		img->setTransparencyColor( Color::getColor( "red" ) );
 
-			dlg.addFilter( type.second + " (*." + type.first + " )", "*." + type.first );
-			it ++;
-		}
+		/**
+		Set the image for the tray's icon.
+		*/
+		tray->setIconImage( img );
 
 
-		if ( dlg.execute() ) {
-			if ( NULL != currentImage_ ) {
-				//delete our old image
-				delete currentImage_;
-			}
+		/**
+		We are done with the image so delete it!
+		*/
+		delete img;
 
-			//create a new image from the file name
-			currentImage_ = GraphicsToolkit::createImage( dlg.getFileName() );
-			repaint(); //repaint ourselves to update the new image
-		}
+		/**
+		Set the tooltip popup for the system tray icon
+		*/
+		tray->setTooltipText( "Hello There!" );
+		
+
+		
+
+		/**
+		Create a popup menu with three items and attach event 
+		handlers to them
+		*/
+
+		PopupMenu* pm = new PopupMenu(this);
+		DefaultMenuItem* root = new DefaultMenuItem( "root", NULL, pm );
+
+		DefaultMenuItem* hello = new DefaultMenuItem( "Hello!", root, pm );
+		hello->addMenuItemClickedHandler( new GenericEventHandler<SysTrayWindow>(this,&SysTrayWindow::onHello,"SysTrayWindow::onHello") );
+
+		DefaultMenuItem* about = new DefaultMenuItem( "About...", root, pm );
+		about->addMenuItemClickedHandler( new GenericEventHandler<SysTrayWindow>(this,&SysTrayWindow::onAbout,"SysTrayWindow::onAbout") );
+
+		DefaultMenuItem* quit = new DefaultMenuItem( "Quit", root, pm );
+		quit->addMenuItemClickedHandler( new GenericEventHandler<SysTrayWindow>(this,&SysTrayWindow::onQuit,"SysTrayWindow::onQuit") );
+
+
+		/**
+		Set the root item for the popupmenu
+		*/
+		pm->setRootMenuItem( root );
+
+		/**
+		Set the tray icon's popup menu
+		*/
+		tray->setPopupMenu( pm );
 	}
 
-	Image* currentImage_;
+	virtual ~SysTrayWindow(){};
+
+	void onHello( Event* e ) {
+		Dialog::showMessage( "Hello There!" );
+	}
+
+	void onQuit( Event* e ) {
+		close();
+	}
+
+	void onAbout( Event* e ) {
+		Dialog::showMessage( "Simple application that demonstrates\nhow to use the system tray." );
+	}
+
 };
 
 
@@ -134,15 +140,13 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-
+		
 		Window* mainWindow = new SysTrayWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-
+		
 		return result;
 	}
-
-
 
 };
 
@@ -152,23 +156,8 @@ int main(int argc, char *argv[])
 	Application* app = new SysTrayApplication( argc, argv );
 
 	Application::main();
-
+	
 	return 0;
 }
-
-
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/08/25 15:52:52  marcelloptr
-*project added
-*
-*Revision 1.4  2004/08/07 02:47:29  ddiego
-*merged in the devmain-0-6-5 branch to stable
-*
-*Revision 1.3.2.4  2004/04/29 03:40:54  marcelloptr
-*reformatting of source files: macros and csvlog and copyright sections
-*
-*/
 
 
