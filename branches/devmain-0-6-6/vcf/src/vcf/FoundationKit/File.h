@@ -280,6 +280,7 @@ public:
 	/**
 	creates a new file, as opposed to open, which simply opens an existing one.
 	If the file already exists then create will empty it's contents.
+	If it is a directory name, a directory will be created.
 	@param newFileName the filename
 	*/
 	void create( const String& newFileName, ulong32 openFlags = File::ofRead );
@@ -480,6 +481,9 @@ inline void File::updateTime()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/11 12:07:57  marcelloptr
+*improved a comment
+*
 *Revision 1.2.2.1  2004/08/11 04:43:23  marcelloptr
 *completed implementation of updateTime
 *
