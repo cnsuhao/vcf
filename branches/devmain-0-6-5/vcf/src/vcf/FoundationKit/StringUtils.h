@@ -160,6 +160,13 @@ public:
 
 	/**
 	*converts the value to a string
+	*@param VCF::long64 the value to convert
+	*@return String the string representation of the VCF::long64 value
+	*/
+	static VCF::String toString( const VCF::long64& value );
+
+	/**
+	*converts the value to a string
 	*@param VCF::ulong64 the value to convert
 	*@return String the string representation of the VCF::ulong64 value
 	*/
@@ -231,9 +238,16 @@ public:
 	static VCF::ulong32 fromStringAsULong( const VCF::String& value );
 
 	/**
-	converts the value to a 64 bit integer 
+	converts the value to a 64 bit signed integer 
 	@param String the value to convert
-	@return ulong64 the 64 bit integer representation of the String value
+	@return long64 the 64 bit signed integer representation of the String value
+	*/
+	static VCF::long64 fromStringAsLong64( const VCF::String& value );
+
+	/**
+	converts the value to a 64 bit unsigned integer 
+	@param String the value to convert
+	@return ulong64 the 64 bit unsigned integer representation of the String value
 	*/
 	static VCF::ulong64 fromStringAsULong64( const VCF::String& value );
 
@@ -428,6 +442,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/26 00:47:38  marcelloptr
+*added conversions String <-> long64
+*
 *Revision 1.1.2.8  2004/07/21 02:06:53  marcelloptr
 *BugFix 985136 cast to (int) and ulong64 and other conversion issues
 *The fromStringAs... functions now throw an exception in case of some errors
