@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.5.2.1  2004/02/16 03:00:26  ddiego
+#*** empty log message ***
+#
 #Revision 1.5  2003/12/19 05:48:35  ddiego
 #made some adjustments in the makefiles to compile and link correctly
 #
@@ -158,6 +161,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/BasicOutputStream.o \
 	$(OUTDIR_FK_D)/Class.o \
 	$(OUTDIR_FK_D)/ClassRegistry.o \
+	$(OUTDIR_FK_D)/DateTime.o \
 	$(OUTDIR_FK_D)/Directory.o \
 	$(OUTDIR_FK_D)/ErrorLog.o \
 	$(OUTDIR_FK_D)/Event.o \
@@ -213,6 +217,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/BasicInputStream.o \
 	$(OUTDIR_FK)/BasicOutputStream.o \
 	$(OUTDIR_FK)/Class.o \
+	$(OUTDIR_FK)/DateTime.o \
 	$(OUTDIR_FK)/CommandLine.o \
 	$(OUTDIR_FK)/ClassRegistry.o \
 	$(OUTDIR_FK)/Directory.o \
