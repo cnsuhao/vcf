@@ -235,7 +235,8 @@ public:
 			//create a new image from the file name
 			currentImage_ = GraphicsToolkit::createImage( dlg.getFileName() );
 			
-			scrollBarMgr_->updateVirtualViewSize( currentImage_->getWidth(), currentImage_->getHeight() );
+			scrollBarMgr_->setVirtualViewWidth(  currentImage_->getWidth() );
+			scrollBarMgr_->setVirtualViewHeight( currentImage_->getHeight() );			
 			repaint(); //repaint ourselves to update the new image
 
 			FilePath fp = dlg.getFileName();
@@ -340,6 +341,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2004/09/21 05:55:21  dougtinkham
+*replaced updateVirtualViewSize
+*
 *Revision 1.4.2.7  2004/09/19 22:06:12  marcelloptr
 *fixed bug in listbox and image removal
 *
