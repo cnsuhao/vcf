@@ -151,7 +151,7 @@ void TabbedPages::paint( GraphicsContext* context )
 		
 
 		Rect oldClipRect = context->getClippingRect();
-		Rect tabClipRect( tabAreaBounds_.left_, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
+		Rect tabClipRect( tabAreaBounds_.left_ - 2, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
 
 		//context->setClippingRect( &tabClipRect );
 
@@ -173,7 +173,7 @@ void TabbedPages::paint( GraphicsContext* context )
 			TabPage* page = pages->nextElement();
 			VCF_ASSERT( NULL != page );
 				width = minVal<>( tabWidth, getTabPageWidth( page, context ) );
-				tabsRect.setRect( currentLeft, 3,
+				tabsRect.setRect( currentLeft, tabAreaBounds.top_ - tabHeight_,
 						          currentLeft+ width, tabAreaBounds_.top_ -2  );
 
 				tabsRect.offset( tabViewOffset_, 0 );
@@ -208,7 +208,7 @@ void TabbedPages::paint( GraphicsContext* context )
 			}
 
 			//fill with blank space first
-			selectedRect.inflate( 0, 1 );
+			selectedRect.inflate( 2, 2, 2, 1 );
 			context->rectangle( &selectedRect );
 			context->fillPath();
 			selectedPage->paint( context, &selectedRect );
@@ -415,7 +415,7 @@ void TabbedPages::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
 	Rect tabPagesBounds;
-	tabPagesBounds.setRect( 0, 0, getWidth(), tabHeight_ );
+	tabPagesBounds.setRect( 0, borderWidth_, getWidth(), borderWidth_ + tabHeight_ );
 	if ( true == tabPagesBounds.containsPt( event->getPoint() ) ){
 		//find tab
 		TabModel* model = getModel();
@@ -455,6 +455,16 @@ double TabbedPages::getBorderWidth()
 void TabbedPages::setBorderWidth( const double& borderWidth )
 {
 	borderWidth_ = borderWidth;
+}
+
+double TabbedPages::getTabHeight()
+{
+	return tabHeight_;
+}
+	
+void TabbedPages::setTabHeight( const double& tabHeight )
+{
+	tabHeight_ = tabHeight;
 }
 
 void TabbedPages::onScrollButtonClicked( ButtonEvent* e )
@@ -521,6 +531,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/16 20:47:57  dougtinkham
+*modified paint to give Win32 tab appearance.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
