@@ -413,13 +413,13 @@ class FileUtils:
 
         # manages all the '../' and conform the path as in basepath
         bpath = basepath
-        bpath = bpath.replace("\\", "/")
+        bpath = bpath.replace('\\', '/')
         bpath += '/'                       # (*) make sure it has '/' at the end
-        bpath = bpath.replace("//", "/")   # eliminates doubles
+        bpath = bpath.replace('//', '/')   # eliminates doubles
 
         rpath = path
-        rpath = rpath.replace("\\", "/")
-        rpath = rpath.replace("//", "/")   # eliminates doubles
+        rpath = rpath.replace('\\', '/')
+        rpath = rpath.replace('//', '/')   # eliminates doubles
 
         ( bdrive, bpath ) = os.path.splitdrive( bpath )
         ( rdrive, rpath ) = os.path.splitdrive( rpath )
@@ -775,7 +775,7 @@ class DspApp:
 
         optparser.add_option(   "--workingDir"                               , type = "string"  , dest = "workingDir"                    , default='.'                   , help="set the current directory, it uses os.getCwd() if empty" )
 
-        optparser.add_option(   "-f", "--file"                               , type = "string"  , dest = "filename"                      , default=""                    , help="process the specified filename only" )
+        optparser.add_option(   "-f", "--file"                               , type = "string"  , dest = "filename"                      , default=""                    , help="process only filenames containing this string ( case ignored )" )
         optparser.add_option(   "-r", "--recurse"                            , type = "int"     , dest = "recurse"                       , default=False                 , help="recursion into subdirectories" )
 
         optparser.add_option(   "-v", "--verbose"                            , type = "int"     , dest = "verbose"                       , default=False                 , help="verbose level. Use -vvv to set verbose level = 3" )
@@ -2146,7 +2146,7 @@ class DspFile:
                 #isStaticlib = False
                 if ( re_PROP.search( line ) ):
                     if ( re_output_or_intermed_dir.match( line ) ):
-                    #* Fix bug 'Debug' word in 'Release' CFG:
+                        #* Fix bug 'Debug' word in 'Release' CFG:
                         if ( self.configName == 'Release' ) :
                             line = line.replace( 'Debug', 'Release' )
                             self.lines[n] = line
@@ -2317,16 +2317,16 @@ class DspFile:
     def reformatDir( self, path ):
         # adds '_compiler/' to the path and removes a possible '/obj'
         path = FileUtils.normDir( path, app.options.unixStyle )
-        c = FileUtils.getNormSep( app.options.unixStyle )
-        if ( path.find( compilerVc6 + c ) == -1 ):
+        sep = FileUtils.getNormSep( app.options.unixStyle )
+        if ( path.find( compilerVc6 + sep ) == -1 ):
             # add '_compiler' unless is a relative path
             #rec = re.compile( '[\\/.]*' )
             #m = rec.match( path )
             #if ( m ): predir = m.group()
-            if ( path[0] != c and ( path.find( ".." ) > 0 ) ):  # > 0 i.e. != -1 and != 0
-                path = compilerVc6 + c + path[:]
+            if ( path and path[0] != sep and not path.find( '..' ) == 0 ):  # i.e. not ( existing and at the beginning of the pahname )
+                path = compilerVc6 + sep + path[:]
         # eliminates '/obj' because at this point it is annoying
-        path = StringUtils.replace( path, c + 'obj', '' )
+        path = StringUtils.replace( path, sep + 'obj', '' )
         return path
 
     def extractOutputIntermDir( self, line ) :
@@ -2785,10 +2785,15 @@ class Walker:
         return
 
     def job( self ):
+        singleFile = ( app.options.filename != '' )
+        
         self.manageProjects()
-        self.conformLibraries()
-        self.createWorkspaces()
-        self.duplicateWorkspaces()
+        
+        if ( not singleFile ):
+            self.conformLibraries()
+            self.createWorkspaces()
+            self.duplicateWorkspaces()
+            
         return
 
     def manageProjects( self ):
