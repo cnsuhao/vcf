@@ -329,6 +329,18 @@ void DefaultTreeItem::expand( const bool& isExpanded )
 	changed( DefaultTreeItem::teItemExpanded );
 }
 
+void DefaultTreeItem::expandAllChildren( const bool& isExpanded )
+{
+	expand( isExpanded );
+
+	Enumerator<TreeItem*>* children = getChildren();
+	while ( children->hasMoreElements() ) {
+		TreeItem* item = children->nextElement();
+
+		item->expandAll( isExpanded );
+	}
+}
+
 ulong32 DefaultTreeItem::getLevel()
 {
 	ulong32 result = 0;
@@ -447,6 +459,9 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/31 02:08:05  marcelloptr
+*member function expandAllChildren() added
+*
 *Revision 1.3.2.1  2005/01/26 02:09:10  ddiego
 *fixed bug 1108954
 *

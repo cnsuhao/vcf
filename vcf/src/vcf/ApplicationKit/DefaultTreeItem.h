@@ -22,8 +22,7 @@ where you installed the VCF.
 #endif // _VCF_TREEITEM_H__
 
 
-namespace VCF
-{
+namespace VCF  {
 
 class TreeModel;
 
@@ -92,33 +91,33 @@ public:
 
 	virtual bool containsPoint( Point * pt );
 
-    virtual unsigned long getIndex();
+	virtual unsigned long getIndex();
 
-    virtual void* getData();
+	virtual void* getData();
 
 	virtual void setData( void* data );
 
-    virtual Color* getTextColor();
+	virtual Color* getTextColor();
 
-    virtual void setTextColor(Color* color);
+	virtual void setTextColor(Color* color);
 
-    virtual void setTextBold(const bool& bold);
+	virtual void setTextBold(const bool& bold);
 
-    virtual bool getTextBold();
+	virtual bool getTextBold();
 
-    virtual bool isLeaf();
+	virtual bool isLeaf();
 
 	virtual bool isRoot();
 
-    virtual TreeItem* getParent();
+	virtual TreeItem* getParent();
 
 	virtual void setParent( TreeItem* parent );
 
-    virtual TreeItem* getNextChildNodeItem();
+	virtual TreeItem* getNextChildNodeItem();
 
-    virtual TreeItem* getPrevChildNodeItem();
+	virtual TreeItem* getPrevChildNodeItem();
 
-    virtual String getCaption();
+	virtual String getCaption();
 
 	virtual void setCaption( const String& caption );
 
@@ -153,6 +152,8 @@ public:
 	}
 
 	virtual void expand( const bool& isExpanded );
+
+	virtual void expandAllChildren( const bool& isExpanded );
 
 	virtual ulong32 getLevel();
 
@@ -226,8 +227,9 @@ public:
 protected:
 	virtual void changed( const ulong32& eventType=ITEM_EVENT_CHANGED  );
 
-    bool textBold_;
-    Color TextColor_;
+protected:
+	bool textBold_;
+	Color TextColor_;
 	String caption_;
 	TreeItem* parent_;
 	void* userData_;
@@ -250,12 +252,16 @@ protected:
 	long stateImageIndex_;
 };
 
-};
+
+}; //namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/31 02:11:09  marcelloptr
+*member function expandAllChildren() added
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
