@@ -291,9 +291,8 @@ public:
 
 	/**
 	* renames/moves a file
-	* - or should we have move() ?
 	*@param newFileName the filename
-	*/	
+	*/
 	void move( const String& newFileName );
 
 
@@ -369,8 +368,8 @@ protected:
 	String   owner_; // a string ?
 	
 	ulong32  fileAttributes_;
-	DateTime dateCreation_; // or maybe just ulong64 ?	
-	DateTime dateAccess_; // or maybe just ulong64 ?
+	DateTime dateCreation_;
+	DateTime dateAccess_;
 	
 };
 
@@ -525,6 +524,9 @@ inline bool File::isWriteable()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/23 19:51:13  marcelloptr
+*minor changes on File / Directory stuff
+*
 *Revision 1.1.2.6  2004/07/23 00:56:37  ddiego
 *added the latest changes to the File and Directory finder classes.
 *

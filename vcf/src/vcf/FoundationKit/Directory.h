@@ -39,7 +39,8 @@ class FileSearchFilter;
 *      Directory dir( FilePath::getExpandedRelativePathName( filepath ) );
 *
 *      Directory::Finder* finder = dir.findFiles( "*.cpp" );
-*      while ( file = finder->nextElement() ) {
+*      while ( finder->nextElement() ) {
+*        file = finder->getCurrentElement();
 *        filename = file->getName();
 *
 *        if ( file->isDirectory() ) {
@@ -48,12 +49,17 @@ class FileSearchFilter;
 *          printf ( "%s\n", filename.ansi_c_str() )
 *        }
 *      }
+*      finder->free();
 *  </code>
+*
+*  The user is also able to create more than one finder
+*  from the same directory instance. But in order to achieve
+*  that we made the user responsible of freeing the finder.
 *
 *  The statements:
 *  <code>
-*      finder->setMaskFilterFileAttribs( Fil::faArchive );
-*      finder->setStatMask( Fil::smMaskDateAll );
+*      finder->setMaskFilterFileAttribs( File::faArchive );
+*      finder->ignoreStat( File::smMaskDateAll );
 *  </code>
 *    can be used to speed up the search.
 *
@@ -76,7 +82,8 @@ class FileSearchFilter;
 *      Directory::Finder* finder = dir.findFiles( filterFilesObj, filterDirsObj );
 *      finder->setDisplayMode( Directory::Finder::dmAny );
 *      finder->setRecursion( true, true, 10 );
-*      while ( file = finder->nextElement() ) {
+*      while ( finder->nextElement() ) {
+*        file = finder->getCurrentElement();
 *        filename = file->getName();
 *
 *        if ( file->isDirectory() ) {
@@ -85,12 +92,28 @@ class FileSearchFilter;
 *        } else {
 *          String sz = StringUtils::toString( file->getSize() );
 *          String st = StringUtils::format( file->getDateModified(), L"%d/%m/%Y %H:%M:%S" );
-*  				 String sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
-*  																					file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
-*  				 printf ( "[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.ansi_c_str(), sz.ansi_c_str(), sa.ansi_c_str(), filename.ansi_c_str() );
+*          String sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
+*                                           file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
+*          printf ( "[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.ansi_c_str(), sz.ansi_c_str(), sa.ansi_c_str(), filename.ansi_c_str() );
 *        }
 *      }
+*      finder->free();
 *  </code>
+*
+*  The statements:
+*  <code>
+*      finder->setDisplayMode( Directory::Finder::dmAny );
+*      finder->setDisplayOrder( Directory::Finder::dmFiles );
+*  </code>
+*    can be used to control how the found files are displayed
+*    and their order.
+*
+*  Normally the filenames are displayed in the native format,
+*  but the statement:
+*  <code>
+*      finder->setKeepOSSpecificFormat( true );
+*  </code>
+*  will let the user to mantain the format specific for the OS.
 *
 */
 
@@ -133,11 +156,9 @@ public:
 		File* getCurrentElement() const;
 
 		/**
-		*gets the next file name in the search.
-		*Test for an empty string, as the last element in the
-		*search will be empty.
-		*@return File* pointer to the file object where the informations 
-		*about the file currently found are copied into.
+		*advances the finder to the next element in the search.
+		*@return bool true if we found another element fulfilling
+		*the conditions set by the user, false otherwise.
 		*/
 		bool nextElement();
 
@@ -149,7 +170,7 @@ public:
 		/*
        *Are there any more elements in this Finder ?
        *This function doesn't affect the search in any way.
-       *@return if the there are some more elements to search.
+       *@return bool true if the there are more elements yet to search.
        */
 		inline bool hasMoreElements() const {
 			return searchHasMoreElements_;
@@ -676,6 +697,9 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/23 19:51:13  marcelloptr
+*minor changes on File / Directory stuff
+*
 *Revision 1.1.2.8  2004/07/23 04:21:46  ddiego
 *more checkins
 *
