@@ -190,7 +190,8 @@ unsigned long Component::getComponentCount()
 	return components_.size();
 }
 
-Component* Component::findComponent( const String& componentName ){
+Component* Component::findComponent( const String& componentName )
+{
 	Component* result = NULL;
 	//this is very slow !! for the moment !
 	std::vector<Component*>::iterator it = components_.begin();
@@ -452,6 +453,9 @@ void Component::setDesigning( const bool& designing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/05 02:57:09  ddiego
+*fixed a syntax mistake that tinkham pointed out.The problem was that the findComponent() method was incorrectly declared.
+*
 *Revision 1.1.2.3  2004/05/16 02:39:00  ddiego
 *OSX code updates
 *

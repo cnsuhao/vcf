@@ -341,7 +341,7 @@ public:
 	*name to componentName. If no match is found or the component has
 	*no owned components, the return value is NULL.
 	*/
-	Component* Component::findComponent( const String& componentName );
+	Component* findComponent( const String& componentName );
 
 
 	/**
@@ -454,6 +454,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/05 02:57:09  ddiego
+*fixed a syntax mistake that tinkham pointed out.The problem was that the findComponent() method was incorrectly declared.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
