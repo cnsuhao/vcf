@@ -1,5 +1,5 @@
 //SplashScreen.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "SplashScreen.h"
 
 

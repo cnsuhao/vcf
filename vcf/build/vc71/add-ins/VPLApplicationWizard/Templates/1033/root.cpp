@@ -1,11 +1,9 @@
 //[!output PROJECT_NAME].cpp
-#include "ApplicationKit.h"
-
+#include "vcf/ApplicationKit/ApplicationKit.h"
 
 #include "[!output PROJECT_NAME].h"
 
 using namespace VCF;
-
 
 #define [!output UPPER_CASE_PROJECT_NAME]PACKAGEUUID "[!output VPL_UUID]"
 
@@ -21,7 +19,7 @@ public:
 								"[!output AUTHOR]",
 								"[!output COMPANY]",
 								"[!output COPYRIGHT]",
-								"[!output ADDITIONAL]"){
+								""){
 
 	}
 };

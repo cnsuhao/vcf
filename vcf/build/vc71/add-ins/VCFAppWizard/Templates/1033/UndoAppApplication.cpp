@@ -1,5 +1,5 @@
 //[!output PROJECT_NAME]Application.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "[!output PROJECT_NAME]Application.h"
 #include "MainWindow.h"
 
@@ -7,10 +7,7 @@
 #include "SplashScreen.h"
 [!endif]
 
-
 using namespace VCF;
-
-
 
 [!output PROJECT_NAME]Application::[!output PROJECT_NAME]Application( int argc, char** argv ) : 
 	Application(argc, argv)

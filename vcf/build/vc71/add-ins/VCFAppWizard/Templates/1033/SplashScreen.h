@@ -3,9 +3,7 @@
 #ifndef _SPLASHSCREEN_H__
 #define _SPLASHSCREEN_H__
 
-
 using namespace VCF;
-
 
 /**
 *Class SplashScreen documentation

@@ -1,5 +1,4 @@
-
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "[!output PROJECT_NAME]Window.h"
 #include "[!output PROJECT_NAME]Document.h"
 

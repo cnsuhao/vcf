@@ -1,8 +1,7 @@
-
 #ifndef _[!output UPPER_CASE_PROJECT_NAME]DOCUMENT_H__
 #define _[!output UPPER_CASE_PROJECT_NAME]DOCUMENT_H__
 
-#include "ModelViewKit.h"
+#include "vcf/ApplicationKit/ModelViewKit.h"
 
 #define [!output UPPER_CASE_PROJECT_NAME]DOCUMENT_CLASSID		"[!output DOC_UUID]"
 

@@ -3,9 +3,6 @@
 #ifndef _[!output UPPER_CASE_PROJECT_NAME]ABOUT_H__
 #define _[!output UPPER_CASE_PROJECT_NAME]ABOUT_H__
 
-
-
-
 /**
 *Class [!output PROJECT_NAME]About documentation
 */
