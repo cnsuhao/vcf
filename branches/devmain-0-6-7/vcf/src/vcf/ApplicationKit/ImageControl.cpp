@@ -23,6 +23,7 @@ ImageControl::ImageControl():
 	transparent_ = false;
 	filename_ = "";
 	setTabStop(false);
+	autoDelete_ = true;
 }
 
 ImageControl::~ImageControl()
@@ -40,6 +41,7 @@ Image* ImageControl::getImage()
 
 void ImageControl::setImage( Image* image )
 {
+	// if ( autoDelete == false ) the ImageControl does not owns the image anymore
 	if ( (NULL != image_) && autoDelete_ ) {
 		delete image_;
 		image_ = NULL;
@@ -151,6 +153,9 @@ void ImagePropertyEditor::edit()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/28 17:55:51  marcelloptr
+*minor fixes
+*
 *Revision 1.2.4.3  2005/03/27 01:35:02  scottpearson
 *Toggling for AutoDelete added.
 *
