@@ -16,9 +16,9 @@ where you installed the VCF.
 
 namespace VCF {
 
-class GRAPHICSKIT_API GraphicsContext;
+class OPENGLKIT_API GraphicsContext;
 
-class GRAPHICSKIT_API Win32OpenGLPeer : public OpenGLPeer{
+class OPENGLKIT_API Win32OpenGLPeer : public OpenGLPeer{
 
 public:
 	Win32OpenGLPeer( GraphicsContext* glContext );
@@ -42,6 +42,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/06 17:43:44  pallindo
+*Switched API to OPENGLKIT_API
+*
 *Revision 1.1.2.2  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
