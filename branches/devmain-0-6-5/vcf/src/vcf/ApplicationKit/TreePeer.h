@@ -54,6 +54,10 @@ public:
 	virtual void addItem( TreeItem* item ) = 0;
 
 	virtual Rect getItemImageRect( TreeItem* item ) = 0;
+
+	virtual bool getAllowLabelEditing() = 0;
+
+	virtual void setAllowLabelEditing( const bool& allowLabelEditing ) = 0;
 };
 
 };
@@ -62,6 +66,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
+*added support for editing labels on a tree control
+*
 *Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

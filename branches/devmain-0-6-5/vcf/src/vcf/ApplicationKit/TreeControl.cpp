@@ -331,10 +331,22 @@ void TreeControl::handleEvent( Event* event )
 	}
 }
 
+bool TreeControl::getAllowLabelEditing()
+{
+	return treePeer_->getAllowLabelEditing();
+}
+
+void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
+{
+	treePeer_->setAllowLabelEditing( allowLabelEditing );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
+*added support for editing labels on a tree control
+*
 *Revision 1.1.2.3  2004/07/16 04:01:46  ddiego
 *fixed the last of border redraw issues, I hope.
 *
