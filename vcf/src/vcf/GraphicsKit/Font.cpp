@@ -194,17 +194,7 @@ void Font::copy( Object* source )
 	if ( NULL != source ){
 		Font* srcFont = dynamic_cast<Font*>( source );
 		if ( NULL != srcFont ){
-			setStrikeOut( srcFont->getStrikeOut() );
-			setUnderlined( srcFont->getUnderlined() );
-			setBold( srcFont->getBold() );
-			setItalic( srcFont->getItalic() );
-			setPointSize( srcFont->getPointSize() );
-			setName( srcFont->getName() );
-
-			Color* srcColor = srcFont->getColor();
-			getColor()->copy( srcColor );
-
-			context_ = srcFont->context_;
+			*this = *srcFont;
 		}
 	}
 }
@@ -240,6 +230,9 @@ void Font::setAttributes( const double& pointSize, const bool& bold, const bool&
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/01 03:50:39  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
 *Revision 1.2.2.1  2004/08/24 04:29:58  ddiego
 *more printing work, still not yet integrated.
 *

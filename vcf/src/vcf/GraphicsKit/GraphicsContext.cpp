@@ -84,34 +84,38 @@ GraphicsState& GraphicsState::operator=( const GraphicsState& rhs )
 
 
 GraphicsContext::GraphicsContext():
-	currentState_(GraphicsContext::gsNone),
+	currentDrawingState_(GraphicsContext::gsNone),
 	drawingArea_(NULL),	
 	contextPeer_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
-	graphicsStateIndex_(0)
+	graphicsStateIndex_(0),
+	currentGraphicsState_(NULL)
 {
 	GraphicsState* newState = new GraphicsState();
 	newState->owningContext_ = this;
 	stateCollection_.push_back( newState );
+	currentGraphicsState_ = stateCollection_[graphicsStateIndex_];
 
-	Font& font = stateCollection_[graphicsStateIndex_]->font_;
+	Font& font = currentGraphicsState_->font_;
 	font.setGraphicsContext( this );
 
 	init();
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned long& height ):
-	currentState_(GraphicsContext::gsNone),
+	currentDrawingState_(GraphicsContext::gsNone),
 	drawingArea_(NULL),
 	contextPeer_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
-	graphicsStateIndex_(0)
+	graphicsStateIndex_(0),
+	currentGraphicsState_(NULL)
 {
 	GraphicsState* newState = new GraphicsState();
 	newState->owningContext_ = this;
 	stateCollection_.push_back( newState );
+	currentGraphicsState_ = stateCollection_[graphicsStateIndex_];
 
 	contextPeer_ = GraphicsToolkit::createContextPeer( width, height );
 	if ( NULL == contextPeer_ ){
@@ -120,7 +124,7 @@ GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned lon
 
 	contextPeer_->setContext( this );
 	init();
-	Font& font = stateCollection_[graphicsStateIndex_]->font_;
+	Font& font = currentGraphicsState_->font_;
 	font.setGraphicsContext( this );
 
 	font.setPointSize( font.getPointSize() );
@@ -128,16 +132,18 @@ GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned lon
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& contextID ):
-	currentState_(GraphicsContext::gsNone),
+	currentDrawingState_(GraphicsContext::gsNone),
 	drawingArea_(NULL),
 	contextPeer_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
-	graphicsStateIndex_(0)
+	graphicsStateIndex_(0),
+	currentGraphicsState_(NULL)
 {
 	GraphicsState* newState = new GraphicsState();
 	newState->owningContext_ = this;
 	stateCollection_.push_back( newState );
+	currentGraphicsState_ = stateCollection_[graphicsStateIndex_];
 
 	contextPeer_ = GraphicsToolkit::createContextPeer( contextID );
 	if ( NULL == contextPeer_ ){
@@ -145,7 +151,7 @@ GraphicsContext::GraphicsContext( const unsigned long& contextID ):
 	}
 	contextPeer_->setContext( this );
 	init();
-	Font& font = stateCollection_[graphicsStateIndex_]->font_;
+	Font& font = currentGraphicsState_->font_;
 	font.setGraphicsContext( this );
 
 	font.setPointSize( font.getPointSize() );
@@ -197,7 +203,7 @@ void GraphicsContext::init()
 
 void GraphicsContext::setCurrentFont(Font * font)
 {
-	Font& currentFont = stateCollection_[graphicsStateIndex_]->font_;
+	Font& currentFont = currentGraphicsState_->font_;
 	currentFont = *font;	
 	currentFont.setGraphicsContext( this );
 	currentFont.setPointSize( currentFont.getPointSize() );
@@ -208,7 +214,7 @@ void GraphicsContext::setCurrentFill(Fill * fill)
 	if ( NULL != fill ){
 		fill->setContext( this );
 	}
-	stateCollection_[graphicsStateIndex_]->fill_ = fill;
+	currentGraphicsState_->fill_ = fill;
 }
 
 void GraphicsContext::setCurrentStroke(Stroke * stroke)
@@ -216,13 +222,13 @@ void GraphicsContext::setCurrentStroke(Stroke * stroke)
 	if ( NULL != stroke ){
 		stroke->setContext( this );
 	}
-	stateCollection_[graphicsStateIndex_]->stroke_ = stroke;
+	currentGraphicsState_->stroke_ = stroke;
 }
 
 void GraphicsContext::draw(Path * path)
 {
-	Fill* fill = stateCollection_[graphicsStateIndex_]->fill_;
-	Stroke* stroke = stateCollection_[graphicsStateIndex_]->stroke_;
+	Fill* fill = currentGraphicsState_->fill_;
+	Stroke* stroke = currentGraphicsState_->stroke_;
 	if ( NULL != fill ){
 		fill->render( path );
 	}
@@ -277,18 +283,18 @@ void GraphicsContext::textWithStateAt( const double& x, const double& y, const S
 	else {
 		Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 		Color* hilight = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
-		Color oldColor = *stateCollection_[graphicsStateIndex_]->font_.getColor();
+		Color oldColor = *currentGraphicsState_->font_.getColor();
 
-		stateCollection_[graphicsStateIndex_]->font_.setColor( hilight );
+		currentGraphicsState_->font_.setColor( hilight );
 
 		textAt( x+1, y+1, text );
 
-		stateCollection_[graphicsStateIndex_]->font_.setColor( shadow );
+		currentGraphicsState_->font_.setColor( shadow );
 
 		textAt( x, y, text );
 
 		//reset the original color
-		stateCollection_[graphicsStateIndex_]->font_.setColor( &oldColor );
+		currentGraphicsState_->font_.setColor( &oldColor );
 	}
 }
 
@@ -320,7 +326,7 @@ void GraphicsContext::textAt( const double & x, const double & y, const String& 
 void GraphicsContext::rectangle(const double & x1, const double & y1, const double & x2, const double & y2)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(x1,y1,PointOperation::ptRect) );
 	pathOperations_.push_back( PointOperation(x2,y2,PointOperation::ptRect) );
@@ -330,7 +336,7 @@ void GraphicsContext::roundRect(const double & x1, const double & y1, const doub
 								const double & xc, const double & yc)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(x1,y1,PointOperation::ptRoundRect) );
 	pathOperations_.push_back( PointOperation(x2,y2,PointOperation::ptRoundRect) );
@@ -345,7 +351,7 @@ void GraphicsContext::circle(const double & x, const double & y, const double & 
 void GraphicsContext::ellipse(const double & x1, const double & y1, const double & x2, const double & y2)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(x1,y1,PointOperation::ptEllipse) );
 	pathOperations_.push_back( PointOperation(x2,y2,PointOperation::ptEllipse) );
@@ -357,7 +363,7 @@ void GraphicsContext::arc( const double& centerX,  const double& centerY,
 				const double& startAngle, const double& endAngle)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(centerX,centerY,PointOperation::ptArc) );
 	pathOperations_.push_back( PointOperation(radiusHeight,radiusHeight,PointOperation::ptArc) );
@@ -369,7 +375,7 @@ void GraphicsContext::pie(const double & x1, const double & y1, const double & x
                           const double & x3, const double & y3, const double & x4, const double & y4)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	//contextPeer_->pie( x1, y1, x2, y2, x3, y3, x4, y4 );
 }
@@ -378,7 +384,7 @@ void GraphicsContext::chord(const double & x1, const double & y1, const double &
                             const double & x3, const double & y3, const double & x4, const double & y4)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	//contextPeer_->chord( x1, y1, x2, y2, x3, y3, x4, y4 );
 }
@@ -387,7 +393,7 @@ void GraphicsContext::chord(const double & x1, const double & y1, const double &
 void GraphicsContext::polyline( const std::vector<Point>& pts )
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	std::vector<Point>::const_iterator it = pts.begin();
 	while ( it != pts.end() ) {
@@ -401,7 +407,7 @@ void GraphicsContext::curve(const double & x1, const double & y1, const double &
                             const double & x3, const double & y3, const double & x4, const double & y4)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(x1,y1,PointOperation::ptBezier) );
 	pathOperations_.push_back( PointOperation(x2,y2,PointOperation::ptBezier) );
@@ -412,7 +418,7 @@ void GraphicsContext::curve(const double & x1, const double & y1, const double &
 void GraphicsContext::lineTo(const double & x, const double & y)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(x,y,PointOperation::ptLineTo) );
 }
@@ -420,7 +426,7 @@ void GraphicsContext::lineTo(const double & x, const double & y)
 void GraphicsContext::moveTo(const double & x, const double & y)
 {
 	checkPathOperations();
-	currentState_ = GraphicsContext::gsAddingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsAddingGraphicsOps;
 
 	pathOperations_.push_back( PointOperation(x,y,PointOperation::ptMoveTo) );
 }
@@ -470,12 +476,12 @@ void GraphicsContext::copyContext( const Rect& sourceRect,
 
 void GraphicsContext::setCurrentTransform( Matrix2D* transform )
 {
-	stateCollection_[graphicsStateIndex_]->transformMatrix_ = *transform;
+	currentGraphicsState_->transformMatrix_ = *transform;
 }
 
 Matrix2D* GraphicsContext::getCurrentTransform()
 {
-	return &stateCollection_[graphicsStateIndex_]->transformMatrix_;
+	return &currentGraphicsState_->transformMatrix_;
 }
 
 void GraphicsContext::setRotation( const double& theta )
@@ -483,9 +489,9 @@ void GraphicsContext::setRotation( const double& theta )
 	Matrix2D rot;
 	rot.rotate( theta );
 	Matrix2D tmp;
-	tmp.multiply( &rot, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );
+	tmp.multiply( &rot, &currentGraphicsState_->transformMatrix_ );
 
-	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
+	currentGraphicsState_->transformMatrix_ = tmp;
 }
 
 void GraphicsContext::setTranslation( const double transX, const double& transY )
@@ -493,9 +499,9 @@ void GraphicsContext::setTranslation( const double transX, const double& transY 
 	Matrix2D trans;
 	trans.translate( transX, transY );
 	Matrix2D tmp;
-	tmp.multiply( &trans, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );
+	tmp.multiply( &trans, &currentGraphicsState_->transformMatrix_ );
 
-	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
+	currentGraphicsState_->transformMatrix_ = tmp;
 }
 
 void GraphicsContext::setShear( const double& shearX, const double& shearY )
@@ -504,9 +510,9 @@ void GraphicsContext::setShear( const double& shearX, const double& shearY )
 	shear.shear( shearX, shearY );
 
 	Matrix2D tmp;
-	tmp.multiply( &shear, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );	
+	tmp.multiply( &shear, &currentGraphicsState_->transformMatrix_ );	
 
-	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
+	currentGraphicsState_->transformMatrix_ = tmp;
 }
 
 void GraphicsContext::setScale( const double& scaleX, const double& scaleY )
@@ -515,26 +521,26 @@ void GraphicsContext::setScale( const double& scaleX, const double& scaleY )
 	scale.scale( scaleX, scaleY );
 	
 	Matrix2D tmp;	
-	tmp.multiply( &scale, &stateCollection_[graphicsStateIndex_]->transformMatrix_ );
+	tmp.multiply( &scale, &currentGraphicsState_->transformMatrix_ );
 
-	stateCollection_[graphicsStateIndex_]->transformMatrix_ = tmp;
+	currentGraphicsState_->transformMatrix_ = tmp;
 }
 
 Font* GraphicsContext::getCurrentFont()
 {
-	return &stateCollection_[graphicsStateIndex_]->font_;
+	return &currentGraphicsState_->font_;
 }
 
 void GraphicsContext::setColor( Color* color )
 {	
 	if ( NULL != color ) {
-		stateCollection_[graphicsStateIndex_]->color_ = *color;
+		currentGraphicsState_->color_ = *color;
 	}
 }
 
 Color* GraphicsContext::getColor()
 {
-	return &stateCollection_[graphicsStateIndex_]->color_;
+	return &currentGraphicsState_->color_;
 }
 
 
@@ -589,7 +595,7 @@ void GraphicsContext::setClippingRect( Rect* rect )
 		rectClipPath->close();
 	}
 	
-	Path* clipPath = stateCollection_[graphicsStateIndex_]->clippingPath_;
+	Path* clipPath = currentGraphicsState_->clippingPath_;
 
 	if ( NULL != clipPath ) { //release the underlying object instance
 		Object* pathObj = dynamic_cast<Object*>( clipPath );
@@ -603,14 +609,14 @@ void GraphicsContext::setClippingRect( Rect* rect )
 		pathObj->addRef();
 	}
 
-	stateCollection_[graphicsStateIndex_]->clippingPath_ = clipPath;
+	currentGraphicsState_->clippingPath_ = clipPath;
 
 	contextPeer_->setClippingRect( rect );
 }
 
 void GraphicsContext::setClippingPath( Path* clippingPath )
 {
-	Path* clipPath = stateCollection_[graphicsStateIndex_]->clippingPath_;
+	Path* clipPath = currentGraphicsState_->clippingPath_;
 
 	if ( NULL != clipPath ) { //release the underlying object instance
 		Object* pathObj = dynamic_cast<Object*>( clipPath );
@@ -624,7 +630,7 @@ void GraphicsContext::setClippingPath( Path* clippingPath )
 		pathObj->addRef();
 	}
 
-	stateCollection_[graphicsStateIndex_]->clippingPath_ = clipPath;
+	currentGraphicsState_->clippingPath_ = clipPath;
 
 	contextPeer_->setClippingPath( clipPath );
 }
@@ -633,7 +639,7 @@ Rect GraphicsContext::getClippingRect()
 {
 	Rect result;
 
-	Path* clipPath = stateCollection_[graphicsStateIndex_]->clippingPath_;
+	Path* clipPath = currentGraphicsState_->clippingPath_;
 
 	if ( NULL != clipPath ) {
 		result = clipPath->getBounds();
@@ -644,7 +650,7 @@ Rect GraphicsContext::getClippingRect()
 
 Path* GraphicsContext::getClippingPath()
 {
-	return stateCollection_[graphicsStateIndex_]->clippingPath_;
+	return currentGraphicsState_->clippingPath_;
 }
 
 void GraphicsContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
@@ -750,17 +756,17 @@ void GraphicsContext::drawThemeText( Rect* rect, TextState& state )
 
 void GraphicsContext::setStrokeWidth( const double& width )
 {
-	stateCollection_[graphicsStateIndex_]->strokeWidth_ = width;
+	currentGraphicsState_->strokeWidth_ = width;
 }
 
 double GraphicsContext::getStrokeWidth()
 {
-	return stateCollection_[graphicsStateIndex_]->strokeWidth_;
+	return currentGraphicsState_->strokeWidth_;
 }
 
 void GraphicsContext::execPathOperations()
 {
-	currentState_ = GraphicsContext::gsExecutingGraphicsOps;
+	currentDrawingState_ = GraphicsContext::gsExecutingGraphicsOps;
 
 	std::vector<PointOperation>::iterator it = pathOperations_.begin();
 
@@ -768,15 +774,15 @@ void GraphicsContext::execPathOperations()
 	double tmpY;
 
 	
-	Matrix2D& transform = stateCollection_[graphicsStateIndex_]->transformMatrix_;
+	Matrix2D& transform = currentGraphicsState_->transformMatrix_;
 
 	while ( it != pathOperations_.end() ) {
 		PointOperation& pointOp = *it;
 
 		switch ( pointOp.primitive ){
 			case PointOperation::ptMoveTo : {		
-				stateCollection_[graphicsStateIndex_]->currentMoveTo_.x_ = pointOp.x;
-				stateCollection_[graphicsStateIndex_]->currentMoveTo_.y_ = pointOp.y;
+				currentGraphicsState_->currentMoveTo_.x_ = pointOp.x;
+				currentGraphicsState_->currentMoveTo_.y_ = pointOp.y;
 
 				tmpX = pointOp.x * (transform[Matrix2D::mei00]) +
 							pointOp.y * (transform[Matrix2D::mei10]) +
@@ -1013,13 +1019,13 @@ void GraphicsContext::execPathOperations()
 		}
 	}
 
-	currentState_ = GraphicsContext::gsNone;
+	currentDrawingState_ = GraphicsContext::gsNone;
 }
 
 
 void GraphicsContext::checkPathOperations()
 {
-	if ( GraphicsContext::gsAddingGraphicsOps != currentState_ ) {
+	if ( GraphicsContext::gsAddingGraphicsOps != currentDrawingState_ ) {
 		pathOperations_.clear();
 	}
 }
@@ -1236,6 +1242,9 @@ int GraphicsContext::saveState()
 
 	stateCollection_.push_back( newState );
 	graphicsStateIndex_ = stateCollection_.size() - 1;
+	
+	currentGraphicsState_ = stateCollection_[graphicsStateIndex_];
+
 	return graphicsStateIndex_;
 }
 
@@ -1253,6 +1262,7 @@ void GraphicsContext::restoreState( int state )
 	}
 	
 	graphicsStateIndex_ = maxVal<>(0,(state - 1));
+	currentGraphicsState_ = stateCollection_[graphicsStateIndex_];
 }
 
 
@@ -1262,6 +1272,9 @@ void GraphicsContext::restoreState( int state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/09/01 03:50:39  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
 *Revision 1.2.2.6  2004/08/31 21:12:07  ddiego
 *graphice save and restore state
 *
