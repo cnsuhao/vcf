@@ -69,7 +69,7 @@ OBJFILES=$(OBJ)\OpenGLControl.obj \
 	 $(OBJ)\OpenGLToolkit.obj \
 	 $(OBJ)\Win32OpenGLPeer.obj
          
-LIBFILES=UUID.LIB GLAUX.LIB
+LIBFILES=UUID.LIB
 DEFFILE=
 ALLOBJS=$(OBJFILES)
 BCC32STARTUP=c0d32.obj
