@@ -57,9 +57,6 @@ echo -e $VCFCOPYRIGHT \
 "</section>\n\n\n\n\n"\
 "<!--\n"\
 "CVS Log info\n"\
-"\$Log$
-"\Revision 1.1.2.1  2004/01/17 18:47:30  ddiego
-"\added a new example for DateTime calss and some other minor fixes to it
 "\1.xml,v \$\n"\
 "-->\n\n" > $1.xml
 
