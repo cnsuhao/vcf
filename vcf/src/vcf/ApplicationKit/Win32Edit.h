@@ -95,6 +95,20 @@ public:
 	virtual void finishPrinting();
 
 	virtual ulong32 getTotalPrintablePageCount( PrintContext* context );
+
+	virtual void cut();
+
+	virtual void copy();
+
+	virtual void paste();
+
+	virtual bool canUndo();
+
+	virtual bool canRedo();
+
+	virtual void undo();
+
+	virtual void redo();
 protected:
 	//WNDPROC oldEditWndProc_;
 	VCF::Point posAtChar_;
@@ -136,6 +150,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3.2.4  2005/02/24 06:16:11  marcelloptr
 *bugfix [1150773] - Win32Edit loses last n characters past the last 2048 written
 *

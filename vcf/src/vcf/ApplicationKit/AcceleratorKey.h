@@ -102,6 +102,98 @@ instead of the menu item directly.
 */
 class APPLICATIONKIT_API AcceleratorKey : public VCF::Object {
 public:
+
+	/**
+	\p
+	This class is used to hold the values of both the 
+	keyboard modifier(s), such as Ctrl, Shift, or Alt,
+	and the virtual key value, such as vkLetterV.	
+	\p
+	The actual data is stored as 2 unsigned 16 bit values,
+	within one unsigned 32 bit member variable. The 
+	virtual key code is stored in the upper 16 bits,
+	and the keyboard modifiers are stored in the lower 
+	16 bits.
+	*/
+	class Value {
+	public:
+		enum {
+			ShiftBy = 16,
+			MaskBy	= 0x0000FFFF
+		};
+		Value(): val_(0){};
+
+		Value(const ulong32& modifierMask, const VirtualKeyCode& keyCode): val_(0){
+			val_ = modifierMask | (keyCode << Value::ShiftBy);
+		}
+
+		bool isEmpty() const {
+			return  0 == val_;
+		}
+
+		bool hasShiftKey() const {
+			return ((getModifierMask() & kmShift) != 0);
+		}
+
+		bool hasCtrlKey() const {
+			return ((getModifierMask() & kmCtrl) != 0);
+		}
+
+		bool hasAltKey() const {
+			return ((getModifierMask() & kmAlt) != 0);
+		}
+
+		VirtualKeyCode getKeyCode() const {
+			return (VirtualKeyCode)(val_ >> Value::ShiftBy);
+		}
+
+		void setKeyCode( const VirtualKeyCode& keyCode ) {
+			val_ = (keyCode << Value::ShiftBy) | (val_ & Value::MaskBy);
+		}
+		
+		ulong32 getModifierMask() const {
+			return val_ & Value::MaskBy;
+		}
+
+		void setModifierMask( const ulong32& modifierMask ) {
+			val_ = modifierMask | (val_ & (Value::MaskBy<< Value::ShiftBy));
+		}
+
+
+		Value& operator= ( const ulong32& val ) {
+			val_ = val;
+			return *this;
+		}
+
+		Value& operator= ( AcceleratorKey* val ) {
+			if ( NULL == val ) {
+				val_ = 0;
+			}
+			else {
+				val_ = val->getModifierMask() | (val->getKeyCode() << Value::ShiftBy);
+			}
+			return *this;
+		}
+
+		operator ulong32() const {
+			return val_;
+		}
+
+		operator uint32() const {
+			return uint32(val_);
+		}
+
+		bool operator == ( const Value& rhs ) const {
+			return val_ == rhs.val_;
+		}
+
+		bool operator != ( const Value& rhs ) const {
+			return val_ != rhs.val_;
+		}
+	protected:
+		ulong32 val_;
+	};
+
 	AcceleratorKey( Control* associatedControl, const VirtualKeyCode& keyCode,
 					const ulong32& modifierMask, EventHandler* eventHandler,
 					const bool& isMnemonic=false );
@@ -241,6 +333,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.2.4.3  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

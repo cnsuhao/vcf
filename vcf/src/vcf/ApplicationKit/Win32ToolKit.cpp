@@ -210,6 +210,108 @@ public:
 		return input;
 	}
 
+	virtual AcceleratorKey::Value getStandardAcceleratorFor( const StandardAccelerator& val ) {
+		AcceleratorKey::Value result;
+		
+		switch ( val ) {
+			case UIPolicyManager::saApplicationQuit : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterQ );
+			}
+			break;
+
+			case UIPolicyManager::saApplicationAbout : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterQ );
+			}
+			break;
+
+			case UIPolicyManager::saApplicationPreferences : {
+
+			}
+			break;
+
+			case UIPolicyManager::saFileNew : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterN );
+			}
+			break;
+
+			case UIPolicyManager::saFileOpen : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterO );
+			}
+			break;
+
+			case UIPolicyManager::saFileSave : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterS );
+			}
+			break;
+
+			case UIPolicyManager::saFileSaveAs : {
+				result = AcceleratorKey::Value( kmCtrl | kmShift,vkLetterS );
+			}
+			break;
+
+			case UIPolicyManager::saFilePrint : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterP );
+			}
+			break;
+
+			case UIPolicyManager::saFilePageSetup : {
+				
+			}
+			break;
+
+			case UIPolicyManager::saEditUndo : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterZ );
+			}
+			break;
+
+			case UIPolicyManager::saEditRedo : {
+				result = AcceleratorKey::Value( kmCtrl | kmShift, vkLetterZ );
+			}
+			break;
+
+			case UIPolicyManager::saEditCut : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterX );
+			}
+			break;
+
+			case UIPolicyManager::saEditCopy : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterC );
+			}
+			break;
+
+			case UIPolicyManager::saEditPaste : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterV );
+			}
+			break;
+
+			case UIPolicyManager::saEditDelete : {
+				result = AcceleratorKey::Value( kmUndefined, vkDelete );
+			}
+			break;
+
+			case UIPolicyManager::saEditSelectAll : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterA );
+			}
+			break;
+
+			case UIPolicyManager::saEditFind : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterF );
+			}
+			break;
+
+			case UIPolicyManager::saEditFindNext : {
+				result = AcceleratorKey::Value( kmUndefined, vkF3 );
+			}
+			break;
+
+			case UIPolicyManager::saHelpContents : {
+				result = AcceleratorKey::Value( kmUndefined, vkF1 );
+			}
+			break;
+		}
+
+		return result;
+	}
 protected:
 
 	/**
@@ -2102,6 +2204,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3.2.8  2005/03/15 01:51:50  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

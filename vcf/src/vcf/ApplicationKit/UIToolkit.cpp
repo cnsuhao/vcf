@@ -617,16 +617,7 @@ void UIToolkit::internal_registerAccelerator( AcceleratorKey* accelerator )
 	ulong32 key = 0;
 	key = accelerator->getKeyCode() << 16;
 	key |= accelerator->getModifierMask();
-/*
-	std::map<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
-	if ( found != acceleratorMap_.end() ) {
-		delete found->second;
-		found->second = accelerator;
-	}
-	else {
-		acceleratorMap_[key] = accelerator;
-	}
-	*/
+
 
 	std::pair<ulong32,AcceleratorKey*> item(key,accelerator);
 	acceleratorMap_.insert( item );
@@ -639,13 +630,6 @@ AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCod
 	ulong32 key = 0;
 	key = keyCode << 16;
 	key |= modifierMask;
-
-	/*
-	std::map<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
-	if ( found != acceleratorMap_.end() ) {
-		result = found->second;
-	}
-	*/
 
 	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
 	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );
@@ -706,27 +690,29 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 	
 
 	AccelMapIter it = range.first;
-	
-	if ( control ) {
-		if ( control->areParentsEnabled() ) {
-			while ( it != range.second ) {
+	if ( control ) {			
+			if ( control->areParentsEnabled() ) {
 				
-				AcceleratorKey* accel = it->second;
-				if ( accel->getAssociatedControl() == control ) {
-					accelerator = accel;
-					break;
+				while ( it != range.second ) {
+					
+					AcceleratorKey* accel = it->second;
+					if ( accel->getAssociatedControl() == control ) {
+						accelerator = accel;
+						break;
+					}
+					
+					it ++;
 				}
-				
-				it ++;
 			}
 		}
-	}
 
-	//if accelerator is still null try and find the first matchign menu item
-	if ( NULL == accelerator ) {
+	
+
+	
+	//if accelerator is still null try and find the first matching menu item
+	if ( NULL == accelerator ) {		
 		it = range.first;
-		while ( it != range.second ) {
-			
+		while ( it != range.second ) {			
 			AcceleratorKey* accel = it->second;
 			if ( accel->getAssociatedMenuItem() != NULL ) {
 				accelerator = accel;
@@ -741,7 +727,8 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 			}
 			
 			it ++;
-		}		
+		}	
+
 	}
 	
 	//if accelerator is still null try and find the first matching object
@@ -1150,6 +1137,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3.2.9  2005/03/21 17:30:38  marcelloptr
 *added a comment
 *
