@@ -37,28 +37,28 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 2
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6/Release"
-# PROP Intermediate_Dir "vc6/Release"
+# PROP Output_Dir "vc7/Release"
+# PROP Intermediate_Dir "vc7/Release"
 # PROP Target_Ext "awx"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Fo"vc7/Release/" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
 # ADD RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc6/Release\VCFLibraryAppWizard_vc6.bsc"
+# ADD BSC32 /nologo /o"vc7/Release\VCFLibraryAppWizard_vc7.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"vc6/Release/VCFLibraryAppWizard_vc6.awx"
+# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"vc7/Release/VCFLibraryAppWizard_vc7.awx"
 # Begin Custom Build - Copying custom AppWizard to Template directory...
-OutDir=.\vc6/Release
-TargetPath=.\vc6\Release\VCFLibraryAppWizard_vc6.awx
-TargetName=VCFLibraryAppWizard_vc6
-InputPath=.\vc6\Release\VCFLibraryAppWizard_vc6.awx
+OutDir=.\vc7/Release
+TargetPath=.\vc7\Release\VCFLibraryAppWizard_vc7.awx
+TargetName=VCFLibraryAppWizard_vc7
+InputPath=.\vc7\Release\VCFLibraryAppWizard_vc7.awx
 SOURCE="$(InputPath)"
 
 "$(MSDEVDIR)\Template\$(TargetName).awx" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -78,23 +78,23 @@ SOURCE="$(InputPath)"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 2
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6/Debug"
-# PROP Intermediate_Dir "vc6/Debug"
+# PROP Output_Dir "vc7/Debug"
+# PROP Intermediate_Dir "vc7/Debug"
 # PROP Target_Ext "awx"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /Gm /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_PSEUDO_DEBUG" /D "_WINDLL" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_PSEUDO_DEBUG" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_PSEUDO_DEBUG" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /FR"vc7/Debug/" /Fo"vc7/Debug/" /Fd"vc7/Debug/VCFLibraryAppWizard_vc7_d.pdb" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_PSEUDO_DEBUG" /d "_AFXDLL"
 # ADD RSC /l 0x409 /d "NDEBUG" /d "_PSEUDO_DEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc6/Debug\VCFLibraryAppWizard_vc6_d.bsc"
+# ADD BSC32 /nologo /o"vc7/Debug\VCFLibraryAppWizard_vc7_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386 /out:"vc6/Debug/VCFLibraryAppWizard_vc6_d.dll"
+# ADD LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386 /out:"vc7/Debug/VCFLibraryAppWizard_vc7_d.dll"
 
 !ENDIF 
 
