@@ -24,6 +24,7 @@ namespace VCF {
 	public:
 
 		ProgramInfo( const String& programName, 
+						const String& programFileName, 
 						const String& author,
 						const String& copyright,
 						const String& company,
@@ -31,6 +32,7 @@ namespace VCF {
 						const String& programVersion,
 						const String& fileVersion):
 							programName_(programName),
+							programFileName_(programFileName),
 							author_(author),
 							copyright_(copyright),
 							company_(company),
@@ -76,8 +78,13 @@ namespace VCF {
 		String getProgramVersion() const {
 			return programVersion_;
 		}
+
+		String getProgramFileName() const {
+			return programFileName_;	
+		}
 	protected:
 		String programName_;
+		String programFileName_;
 		String author_;
 		String copyright_;
 		String company_;

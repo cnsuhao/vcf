@@ -55,6 +55,8 @@ public:
 	virtual String getOSName();
 
 	virtual String getOSVersion();
+
+	virtual ProgramInfo* getProgramInfoFromFileName( const String& fileName );
 protected:
 };
 
@@ -64,6 +66,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.2.2.3  2004/09/15 04:25:52  ddiego
 *fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
 *

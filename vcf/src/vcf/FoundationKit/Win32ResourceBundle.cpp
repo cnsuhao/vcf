@@ -510,13 +510,16 @@ int showVer(void* pVer, DWORD size)
 #define VS_ROUNDOFFS(a,b,r)	(((byte*)(b) - (byte*)(a) + ((r)-1)) & ~((r)-1))
 #define VS_ROUNDPOS(b, a, r)	(((byte*)(a))+VS_ROUNDOFFS(a,b,r))
 
-void getVersionInfoW( VersionMap& map, HINSTANCE instance )
+void getVersionInfoW( VersionMap& map, const String& fileName )
 {
-	VCF::WideChar fileName[MAX_PATH];
-	::GetModuleFileNameW( instance, fileName, MAX_PATH );
+	VCF::WideChar fileNameW[MAX_PATH];
+	int sz = minVal<int>( MAX_PATH,fileName.size() );
+
+	fileName.copy( fileNameW,sz );
+	fileNameW[sz] = 0;
 
 	DWORD dummy;
-	DWORD size = GetFileVersionInfoSizeW( fileName, &dummy);
+	DWORD size = GetFileVersionInfoSizeW( fileNameW, &dummy);
 
 	if ( 0 == size ) {
 		return;
@@ -527,7 +530,7 @@ void getVersionInfoW( VersionMap& map, HINSTANCE instance )
 
 	
 
-	if ( !GetFileVersionInfoW(fileName, 0, size, buf) ) {
+	if ( !GetFileVersionInfoW(fileNameW, 0, size, buf) ) {
 		delete [] buf;
 		return;
 	}
@@ -609,14 +612,16 @@ void getVersionInfoW( VersionMap& map, HINSTANCE instance )
 
 
 
-void getVersionInfoA( VersionMap& map, HINSTANCE instance )
+void getVersionInfoA( VersionMap& map, const String& fileName )
 {
+	char fileNameA[MAX_PATH];
+	int sz = minVal<int>( MAX_PATH,fileName.size() );
 
-	char fileName[MAX_PATH];
-	::GetModuleFileNameA( instance, fileName, MAX_PATH );
+	fileName.copy( fileNameA,sz );
+	fileNameA[sz] = 0;
 
 	DWORD dummy;
-	DWORD size = GetFileVersionInfoSizeA( fileName, &dummy);
+	DWORD size = GetFileVersionInfoSizeA( fileNameA, &dummy);
 
 	if ( 0 == size ) {
 		return;
@@ -627,7 +632,7 @@ void getVersionInfoA( VersionMap& map, HINSTANCE instance )
 
 	
 
-	if ( !GetFileVersionInfoA(fileName, 0, size, buf) ) {
+	if ( !GetFileVersionInfoA(fileNameA, 0, size, buf) ) {
 		delete [] buf;
 		return;
 	}
@@ -720,21 +725,22 @@ public:
 	String value_;
 };
 
-ProgramInfo* Win32ResourceBundle::getProgramInfo()
+ProgramInfo* Win32ResourceBundle::getProgramInfoFromFileName( const String& fileName )
 {
 	ProgramInfo* result = NULL;
 
 	VersionMap map;
 
 	if ( System::isUnicodeEnabled() ) {
-		getVersionInfoW( map, getResourceInstance() );
+		getVersionInfoW( map, fileName );
 	}		
 	else {
-		getVersionInfoA( map, getResourceInstance() );
+		getVersionInfoA( map, fileName );
 	}
 
 	if ( !map.empty() ) {
 		String name;
+		String programFileName;
 		String author;
 		String copyright;
 		String company;
@@ -776,11 +782,33 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 		if ( found != map.end() ) {
 			programVersion = found->second;
 		}
+		
+		programFileName = fileName;
 
-		result = new ProgramInfo( name, author, copyright, company, description, programVersion, fileVersion );
+
+		result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
 	}
 
 	return result;
+}
+
+
+ProgramInfo* Win32ResourceBundle::getProgramInfo()
+{
+	String fileName;
+
+	if ( System::isUnicodeEnabled() ) {
+		VCF::WideChar tmp[MAX_PATH];		
+		::GetModuleFileNameW( getResourceInstance(), tmp, MAX_PATH );
+		fileName = tmp;		
+	}		
+	else {
+		char tmp[MAX_PATH];
+		::GetModuleFileNameA( getResourceInstance(), tmp, MAX_PATH );
+		fileName = tmp;		
+	}
+
+	return Win32ResourceBundle::getProgramInfoFromFileName(fileName);
 }
 
 
@@ -788,6 +816,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.1.2.5  2004/09/16 03:26:26  ddiego
 *fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
 *

@@ -311,6 +311,132 @@ ResourceBundle* System::getResourceBundle()
 	return System::systemInstance->resBundle_;
 }
 
+ProgramInfo* System::getProgramInfoFromFileName( const String& fileName )
+{
+	ProgramInfo* result = NULL;
+
+	result = System::systemInstance->getProgramInfoFromFileName( fileName );
+
+	if ( NULL == result ) {
+		bool isDir = false;
+		{
+			File file(fileName);
+			if ( file.isDirectory() ) {
+				isDir = true;
+			}
+		}
+
+		if ( isDir ) {
+			FilePath fp = fileName;
+			if ( !fp.isDirectoryName() ) {
+				fp = fp.getFileName() + FilePath::getDirectorySeparator();
+			}
+
+			String infoFilename = fp + "Info.plist";
+			bool found = false;
+			if ( File::exists( infoFilename ) ) {
+				found = true;
+			}
+			else {
+				infoFilename = fp + "Info.xml";
+				if ( File::exists( infoFilename ) ) {
+					found = true;
+				}
+			}	
+
+			if ( found ) {
+				String name;
+				String programFileName;
+				String author;
+				String copyright;
+				String company;
+				String description;
+				String programVersion;
+				String fileVersion;				
+
+				XMLParser xmlParser;
+				FileInputStream fs(infoFilename);
+				xmlParser.parse( &fs );				
+				fs.close();
+
+				XMLNode* dictNode = NULL;
+				Enumerator<XMLNode*>* nodes = xmlParser.getParsedNodes();
+				while ( nodes->hasMoreElements() ) {
+					XMLNode* node = nodes->nextElement();
+					if ( node->getName() == L"plist" ) {
+						dictNode = node->getNodeByName( L"dict" );
+						break;
+					}
+				}
+
+				if ( NULL != dictNode ) {
+					nodes = dictNode->getChildNodes();
+					while ( nodes->hasMoreElements() ) {
+						XMLNode* node = nodes->nextElement();
+						XMLNode* val = NULL;
+
+						if ( nodes->hasMoreElements() ) {
+							val = nodes->nextElement();
+						}
+
+						if ( (NULL != val) && (node->getName() == "key") ) {
+							if ( node->getCDATA() == "CFBundleName" ) {
+								name = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "CFBundleDisplayName" ) {
+								name = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "CFBundleVersion" ) {
+								fileVersion = programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "CFBundleGetInfoString" ) {
+								copyright = programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "NSHumanReadableCopyright" ) {
+								copyright = programVersion = val->getCDATA();							
+							}
+							else if ( node->getCDATA() == "CFBundleExecutable" ) {
+								programFileName = programVersion = val->getCDATA();							
+							}
+
+							
+							//VCF cross platform keys
+							else if ( node->getCDATA() == "ProgramVersion" ) {
+								programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "FileVersion" ) {
+								programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "ProductName" ) {
+								name = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Copyright" ) {
+								copyright = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Author" ) {
+								author = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Company" ) {
+								author = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Description" ) {
+								description = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Executable" ) {
+								programFileName = val->getCDATA();
+							}
+						}
+					}
+
+					result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
+				}
+			}
+
+		}		
+	}
+	return result;
+}
+
 void System::internal_replaceResourceBundleInstance( ResourceBundle* newInstance )
 {
 	if ( NULL != System::systemInstance->resBundle_ ) {
@@ -340,6 +466,9 @@ String System::getCompiler()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.2.2.4  2004/09/15 04:25:52  ddiego
 *fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
 *

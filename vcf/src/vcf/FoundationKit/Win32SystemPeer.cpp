@@ -11,7 +11,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/FoundationKit/DateTime.h"
-
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/FoundationKit/Win32ResourceBundle.h"
 
 
 using namespace VCF;
@@ -308,10 +309,17 @@ String Win32SystemPeer::getOSVersion()
 	return result;
 }
 
+ProgramInfo* Win32SystemPeer::getProgramInfoFromFileName( const String& fileName )
+{
+	return Win32ResourceBundle::getProgramInfoFromFileName( fileName );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.2.2.4  2004/09/15 04:25:52  ddiego
 *fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
 *
