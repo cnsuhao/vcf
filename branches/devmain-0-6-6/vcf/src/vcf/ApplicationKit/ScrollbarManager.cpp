@@ -98,11 +98,6 @@ bool ScrollbarManager::hasHorizontalScrollBar()
 	return scrollable_->hasHorizontalScrollBar();
 }
 
-void ScrollbarManager::updateVirtualViewSize( const double& maxWidth, const double& maxHeight )
-{
-	scrollable_->updateVirtualViewSize( maxWidth, maxHeight );
-}
-
 double ScrollbarManager::getVirtualViewHeight()
 {
 	return scrollable_->getVirtualViewHeight();
@@ -202,6 +197,9 @@ bool ScrollbarManager::getKeepVertScrollbarVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/21 05:50:21  dougtinkham
+*removed updateVirtualViewSize
+*
 *Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
 *scrollbars transitory changes
 *
