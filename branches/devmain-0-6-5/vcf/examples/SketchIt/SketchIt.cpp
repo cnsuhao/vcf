@@ -1,11 +1,11 @@
 //SketchIt.cpp
 
 
-#include "ApplicationKit.h"
-#include "SketchDocument.h"
-#include "SketchWindow.h"
-#include "SketchView.h"
-#include "SketchTools.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "../examples/SketchIt/SketchDocument.h"
+#include "../examples/SketchIt/SketchWindow.h"
+#include "../examples/SketchIt/SketchView.h"
+#include "../examples/SketchIt/SketchTools.h"
 
 
 using namespace VCF;

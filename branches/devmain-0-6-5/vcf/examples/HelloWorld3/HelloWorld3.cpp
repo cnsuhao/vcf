@@ -6,7 +6,7 @@
 *a new window class
 */
 
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 
 using namespace VCF;
 

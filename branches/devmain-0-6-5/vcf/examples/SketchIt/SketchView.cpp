@@ -1,18 +1,18 @@
-#include "ApplicationKit.h"
-#include "ModelViewKit.h"
-#include "SketchView.h"
-#include "SketchDocument.h"
-#include "SketchTools.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ModelViewKit.h"
+#include "../examples/SketchIt/SketchView.h"
+#include "../examples/SketchIt/SketchDocument.h"
+#include "../examples/SketchIt/SketchTools.h"
 
 
 
-#include "graphics/AggCommon.h"
+#include "vcf/GraphicsKit/AggCommon.h"
 
 
-#include "../../thirdparty/common/agg/include/agg_image_transform.h"
-#include "../../thirdparty/common/agg/include/agg_span_null_interpolator.h"
-#include "../../thirdparty/common/agg/include/agg_pixfmt_rgba32_image.h"
-#include "../../thirdparty/common/agg/include/agg_renderer_scanline.h"
+#include "thirdparty/common/agg/include/agg_image_transform.h"
+#include "thirdparty/common/agg/include/agg_span_null_interpolator.h"
+#include "thirdparty/common/agg/include/agg_pixfmt_rgba32_image.h"
+#include "thirdparty/common/agg/include/agg_renderer_scanline.h"
 
 //#include "../../thirdparty/common/agg/include/agg_span_bgra32_image.h"
 

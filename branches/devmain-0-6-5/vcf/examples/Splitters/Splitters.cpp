@@ -4,8 +4,8 @@
 #define NUM_OF_PANELS 5	 // 1-6
 
 
-#include "ApplicationKit.h"
-#include "ControlsKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
 
 using namespace VCF;
 

@@ -1,10 +1,10 @@
 //DateTimeUI.cpp
 
 
-#include "ApplicationKit.h"
-#include "ControlsKit.h"
-#include "utils/DateTime.h"
-#include "graphics/TitledBorder.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/FoundationKit/DateTime.h"
+#include "vcf/ApplicationKit/TitledBorder.h"
 
 
 using namespace VCF;

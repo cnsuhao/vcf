@@ -8,7 +8,7 @@
 /**
 *standard headers here
 */
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 
 
 using namespace VCF;

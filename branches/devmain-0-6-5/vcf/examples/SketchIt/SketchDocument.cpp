@@ -1,5 +1,5 @@
-#include "ApplicationKit.h"
-#include "SketchDocument.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "../examples/SketchIt/SketchDocument.h"
 
 using namespace VCF;
 

@@ -1,10 +1,10 @@
 ////Localization.cpp
 
-#include "FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKit.h"
 
-#include "utils/DateTime.h"
-#include "utils/TextCodec.h"
-#include "implementer/LocalePeer.h"
+#include "vcf/FoundationKit/DateTime.h"
+#include "vcf/FoundationKit/TextCodec.h"
+#include "vcf/FoundationKit/LocalePeer.h"
 
 using namespace VCF;
 

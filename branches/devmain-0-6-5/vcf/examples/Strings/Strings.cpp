@@ -1,4 +1,4 @@
-#include "FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKit.h"
 
 /**
 *use the VCF namespace to make it more convenient 
