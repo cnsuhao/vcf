@@ -50,7 +50,7 @@ public:
 		MenuItem* separator = new DefaultMenuItem( "", scrollMenu, menuBar );
 		separator->setSeparator(true);
 		separator->setEnabled( true );
-		keepScrollbarsVisibleMenu_   = new DefaultMenuItem( "Visible", scrollMenu, menuBar );
+		keepScrollbarsVisibleMenu_   = new DefaultMenuItem( "Keep visible", scrollMenu, menuBar );
 
 		//add our event handler to the scrollbar menu
 		hasHorizontalScrollbarMenu_->addMenuItemClickedHandler(
@@ -275,6 +275,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2004/09/16 15:24:29  marcelloptr
+*changed a name to the menu
+*
 *Revision 1.4.2.2  2004/09/15 22:18:37  dougtinkham
 *replaced setVirtualViewWidth/Height with updateVirtualViewSize
 *
