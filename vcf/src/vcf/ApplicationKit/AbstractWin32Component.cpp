@@ -272,25 +272,30 @@ void AbstractWin32Component::setControl( VCF::Control* component )
 
 void AbstractWin32Component::setParent( VCF::Control* parent )
 {
-	VCF::ControlPeer* parentPeer = parent->getPeer();
-	/*
-	JC I remove this cause we don't really need them
-	*/
-	//parent_ = NULL;
-
-	if ( NULL == dynamic_cast<Frame*>(peerControl_) ){
-		HWND wndParent = (HWND)parentPeer->getHandleID();
-
+	if ( NULL == parent ) {
+		::SetParent( hwnd_, NULL );
+	}
+	else {
+		VCF::ControlPeer* parentPeer = parent->getPeer();
 		/*
 		JC I remove this cause we don't really need them
 		*/
-		//parent_ = (AbstractWin32Component*)(parentPeer);
-
-		if ( NULL == wndParent ){
-			//throw exception !!!
+		//parent_ = NULL;
+		
+		if ( NULL == dynamic_cast<Frame*>(peerControl_) ){
+			HWND wndParent = (HWND)parentPeer->getHandleID();
+			
+			/*
+			JC I remove this cause we don't really need them
+			*/
+			//parent_ = (AbstractWin32Component*)(parentPeer);
+			
+			if ( NULL == wndParent ){
+				//throw exception !!!
+			}
+			
+			::SetParent( hwnd_, wndParent );
 		}
-
-		::SetParent( hwnd_, wndParent );
 	}
 }
 
@@ -1486,6 +1491,10 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/01/28 02:49:01  ddiego
+*fixed bug 1111096 where the text control was properly handlind
+*input from the numbpad keys.
+*
 *Revision 1.5.2.3  2005/01/16 03:02:41  marcelloptr
 *bugfix [ 1099910 ] plus other improvements on the scrolling behaviour
 *

@@ -279,43 +279,356 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 		model->setText( newText );
 
 		OKToResetControlText_ = true;
-
-
-
-		/**
-		*for the future we need to be able to insertText and deleteText from the
-		*model according to the characters pressed. At first glance this is that
-		*big of a deal: determine if we have a selection, delete the selected
-		*text, and then insert the appropriate character. The problem comes in
-		*determing what causes a delete and what to insert. Normally the only things
-		*that should cause an delete/insert are the set of characters [a..z,A..Z,0..9],
-		*back space, space, and delete. This is a valid assumption assuming en/US language
-		*but for other languages this totally falls down...
-		*/
-
-		/*
-		//figure out if anything is selected
-		int selStart = 0;
-		int selEnd = 0;
-		::SendMessage( hwnd_, EM_GETSEL, (WPARAM)&selStart, (LPARAM)&selEnd );
-		int delta = abs( selStart - selEnd );
-		if ( 0 != delta ){
-			//text is being deleted
-
-			if ( (keyData.VKeyCode != VK_BACK) || (keyData.VKeyCode == VK_BACK) ){
-
-			}
-		}
-
-
-		unsigned long index = peerControl_->getCaretPosition();
-		VCF::String text;
-		char ch[2] = {0};
-		ch[0] = (VCF::VCFChar)keyData.character;
-		text += ch;
-		model->insertText( index, text );
-		*/
 	}
+}
+
+uint32 Win32Edit::convertCharToVKCode( VCFChar ch )
+{
+	uint32 result = 0;
+
+	ch = tolower( ch );
+	switch ( ch ) {
+		case 'a' : {
+			result = vkLetterA;
+		}
+		break;
+
+		case 'b' : {
+			result = vkLetterB;
+		}
+		break;
+
+		case 'c' : {
+			result = vkLetterC;
+		}
+		break;
+
+		case 'd' : {
+			result = vkLetterD;
+		}
+		break;
+
+		case 'e' : {
+			result = vkLetterE;
+		}
+		break;
+
+		case 'f' : {
+			result = vkLetterF;
+		}
+		break;
+
+		case 'g' : {
+			result = vkLetterG;
+		}
+		break;
+
+		case 'h' : {
+			result = vkLetterH;
+		}
+		break;
+
+		case 'i' : {
+			result = vkLetterI;
+		}
+		break;
+
+		case 'j' : {
+			result = vkLetterJ;
+		}
+		break;
+
+		case 'k' : {
+			result = vkLetterK;
+		}
+		break;
+
+		case 'l' : {
+			result = vkLetterL;
+		}
+		break;
+
+		case 'm' : {
+			result = vkLetterM;
+		}
+		break;
+
+		case 'n' : {
+			result = vkLetterN;
+		}
+		break;
+
+		case 'o' : {
+			result = vkLetterO;
+		}
+		break;
+
+		case 'p' : {
+			result = vkLetterP;
+		}
+		break;
+
+		case 'q' : {
+			result = vkLetterQ;
+		}
+		break;
+
+		case 'r' : {
+			result = vkLetterR;
+		}
+		break;
+
+		case 's' : {
+			result = vkLetterS;
+		}
+		break;
+
+		case 't' : {
+			result = vkLetterT;
+		}
+		break;
+
+		case 'u' : {
+			result = vkLetterU;
+		}
+		break;
+
+		case 'v' : {
+			result = vkLetterV;
+		}
+		break;
+
+		case 'w' : {
+			result = vkLetterW;
+		}
+		break;
+
+		case 'x' : {
+			result = vkLetterX;
+		}
+		break;
+
+		case 'y' : {
+			result = vkLetterY;
+		}
+		break;
+
+		case 'z' : {
+			result = vkLetterZ;
+		}
+		break;
+
+		case '0' : {
+			result = vkNumber0;
+		}
+		break;
+
+		case '1' : {
+			result = vkNumber1;
+		}
+		break;
+
+		case '2' : {
+			result = vkNumber2;
+		}
+		break;
+
+		case '3' : {
+			result = vkNumber3;
+		}
+		break;
+
+		case '4' : {
+			result = vkNumber4;
+		}
+		break;
+
+		case '5' : {
+			result = vkNumber5;
+		}
+		break;
+
+		case '6' : {
+			result = vkNumber6;
+		}
+		break;
+
+		case '7' : {
+			result = vkNumber7;
+		}
+		break;
+
+		case '8' : {
+			result = vkNumber8;
+		}
+		break;
+
+		case '9' : {
+			result = vkNumber9;
+		}
+		break;
+
+		case '/' : {
+			result = vkDivideSign;
+		}
+		break;
+
+		case '+' : {
+			result = vkPlusSign;
+		}
+		break;
+
+		case '-' : {
+			result = vkMinusSign;
+		}
+		break;
+
+		case '=' : {
+			result = vkEqualsSign;
+		}
+		break;
+
+		case '_' : {
+			result = vkUnderbar;
+		}
+		break;
+
+		case '|' : {
+			result = vkUprightBar;
+		}
+		break;
+
+		case '{' : {
+			result = vkOpenBrace;
+		}
+		break;
+
+		case '}' : {
+			result = vkCloseBrace;
+		}
+		break;
+
+		case '[' : {
+			result = vkOpenBracket;
+		}
+		break;
+
+		case ']' : {
+			result = vkCloseBracket;
+		}
+		break;
+
+		case '<' : {
+			result = vkLessThan;
+		}
+		break;
+
+		case '>' : {
+			result = vkGreaterThan;
+		}
+		break;
+
+		case '.' : {
+			result = vkPeriod;
+		}
+		break;
+
+		case ',' : {
+			result = vkComma;
+		}
+		break;
+
+		case '!' : {
+			result = vkExclamation;
+		}
+		break;
+
+		case '~' : {
+			result = vkTilde;
+		}
+		break;
+
+		case '`' : {
+			result = vkLeftApostrophe;
+		}
+		break;
+
+		case '@' : {
+			result = vkCommercialAt;
+		}
+		break;
+
+		case '#' : {
+			result = vkNumberSign;
+		}
+		break;
+
+		case '$' : {
+			result = vkDollarSign;
+		}
+		break;
+
+		case '%' : {
+			result = vkPercent;
+		}
+		break;
+
+		case '^' : {
+			result = vkCircumflex;
+		}
+		break;
+
+		case '&' : {
+			result = vkAmpersand;
+		}
+		break;
+
+		case '*' : {
+			result = vkAsterix;
+		}
+		break;
+
+		case '(' : {
+			result = vkOpenParen;
+		}
+		break;
+
+		case ')' : {
+			result = vkCloseParen;
+		}
+		break;
+
+		case ':' : {
+			result = vkColon;
+		}
+		break;
+
+		case ';' : {
+			result = vkSemiColon;
+		}
+		break;
+
+		case '"' : {
+			result = vkDoubleQuote;
+		}
+		break;
+
+		case '\'' : {
+			result = vkSingleQuote;
+		}
+		break;
+
+		case '\\' : {
+			result = vkBackSlash;
+		}
+		break;
+
+		case '?' : {
+			result = vkQuestionMark;
+		}
+		break;
+	}
+	return result;
 }
 
 bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
@@ -365,6 +678,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			
 			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
 
+			
 			switch ( virtKeyCode ) {
 				case vkLeftArrow : 
 				case vkRightArrow : 
@@ -449,20 +763,41 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_CHAR:  case WM_KEYUP:{
-
-			
-			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
-				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
-				result = true;
-			}
-
+			/**
+			JC
+			I moved the defaultWndProcedure(  message, wParam, lParam );
+			block *after* I call the peerControl_->handleEvent() 
+			method. Otherwise the caretpos is "wrong", for lack of a better 
+			word, which in turn screws up where data is removed from the model.
+			*/
 			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
 
 				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
+				ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+
 				unsigned long eventType = 0;
 				switch ( message ){
 					case WM_CHAR: {
+						/**
+						JC
+						we do this to overcome getting weird virtual key values
+						for WM_CHAR messages, as translateKeyData isn't quite right.
+						In fact, we should conceivably look into ditching period
+						*/
 						eventType = Control::KEYBOARD_PRESSED;
+						keyData.character = (VCFChar)wParam;
+
+						/**
+						JC
+						if the character is a graphic char (like ":" or "a")
+						then re-calculate the virtual key code, based on the 
+						character value. This was put here to overcome a bug
+						when handling WM_CHAR's from the numpad, which gives
+						us the right character, but a bogus virtual key
+						*/
+						if ( isgraph( keyData.character ) ) {
+							virtKeyCode = Win32Edit::convertCharToVKCode( keyData.character );
+						}
 					}
 					break;
 					
@@ -473,7 +808,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				}
 
 				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
-				ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+				
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
@@ -486,6 +821,10 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				result = true;
 			}
 
+			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
+				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+				result = true;
+			}
 		}
 		break;
 		
@@ -1094,6 +1433,10 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/28 02:49:02  ddiego
+*fixed bug 1111096 where the text control was properly handlind
+*input from the numbpad keys.
+*
 *Revision 1.3.2.1  2004/12/22 03:32:19  marcelloptr
 *we need to hide the selection when the focus is lost
 *
