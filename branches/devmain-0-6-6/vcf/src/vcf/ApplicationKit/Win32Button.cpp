@@ -141,7 +141,7 @@ void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
 	else {
 		oldPen = (HPEN) ::SelectObject( hdc, hilightPen );
 
-		::MoveToEx( hdc, tmpRect.right, tmpRect.top, NULL );
+		::MoveToEx( hdc, tmpRect.right-1, tmpRect.top, NULL );
 		::LineTo( hdc, tmpRect.left, tmpRect.top );
 		::LineTo( hdc, tmpRect.left, tmpRect.bottom-1 );
 
@@ -403,6 +403,9 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/22 19:01:34  dougtinkham
+*drawBasicButton painted 1 too many pixels. fixed.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
