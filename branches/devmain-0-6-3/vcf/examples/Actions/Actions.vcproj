@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Actions"
-	ProjectGUID="{FF9E4809-3443-42CD-9701-3FEDF6B18D4E}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="Actions">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

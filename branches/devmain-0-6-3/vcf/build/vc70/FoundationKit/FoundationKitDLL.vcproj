@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="FoundationKitDLL"
-	ProjectGUID="{1C32585F-6685-4CC7-A357-1FE775525F10}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="FoundationKitDLL">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

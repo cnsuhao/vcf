@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="ApplicationKitDLL"
-	ProjectGUID="{A6A17F69-92A3-42BD-B2C8-243C546C9E80}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="ApplicationKitDLL">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

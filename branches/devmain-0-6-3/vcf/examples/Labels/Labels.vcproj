@@ -2,9 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Labels"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="Labels">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

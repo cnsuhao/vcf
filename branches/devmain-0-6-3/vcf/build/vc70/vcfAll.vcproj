@@ -3,8 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="vcfAll"
-	SccProjectName=""
-	SccLocalPath=""
 	Keyword="MakeFileProj">
 	<Platforms>
 		<Platform

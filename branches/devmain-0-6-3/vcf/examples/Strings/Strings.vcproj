@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Strings"
-	ProjectGUID="{707622CD-B85A-42CA-BC0D-2E24E3E4FAD8}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="Strings">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

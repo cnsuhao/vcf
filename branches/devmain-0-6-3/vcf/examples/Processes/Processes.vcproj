@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Processes"
-	ProjectGUID="{EF365FC6-A112-45A3-BA26-0F8572053C85}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="Processes">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

@@ -2,9 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="ProgressBars"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="ProgressBars">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

@@ -2,9 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="EventBasics"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="EventBasics">
 	<Platforms>
 		<Platform
 			Name="Win32"/>

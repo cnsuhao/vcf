@@ -2,10 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Reflection"
-	ProjectGUID="{B6DFDA64-9A64-4C5E-B77B-EED6109B86B7}"
-	SccProjectName=""
-	SccLocalPath="">
+	Name="Reflection">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
