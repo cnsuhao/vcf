@@ -5680,9 +5680,6 @@ class DspFile( GenericProjectFile ):
         self.hasCustomBuild = False
         self.hasCustomBuildOutputDir = False
 
-        if ( self.isInProjectsOutputOnProjectDirList() ):
-            dbbbbggg = 0
-
         state = 0
         for n in range( len(self.lines) ):
             line = self.lines[n]
@@ -5921,9 +5918,6 @@ class DspFile( GenericProjectFile ):
         ( ( fp, ff ), ( fb, fe ), ( fi, fm, fmLwr, cpl ), ( fs, fd ) ) = DspFile.splitPostfixComponents( pathfilename, compiler )
         if ( not fm ):
             return pathfilename
-
-        if ( se == '.vcproj' and self.isInProjectsOutputOnProjectDirList()  ):
-            dsdkldk = 10
 
         #if ( self.isFileIn2() ):
         #    msg = 'WARNING: [%s\n fp: %s\nff: %s\n fb: %s\nfe: %s\n] the entry has a postfix [ %s ] NOT different than the unexpected one [ %s ]. Configuration \'%s\'.  File \'%s\'.' % ( pathfilename, fp, ff, fb, fe, fm, sm, config_name, self.filename )
@@ -7657,7 +7651,7 @@ class Workspace( DspFile ):
                     if ( app.allUsedUuidsDict.has_key( uuidProj ) and app.allUsedUuidsDict[ uuidProj ] == prjName.lower() ):
                         pass
                     else:
-                        if ( app.allUsedUuidsDict.has_key( uuidProj ) ): # qqqqqqqq
+                        if ( app.allUsedUuidsDict.has_key( uuidProj ) ):
                             msg = 'getSlnProjectEntries: this uuid {%s} for [%s] has been already used for another project [%s]. This will be fixed!. \n File \'%s\'. Line [%d] \'%s\'' % ( uuidProj, prjName, app.allUsedUuidsDict[ uuidProj ], self.filename, self.n, line.rstrip() )
                             #raise Exception( msg )
                             print msg
@@ -7670,7 +7664,7 @@ class Workspace( DspFile ):
                                 raise Exception( msg )
                             else:
                                 pLwr = prjName.lower()
-                                self.allAlreadyUsedUuidsDict[ uuidProjOld ] = pLwr #    qqqqqqqqqqq
+                                self.allAlreadyUsedUuidsDict[ uuidProjOld ] = pLwr
                                 self.allAlreadyUsedUuidsBecomesNewDict[ uuidProjOld ] = uuidProj
                                 self.allAlreadyUsedProjUuidsDict[ pLwr ] = uuidProjOld
 
@@ -7871,7 +7865,7 @@ class Workspace( DspFile ):
                                 uuidProj2New = self.allAlreadyUsedUuidsBecomesNewDict[ uuidProj2Old ]
                                 msg = 'getSlnProjectEntries: {%s} --> (%s).  File \'%s\'. Line [%d] \'%s\'' % ( uuidProj2Old, uuidProj2New, self.filename, self.n, line.rstrip() )
                                 print msg
-                                uuidProj2 = uuidProj2New # qqqqqqqq
+                                uuidProj2 = uuidProj2New
 
                             # %%% should we put this if so it doesn't chrash ?
                             # for sure we want to be able to remove some projcts from a solution if we want !
@@ -7937,7 +7931,7 @@ class Workspace( DspFile ):
                             uuidProjNew = self.allAlreadyUsedUuidsBecomesNewDict[ uuidProjOld ]
                             msg = 'getSlnProjectEntries: {%s} --> (%s).  File \'%s\'. Line [%d] \'%s\'' % ( uuidProjOld, uuidProjNew, self.filename, self.n, line.rstrip() )
                             print msg
-                            uuidProj = uuidProjNew # qqqqqqqq
+                            uuidProj = uuidProjNew
 
                         if ( lastUuid != '-1' and lastUuid != uuidProj ):
                             slnPrjData = self.dictSlnProjectDataByUuid[ lastUuid ]
