@@ -33,13 +33,14 @@ namespace VCF {
 
 	class FOUNDATIONKIT_API FilePath : public VCF::Object {
 	public:
-		
+
 		enum {
 			DriveSeparator      = L':',
 			DirectorySeparator	= L'/',
 			ExtensionCharacter	= L'.',
 		};
 		
+	public:
 		FilePath();
 		
 		FilePath( const String& filename );
@@ -194,10 +195,13 @@ namespace VCF {
 		/**
 		*returns the pathname relative to the working path
 		*@param the path to transform.
-		*@param the working path.
-		*If not given then working path information is retrieved
-		*from the system
+		*@param the working path. From this part it is taken only 
+		* the part on the left of the last DirectorySeparator
+		* to form the directory name.
+		* If not given then working path information is retrieved
+		* from the system.
 		*@return the transformed string
+		*@see FilePath::makeDirectoryName()
 		*/
 		static String getTransformedToRelativePathName( const String& fullPath, const String& workingPath=L"" );
 		
@@ -213,10 +217,13 @@ namespace VCF {
 		/**
 		*expand a relative pathname into a full pathname based on the working path
 		*@param the path to transform.
-		*@param the working path.
+		*@param the working path. From this part it is taken only 
+		* the part on the left of the last DirectorySeparator
+		* to form the directory name.
 		*If not given then working path information is retrieved
 		*from the system
 		*@return the transformed string
+		*@see FilePath::makeDirectoryName()
 		*/
 		static String getExpandedRelativePathName( const String& fullPath, const String& workingPath=L"" );
 		
@@ -256,8 +263,11 @@ namespace VCF {
 		/*
 		* ensures a path to have the 'DirectorySeparator' as its final character.
 		* Under windows it tests against both the '/' and '\' characters.
+		* With VCF the convention is that directory names must be terminated
+		* with a 'DirectorySeparator' character.
 		*@param fullname the full filename
-		*@param remove false to remove the existing directory separator if present
+		*@param remove, false to ensure that the name has the directory character at the end,
+		*true to remove the existing directory separator at the end if present.
 		*@return the changed fullname. Which is empty if the original one was empty too.
 		*/
 		static String makeDirectoryName( const String& fullname, const bool& remove = false );
@@ -410,13 +420,13 @@ inline FilePath& FilePath::transformToOSSpecific()
 	return (*this);
 }
 
-inline FilePath& FilePath::transformToRelativePathName( const String& workingPath/*=L""*/ )
+inline FilePath& FilePath::transformToRelativePathName( const String& workingPath )
 {
 	filename_ = FilePath::getTransformedToRelativePathName( filename_, workingPath );
 	return (*this);
 }
 
-inline FilePath& FilePath::expandRelativePathName( const String& workingPath/*=L""*/ )
+inline FilePath& FilePath::expandRelativePathName( const String& workingPath )
 {
 	filename_ = FilePath::getExpandedRelativePathName( filename_, workingPath );
 	return (*this);
@@ -435,6 +445,9 @@ inline std::vector<String> FilePath::getPathComponents() const {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/10 01:55:43  marcelloptr
+*[bugfix: 1063548] FilePath crashes on relative non Native paths
+*
 *Revision 1.2.2.1  2004/09/17 11:38:06  ddiego
 *added program info support in library and process classes.
 *
