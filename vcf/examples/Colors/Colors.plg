@@ -1,0 +1,32 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Colors - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\GIOVAN~1\LOCALS~1\Temp\RSP5950.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "D:\Projs\Libraries\BSD\Vcf\vcf-active\vcf\src" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "USE_FOUNDATIONKIT_DLL" /D "USE_GRAPHICSKIT_DLL" /D "USE_APPLICATIONKIT_DLL" /Fo"vc6\Debug\\" /Fd"vc6\Debug\\" /FD /GZ /c 
+"D:\Projs\Libraries\BSD\Vcf\vcf-active\vcf\examplex\Colors\Colors.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\GIOVAN~1\LOCALS~1\Temp\RSP5950.tmp" 
+Creating temporary file "C:\DOCUME~1\GIOVAN~1\LOCALS~1\Temp\RSP5951.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /incremental:yes /pdb:"vc6\Debug\Colors_vc6.pdb" /debug /machine:I386 /out:"vc6\Debug\Colors_vc6.exe" /pdbtype:sept /libpath:"D:\Projs\Libraries\BSD\Vcf\vcf-active\vcf\lib" 
+".\vc6\Debug\Colors.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\GIOVAN~1\LOCALS~1\Temp\RSP5951.tmp"
+<h3>Output Window</h3>
+Compiling...
+Colors.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+Colors_vc6.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
