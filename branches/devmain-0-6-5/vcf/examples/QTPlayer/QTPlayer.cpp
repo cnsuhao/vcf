@@ -1,7 +1,7 @@
 //QTPlayer.cpp
 
 
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "QTPlayerApplication.h"
 #include "MainWindow.h"
 

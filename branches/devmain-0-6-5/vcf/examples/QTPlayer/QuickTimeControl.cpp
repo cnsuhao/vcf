@@ -1,5 +1,5 @@
 //QuickTimeControl.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "QuickTimeControl.h"
 #include "QuickTimeMovie.h"
 
