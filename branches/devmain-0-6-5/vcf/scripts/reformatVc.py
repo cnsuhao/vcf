@@ -12,6 +12,7 @@ import os.path
 import shutil
 import filecmp
 import ConfigParser
+import time # wait
 import re
 from copy import copy # to copy(Option.TYPE_CHECKER)
 from optparse import OptionParser, Option, OptionValueError
@@ -37,7 +38,7 @@ g_default_section = "vcfscript"
 g_default_allProjects = './build/vc60/vcfAllProjects.dsw'
 g_default_allExamples = './Examples/Examples.dsw'
 g_dependencyFilterExamplesProject = 'examples/'
-g_referenceSolution = './build/vc70/vcfAllProjects_vc70.sln'
+#g_referenceSolution = './build/vc70/vcfAllProjects_vc70.sln'
 g_subdir_examples = 'examples/' # dir where we know we have just examples, i.e. simple executable files
 
 # ( hardcoded )
@@ -67,7 +68,7 @@ g_printFilterGroupTrees = False
 addEntriesForVc71WhenSynchToVc70 = False # this will alter the configuration information contained in the vcproj. Better False
 addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration information contained in the vcproj. Better False
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
-g_debugFileList = [] # [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ]
+g_debugFileList = [ '' ] # [ 'win32htmlbrowser_staticlib' ] [ 'docbookarticle_vc70.vcproj' ] [ 'vcmcvs_vc71.vcproj' ] [ 'js' ] [ 'docbookarticle' ] [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ] ( see isFileIn2() )
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
 g_keepFirstDot_standard = 4 # === g_keepFirstDot_StandardVc # standard format for paths in projects files has ./ at the beginning
 g_fix_last_slash_in_path = True # True only when we need to fix it. Then put it back
@@ -245,7 +246,8 @@ re_sln_dependency_entry          = re.compile( r'\s*?{(?P<uuidProj>[a-zA-Z0-9_\-
 re_sln_projSectionDependency_beg = re.compile( r'\s*?ProjectSection\(ProjectDependencies\) = postProject' )
 re_sln_project_end               = re.compile( r'EndProject$' )
 
-re_sln_globals_beg           = re.compile( r'Global$' )
+re_sln_globals_beg                      = re.compile( r'Global$' )
+re_sln_globalSection_beg                = re.compile( r'\s*?GlobalSection\((?P<sectionName>[a-zA-Z0-9_\-]+)\)\s*?=\s*?(?P<prepostSolution>[a-zA-Z0-9_\-]+)' )
 re_sln_globalSectionDPCodeReview_beg    = re.compile( r'\s*?GlobalSection\(DPCodeReviewSolutionGUID\) = preSolution' )
 re_sln_globalSectionDPCodeReview_entry  = re.compile( r'\s*?DPCodeReviewSolutionGUID = {(?P<uuidDPCodeReview>[a-zA-Z0-9_\-]+)}' )
 re_sln_globalSectionSolConfig_beg       = re.compile( r'\s*?GlobalSection\(SolutionConfiguration\) = preSolution' )
@@ -257,7 +259,19 @@ re_sln_globalSectionProjectConfig_beg   = re.compile( r'\s*?GlobalSection\(Proje
 re_sln_globalSectionProjectConfig_entry = re.compile( r'\s*?{(?P<uuidProj>[a-zA-Z0-9_\-]+)}.(?P<configNameExtended>[a-zA-Z0-9_\- \.]+) = (?P<configFullName>[a-zA-Z0-9_\- \.]+)\|(?P<platform>\w+)' )
 re_sln_globalSectionExtensibGlobals_beg = re.compile( r'\s*?GlobalSection\(ExtensibilityGlobals\) = postSolution' )
 re_sln_globalSectionExtensibAddIns_beg  = re.compile( r'\s*?GlobalSection\(ExtensibilityAddIns\) = postSolution' )
-re_sln_globalSection_end    = re.compile( r'\s*?EndGlobalSection$' )
+re_sln_globalSection_end                = re.compile( r'\s*?EndGlobalSection$' )
+re_sln_globals_end                      = re.compile( r'\s*?EndGlobal$' )
+
+
+
+enumSection_None                        = 0
+enumSection_DPCodeReviewSolutionGUID    = 1
+enumSection_SolutionConfiguration       = 2
+enumSection_ProjectDependencies         = 3
+enumSection_ProjectConfiguration        = 4
+enumSection_ExtensibilityGlobals        = 5
+enumSection_ExtensibilityAddIns         = 6
+enumSection_completed                   = 9
 
 
 re_LIB32_static             = re.compile( r'^LIB32\s*=' )
@@ -330,7 +344,7 @@ g_mapPathEntries[ 'PrecompiledHeaderFile'       ] = True
 g_mapPathEntries[ 'AssemblerListingLocation'    ] = True
 g_mapPathEntries[ 'ObjectFile'                  ] = True
 g_mapPathEntries[ 'ProgramDataBaseFileName'     ] = True
-g_mapPathEntries[ '#AdditionalDependencies'     ] = True
+#g_mapPathEntries[ 'AdditionalDependencies'     ] = True
 g_mapPathEntries[ 'OutputFile'                  ] = True
 g_mapPathEntries[ 'AdditionalLibraryDirectories'] = True
 g_mapPathEntries[ 'ProgramDatabaseFile'         ] = True
@@ -711,35 +725,37 @@ class FileUtils:
     # The resulting head will have no slash even if it is the root (major change to npath's implementation ).
     def split(p):
         """Split a pathname.
-    
+
         Return tuple (head, tail) where tail is everything after the final slash.
         Either part may be empty.
-        
+
         Used implementation similar to the one of npath so it works in the same way with cygwin/linux !
+        The problem is that under cygwin they expect only '/' to be used, so if the path
+        contains '\\' then nothing works
         """
-    
+
         i = max( p.rfind('/'), p.rfind('\\') )
         if ( i != -1 ):
-            ( head, tail ) = p[:i+1], p[i+1:]  # now tail has no slashes
+            ( head, tail ) = p[:i+1], p[i+1:]  # now head has the found [back]slash and tail has no slashes
         else:
             ( head, tail ) = '', p
-            
+
         return ( head, tail )
     split = staticmethod(split)
-    
+
     # Split a path in root and extension.
     # The extension is everything starting at the last dot in the last
     # pathname component; the root is everything before that.
     # It is always true that root + ext == p.
     def splitext(p):
         """Split the extension from a pathname.
-    
+
         Extension is everything from the last dot to the end.
         Return (root, ext), either part may be empty.
-        
+
         Used implementation of npath so it works in the same way with cygwin/linux !
         """
-    
+
         i = p.rfind('.')
         if ( i <= max( p.rfind('/'), p.rfind('\\') ) ):
             return p, ''
@@ -1436,6 +1452,17 @@ class DspApp:
         self.excludedSubdirsList = []
         self.allowedExtensionsList = []
 
+        self.conformLibrariesList = {}
+
+        self.librariesChangePostfixListLwr = {}
+        self.librariesChangePostfixDictList = {}
+        self.librariesChangePostfixDictDict = {}
+        self.librariesChangePostfixPrintString = ''
+
+        self.projectsNoPostfixIfUnderCompilerDirList = []
+        self.projectsNoPostfixIfUnderCompilerDirMainNameLwrList = []
+        self.projectsNoPostfixIfUnderCompilerDirMainNameLwrDict = {}
+
         self.staticLibrariesList = []
         self.staticLibrariesListLwr = []
         self.dynamicLibrariesList = []
@@ -1514,6 +1541,7 @@ class DspApp:
         optparser.add_option(   "--fixFilenamePostfix"                       , type = "int"     , dest = "fixFilenamePostfix"            , default=False                 , help="checks for the correctness of postfixes ( like \'_vc70_sd\' ) of filename entries and fixes them. Suggested put it back to False when not used ( works only for vcproj files and fixes probable bug of vc7 compiler. See note end of script )" )
 
         optparser.add_option(   "--dependenciesWorkspace"                    , type = "string"  , dest = "dependenciesWorkspace"         , default=''                    , help="dependency where to copy all the dependencies from" )
+        optparser.add_option(   "--referenceSolution"                        , type = "string"  , dest = "referenceSolution"             , default=''                    , help="dependency where to copy all the dependencies from" )
 
 
         # Remark: unfortunately we cannot use: action = "store_const" , const = 0 for many options like -r, --recurse,
@@ -1653,6 +1681,7 @@ class DspApp:
         print ' --fixFilenamePostfix             = ' + str(self.options.fixFilenamePostfix              )
         print ''
         print ' --dependenciesWorkspace          = ' + str(self.options.dependenciesWorkspace           )
+        print ' --referenceSolution              = ' + str(self.options.referenceSolution               )
 
         print ''
         print ' --reformatOptionOptimize         = ' + str(self.options.reformatOptionOptimize          )
@@ -1672,7 +1701,17 @@ class DspApp:
         print ' --excludeSubdirs = ' + str( self.options.excludeSubdirs )
         if ( self.options.excludeSubdirs ):
             print '   ' + str( self.excludedSubdirsList )
+        print '   ' + 'librariesChangePostfix:'
+        if ( self.librariesChangePostfixPrintString ):
+            # print '   ' + '  ' + str( self.librariesChangePostfixDictList ) # this does not respect the order
+            print '   ' + '  ' + self.librariesChangePostfixPrintString
+        print '   ' + 'projectsNoPostfixIfUnderCompilerDirList:'
+        if ( self.projectsNoPostfixIfUnderCompilerDirList ):
+            print '   ' + '  ' + str( self.projectsNoPostfixIfUnderCompilerDirList )
         print ''
+
+        # giving time to see the output
+        time.sleep( 2 )
 
         return
 
@@ -1768,6 +1807,8 @@ class DspApp:
                     section_conformLibraries                    = self.configGetStr ( comm_sect, 'section_conformLibraries'       )
                     section_createWorkspaces                    = self.configGetStr ( comm_sect, 'section_createWorkspaces'       )
                     section_duplicateWorkspaces                 = self.configGetStr ( comm_sect, 'section_duplicateWorkspaces'    )
+                    section_librariesChangePostfix              = self.configGetStr ( comm_sect, 'section_librariesChangePostfix' )
+                    section_projectsNoPostfixIfUnderCompilerDir = self.configGetStr ( comm_sect, 'section_projectsNoPostfixIfUnderCompilerDir' )
 
                     self.options.filename                       = self.getOptionValue( [ 'filename', 'f' ]                   , comm_sect, 'filename'                       , "string"    )
 
@@ -1788,6 +1829,7 @@ class DspApp:
                     self.options.fixFilenamePostfix             = self.getOptionValue( [ 'fixFilenamePostfix'  ]             , comm_sect, 'fixFilenamePostfix'             , "bool"      )
 
                     self.options.dependenciesWorkspace          = self.getOptionValue( [ 'dependenciesWorkspace' ]           , comm_sect, 'dependenciesWorkspace'          , "string"    )
+                    self.options.referenceSolution              = self.getOptionValue( [ 'referenceSolution' ]               , comm_sect, 'referenceSolution'              , "string"    )
 
                     self.options.enableVcfSpecific              = self.getOptionValue( [ 'enableVcfSpecific' ]               , comm_sect, 'enableVcfSpecific'              , "bool"      )
                     self.options.modifyVc6                      = self.getOptionValue( [ 'modifyVc6' ]                       , comm_sect, 'modifyVc6'                      , "bool"      )
@@ -1865,7 +1907,7 @@ class DspApp:
                 for pair in pairs:
                     ( name, item ) = pair
                     # dllname --> nameChanged  i.e.  FoundationKit --> FoundationKitDll
-                    if ( item.find( '-->' ) or item.find( '-->' ) ):
+                    if ( item.find( '-->' ) != -1 or item.find( '<--' ) != -1 ):
                         item = StringUtils.stripComment( item )
                         item = item.rstrip()
                         self.conformLibrariesList.append( item )
@@ -1883,6 +1925,18 @@ class DspApp:
         for name in self.gtkLibrariesList:
             self.gtkLibrariesListLwr.append( name.lower() )
 
+
+        if ( section_librariesChangePostfix ):
+            if ( self.config.has_section( section_librariesChangePostfix ) ):
+                self.makeChangeLibrariesPostfixList( section_librariesChangePostfix )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_librariesChangePostfix, self.options.config ) )
+
+        if ( section_projectsNoPostfixIfUnderCompilerDir ):
+            if ( self.config.has_section( section_projectsNoPostfixIfUnderCompilerDir ) ):
+                self.makeProjectsNoPostfixIfUnderCompileDirList( section_projectsNoPostfixIfUnderCompilerDir )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_projectsNoPostfixIfUnderCompilerDir, self.options.config ) )
 
         if ( self.options.createWorkspaces ):
             if ( self.config.has_section( section_createWorkspaces ) ):
@@ -1953,6 +2007,110 @@ class DspApp:
                     libraryDependencyListLwr.append( itemLwr )
 
         return ( libraryDependencyList, libraryDependencyListLwr )
+
+    def makeChangeLibrariesPostfixList( self, section ):
+        # splits entries like [ c# = proj: lib1, lib2, libn ]
+        pairs = self.config.items( section )
+        self.librariesChangePostfixListLwr = []
+        self.librariesChangePostfixPrintString = '{'
+        npairs = 0
+        for pair in pairs:
+            npairs = npairs + 1
+            ( name, item ) = pair
+            # c0 = proj: lib1, lib2, libn
+            i = item.find( ':' )
+            if ( i != -1 ):
+                proj = item[:i]
+                proj = StringUtils.stripComment( proj )
+                proj = proj.strip()
+
+                list = item[i+1:]
+                list = StringUtils.stripComment( list )
+                list = list.strip()
+
+                projLwr = proj.lower()
+                self.librariesChangePostfixListLwr.append( projLwr )
+
+                # creates the list in the stack
+                libList = []
+                lmLwrList = []
+                libDict = {}
+
+                ls = list.split( ',' )
+                if ( ls ):
+                    self.librariesChangePostfixPrintString += "\'%s\': [" % ( proj )
+
+                for lib in ls:
+                    lib = lib.strip()
+
+                    ( ( lp, lf ), ( lb, le ), ( li, lm, lmLwr, cpl ), ( ls, ld ) ) = DspFile.splitPostfixComponents( lib, '' )
+                    if ( not lm ):
+                        continue
+
+                    libList.append( lib )
+                    lmLwr = lm.lower()
+                    lmLwrList.append( lmLwr )
+                    libDict[ lmLwr ] = ( ( lm, le, lib ), ( ls, ld ) )
+                    self.librariesChangePostfixPrintString += "\'%s\', " % ( lib )
+
+                if ( ls ):
+                    self.librariesChangePostfixPrintString = self.librariesChangePostfixPrintString[:-2] # eliminates last ', '
+                self.librariesChangePostfixPrintString += '], '
+
+                self.librariesChangePostfixDictList[ projLwr ] = libList
+                self.librariesChangePostfixDictDict[ projLwr ] = libDict
+
+            else:
+                raise Exception( 'Wrong format of the item \'%s = %s\' in the section \'%s\' of the config file \'%s\'\n' \
+                                 'The format should be [ c# = proj: lib1, lib2, libn ]' % ( name, item, section, self.options.config ) )
+
+
+        if ( npairs ):
+            self.librariesChangePostfixPrintString = self.librariesChangePostfixPrintString[:-2] # eliminates last ', '
+        self.librariesChangePostfixPrintString += '}'
+
+        return
+
+    def makeProjectsNoPostfixIfUnderCompileDirList( self, section ):
+        # splits entries like [ c# = proj: lib1, lib2, libn ]
+        pairs = self.config.items( section )
+
+        # shorter names
+        libList = self.projectsNoPostfixIfUnderCompilerDirList
+        lmLwrList = self.projectsNoPostfixIfUnderCompilerDirMainNameLwrList
+        libDict = self.projectsNoPostfixIfUnderCompilerDirMainNameLwrDict
+
+        # resettting the lists
+        libList = []
+        lmLwrList = []
+        libDict = {}
+
+        for pair in pairs:
+            ( name, item ) = pair
+
+            # project1, "project12", project1n
+            list = item
+            list = StringUtils.stripComment( list )
+            list = list.strip()
+
+            ls = list.split( ',' )
+            for lib in ls:
+                lib = lib.strip()
+
+                ( ( lp, lf ), ( lb, le ), ( li, lm, lmLwr, cpl ), ( ls, ld ) ) = DspFile.splitPostfixComponents( lib, '' )
+                if ( not lm ):
+                    continue
+
+                libList.append( lib )
+                lmLwr = lm.lower()
+                lmLwrList.append( lmLwr )
+                libDict[ lmLwr ] = ( lm, le, lib )
+
+            self.projectsNoPostfixIfUnderCompilerDirList = libList
+            self.projectsNoPostfixIfUnderCompilerDirMainNameLwrList = lmLwrList
+            self.projectsNoPostfixIfUnderCompilerDirMainNameLwrDict = libDict
+
+        return
 
     def checkAllowedDir( self, filename ):
         allow = True
@@ -4465,7 +4623,6 @@ class DspFile( GenericProjectFile ):
         if ( not vcpHdrSrc ):
             raise Exception( 'convertEntriesVcproj: vcpHdrSrc is necessary for any conversion' )
 
-
         oldCompilerVersion = g_mapCompilerNameVersion[ oldCompiler ]
         newCompilerVersion = g_mapCompilerNameVersion[ newCompiler ]
 
@@ -4503,17 +4660,24 @@ class DspFile( GenericProjectFile ):
                     entryValue = vcpCfg.entryNameValueDict[ entryName ]
                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                        entryValue = self.fixFilenamePostfix( entryValue, newCompiler, config_name, appType, isDebug )
+                        entryValue = self.fixFilenamePostfix( entryValue, newCompiler, appType, isDebug, config_name )
                         entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                         vcpCfg.entryNameValueDict[ entryName ] = entryValue
+                    if ( entryName == 'AdditionalDependencies' ):
+                        entryValue = self.librariesChangePostfix( entryValue, newCompiler, appType, isDebug, config_name )
+                        vcpCfg.entryNameValueDict[ entryName ] = entryValue
+
                 for tool_name in vcpCfg.toolNamesList:
                     vcpTool = vcpCfg.toolNameSectionsDict[ tool_name ]
                     for entryName in vcpTool.entryNamesList:
                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                             entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                            entryValue = self.fixFilenamePostfix( entryValue, newCompiler, config_name, appType, isDebug )
+                            entryValue = self.fixFilenamePostfix( entryValue, newCompiler, appType, isDebug, config_name )
                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
+                            vcpTool.entryNameValueDict[ entryName ] = entryValue
+                        if ( entryName == 'AdditionalDependencies' ):
+                            entryValue = self.librariesChangePostfix( entryValue, newCompiler, appType, isDebug, config_name )
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
                 # add tools and entries existing only on ( compilerVc71 <= compilers )
@@ -4910,7 +5074,7 @@ class DspFile( GenericProjectFile ):
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
-                                        #entryValue = self.fixFilenamePostfix( entryValue, newCompiler, fileConfig_name, appType, isDebug )
+                                        #entryValue = self.fixFilenamePostfix( entryValue, newCompiler, appType, isDebug, fileConfig_name )
 
                                     line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
@@ -5000,7 +5164,7 @@ class DspFile( GenericProjectFile ):
         # ( just by the name given by the user to the configuaration itself )
         # It should be much better to check for a /D "_DEBUG"or /D "NDEBUG" macro in the CPP line
         configName  = self.configName.lower()
-        self.isDebugCfg .append( configName.find( 'debug' ) != -1 )
+        self.isDebugCfg.append( configName.find( 'debug' ) != -1 )
         if ( configName.find( 'debug' ) != -1 ):
             self.c = 'd'
         else:
@@ -5327,7 +5491,23 @@ class DspFile( GenericProjectFile ):
                 pass
         return
 
-    def getPostFixIndex( self, filename, compiler = compilerVc6 ):
+    def getPostFixIndex( filename, compiler = compilerVc6 ):
+        if ( not compiler ):
+            # look for the compiler too
+            cpl = compilerVc6
+            if ( filename.find( compiler ) == -1 ):
+                if ( filename.find( compilerVc6 ) != -1 ):
+                    cpl = compilerVc6
+                elif ( filename.find( compilerIcl7 ) != -1 ):
+                    cpl = compilerIcl7
+                elif ( filename.find( compilerVc70 ) != -1 ):
+                    cpl = compilerVc70
+                elif ( filename.find( compilerVc71 ) != -1 ):
+                    cpl = compilerVc71
+                else:
+                    cpl = compilerVc6 # it doesn't matter in this case
+            compiler = cpl
+        ( stat, dbg ) = ( False, False )
         basetitle = filename
         i = basetitle.rfind( '_' )
         if ( i != -1 ):
@@ -5335,20 +5515,35 @@ class DspFile( GenericProjectFile ):
             postfix = basetitle[i+1:]
             if ( postfix == 'd' or postfix == 's' or postfix == 'sd' or postfix == compiler ):
                 basetitle = name
+
+                if ( postfix == 's' or postfix == 'sd' ):
+                    stat = True
+                if ( postfix == 'd' or postfix == 'sd' ):
+                    dbg  = True
+
                 #j = filename.rfind( '_', i-1 )  # the start index specification DOESN'T WORK AT ALL
                 j = basetitle.rfind( '_' )
-                if ( j != -1 ):
+                while ( j != -1 ):
                     name = basetitle[:j]
                     postfix = filename[j+1:i]
-                    if ( postfix == compiler ):
+                    if ( postfix == compiler or postfix == compilerVc6 or postfix == compilerIcl7 or postfix == compilerVc70 or postfix == compilerVc71 ):
                         basetitle = name # fixed 2004/05
                         i = j
+                        j = basetitle.rfind( '_' )
                     else:
-                        j = i
+                        break
+
+                    # j = basetitle.rfind( '_' )
+                    pass
+
                 #i = j # fixed 2004/05
             else:
+                if ( postfix == compiler or postfix == compilerVc6 or postfix == compilerIcl7 or postfix == compilerVc70 or postfix == compilerVc71 ):
+                    basetitle = name
                 i = len( basetitle )
-        return ( i, basetitle )
+
+        return ( ( i, basetitle, compiler ), ( stat, dbg ) )
+    getPostFixIndex = staticmethod(getPostFixIndex)
 
     def getPostFix( self, compiler = compilerVc6 ):
         postfix = '_' + compiler
@@ -5362,6 +5557,15 @@ class DspFile( GenericProjectFile ):
                 postfix += '_s'
         return postfix
 
+    def splitPostfixComponents( filename, compiler ):
+        ( sp, sf ) = FileUtils.split( filename ) # do not use os.path implementation
+        ( sb, se ) = FileUtils.splitext( sf )
+        ( ( si, sm, cpl ), ( ss, sd ) ) = DspFile.getPostFixIndex( sb, compiler )
+        smLwr = sm.lower()
+        tup = ( ( sp, sf ), ( sb, se ), ( si, sm, smLwr, cpl ), ( ss, sd ) )
+        return tup
+    splitPostfixComponents = staticmethod(splitPostfixComponents)
+
     def getPostFix2( self, compiler, appType, isDebug ):
         postfix = '_' + compiler
         if ( appType == enumAppTypeDll ):
@@ -5374,7 +5578,7 @@ class DspFile( GenericProjectFile ):
                 postfix += '_s'
         return postfix
 
-    def fixFilenamePostfix( self, pathfilename, compiler, config_name, appType, isDebug ):
+    def fixFilenamePostfix( self, pathfilename, compiler, appType, isDebug, config_name = '' ):
         if ( not app.options.fixFilenamePostfix ):
             return pathfilename
 
@@ -5390,15 +5594,11 @@ class DspFile( GenericProjectFile ):
                     print msg
 
         # looks for the mainFileTitleBase of both the current file and of pathfilename ( i.e. without any postfix )
-        ( sp, sf ) = FileUtils.split( self.filename ) # important: do not use os.path implemantation: it changes behaviour with cygwin
-        ( sb, se ) = FileUtils.splitext( sf )
-        ( si, sm ) = self.getPostFixIndex( sb, compiler )
+        ( ( sp, sf ), ( sb, se ), ( si, sm, smLwr, cpl ), ( ss, sd ) ) = DspFile.splitPostfixComponents( self.filename, compiler )
         if ( not sm ):
             return pathfilename
 
-        ( fp, ff ) = FileUtils.split( pathfilename ) # important: do not use os.path implemantation: it changes behaviour with cygwin
-        ( fb, fe ) = FileUtils.splitext( ff )
-        ( fi, fm ) = self.getPostFixIndex( fb, compiler )
+        ( ( fp, ff ), ( fb, fe ), ( fi, fm, fmLwr, cpl ), ( fs, fd ) ) = DspFile.splitPostfixComponents( pathfilename, compiler )
         if ( not fm ):
             return pathfilename
 
@@ -5406,12 +5606,21 @@ class DspFile( GenericProjectFile ):
         #    msg = 'WARNING: [%s\n fp: %s\nff: %s\n fb: %s\nfe: %s\n] the entry has a postfix [ %s ] NOT different than the unexpected one [ %s ]. Configuration \'%s\'.  File \'%s\'.' % ( pathfilename, fp, ff, fb, fe, fm, sm, config_name, self.filename )
         #    print msg
 
-        if ( fm != sm ):
+        if ( fmLwr != smLwr ):
             return pathfilename
 
         # the right postfix
         postfix = self.getPostFix2( compiler, appType, isDebug )
         fn = fm + postfix + fe
+
+        putPostfix = True
+        if ( app.projectsNoPostfixIfUnderCompilerDirList ):
+            if ( self.isInProjectsNoPostfixIfUnderCompileDirList() ):
+                putPostfix = False
+        if ( putPostfix ):
+            fn2 = fm + postfix + fe
+        else:
+            fn2 = fm + fe
 
         # not using FileUtils.split
         #if ( fp and ff ):
@@ -5423,19 +5632,142 @@ class DspFile( GenericProjectFile ):
         # using FileUtils.split
         if ( fp ):
             pfn = fp + fn
+            pfn2 = fp + fn2
         else:
             pfn = fn
-            
-        if ( pathfilename != pfn ):
+            pfn2 = fn2
+
+        if ( pathfilename != pfn2 ):
             if ( 0 < app.options.warning ):
                 if ( 0 < self.n and self.n < len( self.lines ) ):
                     line = self.lines[ self.n - 1 ]
-                    msg = 'WARNING: the entry has a postfix [ %s ] different than the unexpected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn, config_name, self.filename, self.n, line.rstrip() )
+                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn, config_name, self.filename, self.n, line.rstrip() )
                 else:
-                    msg = 'WARNING: the entry has a postfix [ %s ] different than the unexpected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn, config_name, self.filename )
+                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn, config_name, self.filename )
                 print msg
 
-        return pfn
+        return pfn2
+
+    def librariesChangePostfix( self, libSlist, compiler, appType, isDebug, config_name = '' ):
+        # used for AdditionalDependencies in vc7x
+        # return libSlist # uncommenting this disable the function
+
+        ( ( sp, sf ), ( sb, se ), ( si, sm, smLwr, cpl ), ( ss, sd ) ) = DspFile.splitPostfixComponents( self.filename, compiler )
+        if ( not sm ):
+            return libSlist
+
+        hadNewline = False
+        if ( libSlist and libSlist[-1] == '\n' ):
+            hadNewline = True
+
+        # if some options works only on the first part
+        afterOption = ''
+        libSlist2 = libSlist
+        p = libSlist2.find( '/' )
+        if ( p != -1 ):
+            # some options
+            afterOption = libSlist2[p:]     # '/' included
+            libSlist2 = libSlist2[:p] # just before '/'
+
+        ls = libSlist2.split( ' ' )
+        libDict = {}
+        libList = []
+        lmList = []
+        lmLwrList = []
+        for lib in ls:
+            lib = lib.strip()
+            libLwr = lib.lower()
+
+            # it just would be compiler if we knew for sure that lib has the right postfix
+            ( ( lp, lf ), ( lb, le ), ( li, lm, lmLwr, cpl ), ( ls, ld ) ) = DspFile.splitPostfixComponents( lib, '' )
+            if ( not lm ):
+                continue
+
+            libList.append( lib )
+            lmLwr = lm.lower()
+            lmLwrList.append( lmLwr )
+            libDict[ lmLwr ] = ( lm, le, lib )
+
+        # first we see if the current project is in the projects list of app.librariesChangePostfixListLwr
+        libSlistNew = ''
+        for projLwr in app.librariesChangePostfixListLwr:
+            # looks for the mainFileTitleBase of both the current file and of projLwr ( i.e. without any postfix )
+
+            ( ( pp, pf ), ( pb, pe ), ( pi, pm, pmLwr, cpl ), ( ps, pd ) ) = DspFile.splitPostfixComponents( projLwr, compiler )
+            if ( pmLwr and pmLwr == smLwr ):
+                # ok expected project
+
+                libListNew = []
+                libPsfxList = app.librariesChangePostfixDictList[ projLwr ]
+                libPsfxDict = app.librariesChangePostfixDictDict[ projLwr ]
+
+                for lmLwr in lmLwrList:
+                    ( lm, le, lib )  = libDict[ lmLwr ]
+                    if ( libPsfxDict.has_key( lmLwr ) ):
+                        # finally found the wanted match
+                        ( ( xm, xe, xlib ), ( xs, xd ) ) = libPsfxDict[ lmLwr ]
+
+                        # if we specified the extension, this means we restrict ourselves only to lib of that kind
+                        if ( xe and xe != le ):
+                            libListNew.append( lib )
+                        else:
+                            # fix the name
+
+                            # libFixed = self.fixFilenamePostfix( lib, compiler, appType, isDebug, config_name )
+                            if ( xs ):
+                                appType = enumAppTypeLib
+                            # isDebug = xd # No! Mistake here: we don't need to specify '_d' in the list (better not). But the config ( debug/non ) tells which lib we want
+
+                            postfix = self.getPostFix2( compiler, appType, isDebug )
+                            ln = lm + postfix + le
+                            ( lp, lf ) = FileUtils.split( lib )
+                            if ( lp ):
+                                pfn = lp + ln
+                            else:
+                                pfn = ln
+
+                            if ( lib != pfn ):
+                                if ( 0 < app.options.warning ):
+                                    if ( 0 < self.n and self.n < len( self.lines ) ):
+                                        line = self.lines[ self.n - 1 ]
+                                        msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  lf, ln, config_name, self.filename, self.n, line.rstrip() )
+                                    else:
+                                        msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  lf, ln, config_name, self.filename )
+                                    print msg
+
+                            lib = pfn
+
+                            libListNew.append( lib )
+
+                    else:
+                        libListNew.append( lib )
+
+                libSlistNew = ' '.join( libListNew )
+
+                # this project found in list and managed, then exit
+                break
+
+        if ( libSlistNew ):
+            list = libSlistNew + ' ' + afterOption.rstrip()
+        else:
+            list = libSlist2 + ' ' + afterOption.rstrip()
+        list = list.rstrip()
+        if ( hadNewline ):
+            list += '\n'
+
+        return list
+
+    def isInProjectsNoPostfixIfUnderCompileDirList( self ):
+        isInList = False
+
+        if ( app.projectsNoPostfixIfUnderCompilerDirList ):
+
+            ( ( sp, sf ), ( sb, se ), ( si, sm, smLwr, cpl ), ( ss, sd ) ) = DspFile.splitPostfixComponents( self.filename, self.compiler )
+            if ( sm ):
+                if ( app.projectsNoPostfixIfUnderCompilerDirMainNameLwrDict.has_key( smLwr ) ):
+                    isInList = True
+
+        return isInList
 
     def translateConfigurationType( value ):
         #val = enumAppTypeUnknown
@@ -5496,7 +5828,7 @@ class DspFile( GenericProjectFile ):
 
             pathname = m_option_out_dir.group( 'pathname' )
             pathname = FileUtils.normPath( pathname, g_internal_unixStyle )
-            #%%%
+
             # Lib
             dirname = os.path.dirname( pathname )
             dirname =  FileUtils.normDir( dirname, g_internal_unixStyle )
@@ -5536,7 +5868,7 @@ class DspFile( GenericProjectFile ):
                                 msg = 'WARNING: \'/out:\' with extension (%s) different than expected (%s) in the configuration \'%s\'. Fixed as \'%s\'.  File \'%s\' (%d). Line: %s' % ( ext, self.outputExt, self.configName, ext, self.filename, self.n, line.rstrip() )
                             print msg
                     self.outputExt = ext
-            (ipf, basetitle) = self.getPostFixIndex( basetitle )
+            ( (ipf, basetitle, cpl), ( stat, dbg ) ) = DspFile.getPostFixIndex( basetitle )
             if ( len( basetitle ) ):
                 self.mainFileTitleBase = basetitle
         else:
@@ -5552,7 +5884,7 @@ class DspFile( GenericProjectFile ):
                 fn = self.OutputDirOutList[self.nCfg] + self.mainFileTitleBase + self.outputExt
                 if ( fn ):
                     (fn,ext) = os.path.splitext( fn )
-                    (ipf, basetitle) = self.getPostFixIndex( fn )
+                    ( (ipf, basetitle, cpl), ( stat, dbg ) ) = DspFile.getPostFixIndex( fn )
                     if ( ipf != -1 ):
                         fn = fn[:ipf]
                     fn += self.getPostFix()
@@ -5574,7 +5906,7 @@ class DspFile( GenericProjectFile ):
 
             pathname = m_option_out_dir.group( 'pathname' )
             pathname = FileUtils.normPath( pathname, g_internal_unixStyle )
-            #%%%
+
             # Lib
             dirname = os.path.dirname( pathname )
             dirname =  FileUtils.normDir( dirname, g_internal_unixStyle )
@@ -5615,7 +5947,7 @@ class DspFile( GenericProjectFile ):
                             print msg
                     self.outputExtCustomBuild = ext
 
-            (ipf, basetitle) = self.getPostFixIndex( basetitle )
+            ( (ipf, basetitle, cpl), ( stat, dbg ) ) = DspFile.getPostFixIndex( basetitle )
             if ( len( basetitle ) ):
                 self.mainFileTitleBaseCustomBuild = basetitle
 
@@ -5692,7 +6024,7 @@ class DspFile( GenericProjectFile ):
                 fn = self.OutputDirOutCustomBuildList[self.nCfg] + self.mainFileTitleBaseCustomBuild + self.outputExtCustomBuild
                 if ( fn ):
                     (fn,ext) = os.path.splitext( fn )
-                    (ipf, basetitle) = self.getPostFixIndex( fn )
+                    ( (ipf, basetitle, cpl), ( stat, dbg ) ) = DspFile.getPostFixIndex( fn )
                     if ( ipf != -1 ):
                         fn = fn[:ipf]
                     fn += self.getPostFix()
@@ -5755,7 +6087,7 @@ class DspFile( GenericProjectFile ):
                 u = linLwr.find( '.', k )
                 if ( u != -1 ):
                     b1 = linLwr[k:u]
-                    (ipf2, bt2) = self.getPostFixIndex( b1 )
+                    ( (ipf2, bt2, cpl), ( stat, dbg ) ) = DspFile.getPostFixIndex( b1 )
                     if ( bt2 == titlebaseLwr ):
                         lin = lin[:k] + basename + lin[u:]
                         changed = True
@@ -5856,6 +6188,10 @@ class DspFile( GenericProjectFile ):
             line = self.moveOptionsProperOrder( line, optionsList )
             #app.logFilePrintLine( line )
 
+            # # ADD LINK32 wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"libxml2\libxml2_vc6_d.dll" /pdbtype:sept
+            if ( app.librariesChangePostfixListLwr ):
+                line = self.librariesChangePostfix( line, self.compiler, self.appType, self.isDebugCfg[self.nCfg], self.configFullName )
+
         return line
 
     def changeOptionsLib( self, line ):
@@ -5923,12 +6259,12 @@ class DspFile( GenericProjectFile ):
             # (*) the reason why we always remove the '/Fo' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as Intermediate_Dir )
             addDir  = False
             addFile = False
-            line = self.storeRemoveOption( line, '/Fo', self.PropIntermeDir, '', False, changeSomething, addDir, addFile )
+            line = self.storeAndRemoveOption( line, '/Fo', self.PropIntermeDir, '', False, changeSomething, addDir, addFile )
         else:
             # this option should always be there ( we always want dir and filename specified for the linker output )
             addDir  = +1 # never remove it
             addFile = +1
-            line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.mainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
+            line = self.storeAndRemoveOption( line, '/out:', self.OutputDirOut, self.mainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
 
         if ( 0 < self.nCfg ):
             if ( not self.warning_done_dirs_different_between_cfgs ):
@@ -5960,44 +6296,45 @@ class DspFile( GenericProjectFile ):
             addFile = addDir # we usually want both in the same way
             option = '/' + app.options.reformatOptionOptimize[self.c]
             for opt in [ '/O1', '/O2', '/Od' ]:
-                line = self.storeRemoveOption( line, opt, '', '', False, changeSomething, addDir, addFile, False )
+                line = self.storeAndRemoveOption( line, opt, '', '', False, changeSomething, addDir, addFile, False )
             self.storedOptions.append( option )
         return line
 
     def storeRemoveOptionPdb( self, line ):
         # reformat a line for ProgramDatabase option ( /Fd /pdb: )
         changeSomething = ( app.options.reformatOptionPdb[self.c] != 0 )
-        if ( self.addKind == enum_ADD_CPP ):
-            # (*) the reason why we always remove the '/Fd' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
-            if ( self.appType == enumAppTypeExe ):
+        if ( changeSomething ):
+            if ( self.addKind == enum_ADD_CPP ):
+                # (*) the reason why we always remove the '/Fd' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
+                if ( self.appType == enumAppTypeExe ):
+                    addDir  = False
+                    addFile = False # we usually want both in the same way
+                    line = self.storeAndRemoveOption( line, '/Fd', self.OutputDirOut, '', False, changeSomething, addDir, addFile )
+                else:
+                    if ( self.appType == enumAppTypeLib or self.appType == enumAppTypeDll ):
+                        addDir  = app.options.reformatOptionPdb[self.c]# remove it with -1 only
+                        addFile = addDir# we usually want both in the same way
+                    else:
+                        addDir  = False # this will remove the option always
+                        addFile = addDir# we usually want both in the same way
+                    # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
+                    line = self.storeAndRemoveOption( line, '/Fd', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
+            elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
+                # (*) the reason why we always remove the '/pdb' option in a ADD LINK32 line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
                 addDir  = False
                 addFile = False # we usually want both in the same way
-                line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, '', False, changeSomething, addDir, addFile )
-            else:
-                if ( self.appType == enumAppTypeLib or self.appType == enumAppTypeDll ):
+                line = self.storeAndRemoveOption( line, '/pdb:', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
+
+                if ( self.addKind == enum_ADD_LINK32 ):
                     addDir  = app.options.reformatOptionPdb[self.c]
-                    addFile = addDir# we usually want both in the same way
-                else:
-                    addDir  = False # this will remove the option always
-                    addFile = addDir# we usually want both in the same way
-                # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
-                line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
-        elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
-            # (*) the reason why we always remove the '/pdb' option in a ADD LINK32 line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
-            addDir  = False
-            addFile = False # we usually want both in the same way
-            line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
+                    addFile = addDir # we usually want both in the same way
+                    line = self.storeAndRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
 
-            if ( self.addKind == enum_ADD_LINK32 ):
-                addDir  = app.options.reformatOptionPdb[self.c]
+            elif ( self.addKind == enum_SUBTRACT_LINK32 ):
+                # '/debug' in # SUBTRACT LINK32 disable the pdb option
+                addDir  = -(app.options.reformatOptionPdb[self.c]) # /debug in the SUBTRACT line has opposite meaning
                 addFile = addDir # we usually want both in the same way
-                line = self.storeRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
-
-        elif ( self.addKind == enum_SUBTRACT_LINK32 ):
-            # '/debug' in # SUBTRACT LINK32 disable the pdb option
-            addDir  = -(app.options.reformatOptionPdb[self.c]) # /debug in the SUBTRACT line has opposite meaning
-            addFile = addDir # we usually want both in the same way
-            line = self.storeRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
+                line = self.storeAndRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
         return line
 
     def storeRemoveOptionBrowse( self, line ):
@@ -6006,18 +6343,18 @@ class DspFile( GenericProjectFile ):
         addDir  = app.options.reformatOptionBrowse[self.c]
         addFile = addDir # we usually want both in the same way
         if ( self.addKind == enum_ADD_CPP ):
-            line = self.storeRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
+            line = self.storeAndRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
             # the bsc file will be placed in the same dir of the main output
-            line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.mainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
+            line = self.storeAndRemoveOption( line, '/o', self.OutputDirOut, self.mainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_SUBTRACT_CPP ):
             # /Fr' in # SUBTRACT CPP disable the pdb option
             addDir  = -(app.options.reformatOptionBrowse[self.c]) # /debug in the SUBTRACT line has opposite meaning
             addFile = addDir # we usually want both in the same way
-            line = self.storeRemoveOption( line, '/FR', '', '', True, changeSomething, addDir, addFile )
+            line = self.storeAndRemoveOption( line, '/FR', '', '', True, changeSomething, addDir, addFile )
         return line
 
-    def storeRemoveOption( self, line, option, directory, filename, ignorecase, changeSomething, addDir, addFile, store=True ):
+    def storeAndRemoveOption( self, line, option, directory, filename, ignorecase, changeSomething, addDir, addFile, store=True ):
         # Remark: this function removes the entry even if changeSomething = False !
         #           because we want to set a 'standard' order of the options
         #           Therefore if we don't want to change anything we need not to call this function
@@ -6029,10 +6366,18 @@ class DspFile( GenericProjectFile ):
             fn = filename
             if ( fn ):
                 (fn,ext) = os.path.splitext( fn )
-                (ipf, basetitle) = self.getPostFixIndex( fn )
+                ( (ipf, basetitle, cpl), ( stat, dbg ) ) = DspFile.getPostFixIndex( fn )
+
                 if ( ipf != -1 ):
                     fn = fn[:ipf]
-                fn += self.getPostFix()
+
+                putPostfix = True
+                if ( app.projectsNoPostfixIfUnderCompilerDirList ):
+                    if ( self.isInProjectsNoPostfixIfUnderCompileDirList() ):
+                        putPostfix = False
+                if ( putPostfix ):
+                    fn += self.getPostFix()
+
                 fn += ext
 
         dr = ''
@@ -6724,6 +7069,7 @@ class Workspace( DspFile ):
 
 
         state = 0
+        sectionState = enumSection_None
         nPrjs = 0
         foundGlobalSectionDPCodeReviewSolutionGUID = False
         foundGlobalSectionSolutionConfiguration = False
@@ -6860,91 +7206,162 @@ class Workspace( DspFile ):
                 m_sln_globals_beg = re_sln_globals_beg.match( line )
                 if ( m_sln_globals_beg ):
                     #here we have at least all the projects already known as existing in the solution
-                    if ( newCompiler == compilerVc70 ):
-                        state = 2
-                    else:
-                        state = 3
+##                    if ( newCompiler == compilerVc70 ):
+##                        state = 2
+##                    else:
+##                        state = 3
+                    state = 2
 
             elif ( state == 2 ):
-                if ( newCompiler == compilerVc70 ):
-                    #   GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-                    m_sln_globalSectionDPCodeReview_beg = re_sln_globalSectionDPCodeReview_beg.match( line )
-                    if ( m_sln_globalSectionDPCodeReview_beg ):
-                        foundGlobalSectionDPCodeReviewSolutionGUID = True
+                m_sln_globalSection_beg = re_sln_globalSection_beg.match( line )
+                if ( m_sln_globalSection_beg ):
+                    sectionName = m_sln_globalSection_beg.group( 'sectionName' );
+                    #print sectionName
+
+                    if ( sectionName == 'DPCodeReviewSolutionGUID' ):
+                        sectionState = enumSection_DPCodeReviewSolutionGUID
+                    elif ( sectionName == 'SolutionConfiguration' ):
+                        sectionState = enumSection_SolutionConfiguration
+                    elif ( sectionName == 'ProjectDependencies' ):
+                        sectionState = enumSection_ProjectDependencies
+                    elif ( sectionName == 'ProjectConfiguration' ):
+                        sectionState = enumSection_ProjectConfiguration
+                    elif ( sectionName == 'ExtensibilityGlobals' ):
+                        sectionState = enumSection_ExtensibilityGlobals
+                    elif ( sectionName == 'ExtensibilityAddIns' ):
+                        sectionState = enumSection_ExtensibilityAddIns
+                    else:
+                        raise Exception( 'getSlnProjectEntries: unknown section name: GlobalSection(%s).  File \'%s\' (%d). Line \'%s\'' % ( self.solutionVersion, self.filename, self.n, line.rstrip() ) )
+                else:
+                    m_sln_globals_end = re_sln_globals_end.match( line )
+                    if ( m_sln_globals_end ):
+                        sectionState = enumSection_completed
+                    # no exception: there are all the other lines !
+                    #else:
+                    #    raise Exception( 'getSlnProjectEntries: unable to parse the current line.  File \'%s\' (%d). Line \'%s\'' % ( self.filename, self.n, line.rstrip() ) )
+
+
+
+                if ( False ):
+                    pass
+
+                elif ( sectionState == enumSection_DPCodeReviewSolutionGUID ):
+                    if ( newCompiler == compilerVc70 ):
+                        #   GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+                        m_sln_globalSectionDPCodeReview_beg = re_sln_globalSectionDPCodeReview_beg.match( line )
+                        if ( m_sln_globalSectionDPCodeReview_beg ):
+                            foundGlobalSectionDPCodeReviewSolutionGUID = True
+                            continue
+
+                        #           DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+                        m_sln_globalSectionDPCodeReview_entry = re_sln_globalSectionDPCodeReview_entry.match( line )
+                        if ( m_sln_globalSectionDPCodeReview_entry ):
+                            uuidDPCodeReview = m_sln_globalSectionDPCodeReview_entry.group( 'uuidDPCodeReview' )
+                            self.uuidDPCodeReview = uuidDPCodeReview
+                            continue
+
+                        #   EndGlobalSection
+                        m_sln_globalSection_end = re_sln_globalSection_end.match( line )
+                        if ( m_sln_globalSection_end ):
+                            if ( not foundGlobalSectionDPCodeReviewSolutionGUID ):
+                                raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(DPCodeReviewSolutionGUID): Microsoft Solution file v.%s  File \'%s\' (%d). Line \'%s\'' % ( self.solutionVersion, self.filename, self.n, line.rstrip() ) )
+##                            state = 3
+                    else:
+                        raise Exception( 'getSlnProjectEntries: We shouldn\'t be here: GlobalSection(DPCodeReviewSolutionGUID) does not exists with the version 8.00: Microsoft Solution file v.%s  File \'%s\' (%d). Line \'%s\'' % ( self.solutionVersion, self.filename, self.n, line.rstrip() ) )
+
+                elif ( sectionState == enumSection_SolutionConfiguration ):
+                #elif ( state == 3 ):
+                    #       GlobalSection(SolutionConfiguration) = preSolution
+                    m_sln_globalSectionSolConfig_beg = re_sln_globalSectionSolConfig_beg.match( line )
+                    if ( m_sln_globalSectionSolConfig_beg ):
+                        foundGlobalSectionSolutionConfiguration = True
                         continue
 
-                    #           DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
-                    m_sln_globalSectionDPCodeReview_entry = re_sln_globalSectionDPCodeReview_entry.match( line )
-                    if ( m_sln_globalSectionDPCodeReview_entry ):
-                        uuidDPCodeReview = m_sln_globalSectionDPCodeReview_entry.group( 'uuidDPCodeReview' )
-                        self.uuidDPCodeReview = uuidDPCodeReview
+                    #               ConfigName.1 = GTK Debug     # with vc70
+                    m_sln_globalSectionSolConfig_entryVc70 = re_sln_globalSectionSolConfig_entryVc70.match( line )
+                    if ( m_sln_globalSectionSolConfig_entryVc70 ):
+                        configNum = m_sln_globalSectionSolConfig_entryVc70.group( 'configNum' )
+                        configName = m_sln_globalSectionSolConfig_entryVc70.group( 'configName' )
+                        self.prjConfigFullNameList.append( configName ) # list of all configFullName existing between all the projects in a solution
                         continue
 
-                    #   EndGlobalSection
+                    #               GTK Debug = GTK Debug        # with vc71
+                    m_sln_globalSectionSolConfig_entryVc71 = re_sln_globalSectionSolConfig_entryVc71.match( line )
+                    if ( m_sln_globalSectionSolConfig_entryVc71 ):
+                        configName = m_sln_globalSectionSolConfig_entryVc71.group( 'configName' )
+                        configName2 = m_sln_globalSectionSolConfig_entryVc71.group( 'configName2' )
+                        if ( configName != configName2 ):
+                            raise Exception( 'getSlnProjectEntries: ProjectSection(ProjectDependencies) with different configs: \'%s\' != \'%s\'. File \'%s\'. Line \'%s\'' % ( configName, configName2, self.filename, line.rstrip() ) )
+                        self.prjConfigFullNameList.append( configName ) # # list of all configFullName existing between all the projects in a solution
+                        continue
+
+                    #       EndGlobalSection
                     m_sln_globalSection_end = re_sln_globalSection_end.match( line )
                     if ( m_sln_globalSection_end ):
-                        if ( not foundGlobalSectionDPCodeReviewSolutionGUID ):
-                            raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(DPCodeReviewSolutionGUID): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
-                        state = 3
-                else:
-                    raise Exception( 'getSlnProjectEntries: We shouldn\'t be here: GlobalSection(DPCodeReviewSolutionGUID) does not exists with the version 8.00: Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+                        if ( not foundGlobalSectionSolutionConfiguration ):
+                            raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(SolutionConfiguration): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+##                        if ( newCompiler == compilerVc70 ):
+##                            state = 4
+##                        else:
+##                            state = 5
 
-            elif ( state == 3 ):
-                #       GlobalSection(SolutionConfiguration) = preSolution
-                m_sln_globalSectionSolConfig_beg = re_sln_globalSectionSolConfig_beg.match( line )
-                if ( m_sln_globalSectionSolConfig_beg ):
-                    foundGlobalSectionSolutionConfiguration = True
-                    continue
-
-                #               ConfigName.1 = GTK Debug     # with vc70
-                m_sln_globalSectionSolConfig_entryVc70 = re_sln_globalSectionSolConfig_entryVc70.match( line )
-                if ( m_sln_globalSectionSolConfig_entryVc70 ):
-                    configNum = m_sln_globalSectionSolConfig_entryVc70.group( 'configNum' )
-                    configName = m_sln_globalSectionSolConfig_entryVc70.group( 'configName' )
-                    self.prjConfigFullNameList.append( configName ) # list of all configFullName existing between all the projects in a solution
-                    continue
-
-                #               GTK Debug = GTK Debug        # with vc71
-                m_sln_globalSectionSolConfig_entryVc71 = re_sln_globalSectionSolConfig_entryVc71.match( line )
-                if ( m_sln_globalSectionSolConfig_entryVc71 ):
-                    configName = m_sln_globalSectionSolConfig_entryVc71.group( 'configName' )
-                    configName2 = m_sln_globalSectionSolConfig_entryVc71.group( 'configName2' )
-                    if ( configName != configName2 ):
-                        raise Exception( 'getSlnProjectEntries: ProjectSection(ProjectDependencies) with different configs: \'%s\' != \'%s\'. File \'%s\'. Line \'%s\'' % ( configName, configName2, self.filename, line.rstrip() ) )
-                    self.prjConfigFullNameList.append( configName ) # # list of all configFullName existing between all the projects in a solution
-                    continue
-
-                #       EndGlobalSection
-                m_sln_globalSection_end = re_sln_globalSection_end.match( line )
-                if ( m_sln_globalSection_end ):
-                    if ( not foundGlobalSectionSolutionConfiguration ):
-                        raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(SolutionConfiguration): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+                elif ( sectionState == enumSection_ProjectDependencies ):
+                #elif ( state == 4 ):
                     if ( newCompiler == compilerVc70 ):
-                        state = 4
-                    else:
-                        state = 5
+                        #   GlobalSection(ProjectDependencies) = postSolution
+                        m_sln_globalSectionDependency_beg = re_sln_globalSectionDependency_beg.match( line )
+                        if ( m_sln_globalSectionDependency_beg ):
+                            foundGlobalSectionProjectDependencies = True
+                            prjDependenciesUuidList = []
+                            depNum = -1
+                            depNumCheck = -1
+                            lastUuid = '-1'
+                            continue
 
-            elif ( state == 4 ):
-                if ( newCompiler == compilerVc70 ):
-                    #   GlobalSection(ProjectDependencies) = postSolution
-                    m_sln_globalSectionDependency_beg = re_sln_globalSectionDependency_beg.match( line )
-                    if ( m_sln_globalSectionDependency_beg ):
-                        foundGlobalSectionProjectDependencies = True
-                        prjDependenciesUuidList = []
-                        depNum = -1
-                        depNumCheck = -1
-                        lastUuid = '-1'
-                        continue
+                        #           {CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}.0 = {AB72FB3C-CF7D-4FB4-B808-BF12C26E8B04}
+                        m_sln_globalSectionDependency_entry = re_sln_globalSectionDependency_entry.match( line )
+                        if ( m_sln_globalSectionDependency_entry ):
+                            uuidProj  = m_sln_globalSectionDependency_entry.group( 'uuidProj'  )
+                            uuidProj2 = m_sln_globalSectionDependency_entry.group( 'uuidProj2' )
+                            depNumStr = m_sln_globalSectionDependency_entry.group( 'depNum' )
+                            depNum = eval( depNumStr )
 
-                    #           {CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}.0 = {AB72FB3C-CF7D-4FB4-B808-BF12C26E8B04}
-                    m_sln_globalSectionDependency_entry = re_sln_globalSectionDependency_entry.match( line )
-                    if ( m_sln_globalSectionDependency_entry ):
-                        uuidProj  = m_sln_globalSectionDependency_entry.group( 'uuidProj'  )
-                        uuidProj2 = m_sln_globalSectionDependency_entry.group( 'uuidProj2' )
-                        depNumStr = m_sln_globalSectionDependency_entry.group( 'depNum' )
-                        depNum = eval( depNumStr )
+                            if ( lastUuid != '-1' and lastUuid != uuidProj ):
+                                if ( depNumCheck != -1 ):
+                                    if ( depNumCheck+1 != len(prjDependenciesUuidList) ):
+                                        raise Exception( 'getSlnProjectEntries: depNumCheck+1 [=%d] != len(prjDependenciesUuidList) [=%d].   File \'%s\'. Line \'%s\'' % ( depNumCheck+1, len(prjDependenciesUuidList), self.filename, line.rstrip() ) )
 
-                        if ( lastUuid != '-1' and lastUuid != uuidProj ):
+                                    slnPrjData = self.dictSlnProjectDataByUuid[ lastUuid ]
+                                    if ( not lastUuid == slnPrjData.prjUuid ):
+                                        raise Exception( 'ERROR with: self.dictSlnProjectDataByUuid: uuidProj != self.dictSlnProjectDataByUuid[ uuidProj ].prjUuid: %s != %s' % ( lastUuid, self.dictSlnProjectDataByUuid[ lastUuid ].prjUuid ) )
+                                    if ( 0 != len( slnPrjData.prjDependenciesUuidList ) ):
+                                        raise Exception( 'ERROR: slnPrjData.prjDependenciesUuidList should be empty' )
+                                    slnPrjData.prjDependenciesUuidList = prjDependenciesUuidList
+                                    #self.dictSlnProjectDataByName[ nameLwr ]  = slnPrjData # not necessary because slnPrjData is a reference !
+                                    #self.dictSlnProjectDataByUuid[ lastUuid ] = slnPrjData # not necessary because slnPrjData is a reference !
+                                    prjDependenciesUuidList = []
+                                    depNum = -1
+                                    depNumCheck = -1
+                                    lastUuid = '-1'
+
+                            # %%% should we put this if so it doesn't chrash ?
+                            # for sure we want to be able to remove some projcts from a solution if we want !
+                            if ( self.dictSlnProjectDataByUuid.has_key( uuidProj2 ) ):
+                                prjName1 = self.dictSlnProjectDataByUuid[ uuidProj  ].prjName # for debug
+                                prjName2 = self.dictSlnProjectDataByUuid[ uuidProj2 ].prjName # for debug
+
+                            depNumCheck = depNumCheck + 1
+                            prjDependenciesUuidList.append( uuidProj2 )
+                            lastUuid = uuidProj
+
+                            continue
+
+                        #   EndGlobalSection
+                        m_sln_globalSection_end = re_sln_globalSection_end.match( line )
+                        if ( m_sln_globalSection_end ):
+                            if ( not foundGlobalSectionProjectDependencies ):
+                                raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ProjectDependencies): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+
                             if ( depNumCheck != -1 ):
                                 if ( depNumCheck+1 != len(prjDependenciesUuidList) ):
                                     raise Exception( 'getSlnProjectEntries: depNumCheck+1 [=%d] != len(prjDependenciesUuidList) [=%d].   File \'%s\'. Line \'%s\'' % ( depNumCheck+1, len(prjDependenciesUuidList), self.filename, line.rstrip() ) )
@@ -6962,64 +7379,79 @@ class Workspace( DspFile ):
                                 depNumCheck = -1
                                 lastUuid = '-1'
 
-                        # %%% should we put this if so it doesn't chrash ?
-                        # for sure we want to be able to remove some projcts from a solution if we want !
-                        if ( self.dictSlnProjectDataByUuid.has_key( uuidProj2 ) ):
-                            prjName1 = self.dictSlnProjectDataByUuid[ uuidProj  ].prjName # for debug
-                            prjName2 = self.dictSlnProjectDataByUuid[ uuidProj2 ].prjName # for debug
+##                            state = 5
+                    else:
+                        raise Exception( 'getSlnProjectEntries: We shouldn\'t be here: GlobalSection(ProjectDependencies) does not exists with the version  8.00: Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
 
-                        depNumCheck = depNumCheck + 1
-                        prjDependenciesUuidList.append( uuidProj2 )
-                        lastUuid = uuidProj
-
+                elif ( sectionState == enumSection_ProjectConfiguration ):
+                #elif ( state == 5 ):
+                    #       GlobalSection(ProjectConfiguration) = postSolution
+                    m_sln_globalSectionProjectConfig_beg = re_sln_globalSectionProjectConfig_beg.match( line )
+                    if ( m_sln_globalSectionProjectConfig_beg ):
+                        foundGlobalSectionProjectConfiguration = True
+                        prjConfigNameList     = []
+                        prjConfigFullNameList = []
+                        prjPlatformNameList   = []
+                        prjConfigOrPlatformNameList = []
+                        prjConfigFullNameExCfgPlatfAssocDict = {}
+                        lastUuid = '-1'
                         continue
 
-                    #   EndGlobalSection
-                    m_sln_globalSection_end = re_sln_globalSection_end.match( line )
-                    if ( m_sln_globalSection_end ):
-                        if ( not foundGlobalSectionProjectDependencies ):
-                            raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ProjectDependencies): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+                    #               {7F3664CE-7A4D-4AC1-BB37-B2CD8404813E}.Debug.ActiveCfg = Debug|Win32
+                    m_sln_globalSectionProjectConfig_entry = re_sln_globalSectionProjectConfig_entry.match( line )
+                    if ( m_sln_globalSectionProjectConfig_entry ):
+                        uuidProj = m_sln_globalSectionProjectConfig_entry.group( 'uuidProj' )
 
-                        if ( depNumCheck != -1 ):
-                            if ( depNumCheck+1 != len(prjDependenciesUuidList) ):
-                                raise Exception( 'getSlnProjectEntries: depNumCheck+1 [=%d] != len(prjDependenciesUuidList) [=%d].   File \'%s\'. Line \'%s\'' % ( depNumCheck+1, len(prjDependenciesUuidList), self.filename, line.rstrip() ) )
-
+                        if ( lastUuid != '-1' and lastUuid != uuidProj ):
                             slnPrjData = self.dictSlnProjectDataByUuid[ lastUuid ]
                             if ( not lastUuid == slnPrjData.prjUuid ):
-                                raise Exception( 'ERROR with: self.dictSlnProjectDataByUuid: uuidProj != self.dictSlnProjectDataByUuid[ uuidProj ].prjUuid: %s != %s' % ( lastUuid, self.dictSlnProjectDataByUuid[ lastUuid ].prjUuid ) )
-                            if ( 0 != len( slnPrjData.prjDependenciesUuidList ) ):
-                                raise Exception( 'ERROR: slnPrjData.prjDependenciesUuidList should be empty' )
-                            slnPrjData.prjDependenciesUuidList = prjDependenciesUuidList
+                                raise Exception( 'ERROR with self.dictSlnProjectDataByUuid: uuidProj != self.dictSlnProjectDataByUuid[ uuidProj ].prjUuid: %s != %s' % ( lastUuid, self.dictSlnProjectDataByUuid[ lastUuid ].prjUuid ) )
+                            slnPrjData.prjConfigNameList     = prjConfigNameList
+                            slnPrjData.prjConfigFullNameList = prjConfigFullNameList
+                            slnPrjData.prjPlatformNameList   = prjPlatformNameList
+                            slnPrjData.prjConfigOrPlatformNameList = prjConfigOrPlatformNameList
+                            slnPrjData.prjConfigFullNameExCfgPlatfAssocDict = prjConfigFullNameExCfgPlatfAssocDict
                             #self.dictSlnProjectDataByName[ nameLwr ]  = slnPrjData # not necessary because slnPrjData is a reference !
                             #self.dictSlnProjectDataByUuid[ lastUuid ] = slnPrjData # not necessary because slnPrjData is a reference !
-                            prjDependenciesUuidList = []
-                            depNum = -1
-                            depNumCheck = -1
+                            prjConfigNameList     = []
+                            prjConfigFullNameList = []
+                            prjPlatformNameList   = []
+                            prjConfigOrPlatformNameList = []
+                            prjConfigFullNameExCfgPlatfAssocDict = {}
                             lastUuid = '-1'
 
-                        state = 5
-                else:
-                    raise Exception( 'getSlnProjectEntries: We shouldn\'t be here: GlobalSection(ProjectDependencies) does not exists with the version  8.00: Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
 
-            elif ( state == 5 ):
-                #       GlobalSection(ProjectConfiguration) = postSolution
-                m_sln_globalSectionProjectConfig_beg = re_sln_globalSectionProjectConfig_beg.match( line )
-                if ( m_sln_globalSectionProjectConfig_beg ):
-                    foundGlobalSectionProjectConfiguration = True
-                    prjConfigNameList     = []
-                    prjConfigFullNameList = []
-                    prjPlatformNameList   = []
-                    prjConfigOrPlatformNameList = []
-                    prjConfigFullNameExCfgPlatfAssocDict = {}
-                    lastUuid = '-1'
-                    continue
+                        configNameExtended = m_sln_globalSectionProjectConfig_entry.group( 'configNameExtended' ) # configNameExtended = 'Debug.ActiveCfg'
+                        configFullName = m_sln_globalSectionProjectConfig_entry.group( 'configFullName' )
+                        platform = m_sln_globalSectionProjectConfig_entry.group( 'platform' )
+                        configSplit = configFullName.split( ' ' )
+                        config = configSplit[-1] # 'GTK Debug' --> 'Debug'
+                        configOrPlatform = '%s|%s' % ( configFullName, platform )
 
-                #               {7F3664CE-7A4D-4AC1-BB37-B2CD8404813E}.Debug.ActiveCfg = Debug|Win32
-                m_sln_globalSectionProjectConfig_entry = re_sln_globalSectionProjectConfig_entry.match( line )
-                if ( m_sln_globalSectionProjectConfig_entry ):
-                    uuidProj = m_sln_globalSectionProjectConfig_entry.group( 'uuidProj' )
+                        #stupid format: GTK Debug.ActiveCfg = Debug|Win32
+                        configFullNameEx = configNameExtended.split( '.' )[0]
+                        prjConfigFullNameExCfgPlatfAssocDict[ configFullNameEx ] = configOrPlatform
 
-                    if ( lastUuid != '-1' and lastUuid != uuidProj ):
+                        slnPrjData = self.dictSlnProjectDataByUuid[ uuidProj ]
+                        projectsWithConfigFullNameExCfgPlatfAssocDictDict[ slnPrjData.prjName.lower() ] = uuidProj
+
+                        if ( StringUtils.findInList( configOrPlatform, prjConfigOrPlatformNameList ) == -1 ):
+                            prjConfigOrPlatformNameList.append( configOrPlatform )
+                            if ( StringUtils.findInList( config, prjConfigNameList ) == -1 ):
+                                prjConfigNameList.append( config )
+                            if ( StringUtils.findInList( configFullName, prjConfigFullNameList ) == -1 ):
+                                prjConfigFullNameList.append( configFullName )
+                            if ( StringUtils.findInList( platform, prjPlatformNameList ) == -1 ):
+                                prjPlatformNameList.append( platform )
+                        lastUuid = uuidProj
+                        continue
+
+                    #       EndGlobalSection
+                    m_sln_globalSection_end = re_sln_globalSection_end.match( line )
+                    if ( m_sln_globalSection_end ):
+                        if ( not foundGlobalSectionProjectConfiguration ):
+                            raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ProjectConfiguration): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+
                         slnPrjData = self.dictSlnProjectDataByUuid[ lastUuid ]
                         if ( not lastUuid == slnPrjData.prjUuid ):
                             raise Exception( 'ERROR with self.dictSlnProjectDataByUuid: uuidProj != self.dictSlnProjectDataByUuid[ uuidProj ].prjUuid: %s != %s' % ( lastUuid, self.dictSlnProjectDataByUuid[ lastUuid ].prjUuid ) )
@@ -7037,89 +7469,48 @@ class Workspace( DspFile ):
                         prjConfigFullNameExCfgPlatfAssocDict = {}
                         lastUuid = '-1'
 
+##                        state = 6
 
-                    configNameExtended = m_sln_globalSectionProjectConfig_entry.group( 'configNameExtended' ) # configNameExtended = 'Debug.ActiveCfg'
-                    configFullName = m_sln_globalSectionProjectConfig_entry.group( 'configFullName' )
-                    platform = m_sln_globalSectionProjectConfig_entry.group( 'platform' )
-                    configSplit = configFullName.split( ' ' )
-                    config = configSplit[-1] # 'GTK Debug' --> 'Debug'
-                    configOrPlatform = '%s|%s' % ( configFullName, platform )
+                elif ( sectionState == enumSection_ExtensibilityGlobals ):
+                #elif ( state == 6 ):
+                    #       GlobalSection(ExtensibilityGlobals) = postSolution
+                    m_sln_globalSectionExtensibGlobals_beg = re_sln_globalSectionExtensibGlobals_beg.match( line )
+                    if ( m_sln_globalSectionExtensibGlobals_beg ):
+                        foundGlobalSectionExtensibilityGlobals = True
+                        continue
 
-                    #stupid format: GTK Debug.ActiveCfg = Debug|Win32
-                    configFullNameEx = configNameExtended.split( '.' )[0]
-                    prjConfigFullNameExCfgPlatfAssocDict[ configFullNameEx ] = configOrPlatform
+                    #       EndGlobalSection
+                    m_sln_globalSection_end = re_sln_globalSection_end.match( line )
+                    if ( m_sln_globalSection_end ):
+                        if ( not foundGlobalSectionExtensibilityGlobals ):
+                            raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ExtensibilityGlobals): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+##                        state = 7
 
-                    slnPrjData = self.dictSlnProjectDataByUuid[ uuidProj ]
-                    projectsWithConfigFullNameExCfgPlatfAssocDictDict[ slnPrjData.prjName.lower() ] = uuidProj
+                elif ( sectionState == enumSection_ExtensibilityAddIns ):
+                #elif ( state == 7 ):
+                    #       GlobalSection(ExtensibilityAddIns) = postSolution
+                    m_sln_globalSectionExtensibAddIns_beg = re_sln_globalSectionExtensibAddIns_beg.match( line )
+                    if ( m_sln_globalSectionExtensibAddIns_beg ):
+                        foundGlobalSectionExtensibilityAddIns = True
+                        continue
 
-                    if ( StringUtils.findInList( configOrPlatform, prjConfigOrPlatformNameList ) == -1 ):
-                        prjConfigOrPlatformNameList.append( configOrPlatform )
-                        if ( StringUtils.findInList( config, prjConfigNameList ) == -1 ):
-                            prjConfigNameList.append( config )
-                        if ( StringUtils.findInList( configFullName, prjConfigFullNameList ) == -1 ):
-                            prjConfigFullNameList.append( configFullName )
-                        if ( StringUtils.findInList( platform, prjPlatformNameList ) == -1 ):
-                            prjPlatformNameList.append( platform )
-                    lastUuid = uuidProj
-                    continue
+                    #       EndGlobalSection
+                    m_sln_globalSection_end = re_sln_globalSection_end.match( line )
+                    if ( m_sln_globalSection_end ):
+                        if ( not foundGlobalSectionExtensibilityAddIns ):
+                            raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ExtensibilityAddIns): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+##                        state = 8
 
-                #       EndGlobalSection
-                m_sln_globalSection_end = re_sln_globalSection_end.match( line )
-                if ( m_sln_globalSection_end ):
-                    if ( not foundGlobalSectionProjectConfiguration ):
-                        raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ProjectConfiguration): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
+                elif ( sectionState == enumSection_completed ):
+                    state = 3
 
-                    slnPrjData = self.dictSlnProjectDataByUuid[ lastUuid ]
-                    if ( not lastUuid == slnPrjData.prjUuid ):
-                        raise Exception( 'ERROR with self.dictSlnProjectDataByUuid: uuidProj != self.dictSlnProjectDataByUuid[ uuidProj ].prjUuid: %s != %s' % ( lastUuid, self.dictSlnProjectDataByUuid[ lastUuid ].prjUuid ) )
-                    slnPrjData.prjConfigNameList     = prjConfigNameList
-                    slnPrjData.prjConfigFullNameList = prjConfigFullNameList
-                    slnPrjData.prjPlatformNameList   = prjPlatformNameList
-                    slnPrjData.prjConfigOrPlatformNameList = prjConfigOrPlatformNameList
-                    slnPrjData.prjConfigFullNameExCfgPlatfAssocDict = prjConfigFullNameExCfgPlatfAssocDict
-                    #self.dictSlnProjectDataByName[ nameLwr ]  = slnPrjData # not necessary because slnPrjData is a reference !
-                    #self.dictSlnProjectDataByUuid[ lastUuid ] = slnPrjData # not necessary because slnPrjData is a reference !
-                    prjConfigNameList     = []
-                    prjConfigFullNameList = []
-                    prjPlatformNameList   = []
-                    prjConfigOrPlatformNameList = []
-                    prjConfigFullNameExCfgPlatfAssocDict = {}
-                    lastUuid = '-1'
-
-                    state = 6
-
-            elif ( state == 6 ):
-                #       GlobalSection(ExtensibilityGlobals) = postSolution
-                m_sln_globalSectionExtensibGlobals_beg = re_sln_globalSectionExtensibGlobals_beg.match( line )
-                if ( m_sln_globalSectionExtensibGlobals_beg ):
-                    foundGlobalSectionExtensibilityGlobals = True
-                    continue
-
-                #       EndGlobalSection
-                m_sln_globalSection_end = re_sln_globalSection_end.match( line )
-                if ( m_sln_globalSection_end ):
-                    if ( not foundGlobalSectionExtensibilityGlobals ):
-                        raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ExtensibilityGlobals): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
-                    state = 7
-
-            elif ( state == 7 ):
-                #       GlobalSection(ExtensibilityAddIns) = postSolution
-                m_sln_globalSectionExtensibAddIns_beg = re_sln_globalSectionExtensibAddIns_beg.match( line )
-                if ( m_sln_globalSectionExtensibAddIns_beg ):
-                    foundGlobalSectionExtensibilityAddIns = True
-                    continue
-
-                #       EndGlobalSection
-                m_sln_globalSection_end = re_sln_globalSection_end.match( line )
-                if ( m_sln_globalSection_end ):
-                    if ( not foundGlobalSectionExtensibilityAddIns ):
-                        raise Exception( 'getSlnProjectEntries: Here we shouldn\'t have found GlobalSection(ExtensibilityAddIns): Microsoft Solution file v.%s  File \'%s\'. Line \'%s\'' % ( self.solutionVersion, self.filename, line.rstrip() ) )
-                    state = 8
+                else:
+                    raise Exception( 'getSlnProjectEntries: wrong final sectionState: [%d]. Read %d lines in \'%s\'' % ( sectionState, self.n, self.filename ) )
 
 
             #self.lines[n] = newline
 
-        if ( state != 8 ):
+        if ( state != 3 ):
             raise Exception( 'getSlnProjectEntries: wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
 
         # make sure we don't have a project with no configurations !
@@ -7265,7 +7656,7 @@ class Workspace( DspFile ):
 
     def getReferenceInfos( self ):
         # these filenames are solutions filenames
-        newFilenameSln = g_referenceSolution
+        newFilenameSln = app.options.referenceSolution
         ( root, ext ) = os.path.splitext( newFilenameSln )
         newFilenameSln = root + extSln
         compiler = compilerVc70
@@ -7273,7 +7664,7 @@ class Workspace( DspFile ):
             compiler = compilerVc71
             newFilenameSln = DspFile.makeDuplicateVcFilename( newFilenameSln, compilerVc6, compiler, g_internal_unixStyle, True )
             if ( not os.path.exists( newFilenameSln ) ):
-                print 'getReferenceInfos: WARNING: reference Workspace \'%s\' does not exists. We will proceed without its information ( i.e. its uuids ). This is safe.' % g_referenceSolution
+                print 'getReferenceInfos: WARNING: reference Workspace \'%s\' does not exists. We will proceed without its information ( i.e. its uuids ). This is safe.' % app.options.referenceSolution
                 return
 
         self.setFilename( newFilenameSln )
@@ -8346,7 +8737,7 @@ if __name__ == '__main__':
     os.chdir( app.currentdir )
 
     # get some infos about many projects
-    referenceSolution = Workspace( g_referenceSolution, False )
+    referenceSolution = Workspace( app.options.referenceSolution, False )
     if ( not testingParse ):
         referenceSolution.getReferenceInfos()
         app.getProjectDataForEachProject = ( 0 == len( referenceSolution.dictSlnProjectDataByName ) ) #%%%$$$
