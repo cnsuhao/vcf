@@ -24,8 +24,8 @@ namespace VCF {
 class /*APPLICATIONKIT_API*/ HorizontalLayoutContainer : public StandardContainer {
 public:
 
-	HorizontalLayoutContainer() {
-
+	HorizontalLayoutContainer() : maximizeLastRow_(false){
+		
 		setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
 
 		setNumberOfColumns(2);
@@ -112,6 +112,8 @@ public:
 
 		cell.bottom_ = cell.top_ + maxRowHeight_;
 
+		int rowCount = (controls_.size() / columns_.size()) + (controls_.size() % columns_.size());
+		int row = 0;
 		while ( it != controls_.end() ) {
 
 			Control* control = *it;
@@ -121,6 +123,9 @@ public:
 				cell.right_ = clientBounds.right_;
 			}
 
+			if ( (row == (rowCount-1)) && maximizeLastRow_ ) {
+				cell.bottom_ = clientBounds.bottom_;
+			}
 
 			control->setBounds( &cell );
 
@@ -139,6 +144,7 @@ public:
 
 				cell.right_ = cell.left_ + columns_[col];
 
+				row ++;
 			}
 			else {
 				cell.offset( cell.getWidth() + columnTweens_[tween], 0 );
@@ -151,6 +157,14 @@ public:
 	}
 
 
+	bool getMaximizeLastRow() {
+		return maximizeLastRow_;
+	}
+
+	void setMaximizeLastRow( bool val ) {
+		maximizeLastRow_ = val;
+	}
+
 	void setRowSpacerHeight( double val ) {
 		rowSpacerHeight_ = val;
 	}
@@ -160,6 +174,7 @@ public:
 
 	double maxRowHeight_;
 	double rowSpacerHeight_;
+	bool maximizeLastRow_;
 };
 
 
@@ -174,6 +189,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/09/07 03:57:04  ddiego
+*misc tree control update
+*
 *Revision 1.1.2.1  2004/08/31 04:12:12  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out

@@ -125,16 +125,21 @@ public:
 	virtual void paint( GraphicsContext* ctx, Rect* paintRect ) {
 		DefaultTreeItem::paint( ctx, paintRect );
 
+		Color col;
 		if ( this->isSelected() ) {
-			Color col = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
+			col = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
 			double h,l,s;
 			col.getHLS(h,l,s);
 			l += 0.10;
 			col.setHLS( h,l,s );
-			ctx->setColor( &col );
-			ctx->rectangle( paintRect );
-			ctx->fillPath();
+			
 		}
+		else {
+			col = *Color::getColor("white");
+		}
+		ctx->setColor( &col );
+		ctx->rectangle( paintRect );
+		ctx->fillPath();
 		long options = GraphicsContext::tdoCenterVertAlign;
 		ctx->textBoundedBy( paintRect, this->getCaption(), options );
 	}
