@@ -156,6 +156,10 @@ public:
 
 	void init();
 
+	bool isAntiAliasingOn();
+	
+	void setAntiAliasingOn( bool antiAliasingOn );
+	
 	/**
 	*sets the current font
 	*A copy of the Font is made when this is set
@@ -740,6 +744,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/10/27 03:12:18  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.6  2004/09/09 03:09:26  marcelloptr
 *minor change for style
 *

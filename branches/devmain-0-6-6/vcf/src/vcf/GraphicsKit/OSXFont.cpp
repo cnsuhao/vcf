@@ -258,6 +258,8 @@ void OSXFont::setAttributes( const double& pointSize, const bool& bold, const bo
 	attrItalic_ = italic ? TRUE : FALSE;
 	attrUnderlined_ = underlined ? TRUE : FALSE;
 
+	attrSize_ = IntToFixed((int)pointSize);
+
 	SInt16 iFONDNumber = 0;
 	Str255 pStr;
     CopyCStringToPascal( name.ansi_c_str(), pStr );
@@ -325,6 +327,9 @@ bool OSXFont::isEqual( Object* object )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/27 03:12:18  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.1  2004/10/10 15:24:00  ddiego
 *updated os x code in graphics stuff.
 *

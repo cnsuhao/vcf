@@ -1476,6 +1476,16 @@ double GraphicsContext::getScaleY()
 	return currentGraphicsState_->scaleY_;
 }
 
+bool GraphicsContext::isAntiAliasingOn()
+{
+	return contextPeer_->isAntiAliasingOn();
+}
+	
+void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
+{
+	contextPeer_->setAntiAliasingOn( antiAliasingOn );
+}
+	
 
 };	// namespace VCF
 
@@ -1483,6 +1493,9 @@ double GraphicsContext::getScaleY()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.13  2004/10/27 03:12:18  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.12  2004/10/04 15:50:49  kiklop74
 *Added explicit cast to avoid ambiquity on BCB6
 *
