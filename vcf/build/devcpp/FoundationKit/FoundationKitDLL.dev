@@ -21,7 +21,7 @@ OverrideOutput=1
 OverrideOutputName=FoundationKit_mingw_d.dll
 Folders=
 CommandLine=
-Order=
+Order=-1
 Focused=-1
 
 [Unit1]
@@ -968,9 +968,13 @@ Top=0
 
 [Unit146]
 FileName=..\..\..\src\ImplementerKit\Win32Thread.cpp
-Open=0
+Open=1
 Folder=
-Top=0
+Top=1
+CursorCol=1
+CursorRow=108
+TopLine=1
+LeftChar=1
 
 [Unit147]
 FileName=..\..\..\src\Utils\XMLParser.cpp
