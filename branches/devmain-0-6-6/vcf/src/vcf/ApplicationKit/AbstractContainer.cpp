@@ -332,7 +332,7 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 			context->restoreState( gcs );
 			
 			context->setOrigin( oldOrigin.x_, oldOrigin.y_ );
-			//context->setClippingRect( &oldClipRect );
+			context->setClippingRect( &oldClipRect );
 		}		
 	}	
 }
@@ -559,6 +559,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/08 03:49:05  ddiego
+*minor win32 tree mods
+*
 *Revision 1.2.2.3  2004/09/06 21:30:18  ddiego
 *added a separate paintBorder call to Control class
 *
