@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.6.4  2003/10/04 20:13:44  ddiego
+#updated the Makefiles - everything works now, including compiling
+#building on GCC 3.3.1
+#
 #Revision 1.2.6.3  2003/10/03 04:33:03  ddiego
 #add precompiled header target - doesn't seem to really work though
 #
@@ -218,6 +222,9 @@ $(OUTDIR_FK)/Class.o : $(SRC_CORE)/Class.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK)/ClassRegistry.o : $(SRC_CORE)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/ClassRegistry.cpp -o $(OUTDIR_FK)/ClassRegistry.o
 
+$(OUTDIR_FK)/CommandLine.o : $(SRC_UTILS)/CommandLine.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/CommandLine.cpp -o $(OUTDIR_FK)/CommandLine.o
+	
 $(OUTDIR_FK)/Directory.o : $(SRC_IO)/Directory.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IO)/Directory.cpp -o $(OUTDIR_FK)/Directory.o
 
