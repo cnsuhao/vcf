@@ -114,6 +114,10 @@ SOURCE=..\..\..\src\core\FoundationKit.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\FoundationKitRTTI.inl
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\utils\Library.cpp
 # End Source File
 # Begin Source File
