@@ -1,0 +1,104 @@
+<import file="../common.mak"/>	
+
+<project name="FoundationKit" >
+	<dependsOn>
+		<!-- place a dependency entry here where the
+		dependency is another project that must be built
+		before this project. The form is:
+			<dependency name="name_of_some_project"/>
+		-->		
+	</dependsOn>
+
+	<!--put your project's targets here.-->
+	<target name="FoundationKit-Win32-Debug" output="$(VCF_BIN)/FoundationKit_d.dll" tool="link" config="VC6 Debug">
+		<dependsOn>						
+			<dependency name="$(SRC)/exceptions/BasicException.cpp" output="Debug/BasicException.obj"/>
+			<dependency name="$(SRC)/io/BasicInputStream.cpp" output="Debug/BasicInputStream.obj"/>
+			<dependency name="$(SRC)/io/BasicOutputStream.cpp" output="Debug/BasicOutputStream.obj"/>
+			<dependency name="$(SRC)/core/Class.cpp" output="Debug/Class.obj"/>
+			<dependency name="$(SRC)/core/ClassRegistry.cpp" output="Debug/ClassRegistry.obj"/>
+			<dependency name="$(SRC)/io/Directory.cpp" output="Debug/Directory.obj"/>
+			<dependency name="$(SRC)/utils/ErrorLog.cpp" output="Debug/ErrorLog.obj"/>
+			<dependency name="$(SRC)/events/Event.cpp" output="Debug/Event.obj"/>
+			<dependency name="$(SRC)/events/EventHandler.cpp" output="Debug/EventHandler.obj"/>
+			<dependency name="$(SRC)/io/File.cpp" output="Debug/File.obj"/>
+			<dependency name="$(SRC)/utils/FilePath.cpp" output="Debug/FilePath.obj"/>
+			<dependency name="$(SRC)/io/FileStream.cpp" output="Debug/FileStream.obj"/>
+			<dependency name="$(SRC)/io/Fileutils.cpp" output="Debug/Fileutils.obj"/>
+			<dependency name="$(SRC)/core/FoundationKit.cpp" output="Debug/simple.obj"/>
+			<dependency name="$(SRC)/core/InterfaceClass.cpp" output="Debug/InterfaceClass.obj"/>
+			<dependency name="$(SRC)/utils/Library.cpp" output="Debug/Library.obj"/>
+			<dependency name="$(SRC)/core/Locales.cpp" output="Debug/Locales.obj"/>
+			<dependency name="$(SRC)/io/MemoryStream.cpp" output="Debug/MemoryStream.obj"/>
+			<dependency name="$(SRC)/utils/Mutex.cpp" output="Debug/Mutex.obj"/>
+			<dependency name="$(SRC)/core/Object.cpp" output="Debug/Object.obj"/>
+			<dependency name="$(SRC)/core/ObjectWithevents.cpp" output="Debug/ObjectWithevents.obj"/>
+			<dependency name="$(SRC)/utils/Parser.cpp" output="Debug/Parser.obj"/>			
+			<dependency name="$(SRC)/events/PropertyChangeEvent.cpp" output="Debug/PropertyChangeEvent.obj"/>			
+			<dependency name="$(SRC)/utils/Registry.cpp" output="Debug/Registry.obj"/>
+			<dependency name="$(SRC)/io/Stream.cpp" output="Debug/Stream.obj"/>
+			<dependency name="$(SRC)/utils/Stringutils.cpp" output="Debug/Stringutils.obj"/>
+			<dependency name="$(SRC)/utils/System.cpp" output="Debug/System.obj"/>
+			<dependency name="$(SRC)/utils/SystemToolkit.cpp" output="Debug/SystemToolkit.obj"/>
+			<dependency name="$(SRC)/io/TextInputStream.cpp" output="Debug/TextInputStream.obj"/>
+			<dependency name="$(SRC)/io/TextOutputStream.cpp" output="Debug/TextOutputStream.obj"/>
+			<dependency name="$(SRC)/utils/Thread.cpp" output="Debug/Thread.obj"/>
+			<dependency name="$(SRC)/events/ThreadEvent.cpp" output="Debug/ThreadEvent.obj"/>
+			<dependency name="$(SRC)/core/VCFMath.cpp" output="Debug/VCFMath.obj"/>			
+			<dependency name="$(SRC)/utils/VCFProcess.cpp" output="Debug/VCFProcess.obj"/>
+			<dependency name="$(SRC)/utils/XMLParser.cpp" output="Debug/XMLParser.obj"/>
+			<dependency name="$(SRC)/utils/Condition.cpp" output="Debug/Condition.obj"/>
+			<dependency name="$(SRC)/utils/CommandLine.cpp" output="Debug/CommandLine.obj"/>
+			<dependency name="$(SRC)/utils/Semaphore.cpp" output="Debug/Semaphore.obj"/>
+			<dependency name="$(SRC)/utils/ProcessWithRedirectedIO.cpp" output="Debug/ProcessWithRedirectedIO.obj"/>
+			
+
+			
+			<!--Win32 Peers-->
+
+			<dependency name="$(SRC)/implementerkit/Win32Peer.cpp" output="Debug/Win32Peer.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32FilePeer.cpp" output="Debug/Win32FilePeer.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32FileStream.cpp" output="Debug/Win32FileStream.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32Thread.cpp" output="Debug/Win32Thread.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32LibraryPeer.cpp" output="Debug/Win32LibraryPeer.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32Mutex.cpp" output="Debug/Win32Mutex.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32ProcessPeer.cpp" output="Debug/Win32ProcessPeer.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32Registry.cpp" output="Debug/Win32Registry.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32SemaphorePeer.cpp" output="Debug/Win32SemaphorePeer.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32SystemPeer.cpp" output="Debug/Win32SystemPeer.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32SystemToolkit.cpp" output="Debug/Win32SystemToolkit.obj"/>
+			<dependency name="$(SRC)/implementerkit/Win32ProcessIORedirector.cpp" output="Debug/Win32ProcessIORedirector.obj"/>
+			
+			
+			<!--Linux Peers-->
+<!--			
+			<dependency name="$(SRC)/implementerkit/LinuxPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxFilePeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxFileStream.cpp" />
+			<dependency name="$(SRC)/implementerkit/PosixThread.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxLibraryPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxMutex.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxProcessPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxRegistry.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxSemaphorePeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxSystemPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxSystemToolkit.cpp" />
+			<dependency name="$(SRC)/implementerkit/LinuxProcessioRedirector.cpp" />
+	-->		
+			<!-- OSX peers -->
+			<!--
+			<dependency name="$(SRC)/implementerkit/OSXPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXFilePeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXFileStream.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXThread.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXLibraryPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXMutexPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXProcessPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXRegistry.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXSemaphorePeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXSystemPeer.cpp" />
+			<dependency name="$(SRC)/implementerkit/OSXSystemToolkit.cpp" />
+			-->
+		</dependsOn>
+	</target>
+</project>
