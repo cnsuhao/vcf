@@ -96,7 +96,7 @@ protected:
 	
 	void onPlaylistViewDblClick( VCF::Event* e );
 
-	void onPlaylistClick( VCF::Event* e );	
+	void onPlaylistItemSelected( VCF::Event* e );	
 
 	void onCreatePlaylist(  VCF::Event* event );
 	void updateCreatePlaylist( VCF::ActionEvent* e );
@@ -116,6 +116,9 @@ protected:
 
 	void onPlayListCtrlKeyPressed( VCF::KeyboardEvent* e );
 	void onPlayListTreeKeyPressed( VCF::KeyboardEvent* e );
+
+	void onEditCreateSearchCatalog(  VCF::Event* event );
+	void onCreateSearchCatalogThreadDone(  VCF::Event* event );
 
 	QuickTimeControl* quicktimeControl_;
 	VCF::SliderControl* volumeControl_;
@@ -143,8 +146,6 @@ protected:
 	void loadPlaylist();
 	void savePlaylist();
 	bool movieLoaded_;
-
-	std::map<VCF::Item*,VCF::String> itemMap_;
 };
 
 

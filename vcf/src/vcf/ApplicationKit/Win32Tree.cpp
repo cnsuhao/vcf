@@ -686,7 +686,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			GetCursorPos( &pt );
 			ScreenToClient( hwnd_, &pt );
 			Point tmpPt( pt.x, pt.y );
-			VCF::MouseEvent event( getControl(), Control::MOUSE_CLICK,
+			VCF::MouseEvent event( getControl(), Control::MOUSE_UP,
 						mbmLeftButton, kmUndefined, &tmpPt );
 			if ( peerControl_ ) {
 					peerControl_->handleEvent( &event );
@@ -1163,6 +1163,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/07/26 03:40:31  ddiego
+*minor changes
+*
 *Revision 1.1.2.11  2004/07/23 04:20:56  ddiego
 *more checkins
 *

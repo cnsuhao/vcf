@@ -433,7 +433,7 @@ VCF::String StringUtils::newUUID()
 		RPC_STATUS rpcresult = UuidToString(  &id, &tmpid );
 
 		if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
-			result = VCF::String( (VCFChar*)tmpid );
+			result = VCF::String( (char*)tmpid );
 
 			RpcStringFree( &tmpid );
 		}
@@ -1497,6 +1497,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.16  2004/07/26 03:40:31  ddiego
+*minor changes
+*
 *Revision 1.1.2.15  2004/07/26 03:30:39  marcelloptr
 *minor fix string to double conversion
 *

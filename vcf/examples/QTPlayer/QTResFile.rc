@@ -14,3 +14,7 @@ mute		BITMAP	"mute.bmp"
 
 search		BITMAP	"search.bmp"
 
+movies		BITMAP	"movies.bmp"
+
+movies-playlist		BITMAP	"movies-playlist.bmp"
+

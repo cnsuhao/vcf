@@ -10,6 +10,7 @@
 #include "vcf/FoundationKit/StringTokenizer.h"
 #include "vcf/FoundationKit/Dictionary.h"
 #include "vcf/ApplicationKit/DefaultListItem.h"
+#include "vcf/ApplicationKit/DefaultTreeItem.h"
 
 
 
@@ -50,7 +51,7 @@ public:
 		deleteAll(getEnumerator());
 	}
 
-	PlayListDictionary* getPlaylist( const String& name ) {
+	PlayListDictionary* get( const String& name ) {
 		PlayListDictionary* result = NULL;
 		Object* o = (*this)[name];
 		if ( NULL != o ) {
@@ -136,10 +137,37 @@ public:
 		return false;
 	}
 
+	String getID() {
+		return id_;
+	}
+
+	void setID( const String& id ) {
+		id_ = id;
+	}
+
+	String id_;
 	
 	Control* control_;
 };
 
+
+
+class PlayListTreeItem : public DefaultTreeItem {
+public:
+
+	PlayListTreeItem( const String& caption ) : DefaultTreeItem(caption){}
+
+
+	String getID() {
+		return id_;
+	}
+
+	void setID( const String& id ) {
+		id_ = id;
+	}
+
+	String id_;
+};
 
 
 class PagedContainer : public StandardContainer {
@@ -769,6 +797,8 @@ void MainQTWindow::buildUI()
 
 	DefaultMenuItem* pmItem = new DefaultMenuItem( "Edit/Create a search Catalog...", pmRoot,pm );
 
+	pmItem->addMenuItemClickedHandler ( new GenericEventHandler<MainQTWindow>(this,&MainQTWindow::onEditCreateSearchCatalog, "MainQTWindow::onEditCreateSearchCatalog" ) );
+
 	pm->setRootMenuItem( pmRoot );
 
 	searchIcon->setPopupMenu( pm );
@@ -780,17 +810,7 @@ void MainQTWindow::buildUI()
 
 	searchText->KeyUp += new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onSearchTextEntered, "MainQTWindow::onSearchTextEntered" );
 
-		
 
-	/*
-	img = resBundle->getImage( "fullvol" );
-	il->addImage( img );
-	delete img;
-
-	img = resBundle->getImage( "mute" );
-	il->addImage( img );
-	delete img;
-*/
 
 
 	ToolbarItem* open = toolbar->addToolBarButton( "Open" );
@@ -1080,6 +1100,20 @@ void MainQTWindow::buildUI()
 	mainViewPanel_->add( playListCtrl_ );
 
 
+	ImageList* playlistIL = new ImageList();
+	playlistIL->setImageHeight( 32 );
+	playlistIL->setImageWidth( 32 );
+	playlistIL->setTransparentColor( &Color( 0.0, 1.0, 0.0) );
+	addComponent( playlistIL );
+	
+	img = resBundle->getImage( "movies" );
+	playlistIL->addImage( img );
+	delete img;
+
+
+	playListCtrl_->setSmallImageList( playlistIL );
+
+
 
 	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
 
@@ -1143,7 +1177,8 @@ void MainQTWindow::buildUI()
 	playListTree_->setVisible( true );
 	playListTree_->setAllowLabelEditing( true );
 
-	playListTree_->MouseClicked += new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistClick,"MainQTWindow::onPlaylistClick" );
+	playListTree_->ItemSelected += 
+		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistItemSelected,"MainQTWindow::onPlaylistItemSelected" );
 
 	playListTree_->KeyUp += 
 		new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onPlayListTreeKeyPressed, "MainQTWindow::onPlayListTreeKeyPressed" );
@@ -1161,6 +1196,19 @@ void MainQTWindow::buildUI()
 	playlistDropTarget->DropTargetDropped += 
 			new VCF::DropEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistFilesDropped, "MainQTWindow::onPlaylistFilesDropped" );
 
+
+	ImageList* playlistFolderIL = new ImageList();
+	playlistFolderIL->setImageHeight( 32 );
+	playlistFolderIL->setImageWidth( 32 );
+	playlistFolderIL->setTransparentColor( &Color( 0.0, 1.0, 0.0) );
+	addComponent( playlistFolderIL );
+	
+	img = resBundle->getImage( "movies-playlist" );
+	playlistFolderIL->addImage( img );
+	delete img;
+
+
+	playListTree_->setImageList( playlistFolderIL );
 
 
 
@@ -1617,48 +1665,59 @@ void MainQTWindow::onSearchTextEntered( VCF::KeyboardEvent* e )
 	StringUtils::traceWithArgs( "Searching for \"" + textCtrl->getTextModel()->getText() + "\"...\n" );
 }
 
-void MainQTWindow::onPlaylistClick( VCF::Event* e )
+void MainQTWindow::onPlaylistItemSelected( VCF::Event* e )
 {
-	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
-
-	ListModel* lm = playListCtrl_->getListModel();
-	lm->empty();
+	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();	
 
 
-	TreeItem* selectedItem = playListTree_->getSelectedItem();
+	PlayListTreeItem* selectedItem = (PlayListTreeItem*)playListTree_->getSelectedItem();
+
+	
 
 	if ( NULL != selectedItem ) {
-		PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+		ListModel* lm = playListCtrl_->getListModel();
+		lm->empty();
+
+		PlayListDictionary* list = playListDict_->get( selectedItem->getID() );
 		VCF_ASSERT( NULL != list );
 		
+		String name = (*list)[ L"PlayListName" ];
+
+		VCF_ASSERT( name == selectedItem->getCaption() );
+
+
 		Dictionary::Enumerator* items = list->getEnumerator();
 		while ( items->hasMoreElements() ) {
 			Dictionary::pair item = items->nextElement();
 
-			Dictionary& itemAsDict = *((PlayListDictionary*)(Object*)item.second);
-
-
-
-			PlayListItem* newItem = new PlayListItem( playListCtrl_, item.first, NULL );
-			newItem->setData( (void*)list );
-			lm->addItem( newItem );
-
-			String itemMetaInfo = itemAsDict[L"Duration"];
-
-			if ( !itemMetaInfo.empty() ) {
-				newItem->addSubItem( itemMetaInfo, NULL );
-			}
-			
-			itemMetaInfo = (String)itemAsDict[L"Size"];
-
-			if ( !itemMetaInfo.empty() ) {
-				newItem->addSubItem( itemMetaInfo, NULL );
-			}
-
-			itemMetaInfo = (String)itemAsDict[L"Data Size"];
-
-			if ( !itemMetaInfo.empty() ) {
-				newItem->addSubItem( itemMetaInfo, NULL );
+			if ( pdObject == item.second.type ) {
+				Dictionary& itemAsDict = *((PlayListDictionary*)(Object*)item.second);
+				
+				
+				
+				PlayListItem* newItem = new PlayListItem( playListCtrl_, itemAsDict[L"Title"], NULL );
+				newItem->setID(item.first);
+				
+				newItem->setData( (void*)list );
+				lm->addItem( newItem );
+				
+				String itemMetaInfo = itemAsDict[L"Duration"];
+				
+				if ( !itemMetaInfo.empty() ) {
+					newItem->addSubItem( itemMetaInfo, NULL );
+				}
+				
+				itemMetaInfo = (String)itemAsDict[L"Size"];
+				
+				if ( !itemMetaInfo.empty() ) {
+					newItem->addSubItem( itemMetaInfo, NULL );
+				}
+				
+				itemMetaInfo = (String)itemAsDict[L"Data Size"];
+				
+				if ( !itemMetaInfo.empty() ) {
+					newItem->addSubItem( itemMetaInfo, NULL );
+				}
 			}
 		}
 	}
@@ -1670,34 +1729,34 @@ void MainQTWindow::onPlaylistClick( VCF::Event* e )
 
 void MainQTWindow::onPlaylistItemChanged( VCF::ItemEvent* event )
 {
-	TreeItem* item = (TreeItem*)event->getSource();
+	PlayListTreeItem* item = (PlayListTreeItem*)event->getSource();
 
-	String oldName = itemMap_[item];
-	PlayListDictionary* dict = playListDict_->getPlaylist( oldName );
+	//String oldName = itemMap_[item];
+	PlayListDictionary* dict = playListDict_->get( item->getID() );
 	if ( NULL != dict ) {
 
-		playListDict_->removePlaylist( oldName );
-
-		(*playListDict_)[item->getCaption()] = dict;
+		(*dict)[L"PlayListName"] = item->getCaption();
 	}
-
-	itemMap_[item] = item->getCaption();
+	
 }
 
 void MainQTWindow::onCreatePlaylist(  VCF::Event* event )
 {
 	TreeModel* tm = playListTree_->getTreeModel();
 
-	TreeItem* item = playListTree_->addItem( NULL, "New playlist", 0 );
+	PlayListTreeItem* newItem = new PlayListTreeItem( "New playlist" );
+
+	tm->addNodeItem( newItem );
+	newItem->setID( StringUtils::newUUID() );
 
 	EventHandler* ev = this->getEventHandler( "MainQTWindow::onPlaylistItemChanged" );
 	if ( NULL == ev ) {
 		ev = new ItemEventHandler<MainQTWindow>( this, MainQTWindow::onPlaylistItemChanged, "MainQTWindow::onPlaylistItemChanged" );
 	}
-	item->addItemChangedHandler( ev );		
-	itemMap_[item] = item->getCaption();
+	newItem->addItemChangedHandler( ev );
 	
-	playListDict_->addPlayList( item->getCaption() );
+	PlayListDictionary& dict = *playListDict_->addPlayList( newItem->getID() );
+	dict[L"PlayListName"] = newItem->getCaption();
 }
 
 void MainQTWindow::updateCreatePlaylist( VCF::ActionEvent* e )
@@ -1804,28 +1863,30 @@ void MainQTWindow::updateAddToFilesPlaylist( VCF::ActionEvent* e )
 
 void MainQTWindow::addFileNameToPlaylist( const VCF::String& fileName )
 {
-	TreeItem* selectedItem = playListTree_->getSelectedItem();
+	PlayListTreeItem* selectedItem = (PlayListTreeItem*)playListTree_->getSelectedItem();
 	if ( NULL == selectedItem ) {
 		TreeItem* first = playListTree_->getTreeModel()->getRootItems()->nextElement();
 		first->setSelected( true );		
-		selectedItem = first;
+		selectedItem = (PlayListTreeItem*)first;
 	}
 
 
 	if ( NULL != selectedItem ) {
-		PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+		PlayListDictionary* list = playListDict_->get( selectedItem->getID() );
 		VCF_ASSERT( NULL != list );
-		
+
 		VCF_ASSERT( !fileName.empty() );
 
 		QuickTimeMovie mov;
 		mov.open( fileName );
-
+		
 		String title = mov.getTitle();
 		VCF_ASSERT( !title.empty() );
 
 
-		Dictionary& dict = *list->addPlayList(title);
+		String id = StringUtils::newUUID();
+		Dictionary& dict = *list->addPlayList(id);
+		
 
 		dict[L"Filename"] = fileName;
 		dict[L"Title"] = title;
@@ -1855,13 +1916,20 @@ void MainQTWindow::loadPlaylist()
 		while ( items->hasMoreElements() ) {
 			Dictionary::pair item = items->nextElement();
 			if ( pdObject == item.second.type ) {
-				TreeItem* plItem = playListTree_->addItem( NULL, item.first );
-				itemMap_[plItem] = plItem->getCaption();
+
+				Dictionary& dict = *((PlayListDictionary*)(Object*)item.second);
+
+				PlayListTreeItem* newItem = new PlayListTreeItem( dict[L"PlayListName"] );
+
+				playListTree_->getTreeModel()->addNodeItem( newItem, NULL );
+				newItem->setID( item.first );
+
+
 				EventHandler* ev = this->getEventHandler( "MainQTWindow::onPlaylistItemChanged" );
 				if ( NULL == ev ) {
 					ev = new ItemEventHandler<MainQTWindow>( this, MainQTWindow::onPlaylistItemChanged, "MainQTWindow::onPlaylistItemChanged" );
 				}
-				plItem->addItemChangedHandler( ev );
+				newItem->addItemChangedHandler( ev );
 			}
 		}
 	}
@@ -1877,12 +1945,12 @@ void MainQTWindow::onPlaylistViewDblClick( VCF::Event* e )
 {
 	
 
-	ListItem* item = playListCtrl_->getSelectedItem();
+	PlayListItem* item = (PlayListItem*)playListCtrl_->getSelectedItem();
 
 	if ( NULL != item ) {
 		PlayListDictionary* dict = (PlayListDictionary*)item->getData();
 		
-		PlayListDictionary* movieDict = (PlayListDictionary*)(Object*) (*dict)[ item->getCaption() ];
+		PlayListDictionary* movieDict = (PlayListDictionary*)(Object*) (*dict)[ item->getID() ];
 
 		String fileName = (*movieDict)[ L"Filename" ];
 		
@@ -1902,16 +1970,18 @@ void MainQTWindow::onPlayListCtrlKeyPressed( VCF::KeyboardEvent* e )
 
 		if ( NULL != item ) {
 
-			TreeItem* selectedItem = playListTree_->getSelectedItem();
+			PlayListTreeItem* selectedItem = (PlayListTreeItem*)playListTree_->getSelectedItem();
 
 			if ( NULL != selectedItem ) {
-				PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+				PlayListDictionary* list = playListDict_->get( selectedItem->getID() );
 				VCF_ASSERT( NULL != list );
 
-				PlayListDictionary* movieInfoDict = list->getPlaylist( item->getCaption() );
+				PlayListItem* playListItem = (PlayListItem*)item;
+
+				PlayListDictionary* movieInfoDict = list->get( playListItem->getID() );
 				VCF_ASSERT( NULL != movieInfoDict );
 
-				list->remove( item->getCaption() );
+				list->remove( playListItem->getID() );
 
 				movieInfoDict->free();
 
@@ -1926,17 +1996,17 @@ void MainQTWindow::onPlayListCtrlKeyPressed( VCF::KeyboardEvent* e )
 void MainQTWindow::onPlayListTreeKeyPressed( VCF::KeyboardEvent* e )
 {
 	if ( e->getVirtualCode() == vkDelete ) {
-		TreeItem* selectedItem = playListTree_->getSelectedItem();
+		PlayListTreeItem* selectedItem = (PlayListTreeItem*)playListTree_->getSelectedItem();
 		
 		if ( NULL != selectedItem ) {		
 
 			selectedItem->setSelected( false );
 
-			PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+			PlayListDictionary* list = playListDict_->get( selectedItem->getID() );
 
 			VCF_ASSERT( NULL != list );
 			
-			playListDict_->remove( selectedItem->getCaption() );
+			playListDict_->remove( selectedItem->getID() );
 			list->free();
 			
 			playListTree_->getTreeModel()->deleteNodeItem( selectedItem );
@@ -1949,3 +2019,90 @@ void MainQTWindow::onPlayListTreeKeyPressed( VCF::KeyboardEvent* e )
 }
 
 
+class CreateCatalogThread : public Thread {
+public:
+	CreateCatalogThread( EventHandler* doneEventHandler, const String& catDirectory ):Thread(),
+		doneEventHandler_(doneEventHandler),
+		directoryToCatalog_(catDirectory){ }
+
+
+	virtual bool run() {		
+
+		String catalog;
+
+		Directory dir(directoryToCatalog_);
+		Directory::Finder* finder =  dir.findFiles( "*.*" );
+		if ( NULL != finder ) {
+			finder->setRecursion( true );
+			File* file = NULL;
+			while ( finder->nextElement() ) {
+				file = finder->getCurrentElement();
+
+				catalog += file->getName() + "\n";
+
+			}
+			finder->free();
+
+			StringUtils::trace( catalog );
+
+			FilePath catFileName = Application::getRunningInstance()->getFileName();
+
+			catFileName = catFileName.getPathName(true) + "SearchCatalog.db";
+
+			File::OpenFlags flags = File::ofWrite;
+			
+
+			
+
+			File catFile( catFileName );
+			if ( File::exists( catFileName ) ) {
+				flags = File::ofAppend;
+				catFile.openWithRights( catFileName, flags );
+			}
+			else {
+				catFile.create( catFileName, flags );
+			}
+
+			
+			
+			FileOutputStream& fs = *catFile.getOutputStream();
+
+			fs<< catalog;
+
+		}
+
+		UIToolkit::postEvent( doneEventHandler_, new Event(this,0), false );
+
+		return true;
+	}
+
+
+	String directoryToCatalog_;
+	EventHandler* doneEventHandler_;
+};
+
+void MainQTWindow::onCreateSearchCatalogThreadDone(  VCF::Event* event )
+{
+	StringUtils::trace( "\n\nonCreateSearchCatalogThreadDone\n" );
+	searchPanel_->setEnabled( true );
+}
+
+void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
+{
+	CommonFileBrowse browse;
+
+	browse.setTitle( L"Select Directory to catalog" );
+	
+	if ( browse.execute() ) {
+
+		EventHandler* ev = getEventHandler( "MainQTWindow::onCreateSearchCatalogThreadDone" );
+		if ( NULL == ev ) {
+			ev = new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onCreateSearchCatalogThreadDone, "MainQTWindow::onCreateSearchCatalogThreadDone" );
+		}
+
+		searchPanel_->setEnabled( false );
+		CreateCatalogThread* thread = new CreateCatalogThread(ev,browse.getDirectory());
+		thread->start();
+	}
+
+}

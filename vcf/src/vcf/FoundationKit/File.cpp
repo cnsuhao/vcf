@@ -23,6 +23,7 @@ File::File( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags )
 	filePeer_(NULL),
 	openAccess_(File::ofNone)
 {
+	setName( fileName );
 	openWithRights( fileName, openFlags, shareFlags );	
 }
 
@@ -194,6 +195,9 @@ FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/26 03:40:31  ddiego
+*minor changes
+*
 *Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the

@@ -199,10 +199,6 @@ void ListViewControl::onListModelContentsChanged( ListModelEvent* event )
 
 void ListViewControl::onItemAdded( ListModelEvent* event )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	EventHandler* paintHandler = this->getEventHandler( "ListViewControl::onItemPaint" );
 	ListItem* item = event->getListItem();
 	if ( NULL != paintHandler ) {
@@ -214,9 +210,6 @@ void ListViewControl::onItemAdded( ListModelEvent* event )
 
 void ListViewControl::onItemDeleted( ListModelEvent* event )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->deleteItem( event->getListItem() );
 }
 
@@ -271,25 +264,16 @@ void ListViewControl::setColumnName( const unsigned long& index, const String& c
 
 double ListViewControl::getColumnWidth( const unsigned long& index )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	return listviewPeer_->getColumnWidth( index );
 }
 
 void ListViewControl::setColumnWidth( const unsigned long& index, const double& width, ListViewControl::AutoSizeType type )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->setColumnWidth( index, width, type );
 }
 
 void ListViewControl::setColumnsWidth( const double& width, ListViewControl::AutoSizeType type )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	for ( int i = 0; i < columnModel_->getCount(); ++i ) {
 		listviewPeer_->setColumnWidth( i, width, type );
 	}
@@ -297,83 +281,52 @@ void ListViewControl::setColumnsWidth( const double& width, ListViewControl::Aut
 
 IconStyleType ListViewControl::getIconStyle()
 {
-	//if ( NULL == this->listviewPeer_ ){
-	//	throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	//};
 	return iconStyle_;// listviewPeer_->getIconStyle();
 }
 
 void ListViewControl::setIconStyle( const IconStyleType& iconStyle )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	iconStyle_ = iconStyle;
 	listviewPeer_->setIconStyle( iconStyle_ );
 }
 
 bool ListViewControl::getAllowsMultiSelect()
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	return listviewPeer_->getAllowsMultiSelect();
 }
 
 void ListViewControl::setAllowsMultiSelect( const bool& allowsMultiSelect )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->setAllowsMultiSelect( allowsMultiSelect );
 }
 
 IconAlignType ListViewControl::getIconAlignment()
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	return listviewPeer_->getIconAlignment();
 }
 
 void ListViewControl::setIconAlignment( const IconAlignType& iconAlignType )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->setIconAlignment( iconAlignType );
 }
 
 bool ListViewControl::getAllowLabelEditing()
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	return listviewPeer_->getAllowLabelEditing();
 }
 
 void ListViewControl::setAllowLabelEditing( const bool& allowLabelEditing )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->setAllowLabelEditing( allowLabelEditing );
 }
 
 void ListViewControl::setItemFocused( ListItem* item )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->setFocusedItem( item );
 }
 
 void ListViewControl::onListModelEmptied( ModelEvent* event )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	listviewPeer_->clear();
 }
 
@@ -381,9 +334,6 @@ void ListViewControl::onColumnItemAdded( ColumnModelEvent* event )
 {
 	ColumnItem* item = event->getColumnItem();
 
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->insertHeaderColumn( item->getIndex(), item->getCaption(), item->getWidth() );
 
 	EventHandler* columnItemChanged = getEventHandler( "ListViewControl::onColumnItemChanged" );
@@ -401,9 +351,6 @@ void ListViewControl::onColumnItemDeleted( ColumnModelEvent* event )
 {
 	ColumnItem* item = event->getColumnItem();
 
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	listviewPeer_->deleteHeaderColumn( item->getIndex() );
 }
 
@@ -411,9 +358,6 @@ void ListViewControl::onColumnItemChanged( ItemEvent* event )
 {
 	ColumnItem* item = (ColumnItem*)event->getSource();
 
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	unsigned long index = item->getIndex();
 	listviewPeer_->setColumnName( index, item->getCaption() );
 	listviewPeer_->setColumnWidth( index, item->getWidth() );
@@ -421,51 +365,31 @@ void ListViewControl::onColumnItemChanged( ItemEvent* event )
 
 void ListViewControl::sort( ItemSort* itemSortFunctor )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	listviewPeer_->sort( itemSortFunctor );
 }
 
 ListItem* ListViewControl::isPtOverItem(Point* point)
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	return listviewPeer_->isPtOverItem( point );
 }
 
 ListItem* ListViewControl::getFocusedItem()
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	return listviewPeer_->getFocusedItem();
 }
 
 ListItem* ListViewControl::getSelectedItem()
 {
-	return this->selectedItem_;//
+	return listviewPeer_->getSelectedItem();//
 }
 
 Enumerator<ListItem*>* ListViewControl::getSelectedItems()
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	return listviewPeer_->getSelectedItems();
 }
 
 void ListViewControl::rangeSelect( Rect* selectionRect )
 {
-	if ( NULL == this->listviewPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	listviewPeer_->rangeSelect( selectionRect );
 }
 
@@ -606,6 +530,9 @@ void ListViewControl::paint( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/26 03:40:31  ddiego
+*minor changes
+*
 *Revision 1.1.2.5  2004/07/15 18:53:00  ddiego
 *more updates
 *
