@@ -1,4 +1,12 @@
-////createinfo.cpp
+//createinfo.cpp
+
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
@@ -223,5 +231,15 @@ int main( int argc, char** argv ){
 	FoundationKit::terminate();
 	return 0;
 }
+
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.3  2004/12/22 02:59:14  marcelloptr
+*added cvs log section
+*
+*/
 
 
