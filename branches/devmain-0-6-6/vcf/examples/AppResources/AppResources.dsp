@@ -78,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"Debug\AppResources_vc6.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"AppResources.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
 
 !ENDIF 
 
@@ -101,17 +101,41 @@ SOURCE=AppResources.cpp
 # Begin Group "Resources"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# Begin Group "en_US"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=".\Resources\en_US\brushed-metal.bmp"
+# End Source File
+# Begin Source File
+
+SOURCE=.\Resources\en_US\WhatIsVCF.txt
+# End Source File
+# End Group
+# Begin Group "de_DE"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=".\Resources\de_DE\brushed-metal.bmp"
+# End Source File
+# End Group
+# Begin Group "it_IT"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=".\Resources\it_IT\brushed-metal.bmp"
+# End Source File
+# Begin Source File
+
+SOURCE=.\Resources\it_IT\WhatIsVCF.txt
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE="Resources\brushed-metal.bmp"
-# End Source File
-# Begin Source File
-
-SOURCE=.\cursor1.cur
-# End Source File
-# Begin Source File
-
-SOURCE=.\icon1.ico
 # End Source File
 # Begin Source File
 
