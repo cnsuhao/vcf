@@ -173,7 +173,7 @@ void TabbedPages::paint( GraphicsContext* context )
 			TabPage* page = pages->nextElement();
 			VCF_ASSERT( NULL != page );
 				width = minVal<>( tabWidth, getTabPageWidth( page, context ) );
-				tabsRect.setRect( currentLeft, tabAreaBounds.top_ - tabHeight_,
+				tabsRect.setRect( currentLeft, tabAreaBounds_.top_ - tabHeight_,
 						          currentLeft+ width, tabAreaBounds_.top_ -2  );
 
 				tabsRect.offset( tabViewOffset_, 0 );
@@ -531,6 +531,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/16 22:31:05  dougtinkham
+*fixed my bug
+*
 *Revision 1.2.2.1  2004/08/16 20:47:57  dougtinkham
 *modified paint to give Win32 tab appearance.
 *
