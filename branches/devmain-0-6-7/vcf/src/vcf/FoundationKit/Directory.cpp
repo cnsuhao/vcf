@@ -386,7 +386,8 @@ Directory::Finder* Directory::findFiles( FileSearchFilter* filterFileObject/*=NU
 
 
 	if ( FilePath::isRelativePath( fileName_ ) ) {
-		throw BasicException( "Please provide a full path name to the directory when performing a search." );
+		String msg = StringUtils::format( "Please provide a full path name to the directory when performing a file search.\nPath: %s", fileName_.c_str() );
+		throw BasicException( MAKE_ERROR_MSG_2( msg ) );
 	}
 
 	//if ( NULL == finder_ ) {
@@ -606,6 +607,9 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/16 16:10:51  marcelloptr
+*improved a message
+*
 *Revision 1.2.4.1  2004/12/10 22:32:42  ddiego
 *fixed bug in the Win32 file peer class that was not properly
 *creating directories.
