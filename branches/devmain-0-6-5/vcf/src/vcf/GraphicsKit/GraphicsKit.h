@@ -18,6 +18,9 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/GraphicsKitSelectLib.h"
 
+#include "vcf/GraphicsKit/GraphicsToolKit.h"
+#include "vcf/GraphicsKit/NoGraphicsToolkitFoundException.h"
+
 #include "vcf/GraphicsKit/Point.h"
 #include "vcf/GraphicsKit/Size.h"
 #include "vcf/GraphicsKit/Rect.h"
@@ -42,8 +45,6 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/PrintContext.h"
 #include "vcf/GraphicsKit/Printable.h"
 #include "vcf/GraphicsKit/ClippingRegion.h"
-#include "vcf/GraphicsKit/GraphicsToolKit.h"
-#include "vcf/GraphicsKit/NoGraphicsToolkitFoundException.h"
 #include "vcf/GraphicsKit/InvalidImage.h"
 #include "vcf/GraphicsKit/ImageLoaderException.h"
 #include "vcf/GraphicsKit/AbstractImage.h"
@@ -82,6 +83,9 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/25 19:52:48  marcelloptr
+*adjusted macros and other changes for better performance
+*
 *Revision 1.1.2.4  2004/04/29 21:13:58  ddiego
 *made a few changes to the new OpenGLKit files, adjusting where the
 *CVS log was put, and changed a few cases for the export-import definition

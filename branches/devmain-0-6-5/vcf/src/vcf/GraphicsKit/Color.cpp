@@ -29,425 +29,14 @@ EnumeratorMapContainer<std::map<ColorNames::ColorID, String>, String > ColorName
 
 String ColorNames::unknownColorName;
 
-
 const double ColorSpace::HueCriticalMax	= HUECRITICALMAX;	// Hue > HueCriticalMax => rgb.R > 1;
 const int	ColorSpace::RGBMax			= RGBMAX;			// This is what Windows in the Display Properties dialog uses in the ColorPicker tool.
 const int	ColorSpace::HSLMax			= HSLMAX;			// max r/g/b value is 255 in Windows
 
 
-Color::Color()
-{
-	r_ = 0.0;
-	g_ = 0.0;
-	b_ = 0.0;
-	setColorDbg();
-}
-
-Color::Color( const Color& color )
-{
-	b_ = color.b_;
-	g_ = color.g_;
-	r_ = color.r_;
-
-	setColorDbg();
-}
-
-Color::Color( const double & val1, const double & val2, const double & val3, ColorType type )
-{
-
-
-	switch ( type ) {
-		case ctRGB : {
-			r_ = val1;
-			g_ = val2;
-			b_ = val3;
-		}
-		break;
-
-		case ctHLS : {
-			ColorSpace::HSLtype hls;
-			hls.H = val1;
-			hls.L = val2;
-			hls.S = val3;
-
-			ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB( hls );
-
-			r_ = rgb.R;
-			g_ = rgb.G;
-			b_ = rgb.B;
-		}
-		break;
-
-		case ctHSV : {
-			ColorSpace::HSVtype hsv;
-			hsv.H = val1;
-			hsv.S = val2;
-			hsv.V = val3;
-
-			ColorSpace::RGBtype rgb = ColorSpace::HSVToRGB( hsv );
-
-			r_ = rgb.R;
-			g_ = rgb.G;
-			b_ = rgb.B;
-		}
-		break;
-	}
-
-	setColorDbg();
-}
-
-Color::Color( const double & c, const double & m, const double & y, const double & k )
-{
-	setColorDbg();
-}
-
-Color::Color( const unsigned char & r, const unsigned char & g, const unsigned char & b )
-{
-	r_ = ((double)r) / 255.0;
-	g_ = ((double)g) / 255.0;
-	b_ = ((double)b) / 255.0;
-	setColorDbg();
-}
-
-Color::Color(const unsigned long & color, ColorFormat cf )
-{
-
-	switch ( cf ) {
-		case cfARGB : {
-			r_ = ((unsigned char*)&color)[2] / 255.0;
-			g_ = ((unsigned char*)&color)[1] / 255.0;
-			b_ = ((unsigned char*)&color)[0] / 255.0;
-		}
-		break;
-
-		case cfABGR : {
-			r_ = ((unsigned char*)&color)[0] / 255.0;
-			g_ = ((unsigned char*)&color)[1] / 255.0;
-			b_ = ((unsigned char*)&color)[2] / 255.0;
-		}
-		break;
-	}
-
-	setColorDbg();
-
-}
-
-
-
-void Color::getHSV( double & h, double & s, double & v ) const
-{
-	ColorSpace::HSVtype hsv;
-	ColorSpace::RGBtype rgb;
-	rgb.R = r_;
-	rgb.G = g_;
-	rgb.B = b_;
-
-	hsv = ColorSpace::RGBToHSV( rgb );
-
-	h = hsv.H;
-	s = hsv.S;
-	v = hsv.V;
-}
-
-void Color::getHLS( double & h, double & l, double & s ) const
-{
-	ColorSpace::HSLtype hls;
-	ColorSpace::RGBtype rgb;
-	rgb.R = r_;
-	rgb.G = g_;
-	rgb.B = b_;
-
-	hls = ColorSpace::RGBToHSL( rgb );
-
-	h = hls.H;
-	l = hls.L;
-	s = hls.S;
-}
-
-void Color::getCMYK( double & c, double & m, double & y, double & k ) const
-{
-
-}
-
-void Color::getRGB( unsigned char & r, unsigned char & g, unsigned char & b ) const
-{
-	r = (unsigned char)(r_ * 255 + 0.5);
-	g = (unsigned char)(g_ * 255 + 0.5);
-	b = (unsigned char)(b_ * 255 + 0.5);
-}
-
-void Color::getRGB( double & r, double & g, double & b ) const
-{
-	r = r_;
-	g = g_;
-	b = b_;
-}
-
-unsigned long Color::getRGB( ColorFormat cf ) const
-{
-	unsigned long rgb = 0;
-
-	switch ( cf ) {
-		case cfARGB : {
-			((unsigned char*)(&rgb))[2] = (unsigned char)(r_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)(g_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[0] = (unsigned char)(b_ * 255 + 0.5);
-		}
-		break;
-
-		case cfABGR : {
-			((unsigned char*)(&rgb))[0] = (unsigned char)(r_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)(g_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[2] = (unsigned char)(b_ * 255 + 0.5);
-		}
-		break;
-	}
-
-	return rgb;
-}
-
-void Color::getLab() const
-{
-
-}
-
-void Color::getYUV() const
-{
-
-}
-
-
-void Color::setHSV( const double & h, const double & s, const double & v )
-{
-	ColorSpace::HSVtype hsv;
-	hsv.H = h;
-	hsv.S = s;
-	hsv.V = v;
-
-	ColorSpace::RGBtype rgb = ColorSpace::HSVToRGB( hsv );
-
-	r_ = rgb.R;
-	g_ = rgb.G;
-	b_ = rgb.B;
-
-	setColorDbg();
-}
-
-void Color::setHLS( const double & h, const double & l, const double & s )
-{
-	ColorSpace::HSLtype hls;
-	hls.H = h;
-	hls.L = l;
-	hls.S = s;
-
-	ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB( hls );
-
-	r_ = rgb.R;
-	g_ = rgb.G;
-	b_ = rgb.B;
-
-	setColorDbg();
-}
-
-void Color::setCMYK( const double & c, const double & m, const double & y, const double & k )
-{
-	setColorDbg();
-}
-
-void Color::setRGB( const unsigned char & r, const unsigned char & g, const unsigned char & b )
-{
-	r_ = ((double)r) / 255.0;
-	g_ = ((double)g) / 255.0;
-	b_ = ((double)b) / 255.0;
-	setColorDbg();
-}
-
-void Color::setRGB( const double & r, const double & g, const double & b)
-{
-	r_ = r;
-	g_ = g;
-	b_ = b;
-	setColorDbg();
-}
-
-void Color::setRGB( const unsigned long& rgb, ColorFormat cf )
-{
-	switch ( cf ) {
-		case cfARGB : {
-			r_ = ((unsigned char*)&rgb)[2] / 255.0;
-			g_ = ((unsigned char*)&rgb)[1] / 255.0;
-			b_ = ((unsigned char*)&rgb)[0] / 255.0;
-		}
-		break;
-
-		case cfABGR : {
-			r_ = ((unsigned char*)&rgb)[0] / 255.0;
-			g_ = ((unsigned char*)&rgb)[1] / 255.0;
-			b_ = ((unsigned char*)&rgb)[2] / 255.0;
-		}
-		break;
-	}
-
-	setColorDbg();
-}
-
-void Color::setLab()
-{
-	setColorDbg();
-}
-
-void Color::setYUV()
-{
-	setColorDbg();
-}
-
-
-void Color::brighter()
-{
-	setColorDbg();
-}
-
-
-void Color::darker()
-{
-	setColorDbg();
-}
-
-double Color::getRed() const
-{
-	return r_;
-}
-
-double Color::getGreen() const
-{
-	return g_;
-}
-
-double Color::getBlue() const
-{
-	return b_;
-}
-
-void Color::copy( const Color* color )
-{
-	if ( NULL != color ){
-		r_ = color->getRed();
-		g_ = color->getGreen();
-		b_ = color->getBlue();
-
-		setColorDbg();
-	}
-}
-
-void Color::copy( const Color& color )
-{
-	r_ = color.getRed();
-	g_ = color.getGreen();
-	b_ = color.getBlue();
-
-	setColorDbg();
-}
-
-Color* Color::getColor( const int& gray ) {
-	return GraphicsToolkit::getColorFromColormap( gray );
-}
-
-Color* Color::getColor( const String& colorName )
-{
-	return GraphicsToolkit::getColorFromColormap( colorName );
-}
-
-Color* Color::getColorMatch( const Color& color )
-{
-	return GraphicsToolkit::getColorMatchFromColormap( color );
-}
-
-Color Color::getColorContrast( const Color& clrRef, double deltaL/*=0.3*/ )
-{
-	return GraphicsToolkit::getColorContrast( clrRef, deltaL );
-}
-
-
-
-const String Color::getColorNameFromMap( Color& color ) {
-
-	return GraphicsToolkit::getColorNameFromMap( color );
-}
-
-void Color::setRed( const double& red )
-{
-	r_ = red;
-	setColorDbg();
-}
-
-void Color::setGreen( const double& green )
-{
-	g_ = green;
-	setColorDbg();
-}
-
-void Color::setBlue( const double& blue )
-{
-	b_ = blue;
-	setColorDbg();
-}
-
-int Color::getLuminosity() const {
-	unsigned char r, g, b;
-	getRGB (r, g, b);
-	int rgbMax = maxVal<>( maxVal<>(r,g), b);
-	int rgbMin = minVal<>( minVal<>(r,g), b);
-	return (int) (double) (((rgbMax+rgbMin) * ColorSpace::HSLMax) + ColorSpace::RGBMax ) / (2 * ColorSpace::RGBMax);
-}
-
-void Color::getInvertedRGB( unsigned char & r, unsigned char & g, unsigned char & b ) const
-{
-	r = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
-	g = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
-	b = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
-}
-
-void Color::getInvertedRGB( double & r, double & g, double & b ) const
-{
-	r =  ( 1.0 - r_ );
-	g =  ( 1.0 - g_ );
-	b =  ( 1.0 - b_ );
-}
-
-unsigned long Color::getInvertedRGB( ColorFormat cf ) const
-{
-	unsigned long rgb = 0;
-
-	switch ( cf ) {
-		case cfARGB : {
-			((unsigned char*)(&rgb))[2] = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[0] = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
-		}
-		break;
-
-		case cfABGR : {
-			((unsigned char*)(&rgb))[0] = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[2] = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
-		}
-		break;
-	}
-
-	return rgb;
-}
-
-void Color::invert() {
-	// change the color to its complement
-	r_ =  ( 1.0 - r_ );
-	g_ =  ( 1.0 - g_ );
-	b_ =  ( 1.0 - b_ );
-
-	setColorDbg();
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
+// class Color  -  implementation
 
 
 //////////////////////////////////////////////////////////////////////
@@ -1082,732 +671,732 @@ ColorNames::ColorNames()
 
     //shades of gray
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   black                    ] = "black"                 ;   // 0xFF000000   //  0;0;0
-    ColorNames::nameMap[   grey                     ] = "grey"                  ;   // 0xFFBEBEBE   //  190;190;190
-    ColorNames::nameMap[   dimgray                  ] = "dimgray"               ;   // 0xFF696969   //  105;105;105 // frequently mispelled as dimgrey
-    ColorNames::nameMap[   lightgray                ] = "lightgray"             ;   // 0xFFD3D3D3   //  211;211;211
-    ColorNames::nameMap[   lightslategrey           ] = "lightslategrey"        ;   // 0xFF778899   //  119;136;153
-    ColorNames::nameMap[   slategray                ] = "slategray"             ;   // 0xFF708090   //  112;128;144
-    ColorNames::nameMap[   slategray1               ] = "slategray1"            ;   // 0xFFC6E2FF   //  198;226;255
-    ColorNames::nameMap[   slategray2               ] = "slategray2"            ;   // 0xFFB9D3EE   //  185;211;238
-    ColorNames::nameMap[   slategray3               ] = "slategray3"            ;   // 0xFF9FB6CD   //  159;182;205
-    ColorNames::nameMap[   slategray4               ] = "slategray4"            ;   // 0xFF6C7B8B   //  108;123;139
-    ColorNames::nameMap[   slategrey                ] = "slategrey"             ;   // 0xFF708090   //  112;128;144
-    ColorNames::nameMap[   grey0                    ] = "grey0"                 ;   // 0xFF000000   //  0;0;0
-    ColorNames::nameMap[   grey1                    ] = "grey1"                 ;   // 0xFF030303   //  3;3;3
-    ColorNames::nameMap[   grey2                    ] = "grey2"                 ;   // 0xFF050505   //  5;5;5
-    ColorNames::nameMap[   grey3                    ] = "grey3"                 ;   // 0xFF080808   //  8;8;8
-    ColorNames::nameMap[   grey4                    ] = "grey4"                 ;   // 0xFF0A0A0A   //  10;10;10
-    ColorNames::nameMap[   grey5                    ] = "grey5"                 ;   // 0xFF0D0D0D   //  13;13;13
-    ColorNames::nameMap[   grey6                    ] = "grey6"                 ;   // 0xFF0F0F0F   //  15;15;15
-    ColorNames::nameMap[   grey7                    ] = "grey7"                 ;   // 0xFF121212   //  18;18;18
-    ColorNames::nameMap[   grey8                    ] = "grey8"                 ;   // 0xFF141414   //  20;20;20
-    ColorNames::nameMap[   grey98                   ] = "grey98"                ;   // 0xFF171717   //  23;23;23
-    ColorNames::nameMap[   grey10                   ] = "grey10"                ;   // 0xFF1A1A1A   //  26;26;26
-    ColorNames::nameMap[   grey11                   ] = "grey11"                ;   // 0xFF1C1C1C   //  28;28;28
-    ColorNames::nameMap[   grey12                   ] = "grey12"                ;   // 0xFF1F1F1F   //  31;31;31
-    ColorNames::nameMap[   grey13                   ] = "grey13"                ;   // 0xFF212121   //  33;33;33
-    ColorNames::nameMap[   grey14                   ] = "grey14"                ;   // 0xFF242424   //  36;36;36
-    ColorNames::nameMap[   grey15                   ] = "grey15"                ;   // 0xFF262626   //  38;38;38
-    ColorNames::nameMap[   grey16                   ] = "grey16"                ;   // 0xFF292929   //  41;41;41
-    ColorNames::nameMap[   grey17                   ] = "grey17"                ;   // 0xFF2B2B2B   //  43;43;43
-    ColorNames::nameMap[   grey18                   ] = "grey18"                ;   // 0xFF2E2E2E   //  46;46;46
-    ColorNames::nameMap[   grey19                   ] = "grey19"                ;   // 0xFF303030   //  48;48;48
-    ColorNames::nameMap[   grey20                   ] = "grey20"                ;   // 0xFF333333   //  51;51;51
-    ColorNames::nameMap[   grey21                   ] = "grey21"                ;   // 0xFF363636   //  54;54;54
-    ColorNames::nameMap[   grey22                   ] = "grey22"                ;   // 0xFF383838   //  56;56;56
-    ColorNames::nameMap[   grey23                   ] = "grey23"                ;   // 0xFF3B3B3B   //  59;59;59
-    ColorNames::nameMap[   grey24                   ] = "grey24"                ;   // 0xFF3D3D3D   //  61;61;61
-    ColorNames::nameMap[   grey25                   ] = "grey25"                ;   // 0xFF404040   //  64;64;64
-    ColorNames::nameMap[   grey26                   ] = "grey26"                ;   // 0xFF424242   //  66;66;66
-    ColorNames::nameMap[   grey27                   ] = "grey27"                ;   // 0xFF454545   //  69;69;69
-    ColorNames::nameMap[   grey28                   ] = "grey28"                ;   // 0xFF474747   //  71;71;71
-    ColorNames::nameMap[   grey29                   ] = "grey29"                ;   // 0xFF4A4A4A   //  74;74;74
-    ColorNames::nameMap[   grey30                   ] = "grey30"                ;   // 0xFF4D4D4D   //  77;77;77
-    ColorNames::nameMap[   grey31                   ] = "grey31"                ;   // 0xFF4F4F4F   //  79;79;79
-    ColorNames::nameMap[   grey32                   ] = "grey32"                ;   // 0xFF525252   //  82;82;82
-    ColorNames::nameMap[   grey33                   ] = "grey33"                ;   // 0xFF545454   //  84;84;84
-    ColorNames::nameMap[   grey34                   ] = "grey34"                ;   // 0xFF575757   //  87;87;87
-    ColorNames::nameMap[   grey35                   ] = "grey35"                ;   // 0xFF595959   //  89;89;89
-    ColorNames::nameMap[   grey36                   ] = "grey36"                ;   // 0xFF5C5C5C   //  92;92;92
-    ColorNames::nameMap[   grey37                   ] = "grey37"                ;   // 0xFF5E5E5E   //  94;94;94
-    ColorNames::nameMap[   grey38                   ] = "grey38"                ;   // 0xFF616161   //  97;97;97
-    ColorNames::nameMap[   grey39                   ] = "grey39"                ;   // 0xFF636363   //  99;99;99
-    ColorNames::nameMap[   grey40                   ] = "grey40"                ;   // 0xFF666666   //  102;102;102
-    ColorNames::nameMap[   grey41                   ] = "grey41"                ;   // 0xFF696969   //  105;105;105
-    ColorNames::nameMap[   grey42                   ] = "grey42"                ;   // 0xFF6B6B6B   //  107;107;107
-    ColorNames::nameMap[   grey43                   ] = "grey43"                ;   // 0xFF6E6E6E   //  110;110;110
-    ColorNames::nameMap[   grey44                   ] = "grey44"                ;   // 0xFF707070   //  112;112;112
-    ColorNames::nameMap[   grey45                   ] = "grey45"                ;   // 0xFF737373   //  115;115;115
-    ColorNames::nameMap[   grey46                   ] = "grey46"                ;   // 0xFF757575   //  117;117;117
-    ColorNames::nameMap[   grey47                   ] = "grey47"                ;   // 0xFF787878   //  120;120;120
-    ColorNames::nameMap[   grey48                   ] = "grey48"                ;   // 0xFF7A7A7A   //  122;122;122
-    ColorNames::nameMap[   grey49                   ] = "grey49"                ;   // 0xFF7D7D7D   //  125;125;125
-    ColorNames::nameMap[   grey50                   ] = "grey50"                ;   // 0xFF7F7F7F   //  127;127;127
-    ColorNames::nameMap[   grey51                   ] = "grey51"                ;   // 0xFF828282   //  130;130;130
-    ColorNames::nameMap[   grey52                   ] = "grey52"                ;   // 0xFF858585   //  133;133;133
-    ColorNames::nameMap[   grey53                   ] = "grey53"                ;   // 0xFF878787   //  135;135;135
-    ColorNames::nameMap[   grey54                   ] = "grey54"                ;   // 0xFF8A8A8A   //  138;138;138
-    ColorNames::nameMap[   grey55                   ] = "grey55"                ;   // 0xFF8C8C8C   //  140;140;140
-    ColorNames::nameMap[   grey56                   ] = "grey56"                ;   // 0xFF8F8F8F   //  143;143;143
-    ColorNames::nameMap[   grey57                   ] = "grey57"                ;   // 0xFF919191   //  145;145;145
-    ColorNames::nameMap[   grey58                   ] = "grey58"                ;   // 0xFF949494   //  148;148;148
-    ColorNames::nameMap[   grey59                   ] = "grey59"                ;   // 0xFF969696   //  150;150;150
-    ColorNames::nameMap[   grey60                   ] = "grey60"                ;   // 0xFF999999   //  153;153;153
-    ColorNames::nameMap[   grey61                   ] = "grey61"                ;   // 0xFF9C9C9C   //  156;156;156
-    ColorNames::nameMap[   grey62                   ] = "grey62"                ;   // 0xFF9E9E9E   //  158;158;158
-    ColorNames::nameMap[   grey63                   ] = "grey63"                ;   // 0xFFA1A1A1   //  161;161;161
-    ColorNames::nameMap[   grey64                   ] = "grey64"                ;   // 0xFFA3A3A3   //  163;163;163
-    ColorNames::nameMap[   grey65                   ] = "grey65"                ;   // 0xFFA6A6A6   //  166;166;166
-    ColorNames::nameMap[   grey66                   ] = "grey66"                ;   // 0xFFA8A8A8   //  168;168;168
-    ColorNames::nameMap[   grey67                   ] = "grey67"                ;   // 0xFFABABAB   //  171;171;171
-    ColorNames::nameMap[   grey68                   ] = "grey68"                ;   // 0xFFADADAD   //  173;173;173
-    ColorNames::nameMap[   grey69                   ] = "grey69"                ;   // 0xFFB0B0B0   //  176;176;176
-    ColorNames::nameMap[   grey70                   ] = "grey70"                ;   // 0xFFB3B3B3   //  179;179;179
-    ColorNames::nameMap[   grey71                   ] = "grey71"                ;   // 0xFFB5B5B5   //  181;181;181
-    ColorNames::nameMap[   grey72                   ] = "grey72"                ;   // 0xFFB8B8B8   //  184;184;184
-    ColorNames::nameMap[   grey73                   ] = "grey73"                ;   // 0xFFBABABA   //  186;186;186
-    ColorNames::nameMap[   grey74                   ] = "grey74"                ;   // 0xFFBDBDBD   //  189;189;189
-    ColorNames::nameMap[   grey75                   ] = "grey75"                ;   // 0xFFBFBFBF   //  191;191;191
-    ColorNames::nameMap[   grey76                   ] = "grey76"                ;   // 0xFFC2C2C2   //  194;194;194
-    ColorNames::nameMap[   grey77                   ] = "grey77"                ;   // 0xFFC4C4C4   //  196;196;196
-    ColorNames::nameMap[   grey78                   ] = "grey78"                ;   // 0xFFC7C7C7   //  199;199;199
-    ColorNames::nameMap[   grey79                   ] = "grey79"                ;   // 0xFFC9C9C9   //  201;201;201
-    ColorNames::nameMap[   grey80                   ] = "grey80"                ;   // 0xFFCCCCCC   //  204;204;204
-    ColorNames::nameMap[   grey81                   ] = "grey81"                ;   // 0xFFCFCFCF   //  207;207;207
-    ColorNames::nameMap[   grey82                   ] = "grey82"                ;   // 0xFFD1D1D1   //  209;209;209
-    ColorNames::nameMap[   grey83                   ] = "grey83"                ;   // 0xFFD4D4D4   //  212;212;212
-    ColorNames::nameMap[   grey84                   ] = "grey84"                ;   // 0xFFD6D6D6   //  214;214;214
-    ColorNames::nameMap[   grey85                   ] = "grey85"                ;   // 0xFFD9D9D9   //  217;217;217
-    ColorNames::nameMap[   grey86                   ] = "grey86"                ;   // 0xFFDBDBDB   //  219;219;219
-    ColorNames::nameMap[   grey87                   ] = "grey87"                ;   // 0xFFDEDEDE   //  222;222;222
-    ColorNames::nameMap[   grey88                   ] = "grey88"                ;   // 0xFFE0E0E0   //  224;224;224
-    ColorNames::nameMap[   grey89                   ] = "grey89"                ;   // 0xFFE3E3E3   //  227;227;227
-    ColorNames::nameMap[   grey90                   ] = "grey90"                ;   // 0xFFE5E5E5   //  229;229;229
-    ColorNames::nameMap[   grey91                   ] = "grey91"                ;   // 0xFFE8E8E8   //  232;232;232
-    ColorNames::nameMap[   grey92                   ] = "grey92"                ;   // 0xFFEBEBEB   //  235;235;235
-    ColorNames::nameMap[   grey93                   ] = "grey93"                ;   // 0xFFEDEDED   //  237;237;237
-    ColorNames::nameMap[   grey94                   ] = "grey94"                ;   // 0xFFF0F0F0   //  240;240;240
-    ColorNames::nameMap[   grey95                   ] = "grey95"                ;   // 0xFFF2F2F2   //  242;242;242
-    ColorNames::nameMap[   grey96                   ] = "grey96"                ;   // 0xFFF5F5F5   //  245;245;245
-    ColorNames::nameMap[   grey97                   ] = "grey97"                ;   // 0xFFF7F7F7   //  247;247;247
-    ColorNames::nameMap[   grey98                   ] = "grey98"                ;   // 0xFFFAFAFA   //  250;250;250
-    ColorNames::nameMap[   grey99                   ] = "grey99"                ;   // 0xFFFCFCFC   //  252;252;252
-    ColorNames::nameMap[   grey100                  ] = "grey100"               ;   // 0xFFFFFFFF   //  255;255;255
+    ColorNames::nameMap[   black                    ] = L"black"                 ;   // 0xFF000000   //  0;0;0
+    ColorNames::nameMap[   grey                     ] = L"grey"                  ;   // 0xFFBEBEBE   //  190;190;190
+    ColorNames::nameMap[   dimgray                  ] = L"dimgray"               ;   // 0xFF696969   //  105;105;105 // frequently mispelled as dimgrey
+    ColorNames::nameMap[   lightgray                ] = L"lightgray"             ;   // 0xFFD3D3D3   //  211;211;211
+    ColorNames::nameMap[   lightslategrey           ] = L"lightslategrey"        ;   // 0xFF778899   //  119;136;153
+    ColorNames::nameMap[   slategray                ] = L"slategray"             ;   // 0xFF708090   //  112;128;144
+    ColorNames::nameMap[   slategray1               ] = L"slategray1"            ;   // 0xFFC6E2FF   //  198;226;255
+    ColorNames::nameMap[   slategray2               ] = L"slategray2"            ;   // 0xFFB9D3EE   //  185;211;238
+    ColorNames::nameMap[   slategray3               ] = L"slategray3"            ;   // 0xFF9FB6CD   //  159;182;205
+    ColorNames::nameMap[   slategray4               ] = L"slategray4"            ;   // 0xFF6C7B8B   //  108;123;139
+    ColorNames::nameMap[   slategrey                ] = L"slategrey"             ;   // 0xFF708090   //  112;128;144
+    ColorNames::nameMap[   grey0                    ] = L"grey0"                 ;   // 0xFF000000   //  0;0;0
+    ColorNames::nameMap[   grey1                    ] = L"grey1"                 ;   // 0xFF030303   //  3;3;3
+    ColorNames::nameMap[   grey2                    ] = L"grey2"                 ;   // 0xFF050505   //  5;5;5
+    ColorNames::nameMap[   grey3                    ] = L"grey3"                 ;   // 0xFF080808   //  8;8;8
+    ColorNames::nameMap[   grey4                    ] = L"grey4"                 ;   // 0xFF0A0A0A   //  10;10;10
+    ColorNames::nameMap[   grey5                    ] = L"grey5"                 ;   // 0xFF0D0D0D   //  13;13;13
+    ColorNames::nameMap[   grey6                    ] = L"grey6"                 ;   // 0xFF0F0F0F   //  15;15;15
+    ColorNames::nameMap[   grey7                    ] = L"grey7"                 ;   // 0xFF121212   //  18;18;18
+    ColorNames::nameMap[   grey8                    ] = L"grey8"                 ;   // 0xFF141414   //  20;20;20
+    ColorNames::nameMap[   grey98                   ] = L"grey98"                ;   // 0xFF171717   //  23;23;23
+    ColorNames::nameMap[   grey10                   ] = L"grey10"                ;   // 0xFF1A1A1A   //  26;26;26
+    ColorNames::nameMap[   grey11                   ] = L"grey11"                ;   // 0xFF1C1C1C   //  28;28;28
+    ColorNames::nameMap[   grey12                   ] = L"grey12"                ;   // 0xFF1F1F1F   //  31;31;31
+    ColorNames::nameMap[   grey13                   ] = L"grey13"                ;   // 0xFF212121   //  33;33;33
+    ColorNames::nameMap[   grey14                   ] = L"grey14"                ;   // 0xFF242424   //  36;36;36
+    ColorNames::nameMap[   grey15                   ] = L"grey15"                ;   // 0xFF262626   //  38;38;38
+    ColorNames::nameMap[   grey16                   ] = L"grey16"                ;   // 0xFF292929   //  41;41;41
+    ColorNames::nameMap[   grey17                   ] = L"grey17"                ;   // 0xFF2B2B2B   //  43;43;43
+    ColorNames::nameMap[   grey18                   ] = L"grey18"                ;   // 0xFF2E2E2E   //  46;46;46
+    ColorNames::nameMap[   grey19                   ] = L"grey19"                ;   // 0xFF303030   //  48;48;48
+    ColorNames::nameMap[   grey20                   ] = L"grey20"                ;   // 0xFF333333   //  51;51;51
+    ColorNames::nameMap[   grey21                   ] = L"grey21"                ;   // 0xFF363636   //  54;54;54
+    ColorNames::nameMap[   grey22                   ] = L"grey22"                ;   // 0xFF383838   //  56;56;56
+    ColorNames::nameMap[   grey23                   ] = L"grey23"                ;   // 0xFF3B3B3B   //  59;59;59
+    ColorNames::nameMap[   grey24                   ] = L"grey24"                ;   // 0xFF3D3D3D   //  61;61;61
+    ColorNames::nameMap[   grey25                   ] = L"grey25"                ;   // 0xFF404040   //  64;64;64
+    ColorNames::nameMap[   grey26                   ] = L"grey26"                ;   // 0xFF424242   //  66;66;66
+    ColorNames::nameMap[   grey27                   ] = L"grey27"                ;   // 0xFF454545   //  69;69;69
+    ColorNames::nameMap[   grey28                   ] = L"grey28"                ;   // 0xFF474747   //  71;71;71
+    ColorNames::nameMap[   grey29                   ] = L"grey29"                ;   // 0xFF4A4A4A   //  74;74;74
+    ColorNames::nameMap[   grey30                   ] = L"grey30"                ;   // 0xFF4D4D4D   //  77;77;77
+    ColorNames::nameMap[   grey31                   ] = L"grey31"                ;   // 0xFF4F4F4F   //  79;79;79
+    ColorNames::nameMap[   grey32                   ] = L"grey32"                ;   // 0xFF525252   //  82;82;82
+    ColorNames::nameMap[   grey33                   ] = L"grey33"                ;   // 0xFF545454   //  84;84;84
+    ColorNames::nameMap[   grey34                   ] = L"grey34"                ;   // 0xFF575757   //  87;87;87
+    ColorNames::nameMap[   grey35                   ] = L"grey35"                ;   // 0xFF595959   //  89;89;89
+    ColorNames::nameMap[   grey36                   ] = L"grey36"                ;   // 0xFF5C5C5C   //  92;92;92
+    ColorNames::nameMap[   grey37                   ] = L"grey37"                ;   // 0xFF5E5E5E   //  94;94;94
+    ColorNames::nameMap[   grey38                   ] = L"grey38"                ;   // 0xFF616161   //  97;97;97
+    ColorNames::nameMap[   grey39                   ] = L"grey39"                ;   // 0xFF636363   //  99;99;99
+    ColorNames::nameMap[   grey40                   ] = L"grey40"                ;   // 0xFF666666   //  102;102;102
+    ColorNames::nameMap[   grey41                   ] = L"grey41"                ;   // 0xFF696969   //  105;105;105
+    ColorNames::nameMap[   grey42                   ] = L"grey42"                ;   // 0xFF6B6B6B   //  107;107;107
+    ColorNames::nameMap[   grey43                   ] = L"grey43"                ;   // 0xFF6E6E6E   //  110;110;110
+    ColorNames::nameMap[   grey44                   ] = L"grey44"                ;   // 0xFF707070   //  112;112;112
+    ColorNames::nameMap[   grey45                   ] = L"grey45"                ;   // 0xFF737373   //  115;115;115
+    ColorNames::nameMap[   grey46                   ] = L"grey46"                ;   // 0xFF757575   //  117;117;117
+    ColorNames::nameMap[   grey47                   ] = L"grey47"                ;   // 0xFF787878   //  120;120;120
+    ColorNames::nameMap[   grey48                   ] = L"grey48"                ;   // 0xFF7A7A7A   //  122;122;122
+    ColorNames::nameMap[   grey49                   ] = L"grey49"                ;   // 0xFF7D7D7D   //  125;125;125
+    ColorNames::nameMap[   grey50                   ] = L"grey50"                ;   // 0xFF7F7F7F   //  127;127;127
+    ColorNames::nameMap[   grey51                   ] = L"grey51"                ;   // 0xFF828282   //  130;130;130
+    ColorNames::nameMap[   grey52                   ] = L"grey52"                ;   // 0xFF858585   //  133;133;133
+    ColorNames::nameMap[   grey53                   ] = L"grey53"                ;   // 0xFF878787   //  135;135;135
+    ColorNames::nameMap[   grey54                   ] = L"grey54"                ;   // 0xFF8A8A8A   //  138;138;138
+    ColorNames::nameMap[   grey55                   ] = L"grey55"                ;   // 0xFF8C8C8C   //  140;140;140
+    ColorNames::nameMap[   grey56                   ] = L"grey56"                ;   // 0xFF8F8F8F   //  143;143;143
+    ColorNames::nameMap[   grey57                   ] = L"grey57"                ;   // 0xFF919191   //  145;145;145
+    ColorNames::nameMap[   grey58                   ] = L"grey58"                ;   // 0xFF949494   //  148;148;148
+    ColorNames::nameMap[   grey59                   ] = L"grey59"                ;   // 0xFF969696   //  150;150;150
+    ColorNames::nameMap[   grey60                   ] = L"grey60"                ;   // 0xFF999999   //  153;153;153
+    ColorNames::nameMap[   grey61                   ] = L"grey61"                ;   // 0xFF9C9C9C   //  156;156;156
+    ColorNames::nameMap[   grey62                   ] = L"grey62"                ;   // 0xFF9E9E9E   //  158;158;158
+    ColorNames::nameMap[   grey63                   ] = L"grey63"                ;   // 0xFFA1A1A1   //  161;161;161
+    ColorNames::nameMap[   grey64                   ] = L"grey64"                ;   // 0xFFA3A3A3   //  163;163;163
+    ColorNames::nameMap[   grey65                   ] = L"grey65"                ;   // 0xFFA6A6A6   //  166;166;166
+    ColorNames::nameMap[   grey66                   ] = L"grey66"                ;   // 0xFFA8A8A8   //  168;168;168
+    ColorNames::nameMap[   grey67                   ] = L"grey67"                ;   // 0xFFABABAB   //  171;171;171
+    ColorNames::nameMap[   grey68                   ] = L"grey68"                ;   // 0xFFADADAD   //  173;173;173
+    ColorNames::nameMap[   grey69                   ] = L"grey69"                ;   // 0xFFB0B0B0   //  176;176;176
+    ColorNames::nameMap[   grey70                   ] = L"grey70"                ;   // 0xFFB3B3B3   //  179;179;179
+    ColorNames::nameMap[   grey71                   ] = L"grey71"                ;   // 0xFFB5B5B5   //  181;181;181
+    ColorNames::nameMap[   grey72                   ] = L"grey72"                ;   // 0xFFB8B8B8   //  184;184;184
+    ColorNames::nameMap[   grey73                   ] = L"grey73"                ;   // 0xFFBABABA   //  186;186;186
+    ColorNames::nameMap[   grey74                   ] = L"grey74"                ;   // 0xFFBDBDBD   //  189;189;189
+    ColorNames::nameMap[   grey75                   ] = L"grey75"                ;   // 0xFFBFBFBF   //  191;191;191
+    ColorNames::nameMap[   grey76                   ] = L"grey76"                ;   // 0xFFC2C2C2   //  194;194;194
+    ColorNames::nameMap[   grey77                   ] = L"grey77"                ;   // 0xFFC4C4C4   //  196;196;196
+    ColorNames::nameMap[   grey78                   ] = L"grey78"                ;   // 0xFFC7C7C7   //  199;199;199
+    ColorNames::nameMap[   grey79                   ] = L"grey79"                ;   // 0xFFC9C9C9   //  201;201;201
+    ColorNames::nameMap[   grey80                   ] = L"grey80"                ;   // 0xFFCCCCCC   //  204;204;204
+    ColorNames::nameMap[   grey81                   ] = L"grey81"                ;   // 0xFFCFCFCF   //  207;207;207
+    ColorNames::nameMap[   grey82                   ] = L"grey82"                ;   // 0xFFD1D1D1   //  209;209;209
+    ColorNames::nameMap[   grey83                   ] = L"grey83"                ;   // 0xFFD4D4D4   //  212;212;212
+    ColorNames::nameMap[   grey84                   ] = L"grey84"                ;   // 0xFFD6D6D6   //  214;214;214
+    ColorNames::nameMap[   grey85                   ] = L"grey85"                ;   // 0xFFD9D9D9   //  217;217;217
+    ColorNames::nameMap[   grey86                   ] = L"grey86"                ;   // 0xFFDBDBDB   //  219;219;219
+    ColorNames::nameMap[   grey87                   ] = L"grey87"                ;   // 0xFFDEDEDE   //  222;222;222
+    ColorNames::nameMap[   grey88                   ] = L"grey88"                ;   // 0xFFE0E0E0   //  224;224;224
+    ColorNames::nameMap[   grey89                   ] = L"grey89"                ;   // 0xFFE3E3E3   //  227;227;227
+    ColorNames::nameMap[   grey90                   ] = L"grey90"                ;   // 0xFFE5E5E5   //  229;229;229
+    ColorNames::nameMap[   grey91                   ] = L"grey91"                ;   // 0xFFE8E8E8   //  232;232;232
+    ColorNames::nameMap[   grey92                   ] = L"grey92"                ;   // 0xFFEBEBEB   //  235;235;235
+    ColorNames::nameMap[   grey93                   ] = L"grey93"                ;   // 0xFFEDEDED   //  237;237;237
+    ColorNames::nameMap[   grey94                   ] = L"grey94"                ;   // 0xFFF0F0F0   //  240;240;240
+    ColorNames::nameMap[   grey95                   ] = L"grey95"                ;   // 0xFFF2F2F2   //  242;242;242
+    ColorNames::nameMap[   grey96                   ] = L"grey96"                ;   // 0xFFF5F5F5   //  245;245;245
+    ColorNames::nameMap[   grey97                   ] = L"grey97"                ;   // 0xFFF7F7F7   //  247;247;247
+    ColorNames::nameMap[   grey98                   ] = L"grey98"                ;   // 0xFFFAFAFA   //  250;250;250
+    ColorNames::nameMap[   grey99                   ] = L"grey99"                ;   // 0xFFFCFCFC   //  252;252;252
+    ColorNames::nameMap[   grey100                  ] = L"grey100"               ;   // 0xFFFFFFFF   //  255;255;255
 
     //shades of blue
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   aliceblue                ] = "aliceblue"             ;   // 0xFFF0F8FF   //  240;248;255
-    ColorNames::nameMap[   blueviolet               ] = "blueviolet"            ;   // 0xFF8A2BE2   //  138;43;226
-    ColorNames::nameMap[   cadetblue                ] = "cadetblue"             ;   // 0xFF5F9EA0   //  95;158;160
-    ColorNames::nameMap[   cadetblue1               ] = "cadetblue1"            ;   // 0xFF98F5FF   //  152;245;255
-    ColorNames::nameMap[   cadetblue2               ] = "cadetblue2"            ;   // 0xFF8EE5EE   //  142;229;238
-    ColorNames::nameMap[   cadetblue3               ] = "cadetblue3"            ;   // 0xFF7AC5CD   //  122;197;205
-    ColorNames::nameMap[   cadetblue4               ] = "cadetblue4"            ;   // 0xFF53868B   //  83;134;139
-    ColorNames::nameMap[   cornflowerblue           ] = "cornflowerblue"        ;   // 0xFF6495ED   //  100;149;237
-    ColorNames::nameMap[   darkslateblue            ] = "darkslateblue"         ;   // 0xFF483D8B   //  72;61;139
-    ColorNames::nameMap[   darkturquoise            ] = "darkturquoise"         ;   // 0xFF00CED1   //  0;206;209
-    ColorNames::nameMap[   deepskyblue              ] = "deepskyblue"           ;   // 0xFF00BFFF   //  0;191;255
-    ColorNames::nameMap[   deepskyblue1             ] = "deepskyblue1"          ;   // 0xFF00BFFF   //  0;191;255
-    ColorNames::nameMap[   deepskyblue2             ] = "deepskyblue2"          ;   // 0xFF00B2EE   //  0;178;238
-    ColorNames::nameMap[   deepskyblue3             ] = "deepskyblue3"          ;   // 0xFF009ACD   //  0;154;205
-    ColorNames::nameMap[   deepskyblue4             ] = "deepskyblue4"          ;   // 0xFF00688B   //  0;104;139
-    ColorNames::nameMap[   dodgerblue               ] = "dodgerblue"            ;   // 0xFF1E90FF   //  30;144;255
-    ColorNames::nameMap[   dodgerblue1              ] = "dodgerblue1"           ;   // 0xFF1E90FF   //  30;144;255
-    ColorNames::nameMap[   dodgerblue2              ] = "dodgerblue2"           ;   // 0xFF1C86EE   //  28;134;238
-    ColorNames::nameMap[   dodgerblue3              ] = "dodgerblue3"           ;   // 0xFF1874CD   //  24;116;205
-    ColorNames::nameMap[   dodgerblue4              ] = "dodgerblue4"           ;   // 0xFF104E8B   //  16;78;139
-    ColorNames::nameMap[   lightblue                ] = "lightblue"             ;   // 0xFFADD8E6   //  173;216;230
-    ColorNames::nameMap[   lightblue1               ] = "lightblue1"            ;   // 0xFFBFEFFF   //  191;239;255
-    ColorNames::nameMap[   lightblue2               ] = "lightblue2"            ;   // 0xFFB2DFEE   //  178;223;238
-    ColorNames::nameMap[   lightblue3               ] = "lightblue3"            ;   // 0xFF9AC0CD   //  154;192;205
-    ColorNames::nameMap[   lightblue4               ] = "lightblue4"            ;   // 0xFF68838B   //  104;131;139
-    ColorNames::nameMap[   lightcyan                ] = "lightcyan"             ;   // 0xFFE0FFFF   //  224;255;255
-    ColorNames::nameMap[   lightcyan1               ] = "lightcyan1"            ;   // 0xFFE0FFFF   //  224;255;255
-    ColorNames::nameMap[   lightcyan2               ] = "lightcyan2"            ;   // 0xFFD1EEEE   //  209;238;238
-    ColorNames::nameMap[   lightcyan3               ] = "lightcyan3"            ;   // 0xFFB4CDCD   //  180;205;205
-    ColorNames::nameMap[   lightcyan4               ] = "lightcyan4"            ;   // 0xFF7A8B8B   //  122;139;139
-    ColorNames::nameMap[   lightskyblue             ] = "lightskyblue"          ;   // 0xFF87CEFA   //  135;206;250
-    ColorNames::nameMap[   lightskyblue1            ] = "lightskyblue1"         ;   // 0xFFB0E2FF   //  176;226;255
-    ColorNames::nameMap[   lightskyblue2            ] = "lightskyblue2"         ;   // 0xFFA4D3EE   //  164;211;238
-    ColorNames::nameMap[   lightskyblue3            ] = "lightskyblue3"         ;   // 0xFF8DB6CD   //  141;182;205
-    ColorNames::nameMap[   lightskyblue4            ] = "lightskyblue4"         ;   // 0xFF607B8B   //  96;123;139
-    ColorNames::nameMap[   lightslateblue           ] = "lightslateblue"        ;   // 0xFF8470FF   //  132;112;255
-    ColorNames::nameMap[   lightsteelblue           ] = "lightsteelblue"        ;   // 0xFFB0C4DE   //  176;196;222
-    ColorNames::nameMap[   lightsteelblue1          ] = "lightsteelblue1"       ;   // 0xFFCAE1FF   //  202;225;255
-    ColorNames::nameMap[   lightsteelblue2          ] = "lightsteelblue2"       ;   // 0xFFBCD2EE   //  188;210;238
-    ColorNames::nameMap[   lightsteelblue3          ] = "lightsteelblue3"       ;   // 0xFFA2B5CD   //  162;181;205
-    ColorNames::nameMap[   lightsteelblue4          ] = "lightsteelblue4"       ;   // 0xFF6E7B8B   //  110;123;139
-    ColorNames::nameMap[   mediumaquamarine         ] = "mediumaquamarine"      ;   // 0xFF66CDAA   //  102;205;170
-    ColorNames::nameMap[   mediumblue               ] = "mediumblue"            ;   // 0xFF0000CD   //  0;0;205
-    ColorNames::nameMap[   mediumslateblue          ] = "mediumslateblue"       ;   // 0xFF7B68EE   //  123;104;238
-    ColorNames::nameMap[   mediumturquoise          ] = "mediumturquoise"       ;   // 0xFF48D1CC   //  72;209;204
-    ColorNames::nameMap[   midnightblue             ] = "midnightblue"          ;   // 0xFF191970   //  25;25;112
-    ColorNames::nameMap[   navyblue                 ] = "navyblue"              ;   // 0xFF000080   //  0;0;128
-    ColorNames::nameMap[   paleturquoise            ] = "paleturquoise"         ;   // 0xFFAFEEEE   //  175;238;238
-    ColorNames::nameMap[   paleturquoise1           ] = "paleturquoise1"        ;   // 0xFFBBFFFF   //  187;255;255
-    ColorNames::nameMap[   paleturquoise2           ] = "paleturquoise2"        ;   // 0xFFAEEEEE   //  174;238;238
-    ColorNames::nameMap[   paleturquoise3           ] = "paleturquoise3"        ;   // 0xFF96CDCD   //  150;205;205
-    ColorNames::nameMap[   paleturquoise4           ] = "paleturquoise4"        ;   // 0xFF668B8B   //  102;139;139
-    ColorNames::nameMap[   powderblue               ] = "powderblue"            ;   // 0xFFB0E0E6   //  176;224;230
-    ColorNames::nameMap[   royalblue                ] = "royalblue"             ;   // 0xFF4169E1   //  65;105;225
-    ColorNames::nameMap[   royalblue1               ] = "royalblue1"            ;   // 0xFF4876FF   //  72;118;255
-    ColorNames::nameMap[   royalblue2               ] = "royalblue2"            ;   // 0xFF436EEE   //  67;110;238
-    ColorNames::nameMap[   royalblue3               ] = "royalblue3"            ;   // 0xFF3A5FCD   //  58;95;205
-    ColorNames::nameMap[   royalblue4               ] = "royalblue4"            ;   // 0xFF27408B   //  39;64;139
-    ColorNames::nameMap[   royalblue5               ] = "royalblue5"            ;   // 0xFF002266   //  00;34;102
-    ColorNames::nameMap[   skyblue                  ] = "skyblue"               ;   // 0xFF87CEEB   //  135;206;235
-    ColorNames::nameMap[   skyblue1                 ] = "skyblue1"              ;   // 0xFF87CEFF   //  135;206;255
-    ColorNames::nameMap[   skyblue2                 ] = "skyblue2"              ;   // 0xFF7EC0EE   //  126;192;238
-    ColorNames::nameMap[   skyblue3                 ] = "skyblue3"              ;   // 0xFF6CA6CD   //  108;166;205
-    ColorNames::nameMap[   skyblue4                 ] = "skyblue4"              ;   // 0xFF4A708B   //  74;112;139
-    ColorNames::nameMap[   slateblue                ] = "slateblue"             ;   // 0xFF6A5ACD   //  106;90;205
-    ColorNames::nameMap[   slateblue1               ] = "slateblue1"            ;   // 0xFF836FFF   //  131;111;255
-    ColorNames::nameMap[   slateblue2               ] = "slateblue2"            ;   // 0xFF7A67EE   //  122;103;238
-    ColorNames::nameMap[   slateblue3               ] = "slateblue3"            ;   // 0xFF6959CD   //  105;89;205
-    ColorNames::nameMap[   slateblue4               ] = "slateblue4"            ;   // 0xFF473C8B   //  71;60;139
-    ColorNames::nameMap[   steelblue                ] = "steelblue"             ;   // 0xFF4682B4   //  70;130;180
-    ColorNames::nameMap[   steelblue1               ] = "steelblue1"            ;   // 0xFF63B8FF   //  99;184;255
-    ColorNames::nameMap[   steelblue2               ] = "steelblue2"            ;   // 0xFF5CACEE   //  92;172;238
-    ColorNames::nameMap[   steelblue3               ] = "steelblue3"            ;   // 0xFF4F94CD   //  79;148;205
-    ColorNames::nameMap[   steelblue4               ] = "steelblue4"            ;   // 0xFF36648B   //  54;100;139
-    ColorNames::nameMap[   aquamarine               ] = "aquamarine"            ;   // 0xFF7FFFD4   //  127;255;212
-    ColorNames::nameMap[   aquamarine1              ] = "aquamarine1"           ;   // 0xFF7FFFD4   //  127;255;212
-    ColorNames::nameMap[   aquamarine2              ] = "aquamarine2"           ;   // 0xFF76EEC6   //  118;238;198
-    ColorNames::nameMap[   aquamarine3              ] = "aquamarine3"           ;   // 0xFF66CDAA   //  102;205;170
-    ColorNames::nameMap[   aquamarine4              ] = "aquamarine4"           ;   // 0xFF458B74   //  69;139;116
-    ColorNames::nameMap[   azure                    ] = "azure"                 ;   // 0xFFF0FFFF   //  240;255;255
-    ColorNames::nameMap[   azure1                   ] = "azure1"                ;   // 0xFFF0FFFF   //  240;255;255
-    ColorNames::nameMap[   azure2                   ] = "azure2"                ;   // 0xFFE0EEEE   //  224;238;238
-    ColorNames::nameMap[   azure3                   ] = "azure3"                ;   // 0xFFC1CDCD   //  193;205;205
-    ColorNames::nameMap[   azure4                   ] = "azure4"                ;   // 0xFF838B8B   //  131;139;139
-    ColorNames::nameMap[   blue                     ] = "blue"                  ;   // 0xFF0000FF   //  0;0;255
-    ColorNames::nameMap[   blue1                    ] = "blue1"                 ;   // 0xFF0000FF   //  0;0;255
-    ColorNames::nameMap[   blue2                    ] = "blue2"                 ;   // 0xFF0000EE   //  0;0;238
-    ColorNames::nameMap[   blue3                    ] = "blue3"                 ;   // 0xFF0000CD   //  0;0;205
-    ColorNames::nameMap[   blue4                    ] = "blue4"                 ;   // 0xFF00008B   //  0;0;139
-    ColorNames::nameMap[   cyan                     ] = "cyan"                  ;   // 0xFF00FFFF   //  0;255;255
-    ColorNames::nameMap[   cyan1                    ] = "cyan1"                 ;   // 0xFF00FFFF   //  0;255;255
-    ColorNames::nameMap[   cyan2                    ] = "cyan2"                 ;   // 0xFF00EEEE   //  0;238;238
-    ColorNames::nameMap[   cyan3                    ] = "cyan3"                 ;   // 0xFF00CDCD   //  0;205;205
-    ColorNames::nameMap[   cyan4                    ] = "cyan4"                 ;   // 0xFF008B8B   //  0;139;139
-    ColorNames::nameMap[   navy                     ] = "navy"                  ;   // 0xFF000080   //  0;0;128
-    ColorNames::nameMap[   turquoise                ] = "turquoise"             ;   // 0xFF40E0D0   //  64;224;208
-    ColorNames::nameMap[   turquoise1               ] = "turquoise1"            ;   // 0xFF00F5FF   //  0;245;255
-    ColorNames::nameMap[   turquoise2               ] = "turquoise2"            ;   // 0xFF00E5EE   //  0;229;238
-    ColorNames::nameMap[   turquoise3               ] = "turquoise3"            ;   // 0xFF00C5CD   //  0;197;205
-    ColorNames::nameMap[   turquoise4               ] = "turquoise4"            ;   // 0xFF00868B   //  0;134;139
-    ColorNames::nameMap[   darkslategray            ] = "darkslategray"         ;   // 0xFF2F4F4F   //  47;79;79
-    ColorNames::nameMap[   darkslategray1           ] = "darkslategray1"        ;   // 0xFF97FFFF   //  151;255;255
-    ColorNames::nameMap[   darkslategray2           ] = "darkslategray2"        ;   // 0xFF8DEEEE   //  141;238;238
-    ColorNames::nameMap[   darkslategray3           ] = "darkslategray3"        ;   // 0xFF79CDCD   //  121;205;205
-    ColorNames::nameMap[   darkslategray4           ] = "darkslategray4"        ;   // 0xFF528B8B   //  82;139;139
+    ColorNames::nameMap[   aliceblue                ] = L"aliceblue"             ;   // 0xFFF0F8FF   //  240;248;255
+    ColorNames::nameMap[   blueviolet               ] = L"blueviolet"            ;   // 0xFF8A2BE2   //  138;43;226
+    ColorNames::nameMap[   cadetblue                ] = L"cadetblue"             ;   // 0xFF5F9EA0   //  95;158;160
+    ColorNames::nameMap[   cadetblue1               ] = L"cadetblue1"            ;   // 0xFF98F5FF   //  152;245;255
+    ColorNames::nameMap[   cadetblue2               ] = L"cadetblue2"            ;   // 0xFF8EE5EE   //  142;229;238
+    ColorNames::nameMap[   cadetblue3               ] = L"cadetblue3"            ;   // 0xFF7AC5CD   //  122;197;205
+    ColorNames::nameMap[   cadetblue4               ] = L"cadetblue4"            ;   // 0xFF53868B   //  83;134;139
+    ColorNames::nameMap[   cornflowerblue           ] = L"cornflowerblue"        ;   // 0xFF6495ED   //  100;149;237
+    ColorNames::nameMap[   darkslateblue            ] = L"darkslateblue"         ;   // 0xFF483D8B   //  72;61;139
+    ColorNames::nameMap[   darkturquoise            ] = L"darkturquoise"         ;   // 0xFF00CED1   //  0;206;209
+    ColorNames::nameMap[   deepskyblue              ] = L"deepskyblue"           ;   // 0xFF00BFFF   //  0;191;255
+    ColorNames::nameMap[   deepskyblue1             ] = L"deepskyblue1"          ;   // 0xFF00BFFF   //  0;191;255
+    ColorNames::nameMap[   deepskyblue2             ] = L"deepskyblue2"          ;   // 0xFF00B2EE   //  0;178;238
+    ColorNames::nameMap[   deepskyblue3             ] = L"deepskyblue3"          ;   // 0xFF009ACD   //  0;154;205
+    ColorNames::nameMap[   deepskyblue4             ] = L"deepskyblue4"          ;   // 0xFF00688B   //  0;104;139
+    ColorNames::nameMap[   dodgerblue               ] = L"dodgerblue"            ;   // 0xFF1E90FF   //  30;144;255
+    ColorNames::nameMap[   dodgerblue1              ] = L"dodgerblue1"           ;   // 0xFF1E90FF   //  30;144;255
+    ColorNames::nameMap[   dodgerblue2              ] = L"dodgerblue2"           ;   // 0xFF1C86EE   //  28;134;238
+    ColorNames::nameMap[   dodgerblue3              ] = L"dodgerblue3"           ;   // 0xFF1874CD   //  24;116;205
+    ColorNames::nameMap[   dodgerblue4              ] = L"dodgerblue4"           ;   // 0xFF104E8B   //  16;78;139
+    ColorNames::nameMap[   lightblue                ] = L"lightblue"             ;   // 0xFFADD8E6   //  173;216;230
+    ColorNames::nameMap[   lightblue1               ] = L"lightblue1"            ;   // 0xFFBFEFFF   //  191;239;255
+    ColorNames::nameMap[   lightblue2               ] = L"lightblue2"            ;   // 0xFFB2DFEE   //  178;223;238
+    ColorNames::nameMap[   lightblue3               ] = L"lightblue3"            ;   // 0xFF9AC0CD   //  154;192;205
+    ColorNames::nameMap[   lightblue4               ] = L"lightblue4"            ;   // 0xFF68838B   //  104;131;139
+    ColorNames::nameMap[   lightcyan                ] = L"lightcyan"             ;   // 0xFFE0FFFF   //  224;255;255
+    ColorNames::nameMap[   lightcyan1               ] = L"lightcyan1"            ;   // 0xFFE0FFFF   //  224;255;255
+    ColorNames::nameMap[   lightcyan2               ] = L"lightcyan2"            ;   // 0xFFD1EEEE   //  209;238;238
+    ColorNames::nameMap[   lightcyan3               ] = L"lightcyan3"            ;   // 0xFFB4CDCD   //  180;205;205
+    ColorNames::nameMap[   lightcyan4               ] = L"lightcyan4"            ;   // 0xFF7A8B8B   //  122;139;139
+    ColorNames::nameMap[   lightskyblue             ] = L"lightskyblue"          ;   // 0xFF87CEFA   //  135;206;250
+    ColorNames::nameMap[   lightskyblue1            ] = L"lightskyblue1"         ;   // 0xFFB0E2FF   //  176;226;255
+    ColorNames::nameMap[   lightskyblue2            ] = L"lightskyblue2"         ;   // 0xFFA4D3EE   //  164;211;238
+    ColorNames::nameMap[   lightskyblue3            ] = L"lightskyblue3"         ;   // 0xFF8DB6CD   //  141;182;205
+    ColorNames::nameMap[   lightskyblue4            ] = L"lightskyblue4"         ;   // 0xFF607B8B   //  96;123;139
+    ColorNames::nameMap[   lightslateblue           ] = L"lightslateblue"        ;   // 0xFF8470FF   //  132;112;255
+    ColorNames::nameMap[   lightsteelblue           ] = L"lightsteelblue"        ;   // 0xFFB0C4DE   //  176;196;222
+    ColorNames::nameMap[   lightsteelblue1          ] = L"lightsteelblue1"       ;   // 0xFFCAE1FF   //  202;225;255
+    ColorNames::nameMap[   lightsteelblue2          ] = L"lightsteelblue2"       ;   // 0xFFBCD2EE   //  188;210;238
+    ColorNames::nameMap[   lightsteelblue3          ] = L"lightsteelblue3"       ;   // 0xFFA2B5CD   //  162;181;205
+    ColorNames::nameMap[   lightsteelblue4          ] = L"lightsteelblue4"       ;   // 0xFF6E7B8B   //  110;123;139
+    ColorNames::nameMap[   mediumaquamarine         ] = L"mediumaquamarine"      ;   // 0xFF66CDAA   //  102;205;170
+    ColorNames::nameMap[   mediumblue               ] = L"mediumblue"            ;   // 0xFF0000CD   //  0;0;205
+    ColorNames::nameMap[   mediumslateblue          ] = L"mediumslateblue"       ;   // 0xFF7B68EE   //  123;104;238
+    ColorNames::nameMap[   mediumturquoise          ] = L"mediumturquoise"       ;   // 0xFF48D1CC   //  72;209;204
+    ColorNames::nameMap[   midnightblue             ] = L"midnightblue"          ;   // 0xFF191970   //  25;25;112
+    ColorNames::nameMap[   navyblue                 ] = L"navyblue"              ;   // 0xFF000080   //  0;0;128
+    ColorNames::nameMap[   paleturquoise            ] = L"paleturquoise"         ;   // 0xFFAFEEEE   //  175;238;238
+    ColorNames::nameMap[   paleturquoise1           ] = L"paleturquoise1"        ;   // 0xFFBBFFFF   //  187;255;255
+    ColorNames::nameMap[   paleturquoise2           ] = L"paleturquoise2"        ;   // 0xFFAEEEEE   //  174;238;238
+    ColorNames::nameMap[   paleturquoise3           ] = L"paleturquoise3"        ;   // 0xFF96CDCD   //  150;205;205
+    ColorNames::nameMap[   paleturquoise4           ] = L"paleturquoise4"        ;   // 0xFF668B8B   //  102;139;139
+    ColorNames::nameMap[   powderblue               ] = L"powderblue"            ;   // 0xFFB0E0E6   //  176;224;230
+    ColorNames::nameMap[   royalblue                ] = L"royalblue"             ;   // 0xFF4169E1   //  65;105;225
+    ColorNames::nameMap[   royalblue1               ] = L"royalblue1"            ;   // 0xFF4876FF   //  72;118;255
+    ColorNames::nameMap[   royalblue2               ] = L"royalblue2"            ;   // 0xFF436EEE   //  67;110;238
+    ColorNames::nameMap[   royalblue3               ] = L"royalblue3"            ;   // 0xFF3A5FCD   //  58;95;205
+    ColorNames::nameMap[   royalblue4               ] = L"royalblue4"            ;   // 0xFF27408B   //  39;64;139
+    ColorNames::nameMap[   royalblue5               ] = L"royalblue5"            ;   // 0xFF002266   //  00;34;102
+    ColorNames::nameMap[   skyblue                  ] = L"skyblue"               ;   // 0xFF87CEEB   //  135;206;235
+    ColorNames::nameMap[   skyblue1                 ] = L"skyblue1"              ;   // 0xFF87CEFF   //  135;206;255
+    ColorNames::nameMap[   skyblue2                 ] = L"skyblue2"              ;   // 0xFF7EC0EE   //  126;192;238
+    ColorNames::nameMap[   skyblue3                 ] = L"skyblue3"              ;   // 0xFF6CA6CD   //  108;166;205
+    ColorNames::nameMap[   skyblue4                 ] = L"skyblue4"              ;   // 0xFF4A708B   //  74;112;139
+    ColorNames::nameMap[   slateblue                ] = L"slateblue"             ;   // 0xFF6A5ACD   //  106;90;205
+    ColorNames::nameMap[   slateblue1               ] = L"slateblue1"            ;   // 0xFF836FFF   //  131;111;255
+    ColorNames::nameMap[   slateblue2               ] = L"slateblue2"            ;   // 0xFF7A67EE   //  122;103;238
+    ColorNames::nameMap[   slateblue3               ] = L"slateblue3"            ;   // 0xFF6959CD   //  105;89;205
+    ColorNames::nameMap[   slateblue4               ] = L"slateblue4"            ;   // 0xFF473C8B   //  71;60;139
+    ColorNames::nameMap[   steelblue                ] = L"steelblue"             ;   // 0xFF4682B4   //  70;130;180
+    ColorNames::nameMap[   steelblue1               ] = L"steelblue1"            ;   // 0xFF63B8FF   //  99;184;255
+    ColorNames::nameMap[   steelblue2               ] = L"steelblue2"            ;   // 0xFF5CACEE   //  92;172;238
+    ColorNames::nameMap[   steelblue3               ] = L"steelblue3"            ;   // 0xFF4F94CD   //  79;148;205
+    ColorNames::nameMap[   steelblue4               ] = L"steelblue4"            ;   // 0xFF36648B   //  54;100;139
+    ColorNames::nameMap[   aquamarine               ] = L"aquamarine"            ;   // 0xFF7FFFD4   //  127;255;212
+    ColorNames::nameMap[   aquamarine1              ] = L"aquamarine1"           ;   // 0xFF7FFFD4   //  127;255;212
+    ColorNames::nameMap[   aquamarine2              ] = L"aquamarine2"           ;   // 0xFF76EEC6   //  118;238;198
+    ColorNames::nameMap[   aquamarine3              ] = L"aquamarine3"           ;   // 0xFF66CDAA   //  102;205;170
+    ColorNames::nameMap[   aquamarine4              ] = L"aquamarine4"           ;   // 0xFF458B74   //  69;139;116
+    ColorNames::nameMap[   azure                    ] = L"azure"                 ;   // 0xFFF0FFFF   //  240;255;255
+    ColorNames::nameMap[   azure1                   ] = L"azure1"                ;   // 0xFFF0FFFF   //  240;255;255
+    ColorNames::nameMap[   azure2                   ] = L"azure2"                ;   // 0xFFE0EEEE   //  224;238;238
+    ColorNames::nameMap[   azure3                   ] = L"azure3"                ;   // 0xFFC1CDCD   //  193;205;205
+    ColorNames::nameMap[   azure4                   ] = L"azure4"                ;   // 0xFF838B8B   //  131;139;139
+    ColorNames::nameMap[   blue                     ] = L"blue"                  ;   // 0xFF0000FF   //  0;0;255
+    ColorNames::nameMap[   blue1                    ] = L"blue1"                 ;   // 0xFF0000FF   //  0;0;255
+    ColorNames::nameMap[   blue2                    ] = L"blue2"                 ;   // 0xFF0000EE   //  0;0;238
+    ColorNames::nameMap[   blue3                    ] = L"blue3"                 ;   // 0xFF0000CD   //  0;0;205
+    ColorNames::nameMap[   blue4                    ] = L"blue4"                 ;   // 0xFF00008B   //  0;0;139
+    ColorNames::nameMap[   cyan                     ] = L"cyan"                  ;   // 0xFF00FFFF   //  0;255;255
+    ColorNames::nameMap[   cyan1                    ] = L"cyan1"                 ;   // 0xFF00FFFF   //  0;255;255
+    ColorNames::nameMap[   cyan2                    ] = L"cyan2"                 ;   // 0xFF00EEEE   //  0;238;238
+    ColorNames::nameMap[   cyan3                    ] = L"cyan3"                 ;   // 0xFF00CDCD   //  0;205;205
+    ColorNames::nameMap[   cyan4                    ] = L"cyan4"                 ;   // 0xFF008B8B   //  0;139;139
+    ColorNames::nameMap[   navy                     ] = L"navy"                  ;   // 0xFF000080   //  0;0;128
+    ColorNames::nameMap[   turquoise                ] = L"turquoise"             ;   // 0xFF40E0D0   //  64;224;208
+    ColorNames::nameMap[   turquoise1               ] = L"turquoise1"            ;   // 0xFF00F5FF   //  0;245;255
+    ColorNames::nameMap[   turquoise2               ] = L"turquoise2"            ;   // 0xFF00E5EE   //  0;229;238
+    ColorNames::nameMap[   turquoise3               ] = L"turquoise3"            ;   // 0xFF00C5CD   //  0;197;205
+    ColorNames::nameMap[   turquoise4               ] = L"turquoise4"            ;   // 0xFF00868B   //  0;134;139
+    ColorNames::nameMap[   darkslategray            ] = L"darkslategray"         ;   // 0xFF2F4F4F   //  47;79;79
+    ColorNames::nameMap[   darkslategray1           ] = L"darkslategray1"        ;   // 0xFF97FFFF   //  151;255;255
+    ColorNames::nameMap[   darkslategray2           ] = L"darkslategray2"        ;   // 0xFF8DEEEE   //  141;238;238
+    ColorNames::nameMap[   darkslategray3           ] = L"darkslategray3"        ;   // 0xFF79CDCD   //  121;205;205
+    ColorNames::nameMap[   darkslategray4           ] = L"darkslategray4"        ;   // 0xFF528B8B   //  82;139;139
 
     //shades of brown
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   rosybrown                ] = "rosybrown"             ;   // 0xFFBC8F8F   //  188;143;143
-    ColorNames::nameMap[   rosybrown1               ] = "rosybrown1"            ;   // 0xFFFFC1C1   //  255;193;193
-    ColorNames::nameMap[   rosybrown2               ] = "rosybrown2"            ;   // 0xFFEEB4B4   //  238;180;180
-    ColorNames::nameMap[   rosybrown3               ] = "rosybrown3"            ;   // 0xFFCD9B9B   //  205;155;155
-    ColorNames::nameMap[   rosybrown4               ] = "rosybrown4"            ;   // 0xFF8B6969   //  139;105;105
-    ColorNames::nameMap[   saddlebrown              ] = "saddlebrown"           ;   // 0xFF8B4513   //  139;69;19
-    ColorNames::nameMap[   sandybrown               ] = "sandybrown"            ;   // 0xFFF4A460   //  244;164;96
-    ColorNames::nameMap[   beige                    ] = "beige"                 ;   // 0xFFF5F5DC   //  245;245;220
-    ColorNames::nameMap[   brown                    ] = "brown"                 ;   // 0xFFA52A2A   //  165;42;42
-    ColorNames::nameMap[   brown1                   ] = "brown1"                ;   // 0xFFFF4040   //  255;64;64
-    ColorNames::nameMap[   brown2                   ] = "brown2"                ;   // 0xFFEE3B3B   //  238;59;59
-    ColorNames::nameMap[   brown3                   ] = "brown3"                ;   // 0xFFCD3333   //  205;51;51
-    ColorNames::nameMap[   brown4                   ] = "brown4"                ;   // 0xFF8B2323   //  139;35;35
-    ColorNames::nameMap[   burlywood                ] = "burlywood"             ;   // 0xFFDEB887   //  222;184;135
-    ColorNames::nameMap[   burlywood1               ] = "burlywood1"            ;   // 0xFFFFD39B   //  255;211;155
-    ColorNames::nameMap[   burlywood2               ] = "burlywood2"            ;   // 0xFFEEC591   //  238;197;145
-    ColorNames::nameMap[   burlywood3               ] = "burlywood3"            ;   // 0xFFCDAA7D   //  205;170;125
-    ColorNames::nameMap[   burlywood4               ] = "burlywood4"            ;   // 0xFF8B7355   //  139;115;85
-    ColorNames::nameMap[   chocolate                ] = "chocolate"             ;   // 0xFFD2691E   //  210;105;30
-    ColorNames::nameMap[   chocolate1               ] = "chocolate1"            ;   // 0xFFFF7F24   //  255;127;36
-    ColorNames::nameMap[   chocolate2               ] = "chocolate2"            ;   // 0xFFEE7621   //  238;118;33
-    ColorNames::nameMap[   chocolate3               ] = "chocolate3"            ;   // 0xFFCD661D   //  205;102;29
-    ColorNames::nameMap[   chocolate4               ] = "chocolate4"            ;   // 0xFF8B4513   //  139;69;19
-    ColorNames::nameMap[   peru                     ] = "peru"                  ;   // 0xFFCD853F   //  205;133;63
-    ColorNames::nameMap[   tan                      ] = "tan"                   ;   // 0xFFD2B48C   //  210;180;140
-    ColorNames::nameMap[   tan1                     ] = "tan1"                  ;   // 0xFFFFA54F   //  255;165;79
-    ColorNames::nameMap[   tan2                     ] = "tan2"                  ;   // 0xFFEE9A49   //  238;154;73
-    ColorNames::nameMap[   tan3                     ] = "tan3"                  ;   // 0xFFCD853F   //  205;133;63
-    ColorNames::nameMap[   tan4                     ] = "tan4"                  ;   // 0xFF8B5A2B   //  139;90;43
+    ColorNames::nameMap[   rosybrown                ] = L"rosybrown"             ;   // 0xFFBC8F8F   //  188;143;143
+    ColorNames::nameMap[   rosybrown1               ] = L"rosybrown1"            ;   // 0xFFFFC1C1   //  255;193;193
+    ColorNames::nameMap[   rosybrown2               ] = L"rosybrown2"            ;   // 0xFFEEB4B4   //  238;180;180
+    ColorNames::nameMap[   rosybrown3               ] = L"rosybrown3"            ;   // 0xFFCD9B9B   //  205;155;155
+    ColorNames::nameMap[   rosybrown4               ] = L"rosybrown4"            ;   // 0xFF8B6969   //  139;105;105
+    ColorNames::nameMap[   saddlebrown              ] = L"saddlebrown"           ;   // 0xFF8B4513   //  139;69;19
+    ColorNames::nameMap[   sandybrown               ] = L"sandybrown"            ;   // 0xFFF4A460   //  244;164;96
+    ColorNames::nameMap[   beige                    ] = L"beige"                 ;   // 0xFFF5F5DC   //  245;245;220
+    ColorNames::nameMap[   brown                    ] = L"brown"                 ;   // 0xFFA52A2A   //  165;42;42
+    ColorNames::nameMap[   brown1                   ] = L"brown1"                ;   // 0xFFFF4040   //  255;64;64
+    ColorNames::nameMap[   brown2                   ] = L"brown2"                ;   // 0xFFEE3B3B   //  238;59;59
+    ColorNames::nameMap[   brown3                   ] = L"brown3"                ;   // 0xFFCD3333   //  205;51;51
+    ColorNames::nameMap[   brown4                   ] = L"brown4"                ;   // 0xFF8B2323   //  139;35;35
+    ColorNames::nameMap[   burlywood                ] = L"burlywood"             ;   // 0xFFDEB887   //  222;184;135
+    ColorNames::nameMap[   burlywood1               ] = L"burlywood1"            ;   // 0xFFFFD39B   //  255;211;155
+    ColorNames::nameMap[   burlywood2               ] = L"burlywood2"            ;   // 0xFFEEC591   //  238;197;145
+    ColorNames::nameMap[   burlywood3               ] = L"burlywood3"            ;   // 0xFFCDAA7D   //  205;170;125
+    ColorNames::nameMap[   burlywood4               ] = L"burlywood4"            ;   // 0xFF8B7355   //  139;115;85
+    ColorNames::nameMap[   chocolate                ] = L"chocolate"             ;   // 0xFFD2691E   //  210;105;30
+    ColorNames::nameMap[   chocolate1               ] = L"chocolate1"            ;   // 0xFFFF7F24   //  255;127;36
+    ColorNames::nameMap[   chocolate2               ] = L"chocolate2"            ;   // 0xFFEE7621   //  238;118;33
+    ColorNames::nameMap[   chocolate3               ] = L"chocolate3"            ;   // 0xFFCD661D   //  205;102;29
+    ColorNames::nameMap[   chocolate4               ] = L"chocolate4"            ;   // 0xFF8B4513   //  139;69;19
+    ColorNames::nameMap[   peru                     ] = L"peru"                  ;   // 0xFFCD853F   //  205;133;63
+    ColorNames::nameMap[   tan                      ] = L"tan"                   ;   // 0xFFD2B48C   //  210;180;140
+    ColorNames::nameMap[   tan1                     ] = L"tan1"                  ;   // 0xFFFFA54F   //  255;165;79
+    ColorNames::nameMap[   tan2                     ] = L"tan2"                  ;   // 0xFFEE9A49   //  238;154;73
+    ColorNames::nameMap[   tan3                     ] = L"tan3"                  ;   // 0xFFCD853F   //  205;133;63
+    ColorNames::nameMap[   tan4                     ] = L"tan4"                  ;   // 0xFF8B5A2B   //  139;90;43
 
     //shades of green
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   darkgreen                ] = "darkgreen"             ;   // 0xFF006400   //  0;100;0
-    ColorNames::nameMap[   darkkhaki                ] = "darkkhaki"             ;   // 0xFFBDB76B   //  189;183;107
-    ColorNames::nameMap[   darkolivegreen           ] = "darkolivegreen"        ;   // 0xFF556B2F   //  85;107;47
-    ColorNames::nameMap[   darkolivegreen1          ] = "darkolivegreen1"       ;   // 0xFFCAFF70   //  202;255;112
-    ColorNames::nameMap[   darkolivegreen2          ] = "darkolivegreen2"       ;   // 0xFFBCEE68   //  188;238;104
-    ColorNames::nameMap[   darkolivegreen3          ] = "darkolivegreen3"       ;   // 0xFFA2CD5A   //  162;205;90
-    ColorNames::nameMap[   darkolivegreen4          ] = "darkolivegreen4"       ;   // 0xFF6E8B3D   //  110;139;61
-    ColorNames::nameMap[   darkseagreen             ] = "darkseagreen"          ;   // 0xFF8FBC8F   //  143;188;143
-    ColorNames::nameMap[   darkseagreen1            ] = "darkseagreen1"         ;   // 0xFFC1FFC1   //  193;255;193
-    ColorNames::nameMap[   darkseagreen2            ] = "darkseagreen2"         ;   // 0xFFB4EEB4   //  180;238;180
-    ColorNames::nameMap[   darkseagreen3            ] = "darkseagreen3"         ;   // 0xFF9BCD9B   //  155;205;155
-    ColorNames::nameMap[   darkseagreen4            ] = "darkseagreen4"         ;   // 0xFF698B69   //  105;139;105
-    ColorNames::nameMap[   forestgreen              ] = "forestgreen"           ;   // 0xFF228B22   //  34;139;34
-    ColorNames::nameMap[   greenyellow              ] = "greenyellow"           ;   // 0xFFADFF2F   //  173;255;47
-    ColorNames::nameMap[   lawngreen                ] = "lawngreen"             ;   // 0xFF7CFC00   //  124;252;0
-    ColorNames::nameMap[   lightseagreen            ] = "lightseagreen"         ;   // 0xFF20B2AA   //  32;178;170
-    ColorNames::nameMap[   limegreen                ] = "limegreen"             ;   // 0xFF32CD32   //  50;205;50
-    ColorNames::nameMap[   mediumseagreen           ] = "mediumseagreen"        ;   // 0xFF3CB371   //  60;179;113
-    ColorNames::nameMap[   mediumspringgreen        ] = "mediumspringgreen"     ;   // 0xFF00FA9A   //  0;250;154
-    ColorNames::nameMap[   mintcream                ] = "mintcream"             ;   // 0xFFF5FFFA   //  245;255;250
-    ColorNames::nameMap[   olivedrab                ] = "olivedrab"             ;   // 0xFF6B8E23   //  107;142;35
-    ColorNames::nameMap[   olivedrab1               ] = "olivedrab1"            ;   // 0xFFC0FF3E   //  192;255;62
-    ColorNames::nameMap[   olivedrab2               ] = "olivedrab2"            ;   // 0xFFB3EE3A   //  179;238;58
-    ColorNames::nameMap[   olivedrab3               ] = "olivedrab3"            ;   // 0xFF9ACD32   //  154;205;50
-    ColorNames::nameMap[   olivedrab4               ] = "olivedrab4"            ;   // 0xFF698B22   //  105;139;34
-    ColorNames::nameMap[   palegreen                ] = "palegreen"             ;   // 0xFF98FB98   //  152;251;152
-    ColorNames::nameMap[   palegreen1               ] = "palegreen1"            ;   // 0xFF9AFF9A   //  154;255;154
-    ColorNames::nameMap[   palegreen2               ] = "palegreen2"            ;   // 0xFF90EE90   //  144;238;144
-    ColorNames::nameMap[   palegreen3               ] = "palegreen3"            ;   // 0xFF7CCD7C   //  124;205;124
-    ColorNames::nameMap[   palegreen4               ] = "palegreen4"            ;   // 0xFF548B54   //  84;139;84
-    ColorNames::nameMap[   seagreen                 ] = "seagreen"              ;   // 0xFF2E8B57   //  46;139;87
-    ColorNames::nameMap[   seagreen1                ] = "seagreen1"             ;   // 0xFF54FF9F   //  84;255;159
-    ColorNames::nameMap[   seagreen2                ] = "seagreen2"             ;   // 0xFF4EEE94   //  78;238;148
-    ColorNames::nameMap[   seagreen3                ] = "seagreen3"             ;   // 0xFF43CD80   //  67;205;128
-    ColorNames::nameMap[   seagreen4                ] = "seagreen4"             ;   // 0xFF2E8B57   //  46;139;87
-    ColorNames::nameMap[   springgreen              ] = "springgreen"           ;   // 0xFF00FF7F   //  0;255;127
-    ColorNames::nameMap[   springgreen1             ] = "springgreen1"          ;   // 0xFF00FF7F   //  0;255;127
-    ColorNames::nameMap[   springgreen2             ] = "springgreen2"          ;   // 0xFF00EE76   //  0;238;118
-    ColorNames::nameMap[   springgreen3             ] = "springgreen3"          ;   // 0xFF00CD66   //  0;205;102
-    ColorNames::nameMap[   springgreen4             ] = "springgreen4"          ;   // 0xFF008B45   //  0;139;69
-    ColorNames::nameMap[   yellowgreen              ] = "yellowgreen"           ;   // 0xFF9ACD32   //  154;205;50
-    ColorNames::nameMap[   chartreuse               ] = "chartreuse"            ;   // 0xFF7FFF00   //  127;255;0
-    ColorNames::nameMap[   chartreuse1              ] = "chartreuse1"           ;   // 0xFF7FFF00   //  127;255;0
-    ColorNames::nameMap[   chartreuse2              ] = "chartreuse2"           ;   // 0xFF76EE00   //  118;238;0
-    ColorNames::nameMap[   chartreuse3              ] = "chartreuse3"           ;   // 0xFF66CD00   //  102;205;0
-    ColorNames::nameMap[   chartreuse4              ] = "chartreuse4"           ;   // 0xFF458B00   //  69;139;0
-    ColorNames::nameMap[   green                    ] = "green"                 ;   // 0xFF00FF00   //  0;255;0
-    ColorNames::nameMap[   green1                   ] = "green1"                ;   // 0xFF00FF00   //  0;255;0
-    ColorNames::nameMap[   green2                   ] = "green2"                ;   // 0xFF00EE00   //  0;238;0
-    ColorNames::nameMap[   green3                   ] = "green3"                ;   // 0xFF00CD00   //  0;205;0
-    ColorNames::nameMap[   green4                   ] = "green4"                ;   // 0xFF008B00   //  0;139;0
-    ColorNames::nameMap[   khaki                    ] = "khaki"                 ;   // 0xFFF0E68C   //  240;230;140
-    ColorNames::nameMap[   khaki1                   ] = "khaki1"                ;   // 0xFFFFF68F   //  255;246;143
-    ColorNames::nameMap[   khaki2                   ] = "khaki2"                ;   // 0xFFEEE685   //  238;230;133
-    ColorNames::nameMap[   khaki3                   ] = "khaki3"                ;   // 0xFFCDC673   //  205;198;115
-    ColorNames::nameMap[   khaki4                   ] = "khaki4"                ;   // 0xFF8B864E   //  139;134;78
+    ColorNames::nameMap[   darkgreen                ] = L"darkgreen"             ;   // 0xFF006400   //  0;100;0
+    ColorNames::nameMap[   darkkhaki                ] = L"darkkhaki"             ;   // 0xFFBDB76B   //  189;183;107
+    ColorNames::nameMap[   darkolivegreen           ] = L"darkolivegreen"        ;   // 0xFF556B2F   //  85;107;47
+    ColorNames::nameMap[   darkolivegreen1          ] = L"darkolivegreen1"       ;   // 0xFFCAFF70   //  202;255;112
+    ColorNames::nameMap[   darkolivegreen2          ] = L"darkolivegreen2"       ;   // 0xFFBCEE68   //  188;238;104
+    ColorNames::nameMap[   darkolivegreen3          ] = L"darkolivegreen3"       ;   // 0xFFA2CD5A   //  162;205;90
+    ColorNames::nameMap[   darkolivegreen4          ] = L"darkolivegreen4"       ;   // 0xFF6E8B3D   //  110;139;61
+    ColorNames::nameMap[   darkseagreen             ] = L"darkseagreen"          ;   // 0xFF8FBC8F   //  143;188;143
+    ColorNames::nameMap[   darkseagreen1            ] = L"darkseagreen1"         ;   // 0xFFC1FFC1   //  193;255;193
+    ColorNames::nameMap[   darkseagreen2            ] = L"darkseagreen2"         ;   // 0xFFB4EEB4   //  180;238;180
+    ColorNames::nameMap[   darkseagreen3            ] = L"darkseagreen3"         ;   // 0xFF9BCD9B   //  155;205;155
+    ColorNames::nameMap[   darkseagreen4            ] = L"darkseagreen4"         ;   // 0xFF698B69   //  105;139;105
+    ColorNames::nameMap[   forestgreen              ] = L"forestgreen"           ;   // 0xFF228B22   //  34;139;34
+    ColorNames::nameMap[   greenyellow              ] = L"greenyellow"           ;   // 0xFFADFF2F   //  173;255;47
+    ColorNames::nameMap[   lawngreen                ] = L"lawngreen"             ;   // 0xFF7CFC00   //  124;252;0
+    ColorNames::nameMap[   lightseagreen            ] = L"lightseagreen"         ;   // 0xFF20B2AA   //  32;178;170
+    ColorNames::nameMap[   limegreen                ] = L"limegreen"             ;   // 0xFF32CD32   //  50;205;50
+    ColorNames::nameMap[   mediumseagreen           ] = L"mediumseagreen"        ;   // 0xFF3CB371   //  60;179;113
+    ColorNames::nameMap[   mediumspringgreen        ] = L"mediumspringgreen"     ;   // 0xFF00FA9A   //  0;250;154
+    ColorNames::nameMap[   mintcream                ] = L"mintcream"             ;   // 0xFFF5FFFA   //  245;255;250
+    ColorNames::nameMap[   olivedrab                ] = L"olivedrab"             ;   // 0xFF6B8E23   //  107;142;35
+    ColorNames::nameMap[   olivedrab1               ] = L"olivedrab1"            ;   // 0xFFC0FF3E   //  192;255;62
+    ColorNames::nameMap[   olivedrab2               ] = L"olivedrab2"            ;   // 0xFFB3EE3A   //  179;238;58
+    ColorNames::nameMap[   olivedrab3               ] = L"olivedrab3"            ;   // 0xFF9ACD32   //  154;205;50
+    ColorNames::nameMap[   olivedrab4               ] = L"olivedrab4"            ;   // 0xFF698B22   //  105;139;34
+    ColorNames::nameMap[   palegreen                ] = L"palegreen"             ;   // 0xFF98FB98   //  152;251;152
+    ColorNames::nameMap[   palegreen1               ] = L"palegreen1"            ;   // 0xFF9AFF9A   //  154;255;154
+    ColorNames::nameMap[   palegreen2               ] = L"palegreen2"            ;   // 0xFF90EE90   //  144;238;144
+    ColorNames::nameMap[   palegreen3               ] = L"palegreen3"            ;   // 0xFF7CCD7C   //  124;205;124
+    ColorNames::nameMap[   palegreen4               ] = L"palegreen4"            ;   // 0xFF548B54   //  84;139;84
+    ColorNames::nameMap[   seagreen                 ] = L"seagreen"              ;   // 0xFF2E8B57   //  46;139;87
+    ColorNames::nameMap[   seagreen1                ] = L"seagreen1"             ;   // 0xFF54FF9F   //  84;255;159
+    ColorNames::nameMap[   seagreen2                ] = L"seagreen2"             ;   // 0xFF4EEE94   //  78;238;148
+    ColorNames::nameMap[   seagreen3                ] = L"seagreen3"             ;   // 0xFF43CD80   //  67;205;128
+    ColorNames::nameMap[   seagreen4                ] = L"seagreen4"             ;   // 0xFF2E8B57   //  46;139;87
+    ColorNames::nameMap[   springgreen              ] = L"springgreen"           ;   // 0xFF00FF7F   //  0;255;127
+    ColorNames::nameMap[   springgreen1             ] = L"springgreen1"          ;   // 0xFF00FF7F   //  0;255;127
+    ColorNames::nameMap[   springgreen2             ] = L"springgreen2"          ;   // 0xFF00EE76   //  0;238;118
+    ColorNames::nameMap[   springgreen3             ] = L"springgreen3"          ;   // 0xFF00CD66   //  0;205;102
+    ColorNames::nameMap[   springgreen4             ] = L"springgreen4"          ;   // 0xFF008B45   //  0;139;69
+    ColorNames::nameMap[   yellowgreen              ] = L"yellowgreen"           ;   // 0xFF9ACD32   //  154;205;50
+    ColorNames::nameMap[   chartreuse               ] = L"chartreuse"            ;   // 0xFF7FFF00   //  127;255;0
+    ColorNames::nameMap[   chartreuse1              ] = L"chartreuse1"           ;   // 0xFF7FFF00   //  127;255;0
+    ColorNames::nameMap[   chartreuse2              ] = L"chartreuse2"           ;   // 0xFF76EE00   //  118;238;0
+    ColorNames::nameMap[   chartreuse3              ] = L"chartreuse3"           ;   // 0xFF66CD00   //  102;205;0
+    ColorNames::nameMap[   chartreuse4              ] = L"chartreuse4"           ;   // 0xFF458B00   //  69;139;0
+    ColorNames::nameMap[   green                    ] = L"green"                 ;   // 0xFF00FF00   //  0;255;0
+    ColorNames::nameMap[   green1                   ] = L"green1"                ;   // 0xFF00FF00   //  0;255;0
+    ColorNames::nameMap[   green2                   ] = L"green2"                ;   // 0xFF00EE00   //  0;238;0
+    ColorNames::nameMap[   green3                   ] = L"green3"                ;   // 0xFF00CD00   //  0;205;0
+    ColorNames::nameMap[   green4                   ] = L"green4"                ;   // 0xFF008B00   //  0;139;0
+    ColorNames::nameMap[   khaki                    ] = L"khaki"                 ;   // 0xFFF0E68C   //  240;230;140
+    ColorNames::nameMap[   khaki1                   ] = L"khaki1"                ;   // 0xFFFFF68F   //  255;246;143
+    ColorNames::nameMap[   khaki2                   ] = L"khaki2"                ;   // 0xFFEEE685   //  238;230;133
+    ColorNames::nameMap[   khaki3                   ] = L"khaki3"                ;   // 0xFFCDC673   //  205;198;115
+    ColorNames::nameMap[   khaki4                   ] = L"khaki4"                ;   // 0xFF8B864E   //  139;134;78
 
     //shades of orange
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   darkorange               ] = "darkorange"            ;   // 0xFFFF8C00   //  255;140;0
-    ColorNames::nameMap[   darkorange1              ] = "darkorange1"           ;   // 0xFFFF7F00   //  255;127;0
-    ColorNames::nameMap[   darkorange2              ] = "darkorange2"           ;   // 0xFFEE7600   //  238;118;0
-    ColorNames::nameMap[   darkorange3              ] = "darkorange3"           ;   // 0xFFCD6600   //  205;102;0
-    ColorNames::nameMap[   darkorange4              ] = "darkorange4"           ;   // 0xFF8B4500   //  139;69;0
-    ColorNames::nameMap[   darksalmon               ] = "darksalmon"            ;   // 0xFFE9967A   //  233;150;122
-    ColorNames::nameMap[   lightcoral               ] = "lightcoral"            ;   // 0xFFF08080   //  240;128;128
-    ColorNames::nameMap[   lightsalmon              ] = "lightsalmon"           ;   // 0xFFFFA07A   //  255;160;122
-    ColorNames::nameMap[   lightsalmon1             ] = "lightsalmon1"          ;   // 0xFFFFA07A   //  255;160;122
-    ColorNames::nameMap[   lightsalmon2             ] = "lightsalmon2"          ;   // 0xFFEE9572   //  238;149;114
-    ColorNames::nameMap[   lightsalmon3             ] = "lightsalmon3"          ;   // 0xFFCD8162   //  205;129;98
-    ColorNames::nameMap[   lightsalmon4             ] = "lightsalmon4"          ;   // 0xFF8B5742   //  139;87;66
-    ColorNames::nameMap[   peachpuff                ] = "peachpuff"             ;   // 0xFFFFDAB9   //  255;218;185
-    ColorNames::nameMap[   peachpuff1               ] = "peachpuff1"            ;   // 0xFFFFDAB9   //  255;218;185
-    ColorNames::nameMap[   peachpuff2               ] = "peachpuff2"            ;   // 0xFFEECBAD   //  238;203;173
-    ColorNames::nameMap[   peachpuff3               ] = "peachpuff3"            ;   // 0xFFCDAF95   //  205;175;149
-    ColorNames::nameMap[   peachpuff4               ] = "peachpuff4"            ;   // 0xFF8B7765   //  139;119;101
-    ColorNames::nameMap[   bisque                   ] = "bisque"                ;   // 0xFFFFE4C4   //  255;228;196
-    ColorNames::nameMap[   bisque1                  ] = "bisque1"               ;   // 0xFFFFE4C4   //  255;228;196
-    ColorNames::nameMap[   bisque2                  ] = "bisque2"               ;   // 0xFFEED5B7   //  238;213;183
-    ColorNames::nameMap[   bisque3                  ] = "bisque3"               ;   // 0xFFCDB79E   //  205;183;158
-    ColorNames::nameMap[   bisque4                  ] = "bisque4"               ;   // 0xFF8B7D6B   //  139;125;107
-    ColorNames::nameMap[   coral                    ] = "coral"                 ;   // 0xFFFF7F50   //  255;127;80
-    ColorNames::nameMap[   coral1                   ] = "coral1"                ;   // 0xFFFF7256   //  255;114;86
-    ColorNames::nameMap[   coral2                   ] = "coral2"                ;   // 0xFFEE6A50   //  238;106;80
-    ColorNames::nameMap[   coral3                   ] = "coral3"                ;   // 0xFFCD5B45   //  205;91;69
-    ColorNames::nameMap[   coral4                   ] = "coral4"                ;   // 0xFF8B3E2F   //  139;62;47
-    ColorNames::nameMap[   honeydew                 ] = "honeydew"              ;   // 0xFFF0FFF0   //  240;255;240
-    ColorNames::nameMap[   honeydew1                ] = "honeydew1"             ;   // 0xFFF0FFF0   //  240;255;240
-    ColorNames::nameMap[   honeydew2                ] = "honeydew2"             ;   // 0xFFE0EEE0   //  224;238;224
-    ColorNames::nameMap[   honeydew3                ] = "honeydew3"             ;   // 0xFFC1CDC1   //  193;205;193
-    ColorNames::nameMap[   honeydew4                ] = "honeydew4"             ;   // 0xFF838B83   //  131;139;131
-    ColorNames::nameMap[   orange                   ] = "orange"                ;   // 0xFFFFA500   //  255;165;0
-    ColorNames::nameMap[   orange1                  ] = "orange1"               ;   // 0xFFFFA500   //  255;165;0
-    ColorNames::nameMap[   orange2                  ] = "orange2"               ;   // 0xFFEE9A00   //  238;154;0
-    ColorNames::nameMap[   orange3                  ] = "orange3"               ;   // 0xFFCD8500   //  205;133;0
-    ColorNames::nameMap[   orange4                  ] = "orange4"               ;   // 0xFF8B5A00   //  139;90;0
-    ColorNames::nameMap[   salmon                   ] = "salmon"                ;   // 0xFFFA8072   //  250;128;114
-    ColorNames::nameMap[   salmon1                  ] = "salmon1"               ;   // 0xFFFF8C69   //  255;140;105
-    ColorNames::nameMap[   salmon2                  ] = "salmon2"               ;   // 0xFFEE8262   //  238;130;98
-    ColorNames::nameMap[   salmon3                  ] = "salmon3"               ;   // 0xFFCD7054   //  205;112;84
-    ColorNames::nameMap[   salmon4                  ] = "salmon4"               ;   // 0xFF8B4C39   //  139;76;57
-    ColorNames::nameMap[   sienna                   ] = "sienna"                ;   // 0xFFA0522D   //  160;82;45
-    ColorNames::nameMap[   sienna1                  ] = "sienna1"               ;   // 0xFFFF8247   //  255;130;71
-    ColorNames::nameMap[   sienna2                  ] = "sienna2"               ;   // 0xFFEE7942   //  238;121;66
-    ColorNames::nameMap[   sienna3                  ] = "sienna3"               ;   // 0xFFCD6839   //  205;104;57
-    ColorNames::nameMap[   sienna4                  ] = "sienna4"               ;   // 0xFF8B4726   //  139;71;38
+    ColorNames::nameMap[   darkorange               ] = L"darkorange"            ;   // 0xFFFF8C00   //  255;140;0
+    ColorNames::nameMap[   darkorange1              ] = L"darkorange1"           ;   // 0xFFFF7F00   //  255;127;0
+    ColorNames::nameMap[   darkorange2              ] = L"darkorange2"           ;   // 0xFFEE7600   //  238;118;0
+    ColorNames::nameMap[   darkorange3              ] = L"darkorange3"           ;   // 0xFFCD6600   //  205;102;0
+    ColorNames::nameMap[   darkorange4              ] = L"darkorange4"           ;   // 0xFF8B4500   //  139;69;0
+    ColorNames::nameMap[   darksalmon               ] = L"darksalmon"            ;   // 0xFFE9967A   //  233;150;122
+    ColorNames::nameMap[   lightcoral               ] = L"lightcoral"            ;   // 0xFFF08080   //  240;128;128
+    ColorNames::nameMap[   lightsalmon              ] = L"lightsalmon"           ;   // 0xFFFFA07A   //  255;160;122
+    ColorNames::nameMap[   lightsalmon1             ] = L"lightsalmon1"          ;   // 0xFFFFA07A   //  255;160;122
+    ColorNames::nameMap[   lightsalmon2             ] = L"lightsalmon2"          ;   // 0xFFEE9572   //  238;149;114
+    ColorNames::nameMap[   lightsalmon3             ] = L"lightsalmon3"          ;   // 0xFFCD8162   //  205;129;98
+    ColorNames::nameMap[   lightsalmon4             ] = L"lightsalmon4"          ;   // 0xFF8B5742   //  139;87;66
+    ColorNames::nameMap[   peachpuff                ] = L"peachpuff"             ;   // 0xFFFFDAB9   //  255;218;185
+    ColorNames::nameMap[   peachpuff1               ] = L"peachpuff1"            ;   // 0xFFFFDAB9   //  255;218;185
+    ColorNames::nameMap[   peachpuff2               ] = L"peachpuff2"            ;   // 0xFFEECBAD   //  238;203;173
+    ColorNames::nameMap[   peachpuff3               ] = L"peachpuff3"            ;   // 0xFFCDAF95   //  205;175;149
+    ColorNames::nameMap[   peachpuff4               ] = L"peachpuff4"            ;   // 0xFF8B7765   //  139;119;101
+    ColorNames::nameMap[   bisque                   ] = L"bisque"                ;   // 0xFFFFE4C4   //  255;228;196
+    ColorNames::nameMap[   bisque1                  ] = L"bisque1"               ;   // 0xFFFFE4C4   //  255;228;196
+    ColorNames::nameMap[   bisque2                  ] = L"bisque2"               ;   // 0xFFEED5B7   //  238;213;183
+    ColorNames::nameMap[   bisque3                  ] = L"bisque3"               ;   // 0xFFCDB79E   //  205;183;158
+    ColorNames::nameMap[   bisque4                  ] = L"bisque4"               ;   // 0xFF8B7D6B   //  139;125;107
+    ColorNames::nameMap[   coral                    ] = L"coral"                 ;   // 0xFFFF7F50   //  255;127;80
+    ColorNames::nameMap[   coral1                   ] = L"coral1"                ;   // 0xFFFF7256   //  255;114;86
+    ColorNames::nameMap[   coral2                   ] = L"coral2"                ;   // 0xFFEE6A50   //  238;106;80
+    ColorNames::nameMap[   coral3                   ] = L"coral3"                ;   // 0xFFCD5B45   //  205;91;69
+    ColorNames::nameMap[   coral4                   ] = L"coral4"                ;   // 0xFF8B3E2F   //  139;62;47
+    ColorNames::nameMap[   honeydew                 ] = L"honeydew"              ;   // 0xFFF0FFF0   //  240;255;240
+    ColorNames::nameMap[   honeydew1                ] = L"honeydew1"             ;   // 0xFFF0FFF0   //  240;255;240
+    ColorNames::nameMap[   honeydew2                ] = L"honeydew2"             ;   // 0xFFE0EEE0   //  224;238;224
+    ColorNames::nameMap[   honeydew3                ] = L"honeydew3"             ;   // 0xFFC1CDC1   //  193;205;193
+    ColorNames::nameMap[   honeydew4                ] = L"honeydew4"             ;   // 0xFF838B83   //  131;139;131
+    ColorNames::nameMap[   orange                   ] = L"orange"                ;   // 0xFFFFA500   //  255;165;0
+    ColorNames::nameMap[   orange1                  ] = L"orange1"               ;   // 0xFFFFA500   //  255;165;0
+    ColorNames::nameMap[   orange2                  ] = L"orange2"               ;   // 0xFFEE9A00   //  238;154;0
+    ColorNames::nameMap[   orange3                  ] = L"orange3"               ;   // 0xFFCD8500   //  205;133;0
+    ColorNames::nameMap[   orange4                  ] = L"orange4"               ;   // 0xFF8B5A00   //  139;90;0
+    ColorNames::nameMap[   salmon                   ] = L"salmon"                ;   // 0xFFFA8072   //  250;128;114
+    ColorNames::nameMap[   salmon1                  ] = L"salmon1"               ;   // 0xFFFF8C69   //  255;140;105
+    ColorNames::nameMap[   salmon2                  ] = L"salmon2"               ;   // 0xFFEE8262   //  238;130;98
+    ColorNames::nameMap[   salmon3                  ] = L"salmon3"               ;   // 0xFFCD7054   //  205;112;84
+    ColorNames::nameMap[   salmon4                  ] = L"salmon4"               ;   // 0xFF8B4C39   //  139;76;57
+    ColorNames::nameMap[   sienna                   ] = L"sienna"                ;   // 0xFFA0522D   //  160;82;45
+    ColorNames::nameMap[   sienna1                  ] = L"sienna1"               ;   // 0xFFFF8247   //  255;130;71
+    ColorNames::nameMap[   sienna2                  ] = L"sienna2"               ;   // 0xFFEE7942   //  238;121;66
+    ColorNames::nameMap[   sienna3                  ] = L"sienna3"               ;   // 0xFFCD6839   //  205;104;57
+    ColorNames::nameMap[   sienna4                  ] = L"sienna4"               ;   // 0xFF8B4726   //  139;71;38
 
     //shades of red
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   deeppink                 ] = "deeppink"              ;   // 0xFFFF1493   //  255;20;147
-    ColorNames::nameMap[   deeppink1                ] = "deeppink1"             ;   // 0xFFFF1493   //  255;20;147
-    ColorNames::nameMap[   deeppink2                ] = "deeppink2"             ;   // 0xFFEE1289   //  238;18;137
-    ColorNames::nameMap[   deeppink3                ] = "deeppink3"             ;   // 0xFFCD1076   //  205;16;118
-    ColorNames::nameMap[   deeppink4                ] = "deeppink4"             ;   // 0xFF8B0A50   //  139;10;80
-    ColorNames::nameMap[   hotpink                  ] = "hotpink"               ;   // 0xFFFF69B4   //  255;105;180
-    ColorNames::nameMap[   hotpink1                 ] = "hotpink1"              ;   // 0xFFFF6EB4   //  255;110;180
-    ColorNames::nameMap[   hotpink2                 ] = "hotpink2"              ;   // 0xFFEE6AA7   //  238;106;167
-    ColorNames::nameMap[   hotpink3                 ] = "hotpink3"              ;   // 0xFFCD6090   //  205;96;144
-    ColorNames::nameMap[   hotpink4                 ] = "hotpink4"              ;   // 0xFF8B3A62   //  139;58;98
-    ColorNames::nameMap[   indianred                ] = "indianred"             ;   // 0xFFCD5C5C   //  205;92;92
-    ColorNames::nameMap[   indianred1               ] = "indianred1"            ;   // 0xFFFF6A6A   //  255;106;106
-    ColorNames::nameMap[   indianred2               ] = "indianred2"            ;   // 0xFFEE6363   //  238;99;99
-    ColorNames::nameMap[   indianred3               ] = "indianred3"            ;   // 0xFFCD5555   //  205;85;85
-    ColorNames::nameMap[   indianred4               ] = "indianred4"            ;   // 0xFF8B3A3A   //  139;58;58
-    ColorNames::nameMap[   lightpink                ] = "lightpink"             ;   // 0xFFFFB6C1   //  255;182;193
-    ColorNames::nameMap[   lightpink1               ] = "lightpink1"            ;   // 0xFFFFAEB9   //  255;174;185
-    ColorNames::nameMap[   lightpink2               ] = "lightpink2"            ;   // 0xFFEEA2AD   //  238;162;173
-    ColorNames::nameMap[   lightpink3               ] = "lightpink3"            ;   // 0xFFCD8C95   //  205;140;149
-    ColorNames::nameMap[   lightpink4               ] = "lightpink4"            ;   // 0xFF8B5F65   //  139;95;101
-    ColorNames::nameMap[   mediumvioletred          ] = "mediumvioletred"       ;   // 0xFFC71585   //  199;21;133
-    ColorNames::nameMap[   mistyrose                ] = "mistyrose"             ;   // 0xFFFFE4E1   //  255;228;225
-    ColorNames::nameMap[   mistyrose1               ] = "mistyrose1"            ;   // 0xFFFFE4E1   //  255;228;225
-    ColorNames::nameMap[   mistyrose2               ] = "mistyrose2"            ;   // 0xFFEED5D2   //  238;213;210
-    ColorNames::nameMap[   mistyrose3               ] = "mistyrose3"            ;   // 0xFFCDB7B5   //  205;183;181
-    ColorNames::nameMap[   mistyrose4               ] = "mistyrose4"            ;   // 0xFF8B7D7B   //  139;125;123
-    ColorNames::nameMap[   orangered                ] = "orangered"             ;   // 0xFFFF4500   //  255;69;0
-    ColorNames::nameMap[   orangered1               ] = "orangered1"            ;   // 0xFFFF4500   //  255;69;0
-    ColorNames::nameMap[   orangered2               ] = "orangered2"            ;   // 0xFFEE4000   //  238;64;0
-    ColorNames::nameMap[   orangered3               ] = "orangered3"            ;   // 0xFFCD3700   //  205;55;0
-    ColorNames::nameMap[   orangered4               ] = "orangered4"            ;   // 0xFF8B2500   //  139;37;0
-    ColorNames::nameMap[   palevioletred            ] = "palevioletred"         ;   // 0xFFDB7093   //  219;112;147
-    ColorNames::nameMap[   palevioletred1           ] = "palevioletred1"        ;   // 0xFFFF82AB   //  255;130;171
-    ColorNames::nameMap[   palevioletred2           ] = "palevioletred2"        ;   // 0xFFEE799F   //  238;121;159
-    ColorNames::nameMap[   palevioletred3           ] = "palevioletred3"        ;   // 0xFFCD6889   //  205;104;137
-    ColorNames::nameMap[   palevioletred4           ] = "palevioletred4"        ;   // 0xFF8B475D   //  139;71;93
-    ColorNames::nameMap[   violetred                ] = "violetred"             ;   // 0xFFD02090   //  208;32;144
-    ColorNames::nameMap[   violetred1               ] = "violetred1"            ;   // 0xFFFF3E96   //  255;62;150
-    ColorNames::nameMap[   violetred2               ] = "violetred2"            ;   // 0xFFEE3A8C   //  238;58;140
-    ColorNames::nameMap[   violetred3               ] = "violetred3"            ;   // 0xFFCD3278   //  205;50;120
-    ColorNames::nameMap[   violetred4               ] = "violetred4"            ;   // 0xFF8B2252   //  139;34;82
-    ColorNames::nameMap[   firebrick                ] = "firebrick"             ;   // 0xFFB22222   //  178;34;34
-    ColorNames::nameMap[   firebrick1               ] = "firebrick1"            ;   // 0xFFFF3030   //  255;48;48
-    ColorNames::nameMap[   firebrick2               ] = "firebrick2"            ;   // 0xFFEE2C2C   //  238;44;44
-    ColorNames::nameMap[   firebrick3               ] = "firebrick3"            ;   // 0xFFCD2626   //  205;38;38
-    ColorNames::nameMap[   firebrick4               ] = "firebrick4"            ;   // 0xFF8B1A1A   //  139;26;26
-    ColorNames::nameMap[   pink                     ] = "pink"                  ;   // 0xFFFFC0CB   //  255;192;203
-    ColorNames::nameMap[   pink1                    ] = "pink1"                 ;   // 0xFFFFB5C5   //  255;181;197
-    ColorNames::nameMap[   pink2                    ] = "pink2"                 ;   // 0xFFEEA9B8   //  238;169;184
-    ColorNames::nameMap[   pink3                    ] = "pink3"                 ;   // 0xFFCD919E   //  205;145;158
-    ColorNames::nameMap[   pink4                    ] = "pink4"                 ;   // 0xFF8B636C   //  139;99;108
-    ColorNames::nameMap[   red                      ] = "red"                   ;   // 0xFFFF0000   //  255;0;0
-    ColorNames::nameMap[   red1                     ] = "red1"                  ;   // 0xFFFF0000   //  255;0;0
-    ColorNames::nameMap[   red2                     ] = "red2"                  ;   // 0xFFEE0000   //  238;0;0
-    ColorNames::nameMap[   red3                     ] = "red3"                  ;   // 0xFFCD0000   //  205;0;0
-    ColorNames::nameMap[   red4                     ] = "red4"                  ;   // 0xFF8B0000   //  139;0;0
-    ColorNames::nameMap[   tomato                   ] = "tomato"                ;   // 0xFFFF6347   //  255;99;71
-    ColorNames::nameMap[   tomato1                  ] = "tomato1"               ;   // 0xFFFF6347   //  255;99;71
-    ColorNames::nameMap[   tomato2                  ] = "tomato2"               ;   // 0xFFEE5C42   //  238;92;66
-    ColorNames::nameMap[   tomato3                  ] = "tomato3"               ;   // 0xFFCD4F39   //  205;79;57
-    ColorNames::nameMap[   tomato4                  ] = "tomato4"               ;   // 0xFF8B3626   //  139;54;38
+    ColorNames::nameMap[   deeppink                 ] = L"deeppink"              ;   // 0xFFFF1493   //  255;20;147
+    ColorNames::nameMap[   deeppink1                ] = L"deeppink1"             ;   // 0xFFFF1493   //  255;20;147
+    ColorNames::nameMap[   deeppink2                ] = L"deeppink2"             ;   // 0xFFEE1289   //  238;18;137
+    ColorNames::nameMap[   deeppink3                ] = L"deeppink3"             ;   // 0xFFCD1076   //  205;16;118
+    ColorNames::nameMap[   deeppink4                ] = L"deeppink4"             ;   // 0xFF8B0A50   //  139;10;80
+    ColorNames::nameMap[   hotpink                  ] = L"hotpink"               ;   // 0xFFFF69B4   //  255;105;180
+    ColorNames::nameMap[   hotpink1                 ] = L"hotpink1"              ;   // 0xFFFF6EB4   //  255;110;180
+    ColorNames::nameMap[   hotpink2                 ] = L"hotpink2"              ;   // 0xFFEE6AA7   //  238;106;167
+    ColorNames::nameMap[   hotpink3                 ] = L"hotpink3"              ;   // 0xFFCD6090   //  205;96;144
+    ColorNames::nameMap[   hotpink4                 ] = L"hotpink4"              ;   // 0xFF8B3A62   //  139;58;98
+    ColorNames::nameMap[   indianred                ] = L"indianred"             ;   // 0xFFCD5C5C   //  205;92;92
+    ColorNames::nameMap[   indianred1               ] = L"indianred1"            ;   // 0xFFFF6A6A   //  255;106;106
+    ColorNames::nameMap[   indianred2               ] = L"indianred2"            ;   // 0xFFEE6363   //  238;99;99
+    ColorNames::nameMap[   indianred3               ] = L"indianred3"            ;   // 0xFFCD5555   //  205;85;85
+    ColorNames::nameMap[   indianred4               ] = L"indianred4"            ;   // 0xFF8B3A3A   //  139;58;58
+    ColorNames::nameMap[   lightpink                ] = L"lightpink"             ;   // 0xFFFFB6C1   //  255;182;193
+    ColorNames::nameMap[   lightpink1               ] = L"lightpink1"            ;   // 0xFFFFAEB9   //  255;174;185
+    ColorNames::nameMap[   lightpink2               ] = L"lightpink2"            ;   // 0xFFEEA2AD   //  238;162;173
+    ColorNames::nameMap[   lightpink3               ] = L"lightpink3"            ;   // 0xFFCD8C95   //  205;140;149
+    ColorNames::nameMap[   lightpink4               ] = L"lightpink4"            ;   // 0xFF8B5F65   //  139;95;101
+    ColorNames::nameMap[   mediumvioletred          ] = L"mediumvioletred"       ;   // 0xFFC71585   //  199;21;133
+    ColorNames::nameMap[   mistyrose                ] = L"mistyrose"             ;   // 0xFFFFE4E1   //  255;228;225
+    ColorNames::nameMap[   mistyrose1               ] = L"mistyrose1"            ;   // 0xFFFFE4E1   //  255;228;225
+    ColorNames::nameMap[   mistyrose2               ] = L"mistyrose2"            ;   // 0xFFEED5D2   //  238;213;210
+    ColorNames::nameMap[   mistyrose3               ] = L"mistyrose3"            ;   // 0xFFCDB7B5   //  205;183;181
+    ColorNames::nameMap[   mistyrose4               ] = L"mistyrose4"            ;   // 0xFF8B7D7B   //  139;125;123
+    ColorNames::nameMap[   orangered                ] = L"orangered"             ;   // 0xFFFF4500   //  255;69;0
+    ColorNames::nameMap[   orangered1               ] = L"orangered1"            ;   // 0xFFFF4500   //  255;69;0
+    ColorNames::nameMap[   orangered2               ] = L"orangered2"            ;   // 0xFFEE4000   //  238;64;0
+    ColorNames::nameMap[   orangered3               ] = L"orangered3"            ;   // 0xFFCD3700   //  205;55;0
+    ColorNames::nameMap[   orangered4               ] = L"orangered4"            ;   // 0xFF8B2500   //  139;37;0
+    ColorNames::nameMap[   palevioletred            ] = L"palevioletred"         ;   // 0xFFDB7093   //  219;112;147
+    ColorNames::nameMap[   palevioletred1           ] = L"palevioletred1"        ;   // 0xFFFF82AB   //  255;130;171
+    ColorNames::nameMap[   palevioletred2           ] = L"palevioletred2"        ;   // 0xFFEE799F   //  238;121;159
+    ColorNames::nameMap[   palevioletred3           ] = L"palevioletred3"        ;   // 0xFFCD6889   //  205;104;137
+    ColorNames::nameMap[   palevioletred4           ] = L"palevioletred4"        ;   // 0xFF8B475D   //  139;71;93
+    ColorNames::nameMap[   violetred                ] = L"violetred"             ;   // 0xFFD02090   //  208;32;144
+    ColorNames::nameMap[   violetred1               ] = L"violetred1"            ;   // 0xFFFF3E96   //  255;62;150
+    ColorNames::nameMap[   violetred2               ] = L"violetred2"            ;   // 0xFFEE3A8C   //  238;58;140
+    ColorNames::nameMap[   violetred3               ] = L"violetred3"            ;   // 0xFFCD3278   //  205;50;120
+    ColorNames::nameMap[   violetred4               ] = L"violetred4"            ;   // 0xFF8B2252   //  139;34;82
+    ColorNames::nameMap[   firebrick                ] = L"firebrick"             ;   // 0xFFB22222   //  178;34;34
+    ColorNames::nameMap[   firebrick1               ] = L"firebrick1"            ;   // 0xFFFF3030   //  255;48;48
+    ColorNames::nameMap[   firebrick2               ] = L"firebrick2"            ;   // 0xFFEE2C2C   //  238;44;44
+    ColorNames::nameMap[   firebrick3               ] = L"firebrick3"            ;   // 0xFFCD2626   //  205;38;38
+    ColorNames::nameMap[   firebrick4               ] = L"firebrick4"            ;   // 0xFF8B1A1A   //  139;26;26
+    ColorNames::nameMap[   pink                     ] = L"pink"                  ;   // 0xFFFFC0CB   //  255;192;203
+    ColorNames::nameMap[   pink1                    ] = L"pink1"                 ;   // 0xFFFFB5C5   //  255;181;197
+    ColorNames::nameMap[   pink2                    ] = L"pink2"                 ;   // 0xFFEEA9B8   //  238;169;184
+    ColorNames::nameMap[   pink3                    ] = L"pink3"                 ;   // 0xFFCD919E   //  205;145;158
+    ColorNames::nameMap[   pink4                    ] = L"pink4"                 ;   // 0xFF8B636C   //  139;99;108
+    ColorNames::nameMap[   red                      ] = L"red"                   ;   // 0xFFFF0000   //  255;0;0
+    ColorNames::nameMap[   red1                     ] = L"red1"                  ;   // 0xFFFF0000   //  255;0;0
+    ColorNames::nameMap[   red2                     ] = L"red2"                  ;   // 0xFFEE0000   //  238;0;0
+    ColorNames::nameMap[   red3                     ] = L"red3"                  ;   // 0xFFCD0000   //  205;0;0
+    ColorNames::nameMap[   red4                     ] = L"red4"                  ;   // 0xFF8B0000   //  139;0;0
+    ColorNames::nameMap[   tomato                   ] = L"tomato"                ;   // 0xFFFF6347   //  255;99;71
+    ColorNames::nameMap[   tomato1                  ] = L"tomato1"               ;   // 0xFFFF6347   //  255;99;71
+    ColorNames::nameMap[   tomato2                  ] = L"tomato2"               ;   // 0xFFEE5C42   //  238;92;66
+    ColorNames::nameMap[   tomato3                  ] = L"tomato3"               ;   // 0xFFCD4F39   //  205;79;57
+    ColorNames::nameMap[   tomato4                  ] = L"tomato4"               ;   // 0xFF8B3626   //  139;54;38
 
     //shades of violet
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   darkorchid               ] = "darkorchid"            ;   // 0xFF9932CC   //  153;50;204
-    ColorNames::nameMap[   darkorchid1              ] = "darkorchid1"           ;   // 0xFFBF3EFF   //  191;62;255
-    ColorNames::nameMap[   darkorchid2              ] = "darkorchid2"           ;   // 0xFFB23AEE   //  178;58;238
-    ColorNames::nameMap[   darkorchid3              ] = "darkorchid3"           ;   // 0xFF9A32CD   //  154;50;205
-    ColorNames::nameMap[   darkorchid4              ] = "darkorchid4"           ;   // 0xFF68228B   //  104;34;139
-    ColorNames::nameMap[   darkviolet               ] = "darkviolet"            ;   // 0xFF9400D3   //  148;0;211
-    ColorNames::nameMap[   lavenderblush            ] = "lavenderblush"         ;   // 0xFFFFF0F5   //  255;240;245
-    ColorNames::nameMap[   lavenderblush1           ] = "lavenderblush1"        ;   // 0xFFFFF0F5   //  255;240;245
-    ColorNames::nameMap[   lavenderblush2           ] = "lavenderblush2"        ;   // 0xFFEEE0E5   //  238;224;229
-    ColorNames::nameMap[   lavenderblush3           ] = "lavenderblush3"        ;   // 0xFFCDC1C5   //  205;193;197
-    ColorNames::nameMap[   lavenderblush4           ] = "lavenderblush4"        ;   // 0xFF8B8386   //  139;131;134
-    ColorNames::nameMap[   mediumorchid             ] = "mediumorchid"          ;   // 0xFFBA55D3   //  186;85;211
-    ColorNames::nameMap[   mediumorchid1            ] = "mediumorchid1"         ;   // 0xFFE066FF   //  224;102;255
-    ColorNames::nameMap[   mediumorchid2            ] = "mediumorchid2"         ;   // 0xFFD15FEE   //  209;95;238
-    ColorNames::nameMap[   mediumorchid3            ] = "mediumorchid3"         ;   // 0xFFB452CD   //  180;82;205
-    ColorNames::nameMap[   mediumorchid4            ] = "mediumorchid4"         ;   // 0xFF7A378B   //  122;55;139
-    ColorNames::nameMap[   mediumpurple             ] = "mediumpurple"          ;   // 0xFF9370DB   //  147;112;219
-    ColorNames::nameMap[   mediumpurple1            ] = "mediumpurple1"         ;   // 0xFFAB82FF   //  171;130;255
-    ColorNames::nameMap[   mediumpurple2            ] = "mediumpurple2"         ;   // 0xFF9F79EE   //  159;121;238
-    ColorNames::nameMap[   mediumpurple3            ] = "mediumpurple3"         ;   // 0xFF8968CD   //  137;104;205
-    ColorNames::nameMap[   mediumpurple4            ] = "mediumpurple4"         ;   // 0xFF5D478B   //  93;71;139
-    ColorNames::nameMap[   lavender                 ] = "lavender"              ;   // 0xFFE6E6FA   //  230;230;250
-    ColorNames::nameMap[   magenta                  ] = "magenta"               ;   // 0xFFFF00FF   //  255;0;255
-    ColorNames::nameMap[   magenta1                 ] = "magenta1"              ;   // 0xFFFF00FF   //  255;0;255
-    ColorNames::nameMap[   magenta2                 ] = "magenta2"              ;   // 0xFFEE00EE   //  238;0;238
-    ColorNames::nameMap[   magenta3                 ] = "magenta3"              ;   // 0xFFCD00CD   //  205;0;205
-    ColorNames::nameMap[   magenta4                 ] = "magenta4"              ;   // 0xFF8B008B   //  139;0;139
-    ColorNames::nameMap[   maroon                   ] = "maroon"                ;   // 0xFFB03060   //  176;48;96
-    ColorNames::nameMap[   maroon1                  ] = "maroon1"               ;   // 0xFFFF34B3   //  255;52;179
-    ColorNames::nameMap[   maroon2                  ] = "maroon2"               ;   // 0xFFEE30A7   //  238;48;167
-    ColorNames::nameMap[   maroon3                  ] = "maroon3"               ;   // 0xFFCD2990   //  205;41;144
-    ColorNames::nameMap[   maroon4                  ] = "maroon4"               ;   // 0xFF8B1C62   //  139;28;98
-    ColorNames::nameMap[   orchid                   ] = "orchid"                ;   // 0xFFDA70D6   //  218;112;214
-    ColorNames::nameMap[   orchid1                  ] = "orchid1"               ;   // 0xFFFF83FA   //  255;131;250
-    ColorNames::nameMap[   orchid2                  ] = "orchid2"               ;   // 0xFFEE7AE9   //  238;122;233
-    ColorNames::nameMap[   orchid3                  ] = "orchid3"               ;   // 0xFFCD69C9   //  205;105;201
-    ColorNames::nameMap[   orchid4                  ] = "orchid4"               ;   // 0xFF8B4789   //  139;71;137
-    ColorNames::nameMap[   plum                     ] = "plum"                  ;   // 0xFFDDA0DD   //  221;160;221
-    ColorNames::nameMap[   plum1                    ] = "plum1"                 ;   // 0xFFFFBBFF   //  255;187;255
-    ColorNames::nameMap[   plum2                    ] = "plum2"                 ;   // 0xFFEEAEEE   //  238;174;238
-    ColorNames::nameMap[   plum3                    ] = "plum3"                 ;   // 0xFFCD96CD   //  205;150;205
-    ColorNames::nameMap[   plum4                    ] = "plum4"                 ;   // 0xFF8B668B   //  139;102;139
-    ColorNames::nameMap[   purple                   ] = "purple"                ;   // 0xFFA020F0   //  160;32;240
-    ColorNames::nameMap[   purple1                  ] = "purple1"               ;   // 0xFF9B30FF   //  155;48;255
-    ColorNames::nameMap[   purple2                  ] = "purple2"               ;   // 0xFF912CEE   //  145;44;238
-    ColorNames::nameMap[   purple3                  ] = "purple3"               ;   // 0xFF7D26CD   //  125;38;205
-    ColorNames::nameMap[   purple4                  ] = "purple4"               ;   // 0xFF551A8B   //  85;26;139
-    ColorNames::nameMap[   thistle                  ] = "thistle"               ;   // 0xFFD8BFD8   //  216;191;216
-    ColorNames::nameMap[   thistle1                 ] = "thistle1"              ;   // 0xFFFFE1FF   //  255;225;255
-    ColorNames::nameMap[   thistle2                 ] = "thistle2"              ;   // 0xFFEED2EE   //  238;210;238
-    ColorNames::nameMap[   thistle3                 ] = "thistle3"              ;   // 0xFFCDB5CD   //  205;181;205
-    ColorNames::nameMap[   thistle4                 ] = "thistle4"              ;   // 0xFF8B7B8B   //  139;123;139
-    ColorNames::nameMap[   violet                   ] = "violet"                ;   // 0xFFEE82EE   //  238;130;238
+    ColorNames::nameMap[   darkorchid               ] = L"darkorchid"            ;   // 0xFF9932CC   //  153;50;204
+    ColorNames::nameMap[   darkorchid1              ] = L"darkorchid1"           ;   // 0xFFBF3EFF   //  191;62;255
+    ColorNames::nameMap[   darkorchid2              ] = L"darkorchid2"           ;   // 0xFFB23AEE   //  178;58;238
+    ColorNames::nameMap[   darkorchid3              ] = L"darkorchid3"           ;   // 0xFF9A32CD   //  154;50;205
+    ColorNames::nameMap[   darkorchid4              ] = L"darkorchid4"           ;   // 0xFF68228B   //  104;34;139
+    ColorNames::nameMap[   darkviolet               ] = L"darkviolet"            ;   // 0xFF9400D3   //  148;0;211
+    ColorNames::nameMap[   lavenderblush            ] = L"lavenderblush"         ;   // 0xFFFFF0F5   //  255;240;245
+    ColorNames::nameMap[   lavenderblush1           ] = L"lavenderblush1"        ;   // 0xFFFFF0F5   //  255;240;245
+    ColorNames::nameMap[   lavenderblush2           ] = L"lavenderblush2"        ;   // 0xFFEEE0E5   //  238;224;229
+    ColorNames::nameMap[   lavenderblush3           ] = L"lavenderblush3"        ;   // 0xFFCDC1C5   //  205;193;197
+    ColorNames::nameMap[   lavenderblush4           ] = L"lavenderblush4"        ;   // 0xFF8B8386   //  139;131;134
+    ColorNames::nameMap[   mediumorchid             ] = L"mediumorchid"          ;   // 0xFFBA55D3   //  186;85;211
+    ColorNames::nameMap[   mediumorchid1            ] = L"mediumorchid1"         ;   // 0xFFE066FF   //  224;102;255
+    ColorNames::nameMap[   mediumorchid2            ] = L"mediumorchid2"         ;   // 0xFFD15FEE   //  209;95;238
+    ColorNames::nameMap[   mediumorchid3            ] = L"mediumorchid3"         ;   // 0xFFB452CD   //  180;82;205
+    ColorNames::nameMap[   mediumorchid4            ] = L"mediumorchid4"         ;   // 0xFF7A378B   //  122;55;139
+    ColorNames::nameMap[   mediumpurple             ] = L"mediumpurple"          ;   // 0xFF9370DB   //  147;112;219
+    ColorNames::nameMap[   mediumpurple1            ] = L"mediumpurple1"         ;   // 0xFFAB82FF   //  171;130;255
+    ColorNames::nameMap[   mediumpurple2            ] = L"mediumpurple2"         ;   // 0xFF9F79EE   //  159;121;238
+    ColorNames::nameMap[   mediumpurple3            ] = L"mediumpurple3"         ;   // 0xFF8968CD   //  137;104;205
+    ColorNames::nameMap[   mediumpurple4            ] = L"mediumpurple4"         ;   // 0xFF5D478B   //  93;71;139
+    ColorNames::nameMap[   lavender                 ] = L"lavender"              ;   // 0xFFE6E6FA   //  230;230;250
+    ColorNames::nameMap[   magenta                  ] = L"magenta"               ;   // 0xFFFF00FF   //  255;0;255
+    ColorNames::nameMap[   magenta1                 ] = L"magenta1"              ;   // 0xFFFF00FF   //  255;0;255
+    ColorNames::nameMap[   magenta2                 ] = L"magenta2"              ;   // 0xFFEE00EE   //  238;0;238
+    ColorNames::nameMap[   magenta3                 ] = L"magenta3"              ;   // 0xFFCD00CD   //  205;0;205
+    ColorNames::nameMap[   magenta4                 ] = L"magenta4"              ;   // 0xFF8B008B   //  139;0;139
+    ColorNames::nameMap[   maroon                   ] = L"maroon"                ;   // 0xFFB03060   //  176;48;96
+    ColorNames::nameMap[   maroon1                  ] = L"maroon1"               ;   // 0xFFFF34B3   //  255;52;179
+    ColorNames::nameMap[   maroon2                  ] = L"maroon2"               ;   // 0xFFEE30A7   //  238;48;167
+    ColorNames::nameMap[   maroon3                  ] = L"maroon3"               ;   // 0xFFCD2990   //  205;41;144
+    ColorNames::nameMap[   maroon4                  ] = L"maroon4"               ;   // 0xFF8B1C62   //  139;28;98
+    ColorNames::nameMap[   orchid                   ] = L"orchid"                ;   // 0xFFDA70D6   //  218;112;214
+    ColorNames::nameMap[   orchid1                  ] = L"orchid1"               ;   // 0xFFFF83FA   //  255;131;250
+    ColorNames::nameMap[   orchid2                  ] = L"orchid2"               ;   // 0xFFEE7AE9   //  238;122;233
+    ColorNames::nameMap[   orchid3                  ] = L"orchid3"               ;   // 0xFFCD69C9   //  205;105;201
+    ColorNames::nameMap[   orchid4                  ] = L"orchid4"               ;   // 0xFF8B4789   //  139;71;137
+    ColorNames::nameMap[   plum                     ] = L"plum"                  ;   // 0xFFDDA0DD   //  221;160;221
+    ColorNames::nameMap[   plum1                    ] = L"plum1"                 ;   // 0xFFFFBBFF   //  255;187;255
+    ColorNames::nameMap[   plum2                    ] = L"plum2"                 ;   // 0xFFEEAEEE   //  238;174;238
+    ColorNames::nameMap[   plum3                    ] = L"plum3"                 ;   // 0xFFCD96CD   //  205;150;205
+    ColorNames::nameMap[   plum4                    ] = L"plum4"                 ;   // 0xFF8B668B   //  139;102;139
+    ColorNames::nameMap[   purple                   ] = L"purple"                ;   // 0xFFA020F0   //  160;32;240
+    ColorNames::nameMap[   purple1                  ] = L"purple1"               ;   // 0xFF9B30FF   //  155;48;255
+    ColorNames::nameMap[   purple2                  ] = L"purple2"               ;   // 0xFF912CEE   //  145;44;238
+    ColorNames::nameMap[   purple3                  ] = L"purple3"               ;   // 0xFF7D26CD   //  125;38;205
+    ColorNames::nameMap[   purple4                  ] = L"purple4"               ;   // 0xFF551A8B   //  85;26;139
+    ColorNames::nameMap[   thistle                  ] = L"thistle"               ;   // 0xFFD8BFD8   //  216;191;216
+    ColorNames::nameMap[   thistle1                 ] = L"thistle1"              ;   // 0xFFFFE1FF   //  255;225;255
+    ColorNames::nameMap[   thistle2                 ] = L"thistle2"              ;   // 0xFFEED2EE   //  238;210;238
+    ColorNames::nameMap[   thistle3                 ] = L"thistle3"              ;   // 0xFFCDB5CD   //  205;181;205
+    ColorNames::nameMap[   thistle4                 ] = L"thistle4"              ;   // 0xFF8B7B8B   //  139;123;139
+    ColorNames::nameMap[   violet                   ] = L"violet"                ;   // 0xFFEE82EE   //  238;130;238
 
     //shades of white
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   antiquewhite             ] = "antiquewhite"          ;   // 0xFFFAEBD7   //  250;235;215
-    ColorNames::nameMap[   antiquewhite1            ] = "antiquewhite1"         ;   // 0xFFFFEFDB   //  255;239;219
-    ColorNames::nameMap[   antiquewhite2            ] = "antiquewhite2"         ;   // 0xFFEEDFCC   //  238;223;204
-    ColorNames::nameMap[   antiquewhite3            ] = "antiquewhite3"         ;   // 0xFFCDC0B0   //  205;192;176
-    ColorNames::nameMap[   antiquewhite4            ] = "antiquewhite4"         ;   // 0xFF8B8378   //  139;131;120
-    ColorNames::nameMap[   floralwhite              ] = "floralwhite"           ;   // 0xFFFFFAF0   //  255;250;240
-    ColorNames::nameMap[   ghostwhite               ] = "ghostwhite"            ;   // 0xFFF8F8FF   //  248;248;255
-    ColorNames::nameMap[   navajowhite              ] = "navajowhite"           ;   // 0xFFFFDEAD   //  255;222;173
-    ColorNames::nameMap[   navajowhite1             ] = "navajowhite1"          ;   // 0xFFFFDEAD   //  255;222;173
-    ColorNames::nameMap[   navajowhite2             ] = "navajowhite2"          ;   // 0xFFEECFA1   //  238;207;161
-    ColorNames::nameMap[   navajowhite3             ] = "navajowhite3"          ;   // 0xFFCDB38B   //  205;179;139
-    ColorNames::nameMap[   navajowhite4             ] = "navajowhite4"          ;   // 0xFF8B795E   //  139;121;94
-    ColorNames::nameMap[   oldlace                  ] = "oldlace"               ;   // 0xFFFDF5E6   //  253;245;230
-    ColorNames::nameMap[   whitesmoke               ] = "whitesmoke"            ;   // 0xFFF5F5F5   //  245;245;245
-    ColorNames::nameMap[   gainsboro                ] = "gainsboro"             ;   // 0xFFDCDCDC   //  220;220;220
-    ColorNames::nameMap[   ivory                    ] = "ivory"                 ;   // 0xFFFFFFF0   //  255;255;240
-    ColorNames::nameMap[   ivory1                   ] = "ivory1"                ;   // 0xFFFFFFF0   //  255;255;240
-    ColorNames::nameMap[   ivory2                   ] = "ivory2"                ;   // 0xFFEEEEE0   //  238;238;224
-    ColorNames::nameMap[   ivory3                   ] = "ivory3"                ;   // 0xFFCDCDC1   //  205;205;193
-    ColorNames::nameMap[   ivory4                   ] = "ivory4"                ;   // 0xFF8B8B83   //  139;139;131
-    ColorNames::nameMap[   linen                    ] = "linen"                 ;   // 0xFFFAF0E6   //  250;240;230
-    ColorNames::nameMap[   seashell                 ] = "seashell"              ;   // 0xFFFFF5EE   //  255;245;238
-    ColorNames::nameMap[   seashell1                ] = "seashell1"             ;   // 0xFFFFF5EE   //  255;245;238
-    ColorNames::nameMap[   seashell2                ] = "seashell2"             ;   // 0xFFEEE5DE   //  238;229;222
-    ColorNames::nameMap[   seashell3                ] = "seashell3"             ;   // 0xFFCDC5BF   //  205;197;191
-    ColorNames::nameMap[   seashell4                ] = "seashell4"             ;   // 0xFF8B8682   //  139;134;130
-    ColorNames::nameMap[   snow                     ] = "snow"                  ;   // 0xFFFFFAFA   //  255;250;250
-    ColorNames::nameMap[   snow1                    ] = "snow1"                 ;   // 0xFFFFFAFA   //  255;250;250
-    ColorNames::nameMap[   snow2                    ] = "snow2"                 ;   // 0xFFEEE9E9   //  238;233;233
-    ColorNames::nameMap[   snow3                    ] = "snow3"                 ;   // 0xFFCDC9C9   //  205;201;201
-    ColorNames::nameMap[   snow4                    ] = "snow4"                 ;   // 0xFF8B8989   //  139;137;137
-    ColorNames::nameMap[   wheat                    ] = "wheat"                 ;   // 0xFFF5DEB3   //  245;222;179
-    ColorNames::nameMap[   wheat1                   ] = "wheat1"                ;   // 0xFFFFE7BA   //  255;231;186
-    ColorNames::nameMap[   wheat2                   ] = "wheat2"                ;   // 0xFFEED8AE   //  238;216;174
-    ColorNames::nameMap[   wheat3                   ] = "wheat3"                ;   // 0xFFCDBA96   //  205;186;150
-    ColorNames::nameMap[   wheat4                   ] = "wheat4"                ;   // 0xFF8B7E66   //  139;126;102
-    ColorNames::nameMap[   white                    ] = "white"                 ;   // 0xFFFFFFFF   //  255;255;255
+    ColorNames::nameMap[   antiquewhite             ] = L"antiquewhite"          ;   // 0xFFFAEBD7   //  250;235;215
+    ColorNames::nameMap[   antiquewhite1            ] = L"antiquewhite1"         ;   // 0xFFFFEFDB   //  255;239;219
+    ColorNames::nameMap[   antiquewhite2            ] = L"antiquewhite2"         ;   // 0xFFEEDFCC   //  238;223;204
+    ColorNames::nameMap[   antiquewhite3            ] = L"antiquewhite3"         ;   // 0xFFCDC0B0   //  205;192;176
+    ColorNames::nameMap[   antiquewhite4            ] = L"antiquewhite4"         ;   // 0xFF8B8378   //  139;131;120
+    ColorNames::nameMap[   floralwhite              ] = L"floralwhite"           ;   // 0xFFFFFAF0   //  255;250;240
+    ColorNames::nameMap[   ghostwhite               ] = L"ghostwhite"            ;   // 0xFFF8F8FF   //  248;248;255
+    ColorNames::nameMap[   navajowhite              ] = L"navajowhite"           ;   // 0xFFFFDEAD   //  255;222;173
+    ColorNames::nameMap[   navajowhite1             ] = L"navajowhite1"          ;   // 0xFFFFDEAD   //  255;222;173
+    ColorNames::nameMap[   navajowhite2             ] = L"navajowhite2"          ;   // 0xFFEECFA1   //  238;207;161
+    ColorNames::nameMap[   navajowhite3             ] = L"navajowhite3"          ;   // 0xFFCDB38B   //  205;179;139
+    ColorNames::nameMap[   navajowhite4             ] = L"navajowhite4"          ;   // 0xFF8B795E   //  139;121;94
+    ColorNames::nameMap[   oldlace                  ] = L"oldlace"               ;   // 0xFFFDF5E6   //  253;245;230
+    ColorNames::nameMap[   whitesmoke               ] = L"whitesmoke"            ;   // 0xFFF5F5F5   //  245;245;245
+    ColorNames::nameMap[   gainsboro                ] = L"gainsboro"             ;   // 0xFFDCDCDC   //  220;220;220
+    ColorNames::nameMap[   ivory                    ] = L"ivory"                 ;   // 0xFFFFFFF0   //  255;255;240
+    ColorNames::nameMap[   ivory1                   ] = L"ivory1"                ;   // 0xFFFFFFF0   //  255;255;240
+    ColorNames::nameMap[   ivory2                   ] = L"ivory2"                ;   // 0xFFEEEEE0   //  238;238;224
+    ColorNames::nameMap[   ivory3                   ] = L"ivory3"                ;   // 0xFFCDCDC1   //  205;205;193
+    ColorNames::nameMap[   ivory4                   ] = L"ivory4"                ;   // 0xFF8B8B83   //  139;139;131
+    ColorNames::nameMap[   linen                    ] = L"linen"                 ;   // 0xFFFAF0E6   //  250;240;230
+    ColorNames::nameMap[   seashell                 ] = L"seashell"              ;   // 0xFFFFF5EE   //  255;245;238
+    ColorNames::nameMap[   seashell1                ] = L"seashell1"             ;   // 0xFFFFF5EE   //  255;245;238
+    ColorNames::nameMap[   seashell2                ] = L"seashell2"             ;   // 0xFFEEE5DE   //  238;229;222
+    ColorNames::nameMap[   seashell3                ] = L"seashell3"             ;   // 0xFFCDC5BF   //  205;197;191
+    ColorNames::nameMap[   seashell4                ] = L"seashell4"             ;   // 0xFF8B8682   //  139;134;130
+    ColorNames::nameMap[   snow                     ] = L"snow"                  ;   // 0xFFFFFAFA   //  255;250;250
+    ColorNames::nameMap[   snow1                    ] = L"snow1"                 ;   // 0xFFFFFAFA   //  255;250;250
+    ColorNames::nameMap[   snow2                    ] = L"snow2"                 ;   // 0xFFEEE9E9   //  238;233;233
+    ColorNames::nameMap[   snow3                    ] = L"snow3"                 ;   // 0xFFCDC9C9   //  205;201;201
+    ColorNames::nameMap[   snow4                    ] = L"snow4"                 ;   // 0xFF8B8989   //  139;137;137
+    ColorNames::nameMap[   wheat                    ] = L"wheat"                 ;   // 0xFFF5DEB3   //  245;222;179
+    ColorNames::nameMap[   wheat1                   ] = L"wheat1"                ;   // 0xFFFFE7BA   //  255;231;186
+    ColorNames::nameMap[   wheat2                   ] = L"wheat2"                ;   // 0xFFEED8AE   //  238;216;174
+    ColorNames::nameMap[   wheat3                   ] = L"wheat3"                ;   // 0xFFCDBA96   //  205;186;150
+    ColorNames::nameMap[   wheat4                   ] = L"wheat4"                ;   // 0xFF8B7E66   //  139;126;102
+    ColorNames::nameMap[   white                    ] = L"white"                 ;   // 0xFFFFFFFF   //  255;255;255
 
     //shades of yellow
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   blanchedalmond           ] = "blanchedalmond"        ;   // 0xFFFFEBCD   //  255;235;205
-    ColorNames::nameMap[   darkgoldenrod            ] = "darkgoldenrod"         ;   // 0xFFB8860B   //  184;134;11
-    ColorNames::nameMap[   darkgoldenrod1           ] = "darkgoldenrod1"        ;   // 0xFFFFB90F   //  255;185;15
-    ColorNames::nameMap[   darkgoldenrod2           ] = "darkgoldenrod2"        ;   // 0xFFEEAD0E   //  238;173;14
-    ColorNames::nameMap[   darkgoldenrod3           ] = "darkgoldenrod3"        ;   // 0xFFCD950C   //  205;149;12
-    ColorNames::nameMap[   darkgoldenrod4           ] = "darkgoldenrod4"        ;   // 0xFF8B6508   //  139;101;8
-    ColorNames::nameMap[   lemonchiffon             ] = "lemonchiffon"          ;   // 0xFFFFFACD   //  255;250;205
-    ColorNames::nameMap[   lemonchiffon1            ] = "lemonchiffon1"         ;   // 0xFFFFFACD   //  255;250;205
-    ColorNames::nameMap[   lemonchiffon2            ] = "lemonchiffon2"         ;   // 0xFFEEE9BF   //  238;233;191
-    ColorNames::nameMap[   lemonchiffon3            ] = "lemonchiffon3"         ;   // 0xFFCDC9A5   //  205;201;165
-    ColorNames::nameMap[   lemonchiffon4            ] = "lemonchiffon4"         ;   // 0xFF8B8970   //  139;137;112
-    ColorNames::nameMap[   lightgoldenrod           ] = "lightgoldenrod"        ;   // 0xFFEEDD82   //  238;221;130
-    ColorNames::nameMap[   lightgoldenrod1          ] = "lightgoldenrod1"       ;   // 0xFFFFEC8B   //  255;236;139
-    ColorNames::nameMap[   lightgoldenrod2          ] = "lightgoldenrod2"       ;   // 0xFFEEDC82   //  238;220;130
-    ColorNames::nameMap[   lightgoldenrod3          ] = "lightgoldenrod3"       ;   // 0xFFCDBE70   //  205;190;112
-    ColorNames::nameMap[   lightgoldenrod4          ] = "lightgoldenrod4"       ;   // 0xFF8B814C   //  139;129;76
-    ColorNames::nameMap[   lightgoldenrodyellow     ] = "lightgoldenrodyellow"  ;   // 0xFFFAFAD2   //  250;250;210
-    ColorNames::nameMap[   lightyellow              ] = "lightyellow"           ;   // 0xFFFFFFE0   //  255;255;224
-    ColorNames::nameMap[   lightyellow1             ] = "lightyellow1"          ;   // 0xFFFFFFE0   //  255;255;224
-    ColorNames::nameMap[   lightyellow2             ] = "lightyellow2"          ;   // 0xFFEEEED1   //  238;238;209
-    ColorNames::nameMap[   lightyellow3             ] = "lightyellow3"          ;   // 0xFFCDCDB4   //  205;205;180
-    ColorNames::nameMap[   lightyellow4             ] = "lightyellow4"          ;   // 0xFF8B8B7A   //  139;139;122
-    ColorNames::nameMap[   palegoldenrod            ] = "palegoldenrod"         ;   // 0xFFEEE8AA   //  238;232;170
-    ColorNames::nameMap[   papayawhip               ] = "papayawhip"            ;   // 0xFFFFEFD5   //  255;239;213
-    ColorNames::nameMap[   cornsilk                 ] = "cornsilk"              ;   // 0xFFFFF8DC   //  255;248;220
-    ColorNames::nameMap[   cornsilk1                ] = "cornsilk1"             ;   // 0xFFFFF8DC   //  255;248;220
-    ColorNames::nameMap[   cornsilk2                ] = "cornsilk2"             ;   // 0xFFEEE8CD   //  238;232;205
-    ColorNames::nameMap[   cornsilk3                ] = "cornsilk3"             ;   // 0xFFCDC8B1   //  205;200;177
-    ColorNames::nameMap[   cornsilk4                ] = "cornsilk4"             ;   // 0xFF8B8878   //  139;136;120
-    ColorNames::nameMap[   gold                     ] = "gold"                  ;   // 0xFFFFD700   //  255;215;0
-    ColorNames::nameMap[   gold1                    ] = "gold1"                 ;   // 0xFFFFD700   //  255;215;0
-    ColorNames::nameMap[   gold2                    ] = "gold2"                 ;   // 0xFFEEC900   //  238;201;0
-    ColorNames::nameMap[   gold3                    ] = "gold3"                 ;   // 0xFFCDAD00   //  205;173;0
-    ColorNames::nameMap[   gold4                    ] = "gold4"                 ;   // 0xFF8B7500   //  139;117;0
-    ColorNames::nameMap[   goldenrod                ] = "goldenrod"             ;   // 0xFFDAA520   //  218;165;32
-    ColorNames::nameMap[   goldenrod1               ] = "goldenrod1"            ;   // 0xFFFFC125   //  255;193;37
-    ColorNames::nameMap[   goldenrod2               ] = "goldenrod2"            ;   // 0xFFEEB422   //  238;180;34
-    ColorNames::nameMap[   goldenrod3               ] = "goldenrod3"            ;   // 0xFFCD9B1D   //  205;155;29
-    ColorNames::nameMap[   goldenrod4               ] = "goldenrod4"            ;   // 0xFF8B6914   //  139;105;20
-    ColorNames::nameMap[   moccasin                 ] = "moccasin"              ;   // 0xFFFFE4B5   //  255;228;181
-    ColorNames::nameMap[   yellow                   ] = "yellow"                ;   // 0xFFFFFF00   //  255;255;0
-    ColorNames::nameMap[   yellow1                  ] = "yellow1"               ;   // 0xFFFFFF00   //  255;255;0
-    ColorNames::nameMap[   yellow2                  ] = "yellow2"               ;   // 0xFFEEEE00   //  238;238;0
-    ColorNames::nameMap[   yellow3                  ] = "yellow3"               ;   // 0xFFCDCD00   //  205;205;0
-    ColorNames::nameMap[   yellow4                  ] = "yellow4"               ;   // 0xFF8B8B00   //  139;139;0
+    ColorNames::nameMap[   blanchedalmond           ] = L"blanchedalmond"        ;   // 0xFFFFEBCD   //  255;235;205
+    ColorNames::nameMap[   darkgoldenrod            ] = L"darkgoldenrod"         ;   // 0xFFB8860B   //  184;134;11
+    ColorNames::nameMap[   darkgoldenrod1           ] = L"darkgoldenrod1"        ;   // 0xFFFFB90F   //  255;185;15
+    ColorNames::nameMap[   darkgoldenrod2           ] = L"darkgoldenrod2"        ;   // 0xFFEEAD0E   //  238;173;14
+    ColorNames::nameMap[   darkgoldenrod3           ] = L"darkgoldenrod3"        ;   // 0xFFCD950C   //  205;149;12
+    ColorNames::nameMap[   darkgoldenrod4           ] = L"darkgoldenrod4"        ;   // 0xFF8B6508   //  139;101;8
+    ColorNames::nameMap[   lemonchiffon             ] = L"lemonchiffon"          ;   // 0xFFFFFACD   //  255;250;205
+    ColorNames::nameMap[   lemonchiffon1            ] = L"lemonchiffon1"         ;   // 0xFFFFFACD   //  255;250;205
+    ColorNames::nameMap[   lemonchiffon2            ] = L"lemonchiffon2"         ;   // 0xFFEEE9BF   //  238;233;191
+    ColorNames::nameMap[   lemonchiffon3            ] = L"lemonchiffon3"         ;   // 0xFFCDC9A5   //  205;201;165
+    ColorNames::nameMap[   lemonchiffon4            ] = L"lemonchiffon4"         ;   // 0xFF8B8970   //  139;137;112
+    ColorNames::nameMap[   lightgoldenrod           ] = L"lightgoldenrod"        ;   // 0xFFEEDD82   //  238;221;130
+    ColorNames::nameMap[   lightgoldenrod1          ] = L"lightgoldenrod1"       ;   // 0xFFFFEC8B   //  255;236;139
+    ColorNames::nameMap[   lightgoldenrod2          ] = L"lightgoldenrod2"       ;   // 0xFFEEDC82   //  238;220;130
+    ColorNames::nameMap[   lightgoldenrod3          ] = L"lightgoldenrod3"       ;   // 0xFFCDBE70   //  205;190;112
+    ColorNames::nameMap[   lightgoldenrod4          ] = L"lightgoldenrod4"       ;   // 0xFF8B814C   //  139;129;76
+    ColorNames::nameMap[   lightgoldenrodyellow     ] = L"lightgoldenrodyellow"  ;   // 0xFFFAFAD2   //  250;250;210
+    ColorNames::nameMap[   lightyellow              ] = L"lightyellow"           ;   // 0xFFFFFFE0   //  255;255;224
+    ColorNames::nameMap[   lightyellow1             ] = L"lightyellow1"          ;   // 0xFFFFFFE0   //  255;255;224
+    ColorNames::nameMap[   lightyellow2             ] = L"lightyellow2"          ;   // 0xFFEEEED1   //  238;238;209
+    ColorNames::nameMap[   lightyellow3             ] = L"lightyellow3"          ;   // 0xFFCDCDB4   //  205;205;180
+    ColorNames::nameMap[   lightyellow4             ] = L"lightyellow4"          ;   // 0xFF8B8B7A   //  139;139;122
+    ColorNames::nameMap[   palegoldenrod            ] = L"palegoldenrod"         ;   // 0xFFEEE8AA   //  238;232;170
+    ColorNames::nameMap[   papayawhip               ] = L"papayawhip"            ;   // 0xFFFFEFD5   //  255;239;213
+    ColorNames::nameMap[   cornsilk                 ] = L"cornsilk"              ;   // 0xFFFFF8DC   //  255;248;220
+    ColorNames::nameMap[   cornsilk1                ] = L"cornsilk1"             ;   // 0xFFFFF8DC   //  255;248;220
+    ColorNames::nameMap[   cornsilk2                ] = L"cornsilk2"             ;   // 0xFFEEE8CD   //  238;232;205
+    ColorNames::nameMap[   cornsilk3                ] = L"cornsilk3"             ;   // 0xFFCDC8B1   //  205;200;177
+    ColorNames::nameMap[   cornsilk4                ] = L"cornsilk4"             ;   // 0xFF8B8878   //  139;136;120
+    ColorNames::nameMap[   gold                     ] = L"gold"                  ;   // 0xFFFFD700   //  255;215;0
+    ColorNames::nameMap[   gold1                    ] = L"gold1"                 ;   // 0xFFFFD700   //  255;215;0
+    ColorNames::nameMap[   gold2                    ] = L"gold2"                 ;   // 0xFFEEC900   //  238;201;0
+    ColorNames::nameMap[   gold3                    ] = L"gold3"                 ;   // 0xFFCDAD00   //  205;173;0
+    ColorNames::nameMap[   gold4                    ] = L"gold4"                 ;   // 0xFF8B7500   //  139;117;0
+    ColorNames::nameMap[   goldenrod                ] = L"goldenrod"             ;   // 0xFFDAA520   //  218;165;32
+    ColorNames::nameMap[   goldenrod1               ] = L"goldenrod1"            ;   // 0xFFFFC125   //  255;193;37
+    ColorNames::nameMap[   goldenrod2               ] = L"goldenrod2"            ;   // 0xFFEEB422   //  238;180;34
+    ColorNames::nameMap[   goldenrod3               ] = L"goldenrod3"            ;   // 0xFFCD9B1D   //  205;155;29
+    ColorNames::nameMap[   goldenrod4               ] = L"goldenrod4"            ;   // 0xFF8B6914   //  139;105;20
+    ColorNames::nameMap[   moccasin                 ] = L"moccasin"              ;   // 0xFFFFE4B5   //  255;228;181
+    ColorNames::nameMap[   yellow                   ] = L"yellow"                ;   // 0xFFFFFF00   //  255;255;0
+    ColorNames::nameMap[   yellow1                  ] = L"yellow1"               ;   // 0xFFFFFF00   //  255;255;0
+    ColorNames::nameMap[   yellow2                  ] = L"yellow2"               ;   // 0xFFEEEE00   //  238;238;0
+    ColorNames::nameMap[   yellow3                  ] = L"yellow3"               ;   // 0xFFCDCD00   //  205;205;0
+    ColorNames::nameMap[   yellow4                  ] = L"yellow4"               ;   // 0xFF8B8B00   //  139;139;0
 
     //metal rgb according to netscape                    o netscape
     //color name r/g/b hex bg/fg color sample
-    ColorNames::nameMap[   copper                   ] = "copper"                ;   // 0xFFB87333   //  184;115;51
-    ColorNames::nameMap[   gold                     ] = "gold"                  ;   // 0xFFCD7F32   //  205;127;50
-    ColorNames::nameMap[   silver                   ] = "silver"                ;   // 0xFFE6E8FA   //  230;232;250
+    ColorNames::nameMap[   copper                   ] = L"copper"                ;   // 0xFFB87333   //  184;115;51
+    ColorNames::nameMap[   gold                     ] = L"gold"                  ;   // 0xFFCD7F32   //  205;127;50
+    ColorNames::nameMap[   silver                   ] = L"silver"                ;   // 0xFFE6E8FA   //  230;232;250
 
 #else
 
-    ColorNames::nameMap[   aliceblue                ] = "aliceblue";                 // 0x00F0F8FF
-    ColorNames::nameMap[   antiquewhite             ] = "antiquewhite";              // 0x00FAEBD7
-    ColorNames::nameMap[   aqua                     ] = "aqua";                      // 0x0000FFFF
-    ColorNames::nameMap[   aquamarine               ] = "aquamarine";                // 0x007FFFD4
-    ColorNames::nameMap[   azure                    ] = "azure";                     // 0x00F0FFFF
-    ColorNames::nameMap[   beige                    ] = "beige";                     // 0x00F5F5DC
-    ColorNames::nameMap[   bisque                   ] = "bisque";                    // 0x00FFE4C4
-    ColorNames::nameMap[   black                    ] = "black";                     // 0x00000000
-    ColorNames::nameMap[   blanchedalmond           ] = "blanchedalmond";            // 0x00FFEBCD
-    ColorNames::nameMap[   blue                     ] = "blue";                      // 0x000000FF
-    ColorNames::nameMap[   blueviolet               ] = "blueviolet";                // 0x008A2BE2
-    ColorNames::nameMap[   brown                    ] = "brown";                     // 0x00A52A2A
-    ColorNames::nameMap[   burlywood                ] = "burlywood";                 // 0x00DEB887
-    ColorNames::nameMap[   cadetblue                ] = "cadetblue";                 // 0x005F9EA0
-    ColorNames::nameMap[   chartreuse               ] = "chartreuse";                // 0x007FFF00
-    ColorNames::nameMap[   chocolate                ] = "chocolate";                 // 0x00D2691E
-    ColorNames::nameMap[   coral                    ] = "coral";                     // 0x00FF7F50
-    ColorNames::nameMap[   cornflowerblue           ] = "cornflowerblue";            // 0x006495ED
-    ColorNames::nameMap[   cornsilk                 ] = "cornsilk";                  // 0x00FFF8DC
-    ColorNames::nameMap[   crimson                  ] = "crimson";                   // 0x00DC143C
-    ColorNames::nameMap[   cyan                     ] = "cyan";                      // 0x0000FFFF
-    ColorNames::nameMap[   darkblue                 ] = "darkblue";                  // 0x0000008B
-    ColorNames::nameMap[   darkcyan                 ] = "darkcyan";                  // 0x00008B8B
-    ColorNames::nameMap[   darkgoldenrod            ] = "darkgoldenrod";             // 0x00B8860B
-    ColorNames::nameMap[   darkgray                 ] = "darkgray";                  // 0x00A9A9A9
-    ColorNames::nameMap[   darkgreen                ] = "darkgreen";                 // 0x00006400
-    ColorNames::nameMap[   darkkhaki                ] = "darkkhaki";                 // 0x00BDB76B
-    ColorNames::nameMap[   darkmagenta              ] = "darkmagenta";               // 0x008B008B
-    ColorNames::nameMap[   darkolivegreen           ] = "darkolivegreen";            // 0x00556B2F
-    ColorNames::nameMap[   darkorange               ] = "darkorange";                // 0x00FF8C00
-    ColorNames::nameMap[   darkorchid               ] = "darkorchid";                // 0x009932CC
-    ColorNames::nameMap[   darkred                  ] = "darkred";                   // 0x008B0000
-    ColorNames::nameMap[   darksalmon               ] = "darksalmon";                // 0x00E9967A
-    ColorNames::nameMap[   darkseagreen             ] = "darkseagreen";              // 0x008FBC8B
-    ColorNames::nameMap[   darkslateblue            ] = "darkslateblue";             // 0x00483D8B
-    ColorNames::nameMap[   darkslategray            ] = "darkslategray";             // 0x002F4F4F
-    ColorNames::nameMap[   darkturquoise            ] = "darkturquoise";             // 0x0000CED1
-    ColorNames::nameMap[   darkviolet               ] = "darkviolet";                // 0x009400D3
-    ColorNames::nameMap[   deeppink                 ] = "deeppink";                  // 0x00FF1493
-    ColorNames::nameMap[   deepskyblue              ] = "deepskyblue";               // 0x0000BFFF
-    ColorNames::nameMap[   dimgray                  ] = "dimgray";                   // 0x00696969
-    ColorNames::nameMap[   dodgerblue               ] = "dodgerblue";                // 0x001E90FF
-    ColorNames::nameMap[   firebrick                ] = "firebrick";                 // 0x00B22222
-    ColorNames::nameMap[   floralwhite              ] = "floralwhite";               // 0x00FFFAF0
-    ColorNames::nameMap[   forestgreen              ] = "forestgreen";               // 0x00228B22
-    ColorNames::nameMap[   fuchsia                  ] = "fuchsia";                   // 0x00FF00FF
-    ColorNames::nameMap[   gainsboro                ] = "gainsboro";                 // 0x00DCDCDC
-    ColorNames::nameMap[   ghostwhite               ] = "ghostwhite";                // 0x00F8F8FF
-    ColorNames::nameMap[   gold                     ] = "gold";                      // 0x00FFD700
-    ColorNames::nameMap[   goldenrod                ] = "goldenrod";                 // 0x00DAA520
-    ColorNames::nameMap[   gray                     ] = "gray";                      // 0x00808080
-    ColorNames::nameMap[   green                    ] = "green";                     // 0x00008000
-    ColorNames::nameMap[   greenyellow              ] = "greenyellow";               // 0x00ADFF2F
-    ColorNames::nameMap[   honeydew                 ] = "honeydew";                  // 0x00F0FFF0
-    ColorNames::nameMap[   hotpink                  ] = "hotpink";                   // 0x00FF69B4
-    ColorNames::nameMap[   indianred                ] = "indianred";                 // 0x00CD5C5C
-    ColorNames::nameMap[   indigo                   ] = "indigo";                    // 0x004B0082
-    ColorNames::nameMap[   ivory                    ] = "ivory";                     // 0x00FFFFF0
-    ColorNames::nameMap[   khaki                    ] = "khaki";                     // 0x00F0E68C
-    ColorNames::nameMap[   lavender                 ] = "lavender";                  // 0x00E6E6FA
-    ColorNames::nameMap[   lavenderblush            ] = "lavenderblush";             // 0x00FFF0F5
-    ColorNames::nameMap[   lawngreen                ] = "lawngreen";                 // 0x007CFC00
-    ColorNames::nameMap[   lemonchiffon             ] = "lemonchiffon";              // 0x00FFFACD
-    ColorNames::nameMap[   lightblue                ] = "lightblue";                 // 0x00ADD8E6
-    ColorNames::nameMap[   lightcoral               ] = "lightcoral";                // 0x00F08080
-    ColorNames::nameMap[   lightcyan                ] = "lightcyan";                 // 0x00E0FFFF
-    ColorNames::nameMap[   lightgoldenrodyellow     ] = "lightgoldenrodyellow";      // 0x00FAFAD2
-    ColorNames::nameMap[   lightgray                ] = "lightgray";                 // 0x00D3D3D3
-    ColorNames::nameMap[   lightgreen               ] = "lightgreen";                // 0x0090EE90
-    ColorNames::nameMap[   lightpink                ] = "lightpink";                 // 0x00FFB6C1
-    ColorNames::nameMap[   lightsalmon              ] = "lightsalmon";               // 0x00FFA07A
-    ColorNames::nameMap[   lightseagreen            ] = "lightseagreen";             // 0x0020B2AA
-    ColorNames::nameMap[   lightskyblue             ] = "lightskyblue";              // 0x0087CEFA
-    ColorNames::nameMap[   lightslategray           ] = "lightslategray";            // 0x00778899
-    ColorNames::nameMap[   lightsteelblue           ] = "lightsteelblue";            // 0x00B0C4DE
-    ColorNames::nameMap[   lightyellow              ] = "lightyellow";               // 0x00FFFFE0
-    ColorNames::nameMap[   lime                     ] = "lime";                      // 0x0000FF00
-    ColorNames::nameMap[   limegreen                ] = "limegreen";                 // 0x0032CD32
-    ColorNames::nameMap[   linen                    ] = "linen";                     // 0x00FAF0E6
-    ColorNames::nameMap[   magenta                  ] = "magenta";                   // 0x00FF00FF
-    ColorNames::nameMap[   maroon                   ] = "maroon";                    // 0x00800000
-    ColorNames::nameMap[   mediumaquamarine         ] = "mediumaquamarine";          // 0x0066CDAA
-    ColorNames::nameMap[   mediumblue               ] = "mediumblue";                // 0x000000CD
-    ColorNames::nameMap[   mediumorchid             ] = "mediumorchid";              // 0x00BA55D3
-    ColorNames::nameMap[   mediumpurple             ] = "mediumpurple";              // 0x009370DB
-    ColorNames::nameMap[   mediumseagreen           ] = "mediumseagreen";            // 0x003CB371
-    ColorNames::nameMap[   mediumslateblue          ] = "mediumslateblue";           // 0x007B68EE
-    ColorNames::nameMap[   mediumspringgreen        ] = "mediumspringgreen";         // 0x0000FA9A
-    ColorNames::nameMap[   mediumturquoise          ] = "mediumturquoise";           // 0x0048D1CC
-    ColorNames::nameMap[   mediumvioletred          ] = "mediumvioletred";           // 0x00C71585
-    ColorNames::nameMap[   midnightblue             ] = "midnightblue";              // 0x00191970
-    ColorNames::nameMap[   mintcream                ] = "mintcream";                 // 0x00F5FFFA
-    ColorNames::nameMap[   mistyrose                ] = "mistyrose";                 // 0x00FFE4E1
-    ColorNames::nameMap[   moccasin                 ] = "moccasin";                  // 0x00FFE4B5
-    ColorNames::nameMap[   navajowhite              ] = "navajowhite";               // 0x00FFDEAD
-    ColorNames::nameMap[   navy                     ] = "navy";                      // 0x00000080
-    ColorNames::nameMap[   oldlace                  ] = "oldlace";                   // 0x00FDF5E6
-    ColorNames::nameMap[   olive                    ] = "olive";                     // 0x00808000
-    ColorNames::nameMap[   olivedrab                ] = "olivedrab";                 // 0x006B8E23
-    ColorNames::nameMap[   orange                   ] = "orange";                    // 0x00FFA500
-    ColorNames::nameMap[   orangered                ] = "orangered";                 // 0x00FF4500
-    ColorNames::nameMap[   orchid                   ] = "orchid";                    // 0x00DA70D6
-    ColorNames::nameMap[   palegoldenrod            ] = "palegoldenrod";             // 0x00EEE8AA
-    ColorNames::nameMap[   palegreen                ] = "palegreen";                 // 0x0098FB98
-    ColorNames::nameMap[   paleturquoise            ] = "paleturquoise";             // 0x00AFEEEE
-    ColorNames::nameMap[   palevioletred            ] = "palevioletred";             // 0x00DB7093
-    ColorNames::nameMap[   papayawhip               ] = "papayawhip";                // 0x00FFEFD5
-    ColorNames::nameMap[   peachpuff                ] = "peachpuff";                 // 0x00FFDAB9
-    ColorNames::nameMap[   peru                     ] = "peru";                      // 0x00CD853F
-    ColorNames::nameMap[   pink                     ] = "pink";                      // 0x00FFC0CB
-    ColorNames::nameMap[   plum                     ] = "plum";                      // 0x00DDA0DD
-    ColorNames::nameMap[   powderblue               ] = "powderblue";                // 0x00B0E0E6
-    ColorNames::nameMap[   purple                   ] = "purple";                    // 0x00800080
-    ColorNames::nameMap[   red                      ] = "red";                       // 0x00FF0000
-    ColorNames::nameMap[   rosybrown                ] = "rosybrown";                 // 0x00BC8F8F
-    ColorNames::nameMap[   royalblue                ] = "royalblue";                 // 0x004169E1
-    ColorNames::nameMap[   saddlebrown              ] = "saddlebrown";               // 0x008B4513
-    ColorNames::nameMap[   salmon                   ] = "salmon";                    // 0x00FA8072
-    ColorNames::nameMap[   sandybrown               ] = "sandybrown";                // 0x00F4A460
-    ColorNames::nameMap[   seagreen                 ] = "seagreen";                  // 0x002E8B57
-    ColorNames::nameMap[   seashell                 ] = "seashell";                  // 0x00FFF5EE
-    ColorNames::nameMap[   sienna                   ] = "sienna";                    // 0x00A0522D
-    ColorNames::nameMap[   silver                   ] = "silver";                    // 0x00C0C0C0
-    ColorNames::nameMap[   skyblue                  ] = "skyblue";                   // 0x0087CEEB
-    ColorNames::nameMap[   slateblue                ] = "slateblue";                 // 0x006A5ACD
-    ColorNames::nameMap[   slategray                ] = "slategray";                 // 0x00708090
-    ColorNames::nameMap[   snow                     ] = "snow";                      // 0x00FFFAFA
-    ColorNames::nameMap[   springgreen              ] = "springgreen";               // 0x0000FF7F
-    ColorNames::nameMap[   steelblue                ] = "steelblue";                 // 0x004682B4
-    ColorNames::nameMap[   tan                      ] = "tan";                       // 0x00D2B48C
-    ColorNames::nameMap[   teal                     ] = "teal";                      // 0x00008080
-    ColorNames::nameMap[   thistle                  ] = "thistle";                   // 0x00D8BFD8
-    ColorNames::nameMap[   tomato                   ] = "tomato";                    // 0x00FF6347
-    ColorNames::nameMap[   turquoise                ] = "turquoise";                 // 0x0040E0D0
-    ColorNames::nameMap[   violet                   ] = "violet";                    // 0x00EE82EE
-    ColorNames::nameMap[   wheat                    ] = "wheat";                     // 0x00F5DEB3
-    ColorNames::nameMap[   white                    ] = "white";                     // 0x00FFFFFF
-    ColorNames::nameMap[   whitesmoke               ] = "whitesmoke";                // 0x00F5F5F5
-    ColorNames::nameMap[   yellow                   ] = "yellow";                    // 0x00FFFF00
-    ColorNames::nameMap[   yellowgreen              ] = "yellowgreen";               // 0x009ACD32
+    ColorNames::nameMap[   aliceblue                ] = L"aliceblue";                 // 0x00F0F8FF
+    ColorNames::nameMap[   antiquewhite             ] = L"antiquewhite";              // 0x00FAEBD7
+    ColorNames::nameMap[   aqua                     ] = L"aqua";                      // 0x0000FFFF
+    ColorNames::nameMap[   aquamarine               ] = L"aquamarine";                // 0x007FFFD4
+    ColorNames::nameMap[   azure                    ] = L"azure";                     // 0x00F0FFFF
+    ColorNames::nameMap[   beige                    ] = L"beige";                     // 0x00F5F5DC
+    ColorNames::nameMap[   bisque                   ] = L"bisque";                    // 0x00FFE4C4
+    ColorNames::nameMap[   black                    ] = L"black";                     // 0x00000000
+    ColorNames::nameMap[   blanchedalmond           ] = L"blanchedalmond";            // 0x00FFEBCD
+    ColorNames::nameMap[   blue                     ] = L"blue";                      // 0x000000FF
+    ColorNames::nameMap[   blueviolet               ] = L"blueviolet";                // 0x008A2BE2
+    ColorNames::nameMap[   brown                    ] = L"brown";                     // 0x00A52A2A
+    ColorNames::nameMap[   burlywood                ] = L"burlywood";                 // 0x00DEB887
+    ColorNames::nameMap[   cadetblue                ] = L"cadetblue";                 // 0x005F9EA0
+    ColorNames::nameMap[   chartreuse               ] = L"chartreuse";                // 0x007FFF00
+    ColorNames::nameMap[   chocolate                ] = L"chocolate";                 // 0x00D2691E
+    ColorNames::nameMap[   coral                    ] = L"coral";                     // 0x00FF7F50
+    ColorNames::nameMap[   cornflowerblue           ] = L"cornflowerblue";            // 0x006495ED
+    ColorNames::nameMap[   cornsilk                 ] = L"cornsilk";                  // 0x00FFF8DC
+    ColorNames::nameMap[   crimson                  ] = L"crimson";                   // 0x00DC143C
+    ColorNames::nameMap[   cyan                     ] = L"cyan";                      // 0x0000FFFF
+    ColorNames::nameMap[   darkblue                 ] = L"darkblue";                  // 0x0000008B
+    ColorNames::nameMap[   darkcyan                 ] = L"darkcyan";                  // 0x00008B8B
+    ColorNames::nameMap[   darkgoldenrod            ] = L"darkgoldenrod";             // 0x00B8860B
+    ColorNames::nameMap[   darkgray                 ] = L"darkgray";                  // 0x00A9A9A9
+    ColorNames::nameMap[   darkgreen                ] = L"darkgreen";                 // 0x00006400
+    ColorNames::nameMap[   darkkhaki                ] = L"darkkhaki";                 // 0x00BDB76B
+    ColorNames::nameMap[   darkmagenta              ] = L"darkmagenta";               // 0x008B008B
+    ColorNames::nameMap[   darkolivegreen           ] = L"darkolivegreen";            // 0x00556B2F
+    ColorNames::nameMap[   darkorange               ] = L"darkorange";                // 0x00FF8C00
+    ColorNames::nameMap[   darkorchid               ] = L"darkorchid";                // 0x009932CC
+    ColorNames::nameMap[   darkred                  ] = L"darkred";                   // 0x008B0000
+    ColorNames::nameMap[   darksalmon               ] = L"darksalmon";                // 0x00E9967A
+    ColorNames::nameMap[   darkseagreen             ] = L"darkseagreen";              // 0x008FBC8B
+    ColorNames::nameMap[   darkslateblue            ] = L"darkslateblue";             // 0x00483D8B
+    ColorNames::nameMap[   darkslategray            ] = L"darkslategray";             // 0x002F4F4F
+    ColorNames::nameMap[   darkturquoise            ] = L"darkturquoise";             // 0x0000CED1
+    ColorNames::nameMap[   darkviolet               ] = L"darkviolet";                // 0x009400D3
+    ColorNames::nameMap[   deeppink                 ] = L"deeppink";                  // 0x00FF1493
+    ColorNames::nameMap[   deepskyblue              ] = L"deepskyblue";               // 0x0000BFFF
+    ColorNames::nameMap[   dimgray                  ] = L"dimgray";                   // 0x00696969
+    ColorNames::nameMap[   dodgerblue               ] = L"dodgerblue";                // 0x001E90FF
+    ColorNames::nameMap[   firebrick                ] = L"firebrick";                 // 0x00B22222
+    ColorNames::nameMap[   floralwhite              ] = L"floralwhite";               // 0x00FFFAF0
+    ColorNames::nameMap[   forestgreen              ] = L"forestgreen";               // 0x00228B22
+    ColorNames::nameMap[   fuchsia                  ] = L"fuchsia";                   // 0x00FF00FF
+    ColorNames::nameMap[   gainsboro                ] = L"gainsboro";                 // 0x00DCDCDC
+    ColorNames::nameMap[   ghostwhite               ] = L"ghostwhite";                // 0x00F8F8FF
+    ColorNames::nameMap[   gold                     ] = L"gold";                      // 0x00FFD700
+    ColorNames::nameMap[   goldenrod                ] = L"goldenrod";                 // 0x00DAA520
+    ColorNames::nameMap[   gray                     ] = L"gray";                      // 0x00808080
+    ColorNames::nameMap[   green                    ] = L"green";                     // 0x00008000
+    ColorNames::nameMap[   greenyellow              ] = L"greenyellow";               // 0x00ADFF2F
+    ColorNames::nameMap[   honeydew                 ] = L"honeydew";                  // 0x00F0FFF0
+    ColorNames::nameMap[   hotpink                  ] = L"hotpink";                   // 0x00FF69B4
+    ColorNames::nameMap[   indianred                ] = L"indianred";                 // 0x00CD5C5C
+    ColorNames::nameMap[   indigo                   ] = L"indigo";                    // 0x004B0082
+    ColorNames::nameMap[   ivory                    ] = L"ivory";                     // 0x00FFFFF0
+    ColorNames::nameMap[   khaki                    ] = L"khaki";                     // 0x00F0E68C
+    ColorNames::nameMap[   lavender                 ] = L"lavender";                  // 0x00E6E6FA
+    ColorNames::nameMap[   lavenderblush            ] = L"lavenderblush";             // 0x00FFF0F5
+    ColorNames::nameMap[   lawngreen                ] = L"lawngreen";                 // 0x007CFC00
+    ColorNames::nameMap[   lemonchiffon             ] = L"lemonchiffon";              // 0x00FFFACD
+    ColorNames::nameMap[   lightblue                ] = L"lightblue";                 // 0x00ADD8E6
+    ColorNames::nameMap[   lightcoral               ] = L"lightcoral";                // 0x00F08080
+    ColorNames::nameMap[   lightcyan                ] = L"lightcyan";                 // 0x00E0FFFF
+    ColorNames::nameMap[   lightgoldenrodyellow     ] = L"lightgoldenrodyellow";      // 0x00FAFAD2
+    ColorNames::nameMap[   lightgray                ] = L"lightgray";                 // 0x00D3D3D3
+    ColorNames::nameMap[   lightgreen               ] = L"lightgreen";                // 0x0090EE90
+    ColorNames::nameMap[   lightpink                ] = L"lightpink";                 // 0x00FFB6C1
+    ColorNames::nameMap[   lightsalmon              ] = L"lightsalmon";               // 0x00FFA07A
+    ColorNames::nameMap[   lightseagreen            ] = L"lightseagreen";             // 0x0020B2AA
+    ColorNames::nameMap[   lightskyblue             ] = L"lightskyblue";              // 0x0087CEFA
+    ColorNames::nameMap[   lightslategray           ] = L"lightslategray";            // 0x00778899
+    ColorNames::nameMap[   lightsteelblue           ] = L"lightsteelblue";            // 0x00B0C4DE
+    ColorNames::nameMap[   lightyellow              ] = L"lightyellow";               // 0x00FFFFE0
+    ColorNames::nameMap[   lime                     ] = L"lime";                      // 0x0000FF00
+    ColorNames::nameMap[   limegreen                ] = L"limegreen";                 // 0x0032CD32
+    ColorNames::nameMap[   linen                    ] = L"linen";                     // 0x00FAF0E6
+    ColorNames::nameMap[   magenta                  ] = L"magenta";                   // 0x00FF00FF
+    ColorNames::nameMap[   maroon                   ] = L"maroon";                    // 0x00800000
+    ColorNames::nameMap[   mediumaquamarine         ] = L"mediumaquamarine";          // 0x0066CDAA
+    ColorNames::nameMap[   mediumblue               ] = L"mediumblue";                // 0x000000CD
+    ColorNames::nameMap[   mediumorchid             ] = L"mediumorchid";              // 0x00BA55D3
+    ColorNames::nameMap[   mediumpurple             ] = L"mediumpurple";              // 0x009370DB
+    ColorNames::nameMap[   mediumseagreen           ] = L"mediumseagreen";            // 0x003CB371
+    ColorNames::nameMap[   mediumslateblue          ] = L"mediumslateblue";           // 0x007B68EE
+    ColorNames::nameMap[   mediumspringgreen        ] = L"mediumspringgreen";         // 0x0000FA9A
+    ColorNames::nameMap[   mediumturquoise          ] = L"mediumturquoise";           // 0x0048D1CC
+    ColorNames::nameMap[   mediumvioletred          ] = L"mediumvioletred";           // 0x00C71585
+    ColorNames::nameMap[   midnightblue             ] = L"midnightblue";              // 0x00191970
+    ColorNames::nameMap[   mintcream                ] = L"mintcream";                 // 0x00F5FFFA
+    ColorNames::nameMap[   mistyrose                ] = L"mistyrose";                 // 0x00FFE4E1
+    ColorNames::nameMap[   moccasin                 ] = L"moccasin";                  // 0x00FFE4B5
+    ColorNames::nameMap[   navajowhite              ] = L"navajowhite";               // 0x00FFDEAD
+    ColorNames::nameMap[   navy                     ] = L"navy";                      // 0x00000080
+    ColorNames::nameMap[   oldlace                  ] = L"oldlace";                   // 0x00FDF5E6
+    ColorNames::nameMap[   olive                    ] = L"olive";                     // 0x00808000
+    ColorNames::nameMap[   olivedrab                ] = L"olivedrab";                 // 0x006B8E23
+    ColorNames::nameMap[   orange                   ] = L"orange";                    // 0x00FFA500
+    ColorNames::nameMap[   orangered                ] = L"orangered";                 // 0x00FF4500
+    ColorNames::nameMap[   orchid                   ] = L"orchid";                    // 0x00DA70D6
+    ColorNames::nameMap[   palegoldenrod            ] = L"palegoldenrod";             // 0x00EEE8AA
+    ColorNames::nameMap[   palegreen                ] = L"palegreen";                 // 0x0098FB98
+    ColorNames::nameMap[   paleturquoise            ] = L"paleturquoise";             // 0x00AFEEEE
+    ColorNames::nameMap[   palevioletred            ] = L"palevioletred";             // 0x00DB7093
+    ColorNames::nameMap[   papayawhip               ] = L"papayawhip";                // 0x00FFEFD5
+    ColorNames::nameMap[   peachpuff                ] = L"peachpuff";                 // 0x00FFDAB9
+    ColorNames::nameMap[   peru                     ] = L"peru";                      // 0x00CD853F
+    ColorNames::nameMap[   pink                     ] = L"pink";                      // 0x00FFC0CB
+    ColorNames::nameMap[   plum                     ] = L"plum";                      // 0x00DDA0DD
+    ColorNames::nameMap[   powderblue               ] = L"powderblue";                // 0x00B0E0E6
+    ColorNames::nameMap[   purple                   ] = L"purple";                    // 0x00800080
+    ColorNames::nameMap[   red                      ] = L"red";                       // 0x00FF0000
+    ColorNames::nameMap[   rosybrown                ] = L"rosybrown";                 // 0x00BC8F8F
+    ColorNames::nameMap[   royalblue                ] = L"royalblue";                 // 0x004169E1
+    ColorNames::nameMap[   saddlebrown              ] = L"saddlebrown";               // 0x008B4513
+    ColorNames::nameMap[   salmon                   ] = L"salmon";                    // 0x00FA8072
+    ColorNames::nameMap[   sandybrown               ] = L"sandybrown";                // 0x00F4A460
+    ColorNames::nameMap[   seagreen                 ] = L"seagreen";                  // 0x002E8B57
+    ColorNames::nameMap[   seashell                 ] = L"seashell";                  // 0x00FFF5EE
+    ColorNames::nameMap[   sienna                   ] = L"sienna";                    // 0x00A0522D
+    ColorNames::nameMap[   silver                   ] = L"silver";                    // 0x00C0C0C0
+    ColorNames::nameMap[   skyblue                  ] = L"skyblue";                   // 0x0087CEEB
+    ColorNames::nameMap[   slateblue                ] = L"slateblue";                 // 0x006A5ACD
+    ColorNames::nameMap[   slategray                ] = L"slategray";                 // 0x00708090
+    ColorNames::nameMap[   snow                     ] = L"snow";                      // 0x00FFFAFA
+    ColorNames::nameMap[   springgreen              ] = L"springgreen";               // 0x0000FF7F
+    ColorNames::nameMap[   steelblue                ] = L"steelblue";                 // 0x004682B4
+    ColorNames::nameMap[   tan                      ] = L"tan";                       // 0x00D2B48C
+    ColorNames::nameMap[   teal                     ] = L"teal";                      // 0x00008080
+    ColorNames::nameMap[   thistle                  ] = L"thistle";                   // 0x00D8BFD8
+    ColorNames::nameMap[   tomato                   ] = L"tomato";                    // 0x00FF6347
+    ColorNames::nameMap[   turquoise                ] = L"turquoise";                 // 0x0040E0D0
+    ColorNames::nameMap[   violet                   ] = L"violet";                    // 0x00EE82EE
+    ColorNames::nameMap[   wheat                    ] = L"wheat";                     // 0x00F5DEB3
+    ColorNames::nameMap[   white                    ] = L"white";                     // 0x00FFFFFF
+    ColorNames::nameMap[   whitesmoke               ] = L"whitesmoke";                // 0x00F5F5F5
+    ColorNames::nameMap[   yellow                   ] = L"yellow";                    // 0x00FFFF00
+    ColorNames::nameMap[   yellowgreen              ] = L"yellowgreen";               // 0x009ACD32
 
 #endif  // VCF_LARGE_COLOR_LIST
 
-    ColorNames::nameMap[   defaultcolor             ] = "defaultcolor";              // 0x02000000 ( appears as black )
-    ColorNames::nameMap[   transparent              ] = "transparent";               // 0xFF000000
-    ColorNames::nameMap[   unknown                  ] = "unknown";                   // 0x01000000 ( appears as black )
+    ColorNames::nameMap[   defaultcolor             ] = L"defaultcolor";              // 0x02000000 ( appears as black )
+    ColorNames::nameMap[   transparent              ] = L"transparent";               // 0xFF000000
+    ColorNames::nameMap[   unknown                  ] = L"unknown";                   // 0x01000000 ( appears as black )
 
-    ColorNames::unknownColorName = "unknown";
+    ColorNames::unknownColorName = L"unknown";
 }
 
 Enumerator<String>* ColorNames::getColorIDs()
@@ -1830,6 +1419,9 @@ String ColorNames::unknownColor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/25 19:52:48  marcelloptr
+*adjusted macros and other changes for better performance
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -16,6 +16,15 @@ where you installed the VCF.
 
 namespace VCF{
 
+class Rect;
+class Color;
+class Image;
+class ImageLoader;
+class ContextPeer;
+class GraphicsContext;
+class Font;
+class FontPeer;
+
 
 
 /**
@@ -281,6 +290,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/25 19:52:48  marcelloptr
+*adjusted macros and other changes for better performance
+*
 *Revision 1.1.2.4  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
