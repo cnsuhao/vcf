@@ -136,8 +136,8 @@ public:
 		if ( NULL != owner ) {			
 			result.left_ = owner->getLeft() + ( owner->getWidth()/2.0 - dialog->getWidth()/2.0 );
 			result.top_ = owner->getTop() + ( owner->getHeight()/2.0 - dialog->getHeight()/2.0 );
-			result.right_ = bounds.left_ + dialog->getWidth();
-			result.bottom_ = bounds.top_ + dialog->getHeight();
+			result.right_ = result.left_ + dialog->getWidth();
+			result.bottom_ = result.top_ + dialog->getHeight();
 			if ( NULL != owner->getParent() ) {
 				owner->translateToScreenCoords( &result );
 			}
@@ -2086,6 +2086,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.11  2004/10/25 03:52:02  ddiego
+*minor changes to osx checkin for win32
+*
 *Revision 1.2.2.10  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *

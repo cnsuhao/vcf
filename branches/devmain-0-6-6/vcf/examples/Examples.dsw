@@ -675,6 +675,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "OpenGLKitDLL"=..\build\vc60\OpenGLKit\OpenGLKitDLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "OpenGLShapes"=.\OpenGLShapes\OpenGLShapes.dsp - Package Owner=<4>
 
 Package=<5>
@@ -922,6 +934,7 @@ Package=<4>
 ###############################################################################
 
 Project: "ThreadsInGUI"=.\ThreadsInGUI\ThreadsInGUI.dsp - Package Owner=<4>
+
 
 Package=<5>
 {{{

@@ -88,7 +88,7 @@ END_CLASSINFO( PlayListDictionary )
 class PlayListItem : public DefaultListItem {
 public:
 	PlayListItem( Control* control, const String& caption, 
-					Model* model ):
+					ListModel* model ):
 	  DefaultListItem( model, caption ),control_(control) {
 
 	}
@@ -1676,7 +1676,7 @@ void MainQTWindow::onPlaylistItemSelected( VCF::Event* e )
 
 	if ( NULL != selectedItem ) {
 		ListModel* lm = playListCtrl_->getListModel();
-		lm->empty();
+		playListCtrl_->getViewModel()->empty();
 
 		PlayListDictionary* list = playListDict_->get( selectedItem->getID() );
 		VCF_ASSERT( NULL != list );
@@ -2012,7 +2012,7 @@ void MainQTWindow::onPlayListTreeKeyPressed( VCF::KeyboardEvent* e )
 			playListTree_->getTreeModel()->deleteNodeItem( selectedItem );
 			
 
-			playListCtrl_->getListModel()->empty();
+			playListCtrl_->getViewModel()->empty();
 		}
 		
 	}

@@ -11,7 +11,10 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
 using namespace VCF;
-
+//JC - I commented this out since we already have this code in 
+//VCFWin32::Win32Utils::getErrorString()
+//prior to the release of 0-6-6 we will need to just delete these lines
+/*
 void DisplayErrMsg(DWORD err) {
   LPVOID lpMsgBuf;
   FormatMessage(
@@ -27,6 +30,7 @@ void DisplayErrMsg(DWORD err) {
   ::OutputDebugString(static_cast<const char*>(lpMsgBuf));
   LocalFree(lpMsgBuf);
 }
+*/
 
 Win32Font::Win32Font( const String& fontName ):
 	font_(NULL),
@@ -330,8 +334,14 @@ double Win32Font::getPointSize()
 	}
 
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
-	DWORD err = ::GetLastError();
-	DisplayErrMsg(err);
+	DWORD err = ::GetLastError();	
+	
+	//JC - I commented this out since we already have this functionality in 
+	//Win32Utils::getErrorString, so there's no need for the extra code here
+	//DisplayErrMsg(err);
+
+	StringUtils::trace( VCFWin32::Win32Utils::getErrorString(err) );
+
 	if (err > 0) {
 	  dc = GetDC( ::GetDesktopWindow() );//gets screen DC	
 	}
@@ -867,6 +877,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.14  2004/10/25 03:52:02  ddiego
+*minor changes to osx checkin for win32
+*
 *Revision 1.2.2.13  2004/10/11 14:28:47  kiklop74
 *First version of patch for BUG 1042623 - Incorect handling of DC in win32font
 *
