@@ -54,6 +54,8 @@ public:
 
 	virtual FileStreamPeer* internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType );
 
+	virtual FileStreamPeer* internal_createFileStreamPeer( File* file );
+
 	virtual LocalePeer* internal_createLocalePeer();
 };
 
@@ -64,6 +66,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

@@ -93,6 +93,11 @@ FileStreamPeer* Win32SystemToolkit::internal_createFileStreamPeer( const String&
 	return new Win32FileStream( filename, accessType );
 }
 
+FileStreamPeer* Win32SystemToolkit::internal_createFileStreamPeer( File* file )
+{
+	return new Win32FileStream( file );
+}
+
 LocalePeer* Win32SystemToolkit::internal_createLocalePeer()
 {
 	return new Win32LocalePeer();
@@ -102,6 +107,9 @@ LocalePeer* Win32SystemToolkit::internal_createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

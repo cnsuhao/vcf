@@ -19,7 +19,7 @@ File::File( const String& fileName ):
 	setName( fileName );
 }
 
-File::File( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags ):
+File::File( const String& fileName, ulong32 openFlags, ShareFlags shareFlags ):
 	filePeer_(NULL),
 	openAccess_(File::ofNone)
 {
@@ -95,7 +95,7 @@ bool File::exists( const String& filename )
 	return System::doesFileExist( filename );
 }
 
-void File::create( const String& newFileName, File::OpenFlags openFlags )
+void File::create( const String& newFileName, ulong32 openFlags )
 {
 	try {
 		fileName_ = newFileName;
@@ -157,7 +157,7 @@ void File::openWithFileName( const String& fileName )
 	openAccess_ = File::ofStat;
 }
 
-void File::openWithRights( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags )
+void File::openWithRights( const String& fileName, ulong32 openFlags, ShareFlags shareFlags )
 {
 	fileName_ = fileName;
 	filePeer_->open( fileName, openFlags, shareFlags );
@@ -174,7 +174,8 @@ FileInputStream* File::getInputStream()
 	FileInputStream* result = NULL;
 
 	if ( isReadable() ) {
-		result = new FileInputStream( fileName_ );
+		result = new FileInputStream( this );
+		result->seek( 0, stSeekFromStart );
 	}
 
 	return result;
@@ -185,7 +186,8 @@ FileOutputStream* File::getOutputStream()
 	FileOutputStream* result = NULL;
 
 	if ( isWriteable() ) {
-		result = new FileOutputStream( fileName_ );
+		result = new FileOutputStream( this );
+		result->seek( 0, stSeekFromStart );
 	}
 
 	return result;
@@ -195,6 +197,9 @@ FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.7  2004/07/26 03:40:31  ddiego
 *minor changes
 *

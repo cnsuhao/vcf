@@ -66,6 +66,22 @@ FileInputStream::FileInputStream( const String& filename )
 }
 
 
+FileInputStream::FileInputStream( File* file )
+{
+	filename_ = file->getName();
+	access_ = fsRead;
+	try {
+		fsPeer_ = SystemToolkit::createFileStreamPeer( file );
+		if ( NULL == fsPeer_ ) {
+			throw NoPeerFoundException();
+		}
+	}
+	catch ( BasicException& ){
+		throw;
+	}
+}
+
+
 FileInputStream::~FileInputStream()
 {
 	close();
@@ -146,6 +162,21 @@ FileOutputStream::FileOutputStream( const String& filename, const bool & append/
 }
 
 
+FileOutputStream::FileOutputStream( File* file )
+{
+	filename_ = file->getName();
+
+	try {
+		fsPeer_ = SystemToolkit::createFileStreamPeer( file );
+		if ( NULL == fsPeer_ ) {
+			throw NoPeerFoundException();
+		}
+	}
+	catch ( BasicException&  ){
+		throw ;
+	}
+}
+
 FileOutputStream::~FileOutputStream()
 {
 	close();
@@ -218,6 +249,9 @@ ulong32 FileOutputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

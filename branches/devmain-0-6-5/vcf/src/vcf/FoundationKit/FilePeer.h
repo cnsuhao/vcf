@@ -81,7 +81,7 @@ public:
 	*@param openFlags
 	*@param shareFlags
 	*/
-	virtual void open( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny ) = 0;
+	virtual void open( const String& fileName, ulong32 openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny ) = 0;
 
 	/**
 	* closes the file if open
@@ -96,7 +96,7 @@ public:
 	instead of a file. The file name is omitted here as this is stored in the 
 	File instance kept by the peer.
 	*/
-	virtual void create( File::OpenFlags openFlags ) = 0;
+	virtual void create( ulong32 openFlags ) = 0;
 
 	/**
 	*deletes the file from the file system
@@ -135,6 +135,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the

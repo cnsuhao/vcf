@@ -171,6 +171,35 @@ int main( int argc, char** argv ){
 
 	}
 
+	{
+		File f1("text-file.txt", File::ofRead | File::ofWrite, File::shNone );
+
+		FileOutputStream* fos = f1.getOutputStream();
+
+		TextOutputStream tos(fos);
+
+		tos.write( 100 );
+		tos.write( 200 );
+		tos.write( true );
+		tos.write( 12.433 );
+		tos.write( String("Hello World") );
+
+		fos->free();
+
+		FileInputStream* fis = f1.getInputStream();
+
+		TextInputStream tis(fis);
+		String s;
+		tis >> s;
+		
+		System::println( "File contents of \"%ls\" :\n%ls", f1.getName().c_str(), s.c_str() );
+
+		fis->free();
+
+		f1.remove();
+
+	}
+
 	FoundationKit::terminate();
 	return 0;
 }
@@ -179,6 +208,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.9  2004/07/29 02:39:13  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.2.4.8  2004/07/25 17:04:02  marcelloptr
 *project changes
 *

@@ -46,7 +46,7 @@ void Win32FilePeer::setFile( File* file )
 	fileHandle_ = NULL;
 }
 
-void Win32FilePeer::create(  File::OpenFlags openFlags  )
+void Win32FilePeer::create(  ulong32 openFlags  )
 {
 	String filename = getName();
 
@@ -722,10 +722,10 @@ void Win32FilePeer::setDateModified( const DateTime& dateModified )
 }
 
 
-void Win32FilePeer::open( const String& fileName, File::OpenFlags openFlags, File::ShareFlags shareFlags/*=File::shMaskAny*/ )
+void Win32FilePeer::open( const String& fileName, ulong32 openFlags, File::ShareFlags shareFlags/*=File::shMaskAny*/ )
 {
 	//check initial arguments
-	File::OpenFlags f1 =  File::ofNone;
+	ulong32 f1 =  File::ofNone;
 	VCF_ASSERT( openFlags != f1 );
 
 
@@ -956,6 +956,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.6  2004/07/26 03:40:31  ddiego
 *minor changes
 *

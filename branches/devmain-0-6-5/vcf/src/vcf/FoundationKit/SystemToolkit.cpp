@@ -107,6 +107,11 @@ FileStreamPeer* SystemToolkit::createFileStreamPeer( const String& filename, con
 	return SystemToolkit::getSystemToolkit()->internal_createFileStreamPeer(filename,accessType);
 }
 
+FileStreamPeer* SystemToolkit::createFileStreamPeer( File* file )
+{
+	return SystemToolkit::getSystemToolkit()->internal_createFileStreamPeer(file);
+}
+
 LocalePeer* SystemToolkit::createLocalePeer()
 {
 	return SystemToolkit::getSystemToolkit()->internal_createLocalePeer();
@@ -116,6 +121,9 @@ LocalePeer* SystemToolkit::createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

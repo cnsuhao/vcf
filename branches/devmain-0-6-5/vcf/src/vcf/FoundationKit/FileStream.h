@@ -62,6 +62,8 @@ protected:
 
 class FOUNDATIONKIT_API FileInputStream : public InputStream , public FileStreamBase {//, public OutputStream, public Object {
 public:
+	FileInputStream( File* file );
+
 	FileInputStream( const String& filename );
 
 	virtual ~FileInputStream();
@@ -106,6 +108,8 @@ class FOUNDATIONKIT_API FileOutputStream : public OutputStream , public FileStre
 public:
 	FileOutputStream( const String& filename, const bool & append = false );
 
+	FileOutputStream( File* file );
+
 	virtual ~FileOutputStream();
 
 	virtual void seek(const unsigned long& offset, const SeekType& offsetFrom);
@@ -140,6 +144,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
