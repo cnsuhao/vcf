@@ -1336,7 +1336,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 		document->addView( view );
 
 		if ( view != window ) {
-
+			// sets a child view for the document inside the window
 			setNewView( info, view, window, document );
 		}
 	}
@@ -1586,8 +1586,8 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.6  2004/11/13 22:39:11  marcelloptr
-*more documentation
+*Revision 1.2.2.7  2004/11/16 21:34:24  marcelloptr
+*added documentation
 *
 *Revision 1.2.2.2  2004/10/26 05:44:12  marcelloptr
 *Document Window documentation
