@@ -113,10 +113,24 @@ void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 
 }
 
+DateTime OSXSystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
+{
+	DateTime result;
+	return result;
+}
+
+DateTime OSXSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
+{
+	DateTime result;
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.7  2004/07/09 03:39:30  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

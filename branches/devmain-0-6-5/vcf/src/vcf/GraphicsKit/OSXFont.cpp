@@ -244,29 +244,13 @@ void OSXFont::setStrikeOut( const bool& strikeout )
 
 }
 
-double OSXFont::getShear()
-{
-	return 0.0;
-}
-
-void OSXFont::setShear(const double& shear )
-{
-
-}
-
-double OSXFont::getAngle()
-{
-	return 0.0;
-}
-
-void OSXFont::setAngle( const double& angle )
+void OSXFont::setFont( Font* font ) 
 {
 
 }
 
 void OSXFont::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const String& name )
+								const bool& underlined, const bool& struckOut, const String& name )
 {
 	attrBold_ = bold ? TRUE : FALSE;
 	attrItalic_ = italic ? TRUE : FALSE;
@@ -288,43 +272,15 @@ void OSXFont::setAttributes( const double& pointSize, const bool& bold, const bo
 
 double OSXFont::getAscent()
 {
-	return 0.0;
+	return 10.0;
 }
 
 double OSXFont::getDescent()
 {
-	return 0.0;
+	return 8.0;
 }
 
-double OSXFont::getExternalLeading()
-{
-	return 0.0;
-}
 
-double OSXFont::getInternalLeading()
-{
-	return 0.0;
-}
-
-double OSXFont::getHeight()
-{
-	return 0.0;
-}
-
-VCFChar OSXFont::getWordBreakCharacter()
-{
-	return ' ';
-}
-
-VCFChar OSXFont::getFirstCharacter()
-{
-	return '\0';
-}
-
-VCFChar OSXFont::getLastCharacter()
-{
-	return '\0';
-}
 
 VCF::GlyphCollection* OSXFont::getGlyphCollection( const String& text )
 {
@@ -353,6 +309,9 @@ bool OSXFont::isEqual( Object* object )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/27 04:26:05  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.6  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

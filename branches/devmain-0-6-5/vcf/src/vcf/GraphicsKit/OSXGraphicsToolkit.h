@@ -13,72 +13,144 @@ namespace VCF  {
 
 
 
+
+
+
 /**
-Utility class to faciltate the transfer from a VCF::Rect instance to
+Utility class to faciltate the transfer from a VCF::Rect instance or HIRect instance to
 OSX's ::Rect struct
 */
-class RectProxy {
+class OSXRect {
 public:
-    RectProxy( const ::Rect& r ) {
-        r_.left_ = r.left;
-        r_.top_ = r.top;
-        r_.right_ = r.right;
-        r_.bottom_ = r.bottom;
-    }
-
-    RectProxy( const VCF::Rect& r ) : r_(r) {}
-
-    RectProxy( VCF::Rect* r ) : r_(*r) {}
-
-
-    operator ::Rect () {
-        ::Rect r;
-        r.left = (int)r_.left_;
-        r.top = (int)r_.top_;
-        r.right = (int)r_.right_;
-        r.bottom = (int)r_.bottom_;
-
-        return r;
-    }
-
-    operator VCF::Rect () {
-        return r_;
-    }
-
-    operator VCF::Rect* () {
-        return &r_;
-    }
-
-    RectProxy& operator=( const ::Rect& r ) {
-        r_.left_ = r.left;
-        r_.top_ = r.top;
-        r_.right_ = r.right;
-        r_.bottom_ = r.bottom;
-        return *this;
-    }
-
-    RectProxy& operator=( ::Rect* r ) {
-        r_.left_ = r->left;
-        r_.top_ = r->top;
-        r_.right_ = r->right;
-        r_.bottom_ = r->bottom;
-        return *this;
-    }
-
-    RectProxy& operator=( const VCF::Rect& r ) {
-        r_ = r;
-        return *this;
-    }
-
-    RectProxy& operator=( VCF::Rect* r ) {
-        r_ = *r;
-        return *this;
-    }
-
-    VCF::Rect r_;
+	OSXRect(){
+		rect_.left = 0;
+		rect_.right = 0;
+		rect_.top = 0;
+		rect_.bottom = 0;
+	}
+	
+	OSXRect( const OSXRect& rhs ){
+		*this = rhs;
+	}
+	
+	OSXRect( const ::Rect& rhs ){
+		*this = rhs;
+	}
+	
+	OSXRect( const VCF::Rect& rhs ){
+		*this = rhs;
+	}
+	
+	OSXRect( VCF::Rect* rhs ){
+		*this = rhs;
+	}	
+	
+	OSXRect( const HIRect& rhs ){
+		*this = rhs;
+	}
+	
+	OSXRect( HIRect* rhs ){
+		*this = rhs;
+	}
+	
+	int left() const {
+		return rect_.left;
+	}
+	
+	int right() const {
+		return rect_.right;
+	}
+	
+	int top() const {
+		return rect_.top;
+	}
+	
+	int bottom() const {
+		return rect_.bottom;
+	}
+	
+	int width() const {
+		return rect_.right - rect_.left;
+	}
+	
+	int height() const {
+		return rect_.bottom - rect_.top;
+	}
+			
+	operator ::Rect& () {
+		return rect_;
+	}
+	
+	operator ::Rect* () {
+		return &rect_;
+	}
+	
+	operator const ::Rect& () const {
+		return rect_;
+	}
+	
+	operator VCF::Rect () const {
+		VCF::Rect result( rect_.left, rect_.top, rect_.right, rect_.bottom );
+		return result;
+	}
+	
+	operator HIRect () const {
+		HIRect result;
+		result.origin.x = rect_.left;
+		result.origin.y = rect_.top;
+		result.size.width = width();
+		result.size.height = height();
+		return result;
+	}
+	
+	
+	
+	OSXRect& operator=( const OSXRect& rhs ) {
+		rect_ = rhs.rect_;
+		return *this;
+	}
+	
+	OSXRect& operator=( const ::Rect& rhs ) {
+		rect_ = rhs;
+		return *this;
+	}
+	
+	OSXRect& operator=( const VCF::Rect& rhs ) {
+		rect_.left = rhs.left_;
+		rect_.top = rhs.top_;
+		rect_.right = rhs.right_;
+		rect_.bottom = rhs.bottom_;
+		return *this;
+	}
+	
+	OSXRect& operator=( VCF::Rect* rhs ) {
+		rect_.left = rhs->left_;
+		rect_.top = rhs->top_;
+		rect_.right = rhs->right_;
+		rect_.bottom = rhs->bottom_;
+		return *this;
+	}
+	
+	OSXRect& operator=( const HIRect& rhs ) {
+		rect_.left = rhs.origin.x;
+		rect_.top = rhs.origin.y;
+		rect_.right = rhs.origin.x + rhs.size.width;
+		rect_.bottom = rhs.origin.y + rhs.size.height;
+		return *this;
+	}
+	
+	OSXRect& operator=( HIRect* rhs ) {
+		rect_.left = rhs->origin.x;
+		rect_.top = rhs->origin.y;
+		rect_.right = rhs->origin.x + rhs->size.width;
+		rect_.bottom = rhs->origin.y + rhs->size.height;
+		return *this;
+	}
+	
+	
+protected:
+	::Rect rect_;
 };
-
-
 
 
 
@@ -120,6 +192,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/27 04:26:05  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
+*Revision 1.1.2.6.2.1  2004/06/15 04:04:38  ddiego
+*revamped osx theme drawing API
+*
 *Revision 1.1.2.6  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

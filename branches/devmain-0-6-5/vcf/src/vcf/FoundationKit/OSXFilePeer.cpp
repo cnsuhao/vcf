@@ -22,7 +22,7 @@ OSXFilePeer::OSXFilePeer( File* file, const String& fileName )  :
 	file_(file),
 	searchStarted_(false)
 {
-	setName( fileName );
+	
 }
 
 OSXFilePeer::~OSXFilePeer()
@@ -37,6 +37,107 @@ void OSXFilePeer::setFile( File* file )
 	file_ = file;
 }
 
+
+ulong64 OSXFilePeer::getSize()
+{
+	ulong64 result ;
+	
+	return result;
+}
+
+void OSXFilePeer::updateStat( File::StatMask = File::smMaskDateAll )
+{
+
+}
+
+void OSXFilePeer::setFileAttributes( const File::FileAttributes fileAttributes )
+{
+
+}
+
+
+bool OSXFilePeer::isExecutable()
+{
+	bool result ;
+	
+	return result;
+}
+
+void OSXFilePeer::setDateModified( const DateTime& dateModified )
+{
+
+}
+
+DateTime OSXFilePeer::getDateModified()
+{
+	DateTime result ;
+	
+	return result;
+}
+
+DateTime OSXFilePeer::getDateCreated()
+{   
+	DateTime result ;
+	
+	return result;
+}
+
+DateTime OSXFilePeer::getDateAccessed()
+{
+	DateTime result ;
+	
+	return result;
+}
+
+void OSXFilePeer::open( const String& fileName, File::OpenFlags openFlags, File::ShareFlags shareFlags)
+{
+
+}
+
+void OSXFilePeer::close()
+{
+
+}
+
+void OSXFilePeer::create( File::OpenFlags openFlags )
+{
+
+}
+
+void OSXFilePeer::remove()
+{
+
+}
+
+void OSXFilePeer::move( const String& newFileName )
+{
+
+}
+
+void OSXFilePeer::copyTo( const String& copyFileName )
+{
+
+}
+
+void OSXFilePeer::initFileSearch( Directory::Finder* finder )
+{
+
+}
+
+File* OSXFilePeer::findNextFileInSearch( Directory::Finder* finder )
+{
+	File* result ;
+	
+	return result;
+}
+
+void OSXFilePeer::endFileSearch( Directory::Finder* finder )
+{
+
+}
+	
+	
+/*
 bool OSXFilePeer::beginFileSearch( Directory::Finder* finder )
 {
 	bool result = false;
@@ -108,24 +209,20 @@ uint32 OSXFilePeer::getSize()
 	return result;
 }
 
-void OSXFilePeer::setName( const String& fileName )
-{
-
-	filename_ = fileName;
-
-	create();
-
-}
 
 void OSXFilePeer::copyTo( const String& copyFileName )
 {
 
 }
+*/
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.7  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -36,7 +36,7 @@ public:
 
 		virtual LibraryPeer* internal_createLibraryPeer( Library* library );
 
-		virtual FilePeer* internal_createFilePeer( File* file, const String& filename );
+		virtual FilePeer* internal_createFilePeer( File* file );
 
 		virtual FileStreamPeer* internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType );
 
@@ -49,6 +49,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.5  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

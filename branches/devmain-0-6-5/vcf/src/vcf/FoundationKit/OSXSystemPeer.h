@@ -38,6 +38,10 @@ public:
     virtual bool isUnicodeEnabled() {
         return true;
     }
+	
+	virtual DateTime convertUTCTimeToLocalTime( const DateTime& date );	
+
+	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
 protected:
 	struct timezone timeZone_;
 	struct timeval time_;
@@ -49,6 +53,9 @@ protected:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.6  2004/07/27 04:26:04  ddiego
+ *updated devmain-0-6-5 branch with osx changes
+ *
  *Revision 1.1.2.5  2004/06/06 07:05:32  marcelloptr
  *changed macros, text reformatting, copyright sections
  *

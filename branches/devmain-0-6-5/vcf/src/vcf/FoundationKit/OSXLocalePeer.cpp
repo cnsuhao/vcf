@@ -584,22 +584,24 @@ UnicodeString OSXLocalePeer::toStringFromTime( const DateTime& val, const Unicod
 
 ulong32 OSXLocalePeer::getLanguageCode()
 {
-	return 0;
+	return Locale::lcEnglish;
 
 }
-
 
 
 ulong32 OSXLocalePeer::getCountryCode()
 {
 
-	return 0;
+	return Locale::ccUnitedStates;
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/27 04:26:04  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.6  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

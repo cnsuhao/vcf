@@ -31,7 +31,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 	Color* sysColor = NULL;
 	sysColor = new Color();
 	systemColors_[SYSCOLOR_SHADOW] = sysColor;
-    systemColorNameMap_[*sysColor] = "SYSCOLOR_SHADOW";
+    (*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SHADOW";
     GetThemeBrushAsColor( kThemeBrushButtonActiveDarkShadow, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
                         ((double)themeColor.green)/65535.0,
@@ -40,7 +40,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_FACE] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_FACE";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_FACE";
 
     GetThemeBrushAsColor( kThemeBrushButtonFaceActive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -49,7 +49,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_HIGHLIGHT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_HIGHLIGHT";
 
     GetThemeBrushAsColor( kThemeBrushButtonActiveLightHighlight, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -58,7 +58,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_ACTIVE_CAPTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
 
     GetThemeBrushAsColor( kThemeBrushButtonFaceActive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -67,7 +67,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_ACTIVE_BORDER] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
 
     GetThemeBrushAsColor( kThemeBrushButtonFrameActive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -76,12 +76,12 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color( *Color::getColor("gray128") );
 	systemColors_[SYSCOLOR_DESKTOP] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_DESKTOP";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_DESKTOP";
 
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_CAPTION_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
 
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -90,7 +90,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_SELECTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SELECTION";
 
     GetThemeBrushAsColor( kThemeBrushFocusHighlight, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -99,7 +99,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_SELECTION_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
 
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -108,7 +108,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_INACTIVE_BORDER] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
 
     GetThemeBrushAsColor( kThemeBrushButtonFrameInactive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -117,7 +117,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_INACTIVE_CAPTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
 
     GetThemeBrushAsColor( kThemeBrushButtonFaceInactive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -127,12 +127,12 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color( *Color::getColor("lemonchiffon") );
 	systemColors_[SYSCOLOR_TOOLTIP] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_TOOLTIP";
 
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_TOOLTIP_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
 
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -142,7 +142,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_MENU] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_MENU";
 
     GetThemeBrushAsColor( kThemeBrushMenuBackground, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -151,7 +151,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_MENU_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_MENU_TEXT";
 
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -160,7 +160,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_WINDOW] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_WINDOW";
 
     GetThemeBrushAsColor( kThemeBrushUtilityWindowBackgroundActive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -169,7 +169,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_WINDOW_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
 
     GetThemeBrushAsColor( kThemeTextColorBlack, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -178,7 +178,7 @@ void OSXGraphicsToolkit::loadSystemColors()
 
     sysColor = new Color();
 	systemColors_[SYSCOLOR_WINDOW_FRAME] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
 
     GetThemeBrushAsColor( kThemeBrushButtonFrameActive, 32, TRUE, &themeColor );
     sysColor->setRGB( ((double)themeColor.red)/65535.0,
@@ -221,6 +221,9 @@ Image* OSXGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect*
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/27 04:26:05  ddiego
+*updated devmain-0-6-5 branch with osx changes
+*
 *Revision 1.1.2.7  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
