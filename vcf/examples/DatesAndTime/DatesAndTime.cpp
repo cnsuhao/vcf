@@ -122,6 +122,48 @@ int main( int argc, char** argv ){
 		iterator ++;
 	}
 
+	DateTime dt3(1998, 8, 1, 16, 30, 0 );
+	DateTime dt4 = DateTime::now();
+
+	DateTimeSpan howLong = dt3 - dt4;
+
+	System::println( "Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %d seconds!",
+						howLong.getYears(),
+						howLong.getMonths(),
+						howLong.getDays(),
+						howLong.getHours(),
+						howLong.getMinutes(),
+						howLong.getTotalSeconds() );
+
+
+	/**
+	The following demonstrates how to save a date to a output stream
+	and how to read it back in from an input stream. These
+	show how to read/write the date time as an object, obviously
+	there are alternate ways of store it.
+	*/
+
+	DateTime storeMe( 1977, 10, 3, 19, 23, 12 );
+
+	
+	{
+		FileOutputStream fs( "datetime.out" );
+
+		fs << &storeMe;
+
+		System::println( "storeMe (%s) saved!", storeMe.toString().c_str() );
+	}
+
+	DateTime loadMe;
+	System::println( "loadMe is equal to %s", loadMe.toString().c_str() );
+	{
+		FileInputStream fs( "datetime.out" );
+
+		fs >> &loadMe;
+
+		System::println( "loadMe (%s) loaded!", loadMe.toString().c_str() );
+	}
+
 
 	FoundationKit::terminate();
 	return 0;
