@@ -1881,7 +1881,7 @@ class DspApp:
 
         return
 
-    def isFile( self, file, namelist ):
+    def isFileIn( self, file, namelist ):
         found = False
         for name in namelist:
             #name = name.lower()
@@ -1890,8 +1890,8 @@ class DspApp:
                 break
         return found
 
-    def isFile2( self, file ):
-        return self.isFile(  file, g_debugFileList )
+    def isFileIn2( self, file ):
+        return self.isFileIn(  file, g_debugFileList )
 
 
 ################################################################################
@@ -2034,11 +2034,11 @@ class GenericFile:
         return ''
     getCompilerFromName = staticmethod(getCompilerFromName)
 
-    def isFile( self, filelist ):
-        return app.isFile(  self, filelist )
+    def isFileIn( self, filelist ):
+        return app.isFileIn(  self, filelist )
 
-    def isFile2( self ):
-        return app.isFile(  self, g_debugFileList )
+    def isFileIn2( self ):
+        return app.isFileIn(  self, g_debugFileList )
 
     def makeDuplicateVcFilename( filename, oldCompiler, newCompiler, unixStyle, keepFirstDot ):
         # if the filename is under a ocplUnderscor/ subdirectory then it is copied into a ncplUnderscor/ subdirectory
@@ -3244,7 +3244,7 @@ class DspFile( GenericFile ):
 
         ( vcpHdr, vcpFilesOrg ) = self.convertEntriesVcproj( vcpHdr, vcpFilesOrg, newCompiler, newCompiler )
 
-        if ( g_printFilterGroupTrees and self.isFile2() ):
+        if ( g_printFilterGroupTrees and self.isFileIn2() ):
             vcpFilesDsp.printChildren( '.', 'vcpFilesDsp' )
             vcpFilesOrg.printChildren( ' ', 'vcpFilesOrg' )
             print 'now writelineEntriesVcprojAsStruct:\n'
@@ -3364,8 +3364,8 @@ class DspFile( GenericFile ):
                         groupname = m_dsp_group.group( 'groupname' )
                         dspData.groupname = groupname
 
-                        if ( self.isFile2() ):
-                            s = 3
+                        #if ( self.isFileIn2() ):
+                        #    s = 3
 
                         if ( 0 <= fgIdx ):
                             previousFilterGroup = vcpFiltergrp
@@ -3390,7 +3390,7 @@ class DspFile( GenericFile ):
 
                         #level = level + 1
 
-                        if ( g_printFilterGroupTrees and self.isFile2() ):
+                        if ( g_printFilterGroupTrees and self.isFileIn2() ):
                             print 'getSouceEntriesDsp: file: %s' % self.filetitle
                             vcpFiles.printChildren( '.', 'vcpFiles' )
 
@@ -3408,7 +3408,7 @@ class DspFile( GenericFile ):
                         self.listGroups.append( groupname )
                         self.dictGroups[ groupnameLwr ] = groupname
 
-                        #if ( self.isFile2() ):
+                        #if ( self.isFileIn2() ):
                         #    x = 3
 
                         # for the other <file>s still to attach or whatever sub filter we have
@@ -3443,7 +3443,7 @@ class DspFile( GenericFile ):
                 # # End Source File
                 m_dsp_src_file_end = re_dsp_src_file_end.match( line )
                 if ( m_dsp_src_file_end ):
-                    #if ( self.isFile2() ):
+                    #if ( self.isFileIn2() ):
                     #    x = 3
 
                     if ( 0 == level ):
@@ -3962,7 +3962,7 @@ class DspFile( GenericFile ):
                     # to increment the level here or at the end of this function is pretty much the same thing
                     level = level + 1
 
-                    #if ( self.isFile2() ):
+                    #if ( self.isFileIn2() ):
                     #    s = 3
 
                     if ( 0 <= fgIdx ):
@@ -3986,7 +3986,7 @@ class DspFile( GenericFile ):
                     fgIdx = fgIdx + 1
                     vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
-                    if ( g_printFilterGroupTrees and self.isFile2() ):
+                    if ( g_printFilterGroupTrees and self.isFileIn2() ):
                         print 'getSouceEntriesDsp: file: %s' % self.filetitle
                         vcpFiles.printChildren( '.', 'vcpFiles' )
 
@@ -4064,7 +4064,7 @@ class DspFile( GenericFile ):
                 if ( m_vcp_sectionFile_end ):
                     #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
                     #fg.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
-                    #if ( self.isFile2() ):
+                    #if ( self.isFileIn2() ):
                     #    x = 3
 
                     if ( 0 == level ):
@@ -4102,7 +4102,7 @@ class DspFile( GenericFile ):
                     #    self.listGroups.append( groupname )
                     #    self.dictGroups[ groupnameLwr ] = groupname
 
-                    #if ( self.isFile2() ):
+                    #if ( self.isFileIn2() ):
                     #    x = 3
 
                     # at the beginning becase += 1 is done at the end of the <Filter management
@@ -4425,7 +4425,7 @@ class DspFile( GenericFile ):
         #   vcpFilesTemplate is used to keep the same files entries as the source master file ( usually the dsp file ) ...
         #   .... but their content is given by vcpFilesOrg
 
-        if ( g_printFilterGroupTrees and self.isFile2() ):
+        if ( g_printFilterGroupTrees and self.isFileIn2() ):
             print 'writelineEntriesVcprojAsStruct: file: %s' % self.filetitle
             vcpFilesTemplate.printChildren( '.', 'vcpFilesTemplate' )
             print 'writelineEntriesVcprojAsStruct: file: %s' % self.filetitle
