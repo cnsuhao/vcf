@@ -705,6 +705,7 @@ public:
 
 	/**
 	*returns the color used to fill the background of this control
+	*@see CustomControl::setUseColorForBackground
 	*/
 	Color* getColor();
 
@@ -1285,6 +1286,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/23 13:53:12  marcelloptr
+*comments for setUseColorForBackground; setActiveFrame renamed as internal
+*
 *Revision 1.2.2.2  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

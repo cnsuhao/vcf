@@ -880,7 +880,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 				//StringUtils::traceWithArgs( "activeFrame: %s\n", activeFrame->toString().c_str() );
 				//Frame* activeFrame = Frame::getActiveFrame();
-				//Frame::setActiveFrame( NULL );
+				//Frame::internal_setActiveFrame( NULL );
 				//if ( NULL != activeFrame ) {
 				//	if ( activeFrame->getComponentState() == CS_NORMAL ) {
 				//		VCF::WindowEvent event( activeFrame, Frame::ACTIVATION_EVENT );
@@ -2054,6 +2054,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2004/10/23 13:53:12  marcelloptr
+*comments for setUseColorForBackground; setActiveFrame renamed as internal
+*
 *Revision 1.2.2.8  2004/10/23 12:19:13  marcelloptr
 *bugfix [1048400] menus are now merged regardless of their shortcut key
 *

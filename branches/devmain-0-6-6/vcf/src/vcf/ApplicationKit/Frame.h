@@ -254,18 +254,30 @@ public:
 	*/
 	virtual bool allowClose();
 
+	/**
+	* sets if we want to use the control's color to draw the control's background;
+	* otherwise the theme background is drawn.
+	*@param const bool&, true if we use the control's color, false if 
+	* we draw the theme background.
+	*/
 	void setUseColorForBackground( const bool& val ) {
 		useColorForBackground_ = val;
 		repaint();
 	}
 	
+	/**
+	* gets if we use the control's color to draw the control's background
+	*@return bool, true if we use the control's color, false if it uses the theme background.
+	*/
 	bool getUseColorForBackground() {
 		return useColorForBackground_;
 	}
+
 	/**
 	*don't call - for internal use only
 	*/
-	static void setActiveFrame( Frame* activeFrame );
+	static void internal_setActiveFrame( Frame* activeFrame );
+
 protected:
 	static Frame* currentActiveFrame;
 	String caption_;
@@ -284,6 +296,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/23 13:53:12  marcelloptr
+*comments for setUseColorForBackground; setActiveFrame renamed as internal
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

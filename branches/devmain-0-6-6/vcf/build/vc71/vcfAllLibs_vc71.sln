@@ -69,6 +69,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKitDLL", ".\NetworkK
 		{E6F355D1-1BCB-45C9-A919-BAF15B20930D} = {E6F355D1-1BCB-45C9-A919-BAF15B20930D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLKit", ".\OpenGLKit\OpenGLKit_vc71.vcproj", "{AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA1E19F3-F48F-4402-9024-190633E9F4A5} = {DA1E19F3-F48F-4402-9024-190633E9F4A5}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLKitDLL", ".\OpenGLKit\OpenGLKitDLL_vc71.vcproj", "{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9DFBD97B-1C30-4434-9B64-0748F33662B9} = {9DFBD97B-1C30-4434-9B64-0748F33662B9}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegExx", ".\FoundationKit\RegExx_vc71.vcproj", "{4890F5E2-CAE6-4812-A79A-69724DEEFC32}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -203,6 +213,12 @@ Global
 		{0D99EDD0-9315-4F25-88C4-9725190355A1}.Debug.ActiveCfg = Debug|Win32
 		{0D99EDD0-9315-4F25-88C4-9725190355A1}.GTK Debug.ActiveCfg = Debug|Win32
 		{0D99EDD0-9315-4F25-88C4-9725190355A1}.Release.ActiveCfg = Release|Win32
+		{AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92}.Debug.ActiveCfg = Debug|Win32
+		{AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92}.GTK Debug.ActiveCfg = Debug|Win32
+		{AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92}.Release.ActiveCfg = Release|Win32
+		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}.Debug.ActiveCfg = Debug|Win32
+		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}.GTK Debug.ActiveCfg = Debug|Win32
+		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}.Release.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
