@@ -30,28 +30,202 @@ NB: This software will not save the world.
 	<para>
 	</para>
 	<section><title>VCF::Object - the VCF base class</title>
-		<para>
-		</para>
+		<formalpara><title>Intro</title>
+		The VCF is (mostly, with a few exceptions) designed as a single rooted 
+		class hierarchy, with the VCF::Object class as the root or base class for the 
+		rest of the framework. VCF::Object support several virtual method that you can 
+		override, such as the VCF::Object::hash() method for return a hash value for the
+		object instance. VCF::Object::clone() can be used to "clone" a new instance from an
+		existing one.
+		</formalpara>
+		<formalpara><title>Reference Counting</title>
+		The VCF::Object class also supports reference counting for instances that have been
+		allocated on the heap. A new instance starts with it's refcount initialized to 0.
+		Calling VCF::Object::addRef() increments the refcount, and calling VCF::Object::release()
+		decrements the refcount. If VCF::Object::release() is called and the refcount is 
+		equal to 0, then the object is destroyed by a call to VCF::Object::free().
+		</formalpara>
+		<formalpara><title>Creating and destroying Objects</title>
+		Creating objects on the heap is done using the typical operator new(). However, to 
+		destroy an instance that is directly or indirectly derived from VCF::Object, you should
+		call VCF::Object::free() if you own the object, or VCF::Object::release() to decrement the
+		refcount on the object. When the VCF::Object::free() is called it first calls the virtual 
+		VCF::Object::destroy() method, allowing you customize the clean up of your class, and 
+		making it safe to call otehr virtual methods. After VCF::Object::destroy() returns, it 
+		then deletes the instance. So, if you have a class that is intended to be used on the heap,
+		it's a good idea to override the destroy() method (keeping it in protected scope), and put
+		your clean ciode in there, instead of the destructor.
+		</formalpara>
+		<formalpara><title>RTTI</title>
+		You can get the VCF::Class instance from any instance of a VCF::Object by calling 
+		VCF::Object::getClass() method. If the class has been properly registered in the
+		Class Registry, the VCF::Object::getClass() will return a pointer to the Class instance.
+		If not, then it will return NULL. You can also get the class name of the Object instance
+		by calling VCF::Object::getClassName().
+		</formalpara>
 	</section>
 
 	<section><title>System Toolkit</title>
 		<para>
+		The System Toolkit is used by VCF developers to create instances of various FoundationKit
+		peer interfaces. For example, the Thread class uses the System Toolkit to create the thread's
+		internal ThreadPeer instance. You generally do not need to call any functions on this class
+		unless you are implementing low level functionality within the FoundationKit itself.
+		</para>
+		<para>This class is implemented for each platform that the VCF is ported to. The 
+		relationship between the OS and the System Toolkit can be seen below.
+		<figure><title>System Toolkit</title>
+		<graphic fileref="gfx/systoolkit.png"/>
+		</figure>
 		</para>
 	</section>
 
 	<section><title>Reference Counting</title>
 		<para>
+		As mentioned above, the VCF::Object class supports reference counting. Reference counting
+		is useful as a form of garbage collection, albeit a manual one. It is most appropriate
+		to use when you are unsure of the lifetime of a particular object, and/or the fact that
+		the object may have multiple "owners" who need to keep track of the object. In this 
+		situation it helps to have reference counting. 
+		</para>
+		<para>It should be noted that this is only appropriate to use on 
+		<emphasis>heap allocated</emphasis> objects.
+		Objects that allocated on the stack do not, and should not use the reference counting 
+		functionality.
+		</para>
+		<para>
+		One example might be the use of a model. For example, imagine that we have created a model
+		object, and that 3 different objects all need to hold a reference or pointer to the single
+		instance of the model. Yet all 3 "owners" may have different lifetimes, so who then 
+		becomes responsible for destroying the model? If one of the three were to delete the model
+		instance <emphasis>before</emphasis>, and then one of the other "owners" were to make use of
+		it's pointer, your program would crash, due to a reference to invalid memory that had been
+		freed. The solution is to use reference counting. When each "owner" object is assigned the 
+		pointer to the model, it should increment the model's refcount by calling 
+		VCF::Object::addRef(). Likewise, when the owner is destroyed, it should release the object 
+		by calling VCF::Object::release(), as opposed to deleting it.
 		</para>
 	</section>
 
 	<section><title>Exceptions</title>
 		<para>
+		The VCF uses exceptions throughout the framework as a way of indicating error conditions, 
+		as opposed to returning error codes. The rationale for this is largely practical: error codes,
+		while useful, frequently (if not always) get ignored in real world code. Because nothing 
+		forces you to check the error code, error conditions can go unnoticed until later on,
+		making it difficult to track down bugs. Exceptions, on the other hand, if not caught, tend to 
+		do ugly things immediately, making it much more obvious where things went wrong.
+		</para>
+		<para>
+		The root exception class is VCF::BasicException. All other VCF exceptions derive from this. 
+		To get the error message from a VCF exception, call VCF::BasicException::getMessage().
+		</para>
+		<para>
+		To throw a VCF exception, you create the exception on the stack, and pass in a VCF::String
+		to the exceptions constructor. Some of the specific exception classes has a default 
+		constructor that fills in a default message for you. If you would like to include line and
+		file information with your excepton message you can use the MAKE_ERROR_MSG_2 macro, for example:
+		<programlisting><![CDATA[
+String fileName = getMyFileName();
+if ( fileName.empty() ) {
+	throw BasicException( MAKE_ERROR_MSG_2("My File Name is Empty - please fix this ASAP!"));
+}			]]>
+		</programlisting>
+		This will take you error string and append the source file and line number that the exception
+		was thrown in, which can be useful in tracking errors down.
 		</para>
 	</section>
 
 	<section><title>RTTI</title>
+		<formalpara><title>Introduction</title>
+		RTTI, or Run Time Type Information, is the process of identifying the class information about a
+		particular object instance at run time. If you used Java at all, this is often referred to as 
+		"Reflection", and if you compare the VCF RTTI classes with Java's you'll see a great deal of 
+		similarity between the two. Other languages like Java, C#, ObjectPascal, Smalltalk, 
+		Objective C (to name a few), as well as other C++ frameworks, such as Qt, wxWindows, MFC, 
+		COM (well this isn't really a C++ only framework but we'll let that go), VRS3D and many others, 
+		also implement some sort of RTTI system to varying degrees complexity. Most of the languages mentioned
+		previously offer full support for things like dynamic object creation from a class name, 
+		dynamic property enumeration, and dynamic method invocation. Some also have support for discovering 
+		the fields of a class (like Java) and for discovering the events the class supports. Unfortunately C++ 
+		itself offers only the ability to determine the super class of a given class, i.e. using the 
+		dynamic_cast operator, you can tell if class B inherits in some way from class A. In addition the 
+		typeid() method will return a type_info class which can tell you the class name of a particular 
+		instance at runtime. Obviously this is not enough, so many of the C++ frameworks tend to implement 
+		some form of their own RTTI. What makes the VCF unusual is the depth to which it offers RTTI features, 
+		namely:
+		<itemizedlist>
+			<listitem><para>
+			object creation from a class name	
+			</para></listitem>			
+			<listitem><para>
+			discovery of super class
+			</para></listitem>
+			<listitem><para>
+			discovery and dynamic invocation of properties at runtime
+			</para></listitem>
+			<listitem><para>
+			discovery and dynamic invocation of methods at runtime
+			</para></listitem>
+			<listitem><para>
+			discovery of events exposed via a Delegate at runtime
+			</para></listitem>
+			<listitem><para>
+			discovery of interfaces at runtime
+			</para></listitem>
+			<listitem><para>
+			discovery  and dynamic invocation of interface methods at runtime
+			</para></listitem>		
+		</itemizedlist>
+		</formalpara>
+		<formalpara><title>The Basics</title>
+		RTTI in the VCF is described through a series of abstract classes, and implemented through 
+		heavy use of templates. This makes it type safe, and does not require any weird void pointer 
+		type casting. To simplify matters, a number of macros exist that enable you to specify the 
+		RTTI elements you would like to expose in your class declaration, so there are no separate 
+		build steps like IDL compiling or other pre-processor tools. These macros basically "collect" 
+		all the stuff that the C++ compiler knows about during compilation, but throws away. 
+		</formalpara>
 		<para>
-		</para>
+		Each RTTI element is registered in a central repository called the VCF::ClassRegistry - 
+		a singleton instance that is created when the FoundationKit is initialized and destroyed 
+		when the FoundationKit is terminated. This registering of a class happens only once per 
+		class type, if another attempt is made to register an existing class, the registration will fail.
+		</para> 
+		<para>
+		The basic RTTI element is the VCF::Class class - this holds all the necessary information to 
+		describe a C++ class at runtime. At a glance, a VCF::Class has the following methods:
+		<itemizedlist>
+			<listitem><para>
+			getSuperClass() - returns a VCF::Class pointer to the next super class of the class in question.
+			Using this method, you can walk up the class hierarchy.
+			</para></listitem>
+			<listitem><para>
+			getClassName() - returns the class name.
+			</para></listitem>
+			<listitem><para>
+			getID - returns a string that <emphasis>should</emphasis> be a unique ID. While the generation
+			of this is left to the developer, all the VCF classes that are registered use UUID's created with
+			uuidgen, or some similar tool. It is highly recommended to use the same approach for your own classes
+			when adding RTTI support.
+			</para></listitem>
+			<listitem><para>
+			createInstance() - this allows you to create a new default instance of the class.
+			</para></listitem>
+			<listitem><para>
+			getInterfaces() - this allows you to enumerate all the interfaces that a class may implement.
+			</para></listitem>
+			<listitem><para>
+			getMethods() - allows you to enumerate all the methods the class has
+			</para></listitem>
+			<listitem><para>
+			getProperties()	- allows you to enumerate all the properties of a class
+			</para></listitem>
+			<listitem><para>
+			getEvents() - allows you to enumerate all the events a class has
+			</para></listitem>
+		</itemizedlist>
+		</para>	
 	</section>
 
 	<section><title>Events</title>
@@ -98,6 +272,9 @@ NB: This software will not save the world.
 <!-- 
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/10/06 04:25:56  ddiego
+updated foundationkit docs
+
 Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile
