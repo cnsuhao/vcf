@@ -23,6 +23,8 @@ CFG=ApplicationKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -376,10 +378,6 @@ SOURCE=..\..\..\include\core\Selectable.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TableItemEditor.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TimerComponent.h
 # End Source File
 # Begin Source File
 
@@ -1586,6 +1584,10 @@ SOURCE=..\..\..\include\core\TextControl.h
 # Begin Source File
 
 SOURCE=..\..\..\src\core\TimerComponent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TimerComponent.h
 # End Source File
 # Begin Source File
 
