@@ -183,6 +183,7 @@ public:
 		scrollbarManagerSingle->setTarget( listBox_ );
 		scrollbarManagerSingle->setKeepScrollbarsVisible( true, true );
 		scrollbarManagerSingle->setVirtualViewVertStep( 17 );
+		scrollbarManagerSingle->setDiscreteScroll( false, true );
 		
 		this->add( listBox_, AlignClient );
 		
@@ -349,6 +350,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/01/17 18:51:15  marcelloptr
+*added discrete scrolling behaviour to examples of ListBoxControl
+*
 *Revision 1.5  2004/12/01 04:15:12  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

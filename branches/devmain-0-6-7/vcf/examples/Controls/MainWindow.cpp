@@ -101,6 +101,8 @@ void MainWindow::makeListBoxPage()
 	scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
 	scrollbarManagerSingle->setTarget( listBox1_ );
 	scrollbarManagerSingle->setKeepScrollbarsVisible( false, false );
+	scrollbarManagerSingle->setVirtualViewVertStep( 17 );
+	scrollbarManagerSingle->setDiscreteScroll( false, true );
 	
 	listBoxGroup->add( listBox1_, AlignClient );
 	
@@ -326,6 +328,9 @@ void MainWindow::makeBordersPage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/01/17 18:49:07  marcelloptr
+*added discrete scrolling behaviour to examples of ListBoxControl
+*
 *Revision 1.2  2004/12/01 04:15:00  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
