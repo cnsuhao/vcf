@@ -133,6 +133,10 @@ SOURCE=..\..\..\include\core\CommonDefines.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\events\Delegate.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\Directory.h
 # End Source File
 # Begin Source File
