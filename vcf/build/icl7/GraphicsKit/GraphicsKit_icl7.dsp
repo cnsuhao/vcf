@@ -223,6 +223,18 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\PrintContext.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\PrintEvent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\PrintSession.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\PrintSessionPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Rect.h
 # End Source File
 # Begin Source File
@@ -300,11 +312,19 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Point.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\PrintSession.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Rect.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Vector2D.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp
 # End Source File
 # End Group
 # Begin Group "Peers"

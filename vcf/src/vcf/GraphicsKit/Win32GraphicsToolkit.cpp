@@ -11,6 +11,10 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 #include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
+#include <commdlg.h>
+
+#include "vcf/GraphicsKit/PrintSessionPeer.h"
+#include "vcf/GraphicsKit/Win32PrintSession.h"
 
 
 using namespace VCF;
@@ -110,6 +114,24 @@ Image* Win32GraphicsToolkit::internal_createImage( GraphicsContext* context, Rec
 	}
 }
 
+double Win32GraphicsToolkit::internal_getDPI( GraphicsContext* context )
+{
+	double result = 0.0;
+	if ( NULL == context ) {
+		HDC dc = GetDC( ::GetDesktopWindow() );
+		result = (double)GetDeviceCaps( dc, LOGPIXELSY);
+		ReleaseDC( ::GetDesktopWindow(), dc );
+	}
+	else {
+		result = (double) GetDeviceCaps( (HDC)context->getPeer()->getContextID(), LOGPIXELSY );
+	}
+	return 0.0;
+}
+
+PrintSessionPeer* Win32GraphicsToolkit::internal_createPrintSessionPeer()
+{
+	return new Win32PrintSession();
+}
 
 void Win32GraphicsToolkit::loadSystemColors()
 {
@@ -192,6 +214,9 @@ void Win32GraphicsToolkit::loadSystemColors()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
+*migrated the core printing changes into the graphics kit
+*
 *Revision 1.2.2.1  2004/08/21 21:07:10  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

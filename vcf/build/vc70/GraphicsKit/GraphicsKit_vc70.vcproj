@@ -216,6 +216,15 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintContext.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintEvent.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSessionPeer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.h">
 			</File>
 			<File
@@ -286,10 +295,16 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Point.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Vector2D.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp">
 			</File>
 		</Filter>
 		<Filter

@@ -312,6 +312,9 @@ Package=<4>
     Project_Dep_Name OpenGLShapes
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Printing
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Processes
     End Project Dependency
     Begin Project Dependency
@@ -742,6 +745,18 @@ Package=<4>
 ###############################################################################
 
 Project: "OpenGLShapes"="..\..\examples\OpenGLShapes\OpenGLShapes.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Printing"="..\..\examples\Printing\Printing.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

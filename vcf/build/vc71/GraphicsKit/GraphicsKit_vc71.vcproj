@@ -230,6 +230,15 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintContext.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintEvent.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSessionPeer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.h">
 			</File>
 			<File
@@ -511,6 +520,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PrintSession.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Rect.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -549,6 +561,9 @@
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.cpp">
 			</File>
 		</Filter>
 		<Filter

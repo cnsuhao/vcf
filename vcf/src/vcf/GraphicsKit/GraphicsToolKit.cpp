@@ -89,6 +89,11 @@ Image* GraphicsToolkit::createImage( const String& fileName )
 	return GraphicsToolkit::graphicsToolkitInstance->internal_createImage( fileName );
 }
 
+PrintSessionPeer* GraphicsToolkit::createPrintSessionPeer()
+{
+	return GraphicsToolkit::graphicsToolkitInstance->internal_createPrintSessionPeer();
+}
+
 GraphicsResourceBundle* GraphicsToolkit::getResourceBundle()
 {
 	return dynamic_cast<GraphicsResourceBundle*>( System::getResourceBundle() );
@@ -166,9 +171,9 @@ Font* GraphicsToolkit::getDefaultSystemFont()
 	return GraphicsToolkit::graphicsToolkitInstance->internal_getDefaultSystemFont( );
 }
 
-double GraphicsToolkit::getDPI()
+double GraphicsToolkit::getDPI( GraphicsContext* context )
 {
-	return GraphicsToolkit::graphicsToolkitInstance->internal_getDPI();
+	return GraphicsToolkit::graphicsToolkitInstance->internal_getDPI(context);
 }
 
 
@@ -1354,6 +1359,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
+*migrated the core printing changes into the graphics kit
+*
 *Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

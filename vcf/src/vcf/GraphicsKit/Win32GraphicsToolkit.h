@@ -37,9 +37,13 @@ public:
 
 	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect );
 
+	virtual PrintSessionPeer* internal_createPrintSessionPeer();
+
 	virtual Font* internal_getDefaultSystemFont() {
 		return systemFont_;
 	}
+
+	virtual double internal_getDPI( GraphicsContext* context );
 protected:
 	void initSystemFont();
 	void loadSystemColors();
@@ -54,6 +58,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/25 04:43:33  ddiego
+*migrated the core printing changes into the graphics kit
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
