@@ -1,4 +1,12 @@
-////CreateBundle.cpp
+//CreateBundle.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 /**
 createbundle is a little utility that creates a bundle diredtory
 tree. It takes a source directory, a destination directory, and a bundle name. 
@@ -281,5 +289,15 @@ int main( int argc, char** argv ){
 	FoundationKit::terminate();
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.4  2004/12/22 02:57:45  marcelloptr
+*fixed VCF_COMPILER_NAME macro so less error prone.
+*This also makes getExecutableNameFromBundlePath() to work right.
+*
+*/
 
 
