@@ -35,7 +35,6 @@ where you installed the VCF.
 #	ifdef VCF_DEBUG_COLORS
 #	undef VCF_DEBUG_COLORS
 #	endif
-
 #	ifdef VCF_DEBUG_COLORS_COMPARISON_OPERATORS
 #	undef VCF_DEBUG_COLORS_COMPARISON_OPERATORS
 #	endif
@@ -370,32 +369,10 @@ public:
 
 	Color(const double & c, const double & m, const double & y, const double & k);
 
-    Color(const unsigned char & r, const unsigned char & g, const unsigned char & b);
-    Color(const unsigned long & color, ColorFormat cf=cfABGR);
+	Color(const unsigned char & r, const unsigned char & g, const unsigned char & b);
+	Color(const unsigned long & color, ColorFormat cf=cfABGR);
 
 	virtual ~Color(){};
-
-    void getHSV(double & h, double & s, double & v) const;
-    void getHLS(double & h, double & l, double & s) const;
-    void getCMYK(double & c, double & m, double & y, double & k) const;
-    void getRGB(unsigned char & r, unsigned char & g, unsigned char & b) const;
-    void getRGB(double & r, double & g, double & b) const;
-    unsigned long getRGB( ColorFormat cf=cfABGR ) const;
-    void getLab() const;
-    void getYUV() const;
-
-    void setHSV( const double & h, const double & s, const double & v);
-    void setHLS( const double & h, const double & l, const double & s);
-    void setCMYK( const double & c, const double & m, const double & y, const double & k);
-    void setRGB( const unsigned char & r, const unsigned char & g, const unsigned char & b);
-    void setRGB( const double & r, const double & g, const double & b);
-    void setRGB( const unsigned long& rgb, ColorFormat cf=cfABGR );
-    void setLab();
-    void setYUV();
-
-    void brighter();
-
-    void darker();
 
 	double getRed() const;
 
@@ -408,6 +385,29 @@ public:
 	void setGreen( const double& green );
 
 	void setBlue( const double& blue );
+
+	void getRGB(unsigned char & r, unsigned char & g, unsigned char & b) const;
+	void getRGB(double & r, double & g, double & b) const;
+	unsigned long getRGB( ColorFormat cf=cfABGR ) const;
+
+	void setRGB( const unsigned char & r, const unsigned char & g, const unsigned char & b);
+	void setRGB( const double & r, const double & g, const double & b);
+	void setRGB( const unsigned long& rgb, ColorFormat cf=cfABGR );
+
+	void getHSV(double & h, double & s, double & v) const;
+	void setHSV( const double & h, const double & s, const double & v);
+
+	void getHLS(double & h, double & l, double & s) const;
+	void setHLS( const double & h, const double & l, const double & s);
+
+	void getCMYK(double & c, double & m, double & y, double & k) const;
+	void setCMYK( const double & c, const double & m, const double & y, const double & k);
+
+	void getLab() const;
+	void setLab();
+
+	void getYUV() const;
+	void setYUV();
 
 	virtual void copy( const Color* source );
 
@@ -451,7 +451,7 @@ public:
 			unsigned char r, g, b, r2, g2, b2;
 			getRGB(r, g, b);
 			clr.getRGB(r2, g2, b2);
-			VCF_ASSERT2( result2 == result || ( b==b2 || ( g!=g2 || r!=r2) ), "different result for rounding reasons" );	// different result for rounding reasons
+			VCF_ASSERT2( result2 == result || ( b==b2 || ( g!=g2 || r!=r2) ), L"different result for rounding reasons" );
 		#endif
 		return result;
 	}
@@ -481,7 +481,7 @@ public:
 			unsigned char r, g, b, r2, g2, b2;
 			getRGB(r, g, b);
 			clr.getRGB(r2, g2, b2);
-			VCF_ASSERT2( result2 == result || ( b==b2 || ( g!=g2 || r!=r2) ),"different result for rounding reasons" );	// different result for rounding reasons
+			VCF_ASSERT2( result2 == result || ( b==b2 || ( g!=g2 || r!=r2) ), L"different result for rounding reasons" );
 		#endif
 		return result;
 	}
@@ -525,6 +525,10 @@ public:
 	void getInvertedRGB(double & r, double & g, double & b) const;
 
 	unsigned long getInvertedRGB( ColorFormat cf=cfABGR ) const;
+
+	void brighter();
+
+	void darker();
 
 	/**
 	change the color to its complement
@@ -645,49 +649,10 @@ private:
 };
 
 
-
-
-
-
-inline void Color::changeHSV ( const double& percentH, const double& percentS, const double& percentV ) {
-	ColorSpace::HSVtype _hsv = ColorSpace::ColorToHSV( *this );
-	ColorSpace::changeHSV ( _hsv, percentH, percentS, percentV );
-	*this = ColorSpace::HSVToColor ( _hsv );
-}
-
-inline void Color::changeHSL ( const double& percentH, const double& percentS, const double& percentL ) {
-	ColorSpace::HSLtype _hsl = ColorSpace::ColorToHSL( *this );
-	ColorSpace::changeHSL ( _hsl, percentH, percentS, percentL );
-	*this = ColorSpace::HSLToColor ( _hsl );
-}
-
-inline void Color::changeHWB ( const double& percentH, const double& percentW, const double& percentB ) {
-	ColorSpace::HWBtype _hwb = ColorSpace::ColorToHWB( *this );
-	ColorSpace::changeHWB ( _hwb, percentH, percentW, percentB );
-	*this = ColorSpace::HWBToColor ( _hwb );
-}
-
-inline void Color::changeHue ( const double& deltaH ) {
-	ColorSpace::HSLtype hsl = ColorSpace::ColorToHSL( *this );
-	ColorSpace::changeHue( hsl, deltaH );
-	*this = ColorSpace::HSLToColor( hsl );
-}
-
-inline Color Color::getInverted() const {
-	// change the color to its complement
-	Color clr(*this);
-	clr.invert();
-	return clr;
-}
-
-inline Color& Color::inverted() {
-	invert();
-	return *this;
-}
-
+///////////////////////////////////////////////////////////////////////////////
+// inlines
 
 // debugging ( Color )
-
 #ifdef VCF_DEBUG_COLORS
 	inline Color::Color( const String& colorName, const Color& color )
 	: s_(colorName) {
@@ -742,6 +707,380 @@ inline Color& Color::inverted() {
 
 
 
+inline Color::Color() {
+	r_ = 0.0;
+	g_ = 0.0;
+	b_ = 0.0;
+	setColorDbg();
+}
+
+inline Color::Color( const Color& color ) {
+	b_ = color.b_;
+	g_ = color.g_;
+	r_ = color.r_;
+
+	setColorDbg();
+}
+
+inline Color::Color( const double & val1, const double & val2, const double & val3, ColorType type ) {
+	switch ( type ) {
+		case ctRGB : {
+			r_ = val1;
+			g_ = val2;
+			b_ = val3;
+		}
+		break;
+
+		case ctHLS : {
+			ColorSpace::HSLtype hls;
+			hls.H = val1;
+			hls.L = val2;
+			hls.S = val3;
+
+			ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB( hls );
+
+			r_ = rgb.R;
+			g_ = rgb.G;
+			b_ = rgb.B;
+		}
+		break;
+
+		case ctHSV : {
+			ColorSpace::HSVtype hsv;
+			hsv.H = val1;
+			hsv.S = val2;
+			hsv.V = val3;
+
+			ColorSpace::RGBtype rgb = ColorSpace::HSVToRGB( hsv );
+
+			r_ = rgb.R;
+			g_ = rgb.G;
+			b_ = rgb.B;
+		}
+		break;
+	}
+
+	setColorDbg();
+}
+
+inline Color::Color( const double & c, const double & m, const double & y, const double & k ) {
+	setColorDbg();
+}
+
+inline Color::Color( const unsigned char & r, const unsigned char & g, const unsigned char & b ) {
+	r_ = ((double)r) / 255.0;
+	g_ = ((double)g) / 255.0;
+	b_ = ((double)b) / 255.0;
+	setColorDbg();
+}
+
+inline Color::Color(const unsigned long & color, ColorFormat cf ) {
+	switch ( cf ) {
+		case cfARGB : {
+			r_ = ((unsigned char*)&color)[2] / 255.0;
+			g_ = ((unsigned char*)&color)[1] / 255.0;
+			b_ = ((unsigned char*)&color)[0] / 255.0;
+		}
+		break;
+
+		case cfABGR : {
+			r_ = ((unsigned char*)&color)[0] / 255.0;
+			g_ = ((unsigned char*)&color)[1] / 255.0;
+			b_ = ((unsigned char*)&color)[2] / 255.0;
+		}
+		break;
+	}
+
+	setColorDbg();
+}
+
+
+
+inline double Color::getRed() const {
+	return r_;
+}
+
+inline double Color::getGreen() const {
+	return g_;
+}
+
+inline double Color::getBlue() const {
+	return b_;
+}
+
+inline void Color::setRed( const double& red ) {
+	r_ = red;
+	setColorDbg();
+}
+
+inline void Color::setGreen( const double& green ) {
+	g_ = green;
+	setColorDbg();
+}
+
+inline void Color::setBlue( const double& blue ) {
+	b_ = blue;
+	setColorDbg();
+}
+
+inline void Color::getRGB( unsigned char & r, unsigned char & g, unsigned char & b ) const {
+	r = (unsigned char)(r_ * 255 + 0.5);
+	g = (unsigned char)(g_ * 255 + 0.5);
+	b = (unsigned char)(b_ * 255 + 0.5);
+}
+
+inline void Color::getRGB( double & r, double & g, double & b ) const {
+	r = r_;
+	g = g_;
+	b = b_;
+}
+
+inline unsigned long Color::getRGB( ColorFormat cf ) const {
+	unsigned long rgb = 0;
+
+	switch ( cf ) {
+		case cfARGB : {
+			((unsigned char*)(&rgb))[2] = (unsigned char)(r_ * 255 + 0.5);
+			((unsigned char*)(&rgb))[1] = (unsigned char)(g_ * 255 + 0.5);
+			((unsigned char*)(&rgb))[0] = (unsigned char)(b_ * 255 + 0.5);
+		}
+		break;
+
+		case cfABGR : {
+			((unsigned char*)(&rgb))[0] = (unsigned char)(r_ * 255 + 0.5);
+			((unsigned char*)(&rgb))[1] = (unsigned char)(g_ * 255 + 0.5);
+			((unsigned char*)(&rgb))[2] = (unsigned char)(b_ * 255 + 0.5);
+		}
+		break;
+	}
+
+	return rgb;
+}
+
+inline void Color::setRGB( const unsigned char & r, const unsigned char & g, const unsigned char & b ) {
+	r_ = ((double)r) / 255.0;
+	g_ = ((double)g) / 255.0;
+	b_ = ((double)b) / 255.0;
+	setColorDbg();
+}
+
+inline void Color::setRGB( const double & r, const double & g, const double & b) {
+	r_ = r;
+	g_ = g;
+	b_ = b;
+	setColorDbg();
+}
+
+inline void Color::setRGB( const unsigned long& rgb, ColorFormat cf ) {
+	switch ( cf ) {
+		case cfARGB : {
+			r_ = ((unsigned char*)&rgb)[2] / 255.0;
+			g_ = ((unsigned char*)&rgb)[1] / 255.0;
+			b_ = ((unsigned char*)&rgb)[0] / 255.0;
+		}
+		break;
+
+		case cfABGR : {
+			r_ = ((unsigned char*)&rgb)[0] / 255.0;
+			g_ = ((unsigned char*)&rgb)[1] / 255.0;
+			b_ = ((unsigned char*)&rgb)[2] / 255.0;
+		}
+		break;
+	}
+
+	setColorDbg();
+}
+
+
+inline void Color::getHSV( double & h, double & s, double & v ) const {
+	ColorSpace::HSVtype hsv;
+	ColorSpace::RGBtype rgb;
+	rgb.R = r_;
+	rgb.G = g_;
+	rgb.B = b_;
+
+	hsv = ColorSpace::RGBToHSV( rgb );
+
+	h = hsv.H;
+	s = hsv.S;
+	v = hsv.V;
+}
+
+inline void Color::setHSV( const double & h, const double & s, const double & v ) {
+	ColorSpace::HSVtype hsv;
+	hsv.H = h;
+	hsv.S = s;
+	hsv.V = v;
+
+	ColorSpace::RGBtype rgb = ColorSpace::HSVToRGB( hsv );
+
+	r_ = rgb.R;
+	g_ = rgb.G;
+	b_ = rgb.B;
+
+	setColorDbg();
+}
+
+inline void Color::getHLS( double & h, double & l, double & s ) const {
+	ColorSpace::HSLtype hls;
+	ColorSpace::RGBtype rgb;
+	rgb.R = r_;
+	rgb.G = g_;
+	rgb.B = b_;
+
+	hls = ColorSpace::RGBToHSL( rgb );
+
+	h = hls.H;
+	l = hls.L;
+	s = hls.S;
+}
+
+inline void Color::setHLS( const double & h, const double & l, const double & s ) {
+	ColorSpace::HSLtype hls;
+	hls.H = h;
+	hls.L = l;
+	hls.S = s;
+
+	ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB( hls );
+
+	r_ = rgb.R;
+	g_ = rgb.G;
+	b_ = rgb.B;
+
+	setColorDbg();
+}
+
+inline void Color::getCMYK( double & c, double & m, double & y, double & k ) const {
+
+}
+
+inline void Color::setCMYK( const double & c, const double & m, const double & y, const double & k ) {
+	setColorDbg();
+}
+
+inline void Color::getLab() const {
+
+}
+
+inline void Color::setLab() {
+	setColorDbg();
+}
+
+inline void Color::getYUV() const {
+
+}
+
+inline void Color::setYUV() {
+	setColorDbg();
+}
+
+
+inline void Color::copy( const Color* color ) {
+	if ( NULL != color ){
+		r_ = color->getRed();
+		g_ = color->getGreen();
+		b_ = color->getBlue();
+
+		setColorDbg();
+	}
+}
+
+inline void Color::copy( const Color& color ) {
+	r_ = color.getRed();
+	g_ = color.getGreen();
+	b_ = color.getBlue();
+
+	setColorDbg();
+}
+
+
+inline int Color::getLuminosity() const {
+	unsigned char r, g, b;
+	getRGB (r, g, b);
+	int rgbMax = maxVal<>( maxVal<>(r,g), b);
+	int rgbMin = minVal<>( minVal<>(r,g), b);
+	return (int) (double) (((rgbMax+rgbMin) * ColorSpace::HSLMax) + ColorSpace::RGBMax ) / (2 * ColorSpace::RGBMax);
+}
+
+inline void Color::getInvertedRGB( unsigned char & r, unsigned char & g, unsigned char & b ) const {
+	r = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
+	g = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
+	b = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
+}
+
+inline void Color::getInvertedRGB( double & r, double & g, double & b ) const {
+	r =  ( 1.0 - r_ );
+	g =  ( 1.0 - g_ );
+	b =  ( 1.0 - b_ );
+}
+
+inline unsigned long Color::getInvertedRGB( ColorFormat cf ) const {
+	unsigned long rgb = 0;
+
+	switch ( cf ) {
+		case cfARGB : {
+			((unsigned char*)(&rgb))[2] = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
+			((unsigned char*)(&rgb))[1] = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
+			((unsigned char*)(&rgb))[0] = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
+		}
+		break;
+
+		case cfABGR : {
+			((unsigned char*)(&rgb))[0] = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
+			((unsigned char*)(&rgb))[1] = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
+			((unsigned char*)(&rgb))[2] = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
+		}
+		break;
+	}
+
+	return rgb;
+}
+
+inline void Color::brighter() {
+	setColorDbg();
+}
+
+
+inline void Color::darker() {
+	setColorDbg();
+}
+
+inline void Color::invert() {
+	// change the color to its complement
+	r_ =  ( 1.0 - r_ );
+	g_ =  ( 1.0 - g_ );
+	b_ =  ( 1.0 - b_ );
+
+	setColorDbg();
+}
+
+inline Color* Color::getColor( const int& gray ) {
+	return GraphicsToolkit::getColorFromColormap( gray );
+}
+
+inline Color* Color::getColor( const String& colorName ) {
+	return GraphicsToolkit::getColorFromColormap( colorName );
+}
+
+inline Color* Color::getColorMatch( const Color& color ) {
+	return GraphicsToolkit::getColorMatchFromColormap( color );
+}
+
+inline Color Color::getColorContrast( const Color& clrRef, double deltaL/*=0.3*/ ) {
+	return GraphicsToolkit::getColorContrast( clrRef, deltaL );
+}
+
+inline const String Color::getColorNameFromMap( Color& color ) {
+	return GraphicsToolkit::getColorNameFromMap( color );
+}
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// class ColorNames
 
 
 /**
@@ -1477,18 +1816,18 @@ public:
         lightpink            ,  //  = "lightpink";              // 0x00FFB6C1
 #endif  // VCF_LARGE_COLOR_LIST
 
-		/*
-		double colornames
-		*/
-		aqua                 ,  //  = "aqua";					// 0x0000FFFF = cyan
-		fuchsia              ,  //  = "fuchsia";				// 0x00FF00FF = magenta
+    /*
+    double colornames
+    */
+    aqua                 ,  //  = "aqua";           // 0x0000FFFF = cyan
+    fuchsia              ,  //  = "fuchsia";        // 0x00FF00FF = magenta
 
-		/*
-		useful tags
-		*/
-		transparent          ,  //  = "transparent";			// 0xFF000000
-		defaultcolor         ,  //  = "default";				// 0x02000000 ( appears as black )
-		unknown              ,  //  = "unknown";				// 0x01000000 ( appears as black )
+    /*
+    useful tags
+    */
+    transparent          ,  //  = "transparent";    // 0xFF000000
+    defaultcolor         ,  //  = "default";        // 0x02000000 ( appears as black )
+    unknown              ,  //  = "unknown";        // 0x01000000 ( appears as black )
 	};
 
 	enum {
@@ -1535,6 +1874,8 @@ protected:
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// class ColorSpace
 
 /**
 inline implementation for ColorSpace class
@@ -1574,7 +1915,7 @@ inline ColorSpace::HSVtype ColorSpace::ColorToHSV(const Color& color) {
 	return ColorSpace::RGBToHSV ( rgb );
 }
 
-// the HSV-Color conversion Pair
+// the HSL-Color conversion Pair
 inline Color ColorSpace::HSLToColor (const HSLtype& hsl) {
 	ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB (hsl);
 	return ColorSpace::RGBToColor( rgb );
@@ -1585,7 +1926,7 @@ inline ColorSpace::HSLtype ColorSpace::ColorToHSL(const Color& color) {
 	return ColorSpace::RGBToHSL ( rgb );
 }
 
-// the HSV-Color conversion Pair
+// the HWB-Color conversion Pair
 inline Color ColorSpace::HWBToColor (const HWBtype& hsl) {
 	RGBtype rgb = ColorSpace::HWBToRGB (hsl);
 	return ColorSpace::RGBToColor( rgb );
@@ -1682,8 +2023,8 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2004/06/24 04:20:12  marcelloptr
-*adjusted macros for better performance
+*Revision 1.1.2.5  2004/06/25 19:52:48  marcelloptr
+*adjusted macros and other changes for better performance
 *
 *Revision 1.1.2.3  2004/06/18 14:38:43  ddiego
 *commented out the VCF_DEBUG_COLORS define for Marcello.
