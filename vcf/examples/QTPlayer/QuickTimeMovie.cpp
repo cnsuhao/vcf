@@ -149,6 +149,38 @@ bool QuickTimeMovie::open( const String& filename )
 		}
 	}
 
+	if ( result ) {
+		UserData data = GetMovieUserData( m_qtMovie );	
+
+		OSType udType;
+		Handle hData = NULL;
+		hData = NewHandle(0);
+		udType = GetNextUserDataType(data, 0);
+
+		int count = 0;
+		do {
+			if(0 != udType) {
+				count = CountUserDataType(data, udType);
+				for(int i = 1; i <= count; i++) {
+					unsigned char c = (udType>>24);
+					if( c == 0xA9  ) {
+						int err = GetUserDataText(data, hData, udType, i, langEnglish);
+						int sz = GetHandleSize(hData);
+						if ( sz > 0 ) {
+							char tmp[256];
+							memset( tmp,0,256);
+							memcpy( tmp,*hData,min(255,sz) );
+							String s = tmp;
+						}
+					}
+				}
+			}
+	
+			udType = GetNextUserDataType(data, udType);
+		} while(0 != udType);
+
+		DisposeHandle(hData);
+	}
 	return result;
 }
 
