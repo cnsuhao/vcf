@@ -219,6 +219,19 @@ public:
 	}
 
 	/**
+	*sets true to allow the drop down list to be scrolled only by discrete amounts.
+	*@param bool, true if only discrete amounts are allowed.
+	*/
+	void setDiscreteScroll( const bool& discreteScroll );
+
+	/**
+	*returns true if only a scrolling by discrete amounts are allowed.
+	*/
+	bool getDiscreteScroll() {
+		return discreteScroll_;
+	}
+
+	/**
 	*sets if the item has been selected through the drop down list
 	*( i.e. manually by the user ) or through calls by source code
 	* by using the function setSelectedItem
@@ -303,6 +316,7 @@ protected:
 	ulong32 dropDownCount_;
 	double dropDownWidth_;
 	bool dropDownExtendFullScreen_;
+	bool discreteScroll_;
 	bool dropDownSelected_;
 	bool autoLookup_;
 	bool autoLookupIgnoreCase_;
@@ -314,6 +328,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/01/15 00:52:38  marcelloptr
+*bugfix [ 1099910 ] plus other improvements of the scrolling
+*
 *Revision 1.2.4.2  2004/12/21 21:58:05  marcelloptr
 *bugfix [ 1089382 ] ComboBox fires a SelectionChanged msg when loosing focus
 *

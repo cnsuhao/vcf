@@ -41,6 +41,9 @@ public:
 
 		scrollBarMgr->setHasHorizontalScrollbar( false );
 		scrollBarMgr->setHasVerticalScrollbar( true );
+		scrollBarMgr->setVirtualViewVertStep( getDefaultItemHeight() );
+		scrollBarMgr->setDiscreteScroll( false, comboBoxControl->getDiscreteScroll() );
+
 		setUseColorForBackground( true );
 	}
 
@@ -178,6 +181,14 @@ public:
 		else {
 			itemRect.top_ += comboBoxControl_->getBounds().getHeight();
 			itemRect.bottom_ = itemRect.top_ + winHeight;
+
+			// this fixes the bug that scrollbar is always there even when itemsCount < dropDownCount
+			// +=2 comes from the viewable bounds are one pixel on the top and one pixel on the bottom 
+			// less than the height of the listbox control itself ( see Control::adjustViewableBoundsAndOriginForScrollable() )
+			// +=1 comes from rounding reasons.
+			// Any value less than listBox_->getDefaultItemHeight() would fix the problem.
+			// See also: DropDownListBox::setBounds()
+			itemRect.bottom_ += 3;
 		}
 
 		if ( 0 < comboBoxControl_->getDropDownWidth() ) {
@@ -200,10 +211,14 @@ public:
 
 	}
 
-
 	virtual void destroy() {
 		listBox_->setListModel( NULL );
-		comboBoxControl_->repaint();
+
+		// bugfix [ 1099910 ] commented away. The combobox
+		// may have been already destroyed by another control
+		// since the time dropDown_->close() has been called.
+		//comboBoxControl_->repaint();
+
 		Window::destroy();
 	}
 
@@ -294,6 +309,7 @@ void ComboBoxControl::init()
 	dropDownCount_ = 6;
 	dropDownWidth_ = 0;
 	dropDownExtendFullScreen_ = false;
+	discreteScroll_ = true; // for a combo and any listbox it should be true by default
 	dropDownSelected_ = false;
 	autoLookup_ = true;
 	autoLookupIgnoreCase_ = true;
@@ -509,6 +525,7 @@ void ComboBoxControl::closeDropDown( Event* event )
 		dropDown_->FrameActivation.removeHandler( lostFocusHandler );
 
 		dropDown_->setVisible( false );
+		this->repaint();
 		dropDown_->close();
 
 		if ( NULL != selectedItem  ) {
@@ -826,6 +843,11 @@ void ComboBoxControl::setDropDownExtendFullScreen( const bool& dropDownExtendFul
 	dropDownExtendFullScreen_ = dropDownExtendFullScreen;
 }
 
+void ComboBoxControl::setDiscreteScroll( const bool& discreteScroll )
+{
+	discreteScroll_ = discreteScroll;
+}
+
 void ComboBoxControl::setDropDownSelected( const bool& dropDownSelected )
 {
 	dropDownSelected_ = dropDownSelected;
@@ -937,6 +959,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/01/15 00:52:38  marcelloptr
+*bugfix [ 1099910 ] plus other improvements of the scrolling
+*
 *Revision 1.3.2.3  2004/12/21 21:58:05  marcelloptr
 *bugfix [ 1089382 ] ComboBox fires a SelectionChanged msg when loosing focus
 *
