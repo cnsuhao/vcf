@@ -553,13 +553,16 @@ void ListBoxControl::mouseMove( MouseEvent* event )
 				}
 			}
 			else {
-				if ( foundItem != singleSelectedItem_ ) {
+				if ( foundItem != singleSelectedItem_ )  {	   
+					//JC - Integrated change by Berkano (Thanks Brian!) - fixes bug [1015368] ListBoxControl Mousemove error 
+					if(!selectedItems_.empty()) {
 					selectedItems_[0] = foundItem;//assumes index 0 exists
 					setSelectedItem( foundItem );
 				}
 			}
 		}
 	}
+}
 }
 
 void ListBoxControl::mouseUp( MouseEvent* event )
@@ -705,6 +708,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/12 22:34:21  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
 *Revision 1.2.2.4  2004/09/08 21:12:39  dougtinkham
 *modified onItemAdded for scrolling behavior
 *

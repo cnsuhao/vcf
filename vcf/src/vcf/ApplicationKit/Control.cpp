@@ -66,7 +66,20 @@ Control::Control():
 
 Control::~Control()
 {
-
+	/**
+	this shouldn't happen, but it's
+	possible if an exception is thrown in a constructor
+	and not handled. In this case the Control::destroy
+	method will not be called, but rather the destructor
+	will be called directly.
+	So we double check here and delete the control peer
+	*/
+	if ( NULL != peer_ ) {
+		peer_->setControl( NULL );
+		peer_->destroyControl();
+		delete peer_;
+		peer_ = NULL;
+	}
 }
 
 void Control::destroy()
@@ -1490,6 +1503,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/12 22:34:21  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
 *Revision 1.2.2.4  2004/09/06 23:05:55  ddiego
 *fixed border in button class
 *
