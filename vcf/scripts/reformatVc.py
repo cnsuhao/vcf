@@ -69,7 +69,8 @@ addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration inf
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
 g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization' ]
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
-
+g_keepFirstDot_standard = 3 # === g_KeepFirstDot_AddIfNoDots # standard format for paths in projects files has ./ at the beginning
+g_fix_slash_in_path = False # True only when we need to fix it. Then put it back
 # under win32 I am forced to get the uuid from a table because the uuid algorithms on win32 are pretty bad
 # this ends up in having a limited number of uuid which can cause problems
 # so it is suggested use this script under win32 only when debugging, even if I can say
@@ -93,7 +94,7 @@ g_IsDirForSure_False = 0
 g_IsDirForSure_True  = 1
 g_IsDirForSure_ChkDot = 2  # check automatically if the path is a directory or not according with if it has a dot or not
 #                           # There is an option in vc70: 'ObjectFile=".\vc70\DebugDLL/" that *WANTS* the '/' at the end if it is not a file otherwise it
-#                           # compiles only in a 'partial' and weird way !!!
+#                           # compiles only in a 'partial' and weird way: because ObjectFile expect the value to be a file (and accept a dir if we have a [back]slash at the end)
 
 
 #enum AppType
@@ -819,7 +820,8 @@ class FileUtils:
                         path = curr + path
             elif ( keepFirstDot == g_KeepFirstDot_AddIfNoDots ):
                 # we do not add '.\' at the beginning if we have: '../'
-                if ( path and not path[0] == '.' ):
+                # and not when we have something like: "$(VCF_LIB)\"
+                if ( path and not path[0] == '.' and not path[0] == '$' ):
                     path = curr + path
 
         # again unfortunately, because of os.path.normpath(). In the future implement just normPathSimple
@@ -838,10 +840,22 @@ class FileUtils:
                     pass
                 else:
                     # yes. we guess it is a directory and we add the sep
-                    path += sep
+                    # and not when we have something like: "$(VCF_LIB)\"
+                    if ( path and not path[-1] == ')' ):
+                        # the standard is '/' always !!! not '\' !
+                        path += '/'
             else:
                 #it is a dir for sure and with the '/' at the end
                 pass
+            
+        # we fix this always if we decide
+        if ( g_fix_slash_in_path ):
+            # no '.\' at the beginning when we have something like: "$(VCF_LIB)"
+            if ( 3 < len( path ) and path[2] == '$' and path[1] in '/\\' and path[0] == '.' ):
+                path = path[2:]
+            # no '/' at the end when we have something like: "$(VCF_LIB)"
+            if ( path and path[-2] == ')' and path[-1] in '/\\' ):
+                path = path[:-1]
 
         return path
     normPath = staticmethod(normPath)
@@ -3316,7 +3330,7 @@ class DspFile( GenericProjectFile ):
 
         # reformat the current project in a 'standard' way
         # if it doesn't seem to work, please look into convertEntriesVcproj and see if
-        # we used just g_KeepFirstDot_True or g_KeepFirstDot_Add instead
+        # we used just g_KeepFirstDot_True instead than g_KeepFirstDot_Add
         ( vcpHdr, vcpFilesOrg ) = self.convertEntriesVcproj( vcpHdr, vcpFilesOrg, newCompiler, newCompiler )
 
         if ( g_printFilterGroupTrees and self.isFileIn2() ):
@@ -4426,7 +4440,7 @@ class DspFile( GenericProjectFile ):
                 for entryName in vcpCfg.entryNamesList:
                     entryValue = vcpCfg.entryNameValueDict[ entryName ]
                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                         entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                         vcpCfg.entryNameValueDict[ entryName ] = entryValue
                 for tool_name in vcpCfg.toolNamesList:
@@ -4434,7 +4448,7 @@ class DspFile( GenericProjectFile ):
                     for entryName in vcpTool.entryNamesList:
                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
@@ -4519,7 +4533,7 @@ class DspFile( GenericProjectFile ):
                                     for entryName in vcpTool.entryNamesList:
                                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
@@ -4826,7 +4840,7 @@ class DspFile( GenericProjectFile ):
 
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
                                     line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
@@ -8213,21 +8227,14 @@ Limitations:
         Suggestion: keep app.options.unixStyle = False because vc70 does not read right the unix style from its solution files
 
         Note: some interesting things abouit VisualStudio format:
-            vc6 files have the formats:
-                for any options:
-                    ".\dirname\subir/"
-                    ".\dirname\subir\filetitle.ext"
-                    or
-                    ".\dirname\subir\filetitle.ext"
-                    it depends on the mood
-                but for the <File entries:
-                    "dirname\subir\filetitle.ext"
-            vc7# files have the formats:
-                for any options:
-                    ".\dirname\subir/"
-                    ".\dirname\subir\filetitle.ext"
-                but for the <File entries:
-                    "dirname\subir\filetitle.ext"
+            vc7 files have the formats:
+                for any configuration options:
+                    subidr:
+                        ".\dirname\subir/"
+                    file:
+                        ".\dirname\subir\filetitle.ext"
+                and the same for the <File entries too
+            se we better try to keep the same format for vc6 project files too
 
     4) The script *requires* that the names of the source files ( cpp/h ) are unique (no matter what their case is)
         This is not a strong limitation and let the script to retrieve the informations about files
