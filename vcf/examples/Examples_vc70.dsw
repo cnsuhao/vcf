@@ -153,6 +153,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "CommonDirectories"=".\CommonDirectories\CommonDirectories__vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Conditions"=".\Conditions\Conditions_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -337,6 +349,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Combos
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name CommonDirectories
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Conditions

@@ -153,6 +153,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "CommonDirectories"="..\..\examples\CommonDirectories\CommonDirectories__vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Conditions"="..\..\examples\Conditions\Conditions_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -349,6 +361,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Combos
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name CommonDirectories
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Conditions
@@ -1030,30 +1045,6 @@ Package=<4>
 ###############################################################################
 
 Project: "Resources"="..\..\examples\Resources\Resources_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "SciLexer"="..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "ScintillaKit"=".\ScintillaKit\ScintillaKit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
