@@ -616,10 +616,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/12/22 03:15:16  marcelloptr
+*Revision 1.3.2.3  2004/12/22 03:15:50  marcelloptr
 *fixed VCF_COMPILER_NAME macro so less error prone.
 *This also makes getExecutableNameFromBundlePath() to work right.
-*
 *
 *Revision 1.3  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
