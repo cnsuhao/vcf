@@ -462,27 +462,31 @@ void TextControl::handleEvent( Event* event )
 						break;
 
 						default : {
-							ulong32 pos =  textPeer_->getCaretPosition();
-							
-							String text;
-							text += ke->getKeyValue();
-							
-							if ( !text.empty() ) {
+							// control + characters need not to be treated as inserted characters
+							if ( !ke->hasAltKey() && !ke->hasControlKey() ) {
+
+								ulong32 pos =  textPeer_->getCaretPosition();
 								
-								//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-								//	text.c_str(), text[0], text[0], pos );
+								String text;
+								text += ke->getKeyValue();
 								
-								//determnine if we have sleected text. If we 
-								//have, then delete the selection ant *then*
-								//add in the new character(s)
-								
-								ulong32 length = textPeer_->getSelectionCount();
-								if ( length > 0 ) {
-									model->deleteText( pos, length );
+								if ( !text.empty() ) {
+									
+									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+									//	text.c_str(), text[0], text[0], pos );
+									
+									//determnine if we have sleected text. If we 
+									//have, then delete the selection ant *then*
+									//add in the new character(s)
+									
+									ulong32 length = textPeer_->getSelectionCount();
+									if ( length > 0 ) {
+										model->deleteText( pos, length );
+									}
+									
+									
+									model->insertText( pos, text );
 								}
-								
-								
-								model->insertText( pos, text );
 							}
 						}
 						break;
@@ -523,6 +527,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/02/24 05:37:33  marcelloptr
+*bugfix 1150771 - When selecting all the text in the editor, setText is called
+*
 *Revision 1.3.2.4  2005/01/28 02:49:01  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.
