@@ -24,8 +24,10 @@ as a build detail specific to your OS/windowing system
 class ApplicationIconsWindow : public Window {
 public:
 	ApplicationIconsWindow() {
+		
+
 		setCaption( "ApplicationIcons" );
-		setVisible( true );
+		
 
 		/**
 		Create two buttons
@@ -87,6 +89,12 @@ public:
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
 
+		Image* img = Application::getRunningInstance()->getResourceBundle()->getImage( "icon1" );
+		mainWindow->setIconImage( img );
+		delete img;
+
+		mainWindow->show();
+
 		return result;
 	}
 
@@ -106,6 +114,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.1  2004/12/10 21:12:27  ddiego
+*fixed bug 1082362 App Icons do not appear.
+*
 *Revision 1.4  2004/08/07 02:46:56  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
