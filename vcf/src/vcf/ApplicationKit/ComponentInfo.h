@@ -23,7 +23,7 @@ class Image;
 *This information is generally used by development tools to aid in things
 *like autogenerating code, for example.
 */
-class APPKIT_API ComponentInfo : public Object {
+class APPLICATIONKIT_API ComponentInfo : public Object {
 public :
 	ComponentInfo( const String& componentUUID, const String& author="", const String& company="",
 					const String& copyright="", const String& additionalInfo="",
@@ -147,6 +147,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

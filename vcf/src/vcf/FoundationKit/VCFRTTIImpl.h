@@ -33,7 +33,7 @@ namespace VCF   {
 This is a special class for handing a enum mask value that is the combination
 of one or more other values.
 */
-class FRAMEWORK_API EnumSetProperty : public Property {
+class FOUNDATIONKIT_API EnumSetProperty : public Property {
 public:
 
 	typedef unsigned long (Object::*GetFunction)(void);
@@ -207,7 +207,7 @@ protected:
 *C++ enum type (ENUM_TYPE) to the Enum class.
 */
 template <class ENUM_TYPE>
-class FRAMEWORK_API TypedEnum : public Enum {
+class FOUNDATIONKIT_API TypedEnum : public Enum {
 public:
 
 	TypedEnum( const ENUM_TYPE& lower, const ENUM_TYPE& upper ){
@@ -341,7 +341,7 @@ private:
 Concrete template class for supporting event RTTI.
 */
 template <typename SourceType, typename EventType>
-class FRAMEWORK_API TypedEventProperty : public EventProperty {
+class FOUNDATIONKIT_API TypedEventProperty : public EventProperty {
 public:
 
 	TypedEventProperty( const String& eventClassName, const String& handlerClassName,
@@ -382,7 +382,7 @@ public:
 *@author Jim Crafton
 */
 template <class PROPERTY>
-class FRAMEWORK_API TypedProperty : public Property {
+class FOUNDATIONKIT_API TypedProperty : public Property {
 public:
 	typedef PROPERTY (Object::*GetFunction)(void);
 	typedef void (Object::*SetFunction)(const PROPERTY& );
@@ -527,7 +527,7 @@ protected:
 };
 
 template <class PROPERTY>
-class FRAMEWORK_API TypeDefProperty : public TypedProperty<PROPERTY> {
+class FOUNDATIONKIT_API TypeDefProperty : public TypedProperty<PROPERTY> {
 public:
 	TypeDefProperty( _typename_ TypedProperty<PROPERTY>::GetFunction propGetFunction,
 						const PropertyDescriptorType& propertyType,
@@ -564,7 +564,7 @@ protected:
 };
 
 template <class PROPERTY>
-class FRAMEWORK_API TypedObjectProperty : public Property {
+class FOUNDATIONKIT_API TypedObjectProperty : public Property {
 public:
 	typedef PROPERTY* (Object::*GetFunction)(void);
 	typedef void (Object::*SetFunction)( PROPERTY* );
@@ -646,7 +646,7 @@ protected:
 };
 
 template <class PROPERTY>
-class FRAMEWORK_API TypedObjectRefProperty : public Property {
+class FOUNDATIONKIT_API TypedObjectRefProperty : public Property {
 public:
 	typedef PROPERTY& (Object::*GetFunction)(void);
 	typedef void (Object::*SetFunction)( const PROPERTY& );
@@ -729,7 +729,7 @@ protected:
 };
 
 template <class ENUM_PROPERTY>
-class FRAMEWORK_API TypedEnumProperty : public Property {
+class FOUNDATIONKIT_API TypedEnumProperty : public Property {
 public:
 	typedef ENUM_PROPERTY (Object::*GetFunction)(void);
 	typedef void (Object::*SetFunction)( const ENUM_PROPERTY& );
@@ -860,7 +860,7 @@ protected:
 *are enumerations of items.
 */
 template <class ITEM_TYPE>
-class FRAMEWORK_API TypedCollectionProperty : public Property {
+class FOUNDATIONKIT_API TypedCollectionProperty : public Property {
 public:
 	typedef Enumerator<ITEM_TYPE>* (Object::*GetFunction)(void);
 	typedef void (Object::*AddFunction)( ITEM_TYPE );
@@ -999,7 +999,7 @@ private:
 *are enumerations of Object* derived items.
 */
 template <class ITEM_TYPE>
-class FRAMEWORK_API TypedObjectCollectionProperty : public Property {
+class FOUNDATIONKIT_API TypedObjectCollectionProperty : public Property {
 public:
 	typedef Enumerator<ITEM_TYPE>* (Object::*GetFunction)(void);
 	typedef void (Object::*AddFunction)( ITEM_TYPE );
@@ -1169,7 +1169,7 @@ private:
 *Base template class for methods that do NOT return values
 */
 template <typename SOURCE_TYPE>
-class FRAMEWORK_API TypedMethod : public Method {
+class FOUNDATIONKIT_API TypedMethod : public Method {
 public:
 
 	typedef SOURCE_TYPE SrcType;
@@ -1221,7 +1221,7 @@ protected:
 *Base template class for methodsthat DO return values
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE>
-class FRAMEWORK_API TypedMethodReturn : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodReturn : public TypedMethod<SOURCE_TYPE> {
 public:
 	typedef RETURN_TYPE ReturnType;
 
@@ -1252,7 +1252,7 @@ protected:
 *Method template class for methods have 0 arguments
 */
 template <class SOURCE_TYPE>
-class FRAMEWORK_API TypedMethodArg0 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg0 : public TypedMethod<SOURCE_TYPE> {
 public:
 	typedef void (SOURCE_TYPE::*MemberFunc)();
 
@@ -1303,7 +1303,7 @@ protected:
 *Method template class for methods have 1 argument
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE>
-class FRAMEWORK_API TypedMethodArg1 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg1 : public TypedMethod<SOURCE_TYPE> {
 public:
 	typedef ARG1_TYPE Argument1;
 
@@ -1357,7 +1357,7 @@ protected:
 *Accepts methds with 2 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE >
-class FRAMEWORK_API TypedMethodArg2 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg2 : public TypedMethod<SOURCE_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -1414,7 +1414,7 @@ protected:
 *Accepts methds with 3 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename ARG3_TYPE>
-class FRAMEWORK_API TypedMethodArg3 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg3 : public TypedMethod<SOURCE_TYPE> {
 public:
 	typedef ARG1_TYPE Argument1;
 	typedef ARG2_TYPE Argument2;
@@ -1474,7 +1474,7 @@ protected:
 *Accepts methds with 4 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename ARG3_TYPE, typename ARG4_TYPE>
-class FRAMEWORK_API TypedMethodArg4 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg4 : public TypedMethod<SOURCE_TYPE> {
 public:
 	typedef ARG1_TYPE Argument1;
 	typedef ARG2_TYPE Argument2;
@@ -1540,7 +1540,7 @@ protected:
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 			typename ARG3_TYPE, typename ARG4_TYPE, typename ARG5_TYPE>
-class FRAMEWORK_API TypedMethodArg5 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg5 : public TypedMethod<SOURCE_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -1608,7 +1608,7 @@ protected:
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 			typename ARG3_TYPE, typename ARG4_TYPE, typename ARG5_TYPE, typename ARG6_TYPE>
-class FRAMEWORK_API TypedMethodArg6 : public TypedMethod<SOURCE_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg6 : public TypedMethod<SOURCE_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -1676,7 +1676,7 @@ protected:
 *Method template for methods with 0 argument and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE>
-class FRAMEWORK_API TypedMethodArg0Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg0Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
 	typedef RETURN_TYPE (SOURCE_TYPE::*MemberFunc)();
@@ -1730,7 +1730,7 @@ protected:
 *Method template for methods with 1 argument and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE>
-class FRAMEWORK_API TypedMethodArg1Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg1Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 	typedef ARG1_TYPE Argument1;
 
@@ -1787,7 +1787,7 @@ protected:
 *Method template for methods with 2 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE>
-class FRAMEWORK_API TypedMethodArg2Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg2Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 	typedef ARG1_TYPE Argument1;
 	typedef ARG2_TYPE Argument2;
@@ -1846,7 +1846,7 @@ protected:
 *Method template for methods with 3 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename ARG3_TYPE>
-class FRAMEWORK_API TypedMethodArg3Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg3Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -1908,7 +1908,7 @@ protected:
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 			typename ARG3_TYPE, typename ARG4_TYPE>
-class FRAMEWORK_API TypedMethodArg4Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg4Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -1973,7 +1973,7 @@ protected:
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 			typename ARG3_TYPE, typename ARG4_TYPE, typename ARG5_TYPE>
-class FRAMEWORK_API TypedMethodArg5Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg5Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -2042,7 +2042,7 @@ protected:
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 			typename ARG3_TYPE, typename ARG4_TYPE, typename ARG5_TYPE, typename ARG6_TYPE>
-class FRAMEWORK_API TypedMethodArg6Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
+class FOUNDATIONKIT_API TypedMethodArg6Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
 	typedef ARG1_TYPE Argument1;
@@ -2108,7 +2108,7 @@ protected:
 
 
 template <typename FieldType>
-class FRAMEWORK_API TypedField : public Field {
+class FOUNDATIONKIT_API TypedField : public Field {
 public:
 	typedef FieldType Type;
 	typedef FieldType* TypePtr;
@@ -2172,7 +2172,7 @@ public:
 
 
 template <typename FieldType>
-class FRAMEWORK_API TypedObjectField : public Field {
+class FOUNDATIONKIT_API TypedObjectField : public Field {
 public:
 	typedef FieldType Type;
 	typedef FieldType* TypePtr;
@@ -2238,7 +2238,7 @@ public:
 *TypedInterfaceClass documentation
 */
 template<class INTERFACE_TYPE>
-class FRAMEWORK_API TypedInterfaceClass : public InterfaceClass {
+class FOUNDATIONKIT_API TypedInterfaceClass : public InterfaceClass {
 public:
 	TypedInterfaceClass( const String& interfaceName, const String& interfaceID, const String& superInterfaceName ) :
 		InterfaceClass( interfaceName, interfaceID, superInterfaceName ) {
@@ -2266,7 +2266,7 @@ public:
 *TypedImplementedInterfaceClass documentation
 */
 template<class INTERFACE_TYPE, class IMPLEMENTER_TYPE>
-class FRAMEWORK_API TypedImplementedInterfaceClass : public ImplementedInterfaceClass {
+class FOUNDATIONKIT_API TypedImplementedInterfaceClass : public ImplementedInterfaceClass {
 public:
 	TypedImplementedInterfaceClass( const String& interfaceName, const String& interfaceID, const String& superInterfaceName ) :
 		ImplementedInterfaceClass( interfaceName, interfaceID, superInterfaceName ) {
@@ -2324,7 +2324,7 @@ is used to specify the Object the Class represents. So TypedClass<Rect> is
 *@version 1.0
 */
 template <class CLASS_TYPE>
-class FRAMEWORK_API TypedClass : public Class
+class FOUNDATIONKIT_API TypedClass : public Class
 {
 public:
 	TypedClass( const String& className, const String& classID, const String& superClass ):
@@ -2375,7 +2375,7 @@ public:
 *@version 1.0
 */
 template <class CLASS_TYPE>
-class FRAMEWORK_API TypedAbstractClass : public Class
+class FOUNDATIONKIT_API TypedAbstractClass : public Class
 {
 public:
 	TypedAbstractClass( const String& className, const String& classID, const String& superClass ):
@@ -3318,6 +3318,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

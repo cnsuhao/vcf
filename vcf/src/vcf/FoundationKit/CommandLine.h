@@ -136,7 +136,7 @@ Example :
    @version 1.0 Chris Losinger
    @version 2.0 Jim Crafton
 */
-class FRAMEWORK_API CommandLine : public Object {
+class FOUNDATIONKIT_API CommandLine : public Object {
 
 public:
 
@@ -236,6 +236,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

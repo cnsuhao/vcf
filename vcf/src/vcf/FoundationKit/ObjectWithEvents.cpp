@@ -68,8 +68,8 @@ void ObjectWithEvents::addEventHandlerList( EventHandler::Vector* eventHandlerLi
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.6  2004/06/06 04:56:53  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.7  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.5  2004/05/31 13:20:57  ddiego
 *more osx updates

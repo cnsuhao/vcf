@@ -31,7 +31,7 @@ class Locale;
 /**
 *The System object represents basic lower level OS functions
 */
-class FRAMEWORK_API System : public Object {
+class FOUNDATIONKIT_API System : public Object {
 public:
 	static System* create();
 
@@ -94,6 +94,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

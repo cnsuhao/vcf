@@ -68,7 +68,7 @@ class Persistable;
 *@author Jim Crafton
 *@version 1.0
 */
-class FRAMEWORK_API Stream {
+class FOUNDATIONKIT_API Stream {
 public:
 
     /*
@@ -105,7 +105,7 @@ public:
 *as well as providing support for the Persistable interface,
 *and reading in an arbitrary chunk of memory
 */
-class FRAMEWORK_API InputStream : public Stream /*,public std::istream */{
+class FOUNDATIONKIT_API InputStream : public Stream /*,public std::istream */{
 public:
 
 	virtual ~InputStream(){};
@@ -159,7 +159,7 @@ public:
 *as well as providing support for the Persistable interface,
 *and writing out an arbitrary chunk of memory
 */
-class FRAMEWORK_API OutputStream : public Stream /*, public std::ostream */{
+class FOUNDATIONKIT_API OutputStream : public Stream /*, public std::ostream */{
 public:
 	virtual ~OutputStream(){};
 
@@ -210,6 +210,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

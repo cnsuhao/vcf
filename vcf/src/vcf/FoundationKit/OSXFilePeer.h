@@ -68,8 +68,8 @@ private:
 /**
 *CVS Log info
  *$Log$
- *Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
- *added binary friend operators to UnicodeString
+ *Revision 1.1.2.6  2004/06/06 07:05:32  marcelloptr
+ *changed macros, text reformatting, copyright sections
  *
  *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
  *This checks in a bunch of changes to the FoundationKit for OSX

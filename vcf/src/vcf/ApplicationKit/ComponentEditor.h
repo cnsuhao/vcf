@@ -26,7 +26,7 @@ class Control;
 *which only edits a single property of a specific component or
 *object.
 */
-class APPKIT_API ComponentEditor : public Interface  {
+class APPLICATIONKIT_API ComponentEditor : public Interface  {
 public:
 	virtual ~ComponentEditor(){};
 
@@ -89,7 +89,7 @@ public:
 *object. The ControlEditor interface provides several extra methods
 *specific to editing controls
 */
-class APPKIT_API ControlEditor : public Interface  {
+class APPLICATIONKIT_API ControlEditor : public Interface  {
 public:
 	virtual ~ControlEditor() {};
 
@@ -140,6 +140,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -25,7 +25,7 @@ namespace VCF
 *A ClipboardEvent is fired during changes ot the system clipboard.
 *These chnages may include copying or pasting data to the clipboard.
 */
-class APPKIT_API ClipboardEvent : public Event{
+class APPLICATIONKIT_API ClipboardEvent : public Event{
 public:
 
 	ClipboardEvent( Object * source);
@@ -43,6 +43,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

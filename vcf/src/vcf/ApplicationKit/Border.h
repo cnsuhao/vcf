@@ -21,7 +21,7 @@ namespace VCF
 
 #define BORDER_CLASSID		"3126B221-2819-11d4-B53A-00C04F0196DA"
 
-class APPKIT_API Border : public Object{
+class APPLICATIONKIT_API Border : public Object{
 public:
 
 
@@ -66,6 +66,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -29,7 +29,7 @@ class UndoRedoStack;
 *whatever state variables are neccessary to both execute/redo the
 *command, and undo the command.
 */
-class APPKIT_API Command {
+class APPLICATIONKIT_API Command {
 public:
 	virtual ~Command(){};
 
@@ -97,6 +97,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -26,7 +26,7 @@ class Control;
 
 #define POPUPMENU_CLASSID		"DDC5AE1F-89CD-4eca-98D4-9ECEFF7B7689"
 
-class APPKIT_API PopupMenu : public Menu {
+class APPLICATIONKIT_API PopupMenu : public Menu {
 public:
 
 	PopupMenu( Control* control=NULL );
@@ -52,6 +52,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -1,36 +1,12 @@
-
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
 #ifndef _VCF_OSXCONTEXT_H__
 #define _VCF_OSXCONTEXT_H__
+//OSXContext.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 
 namespace VCF {
@@ -44,21 +20,21 @@ public:
 	/**
 	*Creates a new HDC from scratch
 	*/
-	OSXContext( const unsigned long& width, const unsigned long& height );	
+	OSXContext( const unsigned long& width, const unsigned long& height );
 
-	OSXContext( const unsigned long& contextID );	
+	OSXContext( const unsigned long& contextID );
 
 	virtual ~OSXContext();
 
 	virtual void setContext( GraphicsContext* context );
 
-	virtual GraphicsContext* getContext();	
+	virtual GraphicsContext* getContext();
 
 	virtual unsigned long getContextID();
 
 	virtual void setContextID( const unsigned long& handle );
-	
-	virtual void textAt( const Rect& bounds, const String & text, const long& drawOptions=0 );	
+
+	virtual void textAt( const Rect& bounds, const String & text, const long& drawOptions=0 );
 
 	virtual double getTextWidth( const String& text );
 
@@ -67,11 +43,11 @@ public:
     virtual void rectangle(const double & x1, const double & y1, const double & x2, const double & y2);
 
 	virtual void roundRect(const double & x1, const double & y1, const double & x2, const double & y2,
-							 const double & xc, const double & yc);    
+							 const double & xc, const double & yc);
 
     virtual void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
 
-	virtual void arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
+	virtual void arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
 						 const double & y3, const double & x4, const double & y4);
 
     virtual void polyline(const std::vector<Point>& pts);
@@ -89,8 +65,8 @@ public:
 
 	virtual Point getOrigin();
 
-	virtual void copyContext( const Rect& sourceRect, 
-								const Rect& destRect, 
+	virtual void copyContext( const Rect& sourceRect,
+								const Rect& destRect,
 								ContextPeer* sourceContext );
 
 	virtual bool isMemoryContext();
@@ -100,9 +76,9 @@ public:
 	virtual void finishedDrawing( long drawingOperation );
 
 	virtual void drawImage( const double& x, const double& y, Rect* imageBounds, Image* image );
-	
+
 	virtual void checkHandle();
-	
+
 	virtual void releaseHandle();
 
 	virtual bool isXORModeOn();
@@ -116,9 +92,9 @@ public:
 	virtual void drawSelectionRect( Rect* rect );
 
 	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
-	
+
 	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
-		
+
 	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
 
 	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
@@ -145,13 +121,13 @@ public:
 
 	virtual void drawWindowBackground( Rect* rect );
 	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
-	
+
     virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
 
 	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
 
 	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
-	
+
 	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
 protected:
 	CGContextRef contextID_;
@@ -163,13 +139,13 @@ protected:
 	long currentDrawingOperation_;
 	ATSUTextLayout textLayout_;
 	VCF::Point origin_;
-    bool xorModeOn_;	
+    bool xorModeOn_;
     Rect ownerRect_;
-	
+
 	void atsuDrawTextInBox(	const VCF::Rect& rect );
-	
+
 	double getLayoutWidth( ATSUTextLayout layout );
-	
+
 	void setLayoutWidth( ATSUTextLayout layout, double width );
 	VCF::Size getLayoutDimensions( const String& text );
 };
@@ -180,6 +156,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/06/06 07:05:34  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.6  2004/05/31 13:20:58  ddiego
 *more osx updates
 *
@@ -209,11 +188,7 @@ protected:
 *
 */
 
+
 #endif // _VCF_OSXCONTEXT_H__
 
 
-
-
-
-
-	

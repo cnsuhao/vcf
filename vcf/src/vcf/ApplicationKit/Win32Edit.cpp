@@ -453,7 +453,7 @@ DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-def
 	if ( (text.size()-1) > thisPtr->numCharsRemainingToStreamIn_ ) {
 
 		memset( pbBuff, 0, cb );
-		
+
 		if ( System::isUnicodeEnabled() ) {
 			*pcb = text.copy( (VCFChar*)pbBuff, cb / sizeof(VCFChar), thisPtr->numCharsRemainingToStreamIn_ ) * sizeof(VCFChar);
 		}
@@ -462,7 +462,7 @@ DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-def
 
 			*pcb = tmp.copy( (char*)pbBuff, cb, thisPtr->numCharsRemainingToStreamIn_ );
 		}
-		
+
 
 		thisPtr->numCharsRemainingToStreamIn_ += *pcb;
 	}
@@ -550,7 +550,7 @@ void Win32Edit::setText( const VCF::String& text )
 	else {
 		int err = 0;
 		if ( System::isUnicodeEnabled() ) {
-			
+
 			err = ::SetWindowTextW( hwnd_, text.c_str() );
 		}
 		else {
@@ -745,6 +745,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.4  2004/05/21 00:35:16  ddiego
 *fixed a bug that pallindo found - was not passing
 *in the right flag to the unicode version for calling SendMessage

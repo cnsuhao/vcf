@@ -23,12 +23,12 @@ namespace VCF {
 	class Panel;
 
 
-	class APPKIT_API InvalidMessageDialogException : public BasicException {
+	class APPLICATIONKIT_API InvalidMessageDialogException : public BasicException {
 	public:
 		InvalidMessageDialogException (const String& message ): BasicException(	message ){};
 	};
 
-	class APPKIT_API MessageDialog : public Dialog {
+	class APPLICATIONKIT_API MessageDialog : public Dialog {
 	public:
 
 		MessageDialog();
@@ -108,6 +108,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

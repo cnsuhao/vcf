@@ -33,7 +33,7 @@ class TextPeer;
 
 #define TEXTCONTROL_CLASSID			"ED88C09E-26AB-11d4-B539-00C04F0196DA"
 
-class APPKIT_API TextControl : public Control {
+class APPLICATIONKIT_API TextControl : public Control {
 public:
 
 	TextControl( const bool& multiLineControl=false );
@@ -123,6 +123,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

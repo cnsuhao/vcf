@@ -22,7 +22,7 @@ namespace VCF  {
 *Since browsers have become so common, as well as useful,
 *it has been added to the set of peers for the ApplicationKit.
 */
-class APPKIT_API HTMLBrowserPeer : public VCF::Interface {
+class APPLICATIONKIT_API HTMLBrowserPeer : public VCF::Interface {
 public:
 	virtual ~HTMLBrowserPeer(){};
 
@@ -55,6 +55,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

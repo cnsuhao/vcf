@@ -44,7 +44,7 @@ When the attached control is resized, the AbstractContainer
 will detect this as well and call resizeChildren() where
 appropriate.
 */
-class APPKIT_API AbstractContainer : public Container, public ObjectWithEvents,
+class APPLICATIONKIT_API AbstractContainer : public Container, public ObjectWithEvents,
 									public EnumeratorContainer<std::vector<Control*>, Control*>{
 public:
 
@@ -109,6 +109,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

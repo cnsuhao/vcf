@@ -28,7 +28,7 @@ class ItemEvent;
 
 
 
-class APPKIT_API IntegerPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API IntegerPropertyEditor : public AbstractPropertyEditor {
 public:
 	IntegerPropertyEditor(){};
 
@@ -39,7 +39,7 @@ private:
 };
 
 
-class APPKIT_API DoublePropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API DoublePropertyEditor : public AbstractPropertyEditor {
 public:
 	DoublePropertyEditor(){};
 
@@ -49,7 +49,7 @@ private:
 
 };
 
-class APPKIT_API StringPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API StringPropertyEditor : public AbstractPropertyEditor {
 public:
 	StringPropertyEditor(){};
 
@@ -62,7 +62,7 @@ private:
 
 class ComboBoxControl;
 
-class APPKIT_API BoolPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API BoolPropertyEditor : public AbstractPropertyEditor {
 public:
 	BoolPropertyEditor();
 
@@ -80,7 +80,7 @@ private:
 	ItemEventHandler<BoolPropertyEditor>* comboBoxHandler_;
 };
 
-class APPKIT_API EnumPropertyEditor : public AbstractPropertyEditor{
+class APPLICATIONKIT_API EnumPropertyEditor : public AbstractPropertyEditor{
 public:
 	EnumPropertyEditor();
 
@@ -100,7 +100,7 @@ private:
 
 
 
-class APPKIT_API ColorPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API ColorPropertyEditor : public AbstractPropertyEditor {
 public:
 	ColorPropertyEditor();
 
@@ -123,7 +123,7 @@ private:
 
 };
 
-class APPKIT_API FontPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API FontPropertyEditor : public AbstractPropertyEditor {
 public:
 	FontPropertyEditor();
 
@@ -147,7 +147,7 @@ private:
 };
 
 
-class APPKIT_API DefaultMenuItemPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API DefaultMenuItemPropertyEditor : public AbstractPropertyEditor {
 public:
 	DefaultMenuItemPropertyEditor();
 
@@ -164,7 +164,7 @@ private:
 
 };
 
-class APPKIT_API DefaultListModelPropertyEditor : public AbstractPropertyEditor {
+class APPLICATIONKIT_API DefaultListModelPropertyEditor : public AbstractPropertyEditor {
 public:
 	DefaultListModelPropertyEditor();
 
@@ -226,6 +226,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

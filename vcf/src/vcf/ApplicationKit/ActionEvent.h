@@ -24,7 +24,7 @@ state of a particular actions. This ActionEvent is then handled (if appropriate)
 by the rtegistered component target in the target's handleEvent function, where
 the state is read and applied to the target however it makes the most sense.
 */
-class APPKIT_API ActionEvent : public Event {
+class APPLICATIONKIT_API ActionEvent : public Event {
 public:
 
 	ActionEvent( Object* source, const ulong32& eventType ):
@@ -182,6 +182,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

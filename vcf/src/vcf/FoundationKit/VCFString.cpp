@@ -752,8 +752,8 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.8  2004/06/06 04:56:54  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.9  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.7  2004/05/30 01:36:01  marcelloptr
 *tabs reformatting

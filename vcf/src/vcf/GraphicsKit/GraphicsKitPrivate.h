@@ -26,7 +26,7 @@ where you installed the VCF.
 #	include "vcf/GraphicsKit/Win32Font.h"
 #	include "vcf/GraphicsKit/Win32FontManager.h"
 
-	
+
 #endif
 
 #ifdef VCF_X11
@@ -65,6 +65,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
 *made a few changes to the new OpenGLKit files, adjusting where the
 *CVS log was put, and changed a few cases for the export-import definition

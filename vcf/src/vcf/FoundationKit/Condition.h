@@ -31,7 +31,7 @@ Boost condition class</a>. In fact, the Win32 implementation is written largely
 based of off the excellent code in the Boost condition class that was written by
 <a href="http://boost.org/people/william_kempf.htm">William Kempf</a>.
 */
-class FRAMEWORK_API Condition : public Object, public Waitable
+class FOUNDATIONKIT_API Condition : public Object, public Waitable
 {
 public:
 
@@ -89,6 +89,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

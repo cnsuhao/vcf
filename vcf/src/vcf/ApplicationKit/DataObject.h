@@ -32,7 +32,7 @@ namespace VCF{
 #define	 COMPONENT_DATA_TYPE		"text/x-vcf-vff"
 
 
-class APPKIT_API BinaryPersistable : public Object, public Persistable {
+class APPLICATIONKIT_API BinaryPersistable : public Object, public Persistable {
 public:
 	BinaryPersistable( const unsigned char* dataToInitWith, const unsigned long& dataSize ):
 		data_(NULL), dataSize_(dataSize) {
@@ -75,7 +75,7 @@ protected:
 *A DataObject represents a data object in the clipboard.
 *Can be streamed out to a stream
 */
-class APPKIT_API DataObject : public Object {
+class APPLICATIONKIT_API DataObject : public Object {
 
 public:
 	//DataObject( const char* dataToInitWith, const unsigned long& dataSize, const String& dataType );
@@ -103,7 +103,7 @@ protected:
 };
 
 
-class APPKIT_API TextDataObject : public DataObject {
+class APPLICATIONKIT_API TextDataObject : public DataObject {
 public:
 	TextDataObject( const String& text="" );
 
@@ -115,7 +115,7 @@ protected:
 };
 
 
-class APPKIT_API ImageDataObject : public DataObject {
+class APPLICATIONKIT_API ImageDataObject : public DataObject {
 public:
 	ImageDataObject( Image* image=NULL );
 
@@ -134,6 +134,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

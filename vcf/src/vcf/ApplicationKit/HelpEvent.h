@@ -19,7 +19,7 @@ namespace VCF  {
 #define HELP_EVENT_TYPE		CUSTOM_EVENT_TYPES + 900
 
 
-class APPKIT_API HelpEvent : public Event {
+class APPLICATIONKIT_API HelpEvent : public Event {
 public:
 	HelpEvent( Object* source );
 
@@ -63,6 +63,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

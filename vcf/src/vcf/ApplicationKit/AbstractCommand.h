@@ -25,7 +25,7 @@ class UndoRedoStack;
 *Useful for using as a base class when creating your own Command based
 *classes.
 */
-class APPKIT_API AbstractCommand : public Object, public Command {
+class APPLICATIONKIT_API AbstractCommand : public Object, public Command {
 public:
 	AbstractCommand();
 
@@ -64,6 +64,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

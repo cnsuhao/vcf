@@ -188,8 +188,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.8  2004/06/06 06:03:36  marcelloptr
-*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*Revision 1.2.4.9  2004/06/06 07:05:27  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.2.4.7  2004/05/31 13:20:56  ddiego
 *more osx updates

@@ -36,7 +36,7 @@ namespace VCF {
 	To start the process either call createProcess() or construct the process
 	and pass in a filename/commandline to the constructor.
 	*/
-	class FRAMEWORK_API ProcessWithRedirectedIO : public Object {
+	class FOUNDATIONKIT_API ProcessWithRedirectedIO : public Object {
 	public:
 		/**
 		Constructs a ProcessWithRedirectedIO. Does NOT actually start the
@@ -107,6 +107,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -24,7 +24,7 @@ class DragSource;
 class DataObject;
 /** @interface */
 
-class APPKIT_API DragDropPeer {
+class APPLICATIONKIT_API DragDropPeer {
 public:
 
 	virtual ~DragDropPeer(){};
@@ -47,6 +47,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -29,7 +29,7 @@ class TreeModel;
 
 #define DEFAULTTREEITEM_CLASSID		"3126B224-2819-11d4-B53A-00C04F0196DA"
 
-class APPKIT_API DefaultTreeItem : public TreeItem {
+class APPLICATIONKIT_API DefaultTreeItem : public TreeItem {
 public:
 	enum TreeEvents {
 		teItemExpanded = ITEM_EVENT_CHANGED + 200
@@ -265,6 +265,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

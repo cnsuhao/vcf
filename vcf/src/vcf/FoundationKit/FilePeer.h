@@ -28,7 +28,7 @@ class Directory::Finder;
 *instance of this class to perform the actual work
 *of dealing with files.
 */
-class FRAMEWORK_API FilePeer {
+class FOUNDATIONKIT_API FilePeer {
 public:
 
 	virtual ~FilePeer(){};
@@ -72,6 +72,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

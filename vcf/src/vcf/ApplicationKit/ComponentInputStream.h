@@ -71,7 +71,7 @@ based on the XML format. The DTD for components is extremely simple and is
 *provides the basic handling of the XML format. The
 */
 
-class APPKIT_API ComponentInputStream : public InputStream, public HandlerBase
+class APPLICATIONKIT_API ComponentInputStream : public InputStream, public HandlerBase
 {
 public:
 	ComponentInputStream( InputStream* inStream );
@@ -211,6 +211,9 @@ inline OutputStream& operator<<( OutputStream& target, const StrX& toDump)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -27,7 +27,7 @@ namespace VCF  {
 *properties, allowing the developer to work with them at design time as well
 *as programmatically.
 */
-class APPKIT_API ScrollbarManager : public Component {
+class APPLICATIONKIT_API ScrollbarManager : public Component {
 public:
 
 	/**
@@ -114,6 +114,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

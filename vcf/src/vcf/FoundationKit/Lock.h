@@ -21,7 +21,7 @@ namespace VCF
 *Class Lock
 *@author Tiziano Franzoi, Nov 15, 2001
 */
-class FRAMEWORK_API Lock :public VCF::Object
+class FOUNDATIONKIT_API Lock :public VCF::Object
 {
 public:
 	Lock( VCF::SynchObject& synchObject ):synchObject_(synchObject)
@@ -47,6 +47,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

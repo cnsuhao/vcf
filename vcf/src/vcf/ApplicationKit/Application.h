@@ -50,7 +50,7 @@ class Library;
 	@del Application::nativeOSEventReceived
  */
 
-class APPKIT_API Application : public AbstractApplication {
+class APPLICATIONKIT_API Application : public AbstractApplication {
 public:
 	/**
 	Every derived class <b>must</b> at least take argc, and argv
@@ -192,6 +192,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

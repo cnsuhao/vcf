@@ -16,7 +16,7 @@ where you installed the VCF.
 
 namespace VCF{
 /** @interface */
-class APPKIT_API PrintContextPeer : public VCF::ContextPeer {
+class APPLICATIONKIT_API PrintContextPeer : public VCF::ContextPeer {
 };
 
 }
@@ -25,6 +25,9 @@ class APPKIT_API PrintContextPeer : public VCF::ContextPeer {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

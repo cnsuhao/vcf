@@ -27,7 +27,7 @@ namespace VCF {
 This exception is thrown when a bad date format is used. An example
 of an invalid date might be Jan 32, 2003.
 */
-class FRAMEWORK_API BadDateFormat : public std::exception {
+class FOUNDATIONKIT_API BadDateFormat : public std::exception {
 public:
 	BadDateFormat( const String& err ):err_(err) {
 
@@ -48,7 +48,7 @@ protected:
 This exception is thrown when a bad time format is used. An example
 of an invalid time might be 26:65:03.
 */
-class FRAMEWORK_API BadTimeFormat : public std::exception {
+class FOUNDATIONKIT_API BadTimeFormat : public std::exception {
 public:
 	BadTimeFormat( const String& err ):err_(err) {
 
@@ -86,7 +86,7 @@ int minutes = span.getMinutes(); //returns 0
 </pre>
 
 */
-class FRAMEWORK_API DateTimeSpan {
+class FOUNDATIONKIT_API DateTimeSpan {
 public:
 	DateTimeSpan() :years_(0), months_(0), days_(0) {
 
@@ -250,7 +250,7 @@ Most of the algorithms that this class uses come from: <br>
 http://www.tondering.dk/claus/cal/
 
 */
-class FRAMEWORK_API DateTime : public Object, public Persistable {
+class FOUNDATIONKIT_API DateTime : public Object, public Persistable {
 public:
 
 	enum {
@@ -735,43 +735,43 @@ protected:
 };
 
 
-class FRAMEWORK_API ByMillisecond {
+class FOUNDATIONKIT_API ByMillisecond {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
-class FRAMEWORK_API BySecond {
+class FOUNDATIONKIT_API BySecond {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
-class FRAMEWORK_API ByMinute {
+class FOUNDATIONKIT_API ByMinute {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
-class FRAMEWORK_API ByHour {
+class FOUNDATIONKIT_API ByHour {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
-class FRAMEWORK_API ByDay {
+class FOUNDATIONKIT_API ByDay {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
-class FRAMEWORK_API ByMonth {
+class FOUNDATIONKIT_API ByMonth {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
-class FRAMEWORK_API ByYear {
+class FOUNDATIONKIT_API ByYear {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
@@ -784,6 +784,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

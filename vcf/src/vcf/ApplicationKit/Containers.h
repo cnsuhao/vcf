@@ -28,7 +28,7 @@ namespace VCF {
 *handles basic alignment,layout of child components.
 */
 
-class APPKIT_API StandardContainer : public AbstractContainer {
+class APPLICATIONKIT_API StandardContainer : public AbstractContainer {
 public:
 
 	StandardContainer();
@@ -84,7 +84,7 @@ protected:
 
 
 
-class APPKIT_API FixedStandardContainer : public  StandardContainer  {
+class APPLICATIONKIT_API FixedStandardContainer : public  StandardContainer  {
 public:
 	virtual void resizeChildren( Control* control );
 
@@ -99,6 +99,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

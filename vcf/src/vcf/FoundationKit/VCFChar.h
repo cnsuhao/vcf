@@ -163,8 +163,8 @@ struct char_traits<VCF::WideChar> {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.6  2004/06/06 04:56:54  marcelloptr
-*added binary friend operators to UnicodeString
+*Revision 1.1.2.7  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
 *
 *Revision 1.1.2.5  2004/06/01 04:21:52  ddiego
 *fixed a little update mistake

@@ -136,7 +136,7 @@ void Window::beforeDestroy( ComponentEvent* event )
 			parentContainer->remove( this );
 		}
 	}
-	
+
 	Frame::beforeDestroy( event );
 }
 
@@ -290,6 +290,9 @@ void Window::handleEvent( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/05/16 02:39:01  ddiego
 *OSX code updates
 *

@@ -40,7 +40,7 @@ namespace VCF  {
 /**
 *Class DefaultColumnModel documentation
 */
-class APPKIT_API DefaultColumnModel : public ColumnModel, public Persistable {
+class APPLICATIONKIT_API DefaultColumnModel : public ColumnModel, public Persistable {
 public:
 
 	DefaultColumnModel();
@@ -160,6 +160,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

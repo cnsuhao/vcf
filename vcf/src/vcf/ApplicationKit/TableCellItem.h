@@ -26,7 +26,7 @@ class TableItemEditor;
 #define TABLECELLITEM_CLASSID		"53EA0BA2-7068-11d4-8F12-00207811CFAB"
 
 /** @interface */
-class APPKIT_API TableCellItem : public Item {
+class APPLICATIONKIT_API TableCellItem : public Item {
 public:
 
 	enum TableCellItemState {
@@ -76,6 +76,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

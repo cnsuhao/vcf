@@ -32,7 +32,7 @@ class Control;
 *will take care of the rest.
 *@see UIToolkit::addAcceleratorKey()
 */
-class APPKIT_API AcceleratorKey : public VCF::Object {
+class APPLICATIONKIT_API AcceleratorKey : public VCF::Object {
 public:
 	AcceleratorKey( Control* associatedControl, const VirtualKeyCode& keyCode,
 					const ulong32& modifierMask, EventHandler* eventHandler,
@@ -140,6 +140,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

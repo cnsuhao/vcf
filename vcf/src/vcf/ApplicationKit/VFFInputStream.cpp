@@ -480,9 +480,9 @@ void VFFInputStream::hexToBin( const String& hexString, Persistable* persistable
 		tmpHexBuf[1] = hexStringBuf[1];
 		uchar hex = '\0';
         hex = StringUtils::fromStringAsHexNumber( tmpHexBuf );
-		
+
         //swscanf( tmpHexBuf, L"%X", &hex );
-        
+
 		*tmpBinBuffer = hex;
 		hexStringBuf += 2;
 		binSize --;
@@ -497,6 +497,9 @@ void VFFInputStream::hexToBin( const String& hexString, Persistable* persistable
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.3  2004/05/06 02:56:35  ddiego
 *checking in OSX updates
 *

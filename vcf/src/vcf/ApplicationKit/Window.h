@@ -37,7 +37,7 @@ Has a caption of the standard height.
 	@del Window::WindowMaximize
 	@del Window::WindowMinimize
 */
-class APPKIT_API Window : public Frame {
+class APPLICATIONKIT_API Window : public Frame {
 public:
 
 
@@ -178,6 +178,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

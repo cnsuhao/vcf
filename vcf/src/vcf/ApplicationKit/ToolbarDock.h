@@ -51,7 +51,7 @@ class Toolbar;
 These toolbars may be attached to any of the four sides of the parent Window that
 holds them.
 */
-class APPKIT_API ToolbarDock : public CustomControl, public DelegatedContainer<ToolbarDock> {
+class APPLICATIONKIT_API ToolbarDock : public CustomControl, public DelegatedContainer<ToolbarDock> {
 public:
 
 	ToolbarDock();
@@ -158,6 +158,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

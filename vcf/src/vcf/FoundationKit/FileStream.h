@@ -31,7 +31,7 @@ class FileStreamPeer;
 */
 
 
-class FRAMEWORK_API FileStreamBase : public Object {
+class FOUNDATIONKIT_API FileStreamBase : public Object {
 public:
 	FileStreamBase();
 
@@ -60,7 +60,7 @@ protected:
 };
 
 
-class FRAMEWORK_API FileInputStream : public InputStream , public FileStreamBase {//, public OutputStream, public Object {
+class FOUNDATIONKIT_API FileInputStream : public InputStream , public FileStreamBase {//, public OutputStream, public Object {
 public:
 	FileInputStream( const String& filename );
 
@@ -102,7 +102,7 @@ protected:
 };
 
 
-class FRAMEWORK_API FileOutputStream : public OutputStream , public FileStreamBase {
+class FOUNDATIONKIT_API FileOutputStream : public OutputStream , public FileStreamBase {
 public:
 	FileOutputStream( const String& filename, const bool & append = false );
 
@@ -140,6 +140,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

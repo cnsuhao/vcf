@@ -20,7 +20,7 @@ namespace VCF {
 *The VariantDataInputStream is used to read
 *a VariantData object from an InputStream source.
 */
-class FRAMEWORK_API VariantDataInputStream : public InputStream {
+class FOUNDATIONKIT_API VariantDataInputStream : public InputStream {
 
 public:
 	VariantDataInputStream( InputStream* sourceInputStream ){
@@ -140,7 +140,7 @@ private:
 *The VariantDataOutputStream is used to write a
 *VariantData object to an OutputStream source.
 */
-class FRAMEWORK_API VariantDataOutputStream : public OutputStream{
+class FOUNDATIONKIT_API VariantDataOutputStream : public OutputStream{
 
 public:
 	VariantDataOutputStream( OutputStream* sourceOutputStream ){
@@ -270,6 +270,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

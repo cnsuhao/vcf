@@ -19,7 +19,7 @@ namespace VCF
 
 class ComboBoxControl;
 
-class APPKIT_API Win32ComboBox  : public AbstractWin32Component, public ComboBoxPeer
+class APPLICATIONKIT_API Win32ComboBox  : public AbstractWin32Component, public ComboBoxPeer
 {
 public:
 	Win32ComboBox( ComboBoxControl* component );
@@ -164,6 +164,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
