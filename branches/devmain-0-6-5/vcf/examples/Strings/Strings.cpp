@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	String toFind = "foo";
     int pos = t.find(toFind); // does not find the string (returns String::npos)
 
-    if (pos == String::npos)
+    if (pos == UnicodeString::npos)
     {
 		System::println( "trying to find string \"foo\": not found. returns String::npos: %d", pos);
     }

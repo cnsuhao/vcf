@@ -29,7 +29,7 @@ public:
 		*/
 		TextControl* edit = new TextControl();
 		edit->setName( "edit" );
-		edit->setBounds( 20, label->getBottom() + 10, 200, edit->getPreferredHeight() );
+		edit->setBounds( 20, label->getBottom() + 10, 200, edit->getPreferredHeight() );		
 		add( edit );
 
 
@@ -135,12 +135,14 @@ public:
 				//create some text
 				String text;
 				//append the contents of the stream's buffer to the string
-				text.append( stream.getBuffer(), stream.getSize() );
+				text.append( (VCF::WideChar*)stream.getBuffer(), stream.getSize() );
 				
 				//set the text control model's text
 				edit2->getTextModel()->setText( text );
 			}
-		}
+
+			dataObject->free();
+		}		
 	}
 
 };

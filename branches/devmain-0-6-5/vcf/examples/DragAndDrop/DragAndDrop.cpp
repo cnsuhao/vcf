@@ -281,7 +281,7 @@ public:
 			if ( dataObj->saveToStream( FILE_DATA_TYPE, &stream ) ) {
 				//create a string from the output streams data
 				String fileNames;
-				fileNames.append( stream.getBuffer(), stream.getSize() );
+				fileNames.append( (VCF::WideChar*)stream.getBuffer(), stream.getSize()/sizeof(VCF::WideChar) );
 
 				//create a string tokenizer, with the delimeter set to '\n'
 				StringTokenizer tok( fileNames, "\n");
