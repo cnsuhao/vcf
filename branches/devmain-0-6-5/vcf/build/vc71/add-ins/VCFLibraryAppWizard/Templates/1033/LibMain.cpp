@@ -1,9 +1,8 @@
 //[!output PROJECT_NAME].cpp
 
-
-#include "ApplicationKit.h"
-#include "core/LibraryApplication.h"
-#include "implementerKit/Win32Peer.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/LibraryApplication.h"
+#include "vcf/ApplicationKit/Win32Peer.h"
 
 using namespace VCF;
 

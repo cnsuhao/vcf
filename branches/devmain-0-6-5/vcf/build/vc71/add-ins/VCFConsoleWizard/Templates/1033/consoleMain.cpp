@@ -1,6 +1,6 @@
 ////[!output PROJECT_NAME].cpp
 
-#include "FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKit.h"
 
 using namespace VCF;
 

@@ -1,7 +1,7 @@
 //MainWindow.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "MainWindow.h"
-#include "core/DefaultMenuItem.h"
+#include "vcf/ApplicationKit/DefaultMenuItem.h"
 
 #include "[!output PROJECT_NAME]Application.h"
 

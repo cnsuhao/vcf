@@ -297,8 +297,6 @@ function OnFinish(document)
 	window.external.AddSymbol("COMPANY", str);
 	var str = TrimStr(COPYRIGHT.value);
 	window.external.AddSymbol("COPYRIGHT", str);
-	var str = TrimStr(ADDITIONAL.value);
-	window.external.AddSymbol("ADDITIONAL", str);
 
 	strRawGUID = window.external.CreateGuid();
 	strFormattedGUID = window.external.FormatGuid(strRawGUID, 0);

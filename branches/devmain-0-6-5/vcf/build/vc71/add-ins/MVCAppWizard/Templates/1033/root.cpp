@@ -1,16 +1,11 @@
 //[!output PROJECT_NAME].cpp
 
-
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "[!output PROJECT_NAME]Document.h"
 #include "[!output PROJECT_NAME]View.h"
 #include "[!output PROJECT_NAME]Window.h"
 
 using namespace VCF;
-
-
-
-
 
 class [!output PROJECT_NAME] : public SDIDocumentBasedApplication {
 public:
@@ -40,7 +35,6 @@ public:
 	virtual void terminateRunningApplication() {
 		SDIDocumentBasedApplication::terminateRunningApplication();
 
-		
 	}
 
 	void onDocInitialized( Event* e ) {

@@ -3,10 +3,7 @@
 #ifndef _[!output UPPER_CASE_PROJECT_NAME]APPAPPLICATION_H__
 #define _[!output UPPER_CASE_PROJECT_NAME]APPAPPLICATION_H__
 
-
-
 using namespace VCF;
-
 
 /**
 *Class [!output PROJECT_NAME]Application documentation
