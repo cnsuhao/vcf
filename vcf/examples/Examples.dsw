@@ -84,6 +84,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Dictionaries"=.\Dictionaries\Dictionaries.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "DragAndDrop"=.\DragAndDrop\DragAndDrop.dsp - Package Owner=<4>
 
 Package=<5>

@@ -93,7 +93,15 @@ while ( it != pathComponents.end() ) {
 	</para>
 	<formalpara><title>Creating a file</title>
 	You can create files (as well as read and write to them) using the 
-	FileOutputStream class.
+	FileOutputStream class. To create a file, just create an isntance of 
+	FileOutputStream, and pass in the file name to the constructor. Then
+	use the various write() methods of the FileOutputStream class. For 
+	example:
+<programlisting>
+<![CDATA[
+
+]]>
+</programlisting>	
 	</formalpara>
 </section>
 
@@ -103,6 +111,9 @@ while ( it != pathComponents.end() ) {
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/11/24 05:05:23  ddiego
+added some more docs, and some minor changes to the Win32ScrollPeer
+
 Revision 1.1.2.2  2003/11/20 21:54:55  ddiego
 *** empty log message ***
 
