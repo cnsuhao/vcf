@@ -19,6 +19,8 @@ class OSXFileStream : public FileStreamPeer
 {
 public:
 	OSXFileStream( const String& filename, const FileStreamAccessType& accessType );
+	
+	OSXFileStream( File* file );
 
 	virtual ~OSXFileStream();
 
@@ -45,6 +47,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.6  2004/07/29 03:55:21  ddiego
+ *osx updates
+ *
  *Revision 1.1.2.5  2004/06/06 07:05:32  marcelloptr
  *changed macros, text reformatting, copyright sections
  *

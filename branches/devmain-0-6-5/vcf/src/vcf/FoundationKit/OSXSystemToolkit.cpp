@@ -79,6 +79,11 @@ FileStreamPeer* OSXSystemToolkit::internal_createFileStreamPeer( const String& f
 	return new OSXFileStream( filename, accessType );
 }
 
+FileStreamPeer* OSXSystemToolkit::internal_createFileStreamPeer( File* file )
+{
+	return new OSXFileStream( file );
+}
+
 ProcessIORedirectionPeer* OSXSystemToolkit::internal_createProcessIORedirectionPeer( ProcessWithRedirectedIO* process )
 {
 
@@ -95,6 +100,9 @@ LocalePeer* OSXSystemToolkit::internal_createLocalePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/29 03:55:21  ddiego
+*osx updates
+*
 *Revision 1.1.2.7  2004/07/27 04:26:04  ddiego
 *updated devmain-0-6-5 branch with osx changes
 *

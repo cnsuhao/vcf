@@ -89,24 +89,92 @@ DateTime OSXFilePeer::getDateAccessed()
 	return result;
 }
 
-void OSXFilePeer::open( const String& fileName, File::OpenFlags openFlags, File::ShareFlags shareFlags)
+void OSXFilePeer::open( const String& fileName, ulong32 openFlags, File::ShareFlags shareFlags)
 {
-
+	close();
+	VCF_ASSERT( !fileName.empty() );
+	int oflags = 0;
+	if ( File::ofRead & openFlags ) {
+		oflags |= O_RDONLY;
+	}
+	
+	if ( File::ofWrite & openFlags ) {
+		oflags |= O_WRONLY;
+	}
+	
+	if ( File::ofWrite & openFlags && File::ofRead & openFlags ) {
+		oflags |= O_RDWR;
+	}
+	
+	fileHandle_ = open( fileName.ansi_c_str(), oflags );
+	if ( -1 == fileHandle_ ) {
+		fileHandle_ = 0;
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to open the specified file " + fileName));
+	}
 }
 
 void OSXFilePeer::close()
 {
-
+	if ( 0 != fileHandle_ ) {
+		close( fileHandle_ );
+	}
 }
 
-void OSXFilePeer::create( File::OpenFlags openFlags )
+void OSXFilePeer::create( ulong32 openFlags )
 {
-
+	close();
+	AnsiString fname = file_->getName();
+	VCF_ASSERT( !fname.empty() );
+	
+	FilePath fp = fname;
+	if ( fp.isDirectoryName() ) {
+		std::vector<String> dirPaths = fp.getPathComponents();
+		std::vector<String>::iterator it = dirPaths.begin();
+		String dirName;
+		while ( it != dirPaths.end() ){
+			dirName += *it;
+			DIR* dir = opendir( dirName.ansi_c_str() );
+			if ( NULL == dir ) {
+				//try and create it?
+				mode_t mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+				mkdir( dirName.ansi_c_str(), mode );
+			}
+			else {
+				closedir( dir );
+			}
+			
+			it ++;
+		}
+		
+	}
+	else {
+		int oflags = O_CREAT | O_TRUNC;
+		if ( File::ofRead & openFlags ) {
+			oflags |= O_RDONLY;
+		}
+		
+		if ( File::ofWrite & openFlags ) {
+			oflags |= O_WRONLY;
+		}
+		
+		if ( File::ofWrite & openFlags && File::ofRead & openFlags ) {
+			oflags |= O_RDWR;
+		}
+		
+		fileHandle_ = open( fname.c_str(), oflags );
+		if ( -1 == fileHandle_ ) {
+			fileHandle_ = 0;
+			throw BasicFileError( MAKE_ERROR_MSG_2("Unable to open the specified file " + file_->getName()));
+		}	
+	}	
 }
 
 void OSXFilePeer::remove()
 {
-
+	AnsiString fname = file_->getName();
+	VCF_ASSERT( !fname.empty() );
+	
+	unlink( fname.c_str() );
 }
 
 void OSXFilePeer::move( const String& newFileName )
@@ -220,6 +288,9 @@ void OSXFilePeer::copyTo( const String& copyFileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/29 03:55:12  ddiego
+*osx updates
+*
 *Revision 1.1.2.8  2004/07/27 04:26:04  ddiego
 *updated devmain-0-6-5 branch with osx changes
 *
