@@ -806,6 +806,7 @@ bool Control::isEnabled()
 void Control::setEnabled( const bool& enabled )
 {
 	peer_->setEnabled( enabled );
+	repaint();
 }
 
 void Control::mouseEnter( MouseEvent* event )
@@ -1467,6 +1468,10 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/02/27 01:45:33  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.4.2.4  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

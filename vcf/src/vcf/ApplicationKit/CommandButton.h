@@ -72,6 +72,7 @@ public:
 
 	virtual bool isDefault();
 
+	virtual void setName( const String& name );
 	/**
 	*sets the caption for the button. The is the
 	*text that is displayed on the button's face
@@ -136,6 +137,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/27 01:45:33  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -119,6 +119,15 @@ void CommandButton::click()
 	}
 }
 
+void CommandButton::setName( const String& name )
+{
+	Control::setName( name );
+	if ( isDesigning() && getCaption().empty() ) {
+		setCaption( name );
+	}
+}
+
+
 void CommandButton::setCaption( const String& caption )
 {
 	VirtualKeyCode keyCode = UIToolkit::findMnemonic( caption );
@@ -209,6 +218,10 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/27 01:45:33  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.3.2.1  2005/02/21 16:20:00  ddiego
 *minor changes to various things, property editors, and tree list control.
 *

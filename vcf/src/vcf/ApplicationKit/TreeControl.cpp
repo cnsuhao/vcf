@@ -33,6 +33,8 @@ TreeControl::TreeControl():
 	peer_->create( this );
 
 	init();
+
+	setVisible( true );
 }
 
 TreeControl::~TreeControl()
@@ -353,6 +355,10 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/27 01:45:33  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.3.2.1  2005/01/28 02:49:01  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.

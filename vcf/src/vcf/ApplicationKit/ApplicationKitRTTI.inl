@@ -155,6 +155,7 @@ END_CLASSINFO(Document)
 BEGIN_ABSTRACT_CLASSINFO(Frame, "VCF::Frame", "VCF::Control", FRAME_CLASSID )
 PROPERTY( String, "caption", Frame::getCaption, Frame::setCaption, pdString );
 PROPERTY( bool, "isTopmost", Frame::isFrameTopmost, Frame::setFrameTopmost, pdBool );
+PROPERTY( bool, "useColorForBackground", Frame::getUseColorForBackground, Frame::setUseColorForBackground, pdBool );
 LABELED_ENUM_PROPERTY( FrameStyleType, "frameStyle", Frame::getFrameStyle, Frame::setFrameStyle,
 					   fstSizeable, fstToolbarBorderFixed, 6, FrameStyleTypeNames);
 EVENT("VCF::FrameEventHandler", Frame, FrameEvent, FrameClosing)
@@ -316,6 +317,7 @@ END_CLASSINFO(ControlContainer)
 
 BEGIN_CLASSINFO(CustomControl, "VCF::CustomControl", "VCF::Control", CUSTOMCONTROL_CLASSID )
 PROPERTY( bool, "transparent", CustomControl::isTransparent, CustomControl::setTransparent, pdBool );
+PROPERTY( bool, "useColorForBackground", CustomControl::getUseColorForBackground, CustomControl::setUseColorForBackground, pdBool );
 END_CLASSINFO(CustomControl)
 
 
@@ -420,6 +422,7 @@ END_CLASSINFO(Dialog)
 
 
 BEGIN_CLASSINFO(HTMLBrowserControl, "VCF::HTMLBrowserControl", "VCF::Control", HTMLBROWSERCONTROL_CLASSID)
+PROPERTY( String, "currentURL", HTMLBrowserControl::getCurrentURL, HTMLBrowserControl::setCurrentURL, pdString );
 END_CLASSINFO(HTMLBrowserControl)
 
 BEGIN_CLASSINFO(HeaderControl, "VCF::HeaderControl", "VCF::CustomControl", HEADERCONTROL_CLASSID)
@@ -642,6 +645,10 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/27 01:45:32  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.3.2.1  2005/01/26 20:59:28  ddiego
 *some fixes to table control and to teh table item editor interface
 *

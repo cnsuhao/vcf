@@ -546,7 +546,8 @@ void Win32FilePeer::updateStat( File::StatMask statMask/*=File::smMaskAll*/ )
 		if ( res = ::GetFileAttributesExW( getName().c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData ) ) {
 			copyFromAttributeData( file_, fileAttribData, statMask );
 		}
-	} else {
+	} 
+	else {
 		if ( res = ::GetFileAttributesExA( getName().ansi_c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData ) ) {
 			copyFromAttributeData( file_, fileAttribData, statMask );
 		}
@@ -972,6 +973,10 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/02/27 01:46:10  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.3.2.3  2005/02/16 17:08:42  marcelloptr
 *improved an error message
 *
