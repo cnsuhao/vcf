@@ -24,6 +24,7 @@ class ContextPeer;
 class GraphicsContext;
 class Font;
 class FontPeer;
+class GraphicsResourceBundle;
 
 
 
@@ -121,6 +122,7 @@ public:
 
 	static Image* createImage( GraphicsContext* context, Rect* rect );
 
+	static GraphicsResourceBundle* getResourceBundle();
 	/**
 	*Create a image from a filename. The file is loaded into a Bitmap instance.
 	*The toolkit looks up the file extension and matches the type to
@@ -290,6 +292,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:07:10  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

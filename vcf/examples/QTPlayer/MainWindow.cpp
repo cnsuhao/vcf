@@ -613,7 +613,7 @@ void MainQTWindow::buildUI()
 	il->setTransparentColor( &Color( 0.0, 1.0, 0.0) );
 	addComponent( il );
 
-	ResourceBundle* resBundle = Application::getRunningInstance()->getResourceBundle();
+	GraphicsResourceBundle* resBundle = Application::getRunningInstance()->getResourceBundle();
 	Image* img = resBundle->getImage( "open" );
 	il->addImage( img );
 	delete img;

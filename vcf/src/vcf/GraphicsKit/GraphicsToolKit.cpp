@@ -89,6 +89,13 @@ Image* GraphicsToolkit::createImage( const String& fileName )
 	return GraphicsToolkit::graphicsToolkitInstance->internal_createImage( fileName );
 }
 
+GraphicsResourceBundle* GraphicsToolkit::getResourceBundle()
+{
+	return dynamic_cast<GraphicsResourceBundle*>( System::getResourceBundle() );
+}
+
+
+
 void GraphicsToolkit::saveImage( const String& fileName, Image* image )
 {
 	GraphicsToolkit::graphicsToolkitInstance->internal_saveImage( fileName, image );
@@ -1347,6 +1354,12 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

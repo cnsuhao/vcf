@@ -17,7 +17,7 @@ where you installed the VCF.
 namespace VCF
 {
 
-class APPLICATIONKIT_API Resource : public Object
+class FOUNDATIONKIT_API Resource : public Object
 {
 public:
 	/**
@@ -49,6 +49,12 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

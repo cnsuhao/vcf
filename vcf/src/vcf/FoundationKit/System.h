@@ -18,15 +18,11 @@ namespace VCF
 {
 
 class SystemPeer;
-
 class ErrorLog;
-
 class BasicException;
-
 class DateTime;
-
 class Locale;
-
+class ResourceBundle;
 
 /**
 The System object represents basic lower level OS functions. 
@@ -172,6 +168,13 @@ public:
 	*/
 	static bool isUnicodeEnabled();
 
+	/**
+	Returns the ResourceBundle for the calling process. 
+	@return ResourceBundle* a pointer to the resource bundle. Do not delete this.
+	*/
+	static ResourceBundle* getResourceBundle();
+
+	static void internal_replaceResourceBundleInstance( ResourceBundle* newInstance );
 protected:
 	System();
 	virtual ~System();
@@ -183,6 +186,7 @@ protected:
 
 	Locale* locale_;
 	bool unicodeEnabled_;
+	ResourceBundle* resBundle_;
 };
 
 };
@@ -191,6 +195,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.3  2004/08/08 22:09:33  ddiego
 *final checkin before the 0-6-5 release
 *

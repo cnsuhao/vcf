@@ -329,18 +329,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Resource.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceBundle.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceException.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStream.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Scrollable.h">
 			</File>
 			<File
@@ -586,12 +574,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Resource.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TitledBorder.cpp">
 			</File>
 			<File
@@ -771,18 +753,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp">

@@ -343,22 +343,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Resource.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceBundle.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceException.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceStream.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Scrollable.h
 # End Source File
 # Begin Source File
@@ -652,14 +636,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Resource.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TitledBorder.cpp
 # End Source File
 # Begin Source File
@@ -897,22 +873,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.h
 # End Source File
 # Begin Source File
 

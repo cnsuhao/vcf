@@ -173,6 +173,20 @@ where you installed the VCF.
 #include "vcf/FoundationKit/VariantDataStream.h"
 #include "vcf/FoundationKit/CommandLine.h"
 
+
+
+/**
+*resources handling/management
+*/
+#include "vcf/FoundationKit/Resource.h"
+#include "vcf/FoundationKit/ResourceBundle.h"
+#include "vcf/FoundationKit/ResourceException.h"
+
+
+
+
+
+
 namespace VCF{
 	/**
 	\par
@@ -254,6 +268,12 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.3.2.1  2004/08/17 05:01:32  marcelloptr
 *improved macros for library selection
 *

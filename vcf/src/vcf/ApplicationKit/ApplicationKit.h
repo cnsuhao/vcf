@@ -67,15 +67,6 @@ Action classes
 
 
 /**
-*resources handling/management
-*/
-#include "vcf/ApplicationKit/Resource.h"
-#include "vcf/ApplicationKit/ResourceBundle.h"
-#include "vcf/ApplicationKit/ResourceException.h"
-#include "vcf/ApplicationKit/ResourceStream.h"
-
-
-/**
 *Clipboard
 */
 #include "vcf/ApplicationKit/DataTypeNotSupportedException.h"
@@ -264,7 +255,7 @@ editors
 /**
 *peer classes
 */
-#include "vcf/ApplicationKit/ResourceStreamPeer.h"
+
 #include "vcf/ApplicationKit/CursorPeer.h"
 #include "vcf/ApplicationKit/ApplicationPeer.h"
 #include "vcf/ApplicationKit/ClipboardPeer.h"
@@ -317,6 +308,12 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:52  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

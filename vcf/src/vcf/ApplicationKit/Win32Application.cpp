@@ -10,24 +10,52 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Application.h"
-#include "vcf/ApplicationKit/Win32ResourceBundle.h"
+#include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
 
 
 using namespace VCFWin32;
 using namespace VCF;
 
+
+
+class Win32ApplicationResBundle : public Win32GraphicsResourceBundle {
+public:
+	Win32ApplicationResBundle( ApplicationPeer* peer ): Win32GraphicsResourceBundle(), appPeer_(peer){
+		
+	}
+protected:
+	virtual HINSTANCE getResourceInstance() {
+
+		HINSTANCE result = NULL;
+
+		if ( NULL != this->appPeer_ ) {
+			result = (HINSTANCE)appPeer_->getHandleID();
+		}
+		else {
+			//throw exception !!
+		}
+		return result;
+	}
+
+	ApplicationPeer* appPeer_;
+};
+
+
+
 Win32Application::Win32Application()
 {
 	resBundle_ = NULL;
-	resBundle_ = new Win32ResourceBundle();
-	resBundle_->setApplicationPeer( this );
+	resBundle_ = new Win32ApplicationResBundle(this);
+
+	System::internal_replaceResourceBundleInstance( reinterpret_cast<ResourceBundle*>(resBundle_) );
+
+
 	instanceHandle_ = NULL;
 }
 
 Win32Application::~Win32Application()
 {
-	delete resBundle_;
-	resBundle_ = NULL;
+	
 }
 
 bool Win32Application::initApp()
@@ -72,10 +100,6 @@ void Win32Application::setApplication( VCF::AbstractApplication* application )
 	this->app_ = application;
 }
 
-ResourceBundle* Win32Application::getResourceBundle()
-{
-	return resBundle_;
-}
 
 String Win32Application::getFileName()
 {
@@ -114,6 +138,12 @@ void Win32Application::setHandleID( const long& handleID )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:52  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

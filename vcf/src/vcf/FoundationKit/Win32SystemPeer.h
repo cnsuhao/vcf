@@ -20,11 +20,10 @@ where you installed the VCF.
 
 
 
-namespace VCF
-{
+namespace VCF {
+class Win32ResourceBundle;
 
-class Win32SystemPeer : public SystemPeer
-{
+class Win32SystemPeer : public SystemPeer {
 public:
 	Win32SystemPeer();
 	virtual ~Win32SystemPeer();
@@ -52,6 +51,10 @@ public:
 	virtual DateTime convertUTCTimeToLocalTime( const DateTime& date );	
 
 	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
+
+	virtual ResourceBundle* getResourceBundle();
+protected:
+	Win32ResourceBundle* resBundle_;
 };
 
 };
@@ -60,6 +63,12 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

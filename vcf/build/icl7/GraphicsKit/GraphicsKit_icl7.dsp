@@ -167,6 +167,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsKitSelectLib.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.h
 # End Source File
 # Begin Source File
@@ -325,6 +329,14 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Win32Font.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Win32FontManager.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\Win32GraphicsResourceBundle.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\Win32GraphicsResourceBundle.h
 # End Source File
 # Begin Source File
 
