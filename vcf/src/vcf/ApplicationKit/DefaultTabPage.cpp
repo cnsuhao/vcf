@@ -163,7 +163,8 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 
 	Rect tmpR = *paintRect;
 
-	tmpR.inflate( -2, 0 );
+	tmpR.inflate( -4, 0 );
+	tmpR.normalize();
 
 	
 	long flags = GraphicsContext::tdoCenterHorzAlign | GraphicsContext::tdoCenterVertAlign;
@@ -199,6 +200,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/17 19:26:05  ddiego
+*slight change to tab page drawing
+*
 *Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
 *minor mods to the TableControl and the TabbedPages control
 *so that drawing updates get drawn better, and we don't have weird missing
