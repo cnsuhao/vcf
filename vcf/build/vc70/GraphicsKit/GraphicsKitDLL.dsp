@@ -223,10 +223,6 @@ SOURCE=..\..\..\include\core\Point.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\graphics\Polygon.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\Printable.h
 # End Source File
 # Begin Source File
@@ -309,10 +305,6 @@ SOURCE=..\..\..\src\Graphics\Matrix2D.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\Point.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Graphics\Polygon.cpp
 # End Source File
 # Begin Source File
 
