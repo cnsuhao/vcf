@@ -47,7 +47,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../lib/LibJPEG_vc71_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../../LibJPEG_vc71_s.lib"
+# ADD LIB32 /nologo /out:"../../../../../../lib/LibJPEG_vc71_s.lib"
 
 !ELSEIF  "$(CFG)" == "LibJPEG - Win32 Debug"
 

@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPKIT_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /Yu"ApplicationKit.h" /FD /Zm200 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /D "BUILD_APPKIT_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm200 /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -488,17 +488,7 @@ SOURCE=../../../src/vcf/ApplicationKit/Application.cpp
 # Begin Source File
 
 SOURCE=../../../src/vcf/ApplicationKit/ApplicationKit.cpp
-
-!IF  "$(CFG)" == "ApplicationKitDLL - Win32 Release"
-
-# ADD CPP /Yc"ApplicationKit.h"
-
-!ELSEIF  "$(CFG)" == "ApplicationKitDLL - Win32 Debug"
-
 # ADD CPP /Yc"vcf/ApplicationKit/ApplicationKit.h"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -627,7 +617,7 @@ SOURCE=../../../src/vcf/ApplicationKit/Frame.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/vcf/GraphicsKit/ImageList.cpp
+SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.cpp
 # End Source File
 # Begin Source File
 

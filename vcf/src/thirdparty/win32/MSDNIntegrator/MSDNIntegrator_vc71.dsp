@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe"
+# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe" "./MSDNIntegrator-cmdline_vc71.exe"
 
 !ELSEIF  "$(CFG)" == "MSDNIntegrator - Win32 Debug"
 
@@ -77,7 +77,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"Debug/MSDNIntegrator-cmdline_vc71.exe" /debug "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline.exe" /pdbtype:sept
+# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"Debug/MSDNIntegrator-cmdline_vc71.exe" /debug "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline_vc71.exe" "Debug/MSDNIntegrator-cmdline.exe" /pdbtype:sept
 
 !ENDIF 
 
