@@ -55,7 +55,7 @@
 				<compiler name="g++" >
 					<flags>
 						<flag value="-I $(INC)"/>						
-						<flag value="-c -DVCF_GCC -O3"/><!-- -fPIC"/ -->
+						<flag value="-c -DVCF_GCC -O2"/><!-- -fPIC"/ -->
 					</flags>
 				</compiler>	
 
