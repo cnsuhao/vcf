@@ -54,9 +54,11 @@ QuickTimeMovie::~QuickTimeMovie()
 {
 	close();
 
-	HWND hwnd = (HWND) displayControl_->getPeer()->getHandleID();
+	if ( NULL != displayControl_ ) {
+		HWND hwnd = (HWND) displayControl_->getPeer()->getHandleID();
 
-	DestroyPortAssociation( (CGrafPtr)GetNativeWindowPort( hwnd ) );
+		DestroyPortAssociation( (CGrafPtr)GetNativeWindowPort( hwnd ) );
+	}
 }
 
 void QuickTimeMovie::setDisplayControl( VCF::Control* displayControl )
@@ -103,8 +105,11 @@ bool QuickTimeMovie::open( const String& filename )
 		FSMakeFSSpec(0,0L, (const unsigned char*)theFullPath, &sfFile);
 
 		// Set the port	
-		HWND hwnd = (HWND) displayControl_->getPeer()->getHandleID();
-		SetGWorld( (CGrafPtr)GetNativeWindowPort( (void *)hwnd ), nil );
+		HWND hwnd = NULL;
+		if ( NULL != displayControl_ ) {
+			hwnd = (HWND) displayControl_->getPeer()->getHandleID();
+			SetGWorld( (CGrafPtr)GetNativeWindowPort( (void *)hwnd ), nil );
+		}
 
 		err = OpenMovieFile( &sfFile, &movieResFile, fsRdPerm);
 
@@ -127,8 +132,9 @@ bool QuickTimeMovie::open( const String& filename )
 
 				p2cstr((unsigned char*)theFullPath);
 
-				SetMovieGWorld ( qtMovie_, (CGrafPtr)GetNativeWindowPort((void *) hwnd ), nil );    				
-				
+				if ( NULL != displayControl_ ) {
+					SetMovieGWorld ( qtMovie_, (CGrafPtr)GetNativeWindowPort((void *) hwnd ), nil );    				
+				}
 				originalBounds_ = getBounds();//initialize the bounds
 
 				if ( originalBounds_.getWidth() > originalBounds_.getHeight() ) {
@@ -221,7 +227,7 @@ bool QuickTimeMovie::close()
 
 void QuickTimeMovie::movieTask( const long& timeout )
 {
-	if ( NULL != qtMovie_ ) {
+	if ( (NULL != qtMovie_) && (NULL != displayControl_) ) {
 		MoviesTask ( qtMovie_, timeout );
 
 		Event movieEvent( this );

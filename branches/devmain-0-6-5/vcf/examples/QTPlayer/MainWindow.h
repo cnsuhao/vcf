@@ -93,7 +93,7 @@ protected:
 	void onSearchIconClick( VCF::Event* e );
 	void onSearchTextEntered( VCF::KeyboardEvent* e );
 
-	void onPlaylistClick( VCF::Event* e );
+	void onPlaylistClick( VCF::Event* e );	
 
 	void onCreatePlaylist(  VCF::Event* event );
 	void updateCreatePlaylist( VCF::ActionEvent* e );
@@ -108,6 +108,8 @@ protected:
 	void updateAddToFilesPlaylist( VCF::ActionEvent* e );
 
 	void addFileNameToPlaylist( const VCF::String& fileName );
+
+	void onPlaylistItemChanged( VCF::ItemEvent* event );
 
 	QuickTimeControl* quicktimeControl_;
 	VCF::SliderControl* volumeControl_;
@@ -128,9 +130,15 @@ protected:
 
 	PlayListDictionary* playListDict_;
 
+	VCF::String playlistFile_;
+
+	void buildUI();
+
+	void loadPlaylist();
+	void savePlaylist();
 	bool movieLoaded_;
 
-
+	std::map<VCF::Item*,VCF::String> itemMap_;
 };
 
 

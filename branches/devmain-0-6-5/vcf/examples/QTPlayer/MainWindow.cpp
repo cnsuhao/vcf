@@ -50,10 +50,20 @@ public:
 	void clear() {
 		deleteAll(getEnumerator());
 	}
+
+	PlayListDictionary* getPlaylist( const String& name ) {
+		PlayListDictionary* result = NULL;
+		Object* o = (*this)[name];
+		if ( NULL != o ) {
+			result = (PlayListDictionary*)o;
+		}
+
+		return result;
+	}
 protected:
 	void deleteAll( Dictionary::Enumerator* items ) {
 		while ( items->hasMoreElements() ) {
-			Dictionary::pair& item = items->nextElement();
+			Dictionary::pair item = items->nextElement();
 			
 			if ( pdObject == item.second.type ) {
 				PlayListDictionary* pl = (PlayListDictionary*) (Object*)item.second;
@@ -468,12 +478,28 @@ MainQTWindow::MainQTWindow():
 	movieLoaded_(false),
 	playListDict_(NULL)
 {
-	
-
 	REGISTER_CLASSINFO_EXTERNAL(PlayListDictionary);
 
 	playListDict_ = new PlayListDictionary();
 
+	FilePath fp;
+	fp = Application::getRunningInstance()->getFileName();
+	playlistFile_ = fp.getPathName(true) + "playlist.db";	
+
+	buildUI();
+
+	loadPlaylist();
+}
+
+MainQTWindow::~MainQTWindow()
+{
+	savePlaylist();
+
+	playListDict_->free();
+}
+
+void MainQTWindow::buildUI()
+{
 	//build main menu
 	MenuBar* menuBar = new MenuBar();
 	addComponent( menuBar );
@@ -694,6 +720,9 @@ MainQTWindow::MainQTWindow():
 	mediaLabel_->setColor( &Color((unsigned char)214,(unsigned char)219,(unsigned char)191) );
 	mediaLabel_->setTransparent( false );
 	mediaLabel_->setUseColorForBackground( true );
+	mediaLabel_->getFont()->setName( "Tahoma" );
+	mediaLabel_->getFont()->setPointSize( 8 );
+
 	Light3DBorder* bdr = new Light3DBorder();
 	bdr->setInverted( true );
 	mediaLabel_->setBorder( bdr );
@@ -1043,10 +1072,6 @@ MainQTWindow::MainQTWindow():
 
 	ListModel* lm = playListCtrl_->getListModel();
 
-	lm->addItem( new PlayListItem( playListCtrl_, "Foo", NULL ) );
-	lm->addItem( new PlayListItem( playListCtrl_, "Foo", NULL ) );
-	lm->addItem( new PlayListItem( playListCtrl_, "Foo", NULL ) );
-
 	mainViewPanel_->add( playListCtrl_ );
 
 
@@ -1142,15 +1167,9 @@ MainQTWindow::MainQTWindow():
 	mediaInfo_ = new MediaInfoPanel();
 	mediaInfo_->setBorder( tb );	
 	sideBar_->add( mediaInfo_, AlignBottom );
-
-
 }
 
-MainQTWindow::~MainQTWindow()
-{
 
-	playListDict_->free();
-}
 
 void MainQTWindow::onViewSideBar(  VCF::Event* event )
 {
@@ -1594,16 +1613,58 @@ void MainQTWindow::onPlaylistClick( VCF::Event* e )
 {
 	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
 
-	container->showPage( playListCtrl_ );	 
+	ListModel* lm = playListCtrl_->getListModel();
+	lm->empty();
+
+
+	TreeItem* selectedItem = playListTree_->getSelectedItem();
+
+	if ( NULL != selectedItem ) {
+		PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+		VCF_ASSERT( NULL != list );
+		
+		Dictionary::Enumerator* items = list->getEnumerator();
+		while ( items->hasMoreElements() ) {
+			Dictionary::pair item = items->nextElement();
+
+			PlayListItem* newItem = new PlayListItem( playListCtrl_, item.first, NULL );
+			lm->addItem( newItem );
+			//newItem->addSubItem(  );
+		}
+	}
+
+
+
+	container->showPage( playListCtrl_ );
+}
+
+void MainQTWindow::onPlaylistItemChanged( VCF::ItemEvent* event )
+{
+	TreeItem* item = (TreeItem*)event->getSource();
+
+	String oldName = itemMap_[item];
+	PlayListDictionary* dict = playListDict_->getPlaylist( oldName );
+	if ( NULL != dict ) {
+		(*playListDict_)[item->getCaption()] = dict;
+	}
+
+	itemMap_[item] = item->getCaption();
 }
 
 void MainQTWindow::onCreatePlaylist(  VCF::Event* event )
 {
 	TreeModel* tm = playListTree_->getTreeModel();
 
-
 	TreeItem* item = playListTree_->addItem( NULL, "New playlist", 0 );
 
+	EventHandler* ev = this->getEventHandler( "MainQTWindow::onPlaylistItemChanged" );
+	if ( NULL == ev ) {
+		ev = new ItemEventHandler<MainQTWindow>( this, MainQTWindow::onPlaylistItemChanged, "MainQTWindow::onPlaylistItemChanged" );
+	}
+	item->addItemChangedHandler( ev );		
+	itemMap_[item] = item->getCaption();
+	
+	playListDict_->addPlayList( item->getCaption() );
 }
 
 void MainQTWindow::updateCreatePlaylist( VCF::ActionEvent* e )
@@ -1710,5 +1771,49 @@ void MainQTWindow::updateAddToFilesPlaylist( VCF::ActionEvent* e )
 
 void MainQTWindow::addFileNameToPlaylist( const VCF::String& fileName )
 {
-	
+	TreeItem* selectedItem = playListTree_->getSelectedItem();
+	if ( NULL == selectedItem ) {
+		TreeItem* first = playListTree_->getTreeModel()->getRootItems()->nextElement();
+		first->setSelected( true );		
+		selectedItem = first;
+	}
+
+
+	if ( NULL != selectedItem ) {
+		PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+		VCF_ASSERT( NULL != list );
+		
+		QuickTimeMovie mov;
+		mov.open( fileName );
+
+		list->addMedia( mov.getTitle(), fileName );
+	}
+}
+
+void MainQTWindow::loadPlaylist()
+{
+	if ( File::exists(playlistFile_) ) {
+		FileInputStream fis( playlistFile_ );
+		fis >> playListDict_;
+
+		Dictionary::Enumerator* items = playListDict_->getEnumerator();
+		while ( items->hasMoreElements() ) {
+			Dictionary::pair item = items->nextElement();
+			if ( pdObject == item.second.type ) {
+				TreeItem* plItem = playListTree_->addItem( NULL, item.first );
+				itemMap_[plItem] = plItem->getCaption();
+				EventHandler* ev = this->getEventHandler( "MainQTWindow::onPlaylistItemChanged" );
+				if ( NULL == ev ) {
+					ev = new ItemEventHandler<MainQTWindow>( this, MainQTWindow::onPlaylistItemChanged, "MainQTWindow::onPlaylistItemChanged" );
+				}
+				plItem->addItemChangedHandler( ev );
+			}
+		}
+	}
+}
+
+void MainQTWindow::savePlaylist()
+{
+	FileOutputStream fos( playlistFile_ );
+	fos << playListDict_;
 }
