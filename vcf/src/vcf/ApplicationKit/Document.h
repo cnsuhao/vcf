@@ -164,10 +164,14 @@ public:
 	};
 
 	/**
-	* opens the document from a file. The type of file has to be specified too.
+	* this actually opens/loads the file associated to the document.
+	* It calls a custom function specific to the document that appropriately
+	* opens and manages the file.
 	*@param const String& fileName, the filename to open.
 	*@param const String& fileType, the type of file to be open as.
 	*@return bool, true if the file has been succesfully opened.
+	*@fire ModelChanged.
+	*@eventtype Document::deOpened.
 	*/
 	virtual bool openFromType( const String& fileName, const String& fileType ){
 		bool result = false;
@@ -311,6 +315,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/13 22:30:42  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.2  2004/11/07 19:32:18  marcelloptr
 *more documentation
 *

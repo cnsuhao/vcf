@@ -54,7 +54,7 @@ void UndoRedoStack::undo()
 
 	Command* firstCommand = undoStack_.back();
 
-	UndoRedoEvent event( this, UNDOREDO_EVENT_UNDO,firstCommand );
+	UndoRedoEvent event( this, UNDOREDO_EVENT_UNDO, firstCommand );
 	UndoCommand.fireEvent( &event );
 
 	/* the default undo action of this class is bypassed if the user needs */
@@ -129,7 +129,7 @@ Command* UndoRedoStack::getCurrentRedoCommand()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2004/11/07 19:32:19  marcelloptr
+*Revision 1.2.2.2  2004/11/13 22:30:42  marcelloptr
 *more documentation
 *
 *Revision 1.2  2004/08/07 02:49:10  ddiego
