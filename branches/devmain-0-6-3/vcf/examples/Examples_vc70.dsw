@@ -93,21 +93,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKitGtk"="../build/gtk/ApplicationKit/ApplicationKit-gtk_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name GraphicsKitGtk
-    End Project Dependency
-}}}
-
-###############################################################################
-
 Project: "Conditions"="./Conditions/Conditions_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -192,6 +177,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "EventsWithMFC"="./EventsWithMFC/EventsWithMFC_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Examples"="./Examples/Examples_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -238,6 +235,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name EventBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name EventsWithMFC
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name FilesAndDirectories
@@ -322,6 +322,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TreeListControls
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name VisualFormFiles
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name WorkingWithEnumerators
@@ -422,18 +425,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name FoundationKitDLL
     End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "GraphicsKitGtk"="../build/gtk/GraphicsKit/GraphicsKit-gtk_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################
@@ -811,6 +802,18 @@ Package=<4>
 ###############################################################################
 
 Project: "TreeListControls"="./TreeListControls/TreeListControls_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VisualFormFiles"="./VisualFormFiles/VisualFormFiles_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

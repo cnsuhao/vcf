@@ -1356,7 +1356,8 @@ class Workspace:
             # filter: we need to add the libraries
             addLibrariesStatic  = True
             addLibrariesDynamic = True
-            addLibrariesGtk     = True
+			#JC I turned this to False so that we don't bother with GTK Libs
+            addLibrariesGtk     = False
             
             if ( addLibrariesStatic ):
                 for prjName in app.staticLibrariesList:
