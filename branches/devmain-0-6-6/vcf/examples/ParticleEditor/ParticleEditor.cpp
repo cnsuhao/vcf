@@ -720,11 +720,8 @@ void ParticleEditor::setParticleResource(ParticleResource *r){
 	mBlending->setSelectedItemIndex(r->getBlending());
 	mDepthTest->setChecked(r->mDepthTest);
 
-	mStartColor->setColor(new Color(r->getStartColor()[0],r->getStartColor()[1],r->getStartColor()[2]));
-	mStartColor->setAlpha(r->getStartColor()[3]);
-
-	mEndColor->setColor(new Color(r->getEndColor()[0],r->getEndColor()[1],r->getEndColor()[2]));
-	mEndColor->setAlpha(r->getEndColor()[3]);
+	mStartColor->setColor(new Color(r->getStartColor()[0],r->getStartColor()[1],r->getStartColor()[2]),r->getStartColor()[3]);
+	mEndColor->setColor(new Color(r->getEndColor()[0],r->getEndColor()[1],r->getEndColor()[2]),r->getEndColor()[3]);
 
 	mTrailingSystem->getTextModel()->setText(r->mTrailingSystem);
 	mEndingSystem->getTextModel()->setText(r->mEndingSystem);
@@ -739,6 +736,9 @@ void ParticleEditor::onFileExit(MenuItemEvent *e){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/11/04 21:04:09  pallindo
+*Fixed alpha selection in the color picker
+*
 *Revision 1.1.2.2  2004/11/01 20:44:22  kiklop74
 *Added support for building ParticleEditor in BCB. Fixed some issues in header and cpp files
 *
