@@ -188,9 +188,6 @@
 				RelativePath="..\..\..\src\core\Point.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\graphics\Polygon.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\core\Rect.cpp">
 			</File>
 			<File

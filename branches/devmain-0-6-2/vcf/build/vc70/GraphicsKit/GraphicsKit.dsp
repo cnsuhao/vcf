@@ -188,10 +188,6 @@ SOURCE=..\..\..\src\core\Point.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\graphics\Polygon.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\Rect.cpp
 # End Source File
 # Begin Source File
@@ -333,10 +329,6 @@ SOURCE=..\..\..\include\graphics\PixelFormats.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Point.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\graphics\Polygon.h
 # End Source File
 # Begin Source File
 
