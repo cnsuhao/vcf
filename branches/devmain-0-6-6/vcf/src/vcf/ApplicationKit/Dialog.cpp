@@ -29,21 +29,6 @@ Dialog::Dialog( Control* owner )
 		owner_ = UIToolkit::getUIPolicyManager()->getOwnerForDialog();
 	}
 
-/*
-	Frame* activeFrame = Frame::getActiveFrame();
-
-
-	Application* app = Application::getRunningInstance();
-	if ( NULL == owner_ ) {
-		if ( NULL != activeFrame ) {
-			owner_ = activeFrame;
-		}
-		else if ( NULL != app ) {
-			owner_ = app->getMainWindow();
-		}
-	}
-*/
-
 	dialogPeer_ = UIToolkit::createDialogPeer( owner_, this );
 
 	peer_ = dynamic_cast<ControlPeer*>(dialogPeer_);
@@ -208,17 +193,13 @@ void Dialog::showSheetModal()
 		throw RuntimeException( MAKE_ERROR_MSG_2("No owner window specified! Invalid use of the Dialog::showSheetModal method!") );
 	}
 	
-	modal_ = Dialog::msSheetModal;
-	
-	show();
+	showWithModalState( Dialog::msSheetModal );
 	
 	owner_->setEnabled( false );	
 }	
 
 UIToolkit::ModalReturnType Dialog::showModal()
 {
-	modal_ = Dialog::msAppModal;
-
 	UIToolkit::ModalReturnType result = UIToolkit::mrNone;
 
 	ControlHolder prevFocusedControl = previousFocusedControl_;
@@ -230,7 +211,8 @@ UIToolkit::ModalReturnType Dialog::showModal()
 		owningControl->setEnabled( false );
 	}
 
-	show();
+	showWithModalState( Dialog::msAppModal );
+	
 	result = UIToolkit::runModalEventLoopFor( this );
 	if ( result == UIToolkit::mrTrue ) {
 		result = getModalReturnValue();
@@ -253,10 +235,13 @@ UIToolkit::ModalReturnType Dialog::showModal()
 
 void Dialog::show()
 {
-	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
+	showWithModalState( Dialog::msNonModal );
+}
 
+void Dialog::showWithModalState( ModalState state )
+{
+	modal_ = state;
+	
 	Rect adjustedBounds = UIToolkit::getUIPolicyManager()->adjustInitialDialogBounds( this );
 
 	if ( (!(adjustedBounds == getBounds())) && (!adjustedBounds.isEmpty()) && (!adjustedBounds.isNull()) ) {
@@ -265,7 +250,6 @@ void Dialog::show()
 
 	peer_->setVisible(true);
 }
-
 
 void Dialog::showMessage( const String& message, const String& caption )
 {
@@ -318,18 +302,11 @@ UIToolkit::ModalReturnType Dialog::showMessage( const String& message, const Str
 
 void Dialog::close()
 {
-	if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	windowPeer_->close();
 }
 
 void Dialog::setFrameStyle( const FrameStyleType& frameStyle )
 {
-		if ( NULL == dialogPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	frameStyle_ = frameStyle;
 
 	if ( !(Component::csDesigning & getComponentState()) ){
@@ -373,6 +350,9 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/28 03:34:16  ddiego
+*more dialog updates for osx
+*
 *Revision 1.2.2.2  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *

@@ -9570,9 +9570,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = OSXDialog.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXDialog.cpp;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../src/vcf/ApplicationKit/OSXDialog.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5E600850071F430C0036F6CF = {
 			fileRef = 5E60084F071F430C0036F6CF;

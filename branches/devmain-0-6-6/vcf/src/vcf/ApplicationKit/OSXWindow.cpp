@@ -11,7 +11,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/OSXWindow.h"
 #include "vcf/ApplicationKit/OSXControl.h"
-
+#include "vcf/ApplicationKit/OSXCursorPeer.h"
 
 
 
@@ -63,7 +63,8 @@ OSXWindow::OSXWindow():
     handlerRef_(NULL),
     internalClose_(false),
 	mouseTrackRef_(NULL),
-	currentMouseBtn_(0)
+	currentMouseBtn_(0),
+	contentViewHandlerRef_(NULL)
 {
 
 }
@@ -75,7 +76,8 @@ OSXWindow::OSXWindow( Control* control, Control* owner ):
     handlerRef_(NULL),
     internalClose_(false),
 	mouseTrackRef_(NULL),
-	currentMouseBtn_(0)
+	currentMouseBtn_(0),
+	contentViewHandlerRef_(NULL)
 {
 
 }
@@ -169,7 +171,7 @@ void OSXWindow::create( Control* owningControl )
 							sizeof(contentViewEvents) / sizeof(EventTypeSpec), 
 							contentViewEvents, 
 							this, 
-							NULL );
+							&contentViewHandlerRef_ );
 		
         UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent ),
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );		
@@ -315,7 +317,19 @@ void OSXWindow::setControl( Control* control )
 
 void OSXWindow::setCursor( Cursor* cursor )
 {
-
+	if (NULL == cursor) {
+		return;
+	}
+	
+	OSXCursorPeer *peer = (OSXCursorPeer*)cursor->getPeer();
+	
+	if (NULL == peer) {
+		return;
+	}
+	
+	if (peer->isSystemCursor()){
+		SetThemeCursor(peer->getCursorID());
+	}
 }
 
 void OSXWindow::setParent( Control* parent )
@@ -944,8 +958,7 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 bool OSXWindow::isActiveWindow()
 {
 	Boolean active = IsWindowActive(windowRef_);
-	printf( "IsWindowActive(windowRef_[%p]): %s\n",
-				windowRef_, active ? "true":"false" );
+	
 	return active ? true : false;
 }
 
@@ -959,8 +972,7 @@ OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, Even
 {
 	TCarbonEvent event( theEvent );
 	
-	printf( "\n\nOSXWindow::handleContentViewDraw for control %p, Active frame: %p\n\n", control_, Frame::getActiveFrame() );
-
+	
 	GrafPtr port = NULL;										
 	CGContextRef context = NULL;
 	RgnHandle region = NULL;
@@ -986,12 +998,38 @@ OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, Even
 	return noErr;
 }
 
+void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
+{
+	ControlRef contentView = getRootControl();
+	
+	ControlRef oldContentView = NULL;
+	HIViewFindByID(HIViewGetRoot(oldWndRef), kHIViewWindowContentID, &oldContentView);
+	UInt16 count = 0;
+	UInt16 i = 1;
+	CountSubControls( oldContentView, &count );
+	for (i=1;i<=count;i++ ) {
+		ControlRef child;
+		OSStatus err = GetIndexedSubControl( oldContentView, 1, &child );
+		if ( noErr == err ) {			
+			EmbedControl( child, contentView );
+			ShowControl( child );
+		}
+		else {
+			printf( "GetIndexedSubControl failed (err: %d) for child # %d (%p) of %d in new content view %p\n",
+						err, i, child, count, contentView );
+		}
+	}						
+}
+
 };//end of namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/10/28 03:34:16  ddiego
+*more dialog updates for osx
+*
 *Revision 1.2.2.5  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *

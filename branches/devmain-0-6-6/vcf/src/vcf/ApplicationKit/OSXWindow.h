@@ -157,6 +157,8 @@ protected:
 	static OSStatus wndContentViewHandler(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
 	
 	OSStatus handleContentViewDraw( EventHandlerCallRef nextHandler, EventRef theEvent );
+	
+	void copyControlsFromWndRef( WindowRef oldWndRef );
 };
 
 
@@ -166,6 +168,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/28 03:34:16  ddiego
+*more dialog updates for osx
+*
 *Revision 1.2.2.4  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *
