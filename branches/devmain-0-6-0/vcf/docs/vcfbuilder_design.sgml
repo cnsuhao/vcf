@@ -26,6 +26,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.6  2003/05/13 03:57:12  ddiego
+cleaned up the GraphicsKit, got rid of some old crap files, cleaned
+up the ContextPeer so that tehre are fewer methods to implement, and
+moved the repetitive fillPath and strokePath code that was copied into
+all the context peers back into the GraphicsContext where it belongs
+
 Revision 1.1.2.5  2003/04/22 21:31:14  ddiego
 more docs
 
@@ -445,6 +451,7 @@ void setOwningObject( ProjectObject* owningObject )
 		
 		<section id="CodeGenerator"><title>VCFBuilder::CodeGenerator</title>
 		<para>
+		The CodeGenerator is meant to 
 		</para>
 		</section>
 		

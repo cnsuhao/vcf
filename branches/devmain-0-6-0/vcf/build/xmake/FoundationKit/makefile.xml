@@ -145,6 +145,7 @@
 			<source name="$(SRC)/Utils/XMLParser.cpp" partOfConfig="MinGW Debug|GCC Debug|GCC Release|VC++ Debug"/>
 
 			<!--Win32 Peers-->
+<!--
 			<source name="$(SRC)/ImplementerKit/Win32Peer.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>
 			<source name="$(SRC)/ImplementerKit/Win32FilePeer.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>
 			<source name="$(SRC)/ImplementerKit/Win32FileStream.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>
@@ -156,6 +157,7 @@
 			<source name="$(SRC)/ImplementerKit/Win32SemaphorePeer.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>
 			<source name="$(SRC)/ImplementerKit/Win32SystemPeer.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>
 			<source name="$(SRC)/ImplementerKit/Win32SystemToolkit.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>
+-->
 
 			<!--Linux Peers-->
 			<source name="$(SRC)/ImplementerKit/LinuxPeer.cpp" partOfConfig="GCC Debug|GCC Release"/>

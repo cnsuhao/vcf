@@ -389,6 +389,10 @@ SOURCE=..\..\..\include\io\Stream.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\utils\StringTokenizer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\StringUtils.h
 # End Source File
 # Begin Source File
