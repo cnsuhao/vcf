@@ -141,6 +141,8 @@ public:
 
 	virtual TabPage* getPageAt( const ulong32& index );
 
+	virtual TabPage* getPageFromPageName( const String& pageName );
+
 	virtual ulong32 getItemIndex( TabPage* item );
 
 	virtual TabPage* getSelectedPage();
@@ -181,6 +183,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/19 04:08:52  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
 *minor mods to the TableControl and the TabbedPages control
 *so that drawing updates get drawn better, and we don't have weird missing

@@ -15,9 +15,7 @@ using namespace VCF;
 File::File( const String& fileName, OpenFlags openFlags/*=File::ofNone*/, ShareFlags shareFlags/*=File::shMaskAny*/ )
 {
 	filePeer_ = NULL;
-	fileInputStream_  = NULL;
-	fileOutputStream_ = NULL;
-
+	
 	setName( fileName );
 }
 
@@ -82,14 +80,32 @@ void File::setDateModified( const DateTime& dateModified )
 	filePeer_->setDateModified( dateModified );
 }
 
-/*static*/ bool File::exists( const String& filename )
+bool File::exists( const String& filename )
 {
 	return System::doesFileExist( filename );
 }
 
-void File::create( const String& newFileName )
+void File::create( const String& newFileName, File::OpenFlags openFlags )
 {
-	filePeer_->create();
+	try {
+		fileName_ = newFileName;
+		filePeer_->create(openFlags);
+	}
+	catch ( ... ) {
+		fileName_ = "";
+		throw;
+	}
+}
+
+DateTime File::getDateModified() 
+{
+	return filePeer_->getDateModified();
+}
+
+
+VCF::ulong64 File::getSize()
+{
+	return filePeer_->getSize();
 }
 
 void File::remove()
@@ -102,19 +118,52 @@ void File::copyTo( const String& copyFileName )
 	filePeer_->copyTo( copyFileName );
 }
 
+
+void File::open()
+{
+	VCF_ASSERT( !fileName_.empty() );
+
+	filePeer_->open(fileName_); 
+}
+
 void File::openWithFileName( const String& fileName )
 {
+	fileName_ = fileName;
+	filePeer_->open( fileName );
 }
 
-void File::openWithRights( const String& fileName, OpenFlags openFlags/*=File::ofRead*/, ShareFlags shareFlags/*=File::shMaskAny*/ )
+void File::openWithRights( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags )
 {
+	fileName_ = fileName;
+	filePeer_->open( fileName, openFlags, shareFlags );
 }
 
+void File::close()
+{
+	filePeer_->close();
+}
+
+FileInputStream* File::getInputStream()
+{
+	FileInputStream* result = NULL;
+
+	return result;
+}
+
+FileOutputStream* File::getOutputStream()
+{
+	FileOutputStream* result = NULL;
+
+	return result;
+}
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

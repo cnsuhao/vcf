@@ -236,10 +236,22 @@ bool System::isUnicodeEnabled()
 	return System::systemInstance->unicodeEnabled_;
 }
 
+DateTime System::convertUTCTimeToLocalTime( const DateTime& date )
+{
+	return System::systemInstance->systemPeer_->convertUTCTimeToLocalTime( date );
+}
+
+DateTime System::convertLocalTimeToUTCTime( const DateTime& date )
+{
+	return System::systemInstance->systemPeer_->convertLocalTimeToUTCTime( date );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.10  2004/07/14 14:40:47  marcelloptr
 *Unicode prefix in front of strings
 *

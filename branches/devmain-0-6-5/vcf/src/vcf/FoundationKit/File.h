@@ -31,17 +31,17 @@ public:
 	enum FileAttributes {
 		faNone                 = 0x00000000,
 		faReadOnly             = 0x00000001,
-    faHidden               = 0x00000002,
-    faSystem               = 0x00000004,
-    faExecutable           = 0x00000008,
-    faDirectory            = 0x00000010,
-    faArchive              = 0x00000020,
-    faDevice               = 0x00000040,
-    faNormal               = 0x00000080,
-
+		faHidden               = 0x00000002,
+		faSystem               = 0x00000004,
+		faExecutable           = 0x00000008,
+		faDirectory            = 0x00000010,
+		faArchive              = 0x00000020,
+		faDevice               = 0x00000040,
+		faNormal               = 0x00000080,
+		
 		/* these masks affect the Directory search */
-    faMaskFile     = faReadOnly | faHidden | faSystem | faArchive | faNormal,
-    faMaskFileExec = faReadOnly | faHidden | faSystem | faArchive | faNormal | faExecutable,
+		faMaskFile     = faReadOnly | faHidden | faSystem | faArchive | faNormal,
+		faMaskFileExec = faReadOnly | faHidden | faSystem | faArchive | faNormal | faExecutable,
 		faMaskDir      = faMaskFile | faDirectory,
 		faMaskAll      = faMaskDir  | faDevice | faExecutable
 	};
@@ -289,10 +289,11 @@ public:
 	void close();
 
 	/**
-	* creates a new file
-	*@param newFileName the filename
+	creates a new file, as opposed to open, which simply opens an existing one.
+	If the file already exists then create will empty it's contents.
+	@param newFileName the filename
 	*/
-	void create( const String& newFileName );
+	void create( const String& newFileName, OpenFlags openFlags = File::ofRead );
 
 	/**
 	* deletes the file from the file system
@@ -318,12 +319,25 @@ public:
 	void copyTo( const String& fileNameToCopyTo ); //copies the file
 
 	/**
-	* getInputStream
+	This returns a new instance of an InputStream that's attached to this file. Please
+	note that it is the caller's responsibility to delete this when finished with it.
+	Each call will create an new stream instance.
+	@return FileInputStream - an new output stream instance. If the file is opened without
+	an ofRead mask set, then this is NULL.
+	@see FileInputStream
+	@see InputStream
 	*/
 	FileInputStream* getInputStream();
 
 	/**
-	* getOutputStream
+	This returns a new instance of an OutputStream that's attached to this file. Please
+	note that it is the caller's responsibility to delete this when finished with it.
+	Each call will create an new stream instance. If the file is open without write access
+	this method will return NULL.
+	@return FileOutputStream - an new output stream instance. If the file is opened without
+	an ofWrite mask set, then this is NULL.
+	@see FileOutputStream
+	@see OutputStream
 	*/
 	FileOutputStream* getOutputStream();
 
@@ -355,17 +369,10 @@ public:
 	inline void internal_setCreationDate( const DateTime& val ) {
 		dateCreation_ = val;
 	}
-
-	inline void internal_setModifiedDate( const DateTime& val ) {
-		dateModified_ = val;
-	}
+	
 
 	inline void internal_setAccessDate( const DateTime& val ) {
 		dateAccess_ = val;
-	}
-
-	inline void internal_setFileSize( const ulong64& val ) {
-		fileSize_ = val;
 	}
 protected:
 	FilePeer* filePeer_;
@@ -376,13 +383,9 @@ protected:
 	String   owner_; // a string ?
 	
 	ulong32  fileAttributes_;
-	DateTime dateCreation_; // or maybe just ulong64 ?
-	DateTime dateModified_; // or maybe just ulong64 ?
+	DateTime dateCreation_; // or maybe just ulong64 ?	
 	DateTime dateAccess_; // or maybe just ulong64 ?
-	ulong64  fileSize_;
 	
-	FileInputStream*  fileInputStream_;
-	FileOutputStream* fileOutputStream_;
 };
 
 
@@ -401,13 +404,11 @@ inline String File::getName() const {
 inline void File::resetStats() {
     validStat_        = File::smStatNone;
 
-    owner_.empty();
+    owner_ = "";
 
     fileAttributes_   = 0;
     dateCreation_     = 0;
-    dateModified_     = 0;
     dateAccess_       = 0;
-    fileSize_         = 0;
 
 }
 
@@ -418,12 +419,6 @@ inline DateTime File::getDateCreation() {
 	return dateCreation_;
 }
 
-inline DateTime File::getDateModified() {
-	if ( 0 == ( validStat_ & File::smDateModified ) ) {
-		updateStat( File::smDateModified );
-	}
-	return dateModified_;
-}
 
 inline DateTime File::getDateAccess() {
 	if ( 0 == ( validStat_ & File::smDateAccess ) ) {
@@ -432,18 +427,6 @@ inline DateTime File::getDateAccess() {
 	return dateAccess_;
 }
 
-inline VCF::ulong64 File::getSize()
-{
-	/*
-	* this method gets the size through updateStat()
-	* Please use: file->getPeer()->getSize();
-	* to get with an indipendent alternative method
-	*/
-	if ( 0 == ( validStat_ & File::smSize ) ) {
-		updateStat( File::smSize );
-	}
-	return fileSize_;
-}
 
 inline File::FileAttributes File::getFileAttributes()
 {
@@ -532,15 +515,6 @@ inline bool File::exists() const
 	return File::exists( fileName_ );
 }
 
-inline FileInputStream* File::getInputStream()
-{
-	return fileInputStream_;
-}
-
-inline FileOutputStream* File::getOutputStream()
-{
-	return fileOutputStream_;
-}
 
 
 
@@ -555,6 +529,9 @@ inline FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

@@ -93,6 +93,21 @@ TabPage* DefaultTabModel::getPageAt( const ulong32& index )
 	return result;
 }
 
+TabPage* DefaultTabModel::getPageFromPageName( const String& pageName )
+{
+	TabPage* result = NULL;
+	std::vector<TabPage*>::iterator it = pages_.begin();
+	while ( it != pages_.end() ){
+		TabPage* page = *it;
+		if ( page->getPageName() == pageName ) {			
+			result = *it;
+			break;
+		}
+		it ++;
+	}
+	return result;
+}
+
 ulong32 DefaultTabModel::getItemIndex( TabPage* item )
 {
 	std::vector<TabPage*>::iterator found = std::find ( pages_.begin(), pages_.end(), item );
@@ -160,6 +175,9 @@ void DefaultTabModel::tabPageChange( ItemEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/19 04:08:52  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

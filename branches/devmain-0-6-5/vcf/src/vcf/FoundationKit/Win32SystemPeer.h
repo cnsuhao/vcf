@@ -48,6 +48,10 @@ public:
 	virtual void setCurrentThreadLocale( Locale* locale );
 
 	virtual bool isUnicodeEnabled();
+
+	virtual DateTime convertUTCTimeToLocalTime( const DateTime& date );	
+
+	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
 };
 
 };
@@ -56,6 +60,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

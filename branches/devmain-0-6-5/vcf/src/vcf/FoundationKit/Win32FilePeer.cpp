@@ -12,9 +12,6 @@ where you installed the VCF.
 
 using namespace VCF;
 
-/*static*/ void internal_initFileAttributesConversionTable()
-{
-}
 
 
 Win32FilePeer::Win32FilePeer( File* file )
@@ -39,17 +36,17 @@ void Win32FilePeer::setFile( File* file )
 {
 	// close any open handles
 	close(); // %%%
-
+	
 	findData_ = NULL;
 	searchHandle_ = NULL;
-
+	
 	file_ = file;
-
+	
 	// will have a value when opening the file
-		fileHandle_ = NULL;
+	fileHandle_ = NULL;
 }
 
-void Win32FilePeer::create()
+void Win32FilePeer::create(  File::OpenFlags openFlags  )
 {
 	String filename = getName();
 
@@ -111,21 +108,34 @@ void Win32FilePeer::create()
 				filename = currentDir +  filename;
 			}
 
+			DWORD rwFlags = 0;
+			DWORD shFlags = 0;
+
+			if ( openFlags & File::ofRead ) {
+				rwFlags |= GENERIC_READ;
+				shFlags |= FILE_SHARE_READ;
+			}
+
+			if ( openFlags & File::ofWrite ) {
+				rwFlags |= GENERIC_WRITE;
+				shFlags |= FILE_SHARE_WRITE;
+			}
+
 			if ( System::isUnicodeEnabled() ) {
 				fileHandle_ = ::CreateFileW( filename.c_str(),
-											GENERIC_READ | GENERIC_WRITE,
-											FILE_SHARE_READ | FILE_SHARE_WRITE,
+											rwFlags,
+											shFlags,
 											NULL,
-											OPEN_EXISTING,
+											CREATE_ALWAYS,
 											FILE_ATTRIBUTE_NORMAL,
 											NULL );
 			}
 			else {
 				fileHandle_ = ::CreateFileA( filename.ansi_c_str(),
-											GENERIC_READ | GENERIC_WRITE,
-											FILE_SHARE_READ | FILE_SHARE_WRITE,
+											rwFlags,
+											shFlags,
 											NULL,
-											OPEN_EXISTING,
+											CREATE_ALWAYS,
 											FILE_ATTRIBUTE_NORMAL,
 											NULL );
 			}
@@ -134,7 +144,7 @@ void Win32FilePeer::create()
 			if ( (NULL == fileHandle_) || (INVALID_HANDLE_VALUE == fileHandle_) ){
 				fileHandle_ = NULL;
 				//throw exception
-				throw BasicFileError("Unable to create or attach to the specified file");
+				throw BasicFileError("Unable to create the specified file");
 			}
 		}
 	}
@@ -143,20 +153,61 @@ void Win32FilePeer::create()
 
 ulong64 Win32FilePeer::getSize()
 {
-	uint32 resultLow = 0;
-	uint32 resultHigh = 0;
-	if ( NULL != fileHandle_ ){
-		resultLow = ::GetFileSize( fileHandle_, (DWORD*)&resultHigh );
+	ulong64 result = 0;
+
+	if ( NULL != fileHandle_ ) {
+		uint32 resultLow = 0;
+		uint32 resultHigh = 0;
+		if ( NULL != fileHandle_ ){
+			resultLow = ::GetFileSize( fileHandle_, (DWORD*)&resultHigh );
+			result.lo( resultLow );
+			result.hi( resultHigh );
+		}
 	}
-	//return ulong64( resultLow, resultHigh );
-	ulong64 size( resultLow,resultHigh );
-	//size.hi(  );
+	else {
+		WIN32_FILE_ATTRIBUTE_DATA fileAttribData;	
+		
+		int res;
+		if ( System::isUnicodeEnabled() ) {
+			res = ::GetFileAttributesExW( getName().c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+		} 
+		else {
+			res = ::GetFileAttributesExA( getName().ansi_c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+		}
 
-	file_->internal_addToStatMask( File::smSize );
+		result.lo( fileAttribData.nFileSizeLow );
+		result.hi( fileAttribData.nFileSizeHigh );
+	}
 
-	return size;
+	return result;
 }
 
+DateTime Win32FilePeer::getDateModified()
+{
+	DateTime result ;
+
+	WIN32_FILE_ATTRIBUTE_DATA fileAttribData;	
+	
+	String fileName = getName();
+	VCF_ASSERT( !fileName.empty() );
+
+	int res;
+	if ( System::isUnicodeEnabled() ) {
+		res = ::GetFileAttributesExW( fileName.c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+	} 
+	else {
+		res = ::GetFileAttributesExA( fileName.ansi_c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+	}
+
+	if ( res ) {
+		result = Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftLastWriteTime );		
+	}
+	else {
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to retreive file attributes for file " + fileName) );
+	}
+	
+	return result;
+}
 
 
 // directory search support
@@ -222,10 +273,12 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 			}
 			ok = ( INVALID_HANDLE_VALUE != searchHandle_ );
 
-		} else {
+		} 
+		else {
 			if ( unicodeEnabled ) {
 				ok = ( 0 != ::FindNextFileW( searchHandle_, &((Win32FindDataW*)findData_)->findData_ ) );
-			} else {
+			} 
+			else {
 				ok = ( 0 != ::FindNextFileA( searchHandle_, &((Win32FindDataA*)findData_)->findData_ ) );
 			}
 		}
@@ -233,7 +286,8 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 		if  ( ok ) {
 			if ( unicodeEnabled ) {
 				fAttribs = Win32FilePeer::convertAttributesFromSystemSpecific( ((Win32FindDataW*)findData_)->findData_.dwFileAttributes );
-			} else {
+			} 
+			else {
 				fAttribs = Win32FilePeer::convertAttributesFromSystemSpecific( ((Win32FindDataA*)findData_)->findData_.dwFileAttributes );
 			}
 			
@@ -290,7 +344,8 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 					break;
 				}
 			}
-		} else {
+		} 
+		else {
 			// end of search or error
 			if ( ::GetLastError() == ERROR_NO_MORE_FILES )  {
 				if ( INVALID_HANDLE_VALUE != searchHandle_ ) {
@@ -300,7 +355,8 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 					continueSearch( finder, file );
 				}
 				break;
-			} else {
+			} 
+			else {
 				String error = "findNextFileInSearch: " + VCFWin32::Win32Utils::getErrorString( GetLastError() );
 				throw BasicException( error );
 			}
@@ -328,163 +384,25 @@ void Win32FilePeer::endFileSearch( Directory::Finder* finder )
 void Win32FilePeer::continueSearch( Directory::Finder* finder, File* file )
 {
 	finder->continueSearch( file );
-	/*
-	Directory::Finder::DisplayMode displayOrder1 = Directory::Finder::dmAny;
-	Directory::Finder::DisplayMode displayOrder2 = Directory::Finder::dmAny;
-
-	Directory::Finder::DisplayMode finderDispOrder = finder->getDisplayOrder();
-	Directory::Finder::DisplayMode finderCurrentOrder = finder->getCurrentDisplayOrder();
-
-	if ( Directory::Finder::dmFiles == finderDispOrder ) {
-		displayOrder1 = Directory::Finder::dmFiles;
-		displayOrder2 = Directory::Finder::dmDirs;
-	} else if ( Directory::Finder::dmDirs == finderDispOrder ) {
-		displayOrder1 = Directory::Finder::dmDirs;
-		displayOrder2 = Directory::Finder::dmFiles;
-	}
-
-	if ( Directory::Finder::dmAny != finderCurrentOrder && 
-		   displayOrder1 == finderCurrentOrder ) {
-		// 1st step done: we were searching for dir, now we search for files
-		Directory::Finder* activeFinder = finder->activeFinder();
-		VCF_ASSERT( activeFinder == finder );
-
-		finder->setCurrentDisplayOrder( displayOrder2 );
-
-		// the 'dirs' search was completed. We need to state that it is not
-		activeFinder->setSearchHasMoreElements( true );
-		activeFinder->setSearchAgain( true );
-	} 
-	else { // if ( finder->displayOrderCurrent_ == displayOrder2 ) {
-		if ( finder->getRecurse() ) {
-			this->goDirUp( finder, file );
-		} 
-		else {
-			finder->activeFinder()->setSearchAgain( false );
-		}
-	}
-	*/
 }
 
 void Win32FilePeer::goDirDown( Directory::Finder* finder, File* file )
 {
 	
 	finder->goDownDir( file );
-
-
-
-
-	/*
-
-	finderSubdir->setRecursion( finder->recurse_, finder->recursionLevelMax_ ); // finder->recurse_ always true here
-	finderSubdir->setDisplayMode( finder->getDisplayMode() );
-	finderSubdir->setDisplayOrder( finder->getDisplayOrder() );
-
-	// relative path for files in this subdir
-	finderSubdir->setRelativePathToRootSearch( finder->getRelativePathToRootSearch() + relPath );
-
-	//finderSubdir->displayOrderCurrent_ = Directory::Finder::dmDirs;
-
-	// inherits information from the parent finder
-	finderSubdir->rootSearchFinder_				= finder->rootSearchFinder_;
-	finderSubdir->maskFilterFileAttribs_	= finder->maskFilterFileAttribs_;
-	finderSubdir->statMask_								= finder->statMask_;
-	finderSubdir->setAllowSpecialDirs( finder->getAllowSpecialDirs() );
-
-	// set the newly created subdir-finder as the active one
-	finderSubdir->rootSearchFinder_->activeFinder_ = finderSubdir;
-
-	// this will force the initialization of this new finder
-	finderSubdir->rootSearchFinder_->activeFinder_->currentElement_ = NULL;
-
-	finderSubdir->parentFinder_ = finder;
-	finder->childFinder_ = finderSubdir;
-
-	// one level down
-	// set the current subdirectory level for the active finder
-	// attention: at this precise point the active finder is *not* exactly the current finder
-	finder->rootSearchFinder_->activeFinder_->recursionLevel_ = previousRecursionLevel + 1;
-
-	// do not adjust this here, it is too soon ( do it inside initFileSearch instead )
-	// finder->rootSearchFinder_->relativePathToRootSearch_= finderSubdir->relativePathToRootSearch_;
-
-	VCF_ASSERT( finder->childFinder_->parentFinder_ == finder );
-
-  */
-
-
 }
 
 void Win32FilePeer::goDirUp( Directory::Finder* finder, File* file )
 {
 
 	finder->goUpDir( file );
-
-	/*
-	// Remark:
-	// 1) it doesn't change file
-	// 2) it doesn't change the finder
-	// 3) it changes the rootSearchFinder_->activeFinder_ which is the first up-dir with more elements to search
-
-	// - please remove or comment the VCF_ASSERT in the future
-
-	//VCF_ASSERT( NULL != finder->parentFinder_ ); // should be false only when finder->rootSearchFinder_
-
-	if ( NULL != finder->parentFinder_ ) {
-		VCF_ASSERT( finder->rootSearchFinder_->activeFinder_ == finder );
-
-		// we need to state right away here, that the search in this subdirectory was completed
-		finder->currentElement_ = file;
-		finder->searchHasMoreElements_ = ( NULL != finder->currentElement_ ); // i.e. false. 
-
-		// store the current subdirectory level before switching subdir
-		int previousRecursionLevel = finder->rootSearchFinder_->activeFinder_->recursionLevel_;
-
-		// we go up one or more levels until we find one with the search not completed yet
-		while( finder->rootSearchFinder_->activeFinder_ != finder->rootSearchFinder_ &&
-						!finder->rootSearchFinder_->activeFinder_->searchHasMoreElements_ ) {
-				// detach this child from parent
-				finder->parentFinder_->childFinder_ = NULL;
-
-				// set the parent as the active one
-				finder->rootSearchFinder_->activeFinder_ = finder->rootSearchFinder_->activeFinder_->parentFinder_;
-
-				// we just finished a search in the child, but we need to continue 
-				// the search in the parent dir if it had more elements to search
-				VCF_ASSERT( finder->parentFinder_->searchHasMoreElements_ == true );
-				finder->rootSearchFinder_->activeFinder_->goSearchAgain_ = finder->parentFinder_->searchHasMoreElements_;
-
-				// one level up
-				previousRecursionLevel--;
-		}
-		// set the current subdirectory level for the active finder ( not exactly the current one )
-		finder->rootSearchFinder_->activeFinder_->recursionLevel_ = previousRecursionLevel;
-
-		finder->rootSearchFinder_->relativePathToRootSearch_= finder->rootSearchFinder_->activeFinder_->relativePathToRootSearch_;
-		if ( NULL == finder->rootSearchFinder_->activeFinder_->parentFinder_ ) {
-			finder->rootSearchFinder_->relativePathToRootSearch_.erase();
-			finder->rootSearchFinder_->activeFinder_->relativePathToRootSearch_.erase();
-		}
-	} else {
-		// in the root directory for this recursive search we don't want to go forever
-		finder->rootSearchFinder_->activeFinder_->goSearchAgain_ = false;
-
-		finder->rootSearchFinder_->relativePathToRootSearch_.erase();
-		finder->rootSearchFinder_->activeFinder_->relativePathToRootSearch_.erase();
-	}
-	*/
-
 }
 
 /*static*/ void Win32FilePeer::copyFromAttributeData( File* file, WIN32_FILE_ATTRIBUTE_DATA& fileAttribData, File::StatMask statMask/*=File::smMaskAll*/ )
 {
 	// throw if errors
 	file->internal_removeFromStatMask( statMask );
-
-	if ( statMask & File::smSize ) {
-		file->internal_setFileSize( ulong64(fileAttribData.nFileSizeLow,fileAttribData.nFileSizeHigh) );
-	}
-
+	
 	if ( statMask & File::smAttributes ) {
 		file->internal_setFileAttributes( Win32FilePeer::convertAttributesFromSystemSpecific( fileAttribData.dwFileAttributes ) );
 	}
@@ -496,11 +414,7 @@ void Win32FilePeer::goDirUp( Directory::Finder* finder, File* file )
 
 		if ( statMask & File::smDateAccess ) {
 			file->internal_setAccessDate( Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftLastAccessTime ) );
-		}
-
-		if ( statMask & File::smDateModified ) {
-			file->internal_setModifiedDate( Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftLastWriteTime ) );
-		}
+		}		
 
 	}
 
@@ -615,7 +529,7 @@ void Win32FilePeer::updateStat( File::StatMask statMask/*=File::smMaskAll*/ )
 	return;
 }
 
-/*virtual*/ void Win32FilePeer::setDateModified( const DateTime& dateModified )
+void Win32FilePeer::setDateModified( const DateTime& dateModified )
 {
 	// see CFile::SetStatus(LPCTSTR lpszFileName, const CFileStatus& status)
 	// see AfxTimeToFileTime;
@@ -681,7 +595,7 @@ void Win32FilePeer::updateStat( File::StatMask statMask/*=File::smMaskAll*/ )
 		throw RuntimeException( MAKE_ERROR_MSG_2( error ) );
 	}
 
-	file_->internal_setModifiedDate( dateModified );
+
 	file_->internal_addToStatMask( File::smDateModified );
 }
 
@@ -749,20 +663,80 @@ void Win32FilePeer::updateStat( File::StatMask statMask/*=File::smMaskAll*/ )
 	return dwAttributes;
 }
 
-void Win32FilePeer::open()
-{
-}
 
-void Win32FilePeer::openWithFileName( const String& fileName )
+void Win32FilePeer::open( const String& fileName, File::OpenFlags openFlags, File::ShareFlags shareFlags/*=File::shMaskAny*/ )
 {
-}
+	//check initial arguments
+	VCF_ASSERT( openFlags != File::ofNone );
+	VCF_ASSERT( shareFlags != File::shNone );
 
-void Win32FilePeer::openWithRights( const String& fileName, File::OpenFlags openFlags/*=File::ofRead*/, File::ShareFlags shareFlags/*=File::shMaskAny*/ )
-{
+
+
+	String winFileName = fileName;
+
+	//attach to the file
+	FilePath fp = winFileName;
+	String fileDir = fp.getPathName(true);
+	if ( true == fileDir.empty() ){
+		TCHAR currentDir[MAX_PATH];
+		memset( currentDir, 0 , MAX_PATH );
+		GetCurrentDirectory( MAX_PATH, currentDir );
+		winFileName = "\\" + winFileName;
+		winFileName = currentDir +  winFileName;
+	}
+	
+	DWORD rwFlags = 0;
+	DWORD shFlags = 0;
+	DWORD createFlags = OPEN_EXISTING;
+
+	if ( openFlags & File::ofRead ) {
+		rwFlags |= GENERIC_READ;
+	}
+
+	if ( openFlags & File::ofWrite ) {
+		rwFlags |= GENERIC_WRITE;
+	}
+
+	if ( shareFlags & File::shRead ) {
+		shFlags |= FILE_SHARE_READ;
+	}
+
+	if ( shareFlags & File::shWrite ) {
+		shFlags |= FILE_SHARE_WRITE;
+	}
+	
+
+	if ( System::isUnicodeEnabled() ) {
+		fileHandle_ = ::CreateFileW( winFileName.c_str(),
+			rwFlags,
+			shFlags,
+			NULL,
+			createFlags,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL );
+	}
+	else {
+		fileHandle_ = ::CreateFileA( winFileName.ansi_c_str(),
+			rwFlags,
+			shFlags,
+			NULL,
+			createFlags,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL );
+	}
+	
+	
+	if ( (NULL == fileHandle_) || (INVALID_HANDLE_VALUE == fileHandle_) ){
+		fileHandle_ = NULL;
+		//throw exception
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to create the specified file " + winFileName));
+	}
 }
 
 void Win32FilePeer::close()
 {
+	::CloseHandle( fileHandle_ );
+	fileHandle_ = NULL;
 }
 
 void Win32FilePeer::remove()
@@ -783,7 +757,7 @@ void Win32FilePeer::remove()
 		}
 
 		if ( !res ) {
-			throw BasicFileError( "Unable to remove directory \"" + filename + "\",\nprobably because the directory still contains objects." );
+			throw BasicFileError( MAKE_ERROR_MSG_2("Unable to remove directory \"" + filename + "\",\nprobably because the directory still contains objects.") );
 		}
 	}
 	else {
@@ -796,13 +770,27 @@ void Win32FilePeer::remove()
 		}
 
 		if ( !res ) {
-			throw BasicFileError( "Unable to remove file \"" + filename + "\"." );
+			throw BasicFileError( MAKE_ERROR_MSG_2("Unable to remove file \"" + filename + "\".") );
 		}
 	}
 }
 
 void Win32FilePeer::move( const String& newFileName )
 {
+	BOOL err = FALSE;
+
+	String fileName = getName();
+
+	if ( System::isUnicodeEnabled() ) {
+		err = ::MoveFileW( fileName.c_str(), FilePath::transformToOSSpecific( newFileName ).c_str() );
+	}
+	else {
+		err = ::MoveFileA( fileName.ansi_c_str(), FilePath::transformToOSSpecific( newFileName ).ansi_c_str() );
+	}
+
+	if ( !err ) {
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to move file \"" + fileName + "\" to \"" + newFileName + "\".") );
+	}
 }
 
 void Win32FilePeer::copyTo( const String& copyFileName )
@@ -817,13 +805,13 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 	}
 
 	if ( ! res ) {
-		throw BasicFileError("File \"" + copyFileName + "\" already exists." );
+		throw BasicFileError( MAKE_ERROR_MSG_2("File \"" + copyFileName + "\" already exists.") );
 	}
 
 }
 
 
-/*static*/ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
+DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 {
 	bool ok = false;
 	DateTime dt;
@@ -840,7 +828,7 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 
 	if ( !ok ) {
 		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
+		throw BasicException( MAKE_ERROR_MSG_2(error) );
 	}
 
 	return dt;
@@ -867,7 +855,7 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 
 	if ( !ok ) {
 		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
+		throw BasicException( MAKE_ERROR_MSG_2(error) );
 	}
 
 	return dt;
@@ -884,7 +872,7 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 			HANDLE searchHandle = ::FindFirstFileW( fileName.c_str(), &findData );
 			if ( INVALID_HANDLE_VALUE != searchHandle ) {
 				String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-				throw BasicException( error );
+				throw BasicException( MAKE_ERROR_MSG_2(error) );
 			}
 			dosName = findData.cAlternateFileName;
 		} else {
@@ -893,7 +881,7 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 			dosName = findData.cAlternateFileName;
 			if ( INVALID_HANDLE_VALUE != searchHandle ) {
 				String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-				throw BasicException( error );
+				throw BasicException( MAKE_ERROR_MSG_2(error) );
 			}
 		}
 	}
@@ -909,6 +897,9 @@ void Win32FilePeer::copyTo( const String& copyFileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.2  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

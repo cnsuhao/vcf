@@ -216,7 +216,8 @@ void Directory::Finder::goDownDir( File* file )
 		// we usually have ( &dir->finder_->fileInfos_ == file ) when we are here
 		// and that would reset dir->finder_ when calling dir->findFiles
 		dir = (*rootSearchFinder_->subdirs_)[ previousRecursionLevel + 1 ];
-		dir->setName( file->getName() );
+		dir->setName( file->getName() );	
+
 	} 
 	else {
 		dir = new Directory( file->getName() );
@@ -317,7 +318,9 @@ Directory::Finder* Directory::findFiles( const String& basenameFilterList/*=L""*
 {
 	FileSearchFilter* filterFileObject = NULL;
 
-	if ( NULL == finder_ ) {
+	Directory::Finder* result = NULL;
+
+	//if ( NULL == finder_ ) {
 		// creating a new finder
 		filterFileObject = NULL;
 		bool basenameEmpty = ( basenameFilterList.empty() || basenameFilterList == L"*" || basenameFilterList == L"*.*" );
@@ -325,7 +328,10 @@ Directory::Finder* Directory::findFiles( const String& basenameFilterList/*=L""*
 		if ( !basenameEmpty || !pathnameEmpty ) {
 			filterFileObject = new FileSearchFilterStandard( basenameFilterList, pathnameFilterList );
 		}
-	} else {
+
+		/*
+	} 
+	else {
 		// resetting the existing finder
 		finder_->reset();
 		finder_->owningDirectory_				= this;
@@ -342,29 +348,38 @@ Directory::Finder* Directory::findFiles( const String& basenameFilterList/*=L""*
 			filterFileObject = new FileSearchFilterStandard( basenameFilterList, pathnameFilterList );
 		}
 	}
-	finder_ = findFiles( filterFileObject, true );
+	*/
 
-	return finder_;
+	result = findFiles( filterFileObject, true );
+
+	return result;
 }
 
 Directory::Finder* Directory::findFiles( FileSearchFilter* filterFileObject/*=NULL*/, const bool& ownFilterFileObject/*=false*/ )
 {
+	Directory::Finder* result = NULL;
+
+
 	if ( FilePath::isRelativePath( fileName_ ) ) {
 		throw BasicException( "Please provide a full path name to the directory when performing a search." );
 	}
 
-	if ( NULL == finder_ ) {
-		finder_ = new Directory::Finder( this, filterFileObject, ownFilterFileObject );
-		if ( NULL == finder_ ) {
+	//if ( NULL == finder_ ) {
+
+		result = new Directory::Finder( this, filterFileObject, ownFilterFileObject );
+		if ( NULL == result ) {
 			throw NoFreeMemException();
 		}
+		/*
 	} else {
 		finder_->reset();
 		finder_->owningDirectory_				= this;
 		finder_->setSearchFilterFileObject( filterFileObject, ownFilterFileObject );
 	}
+*/
+	
 
-	return finder_;
+	return result;
 }
 
 File* Directory::Finder::getCurrentElement() const
@@ -399,10 +414,12 @@ File* Directory::Finder::nextElement()
 				   ( !currentElement_->isDirectory() && Directory::Finder::dmDirs == rootSearchFinder_->displayMode_ ) ) {
 				searchHasMoreElements_ = true;
 				continue;
-			} else {
+			} 
+			else {
 				break;
 			}
-		} else {
+		} 
+		else {
 			// otherwise it continues ...
 			// ... only when we are switching subdirectory during the recursion, 
 			// or changing search mode between dmDirs and dmFiles
@@ -425,20 +442,22 @@ File* Directory::Finder::nextElement()
 Directory::Directory( const String& fileName )
 : File( FilePath::makeDirectoryName( fileName ) )
 {
-	finder_ = NULL;
+	//finder_ = NULL;
 }
 
 Directory::Directory( const FilePath& filePath )
 : File( FilePath::makeDirectoryName( filePath.getFileName() ) )
 {
-	finder_ = NULL;
+	//finder_ = NULL;
 }
 
 Directory::~Directory()
 {
+	/*
 	if ( NULL != finder_ ) {
 		delete finder_;
 	}
+	*/
 }
 
 
@@ -571,6 +590,9 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
+*more files and directories integration. Added Marcello's Directories example as well
+*
 *Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
 *integrated Marcello's new File/Directory API changes into both
 *the FoundationKit and the ApplicationKit. Many, many thanks go out

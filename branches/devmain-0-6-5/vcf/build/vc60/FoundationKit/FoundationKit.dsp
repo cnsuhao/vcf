@@ -404,10 +404,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FilePath.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\FilePeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\FoundationKit\FileStream.cpp
 # End Source File
 # Begin Source File
@@ -737,6 +733,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\WarningsOffVc.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\ConditionPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\FilePeer.h
 # End Source File
 # Begin Source File
 
