@@ -8,6 +8,7 @@ using namespace VCF;
 
 QTPlayerAbout::QTPlayerAbout()
 {
+	setBounds( 100, 100, 150, 150 );
 	Label* label = new Label();
 	label->setBounds( &Rect(25, 10, 200, 45) );
 	add( label, AlignClient );
@@ -32,7 +33,7 @@ QTPlayerAbout::QTPlayerAbout()
 
 	setCaption( "About QuickTime Player" );
 
-	setClientBounds( &clientRect );
+	setClientBounds( &clientRect );	
 }
 
 QTPlayerAbout::~QTPlayerAbout()

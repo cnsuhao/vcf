@@ -8,8 +8,9 @@ class QuickTimeMovie;
 class QuickTimeControl;
 
 namespace VCF {
-	class Label;
+	class StatusBarControl;
 	class DropTargetEvent;
+	class SliderControl;
 };
 
 
@@ -38,12 +39,7 @@ protected:
 	void onViewHalf( VCF::Event* e );
 
 	void onViewLockAspectRatio( VCF::Event* e );
-	void onViewAllowResize( VCF::Event* e );
-
-	void onViewSizeUpdate( VCF::Event* e );
-
-	void onViewLockUpdate( VCF::Event* e );
-	void onViewAllowResizeUpdate( VCF::Event* e );
+	void onViewAllowResize( VCF::Event* e );	
 
 	void onClose( VCF::WindowEvent* event );
 	void onMovieChanged( VCF::Event* movieEvent );
@@ -52,8 +48,26 @@ protected:
 	void onDraggingOver( VCF::DropTargetEvent* e );
 	void onFilesDropped( VCF::DropTargetEvent* e );
 
+	void updatePlay( VCF::ActionEvent* e );
+	void updateReset( VCF::ActionEvent* e );
+	void updateStop( VCF::ActionEvent* e );
+	void updatePause( VCF::ActionEvent* e );
+
+	void updateViewNormal( VCF::ActionEvent* e );
+	void updateViewDouble( VCF::ActionEvent* e );
+	void updateViewHalf( VCF::ActionEvent* e );
+
+	void updateViewLock( VCF::ActionEvent* e );
+	void updateViewAllowResize( VCF::ActionEvent* e );
+
+	void onVolumeChanged( VCF::Event* event );
+	void onVolumeMute( VCF::Event* event );
+	void onVolumeFull( VCF::Event* event );
+
 	QuickTimeControl* m_quicktimeControl;
-	VCF::Label* m_timerLabel;
+	VCF::StatusBarControl* m_statusBar;
+	VCF::SliderControl* volumeControl_;
+	bool movieLoaded_;
 };
 
 

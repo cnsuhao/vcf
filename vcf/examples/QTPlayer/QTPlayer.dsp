@@ -119,6 +119,10 @@ SOURCE=.\QuickTimeControl.cpp
 
 SOURCE=.\QuickTimeMovie.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\StatusBarControl.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -143,10 +147,22 @@ SOURCE=.\QuickTimeControl.h
 
 SOURCE=.\QuickTimeMovie.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\StatusBarControl.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# Begin Source File
+
+SOURCE=.\fullvol.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=.\mute.bmp
+# End Source File
 # Begin Source File
 
 SOURCE=.\open.bmp
@@ -170,6 +186,18 @@ SOURCE=.\reset.bmp
 # Begin Source File
 
 SOURCE=.\stop.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=".\view-half.bmp"
+# End Source File
+# Begin Source File
+
+SOURCE=".\view-normal.bmp"
+# End Source File
+# Begin Source File
+
+SOURCE=.\view200.bmp
 # End Source File
 # End Group
 # End Target
