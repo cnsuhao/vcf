@@ -7,6 +7,10 @@ Project: "Actions"=.\Actions\Actions.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Actions
+    .\actions
+    end source code control
 }}}
 
 Package=<4>
@@ -22,6 +26,10 @@ Project: "AdvancedAlignment"=.\AdvancedAlignment\AdvancedAlignment.dsp - Package
 
 Package=<5>
 {{{
+    begin source code control
+    AdvancedAlignment
+    .\advancedalignment
+    end source code control
 }}}
 
 Package=<4>
@@ -34,6 +42,10 @@ Project: "Alignment"=.\Alignment\Alignment.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Alignment
+    .\alignment
+    end source code control
 }}}
 
 Package=<4>
@@ -64,6 +76,10 @@ Project: "Anchors"=.\Anchors\Anchors.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Anchors
+    .\anchors
+    end source code control
 }}}
 
 Package=<4>
@@ -76,6 +92,10 @@ Project: "ApplicationIcons"=.\ApplicationIcons\ApplicationIcons.dsp - Package Ow
 
 Package=<5>
 {{{
+    begin source code control
+    ApplicationIcons
+    .\applicationicons
+    end source code control
 }}}
 
 Package=<4>
@@ -91,6 +111,10 @@ Project: "ApplicationKitDLL"=..\build\vc60\ApplicationKit\ApplicationKitDLL.dsp 
 
 Package=<5>
 {{{
+    begin source code control
+    ApplicationKitDLL
+    ..
+    end source code control
 }}}
 
 Package=<4>
@@ -121,6 +145,10 @@ Project: "CopyAndPaste"=.\CopyAndPaste\CopyAndPaste.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    CopyAndPaste
+    .\copyandpaste
+    end source code control
 }}}
 
 Package=<4>
@@ -145,6 +173,10 @@ Project: "Dictionaries"=.\Dictionaries\Dictionaries.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Dictionaries
+    .\dictionaries
+    end source code control
 }}}
 
 Package=<4>
@@ -157,6 +189,10 @@ Project: "DragAndDrop"=.\DragAndDrop\DragAndDrop.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    DragAndDrop
+    .\draganddrop
+    end source code control
 }}}
 
 Package=<4>
@@ -172,6 +208,10 @@ Project: "EventBasics"=.\EventBasics\EventBasics.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    EventBasics
+    .\eventbasics
+    end source code control
 }}}
 
 Package=<4>
@@ -199,6 +239,10 @@ Project: "FilesAndDirectories"=.\FilesAndDirectories\FilesAndDirectories.dsp - P
 
 Package=<5>
 {{{
+    begin source code control
+    FilesAndDirectories
+    .\filesanddirectories
+    end source code control
 }}}
 
 Package=<4>
@@ -214,6 +258,10 @@ Project: "FoundationKitDLL"=..\build\vc60\FoundationKit\FoundationKitDLL.dsp - P
 
 Package=<5>
 {{{
+    begin source code control
+    FoundationKitDLL
+    ..
+    end source code control
 }}}
 
 Package=<4>
@@ -226,6 +274,10 @@ Project: "GraphicsAndMouseMoves"=.\GraphicsAndMouseMoves\GraphicsAndMouseMoves.d
 
 Package=<5>
 {{{
+    begin source code control
+    GraphicsAndMouseMoves
+    .\graphicsandmousemoves
+    end source code control
 }}}
 
 Package=<4>
@@ -238,6 +290,10 @@ Project: "GraphicsBasics"=.\GraphicsBasics\GraphicsBasics.dsp - Package Owner=<4
 
 Package=<5>
 {{{
+    begin source code control
+    GraphicsBasics
+    .\graphicsbasics
+    end source code control
 }}}
 
 Package=<4>
@@ -250,6 +306,10 @@ Project: "GraphicsKitDLL"=..\build\vc60\GraphicsKit\GraphicsKitDLL.dsp - Package
 
 Package=<5>
 {{{
+    begin source code control
+    GraphicsKitDLL
+    ..
+    end source code control
 }}}
 
 Package=<4>
@@ -283,6 +343,10 @@ Project: "HeavyAndLight"=.\HeavyAndLight\HeavyAndLight.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    HeavyAndLight
+    .\heavyandlight
+    end source code control
 }}}
 
 Package=<4>
@@ -295,6 +359,10 @@ Project: "HelloWorld"=.\HelloWorld\HelloWorld.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    HelloWorld
+    .\helloworld
+    end source code control
 }}}
 
 Package=<4>
@@ -307,6 +375,10 @@ Project: "HelloWorld2"=.\HelloWorld2\HelloWorld2.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    HelloWorld2
+    .\helloworld2
+    end source code control
 }}}
 
 Package=<4>
@@ -319,6 +391,10 @@ Project: "HelloWorld3"=.\HelloWorld3\HelloWorld3.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    HelloWorld3
+    .\helloworld3
+    end source code control
 }}}
 
 Package=<4>
@@ -343,6 +419,10 @@ Project: "ImageBasics"=.\ImageBasics\ImageBasics.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    ImageBasics
+    .\imagebasics
+    end source code control
 }}}
 
 Package=<4>
@@ -355,6 +435,10 @@ Project: "ImageViewer"=.\ImageViewer\ImageViewer.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    ImageViewer
+    .\imageviewer
+    end source code control
 }}}
 
 Package=<4>
@@ -367,6 +451,10 @@ Project: "Labels"=.\Labels\Labels.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Labels
+    .\labels
+    end source code control
 }}}
 
 Package=<4>
@@ -403,6 +491,10 @@ Project: "Processes"=.\Processes\Processes.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Processes
+    .\processes
+    end source code control
 }}}
 
 Package=<4>
@@ -415,6 +507,10 @@ Project: "ProgressBars"=.\ProgressBars\ProgressBars.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    ProgressBars
+    .\progressbars
+    end source code control
 }}}
 
 Package=<4>
@@ -442,6 +538,10 @@ Project: "Scrolling"=.\Scrolling\Scrolling.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Scrolling
+    .\scrolling
+    end source code control
 }}}
 
 Package=<4>
@@ -454,6 +554,10 @@ Project: "SharedLibraries"=.\SharedLibraries\SharedLibraries.dsp - Package Owner
 
 Package=<5>
 {{{
+    begin source code control
+    SharedLibraries
+    .\sharedlibraries
+    end source code control
 }}}
 
 Package=<4>
@@ -466,6 +570,10 @@ Project: "SketchIt"=.\SketchIt\SketchIt.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    SketchIt
+    .\sketchit
+    end source code control
 }}}
 
 Package=<4>
@@ -478,6 +586,10 @@ Project: "Sliders"=.\Sliders\Sliders.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Sliders
+    .\sliders
+    end source code control
 }}}
 
 Package=<4>
@@ -493,6 +605,10 @@ Project: "Splitters"=.\Splitters\Splitters.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Splitters
+    .\splitters
+    end source code control
 }}}
 
 Package=<4>
@@ -505,6 +621,10 @@ Project: "Strings"=.\Strings\Strings.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Strings
+    .\strings
+    end source code control
 }}}
 
 Package=<4>
@@ -517,6 +637,10 @@ Project: "StrokesAndFills"=.\StrokesAndFills\StrokesAndFills.dsp - Package Owner
 
 Package=<5>
 {{{
+    begin source code control
+    StrokesAndFills
+    .\strokesandfills
+    end source code control
 }}}
 
 Package=<4>
@@ -529,6 +653,10 @@ Project: "TextLayout"=.\TextLayout\TextLayout.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    TextLayout
+    .\textlayout
+    end source code control
 }}}
 
 Package=<4>
@@ -541,6 +669,10 @@ Project: "ThreadBasics"=.\ThreadBasics\ThreadBasics.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    ThreadBasics
+    .\threadbasics
+    end source code control
 }}}
 
 Package=<4>
@@ -556,6 +688,10 @@ Project: "ThreadsInGUI"=.\ThreadsInGUI\ThreadsInGUI.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    ThreadsInGUI
+    .\threadsingui
+    end source code control
 }}}
 
 Package=<4>
@@ -568,6 +704,10 @@ Project: "Toolbars"=.\Toolbars\Toolbars.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Toolbars
+    .\toolbars
+    end source code control
 }}}
 
 Package=<4>
@@ -580,6 +720,22 @@ Package=<4>
 ###############################################################################
 
 Project: "TreeListControls"=.\TreeListControls\TreeListControls.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    TreeListControls
+    .\treelistcontrols
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VFFTest"=.\VFFTest\VFFTest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -610,6 +766,10 @@ Project: "WorkingWithEnumerators"=.\WorkingWithEnumerators\WorkingWithEnumerator
 
 Package=<5>
 {{{
+    begin source code control
+    WorkingWithEnumerators
+    .\workingwithenumerators
+    end source code control
 }}}
 
 Package=<4>
