@@ -616,6 +616,9 @@ public:
 	unsigned long getSeconds() const;
 	unsigned long getMilliSeconds() const;
 
+	/*
+	* Gets the day of the week. Sunday is 0, Monday is 1, and so on. 
+	*/
 	WeekDay getWeekDay() const ;
 
 	unsigned long getDayOfYear() const ;
@@ -785,6 +788,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/13 16:16:23  marcelloptr
+*added a comment
+*
 *Revision 1.1.2.4  2004/06/25 20:02:14  marcelloptr
 *minor fix
 *
