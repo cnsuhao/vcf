@@ -1329,6 +1329,23 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 
 
 
+	Size thumbSize;
+	thumbSize.width_ = ::GetSystemMetrics( SM_CXHTHUMB )*0.85+1;
+	thumbSize.height_ = ::GetSystemMetrics( SM_CYVTHUMB );
+
+	Rect thumbRect = *rect;
+	if ( state.isVertical() ) {
+		thumbRect.top_ = thumbRect.bottom_ - thumbSize.width_;
+
+		thumbRect.offset( 0, (int)(thumbSize.width_/2)-(int)((state.position_/(state.max_-state.min_))*rect->getHeight()) );
+	}
+	else {
+		thumbRect.right_ = thumbRect.left_ + thumbSize.width_;
+
+		thumbRect.offset( (int)(((state.position_-state.min_)/(state.max_-state.min_))*rect->getWidth()) - (int)(thumbSize.width_/2), 0 );
+	}
+
+
 	Color* highlite = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
 	Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 	Color faceTmp = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
@@ -1347,15 +1364,15 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 
 	if ( state.isVertical() ) {
 
-		int x1 = rect->left_;
-		int x2 = rect->right_;
-		int y1 = rect->top_;
-		int y2 = rect->bottom_;
+		int x1 = thumbRect.left_;
+		int x2 = thumbRect.right_;
+		int y1 = thumbRect.top_;
+		int y2 = thumbRect.bottom_;
 
 
 		if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
 			context_->setColor( face );
-			context_->rectangle( rect );
+			context_->rectangle( &thumbRect );
 			context_->fillPath();
 
 			context_->setColor( highlite );
@@ -1461,15 +1478,15 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 	else {
 
 
-		int x1 = rect->left_;
-		int x2 = rect->right_;
-		int y1 = rect->top_;
-		int y2 = rect->bottom_;
+		int x1 = thumbRect.left_;
+		int x2 = thumbRect.right_;
+		int y1 = thumbRect.top_;
+		int y2 = thumbRect.bottom_;
 
 
 		if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
 			context_->setColor( face );
-			context_->rectangle( rect );
+			context_->rectangle( &thumbRect );
 			context_->fillPath();
 
 			context_->setColor( highlite );
@@ -2030,6 +2047,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/09 20:07:20  ddiego
+*fixed bug in drawing of theme thumb slider
+*
 *Revision 1.1.2.4  2004/07/09 03:39:30  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.
