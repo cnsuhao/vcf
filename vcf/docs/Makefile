@@ -1,13 +1,17 @@
 #make file
 
 VERSION = 0.6.0
+VCFB_VERSION = 1.0.4
 
-HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
 
-XSL_HTMLHELP_IMPORT = D:/dork/docbook/xsl/htmlhelp/htmlhelp.xsl
+XSL_HTMLHELP_IMPORT = "D:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"
 
 RAW_CHM_FILENAME = vcf_docs.chm
+RAW_VCF_BUILDER_CHM_FILENAME = vcfbuilder_docs.chm
+
 VERSIONED_CHM_FILENAME = VCFDocs.$(VERSION).chm
+VERSIONED_VCFBUILDER_CHM_FILENAME = VCFBuilderDocs.$(VCFB_VERSION).chm
 VERSIONED_SRC_CHM_FILENAME = VCFSrcDocs.$(VERSION).chm
 HTML_TAR_FILENAME = VCFDocs.$(VERSION).tar
 
@@ -29,10 +33,17 @@ vcf.dsl \
 vcf.xsl
 
 
+VCF_BUILDER_DOCS = vcfbuilder_docbook.sgml \
+vcf.css \
+vcf.xsl \
+vcfbuilder.xsl
 
 
 docs :  $(VCF_DOCS) test_tools
 	xsltproc --catalogs --docbook vcf.xsl vcf_docbook.sgml
+
+vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
+	xsltproc --catalogs --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
 
 test_tools : 
 	if ( test -f $(HTMLHELP_COMPILER) )\
@@ -57,6 +68,9 @@ hh : htmlhelp.hhp docs
 	$(HTMLHELP_COMPILER) htmlhelp.hhp
 	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
 
+vcf_builder_hh : vcf_builder_docs htmlhelp.hhp 
+	$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv $(RAW_VCF_BUILDER_CHM_FILENAME) $(VERSIONED_VCFBUILDER_CHM_FILENAME)
 
 doxy : 
 	cp Doxyfile Doxyfile.bak
@@ -84,10 +98,11 @@ dist : docs hh
 	
 	
 clean :
-	rm *.html
-	rm $(HTML_TAR_FILENAME).gz
-	rm *.hhp
-	rm *.hhc
-	rm *.hhk
-	rm *.chm
+	rm -f *.html
+	rm -f $(HTML_TAR_FILENAME).gz
+	rm -f $(VERSIONED_SRC_CHM_FILENAME)
+	rm -f $(VERSIONED_CHM_FILENAME)
+	rm -f *.hhp
+	rm -f *.hhc
+	rm -f *.hhk
 	rm -rf doxy_html/
