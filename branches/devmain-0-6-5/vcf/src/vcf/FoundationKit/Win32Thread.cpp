@@ -92,7 +92,9 @@ bool Win32Thread::start()
 		threadHandle_ = _beginthreadex( security_, stackSize_, Win32Thread::threadProc, (void*)this, initFlags_, &threadID_ );
 
 		owningProcessID_ = GetCurrentProcessId();
-		SetThreadPriority( (HANDLE)threadHandle_, THREAD_PRIORITY_LOWEST );
+
+//	Why was this put in here?
+//		SetThreadPriority( (HANDLE)threadHandle_, THREAD_PRIORITY_LOWEST );
 	}
 
 	/**
@@ -214,6 +216,9 @@ int Win32Thread::wait( uint32 milliseconds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/27 21:17:46  pallindo
+*Removed the setting of Win32 thread prioritiy to lowest.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
