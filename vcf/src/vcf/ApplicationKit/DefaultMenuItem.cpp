@@ -553,10 +553,53 @@ void DefaultMenuItem::handleEvent( Event* event )
 	}
 }
 
+MenuItem* DefaultMenuItem::findChildNamedSimilarTo( const String& name )
+{
+	MenuItem* result = NULL;
+
+	String tmp1 = StringUtils::lowerCase( name );
+	String tmp2;
+	
+	std::vector<MenuItem*>::iterator it = menuItems_.begin();
+	while ( it != menuItems_.end() ){
+		MenuItem* child = *it;
+		tmp2 = StringUtils::lowerCase( child->getCaption() );
+		if ( tmp2.find( tmp1 ) != String::npos ) {
+			result = child;
+			break;
+		}
+		it++;
+	}
+
+	return result;
+}
+
+
+MenuItem* DefaultMenuItem::findChildNamed( const String& name )
+{
+	MenuItem* result = NULL;
+
+	
+	std::vector<MenuItem*>::iterator it = menuItems_.begin();
+	while ( it != menuItems_.end() ){
+		MenuItem* child = *it;
+		
+		if ( child->getCaption() == name ) {
+			result = child;
+			break;
+		}
+		it++;
+	}
+
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/18 06:45:43  ddiego
+*updated toolbar btn bug, and added text edit sample.
+*
 *Revision 1.2.2.2  2004/11/15 05:41:27  ddiego
 *finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
 *

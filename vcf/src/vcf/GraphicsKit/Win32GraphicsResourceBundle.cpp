@@ -50,8 +50,6 @@ Image* Win32GraphicsResourceBundle::getImage( const String& resourceName )
 	}
 
 	if ( NULL == result ) {
-		String localeName = System::getCurrentThreadLocale()->getName();
-		
 		bool fileExists = false;
 		String fileName = System::findResourceDirectory() +	resourceName;
 		
@@ -72,6 +70,9 @@ Image* Win32GraphicsResourceBundle::getImage( const String& resourceName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/11/18 06:45:44  ddiego
+*updated toolbar btn bug, and added text edit sample.
+*
 *Revision 1.1.2.3  2004/09/15 04:25:53  ddiego
 *fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
 *
