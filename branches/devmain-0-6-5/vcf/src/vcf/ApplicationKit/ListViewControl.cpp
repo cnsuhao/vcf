@@ -588,6 +588,12 @@ void ListViewControl::paint( GraphicsContext * context )
 {
 	Rect innerBounds = getClientBounds( false );
 
+	Border* border = getBorder();
+	if ( NULL != border ){
+		border->paint( this, context );
+		innerBounds = border->getClientRect( &innerBounds, this );
+	}
+
 	context->setColor( getColor() );
 			
 	context->rectangle( &innerBounds );
@@ -598,6 +604,9 @@ void ListViewControl::paint( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/15 14:55:11  ddiego
+*borders fixed
+*
 *Revision 1.1.2.3  2004/07/14 04:56:01  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.
