@@ -703,19 +703,22 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 	//look for accelerator in control then app
 	AcceleratorKey* accelerator = NULL;
 	Control* control = (Control*)event->getSource();
+	
 
 	AccelMapIter it = range.first;
 	
-	if ( control ) {		
-		while ( it != range.second ) {
-			
-			AcceleratorKey* accel = it->second;
-			if ( accel->getAssociatedControl() == control ) {
-				accelerator = accel;
-				break;
+	if ( control ) {
+		if ( control->areParentsEnabled() ) {
+			while ( it != range.second ) {
+				
+				AcceleratorKey* accel = it->second;
+				if ( accel->getAssociatedControl() == control ) {
+					accelerator = accel;
+					break;
+				}
+				
+				it ++;
 			}
-			
-			it ++;
 		}
 	}
 
@@ -727,6 +730,13 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 			AcceleratorKey* accel = it->second;
 			if ( accel->getAssociatedMenuItem() != NULL ) {
 				accelerator = accel;
+				//check to make sure the menu item's
+				//frame is enabled!
+				if ( NULL != accel ) {
+					if ( !accel->getAssociatedMenuItem()->isEnabled() ) {
+						accelerator = NULL;
+					}
+				}
 				break;
 			}
 			
@@ -1138,6 +1148,10 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/03/15 05:29:01  ddiego
+*makes the accelerator check logic a bit smarter and also changes
+*teh way menu items test to check whether or not they are enabled.
+*
 *Revision 1.3.2.7  2005/03/14 04:17:24  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

@@ -13,48 +13,57 @@ where you installed the VCF.
 
 using namespace VCF;
 
-MenuBar::MenuBar()
+MenuBar::MenuBar():
+	Menu(),
+	peer_(NULL),
+	frame_(NULL)
 {
 	init();
-	Peer_ = UIToolkit::createMenuBarPeer( this );
+	peer_ = UIToolkit::createMenuBarPeer( this );
 
-	if ( NULL == Peer_ ){
+	if ( NULL == peer_ ){
 		//throw exception
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 }
 
 MenuBar::MenuBar( Component* owner ):
-	Menu( owner )
+	Menu( owner ),
+	peer_(NULL),
+	frame_(NULL)
 {
 	init();
-	Peer_ = UIToolkit::createMenuBarPeer( this );
+	peer_ = UIToolkit::createMenuBarPeer( this );
 
-	if ( NULL == Peer_ ){
+	if ( NULL == peer_ ){
 		//throw exception
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 }
 
 MenuBar::MenuBar( const String& name, Component* owner ):
-	Menu( name, owner )
+	Menu( name, owner ),
+	peer_(NULL),
+	frame_(NULL)
 {
 	init();
-	Peer_ = UIToolkit::createMenuBarPeer( this );
+	peer_ = UIToolkit::createMenuBarPeer( this );
 
-	if ( NULL == Peer_ ){
+	if ( NULL == peer_ ){
 		//throw exception
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 }
 
 MenuBar::MenuBar( const String& name ):
-	Menu( name )
+	Menu( name ),
+	peer_(NULL),
+	frame_(NULL)
 {
 	init();
-	Peer_ = UIToolkit::createMenuBarPeer( this );
+	peer_ = UIToolkit::createMenuBarPeer( this );
 
-	if ( NULL == Peer_ ){
+	if ( NULL == peer_ ){
 		//throw exception
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
@@ -68,9 +77,9 @@ MenuBar::~MenuBar()
 
 void MenuBar::destroy()
 {
-	if ( NULL != Peer_ ){
-		delete Peer_;
-		Peer_ = NULL;
+	if ( NULL != peer_ ){
+		delete peer_;
+		peer_ = NULL;
 	}
 
 	Menu::destroy();
@@ -78,7 +87,7 @@ void MenuBar::destroy()
 
 void MenuBar::init()
 {
-	Peer_ = NULL;
+	peer_ = NULL;
 
 	setRootMenuItem( new DefaultMenuItem() );
 	MenuItem* item = getRootMenuItem();
@@ -101,21 +110,23 @@ void MenuBar::init()
 
 void MenuBar::onMenutItemAdded( ItemEvent* event )
 {
-	Peer_->update();
+	peer_->update();
 }
 
 void MenuBar::onMenutItemDeleted( ItemEvent* event )
 {
-	Peer_->update();
+	peer_->update();
+}
+
+Frame* MenuBar::getFrame()
+{
+	return frame_;
 }
 
 void MenuBar::setFrame( Frame* frame )
 {
-	if ( NULL == Peer_ ){
-		//throw exception
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-	Peer_->setFrame( frame );
+	peer_->setFrame( frame );
+	frame_ = frame;
 }
 
 void MenuBar::handleEvent( Event* event )
@@ -144,6 +155,10 @@ void MenuBar::handleEvent( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/15 05:29:01  ddiego
+*makes the accelerator check logic a bit smarter and also changes
+*teh way menu items test to check whether or not they are enabled.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

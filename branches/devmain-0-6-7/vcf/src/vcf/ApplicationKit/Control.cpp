@@ -804,6 +804,23 @@ bool Control::isEnabled()
 	return peer_->isEnabled();
 }
 
+bool Control::areParentsEnabled()
+{
+	if ( !isEnabled() ) {
+		return false;
+	}
+
+	bool result = true;
+
+	Control* parent = getParent();
+	while ( result && (NULL != parent) ) {
+		result = parent->isEnabled();
+		parent = parent->getParent();
+	}
+
+	return result;
+}
+
 void Control::setEnabled( const bool& enabled )
 {
 	peer_->setEnabled( enabled );
@@ -1480,6 +1497,10 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.9  2005/03/15 05:29:00  ddiego
+*makes the accelerator check logic a bit smarter and also changes
+*teh way menu items test to check whether or not they are enabled.
+*
 *Revision 1.4.2.8  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *
