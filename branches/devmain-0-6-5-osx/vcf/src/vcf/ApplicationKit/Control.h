@@ -1138,6 +1138,15 @@ public:
 	Frame* getParentFrame();
 
 	/**
+	This returns a value that indicates whether or not hte control is considered to 
+	be active. A control is considered active if it belongs to, i.e. is a child
+	eitehr directly or indirectly, (or is) the active frame. This is 
+	determined by checking if the control's getParentFrame() equals the Frame::getActiveFrame().
+	@return bool true if the control is active, otherwise false.
+	*/
+	bool isActive();
+	
+	/**
 	Can the control accept focus?
 	This method determines if the control can recieve focus.
 	@return bool returns true if the control is enabled and all
@@ -1243,6 +1252,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

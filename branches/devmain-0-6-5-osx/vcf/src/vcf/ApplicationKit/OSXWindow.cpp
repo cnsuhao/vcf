@@ -229,7 +229,7 @@ void OSXWindow::create( Control* owningControl )
         UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent ),
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );
 
-		setVisible( true );
+		//setVisible( true );
         if ( noErr != err ) {
             throw RuntimeException( MAKE_ERROR_MSG_2("SetWindowProperty() failed!") );
         }
@@ -274,6 +274,18 @@ void OSXWindow::setBounds( Rect* rect )
     OSXRect r = rect;
 
     SetWindowBounds( windowRef_, kWindowStructureRgn, r );
+	/*
+	if ( !IsWindowVisible( windowRef_ ) ) {
+		//send an artificial size event!
+		if ( !control_->isDestroying() ) {
+			StringUtils::trace( "Sending artificial size event!" );
+			VCF::Size sz( rect->getWidth(), rect->getHeight() );
+			ControlEvent event( control_, sz );
+							
+			control_->handleEvent( &event );
+		}						
+	}
+	*/
 }
 
 bool OSXWindow::beginSetBounds( const ulong32& numberOfChildren )
@@ -302,7 +314,16 @@ void OSXWindow::setVisible( const bool& visible )
         HideWindow( windowRef_ );
     }
     else {
-        ShowWindow( windowRef_ );
+        bool doResize = false;
+		if ( !IsWindowVisible( windowRef_ ) ) {
+			doResize = true;
+		}
+		
+		ShowWindow( windowRef_ );
+	
+		if ( doResize ) {
+			control_->getContainer()->resizeChildren( NULL );
+		}
 		repaint( NULL );
     }
 }
@@ -799,66 +820,61 @@ bool OSXWindow::isComposited()
 	return result;
 }
 
+
+void internal_handleChildRepaint( Control* control )
+{
+	Container* container = control->getContainer();
+	if ( NULL != container ) {
+		Enumerator<Control*>* children = container->getChildren();
+		
+		while ( children->hasMoreElements() ) {
+			Control* child = children->nextElement();
+			
+			if ( !child->isLightWeight() && child->getVisible() ) {
+				
+				child->repaint();
+			}
+		
+			internal_handleChildRepaint( child );			
+		}
+	}
+}
+
 void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
 {
-	TCarbonEvent		carbonEvent( event );
+	//TCarbonEvent		carbonEvent( event );
 
-
+	//don't paint if the window's not visible
+	if ( !IsWindowVisible( windowRef_ ) ) {
+		return;
+	}
+	
 	SetPortWindowPort( windowRef_ );
 
 	RgnHandle rgn = determineUnobscuredClientRgn();
 
-	::Rect r;
-	GetRegionBounds( rgn, &r );
-
+	::Rect r;		
+	
 	EraseRgn( rgn );
 
 	DisposeRgn( rgn );
+	
 
 	GrafPtr wndPort = GetWindowPort(windowRef_);
 
-	VCF::GraphicsContext* ctx = control_->getContext();
-	OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
-
-	CGContextRef context;
-	QDBeginCGContext(wndPort, &context);
-	GetPortBounds(wndPort, &r);
-
-	CGContextSaveGState( context );
-
-	CGContextTranslateCTM(context, 0,
-									(float)(r.bottom - r.top));
-	CGContextScaleCTM(context, 1, -1);
-
-
-	//ctx->getPeer()->setContextID( (VCF::ulong32)wndPort );
+	VCF::GraphicsContext* ctx = control_->getContext();	
+	
+	ctx->getPeer()->setContextID( (VCF::ulong32)wndPort );	
 
 	VCF::Rect clientBounds = getClientBounds();
 	ctx->setViewableBounds( clientBounds );
-	osxCtx->setCGContext( context, wndPort, clientBounds );
 
 	control_->paint( ctx );
 
-	osxCtx->setCGContext( NULL, 0, clientBounds );
-
-	CGContextRestoreGState( context );
-	QDEndCGContext(wndPort, &context);
-
-
-	if ( !drawingEvent ) {
-		Container* container = control_->getContainer();
-		if ( NULL != container ) {
-			Enumerator<Control*>* children = container->getChildren();
-
-			while ( children->hasMoreElements() ) {
-				Control* child = children->nextElement();
-
-				if ( !child->isLightWeight() && child->getVisible() ) {
-					child->repaint();
-				}
-			}
-		}
-	}
+	
+	//if ( !drawingEvent ) {
+		internal_handleChildRepaint( control_ );		
+	//}
 }
 
 /**
@@ -915,10 +931,13 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 {
 	//StringUtils::trace( "determineUnobscuredClientRgn()\n" );
 
+	//create a region
 	RgnHandle result = NewRgn();
 
 	VCF::Rect currentClientBounds = getClientBounds();
 
+
+	//set the regions bounds to the entire client are of the window
 	SetRectRgn( result, (int)currentClientBounds.left_,
 					(int)currentClientBounds.top_,
 					(int)currentClientBounds.right_,
@@ -930,15 +949,21 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 	VCF::Rect bounds;
 	RgnHandle childRgn = NewRgn();
 
+	//enumerate through all first level controls
 	Container* container = control_->getContainer();
 	if ( NULL != container ) {
 		Enumerator<Control*>* children = container->getChildren();
 
 		while ( children->hasMoreElements() ) {
 			Control* child = children->nextElement();
-
+			//for each child,
+			//if child is NOT lightweight, then
+			//get it's bounds, and subtract these bounds from the
+			//client region r. 
 			if ( !child->isLightWeight() ) {
 				bounds = child->getBounds();
+				control_->translateToScreenCoords( &bounds );
+				control_->translateFromScreenCoords( &bounds ); 
 
 				SetRectRgn( childRgn, (int)bounds.left_,
 					(int)bounds.top_,
@@ -952,6 +977,26 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 
 				DiffRgn( result, childRgn, result );
 			}
+			else {
+				//check if the light weight child is a container
+				Container* lwContainer = child->getContainer();
+				if ( NULL != lwContainer ) {
+					Enumerator<Control*>* lwChildren = lwContainer->getChildren();
+					while ( lwChildren->hasMoreElements() ) {
+						Control* lwChild = lwChildren->nextElement();
+						bounds = lwChild->getBounds();
+						child->translateToScreenCoords( &bounds );
+						child->translateFromScreenCoords( &bounds ); 
+						
+						SetRectRgn( childRgn, (int)bounds.left_,
+									(int)bounds.top_,
+									(int)bounds.right_,
+									(int)bounds.bottom_ );
+						
+						DiffRgn( result, childRgn, result );					
+					}
+				}
+			}
 		}
 	}
 
@@ -960,12 +1005,24 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 	return result;
 }
 
+
+bool OSXWindow::isActiveWindow()
+{
+	return IsWindowActive(windowRef_) ? true : false;
+}
+
 };//end of namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12.2.2  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.12.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *

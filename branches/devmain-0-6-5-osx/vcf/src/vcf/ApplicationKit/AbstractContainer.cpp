@@ -267,10 +267,10 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 	if ( NULL == controlContainer_ ){
 		throw InvalidPointerException(MAKE_ERROR_MSG(INVALID_POINTER_ERROR), __LINE__);
 	};
-	double left = controlContainer_->getLeft();
-	double top = controlContainer_->getTop();
+	
 	double originX = 0.0;
 	double originY = 0.0;
+	
 	Scrollable* scrollable = controlContainer_->getScrollable();
 
 	while ( true == children->hasMoreElements() ){
@@ -517,6 +517,12 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:12  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

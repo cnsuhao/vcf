@@ -112,7 +112,7 @@ public:
 
 	virtual void setWindingRule( WindingRule rule ) = 0;
 
-	virtual Enumerator<PathPoint>* getPoints( Matrix2D* transform ) = 0;
+	virtual bool getPoints( std::vector<PathPoint>& points, Matrix2D* transform ) = 0;
 
 	virtual void flattenPoints( std::vector<Point>& flattenedPoints ) = 0;
 };
@@ -127,6 +127,12 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

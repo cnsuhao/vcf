@@ -151,7 +151,7 @@ protected:
     bool xorModeOn_;
     Rect ownerRect_;
 
-	void atsuDrawTextInBox(	const VCF::Rect& rect );
+	void atsuDrawTextInBox(	const VCF::Rect& rect, const long& drawOptions );
 
 	double getLayoutWidth( ATSUTextLayout layout );
 
@@ -165,6 +165,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7.2.5  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.7.2.4  2004/06/27 18:19:16  ddiego
 *more osx updates
 *
