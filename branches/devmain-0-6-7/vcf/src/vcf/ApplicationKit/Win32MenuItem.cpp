@@ -474,7 +474,6 @@ void Win32MenuItem::setCaption( const String& caption )
 
 	String realCaption = generateCaption( menuItem_, caption );
 
-	StringUtils::trace( "Original caption: " + caption + ", Real caption: " + realCaption + "\n" );
 	if ( System::isUnicodeEnabled() ) {
 		MENUITEMINFOW info = {0};
 		info.cbSize = sizeof(info);
@@ -878,6 +877,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/14 04:43:53  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.2.4.3  2005/03/14 04:17:24  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *
