@@ -42,21 +42,36 @@ bool Process::createProcess( const String& processName, const String& arguments 
 
 	{
 		File processFile(processName);
-		if ( processFile.isDirectory() ) {
-			ProgramInfo* info = System::getProgramInfoFromFileName( processName );
-			if ( NULL != info ) {
+		//JC
+		//maybe we should attempt to expand out the file name here?
+		//if so we would get the PATH env var, and loop through all the
+		//dir names, try each one until we get a hit, or they all fail
+		//is this too expensive??
 
-				fullProcessName = info->getProgramFileName();				
+		try {
+			if ( processFile.isDirectory() ) {
+				ProgramInfo* info = System::getProgramInfoFromFileName( processName );
+				if ( NULL != info ) {
+					
+					fullProcessName = info->getProgramFileName();				
+					
+					info->free();
+				}
+				else {
+					fullProcessName = "";
+				}
+				
+			}
+		}
+		catch ( BasicException& ) {
+			//definitely NOT a dir, or if it is, we can't find it
+			//so replace the name back to the original one passed in
+			fullProcessName = processName;
+		}
 
-				info->free();
-			}
-			else {
-				fullProcessName = "";
-			}
-
-			if ( fullProcessName.empty() ) {
-				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid file name. Points to a directory with no program information available.") );
-			}
+		//if it's empty, then throw an exception!
+		if ( fullProcessName.empty() ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("Invalid file name. Points to a directory with no program information available.") );
 		}
 	}
 	
@@ -85,6 +100,11 @@ ulong32 Process::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/11 17:50:00  ddiego
+*added 2 new projects that are command line tools. One is for
+*creating the basic shell for app bundles, the other is for filling in, or
+*updating an info.plist (or info.xml) file.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

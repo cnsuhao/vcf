@@ -147,13 +147,16 @@ String FilePath::getPathName( const String& fullname, const bool& includeDriveNa
 	if ( lastDrivePos != String::npos ) {
 		if ( lastDirsepPos != String::npos ) {
 			path = fullname.substr( lastDrivePos + 1, lastDirsepPos - lastDrivePos );
-		} else {
+		} 
+		else {
 			path = fullname.substr( lastDrivePos + 1, fullname.size() - lastDrivePos );
 		}
-	} else {
+	} 
+	else {
 		if ( lastDirsepPos != String::npos ) {
 			path = fullname.substr( 0, lastDirsepPos + 1 );
-		} else {
+		} 
+		else {
 			path.erase();
 		}
 	}
@@ -490,6 +493,11 @@ bool FilePath::wildCharsMatchName( const String& filename, const String& wildCha
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/11 17:49:58  ddiego
+*added 2 new projects that are command line tools. One is for
+*creating the basic shell for app bundles, the other is for filling in, or
+*updating an info.plist (or info.xml) file.
+*
 *Revision 1.3  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
