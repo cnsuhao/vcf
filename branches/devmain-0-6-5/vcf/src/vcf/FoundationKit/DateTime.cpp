@@ -163,6 +163,17 @@ void DateTime::set( const unsigned long& year,
 	}
 }
 
+DateTime DateTime::toLocal() const
+{
+	return System::convertUTCTimeToLocalTime( *this );
+}
+
+DateTime DateTime::toUTC() const
+{
+	return System::convertLocalTimeToUTCTime( *this );
+}
+
+
 void DateTime::getYearMonthDay( const DateTime& dt, unsigned long* year, unsigned long* month, unsigned long* day )
 {
 	//need to know if the date is gregorian or not
@@ -1096,6 +1107,12 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

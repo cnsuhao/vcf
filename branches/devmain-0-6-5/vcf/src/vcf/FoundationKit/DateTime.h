@@ -435,6 +435,18 @@ public:
 					const unsigned long& minutes,
 					const unsigned long& seconds );
 
+
+	/**
+	Converts the time to the system's local time
+	*/
+	DateTime toLocal() const;
+
+	/**
+	Converts the time to UTC time
+	*/
+	DateTime toUTC() const;
+
+
 	/**
 	increments the year of this date object.
 	@param unsigned long the amount to increment the year by
@@ -788,6 +800,12 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.5  2004/07/13 16:16:23  marcelloptr
 *added a comment
 *

@@ -60,6 +60,9 @@ public:
 	*/
 	virtual void setFileAttributes( const File::FileAttributes fileAttributes ) = 0;
 
+
+	virtual bool isExecutable() = 0;
+
 	/*
 	* set the modification Date of the file
 	*@param date the desired modification date
@@ -68,6 +71,8 @@ public:
 
 
 	virtual DateTime getDateModified()  = 0;
+	virtual DateTime getDateCreated()  = 0;
+	virtual DateTime getDateAccessed()  = 0;
 
 	/**
 	* opens a file with read/write access
@@ -130,6 +135,12 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.5  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *

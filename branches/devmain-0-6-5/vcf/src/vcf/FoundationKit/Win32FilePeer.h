@@ -74,9 +74,16 @@ public:
 
 	virtual DateTime getDateModified();
 
+	virtual DateTime getDateCreated();
+	
+	virtual DateTime getDateAccessed();
+
+
 	virtual void updateStat( File::StatMask statMask = File::smMaskAll );
 
 	virtual void setFileAttributes( const File::FileAttributes fileAttributes );
+
+	virtual bool isExecutable();
 
 	virtual void setDateModified( const DateTime& dateModified );
 
@@ -195,6 +202,12 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *
