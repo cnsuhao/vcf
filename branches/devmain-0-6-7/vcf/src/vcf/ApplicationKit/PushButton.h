@@ -53,6 +53,7 @@ public:
 
 	DELEGATE(ButtonClicked);
 
+	virtual void setName( const String& name );
 	/**
 	*This macro creates a method for adding a listener to the CommandButton's events
 	*/
@@ -177,6 +178,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/02/27 01:45:33  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.4  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

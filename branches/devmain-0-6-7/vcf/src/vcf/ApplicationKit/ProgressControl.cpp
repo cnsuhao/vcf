@@ -69,6 +69,16 @@ void ProgressControl::setPosition( const double& val )
 	repaint();
 }
 
+void ProgressControl::setName( const String& name )
+{
+	CustomControl::setName( name );
+	if ( isDesigning() ) {
+		if ( progressFormatString_.empty() ) {
+			setProgressFormatString( name + " %0.3f" );
+		}
+	}
+}
+
 void ProgressControl::setDisplayProgressText( const bool& val )
 {
 	displayProgressText_ = val;
@@ -246,6 +256,10 @@ Win32 side we can phase in this code
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/27 01:45:33  ddiego
+*fixed bug in testing whether a path should be loaded as a bundle.
+*added some additional rtti info for certain classes in app kit.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
