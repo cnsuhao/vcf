@@ -8,7 +8,7 @@ cd ../
 
 find ./include ./src ./ImageFormats ./build ./AppServer ./xmake ./ClassServer ./thirdparty -iname '*.h' -o -iname '*.hpp' -o -iname '*.c' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' > srcfiles.out
 find ./include ./src ./ImageFormats ./build ./AppServer ./xmake ./ClassServer ./thirdparty -iname '*.def' -o -iname '*.vcfdir' -o -iname '*.vcp' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.inf' -o -iname '*.vcproj' > srcfiles1.out
-find ./include ./src ./ImageFormats ./build ./AppServer ./xmake ./ClassServer ./thirdparty -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.HPP' -o -iname *.cxx -o -iname '*.CXX' -o -iname '*.cur' -o -iname '*.CUR' > srcfiles2.out
+find ./include ./src ./ImageFormats ./build ./AppServer ./xmake ./ClassServer ./thirdparty -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.HPP' -o -iname *.cxx -o -iname '*.CXX' -o -iname '*.cur' -o -iname '*.CUR' -o -iname '*.inl'  > srcfiles2.out
 
 find ./tests -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' > tests.out
 find ./examples -iname '*.h' -o -iname '*.cpp' -o -iname '*.CPP' -o -iname '*.dsw' -o -iname '*.dsp' -o -iname '*.bmp' -o -iname '*.rgs' -o -iname '*.rc' -o -iname '*.idl' -o -iname '*.def' -o -iname '*.ico' -o -iname '*.rc2' -o -iname '*.odl' -o -iname '*.vff' -o -iname '*.html' > examples.out
