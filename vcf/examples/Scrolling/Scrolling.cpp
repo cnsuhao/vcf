@@ -161,6 +161,8 @@ public:
 	void openListboxMenu( MenuItemEvent* e ) {
 		if ( NULL != currentImage_ ) {
 			delete currentImage_;
+			scrollBarMgr_->setHasHorizontalScrollbar( false );
+			scrollBarMgr_->setHasVerticalScrollbar( false );
 		}
 
 		//add a ListBoxControl
@@ -261,11 +263,13 @@ public:
 	void updateMenuHasHorzScrollbar() {
 		bool has = scrollBarMgr_->hasHorizontalScrollBar();
 		hasHorzScrollbarMenu_->setChecked( has );
+		keepHorzScrollbarVisibleMenu_->setEnabled( has );
 	}
 
 	void updateMenuHasVertScrollbar() {
 		bool has = scrollBarMgr_->hasVerticalScrollBar();
 		hasVertScrollbarMenu_->setChecked( has );
+		keepVertScrollbarVisibleMenu_->setEnabled( has );
 	}
 
 	void updateMenuKeepHorzScrollbarVisible() {
@@ -330,7 +334,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.5  2004/09/19 19:54:44  marcelloptr
+*Revision 1.4.2.6  2004/09/19 20:01:04  marcelloptr
 *scrollbars transitory changes
 *
 *Revision 1.4.2.4  2004/09/17 11:38:05  ddiego
