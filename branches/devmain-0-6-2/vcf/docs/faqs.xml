@@ -52,6 +52,34 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para></para>
 			</answer>
 			<question>
+				<para>Can we use the VCF in commercial applications?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			
+			<question>
+				<para>Is the VCF Documentation available in PDF format</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			
+			<question>
+				<para>Is the VCF Documentation available in HTML for offline viewing?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			
+			<question>
+				<para>Is the VCF Documentation available as an HTML Help .CHM file?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+			
+			<question>
 				<para>What would be required to port my MFC App to VCF?</para>
 			</question>
 			<answer>
@@ -129,17 +157,50 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para></para>
 			</answer>
 			<question>
-				<para></para>
+				<para>Using Visual C++ I get compiler errors complaining that it can't find certain 
+				files. What do I do? </para>
 			</question>
 			<answer>
 				<para></para>
 			</answer>
 			<question>
-				<para></para>
+				<para>Using GCC I get compiler errors complaining that it can't find certain 
+				files. What do I do?</para>
 			</question>
 			<answer>
 				<para></para>
 			</answer>				
+			<question>
+				<para>Using Visual C++ I get linker errors. What do I do? </para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>				
+			<question>
+				<para>When I run my program (using Visual C++) I get weird crashes and memory 
+				overwrites</para>
+			</question>
+			<answer>
+				<para>check Code Generation, check STL version</para>
+			</answer>				
+			<question>
+				<para>When I attempt to compile with Visual C++ 6, I get an Internal Compiler Error. What do I do?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>				
+			<question>
+				<para>I am using BoundsChecker, and it claims I have all sorts of memory leaks? Is this really correct?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>				
+			<question>
+				<para>Can use the VCF without writing a GUI?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>							
 		</qandaentry>
 	</qandaset>	
 	</section>	
@@ -368,7 +429,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				</para>
 			</answer>
 			<question>
-				<para>How do I use the Input Output streams?</para>
+				<para>How do I use the Input/Output streams?</para>
 			</question>
 			<answer>
 				<para>
@@ -665,6 +726,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.2  2003/10/01 04:34:52  ddiego
+more faq editing
+
 Revision 1.1.2.1  2003/10/01 01:57:27  ddiego
 added the new faqs docs - all faqs i nthe document are now in one place
 as opposed to being spread out over different chapters.

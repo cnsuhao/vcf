@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.5  2003/10/01 04:34:52  ddiego
+#more faq editing
+#
 #Revision 1.5.2.4  2003/09/29 03:45:38  ddiego
 #added some further tweaks to update the docs with the upcoming
 #website revision.
@@ -161,7 +164,14 @@ coredocs :  $(VCF_DOCS) test_tools
 	xsltproc --nonet vcf.xsl vcf_docbook.xml
 	mv vcf_book.xml.bak vcf_book.xml
 
-	
+#xsltproc --nonet -o vcfbook.fo $(XSL_DOCBOOK_DIR)/fo/docbook.xsl vcf_docbook.xml
+coredocs-fo :  $(VCF_DOCS) test_tools
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
+	xsltproc --nonet -o vcfbook.fo $(XSL_DOCBOOK_DIR)/tei/docbook.xsl vcf_docbook.xml	
+	mv vcf_book.xml.bak vcf_book.xml
+
 coredocs_online :  $(VCF_DOCS) test_tools 
 	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
 	cp vcf_book.xml vcf_book.xml.bak
