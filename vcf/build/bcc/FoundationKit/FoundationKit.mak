@@ -76,6 +76,7 @@ OBJFILES=$(OBJ)\FoundationKit.obj \
 	 $(OBJ)\Win32ProcessIORedirector.obj \
 	 $(OBJ)\Win32ProcessPeer.obj \
 	 $(OBJ)\Win32Registry.obj \
+	 $(OBJ)\Win32ResourceBundle.obj \
 	 $(OBJ)\Win32SemaphorePeer.obj \
 	 $(OBJ)\Win32SystemPeer.obj \
 	 $(OBJ)\Win32SystemToolkit.obj \
@@ -100,6 +101,7 @@ OBJFILES=$(OBJ)\FoundationKit.obj \
 	 $(OBJ)\DateTime.obj \
 	 $(OBJ)\Dictionary.obj \
 	 $(OBJ)\ErrorLog.obj \
+	 $(OBJ)\Library.obj \
 	 $(OBJ)\Locales.obj \
 	 $(OBJ)\MessageLoader.obj \
 	 $(OBJ)\MIMEType.obj \
@@ -120,6 +122,8 @@ OBJFILES=$(OBJ)\FoundationKit.obj \
 	 $(OBJ)\VCFString.obj \
 	 $(OBJ)\XMLParser.obj \
 	 $(OBJ)\Object.obj \
+	 $(OBJ)\Resource.obj \
+	 $(OBJ)\ResourceBundle.obj \
 	 $(OBJ)\ObjectWithEvents.obj \
 	 $(OBJ)\Class.obj \
 	 $(OBJ)\ClassRegistry.obj \
@@ -187,6 +191,7 @@ $(OBJ)\Win32Peer.obj:                    ..\..\..\src\vcf\FoundationKit\Win32Pee
 $(OBJ)\Win32ProcessIORedirector.obj:     ..\..\..\src\vcf\FoundationKit\Win32ProcessIORedirector.cpp
 $(OBJ)\Win32ProcessPeer.obj:             ..\..\..\src\vcf\FoundationKit\Win32ProcessPeer.cpp        
 $(OBJ)\Win32Registry.obj:                ..\..\..\src\vcf\FoundationKit\Win32Registry.cpp           
+$(OBJ)\Win32ResourceBundle.obj:          ..\..\..\src\vcf\FoundationKit\Win32ResourceBundle.cpp           
 $(OBJ)\Win32SemaphorePeer.obj:           ..\..\..\src\vcf\FoundationKit\Win32SemaphorePeer.cpp      
 $(OBJ)\Win32SystemPeer.obj:              ..\..\..\src\vcf\FoundationKit\Win32SystemPeer.cpp         
 $(OBJ)\Win32SystemToolkit.obj:           ..\..\..\src\vcf\FoundationKit\Win32SystemToolkit.cpp      
@@ -211,6 +216,7 @@ $(OBJ)\Condition.obj:                    ..\..\..\src\vcf\FoundationKit\Conditio
 $(OBJ)\DateTime.obj:                     ..\..\..\src\vcf\FoundationKit\DateTime.cpp                
 $(OBJ)\Dictionary.obj:                   ..\..\..\src\vcf\FoundationKit\Dictionary.cpp              
 $(OBJ)\ErrorLog.obj:                     ..\..\..\src\vcf\FoundationKit\ErrorLog.cpp                
+$(OBJ)\Library.obj:                      ..\..\..\src\vcf\FoundationKit\Library.cpp                 
 $(OBJ)\Locales.obj:                      ..\..\..\src\vcf\FoundationKit\Locales.cpp                 
 $(OBJ)\MessageLoader.obj:                ..\..\..\src\vcf\FoundationKit\MessageLoader.cpp           
 $(OBJ)\MIMEType.obj:                     ..\..\..\src\vcf\FoundationKit\MIMEType.cpp                
@@ -232,6 +238,8 @@ $(OBJ)\VCFString.obj:                    ..\..\..\src\vcf\FoundationKit\VCFStrin
 $(OBJ)\XMLParser.obj:                    ..\..\..\src\vcf\FoundationKit\XMLParser.cpp               
 $(OBJ)\Object.obj:                       ..\..\..\src\vcf\FoundationKit\Object.cpp                  
 $(OBJ)\ObjectWithEvents.obj:             ..\..\..\src\vcf\FoundationKit\ObjectWithEvents.cpp        
+$(OBJ)\Resource.obj:                     ..\..\..\src\vcf\FoundationKit\Resource.cpp                   
+$(OBJ)\ResourceBundle.obj:               ..\..\..\src\vcf\FoundationKit\ResourceBundle.cpp                   
 $(OBJ)\Class.obj:                        ..\..\..\src\vcf\FoundationKit\Class.cpp                   
 $(OBJ)\ClassRegistry.obj:                ..\..\..\src\vcf\FoundationKit\ClassRegistry.cpp           
 $(OBJ)\InterfaceClass.obj:               ..\..\..\src\vcf\FoundationKit\InterfaceClass.cpp          
