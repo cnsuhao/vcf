@@ -532,6 +532,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\Library.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\FoundationKit\Library.h
 # End Source File
 # Begin Source File
@@ -709,10 +713,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\XMLParser.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\CommonDefines.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\Library.cpp
 # End Source File
 # Begin Source File
 

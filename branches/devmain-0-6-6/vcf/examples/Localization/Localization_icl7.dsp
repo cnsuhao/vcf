@@ -133,6 +133,10 @@ SOURCE=Resources\pl_PL\Localization.strings
 SOURCE=Resources\es_ES\Localization.strings
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=info.xml
+# End Source File
 # End Group
 # End Target
 # End Project

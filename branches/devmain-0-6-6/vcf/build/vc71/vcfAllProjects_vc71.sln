@@ -130,7 +130,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{6C7214DF-8E5F-47A4-9701-79C0C41DA42F} = {6C7214DF-8E5F-47A4-9701-79C0C41DA42F}
 		{33459B8F-E879-4DB5-8F9C-92A2E7E42774} = {33459B8F-E879-4DB5-8F9C-92A2E7E42774}
 		{8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E} = {8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E}
-		{6b1100ce-2433-48d7-8a78-0d9b6c4d8c3d} = {6b1100ce-2433-48d7-8a78-0d9b6c4d8c3d}
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035} = {FC9367AB-F11A-4C26-BAA2-C47F75A88035}
 		{3EA1D153-B1AC-4FAF-83DA-96C112E52381} = {3EA1D153-B1AC-4FAF-83DA-96C112E52381}
 		{4312214D-8E26-4707-B32D-28AFE8FF3D0B} = {4312214D-8E26-4707-B32D-28AFE8FF3D0B}
@@ -305,14 +304,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", ".\
 		{480BBC1D-569C-4DC5-9EE9-23D969D98494} = {480BBC1D-569C-4DC5-9EE9-23D969D98494}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciLexer", "..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc71.vcproj", "{908bef97-a3e2-49c4-a428-39c0834e04c6}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScintillaKit", ".\ScintillaKit\ScintillaKit_vc71.vcproj", "{83dc0ff6-dd6b-45a0-8a4c-dddce2886bb4}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling", "..\..\examples\Scrolling\Scrolling_vc71.vcproj", "{9246E861-549F-4D1A-BEBA-C114CF2C7736}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -346,10 +337,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SysTray", "..\..\examples\S
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tables", "..\..\examples\Tables\Tables_vc71.vcproj", "{8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextEdit", "..\..\examples\TextEdit\TextEdit_vc71.vcproj", "{6b1100ce-2433-48d7-8a78-0d9b6c4d8c3d}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -614,12 +601,6 @@ Global
 		{D97278B4-A89F-4681-B7BB-E075B581D7D6}.Debug.ActiveCfg = Debug|Win32
 		{D97278B4-A89F-4681-B7BB-E075B581D7D6}.GTK Debug.ActiveCfg = Debug|Win32
 		{D97278B4-A89F-4681-B7BB-E075B581D7D6}.Release.ActiveCfg = Release|Win32
-		{908bef97-a3e2-49c4-a428-39c0834e04c6}.Debug.ActiveCfg = Debug|Win32
-		{908bef97-a3e2-49c4-a428-39c0834e04c6}.GTK Debug.ActiveCfg = Debug|Win32
-		{908bef97-a3e2-49c4-a428-39c0834e04c6}.Release.ActiveCfg = Release|Win32
-		{83dc0ff6-dd6b-45a0-8a4c-dddce2886bb4}.Debug.ActiveCfg = Debug|Win32
-		{83dc0ff6-dd6b-45a0-8a4c-dddce2886bb4}.GTK Debug.ActiveCfg = Debug|Win32
-		{83dc0ff6-dd6b-45a0-8a4c-dddce2886bb4}.Release.ActiveCfg = Release|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.GTK Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Release.ActiveCfg = Release|Win32
@@ -647,9 +628,6 @@ Global
 		{8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E}.Debug.ActiveCfg = Debug|Win32
 		{8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E}.GTK Debug.ActiveCfg = Debug|Win32
 		{8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E}.Release.ActiveCfg = Release|Win32
-		{6b1100ce-2433-48d7-8a78-0d9b6c4d8c3d}.Debug.ActiveCfg = Debug|Win32
-		{6b1100ce-2433-48d7-8a78-0d9b6c4d8c3d}.GTK Debug.ActiveCfg = Debug|Win32
-		{6b1100ce-2433-48d7-8a78-0d9b6c4d8c3d}.Release.ActiveCfg = Release|Win32
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035}.Debug.ActiveCfg = Debug|Win32
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035}.GTK Debug.ActiveCfg = Debug|Win32
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035}.Release.ActiveCfg = Release|Win32
