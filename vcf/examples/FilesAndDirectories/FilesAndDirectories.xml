@@ -96,12 +96,57 @@ while ( it != pathComponents.end() ) {
 	FileOutputStream class. To create a file, just create an isntance of 
 	FileOutputStream, and pass in the file name to the constructor. Then
 	use the various write() methods of the FileOutputStream class. For 
-	example:
+	example, lets create a file, write some text to it, and then display
+	the file size:
 <programlisting>
 <![CDATA[
-
+FileOutputStream fs(fileName);
+String text = "here's some text to put in the file";
+fs << text;
+System::println( "FileOutputStream current size: %d", fs.getSize() );
 ]]>
 </programlisting>	
+	</formalpara>
+	<para>
+	Now lets look at accessing the same file that we just created with the 
+	File object. With the VCF::File object we can get information about the
+	file attributes, such as size. To do this all we need to do is create a 
+	File object and pass in a file name to the File's constructor.
+	<programlisting>
+<![CDATA[
+File file( fileName ); 
+System::println( "The file %s's size: %d", fileName.getFileName().c_str(), file.getSize() );
+]]>	
+	</programlisting>
+	As we can see this is extremely easy to do. Now lets copy the file somewhere else:
+	<programlisting>
+<![CDATA[
+file.copyTo( fileName.getPathName(true) + 
+			FilePath::getDirectorySeparator() + 
+			fileName.getName() + "-copy" + fileName.getExtension() );
+]]>	
+	</programlisting>
+	To accomplish this, we just call the File's copyTo() method, and pass in 
+	the file name that we are copying to. If this fails, an exception will be thrown,
+	so we may want to wrap this in a try/catch block like so:
+	<programlisting>
+<![CDATA[
+try {
+	file.copyTo( fileName.getPathName(true) + 
+				FilePath::getDirectorySeparator() + 
+				fileName.getName() + "-copy" + fileName.getExtension() );
+}
+catch ( BasicException& e ) {
+	System::println( "Oops, couldn't copy the file, error: " + e.getMessage() );
+}
+]]>	
+	</programlisting>
+	</para>
+	<formalpara><title>File searches</title>
+	The last things we'll look at is search for files. To do this we will use 
+	a directory	object, and a Directory::Finder object. A directory is somewhat
+	similar to a File object, but obviously is specific to just directories. To
+	actually search for files, you call the Directory::findFiles() method.
 	</formalpara>
 </section>
 
@@ -111,6 +156,11 @@ while ( it != pathComponents.end() ) {
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/12/01 03:44:13  ddiego
+added some fixes to the Win32Toolbar impl. A few minor changes to the
+toolbar example (which also got added). Some minor changes to docs
+as well.
+
 Revision 1.1.2.3  2003/11/24 05:05:23  ddiego
 added some more docs, and some minor changes to the Win32ScrollPeer
 

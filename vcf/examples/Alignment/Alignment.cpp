@@ -39,6 +39,7 @@ public:
 		//that is aligned as a AlignClient
 		Panel* main = new Panel();
 		add( main, AlignClient );		
+		main->setToolTipText( "main panel" );
 
 		//create a new container  - agina, by default we do not have top do this
 		//as a panel already has a container instance. Setting it here will destroy
@@ -67,16 +68,19 @@ public:
 		p1->setHeight( 20 );
 		main->add( p1, AlignBottom );
 		p1->setColor( Color::getColor("yellow") );
+		p1->setToolTipText( "p1: AlignBottom, yellow" );
 
 		Panel* p2 = new Panel();
 		p2->setHeight( 5 );
 		main->add( p2, AlignBottom );
 		p2->setColor( Color::getColor("blue") );
+		p2->setToolTipText( "p2: AlignBottom, blue" );
 
 		Panel* p3 = new Panel();
 		p3->setHeight( 20 );
 		main->add( p3, AlignBottom );
 		p3->setColor( Color::getColor("red") );
+		p3->setToolTipText( "p3: AlignBottom, red" );
 		
 		/**
 		These two  control are aligned to the left. This will maintain the controls
@@ -86,12 +90,14 @@ public:
 		p4->setWidth( 23 );
 		main->add( p4, AlignLeft );
 		p4->setColor( Color::getColor("white") );
+		p4->setToolTipText( "p4: AlignLeft, white" );
 
 
 		Panel* p4a = new Panel();
 		p4a->setWidth( 50 );
 		main->add( p4a, AlignLeft );
 		p4a->setColor( Color::getColor("gold") );
+		p4a->setToolTipText( "p4a: AlignLeft, gold" );
 
 
 
@@ -99,17 +105,20 @@ public:
 		p5->setWidth( 45 );
 		main->add( p5, AlignRight );
 		p5->setColor( Color::getColor("green") );
+		p5->setToolTipText( "p5: AlignRight, green" );
 
 		Panel* p5a = new Panel();
 		p5a->setWidth( 45 );
 		main->add( p5a, AlignRight );
 		p5a->setColor( Color::getColor("pink") );
+		p5a->setToolTipText( "p5a: AlignRight, pink" );
 
 
 		Panel* p6 = new Panel();
 		p6->setHeight( 25 );
 		main->add( p6, AlignTop );
 		p6->setColor( Color::getColor("black") );
+		p6->setToolTipText( "p6: AlignTop, black" );
 
 
 		/**
@@ -128,9 +137,11 @@ public:
 		*/
 		main->add( clientControl, AlignClient );
 		clientControl->setBorderSize( 20 );
+		clientControl->setToolTipText( "clientControl: AlignClient" );
 
 		Panel* clientP1 = new Panel();
 		clientP1->setHeight( 25 );
+		clientP1->setToolTipText( "clientControl/clientP1: AlignTop" );
 		clientControl->add( clientP1, AlignTop );
 
 		Label* label1 = new Label();
@@ -139,6 +150,7 @@ public:
 		label1->setTransparent( false );
 		label1->setWordWrap( true );
 		label1->setCaption( "This is Label 1" );
+		label1->setToolTipText( "clientControl/label1: AlignTop, white" );
 		clientControl->add( label1, AlignTop );
 
 
@@ -149,6 +161,7 @@ public:
 		label2->setTransparent( false );
 		label2->setWordWrap( true );
 		label2->setCaption( "This is Label 2, Aligned to the Bottom!" );
+		label2->setToolTipText( "clientControl/label2: AlignBottom, gray158" );
 		clientControl->add( label2, AlignBottom );
 	}
 
