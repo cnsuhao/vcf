@@ -37,7 +37,14 @@ LRESULT CALLBACK Win32Object_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 }
 
 
-Win32Object::Win32Object()
+Win32Object::Win32Object():
+	styleMask_(0),
+	exStyleMask_(0),
+	wndProc_(NULL),
+	defaultWndProc_(NULL),
+	hwnd_(NULL),
+	created_(false),
+	peerControl_(NULL)
 {
 	init();
 	wndProc_ = Win32Object_WndProc;
@@ -236,6 +243,10 @@ Control* Win32Object::getPeerControl()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/12 02:05:45  ddiego
+*fixed a subtle bug (that only showed up when using a lightweight
+*control) that happened with MouseClick events being handled twice.
+*
 *Revision 1.1.2.3  2004/07/01 04:02:17  ddiego
 *minor stuff
 *

@@ -1016,7 +1016,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 		break;
 
 		default:{
-			result = defaultWndProcedure( message, wParam, lParam );
+			result = defaultWndProcedure( message, wParam, lParam );			
 
 			if ( NULL != event ) {
 				peerControl_->handleEvent( event );
@@ -1095,6 +1095,10 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/12 02:05:45  ddiego
+*fixed a subtle bug (that only showed up when using a lightweight
+*control) that happened with MouseClick events being handled twice.
+*
 *Revision 1.1.2.5  2004/07/11 22:08:06  ddiego
 *fixed an accidental checkin that resulted in scrolled
 *drawing not showing up correctly

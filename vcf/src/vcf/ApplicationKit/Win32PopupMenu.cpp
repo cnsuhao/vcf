@@ -64,17 +64,21 @@ void Win32PopupMenu::popup( Point* pt )
 			if ( (NULL == peer) || (NULL == controlPeer) ){
 				//throw exception
 			}
+			
+
 			HMENU menuHandle = (HMENU)peer->getMenuID();
 			UINT flags = TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY;
 			HWND wnd = (HWND)controlPeer->getHandleID();
+			
 			POINT tmpPt = {0};
 			tmpPt.x = (long)pt->x_;
 			tmpPt.y = (long)pt->y_;
 			ClientToScreen( wnd, &tmpPt );
 
-			initPopupMenu( wnd, menuHandle );
+			initPopupMenu( wnd, menuHandle );			
 
 			UINT retVal = ::TrackPopupMenu( menuHandle, flags, tmpPt.x, tmpPt.y, 0, wnd, NULL );
+
 			if ( retVal ){
 				MenuItem* item = Win32MenuItem::getMenuItemFromID( retVal );
 				if ( NULL != item ){
@@ -83,7 +87,7 @@ void Win32PopupMenu::popup( Point* pt )
 			}
 			else {
 				StringUtils::traceWithArgs( "TrackPopupMenu failed, err: %d\n", GetLastError() );
-			}
+			}	
 
 		}
 	}
@@ -93,6 +97,10 @@ void Win32PopupMenu::popup( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/12 02:05:45  ddiego
+*fixed a subtle bug (that only showed up when using a lightweight
+*control) that happened with MouseClick events being handled twice.
+*
 *Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *
