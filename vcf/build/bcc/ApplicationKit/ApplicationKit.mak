@@ -116,8 +116,8 @@ OBJFILES2=$(OBJ)\Menu.obj  \
 	$(OBJ)\MultilineTextControl.obj  \
 	$(OBJ)\PopupMenu.obj  \
 	$(OBJ)\PropertyEditorManager.obj  \
-	$(OBJ)\Resource.obj  \
-	$(OBJ)\ResourceStream.obj  \
+	$(OBJ)\Win32PrintDialog.obj  \
+	$(OBJ)\Win32SystemTrayPeer.obj  \
 	$(OBJ)\TitledBorder.obj  \
 	$(OBJ)\UIToolkit.obj  \
 	$(OBJ)\UndoRedoStack.obj  \
@@ -149,8 +149,8 @@ OBJFILES2=$(OBJ)\Menu.obj  \
 	$(OBJ)\Win32MenuItem.obj  \
 	$(OBJ)\Win32Object.obj  \
 	$(OBJ)\Win32PopupMenu.obj  \
-	$(OBJ)\Win32ResourceBundle.obj  \
-	$(OBJ)\Win32ResourceStream.obj  \
+	$(OBJ)\SystemTray.obj  \
+#	$(OBJ)\Win32ResourceStream.obj  \
 	$(OBJ)\Win32ScrollPeer.obj  \
 	$(OBJ)\Win32Toolbar.obj  \
 	$(OBJ)\Win32ToolKit.obj  \
@@ -325,13 +325,14 @@ $(OBJ)\MessageDialog.obj:                ..\..\..\src\vcf\ApplicationKit\Message
 $(OBJ)\MultilineTextControl.obj:         ..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp             
 $(OBJ)\PopupMenu.obj:                    ..\..\..\src\vcf\ApplicationKit\PopupMenu.cpp                        
 $(OBJ)\PropertyEditorManager.obj:        ..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.cpp            
-$(OBJ)\Resource.obj:                     ..\..\..\src\vcf\ApplicationKit\Resource.cpp                        
-$(OBJ)\ResourceStream.obj:               ..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp                     
+#$(OBJ)\Resource.obj:                     ..\..\..\src\vcf\ApplicationKit\Resource.cpp                        
+#$(OBJ)\ResourceStream.obj:               ..\..\..\src\vcf\ApplicationKit\ResourceStream.cpp                     
 $(OBJ)\TitledBorder.obj:                 ..\..\..\src\vcf\ApplicationKit\TitledBorder.cpp                 
 $(OBJ)\UIToolkit.obj:                    ..\..\..\src\vcf\ApplicationKit\UIToolkit.cpp                       
 $(OBJ)\UndoRedoStack.obj:                ..\..\..\src\vcf\ApplicationKit\UndoRedoStack.cpp                    
 $(OBJ)\VFFInputStream.obj:               ..\..\..\src\vcf\ApplicationKit\VFFInputStream.cpp                     
 $(OBJ)\VFFOutputStream.obj:              ..\..\..\src\vcf\ApplicationKit\VFFOutputStream.cpp                    
+$(OBJ)\Win32PrintDialog.obj:             ..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp                           
 $(OBJ)\Window.obj:                       ..\..\..\src\vcf\ApplicationKit\Window.cpp                           
 $(OBJ)\WindowEvent.obj:                  ..\..\..\src\vcf\ApplicationKit\WindowEvent.cpp                    
 $(OBJ)\AbstractWin32Component.obj:       ..\..\..\src\vcf\ApplicationKit\AbstractWin32Component.cpp 
@@ -358,9 +359,10 @@ $(OBJ)\Win32MenuBar.obj:                 ..\..\..\src\vcf\ApplicationKit\Win32Me
 $(OBJ)\Win32MenuItem.obj:                ..\..\..\src\vcf\ApplicationKit\Win32MenuItem.cpp          
 $(OBJ)\Win32Object.obj:                  ..\..\..\src\vcf\ApplicationKit\Win32Object.cpp            
 $(OBJ)\Win32PopupMenu.obj:               ..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.cpp         
-$(OBJ)\Win32ResourceBundle.obj:          ..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp    
-$(OBJ)\Win32ResourceStream.obj:          ..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp    
+#$(OBJ)\Win32ResourceBundle.obj:          ..\..\..\src\vcf\ApplicationKit\Win32ResourceBundle.cpp    
+#$(OBJ)\Win32ResourceStream.obj:          ..\..\..\src\vcf\ApplicationKit\Win32ResourceStream.cpp    
 $(OBJ)\Win32ScrollPeer.obj:              ..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp        
+$(OBJ)\Win32SystemTrayPeer.obj:          ..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp           
 $(OBJ)\Win32Toolbar.obj:                 ..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp           
 $(OBJ)\Win32ToolKit.obj:                 ..\..\..\src\vcf\ApplicationKit\Win32ToolKit.cpp           
 $(OBJ)\Win32Tree.obj:                    ..\..\..\src\vcf\ApplicationKit\Win32Tree.cpp              
@@ -421,6 +423,7 @@ $(OBJ)\ScrollbarManager.obj:             ..\..\..\src\vcf\ApplicationKit\Scrollb
 $(OBJ)\SliderControl.obj:                ..\..\..\src\vcf\ApplicationKit\SliderControl.cpp                    
 $(OBJ)\Splitter.obj:                     ..\..\..\src\vcf\ApplicationKit\Splitter.cpp                         
 $(OBJ)\StatusBar.obj:                    ..\..\..\src\vcf\ApplicationKit\StatusBar.cpp                        
+$(OBJ)\SystemTray.obj:                   ..\..\..\src\vcf\ApplicationKit\SystemTray.cpp                      
 $(OBJ)\TabbedPages.obj:                  ..\..\..\src\vcf\ApplicationKit\TabbedPages.cpp                      
 $(OBJ)\TableControl.obj:                 ..\..\..\src\vcf\ApplicationKit\TableControl.cpp                     
 $(OBJ)\TextControl.obj:                  ..\..\..\src\vcf\ApplicationKit\TextControl.cpp                      
