@@ -75,7 +75,7 @@ public:
 	}
 
 	TextEditDocumentEvent& operator=( const TextEditDocumentEvent& rhs ) {
-		ModelEvent::operator = (rhs);
+		VCF::ModelEvent::operator = (rhs);
 
 		start_ = rhs.start_;
 		text_ = rhs.text_;
@@ -100,7 +100,7 @@ public:
 	END_CLASSINFO(TextEditDocument)
 
 	enum TextDocumentEvents {
-		teTextAdded = Model::MODEL_CHANGED + 1000,
+		teTextAdded = VCF::Model::MODEL_CHANGED + 1000,
 		teTextRemoved,
 		teTextSelectionChanged
 	};
