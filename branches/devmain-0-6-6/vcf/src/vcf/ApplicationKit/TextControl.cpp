@@ -248,19 +248,19 @@ void TextControl::handleEvent( Event* event )
 						case vkDelete : {
 							ulong32 pos =  textPeer_->getSelectionStart();
 
-							if ( pos < (model->getSize()-1) ) {
+							if ( pos <= (model->getSize()-1) ) {
 								ulong32 length = maxVal<ulong32>( 1, textPeer_->getSelectionCount() );							
 
-								String text = model->getText();
-
-								StringUtils::traceWithArgs( "vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-										text.c_str(), text[pos], text[pos], pos );
+								//Debug diagnostics - JC
+								//String text = model->getText();
+								//StringUtils::traceWithArgs( "vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+								//		text.c_str(), text[pos], text[pos], pos );
 
 								model->deleteText( pos, length );
 
-								text = model->getText();
-								StringUtils::traceWithArgs( "after vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-										text.c_str(), text[pos], text[pos], pos );
+								//text = model->getText();
+								//StringUtils::traceWithArgs( "after vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+								//		text.c_str(), text[pos], text[pos], pos );
 							}
 
 						}
@@ -272,17 +272,18 @@ void TextControl::handleEvent( Event* event )
 							if ( pos > 0 ) {
 								ulong32 length = maxVal<ulong32>( 1, textPeer_->getSelectionCount() );
 								
-								String text = model->getText();
-								
-								StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-										text.c_str(), text[pos], text[pos], pos );
+								//Debug diagnostics - JC
+								//String text = model->getText();								
+								//StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+								//		text.c_str(), text[pos], text[pos], pos );
 
+								
 								model->deleteText( pos, length );
 								
-								text = model->getText();
 
-								StringUtils::traceWithArgs( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-										text.c_str(), text[pos], text[pos], pos );
+								//text = model->getText();
+								//StringUtils::traceWithArgs( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+								//		text.c_str(), text[pos-length], text[pos-length], pos-length );
 								
 							}
 						}
@@ -388,6 +389,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/03 23:02:29  ddiego
+*fixed a text model bug that incorectly handled deleting chars.
+*
 *Revision 1.2.2.3  2004/10/03 22:47:33  ddiego
 *fixed a text model bug that incorectly handled deleting chars.
 *
