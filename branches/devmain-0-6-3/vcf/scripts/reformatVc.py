@@ -12,7 +12,8 @@ import shutil
 import filecmp
 import ConfigParser
 import re
-from optparse import OptionParser
+from copy import copy # to copy(Option.TYPE_CHECKER)
+from optparse import OptionParser, Option, OptionValueError
 
 backupFiles = False
 
@@ -27,7 +28,9 @@ g_default_config = "reformatVcConfig.ini"
 g_default_section = "vcfscript"
 g_default_allProjects = './build/vc60/vcfAllProjects.dsw'
 g_default_allExamples = './Examples/Examples.dsw'
-g_dependenciesWorkspace = './build/vc60/Tests/Tests.dsw'     # osolete but still implemented: workspace with all the dependencies to copy into the allProjectsWorkspace workspace ( not used anymore )
+g_dependenciesWorkspace = './build/vc60/vcfAllLibs.dsw'     # osolete but still implemented: workspace with all the dependencies to copy into the allProjectsWorkspace workspace ( not used anymore )
+
+# deleteLineString               = '# PROP Scc_'   # obsolete
 
 
 #enum AppType
@@ -238,20 +241,20 @@ class FileUtils:
             curr = './'
         else:
             curr = '.\\'
-        
+
         if ( path == '.' or path == curr ):
             if ( keepFirstDot ):
                 path = curr
             else:
                 path = ''
             return path
-        
+
         if ( path and path[0] == '.' ):
             if ( 1 < len(path) and path[1] in '/\\' ):
                 hasCurr = True
 
         path = os.path.normpath( path ) # eliminates the first './' unless it is just that
-        
+
         if ( unixStyle ):
             path = path.replace("\\", "/")
             path = path.replace("//", "/")      # eliminates doubles
@@ -272,14 +275,14 @@ class FileUtils:
         else:
             sep = '\\'
             curr = '.\\'
-            
+
         if ( path == '.' or path == curr ):
             if ( keepFirstDot ):
                 path = curr
             else:
                 path = ''
             return path
-        
+
         #path += '/' # this to make sure that os.path.dirname doesn't cut away the last part of the path
         #path = os.path.dirname( path )
         if ( path != '' ):
@@ -476,6 +479,135 @@ class FileUtils:
 
 
 ################################################################################
+def tck_getExtendValues( option, opt, value ):
+    s = value
+    return s
+
+def getDbgRlsValues( value ):
+    #transforms a string value 'd:0, r:-1' into a dictionary: { 'd': 0, 'r': -1 }
+    s = value
+
+    val = {}
+    dr = s.split( ',' )
+    [ d, dbg ] = dr[0].strip().split( ':' )
+    [ r, rls ] = dr[1].strip().split( ':' )
+    d = d.strip(); dbg = dbg.strip()
+    r = r.strip(); rls = rls.strip()
+    if ( d == 'd' and r == 'r' ):
+        pass
+    elif ( d == 'r' and r == 'd' ):
+        [ d, dbg ] = dr[1].split( ':' )
+        [ r, rls ] = dr[0].split( ':' )
+    else:
+        raise Exception( 'Bad couple of values for \'%s\'. Accepted value is: c# = d:val_dbg, r:val_rls' )
+
+    val[d] = dbg
+    val[r] = rls
+
+    return val
+
+def getDbgRlsValueN( value ):
+    val = getDbgRlsValues( value )
+    dbg = val['d']
+    rls = val['r']
+    val['d'] = eval(dbg)
+    val['r'] = eval(rls)
+    return val
+
+def getDbgRlsValueS( value ):
+    val = getDbgRlsValues( value )
+    dbg = val['d']
+    rls = val['r']
+    dbg = StringUtils.trimCommas( dbg )
+    rls = StringUtils.trimCommas( rls )
+    val['d'] = dbg
+    val['r'] = rls
+    return val
+
+def tck_getDbgRlsValuesN( option, opt, value ):
+    val = getDbgRlsValueN( value )
+    return val
+
+def tck_getDbgRlsValuesS( option, opt, value ):
+    val = getDbgRlsValueS( value )
+    return val
+
+def tck_getOptnumValues( option, opt, value ):
+    val = eval( value )
+    return val
+
+class OptionEx( Option ):
+    # Remark: iif the option is on the command line
+    #         then Option.process () is called which essentially calls:
+    #               value = self.check_value(opt, value)
+    #               self.take_action(self.action, self.dest, opt, value, values, parser)
+
+    TYPES = Option.TYPES
+
+    TYPES = TYPES + ( "extend", )
+    # --names=foo,bar --names blah --names ding,dong
+    # would result in a list: ["foo", "bar", "blah", "ding", "dong"]
+
+    TYPES = TYPES + ( "dbgrlsN", )
+    # --optionPdb=d:0, r:-1
+    # would result in a dictionary: { 'd': 0, 'r': -1 }
+
+    TYPES = TYPES + ( "dbgrlsS", )
+    # --optionOptimize=d:Od, r:O1
+    # would result in a dictionary: { 'd': 'Od', 'r': 'O1' }
+
+    #TYPES = TYPES + ( "optnum", )
+    #ACTIONS = ACTIONS + ( "store_optnum",
+    #STORE_ACTIONS = STORE_ACTIONS + ( "store_optnum", )
+    #TYPED_ACTIONS = TYPED_ACTIONS + ( "store_optnum", )
+    # --recurse=-r, or -r1 or -r 1
+    # would equally result in options.recurse = 1
+    # REMARK: to have an option like this it is necessary to subclass OptionParser._process_short_opts
+    #         if we use the trick to use action="store_count" then we cannot set -v 0 because it the minimum value would be 1 (one)
+    #         if we use the trick to use action="store_const" then we cannot change the value of -v from the commnad line at all
+
+
+    TYPE_CHECKER = copy(Option.TYPE_CHECKER)
+    TYPE_CHECKER["extend"] = tck_getExtendValues
+    TYPE_CHECKER["dbgrlsN"] = tck_getDbgRlsValuesN
+    TYPE_CHECKER["dbgrlsS"] = tck_getDbgRlsValuesS
+    #TYPE_CHECKER["optnum"] = tck_getOptnumValues
+
+    #ACTIONS = Option.ACTIONS + ( "store_extend", "store_dbgrls", "store_optnum" )
+    #STORE_ACTIONS = Option.STORE_ACTIONS + ( "store_extend", "store_dbgrls", "store_optnum" )
+    #TYPED_ACTIONS = Option.TYPED_ACTIONS + ( "store_extend", "store_dbgrls", "store_optnum" )
+    ACTIONS = Option.ACTIONS + ( "store_extend", "store_dbgrlsN", "store_dbgrlsS" )
+    STORE_ACTIONS = Option.STORE_ACTIONS + ( "store_extend", "store_dbgrlsN", "store_dbgrlsS" )
+    TYPED_ACTIONS = Option.TYPED_ACTIONS + ( "store_extend", "store_dbgrlsN", "store_dbgrlsS" )
+
+    def take_action (self, action, dest, opt, value, values, parser):
+        if action == "store_extend":
+            lvalue = value.split(",")
+            values.ensure_value( dest, [] ).extend( lvalue )
+        elif action == "store_dbgrlsN":
+            lvalue = value
+            setattr( values, dest, lvalue )
+        elif action == "store_dbgrlsS":
+            lvalue = value
+            setattr( values, dest, lvalue )
+        elif action == "store_optnum":
+            lvalue = value
+            if ( hasattr(values, dest) and not getattr(values, dest) is None ):
+                val = getattr(values, dest)
+                setattr(values, dest, val + 1)
+            else:
+                setattr(values, dest, values.ensure_value(dest, 0) + 1)
+                # setattr( values, dest, lvalue )
+            val = getattr( values, dest, 100 )
+        else:
+            Option.take_action(
+                self, action, dest, opt, value, values, parser)
+
+        return
+
+    pass
+
+################################################################################
 class ExistingOptions:
     """ Collects all the options given by the user on the command line """
 
@@ -582,7 +714,7 @@ class ExistingOptions:
 
 class DspApp:
     def __init__(self):
-        # version = '0.0.1 - 28 feb 2004'
+        # version = '1.0.1 - 1 mar 2004'
 
         self.initialCwd = os.getcwd()
         self.workingDir = self.initialCwd
@@ -597,50 +729,54 @@ class DspApp:
         self.dynamicLibrariesList = []
         self.dynamicLibrariesListLwr = []
         self.allProjectNamesList = []
-        self.allProjectPathsList = []        
+        self.allProjectPathsList = []
+        self.createWorkspacesList = []
+        self.duplicateWorkspacesList = []
+
         self.changedFiles   = 0
         self.unchangedFiles = 0
         self.createdFiles   = 0
 
         #self.configsection = ''
 
-        optparser = OptionParser( usage=self.usage, version=self.version )
-        optparser.add_option(   "-c", "--config"                                             , type = "string" , dest = "config"                        , default=g_default_config      , help="configuration file" )
-        optparser.add_option(   "-s", "--section"                                            , type = "string" , dest = "section"                       , default=g_default_section     , help="section in the configuration file" )
+        optparser = OptionParser( usage=self.usage, version=self.version, option_class=OptionEx )
+        optparser.add_option(   "-c", "--config"                             , type = "string"  , dest = "config"                        , default=g_default_config      , help="configuration file" )
+        optparser.add_option(   "-s", "--section"                            , type = "string"  , dest = "section"                       , default=g_default_section     , help="section in the configuration file" )
 
-        optparser.add_option(   "--workingDir"                                               , type = "string" , dest = "workingDir"                    , default='.'                   , help="set the current directory, it uses os.getCwd() if empty" )
+        optparser.add_option(   "--workingDir"                               , type = "string"  , dest = "workingDir"                    , default='.'                   , help="set the current directory, it uses os.getCwd() if empty" )
 
-        optparser.add_option(   "-f", "--file"                                               , type = "string" , dest = "filename"                      , default=""                    , help="process the specified filename only" )
-        optparser.add_option(   "-r", "--recurse"                                            , type = "int"    , dest = "recurse"                       , default=False                 , help="recursion into subdirectories" )
+        optparser.add_option(   "-f", "--file"                               , type = "string"  , dest = "filename"                      , default=""                    , help="process the specified filename only" )
+        optparser.add_option(   "-r", "--recurse"                            , type = "int"     , dest = "recurse"                       , default=False                 , help="recursion into subdirectories" )
 
-        optparser.add_option(   "-v", "--verbose"                                            , type = "int"    , dest = "verbose"                       , default=False                 , help="verbose level. Use -vvv to set verbose level = 3" )
-        # optparser.add_option(   "-q", "--quiet"                                              , type = "int"    , dest = "verbose"                       , default=False                 , help="reset verbose level to zero" )
+        optparser.add_option(   "-v", "--verbose"                            , type = "int"     , dest = "verbose"                       , default=False                 , help="verbose level. Use -vvv to set verbose level = 3" )
+        # optparser.add_option(   "-q", "--quiet"                              , type = "int"    , dest = "verbose"                       , default=False                 , help="reset verbose level to zero" )
 
-        optparser.add_option(   "-p", "--prompt"                                             , type = "int"    , dest = "prompt"                        , default=True                  , help="ask to press any key before continuing" )
+        optparser.add_option(   "-p", "--prompt"                             , type = "int"     , dest = "prompt"                        , default=True                  , help="ask to press any key before continuing" )
 
-        optparser.add_option(   "-u", "--unixStyle"                                          , type = "int"    , dest = "unixStyle"                     , default=False                 , help="unix Style i.e. path with \'/\' instead than with \'\\\' " )
-        optparser.add_option(   "-b", "--backupFiles"                                        , type = "int"    , dest = "backupFiles"                   , default=False                 , help="not necessary ( it creates many annoying *.bak files )" )
-        optparser.add_option(   "--modifyVc6"                                                , type = "int"    , dest = "modifyVc6"                     , default=True                  , help="enable any modification on the original vc6 files" )
+        optparser.add_option(   "-u", "--unixStyle"                          , type = "int"     , dest = "unixStyle"                     , default=False                 , help="unix Style i.e. path with \'/\' instead than with \'\\\' " )
+        optparser.add_option(   "-b", "--backupFiles"                        , type = "int"     , dest = "backupFiles"                   , default=False                 , help="not necessary ( it creates many annoying *.bak files )" )
+        optparser.add_option(   "--modifyVc6"                                , type = "int"     , dest = "modifyVc6"                     , default=True                  , help="enable any modification on the original vc6 files" )
 
-        optparser.add_option(   "--enableVcfSpecific"                                        , type = "int"    , dest = "enableVcfSpecific"             , default=True                  , help="enable any vcf-specific action" )
-        optparser.add_option(   "-w", "--createWorkspaces"                                   , type = "int"    , dest = "createWorkspaces"              , default=True                  , help="enables creation of a workspace with all the projects we worked with ( i.e. in the allowed directories )" )
-        optparser.add_option(   "--allProjectsWorkspace"                                     , type = "string" , dest = "allProjectsWorkspace"          , default=g_default_allProjects , help="name of the workspace to be used to compile all the projects" )
-        optparser.add_option(   "--allExamplesWorkspace"                                     , type = "string" , dest = "allExamplesWorkspace"          , default=g_default_allExamples , help="name of the workspace to be used to compile all the examples" )
+        optparser.add_option(   "--enableVcfSpecific"                        , type = "int"     , dest = "enableVcfSpecific"             , default=True                  , help="enable any vcf-specific action" )
 
-        optparser.add_option(   "--deleteLines"                                              , type = "int"    , dest = "deleteLines"                   , default=False                 , help="eliminates all lines with string given in deleteLineString" )
-        optparser.add_option(   "--deleteLineString"                                         , type = "string" , dest = "deleteLineString"              , default=''                    , help="string to find for lines to be deleted ( see deleteLines ) ( i.e. \'# PROP Scc_\'" )
-        optparser.add_option(   "--conformLibraries"                                         , type = "int"    , dest = "conformLibraries"              , default=True                  , help="conforms the libraries such that static and dynamic versions have the same body, i.e. the same groups" )
-        optparser.add_option(   "--reformatOutputIntermediateDirs"                           , type = "int"    , dest = "reformatOutputIntermediateDirs", default=+1                    , help="reformat the Output Directories [note though that in normal cases we want /out: and vc6 removes the /Fo option ]"        )
-        optparser.add_option(   "--reformatOptionOutput"                                     , type = "int"    , dest = "reformatOptionOutput"          , default=-1                    , help="reformat the option Output                 /Fo"     )
+        optparser.add_option(   "--createWorkspaces"                         , type = "int"     , dest = "createWorkspaces"              , default=True                  , help="enables creation of a workspace with all the projects we worked with ( i.e. in the allowed directories ) in it" )
+        optparser.add_option(   "--duplicateWorkspaces"                      , type = "int"     , dest = "duplicateWorkspaces"           , default=True                  , help="enables duplication of a workspaces in the list in the section" )
+        optparser.add_option(   "--conformLibraries"                         , type = "int"     , dest = "conformLibraries"              , default=True                  , help="conforms the libraries such that static and dynamic versions have the same body, i.e. the same groups" )
 
-        optparser.add_option(   "--reformatOptionPdb"                                        , type = "int"    , dest = "reformatOptionPdb"             , default=-1                    , help="reformat/delete the option ProgramDatabase /pdb"    )
-        optparser.add_option(   "--reformatOptionBrowse"                                     , type = "int"    , dest = "reformatOptionBrowse"          , default=-1                    , help="reformat/delete the option Browse          /Br"     )
+        optparser.add_option(   "--deleteSccLines"                           , type = "int"     , dest = "deleteSccLines"                , default=False                 , help="eliminates all source code control lines" )
+        #optparser.add_option(   "--deleteLineString"                         , type = "string"  , dest = "deleteLineString"              , default=''                    , help="string to find for lines to be deleted ( see deleteSccLines ) ( i.e. \'# PROP Scc_\'" )
+        optparser.add_option(   "--reformatOutputIntermediateDirs"           , type = "int"     , dest = "reformatOutputIntermediateDirs", default=+1                    , help="reformat the Output Directories [note though that in normal cases we want /out: and vc6 removes the /Fo option ]"        )
+        optparser.add_option(   "--reformatOptionOutput"                     , type = "dbgrlsN" , dest = "reformatOptionOutput"          , default=-1                    , help="reformat the option Output                 /Fo"     )
 
-        optparser.add_option(   "--copyToVc70"                                               , type = "int"    , dest = "copyToVc70"                    , default=True                  , help="copy dsp files in corresponding directories for vc70 ( option VCF specific )" )
-        optparser.add_option(   "--copyToVc71"                                               , type = "int"    , dest = "copyToVc71"                    , default=True                  , help="copy dsp files in corresponding directories for vc71 ( option VCF specific )" )
+        optparser.add_option(   "--reformatOptionOptimize"                   , type = "dbgrlsS" , dest = "reformatOptionOptimize"        , default=-1                    , help="reformat the optimization option /O# use an allowed value [ d:Od, r:O1 ] but [d:0, r:0] -> does nothing"   )
+        optparser.add_option(   "--reformatOptionPdb"                        , type = "dbgrlsN" , dest = "reformatOptionPdb"             , default=-1                    , help="reformat/delete the option ProgramDatabase /pdb"    )
+        optparser.add_option(   "--reformatOptionBrowse"                     , type = "dbgrlsN" , dest = "reformatOptionBrowse"          , default=-1                    , help="reformat/delete the option Browse          /Br"     )
 
-        optparser.add_option(   "--allowDirs"                                                , type = "int"    , dest = "allowDirs"                     , default=True                  , help="works only with selected directories and its subdirectories" )
-        optparser.add_option(   "--excludeSubdirs"                                           , type = "int"    , dest = "excludeSubdirs"                , default=False                 , help="exclude the subdirectories containing the strings specified in the excludeSubdirs section" )
+        optparser.add_option(   "--copyToVc70"                               , type = "int"     , dest = "copyToVc70"                    , default=True                  , help="copy dsp files in corresponding directories for vc70 ( option VCF specific )" )
+        optparser.add_option(   "--copyToVc71"                               , type = "int"     , dest = "copyToVc71"                    , default=True                  , help="copy dsp files in corresponding directories for vc71 ( option VCF specific )" )
+
+        optparser.add_option(   "--allowDirs"                                , type = "int"     , dest = "allowDirs"                     , default=True                  , help="works only with selected directories and its subdirectories" )
+        optparser.add_option(   "--excludeSubdirs"                           , type = "int"     , dest = "excludeSubdirs"                , default=False                 , help="exclude the subdirectories containing the strings specified in the excludeSubdirs section" )
 
         # Remark: unfortunately we cannot use: action = "store_const" , const = 0 for many options like -r, --recurse,
         #         otherwise the command line cannot set them to zero as they would not accept an option argument anymore: like -r 0
@@ -648,9 +784,11 @@ class DspApp:
         args = sys.argv
         # simulates command line options
         #args = [ "-fApplicationKit.dsp", "-vvv", "-r", "0", "-u", "0", "--config", "reformatVcConfig.ini", "-s", "deleteSccOnly" ]
-        # args = [ "-u", "0", "-r", "0" ]
+        #args = [ "-r", "0", "-v", "3", "-u", "0", "--reformatOptionPdb", "d:5, r:10" ]
         ( self.options, moreargs ) = optparser.parse_args( args )
-        #print self.options.filename; print self.options.config; print self.options.section; print self.options.verbose;  print self.options.recurse; print ""; print self.options.unixStyle; print optparser.print_usage()
+        #print self.options.filename; print self.options.config; print self.options.section;
+        #print self.options.verbose;  print self.options.recurse; print self.options.reformatOptionPdb; print "";
+        #print self.options.unixStyle; print optparser.print_usage()
 
         #if ( len(args) != 1 ):
         #    optparser.error("incorrect number of arguments")
@@ -708,18 +846,17 @@ class DspApp:
         print ''
         print ' --enableVcfSpecific              = ' + str(self.options.enableVcfSpecific               )
         print ' --createWorkspaces               = ' + str(self.options.createWorkspaces                )
-        print ' --allProjectsWorkspace           = ' + str(self.options.allProjectsWorkspace            )
-        print ' --allExamplesWorkspace           = ' + str(self.options.allExamplesWorkspace            )
-        print ''
-        print ' --deleteLines                    = ' + str(self.options.deleteLines                     )
-        print ' --deleteLineString               = \'' + str(self.options.deleteLineString              ) + '\''
+        print ' --duplicateWorkspaces            = ' + str(self.options.duplicateWorkspaces             )
         print ' --conformLibraries               = ' + str(self.options.conformLibraries                )
+        print ''
+        print ' --deleteSccLines                 = ' + str(self.options.deleteSccLines                     )
+        #print ' --deleteLineString               = \'' + str(self.options.deleteLineString              ) + '\''
         print ' --reformatOutputIntermediateDirs = ' + str(self.options.reformatOutputIntermediateDirs  )
         print ' --reformatOptionOutput           = ' + str(self.options.reformatOptionOutput            )
 
         print ''
+        print ' --reformatOptionOptimize         = ' + str(self.options.reformatOptionOptimize          )
         print ' --reformatOptionPdb              = ' + str(self.options.reformatOptionPdb               )
-
         print ' --reformatOptionBrowse           = ' + str(self.options.reformatOptionBrowse            )
 
         print ' --copyToVc70                     = ' + str(self.options.copyToVc70                      )
@@ -760,6 +897,16 @@ class DspApp:
 
         return value
 
+    def configGetDbgrlsN( self, section, option ):
+        s = self.configGetStr( section, option )
+        value = getDbgRlsValueN( s )
+        return value
+
+    def configGetDbgrlsS( self, section, option ):
+        s = self.configGetStr( section, option )
+        value = getDbgRlsValueS( s )
+        return value
+
     def toBoolStr( self, val ):
         if ( val ):
             s = 'True'
@@ -783,6 +930,10 @@ class DspApp:
                 value = self.configGetStr ( configSection, configOption )
             elif ( type == 'bool' ):
                 value = self.configGetBool( configSection, configOption )
+            elif ( type == 'dbgrlsN' ):
+                value = self.configGetDbgrlsN( configSection, configOption )
+            elif ( type == 'dbgrlsS' ):
+                value = self.configGetDbgrlsS( configSection, configOption )
             else:
                 value = self.configGetInt ( configSection, configOption )
         return value
@@ -809,6 +960,8 @@ class DspApp:
                     section_dirlist                             = self.configGetStr ( comm_sect, 'section_dirlist'                )
                     section_excludesubdirlist                   = self.configGetStr ( comm_sect, 'section_excludesubdirlist'      )
                     section_conformLibraries                    = self.configGetStr ( comm_sect, 'section_conformLibraries'       )
+                    section_createWorkspaces                    = self.configGetStr ( comm_sect, 'section_createWorkspaces'       )
+                    section_duplicateWorkspaces                 = self.configGetStr ( comm_sect, 'section_duplicateWorkspaces'    )
 
                     self.options.filename                       = self.getOptionValue( [ 'filename', 'f' ]                   , comm_sect, 'filename'                       , "string"    )
 
@@ -817,28 +970,28 @@ class DspApp:
                     self.options.prompt                         = self.getOptionValue( [ 'prompt', 'p' ]                     , comm_sect, 'prompt'                         , "int"       )
 
                     self.options.unixStyle                      = self.getOptionValue( [ 'unixStyle' ]                       , comm_sect, 'unixStyle'                      , "bool"      )
-                    self.options.deleteLines                    = self.getOptionValue( [ 'deleteLines' ]                     , comm_sect, 'deleteLines'                    , "bool"      )
-                    self.options.deleteLineString               = self.getOptionValue( [ 'deleteLineString' ]                , comm_sect, 'deleteLineString'               , "string"    )
+                    self.options.deleteSccLines                 = self.getOptionValue( [ 'deleteSccLines' ]                  , comm_sect, 'deleteSccLines'                 , "bool"      )
+                    #self.options.deleteLineString               = self.getOptionValue( [ 'deleteLineString' ]                , comm_sect, 'deleteLineString'               , "string"    )
 
                     self.options.reformatOutputIntermediateDirs = self.getOptionValue( [ 'reformatOutputIntermediateDirs' ]  , comm_sect, 'reformatOutputIntermediateDirs' , "int"       )
-                    self.options.reformatOptionOutput           = self.getOptionValue( [ 'reformatOptionOutput' ]            , comm_sect, 'reformatOptionOutput'           , "int"       )
+                    self.options.reformatOptionOutput           = self.getOptionValue( [ 'reformatOptionOutput' ]            , comm_sect, 'reformatOptionOutput'           , "dbgrlsN"   )
 
                     self.options.enableVcfSpecific              = self.getOptionValue( [ 'enableVcfSpecific' ]               , comm_sect, 'enableVcfSpecific'              , "bool"      )
                     self.options.modifyVc6                      = self.getOptionValue( [ 'modifyVc6' ]                       , comm_sect, 'modifyVc6'                      , "bool"      )
 
                     self.options.workingDir                     = self.getOptionValue( [ 'workingDir' ]                      , comm_sect, 'workingDir'                     , "string"    )
-                    self.options.allProjectsWorkspace           = self.getOptionValue( [ 'allProjectsWorkspace' ]            , comm_sect, 'allProjectsWorkspace'           , "string"    )
-                    self.options.allExamplesWorkspace           = self.getOptionValue( [ 'allExamplesWorkspace' ]            , comm_sect, 'allExamplesWorkspace'           , "string"    )
                     self.options.allowDirs                      = self.getOptionValue( [ 'allowDirs' ]                       , comm_sect, 'allowDirs'                      , "bool"      )
                     self.options.excludeSubdirs                 = self.getOptionValue( [ 'excludeSubdirs' ]                  , comm_sect, 'excludeSubdirs'                 , "bool"      )
 
 
                     # specific section
-                    self.options.createWorkspaces               = self.getOptionValue( [ 'createWorkspaces', 'w' ]           , spec_sect, 'createWorkspaces'               , "bool"      )
+                    self.options.createWorkspaces               = self.getOptionValue( [ 'createWorkspaces' ]                , spec_sect, 'createWorkspaces'               , "bool"      )
+                    self.options.duplicateWorkspaces            = self.getOptionValue( [ 'duplicateWorkspaces' ]             , spec_sect, 'duplicateWorkspaces'            , "bool"      )
                     self.options.conformLibraries               = self.getOptionValue( [ 'conformLibraries' ]                , spec_sect, 'conformLibraries'               , "bool"      )
 
-                    self.options.reformatOptionPdb              = self.getOptionValue( [ 'reformatOptionPdb' ]               , spec_sect, 'reformatOptionPdb'              , "int"       )
-                    self.options.reformatOptionBrowse           = self.getOptionValue( [ 'reformatOptionBrowse' ]            , spec_sect, 'reformatOptionBrowse'           , "int"       )
+                    self.options.reformatOptionOptimize         = self.getOptionValue( [ 'reformatOptionOptimize' ]          , spec_sect, 'reformatOptionOptimize'         , "dbgrlsS"   )
+                    self.options.reformatOptionPdb              = self.getOptionValue( [ 'reformatOptionPdb' ]               , spec_sect, 'reformatOptionPdb'              , "dbgrlsN"   )
+                    self.options.reformatOptionBrowse           = self.getOptionValue( [ 'reformatOptionBrowse' ]            , spec_sect, 'reformatOptionBrowse'           , "dbgrlsN"   )
                     self.options.copyToVc70                     = self.getOptionValue( [ 'copyToVc70' ]                      , spec_sect, 'copyToVc70'                     , "bool"      )
                     self.options.copyToVc71                     = self.getOptionValue( [ 'copyToVc71' ]                      , spec_sect, 'copyToVc71'                     , "bool"      )
 
@@ -857,13 +1010,6 @@ class DspApp:
             self.currentdir = FileUtils.normDir( self.options.workingDir, True )
             if ( self.currentdir.find( './' ) != -1 ):
                 self.currentdir = FileUtils.absolutePath( os.getcwd(), self.currentdir, self.options.unixStyle )
-
-        # please, make sure the name contains the dirname too
-        self.options.allProjectsWorkspace = FileUtils.relativePath( self.currentdir, self.options.allProjectsWorkspace, True, self.options.unixStyle )
-        if ( self.options.allProjectsWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.allProjectsWorkspace = ''
-
-        self.options.allExamplesWorkspace = FileUtils.relativePath( self.currentdir, self.options.allExamplesWorkspace, True, self.options.unixStyle )
-        if ( self.options.allExamplesWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.allExamplesWorkspace = ''
 
         if ( self.options.allowDirs ):
             if ( self.config.has_section( section_dirlist ) ):
@@ -915,6 +1061,41 @@ class DspApp:
 
         section_vcf_dynamicLibraries = 'vcf_dynamicLibraries'
         ( self.dynamicLibrariesList, self.dynamicLibrariesListLwr ) = self.makeLibraryDependencyList( section_vcf_dynamicLibraries )
+
+
+        if ( self.options.createWorkspaces ):
+            if ( self.config.has_section( section_createWorkspaces ) ):
+                pairs = self.config.items( section_createWorkspaces )
+                self.createWorkspacesList = []
+                for pair in pairs:
+                    ( name, workspace ) = pair
+                    workspace = StringUtils.stripComment( workspace )
+                    workspace = StringUtils.trimCommas( workspace )
+                    # please, make sure the name contains the dirname too
+                    workspace = FileUtils.relativePath( self.currentdir, workspace, True, self.options.unixStyle )
+                    if ( workspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): workspace = ''
+                    # workspace = workspace.lower()
+                    # workspace = FileUtils.normDir( workspace, self.options.unixStyle )
+                    self.createWorkspacesList.append( workspace )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_createWorkspaces, self.options.config ) )
+
+        if ( self.options.duplicateWorkspaces ):
+            if ( self.config.has_section( section_duplicateWorkspaces ) ):
+                pairs = self.config.items( section_duplicateWorkspaces )
+                self.duplicateWorkspacesList = []
+                for pair in pairs:
+                    ( name, workspace ) = pair
+                    workspace = StringUtils.stripComment( workspace )
+                    workspace = StringUtils.trimCommas( workspace )
+                    # please, make sure the name contains the dirname too
+                    workspace = FileUtils.relativePath( self.currentdir, workspace, True, self.options.unixStyle )
+                    if ( workspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): workspace = ''
+                    #workspace = workspace.lower()
+                    #workspace = FileUtils.normDir( workspace, self.options.unixStyle )
+                    self.duplicateWorkspacesList.append( workspace )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_duplicateWorkspaces, self.options.config ) )
 
         return
 
@@ -1016,6 +1197,9 @@ class Workspace:
         return
 
     def duplicateVcs( self ):
+        if ( True ):                # always
+            self.duplicateVc( '' )  # this just reformat the original ( see duplicateVc )
+
         if ( app.options.copyToVc70 ):
             self.duplicateVc( compilerVc70 )
 
@@ -1023,6 +1207,8 @@ class Workspace:
             self.duplicateVc( compilerVc71 )
 
     def duplicateVc( self, newCompiler ):
+        # newCompiler == '' --> just reformat the original ( i.e. make sure projectPath has the "" around of it
+
         if ( app.options.enableVcfSpecific ):
             newFilename = self.filename
 
@@ -1030,21 +1216,28 @@ class Workspace:
             wsp = DspFile( app, self.filename )
             wsp.readlines()
 
+            wsp.removeUnwantedLines()
+
             Workspace.replaceProjectEntries( wsp.lines, wsp, newCompiler, self.filename )
 
             # newPath = DspFile.makeDuplicateVcFilename( self.filename, dsp.compiler, newCompiler, app.options.unixStyle, False )
-            newFilename = wsp.getDuplicateVcFilename( newCompiler, True )
+            if ( newCompiler ):
+                newFilename = wsp.getDuplicateVcFilename( newCompiler, True )
             wsp.setFilename( newFilename )
 
             wsp.saveFile( False )
 
             if ( 0 < app.options.verbose ):
-                print ' created workspace: %s' % wsp.filename
+                if ( newCompiler ):
+                    print ' created workspace: %s' % wsp.filename
+                else:
+                    print ' updated workspace: %s' % wsp.filename
         return
 
     def replaceProjectEntries( lines, wsp, newCompiler, filename ):
         recP1 = re.compile( r'Project:\s*?"(?P<prjName>[a-zA-Z0-9_\- ]*?)"\s*?=' )
-        recP2 = re.compile( r'Project:\s*?"(?P<prjName>[a-zA-Z0-9_\- ]*?)"\s*?=\s*?"(?P<prjPath>[a-zA-Z0-9_\- \\/.]*?)"' )
+        # recP2 = re.compile( r'Project:\s*?"(?P<prjName>[a-zA-Z0-9_\- ]*?)"\s*?=\s*?"(?P<prjPath>[a-zA-Z0-9_\- \\/.]*?)"' )
+        recP2 = re.compile( r'Project:\s*?"(?P<prjName>[a-zA-Z0-9_\- ]*?)"\s*?=\s*?(?P<prjPath>"?([a-zA-Z0-9_\- \\/.]*?)"?)(?P<pkgOwnr>\s*?-\s*?Package Owner)' )
 
         state = 0
         nPrjs = 0
@@ -1057,13 +1250,18 @@ class Workspace:
                     raise Exception( 'Bad parsing in workspace %s - line %d: %s' % ( filename, n, line ) )
                 prjName = m2.group('prjName')
                 prjPath = m2.group('prjPath')
+                # pkgOwnr = m2.group('pkgOwnr')
 
-                newline = r'Project: "' + prjName + r'"="' + prjPath + '" - Package Owner=<4>\n'
+                newline = r'Project: "' + prjName + r'"=' + prjPath + ' - Package Owner=<4>\n'
                 if ( newline != line ):
                     print line; print newline
-                    raise Exception( 'Wrong parsing in workspace %s - line[%d] [%s]  !=  newline[%s]' % ( filename, n, line, newline ) )
+                    raise Exception( 'Wrong parsing in workspace %s - line[%d] [%s]  !=  newline[%s]\n [prjName = \'%s\', prjPath = \'%s\'' % ( filename, n, line, newline, prjName, prjPath ) )
 
-                newPath = DspFile.makeDuplicateVcFilename( prjPath, wsp.compiler, newCompiler, app.options.unixStyle, True )
+                prjPath = StringUtils.trimCommas( prjPath )
+                if ( newCompiler ):
+                    newPath = DspFile.makeDuplicateVcFilename( prjPath, wsp.compiler, newCompiler, app.options.unixStyle, True )
+                else:
+                    newPath = prjPath
                 newline = r'Project: "' + prjName + r'"="' + newPath + '" - Package Owner=<4>\n'
 
                 lines[n] = newline
@@ -1081,24 +1279,24 @@ class Workspace:
         filterStringLwr = filterString.lower()
         filterStringDir = os.path.dirname( filterStringLwr )
         filterStringDir = FileUtils.normDir( filterStringDir, app.options.unixStyle, True )
-        
+
         for n in range( len( app.allProjectPathsList )):
             prjName    = app.allProjectNamesList[n]
             absPrjPath = app.allProjectPathsList[n]
             relPrjPath = FileUtils.relativePath( app.currentdir, absPrjPath, True, app.options.unixStyle )
             relPrjPathLwr = relPrjPath.lower()
-            if ( not filterString or relPrjPathLwr.find( filterStringDir ) != -1 ):                
+            if ( not filterString or relPrjPathLwr.find( filterStringDir ) != -1 ):
                 # do not use FileUtils.relativePath because one thing is the path relative to the cwd and different thing is a path relative to the workspace path
                 self.addProject( prjName, absPrjPath )
         return
-    
+
     def create( self, projNamesList, projPathsList, filterString ):
         # ???
         #if ( not app.options.conformLibraries ):
         #    return
 
         self.fillProjects( filterString )
-        
+
         self.copyWorkspaceDependencies( g_dependenciesWorkspace )
 
         workspacedirname = os.path.dirname( self.filename )
@@ -1161,7 +1359,7 @@ class Workspace:
                 dependencyStringList = dependencyStringListLib + dependencyStringAllProjects
             else:
                 dependencyStringList = self.calcDependencyStringList( prjName )
-                
+
             if ( dependencyStringList ):
                 fd.writelines( dependencyStringList )
 
@@ -1243,7 +1441,7 @@ class Workspace:
                 if ( prjName.lower() != projectNameLwr ):
                     dependencyStringAllProjects += self.buildDependencyStringListItem( prjName )
         return dependencyStringAllProjects
-    
+
     def calcDependencyStringList( self, project ):
         lib = ''
         dependencyStringList = ''
@@ -1294,7 +1492,7 @@ class Workspace:
             return
 
         self.fillProjects( './' )
-        
+
         tableAssocDllsLibs = {}
         #tableAssocDllsLibs = [ ( 'FoundationKitDLL'  , 'FoundationKit'             ), \
         #                       ( 'GraphicsKitDLL'    , 'GraphicsKit'               ), \
@@ -1399,9 +1597,10 @@ class DspFile:
         self.lines = []
         self.n = 0
         self.storedOptions = []
-        self.lastGroupFound = '' # for debug only
+        self.lastRegexGroupFound = '' # for debug only
 
         self.isDebugCfg  = []
+        self.c  = '' # flag ='d' for debug configuration ='r' for release configuration
         self.isStaticCfg = []
 
         self.PropOutputDirList  = []    # directory for output
@@ -1426,9 +1625,10 @@ class DspFile:
         self.lines = []
         self.n = 0
         self.storedOptions = []
-        self.lastGroupFound = '' # for debug only
+        self.lastRegexGroupFound = '' # for debug only
 
         self.isDebugCfg  = []
+        self.c = ''
         self.isStaticCfg = []
 
         self.PropOutputDirList  = []    # directory for output
@@ -1722,29 +1922,76 @@ class DspFile:
         return tmpFilename
 
     def process(self):
-        self.removeLinesUnwanted()
+        self.removeUnwantedLines()
 
         self.getOutputTypeAndDir()
         self.modifyLines()
 
-    def removeLinesUnwanted( self ):
-        if ( app.options.deleteLines ):
-            self.removeLines( False )
+    def removeUnwantedLines( self ):
+        if ( app.options.deleteSccLines ):
+            self.removeSccLines()
 
-    def removeLines( self, ignorecase ):
-        deleteLineString = app.options.deleteLineString
-        if ( app.options.deleteLines ):
+    def removeSccLines( self ):
+        self.removeLines( '# PROP Scc_', False, '', True, True )
+        self.removeLines( 'begin source code control', False, 'end source code control', True, True )
+        return
+
+    def removeLines( self, contentFirst, ignorecase, contentLast, included, trimmed ):
+        # remove lines containing contentFirst,
+        # or in between those containing contentFirst - contentLast
+        if ( app.options.deleteSccLines ):
+            inside = False
+            deleteRangeLines = ( 0 < len( contentLast ))
+
             if ( ignorecase ):
-                deleteLineString = deleteLineString.lower()
+                content = content.lower()
+                contentLast = contentLast.lower()
+
+            # reverse loop
             for i in range( len(self.lines)-1, -1, -1 ):
+                line = self.lines[i]
                 if ( ignorecase ):
-                    line = self.lines[i].lower()
+                    line = line.lower()
+                if ( trimmed ):
+                    line = line.strip()
+                    line += '\n' # because strip eliminates it
+
+                delete = False
+                if ( deleteRangeLines ):
+                    if ( inside ):
+                        if ( line.find( contentFirst ) == 0 ):
+                            if ( included ):
+                                delete = True
+                            inside = False
+                        else:
+                            delete = True
+                    else:
+                        if ( line.find( contentLast ) == 0 ):
+                            if ( included ):
+                                delete = True
+                            inside = True
                 else:
-                    line = self.lines[i]
-                if ( line.find( deleteLineString ) == 0 ) :
-                # removes line i
-                    self.lines[i:i+1] = []
-                    continue
+                    if ( line.find( contentFirst ) == 0 ):
+                        delete = True
+
+                if ( delete ):
+                    self.lines[i:i+1] = []  # removes line i
+
+                continue
+        return
+
+
+    def checkSetDebug( self ):
+        # this is a naive way to understand if a configuration is debug or not
+        # ( just by the name given by the user to the configuaration itself )
+        # It should be much better to check for a /D "_DEBUG"or /D "NDEBUG" macro in the CPP line
+        configName  = self.configName.lower()
+        self.isDebugCfg .append( configName.find( 'debug'  ) != -1 )
+        if ( configName.find( 'debug' ) != -1 ):
+            self.c = 'd'
+        else:
+            self.c = 'r'
+        return
 
     def getOutputTypeAndDir( self ):
         insideCfg = False
@@ -1832,6 +2079,7 @@ class DspFile:
         self.nCfg = -1
         insideCfg = False
         self.isDebugCfg  = []
+        self.c = ''
         self.isStaticCfg = []
         self.projecName = ''
         self.configName = ''
@@ -1854,9 +2102,9 @@ class DspFile:
                     self.platform    = m.group('platform').rstrip() # we don't really need it
                     self.configName  = m.group('configName')
 
+                    self.checkSetDebug()
                     configName  = self.configName.lower()
-                    self.isDebugCfg .append( configName.find( 'debug'  ) != -1 )
-                    self.isStaticCfg.append( configName.find( 'static' ) != -1 )
+                    self.isStaticCfg.append( configName.find( 'static' ) != -1 ) # unused
 
                     #if ( self.MainFileTitleBase != '' ):
                     #    fileTitle = self.MainFileTitleBase
@@ -2023,9 +2271,9 @@ class DspFile:
     def changeOptionsCpp( self, line ):
         self.storedOptions = []
 
-        changeSomething =   ( app.options.reformatOptionOutput != 0 ) or \
-                            ( app.options.reformatOptionPdb != 0 ) or \
-                            ( app.options.reformatOptionBrowse != 0 )
+        changeSomething =   ( app.options.reformatOptionOutput  [self.c] != 0 ) or \
+                            ( app.options.reformatOptionPdb     [self.c] != 0 ) or \
+                            ( app.options.reformatOptionBrowse  [self.c] != 0 )
         if ( changeSomething ):
             if ( self.addKind == enum_ADD_CPP ):
                 # the order of the following calls counts
@@ -2033,7 +2281,7 @@ class DspFile:
                 line = self.storeRemoveOptionPdb( line )
                 line = self.storeRemoveOptionBrowse( line )
                 optionsList = [ '/D' ]
-                index = self.findLastIndexInList( optionsList, line, True )
+                index = self.findLastIndexInList( optionsList, line, False )
                 if ( index == -1 ):
                     raise Exception( 'ADD CPP line without any /D option. Please improve the code or check the line.' )
             elif ( self.addKind == enum_SUBTRACT_CPP ):
@@ -2044,13 +2292,26 @@ class DspFile:
 
             line = self.addStoredOptions( line, index )
 
+        # optimize can take more than one value and its place is before the /I option
+        changeSomething =   ( app.options.reformatOptionOptimize[self.c] != 0 )
+        if ( changeSomething ):
+            if ( self.addKind == enum_ADD_CPP ):
+                # the order of the following calls counts
+                line = self.storeRemoveOptionOptimize( line )
+                optionsList = [ '/I', '/D' ]
+                index = self.findLastIndexInList( optionsList, line, False, True )
+                if ( index == -1 ):
+                    raise Exception( 'ADD CPP line without any good option to place close to. Please improve the code or check the line.' )
+
+                line = self.addStoredOptions( line, index )
+
         return line
 
     def changeOptionsLnk( self, line ):
         self.storedOptions = []
 
-        changeSomething =   ( app.options.reformatOptionOutput == 1 ) or \
-                            ( app.options.reformatOptionPdb != 0 )
+        changeSomething =   ( app.options.reformatOptionOutput[self.c] == 1 ) or \
+                            ( app.options.reformatOptionPdb   [self.c] != 0 )
 
         if ( changeSomething ):
             if ( self.addKind == enum_ADD_LINK32 ):
@@ -2074,7 +2335,7 @@ class DspFile:
     def changeOptionsLib( self, line ):
         self.storedOptions = []
 
-        changeSomething =   ( app.options.reformatOptionOutput == 1 )
+        changeSomething =   ( app.options.reformatOptionOutput[self.c] == 1 )
 
         if ( changeSomething ):
             # the order of the following calls counts
@@ -2090,7 +2351,7 @@ class DspFile:
     def changeOptionsBsc( self, line ):
         self.storedOptions = []
 
-        changeSomething =   ( app.options.reformatOptionBrowse == 1 )
+        changeSomething =   ( app.options.reformatOptionBrowse[self.c] == 1 )
 
         if ( changeSomething ):
             # the order of the following calls counts
@@ -2103,24 +2364,28 @@ class DspFile:
 
         return line
 
-    def findLastIndexInList( self, optionsList, line, ignorecase ):
-        before = False
+    def findLastIndexInList( self, optionsList, line, ignorecase, before=False ):
+        repeat = ( not before ) # these two options are not compatible and usually we want repeat = True unless before = True
         index = -1
-        self.lastGroupFound = '' # for debug only
+        self.lastRegexGroupFound = '' # for debug only
         for i in range( len(optionsList)-1, -1, -1 ):
             option = optionsList[i]
             if ( ignorecase ):
                 option = option.lower()
-            idx = self.findIndexCloseToOption( line, option, ignorecase, before, True  )
-            if ( index < idx ):
-                index = idx
+            idx = self.findIndexCloseToOption( line, option, ignorecase, before, repeat  )
+            if ( before ):
+                if ( index == -1 or ( idx != -1 and idx < index ) ):
+                    index = idx
+            else:
+                if ( index < idx ):
+                    index = idx
 
         return index
 
     def storeRemoveOptionOutputDir( self, line ):
         # reformat a line for output filename option ( /Fo /out: )
         # always convenient to specify the output dir for the object files, so never remove it !
-        changeSomething = ( app.options.reformatOptionOutput != 0 )
+        changeSomething = ( app.options.reformatOptionOutput[self.c] != 0 )
         if ( self.addKind == enum_ADD_CPP ):
             # (*) the reason why we always remove the '/Fo' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as Intermediate_Dir )
             addDir  = False
@@ -2133,10 +2398,22 @@ class DspFile:
             line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.MainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
 
         return line
-
+    
+    def storeRemoveOptionOptimize( self, line ):
+        changeSomething = ( app.options.reformatOptionOptimize[self.c] and app.options.reformatOptionOptimize[self.c] != '0' )
+        if ( self.addKind == enum_ADD_CPP and changeSomething ):
+            # we always add / replace something; never delete anything
+            addDir  = changeSomething
+            addFile = addDir # we usually want both in the same way
+            option = '/' + app.options.reformatOptionOptimize[self.c]
+            for opt in [ '/O1', '/O2', '/Od' ]:
+                line = self.storeRemoveOption( line, opt, '', '', False, changeSomething, addDir, addFile, False )
+            self.storedOptions.append( option )
+        return line
+        
     def storeRemoveOptionPdb( self, line ):
         # reformat a line for ProgramDatabase option ( /Fd /pdb: )
-        changeSomething = ( app.options.reformatOptionPdb != 0 )
+        changeSomething = ( app.options.reformatOptionPdb[self.c] != 0 )
         if ( self.addKind == enum_ADD_CPP ):
             # (*) the reason why we always remove the '/Fd' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
             addDir  = False
@@ -2153,36 +2430,37 @@ class DspFile:
             line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.MainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
 
             if ( self.addKind == enum_ADD_LINK32 ):
-                addDir  = app.options.reformatOptionPdb
+                addDir  = app.options.reformatOptionPdb[self.c]
                 addFile = addDir # we usually want both in the same way
                 line = self.storeRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_SUBTRACT_LINK32 ):
             # '/debug' in # SUBTRACT LINK32 disable the pdb option
-            addDir  = -(app.options.reformatOptionPdb) # /debug in the SUBTRACT line has opposite meaning
+            addDir  = -(app.options.reformatOptionPdb[self.c]) # /debug in the SUBTRACT line has opposite meaning
             addFile = addDir # we usually want both in the same way
             line = self.storeRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
         return line
 
     def storeRemoveOptionBrowse( self, line ):
         # reformat a line for Browse database option ( /FR /Fr /o: )
-        changeSomething = ( app.options.reformatOptionBrowse != 0 )
-        addDir  = app.options.reformatOptionBrowse
+        changeSomething = ( app.options.reformatOptionBrowse[self.c] != 0 )
+        addDir  = app.options.reformatOptionBrowse[self.c]
         addFile = addDir # we usually want both in the same way
-        if ( self.isDebugCfg[self.nCfg] ):  # to add this option it makes sense only for debug mode
-            if ( self.addKind == enum_ADD_CPP ):
-                line = self.storeRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
-            elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
-                # the bsc file will be placed in the same dir of the main output
-                line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.MainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
-            elif ( self.addKind == enum_SUBTRACT_CPP ):
-                # /Fr' in # SUBTRACT CPP disable the pdb option
-                addDir  = -(app.options.reformatOptionBrowse) # /debug in the SUBTRACT line has opposite meaning
-                addFile = addDir # we usually want both in the same way
-                line = self.storeRemoveOption( line, '/FR', '', '', True, changeSomething, addDir, addFile )
-
+        if ( self.addKind == enum_ADD_CPP ):
+            line = self.storeRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
+        elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
+            # the bsc file will be placed in the same dir of the main output
+            line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.MainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
+        elif ( self.addKind == enum_SUBTRACT_CPP ):
+            # /Fr' in # SUBTRACT CPP disable the pdb option
+            addDir  = -(app.options.reformatOptionBrowse[self.c]) # /debug in the SUBTRACT line has opposite meaning
+            addFile = addDir # we usually want both in the same way
+            line = self.storeRemoveOption( line, '/FR', '', '', True, changeSomething, addDir, addFile )
         return line
 
-    def storeRemoveOption( self, line, option, directory, filename, ignorecase, changeSomething, addDir, addFile ):
+    def storeRemoveOption( self, line, option, directory, filename, ignorecase, changeSomething, addDir, addFile, store=True ):
+        # Remark: this function removes the entry even if changeSomething = False !
+        #           because we want to set a 'standard' order of the options
+        #           Therefore if we don't want to change anything we need not to call this function
         # addDir and addFile with value: = +1 => add and with = -1 => remove
         # if ( directory and filename == empty ) then the option alone is added /removed
 
@@ -2241,15 +2519,16 @@ class DspFile:
                 #        replac = replac[:-1]    # get rid of the last space
                 #    line = line[:i] + replac + line[i+ls:]
                 line = line[:i] + line[i+ls:]  # remove
-        self.lastGroupFound = s
+        self.lastRegexGroupFound = s
 
-        if ( changeSomething ):
-            # because not to append is like to remove
-            self.storedOptions.append( replac )
-        else:
-            # when some s or when the list is empty
-            if ( s or len(self.storedOptions) == 0 ):
-                self.storedOptions.append( s )
+        if ( store ):
+            if ( changeSomething ):
+                # because not to append is like to remove
+                self.storedOptions.append( replac )
+            else:
+                # when some s or when the list is empty
+                if ( s or len(self.storedOptions) == 0 ):
+                    self.storedOptions.append( s )
 
         return line
 
@@ -2315,7 +2594,7 @@ class DspFile:
                 c = s[-1]
                 if ( c == '\r' or c == '\n' ):
                     s = s[:-1]
-                self.lastGroupFound = s
+                self.lastRegexGroupFound = s
 
         if ( s ):
             index = line.find( s )
@@ -2383,14 +2662,20 @@ class Walker:
                 yield os.path.join(path, fn)
             if not recursive:                               # this doesn't work !
                 break # break or return is not enough !     # this doesn't work !
-        pass
+        return
 
     def job( self ):
+        self.manageProjects()
+        self.conformLibraries()
+        self.duplicateWorkspaces()
+        return
+
+    def manageProjects( self ):
         if ( app.options.prompt ):
             raw_input( '\n  Press enter to continue ( Ctrl+C to exit ) ... ')
 
         os.chdir( app.currentdir )
-        
+
         app.allProjectNamesList = []
         app.allProjectPathsList = []
 
@@ -2442,26 +2727,53 @@ class Walker:
                     if ( app.options.enableVcfSpecific ):
                         dsp.duplicateVcs()
 
-        if ( app.options.conformLibraries ):
-            workspaceName = FileUtils.absolutePath( app.currentdir, app.options.allProjectsWorkspace, app.options.unixStyle )
-            workspaceCL = Workspace( workspaceName )
-            workspaceCL.conformAllLibraries()
-
-        if ( app.options.enableVcfSpecific and app.options.createWorkspaces and nFiles ):
-            allProjectsWorkspacePath = FileUtils.absolutePath( app.currentdir, app.options.allProjectsWorkspace, app.options.unixStyle )
-            allProjectsWorkspace = Workspace( allProjectsWorkspacePath )
-            allProjectsWorkspace.create( app.allProjectNamesList, app.allProjectPathsList, './' )
-            allProjectsWorkspace.duplicateVcs()
-
-            allExamplesWorkspacePath = FileUtils.absolutePath( app.currentdir, app.options.allExamplesWorkspace, app.options.unixStyle )
-            allExamplesWorkspace = Workspace( allExamplesWorkspacePath )
-            allExamplesWorkspace.create( app.allProjectNamesList, app.allProjectPathsList, app.options.allExamplesWorkspace )
-            allExamplesWorkspace.duplicateVcs()
-
         if ( 0 < app.options.verbose ):
             print ' %s dsp files processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
 
-    pass
+        return
+
+    def conformLibraries( self ):
+        if ( app.options.conformLibraries ):
+            workspaceName = FileUtils.absolutePath( app.currentdir, 'dummy', app.options.unixStyle )
+            workspaceCL = Workspace( workspaceName )
+            workspaceCL.conformAllLibraries()
+        return
+
+    def createWorkspaces( self ):
+        """self.options.allProjectsWorkspace = FileUtils.relativePath( self.currentdir, self.options.allProjectsWorkspace, True, self.options.unixStyle )
+        if ( self.options.allProjectsWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.allProjectsWorkspace = ''
+
+        self.options.allExamplesWorkspace = FileUtils.relativePath( self.currentdir, self.options.allExamplesWorkspace, True, self.options.unixStyle )
+        if ( self.options.allExamplesWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.allExamplesWorkspace = ''
+        """
+        if ( False and app.options.enableVcfSpecific and app.options.createWorkspaces ):
+            # creates
+            for workspaceName in app.createWorkspacesList:
+                workspacePath = FileUtils.absolutePath( app.currentdir, workspaceName, app.options.unixStyle )
+                workspace = Workspace( workspacePath )
+                workspace.create( app.allProjectNamesList, app.allProjectPathsList, './' )
+                workspace.duplicateVcs()
+
+                #allProjectsWorkspacePath = FileUtils.absolutePath( app.currentdir, app.options.allProjectsWorkspace, app.options.unixStyle )
+                #allProjectsWorkspace = Workspace( allProjectsWorkspacePath )
+                #allProjectsWorkspace.create( app.allProjectNamesList, app.allProjectPathsList, './' )
+                #allProjectsWorkspace.duplicateVcs()
+
+                #allExamplesWorkspacePath = FileUtils.absolutePath( app.currentdir, app.options.allExamplesWorkspace, app.options.unixStyle )
+                #allExamplesWorkspace = Workspace( allExamplesWorkspacePath )
+                #allExamplesWorkspace.create( app.allProjectNamesList, app.allProjectPathsList, app.options.allExamplesWorkspace )
+                #allExamplesWorkspace.duplicateVcs()
+        return
+
+    def duplicateWorkspaces( self ):
+        if ( app.options.enableVcfSpecific and app.options.duplicateWorkspaces ):
+            #blackBoxWorkspaceName = './BlackBox/BlackBox.dsw'
+            #xmakeWorkspaceName    = './xmake/xmake.dsw'
+            for workspaceName in app.duplicateWorkspacesList:
+                workspacePath = FileUtils.absolutePath( app.currentdir, workspaceName, app.options.unixStyle )
+                workspace = Workspace( workspacePath )
+                workspace.duplicateVcs()
+        return
 
 
 
@@ -2490,6 +2802,10 @@ Notes:
             compiler is = [ vc6 | vc70 | vc71 ]
 
     4) The bsc file will be placed in the same dir of the main output
+
+    5) reformatOptionOutput = d:-1, r:-1
+        this option affects only the /Fo option
+        the linker option /out: instead is so important that the script always garuantees that it is there in the dsp files
 
 Limitations:
     1) The options work better form the configuration files
