@@ -67,7 +67,7 @@ public:
 	}
 	
 	virtual bool canPaint() {
-		return true;
+		return false;
 	}
 
 	Control* control_;
@@ -426,6 +426,11 @@ MainQTWindow::MainQTWindow():
 	DefaultMenuItem* sep = new DefaultMenuItem( "", file, menuBar );
 	sep->setSeparator( true );
 	
+	DefaultMenuItem* fileAddToPlaylist = new DefaultMenuItem( "&Add to Playlist...", file, menuBar );
+
+	sep = new DefaultMenuItem( "", file, menuBar );
+	sep->setSeparator( true );
+
 	DefaultMenuItem* fileExit = new DefaultMenuItem( "E&xit", file, menuBar );
 
 
@@ -439,6 +444,9 @@ MainQTWindow::MainQTWindow():
 	sep->setSeparator( true );
 
 	DefaultMenuItem* movieCreatePlaylist = new DefaultMenuItem( "Create Playlist", movie, menuBar );	
+	DefaultMenuItem* movieAddToPlaylist = new DefaultMenuItem( "Add to Playlist", movie, menuBar );	
+
+
 
 
 	DefaultMenuItem* view = new DefaultMenuItem( "&View", root, menuBar );
@@ -737,6 +745,18 @@ MainQTWindow::MainQTWindow():
 	openAction->addTarget( fileOpen );
 
 
+	Action* fileAddToPlaylistAction = new Action();
+	addComponent( fileAddToPlaylistAction );
+	fileAddToPlaylistAction->Performed += 
+			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onAddToFilesPlaylist, "MainQTWindow::onAddToFilesPlaylist" );
+	fileAddToPlaylistAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateAddToFilesPlaylist, "MainQTWindow::updateAddToFilesPlaylist" );
+
+	fileAddToPlaylistAction->addTarget( fileAddToPlaylist );
+
+	
+
+
 	Action* fileCloseAction = new Action(this);
 	fileCloseAction->Performed += 
 		new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onFileCloseMovie, "MainQTWindow::onFileCloseMovie" );
@@ -799,6 +819,17 @@ MainQTWindow::MainQTWindow():
 
 
 	createPlaylistAction->addTarget( movieCreatePlaylist );
+
+
+	Action* addToPlaylistAction = new Action(this);
+	addToPlaylistAction->Performed += 
+		new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onAddToPlaylist, "MainQTWindow::onAddToPlaylist" );
+	addToPlaylistAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateAddToPlaylist, "MainQTWindow::updateAddToPlaylist" );
+
+
+	addToPlaylistAction->addTarget( movieAddToPlaylist );
+
 
 
 
@@ -1018,10 +1049,26 @@ MainQTWindow::MainQTWindow():
 
 	playListTree_ = new TreeControl();
 	playListTree_->setVisible( true );
+	playListTree_->setAllowLabelEditing( true );
 
 	playListTree_->MouseClicked += new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistClick,"MainQTWindow::onPlaylistClick" );
 
 	sideBar_->add( playListTree_, AlignClient );
+
+
+	VCF::DropTarget* playlistDropTarget = new VCF::DropTarget( playListTree_ );
+	playlistDropTarget->setName( "playlistDropTarget" );
+	addComponent( playlistDropTarget );
+
+	playlistDropTarget->DropTargetDraggingOver += 
+			new VCF::DropEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistDraggingOver, "MainQTWindow::onPlaylistDraggingOver" );
+
+	playlistDropTarget->DropTargetDropped += 
+			new VCF::DropEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistFilesDropped, "MainQTWindow::onPlaylistFilesDropped" );
+
+
+
+
 
 
 	TreeModel* model = playListTree_->getTreeModel();
@@ -1470,8 +1517,6 @@ void MainQTWindow::onSearchIconClick( VCF::Event* e )
 
 	VCF::Point pt = control->getBounds().getBottomLeft();
 	pm->popup( &pt );
-
-	StringUtils::trace( "MainQTWindow::onSearchIconClick\n" );
 }
 
 void MainQTWindow::onSearchTextEntered( VCF::KeyboardEvent* e )
@@ -1517,4 +1562,88 @@ void MainQTWindow::onViewPlaylist(  VCF::Event* event )
 void MainQTWindow::updateViewPlaylist( VCF::ActionEvent* e )
 {
 	e->setChecked( playListCtrl_->getVisible() );
+}
+
+void MainQTWindow::onAddToPlaylist(  VCF::Event* event )
+{
+	//if we have 
+}
+
+void MainQTWindow::updateAddToPlaylist( VCF::ActionEvent* e )
+{
+	Enumerator<TreeItem*>* items = playListTree_->getTreeModel()->getRootItems();
+	e->setEnabled( items->hasMoreElements() && quicktimeControl_->getMovie()->isOpen() );
+}
+
+void MainQTWindow::onPlaylistDraggingOver( VCF::DropTargetEvent* e )
+{
+	DataObject* dataObj = e->getDataObject();
+	if ( dataObj->isTypeSupported( FILE_DATA_TYPE ) ) {
+		e->setActionType( daCopy );
+	}
+	else {
+		e->setActionType( daNone );
+	}
+}
+
+void MainQTWindow::onPlaylistFilesDropped( VCF::DropTargetEvent* e )
+{
+	DataObject* dataObj = e->getDataObject();
+	if ( dataObj->isTypeSupported( FILE_DATA_TYPE ) ) {
+		//create a basic output stream to write the data to
+		BasicOutputStream stream;
+		
+		//write the data in the data object to the stream
+		if ( dataObj->saveToStream( FILE_DATA_TYPE, &stream ) ) {
+			//create a string from the output streams data
+			String fileNames;
+			fileNames.append( (VCF::WideChar*)stream.getBuffer(), stream.getSize()/sizeof(VCF::WideChar) );
+			
+			//create a string tokenizer, with the delimeter set to '\n'
+			StringTokenizer tok( fileNames, "\n");
+
+			//enumerate through all the file names - open the first for now
+			
+			while ( tok.hasMoreElements() ) {				
+				String fileName = tok.nextElement();
+
+				addFileNameToPlaylist( fileName );
+			}
+		}
+	}
+}
+
+void MainQTWindow::onAddToFilesPlaylist(  VCF::Event* event )
+{
+	CommonFileOpen openDlg( this );	
+	openDlg.setAllowsMultiSelect( true );
+	openDlg.addFilter( "Quicktime Movie", "*.mov" );
+	openDlg.addFilter( "MPEG movies", "*.mpg;*.mpeg" );
+	openDlg.addFilter( "AVI movies", "*.avi" );
+	openDlg.addFilter( "Soundtracks", "*.mp3;*.wav;*.au;*.aac;*.mid" );
+	openDlg.addFilter( "All Files", "*.*" );
+	if ( true == openDlg.execute() ) {
+		Enumerator<String>* files = openDlg.getSelectedFiles();
+		while ( files->hasMoreElements() ) {
+			FilePath fp;
+			fp = openDlg.getDirectory();
+			if ( !fp.isDirectory() ) {
+				fp = fp.getFileName() + FilePath::getDirectorySeparator();
+			}
+			fp = fp.getFileName() + files->nextElement();
+
+			addFileNameToPlaylist( fp );
+		}
+	}	
+}
+
+void MainQTWindow::updateAddToFilesPlaylist( VCF::ActionEvent* e )
+{
+	Enumerator<TreeItem*>* items = playListTree_->getTreeModel()->getRootItems();
+	e->setEnabled( items->hasMoreElements() );
+}
+
+void MainQTWindow::addFileNameToPlaylist( const VCF::String& fileName )
+{
+	StringUtils::traceWithArgs( "Adding %s to playlist\n", fileName.c_str() );
 }

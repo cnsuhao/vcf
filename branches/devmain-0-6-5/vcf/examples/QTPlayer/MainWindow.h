@@ -95,6 +95,16 @@ protected:
 	void onCreatePlaylist(  VCF::Event* event );
 	void updateCreatePlaylist( VCF::ActionEvent* e );
 
+	void onAddToPlaylist(  VCF::Event* event );
+	void updateAddToPlaylist( VCF::ActionEvent* e );
+
+	void onPlaylistDraggingOver( VCF::DropTargetEvent* e );
+	void onPlaylistFilesDropped( VCF::DropTargetEvent* e );
+
+	void onAddToFilesPlaylist(  VCF::Event* event );
+	void updateAddToFilesPlaylist( VCF::ActionEvent* e );
+
+	void addFileNameToPlaylist( const VCF::String& fileName );
 
 	QuickTimeControl* quicktimeControl_;
 	VCF::SliderControl* volumeControl_;
