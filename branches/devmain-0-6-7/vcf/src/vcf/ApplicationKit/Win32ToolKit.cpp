@@ -203,6 +203,9 @@ public:
 		}
 	}
 
+	/**
+	*
+	*/
 	virtual String transformMnemonicValues( const String& input ) {
 		return input;
 	}
@@ -2099,6 +2102,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/03/14 18:56:31  marcelloptr
+*comments and added an error message to avoid an infinite loop
+*
 *Revision 1.3.2.6  2005/03/14 04:17:24  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

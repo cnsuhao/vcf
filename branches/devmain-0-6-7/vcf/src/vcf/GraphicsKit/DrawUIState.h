@@ -348,7 +348,7 @@ public:
 		}
 	}
 
-	
+public:	
 	String buttonCaption_;
 };
 
@@ -418,6 +418,7 @@ public:
 	}
 	
 	
+public:	
 	String progressCaption_;
 	double min_;
 	double max_;
@@ -484,6 +485,7 @@ public:
 	
 	
 	
+public:	
 	String sliderCaption_;
 	double min_;
 	double max_;
@@ -556,6 +558,7 @@ public:
 		}
 	}
 	
+public:	
 	double min_;
 	double max_;
 	double position_;
@@ -628,6 +631,7 @@ public:
 		state_ |= DrawStates::dsTabOnRight;
 	}
 	
+public:	
 	String tabCaption_;
 };
 
@@ -650,6 +654,7 @@ public:
 		}
 	}
 	
+public:	
 	int themeFontType_;
 	String text_;
 	bool wrapText_;
@@ -657,7 +662,16 @@ public:
 
 
 
-};
+}; // namespace VCF
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.4.2.2  2005/03/14 18:56:48  marcelloptr
+*comments and added an error message to avoid an infinite loop
+*
+*/
 
 
 #endif //_VCF_DRAWUISTATE_H__
