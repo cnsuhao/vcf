@@ -111,10 +111,24 @@ DateTime File::getDateModified()
 	return filePeer_->getDateModified();
 }
 
+DateTime File::getDateCreation() 
+{
+	return filePeer_->getDateCreated();
+}
+
+DateTime File::getDateAccess() 
+{
+	return filePeer_->getDateAccessed();
+}
 
 VCF::ulong64 File::getSize()
 {
 	return filePeer_->getSize();
+}
+
+bool File::isExecutable()
+{
+	return filePeer_->isExecutable();
 }
 
 void File::remove()
@@ -180,6 +194,12 @@ FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.5  2004/07/23 00:56:37  ddiego
 *added the latest changes to the File and Directory finder classes.
 *

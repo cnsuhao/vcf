@@ -521,12 +521,488 @@ public:
 };
 
 
+
+
+
+
+
+
+class FOUNDATIONKIT_API long64 {
+public:
+
+#	ifdef _MSC_VER
+		typedef __int64 int64_t;
+#	else
+		typedef long long int64_t;
+#	endif
+
+
+
+	long64() :data_(0){
+
+	}
+	
+
+	long64(int64_t val) :data_(val){
+
+	}
+
+	long64( unsigned long val ) :data_(val){
+
+	}
+
+	long64( unsigned int val ) :data_(val){
+
+	}
+
+	long64( unsigned short val ) :data_(val){
+
+	}
+
+	long64( unsigned char val ) :data_(val){
+
+	}
+
+	long64( long val ) :data_((unsigned long)val){
+
+	}
+
+	long64( int val ) :data_((unsigned long)val){
+
+	}
+
+	long64( short val ) :data_((unsigned long)val){
+
+	}
+
+	long64( char val ) :data_((unsigned long)val){
+
+	}
+
+	long64( const long64& rhs ) :data_(rhs.data_){
+
+	}
+
+	long64( ulong32 valLow, ulong32 valHigh ){
+		int64_t tmp = valHigh;
+		tmp = tmp << 32;
+		data_ = tmp | (valLow & 0xffffffff);
+	}
+
+
+	long64& operator=( const long64& rhs ) {
+		data_ = rhs.data_;
+
+		return *this;
+	}
+	
+
+	long64& operator=( const int64_t& rhs ) {
+		data_ = rhs;
+		return *this;
+	}
+
+
+	long64& operator=( const long& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const int& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const short& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const char& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const unsigned long& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const unsigned int& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const unsigned short& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const unsigned char& rhs ) {
+		data_ = rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const double& rhs ) {
+		data_ = (long)rhs;
+
+		return *this;
+	}
+
+	long64& operator=( const float& rhs ) {
+		data_ = (long)rhs;
+		return *this;
+	}
+
+
+
+
+	long64& operator++() {
+		data_ ++;
+		return *this;
+	}
+
+	long64& operator--() {
+		data_ --;
+		return *this;
+	}
+
+	long64 operator+( const long64& rhs ) const {
+		long64 result(*this);
+
+		result.data_ += rhs.data_;
+
+		return result;
+	}
+
+
+	long64 operator+( const unsigned long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ += rhs;
+
+		return result;
+	}
+
+	long64 operator+( const long& rhs ) const {
+		long64 result(*this);
+
+		result.data_ += rhs;
+
+		return result;
+	}
+
+	long64 operator+( const int& rhs ) const{
+		long64 result(*this);
+
+		result.data_ += rhs;
+
+		return result;
+	}
+
+	long64& operator+=( const unsigned long& rhs ) {
+
+		data_ += rhs;
+
+		return *this;
+	}
+
+	long64& operator+=( const long64& rhs ) {
+
+		data_ += rhs.data_;
+
+		return *this;
+	}
+
+	long64 operator*( const long64& rhs ) const {
+		long64 result(*this);
+
+		result.data_ *= rhs.data_;
+
+		return result;
+	}
+
+	long64 operator*( const unsigned long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ *= rhs;
+
+		return result;
+	}
+
+	long64 operator*( const long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ *= rhs;
+
+		return result;
+	}
+
+	long64 operator*( const int& rhs ) const{
+		long64 result(*this);
+
+		result.data_ *= rhs;
+
+		return result;
+	}
+
+	long64 operator/( const long64& rhs ) const{
+		long64 result(*this);
+
+		result.data_ /= rhs.data_;
+
+		return result;
+	}
+
+	long64 operator/( const unsigned long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ /= rhs;
+
+		return result;
+	}
+
+	long64 operator/( const long& rhs ) const {
+		long64 result(*this);
+
+		result.data_ /= rhs;
+
+		return result;
+	}
+
+
+	long64 operator/( int rhs ) const {
+		long64 result(*this);
+
+		result.data_ /= rhs;
+
+		return result;
+	}
+
+	long64 operator/( const char& rhs ) const{
+		long64 result(*this);
+
+		result.data_ /= rhs;
+
+		return result;
+	}
+
+
+	long64 operator%( const long64& rhs ) const{
+		long64 result(*this);
+
+		result.data_ %= rhs.data_;
+
+		return result;
+	}
+
+	long64 operator%( const unsigned long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ %= rhs;
+
+		return result;
+	}
+
+	long64 operator%( const long& rhs ) const {
+		long64 result(*this);
+
+		result.data_ %= rhs;
+
+		return result;
+	}
+
+
+	long64 operator%( int rhs ) const {
+		long64 result(*this);
+
+		result.data_ %= rhs;
+
+		return result;
+	}
+
+	long64 operator%( const char& rhs ) const{
+		long64 result(*this);
+
+		result.data_ %= rhs;
+
+		return result;
+	}
+
+	long64 operator-( const long64& rhs ) const{
+		long64 result(*this);
+
+		result.data_ -= rhs.data_;
+
+		return result;
+	}
+
+	long64 operator-( const unsigned long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ -= rhs;
+
+		return result;
+	}
+
+	long64 operator-( const long& rhs ) const{
+		long64 result(*this);
+
+		result.data_ -= rhs;
+
+		return result;
+	}
+
+	long64& operator-=( const long64& rhs ) {
+
+		data_ -= rhs.data_;
+
+		return *this;
+	}
+
+	long64& operator-=( const unsigned long& rhs ) {
+
+		data_ -= rhs;
+
+		return *this;
+	}
+
+	//comparison
+
+	bool operator> (const long64& rhs ) const{
+		return data_ > rhs.data_;
+	}
+
+	bool operator< (const long64& rhs ) const{
+		return data_ < rhs.data_;
+	}
+
+	bool operator>= (const long64& rhs ) const{
+		return data_ >= rhs.data_;
+	}
+
+	bool operator<= (const long64& rhs ) const{
+		return data_ <= rhs.data_;
+	}
+
+	bool operator!= (const long64& rhs ) const{
+		return data_ != rhs.data_;
+	}
+
+	bool operator== (const long64& rhs ) const{
+		return data_ == rhs.data_;
+	}
+
+	//converstion routines
+
+	operator char() const {
+		return (char)data_;
+	}
+
+	operator unsigned char() const {
+		return (unsigned char)data_;
+	}
+
+	operator short() const {
+		return (short)data_;
+	}
+
+	operator unsigned short() const {
+		return (unsigned short)data_;
+	}
+
+	operator long() const {
+		return (long)data_;
+	}
+
+	operator unsigned long() const {
+		return (unsigned long)data_;
+	}
+
+	operator int() const {
+		return (int)data_;
+	}
+
+	operator unsigned int() const {
+		return (unsigned int)data_;
+	}
+
+	operator double() const {
+		return (double)(int64_t)data_;//(signed __int64)data_;
+	}
+
+	operator int64_t() const {
+		return (int64_t)data_;//(signed __int64)data_;
+	}
+	
+
+
+	/**
+	This returns the top 32 bits of the number
+	*/
+	unsigned long hi() const {
+		unsigned long result = 0;
+		result = data_ >> 32;
+		return result;
+	}
+
+	/**
+	This returns the low 32 bits of the number
+	*/
+	unsigned long lo() const {
+		unsigned long result = 0;
+		result = data_ & 0xffffffff;
+		return result;
+	}
+
+	/**
+	This sets the top 32 bits of the number
+	*/
+	void hi( unsigned long val ) {
+		int64_t tmp = val;
+		tmp = tmp << 32;
+		data_ = tmp | (data_ & 0xffffffff);
+	}
+
+	/**
+	This sets the low 32 bits of the number
+	*/
+	void lo( unsigned long val ) {
+		/**
+		kind of hacky but GCC won't let me do this
+		data_ = val | (data_ & 0xffffffff00000000);
+		since it complains about a constant value being too big.
+		Cie la vie! :)
+		*/
+
+		int64_t tmp = data_ >> 32;
+		data_ = (tmp << 32) | val;
+	}
+
+	int64_t data_;
+};
+
+
 };// end of namespace
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.5  2004/07/05 01:01:55  marcelloptr
 *added ulong64 ctor, operators and toString conversion
 *

@@ -209,6 +209,60 @@ DateTime Win32FilePeer::getDateModified()
 	return result;
 }
 
+DateTime Win32FilePeer::getDateCreated()
+{
+	DateTime result ;
+
+	WIN32_FILE_ATTRIBUTE_DATA fileAttribData;	
+	
+	String fileName = getName();
+	VCF_ASSERT( !fileName.empty() );
+
+	int res;
+	if ( System::isUnicodeEnabled() ) {
+		res = ::GetFileAttributesExW( fileName.c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+	} 
+	else {
+		res = ::GetFileAttributesExA( fileName.ansi_c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+	}
+
+	if ( res ) {
+		result = Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftCreationTime );		
+	}
+	else {
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to retreive file attributes for file " + fileName) );
+	}
+	
+	return result;
+}
+
+DateTime Win32FilePeer::getDateAccessed()
+{
+	DateTime result ;
+
+	WIN32_FILE_ATTRIBUTE_DATA fileAttribData;	
+	
+	String fileName = getName();
+	VCF_ASSERT( !fileName.empty() );
+
+	int res;
+	if ( System::isUnicodeEnabled() ) {
+		res = ::GetFileAttributesExW( fileName.c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+	} 
+	else {
+		res = ::GetFileAttributesExA( fileName.ansi_c_str(), ::GetFileExInfoStandard, (void*)&fileAttribData );
+	}
+
+	if ( res ) {
+		result = Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftLastAccessTime );		
+	}
+	else {
+		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to retreive file attributes for file " + fileName) );
+	}
+	
+	return result;
+}
+
 
 // directory search support
 void Win32FilePeer::initDataSearch()
@@ -412,21 +466,18 @@ void Win32FilePeer::goDirUp( Directory::Finder* finder, File* file )
 	
 	if ( statMask & File::smAttributes ) {
 		file->internal_setFileAttributes( Win32FilePeer::convertAttributesFromSystemSpecific( fileAttribData.dwFileAttributes ) );
-	}
-
-	if ( statMask & File::smMaskDateAll ) {
-		if ( statMask & File::smDateCreation ) {
-			file->internal_setCreationDate( Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftCreationTime ) );
-		}
-
-		if ( statMask & File::smDateAccess ) {
-			file->internal_setAccessDate( Win32FilePeer::convertFileTimeToDateTime( fileAttribData.ftLastAccessTime ) );
-		}		
-
-	}
+	}	
 
 	// we are ok if here
 	file->internal_addToStatMask( statMask );
+}
+
+
+bool Win32FilePeer::isExecutable()
+{
+	String ext = FilePath::getExtension( getName() );
+
+	return ( ext == ".exe" || ext == ".com" || ext == ".dat" ) ? true : false;
 }
 
 /*static*/ File* Win32FilePeer::updateFindDataInfos( File* file, Win32FindData* findData, File::StatMask statMask/*=File::smMaskAll*/ )
@@ -480,7 +531,7 @@ void Win32FilePeer::updateStat( File::StatMask statMask/*=File::smMaskAll*/ )
 {
 	// this is very similar to updateFindDataInfos but using a different data structure
 
-	VCF_ASSERT( !FilePath::getPathName( getName(), true ).empty() );
+	VCF_ASSERT( !FilePath::getPathName( getName(), true ).empty() );	
 
 	WIN32_FILE_ATTRIBUTE_DATA fileAttribData;
 
@@ -904,6 +955,12 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.4  2004/07/20 02:03:13  ddiego
 *fixed some miscellaneous bugs in directory search code. Many
 *thanks to Marcello for helping out on this.

@@ -350,27 +350,17 @@ public:
 		fileAttributes_ = val;
 	}
 
-	inline void internal_setCreationDate( const DateTime& val ) {
-		dateCreation_ = val;
-	}
 	
-
-	inline void internal_setAccessDate( const DateTime& val ) {
-		dateAccess_ = val;
-	}
 protected:
 	FilePeer* filePeer_;
 	
 	StatMask validStat_;
-	OpenFlags	openAccess_;
+	OpenFlags openAccess_;
 	
 	String   fileName_;
 	String   owner_; // a string ?
 	
-	ulong32  fileAttributes_;
-	DateTime dateCreation_;
-	DateTime dateAccess_;
-	
+	ulong32  fileAttributes_;	
 };
 
 
@@ -392,24 +382,6 @@ inline void File::resetStats() {
     owner_ = "";
 
     fileAttributes_   = 0;
-    dateCreation_     = 0;
-    dateAccess_       = 0;
-
-}
-
-inline DateTime File::getDateCreation() {
-	if ( 0 == ( validStat_ & File::smDateCreation ) ) {
-		updateStat( File::smDateCreation );
-	}
-	return dateCreation_;
-}
-
-
-inline DateTime File::getDateAccess() {
-	if ( 0 == ( validStat_ & File::smDateAccess ) ) {
-		updateStat( File::smDateAccess );
-	}
-	return dateAccess_;
 }
 
 
@@ -427,24 +399,6 @@ inline bool File::isDirectory()
 		updateStat( File::smAttributes );
 	}
 	return ( 0 != ( fileAttributes_ & File::faDirectory ) );
-}
-
-inline bool File::isExecutable()
-{
-	//bool executable = false;
-
-	//if ( 0 == ( validStat_ & File::faExecutable ) ) {
-	//	updateStat();
-	//}
-	//executable = ( 0 != ( fileAttributes_ & File::faExecutable ) );
-
-	//// or ?
-
-	String ext = FilePath::getExtension( fileName_ );
-
-	bool executable = ( ext == ".exe" || ext == ".com" || ext == ".dat" );
-
-	return executable;
 }
 
 inline bool File::isReadOnly()
@@ -524,6 +478,12 @@ inline bool File::isWriteable()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/24 01:40:42  ddiego
+*committed changes requested by Marcello. Got rid of the remaining
+*date time members on the File class - now the dat time function call the
+*FilePeer directly each time. Also added 2 functions to DateTime to convert
+*directly to UTC or Local time.
+*
 *Revision 1.1.2.7  2004/07/23 19:51:13  marcelloptr
 *minor changes on File / Directory stuff
 *
