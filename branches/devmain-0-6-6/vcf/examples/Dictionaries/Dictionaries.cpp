@@ -70,7 +70,7 @@ int main( int argc, char** argv ){
 		dict.clear();
 
 		//read in the dictionary from the stream
-		tis >> &dict;
+		tis >> static_cast<VCF::Persistable*>(&dict);
 	}
 
 
@@ -91,6 +91,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2004/10/07 15:03:24  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.6  2004/08/07 02:46:58  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
