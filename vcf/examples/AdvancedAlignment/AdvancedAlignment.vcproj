@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="AdvancedAlignment"
+	ProjectGUID="{7DA7CCAC-179F-420A-BB27-681F76087D10}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

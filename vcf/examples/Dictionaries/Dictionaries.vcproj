@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="Alignment"
-	ProjectGUID="{06DB5FAC-1DF1-4394-8729-A91DCFC49DA7}"
+	Name="Dictionaries"
+	ProjectGUID="{266530EE-EB77-4257-AE3D-2E83B8CC7E78}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc70/Debug"
-			IntermediateDirectory=".\vc70/Debug"
+			OutputDirectory=".\vc7/Debug"
+			IntermediateDirectory=".\vc7/Debug"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -23,14 +23,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32,_DEBUG,USE_FRAMEWORK_DLL,USE_GRAPHICSKIT_DLL,USE_APPKIT_DLL"
+				PreprocessorDefinitions="WIN32,_DEBUG,_CONSOLE,USE_FRAMEWORK_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70/Debug/Alignment.pch"
-				AssemblerListingLocation=".\vc70/Debug/"
-				ObjectFile="vc70/Debug/"
-				ProgramDataBaseFileName="vc70/Debug/"
+				PrecompiledHeaderFile=".\vc7/Debug/Dictionaries.pch"
+				AssemblerListingLocation=".\vc7/Debug/"
+				ObjectFile="vc7/Debug/"
+				ProgramDataBaseFileName="vc7/Debug/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -42,21 +42,20 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="vc70/Debug/Alignment_vc70.exe"
+				OutputFile="vc7/Debug/Dictionaries_vc7.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="vc70/Debug/Alignment_vc70.pdb"
-				SubSystem="2"
-				EntryPointSymbol="mainCRTStartup"/>
+				ProgramDatabaseFile="vc7/Debug/Dictionaries_vc7.pdb"
+				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc70/Debug/Alignment.tlb"/>
+				TypeLibraryName=".\vc7/Debug/Dictionaries.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -74,8 +73,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc70/Release"
-			IntermediateDirectory=".\vc70/Release"
+			OutputDirectory=".\vc7/Release"
+			IntermediateDirectory=".\vc7/Release"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -84,15 +83,15 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32,NDEBUG,USE_FRAMEWORK_DLL,USE_GRAPHICSKIT_DLL,USE_APPKIT_DLL"
+				PreprocessorDefinitions="WIN32,NDEBUG,_CONSOLE,USE_FRAMEWORK_DLL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\vc70/Release/Alignment.pch"
-				AssemblerListingLocation=".\vc70/Release/"
-				ObjectFile="vc70/Release/"
-				ProgramDataBaseFileName=".\vc70/Release/"
+				PrecompiledHeaderFile=".\vc7/Release/Dictionaries.pch"
+				AssemblerListingLocation=".\vc7/Release/"
+				ObjectFile="vc7/Release/"
+				ProgramDataBaseFileName=".\vc7/Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -102,20 +101,19 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="vc70/Release/Alignment_vc70.exe"
+				OutputFile="vc7/Release/Dictionaries_vc7.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\vc70/Release/Alignment_vc70.pdb"
-				SubSystem="2"
-				EntryPointSymbol="mainCRTStartup"/>
+				ProgramDatabaseFile=".\vc7/Release/Dictionaries_vc7.pdb"
+				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc70/Release/Alignment.tlb"/>
+				TypeLibraryName=".\vc7/Release/Dictionaries.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -137,7 +135,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\Alignment.cpp">
+				RelativePath=".\Dictionaries.cpp">
 			</File>
 		</Filter>
 		<Filter
