@@ -367,10 +367,9 @@ catch(BasicException& e){
 		</programlisting>
 		<note>
 		On Win32 systems, if all the files you want to load or save 
-		are BMP files then the library need not be loaded. Instead you
-		just need to call the static method 
-		<function>GraphicsToolkit::initGraphicsToolkit()</function>
-		</note>
+		are BMP files then the library need not be loaded. 
+		</note> <!--JC: you don't need to do anything else - the Win32IMage peer
+					takes care of laoding BMP images directly.-->
 		<para>
 		Once the lib is loaded, the ImageLoader for a mime type or
 		for a file can be acessed from one of these methods in 
@@ -381,10 +380,6 @@ ImageLoader* GraphicsToolkit::getImageLoader( const String& contentType )
 
 ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName )
 ]]>
-		<note>
-		These methods are not static so you must instantiate a 
-		VFC::GraphicsTookit class before calling it.
-		</note>
 		<para>
 		Now we have the ImageLoader for the file type or mime type. There
 		are 3 methods in VFC::ImageLoader.
@@ -429,6 +424,9 @@ ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName 
 <!--
 CVS Log info
 $Log$
+Revision 1.2.4.2  2004/07/25 15:06:38  ddiego
+added a few minor corrections.
+
 Revision 1.2.4.1  2004/07/21 22:01:57  emonjay
 Added loding images and completed dialog section minus graphics.
 
