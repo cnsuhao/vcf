@@ -288,10 +288,6 @@ SOURCE=..\..\..\src\Graphics\AbstractImage.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Graphics\ArtStroke.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Graphics\BasicFill.cpp
 # End Source File
 # Begin Source File
