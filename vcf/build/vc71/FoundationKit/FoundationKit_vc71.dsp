@@ -530,7 +530,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\Formatter.h
+SOURCE=..\..\..\src\vcf\FoundationKit\Format.h
 # End Source File
 # Begin Source File
 
