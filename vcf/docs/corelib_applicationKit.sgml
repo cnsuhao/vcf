@@ -26,6 +26,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.17  2003/05/13 03:57:12  ddiego
+cleaned up the GraphicsKit, got rid of some old crap files, cleaned
+up the ContextPeer so that tehre are fewer methods to implement, and
+moved the repetitive fillPath and strokePath code that was copied into
+all the context peers back into the GraphicsContext where it belongs
+
 Revision 1.1.2.16  2003/04/17 04:29:45  ddiego
 updated scintilla, added gtk support for the application kit, with stubs
 for the basic peers.
@@ -696,8 +702,7 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		will recieve a FocusLost event.
 		</para>
 		<para>
-		A control with focus also activates it's parent Frame, if the Frame was not previously active. 
-		This activation will take place within the 
+		A control with focus also activates it's parent Frame, if the Frame was not previously active. 		
 		</para>
 		
 	</section>
@@ -708,8 +713,8 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	</section>		
 	
 	<section><title>Peer Classes</title>
-		<para>n2h120120h.
-		</para>h
+		<para>
+		</para>
 	</section>
 </section>
 		
