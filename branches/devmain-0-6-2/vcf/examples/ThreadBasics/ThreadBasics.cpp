@@ -339,6 +339,11 @@ public:
 /**
 This demonstrates the use a thread and a separate Runnable
 object.
+Each runnable object is attached to a thread. Each runnable object 
+is connected to a function pointer for each of the 
+previous examples. Once instantiated, each thread is immediately started
+thus demonstrating how the Runnable interface works, and 3 simultaneous
+threads running together
 */
 void example4()
 {
