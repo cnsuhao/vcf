@@ -170,6 +170,8 @@ protected:
 	Control* scrollableControl_;
 	double virtualViewHeight_;
 	double virtualViewWidth_;
+	double realMaxHeight_;
+	double realMaxWidth_;
 	bool hasVertScrollbar_;
 	bool hasHorzScrollbar_;
 	double vertPosition_;
@@ -191,6 +193,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/13 06:09:15  dougtinkham
+*onControlResized now checks if updateVirtualViewSize should be called
+*
 *Revision 1.2.2.1  2004/09/10 22:30:15  dougtinkham
 *added updateVirtualViewSize member fct
 *

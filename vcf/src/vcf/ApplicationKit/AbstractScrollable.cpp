@@ -37,6 +37,8 @@ AbstractScrollable::AbstractScrollable():
 	scrollableControl_(NULL),
 	virtualViewHeight_(0.0),
 	virtualViewWidth_(0.0),
+	realMaxHeight_(0.0),
+	realMaxWidth_(0.0),
 	hasVertScrollbar_(false),
 	hasHorzScrollbar_(false),
 	vertPosition_(0.0),
@@ -100,7 +102,13 @@ void AbstractScrollable::setHorizontalRightScrollSpace( const double& rightScrol
 
 void AbstractScrollable::onControlResized( ControlEvent* event )
 {
-	scrollPeer_->recalcScrollPositions( this );
+	if ( (realMaxHeight_ > (scrollableControl_->getClientBounds( true ).getHeight() - scrollPeer_->getHorizontalScrollbarHeight()) ) || 
+		(realMaxWidth_ > (scrollableControl_->getClientBounds( true ).getWidth() - scrollPeer_->getVerticalScrollbarWidth()) ) ) {
+		updateVirtualViewSize( realMaxWidth_, realMaxHeight_ );
+	}
+	else {	
+		scrollPeer_->recalcScrollPositions( this );
+	}
 }
 
 void AbstractScrollable::updateVirtualViewSize( const double& maxWidth, const double& maxHeight ) {	
@@ -108,6 +116,8 @@ void AbstractScrollable::updateVirtualViewSize( const double& maxWidth, const do
 		double controlWidth  = scrollableControl_->getClientBounds( true ).getWidth();  
 		double controlHeight = scrollableControl_->getClientBounds( true ).getHeight();
 
+		realMaxWidth_ = maxWidth;
+		realMaxHeight_ = maxHeight;
 		virtualViewWidth_  = maxWidth;
 		virtualViewHeight_ = maxHeight;
 	
@@ -223,6 +233,9 @@ bool AbstractScrollable::getKeepScrollbarsVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/13 06:07:05  dougtinkham
+*onControlResized now checks if updateVirtualViewSize should be called
+*
 *Revision 1.2.2.2  2004/09/11 08:16:41  dougtinkham
 *changes to updateVirtualViewSize
 *
