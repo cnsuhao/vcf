@@ -523,9 +523,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MessageDialog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenu.cpp">
 			</File>
 			<File
@@ -1188,6 +1185,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ListViewControl.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MultilineTextControl.h">

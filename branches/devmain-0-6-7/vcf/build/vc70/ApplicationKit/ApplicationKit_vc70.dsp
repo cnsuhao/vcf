@@ -561,10 +561,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MessageDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\PopupMenu.cpp
 # End Source File
 # Begin Source File
@@ -1442,6 +1438,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ListViewControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ListViewControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp
 # End Source File
 # Begin Source File
 
