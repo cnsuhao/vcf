@@ -402,9 +402,6 @@ Package=<4>
     Project_Dep_Name TeXLabel
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name TextEdit
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name TextLayout
     End Project Dependency
     Begin Project Dependency
@@ -1057,18 +1054,6 @@ Package=<4>
 ###############################################################################
 
 Project: "TeXLabel"="..\..\examples\TeXLabel\TeXLabel_icl7.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "TextEdit"="..\..\examples\TextEdit\TextEdit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
