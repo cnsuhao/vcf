@@ -47,6 +47,7 @@ public:
 		//Make sure to call the sub classes paint method
 		Window::paint( ctx );
 
+		ctx->setStrokeWidth( 1.0 );
 		/**
 		Set the current color
 		*/
@@ -94,7 +95,7 @@ public:
 		/**
 		reset the stroke width back to 0
 		*/
-		ctx->setStrokeWidth( 0 );
+		ctx->setStrokeWidth( 1.0 );
 
 
 		/**
@@ -182,6 +183,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2004/11/15 05:41:27  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.5  2004/08/07 02:47:03  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

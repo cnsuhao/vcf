@@ -24,6 +24,10 @@ namespace VCF  {
 
 class OSXMenuItem : public MenuItemPeer {
 public:
+	enum {
+		propertyTag = 'VCmn'
+	};
+	
 	OSXMenuItem();
 
 	OSXMenuItem( MenuItem* item );
@@ -72,11 +76,20 @@ public:
 
 	virtual void setAsSeparator( const bool& isSeperator );
 
+	bool isMenuItemRoot();
 	
+	bool isParentMenuItemRoot();
+	
+	static bool isMenuItemRoot( MenuItem* item );
+	
+	static bool isParentMenuItemRoot( MenuItem* item );
+	
+	void fixChildren( MenuItem* child );
 protected:
 	uint32 itemID_;
 	MenuItem* menuItem_;
 	MenuRef itemHandle_;
+	bool itemAdded_;
 	static uint32 globalMenuItemID;
 };
 
@@ -86,6 +99,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/11/15 05:41:28  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.1.2.1  2004/11/10 06:16:40  ddiego
 *started adding osx menu code
 *

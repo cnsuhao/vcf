@@ -21,16 +21,19 @@ TextControl::TextControl( const bool& multiLineControl ):
 	readOnly_(false)
 {
 	textPeer_ =	UIToolkit::createTextPeer( this, multiLineControl );
+	
+	if ( NULL == textPeer_ ){
+		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
+	};
+
+
 	peer_ = dynamic_cast<ControlPeer*>(textPeer_ );
 
 
 
 	setColor(  GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
-	if ( NULL == textPeer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-
+	
 	peer_->create( this );
 
 	setTextModel( new DefaultTextModel() );
@@ -404,6 +407,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/11/15 05:41:28  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.6  2004/10/26 02:38:18  ddiego
 *fixed a bug in the handling of a backspace char event
 *

@@ -165,10 +165,6 @@ Enumerator<MenuItem*>* DefaultMenuItem::getChildren()
 
 void DefaultMenuItem::addChild( MenuItem* child )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	menuItems_.push_back( child );
 
 	child->setParent( this );
@@ -189,17 +185,20 @@ void DefaultMenuItem::addChild( MenuItem* child )
 
 void DefaultMenuItem::insertChild( const unsigned long& index, MenuItem* child )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	menuItems_.insert( menuItems_.begin() + index, child );
 
 	if ( NULL == child->getOwner() ) {
 		addComponent( child );
 	}
 
-	child->setIndex( index );
+	std::vector<MenuItem*>::iterator it = menuItems_.begin() + index;
+	unsigned long newIndex = index;
+	while ( it != menuItems_.end() ) {
+		(*it)->setIndex( newIndex );		
+		it ++;
+		newIndex ++;
+	}
+	
 
 	child->setParent( this );
 
@@ -213,14 +212,12 @@ void DefaultMenuItem::insertChild( const unsigned long& index, MenuItem* child )
 
 void DefaultMenuItem::deleteChild( MenuItem* child )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	Peer_->deleteChild( child );
 
 	std::vector<MenuItem*>::iterator found = std::find( menuItems_.begin(), menuItems_.end(), child );
 	if ( found != menuItems_.end() ){
+		unsigned long index = found - menuItems_.begin();
+	
 		ItemEvent event( this, ITEM_EVENT_DELETED );
 		ItemDeleted.fireEvent( &event );
 
@@ -229,15 +226,20 @@ void DefaultMenuItem::deleteChild( MenuItem* child )
 		menuItems_.erase( found );
 		child->free();
 		child = NULL;
+		
+		std::vector<MenuItem*>::iterator it = menuItems_.begin() + index;
+		unsigned long newIndex = index;
+		while ( it != menuItems_.end() ) {
+			(*it)->setIndex( newIndex );		
+			it ++;
+			newIndex ++;
+		}
+	
 	}
 }
 
 void DefaultMenuItem::deleteChild( const unsigned long& index )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	Peer_->deleteChild( index );
 
 	std::vector<MenuItem*>::iterator found = menuItems_.begin() + index;
@@ -250,14 +252,19 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 
 		menuItems_.erase( found );
 		(*found)->free();
+		
+		std::vector<MenuItem*>::iterator it = menuItems_.begin() + index;
+		unsigned long newIndex = index;
+		while ( it != menuItems_.end() ) {
+			(*it)->setIndex( newIndex );		
+			it ++;
+			newIndex ++;
+		}
 	}
 }
 
 void DefaultMenuItem::clearChildren()
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	std::vector<MenuItem*>::iterator it = menuItems_.begin();
 	while ( it != menuItems_.end() ){
 		removeComponent( *it );
@@ -271,17 +278,11 @@ void DefaultMenuItem::clearChildren()
 
 bool DefaultMenuItem::isChecked()
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	return Peer_->isChecked();
 }
 
 void DefaultMenuItem::setChecked( const bool& checked )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	Peer_->setChecked( checked );
 }
 
@@ -303,10 +304,6 @@ void DefaultMenuItem::setParent( MenuItem* parent )
 
 MenuItem* DefaultMenuItem::getChildAt( const unsigned long& index )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	if ( index >= menuItems_.size() ) {
 		throw OutOfBoundsException(MAKE_ERROR_MSG(OUT_OF_BOUNDS_EXCEPTION), __LINE__);
 	}
@@ -320,9 +317,6 @@ bool DefaultMenuItem::isEnabled()
 
 void DefaultMenuItem::setEnabled( const bool& enabled )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	isEnabled_ = enabled;
 	Peer_->setEnabled( enabled );
 
@@ -338,9 +332,6 @@ bool DefaultMenuItem::isVisible()
 void DefaultMenuItem::setVisible( const bool& visible )
 {
 	visible_ = visible;
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
 	Peer_->setVisible( visible );
 
 	ItemEvent event( this, ITEM_EVENT_CHANGED );
@@ -355,10 +346,7 @@ bool DefaultMenuItem::getRadioItem()
 void DefaultMenuItem::setRadioItem( const bool& value )
 {
 	radioItem_ = value;
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
+	
 	Peer_->setRadioItem( radioItem_ );
 
 	ItemEvent event( this, ITEM_EVENT_CHANGED );
@@ -369,9 +357,7 @@ void DefaultMenuItem::setCaption( const String& caption )
 {
 	caption_ = caption;
 
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
+	
 
 	Peer_->setCaption( caption_ );
 
@@ -571,6 +557,9 @@ void DefaultMenuItem::handleEvent( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/15 05:41:27  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.1  2004/09/07 00:49:12  ddiego
 *minor fixes in printg code in graphics kit, and added a 2 ways to print in the printing example.
 *
