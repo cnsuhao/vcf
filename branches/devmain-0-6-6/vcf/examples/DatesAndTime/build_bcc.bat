@@ -1,3 +1,3 @@
 @echo off
-@make -f ..\genmake_bcc.mak 
+@make -f ..\generic_bcc.mak 
 @cls

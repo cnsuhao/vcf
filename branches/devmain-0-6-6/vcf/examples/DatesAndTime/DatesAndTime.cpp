@@ -167,7 +167,7 @@ int main( int argc, char** argv ){
 	{
 		FileInputStream fs( "datetime.out" );
 
-		fs >> &loadMe;
+		fs >> static_cast<VCF::Persistable*>(&loadMe);
 
 		System::println( "loadMe (%ls) loaded!", loadMe.toString().c_str() );
 	}
@@ -181,6 +181,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/10/07 13:15:27  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.3  2004/08/07 02:46:58  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
