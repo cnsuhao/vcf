@@ -52,6 +52,22 @@ public:
 
 
 
+	/**
+	@delegate ModelChanged fired when the model's empty() method is
+	called. Should be fired for any change to the model's content.
+	@event ModelEvent
+	@eventtype Model::MODEL_EMPTIED
+	@see empty()
+	*/
+	DELEGATE(ModelChanged)
+
+	/**
+	@delegate ModelValidate fired when the model's validate() method is called
+	@event ValidationEvent
+	@see validate()
+	*/
+	DELEGATE(ModelValidate)
+
     /**
      * Adds a validation listener to the model
      */
@@ -107,6 +123,11 @@ public:
 	Enumerator<View*>* getViews() {
 		return viewContainer_.getEnumerator();
 	}
+
+	void changed( ModelEvent* event ) {
+		ModelChanged.fireEvent( event );
+		updateAllViews();
+	}
 protected:
 	std::vector<View*> views_;
 	EnumeratorContainer<std::vector<View*>,View*> viewContainer_;
@@ -118,6 +139,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 19:05:50  ddiego
+*added MVC example, plus the Model::changed() method. Also
+*added more documentation.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
