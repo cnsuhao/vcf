@@ -498,10 +498,10 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 	}
 }
 
-LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
+bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
-
-	LRESULT result = 0;
+	
+	bool result = false;
 
 	Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 
@@ -510,7 +510,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 	switch ( message ) {
 
 		case WM_ERASEBKGND :{
-			result = 1;
+			wndProcResult = 0;
+			result = true;
 		}
 		break;
 
@@ -520,7 +521,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				if ( hwndCtl != hwnd_ ) {
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
-						result = win32Obj->handleEventMessages( message, wParam, lParam );
+						win32Obj->handleEventMessages( message, wParam, lParam, wndProcResult );
+						result = true;
 					}
 				}
 			}
@@ -583,7 +585,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 			if ( true == isCreated() ){
 				if ( peerControl_->getComponentState() != Component::csDestroying ) {
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
-						return 1;
+						wndProcResult = 0;
+						result = true;
+						return result;
 					}
 
 					PAINTSTRUCT ps;
@@ -597,7 +601,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				}
 			}
 
-			result = 1;
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 /*
@@ -631,7 +636,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 			destroyWindowHandle();
 
-			result = 0;
+			wndProcResult = 0;
+			result = false;
 		}
 		break;
 
@@ -703,7 +709,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 														drawItemStruct->rcItem.right, drawItemStruct->rcItem.bottom) );
 						gc.getPeer()->setContextID(0);
 
-						result = TRUE;
+						
+						wndProcResult = TRUE;
+						result = true;
 					}
 				}
 			}
@@ -712,7 +720,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					HWND hwndCtl = drawItemStruct->hwndItem;
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
-						result = win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam );
+						win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam, wndProcResult );
+						result = true;
 					}
 				}
 				else {
@@ -821,20 +830,18 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						result = 0;
 					}
 				}
-				else {
-					//result = defaultWndProcedure( message, wParam, lParam );
-				}
 			}
 		}
 		break;
 
 		case WM_NOTIFY : {
-			result = defaultWndProcedure( message, wParam, lParam );
+			result = true;
+			wndProcResult = defaultWndProcedure( message, wParam, lParam );
 			if ( peerControl_->getComponentState() != Component::csDestroying ) {
 				NMHDR* notificationHdr = (LPNMHDR)lParam;
 				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
 				if ( NULL != win32Obj ){
-					win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam );
+					win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam, wndProcResult );
 				}
 			}
 		}
@@ -1057,7 +1064,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				}
 				if ( NULL != win32Obj ){
 					if ( NULL != win32Obj ){
-						win32Obj->handleEventMessages( notifyCode, wParam, lParam );
+						win32Obj->handleEventMessages( notifyCode, wParam, lParam, wndProcResult );
 					}
 					else {
 						StringUtils::trace( "win32Obj == NULL!\n" );
@@ -1310,6 +1317,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2.2.2  2004/08/26 01:44:38  ddiego
 *fixed font pix size bug that handled non true type fonts poorly.
 *

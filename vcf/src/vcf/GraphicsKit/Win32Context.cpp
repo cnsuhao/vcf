@@ -173,7 +173,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		Rect xfrmedImageRect;
 		Point p1(vert.x, vert.y );
 		
-		it ++;
+		++it;
 		vert = *it;	
 
 		Point p2(vert.x, vert.y );
@@ -406,9 +406,19 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 				int wIncr = (long)imageBounds->getWidth();
 				int s = (int)imageBounds->top_;
 				int e = (int)imageBounds->bottom_;
-				for (int y1=s;y1<e;y1++) {
+				unsigned char * scanLine = new unsigned char[wIncr];
 
-					memcpy( tmpBmpBuf, imageBuf, wIncr*4 );
+				for (int y1=s;y1<e;y1++) {
+					int xIndex = 0;
+
+					for ( xIndex=0;xIndex<wIncr;xIndex++ ) {
+						tmpBmpBuf[xIndex].r = imageBuf[xIndex].r;
+						tmpBmpBuf[xIndex].g = imageBuf[xIndex].g;
+						tmpBmpBuf[xIndex].b = imageBuf[xIndex].b;
+						tmpBmpBuf[xIndex].a = 0; //JC don't use the alpha val here it mucks 
+												//up the transparent drawing code.
+												//we can replace this once we add in real transparency
+					}			
 
 					tmpBmpBuf += wIncr;
 					imageBuf += imgWidth;
@@ -419,8 +429,13 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 					COLORREF transColor = RGB( imageTransColor->getRed()*255,
 						imageTransColor->getGreen()*255,
 						imageTransColor->getBlue()*255 );
+					
+					
+					
 
 					Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
+
+					
 				}
 				else {
 					SetDIBitsToDevice( dc_,
@@ -940,6 +955,7 @@ bool Win32Context::isTextAlignedToBaseline()
 void Win32Context::drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
                            long yStart, COLORREF cTransparentColor)
 {
+
 	BITMAP     bm;
 	COLORREF   cColor;
 	HBITMAP    bmAndBack, bmAndObject, bmAndMem, bmSave;
@@ -2386,6 +2402,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/09/06 18:34:24  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2.2.7  2004/09/06 04:43:51  ddiego
 *added font rotation back in, this time with support for matching
 *the graphic contexts current transform.

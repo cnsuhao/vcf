@@ -520,9 +520,10 @@ void Win32Listview::postPaintItem( NMLVCUSTOMDRAW* drawItem )
 	}
 }
 
-LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
+bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
-	LRESULT result = 0;
+	bool result = false;
+	wndProcResult = 0;
 
 	switch ( message ) {
 
@@ -552,25 +553,28 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 
 				backColor_.copy( color );
 			}
-			//result = CallWindowProc( oldListviewWndProc_, hwnd_, message, wParam, lParam );
-			result = 1;
+			
+			wndProcResult = 1;
+			result= true;
 		}
 		break;
 
 		case WM_NCCALCSIZE: {
-			return handleNCCalcSize( wParam, lParam );
+			wndProcResult = handleNCCalcSize( wParam, lParam );
+			result= true;
 		}
 		break;
 
-		case WM_NCPAINT: {
-			return handleNCPaint( wParam, lParam );
+		case WM_NCPAINT: {			
+			wndProcResult = handleNCPaint( wParam, lParam );
+			result= true;
 		}
 		break;
 		
 
 		case WM_DRAWITEM : {
-			result = TRUE;
-			//CallWindowProc( oldListviewWndProc_, hwnd_, message, wParam, lParam );
+			wndProcResult = TRUE;
+			result = true;
 
 			DRAWITEMSTRUCT* drawItem = (DRAWITEMSTRUCT*)lParam;
 			if ( ODT_HEADER == drawItem->CtlType ) {
@@ -737,12 +741,14 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 			
 
 			EndPaint( hwnd_, &ps );
-			result = 1;
+
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 
 		case WM_CREATE:{
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
 
@@ -753,17 +759,18 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 		break;
 
 		case LVN_BEGINLABELEDIT:{
-
+			
 		}
 		break;
 
 		case LVN_BEGINRDRAG:{
-
+			
 		}
 		break;
 
 		case NM_DBLCLK : {
 			StringUtils::trace( "NM_DBLCLK\n" );
+			
 		}
 		break;
 
@@ -783,12 +790,15 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 
 				listviewControl_->handleEvent( &event );
 			}
+			result = true;
 		}
 		break;
 
 		case HDN_BEGINTRACK : {
 			headerControlIsTracking_ = true;
-			result = FALSE;
+			
+			wndProcResult = FALSE;
+			result = true;
 		}
 		break;
 
@@ -805,7 +815,8 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 				}
 			}				
 			
-			result = FALSE;
+			wndProcResult = FALSE;
+			result = true;
 		}
 		break;
 
@@ -821,7 +832,9 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 					}
 				}
 			}
-			result = FALSE;
+			
+			wndProcResult = FALSE;
+			result = true;
 		}
 		break;
 
@@ -839,7 +852,9 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 			}
 			
 			
-			result = FALSE;
+			
+			wndProcResult = FALSE;
+			result = true;
 		}
 		break;
 		
@@ -856,7 +871,9 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 				}
 			}
 
-			result = FALSE;
+			
+			wndProcResult = FALSE;
+			result = true;
 		}
 		break;
 
@@ -872,7 +889,10 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 
 		case LVN_ENDLABELEDITW:{
 			NMLVDISPINFOW* displayInfo = (NMLVDISPINFOW*)lParam;
-			result = (NULL != displayInfo->item.pszText) ? TRUE : FALSE;
+			
+			wndProcResult = (NULL != displayInfo->item.pszText) ? TRUE : FALSE;;
+			result = true;
+
 			if ( NULL != displayInfo->item.pszText ){
 				String newCaption = displayInfo->item.pszText;
 				ListItem* item = (ListItem*)displayInfo->item.lParam;
@@ -886,7 +906,10 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 
 		case LVN_ENDLABELEDITA:{
 			NMLVDISPINFOA* displayInfo = (NMLVDISPINFOA*)lParam;
-			result = (NULL != displayInfo->item.pszText) ? TRUE : FALSE;
+			
+			wndProcResult = (NULL != displayInfo->item.pszText) ? TRUE : FALSE;;
+			result = true;
+
 			if ( NULL != displayInfo->item.pszText ){
 				String newCaption = displayInfo->item.pszText;
 				ListItem* item = (ListItem*)displayInfo->item.lParam;
@@ -1039,7 +1062,10 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 
 			NMLVCUSTOMDRAW* listViewCustomDraw = (NMLVCUSTOMDRAW*)lParam;
 			ListModel* model = listviewControl_->getListModel();
-			result = CDRF_DODEFAULT;
+			wndProcResult = CDRF_DODEFAULT;
+			result = true;
+
+			
 			if ( NULL != model ) {
 				/**
 				*CDDS_PREPAINT is at the beginning of the paint cycle. You
@@ -1049,25 +1075,27 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 				switch ( listViewCustomDraw->nmcd.dwDrawStage ) {
 					case CDDS_PREPAINT : {
 						// Request prepaint notifications for each item.
-						result = CDRF_NOTIFYITEMDRAW;
+						wndProcResult = CDRF_NOTIFYITEMDRAW;
 					}
 					break;
 
 					case CDDS_ITEMPREPAINT : {
 						// Request prepaint notifications for each item.
-						result = CDRF_NOTIFYPOSTPAINT;
+						
+						wndProcResult = CDRF_NOTIFYPOSTPAINT;
 					}
 					break;
 
 					case CDDS_ITEMPOSTPAINT : {
 						// Request prepaint notifications for each item.
 						postPaintItem( listViewCustomDraw );
-						result = CDRF_SKIPDEFAULT;
+						
+						wndProcResult = CDRF_SKIPDEFAULT;
 					}
 					break;
 
-					default : {
-						result = CDRF_DODEFAULT;
+					default : {						
+						wndProcResult = CDRF_DODEFAULT;
 					}
 					break;
 				}
@@ -1076,11 +1104,7 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 		break;
 
 		default: {
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
-			if ( !result ) {
-			//	result = CallWindowProc( oldListviewWndProc_, hwnd_, message, wParam, lParam );
-			}
-
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
 	}
@@ -2079,6 +2103,15 @@ void Win32Listview::onLargeImageListImageChanged( ImageListEvent* event )
 
 			//reset the contents
 			Win32Image* win32Img = (Win32Image*)imageList->getMasterImage();
+			SysPixelType* pix = win32Img->getImageBits()->pixels_;
+			int sz = win32Img->getWidth() * win32Img->getHeight();
+			unsigned char* oldAlpaVals = new unsigned char[sz];
+			do {
+				sz --;
+				oldAlpaVals[sz] = pix[sz].a;
+				pix[sz].a = 0;
+			} while( sz > 0 );
+
 			HBITMAP hbmImage = win32Img->getBitmap();
 
 			HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
@@ -2088,11 +2121,28 @@ void Win32Listview::onLargeImageListImageChanged( ImageListEvent* event )
 				//error condition !
 			}
 			DeleteObject( hCopyImg );
+			sz = win32Img->getWidth() * win32Img->getHeight();
+			do {
+				sz --;
+				pix[sz].a = oldAlpaVals[sz];
+			} while( sz > 0 );
+			
+			delete [] oldAlpaVals;
+
 		}
 		break;
 
 		case IMAGELIST_EVENT_ITEM_ADDED : {
 			Win32Image* win32Img = (Win32Image*)event->getImage();
+			SysPixelType* pix = win32Img->getImageBits()->pixels_;
+			int sz = win32Img->getWidth() * win32Img->getHeight();
+			unsigned char* oldAlpaVals = new unsigned char[sz];
+			do {
+				sz --;
+				oldAlpaVals[sz] = pix[sz].a;
+				pix[sz].a = 0;
+			} while( sz > 0 );
+
 			HBITMAP hbmImage = win32Img->getBitmap();
 			HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
 
@@ -2101,6 +2151,13 @@ void Win32Listview::onLargeImageListImageChanged( ImageListEvent* event )
 				//error condition !
 			}
 			DeleteObject( hCopyImg );
+			sz = win32Img->getWidth() * win32Img->getHeight();
+			do {
+				sz --;
+				pix[sz].a = oldAlpaVals[sz];
+			} while( sz > 0 );
+			
+			delete [] oldAlpaVals;
 		}
 		break;
 
@@ -2124,6 +2181,15 @@ void Win32Listview::onSmallImageListImageChanged( ImageListEvent* event )
 			//reset the contents
 			Win32Image* win32Img = (Win32Image*)imageList->getMasterImage();
 			HBITMAP hbmImage = win32Img->getBitmap();
+			SysPixelType* pix = win32Img->getImageBits()->pixels_;
+			int sz = win32Img->getWidth() * win32Img->getHeight();
+			unsigned char* oldAlpaVals = new unsigned char[sz];
+			do {
+				sz --;
+				oldAlpaVals[sz] = pix[sz].a;
+				pix[sz].a = 0;
+			} while( sz > 0 );
+
 			HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
 
 			err = ImageList_AddMasked( smallImageListCtrl_, hCopyImg, RGB(0,255,0) );
@@ -2132,6 +2198,14 @@ void Win32Listview::onSmallImageListImageChanged( ImageListEvent* event )
 			}
 
 			::DeleteObject( hCopyImg );
+			sz = win32Img->getWidth() * win32Img->getHeight();
+			do {
+				sz --;
+				pix[sz].a = oldAlpaVals[sz];
+			} while( sz > 0 );
+			
+			delete [] oldAlpaVals;
+
 		}
 		break;
 	}
@@ -2150,6 +2224,16 @@ void Win32Listview::setLargeImageList( ImageList* imageList )
 										ILC_COLOR32, imageList->getImageCount(), 4 );
 
 		Win32Image* win32Img = (Win32Image*)imageList->getMasterImage();
+		SysPixelType* pix = win32Img->getImageBits()->pixels_;
+		int sz = win32Img->getWidth() * win32Img->getHeight();
+		unsigned char* oldAlpaVals = new unsigned char[sz];
+		do {
+			sz --;
+			oldAlpaVals[sz] = pix[sz].a;
+			pix[sz].a = 0;
+		} while( sz > 0 );
+
+
 		HBITMAP hbmImage = win32Img->getBitmap();
 
 		HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
@@ -2164,6 +2248,14 @@ void Win32Listview::setLargeImageList( ImageList* imageList )
 		}
 
 		::DeleteObject( hCopyImg );
+		sz = win32Img->getWidth() * win32Img->getHeight();
+		do {
+			sz --;
+			pix[sz].a = oldAlpaVals[sz];
+		} while( sz > 0 );
+		
+		delete [] oldAlpaVals;
+
 
 		ListView_SetImageList( hwnd_, largeImageListCtrl_, LVSIL_NORMAL );
 
@@ -2194,6 +2286,15 @@ void Win32Listview::setSmallImageList( ImageList* imageList )
 										ILC_COLOR24|ILC_MASK, imageList->getImageCount(), 4 );
 
 		Win32Image* win32Img = (Win32Image*)imageList->getMasterImage();
+		SysPixelType* pix = win32Img->getImageBits()->pixels_;
+		int sz = win32Img->getWidth() * win32Img->getHeight();
+		unsigned char* oldAlpaVals = new unsigned char[sz];
+		do {
+			sz --;
+			oldAlpaVals[sz] = pix[sz].a;
+			pix[sz].a = 0;
+		} while( sz > 0 );
+
 		HBITMAP hbmImage = win32Img->getBitmap();
 
 		HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
@@ -2205,6 +2306,13 @@ void Win32Listview::setSmallImageList( ImageList* imageList )
 
 
 		::DeleteObject( hCopyImg );
+		sz = win32Img->getWidth() * win32Img->getHeight();
+		do {
+			sz --;
+			pix[sz].a = oldAlpaVals[sz];
+		} while( sz > 0 );
+		
+		delete [] oldAlpaVals;
 
 		ListView_SetImageList( hwnd_, smallImageListCtrl_, LVSIL_SMALL );
 
@@ -2268,6 +2376,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

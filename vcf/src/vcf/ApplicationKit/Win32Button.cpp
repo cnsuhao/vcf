@@ -256,9 +256,9 @@ void Win32Button::drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct )
 
 }
 
-LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
+bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
-	LRESULT result = 0;
+	bool result = false;
 
 	switch ( message ) {
 		case WM_PAINT:{
@@ -268,7 +268,8 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 		case WM_ERASEBKGND:{
-			return TRUE;
+			wndProcResult = TRUE;
+			result = true;
 		}
 		break;
 
@@ -341,7 +342,8 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 				peerControl_->paint( ctx );
 			}
-			result = TRUE;
+			wndProcResult = TRUE;
+			result = true;
 		}
 		break;
 
@@ -388,11 +390,11 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 		case WM_COMMAND: {
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );			
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );			
 		}
 
 		default: {
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 		}
 	}
@@ -403,6 +405,9 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2.2.1  2004/08/22 19:01:34  dougtinkham
 *drawBasicButton painted 1 too many pixels. fixed.
 *
