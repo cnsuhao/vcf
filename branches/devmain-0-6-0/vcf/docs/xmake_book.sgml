@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
 Revision 1.1.2.1  2003/03/12 22:43:06  ddiego
 more xmake docs
 
@@ -839,7 +843,7 @@ An example looks something like this:
 		</section>
 	</chapter>	
 	
-	<index id="index"/>
+	
 
 
 

@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
 Revision 1.1.2.3  2003/03/10 03:58:34  ddiego
 fixes ot better support online html, plus the addition of a little C++
 program to stip stuff
@@ -155,7 +159,7 @@ for ( ulong32 y=0;y&lt;image-&gt;getHeight() ) {
 		read-only, providing information about the dimensions of the font, and others
 		can be changed at will. The following table illustrates this:
 		<table frame="none" pgwide="1">
-			<tgroup cols=2 align=left colsep=1 rowsep=1>
+			<tgroup cols="2" align="left" colsep="1" rowsep="1">
 				<thead>
 					<row>
 						<entry>Attribute name</entry>

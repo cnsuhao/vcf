@@ -26,19 +26,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
-Revision 1.1.2.2  2003/03/13 02:34:40  ddiego
+Revision 1.1.2.1  2003/03/13 02:34:40  ddiego
 added some more docs and broke apart the various "books" so they can be all
 put together or in separate books. Made to changes to Makefile
-
-Revision 1.1.2.1  2003/03/12 22:43:06  ddiego
-more xmake docs
 
 
 -->
 
+<title>The VCF Book</title>
+	<titleabbrev>VCF Documentation</titleabbrev>
 
-	<title>The VCF Builder</title>
-	<titleabbrev>VCF Builder Documentation</titleabbrev>
 	<bookinfo>
 		<legalnotice>
 			<para>
@@ -101,28 +98,70 @@ more xmake docs
 		</copyright>
 	</bookinfo>
 
-	&vcfbuilder_intro;
+	&vcfIntro;
 
-	&vcfbuilder_quicktut;
+	&general;
 
-	&vcfbuilder_ui;
-
-	&vcfbuilder_wspprj;
-
-	&vcfbuilder_designer;
-
-	&vcfbuilder_building;
-
-	&vcfbuilder_versionctrl;
-
-	&vcfbuilder_debug;
-
-	&vcfbuilder_ide;
+	&gettingStarted;
 	
-	&vcfbuilder_design;	
+	<chapter><title>Core Libraries</title>
+		&coreLibFoundationKit;
+		
+		&coreLibGraphicsKit;
+		
+		&coreLibApplicationKit;
+		
+		&componentAuthoring;
+		
+		&coreLibNetworkKit;
 
-	&vcfbuilder_faq;
+		&coreLibRemoteObjectKit;
+		
+		&coreLibFAQ;
+	</chapter>
 
+	<chapter><title>Additional Libraries (usage is optional) </title>
+		<section><title>HTML Browser</title>
+			<para>
+			</para>
+		</section>
+
+		<section><title>ImageFormats</title>
+			<para>
+			</para>
+		</section>
+	</chapter>
+
+	&tutorials;
+
+	<chapter><title>Tools</title>
+		<section><title>XMake</title>
+		</section>
+
+		<section><title>VCF Builder</title>
+		</section>
+	</chapter>
+
+	<chapter><title>FAQ</title>
+		<qandaset>
+			<qandaentry>
+				<question>
+					<para>Why are you writing another framework ? Aren't there enough out there ?</para>
+				</question>
+				<answer>
+					<para>
+					The Visual Component Framework (VCF) was designed to make application 
+					programming in general, particularly applications with User Interfaces, 
+					much easier than it currently is with typical development tools. In addition 
+					it was created to be cross platform in design, so a program relying only 
+					on features within the VCF should simply recompile on another platform 
+					supported by the VCF.
+					</para>
+				</answer>			
+			</qandaentry>
+		</qandaset>	
+	</chapter>	
+	
 	<chapter><title>Credits</title>
 		<section>
 			<para>
@@ -140,10 +179,6 @@ more xmake docs
 			If we missed someone please let us know about it!
 			</para>
 		</section>
-	</chapter>
-
-
-
-
+	</chapter>	
 
 

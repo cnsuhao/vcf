@@ -4,9 +4,9 @@ VERSION = 0.6.0
 VCFB_VERSION = 1.0.4
 XMAKE_VERSION = 1.0.4
 
-HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
 
-XSL_HTMLHELP_IMPORT = "D:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"
+XSL_HTMLHELP_IMPORT = "D:/dork/DocBook/xsl/htmlhelp/htmlhelp.xsl"
 
 RAW_CHM_FILENAME = vcf_docs.chm
 RAW_VCF_BUILDER_CHM_FILENAME = vcfbuilder_docs.chm
@@ -54,20 +54,35 @@ vcfbuilder_quicktut.sgml
 XMAKE_DOCS = vcf.css xmake_book.sgml xmake_docbook.sgml
 
 
-
-
-docs :  $(VCF_DOCS) test_tools
-	xsltproc --catalogs --docbook vcf.xsl vcf_docbook.sgml
+coredocs :  $(VCF_DOCS) test_tools
+	xsltproc --catalogs vcf.xsl vcf_docbook.sgml
 	
-online_docs :  $(VCF_DOCS) test_tools 
+coredocs_online :  $(VCF_DOCS) test_tools 
 	xsltproc --catalogs --docbook vcf_online.xsl vcf_docbook.sgml	
 	
-strip_online_docs :  online_docs stripper
+strip_online_docs :  stripper
 	for file in *.html;\
 	do\
 		echo post processing $$file with stripper...;\
 		./stripper $$file;\
 	done
+
+
+
+
+alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
+	xsltproc --catalogs vcf.xsl vcf_website_docs.sgml
+
+
+
+alldocs_hh : htmlhelp.hhp alldocs
+	$(HTMLHELP_COMPILER) htmlhelp.hhp
+
+
+alldocs_online : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
+	xsltproc --catalogs vcf_online.xsl vcf_website_docs.sgml
+
+
 
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
 	xsltproc --catalogs --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
@@ -107,7 +122,7 @@ stripper : stripper.o
 
 
 
-hh : htmlhelp.hhp docs
+hh : htmlhelp.hhp coredocs
 	$(HTMLHELP_COMPILER) htmlhelp.hhp
 	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
 
@@ -127,7 +142,7 @@ doxy_hh : doxy_html/index.hhp
 	$(HTMLHELP_COMPILER) doxy_html/index.hhp
 	mv doxy_html/index.chm ./$(VERSIONED_SRC_CHM_FILENAME)
 
-dist : docs hh 
+dist : coredocs hh 
 	find *.html > files.out
 	find gfx/ -type f -name '*' > images.out
 	cat files.out images.out > all.out
@@ -139,7 +154,21 @@ dist : docs hh
 	rm files.out
 	rm images.out
 
-dist_online : online_docs strip_online_docs
+dist_online : coredocs_online strip_online_docs
+	find *.html > files.out
+	find gfx/ -type f -name '*' > images.out
+	cat files.out images.out > all.out
+	echo Creating tar file...
+	tar -cf $(HTML_TAR_FILENAME) -T all.out
+	rm -f $(HTML_TAR_FILENAME).gz
+	gzip $(HTML_TAR_FILENAME)
+	echo HTML files tarred and compressed as $(HTML_TAR_FILENAME).gz		
+	rm all.out
+	rm files.out
+	rm images.out
+
+
+dist_all_online : alldocs_online strip_online_docs
 	find *.html > files.out
 	find gfx/ -type f -name '*' > images.out
 	cat files.out images.out > all.out
