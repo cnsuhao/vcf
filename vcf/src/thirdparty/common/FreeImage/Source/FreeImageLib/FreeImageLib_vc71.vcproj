@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="FreeImageLib"
-	ProjectGUID="{830EBCE6-32C2-42D6-B7CC-9A94D86CEDFE}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

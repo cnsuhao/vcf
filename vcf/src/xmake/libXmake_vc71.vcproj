@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="libXmake"
-	ProjectGUID="{0182CA26-43AB-4498-AF92-7AAF3013FCFD}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

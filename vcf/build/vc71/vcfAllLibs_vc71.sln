@@ -11,10 +11,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKitDLL", ".\Appl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKit", ".\FoundationKit\FoundationKit_vc71.vcproj", "{571374A2-382A-45CB-9965-73CE6B451365}"
 	ProjectSection(ProjectDependencies) = postProject
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD} = {5860B671-2DCF-4CC6-9916-22D6A9DA15CD}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitDLL", ".\FoundationKit\FoundationKitDLL_vc71.vcproj", "{E6F355D1-1BCB-45C9-A919-BAF15B20930D}"
 	ProjectSection(ProjectDependencies) = postProject
+		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD} = {5860B671-2DCF-4CC6-9916-22D6A9DA15CD}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "..\..\src\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_vc71.vcproj", "{BE31E1AF-5FD5-466A-AEE8-247CA6A01B31}"
@@ -33,7 +35,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsKit", ".\GraphicsKi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsKitDLL", ".\GraphicsKit\GraphicsKitDLL_vc71.vcproj", "{F8740B3F-BB45-4D8B-BAD7-913F358EE26E}"
 	ProjectSection(ProjectDependencies) = postProject
-		{5860B671-2DCF-4CC6-9916-22D6A9DA15CD} = {5860B671-2DCF-4CC6-9916-22D6A9DA15CD}
 		{E6F355D1-1BCB-45C9-A919-BAF15B20930D} = {E6F355D1-1BCB-45C9-A919-BAF15B20930D}
 	EndProjectSection
 EndProject
@@ -84,10 +85,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", ".\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser", ".\Win32HTMLBrowser\Win32HTMLBrowser_vc71.vcproj", "{58EA37C0-E9FA-44BB-AB92-E854CD508D34}"
 	ProjectSection(ProjectDependencies) = postProject
+		{9DFBD97B-1C30-4434-9B64-0748F33662B9} = {9DFBD97B-1C30-4434-9B64-0748F33662B9}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser_StaticLib", ".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc71.vcproj", "{2E1D5F49-BBD1-4412-9A2D-DA8FB55F8992}"
 	ProjectSection(ProjectDependencies) = postProject
+		{DA1E19F3-F48F-4402-9024-190633E9F4A5} = {DA1E19F3-F48F-4402-9024-190633E9F4A5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_vc71.vcproj", "{93181402-FB62-4106-8E1F-BD28D1F30019}"
@@ -114,8 +117,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllLibs", ".\vcfAllLibs_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllStaticLibs", ".\vcfAllStaticLibs_vc71.vcproj", "{0D99EDD0-9315-4F25-88C4-9725190355A1}"
 	ProjectSection(ProjectDependencies) = postProject
-		{D757FA7F-41AC-4F26-B8E6-FCCE87D92DE0} = {D757FA7F-41AC-4F26-B8E6-FCCE87D92DE0}
 		{2E1D5F49-BBD1-4412-9A2D-DA8FB55F8992} = {2E1D5F49-BBD1-4412-9A2D-DA8FB55F8992}
+		{D757FA7F-41AC-4F26-B8E6-FCCE87D92DE0} = {D757FA7F-41AC-4F26-B8E6-FCCE87D92DE0}
 		{DA1E19F3-F48F-4402-9024-190633E9F4A5} = {DA1E19F3-F48F-4402-9024-190633E9F4A5}
 	EndProjectSection
 EndProject

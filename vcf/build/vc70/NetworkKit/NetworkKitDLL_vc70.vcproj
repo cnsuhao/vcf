@@ -26,11 +26,12 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="3"
+				PrecompiledHeaderThrough="vcf/NetworkKit/NetworkKit.h"
 				PrecompiledHeaderFile=".\vc70\DebugDLL\NetworkKitDLL_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\DebugDLL\"
 				ObjectFile=".\vc70\DebugDLL\"
-				ProgramDataBaseFileName=".\vc70\DebugDLL\"
+				ProgramDataBaseFileName="..\..\..\bin\NetworkKit_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -88,7 +89,8 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="3"
+				PrecompiledHeaderThrough="vcf/NetworkKit/NetworkKit.h"
 				PrecompiledHeaderFile=".\vc70\Release\NetworkKitDLL_vc70.pch"
 				AssemblerListingLocation=".\vc70\Release\"
 				ObjectFile=".\vc70\Release\"
@@ -140,6 +142,18 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\NetworkKit\NetToolkit.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\NetworkKit\ServerSocketEvent.cpp">

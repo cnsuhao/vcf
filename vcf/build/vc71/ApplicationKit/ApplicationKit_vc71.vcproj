@@ -30,7 +30,7 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="ApplicationKit.h"
+				PrecompiledHeaderThrough="vcf\ApplicationKit\ApplicationKit.h"
 				PrecompiledHeaderFile=".\vc71\ReleaseS\ApplicationKit_vc71_s.pch"
 				AssemblerListingLocation=".\vc71\ReleaseS\"
 				ObjectFile=".\vc71\ReleaseS\"
@@ -83,7 +83,7 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="ApplicationKit.h"
+				PrecompiledHeaderThrough="vcf\ApplicationKit\ApplicationKit.h"
 				PrecompiledHeaderFile=".\vc71\DebugS\ApplicationKit_vc71_sd.pch"
 				AssemblerListingLocation=".\vc71\DebugS\"
 				ObjectFile=".\vc71\DebugS\"
@@ -389,14 +389,14 @@
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories=".\vcf\build\resources\win32\"/>
+						AdditionalIncludeDirectories=".\vcf\build\resources\win32\;$(NoInherit)"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories=".\vcf\build\resources\win32\"/>
+						AdditionalIncludeDirectories=".\vcf\build\resources\win32\;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
 			<File
