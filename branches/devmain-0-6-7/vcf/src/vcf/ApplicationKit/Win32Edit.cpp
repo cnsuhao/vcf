@@ -60,6 +60,7 @@ void Win32Edit::create( Control* owningControl )
 	if ( true == isMultiLined_ ) {
 		if ( GetVersionEx( &osInfo ) ) {
 			if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_NT ) {
+				// this provides at least Rich Edit Version 2.0 ( depending on the Windows OS )
 				richeditLibrary = "RICHED20.Dll";
 				if ( System::isUnicodeEnabled() ) {
 					className = RICHEDIT_CLASSW;
@@ -1468,6 +1469,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/03/23 15:54:49  marcelloptr
+*added a comment
+*
 *Revision 1.3.2.8  2005/03/23 03:31:23  ddiego
 *fixed rich edit back color bug.
 *
