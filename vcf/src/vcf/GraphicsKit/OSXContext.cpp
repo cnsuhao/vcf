@@ -1455,7 +1455,24 @@ void OSXContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 
 void OSXContext::drawThemeScrollButtonRect( Rect* rect, DrawUIState& state )
 {
+	/*
+	OSXRect r = rect;
+	ThemeTrackEnableState enableState = 0;
 	
+	if ( !state.isEnabled() ) {
+        enableState = kThemeTrackDisabled;
+    }
+    else {
+		if ( state.isActive() ) {
+			enableState = kThemeTrackActive;
+		}
+		else {
+			enableState = kThemeTrackInactive;
+		}
+    }
+	
+	DrawThemeScrollBarArrows
+	*/
 }
 
 void OSXContext::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state )
@@ -1485,7 +1502,7 @@ void OSXContext::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& s
 	
 }
 
-void OSXContext::drawThemeTab( Rect* rect, DrawUIState& state )
+void OSXContext::drawThemeTab( Rect* rect, TabState& state )
 {
 	OSXRect r = rect;
 	
@@ -1530,19 +1547,156 @@ void OSXContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 	DrawThemeTabPane( r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
 }
 
-void OSXContext::drawThemeTickMarks( Rect* rect, DrawUIState& state )
+void OSXContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 {
+	OSXRect r = rect;
+
+    ThemeTrackDrawInfo info;
+    info.kind = kThemeSlider;//kThemeMediumSlider;
+    info.bounds = r;			
+								
+    info.min = (int)state.min_;
+    info.max = (int)state.max_;
+    info.value = (int)state.position_;
+    info.attributes = state.isVertical() ? 0 :  kThemeTrackHorizontal;
+    //info.attributes |= kThemeTrackRightToLeft;
+
+    info.trackInfo.slider.thumbDir = 0;
+    info.trackInfo.slider.pressState = 0;
+
+	if ( state.isFocused() ) {
+		info.attributes |= kThemeTrackHasFocus;
+	}
+
+	
+    if ( !state.isEnabled() ) {
+        info.enableState = kThemeTrackDisabled;
+    }
+    else {
+		if ( state.isActive() ) {
+			info.enableState = kThemeTrackActive;
+		}
+		else {
+			info.enableState = kThemeTrackInactive;
+		}
+    }
+	
+	if ( state.isPressed() ) {
+		info.trackInfo.slider.pressState = kThemeThumbPressed;
+	}
+
+    if ( state.isTickMarkingOnBottomRight() ) {
+        info.trackInfo.slider.thumbDir = kThemeThumbUpward;
+    }
+    else if( state.isTickMarkingOnTopLeft() ) {
+        info.trackInfo.slider.thumbDir = kThemeThumbDownward;
+    }
+
+	
+	GetThemeTrackBounds( &info, r );
+	info.bounds = r;
+
+    if ( noErr != DrawThemeTrackTickMarks( &info, state.tickMarkFrequency_, NULL, 0 ) ) {
+        StringUtils::trace( "DrawThemeTrackTickMarks failed\n" );
+    }
+	
+	//DrawThemeTrack( &info, NULL, NULL, 0 );
 	
 }
 
-void OSXContext::drawThemeSlider( Rect* rect, DrawUIState& state )
+void OSXContext::drawThemeSlider( Rect* rect, SliderState& state )
 {
+	OSXRect r = rect;
 
+    ThemeTrackDrawInfo info;
+    info.kind = kThemeSlider;//kThemeMediumSlider;
+    info.bounds = r;			
+								
+    info.min = (int)state.min_;
+    info.max = (int)state.max_;
+    info.value = (int)state.position_;
+    info.attributes = state.isVertical() ? 0 :  kThemeTrackHorizontal;
+    info.attributes |= /*kThemeTrackRightToLeft |*/ kThemeTrackShowThumb;
+
+    info.trackInfo.slider.thumbDir = 0;
+    info.trackInfo.slider.pressState = 0;
+
+	if ( state.isFocused() ) {
+		info.attributes |= kThemeTrackHasFocus;
+	}
+
+	
+    if ( !state.isEnabled() ) {
+        info.enableState = kThemeTrackDisabled;
+    }
+    else {
+		if ( state.isActive() ) {
+			info.enableState = kThemeTrackActive;
+		}
+		else {
+			info.enableState = kThemeTrackInactive;
+		}
+    }
+	
+	if ( state.isPressed() ) {
+		info.trackInfo.slider.pressState = kThemeThumbPressed;
+	}
+
+	if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
+		info.trackInfo.slider.thumbDir = kThemeThumbPlain;
+	}
+    else if ( state.isTickMarkingOnBottomRight() ) {
+		info.trackInfo.slider.thumbDir = kThemeThumbDownward;	
+    }
+    else if( state.isTickMarkingOnTopLeft() ) {
+		info.trackInfo.slider.thumbDir = kThemeThumbUpward;        
+    }
+
+	
+	GetThemeTrackBounds( &info, r );
+	info.bounds = r;
+		
+	DrawThemeTrack( &info, NULL, NULL, 0 );
 }
 
 void OSXContext::drawThemeProgress( Rect* rect, ProgressState& state )
 {
+	OSXRect r = rect;
 
+    ThemeTrackDrawInfo info;
+    info.kind = kThemeProgressBar;
+    info.bounds = r;			
+								
+    info.min = (int)state.min_;
+    info.max = (int)state.max_;
+    info.value = (int)state.position_;
+    info.attributes = state.isVertical() ? 0 :  kThemeTrackHorizontal;
+    //info.attributes |= kThemeTrackRightToLeft;
+
+    info.trackInfo.progress.phase = 0;
+
+	if ( state.isFocused() ) {
+		info.attributes |= kThemeTrackHasFocus;
+	}
+
+	
+    if ( !state.isEnabled() ) {
+        info.enableState = kThemeTrackDisabled;
+    }
+    else {
+		if ( state.isActive() ) {
+			info.enableState = kThemeTrackActive;
+		}
+		else {
+			info.enableState = kThemeTrackInactive;
+		}
+    }
+
+	
+	//GetThemeTrackBounds( &info, r );
+	//info.bounds = r;
+		
+	DrawThemeTrack( &info, NULL, NULL, 0 );
 }
 
 void OSXContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
@@ -1552,22 +1706,80 @@ void OSXContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
 
 void OSXContext::drawThemeHeader( Rect* rect, DrawUIState& state )
 {
+	OSXRect r = rect;
+	
+    ThemeButtonDrawInfo btnInfo;
+	btnInfo.state = kThemeStateInactive ;
+	
+	btnInfo.value = 0;
+	
+	
+	
+	if ( state.isActive() && state.isEnabled() ) {
+		btnInfo.state |= kThemeStateActive;
+	}
+	
+	
+	btnInfo.adornment = kThemeAdornmentNone;		    
 
+    DrawThemeButton( r, kThemeListHeaderButton, &btnInfo, NULL, NULL, NULL, 0 );
 }
 
 void OSXContext::drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle )
 {
+	
+	if ( GraphicsContext::etAllSides == edgeSides ) {       
+		OSXRect r = rect;
+        DrawThemePrimaryGroup( r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
+    }
+    else {
+        if ( edgeSides & GraphicsContext::etLeftSide ) {
+			OSXRect tmp = rect;
+			::Rect r = tmp;
+            r.right = r.left;
+            DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
+        }
 
+        if ( edgeSides & GraphicsContext::etRightSide ) {
+            OSXRect tmp = rect;
+			::Rect r = tmp;
+            r.left = r.right;
+            DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
+        }
+
+        if ( edgeSides & GraphicsContext::etTopSide ) {
+            OSXRect tmp = rect;
+			::Rect r = tmp;
+            r.bottom = r.top;
+            DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
+        }
+
+        if ( edgeSides & GraphicsContext::etBottomSide ) {
+            OSXRect tmp = rect;
+			::Rect r = tmp;
+            r.top = r.bottom;
+            DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
+        }
+    }
 }
 
 void OSXContext::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 {
+	::Rect bounds;
+    ::Point gripperOrigin;
+    gripperOrigin.h = (int)rect->left_;
+    gripperOrigin.v = (int)rect->top_;
 
+    GetThemeStandaloneGrowBoxBounds( gripperOrigin, 0, FALSE, &bounds );
+    gripperOrigin.h = (int)(rect->right_ - (bounds.right-bounds.left));
+    gripperOrigin.v = (int)(rect->bottom_ - (bounds.bottom-bounds.top));
+
+    DrawThemeStandaloneGrowBox( gripperOrigin, 0, FALSE,  state.isActive() ? kThemeStateActive : kThemeStateInactive );
 }
 
 void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
-
+	
 }
 
 void OSXContext::drawThemeMenuItem( Rect* rect, MenuState& state )
@@ -1585,6 +1797,9 @@ void OSXContext::drawThemeText( Rect* rect, const String& text, DrawUIState& sta
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10.2.2  2004/06/16 05:18:56  ddiego
+*further updates to OSX theme compliant drawing code
+*
 *Revision 1.1.2.10.2.1  2004/06/15 04:04:38  ddiego
 *revamped osx theme drawing API
 *
