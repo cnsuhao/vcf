@@ -3,6 +3,21 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "Actions"=.\Actions\Actions.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "AdvancedAlignment"=.\AdvancedAlignment\AdvancedAlignment.dsp - Package Owner=<4>
 
 Package=<5>
@@ -347,6 +362,18 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name ApplicationKitDLL
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Splitters"=.\Splitters\Splitters.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################
