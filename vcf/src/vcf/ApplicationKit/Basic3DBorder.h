@@ -56,6 +56,13 @@ public:
 	*/
 	virtual Rect getClientRect( Control* component );
 
+	void setInverted( const bool& inverted ) {
+		inverted_ = inverted;
+	}
+protected:
+
+private:
+	bool inverted_;
 };
 
 };
@@ -64,6 +71,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/07 22:31:37  dougtinkham
+*added inversion to give border a sunken appearrance.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
