@@ -39,8 +39,23 @@
 				<compiler name="g++" >
 					<flags>
 						<flag value="-I $(INC)"/>						
-						<flag value="-c -DVCF_GCC -D_DEBUG"/><!-- -fPIC"/ -->
+						<flag value="-c -DVCF_GCC -D_DEBUG -ggdb"/><!-- -fPIC"/ -->
+					</flags>
+				</compiler>	
 
+				<linker name="g++">
+					<flags>
+						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
+						<flag value="-ggdb -ldl -shared -o $(BIN_OUT)/libFoundationKit_d.so"/>
+					</flags>
+				</linker>
+			</config>
+			
+			<config name="GCC Release" srcBinaryExt=".o">
+				<compiler name="g++" >
+					<flags>
+						<flag value="-I $(INC)"/>						
+						<flag value="-c -DVCF_GCC -O3"/><!-- -fPIC"/ -->
 					</flags>
 				</compiler>	
 
@@ -51,6 +66,7 @@
 					</flags>
 				</linker>
 			</config>
+			
 			<config name="GCC Static" srcBinaryExt=".o">
 				<compiler name="g++" >
 					<flags>

@@ -53,7 +53,7 @@
 						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
 						<flag value="-ldl"/>
 						<flag value="-L$(X11_LIB)"/>
-						<flag value=" -L $(BIN_OUT) -lFoundationKit -lX11 -shared -o $(BIN_OUT)/libGraphicsKit_d.so"/>
+						<flag value=" -L $(BIN_OUT) -lFoundationKit_d -lX11 -shared -o $(BIN_OUT)/libGraphicsKit_d.so"/>
 					</flags>
 				</linker>
 			</config>
