@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="DocViewBasics"
-	ProjectGUID="{9354D86B-C9A9-4B6E-B7B6-4B1853F48301}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -42,7 +41,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\DocViewBasics.exe"
+				OutputFile=".\Release\DocViewBasics.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
@@ -101,7 +100,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\DocViewBasics.exe"
+				OutputFile=".\Debug\DocViewBasics.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"

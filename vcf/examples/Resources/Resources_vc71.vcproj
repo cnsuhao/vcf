@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="Resources"
-	ProjectGUID="{2A556CA4-118F-445D-8CEE-B349F6553B27}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -46,7 +45,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\Resources.pdb"
+				ProgramDatabaseFile=".\Resources.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -54,7 +53,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug\Resources.tlb"/>
+				TypeLibraryName=".\Resources.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -105,7 +104,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release\Resources.pdb"
+				ProgramDatabaseFile=".\Resources.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -113,7 +112,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release\Resources.tlb"/>
+				TypeLibraryName=".\Resources.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
