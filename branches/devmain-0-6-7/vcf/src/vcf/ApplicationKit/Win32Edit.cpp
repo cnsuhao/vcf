@@ -1466,9 +1466,53 @@ void Win32Edit::onControlModelChanged( Event* e )
 	//OKToResetControlText_ = true;
 }
 
+void Win32Edit::cut()
+{
+	TextModel* tm = textControl_->getTextModel();
+	
+	SendMessage( hwnd_, WM_CUT, 0, 0 );
+
+	OKToResetControlText_ = false;
+
+	OKToResetControlText_ = true;
+}
+
+void Win32Edit::copy()
+{
+	SendMessage( hwnd_, WM_COPY, 0, 0 );
+}
+
+void Win32Edit::paste()
+{
+	SendMessage( hwnd_, WM_PASTE, 0, 0 );
+}
+
+bool Win32Edit::canUndo()
+{
+	return SendMessage( hwnd_, EM_CANUNDO, 0, 0 ) ? true : false;
+}
+
+bool Win32Edit::canRedo()
+{
+	return false;
+}
+
+void Win32Edit::undo()
+{
+	SendMessage( hwnd_, EM_UNDO, 0, 0 );
+}
+
+void Win32Edit::redo()
+{
+	//no-op on Win32???
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3.2.9  2005/03/23 15:54:49  marcelloptr
 *added a comment
 *

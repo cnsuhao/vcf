@@ -153,6 +153,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "CommonDirectories"=.\CommonDirectories\CommonDirectories.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Conditions"=.\Conditions\Conditions.dsp - Package Owner=<4>
 
 Package=<5>

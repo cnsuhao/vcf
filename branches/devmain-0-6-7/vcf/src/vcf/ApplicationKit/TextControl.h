@@ -49,7 +49,7 @@ public:
 
     TextModel* getTextModel();
 
-	unsigned long getCaretPosition() ; /**throw (InvalidPeer);JEC FIXME*/
+	unsigned long getCaretPosition() ;
 
 	void setCaretPosition( const unsigned long& caretPos );
 
@@ -74,6 +74,8 @@ public:
 	unsigned long getSelectionCount();
 
 	void setSelectionMark( const unsigned long& start, const unsigned long& count );
+
+	void selectAll();
 
 	void setSelectionFont( Font* font );
 
@@ -112,6 +114,51 @@ public:
 	virtual bool supportsMultiLinedText() {
 		return false;
 	}
+
+	/**
+	Cuts the selection and places it in the clipboard
+	*/
+	void cut();
+
+	/**
+	Copies the selection and places it in the clipboard
+	*/
+	void copy();
+
+	/**
+	Pastes the contents of the clipboard into the text control.
+	*/
+	void paste();
+
+	/**
+	Returns a bool to indicate whether or not an undo operation can be
+	performed. 
+	@return bool true if an an undo operation can be performed. This 
+	indicates that a call to undo() will succeed. Returns false to 
+	indicate no undo is possible and any calls to undo() will
+	be no-ops.
+	*/
+	bool canUndo();
+
+	/**
+	Returns a bool to indicate whether or not a redo operation can be
+	performed. 
+	@return bool true if an a redo operation can be performed. This 
+	indicates that a call to redo() will succeed. Returns false to 
+	indicate no redo is possible and any calls to redo() will
+	be no-ops.
+	*/
+	bool canRedo();
+
+	/**
+	Undoes the last operation
+	*/
+	void undo();
+
+	/**
+	Redoes the last operation
+	*/
+	void redo();
 protected:
 	TextPeer * textPeer_;
 	TextModel* model_;
@@ -120,6 +167,11 @@ protected:
 	bool readOnly_;
 	void onFocusGained( FocusEvent* event );
 
+	void undoAccelerator( Event* e );
+	void cutAccelerator( Event* e );
+	void copyAccelerator( Event* e );
+	void pasteAccelerator( Event* e );
+	void selectAllAccelerator( Event* e );
 
 };
 
@@ -129,6 +181,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -69,6 +69,76 @@ void TextControl::init()
 	setCursorID( Cursor::SCT_TEXT );
 
 	setBorder( new Basic3DBorder(true) );
+
+	/**
+	create default accelerators for handling the 
+	following standard keyboard shortcuts:
+	UIPolicyManager::saEditUndo
+	UIPolicyManager::saEditCut
+	UIPolicyManager::saEditCopy
+	UIPolicyManager::saEditPaste
+	UIPolicyManager::saEditSelectAll
+	*/
+
+	EventHandler* ev = NULL;
+	
+	UIPolicyManager* mgr = UIToolkit::getUIPolicyManager();
+
+	AcceleratorKey::Value val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
+	if ( !val.isEmpty() ) {
+		ev = new GenericEventHandler<TextControl>(this, &TextControl::undoAccelerator, "TextControl::undoAccelerator" );
+		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
+	}
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCut);
+	if ( !val.isEmpty() ) {
+		ev = new GenericEventHandler<TextControl>(this, &TextControl::cutAccelerator, "TextControl::cutAccelerator" );
+		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
+	}
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCopy);
+	if ( !val.isEmpty() ) {
+		ev = new GenericEventHandler<TextControl>(this, &TextControl::copyAccelerator, "TextControl::copyAccelerator" );
+		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
+	}
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditPaste);
+	if ( !val.isEmpty() ) {
+		ev = new GenericEventHandler<TextControl>(this, &TextControl::pasteAccelerator, "TextControl::pasteAccelerator" );
+		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
+	}
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditSelectAll);
+	if ( !val.isEmpty() ) {
+		ev = new GenericEventHandler<TextControl>(this, &TextControl::selectAllAccelerator, "TextControl::selectAllAccelerator" );
+		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
+	}
+	
+}
+
+void TextControl::undoAccelerator( Event* e )
+{
+	undo();
+}
+
+void TextControl::cutAccelerator( Event* e )
+{
+	cut();
+}
+
+void TextControl::copyAccelerator( Event* e )
+{
+	copy();
+}
+
+void TextControl::pasteAccelerator( Event* e )
+{
+	paste();
+}
+
+void TextControl::selectAllAccelerator( Event* e )
+{
+	selectAll();
 }
 
 void TextControl::paint( GraphicsContext * context )
@@ -163,6 +233,14 @@ unsigned long TextControl::getSelectionCount()
 void TextControl::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
 	textPeer_->setSelectionMark( start, count );
+}
+
+void TextControl::selectAll()
+{
+	TextModel* tm = getTextModel();
+	String text = tm->getText();
+
+	textPeer_->setSelectionMark( 0, text.size() );
 }
 
 void TextControl::setSelectionFont( Font* font )
@@ -524,10 +602,61 @@ void TextControl::setReadOnly( const bool& val )
 	textPeer_->setReadOnly( readOnly_ );
 }
 
+void TextControl::cut()
+{
+	if ( readOnly_ ) {
+		return;
+	}
+	textPeer_->cut();
+}
+
+void TextControl::copy()
+{
+	textPeer_->copy();
+}
+
+void TextControl::paste()
+{
+	if ( readOnly_ ) {
+		return;
+	}
+	textPeer_->paste();
+}
+
+bool TextControl::canUndo()
+{
+	return textPeer_->canUndo();
+}
+
+bool TextControl::canRedo()
+{
+	return textPeer_->canRedo();
+}
+
+
+void TextControl::undo()
+{
+	if ( readOnly_ ) {
+		return;
+	}
+	textPeer_->undo();
+}
+
+
+void TextControl::redo()
+{
+	if ( readOnly_ ) {
+		return;
+	}
+	textPeer_->redo();
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3.2.8  2005/03/21 04:35:45  ddiego
 *updates
 *

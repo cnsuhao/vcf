@@ -102,6 +102,52 @@ public:
 	virtual void print( PrintContext* context, const long& page ) = 0;
 
 	virtual void finishPrinting() = 0;
+
+	/**
+	Cuts the selection and places it in the clipboard
+	*/
+	virtual void cut() = 0;
+
+	/**
+	Copies the selection and places it in the clipboard
+	*/
+	virtual void copy() = 0;
+
+	/**
+	Pastes the contents of the clipboard into the text control.
+	*/
+	virtual void paste() = 0;
+
+	/**
+	Returns a bool to indicate whether or not an undo operation can be
+	performed. 
+	@return bool true if an an undo operation can be performed. This 
+	indicates that a call to undo() will succeed. Returns false to 
+	indicate no undo is possible and any calls to undo() will
+	be no-ops.
+	*/
+	virtual bool canUndo() = 0;
+
+	/**
+	Returns a bool to indicate whether or not a redo operation can be
+	performed. 
+	@return bool true if an a redo operation can be performed. This 
+	indicates that a call to redo() will succeed. Returns false to 
+	indicate no redo is possible and any calls to redo() will
+	be no-ops.
+	*/
+	virtual bool canRedo() = 0;
+
+	/**
+	Undoes the last operation
+	*/
+	virtual void undo() = 0;
+
+	/**
+	Redoes the last operation
+	*/
+	virtual void redo() = 0;
+
 };
 
 };
@@ -110,6 +156,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

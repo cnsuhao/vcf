@@ -65,7 +65,7 @@ void AbstractWin32Component::destroyControl()
 		if ( NULL != hwnd_ ){		
 			if ( IsWindow( hwnd_ ) ) {
 				BOOL err = ::DestroyWindow( hwnd_ );
-				if ( FALSE == err )  {
+				if ( !err )  {
 					//throw RuntimeException( MAKE_ERROR_MSG_2("DestroyWindow failed") );
 					err = GetLastError();
 				}
@@ -1526,6 +1526,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2005/03/27 05:25:13  ddiego
+*added more fixes to accelerator handling.
+*
 *Revision 1.5.2.6  2005/03/15 01:51:49  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
