@@ -8,6 +8,13 @@
 using namespace VCF;
 
 
+/**
+This example will explain how to use the Action class in conjunction with various UI elements.
+It's a good way to see how the different elements work together
+*/
+
+
+
 class ActionsWindow : public Window {
 public:
 	ActionsWindow() {
@@ -273,6 +280,7 @@ public:
 
 	Panel* sideBar_;
 	Panel* hammerBar_;
+	StatBar* statBar_;
 
 	bool canSave_;
 	bool canPaste_;
