@@ -80,14 +80,15 @@ public:
 		rect.top_ += 100;
 
 
+		Size sizeBorder = Size( 5, 2 );
 		Size sz;
-		sz.width_ = rect.getWidth() / 7 - 2;
-		sz.height_ = rect.getHeight() / 7 - 2;
+		sz.width_  = ( rect.getWidth()  - 2 * sizeBorder.width_  ) / 7;
+		sz.height_ = ( rect.getHeight() - 2 * sizeBorder.height_ ) / 7;
 		
 
 		int x,y;
-		x = y = 1;
-		y = rect.top_ + 1;
+		x = sizeBorder.width_;
+		y = rect.top_ + sizeBorder.height_;
 		Rect cellRect;
 
 		for ( int i=0;i<7;i++ ) {		
@@ -172,7 +173,7 @@ public:
 				x += sz.width_;
 			}
 			y += sz.height_;
-			x = 1;
+			x = sizeBorder.width_;
 		}
 
 	}
