@@ -12,6 +12,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ListBoxControl.h"
 #include "vcf/ApplicationKit/DefaultListModel.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
+
 
 using namespace VCF;
 
@@ -25,7 +27,10 @@ ListBoxControl::ListBoxControl():
 	currentMaxHeight_(0),
 	leftGutter_(2),
 	rightGutter_(2),
-	textBounded_(false)
+	textBounded_(false),
+	imageList_(NULL),
+	stateImageList_(NULL),
+	stateItemIndent_(19)
 {
 	setListModel( new DefaultListModel() );
 
@@ -39,7 +44,10 @@ ListBoxControl::ListBoxControl( ListModel* listModel ):
 	currentMaxHeight_(0),
 	leftGutter_(2),
 	rightGutter_(2),
-	textBounded_(false)
+	textBounded_(false),
+	imageList_(NULL),
+	stateImageList_(NULL),
+	stateItemIndent_(19)
 {
 	setListModel( listModel );
 	init();
@@ -282,6 +290,161 @@ void ListBoxControl::rangeSelect( const bool & isSelected, ListItem * first, Lis
 	}
 }
 
+
+Rect ListBoxControl::getStateRect( ListItem* item )
+{
+	Rect result;
+
+	if ( item->getState() != Item::idsNone ) {
+		Rect* itemBounds = item->getBounds();
+
+		result = *itemBounds;
+
+		result.left_ += leftGutter_;
+		if ( NULL != stateImageList_ ) {
+			result.right_ = result.left_ + stateImageList_->getImageWidth();
+			result.top_ = itemBounds->top_ + (itemBounds->getHeight()/2.0 - stateImageList_->getImageHeight()/2.0);
+			result.bottom_ = result.top_ + stateImageList_->getImageHeight();
+		}
+		else {
+			result.right_ = result.left_ + stateItemIndent_;
+			result.top_ = itemBounds->top_ + (itemBounds->getHeight()/2.0 - (minVal<double>(stateItemIndent_,defaultItemHeight_)/2.0));
+			result.bottom_ = result.top_ + (minVal<double>(stateItemIndent_,defaultItemHeight_));
+		}
+
+		if ( NULL != imageList_ ) {
+			if ( NULL != stateImageList_ ) {
+				result.offset( (maxVal<double>( imageList_->getImageWidth(), stateImageList_->getImageWidth() )), 0 );
+			}
+			else {
+				result.offset( (maxVal<double>( imageList_->getImageWidth(), stateItemIndent_ )), 0 );
+			}
+		}
+		else {
+			if ( NULL != stateImageList_ ) {
+				result.offset( (maxVal<double>( stateItemIndent_, stateImageList_->getImageWidth() )), 0 );
+			}
+			else {
+				//result.offset( -stateItemIndent_, 0 );
+			}
+		}
+
+	}
+	return result;
+}
+
+void ListBoxControl::paintItemState( GraphicsContext* ctx, Rect& itemRect, ListItem* item )
+{
+	Rect stateRect = getStateRect( item );
+
+	stateRect.inflate( -1, -1 );
+
+	if ( NULL != stateImageList_ ) {
+		itemRect.left_ = stateRect.right_;
+		stateImageList_->draw( ctx, item->getStateImageIndex(), &stateRect );
+	}
+	else {		
+		stateRect.inflate( -1, -1 );
+		
+		itemRect.left_ = stateRect.right_;
+
+		long state = item->getState();
+
+		ButtonState buttonState;
+		buttonState.setActive( true );
+
+		if ( (state & Item::idsChecked) || 
+				(state & Item::idsUnChecked) ) {
+
+			buttonState.setPressed( state == Item::idsChecked ? true : false );
+			ctx->drawThemeCheckboxRect( &stateRect, buttonState );
+		}
+		else if ( (state & Item::idsRadioPressed) || 
+				(state & Item::idsRadioUnpressed) ) {
+
+			buttonState.setPressed( state == Item::idsRadioPressed ? true : false );
+			ctx->drawThemeRadioButtonRect( &stateRect, buttonState );
+		}		
+	}
+}
+
+void ListBoxControl::paintItemImage( GraphicsContext* ctx, Rect& itemRect, ListItem* item )
+{
+	Rect imageRect;
+	imageRect.left_ += leftGutter_;
+	imageRect.right_ = imageRect.left_ + imageList_->getImageWidth();
+
+	ulong32 index = item->getImageIndex();	
+
+	imageRect.top_ = itemRect.top_ + (itemRect.getHeight()/2.0 - imageList_->getImageHeight()/2.0);
+	imageRect.bottom_ = imageRect.top_ + imageList_->getImageHeight();
+	
+	if ( !imageRect.isEmpty() ) {
+
+		imageRect.inflate( -1, -1 );
+
+		itemRect.left_ = imageRect.right_;
+
+		imageList_->draw( ctx, index, &imageRect );
+	}
+}
+
+void ListBoxControl::paintItem( GraphicsContext* ctx, Rect& itemRect, 
+							   double currentTop, Color* selectedTextColor, 
+							   const Rect& bounds, double scrollWidth, double offsetX,
+							   ListItem* item )
+{
+	double y = currentTop + ( (itemRect.getHeight()/2.0) - (ctx->getTextHeight( "EM" )/2.0) );
+	if ( item->isSelected() ) {
+		paintSelectionRect( ctx, &Rect(itemRect.left_-leftGutter_, itemRect.top_, itemRect.right_, itemRect.bottom_), item );
+		ctx->getCurrentFont()->setColor( selectedTextColor );
+	}
+	else {
+		ctx->getCurrentFont()->setColor( getFont()->getColor() );
+	}
+	
+	
+	Rect tmp = itemRect;
+
+	bool stateNeedsDrawing = false;
+	bool imageNeedsDrawing = false;
+
+	if ( NULL != imageList_ ) {
+		imageNeedsDrawing = true;
+	}
+
+	if ( Item::idsNone != item->getState() ) {
+		stateNeedsDrawing = true;
+	}
+
+	if ( imageNeedsDrawing ) {
+		paintItemImage( ctx, itemRect, item );
+	}
+
+	if ( stateNeedsDrawing ) {
+		paintItemState( ctx, itemRect, item );
+	}	
+
+	String itemText = item->getCaption();
+	if ( getUseLocaleStrings() ) {
+		itemText = System::getCurrentThreadLocale()->translate( itemText );
+	}
+	
+	if( textBounded_ ){
+		Rect itemPaintRect;
+		itemPaintRect.setRect(itemRect.left_ + leftGutter_, currentTop, offsetX + bounds.getWidth() - scrollWidth - leftGutter_, currentTop + defaultItemHeight_ );
+		ctx->textBoundedBy( &itemPaintRect, itemText, false );
+	}
+	else{
+		ctx->textAt( itemRect.left_ + leftGutter_, y, itemText );
+	}
+	
+
+	if ( item->canPaint() ) {
+		item->paint( ctx, &tmp );
+	}
+}
+
 void ListBoxControl::paint( GraphicsContext* ctx )
 {
 	CustomControl::paint( ctx );
@@ -315,7 +478,7 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 
 
 		Color oldFontColor;
-			oldFontColor = *getFont()->getColor();
+		oldFontColor = *getFont()->getColor();
 
 
 
@@ -329,37 +492,11 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 
 			if ( ((itemRect.top_ <= viewBounds.bottom_ ) && (itemRect.bottom_ >= viewBounds.top_ )) ||
 					(itemRect.containsPt( &viewBounds.getTopLeft()) || (itemRect.containsPt( &viewBounds.getBottomRight() )) ) ) {
-				totalHeight += itemRect.getHeight();
+				totalHeight += itemRect.getHeight();			
 
-				double y = currentTop + ( (itemRect.getHeight()/2.0) - (ctx->getTextHeight( "EM" )/2.0) );
-
-				if ( true == item->isSelected() ) {
-					paintSelectionRect( ctx, &Rect(itemRect.left_-leftGutter_, itemRect.top_, itemRect.right_, itemRect.bottom_), item );
-					ctx->getCurrentFont()->setColor( selectedTextColor );
-					//ctx->setColor( selectedTextColor );
-				}
-				else {
-					ctx->getCurrentFont()->setColor( &oldFontColor );
-					//ctx->setColor( &oldFontColor );
-				}
+				paintItem( ctx, itemRect, currentTop, selectedTextColor, 
+							bounds, scrollW, offsetx, item );
 				
-
-				String itemText = item->getCaption();
-				if ( getUseLocaleStrings() ) {
-					itemText = System::getCurrentThreadLocale()->translate( itemText );
-				}
-
-				if( textBounded_ ){
-					itemPaintRect.setRect(bounds.left_ + leftGutter_, currentTop, offsetx + width - scrollW - leftGutter_, currentTop + defaultItemHeight_ );
-					ctx->textBoundedBy( &itemPaintRect, itemText, false );
-				}
-				else{
-					ctx->textAt( bounds.left_ + leftGutter_, y, itemText );
-				}
-				
-				if ( true == item->canPaint() ) {
-					item->paint( ctx, &itemRect );
-				}
 			}
 
 			currentTop += itemRect.getHeight();
@@ -406,6 +543,17 @@ ListItem* ListBoxControl::findSingleSelectedItem( Point* pt )
 	return result;
 }
 
+bool ListBoxControl::stateHitTest( Point* point, ListItem* item )
+{
+	bool result = false;
+
+	Rect stateRect = getStateRect( item );
+
+	result = stateRect.containsPt( point );
+
+	return result;
+}
+
 void ListBoxControl::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
@@ -413,7 +561,35 @@ void ListBoxControl::mouseDown( MouseEvent* event )
 		keepMouseEvents();
 
 		ListItem* foundItem = findSingleSelectedItem( event->getPoint() );
-		if ( NULL != foundItem ) {			
+		if ( NULL != foundItem ) {
+			//check state hit test first!
+			if ( foundItem->getState() != Item::idsNone ) {
+				if ( stateHitTest( event->getPoint(), foundItem ) ) {
+					long state = foundItem->getState();
+					if ( Item::idsChecked == state ) {
+						state = Item::idsUnChecked;
+					}
+					else if ( Item::idsUnChecked == state ) {
+						state = Item::idsChecked;
+					}
+					else if ( Item::idsRadioUnpressed == state ) {
+						state = Item::idsRadioPressed;
+					}
+					else if ( Item::idsRadioPressed == state ) {
+						state = Item::idsRadioUnpressed;
+					}
+					foundItem->setState( state );
+
+					ItemEvent event( foundItem, ListBoxControl::lbeItemStateChangeRequested );
+					ItemStateChangeRequested.fireEvent( &event );
+
+					repaint();
+
+					return;
+				}
+			}
+
+
 			if ( true == allowsMultiSelect_ && true == allowsExtendedSelect_ ) {
 				if( event->hasShiftKey() ){
 					if( foundItem == singleSelectedItem_ ){
@@ -670,11 +846,25 @@ void ListBoxControl::setScrollable( Scrollable* scrollable )
 	scrollable_->setDiscreteScroll( false, true );
 }
 
+void ListBoxControl::setImageList( ImageList* imageList )
+{
+	imageList_ = imageList;
+	repaint();
+}
+
+void ListBoxControl::setStateImageList( ImageList* stateImageList )
+{
+	stateImageList_ = stateImageList;
+	repaint();
+}
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/03/20 04:29:21  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.5.2.2  2005/03/10 00:27:47  marcelloptr
 *set discrete scrolling as default behaviour for ListBoxControls
 *

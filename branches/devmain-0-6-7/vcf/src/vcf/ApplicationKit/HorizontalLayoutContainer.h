@@ -160,6 +160,11 @@ public:
 		while ( it != controls_.end() ) {
 			Control* control = *it;
 			
+			if ( control->isIgnoredForLayout() ) {
+				it ++;
+				continue;
+			}
+
 			h = maxVal<>( h, control->getPreferredHeight() );
 
 			col ++;
@@ -183,6 +188,11 @@ public:
 
 			Control* control = *it;
 
+
+			if ( control->isIgnoredForLayout() ) {
+				it ++;
+				continue;
+			}
 
 			cell.bottom_ = cell.top_ + rowHeights[row];
 
@@ -256,6 +266,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2005/03/20 04:29:21  ddiego
+*added ability to set image lists for list box control.
+*
 *Revision 1.2.2.2  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
