@@ -72,6 +72,7 @@ public:
 	virtual bool acceptsWMCommandMessages(){
 		return false;
 	}
+
 protected:
 	void destroyWindowHandle();
 
@@ -103,6 +104,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/12 02:05:45  ddiego
+*fixed a subtle bug (that only showed up when using a lightweight
+*control) that happened with MouseClick events being handled twice.
+*
 *Revision 1.1.2.4  2004/07/01 20:53:43  ddiego
 *minor fix in WS_XXX styles
 *

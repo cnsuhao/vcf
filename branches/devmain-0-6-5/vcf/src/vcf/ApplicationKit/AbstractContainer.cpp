@@ -116,9 +116,13 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 							}
 						}
 					}
-					MouseEvent localEvent( child, event->getType(), event->getButtonMask(), event->getKeyMask(), &tmp );
-					child->handleEvent( &localEvent );
-					event->setConsumed(true);//localEvent.isConsumed());
+					
+
+					if ( event->getType() != Control::MOUSE_CLICK ) {
+						MouseEvent localEvent( child, event->getType(), event->getButtonMask(), event->getKeyMask(), &tmp );
+						child->handleEvent( &localEvent );
+						event->setConsumed(true);//localEvent.isConsumed());
+					}
 					break;
 				}
 				else if ( (Control::MOUSE_MOVE == event->getType()) && (child == previousMouseEnteredChild) ) {
@@ -517,6 +521,10 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/12 02:05:45  ddiego
+*fixed a subtle bug (that only showed up when using a lightweight
+*control) that happened with MouseClick events being handled twice.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:28  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

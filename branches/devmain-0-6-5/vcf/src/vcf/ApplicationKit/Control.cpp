@@ -588,8 +588,7 @@ void Control::handleEvent( Event* event )
 						}
 					}
 				}
-
-				//mouseMove( mouseEvent );
+				
 				peer_->setCursor( cursor_ );
 				MouseMove.fireEvent( mouseEvent );
 				if (!event->isConsumed()) {
@@ -599,7 +598,7 @@ void Control::handleEvent( Event* event )
 			break;
 
 			case MOUSE_UP:{
-				//mouseUp( mouseEvent );
+
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
 
 				Point tmpPt = *mouseEvent->getPoint();
@@ -617,12 +616,14 @@ void Control::handleEvent( Event* event )
 						tmpPt.y_ -= scrollable_->getVerticalPosition();
 					}
 
+					
 					popupMenu_->popup( &tmpPt );
 				}
 
 
 				if ( clickPt_.closeTo( tmpPt.x_, tmpPt.y_, 2 ) ){
 
+					
 					MouseEvent clickEvent( this,
 											MOUSE_CLICK,
 											mouseEvent->getButtonMask(),
@@ -648,6 +649,7 @@ void Control::handleEvent( Event* event )
 			break;
 
 			case MOUSE_CLICK:{
+				
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
 				MouseClicked.fireEvent( mouseEvent );
 				mouseClick( mouseEvent );
@@ -1430,6 +1432,10 @@ bool Control::isActive()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/12 02:05:45  ddiego
+*fixed a subtle bug (that only showed up when using a lightweight
+*control) that happened with MouseClick events being handled twice.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:28  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.
