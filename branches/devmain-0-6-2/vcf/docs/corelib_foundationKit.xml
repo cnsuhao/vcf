@@ -332,7 +332,9 @@ while ( properties->hasMoreElements() ) {
 		to another object, and frequently the two objects may have no direct 
 		knowledge of each other beyond a basic base class. To further complicate 
 		matters, it is entirely possible that more than one object wants to 
-		notified when the event happens! </para><para>
+		notified when the event happens!
+		</para>
+<para>
 		One of the goals of the VCF is to provide a uniform architecture for
 		this and provide a solution that allows events to be used every where 
 		in the framework, but that in no way ties their usage just to user 
@@ -360,7 +362,7 @@ responsibilities as described in the table below.
 		<thead>
 			<row>
 				<entry>Object</entry>
-				<entry>Responsibilities </entry>
+				<entry>Responsibilities</entry>
 			</row>							
 		</thead>
 		<tbody>
@@ -387,6 +389,68 @@ responsibilities as described in the table below.
 		</tbody>	
 	</tgroup>
 </table>
+</para>
+<para>
+To make all of this work in the VCF there are three main classes that are used. The first
+is the EventHandler class. This provides an interface that wraps a C++ callback function, 
+be it a static function, or a class member function. The EventHandler class itself is an
+abstract class, the developer creates concrete template classes when using event handlers.
+For example:
+<programlisting>
+<![CDATA[
+class MyClass : public VCF::Object {
+public:
+	void onButtonClick( ButtonEvent* e ) {
+
+	}
+};
+
+MyClass* myClassInstance = ..... //get a MyClass instance
+VCF::EventHandler* handler = 
+	new ButtonEventHandler<MyClass>( myClassInstance, &MyClass::onButtonClick, "onButtonClick" );
+]]>
+</programlisting>
+The above example creates an event handler and attaches the calss member function MyClass::onButtonClick
+to the event handler.
+</para>
+<para>
+The next part of this is the Delegate class. The Delegate represents a single event that would 
+be fired by the source object, and holds a collection of EventHandlers. The Delegate allows 
+you to add or remove event handlers at will. For example:
+<programlisting>
+<![CDATA[
+EventHandler* handler = ...//get handler from somewhere
+
+Delegate d;
+//add a handler
+d.addHandler( handler );
+
+//remove handler
+d.removeHandler( handler );
+
+//or if you prefer the syntactical "sugar"
+d += handler;
+
+//to remove the handler
+d -= handler;
+]]>
+</programlisting>
+The Delegate also handles routing a single Event instance, as the result of the source object
+firing an event, to all of the handlers that have registered with it. This is accomplished
+by calling the Delegate::fireEvent() method, and passing in an event.
+<programlisting>
+<![CDATA[
+Delegate d;
+Event event( this, 123 );
+//fire the event
+d.fireEvent( &event );
+]]>
+</programlisting>
+That's all there is to it! Delegate::fireEvent() will take the event, and loop through it's 
+list of event handler's. For each handler, it will check to verify the event has not been 
+marked as being consumed (Event::isConsumed() returns false), and then call the 
+EventHandler::invoke() method on the handler, which in turn invokes the callback function.
+
 </para>
 	</section>
 
@@ -429,6 +493,9 @@ responsibilities as described in the table below.
 <!-- 
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/11/07 05:08:04  ddiego
+added some more docs
+
 Revision 1.1.2.3  2003/11/04 22:10:31  ddiego
 *** empty log message ***
 
