@@ -479,12 +479,6 @@
 				RelativePath="..\..\..\include\events\ControlEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\events\DragEvent.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\events\DropEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\events\FocusEvent.cpp">
 			</File>
 			<File
