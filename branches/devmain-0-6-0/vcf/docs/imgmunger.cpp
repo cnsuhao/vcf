@@ -7,10 +7,10 @@ using namespace std;
 int main( int argc, char** argv )
 {
 	if ( argc < 3 ) {
-		printf( "Please pass in a the source dir and file name !\n" );
+		printf( "Please pass in a the img dir and file name !\n" );
 		return 1;
 	}
-	string sourcedir = argv[1];
+	string imgdir = argv[1];
 
 //
 	FILE* f = fopen( argv[2], "rb" );
@@ -34,11 +34,11 @@ int main( int argc, char** argv )
 		
 
 		if ( pos != string::npos ) {
-			int hrefpos = pos;
-			hrefpos = s.find( "<a", hrefpos + 1 );
-			pos = s.find( ">", hrefpos + 1 );
-			while ( (pos != string::npos) && (hrefpos != string::npos) && (hrefpos < endpos) && (pos > hrefpos) ) {
-				int refpos = s.find( "href", hrefpos + 1 );
+			int imgpos = pos;
+			imgpos = s.find( "<img", imgpos + 1 );
+			pos = s.find( ">", imgpos + 1 );
+			while ( (pos != string::npos) && (imgpos != string::npos) && (imgpos < endpos) && (pos > imgpos) ) {
+				int refpos = s.find( "src", imgpos + 1 );
 				if ( (refpos != string::npos) && (refpos < pos) ) {
 					refpos = s.find( "=\"", refpos+1 );
 					if ( refpos != string::npos ) {
@@ -48,7 +48,7 @@ int main( int argc, char** argv )
 
 						s.erase( refpos, pos - refpos );
 						
-						tmp  = "ref.php?src=" + sourcedir + "/" + tmp;
+						tmp  = imgdir + "/" + tmp;
 						s.insert( refpos, tmp );
 
 						if ( refpos <= pos ) {
@@ -59,8 +59,8 @@ int main( int argc, char** argv )
 					}
 				}
 
-				hrefpos = s.find( "<a", pos + 1 );
-				pos = s.find( ">", hrefpos + 1 );				
+				imgpos = s.find( "<img", pos + 1 );
+				pos = s.find( ">", imgpos + 1 );				
 			}			
 		}
 
