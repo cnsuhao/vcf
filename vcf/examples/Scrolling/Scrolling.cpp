@@ -44,9 +44,9 @@ public:
 
 		//add our event handler to the menu item
 		fileOpenImageMenu->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::openImage, "ScrollingWindow::openImage" ) );
+			new MenuItemEventHandler<ScrollingWindow>( this,&ScrollingWindow::openImage, "ScrollingWindow::openImage" ) );
 		fileOpenListboxMenu->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::openListboxMenu, "ScrollingWindow::openListboxMenu" ) );
+			new MenuItemEventHandler<ScrollingWindow>( this,&ScrollingWindow::openListboxMenu, "ScrollingWindow::openListboxMenu" ) );
 
 		// Scrollbar menu
 		MenuItem* scrollMenu = new DefaultMenuItem( "FrameScrollbars", menuBar->getRootMenuItem(), menuBar );
@@ -60,13 +60,13 @@ public:
 
 		//add our event handler to the scrollbar menu
 		hasHorzScrollbarMenu_->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ScrollingWindow>( this, ScrollingWindow::hasHorzScrollbar, "ScrollingWindow::hasHorzScrollbar" ) );
+			new MenuItemEventHandler<ScrollingWindow>( this, &ScrollingWindow::hasHorzScrollbar, "ScrollingWindow::hasHorzScrollbar" ) );
 		hasVertScrollbarMenu_->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ScrollingWindow>( this, ScrollingWindow::hasVertScrollbar, "ScrollingWindow::hasVertScrollbar" ) );
+			new MenuItemEventHandler<ScrollingWindow>( this, &ScrollingWindow::hasVertScrollbar, "ScrollingWindow::hasVertScrollbar" ) );
 		keepHorzScrollbarVisibleMenu_->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ScrollingWindow>( this, ScrollingWindow::keepHorzScrollbarVisible, "ScrollingWindow::keepHorzScrollbarVisible" ) );
+			new MenuItemEventHandler<ScrollingWindow>( this, &ScrollingWindow::keepHorzScrollbarVisible, "ScrollingWindow::keepHorzScrollbarVisible" ) );
 		keepVertScrollbarVisibleMenu_->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ScrollingWindow>( this, ScrollingWindow::keepVertScrollbarVisible, "ScrollingWindow::keepVertScrollbarVisible" ) );
+			new MenuItemEventHandler<ScrollingWindow>( this, &ScrollingWindow::keepVertScrollbarVisible, "ScrollingWindow::keepVertScrollbarVisible" ) );
 
 
 		//set the border of the window, this will give us a nice etched border
@@ -349,6 +349,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.11  2004/10/07 15:03:33  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.4.2.10  2004/09/21 22:47:50  marcelloptr
 *added setVirtualViewStep functions for the scrollbars and other minor changes
 *

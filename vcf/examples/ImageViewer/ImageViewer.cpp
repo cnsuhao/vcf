@@ -41,7 +41,7 @@ public:
 
 		//add our event handler to the menu item
 		fileOpenImageMenu->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ImageViewerWindow>( this,ImageViewerWindow::openImage, "ImageViewerWindow::openImage" ) );
+			new MenuItemEventHandler<ImageViewerWindow>( this,&ImageViewerWindow::openImage, "ImageViewerWindow::openImage" ) );
 
 
 
@@ -160,6 +160,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2004/10/07 15:03:33  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.4  2004/08/07 02:47:29  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

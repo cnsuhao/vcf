@@ -161,7 +161,7 @@ public:
 		String tmp = value;
 		ulong32 pos = tmp.find( "," );
 
-		while ( pos != String::npos ) {
+		while ( pos != VCF::String::npos ) {
 			addAsString( tmp.substr( 0, pos ) );
 			tmp.erase( 0, pos+1 );
 			pos = tmp.find( "," );
@@ -3318,6 +3318,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/07 15:05:41  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

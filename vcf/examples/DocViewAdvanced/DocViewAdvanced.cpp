@@ -703,7 +703,7 @@ public:
 
 		sbm->setHasHorizontalScrollbar( true );
 		sbm->setHasVerticalScrollbar( true );
-		sbm->setKeepScrollbarsVisible( true );
+		sbm->setKeepScrollbarsVisible( true ,true);
 
 
 		//create our custom menus here

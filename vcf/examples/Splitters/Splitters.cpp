@@ -23,7 +23,7 @@ class MyPanel : public Panel
 public:
 	MyPanel( SplittersWindow* mainWnd ) {
 		mainWnd_ = mainWnd;
-		MouseClicked += new ControlEventHandler<MyPanel>(this, MyPanel::onMouseClicked, "MyPanel::onMouseClicked" );
+		MouseClicked += new ControlEventHandler<MyPanel>(this, &MyPanel::onMouseClicked, "MyPanel::onMouseClicked" );
 	}
 
 	SplittersWindow* getMainWindow() {
@@ -45,8 +45,8 @@ public:
 		setCaption( "Splitters" );
 		setVisible( true );
 
-		ControlSized += new ControlEventHandler<SplittersWindow>(this, SplittersWindow::onResized, "SplittersWindow::onResized" );
-		ControlPositioned += new ControlEventHandler<SplittersWindow>(this, SplittersWindow::onPosChanged, "SplittersWindow::onPosChanged" );
+		ControlSized += new ControlEventHandler<SplittersWindow>(this, &SplittersWindow::onResized, "SplittersWindow::onResized" );
+		ControlPositioned += new ControlEventHandler<SplittersWindow>(this, &SplittersWindow::onPosChanged, "SplittersWindow::onPosChanged" );
 
 		Panel* buttonsPanel = new Panel();
 		buttonsPanel->setUseColorForBackground( true );
@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2004/10/07 15:03:35  kiklop74
+*Fixed building issues with bcb
+*
 *Revision 1.5  2004/08/07 02:47:37  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
