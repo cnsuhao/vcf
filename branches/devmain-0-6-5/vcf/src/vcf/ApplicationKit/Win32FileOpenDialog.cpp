@@ -40,11 +40,10 @@ void Win32FileOpenDialog::setTitle( const String& title )
 	title_ = title;
 }
 
-bool Win32FileOpenDialog::execute()
+bool Win32FileOpenDialog::executeW()
 {
-
-	OPENFILENAME ofn;
-	memset( &ofn, 0, sizeof(OPENFILENAME) );
+	OPENFILENAMEW ofn;
+	memset( &ofn, 0, sizeof(OPENFILENAMEW) );
 	ofn.lStructSize = sizeof(ofn);
 	HWND ownerWnd = NULL;
 	if ( NULL != owner_ ){
@@ -57,20 +56,20 @@ bool Win32FileOpenDialog::execute()
 
 
 	//allocate enough for 255 long file names
-	TCHAR* tmpFileName = NULL;
+	WCHAR* tmpFileName = NULL;
 
 	if ( true == allowsMultiSelect_ ) {
-		tmpFileName = new TCHAR[MAX_PATH * MAX_PATH];
+		tmpFileName = new WCHAR[MAX_PATH * MAX_PATH];
 		memset(tmpFileName, 0,  MAX_PATH * MAX_PATH);
 		ofn.nMaxFile = MAX_PATH * MAX_PATH;
 	}
 	else {
-		tmpFileName = new TCHAR[MAX_PATH];
+		tmpFileName = new WCHAR[MAX_PATH];
 		memset(tmpFileName, 0, MAX_PATH);
 		ofn.nMaxFile = MAX_PATH;
 	}
 
-	TCHAR tmpDir[MAX_PATH];
+	WCHAR tmpDir[MAX_PATH];
 	memset(tmpDir, 0, MAX_PATH);
 	directory_.copy( tmpDir, directory_.size() );
 
@@ -81,9 +80,9 @@ bool Win32FileOpenDialog::execute()
 	ofn.lpstrInitialDir = tmpDir;
 
 
-	TCHAR* tmpTitle = NULL;
+	WCHAR* tmpTitle = NULL;
 	if ( title_.size() > 0 ){
-		tmpTitle = new TCHAR[title_.size()+1];
+		tmpTitle = new WCHAR[title_.size()+1];
 		memset( tmpTitle, 0, title_.size()+1 );
 		title_.copy( tmpTitle, title_.size() );
 	}
@@ -127,7 +126,7 @@ bool Win32FileOpenDialog::execute()
 
 
 	int size = _MAX_PATH * filter_.size();
-	TCHAR *tmpFilter = new TCHAR[size];
+	WCHAR *tmpFilter = new WCHAR[size];
 	memset( tmpFilter, 0, size );
 
 	filter = filter_.begin();
@@ -149,14 +148,14 @@ bool Win32FileOpenDialog::execute()
 
 	selectedFilter_ = "";
 
-	if ( GetOpenFileName( &ofn ) ){
+	if ( GetOpenFileNameW( &ofn ) ){
 		result = true;
-		TCHAR* fileStart = (char*)(ofn.lpstrFile + (ofn.nFileOffset-1));
+		WCHAR* fileStart = (WCHAR*)(ofn.lpstrFile + (ofn.nFileOffset-1));
 		if ( *fileStart == '\0' ){
 
 			directory_ = ofn.lpstrFile; //this represents the dir path - everything after this will be the file names
 
-			TCHAR* s = fileStart + 1;
+			WCHAR* s = fileStart + 1;
 			bool atTheEnd = false;
 			if ( *(s+1) == '\0' ){//double null terminators end the string
 				atTheEnd = true;
@@ -196,6 +195,176 @@ bool Win32FileOpenDialog::execute()
 	delete [] tmpFilter;
 
 	return result;
+}
+
+bool Win32FileOpenDialog::executeA()
+{
+	OPENFILENAMEA ofn;
+	memset( &ofn, 0, sizeof(OPENFILENAMEA) );
+	ofn.lStructSize = sizeof(ofn);
+	HWND ownerWnd = NULL;
+	if ( NULL != owner_ ){
+		ControlPeer* impl = owner_->getPeer();
+		ownerWnd = (HWND)impl->getHandleID();
+	}
+
+	ofn.hwndOwner = ownerWnd;
+	ofn.hInstance = NULL;
+
+
+	//allocate enough for 255 long file names
+	char* tmpFileName = NULL;
+
+	if ( true == allowsMultiSelect_ ) {
+		tmpFileName = new char[MAX_PATH * MAX_PATH];
+		memset(tmpFileName, 0,  MAX_PATH * MAX_PATH);
+		ofn.nMaxFile = MAX_PATH * MAX_PATH;
+	}
+	else {
+		tmpFileName = new char[MAX_PATH];
+		memset(tmpFileName, 0, MAX_PATH);
+		ofn.nMaxFile = MAX_PATH;
+	}
+
+	char tmpDir[MAX_PATH];
+	memset(tmpDir, 0, MAX_PATH);
+	directory_.copy( tmpDir, directory_.size() );
+
+	fileName_.copy( tmpFileName, fileName_.size() );
+
+
+	ofn.lpstrFile = tmpFileName;
+	ofn.lpstrInitialDir = tmpDir;
+
+
+	char* tmpTitle = NULL;
+	if ( title_.size() > 0 ){
+		tmpTitle = new char[title_.size()+1];
+		memset( tmpTitle, 0, title_.size()+1 );
+		title_.copy( tmpTitle, title_.size() );
+	}
+
+	ofn.lpstrTitle = tmpTitle;
+
+	ofn.Flags = OFN_EXPLORER;
+
+	if ( true == allowsMultiSelect_ ){
+		ofn.Flags |= OFN_ALLOWMULTISELECT;
+	}
+
+	if ( true == fileMustExist_ ){
+		ofn.Flags |= OFN_FILEMUSTEXIST;
+	}
+
+	if ( filter_.size() == 0 ) {//then add a default filter
+		filter_.push_back( "Any File" );
+		filter_.push_back( "*.*" );
+	}
+
+
+	int selectedFilterIndex = 0;
+
+	std::vector<String>::iterator filter = filter_.begin();
+
+	if ( !selectedFilter_.empty() ) {
+		std::vector<String>::iterator filter = filter_.begin();
+		while ( filter != filter_.end() ){
+			filter++;
+
+			String s = *filter;
+			if ( String::npos != s.find( selectedFilter_ ) ) {
+				selectedFilterIndex = ((filter - filter_.begin())/2 )+1;
+				break;
+			}
+
+			filter++;
+		}
+	}
+
+
+	int size = _MAX_PATH * filter_.size();
+	char *tmpFilter = new TCHAR[size];
+	memset( tmpFilter, 0, size );
+
+	filter = filter_.begin();
+	String tmp;
+	while ( filter != filter_.end() ){
+		tmp += *filter + '\0';
+		filter++;
+	}
+	tmp += '\0';
+	tmp.copy( tmpFilter, tmp.size() );
+
+	ofn.lpstrFilter = 	tmpFilter;
+
+	ofn.nFilterIndex = selectedFilterIndex;
+
+	bool result = false;
+
+	selectedFiles_.clear();
+
+	selectedFilter_ = "";
+
+	if ( GetOpenFileNameA( &ofn ) ){
+		result = true;
+		char* fileStart = (char*)(ofn.lpstrFile + (ofn.nFileOffset-1));
+		if ( *fileStart == '\0' ){
+
+			directory_ = ofn.lpstrFile; //this represents the dir path - everything after this will be the file names
+
+			char* s = fileStart + 1;
+			bool atTheEnd = false;
+			if ( *(s+1) == '\0' ){//double null terminators end the string
+				atTheEnd = true;
+			}
+			while ( !atTheEnd ){
+				selectedFiles_.push_back( s );
+				while ( *s != '\0' ){
+					s++;
+				}
+				s++;//increment past the null seperator
+				if ( *(s+1) == '\0' ){
+					atTheEnd = true;
+				}
+			}
+			fileName_ = "";
+		}
+		else {
+			fileName_ = ofn.lpstrFile;
+
+			FilePath fp = fileName_;
+			selectedFiles_.push_back( fp.getName( true ) );
+			directory_ = fp.getPathName(true);
+		}
+
+		if ( ofn.nFilterIndex > 0 ) {
+			int index = ((ofn.nFilterIndex-1) * 2) + 1;
+
+			selectedFilter_ = filter_[index];
+		}
+	}
+
+
+	delete [] tmpFileName;
+
+	delete [] tmpTitle;
+
+	delete [] tmpFilter;
+
+	return result;
+}
+
+bool Win32FileOpenDialog::execute()
+{
+	bool result = false;
+	if ( System::isUnicodeEnabled() ) {
+		result = executeW();
+	}	
+	else {
+		result = executeA();
+	}
+	return result;
+	
 }
 
 void Win32FileOpenDialog::addFilter( const String & description, const String & extension )
@@ -258,6 +427,9 @@ void Win32FileOpenDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/04 17:16:07  ddiego
+*updated some win32 stuff for unicode compliance
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

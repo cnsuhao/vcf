@@ -155,18 +155,34 @@ void Win32Tree::create( Control* owningControl )
 
 	String className = getClassName();
 
-	hwnd_ = ::CreateWindowEx( exStyleMask_,
-		                             WC_TREEVIEW,
-									 NULL,
-									 styleMask_,
-									 0,
-									 0,
-									 1,
-									 1,
-									 parent,
-									 NULL,
-									 ::GetModuleHandle(NULL),
-									 NULL );
+	if ( System::isUnicodeEnabled() ) {
+		hwnd_ = ::CreateWindowExW( exStyleMask_,
+										 WC_TREEVIEWW,
+										 NULL,
+										 styleMask_,
+										 0,
+										 0,
+										 1,
+										 1,
+										 parent,
+										 NULL,
+										 ::GetModuleHandleW(NULL),
+										 NULL );
+	}
+	else {
+		hwnd_ = ::CreateWindowExA( exStyleMask_,
+										 WC_TREEVIEWA,
+										 NULL,
+										 styleMask_,
+										 0,
+										 0,
+										 1,
+										 1,
+										 parent,
+										 NULL,
+										 ::GetModuleHandleA(NULL),
+										 NULL );
+	}
 
 
 	if ( NULL != hwnd_ ){
@@ -298,7 +314,12 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 	switch ( message ) {
 		case WM_PAINT:{
-			result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			if ( System::isUnicodeEnabled() ) {
+				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
+			else{
+				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}			
 		}
 		break;
 
@@ -313,13 +334,24 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 				backColor_.copy( color );
 			}
-			result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			if ( System::isUnicodeEnabled() ) {
+				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
+			else{
+				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
 		}
 		break;
 
 		case WM_LBUTTONDOWN : {
 
-			CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			if ( System::isUnicodeEnabled() ) {
+				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
+			else{
+				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
+			
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 			TVHITTESTINFO hitTestInfo;
@@ -356,7 +388,12 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 			Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
 
-			CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			if ( System::isUnicodeEnabled() ) {
+				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
+			else{
+				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			}
 
 			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
 				peerControl_->handleEvent( event );
@@ -398,16 +435,32 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case TVN_GETDISPINFO:{
-			LPNMTVDISPINFO lptvdi = (LPNMTVDISPINFO) lParam ;
-			if ( lptvdi->item.mask & TVIF_TEXT ) {
-				static String text;
-				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
-				if ( NULL != item ) {
-					text = item->getCaption();
-					text.copy( lptvdi->item.pszText, text.size() );
+		case TVN_GETDISPINFOW: case TVN_GETDISPINFOA: {
+			if ( System::isUnicodeEnabled() && (message == TVN_GETDISPINFOW) ) {
+				LPNMTVDISPINFOW lptvdi = (LPNMTVDISPINFOW) lParam ;
+				if ( lptvdi->item.mask & TVIF_TEXT ) {
+					static String text;
+					TreeItem* item = (TreeItem*)lptvdi->item.lParam;
+					if ( NULL != item ) {
+						text = item->getCaption();
+						text.copy( lptvdi->item.pszText, text.size() );
+						lptvdi->item.pszText[text.size()] = 0;
+					}
 				}
 			}
+			else if ( !System::isUnicodeEnabled() && (message == TVN_GETDISPINFOA) ) {
+				LPNMTVDISPINFOA lptvdi = (LPNMTVDISPINFOA) lParam ;
+				if ( lptvdi->item.mask & TVIF_TEXT ) {
+					static String text;
+					TreeItem* item = (TreeItem*)lptvdi->item.lParam;
+					if ( NULL != item ) {
+						AnsiString tmp = item->getCaption();
+						
+						tmp.copy( lptvdi->item.pszText, tmp.size() );
+					}
+				}
+			}
+			
 		}
 		break;
 
@@ -455,8 +508,33 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case TVN_SELCHANGED:{
-			NMTREEVIEW* treeview = (NMTREEVIEW*)lParam;
+		case TVN_SELCHANGEDW:{
+			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
+			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
+			if ( NULL != item ) {
+				item->setSelected( true );
+				POINT tmpPt = {0,0};
+				GetCursorPos( &tmpPt );
+				::ScreenToClient( hwnd_, &tmpPt );
+				ItemEvent event( treeControl_, TREEITEM_SELECTED );
+
+				event.setUserData( (void*)item );
+
+				Point pt( tmpPt.x, tmpPt.y );
+				event.setPoint( &pt );
+
+				treeControl_->handleEvent( &event );
+			}
+
+			item = (TreeItem*)treeview->itemOld.lParam;
+			if ( NULL != item ) {
+				item->setSelected( false );
+			}
+		}
+		break;
+
+		case TVN_SELCHANGEDA:{
+			NMTREEVIEWA* treeview = (NMTREEVIEWA*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
 			if ( NULL != item ) {
 				item->setSelected( true );
@@ -574,52 +652,109 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 void Win32Tree::addItem( TreeItem* item )
 {
-	TVINSERTSTRUCT insert;
-	memset( &insert, 0, sizeof(TVINSERTSTRUCT) );
-	TVITEM tvItem;
-	memset( &tvItem, 0, sizeof(TVITEM) );
+	HTREEITEM addedItem = NULL;
 
-	TreeItem* parent = item->getParent();
-	HTREEITEM itemParent = NULL;
-	if ( NULL != parent ){
-		std::map<TreeItem*,HTREEITEM>::iterator it =
-		treeItems_.find( parent );
-		if ( it != treeItems_.end() ){
-			itemParent = it->second;
+	if ( System::isUnicodeEnabled() ) {
+		TVINSERTSTRUCTW insert;
+		memset( &insert, 0, sizeof(TVINSERTSTRUCTW) );
+		TVITEMW tvItem;
+		memset( &tvItem, 0, sizeof(TVITEMW) );
+		
+		TreeItem* parent = item->getParent();
+		HTREEITEM itemParent = NULL;
+		if ( NULL != parent ){
+			std::map<TreeItem*,HTREEITEM>::iterator it =
+				treeItems_.find( parent );
+			if ( it != treeItems_.end() ){
+				itemParent = it->second;
+			}
+			else{
+				//throw exception;
+			}
 		}
-		else{
-			//throw exception;
+		tvItem.mask = TVIF_TEXT | TVIF_PARAM;
+		if ( imageListCtrl_ != NULL ) {
+			tvItem.mask |= TVIF_IMAGE;
+			tvItem.iImage = item->getImageIndex();
 		}
-	}
-	tvItem.mask = TVIF_TEXT | TVIF_PARAM;
-	if ( imageListCtrl_ != NULL ) {
-		tvItem.mask |= TVIF_IMAGE;
-		tvItem.iImage = item->getImageIndex();
-	}
+		
+		if ( item->getStateImageIndex() >= 0 ) {
+			tvItem.mask |= TVIF_STATE;
+			//INDEXTOSTATEIMAGEMASK is one based, but Item::getStateImageIndex() is zero based
+			tvItem.state = INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
+			tvItem.stateMask = TVIS_STATEIMAGEMASK;
+		}
+		
+		if ( item->getSelectedImageIndex() >= 0 ) {
+			tvItem.mask |= TVIF_SELECTEDIMAGE ;
+			tvItem.iSelectedImage = item->getSelectedImageIndex();
+		}
+		
+		tvItem.cchTextMax = 0;//item->getCaption().size()+1;
+		//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
+		//memset( tmpName, 0, tvItem.cchTextMax );
+		//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
+		
+		tvItem.pszText = LPSTR_TEXTCALLBACKW;//tmpName;
+		tvItem.lParam = (LPARAM)item;
+		insert.hParent = itemParent;
+		insert.hInsertAfter = TVI_LAST;
+		insert.item = tvItem;
 
-	if ( item->getStateImageIndex() >= 0 ) {
-		tvItem.mask |= TVIF_STATE;
-		//INDEXTOSTATEIMAGEMASK is one based, but Item::getStateImageIndex() is zero based
-		tvItem.state = INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
-		tvItem.stateMask = TVIS_STATEIMAGEMASK;
+		addedItem = (HTREEITEM)::SendMessage( hwnd_, TVM_INSERTITEMW, 0, (LPARAM)&insert );
 	}
+	else {
+		TVINSERTSTRUCTA insert;
+		memset( &insert, 0, sizeof(TVINSERTSTRUCTA) );
+		TVITEMA tvItem;
+		memset( &tvItem, 0, sizeof(TVITEMA) );
+		
+		TreeItem* parent = item->getParent();
+		HTREEITEM itemParent = NULL;
+		if ( NULL != parent ){
+			std::map<TreeItem*,HTREEITEM>::iterator it =
+				treeItems_.find( parent );
+			if ( it != treeItems_.end() ){
+				itemParent = it->second;
+			}
+			else{
+				//throw exception;
+			}
+		}
+		tvItem.mask = TVIF_TEXT | TVIF_PARAM;
+		if ( imageListCtrl_ != NULL ) {
+			tvItem.mask |= TVIF_IMAGE;
+			tvItem.iImage = item->getImageIndex();
+		}
+		
+		if ( item->getStateImageIndex() >= 0 ) {
+			tvItem.mask |= TVIF_STATE;
+			//INDEXTOSTATEIMAGEMASK is one based, but Item::getStateImageIndex() is zero based
+			tvItem.state = INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
+			tvItem.stateMask = TVIS_STATEIMAGEMASK;
+		}
+		
+		if ( item->getSelectedImageIndex() >= 0 ) {
+			tvItem.mask |= TVIF_SELECTEDIMAGE ;
+			tvItem.iSelectedImage = item->getSelectedImageIndex();
+		}
+		
+		tvItem.cchTextMax = 0;//item->getCaption().size()+1;
+		//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
+		//memset( tmpName, 0, tvItem.cchTextMax );
+		//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
+		
+		tvItem.pszText = LPSTR_TEXTCALLBACKA;//tmpName;
+		tvItem.lParam = (LPARAM)item;
+		insert.hParent = itemParent;
+		insert.hInsertAfter = TVI_LAST;
+		insert.item = tvItem;
 
-	if ( item->getSelectedImageIndex() >= 0 ) {
-		tvItem.mask |= TVIF_SELECTEDIMAGE ;
-		tvItem.iSelectedImage = item->getSelectedImageIndex();
+		addedItem = (HTREEITEM)SendMessage( hwnd_, TVM_INSERTITEMA, 0, (LPARAM)&insert );
 	}
+	
 
-	tvItem.cchTextMax = 0;//item->getCaption().size()+1;
-	//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
-	//memset( tmpName, 0, tvItem.cchTextMax );
-	//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
-
-	tvItem.pszText = LPSTR_TEXTCALLBACK;//tmpName;
-	tvItem.lParam = (LPARAM)item;
-	insert.hParent = itemParent;
-	insert.hInsertAfter = TVI_LAST;
-	insert.item = tvItem;
-	HTREEITEM addedItem = TreeView_InsertItem( hwnd_, &insert );
+	
 
 	//delete [] tmpName;
 
@@ -679,35 +814,69 @@ void Win32Tree::onItemChanged( ItemEvent* event )
 						}
 					}
 					else {
-						TVITEM tvItem;
-						memset( &tvItem, 0, sizeof(TVITEM) );
-
-						tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;
-						tvItem.iImage = item->getImageIndex();
-
-						tvItem.mask |= TVIF_STATE;
-
-						if ( item->getTextBold() ) {
-							tvItem.state |= TVIS_BOLD;
-						}
-
-						tvItem.stateMask |= TVIS_BOLD;
-
-
-						if ( item->getStateImageIndex() >= 0 ) {
+						if ( System::isUnicodeEnabled() ) {
+							TVITEMW tvItem;
+							memset( &tvItem, 0, sizeof(TVITEMW) );
+							
+							tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;
+							tvItem.iImage = item->getImageIndex();
+							
 							tvItem.mask |= TVIF_STATE;
-							tvItem.state |= INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
-							tvItem.stateMask |= TVIS_STATEIMAGEMASK;
+							
+							if ( item->getTextBold() ) {
+								tvItem.state |= TVIS_BOLD;
+							}
+							
+							tvItem.stateMask |= TVIS_BOLD;
+							
+							
+							if ( item->getStateImageIndex() >= 0 ) {
+								tvItem.mask |= TVIF_STATE;
+								tvItem.state |= INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
+								tvItem.stateMask |= TVIS_STATEIMAGEMASK;
+							}
+							
+							if ( item->getSelectedImageIndex() >= 0 ) {
+								tvItem.mask |= TVIF_SELECTEDIMAGE ;
+								tvItem.iSelectedImage = item->getSelectedImageIndex();
+							}
+							
+							tvItem.hItem = it->second;
+							
+							
+							SendMessage( hwnd_, TVM_SETITEMW, 0, (LPARAM)&tvItem );
 						}
-
-						if ( item->getSelectedImageIndex() >= 0 ) {
-							tvItem.mask |= TVIF_SELECTEDIMAGE ;
-							tvItem.iSelectedImage = item->getSelectedImageIndex();
-						}
-
-						tvItem.hItem = it->second;
-
-						TreeView_SetItem( hwnd_, &tvItem );
+						else {
+							TVITEMA tvItem;
+							memset( &tvItem, 0, sizeof(TVITEMA) );
+							
+							tvItem.mask = TVIF_HANDLE | TVIF_IMAGE ;
+							tvItem.iImage = item->getImageIndex();
+							
+							tvItem.mask |= TVIF_STATE;
+							
+							if ( item->getTextBold() ) {
+								tvItem.state |= TVIS_BOLD;
+							}
+							
+							tvItem.stateMask |= TVIS_BOLD;
+							
+							
+							if ( item->getStateImageIndex() >= 0 ) {
+								tvItem.mask |= TVIF_STATE;
+								tvItem.state |= INDEXTOSTATEIMAGEMASK( item->getStateImageIndex() );
+								tvItem.stateMask |= TVIS_STATEIMAGEMASK;
+							}
+							
+							if ( item->getSelectedImageIndex() >= 0 ) {
+								tvItem.mask |= TVIF_SELECTEDIMAGE ;
+								tvItem.iSelectedImage = item->getSelectedImageIndex();
+							}
+							
+							tvItem.hItem = it->second;
+							
+							SendMessage( hwnd_, TVM_SETITEMA, 0, (LPARAM)&tvItem );
+						}						
 					}
 				}
 			}
@@ -852,6 +1021,9 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/04 17:16:07  ddiego
+*updated some win32 stuff for unicode compliance
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
