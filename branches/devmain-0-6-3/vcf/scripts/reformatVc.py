@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-#Author: Marcello Pietrobon
+#
+# Author: Marcello Pietrobon
 #
 
 """
@@ -24,11 +25,20 @@ modules ={}
 compilerVc6  = 'vc6'
 compilerVc70 = 'vc70'
 compilerVc71 = 'vc71'
-g_default_config = "reformatVcConfig.ini"
+g_default_config = "reformatVc.ini"
 g_default_section = "vcfscript"
 g_default_allProjects = './build/vc60/vcfAllProjects.dsw'
 g_default_allExamples = './Examples/Examples.dsw'
-g_dependenciesWorkspace = './build/vc60/vcfAllLibs.dsw'     # osolete but still implemented: workspace with all the dependencies to copy into the allProjectsWorkspace workspace ( not used anymore )
+g_dependenciesWorkspace = './build/vc60/vcfAllLibs.dsw'
+
+# ( hardcoded )
+g_tableFilterWorkspacesCreation = {}
+g_tableFilterWorkspacesCreation[ 'vcfallprojects' ] = './'
+g_tableFilterWorkspacesCreation[ 'examples' ] = 'examples/'
+
+# ( hardcoded )
+g_gtkLibrariesList = [ 'GraphicsKitGtk', 'ApplicationKitGtk' ] # Remark: this list must follow an increasing dependency order
+
 
 # deleteLineString               = '# PROP Scc_'   # obsolete
 
@@ -234,6 +244,17 @@ class FileUtils:
         return True
     sameDrive = staticmethod(sameDrive)
 
+    def normPathSimple( path, unixStyle, keepFirstDot=False ):
+        # this function is probaly going to slowly replace os.path.normpath()
+        if ( unixStyle ):
+            path = path.replace("\\", "/")
+            path = path.replace("//", "/")      # eliminates doubles
+        else:
+            path = path.replace("/", "\\")
+            path = path.replace("\\\\", "\\")   # eliminates doubles
+        return path
+    normPathSimple = staticmethod(normPathSimple)
+
     def normPath( path, unixStyle, keepFirstDot=False ):
         # gets rid of exceding './' ( included the first ) and of the final '/'
         hasCurr = False
@@ -241,6 +262,9 @@ class FileUtils:
             curr = './'
         else:
             curr = '.\\'
+
+        # we need to do this first otherwise problems under cygwin when unixStyle=True but the path starts with r'.\'
+        path = FileUtils.normPathSimple( path, unixStyle )
 
         if ( path == '.' or path == curr ):
             if ( keepFirstDot ):
@@ -252,18 +276,14 @@ class FileUtils:
         if ( path and path[0] == '.' ):
             if ( 1 < len(path) and path[1] in '/\\' ):
                 hasCurr = True
-
+            
         path = os.path.normpath( path ) # eliminates the first './' unless it is just that
-
-        if ( unixStyle ):
-            path = path.replace("\\", "/")
-            path = path.replace("//", "/")      # eliminates doubles
-        else:
-            path = path.replace("/", "\\")
-            path = path.replace("\\\\", "\\")   # eliminates doubles
 
         if ( hasCurr and keepFirstDot ):
             path = curr + path
+
+        # again unfortunately, because of os.path.normpath(). In the future implement just normPathSimple
+        path = FileUtils.normPathSimple( path, unixStyle )
 
         return path
     normPath = staticmethod(normPath)
@@ -314,14 +334,14 @@ class FileUtils:
             #workingpath = FileUtils.absolutePath( '', workingpath, unixStyle ) # this might solve well the problem: will check later
 
         if ( len ( workingpath ) == 0 ):
-            workingpath = os.getcwd()
+            workingpath = app.getcwd()
             workingpath = os.path.normpath( workingpath )
 
         path = path.replace("\\", "/")
         path = path.replace("//", "/")   # eliminates doubles
 
-        workingpath = workingpath.replace("\\", "/")
-        workingpath = workingpath.replace("//", "/")   # eliminates doubles
+        workingpath = workingpath.replace("\\", "/")    # again, because of os.path.normpath() %%%
+        workingpath = workingpath.replace("//", "/")    # eliminates doubles
 
         if ( len ( workingpath ) == 0 ):
             raise Exception( 'absolutePath() couldn\'t get any working path ' )
@@ -401,8 +421,8 @@ class FileUtils:
         rpath = rpath.replace("\\", "/")
         rpath = rpath.replace("//", "/")   # eliminates doubles
 
-        ( bdrive, bpath ) = os.path.splitdrive( bpath ) # %%% fixed: was basepath
-        ( rdrive, rpath ) = os.path.splitdrive( rpath ) # %%% fixed: was path
+        ( bdrive, bpath ) = os.path.splitdrive( bpath )
+        ( rdrive, rpath ) = os.path.splitdrive( rpath )
 
         fromRelativePath = ( rpath and rpath[0] != '/' )
 
@@ -716,22 +736,32 @@ class DspApp:
     def __init__(self):
         # version = '1.0.1 - 1 mar 2004'
 
-        self.initialCwd = os.getcwd()
-        self.workingDir = self.initialCwd
+        #self.initialCwd = self.getcwd()
+        #self.workingDir = self.initialCwd
+        
+        self.hasOptions = False
 
         self.usage = "usage: %prog [-f] [-r] [-q] [-v] other args"
         self.version = "%prog - ver 1.0.0 - 13 mar 2004"
+        
         self.allowedDirsList = []
         self.allowedAbsoluteDirsList = []
         self.excludedSubdirsList = []
+        
         self.staticLibrariesList = []
         self.staticLibrariesListLwr = []
         self.dynamicLibrariesList = []
         self.dynamicLibrariesListLwr = []
+        
+        self.gtkLibrariesList = g_gtkLibrariesList # ( hardcoded )
+        self.gtkLibrariesListLwr = []
+        
         self.allProjectNamesList = []
         self.allProjectPathsList = []
         self.createWorkspacesList = []
         self.duplicateWorkspacesList = []
+        self.allProjectNamesLwrDict = {}
+
 
         self.changedFiles   = 0
         self.unchangedFiles = 0
@@ -783,7 +813,7 @@ class DspApp:
 
         args = sys.argv
         # simulates command line options
-        #args = [ "-fApplicationKit.dsp", "-vvv", "-r", "0", "-u", "0", "--config", "reformatVcConfig.ini", "-s", "deleteSccOnly" ]
+        #args = [ "-fApplicationKit.dsp", "-vvv", "-r", "0", "-u", "0", "--config", "reformatVc.ini", "-s", "deleteSccOnly" ]
         #args = [ "-r", "0", "-v", "3", "-u", "0", "--reformatOptionPdb", "d:5, r:10" ]
         ( self.options, moreargs ) = optparser.parse_args( args )
         #print self.options.filename; print self.options.config; print self.options.section;
@@ -795,6 +825,8 @@ class DspApp:
 
         # I want to know which options has been given from the command line
         self.commands = ExistingOptions( optparser, self.options, args )
+
+        self.hasOptions = True
 
         #import types
         self.config = ConfigParser.ConfigParser()
@@ -817,6 +849,17 @@ class DspApp:
 
         return
 
+    def getcwd( self ):
+        # this function was introduced as a temporary workaround to a problem with Cygwin:
+        #   OSError: [Errno 2] No such file or directory: '\\mntdos\\vcfcode\\devel\\vcf\\'
+        # Solution: it is necessary to put options.unixStyle = True under Cygwin
+        cwd = os.getcwd()
+        if ( self.hasOptions ):
+            cwd = FileUtils.normPathSimple( cwd, self.options.unixStyle )
+        else:
+            raise Exception( 'app.getcwd: no attrib options yet' )
+        return cwd
+    
     def printOptions( self ):
         #defaults = optparser.defaults
         #if defaults:
@@ -1005,11 +1048,11 @@ class DspApp:
 
 
         if ( self.options.workingDir == '' ):
-            self.currentdir = os.getcwd()
+            self.currentdir = self.getcwd()
         else:
             self.currentdir = FileUtils.normDir( self.options.workingDir, True )
             if ( self.currentdir.find( './' ) != -1 ):
-                self.currentdir = FileUtils.absolutePath( os.getcwd(), self.currentdir, self.options.unixStyle )
+                self.currentdir = FileUtils.absolutePath( self.getcwd(), self.currentdir, self.options.unixStyle )
 
         if ( self.options.allowDirs ):
             if ( self.config.has_section( section_dirlist ) ):
@@ -1061,6 +1104,10 @@ class DspApp:
 
         section_vcf_dynamicLibraries = 'vcf_dynamicLibraries'
         ( self.dynamicLibrariesList, self.dynamicLibrariesListLwr ) = self.makeLibraryDependencyList( section_vcf_dynamicLibraries )
+
+        self.gtkLibrariesListLwr = []
+        for name in self.gtkLibrariesList:
+            self.gtkLibrariesListLwr.append( name.lower() )
 
 
         if ( self.options.createWorkspaces ):
@@ -1129,6 +1176,7 @@ class DspApp:
         allow = True
         if ( app.options.allowDirs or app.options.excludeSubdirs ):
             fn = filename.lower()
+            #print os.path.split( fn )
             fn = os.path.dirname( fn )
             if ( fn == '' ):
                 fn = './'
@@ -1161,6 +1209,7 @@ class Workspace:
         self.relPrjPaths = []
         self.prjNameAbsPathDict = {}
         self.prjNameRelPathDict = {}
+        
         self.filename = ''
         self.setName( workspacename )
         self.dependencies = {}
@@ -1196,8 +1245,8 @@ class Workspace:
 
         return
 
-    def duplicateVcs( self ):
-        if ( True ):                # always
+    def duplicateVcs( self, updateOriginal ):
+        if ( updateOriginal ):                # always
             self.duplicateVc( '' )  # this just reformat the original ( see duplicateVc )
 
         if ( app.options.copyToVc70 ):
@@ -1261,7 +1310,9 @@ class Workspace:
                 if ( newCompiler ):
                     newPath = DspFile.makeDuplicateVcFilename( prjPath, wsp.compiler, newCompiler, app.options.unixStyle, True )
                 else:
-                    newPath = prjPath
+                    # we need to do this first otherwise problems under Cygwin when unixStyle=True but the path starts with r'.\'
+                    newPath = FileUtils.normPathSimple( prjPath, app.options.unixStyle )
+                    
                 newline = r'Project: "' + prjName + r'"="' + newPath + '" - Package Owner=<4>\n'
 
                 lines[n] = newline
@@ -1270,33 +1321,72 @@ class Workspace:
         return lines
     replaceProjectEntries = staticmethod(replaceProjectEntries)
 
-    def fillProjects( self, filterString ):
+    def fillProjectsLists( self, filterString, ignorecase, addLibraries=False, addGtkLibraries=False ):
         self.prjNames = []
         self.absPrjPaths = []
         self.relPrjPaths = []
         self.prjNameAbsPathDict = {}
         self.prjNameRelPathDict = {}
-        filterStringLwr = filterString.lower()
-        filterStringDir = os.path.dirname( filterStringLwr )
-        filterStringDir = FileUtils.normDir( filterStringDir, app.options.unixStyle, True )
+        
+        #filterStringLwr = filterString.lower()
+        #filterStringDir = os.path.dirname( filterStringLwr )
+        #filterStringDir = FileUtils.normDir( filterStringDir, app.options.unixStyle, True )
+        #filterString = filterStringDir
+        filterString = FileUtils.normPathSimple( filterString, app.options.unixStyle )
+        if ( ignorecase ):
+            filterString = filterString.lower()
 
         for n in range( len( app.allProjectPathsList )):
             prjName    = app.allProjectNamesList[n]
             absPrjPath = app.allProjectPathsList[n]
             relPrjPath = FileUtils.relativePath( app.currentdir, absPrjPath, True, app.options.unixStyle )
-            relPrjPathLwr = relPrjPath.lower()
-            if ( not filterString or relPrjPathLwr.find( filterStringDir ) != -1 ):
+            relPrjPathLwr = relPrjPath
+            if ( ignorecase ):
+                relPrjPathLwr = relPrjPathLwr.lower()                    
+            if ( not filterString or relPrjPathLwr.find( filterString ) != -1 ):
                 # do not use FileUtils.relativePath because one thing is the path relative to the cwd and different thing is a path relative to the workspace path
                 self.addProject( prjName, absPrjPath )
+                
         return
 
-    def create( self, projNamesList, projPathsList, filterString ):
+    def fillProjectsListsAddLibraries( self, filteredList ):
+        if ( filteredList ):
+            # filter: we need to add the libraries
+            addLibrariesStatic  = True
+            addLibrariesDynamic = True
+            addLibrariesGtk     = True
+            
+            if ( addLibrariesStatic ):
+                for prjName in app.staticLibrariesList:
+                    if ( not app.prjNameAbsPathDict.has_key( prjName ) ):
+                        raise Exception ( 'fillProjectsListsAddLibraries: please use the right lettercase for the library list \'%s\'' % prjName )
+                    absPrjPath = app.prjNameAbsPathDict[ prjName ]
+                    self.addProject( prjName, absPrjPath )
+
+            if ( addLibrariesDynamic ):
+                for prjName in app.dynamicLibrariesList:
+                    absPrjPath = app.prjNameAbsPathDict[ prjName ]
+                    self.addProject( prjName, absPrjPath )
+                    
+            if ( addLibrariesGtk ):
+                for prjName in app.gtkLibrariesList:
+                    absPrjPath = app.prjNameAbsPathDict[ prjName ]
+                    self.addProject( prjName, absPrjPath )
+        else:
+            # no filter: all projects are in
+            app.prjNameAbsPathDict = self.prjNameAbsPathDict
+        return
+
+    def create( self, projNamesList, projPathsList, filterString, ignorecase ):
         # ???
         #if ( not app.options.conformLibraries ):
         #    return
 
-        self.fillProjects( filterString )
-
+        self.fillProjectsLists( filterString, ignorecase )
+        
+        filteredList = ( filterString and filterString != '.' and filterString != './' and filterString != '.\\' )
+        self.fillProjectsListsAddLibraries( filteredList )
+        
         self.copyWorkspaceDependencies( g_dependenciesWorkspace )
 
         workspacedirname = os.path.dirname( self.filename )
@@ -1339,10 +1429,16 @@ class Workspace:
 
         #sorting ( ... and this is another way )
         prjNames = self.prjNames
-        prjNames.sort()
+        # unfortunatly lowercase name goes after so...
+        # prjNames.sort()
+        prjNamesLwr = []
+        for name in prjNames:
+            prjNamesLwr.append( name.lower() )
+        prjNamesLwr.sort()
 
         dependencyStringList = ''
-        for prjName in prjNames:
+        for prjNameLwr in prjNamesLwr:
+            prjName = app.allProjectNamesLwrDict[ prjNameLwr ]
             relPrjPath = self.prjNameRelPathDict[ prjName ]
 
             prjLine = r'Project: "' + prjName + r'"="' + relPrjPath + '" - Package Owner=<4>\n'
@@ -1350,15 +1446,19 @@ class Workspace:
 
             fd.writelines( prjBody1 )
 
-            #if ( self.dependencies ):
-            #    if ( self.dependencies.has_key( prjName ) ):
-            #        #dependencyStringList = self.dependencies[ prjName ]
+            # some projects need all the necessary dependencies ( hardcoded )
             if ( prjName.lower() == 'examples' ): # e.g. 'examples'
                 dependencyStringListLib = self.buildDependencyStringListItem( 'ApplicationKitDLL' )
                 dependencyStringAllProjects = self.calcDependencyStringListAllProjects( prjName, prjNames, 'examples/' )
                 dependencyStringList = dependencyStringListLib + dependencyStringAllProjects
             else:
                 dependencyStringList = self.calcDependencyStringList( prjName )
+                if ( not dependencyStringList ):
+                    # for projects without dependencies, copies them from g_dependenciesWorkspace
+                    if ( self.dependencies ):
+                        if ( self.dependencies.has_key( prjName ) ):
+                            dependencyStringList = self.dependencies[ prjName ]
+                    
 
             if ( dependencyStringList ):
                 fd.writelines( dependencyStringList )
@@ -1426,6 +1526,7 @@ class Workspace:
         return
 
     def calcDependencyStringListAllProjects( self, projectName, prjNames, filterString ):
+        # for a generic projectName it calculates all its dependencies and puts them in string
         dependencyStringAllProjects = ''
         projectNameLwr = projectName.lower()
         filterString = filterString.lower()
@@ -1443,6 +1544,8 @@ class Workspace:
         return dependencyStringAllProjects
 
     def calcDependencyStringList( self, project ):
+        # calc the dependency string of the library that a library project is dependent of
+        # this string generally consists of the only library project that must be compiled before the library project itself
         lib = ''
         dependencyStringList = ''
         libDependList = []
@@ -1455,6 +1558,10 @@ class Workspace:
             ( libDependList, libDependListLwr ) = self.calcLibraryDependencyList( project, app.dynamicLibrariesList, app.dynamicLibrariesListLwr )
             if ( libDependList ):
                 lib = libDependList[-1]
+        if ( not libDependList ):
+            ( libDependList, libDependListLwr ) = self.calcLibraryDependencyList( project, app.gtkLibrariesList, app.gtkLibrariesListLwr )
+            if ( libDependList ):
+                lib = libDependList[-1]
 
         # because of a bug(?) in Visual Studio, it is necessary to put only the highest project in the dependency list
         #for lib in libraryDependencyList:
@@ -1465,6 +1572,8 @@ class Workspace:
         return dependencyStringList
 
     def calcLibraryDependencyList( self, project, libraryList, libraryListLwr ):
+        # calc the list of all libraries that the library project is dependent of
+        # it gives both the normalcase and lowercase version of it
         libraryDependencyList = []
         libraryDependencyListLwr = []
         project = project.lower()
@@ -1481,6 +1590,7 @@ class Workspace:
         return ( libraryDependencyList, libraryDependencyListLwr )
 
     def buildDependencyStringListItem( self, project ):
+        # build the dependency string of a project to be used in a workspace
         dependencyStringListItem = ''
         dependencyStringListItem += '    Begin Project Dependency\n'
         dependencyStringListItem += '    Project_Dep_Name ' + project + '\n'
@@ -1491,7 +1601,8 @@ class Workspace:
         if ( not app.options.conformLibraries ):
             return
 
-        self.fillProjects( './' )
+        # we need to have this table filled with all the vcf projects
+        self.fillProjectsLists( './', False )
 
         tableAssocDllsLibs = {}
         #tableAssocDllsLibs = [ ( 'FoundationKitDLL'  , 'FoundationKit'             ), \
@@ -1795,6 +1906,7 @@ class DspFile:
         return
 
     def replaceCompilerConfig( self, newCompiler, onlyInsideConfig ):
+        # replaces the entries oldcompiler --> newcompiler only inside the configurations section of a dsp file
         insideCfg = False
         self.nCfg = -1
 
@@ -1841,7 +1953,6 @@ class DspFile:
                     self.lines[n] = line # apply changes
 
         return
-
 
     def readTargetSection( self ):
         # skips all the configuration lines and copy all the target body into a string
@@ -2416,11 +2527,17 @@ class DspFile:
         changeSomething = ( app.options.reformatOptionPdb[self.c] != 0 )
         if ( self.addKind == enum_ADD_CPP ):
             # (*) the reason why we always remove the '/Fd' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
-            addDir  = False
-            addFile = False # we usually want both in the same way
             if ( self.appType == enumAppTypeExe ):
+                addDir  = False
+                addFile = False # we usually want both in the same way
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, '', False, changeSomething, addDir, addFile )
             else:
+                if ( self.appType == enumAppTypeLib ):
+                    addDir  = app.options.reformatOptionPdb[self.c]
+                    addFile = addDir# we usually want both in the same way
+                else:
+                    addDir  = False # ?
+                    addFile = addDir# we usually want both in the same way
                 # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.MainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
@@ -2433,6 +2550,7 @@ class DspFile:
                 addDir  = app.options.reformatOptionPdb[self.c]
                 addFile = addDir # we usually want both in the same way
                 line = self.storeRemoveOption( line, '/debug', '', '', False, changeSomething, addDir, addFile )
+                
         elif ( self.addKind == enum_SUBTRACT_LINK32 ):
             # '/debug' in # SUBTRACT LINK32 disable the pdb option
             addDir  = -(app.options.reformatOptionPdb[self.c]) # /debug in the SUBTRACT line has opposite meaning
@@ -2536,7 +2654,9 @@ class DspFile:
         addString = ' ' # this space make sure the added options are separated from the previous one
         for fullOption in self.storedOptions:
             addString += fullOption + ' '
-
+            
+        self.storedOptions = [] # reset what once it is done
+        
         i = index
         if ( i != -1 ):
             #inserting
@@ -2667,6 +2787,7 @@ class Walker:
     def job( self ):
         self.manageProjects()
         self.conformLibraries()
+        self.createWorkspaces()
         self.duplicateWorkspaces()
         return
 
@@ -2674,10 +2795,14 @@ class Walker:
         if ( app.options.prompt ):
             raw_input( '\n  Press enter to continue ( Ctrl+C to exit ) ... ')
 
+        # it is not accepted in a different way under cygwin
+        #app.currentdir = app.currentdir.replace( '\\', '/' )
+        #app.currentdir = app.currentdir.replace( '//', '/' )
         os.chdir( app.currentdir )
 
         app.allProjectNamesList = []
         app.allProjectPathsList = []
+        app.allProjectNamesLwrDict = {}
 
         sep = FileUtils.getNormSep( app.options.unixStyle )
 
@@ -2691,8 +2816,6 @@ class Walker:
             if ( len(filename) > 4 and filename[-4:] == '.dsp' ):
                 # skip filenames like: file_vc70.dsp or file_vc71.dsp
                 filename = FileUtils.normPath( filename, app.options.unixStyle )
-                if ( 3 < app.options.verbose ):
-                    print 'File: ' + filename
 
                 if ( app.options.enableVcfSpecific ):
                     fn = filename.lower()
@@ -2721,6 +2844,7 @@ class Walker:
 
                     prjName = dsp.getTrueProjectName()
                     app.allProjectNamesList.append( prjName )
+                    app.allProjectNamesLwrDict[ prjName.lower() ] = prjName
                     absPrjPath = FileUtils.absolutePath( app.currentdir, root + sep + fullname, app.options.unixStyle )
                     app.allProjectPathsList.append( absPrjPath )
 
@@ -2740,29 +2864,15 @@ class Walker:
         return
 
     def createWorkspaces( self ):
-        """self.options.allProjectsWorkspace = FileUtils.relativePath( self.currentdir, self.options.allProjectsWorkspace, True, self.options.unixStyle )
-        if ( self.options.allProjectsWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.allProjectsWorkspace = ''
-
-        self.options.allExamplesWorkspace = FileUtils.relativePath( self.currentdir, self.options.allExamplesWorkspace, True, self.options.unixStyle )
-        if ( self.options.allExamplesWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.allExamplesWorkspace = ''
-        """
-        if ( False and app.options.enableVcfSpecific and app.options.createWorkspaces ):
+        if ( app.options.enableVcfSpecific and app.options.createWorkspaces ):
             # creates
             for workspaceName in app.createWorkspacesList:
                 workspacePath = FileUtils.absolutePath( app.currentdir, workspaceName, app.options.unixStyle )
                 workspace = Workspace( workspacePath )
-                workspace.create( app.allProjectNamesList, app.allProjectPathsList, './' )
-                workspace.duplicateVcs()
-
-                #allProjectsWorkspacePath = FileUtils.absolutePath( app.currentdir, app.options.allProjectsWorkspace, app.options.unixStyle )
-                #allProjectsWorkspace = Workspace( allProjectsWorkspacePath )
-                #allProjectsWorkspace.create( app.allProjectNamesList, app.allProjectPathsList, './' )
-                #allProjectsWorkspace.duplicateVcs()
-
-                #allExamplesWorkspacePath = FileUtils.absolutePath( app.currentdir, app.options.allExamplesWorkspace, app.options.unixStyle )
-                #allExamplesWorkspace = Workspace( allExamplesWorkspacePath )
-                #allExamplesWorkspace.create( app.allProjectNamesList, app.allProjectPathsList, app.options.allExamplesWorkspace )
-                #allExamplesWorkspace.duplicateVcs()
+                ( workspaceName, ext ) = os.path.splitext( os.path.basename( workspacePath ) )
+                workspaceName = workspaceName.lower()
+                workspace.create( app.allProjectNamesList, app.allProjectPathsList, g_tableFilterWorkspacesCreation[workspaceName], True )
+                workspace.duplicateVcs( False )
         return
 
     def duplicateWorkspaces( self ):
@@ -2772,7 +2882,7 @@ class Walker:
             for workspaceName in app.duplicateWorkspacesList:
                 workspacePath = FileUtils.absolutePath( app.currentdir, workspaceName, app.options.unixStyle )
                 workspace = Workspace( workspacePath )
-                workspace.duplicateVcs()
+                workspace.duplicateVcs( True )
         return
 
 
@@ -2806,6 +2916,12 @@ Notes:
     5) reformatOptionOutput = d:-1, r:-1
         this option affects only the /Fo option
         the linker option /out: instead is so important that the script always garuantees that it is there in the dsp files
+        
+    6) For /pdb /debug  infos see the other notes below
+
+    7) The way a configuration of a dsp project is considered debug versus release is still naive
+        so it might fail if a user doesn't call it Debug
+        This can be easily fixed. See the function checkSetDebug
 
 Limitations:
     1) The options work better form the configuration files
@@ -2814,4 +2930,34 @@ Limitations:
     2) A program database option is mosly enabled/disabled by the /debug option ( generate debug info )
         which is present or in the #ADD LINK32 line or in the #SUBTRACT LINK32 line
         But this program doesn't affect (create) any SUBTRACT line if it doesn't exist yet
+        
+    3) It is possible to change the option from unixStyle = True --> False
+        but then it wouldn't work under Cygwin
+        
+        
+        
+Other notes on some Visual Studio options:
+    
+    1) Program Database / Debug informations
+        /debug linker option activates debug informations
+        Once you have /debug you can only choose where to place those infos,
+        so the debug footprint will be the same, unless you put those infos in the pdb files and then you delete them
+        
+        The linker option /PDB:NONE specify that they are not placed in any pdb files. They go directly into the EXEcutable or DLL
+        The linker option /PDB:filename.pdb specify instead that the EXEcutable or DLL contains only a link to where the pdb files is placed
+        
+        The debugging informations ( minimal or not ) are necessary for the linker.
+        The compiler option /Zd and /Z7 make the debugging informations to be embedded into the obj files.
+        The compiler option /Zi and /ZI make the debugging informations to be embedded into a pdb file
+        The compiler option /Fd only lets me to determine the name of the pdb file. Nothing else.
+        
+        That's all.
+        As consequence of that:
+        a) If you don't want any pdb files around, you need to use /Zd or /Z7 together with /PDB:NONE
+        b) If you use /Zi or /ZI and you distribute a static library, you need to distribute the pdb files too.
+           Important: under vc7 if you use /Zi or /ZI without the option /Fd you'll have warnings like:
+            # libAGG_vc70_sd.lib(agg_affine_matrix.obj) : warning LNK4204: 'd:\Projs\GShell\Libraries\Vcf\vcf-active\examples\SketchIt\vc70\Debug\vc70.pdb' is missing debugging information for referencing module; linking object as if no debug info
+            each time you compile a program with the /debug linker option to that library               
+        
 """
+
