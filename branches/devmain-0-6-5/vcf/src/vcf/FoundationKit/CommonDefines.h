@@ -153,42 +153,54 @@ enum KeyboardMasks{
 
 
 //conversion defines
-#define INT_STR_CONVERSION			"%d "
-#define LONG_STR_CONVERSION			"%d "
-#define SHORT_STR_CONVERSION		"%d "
-#define FLOAT_STR_CONVERSION		"%.5f "
-#define DOUBLE_STR_CONVERSION		"%.5f "
-#define BOOL_STR_CONVERSION_TRUE	"true "
-#define BOOL_STR_CONVERSION_FALSE	"false "
+#define INT_STR_CONVERSION            "%d "
+#define UINT_STR_CONVERSION           "%u "
+#define LONG_STR_CONVERSION           "%ld "
+#define ULONG_STR_CONVERSION          "%lu "
+#define CHAR_STR_CONVERSION           "%c "
+#define SHORT_STR_CONVERSION          "%hd "
+#define USHORT_STR_CONVERSION         "%hu "
+#define FLOAT_STR_CONVERSION          "%.5f "
+#define DOUBLE_STR_CONVERSION         "%.5f "
+#define BOOL_STR_CONVERSION_TRUE      "true "
+#define BOOL_STR_CONVERSION_FALSE     "false "
 
-#define STR_INT_CONVERSION			"%d"
-#define STR_LONG_CONVERSION			"%d"
-#define STR_ULONG_CONVERSION		"%d"
-#define STR_CHAR_CONVERSION			"%c"
-#define STR_SHORT_CONVERSION		"%d"
-#define STR_FLOAT_CONVERSION		"%f"
-#define STR_DOUBLE_CONVERSION		"%f"
-#define STR_BOOL_CONVERSION_TRUE	"true"
-#define STR_BOOL_CONVERSION_FALSE	"false"
+#define STR_INT_CONVERSION            "%d"
+#define STR_UINT_CONVERSION           "%u"
+#define STR_LONG_CONVERSION           "%ld"
+#define STR_ULONG_CONVERSION          "%lu"
+#define STR_CHAR_CONVERSION           "%c"
+#define STR_SHORT_CONVERSION          "%hd"
+#define STR_USHORT_CONVERSION         "%hu"
+#define STR_FLOAT_CONVERSION          "%f"
+#define STR_DOUBLE_CONVERSION         "%f"
+#define STR_BOOL_CONVERSION_TRUE      "true"
+#define STR_BOOL_CONVERSION_FALSE     "false"
 
 
-#define W_INT_STR_CONVERSION			L"%d "
-#define W_LONG_STR_CONVERSION			L"%d "
-#define W_SHORT_STR_CONVERSION			L"%d "
-#define W_FLOAT_STR_CONVERSION			L"%.5f "
-#define W_DOUBLE_STR_CONVERSION			L"%.5f "
-#define W_BOOL_STR_CONVERSION_TRUE		L"true "
-#define W_BOOL_STR_CONVERSION_FALSE		L"false "
+#define W_INT_STR_CONVERSION          L"%d "
+#define W_UINT_STR_CONVERSION         L"%u "
+#define W_LONG_STR_CONVERSION         L"%ld "
+#define W_ULONG_STR_CONVERSION        L"%lu "
+#define W_CHAR_STR_CONVERSION         L"%c "
+#define W_SHORT_STR_CONVERSION        L"%hd "
+#define W_USHORT_STR_CONVERSION       L"%hu "
+#define W_FLOAT_STR_CONVERSION        L"%.5f "
+#define W_DOUBLE_STR_CONVERSION       L"%.5f "
+#define W_BOOL_STR_CONVERSION_TRUE    L"true "
+#define W_BOOL_STR_CONVERSION_FALSE   L"false "
 
-#define W_STR_INT_CONVERSION			L"%d"
-#define W_STR_LONG_CONVERSION			L"%d"
-#define W_STR_ULONG_CONVERSION			L"%d"
-#define W_STR_CHAR_CONVERSION			L"%c"
-#define W_STR_SHORT_CONVERSION			L"%d"
-#define W_STR_FLOAT_CONVERSION			L"%f"
-#define W_STR_DOUBLE_CONVERSION			L"%f"
-#define W_STR_BOOL_CONVERSION_TRUE		L"true"
-#define W_STR_BOOL_CONVERSION_FALSE		L"false"
+#define W_STR_INT_CONVERSION          L"%d"
+#define W_STR_UINT_CONVERSION         L"%u"
+#define W_STR_LONG_CONVERSION         L"%ld"
+#define W_STR_ULONG_CONVERSION        L"%lu"
+#define W_STR_CHAR_CONVERSION         L"%c"
+#define W_STR_SHORT_CONVERSION        L"%hd"
+#define W_STR_USHORT_CONVERSION       L"%hu"
+#define W_STR_FLOAT_CONVERSION        L"%f"
+#define W_STR_DOUBLE_CONVERSION       L"%f"
+#define W_STR_BOOL_CONVERSION_TRUE    L"true"
+#define W_STR_BOOL_CONVERSION_FALSE   L"false"
 
 
 
@@ -311,6 +323,10 @@ enum VirtualKeyCode{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/21 02:06:53  marcelloptr
+*BugFix 985136 cast to (int) and ulong64 and other conversion issues
+*The fromStringAs... functions now throw an exception in case of some errors
+*
 *Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
