@@ -31,6 +31,8 @@ HTML_TAR_FILENAME = VCFDocs.$(VERSION).tar
 
 
 ONLINE_SRC_DOC_DIR = srcdocs
+ONLINE_DOCS_REF_DIR = docs/ref
+FULL_ONLINE_SRC_DOC_DIR = $(ONLINE_DOCS_REF_DIR)/$(ONLINE_SRC_DOC_DIR)
 
 
 VCF_DOCS = corelib_FAQ.sgml \
@@ -70,10 +72,19 @@ XMAKE_DOCS = vcf.css xmake_book.sgml xmake_docbook.sgml
 
 
 coredocs :  $(VCF_DOCS) test_tools
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
 	xsltproc --nonet vcf.xsl vcf_docbook.sgml
+	mv vcf_book.sgml.bak vcf_book.sgml
+
 	
 coredocs_online :  $(VCF_DOCS) test_tools 
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
 	xsltproc --nonet vcf_online.xsl vcf_docbook.sgml	
+	mv vcf_book.sgml.bak vcf_book.sgml
 
 
 coredocs_hh : htmlhelp.hhp coredocs
@@ -82,6 +93,9 @@ coredocs_hh : htmlhelp.hhp coredocs
 	mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME)
 
 
+
+
+	
 
 
 
@@ -96,6 +110,9 @@ coredocs_hh : htmlhelp.hhp coredocs
 #original contents
 
 coredocs_hh_with_source : $(VCF_DOCS) test_tools doxy doxy_hh
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
 	xsltproc --nonet vcf_with_source_docs.xsl vcf_docbook.sgml
 	cp htmlhelp.hhp htmlhelp.hhp.bak
 	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
@@ -111,7 +128,8 @@ coredocs_hh_with_source : $(VCF_DOCS) test_tools doxy doxy_hh
 	if ( test -f $(RAW_CHI_FILENAME) )\
 	then\
 		mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME);\
-	fi	
+	fi
+	mv vcf_book.sgml.bak vcf_book.sgml	
 
 	
 strip_online_docs :  stripper
@@ -125,7 +143,23 @@ strip_online_docs :  stripper
 
 
 alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
+
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
+	cp xmake_book.sgml xmake_book.sgml.bak
+	mv xmake_book.sgml.tmp xmake_book.sgml
+
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
+	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
+	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+	
 	xsltproc --nonet vcf.xsl vcf_website_docs.sgml
+
+	mv vcf_book.sgml.bak vcf_book.sgml
+	mv xmake_book.sgml.bak xmake_book.sgml
+	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
 
 
 
@@ -134,11 +168,45 @@ alldocs_hh : htmlhelp.hhp alldocs
 
 
 alldocs_online : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
+
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
+	cp xmake_book.sgml xmake_book.sgml.bak
+	mv xmake_book.sgml.tmp xmake_book.sgml
+
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
+	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
+	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+
 	xsltproc --nonet vcf_online.xsl vcf_website_docs.sgml
+
+	mv vcf_book.sgml.bak vcf_book.sgml
+	mv xmake_book.sgml.bak xmake_book.sgml
+	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
 
 
 alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS) doxy doxy_hh
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
+
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
+	cp xmake_book.sgml xmake_book.sgml.bak
+	mv xmake_book.sgml.tmp xmake_book.sgml
+
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
+	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
+	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+
 	xsltproc --nonet vcf_with_source_docs.xsl vcf_website_docs.sgml
+
+	mv vcf_book.sgml.bak vcf_book.sgml
+	mv xmake_book.sgml.bak xmake_book.sgml
+	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+
+
 	cp htmlhelp.hhp htmlhelp.hhp.bak
 	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
 	mv htmlhelp.hhp.tmp htmlhelp.hhp
@@ -158,7 +226,13 @@ alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS
 
 
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
+	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
+	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+
 	xsltproc --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
+
+	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
 
 
 vcf_builder_hh : vcf_builder_docs htmlhelp.hhp 
@@ -168,7 +242,13 @@ vcf_builder_hh : vcf_builder_docs htmlhelp.hhp
 
 
 xmake_docs : $(XMAKE_DOCS) test_tools
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
+	cp xmake_book.sgml xmake_book.sgml.bak
+	mv xmake_book.sgml.tmp xmake_book.sgml
+
 	xsltproc vcf.xsl xmake_docbook.sgml
+
+	mv xmake_book.sgml.bak xmake_book.sgml
 
 xmake_hh : htmlhelp.hhp xmake_docs
 	-$(HTMLHELP_COMPILER) htmlhelp.hhp
@@ -209,6 +289,11 @@ hrefmunger : hrefmunger.o
 	g++ -o hrefmunger hrefmunger.o
 
 
+imgmunger.o : imgmunger.cpp
+	g++ -c -O2 imgmunger.cpp
+
+imgmunger : imgmunger.o
+	g++ -o imgmunger imgmunger.o
 
 
 
@@ -220,7 +305,7 @@ doxy :
 	mv Doxyfile.bak Doxyfile
 	cp -r gfx/ doxy_html/
 
-online_doxy : stripper hrefmunger
+online_doxy : stripper hrefmunger imgmunger
 	cp Doxyfile.online Doxyfile.bak
 	sed "s?VERSION-NUMBER?$(VERSION)?g" Doxyfile.online > Doxyfile.tmp
 	mv Doxyfile.tmp Doxyfile.online
@@ -233,7 +318,11 @@ online_doxy : stripper hrefmunger
 		./stripper $$file;\
 		echo post processing all hrefs with hrefmunger...;\
 		./hrefmunger $(ONLINE_SRC_DOC_DIR) $$file;\
+		echo post processing all hrefs with imgmunger...;\
+		./imgmunger gfx $$file;\
 	done
+
+	
 
 
 
@@ -271,12 +360,19 @@ dist_online : coredocs_online strip_online_docs
 
 
 dist_all_online : alldocs_online strip_online_docs online_doxy
-	-mkdir $(ONLINE_SRC_DOC_DIR)
-	cp doxy_html/*.htm* $(ONLINE_SRC_DOC_DIR)/
-	rm -rf $(ONLINE_SRC_DOC_DIR)/gfx/
-	find *.html > files.out
+	-mkdir docs
+	-mkdir $(ONLINE_DOCS_REF_DIR)
+	-mkdir $(FULL_ONLINE_SRC_DOC_DIR)
+	cp doxy_html/*.htm* $(FULL_ONLINE_SRC_DOC_DIR)/
+	-mkdir gfx_bak
+	cp gfx/*.* gfx_bak/
+	rm -f gfx/*.*
+	cp doxy_html/*.png gfx/
+	
+	cp *.html $(ONLINE_DOCS_REF_DIR)/
+	find $(ONLINE_DOCS_REF_DIR)/*.html > files.out
 	find gfx/ -type f -name '*' > images.out
-	find $(ONLINE_SRC_DOC_DIR)/ -type f -name '*.html' > srcdocs.out
+	find $(FULL_ONLINE_SRC_DOC_DIR)/ -type f -name '*.html' > srcdocs.out
 	cat files.out images.out srcdocs.out > all.out
 	echo Creating tar file...
 	tar -cf $(HTML_TAR_FILENAME) -T all.out
@@ -287,7 +383,10 @@ dist_all_online : alldocs_online strip_online_docs online_doxy
 	rm files.out
 	rm images.out
 	rm srcdocs.out
-	rm -rf $(ONLINE_SRC_DOC_DIR)
+	rm -rf $(FULL_ONLINE_SRC_DOC_DIR)	
+	rm -r gfx/*.*
+	cp gfx_bak/*.* gfx/ 
+	rm -rf gfx_bak/
 	
 clean :
 	rm -f *.html
