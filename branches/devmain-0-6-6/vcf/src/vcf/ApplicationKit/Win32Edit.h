@@ -117,6 +117,8 @@ protected:
 	void getSelectionMark( unsigned long & start, unsigned long & count );
 
 	void onControlModelChanged( Event* e );
+	
+	
 
 	static DWORD CALLBACK EditStreamCallback( DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb );
 };
@@ -128,6 +130,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/18 06:45:44  ddiego
+*updated toolbar btn bug, and added text edit sample.
+*
 *Revision 1.2.2.2  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

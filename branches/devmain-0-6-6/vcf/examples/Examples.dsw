@@ -942,6 +942,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "TextEdit"=.\TextEdit\TextEdit.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "TextLayout"=.\TextLayout\TextLayout.dsp - Package Owner=<4>
 
 Package=<5>

@@ -150,6 +150,10 @@ public:
 
 	virtual MenuItem* getChildAt( const unsigned long& index );
 
+	virtual MenuItem* findChildNamedSimilarTo( const String& name );
+
+	virtual MenuItem* findChildNamed( const String& name );
+
 	virtual bool isEnabled();
 
 	virtual void setEnabled( const bool& enabled );
@@ -271,6 +275,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/18 06:45:44  ddiego
+*updated toolbar btn bug, and added text edit sample.
+*
 *Revision 1.2.2.1  2004/09/07 00:49:12  ddiego
 *minor fixes in printg code in graphics kit, and added a 2 ways to print in the printing example.
 *

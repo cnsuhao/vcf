@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="Actions" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="TextEdit" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
-CFG=Actions - Win32 Debug
+CFG=TextEdit - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "Actions.mak".
+!MESSAGE NMAKE /f "TextEdit.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Actions.mak" CFG="Actions - Win32 Debug"
+!MESSAGE NMAKE /f "TextEdit.mak" CFG="TextEdit - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "Actions - Win32 Release" (based on "Win32 (x86) Application")
-!MESSAGE "Actions - Win32 Debug" (based on "Win32 (x86) Application")
+!MESSAGE "TextEdit - Win32 Release" (based on "Win32 (x86) Application")
+!MESSAGE "TextEdit - Win32 Debug" (based on "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "Actions - Win32 Release"
+!IF  "$(CFG)" == "TextEdit - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -38,8 +38,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6\Release\"
-# PROP Intermediate_Dir "vc6\Release\"
+# PROP Output_Dir "Release\"
+# PROP Intermediate_Dir "Release\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "USE_FOUNDATIONKIT_DLL" /D "USE_GRAPHICSKIT_DLL" /D "USE_APPLICATIONKIT_DLL" /FD /c
@@ -49,13 +49,12 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc6/Release/Actions_vc6.bsc"
+# ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"vc6\Release\Actions_vc6.exe" /libpath:"$(VCF_LIB)"
-# SUBTRACT LINK32 /pdb:none /debug
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"Release\TextEdit_vc6.exe" /libpath:"$(VCF_LIB)"
 
-!ELSEIF  "$(CFG)" == "Actions - Win32 Debug"
+!ELSEIF  "$(CFG)" == "TextEdit - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -64,8 +63,9 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc6\Debug\"
-# PROP Intermediate_Dir "vc6\Debug\"
+# PROP Output_Dir "Debug\"
+# PROP Intermediate_Dir "Debug\"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
 # ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "USE_FOUNDATIONKIT_DLL" /D "USE_GRAPHICSKIT_DLL" /D "USE_APPLICATIONKIT_DLL" /FD /GZ /c
@@ -75,45 +75,76 @@ LINK32=link.exe
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc6/Debug/Actions_vc6.bsc"
+# ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"vc6\Debug\Actions_vc6.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
-# SUBTRACT LINK32 /pdb:none
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"TextEdit.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
 
 !ENDIF 
 
 # Begin Target
 
-# Name "Actions - Win32 Release"
-# Name "Actions - Win32 Debug"
+# Name "TextEdit - Win32 Release"
+# Name "TextEdit - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=Actions.cpp
+SOURCE=TextEdit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=Actions.rc
+SOURCE=TextEditDocument.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=TextEditWindow.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
-# End Group
-# Begin Group "Resource Files"
-
-# PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=.\copy.bmp
+SOURCE=TextEditDocument.h
 # End Source File
 # Begin Source File
 
-SOURCE=open.bmp
+SOURCE=TextEditWindow.h
 # End Source File
 # End Group
+# Begin Group "Dialogs"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\DataExchange.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\FindDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\FindDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ReplaceDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ReplaceDialog.h
+# End Source File
+# End Group
+# Begin Group "Resources"
+
+# PROP Default_Filter ""
+# End Group
+# Begin Source File
+
+SOURCE=TextEdit.xml
+# End Source File
 # End Target
 # End Project

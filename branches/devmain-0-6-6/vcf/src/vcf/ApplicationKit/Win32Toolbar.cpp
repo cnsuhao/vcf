@@ -857,7 +857,7 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 		}
 		
 		btn.fsState = TBSTATE_ENABLED;
-		btn.fsStyle = TBSTYLE_BUTTON | TBSTYLE_AUTOSIZE ;
+		btn.fsStyle = TBSTYLE_BUTTON /*| TBSTYLE_AUTOSIZE */;
 		btn.idCommand = index;
 		
 		if ( !SendMessage( hwnd_, TB_INSERTBUTTONW, (WPARAM) index, (LPARAM)&btn ) ) {
@@ -1411,6 +1411,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/18 06:45:44  ddiego
+*updated toolbar btn bug, and added text edit sample.
+*
 *Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
 *added a separate paintBorder call to Control class
 *

@@ -100,7 +100,7 @@ void Win32Edit::create( Control* owningControl )
 
 	
 	styleMask_ &= ~WS_VISIBLE;
-	DWORD style = styleMask_ | ES_AUTOHSCROLL | ES_SAVESEL;
+	DWORD style = styleMask_ | ES_AUTOHSCROLL | ES_SAVESEL | ES_NOHIDESEL;
 	if ( true == isMultiLined_ ) {
 		style |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
 	}
@@ -938,10 +938,12 @@ void Win32Edit::onControlModelChanged( Event* e )
 		tml = new TextModelEventHandler<Win32Edit>( this, &Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
 	}
 
+	
 
 	TextModel* tm = textControl_->getTextModel();
 	tm->addTextModelChangedHandler( tml );
 
+	
 	String text = tm->getText();
 
 	//OKToResetControlText_ = false;
@@ -954,6 +956,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/11/18 06:45:44  ddiego
+*updated toolbar btn bug, and added text edit sample.
+*
 *Revision 1.2.2.4  2004/10/03 23:14:37  ddiego
 *fixed a text model bug that incorectly handled deleting chars.
 *
