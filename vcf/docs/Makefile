@@ -3,9 +3,9 @@
 VERSION = 0.6.0
 VCFB_VERSION = 1.0.4
 
-HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
 
-XSL_HTMLHELP_IMPORT = "D:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"
+XSL_HTMLHELP_IMPORT = "D:/dork/docbook/xsl/htmlhelp/htmlhelp.xsl"
 
 RAW_CHM_FILENAME = vcf_docs.chm
 RAW_VCF_BUILDER_CHM_FILENAME = vcfbuilder_docs.chm
@@ -14,6 +14,7 @@ VERSIONED_CHM_FILENAME = VCFDocs.$(VERSION).chm
 VERSIONED_VCFBUILDER_CHM_FILENAME = VCFBuilderDocs.$(VCFB_VERSION).chm
 VERSIONED_SRC_CHM_FILENAME = VCFSrcDocs.$(VERSION).chm
 HTML_TAR_FILENAME = VCFDocs.$(VERSION).tar
+
 
 
 VCF_DOCS = corelib_FAQ.sgml \
@@ -41,9 +42,25 @@ vcfbuilder.xsl
 
 docs :  $(VCF_DOCS) test_tools
 	xsltproc --catalogs --docbook vcf.xsl vcf_docbook.sgml
+	
+online_docs :  $(VCF_DOCS) test_tools 
+	xsltproc --catalogs --docbook vcf_online.xsl vcf_docbook.sgml	
+	
+strip_online_docs :  online_docs stripper
+	for file in *.html;\
+	do\
+		echo post processing $$file with stripper...;\
+		./stripper $$file;\
+	done
 
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
 	xsltproc --catalogs --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
+
+
+pdf : $(VCF_BUILDER_DOCS)
+	xsltproc --catalogs --docbook dbforpdf.xsl vcf_docbook.sgml > out.fo
+	xsltproc --catalogs dbforfop.xsl out.fo > out2.out
+
 
 test_tools : 
 	if ( test -f $(HTMLHELP_COMPILER) )\
@@ -61,6 +78,15 @@ test_tools :
 		echo XSL style sheet $(XSL_HTMLHELP_IMPORT) not found;\
 		exit 1;\
 	fi
+
+
+
+stripper.o : stripper.cpp
+	g++ -c -O2 stripper.cpp
+
+stripper : stripper.o
+	g++ -o stripper stripper.o
+
 
 
 
@@ -95,7 +121,19 @@ dist : docs hh
 	rm all.out
 	rm files.out
 	rm images.out
-	
+
+dist_online : online_docs strip_online_docs
+	find *.html > files.out
+	find gfx/ -type f -name '*' > images.out
+	cat files.out images.out > all.out
+	echo Creating tar file...
+	tar -cf $(HTML_TAR_FILENAME) -T all.out
+	rm -f $(HTML_TAR_FILENAME).gz
+	gzip $(HTML_TAR_FILENAME)
+	echo HTML files tarred and compressed as $(HTML_TAR_FILENAME).gz		
+	rm all.out
+	rm files.out
+	rm images.out
 	
 clean :
 	rm -f *.html
@@ -106,3 +144,4 @@ clean :
 	rm -f *.hhc
 	rm -f *.hhk
 	rm -rf doxy_html/
+	rm -f stripper stripper.o
