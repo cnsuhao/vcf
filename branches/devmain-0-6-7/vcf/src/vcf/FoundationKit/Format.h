@@ -115,9 +115,67 @@ namespace VCF {
 							fmtStr_.resize(0);
 						}
 						
-						char tmp[256];
+						char* tmp = new char[fmt.size()+256];
 						sprintf( tmp, fmt.ansi_c_str(), val );
 						output_ += tmp;
+						delete [] tmp;
+					}
+				}
+				else {
+					output_ += fmtStr_;
+					fmtStr_.resize(0);
+				}
+				
+				currentPos_ = fmtStr_.find( "%" );
+				if ( String::npos == currentPos_ ) {
+					output_ += fmtStr_;
+					fmtStr_.resize(0);
+				}
+			}		
+			return *this;
+		}
+		
+
+		template<>
+			Format& operator% ( const String& val ) {
+			// specialization for a String val.
+
+			currentFormatArgCount_  ++;
+			
+			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
+			if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
+				return *this;
+			}
+			
+			if ( !fmtStr_.empty() ) {  
+				if ( String::npos != currentPos_ ) {
+					//look ahead and see if we have two consecutive %% chars
+					//if so treat as one %
+					if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
+						output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
+						fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
+					}
+					else { //we have to format this string
+						int endPos = getNextFormatTokenEndPos( currentPos_ );
+						
+						output_ += fmtStr_.substr( 0, currentPos_ );
+						fmtStr_.erase( 0, currentPos_ );
+						String fmt;
+						
+						if ( String::npos != endPos ) {												
+							fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
+							
+							fmtStr_.erase( 0, endPos-currentPos_ );
+						}
+						else{
+							fmt = fmtStr_;						
+							fmtStr_.resize(0);
+						}
+						
+						char* tmp = new char[fmt.size()+256];
+						sprintf( tmp, fmt.ansi_c_str(), val.ansi_c_str() );
+						output_ += tmp;
+						delete [] tmp;
 					}
 				}
 				else {
@@ -201,6 +259,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/03/25 16:32:26  marcelloptr
+*added template specialization for String so to avoid problems with c_str() ansi_c_str()
+*
 *Revision 1.1.2.2  2005/03/15 01:51:51  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
