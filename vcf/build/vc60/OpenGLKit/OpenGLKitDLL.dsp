@@ -23,6 +23,8 @@ CFG=OpenGLKITDLL - WIN32 DEBUG
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -91,10 +93,6 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLContext.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLControl.cpp
 # End Source File
 # Begin Source File
@@ -113,10 +111,6 @@ SOURCE=..\..\..\src\vcf\OpenGLKit\Win32OpenGLPeer.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLContext.h
-# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLControl.h

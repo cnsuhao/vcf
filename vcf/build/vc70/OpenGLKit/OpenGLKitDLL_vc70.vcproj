@@ -134,9 +134,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\..\src\vcf\OpenGLKit\OpenGLContext.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\OpenGLKit\OpenGLControl.cpp">
 			</File>
 			<File
@@ -152,9 +149,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\..\src\vcf\OpenGLKit\OpenGLContext.h">
-			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\OpenGLKit\OpenGLControl.h">
 			</File>
