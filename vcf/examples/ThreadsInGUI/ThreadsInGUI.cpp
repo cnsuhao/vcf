@@ -1,49 +1,55 @@
 //ThreadsInGUI.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
-#include "ApplicationKit.h"
-#include "ControlsKit.h"
-#include "core/DefaultListItem.h"
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/ApplicationKit/DefaultListItem.h"
 
 using namespace VCF;
 
 
 /**
-This example will demonstrate running a separate thread that 
+This example will demonstrate running a separate thread that
 increments a count, and then updating it's state in the user
 interface
 */
 
 
 /**
-This is out thread class which does the work of incrementing a 
+This is out thread class which does the work of incrementing a
 count variable. Our thread class is not an auto-delete thread
 and the thread's deletion is done by and event handler that
 is notified when the thread is ready to be deleted.
 It takes three event handlers in it's constructor, one
 for notification of a change in state, one for notification
 that the thread has stopped, and one to notify the event
-handler's owner that the thread should be deleted. 
+handler's owner that the thread should be deleted.
 */
 class CounterThread : public Thread {
 public:
-	CounterThread( EventHandler* changed, 
+	CounterThread( EventHandler* changed,
 					EventHandler* stopped,
 					EventHandler* deleteMe ):Thread(false),
-											changed_(changed), 
-											stopped_(stopped), 
-											deleteMe_(deleteMe), 
+											changed_(changed),
+											stopped_(stopped),
+											deleteMe_(deleteMe),
 											currentCount_(0){
 
 	}
-	
+
 
 	/**
 	our run method initializes the currentCount_ to 0
 	*/
 	virtual bool run() {
 		currentCount_ = 0;
-		
+
 		/**
 		Loop while we're able to, and increment the count
 		each time we do this we'll post an event for this
@@ -69,7 +75,7 @@ public:
 		stopped();
 		return true;
 	}
-	
+
 	int currentCount() {
 		return currentCount_;
 	}
@@ -106,9 +112,9 @@ protected:
 This is a thread item class
 We'll add one of these to our ListBoxControl's ListModel
 for each thread.
-To customize it, we have overriden the DefaultListItem's 
+To customize it, we have overriden the DefaultListItem's
 getCaption() method with our own custom handling which
-prints out the thread's current state. 
+prints out the thread's current state.
 Doing this is a bit simpler than overriding the list items
 paint method()
 */
@@ -120,10 +126,10 @@ public:
 
 	virtual String getCaption() {
 		String result = DefaultListItem::getCaption();
-		
+
 		if ( result.empty() ) {
 			CounterThread* thread = (CounterThread*)getData();
-			if ( NULL != thread ) { 
+			if ( NULL != thread ) {
 				result = thread->toString();
 				result += " " + StringUtils::toString( thread->currentCount() );
 			}
@@ -148,19 +154,19 @@ public:
 
 		setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
 
-		EventHandler* ev = 
-			new GenericEventHandler<ThreadsInGUIWindow>( this, 
-														&ThreadsInGUIWindow::threadChanged, 
+		EventHandler* ev =
+			new GenericEventHandler<ThreadsInGUIWindow>( this,
+														&ThreadsInGUIWindow::threadChanged,
 														"ThreadsInGUIWindow::threadChanged" );
 
-		ev = 
-			new GenericEventHandler<ThreadsInGUIWindow>( this, 
-														&ThreadsInGUIWindow::threadStopped, 
+		ev =
+			new GenericEventHandler<ThreadsInGUIWindow>( this,
+														&ThreadsInGUIWindow::threadStopped,
 														"ThreadsInGUIWindow::threadStopped" );
 
-		ev = 
-			new GenericEventHandler<ThreadsInGUIWindow>( this, 
-														&ThreadsInGUIWindow::deleteThread, 
+		ev =
+			new GenericEventHandler<ThreadsInGUIWindow>( this,
+														&ThreadsInGUIWindow::deleteThread,
 														"ThreadsInGUIWindow::deleteThread" );
 
 		CommandButton* btn = new CommandButton();
@@ -168,8 +174,8 @@ public:
 		btn->setCaption( "Start Thread" );
 		add( btn );
 
-		btn->addButtonClickHandler( new ButtonEventHandler<ThreadsInGUIWindow>( this, 
-														&ThreadsInGUIWindow::addThread, 
+		btn->addButtonClickHandler( new ButtonEventHandler<ThreadsInGUIWindow>( this,
+														&ThreadsInGUIWindow::addThread,
 														"ThreadsInGUIWindow::addThread" ) );
 
 
@@ -215,7 +221,7 @@ public:
 
 	void deleteThread( Event* e ) {
 		Thread* thread = (Thread*)e->getSource();
-		
+
 		Enumerator<ListItem*>* items = listBox_->getListModel()->getItems();
 		while ( items->hasMoreElements() ) {
 			ListItem* item = items->nextElement();
@@ -243,11 +249,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new ThreadsInGUIWindow();
 		setMainWindow(mainWindow);
-		
-		
+
+
 		return result;
 	}
 
@@ -259,8 +265,17 @@ int main(int argc, char *argv[])
 	Application* app = new ThreadsInGUIApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.3.2.4  2004/04/29 03:40:58  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

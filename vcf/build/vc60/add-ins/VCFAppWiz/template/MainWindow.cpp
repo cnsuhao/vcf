@@ -1,7 +1,7 @@
 //MainWindow.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "MainWindow.h"
-#include "core/DefaultMenuItem.h"
+#include "vcf/ApplicationKit/DefaultMenuItem.h"
 
 #include "$$Root$$Application.h"
 
@@ -18,11 +18,10 @@ MainWindow::MainWindow()
 {
 $$IF(STD_HELP_MNU || STD_FILE_MNU || UNDO_REDO)
 	//build main menu
-	MenuBar* menuBar = new MenuBar( this );
+	MenuBar* menuBar = new MenuBar();
 	this->setMenuBar( menuBar );
-	
 	MenuItem* root = menuBar->getRootMenuItem();
-	EventHandler* menuItemHandler = NULL;
+	MenuItemEventHandler<MainWindow>* menuItemHandler = NULL;
 $$IF(STD_FILE_MNU)
 	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, menuBar );
 
@@ -82,7 +81,7 @@ MainWindow::~MainWindow()
 $$IF(STD_FILE_MNU)
 void MainWindow::onFileOpenProject( MenuItemEvent* e )
 {
-	CommonFileOpen openDlg;	
+	CommonFileOpen openDlg( this );	
 $$BEGINLOOP(EXT_SIZE)
 	openDlg.addFilter( "$$EXT_DESC$$", "$$EXT$$" );
 $$ENDLOOP	
@@ -95,7 +94,7 @@ $$ENDLOOP
 
 void MainWindow::onFileSaveProject( MenuItemEvent* e )
 {
-	CommonFileSave saveDlg;
+	CommonFileSave saveDlg ( this );
 $$BEGINLOOP(EXT_SIZE)
 	saveDlg.addFilter( "$$EXT_DESC$$", "$$EXT$$" );
 $$ENDLOOP	

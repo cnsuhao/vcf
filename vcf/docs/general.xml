@@ -122,39 +122,41 @@ NB: This software will not save the world.
 				</para></listitem>
 				
 				<listitem><para>
-				The GUI provides a set of Model and View classes for using in MVC patterns. A series of models 
-				like the ListModel, TreeModel, and  TextModel are used in controls to provide separation of the data 
-				from the UI presentation code. Because a View can be dynamically attached to a Control at runtime, 
+				The GUI provides a set of Model and View classes for using in MVC patterns. 
+				A series of models like the ListModel, TreeModel, and  TextModel are used in 
+				controls to provide separation of the data from the UI presentation code. 
+				Because a View can be dynamically attached to a Control at runtime, 
 				it will be possible to develop "themes" in the future. 
 				</para></listitem>
 				
 				<listitem><para>
-				Because of the RTTI features and the event handlers, the VCF easily supports component programming. 
-				Objects can easily register event handlers with other object in the system at runtime, without knowing the 
-				specifics of each other.
+				Because of the RTTI features and the event handlers, the VCF easily supports 
+				component programming. Objects can easily register event handlers with other 
+				object in the system at runtime, without knowing the specifics of each other.
 				</para></listitem>
 				
 				<listitem><para>
-				As much as possible, VCF tries to be as flexible as possible, allowing you to use the parts you want, 
-				and allowing for interoperability with other frameworks. Thus VCF controls can be used inside of an 
-				MFC app if you like. 
+				As much as possible, VCF tries to be as flexible as possible, allowing you to 
+				use the parts you want, and allowing for interoperability with other frameworks. 
+				Thus VCF controls can be used inside of an MFC app if you like. 
 				</para></listitem>
 				
 				<listitem><para>
-				No need of special preprocessor tools - if you have a reasonably complete C++ compiler then you're 
-				all set to go.
+				No need of special preprocessor tools - if you have a reasonably complete C++ 
+				compiler then you're all set to go.
 				</para></listitem>
 				
 				<listitem><para>
-				Heavy use of the Standard Template Library throughout the VCF, as well as templates, that make 
-				up the RTTI extensions the VCF implements.
+				Heavy use of the Standard Template Library throughout the VCF, as well as templates, 
+				that make up the RTTI extensions the VCF implements.
 				</para></listitem>
 				
 				<listitem><para>
-				Ability to access the low level handles for most native objects. For example, by accessing the 
-				Thread's peer class, you can get a handle to the native thread handle itself. For a control, you can 
-				access the control's peer and get a handle id that represents the windowing systems native handle for 
-				a window/widget. This allows you to use platform specific calls when neccessary.
+				Ability to access the low level handles for most native objects. For example, 
+				by accessing the Thread's peer class, you can get a handle to the native thread 
+				handle itself. For a control, you can access the control's peer and get a handle 
+				id that represents the windowing systems native handle for a window/widget. This 
+				allows you to use platform specific calls when neccessary.
 				</para></listitem>					
 		</itemizedlist>			
 	</section>
@@ -174,9 +176,27 @@ NB: This software will not save the world.
 			<listitem>
 				<para>Win32</para>
 				<para>
-					For this platform the preferred compiler is currently the Microsoft Visual C++ 6 compiler with 
-					Service Pack 5 applied. Microft Visual C++ 7 also works but some setting may be slightly different
-					or found in different places than described in the documentation.
+					For this platform the preferred compiler is currently the Microsoft 
+					Visual C++ 6 compiler with Service Pack 5 applied. Microft Visual C++ 7 
+					also works but some setting may be slightly different or found in 
+					different places than described in the documentation.
+				</para>
+				<para>
+					Currently the support compilers for the Win32 platform are:
+					<itemizedlist>
+						<listitem>
+							Microsoft Visual C++ 6 (service pack 5 or better preferred).
+						</listitem>
+						<listitem>
+							Microsoft Visual C++ 7.0.
+						</listitem>
+						<listitem>
+							Microsoft Visual C++ 7.1.
+						</listitem>
+						<listitem>
+							Intels C/C++ compiler version 7 (using Visual Studio 6).
+						</listitem>
+					</itemizedlist>
 				</para>
 			</listitem>					
 			<listitem>
@@ -202,59 +222,63 @@ NB: This software will not save the world.
 	<section><title>Installing the VCF</title>
 		<section><title>For Win32 systems</title>
 		<formalpara><title>Using the VCF Installer</title>
-		You can install the VCF in a number of ways. The simplest way to install on a "clean" system, is to simply download the 
-		VCF Installer from <ulink url="http://sourceforge.net/project/showfiles.php?group_id=6796">Source Forge</ulink>, save the
-		appropriate file to your hard drive, run it, and Voila! you are ready to rock and roll! 
-		</formalpara>
-		<note><title>Installer currently broken</title>
-			<para>
-			The VCF Installer is currently broken and is not being offered at the moment
-			</para>
-		</note>
+		You can install the VCF in a number of ways. The simplest way to install on a 
+		"clean" system, is to simply download the VCF Installer from 
+		<ulink url="http://sourceforge.net/project/showfiles.php?group_id=6796">Source Forge</ulink>, 
+		save the appropriate file to your hard drive, run it, and Voila! you are ready to 
+		rock and roll! 
+		</formalpara>		
 		<formalpara><title>Install from a source archive</title>
-		The more complex way is to pull down the latest cvs tar.gz file (again, you can get that from 
-		<ulink url="http://sourceforge.net/project/showfiles.php?group_id=6796">Source Forge</ulink>) and uncompress 
-		it somewhere on you hardrive. Once you have done this you'll need to set up some environment variables, which are as 
-		follows: 
+		The more complex way is to pull down the latest cvs tar.gz file (again, you can 
+		get that from 
+		<ulink url="http://sourceforge.net/project/showfiles.php?group_id=6796">Source Forge</ulink>) 
+		and uncompress it somewhere on you hardrive. Once you have done this you'll need 
+		to set up some environment variables, which are as follows: 
 		</formalpara>
 		<itemizedlist>
 			<listitem><para>
-				VCF_BIN : this should point to the bin under the root where you installed the VCF. For example, on my 
-				machine it resolves to "d:\code\vcf\bin". 
+				VCF_BIN : this should point to the bin under the root where you installed the 
+				VCF. For example, on my machine it resolves to "d:\code\vcf\bin". 
 			</para></listitem>
 			<listitem><para>
-				VCF_INCLUDE : this should point to the include directory under the same VCF root mentioned earlier. 
-				Once again (as an example), on my machine this resolves to "d:\code\vcf\include" 
+				VCF_INCLUDE : this should point to the include directory under the same VCF 
+				root mentioned earlier. Once again (as an example), on my machine this 
+				resolves to "d:\code\vcf\src".
 			</para></listitem>
 			<listitem><para>
-				VCF_LIB : this should point to the lib directory under the same VCF root mentioned earlier. Once again 
-				(as an example), on my machine this resolves to "d:\code\vcf\lib". 
+				VCF_LIB : this should point to the lib directory under the same VCF root 
+				mentioned earlier. Once again (as an example), on my machine this resolves 
+				to "d:\code\vcf\lib". 
 			</para></listitem>
 		</itemizedlist>
 		<para>
-		Once you have this done you can open up the projects in Microsoft Visual Studio and build the various 
-		workspaces (.dsw files).
+		Once you have this done you can open up the projects in Microsoft Visual Studio and build 
+		the various workspaces (.dsw files).
 		</para>
 		
+		
 		<formalpara><title>Install via CVS access</title>
-		The most "advanced" way is to connect to cvs and pull down either the latest stable version or the latest 
-		development version. There are instructions on SourceForge detailing 
-		<ulink url="http://sourceforge.net/cvs/?group_id=6796">how to do this</ulink>. 
+		The most "advanced" way is to connect to cvs and pull down either the latest stable 
+		version or the latest development version. There are instructions on SourceForge 
+		detailing <ulink url="http://sourceforge.net/cvs/?group_id=6796">how to do this</ulink>. 
 		<note><title>Anonymous vs. developer cvs access</title>
 			<para>
-			if you download the VCF via anonymous CVS access, and then, realizing it is the greatest thing since 
-			sliced bread and toasted crumpets, you decide to join the project (hint, hint), you will need to either delete 
-			the directory where you currently have the VCF, or pull it down with cvs to a different directory.
+			if you download the VCF via anonymous CVS access, and then, realizing it is the 
+			greatest thing since sliced bread and toasted crumpets, you decide to join the 
+			project (hint, hint), you will need to either delete the directory where you 
+			currently have the VCF, or pull it down with cvs to a different directory.
 			</para>
 			<para>
-			The problem that arises is that you will be unable to check-in anything, despite having joined the project and 
-			received write access to the cvs repository. I think this is because cvs thinks you are still "anonymous" and 
-			you have no write access for an anonymous user. 
+			The problem that arises is that you will be unable to check-in anything, despite 
+			having joined the project and received write access to the cvs repository. I 
+			think this is because cvs thinks you are still "anonymous" and you have no write 
+			access for an anonymous user. 
 			</para>
 		</note>
 		</formalpara>
 		<para>
-		Once you have pulled down the code with cvs repeat the steps above for environment variables.
+		Once you have pulled down the code with cvs repeat the steps above for environment 
+		variables.
 		</para>
 		</section>
 		<section><title>For Linux systems</title>
@@ -264,144 +288,238 @@ NB: This software will not save the world.
 
 	<section><title>Building the VCF</title>
 		<para>
-		Building the VCF is easy. This assumes that you have downloaded it and, if necessary, set up any environment 
-		variables. The following sections will discuss building the VCF on specific platforms.
+		Building the VCF is easy. This assumes that you have downloaded it and, if necessary, 
+		set up any environment variables. The following sections will discuss building the 
+		VCF on specific platforms.
 		</para>
 		<section><title>VCF Tools</title>
-		</section>
-		<section><title>Win32</title>
-			<para>
-			Required tools:				
-			</para>
-			<para>
-			Microsoft Visual C++ 6.x
-			</para>
-			<para>
-			The first thing you'll want to is build the various add-ins for Developer Studio. Open the main workspace 
-			found in vcf/build/vc60/add-ins/all.dsw. Build the "Win32 Release" configuration, making sure that the "all" project is 
-			the current active project. This should build the VCF New Class add-in, plus project wizards VCFLibraryAppWizard, 
-			VPLAppWiz, VCFConsoleWiz, and VCFAppWiz. To verify that these were correctly built go to "File | New..." and 
-			click on the "Projects" tab and you should see something like the following:
-			</para>
-			<screenshot>
-				<graphic fileref="gfx/addins_verify.png"></graphic>
-			</screenshot>
-			<para>
-			The red circle indicates the various new Application Wizards that you should see.
-			</para>
-			<para>
-			Once this is done you should build the VCF framework itself. Open the vcf/build/vc60/vcfAll.dsw workspace. 
-			This workspace has all the various framework projects, both as static .lib files and DLL projects. To build all the
-			DLL projects select the "vcfAll" project and make it the active project. Building this project will automatically 
-			build the FoundationKit, GraphicsKit, ApplicationKit, NetworkKit, and RemoteObjectKit. To build all the core 
-			static libraries select the "vcfAllStaticLibs" project and make it the active project. 
-			</para>
-			<para>
-			There are several additional projects you can build as well for additional features.
-			</para>
-			<itemizedlist>
-				<listitem><para>
+			<section><title>Microsoft Visual C++ 6</title>				
 				<para>
-				The ImageFormats project, which adds support for a wide variety of image formats by using the 
-				<ulink url="http://www.6ixsoft.com/">FreeImage library</ulink>. Build this if you would like to add this support 
-				to your project.
+				The first thing you'll want to is build the various add-ins for 
+				Developer Studio. Open the main workspace found in vcf/build/vc60/add-ins/all.dsw. 
+				Build the "Win32 Release" configuration, making sure that the "all" 
+				project is the current active project. This should build the 
+				VCF New Class add-in, plus project wizards VCFLibraryAppWizard, 
+				VPLAppWiz, VCFConsoleWiz, and VCFAppWiz. To verify that these were 
+				correctly built go to "File | New..." and click on the "Projects" 
+				tab and you should see something like the following:
 				</para>
-				</para></listitem>
-				<listitem><para>
+				<screenshot>
+					<graphic fileref="gfx/addins_verify.png"></graphic>
+				</screenshot>
 				<para>
-				The Win32HTMLBrowser (and Win32HTMLBrowser_StaticLib) project, for an HTML browser peer 
-				(currently implemented using the Internet Explorer IWebBrowser COM interface, though experiments have been done 
-				using the Gecko component from mozilla.  
+				The red circle indicates the various new Application Wizards that you should see.
 				</para>
-				</para></listitem>
-			</itemizedlist>
-			<para>
-			The build will take a bit, so now would be a good time for coffee, tea, or perhaps reading some Dostoevsky...
-			</para>
-			<para>
-			Once the build is finished you are ready to go ! All binaries will be put in the vcf/bin directory when built.
-			</para>		
-		</section>
-		<section><title>Linux</title>
-			<para>
-			Currently the Linux port is in progress and these instructions may change,
-			but here are the current steps to build, as of November 3, 2003.
-			</para>
-			<para>For Linux systemsFor Linux systems
-			First make sure you have GTK (at least version 2.2). Most recent linux distributions include this
-			by default, so you probably have it. An easy test would be to try the following:
-<programlisting>
-echo `pkg-config gtk+-2.0 --cflags`
-</programlisting>
-			You should see some sort GCC compiler flags - if you get back error messages 
-			like:
-<programlisting>
-pkg-config: command not found
-</programlisting>
-			Then you don't have the pkg-config system installed (and almost certainly not 
-			GTK which depends on pkg-config). If you see something like:
-<programlisting>
-Package gtk+-2.0 was not found in the pkg-config search path.
-Perhaps you should add the directory containing `gtk+-2.0.pc'
-to the PKG_CONFIG_PATH environment variable
-No package 'gtk+-2.0' found
-</programlisting>
-			Then you have the pkg-config tool, but probably not gtk installed (or not installed correctly).
-			</para>
-			<para>For more information about GTK and installing it go 
-			<ulink url="http://developer.gnome.org/doc/API/2.2/gtk/gtk-building.html"> here</ulink>.
-			</para>
-			<para>
-			Once you have confirmed you have (or installed) GTK, go to the vcf/build/make 
-			directory. Type 
-			<programlisting>make debug</programlisting>
-			for a debug version of the libraries, or 
-			<programlisting>make release</programlisting>
-			for an optimized, release version of the libraries. To build both release
-			and debug targets, type:
-			<programlisting>make all</programlisting>
-			</para>
-			<para>
-			The .a library files will be output to the vcf/lib directory, while the 
-			.so shared libraries will be output to the vcf/bin directory. To ensure 
-			programs can load these up you may need to add the vcf/bin path to your 
-			LD_LIBRARY_PATH. In the future this may change to correctly using the -rpath
-			option to ld when linking.
-			</para>
-			<para>
-			There is currently no install target. This needs to be addressed in the very near future! 
-			Presumably, you can just copy the .so's in the vcf/bin directory into /usr/local/lib.
-			</para>
-		</section>
-		<section><title>MacOSX</title>
-		<para>
-		</para>
-		</section>
+			</section>		
+			<section><title>Microsoft Visual C++ 7/7.1</title>				
+				<para>
+				The first thing you'll want to is build the various add-ins for 
+				Developer Studio. 
+				</para>
+				<para>
+				Someone needs to fill in the rest of this...
+				</para>
+				<screenshot>
+					<graphic fileref="gfx/insert-some-vc7-screenshot-here.png"></graphic>
+				</screenshot>
+				<para>
+				The red circle indicates the various new Application Wizards that you should see.
+				</para>
+			</section>
+		</section>		
+		<section><title>Building the VCF Libraries</title>
+			<section><title>Win32</title>
+				<formalpara><title>Microsoft Visual C++ 6</title>
+				The following section deals with build the VCF libraries using the Microsoft Visual 
+				C++ 6 IDE.
+				</formalpara>
+				<para>
+				To build the VCF open the vcf/build/vc60/vcfAllProjects.dsw workspace. 
+				This workspace has all the various framework projects, both as 
+				static .lib files and DLL projects. To build all the VCF libraries select 
+				the "vcfAllLibs" project and make it the active project. Building this 
+				project will automatically build the FoundationKit, GraphicsKit, 
+				ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
+				will be built as both static <emphasis>and</emphasis> DLL binaries. To build
+				just the static libraries, build the "vcfAllStaticLibs" project. To
+				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
+				</para>
+				<para>
+				There are several additional projects you can build as well for additional 
+				features.
+				</para>
+				<itemizedlist>
+					<listitem><para>
+					<para>
+					The ImageFormats project, which adds support for a wide variety of 
+					image formats by using the <ulink url="http://www.6ixsoft.com/">FreeImage library</ulink>. 
+					Build this if you would like to add this support to your project.
+					</para>
+					</para></listitem>
+					<listitem><para>
+					<para>
+					The Win32HTMLBrowser (and Win32HTMLBrowser_StaticLib) project, for an 
+					HTML browser peer (currently implemented using the Internet Explorer 
+					IWebBrowser COM interface, though experiments have been done 
+					using the Gecko component from mozilla).  
+					</para>
+					</para></listitem>
+				</itemizedlist>
+				<para>
+				The build will take a bit, so now would be a good time for coffee, tea, or 
+				perhaps reading some Dostoevsky...
+				</para>
+				<para>
+				Once the build is finished you are ready to go ! All binaries will be put 
+				in the vcf/bin directory when built.
+				</para>
+	
+				<formalpara><title>Microsoft Visual C++ 7.0</title>
+				The following section deals with build the VCF libraries using the Microsoft Visual 
+				C++ 7.0 IDE.
+				</formalpara>
+				<para>
+				To build the VCF open the vcf/build/vc70/vcfAllProjects.dsw workspace. 
+				This workspace has all the various framework projects, both as 
+				static .lib files and DLL projects. Visual Studio should prompt
+				you to convert the Visual C++ 6 projects into the new Visual Studio 7 
+				format. Click the "Yes to All" option, and all the projects should then
+				get converted. To build all the VCF libraries select 
+				the "vcfAllLibs" project and make it the active project. Building this 
+				project will automatically build the FoundationKit, GraphicsKit, 
+				ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
+				will be built as both static <emphasis>and</emphasis> DLL binaries. To build
+				just the static libraries, build the "vcfAllStaticLibs" project. To
+				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
+				</para>
+				
+				<formalpara><title>Microsoft Visual C++ 7.1</title>
+				The following section deals with build the VCF libraries using the Microsoft Visual 
+				C++ 7.0 IDE.
+				</formalpara>
+				<para>
+				To build the VCF open the vcf/build/vc71/vcfAllProjects.dsw workspace. 
+				This workspace has all the various framework projects, both as 
+				static .lib files and DLL projects. Visual Studio should prompt
+				you to convert the Visual C++ 6 projects into the new Visual Studio 7.1 
+				format. Click the "Yes to All" option, and all the projects should then
+				get converted. To build all the VCF libraries select 
+				the "vcfAllLibs" project and make it the active project. Building this 
+				project will automatically build the FoundationKit, GraphicsKit, 
+				ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
+				will be built as both static <emphasis>and</emphasis> DLL binaries. To build
+				just the static libraries, build the "vcfAllStaticLibs" project. To
+				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
+				</para>
+				
+				<formalpara><title>Microsoft Visual C++ 6 using the Intel C/C++ compiler</title>
+				The following section deals with build the VCF libraries using the Microsoft Visual 
+				C++ 7.0 IDE with the Intel C/C++ compiler installed.
+				</formalpara>
+				<para>
+				To build the VCF open the vcf/build/icl7/vcfAllProjects.dsw workspace. 
+				This workspace has all the various framework projects, both as 
+				static .lib files and DLL projects. To build all the VCF libraries select 
+				the "vcfAllLibs" project and make it the active project. Building this 
+				project will automatically build the FoundationKit, GraphicsKit, 
+				ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
+				will be built as both static <emphasis>and</emphasis> DLL binaries. To build
+				just the static libraries, build the "vcfAllStaticLibs" project. To
+				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
+				</para>
+			</section>
+			
+			<section><title>Linux</title>
+				<para>
+				Currently the Linux port is in progress and these instructions may change,
+				but here are the current steps to build, as of November 3, 2003.
+				</para>
+				<para>For Linux systemsFor Linux systems
+				First make sure you have GTK (at least version 2.2). Most recent linux 
+				distributions include this by default, so you probably have it. An easy 
+				test would be to try the following:
+	<programlisting>
+	echo `pkg-config gtk+-2.0 --cflags`
+	</programlisting>
+				You should see some sort GCC compiler flags - if you get back error messages 
+				like:
+	<programlisting>
+	pkg-config: command not found
+	</programlisting>
+				Then you don't have the pkg-config system installed (and almost certainly not 
+				GTK which depends on pkg-config). If you see something like:
+	<programlisting>
+	Package gtk+-2.0 was not found in the pkg-config search path.
+	Perhaps you should add the directory containing `gtk+-2.0.pc'
+	to the PKG_CONFIG_PATH environment variable
+	No package 'gtk+-2.0' found
+	</programlisting>
+				Then you have the pkg-config tool, but probably not gtk installed (or not 
+				installed correctly).
+				</para>
+				<para>For more information about GTK and installing it go 
+				<ulink url="http://developer.gnome.org/doc/API/2.2/gtk/gtk-building.html"> 
+				here</ulink>.
+				</para>
+				<para>
+				Once you have confirmed you have (or installed) GTK, go to the 
+				vcf/build/make directory. Type 
+				<programlisting>make debug</programlisting>
+				for a debug version of the libraries, or 
+				<programlisting>make release</programlisting>
+				for an optimized, release version of the libraries. To build both release
+				and debug targets, type:
+				<programlisting>make all</programlisting>
+				</para>
+				<para>
+				The .a library files will be output to the vcf/lib directory, while the 
+				.so shared libraries will be output to the vcf/bin directory. To ensure 
+				programs can load these up you may need to add the vcf/bin path to your 
+				LD_LIBRARY_PATH. In the future this may change to correctly using the -rpath
+				option to ld when linking.
+				</para>
+				<para>
+				There is currently no install target. This needs to be addressed in the 
+				very near future! Presumably, you can just copy the .so's in the vcf/bin 
+				directory into /usr/local/lib.
+				</para>
+			</section>
+			<section><title>MacOSX</title>
+				<para>
+				</para>
+			</section>
+		</section>		
 	</section>		
 	
 	<section><title>Contributing</title>
 		<section><title>Registering at SF</title>
 		<para>
-		Interested in contributing to the VCF project ? Great ! First you need to become a member of Source Forge. Source 
-		Forge membership is free, and only takes a minute to fill out the web form. It is a requirement for participating in any 
+		Interested in contributing to the VCF project ? Great ! First you need to become a 
+		member of Source Forge. SourceForge membership is free, and only takes a minute to 
+		fill out the web form. It is a requirement for participating in any 
 		Source Forge sponsored project, like the VCF. You can join at the Source Forge 
 			<ulink url="http://sourceforge.net/account/register.php">New User page</ulink>.
 		</para>
 		<para>
-		Next, you need to email me, and let me know to add you to the project. It usually takes a day or so for your Source Forge 
-		account to become activated,  so keep that in mind. If your a developer, you'll be added with read/write privileges to the CVS 
+		Next, you need to email me, and let me know to add you to the project. It usually 
+		takes a day or so for your Source Forge account to become activated,  so keep that 
+		in mind. If your a developer, you'll be added with read/write privileges to the CVS 
 		source tree. 
 		</para>
 		</section>
 		<section><title>Setting up CVS</title>
 			<para>
-			Once all of this is done, all you have to do is setup your machine to use CVS and SSH. CVS and SSH are must have tools, 
-			without these you'll not be able to check source code in or out from CVS, which is the standard version control program used 
-			by all Source Forge projects. You can get both of these tools from a variety of places, including the VCF Installer, as well as 
-			a smaller installer on the project that only installs CVS and SSH, and also configures your system to use them ( you can get 
-			this installer here). For documentation on how to use SSH on your Win32 system, Source Forge has some great articles, as 
-			well as some specific stuff just for Win32 (here, and here). There are some things you'll need to check for to make sure CVS 
-			and SSH will work together correctly so please verify the following: 
+			Once all of this is done, all you have to do is setup your machine to use CVS 
+			and SSH. CVS and SSH are must have tools, without these you'll not be able to 
+			check source code in or out from CVS, which is the standard version control 
+			program used by all Source Forge projects. You can get both of these tools 
+			from a variety of places, including the VCF Installer, as well as 
+			a smaller installer on the project that only installs CVS and SSH, 
+			and also configures your system to use them ( you can get this installer 
+			here). For documentation on how to use SSH on your Win32 system, SourceForge 
+			has some great articles, as well as some specific stuff just for Win32 
+			(here, and here). There are some things you'll need to check for to make 
+			sure CVS and SSH will work together correctly so please verify the following: 
 			<itemizedlist>
 				<listitem><para>
 				You'll need a CVSROOT variable that equals 
@@ -1246,6 +1364,10 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.2.4.1  2004/04/29 19:06:41  ddiego
+added MVC example, plus the Model::changed() method. Also
+added more documentation.
+
 Revision 1.2  2003/12/18 05:15:52  ddiego
 merge from devmain-0-6-2 branch into the stable branch
 

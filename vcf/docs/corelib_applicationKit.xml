@@ -589,10 +589,8 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		
 		<para>
 		
-		</para>
-
-
-	</section>
+		</para>	
+	</section>	
 	
 	<section id="Layout"><title>Layout </title>
 		<para>
@@ -604,20 +602,185 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		</para>
 	</section>
 	
-	<section><title>Models </title>
+	<section><title>Model View Controller (MVC)</title>
 		<para>
+		MVC, also known as Model-View-Controller, is a common pattern
+		for implementing UI interaction between the User, the presentation,
+		and the data being viewed or modified. The pattern was pioneered in the
+		mid ot later 1970's at Xerox's PARC research center. It orginated in
+		Alan Kay's Learning Research Group, the same group that would take Kay's
+		Smalltalk language and implement it on PARC's Alto, Dorado, and later
+		the commercial Xerox Star computer systems. 
+		</para>
+		<para>
+		Some more modern uses of MVC can be found in Java's Swing library, Struts,
+		Apple's (NeXTStep) Cocoa Objective-C framework, and even a basterdized version 
+		in Microsoft's MFC framework.
+		</para>
+		<para>
+		MVC makes a point of separating the data being used, which generically 
+		referred to as the "Model", the control of the interaction, or the "Controller",
+		and the presentation of the Model, referred to as the "View". Some framework
+		merge the View and Controller into one unit, which is also something the VCF does. 
+		</para>
+		<para>
+		The Model is represented by a single class that represents the data being 
+		worked with. An example of this might be a NumberModel, which might store 
+		a numerical value, or a GraphModel which might store a series of nodes to 
+		represent a graph heirarchy. Each Model has a collection of 0 or more Views'
+		associated with a given Model instance.
+		</para>
+		<para>
+		A View is associate with 1, and only 1 Model instance. It is used to "render" 
+		or present a particular presentation of the Model it is associated with. 
+		When determing how to present the UI a View may use only a portion of all 
+		the information from it's Model. For example, a View of a GraphModel might
+		render the Model as a tree that is vertically aligned (kind of like the 
+		view in the left side of the Explorer app for Windows) or it might render 
+		the model with free form nodes (similar to Maya's Graph Window that shows the
+		3D scene's scene graph structure).
+		</para>
+		<para>
+		A Controller mediates between the model and view. The Controller typically process
+		user input and does something meaningful with it. For example, a Controller
+		for a drawing app might receive notification of mouse clicks, and if the user
+		right clicks the mouse over a shape, the Controller might delete the shape
+		from the model. Generally there is a one Controller for a given Model.
+		</para>
+		<para>
+		In the VCF the View and Model are separate classes. The View class is an interface
+		and the Model is derived from the VCF::Component class to support visual editing.
+		In the VCF a Model can hav views added to removed at runtime. A View maintains a
+		pointer back to it's Model, and a View maintains a pointer to the Control it
+		is ultimately a part of. A Model is able to update all it's views.
+		</para>
+		<para>
+		There is no formal Controller class (at least not yet). This role is largely performed
+		by the VCF::Control class. In the VCF a Control is both a View and a Controller. Thus 
+		any Control instance may be added as a view to a Model. In addition, a Control can have a
+		specific view associated with it. If this is the case, then all drawing is delegated to
+		control's view (which is set/retreived bay calling Control::setView() or 
+		Control::getView() ). 
+		</para>
+		
+		
+		<section><title>Models </title>
+		<para>
+		In the VCF a Model has 3 main duties:
+		<itemizedlist>
+			<listitem>
+			<para>
+			To support emptying the model. Each model class should implement the 
+			empty() method. When empty() is called the implementation should clear
+			out any data the model contains. If the model was a copllection of items
+			then all the items should be deleted if empty() is called. In addition,
+			calling empty() causes a change event to be fired.
+			</para>
+			</listitem>
+			
+			<listitem>
+			<para>
+			Optionally support some form of validation. Validation makes it possible to 
+			verify that a potential change is acceptable to the model. It allows 
+			"outsiders" to participate in the logic by adding event handler's to the 
+			Model's Validate delegate.
+			</para>
+			</listitem>
+			
+			<listitem>
+			<para>
+			Finally the model needs to support change notification. Any change to the model 
+			should fire an event on the ModelChanged delegate. This lets event handlers get
+			notified when the model is changed. In addition to this, when a change occurs
+			a model should probably call it's updateAllViews() method. Model::updateAllViews()
+			will loop through the list of views that are attached to the model and call each
+			view's updateView() method. 
+			</para>
+			<note>
+			<para>
+			Changing a model's contents from anything other than the main thread is 
+			not safe unless you're very careful in how you do it. The VCF, like most 
+			GUI toolkits, is not threadsafe, and making changes like this can cause 
+			problems. The best things to do, is to cause the thread to post an event 
+			back to the main UI thread (see  UITookit::postEvent()), and then make the 
+			changes at that point.
+			</para>
+			</note>
+			<para>
+			To make it easier to fire events correctly when the model changes, there 
+			is a utility method on the Model class called changed(). Calling this will 
+			pass the event to the model ModelChanged delegate, and call updateAllViews(). 
+			For example:
+			<programlisting>
+<![CDATA[
+ModelEvent event( this, ... );
+changed( &event );			
+]]>
+			</programlisting>
+			</para>
+			</listitem>
+		</itemizedlist>
 		</para>
 	</section>
 	
 	<section><title>Items </title>
 		<para>
+		Some models may have a collection of items. To make this easier to use and to 
+		display, a custom collection model implementor may choose to use the Item class 
+		as a base class for the items in their model.
 		</para>
 	</section>
 	
 	<section><title>Views </title>
 		<para>
+		In the VCF each view one and only one model instance that it is attached to at 
+		a given point in time. Each view has one control associated with it. This control 
+		is the surface that the view "renders" or paints itself onto. Each view has
+		an update() method that, by default (as implemented in AbstractView), generally 
+		just calls the view control's repaint() method. The actual painting for the View 
+		happens when the view's paintView() is called.
 		</para>
 	</section>
+	
+	<section><title>Controls</title>
+		<para>
+		A Control is derived from the View class, therefore it <emphasis>is</emphasis>
+		a View. In addition, a Control has a View, which is accessed or set by the Control's
+		getView() or setView() methods. This means that a control may added as a view of 
+		a Model.
+		<programlisting>
+<![CDATA[
+Model* model = ... //get a model from somewhere
+Control* control = ... //get a control from somewhere
+model->addView( control ); //this is perfectly valid
+]]>		
+		</programlisting>
+		A Control may also host a separate instance of a View.
+		<programlisting>
+<![CDATA[
+Control* control = ... //get a control from somewhere
+View* view = new MyCustomView();
+control->setView( view );
+]]>
+		</programlisting>
+		By default a Control's view member is set to NULL. If a Control's view is 
+		"set" (by calling Control::setView() and passing in a valid, non NULL view 
+		instance), then the Control's paint() method will end up calling the view's 
+		paintView() method, and the control will do no further painting. This allows
+		a View to completely override how a control paint's itself.
+		</para>
+	</section>
+	<para>
+	To recap this all, MVC provides a simple framework to store, manipulate, and display
+	a programs data. The Model stores and manipulates the data, the View renders or paints
+	the display of the Model, and the Control handles user interaction with the model.
+	</para>
+	<section><title>Document/View Architecture</title>
+		
+	</section>
+	
+	</section>
+	
 	
 	<section><title>Undo/Redo and Commands </title>
 		<para>
@@ -659,6 +822,10 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 <!--
 CVS Log info
 $Log$
+Revision 1.2.4.1  2004/04/29 19:06:40  ddiego
+added MVC example, plus the Model::changed() method. Also
+added more documentation.
+
 Revision 1.2  2003/12/18 05:15:52  ddiego
 merge from devmain-0-6-2 branch into the stable branch
 

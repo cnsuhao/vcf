@@ -1,6 +1,13 @@
-////FilesAndDirectories.cpp
+//FilesAndDirectories.cpp
 
-#include "FoundationKit.h"
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/FoundationKit/FoundationKit.h"
 
 using namespace VCF;
 
@@ -18,15 +25,15 @@ int main( int argc, char** argv ){
 	/**
 	use a FilePath object to store the file name
 	*/
-	FilePath fileName = "tmp-output.txt";
+	FilePath fileName = String("tmp-output.txt");
 
 	/**
 	Is this a relative file name?
 	If so, let's expand the relative and change it to an
-	absolute filename using the current directory as our 
+	absolute filename using the current directory as our
 	reference point
 	*/
-	if ( fileName.isRelativePath() ) {		
+	if ( fileName.isRelativePath() ) {
 		fileName = fileName.expandRelativePathName( System::getCurrentWorkingDirectory() );
 	}
 
@@ -41,12 +48,12 @@ int main( int argc, char** argv ){
 	String extension = fileName.getExtension();
 	String nativeOSFilePath = fileName.transformToOSSpecific();
 
-	System::println( "The filename %s has the following components:\n"\
-						"\tdrive: %s\n"\
-						"\tdirectoryPath: %s\n"\
-						"\tname: %s\n"\
-						"\textension: %s\n"\
-						"\tnativeOSFilePath: %s",
+	System::println( "The filename %S has the following components:\n"\
+						"\tdrive: %S\n"\
+						"\tdirectoryPath: %S\n"\
+						"\tname: %S\n"\
+						"\textension: %S\n"\
+						"\tnativeOSFilePath: %S",
 						fileName.getFileName().c_str(),
 						drive.c_str(),
 						directoryPath.c_str(),
@@ -78,24 +85,24 @@ int main( int argc, char** argv ){
 
 
 	{
-		
+
 	/**
 	Use the file object to access the file
 		*/
-		File file( fileName ); 
-		System::println( "The file %s's size: %d", fileName.getFileName().c_str(), file.getSize() );
-		
-		
+		File file( fileName );
+		System::println( "The file %S's size: %d", fileName.getFileName().c_str(), file.getSize() );
+
+
 		/**
 		Make a copy of the file
 		*/
-		file.copyTo( fileName.getPathName(true) + 
-			FilePath::getDirectorySeparator() + 
+		file.copyTo( fileName.getPathName(true) +
+			FilePath::getDirectorySeparator() +
 			fileName.getName() + "-copy" + fileName.getExtension() );
-		
+
 	}
 
-	
+
 
 	/**
 	Enumerate all files ending with a .txt extension
@@ -117,13 +124,13 @@ int main( int argc, char** argv ){
 
 
 	/**
-	File chaining - 
+	File chaining -
 	*/
 
 	{
 		FileOutputStream textFile( "text-file.txt" );
 		TextOutputStream tos(&textFile);
-		
+
 		tos.write( 100 );
 		tos.write( 200 );
 		tos.write( true );
@@ -131,13 +138,13 @@ int main( int argc, char** argv ){
 		tos.write( String("Hello World") );
 
 		textFile.close();
-		
+
 		int i1;
 		int i2;
 		bool b1;
 		double d1;
 		String s;
-		
+
 		FileInputStream fis( "text-file.txt" );
 		TextInputStream tis(&fis);
 		tis.read( i1 );
@@ -152,5 +159,22 @@ int main( int argc, char** argv ){
 	FoundationKit::terminate();
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.4.5  2004/05/03 03:44:52  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
+*Revision 1.2.4.4  2004/04/29 03:40:53  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

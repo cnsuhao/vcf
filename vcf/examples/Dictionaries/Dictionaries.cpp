@@ -1,7 +1,14 @@
-////Dictionaries.cpp
+//Dictionaries.cpp
 
-#include "FoundationKit.h"
-#include "utils/Dictionary.h"
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/Dictionary.h"
 
 
 using namespace VCF;
@@ -29,7 +36,7 @@ int main( int argc, char** argv ){
 
 	dict["Name"] = "Bob";
 
-	
+
 	Dictionary::Enumerator* items = dict.getEnumerator();
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair& item = items->nextElement();
@@ -45,13 +52,13 @@ int main( int argc, char** argv ){
 		//store the dictionary
 		FileOutputStream fs("test.dict.txt");
 
-		//note: The use of the TextOutputStream is not neccessary, it's 
+		//note: The use of the TextOutputStream is not neccessary, it's
 		//just for demonstration purposes.
 		TextOutputStream tos(&fs);
-		
+
 		//dump the dictionary to the stream
 		tos << &dict;
-		
+
 	}
 
 	System::println( "Loading dictionary..." );
@@ -60,13 +67,13 @@ int main( int argc, char** argv ){
 		//read in the dictionary from a file
 		FileInputStream fs("test.dict.txt");
 
-		//note: The use of the TextInputStream is not neccessary, it's 
+		//note: The use of the TextInputStream is not neccessary, it's
 		//just for demonstration purposes.
-		TextInputStream tis(&fs);		
-		
+		TextInputStream tis(&fs);
+
 		//clear the dictionary - this will remove all elements in the dictionary
 		dict.clear();
-		
+
 		//read in the dictionary from the stream
 		tis >> &dict;
 	}
@@ -78,11 +85,20 @@ int main( int argc, char** argv ){
 
 		System::println( "dict[\"%s\"] = %s", item.first.c_str(), item.second.toString().c_str() );
 	}
-	
-	
+
+
 
 	FoundationKit::terminate();
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.5.2.4  2004/04/29 03:40:52  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

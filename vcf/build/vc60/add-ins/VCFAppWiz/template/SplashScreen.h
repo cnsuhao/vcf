@@ -4,8 +4,6 @@
 #define _SPLASHSCREEN_H__
 
 
-using namespace VCF;
-
 
 /**
 *Class SplashScreen documentation
@@ -22,6 +20,7 @@ protected:
 
 	void onTimer( VCF::Event* e );
 
+	VCF::String m_splashText;
 };
 
 

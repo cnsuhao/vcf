@@ -1,8 +1,14 @@
 //Tables.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
-#include "ApplicationKit.h"
-#include "ControlsKit.h"
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
 
 
 using namespace VCF;
@@ -57,11 +63,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new TablesWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-		
+
 		return result;
 	}
 
@@ -78,5 +84,14 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.2.4  2004/04/29 03:40:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 
