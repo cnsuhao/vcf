@@ -315,7 +315,7 @@ ProgramInfo* System::getProgramInfoFromFileName( const String& fileName )
 {
 	ProgramInfo* result = NULL;
 
-	result = System::systemInstance->getProgramInfoFromFileName( fileName );
+	result = System::systemInstance->systemPeer_->getProgramInfoFromFileName( fileName );
 
 	if ( NULL == result ) {
 		bool isDir = false;
@@ -466,6 +466,9 @@ String System::getCompiler()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/17 18:40:39  ddiego
+*fixed bug in system getProgramInfoFromFileName - good catch marcello.
+*
 *Revision 1.2.2.5  2004/09/17 11:38:06  ddiego
 *added program info support in library and process classes.
 *
