@@ -1511,7 +1511,7 @@ class DspApp:
         optparser.add_option(   "--excludeSubdirs"                           , type = "int"     , dest = "excludeSubdirs"                , default=False                 , help="exclude the subdirectories containing the strings specified in the excludeSubdirs section" )
         optparser.add_option(   "--allowedExtensions"                        , type = "string"  , dest = "allowedExtensions"             , default=''                    , help="allowedExtensions" )
 
-        optparser.add_option(   "--fixFilenamePostfix"                       , type = "int"     , dest = "fixFilenamePostfix"            , default=False                 , help="checks for the correctness of postfixes ( like \'_vc70_sd\' ) of filename entries and fixes them. Suggested put it back to False when not used ( fix probable bug of vc7 compiler. See note end of script )" )
+        optparser.add_option(   "--fixFilenamePostfix"                       , type = "int"     , dest = "fixFilenamePostfix"            , default=False                 , help="checks for the correctness of postfixes ( like \'_vc70_sd\' ) of filename entries and fixes them. Suggested put it back to False when not used ( works only for vcproj files and fixes probable bug of vc7 compiler. See note end of script )" )
 
         optparser.add_option(   "--dependenciesWorkspace"                    , type = "string"  , dest = "dependenciesWorkspace"         , default=''                    , help="dependency where to copy all the dependencies from" )
 
