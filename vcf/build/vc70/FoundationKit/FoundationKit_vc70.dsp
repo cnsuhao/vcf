@@ -23,7 +23,7 @@ CFG=FoundationKit - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-CPP=xicl6.exe
+CPP=cl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "FoundationKit - Win32 Release"
@@ -46,7 +46,7 @@ RSC=rc.exe
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo /o"../../../lib/FoundationKit_vc70_s.bsc"
-LIB32=xilink6.exe -lib
+LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"../../../lib/FoundationKit_vc70_s.lib"
 
@@ -70,7 +70,7 @@ LIB32=xilink6.exe -lib
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo /o"../../../lib/FoundationKit_vc70_sd.bsc"
-LIB32=xilink6.exe -lib
+LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"../../../lib/FoundationKit_vc70_sd.lib"
 
@@ -527,6 +527,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\ErrorLog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Formatter.h
 # End Source File
 # Begin Source File
 

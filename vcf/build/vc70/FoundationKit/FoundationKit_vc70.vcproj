@@ -462,6 +462,9 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\ErrorLog.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Formatter.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Library.cpp">
 			</File>
 			<File
