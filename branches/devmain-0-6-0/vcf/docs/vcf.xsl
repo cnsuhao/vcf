@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.9  2003/05/15 03:00:59  ddiego
+added initial osx source( FoundationKit only),
+plus some fixes to compile under GCC 3.x compilers
+
 Revision 1.1.2.8  2003/03/24 06:05:02  ddiego
 more additions to the doc makefile and for allowing for online doxygen
 generation
@@ -62,7 +66,7 @@ and images
  <!--
  this uses a local path - may need to be modified for others
  -->
-	<xsl:import href="D:/dork/DocBook/xsl/htmlhelp/htmlhelp.xsl"/>
+	<xsl:import href="/Users/jimcrafton/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
