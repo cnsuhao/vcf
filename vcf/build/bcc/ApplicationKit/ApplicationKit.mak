@@ -40,10 +40,12 @@ SYSDEFINES=_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;APPLICATIO
 !if $(BMODE) == RELEASE
 	USERDEFINES=NDEBUG
 	OBJDIR=bcc\Release$(TDIR)
+	LPARAM=/P2048
 	!message Building release version of project
 !else
 	USERDEFINES=_DEBUG
 	OBJDIR=bcc\Debug$(TDIR)
+	LPARAM=/P4096
 	!message Building debug version of project
 !endif
 
@@ -255,9 +257,9 @@ dirs::
 # Output
 ##################################
 $(PROJECT1):: $(OBJFILES) $(OBJFILES2) $(OBJFILES3)
-  @$(LB) /P2048 $(BIN)\$(LIBNAME) /a$(OBJFILES)
-  @$(LB) /P2048 $(BIN)\$(LIBNAME) /a$(OBJFILES2)
-  @$(LB) /P2048 $(BIN)\$(LIBNAME) /a$(OBJFILES3)
+  @$(LB) $(LPARAM) $(BIN)\$(LIBNAME) /a$(OBJFILES)
+  @$(LB) $(LPARAM) $(BIN)\$(LIBNAME) /a$(OBJFILES2)
+  @$(LB) $(LPARAM) $(BIN)\$(LIBNAME) /a$(OBJFILES3)
 
 $(PROJECT2):: $(ALLOBJS)
     $(ILINK32) @&&|
