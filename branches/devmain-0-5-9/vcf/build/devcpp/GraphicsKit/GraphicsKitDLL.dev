@@ -32,15 +32,23 @@ Top=0
 
 [Unit2]
 FileName=..\..\..\include\graphics\AlphaGamma.h
-Open=0
+Open=1
 Folder=
 Top=0
+CursorCol=22
+CursorRow=55
+TopLine=45
+LeftChar=1
 
 [Unit3]
 FileName=..\..\..\include\graphics\ArtStroke.h
-Open=0
+Open=1
 Folder=
 Top=0
+CursorCol=1
+CursorRow=28
+TopLine=28
+LeftChar=1
 
 [Unit4]
 FileName=..\..\..\include\graphics\Basic3DBorder.h
@@ -158,7 +166,7 @@ Top=0
 
 [Unit23]
 FileName=..\..\..\include\GraphicsKit.h
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=1
@@ -240,7 +248,7 @@ Top=0
 
 [Unit36]
 FileName=..\..\..\include\graphics\PathEnumerator.h
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=1
@@ -250,7 +258,7 @@ LeftChar=1
 
 [Unit37]
 FileName=..\..\..\include\graphics\Polygon.h
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=6
@@ -320,7 +328,7 @@ Top=0
 
 [Unit48]
 FileName=..\..\..\src\Graphics\AbstractImage.cpp
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=1
@@ -342,7 +350,7 @@ Top=0
 
 [Unit51]
 FileName=..\..\..\src\Graphics\Color.cpp
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=18
@@ -352,7 +360,7 @@ LeftChar=1
 
 [Unit52]
 FileName=..\..\..\src\Graphics\Font.cpp
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=19
@@ -404,7 +412,7 @@ Top=0
 
 [Unit60]
 FileName=..\..\..\src\Graphics\Matrix2D.cpp
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=19
@@ -414,7 +422,7 @@ LeftChar=1
 
 [Unit61]
 FileName=..\..\..\src\Graphics\Polygon.cpp
-Open=1
+Open=0
 Folder=
 Top=0
 CursorCol=3
@@ -434,8 +442,8 @@ Open=1
 Folder=
 Top=1
 CursorCol=1
-CursorRow=942
-TopLine=925
+CursorRow=1203
+TopLine=1188
 LeftChar=1
 
 [Unit64]

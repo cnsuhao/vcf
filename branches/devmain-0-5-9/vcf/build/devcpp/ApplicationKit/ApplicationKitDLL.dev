@@ -4,15 +4,15 @@ Name=ApplicationKitDLL
 Ver=1
 IsCpp=1
 Type=3
-Compiler=-DVCF_GCC -D__GNUWIN32__ -W -fexceptions -DWIN32 -D_DEBUG -D_WINDOWS -D_MBCS -D_USRDLL -DUSE_FRAMEWORK_DLL -DUSE_GRAPHICSKIT_DLL -DAPPKIT_DLL -DAPPKIT_EXPORTS -DBUILD_APPKIT_LIB -fvtable-thunks
+Compiler=-DVCF_GCC -D__GNUWIN32__ -W -fexceptions -DWIN32 -D_DEBUG -D_WINDOWS -D_MBCS -D_USRDLL -DUSE_FRAMEWORK_DLL -DUSE_GRAPHICSKIT_DLL -DAPPKIT_DLL -DAPPKIT_EXPORTS -DBUILD_APPKIT_LIB -fvtable-thunks -fpermissive
 Includes=$(VCF_INCLUDE);../../../include
 Linker=-lcomctl32 -lrpcrt4 -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lFoundationKit_mingw_d -lGraphicsKit_mingw_d --implib ../../../lib/libApplicationKit_mingw_d.a
 Libs=..\..\..\lib;..\..\..\xml\lib
 Resources=../../resources/win32/ApplicationKit.rc
-UnitCount=410
+UnitCount=409
 ObjFiles=
 PrivateResource=ApplicationKitDLL_private.rc
-ResourceIncludes=
+ResourceIncludes=../../resources/win32/
 MakeIncludes=
 Icon=
 ExeOutput=..\..\..\bin
@@ -47,6 +47,10 @@ FileName=..\..\..\include\core\AbstractListModel.h
 Open=0
 Folder=
 Top=0
+CursorCol=65
+CursorRow=175
+TopLine=167
+LeftChar=1
 
 [Unit5]
 FileName=..\..\..\include\core\AbstractPropertyEditor.h
@@ -119,6 +123,10 @@ FileName=..\..\..\include\ApplicationKit.h
 Open=0
 Folder=
 Top=0
+CursorCol=23
+CursorRow=138
+TopLine=131
+LeftChar=1
 
 [Unit17]
 FileName=..\..\..\include\ApplicationKitPrivate.h
@@ -233,6 +241,10 @@ FileName=..\..\..\include\com\COMDataObject.h
 Open=0
 Folder=
 Top=0
+CursorCol=2
+CursorRow=158
+TopLine=139
+LeftChar=1
 
 [Unit36]
 FileName=..\..\..\include\com\COMDropTarget.h
@@ -371,6 +383,10 @@ FileName=..\..\..\include\core\Control.h
 Open=0
 Folder=
 Top=0
+CursorCol=31
+CursorRow=347
+TopLine=320
+LeftChar=1
 
 [Unit59]
 FileName=..\..\..\include\core\ControlContainer.h
@@ -449,6 +465,10 @@ FileName=..\..\..\include\exceptions\DataTypeNotSupportedException.h
 Open=0
 Folder=
 Top=0
+CursorCol=47
+CursorRow=11
+TopLine=1
+LeftChar=1
 
 [Unit72]
 FileName=..\..\..\include\core\DefaultColumnItem.h
@@ -473,12 +493,20 @@ FileName=..\..\..\include\core\DefaultListModel.h
 Open=0
 Folder=
 Top=0
+CursorCol=1
+CursorRow=1
+TopLine=45
+LeftChar=1
 
 [Unit76]
 FileName=..\..\..\include\core\DefaultMenuItem.h
 Open=0
 Folder=
 Top=0
+CursorCol=69
+CursorRow=280
+TopLine=259
+LeftChar=1
 
 [Unit77]
 FileName=..\..\..\include\core\DefaultPropertyEditors.h
@@ -521,6 +549,10 @@ FileName=..\..\..\include\core\DefaultTreeItem.h
 Open=0
 Folder=
 Top=0
+CursorCol=33
+CursorRow=187
+TopLine=211
+LeftChar=1
 
 [Unit84]
 FileName=..\..\..\include\core\DefaultTreeModel.h
@@ -605,6 +637,10 @@ FileName=..\..\..\include\events\FrameEvent.h
 Open=0
 Folder=
 Top=0
+CursorCol=48
+CursorRow=58
+TopLine=52
+LeftChar=1
 
 [Unit98]
 FileName=..\..\..\include\core\HeaderControl.h
@@ -647,6 +683,10 @@ FileName=..\..\..\include\core\ImageControl.h
 Open=0
 Folder=
 Top=0
+CursorCol=1
+CursorRow=63
+TopLine=50
+LeftChar=1
 
 [Unit105]
 FileName=..\..\..\include\graphics\ImageList.h
@@ -677,6 +717,10 @@ FileName=..\..\..\include\core\Item.h
 Open=0
 Folder=
 Top=0
+CursorCol=1
+CursorRow=107
+TopLine=75
+LeftChar=1
 
 [Unit110]
 FileName=..\..\..\include\events\ItemEditorEvent.h
@@ -755,6 +799,10 @@ FileName=..\..\..\include\core\ListModel.h
 Open=0
 Folder=
 Top=0
+CursorCol=32
+CursorRow=88
+TopLine=72
+LeftChar=1
 
 [Unit123]
 FileName=..\..\..\include\events\ListModelEvent.h
@@ -785,9 +833,9 @@ FileName=..\..\..\include\core\Menu.h
 Open=0
 Folder=
 Top=0
-CursorCol=62
-CursorRow=56
-TopLine=47
+CursorCol=20
+CursorRow=58
+TopLine=53
 LeftChar=1
 
 [Unit128]
@@ -795,6 +843,10 @@ FileName=..\..\..\include\core\MenuBar.h
 Open=0
 Folder=
 Top=0
+CursorCol=22
+CursorRow=78
+TopLine=31
+LeftChar=1
 
 [Unit129]
 FileName=..\..\..\include\implementer\MenuBarPeer.h
@@ -807,6 +859,10 @@ FileName=..\..\..\include\core\MenuItem.h
 Open=0
 Folder=
 Top=0
+CursorCol=7
+CursorRow=75
+TopLine=62
+LeftChar=1
 
 [Unit131]
 FileName=..\..\..\include\events\MenuItemEvent.h
@@ -843,6 +899,10 @@ FileName=..\..\..\include\core\Model.h
 Open=0
 Folder=
 Top=0
+CursorCol=1
+CursorRow=1
+TopLine=37
+LeftChar=1
 
 [Unit137]
 FileName=..\..\..\include\events\ModelEvent.h
@@ -921,6 +981,10 @@ FileName=..\..\..\include\core\Panel.h
 Open=0
 Folder=
 Top=0
+CursorCol=1
+CursorRow=1
+TopLine=31
+LeftChar=1
 
 [Unit150]
 FileName=..\..\..\include\core\PopupMenu.h
@@ -1017,6 +1081,10 @@ FileName=..\..\..\include\events\ScrollEvent.h
 Open=0
 Folder=
 Top=0
+CursorCol=27
+CursorRow=60
+TopLine=46
+LeftChar=1
 
 [Unit166]
 FileName=..\..\..\include\core\ScrollPeer.h
@@ -1215,6 +1283,10 @@ FileName=..\..\..\include\core\TreeItem.h
 Open=0
 Folder=
 Top=0
+CursorCol=33
+CursorRow=163
+TopLine=158
+LeftChar=1
 
 [Unit199]
 FileName=..\..\..\include\core\TreeListControl.h
@@ -1528,14 +1600,8 @@ Open=0
 Folder=
 Top=0
 
-[Unit251]
-FileName=..\..\resources\win32\inform.bmp
-Open=0
-Folder=
-Top=0
-
 [Unit252]
-FileName=..\..\..\src\core\AbstractApplication.cpp
+FileName=..\..\..\src\core\AbstractCommand.cpp
 Open=0
 Folder=
 Top=0
@@ -1545,943 +1611,1047 @@ TopLine=42
 LeftChar=1
 
 [Unit253]
-FileName=..\..\..\src\core\AbstractCommand.cpp
-Open=0
-Folder=
-Top=0
-
-[Unit254]
 FileName=..\..\..\src\core\AbstractComponentEditor.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit255]
+[Unit254]
 FileName=..\..\..\src\core\AbstractContainer.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=28
+CursorRow=288
+TopLine=288
+LeftChar=1
 
-[Unit256]
+[Unit255]
 FileName=..\..\..\src\core\AbstractListModel.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=42
+CursorRow=88
+TopLine=82
+LeftChar=1
 
-[Unit257]
+[Unit256]
 FileName=..\..\..\src\core\AbstractPropertyEditor.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit258]
+[Unit257]
 FileName=..\..\..\src\core\AbstractScrollable.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit259]
+[Unit258]
 FileName=..\..\..\src\core\AbstractTableModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit260]
+[Unit259]
 FileName=..\..\..\src\core\AbstractTextModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit261]
+[Unit260]
 FileName=..\..\..\src\core\AbstractTreeModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit262]
+[Unit261]
 FileName=..\..\..\src\core\AbstractView.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit263]
+[Unit262]
 FileName=..\..\..\src\ImplementerKit\AbstractWin32Component.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=36
+CursorRow=783
+TopLine=767
+LeftChar=1
 
-[Unit264]
+[Unit263]
 FileName=..\..\..\src\core\AcceleratorKey.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit265]
+[Unit264]
 FileName=..\..\..\src\core\Application.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit266]
+[Unit265]
 FileName=..\..\..\src\core\ApplicationKit.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=48
+CursorRow=87
+TopLine=78
+LeftChar=1
 
-[Unit267]
+[Unit266]
 FileName=..\..\..\src\Graphics\Basic3DBorder.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit268]
+[Unit267]
 FileName=..\..\..\src\core\BasicTableItemEditor.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit269]
+[Unit268]
 FileName=..\..\..\src\Events\ButtonEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit270]
+[Unit269]
 FileName=..\..\..\src\core\CheckBoxControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit271]
+[Unit270]
 FileName=..\..\..\src\core\Clipboard.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit272]
+[Unit271]
 FileName=..\..\..\src\core\ClipboardDataObject.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit273]
+[Unit272]
 FileName=..\..\..\src\Events\ClipboardEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit274]
+[Unit273]
 FileName=..\..\..\src\Graphics\ColorEtchedBorder.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit275]
+[Unit274]
 FileName=..\..\..\src\Events\ColumnItemEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit276]
+[Unit275]
 FileName=..\..\..\src\Events\ColumnModelEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit277]
+[Unit276]
 FileName=..\..\..\src\core\ComboBoxControl.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=3
+CursorRow=199
+TopLine=193
+LeftChar=1
 
-[Unit278]
+[Unit277]
 FileName=..\..\..\src\COM\COMDataObject.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=11
+CursorRow=461
+TopLine=446
+LeftChar=1
 
-[Unit279]
+[Unit278]
 FileName=..\..\..\src\COM\COMDragSource.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit280]
+[Unit279]
 FileName=..\..\..\src\COM\COMDropTarget.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=22
+CursorRow=131
+TopLine=115
+LeftChar=1
 
-[Unit281]
+[Unit280]
 FileName=..\..\..\src\core\CommandButton.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit282]
+[Unit281]
 FileName=..\..\..\src\core\CommandGroup.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit283]
+[Unit282]
 FileName=..\..\..\src\core\CommonColor.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit284]
+[Unit283]
 FileName=..\..\..\src\core\CommonFileBrowse.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit285]
+[Unit284]
 FileName=..\..\..\src\core\CommonFileDialog.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit286]
+[Unit285]
 FileName=..\..\..\src\core\CommonFileOpen.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit287]
+[Unit286]
 FileName=..\..\..\src\core\CommonFileSave.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit288]
+[Unit287]
 FileName=..\..\..\src\core\CommonFont.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit289]
+[Unit288]
 FileName=..\..\..\src\core\CommonPrint.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit290]
+[Unit289]
 FileName=..\..\..\src\COM\COMObject.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit291]
+[Unit290]
 FileName=..\..\..\src\core\Component.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit292]
+[Unit291]
 FileName=..\..\..\src\core\ComponentEditorManager.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit293]
+[Unit292]
 FileName=..\..\..\src\core\ComponentInfo.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit294]
+[Unit293]
 FileName=..\..\..\src\COM\COMUtils.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=21
+CursorRow=33
+TopLine=22
+LeftChar=1
 
-[Unit295]
+[Unit294]
 FileName=..\..\..\src\core\Control.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=51
+CursorRow=724
+TopLine=692
+LeftChar=1
 
-[Unit296]
+[Unit295]
 FileName=..\..\..\src\core\ControlContainer.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit297]
+[Unit296]
 FileName=..\..\..\src\Events\ControlEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit298]
+[Unit297]
 FileName=..\..\..\src\Graphics\ControlGraphicsContext.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit299]
+[Unit298]
 FileName=..\..\..\src\core\Cursor.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit300]
+[Unit299]
 FileName=..\..\..\src\core\CursorManager.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit301]
+[Unit300]
 FileName=..\..\..\src\core\CustomControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit302]
+[Unit301]
 FileName=..\..\..\src\core\DataType.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit303]
+[Unit302]
 FileName=..\..\..\src\core\DefaultColumnItem.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit304]
+[Unit303]
 FileName=..\..\..\src\core\DefaultColumnModel.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=2
+CursorRow=185
+TopLine=155
+LeftChar=1
 
-[Unit305]
+[Unit304]
 FileName=..\..\..\src\core\DefaultListItem.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=16
+CursorRow=227
+TopLine=202
+LeftChar=1
 
-[Unit306]
+[Unit305]
 FileName=..\..\..\src\core\DefaultListModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit307]
+[Unit306]
 FileName=..\..\..\src\core\DefaultMenuItem.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit308]
+[Unit307]
 FileName=..\..\..\src\core\DefaultPropertyEditors.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit309]
+[Unit308]
 FileName=..\..\..\src\core\DefaultTableCellItem.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit310]
+[Unit309]
 FileName=..\..\..\src\core\DefaultTableModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit311]
+[Unit310]
 FileName=..\..\..\src\core\DefaultTabModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit312]
+[Unit311]
 FileName=..\..\..\src\core\DefaultTabPage.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit313]
+[Unit312]
 FileName=..\..\..\src\core\DefaultTextModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit314]
+[Unit313]
 FileName=..\..\..\src\core\DefaultTreeItem.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=16
+CursorRow=485
+TopLine=471
+LeftChar=1
 
-[Unit315]
+[Unit314]
 FileName=..\..\..\src\core\DefaultTreeModel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit316]
+[Unit315]
 FileName=..\..\..\src\core\Desktop.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit317]
+[Unit316]
 FileName=..\..\..\src\core\Dialog.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit318]
+[Unit317]
 FileName=..\..\..\src\Events\DragEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit319]
+[Unit318]
 FileName=..\..\..\src\DragDrop\DragSource.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit320]
+[Unit319]
 FileName=..\..\..\src\Events\DropEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit321]
+[Unit320]
 FileName=..\..\..\src\DragDrop\DropTarget.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit322]
+[Unit321]
 FileName=..\..\..\src\Graphics\EtchedBorder.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit323]
+[Unit322]
 FileName=..\..\..\src\Events\FocusEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit324]
+[Unit323]
 FileName=..\..\..\src\core\Frame.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit325]
+[Unit324]
 FileName=..\..\..\src\core\HeaderControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit326]
+[Unit325]
 FileName=..\..\..\src\Events\HelpEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit327]
+[Unit326]
 FileName=..\..\..\src\core\HTMLBrowserControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit328]
+[Unit327]
 FileName=..\..\..\src\core\ImageControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit329]
+[Unit328]
 FileName=..\..\..\src\Graphics\ImageList.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit330]
+[Unit329]
 FileName=..\..\..\src\Events\ImageListEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit331]
+[Unit330]
 FileName=..\..\..\src\Events\ItemEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit332]
+[Unit331]
 FileName=..\..\..\src\Events\KeyboardEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit333]
+[Unit332]
 FileName=..\..\..\src\core\Label.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit334]
+[Unit333]
 FileName=..\..\..\src\core\LibraryApplication.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit335]
+[Unit334]
 FileName=..\..\..\src\Graphics\Light3DBorder.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit336]
+[Unit335]
 FileName=..\..\..\src\ImplementerKit\LightweightComponent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit337]
+[Unit336]
 FileName=..\..\..\src\core\ListBoxControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit338]
+[Unit337]
 FileName=..\..\..\src\Events\ListModelEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit339]
+[Unit338]
 FileName=..\..\..\src\core\ListViewControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit340]
+[Unit339]
 FileName=..\..\..\src\core\Menu.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit341]
+[Unit340]
 FileName=..\..\..\src\core\MenuBar.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit342]
+[Unit341]
 FileName=..\..\..\src\Events\MenuItemEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit343]
+[Unit342]
 FileName=..\..\..\src\core\MessageDialog.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit344]
+[Unit343]
 FileName=..\..\..\src\core\Model.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit345]
+[Unit344]
 FileName=..\..\..\src\Events\MouseEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit346]
+[Unit345]
 FileName=..\..\..\src\core\MultilineTextControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit347]
+[Unit346]
 FileName=..\..\..\src\core\Panel.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit348]
+[Unit347]
 FileName=..\..\..\src\core\PopupMenu.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit349]
+[Unit348]
 FileName=..\..\..\src\core\PropertyEditorManager.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit350]
+[Unit349]
 FileName=..\..\..\src\core\PushButton.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit351]
+[Unit350]
 FileName=..\..\..\src\core\RadioButtonControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit352]
+[Unit351]
 FileName=..\..\..\src\Utils\Resource.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit353]
+[Unit352]
 FileName=..\..\..\src\IO\ResourceStream.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit354]
+[Unit353]
 FileName=..\..\..\src\core\ScrollbarManager.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit355]
+[Unit354]
 FileName=..\..\..\src\core\Splitter.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit356]
+[Unit355]
 FileName=..\..\..\src\core\StatusBar.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit357]
+[Unit356]
 FileName=..\..\..\src\core\TabbedPages.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit358]
+[Unit357]
 FileName=..\..\..\src\core\TableControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit359]
+[Unit358]
 FileName=..\..\..\src\Events\TableModelEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit360]
+[Unit359]
 FileName=..\..\..\src\Events\TabModelEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit361]
+[Unit360]
 FileName=..\..\..\src\core\TextControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit362]
+[Unit361]
 FileName=..\..\..\src\Events\TextEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit363]
+[Unit362]
 FileName=..\..\..\src\core\TimerComponent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit364]
+[Unit363]
 FileName=..\..\..\src\Events\TimerEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit365]
+[Unit364]
 FileName=..\..\..\src\Graphics\TitledBorder.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit366]
+[Unit365]
 FileName=..\..\..\src\core\ToggledButton.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit367]
+[Unit366]
 FileName=..\..\..\src\core\Toolbar.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit368]
+[Unit367]
 FileName=..\..\..\src\core\ToolbarButton.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit369]
+[Unit368]
 FileName=..\..\..\src\core\ToolbarDock.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit370]
+[Unit369]
 FileName=..\..\..\src\core\ToolbarSeparator.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit371]
+[Unit370]
 FileName=..\..\..\src\Events\ToolTipEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit372]
+[Unit371]
 FileName=..\..\..\src\core\TreeControl.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit373]
+[Unit372]
 FileName=..\..\..\src\core\TreeListControl.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=31
+CursorRow=1244
+TopLine=1220
+LeftChar=1
 
-[Unit374]
+[Unit373]
 FileName=..\..\..\src\Events\TreeModelEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit375]
+[Unit374]
 FileName=..\..\..\src\Utils\UIToolkit.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit376]
+[Unit375]
 FileName=..\..\..\src\Events\UndoRedoEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit377]
+[Unit376]
 FileName=..\..\..\src\core\UndoRedoStack.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit378]
+[Unit377]
 FileName=..\..\..\src\Events\ValidationEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit379]
+[Unit378]
 FileName=..\..\..\src\IO\VFFInputStream.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit380]
+[Unit379]
 FileName=..\..\..\src\IO\VFFOutputStream.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit381]
+[Unit380]
 FileName=..\..\..\src\Events\WhatsThisHelpEvent.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit382]
+[Unit381]
 FileName=..\..\..\src\ImplementerKit\Win32Application.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=35
+CursorRow=96
+TopLine=60
+LeftChar=1
 
-[Unit383]
+[Unit382]
 FileName=..\..\..\src\ImplementerKit\Win32Button.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=38
+CursorRow=208
+TopLine=181
+LeftChar=1
 
-[Unit384]
+[Unit383]
 FileName=..\..\..\src\ImplementerKit\Win32Clipboard.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=28
+CursorRow=232
+TopLine=203
+LeftChar=1
 
-[Unit385]
+[Unit384]
 FileName=..\..\..\src\ImplementerKit\Win32ColorDialog.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=43
+CursorRow=90
+TopLine=62
+LeftChar=1
 
-[Unit386]
+[Unit385]
 FileName=..\..\..\src\ImplementerKit\Win32Component.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit387]
+[Unit386]
 FileName=..\..\..\src\ImplementerKit\Win32ControlContext.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=26
+CursorRow=122
+TopLine=95
+LeftChar=1
 
-[Unit388]
+[Unit387]
 FileName=..\..\..\src\ImplementerKit\Win32CursorPeer.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=43
+CursorRow=184
+TopLine=156
+LeftChar=1
 
-[Unit389]
+[Unit388]
 FileName=..\..\..\src\ImplementerKit\Win32Desktop.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit390]
+[Unit389]
 FileName=..\..\..\src\ImplementerKit\Win32Dialog.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=1
+CursorRow=190
+TopLine=176
+LeftChar=1
 
-[Unit391]
+[Unit390]
 FileName=..\..\..\src\ImplementerKit\Win32DragDropPeer.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit392]
+[Unit391]
 FileName=..\..\..\src\ImplementerKit\Win32DropTargetPeer.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit393]
+[Unit392]
 FileName=..\..\..\src\ImplementerKit\Win32Edit.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=48
+CursorRow=574
+TopLine=549
+LeftChar=1
 
-[Unit394]
+[Unit393]
 FileName=..\..\..\src\ImplementerKit\Win32FileOpenDialog.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=38
+CursorRow=106
+TopLine=81
+LeftChar=1
 
-[Unit395]
+[Unit394]
 FileName=..\..\..\src\ImplementerKit\Win32FileSaveDialog.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=2
+CursorRow=84
+TopLine=58
+LeftChar=1
 
-[Unit396]
+[Unit395]
 FileName=..\..\..\src\implementerkit\Win32FolderBrowseDialog.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=37
+CursorRow=215
+TopLine=201
+LeftChar=1
 
-[Unit397]
+[Unit396]
 FileName=..\..\..\src\ImplementerKit\Win32FontDialog.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=18
+CursorRow=88
+TopLine=61
+LeftChar=1
 
-[Unit398]
+[Unit397]
 FileName=..\..\..\src\ImplementerKit\Win32Listview.cpp
 Open=0
 Folder=
 Top=0
+CursorCol=3
+CursorRow=225
+TopLine=200
+LeftChar=1
 
-[Unit399]
+[Unit398]
 FileName=..\..\..\src\ImplementerKit\Win32MenuBar.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit400]
+[Unit399]
 FileName=..\..\..\src\ImplementerKit\Win32MenuItem.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit401]
+[Unit400]
 FileName=..\..\..\src\ImplementerKit\Win32Object.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit402]
+[Unit401]
 FileName=..\..\..\src\implementerkit\Win32PopupMenu.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit403]
+[Unit402]
 FileName=..\..\..\src\ImplementerKit\Win32ResourceBundle.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit404]
+[Unit403]
 FileName=..\..\..\src\ImplementerKit\Win32ResourceStream.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit405]
+[Unit404]
 FileName=..\..\..\src\ImplementerKit\Win32ScrollPeer.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit406]
+[Unit405]
 FileName=..\..\..\src\ImplementerKit\Win32ToolKit.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit407]
+[Unit406]
 FileName=..\..\..\src\ImplementerKit\Win32Tree.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit408]
+[Unit407]
 FileName=..\..\..\src\ImplementerKit\Win32Window.cpp
 Open=0
 Folder=
 Top=0
 
-[Unit409]
+[Unit408]
 FileName=..\..\..\src\core\Window.cpp
+Open=0
+Folder=
+Top=0
+
+[Unit409]
+FileName=..\..\..\src\Events\WindowEvent.cpp
 Open=0
 Folder=
 Top=0
@@ -2494,4 +2664,14 @@ Top=0
 
 [Views]
 ProjectView=1
+
+[Unit251]
+FileName=..\..\..\src\core\AbstractApplication.cpp
+Open=0
+Folder=
+Top=0
+CursorCol=21
+CursorRow=74
+TopLine=58
+LeftChar=1
 
