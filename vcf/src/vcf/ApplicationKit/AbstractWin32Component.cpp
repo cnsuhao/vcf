@@ -1154,8 +1154,10 @@ void AbstractWin32Component::setBorder( Border* border )
 	SetWindowPos(hwnd_, NULL,0,0,0,0, SWP_FRAMECHANGED|SWP_NOMOVE|SWP_NOSIZE);
 }
 
-LRESULT AbstractWin32Component::handleNCPaint()
+LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 {
+	defaultWndProcedure( WM_NCPAINT, wParam, lParam );
+	
 	HDC hdc = GetWindowDC(hwnd_);
 
 	int dcs = SaveDC( hdc );
@@ -1167,6 +1169,7 @@ LRESULT AbstractWin32Component::handleNCPaint()
 	Border* border = peerControl_->getBorder();
 
 	RECT clipR = rect;
+	RECT clientRect = rect;
 	if ( NULL != border ) {		
 		Rect clientBounds( rect.left, rect.top, rect.right, rect.bottom );
 		clientBounds = border->getClientRect( &clientBounds, peerControl_ );
@@ -1175,7 +1178,32 @@ LRESULT AbstractWin32Component::handleNCPaint()
 		clipR.top = clientBounds.top_;
 		clipR.right = clientBounds.right_;
 		clipR.bottom = clientBounds.bottom_;
+		clientRect = clipR;
 	}
+
+	int style = GetWindowLong( hwnd_, GWL_STYLE );
+	if ( style & WS_VSCROLL ) {
+		NONCLIENTMETRICS ncm;
+		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+		
+		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+		
+		//clipR.right -= ncm.iScrollWidth;
+		//r.right -= ncm.iScrollWidth;
+	}
+	
+	if ( style & WS_HSCROLL ) {
+		NONCLIENTMETRICS ncm;
+		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+		
+		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+		
+		//clipR.bottom -= ncm.iScrollHeight;
+		//r.bottom -= ncm.iScrollHeight;
+	}
+
 
 	doControlPaint( hdc, rect, &clipR );
 	updatePaintDC( hdc, rect, &clipR );
@@ -1185,8 +1213,7 @@ LRESULT AbstractWin32Component::handleNCPaint()
 	RestoreDC( hdc, dcs );
 	ReleaseDC(hwnd_, hdc);
 
-	//InvalidateRect( hwnd_, NULL, FALSE );
-	//UpdateWindow( hwnd_ );
+	
 	return 1;
 }
 
@@ -1210,7 +1237,13 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 		rectToModify = &windowParams->rgrc[0];
 	}
 
-	if ( rectToModify && (peerControl_->getComponentState() != Component::csDestroying) ) {
+	//RECT originalRectToMod = *rectToModify;
+
+	
+
+	//return res;
+
+	if ( (NULL != rectToModify) && (peerControl_->getComponentState() != Component::csDestroying) ) {
 		Border* border = peerControl_->getBorder();
 		Rect clientBounds( rectToModify->left, rectToModify->top, rectToModify->right, rectToModify->bottom );
 
@@ -1224,12 +1257,42 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 		rectToModify->bottom = clientBounds.bottom_;
 	}
 
+	defaultWndProcedure( WM_NCCALCSIZE, wParam, lParam );
+
+	/*
+	if ( NULL != rectToModify ) {
+		int style = GetWindowLong( hwnd_, GWL_STYLE );
+		if ( style & WS_VSCROLL ) {
+			NONCLIENTMETRICS ncm;
+			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+			ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+
+			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+
+			rectToModify->right -= ncm.iScrollWidth;
+		}
+
+		if ( style & WS_HSCROLL ) {
+			NONCLIENTMETRICS ncm;
+			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+			ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+
+			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+
+			rectToModify->bottom -= ncm.iScrollHeight;
+		}
+	}
+	*/
+
 	return 1;
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.13  2004/07/16 04:01:45  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.12  2004/07/15 18:53:00  ddiego
 *more updates
 *

@@ -219,8 +219,12 @@ void Win32Tree::init()
 
 void Win32Tree::createParams()
 {
-	exStyleMask_ = WS_EX_CLIENTEDGE;
+	exStyleMask_ = 0;
 	styleMask_ = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_NOTOOLTIPS | TVS_SHOWSELALWAYS;
+
+	styleMask_ &= ~WS_BORDER;
+
+	styleMask_ |= WS_HSCROLL | WS_VSCROLL;
 }
 
 TreeModel* Win32Tree::getTreeModel()
@@ -370,7 +374,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case WM_NCPAINT: {
-			return handleNCPaint();
+			return handleNCPaint( wParam, lParam );
 		}
 		break;
 
@@ -1087,6 +1091,9 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/07/16 04:01:46  ddiego
+*fixed the last of border redraw issues, I hope.
+*
 *Revision 1.1.2.8  2004/07/15 18:53:00  ddiego
 *more updates
 *
