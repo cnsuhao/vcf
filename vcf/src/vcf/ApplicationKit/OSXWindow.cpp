@@ -210,7 +210,7 @@ void OSXWindow::create( Control* owningControl )
                             { kEventClassWindow, kEventWindowClose },
                             { kEventClassWindow, kEventWindowActivated },
                             { kEventClassWindow, kEventWindowDeactivated },
-//                            { kEventClassWindow, kEventWindowDrawContent },
+                            { kEventClassWindow, kEventWindowDrawContent },
                             { kEventClassMouse, kEventMouseDown },
                             { kEventClassMouse, kEventMouseUp },
                             { kEventClassMouse, kEventMouseMoved },
@@ -229,6 +229,7 @@ void OSXWindow::create( Control* owningControl )
                                     eventsToHandle, 
                                     this, 
                                     &handlerRef_ );
+									
 		/*	
 		windowView_ = NULL;
 		CFTextString s;
@@ -242,7 +243,8 @@ void OSXWindow::create( Control* owningControl )
 		
         UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent, "Component::handleEvent" ),
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );
-                        
+         
+		setVisible( true );
         if ( noErr != err ) {
             throw RuntimeException( MAKE_ERROR_MSG_2("SetWindowProperty() failed!") );
         }
@@ -540,49 +542,7 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
     UInt32 attributes = 0;   
 	
 	                        
-    switch ( GetEventClass( theEvent ) )  {		
-		/*
-		case kEventClassControl : {
-			switch( whatHappened ) {
-				case kEventControlDraw : {
-					result = ::CallNextEventHandler( nextHandler, theEvent ); 
-				
-					if ( !control_->isDestroying() ) {
-						TCarbonEvent		event( theEvent );
-						
-						GrafPtr port = NULL;										
-						CGContextRef context = NULL;
-						RgnHandle region = NULL;
-						
-						event.GetParameter( kEventParamRgnHandle, &region );
-						event.GetParameter<CGContextRef>( kEventParamCGContextRef, typeCGContextRef, &context );
-						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
-						
-						::Rect portBounds;
-						GetControlBounds( windowView_, &portBounds );
-						portBounds.top = 0;
-						//EraseRect( &portBounds );
-						
-						::SetThemeBackground( kThemeBrushUtilityWindowBackgroundActive, 32, true ) ;
-                                                     
-						::EraseRect( &portBounds ) ; 
-						
-						VCF::GraphicsContext* ctx = control_->getContext();
-						OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
-						osxCtx->setCGContext( context, port );
-		
-						control_->paint( ctx );	
-		
-						result = noErr;
-					}					
-					
-				}
-				break;
-			}
-		}
-		break;
-		*/
-		
+    switch ( GetEventClass( theEvent ) )  {				
 		
         case kEventClassWindow : {
             switch( whatHappened ) {
@@ -739,29 +699,39 @@ bool OSXWindow::isComposited()
 }
 
 void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
-{
+{	
+	if ( drawingEvent ) {
 	TCarbonEvent		carbonEvent( event );
 
+	
 	SetPortWindowPort( windowRef_ );	
 	
 	RgnHandle rgn = determineUnobscuredClientRgn();		
 	
-	EraseRgn( rgn );
+	::Rect r;
+	GetRegionBounds( rgn, &r );
+	StringUtils::traceWithArgs( "Rgn bounds: left: %d, top: %d, right: %d, bottom: %d\n",
+									r.left, r.top, r.right, r.bottom );
+	
+	EraseRgn( rgn );	
 	
 	DisposeRgn( rgn );
 	
-	GrafPtr wndPort = GetWindowPort(windowRef_);
+	GrafPtr wndPort = GetWindowPort(windowRef_);	
 	
 	VCF::GraphicsContext* ctx = control_->getContext();
 	ctx->getPeer()->setContextID( (VCF::ulong32)wndPort ); 
 	
 	control_->paint( ctx );
 	
-	ctx->getPeer()->setContextID( 0 );
+	ctx->getPeer()->setContextID( 0 );		
+	}
 }
 
 RgnHandle OSXWindow::determineUnobscuredClientRgn()
 {
+	StringUtils::trace( "determineUnobscuredClientRgn()\n" );
+	
 	RgnHandle result = NewRgn();	
 		
 	VCF::Rect currentClientBounds = getClientBounds();
@@ -787,11 +757,16 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 			if ( !child->isLightWeight() ) {
 				bounds = child->getBounds();
 				
-				SetRectRgn( childRgn, (int)currentClientBounds.left_,
+				SetRectRgn( childRgn, (int)bounds.left_,
 					(int)bounds.top_,
 					(int)bounds.right_,
 					(int)bounds.bottom_ );
-					
+				
+				::Rect r;
+	GetRegionBounds( childRgn, &r );
+	StringUtils::traceWithArgs( "childRgn bounds: left: %d, top: %d, right: %d, bottom: %d\n",
+									r.left, r.top, r.right, r.bottom );
+										
 				DiffRgn( result, childRgn, result );
 			}
 		}
@@ -808,6 +783,9 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/05/23 14:11:59  ddiego
+*osx updates
+*
 *Revision 1.1.2.6  2004/05/16 02:39:01  ddiego
 *OSX code updates
 *

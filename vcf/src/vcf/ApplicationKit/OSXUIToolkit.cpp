@@ -41,6 +41,312 @@
 
 
 namespace VCF {
+
+
+VirtualKeyCode translateOSXKeyToVirtKeyCode( VCFChar ch, UInt32 keyCode, UInt32 mod )
+{
+	VirtualKeyCode result = vkUndefined;
+	switch ( ch ) {
+		case kHomeCharCode : {
+			result = vkHome;
+		}
+        break;
+        
+		case kEnterCharCode : {
+			result = vkReturn;
+		}
+        break;
+		
+        case kEndCharCode : {
+			result = vkEnd;
+		}
+		break;
+		  
+        case kHelpCharCode : {
+			result = vkF1;
+		}
+		break;
+		
+        case kBackspaceCharCode : {
+			result = vkBackSpace;
+		}
+        break;
+		
+        case kTabCharCode : {
+			result = vkTab;
+		}
+		break;
+		  
+        case kPageUpCharCode : {
+			result = vkPgUp;
+		}
+        break;
+		
+		case kPageDownCharCode : {
+			result = vkPgDown;
+		}
+        break;
+		
+		case kReturnCharCode : {
+			result = vkReturn;
+		}
+        break;
+		
+		case kEscapeCharCode : {
+			result = vkEscape;
+		}
+        break;
+		
+		case kLeftArrowCharCode : {
+			result = vkLeftArrow;
+		}
+        break;
+		
+		case kRightArrowCharCode : {
+			result = vkRightArrow;
+		}
+        break;
+		
+		case kUpArrowCharCode : {
+			result = vkUpArrow;
+		}
+        break;
+		
+		case kDownArrowCharCode : {
+			result = vkDownArrow;
+		}
+        break;
+		
+		case kDeleteCharCode : {
+			result = vkDelete;
+		}
+        break;
+		
+		case kSpaceCharCode : {
+			result = vkSpaceBar;
+		}
+        break;		
+		
+		case kFunctionKeyCharCode : {
+			switch( keyCode ) {
+				case 0x7a : {
+					result = vkF1;
+				}
+				break;
+				
+				case 0x78 : {
+					result = vkF2;
+				}
+				break;
+				
+				case 0x63 : {
+					result = vkF3;
+				}
+				break;
+				
+				case 0x76 : {
+					result = vkF4;
+				}
+				break;
+				
+				case 0x60 : {
+					result = vkF5;
+				}
+				break;
+				
+				case 0x61 : {
+					result = vkF6;
+				}
+				break;
+				
+				case 0x62 : {
+					result = vkF7;
+				}
+				break;
+				
+				case 0x64 : {
+					result = vkF8;
+				}
+				break;
+				
+				case 0x65 : {
+					result = vkF9;
+				}
+				break;
+				
+				case 0x6D : {
+					result = vkF10;
+				}
+				break;
+				
+				case 0x67 : {
+					result = vkF11;
+				}
+				break;
+				
+				case 0x6F : {
+					result = vkF12;
+				}
+				break;
+				/*
+				case 0x69 : {
+					result = vkF13;
+				}
+				break;
+				
+				case 0x6B : {
+					result = vkF14;
+				}
+				break;
+				
+				case 0x71 : {
+					result = vkF15;
+				}
+				break;
+				*/
+			}
+		}
+	}
+	
+	
+	if ( result == vkUndefined ) {
+		switch ( ch ) {
+			case 'A': case 'a': {
+				result = vkLetterA;
+			}
+			break;
+			
+			case 'B': case 'b': {
+				result = vkLetterB;
+			}
+			break;
+			
+			case 'C': case 'c': {
+				result = vkLetterC;
+			}
+			break;
+			
+			case 'D': case 'd': {
+				result = vkLetterD;
+			}
+			break;
+			
+			case 'E': case 'e': {
+				result = vkLetterE;
+			}
+			break;
+			
+			case 'F': case 'f': {
+				result = vkLetterF;
+			}
+			break;
+			
+			case 'G': case 'g': {
+				result = vkLetterG;
+			}
+			break;
+			
+			case 'H': case 'h': {
+				result = vkLetterH;
+			}
+			break;
+			
+			case 'I': case 'i': {
+				result = vkLetterI;
+			}
+			break;
+			
+			case 'J': case 'j': {
+				result = vkLetterJ;
+			}
+			break;
+			
+			case 'K': case 'k': {
+				result = vkLetterK;
+			}
+			break;
+			
+			case 'L': case 'l': {
+				result = vkLetterL;
+			}
+			break;
+			
+			case 'M': case 'm': {
+				result = vkLetterM;
+			}
+			break;
+			
+			case 'N': case 'n': {
+				result = vkLetterN;
+			}
+			break;
+			
+			case 'O': case 'o': {
+				result = vkLetterO;
+			}
+			break;
+			
+			case 'P': case 'p': {
+				result = vkLetterP;
+			}
+			break;
+			
+			case 'Q': case 'q': {
+				result = vkLetterQ;
+			}
+			break;
+			
+			case 'R': case 'r': {
+				result = vkLetterR;
+			}
+			break;
+			
+			case 'S': case 's': {
+				result = vkLetterS;
+			}
+			break;
+			
+			case 'T': case 't': {
+				result = vkLetterT;
+			}
+			break;
+			
+			case 'U': case 'u': {
+				result = vkLetterU;
+			}
+			break;
+			
+			case 'V': case 'v': {
+				result = vkLetterV;
+			}
+			break;
+			
+			case 'W': case 'w': {
+				result = vkLetterW;
+			}
+			break;
+			
+			case 'X': case 'x': {
+				result = vkLetterX;
+			}
+			break;
+			
+			case 'Y': case 'y': {
+				result = vkLetterY;
+			}
+			break;
+			
+			case 'Z': case 'z': {
+				result = vkLetterZ;
+			}
+			break;
+		}
+	}
+	return result;
+} 
+
+
+
 //UIMetricsManager implementation for OSX
 class OSXUIMetricsManager : public UIMetricsManager {
 public:
@@ -592,7 +898,8 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
         case OSXUIToolkit::CustomEventClass : {
             switch ( GetEventKind( osxEvent ) ) {
                 case OSXUIToolkit::EventPosted : {
-                    
+                    ::CallNextEventHandler( nextHandler, osxEvent );
+					
                     UInt32 val;
                     Boolean deleteHandler;
                     GetEventParameter( osxEvent, 
@@ -618,12 +925,13 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
                                         OSXUIToolkit::SizeOfDeletePostedEvent,NULL,
                                         &deleteHandler );
                     if ( (NULL != eventHandler) && (NULL != e ) ) {
+					/*
                         StringUtils::traceWithArgs( "Recv'd a posted event.\n\tEvent handler (%p) \"%ls\" and event (%p, src:[%ls]%p) recv'd! Calling event handler's invoke()\n",
                                     eventHandler, 
 									eventHandler->getClassName().c_str(), 
 									e, 
 									e->getSource() ?  e->getSource()->getClassName().c_str() : String("NULL").c_str(), 
-									e->getSource() );
+									e->getSource() );*/
 									
                         eventHandler->invoke( e );
                         
@@ -802,7 +1110,50 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
         case kEventClassKeyboard : {
             switch ( whatHappened ) {
                 case kEventRawKeyDown : {
-                
+					char c = 0;
+					UInt32 keyCode = 0;
+					UInt32 keyMods = 0;
+					UInt32 kbType = 0;
+					
+					GetEventParameter( msg->osxEvent_, kEventParamKeyMacCharCodes, typeChar, NULL,
+                                sizeof (char), NULL, &c);
+					GetEventParameter( msg->osxEvent_, kEventParamKeyCode, typeUInt32, NULL,
+                                sizeof (keyCode), NULL, &keyCode);
+					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
+                                sizeof (keyMods), NULL, &keyMods);
+					GetEventParameter( msg->osxEvent_, kEventParamKeyboardType, typeUInt32, NULL,
+                                sizeof (kbType), NULL, &kbType);
+								
+					StringUtils::traceWithArgs( "c:%c, keyCode: %d, keyMods: %d, kbtype: %d\n",
+												c, keyCode, keyMods, kbType );
+					
+					VirtualKeyCode virtKeyValue = translateOSXKeyToVirtKeyCode( c, keyCode, keyMods );
+					unsigned long keyMask = 0;
+					
+					if ( keyMods & cmdKey ) {
+						keyMask |= kmAlt;
+					}
+					
+					if ( keyMods & shiftKey ) {
+						keyMask |= kmShift;
+					}
+					
+					if ( keyMods & controlKey ) {
+						keyMask |= kmCtrl;
+					}
+									
+					result = new VCF::KeyboardEvent( msg->control_, Control::KEYBOARD_DOWN,
+														1, keyMask, c, virtKeyValue );
+														
+					UIToolkit::handleKeyboardEvent( (KeyboardEvent*)result );
+					
+					if ( result->isConsumed() ) {
+						//result->free();
+						//result = NULL;
+					}
+					
+					StringUtils::traceWithArgs( "keyMask: %d, virtKeyValue: %d\n",
+												keyMask, virtKeyValue );
                 }
                 break;
                 
@@ -812,7 +1163,44 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
                 
                 case kEventRawKeyUp : {
-                
+					char c = 0;
+					UInt32 keyCode = 0;
+					UInt32 keyMods = 0;
+					UInt32 kbType = 0;
+					
+					GetEventParameter( msg->osxEvent_, kEventParamKeyMacCharCodes, typeChar, NULL,
+                                sizeof (char), NULL, &c);
+					GetEventParameter( msg->osxEvent_, kEventParamKeyCode, typeUInt32, NULL,
+                                sizeof (keyCode), NULL, &keyCode);
+					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
+                                sizeof (keyMods), NULL, &keyMods);
+					GetEventParameter( msg->osxEvent_, kEventParamKeyboardType, typeUInt32, NULL,
+                                sizeof (kbType), NULL, &kbType);
+								
+					StringUtils::traceWithArgs( "c:%c, keyCode: %d, keyMods: %d, kbtype: %d\n",
+												c, keyCode, keyMods, kbType );
+					
+					VirtualKeyCode virtKeyValue = translateOSXKeyToVirtKeyCode( c, keyCode, keyMods );
+					unsigned long keyMask = 0;
+					
+					if ( keyMods & cmdKey ) {
+						keyMask |= kmAlt;
+					}
+					
+					if ( keyMods & shiftKey ) {
+						keyMask |= kmShift;
+					}
+					
+					if ( keyMods & controlKey ) {
+						keyMask |= kmCtrl;
+					}
+					
+					
+					result = new VCF::KeyboardEvent( msg->control_, Control::KEYBOARD_UP,
+														1, keyMask, c, virtKeyValue );
+														
+					StringUtils::traceWithArgs( "keyMask: %d, virtKeyValue: %d\n",
+												keyMask, virtKeyValue );
                 }
                 break;
                 
@@ -1133,12 +1521,12 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
             switch ( whatHappened ) {
             
                 case kEventControlInitialize : {
-                
+					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_CREATED );
                 }
                 break;
                 
                 case kEventControlDispose : {
-                
+					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
                 }
                 break;
                 
@@ -1323,7 +1711,30 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
                 
                 case kEventControlBoundsChanged : {
-                
+					UInt32 attributes = 0; 
+					OSStatus err = GetEventParameter( msg->osxEvent_, 
+                                                kEventParamAttributes, 
+                                                typeUInt32,
+                                                NULL, 
+                                                sizeof( UInt32 ), 
+                                                NULL, &attributes );
+                                
+					if ( err == noErr ) 	{
+                        ::Rect currentBounds;
+                            GetEventParameter( msg->osxEvent_, kEventParamCurrentBounds, typeQDRectangle,
+                                                NULL, sizeof(currentBounds), NULL, &currentBounds);
+
+						if ( attributes & kControlBoundsChangeSizeChanged  ) {
+							
+                            VCF::Size sz( abs(currentBounds.right - currentBounds.left), 
+                                            abs(currentBounds.bottom - currentBounds.top) );				
+                            result = new ControlEvent( msg->control_, sz );
+						}
+						else if ( attributes & kControlBoundsChangePositionChanged ) {
+							VCF::Point pt( currentBounds.left , currentBounds.top );
+                            result = new VCF::ControlEvent( msg->control_, pt );
+						}
+					}
                 }
                 break;
                 

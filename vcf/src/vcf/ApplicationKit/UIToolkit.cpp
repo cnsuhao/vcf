@@ -719,8 +719,6 @@ void internal_handleKeyboardButtonEvent ( Event* e )
 
 void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 {
-
-
 	if ( vkEscape == event->getVirtualCode() ) {
 		Frame* frame = Frame::getActiveFrame();
 		if ( NULL != frame ) {
@@ -1163,6 +1161,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/23 14:11:59  ddiego
+*osx updates
+*
 *Revision 1.1.2.3  2004/05/06 02:56:35  ddiego
 *checking in OSX updates
 *
