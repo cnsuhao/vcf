@@ -419,7 +419,6 @@ LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM w
 
 
 			FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) ); 
-
 			
 
 			if ( System::isUnicodeEnabled() ) {
@@ -737,6 +736,7 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 			::RestoreDC ( memDC_, memDCState_ );
 			
 			::DeleteObject( memBMP_ );
+
 
 			
 
@@ -2376,6 +2376,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

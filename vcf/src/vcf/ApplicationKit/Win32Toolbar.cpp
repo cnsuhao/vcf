@@ -138,7 +138,7 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 			////FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) ); 
 
-			HDC memDC = doControlPaint( dc, r, NULL );
+			HDC memDC = doControlPaint( dc, r, NULL, cpControlOnly );
 
 			defaultWndProcedure( WM_PAINT, (WPARAM)memDC, 0 );
 
@@ -148,6 +148,19 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 			wndProcResult = 1;
 			result = true;
+		}
+		break;
+
+		case WM_NCCALCSIZE: {
+			wndProcResult = handleNCCalcSize( wParam, lParam );
+			result = true;
+		}
+		break;
+
+		case WM_NCPAINT: {	
+
+			wndProcResult = handleNCPaint( wParam, lParam );
+			return true;
 		}
 		break;
 
@@ -1398,6 +1411,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *

@@ -325,6 +325,8 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 			context->setCurrentTransform( &xfrm ); 
 			context->setClippingRect( &childClipRect );
 
+			child->paintBorder( context );
+
 			child->paint( context );
 
 			context->restoreState( gcs );
@@ -557,6 +559,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/06 21:30:18  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.2  2004/09/03 04:05:46  ddiego
 *fixes to add matrix transform support for images.
 *

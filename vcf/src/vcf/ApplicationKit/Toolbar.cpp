@@ -486,7 +486,7 @@ void Toolbar::handleEvent( Event* event )
 
 void Toolbar::paint( GraphicsContext* context )
 {
-	Rect innerBounds = getClientBounds( false );
+	Rect innerBounds = getClientBounds( true );
 	BackgroundState bkg;
 	bkg.setEnabled( isEnabled() );
 	bkg.setActive( isActive() );
@@ -530,6 +530,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 21:30:20  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

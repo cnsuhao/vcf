@@ -1479,10 +1479,20 @@ void Control::setViewModel( Model* viewModel )
 	ControlModelChanged.fireEvent(&event);
 }
 
+void Control::paintBorder( GraphicsContext * context )
+{
+	Border* border = getBorder();
+	if ( NULL != border ) {
+		border->paint( this, context );
+	}
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/06 21:30:19  ddiego
+*added a separate paintBorder call to Control class
+*
 *Revision 1.2.2.2  2004/08/21 21:06:52  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.
