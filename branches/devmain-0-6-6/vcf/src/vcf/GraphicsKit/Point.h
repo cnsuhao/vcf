@@ -25,44 +25,30 @@ and stores the data as doubles, for maximum precision.
 */
 class GRAPHICSKIT_API Point: public Object {
 public:
-    Point(const double & x, const double & y);
+	/**
+	*the x coordinate of the point - specifies horizontal values
+	*/
+	double x_;
+
+	/**
+	*the y coordinate of the point - specifies vertical values
+	*/
+	double y_;
+
+public:
+	Point(const double & x, const double & y);
 
 	Point();
 
-	Point( const Point& pt ) : Object(pt), x_(pt.x_), y_(pt.y_){
-
-	}
+	Point( const Point& pt ) : Object(pt), x_(pt.x_), y_(pt.y_) {};
 
 	Point& operator = ( const Point& pt ) {
 		x_ = pt.x_;
 		y_ = pt.y_;
 		return *this;
 	}
-	/**
-	*the x coordinate of the point - specifies horizontal
-	*values
-	*/
-    double x_;
-
-	/**
-	*the y coordinate of the point - specifies vertical
-	*values
-	*/
-    double y_;
 
 	void init();
-
-	/**
-	*operator == overload for comparing two Points
-	*/
-	bool operator == ( const Point& pointToCompare )const{
-		bool result = false;
-
-		result = (this->x_ == pointToCompare.x_) &&
-			     (this->y_ == pointToCompare.y_);
-
-		return result;
-	};
 
 	/**
 	*determines if the x and y coordinates specified are within the
@@ -77,8 +63,7 @@ public:
 
 	bool closeTo( const Point& pt, const double& tolerance=1.0 );
 
-	virtual String toString();
-
+	virtual String toString() const;
 
 
 	Point& getPoint( void );
@@ -91,17 +76,17 @@ public:
 	Point& offset( const Point& _offsetPt );	// added for clarity of use
 
 	// comparison
-	bool isInBetween ( const Point& pt1, const Point& pt2 );
-	bool isInBetweenOpen ( const Point& pt1, const Point& pt2 );
-	bool isInBetweenClose ( const Point& pt1, const Point& pt2 );
+	bool isInBetween ( const Point& pt1, const Point& pt2 ) const;
+	bool isInBetweenOpen ( const Point& pt1, const Point& pt2 ) const;
+	bool isInBetweenClose ( const Point& pt1, const Point& pt2 ) const;
 
 	// comparison operators
-	bool operator != ( const Point& pointToCompare )const ;
-
-	bool operator <= ( const Point& pointToCompare )const ;
-	bool operator < ( const Point& pointToCompare )const ;
-	bool operator >= ( const Point& pointToCompare )const ;
-	bool operator > ( const Point& pointToCompare )const ;
+	bool operator == ( const Point& pointToCompare ) const;
+	bool operator != ( const Point& pointToCompare ) const;
+	bool operator <= ( const Point& pointToCompare ) const ;
+	bool operator < ( const Point& pointToCompare ) const ;
+	bool operator >= ( const Point& pointToCompare ) const ;
+	bool operator > ( const Point& pointToCompare ) const ;
 
 	// unary operators
 	Point& operator+= ( const Point& pt );
@@ -157,38 +142,44 @@ inline Point& Point::offset( const Point& _offsetPt ) {
 	return this->operator+= ( _offsetPt );
 }
 
-// comparison operators
-inline bool Point::isInBetween ( const Point& pt1, const Point& pt2 ) {
+// comparison
+inline bool Point::isInBetween ( const Point& pt1, const Point& pt2 ) const {
 	return ( pt1 <= *this && *this< pt2 );
 };
 
-inline bool Point::isInBetweenOpen ( const Point& pt1, const Point& pt2 ) {
+inline bool Point::isInBetweenOpen ( const Point& pt1, const Point& pt2 ) const {
 	return ( pt1 < *this && *this< pt2 );
 };
 
-inline bool Point::isInBetweenClose ( const Point& pt1, const Point& pt2 ) {
+inline bool Point::isInBetweenClose ( const Point& pt1, const Point& pt2 ) const {
 	return ( pt1 <= *this && *this<= pt2 );
 };
 
 // comparison operators
-inline bool Point::operator != ( const Point& pointToCompare )const {
-	return ((this->x_ != pointToCompare.x_) ||
-			(this->y_ != pointToCompare.y_));
+inline bool Point::operator == ( const Point& pointToCompare ) const {
+	return ( (this->x_ == pointToCompare.x_) && (this->y_ == pointToCompare.y_) );
 };
 
-inline bool Point::operator <= ( const Point& pointToCompare )const {
+inline bool Point::operator != ( const Point& pointToCompare ) const {
+	return  ( (this->x_ != pointToCompare.x_) || (this->y_ != pointToCompare.y_) );
+};
+
+inline bool Point::operator <= ( const Point& pointToCompare ) const {
 	return ((this->x_ <= pointToCompare.x_) &&
 			(this->y_ <= pointToCompare.y_));
 };
-inline bool Point::operator < ( const Point& pointToCompare )const {
+
+inline bool Point::operator < ( const Point& pointToCompare ) const {
 	return ((this->x_ < pointToCompare.x_) &&
 			(this->y_ < pointToCompare.y_));
 };
-inline bool Point::operator >= ( const Point& pointToCompare )const {
+
+inline bool Point::operator >= ( const Point& pointToCompare ) const {
 	return ((this->x_ >= pointToCompare.x_) &&
 			(this->y_ > pointToCompare.y_));
 };
-inline bool Point::operator > ( const Point& pointToCompare )const {
+
+inline bool Point::operator > ( const Point& pointToCompare ) const {
 	return ((this->x_ > pointToCompare.x_) &&
 			(this->y_ > pointToCompare.y_));
 };
@@ -293,12 +284,15 @@ inline Point Point::operator/(const double d) const {
 	return ps;
 }
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/26 05:43:00  marcelloptr
+*bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
