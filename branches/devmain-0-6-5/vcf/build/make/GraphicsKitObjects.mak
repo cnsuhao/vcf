@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.4.4.1  2004/04/28 14:40:01  ddiego
+#migration towards new directory structure
+#
 #Revision 1.4  2003/12/18 05:15:47  ddiego
 #merge from devmain-0-6-2 branch into the stable branch
 #
@@ -47,81 +50,81 @@
 #Debug files
 ###########################################################
 
-$(OUTDIR_GK_D)/GraphicsKit.o : $(SRC_GRF)/GraphicsKit.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/GraphicsKit.cpp -o $(OUTDIR_GK_D)/GraphicsKit.o
+$(OUTDIR_GK_D)/GraphicsKit.o : $(SRC_GRAPHICSKIT)/GraphicsKit.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GraphicsKit.cpp -o $(OUTDIR_GK_D)/GraphicsKit.o
 	
 
-$(OUTDIR_GK_D)/AbstractImage.o : $(SRC_GRF)/AbstractImage.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/AbstractImage.cpp -o $(OUTDIR_GK_D)/AbstractImage.o
+$(OUTDIR_GK_D)/AbstractImage.o : $(SRC_GRAPHICSKIT)/AbstractImage.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/AbstractImage.cpp -o $(OUTDIR_GK_D)/AbstractImage.o
 	
-$(OUTDIR_GK_D)/Rect.o : $(SRC_CORE)/Rect.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_GK_D)/Rect.o	
+$(OUTDIR_GK_D)/Rect.o : $(SRC_GRAPHICSKIT)/Rect.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/Rect.cpp -o $(OUTDIR_GK_D)/Rect.o	
 	
-$(OUTDIR_GK_D)/Point.o : $(SRC_CORE)/Point.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_CORE)/Point.cpp -o $(OUTDIR_GK_D)/Point.o		
+$(OUTDIR_GK_D)/Point.o : $(SRC_GRAPHICSKIT)/Point.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/Point.cpp -o $(OUTDIR_GK_D)/Point.o		
 	
-$(OUTDIR_GK_D)/BasicFill.o : $(SRC_GRF)/BasicFill.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/BasicFill.cpp -o $(OUTDIR_GK_D)/BasicFill.o
+$(OUTDIR_GK_D)/BasicFill.o : $(SRC_GRAPHICSKIT)/BasicFill.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/BasicFill.cpp -o $(OUTDIR_GK_D)/BasicFill.o
 	
-$(OUTDIR_GK_D)/BasicStroke.o : $(SRC_GRF)/BasicStroke.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/BasicStroke.cpp -o $(OUTDIR_GK_D)/BasicStroke.o
+$(OUTDIR_GK_D)/BasicStroke.o : $(SRC_GRAPHICSKIT)/BasicStroke.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/BasicStroke.cpp -o $(OUTDIR_GK_D)/BasicStroke.o
 	
-$(OUTDIR_GK_D)/Color.o : $(SRC_GRF)/Color.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/Color.cpp -o $(OUTDIR_GK_D)/Color.o
+$(OUTDIR_GK_D)/Color.o : $(SRC_GRAPHICSKIT)/Color.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/Color.cpp -o $(OUTDIR_GK_D)/Color.o
 	
-$(OUTDIR_GK_D)/Font.o : $(SRC_GRF)/Font.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/Font.cpp -o $(OUTDIR_GK_D)/Font.o
+$(OUTDIR_GK_D)/Font.o : $(SRC_GRAPHICSKIT)/Font.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/Font.cpp -o $(OUTDIR_GK_D)/Font.o
 	
-$(OUTDIR_GK_D)/GlyphCollection.o : $(SRC_GRF)/GlyphCollection.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/GlyphCollection.cpp -o $(OUTDIR_GK_D)/GlyphCollection.o
+$(OUTDIR_GK_D)/GlyphCollection.o : $(SRC_GRAPHICSKIT)/GlyphCollection.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GlyphCollection.cpp -o $(OUTDIR_GK_D)/GlyphCollection.o
 	
-$(OUTDIR_GK_D)/GraphicsContext.o : $(SRC_GRF)/GraphicsContext.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/GraphicsContext.cpp -o $(OUTDIR_GK_D)/GraphicsContext.o
+$(OUTDIR_GK_D)/GraphicsContext.o : $(SRC_GRAPHICSKIT)/GraphicsContext.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GraphicsContext.cpp -o $(OUTDIR_GK_D)/GraphicsContext.o
 	
-$(OUTDIR_GK_D)/GraphicsToolKit.o : $(SRC_UTILS)/GraphicsToolKit.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_UTILS)/GraphicsToolKit.cpp -o $(OUTDIR_GK_D)/GraphicsToolKit.o
+$(OUTDIR_GK_D)/GraphicsToolKit.o : $(SRC_GRAPHICSKIT)/GraphicsToolKit.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GraphicsToolKit.cpp -o $(OUTDIR_GK_D)/GraphicsToolKit.o
 	
-$(OUTDIR_GK_D)/ImageEvent.o : $(SRC_EVENT)/ImageEvent.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_EVENT)/ImageEvent.cpp -o $(OUTDIR_GK_D)/ImageEvent.o
+$(OUTDIR_GK_D)/ImageEvent.o : $(SRC_GRAPHICSKIT)/ImageEvent.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/ImageEvent.cpp -o $(OUTDIR_GK_D)/ImageEvent.o
 	
-$(OUTDIR_GK_D)/Matrix2D.o : $(SRC_GRF)/Matrix2D.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/Matrix2D.cpp -o $(OUTDIR_GK_D)/Matrix2D.o
+$(OUTDIR_GK_D)/Matrix2D.o : $(SRC_GRAPHICSKIT)/Matrix2D.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/Matrix2D.cpp -o $(OUTDIR_GK_D)/Matrix2D.o
 	
-$(OUTDIR_GK_D)/BezierCurve.o : $(SRC_GRF)/BezierCurve.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/BezierCurve.cpp -o $(OUTDIR_GK_D)/BezierCurve.o
+$(OUTDIR_GK_D)/BezierCurve.o : $(SRC_GRAPHICSKIT)/BezierCurve.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/BezierCurve.cpp -o $(OUTDIR_GK_D)/BezierCurve.o
 	
-$(OUTDIR_GK_D)/Vector2D.o : $(SRC_GRF)/Vector2D.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/Vector2D.cpp -o $(OUTDIR_GK_D)/Vector2D.o
+$(OUTDIR_GK_D)/Vector2D.o : $(SRC_GRAPHICSKIT)/Vector2D.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/Vector2D.cpp -o $(OUTDIR_GK_D)/Vector2D.o
 	
-$(OUTDIR_GK_D)/GTKFont.o : $(SRC_IMPLKIT)/GTKFont.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKFont.cpp -o $(OUTDIR_GK_D)/GTKFont.o
+$(OUTDIR_GK_D)/GTKFont.o : $(SRC_GRAPHICSKIT)/GTKFont.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GTKFont.cpp -o $(OUTDIR_GK_D)/GTKFont.o
 	
-$(OUTDIR_GK_D)/GTKImage.o : $(SRC_IMPLKIT)/GTKImage.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKImage.cpp -o $(OUTDIR_GK_D)/GTKImage.o
+$(OUTDIR_GK_D)/GTKImage.o : $(SRC_GRAPHICSKIT)/GTKImage.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GTKImage.cpp -o $(OUTDIR_GK_D)/GTKImage.o
 	
-$(OUTDIR_GK_D)/GTKContext.o : $(SRC_IMPLKIT)/GTKContext.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKContext.cpp -o $(OUTDIR_GK_D)/GTKContext.o
+$(OUTDIR_GK_D)/GTKContext.o : $(SRC_GRAPHICSKIT)/GTKContext.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GTKContext.cpp -o $(OUTDIR_GK_D)/GTKContext.o
 	
-$(OUTDIR_GK_D)/GTKGraphicsToolkit.o : $(SRC_IMPLKIT)/GTKGraphicsToolkit.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKGraphicsToolkit.cpp -o $(OUTDIR_GK_D)/GTKGraphicsToolkit.o
+$(OUTDIR_GK_D)/GTKGraphicsToolkit.o : $(SRC_GRAPHICSKIT)/GTKGraphicsToolkit.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/GTKGraphicsToolkit.cpp -o $(OUTDIR_GK_D)/GTKGraphicsToolkit.o
 	
-$(OUTDIR_GK_D)/MgcBezierCurve2.o : $(SRC_GRF)/MgcBezierCurve2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/MgcBezierCurve2.cpp -o $(OUTDIR_GK_D)/MgcBezierCurve2.o
+$(OUTDIR_GK_D)/MgcBezierCurve2.o : $(SRC_GRAPHICSKIT)/MgcBezierCurve2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/MgcBezierCurve2.cpp -o $(OUTDIR_GK_D)/MgcBezierCurve2.o
 	
-$(OUTDIR_GK_D)/MgcCurve2.o : $(SRC_GRF)/MgcCurve2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/MgcCurve2.cpp -o $(OUTDIR_GK_D)/MgcCurve2.o
+$(OUTDIR_GK_D)/MgcCurve2.o : $(SRC_GRAPHICSKIT)/MgcCurve2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/MgcCurve2.cpp -o $(OUTDIR_GK_D)/MgcCurve2.o
 	
-$(OUTDIR_GK_D)/MgcVector2.o : $(SRC_GRF)/MgcVector2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/MgcVector2.cpp -o $(OUTDIR_GK_D)/MgcVector2.o
+$(OUTDIR_GK_D)/MgcVector2.o : $(SRC_GRAPHICSKIT)/MgcVector2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/MgcVector2.cpp -o $(OUTDIR_GK_D)/MgcVector2.o
 	
-$(OUTDIR_GK_D)/MgcIntegrate.o : $(SRC_GRF)/MgcIntegrate.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/MgcIntegrate.cpp -o $(OUTDIR_GK_D)/MgcIntegrate.o
+$(OUTDIR_GK_D)/MgcIntegrate.o : $(SRC_GRAPHICSKIT)/MgcIntegrate.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/MgcIntegrate.cpp -o $(OUTDIR_GK_D)/MgcIntegrate.o
 	
-$(OUTDIR_GK_D)/MgcSingleCurve2.o : $(SRC_GRF)/MgcSingleCurve2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/MgcSingleCurve2.cpp -o $(OUTDIR_GK_D)/MgcSingleCurve2.o
+$(OUTDIR_GK_D)/MgcSingleCurve2.o : $(SRC_GRAPHICSKIT)/MgcSingleCurve2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/MgcSingleCurve2.cpp -o $(OUTDIR_GK_D)/MgcSingleCurve2.o
 	
-$(OUTDIR_GK_D)/MgcMath.o  : $(SRC_GRF)/MgcMath.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRF)/MgcMath.cpp -o $(OUTDIR_GK_D)/MgcMath.o
+$(OUTDIR_GK_D)/MgcMath.o  : $(SRC_GRAPHICSKIT)/MgcMath.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS_D) $(SRC_GRAPHICSKIT)/MgcMath.cpp -o $(OUTDIR_GK_D)/MgcMath.o
 	
 
 
@@ -131,80 +134,80 @@ $(OUTDIR_GK_D)/MgcMath.o  : $(SRC_GRF)/MgcMath.cpp $(GRAPHICSKIT_HDRS)
 #Release files
 ###########################################################
 
-$(OUTDIR_GK)/GraphicsKit.o : $(SRC_GRF)/GraphicsKit.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/GraphicsKit.cpp -o $(OUTDIR_GK)/GraphicsKit.o	
+$(OUTDIR_GK)/GraphicsKit.o : $(SRC_GRAPHICSKIT)/GraphicsKit.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GraphicsKit.cpp -o $(OUTDIR_GK)/GraphicsKit.o	
 
-$(OUTDIR_GK)/AbstractImage.o : $(SRC_GRF)/AbstractImage.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/AbstractImage.cpp -o $(OUTDIR_GK)/AbstractImage.o
+$(OUTDIR_GK)/AbstractImage.o : $(SRC_GRAPHICSKIT)/AbstractImage.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/AbstractImage.cpp -o $(OUTDIR_GK)/AbstractImage.o
 	
-$(OUTDIR_GK)/BasicFill.o : $(SRC_GRF)/BasicFill.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/BasicFill.cpp -o $(OUTDIR_GK)/BasicFill.o
+$(OUTDIR_GK)/BasicFill.o : $(SRC_GRAPHICSKIT)/BasicFill.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/BasicFill.cpp -o $(OUTDIR_GK)/BasicFill.o
 	
-$(OUTDIR_GK)/BasicStroke.o : $(SRC_GRF)/BasicStroke.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/BasicStroke.cpp -o $(OUTDIR_GK)/BasicStroke.o
+$(OUTDIR_GK)/BasicStroke.o : $(SRC_GRAPHICSKIT)/BasicStroke.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/BasicStroke.cpp -o $(OUTDIR_GK)/BasicStroke.o
 	
-$(OUTDIR_GK)/Color.o : $(SRC_GRF)/Color.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/Color.cpp -o $(OUTDIR_GK)/Color.o
+$(OUTDIR_GK)/Color.o : $(SRC_GRAPHICSKIT)/Color.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/Color.cpp -o $(OUTDIR_GK)/Color.o
 	
-$(OUTDIR_GK)/Font.o : $(SRC_GRF)/Font.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/Font.cpp -o $(OUTDIR_GK)/Font.o
+$(OUTDIR_GK)/Font.o : $(SRC_GRAPHICSKIT)/Font.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/Font.cpp -o $(OUTDIR_GK)/Font.o
 	
-$(OUTDIR_GK)/GlyphCollection.o : $(SRC_GRF)/GlyphCollection.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/GlyphCollection.cpp -o $(OUTDIR_GK)/GlyphCollection.o
+$(OUTDIR_GK)/GlyphCollection.o : $(SRC_GRAPHICSKIT)/GlyphCollection.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GlyphCollection.cpp -o $(OUTDIR_GK)/GlyphCollection.o
 	
-$(OUTDIR_GK)/GraphicsContext.o : $(SRC_GRF)/GraphicsContext.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/GraphicsContext.cpp -o $(OUTDIR_GK)/GraphicsContext.o
+$(OUTDIR_GK)/GraphicsContext.o : $(SRC_GRAPHICSKIT)/GraphicsContext.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GraphicsContext.cpp -o $(OUTDIR_GK)/GraphicsContext.o
 	
 	
-$(OUTDIR_GK)/GraphicsToolKit.o : $(SRC_UTILS)/GraphicsToolKit.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_UTILS)/GraphicsToolKit.cpp -o $(OUTDIR_GK)/GraphicsToolKit.o
+$(OUTDIR_GK)/GraphicsToolKit.o : $(SRC_GRAPHICSKIT)/GraphicsToolKit.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GraphicsToolKit.cpp -o $(OUTDIR_GK)/GraphicsToolKit.o
 	
-$(OUTDIR_GK)/ImageEvent.o : $(SRC_EVENT)/ImageEvent.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_EVENT)/ImageEvent.cpp -o $(OUTDIR_GK)/ImageEvent.o
+$(OUTDIR_GK)/ImageEvent.o : $(SRC_GRAPHICSKIT)/ImageEvent.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/ImageEvent.cpp -o $(OUTDIR_GK)/ImageEvent.o
 	
-$(OUTDIR_GK)/Matrix2D.o : $(SRC_GRF)/Matrix2D.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/Matrix2D.cpp -o $(OUTDIR_GK)/Matrix2D.o
+$(OUTDIR_GK)/Matrix2D.o : $(SRC_GRAPHICSKIT)/Matrix2D.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/Matrix2D.cpp -o $(OUTDIR_GK)/Matrix2D.o
 	
-$(OUTDIR_GK)/BezierCurve.o : $(SRC_GRF)/BezierCurve.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/BezierCurve.cpp -o $(OUTDIR_GK)/BezierCurve.o
+$(OUTDIR_GK)/BezierCurve.o : $(SRC_GRAPHICSKIT)/BezierCurve.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/BezierCurve.cpp -o $(OUTDIR_GK)/BezierCurve.o
 	
-$(OUTDIR_GK)/Vector2D.o : $(SRC_GRF)/Vector2D.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/Vector2D.cpp -o $(OUTDIR_GK)/Vector2D.o
+$(OUTDIR_GK)/Vector2D.o : $(SRC_GRAPHICSKIT)/Vector2D.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/Vector2D.cpp -o $(OUTDIR_GK)/Vector2D.o
 	
-$(OUTDIR_GK)/GTKFont.o : $(SRC_IMPLKIT)/GTKFont.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_IMPLKIT)/GTKFont.cpp -o $(OUTDIR_GK)/GTKFont.o
+$(OUTDIR_GK)/GTKFont.o : $(SRC_GRAPHICSKIT)/GTKFont.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GTKFont.cpp -o $(OUTDIR_GK)/GTKFont.o
 	
-$(OUTDIR_GK)/GTKImage.o : $(SRC_IMPLKIT)/GTKImage.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_IMPLKIT)/GTKImage.cpp -o $(OUTDIR_GK)/GTKImage.o
+$(OUTDIR_GK)/GTKImage.o : $(SRC_GRAPHICSKIT)/GTKImage.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GTKImage.cpp -o $(OUTDIR_GK)/GTKImage.o
 	
-$(OUTDIR_GK)/GTKContext.o : $(SRC_IMPLKIT)/GTKContext.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_IMPLKIT)/GTKContext.cpp -o $(OUTDIR_GK)/GTKContext.o
+$(OUTDIR_GK)/GTKContext.o : $(SRC_GRAPHICSKIT)/GTKContext.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GTKContext.cpp -o $(OUTDIR_GK)/GTKContext.o
 	
-$(OUTDIR_GK)/GTKGraphicsToolkit.o : $(SRC_IMPLKIT)/GTKGraphicsToolkit.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_IMPLKIT)/GTKGraphicsToolkit.cpp -o $(OUTDIR_GK)/GTKGraphicsToolkit.o
+$(OUTDIR_GK)/GTKGraphicsToolkit.o : $(SRC_GRAPHICSKIT)/GTKGraphicsToolkit.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/GTKGraphicsToolkit.cpp -o $(OUTDIR_GK)/GTKGraphicsToolkit.o
 	
-$(OUTDIR_GK)/MgcBezierCurve2.o : $(SRC_GRF)/MgcBezierCurve2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcBezierCurve2.cpp -o $(OUTDIR_GK)/MgcBezierCurve2.o
+$(OUTDIR_GK)/MgcBezierCurve2.o : $(SRC_GRAPHICSKIT)/MgcBezierCurve2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/MgcBezierCurve2.cpp -o $(OUTDIR_GK)/MgcBezierCurve2.o
 	
-$(OUTDIR_GK)/MgcCurve2.o : $(SRC_GRF)/MgcCurve2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcCurve2.cpp -o $(OUTDIR_GK)/MgcCurve2.o
+$(OUTDIR_GK)/MgcCurve2.o : $(SRC_GRAPHICSKIT)/MgcCurve2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/MgcCurve2.cpp -o $(OUTDIR_GK)/MgcCurve2.o
 	
-$(OUTDIR_GK)/MgcVector2.o : $(SRC_GRF)/MgcVector2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcVector2.cpp -o $(OUTDIR_GK)/MgcVector2.o
+$(OUTDIR_GK)/MgcVector2.o : $(SRC_GRAPHICSKIT)/MgcVector2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/MgcVector2.cpp -o $(OUTDIR_GK)/MgcVector2.o
 	
-$(OUTDIR_GK)/MgcIntegrate.o : $(SRC_GRF)/MgcIntegrate.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcIntegrate.cpp -o $(OUTDIR_GK)/MgcIntegrate.o
+$(OUTDIR_GK)/MgcIntegrate.o : $(SRC_GRAPHICSKIT)/MgcIntegrate.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/MgcIntegrate.cpp -o $(OUTDIR_GK)/MgcIntegrate.o
 	
-$(OUTDIR_GK)/MgcSingleCurve2.o : $(SRC_GRF)/MgcSingleCurve2.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcSingleCurve2.cpp -o $(OUTDIR_GK)/MgcSingleCurve2.o
+$(OUTDIR_GK)/MgcSingleCurve2.o : $(SRC_GRAPHICSKIT)/MgcSingleCurve2.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/MgcSingleCurve2.cpp -o $(OUTDIR_GK)/MgcSingleCurve2.o
 	
-$(OUTDIR_GK)/MgcMath.o  : $(SRC_GRF)/MgcMath.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRF)/MgcMath.cpp -o $(OUTDIR_GK)/MgcMath.o
+$(OUTDIR_GK)/MgcMath.o  : $(SRC_GRAPHICSKIT)/MgcMath.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/MgcMath.cpp -o $(OUTDIR_GK)/MgcMath.o
 	
-$(OUTDIR_GK)/Rect.o : $(SRC_CORE)/Rect.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_CORE)/Rect.cpp -o $(OUTDIR_GK)/Rect.o	
+$(OUTDIR_GK)/Rect.o : $(SRC_GRAPHICSKIT)/Rect.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/Rect.cpp -o $(OUTDIR_GK)/Rect.o	
 	
-$(OUTDIR_GK)/Point.o : $(SRC_CORE)/Point.cpp $(GRAPHICSKIT_HDRS)
-	$(CXX) $(GK_CXX_FLAGS) $(SRC_CORE)/Point.cpp -o $(OUTDIR_GK)/Point.o			
+$(OUTDIR_GK)/Point.o : $(SRC_GRAPHICSKIT)/Point.cpp $(GRAPHICSKIT_HDRS)
+	$(CXX) $(GK_CXX_FLAGS) $(SRC_GRAPHICSKIT)/Point.cpp -o $(OUTDIR_GK)/Point.o			
 
 

@@ -3,6 +3,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.5.2.1  2004/04/28 14:40:01  ddiego
+#migration towards new directory structure
+#
 #Revision 1.5  2004/04/03 15:47:59  ddiego
 #Merged over code from the 0-6-3 branch.
 #
@@ -90,7 +93,8 @@ X11_LIB=/usr/X11R6/lib
 SRC=../../src
 
 
-INC=../../include
+INC=../../src
+
 
 #binary output directory
 BIN_OUT=../../bin
@@ -101,34 +105,13 @@ LIB_OUT=../../lib
 
 
 #source file short cut directories
-SRC_COM=$(SRC)/com
-SRC_CORE=$(SRC)/core
-SRC_DND=$(SRC)/dragdrop
-SRC_EVENT=$(SRC)/events
-SRC_EXCPT=$(SRC)/exceptions
-SRC_GRF=$(SRC)/graphics
-SRC_IMPLKIT=$(SRC)/implementerkit
-SRC_IO=$(SRC)/io
-SRC_NET=$(SRC)/net
-SRC_REMOTE=$(SRC)/remote
-SRC_UTILS=$(SRC)/utils
-SRC_RTTI=$(SRC)/rtti
+SRC_FOUNDATIONKIT=$(SRC)/vcf/FoundationKit
+SRC_APPKIT=$(SRC)/vcf/ApplicationKit
+SRC_GRAPHICSKIT=$(SRC)/vcf/GraphicsKit
+SRC_NETWORKKIT=$(SRC)/vcf/NetworkKit
+SRC_REMOTEOBJKIT=$(SRC)/vcf/RemoteObjectKit
 
 
-#include short cuts
-INC_COM=$(INC)/com
-INC_CORE=$(INC)/core
-INC_DND=$(INC)/dragdrop
-INC_EVENT=$(INC)/events
-INC_EXCPT=$(INC)/exceptions
-INC_GRF=$(INC)/graphics
-INC_IMPL=$(INC)/implementer
-INC_IMPLKIT=$(INC)/implementerKit
-INC_IO=$(INC)/io
-INC_NET=$(INC)/net
-INC_REMOTE=$(INC)/remote
-INC_UTILS=$(INC)/utils
-INC_RTTI=$(INC)/rtti
 
 
 
@@ -163,108 +146,108 @@ STATIC_LINKER=ar
 #FoundationKit headers
 ###########################################################
 
-FOUNDATIONKIT_HDRS=$(INC)/utils/VCFChar.h \
-	$(INC)/utils/VCFProcess.h \
-	$(INC)/utils/VCFString.h \
-	$(INC)/utils/XMLParser.h \
-	$(INC)/utils/Runnable.h \
-	$(INC)/utils/Semaphore.h \
-	$(INC)/utils/SemaphorePeer.h \
-	$(INC)/utils/StringUtils.h \
-	$(INC)/utils/SynchObject.h \
-	$(INC)/utils/System.h \
-	$(INC)/utils/SystemPeer.h \
-	$(INC)/utils/SystemToolkit.h \
-	$(INC)/utils/Thread.h \
-	$(INC)/utils/Mutex.h \
-	$(INC)/utils/Parser.h \
-	$(INC)/utils/ProcessWithRedirectedIO.h \
-	$(INC)/utils/References.h \
-	$(INC)/utils/Registry.h \
-	$(INC)/utils/Library.h \
-	$(INC)/utils/Lock.h \
-	$(INC)/utils/Enum.h \
-	$(INC)/utils/Enumerator.h \
-	$(INC)/utils/ErrorLog.h \
-	$(INC)/utils/FilePath.h \
-	$(INC)/io/Stream.h \
-	$(INC)/io/TextInputStream.h \
-	$(INC)/io/TextOutputStream.h \
-	$(INC)/io/VariantDataStream.h \
-	$(INC)/io/Directory.h \
-	$(INC)/io/File.h \
-	$(INC)/io/FileIOError.h \
-	$(INC)/io/FileNotFound.h \
-	$(INC)/io/FileStream.h \
-	$(INC)/io/FileStreamPeer.h \
-	$(INC)/io/FileUtils.h \
-	$(INC)/io/MemoryStream.h \
-	$(INC)/io/MemStreamUtils.h \
-	$(INC)/io/Persistable.h \
-	$(INC)/io/BasicFileError.h \
-	$(INC)/io/BasicInputStream.h \
-	$(INC)/io/BasicOutputStream.h \
-	$(INC)/implementer/ThreadPeer.h \
-	$(INC)/implementer/ProcessIORedirectionPeer.h \
-	$(INC)/implementer/ProcessPeer.h \
-	$(INC)/implementer/RegistryPeer.h \
-	$(INC)/implementer/MutexPeer.h \
-	$(INC)/implementer/LibraryPeer.h \
-	$(INC)/implementer/FilePeer.h \
-	$(INC)/exceptions/RuntimeException.h \
-	$(INC)/exceptions/ThreadException.h \
-	$(INC)/exceptions/TypeCastException.h \
-	$(INC)/FoundationKit.h \
-	$(INC)/FoundationKitPrivate.h \
-	$(INC)/exceptions/OutOfBoundsException.h \
-	$(INC)/exceptions/ProcessException.h \
-	$(INC)/exceptions/PropertyChangeException.h \
-	$(INC)/exceptions/NoImplementerFoundException.h \
-	$(INC)/exceptions/NoPeerFoundException.h \
-	$(INC)/exceptions/NoSuchElementException.h \
-	$(INC)/exceptions/InvalidImplementer.h \
-	$(INC)/exceptions/InvalidPeer.h \
-	$(INC)/exceptions/InvalidPointerException.h \
-	$(INC)/exceptions/NoFreeMemException.h \
-	$(INC)/exceptions/BasicException.h \
-	$(INC)/exceptions/CantCreateObjectException.h \
-	$(INC)/exceptions/ClassNotFound.h \
-	$(INC)/exceptions/ErrorStrings.h \
-	$(INC)/events/NotifyEvent.h \
-	$(INC)/events/OutputReadyEvent.h \
-	$(INC)/events/PropertyChangeEvent.h \
-	$(INC)/rtti/Class.h \
-	$(INC)/rtti/ClassInfo.h \
-	$(INC)/rtti/ClassRegistry.h \
-	$(INC)/core/CommonDefines.h \
-	$(INC)/core/FoundationKitSelectLib.h \
-	$(INC)/core/FrameworkConfig.h \
-	$(INC)/core/Interface.h \
-	$(INC)/rtti/InterfaceClass.h \
-	$(INC)/core/Locales.h \
-	$(INC)/rtti/Method.h \
-	$(INC)/rtti/Field.h \
-	$(INC)/core/Object.h \
-	$(INC)/core/ObjectWithEvents.h \
-	$(INC)/rtti/Property.h \
-	$(INC)/core/VCF.h \
-	$(INC)/core/VCFMath.h \
-	$(INC)/core/WarningsOffVc.h \
-	$(INC)/events/Delegate.h \
-	$(INC)/events/Event.h \
-	$(INC)/events/EventHandler.h \
-	$(INC)/implementerKit/LinuxFilePeer.h \
-	$(INC)/implementerKit/LinuxFileStream.h \
-	$(INC)/implementerKit/LinuxLibraryPeer.h \
-	$(INC)/implementerKit/LinuxMutex.h \
-	$(INC)/implementerKit/LinuxPeer.h \
-	$(INC)/implementerKit/LinuxProcessIORedirector.h \
-	$(INC)/implementerKit/LinuxProcessPeer.h \
-	$(INC)/implementerKit/LinuxRegistry.h \
-	$(INC)/implementerKit/LinuxSemaphorePeer.h \
-	$(INC)/implementerKit/LinuxSystemPeer.h \
-	$(INC)/implementerKit/LinuxSystemToolkit.h \
-	$(INC)/implementerKit/LinuxThread.h
+FOUNDATIONKIT_HDRS=$(SRC_FOUNDATIONKIT)/VCFChar.h \
+	$(SRC_FOUNDATIONKIT)/VCFProcess.h \
+	$(SRC_FOUNDATIONKIT)/VCFString.h \
+	$(SRC_FOUNDATIONKIT)/XMLParser.h \
+	$(SRC_FOUNDATIONKIT)/Runnable.h \
+	$(SRC_FOUNDATIONKIT)/Semaphore.h \
+	$(SRC_FOUNDATIONKIT)/SemaphorePeer.h \
+	$(SRC_FOUNDATIONKIT)/StringUtils.h \
+	$(SRC_FOUNDATIONKIT)/SynchObject.h \
+	$(SRC_FOUNDATIONKIT)/System.h \
+	$(SRC_FOUNDATIONKIT)/SystemPeer.h \
+	$(SRC_FOUNDATIONKIT)/SystemToolkit.h \
+	$(SRC_FOUNDATIONKIT)/Thread.h \
+	$(SRC_FOUNDATIONKIT)/Mutex.h \
+	$(SRC_FOUNDATIONKIT)/Parser.h \
+	$(SRC_FOUNDATIONKIT)/ProcessWithRedirectedIO.h \
+	$(SRC_FOUNDATIONKIT)/References.h \
+	$(SRC_FOUNDATIONKIT)/Registry.h \
+	$(SRC_FOUNDATIONKIT)/Library.h \
+	$(SRC_FOUNDATIONKIT)/Lock.h \
+	$(SRC_FOUNDATIONKIT)/Enum.h \
+	$(SRC_FOUNDATIONKIT)/Enumerator.h \
+	$(SRC_FOUNDATIONKIT)/ErrorLog.h \
+	$(SRC_FOUNDATIONKIT)/FilePath.h \
+	$(SRC_FOUNDATIONKIT)/Stream.h \
+	$(SRC_FOUNDATIONKIT)/TextInputStream.h \
+	$(SRC_FOUNDATIONKIT)/TextOutputStream.h \
+	$(SRC_FOUNDATIONKIT)/VariantDataStream.h \
+	$(SRC_FOUNDATIONKIT)/Directory.h \
+	$(SRC_FOUNDATIONKIT)/File.h \
+	$(SRC_FOUNDATIONKIT)/FileIOError.h \
+	$(SRC_FOUNDATIONKIT)/FileNotFound.h \
+	$(SRC_FOUNDATIONKIT)/FileStream.h \
+	$(SRC_FOUNDATIONKIT)/FileStreamPeer.h \
+	$(SRC_FOUNDATIONKIT)/FileUtils.h \
+	$(SRC_FOUNDATIONKIT)/MemoryStream.h \
+	$(SRC_FOUNDATIONKIT)/MemStreamUtils.h \
+	$(SRC_FOUNDATIONKIT)/Persistable.h \
+	$(SRC_FOUNDATIONKIT)/BasicFileError.h \
+	$(SRC_FOUNDATIONKIT)/BasicInputStream.h \
+	$(SRC_FOUNDATIONKIT)/BasicOutputStream.h \
+	$(SRC_FOUNDATIONKIT)/ThreadPeer.h \
+	$(SRC_FOUNDATIONKIT)/ProcessIORedirectionPeer.h \
+	$(SRC_FOUNDATIONKIT)/ProcessPeer.h \
+	$(SRC_FOUNDATIONKIT)/RegistryPeer.h \
+	$(SRC_FOUNDATIONKIT)/MutexPeer.h \
+	$(SRC_FOUNDATIONKIT)/LibraryPeer.h \
+	$(SRC_FOUNDATIONKIT)/FilePeer.h \
+	$(SRC_FOUNDATIONKIT)/RuntimeException.h \
+	$(SRC_FOUNDATIONKIT)/ThreadException.h \
+	$(SRC_FOUNDATIONKIT)/TypeCastException.h \
+	$(SRC_FOUNDATIONKIT)/FoundationKit.h \
+	$(SRC_FOUNDATIONKIT)/FoundationKitPrivate.h \
+	$(SRC_FOUNDATIONKIT)/OutOfBoundsException.h \
+	$(SRC_FOUNDATIONKIT)/ProcessException.h \
+	$(SRC_FOUNDATIONKIT)/PropertyChangeException.h \
+	$(SRC_FOUNDATIONKIT)/NoImplementerFoundException.h \
+	$(SRC_FOUNDATIONKIT)/NoPeerFoundException.h \
+	$(SRC_FOUNDATIONKIT)/NoSuchElementException.h \
+	$(SRC_FOUNDATIONKIT)/InvalidImplementer.h \
+	$(SRC_FOUNDATIONKIT)/InvalidPeer.h \
+	$(SRC_FOUNDATIONKIT)/InvalidPointerException.h \
+	$(SRC_FOUNDATIONKIT)/NoFreeMemException.h \
+	$(SRC_FOUNDATIONKIT)/BasicException.h \
+	$(SRC_FOUNDATIONKIT)/CantCreateObjectException.h \
+	$(SRC_FOUNDATIONKIT)/ClassNotFound.h \
+	$(SRC_FOUNDATIONKIT)/ErrorStrings.h \
+	$(SRC_FOUNDATIONKIT)/NotifyEvent.h \
+	$(SRC_FOUNDATIONKIT)/OutputReadyEvent.h \
+	$(SRC_FOUNDATIONKIT)/PropertyChangeEvent.h \
+	$(SRC_FOUNDATIONKIT)/Class.h \
+	$(SRC_FOUNDATIONKIT)/ClassInfo.h \
+	$(SRC_FOUNDATIONKIT)/ClassRegistry.h \
+	$(SRC_FOUNDATIONKIT)/CommonDefines.h \
+	$(SRC_FOUNDATIONKIT)/FoundationKitSelectLib.h \
+	$(SRC_FOUNDATIONKIT)/FrameworkConfig.h \
+	$(SRC_FOUNDATIONKIT)/Interface.h \
+	$(SRC_FOUNDATIONKIT)/InterfaceClass.h \
+	$(SRC_FOUNDATIONKIT)/Locales.h \
+	$(SRC_FOUNDATIONKIT)/Method.h \
+	$(SRC_FOUNDATIONKIT)/Field.h \
+	$(SRC_FOUNDATIONKIT)/Object.h \
+	$(SRC_FOUNDATIONKIT)/ObjectWithEvents.h \
+	$(SRC_FOUNDATIONKIT)/Property.h \
+	$(SRC_FOUNDATIONKIT)/VCF.h \
+	$(SRC_FOUNDATIONKIT)/VCFMath.h \
+	$(SRC_FOUNDATIONKIT)/WarningsOffVc.h \
+	$(SRC_FOUNDATIONKIT)/Delegate.h \
+	$(SRC_FOUNDATIONKIT)/Event.h \
+	$(SRC_FOUNDATIONKIT)/EventHandler.h \
+	$(SRC_FOUNDATIONKIT)/LinuxFilePeer.h \
+	$(SRC_FOUNDATIONKIT)/LinuxFileStream.h \
+	$(SRC_FOUNDATIONKIT)/LinuxLibraryPeer.h \
+	$(SRC_FOUNDATIONKIT)/LinuxMutex.h \
+	$(SRC_FOUNDATIONKIT)/LinuxPeer.h \
+	$(SRC_FOUNDATIONKIT)/LinuxProcessIORedirector.h \
+	$(SRC_FOUNDATIONKIT)/LinuxProcessPeer.h \
+	$(SRC_FOUNDATIONKIT)/LinuxRegistry.h \
+	$(SRC_FOUNDATIONKIT)/LinuxSemaphorePeer.h \
+	$(SRC_FOUNDATIONKIT)/LinuxSystemPeer.h \
+	$(SRC_FOUNDATIONKIT)/LinuxSystemToolkit.h \
+	$(SRC_FOUNDATIONKIT)/LinuxThread.h
 
 
 
@@ -273,63 +256,63 @@ FOUNDATIONKIT_HDRS=$(INC)/utils/VCFChar.h \
 #FoundationKit headers
 ###########################################################
 
-GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
-	$(INC)/graphics/AbstractImage.h \
-	$(INC)/graphics/BasicFill.h \
-	$(INC)/graphics/BasicRectangle.h \
-	$(INC)/graphics/BasicStroke.h \
-	$(INC)/graphics/Border.h \
-	$(INC)/graphics/Circle.h \
-	$(INC)/graphics/ClippingRegion.h \
-	$(INC)/graphics/Color.h \
-	$(INC)/graphics/ColorEtchedBorder.h \
-	$(INC)/graphics/Composition.h \
-	$(INC)/graphics/BezierCurve.h \
-	$(INC)/graphics/Ellipse.h \
-	$(INC)/graphics/Fill.h \
-	$(INC)/graphics/Filter.h \
-	$(INC)/graphics/Font.h \
-	$(INC)/graphics/FontPeer.h \
-	$(INC)/graphics/Glyph.h \
-	$(INC)/graphics/GlyphCollection.h \
-	$(INC)/graphics/GraphicsContext.h \
-	$(INC)/graphics/GraphicsKitSelectLib.h \
-	$(INC)/graphics/Image.h \
-	$(INC)/graphics/ImageBits.h \
-	$(INC)/graphics/ImageLoader.h \
-	$(INC)/core/Point.h \
-	$(INC)/core/Rect.h \
-	$(INC)/core/Size.h \
-	$(INC)/graphics/MagicFMLibType.h \
-	$(INC)/graphics/Matrix2D.h \
-	$(INC)/graphics/MatrixFunction.h \
-	$(INC)/graphics/MgcBezierCurve2.h \
-	$(INC)/graphics/MgcCurve2.h \
-	$(INC)/graphics/MgcIntegrate.h \
-	$(INC)/graphics/MgcMath.h \
-	$(INC)/graphics/MgcRTLib.h \
-	$(INC)/graphics/MgcSingleCurve2.h \
-	$(INC)/graphics/MgcVector2.h \
-	$(INC)/graphics/MicroTiles.h \
-	$(INC)/graphics/OpenGLContext.h \
-	$(INC)/graphics/OpenGLControlContext.h \
-	$(INC)/graphics/Path.h \
-	$(INC)/graphics/Printable.h \
-	$(INC)/graphics/PrintContext.h \
-	$(INC)/graphics/RenderableArea.h \
-	$(INC)/graphics/Stroke.h \
-	$(INC)/graphics/VCFOpenGL.h \
-	$(INC)/graphics/Vector2D.h \
-	$(INC)/GraphicsKit.h \
-	$(INC)/GraphicsKitPrivate.h \
-	$(INC)/exceptions/NoGraphicsToolkitFoundException.h \
-	$(INC)/exceptions/ImageLoaderException.h \
-	$(INC)/exceptions/InvalidImage.h \
-	$(INC)/implementerKit/GTKContext.h \
-	$(INC)/implementerKit/GTKFont.h \
-	$(INC)/implementerKit/GTKGraphicsToolkit.h \
-	$(INC)/implementerKit/GTKImage.h \
-	$(INC)/utils/GraphicsToolKit.h
+GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(SRC_GRAPHICSKIT)/ImageEvent.h \
+	$(SRC_GRAPHICSKIT)/AbstractImage.h \
+	$(SRC_GRAPHICSKIT)/BasicFill.h \
+	$(SRC_GRAPHICSKIT)/BasicRectangle.h \
+	$(SRC_GRAPHICSKIT)/BasicStroke.h \
+	$(SRC_GRAPHICSKIT)/Border.h \
+	$(SRC_GRAPHICSKIT)/Circle.h \
+	$(SRC_GRAPHICSKIT)/ClippingRegion.h \
+	$(SRC_GRAPHICSKIT)/Color.h \
+	$(SRC_GRAPHICSKIT)/ColorEtchedBorder.h \
+	$(SRC_GRAPHICSKIT)/Composition.h \
+	$(SRC_GRAPHICSKIT)/BezierCurve.h \
+	$(SRC_GRAPHICSKIT)/Ellipse.h \
+	$(SRC_GRAPHICSKIT)/Fill.h \
+	$(SRC_GRAPHICSKIT)/Filter.h \
+	$(SRC_GRAPHICSKIT)/Font.h \
+	$(SRC_GRAPHICSKIT)/FontPeer.h \
+	$(SRC_GRAPHICSKIT)/Glyph.h \
+	$(SRC_GRAPHICSKIT)/GlyphCollection.h \
+	$(SRC_GRAPHICSKIT)/GraphicsContext.h \
+	$(SRC_GRAPHICSKIT)/GraphicsKitSelectLib.h \
+	$(SRC_GRAPHICSKIT)/Image.h \
+	$(SRC_GRAPHICSKIT)/ImageBits.h \
+	$(SRC_GRAPHICSKIT)/ImageLoader.h \
+	$(SRC_GRAPHICSKIT)/Point.h \
+	$(SRC_GRAPHICSKIT)/Rect.h \
+	$(SRC_GRAPHICSKIT)/Size.h \
+	$(SRC_GRAPHICSKIT)/MagicFMLibType.h \
+	$(SRC_GRAPHICSKIT)/Matrix2D.h \
+	$(SRC_GRAPHICSKIT)/MatrixFunction.h \
+	$(SRC_GRAPHICSKIT)/MgcBezierCurve2.h \
+	$(SRC_GRAPHICSKIT)/MgcCurve2.h \
+	$(SRC_GRAPHICSKIT)/MgcIntegrate.h \
+	$(SRC_GRAPHICSKIT)/MgcMath.h \
+	$(SRC_GRAPHICSKIT)/MgcRTLib.h \
+	$(SRC_GRAPHICSKIT)/MgcSingleCurve2.h \
+	$(SRC_GRAPHICSKIT)/MgcVector2.h \
+	$(SRC_GRAPHICSKIT)/MicroTiles.h \
+	$(SRC_GRAPHICSKIT)/OpenGLContext.h \
+	$(SRC_GRAPHICSKIT)/OpenGLControlContext.h \
+	$(SRC_GRAPHICSKIT)/Path.h \
+	$(SRC_GRAPHICSKIT)/Printable.h \
+	$(SRC_GRAPHICSKIT)/PrintContext.h \
+	$(SRC_GRAPHICSKIT)/RenderableArea.h \
+	$(SRC_GRAPHICSKIT)/Stroke.h \
+	$(SRC_GRAPHICSKIT)/VCFOpenGL.h \
+	$(SRC_GRAPHICSKIT)/Vector2D.h \
+	$(SRC_GRAPHICSKIT)/GraphicsKit.h \
+	$(SRC_GRAPHICSKIT)/GraphicsKitPrivate.h \
+	$(SRC_GRAPHICSKIT)/NoGraphicsToolkitFoundException.h \
+	$(SRC_GRAPHICSKIT)/ImageLoaderException.h \
+	$(SRC_GRAPHICSKIT)/InvalidImage.h \
+	$(SRC_GRAPHICSKIT)/GTKContext.h \
+	$(SRC_GRAPHICSKIT)/GTKFont.h \
+	$(SRC_GRAPHICSKIT)/GTKGraphicsToolkit.h \
+	$(SRC_GRAPHICSKIT)/GTKImage.h \
+	$(SRC_GRAPHICSKIT)/GraphicsToolKit.h
 
 
 
@@ -339,202 +322,202 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 #GraphicsKit headers (and by definition FoundationKit headers
 ###########################################################
 
-APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ApplicationKit.h \
-	$(INC)/ApplicationKitPrivate.h \
-	$(INC)/core/AbstractApplication.h \
-	$(INC)/core/AbstractCommand.h \
-	$(INC)/core/AbstractComponentEditor.h \
-	$(INC)/core/AbstractListModel.h \
-	$(INC)/core/AbstractPropertyEditor.h \
-	$(INC)/core/AbstractScrollable.h \
-	$(INC)/core/AbstractTableModel.h \
-	$(INC)/core/AbstractTextModel.h \
-	$(INC)/core/AbstractTreeModel.h \
-	$(INC)/core/AbstractView.h \
-	$(INC)/core/AcceleratorKey.h \
-	$(INC)/core/ActiveXControlHost.h \
-	$(INC)/core/Application.h \
-	$(INC)/core/ApplicationKitSelectLib.h \
-	$(INC)/core/BasicTableItemEditor.h \
-	$(INC)/core/Button.h \
-	$(INC)/core/CheckBoxControl.h \
-	$(INC)/core/Clipboard.h \
-	$(INC)/core/DataObject.h \
-	$(INC)/core/ColumnItem.h \
-	$(INC)/core/ColumnModel.h \
-	$(INC)/core/ComboBoxControl.h \
-	$(INC)/core/Command.h \
-	$(INC)/core/CommandButton.h \
-	$(INC)/core/CommandGroup.h \
-	$(INC)/core/CommonColor.h \
-	$(INC)/core/CommonDialog.h \
-	$(INC)/core/CommonFileBrowse.h \
-	$(INC)/core/CommonFileDialog.h \
-	$(INC)/core/CommonFileOpen.h \
-	$(INC)/core/CommonFileSave.h \
-	$(INC)/core/CommonFont.h \
-	$(INC)/core/CommonPrint.h \
-	$(INC)/core/Component.h \
-	$(INC)/core/ComponentEditor.h \
-	$(INC)/core/ComponentEditorManager.h \
-	$(INC)/core/ComponentInfo.h \
-	$(INC)/core/Action.h \
-	$(INC)/core/Container.h \
-	$(INC)/core/Containers.h \
-	$(INC)/core/Control.h \
-	$(INC)/core/ControlContainer.h \
-	$(INC)/core/Cursor.h \
-	$(INC)/core/CursorManager.h \
-	$(INC)/core/CustomControl.h \
-	$(INC)/core/DefaultColumnItem.h \
-	$(INC)/core/DefaultColumnModel.h \
-	$(INC)/core/DefaultListItem.h \
-	$(INC)/core/DefaultListModel.h \
-	$(INC)/core/DefaultMenuItem.h \
-	$(INC)/core/DefaultPropertyEditors.h \
-	$(INC)/core/DefaultTableCellItem.h \
-	$(INC)/core/DefaultTableModel.h \
-	$(INC)/core/DefaultTabModel.h \
-	$(INC)/core/DefaultTabPage.h \
-	$(INC)/core/DefaultTextModel.h \
-	$(INC)/core/DefaultTreeItem.h \
-	$(INC)/core/DefaultTreeModel.h \
-	$(INC)/core/Desktop.h \
-	$(INC)/core/Dialog.h \
-	$(INC)/core/Frame.h \
-	$(INC)/core/HeaderControl.h \
-	$(INC)/core/HTMLBrowserControl.h \
-	$(INC)/core/ImageControl.h \
-	$(INC)/core/Item.h \
-	$(INC)/core/Label.h \
-	$(INC)/core/LibraryApplication.h \
-	$(INC)/core/ListBoxControl.h \
-	$(INC)/core/ListItem.h \
-	$(INC)/core/ListModel.h \
-	$(INC)/core/ListViewControl.h \
-	$(INC)/core/Menu.h \
-	$(INC)/core/MenuBar.h \
-	$(INC)/core/MenuItem.h \
-	$(INC)/core/MenuItemShortcut.h \
-	$(INC)/core/MessageDialog.h \
-	$(INC)/core/Model.h \
-	$(INC)/core/MultilineTextControl.h \
-	$(INC)/core/OpenGLControl.h \
-	$(INC)/core/Panel.h \
-	$(INC)/core/PopupMenu.h \
-	$(INC)/core/PropertyEditor.h \
-	$(INC)/core/PropertyEditorManager.h \
-	$(INC)/core/PushButton.h \
-	$(INC)/core/RadioButtonControl.h \
-	$(INC)/core/Scrollable.h \
-	$(INC)/core/ScrollBarControl.h \
-	$(INC)/core/ScrollbarManager.h \
-	$(INC)/core/Selectable.h \
-	$(INC)/core/Splitter.h \
-	$(INC)/core/StatusBar.h \
-	$(INC)/core/TabbedPages.h \
-	$(INC)/core/TableCellItem.h \
-	$(INC)/core/TableControl.h \
-	$(INC)/core/TableItemEditor.h \
-	$(INC)/core/TableModel.h \
-	$(INC)/core/TabModel.h \
-	$(INC)/core/TabPage.h \
-	$(INC)/core/TextControl.h \
-	$(INC)/core/TextModel.h \
-	$(INC)/core/TimerComponent.h \
-	$(INC)/core/ToggledButton.h \
-	$(INC)/core/Toolbar.h \
-	$(INC)/core/TreeControl.h \
-	$(INC)/core/TreeItem.h \
-	$(INC)/core/TreeListControl.h \
-	$(INC)/core/TreeModel.h \
-	$(INC)/core/UIApplication.h \
-	$(INC)/core/UndoRedoStack.h \
-	$(INC)/core/View.h \
-	$(INC)/core/Window.h \
-	$(INC)/core/Wizard.h \
-	$(INC)/dragdrop/DragSource.h \
-	$(INC)/dragdrop/DropTarget.h \
-	$(INC)/events/ButtonEvent.h \
-	$(INC)/events/ClipboardEvent.h \
-	$(INC)/events/ColumnItemEvent.h \
-	$(INC)/events/ColumnModelEvent.h \
-	$(INC)/events/ComponentEvent.h \
-	$(INC)/events/ControlEvent.h \
-	$(INC)/events/DragEvent.h \
-	$(INC)/events/DragScrollEvent.h \
-	$(INC)/events/DropEvent.h \
-	$(INC)/events/FocusEvent.h \
-	$(INC)/events/FrameEvent.h \
-	$(INC)/events/HelpEvent.h \
-	$(INC)/events/ImageListEvent.h \
-	$(INC)/events/ItemEditorEvent.h \
-	$(INC)/events/ItemEvent.h \
-	$(INC)/events/KeyboardEvent.h \
-	$(INC)/events/ListModelEvent.h \
-	$(INC)/events/MenuItemEvent.h \
-	$(INC)/events/ModelEvent.h \
-	$(INC)/events/MouseEvent.h \
-	$(INC)/events/ScrollEvent.h \
-	$(INC)/events/TableModelEvent.h \
-	$(INC)/events/TabModelEvent.h \
-	$(INC)/events/TextEvent.h \
-	$(INC)/events/ThreadEvent.h \
-	$(INC)/events/TimerEvent.h \
-	$(INC)/events/ToolTipEvent.h \
-	$(INC)/events/TreeModelEvent.h \
-	$(INC)/events/UndoRedoEvent.h \
-	$(INC)/events/ValidationEvent.h \
-	$(INC)/events/WhatsThisHelpEvent.h \
-	$(INC)/events/WindowEvent.h \
-	$(INC)/exceptions/ApplicationException.h \
-	$(INC)/exceptions/BadComponentStateException.h \
-	$(INC)/exceptions/BadImageBitsException.h \
-	$(INC)/exceptions/BadModelStateException.h \
-	$(INC)/exceptions/COMException.h \
-	$(INC)/exceptions/DataTypeNotSupportedException.h \
-	$(INC)/exceptions/InvalidStateException.h \
-	$(INC)/exceptions/NoToolKitFoundException.h \
-	$(INC)/exceptions/ResourceException.h \
-	$(INC)/implementer/AppKitPeerConfig.h \
-	$(INC)/implementer/ApplicationPeer.h \
-	$(INC)/implementer/ButtonPeer.h \
-	$(INC)/implementer/ClipboardPeer.h \
-	$(INC)/implementer/CommonDialogPeer.h \
-	$(INC)/implementer/ContextPeer.h \
-	$(INC)/implementer/ControlPeer.h \
-	$(INC)/implementer/CursorPeer.h \
-	$(INC)/implementer/DataObjectPeer.h \
-	$(INC)/implementer/DesktopPeer.h \
-	$(INC)/implementer/DialogPeer.h \
-	$(INC)/implementer/DragDropPeer.h \
-	$(INC)/implementer/DropTargetPeer.h \
-	$(INC)/implementer/HTMLBrowserPeer.h \
-	$(INC)/implementer/ListviewPeer.h \
-	$(INC)/implementer/MenuBarPeer.h \
-	$(INC)/implementer/MenuItemPeer.h \
-	$(INC)/implementer/OpenGLPeer.h \
-	$(INC)/implementer/PopupMenuPeer.h \
-	$(INC)/implementer/PrintContextPeer.h \
-	$(INC)/implementer/PrintPeer.h \
-	$(INC)/implementer/ResourceStreamPeer.h \
-	$(INC)/implementer/ScrollbarPeer.h \
-	$(INC)/implementer/ScrollPeer.h \
-	$(INC)/implementer/TextPeer.h \
-	$(INC)/implementer/TreePeer.h \
-	$(INC)/implementer/WindowPeer.h \
-	$(INC)/implementerKit/HTMLBrowserPeer.h \
-	$(INC)/io/ComponentInputStream.h \
-	$(INC)/io/ComponentOutputStream.h \
-	$(INC)/io/ResourceStream.h \
-	$(INC)/io/ResourceStreamPeer.h \
-	$(INC)/io/VFFInputStream.h \
-	$(INC)/io/VFFOutputStream.h \
-	$(INC)/ModelViewKit.h \
-	$(INC)/utils/Resource.h \
-	$(INC)/utils/ResourceBundle.h \
-	$(INC)/utils/UIMetricsManager.h \
-	$(INC)/utils/UIToolkit.h
+APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(SRC_APPKIT)/ApplicationKit.h \
+	$(SRC_APPKIT)/ApplicationKitPrivate.h \
+	$(SRC_APPKIT)/AbstractApplication.h \
+	$(SRC_APPKIT)/AbstractCommand.h \
+	$(SRC_APPKIT)/AbstractComponentEditor.h \
+	$(SRC_APPKIT)/AbstractListModel.h \
+	$(SRC_APPKIT)/AbstractPropertyEditor.h \
+	$(SRC_APPKIT)/AbstractScrollable.h \
+	$(SRC_APPKIT)/AbstractTableModel.h \
+	$(SRC_APPKIT)/AbstractTextModel.h \
+	$(SRC_APPKIT)/AbstractTreeModel.h \
+	$(SRC_APPKIT)/AbstractView.h \
+	$(SRC_APPKIT)/AcceleratorKey.h \
+	$(SRC_APPKIT)/ActiveXControlHost.h \
+	$(SRC_APPKIT)/Application.h \
+	$(SRC_APPKIT)/ApplicationKitSelectLib.h \
+	$(SRC_APPKIT)/BasicTableItemEditor.h \
+	$(SRC_APPKIT)/Button.h \
+	$(SRC_APPKIT)/CheckBoxControl.h \
+	$(SRC_APPKIT)/Clipboard.h \
+	$(SRC_APPKIT)/DataObject.h \
+	$(SRC_APPKIT)/ColumnItem.h \
+	$(SRC_APPKIT)/ColumnModel.h \
+	$(SRC_APPKIT)/ComboBoxControl.h \
+	$(SRC_APPKIT)/Command.h \
+	$(SRC_APPKIT)/CommandButton.h \
+	$(SRC_APPKIT)/CommandGroup.h \
+	$(SRC_APPKIT)/CommonColor.h \
+	$(SRC_APPKIT)/CommonDialog.h \
+	$(SRC_APPKIT)/CommonFileBrowse.h \
+	$(SRC_APPKIT)/CommonFileDialog.h \
+	$(SRC_APPKIT)/CommonFileOpen.h \
+	$(SRC_APPKIT)/CommonFileSave.h \
+	$(SRC_APPKIT)/CommonFont.h \
+	$(SRC_APPKIT)/CommonPrint.h \
+	$(SRC_APPKIT)/Component.h \
+	$(SRC_APPKIT)/ComponentEditor.h \
+	$(SRC_APPKIT)/ComponentEditorManager.h \
+	$(SRC_APPKIT)/ComponentInfo.h \
+	$(SRC_APPKIT)/Action.h \
+	$(SRC_APPKIT)/Container.h \
+	$(SRC_APPKIT)/Containers.h \
+	$(SRC_APPKIT)/Control.h \
+	$(SRC_APPKIT)/ControlContainer.h \
+	$(SRC_APPKIT)/Cursor.h \
+	$(SRC_APPKIT)/CursorManager.h \
+	$(SRC_APPKIT)/CustomControl.h \
+	$(SRC_APPKIT)/DefaultColumnItem.h \
+	$(SRC_APPKIT)/DefaultColumnModel.h \
+	$(SRC_APPKIT)/DefaultListItem.h \
+	$(SRC_APPKIT)/DefaultListModel.h \
+	$(SRC_APPKIT)/DefaultMenuItem.h \
+	$(SRC_APPKIT)/DefaultPropertyEditors.h \
+	$(SRC_APPKIT)/DefaultTableCellItem.h \
+	$(SRC_APPKIT)/DefaultTableModel.h \
+	$(SRC_APPKIT)/DefaultTabModel.h \
+	$(SRC_APPKIT)/DefaultTabPage.h \
+	$(SRC_APPKIT)/DefaultTextModel.h \
+	$(SRC_APPKIT)/DefaultTreeItem.h \
+	$(SRC_APPKIT)/DefaultTreeModel.h \
+	$(SRC_APPKIT)/Desktop.h \
+	$(SRC_APPKIT)/Dialog.h \
+	$(SRC_APPKIT)/Frame.h \
+	$(SRC_APPKIT)/HeaderControl.h \
+	$(SRC_APPKIT)/HTMLBrowserControl.h \
+	$(SRC_APPKIT)/ImageControl.h \
+	$(SRC_APPKIT)/Item.h \
+	$(SRC_APPKIT)/Label.h \
+	$(SRC_APPKIT)/LibraryApplication.h \
+	$(SRC_APPKIT)/ListBoxControl.h \
+	$(SRC_APPKIT)/ListItem.h \
+	$(SRC_APPKIT)/ListModel.h \
+	$(SRC_APPKIT)/ListViewControl.h \
+	$(SRC_APPKIT)/Menu.h \
+	$(SRC_APPKIT)/MenuBar.h \
+	$(SRC_APPKIT)/MenuItem.h \
+	$(SRC_APPKIT)/MenuItemShortcut.h \
+	$(SRC_APPKIT)/MessageDialog.h \
+	$(SRC_APPKIT)/Model.h \
+	$(SRC_APPKIT)/MultilineTextControl.h \
+	$(SRC_APPKIT)/OpenGLControl.h \
+	$(SRC_APPKIT)/Panel.h \
+	$(SRC_APPKIT)/PopupMenu.h \
+	$(SRC_APPKIT)/PropertyEditor.h \
+	$(SRC_APPKIT)/PropertyEditorManager.h \
+	$(SRC_APPKIT)/PushButton.h \
+	$(SRC_APPKIT)/RadioButtonControl.h \
+	$(SRC_APPKIT)/Scrollable.h \
+	$(SRC_APPKIT)/ScrollBarControl.h \
+	$(SRC_APPKIT)/ScrollbarManager.h \
+	$(SRC_APPKIT)/Selectable.h \
+	$(SRC_APPKIT)/Splitter.h \
+	$(SRC_APPKIT)/StatusBar.h \
+	$(SRC_APPKIT)/TabbedPages.h \
+	$(SRC_APPKIT)/TableCellItem.h \
+	$(SRC_APPKIT)/TableControl.h \
+	$(SRC_APPKIT)/TableItemEditor.h \
+	$(SRC_APPKIT)/TableModel.h \
+	$(SRC_APPKIT)/TabModel.h \
+	$(SRC_APPKIT)/TabPage.h \
+	$(SRC_APPKIT)/TextControl.h \
+	$(SRC_APPKIT)/TextModel.h \
+	$(SRC_APPKIT)/TimerComponent.h \
+	$(SRC_APPKIT)/ToggledButton.h \
+	$(SRC_APPKIT)/Toolbar.h \
+	$(SRC_APPKIT)/TreeControl.h \
+	$(SRC_APPKIT)/TreeItem.h \
+	$(SRC_APPKIT)/TreeListControl.h \
+	$(SRC_APPKIT)/TreeModel.h \
+	$(SRC_APPKIT)/UIApplication.h \
+	$(SRC_APPKIT)/UndoRedoStack.h \
+	$(SRC_APPKIT)/View.h \
+	$(SRC_APPKIT)/Window.h \
+	$(SRC_APPKIT)/Wizard.h \
+	$(SRC_APPKIT)/DragSource.h \
+	$(SRC_APPKIT)/DropTarget.h \
+	$(SRC_APPKIT)/ButtonEvent.h \
+	$(SRC_APPKIT)/ClipboardEvent.h \
+	$(SRC_APPKIT)/ColumnItemEvent.h \
+	$(SRC_APPKIT)/ColumnModelEvent.h \
+	$(SRC_APPKIT)/ComponentEvent.h \
+	$(SRC_APPKIT)/ControlEvent.h \
+	$(SRC_APPKIT)/DragEvent.h \
+	$(SRC_APPKIT)/DragScrollEvent.h \
+	$(SRC_APPKIT)/DropEvent.h \
+	$(SRC_APPKIT)/FocusEvent.h \
+	$(SRC_APPKIT)/FrameEvent.h \
+	$(SRC_APPKIT)/HelpEvent.h \
+	$(SRC_APPKIT)/ImageListEvent.h \
+	$(SRC_APPKIT)/ItemEditorEvent.h \
+	$(SRC_APPKIT)/ItemEvent.h \
+	$(SRC_APPKIT)/KeyboardEvent.h \
+	$(SRC_APPKIT)/ListModelEvent.h \
+	$(SRC_APPKIT)/MenuItemEvent.h \
+	$(SRC_APPKIT)/ModelEvent.h \
+	$(SRC_APPKIT)/MouseEvent.h \
+	$(SRC_APPKIT)/ScrollEvent.h \
+	$(SRC_APPKIT)/TableModelEvent.h \
+	$(SRC_APPKIT)/TabModelEvent.h \
+	$(SRC_APPKIT)/TextEvent.h \
+	$(SRC_APPKIT)/ThreadEvent.h \
+	$(SRC_APPKIT)/TimerEvent.h \
+	$(SRC_APPKIT)/ToolTipEvent.h \
+	$(SRC_APPKIT)/TreeModelEvent.h \
+	$(SRC_APPKIT)/UndoRedoEvent.h \
+	$(SRC_APPKIT)/ValidationEvent.h \
+	$(SRC_APPKIT)/WhatsThisHelpEvent.h \
+	$(SRC_APPKIT)/WindowEvent.h \
+	$(SRC_APPKIT)/ApplicationException.h \
+	$(SRC_APPKIT)/BadComponentStateException.h \
+	$(SRC_APPKIT)/BadImageBitsException.h \
+	$(SRC_APPKIT)/BadModelStateException.h \
+	$(SRC_APPKIT)/COMException.h \
+	$(SRC_APPKIT)/DataTypeNotSupportedException.h \
+	$(SRC_APPKIT)/InvalidStateException.h \
+	$(SRC_APPKIT)/NoToolKitFoundException.h \
+	$(SRC_APPKIT)/ResourceException.h \
+	$(SRC_APPKIT)/AppKitPeerConfig.h \
+	$(SRC_APPKIT)/ApplicationPeer.h \
+	$(SRC_APPKIT)/ButtonPeer.h \
+	$(SRC_APPKIT)/ClipboardPeer.h \
+	$(SRC_APPKIT)/CommonDialogPeer.h \
+	$(SRC_APPKIT)/ContextPeer.h \
+	$(SRC_APPKIT)/ControlPeer.h \
+	$(SRC_APPKIT)/CursorPeer.h \
+	$(SRC_APPKIT)/DataObjectPeer.h \
+	$(SRC_APPKIT)/DesktopPeer.h \
+	$(SRC_APPKIT)/DialogPeer.h \
+	$(SRC_APPKIT)/DragDropPeer.h \
+	$(SRC_APPKIT)/DropTargetPeer.h \
+	$(SRC_APPKIT)/HTMLBrowserPeer.h \
+	$(SRC_APPKIT)/ListviewPeer.h \
+	$(SRC_APPKIT)/MenuBarPeer.h \
+	$(SRC_APPKIT)/MenuItemPeer.h \
+	$(SRC_APPKIT)/OpenGLPeer.h \
+	$(SRC_APPKIT)/PopupMenuPeer.h \
+	$(SRC_APPKIT)/PrintContextPeer.h \
+	$(SRC_APPKIT)/PrintPeer.h \
+	$(SRC_APPKIT)/ResourceStreamPeer.h \
+	$(SRC_APPKIT)/ScrollbarPeer.h \
+	$(SRC_APPKIT)/ScrollPeer.h \
+	$(SRC_APPKIT)/TextPeer.h \
+	$(SRC_APPKIT)/TreePeer.h \
+	$(SRC_APPKIT)/WindowPeer.h \
+	$(SRC_APPKIT)/HTMLBrowserPeer.h \
+	$(SRC_APPKIT)/ComponentInputStream.h \
+	$(SRC_APPKIT)/ComponentOutputStream.h \
+	$(SRC_APPKIT)/ResourceStream.h \
+	$(SRC_APPKIT)/ResourceStreamPeer.h \
+	$(SRC_APPKIT)/VFFInputStream.h \
+	$(SRC_APPKIT)/VFFOutputStream.h \
+	$(SRC_APPKIT)/ModelViewKit.h \
+	$(SRC_APPKIT)/Resource.h \
+	$(SRC_APPKIT)/ResourceBundle.h \
+	$(SRC_APPKIT)/UIMetricsManager.h \
+	$(SRC_APPKIT)/UIToolkit.h
 
 
 
@@ -544,19 +527,19 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ApplicationKit.h \
 #FoundationKit headers
 ###########################################################
 
-NETWORKKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/net/DatagramSocket.h \
-	$(INC)/net/NetToolkit.h \
-	$(INC)/net/NetworkKitSelectLib.h \
-	$(INC)/net/ServerSocketEvent.h \
-	$(INC)/net/Socket.h \
-	$(INC)/net/SocketEvent.h \
-	$(INC)/net/SocketException.h \
-	$(INC)/net/SocketListener.h \
-	$(INC)/net/SocketListeningLoop.h \
-	$(INC)/net/SocketPeer.h \
-	$(INC)/net/URL.h \
-	$(INC)/NetworkKit.h \
-	$(INC)/NetworkKitPrivate.h
+NETWORKKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(SRC_NETWORKKIT)/DatagramSocket.h \
+	$(SRC_NETWORKKIT)/NetToolkit.h \
+	$(SRC_NETWORKKIT)/NetworkKitSelectLib.h \
+	$(SRC_NETWORKKIT)/ServerSocketEvent.h \
+	$(SRC_NETWORKKIT)/Socket.h \
+	$(SRC_NETWORKKIT)/SocketEvent.h \
+	$(SRC_NETWORKKIT)/SocketException.h \
+	$(SRC_NETWORKKIT)/SocketListener.h \
+	$(SRC_NETWORKKIT)/SocketListeningLoop.h \
+	$(SRC_NETWORKKIT)/SocketPeer.h \
+	$(SRC_NETWORKKIT)/URL.h \
+	$(SRC_NETWORKKIT)/NetworkKit.h \
+	$(SRC_NETWORKKIT)/NetworkKitPrivate.h
 
 
 
@@ -565,18 +548,18 @@ NETWORKKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/net/DatagramSocket.h \
 #NetworkKit headers and FoundationKit headers
 ###########################################################
 
-REMOTEOBJECTKIT_HDRS=$(NETWORKKIT_HDRS) $(INC)/remote/AbstractDistributedApplication.h \
-	$(INC)/remote/ClassRegistryEntry.h \
-	$(INC)/remote/ClassServerInstance.h \
-	$(INC)/remote/DistributedClassRegistry.h \
-	$(INC)/remote/DistributedException.h \
-	$(INC)/remote/InstanceID.h \
-	$(INC)/remote/Proxy.h \
-	$(INC)/remote/RemoteCommon.h \
-	$(INC)/remote/RemoteConfig.h \
-	$(INC)/remote/RemoteObjectKit.h \
-	$(INC)/remote/RemoteObjectKitSelectLib.h \
-	$(INC)/RemoteObjectKit.h
+REMOTEOBJECTKIT_HDRS=$(NETWORKKIT_HDRS) $(SRC_REMOTEOBJKIT)/AbstractDistributedApplication.h \
+	$(SRC_REMOTEOBJKIT)/ClassRegistryEntry.h \
+	$(SRC_REMOTEOBJKIT)/ClassServerInstance.h \
+	$(SRC_REMOTEOBJKIT)/DistributedClassRegistry.h \
+	$(SRC_REMOTEOBJKIT)/DistributedException.h \
+	$(SRC_REMOTEOBJKIT)/InstanceID.h \
+	$(SRC_REMOTEOBJKIT)/Proxy.h \
+	$(SRC_REMOTEOBJKIT)/RemoteCommon.h \
+	$(SRC_REMOTEOBJKIT)/RemoteConfig.h \
+	$(SRC_REMOTEOBJKIT)/RemoteObjectKit.h \
+	$(SRC_REMOTEOBJKIT)/RemoteObjectKitSelectLib.h \
+	$(SRC_REMOTEOBJKIT)/RemoteObjectKit.h
 
 
 
