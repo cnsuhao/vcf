@@ -46,6 +46,7 @@ PosixThread.cpp \
 ProcessWithRedirectedIO.cpp \
 PropertyChangeEvent.cpp \
 Registry.cpp \
+ResourceBundle.cpp \
 Semaphore.cpp \
 Stream.cpp \
 StringUtils.cpp \
