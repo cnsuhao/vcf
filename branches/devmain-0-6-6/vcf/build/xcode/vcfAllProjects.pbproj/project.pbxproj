@@ -3920,12 +3920,16 @@
 		};
 		5E2CDE72064868CD00A8020D = {
 			children = (
+				5E5380E5073408ED00133CE2,
+				5E5380E2073408BA00133CE2,
 				5EC5A05B064DD85D00345023,
 				5EBD42770721E92300CF5F4C,
 				5EBD42780721E92300CF5F4C,
 				5E9C1AC906B5F0D7006671C6,
 				5E9C1ACA06B5F0D7006671C6,
 				5E2CDF940648693C00A8020D,
+				5E533EC60731EAA400CCD2C0,
+				5E533EC70731EAA400CCD2C0,
 				5E2CDF950648693C00A8020D,
 				5E2CDF960648693C00A8020D,
 				5E2CDF970648693C00A8020D,
@@ -4169,6 +4173,7 @@
 				5EC5A032064DD84E00345023,
 				5EC5A034064DD84E00345023,
 				5E9C1B2A06B5F0D8006671C6,
+				5E5380E7073408ED00133CE2,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4320,6 +4325,7 @@
 				5EC5A033064DD84E00345023,
 				5E9C1B2906B5F0D8006671C6,
 				5E888AD40710EC28006110CF,
+				5E5380E4073408BA00133CE2,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9565,6 +9571,78 @@
 			settings = {
 			};
 		};
+		5E533EC60731EAA400CCD2C0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXColorDialog.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXColorDialog.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E533EC70731EAA400CCD2C0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXColorDialog.h;
+			path = ../../src/vcf/ApplicationKit/OSXColorDialog.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E533EC80731EAA400CCD2C0 = {
+			fileRef = 5E533EC60731EAA400CCD2C0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E533EC90731EAA400CCD2C0 = {
+			fileRef = 5E533EC70731EAA400CCD2C0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5380E2073408BA00133CE2 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXFolderBrowseDialog.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXFolderBrowseDialog.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E5380E3073408BA00133CE2 = {
+			fileRef = 5E5380E2073408BA00133CE2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5380E4073408BA00133CE2 = {
+			fileRef = 5E5380E2073408BA00133CE2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5380E5073408ED00133CE2 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXFolderBrowseDialog.h;
+			path = ../../src/vcf/ApplicationKit/OSXFolderBrowseDialog.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E5380E6073408ED00133CE2 = {
+			fileRef = 5E5380E5073408ED00133CE2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5380E7073408ED00133CE2 = {
+			fileRef = 5E5380E5073408ED00133CE2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E60084F071F430C0036F6CF = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -12313,6 +12391,8 @@
 				5EB255340673DBBE00DA4A17,
 				5E9C1AFA06B5F0D8006671C6,
 				5EBD427A0721E92300CF5F4C,
+				5E533EC90731EAA400CCD2C0,
+				5E5380E6073408ED00133CE2,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12465,6 +12545,8 @@
 				5E888AD30710EC28006110CF,
 				5E600850071F430C0036F6CF,
 				5EBD42790721E92300CF5F4C,
+				5E533EC80731EAA400CCD2C0,
+				5E5380E3073408BA00133CE2,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
