@@ -376,6 +376,9 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 				}
 			}
+			else {
+				result = true;
+			}
 		}
 		break;
 
@@ -630,6 +633,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/15 17:48:54  ddiego
+*fixed win32 registry and a bug in the handling of the WM_CLOSE message that was introduced by the change in event handler signature last weekend.
+*
 *Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
 *added a separate paintBorder call to Control class
 *
