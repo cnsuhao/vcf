@@ -157,6 +157,8 @@ protected:
 	Rect bounds_;
     EventHandlerRef handlerRef_;
     
+    bool internalClose_;
+    
     static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData); 
     void updateWindow();
 };
@@ -169,6 +171,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/07 23:22:45  ddiego
+*more osx changes
+*
 *Revision 1.1.2.4  2004/05/06 02:56:35  ddiego
 *checking in OSX updates
 *
