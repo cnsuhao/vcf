@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="."
-			IntermediateDirectory=".\Release"
+			OutputDirectory=".\"
+			IntermediateDirectory=".\Release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -28,10 +28,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release/TextEdit_vc70.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile=".\Release\TextEdit.pch"
+				AssemblerListingLocation=".\Release\"
+				ObjectFile=".\Release\"
+				ProgramDataBaseFileName=".\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -41,11 +41,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="TextEdit.exe"
+				OutputFile=".\TextEdit.exe\"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile="./TextEdit.pdb"
+				ProgramDatabaseFile=".\TextEdit.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -54,7 +54,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="./TextEdit_vc70.tlb"/>
+				TypeLibraryName=".\TextEdit.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="."
-			IntermediateDirectory=".\Debug"
+			OutputDirectory=".\"
+			IntermediateDirectory=".\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -86,10 +86,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug/TextEdit_vc70.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				PrecompiledHeaderFile=".\Debug\TextEdit.pch"
+				AssemblerListingLocation=".\Debug\"
+				ObjectFile=".\Debug\"
+				ProgramDataBaseFileName=".\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -100,12 +100,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="TextEdit.exe"
+				OutputFile=".\TextEdit.exe\"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="./TextEdit.pdb"
+				ProgramDatabaseFile=".\TextEdit.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -114,7 +114,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="./TextEdit_vc70.tlb"/>
+				TypeLibraryName=".\TextEdit.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -136,45 +136,45 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\TextEdit.cpp">
+				RelativePath="TextEdit.cpp">
 			</File>
 			<File
-				RelativePath=".\TextEditDocument.cpp">
+				RelativePath="TextEditDocument.cpp">
 			</File>
 			<File
-				RelativePath=".\TextEditWindow.cpp">
+				RelativePath="TextEditWindow.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath=".\TextEdit.h">
+				RelativePath="TextEdit.h">
 			</File>
 			<File
-				RelativePath=".\TextEditDocument.h">
+				RelativePath="TextEditDocument.h">
 			</File>
 			<File
-				RelativePath=".\TextEditWindow.h">
+				RelativePath="TextEditWindow.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Dialogs"
 			Filter="">
 			<File
-				RelativePath=".\DataExchange.h">
+				RelativePath="DataExchange.h">
 			</File>
 			<File
-				RelativePath=".\FindDialog.cpp">
+				RelativePath="FindDialog.cpp">
 			</File>
 			<File
-				RelativePath=".\FindDialog.h">
+				RelativePath="FindDialog.h">
 			</File>
 			<File
-				RelativePath=".\ReplaceDialog.cpp">
+				RelativePath="ReplaceDialog.cpp">
 			</File>
 			<File
-				RelativePath=".\ReplaceDialog.h">
+				RelativePath="ReplaceDialog.h">
 			</File>
 		</Filter>
 		<Filter
@@ -182,7 +182,7 @@
 			Filter="">
 		</Filter>
 		<File
-			RelativePath=".\TextEdit.xml">
+			RelativePath="TextEdit.xml">
 		</File>
 	</Files>
 	<Globals>
