@@ -225,7 +225,10 @@ void OSXContext::setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& own
 
 void OSXContext::init()
 {
-    if ( NULL != inMemoryImage_ ) {
+    origin_.x_ = 0;
+	origin_.y_ = 0;
+	
+	if ( NULL != inMemoryImage_ ) {
         //allocate a new gworld
         GWorldPtr newGworld = 0;
 
@@ -542,6 +545,7 @@ void OSXContext::polyline(const std::vector<Point>& pts )
 		cgPts[i].x = pt.x_ + origin_.x_;
 		cgPts[i].y = pt.y_ + origin_.y_;
 		it ++;
+		i++;
 	}
 
 	CGContextAddLines( contextID_, cgPts, pts.size() );
@@ -2103,6 +2107,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 15:24:00  ddiego
+*updated os x code in graphics stuff.
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
