@@ -2106,3 +2106,6 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 	}
 
 }
+
+
+
