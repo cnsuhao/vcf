@@ -49,7 +49,7 @@ public:
 
 
 	//related to bordersTabPage
-public:
+public: 
 	void makeBordersPage();
 };
 
@@ -60,8 +60,8 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.3  2004/09/19 19:54:44  marcelloptr
-*scrollbars transitory changes
+*Revision 1.1.2.4  2004/09/19 20:10:31  marcelloptr
+*minor changes
 *
 *Revision 1.1.2.2  2004/08/30 03:50:47  dougtinkham
 *added copyright
