@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.10.2.1  2004/11/17 05:25:05  ddiego
+#updated the docbook to pull in the new examples. now all we have to do is actually put some content in there...
+#
 #Revision 1.10  2004/08/08 22:09:31  ddiego
 #final checkin before the 0-6-5 release
 #
@@ -100,7 +103,7 @@
 
 
 #This is the version number for the core VCF - make sure to modify this for new releases
-VERSION = 0.6.5
+VERSION = 0.6.6
 
 
 #version number for the XMake program
@@ -253,7 +256,7 @@ coredocs_online :  $(VCF_DOCS) test_tools
 	mv vcf_book.xml.bak vcf_book.xml
 
 
-coredocs_hh : vcf-docbook.hhp coredocs
+coredocs_hh : coredocs vcf-docbook.hhp 
 	-$(HTMLHELP_COMPILER) vcf-docbook.hhp
 	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
 	mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME)
