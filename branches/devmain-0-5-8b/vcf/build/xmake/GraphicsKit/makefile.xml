@@ -122,6 +122,8 @@
 			<source name="$(SRC)/Graphics/MgcCurve2.cpp" partOfConfig="GCC Debug"/>
 			<source name="$(SRC)/Graphics/MgcVector2.cpp" partOfConfig="GCC Debug"/>
 			<source name="$(SRC)/Graphics/MgcIntegrate.cpp" partOfConfig="GCC Debug"/>
+			<source name="$(SRC)/Graphics/MgcSingleCurve2.cpp" partOfConfig="GCC Debug"/>
+			<source name="$(SRC)/Graphics/MgcMath.cpp" partOfConfig="GCC Debug"/>
 		</sources>
 	</project>
 </make>
