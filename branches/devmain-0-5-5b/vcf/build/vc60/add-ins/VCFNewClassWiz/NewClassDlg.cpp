@@ -295,7 +295,7 @@ void NewClassDlg::OnPropspopupEdit()
 			PropInfo* info = (PropInfo*)m_propList.GetItemData( index );
 			info->Name = name;
 			info->Type = type;
-			info->readOnly = (bool)dlg.m_readOnlyProp;
+			info->readOnly = dlg.m_readOnlyProp != 0;
 			
 			m_propList.SetItemText( index, 0, name );
 			
@@ -331,7 +331,7 @@ void NewClassDlg::OnPropspopupAdd()
 		PropInfo* info = new PropInfo();
 		info->Name = name;
 		info->Type = type;
-		info->readOnly = (bool)dlg.m_readOnlyProp;
+		info->readOnly = dlg.m_readOnlyProp != 0;
 		
 		LVITEM item = {0};
 		item.mask = LVIF_TEXT | LVIF_PARAM;

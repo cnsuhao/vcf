@@ -38,18 +38,18 @@ RSC=rc.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "..\..\..\lib"
-# PROP Intermediate_Dir "ReleaseS\obj"
+# PROP Intermediate_Dir "vc6/ReleaseS\obj"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /WX /GR /GX /O2 /I "..\..\..\include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"FoundationKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /WX /GR /GX /O2 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Yu"FoundationKit.h" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"..\..\..\lib\FoundationKit_vc6_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\..\..\lib\FoundationKit_s.lib"
+# ADD LIB32 /nologo /out:"..\..\..\lib\FoundationKit_vc6_s.lib"
 
 !ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
 
@@ -61,18 +61,18 @@ LIB32=link.exe -lib
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "..\..\..\lib"
-# PROP Intermediate_Dir "DebugS\obj"
+# PROP Intermediate_Dir "vc6/DebugS\obj"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /WX /Gm /GR /GX /ZI /Od /I "..\..\..\include" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /Yu"FoundationKit.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /WX /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /FR /Yu"FoundationKit.h" /Fd"..\..\..\lib/FoundationKit_vc6_sd.pdb" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"..\..\..\lib\FoundationKit_vc6_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"..\..\..\lib\FoundationKit_sd.lib"
+# ADD LIB32 /nologo /out:"..\..\..\lib\FoundationKit_vc6_sd.lib"
 
 !ENDIF 
 
@@ -125,6 +125,10 @@ SOURCE=..\..\..\src\IO\File.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\FilePath.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\IO\FileStream.cpp
 # End Source File
 # Begin Source File
@@ -134,17 +138,7 @@ SOURCE=..\..\..\src\IO\FileUtils.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\FoundationKit.cpp
-
-!IF  "$(CFG)" == "FoundationKit - Win32 Release"
-
 # ADD CPP /Yc"FoundationKit.h"
-
-!ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
-
-# ADD CPP /Yc"FoundationKit.h"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
