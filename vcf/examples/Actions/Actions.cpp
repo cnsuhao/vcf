@@ -278,6 +278,17 @@ public:
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateViewHammerBar, "ActionsWindow::onUpdateViewHammerBar" );
 
 
+		Action* viewWindowsAction = new Action();
+		addComponent( viewWindowsAction );
+
+		viewWindowsAction->addTarget( viewWindows );
+		viewWindowsAction->addTarget( windowsTBitem );
+
+		viewWindowsAction->Performed +=
+			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onViewWindows, "ActionsWindow::onViewWindows" );
+
+		
+
 		canSave_ = false;
 		canPaste_ = false;
 	}
@@ -374,7 +385,7 @@ public:
 
 
 	void onViewWindows( Event* e ) {
-
+		Dialog::showMessage( "Show Window List!" );
 	}
 
 };
@@ -419,6 +430,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2004/06/26 15:20:49  ddiego
+*fixes example bug [ 978679 ] Missing functionality in Actions Example
+*
 *Revision 1.3.2.4  2004/04/29 03:40:47  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
