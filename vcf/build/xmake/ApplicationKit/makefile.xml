@@ -310,7 +310,7 @@
 			<source name="$(SRC)/ImplementerKit/Win32Window.cpp" partOfConfig="MinGW Debug|VC++ Debug"/>			
 			<source name="$(SRC)/../build/resources\win32\ApplicationKit.rc" outputAs="ApplicationKit.res" tool="rc" partOfConfig="MinGW Debug|VC++ Debug"/>
 			<!-- X11 -->
-			<source name="$(SRC)/ImplementerKit/X11UIToolKit.cpp" partOfConfig="GCC Debug|GCC Release"/>
+			<source name="$(SRC)/ImplementerKit/X11UIToolkit.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			
 		</sources>
 	</project>
