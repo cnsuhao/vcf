@@ -1338,6 +1338,7 @@ class DspApp:
         optparser.add_option(   "--reformatOptionPdb"                        , type = "dbgrlsN" , dest = "reformatOptionPdb"             , default=-1                    , help="reformat/delete the option ProgramDatabase /pdb"    )
         optparser.add_option(   "--reformatOptionBrowse"                     , type = "dbgrlsN" , dest = "reformatOptionBrowse"          , default=-1                    , help="reformat/delete the option Browse          /Br"     )
 
+        optparser.add_option(   "--copyToIcl7"                               , type = "int"     , dest = "copyToIcl7"                    , default=True                  , help="copy dsp files in corresponding directories for icl7 ( option VCF specific )" )
         optparser.add_option(   "--copyToVc70"                               , type = "int"     , dest = "copyToVc70"                    , default=True                  , help="copy dsp files in corresponding directories for vc70 ( option VCF specific )" )
         optparser.add_option(   "--copyToVc71"                               , type = "int"     , dest = "copyToVc71"                    , default=True                  , help="copy dsp files in corresponding directories for vc71 ( option VCF specific )" )
         optparser.add_option(   "--synchVcprojSln"                           , type = "int"     , dest = "synchVcprojSln"                , default=True                  , help="only with (copyToVc7x==1). instead then duplicating dsp files it synchronizes the corresponding vcproj unless it does not exists" )
@@ -1479,6 +1480,7 @@ class DspApp:
         print ' --reformatOptionPdb              = ' + str(self.options.reformatOptionPdb               )
         print ' --reformatOptionBrowse           = ' + str(self.options.reformatOptionBrowse            )
 
+        print ' --copyToIcl7                     = ' + str(self.options.copyToIcl7                      )
         print ' --copyToVc70                     = ' + str(self.options.copyToVc70                      )
         print ' --copyToVc71                     = ' + str(self.options.copyToVc71                      )
         print ' --synchVcprojSln                 = ' + str(self.options.synchVcprojSln                  )
@@ -1623,6 +1625,7 @@ class DspApp:
                     self.options.reformatOptionOptimize         = self.getOptionValue( [ 'reformatOptionOptimize' ]          , spec_sect, 'reformatOptionOptimize'         , "dbgrlsS"   )
                     self.options.reformatOptionPdb              = self.getOptionValue( [ 'reformatOptionPdb' ]               , spec_sect, 'reformatOptionPdb'              , "dbgrlsN"   )
                     self.options.reformatOptionBrowse           = self.getOptionValue( [ 'reformatOptionBrowse' ]            , spec_sect, 'reformatOptionBrowse'           , "dbgrlsN"   )
+                    self.options.copyToIcl7                     = self.getOptionValue( [ 'copyToIcl7' ]                      , spec_sect, 'copyToIcl7'                     , "bool"      )
                     self.options.copyToVc70                     = self.getOptionValue( [ 'copyToVc70' ]                      , spec_sect, 'copyToVc70'                     , "bool"      )
                     self.options.copyToVc71                     = self.getOptionValue( [ 'copyToVc71' ]                      , spec_sect, 'copyToVc71'                     , "bool"      )
                     self.options.synchVcprojSln                 = self.getOptionValue( [ 'synchVcprojSln' ]                  , spec_sect, 'synchVcprojSln'                 , "bool"      )
@@ -2031,13 +2034,42 @@ class GenericFile:
     makeDuplicateVcFilename = staticmethod(makeDuplicateVcFilename)
 
     def duplicateVcDsps( self ):
+        # this synchronizes / duplicates vcproj files
+        # so *don't* do it for icl7 until it will use vcproj files too
+
+        if ( app.options.copyToIcl7 ):
+            self.duplicateVcDspOnly( compilerIcl7 )
+
         if ( app.options.copyToVc70 ):
-            self.duplicateVcDsp( compilerVc70, compilerVc71 )
+            self.duplicateVcDspVcproj( compilerVc70, compilerVc71 )
 
         if ( app.options.copyToVc71 ):
-            self.duplicateVcDsp( compilerVc71, compilerVc70 )
+            self.duplicateVcDspVcproj( compilerVc71, compilerVc70 )
 
-    def duplicateVcDsp( self, newCompiler, compilerTryToConvertFrom ):
+    def duplicateVcDspOnly( self, newCompiler ):
+        if ( app.options.enableVcfSpecific ):
+            oldFilename = self.filename
+
+            dsp = DspFile( oldFilename )
+            newFilenameDsp = dsp.getDuplicateVcFilename( newCompiler, True )
+            oldBasenameDsp = os.path.basename( oldFilename )
+            newBasenameDsp = os.path.basename( newFilenameDsp )
+
+            dsp.readlines() # first reads the master
+            dsp.setFilename( newFilenameDsp )
+            dsp.replaceCompilerConfig( newCompiler, False )
+            msg = ' duplicated [ %s  -> %s ]' % ( oldBasenameDsp, newBasenameDsp )
+            dsp.duplicateVcSaveShowMsg( newFilenameDsp, msg )
+        return
+
+    def duplicateVcDspVcproj( self, newCompiler, compilerTryToConvertFrom ):
+        # if the vcproj version do not exist then they are not created
+        # and the converson proceed from the dsp file only ( synchVcproj = False )
+        # If this solution file does *not* exists, then
+        #   we first try to create it from the other solution file (
+        #     for the version compilerTryToConvertFrom), if it exists
+        #   then we synchronize its file list from the dsp file
+
         if ( app.options.enableVcfSpecific ):
             oldFilename = self.filename
 
@@ -2103,10 +2135,9 @@ class GenericFile:
                 #    print ' duplicating [ %s  -> %s ]' % ( oldBasenameDsp, newBasenameDsp )
                 dsp.readlines() # first reads the master
                 dsp.setFilename( newFilenameDsp )
-                dsp.replaceCompilerConfig( newCompiler, True )
+                dsp.replaceCompilerConfig( newCompiler, False )
                 msg = ' duplicated [ %s  -> %s ]' % ( oldBasenameDsp, newBasenameDsp )
                 dsp.duplicateVcSaveShowMsg( newFilenameDsp, msg )
-
         return
 
     def duplicateVcSaveShowMsg( self, newFilename, msg ):
@@ -2172,6 +2203,8 @@ class GenericFile:
 ################################################################################
 class DspGroupData:
     """Structure to hold all the entries for each group (solution explorer folder) of a dsp/vcproj file"""
+    # THIS structure might be eliminated because we 4444444444
+
     def __init__( self ):
         self.reset()
         return
@@ -3116,7 +3149,7 @@ class DspFile( GenericFile ):
 
         # this automatically 'converts' to the newCompiler if the entry exists
         self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, oldCompiler, newCompiler )
-        
+
         return
 
     def readSouceEntriesDsp( self ):
@@ -3233,8 +3266,6 @@ class DspFile( GenericFile ):
                 if ( m_dsp_source_basic ):
                     m_dsp_source = re_dsp_source.match( line )
                     if ( m_dsp_source ):
-                        #if ( self.n == 159 ):
-                        #    x = 3
                         source = m_dsp_source.group( 'sourcename' )
                         source = FileUtils.normPath( source, g_internal_unixStyle )
                         dspData.listSourceNames.append( source )
@@ -3823,10 +3854,10 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
-                #						Optimization="0"
-                #						AdditionalIncludeDirectories=""
-                #						PreprocessorDefinitions=""
-                #						BasicRuntimeChecks="3"
+                #                                               Optimization="0"
+                #                                               AdditionalIncludeDirectories=""
+                #                                               PreprocessorDefinitions=""
+                #                                               BasicRuntimeChecks="3"
                 m_vcp_entry = re_vcp_entry.match( line )
                 if ( m_vcp_entry ):
                     entryName = m_vcp_entry.group( 'entryName' )
@@ -4702,7 +4733,7 @@ class DspFile( GenericFile ):
 
     def modifyLines( self ):
         self.nCfg = -1
-        insideCfg = False
+        #insideCfg = False
         self.isDebugCfg  = []
         self.c = ''
         self.isStaticCfg = []
@@ -4713,96 +4744,120 @@ class DspFile( GenericFile ):
         self.configNameList = []
         self.configFullNameList = []
 
+        state = 0
         for n in range( len(self.lines) ):
             line = self.lines[n]
             self.n = n + 1
 
-            if ( line.find( '# Begin Target' ) != -1 ):
-                insideCfg = False
-                break
-
-            #!IF  "$(CFG)" == "ApplicationKit - Win32 Release"
-            if ( line[0] == '!' ):
-                m_configuration = re_configuration.search( line )
-                if ( m_configuration ):
-                    insideCfg = True
-                    self.nCfg += 1
-                    self.projectName = m_configuration.group('projectName')
-                    self.platform    = m_configuration.group('platform').rstrip() # we don't really need it
-                    self.configFullName  = m_configuration.group('configFullName')
-                    m_confignamesplit = re_confignamesplit.match( self.configFullName )
-                    if ( m_confignamesplit ):
-                        self.configName  = m_confignamesplit.group('configName')
-                        self.configNameList.append( self.configName )
-                    else:
-                        raise Exception( 'modifyLines: unable to split the configFullName (%s) in its parts )' % self.configFullName )
-                    #continue # why this was here ???
-
-                    self.checkSetDebug()
-                    configName  = self.configName.lower()
-                    self.isStaticCfg.append( configName.find( 'static' ) != -1 ) # unused
-
-                    #if ( self.MainFileTitleBase != '' ):
-                    #    fileTitle = self.MainFileTitleBase
-                    #else:
-                    #    fileTitle = projectName
-
-                    self.PropOutputDir  = self.PropOutputDirList [self.nCfg]
-                    self.PropIntermeDir = self.PropIntermeDirList[self.nCfg]
-                    self.OutputDirOut   = self.OutputDirOutList  [self.nCfg]
-                    #mainCurrOutpDir = self.MainCurrOutpDir
+            if ( state == 0 ):
+                if ( line.find( '# Begin Target' ) != -1 ):
+                    #insideCfg = False
+                    state = 1
+                    #break
                     continue
 
-            #* Modify 'PROP Intermediate_Dir "vc6/ReleaseDLL\obj"' and set intermediateDir
-            if ( 0 <= self.nCfg ):
-                changed = False
-                if ( re_PROP.search( line ) ):
-                    if ( app.options.reformatOutputIntermediateDirs == 1 ):
-                        m = re_output_or_intermed_dir.match( line )
-                        if ( m ):
-                            subdir = m.group('subdir')
-                            line = self.addReformatOutputIntermediateDirs( line, subdir )
+                #!IF  "$(CFG)" == "ApplicationKit - Win32 Release"
+                if ( line[0] == '!' ):
+                    m_configuration = re_configuration.search( line )
+                    if ( m_configuration ):
+                        insideCfg = True
+                        self.nCfg += 1
+                        self.projectName = m_configuration.group('projectName')
+                        self.platform    = m_configuration.group('platform').rstrip() # we don't really need it
+                        self.configFullName  = m_configuration.group('configFullName')
+                        m_confignamesplit = re_confignamesplit.match( self.configFullName )
+                        if ( m_confignamesplit ):
+                            self.configName  = m_confignamesplit.group('configName')
+                            self.configNameList.append( self.configName )
+                        else:
+                            raise Exception( 'modifyLines: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+                        #continue # why this was here ???
+
+                        self.checkSetDebug()
+                        configName  = self.configName.lower()
+                        self.isStaticCfg.append( configName.find( 'static' ) != -1 ) # unused
+
+                        #if ( self.MainFileTitleBase != '' ):
+                        #    fileTitle = self.MainFileTitleBase
+                        #else:
+                        #    fileTitle = projectName
+
+                        self.PropOutputDir  = self.PropOutputDirList [self.nCfg]
+                        self.PropIntermeDir = self.PropIntermeDirList[self.nCfg]
+                        self.OutputDirOut   = self.OutputDirOutList  [self.nCfg]
+                        #mainCurrOutpDir = self.MainCurrOutpDir
+                        continue
+
+                #* Modify 'PROP Intermediate_Dir "vc6/ReleaseDLL\obj"' and set intermediateDir
+                if ( 0 <= self.nCfg ):
+                    changed = False
+                    if ( re_PROP.search( line ) ):
+                        if ( app.options.reformatOutputIntermediateDirs == 1 ):
+                            m = re_output_or_intermed_dir.match( line )
+                            if ( m ):
+                                subdir = m.group('subdir')
+                                line = self.addReformatOutputIntermediateDirs( line, subdir )
+                                changed = True
+
+                    else:
+                        if ( re_ADD_CPP.match( line ) ):
+                            self.addKind = enum_ADD_CPP
+                            line = self.changeOptionsCpp( line )
                             changed = True
 
-                else:
-                    if ( re_ADD_CPP.match( line ) ):
-                        self.addKind = enum_ADD_CPP
-                        line = self.changeOptionsCpp( line )
-                        changed = True
+                        elif ( re_SUBTRACT_CPP.match( line ) ):
+                            self.addKind = enum_SUBTRACT_CPP
+                            line = self.changeOptionsCpp( line )
+                            changed = True
 
-                    elif ( re_SUBTRACT_CPP.match( line ) ):
-                        self.addKind = enum_SUBTRACT_CPP
-                        line = self.changeOptionsCpp( line )
-                        changed = True
+                        elif ( re_ADD_LINK32.match( line ) ):
+                            self.addKind = enum_ADD_LINK32
+                            line = self.changeOptionsLnk( line )
+                            changed = True
 
-                    elif ( re_ADD_LINK32.match( line ) ):
-                        self.addKind = enum_ADD_LINK32
-                        line = self.changeOptionsLnk( line )
-                        changed = True
+                        elif ( re_SUBTRACT_LINK32.match( line ) ):
+                            self.addKind = enum_SUBTRACT_LINK32
+                            line = self.changeOptionsLnk( line )
+                            changed = True
 
-                    elif ( re_SUBTRACT_LINK32.match( line ) ):
-                        self.addKind = enum_SUBTRACT_LINK32
-                        line = self.changeOptionsLnk( line )
-                        changed = True
+                        elif ( re_ADD_LIB32.match( line ) ):
+                            self.addKind = enum_ADD_LIB32
+                            line = self.changeOptionsLib( line )
+                            changed = True
 
-                    elif ( re_ADD_LIB32.match( line ) ):
-                        self.addKind = enum_ADD_LIB32
-                        line = self.changeOptionsLib( line )
-                        changed = True
+                        elif ( re_SUBTRACT_LIB32.match( line ) ):
+                            self.addKind = enum_SUBTRACT_LIB32
+                            line = self.changeOptionsLib( line )
+                            changed = True
 
-                    elif ( re_SUBTRACT_LIB32.match( line ) ):
-                        self.addKind = enum_SUBTRACT_LIB32
-                        line = self.changeOptionsLib( line )
-                        changed = True
+                        elif ( re_ADD_BSC32.match( line ) ):
+                            self.addKind = enum_ADD_BSC32
+                            line = self.changeOptionsBsc( line )
+                            changed = True
 
-                    elif ( re_ADD_BSC32.match( line ) ):
-                        self.addKind = enum_ADD_BSC32
-                        line = self.changeOptionsBsc( line )
-                        changed = True
+                    if ( changed ):
+                        line = StringUtils.stripSpacesInExcess( line )
+                        self.lines[n] = line
 
-                if ( changed ):
-                    line = StringUtils.stripSpacesInExcess( line )
-                    self.lines[n] = line
+            elif ( state == 1 ):
+                # we parse this only to reformat the entries
+                m_dsp_source_basic = re_dsp_source_basic.match( line )
+                if ( m_dsp_source_basic ):
+                    m_dsp_source = re_dsp_source.match( line )
+                    if ( m_dsp_source ):
+                        source = m_dsp_source.group( 'sourcename' )
+                        source = FileUtils.normPath( source, g_internal_unixStyle )
+
+                        # reformat the entry in a 'standard' way
+                        source = FileUtils.normPath( source, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+                        #line = 'SOURCE=\"%s\"\n' % source # which one ?
+                        line = 'SOURCE=%s\n' % source
+                        self.lines[n] = line
+                    else:
+                        raise Exception( 'getSouceEntriesDsp: reading source but not source + infos. File: \'%s\'. Line[%d]: \'%s\'' % ( self.filename, self.n, line.rstrip() ) )
+                    continue
+
+                pass
         return
 
     def getPostFixIndex( self, filename ):
@@ -5589,48 +5644,25 @@ class Workspace( DspFile ):
     def duplicateVcs( self, updateOriginal ):
         # duplicates original workspace and/or reformat it in a canonic way
         if ( updateOriginal ):                # always
-            self.duplicateVc( '' )  # this just reformat the original ( see duplicateVc )
+            self.duplicateVcDswSln( '' )  # this just reformat the original ( see duplicateVc ) - to use it with True or False is the same
+
+        if ( app.options.copyToIcl7 ):
+        #    #changeSolutions = False so it does not creates solutions
+            self.duplicateVcDswSln( compilerIcl7, False )
 
         if ( app.options.copyToVc70 ):
-            self.duplicateVc( compilerVc70 )
+            self.duplicateVcDswSln( compilerVc70 )
 
         if ( app.options.copyToVc71 ):
-            self.duplicateVc( compilerVc71 )
+            self.duplicateVcDswSln( compilerVc71 )
 
-    def duplicateVcOld( self, newCompiler ):
-        # obsolete: keep until duplicateVc( self, newCompiler ) is well tested
-
+    def duplicateVcDswSln( self, newCompiler, changeSolutions = True ):
         # duplicates workspaces from the current compiler (i.e. vc6) into the new compiler name ( _vc70 ) and subdirectory (vc70/)
         # just reformat the original if (newCompiler == '') ( i.e. make sure projectPath has the "" around of it )
 
-        if ( app.options.enableVcfSpecific ):
-            newFilename = self.filename
+        # with changeSolutions = False it works in the old way
 
-            # the trick to copy and rename a file is to treat it as a DspFile as far as it concerns the functions here
-            wsp = Workspace( app, self.filename )
-            wsp.readlines()
-
-            wsp.removeUnwantedLines()
-
-            Workspace.replaceProjectEntries( wsp.lines, wsp, newCompiler, self.filename )
-
-            # newPath = DspFile.makeDuplicateVcFilename( self.filename, dsp.compiler, newCompiler, g_internal_unixStyle, False )
-            if ( newCompiler ):
-                newFilename = wsp.getDuplicateVcFilename( newCompiler, True )
-            wsp.setFilename( newFilename )
-
-            wsp.saveFile( False )
-
-            if ( 0 < app.options.verbose ):
-                if ( newCompiler ):
-                    print ' created workspace: %s' % wsp.filename
-                else:
-                    print ' updated workspace: %s' % wsp.filename
-        return
-
-    def duplicateVc( self, newCompiler ):
-        # duplicates workspaces from the current compiler (i.e. vc6) into the new compiler name ( _vc70 ) and subdirectory (vc70/)
-        # just reformat the original if (newCompiler == '') ( i.e. make sure projectPath has the "" around of it )
+        # if newCompiler == '' then the option changeSolutions is totally uneffective
 
         if ( app.options.enableVcfSpecific ):
             oldFilenameDsw = self.filename
@@ -5641,30 +5673,35 @@ class Workspace( DspFile ):
             if ( newCompiler ):
                 newFilenameDsw = DspFile.makeDuplicateVcFilename( oldFilenameDsw, oldCompiler, newCompiler, g_internal_unixStyle, True )
 
-                if ( app.options.synchVcprojSln ):
-                    ( filename, ext ) = os.path.splitext( newFilenameDsw )
-                    newFilenameSln = filename + extSln
-                    newBasenameSln = os.path.basename( newFilenameSln )
-                    if ( os.path.exists( newFilenameSln ) ):
-                        updateSln = True
-                        #else does a copy as dsw just as if ( not app.options.synchVcprojSln )
+                if ( changeSolutions ):
+                    if ( app.options.synchVcprojSln ):
+                        ( filename, ext ) = os.path.splitext( newFilenameDsw )
+                        newFilenameSln = filename + extSln
+                        newBasenameSln = os.path.basename( newFilenameSln )
+                        if ( os.path.exists( newFilenameSln ) ):
+                            updateSln = True
+                            #else does a copy as dsw just as if ( not app.options.synchVcprojSln )
 
-                    wspOld = self
-                    sln = Workspace( oldFilenameDsw )
-                    if ( updateSln ):
-                        sln.conformSlnToDsw( wspOld, newFilenameSln, newCompiler )
+                        wspOld = self
+                        sln = Workspace( oldFilenameDsw )
+                        if ( updateSln ):
+                            sln.conformSlnToDsw( wspOld, newFilenameSln, newCompiler )
+                        else:
+                            sln.createSlnFromDsw( wspOld, newFilenameSln, newCompiler )
+
+                    if ( app.options.keepDspCopy ):
+                        # the trick to copy and rename a file is to treat it as a DspFile as far as it concerns the functions here
+                        wspOld = self
+                        wsp = Workspace( oldFilenameDsw )
+                        wsp.reformatDswSave( wspOld, newCompiler, newFilenameDsw )
                     else:
-                        sln.createSlnFromDsw( wspOld, newFilenameSln, newCompiler )
-
-                if ( app.options.keepDspCopy ):
-                    # the trick to copy and rename a file is to treat it as a DspFile as far as it concerns the functions here
+                        if ( os.path.exists( newFilenameDsw ) ):
+                            #os.remove( newFilenameDsw ) #%%%
+                            pass
+                else:
                     wspOld = self
                     wsp = Workspace( oldFilenameDsw )
                     wsp.reformatDswSave( wspOld, newCompiler, newFilenameDsw )
-                else:
-                    if ( os.path.exists( newFilenameDsw ) ):
-                        #os.remove( newFilenameDsw )
-                        pass
             else:
                 # the trick to copy and rename a file is to treat it as a DspFile as far as it concerns the functions here
                 wspOld = self
@@ -7283,8 +7320,8 @@ class Walker:
     def listProjects( self ):
         # lists all the project in the allowed/not excluded subdirectories
         # this function must be always active
-        
-        print '\n listing projects ...\n'        
+
+        print '\n listing projects ...\n'
 
         app.allProjectNamesList = []
         app.allProjectPathsList = []
@@ -7348,7 +7385,7 @@ class Walker:
             return
 
         print '\n reformatting dps projects ...\n'
-        
+
         app.changedFiles   = 0
         app.unchangedFiles = 0
         app.createdFiles   = 0
@@ -7392,7 +7429,7 @@ class Walker:
         #    return
 
         print '\n synchronizing other compilers projects ...\n'
-        
+
         app.changedFiles   = 0
         app.unchangedFiles = 0
         app.createdFiles   = 0
