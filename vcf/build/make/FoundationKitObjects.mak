@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.2.2  2004/02/16 05:33:47  ddiego
+#updated linux makefiles as a result of new locale support - pushed in stubs for locale peer impl, but no functionality at this point
+#
 #Revision 1.3.2.1  2004/02/16 03:00:25  ddiego
 #*** empty log message ***
 #
@@ -74,11 +77,10 @@ $(OUTDIR_FK_D)/Class.o : $(SRC_RTTI)/Class.cpp $(FOUNDATIONKIT_HDRS)
 
 $(OUTDIR_FK_D)/ClassRegistry.o : $(SRC_RTTI)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_RTTI)/ClassRegistry.cpp -o $(OUTDIR_FK_D)/ClassRegistry.o
-
-$(OUTDIR_FK_D)/ClassRegistry.o : $(SRC_RTTI)/ClassRegistry.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_RTTI)/ClassRegistry.cpp -o $(OUTDIR_FK_D)/ClassRegistry.o
 	
-
+$(OUTDIR_FK_D)/DateTime.o : $(SRC_UTILS)/DateTime.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/DateTime.cpp -o $(OUTDIR_FK_D)/DateTime.o
+	
 $(OUTDIR_FK_D)/Directory.o : $(SRC_IO)/Directory.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/Directory.cpp -o $(OUTDIR_FK_D)/Directory.o
 
@@ -118,6 +120,15 @@ $(OUTDIR_FK_D)/Locales.o : $(SRC_CORE)/Locales.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK_D)/MemoryStream.o : $(SRC_IO)/MemoryStream.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IO)/MemoryStream.cpp -o $(OUTDIR_FK_D)/MemoryStream.o
 
+$(OUTDIR_FK_D)/MessageLoader.o : $(SRC_UTILS)/MessageLoader.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/MessageLoader.cpp -o $(OUTDIR_FK_D)/MessageLoader.o
+	
+$(OUTDIR_FK_D)/StringsMessageLoader.o : $(SRC_UTILS)/StringsMessageLoader.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/StringsMessageLoader.cpp -o $(OUTDIR_FK_D)/StringsMessageLoader.o	
+	
+$(OUTDIR_FK_D)/TextCodec.o : $(SRC_UTILS)/TextCodec.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/TextCodec.cpp -o $(OUTDIR_FK_D)/TextCodec.o	
+	
 $(OUTDIR_FK_D)/Mutex.o : $(SRC_UTILS)/Mutex.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Mutex.cpp -o $(OUTDIR_FK_D)/Mutex.o
 
@@ -172,6 +183,9 @@ $(OUTDIR_FK_D)/VariantData.o : $(SRC_CORE)/VariantData.cpp $(FOUNDATIONKIT_HDRS)
 
 $(OUTDIR_FK_D)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK_D)/VCFMath.o
+	
+$(OUTDIR_FK_D)/VCFString.o : $(SRC_UTILS)/VCFString.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/VCFString.cpp -o $(OUTDIR_FK_D)/VCFString.o
 
 $(OUTDIR_FK_D)/VCFProcess.o : $(SRC_UTILS)/VCFProcess.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/VCFProcess.cpp -o $(OUTDIR_FK_D)/VCFProcess.o
@@ -217,6 +231,9 @@ $(OUTDIR_FK_D)/LinuxSystemToolkit.o : $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp $(FO
 
 $(OUTDIR_FK_D)/LinuxProcessIORedirector.o : $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp -o $(OUTDIR_FK_D)/LinuxProcessIORedirector.o
+	
+$(OUTDIR_FK_D)/LinuxLocalePeer.o : $(SRC_IMPLKIT)/LinuxLocalePeer.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxLocalePeer.cpp -o $(OUTDIR_FK_D)/LinuxLocalePeer.o
 
 
 ###########################################################
@@ -241,6 +258,9 @@ $(OUTDIR_FK)/ClassRegistry.o : $(SRC_RTTI)/ClassRegistry.cpp $(FOUNDATIONKIT_HDR
 
 $(OUTDIR_FK)/CommandLine.o : $(SRC_UTILS)/CommandLine.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/CommandLine.cpp -o $(OUTDIR_FK)/CommandLine.o
+	
+$(OUTDIR_FK)/DateTime.o : $(SRC_UTILS)/DateTime.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/DateTime.cpp -o $(OUTDIR_FK)/DateTime.o
 	
 $(OUTDIR_FK)/Directory.o : $(SRC_IO)/Directory.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IO)/Directory.cpp -o $(OUTDIR_FK)/Directory.o
@@ -281,6 +301,15 @@ $(OUTDIR_FK)/Locales.o : $(SRC_CORE)/Locales.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK)/MemoryStream.o : $(SRC_IO)/MemoryStream.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IO)/MemoryStream.cpp -o $(OUTDIR_FK)/MemoryStream.o
 
+$(OUTDIR_FK)/MessageLoader.o : $(SRC_UTILS)/MessageLoader.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/MessageLoader.cpp -o $(OUTDIR_FK)/MessageLoader.o
+	
+$(OUTDIR_FK)/StringsMessageLoader.o : $(SRC_UTILS)/StringsMessageLoader.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/StringsMessageLoader.cpp -o $(OUTDIR_FK)/StringsMessageLoader.o	
+	
+$(OUTDIR_FK)/TextCodec.o : $(SRC_UTILS)/TextCodec.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/TextCodec.cpp -o $(OUTDIR_FK)/TextCodec.o	
+	
 $(OUTDIR_FK)/Mutex.o : $(SRC_UTILS)/Mutex.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Mutex.cpp -o $(OUTDIR_FK)/Mutex.o
 
@@ -330,6 +359,9 @@ $(OUTDIR_FK)/VariantData.o : $(SRC_CORE)/VariantData.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK)/VCFMath.o : $(SRC_CORE)/VCFMath.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_CORE)/VCFMath.cpp -o $(OUTDIR_FK)/VCFMath.o
 
+$(OUTDIR_FK)/VCFString.o : $(SRC_UTILS)/VCFString.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/VCFString.cpp -o $(OUTDIR_FK)/VCFString.o
+	
 $(OUTDIR_FK)/Condition.o : $(SRC_UTILS)/Condition.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_UTILS)/Condition.cpp -o $(OUTDIR_FK)/Condition.o
 	
@@ -381,4 +413,7 @@ $(OUTDIR_FK)/LinuxSystemToolkit.o : $(SRC_IMPLKIT)/LinuxSystemToolkit.cpp $(FOUN
 $(OUTDIR_FK)/LinuxProcessIORedirector.o : $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxProcessIORedirector.cpp -o $(OUTDIR_FK)/LinuxProcessIORedirector.o
 
+$(OUTDIR_FK)/LinuxLocalePeer.o : $(SRC_IMPLKIT)/LinuxLocalePeer.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxLocalePeer.cpp -o $(OUTDIR_FK)/LinuxLocalePeer.o
+	
 
