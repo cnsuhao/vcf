@@ -747,6 +747,9 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\Property.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\RTTIMacros.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\VariantData.cpp">
 			</File>
 			<File
