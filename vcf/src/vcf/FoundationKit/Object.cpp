@@ -206,7 +206,7 @@ void Object::dumpDebugInfo()
 					className = "unknown<exception occured retreiving class name>";
 				}
 
-				StringUtils::traceWithArgs( "\tObject (type: %S) @ %p, allocated size of %d bytes\n",
+				StringUtils::traceWithArgs( "\tObject (type: %ls) @ %p, allocated size of %d bytes\n",
 												className.c_str(), info.objAddress_, info.objectAllocationSize_ );
 
 
@@ -249,6 +249,9 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/11 23:28:57  ddiego
+*fixed mistake in string formatting for dumping debug info
+*
 *Revision 1.1.2.4  2004/05/16 02:39:09  ddiego
 *OSX code updates
 *
