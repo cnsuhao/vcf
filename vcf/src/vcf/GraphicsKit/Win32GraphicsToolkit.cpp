@@ -115,75 +115,75 @@ void Win32GraphicsToolkit::loadSystemColors()
 	Color* sysColor = NULL;
 	sysColor = new Color( ::GetSysColor( COLOR_BTNSHADOW ) );
 	systemColors_[SYSCOLOR_SHADOW] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SHADOW";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SHADOW";
 
 	sysColor = new Color( ::GetSysColor( COLOR_3DFACE ) );
 	systemColors_[SYSCOLOR_FACE] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_FACE";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_FACE";
 
 	sysColor = new Color( ::GetSysColor( COLOR_3DHILIGHT ) );
 	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_HIGHLIGHT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_HIGHLIGHT";
 
 	sysColor = new Color( ::GetSysColor( COLOR_ACTIVECAPTION ) );
 	systemColors_[SYSCOLOR_ACTIVE_CAPTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
 
 	sysColor = new Color( ::GetSysColor( COLOR_ACTIVEBORDER ) );
 	systemColors_[SYSCOLOR_ACTIVE_BORDER] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
 
 	sysColor = new Color( ::GetSysColor( COLOR_DESKTOP ) );
 	systemColors_[SYSCOLOR_DESKTOP] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_DESKTOP";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_DESKTOP";
 
 	sysColor = new Color( ::GetSysColor( COLOR_CAPTIONTEXT ) );
 	systemColors_[SYSCOLOR_CAPTION_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
 
 	sysColor = new Color( ::GetSysColor( COLOR_HIGHLIGHT ) );
 	systemColors_[SYSCOLOR_SELECTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SELECTION";
 
 	sysColor = new Color( ::GetSysColor( COLOR_HIGHLIGHTTEXT ) );
 	systemColors_[SYSCOLOR_SELECTION_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
 
 	sysColor = new Color( ::GetSysColor( COLOR_INACTIVEBORDER ) );
 	systemColors_[SYSCOLOR_INACTIVE_BORDER] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
 
 	sysColor = new Color( ::GetSysColor( COLOR_INACTIVECAPTION ) );
 	systemColors_[SYSCOLOR_INACTIVE_CAPTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
 
 	sysColor = new Color( ::GetSysColor( COLOR_INFOBK ) );
 	systemColors_[SYSCOLOR_TOOLTIP] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_TOOLTIP";
 
 	sysColor = new Color( ::GetSysColor( COLOR_INFOTEXT ) );
 	systemColors_[SYSCOLOR_TOOLTIP_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
 
 	sysColor = new Color( ::GetSysColor( COLOR_MENU ) );
 	systemColors_[SYSCOLOR_MENU] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_MENU";
 
 	sysColor = new Color( ::GetSysColor( COLOR_MENUTEXT ) );
 	systemColors_[SYSCOLOR_MENU_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_MENU_TEXT";
 
 	sysColor = new Color( ::GetSysColor( COLOR_WINDOW ) );
 	systemColors_[SYSCOLOR_WINDOW] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_WINDOW";
 
 	sysColor = new Color( ::GetSysColor( COLOR_WINDOWTEXT ) );
 	systemColors_[SYSCOLOR_WINDOW_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
 
 	sysColor = new Color( ::GetSysColor( COLOR_WINDOWFRAME ) );
 	systemColors_[SYSCOLOR_WINDOW_FRAME] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
+	(*systemColorNameMap_)[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
 
 }
 
@@ -191,6 +191,9 @@ void Win32GraphicsToolkit::loadSystemColors()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/29 03:58:47  marcelloptr
+*Improvements on Color class - changes so to have Color::getColor inlined
+*
 *Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
 *made a few changes to the new OpenGLKit files, adjusting where the
 *CVS log was put, and changed a few cases for the export-import definition

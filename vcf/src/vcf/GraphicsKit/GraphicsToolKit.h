@@ -250,14 +250,14 @@ protected:
 	std::map<String,String> contentTypes_;
 
 	MapStringColor colorMap_;
-	MapStringColorName colorNameMap_;
+	MapStringColorName* colorNameMap_;
 
 	void initColorMap();
 	void initColorNameMapItem( const VCF::String& colorName, const unsigned char & r, const unsigned char & g, const unsigned char & b);
 	void destroyColorMaps();
 
 	std::map<unsigned long,Color*> systemColors_;
-	MapStringColorName systemColorNameMap_;
+	MapStringColorName* systemColorNameMap_;
 	void destroySystemColorNameMap();
 
 	std::vector<FontInfo> availableSystemFonts_;
@@ -290,6 +290,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/06/29 03:58:47  marcelloptr
+*Improvements on Color class - changes so to have Color::getColor inlined
+*
 *Revision 1.1.2.5  2004/06/25 19:52:48  marcelloptr
 *adjusted macros and other changes for better performance
 *
