@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="FoundationKitDLL"
+	ProjectGUID="{1C32585F-6685-4CC7-A357-1FE775525F10}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -149,6 +150,9 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="..\..\..\src\utils\Dictionary.cpp">
+			</File>
 			<File
 				RelativePath="..\..\..\src\core\FoundationKit.cpp">
 				<FileConfiguration
@@ -391,13 +395,13 @@
 				RelativePath="..\..\..\include\io\FileUtils.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\io\MemStreamUtils.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\IO\MemoryStream.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\include\io\MemoryStream.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\io\MemStreamUtils.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\io\Persistable.h">
@@ -438,6 +442,15 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\utils\Condition.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\utils\DateTime.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\utils\DateTime.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\utils\Dictionary.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\utils\Enumerator.h">
@@ -539,59 +552,13 @@
 				RelativePath="..\..\..\include\utils\VCFString.h">
 			</File>
 			<File
+				RelativePath="..\..\..\include\utils\VCFulong64.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\Utils\XMLParser.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\include\utils\XMLParser.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="RTTI"
-			Filter="*.h">
-			<File
-				RelativePath="..\..\..\src\rtti\Class.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\Class.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\ClassInfo.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\rtti\ClassRegistry.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\ClassRegistry.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\Enum.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\Field.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\core\Interface.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\rtti\InterfaceClass.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\InterfaceClass.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\Method.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\Property.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\rtti\VCFRTTIImpl.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\core\VariantData.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\include\core\VariantData.h">
 			</File>
 		</Filter>
 		<Filter
@@ -657,6 +624,52 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\implementer\ThreadPeer.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="RTTI"
+			Filter="*.h;*.cpp">
+			<File
+				RelativePath="..\..\..\src\rtti\Class.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\Class.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\ClassInfo.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\rtti\ClassRegistry.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\ClassRegistry.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\Enum.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\Field.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\rtti\InterfaceClass.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\InterfaceClass.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\Method.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\Property.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\core\VariantData.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\VariantData.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\rtti\VCFRTTIImpl.h">
 			</File>
 		</Filter>
 	</Files>

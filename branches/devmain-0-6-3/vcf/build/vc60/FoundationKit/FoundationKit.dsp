@@ -78,464 +78,153 @@ LIB32=link.exe -lib
 
 # Name "FoundationKit - Win32 Release"
 # Name "FoundationKit - Win32 Debug"
-# Begin Group "Peer Interfaces"
+# Begin Group "Header Files"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ConditionPeer.h
+SOURCE=..\..\..\include\FoundationKit.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\LibraryPeer.h
+SOURCE=..\..\..\include\FoundationKitPrivate.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\MutexPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\ProcessIORedirectionPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\ProcessPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\RegistryPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\SemaphorePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\SystemPeer.h
+SOURCE=..\..\..\include\core\FoundationKitSelectLib.h
 # End Source File
 # End Group
-# Begin Group "Core"
+# Begin Group "Source Files"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\..\include\core\CommonDefines.h
+SOURCE=..\..\..\src\utils\Dictionary.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\FrameworkConfig.h
+SOURCE=..\..\..\src\core\FoundationKit.cpp
+# ADD CPP /Yc"FoundationKit.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Locales.h
+SOURCE=..\..\..\include\FoundationKitRTTI.inl
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Object.cpp
+SOURCE=..\..\..\src\utils\Library.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Object.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ObjectWithEvents.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ObjectWithEvents.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\VCF.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\VCFMath.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\WarningsOffVc.h
+SOURCE=..\..\..\src\core\Locales.cpp
 # End Source File
 # End Group
-# Begin Group "RTTI"
+# Begin Group "Peers"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "*.h;*.cpp"
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Class.cpp
+SOURCE=..\..\..\src\ImplementerKit\Win32FilePeer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Class.h
+SOURCE=..\..\..\include\ImplementerKit\Win32FilePeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ClassInfo.h
+SOURCE=..\..\..\src\ImplementerKit\Win32FileStream.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\ClassRegistry.cpp
+SOURCE=..\..\..\include\implementerKit\Win32FileStream.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ClassRegistry.h
+SOURCE=..\..\..\src\implementerkit\Win32LibraryPeer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\utils\Enum.h
+SOURCE=..\..\..\include\implementerkit\Win32LibraryPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Interface.h
+SOURCE=..\..\..\src\ImplementerKit\Win32Mutex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\InterfaceClass.cpp
+SOURCE=..\..\..\include\implementerKit\Win32Mutex.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\InterfaceClass.h
+SOURCE=..\..\..\src\ImplementerKit\Win32Peer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Method.h
+SOURCE=..\..\..\include\implementerKit\Win32Peer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Property.h
+SOURCE=..\..\..\src\ImplementerKit\Win32ProcessIORedirector.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\VariantData.cpp
+SOURCE=..\..\..\include\implementerKit\Win32ProcessIORedirector.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\VariantData.h
+SOURCE=..\..\..\src\implementerkit\Win32ProcessPeer.cpp
 # End Source File
-# End Group
-# Begin Group "Utils"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\CommandLine.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\CommandLine.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\Condition.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Condition.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Enumerator.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\ErrorLog.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\ErrorLog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Library.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Lock.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\Mutex.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Mutex.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\Parser.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Parser.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\ProcessWithRedirectedIO.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\ProcessWithRedirectedIO.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\Registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Registry.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Runnable.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\Semaphore.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Semaphore.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\StringTokenizer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\StringUtils.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\StringUtils.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\SynchObject.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\System.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\System.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\SystemToolkit.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\SystemToolkit.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\Thread.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\Thread.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\ThreadPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\VCFChar.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\VCFMath.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\VCFProcess.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\VCFProcess.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\VCFString.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\XMLParser.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\XMLParser.h
-# End Source File
-# End Group
-# Begin Group "IO"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\src\io\BasicInputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\BasicInputStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\BasicOutputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\BasicOutputStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\Directory.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\Directory.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\File.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\File.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\FilePath.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\FilePath.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Implementer\FilePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\FileStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\FileStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\FileStreamPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\FileUtils.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\FileUtils.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\MemoryStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\MemoryStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\MemStreamUtils.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\Persistable.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\Stream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\Stream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\TextInputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\TextInputStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\io\TextOutputStream.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\TextOutputStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\io\VariantDataStream.h
-# End Source File
-# End Group
-# Begin Group "Events"
-
-# PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\include\events\Delegate.h
+SOURCE=..\..\..\include\implementerkit\Win32ProcessPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\events\Event.cpp
+SOURCE=..\..\..\src\implementerkit\Win32Registry.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\Event.h
+SOURCE=..\..\..\include\implementerkit\Win32Registry.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\events\EventHandler.cpp
+SOURCE=..\..\..\src\ImplementerKit\Win32SemaphorePeer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\EventHandler.h
+SOURCE=..\..\..\include\implementerKit\Win32SemaphorePeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\NotifyEvent.h
+SOURCE=..\..\..\src\ImplementerKit\Win32SystemPeer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\OutputReadyEvent.h
+SOURCE=..\..\..\include\implementerKit\Win32SystemPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\events\PropertyChangeEvent.cpp
+SOURCE=..\..\..\src\ImplementerKit\Win32SystemToolkit.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\PropertyChangeEvent.h
+SOURCE=..\..\..\include\implementerKit\Win32SystemToolkit.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\events\ThreadEvent.cpp
+SOURCE=..\..\..\src\ImplementerKit\Win32Thread.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\events\ThreadEvent.h
+SOURCE=..\..\..\include\implementerKit\Win32Thread.h
 # End Source File
 # End Group
 # Begin Group "Exceptions"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "*.h"
 # Begin Source File
 
-SOURCE=..\..\..\src\exceptions\BasicException.cpp
+SOURCE=..\..\..\src\Exceptions\BasicException.cpp
 # End Source File
 # Begin Source File
 
@@ -606,141 +295,476 @@ SOURCE=..\..\..\include\exceptions\RuntimeException.h
 SOURCE=..\..\..\include\exceptions\TypeCastException.h
 # End Source File
 # End Group
-# Begin Group "Peers"
+# Begin Group "Events"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "*.h"
 # Begin Source File
 
-SOURCE=..\..\..\src\implementerkit\Win32FilePeer.cpp
+SOURCE=..\..\..\include\events\Delegate.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\ImplementerKit\Win32FilePeer.h
+SOURCE=..\..\..\src\Events\Event.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\implementerkit\Win32FileStream.cpp
+SOURCE=..\..\..\include\events\Event.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementerKit\Win32FileStream.h
+SOURCE=..\..\..\src\Events\EventHandler.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\implementerkit\Win32LibraryPeer.cpp
+SOURCE=..\..\..\include\events\EventHandler.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementerkit\Win32LibraryPeer.h
+SOURCE=..\..\..\include\events\NotifyEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\implementerkit\Win32Mutex.cpp
+SOURCE=..\..\..\include\events\OutputReadyEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementerKit\Win32Mutex.h
+SOURCE=..\..\..\src\Events\PropertyChangeEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\implementerkit\Win32Peer.cpp
+SOURCE=..\..\..\include\events\PropertyChangeEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementerKit\Win32Peer.h
+SOURCE=..\..\..\src\Events\ThreadEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\implementerkit\Win32ProcessIORedirector.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32ProcessIORedirector.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32ProcessPeer.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32ProcessPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32Registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32Registry.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32SemaphorePeer.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32SemaphorePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32SystemPeer.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32SystemPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32SystemToolkit.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32SystemToolkit.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32Thread.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Thread.h
+SOURCE=..\..\..\include\events\ThreadEvent.h
 # End Source File
 # End Group
-# Begin Group "Source Files"
+# Begin Group "IO"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "*.h"
 # Begin Source File
 
-SOURCE=..\..\..\src\core\FoundationKit.cpp
-# ADD CPP /Yc"FoundationKit.h"
+SOURCE=..\..\..\src\IO\BasicInputStream.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\FoundationKitRTTI.inl
+SOURCE=..\..\..\include\io\BasicInputStream.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\utils\Library.cpp
+SOURCE=..\..\..\src\IO\BasicOutputStream.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Locales.cpp
+SOURCE=..\..\..\include\io\BasicOutputStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\Directory.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\Directory.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\io\File.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\File.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\FilePath.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\Implementer\FilePeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\FileStream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\FileStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\FileStreamPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\FileUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\MemoryStream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\MemoryStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\MemStreamUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\Persistable.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\Stream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\Stream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\TextInputStream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\TextInputStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\TextOutputStream.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\TextOutputStream.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\io\VariantDataStream.h
 # End Source File
 # End Group
-# Begin Group "Header Files"
+# Begin Group "Utils"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "*.h"
 # Begin Source File
 
-SOURCE=..\..\..\include\FoundationKit.h
+SOURCE=..\..\..\src\Utils\CommandLine.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\FoundationKitPrivate.h
+SOURCE=..\..\..\include\utils\CommandLine.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\FoundationKitSelectLib.h
+SOURCE=..\..\..\src\Utils\Condition.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Condition.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\utils\DateTime.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\DateTime.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Dictionary.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Enumerator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\ErrorLog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\ErrorLog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\FilePath.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\IO\FileUtils.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Library.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Lock.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Mutex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Mutex.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Parser.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Parser.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\ProcessWithRedirectedIO.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\ProcessWithRedirectedIO.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Registry.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Registry.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Runnable.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Semaphore.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Semaphore.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\StringTokenizer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\StringUtils.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\StringUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\SynchObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\System.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\System.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\utils\SystemToolkit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\SystemToolkit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Thread.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Thread.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\VCFChar.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\VCFMath.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\VCFProcess.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\VCFProcess.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\VCFString.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\VCFulong64.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\XMLParser.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\XMLParser.h
+# End Source File
+# End Group
+# Begin Group "Core"
+
+# PROP Default_Filter "*.h"
+# Begin Source File
+
+SOURCE=..\..\..\include\core\CommonDefines.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\FrameworkConfig.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Locales.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Object.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Object.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ObjectWithEvents.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ObjectWithEvents.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\VCF.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\VCFMath.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\WarningsOffVc.h
+# End Source File
+# End Group
+# Begin Group "Peer Interfaces"
+
+# PROP Default_Filter "*.h"
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ConditionPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\LibraryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\MutexPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ProcessIORedirectionPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ProcessPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\RegistryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\SemaphorePeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\SystemPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ThreadPeer.h
+# End Source File
+# End Group
+# Begin Group "RTTI"
+
+# PROP Default_Filter "*.h;*.cpp"
+# Begin Source File
+
+SOURCE=..\..\..\src\rtti\Class.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\Class.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\ClassInfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\rtti\ClassRegistry.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\ClassRegistry.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\Enum.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\Field.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\rtti\InterfaceClass.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\InterfaceClass.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\Method.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\Property.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\VariantData.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\VariantData.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\rtti\VCFRTTIImpl.h
 # End Source File
 # End Group
 # End Target
