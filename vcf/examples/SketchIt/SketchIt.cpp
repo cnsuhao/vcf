@@ -218,7 +218,7 @@ public:
 		doc->getWindow()->setUsingRenderBuffer( !doc->getWindow()->isUsingRenderBuffer() );	
 		GraphicsContext* ctx = doc->getWindow()->getContext();
 		if ( doc->getWindow()->isUsingRenderBuffer() ) {
-			ctx->setDrawingArea( *doc->getWindow()->getClientBounds() );
+			ctx->setDrawingArea( doc->getWindow()->getClientBounds() );
 		}
 
 		doc->getWindow()->repaint();
