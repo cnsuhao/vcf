@@ -74,12 +74,16 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 
 			if ( found ) {
 				String name;
+				String programFileName;
 				String author;
 				String copyright;
 				String company;
 				String description;
 				String programVersion;
 				String fileVersion;
+
+				CommandLine cmdLine = FoundationKit::getCommandLine();
+				programFileName = cmdLine.getArgument(0);
 
 				XMLParser xmlParser;
 				FileInputStream fs(infoFilename);
@@ -149,7 +153,7 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 						}
 					}
 
-					result = new ProgramInfo( name, author, copyright, company, description, programVersion, fileVersion );
+					result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
 				}
 			}
 		}
@@ -165,6 +169,9 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.1.2.3  2004/09/16 03:26:26  ddiego
 *fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
 *

@@ -54,6 +54,8 @@ public:
 	*/
 
 	virtual ProgramInfo* getProgramInfo();
+
+	static ProgramInfo* getProgramInfoFromFileName( const String& fileName );
 protected:
 	virtual HINSTANCE getResourceInstance();
 	//ApplicationPeer* appPeer_;
@@ -65,6 +67,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.1.2.3  2004/09/15 21:14:28  ddiego
 *added support for getting program info from resource bundle.
 *

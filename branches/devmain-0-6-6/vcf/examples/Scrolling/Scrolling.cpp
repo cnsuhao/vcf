@@ -44,7 +44,7 @@ public:
 			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::openImage, "ScrollingWindow::openImage" ) );
 
 		// Scrollbar menu
-		MenuItem* scrollMenu = new DefaultMenuItem( "Scroolbars", menuBar->getRootMenuItem(), menuBar );
+		MenuItem* scrollMenu = new DefaultMenuItem( "Scrollbars", menuBar->getRootMenuItem(), menuBar );
 		hasHorizontalScrollbarMenu_ = new DefaultMenuItem( "Horizontal", scrollMenu, menuBar );
 		hasVerticalScrollbarMenu_ = new DefaultMenuItem( "Vertical", scrollMenu, menuBar );
 		MenuItem* separator = new DefaultMenuItem( "", scrollMenu, menuBar );
@@ -275,6 +275,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2004/09/17 11:38:05  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.4.2.3  2004/09/16 15:24:29  marcelloptr
 *changed a name to the menu
 *

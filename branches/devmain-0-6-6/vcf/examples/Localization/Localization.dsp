@@ -23,6 +23,8 @@ CFG=Localization - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -133,6 +135,10 @@ SOURCE=Resources\pl_PL\Localization.strings
 SOURCE=Resources\es_ES\Localization.strings
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\info.xml
+# End Source File
 # End Group
 # End Target
 # End Project

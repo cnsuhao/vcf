@@ -297,6 +297,16 @@ public:
 	*/
 	static ResourceBundle* getResourceBundle();
 
+	/**
+	Retrieves the program information from a given file name
+	@param String the fully qualified file name of the process to
+	retrieve information from, or a directory that includes a Info.plist/Info.xml file in it
+	identifying the process's ProgramInfo.
+	@see ProgramInfo
+	@see ResourceBundle::getProgramInfo()
+	*/
+	static ProgramInfo* getProgramInfoFromFileName( const String& fileName );
+
 	static void internal_replaceResourceBundleInstance( ResourceBundle* newInstance );
 protected:
 	System();
@@ -318,6 +328,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.3.2.3  2004/09/15 04:25:52  ddiego
 *fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
 *

@@ -13,7 +13,8 @@ using namespace VCF;
 
 Library::Library( const String& libraryName, const bool& autoUnloadLib )
 {
-	currentLibName_ = libraryName;
+	currentLibName_ = libraryName;	
+
 	autoUnloadLib_ = autoUnloadLib;
 	init();
 }
@@ -52,8 +53,31 @@ void Library::init()
 
 void Library::load( const String& libraryFilename )
 {
-	libPeer_->load( libraryFilename );
-	currentLibName_ = libraryFilename;
+	String fullLibraryName = libraryFilename;
+
+	{
+		File libFile(libraryFilename);
+		if ( libFile.isDirectory() ) {
+			ProgramInfo* info = System::getProgramInfoFromFileName( libraryFilename );
+			if ( NULL != info ) {
+
+				fullLibraryName = info->getProgramFileName();				
+
+				info->free();
+			}
+			else {
+				fullLibraryName = "";
+			}
+
+			if ( fullLibraryName.empty() ) {
+				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid file name. Points to a directory with no program/library information available.") );
+			}
+		}
+	}	
+
+
+	libPeer_->load( fullLibraryName );
+	currentLibName_ = fullLibraryName;
 
 	typedef void (*initFunc)(void);
 
@@ -112,6 +136,9 @@ void* Library::getFunction( const String& functionName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/17 11:38:06  ddiego
+*added program info support in library and process classes.
+*
 *Revision 1.2.2.2  2004/09/15 04:41:23  ddiego
 *made some minor changes to the SharedLibraries example, and the init and term code of the Library class.
 *
