@@ -338,8 +338,6 @@ public:
 		callFunc();
 		return true;
 	}
-
-	virtual void stop(){};
 };
 
 /**
