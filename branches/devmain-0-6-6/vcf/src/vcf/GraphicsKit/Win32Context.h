@@ -444,11 +444,11 @@ private:
 #ifdef WINTHEMES
 	/**
 	* Draw a themed button using the UxTheme.dll.
-	* Returns false if themed drawing was not possible.
 	* Remarks: In case of an error parts of the button may have been
 	*          already drawn.
 	*          This will only happen if the DLL is present but not
 	*          fully implemented.
+	*@return bool, false if themed drawing was not possible.
 	*/
 	bool drawThemeButtonRectDLL( Rect* rect, ButtonState& state );
 #endif
@@ -485,6 +485,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/11/10 02:08:41  marcelloptr
+*minor change on a comment as for doxygen
+*
 *Revision 1.2.2.4  2004/11/09 18:47:20  chriskr
 *changed class name VisualStylesXP to Win32ThemeDLLWrapper
 *
