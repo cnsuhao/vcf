@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
+switched the sgml files over to xml file extensions
+made a slight adjustment to the docbook makefile
+
 Revision 1.2  2003/05/17 20:36:55  ddiego
 this is the checkin for the 0.6.1 release - represents the merge over from
 the devmain-0-6-0 branch plus a few minor bug fixes
@@ -41,88 +45,8 @@ distinct classes, one for input and one for output.
 
 -->
 
-<chapter><title>User Interface</title>
-	<section><title>Windows</title>
-		<para>
-		Explanantion
-		</para>
-		
-		<section><title>Main Window</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Standard toolbar</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Component Toolbar</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Workspace View</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Object Explorer</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Editing View</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Output View</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-
-		<section><title>Help View</title>
-			<para>
-			Explanantion
-			</para>
-		</section>
-		
-	</section>
-
-	<section><title>Menus</title>
-		<para>
-		Explanantion
-		</para>
-
-		<section><title>File</title>
-		</section>
-
-		<section><title>Edit</title>
-		</section>
-
-		<section><title>View</title>
-		</section>
-
-		<section><title>Project</title>
-		</section>
-
-		<section><title>Build</title>
-		</section>
-
-		<section><title>Components</title>
-		</section>
-
-		<section><title>Help</title>
-		</section>
-		
+<chapter><title>Extending the IDE</title>
+	<section><title></title>
 	</section>
 </chapter>
 

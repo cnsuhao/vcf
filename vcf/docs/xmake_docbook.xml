@@ -1,38 +1,10 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
+
+
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
                     "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 		    <!ENTITY xmake_book SYSTEM "xmake_book.sgml">
-
-			<!ENTITY vcf_book SYSTEM "vcf_book.sgml">
-			<!ENTITY vcfIntro SYSTEM "vcf_intro.sgml">
-			<!ENTITY general SYSTEM "general.sgml">	
-			<!ENTITY gettingStarted SYSTEM "getting_started.sgml">
-			<!ENTITY coreLibFoundationKit SYSTEM "corelib_foundationKit.sgml">
-			<!ENTITY coreLibGraphicsKit SYSTEM "corelib_graphicsKit.sgml">
-			<!ENTITY coreLibApplicationKit SYSTEM "corelib_applicationKit.sgml">
-			<!ENTITY componentAuthoring SYSTEM "corelib_componentAuthoring.sgml">
-			<!ENTITY coreLibNetworkKit SYSTEM "corelib_networkKit.sgml">
-			<!ENTITY coreLibRemoteObjectKit SYSTEM "corelib_remoteObjectKit.sgml">
-			<!ENTITY coreLibFAQ SYSTEM "corelib_FAQ.sgml">
-
-			<!ENTITY tutorials SYSTEM "tutorials.sgml">
-
-
-			<!ENTITY vcfbuilder_intro SYSTEM "vcfbuilder_intro.sgml">
-			<!ENTITY vcfbuilder_quicktut SYSTEM "vcfbuilder_quicktut.sgml">
-			<!ENTITY vcfbuilder_ui SYSTEM "vcfbuilder_ui.sgml">	
-			<!ENTITY vcfbuilder_wspprj SYSTEM "vcfbuilder_wspprj.sgml">	
-			<!ENTITY vcfbuilder_designer SYSTEM "vcfbuilder_designer.sgml">		
-			<!ENTITY vcfbuilder_building SYSTEM "vcfbuilder_building.sgml">		
-			<!ENTITY vcfbuilder_versionctrl SYSTEM "vcfbuilder_versionctrl.sgml">		
-			<!ENTITY vcfbuilder_debug SYSTEM "vcfbuilder_debug.sgml">		
-			<!ENTITY vcfbuilder_ide SYSTEM "vcfbuilder_ide.sgml">		
-			<!ENTITY vcfbuilder_design SYSTEM "vcfbuilder_design.sgml">		
-			<!ENTITY vcfbuilder_faq SYSTEM "vcfbuilder_faq.sgml">
-			<!ENTITY vcfbuilder_book SYSTEM "vcfbuilder_book.sgml">
-	]
->
-
+]>
 
 <!--
 Copyright (c) 2000-2003, Jim Crafton
@@ -62,31 +34,40 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
+switched the sgml files over to xml file extensions
+made a slight adjustment to the docbook makefile
+
 Revision 1.2  2003/05/17 20:36:55  ddiego
 this is the checkin for the 0.6.1 release - represents the merge over from
 the devmain-0-6-0 branch plus a few minor bug fixes
 
-Revision 1.1.2.1  2003/03/13 02:34:40  ddiego
+Revision 1.1.2.2  2003/03/13 02:34:40  ddiego
 added some more docs and broke apart the various "books" so they can be all
 put together or in separate books. Made to changes to Makefile
 
+Revision 1.1.2.1  2003/03/12 03:09:08  ddiego
+switched all member variable that used the "m_"<name> prefix to
+ <name>"_" suffix nameing standard.
+Also changed all vcf builder files to accomadate this.
+Changes were made to the Stream classes to NOT multiple inheritance and to
+be a little more correct. Changes include breaking the FileStream into two
+distinct classes, one for input and one for output.
 
+Revision 1.1.2.2  2003/03/03 05:00:41  ddiego
+added Makefile for creating html, htmlhelp, a tar.gz dist, and cleaning up
+
+Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
+initial check-in of docbook vcf documentation, plus neccesary stylsheets
+and images
 
 -->
 
 
-<set><title>The Visual Component Framework</title>
-	<book>
-		&vcf_book;	
-	</book>
-
-	<book>
-		&xmake_book;
-	</book>
-	
-	<book>
-		&vcfbuilder_book;
-	</book>
+<book>
+	&xmake_book;
 
 	<index id="index"/>
-</set>
+</book>
+
+

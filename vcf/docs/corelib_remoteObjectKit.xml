@@ -24,25 +24,29 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
-CVS Log info
-$Log$
-Revision 1.2  2003/05/17 20:36:55  ddiego
-this is the checkin for the 0.6.1 release - represents the merge over from
-the devmain-0-6-0 branch plus a few minor bug fixes
-
-Revision 1.1.2.1  2003/03/12 03:09:06  ddiego
-switched all member variable that used the "m_"<name> prefix to
- <name>"_" suffix nameing standard.
-Also changed all vcf builder files to accomadate this.
-Changes were made to the Stream classes to NOT multiple inheritance and to
-be a little more correct. Changes include breaking the FileStream into two
-distinct classes, one for input and one for output.
-
 
 -->
 
-<chapter><title>Building Projects</title>
-	<section><title></title>
-	</section>
-</chapter>
+<section><title>RemoteObjectKit</title>
+	<para>
+	</para>
+</section>
 
+
+<!--
+CVS Log info
+$Log$
+Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
+switched the sgml files over to xml file extensions
+made a slight adjustment to the docbook makefile
+
+Revision 1.2  2003/05/17 20:36:51  ddiego
+this is the checkin for the 0.6.1 release - represents the merge over from
+the devmain-0-6-0 branch plus a few minor bug fixes
+
+Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
+initial check-in of docbook vcf documentation, plus neccesary stylsheets
+and images
+
+
+-->

@@ -1,3 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE  book  PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+	
+	<!ENTITY vcf_book SYSTEM "vcf_book.xml">
+	<!ENTITY vcfIntro SYSTEM "vcf_intro.xml">
+	<!ENTITY general SYSTEM "general.xml">	
+	<!ENTITY gettingStarted SYSTEM "getting_started.xml">
+	<!ENTITY coreLibFoundationKit SYSTEM "corelib_foundationKit.xml">
+	<!ENTITY coreLibGraphicsKit SYSTEM "corelib_graphicsKit.xml">
+	<!ENTITY coreLibApplicationKit SYSTEM "corelib_applicationKit.xml">
+	<!ENTITY componentAuthoring SYSTEM "corelib_componentAuthoring.xml">
+	<!ENTITY coreLibNetworkKit SYSTEM "corelib_networkKit.xml">
+	<!ENTITY coreLibRemoteObjectKit SYSTEM "corelib_remoteObjectKit.xml">
+	<!ENTITY coreLibFAQ SYSTEM "corelib_FAQ.xml">
+
+	<!ENTITY tutorials SYSTEM "tutorials.xml">
+	<!ENTITY helloworld SYSTEM "../examples/HelloWorld/HelloWorld.xml">
+	
+]>
+
+
 <!--
 Copyright (c) 2000-2003, Jim Crafton
 All rights reserved.
@@ -24,20 +46,39 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
+
+
+-->
+
+
+
+<book>
+	
+	&vcf_book;
+	
+	<index id="index"/>
+</book>
+
+
+<!--
 CVS Log info
 $Log$
-Revision 1.2  2003/05/17 20:36:51  ddiego
+Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
+switched the sgml files over to xml file extensions
+made a slight adjustment to the docbook makefile
+
+Revision 1.2  2003/05/17 20:36:55  ddiego
 this is the checkin for the 0.6.1 release - represents the merge over from
 the devmain-0-6-0 branch plus a few minor bug fixes
+
+Revision 1.1.2.3  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
+Revision 1.1.2.2  2003/03/03 05:00:41  ddiego
+added Makefile for creating html, htmlhelp, a tar.gz dist, and cleaning up
 
 Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
 initial check-in of docbook vcf documentation, plus neccesary stylsheets
 and images
-
 -->
-
-<section><title>NetworkKit</title>
-	<para>
-	</para>
-</section>
-

@@ -24,83 +24,6 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
-CVS Log info
-$Log$
-Revision 1.5.2.1  2003/08/11 03:28:42  ddiego
-addressed some issues with the installer
-
-Revision 1.5  2003/08/09 21:01:40  ddiego
-minor changes to doc makefile
-
-Revision 1.4  2003/08/09 02:56:41  ddiego
-merge over from the devmain-0-6-1 branch
-Changes
-Features:
--Added additional implementation to better support the MVC architecture in
-the VCF
-
--Added a Document/View architecure that is similar to MFC's or NextSteps's
-Doc/View architectures
-
--Integrated the Anti Grain Graphics library into the GraphicsKit. There is
-now basic support for it in terms of drawing vector shapes
-(fills and strokes). Image support will come in the next release
-
--Added several documented graphics tutorials
-
-Bugfixes:
-
-[ 775744 ] wrong buttons on a dialog
-[ 585239 ] Painting weirdness in a modal dialog ?
-[ 585238 ] Modal dialog which makes a modal Dialog
-[ 509004 ] Opening a modal Dialog causes flicker
-[ 524878 ] onDropped not called for MLTcontrol
-
-Plus an issue with some focus and getting the right popup window to activate
-has also been fixed
-
-Revision 1.3.2.1  2003/06/23 23:16:54  ddiego
-added some furtther implementation for the osx port
-
-Revision 1.3  2003/05/18 23:09:37  ddiego
-fixes some mistakes in the docs/Makefile and adds some extra documentation.
-
-Revision 1.2  2003/05/17 20:36:55  ddiego
-this is the checkin for the 0.6.1 release - represents the merge over from
-the devmain-0-6-0 branch plus a few minor bug fixes
-
-Revision 1.1.2.9  2003/05/15 03:00:59  ddiego
-added initial osx source( FoundationKit only),
-plus some fixes to compile under GCC 3.x compilers
-
-Revision 1.1.2.8  2003/03/24 06:05:02  ddiego
-more additions to the doc makefile and for allowing for online doxygen
-generation
-
-Revision 1.1.2.7  2003/03/13 02:34:40  ddiego
-added some more docs and broke apart the various "books" so they can be all
-put together or in separate books. Made to changes to Makefile
-
-Revision 1.1.2.6  2003/03/12 02:51:39  ddiego
-more documentation updates
-
-Revision 1.1.2.5  2003/03/10 03:58:34  ddiego
-fixes ot better support online html, plus the addition of a little C++
-program to stip stuff
-
-Revision 1.1.2.4  2003/03/07 04:33:02  ddiego
-added more docs for appkit. made some mods to the vcf.xsl stylesheet
-to turn on section numbering
-
-Revision 1.1.2.3  2003/03/04 04:53:51  ddiego
-filled some docs
-
-Revision 1.1.2.2  2003/03/03 22:42:41  ddiego
-stuff
-
-Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
-initial check-in of docbook vcf documentation, plus neccesary stylsheets
-and images
 
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -109,7 +32,7 @@ and images
  <!--
  this uses a local path - may need to be modified for others
  -->
-	<xsl:import href="d:/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
+	<xsl:import href="d:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
@@ -502,3 +425,87 @@ will be replaced by a sed script in tyhe makefile
 
 
 </xsl:stylesheet>
+
+<!--
+CVS Log info
+$Log$
+Revision 1.5.2.2  2003/09/24 19:41:18  ddiego
+switched the sgml files over to xml file extensions
+made a slight adjustment to the docbook makefile
+
+Revision 1.5.2.1  2003/08/11 03:28:42  ddiego
+addressed some issues with the installer
+
+Revision 1.5  2003/08/09 21:01:40  ddiego
+minor changes to doc makefile
+
+Revision 1.4  2003/08/09 02:56:41  ddiego
+merge over from the devmain-0-6-1 branch
+Changes
+Features:
+-Added additional implementation to better support the MVC architecture in
+the VCF
+
+-Added a Document/View architecure that is similar to MFC's or NextSteps's
+Doc/View architectures
+
+-Integrated the Anti Grain Graphics library into the GraphicsKit. There is
+now basic support for it in terms of drawing vector shapes
+(fills and strokes). Image support will come in the next release
+
+-Added several documented graphics tutorials
+
+Bugfixes:
+
+[ 775744 ] wrong buttons on a dialog
+[ 585239 ] Painting weirdness in a modal dialog ?
+[ 585238 ] Modal dialog which makes a modal Dialog
+[ 509004 ] Opening a modal Dialog causes flicker
+[ 524878 ] onDropped not called for MLTcontrol
+
+Plus an issue with some focus and getting the right popup window to activate
+has also been fixed
+
+Revision 1.3.2.1  2003/06/23 23:16:54  ddiego
+added some furtther implementation for the osx port
+
+Revision 1.3  2003/05/18 23:09:37  ddiego
+fixes some mistakes in the docs/Makefile and adds some extra documentation.
+
+Revision 1.2  2003/05/17 20:36:55  ddiego
+this is the checkin for the 0.6.1 release - represents the merge over from
+the devmain-0-6-0 branch plus a few minor bug fixes
+
+Revision 1.1.2.9  2003/05/15 03:00:59  ddiego
+added initial osx source( FoundationKit only),
+plus some fixes to compile under GCC 3.x compilers
+
+Revision 1.1.2.8  2003/03/24 06:05:02  ddiego
+more additions to the doc makefile and for allowing for online doxygen
+generation
+
+Revision 1.1.2.7  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
+Revision 1.1.2.6  2003/03/12 02:51:39  ddiego
+more documentation updates
+
+Revision 1.1.2.5  2003/03/10 03:58:34  ddiego
+fixes ot better support online html, plus the addition of a little C++
+program to stip stuff
+
+Revision 1.1.2.4  2003/03/07 04:33:02  ddiego
+added more docs for appkit. made some mods to the vcf.xsl stylesheet
+to turn on section numbering
+
+Revision 1.1.2.3  2003/03/04 04:53:51  ddiego
+filled some docs
+
+Revision 1.1.2.2  2003/03/03 22:42:41  ddiego
+stuff
+
+Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
+initial check-in of docbook vcf documentation, plus neccesary stylsheets
+and images
+-->

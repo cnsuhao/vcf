@@ -2,6 +2,10 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.2  2003/09/24 19:41:18  ddiego
+#switched the sgml files over to xml file extensions
+#made a slight adjustment to the docbook makefile
+#
 #Revision 1.5.2.1  2003/08/11 03:28:42  ddiego
 #addressed some issues with the installer
 #
@@ -46,9 +50,11 @@ VCFB_VERSION = 1.0.5
 XMAKE_VERSION = 1.0.5
 
 
-HTMLHELP_COMPILER = "D:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
+XSL_DOCBOOK_DIR = "d:/code/docbook-xsl-1.60.1"
+XSL_HTMLHELP_IMPORT = "$(XSL_DOCBOOK_DIR)/htmlhelp/htmlhelp.xsl"
+XSL_HTML_IMPORT = "$(XSL_DOCBOOK_DIR)/html/docbook.xsl"
 
-XSL_HTMLHELP_IMPORT = d:/docbook/xsl/htmlhelp/htmlhelp.xsl
 
 RAW_CHM_FILENAME = vcf_docs.chm
 RAW_CHI_FILENAME = vcf_docs.chi
@@ -81,56 +87,58 @@ UPLOADS_DIR	= ../uploadToSF
 FULL_ONLINE_SRC_DOC_DIR = $(ONLINE_DOCS_REF_DIR)/$(ONLINE_SRC_DOC_DIR)
 
 
-VCF_DOCS = corelib_FAQ.sgml \
-corelib_applicationKit.sgml \
-corelib_componentAuthoring.sgml \
-corelib_foundationKit.sgml \
-corelib_graphicsKit.sgml \
-corelib_networkKit.sgml \
-corelib_remoteObjectKit.sgml \
-general.sgml \
-getting_started.sgml \
-tutorials.sgml \
-vcf_docbook.sgml \
-vcf_intro.sgml \
+VCF_DOCS = corelib_FAQ.xml \
+corelib_applicationKit.xml \
+corelib_componentAuthoring.xml \
+corelib_foundationKit.xml \
+corelib_graphicsKit.xml \
+corelib_networkKit.xml \
+corelib_remoteObjectKit.xml \
+general.xml \
+getting_started.xml \
+tutorials.xml \
+vcf_docbook.xml \
+vcf_intro.xml \
 vcf.css \
 vcf.dsl \
 vcf.xsl
 
 
 VCF_BUILDER_DOCS = vcf.css vcfbuilder.xsl \
-vcfbuilder_docbook.sgml \
-vcfbuilder_ui.sgml \
-vcfbuilder_building.sgml \
-vcfbuilder_faq.sgml \
-vcfbuilder_versionctrl.sgml \
-vcfbuilder_debug.sgml \
-vcfbuilder_ide.sgml \
-vcfbuilder_wspprj.sgml \
-vcfbuilder_design.sgml \
-vcfbuilder_intro.sgml \
-vcfbuilder_designer.sgml \
-vcfbuilder_quicktut.sgml 
+vcfbuilder_docbook.xml \
+vcfbuilder_ui.xml \
+vcfbuilder_building.xml \
+vcfbuilder_faq.xml \
+vcfbuilder_versionctrl.xml \
+vcfbuilder_debug.xml \
+vcfbuilder_ide.xml \
+vcfbuilder_wspprj.xml \
+vcfbuilder_design.xml \
+vcfbuilder_intro.xml \
+vcfbuilder_designer.xml \
+vcfbuilder_quicktut.xml 
 
 
-XMAKE_DOCS = vcf.css xmake_book.sgml xmake_docbook.sgml
+TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml
+
+XMAKE_DOCS = vcf.css xmake_book.xml xmake_docbook.xml
 
 
 
 coredocs :  $(VCF_DOCS) test_tools
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
-	xsltproc --nonet vcf.xsl vcf_docbook.sgml
-	mv vcf_book.sgml.bak vcf_book.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
+	xsltproc --nonet vcf.xsl vcf_docbook.xml
+	mv vcf_book.xml.bak vcf_book.xml
 
 	
 coredocs_online :  $(VCF_DOCS) test_tools 
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
-	xsltproc --nonet vcf_online.xsl vcf_docbook.sgml	
-	mv vcf_book.sgml.bak vcf_book.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
+	xsltproc --nonet vcf_online.xsl vcf_docbook.xml	
+	mv vcf_book.xml.bak vcf_book.xml
 
 
 coredocs_hh : htmlhelp.hhp coredocs
@@ -140,12 +148,17 @@ coredocs_hh : htmlhelp.hhp coredocs
 
 
 
+tutorials : test_tools
+	for file in $(TUTORIAL_ARTICLES);\
+	do\
+		out=`dirname $$file`/`basename $$file .xml`.html;\
+		echo $$out;\
+		xsltproc --nonet $(XSL_HTML_IMPORT) $$file > $$out;\
+	done
 
-	
 
 
-
-#steps - this one ios a bit complex
+#steps - this one is a bit complex
 #creates source code docs, and creates the html help for them
 #create the docbook generated html using the vcf_with_source_docs stylesheet
 #which turns on the generation of linkage to the source code docs
@@ -156,10 +169,10 @@ coredocs_hh : htmlhelp.hhp coredocs
 #original contents
 
 coredocs_hh_with_source : $(VCF_DOCS) test_tools doxy doxy_hh
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
-	xsltproc --nonet vcf_with_source_docs.xsl vcf_docbook.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
+	xsltproc --nonet vcf_with_source_docs.xsl vcf_docbook.xml
 	cp htmlhelp.hhp htmlhelp.hhp.bak
 	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
 	mv htmlhelp.hhp.tmp htmlhelp.hhp
@@ -175,7 +188,7 @@ coredocs_hh_with_source : $(VCF_DOCS) test_tools doxy doxy_hh
 	then\
 		mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME);\
 	fi
-	mv vcf_book.sgml.bak vcf_book.sgml	
+	mv vcf_book.xml.bak vcf_book.xml	
 
 	
 strip_online_docs :  stripper
@@ -189,23 +202,23 @@ strip_online_docs :  stripper
 
 
 alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
 
-	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
-	cp xmake_book.sgml xmake_book.sgml.bak
-	mv xmake_book.sgml.tmp xmake_book.sgml
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.xml > xmake_book.xml.tmp
+	cp xmake_book.xml xmake_book.xml.bak
+	mv xmake_book.xml.tmp xmake_book.xml
 
-	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
-	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
-	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.xml > vcfbuilder_book.xml.tmp
+	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
+	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
 	
-	xsltproc --nonet vcf.xsl vcf_website_docs.sgml
+	xsltproc --nonet vcf.xsl vcf_website_docs.xml
 
-	mv vcf_book.sgml.bak vcf_book.sgml
-	mv xmake_book.sgml.bak xmake_book.sgml
-	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+	mv vcf_book.xml.bak vcf_book.xml
+	mv xmake_book.xml.bak xmake_book.xml
+	mv vcfbuilder_book.xml.bak vcfbuilder_book.xml
 
 
 
@@ -228,43 +241,43 @@ alldocs_hh : alldocs htmlhelp.hhp
 
 
 alldocs_online : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
 
-	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
-	cp xmake_book.sgml xmake_book.sgml.bak
-	mv xmake_book.sgml.tmp xmake_book.sgml
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.xml > xmake_book.xml.tmp
+	cp xmake_book.xml xmake_book.xml.bak
+	mv xmake_book.xml.tmp xmake_book.xml
 
-	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
-	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
-	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.xml > vcfbuilder_book.xml.tmp
+	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
+	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
 
-	xsltproc --nonet vcf_online.xsl vcf_website_docs.sgml
+	xsltproc --nonet vcf_online.xsl vcf_website_docs.xml
 
-	mv vcf_book.sgml.bak vcf_book.sgml
-	mv xmake_book.sgml.bak xmake_book.sgml
-	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+	mv vcf_book.xml.bak vcf_book.xml
+	mv xmake_book.xml.bak xmake_book.xml
+	mv vcfbuilder_book.xml.bak vcfbuilder_book.xml
 
 
 alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS) doxy doxy_hh
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
 
-	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
-	cp xmake_book.sgml xmake_book.sgml.bak
-	mv xmake_book.sgml.tmp xmake_book.sgml
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.xml > xmake_book.xml.tmp
+	cp xmake_book.xml xmake_book.xml.bak
+	mv xmake_book.xml.tmp xmake_book.xml
 
-	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
-	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
-	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.xml > vcfbuilder_book.xml.tmp
+	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
+	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
 
-	xsltproc --nonet vcf_with_source_docs.xsl vcf_website_docs.sgml
+	xsltproc --nonet vcf_with_source_docs.xsl vcf_website_docs.xml
 
-	mv vcf_book.sgml.bak vcf_book.sgml
-	mv xmake_book.sgml.bak xmake_book.sgml
-	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+	mv vcf_book.xml.bak vcf_book.xml
+	mv xmake_book.xml.bak xmake_book.xml
+	mv vcfbuilder_book.xml.bak vcfbuilder_book.xml
 
 
 	cp htmlhelp.hhp htmlhelp.hhp.bak
@@ -312,23 +325,23 @@ alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS
 
 
 alldocs_hh_src_separate : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS) doxy doxy_hh
-	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
-	cp vcf_book.sgml vcf_book.sgml.bak
-	mv vcf_book.sgml.tmp vcf_book.sgml
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
 
-	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
-	cp xmake_book.sgml xmake_book.sgml.bak
-	mv xmake_book.sgml.tmp xmake_book.sgml
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.xml > xmake_book.xml.tmp
+	cp xmake_book.xml xmake_book.xml.bak
+	mv xmake_book.xml.tmp xmake_book.xml
 
-	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
-	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
-	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.xml > vcfbuilder_book.xml.tmp
+	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
+	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
 
-	xsltproc --nonet vcf.xsl vcf_website_docs.sgml
+	xsltproc --nonet vcf.xsl vcf_website_docs.xml
 
-	mv vcf_book.sgml.bak vcf_book.sgml
-	mv xmake_book.sgml.bak xmake_book.sgml
-	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+	mv vcf_book.xml.bak vcf_book.xml
+	mv xmake_book.xml.bak xmake_book.xml
+	mv vcfbuilder_book.xml.bak vcfbuilder_book.xml
 
 
 	cp htmlhelp.hhp htmlhelp.hhp.bak
@@ -376,13 +389,13 @@ alldocs_hh_src_separate : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOC
 
 
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
-	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
-	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
-	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.xml > vcfbuilder_book.xml.tmp
+	cp vcfbuilder_book.xml vcfbuilder_book.xml.bak
+	mv vcfbuilder_book.xml.tmp vcfbuilder_book.xml
 
-	xsltproc --nonet vcfbuilder.xsl vcfbuilder_docbook.sgml
+	xsltproc --nonet vcfbuilder.xsl vcfbuilder_docbook.xml
 
-	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+	mv vcfbuilder_book.xml.bak vcfbuilder_book.xml
 
 
 vcf_builder_hh : vcf_builder_docs htmlhelp.hhp 
@@ -392,13 +405,13 @@ vcf_builder_hh : vcf_builder_docs htmlhelp.hhp
 
 
 xmake_docs : $(XMAKE_DOCS) test_tools
-	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
-	cp xmake_book.sgml xmake_book.sgml.bak
-	mv xmake_book.sgml.tmp xmake_book.sgml
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.xml > xmake_book.xml.tmp
+	cp xmake_book.xml xmake_book.xml.bak
+	mv xmake_book.xml.tmp xmake_book.xml
 
-	xsltproc vcf.xsl xmake_docbook.sgml
+	xsltproc vcf.xsl xmake_docbook.xml
 
-	mv xmake_book.sgml.bak xmake_book.sgml
+	mv xmake_book.xml.bak xmake_book.xml
 
 xmake_hh : htmlhelp.hhp xmake_docs
 	-$(HTMLHELP_COMPILER) htmlhelp.hhp

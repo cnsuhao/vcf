@@ -24,23 +24,6 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
-CVS Log info
-$Log$
-Revision 1.2  2003/05/17 20:36:52  ddiego
-this is the checkin for the 0.6.1 release - represents the merge over from
-the devmain-0-6-0 branch plus a few minor bug fixes
-
-Revision 1.1.2.3  2003/03/13 02:34:40  ddiego
-added some more docs and broke apart the various "books" so they can be all
-put together or in separate books. Made to changes to Makefile
-
-Revision 1.1.2.2  2003/03/12 02:51:39  ddiego
-more documentation updates
-
-Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
-initial check-in of docbook vcf documentation, plus neccesary stylsheets
-and images
-
 -->
 <chapter><title>General</title>
 	<section><title>Features</title>
@@ -1027,4 +1010,27 @@ int myCoolMethod( void* d, bool b, String s );
 		</para>
 	</section>		
 </chapter>
-	
+
+<!--
+CVS Log info
+$Log$
+Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
+switched the sgml files over to xml file extensions
+made a slight adjustment to the docbook makefile
+
+Revision 1.2  2003/05/17 20:36:52  ddiego
+this is the checkin for the 0.6.1 release - represents the merge over from
+the devmain-0-6-0 branch plus a few minor bug fixes
+
+Revision 1.1.2.3  2003/03/13 02:34:40  ddiego
+added some more docs and broke apart the various "books" so they can be all
+put together or in separate books. Made to changes to Makefile
+
+Revision 1.1.2.2  2003/03/12 02:51:39  ddiego
+more documentation updates
+
+Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
+initial check-in of docbook vcf documentation, plus neccesary stylsheets
+and images
+
+-->
