@@ -103,7 +103,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/LinuxPeer.o \
 	$(OUTDIR_FK_D)/LinuxFilePeer.o \
 	$(OUTDIR_FK_D)/LinuxFileStream.o \
-	$(OUTDIR_FK_D)/LinuxThread.o \
+	$(OUTDIR_FK_D)/PosixThread.o \
 	$(OUTDIR_FK_D)/LinuxLibraryPeer.o \
 	$(OUTDIR_FK_D)/LinuxMutex.o \
 	$(OUTDIR_FK_D)/LinuxProcessPeer.o \
