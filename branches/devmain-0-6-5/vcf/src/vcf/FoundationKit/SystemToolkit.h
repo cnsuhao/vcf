@@ -80,7 +80,7 @@ public:
 
 	static LibraryPeer* createLibraryPeer( Library* library );
 
-	static FilePeer* createFilePeer( File* file, const String& filename="" );
+	static FilePeer* createFilePeer( File* file );
 
 	static FileStreamPeer* createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType );
 
@@ -113,7 +113,7 @@ protected:
 
 	virtual LibraryPeer* internal_createLibraryPeer( Library* library ) = 0;
 
-	virtual FilePeer* internal_createFilePeer( File* file, const String& filename="" ) = 0;
+	virtual FilePeer* internal_createFilePeer( File* file ) = 0;
 
 	virtual FileStreamPeer* internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType ) = 0;
 
@@ -135,6 +135,13 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -8,17 +8,17 @@ where you installed the VCF.
 
 
 #include "vcf/FoundationKit/FoundationKit.h"
+
 using namespace VCF;
 
 
-File::File( const String& fileName )
+File::File( const String& fileName, OpenFlags openFlags/*=File::ofNone*/, ShareFlags shareFlags/*=File::shMaskAny*/ )
 {
 	filePeer_ = NULL;
+	fileInputStream_  = NULL;
+	fileOutputStream_ = NULL;
 
-	filePeer_ = SystemToolkit::createFilePeer( this, fileName );
-	if ( NULL == filePeer_ ) {
-		throw NoPeerFoundException();
-	}
+	setName( fileName );
 }
 
 File::~File()
@@ -29,29 +29,72 @@ File::~File()
 	filePeer_ = NULL;
 }
 
-void File::remove()
+void File::setName( const String& fileName )
 {
-	filePeer_->remove();
+	// should we do this check ? maybe better not.
+	//if ( fileName_ != fileName ) {
+	//	return;
+	//}
+
+  // or just: fileName_ = fileName ?
+	fileName_ = FilePath::transformToOSSpecific( fileName );
+
+	if ( NULL == filePeer_ ) {
+		filePeer_ = SystemToolkit::createFilePeer( this );
+		if ( NULL == filePeer_ ) {
+			throw NoPeerFoundException();
+		}
+	} else {
+		filePeer_->setFile( this );
+	}
+
+	resetStats();
 }
 
-void File::create()
+
+String File::getOwner()
+{
+	// gets the owner of the file
+	return owner_;
+}
+
+void File::updateStat( StatMask statMask/*=File::smStatNone*/ )
+{
+	filePeer_->updateStat( statMask );
+}
+
+void File::setFileAttributes( const File::FileAttributes fileAttributes )
+{
+	filePeer_->setFileAttributes( fileAttributes );
+}
+
+void File::updateTime()
+{
+	DateTime currentTime = DateTime::now();
+
+	// %%% the time *must* be converted in UTC time now !
+
+	setDateModified ( currentTime );
+}
+
+void File::setDateModified( const DateTime& dateModified )
+{
+	filePeer_->setDateModified( dateModified );
+}
+
+/*static*/ bool File::exists( const String& filename )
+{
+	return System::doesFileExist( filename );
+}
+
+void File::create( const String& newFileName )
 {
 	filePeer_->create();
 }
 
-uint32 File::getSize()
+void File::remove()
 {
-	return filePeer_->getSize();
-}
-
-String File::getName() const
-{
-	return filePeer_->getName();
-}
-
-void File::setName( const String& fileName )
-{
-	filePeer_->setName( fileName );
+	filePeer_->remove();
 }
 
 void File::copyTo( const String& copyFileName )
@@ -59,15 +102,26 @@ void File::copyTo( const String& copyFileName )
 	filePeer_->copyTo( copyFileName );
 }
 
-bool File::isDirectory()
+void File::openWithFileName( const String& fileName )
 {
-	return (filePeer_->getSize() == 0);
 }
+
+void File::openWithRights( const String& fileName, OpenFlags openFlags/*=File::ofRead*/, ShareFlags shareFlags/*=File::shMaskAny*/ )
+{
+}
+
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

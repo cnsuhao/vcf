@@ -564,35 +564,6 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 	return result;
 }
 
-bool Win32Utils::fileExists( const VCF::String& fileName )
-{
-	bool result = false;
-	HANDLE fileHandle = NULL;
-
-	if ( VCF::System::isUnicodeEnabled() ) {
-		fileHandle = CreateFileW( fileName.c_str(),
-									0,
-									FILE_SHARE_READ | FILE_SHARE_WRITE, //for now
-									NULL, //for now
-									OPEN_EXISTING,
-									FILE_ATTRIBUTE_NORMAL,
-									NULL );
-	}
-	else {
-		fileHandle = CreateFileA( fileName.ansi_c_str(),
-									0,
-									FILE_SHARE_READ | FILE_SHARE_WRITE, //for now
-									NULL, //for now
-									OPEN_EXISTING,
-									FILE_ATTRIBUTE_NORMAL,
-									NULL );
-	}
-
-	result = (fileHandle != INVALID_HANDLE_VALUE) ? true : false;
-	CloseHandle( fileHandle );
-	return result;
-}
-
 VCF::String Win32Utils::getErrorString( const DWORD& errorCode )
 {
 	VCF::String result;
@@ -635,6 +606,13 @@ VCF::String Win32Utils::getErrorString( const DWORD& errorCode )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/18 14:45:19  ddiego
+*integrated Marcello's new File/Directory API changes into both
+*the FoundationKit and the ApplicationKit. Many, many thanks go out
+*to Marcello for a great job with this. This adds much better file searching
+*capabilities, with many options for how to use it and extend it in the
+*future.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
