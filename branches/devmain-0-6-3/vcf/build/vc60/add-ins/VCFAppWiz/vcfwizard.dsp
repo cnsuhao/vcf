@@ -22,6 +22,8 @@ CFG=vcfwizard - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -49,12 +51,12 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"Release/vcfwizard_vc6.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"Release/vcfwizard.awx"
+# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386
 # Begin Custom Build - Copying custom AppWizard to Template directory...
-OutDir=./Release
-TargetPath=./Release/vcfwizard.awx
+OutDir=.\Release
+TargetPath=.\Release\vcfwizard.awx
 TargetName=vcfwizard
-InputPath=./Release/vcfwizard.awx
+InputPath=.\Release\vcfwizard.awx
 SOURCE="$(InputPath)"
 
 "$(MSDEVDIR)/Template/$(TargetName).awx" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -305,9 +307,5 @@ SOURCE=./template/UndoAppApplication.h
 # PROP Exclude_From_Build 1
 # End Source File
 # End Group
-# Begin Source File
-
-SOURCE=./ReadMe.txt
-# End Source File
 # End Target
 # End Project

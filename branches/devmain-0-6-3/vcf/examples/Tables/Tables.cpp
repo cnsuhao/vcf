@@ -71,7 +71,7 @@ public:
 
 int main(int argc, char *argv[])
 {
-	TablesApplication app( argc, argv );
+	Application* app = new TablesApplication( argc, argv );
 
 	Application::main();
 
