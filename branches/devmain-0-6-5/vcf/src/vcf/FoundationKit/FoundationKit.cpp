@@ -110,7 +110,7 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 {
 	if ( !condition ) {
 
-		throw RuntimeException( "Assertion failure: " + failureMessage );
+		throw RuntimeException( L"Assertion failure: " + failureMessage );
 	}
 }
 
@@ -118,6 +118,9 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/13 16:05:57  marcelloptr
+*minor change for Unicode
+*
 *Revision 1.1.2.5  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
