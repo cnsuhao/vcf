@@ -51,6 +51,9 @@ public:
 	virtual bool acceptsWMCommandMessages(){
 		return true;
 	}
+
+	virtual void setEnableAutoResize( const bool& val );
+	virtual bool isAutoResizeEnabled();
 protected:
 	void onModelChanged( ModelEvent* e );
 	WNDPROC oldToolbarWndProc_;
@@ -76,6 +79,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

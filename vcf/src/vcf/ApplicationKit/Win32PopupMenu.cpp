@@ -75,12 +75,16 @@ void Win32PopupMenu::popup( Point* pt )
 			initPopupMenu( wnd, menuHandle );
 
 			UINT retVal = ::TrackPopupMenu( menuHandle, flags, tmpPt.x, tmpPt.y, 0, wnd, NULL );
-			if ( 0 != retVal ){
+			if ( retVal ){
 				MenuItem* item = Win32MenuItem::getMenuItemFromID( retVal );
 				if ( NULL != item ){
 					item->click();
 				}
 			}
+			else {
+				StringUtils::traceWithArgs( "TrackPopupMenu failed, err: %d\n", GetLastError() );
+			}
+
 		}
 	}
 }
@@ -89,6 +93,9 @@ void Win32PopupMenu::popup( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

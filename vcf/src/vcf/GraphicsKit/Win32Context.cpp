@@ -1880,10 +1880,19 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 					fontLocale = System::getCurrentThreadLocale();
 				}
 
+
+				fontLocale = NULL;
+
 				if ( NULL == fontLocale ) {
 					charSet = DEFAULT_CHARSET;
 				}
 				else{
+
+					/**
+					This doesn't seem to make any difference, other than to 
+					make thefont really small. Need to figure out why!!!
+					*/
+
 					LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
 					WORD langID = LANGIDFROMLCID( lcid );
 
@@ -2047,6 +2056,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/11 18:45:55  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.5  2004/07/09 20:07:20  ddiego
 *fixed bug in drawing of theme thumb slider
 *
