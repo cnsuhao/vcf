@@ -518,6 +518,22 @@ void TreeListControl::paintItemState( TreeItem* item, GraphicsContext* context, 
 		buttonState.setActive( true );
 		buttonState.setPressed( state == Item::idsChecked ? true : false );
 		context->drawThemeCheckboxRect( &stateRect, buttonState );
+		if ( state == Item::idsChecked )
+		{
+			stateRect.inflate(-2,-2);
+			stateRect.setRight(stateRect.getRight()-4);
+			context->setColor(Color::getColor("blue"));
+			context->rectangle(&stateRect);
+			context->fillPath();
+/*
+			context->setAntiAliasingOn(true);
+			context->moveTo(stateRect.getTopLeft());
+			context->lineTo(stateRect.getBottomRight());
+			context->moveTo(stateRect.getTopRight());
+			context->lineTo(stateRect.getBottomLeft());
+			context->strokePath();
+*/
+		}
 	}
 }
 
@@ -822,6 +838,11 @@ void TreeListControl::clearSelectedItems()
 	while ( it != selectedItems_.end() ) {
 		TreeItem* item = *it;
 		item->setSelected( false );
+		{
+			ItemEvent event( this, ITEM_EVENT_UNSELECTED );
+			event.setUserData( (void*)item );
+			ItemSelected.fireEvent( &event );
+		}
 		it ++;
 	}
 	selectedItems_.clear();
@@ -1231,6 +1252,13 @@ void TreeListControl::setSelectedItem( TreeItem* item, const bool& isSelected )
 
 	if ( true == isSelected ) {
 		ItemEvent event( this, ITEM_EVENT_SELECTED );
+		event.setUserData( (void*)item );
+		ItemSelected.fireEvent( &event );
+	}
+	else
+	{
+		ItemEvent event( this, ITEM_EVENT_UNSELECTED );
+		event.setUserData( (void*)item );
 		ItemSelected.fireEvent( &event );
 	}
 }
@@ -1510,6 +1538,13 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/12/21 05:00:22  augusto_roman
+*ErrorStrings - Fixed VCF namespace in VCF_ASSERT
+*ItemEvent - Added item unselected event
+*TreeListControl:
+*- Added handling for sending unselected event
+*- Added correct state drawing for checked/unchecked items
+*
 *Revision 1.2.2.2  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
