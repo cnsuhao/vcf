@@ -23,11 +23,12 @@ LRESULT CALLBACK Win32Object_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hWnd );
 
 	if ( NULL != win32Obj ){
-		if ( !win32Obj->handleEventMessages( message, wParam, lParam ) ) {
-			return win32Obj->defaultWndProcedure( message, wParam, lParam );
+		LRESULT result = win32Obj->handleEventMessages( message, wParam, lParam );
+		if ( !result ) {
+			result = win32Obj->defaultWndProcedure( message, wParam, lParam );
 		}
 
-		return 0;
+		return result;
 	}
 	else {
 		if ( System::isUnicodeEnabled() ) {
@@ -78,6 +79,15 @@ void Win32Object::destroyWindowHandle()
 	}
 }
 
+void Win32Object::subclassWindow()
+{
+	if ( System::isUnicodeEnabled() ) {
+		defaultWndProc_ = (WNDPROC)::SetWindowLongW( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
+	}
+	else {
+		defaultWndProc_ = (WNDPROC)::SetWindowLongA( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
+	}
+}
 
 void Win32Object::addRegisterWin32Class( const String& className )
 {
@@ -252,6 +262,10 @@ Control* Win32Object::getPeerControl()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.5  2004/07/14 04:56:02  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

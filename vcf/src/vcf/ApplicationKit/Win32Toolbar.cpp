@@ -66,7 +66,8 @@ void Win32Toolbar::create( Control* control )
 
 	if ( NULL != hwnd_ ) {
 		Win32Object::registerWin32Object( this );
-		defaultWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
+
+		subclassWindow();
 
 		SendMessage(hwnd_, TB_BUTTONSTRUCTSIZE, (WPARAM) sizeof(TBBUTTON), 0);
 
@@ -1364,6 +1365,10 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.7  2004/07/14 04:56:02  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

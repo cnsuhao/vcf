@@ -132,8 +132,8 @@ void Win32Edit::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 
 		Win32Object::registerWin32Object( this );
-
-		defaultWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );		
+		
+		subclassWindow();
 
 		TextModelEventHandler<Win32Edit>* tml =
 			new TextModelEventHandler<Win32Edit>( this, Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
@@ -320,7 +320,7 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 
 			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
-				result = this->defaultWndProcedure(  message, wParam, lParam );
+				defaultWndProcedure(  message, wParam, lParam );
 				//result = CallWindowProc( oldEditWndProc_, hwnd_,
 			}
 
@@ -364,9 +364,9 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
+		
 		case WM_COMMAND:{
 
-			
 			handleEventMessages( HIWORD(wParam), LOWORD(wParam), lParam );
 			return 1;
 		}
@@ -384,13 +384,14 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			}
 
 			OKToResetControlText_ = true;
+			return 1;
 		}
 		break;
 
 		case WM_PAINT:{
 
 			//result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
-			
+			String text = getText();
 		}
 		break;
 
@@ -412,23 +413,24 @@ LRESULT Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		/*
-		this may be useful to uncomment, but at the
-		moment it never gets called, possible because we
-		do not use the default Dialog wnd proc
-		case WM_GETDLGCODE : {
+		
+		//this may be useful to uncomment, but at the
+		//moment it never gets called, possible because we
+		//do not use the default Dialog wnd proc
+		//case WM_GETDLGCODE : {
 
-			result = DLGC_WANTALLKEYS;
-		}
-		break;
-		*/
+		//	result = DLGC_WANTALLKEYS;
+		//}
+		//break;
+		
 
-		default: {
+		default: {	
 			//result = CallWindowProc( oldEditWndProc_, hwnd_, message, wParam, lParam );
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 		}
-		break;
+		break;		
 	}
+	
 	return result;
 }
 
@@ -554,7 +556,7 @@ void Win32Edit::setText( const VCF::String& text )
 	}
 	else {
 		int err = 0;
-		if ( System::isUnicodeEnabled() ) {
+		if ( System::isUnicodeEnabled() ) {		
 
 			err = ::SetWindowTextW( hwnd_, text.c_str() );
 		}
@@ -750,6 +752,10 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.6  2004/07/14 04:56:01  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

@@ -46,7 +46,6 @@ public:
 
 private:
 	CommandButton* commandButton_;
-	WNDPROC oldButtonWndProc_;
 	String windowCaption_;
 	void drawBasicButton( HDC hdc, DRAWITEMSTRUCT& drawStruct );
 };
@@ -57,6 +56,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
