@@ -739,12 +739,12 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object& val )
 
 inline FOUNDATIONKIT_API String operator+ ( const String& lhs, Object* val )
 {
-	return lhs + ((val != NULL) ? val->toString() : "null");
+	return lhs + ((val != NULL) ? val->toString() : String("null"));
 }
 
 inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object* val )
 {
-	return lhs += ((val != NULL) ? val->toString() : "null");
+	return lhs += ((val != NULL) ? val->toString() : String("null"));
 }
 
 
@@ -780,6 +780,9 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rh
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/20 23:10:15  kiklop74
+*Fixed minor issue wioth ? operator. Borland compiler requires exactly same return types.
+*
 *Revision 1.3.2.1  2005/02/16 05:09:33  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
