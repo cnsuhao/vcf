@@ -382,6 +382,7 @@ LRESULT CALLBACK Win32SystemTrayPeer::wndProc(HWND hWnd, UINT message, WPARAM wP
 	else {
 
 		switch ( message ) {
+			case 0: // to make the compiler happy for switch with no case label
 			default : {
 				if ( System::isUnicodeEnabled() ) {
 					result = ::DefWindowProcW( hWnd, message, wParam, lParam );
@@ -397,3 +398,10 @@ LRESULT CALLBACK Win32SystemTrayPeer::wndProc(HWND hWnd, UINT message, WPARAM wP
 	return result;
 }
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.4  2004/09/09 02:41:06  marcelloptr
+*warning eliminated
+*
+*/
