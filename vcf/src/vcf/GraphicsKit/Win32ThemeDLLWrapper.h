@@ -1,6 +1,6 @@
-#ifndef _VCF_VISUALSTYLE_XP_H__
-#define _VCF_VISUALSTYLE_XP_H__
-//VisualStylesXP.h
+#ifndef _VCF_WIN32THEMEDLLWRAPPER_XP_H__
+#define _VCF_WIN32THEMEDLLWRAPPER_XP_H__
+//Win32ThemeDLLWrapper.h
 
 /////////////////////////////////////////////////////////////////////////////
 // Copyright (C) 2001-2002 by David Yuheng Zhao
@@ -19,20 +19,13 @@
 // If you have any questions, I can be reached as follows:
 //	yuheng_zhao@yahoo.com
 //
-//
-// How to use:
-// Instead of calling the API directly, 
-//    OpenThemeData(...);
-// use the global variable
-//    g_xpStyle.OpenThemeData(...);
-//
 /////////////////////////////////////////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #   pragma once
 #endif
 
-#ifdef XPTHEMES
+#ifdef WINTHEMES
 
 #include <Windows.h>
 #include <tchar.h>
@@ -41,7 +34,7 @@
 
 namespace VCF
 {
-	class CVisualStylesXP
+	class Win32ThemeDLLWrapper
 	{
 	private:
 		HMODULE m_hThemeDll;
@@ -392,11 +385,13 @@ namespace VCF
 		HRESULT DrawThemeParentBackground(HWND hwnd, HDC hdc,  RECT* prc);
 		HRESULT EnableTheming(BOOL fEnable);
 	public:
-		CVisualStylesXP(void);
-		~CVisualStylesXP(void);
+		Win32ThemeDLLWrapper(void);
+		~Win32ThemeDLLWrapper(void);
 	};
 }
 
-#endif	// XPTHEMES
+#endif	// WINTHEMES
 
-#endif	// _VCF_VISUALSTYLE_XP_H__
+#endif	// _VCF_WIN32THEMEDLLWRAPPER_XP_H__
+
+

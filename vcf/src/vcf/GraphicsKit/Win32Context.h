@@ -20,8 +20,8 @@ where you installed the VCF.
 
 #include <deque>
 
-#ifdef XPTHEMES
-#include "VisualStylesXP.h"
+#ifdef WINTHEMES
+#include "Win32ThemeDLLWrapper.h"
 #endif
 
 namespace VCF
@@ -432,22 +432,25 @@ protected:
 	static void drawTransparentBitmap( HDC hdc, HBITMAP hBitmap, long xStart,
 	                                   long yStart, COLORREF cTransparentColor );
 
-#ifdef XPTHEMES
+#ifdef WINTHEMES
 	/**
-	* 
-	* 
+	* AutoPointer to a wrapper for the UxTheme.dll
 	*/
-	static std::auto_ptr<CVisualStylesXP> pVStyleXP_;
+	static std::auto_ptr<Win32ThemeDLLWrapper> pThemeDLL_;
 #endif
 
 
 private:
-#ifdef XPTHEMES
+#ifdef WINTHEMES
 	/**
-	* 
-	* 
+	* Draw a themed button using the UxTheme.dll.
+	* Returns false if themed drawing was not possible.
+	* Remarks: In case of an error parts of the button may have been
+	*          already drawn.
+	*          This will only happen if the DLL is present but not
+	*          fully implemented.
 	*/
-	bool drawThemeButtonRectXP( Rect* rect, ButtonState& state );
+	bool drawThemeButtonRectDLL( Rect* rect, ButtonState& state );
 #endif
 
 protected:
@@ -482,6 +485,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/09 18:47:20  chriskr
+*changed class name VisualStylesXP to Win32ThemeDLLWrapper
+*
 *Revision 1.2.2.3  2004/11/08 18:17:23  marcelloptr
 *more documentation
 *
