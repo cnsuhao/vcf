@@ -44,12 +44,28 @@ public:
 		bdr->setStyle( GraphicsContext::etSunken );
 		setBorder( bdr );
 
+		//this is what gives us the capability to easily control the 
+		//scrollbars for the form window
 		scrollBarMgr_ = new ScrollbarManager();
 		scrollBarMgr_->setTarget( this );
 		addComponent( scrollBarMgr_ );
 
 		scrollBarMgr_->setHasHorizontalScrollbar( true );
 		scrollBarMgr_->setHasVerticalScrollbar( true );
+		scrollBarMgr_->setKeepScrollbarsVisible( true );
+
+		scrollBarMgr_->setHorizontalLeftScrollSpace( 200 );
+
+		panel_ = new Panel();
+		add( panel_ );
+
+		infoLabel_ = new Label();
+		panel_->add( infoLabel_, AlignClient );
+
+		Rect r;
+		Scrollable* scrollable = getScrollable();
+		scrollable->getHorizontalScrollRects( NULL, &r );
+		panel_->setBounds( &r );
 	}
 
 	virtual ~ScrollingWindow(){
@@ -58,16 +74,23 @@ public:
 		}
 	};
 
+	virtual void handleEvent( Event* e ) {
+		Window::handleEvent( e );
+		if ( e->getType() == Control::CONTROL_SIZED ) {
+			Scrollable* scrollable = getScrollable();
+			if ( NULL != scrollable ) {
+				Rect r;
+				scrollable->getHorizontalScrollRects( NULL, &r );
+				panel_->setBounds( &r );
+			}
+		}	
+	}
 
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint(ctx);		
 
 		if ( NULL != currentImage_ ) {
-
-			Rect r = getClientBounds();
-
-			r.inflate( -5, -5 );
-
+			
 			Rect viewBounds = ctx->getViewableBounds();
 
 			/**
@@ -76,47 +99,28 @@ public:
 			*/
 			Rect imageRect(0,0,currentImage_->getWidth(),currentImage_->getHeight());
 			
+			Point imagePos;
+			imagePos = viewBounds.getTopLeft();
+
+			
+			//adjust the imagePos to be centered if neccessary
+			if ( viewBounds.getWidth() > imageRect.getWidth() ) {
+				imagePos.x_ = viewBounds.getWidth()/2.0 - imageRect.getWidth()/2.0;
+			}
+
+			if ( viewBounds.getHeight() > imageRect.getHeight() ) {
+				imagePos.y_ = viewBounds.getHeight()/2.0 - imageRect.getHeight()/2.0;
+			}
+
 
 			//adjust the rect to the bare minimum rect needed 
-			
+			imageRect.left_ = maxVal<>( 0.0,viewBounds.left_ );
+			imageRect.right_ = minVal<double>( currentImage_->getWidth(), viewBounds.right_ );
 
+			imageRect.top_ = maxVal<>( 0.0,viewBounds.top_ );
+			imageRect.bottom_ = minVal<double>( currentImage_->getHeight(), viewBounds.bottom_ );
 
-			imageRect.offset( r.getTopLeft() );
-			
-			//this positions the rect correctly
-			if ( r.getWidth() > imageRect.getWidth() ) {
-				imageRect.offset( r.getWidth()/2 - imageRect.getWidth()/2, 0 );
-			}
-			else {
-				if ( viewBounds.getWidth() < currentImage_->getWidth() ) {
-					imageRect.left_ = viewBounds.left_;
-					imageRect.right_ = viewBounds.right_;
-				}
-			}
-
-			if ( r.getHeight() > imageRect.getHeight() ) {
-				imageRect.offset( 0, r.getHeight()/2 - imageRect.getHeight()/2 );
-			}
-			else {
-				if ( viewBounds.getHeight() < currentImage_->getHeight() ) {
-					imageRect.top_ = viewBounds.top_;
-					imageRect.bottom_ = viewBounds.bottom_;
-				}
-			}
-			StringUtils::traceWithArgs( "ctx->drawPartialImage( (%.02f,%.02f), %s, %p ), %s\n",
-										viewBounds.left_,
-										viewBounds.top_,
-										imageRect.toString().c_str(),
-										currentImage_,
-										viewBounds.toString().c_str() );
-
-
-			ctx->drawPartialImage( viewBounds.getTopLeft(), &imageRect, currentImage_ );			
-
-
-			//ctx->setColor( Color::getColor( "red" ) );
-			//ctx->rectangle( &viewBounds );
-			//ctx->strokePath();
+			ctx->drawPartialImage( imagePos, &imageRect , currentImage_ );
 		}
 	}
 
@@ -159,11 +163,19 @@ public:
 			scrollBarMgr_->setVirtualViewWidth( currentImage_->getWidth() );
 			scrollBarMgr_->setVirtualViewHeight( currentImage_->getHeight() );
 			repaint(); //repaint ourselves to update the new image
+
+			FilePath fp = dlg.getFileName();
+			infoLabel_->setCaption( StringUtils::format( "Image: %s Size: %d, %d",
+															fp.getName(true).c_str(),
+															currentImage_->getWidth(),
+															currentImage_->getHeight() ) );
 		}
 	}
 
 	Image* currentImage_;
+	Panel* panel_;
 
+	Label* infoLabel_;
 	ScrollbarManager* scrollBarMgr_;
 };
 

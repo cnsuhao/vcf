@@ -25,9 +25,22 @@ NB: This software will not save the world.
 -->
  
 
-<section><title>CopyAndPaste</title>
+<section><title>Copy And Paste and the VCF Clipboard</title>
 	<para>
-		Your content here, explaining the usage/functioning of your example.
+		The VCF allows you to make use of the clipboard services provided by the underlying
+		OS and/or windowing system. This is done through 3 main objects that interact with
+		each otehr during the copy and paste process. The first is the Clipboard itself,
+		that serves as an interface to the underlying native clipboard. The Clipboard works 
+		with data that is wrapped in a DataObject, which can hold multiple data types. 
+		Finally, you stream data to and from a DataObject via concrete input or output streams.
+	</para>
+	<para>
+	In our example we'll create a window with two buttons, and attach an event handler to each,
+	one that will handle coppying the data to the clipboard, and another that will take 
+	data from the clipboard and paste in into an edit control.
+	</para>
+	
+	<para>
 	</para>
 </section>
 
@@ -37,6 +50,12 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/10/13 04:05:18  ddiego
+updated the scrolling example - this now demonstrates how to use the
+ScrollManager component and how to customize the scrollbars -
+even shows how to control where they go and how you have a little
+control on left (or right side) of the scroll bar (like Word does)
+
 Revision 1.1.2.1  2003/09/27 23:03:55  ddiego
 added tutorial docbook files
 
