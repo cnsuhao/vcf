@@ -27,7 +27,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug\DocViewAdvanced_vc71.pch"
+				PrecompiledHeaderFile=".\Debug\DocViewAdvanced.pch"
 				AssemblerListingLocation=".\Debug\"
 				ObjectFile=".\Debug\"
 				ProgramDataBaseFileName=".\Debug\"
@@ -46,7 +46,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\DocViewAdvanced_vc71.pdb"
+				ProgramDatabaseFile=".\Debug\DocViewAdvanced.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -55,7 +55,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug\DocViewAdvanced_vc71.tlb"/>
+				TypeLibraryName=".\Debug\DocViewAdvanced.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -89,7 +89,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release\DocViewAdvanced_vc71.pch"
+				PrecompiledHeaderFile=".\Release\DocViewAdvanced.pch"
 				AssemblerListingLocation=".\Release\"
 				ObjectFile=".\Release\"
 				ProgramDataBaseFileName=".\Release\"
@@ -106,7 +106,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release\DocViewAdvanced_vc71.pdb"
+				ProgramDatabaseFile=".\Release\DocViewAdvanced.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"/>
 			<Tool
@@ -115,7 +115,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release\DocViewAdvanced_vc71.tlb"/>
+				TypeLibraryName=".\Release\DocViewAdvanced.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
