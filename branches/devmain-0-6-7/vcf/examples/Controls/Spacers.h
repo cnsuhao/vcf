@@ -69,6 +69,9 @@ private :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/01/31 00:13:59  marcelloptr
+*added newlines at end of file
+*
 *Revision 1.2.2.1  2005/01/18 00:17:43  ddiego
 *fixed aromans text edit bug
 *
@@ -81,3 +84,5 @@ private :
 *added copyright
 *
 */
+
+
