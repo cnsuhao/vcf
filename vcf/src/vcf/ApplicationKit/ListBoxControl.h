@@ -90,7 +90,28 @@ public:
 		return allowsMultiSelect_;
 	}
 
+	/**
+	*Enables/disables the ability to have more than 1 item selected at any time.
+	*Item pointers are automatically added and removed from the selectedItems_ container
+	*as they are selected and deselected, respectively.
+	*/
 	void setAllowsMultiSelect( const bool& allowsMultiSelect );
+
+	bool getAllowsExtendedSelect() {
+		return allowsExtendedSelect_;
+	}
+
+	/**
+	*Enables/disables the ability to have extended selection functionality, by
+	*handling Ctrl + mouseDown and Shift + mouseDown.
+	*Item pointers are automatically added and removed from the selectedItems_ container
+	*as they are selected and deselected, respectively.
+	*
+	*If you set allowsExtendedSelect to true, allowsMultiSelect_ is automatically set to true
+	*for you. Therefore, don't forget to set allowsMultiSelect to false if you want to switch 
+	*from extended selection behaviour to single selection behavior. 
+	*/
+	void setAllowsExtendedSelect (const bool& allowsExtendedSelect);
 
 	Enumerator<ListItem*>* getSelectedItems();
 
@@ -99,12 +120,45 @@ public:
 	}
 
 	void setSelectedItem( ListItem* selectedItem );
+
+	/**
+	*Sets the spacing between the innermost-edge of the left border and the 
+	*beginning of the Item captions when scrolled all the way to the left.
+	*Default value is currently 2.0	
+	*/
+	void setLeftGutter(const double& leftgutter);
+	
+	double getLeftGutter(){ 
+		return leftGutter_;
+	}
+
+	/**
+	*Sets the spacing between the innermost-edge of the right border and the 
+	*end of the longest Item caption when scrolled all the way to the right.
+	*Default value is currently 2.0
+	*/
+	void setRightGutter(const double& rightgutter);
+	
+	double getRightGutter(){ 
+		return rightGutter_;
+	}
+
+	void setTextBounded( const bool& istextbounded );
+
+	void deselectAllItems();
+	
+	void eraseFromSelectedItems( ListItem* item );
+
 protected:
 	ListModel* listModel_;
 	double defaultItemHeight_;
 	double currentMaxWidth_;
 	double currentMaxHeight_;
+	double leftGutter_;
+	double rightGutter_;
+	bool textBounded_;
 	bool allowsMultiSelect_;
+	bool allowsExtendedSelect_;
 	ListItem* singleSelectedItem_;
 	std::vector<ListItem*> selectedItems_;
 	EnumeratorContainer<std::vector<ListItem*>,ListItem*> selectedItemsContainer_;
@@ -122,6 +176,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/08 19:45:23  dougtinkham
+*implemented multi-selection and extended-selection, modified mouseDown, mouseMove, and paint. Text in list box can be painted using textBoundedBy or textAt, set by making a call to setTextBounded(const bool&). Added double leftGutter_ and double rightGutter_, which control the distance between text and left and right edges of borders, respectively.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
