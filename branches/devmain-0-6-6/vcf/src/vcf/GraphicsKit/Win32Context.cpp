@@ -741,15 +741,6 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	}
 
 
-	if ( formatOptions & DT_SINGLELINE ) {
-		if ( context_->getRotation() != 0.0 ) {
-			/**
-			JC:
-			adjust the rect a bit
-			*/
-		}
-	}
-
 
 	/* Not using for now
 	DRAWTEXTPARAMS extraParams = {0};
@@ -2395,6 +2386,10 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/09/06 04:43:51  ddiego
+*added font rotation back in, this time with support for matching
+*the graphic contexts current transform.
+*
 *Revision 1.2.2.6  2004/09/06 04:40:43  ddiego
 *added font rotation back in, this time with support for matching
 *the graphic contexts current transform.
