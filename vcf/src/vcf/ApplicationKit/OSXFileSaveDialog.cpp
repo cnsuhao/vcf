@@ -6,33 +6,32 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-#include "vcf/ApplicationKit/OSXFileOpenDialog.h"
+#include "vcf/ApplicationKit/OSXFileSaveDialog.h"
 #include "vcf/FoundationKit/StringTokenizer.h"
 
 
 
 namespace VCF {
 
-OSXFileOpenDialog::OSXFileOpenDialog( Control* owner ) :
-	allowsMultiSelect_(false),
+OSXFileSaveDialog::OSXFileSaveDialog( Control* owner ) :
 	fileMustExist_(false),
 	owner_(owner),
 	selectedFileTypeIndex_(0)
 {
-	container_.initContainer( selectedFiles_ );
+	
 }
 
-OSXFileOpenDialog::~OSXFileOpenDialog() 
+OSXFileSaveDialog::~OSXFileSaveDialog() 
 {
 
 }
 
-void OSXFileOpenDialog::setTitle( const String& title ) 
+void OSXFileSaveDialog::setTitle( const String& title ) 
 {
 	title_ = title;
 }
 
-void OSXFileOpenDialog::buildFileTypesMap()
+void OSXFileSaveDialog::buildFileTypesMap()
 {
 	//Can you say "Royal Pain In the Ass"? Yes? I knew you could!
 	fileTypesFilterMap_.clear();
@@ -111,21 +110,25 @@ void OSXFileOpenDialog::buildFileTypesMap()
 	ICStop( inst );
 }
 
-bool OSXFileOpenDialog::execute() 
+bool OSXFileSaveDialog::execute() 
 {
 	bool result = false;
-	selectedFiles_.clear();
 	fileName_ = "";
+	selectedFilter_ = "";
+	selectedFileExt_ = "";
+			
 	
 	buildFileTypesMap();
 	
-	NavGetDefaultDialogCreationOptions (&openDlgOptions_ );
+	NavDialogCreationOptions saveDlgOptions;
 	
-	NavDialogRef openDlg;
+	NavGetDefaultDialogCreationOptions (&saveDlgOptions );
+	
+	NavDialogRef saveDlg;
 	CFTextString title;
 	title = title_;
-	openDlgOptions_.modality = kWindowModalityAppModal;
-	openDlgOptions_.windowTitle = title;
+	saveDlgOptions.modality = kWindowModalityAppModal;
+	saveDlgOptions.windowTitle = title;
 	CFStringRef* descriptionArray = NULL;
 	
 	if ( !filter_.empty() ) {
@@ -141,31 +144,27 @@ bool OSXFileOpenDialog::execute()
 			it ++;
 		}
 		
-		openDlgOptions_.popupExtension = CFArrayCreate( NULL, 
+		saveDlgOptions.popupExtension = CFArrayCreate( NULL, 
 														(const void**) descriptionArray, 
 														filter_.size(), NULL);
 	
 		
-		openDlgOptions_.optionFlags &= ~kNavNoTypePopup;																
+		saveDlgOptions.optionFlags &= ~kNavNoTypePopup;																
 	}
 	
 	if ( filter_.empty() ) {
-		openDlgOptions_.optionFlags |= kNavSupportPackages;
+		saveDlgOptions.optionFlags |= kNavSupportPackages;
 	}
 	
-	if ( !allowsMultiSelect_ ) {
-		openDlgOptions_.optionFlags ^= kNavAllowMultipleFiles;
-	}
 	
 	//Finally!!! Create our goddamn dialog....
 	
-	OSStatus err = NavCreateGetFileDialog (&openDlgOptions_, 
-												NULL,
-												OSXFileOpenDialog::openNavEventProc,
-												NULL,
-												OSXFileOpenDialog::openFileFilterProc,
+	OSStatus err = NavCreatePutFileDialog (&saveDlgOptions, 
+												kNavGenericSignature,
+												kNavGenericSignature,
+												OSXFileSaveDialog::saveNavEventProc,
 												this,
-												&openDlg);
+												&saveDlg);
 												
 	if ( noErr != err ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("NavCreateGetFileDialog failed!") );
@@ -184,7 +183,7 @@ bool OSXFileOpenDialog::execute()
 			if ( noErr == FSGetCatalogInfo( &fsRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL ) ) {
 				AEDesc desc;
 				if ( AECreateDesc( typeFSS, &fsSpec, sizeof(FSSpec), &desc ) == noErr ) {
-					NavCustomControl( openDlg, kNavCtlSetLocation, (void*)&desc );
+					NavCustomControl( saveDlg, kNavCtlSetLocation, (void*)&desc );
 				}
 			}
 		}
@@ -192,12 +191,12 @@ bool OSXFileOpenDialog::execute()
 	
 	//Holy Crap Batman - it's time to run the stupid dialog!!
 	
-	err = NavDialogRun( openDlg );
+	err = NavDialogRun( saveDlg );
 	
 	
 	//free up the CFStringRefs and the CFArray
-	if ( NULL != openDlgOptions_.popupExtension ) {
-		CFRelease( openDlgOptions_.popupExtension );
+	if ( NULL != saveDlgOptions.popupExtension ) {
+		CFRelease( saveDlgOptions.popupExtension );
 	}
 	
 	for ( int i=0;i<filter_.size();i++ ) {
@@ -205,15 +204,17 @@ bool OSXFileOpenDialog::execute()
 	}
 	
 	delete [] descriptionArray;
-	
+
 	//now check the response
 	NavReplyRecord reply;
-	err = NavDialogGetReply(openDlg, &reply);
+	err = NavDialogGetReply(saveDlg, &reply);
 	if ( err == noErr ) {
-		long numItems;
-		err = AECountItems((const AEDescList *)&reply.selection, &numItems);
-		int i = 1;
-		for (i=1;i<=numItems;i++ ) {
+		
+		CFTextString fileName;
+		fileName = NavDialogGetSaveFileName( saveDlg );
+		if ( fileName.length() > 0 ) {
+			
+			long numItems;
 			AEKeyword   theKeyword;
 			DescType    actualType;
 			::Size        actualSize;
@@ -223,26 +224,25 @@ bool OSXFileOpenDialog::execute()
 			
 			CFRefObject<CFURLRef> url = CFURLCreateFromFSRef( NULL, &theFSRef );  
 			char buf[256];
-			String fileName;
 			if ( CFURLGetFileSystemRepresentation( url, true, (UInt8*)buf, sizeof(buf) ) ) {
-				fileName = buf;
-				selectedFiles_.push_back( fileName );
+				fileName_ = buf;
+				if ( fileName_[fileName_.size()-1] != '/' ) {
+					fileName_ += "/";
+				}
 			}
+			fileName_ += fileName;
+			
+			result = !fileName_.empty();
 		}
-		
 	}
 	
-	NavDialogDispose( openDlg );
 	
-	if ( !selectedFiles_.empty() ) {
-		fileName_ = selectedFiles_.front();
-		result = true;
-	}
+	NavDialogDispose( saveDlg );
 													
 	return result;
 }
 
-bool OSXFileOpenDialog::matchFileType( NavFileOrFolderInfo* info, FSRef* fileRef )
+bool OSXFileSaveDialog::matchFileType( NavFileOrFolderInfo* info, FSRef* fileRef )
 {
 	bool result = false;
 	
@@ -307,41 +307,11 @@ bool OSXFileOpenDialog::matchFileType( NavFileOrFolderInfo* info, FSRef* fileRef
 	return result;
 }
 
-pascal Boolean OSXFileOpenDialog::openFileFilterProc( AEDesc* theItem, void* info, NavCallBackUserData callBackUD, NavFilterModes filterMode )
-{
-	Boolean result = true;
-	NavFileOrFolderInfo *theInfo = (NavFileOrFolderInfo *)info;
-	OSXFileOpenDialog* thisPtr = (OSXFileOpenDialog*)callBackUD;
-	VCF_ASSERT( thisPtr != NULL );
-	
-	if ( !theInfo->isFolder ) {
-		if ( theItem->descriptorType == typeFSS ) {			
-			FSSpec fileSpec;
-			if ( AEGetDescData(theItem, &fileSpec, sizeof(FSSpec)) == noErr ) {
-				printf( "WARNING : We don't support getting FSSpec info yet...\n" );
-			}
-			result = true;			
-		}
-		else if ( theItem->descriptorType == typeFSRef ) { //OK we have an FSRef type - this we can work with
-			FSRef fileRef;
-			result = false;
-			if ( AEGetDescData(theItem, &fileRef, sizeof(FSRef)) == noErr ) {
-				result = thisPtr->matchFileType( theInfo, &fileRef );
-			}
-		}
-	}
-	else {
-		//it's a folder - return true
-		result = true;
-	}
-	
-	return result;	
-}
 
-pascal void OSXFileOpenDialog::openNavEventProc( NavEventCallbackMessage inSelector, NavCBRecPtr ioParams, 
+pascal void OSXFileSaveDialog::saveNavEventProc( NavEventCallbackMessage inSelector, NavCBRecPtr ioParams, 
 													NavCallBackUserData	ioUserData)
 {
-	OSXFileOpenDialog* thisPtr = (OSXFileOpenDialog*)ioUserData;
+	OSXFileSaveDialog* thisPtr = (OSXFileSaveDialog*)ioUserData;
 	VCF_ASSERT( thisPtr != NULL );
 	switch( inSelector ) {
 		case kNavCBStart : {
@@ -361,13 +331,18 @@ pascal void OSXFileOpenDialog::openNavEventProc( NavEventCallbackMessage inSelec
 			 It would *appear* (and I put this in quotes because Nav Services is apparently
 								kind of buggy on OS X) that the menuType field represents the index of the 
 			 array of menu popup names that we pass in to the NavCreateGetFileDialog
-			 in the openDlgOptions_.popupExtension. Other code on the internet apparently relies 
+			 in the saveDlgOptions.popupExtension. Other code on the internet apparently relies 
 			 on this as well, so hopefully this won't change (knock on wood) in the near future.
 			 */
 			NavMenuItemSpec* menuItemSpec = (NavMenuItemSpec *)ioParams->eventData.eventDataParms.param;
 			thisPtr->selectedFileTypeIndex_ = menuItemSpec->menuType;
 			FilterPair filt = thisPtr->filter_[thisPtr->selectedFileTypeIndex_];
+			thisPtr->selectedFilter_ = filt.second;
 			thisPtr->selectedFileExt_ = filt.second;
+			int pos =  thisPtr->selectedFileExt_.find( "*" );
+			if ( pos != String::npos ) {
+				thisPtr->selectedFileExt_.erase( 0, pos+1 );
+			}
 		}
 		break;
 		
@@ -397,7 +372,7 @@ pascal void OSXFileOpenDialog::openNavEventProc( NavEventCallbackMessage inSelec
 										
 										
 
-void OSXFileOpenDialog::addFilter( const String & description, const String & extension ) 
+void OSXFileSaveDialog::addFilter( const String & description, const String & extension ) 
 {
 	FilterPair entry(description,extension);
 	
@@ -407,46 +382,46 @@ void OSXFileOpenDialog::addFilter( const String & description, const String & ex
 	}
 }
 
-void OSXFileOpenDialog::setDirectory( const String & directory ) 
+void OSXFileSaveDialog::setDirectory( const String & directory ) 
 {
 	directory_ = directory;
 }
 
-void OSXFileOpenDialog::setFileName( const String & filename ) 
+void OSXFileSaveDialog::setFileName( const String & filename ) 
 {
 	fileName_ = filename;
 }
 
-String OSXFileOpenDialog::getFileName() 
+String OSXFileSaveDialog::getFileName() 
 {
 	return fileName_;
 }
 
-String OSXFileOpenDialog::getDirectory() 
+String OSXFileSaveDialog::getDirectory() 
 {
 	return directory_;
 }
 
-String OSXFileOpenDialog::getFileExtension() 
+String OSXFileSaveDialog::getFileExtension() 
 {
 	return selectedFileExt_;
 }
 
-uint32 OSXFileOpenDialog::getSelectedFileCount() 
+uint32 OSXFileSaveDialog::getSelectedFileCount() 
 {
-	return selectedFiles_.size();
+	return 0;
 }
 
-Enumerator<String>* OSXFileOpenDialog::getSelectedFiles() {
-	return container_.getEnumerator();
+Enumerator<String>* OSXFileSaveDialog::getSelectedFiles() {
+	return NULL;
 }
 
-void OSXFileOpenDialog::setAllowsMultiSelect( const bool& allowsMultiSelect ) 
+void OSXFileSaveDialog::setAllowsMultiSelect( const bool& allowsMultiSelect ) 
 {
-	allowsMultiSelect_ = allowsMultiSelect;
+
 }
 
-void OSXFileOpenDialog::setSelectedFilter( const String& selectedFilter ) 
+void OSXFileSaveDialog::setSelectedFilter( const String& selectedFilter ) 
 {
 	//FilterPair entry(description,extension);
 	
@@ -459,25 +434,22 @@ void OSXFileOpenDialog::setSelectedFilter( const String& selectedFilter )
 	//selectedFileTypeIndex_
 }
 
-void OSXFileOpenDialog::setFileMustExist( const bool& fileMustExist ) 
+void OSXFileSaveDialog::setFileMustExist( const bool& fileMustExist ) 
 {
 
 }
 
 
-}; // namespace VCF
+};
+
+
 
 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.5  2004/11/10 06:16:40  ddiego
+*Revision 1.1.2.1  2004/11/10 06:16:40  ddiego
 *started adding osx menu code
 *
-*Revision 1.1.2.4  2004/11/07 19:32:19  marcelloptr
-*more documentation
 *
 */
-
-
-

@@ -21,6 +21,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXColorDialog.h"
 #include "vcf/ApplicationKit/OSXFolderBrowseDialog.h"
 #include "vcf/ApplicationKit/OSXFileOpenDialog.h"
+#include "vcf/ApplicationKit/OSXFileSaveDialog.h"
 
 #define kSleepTime	32767
 
@@ -773,7 +774,7 @@ CommonFileDialogPeer* OSXUIToolkit::internal_createCommonFileOpenDialogPeer( Con
 
 CommonFileDialogPeer* OSXUIToolkit::internal_createCommonFileSaveDialogPeer( Control* owner )
 {
-    return NULL;
+    return new OSXFileSaveDialog(owner);
 }
 
 CommonColorDialogPeer* OSXUIToolkit::internal_createCommonColorDialogPeer( Control* owner )
@@ -2095,6 +2096,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/11/10 06:16:40  ddiego
+*started adding osx menu code
+*
 *Revision 1.2.2.6  2004/11/02 05:19:13  ddiego
 *more osx updates for open file dialog.
 *

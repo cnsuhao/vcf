@@ -17,11 +17,11 @@ CommonFileSave::CommonFileSave( Control* owner, const String& startDir )
 {
 	peer_ = UIToolkit::createCommonFileSaveDialogPeer( owner );
 	if ( NULL == peer_ ){
-		//throw exception
+		throw InvalidPeer( MAKE_ERROR_MSG_2("UIToolkit returned a NULL CommonFileDialogPeer, UIToolkit::createCommonFileSaveDialogPeer() is probably not implemented correctly") );		 
 	}
 
 	if ( startDir.size() > 0 ){
-		this->setDirectory( startDir );
+		setDirectory( startDir );
 	}
 
 	setTitle( "Save" );
@@ -42,6 +42,9 @@ bool CommonFileSave::execute()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/10 06:16:40  ddiego
+*started adding osx menu code
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
