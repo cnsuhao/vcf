@@ -28,8 +28,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world. 
 */
 
-#include "GraphicsKit.h"
-#include "GraphicsKitPrivate.h"
+#include "vcf/GraphicsKit/GraphicsKit.h"
+#include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
 
 
@@ -243,6 +243,9 @@ Image* OSXGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect*
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/31 13:20:59  ddiego
+*more osx updates
+*
 *Revision 1.1.2.5  2004/05/06 03:01:29  ddiego
 *checking in OSX updates
 *

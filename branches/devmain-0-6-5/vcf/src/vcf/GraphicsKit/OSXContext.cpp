@@ -29,14 +29,14 @@
 */
 
 
-#include "GraphicsKit.h"
-#include "GraphicsKitPrivate.h"
-
+#include "vcf/GraphicsKit/GraphicsKit.h"
+#include "vcf/GraphicsKit/GraphicsKitPrivate.h"
+#include "vcf/FoundationKit/VCFMath.h"
 
 
 
 using namespace VCF;
-
+/*
 class SwitchPort {
 public:
     SwitchPort( GrafPtr ptr ) :current(ptr){
@@ -59,7 +59,7 @@ private:
     SwitchPort( const SwitchPort& rhs );
     SwitchPort& operator=(const SwitchPort& rhs );
 };
-
+*/
 
 
 
@@ -160,7 +160,7 @@ void OSXContext::setContextID( const unsigned long& handle )
     init();  
 }
 
-void OSXContext::setCGContext( CGContextRef cgRef, GrafPtr port  )
+void OSXContext::setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  )
 {
 	if ( NULL != inMemoryImage_ ) {
         delete [] inMemoryImage_;
@@ -172,7 +172,7 @@ void OSXContext::setCGContext( CGContextRef cgRef, GrafPtr port  )
     
 	
 	
-	
+	ownerRect_ = ownerRect;
 	contextID_ = cgRef;
 	grafPort_ = NULL;
 	
@@ -209,35 +209,25 @@ void OSXContext::setCGContext( CGContextRef cgRef, GrafPtr port  )
 
 	grafPort_ = port;
 
-    //CGContextSaveGState( contextID_ );
-	//::Rect portBounds;
-    //GetPortBounds( grafPort_, &portBounds );
-	
-    //StringUtils::traceWithArgs( "portBounds: %d, %d, %d, %d\n",
-	//								portBounds.left,
-	//								portBounds.top,
-	//								portBounds.right,
-	//								portBounds.bottom );
-	//CGContextTranslateCTM(contextID_, 0,
-	//					  (float)(portBounds.bottom - portBounds.top));
-	//CGContextScaleCTM(contextID_, 1, -1);
-	
+    	
 	if ( nil == textLayout_ ) {
 		ATSUCreateTextLayout( &textLayout_ );
 	}
 	
-	ATSUAttributeTag        cgTags[] = {kATSUCGContextTag};
-	ByteCount               cgSize[] = {sizeof (contextID_)};
-	ATSUAttributeValuePtr   cgValue[] = {&contextID_};
-	
-	OSStatus err = ATSUSetLayoutControls (textLayout_, 
-										  1, 
-										  cgTags, 
-										  cgSize, 
-										  cgValue);
-	if ( err != noErr ) {
-		throw RuntimeException( MAKE_ERROR_MSG_2("ATSUSetLayoutControls failed.") );
-	}	
+	if ( NULL != contextID_ ) {
+		ATSUAttributeTag        cgTags[] = {kATSUCGContextTag};
+		ByteCount               cgSize[] = {sizeof (contextID_)};
+		ATSUAttributeValuePtr   cgValue[] = {&contextID_};
+		
+		OSStatus err = ATSUSetLayoutControls (textLayout_, 
+											  1, 
+											  cgTags, 
+											  cgSize, 
+											  cgValue);										  
+		if ( err != noErr ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("ATSUSetLayoutControls failed.") );
+		}
+	}		
 }
 
 void OSXContext::init()
@@ -310,6 +300,23 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 {	
     VCF::Rect offsetBounds = bounds;
     offsetBounds.offset( origin_ );
+	
+	/*
+	Font* ctxFont = context_->getCurrentFont();
+	OSXFont* fontImpl = (OSXFont*)ctxFont->getFontPeer();
+	ATSUFontID id = fontImpl->getATSUFontID();
+	
+	GrafPtr currentPort;
+	GetPort( &currentPort );
+	SetPortTextFont( grafPort_, id );
+	
+	CFTextString cfStr;
+	cfStr = text;	
+
+    ::Rect r = RectProxy( bounds );
+	DrawThemeTextBox( cfStr, kThemeCurrentPortFont, kThemeStateActive, false, &r, 0, contextID_ );
+	*/			
+			
 	//tdoWordWrap=1,
 	//tdoLeftAlign=2,
 	//tdoCenterHorzAlign=4,
@@ -319,19 +326,13 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	//tdoTopAlign=64
 	//CFTextString cfStr;
 	//cfStr = text;
-	GrafPtr currentPort = grafPort_;
+	//GrafPtr currentPort = grafPort_;
 	//GetPort( &currentPort );
 	::Rect portBounds = RectProxy( context_->getViewableBounds() );
 	
 	//GetPortBounds( currentPort, &portBounds );
-	int portH = portBounds.bottom - ((portBounds.top < 0) ? 0 : portBounds.top );
-	/*
-	StringUtils::traceWithArgs( "OSXContext::textAt()/GetPortBounds(): %d, %d, %d, %d\n",
-									portBounds.left,
-									portBounds.top,
-									portBounds.right,
-									portBounds.bottom );
-									*/
+	int portH = context_->getViewableBounds().getHeight();// portBounds.bottom - ((portBounds.top < 0) ? 0 : portBounds.top );
+	
 										
 	ATSUSetTextPointerLocation( textLayout_, 
 								text.c_str(), 
@@ -339,31 +340,46 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 								kATSUToTextEnd, 
 								text.length() );
     
+	//CFTextString cfStr;
+	//cfStr = text;	
+
     Font* ctxFont = context_->getCurrentFont();
 	FontPeer* fontImpl = ctxFont->getFontPeer();
 	ATSUStyle fontStyle = (ATSUStyle)fontImpl->getFontHandleID();											
-	 ATSUSetRunStyle( textLayout_, fontStyle, 0, text.length() );
+	ATSUSetRunStyle( textLayout_, fontStyle, 0, text.length() );
     
+	//::Rect r = RectProxy( bounds );
+	//DrawThemeTextBox( cfStr, kThemeCurrentPortFont, kThemeStateActive, false, &r, 0, contextID_ );
+	
 												
 	if ( GraphicsContext::tdoWordWrap & drawOptions ) {
 		//do word wrap 
 		VCF::Rect r = offsetBounds;
-		r.top_ = portH - offsetBounds.top_;
-		r.bottom_ = portH - offsetBounds.bottom_;
+		int dy = ownerRect_.getHeight()-portH;
+		
+		r.top_ = portH - offsetBounds.top_;//(portH - ((offsetBounds.top_ + portBounds.top) - dy));//
+		r.bottom_ = r.top_ + offsetBounds.getHeight();//portH - offsetBounds.bottom_;
 //		printf( "atsuDrawTextInBox called with %s\n", r.toString().c_str() );
 		atsuDrawTextInBox( r );		
 	}
 	else {
 		setLayoutWidth( textLayout_, 0 );													
+		int dy = ownerRect_.getHeight()-portH;
+		FixedPointNumber x =  offsetBounds.left_ + portBounds.left;
+		FixedPointNumber y = (portH - ((offsetBounds.top_+portBounds.top) - dy));// - portBounds.top));
+		double xx = x;
+		double yy = y;
+		//::MoveTo( (int)xx, (int)yy );
 		
-		FixedPointNumber x =  offsetBounds.left_;
-		FixedPointNumber y = portH - offsetBounds.top_;
-		
+		StringUtils::traceWithArgs( "ATSUDrawText( ..., %0.3f, %0.3f ), [portH: %d, portBounds.top: %d, offsetBounds.top_: %0.3f, dy:%d  ]\n", 
+									xx,yy,portH,portBounds.top,offsetBounds.top_, dy );
 		ATSUDrawText( textLayout_, 
 							kATSUFromTextBeginning, 
 							kATSUToTextEnd, 
 							x,  y );
+							
 	}
+	
 }
 
 void OSXContext::setLayoutWidth( ATSUTextLayout layout, double width )
@@ -432,13 +448,14 @@ void OSXContext::rectangle(const double & x1, const double & y1, const double & 
 	
 	rect.size.width = x2 - x1;
 	rect.size.height = y2 - y1;
-	
+	//CGContextBeginPath( contextID_ );
 	CGContextAddRect( contextID_, rect );
+	//CGContextClosePath( contextID_ );
 	if ( GraphicsContext::doStroke == currentDrawingOperation_ ) {
-		CGContextStrokePath ( contextID_ );
+		//CGContextStrokePath ( contextID_ );
 	}
 	else if ( GraphicsContext::doFill == currentDrawingOperation_ ) {
-		CGContextFillPath ( contextID_ );
+		//CGContextFillPath ( contextID_ );
 	}
 }
 
@@ -451,29 +468,27 @@ void OSXContext::roundRect(const double & x1, const double & y1, const double & 
 
 void OSXContext::ellipse(const double & x1, const double & y1, const double & x2, const double & y2 )
 {
-	double widthDiv2 = (x2 - x1) / 2.0;
-	double heightDiv2 = (y2 - y1) / 2.0;
-	CGContextMoveToPoint( contextID_, x1, y1+heightDiv2 );
-	CGContextAddCurveToPoint( contextID_, x1 + origin_.x_, y1 + origin_.y_, 
-                                x1+ origin_.x_, y1 + origin_.y_, 
-                                x1+widthDiv2+ origin_.x_, y1+ origin_.y_ );
-	CGContextAddCurveToPoint( contextID_, x2 + origin_.x_, y1 + origin_.y_, 
-                                x2+ origin_.x_, y1+ origin_.y_, 
-                                x2 + origin_.x_, 
-                                y1+heightDiv2 + origin_.y_ );
-	CGContextAddCurveToPoint( contextID_, x2 + origin_.x_, y2 + origin_.y_, 
-                                x2 + origin_.x_, y2 + origin_.y_, 
-                                x1+widthDiv2 + + origin_.x_, y2 + origin_.y_ );
-                                
-	CGContextAddCurveToPoint( contextID_, x1 + origin_.x_, y2 + origin_.y_, 
-                                x1 + origin_.x_, y2 + origin_.y_, 
-                                x1 + origin_.x_, y1+heightDiv2 + origin_.y_ );
+	float a, b;
+    CGPoint center;
+      
+    center.x = x1 + (x2-x1)/2.0;
+	center.y = y1 + (y2-y1)/2.0;
+	
+    a = (x2-x1)/2.0;
+    b = (y2-y1)/2.0;
+    CGContextBeginPath ( contextID_ );
+	CGContextSaveGState(contextID_);
+    CGContextTranslateCTM(contextID_, center.x, center.y);
+    CGContextScaleCTM(contextID_, a, b);
+    CGContextMoveToPoint(contextID_, 1, 0);
+    CGContextAddArc(contextID_, 0, 0, 1, Math::degreesToRadians(0), Math::degreesToRadians(360), 0);
+    CGContextClosePath(contextID_);
+    CGContextRestoreGState(contextID_);
 	
 	if ( GraphicsContext::doStroke == currentDrawingOperation_ ) {
-		CGContextStrokePath ( contextID_ );
+		CGContextStrokePath(contextID_);	
 	}
 	else if ( GraphicsContext::doFill == currentDrawingOperation_ ) {
-		CGContextClosePath( contextID_ );
 		CGContextFillPath ( contextID_ );
 	}
 }
@@ -501,10 +516,10 @@ void OSXContext::polyline(const std::vector<Point>& pts )
 	CGContextAddLines( contextID_, cgPts, pts.size() );
 	
 	if ( GraphicsContext::doStroke == currentDrawingOperation_ ) {
-		CGContextStrokePath ( contextID_ );
+		//CGContextStrokePath ( contextID_ );
 	}
 	else if ( GraphicsContext::doFill == currentDrawingOperation_ ) {
-		CGContextFillPath ( contextID_ );
+		//CGContextFillPath ( contextID_ );
 	}
 		
 	delete [] cgPts;	
@@ -513,28 +528,31 @@ void OSXContext::polyline(const std::vector<Point>& pts )
 void OSXContext::curve(const double & x1, const double & y1, const double & x2, const double & y2,
                          const double & x3, const double & y3, const double & x4, const double & y4)
 {
+	//CGContextBeginPath( contextID_ );
+	
 	CGContextMoveToPoint( contextID_, x1 + origin_.x_, y1 + origin_.y_ );
 	CGContextAddCurveToPoint( contextID_, x2 + origin_.x_, y2 + origin_.y_, 
                                 x3 + origin_.x_, y3 + origin_.y_, 
                                 x4 + origin_.x_, y4 + origin_.y_ );
 	
+	//CGContextClosePath( contextID_ );
 	if ( GraphicsContext::doStroke == currentDrawingOperation_ ) {
-		CGContextStrokePath ( contextID_ );
+		//CGContextStrokePath ( contextID_ );
 	}
 	else if ( GraphicsContext::doFill == currentDrawingOperation_ ) {
-		CGContextFillPath ( contextID_ );
+		//CGContextFillPath ( contextID_ );
 	}
 }
 
 void OSXContext::lineTo(const double & x, const double & y)
 {	
 	CGContextAddLineToPoint( contextID_, x + origin_.x_, y + origin_.y_ );
-	CGContextStrokePath ( contextID_ );
+	//CGContextStrokePath ( contextID_ );
 }
 
 void OSXContext::moveTo(const double & x, const double & y)
 {
-	CGContextBeginPath ( contextID_ );
+	
 	CGContextMoveToPoint( contextID_, x + origin_.x_, y + origin_.y_ );	
 }
 
@@ -593,7 +611,7 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
 	GrafPtr oldPort;
     GetPort( &oldPort );
     if ( oldPort != grafPort_ ) {
-        SetPort( grafPort_ );
+        //SetPort( grafPort_ );
     }
     
 	if ( xorModeOn_ ) {       
@@ -604,7 +622,7 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
     }
     
     if ( oldPort != grafPort_ ) {
-        SetPort( oldPort );
+        //SetPort( oldPort );
     }
     
 	float colorComponents[4] = 
@@ -617,12 +635,14 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
 			CGContextSetLineWidth( contextID_, context_->getStrokeWidth() );
 			CGContextSetRGBStrokeColor( contextID_, colorComponents[0], colorComponents[1],
 										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath ( contextID_ );
 		}
 		break;
 		
 		case GraphicsContext::doFill : {
 			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
 										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath ( contextID_ );
 		}
 		break;
 		
@@ -637,8 +657,16 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
             Font* ctxFont = context_->getCurrentFont();
             OSXFont* fontImpl = (OSXFont*)ctxFont->getFontPeer();
             Color* fontColor = ctxFont->getColor();
-            fontImpl->setColor( fontColor );           
-            
+            fontImpl->setColor( fontColor ); 
+			
+			colorComponents[0] = fontColor->getRed();
+			colorComponents[1] = fontColor->getGreen();
+			colorComponents[2] = fontColor->getBlue();
+					            
+            CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextSetRGBStrokeColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
 		}
 		break;
 		
@@ -655,10 +683,14 @@ void OSXContext::finishedDrawing( long drawingOperation )
 {	
 	switch ( drawingOperation ) {
 		case GraphicsContext::doStroke : {
+			//CGContextClosePath( contextID_ );
+			CGContextStrokePath ( contextID_ );
 		}
 		break;
 		
 		case GraphicsContext::doFill : {
+			//CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
 		}
 		break;
 		
@@ -992,10 +1024,8 @@ EXIT:
 
 void OSXContext::drawSelectionRect( VCF::Rect* rect )
 {
-    ::Rect r = RectProxy(rect);
-    
-    SwitchPort sw( 
-	 );        
+    ::Rect r = RectProxy(rect);    
+      
     DrawThemeFocusRect( &r, TRUE );
 }
 
@@ -1003,7 +1033,7 @@ void OSXContext::drawButtonRect( Rect* rect, const bool& isPressed )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );   
+    //SwitchPort sw( grafPort_ );   
     ThemeButtonDrawInfo btnInfo;
     btnInfo.state = isPressed ? kThemeStatePressed : kThemeStateActive;
     btnInfo.value = kThemeButtonOff;
@@ -1017,7 +1047,7 @@ void OSXContext::drawCheckboxRect( Rect* rect, const bool& isPressed )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );   
+    //SwitchPort sw( grafPort_ );   
     ThemeButtonDrawInfo btnInfo;
     btnInfo.state = isPressed ? kThemeStatePressed : kThemeStateActive;
     btnInfo.value = isPressed ?  kThemeButtonOn : kThemeButtonOff;
@@ -1031,7 +1061,7 @@ void OSXContext::drawRadioButtonRect( Rect* rect, const bool& isPressed )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );   
+    //SwitchPort sw( grafPort_ );   
     ThemeButtonDrawInfo btnInfo;
     btnInfo.state = isPressed ? kThemeStatePressed : kThemeStateActive;
     btnInfo.value = isPressed ?  kThemeButtonOn : kThemeButtonOff;
@@ -1045,7 +1075,7 @@ void OSXContext::drawVerticalScrollButtonRect( Rect* rect, const bool& topButton
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );   
+    //SwitchPort sw( grafPort_ );   
     
     //DrawThemeScrollBarArrows( &r,  kThemeTrackNothingToScroll, 0, TRUE, NULL );
 }
@@ -1069,7 +1099,7 @@ void OSXContext::drawDisclosureButton( Rect* rect, const long& state )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );
+    //SwitchPort sw( grafPort_ );
     
     ThemeButtonDrawInfo btnInfo;
     btnInfo.state = kThemeStateActive;
@@ -1101,7 +1131,7 @@ void OSXContext::drawTab( Rect* rect, const bool& selected, const String& captio
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );
+    //SwitchPort sw( grafPort_ );
     //we need more info
     //DrawThemeTab ( &r, 
 }
@@ -1125,7 +1155,7 @@ void OSXContext::drawEdge( Rect* rect, const long& edgeSides, const long& edgeSt
     
         //SwitchPort sw( grafPort_ );
         
-        //DrawThemePrimaryGroup( &r, kThemeStateActive );
+        DrawThemePrimaryGroup( &r, kThemeStateActive );
     }
     else {    
         if ( edgeSides & GraphicsContext::etLeftSide ) {
@@ -1161,7 +1191,7 @@ void OSXContext::drawSizeGripper( VCF::Rect* rect )
     gripperOrigin.h = (int)rect->left_;
     gripperOrigin.v = (int)rect->top_;
     
-    SwitchPort sw( grafPort_ ); 
+    //SwitchPort sw( grafPort_ ); 
     
     GetThemeStandaloneGrowBoxBounds( gripperOrigin, 0, FALSE, &bounds );
     gripperOrigin.h = (int)(rect->right_ - (bounds.right-bounds.left));
@@ -1181,7 +1211,7 @@ void OSXContext::drawWindowBackground( Rect* rect )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ ); 
+    //SwitchPort sw( grafPort_ ); 
     
     ::SetThemeBackground( kThemeBrushUtilityWindowBackgroundActive, 32, true ) ;
                                                      
@@ -1192,7 +1222,7 @@ void OSXContext::drawMenuItemBackground( Rect* rect, const bool& selected )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ ); 
+    //SwitchPort sw( grafPort_ ); 
     
     ::SetThemeBackground( selected ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground, 
                             32, 
@@ -1205,7 +1235,7 @@ void OSXContext::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ ); 
+    //SwitchPort sw( grafPort_ ); 
     
     ThemeTrackDrawInfo info;
     info.kind = kThemeMediumSlider;
@@ -1279,7 +1309,7 @@ void OSXContext::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
     */
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );
+    //SwitchPort sw( grafPort_ );
     
     ThemeButtonDrawInfo btnInfo;
     btnInfo.value = 0;
@@ -1305,7 +1335,7 @@ void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ ); 
+    //SwitchPort sw( grafPort_ ); 
     
     ThemeTrackDrawInfo info;
     info.kind = kThemeMediumSlider;
@@ -1338,6 +1368,9 @@ void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/05/31 13:20:58  ddiego
+*more osx updates
+*
 *Revision 1.1.2.6  2004/05/23 14:12:18  ddiego
 *osx updates
 *

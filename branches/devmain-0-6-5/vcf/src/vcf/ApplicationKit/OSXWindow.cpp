@@ -127,13 +127,13 @@ public:
 									r.right,
 									r.bottom );
 	
-		
+		/*
 		::SetThemeBackground( kThemeBrushUtilityWindowBackgroundActive, 32, true ) ;
 		EraseRect( &r );
 		
 		VCF::GraphicsContext gc(0);
 		VCF::OSXContext* osxCtx =  (VCF::OSXContext*)gc.getPeer();
-		osxCtx->setCGContext( inContext, port );
+		osxCtx->setCGContext( inContext, port, getClientBounds() );
 		
 		gc.rectangle(r.left,
 									r.top,
@@ -142,9 +142,10 @@ public:
 		gc.setColor( VCF::Color::getColor( "gray123" ) );
 		gc.fillPath();
 		
-		osxCtx->setCGContext( NULL, 0 );
+		osxCtx->setCGContext( NULL, 0, getClientBounds() );
 		
 		SetPort( oldPort );
+		*/
 	}
 	
 	void setWindowPeer( VCF::OSXWindow* peer ) {
@@ -175,7 +176,7 @@ OSXWindow::OSXWindow( Control* control, Control* owner ):
 
 OSXWindow::~OSXWindow()
 {
-
+	
 }
 
 EventHandlerUPP OSXWindow::getEventHandlerUPP()
@@ -241,7 +242,7 @@ void OSXWindow::create( Control* owningControl )
 		}
 		*/
 		
-        UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent, "Component::handleEvent" ),
+        UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent ),
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );
          
 		setVisible( true );
@@ -253,10 +254,10 @@ void OSXWindow::create( Control* owningControl )
 
 void OSXWindow::destroyControl()
 {
-    StringUtils::trace( "OSXWindow::destroyControl\n" );
-	VCF::ComponentEvent event( control_, Component::COMPONENT_DELETED );
+    //StringUtils::trace( "OSXWindow::destroyControl\n" );
+	//VCF::ComponentEvent event( control_, Component::COMPONENT_DELETED );
 	
-	control_->handleEvent( &event );
+	//control_->handleEvent( &event );
 	
     DisposeWindow( windowRef_ );
     StringUtils::traceWithArgs( "windowRef_: %p, destroyed\n", windowRef_ );
@@ -572,7 +573,8 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
                             }
                         }
 						
-						result = ::CallNextEventHandler( nextHandler, theEvent ); 
+						result = ::CallNextEventHandler( nextHandler, theEvent ); 						
+						
                     }
 					else {
 						result = noErr;
@@ -783,6 +785,9 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/05/31 13:20:57  ddiego
+*more osx updates
+*
 *Revision 1.1.2.7  2004/05/23 14:11:59  ddiego
 *osx updates
 *

@@ -47,7 +47,7 @@ public:
 	}
 
 	virtual UInt32 GetBehaviors() {
-		return TView::GetBehaviors() | kHIViewAllowsSubviews;
+		return TView::GetBehaviors() | kControlSupportsEmbedding;//kHIViewAllowsSubviews;
 	}
 
 	void setOSXControl( VCF::OSXControl* val ) {
@@ -55,7 +55,7 @@ public:
 	}
 									
 	virtual ControlKind GetKind() {
-		const ControlKind result = { 'vcCv', 'vcCv' };	
+		const ControlKind result = { 'OSXv', 'OSXv' };	
 		return result;
 	}
 	
@@ -119,8 +119,8 @@ static const EventTypeSpec osxHIViewEvents[] =
 	{ kEventClassControl, kEventControlValueFieldChanged },
 	{ kEventClassControl, kEventControlTitleChanged },
 	{ kEventClassControl, kEventControlEnabledStateChanged },
-	{ kEventClassControl, kEventControlOwningWindowChanged },
-	{ kEventClassControl, kEventControlVisibilityChanged }
+	{ kEventClassControl, kEventControlOwningWindowChanged }
+	//{ kEventClassControl, kEventControlVisibilityChanged }
 };
 
 
@@ -392,13 +392,11 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 				break;
 
 				case kEventControlDraw : {
-					result = ::CallNextEventHandler( nextHandler, theEvent ); 
+					result = noErr;//::CallNextEventHandler( nextHandler, theEvent ); 
 				
 					if ( !control_->isDestroying() ) {
 						TCarbonEvent		event( theEvent );
-						
-						StringUtils::trace( "OSXControl::handleOSXEvent(), kEventClassControl, kEventControlDraw\n" );
-						
+												
 						GrafPtr port = NULL;										
 						CGContextRef context = NULL;
 						RgnHandle region = NULL;
@@ -407,29 +405,53 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 						event.GetParameter<CGContextRef>( kEventParamCGContextRef, typeCGContextRef, &context );
 						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
 						
-						GrafPtr oldPort;
-						//GetPort( &oldPort );
-						//SetPort( port );
+						::Rect rgnBds;
+						GetRegionBounds( region, &rgnBds );
 						
-						::Rect bounds = RectProxy( control_->getClientBounds() );
+						StringUtils::traceWithArgs( "Control %ls with CGContextRef: %p drawing\n\trgnBds [%d,%d,%d,%d]",
+														control_->getClassName().c_str(), context,
+														rgnBds.left, 
+														rgnBds.top,
+														rgnBds.right,
+														rgnBds.bottom);
 						
-						EraseRect( &bounds );
-						//EraseRgn( region );
+						VCF::Rect bounds = control_->getClientBounds();									
 						
 						VCF::GraphicsContext* ctx = control_->getContext();
 						
-						ctx->setViewableBounds( control_->getClientBounds() );
+						WindowRef wnd = hiView_->GetOwner();
+						::Rect wndR;
+						GetWindowBounds( wnd, kWindowContentRgn, &wndR );
+						
+						
+						HIRect bds;
+						//bounds = control_->getBounds();
+						
+						bds.origin.x = bounds.left_;
+						bds.origin.y = bounds.top_;
+						bds.size.width = bounds.getWidth();
+						bds.size.height = bounds.getHeight();
+						HIViewConvertRect( &bds, hiView_->GetViewRef(), NULL );
+						StringUtils::traceWithArgs( "HIViewConvertRect(), bds: %0.2f,%0.2f [%0.2f,%0.2f]\n",
+														bds.origin.x,bds.origin.y,bds.size.width,bds.size.height );
+						
+						bounds.setRect( bds.origin.x,
+										bds.origin.y, 
+										bds.origin.x + bds.size.width,
+										bds.origin.y + bds.size.height );
+																						
+						ctx->setViewableBounds( bounds );
 						
 						OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
-						osxCtx->setCGContext( context, port );
+						
+						bounds.setRect( 0, 0, wndR.right-wndR.left, wndR.bottom-wndR.top );
+						osxCtx->setCGContext( context, port, bounds );
 		
 						control_->paint( ctx );	
 						
-						osxCtx->setCGContext( NULL, 0 );
-		
-						//SetPort( oldPort );
-		
-						result = noErr;
+						osxCtx->setCGContext( NULL, 0, bounds );
+						
+						result = noErr;						
 					}
 				}
 				break;
@@ -470,6 +492,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/05/31 13:20:57  ddiego
+*more osx updates
+*
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *

@@ -25,9 +25,8 @@ ObjectWithEvents::~ObjectWithEvents()
 	std::map<String,EventHandler*>::iterator it = eventHandlers_.begin();
 	while ( it != eventHandlers_.end() ){
 		
-		EventHandler* ev = it->second;
-			  
-		delete ev;
+
+		delete it->second;
 		
 		it++;
 	}
@@ -46,12 +45,13 @@ ObjectWithEvents::~ObjectWithEvents()
 
 void ObjectWithEvents::addEventHandler( const String& handlerName, EventHandler* handler )
 {
-	eventHandlers_[handlerName] = handler;
+	eventHandlers_[handlerName] = handler;	
 }
 
 EventHandler* ObjectWithEvents::getEventHandler( const String& handlerName )
 {
 	EventHandler* result = NULL;
+	
 	std::map<String,EventHandler*>::iterator found = eventHandlers_.find( handlerName );
 	if ( found != eventHandlers_.end() ){
 		result = found->second;
@@ -68,6 +68,9 @@ void ObjectWithEvents::addEventHandlerList( EventHandler::Vector* eventHandlerLi
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/31 13:20:57  ddiego
+*more osx updates
+*
 *Revision 1.1.2.4  2004/05/18 02:07:32  ddiego
 *fixed a bug in StringUtils format and trace  - from osx side
 *

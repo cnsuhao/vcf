@@ -137,6 +137,9 @@ public:
 		return fontStyle_;
 	}
     
+	ATSUFontID getATSUFontID() {
+		return attrFontID_;
+	}
     void setColor( Color* color );
 protected:
 	double shear_;
@@ -163,6 +166,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/31 13:20:59  ddiego
+*more osx updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

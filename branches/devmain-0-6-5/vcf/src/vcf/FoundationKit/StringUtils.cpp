@@ -29,8 +29,7 @@ String StringUtils::abbrevMonths[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 void StringUtils::traceWithArgs( String text,... )
 {
-	
-	text = StringUtils::convertFormatString( text );
+text = StringUtils::convertFormatString( text );
 	
 //#ifdef _DEBUG
 	va_list argList;
@@ -44,7 +43,7 @@ void StringUtils::traceWithArgs( String text,... )
     #ifdef VCF_OSX
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, text2.c_str(), text.size() );    
+	CFStringAppendCharacters( fmt, text.c_str(), text.size() );    
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, argList );
     
@@ -1253,6 +1252,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/05/31 13:20:57  ddiego
+*more osx updates
+*
 *Revision 1.1.2.7  2004/05/18 02:07:32  ddiego
 *fixed a bug in StringUtils format and trace  - from osx side
 *

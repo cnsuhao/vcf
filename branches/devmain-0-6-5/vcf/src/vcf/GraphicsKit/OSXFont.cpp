@@ -26,8 +26,8 @@
 *
 *NB: This software will not save the world.
 */
-#include "GraphicsKit.h"
-#include "GraphicsKitPrivate.h"
+#include "vcf/GraphicsKit/GraphicsKit.h"
+#include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
 
 
@@ -372,6 +372,9 @@ bool OSXFont::isEqual( Object* object )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/31 13:20:58  ddiego
+*more osx updates
+*
 *Revision 1.1.2.4  2004/05/06 03:01:29  ddiego
 *checking in OSX updates
 *

@@ -3,18 +3,23 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 38;
+	objectVersion = 39;
 	objects = {
 		0249A665FF388DC511CA2CEA = {
+			explicitFileType = wrapper.application;
+			fallbackIsa = PBXFileReference;
 			isa = PBXApplicationReference;
 			path = HelloWorld.app;
 			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0249A669FF388E3911CA2CEA = {
 			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
 			name = "libstdc++.a";
 			path = "/usr/lib/libstdc++.a";
 			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		0249A66AFF388E3911CA2CEA = {
 			fileRef = 0249A669FF388E3911CA2CEA;
@@ -54,7 +59,12 @@
 			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -64,6 +74,8 @@
 			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -79,10 +91,13 @@
 //063
 //064
 		0640BAA5FFF0323A11CA0E50 = {
+			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = CoreServices.framework;
 			path = /System/Library/Frameworks/CoreServices.framework;
 			refType = 0;
+			sourceTree = "<absolute>";
 		};
 //060
 //061
@@ -101,6 +116,7 @@
 			isa = PBXGroup;
 			name = Products;
 			refType = 4;
+			sourceTree = "<group>";
 		};
 //190
 //191
@@ -113,6 +129,8 @@
 //203
 //204
 		20286C28FDCF999611CA2CEA = {
+			buildSettings = {
+			};
 			buildStyles = (
 				05952DFCFFF02D1B11CA0E50,
 				05952DFDFFF02D1B11CA0E50,
@@ -135,6 +153,7 @@
 			name = "¬´PROJECTNAME¬ª";
 			path = "";
 			refType = 4;
+			sourceTree = "<group>";
 		};
 		20286C2AFDCF999611CA2CEA = {
 			children = (
@@ -144,6 +163,7 @@
 			name = Sources;
 			path = "";
 			refType = 4;
+			sourceTree = "<group>";
 		};
 		20286C32FDCF999611CA2CEA = {
 			children = (
@@ -158,12 +178,16 @@
 			name = "External Frameworks and Libraries";
 			path = "";
 			refType = 4;
+			sourceTree = "<group>";
 		};
 		20286C33FDCF999611CA2CEA = {
+			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = Carbon.framework;
 			path = /System/Library/Frameworks/Carbon.framework;
 			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		20286C34FDCF999611CA2CEA = {
 			buildPhases = (
@@ -178,6 +202,7 @@
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
+				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX -D_DEBUG -Wno-multichar";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -268,22 +293,31 @@
 //5E3
 //5E4
 		5E2CE2C1064889AB00A8020D = {
+			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = ApplicationKit.framework;
 			path = ../../bin/ApplicationKit.framework;
 			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5E2CE2C2064889AB00A8020D = {
+			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = FoundationKit.framework;
 			path = ../../bin/FoundationKit.framework;
 			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5E2CE2C3064889AB00A8020D = {
+			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = GraphicsKit.framework;
 			path = ../../bin/GraphicsKit.framework;
 			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5E2CE2C4064889AB00A8020D = {
 			fileRef = 5E2CE2C1064889AB00A8020D;
@@ -306,8 +340,10 @@
 		5EBADDB705EA481D00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
 			path = HelloWorld.cpp;
 			refType = 4;
+			sourceTree = "<group>";
 		};
 		5EBADDB805EA481D00A8020D = {
 			fileRef = 5EBADDB705EA481D00A8020D;
