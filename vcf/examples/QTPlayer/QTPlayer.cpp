@@ -13,7 +13,7 @@ using namespace VCF;
 
 int main(int argc, char *argv[])
 {
-	QTPlayerApplication app( argc, argv );
+	QTPlayerApplication* app = new QTPlayerApplication( argc, argv );
 
 	Application::main();
 	

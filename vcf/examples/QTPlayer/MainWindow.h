@@ -14,6 +14,7 @@ namespace VCF {
 	class Panel;
 	class TreeControl;
 	class Label;
+	class ListViewControl;
 };
 
 
@@ -83,8 +84,17 @@ protected:
 	void onViewPlayControls(  VCF::Event* event );
 	void updateViewPlayControls( VCF::ActionEvent* e );
 
+	void onViewPlaylist(  VCF::Event* event );
+	void updateViewPlaylist( VCF::ActionEvent* e );
+
 	void onSearchIconClick( VCF::Event* e );
 	void onSearchTextEntered( VCF::KeyboardEvent* e );
+
+	void onPlaylistClick( VCF::Event* e );
+
+	void onCreatePlaylist(  VCF::Event* event );
+	void updateCreatePlaylist( VCF::ActionEvent* e );
+
 
 	QuickTimeControl* quicktimeControl_;
 	VCF::SliderControl* volumeControl_;
@@ -101,6 +111,7 @@ protected:
 
 	VCF::Panel* mainViewPanel_;
 	
+	VCF::ListViewControl* playListCtrl_;
 
 	bool movieLoaded_;
 
