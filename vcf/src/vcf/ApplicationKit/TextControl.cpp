@@ -231,9 +231,11 @@ void TextControl::handleEvent( Event* event )
 			that should cause an delete/insert are the set of characters [a..z,A..Z,0..9],
 			back space, space, and delete. This is a valid assumption assuming en/US language
 			but for other languages this totally falls down...
-
-			JC - I have currently implemented this so that we now add text key press at a time,
-			or delete text if appropriate.
+			#-------------------------------------------------------------------------------#
+			#UN-HACK ALERT!																	#
+			#-------------------------------------------------------------------------------#
+			JC - I have currently implemented this so that we now add text key press at 
+			a time,	or delete text if appropriate.
 			*/
 
 			TextModel* model = getTextModel();
@@ -251,9 +253,14 @@ void TextControl::handleEvent( Event* event )
 
 								String text = model->getText();
 
+								StringUtils::traceWithArgs( "vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+										text.c_str(), text[pos], text[pos], pos );
+
 								model->deleteText( pos, length );
 
 								text = model->getText();
+								StringUtils::traceWithArgs( "after vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+										text.c_str(), text[pos], text[pos], pos );
 							}
 
 						}
@@ -267,9 +274,16 @@ void TextControl::handleEvent( Event* event )
 								
 								String text = model->getText();
 								
+								StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+										text.c_str(), text[pos], text[pos], pos );
+
 								model->deleteText( pos, length );
 								
 								text = model->getText();
+
+								StringUtils::traceWithArgs( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+										text.c_str(), text[pos], text[pos], pos );
+								
 							}
 						}
 						break;
@@ -310,13 +324,15 @@ void TextControl::handleEvent( Event* event )
 
 						case vkEnter : {
 							if ( !ke->hasAltKey() && !ke->hasControlKey() ) {
-								ulong32 pos =  textPeer_->getCaretPosition();
-								String text = "\n";
-
-								//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-								//	text.c_str(), text[0], text[0], pos );
-								
-								model->insertText( pos, text );
+								if ( supportsMultiLinedText() ) {
+									ulong32 pos =  textPeer_->getCaretPosition();
+									String text = "\n";
+									
+									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
+									//	text.c_str(), text[0], text[0], pos );
+									
+									model->insertText( pos, text );
+								}
 							}
 						}
 						break;
@@ -372,6 +388,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/03 22:47:33  ddiego
+*fixed a text model bug that incorectly handled deleting chars.
+*
 *Revision 1.2.2.2  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

@@ -108,6 +108,10 @@ public:
 	}
 
 	void setReadOnly( const bool& val );
+
+	virtual bool supportsMultiLinedText() {
+		return false;
+	}
 protected:
 	TextPeer * textPeer_;
 	TextModel* model_;
@@ -125,6 +129,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/03 22:47:33  ddiego
+*fixed a text model bug that incorectly handled deleting chars.
+*
 *Revision 1.2.2.1  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
