@@ -80,36 +80,36 @@ Source: ..\..\build\vc60\add-ins\VCFNewClassWiz\Release\VCFNewClassWiz.dll; Dest
 Source: ..\..\build\vc60\add-ins\VPLAppWiz\Release\VPLAppWiz.awx; DestDir: {app}\VC6-Addins; Components: VC_Wizards
 
 Source: C:\WINNT\system32\msvcp60.dll; DestDir: {app}\VC6-Addins
-Source: ..\..\docs\VCFDocs.0.6.3.chm; DestDir: {app}\docs; Components: Help_Files
-Source: ..\..\docs\VCFDocs.0.6.3.chi; DestDir: {app}\docs; Components: Help_Files
-Source: ..\..\docs\VCFSrcDocs.0.6.3.chm; DestDir: {app}\docs; Components: Help_Files
-Source: ..\..\docs\VCFSrcDocs.0.6.3.chi; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFDocs.VCF-VERSION.chm; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFDocs.VCF-VERSION.chi; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFSrcDocs.VCF-VERSION.chm; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFSrcDocs.VCF-VERSION.chi; DestDir: {app}\docs; Components: Help_Files
 Source: ..\..\thirdparty\win32\MSDNIntegrator\MSDNIntegrator.exe; DestDir: {app}
 Source: D:\Program Files\ISTool 4\psvince.dll; Flags: dontcopy
 Source: ..\..\build\resources\win32\vcf.ico; DestDir: {app}
 
 [Setup]
 OutputDir=..\..\uploadToSF
-OutputBaseFilename=VCFFullInstaller.0.6.3
+OutputBaseFilename=VCFFullInstaller.VCF-VERSION
 AppCopyright=2000-2003 Jim Crafton
-AppName=Visual Component Framework 0.6.3 beta
-AppVerName=Visual Component Framework 0.6.3 beta
+AppName=Visual Component Framework VCF-LONG-VERSION
+AppVerName=Visual Component Framework VCF-LONG-VERSION
 LicenseFile=..\..\license.txt
 DefaultDirName={pf}\VCF
-DefaultGroupName=Visual Component Framework 0.6.3
+DefaultGroupName=Visual Component Framework VCF-VERSION
 AppPublisher=VCF
 AppPublisherURL=http://vcf.sf.net
 AppSupportURL=http://vcf.sf.net
 AppUpdatesURL=http://vcf.sf.net
-AppVersion=0.6.3
+AppVersion=VCF-VERSION
 UninstallDisplayIcon={app}\vcf.ico
-UninstallDisplayName=Visual Component Framework 0.6.3
+UninstallDisplayName=Visual Component Framework VCF-VERSION
 
 [Registry]
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_INCLUDE; ValueData: {app}\include; Flags: uninsdeletevalue dontcreatekey
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_BIN; ValueData: {app}\bin
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_LIB; ValueData: {app}\lib
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: path; ValueData: "%VCF_BIN%;{olddata}"
+Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_INCLUDE; ValueData: {app}\include; Flags: uninsdeletevalue dontcreatekey; Components: Src Binaries
+Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_BIN; ValueData: {app}\bin; Components: Src Binaries
+Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_LIB; ValueData: {app}\lib; Components: Src Binaries
+Root: HKCU; Subkey: Environment; ValueType: string; ValueName: path; ValueData: "%VCF_BIN%;{olddata}"; Components: Src Binaries
 Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Platforms\Win32 (x86)\Directories; ValueType: string; ValueName: Include Dirs; ValueData: "{olddata};{app}\include"; Tasks: addvc6dirs
 Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Platforms\Win32 (x86)\Directories; ValueType: string; ValueName: Library Dirs; ValueData: "{olddata};{app}\lib"; Tasks: addvc6dirs
 Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Platforms\Win32 (x86)\Directories; ValueType: string; ValueName: Path Dirs; ValueData: "{olddata};{app}\bin"; Tasks: addvc6dirs
@@ -118,8 +118,8 @@ Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Pla
 Name: {group}\Uninstall VCF; Filename: {uninstallexe}
 Name: {group}\Submit Bug; Filename: http://sourceforge.net/tracker/?group_id=6796&atid=106796; IconFilename: {app}\vcf.ico; IconIndex: 0
 Name: {group}\Online Documentation; Filename: http://vcf.sourceforge.net/ref.php?src=index.html; IconFilename: {app}\vcf.ico; IconIndex: 0
-Name: {group}\VCF Documentation; Filename: {app}\docs\VCFDocs.0.6.2.chm; Components: Help_Files
-Name: {group}\VCF Source Documentation; Filename: {app}\docs\VCFSrcDocs.0.6.2.chm; Components: Help_Files
+Name: {group}\VCF Documentation; Filename: {app}\docs\VCFDocs.VCF-VERSION.chm; Components: Help_Files
+Name: {group}\VCF Source Documentation; Filename: {app}\docs\VCFSrcDocs.VCF-VERSION.chm; Components: Help_Files
 Name: {group}\VCF Website; Filename: http://vcf.sf.net; IconFilename: {app}\vcf.ico; IconIndex: 0
 
 [Tasks]
@@ -127,12 +127,12 @@ Name: msdnintegrate; Description: Integrate VCF Documentation with MSDN; Compone
 Name: addvc6dirs; Description: Add VCF Include and Library path to Microsoft's Visual C++
 
 [Run]
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.0.6.2.chi"" -chm ""{app}\docs\VCFDocs.0.6.2.chm"" -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.0.6.2.chi"" -chm ""{app}\docs\VCFSrcDocs.0.6.2.chm"" -add -title ""VCF Source Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm"" -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFSrcDocs.VCF-VERSION.chm"" -add -title ""VCF Source Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
 
 [UninstallRun]
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.0.6.2.chi"" -chm ""{app}\docs\VCFDocs.0.6.2.chm"" -remove -title ""VCF Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.0.6.2.chi"" -chm ""{app}\docs\VCFSrcDocs.0.6.2.chm"" -remove -title ""VCF Source Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm"" -remove -title ""VCF Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFSrcDocs.VCF-VERSION.chm"" -remove -title ""VCF Source Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
 [Code]
 function IsModuleLoaded(modulename: String ):  Boolean;
 external 'IsModuleLoaded@files:psvince.dll stdcall';
