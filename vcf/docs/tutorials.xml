@@ -112,19 +112,34 @@ NB: This software will not save the world.
 			&heavyandlight;
 		</section>
 		
-		<section><title>Image viewer</title>
-			&imageviewer;
+		<section><title>Alignment, Anchors, and Layouts</title>
+			&alignment;
+			
+			&advancedalignment;
+			
+			&anchors;
 		</section>
 		
 		<section><title>Clipboard</title>
 			&copyandpaste;
 		</section>
 		
-		<section><title>Lists and combos</title>
+		<section><title>Drag and drop</title>
+			&draganddrop;
+		</section>
+		
+		<section><title>Cursor handling</title>
 		</section>
 		
 		<section><title>Scrolling</title>
 			&scrolling;
+		</section>
+		
+		<section><title>Image viewer</title>
+			&imageviewer;
+		</section>		
+		
+		<section><title>Lists and combos</title>
 		</section>
 		
 		<section><title>Tree view control</title>
@@ -141,18 +156,11 @@ NB: This software will not save the world.
 		<section><title>Toolbar</title>
 		</section>
 		
-		<section><title>Cursor handling</title>
-		</section>
-		
 		<section><title>Common dialogs (open, browse dir, select color, select font)</title>
 		</section>
 		
 		<section><title>Window handling</title>
-		</section>
-		
-		<section><title>Drag and drop</title>
-			&draganddrop;
-		</section>
+		</section>		
 		
 		<section><title>Labels</title>
 		</section>
@@ -161,11 +169,7 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Progress bar</title>
-		</section>
-		
-		<section><title>Alignment, Anchors, and Layouts</title>
-			&alignment;
-		</section>
+		</section>		
 		
 		<section><title>Menus</title>
 		</section>
@@ -201,6 +205,10 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/10/22 03:56:43  ddiego
+added two more tutorials for advanced alignment and another for anchors
+also finished off the alignment tutorial. yay :)
+
 Revision 1.1.2.3  2003/10/20 03:35:54  ddiego
 added the alignment tutorial to the list
 

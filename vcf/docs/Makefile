@@ -2,6 +2,10 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.7  2003/10/22 03:56:43  ddiego
+#added two more tutorials for advanced alignment and another for anchors
+#also finished off the alignment tutorial. yay :)
+#
 #Revision 1.5.2.6  2003/10/20 03:35:54  ddiego
 #added the alignment tutorial to the list
 #
@@ -154,7 +158,9 @@ TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml \
 ../examples/Scrolling/ScrollingArticle.xml \
 ../examples/SharedLibraries/SharedLibrariesArticle.xml \
 ../examples/HeavyAndLight/HeavyAndLightArticle.xml \
-../examples/Alignment/AlignmentArticle.xml 
+../examples/Alignment/AlignmentArticle.xml \
+../examples/Alignment/AdvancedAlignmentArticle.xml \
+../examples/Alignment/AnchorsArticle.xml 
 
 
 

@@ -153,10 +153,6 @@ SOURCE=..\..\..\include\core\BasicTableItemEditor.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ButtonPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Clipboard.h
 # End Source File
 # Begin Source File
@@ -178,10 +174,6 @@ SOURCE=..\..\..\include\core\CommonColor.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\CommonDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\CommonDialogPeer.h
 # End Source File
 # Begin Source File
 
@@ -241,19 +233,11 @@ SOURCE=..\..\..\include\graphics\ControlGraphicsContext.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ControlPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Cursor.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\CursorManager.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\CursorPeer.h
 # End Source File
 # Begin Source File
 
@@ -273,19 +257,7 @@ SOURCE=..\..\..\include\core\Desktop.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\DesktopPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Dialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\DialogPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\DragDropPeer.h
 # End Source File
 # Begin Source File
 
@@ -305,19 +277,11 @@ SOURCE=..\..\..\include\dragdrop\DropTarget.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\DropTargetPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\EtchedBorder.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Frame.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\HTMLBrowserPeer.h
 # End Source File
 # Begin Source File
 
@@ -333,10 +297,6 @@ SOURCE=..\..\..\include\core\Item.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Label.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\LibraryApplication.h
 # End Source File
 # Begin Source File
@@ -349,10 +309,6 @@ SOURCE=..\..\..\include\implementerKit\LightweightComponent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ListviewPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Menu.h
 # End Source File
 # Begin Source File
@@ -361,23 +317,11 @@ SOURCE=..\..\..\include\core\MenuBar.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\MenuBarPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\MenuItem.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\MenuItemPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\MessageDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\MultilineTextControl.h
 # End Source File
 # Begin Source File
 
@@ -394,18 +338,6 @@ SOURCE=..\..\..\include\core\PackageInfo.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\PopupMenu.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\PopupMenuPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\PrintContextPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\PrintPeer.h
 # End Source File
 # Begin Source File
 
@@ -445,19 +377,11 @@ SOURCE=..\..\..\include\core\TableItemEditor.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\TextPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TimerComponent.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\TitledBorder.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\TreePeer.h
 # End Source File
 # Begin Source File
 
@@ -490,10 +414,6 @@ SOURCE=..\..\..\include\core\View.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Window.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\WindowPeer.h
 # End Source File
 # Begin Source File
 
@@ -1543,6 +1463,10 @@ SOURCE=..\..\..\src\core\Label.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\Label.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\ListBoxControl.cpp
 # End Source File
 # Begin Source File
@@ -1556,6 +1480,10 @@ SOURCE=..\..\..\src\core\ListViewControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ListViewControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\MultilineTextControl.h
 # End Source File
 # Begin Source File
 
@@ -1688,6 +1616,98 @@ SOURCE=..\..\..\src\core\TreeListControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TreeListControl.h
+# End Source File
+# End Group
+# Begin Group "Peer Interfaces"
+
+# PROP Default_Filter "*.h"
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ApplicationPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ButtonPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\CommonDialogPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ControlPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\CursorPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DataObjectPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DesktopPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DialogPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DragDropPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\DropTargetPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\HTMLBrowserPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ListviewPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\MenuBarPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\MenuItemPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\PopupMenuPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\PrintContextPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\PrintPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ResourceStreamPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ScrollPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\TextPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\TreePeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\WindowPeer.h
 # End Source File
 # End Group
 # End Target
