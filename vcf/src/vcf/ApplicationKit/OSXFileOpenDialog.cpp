@@ -156,9 +156,6 @@ bool OSXFileOpenDialog::execute()
 	if ( !allowsMultiSelect_ ) {
 		openDlgOptions_.optionFlags ^= kNavAllowMultipleFiles;
 	}
-	else {
-//		openDlgOptions_.optionFlags &= ~kNavAllowMultipleFiles;
-	}
 	
 	//Finally!!! Create our goddamn dialog....
 	
@@ -172,6 +169,25 @@ bool OSXFileOpenDialog::execute()
 												
 	if ( noErr != err ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("NavCreateGetFileDialog failed!") );
+	}
+	
+	
+	//set the directory
+	if ( !directory_.empty() ) {
+		CFTextString dir;
+		dir = directory_;
+		CFRefObject<CFURLRef> url;
+		url = (CFURLRef)dir;
+		FSRef fsRef;
+		if ( CFURLGetFSRef( url, &fsRef ) ) {
+			FSSpec fsSpec;
+			if ( noErr == FSGetCatalogInfo( &fsRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL ) ) {
+				AEDesc desc;
+				if ( AECreateDesc( typeFSS, &fsSpec, sizeof(FSSpec), &desc ) == noErr ) {
+					NavCustomControl( openDlg, kNavCtlSetLocation, (void*)&desc );
+				}
+			}
+		}
 	}
 	
 	//Holy Crap Batman - it's time to run the stupid dialog!!
@@ -327,29 +343,54 @@ pascal void OSXFileOpenDialog::openNavEventProc( NavEventCallbackMessage inSelec
 {
 	OSXFileOpenDialog* thisPtr = (OSXFileOpenDialog*)ioUserData;
 	VCF_ASSERT( thisPtr != NULL );
-	
-	if (inSelector == kNavCBStart) {
-		// Initialize the popup menu
-		NavMenuItemSpec menuItem;
-		menuItem.version = kNavMenuItemSpecVersion;
-		menuItem.menuCreator = 0;
-		menuItem.menuType = thisPtr->selectedFileTypeIndex_;
-		menuItem.menuItemName[0] = 0;
-		OSErr error = NavCustomControl(ioParams->context, kNavCtlSelectCustomType, &menuItem);
+	switch( inSelector ) {
+		case kNavCBStart : {
+			// Initialize the popup menu
+			NavMenuItemSpec menuItem;
+			menuItem.version = kNavMenuItemSpecVersion;
+			menuItem.menuCreator = 0;
+			menuItem.menuType = thisPtr->selectedFileTypeIndex_;
+			menuItem.menuItemName[0] = 0;
+			OSErr error = NavCustomControl(ioParams->context, kNavCtlSelectCustomType, &menuItem);		
+		}
+		break;
 		
-	} 
-	else if (inSelector == kNavCBPopupMenuSelect) {
-		/**
-		This gets called when the user selects something in the popup menu.
-		It would *appear* (and I put this in quotes because Nav Services is apparently
-		kind of buggy on OS X) that the menuType field represents the index of the 
-		array of menu popup names that we pass in to the NavCreateGetFileDialog
-		in the openDlgOptions_.popupExtension. Other code on the internet apparently relies 
-		on this as well, so hopefully this won't change (knock on wood) in the near future.
-		*/
-		NavMenuItemSpec* menuItemSpec = (NavMenuItemSpec *)ioParams->eventData.eventDataParms.param;
-		thisPtr->selectedFileTypeIndex_ = menuItemSpec->menuType;
-	}
+		case kNavCBPopupMenuSelect : {
+			/**
+			This gets called when the user selects something in the popup menu.
+			 It would *appear* (and I put this in quotes because Nav Services is apparently
+								kind of buggy on OS X) that the menuType field represents the index of the 
+			 array of menu popup names that we pass in to the NavCreateGetFileDialog
+			 in the openDlgOptions_.popupExtension. Other code on the internet apparently relies 
+			 on this as well, so hopefully this won't change (knock on wood) in the near future.
+			 */
+			NavMenuItemSpec* menuItemSpec = (NavMenuItemSpec *)ioParams->eventData.eventDataParms.param;
+			thisPtr->selectedFileTypeIndex_ = menuItemSpec->menuType;
+		}
+		break;
+		
+		case kNavCtlGetLocation : {
+			AEDesc* desc = (AEDesc *)ioParams->eventData.eventDataParms.param;
+			if ( NULL != desc ) {
+				if ( desc->descriptorType == typeFSS ) {			
+					FSSpec fileSpec;
+					if ( AEGetDescData(desc, &fileSpec, sizeof(FSSpec)) == noErr ) {
+						FSRef fileRef;
+						FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fileSpec, NULL);
+						CFRefObject<CFURLRef> url = CFURLCreateFromFSRef(kCFAllocatorDefault, &fileRef);
+						if ( NULL != url ) {
+							//finally, set our directory_ member
+							char buf[256];
+							if ( CFURLGetFileSystemRepresentation( url, true, (UInt8*)buf, sizeof(buf) ) ) {
+								thisPtr->directory_ = buf;
+							}
+						}
+					}
+				}
+			}
+		}
+		break;
+	}	
 }
 										
 										
