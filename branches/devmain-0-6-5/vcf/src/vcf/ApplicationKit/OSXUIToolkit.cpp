@@ -1054,7 +1054,15 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
 
                 case kEventMouseDragged : {
-
+					Scrollable* scrollable = msg->control_->getScrollable();
+                    if ( NULL != scrollable ) {
+                        pt.x_ += scrollable->getHorizontalPosition();
+                        pt.y_ += scrollable->getVerticalPosition();
+                    }
+                    
+                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
+                                                translateButtonMask( button ),
+                                                translateKeyMask( keyboardModifier ), &pt );
                 }
                 break;
 
@@ -1535,6 +1543,28 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 
                 case kEventControlHit : {
 
+					::Point mousePos;
+					GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
+										sizeof (mousePos), NULL, &mousePos);
+            
+            
+					UInt32 keyboardModifier = 0;            
+					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
+										sizeof (keyboardModifier), NULL, &keyboardModifier);
+								
+					VCF::Point pt( mousePos.h , 
+									mousePos.v );
+						   
+					Scrollable* scrollable = msg->control_->getScrollable();
+                    if ( NULL != scrollable ) {
+                        pt.x_ += scrollable->getHorizontalPosition();
+                        pt.y_ += scrollable->getVerticalPosition();
+                    }
+                    
+                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_DOWN,
+                                                mbmLeftButton,
+                                                translateKeyMask( keyboardModifier ), &pt );
+
                 }
                 break;
 
@@ -1544,6 +1574,23 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
 
                 case kEventControlHitTest : {
+					::Point mousePos;
+					GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
+										sizeof (mousePos), NULL, &mousePos);
+            
+            
+					VCF::Point pt( mousePos.h , 
+									mousePos.v );
+						   
+					Scrollable* scrollable = msg->control_->getScrollable();
+                    if ( NULL != scrollable ) {
+                        pt.x_ += scrollable->getHorizontalPosition();
+                        pt.y_ += scrollable->getVerticalPosition();
+                    }
+                    
+                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
+                                                mbmLeftButton,
+                                                translateKeyMask( 0 ), &pt );
 
                 }
                 break;
@@ -1888,6 +1935,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/06/07 03:07:07  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.1.2.10  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

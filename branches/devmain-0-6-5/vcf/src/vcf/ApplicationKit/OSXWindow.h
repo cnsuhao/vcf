@@ -146,6 +146,8 @@ protected:
 
     static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
     void updateWindow();
+	
+	Control* getControlForMouseEvent( VCF::Point& pt, VCF::Control* parent );
 };
 
 
@@ -155,6 +157,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/06/07 03:07:07  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.1.2.7  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

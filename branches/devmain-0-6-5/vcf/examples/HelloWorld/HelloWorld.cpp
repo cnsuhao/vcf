@@ -63,6 +63,10 @@ public:
 		*/
 		setMainWindow( mainWindow );
 
+
+/*
+Experimental - ignore and get rid before 0-6-5 release!!!!!!!
+*/
         Panel* p1 = new Panel();
         mainWindow->add( p1, AlignTop );
         p1->setBounds( 0, 0, 200, 300 );
@@ -70,7 +74,14 @@ public:
         p1->setBorderSize( 10 );
 
         PushButton* pb = new PushButton();
-        p1->add( pb, AlignClient );
+
+		pb->setHeight( 35 );
+        p1->add( pb, AlignTop );
+        
+		RadioButtonControl* rb = new RadioButtonControl();
+		rb->setBounds( 25, pb->getBottom() + 10, 100, 15 );
+		rb->setCaption( "Radio Button!" );
+		p1->add( rb );
 
 		/**
 		*Set the caption of the main window. Setting the caption
@@ -127,6 +138,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2004/06/07 03:07:06  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.3.2.9  2004/06/06 07:05:27  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
