@@ -56,8 +56,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				you need to give credit to the project and or author(s). Beyond
 				that you are free to use the code however you like, and you are not
 				<emphasis>required</emphasis> to release changes you make back to
-				the VCF project (though they are certainly welcome). Copyright is 
-				owned by the authors of the content.</para>
+				the VCF project (though they are certainly welcome to, and encouraged to 
+				do so). Copyright is owned by the authors of the content.</para>
 			</answer>
 			<question>
 				<para>How does  the VCF compare to other frameworks or toolkits,
@@ -383,7 +383,14 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>Can I use the VCF without writing a GUI?</para>
 			</question>
 			<answer>
-				<para>You most certainly can!</para>
+				<para>You most certainly can! Applications that do not need
+				a user interface can simply link to the FoundationKit library.
+				</para>
+				<para>
+				Should your application need graphics support (but not want or need
+				any of the various GUI classes, such as controls, etc), it can link
+				to the GraphicsKit library (this is in addition to the FoundationKit).
+				</para>
 			</answer>							
 		</qandaentry>
 	</qandaset>	
@@ -438,7 +445,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 	<qandaset>
 		<qandaentry>
 			<question>
-				<para>what is that blackbox stuff?</para>
+				<para>what is that Blackbox stuff?</para>
 			</question>
 			<answer>
 				<para>
@@ -482,6 +489,18 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				</para>
 			</answer>
 			<question>
+				<para>How can I edit and/or contribute to the VCF's documentation?</para>
+			</question>
+			<answer>
+				<para>
+				The core documentation is located in a series of .xml files in the 
+				vcf/docs directory. To add documentation to the VCF you should edit 
+				these files. Please see the section on "Documentation Standards 
+				and Generation" (section 1.6.4.2).
+				</para>
+			</answer>
+
+			<question>
 				<para>Is Doxygen free? Is it easy  to use like javadoc?</para>
 			</question>
 			<answer>
@@ -523,12 +542,13 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				Yes you can use the VCF as a static library.
+				Yes, you can use the VCF as a static library.
 				</para>
 			</answer>						
 			<question>
 				<para>If I have written and application in MFC can I still use the VCF libraries in 
-				this app? How hard/easy is it to integrate VCF code with other frameworks or vice-versa?</para>
+				this app? How hard/easy is it to integrate VCF code with other frameworks or vice-versa?
+				</para>
 			</question>
 			<answer>
 				<para></para>
@@ -544,8 +564,11 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>Is the VCF help documentation integrated with the MSDN help for Visual Studio users?</para>
 			</question>
 			<answer>
-				<para></para>
-			</answer>				
+				<para>
+				Yes, the win32 installer executable can integrate the VCF's documentation into 
+				your MSDN collection.
+				</para>
+			</answer>
 		</qandaentry>
 	</qandaset>	
 	</section>	
@@ -557,15 +580,42 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes. See the VCF::XMLParser class. The XMLParser class can handle
+				basic xml files (it does not do any validation however). It can parse
+				xml from a file name, or from string of xml text. Once parsed you can 
+				access the xml document as an enumeration of XMLNodes. Alternately you
+				can add event handlers to the XMLParser to get notified as it parses 
+				the xml contents.
+				</para>
+				<para>
+				An example of this looks like this:
+				<programlisting>
+<![CDATA[
+VCF::XMLParser parser;
+VCF::FileInputStream fs("path/to/some/file.xml");
+parser.parse( &fs );
+VCF::Enumerator<VCF::XMLNode*>* nodes =  parser.getParsedNodes();
+while( nodes->hasMoreElements() ) {
+	XMLNode* node = nodes->nextElement();
+		if ( node->getName() == "foo" ) {
+			XMLAttr* barAttr = node->getAttrByName( "bar" );
+			String barVal = barAttr->getValue();
+			String nodeCDATA = node->getCDATA();
+		}
+	}
+}
+]]>
+				</programlisting>
 				</para>
 			</answer>
 			<question>
-				<para>For what is the VCF::Interface good for?</para>
+				<para>What is the VCF::Interface good for?</para>
 			</question>
 			<answer>
 				<para>
-				An answer.
+				The VCF::Interface simply identifies a class as being an "interface". In 
+				and of itself it has no functionality, other than to derve as a base 
+				class for other interfaces.
 				</para>
 			</answer>
 			<question>
@@ -573,7 +623,50 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You can create a thread by deriving a new class from VCF::Thread,
+				and override the run() method. In your run() implementation you can 
+				put whatever code you want to execute for your thread. To use the
+				class you just create a new instance of it, call VCF::Thread::start(),
+				and you're done. When your thread exits it's run() method, it will 
+				delete itself. For more advanced usages, or to see how to further control
+				the Thread behaviour (such as prevent auto deletion), see the VCF::Thread
+				class documention.
+				</para>	
+				<para>
+				A brief example looks like this:
+				<programlisting>
+<![CDATA[
+
+bool canQuit = false;
+
+class MyThread : public VCF::Thread {
+public:
+	virtual bool run() {
+		int fooVal = 0;
+		while ( fooVal < 1000 ) {
+			fooVal ++;
+			int calcVal = fooVal * sin(0.1234) - cos(0.78 * fooVal/(fooVal*2.0));
+		}
+		canQuit = true;
+		return true;
+	}
+};
+
+int main( int argc, char** argv ) 
+{
+	FoundationKit::init();
+	Thread* thread = new MyThread();
+	thread->start();
+
+	while ( !canQuit ) {
+		
+	}
+
+	FoundationKit::terminate();
+	return 0;
+}
+]]>
+				</programlisting>
 				</para>
 			</answer>
 			<question>
@@ -581,7 +674,24 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Creating a mutex is easy:
+<programlisting>
+<![CDATA[
+Mutex* m = new Mutex();
+]]>
+</programlisting>		
+				To lock the mutex, simple call the Mutex::lock() method. If the lock() 
+				fails it will return false. To unlock the mutex call the unlock method.
+				For example:
+<programlisting>
+<![CDATA[
+Mutex* m = getMyMutex();
+m->lock();
+String s = "Hello!";
+myVectorOfStrings.push_back( s );
+m->unlock();
+]]>
+</programlisting>		
 				</para>
 			</answer>
 			<question>
@@ -589,7 +699,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Collections are only as safe as the STL version that implements them. Please 
+				check the documentation for the version of the STL that you're using 
+				for more information about this.
 				</para>
 			</answer>
 			<question>
@@ -597,7 +709,36 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				If you want to read or write the contents of a file, use the 
+				VCF::FileInputStream or VCF::FileOutputStream classes. If you want to 
+				manipulate the file, for example copying it, or deleting it,
+				use the VCF::File class.
+				</para>
+				<para>
+				A quick example of reading from a file:
+<programlisting>
+<![CDATA[
+FileInputStream fis("path/to/some/file.txt");
+String fileText;
+fis >> fileText;
+]]>
+</programlisting>
+				A quick example of writing to a file:
+<programlisting>
+<![CDATA[
+FileOutputStream fos("path/to/some/file.txt");
+String fileText = "blah blah blah, yada, yada, yada";
+fos << fileText;
+]]>
+</programlisting>	
+				A quick example of copying and then deleting a file:
+<programlisting>
+<![CDATA[
+File f("path/to/some/file.txt");
+f.copyTo( "some/other/cool/path/file.txt" );
+f.remove();
+]]>
+</programlisting>	
 				</para>
 			</answer>
 			<question>
@@ -605,7 +746,14 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Use the VCF::File class, and call the VCF::File::setName() method.
+				A quick example of changing the name:
+<programlisting>
+<![CDATA[
+File f("path/to/some/file.txt");
+f.setName( "some/other/cool/path/file.txt" );
+]]>
+</programlisting>
 				</para>
 			</answer>
 			<question>
@@ -613,7 +761,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes, use the VCF::File class, and call the VCF::File::remove() method. 
+				Be careful as this will really delete the file!
 				</para>
 			</answer>
 			<question>
@@ -621,7 +770,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes. The VCF::Object class has methods for handling this. See 
+				VCF::Object::addRef(), and VCF::Object::release().
 				</para>
 			</answer>
 			<question>
@@ -629,7 +779,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				No, at least not at this point. If you need garbage collector
+				you'll have to implement this integration your self.
 				</para>
 			</answer>
 			<question>
@@ -637,7 +788,11 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Not really. The VCF makes heavy of STL which has an excellent set 
+				of collection classes for virtually any use. What the VCF does provide
+				is a simple enumeration class that <emphasis>wraps</emphasis> the 
+				STL collection classes so you can get an enumeration back with being
+				tied to the precise underlying collection implementation.
 				</para>
 			</answer>			
 			<question>
@@ -645,15 +800,54 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				In a typical C++ destructor it is not safe to call
+				virtual methods, yet there are times when you need to do so. To 
+				achieve this the VCF uses the Object::free() method to destroy all
+				heap based instances. When Object::free() is called, it first calls
+				Object::destroy(), and then deletes the instance. The Object::destroy() 
+				is a virtual method that you can override in your own classes, and 
+				provides a safe place to reclaim the object's resources and make
+				virtual function calls. 
 				</para>
 			</answer>
 			<question>
-				<para>What is the "proper" or preferred way to delete obejct on the Heap?</para>
+				<para>What is the "proper" or preferred way to delete an instance on the Heap?</para>
 			</question>
 			<answer>
 				<para>
-				An answer.
+				If the instance is derived (directly or indirectly) from VCF::Object, then
+				the preferred way to delete the instance is to call the Object::free() member
+				function. If the instance does not derive from VCF::Object then you can
+				use the more traditional delete operator.
+<programlisting>
+<![CDATA[
+class MyObject : public VCF::Object {
+public:
+	
+};
+
+class Stuff {
+
+};
+
+class MyObject2 : public MyObject {
+
+};
+
+int main()
+{
+	Object* instance1 = new MyObject();
+	MyObject2* instance2 = new MyObject2();
+	Stuff* instance3 = new Stuff();
+
+	//delete all the instances
+	
+	instance1->free();
+	instance2->free();
+	delete instance3;
+}
+]]>
+</programlisting>
 				</para>
 			</answer>
 			<question>
@@ -665,7 +859,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				</para>
 			</answer>
 			<question>
-				<para>What's the deal with the Enumerator class? I thought the VCF only used teh STL for collections?</para>
+				<para>What's the deal with the Enumerator class? I thought the VCF only used the STL for collections?</para>
 			</question>
 			<answer>
 				<para>
@@ -677,7 +871,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Not yet. Support for Unicode will come in conjuntion with
+				Internationalization (i18n) and Localization (l10n) support.
 				</para>
 			</answer>
 			<question>
@@ -685,7 +880,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Not yet. As of November 2, 2003, it does not, but 
+				have no fear! There are plans to implement this 
+				support relatively soon.
 				</para>
 			</answer>
 			<question>
@@ -711,7 +908,17 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call FoundationKit::getCommandLine() which will return a CommandLine 
+				object. See the documentation for the VCF::CommandLine class.
+<programlisting>
+<![CDATA[
+CommandLine commandLine = FoundationKit::getCommandLine();
+if ( commandLine.hasSwitch("-h") ) {
+	//show usage listing...
+}
+]]>
+</programlisting>
+
 				</para>
 			</answer>
 			<question>
@@ -1193,6 +1400,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.9  2003/11/03 22:21:01  ddiego
+more faq documentation
+
 Revision 1.1.2.8  2003/10/22 21:14:37  ddiego
 adjusted the xsl stylesheet so it works with new version of xsltproc
 

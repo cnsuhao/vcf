@@ -181,7 +181,7 @@ NB: This software will not save the world.
 			The VCF Installer is currently broken and is not being offered at the moment
 			</para>
 		</note>
-		<formalpara><title>Install from a soruce archive</title>
+		<formalpara><title>Install from a source archive</title>
 		The more complex way is to pull down the latest cvs tar.gz file (again, you can get that from 
 		<ulink url="http://sourceforge.net/project/showfiles.php?group_id=6796">Source Forge</ulink>) and uncompress 
 		it somewhere on you hardrive. Once you have done this you'll need to set up some environment variables, which are as 
@@ -412,15 +412,13 @@ vcfcode/
 				As a general rule, please do <emphasis>not</emphasis> use Hungarian notation at all in any code that is in the main VCF 
 				development tree.
 				</para>
-				<para>
-				<title>Capitalization Styles</title>					
-				</para>
+				<formalpara><title>Capitalization Styles</title>					
+				</formalpara>
 				<para>
 				There are two main capitalization schemes the VCF uses:
 				</para>
-				<para>
-				<title>Camel casing:</title>
-				</para>
+				<formalpara><title>Camel casing:</title>
+				</formalpara>
 				<para>
 				Capitalizes the first character of each word except the first word. For example:
 				<programlisting>
@@ -428,9 +426,8 @@ fileStream
 				</programlisting>
 				</para>
 				
-				<para>
-				<title>Pascal casing:</title>
-				</para>
+				<formalpara><title>Pascal casing:</title>
+				</formalpara>
 				<para>
 				Capitalizes the first character of each word. For example:
 				<programlisting>
@@ -507,9 +504,7 @@ FileStream
 				</table>					
 				</para>
 				
-				<para>
-				<title>Class naming</title>
-				</para>					
+				<formalpara><title>Class naming</title></formalpara>					
 				<para>
 				Classes should be named with nouns or noun phrases, with more or less abstraction 
 				in the name depending on it's usage. For example, a common base class for describing 
@@ -545,9 +540,7 @@ ClassRegistry
 Control					
 				</programlisting>
 				</para>
-				<para>
-				<title>Enumerated values</title>					
-				</para>
+				<formalpara><title>Enumerated values</title></formalpara>
 				<para>
 				Enumerated values should have a descriptive name of what the value represents. The 
 				value names should use a prefix that is an acronym of the upper case characters of the 
@@ -589,9 +582,7 @@ msWarning
 				</programlisting>
 				</para>
 				
-				<para>
-					<title>Enumerated types</title>
-				</para>
+				<formalpara><title>Enumerated types</title></formalpara>
 				<para>
 				Names should be clearly descriptive of the type and what it represents. When 
 				appropriate please nest the enum type inside of the class it is associated with 
@@ -636,9 +627,8 @@ MessageStyle
 				</programlisting>
 				</para>
 				
-				<para>
-					<title>Class member function naming</title>
-				</para>
+				<formalpara><title>Class member function naming</title>
+				</formalpara>
 				<para>
 				Use names that have verbs or verb phrases that clearly express what the function will do. Functions 
 				that return a true or false value should try and use the "is" or "has" in front of the name, i.e. 
@@ -673,9 +663,9 @@ void internal_doSomething( int someValue );
 				</programlisting>
 				</para>
 				
-				<para>
+				<formalpara>
 					<title>Class member variable naming</title>
-				</para>
+				</formalpara>
 				<para>
 				Use adjectives that clearly describe what the member is and how it should be used. 
 				All member names must use the "_" suffix convention.
@@ -709,9 +699,9 @@ String name_;
 				</programlisting>
 				</para>
 				
-				<para>
+				<formalpara>
 					<title>Variable naming</title>
-				</para>
+				</formalpara>
 				<para>
 				Use descriptive names that clearly identify what the variable should do or what it means rather than 
 				identifying it's type. Please do <emphasis>not</emphasis> use Hungarian notation.
@@ -739,9 +729,9 @@ String name_;
 				</programlisting>
 				</para>
 				
-				<para>
+				<formalpara>
 					<title>Function naming</title>
-				</para>
+				</formalpara>
 				<para>
 				Use names that have verbs or verb phrases that clearly express what the function will do. 
 				<itemizedlist>
@@ -764,9 +754,9 @@ String name_;
 				</programlisting>
 				</para>
 				
-				<para>
+				<formalpara>
 					<title>Use of Namespaces</title>
-				</para>
+				</formalpara>
 				<para>
 				Use namespaces to group a large collection of classes, typedefs, etc together, to more clearly identify 
 				the classes. Use namespaces in place of class prefixes or function prefixes. For example instead of the 
@@ -793,9 +783,9 @@ String name_;
 				</para>
 				
 				
-				<para>
+				<formalpara>
 					<title>Use of static class methods/members</title>
-				</para>
+				</formalpara>
 				<para>
 				see Function naming and Member function naming above with the following restrictions:
 				<itemizedlist>
@@ -832,9 +822,9 @@ String s = f.commonBarRepository;
 				</programlisting>
 				</para>
 				
-				<para>
+				<formalpara>
 					<title>Comments</title>
-				</para>
+				</formalpara>
 				<para>
 				The standard comment style used in the VCF is comparable to what is used in Java, i.e. the 
 				<programlisting>
@@ -1179,6 +1169,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/11/03 22:21:01  ddiego
+more faq documentation
+
 Revision 1.1.2.3  2003/10/19 22:51:20  ddiego
 added some documetnation explaining how to generate the docs and add
 tutorial documentation
