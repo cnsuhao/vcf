@@ -4,6 +4,7 @@
 #include "ApplicationKit.h"
 #include "ControlsKit.h"
 #include "utils/DateTime.h"
+#include "graphics/TitledBorder.h"
 
 
 using namespace VCF;
@@ -30,6 +31,10 @@ public:
 		Application::getRunningInstance()->addAcceleratorKey( vkDownArrow, kmCtrl, ev );
 
 		Application::getRunningInstance()->addAcceleratorKey( vkDownArrow, kmCtrl | kmShift, ev );
+
+		ev = new KeyboardEventHandler<Calendar>( this, &Calendar::onSpaceBar, "Calendar::onSpaceBar" );
+
+		Application::getRunningInstance()->addAcceleratorKey( vkSpaceBar, 0, ev );
 	}
 
 
@@ -201,6 +206,179 @@ public:
 		repaint();
 	}
 
+	void onSpaceBar( KeyboardEvent* e ) {
+
+		current = DateTime::now();
+
+		repaint();
+	}
+
+	DateTime current;
+};
+
+
+
+class DigitalClock : public CustomControl {
+public:
+	DigitalClock()	{
+
+		current = DateTime::now();
+
+		getFont()->setName( "Tahoma" );
+		getFont()->setPointSize( 15 );
+		getFont()->setBold( true );
+
+		EventHandler* ev = 
+			new GenericEventHandler<DigitalClock>( this, &DigitalClock::onTimer, "DigitalClock::onTimer" );
+		
+		TimerComponent* timer = new TimerComponent();
+		addComponent( timer );
+
+		timer->TimerPulse += ev;
+
+		timer->setTimeoutInterval( 1000 );
+		timer->setActivated( true );
+
+		TitledBorder* bdr = new TitledBorder();
+
+		bdr->setCaption( "Digital Clock" );
+
+		setBorder( bdr );
+	}
+
+
+	virtual void paint( GraphicsContext* ctx ) {
+		CustomControl::paint( ctx );
+
+		Rect rect = getClientBounds();
+		
+		rect.inflate( -5, -5 );
+		ctx->setCurrentFont( getFont() );
+
+		String s = StringUtils::format( current, "%#I:%M:%S");
+		s += current.isAM() ? " AM" : " PM";
+
+		long options = GraphicsContext::tdoCenterVertAlign | GraphicsContext::tdoCenterHorzAlign;
+		ctx->textBoundedBy( &rect, s, options );
+	}
+
+	void onTimer( Event* e ) {
+		current = DateTime::now();
+		repaint();
+	}
+
+	DateTime current;
+};
+
+
+class AnalogClock : public CustomControl {
+public:
+	AnalogClock()	{	
+
+		current = DateTime::now();
+
+		EventHandler* ev = 
+			new GenericEventHandler<AnalogClock>( this, &AnalogClock::onTimer, "AnalogClock::onTimer" );
+		
+		TimerComponent* timer = new TimerComponent();
+		addComponent( timer );
+
+		timer->TimerPulse += ev;
+
+		timer->setTimeoutInterval( 1000 );
+		timer->setActivated( true );
+
+		TitledBorder* bdr = new TitledBorder();
+
+		bdr->setCaption( "Analog Clock" );
+
+		setBorder( bdr );
+	}
+
+
+	virtual void paint( GraphicsContext* ctx ) {
+		CustomControl::paint( ctx );
+
+		Rect rect = getClientBounds();
+		
+		rect.inflate( -5, -5 );
+
+		Point center = rect.getCenter();
+		double radius = minVal<>( rect.getHeight()/2.0, rect.getWidth()/2.0);
+		ctx->setColor( Color::getColor("black") );
+		ctx->circle( center, radius );
+		ctx->strokePath();
+	
+		double tickLength = 5.0;
+		
+		for ( int i=0;i<12;i++ ) {
+			 double theta = (i/12.0) * (2*M_PI);
+
+			 double s = sin( theta );
+			 double c = cos( theta );
+
+			 ctx->moveTo( center.x_ + c*(radius-tickLength), 
+							center.y_ - s*(radius-tickLength) );
+			 ctx->lineTo( center.x_ + c*radius, 
+							center.y_ - s*radius );
+		}
+		ctx->strokePath();
+
+		double hourLength = radius * 0.40;
+		double minLength = radius * 0.35;
+		double secLength = radius * 0.05;
+
+		double theta = (((current.getHour()%12))/12.0) * (2*M_PI);
+		double c = sin( theta );
+		double s = cos( theta );
+
+		ctx->setColor( Color::getColor("midnightblue") );
+		ctx->setStrokeWidth( 2 );
+		ctx->moveTo( center );
+		ctx->lineTo( center.x_ + c*(radius-hourLength), 
+							center.y_ - s*(radius-hourLength) );
+
+		ctx->strokePath();
+
+		
+		theta = (current.getMinute()/60.0) * (2*M_PI);
+		c = sin( theta );
+		s = cos( theta );
+
+		ctx->setColor( Color::getColor("red") );
+		ctx->setStrokeWidth( 0 );
+		ctx->moveTo( center );
+		ctx->lineTo( center.x_ + c*(radius-minLength), 
+							center.y_ - s*(radius-minLength) );
+
+		ctx->strokePath();
+
+		theta = (current.getSeconds()/60.0) * (2*M_PI);
+		c = sin( theta );
+		s = cos( theta );
+
+		ctx->setColor( Color::getColor("forestgreen") );
+		
+		ctx->moveTo( center );
+		ctx->lineTo( center.x_ + c*(radius-secLength), 
+							center.y_ - s*(radius-secLength) );
+
+		ctx->strokePath();
+
+
+		ctx->setStrokeWidth( 0 );
+
+	}
+
+	void onTimer( Event* e ) {
+		current = DateTime::now();
+		repaint();
+		String s = StringUtils::format( current, "%#I:%M:%S");
+		s += current.isAM() ? " AM" : " PM";
+
+		setToolTipText( s );
+	}
+
 	DateTime current;
 };
 
@@ -213,16 +391,29 @@ public:
 
 		setVisible( true );
 
+		Panel* panel = new Panel();
+		panel->setHeight( 100 );
+		add( panel, AlignTop );
+
+		
+
+		DigitalClock* clock1 = new DigitalClock();
+		clock1->setWidth( panel->getWidth()/2.0 );
+		panel->add( clock1, AlignClient );
+
+		AnalogClock* clock2 = new AnalogClock();
+		clock2->setWidth( panel->getWidth()/2.0 );
+		panel->add( clock2, AlignLeft );
+
+
 		Calendar* calendar = new Calendar();
 
 		Rect r = getClientBounds();
-		r.inflate( -10, -10 );
-		calendar->setBounds( &r );
-		calendar->setAnchor( AnchorTop|AnchorBottom|AnchorRight|AnchorLeft);
+		r.inflate( -10, -10 );	
+		
 		calendar->setColor( Color::getColor("white") );
-
-		calendar->current = DateTime::now();
-		add( calendar );
+		
+		add( calendar, AlignClient );		
 	}
 
 	virtual ~DateTimeUIWindow(){};
