@@ -1,7 +1,6 @@
 #ifndef _VCF_OSXSEMAPHOREPEER_H__
 #define _VCF_OSXSEMAPHOREPEER_H__
-
-// OSXSemaphorePeer.h
+//OSXSemaphorePeer.h
 
 /*
 Copyright 2000-2004 The VCF Project.
@@ -17,7 +16,7 @@ namespace VCF  {
 */
 class OSXSemaphore : public SemaphorePeer {
 public:
-   
+
     OSXSemaphore( long initialCount, long maxCount );
 	virtual ~OSXSemaphore();
 
@@ -40,11 +39,13 @@ protected:
 
 }; // end of namespace VCF
 
- 
- 
+
  /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+ *added binary friend operators to UnicodeString
+ *
  *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
  *This checks in a bunch of changes to the FoundationKit for OSX
  *porting. The thread, mutex, semaphor, condition, and file peers
@@ -75,5 +76,7 @@ protected:
  *
  */
 
+
 #endif // _VCF_OSXSEMAPHOREPEER_H__
+
 

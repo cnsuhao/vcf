@@ -1,35 +1,14 @@
 #ifndef _VCF_OSXCONDITIONPEER_H__
 #define _VCF_OSXCONDITIONPEER_H__
+//OSXConditionPeer.h
 
-// OSXConditionPeer.h
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
-/**
-Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the distribution.
-
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
- OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- NB: This software will not save the world.
- */
- 
- 
 /**
 Note this code is partially (mostly) based on the condition class
 from the Boost Threads library by William Kempf.
@@ -95,15 +74,17 @@ protected:
                         // still waiting to be removed from queue_
 };
 
- 
- 
-}; //end of namespace VCF
 
+
+}; //end of namespace VCF
 
 
  /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+ *added binary friend operators to UnicodeString
+ *
  *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
  *This checks in a bunch of changes to the FoundationKit for OSX
  *porting. The thread, mutex, semaphor, condition, and file peers
@@ -133,6 +114,7 @@ protected:
  *plus some fixes to compile under GCC 3.x compilers
  *
  */
+
 
 #endif // _VCF_OSXCONDITIONPEER_H__
 

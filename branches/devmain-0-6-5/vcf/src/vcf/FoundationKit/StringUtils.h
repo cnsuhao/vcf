@@ -178,7 +178,7 @@ public:
 	*(either "true" or "false")
 	*/
 	static VCF::String toString( const bool& value );
-    
+
     static VCF::String toStringFromHexNumber( const uchar& value );
 
 	/**
@@ -355,21 +355,21 @@ public:
 	@return String the newly formatted string
 	*/
 	static VCF::String format( const DateTime& date, const String& formatting );
-	
+
 	/**
 	This functions is used to change, if neccessary, a format string
 	to one accceptable for the native platforms string formatting routines.
-	Its existance is due to the fact that OSX's Core Foundation 
+	Its existance is due to the fact that OSX's Core Foundation
 	string formatting routines do <b>not</b> understand how to deal
 	with unicode buffers without the use of the "%S" format directive.
-	Naturally, no other system uses the "%S" directive, hence the 
-	neccessity of this function, which will search for the presence of 
+	Naturally, no other system uses the "%S" directive, hence the
+	neccessity of this function, which will search for the presence of
 	the "%ls" directive (which on both Win32 and linux based systems
 	accepts a unicode/wchar_t buffer) and replace it with the %S directive.
 	To be smart the search/replace will only occur if called on OSX.
 	*/
 	static VCF::String convertFormatString( const String& formattedString );
-	
+
 protected:
 	static String weekdays[];
 	static String abbrevWeekdays[];
@@ -383,6 +383,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.4  2004/05/16 02:39:09  ddiego
 *OSX code updates
 *

@@ -1,3 +1,5 @@
+//OSXThread.cpp
+
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
@@ -19,9 +21,9 @@ OSXThread::OSXThread( Thread* thread ) :
     isActive_(false)
 {
     GetCurrentProcess( &processID_ );
-    
+
     MPLibraryIsLoaded();
-    
+
     OSStatus err = MPCreateQueue(&queueID_);
     if ( err != noErr ) {
         throw ThreadException( MAKE_ERROR_MSG_2("MPCreateQueue failed!") );
@@ -31,39 +33,39 @@ OSXThread::OSXThread( Thread* thread ) :
 OSXThread::~OSXThread()
 {
     VCF_ASSERT( queueID_ != kInvalidID );
-    
+
     OSStatus err = MPDeleteQueue(queueID_);
-    
+
     VCF_ASSERT(err == noErr);
 }
 
 bool OSXThread::start()
 {
     bool result = true;
-    
+
     //MPCreateTask starts right away
     OSStatus err = MPCreateTask( &OSXThread::taskProc, this, 0UL, queueID_, NULL,
         NULL, 0UL, &taskID_);
     if (err != noErr) {
         err = MPDeleteQueue(queueID_);
-        if ( err != noErr ) {        
+        if ( err != noErr ) {
             throw ThreadException( MAKE_ERROR_MSG_2("MPDeleteQueue failed!") );
         }
         result = false;
     }
-    
+
 	return result;
 }
 
 OSStatus OSXThread::taskProc( void *parameter )
 {
     OSXThread* thisPtr = (OSXThread*)parameter;
-    
+
     OSStatus result = noErr;
-    
+
     if ( NULL != thisPtr->thread_ ) {
         thisPtr->isActive_ = true;
-        
+
         Thread* thread = thisPtr->thread_;
 		bool autoDeleteThread = thread->canAutoDelete();
 
@@ -90,27 +92,27 @@ OSStatus OSXThread::taskProc( void *parameter )
     else {
         result = paramErr; // OSXThread has no thread - invalid
     }
-    
+
     return result;
 }
 
 void OSXThread::stop()
 {
-    wait();//wait forever till we stop running our thread - this is 
-            //called internally 
+    wait();//wait forever till we stop running our thread - this is
+            //called internally
 }
 
 int OSXThread::executionContext()
 {
     int result = k_eExecutionContextOther;
-    
+
     if(MPTaskIsPreemptive(kInvalidID))  {
         result = k_eExecutionContextMPTask;
     }
     else {
 
         UInt32 taskLevel = TaskLevel();
-        
+
         if( taskLevel == 0UL)  {
             result = k_eExecutionContextSystemTask;
         }
@@ -124,10 +126,10 @@ int OSXThread::executionContext()
 
 void OSXThread::sleep( uint32 milliseconds )
 {
-    
+
     Duration timeout = kDurationMillisecond * milliseconds;
     AbsoluteTime absTimeout = DurationToAbsolute( timeout );
-        
+
     if(OSXThread::executionContext() == k_eExecutionContextMPTask) {
         MPDelayUntil( &absTimeout );
     }
@@ -136,74 +138,74 @@ void OSXThread::sleep( uint32 milliseconds )
         ulong64 wakeUpTime = timeout;
         wakeUpTime.lo( absTimeout.lo );
         wakeUpTime.hi( absTimeout.hi );
-        
+
         AbsoluteTime tmp = UpTime();
         ulong64 upTime;
         upTime.lo( tmp.lo );
         upTime.hi( tmp.hi );
-        
+
         while( upTime < wakeUpTime) {
             EventRecord event;
             WaitNextEvent(0U, &event, 0UL, NULL);
             tmp = UpTime();
             upTime.lo( tmp.lo );
             upTime.hi( tmp.hi );
-        }       
+        }
     }
 }
 
 int OSXThread::wait()
 {
     int result = 0;
-    
+
 	if(OSXThread::executionContext() == k_eExecutionContextMPTask) {
         OSStatus err = MPWaitOnQueue( queueID_, NULL, NULL, NULL, kDurationForever );
-        
+
         switch ( err ) {
             case kMPTimeoutErr : {
                 result =  Waitable::wrTimedOut;
             }
             break;
-            
+
             case noErr : {
                 result =  Waitable::wrWaitFinished;
             }
             break;
-            
+
             default : {
                 result =  Waitable::wrWaitFailed;
             }
             break;
         }
-    }    
+    }
     else   {
-        
+
         OSStatus lStatus;
-       
+
         do {
             lStatus = MPWaitOnQueue( queueID_, NULL, NULL, NULL, kDurationImmediate );
             EventRecord event;
             WaitNextEvent(0U, &event, 0UL, NULL);
         } while(lStatus == kMPTimeoutErr );
-        
+
         switch ( lStatus ) {
             case kMPTimeoutErr : {
                 result =  Waitable::wrTimedOut;
             }
             break;
-            
+
             case noErr : {
                 result =  Waitable::wrWaitFinished;
             }
             break;
-            
+
             default : {
                 result =  Waitable::wrWaitFailed;
             }
             break;
-        }       
-    }    
-    
+        }
+    }
+
 	return result;
 }
 
@@ -211,59 +213,59 @@ int OSXThread::wait( uint32 milliseconds )
 {
     int result = 0;
     Duration timeout = kDurationMillisecond * milliseconds;
-    
+
     if(OSXThread::executionContext() == k_eExecutionContextMPTask) {
         OSStatus err = MPWaitOnQueue( queueID_, NULL, NULL, NULL, timeout );
-        
+
         switch ( err ) {
             case kMPTimeoutErr : {
                 result =  Waitable::wrTimedOut;
             }
             break;
-            
+
             case noErr : {
                 result =  Waitable::wrWaitFinished;
             }
             break;
-            
+
             default : {
                 result =  Waitable::wrWaitFailed;
             }
             break;
         }
-    }    
+    }
     else   {
         OSStatus lStatus;
         AbsoluteTime expiration = AddDurationToAbsolute( timeout, UpTime());
         ulong64 wakeUpTime;
         wakeUpTime.lo( expiration.lo );
         wakeUpTime.hi( expiration.hi );
-        
+
         bool expired = false;
         do {
             lStatus = MPWaitOnQueue( queueID_, NULL, NULL, NULL, kDurationImmediate );
             EventRecord event;
             WaitNextEvent(0U, &event, 0UL, NULL);
         } while( lStatus == kMPTimeoutErr && !expired );
-        
+
         switch ( lStatus ) {
             case kMPTimeoutErr : {
                 result =  Waitable::wrTimedOut;
             }
             break;
-            
+
             case noErr : {
                 result =  Waitable::wrWaitFinished;
             }
             break;
-            
+
             default : {
                 result =  Waitable::wrWaitFailed;
             }
             break;
-        }       
+        }
     }
-    
+
     return result;
 }
 
@@ -271,4 +273,14 @@ void OSXThread::pause()
 {
 
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
+*/
+
 

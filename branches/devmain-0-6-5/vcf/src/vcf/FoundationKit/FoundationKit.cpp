@@ -107,9 +107,9 @@ CommandLine FoundationKit::getCommandLine()
 }
 
 void FoundationKit::assertCondition( bool condition, const String& failureMessage )
-{    
+{
 	if ( !condition ) {
-    
+
 		throw RuntimeException( "Assertion failure: " + failureMessage );
 	}
 }
@@ -118,6 +118,9 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.3  2004/05/03 03:44:52  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

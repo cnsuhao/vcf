@@ -273,7 +273,7 @@ String Parser::tokenComponentIdent()
 double Parser::tokenFloat()
 {
 	String s = tokenString();
-	double result = StringUtils::fromStringAsFloat( s );	
+	double result = StringUtils::fromStringAsFloat( s );
 	return result;
 }
 
@@ -313,6 +313,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

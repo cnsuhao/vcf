@@ -1,37 +1,14 @@
-
-
 #ifndef _VCF_OSXPEER_H__
 #define _VCF_OSXPEER_H__
- 
+//OSXPeer.h
 
-/**
-Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the distribution.
 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
- OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- NB: This software will not save the world.
- */
- 
- 
- 
 namespace VCF {
 
 	class OSXUtils {
@@ -39,7 +16,7 @@ namespace VCF {
 		static String getErrorString( int errorCode );
 	};
 
-    
+
 
 
 #define vcf_IntToFixed(a)	   ((Fixed)(a) << 16)
@@ -47,55 +24,55 @@ namespace VCF {
 
 class FixedPointNumber {
 public:
-	FixedPointNumber() : val_(0){	
+	FixedPointNumber() : val_(0){
 	}
-	
+
 	FixedPointNumber( Fixed val ) : val_(val){}
-	
+
 	FixedPointNumber( const double val ) {
 		*this = val;
 	}
-	
+
 	FixedPointNumber& operator=( Fixed rhs ) {
 		val_ = rhs;
 		return *this;
 	}
-	
+
 	FixedPointNumber& operator=( const double& rhs ) {
-		assign ( rhs );	
+		assign ( rhs );
 		return *this;
 	}
-	
+
 	FixedPointNumber& operator=( const float& rhs ) {
-		assign ( rhs );	
+		assign ( rhs );
 		return *this;
 	}
-	
+
 	void assign( const double& val ) {
 		int fractional = (val - floor(val)) * 0xffff;
-	
+
 		val_ = vcf_IntToFixed((int)(floor(val))) | fractional;
 	}
-	
-	void assign( const int& val ) {	
+
+	void assign( const int& val ) {
 		val_ = vcf_IntToFixed(val);
 	}
-	
+
 	int asInt() const {
 		return vcf_FixedToInt(val_);
 	}
-	
+
 	double asDouble() const {
 		if ( 0 == val_ ) {
 			return 0.0;
 		}
 		return (double)vcf_FixedToInt(val_) + ((double)(0xFFFF)/(double)(0xFFFF0000 & val_));
 	}
-	
+
 	operator double () const {
 		return asDouble();
 	}
-	
+
 	operator Fixed () const {
 		return val_;
 	}
@@ -108,135 +85,135 @@ protected:
 class CFTextString {
 public:
 	CFTextString() : cfStringRef(nil), unicodeText(NULL){
-		
+
 	}
-	
+
 	CFTextString( const String& s ) : cfStringRef(nil), unicodeText(NULL){
 		assign( s );
 	}
-    
+
     CFTextString( CFStringRef s ) : cfStringRef(nil), unicodeText(NULL){
 		assign( s );
 	}
-	
+
 	~CFTextString() {
 		cleanup();
 	}
-	
+
 	CFTextString& operator=( const String& s ) {
 		assign( s );
 		return *this;
 	}
-    
+
     CFTextString& operator=( CFStringRef s ) {
 		assign( s );
 		return *this;
 	}
-    
+
     CFTextString& operator=( const char* s ) {
-        CFStringRef strRef = 
+        CFStringRef strRef =
             CFStringCreateWithCString( NULL, s, CFStringGetSystemEncoding() );
-    
+
 		assign( strRef );
-        
+
         CFRelease( strRef );
-        
+
 		return *this;
 	}
-    
-	
+
+
 	int length() const {
 		return CFStringGetLength( cfStringRef );
 	}
-	
+
 	void assign( const String& s ) {
 		cleanup();
         cfStringRef = CFStringCreateMutable( NULL, 0 );
 		CFStringAppendCharacters( cfStringRef, s.c_str(), s.size() );
 		buildUnicodeBuffer();
 	}
-    
+
     void assign( CFStringRef s ) {
 		cleanup();
-        
+
         cfStringRef = CFStringCreateMutableCopy( NULL, 0, s );
-		
+
 		buildUnicodeBuffer();
 	}
-	
-    
-    
+
+
+
 	CFStringRef ref() const {
 		return cfStringRef;
 	}
-	
+
     CFMutableStringRef m_ref() {
 		return cfStringRef;
 	}
-    
+
     operator CFMutableStringRef () {
 		return cfStringRef;
 	}
-    
+
 	operator CFStringRef () const {
 		return cfStringRef;
 	}
-	
+
     operator String () const {
-        String result = unicodeText;        
+        String result = unicodeText;
         return result;
     }
-    
+
     const char* ansi_c_str() const {
         return CFStringGetCStringPtr( cfStringRef, CFStringGetSystemEncoding() );
     }
-    
+
 	const UniChar* c_str() const {
 		return unicodeText;
-	}	
-	
+	}
+
     void copy( UniChar* buffer, int bufferLength ) const {
         memcpy( buffer, unicodeText, sizeof(UniChar) * bufferLength );
     }
-    
+
     void formatWithArgs( CFStringRef formatStr, va_list arguments ) {
         CFStringRef strRef = CFStringCreateWithFormatAndArguments( NULL, NULL, formatStr, arguments );
-        
+
         assign( strRef );
-        
+
         CFRelease( strRef );
-    }     
-    
-        
+    }
+
+
     void format( CFStringRef formatStr, ... ) {
         va_list argList;
 
         va_start( argList, formatStr );
-        
+
         formatWithArgs( formatStr, argList );
-        
+
         va_end( argList );
     }
-    
+
     void upperCase() {
         CFStringUppercase( cfStringRef, NULL );
-        
+
         if ( NULL != unicodeText ) {
 			delete [] unicodeText;
             unicodeText = NULL;
 		}
-        
+
         buildUnicodeBuffer();
     }
-    
+
     void lowerCase() {
         CFStringLowercase( cfStringRef, NULL );
-        
+
         if ( NULL != unicodeText ) {
 			delete [] unicodeText;
             unicodeText = NULL;
 		}
-        
+
         buildUnicodeBuffer();
     }
 protected:
@@ -244,37 +221,40 @@ protected:
 		if ( NULL != unicodeText ) {
 			delete [] unicodeText;
 		}
-		
+
 		if ( nil != cfStringRef ) {
 			CFRelease(cfStringRef);
 		}
 		cfStringRef = nil;
-		unicodeText = NULL;		
+		unicodeText = NULL;
 	}
-	
+
 	void buildUnicodeBuffer() {
 		int length = CFStringGetLength( cfStringRef );
 		unicodeText = new UniChar[length+1];
-		CFRange range = {0,length};	
+		CFRange range = {0,length};
 		CFStringGetCharacters(cfStringRef,range,unicodeText);
 		unicodeText[length] = 0;
 	}
 	CFMutableStringRef cfStringRef;
 	UniChar* unicodeText;
-	
+
 private:
 		CFTextString( const CFTextString& rhs );
 		CFTextString& operator=( const CFTextString& rhs );
 };
 
 
-        
+
 };
- 
- 
+
+
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.6  2004/06/06 04:56:53  marcelloptr
+ *added binary friend operators to UnicodeString
+ *
  *Revision 1.1.2.5  2004/05/31 19:42:52  ddiego
  *more osx updates
  *
@@ -313,9 +293,8 @@ private:
  *plus some fixes to compile under GCC 3.x compilers
  *
  */
- 
-   
+
+
 #endif // _VCF_OSXPEER_H__
- 
- 
- 
+
+

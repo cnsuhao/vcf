@@ -1,35 +1,12 @@
-
-
 #ifndef _VCF_OSXSYSTEMTOOLKIT_H__
 #define _VCF_OSXSYSTEMTOOLKIT_H__
+//OSXSystemToolkit.h
 
-/**
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-
-
 
 
 namespace VCF {
@@ -42,11 +19,11 @@ public:
 		virtual ~OSXSystemToolkit();
 
 		virtual ProcessPeer* internal_createProcessPeer( Process* process );
-		
+
 		virtual ProcessIORedirectionPeer* internal_createProcessIORedirectionPeer( ProcessWithRedirectedIO* process );
-		
+
 		virtual ThreadPeer* internal_createThreadPeer( Thread* thread );
-		
+
 		virtual SystemPeer* internal_createSystemPeer();
 
 		virtual SemaphorePeer* internal_createSemaphorePeer( long initialCount, long maxCount );
@@ -62,17 +39,19 @@ public:
 		virtual FilePeer* internal_createFilePeer( File* file, const String& filename );
 
 		virtual FileStreamPeer* internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType );
-        
+
         virtual LocalePeer* internal_createLocalePeer();
 	};
 
 };
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *
@@ -119,10 +98,10 @@ public:
 *Revision 1.1.2.1  2003/05/15 03:01:01  ddiego
 *added initial osx source( FoundationKit only),
 *plus some fixes to compile under GCC 3.x compilers
-* 
+*
 */
 
-#endif // _VCF_OSXSYSTEMTOOLKIT_H__
 
+#endif // _VCF_OSXSYSTEMTOOLKIT_H__
 
 

@@ -9,11 +9,6 @@ where you installed the VCF.
 */
 
 
-#if _MSC_VER > 1000
-#   pragma once
-#endif
-
-
 //#include "FileStreamPeer.h"
 
 
@@ -53,6 +48,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

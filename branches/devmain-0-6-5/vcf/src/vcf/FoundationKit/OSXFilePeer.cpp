@@ -1,8 +1,11 @@
+//OSXFilePeer.cpp
+
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
 where you installed the VCF.
 */
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -40,11 +43,11 @@ bool OSXFilePeer::beginFileSearch( Directory::Finder* finder )
 	searchFilters_.clear();
 	buildSearchFilters( finder->getSearchFilter() );
 
-	
-	FileSearchData fsData;	
-	
-	//RegExx::Regexx regex;	
-	
+
+	FileSearchData fsData;
+
+	//RegExx::Regexx regex;
+
 	return result;
 }
 
@@ -75,7 +78,7 @@ void OSXFilePeer::buildSearchFilters( const String& searchFilter )
 
 void OSXFilePeer::remove()
 {
-    
+
 }
 
 void OSXFilePeer::create()
@@ -86,9 +89,9 @@ void OSXFilePeer::create()
         //create it
         fileHandle_ = fopen( fName, "w" );
         fclose( fileHandle_ );
-        fileHandle_ = fopen( fName, "rb" );   
+        fileHandle_ = fopen( fName, "rb" );
     }
-    
+
     if ( NULL == fileHandle_ ) {
         throw RuntimeException( MAKE_ERROR_MSG_2("OSXFilePeer::create() failed!") );
     }
@@ -102,7 +105,7 @@ uint32 OSXFilePeer::getSize()
 	fseek( fileHandle_, 0, SEEK_END );
     result = ftell( fileHandle_ );
     fseek( fileHandle_, 0, SEEK_SET );
-	return result;	
+	return result;
 }
 
 void OSXFilePeer::setName( const String& fileName )
@@ -116,7 +119,16 @@ void OSXFilePeer::setName( const String& fileName )
 
 void OSXFilePeer::copyTo( const String& copyFileName )
 {
-    
+
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.6  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
+*/
 
 

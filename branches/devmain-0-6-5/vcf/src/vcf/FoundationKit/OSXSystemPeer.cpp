@@ -1,3 +1,5 @@
+//OSXSystemPeer.cpp
+
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
@@ -17,7 +19,7 @@ using namespace VCF;
 
 
 OSXSystemPeer::OSXSystemPeer()
-{ 	
+{
  	::gettimeofday( &time_, &timeZone_ );
 }
 
@@ -28,31 +30,31 @@ OSXSystemPeer::~OSXSystemPeer()
 
 unsigned long OSXSystemPeer::getTickCount()
 {
-	
+
 	struct timeval now = {0};
 	struct	timezone timeZone;
 	::gettimeofday( &now, &timeZone );
 
 	double t1, t2;
 
-	t1 =  (double)(time_.tv_sec * 1000) + 
+	t1 =  (double)(time_.tv_sec * 1000) +
 		(double)time_.tv_usec/(1000);
-	
+
 	t2 =  (double)(now.tv_sec * 1000) + (double)now.tv_usec/(1000); //convert to Milliseconds
 
-	
+
 	unsigned long result = (unsigned long)(t2 - t1);
-		
+
 	return result;
 }
 
 void OSXSystemPeer::sleep( const uint32& milliseconds )
-{ 	
+{
 	if ( 0 == milliseconds ) {
   	return;
 	}
 	struct timespec req = {0};
-	struct timespec rem = {0};	                          	
+	struct timespec rem = {0};
 	req.tv_sec = milliseconds / 1000;
 	req.tv_nsec = (milliseconds % 1000) * 1000;
 	::nanosleep( &req, &rem );
@@ -80,12 +82,12 @@ String OSXSystemPeer::getCurrentWorkingDirectory()
 String OSXSystemPeer::getEnvironmentVariable( const String& variableName )
 {
 	String result;
-	
+
 	const char* env = getenv( variableName.ansi_c_str() );
 	if ( NULL != env ) {
 		result = env;
 	}
-	
+
 	return result;
 }
 
@@ -115,6 +117,9 @@ void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers
@@ -166,6 +171,5 @@ void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 *removed the .cpp files in favor of .mm files to allow Objective-C++ compiling
 *
 */
-
 
 

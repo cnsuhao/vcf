@@ -1,9 +1,11 @@
+//OSXSystemToolkit.cpp
 
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
 where you installed the VCF.
 */
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -79,7 +81,7 @@ FileStreamPeer* OSXSystemToolkit::internal_createFileStreamPeer( const String& f
 
 ProcessIORedirectionPeer* OSXSystemToolkit::internal_createProcessIORedirectionPeer( ProcessWithRedirectedIO* process )
 {
-	
+
 	//result->setProcess( process );
 	return 	NULL;//result;
 }
@@ -88,4 +90,14 @@ LocalePeer* OSXSystemToolkit::internal_createLocalePeer()
 {
     return new OSXLocalePeer();
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
+*/
+
 

@@ -726,7 +726,7 @@ String XMLParser::decodeText( const String& text )
 						if( number >= 0 && number <= 255 ) {
 							entity = String( sizeof(VCFChar),(VCFChar)number );
 						}
-						else {							
+						else {
 							entity = StringUtils::toString( number );
 						}
 					}
@@ -769,6 +769,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:54  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

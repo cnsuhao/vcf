@@ -1,9 +1,11 @@
+//OSXConditionPeer.cpp
+
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
 where you installed the VCF.
 */
-//OSXConditionPeer.cpp
+
 
 /**
 Note this code is partially (mostly) based on the condition class
@@ -43,14 +45,14 @@ OSXConditionPeer::OSXConditionPeer( Condition* condition ):
 	waiting_(0)
 {
     MPLibraryIsLoaded();
-    
-    
+
+
     OSStatus err = MPCreateSemaphore( 1, 1, &gate_ );
     if ( (err != noErr) || (kInvalidID == gate_) ) {
         throw ThreadException( MAKE_ERROR_MSG_2("MPCreateSemaphore failed or returned an invalid gate_ semaphore id") );
     }
 
-    
+
     err = MPCreateSemaphore( OSXConditionPeer::MaxQueue, 0, &queue_ );
     if ( (err != noErr) || (kInvalidID == queue_) ) {
         if ( kInvalidID != gate_ ) {
@@ -59,32 +61,32 @@ OSXConditionPeer::OSXConditionPeer( Condition* condition ):
         throw ThreadException( MAKE_ERROR_MSG_2("MPCreateSemaphore failed or returned an invalid queue_ semaphore id") );
     }
 
-       
+
     err = MPCreateCriticalRegion( &mutex_ );
     if ( (err != noErr) || (kInvalidID == mutex_) ) {
         if ( kInvalidID != gate_ ) {
             MPDeleteSemaphore( gate_ );
         }
-        
+
         if ( kInvalidID != queue_ ) {
             MPDeleteSemaphore( queue_ );
         }
         throw ThreadException( MAKE_ERROR_MSG_2("MPCreateCriticalRegion failed or returned an invalid mutex_ ") );
-    }	
+    }
 }
 
 OSXConditionPeer::~OSXConditionPeer()
 {
     OSStatus err = MPDeleteSemaphore( gate_ );
     VCF_ASSERT2( err == noErr, "MPDeleteSemaphore failed for gate_" );
-    
+
     err = MPDeleteSemaphore( queue_ );
     VCF_ASSERT2( err == noErr, "MPDeleteSemaphore failed for queue_" );
-    
-    
-    err = MPDeleteCriticalRegion( mutex_ );    
+
+
+    err = MPDeleteCriticalRegion( mutex_ );
     VCF_ASSERT2( err == noErr, "MPDeleteCriticalRegion failed for mutex_" );
-    
+
 }
 
 int OSXConditionPeer::wait()
@@ -93,15 +95,15 @@ int OSXConditionPeer::wait()
 
     OSStatus err = MPWaitOnSemaphore( gate_, kDurationForever );
     VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");
-    
+
 
 	++blocked_;
-	
-    
+
+
     err = MPSignalSemaphore( gate_ );
     VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
-    
-    
+
+
 
 	Mutex* conditionMutex = condition_->getMutex();
 
@@ -144,8 +146,8 @@ int OSXConditionPeer::wait()
 		if ( waiting_ == 0 ) {
 			if (blocked_ != 0) {
                 err = MPSignalSemaphore( gate_ );
-                VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");               
-				
+                VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
+
 				was_waiting = 0;
 			}
 			else if (gone_ != 0) {
@@ -160,29 +162,29 @@ int OSXConditionPeer::wait()
 			// this may occur if many calls to wait with a timeout are made and
 			// no call to notify_* is made
             err = MPWaitOnSemaphore( gate_, kDurationForever );
-            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");   
-			
+            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");
+
 
 			blocked_ -= gone_;
 			err = MPSignalSemaphore( gate_ );
-            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");   
+            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
 
 			gone_ = 0;
 		}
 	}
 
     err = MPExitCriticalRegion( mutex_ );
-    VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");	
+    VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");
 
 
 	if (was_waiting == 1)	{
 		for (/**/ ; was_gone; --was_gone)	{
 			// better now than spurious later
             err = MPWaitOnSemaphore( queue_, kDurationForever );
-            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( queue_ ) failed");            
-			
+            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( queue_ ) failed");
+
 		}
-        
+
         err = MPSignalSemaphore( gate_ );
         VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
 	}
@@ -198,22 +200,22 @@ int OSXConditionPeer::wait( uint32 milliseconds )
 	Mutex* conditionMutex = condition_->getMutex();
 
     OSStatus err = MPWaitOnSemaphore( gate_, kDurationForever );
-    VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");            
-	
+    VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");
+
 	++blocked_;
-    
+
     err = MPSignalSemaphore( gate_ );
     VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
-    
-    
+
+
 	conditionMutex->unlock();
 
 	int result = 0;
 
 	Duration timeout = kDurationMillisecond * milliseconds;
-    
-    err = MPWaitOnSemaphore( queue_, timeout );    
-    
+
+    err = MPWaitOnSemaphore( queue_, timeout );
+
 	switch ( err ) {
 		case kMPTimeoutErr : {
 			result = Waitable::wrTimedOut;
@@ -237,8 +239,8 @@ int OSXConditionPeer::wait( uint32 milliseconds )
 
     err = MPEnterCriticalRegion( mutex_, kDurationForever );
 	VCF_ASSERT2(err == noErr,"MPEnterCriticalRegion( mutex_ ) failed");
-    
-	
+
+
 	was_waiting = waiting_;
 	was_gone = gone_;
 	if (was_waiting != 0) {
@@ -253,10 +255,10 @@ int OSXConditionPeer::wait( uint32 milliseconds )
 		waiting_ --;
 		if ( 0 == waiting_ ) {
 			if (blocked_ != 0) {
-                
+
                 err = MPSignalSemaphore( gate_ );
                 VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
-    
+
 				was_waiting = 0;
 			}
 			else if (gone_ != 0) {
@@ -271,32 +273,32 @@ int OSXConditionPeer::wait( uint32 milliseconds )
 			// this may occur if many calls to wait with a timeout are made and
 			// no call to notify_* is made
             err = MPWaitOnSemaphore( gate_, kDurationForever );
-            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed"); 
+            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");
 
 			blocked_ -= gone_;
 
             err = MPSignalSemaphore( gate_ );
-            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");                
-			
+            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
+
 			gone_ = 0;
 		}
 	}
 
     err = MPExitCriticalRegion( mutex_ );
-    VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");	  
-	
+    VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");
+
 
 	if (was_waiting == 1) {
 		for (/**/ ; was_gone; --was_gone)	{
 			// better now than spurious later
             err = MPWaitOnSemaphore( queue_, kDurationForever );
-            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( queue_ ) failed"); 
-            
-			
+            VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( queue_ ) failed");
+
+
 		}
-        
+
         err = MPSignalSemaphore( gate_ );
-        VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");             
+        VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
 	}
 
 
@@ -313,8 +315,8 @@ void OSXConditionPeer::signal()
 
     OSStatus err = MPEnterCriticalRegion( mutex_, kDurationForever );
 	VCF_ASSERT2(err == noErr,"MPEnterCriticalRegion( mutex_ ) failed");
-    
-	
+
+
 	if ( waiting_ != 0 ) 	{
 		// the gate_ is already closed
 
@@ -331,7 +333,7 @@ void OSXConditionPeer::signal()
 	}
 	else {
         err = MPWaitOnSemaphore( gate_, kDurationForever );
-        VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed"); 
+        VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");
 
 		if ( blocked_ > gone_ ) {
 			if (gone_ != 0)	{
@@ -343,7 +345,7 @@ void OSXConditionPeer::signal()
 		}
 		else {
             err = MPSignalSemaphore( gate_ );
-            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");   
+            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( gate_ ) failed");
 		}
 	}
 
@@ -354,7 +356,7 @@ void OSXConditionPeer::signal()
 	if ( signals ) {
         for ( int sigCount=0;sigCount<signals;sigCount++ ) {
             err = MPSignalSemaphore( queue_ );
-            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( queue_ ) failed"); 
+            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( queue_ ) failed");
         }
 	}
 }
@@ -367,13 +369,13 @@ void OSXConditionPeer::broadcast()
 
     OSStatus err = MPEnterCriticalRegion( mutex_, kDurationForever );
 	VCF_ASSERT2(err == noErr,"MPEnterCriticalRegion( mutex_ ) failed");
-    
-	
+
+
 	if (waiting_ != 0) {
 		// the gate_ is already closed
-		if (blocked_ == 0) {            
+		if (blocked_ == 0) {
             err = MPExitCriticalRegion( mutex_ );
-            VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");    
+            VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");
 
 			return;
 		}
@@ -383,8 +385,8 @@ void OSXConditionPeer::broadcast()
 	}
 	else {
         err = MPWaitOnSemaphore( gate_, kDurationForever );
-        VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");         
-		
+        VCF_ASSERT2(err == noErr,"MPWaitOnSemaphore( gate_ ) failed");
+
 		if (blocked_ > gone_)	{
 			if (gone_ != 0) {
 				blocked_ -= gone_;
@@ -400,14 +402,14 @@ void OSXConditionPeer::broadcast()
 	}
 
     err = MPExitCriticalRegion( mutex_ );
-    VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");  
-    
-	
+    VCF_ASSERT2(err == noErr,"MPExitCriticalRegion( mutex_ ) failed");
+
+
 
 	if ( signals ) {
         for ( int sigCount=0;sigCount<signals;sigCount++ ) {
             err = MPSignalSemaphore( queue_ );
-            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( queue_ ) failed"); 
+            VCF_ASSERT2( err == noErr, "MPSignalSemaphore( queue_ ) failed");
         }
 	}
 }
@@ -416,6 +418,9 @@ void OSXConditionPeer::broadcast()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/06 04:56:53  marcelloptr
+*added binary friend operators to UnicodeString
+*
 *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers
