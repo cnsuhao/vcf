@@ -113,6 +113,10 @@ public:
 	virtual ~PropertyEditor(){};
 
 
+	/**
+	This method needs to be oveeriden so to specify when two PropertyEditor(s)
+	can be considered equal.
+	*/
 	virtual bool equalTo( PropertyEditor* editor ) = 0;
 
 	/**
@@ -258,6 +262,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/09 23:16:17  marcelloptr
+*more comments
+*
 *Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *
