@@ -211,7 +211,15 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				</itemizedlist>
 				</para>
 			</answer>
-			
+			<question>
+				<para>Will the VCF really save the world ?</para>
+			</question>
+			<answer>
+				<para>No, this is a cruel rumor started by an obviously deranged 
+				individual. Probably someone who spends far, far too much time in 
+				front of a computer...
+				</para>
+			</answer>			
 		</qandaentry>
 	</qandaset>
 	</section>
@@ -338,7 +346,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>
-				You probably do not have the vcf/lib in Visual C++'s lib path. 
+				You probably do not have the vcf/lib directory in Visual C++'s lib path. 
 				</para>
 			</answer>				
 			<question>
@@ -654,7 +662,7 @@ public:
 
 int main( int argc, char** argv ) 
 {
-	FoundationKit::init();
+	FoundationKit::init(argc,argv);
 	Thread* thread = new MyThread();
 	thread->start();
 
@@ -834,7 +842,7 @@ class MyObject2 : public MyObject {
 
 };
 
-int main()
+int main( int argc, char** argv )
 {
 	Object* instance1 = new MyObject();
 	MyObject2* instance2 = new MyObject2();
@@ -855,7 +863,11 @@ int main()
 			</question>
 			<answer>
 				<para>
-				An answer.
+				As a general rule, you'll want to create most VCF based objects 
+				on the heap, with the C++ new operator. All of the Component based
+				classes should be create on the heap, with the exception of a modal
+				Dialog. Some of the utility classes like Rect, Point, String, and Size can 
+				be created on the stack.
 				</para>
 			</answer>
 			<question>
@@ -863,7 +875,9 @@ int main()
 			</question>
 			<answer>
 				<para>
-				An answer.
+				The VCF::Enumerator class is simply a thin wrapper around an STL iterator.
+				This provides a generic way to enumerate through a collection without having 
+				to care or expose the actual collection implementation type.
 				</para>
 			</answer>
 			<question>
@@ -890,7 +904,13 @@ int main()
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Input and Output streams are easy to use. You can determine the amount
+				of data in the stream by calling getSize(). You can write to the stream 
+				using the write() method, or write any basic type (int, char, double, 
+				String) using the specialized write() method. You can write a buffer of
+				data by passing in a const unsigned char pointer and a size. You can 
+				read from an InputStream in similar fashion, using one of the read 
+				functions.
 				</para>
 			</answer>
 			<question>
@@ -898,7 +918,44 @@ int main()
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Well the easy way is to simply implement the Persistable interface, and 
+				then just pass your object to a stream. For example:
+<programlisting>
+<![CDATA[
+class MyObject : public VCF::Object, public VCF::Persistable {
+public:
+	virtual void saveToStream( VCF::OutputStream * stream ) {
+		stream->write( myCount_ );
+		stream->write( myName_ );
+	}
+
+	virtual void loadFromStream( VCF::InputStream * stream ) {
+		stream->read( myCount_ );
+		stream->read( myName_ );
+	}
+protected:
+	int myCount_;
+	String myName_;
+};
+
+int main( int argc, char** argv )
+{
+	FoundationKit::init(argc,argv);
+	MyObject obj;
+	
+	FileOutputStream fso("path/to/my/file.txt");
+	fso.write( &obj ); //or you could have written fso << &obj;
+	fso.close();
+
+	FileInputStream fsi("path/to/my/file.txt");
+	fsi >> &obj;
+	fsi.close();
+	
+	FoundationKit::terminate();
+	return 0;
+}
+]]>
+</programlisting>
 				</para>
 			</answer>
 			<question>
@@ -928,7 +985,45 @@ if ( commandLine.hasSwitch("-h") ) {
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You may not have initialized it correctly. If you have an app that makes 
+				use of only the FoundationKit, then you have to initialize it like so:
+<programlisting>
+<![CDATA[
+int main( int argc, char** argv )
+{
+	//initialize the FoundationKit
+	VCF::FoundationKit::init(argc,argv);
+	//your code here
+	
+	//close the FoundationKit down
+	VCF::FoundationKit::terminate(); 
+	return 0;
+}
+]]>
+</programlisting>
+				</para>
+				<para>
+				Likewise, if your application uses the GraphicsKit, then you need to 
+				initialize the  GraphicsKit, by calling  GraphicsKit::init(argc,argv).
+				Initializing the GraphicsKit automatically initializes the FoundationKit,
+				and terminating the GraphicsKit also terminates the FoundationKit. 
+				</para>
+				<para>For applications that use a GUI the process is a little different.
+				At the very least you need to create an Application instance (on the stack is OK),
+				passing in the argc and argv arguments to the constructor, and then 
+				call Application::main(). The initialization of the 
+				ApplicationKit, GraphicsKit, and FoundationKit will be taken care of for 
+				you. As an example:
+<programlisting>
+<![CDATA[
+int main( int argc, char** argv )
+{
+	VCF::Application app( argc, argv );
+	Application::main();	
+	return 0;
+}
+]]>
+</programlisting>
 				</para>
 			</answer>		
 			<question>
@@ -937,7 +1032,14 @@ if ( commandLine.hasSwitch("-h") ) {
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes, look in the StringUtils class for the static member function 
+				VCF::StringUtils::format(). You can use like so:
+<programlisting>
+<![CDATA[
+String formattedString = 
+	StringUtils::format( "Hello from: %s at %d seconds to %0X4 at %.2f", "FooBar", 10, 124, 123.34788 );
+]]>
+</programlisting>
 				</para>
 			</answer>			
 			<question>
@@ -959,8 +1061,53 @@ if ( commandLine.hasSwitch("-h") ) {
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Drawing lines is accomplished with the GraphicsContext::moveTo() and 
+				GraphicsContext::lineTo() methods, and to render the lines to the screen,
+				you call GraphicsContext::strokePath(). A quick example:
+<programlisting>
+<![CDATA[
+GraphicsContext* gc = getMyGraphicsContext();//get the graphics context some how....
+//draw a square
+gc->moveTo( 0.0, 0.0 );
+gc->lineTo( 100.0, 0.0 );
+gc->lineTo( 100.0, 100.0 );
+gc->lineTo( 0.0, 100.0 );
+gc->lineTo( 0.0, 0.0 );
+
+//render 
+gc->strokePath();
+]]>
+</programlisting>
 				</para>
+				<para>Drawing with thick lines is also easy, just adjust the current
+				stroke width of the GraphicsContext by calling GraphicsContext::setStrokeWidth(),
+				for example:
+<programlisting>
+<![CDATA[
+GraphicsContext* gc = getMyGraphicsContext();//get the graphics context some how....
+//draw a square
+gc->moveTo( 0.0, 0.0 );
+gc->lineTo( 100.0, 0.0 );
+gc->lineTo( 100.0, 100.0 );
+gc->lineTo( 0.0, 100.0 );
+gc->lineTo( 0.0, 0.0 );
+
+//render 
+gc->strokePath();
+
+gc->setStrokeWidth( 10.0 );
+//draw a thicker square
+gc->moveTo( 200.0, 200.0 );
+gc->lineTo( 300.0, 200.0 );
+gc->lineTo( 300.0, 300.0 );
+gc->lineTo( 200.0, 300.0 );
+gc->lineTo( 200.0, 200.0 );
+
+//render 
+gc->strokePath();
+]]>
+</programlisting>
+</para>
 			</answer>
 			<question>
 				<para>How do I draw ellipses? Rectangles?</para>
@@ -1400,6 +1547,9 @@ if ( commandLine.hasSwitch("-h") ) {
 CVS Log info
 
 $Log$
+Revision 1.1.2.10  2003/11/04 22:10:32  ddiego
+*** empty log message ***
+
 Revision 1.1.2.9  2003/11/03 22:21:01  ddiego
 more faq documentation
 

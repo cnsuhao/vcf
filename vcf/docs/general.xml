@@ -161,10 +161,19 @@ NB: This software will not save the world.
 			<listitem>
 				<para>Linux</para>
 				<para>
-					Please use GCC 2.95. As of this writing this is the only compiler working on this platform.
+					The linux port requires the GCC toolchain be installed in order to build the 
+					VCF from source. The VCF has been found to compile with versions of 
+					GCC including 2.95, 3.1, 3.2, and teh most recent 3.3 release (the 3.3 is 
+					reccommended).
+					In addition, the GraphicsKit and ApplicationKit require the presence of 
+					GTK 2.x shared libraries and headers and whatever dependencies that entails.
 				</para>
 			</listitem>
-			<listitem><para>MacOSX</para></listitem>
+			<listitem>
+				<para>MacOSX</para>
+				<para>The MacOSX port currently uses the Apple Developer Tools that 
+				come with OSX.</para>	
+			</listitem>
 			<listitem>???</listitem>
 		</itemizedlist>
 	</section>
@@ -228,6 +237,7 @@ NB: This software will not save the world.
 		</para>
 		</section>
 		<section><title>For Linux systems</title>
+		Pull down the latest tar.gz source file and unzip in the directory of you choice.
 		</section>
 	</section>
 
@@ -292,8 +302,58 @@ NB: This software will not save the world.
 			</para>		
 		</section>
 		<section><title>Linux</title>
+			<para>
+			Currently the Linux port is in progress and these instructions may change,
+			but here are the current steps to build, as of November 3, 2003.
+			</para>
+			<para>For Linux systemsFor Linux systems
+			First make sure you have GTK (at least version 2.2). Most recent linux distributions include this
+			by default, so you probably have it. An easy test would be to try the following:
+<programlisting>
+echo `pkg-config gtk+-2.0 --cflags`
+</programlisting>
+			You should see some sort GCC compiler flags - if you get back error messages 
+			like:
+<programlisting>
+pkg-config: command not found
+</programlisting>
+			Then you don't have the pkg-config system installed (and almost certainly not 
+			GTK which depends on pkg-config). If you see something like:
+<programlisting>
+Package gtk+-2.0 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `gtk+-2.0.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'gtk+-2.0' found
+</programlisting>
+			Then you have the pkg-config tool, but probably not gtk installed (or not installed correctly).
+			</para>
+			<para>For more information about GTK and installing it go 
+			<ulink url="http://developer.gnome.org/doc/API/2.2/gtk/gtk-building.html"> here</ulink>.
+			</para>
+			<para>
+			Once you have confirmed you have (or installed) GTK, go to the vcf/build/make 
+			directory. Type 
+			<programlisting>make debug</programlisting>
+			for a debug version of the libraries, or 
+			<programlisting>make release</programlisting>
+			for an optimized, release version of the libraries. To build both release
+			and debug targets, type:
+			<programlisting>make all</programlisting>
+			</para>
+			<para>
+			The .a library files will be output to the vcf/lib directory, while the 
+			.so shared libraries will be output to the vcf/bin directory. To ensure 
+			programs can load these up you may need to add the vcf/bin path to your 
+			LD_LIBRARY_PATH. In the future this may change to correctly using the -rpath
+			option to ld when linking.
+			</para>
+			<para>
+			There is currently no install target. This needs to be addressed in the very near future!
+			</para>
 		</section>
 		<section><title>MacOSX</title>
+		<para>
+		</para>
 		</section>
 	</section>		
 	
@@ -324,18 +384,12 @@ NB: This software will not save the world.
 				<listitem><para>
 				You'll need a CVSROOT variable that equals 
 				<synopsis>
-:ext:&lt;your username&gt;@cvs.vcf.sourceforge.net:/cvsroot/vcf
+:ext:&lt;your username&gt;@cvs.sourceforge.net:/cvsroot/vcf
 				</synopsis>
 				</para></listitem>
 				<listitem><para>
 				You'll need a CVS_RSH that equals "ssh" 
-				</para></listitem>
-				<listitem><para>
-				A HOME variable that points to wherever you'd like you home directory to be 
-				</para></listitem>
-				<listitem><para>
-				A HOMEPATH variable that should read the same as the HOME variable above 
-				</para></listitem>
+				</para></listitem>				
 			</itemizedlist>
 			</para>				
 		</section>
@@ -380,7 +434,8 @@ vcfcode/
 			development code that may be unstable or untested and is not yet ready to go into the main branch.
 			</para>
 		</section>
-		<section><title>Standards</title>
+	</section>
+	<section><title>Standards</title>
 			<para>
 			Please read the naming standards documentation before you start changing all sorts of things. These standards must be followed 
 			for any code that gets entered into the main VCF development tree. 
@@ -395,178 +450,178 @@ vcfcode/
 			<ulink url="http://sourceforge.net/pm/?group_id=6796">tasks list</ulink> at the project page. Also feel free to contact me for 
 			more information.  
 			</para>
-			<section><title>Coding and Naming Standards</title>
-				<para>
-				The following <indexterm><primary>standards</primary></indexterm> are setup here to attempt to increase the readability of the VCF source code.  
-				Developers interested working on the framework proper, must adhere to these guidelines. 
-				Any questions regarding this, please email me. 
-				<note>
-				Much of this is rehashed from naming standards used on other projects, so there is nothing new here, 
-				and tries to use as much common sense as possible.  Folks who are familiar with Borland's Delphi, 
-				Sun's Java, or (gasp...) Microsoft's .NET naming conventions will probably recognize a great deal 
-				here. 
-				</note>
-				</para>
-				
-				<para>
-				As a general rule, please do <emphasis>not</emphasis> use Hungarian notation at all in any code that is in the main VCF 
-				development tree.
-				</para>
-				<formalpara><title>Capitalization Styles</title>					
-				</formalpara>
-				<para>
-				There are two main capitalization schemes the VCF uses:
-				</para>
-				<formalpara><title>Camel casing:</title>
-				</formalpara>
-				<para>
-				Capitalizes the first character of each word except the first word. For example:
-				<programlisting>
+		<section><title>Coding and Naming Standards</title>
+			<para>
+			The following <indexterm><primary>standards</primary></indexterm> are setup here to attempt to increase the readability of the VCF source code.  
+			Developers interested working on the framework proper, must adhere to these guidelines. 
+			Any questions regarding this, please email me. 
+			<note>
+			Much of this is rehashed from naming standards used on other projects, so there is nothing new here, 
+			and tries to use as much common sense as possible.  Folks who are familiar with Borland's Delphi, 
+			Sun's Java, or (gasp...) Microsoft's .NET naming conventions will probably recognize a great deal 
+			here. 
+			</note>
+			</para>
+			
+			<para>
+			As a general rule, please do <emphasis>not</emphasis> use Hungarian notation at all in any code that is in the main VCF 
+			development tree.
+			</para>
+			<formalpara><title>Capitalization Styles</title>					
+			</formalpara>
+			<para>
+			There are two main capitalization schemes the VCF uses:
+			</para>
+			<formalpara><title>Camel casing:</title>
+			</formalpara>
+			<para>
+			Capitalizes the first character of each word except the first word. For example:
+			<programlisting>
 fileStream
-				</programlisting>
-				</para>
-				
-				<formalpara><title>Pascal casing:</title>
-				</formalpara>
-				<para>
-				Capitalizes the first character of each word. For example:
-				<programlisting>
+			</programlisting>
+			</para>
+			
+			<formalpara><title>Pascal casing:</title>
+			</formalpara>
+			<para>
+			Capitalizes the first character of each word. For example:
+			<programlisting>
 FileStream
-				</programlisting>
-				</para>
-				<para>
-				The following table indicates which styles are used for the various types/identifiers.
-				<table frame="none" pgwide="1">
-					<tgroup cols="3" align="left" colsep="1" rowsep="1">
-						<thead>
-							<row>
-								<entry>Type</entry>
-								<entry>Case</entry>
-								<entry>Comments</entry>
-							</row>							
-						</thead>
-						<tbody>
-							<row>
-								<entry>Class</entry>
-								<entry>Pascal casing</entry>
-								<entry></entry>
-							</row>
-							
-							<row>
-								<entry>enumerated values</entry>
-								<entry>Camel casing</entry>
-								<entry></entry>
-							</row>
-							
-							<row>
-								<entry>enumerated type</entry>
-								<entry>Pascal</entry>
-								<entry></entry>
-							</row>
-							
-							<row>
-								<entry>Member function, regular functions</entry>
-								<entry>Camel casing</entry>
-								<entry></entry>
-							</row>
-							
-							<row>
-								<entry>Namespaces</entry>
-								<entry>Pascal casing</entry>
-								<entry></entry>
-							</row>
-							
-							<row>
-								<entry>RTTI property name</entry>
-								<entry>Camel casing</entry>
-								<entry></entry>
-							</row>
-							
-							<row>
-								<entry>Function arguments</entry>
-								<entry>Camel casing</entry>
-								<entry></entry>
-							</row>
-							<row>
-								<entry>Member variables</entry>
-								<entry>Camel casing</entry>
-								<entry>uses "_" suffix </entry>
-							</row>
-							
-							<row>
-								<entry>regular variables</entry>
-								<entry>Camel casing</entry>
-								<entry></entry>
-							</row>				
-							
-						</tbody>
-					</tgroup>
-				</table>					
-				</para>
+			</programlisting>
+			</para>
+			<para>
+			The following table indicates which styles are used for the various types/identifiers.
+			<table frame="none" pgwide="1">
+				<tgroup cols="3" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>Type</entry>
+							<entry>Case</entry>
+							<entry>Comments</entry>
+						</row>							
+					</thead>
+					<tbody>
+						<row>
+							<entry>Class</entry>
+							<entry>Pascal casing</entry>
+							<entry></entry>
+						</row>
+						
+						<row>
+							<entry>enumerated values</entry>
+							<entry>Camel casing</entry>
+							<entry></entry>
+						</row>
+						
+						<row>
+							<entry>enumerated type</entry>
+							<entry>Pascal</entry>
+							<entry></entry>
+						</row>
+						
+						<row>
+							<entry>Member function, regular functions</entry>
+							<entry>Camel casing</entry>
+							<entry></entry>
+						</row>
+						
+						<row>
+							<entry>Namespaces</entry>
+							<entry>Pascal casing</entry>
+							<entry></entry>
+						</row>
+						
+						<row>
+							<entry>RTTI property name</entry>
+							<entry>Camel casing</entry>
+							<entry></entry>
+						</row>
+						
+						<row>
+							<entry>Function arguments</entry>
+							<entry>Camel casing</entry>
+							<entry></entry>
+						</row>
+						<row>
+							<entry>Member variables</entry>
+							<entry>Camel casing</entry>
+							<entry>uses "_" suffix </entry>
+						</row>
+						
+						<row>
+							<entry>regular variables</entry>
+							<entry>Camel casing</entry>
+							<entry></entry>
+						</row>				
+						
+					</tbody>
+				</tgroup>
+			</table>					
+			</para>
+			
+			<formalpara><title>Class naming</title></formalpara>					
+			<para>
+			Classes should be named with nouns or noun phrases, with more or less abstraction 
+			in the name depending on it's usage. For example, a common base class for describing 
+			objects that represent bananas, apples and oranges might be Fruit, with a class called 
+			Banana deriving from Fruit. 
+			<itemizedlist>
+				<listitem><para>
+				Pascal casing
+				</para></listitem>
 				
-				<formalpara><title>Class naming</title></formalpara>					
-				<para>
-				Classes should be named with nouns or noun phrases, with more or less abstraction 
-				in the name depending on it's usage. For example, a common base class for describing 
-				objects that represent bananas, apples and oranges might be Fruit, with a class called 
-				Banana deriving from Fruit. 
-				<itemizedlist>
-					<listitem><para>
-					Pascal casing
-					</para></listitem>
-					
-					<listitem><para>
-					No prefixes, like "C", or "vcf" or whatever. If you really need a prefix 
-					then you probably need the class inside of a namespace. 
-					</para></listitem>
-					
-					<listitem><para>
-					Keep away from abbreviations if at all possible. Common ones like IO, or UI are 
-					OK, but please use sparingly.
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores.
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Examples:
-				<programlisting>
+				<listitem><para>
+				No prefixes, like "C", or "vcf" or whatever. If you really need a prefix 
+				then you probably need the class inside of a namespace. 
+				</para></listitem>
+				
+				<listitem><para>
+				Keep away from abbreviations if at all possible. Common ones like IO, or UI are 
+				OK, but please use sparingly.
+				</para></listitem>
+				
+				<listitem><para>
+				No underscores.
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Examples:
+			<programlisting>
 FileStream
 
 ClassRegistry
 
 Control					
-				</programlisting>
-				</para>
-				<formalpara><title>Enumerated values</title></formalpara>
-				<para>
-				Enumerated values should have a descriptive name of what the value represents. The 
-				value names should use a prefix that is an acronym of the upper case characters of the 
-				enumeration type.
-				<itemizedlist>
-					<listitem><para>
-					Camel casing
-					</para></listitem>
-					
-					<listitem><para>
-					Prefixes are OK, but must follow the rules above, see example
-					</para></listitem>
-					
-					<listitem><para>
-					Keep away from abbreviations if at all possible. Common ones like IO, 
-					or UI are OK, but please use sparingly
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores 
-					</para></listitem>
-				</itemizedlist>					
-				</para>
-				<para>
-				Examples:
-				<programlisting>
+			</programlisting>
+			</para>
+			<formalpara><title>Enumerated values</title></formalpara>
+			<para>
+			Enumerated values should have a descriptive name of what the value represents. The 
+			value names should use a prefix that is an acronym of the upper case characters of the 
+			enumeration type.
+			<itemizedlist>
+				<listitem><para>
+				Camel casing
+				</para></listitem>
+				
+				<listitem><para>
+				Prefixes are OK, but must follow the rules above, see example
+				</para></listitem>
+				
+				<listitem><para>
+				Keep away from abbreviations if at all possible. Common ones like IO, 
+				or UI are OK, but please use sparingly
+				</para></listitem>
+				
+				<listitem><para>
+				No underscores 
+				</para></listitem>
+			</itemizedlist>					
+			</para>
+			<para>
+			Examples:
+			<programlisting>
 enum FruitBaskets {
 fbLittleBasket = 0,
 fbMediumBasket,
@@ -579,80 +634,80 @@ msError,
 msInfo,
 msWarning
 };
-				</programlisting>
-				</para>
+			</programlisting>
+			</para>
+			
+			<formalpara><title>Enumerated types</title></formalpara>
+			<para>
+			Names should be clearly descriptive of the type and what it represents. When 
+			appropriate please nest the enum type inside of the class it is associated with 
+			(don't forget to place it at public scope so others may use, assuming that is the 
+			intent).
+			<itemizedlist>
+				<listitem><para>
+				Pascal casing
+				</para></listitem>
 				
-				<formalpara><title>Enumerated types</title></formalpara>
-				<para>
-				Names should be clearly descriptive of the type and what it represents. When 
-				appropriate please nest the enum type inside of the class it is associated with 
-				(don't forget to place it at public scope so others may use, assuming that is the 
-				intent).
-				<itemizedlist>
-					<listitem><para>
-					Pascal casing
-					</para></listitem>
-					
-					<listitem><para>
-					No prefixes
-					</para></listitem>
-					
-					<listitem><para>
-					Keep away from abbreviations if at all possible
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores 
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Example
-				<programlisting>
+				<listitem><para>
+				No prefixes
+				</para></listitem>
+				
+				<listitem><para>
+				Keep away from abbreviations if at all possible
+				</para></listitem>
+				
+				<listitem><para>
+				No underscores 
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Example
+			<programlisting>
 Dialog::MessageStyle
 
 AlignmentType
-				</programlisting>
-				</para>
-				<para>
-				<emphasis>Always</emphasis> refer to enum types that are part of a class with the class name. 
-				</para>
-				<para>
-				Example
-				<programlisting>
+			</programlisting>
+			</para>
+			<para>
+			<emphasis>Always</emphasis> refer to enum types that are part of a class with the class name. 
+			</para>
+			<para>
+			Example
+			<programlisting>
 Dialog::MessageStyle, 
 
 //as opposed to
 MessageStyle
-				</programlisting>
-				</para>
+			</programlisting>
+			</para>
+			
+			<formalpara><title>Class member function naming</title>
+			</formalpara>
+			<para>
+			Use names that have verbs or verb phrases that clearly express what the function will do. Functions 
+			that return a true or false value should try and use the "is" or "has" in front of the name, i.e. 
+			<function>isEmpty()</function> or <function>hasData()</function>.
+
+			<itemizedlist>
+				<listitem><para>
+				Camel casing 
+				</para></listitem>
+
+				<listitem><para>
+				Keep away from abbreviations if at all possible
+				</para></listitem>
 				
-				<formalpara><title>Class member function naming</title>
-				</formalpara>
-				<para>
-				Use names that have verbs or verb phrases that clearly express what the function will do. Functions 
-				that return a true or false value should try and use the "is" or "has" in front of the name, i.e. 
-				<function>isEmpty()</function> or <function>hasData()</function>.
-
-				<itemizedlist>
-					<listitem><para>
-					Camel casing 
-					</para></listitem>
-
-					<listitem><para>
-					Keep away from abbreviations if at all possible
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores, unless the function's scope is forced to be public but is not meant for
-					general usage(for whatever reason). In this case a "internal_" should be prefixed to the name 
-					of the funtion
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Example:
-				<programlisting>
+				<listitem><para>
+				No underscores, unless the function's scope is forced to be public but is not meant for
+				general usage(for whatever reason). In this case a "internal_" should be prefixed to the name 
+				of the funtion
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Example:
+			<programlisting>
 class Foo : public VCF::Object {
 public:
 
@@ -660,145 +715,145 @@ String getName();
 
 void internal_doSomething( int someValue );
 };
-				</programlisting>
-				</para>
-				
-				<formalpara>
-					<title>Class member variable naming</title>
-				</formalpara>
-				<para>
-				Use adjectives that clearly describe what the member is and how it should be used. 
-				All member names must use the "_" suffix convention.
-				<itemizedlist>
-					<listitem><para>
-					camel casing
-					</para></listitem>
+			</programlisting>
+			</para>
+			
+			<formalpara>
+				<title>Class member variable naming</title>
+			</formalpara>
+			<para>
+			Use adjectives that clearly describe what the member is and how it should be used. 
+			All member names must use the "_" suffix convention.
+			<itemizedlist>
+				<listitem><para>
+				camel casing
+				</para></listitem>
 
-					<listitem><para>
-					Keep away from abbreviations if at all possible
-					</para></listitem>
-					
-					<listitem><para>
-					a single underscore suffix only, no underscores in the actual name 
-					</para></listitem>
-					
-					<listitem><para>
-					no Hungarian notation
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Example:
-				<programlisting>
+				<listitem><para>
+				Keep away from abbreviations if at all possible
+				</para></listitem>
+				
+				<listitem><para>
+				a single underscore suffix only, no underscores in the actual name 
+				</para></listitem>
+				
+				<listitem><para>
+				no Hungarian notation
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Example:
+			<programlisting>
 class Foo {
 public:
 protected:
 int countOfBarObjects_;
 String name_;
 };
-				</programlisting>
-				</para>
-				
-				<formalpara>
-					<title>Variable naming</title>
-				</formalpara>
-				<para>
-				Use descriptive names that clearly identify what the variable should do or what it means rather than 
-				identifying it's type. Please do <emphasis>not</emphasis> use Hungarian notation.
-				<itemizedlist>
-					<listitem><para>
-					Camel casing
-					</para></listitem>
+			</programlisting>
+			</para>
+			
+			<formalpara>
+				<title>Variable naming</title>
+			</formalpara>
+			<para>
+			Use descriptive names that clearly identify what the variable should do or what it means rather than 
+			identifying it's type. Please do <emphasis>not</emphasis> use Hungarian notation.
+			<itemizedlist>
+				<listitem><para>
+				Camel casing
+				</para></listitem>
 
-					<listitem><para>
-					Keep away from abbreviations if at all possible
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores
-					</para></listitem>
-					
-					<listitem><para>
-					No Hungarian notation
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Example:
-				<programlisting>
-				</programlisting>
-				</para>
+				<listitem><para>
+				Keep away from abbreviations if at all possible
+				</para></listitem>
 				
-				<formalpara>
-					<title>Function naming</title>
-				</formalpara>
-				<para>
-				Use names that have verbs or verb phrases that clearly express what the function will do. 
-				<itemizedlist>
-					<listitem><para>
-					Camel casing 
-					</para></listitem>
+				<listitem><para>
+				No underscores
+				</para></listitem>
+				
+				<listitem><para>
+				No Hungarian notation
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Example:
+			<programlisting>
+			</programlisting>
+			</para>
+			
+			<formalpara>
+				<title>Function naming</title>
+			</formalpara>
+			<para>
+			Use names that have verbs or verb phrases that clearly express what the function will do. 
+			<itemizedlist>
+				<listitem><para>
+				Camel casing 
+				</para></listitem>
 
-					<listitem><para>
-					Keep away from abbreviations if at all possible. 
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores 
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Example:
-				<programlisting>
-				</programlisting>
-				</para>
+				<listitem><para>
+				Keep away from abbreviations if at all possible. 
+				</para></listitem>
 				
-				<formalpara>
-					<title>Use of Namespaces</title>
-				</formalpara>
-				<para>
-				Use namespaces to group a large collection of classes, typedefs, etc together, to more clearly identify 
-				the classes. Use namespaces in place of class prefixes or function prefixes. For example instead of the 
-				classes PDQFileDialog,  PDQDumper, and PDQBigStuff, create a namespace called PDQ and 
-				rename the classes to FileDialog, Dumper, and BigStuff, and place them inside of the PDQ namespace.
-				<itemizedlist>
-					<listitem><para>
-					Pascal casing
-					</para></listitem>
+				<listitem><para>
+				No underscores 
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Example:
+			<programlisting>
+			</programlisting>
+			</para>
+			
+			<formalpara>
+				<title>Use of Namespaces</title>
+			</formalpara>
+			<para>
+			Use namespaces to group a large collection of classes, typedefs, etc together, to more clearly identify 
+			the classes. Use namespaces in place of class prefixes or function prefixes. For example instead of the 
+			classes PDQFileDialog,  PDQDumper, and PDQBigStuff, create a namespace called PDQ and 
+			rename the classes to FileDialog, Dumper, and BigStuff, and place them inside of the PDQ namespace.
+			<itemizedlist>
+				<listitem><para>
+				Pascal casing
+				</para></listitem>
 
-					<listitem><para>
-					Abbreviations are OK for namespaces 
-					</para></listitem>
-					
-					<listitem><para>
-					No underscores 
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				Example:
-				<programlisting>
-				</programlisting>
-				</para>
+				<listitem><para>
+				Abbreviations are OK for namespaces 
+				</para></listitem>
 				
-				
-				<formalpara>
-					<title>Use of static class methods/members</title>
-				</formalpara>
-				<para>
-				see Function naming and Member function naming above with the following restrictions:
-				<itemizedlist>
-					<listitem><para>
-					<emphasis>No</emphasis> underscores at all  
-					</para></listitem>
-				</itemizedlist>
-				All static members must always be referenced with the class name that they are part of, 
-				never just by themselves, or by a class instance.
-				</para>
-				<para>
-				Example:
-				<programlisting>
+				<listitem><para>
+				No underscores 
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			Example:
+			<programlisting>
+			</programlisting>
+			</para>
+			
+			
+			<formalpara>
+				<title>Use of static class methods/members</title>
+			</formalpara>
+			<para>
+			see Function naming and Member function naming above with the following restrictions:
+			<itemizedlist>
+				<listitem><para>
+				<emphasis>No</emphasis> underscores at all  
+				</para></listitem>
+			</itemizedlist>
+			All static members must always be referenced with the class name that they are part of, 
+			never just by themselves, or by a class instance.
+			</para>
+			<para>
+			Example:
+			<programlisting>
 //declaration:
 class Foo {
 public:
@@ -819,90 +874,90 @@ String s = commonBarRepository;
 //Also unacceptable
 Foo f;
 String s = f.commonBarRepository;					
-				</programlisting>
-				</para>
-				
-				<formalpara>
-					<title>Comments</title>
-				</formalpara>
-				<para>
-				The standard comment style used in the VCF is comparable to what is used in Java, i.e. the 
-				<programlisting>
+			</programlisting>
+			</para>
+			
+			<formalpara>
+				<title>Comments</title>
+			</formalpara>
+			<para>
+			The standard comment style used in the VCF is comparable to what is used in Java, i.e. the 
+			<programlisting>
 /**
 */
-				</programlisting>
-				style.
-				</para>
-				<para>
-				Headers with the following should be documented 
-				<itemizedlist>
-					<listitem><para>
-					Namespaces 
-					</para></listitem>
+			</programlisting>
+			style.
+			</para>
+			<para>
+			Headers with the following should be documented 
+			<itemizedlist>
+				<listitem><para>
+				Namespaces 
+				</para></listitem>
 
-					<listitem><para>
-					Structs 
-					</para></listitem>
-					
-					<listitem><para>
-					Unions 
-					</para></listitem>
-					
-					<listitem><para>
-					Classes 
-					</para></listitem>
-					
-					<listitem><para>
-					Class/Struct/Union members (semi optional depending on what it is andhow clear the name is) 
-					</para></listitem>
-					
-					<listitem><para>
-					Class methods 
-					</para></listitem>
-					
-					<listitem><para>
-					Enums 
-					</para></listitem>
-					
-					<listitem><para>
-					Functions 
-					</para></listitem>
-					
-					<listitem><para>
-					custom #defines 
-					</para></listitem>
-				</itemizedlist>
-				</para>
-				<para>
-				The rationale for this is to allow for automatic source level documentation by processing all headers 
-				through doxygen. Document the headers. Document your classes. More documentation is better that 
-				no documentation. Be as clear and concise as possible in explaining what something does. You can 
-				and should use html markup tags for further clarity, for example the &lt;B&gt; tag to emphasize some point 
-				or word. Also where applicable, feel free to put a sample piece of code that illustrates proper usage. 
-				Use the &lt;PRE&gt; tags for this. 
-				</para>
-				<para>
-				Do not pollute the code, particularly the headers, with tons of "//" spacers a-la what Microsoft's 
-				Visual C++ generated code for classes does. Keep it clean.
-				</para>
-				<para>
-				For single line comments line comments you can use the "//" but it still prefered that you use the
-				<programlisting>
+				<listitem><para>
+				Structs 
+				</para></listitem>
+				
+				<listitem><para>
+				Unions 
+				</para></listitem>
+				
+				<listitem><para>
+				Classes 
+				</para></listitem>
+				
+				<listitem><para>
+				Class/Struct/Union members (semi optional depending on what it is andhow clear the name is) 
+				</para></listitem>
+				
+				<listitem><para>
+				Class methods 
+				</para></listitem>
+				
+				<listitem><para>
+				Enums 
+				</para></listitem>
+				
+				<listitem><para>
+				Functions 
+				</para></listitem>
+				
+				<listitem><para>
+				custom #defines 
+				</para></listitem>
+			</itemizedlist>
+			</para>
+			<para>
+			The rationale for this is to allow for automatic source level documentation by processing all headers 
+			through doxygen. Document the headers. Document your classes. More documentation is better that 
+			no documentation. Be as clear and concise as possible in explaining what something does. You can 
+			and should use html markup tags for further clarity, for example the &lt;B&gt; tag to emphasize some point 
+			or word. Also where applicable, feel free to put a sample piece of code that illustrates proper usage. 
+			Use the &lt;PRE&gt; tags for this. 
+			</para>
+			<para>
+			Do not pollute the code, particularly the headers, with tons of "//" spacers a-la what Microsoft's 
+			Visual C++ generated code for classes does. Keep it clean.
+			</para>
+			<para>
+			For single line comments line comments you can use the "//" but it still prefered that you use the
+			<programlisting>
 /**
 comment
 */
-				</programlisting>
-				style.
-				</para>
-				<para>
-				Use the @param, @return, @author, and @version to further clarify what paramaters/arguments 
-				and return values do, as well as the author and version of the item in question.The @version should be 
-				the current cvs version that you are working under. If you are not entirely sure what these do, look 
-				them up in JavaDoc (which is where they are from). 
-				</para>
-				<para>
-				Example:
-				<programlisting>
+			</programlisting>
+			style.
+			</para>
+			<para>
+			Use the @param, @return, @author, and @version to further clarify what paramaters/arguments 
+			and return values do, as well as the author and version of the item in question.The @version should be 
+			the current cvs version that you are working under. If you are not entirely sure what these do, look 
+			them up in JavaDoc (which is where they are from). 
+			</para>
+			<para>
+			Example:
+			<programlisting>
 /**
 This is what the method does...
 @param void* this parameter is for....
@@ -913,9 +968,9 @@ This is what the method does...
 @version 0.5.9
 */
 int myCoolMethod( void* d, bool b, String s );					
-				</programlisting>
-				</para>
-			</section>
+			</programlisting>
+			</para>
+		</section>
 			
 			<section><title>Documentation Standards and Generation</title>
 			<formalpara><title>Introduction</title>
@@ -1091,7 +1146,7 @@ make tutorials
 			</para>
 			</section>			
 		</section>
-	</section>
+	
 	
 	<section><title>Bugs</title>
 	<para>
@@ -1169,6 +1224,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/11/04 22:10:32  ddiego
+*** empty log message ***
+
 Revision 1.1.2.4  2003/11/03 22:21:01  ddiego
 more faq documentation
 

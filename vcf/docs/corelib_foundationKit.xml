@@ -225,12 +225,169 @@ if ( fileName.empty() ) {
 			getEvents() - allows you to enumerate all the events a class has
 			</para></listitem>
 		</itemizedlist>
-		</para>	
+		</para>
+		<formalpara><title>Registering RTTI for a class</title>
+		In order to take advantage of these features, you have to register your class
+		with the VCF's ClassRegistry. To make this simple, there are a set of macros
+		you can use. For example, lets declare a class called "Foo" and register it:
+<programlisting>
+<![CDATA[
+class Foo : public VCF::Object {
+public:
+	Foo(){}
+};
+
+#define FOO_CLASSID		"99c0754b-c18f-49b0-999f-81384c65fd18"
+BEGIN_CLASSINFO( Foo, "Foo", "VCF::Object", FOO_CLASSID )
+END_CLASSINFO( Foo )
+
+int main( int argc, char** argv ) 
+{
+	FoundationKit::init( argc, argv );
+
+	//register the class 
+	REGISTER_CLASSINFO_EXTERNAL( Foo );
+
+	FoundationKit::terminate();
+	return 0;
+}
+]]>
+</programlisting>
+		As you can see it's relatively easy to register the class - the only catch is 
+		that the FoundationKit library <emphasis>must</emphasis> be initialized prior
+		to registering the class.
+		</formalpara>
+		<para>Once registered with the VCF you can now work with the RTTI features.
+		For example we could create and instance of the class like so:
+<programlisting>
+<![CDATA[
+//class definition omitted for clarity
+
+int main( int argc, char** argv ) 
+{
+	FoundationKit::init( argc, argv );
+
+	//register the class 
+	REGISTER_CLASSINFO_EXTERNAL( Foo );
+
+
+	Object* object = ClassRegistry::createNewInstance( "Foo" );
+
+	FoundationKit::terminate();
+	return 0;
+}
+]]>
+</programlisting>
+		Once the object is created we can confirm the class type by querying it's name:
+<programlisting>
+<![CDATA[
+Object* object = ClassRegistry::createNewInstance( "Foo" );
+
+Class* clazz = object->getClass();
+System::println( clazz->getClassName() );
+]]>
+</programlisting>
+		At this point, you now have a Class object, that you can call the methods mentioned 
+		above.
+		</para>
+		<formalpara><title>Properties</title>
+		You can query for a class's proeprties easily by just calling the Class::getProperties()
+		method. This will return an enumeration of Property instances. Each property
+		can be queried for it's name, description, it's type (an enumeration of PropertyDescriptorType
+		which indicates either the primitive type, or the fact that it's an instance of a 	
+		VCF::Object), and probably most importantly, the ability to get and set the values
+		of the property. Let's look a little closer:
+<programlisting>
+<![CDATA[
+Class* clazz = object->getClass();
+Enumerator<Property*>* properties = clazz->getProperties();
+while ( properties->hasMoreElements() ) {
+	Property* property = properties->nextElement();
+	String name = property->getName();
+	String description = property->getDescription();
+	String typeName = property->getTypeClassName();
+
+	VariantData* value = property->get();
+}
+]]>
+</programlisting>
+		</formalpara>
+		<para>
+		Note the call to Property::get() to retreive the current value of the 
+		Property instance. It returns a VariantData object which is acts like VB's
+		Variant type, or CORBA's Any object. A VariantData instance can store any
+		primitive type or Object type.
+		</para>
 	</section>
 
 	<section><title>Events</title>
 		<para>
+		Events happen to us every day. When we open a door, when we go to work, 
+		when we fall asleep. Objects in a framework, particularly objects that 
+		represent a user interface, are no different. Events are triggered 
+		when a user closes a window, or clicks on a button. Events can happen 
+		when the state of an object changes, such as reading data from a stream, 
+		or upon the object's creation. Not only do events happen, but quite 
+		often one object wants to be notified when a particular event happens 
+		to another object, and frequently the two objects may have no direct 
+		knowledge of each other beyond a basic base class. To further complicate 
+		matters, it is entirely possible that more than one object wants to 
+		notified when the event happens! </para><para>
+		One of the goals of the VCF is to provide a uniform architecture for
+		this and provide a solution that allows events to be used every where 
+		in the framework, but that in no way ties their usage just to user 
+		interface classes. So this is an overview and explanation of how the 
+		event mechanism is used in the VCF.		
 		</para>
+		<para>
+		In most frameworks event handling is done through callbacks, and their 
+		are many different ways to approach this. In C++ this gets a bit tricky 
+		due to the nature of C++ member functions, so we need a way to wrap the 
+		callback function, which itself needs to be a member function. In addition, 
+		we need a consistent way to let objects know that we are interested in 
+		being notified when a particular event happens, as well as telling the 
+		same object when we are no longer interested in the notifications.
+		</para>
+<para>
+To accomplish this in the VCF we have three main players: the source, or 
+object that fires the event, the event, which is itself represented by 
+an object, and the observer, or the object that wishes to receive some 
+notification when the event occurs and have that notification call a method 
+on the observer object. Each of these objects has to have certain 
+responsibilities as described in the table below.
+<table frame="none" pgwide="1">
+	<tgroup cols="2" align="left" colsep="1" rowsep="1">
+		<thead>
+			<row>
+				<entry>Object</entry>
+				<entry>Responsibilities </entry>
+			</row>							
+		</thead>
+		<tbody>
+			<row>
+				<entry>Source object</entry>
+				<entry>The source must have a way to register, and un-register one 
+						or more observer objects.</entry>
+			</row>
+			<row>
+				<entry>Event object</entry>
+				<entry>The Event object must provide data to be used by the observer 
+				objects. For example, mouse event object would contain data about the 
+				position of the mouse, the buttons that were held down, etc. In 
+				addition, the event must be able to expose who actually fired the 
+				event, in other words provide a pointer back to the source of the 
+				event.</entry>
+			</row>
+			<row>
+				<entry>Observer object</entry>
+				<entry>The observer must define one or more callback methods that 
+				will be invoked by the source object during the firing of specific 
+				event.</entry>
+			</row>
+		</tbody>	
+	</tgroup>
+</table>
+</para>
 	</section>
 
 	<section><title>Threads</title>
@@ -272,6 +429,9 @@ if ( fileName.empty() ) {
 <!-- 
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/11/04 22:10:31  ddiego
+*** empty log message ***
+
 Revision 1.1.2.2  2003/10/06 04:25:56  ddiego
 updated foundationkit docs
 
