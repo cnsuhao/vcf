@@ -36,11 +36,7 @@ AbstractScrollable::AbstractScrollable():
 	scrollPeer_(NULL),
 	scrollableControl_(NULL),
 	virtualViewHeight_(0.0),
-	virtualViewWidth_(0.0),
-	objectHeight_(0.0),
-	objectWidth_(0.0),
-	realHeight_(0.0),
-	realWidth_(0.0),
+	virtualViewWidth_(0.0),	
 	hasVertScrollbar_(false),
 	hasHorzScrollbar_(false),
 	vertPosition_(0.0),
@@ -105,72 +101,22 @@ void AbstractScrollable::setHorizontalRightScrollSpace( const double& rightScrol
 
 void AbstractScrollable::onControlResized( ControlEvent* event )
 {
-	if ( (realHeight_ > (scrollableControl_->getClientBounds( true ).getHeight() - scrollPeer_->getHorizontalScrollbarHeight()) ) || 
-		(realWidth_ > (scrollableControl_->getClientBounds( true ).getWidth() - scrollPeer_->getVerticalScrollbarWidth()) ) ) {
-		updateVirtualViewSize( realWidth_, realHeight_ );
-	}
-	else {	
 		scrollPeer_->recalcScrollPositions( this );
-	}
 }
 
 void AbstractScrollable::setVirtualViewSize( const double& width, const double& height )
 {
 	virtualViewWidth_ = width;    // old implem
-	virtualViewHeight_ = height;  // old implem
-
-	updateVirtualViewSize( width, height );
-
-	scrollPeer_->updateVirtualViewSize( this );
-
+	virtualViewHeight_ = height;  // old implem	
 	scrollPeer_->recalcScrollPositions( this ); // old implem
 }
 
-void AbstractScrollable::updateVirtualViewSize( const double& width, const double& height ) {
-	if ( NULL != this->scrollableControl_ ) {
-		double controlWidth  = scrollableControl_->getClientBounds( true ).getWidth();  
-		double controlHeight = scrollableControl_->getClientBounds( true ).getHeight();
+bool AbstractScrollable::isVerticalScrollbarVisible() {
+	return scrollPeer_->isVerticalScrollbarVisible();
+}
 
-		realWidth_ = width;
-		realHeight_ = height;
-		virtualViewWidth_  = width;
-		virtualViewHeight_ = height;
-	
-		if ( keepHorzScrollbarVisible_ && keepVertScrollbarVisible_ ) {
-			if ( height > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
-				virtualViewHeight_ = height + scrollPeer_->getHorizontalScrollbarHeight();
-			}
-			if ( width > ( controlWidth - scrollPeer_->getVerticalScrollbarWidth() ) ) {
-				virtualViewWidth_ = width + scrollPeer_->getVerticalScrollbarWidth();
-			}		
-		}
-		else {
-			if ( ( height > controlHeight ) || ( width > controlWidth ) ) {			
-				if ( ( height > controlHeight ) && ( width > controlWidth ) ) {
-					if ( hasVertScrollbar_ ) virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
-					if ( hasHorzScrollbar_ ) virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
-				}
-				else if ( height > controlHeight ) {
-					if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
-						if ( width > (controlWidth - scrollPeer_->getVerticalScrollbarWidth()) ) {
-							virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();//(controlWidth - width);							
-							virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
-						}
-					}					
-				}
-				else {//width_ > controlWidth
-					if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
-						if ( height > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
-							virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
-							virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
-						}
-					}					
-				}
-			}		
-		}
-	
-		recalcScrollPositions();
-	}
+bool AbstractScrollable::isHorizontalScrollbarVisible() {
+	return scrollPeer_->isHorizontalScrollbarVisible();
 }
 
 void AbstractScrollable::recalcScrollPositions()
@@ -235,8 +181,8 @@ void AbstractScrollable::getVerticalScrollRects( Rect* scrollBounds, Rect* topBo
 
 void AbstractScrollable::setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible )
 {
-	keepHorzScrollbarVisible_ = horzVisible;
-	keepVertScrollbarVisible_ = vertVisible;
+	if ( hasHorzScrollbar_ ) keepHorzScrollbarVisible_ = horzVisible;
+	if ( hasVertScrollbar_ ) keepVertScrollbarVisible_ = vertVisible;
 	this->recalcScrollPositions();
 }
 
@@ -255,6 +201,9 @@ bool AbstractScrollable::getKeepVertScrollbarVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/21 05:43:21  dougtinkham
+*removed updateVirtualViewSize, addied isVerticalScrollbarVisible, isHorizontalScrollbarVisible
+*
 *Revision 1.2.2.4  2004/09/19 19:54:45  marcelloptr
 *scrollbars transitory changes
 *
