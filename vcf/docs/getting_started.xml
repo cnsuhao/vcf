@@ -27,6 +27,21 @@ NB: This software will not save the world.
 -->
 
 <chapter><title>Getting Started</title>
+		<para>
+		The quickest way to start using the VCF is to look at the example code that comes with it. 
+		These tutorials are fully documented within the VCF online documentation here(insert url) 
+		and the source code itself is fully commented. Each tutorial tries to explain one particular 
+		aspect of programming with the VCF.
+		</para>
+		<para>
+		But before you can get the tutorials you first have to get the VCF installed on your system. 
+		For that, please download the latest installer (for Win32 systems) or .tgz file for your 
+		operating system.
+		</para>
+		<para>
+		Once you've installed the VCF try out the examples. The examples can be found in your 
+		vcf/examples directory. 
+		</para>
 		<section><title>A very simple VCF Application</title>
 			<para>
 			This will explain the very basics of creating a "Hello World" application with the VCF.
@@ -287,6 +302,9 @@ _&lt;name of the header in upper case - no breaks, underbars, etc&gt;_H__
 <!--	
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/10/01 01:58:31  ddiego
+added more faq documentation
+
 Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile
