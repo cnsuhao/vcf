@@ -31,7 +31,7 @@ namespace VCF {
 */
 
 
-	class FOUNDATIONKIT_API FilePath : public VCF::Object {
+	class FOUNDATIONKIT_API FilePath /*: public VCF::Object*/ { //is there any reason for this to derive from Object?
 	public:
 
 		enum {
@@ -439,6 +439,9 @@ inline std::vector<String> FilePath::getPathComponents() const {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 04:05:01  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

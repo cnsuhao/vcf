@@ -28,6 +28,7 @@ class type_info;
 namespace VCF {
 
 class DateTime;
+class VariantData;
 
 class FOUNDATIONKIT_API StringUtils  {
 public:
@@ -231,6 +232,13 @@ public:
 	*/
 	static VCF::String toString( const bool& value );
 
+
+	/**
+	Converts a VariantData instance to a string.
+	@param VariantData the variant to convert
+	@return String the string returned from calling VariantData::toString
+	*/
+	static VCF::String toString( const VariantData& value );
 
 	/**
 	converts the value to an hexadecimal number
@@ -466,12 +474,315 @@ protected:
 	static String abbrevMonths[];
 };
 
-};//end of namespace VCF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**
+The following functions provide support for appending and translating various 
+primitive types to string values. This makes it more convenient to write strings
+that also have integers, objects, or other types as part of the string message.
+The goal is to slowly get away from using the variable argument sprintf() style
+functions such as StringUtils::traceWithArgs(), or System::println().
+For example, you might have written the following code:
+\code
+System::println( "Name %s, number %d", str.c_str(), 1223 );
+\endcode
+With the operators below you can now rewrite this like so:
+\code
+System::println( "Name " + str + " number " + 1223 );
+\endcode
+
+*/
+
+	
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const int& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const int& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned int& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned int& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const long& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const long& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned long& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned long& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const short& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const short& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const double& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const double& val );
+
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const float& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const float& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const bool& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const bool& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const ulong64& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const ulong64& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const long64& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const long64& val );
+
+/*
+void pointers!
+*/
+FOUNDATIONKIT_API String operator+ ( const String& lhs, void* val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, void* val );
+
+/**
+Objects!
+*/
+FOUNDATIONKIT_API String operator+ ( const String& lhs, Object& val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, Object& val );
+
+FOUNDATIONKIT_API String operator+ ( const String& lhs, Object* val );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, Object* val );
+
+
+/**
+type info!
+*/
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const std::type_info& typeInfo );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const std::type_info& typeInfo );
+
+
+
+/**
+Variant data
+*/
+FOUNDATIONKIT_API String operator+ ( const String& lhs, const VariantData& rhs );
+
+FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rhs );
+
+
+
+
+};//end of namespace VCF
+
+
+
+
+
+
+namespace VCF {
+/**
+Implementation of string operators
+*/
+
+
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const int& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const int& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned int& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned int& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const long& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const long& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned long& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned long& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const short& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const short& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const double& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const double& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const float& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const float& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const bool& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const bool& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const ulong64& val )
+{
+	return lhs + StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const ulong64& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const long64& val )
+{
+	return lhs + StringUtils::toString(val); 
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const long64& val )
+{
+	return lhs += StringUtils::toString(val);
+}
+
+/*
+void pointers!
+*/
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, void* val )
+{
+	char tmp[256];
+	sprintf( tmp, "%p", val );
+	
+	return lhs + tmp;
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, void* val )
+{
+	char tmp[256];
+	sprintf( tmp, "%p", val );
+
+	return lhs += tmp;
+}
+
+/**
+Objects!
+*/
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, Object& val )
+{
+	return lhs + val.toString();
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object& val )
+{
+	return lhs += val.toString();
+}
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, Object* val )
+{
+	return lhs + ((val != NULL) ? val->toString() : "null");
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object* val )
+{
+	return lhs += ((val != NULL) ? val->toString() : "null");
+}
+
+
+/**
+type info!
+*/
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const std::type_info& typeInfo )
+{
+	return lhs + StringUtils::getClassNameFromTypeInfo( typeInfo );
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const std::type_info& typeInfo )
+{
+	return lhs += StringUtils::getClassNameFromTypeInfo( typeInfo );
+}
+
+/**
+Variant data
+*/
+
+inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const VariantData& rhs )
+{
+	return lhs + StringUtils::toString(rhs);
+}
+
+inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rhs )
+{
+	return lhs += StringUtils::toString(rhs);
+}
+
+
+};
+/**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/16 05:09:33  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

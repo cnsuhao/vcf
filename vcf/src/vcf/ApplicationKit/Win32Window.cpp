@@ -42,7 +42,8 @@ Win32Window::~Win32Window()
 
 void Win32Window::create( Control* owningControl )
 {
-	styleMask_ = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
+	
+	CreateParams params = createParams();
 
 	String className = getClassName();
 
@@ -64,10 +65,10 @@ void Win32Window::create( Control* owningControl )
 	HICON icon = NULL;
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 		                             className.c_str(),
 									 NULL,
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 0,
@@ -78,10 +79,10 @@ void Win32Window::create( Control* owningControl )
 		icon = LoadIconW( Win32ToolKit::getInstanceHandle(), L"DefaultVCFIcon" );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 		                             className.ansi_c_str(),
 									 NULL,
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 0,
@@ -110,10 +111,16 @@ void Win32Window::create( Control* owningControl )
 	setCreated( true );
 }
 
-void Win32Window::createParams()
+Win32Object::CreateParams Win32Window::createParams()
 {
-	styleMask_ = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
-	styleMask_ &= ~WS_VISIBLE;
+	Win32Object::CreateParams result;
+
+	result.first = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
+	result.first &= ~WS_VISIBLE;
+	
+	result.second = 0;
+
+	return result;
 }
 
 Rect Win32Window::getClientBounds()
@@ -678,6 +685,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/10 21:14:00  ddiego
 *fixed bug 1082362 App Icons do not appear.
 *

@@ -20,70 +20,231 @@ namespace VCF
 class Property;
 class Control;
 class GraphicsContext;
+class DrawUIState;
 
 /**
-* This is the common base class for any editor that is specific
-* of any property.
-*@see VCF::Property
-* \par
-* Any property, and in general any kind of data, can be changed 
-* through an appropriate GUI interface called editor. A text 
-* editor is good for many kind of data, but some of them are
-* more easily chaged through more specific editors. For example 
-* a ComboBox control can be considered an appropriate editor for
-* any boolean value, or for any enumerated value.
-* The VCF library makes readily available some of them.
+This is the common base class for any editor that is specific
+of any property.
+@see VCF::Property
+\par
+Any property, and in general any kind of data, can be changed 
+through an appropriate GUI interface called editor. A text 
+editor is good for many kind of data, but some of them are
+more easily chaged through more specific editors. For example 
+a ComboBox control can be considered an appropriate editor for
+any boolean value, or for any enumerated value.
+The VCF library makes readily available some of them.
+\par
+the editor is used by the host in order to display the 
+property content, retrieve possible values, and to 
+provide a possible UI for performing the editing. The
+steps are something like this:
+\li the host selects a source object
+\li the host retrieves a list of all properties for the source objects
+\li for each property the 
+@see Object::getClass
+@see Class
+@see Property
 */
-class APPLICATIONKIT_API PropertyEditor{
+class APPLICATIONKIT_API PropertyEditor  {
 public:
+
+	/**
+	Defines a set of different attributes that the 
+	getAttributes() can return. 
+	*/
+	enum PropertyAttributes {
+		/**
+		Indicates that the property editor can return a
+		vector of string values that represent possible
+		values for the property. For example, a color 
+		property editor might return a list of color
+		names. A Font editor might return a list of 
+		system fonts.
+		*/
+		paHasValues = 0x01,
+		/**
+		Indicates that the values returned by the editor need
+		to be sorted. The sort process should call the 
+		sort() method while iterating through the list.
+		*/
+		paSortValues = 0x0100,
+
+		/**
+		Indicates that the source object's property itself
+		has sub properties. Things like a font or color property
+		may use this to indicate separate elements that can be set.
+		*/
+		paHasSubProperties = 0x02,
+
+		/**
+		Indicates whether or not the editor allows multiple selection.
+		If is does then the implementor needs to implement setSources
+		*/
+		paAllowsMultiSelect = 0x04,
+
+		/**
+		Indicates that the editor is read only - the value cannot be changed
+		is only for display.
+		*/
+		paReadOnly = 0x08,
+
+		/**
+		Indicates that the editor can paint it's representation when not active
+		*/
+		paNeedsCustomPaint = 0x010,
+
+		/**
+		This indicates that the implementor will popup a modal dialog when the 
+		edit() method is called
+		*/
+		paUsesModalDialogForEditing = 0x020,
+
+		/**
+		This indicates that the property value needs to be cloned. It implies that
+		the property is an Object of some type (if this is not the case 
+		this indicates an error condition). The object should be cloned by a 
+		call to the original object's Object::clone() method.
+		*/
+		paValueNeedsDuplicating = 0x040
+
+	};
+
 	virtual ~PropertyEditor(){};
 
 	/**
-	*returns a new instance of the custom editor. The caller
-	*is resposible for deleting the editor when it is finished
-	*with it.
-	*Implementer of this interface should always make a new instance
-	*each time this is called.
+	This method returns a mask of potential attributes. 
 	*/
-	virtual Control* getCustomEditor() = 0;
-
-	virtual void paintValue( GraphicsContext* context, const Rect& bounds ) = 0;
+	virtual int getAttributes() = 0;
 
 	/**
-	*Sets the source for the Property editor
+	\par
+	Returns a control instance that belongs to this editor. This control
+	instance is managed by the tool using this property editor so
+	you just need to create it. This may be called multiple times, it is the
+	callers responsibility to delete the control, the editor implementor does 
+	not need to worry about this. For simple editors this may return null
+	which will mean the implementation of the UI conntrol is up to the
+	host environment. Typically editors for things like numbers, text, 
+	etc, will by default use an edit control or, if the property editor
+	support a list of values, a combo box.
+	@return Control a new instance of the control for this editor
+	or NULL if the editor doesn't support this.
 	*/
-	virtual void setSource( Object* source ) = 0;
+	virtual Control* createEditingControl() = 0;
+
 
 	/**
-	*Sets the property of the Property editor
+	\par
+	This method is used to edit the property value. This is an optional method 
+	to implement, and only needs to be done if createEditingControl() returns
+	a non null value. If createEditingControl() is NULL then it's assumed that
+	the actual editing process will be completely handled by the host of the
+	property editor.
+	\par
+	If the implementor does edit this method, then it's up to the implemementor 
+	to properly transfer the contents of the propert value to the control.
 	*/
-	virtual void setProperty( Property* property ) = 0;
+	virtual void edit() = 0;
 
+	/**
+	Paints a representation of the editor. This will only get called if
+	needsCustomPaint() method returns true. This is for custom painting of 
+	the property editor when it is \em not being edited.
+	*/
+	virtual void paintValue( VariantData* value, GraphicsContext* context, const Rect& bounds, const DrawUIState& state ) = 0;	
+
+	/**
+	Returns the value for the property. Note that this value is completely 
+	independant of the actual value that may be crurently stored in the 
+	source object's property. The assignment of this value to the source's
+	property is up to the tool/IDE/etc that is using this interface.
+	*/
 	virtual VariantData* getValue() = 0;
 
+	/**
+	Set's the value on the property editor
+	*/
 	virtual void setValue( VariantData* value ) = 0;
 
 	/**
-	*is it OK to call getCustomEditor ?
+	Like getValue(), but this returns the value in text format.
+	This value is used for display purposes if the editor doesn't
+	support custom painting.
 	*/
-	virtual bool hasCustomEditor() = 0;
-
-	/**
-	*is OK to call paintValue ?
-	*/
-	virtual bool canPaintValue() = 0;
-
 	virtual String getValueAsText() = 0;
 
+	/**
+	Like setValue() but allows the value to be a string.
+	*/
 	virtual void setValueAsText( const String& textValue ) = 0;
 
 	/**
-	*called by an IDE to get the C++ string representation of
-	the property to insert into C++ code.
+	Returns an array of potential values for the property.
+	Only usable if the PropertEditor::paHasValues bit is set.
+	@see PropertEditor::paHasValues
 	*/
-	virtual String getCodeString() = 0;
+	virtual std::vector<String> getStringValues() = 0;
 
+	/**
+	Returns a array of proeprty editors from the current value
+	of this editor. The requirement, of course, is that the
+	variant data that is returned by getValue() is a pdObject.
+	This is not meaningful to call unless PropertEditor::paHasSubProperties
+	is set.
+	@see PropertEditor::paHasSubProperties
+	*/
+	virtual std::vector<PropertyEditor*> getSubProperties() = 0;
+
+	/**
+	only implement this if sortValues() returns true. If this is 
+	the case, then return true if strVal1 is greater than strVal2.
+	*/
+	virtual bool sort( const String& strVal1, const String& strVal2 ) = 0;
+	
+	/*
+	Useful shortcut methods for determing which attributes are set
+	for a property editor
+	*/
+	bool hasValues() {
+		return (getAttributes() & PropertyEditor::paHasValues) ? true : false;
+	}
+
+	bool sortValues() {
+		return (getAttributes() & PropertyEditor::paSortValues) ? true : false;
+	}
+
+	bool hasSubProperties() {
+		return (getAttributes() & PropertyEditor::paHasSubProperties) ? true : false;
+	}
+
+	bool allowsMultiSelect() {
+		return (getAttributes() & PropertyEditor::paAllowsMultiSelect) ? true : false;
+	}	
+
+	bool isReadOnly() {
+		return (getAttributes() & PropertyEditor::paReadOnly) ? true : false;
+	}
+	
+
+	bool needsCustomPaint() {
+		return (getAttributes() & PropertyEditor::paNeedsCustomPaint) ? true : false;
+	}
+
+	bool usesModalDialogForEditing() {
+		return (getAttributes() & PropertyEditor::paUsesModalDialogForEditing) ? true : false;
+	}
+
+	bool valueNeedsDuplicating() { 
+		return (getAttributes() & PropertyEditor::paValueNeedsDuplicating) ? true : false;		
+	}
+	
+
+	
 };
+
+
+
 
 
 
@@ -94,6 +255,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2.4.1  2005/01/24 18:09:18  marcelloptr
 *documentation
 *

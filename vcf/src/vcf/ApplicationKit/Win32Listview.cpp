@@ -244,7 +244,8 @@ void Win32Listview::create( Control* owningControl )
 		new ItemEventHandler<Win32Listview>( this, &Win32Listview::onSubItemChanged, "Win32Listview::onSubItemChanged" );
 
 
-	createParams();
+	CreateParams params = createParams();
+
 	backColor_.copy( owningControl->getColor() );
 	/*
 	if ( true != isRegistered() ){
@@ -258,10 +259,10 @@ void Win32Listview::create( Control* owningControl )
 	String className = getClassName();
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 		                             WC_LISTVIEWW,
 									 NULL,
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -272,10 +273,10 @@ void Win32Listview::create( Control* owningControl )
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 		                             WC_LISTVIEWA,//"SysListView32",//className.c_str(),
 									 NULL,
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -389,11 +390,15 @@ void Win32Listview::registerHeaderWndProc()
 	}
 }
 
-void Win32Listview::createParams()
+Win32Object::CreateParams Win32Listview::createParams()
 {
-	exStyleMask_ = 0;
-	styleMask_ = BORDERED_VIEW | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_AUTOARRANGE | LVS_ICON | LVS_SHOWSELALWAYS;
-	styleMask_ &= ~WS_BORDER;
+	Win32Object::CreateParams result;
+	result.first = BORDERED_VIEW | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_AUTOARRANGE | LVS_ICON | LVS_SHOWSELALWAYS;
+	result.first &= ~WS_BORDER;
+
+	result.second = 0;
+
+	return result;
 }
 
 LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -2378,6 +2383,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

@@ -36,9 +36,11 @@ void Win32Component::create( Control* owningControl )
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND parent = toolkit->getDummyParent();
 
+	CreateParams params = createParams();
+
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_, className.c_str(),
-									 L"",	styleMask_,
+		hwnd_ = ::CreateWindowExW( params.second, className.c_str(),
+									 L"",	params.first,
 		                             0, 0,
 									 1,
 									 1,
@@ -46,8 +48,8 @@ void Win32Component::create( Control* owningControl )
 									 NULL, ::GetModuleHandleW(NULL), NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_, className.ansi_c_str(),
-									 "",	styleMask_,
+		hwnd_ = ::CreateWindowExA( params.second, className.ansi_c_str(),
+									 "",	params.first,
 		                             0, 0,
 									 1,
 									 1,
@@ -70,6 +72,9 @@ void Win32Component::create( Control* owningControl )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

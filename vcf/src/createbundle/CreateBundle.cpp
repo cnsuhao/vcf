@@ -200,7 +200,7 @@ int main( int argc, char** argv ){
 				//see if we can copy over the Resources dir from our source
 				String srcResDir = srcDir + "Resources/";
 				if ( File::exists( srcResDir ) ) {
-					System::println( "Copying resource files from [" + srcDir + "] to [" + resDir + "]." );
+					System::println( "Copying resource files from [" + srcDir );// + "] to [" + resDir + "]." );
 
 					try {
 						copyFiles( srcResDir, resDir );
@@ -294,6 +294,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2005/02/16 05:09:30  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.1.2.5  2004/12/22 02:58:22  marcelloptr
 *eliminated a warning for unreferenced variable
 *

@@ -1429,16 +1429,35 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 {
 	checkHandle();
 
+	Rect tmp = *rect;
+	
+	/**
+	JC
+	it turns out that the height/width is ALWAYS 13 pixels - no matter what 
+	the DPI is
+	GetSystemMetrics( SM_CXMENUCHECK ) returns a value that changes based on the DPI
+	13 at 96 DPI and 17 at 120 DPI
+	*/
+	int checkBoxHeight = 13;
+
+	tmp.top_ = (int)(rect->top_ + rect->getHeight() /2.0 + 0.5);
+	tmp.top_ -= checkBoxHeight/2;
+	tmp.bottom_ = tmp.top_ + checkBoxHeight;
+	tmp.right_ = tmp.left_ + checkBoxHeight;
+
+	
+
+
 	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)(rect->left_ + rect->getHeight());
-	r.bottom = (long)rect->bottom_;
+	r.left = (long)tmp.left_;
+	r.top = (long)tmp.top_;
+	r.right = (long)tmp.right_;
+	r.bottom = (long)tmp.bottom_;
 	UINT chkState =  (state.isToggled() || state.isPressed()) ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
 
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
 
-	Rect tmp = *rect;
+	tmp = *rect;
 	tmp.left_ = r.right + 3;
 	tmp.inflate( -1.0, -1.0 );
 
@@ -1456,16 +1475,36 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 {
 	checkHandle();
 
+	Rect tmp = *rect;
+
+	/**
+	JC
+	it turns out that the height/width is ALWAYS 13 pixels - no matter what 
+	the DPI is
+	GetSystemMetrics( SM_CXMENUCHECK ) returns a value that changes based on the DPI
+	13 at 96 DPI and 17 at 120 DPI
+	*/
+	int radioBoxHeight = 13;
+
+	tmp.top_ = (int)(rect->top_ + rect->getHeight() /2.0 + 0.5);
+	tmp.top_ -= radioBoxHeight/2;
+	tmp.bottom_ = tmp.top_ + radioBoxHeight;
+	tmp.right_ = tmp.left_ + radioBoxHeight;
+
+	
+
+
 	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)(rect->left_ + rect->getHeight());
-	r.bottom = (long)rect->bottom_;
+	r.left = (long)tmp.left_;
+	r.top = (long)tmp.top_;
+	r.right = (long)tmp.right_;
+	r.bottom = (long)tmp.bottom_;
+
 	UINT btnState =  state.isToggled() ?  DFCS_BUTTONRADIO | DFCS_CHECKED : DFCS_BUTTONRADIO;
 
 	::DrawFrameControl( dc_, &r, DFC_BUTTON, btnState );
 
-	Rect tmp = *rect;
+	tmp = *rect;
 	tmp.left_ = r.right + 3;
 	tmp.inflate( -1.0, -1.0 );
 
@@ -2492,6 +2531,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/02/16 05:09:34  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.4.2.4  2005/02/10 04:39:59  augusto_roman
 ** Fixed rect::makeIntersection routine to correctly compute intersections when rects have common edges
 ** Fixed black background on image transformations (made background alpha 0)

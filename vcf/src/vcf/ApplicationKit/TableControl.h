@@ -269,7 +269,8 @@ public:
 
 	virtual void mouseUp( MouseEvent* event );
 
-	virtual void mouseDblClick(  MouseEvent* event );
+	//virtual void mouseDblClick(  MouseEvent* event );
+	virtual void mouseClick(  MouseEvent* event );
 
 	//virtual void setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating=true ) throw( InvalidPeer );
 
@@ -533,6 +534,8 @@ protected:
 
 	void editCell( const CellID& cell, const Point& pt );
 
+	Rect getEditCellRect( const CellID& editCellID );
+
 	TableCellItem* selectedCellItem_;
 	Control* currentEditingControl_;
 
@@ -594,6 +597,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2.4.1  2005/01/26 20:59:28  ddiego
 *some fixes to table control and to teh table item editor interface
 *

@@ -62,7 +62,7 @@ public:
 	*/
 	virtual unsigned long getCaretPosition();
 
-	virtual void createParams();
+	virtual CreateParams createParams();
 
 	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
 
@@ -136,6 +136,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2005/01/28 02:49:02  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.

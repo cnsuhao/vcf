@@ -38,10 +38,6 @@ Win32Dialog::~Win32Dialog()
 
 }
 
-void Win32Dialog::init()
-{
-	createParams();
-}
 
 void Win32Dialog::create( Control* owningControl )
 {
@@ -52,7 +48,9 @@ void Win32Dialog::create( Control* owningControl )
 	if ( true != isRegistered() ){
 		registerWin32Class( className, wndProc_  );
 	}
-	init();
+	
+	
+	CreateParams params = createParams();
 
 	HWND parent = NULL;
 	if ( NULL != owner_ ){
@@ -60,20 +58,15 @@ void Win32Dialog::create( Control* owningControl )
 		parent = (HWND)owner_->getPeer()->getHandleID();
 	}
 
-	if ( styleMask_ & WS_VISIBLE ) {
-		styleMask_ &= ~WS_VISIBLE;
-	}
-
-
 	String caption = dialogComponent_->getCaption();
 
 	HICON icon = NULL;
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 		                             className.c_str(),
 									 caption.c_str(),
-									 styleMask_,
+									 params.first,
 		                             0,//bounds_.left_,
 									 0,//bounds_.top_,
 									 0,//bounds_.getWidth(),
@@ -86,10 +79,10 @@ void Win32Dialog::create( Control* owningControl )
 		icon = LoadIconW( Win32ToolKit::getInstanceHandle(), L"DefaultVCFIcon" );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 		                             className.ansi_c_str(),
 									 caption.ansi_c_str(),
-									 styleMask_,
+									 params.first,
 		                             0,//bounds_.left_,
 									 0,//bounds_.top_,
 									 0,//bounds_.getWidth(),
@@ -136,14 +129,21 @@ void Win32Dialog::create( Control* owningControl )
 	setCreated( true );
 }
 
-void Win32Dialog::createParams()
+Win32Object::CreateParams Win32Dialog::createParams()
 {
 	//WS_CLIPCHILDREN was added to fix bug 585239: Painting weirdness in a modal dialog
-	styleMask_ = WS_POPUPWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | /*WS_OVERLAPPED | *//*WS_DLGFRAME |*/ DS_MODALFRAME | DS_3DLOOK;
-	exStyleMask_ = WS_EX_RIGHTSCROLLBAR | WS_EX_WINDOWEDGE | WS_EX_DLGMODALFRAME | WS_EX_CONTEXTHELP;
+	Win32Object::CreateParams result;
+	result.first = WS_POPUPWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | /*WS_OVERLAPPED | *//*WS_DLGFRAME |*/ DS_MODALFRAME | DS_3DLOOK;
+	result.first &= ~WS_MINIMIZEBOX;
+	result.first &= ~WS_MAXIMIZEBOX;
 
-	styleMask_ &= ~WS_MINIMIZEBOX;
-	styleMask_ &= ~WS_MAXIMIZEBOX;
+	if ( result.first & WS_VISIBLE ) {
+		result.first &= ~WS_VISIBLE;
+	}
+
+	result.second = WS_EX_RIGHTSCROLLBAR | WS_EX_WINDOWEDGE | WS_EX_DLGMODALFRAME | WS_EX_CONTEXTHELP;
+
+	return result;
 }
 
 bool Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
@@ -223,10 +223,13 @@ bool Win32Dialog::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 		case WM_DESTROY:{
-			Dialog* dlg = (Dialog*)peerControl_;
+			
 			Win32Window::handleEventMessages( message, wParam, lParam, wndProcResult );
-			if ( true == dlg->isModal() ) {
-				PostQuitMessage(0);
+			Dialog* dlg = (Dialog*)peerControl_;
+			if ( NULL != dlg ) {
+				if ( true == dlg->isModal() ) {
+					PostQuitMessage(0);
+				}
 			}
 		}
 		break;
@@ -399,6 +402,9 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.4.2.2  2005/02/10 20:13:02  ddiego
 *commented out a line of code that was causing a message dialog
 *to popup with a sepateate start bar window entry and non-modal behaviour.

@@ -351,6 +351,7 @@ public:
 	}
 
 	void onTreeItemState( ItemEvent* e ) {
+
 		TreeItem* item = (TreeItem*)e->getSource();
 		String s;
 		s = StringUtils::format( "State item: %s, state: %d", item->getCaption().c_str(), item->getState() );
@@ -404,6 +405,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/02/16 05:09:30  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.6  2004/12/01 04:15:36  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

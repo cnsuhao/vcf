@@ -43,8 +43,6 @@ LRESULT CALLBACK Win32Object_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 
 Win32Object::Win32Object():
-	styleMask_(0),
-	exStyleMask_(0),
 	wndProc_(NULL),
 	defaultWndProc_(NULL),
 	hwnd_(NULL),
@@ -160,9 +158,6 @@ bool Win32Object::isRegistered()
 
 void Win32Object::init()
 {
-	exStyleMask_ = 0;
-	styleMask_ = SIMPLE_VIEW;
-
 	hwnd_ = NULL;
 
 	wndProc_ = NULL;
@@ -173,10 +168,13 @@ void Win32Object::init()
 	peerControl_ = NULL;
 }
 
-void Win32Object::createParams()
+Win32Object::CreateParams Win32Object::createParams()
 {
-	exStyleMask_ = 0;
-	styleMask_ = SIMPLE_VIEW;
+	Win32Object::CreateParams result;
+	result.first = SIMPLE_VIEW;
+	result.second = 0;
+
+	return result;
 }
 
 bool Win32Object::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
@@ -266,6 +264,9 @@ Control* Win32Object::getPeerControl()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.1  2004/12/10 21:14:00  ddiego
 *fixed bug 1082362 App Icons do not appear.
 *

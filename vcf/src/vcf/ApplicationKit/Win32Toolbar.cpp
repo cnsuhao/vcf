@@ -24,21 +24,29 @@ Win32Toolbar::Win32Toolbar(Control* control):
 
 }
 
+Win32Object::CreateParams Win32Toolbar::createParams()
+{
+	Win32Object::CreateParams result;
+	result.first = WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | TBSTYLE_TOOLTIPS | TBSTYLE_FLAT | CCS_NODIVIDER;// | CCS_NORESIZE;;
+	result.second = 0;
+
+	return result;
+}
+
+
 void Win32Toolbar::create( Control* control )
 {
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND parent = toolkit->getDummyParent();
 
 
-	createParams();
-
-	styleMask_  = WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | TBSTYLE_TOOLTIPS | TBSTYLE_FLAT | CCS_NODIVIDER;// | CCS_NORESIZE;
+	CreateParams params = createParams();	
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 		                             TOOLBARCLASSNAMEW,
 									 NULL,
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -49,10 +57,10 @@ void Win32Toolbar::create( Control* control )
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 		                             TOOLBARCLASSNAMEA,
 									 NULL,
-									 styleMask_,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -1411,6 +1419,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/16 05:09:32  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3  2004/12/01 04:31:39  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

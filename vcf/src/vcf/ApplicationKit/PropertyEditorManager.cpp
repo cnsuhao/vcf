@@ -38,9 +38,18 @@ PropertyEditor* PropertyEditorManager::findEditor( const String& className )
 	return result;
 }
 
-void PropertyEditorManager::registerPropertyEditor( PropertyEditor* editor, const String& className )
+bool PropertyEditorManager::registerPropertyEditor( PropertyEditor* editor, const String& className )
 {
-	PropertyEditorManager::propertyEditorMgr->propertEditorMap_[className] = editor;
+	bool result = true;
+	if ( PropertyEditorManager::propertyEditorMgr->propertEditorMap_.find(className) !=
+			PropertyEditorManager::propertyEditorMgr->propertEditorMap_.end() ) {
+		result = false;
+	}
+	else {
+		PropertyEditorManager::propertyEditorMgr->propertEditorMap_[className] = editor;
+	}
+	
+	return result;
 }
 
 void PropertyEditorManager::initPropertyEditorManager()
@@ -68,6 +77,9 @@ void PropertyEditorManager::closePropertyEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

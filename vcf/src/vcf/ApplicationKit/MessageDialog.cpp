@@ -115,7 +115,7 @@ MessageDialog::MessageDialog():
 
 	ic->setBounds( x, y, applicationIcon_->getWidth(), applicationIcon_->getHeight() );
 
-	imagePane_->add( ic );
+	imagePane_->add( ic, AlignClient );
 	ic->setImage( applicationIcon_ );
 	ic->setTransparent( true );
 }
@@ -306,6 +306,9 @@ void MessageDialog::verifyUIState()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

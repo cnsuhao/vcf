@@ -98,21 +98,15 @@ void Win32Edit::create( Control* owningControl )
 		}
 	}
 
+	CreateParams params = createParams();
 	
-	styleMask_ &= ~WS_VISIBLE;
-	// this is a temporary solution: it would be better to implement
-	// a method giving the option to the user, and painting the selection
-	// in an unfocused control with a light gray on the background - MP.
-	DWORD style = styleMask_ | ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
-	if ( true == isMultiLined_ ) {
-		style |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
-	}
+	
 
 	if ( System::isUnicodeEnabled() ) {
-		hwnd_ = ::CreateWindowExW( exStyleMask_,
+		hwnd_ = ::CreateWindowExW( params.second,
 		                             className.c_str(),
 									 NULL,
-									 style,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -123,10 +117,10 @@ void Win32Edit::create( Control* owningControl )
 									 NULL );
 	}
 	else {
-		hwnd_ = ::CreateWindowExA( exStyleMask_,
+		hwnd_ = ::CreateWindowExA( params.second,
 		                             className.ansi_c_str(),
 									 NULL,
-									 style,
+									 params.first,
 		                             0,
 									 0,
 									 1,
@@ -233,11 +227,27 @@ void Win32Edit::setCaretPosition( const unsigned long& caretPos )
 
 }
 
-void Win32Edit::createParams()
+Win32Object::CreateParams Win32Edit::createParams()
 {
-	exStyleMask_ = 0;
-	styleMask_ = SIMPLE_VIEW;
-	styleMask_ &= ~WS_BORDER;
+	Win32Object::CreateParams result;
+
+	
+	result.first = SIMPLE_VIEW;
+	result.first &= ~WS_BORDER;
+
+
+	result.first &= ~WS_VISIBLE;
+	// this is a temporary solution: it would be better to implement
+	// a method giving the option to the user, and painting the selection
+	// in an unfocused control with a light gray on the background - MP.
+	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
+	if ( true == isMultiLined_ ) {
+		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
+	}
+	
+	result.second = 0;
+
+	return result;
 }
 
 void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam )
@@ -1433,6 +1443,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.2  2005/01/28 02:49:02  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.

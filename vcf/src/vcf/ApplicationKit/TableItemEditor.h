@@ -24,6 +24,28 @@ class TableCellItem;
 
 #define TABLEITEMEDITOR_CLASSID		"53EA0BA4-7068-11d4-8F12-00207811CFAB"
 
+/**
+\par
+The TableItemEditor class is used to provide editing capabilities
+for individual cell items in a TableControl. When the TableControl
+detects that an event has occurred to start an edit, it calls the 
+respective TableCellItem's createItemEditor() method. This will 
+create a new instance of a TableItemEditor, as appropriate
+for that cell. A simple implementation of this interface can
+be found in the BasicTableItemEditor class. 
+\par
+The editor allows you to retrieve the item that is currently being edited.
+It also allows access to the control that is used to edit the item. This
+control is managed by the underlying TableControl, all you need to do is create
+the control instance once. One approach might be to create the control in
+your custom class's constructor. Another approach, which the BasicTableItemEditor
+takes, is to set a member variable to NULL in the constructor, and then
+in the implementation of getEditingControl, check the member variable, if it's
+NULL, then create the control at that point and set the member variable, and then
+return the member variable.
+@see TableCellItem::createItemEditor
+@see BasicTableItemEditor
+*/
 class APPLICATIONKIT_API TableItemEditor : public ObjectWithEvents {
 public:
 
@@ -58,7 +80,9 @@ public:
 	virtual void updateItem() = 0;
 
     /**
-	Returns a control instance that belongs to this editor.
+	Returns a control instance that belongs to this editor. This control
+	instance is managed by the table control, and it has the same life time
+	as the editor that created it.
 	*/
 	virtual Control* getEditingControl() = 0;
 };
@@ -69,6 +93,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2.4.1  2005/01/26 20:59:29  ddiego
 *some fixes to table control and to teh table item editor interface
 *

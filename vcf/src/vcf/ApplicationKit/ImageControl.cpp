@@ -105,7 +105,7 @@ void ImageControl::paint( GraphicsContext* context )
 
 ImageFilenamePropertyEditor::ImageFilenamePropertyEditor()
 {
-
+	attributes_ = PropertyEditor::paUsesModalDialogForEditing;
 }
 
 ImageFilenamePropertyEditor::~ImageFilenamePropertyEditor()
@@ -113,23 +113,20 @@ ImageFilenamePropertyEditor::~ImageFilenamePropertyEditor()
 
 }
 
-Control* ImageFilenamePropertyEditor::getCustomEditor()
-{
-	return new ModalPropertyEditorControl<ImageFilenamePropertyEditor>(
-			&ImageFilenamePropertyEditor::showFilenameEditor, this->getValue(), this );
-}
 
-void ImageFilenamePropertyEditor::showFilenameEditor( VariantData* data )
+void ImageFilenamePropertyEditor::edit()
 {
 	CommonFileOpen dlg;
 
-	ImageFilenameString& obj = *((ImageFilenameString*)(Object*)*data);
+	ImageFilenameString& obj = *((ImageFilenameString*)(Object*)*getValue() );
 
 	String s = obj;
 	dlg.setFileName( s );
 	if ( true == dlg.execute() ) {
 		s = dlg.getFileName();
 		obj = s;
+		VariantData data = &obj;
+		setValue( &data );
 	}
 }
 
@@ -138,7 +135,7 @@ void ImageFilenamePropertyEditor::showFilenameEditor( VariantData* data )
 
 ImagePropertyEditor::ImagePropertyEditor()
 {
-
+	attributes_ = PropertyEditor::paUsesModalDialogForEditing;
 }
 
 ImagePropertyEditor::~ImagePropertyEditor()
@@ -146,35 +143,18 @@ ImagePropertyEditor::~ImagePropertyEditor()
 
 }
 
-Control* ImagePropertyEditor::getCustomEditor()
+void ImagePropertyEditor::edit()
 {
-	return new ModalPropertyEditorControl<ImagePropertyEditor>(
-			&ImagePropertyEditor::showImageEditor, this->getValue(), this );
-}
-
-void ImagePropertyEditor::showImageEditor( VariantData* data )
-{
-	Image* image = (Image*)(Object*)(*data);
-
-	Dialog* dlg = new Dialog();
-	dlg->setBounds( &Rect( 0, 0, 410, 520 ) );
-	CommandButton* okBtn = new CommandButton();
-	okBtn->setBounds( &Rect(240, 460, 320, 485) );
-	okBtn->setCaption( "OK" );
-	dlg->add( okBtn );
-
-	CommandButton* cancelBtn = new CommandButton();
-	cancelBtn->setBounds( &Rect(330, 460, 400, 485) );
-	cancelBtn->setCaption( "Cancel" );
-	dlg->add( cancelBtn );
-	dlg->showModal();
-	dlg->free();
+	
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

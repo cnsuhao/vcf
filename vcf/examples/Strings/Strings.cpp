@@ -9,6 +9,21 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
+
+
+
+/**
+Sample object that demonstrates overloading the toString method of the 
+Object base class.
+*/
+class Foo : public VCF::Object {
+public:
+	virtual VCF::String toString() {
+		return "Foo here!\n\t" + Object::toString();
+	}
+};
+
+
 /**
 *use the VCF namespace to make it more convenient
 *to refer to VCF classes
@@ -60,6 +75,71 @@ int main(int argc, char *argv[])
 	pos = t.find("time"); // finds the string "time" in position 11
 	System::println("string \"time\" found at position: %d in string {%ls}", pos, t.c_str() );
 
+
+	
+
+	Foo f;
+	System::println( "f is: " + f + "\n" + 99.5643231 + " bottles of " + &f + " on the wall!" );
+
+	System::println( String("Is this ") + true + " or is this " + false + "?" );
+
+	DateTime dt = DateTime::now();
+
+	System::println( "The time is now: " + dt );
+
+	void* ptr = &dt;
+
+	System::println( String("The value of the void* pointer ptr is: ") + ptr );
+
+
+	int i;
+	bool j;
+	const double* k;
+	float l;
+	Object o;
+	
+	System::println( "i is a " + typeid(i) + " type" );
+	System::println( "j is a " + typeid(j) + " type" );
+	System::println( "k is a " + typeid(k) + " type" );
+	System::println( "l is a " + typeid(l) + " type" );
+	System::println( "o is a " + typeid(o) + " type" );
+	System::println( "f is a " + typeid(f) + " type" );
+	System::println( "ptr is a " + typeid(ptr) + " type" );
+	System::println( "dt is a " + typeid(dt) + " type" );
+
+	long64 m = 0xffffffff;
+	System::println( String("m: ") + m );
+
+	m *= -0xfff;
+
+	System::println( String("m: ") + m );
+
+
+	VariantData v;
+	v = 123;
+
+	System::println( String("Variant (as int): ") + v );
+
+	v = 441.2340995;
+	System::println( String("Variant (as double): ") + v );
+
+	v = &f;
+	System::println( String("Variant (as object): ") + v );
+
+	v = &dt;
+	System::println( String("Variant (as object): ") + v );
+
+	v = true;
+	System::println( String("Variant (as boolean): ") + v );
+
+	v = -199;
+	System::println( String("Variant (as signed int): ") + v );
+
+	v = 'A';
+	System::println( String("Variant (as character): ") + v );
+
+	v = "Hello World!";
+	System::println( String("Variant (as string): ") + v );
 
 	/**
 	String utility functions
@@ -185,9 +265,31 @@ int main(int argc, char *argv[])
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+namespace VCF {
+
+
+
+
+};
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/02/16 05:09:30  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3  2004/08/07 02:47:38  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

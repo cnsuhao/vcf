@@ -36,7 +36,9 @@ TreeListControl::TreeListControl():
 	allowLabelEditing_(false),
 	allowMultipleSelection_(false),
 	stateItemIndent_(19.0),
-	draggingSelectionRect_(false)
+	draggingSelectionRect_(false),
+	currentEditColumn_(-1),
+	currentEditingControl_(NULL)
 {
 	setContainerDelegate( this );
 	setContainer( new StandardContainer() );
@@ -90,6 +92,12 @@ void TreeListControl::init()
 	setDisplayOptions( TreeListControl::tdoNone );
 
 	setUseColorForBackground( true );
+
+	EventHandler* ev = 
+			new GenericEventHandler<TreeListControl>( this, &TreeListControl::onEditorFocusLost, "TreeListControl::onEditorFocusLost" );
+
+		ev = 
+			new KeyboardEventHandler<TreeListControl>( this, &TreeListControl::onEditingControlKeyPressed, "TreeListControl::onEditingControlKeyPressed" );
 }
 
 void TreeListControl::setTreeModel(TreeModel * model)
@@ -119,7 +127,13 @@ void TreeListControl::setTreeModel(TreeModel * model)
 		}
 
 		treeModel_->addTreeNodeAddedHandler( handler );
-		treeModel_->addTreeNodeDeletedHandler( handler );
+		treeModel_->addTreeNodeDeletedHandler( handler );	
+		
+		handler = getEventHandler( "TreeListControl::onModelEmptied" );
+		if ( NULL == handler ) {
+			handler = new GenericEventHandler<TreeListControl>( this, &TreeListControl::onModelEmptied, "TreeListControl::onModelEmptied" );
+		}
+		tm->addModelHandler( handler );
 	}
 	else {
 		setViewModel( NULL );
@@ -129,6 +143,14 @@ void TreeListControl::setTreeModel(TreeModel * model)
 TreeModel* TreeListControl::getTreeModel()
 {
 	return treeModel_;
+}
+
+void TreeListControl::onModelEmptied( Event* event )
+{
+	if ( Model::MODEL_EMPTIED == event->getType() ) {
+		selectedItems_.clear();
+		recalcScrollable();
+	}
 }
 
 void TreeListControl::onModelChanged( TreeModelEvent* event )
@@ -142,6 +164,11 @@ void TreeListControl::onModelChanged( TreeModelEvent* event )
 				selectedItems_.erase( found );
 				repaint();
 			}
+		}
+		break;
+
+		case TreeModel::TREEITEM_ADDED : {
+			event->getTreeItem()->setControl( this );
 		}
 		break;
 	}
@@ -335,6 +362,9 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 
 	context->getCurrentFont()->setColor( &oldColor );
 
+	if ( item->canPaint() ) {
+		item->paint( context, paintRect );
+	}
 
 	if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
 
@@ -453,26 +483,48 @@ void TreeListControl::paintExpander( TreeItem* item, GraphicsContext* context, R
 		context->strokePath();
 	}
 #else
-	std::vector<Point> triangle;
+	std::vector<Point> triangle(4);
 
 	if ( true == item->isExpanded() ) {
-		triangle.push_back( Point( expanderRect.left_+spacer, (expanderRect.top_ + (expanderRect.getHeight()/4.0)) ) );
-		triangle.push_back( Point( triangle[0].x_ + (expanderRect.getWidth()), triangle[0].y_ ) );
-		triangle.push_back( Point( triangle[0].x_ + (expanderRect.getWidth()/2.0), triangle[0].y_ + (expanderRect.getHeight()/2.0) ) );
-		triangle.push_back( Point( triangle[0].x_, triangle[0].y_ ) );
+		//triangle width is 9, and height is 9
+		//triangle.resize(6);
+		triangle[0].x_ = expanderRect.left_+spacer;
+		triangle[0].y_ = (int)(((expanderRect.top_ + expanderRect.getHeight()/2.0) - 9.0/2.0)  + 0.5);
+		//triangle[1] = triangle[0];
+		//triangle[1].y_ += 1;
+		triangle[1].x_ = (int)((triangle[0].x_ + 9.0/2.0) + 0.0);
+		triangle[1].y_ = triangle[0].y_ + 9;
+		triangle[2] = triangle[0];
+		triangle[2].x_ += 9;
+		triangle[3] = triangle[0];
+		//triangle[4].x_ += 9;
+		//triangle[5] = triangle[0];
+
+
+
+		
+		//triangle[1] = Point( triangle[0].x_ + (expanderRect.getWidth()), triangle[0].y_ ) );
+		//triangle[2] = Point( triangle[0].x_ + (expanderRect.getWidth()/2.0), triangle[0].y_ + (expanderRect.getHeight()/2.0);
+		//triangle[3] = Point( triangle[0].x_, triangle[0].y_ );
 	}
 	else {
-		triangle.push_back( Point( expanderRect.left_+spacer, expanderRect.top_ ) );
-		triangle.push_back( Point( expanderRect.left_+spacer, expanderRect.bottom_ ) );
-		triangle.push_back( Point( expanderRect.left_ + spacer + (expanderRect.getWidth()/2.0), expanderRect.top_ + (expanderRect.getHeight()/2.0) ) );
-		triangle.push_back( Point( expanderRect.left_+spacer, expanderRect.top_ ) );
+		//triangle width is 10, and height is 11
+		triangle[0].x_ = expanderRect.left_+spacer;
+		triangle[0].y_ = (int)(((expanderRect.top_ + expanderRect.getWidth()/2.0) - 11/2.0) + 0.5);
+
+		triangle[1] = triangle[0];
+		triangle[1].y_ += 11;
+
+		triangle[2].x_ = triangle[0].x_ + 10;
+		triangle[2].y_ = (int)((triangle[0].y_ + 11.0/2.0) + 0.5);
+		triangle[3] = triangle[0];
 	}
 
 
-	context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_FACE ) );
+	context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW ) );
 	context->polyline( triangle );
 	context->fillPath();
-
+/*
 	if ( true == item->isExpanded() ) {
 		context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW ) );
 		context->moveTo( triangle[1].x_-1, triangle[1].y_ );
@@ -497,6 +549,7 @@ void TreeListControl::paintExpander( TreeItem* item, GraphicsContext* context, R
 		context->lineTo( triangle[1].x_, triangle[1].y_ );
 		context->strokePath();
 	}
+	*/
 
 #endif
 }
@@ -518,6 +571,7 @@ void TreeListControl::paintItemState( TreeItem* item, GraphicsContext* context, 
 		buttonState.setActive( true );
 		buttonState.setPressed( state == Item::idsChecked ? true : false );
 		context->drawThemeCheckboxRect( &stateRect, buttonState );
+/*
 		if ( state == Item::idsChecked )
 		{
 			stateRect.inflate(-2,-2);
@@ -525,15 +579,16 @@ void TreeListControl::paintItemState( TreeItem* item, GraphicsContext* context, 
 			context->setColor(Color::getColor("blue"));
 			context->rectangle(&stateRect);
 			context->fillPath();
-/*			// Below draws an X for a checked entry
+			// Below draws an X for a checked entry
 			context->setAntiAliasingOn(true);
 			context->moveTo(stateRect.getTopLeft());
 			context->lineTo(stateRect.getBottomRight());
 			context->moveTo(stateRect.getTopRight());
 			context->lineTo(stateRect.getBottomLeft());
 			context->strokePath();
-*/
+
 		}
+		*/
 	}
 }
 
@@ -619,32 +674,17 @@ void TreeListControl::paint( GraphicsContext * context )
 		if (intersection.getWidth() > 0 && intersection.getHeight() > 0)
 		{
 			paintItem( item, context, &itemRect );
-
+/*
 			if ( item->canPaint() ) {
 				item->paint( context, &tmp );
 			}
+			*/
 		}
 
 		prevTop += (itemRect.bottom_ - tmp.top_);
 
 		it ++;
 	}
-
-/*
-	Scrollable* scrollable = getScrollable();
-	if ( NULL != scrollable ) {
-		if ( (getHeight() > visibleItemsHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {
-			scrollable->setVerticalPosition( 0.0 );
-		}
-		else if ( oldVisibleHeight > visibleItemsHeight_ ) {
-			double newPos = minVal<double>( abs((long)(visibleItemsHeight_ - getHeight()))+1.0, scrollable->getVerticalPosition() );
-
-			scrollable->setVerticalPosition( newPos );
-
-		}
-
-		scrollable->setVirtualViewHeight( visibleItemsHeight_ );
-	}*/
 }
 
 
@@ -852,6 +892,46 @@ void TreeListControl::clearSelectedItems()
 	repaint();
 }
 
+void TreeListControl::mouseDblClick(  MouseEvent* event )
+{
+	CustomControl::mouseDblClick( event );
+
+	TreeItem* item = getSelectedItem();
+
+	if ( NULL != item ) {
+		
+		Rect expanderRect;
+		
+		ulong32 level = item->getLevel();
+		expanderRect = *item->getBounds();
+		expanderRect.left_ += (level * itemIndent_);
+		expanderRect.right_ = expanderRect.left_ + itemIndent_;	
+		
+		if ( !expanderRect.containsPt( event->getPoint() ) &&
+				!stateHitTest( event->getPoint(), item ) ) {
+
+			item->expand( !item->isExpanded() );
+			ItemEvent event( this, ITEM_EVENT_CHANGED );
+			ItemExpanded.fireEvent( &event );
+			
+			recalcScrollable();
+		}
+		repaint();
+	}
+}
+
+Rect TreeListControl::getExpanderRect( TreeItem* item )
+{
+	Rect result;
+
+	ulong32 level = item->getLevel();
+	result = *item->getBounds();
+	result.left_ += (level * itemIndent_);
+	result.right_ = result.left_ + itemIndent_;
+
+	return result;
+}
+
 bool TreeListControl::singleSelectionChange( MouseEvent* event )
 {
 	bool result = false;
@@ -880,6 +960,17 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 				ItemExpanded.fireEvent( &event );
 
 				recalcScrollable();
+
+				if ( !foundItem->isExpanded() ) {
+					if ( NULL != prevSelectedItem ) {
+						if ( prevSelectedItem->getParent() == foundItem ) {
+							setSelectedItem( prevSelectedItem, false );
+							setSelectedItem( foundItem, true );							
+							result = true;
+							repaint();
+						}
+					}
+				}
 			}
 			else if ( true == stateHitTest( event->getPoint(), foundItem ) ) {
 				long state = foundItem->getState();
@@ -922,13 +1013,369 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 			}
 		}
 	}
+	
+	return result;
+}
+
+Rect TreeListControl::getBoundsForEdit( TreeItem* item, int column )
+{
+	Rect result;
+
+	if ( column == -1 ) {
+		return result;
+	}
+
+
+	ColumnModel* cm = header_->getColumnModel();
+	Enumerator<ColumnItem*>* columnItems = cm->getItems();
+
+	result = *item->getBounds();
+
+	int index = 0;
+	while ( columnItems->hasMoreElements() ) {
+		ColumnItem* col = columnItems->nextElement();
+		result.right_ = result.left_ + col->getWidth();
+
+		if ( index == column ) {
+
+			if ( 0 == column ) {
+				//adjust for state and image icons
+				Rect expanderRect = getExpanderRect( item );
+		
+				if ( !item->isLeaf() ) {
+					result.left_ = expanderRect.right_;
+				}
+
+				Rect stateRect = getStateRect( item, getCurrentIndent( item ) );
+
+				if ( !stateRect.isEmpty() && !stateRect.isNull() ) {
+					result.left_ = maxVal<>( stateRect.right_, result.left_ );
+				}
+			}
+
+			//adjust for scrollers
+			Scrollable* scrollable = getScrollable();
+			if ( NULL != scrollable ) {
+				result.offset( -scrollable->getHorizontalPosition(), -scrollable->getVerticalPosition());
+				Rect clientBounds = getClientBounds();
+				double w = clientBounds.getWidth();
+				double h = clientBounds.getHeight();
+
+				if ( scrollable->isVerticalScrollbarVisible() ) {
+					result.right_ = minVal<>( result.right_, 
+											w - scrollable->getVerticalScrollbarWidth() );
+				}
+				
+				if ( scrollable->isHorizontalScrollbarVisible() ) {
+					result.bottom_ = minVal<>( result.bottom_, 
+											h - scrollable->getHorizontalScrollbarHeight() );
+				}
+			}
+
+			break;
+		}
+		result.left_ += col->getWidth();
+		index++;
+	}
 
 	return result;
+}
+
+int TreeListControl::hitTestForEditColumn( Point* pt )
+{
+	int result = -1;
+
+	TreeItem* item = hitTest( pt );
+	if ( NULL != item ) {
+		if ( item->getSubItemCount() > 0 ) {
+
+			result = 0;
+				 
+			ColumnModel* cm = header_->getColumnModel();
+			Enumerator<ColumnItem*>* columnItems = cm->getItems();
+
+			Rect subItemRect = *item->getBounds();
+			subItemRect.right_ = subItemRect.left_ + cm->getItemFromIndex( 0 )->getWidth();
+
+			if ( !subItemRect.containsPt( pt ) ) {
+				subItemRect.left_ += cm->getItemFromIndex( 0 )->getWidth();
+				result ++;
+
+
+				bool found = false;
+				Enumerator<TreeItem::SubItem*>* subItems = item->getSubItems();
+				while ( columnItems->hasMoreElements() && subItems->hasMoreElements() ) {
+					TreeItem::SubItem* subItem = subItems->nextElement();
+					ColumnItem* column = columnItems->nextElement();				
+					
+					subItemRect.right_ = subItemRect.left_ + column->getWidth();
+					
+					if ( subItemRect.containsPt( pt ) ) {
+						found = true;
+						break;
+					}
+					
+					subItemRect.left_ += column->getWidth();
+					
+					result++;
+				}
+				
+				if ( !found ) {
+					result = -1;
+				}
+			}
+		}
+		else {
+			result = 0;
+		}
+	}
+
+	return result;
+}
+
+TreeItem* TreeListControl::getNextItem( TreeItem* item, bool skipChildren )
+{
+	TreeModel* tm = getTreeModel();
+	TreeItem* result = NULL;
+
+	if ( NULL != item ) {
+		TreeItem* nextItem = NULL;		
+		
+		if ( !item->isLeaf() && item->isExpanded() && !skipChildren ) {
+			Enumerator<TreeItem*>* items = item->getChildren();
+			//get first item!
+			if ( items->hasMoreElements() ) {
+				nextItem = items->nextElement();
+			}
+		}
+		else if ( item->getParent() == NULL ) {
+			Enumerator<TreeItem*>* items = tm->getRootItems();				
+			while ( items->hasMoreElements() ) {
+				nextItem = items->nextElement();
+				if ( nextItem == item ) {
+					//skip one more if possible
+					if ( items->hasMoreElements() ) {
+						nextItem = items->nextElement();								
+					}
+					break;
+				}
+			}
+		}
+		else {
+			nextItem = item->getNextChildNodeItem();
+			while ( nextItem == NULL ) {
+				TreeItem* parent = item->getParent();
+				if ( NULL != parent ) {
+					nextItem = getNextItem( parent, true );
+				}
+				else { 
+					nextItem = item;
+					break; //use item!
+				}
+			}
+		}
+		
+		result = nextItem;
+	}
+	else {
+		Enumerator<TreeItem*>* items = tm->getRootItems();
+		//get first item!
+		if ( items->hasMoreElements() ) {
+			result = items->nextElement();
+		}
+	}
+	
+	return result;
+}
+
+TreeItem* TreeListControl::getPrevItem( TreeItem* item )
+{
+	TreeItem* result = NULL;
+
+	TreeModel* tm = getTreeModel();
+
+	if ( NULL != item ) {
+		TreeItem* prevItem = item->getPrevChildNodeItem();
+
+		if ( NULL == prevItem ) {
+			if ( item->getParent() ) {
+				prevItem = item->getParent();
+			}
+			else {
+				Enumerator<TreeItem*>* items = tm->getRootItems();
+				TreeItem* nextItem = NULL;
+				if ( items->hasMoreElements() ) {
+					prevItem = items->nextElement();
+				}
+
+				while ( items->hasMoreElements() ) {					
+					nextItem = items->nextElement();
+
+					if ( nextItem == item ) {						
+						break;
+					}
+
+					if ( prevItem == item ) { //first element, return the parent
+						prevItem = item->getParent();
+						break;
+					}
+
+					prevItem = nextItem;
+				}
+			}
+		}
+
+		result = prevItem;
+	}
+	else {
+		Enumerator<TreeItem*>* items = tm->getRootItems();
+		//get first item!
+		if ( items->hasMoreElements() ) {
+			result = items->nextElement();
+		}
+	}
+
+	return result;
+}
+
+void TreeListControl::scrollToNextItem( TreeItem* item, bool scrollDown )
+{
+	Scrollable* scrollable = getScrollable();
+	if ( NULL != scrollable ) {
+		Rect clientBounds = getClientBounds();
+		Rect itemBounds = *item->getBounds();
+		
+		
+		double virtualHeight = scrollable->getVirtualViewHeight();
+
+		if ( scrollDown ) {
+			//skip at least one item ahead, so double the item height
+			double adjustedBottom = (itemBounds.getHeight()*2 + itemBounds.top_) - scrollable->getVerticalPosition();
+
+			if ( adjustedBottom > clientBounds.bottom_ ) {
+				double newPos = item->getBounds()->getHeight() + 
+					scrollable->getVerticalPosition();
+				if ( (adjustedBottom - clientBounds.bottom_) < (itemBounds.getHeight()*2) ) {
+					newPos += ((itemBounds.getHeight()*2) - (adjustedBottom - clientBounds.bottom_));
+				}
+				
+				newPos = minVal<double>( newPos, virtualHeight );
+				
+				//move the scroll down
+				scrollable->setVerticalPosition( newPos );
+			}
+		}
+		else {
+			double adjustedTop = (itemBounds.top_ - itemBounds.getHeight()*2 ) - scrollable->getVerticalPosition();
+
+			if ( adjustedTop < clientBounds.top_ ) {
+				double newPos = scrollable->getVerticalPosition() -
+									item->getBounds()->getHeight();
+/*
+				adjustedTop = abs(adjustedTop);
+				if ( (adjustedTop - clientBounds.top_) < (itemBounds.getHeight()*2) ) {
+					newPos += ((itemBounds.getHeight()*2) + (adjustedTop - clientBounds.top_));
+				}
+*/
+				newPos = maxVal<double>( newPos, 0 );
+
+				scrollable->setVerticalPosition( newPos );
+			}
+		}
+	}
+}
+
+void TreeListControl::keyDown( KeyboardEvent* e )
+{
+	CustomControl::keyDown( e );
+
+	switch( e->getVirtualCode() ) {
+		case vkReturn : {
+
+			//editCell( clickCell_, Point() );
+
+		}
+		break;
+
+		case vkDownArrow : {
+			
+
+			TreeItem* item = getSelectedItem();
+			TreeItem* prevItem = item;
+
+			item = getNextItem( prevItem );
+
+			if ( (NULL != prevItem) && (!e->hasShiftKey() || !getAllowsMultipleSelection()) ) {
+				setSelectedItem( prevItem, false );
+			}
+			if ( NULL != item ) {
+				scrollToNextItem( item, true );
+				setSelectedItem( item, true );				
+			}			
+		}
+		break;
+
+		case vkLeftArrow : {
+			TreeItem* item = getSelectedItem();	
+			if ( NULL != item ) {
+				if ( item->isExpanded() ) {
+					item->expand( false );
+					recalcScrollable();
+				}
+				else {
+					if ( NULL != item->getParent() ) {
+						setSelectedItem( item, false );
+						setSelectedItem( item->getParent(), true );
+					}
+				}
+			}
+		}
+		break;
+
+		case vkRightArrow : {
+			TreeItem* item = getSelectedItem();	
+			if ( NULL != item ) {
+				if ( item->isExpanded() ) {
+					Enumerator<TreeItem*>* items = item->getChildren();
+					//get first item!
+					if ( items->hasMoreElements() ) {
+						setSelectedItem( item, false );
+						setSelectedItem( items->nextElement(), true );
+					}
+				}
+				else {
+					item->expand( true );
+					recalcScrollable();
+				}
+			}
+		}
+		break;
+
+		case vkUpArrow : {
+			TreeItem* item = getSelectedItem();
+			
+			TreeItem* prevItem = item;
+
+			item = getPrevItem( prevItem );
+
+			if ( (!e->hasShiftKey() || !getAllowsMultipleSelection()) && (NULL != prevItem) ) {
+				setSelectedItem( prevItem, false );
+			}
+
+			if ( NULL != item ) {
+				scrollToNextItem( item, false );
+				setSelectedItem( item, true );				
+			}
+		}
+		break;
+	}
 }
 
 void TreeListControl::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
+
+	finishEditing();
 
 	draggingSelectionRect_ = false;
 	Point pt = *event->getPoint();
@@ -950,7 +1397,7 @@ void TreeListControl::mouseDown( MouseEvent* event )
 		else {
 			singleSelectionChange( event );
 		}
-	}
+	}	
 }
 
 
@@ -1189,10 +1636,6 @@ void TreeListControl::setAllowLabelEditing( const bool& allowLabelEditing )
 	allowLabelEditing_ = allowLabelEditing;
 }
 
-void TreeListControl::setBounds( Rect* rect, const bool &anchorDeltasNeedUpdating )
-{
-	CustomControl::setBounds( rect, anchorDeltasNeedUpdating );
-}
 
 void TreeListControl::onColumnWidthChanged( ItemEvent* event )
 {
@@ -1284,12 +1727,12 @@ bool TreeListControl::listVisibleItems( std::vector<TreeItem*>& items, TreeItem*
 
 		Rect* bounds = itemToSearch->getBounds();
 		if ( bounds->isNull() || bounds->isEmpty() ) {
-			bounds->setRect( 1, itemHeight_ * items.size(), getWidth()-1, itemHeight_ * items.size() + itemHeight_ );
+			bounds->setRect( 1, itemHeight_ * items.size(), getWidth()-1, itemHeight_ * items.size() + itemHeight_ );			
 		}
 		if ( (bounds->bottom_ >= top) || (bounds->top_ < bottom) ){
 			items.push_back( itemToSearch );
 			result = true;
-			if ( (false == itemToSearch->isLeaf()) && (true == itemToSearch->isExpanded()) ) {
+			if ( (!itemToSearch->isLeaf()) && (itemToSearch->isExpanded()) ) {
 				//check children
 				Enumerator<TreeItem*>* children = itemToSearch->getChildren();
 				while ( children->hasMoreElements() ) {
@@ -1327,7 +1770,7 @@ void TreeListControl::populateVisiblityList( std::vector<TreeItem*>& items, Rect
 		if ( false == listVisibleItems( items, child, clientBounds.top_, clientBounds.bottom_ ) ) {
 			break;
 		}
-	}
+	}	
 }
 
 double TreeListControl::getCurrentIndent( TreeItem* item )
@@ -1543,10 +1986,123 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 	return result;
 }
 
+void TreeListControl::onEditingControlKeyPressed( KeyboardEvent* event ) 
+{
+	switch ( event->getVirtualCode() ) {
+		case vkEscape : {
+			cancelEditing();
+		}
+		break;
+
+		case vkReturn : {
+			event->setConsumed( true );
+			finishEditing();
+		}
+		break;
+
+		case vkDownArrow : case vkUpArrow : {
+			setFocused(); // this will kill the edit
+			
+			
+			KeyboardEvent* event2 =
+				new KeyboardEvent( this, event->getType(),
+				event->getRepeatCount(),
+				event->getKeyMask(),
+				event->getKeyValue(),
+				event->getVirtualCode() );
+			
+			handleEvent( event2 );
+			
+			event2->free();		
+			
+			TreeItem* item = getSelectedItem();
+			if ( NULL != item ) {
+				editItem( item, NULL );
+			}
+		}
+		break;
+	}
+}
+
+void TreeListControl::onEditorFocusLost( Event* e ) 
+{
+	finishEditing();
+}
+
+void TreeListControl::postFinishedEditing( Event* e ) {		
+	Control* editControl = (Control*) e->getUserData();
+
+	remove( editControl );
+	removeComponent( editControl );
+	editControl->free();
+	repaint();		
+}
+
+void TreeListControl::cancelEditing() {
+	finishEditing( false );
+}
+
+void TreeListControl::finishEditing( bool applyEdit ) {
+	if ( NULL == currentEditingControl_ ) {
+		return;
+	}
+
+	if ( applyEdit ) {
+		
+		TreeItem* item = getSelectedItem();
+		finishEditingItem( item, currentEditingControl_ );
+		
+	}
+
+	EventHandler* ev = getEventHandler( "TreeListControl::postFinishedEditing" );
+	if ( NULL == ev ) {
+		ev = 
+			new GenericEventHandler<TreeListControl>( this, &TreeListControl::postFinishedEditing, "TreeListControl::postFinishedEditing" );
+	}
+
+	Event* e = new Event( this );
+	e->setUserData( currentEditingControl_ );
+	UIToolkit::postEvent( ev, e, false );
+	currentEditingControl_ = NULL;
+}
+
+void TreeListControl::editItem( TreeItem* item, Point* point ) {
+	if ( NULL != currentEditingControl_ ) {
+		finishEditing();
+	}
+	currentEditingControl_ = NULL;
+	
+	if ( NULL != point ) {
+		currentEditColumn_ = hitTestForEditColumn( point );			
+	}
+	
+	Rect bounds = getBoundsForEdit( item, currentEditColumn_ );
+	
+	if ( currentEditColumn_ != -1 ) {		
+		currentEditingControl_ = createEditor( item, currentEditColumn_ );
+		
+		if ( NULL != currentEditingControl_ ) {			
+			currentEditingControl_->setBounds( &bounds );
+			EventHandler* ev = getEventHandler( "TreeListControl::onEditorFocusLost" );
+			currentEditingControl_->FocusLost += ev;
+			
+			add( currentEditingControl_ );
+			
+			currentEditingControl_->setVisible( true );
+			currentEditingControl_->setFocused();
+			
+			ev = getEventHandler( "TreeListControl::onEditingControlKeyPressed" );
+			currentEditingControl_->KeyDown.addHandler( ev );
+		}
+	}		
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.3.2.4  2005/02/10 04:38:46  augusto_roman
 ** Fixed rect::makeIntersection routine to correctly compute intersections when rects have common edges
 ** Fixed black background on image transformations (made background alpha 0)

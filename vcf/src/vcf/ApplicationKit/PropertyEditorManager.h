@@ -20,43 +20,82 @@ namespace VCF
 class PropertyEditor;
 
 /**
-* This is the class managing the property editors provided 
-* by the VCF framework, or by the user application.
-* In fact an instance for each kind of editor is already
-* instantiated by the UIToolkit.
-*@see UIToolkit::init()
+\par
+This is the class for managing the current list of
+property editors available for use in editing a property.
+Some of the default editors are provided by the framework
+itself, while other will be added by 3rd parties.
+\par
+This is a singleton class, and it's lifetime is managed by
+the UIToolkit, not by any other direct means or by developers
+using the framework. 
+\par
+The class allows the registration of property editor's at 
+run time. The usage is something like this:
+\code
+//define you cool PropertyEditor derived class
+class MyCoolEditor : public PropertyEditor {
+//rest of code ommitted
+};
+
+//in some initialization function:
+PropertyEditorManager::registerPropertyEditor( new MyCoolEditor(), "Foo" );
+\endcode
+This will register an instance of the MyCoolEditor class with any object
+that is of type "Foo". Type names for a given property are usually retrieved
+by calling the property's getTypeClassName() method.
+@see UIToolkit::init()
+@see PropertyEditor
+@see Property::getTypeClassName
 */
 class APPLICATIONKIT_API PropertyEditorManager : public Object
 {
 public:
+	/**
+	Called by the UIToolkit to create the singleton instance
+	for the framework.
+	*/
 	static PropertyEditorManager* create();
 
-	PropertyEditorManager();
-
-	virtual ~PropertyEditorManager();
+	/**
+	initializes the Property editor for use - must be called at start up
+	*/
+	static void initPropertyEditorManager();
+	
+	/**
+	Frees any memory used by initPropertyEditorManager(). Must be called before the
+	runtime shuts down.
+	*/
+	static void closePropertyEditorManager();
 
 	/**
-	*find a suitable property editor for a given
-	*classname.
+	find a suitable property editor for a given
+	classname.
+	@param String the class name of the property type - this is the same
+	name that should have been used in the call to registerPropertyEditor()
+	to register the property editor with the PropertyEditorManager.
+	@return PropertyEditor returns an intance of a property editor. If 
+	no match is found with the className parameter, then the return value is NULL.
 	*/
 	static PropertyEditor* findEditor( const String& className );
 
 	/**
-	*register a property editor for a given class name
+	Registers a property editor for a given class name. If an existing property
+	editor already exists with teh
+	@param PropertyEditor
+	@param String
+	@return bool 
 	*/
-	static void registerPropertyEditor( PropertyEditor* editor, const String& className );
+	static bool registerPropertyEditor( PropertyEditor* editor, const String& className );	
 
-	/**
-	*initializes the Property editor for use - must be called at start up
-	*/
-	static void initPropertyEditorManager();
-
-	/**
-	*frees any memory used by initPropertyEditorManager(). Must be called before the
-	*runtime shuts down
-	*/
-	static void closePropertyEditorManager();
 private:
+	PropertyEditorManager();
+	virtual ~PropertyEditorManager();
+
+	PropertyEditorManager( const PropertyEditorManager& ); //no copy
+	PropertyEditorManager& operator=( const PropertyEditorManager& ); //no assignment
+
+
 	static PropertyEditorManager* propertyEditorMgr;
 	std::map<String,PropertyEditor*> propertEditorMap_;
 
@@ -69,6 +108,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
+*bunch o bug fixes and enhancements to the property editor and treelist control.
+*
 *Revision 1.2.4.1  2005/01/24 18:11:59  marcelloptr
 *documentation
 *
