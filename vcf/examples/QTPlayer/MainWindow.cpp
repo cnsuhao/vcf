@@ -316,18 +316,7 @@ MainQTWindow::MainQTWindow():
 
 	bottom->setContainer( new FixedStandardContainer() );
 
-	/*
-	m_timerLabel = new Label();
-	m_timerLabel->setCaption( "No Movie" );
-	m_timerLabel->setWidth( 100 );
-	m_timerLabel->setTextAlignment( taTextCenter ) ;
-	m_timerLabel->setVerticalAlignment( tvaTextCenter );
-	Light3DBorder* border2 = new Light3DBorder();
-	border2->setInverted( true );
-	m_timerLabel->setBorder( border2 );
-	bottom->add( m_timerLabel, AlignLeft );
-	*/
-
+	
 	ImageControl* mute = new ImageControl();
 	img = resBundle->getImage( "mute" );
 	img->setTransparencyColor( &Color(0.0,1.0,0.0) );
@@ -450,9 +439,9 @@ void MainQTWindow::onFileOpenMovie( Event* e )
 
 			short vol = (volumeControl_->getPosition()/100.0) * 255.0;
 			
-			QuickTimeMovie* movie = m_quicktimeControl->getMovie();	
+			QuickTimeMovie& movie = *m_quicktimeControl->getMovie();	
 			
-			::SetMovieVolume( movie->getMovie(), vol );
+			::SetMovieVolume( movie, vol );
 			
 			m_statusBar->setStatusText( 0, "Movie Opened" );
 
@@ -534,7 +523,7 @@ void MainQTWindow::onMovieFrameChanged( Event* movieEvent )
 	int minutes = i_seconds / 60;
 	i_seconds = i_seconds - (minutes*60);
 
-	short tmp = ::GetMovieVolume( movie->getMovie() ) * 100;
+	short tmp = ::GetMovieVolume( *movie ) * 100;
 	int volume = tmp / 255;
 
 	String s = StringUtils::format( "%02d:%02d:%02d Volume: %d %%", hours, minutes, i_seconds, volume );	
@@ -626,11 +615,11 @@ void MainQTWindow::onVolumeChanged( VCF::Event* event )
 {
 	short vol = (volumeControl_->getPosition()/100.0) * 255.0;
 
-	QuickTimeMovie* movie = m_quicktimeControl->getMovie();	
+	QuickTimeMovie& movie = *m_quicktimeControl->getMovie();	
 
-	::SetMovieVolume( movie->getMovie(), vol );
+	::SetMovieVolume( movie, vol );
 
-	vol = ::GetMovieVolume( movie->getMovie() ) * 100;
+	vol = ::GetMovieVolume( movie ) * 100;
 
 	String s = StringUtils::format( "Volume: %d %%", vol/255 );	
 	m_statusBar->setStatusText( -1, s );
