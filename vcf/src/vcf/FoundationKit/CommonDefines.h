@@ -1,0 +1,382 @@
+
+#if     _MSC_VER > 1000
+#pragma once
+#endif
+
+
+#ifndef _VCF_COMMONDEFINES_H__
+#define _VCF_COMMONDEFINES_H__
+
+
+/**
+*Copyright (c) 2000-2001, Jim Crafton
+*All rights reserved.
+*Redistribution and use in source and binary forms, with or without
+*modification, are permitted provided that the following conditions
+*are met:
+*	Redistributions of source code must retain the above copyright
+*	notice, this list of conditions and the following disclaimer.
+*
+*	Redistributions in binary form must reproduce the above copyright
+*	notice, this list of conditions and the following disclaimer in 
+*	the documentation and/or other materials provided with the distribution.
+*
+*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
+*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+*NB: This software will not save the world.
+*/
+
+//CommonDefines.h
+
+
+namespace VCF
+{
+
+/**
+*Standard types for representing 
+*property data
+*/
+enum PropertyDescriptorType{
+	pdUndefined = 0,
+	pdInt,
+	pdLong,
+	pdShort,
+	pdULong,
+	pdFloat,
+	pdChar,
+	pdDouble,
+	pdObject,
+	pdBool,
+	pdString,
+	pdEnum,
+	pdInterface,
+	pdEnumMask
+};
+
+/**
+*the controls alignment type
+*/
+enum AlignmentType{
+    AlignNone=0,
+    AlignTop,
+    AlignLeft,
+    AlignRight,
+    AlignBottom,
+    AlignClient
+};
+
+/**
+*A string array for the controls alignement types
+*/
+static String AlignmentTypeNames[] = { "AlignNone", 
+                                         "AlignTop", 
+										 "AlignLeft", 
+										 "AlignRight", 
+										 "AlignBottom", 
+										 "AlignClient" };
+
+
+/**
+*An enum of anchor types for a control,
+*may be masked together 
+*/
+enum AnchorType {
+	AnchorNone = 0,
+	AnchorTop = 1,
+	AnchorLeft = 2,
+	AnchorBottom = 4,
+	AnchorRight = 8
+};
+
+/**
+*an array of Anchor type names
+*/
+static String AnchorTypeNames[] = { "AnchorNone", 
+                                         "AnchorTop", 
+										 "AnchorLeft", 
+										 "AnchorBottom", 
+										 "AnchorRight" };
+
+static unsigned long AnchorTypeValues[] = { AnchorNone, 
+                                         AnchorTop, 
+										 AnchorLeft, 
+										 AnchorBottom, 
+										 AnchorRight };
+
+/**
+*An enum of icon styles for list views
+*/
+enum IconStyleType {
+	isLargeIcon=0,
+	isSmallIcon,
+	isList,
+	isDetails
+};
+
+/**
+*An enum of icon alignment types for list views
+*/
+enum IconAlignType {
+	iaNone=0,
+	iaTop,
+	iaLeft,
+	iaAutoArrange
+};
+
+static String IconStyleTypeNames[] = { "isLargeIcon", 
+                                         "isSmallIcon", 
+										 "isList", 
+										 "isDetails" };
+
+static String IconAlignTypeNames[] = { "iaNone", 
+                                         "iaTop", 
+										 "iaLeft", 
+										 "iaAutoArrange" };
+
+
+enum TextAlignmentType {
+	taTextLeft = 0,
+	taTextCenter,
+	taTextRight
+};
+
+static String TextAlignmentTypeNames[] = { "taTextLeft", 
+                                         "taTextCenter", 
+										 "taTextRight" };
+
+
+/**
+*Mouse button masks
+*/
+enum MouseButtomMasks{
+	mbmUndefined = 0,
+	mbmLeftButton = 1,
+	mbmMiddleButton = 2,
+	mbmRightButton = 4
+};
+
+/**
+*Keyboard masks
+*/
+
+enum KeyboardMasks{
+	kmUndefined = 0,
+	kmAlt = 1,
+	kmShift = 2,
+	kmCtrl = 4
+};
+
+
+//conversion defines
+#define INT_STR_CONVERSION			"%d "
+#define LONG_STR_CONVERSION			"%d "
+#define SHORT_STR_CONVERSION		"%d "
+#define FLOAT_STR_CONVERSION		"%.5f "
+#define DOUBLE_STR_CONVERSION		"%.5f "
+#define BOOL_STR_CONVERSION_TRUE	"true "
+#define BOOL_STR_CONVERSION_FALSE	"false "
+
+#define STR_INT_CONVERSION			"%d"
+#define STR_LONG_CONVERSION			"%d"
+#define STR_ULONG_CONVERSION		"%d"
+#define STR_CHAR_CONVERSION			"%c"
+#define STR_SHORT_CONVERSION		"%d"
+#define STR_FLOAT_CONVERSION		"%f"
+#define STR_DOUBLE_CONVERSION		"%f"
+#define STR_BOOL_CONVERSION_TRUE	"true"
+#define STR_BOOL_CONVERSION_FALSE	"false"
+
+
+#define W_INT_STR_CONVERSION			L"%d "
+#define W_LONG_STR_CONVERSION			L"%d "
+#define W_SHORT_STR_CONVERSION			L"%d "
+#define W_FLOAT_STR_CONVERSION			L"%.5f "
+#define W_DOUBLE_STR_CONVERSION			L"%.5f "
+#define W_BOOL_STR_CONVERSION_TRUE		L"true "
+#define W_BOOL_STR_CONVERSION_FALSE		L"false "
+
+#define W_STR_INT_CONVERSION			L"%d"
+#define W_STR_LONG_CONVERSION			L"%d"
+#define W_STR_ULONG_CONVERSION			L"%d"
+#define W_STR_CHAR_CONVERSION			L"%c"
+#define W_STR_SHORT_CONVERSION			L"%d"
+#define W_STR_FLOAT_CONVERSION			L"%f"
+#define W_STR_DOUBLE_CONVERSION			L"%f"
+#define W_STR_BOOL_CONVERSION_TRUE		L"true"
+#define W_STR_BOOL_CONVERSION_FALSE		L"false"
+
+
+
+enum VirtualKeyCode{
+	vkUndefined = 0,
+	vkF1 = 200,
+	vkF2,
+	vkF3,
+	vkF4,
+	vkF5,
+	vkF6,
+	vkF7,
+	vkF8,
+	vkF9,
+	vkF10,
+	vkF11,
+	vkF12,
+	vkUpArrow,
+	vkDownArrow,
+	vkLeftArrow,
+	vkRightArrow,
+	vkPgUp,
+	vkPgDown,
+	vkHome,
+	vkEnd,
+	vkInsert,
+	vkDelete,
+	vkBackSpace,
+	vkNumber0,
+	vkNumber1,
+	vkNumber2,
+	vkNumber3,
+	vkNumber4,
+	vkNumber5,
+	vkNumber6,
+	vkNumber7,
+	vkNumber8,
+	vkNumber9,
+	vkLetterA,
+	vkLetterB,
+	vkLetterC,
+	vkLetterD,
+	vkLetterE,
+	vkLetterF,
+	vkLetterG,
+	vkLetterH,
+	vkLetterI,
+	vkLetterJ,
+	vkLetterK,
+	vkLetterL,
+	vkLetterM,
+	vkLetterN,
+	vkLetterO,
+	vkLetterP,
+	vkLetterQ,
+	vkLetterR,
+	vkLetterS,
+	vkLetterT,
+	vkLetterU,
+	vkLetterV,
+	vkLetterW,
+	vkLetterX,
+	vkLetterY,
+	vkLetterZ,
+	vkSpaceBar,
+	vkReturn,
+	vkAlt,
+	vkShift,
+	vkCtrl,
+	vkTab,
+	vkEscape,
+	vkLeftApostrophe,			//`			
+	vkTilde,					//~
+	vkExclamation,				//!
+	vkCommercialAt,				//@
+	vkNumberSign,				//#
+	vkDollarSign,				//$
+	vkPercent,					//%
+	vkCircumflex,				//^
+	vkAmpersand,				//&
+	vkAsterix,					//*
+	vkOpenParen,				//(
+	vkCloseParen,				//)
+	vkHyphen,					//-
+	vkUnderbar,					//_
+	vkEqualsSign,				//=
+	vkPlusSign,					//+
+	vkUprightBar,				//|
+	vkBackSlash,				/* \   */
+	vkOpenBracket,				//[
+	vkOpenBrace,				//{
+	vkCloseBracket,				//]
+	vkCloseBrace,				//}
+	vkSemiColon,
+	vkColon,
+	vkSingleQuote,
+	vkDoubleQuote,
+	vkComma,
+	vkLessThan,
+	vkPeriod,
+	vkGreaterThan,
+	vkForwardSlash,
+	vkQuestionMark,	
+	//miscellaneous
+	vkPrintScreen,
+	vkScrollLock,
+	vkPause,
+	vkCapsLock,
+	//substitutions
+	vkMinusSign = vkHyphen,
+	vkDivideSign = vkForwardSlash,
+	vkMultiplySign = vkAsterix,
+	vkEnter = vkReturn
+};
+
+
+};//end of namespace VCF
+	
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
+*migration towards new directory structure
+*
+*Revision 1.14.2.2  2004/04/26 21:58:18  marcelloptr
+*changes for dir reorganization: _VCF_MACRO_H__
+*
+*Revision 1.14.2.1  2004/04/21 02:17:07  ddiego
+*checking in change to FoundationKit, GraphicsKit and Application
+*Kit to support unicode in Win32
+*
+*Revision 1.14  2004/01/20 01:54:55  ddiego
+*merged some more changes from dev branch, primarily changes to
+*teh RTTI API so that we now process enum sets correctly (i.e. a long
+*that is a mask made of enum values).
+*
+*Revision 1.13.2.1  2004/01/18 04:52:45  ddiego
+*Added a new EnumSet class that handles manipulating unsigned longs
+*as a mask of bits. Adds support for reading in the enum value names and
+*ORing them together to form the complete mask value. Also made
+*mods to the VFFOutput and VFFInput stream classes so that that the []
+*property is correctly read and written
+*
+*Revision 1.13  2003/12/18 05:15:56  ddiego
+*merge from devmain-0-6-2 branch into the stable branch
+*
+*Revision 1.12.26.1  2003/10/23 04:24:50  ddiego
+*more musical chairs with headers again, in yet another attempt to make
+*them more efficent to speed up compiles.
+*Removed all teh template RTTI classes and put them all in one header
+*called VCFRTTIImpl.h. This should help compile speeds a bit.
+*The next step is to look at some of the event classes and remove ones
+*that aren't really neccessary - I'd estimate that 50% of the current
+*event classes are unneccessary and can be removed.
+*
+*Revision 1.12  2002/01/24 01:46:47  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
+
+
+#endif // _VCF_COMMONDEFINES_H__
+
+
