@@ -26,7 +26,16 @@ class MenuBarPeer;
 #define MENUBAR_CLASSID		"7B6F28B4-3E3F-11d4-B555-00C04F0196DA"
 
 
+
+/**
+A manue bar is used to control a menu associated with either the application or 
+a Frame. For most windowing systems, this will change the menu bar that is displayed
+at the top of the widow frame, usually directly underneath the caption bar. On
+other windowing systems, like Mac OSX, this will change the top level menu located
+at the top of the screen.
+*/
 class APPLICATIONKIT_API MenuBar : public Menu {
+
 public:
 
 	MenuBar();
@@ -41,6 +50,10 @@ public:
 
 	void init();
 
+	/**
+	Sets the menu bar's frame. If a NULL frame is passed in
+	the menu is removed from it's frame
+	*/
 	void setFrame( Frame* frame );
 
 	void onMenutItemAdded( ItemEvent* event );
@@ -62,6 +75,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/01 04:02:17  ddiego
+*minor stuff
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

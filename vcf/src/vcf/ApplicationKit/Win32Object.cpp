@@ -89,7 +89,7 @@ void Win32Object::registerWin32Class( const String& className, WNDPROC wndProc )
 		wcex.hInstance		= (HINSTANCE)::GetModuleHandle(NULL);
 		wcex.hIcon			= LoadIconW( Win32ToolKit::getInstanceHandle(), L"DefaultVCFIcon" );
 		wcex.hCursor		= NULL;//LoadCursor(NULL, IDC_ARROW);
-		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_WINDOW+1);
+		wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
 		wcex.lpszMenuName	= NULL;
 		wcex.lpszClassName	= className.c_str();
 		wcex.hIconSm		= NULL;
@@ -236,6 +236,9 @@ Control* Win32Object::getPeerControl()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/01 04:02:17  ddiego
+*minor stuff
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -55,7 +55,17 @@ public:
 	}
 
 	bool closeDocumentWindow( Window* window ) {
-		StringUtils::trace( "closeDocumentWindow\n" );
+		
+		if ( currentDocument_->isModified() ) {
+			if ( !VCF::DocumentManager::getDocumentManager()->saveDocument( currentDocument_ ) ) {
+				return false;
+			}
+		}					
+		
+		VCF::DocManagerEvent event( currentDocument_, VCF::DocumentManager::dmCloseDocument );
+		
+		VCF::DocumentManager::getDocumentManager()->DocumentClosed.fireEvent( &event );
+
 		currentDocument_ = NULL;
 		window->setView( NULL );
 		window->setViewModel( NULL );
@@ -81,7 +91,6 @@ public:
 	}
 
 	void documentWindowActivated( Window* window ) {
-		StringUtils::trace( "documentWindowActivated\n" );
 
 		window->setCaption( getDocumentWindowCaption() );
 	}
@@ -269,6 +278,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/01 04:02:17  ddiego
+*minor stuff
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

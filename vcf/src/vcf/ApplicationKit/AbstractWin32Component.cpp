@@ -142,6 +142,9 @@ void AbstractWin32Component::setText( const VCF::String& text )
 
 void AbstractWin32Component::setBounds( VCF::Rect* rect )
 {
+		
+	/*
+	JEC - I commented this out to simplify/speed up some resize/repaint issues
 	HDWP winPosInfo = NULL;
 	if ( NULL != parent_ ) {
 		winPosInfo = parent_->getWindPosInfo();
@@ -156,30 +159,37 @@ void AbstractWin32Component::setBounds( VCF::Rect* rect )
 		::SetWindowPos( hwnd_, NULL, (int)rect->left_, (int)rect->top_,
                     (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );
 	}
+	*/
 	//
 
-	//::MoveWindow( hwnd_, (int)rect->left_, (int)rect->top_, rect->getWidth(), (int)rect->getHeight(), TRUE );
+	::MoveWindow( hwnd_, (int)rect->left_, (int)rect->top_, rect->getWidth(), (int)rect->getHeight(), TRUE );
 }
 
 
 
 bool AbstractWin32Component::beginSetBounds( const ulong32& numberOfChildren )
 {
+	/*
+	JEC - I commented this out to simplify/speed up some resize/repaint issues
 	bool result = false;
 
 	winPosInfo_ = NULL;
 	winPosInfo_ = ::BeginDeferWindowPos( numberOfChildren );
 
 	result = (NULL != winPosInfo_);
+	*/
 
-	return result;
+	return true;//result;
 }
 
 void AbstractWin32Component::endSetBounds()
 {
+	/*
+	JEC - I commented this out to simplify/speed up some resize/repaint issues
 	::EndDeferWindowPos( winPosInfo_ );
 
 	winPosInfo_ = NULL;
+	*/
 }
 
 VCF::Rect AbstractWin32Component::getBounds()
@@ -397,8 +407,9 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						memDC_ = ::CreateCompatibleDC( dc );
 						::ReleaseDC( 0,	dc );
 					}
+
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
-						//return 0;
+						return 0;
 					}
 
 					PAINTSTRUCT ps;
@@ -429,13 +440,15 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					else if ( true == peerControl_->isDoubleBuffered() ){
 						int dcState = ::SaveDC( memDC_ );
 
+						Rect clientBounds = peerControl_->getBounds();
+
 						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
-																		ps.rcPaint.right - ps.rcPaint.left,
-																		ps.rcPaint.bottom - ps.rcPaint.top );
+																		(int)clientBounds.getWidth(), //ps.rcPaint.right - ps.rcPaint.left,
+																		(int)clientBounds.getHeight() );//ps.rcPaint.bottom - ps.rcPaint.top );
 
 						HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );
 
-						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
+						//::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
 
 						//this is really dippy to have to do this here ?
 						//by setting the owning control to NULL we
@@ -446,6 +459,8 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 						//internally - however this does get the job done
 						ctx->getPeer()->setContextID( (long)memDC_ );
 
+						
+
 						((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
 
 						peerControl_->paint( ctx );
@@ -454,19 +469,24 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 
 						//reset back to original origin
-						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
+						//::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
 
-
-						int err = ::BitBlt( ps.hdc, ps.rcPaint.left, ps.rcPaint.top,
+						
+						int err = ::BitBlt( ps.hdc, 0, 0,
+											(int)clientBounds.getWidth(),
+											(int)clientBounds.getHeight(),
+											memDC_, 0, 0, SRCCOPY );
+											/*
+								  ::BitBlt( ps.hdc, ps.rcPaint.left, ps.rcPaint.top,
 											ps.rcPaint.right - ps.rcPaint.left,
 											ps.rcPaint.bottom - ps.rcPaint.top,
 											memDC_, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY );
-
-						::SelectObject( memDC_, oldBMP );
-
-						::DeleteObject( memBitmap );
+											*/
 
 						::RestoreDC ( memDC_, dcState );
+
+						::DeleteObject( memBitmap );
+						
 
 						if ( err == FALSE ) {
 							err = GetLastError();
@@ -1068,6 +1088,9 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/01 04:02:13  ddiego
+*minor stuff
+*
 *Revision 1.1.2.3  2004/06/05 01:55:20  marcelloptr
 *moved some files to the directory where they logically belong
 *

@@ -28,9 +28,12 @@ Win32MenuBar::~Win32MenuBar()
 }
 
 void Win32MenuBar::setFrame( Frame* frame )
-{
+{	
+	Frame* oldFrame = frame_;
 	frame_ = frame;
-	if ( (NULL != frame_) && (NULL != menuRoot_) ){
+
+	if ( (NULL != frame_) && (NULL != menuRoot_) ){		
+
 		ControlPeer* Peer = frame_->getPeer();
 		HWND wnd = (HWND)Peer->getHandleID();
 
@@ -38,6 +41,9 @@ void Win32MenuBar::setFrame( Frame* frame )
 
 		HMENU menu = (HMENU) itemImpl->getMenuID();
 		SetMenu( wnd, menu );
+	}
+	else if ( NULL == frame_ && NULL != oldFrame ) {
+		SetMenu( (HWND)oldFrame->getPeer()->getHandleID(), NULL );		
 	}
 }
 
@@ -60,6 +66,9 @@ void Win32MenuBar::setMenuItems( MenuItem* item )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/01 04:02:17  ddiego
+*minor stuff
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
