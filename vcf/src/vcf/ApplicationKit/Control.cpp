@@ -525,9 +525,8 @@ void Control::handleEvent( Event* event )
 				if (mouseEvent->hasLeftButton() || mouseEvent->hasRightButton() || mouseEvent->hasMiddleButton() ) {
 					if ( (true == autoStartDragDrop_) ) { //&& (false == dragDropStarted_) ) {
 						if ( true == canBeginDragDrop( mouseEvent->getPoint() ) ) {
-							//dragDropStarted_ = true;
-							
-							if ( beginDragDrop ( mouseEvent ) ) {								
+							//dragDropStarted_ = true;							
+							if ( beginDragDrop ( mouseEvent ) ) {
 								return;
 							}
 						}
@@ -1467,6 +1466,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/01/01 20:31:07  ddiego
+*made an adjustment to quitting and event loop, and added some changes to the DefaultTabModel.
+*
 *Revision 1.4.2.2  2004/12/31 17:41:23  ddiego
 *fixes a drag-drop bug, initially listed under the vcfbuilders
 *bug list
