@@ -62,6 +62,7 @@ public:
 		*/
 		mainWindow->setCaption( "Hello World" );
 		
+        mainWindow->setBounds( 100, 100, 500, 500 );
 		/**
 		*show the main window.
 		*By default the window is invisible until 
