@@ -14,7 +14,7 @@ your own layout algorithms.
 
 /**
 This represents a custom container class. We derive from 
-AbstractContainer, as it implements all teh grunt methods for 
+AbstractContainer, as it implements all the grunt methods for 
 a container. The one key method we need to implement ourselves
 is the resizeChildren() method. This is where all our layout 
 logic will be performed.

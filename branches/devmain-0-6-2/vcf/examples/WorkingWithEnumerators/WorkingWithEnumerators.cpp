@@ -161,11 +161,11 @@ void example3()
 	hasMoreElements() to match the backwards reset
 	above.
 	*/
-	while ( classes->hasMoreElements() ) {
+	while ( classes->hasMoreElements(true) ) {
 		/**
 		get the next element
 		*/
-		Class* clazz = classes->nextElement();
+		Class* clazz = classes->prevElement();
 
 		/**
 		print out the class name
@@ -232,11 +232,11 @@ void example4()
 	/**
 	Enumerate all the elements going backward
 	*/
-	while ( stringEnum->hasMoreElements() ) {
+	while ( stringEnum->hasMoreElements(true) ) {
 		/**
 		get the next element
 		*/
-		String s = stringEnum->nextElement();
+		String s = stringEnum->prevElement();
 
 		
 		System::println( s );
