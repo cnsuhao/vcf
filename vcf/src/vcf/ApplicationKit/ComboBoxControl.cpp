@@ -820,8 +820,6 @@ void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
 	// if we select an item, the focus will go to the DropDownListBox instead.
 
 	if ( vkReturn == event->getVirtualCode() ) {
-		ListItem* item = this->getSelectedItem();
-
 		if ( NULL != dropDown_ ) { // MP-begin
 			ListItem* item = ((ComboBoxDropDown*)dropDown_)->getListBox()->getSelectedItem();
 
@@ -849,6 +847,10 @@ void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
 			}
 		}
 
+	}
+	else if ( vkEscape == event->getVirtualCode() ) {
+		Event ev( this );
+		closeDropDown( &ev );
 	}
 	else {
 		if ( NULL != dropDown_ ) {
@@ -1042,6 +1044,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/01/31 02:47:45  marcelloptr
+*bugfix [1112867] Press Return on ComboBox changes the selected item's caption
+*
 *Revision 1.3.2.7  2005/01/31 01:40:18  marcelloptr
 *bugfix [1112867] Press Return on ComboBox changes the selected item's caption
 *
