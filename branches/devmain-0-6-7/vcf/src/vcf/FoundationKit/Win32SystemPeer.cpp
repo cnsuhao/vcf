@@ -118,36 +118,42 @@ void Win32SystemPeer::addPathDirectory( const String& directory )
 	if ( System::isUnicodeEnabled() ) {
 		String newValue;
 		String variableName = L"PATH";
-		VCFChar path[4096];
-		memset( path, 0, 4096*sizeof(VCFChar) );
+		int charRequired = 32767; // max size accepted by SetEnvironmentVariable including trailing null terminator.
+		VCFChar* path = new VCFChar[charRequired];
+		memset( path, 0, charRequired*sizeof(VCFChar) );
 		
-		if ( ::GetEnvironmentVariableW( variableName.c_str(), path, (4096-1)*sizeof(VCFChar) ) ) {
+		if ( ::GetEnvironmentVariableW( variableName.c_str(), path, charRequired ) ) { // here size is the number of TCHARs
 			newValue = path;
 			newValue += ";" + tmpDir;
 
-			if ( newValue.size() > 256 ) { //is 256 really the correct value to check for here?
+			if ( newValue.size() > (charRequired-1) ) {
 				//warn about the path potentially being too long
-				StringUtils::trace( "WARNING: Path being assigned is greater than 256 characters!\n" ); 
+				StringUtils::trace( "WARNING: Path being assigned is greater than 32766 characters!\n" ); 
 			}
 			SetEnvironmentVariableW( variableName.c_str(), newValue.c_str() );
-		}	
+		}
+
+		delete path;
 	}
 	else {
 		AnsiString newValue;
 		AnsiString variableName = "PATH";
-		char path[4096];
-		memset( path, 0, 4096*sizeof(char) );
+		int charRequired = 32767; // max size accepted by SetEnvironmentVariable including trailing null terminator.
+		char* path = new char[charRequired];
+		memset( path, 0, charRequired*sizeof(char) );
 		
-		if ( ::GetEnvironmentVariableA( variableName.c_str(), path, (4096-1)*sizeof(char) ) ) {
+		if ( ::GetEnvironmentVariableA( variableName.c_str(), path, charRequired ) ) { // here size is the number of TCHARs
 			newValue = path;
 			newValue += ";" + tmpDir;
 
-			if ( newValue.size() > 256 ) { //is 256 really the correct value to check for here?
+			if ( newValue.size() > (charRequired-1) ) {
 				//warn about the path potentially being too long
-				StringUtils::trace( "WARNING: Path being assigned is greater than 256 characters!\n" ); 
+				StringUtils::trace( "WARNING: Path being assigned is greater than 32766 characters!\n" ); 
 			}
 			SetEnvironmentVariableA( variableName.c_str(), newValue.c_str() );
 		}
+
+		delete path;
 	}
 }
 
@@ -379,6 +385,9 @@ ProgramInfo* Win32SystemPeer::getProgramInfoFromFileName( const String& fileName
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/08 00:03:45  marcelloptr
+*fixed buffer management for GetEnvironmentVariable
+*
 *Revision 1.3.2.1  2004/12/19 04:05:02  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
