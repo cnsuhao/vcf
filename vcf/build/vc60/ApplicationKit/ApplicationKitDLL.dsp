@@ -373,10 +373,6 @@ SOURCE=..\..\..\include\core\Selectable.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\SliderControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TableItemEditor.h
 # End Source File
 # Begin Source File
@@ -676,10 +672,6 @@ SOURCE=..\..\..\src\IO\ResourceStream.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\ScrollbarManager.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\SliderControl.cpp
 # End Source File
 # Begin Source File
 
@@ -1536,6 +1528,14 @@ SOURCE=..\..\..\include\core\ScrollBarControl.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\ScrollbarManager.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\SliderControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\SliderControl.h
 # End Source File
 # Begin Source File
 
