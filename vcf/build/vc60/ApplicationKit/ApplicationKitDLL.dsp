@@ -737,10 +737,6 @@ SOURCE=..\..\..\include\io\ResourceStream.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\RichTextPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Scrollable.h
 # End Source File
 # Begin Source File
@@ -778,10 +774,6 @@ SOURCE=..\..\..\include\implementer\StrokeState.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TabbedPages.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\TabbedPagesPeer.h
 # End Source File
 # Begin Source File
 
