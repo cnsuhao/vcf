@@ -16,51 +16,59 @@ where you installed the VCF.
 using namespace VCF;
 
 
-UnicodeString::AnsiStringMap UnicodeString::allocatedAnsiStrings;
 
 
-UnicodeString::UnicodeString(const std::string& rhs)
+
+UnicodeString::UnicodeString(const std::string& rhs):
+	ansiDataBuffer_(NULL)
 {
 	UnicodeString::transformAnsiToUnicode( rhs.c_str(), rhs.size(), data_ );
 }
 
-UnicodeString::UnicodeString(const UnicodeString::AnsiChar* string )
+UnicodeString::UnicodeString(const UnicodeString::AnsiChar* string ):
+	ansiDataBuffer_(NULL)
 {
 	UnicodeString::transformAnsiToUnicode( string, strlen(string), data_ );
 }
 
 UnicodeString::UnicodeString(const UnicodeString::UniChar* string ):
-	data_(string)
+	data_(string),
+	ansiDataBuffer_(NULL)
 {
 
 }
 
 
-UnicodeString::UnicodeString(const UnicodeString::AnsiChar* string, UnicodeString::size_type stringLength )
+UnicodeString::UnicodeString(const UnicodeString::AnsiChar* string, UnicodeString::size_type stringLength ):
+	ansiDataBuffer_(NULL)
 {
 	UnicodeString::transformAnsiToUnicode( string, stringLength, data_ );
 }
 
 UnicodeString::UnicodeString(const UnicodeString::UniChar* string, UnicodeString::size_type stringLength ):
-	data_(string,stringLength)
+	data_(string,stringLength),
+	ansiDataBuffer_(NULL)
 {
 }
 
 UnicodeString::UnicodeString( size_type n, UnicodeString::AnsiChar c ):
-	data_( n, UnicodeString::transformAnsiCharToUnicodeChar(c) )
+	data_( n, UnicodeString::transformAnsiCharToUnicodeChar(c) ),
+	ansiDataBuffer_(NULL)
 {
 
 }
 
 UnicodeString::UnicodeString( size_type n, UnicodeString::UniChar c ):
-	data_(n, c)
+	data_(n, c),
+	ansiDataBuffer_(NULL)
 {
 
 }
 
 
 #ifdef VCF_OSX
-UnicodeString::UnicodeString(const wchar_t* string )
+UnicodeString::UnicodeString(const wchar_t* string ):
+	ansiDataBuffer_(NULL)
 {
 	//!!!!!!!!!!!!!!!!!!MAJOR HACK ALERT!!!!!!!!!!!!!!!
 	//Because *&^$%'n Apple doesn't provide wcslen we have to do this here - completely
@@ -102,7 +110,10 @@ UnicodeString::UnicodeString(const wchar_t* string )
 
 UnicodeString::~UnicodeString()
 {
-	garbageCollectAnsiStrings();
+	if ( NULL != ansiDataBuffer_ ) {
+		delete [] ansiDataBuffer_;
+		ansiDataBuffer_ = NULL;
+	}
 }
 
 void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, UnicodeString::size_type stringLength, UnicodeString::StringData& newStr )
@@ -287,8 +298,7 @@ const UnicodeString::AnsiChar* UnicodeString::decode_ansi( TextCodec* codec ) co
 	ulong32 size = codec->convertToAnsiString( *this, NULL, 0 );
 	if ( size > 0 ) {
 		result = new UnicodeString::AnsiChar[size+1];
-		codec->convertToAnsiString( *this, result, size );
-		internal_registerAnsiStringForGarbageCollection( result );
+		codec->convertToAnsiString( *this, result, size );		
 	}
 
 	return result;
@@ -302,43 +312,13 @@ UnicodeString UnicodeString::decode( TextCodec* codec ) const
 void UnicodeString::encode( TextCodec* codec, const UnicodeString::AnsiChar* str, UnicodeString::size_type n )
 {
 	*this = codec->convertToUnicodeString( str, n );
+	modified();
 }
 
 void UnicodeString::encode( TextCodec* codec, const UnicodeString& str )
 {
 	*this = codec->convertToUnicodeString( str );
-}
-
-
-
-void UnicodeString::garbageCollectAnsiStrings()
-{
-	if ( UnicodeString::allocatedAnsiStrings.empty() ) {
-		return;
-	}
-
-	std::pair<UnicodeString::AnsiStringMap::iterator, UnicodeString::AnsiStringMap::iterator> range =
-		UnicodeString::allocatedAnsiStrings.equal_range( this );
-
-	std::vector<UnicodeString::AnsiStringMap::iterator> removeList;
-	UnicodeString::AnsiStringMap::iterator it = range.first;
-	while ( it != range.second ) {
-		delete [] it->second;
-		removeList.push_back( it );
-
-		it ++;
-	}
-
-	std::vector<UnicodeString::AnsiStringMap::iterator>::iterator removeIt = removeList.begin();
-	while ( removeIt != removeList.end() ) {
-		UnicodeString::allocatedAnsiStrings.erase( *removeIt );
-		removeIt ++;
-	}
-}
-
-void UnicodeString::internal_registerAnsiStringForGarbageCollection( AnsiChar* str ) const
-{
-	UnicodeString::allocatedAnsiStrings.insert( AnsiStringMapEntry( this, str ) );
+	modified();
 }
 
 
@@ -387,7 +367,8 @@ bool UnicodeString::operator <=( const UnicodeString::AnsiChar* rhs ) const
 
 UnicodeString& UnicodeString::operator=(const UnicodeString::AnsiChar *s)
 {
-	 UnicodeString::transformAnsiToUnicode( s, strlen(s), data_ );
+	UnicodeString::transformAnsiToUnicode( s, strlen(s), data_ );
+	modified();
 
 	return *this;
 }
@@ -395,21 +376,23 @@ UnicodeString& UnicodeString::operator=(const UnicodeString::AnsiChar *s)
 UnicodeString& UnicodeString::operator=(UnicodeString::AnsiChar c)
 {
 	data_ = UnicodeString::transformAnsiCharToUnicodeChar( c  );
+	modified();
 	return *this;
 }
 
 const UnicodeString::AnsiChar* UnicodeString::ansi_c_str() const
-{
-	UnicodeString::AnsiChar* result = UnicodeString::transformUnicodeToAnsi( *this );
+{	
+	if ( NULL == ansiDataBuffer_  ) {
+		ansiDataBuffer_ = UnicodeString::transformUnicodeToAnsi( *this );
+	}
 
-	internal_registerAnsiStringForGarbageCollection( result );
-
-	return result;
+	return ansiDataBuffer_;
 }
 
 UnicodeString& UnicodeString::operator+=(UnicodeString::AnsiChar c)
 {
 	data_ += UnicodeString::transformAnsiCharToUnicodeChar( c  );
+	modified();
 	return *this;
 }
 
@@ -418,6 +401,7 @@ UnicodeString& UnicodeString::operator+=(AnsiChar* rhs )
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	data_ += tmp.data_;
+	modified();
 
 	return *this;
 }
@@ -446,6 +430,7 @@ UnicodeString& UnicodeString::append(const UnicodeString::AnsiChar *s, UnicodeSt
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 	data_.append( tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -455,6 +440,7 @@ UnicodeString& UnicodeString::append(const UnicodeString::AnsiChar *s)
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 	data_.append( tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -462,6 +448,7 @@ UnicodeString& UnicodeString::append(const UnicodeString::AnsiChar *s)
 UnicodeString& UnicodeString::append( size_type n, UnicodeString::AnsiChar c)
 {
 	data_.append( n, UnicodeString::transformAnsiCharToUnicodeChar( c  ) );
+	modified();
 
 	return *this;
 }
@@ -471,6 +458,7 @@ UnicodeString& UnicodeString::assign(const UnicodeString::AnsiChar *s, UnicodeSt
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 	data_.assign( tmp.data_ );
+	modified();
 	return *this;
 }
 
@@ -479,6 +467,7 @@ UnicodeString& UnicodeString::assign(const UnicodeString::AnsiChar *s)
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 	data_.assign( tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -486,6 +475,7 @@ UnicodeString& UnicodeString::assign(const UnicodeString::AnsiChar *s)
 UnicodeString& UnicodeString::assign( size_type n, UnicodeString::AnsiChar c)
 {
 	data_.assign( n, UnicodeString::transformAnsiCharToUnicodeChar( c ) );
+	modified();
 
 	return *this;
 }
@@ -495,6 +485,7 @@ UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, const UnicodeS
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 	data_.insert( p0, tmp.data_ );
+	modified();
 	return *this;
 }
 
@@ -504,6 +495,7 @@ UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, const UnicodeS
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 	data_.insert( p0, tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -511,6 +503,7 @@ UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, const UnicodeS
 UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, UnicodeString::size_type n, UnicodeString::AnsiChar c)
 {
 	data_.insert( p0, n, UnicodeString::transformAnsiCharToUnicodeChar( c ) );
+	modified();
 
 	return *this;
 }
@@ -518,6 +511,7 @@ UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, UnicodeString:
 UnicodeString::iterator UnicodeString::insert(UnicodeString::iterator it, UnicodeString::AnsiChar c)
 {
 	data_.insert( it, UnicodeString::transformAnsiCharToUnicodeChar( c ) );
+	modified();
 
 	return begin();
 }
@@ -525,6 +519,7 @@ UnicodeString::iterator UnicodeString::insert(UnicodeString::iterator it, Unicod
 void UnicodeString::insert(UnicodeString::iterator it, UnicodeString::size_type n, UnicodeString::AnsiChar c)
 {
 	data_.insert( it, n, UnicodeString::transformAnsiCharToUnicodeChar( c ) );
+	modified();
 }
 
 UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString::size_type n0, const UnicodeString::AnsiChar *s, UnicodeString::size_type n)
@@ -533,6 +528,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
 	data_.replace( p0, n0, tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -543,14 +539,15 @@ UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
 	data_.replace( p0, n0, tmp.data_ );
+	modified();
 
 	return *this;
 }
 
 UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString::size_type n0, UnicodeString::size_type n, UnicodeString::AnsiChar c)
 {
-
 	data_.replace( p0, n0, n, UnicodeString::transformAnsiCharToUnicodeChar( c ) );
+	modified();
 
 	return *this;
 }
@@ -561,6 +558,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeStr
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
 	data_.replace( first0, last0, tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -571,6 +569,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeStr
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
 	data_.replace( first0, last0, tmp.data_ );
+	modified();
 
 	return *this;
 }
@@ -578,6 +577,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeStr
 UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeString::iterator last0, UnicodeString::size_type n, UnicodeString::AnsiChar c)
 {
 	data_.replace( first0, last0, n, UnicodeString::transformAnsiCharToUnicodeChar( c ) );
+	modified();
 
 	return *this;
 }
@@ -752,6 +752,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/11 19:16:37  ddiego
+*changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
