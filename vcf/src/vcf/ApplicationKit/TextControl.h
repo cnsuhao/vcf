@@ -159,6 +159,17 @@ public:
 	Redoes the last operation
 	*/
 	void redo();
+
+protected:
+	/**
+	handlers of some standard accelerator events.
+	*/
+	void undoAccelerator( Event* e );
+	void cutAccelerator( Event* e );
+	void copyAccelerator( Event* e );
+	void pasteAccelerator( Event* e );
+	void selectAllAccelerator( Event* e );
+
 protected:
 	TextPeer * textPeer_;
 	TextModel* model_;
@@ -167,20 +178,17 @@ protected:
 	bool readOnly_;
 	void onFocusGained( FocusEvent* event );
 
-	void undoAccelerator( Event* e );
-	void cutAccelerator( Event* e );
-	void copyAccelerator( Event* e );
-	void pasteAccelerator( Event* e );
-	void selectAllAccelerator( Event* e );
-
 };
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/28 18:04:07  marcelloptr
+*minor fixesor comments
+*
 *Revision 1.3.2.1  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *
