@@ -7980,8 +7980,7 @@ class Workspace( DspFile ):
 
                 if ( True or g_workspaceHasPrecedenceOverSolution ):
                     depList = wspOld.dswProjnameDependencyListDict[ prjNameLwr ]
-                    # Microsoft likes better a reverse order
-                    for i in range( len( depList )-1, -1, -1 ):
+                    for i in range( len( depList ) ):
                         dependencyPrjname = depList[i]
                         slnPrjDataDep = self.getSlnProjectData( dependencyPrjname, '', wspOld )
                         if ( g_options_showNamesForUuids ):
@@ -8041,8 +8040,7 @@ class Workspace( DspFile ):
                 n = 0
                 #for dependencyUuid in slnPrjData.prjDependenciesUuidList:
                 depList = wspOld.dswProjnameDependencyListDict[ prjNameLwr ]
-                # Microsoft likes better a reverse order
-                for i in range( len( depList )-1, -1, -1 ):
+                for i in range( len( depList ) ):
                     dependencyPrjname = depList[i]
                     #line = '\t\t{%s}.%d = {%s}' % ( slnPrjData.prjUuid, n, dependency )
                     pnam = prjName
@@ -8154,8 +8152,7 @@ class Workspace( DspFile ):
 
                 if ( g_workspaceHasPrecedenceOverSolution ):
                     depList = wspOld.dswProjnameDependencyListDict[ prjNameLwr ]
-                    # Microsoft likes better a reverse order
-                    for i in range( len( depList )-1, -1, -1 ):
+                    for i in range( len( depList ) ):
                         dependencyPrjname = depList[i]
                         slnPrjDataDep = self.getSlnProjectData( dependencyPrjname, '', wspOld )
                         if ( g_options_showNamesForUuids ):
@@ -8215,8 +8212,7 @@ class Workspace( DspFile ):
                 n = 0
                 if ( g_workspaceHasPrecedenceOverSolution ):
                     depList = wspOld.dswProjnameDependencyListDict[ prjNameLwr ]
-                    # Microsoft likes better a reverse order: which makes it even more unreadable $#@!!
-                    for i in range( len( depList )-1, -1, -1 ):
+                    for i in range( len( depList ) ):
                         dependencyPrjname = depList[i]
                         pnam = prjName
                         pdep = dependencyPrjname
