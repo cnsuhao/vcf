@@ -24,6 +24,8 @@ CFG=libAGG - Win32 GTK Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName "libAGG"
+# PROP Scc_LocalPath "..\..\.."
 CPP=cl.exe
 RSC=rc.exe
 
@@ -63,7 +65,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6/Debug/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"../../../lib/libAGG_vc6_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /Fd"../../../lib/libAGG_vc6_sd.pdb" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -86,7 +88,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6/libAGG___Win32_GTK_Debug/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"../../../lib/libAGG_vc6_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /Fd"../../../lib/libAGG_vc6_sd.pdb" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
