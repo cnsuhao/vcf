@@ -522,6 +522,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "libAGG"="../build/vc60/GraphicsKit/libAGG.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Localization"="./Localization/Localization.dsp" - Package Owner=<4>
 
 Package=<5>

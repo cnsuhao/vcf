@@ -449,7 +449,7 @@ public:
 
 int main(int argc, char *argv[])
 {
-	DateTimeUIApplication app( argc, argv );
+	Application* app = new DateTimeUIApplication( argc, argv );
 
 	Application::main();
 	

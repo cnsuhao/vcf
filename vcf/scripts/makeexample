@@ -58,9 +58,12 @@ echo -e $VCFCOPYRIGHT \
 "<!--\n"\
 "CVS Log info\n"\
 "\$Log$
-"\Revision 1.1.2.3  2004/03/21 00:39:23  ddiego
-"\merged vc7.1 changes into dev branch
-"\
-"\1.xml,v \$\n"\
+"\Revision 1.1.2.4  2004/03/28 00:46:21  ddiego
+"\added VisualFormFiles, fixed some code in the DocumentManager
+"\class, and changed code over to create an Application class on the
+"\heap instead of on the stack. This fixes a problem with static object
+"\destrcutor order when using VC71. Also updated the project wizards
+"\for vc6. Still need to update docs.
+"\1.xml,v \n"\
 "-->\n\n" > $1.xml
 
