@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "vc6/ReleaseS\obj"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_APPKIT_LIB" /Yu"ApplicationKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /Yu"ApplicationKit.h" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6/DebugS\obj"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_APPKIT_LIB" /FR /Yu"ApplicationKit.h" /Fd"..\..\..\Lib/ApplicationKit_vc6_sd.pdb" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /FR /Yu"ApplicationKit.h" /Fd"..\..\..\Lib/ApplicationKit_vc6_sd.pdb" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -82,7 +82,7 @@ LIB32=link.exe -lib
 # Name "ApplicationKit - Win32 Debug"
 # Begin Group "Source Files"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
 SOURCE=..\..\..\src\core\AbstractApplication.cpp
@@ -739,7 +739,7 @@ SOURCE=..\..\resources\win32\vcf.ico
 # End Group
 # Begin Group "Header Files"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
 SOURCE=..\..\..\include\core\AbstractApplication.h
