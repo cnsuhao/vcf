@@ -78,22 +78,24 @@ where you installed the VCF.
 #include "vcf/FoundationKit/Interface.h"
 #include "vcf/FoundationKit/Object.h"
 
-#include "vcf/FoundationKit/BasicException.h"
-#include "vcf/FoundationKit/CantCreateObjectException.h"
 #include "vcf/FoundationKit/ErrorStrings.h"
+
+#include "vcf/FoundationKit/BasicException.h"
+#include "vcf/FoundationKit/BasicFileError.h"
+#include "vcf/FoundationKit/ClassNotFound.h"
+#include "vcf/FoundationKit/CantCreateObjectException.h"
+#include "vcf/FoundationKit/FileNotFound.h"
 #include "vcf/FoundationKit/InvalidPeer.h"
 #include "vcf/FoundationKit/InvalidPointerException.h"
 #include "vcf/FoundationKit/NoFreeMemException.h"
 #include "vcf/FoundationKit/NoPeerFoundException.h"
 #include "vcf/FoundationKit/NoSuchElementException.h"
+#include "vcf/FoundationKit/NotImplementedException.h"
 #include "vcf/FoundationKit/OutOfBoundsException.h"
 #include "vcf/FoundationKit/PropertyChangeException.h"
 #include "vcf/FoundationKit/RuntimeException.h"
 #include "vcf/FoundationKit/TypeCastException.h"
-#include "vcf/FoundationKit/ClassNotFound.h"
-#include "vcf/FoundationKit/BasicFileError.h"
-#include "vcf/FoundationKit/FileNotFound.h"
-#include "vcf/FoundationKit/ClassNotFound.h"
+
 #include "vcf/FoundationKit/ProcessException.h"
 
 #include "vcf/FoundationKit/PackageInfo.h"
@@ -268,6 +270,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2004/08/23 22:26:06  marcelloptr
+*added NotImplementedException
+*
 *Revision 1.3.2.2  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.
