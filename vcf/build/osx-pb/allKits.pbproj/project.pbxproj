@@ -455,13 +455,14 @@
 				5E38E2EC05E9D86100A8020D,
 				5E38E2F005E9D86F00A8020D,
 				5E38E2F205E9D87A00A8020D,
+				5E38E0D405E9D0A100A8020D,
 				5E38E0D905E9D0D100A8020D,
 				5E38E0D805E9D0CA00A8020D,
 				5E38E0D705E9D0BE00A8020D,
 				5E38E0D605E9D0B700A8020D,
 				5E38E0D505E9D0AB00A8020D,
-				5E38E0D405E9D0A100A8020D,
 				5E38E2F605E9DEC400A8020D,
+				5EBADDDC05EA7A5B00A8020D,
 			);
 			isa = PBXGroup;
 			name = ApplicationKit;
@@ -470,15 +471,6 @@
 		};
 		5E38E0D405E9D0A100A8020D = {
 			children = (
-				5E38E34A05E9E2B100A8020D,
-				5E38E34805E9E25700A8020D,
-				5E38E33805E9E19700A8020D,
-				5E38E33905E9E19700A8020D,
-				5E38E33A05E9E19700A8020D,
-				5E38E33B05E9E19700A8020D,
-				5E38E33C05E9E19700A8020D,
-				5E38E33D05E9E19700A8020D,
-				5E38E33E05E9E19700A8020D,
 				5E38E0E405E9D34200A8020D,
 				5E38E19805E9D65D00A8020D,
 				5E38E0E605E9D3D200A8020D,
@@ -499,11 +491,14 @@
 				5E38E0EF05E9D3D300A8020D,
 				5E38E19F05E9D65D00A8020D,
 				5E38E0F005E9D3D300A8020D,
+				5E38E33805E9E19700A8020D,
 				5E38E0F105E9D3D300A8020D,
 				5E38E0F205E9D3D300A8020D,
 				5E38E1A005E9D65D00A8020D,
+				5E38E33905E9E19700A8020D,
 				5E38E0F305E9D3D300A8020D,
 				5E38E1A105E9D65D00A8020D,
+				5E38E34A05E9E2B100A8020D,
 				5E38E1A205E9D65D00A8020D,
 				5E38E1A305E9D65D00A8020D,
 				5E38E0F405E9D3D300A8020D,
@@ -531,12 +526,14 @@
 				5E38E0FE05E9D3D300A8020D,
 				5E38E1B005E9D65D00A8020D,
 				5E38E0FF05E9D3D300A8020D,
+				5E38E33A05E9E19700A8020D,
 				5E38E10005E9D3D300A8020D,
 				5E38E1B105E9D65D00A8020D,
 				5E38E10105E9D3D300A8020D,
 				5E38E1B205E9D65D00A8020D,
 				5E38E10205E9D3D300A8020D,
 				5E38E1B305E9D65D00A8020D,
+				5E38E34805E9E25700A8020D,
 				5E38E10305E9D3D300A8020D,
 				5E38E1B405E9D65D00A8020D,
 				5E38E10405E9D3D300A8020D,
@@ -545,9 +542,12 @@
 				5E38E26005E9D79F00A8020D,
 				5E38E18B05E9D50A00A8020D,
 				5E38E26105E9D79F00A8020D,
+				5E38E33B05E9E19700A8020D,
 				5E38E10505E9D3D300A8020D,
 				5E38E1B605E9D65D00A8020D,
+				5E38E33C05E9E19700A8020D,
 				5E38E10605E9D3D300A8020D,
+				5E38E33D05E9E19700A8020D,
 				5E38E10705E9D3D300A8020D,
 				5E38E1B705E9D65D00A8020D,
 				5E38E10805E9D3D300A8020D,
@@ -565,6 +565,7 @@
 				5E38E10C05E9D3D300A8020D,
 				5E38E1BD05E9D65D00A8020D,
 				5E38E10D05E9D3D300A8020D,
+				5E38E33E05E9E19700A8020D,
 				5E38E2E205E9D85100A8020D,
 				5E38E2E305E9D85100A8020D,
 				5E38E19405E9D58B00A8020D,
@@ -734,6 +735,28 @@
 		};
 		5E38E0D805E9D0CA00A8020D = {
 			children = (
+				5EBADD9E05EA45EA00A8020D,
+				5EBADD9905EA45EA00A8020D,
+				5EBADD9F05EA45EA00A8020D,
+				5EBADD9A05EA45EA00A8020D,
+				5EBADDA005EA45EA00A8020D,
+				5EBADD9B05EA45EA00A8020D,
+				5EBADDA205EA45EA00A8020D,
+				5EBADD9305EA45C600A8020D,
+				5EBADD8F05EA45C600A8020D,
+				5EBADD9005EA45C600A8020D,
+				5EBADD9105EA45C600A8020D,
+				5EBADD9305EA45C600A8020D,
+				5EBADDD405EA5BB800A8020D,
+				5EBADDD605EA5BCE00A8020D,
+				5EBADDD805EA68B800A8020D,
+				5EBADDDA05EA68CB00A8020D,
+				5EBADDED05EA7AFD00A8020D,
+				5EBADDEF05EA7B1300A8020D,
+				5EBADDF105EA7E1F00A8020D,
+				5EBADDF305EA7E3200A8020D,
+				5EBADDF505EA88BA00A8020D,
+				5EBADDF705EA88CB00A8020D,
 			);
 			isa = PBXGroup;
 			name = "OSX Peers";
@@ -979,6 +1002,18 @@
 				5E38E2EE05E9D86100A8020D,
 				5E38E2F105E9D86F00A8020D,
 				5E38E2F305E9D87A00A8020D,
+				5EBADD9405EA45C600A8020D,
+				5EBADD9505EA45C600A8020D,
+				5EBADD9605EA45C600A8020D,
+				5EBADD9805EA45C600A8020D,
+				5EBADDA305EA45EA00A8020D,
+				5EBADDA405EA45EA00A8020D,
+				5EBADDA505EA45EA00A8020D,
+				5EBADDD505EA5BB800A8020D,
+				5EBADDD905EA68B800A8020D,
+				5EBADDEE05EA7AFD00A8020D,
+				5EBADDF205EA7E1F00A8020D,
+				5EBADDF605EA88BA00A8020D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1118,6 +1153,15 @@
 				5E38E34705E9E23900A8020D,
 				5E38E34905E9E25700A8020D,
 				5E38E34B05E9E2B100A8020D,
+				5EBADDA805EA45EA00A8020D,
+				5EBADDA905EA45EA00A8020D,
+				5EBADDAA05EA45EA00A8020D,
+				5EBADDAC05EA45EA00A8020D,
+				5EBADDD705EA5BCE00A8020D,
+				5EBADDDB05EA68CB00A8020D,
+				5EBADDF005EA7B1300A8020D,
+				5EBADDF405EA7E3200A8020D,
+				5EBADDF805EA88CB00A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1127,6 +1171,8 @@
 			files = (
 				5E38E2FE05E9DF7D00A8020D,
 				5E38E2FF05E9DF8A00A8020D,
+				5EBADDEB05EA7A7600A8020D,
+				5EBADDEC05EA7A7900A8020D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5772,6 +5818,7 @@
 				5EF8243504B8B47D00A8020D,
 				5EF89BED05C372A700A8020D,
 				5E07A95605E6CD6F00A8020D,
+				5EF8C41705EAB1E100A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7856,6 +7903,297 @@
 		};
 		5EB3AF9704B5D44700A8020D = {
 			fileRef = 5EB3AF9304B5D44700A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADD8F05EA45C600A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXAbstractControl.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXAbstractControl.h;
+			refType = 0;
+		};
+		5EBADD9005EA45C600A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXControl.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXControl.h;
+			refType = 0;
+		};
+		5EBADD9105EA45C600A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXDialog.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXDialog.h;
+			refType = 0;
+		};
+		5EBADD9305EA45C600A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXWindow.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXWindow.h;
+			refType = 0;
+		};
+		5EBADD9405EA45C600A8020D = {
+			fileRef = 5EBADD8F05EA45C600A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADD9505EA45C600A8020D = {
+			fileRef = 5EBADD9005EA45C600A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADD9605EA45C600A8020D = {
+			fileRef = 5EBADD9105EA45C600A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADD9805EA45C600A8020D = {
+			fileRef = 5EBADD9305EA45C600A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADD9905EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXAbstractControl.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXAbstractControl.h;
+			refType = 0;
+		};
+		5EBADD9A05EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXControl.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXControl.h;
+			refType = 0;
+		};
+		5EBADD9B05EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXDialog.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXDialog.h;
+			refType = 0;
+		};
+		5EBADD9E05EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXAbstractControl.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXAbstractControl.cpp;
+			refType = 0;
+		};
+		5EBADD9F05EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXControl.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXControl.cpp;
+			refType = 0;
+		};
+		5EBADDA005EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXDialog.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXDialog.cpp;
+			refType = 0;
+		};
+		5EBADDA205EA45EA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXWindow.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXWindow.cpp;
+			refType = 0;
+		};
+		5EBADDA305EA45EA00A8020D = {
+			fileRef = 5EBADD9905EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDA405EA45EA00A8020D = {
+			fileRef = 5EBADD9A05EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDA505EA45EA00A8020D = {
+			fileRef = 5EBADD9B05EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDA805EA45EA00A8020D = {
+			fileRef = 5EBADD9E05EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDA905EA45EA00A8020D = {
+			fileRef = 5EBADD9F05EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDAA05EA45EA00A8020D = {
+			fileRef = 5EBADDA005EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDAC05EA45EA00A8020D = {
+			fileRef = 5EBADDA205EA45EA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDD405EA5BB800A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXUIToolkit.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXUIToolkit.h;
+			refType = 0;
+		};
+		5EBADDD505EA5BB800A8020D = {
+			fileRef = 5EBADDD405EA5BB800A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDD605EA5BCE00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXUIToolkit.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXUIToolkit.cpp;
+			refType = 0;
+		};
+		5EBADDD705EA5BCE00A8020D = {
+			fileRef = 5EBADDD605EA5BCE00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDD805EA68B800A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXDesktopPeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXDesktopPeer.h;
+			refType = 0;
+		};
+		5EBADDD905EA68B800A8020D = {
+			fileRef = 5EBADDD805EA68B800A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDDA05EA68CB00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXDesktopPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXDesktopPeer.cpp;
+			refType = 0;
+		};
+		5EBADDDB05EA68CB00A8020D = {
+			fileRef = 5EBADDDA05EA68CB00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDDC05EA7A5B00A8020D = {
+			isa = PBXFrameworkReference;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+		};
+		5EBADDEB05EA7A7600A8020D = {
+			fileRef = 5E38E2F605E9DEC400A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDEC05EA7A7900A8020D = {
+			fileRef = 5EBADDDC05EA7A5B00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDED05EA7AFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXApplicationPeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXApplicationPeer.h;
+			refType = 0;
+		};
+		5EBADDEE05EA7AFD00A8020D = {
+			fileRef = 5EBADDED05EA7AFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDEF05EA7B1300A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXApplicationPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXApplicationPeer.cpp;
+			refType = 0;
+		};
+		5EBADDF005EA7B1300A8020D = {
+			fileRef = 5EBADDEF05EA7B1300A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDF105EA7E1F00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXControlContextPeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXControlContextPeer.h;
+			refType = 0;
+		};
+		5EBADDF205EA7E1F00A8020D = {
+			fileRef = 5EBADDF105EA7E1F00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDF305EA7E3200A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXControlContextPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXControlContextPeer.cpp;
+			refType = 0;
+		};
+		5EBADDF405EA7E3200A8020D = {
+			fileRef = 5EBADDF305EA7E3200A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDF505EA88BA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXCursorPeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXCursorPeer.h;
+			refType = 0;
+		};
+		5EBADDF605EA88BA00A8020D = {
+			fileRef = 5EBADDF505EA88BA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBADDF705EA88CB00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXCursorPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXCursorPeer.cpp;
+			refType = 0;
+		};
+		5EBADDF805EA88CB00A8020D = {
+			fileRef = 5EBADDF705EA88CB00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -9960,6 +10298,12 @@
 		};
 		5EF89BF105C374F600A8020D = {
 			fileRef = 5EF89BF005C374F600A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EF8C41705EAB1E100A8020D = {
+			fileRef = 5EB3AF8904B5C74100A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
