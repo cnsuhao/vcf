@@ -22,6 +22,11 @@
 			<exec command="xsltproc --nonet  $(XSL_DIR)/$(XSL_SHEET) $(dependency.name) > index.html"/>
 		</tool>
 	</config>
+
+	<target name="vcf-docbook-chm" id="???????????????????" parent="f936d9e6-4cf5-4e66-b9de-352b7db36d88" config="docbook" configID="b7b6e6cc-36f6-4a22-bc6e-61f5c208be37" >
+		<exec command="hhc vcf-docbook.hhp" />
+	</target>
+
 	<config name="docbook" id="b7b6e6cc-36f6-4a22-bc6e-61f5c208be37" parent="b5c0bde4-1ae3-41f6-88c5-bdf5b49f7e9e" uuid="a380b702-2789-4f3b-94dc-73104227c750" active="true" >
 		<variable name="XSL_DIR" value=""/>
 		<variable name="HTMLOUTPUT" value=""/>
