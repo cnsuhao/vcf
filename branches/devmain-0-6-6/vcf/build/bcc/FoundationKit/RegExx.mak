@@ -74,8 +74,8 @@ clean: cleanobj cleantgt
 
 dirs::
 	-@echo Creating output directory
-	-@md $(OBJ)
-	-@md $(BIN)
+	-@if not exist $(OBJ) md $(OBJ)
+	-@if not exist $(BIN) md $(BIN)
 	
 ##################################
 # Output
