@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.8  2003/11/01 20:41:00  ddiego
+#updated makefil to add the gtk toolbar class
+#
 #Revision 1.3.4.7  2003/10/22 03:56:43  ddiego
 #added two more tutorials for advanced alignment and another for anchors
 #also finished off the alignment tutorial. yay :)
@@ -456,7 +459,8 @@ APPKIT_OBJECT_FILES_D=$(OUTDIR_AK_D)/ApplicationKit.o \
 			$(OUTDIR_AK_D)/GTKTextControl.o \
 			$(OUTDIR_AK_D)/GTKFileOpenDialog.o \
 			$(OUTDIR_AK_D)/GTKDialog.o \
-			$(OUTDIR_AK_D)/GTKCommandButton.o 
+			$(OUTDIR_AK_D)/GTKCommandButton.o \
+			$(OUTDIR_AK_D)/GTKToolbar.o 
 
 
 APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
@@ -593,7 +597,8 @@ APPKIT_OBJECT_FILES=$(OUTDIR_AK)/ApplicationKit.o \
 			$(OUTDIR_AK)/GTKTextControl.o \
 			$(OUTDIR_AK)/GTKFileOpenDialog.o \
 			$(OUTDIR_AK)/GTKDialog.o \
-			$(OUTDIR_AK)/GTKCommandButton.o 
+			$(OUTDIR_AK)/GTKCommandButton.o \
+			$(OUTDIR_AK)/GTKToolbar.o 
 
 
 
