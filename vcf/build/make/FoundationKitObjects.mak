@@ -131,8 +131,8 @@ $(OUTDIR_FK_D)/LinuxFilePeer.o : $(SRC_IMPLKIT)/LinuxFilePeer.cpp $(FOUNDATIONKI
 $(OUTDIR_FK_D)/LinuxFileStream.o : $(SRC_IMPLKIT)/LinuxFileStream.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxFileStream.cpp -o $(OUTDIR_FK_D)/LinuxFileStream.o
 
-$(OUTDIR_FK_D)/LinuxThread.o : $(SRC_IMPLKIT)/LinuxThread.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxThread.cpp -o $(OUTDIR_FK_D)/LinuxThread.o
+$(OUTDIR_FK_D)/PosixThread.o : $(SRC_IMPLKIT)/PosixThread.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/PosixThread.cpp -o $(OUTDIR_FK_D)/PosixThread.o
 
 $(OUTDIR_FK_D)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp -o $(OUTDIR_FK_D)/LinuxLibraryPeer.o
@@ -284,8 +284,8 @@ $(OUTDIR_FK)/LinuxFilePeer.o : $(SRC_IMPLKIT)/LinuxFilePeer.cpp $(FOUNDATIONKIT_
 $(OUTDIR_FK)/LinuxFileStream.o : $(SRC_IMPLKIT)/LinuxFileStream.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxFileStream.cpp -o $(OUTDIR_FK)/LinuxFileStream.o
 
-$(OUTDIR_FK)/LinuxThread.o : $(SRC_IMPLKIT)/LinuxThread.cpp $(FOUNDATIONKIT_HDRS)
-	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxThread.cpp -o $(OUTDIR_FK)/LinuxThread.o
+$(OUTDIR_FK)/PosixThread.o : $(SRC_IMPLKIT)/PosixThread.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/PosixThread.cpp -o $(OUTDIR_FK)/PosixThread.o
 
 $(OUTDIR_FK)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS) $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp -o $(OUTDIR_FK)/LinuxLibraryPeer.o
