@@ -217,6 +217,10 @@ SOURCE=..\..\..\include\exceptions\ImageLoaderException.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\graphics\Matrix.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\graphics\Matrix2D.h
 # End Source File
 # Begin Source File

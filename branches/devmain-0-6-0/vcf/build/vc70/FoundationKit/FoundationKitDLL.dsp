@@ -133,6 +133,14 @@ SOURCE=..\..\..\include\core\CommonDefines.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\utils\Condition.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ConditionPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\events\Delegate.h
 # End Source File
 # Begin Source File
@@ -425,6 +433,10 @@ SOURCE=..\..\..\include\exceptions\TypeCastException.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\VariantData.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\io\VariantDataStream.h
 # End Source File
 # Begin Source File
@@ -518,6 +530,10 @@ SOURCE=..\..\..\src\core\Class.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\ClassRegistry.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\Condition.cpp
 # End Source File
 # Begin Source File
 
