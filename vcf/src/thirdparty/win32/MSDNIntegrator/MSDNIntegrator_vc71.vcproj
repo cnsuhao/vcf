@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc71\Release/"
-			IntermediateDirectory=".\vc71\Release/"
+			OutputDirectory=".\vc71\Release\"
+			IntermediateDirectory=".\vc71\Release\"
 			ConfigurationType="1"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -30,9 +30,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\vc71\Release\MSDNIntegrator_vc71.pch"
-				AssemblerListingLocation=".\vc71\Release/"
-				ObjectFile=".\vc71\Release/"
-				ProgramDataBaseFileName=".\vc71\Release/"
+				AssemblerListingLocation=".\vc71\Release\"
+				ObjectFile=".\vc71\Release\"
+				ProgramDataBaseFileName=".\vc71\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
@@ -69,8 +69,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc71\Debug/"
-			IntermediateDirectory=".\vc71\Debug/"
+			OutputDirectory=".\vc71\Debug\"
+			IntermediateDirectory=".\vc71\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -84,9 +84,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\vc71\Debug\MSDNIntegrator_vc71.pch"
-				AssemblerListingLocation=".\vc71\Debug/"
-				ObjectFile=".\vc71\Debug/"
-				ProgramDataBaseFileName=".\vc71\Debug/"
+				AssemblerListingLocation=".\vc71\Debug\"
+				ObjectFile=".\vc71\Debug\"
+				ProgramDataBaseFileName=".\vc71\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"/>

@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc71\DebugDLL/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc71\DebugDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -30,9 +30,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
 				PrecompiledHeaderFile=".\vc71\DebugDLL\ApplicationKitDLL_vc71.pch"
-				AssemblerListingLocation=".\vc71\DebugDLL/"
-				ObjectFile=".\vc71\DebugDLL/"
-				ProgramDataBaseFileName=".\vc71\DebugDLL/"
+				AssemblerListingLocation=".\vc71\DebugDLL\"
+				ObjectFile=".\vc71\DebugDLL\"
+				ProgramDataBaseFileName=".\vc71\DebugDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -45,7 +45,7 @@
 				OutputFile="..\..\..\bin\ApplicationKit_vc71_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib/"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="..\..\..\lib\ApplicationKit_vc71_d.pdb"
 				ImportLibrary=".\../../../lib/ApplicationKit_vc71_d.lib"
@@ -81,8 +81,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc71\ReleaseDLL/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc71\ReleaseDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -92,7 +92,7 @@
 				AdditionalOptions="/Zm200 "
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include/"
+				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;APPKIT_DLL;APPKIT_EXPORTS;BUILD_APPKIT_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -101,9 +101,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="ApplicationKit.h"
 				PrecompiledHeaderFile=".\vc71\ReleaseDLL\ApplicationKitDLL_vc71.pch"
-				AssemblerListingLocation=".\vc71\ReleaseDLL/"
-				ObjectFile=".\vc71\ReleaseDLL/"
-				ProgramDataBaseFileName=".\vc71\ReleaseDLL/"
+				AssemblerListingLocation=".\vc71\ReleaseDLL\"
+				ObjectFile=".\vc71\ReleaseDLL\"
+				ProgramDataBaseFileName=".\vc71\ReleaseDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -115,7 +115,7 @@
 				OutputFile="..\..\..\bin\ApplicationKit_vc71.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib,..\..\..\xml\lib/"
+				AdditionalLibraryDirectories="..\..\..\lib,..\..\..\xml\lib\"
 				ProgramDatabaseFile="..\..\..\lib\ApplicationKit_vc71.pdb"
 				ImportLibrary=".\../../../lib/ApplicationKit_vc71.lib"
 				TargetMachine="1"/>
@@ -415,14 +415,14 @@
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories=".\vcf\build\resources\win32/"/>
+						AdditionalIncludeDirectories=".\vcf\build\resources\win32\"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories=".\vcf\build\resources\win32/"/>
+						AdditionalIncludeDirectories=".\vcf\build\resources\win32\"/>
 				</FileConfiguration>
 			</File>
 			<File

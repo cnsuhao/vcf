@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc70\DebugDLL/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\DebugDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -27,9 +27,9 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\vc70\DebugDLL\OpenGLKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\DebugDLL/"
-				ObjectFile=".\vc70\DebugDLL/"
-				ProgramDataBaseFileName=".\vc70\DebugDLL/"
+				AssemblerListingLocation=".\vc70\DebugDLL\"
+				ObjectFile=".\vc70\DebugDLL\"
+				ProgramDataBaseFileName=".\vc70\DebugDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -43,7 +43,7 @@
 				OutputFile="..\..\..\bin\OpenGLKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib/"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="..\..\..\lib\OpenGLKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc70_d.lib"/>
@@ -71,8 +71,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc70\ReleaseDLL/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\ReleaseDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -88,9 +88,9 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\vc70\ReleaseDLL\OpenGLKitDLL_vc70.pch"
-				AssemblerListingLocation=".\vc70\ReleaseDLL/"
-				ObjectFile=".\vc70\ReleaseDLL/"
-				ProgramDataBaseFileName=".\vc70\ReleaseDLL/"
+				AssemblerListingLocation=".\vc70\ReleaseDLL\"
+				ObjectFile=".\vc70\ReleaseDLL\"
+				ProgramDataBaseFileName=".\vc70\ReleaseDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -103,7 +103,7 @@
 				OutputFile="..\..\..\bin\OpenGLKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib/"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				ProgramDatabaseFile="..\..\..\lib\OpenGLKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/OpenGLKit_vc70.lib"/>
 			<Tool

@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc70\Debug/"
-			IntermediateDirectory=".\vc70\Debug/"
+			OutputDirectory=".\vc70\Debug\"
+			IntermediateDirectory=".\vc70\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -27,9 +27,9 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\vc70\Debug\HeavyAndLight_vc70.pch"
-				AssemblerListingLocation=".\vc70\Debug/"
-				ObjectFile=".\vc70\Debug/"
-				ProgramDataBaseFileName=".\vc70\Debug/"
+				AssemblerListingLocation=".\vc70\Debug\"
+				ObjectFile=".\vc70\Debug\"
+				ProgramDataBaseFileName=".\vc70\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc70\Release/"
-			IntermediateDirectory=".\vc70\Release/"
+			OutputDirectory=".\vc70\Release\"
+			IntermediateDirectory=".\vc70\Release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -89,9 +89,9 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\vc70\Release\HeavyAndLight_vc70.pch"
-				AssemblerListingLocation=".\vc70\Release/"
-				ObjectFile=".\vc70\Release/"
-				ProgramDataBaseFileName=".\vc70\Release/"
+				AssemblerListingLocation=".\vc70\Release\"
+				ObjectFile=".\vc70\Release\"
+				ProgramDataBaseFileName=".\vc70\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
