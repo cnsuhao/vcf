@@ -3920,6 +3920,8 @@
 		};
 		5E2CDE72064868CD00A8020D = {
 			children = (
+				5EBD42770721E92300CF5F4C,
+				5EBD42780721E92300CF5F4C,
 				5EC5A05B064DD85D00345023,
 				5E9C1AC906B5F0D7006671C6,
 				5E9C1ACA06B5F0D7006671C6,
@@ -3932,8 +3934,6 @@
 				5E2CDF9A0648693C00A8020D,
 				5E2CDF9B0648693C00A8020D,
 				5E2CDF9C0648693C00A8020D,
-				5E2CDF9D0648693C00A8020D,
-				5E2CDF9E0648693C00A8020D,
 				5E2CDFA00648693C00A8020D,
 				5E888AD20710EC28006110CF,
 				5E2CDFA10648693C00A8020D,
@@ -3943,7 +3943,8 @@
 				5E2CDF970648693C00A8020D,
 				5E2CDF990648693C00A8020D,
 				5E2CDF9B0648693C00A8020D,
-				5E2CDF9D0648693C00A8020D,
+				5E2CDF9E0648693C00A8020D,
+				5E60084F071F430C0036F6CF,
 				5E2CDFA10648693C00A8020D,
 			);
 			isa = PBXGroup;
@@ -4277,7 +4278,6 @@
 				5E2CE18E0648693C00A8020D,
 				5E2CE1900648693C00A8020D,
 				5E2CE1920648693C00A8020D,
-				5E2CE1940648693C00A8020D,
 				5E2CE1980648693C00A8020D,
 				5E2CE19A0648693C00A8020D,
 				5E2CE19C0648693C00A8020D,
@@ -6567,15 +6567,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = OSXDesktopPeer.h;
 			path = ../../src/vcf/ApplicationKit/OSXDesktopPeer.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5E2CDF9D0648693C00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = OSXDialog.cpp;
-			path = ../../src/vcf/ApplicationKit/OSXDialog.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -8922,12 +8913,6 @@
 			settings = {
 			};
 		};
-		5E2CE1940648693C00A8020D = {
-			fileRef = 5E2CDF9D0648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E2CE1950648693C00A8020D = {
 			fileRef = 5E2CDF9E0648693C00A8020D;
 			isa = PBXBuildFile;
@@ -9576,6 +9561,21 @@
 		};
 		5E444AE50647473E00A8020D = {
 			fileRef = 5E444AE40647473E00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E60084F071F430C0036F6CF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXDialog.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXDialog.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E600850071F430C0036F6CF = {
+			fileRef = 5E60084F071F430C0036F6CF;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -12312,6 +12312,7 @@
 				5EB255330673DBBE00DA4A17,
 				5EB255340673DBBE00DA4A17,
 				5E9C1AFA06B5F0D8006671C6,
+				5EBD427A0721E92300CF5F4C,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12420,7 +12421,6 @@
 				5EB255A00673DBD300DA4A17,
 				5EB255A10673DBD300DA4A17,
 				5EB255A20673DBD300DA4A17,
-				5EB255A30673DBD300DA4A17,
 				5EB255A50673DBD300DA4A17,
 				5EB255A60673DBD300DA4A17,
 				5EB255A70673DBD300DA4A17,
@@ -12463,6 +12463,8 @@
 				5EB255CE0673DBD300DA4A17,
 				5E9C1AF906B5F0D8006671C6,
 				5E888AD30710EC28006110CF,
+				5E600850071F430C0036F6CF,
+				5EBD42790721E92300CF5F4C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -16022,12 +16024,6 @@
 			settings = {
 			};
 		};
-		5EB255A30673DBD300DA4A17 = {
-			fileRef = 5E2CDF9D0648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EB255A50673DBD300DA4A17 = {
 			fileRef = 5E2CDFA10648693C00A8020D;
 			isa = PBXBuildFile;
@@ -16483,6 +16479,36 @@
 			name = MVC;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		5EBD42770721E92300CF5F4C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXButton.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXButton.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5EBD42780721E92300CF5F4C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXButton.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXButton.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5EBD42790721E92300CF5F4C = {
+			fileRef = 5EBD42770721E92300CF5F4C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EBD427A0721E92300CF5F4C = {
+			fileRef = 5EBD42780721E92300CF5F4C;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		5EC0F5F1064C50B300E18E6D = {
 			containerPortal = 0867D690FE84028FC02AAC07;

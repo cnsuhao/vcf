@@ -16,6 +16,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXWindow.h"
 #include "vcf/ApplicationKit/OSXControl.h"
 #include "vcf/ApplicationKit/OSXLightweightControl.h"
+#include "vcf/ApplicationKit/OSXDialog.h"
+#include "vcf/ApplicationKit/OSXButton.h"
 
 #define kSleepTime	32767
 
@@ -648,12 +650,12 @@ ListviewPeer* OSXUIToolkit::internal_createListViewPeer( ListViewControl* compon
 
 DialogPeer* OSXUIToolkit::internal_createDialogPeer( Control* owner, Dialog* component )
 {
-    return NULL;
+    return new OSXDialog( owner, component );
 }
 
 DialogPeer* OSXUIToolkit::internal_createDialogPeer()
 {
-    return NULL;
+    return new OSXDialog();
 }
 
 ControlPeer* OSXUIToolkit::internal_createControlPeer( Control* control, ComponentType componentType )
@@ -701,7 +703,7 @@ PopupMenuPeer* OSXUIToolkit::internal_createPopupMenuPeer( PopupMenu* popupMenu 
 
 ButtonPeer* OSXUIToolkit::internal_createButtonPeer( CommandButton* component )
 {
-    return NULL;
+    return new OSXButton( component );
 }
 
 HTMLBrowserPeer* OSXUIToolkit::internal_createHTMLBrowserPeer( Control* control )
@@ -941,7 +943,68 @@ void OSXUIToolkit::internal_runEventLoop()
 
 UIToolkit::ModalReturnType OSXUIToolkit::internal_runModalEventLoopFor( Control* control )
 {
-    return UIToolkit::mrFalse;
+	Frame* ownerFrame = control->getParentFrame();
+	WindowRef controlWindow = (WindowRef) ownerFrame->getPeer()->getHandleID();
+	
+	EndAppModalStateForWindow( controlWindow );
+	UIToolkit::ModalReturnType result = UIToolkit::mrFalse;
+	
+	EventRef theEvent;
+	while  ( ReceiveNextEvent(0, NULL,kEventDurationForever,true, &theEvent)== noErr ) {
+		SendEventToEventTarget (theEvent, GetEventDispatcherTarget());
+		
+		if ( kEventClassCommand == GetEventKind( theEvent ) ) {
+			HICommand		command;
+			GetEventParameter( theEvent, kEventParamDirectObject, typeHICommand, NULL,
+								sizeof( HICommand ), NULL, &command );
+			if ( command.attributes & kHICommandFromControl ) {
+				if ( kEventCommandProcess == GetEventKind( theEvent ) ) {
+					switch ( command.commandID ) {
+						case kHICommandOK : {
+							result = UIToolkit::mrOK;
+						}
+						break;
+						
+						case kHICommandCancel : {
+							result = UIToolkit::mrCancel;
+						}
+						break;
+						
+						case OSXUIToolkit::cmdRetry : {
+							result = UIToolkit::mrRetry;
+						}
+						break;
+						
+						case OSXUIToolkit::cmdAbort : {
+							result = UIToolkit::mrAbort;
+						}
+						break;
+						
+						case OSXUIToolkit::cmdIgnore : {
+							result = UIToolkit::mrIgnore;
+						}
+						break;
+						
+						case OSXUIToolkit::cmdYes : {
+							result = UIToolkit::mrYes;
+						}
+						break;
+						
+						case OSXUIToolkit::cmdNo : {
+							result = UIToolkit::mrNo;
+						}
+						break;
+					}
+				}
+			}					
+		}
+		
+		ReleaseEvent(theEvent);
+	}
+	
+	EndAppModalStateForWindow( controlWindow );
+	
+    return result;
 }
 
 void OSXUIToolkit::internal_quitCurrentEventLoop()
@@ -1576,8 +1639,32 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
 
                 case kEventControlSetFocusPart : {
-
-
+					UInt32 attributes = 0;
+					ControlRef ctrl = NULL;
+					ControlRef startCtrl = NULL;
+					ControlPartCode part = 0;
+					OSStatus err = GetEventParameter( msg->osxEvent_,
+                                                kEventParamDirectObject,
+                                                typeControlRef,
+                                                NULL,
+                                                sizeof( ControlRef ),
+                                                NULL, &ctrl );
+					
+					err = GetEventParameter( msg->osxEvent_,
+                                                kEventParamStartControl,
+                                                typeControlRef,
+                                                NULL,
+                                                sizeof( ControlRef ),
+                                                NULL, &startCtrl );
+												
+					err = GetEventParameter( msg->osxEvent_,
+                                                kEventParamControlPart,
+                                                typeControlPartCode,
+                                                NULL,
+                                                sizeof( ControlPartCode ),
+                                                NULL, &part );	
+												
+																																				
                 }
                 break;
 
@@ -1585,89 +1672,51 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 
                 }
                 break;
-
-                case kEventControlHit : {
-/*
-					::Point mousePos;
-					GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
-										sizeof (mousePos), NULL, &mousePos);
-            
-            
-					UInt32 keyboardModifier = 0;            
-					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
-										sizeof (keyboardModifier), NULL, &keyboardModifier);
-								
-					VCF::Point pt( mousePos.h , 
-									mousePos.v );
-						   
-					Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
-                    
-                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_DOWN,
-                                                mbmLeftButton,
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
-												*/
+				
+				case kEventControlHit : {
 
                 }
                 break;
+				
 
-                case kEventControlSimulateHit : {
-
-                }
-                break;
-/*
                 case kEventControlHitTest : {
 					::Point mousePos;
 					GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
 										sizeof (mousePos), NULL, &mousePos);
-            
-            
-					VCF::Point pt( mousePos.h , 
-									mousePos.v );
-						   
+                    
+					//LocalToGlobal( &mousePos );
+					VCF::Point pt( mousePos.h , mousePos.v );
+					//localizes the coords
+					//msg->control_->translateFromScreenCoords( &pt );
+			
 					Scrollable* scrollable = msg->control_->getScrollable();
                     if ( NULL != scrollable ) {
                         pt.x_ += scrollable->getHorizontalPosition();
                         pt.y_ += scrollable->getVerticalPosition();
                     }
-                    
+					
                     result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
                                                 mbmLeftButton,
                                                 OSXUtils::translateKeyMask( 0 ), &pt );
 
                 }
-                break;*/
-
-                case kEventControlDraw : {
-
-                }
                 break;
 
-                case kEventControlApplyBackground : {
-
-                }
-                break;
-
-                case kEventControlApplyTextColor : {
-
-                }
-                break;
-
+                
+                
+                
                 case kEventControlGetFocusPart : {
 
                 }
                 break;
 
                 case kEventControlActivate : {
-
+					result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );
                 }
                 break;
 
                 case kEventControlDeactivate : {
-
+					result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );
                 }
                 break;
 
@@ -2014,6 +2063,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/18 03:10:30  ddiego
+*osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
+*
 *Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
 *updated os x code
 *
