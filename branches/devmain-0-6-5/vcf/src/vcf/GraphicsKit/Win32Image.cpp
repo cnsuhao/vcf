@@ -50,10 +50,10 @@ Win32Image::Win32Image( GraphicsContext* context, Rect* rect  ):
 		Win32Context* ctx = reinterpret_cast<Win32Context*>(context->getPeer() );
 		if ( NULL != ctx ){
 			//set up the bitmap data
-			ImageBits::Traits::setChannelType( flags_, ImageBits::Traits::getTraitsChannelType() );
-			ImageBits::Traits::setChannelSize( flags_, ImageBits::Traits::getTraitsChannelSize() );
-			ImageBits::Traits::setImageType( flags_, ImageBits::Traits::getTraitsImageType() );
-			ImageBits::Traits::setPixelLayoutOrder( flags_, Image::ploBGRA );
+			IMTRAITS::setChannelType( flags_, IMTRAITS::getTraitsChannelType() );
+			IMTRAITS::setChannelSize( flags_, IMTRAITS::getTraitsChannelSize() );
+			IMTRAITS::setImageType( flags_, IMTRAITS::getTraitsImageType() );
+			IMTRAITS::setPixelLayoutOrder( flags_, Image::ploBGRA );
 
 			hBitmap_ = NULL;
 
@@ -129,10 +129,10 @@ Win32Image::~Win32Image()
 void Win32Image::init()
 {
 	//NOTE: init() is not called if ownDC_ is true - the constructor takes care of this
-	ImageBits::Traits::setChannelType( flags_, ImageBits::Traits::getTraitsChannelType() );
-	ImageBits::Traits::setChannelSize( flags_, ImageBits::Traits::getTraitsChannelSize() );
-	ImageBits::Traits::setImageType( flags_, ImageBits::Traits::getTraitsImageType() );
-	ImageBits::Traits::setPixelLayoutOrder( flags_, Image::ploBGRA );
+	IMTRAITS::setChannelType( flags_, IMTRAITS::getTraitsChannelType() );
+	IMTRAITS::setChannelSize( flags_, IMTRAITS::getTraitsChannelSize() );
+	IMTRAITS::setImageType( flags_, IMTRAITS::getTraitsImageType() );
+	IMTRAITS::setPixelLayoutOrder( flags_, Image::ploBGRA );
 
 	hBitmap_ = NULL;
 
@@ -482,6 +482,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/08/01 18:55:06  kiklop74
+*A bit ugly workaround around BCB5 bugs during compilation
+*
 *Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
