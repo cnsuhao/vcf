@@ -78,122 +78,9 @@ LIB32=link.exe -lib
 
 # Name "GraphicsKit - Win32 Release"
 # Name "GraphicsKit - Win32 Debug"
-# Begin Group "Peers"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32Context.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Context.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32Font.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Font.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32FontManager.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32GraphicsToolkit.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32GraphicsToolkit.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\implementerkit\Win32Image.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Image.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32OpenGLPeer.h
-# End Source File
-# End Group
-# Begin Group "Source Files"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\AbstractImage.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\BasicFill.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\BasicStroke.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\BezierCurve.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\Color.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\Font.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\GlyphCollection.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\GraphicsContext.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\GraphicsKit.cpp
-# ADD CPP /Yc"GraphicsKit.h"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\GraphicsKitRTTI.inl
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\GraphicsToolKit.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\events\ImageEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\Matrix2D.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Point.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Rect.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\graphics\Vector2D.cpp
-# End Source File
-# End Group
 # Begin Group "Header Files"
 
-# PROP Default_Filter ""
+# PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\AbstractImage.h
@@ -353,6 +240,119 @@ SOURCE=..\..\..\include\graphics\VCFOpenGL.h
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\Vector2D.h
+# End Source File
+# End Group
+# Begin Group "Source Files"
+
+# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\AbstractImage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\BasicFill.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\BasicStroke.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\graphics\BezierCurve.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\Color.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\Font.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\GlyphCollection.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\GraphicsContext.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\GraphicsKit.cpp
+# ADD CPP /Yc"GraphicsKit.h"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\GraphicsKitRTTI.inl
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\GraphicsToolKit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Events\ImageEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\Matrix2D.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Point.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Rect.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\Vector2D.cpp
+# End Source File
+# End Group
+# Begin Group "Peers"
+
+# PROP Default_Filter "*.cpp;*.h"
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32Context.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Context.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32Font.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Font.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32FontManager.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32GraphicsToolkit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32GraphicsToolkit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32Image.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Image.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerkit\Win32OpenGLPeer.h
 # End Source File
 # End Group
 # End Target

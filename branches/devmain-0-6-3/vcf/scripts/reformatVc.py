@@ -187,6 +187,37 @@ class FileUtils:
                 shutil.copyfile( fullname, bakname )
     backup = staticmethod(backup)
 
+    def replaceFile( source, destination ):
+        changedFiles   = 0
+        unchangedFiles = 0
+        createdFiles   = 0
+
+        if ( not os.path.exists( source ) ) :
+            raise Exception( 'replaceFile() - the source file \'%s\' does not exist!' % source )
+
+        if ( os.path.exists( destination ) ) :
+            if ( not filecmp.cmp( source, destination ) ):
+                # some changes
+                os.remove( destination )
+                os.rename( source, destination )
+                changedFiles += 1
+            else:
+                # no changes
+                os.remove( source )
+                unchangedFiles += 1
+
+            #if ( False ):
+            #    shutil.copyfile( source, destination )
+            #    if ( os.path.exists( source ) ) :
+            #        os.remove( source ) # ' OSError: [Errno 13] Permission denied ' Why ???
+        else:
+            createdFiles += 1
+            os.rename( source, destination )
+
+        return ( changedFiles, unchangedFiles, createdFiles )
+    replaceFile = staticmethod(replaceFile)
+
+
     def sameDrive( path1, path2 ):
         ( d1, p1 ) = os.path.splitdrive( path1 )
         ( d2, p2 ) = os.path.splitdrive( path2 )
@@ -258,7 +289,7 @@ class FileUtils:
         # makes sure we don't add an absolute path to another one
         ( wdrive, wpath ) = os.path.splitdrive( workingpath )
         ( rdrive, rpath ) = os.path.splitdrive( path )
-        
+
         if ( rpath[0] == '/' ):
                 # path is already an absolute path let's just add the drive
             if ( len( rdrive ) == 0 ):
@@ -310,7 +341,7 @@ class FileUtils:
 
     def relativePath( basepath, path, minPathIsDot, unixStyle ):
         # the implementation currently assumes that only the basepath is a directories
-        # but if the path was a directory for sure ( '/' or '\\' at the end ) then that quality is kept 
+        # but if the path was a directory for sure ( '/' or '\\' at the end ) then that quality is kept
         if ( not FileUtils.sameDrive( basepath, path ) ):
             raise Exception( 'relativePath() not same drive for %s and %s! ' % ( basepath, path ) )
 
@@ -348,7 +379,7 @@ class FileUtils:
                 if ( bpath == '' ):
                     raise Exception( 'relativePath() too many \'../\': the relative path cannot go up past the root of the drive. ( basepath, path ) = ( %s, %s )' % ( basepath, path ) )
                 continue
-            
+
             # attention: normPathOS eliminates all the last '/', but of course not the initial dot. It instead creates '.' if rpath was ''
             wasDirectoryForSure = ( rpath and rpath[-1] == '/' )
             rpath = FileUtils.normPathOS( rpath, unixStyle )
@@ -364,7 +395,7 @@ class FileUtils:
                 if ( rpath == '.' ):
                     path = ''
                 else:
-                    path = rpath            
+                    path = rpath
                     if ( wasDirectoryForSure ):
                         path += sep
         else:
@@ -393,9 +424,9 @@ class FileUtils:
 
                 if ( minPathIsDot and relpath == '' ):
                     relpath = './'
-    
+
                 path = relpath + rpath
-    
+
                 if ( not unixStyle ):
                     path = path.replace("/", "\\")
 
@@ -443,10 +474,10 @@ class DspApp:
 
         optparser.add_option(   "--deleteLines"                     , type = "int"     , dest = "deleteLines"                   , default=True  , help="eliminates all lines with string given in deleteLineString" )
         optparser.add_option(   "--deleteLineString"                , type = "string"  , dest = "deleteLineString"              , default=''    , help="string to find for lines to be deleted ( see deleteLines ) ( i.e. \'# PROP Scc_\'" )
-        optparser.add_option(   "--conformLibsToDlls"               , type = "int"     , dest = "conformLibsToDlls"             , default=True  , help="conforms the folders of dsp library projects to the ones of the project for the Dll version( the association table is in inside the code )" )
+        optparser.add_option(   "--conformLibraries"                , type = "int"     , dest = "conformLibraries"              , default=True  , help="conforms the libraries such that static and dynamic versions have the same body, i.e. the same groups" )
         optparser.add_option(   "--reformatOutputIntermediateDirs"  , type = "int"     , dest = "reformatOutputIntermediateDirs", default=True  , help="reformat the Output Directories [note though that in normal cases we want /out: and vc6 removes the /Fo option ]"        )
         optparser.add_option(   "--reformatOptionOutput"            , type = "int"     , dest = "reformatOptionOutput"          , default=True  , help="reformat the option Output                 /Fo"     )
-        
+
         optparser.add_option(   "--reformatOptionPdb"               , type = "int"     , dest = "reformatOptionPdb"             , default=False , help="reformat/delete the option ProgramDatabase /pdb"    )
         optparser.add_option(   "--reformatOptionBrowse"            , type = "int"     , dest = "reformatOptionBrowse"          , default=False , help="reformat/delete the option Browse          /Br"     )
 
@@ -515,17 +546,14 @@ class DspApp:
         print ''
         print ' --deleteLines                    = ' + str(self.options.deleteLines                     )
         print ' --deleteLineString               = \'' + str(self.options.deleteLineString              ) + '\''
-        print ' --conformLibsToDlls              = ' + str(self.options.conformLibsToDlls               )
+        print ' --conformLibraries               = ' + str(self.options.conformLibraries                )
         print ' --reformatOutputIntermediateDirs = ' + str(self.options.reformatOutputIntermediateDirs  )
         print ' --reformatOptionOutput           = ' + str(self.options.reformatOptionOutput            )
 
         print ''
         print ' --reformatOptionPdb              = ' + str(self.options.reformatOptionPdb               )
 
-        if ( self.options.reformatOptionBrowse == +1 ):
-            print ' --reformatOptionBrowse           = ' + str(self.options.reformatOptionBrowse            ) + ' ( the bsc file will be placed in the same dir of the main output ! )'
-        else:
-            print ' --reformatOptionBrowse           = ' + str(self.options.reformatOptionBrowse            )
+        print ' --reformatOptionBrowse           = ' + str(self.options.reformatOptionBrowse            )
 
         print ' --copyToVc70                     = ' + str(self.options.copyToVc70                      )
         print ' --copyToVc71                     = ' + str(self.options.copyToVc71                      )
@@ -579,84 +607,118 @@ class DspApp:
                 section = self.configGetStr ( 'activesection', 'section' )
                 self.section = section
                 if ( self.config.has_section( section ) ):
-                    section_dirlist                             = self.configGetStr ( section, 'section_dirlist'                )
-                    section_excludesubdirlist                   = self.configGetStr ( section, 'section_excludesubdirlist'      )
-
-                    self.options.filename                       = self.configGetStr ( section, 'file'                           )
-                    self.options.recurse                        = self.configGetBool( section, 'recurse'                        )
-                    self.options.verbose                        = self.configGetInt ( section, 'verbose'                        )
-                    self.options.prompt                         = self.configGetInt ( section, 'prompt'                         )
-
-                    self.options.unixStyle                      = self.configGetBool( section, 'unixStyle'                      )
-                    self.options.deleteLines                    = self.configGetBool( section, 'deleteLines'                    )
-                    self.options.deleteLineString               = self.configGetStr ( section, 'deleteLineString'               )
-                    self.options.conformLibsToDlls              = self.configGetBool( section, 'conformLibsToDlls'              )
-
-                    self.options.reformatOutputIntermediateDirs = self.configGetInt( section, 'reformatOutputIntermediateDirs'  )
-                    self.options.reformatOptionOutput           = self.configGetInt( section, 'reformatOptionOutput'            )
-                    self.options.reformatOptionPdb              = self.configGetInt( section, 'reformatOptionPdb'               )
-                    self.options.reformatOptionBrowse           = self.configGetInt( section, 'reformatOptionBrowse'            )
-
-                    self.options.enableVcfSpecific              = self.configGetBool( section, 'enableVcfSpecific'              )
-                    self.options.modifyVc6                      = self.configGetBool( section, 'modifyVc6'                      )
-                    self.options.copyToVc70                     = self.configGetBool( section, 'copyToVc70'                     )
-                    self.options.copyToVc71                     = self.configGetBool( section, 'copyToVc71'                     )
-
-                    self.options.workingDir                     = self.configGetStr ( section, 'workingDir'                     )
-                    self.options.createWorkspace                = self.configGetBool( section, 'createWorkspace'                )
-                    self.options.workspaceName                  = self.configGetStr ( section, 'workspaceName'                  )
-                    self.options.dependenciesWorkspace          = self.configGetStr ( section, 'dependenciesWorkspace'          )
-                    self.options.allowDirs                      = self.configGetBool( section, 'allowDirs'                      )
-                    self.options.excludeSubdirs                 = self.configGetBool( section, 'excludeSubdirs'                 )
-
-                    if ( self.options.workingDir == '' ):
-                        self.currentdir = os.getcwd()
+                    common_section                              = self.configGetStr ( section, 'common_section'                   )
+                    # common_section is activated only if not empty name
+                    if ( common_section ):
+                        comm_sect = common_section
                     else:
-                        self.currentdir = FileUtils.normDirOS( self.options.workingDir, True )
-                        if ( self.currentdir.find( './' ) != -1 ):
-                            self.currentdir = FileUtils.absolutePath( os.getcwd(), self.currentdir, self.options.unixStyle )
+                        comm_sect = section
 
-                    # please, make sure the name contains the dirname too
-                    self.options.workspaceName = FileUtils.relativePath( self.currentdir, self.options.workspaceName, True, self.options.unixStyle )
-                    if ( self.options.workspaceName == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.workspaceName = ''
-                    self.options.dependenciesWorkspace = FileUtils.relativePath( self.currentdir, self.options.dependenciesWorkspace, True, self.options.unixStyle )
-                    if ( self.options.dependenciesWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.dependenciesWorkspace = ''
+                    spec_sect = section
 
-                    if ( self.options.allowDirs ):
-                        if ( self.config.has_section( section_dirlist ) ):
-                            dirpairs = self.config.items( section_dirlist )
-                            self.allowedDirsList = []
-                            for dir in dirpairs:
-                                ( namesection, namedir ) = dir
-                                namedir = StringUtils.stripComment( namedir )
-                                namedir = StringUtils.trimCommas( namedir )
-                                namedir = namedir.lower()
-                                namedir = FileUtils.normDirOS( namedir, self.options.unixStyle )
-                                self.allowedDirsList.append( namedir )
-                                absNamedir = FileUtils.absolutePath( self.currentdir, namedir, self.options.unixStyle )
-                                self.allowedAbsoluteDirsList.append( absNamedir )
-                        else:
-                            raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_dirlist, self.options.fileconfig ) )
+                    # common section
+                    section_dirlist                             = self.configGetStr ( comm_sect, 'section_dirlist'                )
+                    section_excludesubdirlist                   = self.configGetStr ( comm_sect, 'section_excludesubdirlist'      )
+                    section_conformLibraries                    = self.configGetStr ( comm_sect, 'section_conformLibraries'       )
 
-                    if ( self.options.excludeSubdirs ):
-                        if ( self.config.has_section( section_excludesubdirlist ) ):
-                            dirpairs = self.config.items( section_excludesubdirlist )
-                            self.excludedSubdirsList = []
-                            for dir in dirpairs:
-                                ( namesection, namedir ) = dir
-                                namedir = StringUtils.stripComment( namedir )
-                                namedir = StringUtils.trimCommas( namedir )
-                                namedir = namedir.lower()
-                                namedir = FileUtils.normDirOS( namedir, self.options.unixStyle )
-                                self.excludedSubdirsList.append( namedir )
-                        else:
-                            raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_excludesubdirlist, self.options.fileconfig ) )
+                    self.options.filename                       = self.configGetStr ( comm_sect, 'file'                           )
+                    self.options.recurse                        = self.configGetBool( comm_sect, 'recurse'                        )
+                    self.options.verbose                        = self.configGetInt ( comm_sect, 'verbose'                        )
+                    self.options.prompt                         = self.configGetInt ( comm_sect, 'prompt'                         )
+
+                    self.options.unixStyle                      = self.configGetBool( comm_sect, 'unixStyle'                      )
+                    self.options.deleteLines                    = self.configGetBool( comm_sect, 'deleteLines'                    )
+                    self.options.deleteLineString               = self.configGetStr ( comm_sect, 'deleteLineString'               )
+
+                    self.options.reformatOutputIntermediateDirs = self.configGetInt ( comm_sect, 'reformatOutputIntermediateDirs' )
+                    self.options.reformatOptionOutput           = self.configGetInt ( comm_sect, 'reformatOptionOutput'           )
+
+                    self.options.enableVcfSpecific              = self.configGetBool( comm_sect, 'enableVcfSpecific'              )
+                    self.options.modifyVc6                      = self.configGetBool( comm_sect, 'modifyVc6'                      )
+
+                    self.options.workingDir                     = self.configGetStr ( comm_sect, 'workingDir'                     )
+                    self.options.workspaceName                  = self.configGetStr ( comm_sect, 'workspaceName'                  )
+                    self.options.dependenciesWorkspace          = self.configGetStr ( comm_sect, 'dependenciesWorkspace'          )
+                    self.options.allowDirs                      = self.configGetBool( comm_sect, 'allowDirs'                      )
+                    self.options.excludeSubdirs                 = self.configGetBool( comm_sect, 'excludeSubdirs'                 )
+
+
+                    # specific section
+                    self.options.createWorkspace                = self.configGetBool( spec_sect, 'createWorkspace'                )
+                    self.options.conformLibraries               = self.configGetBool( spec_sect, 'conformLibraries'               )
+
+                    self.options.reformatOptionPdb              = self.configGetInt ( spec_sect, 'reformatOptionPdb'              )
+                    self.options.reformatOptionBrowse           = self.configGetInt ( spec_sect, 'reformatOptionBrowse'           )
+                    self.options.copyToVc70                     = self.configGetBool( spec_sect, 'copyToVc70'                     )
+                    self.options.copyToVc71                     = self.configGetBool( spec_sect, 'copyToVc71'                     )
+
                 else:
                     raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section, self.options.fileconfig ) )
             else:
                 raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( 'activesection', self.options.fileconfig ) )
         else:
             raise Exception( 'The config file \'%s\' does not exists !' % self.options.fileconfig )
+
+
+
+        if ( self.options.workingDir == '' ):
+            self.currentdir = os.getcwd()
+        else:
+            self.currentdir = FileUtils.normDirOS( self.options.workingDir, True )
+            if ( self.currentdir.find( './' ) != -1 ):
+                self.currentdir = FileUtils.absolutePath( os.getcwd(), self.currentdir, self.options.unixStyle )
+
+        # please, make sure the name contains the dirname too
+        self.options.workspaceName = FileUtils.relativePath( self.currentdir, self.options.workspaceName, True, self.options.unixStyle )
+        if ( self.options.workspaceName == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.workspaceName = ''
+        self.options.dependenciesWorkspace = FileUtils.relativePath( self.currentdir, self.options.dependenciesWorkspace, True, self.options.unixStyle )
+        if ( self.options.dependenciesWorkspace == '.' + FileUtils.getNormSep( self.options.unixStyle ) ): self.options.dependenciesWorkspace = ''
+
+        if ( self.options.allowDirs ):
+            if ( self.config.has_section( section_dirlist ) ):
+                pairs = self.config.items( section_dirlist )
+                self.allowedDirsList = []
+                for pair in pairs:
+                    ( name, namedir ) = pair
+                    namedir = StringUtils.stripComment( namedir )
+                    namedir = StringUtils.trimCommas( namedir )
+                    namedir = namedir.lower()
+                    namedir = FileUtils.normDirOS( namedir, self.options.unixStyle )
+                    self.allowedDirsList.append( namedir )
+                    absNamedir = FileUtils.absolutePath( self.currentdir, namedir, self.options.unixStyle )
+                    self.allowedAbsoluteDirsList.append( absNamedir )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_dirlist, self.options.fileconfig ) )
+
+        if ( self.options.excludeSubdirs ):
+            if ( self.config.has_section( section_excludesubdirlist ) ):
+                pairs = self.config.items( section_excludesubdirlist )
+                self.excludedSubdirsList = []
+                for pair in pairs:
+                    ( name, namedir ) = pair
+                    namedir = StringUtils.stripComment( namedir )
+                    namedir = StringUtils.trimCommas( namedir )
+                    namedir = namedir.lower()
+                    namedir = FileUtils.normDirOS( namedir, self.options.unixStyle )
+                    self.excludedSubdirsList.append( namedir )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_excludesubdirlist, self.options.fileconfig ) )
+
+        if ( self.options.conformLibraries and section_conformLibraries ):
+            if ( self.config.has_section( section_conformLibraries ) ):
+                pairs = self.config.items( section_conformLibraries )
+                self.conformLibrariesList = []
+                for pair in pairs:
+                    ( name, item ) = pair
+                    # dllname --> nameChanged  i.e.  FoundationKit --> FoundationKitDll
+                    if ( item.find( '-->' ) or item.find( '-->' ) ):
+                        item = StringUtils.stripComment( item )
+                        item = item.rstrip()
+                        self.conformLibrariesList.append( item )
+                    else:
+                        raise Exception( 'Wrong format of the item \'%s = %s\' in the section \'%s\' of the config file \'%s\'\n' \
+                                         'The format should be [ c# = dllname --> libname ] or [ c# = dllname <-- libname ]' % ( namesection, item, section_conformLibraries, self.options.fileconfig ) )
+
 
         return
 
@@ -692,7 +754,10 @@ class Workspace:
     """Creates a workspace with all projects in Visual Studio 6."""
     def __init__( self, workspacename ):
         self.prjNames = []
-        self.prjPaths = []
+        self.absPrjPaths = []
+        self.relPrjPaths = []
+        self.prjNameAbsPathDict = {}
+        self.prjNameRelPathDict = {}
         self.workspacename = ''
         self.setName( workspacename )
         self.dependencies = {}
@@ -714,11 +779,24 @@ class Workspace:
                 raise Exception( 'Workspace\'s directory \'%s\' not created !' % workspaceDirname )
         return
 
-    def setProjects( self, prjNames, prjPaths ):
-        self.prjNames = prjNames
-        self.prjPaths = prjPaths
+    def addProject( self, prjName, absPrjPath ):
+        # prjPath must be given here as absolute path because one thing is the path relative to the cwd
+        # and different thing is aa path relative to the workspace path
+        self.prjNames.append( prjName )
+        self.absPrjPaths.append( absPrjPath )
+        self.prjNameAbsPathDict[ prjName ] = absPrjPath
+
+        workspaceDirname = os.path.dirname( self.workspacename )
+        relPrjPath = FileUtils.relativePath( workspaceDirname, absPrjPath, True, app.options.unixStyle )
+        self.relPrjPaths.append( relPrjPath )
+        self.prjNameRelPathDict[ prjName ] = relPrjPath
+
+        return
 
     def create( self ):
+        if ( not app.options.conformLibraries ):
+            return
+
         self.getWorkspaceDependencies( app.options.dependenciesWorkspace )
 
         workspacedirname = os.path.dirname( self.workspacename )
@@ -755,12 +833,16 @@ class Workspace:
         prjBody2 += '\n'
 
         #sorting
-        projects = zip( self.prjNames, self.prjPaths )
+        projects = zip( self.prjNames, self.relPrjPaths )
         projects.sort()
+        # for (prjName, relPrjPath) in projects:
+
+        prjNames = self.prjNames
+        prjNames.sort()
 
         dependencyStringList = ''
-        for (prjName, prjPath) in projects:
-            relPrjPath = FileUtils.relativePath( workspacedirname, prjPath, True, app.options.unixStyle )
+        for (prjName ) in prjNames:
+            relPrjPath = self.prjNameRelPathDict[ prjName ]
 
             prjLine = r'Project: "' + prjName + r'"="' + relPrjPath + '" - Package Owner=<4>\n'
             fd.writelines( prjLine )
@@ -778,12 +860,7 @@ class Workspace:
         fd.close
 
         print ' created workspace: %s' % self.workspacename
-        
-        return
 
-    def addProject( self, prjName, prjPath ):
-        self.prjNames.append( prjName )
-        self.prjPaths.append( prjPath )
         return
 
     def getWorkspaceDependencies( self, dependencyWorkspaceName ):
@@ -840,67 +917,90 @@ class Workspace:
 
         return
 
-    def conformLibsToDlls( self ):
-        if ( not app.options.conformLibsToDlls ):
+    def conformAllLibraries( self ):
+        if ( not app.options.conformLibraries ):
             return
-        
-        # %%%
-        #tableAssocLib = [ ( 'FoundationKit'  , 'FoundationKitDll'   ), \
-        #                  ( 'GraphicsKit'    , 'GraphicsKitDll'     ), \
-        #                  ( 'ApplicationKit' , 'ApplicationKitDll'  ), \
-        #                  ( 'NetworkKit'     , 'NetworkKitDll'      ), \
-        #                  ( 'RemoteObjectKit', 'RemoteObjectKitDll' )  \
-        #                ]
-               
-        # first check if the libs exist
-        
-        #sorting to spead up the search
-        projects = zip( self.prjNames, self.prjPaths )
-        projects.sort()
 
-        # very brute force search
-        #for ( libname, dllname ) in tableAssocLib # %%%
-        if ( False ):
-            libNameFound = ''
-            dllNameFound = ''
-            lw_libname = libname.lower()
-            lw_dllname = dllname.lower()
-            for (prjName, prjPath) in projects:
-                prjName = prjName.lower()
-                if ( prjName == lw_libname ):
-                    libNameFound = libname
-                    libPath = prjPath
-                    break
-            for (prjName, prjPath) in projects:
-                prjName = prjName.lower()
-                if ( prjName == lw_dllname ):
-                    dllNameFound = libname
-                    dllPath = prjPath
-                    break
-                
-            if ( libPath and dllPath ):
-                conformLibToDll( self, libPath, dllPath )
+        tableAssocDllsLibs = {}
+        #tableAssocDllsLibs = [ ( 'FoundationKitDLL'  , 'FoundationKit'             ), \
+        #                       ( 'GraphicsKitDLL'    , 'GraphicsKit'               ), \
+        #                       ( 'ApplicationKitDLL' , 'ApplicationKit'            ), \
+        #                       ( 'NetworkKitDLL'     , 'NetworkKit'                ), \
+        #                       ( 'RemoteObjectKit'   , 'RemoteObjectKitStatic'     ), \
+        #                       ( 'Win32HTMLBrowser'  , 'Win32HTMLBrowser_StaticLib')  ]
+
+        for item in app.conformLibrariesList:
+            # dllname --> libname or dllname --> libname
+            lp = len( '-->' )
+            p = item.find( '-->' )
+            if ( p != -1 ):
+                masterIsLeft = True
             else:
-                print 'conformLibsToDlls: ( libPath, dllPath ) not found: ( %s, %s )' % ( libNameFound, dllNameFound )
-        
-        conformLibToDll( self, libname, dllname )
-        
-        print ' libraries conformed.'
-        return
- 
-    def conformLibToDll( self, libname, dllname ):
-        dr = DspFile( app, libname )
-        dr.readlines()
-        
-        dw = DspFile( app, dllname )
-        dw.readlines()
-        
-        target = dr.readTarget()
-        
-        dw.replaceTarget( target )        
+                p = item.find( '<--' )
+                if ( p != -1 ):
+                    masterIsLeft = False
 
-        print ' conformed library \'%s\' <-- dll \'%s\'', ( libname, dllname )
-        
+            if ( p != -1 ):
+                if ( masterIsLeft ):
+                    nameMaster = item[:p]
+                    nameChanged = item[p+lp:]
+                else:
+                    nameChanged = item[:p]
+                    nameMaster  = item[p+lp:]
+
+                nameMaster = StringUtils.trimCommas( nameMaster )
+                nameMaster = nameMaster.strip()
+
+                nameChanged = StringUtils.trimCommas( nameChanged )
+                nameChanged = nameChanged.strip()
+
+                tableAssocDllsLibs[ nameChanged ] = nameMaster
+            else:
+                raise Exception( 'Wrong format of the item \'%s = %s\'. See the config file \'%s\'\n' \
+                                 'The format should be [ c# = dllname --> libname ] or [ c# = dllname <-- libname ]' % ( namesection, item, self.options.fileconfig ) )
+
+
+        # sort ( it's nicer )
+        prjNames = self.prjNames
+        prjNames.sort()
+
+        nc = 0
+        libsc = []
+        for prjName in self.prjNames:
+            if ( tableAssocDllsLibs.has_key( prjName ) ):
+                nameChanged = prjName
+                nameMaster = tableAssocDllsLibs[ nameChanged ]
+
+                absPathChanged = self.prjNameAbsPathDict[ nameChanged ]
+                absPathMaster  = self.prjNameAbsPathDict[ nameMaster  ]
+
+                self.conformLibrary( absPathMaster, absPathChanged )
+                libsc.append( nameChanged )
+                nc += 1
+
+        print ' %d libraries conformed  ' % nc # + str( libsc )
+        if ( nc != len( tableAssocDllsLibs ) ):
+            print '  !!! some libraries not found !!! '
+
+        return
+
+    def conformLibrary( self, filenameMaster, filenameChanged ):
+        dr = DspFile( app, filenameMaster )
+        dr.readlines()
+        targetSection = dr.readTargetSection()
+
+        dw = DspFile( app, filenameChanged )
+        dw.readlines()
+        configurationSection = dw.readConfigurationSection()
+
+        tmpFilename = dw.replaceAllSections( configurationSection, targetSection )
+
+        dw.replaceWithFile( tmpFilename, False )
+
+        nameMaster  = os.path.basename ( filenameMaster )
+        nameChanged = os.path.basename ( filenameChanged )
+        print ' conformed library [ %-30s --> %-30s ]' % ( nameMaster, nameChanged )
+
         return
 
 
@@ -925,8 +1025,7 @@ class DspFile:
         self.PropOutputDirList  = []    # directory for output
         self.PropIntermeDirList = []    # directory for intermediate output
         self.OutputDirOutList   = []    # directory for main output ( it is usually the same as PropOutputDirList, but sometimes we want to /out: somewhereelse )
-        self.MainFileTitleList = []     # unused ?
-        self.MainFileTitleUnique = ''
+        self.MainFileTitleBase = ''
         self.outputExt = ''
 
         self.PropOutputDir  = ''
@@ -955,8 +1054,7 @@ class DspFile:
         self.PropOutputDirList  = []    # directory for output
         self.PropIntermeDirList = []    # directory for intermediate output
         self.OutputDirOutList   = []    # directory for main output ( it is usually the same as PropOutputDirList, but sometimes we want to /out: somewhereelse )
-        self.MainFileTitleList = []     # unused ?
-        self.MainFileTitleUnique = ''
+        self.MainFileTitleBase = ''
         self.outputExt = ''
 
         self.PropOutputDir  = ''
@@ -1013,7 +1111,7 @@ class DspFile:
         #print 'tmpFilename ' + tmpFilename
         if ( os.path.exists( tmpFilename ) ) :
             os.remove( tmpFilename );
-            
+
         fd = file( tmpFilename, 'w' );
         fd.writelines( self.lines )
         fd.close()
@@ -1021,33 +1119,19 @@ class DspFile:
         if ( not os.path.exists( tmpFilename ) ) :
             raise Exception( 'saveFile() - the temporary file \'%s\' had not been created !' % source )
 
-        self.replaceFile( tmpFilename, self.filename )
-            
+        self.replaceWithFile( tmpFilename, True )
+
         return
 
-    def replaceFile( self, source, destination ):
+    def replaceWithFile( self, source, count ):
+        destination = self.filename
 
-        if ( not os.path.exists( source ) ) :
-            raise Exception( 'replaceFile() - the source file \'%s\' does not exist!' % source )
-        
-        if ( os.path.exists( destination ) ) :
-            if ( not filecmp.cmp( source, destination ) ):
-                # some changes
-                os.remove( destination )
-                os.rename( source, destination )
-                app.changedFiles += 1
-            else:
-                # no changes
-                os.remove( source )
-                app.unchangedFiles += 1
-                
-            #if ( False ):
-            #    shutil.copyfile( source, destination )
-            #    if ( os.path.exists( source ) ) :
-            #        os.remove( source ) # ' OSError: [Errno 13] Permission denied ' Why ???
-        else:
-            app.createdFiles += 1
-            os.rename( source, destination )
+        ( changedFiles, unchangedFiles, createdFiles ) \
+                    = FileUtils.replaceFile( source, destination )
+        if ( count ):
+            app.changedFiles   += changedFiles
+            app.unchangedFiles += unchangedFiles
+            app.createdFiles   += createdFiles
 
         return
 
@@ -1104,101 +1188,84 @@ class DspFile:
         return
 
 
-    def readTarget( self ):
-        # skips all the configuration lines and copy the all the target body into a string
-            
-        target = ''
+    def readTargetSection( self ):
+        # skips all the configuration lines and copy all the target body into a string
+
+        targetSection = ''
         state = 0
         for n in range( len(self.lines) ):
             line = self.lines[n]
             self.n = n
 
-            # skips the configurations body    
+            # skips the configurations body
             if ( state == 0 and re.match( '# Begin Target', line ) ):
                 state = 1
-                break
-        
+
             elif ( state == 1 and re.match( '# Begin Group', line ) ):
+                targetSection += line
                 state = 2
-                
+
             elif ( state == 2 ):
-                if ( re.match( '# End Target', line ) ):
+                targetSection += line
+                if ( re.match( '# End Project', line ) ):
                     state = 3
-                else:
-                    target += line
-                
-            elif ( state == 3 and re.match( '# End Project', line ) ):
-                target += line
-                state = 4
-            
+
             else:
                 pass
-        
-        if ( state != 4 ):
-            raise Exception( 'wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
-        
-        return target
 
-    def readOutsideTarget( self ):
-        # skips all the configuration lines and copy the all the target body into a string
-            
-        preTarget = ''
-        postTarget = ''
+        if ( state != 3 ):
+            raise Exception( 'wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
+
+        return targetSection
+
+    def readConfigurationSection( self ):
+        # read all the configuration lines and copy them all into a string
+
+        configurationSection = ''
         state = 0
         for n in range( len(self.lines) ):
             line = self.lines[n]
             self.n = n
 
-            # skips the configurations body    
+            # skips the configurations body
             if ( state == 0 ):
-                preTarget += line
+                configurationSection += line
                 if ( re.match( '# Begin Target', line ) ):
                     state = 1
-        
+
             elif ( state == 1 ):
                 # the part with the application names is still very specific of this project so we copy this one part too
-                preTarget += line
                 if ( re.match( '# Begin Group', line ) ):
-                    state = 2                
-                
-            elif ( state == 2 ):
-                if ( re.match( '# End Target', line ) ):
-                    postTarget += line
-                    state = 3
-                
-            elif ( state == 3 ):
-                postTarget += line
-                if ( re.match( '# End Project', line ) ):
-                    state = 4
-                                
+                    state = 2
+                    break
+                else:
+                    configurationSection += line
+
             else:
                 pass
-        
-        if ( state != 4 ):
+
+        if ( state != 2 ):
             raise Exception( 'wrong final state: [%d]. Read %d lines in \'%s\'' % ( state, self.n, self.filename ) )
-        
-        return ( preTarget, postTarget )
-    
-    def replaceTarget( self, preTarget, target, postTarget ):
+
+        return ( configurationSection )
+
+    def replaceAllSections( self, configurationSection, targetSection ):
         tmpFilename = self.filename + '.$x$y$'
-        
+
         #print 'tmpFilename ' + tmpFilename
         if ( os.path.exists( tmpFilename ) ) :
             os.remove( tmpFilename );
-            
+
         fd = file( tmpFilename, 'w' );
-        fd.writelines( preTarget )
-        fd.writelines( target )
-        fd.writelines( postTarget )
+        fd.writelines( configurationSection )
+        fd.writelines( targetSection )
         fd.close()
 
         if ( not os.path.exists( tmpFilename ) ) :
-            raise Exception( 'replaceTarget() - the temporary file \'%s\' had not been created !' % source )
+            raise Exception( 'replaceTarget() - the temporary file \'%s\' had not been created !' % tmpFilename )
 
-        replaceFile( self, tmpFilename, self.filename )
-        
-        return    
-    
+        return tmpFilename
+
     def getDuplicateVcFilename( self, origStr, copyStr ):
         # if the filename is under a origStr/ subdirectory then it is copied into a copyStr/ subdirectory
         # otherwise is copied into a _copyStr file in the same directory
@@ -1296,7 +1363,6 @@ class DspFile:
                     self.OutputDirOutList  .append( '')
                     self.PropOutputDirList .append( '')
                     self.PropIntermeDirList.append( '')
-                    self.MainFileTitleList .append( '') # unused ?
                     self.projectName = m.group('projectName')
                     self.platform    = m.group('platform').rstrip() # we don't really need it
                     self.configName  = m.group('configName')
@@ -1378,8 +1444,8 @@ class DspFile:
                     self.isDebugCfg .append( configName.find( 'debug'  ) != -1 )
                     self.isStaticCfg.append( configName.find( 'static' ) != -1 )
 
-                    #if ( self.MainFileTitleUnique != '' ):
-                    #    fileTitle = self.MainFileTitleUnique
+                    #if ( self.MainFileTitleBase != '' ):
+                    #    fileTitle = self.MainFileTitleBase
                     #else:
                     #    fileTitle = projectName
 
@@ -1415,7 +1481,7 @@ class DspFile:
                         self.addKind = enum_ADD_LINK32
                         line = self.changeOptionsLnk( line )
                         changed = True
-                        
+
                     elif ( re_SUBTRACT_LINK32.match( line ) ):
                         self.addKind = enum_SUBTRACT_LINK32
                         line = self.changeOptionsLnk( line )
@@ -1517,8 +1583,7 @@ class DspFile:
             (basetitle,ext) = os.path.splitext( basetitle )
             (ipf, basetitle) = self.getPostFixIndex( basetitle )
             if ( len( basetitle ) ):
-                self.MainFileTitleList[self.nCfg] = basetitle
-                self.MainFileTitleUnique          = basetitle
+                self.MainFileTitleBase          = basetitle
         else:
             msg = 'WARNING: the file \'%s\' has no \'/out:\' option in the configuration \'%s\'' % ( self.filename, self.configName )
             print msg
@@ -1562,7 +1627,7 @@ class DspFile:
                 line = self.storeRemoveOptionBrowse( line )
                 optionsList = [ '/Wx' ]
                 index = self.findLastIndexInList( optionsList, line, True )
-                
+
             line = self.addStoredOptions( line, index )
 
         return line
@@ -1587,7 +1652,7 @@ class DspFile:
                 line = self.storeRemoveOptionPdb( line )
                 optionsList = [ '/incremental:', '/map', '/pdb:' ]
                 index = self.findLastIndexInList( optionsList, line, True )
-                
+
             line = self.addStoredOptions( line, index )
 
         return line
@@ -1651,8 +1716,7 @@ class DspFile:
             # this option should always be there ( we always want dir and filename specified for the linker output )
             addDir  = +1 # never remove it
             addFile = +1
-            if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
-            line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.MainFileTitleUnique + self.outputExt, False, changeSomething, addDir, addFile )
+            line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.MainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
 
         return line
 
@@ -1667,15 +1731,13 @@ class DspFile:
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, '', False, changeSomething, addDir, addFile )
             else:
                 # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
-                if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
-                line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.MainFileTitleUnique + '.pdb', False, changeSomething, addDir, addFile )
+                line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.MainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
             # (*) the reason why we always remove the '/pdb' option in a ADD LINK32 line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
             addDir  = False
             addFile = False # we usually want both in the same way
-            if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
-            line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.MainFileTitleUnique + '.pdb', False, changeSomething, addDir, addFile )
-            
+            line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.MainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
+
             if ( self.addKind == enum_ADD_LINK32 ):
                 addDir  = app.options.reformatOptionPdb
                 addFile = addDir # we usually want both in the same way
@@ -1697,8 +1759,7 @@ class DspFile:
                 line = self.storeRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
             elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
                 # the bsc file will be placed in the same dir of the main output
-                if ( self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ): raise Exception( '*** self.MainFileTitleUnique != self.MainFileTitleList[self.nCfg] ( %s != %s )' % ( self.MainFileTitleUnique, self.MainFileTitleList[self.nCfg] ) )
-                line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.MainFileTitleUnique + '.bsc', False, changeSomething, addDir, addFile )
+                line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.MainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
             elif ( self.addKind == enum_SUBTRACT_CPP ):
                 # /Fr' in # SUBTRACT CPP disable the pdb option
                 addDir  = -(app.options.reformatOptionBrowse) # /debug in the SUBTRACT line has opposite meaning
@@ -1923,9 +1984,9 @@ class Walker:
 
         #testRegex()
 
-        app.changedFiles = 0
+        app.changedFiles   = 0
         app.unchangedFiles = 0
-        app.createdFiles = 0
+        app.createdFiles   = 0
         nFiles = 0
         for filename in self.walk_files( root, app.options.recurse ):
             if ( len(filename) > 4 and filename[-4:] == '.dsp' ):
@@ -1961,10 +2022,9 @@ class Walker:
 
                     if ( app.options.createWorkspace ):
                         prjName = dsp.getTrueProjectName()
-                        # workspaceDir = os.path.dirname( app.options.workspaceName ) + '/'
-                        # prjPath = FileUtils.relativePath( workspaceDir, root + sep + fullname, True, app.options.unixStyle ): it wouldn't work if app.currentdir != getCwd
-                        prjPath = FileUtils.absolutePath( app.currentdir, root + sep + fullname, app.options.unixStyle )
-                        workspace.addProject( prjName, prjPath )
+                        # do not use FileUtils.relativePath because one thing is the path relative to the cwd and different thing is aa path relative to the workspace path
+                        absPrjPath = FileUtils.absolutePath( app.currentdir, root + sep + fullname, app.options.unixStyle )
+                        workspace.addProject( prjName, absPrjPath )
 
                     if ( app.options.enableVcfSpecific ):
                         # note: we duplicate only what is allowed
@@ -1976,8 +2036,8 @@ class Walker:
         if ( nFiles ):
             if ( app.options.createWorkspace ):
                 workspace.create()
-            if ( False and app.options.conformLibsToDlls ):
-                workspace.conformLibsToDlls()
+            if ( app.options.conformLibraries ):
+                workspace.conformAllLibraries()
 
         if ( 0 < app.options.verbose ):
             print ' %s dsp files processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
@@ -2002,12 +2062,18 @@ if __name__ == '__main__':
 Notes:
     1) The modified files in the safest way for the originals
         First is created a temporary file and then, if everything is ok, it is renamed into the original one
-        
-    2) The order of the options is mantained: but if the vc6 options are in the wrong order 
+
+    2) The order of the options is mantained: but if the vc6 options are in the wrong order
         and th this script's option is not null, then the order is changed in a 'standard' way
 
+    3) The output file has the format basename_compiler_[|d|sd]
+            Where d with debug and s for static libraries
+            compiler is = [ vc6 | vc70 | vc71 ]
+
+    4) The bsc file will be placed in the same dir of the main output
+
 Limitations:
-    1) A program database option is mosly enabled/disabled by the /debug option ( generate debug info ) 
+    1) A program database option is mosly enabled/disabled by the /debug option ( generate debug info )
         which is present or in the #ADD LINK32 line or in the #SUBTRACT LINK32 line
         But this program doesn't affect (create) any SUBTRACT line if it doesn't exist yet
 """
