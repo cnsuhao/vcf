@@ -68,14 +68,16 @@ public:
 	virtual void recalcScrollPositions( Scrollable* scrollable ) = 0;
 
 	/**
-	* gets the control containing the scrollbars and associated to them.
-	* MP ?
+	* gets the control this scroll peer has been assogiated to.
+	*@see setScrollableControl()
 	*/
 	virtual Control* getScrollableControl() = 0;
 
 	/**
-	* sets the control containing the scrollbars and associated to them.
-	* MP ?
+	* sets the target control for the scrolling operation of this scroll peer
+	* instance. At this point the content of the control will be scrolled by 
+	* the scrollable.
+	*@see Scrollable::setScrollableControl()
 	*/
 	virtual void setScrollableControl( Control* scrollableControl ) = 0;
 
@@ -127,7 +129,7 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.1  2005/01/13 19:41:39  marcelloptr
+*Revision 1.3.2.2  2005/01/17 17:50:43  marcelloptr
 *scrollable documentation and related
 *
 *Revision 1.3  2004/12/01 04:31:38  ddiego
