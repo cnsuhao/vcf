@@ -312,7 +312,7 @@ void GraphicsContext::polyline( const std::vector<Point>& pts )
 	while ( it != pts.end() ) {
 		const Point& pt = *it;
 		pathOperations_.push_back( PointOperation(pt.x_, pt.y_, PointOperation::ptPolyLine) );
-		it ++;
+		++it;
 	}
 }
 
@@ -712,7 +712,7 @@ void GraphicsContext::execPathOperations()
 
 				
 				contextPeer_->moveTo( tmpX, tmpY );
-				it ++;
+				++it;
 			}
 			break;
 
@@ -726,7 +726,7 @@ void GraphicsContext::execPathOperations()
 								(transform[Matrix2D::mei21]);
 
 				contextPeer_->lineTo( tmpX, tmpY );
-				it ++;
+				++it;
 			}
 			break;
 
@@ -746,7 +746,7 @@ void GraphicsContext::execPathOperations()
 								(transform[Matrix2D::mei21]);
 
 					tmpPts.push_back( Point(tmpX,tmpY) );
-					it++;
+					++it;
 				}
 
 				contextPeer_->polyline( tmpPts );
@@ -777,7 +777,7 @@ void GraphicsContext::execPathOperations()
 							pt1.y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
-				it ++;
+				++it;
 
 				PointOperation& pt2 = *it;
 				p2.x_ = pt2.x * (transform[Matrix2D::mei00]) +
@@ -788,7 +788,7 @@ void GraphicsContext::execPathOperations()
 							pt2.y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
-				it ++;
+				++it;
 
 				PointOperation& pt3 = *it;
 				p3.x_ = pt3.x * (transform[Matrix2D::mei00]) +
@@ -799,7 +799,7 @@ void GraphicsContext::execPathOperations()
 							pt3.y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
-				it ++;
+				++it;
 
 				PointOperation& pt4 = *it;
 				p4.x_ = pt4.x * (transform[Matrix2D::mei00]) +
@@ -810,7 +810,7 @@ void GraphicsContext::execPathOperations()
 							pt4.y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
-				it ++;
+				++it;
 
 				contextPeer_->curve( p1.x_, p1.y_, p2.x_, p2.y_,
 										p3.x_, p3.y_, p4.x_, p4.y_ );
@@ -822,10 +822,10 @@ void GraphicsContext::execPathOperations()
 			case PointOperation::ptRect:{
 
 				PointOperation& pt1 = *it;				
-				it ++;
+				++it;
 
 				PointOperation& pt2 = *it;
-				it ++;
+				++it;
 
 				
 				std::vector<Point> tmpPts(5);
@@ -853,7 +853,7 @@ void GraphicsContext::execPathOperations()
 
 					p.x_ = tmpX;
 					p.y_ = tmpY;
-					ptIt++;
+					++ptIt;
 				}
 
 				contextPeer_->polyline( tmpPts );
@@ -868,13 +868,13 @@ void GraphicsContext::execPathOperations()
 
 
 				PointOperation& pt1 = *it;
-				it ++;
+				++it;
 
 				PointOperation& pt2 = *it;
-				it ++;
+				++it;
 				
 				PointOperation& pt3 = *it;
-				it ++;
+				++it;
 
 				std::vector<Point> tmpPts;
 				buildRoundRect( pt1.x, pt1.y, pt2.x, pt2.y, pt3.x, pt3.y, tmpPts, transform );
@@ -885,10 +885,10 @@ void GraphicsContext::execPathOperations()
 
 			case PointOperation::ptEllipse : {
 				PointOperation& pt1 = *it;
-				it ++;
+				++it;
 
 				PointOperation& pt2 = *it;
-				it ++;
+				++it;
 
 				//contextPeer_->ellipse( pt1.x, pt1.y, pt2.x, pt2.y );
 
@@ -905,13 +905,13 @@ void GraphicsContext::execPathOperations()
 				}
 
 				PointOperation& pt1 = *it;
-				it ++;
+				++it;
 
 				PointOperation& pt2 = *it;
-				it ++;
+				++it;
 
 				PointOperation& pt3 = *it;
-				it ++;
+				++it;
 
 				
 				std::vector<Point> tmpPts;
@@ -924,7 +924,7 @@ void GraphicsContext::execPathOperations()
 			case PointOperation::ptClose : {
 				PointOperation& pt = *it;
 				contextPeer_->lineTo( pt.x, pt.y );
-				it ++;
+				++it;
 			}
 			break;
 
@@ -1053,7 +1053,7 @@ void GraphicsContext::buildArc( double centerX,  double centerY,
 
 		pts.push_back( pt );
 
-		it ++;
+		++it;
 	}
 
 }
@@ -1119,7 +1119,7 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 
 		pts.push_back( pt );
 
-		it ++;
+		++it;
 	}
 }
 
@@ -1147,7 +1147,7 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 
 		pts.push_back( pt );
 
-		it ++;
+		++it;
 	}
 	
 	pts.back() = pts[0];
@@ -1160,6 +1160,9 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/08/31 10:24:15  marcelloptr
+*project changed postfix operator into prefix where not necessary so to eliminate agg warning
+*
 *Revision 1.2.2.4  2004/08/31 04:12:13  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out
