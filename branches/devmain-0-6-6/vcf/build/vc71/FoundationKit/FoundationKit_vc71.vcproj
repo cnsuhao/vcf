@@ -135,6 +135,9 @@
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FoundationKitSelectLib.h">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\FrameworkConfig.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -1477,9 +1480,6 @@
 			Filter="*.h">
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\CommonDefines.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\FrameworkConfig.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Locales.h">
