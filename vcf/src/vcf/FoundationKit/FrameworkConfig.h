@@ -284,28 +284,57 @@ this define is to fix:
 	// and we save a MACRO defines at the same time.
 	// Nevertheless USE_FOUNDATIONKIT_DLL cannot replace FOUNDATIONKIT_DLL
 
-	#ifdef USE_FOUNDATIONKIT_DLL
-	# ifndef FOUNDATIONKIT_DLL
-	#		define FOUNDATIONKIT_DLL
-	# endif
-	#endif
+	// USE_APPLICATIONKIT_DLL implies USE_GRAPHICSKIT_DLL
+	// USE_GRAPHICSKIT_DLL    implies USE_FOUNDATIONKIT_DLL
+	// USE_NETKIT_DLL         implies USE_FOUNDATIONKIT_DLL
+	// and 
+	// USE_APPLICATIONKIT_LIB implies USE_GRAPHICSKIT_LIB
+	// USE_GRAPHICSKIT_LIB    implies USE_FOUNDATIONKIT_LIB
+	// USE_NETKIT_LIB         implies USE_FOUNDATIONKIT_LIB
 
-	#ifdef USE_GRAPHICSKIT_DLL
-	# ifndef GRAPHICSKIT_DLL
-	#		define GRAPHICSKIT_DLL
-	# endif
+	#ifdef USE_NETKIT_DLL
+	# 	ifndef NETKIT_DLL
+	#			define NETKIT_DLL
+	# 	endif
+	# 	ifndef USE_FOUNDATIONKIT_DLL
+	#			define USE_FOUNDATIONKIT_DLL
+	# 	endif
+  #elif defined USE_NETKIT_LIB
+	# 	ifndef USE_FOUNDATIONKIT_LIB
+	#			define USE_FOUNDATIONKIT_LIB
+	# 	endif
 	#endif
 
 	#ifdef USE_APPLICATIONKIT_DLL
-	# ifndef APPLICATIONKIT_DLL
-	#		define APPLICATIONKIT_DLL
-	# endif
+	# 	ifndef APPLICATIONKIT_DLL
+	#			define APPLICATIONKIT_DLL
+	# 	endif
+	# 	ifndef USE_GRAPHICSKIT_DLL
+	#			define USE_GRAPHICSKIT_DLL
+	# 	endif
+  #elif defined USE_APPLICATIONKIT_LIB
+	# 	ifndef USE_GRAPHICSKIT_LIB
+	#			define USE_GRAPHICSKIT_LIB
+	# 	endif
 	#endif
 
-	#ifdef USE_NETKIT_DLL
-	# ifndef NETKIT_DLL
-	#		define NETKIT_DLL
-	# endif
+	#ifdef USE_GRAPHICSKIT_DLL
+	# 	ifndef GRAPHICSKIT_DLL
+	#			define GRAPHICSKIT_DLL
+	# 	endif
+	# 	ifndef USE_FOUNDATIONKIT_DLL
+	#			define USE_FOUNDATIONKIT_DLL
+	# 	endif
+  #elif defined USE_GRAPHICSKIT_LIB
+	# 	ifndef USE_FOUNDATIONKIT_LIB
+	#			define USE_FOUNDATIONKIT_LIB
+	# 	endif
+	#endif
+
+	#ifdef USE_FOUNDATIONKIT_DLL
+	#	 ifndef FOUNDATIONKIT_DLL
+	#			define FOUNDATIONKIT_DLL
+	#	 endif
 	#endif
 
 #endif
@@ -563,6 +592,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/17 05:01:32  marcelloptr
+*improved macros for library selection
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -65,8 +65,10 @@ where you installed the VCF.
 
 //
 
-#include "vcf/FoundationKit/FoundationKitSelectLib.h"
 #include "vcf/FoundationKit/VCF.h"
+
+#include "vcf/FoundationKit/FoundationKitSelectLib.h"
+
 #include "vcf/FoundationKit/VCFChar.h"
 #include "vcf/FoundationKit/VCFString.h"
 #include "vcf/FoundationKit/CommonDefines.h"
@@ -252,6 +254,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/08/17 05:01:32  marcelloptr
+*improved macros for library selection
+*
 *Revision 1.3  2004/08/08 22:09:33  ddiego
 *final checkin before the 0-6-5 release
 *

@@ -508,7 +508,7 @@ protected:
 /**
 *Class Win32HTMLBrowser documentation
 */
-class WIN32HTMLBROWSERAPI Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer {
+class WIN32HTMLBROWSER_API Win32HTMLBrowser : public AbstractWin32Component, public HTMLBrowserPeer {
 public:
 	BEGIN_CLASSINFO(Win32HTMLBrowser, "VCF::Win32HTMLBrowser", "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )
 	END_CLASSINFO(Win32HTMLBrowser)
@@ -579,6 +579,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/17 05:01:29  marcelloptr
+*improved macros for library selection
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
