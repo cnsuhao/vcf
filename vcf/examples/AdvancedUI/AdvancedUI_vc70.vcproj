@@ -147,6 +147,15 @@
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="template1.bmp">
+			</File>
+			<File
+				RelativePath="template2.bmp">
+			</File>
+			<File
+				RelativePath="template3.bmp">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
