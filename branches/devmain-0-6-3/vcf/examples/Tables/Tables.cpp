@@ -22,8 +22,14 @@ public:
 
 		TableModel* model = table->getTableModel();
 
-		//model->addColumns( 3 );
+		model->addColumns( 3 );
 		model->addRows(3);
+
+		for (int y=0;y<3;y++ ){
+			for ( int x=0;x<3;x++ ) {
+				model->getItem( y, x )->setCaption( StringUtils::format( "Cell [%d,%d]", y, x ) );
+			}
+		}
 
 	}
 
