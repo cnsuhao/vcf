@@ -2258,17 +2258,10 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SytemTrayPeer.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS;$(NOINHERIT)"/>
-				</FileConfiguration>
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SytemTrayPeer.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp">
@@ -4016,6 +4009,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TextPeer.h">
