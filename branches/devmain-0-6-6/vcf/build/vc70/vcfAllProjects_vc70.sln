@@ -99,6 +99,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QTPlayer", "..\..\examples\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reflection", "..\..\examples\Reflection\Reflection_vc70.vcproj", "{C75A5429-C3F8-4698-BE19-057770904AB2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegEnVar", "..\..\src\thirdparty\win32\RegEnVar\RegEnVar_vc70.vcproj", "{BE868BF9-23AD-409A-A85E-8D3E108949E6}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegExx", ".\FoundationKit\RegExx_vc70.vcproj", "{8B71B97B-DF34-49E6-93B9-A03BE7E6FD29}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKit", ".\RemoteObjectKit\RemoteObjectKit_vc70.vcproj", "{2BFE4FD8-C2E5-424C-91CF-76D1C9631538}"
@@ -394,6 +396,9 @@ Global
 		{C75A5429-C3F8-4698-BE19-057770904AB2}.Debug.ActiveCfg = Debug|Win32
 		{C75A5429-C3F8-4698-BE19-057770904AB2}.GTK Debug.ActiveCfg = Debug|Win32
 		{C75A5429-C3F8-4698-BE19-057770904AB2}.Release.ActiveCfg = Release|Win32
+		{BE868BF9-23AD-409A-A85E-8D3E108949E6}.Debug.ActiveCfg = Debug|Win32
+		{BE868BF9-23AD-409A-A85E-8D3E108949E6}.GTK Debug.ActiveCfg = Debug|Win32
+		{BE868BF9-23AD-409A-A85E-8D3E108949E6}.Release.ActiveCfg = Release|Win32
 		{8B71B97B-DF34-49E6-93B9-A03BE7E6FD29}.Debug.ActiveCfg = Debug|Win32
 		{8B71B97B-DF34-49E6-93B9-A03BE7E6FD29}.GTK Debug.ActiveCfg = Debug|Win32
 		{8B71B97B-DF34-49E6-93B9-A03BE7E6FD29}.Release.ActiveCfg = Release|Win32

@@ -798,6 +798,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "RegEnVar"="..\..\src\thirdparty\win32\RegEnVar\RegEnVar.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "RegExx"=".\FoundationKit\RegExx.dsp" - Package Owner=<4>
 
 Package=<5>
