@@ -92,35 +92,35 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../src/remote/AbstractDistributedApplication.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/AbstractDistributedApplication.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/ClassRegistryEntry.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/ClassRegistryEntry.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/ClassServerInstance.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/ClassServerInstance.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/DistributedClassRegistry.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/DistributedClassRegistry.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/DistributedException.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/DistributedException.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/InstanceID.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/InstanceID.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/Proxy.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/Proxy.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/remote/RemoteObjectKit.cpp
+SOURCE=../../../src/vcf/RemoteObjectKit/RemoteObjectKit.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -128,43 +128,43 @@ SOURCE=../../../src/remote/RemoteObjectKit.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../include/remote/AbstractDistributedApplication.h
+SOURCE=../../../src/vcf/RemoteObjectKit/AbstractDistributedApplication.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/ClassRegistryEntry.h
+SOURCE=../../../src/vcf/RemoteObjectKit/ClassRegistryEntry.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/ClassServerInstance.h
+SOURCE=../../../src/vcf/RemoteObjectKit/ClassServerInstance.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/DistributedClassRegistry.h
+SOURCE=../../../src/vcf/RemoteObjectKit/DistributedClassRegistry.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/DistributedException.h
+SOURCE=../../../src/vcf/RemoteObjectKit/DistributedException.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/InstanceID.h
+SOURCE=../../../src/vcf/RemoteObjectKit/InstanceID.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/Proxy.h
+SOURCE=../../../src/vcf/RemoteObjectKit/Proxy.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/RemoteCommon.h
+SOURCE=../../../src/vcf/RemoteObjectKit/RemoteCommon.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/remote/RemoteConfig.h
+SOURCE=../../../src/vcf/RemoteObjectKit/RemoteConfig.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/RemoteObjectKit.h
+SOURCE=../../../src/vcf/RemoteObjectKit/RemoteObjectKit.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

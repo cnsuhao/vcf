@@ -99,7 +99,7 @@ SOURCE=..\..\..\thirdparty\common\pcre\pcreposix.c
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/Utils/regexx.cpp
+SOURCE=../../../src/vcf/FoundationKit/regexx.cpp
 # End Source File
 # Begin Source File
 
@@ -123,7 +123,7 @@ SOURCE=..\..\..\thirdparty\common\pcre\pcreposix.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/utils/regexx.h
+SOURCE=../../../src/vcf/FoundationKit/regexx.h
 # End Source File
 # End Group
 # End Target

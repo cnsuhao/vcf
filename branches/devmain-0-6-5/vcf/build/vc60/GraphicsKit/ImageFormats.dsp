@@ -92,7 +92,7 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../ImageFormats/ImageFormats.cpp
+SOURCE=../../../src/ImageFormats/ImageFormats.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -100,7 +100,7 @@ SOURCE=../../../ImageFormats/ImageFormats.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../ImageFormats/ImageFormats.h
+SOURCE=../../../src/ImageFormats/ImageFormats.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

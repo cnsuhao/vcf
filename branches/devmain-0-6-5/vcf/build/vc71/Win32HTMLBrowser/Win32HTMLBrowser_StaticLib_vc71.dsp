@@ -83,7 +83,7 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../src/ImplementerKit/Win32HTMLBrowser.cpp
+SOURCE=../../../src/vcf/ApplicationKit/Win32HTMLBrowser.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -91,7 +91,7 @@ SOURCE=../../../src/ImplementerKit/Win32HTMLBrowser.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../include/implementerKit/Win32HTMLBrowser.h
+SOURCE=../../../src/vcf/ApplicationKit/Win32HTMLBrowser.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
