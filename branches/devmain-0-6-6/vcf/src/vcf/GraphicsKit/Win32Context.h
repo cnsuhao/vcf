@@ -20,6 +20,10 @@ where you installed the VCF.
 
 #include <deque>
 
+#ifdef XPTHEMES
+#include "VisualStylesXP.h"
+#endif
+
 namespace VCF
 {
 
@@ -238,6 +242,11 @@ public:
 	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
 
 	virtual void drawThemeText( Rect* rect, TextState& state );
+private:
+#ifdef XPTHEMES
+	bool drawThemeButtonRectXP( Rect* rect, ButtonState& state );
+#endif
+
 protected:
 
 	HRGN clipRGN_;
@@ -274,6 +283,9 @@ protected:
 	static void drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
                            long yStart, COLORREF cTransparentColor);
 
+#ifdef XPTHEMES
+	static std::auto_ptr<CVisualStylesXP> pVStyleXP_;
+#endif
 
 };
 
@@ -283,6 +295,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/06 20:22:32  chriskr
+*added dynamic linking to UxTheme.dll
+*added example xp theme support for drawThemeButtonRect()
+*
 *Revision 1.2.2.1  2004/10/27 03:12:18  ddiego
 *integrated chrisk changes
 *
