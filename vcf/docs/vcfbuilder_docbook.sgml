@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/03/12 02:51:39  ddiego
+more documentation updates
+
 Revision 1.1.2.1  2003/03/07 22:24:07  ddiego
 added initial vcf builders docbook files
 
@@ -33,7 +36,21 @@ added initial vcf builders docbook files
 -->
 
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE  book  PUBLIC  "-//OASIS//DTD DocBook V4.2//EN" >
+<!DOCTYPE  book  PUBLIC  "-//OASIS//DTD DocBook V4.2//EN" [
+	<!ENTITY vcfbuilder_intro SYSTEM "vcfbuilder_intro.sgml">
+	<!ENTITY vcfbuilder_quicktut SYSTEM "vcfbuilder_quicktut.sgml">
+	<!ENTITY vcfbuilder_ui SYSTEM "vcfbuilder_ui.sgml">	
+	<!ENTITY vcfbuilder_wspprj SYSTEM "vcfbuilder_wspprj.sgml">	
+	<!ENTITY vcfbuilder_designer SYSTEM "vcfbuilder_designer.sgml">		
+	<!ENTITY vcfbuilder_building SYSTEM "vcfbuilder_building.sgml">		
+	<!ENTITY vcfbuilder_versionctrl SYSTEM "vcfbuilder_versionctrl.sgml">		
+	<!ENTITY vcfbuilder_debug SYSTEM "vcfbuilder_debug.sgml">		
+	<!ENTITY vcfbuilder_ide SYSTEM "vcfbuilder_ide.sgml">		
+	<!ENTITY vcfbuilder_design SYSTEM "vcfbuilder_design.sgml">		
+	<!ENTITY vcfbuilder_faq SYSTEM "vcfbuilder_faq.sgml">		
+
+]>
+
 
 
 <book>
@@ -101,31 +118,27 @@ added initial vcf builders docbook files
 		</copyright>
 	</bookinfo>
 
-	<preface><title>Introduction</title>
-		<para>
+	&vcfbuilder_intro;
 
-		</para>
-	</preface>
+	&vcfbuilder_quicktut;
 
-	<chapter><title>A Quick Tutorial</title>
-		<section><title></title>
-		</section>
-	</chapter>
+	&vcfbuilder_ui;
 
-	<chapter id="faq" ><title>FAQ</title>
-		<qandaset>
-			<qandaentry>
-				<question>
-					<para>Some question?</para>
-				</question>
-				<answer>
-					<para>
-					Some answer
-					</para>
-				</answer>			
-			</qandaentry>
-		</qandaset>	
-	</chapter>	
+	&vcfbuilder_wspprj;
+
+	&vcfbuilder_designer;
+
+	&vcfbuilder_building;
+
+	&vcfbuilder_versionctrl;
+
+	&vcfbuilder_debug;
+
+	&vcfbuilder_ide;
+	
+	&vcfbuilder_design;	
+
+	&vcfbuilder_faq;
 
 	<chapter><title>Credits</title>
 		<section>
