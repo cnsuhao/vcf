@@ -27,6 +27,7 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Release/AutoExp_vc71.pch"
 				AssemblerListingLocation=".\Release/"
@@ -43,6 +44,7 @@
 				OutputFile="Release\AutoExp.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				ModuleDefinitionFile="AutoExp.def"
 				ProgramDatabaseFile=".\Release/AutoExp_vc71.pdb"
 				ImportLibrary=".\Release/AutoExp_vc71.lib"/>
 			<Tool
@@ -81,6 +83,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;AUTOEXP_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug/AutoExp_vc71.pch"
 				AssemblerListingLocation=".\Debug/"
@@ -98,6 +101,7 @@
 				OutputFile="Debug\AutoExp.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
+				ModuleDefinitionFile="AutoExp.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Debug/AutoExp_vc71_d.pdb"
 				ImportLibrary=".\Debug/AutoExp_vc71_d.lib"/>
