@@ -57,7 +57,11 @@ void TreeControl::init()
 													&TreeControl::onTreeNodeAdded,
 													"TreeControl::onTreeNodeAdded" );
 
+	tmh = new TreeModelEventHandler<TreeControl>( this,
+													&TreeControl::onTreeNodeDeleted,
+													"TreeControl::onTreeNodeDeleted" );
 
+	
 
 	ModelEventHandler<TreeControl>* mh = new ModelEventHandler<TreeControl>( this, &TreeControl::onModelEmptied, "ModelHandler" );
 
@@ -71,14 +75,17 @@ void TreeControl::setTreeModel( TreeModel * model )
 {
 	if ( NULL != treeModel_ ){
 
-		EventHandler* tml = getEventHandler( "TreeControl::onTreeRootNodeChanged" );
-		treeModel_->removeTreeRootNodeChangedHandler ( tml );
+		EventHandler* ev = getEventHandler( "TreeControl::onTreeRootNodeChanged" );
+		treeModel_->removeTreeRootNodeChangedHandler ( ev );
 
-		tml = getEventHandler( "TreeControl::onTreeNodeAdded" );
-		treeModel_->removeTreeNodeAddedHandler( tml );
+		ev = getEventHandler( "TreeControl::onTreeNodeAdded" );
+		treeModel_->removeTreeNodeAddedHandler( ev );
 
-		EventHandler* ml = getEventHandler( "ModelHandler" );
-		treeModel_->removeModelHandler( ml );
+		ev = getEventHandler( "TreeControl::onTreeNodeDeleted" );
+		treeModel_->removeTreeNodeDeletedHandler( ev );
+
+		ev = getEventHandler( "ModelHandler" );
+		treeModel_->removeModelHandler( ev );
 
 		treeModel_->release();
 	}
@@ -93,6 +100,9 @@ void TreeControl::setTreeModel( TreeModel * model )
 
 		tml = getEventHandler( "TreeControl::onTreeNodeAdded" );
 		treeModel_->addTreeNodeAddedHandler( tml );
+
+		tml = getEventHandler( "TreeControl::onTreeNodeDeleted" );
+		treeModel_->addTreeNodeDeletedHandler( tml );
 
 		EventHandler* ml = getEventHandler( "ModelHandler" );
 		treeModel_->addModelHandler( ml );
@@ -153,7 +163,9 @@ void TreeControl::onTreeNodeAdded( TreeModelEvent* event )
 
 void TreeControl::onTreeNodeDeleted( TreeModelEvent* event )
 {
-
+	if ( currentSelectedItem_ == event->getTreeItem() ) {
+		currentSelectedItem_ = NULL;
+	}
 }
 
 void TreeControl::onModelEmptied( ModelEvent* event )
@@ -344,6 +356,11 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/22 04:18:58  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.4  2004/07/16 05:07:18  ddiego
 *added support for editing labels on a tree control
 *

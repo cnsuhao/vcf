@@ -114,6 +114,9 @@ protected:
 
 	void onPlaylistItemChanged( VCF::ItemEvent* event );
 
+	void onPlayListCtrlKeyPressed( VCF::KeyboardEvent* e );
+	void onPlayListTreeKeyPressed( VCF::KeyboardEvent* e );
+
 	QuickTimeControl* quicktimeControl_;
 	VCF::SliderControl* volumeControl_;
 

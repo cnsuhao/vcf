@@ -66,8 +66,7 @@ class Frame;
  control, complete with a header and movable icons, etc.
  To aid in the drawing of a control, all controls are double buffered by default
  to prevent flicker, though this can be turned off and on at will.
- @delegates
-	@del Control::ItemAdded
+ @delegates	
 	@del Control::ControlSized
 	@del Control::ControlPositioned
 	@del Control::ControlParentChanged
@@ -87,6 +86,7 @@ class Frame;
 	@del Control::FocusGained
 	@del Control::ToolTipRequested
 	@del Control::ToolTip
+	@del Control::ControlModelChanged
  */
 class APPLICATIONKIT_API Control : public Component, public AbstractView {
 public:
@@ -103,6 +103,7 @@ public:
 		CONTROL_SIZED,
 		CONTROL_POSITIONED,
 		CONTROL_PARENT_CHANGED,
+		CONTROL_MODELCHANGED,
 		FOCUS_GAINED,
 		FOCUS_LOST,
 		HELP_REQUESTED,
@@ -297,6 +298,18 @@ public:
 	@event ToolTipEvent
 	*/
 	DELEGATE(ToolTip);
+
+	/**
+	@delegate ControlModelChanged fires an ControlEvent.
+	Fired by the control when the control's setViewModel is called. This event 
+	indicates that the control's model pointer has changed, and anyone interested in
+	listening to the control's model should update accordingly.
+	@event ControlEvent
+	@eventtype Control::CONTROL_MODELCHANGED
+	*/
+	DELEGATE(ControlModelChanged);
+
+	
 
 	/**
      This gets called by the ControlPeer for any windowing system mouse events,
@@ -1181,7 +1194,8 @@ public:
 	void setContainer( Container* container );
 
 
-	
+	virtual void setViewModel( Model* viewModel );
+
 
 
 	/**
@@ -1258,6 +1272,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/22 04:18:58  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.4  2004/07/09 03:39:28  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

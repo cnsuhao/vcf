@@ -1436,11 +1436,21 @@ bool Control::isActive()
 	return (parentFrame == Frame::getActiveFrame()) && (parentFrame->isActiveFrame());
 }
 
+void Control::setViewModel( Model* viewModel )
+{
+	ControlEvent event( this, Control::CONTROL_MODELCHANGED );
+	ControlModelChanged.fireEvent(&event);
+}
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/22 04:18:58  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.6  2004/07/17 17:56:24  ddiego
 *minor mods to the TableControl and the TabbedPages control
 *so that drawing updates get drawn better, and we don't have weird missing

@@ -87,7 +87,8 @@ void AbstractTreeModel::deleteNodeItem(TreeItem * nodeToDelete)
 		std::vector<TreeItem*>::iterator found = std::find( rootNodes_.begin(), rootNodes_.end(), nodeToDelete );
 		if ( found != rootNodes_.end() ) {
 			TreeItem* item = *found;
-			rootNodes_.erase( found );
+			rootNodes_.erase( found );			
+
 			delete item;
 			item = NULL;
 		}
@@ -157,6 +158,11 @@ Enumerator<TreeItem*>* AbstractTreeModel::getRootItems()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/22 04:18:58  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

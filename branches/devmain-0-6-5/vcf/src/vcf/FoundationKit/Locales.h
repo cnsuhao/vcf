@@ -538,6 +538,8 @@ public:
 
 	Locale( const LanguageCodes& languageCode, const CountryCodes& countryCode );
 
+	virtual ~Locale();
+
 	LanguageCodes getLanguageCode();
 
 	CountryCodes getCountryCode();
@@ -821,6 +823,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/22 04:18:59  ddiego
+*fixed bug 995642 delete LoalePeer in Locale, and added some miscellaneous changes to the QTPlayer. Also fixing (not finished yet) a bug that
+*prevents the TreePeer from being properly notified when the tree model's
+*item is deleted.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -17,7 +17,6 @@ using namespace VCF;
 
 
 
-
 class PlayListDictionary : public Object, public Dictionary {
 public:
 
@@ -60,6 +59,7 @@ public:
 
 		return result;
 	}
+
 protected:
 	void deleteAll( Dictionary::Enumerator* items ) {
 		while ( items->hasMoreElements() ) {
@@ -68,8 +68,6 @@ protected:
 			if ( pdObject == item.second.type ) {
 				PlayListDictionary* pl = (PlayListDictionary*) (Object*)item.second;
 				Dictionary::Enumerator* subItems = pl->getEnumerator();
-				
-				deleteAll( subItems );
 
 				pl->free(); 
 			}
@@ -511,7 +509,7 @@ void MainQTWindow::buildUI()
 	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, menuBar );
 
 	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...\tCtrl+O", file, menuBar );
-	DefaultMenuItem* fileClose = new DefaultMenuItem( "&Close\tC", file, menuBar );
+	DefaultMenuItem* fileClose = new DefaultMenuItem( "&Close\tCtrl+Shift+C", file, menuBar );
 
 	DefaultMenuItem* sep = new DefaultMenuItem( "", file, menuBar );
 	sep->setSeparator( true );
@@ -525,8 +523,8 @@ void MainQTWindow::buildUI()
 
 
 	DefaultMenuItem* movie = new DefaultMenuItem( "&Movie", root, menuBar );	
-	DefaultMenuItem* moviePlay = new DefaultMenuItem( "&Play\tSpace", movie, menuBar );
-	DefaultMenuItem* moviePause = new DefaultMenuItem( "&Pause\tSpace", movie, menuBar );
+	DefaultMenuItem* moviePlay = new DefaultMenuItem( "&Play\tCtrl+Space", movie, menuBar );
+	DefaultMenuItem* moviePause = new DefaultMenuItem( "&Pause\tCtrl+Space", movie, menuBar );
 	DefaultMenuItem* movieReset= new DefaultMenuItem( "&Reset", movie, menuBar );
 	DefaultMenuItem* movieStop = new DefaultMenuItem( "&Stop\tEsc", movie, menuBar );	
 
@@ -1073,6 +1071,10 @@ void MainQTWindow::buildUI()
 	playListCtrl_->MouseDoubleClicked += 
 		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistViewDblClick, "MainQTWindow::onPlaylistViewDblClick" );
 
+	playListCtrl_->KeyUp += 
+		new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onPlayListCtrlKeyPressed, "MainQTWindow::onPlayListCtrlKeyPressed" );
+
+
 	ListModel* lm = playListCtrl_->getListModel();
 
 	mainViewPanel_->add( playListCtrl_ );
@@ -1090,21 +1092,21 @@ void MainQTWindow::buildUI()
 	*/
 	
 	addAcceleratorKey( vkSpaceBar, 
-						kmUndefined, 
+						kmCtrl, 
 						new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onKeyHandler, "MainQTWindow::onKeyHandler" ) );
 
 						
 
-	addAcceleratorKey( vkUpArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
-	addAcceleratorKey( vkDownArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
-	addAcceleratorKey( vkLeftArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
-	addAcceleratorKey( vkRightArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkUpArrow, kmCtrl, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkDownArrow, kmCtrl, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkLeftArrow, kmCtrl, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkRightArrow, kmCtrl, getEventHandler( "MainQTWindow::onKeyHandler" ) );
 
 
 	addAcceleratorKey( vkLetterO, kmCtrl, getEventHandler( "MainQTWindow::onFileOpenMovie" ) );	
 
 	addAcceleratorKey( vkEscape, kmUndefined, getEventHandler( "MainQTWindow::onMovieStop" ) );	
-	addAcceleratorKey( vkLetterC, kmUndefined, getEventHandler( "MainQTWindow::onFileCloseMovie" ) );	
+	addAcceleratorKey( vkLetterC, kmCtrl | kmShift, getEventHandler( "MainQTWindow::onFileCloseMovie" ) );	
 
 
 
@@ -1142,6 +1144,9 @@ void MainQTWindow::buildUI()
 	playListTree_->setAllowLabelEditing( true );
 
 	playListTree_->MouseClicked += new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistClick,"MainQTWindow::onPlaylistClick" );
+
+	playListTree_->KeyUp += 
+		new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onPlayListTreeKeyPressed, "MainQTWindow::onPlayListTreeKeyPressed" );
 
 	sideBar_->add( playListTree_, AlignClient );
 
@@ -1630,11 +1635,31 @@ void MainQTWindow::onPlaylistClick( VCF::Event* e )
 		while ( items->hasMoreElements() ) {
 			Dictionary::pair item = items->nextElement();
 
+			Dictionary& itemAsDict = *((PlayListDictionary*)(Object*)item.second);
+
+
+
 			PlayListItem* newItem = new PlayListItem( playListCtrl_, item.first, NULL );
 			newItem->setData( (void*)list );
-
 			lm->addItem( newItem );
-			//newItem->addSubItem(  );
+
+			String itemMetaInfo = itemAsDict[L"Duration"];
+
+			if ( !itemMetaInfo.empty() ) {
+				newItem->addSubItem( itemMetaInfo, NULL );
+			}
+			
+			itemMetaInfo = (String)itemAsDict[L"Size"];
+
+			if ( !itemMetaInfo.empty() ) {
+				newItem->addSubItem( itemMetaInfo, NULL );
+			}
+
+			itemMetaInfo = (String)itemAsDict[L"Data Size"];
+
+			if ( !itemMetaInfo.empty() ) {
+				newItem->addSubItem( itemMetaInfo, NULL );
+			}
 		}
 	}
 
@@ -1791,10 +1816,32 @@ void MainQTWindow::addFileNameToPlaylist( const VCF::String& fileName )
 		PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
 		VCF_ASSERT( NULL != list );
 		
+		VCF_ASSERT( !fileName.empty() );
+
 		QuickTimeMovie mov;
 		mov.open( fileName );
 
-		list->addMedia( mov.getTitle(), fileName );
+		String title = mov.getTitle();
+		VCF_ASSERT( !title.empty() );
+
+
+		Dictionary& dict = *list->addPlayList(title);
+
+		dict[L"Filename"] = fileName;
+		dict[L"Title"] = title;
+		
+		std::vector<QuickTimeMovie::MovieMetaInfo> infoList;
+		mov.getMovieMetaInfo( infoList );
+		
+		std::vector<QuickTimeMovie::MovieMetaInfo>::iterator it = infoList.begin();
+		while ( it != infoList.end() ) {
+			QuickTimeMovie::MovieMetaInfo& info = *it;
+			
+			dict[ info.first ] = info.second;
+			
+			it ++;
+		}
+
 	}
 }
 
@@ -1835,11 +1882,68 @@ void MainQTWindow::onPlaylistViewDblClick( VCF::Event* e )
 	if ( NULL != item ) {
 		PlayListDictionary* dict = (PlayListDictionary*)item->getData();
 		
-		String fileName = (*dict)[ item->getCaption() ];
+		PlayListDictionary* movieDict = (PlayListDictionary*)(Object*) (*dict)[ item->getCaption() ];
+
+		String fileName = (*movieDict)[ L"Filename" ];
 		
+		VCF_ASSERT( !fileName.empty() );
+
 		movieLoaded_ = false;
 		if ( !quicktimeControl_->open( fileName ) ) {											
 			((MediaInfoPanel*)mediaInfo_)->setMovie( NULL );
 		}	
+	}
+}
+
+void MainQTWindow::onPlayListCtrlKeyPressed( VCF::KeyboardEvent* e )
+{
+	if ( e->getVirtualCode() == vkDelete ) {
+		ListItem* item = playListCtrl_->getSelectedItem();
+
+		if ( NULL != item ) {
+
+			TreeItem* selectedItem = playListTree_->getSelectedItem();
+
+			if ( NULL != selectedItem ) {
+				PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+				VCF_ASSERT( NULL != list );
+
+				PlayListDictionary* movieInfoDict = list->getPlaylist( item->getCaption() );
+				VCF_ASSERT( NULL != movieInfoDict );
+
+				list->remove( item->getCaption() );
+
+				movieInfoDict->free();
+
+			}
+
+
+			playListCtrl_->getListModel()->deleteItem( item );
+		}
+	}
+}
+
+void MainQTWindow::onPlayListTreeKeyPressed( VCF::KeyboardEvent* e )
+{
+	if ( e->getVirtualCode() == vkDelete ) {
+		TreeItem* selectedItem = playListTree_->getSelectedItem();
+		
+		if ( NULL != selectedItem ) {		
+
+			selectedItem->setSelected( false );
+
+			PlayListDictionary* list = playListDict_->getPlaylist( selectedItem->getCaption() );
+
+			VCF_ASSERT( NULL != list );
+			
+			playListDict_->remove( selectedItem->getCaption() );
+			list->free();
+			
+			playListTree_->getTreeModel()->deleteNodeItem( selectedItem );
+			
+
+			playListCtrl_->getListModel()->empty();
+		}
+		
 	}
 }
