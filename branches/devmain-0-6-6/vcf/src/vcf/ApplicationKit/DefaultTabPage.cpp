@@ -118,10 +118,10 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 
 	oldFontColor = *context->getCurrentFont()->getColor();
 
-	context->getCurrentFont()->setColor( selectedTextColor );
+	context->getCurrentFont()->setColor( textColor );
 
 	if ( true == isSelected() ) {
-		context->getCurrentFont()->setColor( textColor );
+		//context->getCurrentFont()->setColor( textColor );
 
 		context->setColor( hilite );
 		context->moveTo(paintRect->left_ , paintRect->bottom_ -1 );
@@ -158,12 +158,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->setColor( shadow );
 		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);		
 		context->lineTo( paintRect->right_ - 2, paintRect->bottom_ );
-		context->strokePath();
-
-		context->setColor( hilite );
-		context->moveTo(paintRect->left_ , paintRect->bottom_ );
-		context->moveTo(paintRect->right_ , paintRect->bottom_ );
-		context->strokePath();
+		context->strokePath();		
 	}
 
 	String text = pageName_;
@@ -210,6 +205,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/08/17 21:46:55  dougtinkham
+*minor paint changes
+*
 *Revision 1.2.2.3  2004/08/17 20:18:31  marcelloptr
 *project changes
 *
