@@ -77,13 +77,6 @@ void File::setFileAttributes( const File::FileAttributes fileAttributes )
 }
 
 
-void File::updateTime()
-{
-	DateTime currentTime = DateTime::now();
-
-	setDateModified ( currentTime.toUTC() ); 
-}
-
 
 void File::setDateModified( const DateTime& dateModified )
 {
@@ -197,6 +190,9 @@ FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/08/06 15:42:01  marcelloptr
+*function inlined
+*
 *Revision 1.1.2.10  2004/08/06 01:45:04  ddiego
 *updated and added Marcellos DateTime changes.
 *
