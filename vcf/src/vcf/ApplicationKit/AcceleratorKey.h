@@ -140,8 +140,8 @@ private:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.1  2005/02/16 18:17:53  marcelloptr
-*added const specifier to two getters
+*Revision 1.2.4.2  2005/02/16 18:22:01  marcelloptr
+*added const specifier to KeyCode and ModifierMask getters
 *
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
