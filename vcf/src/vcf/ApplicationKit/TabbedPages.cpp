@@ -141,13 +141,25 @@ void TabbedPages::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
 
-	/*
-	JC - I commented this out cause it's already taken care of in CustomControl::paint()
-	Rect bounds = getClientBounds();
-	context->setColor( getColor() );
-	context->rectangle( &bounds );
-	context->fillPath();
-	*/
+	
+	Border* border = getBorder();
+
+	Rect bounds;
+
+	if ( NULL != border ) {
+		bounds = border->getClientRect( &bounds, this );
+	}
+	else {
+		bounds.setRect( 0, 0, getWidth(), getHeight() );
+	}
+	
+	BackgroundState bkg;
+	bkg.setEnabled( isEnabled() );
+	bkg.setActive( isActive() );
+	bkg.colorType_ = SYSCOLOR_FACE;	
+	
+	context->drawThemeBackground( &bounds, bkg );
+	
 
 	if ( NULL != model_ ){
 		Enumerator<TabPage*>* pages = model_->getPages();
@@ -380,6 +392,11 @@ TabPage* TabbedPages::addNewPage( const String& caption )
 
 Rect TabbedPages::getClientBounds( const bool& includeBorder )
 {
+	if ( !includeBorder ) {
+		return CustomControl::getClientBounds( includeBorder );
+	}
+
+
 	Rect bounds = getBounds();
 
 	if ( bounds.isEmpty() ) {
@@ -534,6 +551,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/08 01:51:54  ddiego
+*fixed bug in paint of tabbedPages control due to changes from weekend.
+*
 *Revision 1.2.2.4  2004/09/06 21:30:20  ddiego
 *added a separate paintBorder call to Control class
 *
