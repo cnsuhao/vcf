@@ -1069,9 +1069,6 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\Library.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\Locales.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Lock.h">
 			</File>
 			<File
@@ -1478,6 +1475,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Library.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Locales.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Locales.h">

@@ -544,10 +544,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Library.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\Locales.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\FoundationKit\Lock.h
 # End Source File
 # Begin Source File
@@ -725,6 +721,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\CommonDefines.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\Library.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Locales.cpp
 # End Source File
 # Begin Source File
 
