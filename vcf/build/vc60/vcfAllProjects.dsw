@@ -390,6 +390,9 @@ Package=<4>
     Project_Dep_Name FilesAndDirectories
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name FrameStyles
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name GraphicsAndMouseMoves
     End Project Dependency
     Begin Project Dependency
@@ -535,6 +538,18 @@ Package=<4>
 ###############################################################################
 
 Project: "FoundationKitDLL"=".\FoundationKit\FoundationKitDLL.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "FrameStyles"="..\..\examples\FrameStyles\FrameStyles.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1015,6 +1030,30 @@ Package=<4>
 ###############################################################################
 
 Project: "Resources"="..\..\examples\Resources\Resources.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SciLexer"="..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ScintillaKit"=".\ScintillaKit\ScintillaKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
