@@ -179,6 +179,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundlePeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.h
 # End Source File
 # Begin Source File
@@ -301,6 +305,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsKit.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsKitRTTI.inl
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.cpp
 # End Source File
 # Begin Source File
 

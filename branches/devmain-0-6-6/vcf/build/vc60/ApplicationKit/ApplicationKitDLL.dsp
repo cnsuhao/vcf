@@ -343,6 +343,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\Scrollable.h
 # End Source File
 # Begin Source File

@@ -204,6 +204,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundlePeer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.h">
 			</File>
 			<File
@@ -308,6 +311,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKitRTTI.inl">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.cpp">

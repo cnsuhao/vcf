@@ -19,41 +19,19 @@ where you installed the VCF.
 
 namespace VCF  {
 
-class GRAPHICSKIT_API Win32GraphicsResourceBundle : public Win32ResourceBundle, public GraphicsResourceBundle {
+class GRAPHICSKIT_API Win32GraphicsResourceBundle : public Win32ResourceBundle, public GraphicsResourceBundlePeer {
 public:
 	Win32GraphicsResourceBundle();
 
 	virtual ~Win32GraphicsResourceBundle();
 
-	/**
-	*returns a resource string given a resource name
-	*/
-	virtual String getString( const String& resourceName ) {
-		return Win32ResourceBundle::getString( resourceName );
-	}
-
-	/**
-	*returns the text that represents an VFF file (where VFF stands
-	*for "Visual Form File" ). This text is standard XML and contains
-	*the component hierarchy and properties for creating a frame.
-	*/
-	virtual String getVFF( const String& resourceName ) {
-		return Win32ResourceBundle::getVFF( resourceName );
-	}
-
+	
 	/**
 	*returns an Image based on a given resource name
 	*/
 	virtual Image* getImage( const String& resourceName );
 
-	/**
-	*returns a Resource object given the resource's name.
-	*this function walks through all the app's resources, by type
-	*and then by name. The first match is the resource returned.
-	*/
-	virtual Resource* getResource( const String& resourceName ) {
-		return Win32ResourceBundle::getResource( resourceName );
-	}
+	
 protected:
 	
 	
@@ -63,6 +41,16 @@ protected:
 
 
 
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/08/27 03:50:48  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
+*/
 
 
 

@@ -12,28 +12,18 @@ where you installed the VCF.
 #include "vcf/FoundationKit/LocalePeer.h"
 #include "vcf/FoundationKit/DateTime.h"
 
-#include "vcf/FoundationKit/DateTime.h"
-
-#include "vcf/FoundationKit/DateTime.h"
-#include "vcf/FoundationKit/Win32ResourceBundle.h"
-
 
 
 using namespace VCF;
 
 Win32SystemPeer::Win32SystemPeer()
 {
-	resBundle_ = new Win32ResourceBundle();
+	
 }
 
 Win32SystemPeer::~Win32SystemPeer()
 {
 
-}
-
-ResourceBundle* Win32SystemPeer::getResourceBundle()
-{	
-	return resBundle_;
 }
 
 unsigned long Win32SystemPeer::getTickCount()
@@ -287,6 +277,11 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.2  2004/08/26 04:05:48  marcelloptr
 *minor change on name of getMillisecond
 *

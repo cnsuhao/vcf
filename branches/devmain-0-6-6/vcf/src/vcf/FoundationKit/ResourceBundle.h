@@ -14,35 +14,39 @@ where you installed the VCF.
 #endif
 
 
-namespace VCF
-{
+namespace VCF  {
 
 class Resource;
+class ResourceBundlePeer;
+
 /**
 *A ResourceBundle is used to represent a collection of resources. ResourceBundle's can
 *be attached to external files or applications.
 */
-class FOUNDATIONKIT_API ResourceBundle : public Interface
-{
+class FOUNDATIONKIT_API ResourceBundle : public Object {
 public:
 
-	virtual ~ResourceBundle(){};
+	ResourceBundle();
 
-	/**
-	*returns a resource string given a resource name
-	*/
-	virtual String getString( const String& resourceName ) = 0;
+	virtual ~ResourceBundle();
+
+	String getString( const ulong32& resourceID );
+
+	String getString( const String& resourceName );
 
 	/**
 	*returns the text that represents a Form. This text is standard XML and contains
 	*the component hierarchy and properties for creating a frame.
 	*/
-	virtual String getVFF( const String& resourceName ) = 0;	
+	String getVFF( const String& resourceName );
 
 	/**
 	* returns a Resource object given the resource's name.
 	*/
-	virtual Resource* getResource( const String& resourceName ) = 0;
+	Resource* getResource( const String& resourceName );
+
+protected:
+	ResourceBundlePeer* peer_;
 
 };
 
@@ -53,6 +57,11 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.1.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

@@ -24,7 +24,7 @@ GraphicsToolkit::GraphicsToolkit()
 
 	initColorMap();
 
-	fontInfoContainer_.initContainer( availableSystemFonts_ );
+	fontInfoContainer_.initContainer( availableSystemFonts_ );		
 }
 
 GraphicsToolkit::~GraphicsToolkit()
@@ -176,7 +176,10 @@ double GraphicsToolkit::getDPI( GraphicsContext* context )
 	return GraphicsToolkit::graphicsToolkitInstance->internal_getDPI(context);
 }
 
-
+GraphicsResourceBundlePeer* GraphicsToolkit::createGraphicsResourceBundlePeer()
+{
+	return GraphicsToolkit::graphicsToolkitInstance->internal_createGraphicsResourceBundlePeer();
+}
 
 
 
@@ -520,6 +523,8 @@ void GraphicsToolkit::initGraphicsToolkit()
 	if ( NULL == GraphicsToolkit::graphicsToolkitInstance ){
 		throw NoGraphicsToolkitFoundException( MAKE_ERROR_MSG_2(NO_GFX_TOOLKIT_ERROR) );
 	}
+
+	System::internal_replaceResourceBundleInstance( new GraphicsResourceBundle() );
 
 	//GraphicsToolkit::graphicsToolkitInstance->init();
 }
@@ -1359,6 +1364,11 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/27 03:50:47  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
 *migrated the core printing changes into the graphics kit
 *

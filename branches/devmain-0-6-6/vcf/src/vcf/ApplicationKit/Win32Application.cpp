@@ -10,6 +10,10 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Application.h"
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/FoundationKit/Win32ResourceBundle.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundle.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
 #include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
 
 
@@ -41,13 +45,21 @@ protected:
 };
 
 
+class AppKitGraphicsResourceBundle : public GraphicsResourceBundle {
+public:
+	AppKitGraphicsResourceBundle(Win32Application* peer) : GraphicsResourceBundle(){
+		delete graphicsResPeer_;
+
+		graphicsResPeer_ = new Win32ApplicationResBundle(peer);
+		peer_ = dynamic_cast<ResourceBundlePeer*>( graphicsResPeer_ );
+	}
+};
+
+
 
 Win32Application::Win32Application()
 {
-	resBundle_ = NULL;
-	resBundle_ = new Win32ApplicationResBundle(this);
-
-	System::internal_replaceResourceBundleInstance( reinterpret_cast<ResourceBundle*>(resBundle_) );
+	System::internal_replaceResourceBundleInstance( new AppKitGraphicsResourceBundle(this) );
 
 
 	instanceHandle_ = NULL;
@@ -138,6 +150,11 @@ void Win32Application::setHandleID( const long& handleID )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.1  2004/08/21 21:06:52  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

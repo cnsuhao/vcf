@@ -10,12 +10,16 @@ where you installed the VCF.
 //Win32GraphicsToolkit.h
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
-#include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
+
 #include <commdlg.h>
 
 #include "vcf/GraphicsKit/PrintSessionPeer.h"
 #include "vcf/GraphicsKit/Win32PrintSession.h"
+#include "vcf/FoundationKit/ResourceBundle.h"
 
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
+#include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
 
 using namespace VCF;
 
@@ -30,10 +34,7 @@ Win32GraphicsToolkit::Win32GraphicsToolkit()
 	loadSystemColors();
 	registerImageLoader( "image/bmp", new BMPLoader() );
 
-	initSystemFont();
-	Win32GraphicsResourceBundle* newInstance = new Win32GraphicsResourceBundle();
-
-	System::internal_replaceResourceBundleInstance( reinterpret_cast<ResourceBundle*>(newInstance) );
+	initSystemFont();	
 }
 
 Win32GraphicsToolkit::~Win32GraphicsToolkit()
@@ -210,10 +211,20 @@ void Win32GraphicsToolkit::loadSystemColors()
 
 }
 
+GraphicsResourceBundlePeer* Win32GraphicsToolkit::internal_createGraphicsResourceBundlePeer()
+{
+	return new Win32GraphicsResourceBundle();
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/27 03:50:48  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
 *migrated the core printing changes into the graphics kit
 *

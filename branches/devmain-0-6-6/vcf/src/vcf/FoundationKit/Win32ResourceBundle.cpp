@@ -9,6 +9,7 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
 #include "vcf/FoundationKit/Win32ResourceBundle.h"
 
 
@@ -36,11 +37,16 @@ Win32ResourceBundle::Win32ResourceBundle()
 
 Win32ResourceBundle::~Win32ResourceBundle()
 {
-	System::findResourceDirectory();
+	
 }
 
 String Win32ResourceBundle::getString( const String& resourceName )
 {
+	/**
+	Assume an exe resource by default?
+	*/
+
+	bool failedToFindRes = true;
 	HINSTANCE hinst = getResourceInstance();
 	String result;
 	HRSRC resHandle = NULL;
@@ -56,11 +62,11 @@ String Win32ResourceBundle::getString( const String& resourceName )
 		if ( NULL != data ){
 			TCHAR* strData = (TCHAR*)::LockResource( data );
 			result = strData;
+			failedToFindRes = false;
 			::FreeResource( data );
 		}
 	}
-	else {
-		bool failed = false;
+	else {		
 		//try and see if the resourceName is an int id and find it via 
 		//throw exception- resource not found !!!!
 		uint32 stringID = 0;
@@ -80,6 +86,7 @@ String Win32ResourceBundle::getString( const String& resourceName )
 				if ( ret ) {
 					tmp[ret] = 0;
 					result = tmp;
+					failedToFindRes = false;
 				}				
 			}
 			else {
@@ -88,23 +95,34 @@ String Win32ResourceBundle::getString( const String& resourceName )
 				if ( ret ) {
 					tmp[ret] = 0;
 					result = tmp;
+					failedToFindRes = false;
 				}
 			}			
 		}
 		else {
-			failed = true;
+			failedToFindRes = true;
 		}
 
-		if ( failed ) {
+		if ( failedToFindRes ) {
 			//throw exception???
 		}
 	}
+
+
+	if ( failedToFindRes ) {
+		//look in the resource .strings file 
+		
+		result = System::getCurrentThreadLocale()->translate( resourceName );		
+	}
+
 	return result;
 }
 
 String Win32ResourceBundle::getVFF( const String& resourceName )
 {
 	String result;
+	bool failedToFindRes = true;
+
 	HRSRC resHandle = NULL;
 	if ( System::isUnicodeEnabled() ) {
 		resHandle = ::FindResourceW( getResourceInstance(), resourceName.c_str(), L"VFF" );
@@ -131,6 +149,7 @@ String Win32ResourceBundle::getVFF( const String& resourceName )
 				result += "\n";
 				result += strData;
 				resSize = result.size();
+				failedToFindRes = false;
 			}
 			::FreeResource( data );
 		}
@@ -138,12 +157,44 @@ String Win32ResourceBundle::getVFF( const String& resourceName )
 	else {
 		//throw exception- resource not found !!!!
 	}
+
+
+	if ( failedToFindRes ) {
+		//try res directory
+
+		String localeName = System::getCurrentThreadLocale()->getName();
+
+		bool fileExists = false;
+		String vffFile = System::findResourceDirectory() + localeName + 
+					FilePath::getDirectorySeparator() +	resourceName;
+
+		if ( File::exists( vffFile ) ) {
+			fileExists = true;
+		}
+		else {
+			vffFile += ".vff";
+			if ( File::exists( vffFile ) ) {
+				fileExists = true;
+			}
+		}
+
+		if ( fileExists ) {
+			FileInputStream fs(vffFile);
+
+			fs >> result;
+		}
+	}
+
 	return result;
 }
 
 
 Resource* Win32ResourceBundle::getResource( const String& resourceName )
 {
+	Resource* result = NULL;
+
+	bool failedToFindRes = true;
+
 	foundResName = false;
 	foundResType = "\0";
 
@@ -168,7 +219,7 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 			HGLOBAL	dataHandle = ::LoadResource( NULL, resHandle );
 			if ( NULL != dataHandle ){
 				void* data = ::LockResource( dataHandle );
-				int size = ::SizeofResource( getResourceInstance(), resHandle );
+				int size = ::SizeofResource( getResourceInstance(), resHandle );				
 				return new Resource( data, size, resourceName );
 			}
 		}
@@ -176,7 +227,27 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 			//throw exception- resource not found !!!!
 		}
 	}
-	return NULL;
+
+	//if we got this far then look for files!
+
+	String localeName = System::getCurrentThreadLocale()->getName();
+	
+	bool fileExists = false;
+	String fileName = System::findResourceDirectory() + localeName + 
+		FilePath::getDirectorySeparator() +	resourceName;
+	
+	if ( File::exists( fileName ) ) {
+		FileInputStream fs(fileName);
+		ulong32 size = fs.getSize();
+		char* buf = new char[size];
+		fs.read( buf, size );
+		
+
+		result = new Resource( buf, size, resourceName );
+		delete [] buf;
+	}
+
+	return result;
 }
 
 BOOL CALLBACK Win32ResourceBundle_EnumResTypeProc( HMODULE hModule, LPTSTR lpszType, LPARAM lParam )
@@ -225,6 +296,11 @@ HINSTANCE Win32ResourceBundle::getResourceInstance()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.1.2.2  2004/08/26 04:29:28  ddiego
 *added support for getting the resource directory to the System class.
 *
