@@ -1393,6 +1393,16 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
         
         case kEventClassWindow : {
             switch ( whatHappened ) {
+                case kEventWindowFocusAcquired : {
+                    result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );
+                }
+                break;
+                
+                case kEventWindowFocusRelinquish : {
+                    result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );
+                }
+                break;
+                
                 case kEventWindowCollapse : {
                 
                 }
@@ -1530,6 +1540,12 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 case kEventControlDispose : {
 					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
                 }
+                break;          
+                                
+                case kEventControlSetFocusPart : {
+                    
+						
+                }
                 break;
                 
                 case kEventControlGetOptimalBounds : {
@@ -1563,11 +1579,6 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
                 
                 case kEventControlApplyTextColor : {
-                
-                }
-                break;
-                
-                case kEventControlSetFocusPart : {
                 
                 }
                 break;

@@ -25,7 +25,7 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
-
+#include "vcf/ApplicationKit/ControlsKit.h"
 
 /**
 *use the VCF namespace to make it more convenient
@@ -63,6 +63,15 @@ public:
 		*/
 		setMainWindow( mainWindow );
 
+        Panel* p1 = new Panel();
+        mainWindow->add( p1, AlignTop );
+        p1->setBounds( 0, 0, 200, 300 );
+        
+        p1->setBorderSize( 10 );
+        
+        PushButton* pb = new PushButton();
+        p1->add( pb, AlignClient );
+        
 		/**
 		*Set the caption of the main window. Setting the caption
 		*cause the text passed in to the method to appear on
@@ -118,6 +127,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2004/05/31 22:24:52  ddiego
+*OSX code for handling focus events
+*
 *Revision 1.3.2.6  2004/05/15 17:59:36  marcelloptr
 *minor project changes
 *
