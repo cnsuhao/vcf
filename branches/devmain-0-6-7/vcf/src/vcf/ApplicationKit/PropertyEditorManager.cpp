@@ -34,7 +34,10 @@ PropertyEditor* PropertyEditorManager::createEditor( const String& className )
 		Object* instance = editorClass->createInstance();
 		if ( NULL != instance ) {
 			result = dynamic_cast<PropertyEditor*>(instance);
-			if ( NULL == result ) {
+			if ( NULL != result ) {
+				result->internal_setPropertyType( className );
+			}
+			else {
 				instance->free();
 			}
 		}
@@ -125,6 +128,9 @@ void PropertyEditorManager::closePropertyEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/11 04:28:22  ddiego
+*added some minor modifications to the PropertyEditor interface.
+*
 *Revision 1.2.4.2  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *

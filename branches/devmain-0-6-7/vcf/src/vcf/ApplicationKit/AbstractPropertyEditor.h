@@ -18,7 +18,7 @@ namespace VCF {
 
 class APPLICATIONKIT_API AbstractPropertyEditor : public ObjectWithEvents, public PropertyEditor {
 public:
-	AbstractPropertyEditor() : attributes_(0) {
+	AbstractPropertyEditor() : attributes_(0),rootDesignerComponent_(NULL) {
 
 	}
 
@@ -90,9 +90,27 @@ public:
 
 		return (typeid(*this) == typeid(*editor)) ? true : false;
 	}
+
+	virtual String getPropertyType() {
+		return propertyType_;
+	}
+
+	virtual void internal_setPropertyType( const String& type ) {
+		propertyType_ = type;
+	}
+
+	virtual Component* getRootDesignerComponent() {
+		return rootDesignerComponent_;
+	}
+
+	virtual void setRootDesignerComponent( Component* rootDesigner ) {
+		rootDesignerComponent_ = rootDesigner;
+	}
 protected:
 	int attributes_;
 	VariantData data_;
+	String propertyType_;
+	Component* rootDesignerComponent_;
 private:
 
 };
@@ -106,6 +124,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/11 04:28:21  ddiego
+*added some minor modifications to the PropertyEditor interface.
+*
 *Revision 1.2.4.2  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *
