@@ -6,18 +6,19 @@ target:
 all: debug release
 
 debug: FoundationKit-debug \
-	ApplicationKit-debug \
 	GraphicsKit-debug \
+	ApplicationKit-debug \
 	NetworkKit-debug \
 	OpenGLKit-debug \
 	RemoteObjectKit-debug
 
 release: FoundationKit-release \
-	ApplicationKit-release \
 	GraphicsKit-release \
+	ApplicationKit-release \
 	NetworkKit-release \
 	OpenGLKit-release \
 	RemoteObjectKit-release
+
 
 ## FoundationKit
 FoundationKit-debug: BUILD      = Debug
@@ -36,23 +37,6 @@ clean-FoundationKit-release:
 	 -rm FoundationKit/Release/*
 	 -rm $(LIB)/libFoundationKit.so
 
-## ApplicationKit
-ApplicationKit-debug: BUILD     = Debug
-ApplicationKit-debug: KIT       = ApplicationKit
-ApplicationKit-debug: TARGET    = libApplicationKit_d.so
-ApplicationKit-debug: ApplicationKit/Debug/Makefile AK-make-debug
-clean-ApplicationKit-debug:
-	 -rm ApplicationKit/Debug/*
-	 -rm $(LIB)/libApplicationKit_d.so
-
-ApplicationKit-release: BUILD   = Release
-ApplicationKit-release: KIT     = ApplicationKit
-ApplicationKit-release: TARGET  = libApplicationKit.so
-ApplicationKit-release: ApplicationKit/Release/Makefile AK-make-release
-clean-ApplicationKit-release:
-	 -rm ApplicationKit/Release/*
-	 -rm $(LIB)/libApplicationKit.so
-
 ## GraphicsKit
 GraphicsKit-debug: BUILD        = Debug
 GraphicsKit-debug: KIT          = GraphicsKit
@@ -69,6 +53,23 @@ GraphicsKit-release: GraphicsKit/Release/Makefile LibAGG-release GK-make-release
 clean-GraphicsKit-release:
 	 -rm GraphicsKit/Release/*
 	 -rm $(LIB)/libGraphicsKit.so
+
+## ApplicationKit
+ApplicationKit-debug: BUILD     = Debug
+ApplicationKit-debug: KIT       = ApplicationKit
+ApplicationKit-debug: TARGET    = libApplicationKit_d.so
+ApplicationKit-debug: ApplicationKit/Debug/Makefile AK-make-debug
+clean-ApplicationKit-debug:
+	 -rm ApplicationKit/Debug/*
+	 -rm $(LIB)/libApplicationKit_d.so
+
+ApplicationKit-release: BUILD   = Release
+ApplicationKit-release: KIT     = ApplicationKit
+ApplicationKit-release: TARGET  = libApplicationKit.so
+ApplicationKit-release: ApplicationKit/Release/Makefile AK-make-release
+clean-ApplicationKit-release:
+	 -rm ApplicationKit/Release/*
+	 -rm $(LIB)/libApplicationKit.so
 
 ## NetworkKit
 NetworkKit-debug: BUILD         = Debug
@@ -139,16 +140,16 @@ clean-LibAGG-release:
 	-rm $(LIB)/libagg.a
 
 clean-release: clean-FoundationKit-release \
-	clean-ApplicationKit-release \
 	clean-GraphicsKit-release \
+	clean-ApplicationKit-release \
 	clean-NetworkKit-release \
 	clean-OpenGLKit-release \
 	clean-RemoteObjectKit-release \
 	clean-LibAGG-release
 
 clean-debug: clean-FoundationKit-debug \
-	clean-ApplicationKit-debug \
 	clean-GraphicsKit-debug \
+	clean-ApplicationKit-debug \
 	clean-NetworkKit-debug \
 	clean-OpenGLKit-debug \
 	clean-RemoteObjectKit-debug \
@@ -158,8 +159,8 @@ clean: clean-release clean-debug
 
 distclean: clean
 	-rm -rf FoundationKit
-	-rm -rf ApplicationKit
 	-rm -rf GraphicsKit
+	-rm -rf ApplicationKit
 	-rm -rf NetworkKit
 	-rm -rf OpenGLKit
 	-rm -rf RemoteObjectKit
