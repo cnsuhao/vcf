@@ -2,6 +2,10 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.4  2003/09/29 03:45:38  ddiego
+#added some further tweaks to update the docs with the upcoming
+#website revision.
+#
 #Revision 1.5.2.3  2003/09/27 23:04:57  ddiego
 #added tutorial sections to documentation
 #
@@ -216,14 +220,6 @@ coredocs_hh_with_source : $(VCF_DOCS) test_tools doxy doxy_hh
 	mv vcf_book.xml.bak vcf_book.xml	
 
 	
-strip_online_docs :  stripper
-	for file in *.html;\
-	do\
-		echo post processing $$file with stripper...;\
-		./stripper $$file;\
-	done
-
-
 
 
 alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
@@ -494,24 +490,16 @@ doxy :
 	cp -r gfx/ doxy_html/
 	cp vcf.css doxy_html/
 
-online_doxy : stripper hrefmunger imgmunger
+
+#stripper hrefmunger imgmunger
+online_doxy :  
 	cp Doxyfile.online Doxyfile.bak
 	sed "s?VERSION-NUMBER?$(VERSION)?g" Doxyfile.online > Doxyfile.tmp
 	mv Doxyfile.tmp Doxyfile.online
 	doxygen Doxyfile.online
 	mv Doxyfile.bak Doxyfile.online
 	cp -r gfx/ doxy_html/
-	for file in doxy_html/*.html;\
-	do\
-		echo post processing $$file with stripper...;\
-		./stripper $$file;\
-		echo post processing all hrefs with hrefmunger...;\
-		./hrefmunger $(ONLINE_SRC_DOC_DIR) $$file;\
-		echo post processing all hrefs with imgmunger...;\
-		./imgmunger gfx $$file;\
-	done
-
-	
+		
 
 
 
@@ -558,7 +546,7 @@ dist_all_hh : alldocs_hh
 	gzip VCFHtmlHelpDocs-$(VERSION).tar
 	rm -rf VCFDocs-$(VERSION)/	
 
-dist_online : coredocs_online strip_online_docs 
+dist_online : coredocs_online  
 	find *.html > files.out
 	find gfx/ -type f -name '*' > images.out
 	cat files.out images.out > all.out
@@ -572,7 +560,7 @@ dist_online : coredocs_online strip_online_docs
 	rm images.out
 
 
-dist_all_online : alldocs_online strip_online_docs online_doxy
+dist_all_online : alldocs_online online_doxy
 	-mkdir docs
 	-mkdir $(ONLINE_DOCS_REF_DIR)
 	-mkdir $(FULL_ONLINE_SRC_DOC_DIR)

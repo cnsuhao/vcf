@@ -341,75 +341,69 @@ will be replaced by a sed script in tyhe makefile
 	<!-- 
 	What follows are the header and footer customizations for the vcf docbook
 	-->	
-	<xsl:template name="user.header.navigation"> 
-	  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-	 <tr>
-	  <td width="250" rowspan="2" valign="top">
-	   <table class="headerCellBanner" width="250" border="0" cellpadding="0" cellspacing="0">
-	    <tr> 
-	     <td width="250" height="125" align="center" valign="middle">
-	     <a href="http://vcf.sf.net/" name="top">
-	     <img alt="Visual_Component_Framework::Home(bool GoHome);" border="0" src="gfx/vcflogo.jpg"/></a></td>
-	    </tr>
-	   </table>
-	  </td>
-	  <td width="100%" rowspan="2" valign="top">
-	   <table class="headerCell" width="100%" border="0" cellpadding="0" cellspacing="0">
-	    <tr> 
-	     <td width="100%" height="125" valign="top"></td>
-	    </tr>
-	   </table>
-	  </td>
-	  <td width="250" height="100" valign="top">
-	   <table class="headerCell" width="250" border="0" cellpadding="0" cellspacing="0">
-	    <tr> 
-	     <td width="250" height="100" align="right" valign="middle"></td>
-	    </tr>
-	   </table>
-	  </td>
-	 </tr>
-	 <tr> 
-	  <td height="25" valign="top">
-	   <table class="menuBar" width="250" border="0" cellpadding="0" cellspacing="0">
-	    <tr> 
-	     <td width="250" height="25" align="center" valign="middle">
-	     <a class="menu" href="http://vcf.sf.net/" target="_blank">Website</a>|<a class="menu" href="http://vcf.sf.net/forums/" target="_blank">Forums</a>|<a class="menu" href="http://sf.net/projects/vcf/" target="_blank">Project Page</a></td>
-	    </tr>
-	   </table>
-	  </td>
-	 </tr>
-	</table>
-	
-	<table width="100%" border="0" cellpadding="0" cellspacing="0">
-	 <tr> 
-	  <td width="100%" height="25" valign="top">
-	   <table class="menuBarLow" width="100%" border="0" cellpadding="0" cellspacing="0">
-	    <tr> 
-	     <td width="100%" height="25" valign="top"></td>
-	    </tr>
-	   </table>
-	  </td>
-	  <td width="500" valign="top">
-	   <table class="menuBarLow" width="500" border="0" cellpadding="0" cellspacing="0">
-	    <tr> 
-	     <td width="500" height="25" valign="top"></td>
-	    </tr>
-	   </table>
-	  </td>
-	 </tr>
-	</table>
-	<hr></hr>
-	
+	<xsl:template name="user.header.navigation">
+	<![CDATA[
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tr>
+  <td class="logoCell" width="400" height="80" valign="top">
+   <table width="400" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+     <td width="400" height="80" align="center" valign="middle"><a name="top"></a>
+	 <img alt="" border="0" src="gfx/logo.png"/></td>
+    </tr>
+   </table>
+  </td>
+  <td class="logoCell" width="100%" valign="top">
+   <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+     <td width="100%" height="80" valign="top">&nbsp;</td>
+    </tr>
+   </table>
+  </td>
+  <td class="logoCell" width="350" valign="top">
+   <table width="350" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+     <td width="350" height="80" align="center" valign="middle"><a href="http://sourceforge.net/projects/vcf/" target="_blank"><img alt="Sourceforge.net - The VCF's Project Host" border="0" src="gfx/sflogo.png"/></a></td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tr>
+  <td class="topCell" width="100%" height="20" align="right" valign="middle">
+   &nbsp;&nbsp;
+   <a class="topLink" href="http://vcf.sourceforge.net/index.php">The VCF Website Home</a>
+   &nbsp;&nbsp;|&nbsp;&nbsp;
+   <a class="topLink" href="http://vcf.sourceforge.net/forums/">Online Discussion Forums</a>
+   &nbsp;&nbsp;|&nbsp;&nbsp;	
+   <a class="topLink" href="http://sourceforge.net/projects/vcf/">Sourceforge.net Project Page</a>
+   &nbsp;&nbsp;
+  </td>
+ </tr>
+</table>
+<table align="center" width="95%" 
+  border="0" cellpadding="0" cellspacing="0"><tr><td 
+  width="100%" height="1" valign="top">
+	]]>
 	</xsl:template>
 	
-	<xsl:template name="user.footer.navigation">
+	<xsl:template name="user.footer.navigation">	
+	<![CDATA[
+	</td></tr></table>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tr>
+  <td class="footerCell" width="100%" height="1" align="center" valign="middle">
+   &nbsp;&nbsp;
+   <a class="footerLink" href="http://vcf.sourceforge.net/comments.php">Comments or Suggestions?</a>   
+   &nbsp;&nbsp;
+   <a class="footerLink" href="http://vcf.sourceforge.net/license.php">License Information</a>
+   &nbsp;&nbsp;
+  </td>
+ </tr>
+</table>
+]]>
 	
-	<hr></hr>
-	<table class="footerCell" width="100%" border="0" cellpadding="0" cellspacing="0">
-	 <tr> 
-	  <td width="100%" height="50" align="center" valign="middle">(c)2000-2003 Jim Crafton<br></br><a class="menu" href="#top">Back to Top</a></td>
-	 </tr>
-	</table>
 	
 	<!-- 
 	HACK ALLERT!!!!!!
@@ -417,8 +411,11 @@ will be replaced by a sed script in tyhe makefile
 	images referenced in the css file. it DOES pick img image references, so we need to 
 	create an img tag for each image that the css file needs
 	-->
+	<!--
 	<img border="0" src="gfx/greybg.jpg" width="0" height="0"/>
 	 <img border="0" src="gfx/left-mangle.jpg" width="0" height="0"/>
+	 -->
+	 
 	</xsl:template>
 
 
@@ -429,6 +426,10 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.5  2003/09/29 03:45:38  ddiego
+added some further tweaks to update the docs with the upcoming
+website revision.
+
 Revision 1.5.2.4  2003/09/28 02:13:33  ddiego
 further documentation for examples
 
