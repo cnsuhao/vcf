@@ -135,10 +135,9 @@ String Win32FontManager::makeStringID(  Win32Font* font )
 {
 	String result = "";
 	if ( NULL != font ){
-		result = StringUtils::format( "%s%d%d%s%s%s%s",
+		result = StringUtils::format( "%s%d%s%s%s%s",
 										font->getName().c_str(),
 										(int)font->getPixelSize(),
-										(int)font->getAngle(),
 										font->getBold() ? "true" : "false",
 										font->getUnderlined() ? "true" : "false",
 										font->getStrikeOut() ? "true" : "false",
@@ -211,6 +210,9 @@ void Win32FontManager::removeFont( Win32Font* font )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

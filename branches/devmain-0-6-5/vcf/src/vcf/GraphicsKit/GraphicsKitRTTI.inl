@@ -36,7 +36,6 @@ PROPERTY( bool, "italic", Font::getItalic, Font::setItalic, pdBool )
 PROPERTY( bool, "underlined", Font::getUnderlined, Font::setUnderlined, pdBool )
 PROPERTY( bool, "strikeout", Font::getStrikeOut, Font::setStrikeOut, pdBool )
 PROPERTY( double, "pointSize", Font::getPointSize, Font::setPointSize, pdDouble )
-PROPERTY( double, "angle", Font::getAngle, Font::setAngle, pdDouble )
 OBJECT_PROPERTY( Color, "color", Font::getColor, Font::setColor );
 END_CLASSINFO(Font)
 
@@ -56,6 +55,9 @@ END_CLASSINFO(ImageBits)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

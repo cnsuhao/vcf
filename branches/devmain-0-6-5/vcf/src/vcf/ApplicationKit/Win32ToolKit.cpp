@@ -275,7 +275,6 @@ public:
 			case UIMetricsManager::ftMenuItemFont : {
 				if ( SystemParametersInfoA( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 ) ) {
 					result.setName( ncm.lfMenuFont.lfFaceName ) ;
-					result.setAngle( ncm.lfMenuFont.lfEscapement / 10 );
 					result.setBold( ncm.lfMenuFont.lfWeight >= FW_BOLD );
 					result.setColor( &Color( ::GetSysColor( COLOR_MENUTEXT ) ) );
 					result.setItalic( ncm.lfMenuFont.lfItalic ? true : false );
@@ -290,7 +289,6 @@ public:
 			case UIMetricsManager::ftSelectedMenuItemFont : {
 				if ( SystemParametersInfoA( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 ) ) {
 					result.setName( ncm.lfMenuFont.lfFaceName ) ;
-					result.setAngle( ncm.lfMenuFont.lfEscapement / 10 );
 					result.setBold( ncm.lfMenuFont.lfWeight >= FW_BOLD );
 					result.setColor( &Color( ::GetSysColor( COLOR_HIGHLIGHTTEXT ) ) );
 					result.setItalic( ncm.lfMenuFont.lfItalic ? true : false );
@@ -309,7 +307,6 @@ public:
 			case UIMetricsManager::ftMessageFont : {
 				if ( SystemParametersInfoA( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 ) ) {
 					result.setName( ncm.lfMessageFont.lfFaceName ) ;
-					result.setAngle( ncm.lfMessageFont.lfEscapement / 10 );
 					result.setBold( ncm.lfMessageFont.lfWeight >= FW_BOLD );
 					result.setColor( &Color( ::GetSysColor( COLOR_WINDOWTEXT ) ) );
 					result.setItalic( ncm.lfMessageFont.lfItalic ? true : false );
@@ -323,7 +320,6 @@ public:
 			case UIMetricsManager::ftToolTipFont : {
 				if ( SystemParametersInfoA( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 ) ) {
 					result.setName( ncm.lfStatusFont.lfFaceName ) ;
-					result.setAngle( ncm.lfStatusFont.lfEscapement / 10 );
 					result.setBold( ncm.lfStatusFont.lfWeight >= FW_BOLD );
 					result.setColor( &Color( ::GetSysColor( COLOR_INFOTEXT ) ) );
 					result.setItalic( ncm.lfStatusFont.lfItalic ? true : false );
@@ -1998,6 +1994,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:19:29  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

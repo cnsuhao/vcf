@@ -180,7 +180,7 @@ void ProgressControl::paint( GraphicsContext* ctx )
 			text = StringUtils::format( "%0.1f %%", position_ );
 		}
 
-		double oldAngle = ctx->getCurrentFont()->getAngle();
+
 		if ( paVertical == displayAlignment_ ) {
 			textBounds.left_ = progressRect.left_;
 			textBounds.right_ = progressRect.right_;
@@ -192,8 +192,6 @@ void ProgressControl::paint( GraphicsContext* ctx )
 			textBounds.bottom_ = textBounds.top_ + h;
 
 			textBounds.inflate( 0, 2 );
-
-			ctx->getCurrentFont()->setAngle( 0 );
 		}
 		else {
 			textBounds.top_ = progressRect.top_;
@@ -205,8 +203,6 @@ void ProgressControl::paint( GraphicsContext* ctx )
 								(clientBounds.getWidth()/2.0 - w/2.0);
 
 			textBounds.right_ = textBounds.left_ + w;
-
-			ctx->getCurrentFont()->setAngle( 270 );
 		}
 
 		long drawOptions = GraphicsContext::tdoNone;
@@ -220,7 +216,6 @@ void ProgressControl::paint( GraphicsContext* ctx )
 		ctx->textBoundedBy( &textBounds, text, drawOptions );
 
 		ctx->getCurrentFont()->setColor(&oldColor);
-		ctx->getCurrentFont()->setAngle( oldAngle );
 
 	}
 }
@@ -229,6 +224,9 @@ void ProgressControl::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:19:29  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -25,10 +25,8 @@ namespace VCF {
 #define DEFAULT_FONT_NAME		"Arial"
 
 class FontPeer;
-
 class GlyphCollection;
-
-
+class Locale;
 
 #define FONT_CLASSID	"C41B2C4C-C95F-4ba2-B844-185C3AFCEF35"
 
@@ -81,45 +79,28 @@ public:
 	void setPointSize( const double& pointSize );
 
 	double getPixelSize() const;
-
 	void setPixelSize( const double& pixelSize );
 
 	void setBold( const bool& bold );
-
 	bool getBold() const;
 
-
-
     bool getItalic() const;
-
 	void setItalic( const bool& italic );
 
     bool getUnderlined() const;
-
-
 	void setUnderlined( const bool& underlined );
 
-
 	bool getStrikeOut() const;
-
 	void setStrikeOut( const bool& strikeout );
-
-	double getShear() const;
-
-	void setShear(const double& shear );
-
-	double getAngle() const;
-
-	void setAngle( const double& angle );
-
+	
 	String getName() const;
 
 	void setName( const String& name );
 
 
 	void setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const Color* color, const String& name );
+								const bool& underlined, const bool& struckOut,
+								const Color* color, const String& name );
 
     GlyphCollection* getGlyphCollection( const String& text );
 
@@ -131,21 +112,26 @@ public:
 
 	double getDescent()  const;
 
-	double getExternalLeading()  const;
-
-	double getInternalLeading()  const;
-
 	double getHeight()  const;
 
-	VCFChar getWordBreakCharacter()  const;
+	/**
+	Get the locale associated with this font. May be NULL, in which case this
+	is whatever the System's default locale is.
+	*/
+	Locale* getLocale() const  {
+		return locale_;
+	}
 
-	VCFChar getFirstCharacter()  const;
-
-	VCFChar getLastCharacter()  const;
+	/**
+	Set the locale of this font. This may change the script used by the 
+	font when being rendered.
+	*/
+	void setLocale( Locale* locale );
 protected:
 
-	FontPeer* Peer_;
+	FontPeer* peer_;
 	Color color_;
+	Locale* locale_;
 };
 
 };
@@ -154,6 +140,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
