@@ -178,6 +178,12 @@ public:
 	virtual Font* getDefaultSystemFont() {
 		return systemFont_;
 	}
+	
+	virtual PrintSessionPeer* internal_createPrintSessionPeer();
+
+	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer();
+
+	virtual double internal_getDPI( GraphicsContext* context );
 protected:
 	void initSystemFont();
 	void loadSystemColors();
@@ -192,6 +198,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/22 13:22:01  ddiego
+*removed mgc code for drawing vector shapes. Unneccessary since agg does this just fine.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -217,10 +217,27 @@ Image* OSXGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect*
 	return new OSXImage( context, rect ) ;
 }
 
+PrintSessionPeer* OSXGraphicsToolkit::internal_createPrintSessionPeer()
+{
+	return NULL;
+}
+
+GraphicsResourceBundlePeer* OSXGraphicsToolkit::internal_createGraphicsResourceBundlePeer()
+{
+	return NULL;
+}
+
+double OSXGraphicsToolkit::internal_getDPI( GraphicsContext* context )
+{
+	return 72.0;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/22 13:22:01  ddiego
+*removed mgc code for drawing vector shapes. Unneccessary since agg does this just fine.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
