@@ -970,7 +970,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
 			if ( NULL != win32Obj ){
-				result = win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam );
+				win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam, result );
 			}
 			else {
 				//handle some special case messages here that wouldn't ordinarily get caught
@@ -980,7 +980,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 						HWND parent = ::GetParent( notificationHdr->hwndFrom );
 						win32Obj = Win32Object::getWin32ObjectFromHWND( parent );
 						if ( NULL != win32Obj ){
-							result = win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam );
+							win32Obj->handleEventMessages( notificationHdr->code, wParam, lParam, result );
 						}
 					}
 					break;
@@ -995,7 +995,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 			Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 			if ( NULL != win32Obj ){
 				if ( win32Obj->acceptsWMCommandMessages() ) {
-					win32Obj->handleEventMessages( message, wParam, lParam );
+					win32Obj->handleEventMessages( message, wParam, lParam, result );
 				}
 			}
 			if ( System::isUnicodeEnabled() ) {
@@ -1013,7 +1013,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				HWND hwndCtl = drawItem->hwndItem;
 				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 				if ( NULL != win32Obj ){
-					result = win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam );
+					win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam, result );
 				}
 				else {
 					if ( System::isUnicodeEnabled() ) {
@@ -2038,6 +2038,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2.2.4  2004/09/01 03:50:14  ddiego
 *fixed font drawing bug that tinkham pointed out.
 *

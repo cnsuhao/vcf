@@ -50,8 +50,12 @@ public:
 	*This is where the window is actually created. Called from constructors
 	*/
 	void init();
-
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL);
+	
+	/*
+	returns true if no further handling is required, otherwise returns false, which means 
+	the rest of the handling needs to be done by the default wnd proc.
+	*/
+	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
 
 	static Win32Object* getWin32ObjectFromHWND( HWND hwnd );
 
@@ -106,6 +110,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

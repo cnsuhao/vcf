@@ -183,9 +183,11 @@ void Win32Window::setVisible( const bool& visible )
 	}
 }
 
-LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
+bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
-	LRESULT result = 0;
+	bool result = false;
+	wndProcResult = 0;
+
 
 	static bool windowRestoredAlready = true;
 	switch ( message ) {
@@ -209,7 +211,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 		case WM_SIZE : {
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 			switch ( wParam ) {
 				case SIZE_MAXIMIZED : {
 					windowRestoredAlready = false;
@@ -255,9 +257,10 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			Frame* frame = (Frame*)peerControl_;
 			frame->activate();
 
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
-			result = 0;
+			wndProcResult = 0;
+			result = false;
 		}
 		break;
 
@@ -265,7 +268,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 			BOOL active = (BOOL)wParam;
 
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			Frame* frame = (Frame*)peerControl_;
 			if ( active ) {
@@ -292,7 +295,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 					break;
 				}
 			}
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
 
@@ -300,7 +303,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 			BOOL active = LOWORD(wParam);
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			if ( active ) {
 				Frame* frame = (Frame*)peerControl_;
@@ -314,7 +317,7 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		case WM_LBUTTONDOWN : {
 			Frame* frame = (Frame*)peerControl_;
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			frame->activate();
 		}
@@ -326,12 +329,12 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 			switch ( frame->getFrameStyle() ){
 				case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
-					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 				}
 				break;
 
 				case fstNoBorder : case fstNoBorderFixed : {
-					result = MA_NOACTIVATE;
+					wndProcResult = MA_NOACTIVATE;
 				}
 				break;
 			}
@@ -341,7 +344,8 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 		case WM_CLOSE:{
-			result = 0;
+			result = false;
+			wndProcResult = 0;
 			//check if we need to re notify the listeners of the close event
 
 			VCF::Window* window = (VCF::Window*)getControl();
@@ -364,12 +368,12 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 							::PostMessage( hwnd_, WM_QUIT, 0, 0 );
 						}
 						else {
-							result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+							result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 						}
 					}
 				}
 				else {
-					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 				}
 			}
 		}
@@ -377,12 +381,12 @@ LRESULT Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 		case WM_DESTROY: {
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
 
 		default: {
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
 	}
@@ -601,6 +605,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
+*fixed some more transparent drawing issues
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
