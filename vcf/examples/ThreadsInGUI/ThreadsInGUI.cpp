@@ -22,7 +22,7 @@ interface
 
 
 /**
-This is out thread class which does the work of incrementing a
+This is our thread class which does the work of incrementing a
 count variable. Our thread class is not an auto-delete thread
 and the thread's deletion is done by and event handler that
 is notified when the thread is ready to be deleted.
@@ -273,6 +273,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2004/07/05 00:27:31  marcelloptr
+*minor changes
+*
 *Revision 1.3.2.4  2004/04/29 03:40:58  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
