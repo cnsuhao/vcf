@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "GRAPHICSKIT_EXPORTS" /Yu"GraphicsKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/../thirdparty/common/agg/include/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "GRAPHICSKIT_EXPORTS" /Yu"GraphicsKit.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -358,6 +358,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_affine_matrix.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
 
+# ADD CPP /YX"GraphicsKit.h"
+
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
 # ADD CPP /YX
@@ -370,6 +372,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_affine_matrix.cpp
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_bspline.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+# ADD CPP /YX"GraphicsKit.h"
 
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
@@ -384,6 +388,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_gen_stroke.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
 
+# ADD CPP /YX"GraphicsKit.h"
+
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
 # ADD CPP /YX
@@ -396,6 +402,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_gen_stroke.cpp
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_gsv_text.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+# ADD CPP /YX"GraphicsKit.h"
 
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
@@ -410,6 +418,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_path_storage.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
 
+# ADD CPP /YX"GraphicsKit.h"
+
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
 # ADD CPP /YX
@@ -422,6 +432,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_path_storage.cpp
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_rasterizer.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+# ADD CPP /YX"GraphicsKit.h"
 
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
@@ -436,6 +448,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_rendering_buffer.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
 
+# ADD CPP /YX"GraphicsKit.h"
+
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
 # ADD CPP /YX
@@ -448,6 +462,8 @@ SOURCE=..\..\..\thirdparty\common\agg\src\agg_rendering_buffer.cpp
 SOURCE=..\..\..\thirdparty\common\agg\src\agg_scanline_u8.cpp
 
 !IF  "$(CFG)" == "GraphicsKitDLL - Win32 Release"
+
+# ADD CPP /YX"GraphicsKit.h"
 
 !ELSEIF  "$(CFG)" == "GraphicsKitDLL - Win32 Debug"
 
