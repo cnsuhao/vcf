@@ -383,16 +383,17 @@ END_CLASSINFO(DefaultTableCellItem)
 
 
 BEGIN_CLASSINFO(DefaultTableModel, "VCF::DefaultTableModel", "VCF::AbstractModel", DEFAULTTABLEMODEL_CLASSID )
+	EVENT( "VCF::TableModelEventHandler", DefaultTableModel, VCF::TableModelEvent, TableCellAdded )
+	EVENT( "VCF::TableModelEventHandler", DefaultTableModel, VCF::TableModelEvent, TableCellDeleted )
+	EVENT( "VCF::TableModelEventHandler", DefaultTableModel, VCF::TableModelEvent, TableRowsAdded )
+	EVENT( "VCF::TableModelEventHandler", DefaultTableModel, VCF::TableModelEvent, TableRowsDeleted )
+	EVENT( "VCF::TableModelEventHandler", DefaultTableModel, VCF::TableModelEvent, TableColumnsAdded )
+	EVENT( "VCF::TableModelEventHandler", DefaultTableModel, VCF::TableModelEvent, TableColumnsDeleted )
 END_CLASSINFO(DefaultTableModel)
 
 
 BEGIN_CLASSINFO(DefaultTextModel, "VCF::DefaultTextModel", "VCF::AbstractModel", DEFAULTTEXTMODEL_CLASSID)
-	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableCellAdded )
-	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableCellDeleted )
-	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableRowsAdded )
-	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableRowsDeleted )
-	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableColumnsAdded )
-	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableColumnsDeleted )
+	EVENT("VCF::TextModelEventHandler", DefaultTextModel, VCF::TextEvent, TextModelChanged )
 END_CLASSINFO(DefaultTextModel)
 
 BEGIN_CLASSINFO(DefaultTreeItem, "VCF::DefaultTreeItem", "VCF::TreeItem", DEFAULTTREEITEM_CLASSID)
@@ -638,6 +639,10 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/04 13:47:49  ddiego
+*applicationkit rtti code fixed. Thanks to darko
+*for finding the bug on bcb5.5
+*
 *Revision 1.2.2.3  2004/10/03 22:25:59  ddiego
 *fixed a bug in the ApplicationKitRTTI inl file that had some
 *leftover code from changing the various model class around.
