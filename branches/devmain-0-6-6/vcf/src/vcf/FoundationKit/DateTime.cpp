@@ -23,6 +23,146 @@ using namespace VCF;
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// DateTimeSpan implementation
+
+
+void DateTimeSpan::subtract( const DateTime& lhs, const DateTime& rhs )
+{
+	start_ = rhs.time_;
+	end_ = lhs.time_;
+	delta_ = end_ - start_;
+
+	DateTime::Iterator<ByMonth> monthIt = rhs;
+	int ey = lhs.getYear();
+	int em = lhs.getMonth();
+	int sy = rhs.getYear();
+	int sm = rhs.getMonth();
+
+	months_ = 0;
+	while ( true ) {
+		if ( (*monthIt).getYear() == ey ) {
+			if ( (*monthIt).getMonth() == em ) {
+				break;
+			}
+		}
+		++months_;
+
+		++monthIt;
+	}
+
+	years_ = abs(ey-sy);
+
+	if ( years_ > 0 ) {
+		if ( lhs > rhs ) {
+			if ( lhs.getMonth() < rhs.getMonth() ) {
+				years_ --;
+			}
+		}
+		else {
+			if ( rhs.getMonth() < lhs.getMonth() ) {
+				years_ --;
+			}
+		}
+	}
+
+	days_ = delta_ / DateTime::ONEDAY;
+}
+
+unsigned long DateTimeSpan::getYears() const
+{
+	return years_;
+}
+
+unsigned long DateTimeSpan::getMonths() const
+{
+	return months_ % 12;
+}
+
+unsigned long DateTimeSpan::getDays() const
+{
+
+	unsigned long result = 0;
+
+
+	DateTime end;
+	end.time_ = end_;
+
+	DateTime start;
+	start.time_ = start_;
+
+	result = abs((long)static_cast<float>(end.getDay() - start.getDay()));
+
+	return result;
+}
+
+unsigned long DateTimeSpan::getHours() const
+{
+	DateTime dt;
+	dt.time_ = delta_;
+
+	return dt.getHour();
+}
+
+unsigned long DateTimeSpan::getMinutes() const
+{
+	DateTime dt;
+	dt.time_ = delta_;
+
+	return dt.getMinute();
+}
+
+unsigned long DateTimeSpan::getSeconds() const
+{
+	DateTime dt;
+	dt.time_ = delta_;
+
+	return dt.getSecond();
+}
+
+unsigned long DateTimeSpan::getMilliseconds() const
+{
+	DateTime dt;
+	dt.time_ = delta_;
+
+	return dt.getMilliSecond();
+}
+
+unsigned long DateTimeSpan::getTotalMonths() const
+{
+	return months_;
+}
+
+unsigned long DateTimeSpan::getTotalDays() const
+{
+	return days_;
+}
+
+unsigned long DateTimeSpan::getTotalHours() const
+{
+	return delta_ / DateTime::ONEHOUR;
+}
+
+unsigned long DateTimeSpan::getTotalMinutes() const
+{
+	return delta_ / DateTime::ONEMINUTE;
+}
+
+unsigned long DateTimeSpan::getTotalSeconds() const
+{
+	return delta_ / DateTime::ONESECOND;
+}
+
+ulong64 DateTimeSpan::getTotalMilliseconds() const
+{
+	return delta_;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// DateTime implementation
+
 DateTime::DateTime( time_t newTime ):
 	time_(0)
 {
@@ -822,154 +962,6 @@ void DateTime::saveToStream( OutputStream* stream )
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void DateTimeSpan::subtract( const DateTime& lhs, const DateTime& rhs )
-{
-	start_ = rhs.time_;
-	end_ = lhs.time_;
-	delta_ = end_ - start_;
-
-	DateTime::Iterator<ByMonth> monthIt = rhs;
-	int ey = lhs.getYear();
-	int em = lhs.getMonth();
-	int sy = rhs.getYear();
-	int sm = rhs.getMonth();
-
-	months_ = 0;
-	while ( true ) {
-		if ( (*monthIt).getYear() == ey ) {
-			if ( (*monthIt).getMonth() == em ) {
-				break;
-			}
-		}
-		++months_;
-
-		++monthIt;
-	}
-
-	years_ = abs(ey-sy);
-
-	if ( years_ > 0 ) {
-		if ( lhs > rhs ) {
-			if ( lhs.getMonth() < rhs.getMonth() ) {
-				years_ --;
-			}
-		}
-		else {
-			if ( rhs.getMonth() < lhs.getMonth() ) {
-				years_ --;
-			}
-		}
-	}
-
-	days_ = delta_ / DateTime::ONEDAY;
-}
-
-unsigned long DateTimeSpan::getYears() const
-{
-	return years_;
-}
-
-unsigned long DateTimeSpan::getMonths() const
-{
-	return months_ % 12;
-}
-
-unsigned long DateTimeSpan::getDays() const
-{
-
-	unsigned long result = 0;
-
-
-	DateTime end;
-	end.time_ = end_;
-
-	DateTime start;
-	start.time_ = start_;
-
-	result = abs((long)static_cast<float>(end.getDay() - start.getDay()));
-
-	return result;
-}
-
-unsigned long DateTimeSpan::getHours() const
-{
-	DateTime dt;
-	dt.time_ = delta_;
-
-	return dt.getHour();
-}
-
-unsigned long DateTimeSpan::getMinutes() const
-{
-	DateTime dt;
-	dt.time_ = delta_;
-
-	return dt.getMinute();
-}
-
-unsigned long DateTimeSpan::getSeconds() const
-{
-	DateTime dt;
-	dt.time_ = delta_;
-
-	return dt.getSecond();
-}
-
-unsigned long DateTimeSpan::getMilliseconds() const
-{
-	DateTime dt;
-	dt.time_ = delta_;
-
-	return dt.getMilliSecond();
-}
-
-unsigned long DateTimeSpan::getTotalMonths() const
-{
-	return months_;
-}
-
-unsigned long DateTimeSpan::getTotalDays() const
-{
-	return days_;
-}
-
-unsigned long DateTimeSpan::getTotalHours() const
-{
-	return delta_ / DateTime::ONEHOUR;
-}
-
-unsigned long DateTimeSpan::getTotalMinutes() const
-{
-	return delta_ / DateTime::ONEMINUTE;
-}
-
-unsigned long DateTimeSpan::getTotalSeconds() const
-{
-	return delta_ / DateTime::ONESECOND;
-}
-
-ulong64 DateTimeSpan::getTotalMilliseconds() const
-{
-	return delta_;
-}
-
-
-
-
-
 void ByMillisecond::incr( DateTime& dt, unsigned long offset )
 {
 	dt.setMilliseconds( dt.getMilliseconds() + offset );
@@ -1150,6 +1142,9 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 02:10:26  marcelloptr
+*just moved the DateTimeSpan member definitions before those of DateTime
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
