@@ -56,7 +56,7 @@ Copyright (c) 2004, Alan Fischer
 	<para>
 		ParticleResource.h, ParticleResourceManager.h, XMLParticleResourceHandler.h:
 			Objects that represent the parameters of a particle system, and handle the references to different
-			systems, as well as handle the loading & saving of the system parameters.
+			systems, as well as handle the loading and saving of the system parameters.
 	</para>
 </section>
 
