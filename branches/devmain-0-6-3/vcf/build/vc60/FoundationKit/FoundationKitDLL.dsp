@@ -107,6 +107,10 @@ SOURCE=..\..\..\include\core\FoundationKitSelectLib.h
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\Dictionary.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\core\FoundationKit.cpp
 # ADD CPP /Yc"FoundationKit.h"
 # End Source File
@@ -469,6 +473,10 @@ SOURCE=..\..\..\src\Utils\Condition.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\Condition.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Dictionary.h
 # End Source File
 # Begin Source File
 
