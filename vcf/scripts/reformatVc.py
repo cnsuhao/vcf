@@ -64,18 +64,31 @@ g_options_showNamesForUuids = False # this breaks the solution file, but it show
 g_workspaceHasPrecedenceOverSolution = True # use True so changes in the workspaces will be reflected into the dependency changes in the solutions
 testingParse = False #%%%
 g_printFilterGroupTrees = False
-addEntriesForVc71WhenSynchToVc70 = False
-addToolsForVc71WhenSynchToVc70   = False
+addEntriesForVc71WhenSynchToVc70 = False # this will alter the configuration information contained in the vcproj. Better False
+addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration information contained in the vcproj. Better False
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
 g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization' ]
-backupFiles = False
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
+
+# under win32 I am forced to get the uuid from a table because the uuid algorithms on win32 are pretty bad
+# this ends up in having a limited number of uuid which can cause problems
+# so it is suggested use this script under win32 only when debugging, even if I can say
+# that it is working right also under win32 with the uuids table
+g_disableUuidgen_on_win32 = True
+
+
+
+
 
 # Some macros used internally for clarity
 g_KeepFirstDot_False = False
-g_KeepFirstDot_True  = True
+g_KeepFirstDot_True  = 1
+g_KeepFirstDot_Add = 2         # add './' at the beginning anyway
+g_KeepFirstDot_AddIfNoDots = 3 # add './' at the beginning only if it is not already like: '../'
+
 g_MinPathIsDot_False = False
 g_MinPathIsDot_True  = True
+
 g_IsDirForSure_False = 0
 g_IsDirForSure_True  = 1
 g_IsDirForSure_ChkDot = 2  # check automatically if the path is a directory or not according with if it has a dot or not
@@ -113,6 +126,10 @@ re_configuration        = re.compile( r'!(ELSE)?IF  "\$\(CFG\)"\s+==\s+"(?P<proj
 #re_confignamesplitOld      = re.compile( r'((\w+)\s+)*(?P<configName>\w+)' )
 re_confignamesplit      = re.compile( r'((\w+)\s+)+?(?P<configName>[a-zA-Z0-9 _\- $\(\)\\/.]*)' ) # the first word and take all the others
 re_configuration_endif  = re.compile( r'!ENDIF\s*?$' )
+re_dsp_custom_build_basic_beg   = re.compile( r'# Begin Custom Build' )
+re_dsp_custom_build_basic_end   = re.compile( r'# End Custom Build' )
+re_dsp_custom_build_basic_lib   = re.compile( r'\s*?lib\s+?' ) # lib command
+re_dsp_custom_build_basic_dll   = re.compile( r'\s*?/dll\s+?' ) # /dll option in a (link ?) command
 
 re_dsp_group_name_basic = re.compile( r'# Name' )
 re_dsp_group_name       = re.compile( r'# Name "(?P<projectName>\w+) - (?P<platform>\w+) (?P<configName>[a-zA-Z0-9_\- $\(\)\\/.]*)"' )
@@ -127,6 +144,7 @@ re_dsp_source_basic     = re.compile( r'SOURCE=' )
 re_dsp_source           = re.compile( r'SOURCE="?(?P<sourcename>[a-zA-Z0-9_\- $\(\)\\/.]*)"?' ) # note: 1) no *? 2) wihout r'' the \" should be written as " only ! otherwise it stops at the first '\'
 re_dsp_useprecompheader_c = re.compile( r'/Yc"?(?P<precompheader>[a-zA-Z0-9_\- $\(\)\\/.]*?)"?' )
 re_dsp_useprecompheader_u = re.compile( r'/Yu"?(?P<precompheader>[a-zA-Z0-9_\- $\(\)\\/.]*?)"?' )
+
 
 # Note:
 # if we have:
@@ -169,8 +187,8 @@ re_vcp_config_outputDirectory           = re.compile( r'\s*?OutputDirectory="(?P
 
 
 #re_vcp_entry = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)="(?P<entryValue>[a-zA-Z0-9_:;,\-\+ $\(\)\\/.]*?)"' )
-re_vcp_entry = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValue>[a-zA-Z0-9_:;,\-\+ $\(\)\{\}\\/.]*?)"' )
-re_vcp_entry_cont0 = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValueMultiline>[a-zA-Z0-9_:;,\-\+ $\(\)\{\}\\/.]*)' )
+re_vcp_entry = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValue>[a-zA-Z0-9_:;,\-\+\* $&\(\)\{\}\\/.]*?)"' )
+re_vcp_entry_cont0 = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValueMultiline>[a-zA-Z0-9_:;,\-\+\* $&\(\)\{\}\\/.]*)' )
 re_vcp_entry_cont1 = re.compile( r'(?P<entryValueMultiline>.*)' )
 
 
@@ -244,12 +262,12 @@ re_SUBTRACT_LIB32           = re.compile( r'^# SUBTRACT LIB32' )
 re_ADD_BSC32                = re.compile( r'^# ADD BSC32' )
 re_ADD_BSC32_ALL            = re.compile( r'^# ADD (BASE |)BSC32' )
 re_ADD_BSC32_BASE           = re.compile( r'^# ADD BASE BSC32' )
-re_option_out_dir           = re.compile( r'/out:"(?P<subdir>[a-zA-Z0-9_\- $\(\)\\/.]*?)"' )
-
+re_option_out_dir_spaces    = re.compile( r'/out:"(?P<pathname>[a-zA-Z0-9_\- $\(\)\\/.]*?)"' )
+re_option_out_dir_nospaces  = re.compile( r'/out:(?P<pathname>[a-zA-Z0-9_\-$\(\)\\/.]*)' )
 
 re_custom_build_beg         = re.compile( r'^# Begin Custom Build' )
 re_custom_build_end         = re.compile( r'^# End Custom Build'   )
-
+re_custom_build_rule        = re.compile( r'^\s*?"?(?P<rule>[a-zA-Z0-9_ \-$\(\)\\/.]*)"?\s*?:' )
 
 g_mapCompilerNameVersion = {}
 g_mapCompilerNameVersion[ compilerVc6  ] = compilerVersionVc6
@@ -787,11 +805,22 @@ class FileUtils:
 
         if ( hasCurr ):
             if ( keepFirstDot ):
-                path = curr + path
+                if ( path and path[0] == '.' ):
+                    if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
+                        path = curr + path
             else:
                 if ( path and path[0] == '.' ):
                     if ( 1 < len(path) and path[1] in '/\\' ):
                         path = path[2:]
+        else:
+            if ( keepFirstDot == g_KeepFirstDot_Add ):
+                if ( path and path[0] == '.' ):
+                    if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
+                        path = curr + path
+            elif ( keepFirstDot == g_KeepFirstDot_AddIfNoDots ):
+                # we do not add '.\' at the beginning if we have: '../'
+                if ( path and not path[0] == '.' ):
+                    path = curr + path
 
         # again unfortunately, because of os.path.normpath(). In the future implement just normPathSimple
         path = FileUtils.normPathSimple( path, unixStyle )
@@ -1358,8 +1387,9 @@ class DspApp:
         optparser.add_option(   "-r", "--recurse"                            , type = "int"     , dest = "recurse"                       , default=False                 , help="recursion into subdirectories" )
 
         optparser.add_option(   "-v", "--verbose"                            , type = "int"     , dest = "verbose"                       , default=0                     , help="verbose level. Use -vvv to set verbose level = 3" )
-        optparser.add_option(   "-w", "--warning"                            , type = "int"     , dest = "warning"                       , default=1                     , help="warning level. Use -www to set warning level = 3" )
         optparser.add_option(   "-e", "--errorLevel"                         , type = "int"     , dest = "errorLevel"                    , default=1                     , help="error level. ( 3 < errorLevel ) --> stop on first error. Use -eee to set warning level = 3" )
+        optparser.add_option(   "-w", "--warning"                            , type = "int"     , dest = "warning"                       , default=1                     , help="warning level. Use -www to set warning level = 3" )
+        optparser.add_option(   "-l", "--log"                                , type = "int"     , dest = "log"                           , default=0                     , help="logging into a file" )
         # optparser.add_option(   "-q", "--quiet"                              , type = "int"    , dest = "verbose"                       , default=False                 , help="reset verbose level to zero" )
 
         optparser.add_option(   "-p", "--prompt"                             , type = "int"     , dest = "prompt"                        , default=True                  , help="ask to press any key before continuing" )
@@ -1387,7 +1417,6 @@ class DspApp:
         optparser.add_option(   "--copyToVc70"                               , type = "int"     , dest = "copyToVc70"                    , default=True                  , help="copy dsp files in corresponding directories for vc70 ( option VCF specific )" )
         optparser.add_option(   "--copyToVc71"                               , type = "int"     , dest = "copyToVc71"                    , default=True                  , help="copy dsp files in corresponding directories for vc71 ( option VCF specific )" )
         optparser.add_option(   "--synchVcprojSln"                           , type = "int"     , dest = "synchVcprojSln"                , default=True                  , help="only with (copyToVc7x==1). instead then duplicating dsp files it synchronizes the corresponding vcproj unless it does not exists" )
-        #optparser.add_option(   "--createSlnIfNone"                          , type = "int"     , dest = "createSlnIfNone"               , default=True                  , help="only with (synchVcprojSln==1). Creates the solutions for vc70 and vc71 even if none of them exists ( if they only one exists then that one is updated and the other created" )
         optparser.add_option(   "--keepDspCopy"                              , type = "int"     , dest = "keepDspCopy"                   , default=True                  , help="only with (synchVcprojSln==1). instead then duplicating dsp files it synchronizes the corresponding vcproj unless it does not exists" )
 
         optparser.add_option(   "--allowDirs"                                , type = "int"     , dest = "allowDirs"                     , default=True                  , help="works only with selected directories and its subdirectories" )
@@ -1463,6 +1492,12 @@ class DspApp:
             #print '[' + uuid + ']'
             isUnix = ( uuid.find( 'is not recognized as an internal or external command' ) == -1 )
             if ( not isUnix ):
+                if ( g_disableUuidgen_on_win32 ):
+                    # under win32 I am forced to get the uuid from a table because the uuid algorithms on win32 are pretty bad
+                    # this ends up in having a limited number of uuid which can cause problems
+                    # so it is suggested use this script under win32 only when debugging, even if I can say
+                    # that it is working right also under win32 with the uuids table
+                    raise Exception( 'uuidgen is disabled under win32, please disable the option only if you know what you are doing' )
                 foundOk = False
                 while ( not foundOk ):
                     #raise Exception( 'ERROR: the program needs of unix or cygwin or whatever OS with uuidgen function' )
@@ -1503,6 +1538,7 @@ class DspApp:
         print ' --warning        = ' + str(self.options.warning)
         print ' --errorLevel     = ' + str(self.options.errorLevel)
         print ' --prompt         = ' + str(self.options.prompt )
+        print ' --log            = ' + str(self.options.log)
         print ''
         print ' --unixStyle      = ' + str(self.options.unixStyle)
         print ' --backupFiles    = ' + str(self.options.backupFiles)
@@ -1529,7 +1565,6 @@ class DspApp:
         print ' --copyToVc70                     = ' + str(self.options.copyToVc70                      )
         print ' --copyToVc71                     = ' + str(self.options.copyToVc71                      )
         print ' --synchVcprojSln                 = ' + str(self.options.synchVcprojSln                  )
-        #print ' --createSlnIfNone                = ' + str(self.options.createSlnIfNone                 )
         print ' --keepDspCopy                    = ' + str(self.options.keepDspCopy                     )
 
         print ' --allowedExtensions              = \'' + str(self.options.allowedExtensions             ) + '\''
@@ -1643,6 +1678,7 @@ class DspApp:
                     self.options.warning                        = self.getOptionValue( [ 'warning', 'w' ]                    , comm_sect, 'warning'                        , "int"       ) # was comm_sect, 'verbose' ! fixed April 2004
                     self.options.errorLevel                     = self.getOptionValue( [ 'errorLevel', 'e' ]                 , comm_sect, 'errorLevel'                     , "int"       )
                     self.options.prompt                         = self.getOptionValue( [ 'prompt', 'p' ]                     , comm_sect, 'prompt'                         , "int"       )
+                    self.options.log                            = self.getOptionValue( [ 'log', 'w' ]                        , comm_sect, 'log'                            , "int"       )
 
                     self.options.unixStyle                      = self.getOptionValue( [ 'unixStyle' ]                       , comm_sect, 'unixStyle'                      , "bool"      )
                     self.options.deleteSccLines                 = self.getOptionValue( [ 'deleteSccLines' ]                  , comm_sect, 'deleteSccLines'                 , "bool"      )
@@ -1674,7 +1710,6 @@ class DspApp:
                     self.options.copyToVc70                     = self.getOptionValue( [ 'copyToVc70' ]                      , spec_sect, 'copyToVc70'                     , "bool"      )
                     self.options.copyToVc71                     = self.getOptionValue( [ 'copyToVc71' ]                      , spec_sect, 'copyToVc71'                     , "bool"      )
                     self.options.synchVcprojSln                 = self.getOptionValue( [ 'synchVcprojSln' ]                  , spec_sect, 'synchVcprojSln'                 , "bool"      )
-                    #self.options.createSlnIfNone                = self.getOptionValue( [ 'createSlnIfNone' ]                 , spec_sect, 'createSlnIfNone'                , "bool"      )
                     self.options.keepDspCopy                    = self.getOptionValue( [ 'keepDspCopy' ]                     , spec_sect, 'keepDspCopy'                    , "bool"      )
 
                 else:
@@ -1848,6 +1883,9 @@ class DspApp:
 
 
     def logFileOpen( self, duplicate = False ):
+        if ( not self.options.log ):
+            return
+
         self.filenameLog = g_filenameLog
         self.fdFilenameLog = file( self.filenameLog, 'a' ) # append
         self.fdFilenameLog.write( '\n\n**********************************************\n\n' )
@@ -1861,6 +1899,9 @@ class DspApp:
         return
 
     def logFileClose( self ):
+        if ( not self.options.log ):
+            return
+
         if ( self.fdFilenameLog and not self.fdFilenameLog.closed ):
             self.fdFilenameLog.close()
             print 'log files \'%s\' closed' % self.filenameLog
@@ -1872,9 +1913,12 @@ class DspApp:
     def logFilePrintLine( self, line, console = True, duplicate = False, throw = False ):
         if ( console ):
             print line
-        self.fdFilenameLog.write( line + '\n' )
-        if ( duplicate or throw ):
-            self.fdFilenameLogDup.write( line + '\n' )
+
+        if ( self.options.log ):
+            self.fdFilenameLog.write( line + '\n' )
+
+            if ( duplicate or throw ):
+                self.fdFilenameLogDup.write( line + '\n' )
 
         if ( throw ):
             raise Exception( line )
@@ -1897,18 +1941,10 @@ class DspApp:
 ################################################################################
 class GenericFile:
     """Process and reformat any generic kind of files"""
-
     def __init__( self, filename ):
-
-        #self.app = app
         self.filename  = ''
         self.filetitle = ''
         self.setFilename( filename )
-
-        self.compiler          = ''
-        self.compilerUnderscor = ''
-        self.compilerSep       = ''
-        self.setCompilerStrings( compilerVc6 )
 
         self.resetGenericFile()
         return
@@ -1920,6 +1956,28 @@ class GenericFile:
     def resetGenericFile( self ):
         self.lines = []
         self.n = 0
+        return
+
+################################################################################
+class GenericProjectFile( GenericFile ):
+    """Process and reformat any generic kind of project files"""
+
+    def __init__( self, filename ):
+        GenericFile.__init__( self, filename )
+
+        self.compiler          = ''
+        self.compilerUnderscor = ''
+        self.compilerSep       = ''
+        self.setCompilerStrings( compilerVc6 )
+
+        self.resetGenericProjectFile()
+        return
+
+    def __del__(self):
+        #print "del resetGenericProjectFile"
+        pass
+
+    def resetGenericProjectFile( self ):
         self.storedOptions = []
         self.lastRegexGroupFound = '' # for debug only
 
@@ -1930,10 +1988,19 @@ class GenericFile:
         self.PropOutputDirList  = []    # directory for output
         self.PropIntermeDirList = []    # directory for intermediate output
         self.OutputDirOutList   = []    # directory for main output ( it is usually the same as PropOutputDirList, but sometimes we want to /out: somewhereelse )
+        self.OutputDirOutCustomBuildList = []    # directory for main output ( it is usually the same as PropOutputDirList, but sometimes we want to /out: somewhereelse )
+
+        self.hasCustomBuildList = []
+        self.hasCustomBuild = False
+        self.hasCustomBuildOutputDirList = []
+        self.hasCustomBuildOutputDir = False
+
         self.configFullNameList = []
         self.configNameList = []
-        self.MainFileTitleBase = ''
+        self.mainFileTitleBase = ''
+        self.mainFileTitleBaseCustomBuild = ''
         self.outputExt = ''
+        self.outputExtCustomBuild = ''
 
         self.PropOutputDir  = ''
         self.PropIntermeDir = ''
@@ -1947,14 +2014,16 @@ class GenericFile:
         self.configFullName = ''
         self.configName = ''
         self.addKind = enum_ADD_NONE
+        self.isAddins = False
 
         self.resetWarnings()
 
         return
 
     def resetWarnings( self ):
-        self.warning_done_dirs_different_cfgs = False
-        self.warning_done_dirs_different = False
+        self.warning_done_dirs_different_between_cfgs = False
+        self.warning_done_dir_out_different_than_dir_prop = False
+        self.warning_done_extension_different_than_expected = False
         return
 
     def setFilename( self, filename ):
@@ -2188,7 +2257,7 @@ class GenericFile:
 
                 dsp = DspFile( oldFilename )
                 dsp.setFilename( newFilenameVcproj )
-                dsp.conformVcprojAsDsp( oldFilename, newCompiler ) #%%%%%% uncomment this
+                dsp.conformVcprojLikeDsp( oldFilename, newCompiler ) #%%%%%% uncomment this
                 msg = ' updated [ %s  -> %s ]' % ( oldBasenameDsp, newBasenameVcproj )
                 dsp.duplicateVcSaveShowMsg( newFilenameVcproj, msg )
             else:
@@ -2664,11 +2733,12 @@ class VcprojFileConfigurationSectionData:
         return
     pass
 
-class DspFile( GenericFile ):
+class DspFile( GenericProjectFile ):
     """Process and reformat dsp files as in Visual Studio 6."""
 
     def __init__( self, filename ):
-        GenericFile.__init__( self, filename )
+        GenericProjectFile.__init__( self, filename )
+
         self.resetDspFile()
         pass
 
@@ -3069,8 +3139,10 @@ class DspFile( GenericFile ):
                     trueProjectName = m_trueproject.group('trueProjectName')
                     trueProjectNameLwr = self.trueProjectName.lower()
                     if ( trueProjectNameLwr.find( 'wiz' ) != -1 or trueProjectNameLwr.find( 'ins' ) != -1 ):
-                        msg = 'getOutputTypeAndDir: this application [%s] is probably an addins. File \'%s\'. Line \'%s\'' % ( self.projectType, self.filename, line )
-                        raise Exception( msg )
+                        msg = 'getOutputTypeAndDir: this application [%s] is probably an addins. File \'%s\' (%d). Line \'%s\'' % ( self.trueProjectName, self.filename, self.n, line.rstrip() )
+                        self.isAddins = True
+                        #print msg
+                        #raise Exception( msg )
                     continue
 
                 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -3228,7 +3300,7 @@ class DspFile( GenericFile ):
 
         return slnPrjData
 
-    def conformVcprojAsDsp( self, filenameDsp, newCompiler ):
+    def conformVcprojLikeDsp( self, filenameDsp, newCompiler ):
         # keeps the configuration section unchanged,
         # but it creates all the project entries
 
@@ -3242,6 +3314,9 @@ class DspFile( GenericFile ):
         #if ( oldCompiler != newCompiler ):
         #    ( vcpHdr, vcpFilesOrg ) = self.convertEntriesVcproj( vcpHdr, vcpFilesOrg, oldCompiler, newCompiler )
 
+        # reformat the current project in a 'standard' way
+        # if it doesn't seem to work, please look into convertEntriesVcproj and see if
+        # we used just g_KeepFirstDot_True or g_KeepFirstDot_Add instead
         ( vcpHdr, vcpFilesOrg ) = self.convertEntriesVcproj( vcpHdr, vcpFilesOrg, newCompiler, newCompiler )
 
         if ( g_printFilterGroupTrees and self.isFileIn2() ):
@@ -3942,6 +4017,48 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                # this must be the last: it is for keys that are multilines
+                # the regular expression to match them matches almost everything
+                m_vcp_entry_cont0 = re_vcp_entry_cont0.match( line )
+                if ( m_vcp_entry_cont0 ):
+                    entryNameMultiline = m_vcp_entry_cont0.group( 'entryName' )
+                    value = m_vcp_entry_cont0.group( 'entryValueMultiline' )
+                    keyToContinue = True
+                    entryValueMultilineNumLines = 0
+                    entryValueMultiline = value + '\n'
+                    #substate_general = substate_general + 1
+                    keyFound = True
+                    continue
+
+                # this is the continuation of a multiline key
+                if ( keyToContinue ):
+                    m_vcp_entry_cont1 = re_vcp_entry_cont1.match( line )
+                    if ( m_vcp_entry_cont1 ):
+                        value = m_vcp_entry_cont1.group( 'entryValueMultiline' )
+                        keyToContinue = True
+                        value = value.rstrip()
+                        entryValueMultilineNumLines = entryValueMultilineNumLines + 1
+                        if ( value[-1] == '\"' ):
+                            # eliminates last '\"' and also no '\n' at the end
+                            entryValueMultiline = entryValueMultiline + value[:-1]
+                            entryName = entryNameMultiline
+                            if ( not entryName == entryNameMultiline ):
+                                raise Exception( 'getEntriesVcproj: it should be (entryName == entryNameMultiline). Instead is (%s != %s)' % ( entryName, entryNameMultiline ) )
+                            entryValue = value
+                            vcpTool.entryNamesList.append( entryName )
+                            vcpTool.entryNameValueDict[ entryName ] = entryValueMultiline
+                            entryNameMultiline = ''
+                            keyToContinue = False
+                        else:
+                            # store another line
+                            entryValueMultiline = entryValueMultiline + value + '\n'
+
+                        #substate_general = substate_general + 1
+                        substate_tool = substate_tool + 1
+                        keyFound = True
+                        continue
+
+
                 if ( not keyFound ):
                     raise Exception( 'getEntriesVcproj: bad parsing, key not found. File \'%s\' (%d). Line \'%s\'' % ( self.filetitle, self.n, line.rstrip() ) )
 
@@ -4309,7 +4426,7 @@ class DspFile( GenericFile ):
                 for entryName in vcpCfg.entryNamesList:
                     entryValue = vcpCfg.entryNameValueDict[ entryName ]
                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                         entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                         vcpCfg.entryNameValueDict[ entryName ] = entryValue
                 for tool_name in vcpCfg.toolNamesList:
@@ -4317,12 +4434,12 @@ class DspFile( GenericFile ):
                     for entryName in vcpTool.entryNamesList:
                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
                 # add tools and entries existing only on ( compilerVc71 <= compilers )
-                if ( addEntriesForVc71WhenSynchToVc70 ):
+                if ( addToolsForVc71WhenSynchToVc70 ):
                     if ( compilerVc71 <= newCompiler ):
                         for tn in g_vecToolNamesVc71:
                             if ( g_mapToolsOnlyVc71.has_key( tn  ) ):
@@ -4385,7 +4502,7 @@ class DspFile( GenericFile ):
                                     vcpTool.appendEntryKeyValue( 'AdditionalIncludeDirectories',   ''  )
                                     vcpTool.appendEntryKeyValue( 'PreprocessorDefinitions',        ''  )
 
-            # reformats/converts all the path entries
+            # reformats/converts all the path entries according to a 'standard' format
             if ( False ):
                 for name in vcpFiles.filtergroupNamesList:
                     filtergroup_nameLwr = name.lower()
@@ -4402,7 +4519,7 @@ class DspFile( GenericFile ):
                                     for entryName in vcpTool.entryNamesList:
                                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
@@ -4709,7 +4826,7 @@ class DspFile( GenericFile ):
 
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_True, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
                                     line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
@@ -4816,6 +4933,8 @@ class DspFile( GenericFile ):
         self.configFullName = ''
         self.configNameList = []
         self.configFullNameList = []
+        self.hasCustomBuildList = []
+        self.hasCustomBuildOutputDirList = []
 
         for n in range( len(self.lines) ):
             line = self.lines[n]
@@ -4834,8 +4953,11 @@ class DspFile( GenericFile ):
                     self.setTrueProjectName( self.trueProjectName )
                     trueProjectNameLwr = self.trueProjectName.lower()
                     if ( trueProjectNameLwr.find( 'wiz' ) != -1 or trueProjectNameLwr.find( 'ins' ) != -1 ):
-                        msg = 'getOutputTypeAndDir: this application [%s] is probably an addins. File \'%s\'. Line \'%s\'' % ( self.projectType, self.filename, line )
-                        raise Exception( msg )
+                        #msg = 'getOutputTypeAndDir: this application [%s] is probably an addins. File \'%s\' (%d). Line \'%s\'' % ( self.trueProjectName, self.filename, self.n, line.rstrip() )
+                        msg = 'getOutputTypeAndDir: this application [%s] is probably an addins. File \'%s\' (%d). Line \'%s\'' % ( self.trueProjectName, self.filename, self.n, line.rstrip() )
+                        self.isAddins = True
+                        #print msg
+                        #raise Exception( msg )
                     continue
 
                 """
@@ -4877,6 +4999,13 @@ class DspFile( GenericFile ):
                     self.OutputDirOutList  .append( '' )
                     self.PropOutputDirList .append( '' )
                     self.PropIntermeDirList.append( '' )
+
+                    self.OutputDirOutCustomBuildList.append( '' )
+                    self.hasCustomBuildList.append( False )
+                    self.hasCustomBuildOutputDirList.append( False )
+                    self.hasCustomBuild = False
+                    self.hasCustomBuildOutputDir = False
+
                     self.projectName = m_configuration.group('projectName')
                     self.platform    = m_configuration.group('platform').rstrip()  # we don't really need it
                     self.configFullName  = m_configuration.group('configFullName') # GTK Debug
@@ -4891,12 +5020,23 @@ class DspFile( GenericFile ):
                         self.configNameList.append( self.configName )
                     else:
                         raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+
                     #m_confignamesplit = re_confignamesplit.match( self.configFullName )
                     #if ( m_confignamesplit ):
                     #    self.configName  = m_confignamesplit.group('configName')
                     #    self.configNameList.append( self.configName )
                     #else:
                     #    raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+
+                    self.checkSetDebug()
+                    self.isStaticCfg.append( self.configName.lower().find( 'static' ) != -1 ) # unused
+
+                    # commented we don't need for now
+                    #self.PropOutputDir  = self.PropOutputDirList [self.nCfg]
+                    #self.PropIntermeDir = self.PropIntermeDirList[self.nCfg]
+                    #self.OutputDirOut   = self.OutputDirOutList  [self.nCfg]
+                    #self.OutputDirOutCustomBuild = self.OutputDirOutCustomBuildList[self.nCfg]
+
                     continue
 
             #* Modify 'PROP Intermediate_Dir "vc6/ReleaseDLL\obj"' and set intermediateDir
@@ -4933,6 +5073,9 @@ class DspFile( GenericFile ):
                         self.extractMainOutDir( line )
                         continue
 
+                elif ( re_dsp_custom_build_basic_beg.match( line ) ):
+                    self.checkCustomBuild( False )
+
                 #if ( re_LIB32_static.match( line ) ):
                 #    self.appType = enumAppTypeLib
                 #    self.outputExt = '.lib'
@@ -4967,6 +5110,10 @@ class DspFile( GenericFile ):
         self.configFullName = ''
         self.configNameList = []
         self.configFullNameList = []
+        #self.hasCustomBuildList = [] # no !
+        #self.hasCustomBuildOutputDirList = [] # no !
+        self.hasCustomBuild = False
+        self.hasCustomBuildOutputDir = False
 
         state = 0
         for n in range( len(self.lines) ):
@@ -5009,18 +5156,15 @@ class DspFile( GenericFile ):
                         #continue # why this was here ???
 
                         self.checkSetDebug()
-                        configName  = self.configName.lower()
-                        self.isStaticCfg.append( configName.find( 'static' ) != -1 ) # unused
-
-                        #if ( self.MainFileTitleBase != '' ):
-                        #    fileTitle = self.MainFileTitleBase
-                        #else:
-                        #    fileTitle = projectName
+                        self.isStaticCfg.append( self.configName.lower().find( 'static' ) != -1 ) # unused
 
                         self.PropOutputDir  = self.PropOutputDirList [self.nCfg]
                         self.PropIntermeDir = self.PropIntermeDirList[self.nCfg]
                         self.OutputDirOut   = self.OutputDirOutList  [self.nCfg]
-                        #mainCurrOutpDir = self.MainCurrOutpDir
+
+                        self.hasCustomBuild = self.hasCustomBuildList[self.nCfg]
+                        self.hasCustomBuildOutputDir = self.hasCustomBuildOutputDirList[self.nCfg]
+                        # self.OutputDirOutCustomBuild = self.OutputDirOutCustomBuildList[self.nCfg]
                         continue
 
                 #* Modify 'PROP Intermediate_Dir "vc6/ReleaseDLL\obj"' and set intermediateDir
@@ -5069,6 +5213,10 @@ class DspFile( GenericFile ):
                             self.addKind = enum_ADD_BSC32
                             line = self.changeOptionsBsc( line )
                             changed = True
+
+                        elif ( re_dsp_custom_build_basic_beg.match( line ) ):
+                            if ( self.hasCustomBuildOutputDirList[self.nCfg] ):
+                                self.checkCustomBuild( True )
 
                     if ( changed ):
                         line = StringUtils.stripSpacesInExcess( line )
@@ -5129,20 +5277,30 @@ class DspFile( GenericFile ):
                 postfix += '_s'
         return postfix
 
-    def reformatDir( self, path ):
-        # adds '_compiler/' to the path and removes a possible '/obj'
-        path = FileUtils.normDir( path, g_internal_unixStyle )
+    def reformatDir( self, relpath ):
+        # adds '_compiler/' to the relpath and removes a possible '/obj'
+        relpath = FileUtils.normDir( relpath, g_internal_unixStyle )
         sep = FileUtils.getNormSep( g_internal_unixStyle )
-        if ( path.find( compilerVc6 + sep ) == -1 ):
-            # add '_compiler' unless is a relative path
-            #rec = re.compile( '[\\/.]*' )
-            #m = rec.match( path )
-            #if ( m ): predir = m.group()
-            if ( path and path[0] != sep and not path.find( '..' ) == 0 ):  # i.e. not ( existing and at the beginning of the pahname )
-                path = compilerVc6 + sep + path[:]
+        pvc6s = compilerVc6 + sep
+        pvc60s = compilerVc6 + '0' + sep
+        if ( relpath.find( pvc6s ) == -1 or relpath.find( pvc60s ) == -1 ):
+            # nothing if we are already under a vc60 or vc6 path !
+            if ( self.filename.find( pvc6s ) == -1 or self.filename.find( pvc60s ) == -1 ):
+                # 'vc60/' not 'vc6/' ! also in any path !
+                if ( self.filename.find( pvc6s ) != -1 ):
+                    self.filename.replace( pvc6s, pvc60s )
+            else:
+                if ( relpath and relpath[0] != sep and not relpath.find( '..' ) == 0 ):  # i.e. not ( existing and at the beginning of the pahname )
+                    relpath = compilerVc6 + sep + relpath[:]
+
+        # 'vc60/' not 'vc6/' !
+        if ( relpath.find( pvc6s ) != -1 ):
+            relpath.replace( pvc6s, pvc60s )
+
         # eliminates '/obj' because at this point it is annoying
-        path = StringUtils.replace( path, sep + 'obj', '' )
-        return path
+        relpath = StringUtils.replace( relpath, sep + 'obj', '' )
+
+        return relpath
 
     def extractOutputIntermDir( self, line ) :
         m = re_output_or_intermed_dir.match( line )
@@ -5158,48 +5316,286 @@ class DspFile( GenericFile ):
                 self.PropOutputDirList[self.nCfg] = dirname
         return
 
-    def extractMainOutDir( self, line ) :
+    def extractMainOutDir( self, line ):
         #if ( line.find( r'/out:' ) != -1 ):
-        m = re_option_out_dir.search( line )
-        if ( m ):
-            outdir = m.group( 'subdir' )
-            outdir = FileUtils.normPath( outdir, g_internal_unixStyle )
+        #if ( isCustomBuild ):
+        #    self.extractMainOutDirCustomBuild( line )
+
+        m_option_out_dir = re_option_out_dir_spaces.search( line )
+        if ( not m_option_out_dir ):
+            m_option_out_dir = re_option_out_dir_nospaces.search( line )
+        if ( m_option_out_dir ):
+
+            pathname = m_option_out_dir.group( 'pathname' )
+            pathname = FileUtils.normPath( pathname, g_internal_unixStyle )
             #%%%
             # Lib
-            dirname = os.path.dirname( outdir )
+            dirname = os.path.dirname( pathname )
             dirname =  FileUtils.normDir( dirname, g_internal_unixStyle )
 
             dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
             self.OutputDirOutList[self.nCfg] = dirname
-            if ( 0 < self.nCfg and not self.OutputDirOutList[0] == dirname ):
-                if ( 0 < app.options.warning ):
-                    d = dirname.replace( self.configNameList[0], self.configName )
-                    if ( d != dirname ):
-                        msg = 'WARNING: the file \'%s\' has \'/out:\' with relative path (%s) different than expected (%s) in the configuration \'%s\' !' % ( self.filename, dirname, d, self.configName )
-                        print msg
 
-            basetitle = os.path.basename( outdir )
+            # check for outputdir non congruent between different configurations
+            if ( 0 < self.nCfg ):
+                dirname0 = self.OutputDirOutList[0]
+                d = dirname0.replace( self.configNameList[0], self.configName )
+                if ( d != dirname ):
+                    if ( 2 < app.options.warning ):
+                        if ( not self.warning_done_extension_different_than_expected ):
+                            self.warning_done_extension_different_than_expected = True
+                            d = dirname.replace( self.configNameList[0], self.configName )
+                            if ( d != dirname ):
+                                msg = 'WARNING: \'/out:\' with relative path (%s) different than expected (%s). Configuration \'%s\' File \'%s\' (%d).  Line: %s!' % ( dirname, d, self.configName, self.filename, self.n, line.rstrip() )
+                                print msg
+
+            basetitle = os.path.basename( pathname )
             (basetitle,ext) = os.path.splitext( basetitle )
             if ( ext == '' ):
-                msg = 'WARNING: the file \'%s\' has \'/out:\' with no extension (%s) ! [ and the expected is (%s) ] in the configuration \'%s\'.' % ( self.filename, ext, self.outputExt, self.configName )
+                msg = 'WARNING: \'/out:\' with no extension (%s) ! [ and the expected is (%s) ] in the configuration \'%s\'].  File \'%s\' (%d). Line: %s' % ( ext, self.outputExt, self.configName, self.filename, self.n, line.rstrip() )
                 print msg
             else:
+                # check for extension different than expected
                 if ( ext != self.outputExt ):
-                    if ( 1 < app.options.warning ): # a little bit less important
-                        if ( self.outputExt == '' ):
-                            msg = 'WARNING: the file \'%s\' has \'/out:\' with extension (%s) but the expected is still undefined (%s) in the configuration \'%s\'. Fixed as \'%s\'' % ( self.filename, ext, self.outputExt, self.configName, ext )
-                        else:
-                            msg = 'WARNING: the file \'%s\' has \'/out:\' with extension (%s) different than expected (%s) in the configuration \'%s\'. Fixed as \'%s\'' % ( self.filename, ext, self.outputExt, self.configName, ext )
-                        print msg
+                    # it is working right. But with this warning we see when this is happening
+                    if ( 2 < app.options.warning ):
+                        if ( not self.warning_done_extension_different_than_expected ):
+                            self.warning_done_extension_different_than_expected = True
+                            if ( self.outputExt == '' ):
+                                msg = 'WARNING: \'/out:\' with extension (%s) but the expected is still undefined (%s) in the configuration \'%s\'. Fixed as \'%s\'.  File \'%s\' (%d). Line: %s' % (  ext, self.outputExt, self.configName, ext, self.filename, self.n, line.rstrip() )
+                            else:
+                                msg = 'WARNING: \'/out:\' with extension (%s) different than expected (%s) in the configuration \'%s\'. Fixed as \'%s\'.  File \'%s\' (%d). Line: %s' % ( ext, self.outputExt, self.configName, ext, self.filename, self.n, line.rstrip() )
+                            print msg
                     self.outputExt = ext
             (ipf, basetitle) = self.getPostFixIndex( basetitle )
             if ( len( basetitle ) ):
-                self.MainFileTitleBase          = basetitle
+                self.mainFileTitleBase = basetitle
         else:
+            # note that we self.checkCustomBuild only if we don't find any /out: in a '# ADD LINK' or '# ADD LIB' line
+            self.OutputDirOutList[self.nCfg] = self.PropOutputDirList[self.nCfg]
+            self.mainFileTitleBase = self.trueProjectName
+            if ( self.appType == enumAppTypeNone ):
+                self.appType = enumAppTypeExe
+                if ( self.outputExt == '' ):
+                    # should be already assigned !
+                    self.outputExt = '.exe'
             if ( 0 < app.options.warning ):
-                msg = 'WARNING: the file \'%s\' has no \'/out:\' option in the configuration \'%s\'' % ( self.filename, self.configName )
+                fn = self.OutputDirOutList[self.nCfg] + self.mainFileTitleBase + self.outputExt
+                if ( fn ):
+                    (fn,ext) = os.path.splitext( fn )
+                    (ipf, basetitle) = self.getPostFixIndex( fn )
+                    if ( ipf != -1 ):
+                        fn = fn[:ipf]
+                    fn += self.getPostFix()
+                    fn += ext
+                msg = 'WARNING: No \'/out:\' option. It will be fixed as: \'/out:%s\' with assigned extension: \'%s\'.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % ( fn, self.outputExt, self.configName, self.filename, self.n, line.rstrip() )
                 print msg
+
+        return
+
+    def extractMainOutDirCustomBuild( self, line ):
+        #if ( line.find( r'/out:' ) != -1 ):
+
+        customBuildString = ' [Custom Build]'
+
+        m_option_out_dir = re_option_out_dir_spaces.search( line )
+        if ( not m_option_out_dir ):
+            m_option_out_dir = re_option_out_dir_nospaces.search( line )
+        if ( m_option_out_dir ):
+
+            pathname = m_option_out_dir.group( 'pathname' )
+            pathname = FileUtils.normPath( pathname, g_internal_unixStyle )
+            #%%%
+            # Lib
+            dirname = os.path.dirname( pathname )
+            dirname =  FileUtils.normDir( dirname, g_internal_unixStyle )
+
+            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+
+            self.OutputDirOutCustomBuildList[self.nCfg] = dirname
+
+            # check for outputdir non congruent between different configurations
+            if ( 0 < self.nCfg ):
+                dirname0 = self.OutputDirOutCustomBuildList[0]
+                d = dirname0.replace( self.configNameList[0], self.configName )
+                if ( d != dirname ):
+                    if ( 2 < app.options.warning ):
+                        if ( not self.warning_done_extension_different_than_expected ):
+                            self.warning_done_extension_different_than_expected = True
+                            d = dirname.replace( self.configNameList[0], self.configName )
+                            if ( d != dirname ):
+                                msg = 'WARNING:%s \'/out:\' with relative path (%s) different than expected (%s). Configuration \'%s\' File \'%s\' (%d).  Line: %s!' % ( customBuildString, dirname, d, self.configName, self.filename, self.n, line.rstrip() )
+                                print msg
+
+            basetitle = os.path.basename( pathname )
+            (basetitle,ext) = os.path.splitext( basetitle )
+            if ( ext == '' ):
+                msg = 'WARNING:%s \'/out:\' with no extension (%s) ! [ and the expected is (%s) ] in the configuration \'%s\'].  File \'%s\' (%d). Line: %s' % ( customBuildString, ext, self.outputExt, self.configName, self.filename, self.n, line.rstrip() )
+                print msg
+            else:
+                # check for extension different than expected
+                if ( ext != self.outputExtCustomBuild ):
+                    # it is working right. But with this warning we see when this is happening
+                    if ( 2 < app.options.warning ):
+                        if ( not self.warning_done_extension_different_than_expected ):
+                            self.warning_done_extension_different_than_expected = True
+                            if ( self.outputExt == '' ):
+                                msg = 'WARNING:%s \'/out:\' with extension (%s) but the expected is still undefined (%s) in the configuration \'%s\'. Fixed as \'%s\'.  File \'%s\' (%d). Line: %s' % (  customBuildString, ext, self.outputExtCustomBuild, self.configName, ext, self.filename, self.n, line.rstrip() )
+                            else:
+                                msg = 'WARNING:%s \'/out:\' with extension (%s) different than expected (%s) in the configuration \'%s\'. Fixed as \'%s\'.  File \'%s\' (%d). Line: %s' % ( customBuildString, ext, self.outputExtCustomBuild, self.configName, ext, self.filename, self.n, line.rstrip() )
+                            print msg
+                    self.outputExtCustomBuild = ext
+
+            (ipf, basetitle) = self.getPostFixIndex( basetitle )
+            if ( len( basetitle ) ):
+                self.mainFileTitleBaseCustomBuild = basetitle
+
+        return
+
+    def checkCustomBuild( self, changeLine ):
+        n = self.n - 1
+        insideCustomBuild = False
+        linerule = ''
+        lineruleNum = -1
+        lineCustomBuildBegin = -1
+        lineCustomBuildEnd = -1
+        for p in range( len( self.lines ) - n - 2 ):  # -2 just for safety
+            q = n + p
+            line = self.lines[ q ]
+
+            m_dsp_custom_build_basic_beg = re_dsp_custom_build_basic_beg.match( line )
+            # Begin Custom Build - Creating static library libxml2_a.lib...
+            if ( m_dsp_custom_build_basic_beg ):
+                insideCustomBuild = True
+                self.hasCustomBuild = True
+                self.hasCustomBuildList[self.nCfg] = self.hasCustomBuild
+                lineCustomBuildBegin = q
+                continue
+
+            if ( insideCustomBuild ):
+                if ( re_dsp_custom_build_basic_lib.search( line ) ):
+                    # No warning: we can have both: see e.g. libxml2.dsp
+                    if ( self.appType != enumAppTypeNone and self.appType != enumAppTypeLib ):
+                        pass # pass!  do not continue!
+
+                elif ( re_dsp_custom_build_basic_dll.search( line ) ):
+                    if ( self.appType != enumAppTypeNone and self.appType != enumAppTypeLib ):
+                        # False: we can have both: see e.g. libxml2.dsp
+                        pass # pass!  do not continue!
+
+                if ( line.find( '/out' ) != -1 ):
+                    self.hasCustomBuildOutputDir = True
+                    self.hasCustomBuildOutputDirList[self.nCfg] = self.hasCustomBuildOutputDir
+                    self.extractMainOutDirCustomBuild( line )
+                    continue
+
+                m_custom_build_rule = re_custom_build_rule.match( line )
+                if ( m_custom_build_rule ):
+                    linerule = line
+                    lineruleNum = q
+                    #li = self.lines[ q ]
+                    continue
+
+            m_dsp_custom_build_basic_end = re_dsp_custom_build_basic_end.match( line )
+            # Begin Custom Build - Creating static library libxml2_a.lib...
+            if ( m_dsp_custom_build_basic_end ):
+                lineCustomBuildEnd = q
+                if ( not insideCustomBuild ):
+                    msg = 'ERROR: Found \'# End Custom Build\' without \'# Begin Custom Build\'. Configuration \'%s\'.   File \'%s\' (%d). Line: %s' % ( self.configName, self.filename, self.n, line.rstrip() )
+                    raise Exception( msg )
+                #li = self.lines[ lineruleNum ]
+                break
+
+            if ( line[0] == '!' ) :
+                if ( line.find( '!IF' ) == 0 or line.find( '!ENDIF' ) == 0 or line.find( '!ELSEIF' ) == 0 ):
+                    if ( self.hasCustomBuildList[self.nCfg] ):
+                        msg = 'ERROR: Found end of configuration before \'# End Custom Build\'. Configuration \'%s\'.   File \'%s\' (%d). Line: %s' % ( self.configName, self.filename, self.n, line.rstrip() )
+                        raise Exception( msg )
+                    break
+                else:
+                    msg = 'WARNING: Unexpected format for this line. Please improve the code script or check the changes to \'/out:\' made in this file. Configuration \'%s\'.   File \'%s\' (%d). Line: %s' % ( self.configName, self.filename, self.n, line.rstrip() )
+                    print msg
+                    #raise Exception( msg )
+            pass
+
+        if ( changeLine ):
+            if ( False ):
+                fn = self.OutputDirOutCustomBuildList[self.nCfg] + self.mainFileTitleBaseCustomBuild + self.outputExtCustomBuild
+                if ( fn ):
+                    (fn,ext) = os.path.splitext( fn )
+                    (ipf, basetitle) = self.getPostFixIndex( fn )
+                    if ( ipf != -1 ):
+                        fn = fn[:ipf]
+                    fn += self.getPostFix()
+                    #fn += ext
+
+                c1 = fn.rfind( '\\' )
+                c2 = fn.rfind( '/' )
+                if ( c1 != -1 or c2 != -1 ):
+                    c = max( c1, c2 )
+                    bn = fn[c+1:]
+                else:
+                    bn = fn
+
+            b = lineCustomBuildBegin
+            e = lineCustomBuildEnd
+
+            self.checkCustomBuildReplaceTitlebaseCompilerVersion( b, e, self.mainFileTitleBase, self.outputExt )
+            self.checkCustomBuildReplaceTitlebaseCompilerVersion( b, e, self.mainFileTitleBaseCustomBuild, self.outputExtCustomBuild )
+
+            if ( False ):
+                lin = self.lines[ q ]
+                lin = re_option_out_dir.sub( fn, line )
+                self.lines[ q ] = lin
+
+                # go back to the rule line and update it !
+                lin = self.lines[ lineruleNum ]
+                #re_option_out_dir = re_option_out_dir_spaces
+                #re_option_out_dir = re_option_out_dir_nospaces
+                m_custom_build_rule = re_custom_build_rule.match( lin )
+                if ( m_custom_build_rule ):
+                    lin = re_custom_build_rule.sub( fn, lin )
+                    self.lines[ lineruleNum ] = lin
+                else:
+                    raise Exception( 'wrong code: we should match re_custom_build_rule!' )
+                pass
+
+        return
+
+    def checkCustomBuildReplaceTitlebaseCompilerVersion( self, begin, end, titlebase, extbase ):
+        postfix = self.getPostFix()
+        basename = titlebase + postfix
+        #basename = titlebase + postfix + extbase
+
+        # update all lines inside Custom Build section
+        for q in range( begin, end + 1 ):
+            #q = n + p
+            lin = self.lines[ q ]
+
+            lin = lin.rstrip() # get rid of last '\n'
+            # we look for only *one* occurrence per line
+            # if necessary we will improve the code in the future and look for more of them
+            titlebaseLwr = titlebase.lower()
+            lent = len( titlebaseLwr )
+            linLwr = lin.lower()
+
+            changed = False
+            k = 0
+            k = linLwr.find( titlebaseLwr, k )
+            while ( k != -1 ):
+                u = linLwr.find( '.', k )
+                if ( u != -1 ):
+                    b1 = linLwr[k:u]
+                    (ipf2, bt2) = self.getPostFixIndex( b1 )
+                    if ( bt2 == titlebaseLwr ):
+                        lin = lin[:k] + basename + lin[u:]
+                        changed = True
+                k = k + lent
+                k = linLwr.find( titlebaseLwr, k )
+            if ( changed ):
+                lin = lin + '\n'
+                self.lines[ q ] = lin
 
         return
 
@@ -5221,7 +5617,6 @@ class DspFile( GenericFile ):
             line = StringUtils.replace( line, subdir, dirname )
         return line
 
-
     def changeOptionsCpp( self, line ):
         self.storedOptions = []
 
@@ -5230,7 +5625,7 @@ class DspFile( GenericFile ):
                             ( app.options.reformatOptionBrowse  [self.c] != 0 )
         if ( changeSomething ):
             if ( self.addKind == enum_ADD_CPP ):
-                # the order of the following calls counts
+                # the order of the following calls counts ( maybe not anymore )
                 line = self.storeRemoveOptionOutputDir( line )
                 line = self.storeRemoveOptionPdb( line )
                 line = self.storeRemoveOptionBrowse( line )
@@ -5239,7 +5634,7 @@ class DspFile( GenericFile ):
                 if ( index == -1 ):
                     raise Exception( 'ADD CPP line without any /D option. Please improve the code or check the line.' )
             elif ( self.addKind == enum_SUBTRACT_CPP ):
-                # the order of the following calls counts
+                # the order of the following calls counts ( maybe not anymore )
                 line = self.storeRemoveOptionBrowse( line )
                 optionsList = [ '/Wx' ]
                 index = self.findLastIndexInList( optionsList, line, True )
@@ -5269,7 +5664,7 @@ class DspFile( GenericFile ):
 
         if ( changeSomething ):
             if ( self.addKind == enum_ADD_LINK32 ):
-                # the order of the following calls counts
+                # the order of the following calls counts ( maybe not anymore )
                 # '/pdbtype:' goes after '/out:'
                 optionsList = [ '/nologo', '/entry:', '/subsystem:', '/dll', '/profile', '/debug', '/machine:', '/implib:', '/out:', '/pdbtype:', '/libpath:' ]
                 #app.logFilePrintLine( line )
@@ -5281,7 +5676,7 @@ class DspFile( GenericFile ):
                 if ( index == -1 ):
                     raise Exception( 'ADD LINK32 line without any option between %s. Please improve the code or check the line.' % optionsList )
             elif ( self.addKind == enum_SUBTRACT_LINK32 ):
-                 # the order of the following calls counts
+                 # the order of the following calls counts ( maybe not anymore )
                 line = self.storeRemoveOptionPdb( line )
                 optionsList = [ '/incremental:', '/map', '/pdb:' ]
                 index = self.findLastIndexInList( optionsList, line, True )
@@ -5301,7 +5696,7 @@ class DspFile( GenericFile ):
         changeSomething =   ( app.options.reformatOptionOutput[self.c] == 1 )
 
         if ( changeSomething ):
-            # the order of the following calls counts
+            # the order of the following calls counts ( maybe not anymore )
             line = self.storeRemoveOptionOutputDir( line )
             optionsList = [ '/nologo' ]
             index = self.findLastIndexInList( optionsList, line, True )
@@ -5317,7 +5712,7 @@ class DspFile( GenericFile ):
         changeSomething =   ( app.options.reformatOptionBrowse[self.c] == 1 )
 
         if ( changeSomething ):
-            # the order of the following calls counts
+            # the order of the following calls counts ( maybe not anymore )
             line = self.storeRemoveOptionBrowse( line )
             optionsList = [ '/nologo' ] # '# ADD BSC32' would give error: unbalanced parenthesis in the regexpr of findIndexCloseToOption()
             index = self.findLastIndexInList( optionsList, line, True )
@@ -5348,6 +5743,13 @@ class DspFile( GenericFile ):
     def storeRemoveOptionOutputDir( self, line ):
         # reformat a line for output filename option ( /Fo /out: )
         # always convenient to specify the output dir for the object files, so never remove it !
+
+        #if ( self.addKind != enum_ADD_CPP ):
+        #    if ( self.hasCustomBuildOutputDirList[self.nCfg] ):
+        #        # nothing to do: already done in check
+        #        self.checkCustomBuild( True )
+        #        return line
+
         changeSomething = ( app.options.reformatOptionOutput[self.c] != 0 )
         if ( self.addKind == enum_ADD_CPP ):
             # (*) the reason why we always remove the '/Fo' option in a ADD CPP line is that vc6 always does it ( or at least when the value is the the same as Intermediate_Dir )
@@ -5358,11 +5760,11 @@ class DspFile( GenericFile ):
             # this option should always be there ( we always want dir and filename specified for the linker output )
             addDir  = +1 # never remove it
             addFile = +1
-            line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.MainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
+            line = self.storeRemoveOption( line, '/out:', self.OutputDirOut, self.mainFileTitleBase + self.outputExt, False, changeSomething, addDir, addFile )
 
         if ( 0 < self.nCfg ):
-            if ( not self.warning_done_dirs_different_cfgs ):
-                self.warning_done_dirs_different_cfgs = True
+            if ( not self.warning_done_dirs_different_between_cfgs ):
+                self.warning_done_dirs_different_between_cfgs = True
                 temp = self.OutputDirOut.lower().replace( self.configNameList[self.nCfg].lower(), self.configNameList[0].lower() )
                 if ( temp != self.OutputDirOutList[0].lower() ):
                     print '  Warning!: the project \'%s\' has a LINK32 /out: directory \'%s\' for the config \'%s\' not corresponding with the directory \'%s\' for the config \'%s\'.' % ( os.path.basename(self.filename), self.OutputDirOutList[self.nCfg], self.configNameList[self.nCfg], self.OutputDirOutList[0], self.configNameList[0] )
@@ -5376,8 +5778,8 @@ class DspFile( GenericFile ):
                     self.OutputDirOutList[self.nCfg] = self.PropOutputDir
                 else:
                     if ( 0 < app.options.warning ):
-                        if ( not self.warning_done_dirs_different and self.OutputDirOut == './' or self.OutputDirOut == '\\'  ):
-                            self.warning_done_dirs_different = True
+                        if ( not self.warning_done_dir_out_different_than_dir_prop and self.OutputDirOut == './' or self.OutputDirOut == '\\'  ):
+                            self.warning_done_dir_out_different_than_dir_prop = True
                             print '  Warning!: the executable of %s has a LINK32 /out: directory different than the PROP_Output_Dir: \'%s\' != \'%s\'.' % ( os.path.basename(self.filename), self.OutputDirOut, self.PropOutputDir )
 
         return line
@@ -5411,12 +5813,12 @@ class DspFile( GenericFile ):
                     addDir  = False # ?
                     addFile = addDir# we usually want both in the same way
                 # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
-                line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.MainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
+                line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
             # (*) the reason why we always remove the '/pdb' option in a ADD LINK32 line is that vc6 always does it ( or at least when the value is the the same as the output project aside the extension )
             addDir  = False
             addFile = False # we usually want both in the same way
-            line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.MainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
+            line = self.storeRemoveOption( line, '/pdb:', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
 
             if ( self.addKind == enum_ADD_LINK32 ):
                 addDir  = app.options.reformatOptionPdb[self.c]
@@ -5439,7 +5841,7 @@ class DspFile( GenericFile ):
             line = self.storeRemoveOption( line, '/FR', self.PropIntermeDir, '', True, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_ADD_LINK32 or self.addKind == enum_ADD_LIB32 ):
             # the bsc file will be placed in the same dir of the main output
-            line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.MainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
+            line = self.storeRemoveOption( line, '/o', self.OutputDirOut, self.mainFileTitleBase + '.bsc', False, changeSomething, addDir, addFile )
         elif ( self.addKind == enum_SUBTRACT_CPP ):
             # /Fr' in # SUBTRACT CPP disable the pdb option
             addDir  = -(app.options.reformatOptionBrowse[self.c]) # /debug in the SUBTRACT line has opposite meaning
@@ -5857,7 +6259,7 @@ class Workspace( DspFile ):
             if ( c == 'y' or c == 'yes' ):
                 os.makedirs( workspaceDirname )
             else:
-                raise Exception( 'Workspace\'s directory \'%s\' not created. Impossible to continue !' % workspaceDirname )
+                raise Exception( 'Workspace\'s directory \'%s\' not created (by user request). Impossible to continue !' % workspaceDirname )
         return
 
     def addProject( self, prjName, absPrjPath ):
@@ -5920,7 +6322,7 @@ class Workspace( DspFile ):
                         wspOld = self
                         sln = Workspace( oldFilenameDsw )
                         if ( updateSln ):
-                            sln.conformSlnToDsw( wspOld, newFilenameSln, newCompiler )
+                            sln.conformSlnLikeDsw( wspOld, newFilenameSln, newCompiler )
                         else:
                             sln.createSlnFromDsw( wspOld, newFilenameSln, newCompiler )
 
@@ -5999,7 +6401,7 @@ class Workspace( DspFile ):
             print ' created solution: %s' % self.filename
         return
 
-    def conformSlnToDsw( self, wspOld, newFilenameSln, newCompiler ):
+    def conformSlnLikeDsw( self, wspOld, newFilenameSln, newCompiler ):
         #add projects to an existing solution according to the list of them in the corresponding workspace
         oldFilename = wspOld.filename
 
@@ -6017,7 +6419,7 @@ class Workspace( DspFile ):
             if ( 0 == len( wspOld.prjConfigFullNameList ) ):
                 wspOld.integrateSolutionEntriesInfos()
             if ( 0 == len( wspOld.prjConfigFullNameList ) ):
-                raise Exception( 'conformSlnToDsw: self.prjConfigFullNameList is empty. File: \'%s\'' % ( self.filename ) )
+                raise Exception( 'conformSlnLikeDsw: self.prjConfigFullNameList is empty. File: \'%s\'' % ( self.filename ) )
             self.prjConfigFullNameList = wspOld.prjConfigFullNameList
 
         self.updateSlnProjectEntries( wspOld, newCompiler )
@@ -7600,7 +8002,7 @@ class Walker:
                     fullname = os.path.join( root, filename )
                     fullname = FileUtils.normPath( fullname, g_internal_unixStyle )
 
-                    #if ( backupFiles ):
+                    #if ( app.options.backupFiles ): # before uncommenting verify what it correct to control this with this option
                     #    FileUtils.backup( fullname )
                     #if ( 0 < app.options.verbose ):
                     #    print FileUtils.relativePath( app.currentdir, fullname, True, g_internal_unixStyle )
@@ -7631,7 +8033,7 @@ class Walker:
         nFiles = 0
 
         if ( app.getProjectDataForEachProject ):
-            wspDummy = Workspace( g_referenceSolution + '.dummy' ) # we will never save this !
+            wspDummy = Workspace( 'dummysolution.sln', False ) # we will never save this !
 
         for filename in app.allProjectPathsList:
             nFiles += 1
@@ -7639,7 +8041,7 @@ class Walker:
             fullname = os.path.join( root, filename )
             fullname = FileUtils.normPath( fullname, g_internal_unixStyle )
 
-            if ( backupFiles ):
+            if ( app.options.backupFiles ):
                 FileUtils.backup( fullname )
             if ( 0 < app.options.verbose ):
                 print FileUtils.relativePath( app.currentdir, fullname, True, g_internal_unixStyle )
@@ -7679,7 +8081,7 @@ class Walker:
             fullname = os.path.join( root, filename )
             fullname = FileUtils.normPath( fullname, g_internal_unixStyle )
 
-            #if ( backupFiles ):
+            #if ( app.options.backupFiles ): # before uncommenting verify what it correct to control this with this option
             #    FileUtils.backup( fullname )
             if ( 0 < app.options.verbose ):
                 print FileUtils.relativePath( app.currentdir, fullname, True, g_internal_unixStyle )
@@ -7809,6 +8211,23 @@ Limitations:
         For this it is necessary to change the value of app.options.unixStyle
         Do not touch the option: g_internal_unixStyle otherwise the script will not work under Cygwin
         Suggestion: keep app.options.unixStyle = False because vc70 does not read right the unix style from its solution files
+
+        Note: some interesting things abouit VisualStudio format:
+            vc6 files have the formats:
+                for any options:
+                    ".\dirname\subir/"
+                    ".\dirname\subir\filetitle.ext"
+                    or
+                    ".\dirname\subir\filetitle.ext"
+                    it depends on the mood
+                but for the <File entries:
+                    "dirname\subir\filetitle.ext"
+            vc7# files have the formats:
+                for any options:
+                    ".\dirname\subir/"
+                    ".\dirname\subir\filetitle.ext"
+                but for the <File entries:
+                    "dirname\subir\filetitle.ext"
 
     4) The script *requires* that the names of the source files ( cpp/h ) are unique (no matter what their case is)
         This is not a strong limitation and let the script to retrieve the informations about files
