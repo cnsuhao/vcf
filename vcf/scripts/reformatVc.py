@@ -8085,13 +8085,13 @@ class Workspace( DspFile ):
                 if ( g_options_showNamesForUuids ):
                     line = '\t\t{%s}.%s.ActiveCfg = %s : {%s}\n' % ( slnPrjData.prjUuid, configFullName, confignamePlatf, slnPrjData.prjName )
                     lines.append( line )
-                    line = '\t\t{%s}.%s.Build.0 = %s : {%s}\n'   % ( slnPrjData.prjUuid, configFullName, confignamePlatf, slnPrjData.prjName )
-                    lines.append( line )
+                    #line = '\t\t{%s}.%s.Build.0 = %s : {%s}\n'   % ( slnPrjData.prjUuid, configFullName, confignamePlatf, slnPrjData.prjName )
+                    #lines.append( line )
                 else:
                     line = '\t\t{%s}.%s.ActiveCfg = %s\n'        % ( slnPrjData.prjUuid, configFullName, confignamePlatf )
                     lines.append( line )
-                    line = '\t\t{%s}.%s.Build.0 = %s\n'          % ( slnPrjData.prjUuid, configFullName, confignamePlatf )
-                    lines.append( line )
+                    #line = '\t\t{%s}.%s.Build.0 = %s\n'          % ( slnPrjData.prjUuid, configFullName, confignamePlatf )
+                    #lines.append( line )
 
         lines.append( '\tEndGlobalSection\n' )
 
@@ -8267,13 +8267,13 @@ class Workspace( DspFile ):
                 if ( g_options_showNamesForUuids ):
                     line = '\t\t{%s}.%s.ActiveCfg = %s : {%s}\n' % ( slnPrjData.prjUuid, configFullName, confignamePlatf, slnPrjData.prjName )
                     lines.append( line )
-                    line = '\t\t{%s}.%s.Build.0 = %s : {%s}\n'   % ( slnPrjData.prjUuid, configFullName, confignamePlatf, slnPrjData.prjName )
-                    lines.append( line )
+                    #line = '\t\t{%s}.%s.Build.0 = %s : {%s}\n'   % ( slnPrjData.prjUuid, configFullName, confignamePlatf, slnPrjData.prjName )
+                    #lines.append( line )
                 else:
                     line = '\t\t{%s}.%s.ActiveCfg = %s\n'        % ( slnPrjData.prjUuid, configFullName, confignamePlatf )
                     lines.append( line )
-                    line = '\t\t{%s}.%s.Build.0 = %s\n'          % ( slnPrjData.prjUuid, configFullName, confignamePlatf )
-                    lines.append( line )
+                    #line = '\t\t{%s}.%s.Build.0 = %s\n'          % ( slnPrjData.prjUuid, configFullName, confignamePlatf )
+                    #lines.append( line )
         lines.append( '\tEndGlobalSection\n' )
 
 
