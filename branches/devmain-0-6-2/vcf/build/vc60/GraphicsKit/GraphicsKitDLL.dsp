@@ -177,6 +177,10 @@ SOURCE=..\..\..\include\GraphicsKit.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\graphics\GraphicsKitSelectLib.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\GraphicsToolKit.h
 # End Source File
 # Begin Source File

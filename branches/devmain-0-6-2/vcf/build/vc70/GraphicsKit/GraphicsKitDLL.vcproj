@@ -202,6 +202,9 @@
 				RelativePath="..\..\..\include\GraphicsKit.h">
 			</File>
 			<File
+				RelativePath="..\..\..\include\graphics\GraphicsKitSelectLib.h">
+			</File>
+			<File
 				RelativePath="..\..\..\include\utils\GraphicsToolKit.h">
 			</File>
 			<File
