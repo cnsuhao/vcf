@@ -26,9 +26,13 @@ Focused=-1
 
 [Unit1]
 FileName=..\..\..\include\exceptions\BasicException.h
-Open=0
+Open=1
 Folder=
 Top=0
+CursorCol=2
+CursorRow=52
+TopLine=32
+LeftChar=1
 
 [Unit2]
 FileName=..\..\..\include\io\BasicFileError.h
@@ -86,12 +90,12 @@ Top=0
 
 [Unit11]
 FileName=..\..\..\include\events\Delegate.h
-Open=0
+Open=1
 Folder=
-Top=0
+Top=1
 CursorCol=1
-CursorRow=77
-TopLine=77
+CursorRow=1
+TopLine=1
 LeftChar=1
 
 [Unit12]
