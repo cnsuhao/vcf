@@ -129,6 +129,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "DatesAndTime"=.\DatesAndTime\DatesAndTime.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Dictionaries"=.\Dictionaries\Dictionaries.dsp - Package Owner=<4>
 
 Package=<5>
@@ -352,6 +364,30 @@ Package=<4>
 ###############################################################################
 
 Project: "Labels"=.\Labels\Labels.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Localization"=.\Localization\Localization.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "OSNewsArticle"=..\..\..\..\junk\OSNewsArticle\OSNewsArticle.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
