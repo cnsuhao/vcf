@@ -37,6 +37,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Conditions", "..\..\example
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controls", "..\..\examples\Controls\Controls_vc71.vcproj", "{uuidgen: not found}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CopyAndPaste", "..\..\examples\CopyAndPaste\CopyAndPaste_vc71.vcproj", "{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -83,6 +87,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B} = {4687B23F-F62A-4FD1-BEA9-0EC048748C9B}
 		{9860dc7d-539a-4793-906e-ce9cfd326a01} = {9860dc7d-539a-4793-906e-ce9cfd326a01}
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162} = {DA366BD8-8EA2-4393-9849-C2A4E74F3162}
+		{uuidgen: not found} = {uuidgen: not found}
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7} = {7EA5507A-C49B-4F94-892E-3CA2CD0589C7}
 		{3B156A14-57D6-4485-8818-DFD99456F391} = {3B156A14-57D6-4485-8818-DFD99456F391}
 		{C23F7734-0900-43A6-8718-3F5F46B6DB61} = {C23F7734-0900-43A6-8718-3F5F46B6DB61}
@@ -439,6 +444,9 @@ Global
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.Debug.ActiveCfg = Debug|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.GTK Debug.ActiveCfg = Debug|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.Release.ActiveCfg = Release|Win32
+		{uuidgen: not found}.Debug.ActiveCfg = Debug|Win32
+		{uuidgen: not found}.GTK Debug.ActiveCfg = Debug|Win32
+		{uuidgen: not found}.Release.ActiveCfg = Release|Win32
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}.Debug.ActiveCfg = Debug|Win32
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}.GTK Debug.ActiveCfg = Debug|Win32
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7}.Release.ActiveCfg = Release|Win32
