@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "xmake.h"
 #include "FilePath.h"
 
 using namespace xmake;

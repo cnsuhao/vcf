@@ -15,8 +15,7 @@ Altered by Jim Crafton, Feb,8,2002
 
 
 #ifdef WIN32
-	// tell the compiler to shut up
-#	pragma warning(disable:4786)
+
 
 
 #ifdef _LIB_CPLVERNUM
@@ -67,10 +66,26 @@ Altered by Jim Crafton, Feb,8,2002
 #endif //WIN32
 
 
+
+// tells the compiler to shut up
+#include "xmake_warnings_off.h"
+
+
+
 #include <string>
 #include <vector>
 #include <map>
 #include <algorithm>
+
+
+// MP - moved here so it compiles with vc7#
+#ifdef WIN32
+	#include <windows.h>
+    #include <io.h>
+    #include <stdio.h>
+	#include <process.h>
+#endif 
+
 
 #ifndef _ENUMERATOR_H__
 	#include "Enumerator.h"
