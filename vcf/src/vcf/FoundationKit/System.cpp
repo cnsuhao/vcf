@@ -587,6 +587,9 @@ String System::getBundlePathFromExecutableName( const String& fileName )
 
 
 	String bundleName = info->getProgramName();
+	//unfortunately ::GetModuleFileNameW gives a
+	// lowercase path under vc70, but not under vc6 !!
+	bundleName = StringUtils::lowerCase( bundleName );
 
 	//done with bundle !
 	info->free();
@@ -598,8 +601,8 @@ String System::getBundlePathFromExecutableName( const String& fileName )
 	}
 
 	FilePath appPath = fileName;
-	
 	String appDir = appPath.getPathName(true);
+	appPath = StringUtils::lowerCase( appPath );
 	
 	std::vector<String> pathComponents = appPath.getPathComponents();
 	std::vector<String>::reverse_iterator it = pathComponents.rbegin();
@@ -662,6 +665,7 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 			//attempt 3
 			result = fp + "Contents/" + System::getOSName() + FilePath::getDirectorySeparator() + executableName;
 			if ( !File::exists( result ) ) {
+				//attempt 4
 				result = fp + "Contents/" + System::getOSName() + FilePath::getDirectorySeparator() + 
 							System::getCompiler() + FilePath::getDirectorySeparator() + executableName;
 			}
@@ -679,6 +683,10 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2004/12/22 03:26:14  marcelloptr
+*fixed bug in getBundlePathFromExecutableName() coming from the fact
+*that GetModuleFileNameW gives a lowercase path under vc70, but not under vc6
+*
 *Revision 1.3.2.3  2004/12/19 07:09:20  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.
