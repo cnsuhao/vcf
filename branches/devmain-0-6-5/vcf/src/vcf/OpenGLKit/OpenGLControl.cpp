@@ -58,7 +58,7 @@ void OpenGLControl::paint(GraphicsContext * context)
 		glClear( GL_COLOR_BUFFER_BIT );
 		glColor3f( 1.0f, 0.0f, 0.0f );
 		glRectf( 100.0f, 150.0f, 150.0f, 200.0f );
-		auxWireTeapot( 100.0f );
+		glutWireTeapot( 100.0f );
 		glFlush();
 
 		glCtx->swapBuffers();
@@ -74,6 +74,9 @@ void OpenGLControl::afterCreate( ComponentEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/04 15:31:33  thrysoee
+*Remove deprecated or unused sources
+*
 *Revision 1.1.2.2  2004/04/29 21:13:58  ddiego
 *made a few changes to the new OpenGLKit files, adjusting where the
 *CVS log was put, and changed a few cases for the export-import definition

@@ -51,16 +51,19 @@
 	#endif
 #endif
 //core OpenGL
-#include <gl\gl.h>
-#include <gl\glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 //gl utility stuff
-#include <gl\glaux.h>
+#include <GL/glut.h>
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/06/04 15:31:33  thrysoee
+*Remove deprecated or unused sources
+*
 *Revision 1.1.2.1  2004/04/29 15:38:12  pallindo
 *Initial attempt at an OpenGLKit
 *
