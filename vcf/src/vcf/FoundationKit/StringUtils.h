@@ -159,6 +159,13 @@ public:
 
 	/**
 	*converts the value to a string
+	*@param VCF::ulong64 the value to convert
+	*@return String the string representation of the VCF::ulong64 value
+	*/
+	static VCF::String toString( const VCF::ulong64& value );
+
+	/**
+	*converts the value to a string
 	*@param unsigned int the value to convert
 	*@return String the string representation of the unsigned int value
 	*/
@@ -383,6 +390,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/05 01:01:55  marcelloptr
+*added ulong64 ctor, operators and toString conversion
+*
 *Revision 1.1.2.6  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
