@@ -18,6 +18,28 @@ using namespace VCF;
 class PagedContainer : public StandardContainer {
 public:
 
+	void showPage( Control* control ) {
+		if ( !pages_.empty() ) {
+			std::deque<Control*>::iterator found = std::find( pages_.begin(), pages_.end(), control );
+
+			if ( found != pages_.end() ) {
+				pages_.erase( found );
+				pages_.push_back( control );
+			}			
+
+			
+			std::deque<Control*>::iterator it = pages_.begin();
+			while ( it != pages_.end() ) {
+				if ( *it != control ) {
+					(*it)->setVisible( false );
+				}
+				it ++;
+			}
+
+			control->setVisible( true );
+		}
+	}
+
 	void first() {
 		if ( !pages_.empty() ) {
 			//resort the pages_
@@ -351,11 +373,19 @@ MainQTWindow::MainQTWindow():
 	DefaultMenuItem* movieReset= new DefaultMenuItem( "&Reset", movie, menuBar );
 	DefaultMenuItem* movieStop = new DefaultMenuItem( "&Stop\tEsc", movie, menuBar );	
 
+	sep = new DefaultMenuItem( "", movie, menuBar );
+	sep->setSeparator( true );
+
+	DefaultMenuItem* movieCreatePlaylist = new DefaultMenuItem( "Create Playlist", movie, menuBar );	
+
 
 	DefaultMenuItem* view = new DefaultMenuItem( "&View", root, menuBar );
 	DefaultMenuItem* viewNormal = new DefaultMenuItem( "&Normal", view, menuBar );
 	DefaultMenuItem* viewDouble = new DefaultMenuItem( "&200%", view, menuBar );
 	DefaultMenuItem* viewHalf = new DefaultMenuItem( "&50%", view, menuBar );	
+
+	
+
 
 
 	sep = new DefaultMenuItem( "", view, menuBar );
@@ -371,6 +401,7 @@ MainQTWindow::MainQTWindow():
 	DefaultMenuItem* viewMediaInfo = new DefaultMenuItem( "&Media Info", view, menuBar );
 	DefaultMenuItem* viewSearch = new DefaultMenuItem( "&Search", view, menuBar );
 	DefaultMenuItem* viewPlayControls = new DefaultMenuItem( "&Play Controls", view, menuBar );
+	DefaultMenuItem* viewPlaylist = new DefaultMenuItem( "&Playlist", view, menuBar );
 
 
 
@@ -571,6 +602,7 @@ MainQTWindow::MainQTWindow():
 	searchPanel_->add( searchIcon );
 
 	PopupMenu* pm = new PopupMenu();
+	this->addComponent( pm );
 	DefaultMenuItem* pmRoot = new DefaultMenuItem("root",NULL,pm);
 
 	DefaultMenuItem* pmItem = new DefaultMenuItem( "Edit/Create a search Catalog...", pmRoot,pm );
@@ -693,6 +725,18 @@ MainQTWindow::MainQTWindow():
 	stopAction->addTarget( movieStop );
 
 
+	Action* createPlaylistAction = new Action(this);
+	createPlaylistAction->Performed += 
+		new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onCreatePlaylist, "MainQTWindow::onCreatePlaylist" );
+	createPlaylistAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateCreatePlaylist, "MainQTWindow::updateCreatePlaylist" );
+
+
+	createPlaylistAction->addTarget( movieCreatePlaylist );
+
+
+
+
 	Action* exitAction = new Action();
 	addComponent( exitAction );
 	exitAction->Performed += 
@@ -792,6 +836,15 @@ MainQTWindow::MainQTWindow():
 		
 	viewPlayControlsAction->addTarget( viewPlayControls );
 
+	Action* viewPlaylistAction = new Action(this);
+	viewPlaylistAction->Performed += 
+		new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewPlaylist, "MainQTWindow::onViewPlaylist" );
+	viewPlaylistAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewPlaylist, "MainQTWindow::updateViewPlaylist" );
+		
+	viewPlaylistAction->addTarget( viewPlaylist );
+
+	
 
 
 	mainViewPanel_ = new Panel();
@@ -820,7 +873,16 @@ MainQTWindow::MainQTWindow():
 
 
 
+	
+	playListCtrl_ = new ListViewControl();
 
+	mainViewPanel_->add( playListCtrl_ );
+
+
+
+	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
+
+	container->showPage( quicktimeControl_ );
 
 
 	
@@ -872,7 +934,18 @@ MainQTWindow::MainQTWindow():
 
 	playListTree_ = new TreeControl();
 	playListTree_->setVisible( true );
+
+	playListTree_->MouseClicked += new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onPlaylistClick,"MainQTWindow::onPlaylistClick" );
+
 	sideBar_->add( playListTree_, AlignClient );
+
+
+	TreeModel* model = playListTree_->getTreeModel();
+	TreeItem* rootItem = playListTree_->addItem( NULL, "Playlist", 0 );
+
+
+
+
 	
 	TitledBorder* tb = new TitledBorder();
 	tb->setCaption( "Media Info" );
@@ -968,6 +1041,10 @@ void MainQTWindow::onHelpAbout( Event* e )
 
 void MainQTWindow::onMoviePlay( VCF::Event* e )
 {
+	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
+
+	container->showPage( quicktimeControl_ );
+
 	quicktimeControl_->getMovie()->play();
 }
 
@@ -1301,16 +1378,58 @@ void MainQTWindow::updateViewPlayControls( VCF::ActionEvent* e )
 
 void MainQTWindow::onSearchIconClick( VCF::Event* e )
 {
+	MouseEvent* me = (MouseEvent*)e;
+	if ( !me->hasLeftButton() ) {
+		return;
+	}
+
+
 	Control* control = (Control*) e->getSource();
 	PopupMenu* pm = control->getPopupMenu();
 
 	VCF::Point pt = control->getBounds().getBottomLeft();
 	pm->popup( &pt );
+
+	StringUtils::trace( "MainQTWindow::onSearchIconClick\n" );
 }
 
 void MainQTWindow::onSearchTextEntered( VCF::KeyboardEvent* e )
 {
-
 	TextControl* textCtrl = (TextControl*)e->getSource();
 	StringUtils::traceWithArgs( "Searching for \"" + textCtrl->getTextModel()->getText() + "\"...\n" );
+}
+
+void MainQTWindow::onPlaylistClick( VCF::Event* e )
+{
+	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
+
+	container->showPage( playListCtrl_ );	 
+}
+
+void MainQTWindow::onCreatePlaylist(  VCF::Event* event )
+{
+
+}
+
+void MainQTWindow::updateCreatePlaylist( VCF::ActionEvent* e )
+{
+
+}
+
+void MainQTWindow::onViewPlaylist(  VCF::Event* event )
+{
+	PagedContainer* container = (PagedContainer*)mainViewPanel_->getContainer();
+
+	
+	if ( playListCtrl_->getVisible() ) {
+		container->showPage( quicktimeControl_ );	
+	}
+	else {
+		container->showPage( playListCtrl_ );	
+	}
+}
+
+void MainQTWindow::updateViewPlaylist( VCF::ActionEvent* e )
+{
+	e->setChecked( playListCtrl_->getVisible() );
 }
