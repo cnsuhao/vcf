@@ -89,7 +89,13 @@ void DateTime::setDate( const unsigned long& year,
 					const unsigned long& month,
 					const unsigned long& day )
 {
-	set( year, month, day, 0, 0, 0, 0 ) ;
+	unsigned long h;
+	unsigned long m;
+	unsigned long s;
+	unsigned long ms;
+	getHourMinuteSecond( *this, &h, &m, &s, &ms );
+
+	set( year, month, day, h, m, s, ms ) ;
 }
 
 void DateTime::setTime( const unsigned long& hour,
@@ -100,7 +106,10 @@ void DateTime::setTime( const unsigned long& hour,
 	unsigned long m;
 	unsigned long d;
 	getYearMonthDay( *this, &y, &m, &d );
-	set( y, m, d, hour, minutes, seconds, 0 );
+
+	unsigned long ms = getMilliSecond();
+
+	set( y, m, d, hour, minutes, seconds, ms );
 }
 
 void DateTime::set( const unsigned long& year,
@@ -211,6 +220,25 @@ void DateTime::getYearMonthDay( const DateTime& dt, unsigned long* year, unsigne
 	if ( NULL != day ) {
 		tmp = e - ((153*m) + 2)/5 + 1;
 		*day = tmp > 0 ? tmp : 0;
+	}
+}
+
+void DateTime::getHourMinuteSecond( const DateTime& dt, unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond/*=NULL*/ )
+{
+	if ( NULL != hour ) {
+		*hour = ((dt.time_ % DateTime::ONEDAY) / DateTime::ONEHOUR );
+	}
+
+	if ( NULL != minute ) {
+		*minute = ((dt.time_ % DateTime::ONEHOUR) / DateTime::ONEMINUTE );
+	}
+
+	if ( NULL != second ) {
+		*second = ((dt.time_ % DateTime::ONEMINUTE) / DateTime::ONESECOND );
+	}
+
+	if ( NULL != millsecond ) {
+		*millsecond = ((dt.time_ % DateTime::ONESECOND));
 	}
 }
 
@@ -1107,6 +1135,9 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/08/06 01:45:04  ddiego
+*updated and added Marcellos DateTime changes.
+*
 *Revision 1.1.2.5  2004/08/03 20:57:22  marcelloptr
 *minor change on name DateTime:getSecond DateTime:getMillisecond
 *

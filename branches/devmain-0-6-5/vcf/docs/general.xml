@@ -214,17 +214,6 @@ NB: This software will not save the world.
 						</listitem>
 					</itemizedlist>
 				</para>
-			</listitem>					
-			<listitem>
-				<para>Linux</para>
-				<para>
-					The linux port requires the GCC toolchain be installed in order 
-					to build the VCF from source. The VCF has been found to compile 
-					with versions of GCC including 2.95, 3.1, 3.2, and the most recent 
-					3.3 release (the 3.3 is reccommended). In addition, the GraphicsKit 
-					and ApplicationKit require the presence of GTK 2.x shared libraries 
-					and headers and whatever dependencies that entails.
-				</para>
 			</listitem>
 			<listitem>
 				<para>MacOSX</para>
@@ -241,6 +230,18 @@ NB: This software will not save the world.
 				</para>
 					
 			</listitem>
+			
+			<listitem>
+				<para>Linux</para>
+				<para>
+					The linux port requires the GCC toolchain be installed in order 
+					to build the VCF from source. The VCF has been found to compile 
+					with versions of GCC including 2.95, 3.1, 3.2, and the most recent 
+					3.3 release (the 3.3 is reccommended). In addition, the GraphicsKit 
+					and ApplicationKit require the presence of GTK 2.x shared libraries 
+					and headers and whatever dependencies that entails.
+				</para>
+			</listitem>			
 		</itemizedlist>
 	</section>
 
@@ -306,6 +307,14 @@ NB: This software will not save the world.
 		variables.
 		</para>
 		</section>
+		<section><title>For Mac OSX systems</title>
+		<para>
+		Currently you need to connect to cvs and pull down either the latest 
+		stable version or the latest development version. There are instructions on 
+		SourceForge detailing <ulink url="http://sourceforge.net/cvs/?group_id=6796">
+		how to do this</ulink>. 		
+		</para>
+		</section>
 		<section><title>For Linux systems</title>
 		Pull down the latest tar.gz source file and unzip in the directory of you choice.
 		</section>
@@ -367,7 +376,7 @@ NB: This software will not save the world.
 				</para>
 				Now when you select the "File > New Project..." menu item in XCode, 
 				you should see the new project templates in the New Project dialog:
-				<graphic fileref="vcf-xcode-proj-templates.png"></graphic>
+				<graphic fileref="gfx/vcf-xcode-proj-templates.png"></graphic>
 			</section>
 		</section>		
 		<section><title>Building the VCF Libraries</title>
@@ -473,6 +482,53 @@ NB: This software will not save the world.
 				</para>
 			</section>
 			
+			<section><title>MacOSX</title>
+				<para>
+				The VCF currently requires OSX 10.2 or better, preferably 10.3. 
+				There are projects supplied for both Project Builder, and XCode. 
+				You can download the VCF from SourceForge via cvs (see the 
+				instructions getting the VCF via CVS). 
+				</para>
+				<para>
+				Once you have downloaded the code you need to make a few environment 
+				configurations. Currently the projects depend on having the 
+				environment	variables VCF_INCLUDE, VCF_BIN, and VCF_LIB defined. This 
+				will go away in the near future but for now please define them. To 
+				define environment variables in OSX create a ".MacOSX" directory under 
+				you home directory. Create a file called "environment.plist" under the 
+				.MacOSX directory like so:
+				<programlisting>
+				cd ~
+				mkdir .MacOSX
+				touch .MacOSX/environment.plist
+				open .MacOSX/environment.plist
+				</programlisting>
+				This will open the environment.plist in the Property List Editor. Add 
+				the variables VCF_INCLUDE, VCF_BIN, and VCF_LIB, with VCF_INCLUDE set 
+				to "&lt;vcf root&gt;/include", VCF_BIN set to "&lt;vcf root&gt;/bin", 
+				and VCF_LIB set to "&lt;vcf root&gt;/lib". You can see an example 
+				below:
+				<graphic fileref="gfx/mac-env-vars.png"> 
+				</graphic>
+				You may have to logout and log back in to get the environment variables 
+				to take effect.
+				</para>
+				<para>
+				Now you should be ready to open the VCF in XCode or Project Builder. For 
+				Xcode open the vcf/build/xcode/vcfAllProjects.pbproj project. For Project
+				Builder open the vcf/build/osx-pb/vcfAllProjects.pbproj project. There are
+				"release" and "debug" targets provided. This was done because we had 
+				problems understanding how to work with the whole development/deployment 
+				builds. In the future this will almost certainly change.
+				</para>
+				<para>
+				Each of the "kits" of the VCF are built as Frameworks under Mac OSX. Thus
+				if you have an application you'd like to add VCF support to, you just need to
+				add the appropriate VCF framework kit, such as FoundationKit.framework, 
+				GraphicsKit.framework, or ApplicationKit.framework.
+				</para>
+			</section>
+			
 			<section><title>Linux</title>
 				<para>
 				Currently the Linux port is in progress and these instructions may change,
@@ -528,52 +584,7 @@ NB: This software will not save the world.
 				directory into /usr/local/lib.
 				</para>
 			</section>
-			<section><title>MacOSX</title>
-				<para>
-				The VCF currently requires OSX 10.2 or better, preferably 10.3. 
-				There are projects supplied for both Project Builder, and XCode. 
-				You can download the VCF from SourceForge via cvs (see the 
-				instructions getting the VCF via CVS). 
-				</para>
-				<para>
-				Once you have downloaded the code you need to make a few environment 
-				configurations. Currently the projects depend on having the 
-				environment	variables VCF_INCLUDE, VCF_BIN, and VCF_LIB defined. This 
-				will go away in the near future but for now please define them. To 
-				define environment variables in OSX create a ".MacOSX" directory under 
-				you home directory. Create a file called "environment.plist" under the 
-				.MacOSX directory like so:
-				<programlisting>
-				cd ~
-				mkdir .MacOSX
-				touch .MacOSX/environment.plist
-				open .MacOSX/environment.plist
-				</programlisting>
-				This will open the environment.plist in the Property List Editor. Add 
-				the variables VCF_INCLUDE, VCF_BIN, and VCF_LIB, with VCF_INCLUDE set 
-				to "&lt;vcf root&gt;/include", VCF_BIN set to "&lt;vcf root&gt;/bin", 
-				and VCF_LIB set to "&lt;vcf root&gt;/lib". You can see an example 
-				below:
-				<graphic fileref="gfx/mac-env-vars.png"> 
-				</graphic>
-				You may have to logout and log back in to get the environment variables 
-				to take effect.
-				</para>
-				<para>
-				Now you should be ready to open the VCF in XCode or Project Builder. For 
-				Xcode open the vcf/build/xcode/vcfAllProjects.pbproj project. For Project
-				Builder open the vcf/build/osx-pb/vcfAllProjects.pbproj project. There are
-				"release" and "debug" targets provided. This was done because we had 
-				problems understanding how to work with the whole development/deployment 
-				builds. In the future this will almost certainly change.
-				</para>
-				<para>
-				Each of the "kits" of the VCF are built as Frameworks under Mac OSX. Thus
-				if you have an application you'd like to add VCF support to, you just need to
-				add the appropriate VCF framework kit, such as FoundationKit.framework, 
-				GraphicsKit.framework, or ApplicationKit.framework.
-				</para>
-			</section>
+			
 		</section>		
 	</section>		
 	
@@ -1498,6 +1509,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.2.4.3  2004/08/06 01:45:03  ddiego
+updated and added Marcellos DateTime changes.
+
 Revision 1.2.4.2  2004/07/31 03:59:07  ddiego
 updated the docs and added info for building on
 OSX. merged in the xcode templates
