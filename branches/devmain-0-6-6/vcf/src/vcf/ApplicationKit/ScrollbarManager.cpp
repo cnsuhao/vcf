@@ -183,20 +183,28 @@ void ScrollbarManager::setHorizontalRightScrollSpace( const double& rightScrollS
 	scrollable_->setHorizontalRightScrollSpace( rightScrollSpace );
 }
 
-void ScrollbarManager::setKeepScrollbarsVisible( const bool& val )
+void ScrollbarManager::setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible )
 {
-	scrollable_->setKeepScrollbarsVisible( val );
+	scrollable_->setKeepScrollbarsVisible( horzVisible, vertVisible );
 }
 
-bool ScrollbarManager::getKeepScrollbarsVisible()
+bool ScrollbarManager::getKeepHorzScrollbarVisible()
 {
-	return scrollable_->getKeepScrollbarsVisible();
+	return scrollable_->getKeepHorzScrollbarVisible();
+}
+
+bool ScrollbarManager::getKeepVertScrollbarVisible()
+{
+	return scrollable_->getKeepVertScrollbarVisible();
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.2.2.1  2004/09/14 21:12:17  dougtinkham
 *added updateVirtualViewSize member
 *

@@ -135,6 +135,11 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 	}
 }
 
+
+void Win32ScrollPeer::updateVirtualViewSize( Scrollable* scrollable )
+{
+}
+
 void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 {
 	/**
@@ -142,8 +147,15 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	*hwnd, so get the control's bounds, instead of using 0,0 for left,top
 	*/
 	Rect bounds(0,0,0,0);
+
 	bool hasVertSB = scrollable->hasVerticalScrollBar();
 	bool hasHorzSB = scrollable->hasHorizontalScrollBar();
+
+	bool showVertSB = hasVertSB;
+	bool showHorzSB = hasHorzSB;
+
+	bool keepVertSB = scrollable->getKeepVertScrollbarVisible();
+	bool keepHorzSB = scrollable->getKeepHorzScrollbarVisible();
 
 	if ( true == scrollableControl_->isLightWeight() ) {
 		bounds = (scrollableControl_->getBounds());
@@ -153,69 +165,61 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 		//bounds.inflate( -1, -1 );
 	}
 
+	bool needVertSB = ( scrollable->getVirtualViewHeight() > bounds.getHeight() );
+	bool needHorzSB = ( scrollable->getVirtualViewWidth()  > bounds.getWidth()  );
+
+	if ( (false == needVertSB) && (false == keepVertSB) ) {
+		showVertSB = false;
+	}
+
+	if ( (false == needHorzSB) && (false == keepHorzSB) ) {
+		showHorzSB = false;
+	}
+
 	SCROLLINFO scrollInfoVert = {0};
 	scrollInfoVert.cbSize = sizeof(SCROLLINFO);
 	scrollInfoVert.fMask = SIF_PAGE | SIF_POS | SIF_RANGE | SIF_DISABLENOSCROLL;
 
-	scrollInfoVert.nPage = (long)((scrollable->getVirtualViewHeight() > bounds.getHeight() ) ? bounds.getHeight() : 0);
+	scrollInfoVert.nPage = (long)( needVertSB ? bounds.getHeight() : 0);
 	scrollInfoVert.nPos = (long)( scrollable->getVerticalPosition() );
 	scrollInfoVert.nMin = 0;
-	scrollInfoVert.nMax = (long) ((scrollable->getVirtualViewHeight() > bounds.getHeight() ) ?
-		scrollable->getVirtualViewHeight() : scrollInfoVert.nMin );
+	scrollInfoVert.nMax = (long) ( needVertSB  ? scrollable->getVirtualViewHeight() : scrollInfoVert.nMin );
 
 	SCROLLINFO scrollInfoHorz = {0};
 	scrollInfoHorz.cbSize = sizeof(SCROLLINFO);
 	scrollInfoHorz.fMask = SIF_PAGE | SIF_POS | SIF_RANGE | SIF_DISABLENOSCROLL;
-	scrollInfoHorz.nPage = (long)( (scrollable->getVirtualViewWidth() > bounds.getWidth() ) ? bounds.getWidth() : 0 );
+	scrollInfoHorz.nPage = (long)( needHorzSB ? bounds.getWidth() : 0 );
 	scrollInfoHorz.nPos = (long)scrollable->getHorizontalPosition();
 	scrollInfoHorz.nMin = 0;
-	scrollInfoHorz.nMax = (long)( (scrollable->getVirtualViewWidth() > bounds.getWidth() ) ?
-		scrollable->getVirtualViewWidth() : scrollInfoHorz.nMin );
+	scrollInfoHorz.nMax = (long)( needHorzSB ? scrollable->getVirtualViewWidth() : scrollInfoHorz.nMin );
 
 
-	if ( (true == hasVertSB) && (0 == scrollInfoVert.nMax) ) {
-		hasVertSB = false;
+	int wVertSB = GetSystemMetrics(SM_CYVTHUMB);
+	int wHorzSB = GetSystemMetrics(SM_CXHTHUMB);
+
+	// dimensions of the vertical scrollbar
+	int x1 = (long)( bounds.left_ + ((bounds.getWidth() - wVertSB)) );
+	int y1 = (long)( bounds.top_ + scrollable->getVerticalTopScrollSpace() );
+	int w1 = wVertSB;
+	int h1 = (long)( bounds.getHeight() - ( scrollable->getVerticalTopScrollSpace() + scrollable->getVerticalBottomScrollSpace() ) );
+
+	// dimensions of the horizontal scrollbar
+	int x2 = (long)( bounds.left_ + scrollable->getHorizontalLeftScrollSpace() );
+	int y2 = (long)( bounds.top_ + ( bounds.getHeight() - wHorzSB ) );
+	int w2 = (long)( bounds.getWidth() - ( scrollable->getHorizontalLeftScrollSpace() + scrollable->getHorizontalRightScrollSpace() ) );
+	int h2 = wVertSB;
+
+	if ( (true == showHorzSB) && (true == showVertSB) ) {
+		// one scrollbar takes space from the other
+		h1 -= wHorzSB;
+		w2 -= wVertSB;
 	}
 
-	if ( (true == hasHorzSB) && (0 == scrollInfoHorz.nMax) ) {
-		hasHorzSB = false;
-	}
-
-
-	int x1 = (long)( bounds.left_ + ((bounds.getWidth() - GetSystemMetrics(SM_CXHTHUMB))) );
-	int y1 = (long)( scrollable->getVerticalTopScrollSpace() + bounds.top_ );
-	int w1 = GetSystemMetrics(SM_CXHTHUMB);
-	int h1 = (long)(bounds.getHeight() -
-		(scrollable->getVerticalTopScrollSpace() + scrollable->getVerticalBottomScrollSpace() + GetSystemMetrics(SM_CXHTHUMB)));
-
-	if ( (true == hasVertSB) && (false == hasHorzSB) ) {
-		if ( !scrollable->getKeepScrollbarsVisible() ) {
-			h1 += GetSystemMetrics(SM_CXHTHUMB);
-		}
-	}
-
-	int x2 = (long)(scrollable->getHorizontalLeftScrollSpace() + bounds.left_);
-	int y2 = (long)(bounds.top_ + (bounds.getHeight() - GetSystemMetrics(SM_CYVTHUMB)));
-	int w2 = (long)( bounds.getWidth() - (scrollable->getHorizontalLeftScrollSpace() + scrollable->getHorizontalRightScrollSpace() + GetSystemMetrics(SM_CYVTHUMB)) );
-	int h2 = GetSystemMetrics(SM_CYVTHUMB);
-
-	if ( (true == hasHorzSB) && (false == hasVertSB) ) {
-		if ( !scrollable->getKeepScrollbarsVisible() ) {
-			w2 += GetSystemMetrics(SM_CYVTHUMB);
-		}
-	}
-
-	if ( true == hasVertSB ) {
+	if ( true == showVertSB ) {
 		::ShowWindow( vScrollHWnd_, SW_NORMAL );
-		::EnableWindow( hScrollHWnd_, TRUE );
 		MoveWindow( vScrollHWnd_, x1, y1, w1, h1, TRUE );
-		SetScrollInfo( vScrollHWnd_, SB_CTL, &scrollInfoVert, TRUE );
-	}
-	else {
-		if ( scrollable->getKeepScrollbarsVisible() ) {
-			::ShowWindow( vScrollHWnd_, SW_NORMAL );
+		if ( !needVertSB ) {
 			::EnableWindow( vScrollHWnd_, FALSE );
-			MoveWindow( vScrollHWnd_, x1, y1, w1, h1, TRUE );
 			scrollInfoVert.nPage = 0;
 			scrollInfoVert.nPos = 0;
 			scrollInfoVert.nMin = 0;
@@ -223,21 +227,19 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 			SetScrollInfo( vScrollHWnd_, SB_CTL, &scrollInfoVert, TRUE );
 		}
 		else {
-			::ShowWindow( vScrollHWnd_, SW_HIDE );
+			::EnableWindow( hScrollHWnd_, TRUE );
+			SetScrollInfo( vScrollHWnd_, SB_CTL, &scrollInfoVert, TRUE );
 		}
 	}
-
-	if ( true == hasHorzSB ) {
-		::ShowWindow( hScrollHWnd_, SW_NORMAL );
-		::EnableWindow( hScrollHWnd_, TRUE );
-		MoveWindow( hScrollHWnd_, x2, y2, w2, h2, TRUE );
-		SetScrollInfo( hScrollHWnd_, SB_CTL, &scrollInfoHorz, TRUE );
-	}
 	else {
-		if ( scrollable->getKeepScrollbarsVisible() ) {
-			::ShowWindow( hScrollHWnd_, SW_NORMAL );
+		::ShowWindow( vScrollHWnd_, SW_HIDE );
+	}
+
+	if ( true == showHorzSB ) {
+		::ShowWindow( hScrollHWnd_, SW_NORMAL );
+		MoveWindow( hScrollHWnd_, x2, y2, w2, h2, TRUE );
+		if ( !needHorzSB ) {
 			::EnableWindow( hScrollHWnd_, FALSE );
-			MoveWindow( hScrollHWnd_, x2, y2, w2, h2, TRUE );
 			scrollInfoHorz.nPage = 0;
 			scrollInfoHorz.nPos = 0;
 			scrollInfoHorz.nMin = 0;
@@ -245,25 +247,28 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 			SetScrollInfo( hScrollHWnd_, SB_CTL, &scrollInfoHorz, TRUE );
 		}
 		else {
-			::ShowWindow( hScrollHWnd_, SW_HIDE );
+			::EnableWindow( hScrollHWnd_, TRUE );
+			SetScrollInfo( hScrollHWnd_, SB_CTL, &scrollInfoHorz, TRUE );
 		}
-	}
-
-	if ( (true == hasHorzSB) && (true == hasVertSB) ) {
-		scrollCorner_->setVisible( true );
-		scrollCorner_->setEnabled( true );
-		scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );
 	}
 	else {
-		if ( scrollable->getKeepScrollbarsVisible() ) {
-			scrollCorner_->setVisible( true );
+		::ShowWindow( hScrollHWnd_, SW_HIDE );
+	}
+
+	if ( (true == showVertSB) && (true == showHorzSB) ) {
+		scrollCorner_->setVisible( true );
+		scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );
+		if ( !needVertSB && !needHorzSB ) {
 			scrollCorner_->setEnabled( false );
-			scrollCorner_->setBounds( &Rect( x1,y2, x1+w1, y2+h2 ) );
 		}
 		else {
-			scrollCorner_->setVisible( false );
+			scrollCorner_->setEnabled( true );
 		}
 	}
+	else {
+		scrollCorner_->setVisible( false );
+	}
+
 }
 
 double Win32ScrollPeer::getHorizontalScrollbarHeight()
@@ -401,6 +406,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.2.2.2  2004/09/14 18:21:13  dougtinkham
 *fixed mistake in last checkin
 *

@@ -32,6 +32,8 @@ public:
 
 	virtual void getAdjustedPositions( double& xPosition, double& yPosition );
 
+	virtual void updateVirtualViewSize( Scrollable* scrollable );
+
 	virtual void recalcScrollPositions( Scrollable* scrollable );
 
 	virtual Control* getScrollableControl() {
@@ -56,6 +58,9 @@ protected:
 	Control* scrollCorner_;
 	HWND vScrollHWnd_;
 	HWND hScrollHWnd_;
+
+	double realHeight_;	// to be removed
+	double realWidth_;		// to be removed
 };
 
 
@@ -65,6 +70,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

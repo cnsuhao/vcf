@@ -100,8 +100,10 @@ public:
 
 	void setHorizontalRightScrollSpace( const double& rightScrollSpace );
 
-	void setKeepScrollbarsVisible( const bool& val );
-	bool getKeepScrollbarsVisible();
+	void setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible );
+	bool getKeepHorzScrollbarVisible();
+	bool getKeepVertScrollbarVisible();
+
 protected:
 	Scrollable* scrollable_;
 	Control* target_;
@@ -116,6 +118,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.2.2.1  2004/09/14 21:10:55  dougtinkham
 *added updateVirtualViewSize member
 *

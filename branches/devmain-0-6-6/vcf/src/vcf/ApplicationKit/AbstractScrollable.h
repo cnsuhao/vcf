@@ -64,25 +64,25 @@ public:
 		return hasHorzScrollbar_;
 	}
 
+	virtual void updateVirtualViewSize( const double& maxWidth, const double& maxHeight );
+
+	virtual void setVirtualViewSize( const double& width, const double& height );
+
+	virtual void setVirtualViewHeight( const double& virtualViewHeight ) {
+		setVirtualViewSize( getVirtualViewWidth(), virtualViewHeight );
+	}
+
 	virtual double getVirtualViewHeight() {
 		return virtualViewHeight_;
+	}
+
+	virtual void setVirtualViewWidth( const double& virtualViewWidth ) {
+		setVirtualViewSize( virtualViewWidth, getVirtualViewHeight() );
 	}
 
 	virtual double getVirtualViewWidth() {
 		return virtualViewWidth_;
 	}
-
-	virtual void setVirtualViewHeight( const double& virtualViewHeight ) {
-		virtualViewHeight_ = virtualViewHeight;
-		recalcScrollPositions();
-	}
-
-	virtual void setVirtualViewWidth( const double& virtualViewWidth ) {
-		virtualViewWidth_ = virtualViewWidth;
-		recalcScrollPositions();
-	}
-
-	virtual void updateVirtualViewSize( const double& maxWidth, const double& maxHeight );
 
 	virtual void recalcScrollPositions();
 
@@ -136,14 +136,9 @@ public:
 
 	virtual void getVerticalScrollRects( Rect* scrollBounds, Rect* topBounds=NULL, Rect* bottomBounds=NULL );
 
-	/**
-	This allows you to control whether or not hte scrollbars disappear when they are no longer needed.
-	By default this is false, which means that the scrollabrs will disappear when the virtual width
-	or height is less than the control's actual width or height. If this is true, then the
-	scrollbars will stay visible, but become disabled
-	*/
-	virtual void setKeepScrollbarsVisible( const bool& val );
-	virtual bool getKeepScrollbarsVisible();
+	virtual void setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible );
+	virtual bool getKeepHorzScrollbarVisible();
+	virtual bool getKeepVertScrollbarVisible();
 
 	void setVerticalScrollingDelegate( Delegate* delegate ) {
 		vertDelegate_ = delegate;
@@ -170,8 +165,10 @@ protected:
 	Control* scrollableControl_;
 	double virtualViewHeight_;
 	double virtualViewWidth_;
-	double realMaxHeight_;
-	double realMaxWidth_;
+	double objectHeight_;
+	double objectWidth_;
+	double realHeight_;
+	double realWidth_;
 	bool hasVertScrollbar_;
 	bool hasHorzScrollbar_;
 	double vertPosition_;
@@ -180,7 +177,8 @@ protected:
 	double bottomScrollSpace_;
 	double leftScrollSpace_;
 	double rightScrollSpace_;
-	bool keepScrollbarsVisible_;
+	bool keepHorzScrollbarVisible_;
+	bool keepVertScrollbarVisible_;
 	Delegate* vertDelegate_;
 	Delegate* horzDelegate_;
 
@@ -193,6 +191,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/19 19:54:45  marcelloptr
+*scrollbars transitory changes
+*
 *Revision 1.2.2.2  2004/09/13 06:09:15  dougtinkham
 *onControlResized now checks if updateVirtualViewSize should be called
 *
