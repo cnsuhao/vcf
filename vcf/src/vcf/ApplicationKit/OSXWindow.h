@@ -82,9 +82,7 @@ public:
 
 	virtual void translateFromScreenCoords( Point* pt );
 	
-	virtual void setBorder( Border* border );
-
-	static OSXWindow* getOSXWindowFromWindowRef( WindowRef windowRef );
+	virtual void setBorder( Border* border );	
 
 	Rect internal_getBounds() {
 		return bounds_;
@@ -123,6 +121,14 @@ public:
     OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 
 	bool isComposited();
+	
+	static OSXWindow* getWindowFromWindowRef( WindowRef window );
+	
+	ControlRef getRootControl();
+	
+	unsigned long getCurrentMouseBtn() {
+		return currentMouseBtn_;
+	}
 protected:
 	static EventHandlerUPP getEventHandlerUPP();
 
@@ -144,6 +150,8 @@ protected:
 	
 	//RgnHandle mouseTrackRgn_;
 	MouseTrackingRef mouseTrackRef_;
+	
+	unsigned long currentMouseBtn_;
 
 	RgnHandle determineUnobscuredClientRgn();
 
@@ -154,7 +162,7 @@ protected:
     static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
     void updateWindow();
 	
-	Control* getControlForMouseEvent( VCF::Point& pt, VCF::Control* parent );
+	Control* getControlForMouseEvent( EventRef event );
 };
 
 
@@ -164,6 +172,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
+*updated os x code
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

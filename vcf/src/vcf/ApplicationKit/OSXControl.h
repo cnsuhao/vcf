@@ -81,21 +81,18 @@ public:
 	virtual void translateFromScreenCoords( Point* pt );
 	
 	virtual void setBorder( Border* border );
-
-	static void setCurrentCreateHIView( TView* view );
-
-	static TView* getCurrentCreateHIView() {
-		return OSXControl::currentCreatedView;
-	}
+	
+	static OSXControl* getControlFromControlRef( ControlRef control );
 protected:
-	TView* hiView_;
+	ControlRef hiView_;
 	Control* control_;
 	EventHandlerRef handlerRef_;
 	MouseState mouseState_;
 	
 	OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 
-	static TView* currentCreatedView;
+	OSStatus handleControlTrack( EventRef theEvent );
+	
 
 	static EventHandlerUPP getEventHandlerUPP();
 	static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData);
@@ -108,6 +105,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
+*updated os x code
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
