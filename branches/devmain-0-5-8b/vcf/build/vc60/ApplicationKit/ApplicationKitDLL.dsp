@@ -197,6 +197,10 @@ SOURCE=..\..\..\include\core\CheckBoxControl.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\graphics\ColorEtchedBorder.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\ColumnItem.h
 # End Source File
 # Begin Source File
@@ -314,10 +318,6 @@ SOURCE=..\..\..\include\com\COMUtils.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Container.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\Contextpeer.h
 # End Source File
 # Begin Source File
 
@@ -450,6 +450,10 @@ SOURCE=..\..\..\include\dragdrop\DragSource.h
 # Begin Source File
 
 SOURCE=..\..\..\include\dragdrop\DropTarget.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\graphics\EtchedBorder.h
 # End Source File
 # Begin Source File
 
@@ -837,6 +841,10 @@ SOURCE=..\..\..\include\events\TimerEvent.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\graphics\TitledBorder.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\ToggledButton.h
 # End Source File
 # Begin Source File
@@ -1182,6 +1190,10 @@ SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Graphics\ColorEtchedBorder.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Events\ColumnItemEvent.cpp
 # End Source File
 # Begin Source File
@@ -1370,6 +1382,10 @@ SOURCE=..\..\..\src\DragDrop\DropTarget.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Graphics\EtchedBorder.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Events\FocusEvent.cpp
 # End Source File
 # Begin Source File
@@ -1540,6 +1556,10 @@ SOURCE=..\..\..\src\core\TimerComponent.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\Events\TimerEvent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Graphics\TitledBorder.cpp
 # End Source File
 # Begin Source File
 
