@@ -307,13 +307,13 @@ public:
 		String result = "";
 
 		if ( true == namesAvailable_ ){
-			result = enumNames_[get()];
+			int index = get();
+			if ( (index >= lower_) && (index <= upper_) ) {				
+				result = enumNames_[index];
+			}
 		}
 		else {
-			char tmp[25];
-			memset( tmp, 0, 25 );
-			sprintf( tmp, "%d", get() );
-			result += tmp;
+			result += get();
 		}
 		return result;
 	};
@@ -3318,6 +3318,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/21 17:55:32  ddiego
+*fixed a bug in the Enum property type class.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
