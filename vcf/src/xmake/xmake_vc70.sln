@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "./libXmake_vc70.vcproj", "{14554450-4A3F-4616-B663-A246FEA20634}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", ".\libXmake_vc70.vcproj", "{14554450-4A3F-4616-B663-A246FEA20634}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmake", "./xmake_vc70.vcproj", "{61E34BFF-B962-4F20-9D1B-206BBED299E8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmake", ".\xmake_vc70.vcproj", "{61E34BFF-B962-4F20-9D1B-206BBED299E8}"
 EndProject
 Global
 	GlobalSection(DPCodeReviewSolutionGUID) = preSolution

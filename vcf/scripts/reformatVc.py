@@ -69,10 +69,10 @@ addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration inf
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
 g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization' ]
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
-g_keepFirstDot_standard = 3 # === g_KeepFirstDot_AddOnlyIfNoDots # standard format for paths in projects files has ./ at the beginning
-g_fix_slash_in_path = True # True only when we need to fix it. Then put it back
+g_keepFirstDot_standard = 4 # === g_KeepFirstDot_AddOnlyIfNoDots # standard format for paths in projects files has ./ at the beginning
+g_fix_last_slash_in_path = True # True only when we need to fix it. Then put it back
 
-# vc7 always put '/' at the end of a directory name when it creates one project file, 
+# vc7 always put '/' at the end of a directory name when it creates one project file,
 # but custom build cannot copy any file into a path like that !
 # so not any variable like $(InputPath) or $(OutDir) can have that format !
 g_dir_final_separator = '\\'
@@ -81,7 +81,7 @@ g_dir_final_separator = '\\'
 # this ends up in having a limited number of uuid which can cause problems
 # so it is suggested use this script under win32 only when debugging, even if I can say
 # that it is working right also under win32 with the uuids table
-g_disableUuidgen_on_win32 = True
+g_disableUuidgen_on_win32 = False
 
 
 
@@ -92,6 +92,7 @@ g_KeepFirstDot_False = False
 g_KeepFirstDot_True  = 1
 g_KeepFirstDot_Add = 2         # add './' at the beginning anyway
 g_KeepFirstDot_AddOnlyIfNoDots = 3 # add './' at the beginning only if it is not already like: '../'
+g_keepFirstDot_StandardVc = 4 # like 3 but it also remove the './' if it exists
 
 g_MinPathIsDot_False = False
 g_MinPathIsDot_True  = True
@@ -819,19 +820,22 @@ class FileUtils:
         if ( stillHasCurr ):
             if ( not keepFirstDot ):
                 path = path[2:]
-        else:            
+            elif ( keepFirstDot == g_keepFirstDot_StandardVc ):
+                if ( 3 < len(path) and path[2] == '.' and path[3] == '.' ):
+                    path = path[2:]
+        else:
             if ( keepFirstDot ):
                 if ( not FileUtils.isAbsolutePath( path ) ):
                     add = False
                     # never with '../'
-                    if ( keepFirstDot == g_KeepFirstDot_AddOnlyIfNoDots ):
-                        if ( path and not path[0] == '.' ):
+                    if ( keepFirstDot == g_KeepFirstDot_AddOnlyIfNoDots or keepFirstDot == g_keepFirstDot_StandardVc ):
+                        if ( 1 < len(path) and not ( path[0] == '.' and path[1] == '.' ) ):
                             add = True
                     else:
                         add = True
                     if ( add and path and not path[0] == '$' ):
                         path = curr + path
-                
+
         # again unfortunately, because of os.path.normpath(). In the future implement just normPathSimple
         path = FileUtils.normPathSimple( path, unixStyle )
 
@@ -861,9 +865,9 @@ class FileUtils:
                     # the standard is '/' not '\', always !!!
                     path = path[:-1] + g_dir_final_separator
                 pass
-            
-        # we fix this always if we decide
-        if ( g_fix_slash_in_path ):
+
+        # we fix this always if we decide to ( with g_fix_last_slash_in_path )
+        if ( g_fix_last_slash_in_path ):
             # no '.\' at the beginning when we have something like: "$(VCF_LIB)"
             if ( 3 < len( path ) and path[2] == '$' and path[1] in '/\\' and path[0] == '.' ):
                 path = path[2:]
@@ -964,12 +968,19 @@ class FileUtils:
             wpath = wpath
             if ( wpath[-1] == '/' ):
                 wpath = wpath[:-1] # because we are going to wpath.rfind( sep )
+                
+            # eliminates the first './' because './../subdir' vould be seen as a malformed path
+            if ( rpath and rpath[0] == '.' ):
+                if ( 1 < len(rpath) and rpath[1] == '/' ):
+                    rpath = rpath[2:]
+                    rp = rpath.find( '../' )
+                    
             while ( rp != -1 ):
                 rp = rpath.find( '../' )
                 if ( rp != 0 ):
                     if ( rp == -1 ):
                         break
-                    # a path like foo/../bar is malformed
+                    # we consider a path like foo/../bar is malformed (that's not really true, but it quicly shows mistakes somewhereelse
                     raise Exception( 'absolutePath() malformed path \'%s\' ' % path )
                 rpath = rpath[3:]
                 wp = wpath.rfind( '/' )
@@ -4531,7 +4542,7 @@ class DspFile( GenericProjectFile ):
                                     vcpTool.appendEntryKeyValue( 'PreprocessorDefinitions',        ''  )
 
             # reformats/converts all the path entries according to a 'standard' format
-            if ( False ):
+            if ( True ):
                 for name in vcpFiles.filtergroupNamesList:
                     filtergroup_nameLwr = name.lower()
                     vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroup_nameLwr ]
@@ -6443,7 +6454,9 @@ class Workspace( DspFile ):
         self.readlines()
         self.getSlnProjectEntries( newCompiler )
 
+        # make sure self.prjConfigFullNameList is getting data from the wspOld if it hasn't any yet
         if ( 0 == len( self.prjConfigFullNameList ) ):
+            # integrate infos for the solution from the reference solution file if necessary
             if ( 0 == len( wspOld.prjConfigFullNameList ) ):
                 wspOld.integrateSolutionEntriesInfos()
             if ( 0 == len( wspOld.prjConfigFullNameList ) ):
@@ -7189,6 +7202,9 @@ class Workspace( DspFile ):
             ( root, ext ) = os.path.splitext( prjAbsPath )
             prjAbsPath = root + extVcproj
             prjRelPath = FileUtils.relativePath( dirname, prjAbsPath, True, g_internal_unixStyle )
+
+            prjRelPath = FileUtils.normPath( prjRelPath, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_False )
+
             prjUuid = slnPrjData.prjUuid
 
             line = 'Project(\"{%s}\") = \"%s\", \"%s\", \"{%s}\"\n' % ( g_uuidVisualStudio, prjName, prjRelPath, prjUuid )
@@ -7361,6 +7377,8 @@ class Workspace( DspFile ):
             ( root, ext ) = os.path.splitext( prjAbsPath )
             prjAbsPath = root + extVcproj
             prjRelPath = FileUtils.relativePath( dirname, prjAbsPath, True, g_internal_unixStyle )
+
+            prjRelPath = FileUtils.normPath( prjRelPath, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_False )
 
             prjUuid = slnPrjData.prjUuid
             line = 'Project(\"{%s}\") = \"%s\", \"%s\", \"{%s}\"\n' % ( g_uuidVisualStudio, prjName, prjRelPath, prjUuid )
@@ -7544,7 +7562,7 @@ class Workspace( DspFile ):
                     # we need to do this first otherwise problems under Cygwin when g_internal_unixStyle=True but the path starts with r'.\'
                     newPath = FileUtils.normPathSimple( prjPath, g_internal_unixStyle )
 
-                newPath = FileUtils.normPath( newPath, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+                newPath = FileUtils.normPath( newPath, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_False ) # g_IsDirForSure_ChkDot
 
                 newline = r'Project: "' + prjName + r'"="' + newPath + '" - Package Owner=<4>\n'
 
@@ -8249,8 +8267,9 @@ Limitations:
                         ".\dirname\subir\filetitle.ext"
                 and the same for the <File entries too
             se we better try to keep the same format for vc6 project files too
+            The same is true for Project: entries in the workspaces dsw and sln
             Problem:
-                 vc7 always put '/' at the end of a directory name when it creates one project file, 
+                 vc7 always put '/' at the end of a directory name when it creates one project file,
                  but custom build cannot copy any file into a path like that !
                  so not any variable like $(InputPath) or $(OutDir) can have that format !
                  Some guys over there they should decide what they want to do with their filesystems !

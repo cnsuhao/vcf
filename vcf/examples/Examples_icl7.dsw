@@ -63,7 +63,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKit"=".\..\build\icl7\ApplicationKit\ApplicationKit_icl7.dsp" - Package Owner=<4>
+Project: "ApplicationKit"="..\build\icl7\ApplicationKit\ApplicationKit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -78,7 +78,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKitDLL"=".\..\build\icl7\ApplicationKit\ApplicationKitDLL_icl7.dsp" - Package Owner=<4>
+Project: "ApplicationKitDLL"="..\build\icl7\ApplicationKit\ApplicationKitDLL_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -330,7 +330,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FoundationKit"=".\..\build\icl7\FoundationKit\FoundationKit_icl7.dsp" - Package Owner=<4>
+Project: "FoundationKit"="..\build\icl7\FoundationKit\FoundationKit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -345,7 +345,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FoundationKitDLL"=".\..\build\icl7\FoundationKit\FoundationKitDLL_icl7.dsp" - Package Owner=<4>
+Project: "FoundationKitDLL"="..\build\icl7\FoundationKit\FoundationKitDLL_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -384,7 +384,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKit"=".\..\build\icl7\GraphicsKit\GraphicsKit_icl7.dsp" - Package Owner=<4>
+Project: "GraphicsKit"="..\build\icl7\GraphicsKit\GraphicsKit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -399,7 +399,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKitDLL"=".\..\build\icl7\GraphicsKit\GraphicsKitDLL_icl7.dsp" - Package Owner=<4>
+Project: "GraphicsKitDLL"="..\build\icl7\GraphicsKit\GraphicsKitDLL_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -498,7 +498,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGG"=".\..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
+Project: "libAGG"="..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -510,7 +510,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGG"=".\..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
+Project: "libAGG"="..\build\icl7\GraphicsKit\libAGG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -546,7 +546,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "NetworkKit"=".\..\build\icl7\NetworkKit\NetworkKit_icl7.dsp" - Package Owner=<4>
+Project: "NetworkKit"="..\build\icl7\NetworkKit\NetworkKit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -561,7 +561,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "NetworkKitDLL"=".\..\build\icl7\NetworkKit\NetworkKitDLL_icl7.dsp" - Package Owner=<4>
+Project: "NetworkKitDLL"="..\build\icl7\NetworkKit\NetworkKitDLL_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -612,7 +612,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RemoteObjectKit"=".\..\build\icl7\RemoteObjectKit\RemoteObjectKit_icl7.dsp" - Package Owner=<4>
+Project: "RemoteObjectKit"="..\build\icl7\RemoteObjectKit\RemoteObjectKit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -627,7 +627,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RemoteObjectKitStatic"=".\..\build\icl7\RemoteObjectKit\RemoteObjectKitStatic_icl7.dsp" - Package Owner=<4>
+Project: "RemoteObjectKitStatic"="..\build\icl7\RemoteObjectKit\RemoteObjectKitStatic_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -810,7 +810,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser"=".\..\build\icl7\Win32HTMLBrowser\Win32HTMLBrowser_icl7.dsp" - Package Owner=<4>
+Project: "Win32HTMLBrowser"="..\build\icl7\Win32HTMLBrowser\Win32HTMLBrowser_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -825,7 +825,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser_StaticLib"=".\..\build\icl7\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_icl7.dsp" - Package Owner=<4>
+Project: "Win32HTMLBrowser_StaticLib"="..\build\icl7\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
