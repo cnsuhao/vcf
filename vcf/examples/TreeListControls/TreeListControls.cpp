@@ -214,13 +214,20 @@ public:
 		child = treeList->addItem( item, "foo 1b" );
 		child->setTextBold( true );
 
-		child->addSubItem( "Sub item 1", NULL );
+		TreeItem::SubItem* subItm = new TreeItem::SubItem(item);
+		subItm->setCaption( "Sub item 1" );
+		//subItm->setTextBold( true );
+		child->addSubItem( "Sub item 2", NULL );
 
 		child = treeList->addItem( item, "foo 1c" );
 		child = treeList->addItem( item, "foo 1d" );
 		child = treeList->addItem( item, "foo 1e" );
 		child = treeList->addItem( item, "foo 1f" );
 		child->setTextColor( Color::getColor("red") );
+		subItm = new TreeItem::SubItem(item);
+		subItm->setCaption( "Sub item 3" );
+		//subItm->setTextColor( Color::getColor("magenta") );
+		child->addSubItem( "Sub item 2", NULL );
 		child = treeList->addItem( item, "foo 1g" );
 		child = treeList->addItem( item, "foo 1h" );
 		child = treeList->addItem( item, "foo 1i" );
@@ -407,6 +414,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/03/04 19:59:22  marcelloptr
+*minor improvement to the example
+*
 *Revision 1.6.2.2  2005/03/04 04:42:22  ddiego
 *fixed a bug in the tree list control that was not taking into account the tree item text color or text bold.
 *
