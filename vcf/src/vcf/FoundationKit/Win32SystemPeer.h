@@ -51,10 +51,8 @@ public:
 	virtual DateTime convertUTCTimeToLocalTime( const DateTime& date );	
 
 	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
-
-	virtual ResourceBundle* getResourceBundle();
+	
 protected:
-	Win32ResourceBundle* resBundle_;
 };
 
 };
@@ -63,6 +61,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

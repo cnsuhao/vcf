@@ -17,25 +17,17 @@ where you installed the VCF.
 namespace VCF {
 
 class ProcessPeer;
-
 class ProcessIORedirectionPeer;
 class ProcessWithRedirectedIO;
-
 class ThreadPeer;
-
 class Process;
-
 class Thread;
-
 class Mutex;
-
 class Condition;
-
 class System;
-
 class SystemPeer;
-
 class LocalePeer;
+class ResourceBundlePeer;
 
 /**
 \par
@@ -96,6 +88,8 @@ public:
 	static FileStreamPeer* createFileStreamPeer( File* file );
 
 	static LocalePeer* createLocalePeer();
+
+	static ResourceBundlePeer* createResourceBundlePeer();
 protected:
 	SystemToolkit();
 
@@ -183,6 +177,8 @@ protected:
 	*/
 	virtual LocalePeer* internal_createLocalePeer() = 0;
 
+	virtual ResourceBundlePeer* internal_createResourceBundlePeer() = 0;
+
 	/**
 	*returns the one and only instance of the system toolkit
 	*/
@@ -198,6 +194,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.3  2004/08/08 22:09:33  ddiego
 *final checkin before the 0-6-5 release
 *

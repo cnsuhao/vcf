@@ -117,10 +117,20 @@ LocalePeer* SystemToolkit::createLocalePeer()
 	return SystemToolkit::getSystemToolkit()->internal_createLocalePeer();
 }
 
+ResourceBundlePeer* SystemToolkit::createResourceBundlePeer()
+{
+	return SystemToolkit::getSystemToolkit()->internal_createResourceBundlePeer();
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

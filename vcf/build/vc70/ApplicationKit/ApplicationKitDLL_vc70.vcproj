@@ -329,6 +329,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PropertyEditorManager.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Scrollable.h">
 			</File>
 			<File

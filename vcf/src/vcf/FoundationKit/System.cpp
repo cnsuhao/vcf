@@ -54,7 +54,7 @@ System::System():
 
 	locale_ = new Locale( L"", L"" );
 
-	resBundle_ = systemPeer_->getResourceBundle();
+	resBundle_ = new ResourceBundle();
 }
 
 System::~System()
@@ -102,6 +102,9 @@ String System::findResourceDirectory()
 		}
 	}
 
+	if ( !result.empty() ) {
+		 result += FilePath::getDirectorySeparator();
+	}
 
 	return result;
 }
@@ -309,6 +312,11 @@ void System::internal_replaceResourceBundleInstance( ResourceBundle* newInstance
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/27 03:50:46  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.2  2004/08/26 04:29:28  ddiego
 *added support for getting the resource directory to the System class.
 *

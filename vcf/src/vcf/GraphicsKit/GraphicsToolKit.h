@@ -26,6 +26,7 @@ class Font;
 class FontPeer;
 class GraphicsResourceBundle;
 class PrintSessionPeer; 
+class GraphicsResourceBundlePeer;
 
 
 /**
@@ -124,7 +125,11 @@ public:
 
 	static PrintSessionPeer* createPrintSessionPeer();
 
+	static GraphicsResourceBundlePeer* createGraphicsResourceBundlePeer();
+
 	static GraphicsResourceBundle* getResourceBundle();
+	
+
 	/**
 	*Create a image from a filename. The file is loaded into a Bitmap instance.
 	*The toolkit looks up the file extension and matches the type to
@@ -195,6 +200,8 @@ protected:
 	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect ) = 0;
 	
 	virtual PrintSessionPeer* internal_createPrintSessionPeer() = 0;
+
+	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer() = 0;
 
 	virtual double internal_getDPI( GraphicsContext* context ) = 0;
 
@@ -302,6 +309,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/27 03:50:47  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
 *Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
 *migrated the core printing changes into the graphics kit
 *

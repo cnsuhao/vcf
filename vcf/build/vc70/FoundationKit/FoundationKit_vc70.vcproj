@@ -124,6 +124,9 @@
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FrameworkConfig.h">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -145,6 +148,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FoundationKitRTTI.inl">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundle.cpp">
 			</File>
 		</Filter>
 		<Filter

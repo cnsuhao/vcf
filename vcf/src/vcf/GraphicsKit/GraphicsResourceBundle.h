@@ -19,21 +19,27 @@ namespace VCF {
 
 
 class Image;
+class GraphicsResourceBundlePeer;
+
 /**
 *A ResourceBundle is used to represent a collection of resources. ResourceBundle's can
 *be attached to external files or applications.
 */
-class GRAPHICSKIT_API GraphicsResourceBundle : public ResourceBundle
-{
+class GRAPHICSKIT_API GraphicsResourceBundle : public ResourceBundle {
 public:
 
-	virtual ~GraphicsResourceBundle(){};
+	GraphicsResourceBundle();
+	virtual ~GraphicsResourceBundle();
+
+	Image* getImage( const ulong32& resourceID );
 
 	/**
 	*returns an Image based on a given resource name
 	*/
-	virtual Image* getImage( const String& resourceName ) = 0;
-
+	Image* getImage( const String& resourceName );
+protected:
+	
+	GraphicsResourceBundlePeer* graphicsResPeer_;
 };
 
 
