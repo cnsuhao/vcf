@@ -97,29 +97,34 @@ void RadioButtonControl::setGroupID( const long& groupID )
 }
 
 void RadioButtonControl::setChecked( const bool& checked )
-{
-	ToggledButton::setChecked( checked  );
-	if ( true == checked ) {
-		Control* parent = getParent();
-		if ( NULL != parent ) {
-			Container* container = parent->getContainer();
-			if ( NULL != container ) {
-				Enumerator<Control*>* children = container->getChildren();
-				while ( true == children->hasMoreElements() ) {
-					Control* child = children->nextElement();
-					RadioButtonControl* radioControl = dynamic_cast<RadioButtonControl*>( child );
-					if ( NULL != radioControl ) {
-						if ( (radioControl != this) && (radioControl->getGroupID() == groupID_) ) {
-							radioControl->setChecked( false );
-						}
+{	
+	Control* parent = getParent();
+	if ( NULL != parent ) {
+		Container* container = parent->getContainer();
+		if ( NULL != container ) {
+			Enumerator<Control*>* children = container->getChildren();
+
+			while ( (children->hasMoreElements()) ) {
+				Control* child = children->nextElement();
+				RadioButtonControl* radioControl = dynamic_cast<RadioButtonControl*>( child );
+				if ( NULL != radioControl ) {
+					if ( (radioControl != this) && (radioControl->getGroupID() == groupID_) ) {
+						radioControl->internal_setChecked( false );
 					}
 				}
 			}
-			else {
-				//Ooh this is very bad !!
-				throw BadComponentStateException();
-			}
+
+			if ( checked ) {
+				ToggledButton::setChecked( checked  );
+			}		
 		}
+		else {
+			//Ooh this is very bad !!
+			throw BadComponentStateException();
+		}
+	}
+	else {
+		ToggledButton::setChecked( checked  );
 	}
 }
 
@@ -152,6 +157,9 @@ RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/18 17:45:04  ddiego
+*fixed bug in radio button control in implementation of setChecked().
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

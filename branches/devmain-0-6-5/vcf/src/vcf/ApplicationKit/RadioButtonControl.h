@@ -63,6 +63,14 @@ public:
 	RadioButtonControl* getSelectedRadioButtonFromGroup();
 
 protected:
+	/**
+	This is for internal use only - it simply calls the 
+	super class's setChecked() method - no other
+	functionality is provided.
+	*/
+	void internal_setChecked( const bool& val ) {
+		ToggledButton::setChecked( val );
+	}
 	bool useFixedRadioButtonSize_;
 	double fixedRadioButtonHeight_;
     long groupID_;
@@ -76,6 +84,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/18 17:45:04  ddiego
+*fixed bug in radio button control in implementation of setChecked().
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
