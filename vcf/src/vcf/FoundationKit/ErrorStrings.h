@@ -80,7 +80,7 @@ assert, and a string describing the reason for the assert
 */
 	#define VCF_ASSERT2(condition,msg) \
 		if ( ! (condition) ) { \
-			VCF::FoundationKit::assertCondition( condition, String( msg ) + String( L"\nAssertion in file: " ) + String( __WFILE__ ) + String( L" at line: " ) + StringUtils::toString( __LINE__ ) ); \
+		VCF::FoundationKit::assertCondition( condition, VCF::String( msg ) + VCF::String( L"\nAssertion in file: " ) + VCF::String( __WFILE__ ) + VCF::String( L" at line: " ) + VCF::StringUtils::toString( __LINE__ ) ); \
 		} \
 		\
 
@@ -121,6 +121,13 @@ Many thanks to Marcello for contributing this!!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/01/17 22:45:37  augusto_roman
+*ErrorStrings - Fixed VCF namespace in VCF_ASSERT
+*ItemEvent - Added item unselected event
+*TreeListControl:
+*- Added handling for sending unselected event
+*- Added correct state drawing for checked/unchecked items
+*
 *Revision 1.4  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
