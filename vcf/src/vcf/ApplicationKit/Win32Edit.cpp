@@ -522,7 +522,15 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		
 
 		case WM_PASTE : {
-			OKToResetControlText_ = false;
+			wndProcResult = 0;
+			result = false;
+
+			OKToResetControlText_ = false;		
+
+			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
+				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+				result = true;
+			}
 
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
@@ -533,8 +541,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 			OKToResetControlText_ = true;
-			wndProcResult = 0;
-			result = false;
+			
 		}
 		break;
 
@@ -947,6 +954,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/03 23:14:37  ddiego
+*fixed a text model bug that incorectly handled deleting chars.
+*
 *Revision 1.2.2.3  2004/09/21 23:41:24  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
