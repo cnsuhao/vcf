@@ -14,17 +14,12 @@ where you installed the VCF.
 using namespace VCF;
 
 
-typedef std::map<String,VariantData> map_t;
-
 
 int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
-
-	map_t m;
-	m["sdfsd"] = 23455;
-
-
+	
+	
 	//create a dictionary
 
 	Dictionary dict;
@@ -39,9 +34,9 @@ int main( int argc, char** argv ){
 
 	Dictionary::Enumerator* items = dict.getEnumerator();
 	while ( items->hasMoreElements() ) {
-		Dictionary::pair& item = items->nextElement();
+		Dictionary::pair item = items->nextElement();
 
-		System::println( "dict[\"%s\"] = %s", item.first.c_str(), item.second.toString().c_str() );
+		System::println( "dict[\"%ls\"] = %ls", item.first.c_str(), item.second.toString().c_str() );
 	}
 
 
@@ -81,9 +76,9 @@ int main( int argc, char** argv ){
 
 	items = dict.getEnumerator();
 	while ( items->hasMoreElements() ) {
-		Dictionary::pair& item = items->nextElement();
+		Dictionary::pair item = items->nextElement();
 
-		System::println( "dict[\"%s\"] = %s", item.first.c_str(), item.second.toString().c_str() );
+		System::println( "dict[\"%ls\"] = %ls", item.first.c_str(), item.second.toString().c_str() );
 	}
 
 
@@ -96,6 +91,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2004/08/02 04:11:52  ddiego
+*added more examples to xcode project
+*
 *Revision 1.5.2.4  2004/04/29 03:40:52  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -55,7 +55,7 @@ ulong64 OSXFilePeer::getSize()
 	return result;
 }
 
-void OSXFilePeer::updateStat( File::StatMask = File::smMaskDateAll )
+void OSXFilePeer::updateStat( File::StatMask statMask )
 {
 
 }
@@ -343,6 +343,9 @@ void OSXFilePeer::copyTo( const String& copyFileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/08/02 04:11:53  ddiego
+*added more examples to xcode project
+*
 *Revision 1.1.2.11  2004/08/01 23:40:16  ddiego
 *fixed a few osx bugs
 *

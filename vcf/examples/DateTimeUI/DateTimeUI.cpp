@@ -52,13 +52,13 @@ public:
 		DateTime currentMonthDate( current.getYear(), current.getMonth(), 1 );
 		DateTime::Iterator<ByDay> dayIter = currentMonthDate;
 
-		Rect rect = getClientBounds();
+		VCF::Rect rect = getClientBounds();
 
 		ctx->setColor( Color::getColor("black") );
 		ctx->rectangle( &rect );
 		ctx->strokePath();
 
-		Rect textRect = rect;
+		VCF::Rect textRect = rect;
 
 		textRect.bottom_ = 100;
 		textRect.inflate( -5, -5 );
@@ -85,8 +85,8 @@ public:
 		rect.top_ += 100;
 
 
-		Size sizeBorder = Size( 5, 2 );
-		Size sz;
+		VCF::Size sizeBorder = VCF::Size( 5, 2 );
+		VCF::Size sz;
 		sz.width_  = ( rect.getWidth()  - 2 * sizeBorder.width_  ) / 7;
 		sz.height_ = ( rect.getHeight() - 2 * sizeBorder.height_ ) / 7;
 
@@ -94,7 +94,7 @@ public:
 		int x,y;
 		x = sizeBorder.width_;
 		y = rect.top_ + sizeBorder.height_;
-		Rect cellRect;
+		VCF::Rect cellRect;
 
 
 		for ( int i=0;i<7;i++ ) {
@@ -261,7 +261,7 @@ public:
 
 		CustomControl::paint( ctx );
 
-		Rect rect = getClientBounds();
+		VCF::Rect rect = getClientBounds();
 
 		rect.inflate( -5, -5 );
 		ctx->setCurrentFont( getFont() );
@@ -311,11 +311,11 @@ public:
 	virtual void paint( GraphicsContext* ctx ) {
 		CustomControl::paint( ctx );
 
-		Rect rect = getClientBounds();
+		VCF::Rect rect = getClientBounds();
 
 		rect.inflate( -5, -5 );
 
-		Point center = rect.getCenter();
+		VCF::Point center = rect.getCenter();
 		double radius = minVal<>( rect.getHeight()/2.0, rect.getWidth()/2.0);
 
 		ctx->setColor( Color::getColor("black") );
@@ -477,6 +477,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.14  2004/08/02 04:11:21  ddiego
+*added more examples to xcode project
+*
 *Revision 1.2.2.13  2004/08/01 23:39:45  ddiego
 *fixed a few osx bugs
 *
