@@ -246,7 +246,7 @@ Frame* Frame::getActiveFrame()
 	return Frame::currentActiveFrame;
 }
 
-void Frame::setActiveFrame( Frame* activeFrame )
+void Frame::internal_setActiveFrame( Frame* activeFrame )
 {
 	Frame::currentActiveFrame = activeFrame;
 }
@@ -271,6 +271,9 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/23 13:53:12  marcelloptr
+*comments for setUseColorForBackground; setActiveFrame renamed as internal
+*
 *Revision 1.2.2.1  2004/09/06 21:30:19  ddiego
 *added a separate paintBorder call to Control class
 *

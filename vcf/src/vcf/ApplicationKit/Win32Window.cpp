@@ -286,7 +286,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 				switch ( frame->getFrameStyle() ){
 
 					case fstNoBorder : case fstNoBorderFixed : {
-						Frame::setActiveFrame( NULL );
+						Frame::internal_setActiveFrame( NULL );
 						if ( frame->getComponentState() == Component::csNormal ) {
 							VCF::WindowEvent event( frame, Frame::ACTIVATION_EVENT );
 							frame->FrameActivation.fireEvent( &event );
@@ -633,6 +633,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/23 13:53:12  marcelloptr
+*comments for setUseColorForBackground; setActiveFrame renamed as internal
+*
 *Revision 1.2.2.3  2004/09/15 17:48:54  ddiego
 *fixed win32 registry and a bug in the handling of the WM_CLOSE message that was introduced by the change in event handler signature last weekend.
 *
