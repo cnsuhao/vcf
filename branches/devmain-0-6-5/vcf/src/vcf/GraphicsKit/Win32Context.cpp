@@ -10,6 +10,8 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
+#include "vcf/FoundationKit/LocalePeer.h"
+
 using namespace VCF;
 
 
@@ -1577,17 +1579,112 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 
 				currentHFont_ = NULL;
 
+				DWORD charSet;
+
+				Locale* fontLocale = ctxFont->getLocale();
+				if ( NULL == fontLocale ) {
+					fontLocale = System::getCurrentThreadLocale();
+				}
+
+				if ( NULL == fontLocale ) {
+					charSet = DEFAULT_CHARSET;
+				}
+				else{
+					LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
+					WORD langID = LANGIDFROMLCID( lcid );
+
+					WORD primaryLangID = PRIMARYLANGID(langID);
+					WORD subLangID = SUBLANGID(langID);
+					
+					switch ( primaryLangID ) {
+						case LANG_LITHUANIAN: case LANG_LATVIAN: case LANG_ESTONIAN: {
+							charSet = BALTIC_CHARSET;
+						}
+						break;
+
+						case LANG_CHINESE: {
+							charSet = CHINESEBIG5_CHARSET;
+
+							if ( SUBLANG_CHINESE_SIMPLIFIED == subLangID ) {
+								charSet = GB2312_CHARSET;
+							}
+						}
+						break;
+
+						case LANG_SLOVENIAN: case LANG_ALBANIAN:
+						case LANG_ROMANIAN: case LANG_BULGARIAN: case LANG_CROATIAN: 
+						case LANG_BELARUSIAN: case LANG_UKRAINIAN: case LANG_HUNGARIAN: 
+						case LANG_SLOVAK: case LANG_POLISH: case LANG_CZECH: {
+							charSet = EASTEUROPE_CHARSET;
+						}
+						break;
+
+						case LANG_GREEK: {
+							charSet = GREEK_CHARSET;
+						}
+						break;
+
+						case LANG_KOREAN: {
+							charSet = HANGUL_CHARSET;//???JOHAB_CHARSET instead????
+						}
+						break;
+
+						case LANG_RUSSIAN: {
+							charSet = RUSSIAN_CHARSET;
+						}
+						break;
+
+						case LANG_TURKISH: {
+							charSet = TURKISH_CHARSET;
+						}
+						break;
+
+						case LANG_JAPANESE: {
+							charSet = SHIFTJIS_CHARSET;
+						}
+						break;
+
+						case LANG_HEBREW: {
+							charSet = HEBREW_CHARSET;
+						}
+						break;
+
+						case LANG_ARABIC: {
+							charSet = ARABIC_CHARSET;
+						}
+						break;
+
+						case LANG_THAI: {
+							charSet = THAI_CHARSET;
+						}
+						break;
+
+						default : {
+							charSet = DEFAULT_CHARSET;
+						}
+						break;
+					}
+				}
+
 				if ( System::isUnicodeEnabled() ) {
 					LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
-
+					DWORD oldCharSet = logFont->lfCharSet;
+					logFont->lfCharSet = charSet;
+					
 					currentHFont_ = CreateFontIndirectW( logFont );
+
+					logFont->lfCharSet = oldCharSet;
 				}
 				else {
 					LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
 
+					DWORD oldCharSet = logFont->lfCharSet;
+					logFont->lfCharSet = charSet;
 
 					currentHFont_ = CreateFontIndirectA( logFont );
+
+					logFont->lfCharSet = oldCharSet;
 				}
 
 				Color* fontColor = ctxFont->getColor();
@@ -1656,6 +1753,11 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 20:05:53  ddiego
+*added Locale support to Font class, and added support in the
+*Win32Context class to check for the locale and set and appropriate
+*character set when creating an HFONT handle
+*
 *Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
