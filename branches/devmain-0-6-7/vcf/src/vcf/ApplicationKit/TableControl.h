@@ -441,6 +441,16 @@ public:
 	void resizeRowHeights();
 	void resizeColumnRowDimensions();
 
+	/**
+	* autosize the specified column's width to its text
+	*/
+	bool autoSizeColumn( int column, AutoSizeOption autoSizeStyle=asoDefault, bool resetScroll=true );
+
+	/**
+	* autosize the specified row's heigth to its text
+	*/
+	bool autoSizeRow( int row, bool resetScroll=true);
+
 protected:
 
 	enum MouseState{
@@ -528,13 +538,11 @@ protected:
 	double getTotalRowHeight();
 	double getTotalColumnWidth();
 
-	bool autoSizeColumn( int column, AutoSizeOption autoSizeStyle=asoDefault, bool resetScroll=true );
-
-	bool autoSizeRow( int row, bool resetScroll=true);
-
 	void editCell( const CellID& cell, const Point& pt );
 
 	Rect getEditCellRect( const CellID& editCellID );
+
+protected:
 
 	TableCellItem* selectedCellItem_;
 	Control* currentEditingControl_;
@@ -591,12 +599,17 @@ protected:
 
 };
 
-};
+
+}; // namespace VCF
+
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/01 18:28:07  marcelloptr
+*autosize members made public
+*
 *Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
