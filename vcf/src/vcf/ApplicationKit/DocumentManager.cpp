@@ -538,12 +538,16 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 		return NULL;
 	}
 
+	if ( !File::exists( fileName ) ) {
+		throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager: the file \"" + fileName + "\" does not exists." ) );
+	}
 
 	FilePath fp = fileName;
 	String mimetype = getMimeTypeFromFileExtension( fp );
 
 	Document* doc = NULL;
 	if ( !mimetype.empty() )  {
+		// provides a default document to 'host' the file, and its UI too if it should
 		doc = newDefaultDocument( mimetype );
 	}
 
@@ -559,7 +563,7 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 			closeCurrentDocument();
 			doc = NULL;
 
-			throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager failed to to open file.") );
+			throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager failed to open the file \" + fileName + \"" ) );
 		}
 	}
 	else {
@@ -593,6 +597,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/02 19:41:10  marcelloptr
+*fixed crash when opening a non existing document
+*
 *Revision 1.3.2.1  2005/01/28 02:49:01  ddiego
 *fixed bug 1111096 where the text control was properly handlind
 *input from the numbpad keys.
