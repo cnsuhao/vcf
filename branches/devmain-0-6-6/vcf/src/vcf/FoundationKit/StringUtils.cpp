@@ -763,9 +763,13 @@ VCF::ulong64 StringUtils::fromStringAsULong64( const VCF::String& value )
 		}
 	#else
 		#ifdef _MSC_VER
-			/* unfortunately there is no _wtoui64 function provided 
-			so may get an overflow error while it is not */
-			result = _wtoi64( value.c_str() );
+			#if ( _MSC_VER >= 1300 )
+				result = _wcstoui64( value.c_str(), NULL, 10 );
+			#else
+				/* we risk overflow, but that's the best we can do 
+				if reported problems we need to use swscanf */
+				result = _wtoi64( value.c_str() );
+			#endif
 			if ( (ulong64)0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), L"%I64u", &result ) ) ) {
 				throw BasicException( L"Unable to convert: " + value );
@@ -791,7 +795,7 @@ float StringUtils::fromStringAsFloat( const VCF::String& value )
 			//check_true_error( tmp );
 		}
 	#else
-		#ifdef _MSC_VER
+		#if ( defined _MSC_VER ) && ( _MSC_VER >= 1300 )
 			result = _wtof( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result ) ) ) {
@@ -818,7 +822,7 @@ double StringUtils::fromStringAsDouble( const VCF::String& value )
 			//check_true_error( tmp );
 		}
 	#else
-		#ifdef _MSC_VER
+		#if ( defined _MSC_VER ) && ( _MSC_VER >= 1300 )
 			result = _wtof( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result ) ) ) {
@@ -1576,6 +1580,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/18 16:37:10  marcelloptr
+*changed implementation of fromStringAsDouble as it was crashing on vc6. Thanks Jim for pointing it out. Improved fromStringAsULong64
+*
 *Revision 1.2.2.4  2004/09/17 21:03:02  marcelloptr
 *fromStringAs... function made 5-10 times faster in debug mode with Win32 MS VC CRT while checking for validity
 *
