@@ -526,9 +526,13 @@ void Control::handleEvent( Event* event )
 					if ( (true == autoStartDragDrop_) ) { //&& (false == dragDropStarted_) ) {
 						if ( true == canBeginDragDrop( mouseEvent->getPoint() ) ) {
 							//dragDropStarted_ = true;
-
+							StringUtils::trace( "Starting drag drop...\n" );	
 							if ( beginDragDrop ( mouseEvent ) ) {
+								StringUtils::trace( "beginDragDrop returned true\n" );
 								return;
+							}
+							else{
+								StringUtils::trace( "beginDragDrop returned false\n" );
 							}
 						}
 					}
@@ -664,19 +668,29 @@ bool Control::canBeginDragDrop( Point* point )
 
 	Size dragDropDelta = UIToolkit::getDragDropDelta();
 
-	//clickPt_ gets set on a mousedown
-	//so make a rect around it
-	Rect r( clickPt_.x_ - dragDropDelta.width_ /2.0,
+	/**
+	clickPt_ gets set on a mousedown
+	so make a rect around it
+	r1 will be the inner  rect
+	r2 will be the outer rect
+	if the drag is outside the bounds of r1 and within r2
+	then we can do a drag, otherwise forget it
+	*/
+	Rect r1( clickPt_.x_ - dragDropDelta.width_ /2.0,
 			clickPt_.y_ - dragDropDelta.height_ /2.0,
 			clickPt_.x_ + dragDropDelta.width_ /2.0,
 			clickPt_.y_ + dragDropDelta.height_ /2.0 );
+
+	Rect r2 = r1;
+
+	r2.inflate( dragDropDelta.width_, dragDropDelta.height_ );
 
 	//we are only ready to to begin a drag drop operation
 	//if the point is NOT, I repeat, NOT, within the bounds of the
 	//drag-drop rect. This prevents us from starting too early.
 	//changing the dragDropDelta value allows us to control the 
 	//sensitivity of how we reacto to drag-drop starts
-	result = !r.containsPt( point );
+	result = (!r1.containsPt( point )) && (r2.containsPt( point ));	
 
 	return result;
 }
@@ -1457,6 +1471,10 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2004/12/31 17:39:47  ddiego
+*fixes a drag-drop bug, initially listed under the vcfbuilders
+*bug list
+*
 *Revision 1.4  2004/12/01 04:31:20  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
