@@ -41,7 +41,9 @@ Win32ScrollPeer::Win32ScrollPeer( Control* scrollableControl )
 
 Win32ScrollPeer::~Win32ScrollPeer()
 {
-	scrollCorner_->free();
+	if ( NULL != scrollCorner_ ) {
+		scrollCorner_->free();
+	}
 }
 
 void Win32ScrollPeer::removeScrollBarsFromMap()
@@ -457,6 +459,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/07 01:59:51  ddiego
+*minor fix to win32 scroll peer, and fix to win32 list view for display of list items.
+*
 *Revision 1.3  2004/12/01 04:31:39  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

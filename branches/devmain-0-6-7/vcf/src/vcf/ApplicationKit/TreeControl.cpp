@@ -176,12 +176,12 @@ void TreeControl::onModelEmptied( ModelEvent* event )
 TreeItem* TreeControl::hitTestForItem( Point* pt, TreeItem* item )
 {
 	TreeItem* result = NULL;
-	if ( true == item->containsPoint( pt ) ) {
+	if ( item->containsPoint( pt ) ) {
 		result = item;
 	}
-	else if ( false == item->isLeaf() ){
+	else if ( !item->isLeaf() && item->isExpanded() ){
 		Enumerator<TreeItem*>* children = item->getChildren();
-		while ( true == children->hasMoreElements() ) {
+		while ( children->hasMoreElements() ) {
 			TreeItem* childItem = children->nextElement();
 			result = hitTestForItem( pt, childItem );
 			if ( result != NULL ) {
@@ -355,6 +355,9 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/07 01:59:50  ddiego
+*minor fix to win32 scroll peer, and fix to win32 list view for display of list items.
+*
 *Revision 1.3.2.2  2005/02/27 01:45:33  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.
