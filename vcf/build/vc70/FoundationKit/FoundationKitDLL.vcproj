@@ -11,7 +11,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc7/DebugDLL\obj"
+			IntermediateDirectory=".\vc70/DebugDLL\obj"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -26,10 +26,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="FoundationKit.h"
-				PrecompiledHeaderFile=".\vc7/DebugDLL\obj/FoundationKitDLL.pch"
-				AssemblerListingLocation=".\vc7/DebugDLL\obj/"
-				ObjectFile="vc7/DebugDLL\obj/"
-				ProgramDataBaseFileName="..\..\..\bin/FoundationKit_vc7_d.pdb"
+				PrecompiledHeaderFile=".\vc70/DebugDLL\obj/FoundationKitDLL.pch"
+				AssemblerListingLocation=".\vc70/DebugDLL\obj/"
+				ObjectFile="vc70/DebugDLL\obj/"
+				ProgramDataBaseFileName="..\..\..\bin/FoundationKit_vc70_d.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -41,12 +41,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="Rpcrt4.lib odbc32.lib odbccp32.lib"
-				OutputFile="..\..\..\bin/FoundationKit_vc7_d.dll"
+				OutputFile="..\..\..\bin/FoundationKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc7_d.pdb"
-				ImportLibrary=".\..\..\..\lib/FoundationKit_vc7_d.lib"/>
+				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc70_d.pdb"
+				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -72,7 +72,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc7/ReleaseDLL\obj"
+			IntermediateDirectory=".\vc70/ReleaseDLL\obj"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -88,10 +88,10 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="FoundationKit.h"
-				PrecompiledHeaderFile=".\vc7/ReleaseDLL\obj/FoundationKitDLL.pch"
-				AssemblerListingLocation=".\vc7/ReleaseDLL\obj/"
-				ObjectFile="vc7/ReleaseDLL\obj/"
-				ProgramDataBaseFileName=".\vc7/ReleaseDLL\obj/"
+				PrecompiledHeaderFile=".\vc70/ReleaseDLL\obj/FoundationKitDLL.pch"
+				AssemblerListingLocation=".\vc70/ReleaseDLL\obj/"
+				ObjectFile="vc70/ReleaseDLL\obj/"
+				ProgramDataBaseFileName=".\vc70/ReleaseDLL\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -101,11 +101,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="rpcrt4.lib odbc32.lib odbccp32.lib"
-				OutputFile="..\..\..\bin/FoundationKit_vc7.dll"
+				OutputFile="..\..\..\bin/FoundationKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc7.pdb"
-				ImportLibrary=".\..\..\..\lib/FoundationKit_vc7.lib"/>
+				ProgramDatabaseFile=".\..\..\..\lib/FoundationKit_vc70.pdb"
+				ImportLibrary=".\..\..\..\lib/FoundationKit_vc70.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
