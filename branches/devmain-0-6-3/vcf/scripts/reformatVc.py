@@ -30,6 +30,7 @@ g_default_section = "vcfscript"
 g_default_allProjects = './build/vc60/vcfAllProjects.dsw'
 g_default_allExamples = './Examples/Examples.dsw'
 g_dependenciesWorkspace = './build/vc60/vcfAllLibs.dsw'
+g_dependencyFilterExamplesProject = 'examples/'
 
 # ( hardcoded )
 g_tableFilterWorkspacesCreation = {}
@@ -1356,7 +1357,7 @@ class Workspace:
             # filter: we need to add the libraries
             addLibrariesStatic  = True
             addLibrariesDynamic = True
-			#JC I turned this to False so that we don't bother with GTK Libs
+            #JC I turned this to False so that we don't bother with GTK Libs
             addLibrariesGtk     = False
             
             if ( addLibrariesStatic ):
@@ -1452,7 +1453,7 @@ class Workspace:
             # some projects need all the necessary dependencies ( hardcoded )
             if ( prjName.lower() == 'examples' ): # e.g. 'examples'
                 dependencyStringListLib = self.buildDependencyStringListItem( 'ApplicationKitDLL' )
-                dependencyStringAllProjects = self.calcDependencyStringListAllProjects( prjName, prjNames, 'examples/' )
+                dependencyStringAllProjects = self.calcDependencyStringListAllProjects( prjName, prjNames, g_dependencyFilterExamplesProject )
                 dependencyStringList = dependencyStringListLib + dependencyStringAllProjects
             else:
                 dependencyStringList = self.calcDependencyStringList( prjName )
