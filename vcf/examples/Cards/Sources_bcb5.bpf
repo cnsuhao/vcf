@@ -1,4 +1,4 @@
-USEUNIT("main.cpp");
+USEUNIT("Cards.cpp");
 USE("Cards.h", File);
 USE("CardContainer.h", File);
 USE("Cardclass.h", File);
