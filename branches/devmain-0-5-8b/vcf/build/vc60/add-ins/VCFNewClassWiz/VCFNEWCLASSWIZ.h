@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Sat Jun 29 17:27:14 2002
+/* at Fri Oct 11 20:55:28 2002
  */
 /* Compiler settings for E:\code\vcfdev\dev\vcf\build\vc60\add-ins\VCFNewClassWiz\VCFNewClassWiz.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
