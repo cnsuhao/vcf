@@ -9,14 +9,28 @@ HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
 XSL_HTMLHELP_IMPORT = "D:/dork/DocBook/xsl/htmlhelp/htmlhelp.xsl"
 
 RAW_CHM_FILENAME = vcf_docs.chm
+RAW_CHI_FILENAME = vcf_docs.chi
+
 RAW_VCF_BUILDER_CHM_FILENAME = vcfbuilder_docs.chm
+RAW_VCF_BUILDER_CHI_FILENAME = vcfbuilder_docs.chi
 
 VERSIONED_CHM_FILENAME = VCFDocs.$(VERSION).chm
+VERSIONED_CHI_FILENAME = VCFDocs.$(VERSION).chi
+
 VERSIONED_VCFBUILDER_CHM_FILENAME = VCFBuilderDocs.$(VCFB_VERSION).chm
+VERSIONED_VCFBUILDER_CHI_FILENAME = VCFBuilderDocs.$(VCFB_VERSION).chi
+
 VERSIONED_XMAKE_CHM_FILENAME = XMakeDocs.$(XMAKE_VERSION).chm
+VERSIONED_XMAKE_CHI_FILENAME = XMakeDocs.$(XMAKE_VERSION).chi
+
+VERSIONED_SRC_HHP_FILENAME = VCFSrcDocs.$(VERSION).hhp
 VERSIONED_SRC_CHM_FILENAME = VCFSrcDocs.$(VERSION).chm
+VERSIONED_SRC_CHI_FILENAME = VCFSrcDocs.$(VERSION).chi
+
 HTML_TAR_FILENAME = VCFDocs.$(VERSION).tar
 
+
+ONLINE_SRC_DOC_DIR = srcdocs
 
 
 VCF_DOCS = corelib_FAQ.sgml \
@@ -54,11 +68,51 @@ vcfbuilder_quicktut.sgml
 XMAKE_DOCS = vcf.css xmake_book.sgml xmake_docbook.sgml
 
 
+
 coredocs :  $(VCF_DOCS) test_tools
-	xsltproc --catalogs vcf.xsl vcf_docbook.sgml
+	xsltproc --nonet vcf.xsl vcf_docbook.sgml
 	
 coredocs_online :  $(VCF_DOCS) test_tools 
-	xsltproc --catalogs --docbook vcf_online.xsl vcf_docbook.sgml	
+	xsltproc --nonet vcf_online.xsl vcf_docbook.sgml	
+
+
+coredocs_hh : htmlhelp.hhp coredocs
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
+	mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME)
+
+
+
+
+
+#steps - this one ios a bit complex
+#creates source code docs, and creates the html help for them
+#create the docbook generated html using the vcf_with_source_docs stylesheet
+#which turns on the generation of linkage to the source code docs
+#then we back up our orginal .hhp and .toc files (these have the VCF-SOURCE-CHM
+#variables). The VCF-SOURCE-CHM occurences all get replaced with the right
+#file name of the chm file, and we then go and produce our master
+#doc chm. Finally we restore the altered .hhp and .hhc files to their
+#original contents
+
+coredocs_hh_with_source : $(VCF_DOCS) test_tools doxy doxy_hh
+	xsltproc --nonet vcf_with_source_docs.xsl vcf_docbook.sgml
+	cp htmlhelp.hhp htmlhelp.hhp.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
+	mv htmlhelp.hhp.tmp htmlhelp.hhp
+	cp toc.hhc toc.hhc.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" toc.hhc > toc.hhc.tmp
+	mv toc.hhc.tmp toc.hhc
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv htmlhelp.hhp.bak htmlhelp.hhp
+	mv toc.hhc.bak toc.hhc
+
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
+	if ( test -f $(RAW_CHI_FILENAME) )\
+	then\
+		mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME);\
+	fi	
+
 	
 strip_online_docs :  stripper
 	for file in *.html;\
@@ -71,28 +125,56 @@ strip_online_docs :  stripper
 
 
 alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
-	xsltproc --catalogs vcf.xsl vcf_website_docs.sgml
+	xsltproc --nonet vcf.xsl vcf_website_docs.sgml
 
 
 
 alldocs_hh : htmlhelp.hhp alldocs
-	$(HTMLHELP_COMPILER) htmlhelp.hhp
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
 
 
 alldocs_online : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
-	xsltproc --catalogs vcf_online.xsl vcf_website_docs.sgml
+	xsltproc --nonet vcf_online.xsl vcf_website_docs.sgml
+
+
+alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS) doxy doxy_hh
+	xsltproc --nonet vcf_with_source_docs.xsl vcf_website_docs.sgml
+	cp htmlhelp.hhp htmlhelp.hhp.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
+	mv htmlhelp.hhp.tmp htmlhelp.hhp
+	cp toc.hhc toc.hhc.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" toc.hhc > toc.hhc.tmp
+	mv toc.hhc.tmp toc.hhc
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv htmlhelp.hhp.bak htmlhelp.hhp
+	mv toc.hhc.bak toc.hhc
+
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
+	if ( test -f $(RAW_CHI_FILENAME) )\
+	then\
+		mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME);\
+	fi	
 
 
 
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
-	xsltproc --catalogs --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
+	xsltproc --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
+
+
+vcf_builder_hh : vcf_builder_docs htmlhelp.hhp 
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv $(RAW_VCF_BUILDER_CHM_FILENAME) $(VERSIONED_VCFBUILDER_CHM_FILENAME)
+	mv $(RAW_VCF_BUILDER_CHI_FILENAME) $(VERSIONED_VCFBUILDER_CHI_FILENAME)
+
 
 xmake_docs : $(XMAKE_DOCS) test_tools
-	xsltproc --catalogs vcf.xsl xmake_docbook.sgml
+	xsltproc vcf.xsl xmake_docbook.sgml
 
 xmake_hh : htmlhelp.hhp xmake_docs
-	$(HTMLHELP_COMPILER) htmlhelp.hhp
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
 	mv $(RAW_CHM_FILENAME) $(VERSIONED_XMAKE_CHM_FILENAME)
+	mv $(RAW_CHI_FILENAME) $(VERSIONED_XMAKE_CHI_FILENAME)
+	
 
 test_tools : 
 	if ( test -f $(HTMLHELP_COMPILER) )\
@@ -120,15 +202,15 @@ stripper : stripper.o
 	g++ -o stripper stripper.o
 
 
+hrefmunger.o : hrefmunger.cpp
+	g++ -c -O2 hrefmunger.cpp
+
+hrefmunger : hrefmunger.o
+	g++ -o hrefmunger hrefmunger.o
 
 
-hh : htmlhelp.hhp coredocs
-	$(HTMLHELP_COMPILER) htmlhelp.hhp
-	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
 
-vcf_builder_hh : vcf_builder_docs htmlhelp.hhp 
-	$(HTMLHELP_COMPILER) htmlhelp.hhp
-	mv $(RAW_VCF_BUILDER_CHM_FILENAME) $(VERSIONED_VCFBUILDER_CHM_FILENAME)
+
 
 doxy : 
 	cp Doxyfile Doxyfile.bak
@@ -138,9 +220,29 @@ doxy :
 	mv Doxyfile.bak Doxyfile
 	cp -r gfx/ doxy_html/
 
+online_doxy : stripper hrefmunger
+	cp Doxyfile.online Doxyfile.bak
+	sed "s?VERSION-NUMBER?$(VERSION)?g" Doxyfile.online > Doxyfile.tmp
+	mv Doxyfile.tmp Doxyfile.online
+	doxygen Doxyfile.online
+	mv Doxyfile.bak Doxyfile.online
+	cp -r gfx/ doxy_html/
+	for file in doxy_html/*.html;\
+	do\
+		echo post processing $$file with stripper...;\
+		./stripper $$file;\
+		echo post processing all hrefs with hrefmunger...;\
+		./hrefmunger $(ONLINE_SRC_DOC_DIR) $$file;\
+	done
+
+
+
 doxy_hh : doxy_html/index.hhp
-	$(HTMLHELP_COMPILER) doxy_html/index.hhp
-	mv doxy_html/index.chm ./$(VERSIONED_SRC_CHM_FILENAME)
+	mv doxy_html/index.hhp doxy_html/$(VERSIONED_SRC_HHP_FILENAME)
+	-$(HTMLHELP_COMPILER) doxy_html/$(VERSIONED_SRC_HHP_FILENAME)	
+	mv doxy_html/$(VERSIONED_SRC_CHM_FILENAME) ./
+	mv doxy_html/$(VERSIONED_SRC_CHI_FILENAME) ./
+	
 
 dist : coredocs hh 
 	find *.html > files.out
@@ -154,7 +256,7 @@ dist : coredocs hh
 	rm files.out
 	rm images.out
 
-dist_online : coredocs_online strip_online_docs
+dist_online : coredocs_online strip_online_docs 
 	find *.html > files.out
 	find gfx/ -type f -name '*' > images.out
 	cat files.out images.out > all.out
@@ -168,10 +270,14 @@ dist_online : coredocs_online strip_online_docs
 	rm images.out
 
 
-dist_all_online : alldocs_online strip_online_docs
+dist_all_online : alldocs_online strip_online_docs online_doxy
+	-mkdir $(ONLINE_SRC_DOC_DIR)
+	cp doxy_html/*.htm* $(ONLINE_SRC_DOC_DIR)/
+	rm -rf $(ONLINE_SRC_DOC_DIR)/gfx/
 	find *.html > files.out
 	find gfx/ -type f -name '*' > images.out
-	cat files.out images.out > all.out
+	find $(ONLINE_SRC_DOC_DIR)/ -type f -name '*.html' > srcdocs.out
+	cat files.out images.out srcdocs.out > all.out
 	echo Creating tar file...
 	tar -cf $(HTML_TAR_FILENAME) -T all.out
 	rm -f $(HTML_TAR_FILENAME).gz
@@ -180,6 +286,8 @@ dist_all_online : alldocs_online strip_online_docs
 	rm all.out
 	rm files.out
 	rm images.out
+	rm srcdocs.out
+	rm -rf $(ONLINE_SRC_DOC_DIR)
 	
 clean :
 	rm -f *.html
@@ -191,3 +299,4 @@ clean :
 	rm -f *.hhk
 	rm -rf doxy_html/
 	rm -f stripper stripper.o
+	rm -f hrefmunger hrefmunger.o
