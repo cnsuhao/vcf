@@ -529,11 +529,26 @@ void Win32Edit::setText( const VCF::String& text )
 		editStream.dwCookie = (DWORD)this;
 		editStream.pfnCallback = Win32Edit::EditStreamCallback;
 		numCharsRemainingToStreamIn_ = 0;//text.size();
-		int streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );
+
+		int streamedIn = 0;
+		if ( System::isUnicodeEnabled() ) {
+			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_UNICODE, (LPARAM)&editStream );
+		}
+		else{
+			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );
+		}
 		int err = UpdateWindow( hwnd_ );
 	}
 	else {
-		int err = ::SendMessage( hwnd_, WM_SETTEXT, 0, (LPARAM)text.c_str() );
+		int err = 0;
+		if ( System::isUnicodeEnabled() ) {
+			
+			err = ::SetWindowTextW( hwnd_, text.c_str() );
+		}
+		else {
+			err = ::SetWindowTextA( hwnd_, text.ansi_c_str() );
+		}
+
 		if ( !err ) {
 			err = GetLastError();
 			StringUtils::traceWithArgs( "error is %d\n", err );
@@ -722,6 +737,9 @@ void Win32Edit::setReadOnly( const bool& readonly )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/04 17:16:07  ddiego
+*updated some win32 stuff for unicode compliance
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
