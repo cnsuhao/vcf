@@ -149,14 +149,14 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 		CFRelease( cfStr );
 
 	#elif VCF_POSIX
-		int size = mbstowcs (NULL, str, stringLength );
-		if ( !(size > 0) ) {
+		int size = mbstowcs (NULL, str, 0 );
+		if ( size < 0) {
 			throw RuntimeException( L"size < 0 mbstowcs() failed in UnicodeString::transformAnsiToUnicode()" );
 		}
 
-		UniChar* tmp = new UniChar[size];
+		UniChar* tmp = new UniChar[size+1];
 
-		int err = mbstowcs( tmp, str, stringLength );
+		int err = mbstowcs( tmp, str, size );
 		if ( err > 0 ) {
 			newStr.assign( tmp, size );
 		}
@@ -260,15 +260,15 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 	}
 
 #elif VCF_POSIX
-	size = wcstombs( NULL, str.data_.c_str(), strLength );
+	size = wcstombs( NULL, str.data_.c_str(), 0 );
 
-	if ( !(size > 0) ) {
+	if ( size < 0 ) {
 		throw RuntimeException( L"size < 0 wcstombs() failed" );
 	}
 
 	result = new UnicodeString::AnsiChar[size+1];
 
-	if ( 0 <= wcstombs( result, str.data_.c_str(), strLength ) ) {
+	if ( wcstombs( result, str.data_.c_str(), size ) < 0 ) {
 		delete [] result;
 		result = NULL;
 	}
@@ -752,6 +752,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/06/09 21:12:17  thrysoee
+*Fix VCF::String (Unicode) related segfaults on Linux
+*
 *Revision 1.1.2.9  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
