@@ -72,12 +72,12 @@ ABSTRACT_EVENT("VCF::TextModelEventHandler", TextModel, VCF::TextEvent, TextMode
 END_CLASSINFO(TextModel)
 */
 
-
+/*
 BEGIN_ABSTRACT_CLASSINFO(AbstractTextModel, "VCF::AbstractTextModel", "VCF::TextModel", ABSTRACTTEXTMODEL_CLASSID)
 
 EVENT("VCF::TextModelEventHandler", AbstractTextModel, VCF::TextEvent, TextModelChanged )
 END_CLASSINFO(AbstractTextModel)
-
+*/
 
 BEGIN_ABSTRACT_CLASSINFO(ColumnItem, "VCF::ColumnItem", "VCF::Item", COLUMNITEM_CLASSID)
 END_CLASSINFO(ColumnItem)
@@ -204,12 +204,14 @@ ABSTRACT_EVENT( "VCF::ModelEventHandler", Model, VCF::ModelEvent, ModelEmptied )
 ABSTRACT_EVENT( "VCF::ModelValidationEventHandler", Model, VCF::ValidationEvent, ModelValidate )
 END_CLASSINFO(Model)
 
-
+/* 
+JC - Note that we should change this to RTTI as an interface!!!
 BEGIN_ABSTRACT_CLASSINFO(TabModel, "VCF::TabModel", "VCF::Model", TABMODEL_CLASSID )
 ABSTRACT_EVENT("VCF::TabModelEventHandler", TabModel, VCF::TabModelEvent, TabPageAdded)
 ABSTRACT_EVENT("VCF::TabModelEventHandler", TabModel, VCF::TabModelEvent, TabPageRemoved)
 ABSTRACT_EVENT("VCF::TabModelEventHandler", TabModel, VCF::TabModelEvent, TabPageSelected)
 END_CLASSINFO(TabModel)
+*/
 
 
 BEGIN_ABSTRACT_CLASSINFO(TabPage, "VCF::TabPage", "VCF::Item", TABPAGE_CLASSID)
@@ -347,56 +349,65 @@ EVENT("VCF::ItemEventHandler", DefaultListItem, VCF::ItemEvent, SubItemDeleted )
 END_CLASSINFO(DefaultListItem)
 
 
-BEGIN_CLASSINFO(DefaultListModel, "VCF::DefaultListModel", "VCF::AbstractListModel", DEFAULTLISTMODEL_CLASSID)
+BEGIN_CLASSINFO(DefaultListModel, "VCF::DefaultListModel", "VCF::AbstractModel", DEFAULTLISTMODEL_CLASSID)
 END_CLASSINFO(DefaultListModel)
 
 
-BEGIN_CLASSINFO(DefaultTabModel, "VCF::DefaultTabModel", "VCF::TabModel", DEFAULTTABMODEL_CLASSID )
-EVENT("VCF::TabModelEventHandler", DefaultTabModel, VCF::TabModelEvent, TabPageAdded )
-EVENT("VCF::TabModelEventHandler", DefaultTabModel, VCF::TabModelEvent, TabPageRemoved )
-EVENT("VCF::TabModelEventHandler", DefaultTabModel, VCF::TabModelEvent, TabPageSelected )
-EVENT( "VCF::ModelEventHandler", DefaultTabModel, VCF::ModelEvent, ModelEmptied )
-EVENT( "VCF::ModelValidationEventHandler", DefaultTabModel, VCF::ValidationEvent, ModelValidate )
+BEGIN_CLASSINFO(DefaultTabModel, "VCF::DefaultTabModel", "VCF::AbstractModel", DEFAULTTABMODEL_CLASSID )
+	EVENT("VCF::TabModelEventHandler", DefaultTabModel, VCF::TabModelEvent, TabPageAdded )
+	EVENT("VCF::TabModelEventHandler", DefaultTabModel, VCF::TabModelEvent, TabPageRemoved )
+	EVENT("VCF::TabModelEventHandler", DefaultTabModel, VCF::TabModelEvent, TabPageSelected )
+	EVENT( "VCF::ModelEventHandler", DefaultTabModel, VCF::ModelEvent, ModelEmptied )
+	EVENT( "VCF::ModelValidationEventHandler", DefaultTabModel, VCF::ValidationEvent, ModelValidate )
 END_CLASSINFO(DefaultTabModel)
 
 
 BEGIN_CLASSINFO(DefaultTabPage, "VCF::DefaultTabPage", "VCF::TabPage", DEFAULTTABPAGE_CLASSID)
-EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemPaint );
-EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemChanged );
-EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemSelected );
-EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemAdded );
+	EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemPaint );
+	EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemChanged );
+	EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemSelected );
+	EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemAdded );
 EVENT("VCF::ItemEventHandler", DefaultTabPage, VCF::ItemEvent, ItemDeleted );
 
 END_CLASSINFO(DefaultTabPage)
 
 
 BEGIN_CLASSINFO(DefaultTableCellItem, "VCF::DefaultTableCellItem", "VCF::TableCellItem", DEFAULTTABLECELLITEM_CLASSID)
-EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemPaint );
-EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemChanged );
-EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemSelected );
-EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemAdded );
-EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemDeleted );
+	EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemPaint );
+	EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemChanged );
+	EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemSelected );
+	EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemAdded );
+	EVENT("VCF::ItemEventHandler", DefaultTableCellItem, VCF::ItemEvent, ItemDeleted );
 
 END_CLASSINFO(DefaultTableCellItem)
 
 
-BEGIN_CLASSINFO(DefaultTableModel, "VCF::DefaultTableModel", "VCF::TableModel", DEFAULTTABLEMODEL_CLASSID )
+BEGIN_CLASSINFO(DefaultTableModel, "VCF::DefaultTableModel", "VCF::AbstractModel", DEFAULTTABLEMODEL_CLASSID )
 END_CLASSINFO(DefaultTableModel)
 
 
-BEGIN_CLASSINFO(DefaultTextModel, "VCF::DefaultTextModel", "VCF::AbstractTextModel", DEFAULTTEXTMODEL_CLASSID)
+BEGIN_CLASSINFO(DefaultTextModel, "VCF::DefaultTextModel", "VCF::AbstractModel", DEFAULTTEXTMODEL_CLASSID)
+	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableCellAdded )
+	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableCellDeleted )
+	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableRowsAdded )
+	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableRowsDeleted )
+	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableColumnsAdded )
+	EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableColumnsDeleted )
 END_CLASSINFO(DefaultTextModel)
 
 BEGIN_CLASSINFO(DefaultTreeItem, "VCF::DefaultTreeItem", "VCF::TreeItem", DEFAULTTREEITEM_CLASSID)
-EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemPaint );
-EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemChanged );
-EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemSelected );
-EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemAdded );
-EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemDeleted );
+	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemPaint );
+	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemChanged );
+	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemSelected );
+	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemAdded );
+	EVENT("VCF::ItemEventHandler", DefaultTreeItem, VCF::ItemEvent, ItemDeleted );
 END_CLASSINFO(DefaultTreeItem)
 
 
-BEGIN_CLASSINFO(DefaultTreeModel, "VCF::DefaultTreeModel", "VCF::AbstractTreeModel", DEFAULTTREEMODEL_CLASSID)
+BEGIN_CLASSINFO(DefaultTreeModel, "VCF::DefaultTreeModel", "VCF::AbstractModel", DEFAULTTREEMODEL_CLASSID)
+	EVENT( "VCF::TreeModelEventHandler", DefaultTreeModel, VCF::TreeModelEvent, RootNodeChanged )
+	EVENT( "VCF::TreeModelEventHandler", DefaultTreeModel, VCF::TreeModelEvent, NodeAdded )
+	EVENT( "VCF::TreeModelEventHandler", DefaultTreeModel, VCF::TreeModelEvent, NodeDeleted )
 END_CLASSINFO(DefaultTreeModel)
 
 
@@ -408,9 +419,9 @@ BEGIN_CLASSINFO(HTMLBrowserControl, "VCF::HTMLBrowserControl", "VCF::Control", H
 END_CLASSINFO(HTMLBrowserControl)
 
 BEGIN_CLASSINFO(HeaderControl, "VCF::HeaderControl", "VCF::CustomControl", HEADERCONTROL_CLASSID)
-OBJECT_PROPERTY( ColumnModel, "columnModel", HeaderControl::getColumnModel, HeaderControl::setColumnModel );
-EVENT("VCF::MouseEventHandler", HeaderControl, VCF::MouseEvent, ColumnItemClicked );
-EVENT("VCF::ItemEventHandler", HeaderControl, VCF::ItemEvent, ColumnWidthChanged );
+	OBJECT_PROPERTY( ColumnModel, "columnModel", HeaderControl::getColumnModel, HeaderControl::setColumnModel );
+	EVENT("VCF::MouseEventHandler", HeaderControl, VCF::MouseEvent, ColumnItemClicked );
+	EVENT("VCF::ItemEventHandler", HeaderControl, VCF::ItemEvent, ColumnWidthChanged );
 END_CLASSINFO(HeaderControl)
 
 
@@ -627,6 +638,10 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/03 22:25:59  ddiego
+*fixed a bug in the ApplicationKitRTTI inl file that had some
+*leftover code from changing the various model class around.
+*
 *Revision 1.2.2.2  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
