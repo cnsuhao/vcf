@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/03/03 22:42:41  ddiego
+stuff
+
 Revision 1.1.2.1  2003/03/03 03:39:49  ddiego
 initial check-in of docbook vcf documentation, plus neccesary stylsheets
 and images
@@ -37,6 +40,33 @@ and images
 	</para>
 	<section><title>Applications </title>
 		<para>
+		In the VCF an user inteface application can have a central class that derives 
+		from the VCF::Application class. The application class handles the details of 
+		starting thea application, initializing it, starting the event loop, and 
+		terminating gracefully when the user exits the application, or an exception
+		occurrs. 
+		</para>
+		<para>
+		It is possible to use the VCF with out an application class, particularly if 
+		you are integrating with another toolkit. In this case it is assumed that 
+		an event loop is already running, and certain features that depend on an 
+		Application instance may not work.
+		</para>
+		<para>
+		An application either represents a program (or process) or a library in the
+		form of a dynamic link library (DLL) or shared object (SO). If the application
+		is part of a library then the specific instance must be dericed from 
+		VCF::LibraryApplication. There can be more than one LibraryApplication instance
+		loaded. 
+		</para>
+		<para>
+		If the application represents a program, then there can only be one instance of
+		it during the lifetime of the program. Creating more than the one instance is 
+		incorrect and will break the application.
+		</para>
+		<para>
+		You can customize the initialization of your application by overriding the 
+		Application's 
 		</para>
 	</section>
 
