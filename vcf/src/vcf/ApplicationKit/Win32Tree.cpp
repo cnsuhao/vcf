@@ -511,10 +511,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_BEGINDRAGW:{
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam ;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-			StringUtils::traceWithArgs( "TVN_BEGINDRAGW item: %p\n", item );
-
-			StringUtils::traceWithArgs( "\tcaption: %s\n", (item != NULL) ? item->getCaption().c_str() : L"null" );
-
+			
 			if ( NULL != item ) {				
 				Point pt( treeview->ptDrag.x, treeview->ptDrag.y );
 
@@ -724,9 +721,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_SELCHANGEDW:{
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-			StringUtils::traceWithArgs( "TVN_SELCHANGEDW item: %p\n", item );
-			StringUtils::traceWithArgs( "\tcaption: %s\n", item ? item->getCaption().c_str() : L"null" );
-
+			
 			if ( NULL != item ) {
 				item->setSelected( true );
 				POINT tmpPt = {0,0};
@@ -1316,6 +1311,10 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2004/12/31 17:41:23  ddiego
+*fixes a drag-drop bug, initially listed under the vcfbuilders
+*bug list
+*
 *Revision 1.3.2.2  2004/12/31 17:39:47  ddiego
 *fixes a drag-drop bug, initially listed under the vcfbuilders
 *bug list
