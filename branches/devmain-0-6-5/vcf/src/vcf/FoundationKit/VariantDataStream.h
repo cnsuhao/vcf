@@ -1,46 +1,24 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_VARIANTDATASTREAM_H__
 #define _VCF_VARIANTDATASTREAM_H__
+//VariantDataStream.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
 
 /**
-*The VariantDataInputStream is used to read 
-*a VariantData object from an InputStream source. 
+*The VariantDataInputStream is used to read
+*a VariantData object from an InputStream source.
 */
 class FRAMEWORK_API VariantDataInputStream : public InputStream {
 
@@ -98,7 +76,7 @@ public:
 			inStream_->read( val );
 			*data = val;
 		}
-		else if ( type == "l" ) {			
+		else if ( type == "l" ) {
 			long val = 0;
 			inStream_->read( val );
 			*data = val;
@@ -146,13 +124,13 @@ public:
 					inStream_->read( persistentObj );
 				}
 				else {
-					throw TypeCastException("Error attempting to read from stream.\nObject doesn't support Persistable interface!"); 
+					throw TypeCastException("Error attempting to read from stream.\nObject doesn't support Persistable interface!");
 				}
 			}
 			else {
-				throw InvalidPointerException(); 
+				throw InvalidPointerException();
 			}
-		}		
+		}
 	}
 private:
 	InputStream* inStream_;
@@ -160,7 +138,7 @@ private:
 
 /**
 *The VariantDataOutputStream is used to write a
-*VariantData object to an OutputStream source. 
+*VariantData object to an OutputStream source.
 */
 class FRAMEWORK_API VariantDataOutputStream : public OutputStream{
 
@@ -207,7 +185,7 @@ public:
 	}
 
 	void writeVariantData( VariantData* data ) {
-		switch ( data->type ) { 
+		switch ( data->type ) {
 			case pdInt : {
 				outStream_->write( String("i") );
 				outStream_->write( (int)(*data) );
@@ -266,13 +244,13 @@ public:
 				Object* obj = *data;
 				if ( NULL != obj ) {
 					Persistable* persistentObj = dynamic_cast<Persistable*>(obj);
-					if ( NULL != persistentObj ) { 
+					if ( NULL != persistentObj ) {
 						outStream_->write( String("o") );
-						outStream_->write( obj->getClassName() );	
+						outStream_->write( obj->getClassName() );
 						outStream_->write( persistentObj );
-					}				
+					}
 					else {
-						throw TypeCastException("Error attempting to write to stream.\nObject doesn't support Persistable interface!"); 
+						throw TypeCastException("Error attempting to write to stream.\nObject doesn't support Persistable interface!");
 					}
 				}
 				else {
@@ -292,6 +270,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -339,6 +320,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_VARIANTDATASTREAM_H__
 

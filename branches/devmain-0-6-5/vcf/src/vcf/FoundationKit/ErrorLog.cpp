@@ -1,6 +1,61 @@
+//ErrorLog.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//ErrorLog.h
+
+#include "vcf/FoundationKit/FoundationKit.h"
+using namespace VCF;
+
+
+ErrorLog::ErrorLog( const String& ouputFilename ):
+	outputFileName_(ouputFilename)
+{
+	if ( outputFileName_.empty() ) {
+		outputFileName_ = "errorLog.log";
+	}
+
+	System::setErrorLog( this );
+}
+
+ErrorLog::~ErrorLog()
+{
+	System::setErrorLog( NULL );
+}
+
+void ErrorLog::toLog( const String& text )
+{
+	try {
+		FileOutputStream fs( outputFileName_ );
+
+		TextOutputStream tos( &fs );
+
+		tos.write( text );
+
+	}
+	catch ( BasicException& e ) {
+
+		throw e;
+	}
+	catch (...) {
+
+		throw FileIOError( MAKE_ERROR_MSG_2("Unknown Exception accessing the log file: \"" + outputFileName_ + "\"") );
+	}
+
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -52,57 +107,5 @@
 *to facilitate change tracking
 *
 */
-
-//ErrorLog.h
-/**
-This program is free software; you can redistribute it and/or
-modify it as you choose. In fact, you can do anything you would like
-with it, so long as credit is given if used in commercial applications.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-NB: This software will not save the world. 
-*/
-
-#include "vcf/FoundationKit/FoundationKit.h"
-using namespace VCF;
-
-
-ErrorLog::ErrorLog( const String& ouputFilename ):
-	outputFileName_(ouputFilename)
-{
-	if ( outputFileName_.empty() ) {
-		outputFileName_ = "errorLog.log";
-	}
-
-	System::setErrorLog( this );
-}
-
-ErrorLog::~ErrorLog()
-{
-	System::setErrorLog( NULL );
-}
-
-void ErrorLog::toLog( const String& text ) 
-{
-	try {
-		FileOutputStream fs( outputFileName_ );
-
-		TextOutputStream tos( &fs );
-
-		tos.write( text );
-		
-	}
-	catch ( BasicException& e ) {
-		
-		throw e;
-	}
-	catch (...) {
-		
-		throw FileIOError( MAKE_ERROR_MSG_2("Unknown Exception accessing the log file: \"" + outputFileName_ + "\"") );
-	}
-
-}
 
 

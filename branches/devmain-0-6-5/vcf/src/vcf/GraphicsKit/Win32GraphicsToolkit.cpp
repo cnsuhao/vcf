@@ -1,6 +1,207 @@
+//Win32GraphicsToolkit.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//Win32GraphicsToolkit.h
+#include "vcf/GraphicsKit/GraphicsKit.h"
+#include "vcf/GraphicsKit/GraphicsKitPrivate.h"
+
+
+using namespace VCF;
+
+Win32FontManager* Win32FontManager::win32FontMgr = NULL;
+
+
+Win32GraphicsToolkit::Win32GraphicsToolkit()
+{
+	Win32FontManager::create();
+
+
+	loadSystemColors();
+	registerImageLoader( "image/bmp", new BMPLoader() );
+
+	initSystemFont();
+
+}
+
+Win32GraphicsToolkit::~Win32GraphicsToolkit()
+{
+	systemFont_->free();
+	Win32FontManager::getFontManager()->free();
+}
+
+void Win32GraphicsToolkit::initSystemFont()
+{
+	systemFont_ = new Font();
+
+	if ( System::isUnicodeEnabled() ) {
+		HFONT defGUIFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		LOGFONTW lf = {0};
+		GetObjectW( defGUIFont, sizeof(LOGFONTW), &lf );
+
+		systemFont_->setAngle( lf.lfEscapement / 10 );
+		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
+		systemFont_->setItalic( lf.lfItalic == TRUE );
+		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
+		systemFont_->setStrikeOut( lf.lfStrikeOut == TRUE );
+		systemFont_->setPixelSize( lf.lfHeight );
+		systemFont_->setName( String(lf.lfFaceName) );
+	}
+	else {
+		HFONT defGUIFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		LOGFONTA lf = {0};
+		GetObjectA( defGUIFont, sizeof(LOGFONTA), &lf );
+
+		systemFont_->setAngle( lf.lfEscapement / 10 );
+		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
+		systemFont_->setItalic( lf.lfItalic == TRUE );
+		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
+		systemFont_->setStrikeOut( lf.lfStrikeOut == TRUE );
+		systemFont_->setPixelSize( lf.lfHeight );
+		systemFont_->setName( String(lf.lfFaceName) );
+	}
+
+
+}
+
+ContextPeer* Win32GraphicsToolkit::internal_createContextPeer( const unsigned long& contextID )
+{
+	ContextPeer* result = NULL;
+
+	result = new Win32Context( contextID );
+
+	return result;
+}
+
+ContextPeer* Win32GraphicsToolkit::internal_createContextPeer( const unsigned long& width, const unsigned long& height )
+{
+	return new Win32Context( width, height );
+}
+
+FontPeer* Win32GraphicsToolkit::internal_createFontPeer( const String& fontName )
+{
+	return new Win32Font( fontName );
+}
+
+FontPeer* Win32GraphicsToolkit::internal_createFontPeer( const String& fontName, const double& pointSize )
+{
+	return new Win32Font( fontName, pointSize );
+}
+
+OpenGLPeer* Win32GraphicsToolkit::internal_createOpenGLPeer( GraphicsContext* glContext )
+{
+#ifdef VCF_OPENGL
+	return new Win32OpenGLPeer( glContext );
+#else
+	return NULL;
+#endif
+}
+
+Image* Win32GraphicsToolkit::internal_createImage( const unsigned long& width, const unsigned long& height )
+{
+	return new Win32Image( width, height );
+}
+
+Image* Win32GraphicsToolkit::internal_createImage( GraphicsContext* context, Rect* rect  )
+{
+	if ( NULL != context ){
+		return new Win32Image( context, rect );
+	}
+	else {
+		return NULL;
+	}
+}
+
+
+void Win32GraphicsToolkit::loadSystemColors()
+{
+	Color* sysColor = NULL;
+	sysColor = new Color( ::GetSysColor( COLOR_BTNSHADOW ) );
+	systemColors_[SYSCOLOR_SHADOW] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_SHADOW";
+
+	sysColor = new Color( ::GetSysColor( COLOR_3DFACE ) );
+	systemColors_[SYSCOLOR_FACE] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_FACE";
+
+	sysColor = new Color( ::GetSysColor( COLOR_3DHILIGHT ) );
+	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_HIGHLIGHT";
+
+	sysColor = new Color( ::GetSysColor( COLOR_ACTIVECAPTION ) );
+	systemColors_[SYSCOLOR_ACTIVE_CAPTION] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
+
+	sysColor = new Color( ::GetSysColor( COLOR_ACTIVEBORDER ) );
+	systemColors_[SYSCOLOR_ACTIVE_BORDER] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
+
+	sysColor = new Color( ::GetSysColor( COLOR_DESKTOP ) );
+	systemColors_[SYSCOLOR_DESKTOP] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_DESKTOP";
+
+	sysColor = new Color( ::GetSysColor( COLOR_CAPTIONTEXT ) );
+	systemColors_[SYSCOLOR_CAPTION_TEXT] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
+
+	sysColor = new Color( ::GetSysColor( COLOR_HIGHLIGHT ) );
+	systemColors_[SYSCOLOR_SELECTION] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION";
+
+	sysColor = new Color( ::GetSysColor( COLOR_HIGHLIGHTTEXT ) );
+	systemColors_[SYSCOLOR_SELECTION_TEXT] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
+
+	sysColor = new Color( ::GetSysColor( COLOR_INACTIVEBORDER ) );
+	systemColors_[SYSCOLOR_INACTIVE_BORDER] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
+
+	sysColor = new Color( ::GetSysColor( COLOR_INACTIVECAPTION ) );
+	systemColors_[SYSCOLOR_INACTIVE_CAPTION] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
+
+	sysColor = new Color( ::GetSysColor( COLOR_INFOBK ) );
+	systemColors_[SYSCOLOR_TOOLTIP] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP";
+
+	sysColor = new Color( ::GetSysColor( COLOR_INFOTEXT ) );
+	systemColors_[SYSCOLOR_TOOLTIP_TEXT] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
+
+	sysColor = new Color( ::GetSysColor( COLOR_MENU ) );
+	systemColors_[SYSCOLOR_MENU] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU";
+
+	sysColor = new Color( ::GetSysColor( COLOR_MENUTEXT ) );
+	systemColors_[SYSCOLOR_MENU_TEXT] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU_TEXT";
+
+	sysColor = new Color( ::GetSysColor( COLOR_WINDOW ) );
+	systemColors_[SYSCOLOR_WINDOW] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW";
+
+	sysColor = new Color( ::GetSysColor( COLOR_WINDOWTEXT ) );
+	systemColors_[SYSCOLOR_WINDOW_TEXT] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
+
+	sysColor = new Color( ::GetSysColor( COLOR_WINDOWFRAME ) );
+	systemColors_[SYSCOLOR_WINDOW_FRAME] = sysColor;
+	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
+
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -94,220 +295,5 @@
 *to facilitate change tracking
 *
 */
-
-//Win32GraphicsToolkit.h
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-#include "vcf/GraphicsKit/GraphicsKit.h"
-#include "vcf/GraphicsKit/GraphicsKitPrivate.h"
-
-
-using namespace VCF;
-
-Win32FontManager* Win32FontManager::win32FontMgr = NULL;
-
-
-Win32GraphicsToolkit::Win32GraphicsToolkit()
-{
-	Win32FontManager::create();
-
-	
-	loadSystemColors();
-	registerImageLoader( "image/bmp", new BMPLoader() );
-	
-	initSystemFont();
-	
-}
-
-Win32GraphicsToolkit::~Win32GraphicsToolkit()
-{
-	systemFont_->free();
-	Win32FontManager::getFontManager()->free();	
-}
-
-void Win32GraphicsToolkit::initSystemFont()
-{
-	systemFont_ = new Font();
-
-	if ( System::isUnicodeEnabled() ) {
-		HFONT defGUIFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
-		LOGFONTW lf = {0};
-		GetObjectW( defGUIFont, sizeof(LOGFONTW), &lf );
-		
-		systemFont_->setAngle( lf.lfEscapement / 10 );
-		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
-		systemFont_->setItalic( lf.lfItalic == TRUE );
-		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
-		systemFont_->setStrikeOut( lf.lfStrikeOut == TRUE );
-		systemFont_->setPixelSize( lf.lfHeight );
-		systemFont_->setName( String(lf.lfFaceName) );
-	}
-	else {
-		HFONT defGUIFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
-		LOGFONTA lf = {0};
-		GetObjectA( defGUIFont, sizeof(LOGFONTA), &lf );
-		
-		systemFont_->setAngle( lf.lfEscapement / 10 );
-		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
-		systemFont_->setItalic( lf.lfItalic == TRUE );
-		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
-		systemFont_->setStrikeOut( lf.lfStrikeOut == TRUE );
-		systemFont_->setPixelSize( lf.lfHeight );
-		systemFont_->setName( String(lf.lfFaceName) );
-	}
-
-	
-}
-
-ContextPeer* Win32GraphicsToolkit::internal_createContextPeer( const unsigned long& contextID )
-{
-	ContextPeer* result = NULL;
-	
-	result = new Win32Context( contextID );
-
-	return result;
-}
-
-ContextPeer* Win32GraphicsToolkit::internal_createContextPeer( const unsigned long& width, const unsigned long& height )
-{
-	return new Win32Context( width, height );
-}
-
-FontPeer* Win32GraphicsToolkit::internal_createFontPeer( const String& fontName )
-{
-	return new Win32Font( fontName );
-}
-
-FontPeer* Win32GraphicsToolkit::internal_createFontPeer( const String& fontName, const double& pointSize )
-{
-	return new Win32Font( fontName, pointSize );
-}
-
-OpenGLPeer* Win32GraphicsToolkit::internal_createOpenGLPeer( GraphicsContext* glContext )
-{
-#ifdef VCF_OPENGL
-	return new Win32OpenGLPeer( glContext );
-#else
-	return NULL;
-#endif
-}	
-
-Image* Win32GraphicsToolkit::internal_createImage( const unsigned long& width, const unsigned long& height )
-{
-	return new Win32Image( width, height );
-}
-
-Image* Win32GraphicsToolkit::internal_createImage( GraphicsContext* context, Rect* rect  )
-{	
-	if ( NULL != context ){
-		return new Win32Image( context, rect );
-	}
-	else {
-		return NULL;
-	}
-}
-
-
-void Win32GraphicsToolkit::loadSystemColors()
-{
-	Color* sysColor = NULL;
-	sysColor = new Color( ::GetSysColor( COLOR_BTNSHADOW ) );
-	systemColors_[SYSCOLOR_SHADOW] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SHADOW";
-
-	sysColor = new Color( ::GetSysColor( COLOR_3DFACE ) );
-	systemColors_[SYSCOLOR_FACE] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_FACE";
-
-	sysColor = new Color( ::GetSysColor( COLOR_3DHILIGHT ) );
-	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_HIGHLIGHT";
-
-	sysColor = new Color( ::GetSysColor( COLOR_ACTIVECAPTION ) );
-	systemColors_[SYSCOLOR_ACTIVE_CAPTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_CAPTION";
-
-	sysColor = new Color( ::GetSysColor( COLOR_ACTIVEBORDER ) );
-	systemColors_[SYSCOLOR_ACTIVE_BORDER] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_ACTIVE_BORDER";
-
-	sysColor = new Color( ::GetSysColor( COLOR_DESKTOP ) );
-	systemColors_[SYSCOLOR_DESKTOP] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_DESKTOP";
-
-	sysColor = new Color( ::GetSysColor( COLOR_CAPTIONTEXT ) );
-	systemColors_[SYSCOLOR_CAPTION_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_CAPTION_TEXT";
-
-	sysColor = new Color( ::GetSysColor( COLOR_HIGHLIGHT ) );
-	systemColors_[SYSCOLOR_SELECTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION";
-
-	sysColor = new Color( ::GetSysColor( COLOR_HIGHLIGHTTEXT ) );
-	systemColors_[SYSCOLOR_SELECTION_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_SELECTION_TEXT";
-
-	sysColor = new Color( ::GetSysColor( COLOR_INACTIVEBORDER ) );
-	systemColors_[SYSCOLOR_INACTIVE_BORDER] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_BORDER";
-
-	sysColor = new Color( ::GetSysColor( COLOR_INACTIVECAPTION ) );
-	systemColors_[SYSCOLOR_INACTIVE_CAPTION] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_INACTIVE_CAPTION";
-
-	sysColor = new Color( ::GetSysColor( COLOR_INFOBK ) );
-	systemColors_[SYSCOLOR_TOOLTIP] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP";
-
-	sysColor = new Color( ::GetSysColor( COLOR_INFOTEXT ) );
-	systemColors_[SYSCOLOR_TOOLTIP_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_TOOLTIP_TEXT";
-
-	sysColor = new Color( ::GetSysColor( COLOR_MENU ) );
-	systemColors_[SYSCOLOR_MENU] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU";
-
-	sysColor = new Color( ::GetSysColor( COLOR_MENUTEXT ) );
-	systemColors_[SYSCOLOR_MENU_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_MENU_TEXT";
-
-	sysColor = new Color( ::GetSysColor( COLOR_WINDOW ) );
-	systemColors_[SYSCOLOR_WINDOW] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW";
-
-	sysColor = new Color( ::GetSysColor( COLOR_WINDOWTEXT ) );
-	systemColors_[SYSCOLOR_WINDOW_TEXT] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_TEXT";
-
-	sysColor = new Color( ::GetSysColor( COLOR_WINDOWFRAME ) );
-	systemColors_[SYSCOLOR_WINDOW_FRAME] = sysColor;
-	systemColorNameMap_[*sysColor] = "SYSCOLOR_WINDOW_FRAME";
-
-}
 
 

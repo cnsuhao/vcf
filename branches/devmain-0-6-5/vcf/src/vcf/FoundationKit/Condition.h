@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_CONDITION_H__
 #define _VCF_CONDITION_H__
-
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
-*/
-
 //Condition.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
@@ -45,57 +20,57 @@ class ConditionPeer;
 
 /**
 \par
-The Condition object is used as a synchronization primitive, like the Mutex, and 
-Semaphore. While the Mutex and Semaphore can cause multiple threads to block, waiting 
+The Condition object is used as a synchronization primitive, like the Mutex, and
+Semaphore. While the Mutex and Semaphore can cause multiple threads to block, waiting
 for the mutex or semaphore to become signaled, only one thread will every wake at
 any given moment. In contrast, a Condition can be used to wake up a series of threads
 all waiting on the condition.
-\par The Condition class follows the same pattern that the Pthreads condition variable 
+\par The Condition class follows the same pattern that the Pthreads condition variable
 uses, or the <a href="http://boost.org/libs/thread/doc/condition.html">
-Boost condition class</a>. In fact, the Win32 implementation is written largely 
-based of off the excellent code in the Boost condition class that was written by 
+Boost condition class</a>. In fact, the Win32 implementation is written largely
+based of off the excellent code in the Boost condition class that was written by
 <a href="http://boost.org/people/william_kempf.htm">William Kempf</a>.
 */
 class FRAMEWORK_API Condition : public Object, public Waitable
-{ 
+{
 public:
 
-	
+
     /**
-	Every condtion must be associated with a mutex 
+	Every condtion must be associated with a mutex
 	*/
 	Condition( Mutex* mutex );
 
-	virtual ~Condition();    
+	virtual ~Condition();
 
     /**
 	Signal one waiting thread that condition is true.
-	*/ 
+	*/
     void signal();
 
-    /* Signal all waiting threads that condition is TRUE */ 
+    /* Signal all waiting threads that condition is TRUE */
     virtual void broadcast();
 
     /* Returns pointer to peer implementation */
-	ConditionPeer* getPeer() { 
-		return peer_; 
+	ConditionPeer* getPeer() {
+		return peer_;
 	}
 
 	/**
-	Wait forever until the condition is signaled. The thread that calls this will block 
-	till the condition is signaled. If the wait fails the method will return 
+	Wait forever until the condition is signaled. The thread that calls this will block
+	till the condition is signaled. If the wait fails the method will return
 	Waitable::wrFail
 	*/
 	virtual Waitable::WaitResult wait();
 
 	/**
-	Wait for a maximum number of milliseconds until the condition is signaled. 
-	The thread that calls this will block till the condition is signaled. If the 
+	Wait for a maximum number of milliseconds until the condition is signaled.
+	The thread that calls this will block till the condition is signaled. If the
 	condition is signaled before the timeout period is ellapsed the function will
 	return Waitable::wrTimeout value.
 	*/
 	virtual Waitable::WaitResult wait( uint32 milliseconds );
-	
+
 	/**
 	Returns the mutex associated with the condition.
 	*/
@@ -110,9 +85,13 @@ protected:
 
 }; //end of namespace VCF
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -168,6 +147,7 @@ protected:
 *headers.
 *
 */
+
 
 #endif // _VCF_CONDITION_H__
 

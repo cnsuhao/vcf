@@ -1,33 +1,11 @@
+//System.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//System.cpp
 
 //#include <varargs.h>
 
@@ -61,8 +39,8 @@ System::System():
 	errorLogInstance_(NULL),
 	locale_(NULL),
 	unicodeEnabled_(false)
-{	
-	systemPeer_ = SystemToolkit::createSystemPeer();	
+{
+	systemPeer_ = SystemToolkit::createSystemPeer();
 
 	if ( NULL == systemPeer_ ) {
 		throw InvalidPeer( MAKE_ERROR_MSG_2("Unable to create a System peer!") );
@@ -86,7 +64,7 @@ unsigned long System::getTickCount()
 	if ( NULL != System::systemInstance->systemPeer_ ) {
 		return System::systemInstance->systemPeer_->getTickCount();
 	}
-	else return 0;	
+	else return 0;
 }
 
 void System::sleep( const uint32& milliseconds )
@@ -100,7 +78,7 @@ void System::setErrorLog( ErrorLog* errorLog )
 }
 
 void System::print( String text, ... )
-{	
+{
 	va_list args;
 	va_start( args, text );
 	int charRequired = 1024;
@@ -110,13 +88,13 @@ void System::print( String text, ... )
 #ifdef VCF_GCC
 	vswprintf( tmpChar, charRequired, text.c_str(), args );
 #else
-	
-	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );	
-	
+
+	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
+
 #endif
-	
-	va_end( args ); 
-	wprintf( tmpChar );	
+
+	va_end( args );
+	wprintf( tmpChar );
 
 	if ( NULL != System::systemInstance ) {
 		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
@@ -124,8 +102,8 @@ void System::print( String text, ... )
 			System::systemInstance->errorLogInstance_->toLog( tmp );
 		}
 	}
-	
-	delete [] tmpChar;	
+
+	delete [] tmpChar;
 }
 
 void System::println(String text, ...)
@@ -139,10 +117,10 @@ void System::println(String text, ...)
 #ifdef VCF_GCC
 	vswprintf( tmpChar, charRequired, text.c_str(), args );
 #else
-	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );	
+	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
 #endif
-	
-	va_end( args ); 
+
+	va_end( args );
 	wprintf( tmpChar );
 	wprintf(L"\n");
 
@@ -152,7 +130,7 @@ void System::println(String text, ...)
 			System::systemInstance->errorLogInstance_->toLog( tmp );
 		}
 	}
-	delete [] tmpChar;	
+	delete [] tmpChar;
 }
 
 void System::errorPrint( BasicException* exception )
@@ -209,9 +187,13 @@ bool System::isUnicodeEnabled()
 	return System::systemInstance->unicodeEnabled_;
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
 *migrating over changes for unicode strings.
 *This contains fixes for the linux port and changes to the Makefiles

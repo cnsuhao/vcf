@@ -1,64 +1,12 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
-*migration towards new directory structure
-*
-*Revision 1.14  2003/05/17 20:37:22  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.13.2.1  2003/03/12 03:12:07  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.13  2003/02/26 04:30:46  ddiego
-*merge of code in the devmain-0-5-9 branch into the current tree.
-*most additions are in the area of the current linux port, but the major
-*addition to this release is the addition of a Condition class (currently
-*still under development) and the change over to using the Delegate class
-*exclusively from the older event handler macros.
-*
-*Revision 1.12.20.1  2003/01/08 00:19:50  marcelloptr
-*mispellings and newlines at the end of all source files
-*
-*Revision 1.12  2002/01/24 01:46:49  ddiego
-*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
-*to facilitate change tracking
-*
+//RenderPaths.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
+
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/FoundationKit/VCFMath.h"
 #include <algorithm>
@@ -73,7 +21,7 @@ using namespace VCF;
 void VectorPath::reversePoints( Point* points, const int32& ptCount )
 {
 	Point tmp_p;
-	
+
 	for (int i = 0; i < (ptCount >> 1); i++) {
 		tmp_p = points[i];
 		points[i] = points[ptCount - (i + 1)];
@@ -92,10 +40,10 @@ void VectorPath::reversePoints( std::vector<Point*>& points, const int32& ptCoun
 		*(points[ptCount - (i + 1)]) = tmp_p;
 		it++;
 		i++;
-	}	
+	}
 }
 
-BezierPath::BezierPath( const PathCodeType& pathcode, const double& x1, const double& y1, 
+BezierPath::BezierPath( const PathCodeType& pathcode, const double& x1, const double& y1,
 		         const double& x2, const double& y2,
 				 const double& x3, const double& y3 )
 {
@@ -114,7 +62,7 @@ void BezierPath::affineTransform( const double matrix[6] )
 }
 
 
-int32 VectorPath::compareCoords( const double& x1, const double& y1, 
+int32 VectorPath::compareCoords( const double& x1, const double& y1,
 		 						 const double& x2, const double& y2 )
 {
 	if (y1 - EPSILON > y2) return 1;
@@ -125,16 +73,16 @@ int32 VectorPath::compareCoords( const double& x1, const double& y1,
 }
 
 VectorPath::VectorPath( const uint32& emptyPtCount )
-{	
+{
 	addEmptyPoints( emptyPtCount );
 }
 
 VectorPath::VectorPath( const double& x, const double& y, const double& radius )
 {
 	int32 i;
-	
-	double theta;	
-	
+
+	double theta;
+
 	for (i = 0; i < CIRCLE_STEPS + 1; i++) {
 		VectorPathPoint* vec = new VectorPathPoint(PCT_MOVETO);
 
@@ -142,14 +90,14 @@ VectorPath::VectorPath( const double& x, const double& y, const double& radius )
 		theta = (i & (CIRCLE_STEPS - 1)) * (M_PI * 2.0 / CIRCLE_STEPS);
 		vec->x_ = x + radius * cos (theta);
 		vec->y_ = y - radius * sin (theta);
-		
+
 		if ( i == CIRCLE_STEPS ){
-			vec->code_ = PCT_END;		
+			vec->code_ = PCT_END;
 		}
 		this->points_.push_back( vec );
     }
-	
-	
+
+
 }
 
 VectorPath::VectorPath( Rect* rect )
@@ -172,8 +120,8 @@ VectorPath::VectorPath( Rect* rect )
 
 VectorPath::VectorPath( SortedVectorPath* svp )
 {
-	
-	int n_segs = svp->getSegCount();	
+
+	int n_segs = svp->getSegCount();
 	int *visited = NULL;
 	int n_new = 0;
 	int n_new_max = 0;
@@ -186,45 +134,45 @@ VectorPath::VectorPath( SortedVectorPath* svp )
 	double last_y = 0.0;
 	int n_points = 0;
 	int pt_num = 0;
-	
-	
+
+
 
 	std::vector<VectorPath::SVPEnd*> ends;
 	ends.resize( n_segs * 2 );
-	
+
 	VectorPath::SVPEnd* svpEnd = NULL;
 
 	for (i = 0; i < n_segs; i++) {
 		int lastpt;
 		SVPSegment* seg = (*svp)[i];
-		
-		Point* svpSegPt = seg->points_[0];		
+
+		Point* svpSegPt = seg->points_[0];
 
 		ends[i * 2] = new VectorPath::SVPEnd( i, 0, svpSegPt->x_, svpSegPt->y_ );
-		
+
 		lastpt = seg->points_.size() - 1;
 		svpSegPt = seg->points_[lastpt];
 		ends[i * 2 + 1] = new VectorPath::SVPEnd( i, 1, svpSegPt->x_, svpSegPt->y_ );
     }
-	
+
 	std::sort( ends.begin(), ends.end(), VectorPath::SVPEnd::CompareEnds() );
 
 	//qsort ( ends, n_segs * 2, sizeof(VectorPath::SVPEnd), VectorPath::SVPEnd::compareEnds );
-	
-	n_new = 0;      
+
+	n_new = 0;
 	n_new_max = 16; //Raph: I suppose we _could_ estimate this from traversing
-					//the svp, so we don't have to reallocate 
-	
+					//the svp, so we don't have to reallocate
+
 	visited = new int[n_segs];//art_new (int, n_segs);
 	memset( visited, 0, n_segs*sizeof(int) );
 	//for (i = 0; i < n_segs; i++)
 	//	visited[i] = 0;
-	
+
 	first = 1;
 	for (i = 0; i < n_segs; i++) {
 		if (!first) {
-			// search for the continuation of the existing subpath 
-			// This could be a binary search (which is why we sorted, above) 
+			// search for the continuation of the existing subpath
+			// This could be a binary search (which is why we sorted, above)
 			for (j = 0; j < n_segs * 2; j++) {
 				if ( (!visited[ends[j]->segNum_]) &&
 					(0 == VectorPath::compareCoords( last_x, last_y,
@@ -239,7 +187,7 @@ VectorPath::VectorPath( SortedVectorPath* svp )
 		}//end of if !first
 
 		if (first) {
-			// start a new subpath 
+			// start a new subpath
 			for (j = 0; j < n_segs * 2; j++){
 				if (!visited[ends[j]->segNum_]) {
 					break;
@@ -253,7 +201,7 @@ VectorPath::VectorPath( SortedVectorPath* svp )
 
 		seg_num = ends[j]->segNum_;
 		SVPSegment* svpSeg = (*svp)[seg_num];
-		n_points = svpSeg->points_.size();		
+		n_points = svpSeg->points_.size();
 
 		for (k = 0; k < n_points; k++) {
 			pt_num = svpSeg->direction_ ? k : n_points - (1 + k);
@@ -264,22 +212,22 @@ VectorPath::VectorPath( SortedVectorPath* svp )
 				}
 			}
 			else {
-				this->addPoint( PCT_LINETO, svpSegPt->x_, svpSegPt->y_ );				
+				this->addPoint( PCT_LINETO, svpSegPt->x_, svpSegPt->y_ );
 				if ( (n_points - 1) == k ){
 					last_x = svpSegPt->x_;
 					last_y = svpSegPt->y_;
 					// to make more robust, check for meeting first_[xy],
-					//set first if so 
+					//set first if so
 				}
 			}
 			first = 0;
 		}
 		visited[seg_num] = 1;
     }
-	
+
 	this->addPoint( PCT_END, 0, 0 );
 	delete [] visited;
-	
+
 	std::vector<VectorPath::SVPEnd*>::iterator it = ends.begin();
 	while ( it != ends.end() ){
 		delete *it;
@@ -337,7 +285,7 @@ Rect* VectorPath::getBounds()
 		double y0 = 0.0;
 		double x1 = 0.0;
 		double y1 = 0.0;
-		
+
 		if (points_[0]->code_ == PCT_END)	{
 			x0 = y0 = x1 = y1 = 0;
 		}
@@ -378,13 +326,13 @@ VectorPath* VectorPath::perturb()
 	double x, y;
 	double x_start, y_start;
 	int open;
-	
+
 	for (i = 0; points_[i]->code_ != PCT_END; i++) {
 		size = i;
 	}
-	
+
 	newPath = new VectorPath();
-	
+
 	x_start = 0;
 	y_start = 0;
 	open = 0;
@@ -406,15 +354,15 @@ VectorPath* VectorPath::perturb()
 		}
 		pt->x_ = x;
 		pt->y_ = y;
-		
+
 		if ( i == (size-1) ){
 			pt->code_ = PCT_END;
 		}
 
 		newPath->addPoint( pt );
     }
-	
-	
+
+
 	return newPath;
 }
 
@@ -424,14 +372,14 @@ VectorPath* VectorPath::affineTransform( const double matrix[6] )
 	int32 size;
 	VectorPath* newPath = new VectorPath();
 	double x, y;
-	
+
 	for (i = 0; points_[i]->code_ != PCT_END; i++) {
 		size = i;
 	}
-	
+
 	newPath = new VectorPath();
-	
-	
+
+
 	for (i = 0; i < size; i++) {
 		VectorPathPoint* pt = new VectorPathPoint();
 		pt->code_ = points_[i]->code_;
@@ -446,14 +394,14 @@ VectorPath* VectorPath::affineTransform( const double matrix[6] )
 
 		newPath->addPoint( pt );
     }
-	
-	
+
+
 	return newPath;
 }
 
 
 
-VectorPathDash::VectorPathDash( VectorPath* vPath, const double& offset, 
+VectorPathDash::VectorPathDash( VectorPath* vPath, const double& offset,
 		            const double* dashArray, const int32& dashArrayCount )
 {
 	path_ = vPath;
@@ -465,7 +413,7 @@ VectorPathDash::VectorPathDash( VectorPath* vPath, const double& offset,
 		}
 	}
 }
-	
+
 VectorPathDash::~VectorPathDash()
 {
 
@@ -489,24 +437,24 @@ int32 VectorPathDash::getMaxSubPath()
 			start = i;
 		}
     }
-	
+
 	if (i - start > maxSubPath){
 		maxSubPath = i - start;
-	}	
-	
+	}
+
 	return maxSubPath;
 }
 
 
 
 VectorPath* VectorPathDash::doDash()
-{	
+{
 	if ( NULL == path_ ){
 		return NULL;
 	}
 
 	int32 maxSubPath = 0;
-	
+
 	std::vector<double> dists;
 
 
@@ -516,20 +464,20 @@ VectorPath* VectorPathDash::doDash()
 	int32 end = 0;
 	int i = 0;
 	double total_dist = 0.0;
-	
+
 	/* state while traversing dasharray - offset is offset of current dash
 	value, toggle is 0 for "off" and 1 for "on", and phase is the distance
 	in, >= 0, < dash->dash[offset]. */
 	int32 offset = 0;
 	int32 toggle = 0;
 	double phase = 0.0;
-	
+
 	/* initial values */
 	int offset_init, toggle_init;
 	double phase_init;
-	
+
 	maxSubPath = this->getMaxSubPath();
-	
+
 	for ( int ii=0;ii<maxSubPath;ii++ ){
 		dists.push_back(0.0);
 	}
@@ -538,7 +486,7 @@ VectorPath* VectorPathDash::doDash()
 	n_result_max = 16;
 
 	VectorPath* result = new VectorPath( n_result_max );//==> art_new (ArtVpath, n_result_max);
-	
+
 	/* determine initial values of dash state */
 	int32 nDashes = this->getDashCount();
 
@@ -553,7 +501,7 @@ VectorPath* VectorPathDash::doDash()
 		if (offset_init == nDashes)
 			offset_init = 0;
     }
-	
+
 	VectorPath& vpath = *path_;
 
 	for (start = 0; vpath[start]->code_ != PCT_END; start = end)
@@ -584,7 +532,7 @@ VectorPath* VectorPathDash::doDash()
 		/* subpath is composed of at least one dash - thus all
 			generated pieces are open */
 			double dist;
-			
+
 			phase = phase_init;
 			offset = offset_init;
 			toggle = toggle_init;
@@ -594,16 +542,16 @@ VectorPath* VectorPathDash::doDash()
 				VectorPathPoint* pt = vpath[i];
 				result->addPoint( PCT_MOVETO_OPEN, pt->x_, pt->y_ );
 			}
-				
+
 			while (i != end - 1) {
 				if (dists[i - start] - dist > this->dashes_[offset] - phase) {
 					/* dash boundary is next */
-					double a;					
+					double a;
 					double x, y;
 
 					VectorPathPoint* pt1 = vpath[i];
 					VectorPathPoint* pt2 = vpath[i + 1];
-					
+
 					dist += this->dashes_[offset] - phase;
 
 					a = dist / dists[i - start];
@@ -611,7 +559,7 @@ VectorPath* VectorPathDash::doDash()
 					x = pt1->x_ + a * (pt2->x_ - pt1->x_);
 					y = pt1->y_ + a * (pt2->y_ - pt1->y_);
 					result->addPoint( toggle ? PCT_LINETO : PCT_MOVETO_OPEN, x, y );
-						
+
 					/* advance to next dash */
 					toggle = !toggle;
 					phase = 0;
@@ -632,9 +580,9 @@ VectorPath* VectorPathDash::doDash()
 			}
 		}
     }
-	
+
 	result->addPoint( PCT_END, 0, 0 );
-	
+
 	return result;
 }
 
@@ -644,20 +592,20 @@ VectorPath* VectorPathDash::doDash()
 */
 
 SVPSegment::SVPSegment( const int32& direction, const int32& numPoints, Point* points, Rect* bbox )
-{	
+{
 	this->direction_ = direction;
-	
+
 	for ( int i=0;i<numPoints;i++){
-		points_.push_back( new Point( points[i] ) );		
-	}	
-	
+		points_.push_back( new Point( points[i] ) );
+	}
+
 	if ( NULL != bbox ) {
 		this->bbox_ = *bbox;
 	}
 	else if ( (NULL != points) && (numPoints > 0) ) {
 		double x_min = 0.0;
 		double x_max = 0.0;
-		
+
 		x_min = x_max = points[0].x_;
 		for (int i = 1; i < numPoints; i++)
 		{
@@ -668,31 +616,31 @@ SVPSegment::SVPSegment( const int32& direction, const int32& numPoints, Point* p
 		}
 		bbox_.left_ = x_min;
 		bbox_.top_ = points[0].y_;
-		
+
 		bbox_.right_ = x_max;
 		bbox_.bottom_ = points[numPoints - 1].y_;
     }
 }
 
 SVPSegment::SVPSegment( const int32& direction, std::vector<Point*>& points, Rect* bbox )
-{	
+{
 	this->direction_ = direction;
 	int numPoints = 0;
 	if ( false == points.empty() ){
 		int numPoints = points.size();
 		for ( int i=0;i<numPoints;i++){
-			this->points_.push_back( new Point( *points[i] ) );		
+			this->points_.push_back( new Point( *points[i] ) );
 		}
 	}
-		
-	
+
+
 	if ( NULL != bbox ) {
 		this->bbox_ = *bbox;
 	}
 	else if ( (numPoints > 0) ) {
 		double x_min = 0.0;
 		double x_max = 0.0;
-		
+
 		x_min = x_max = points[0]->x_;
 		for (int i = 1; i < numPoints; i++)
 		{
@@ -703,7 +651,7 @@ SVPSegment::SVPSegment( const int32& direction, std::vector<Point*>& points, Rec
 		}
 		bbox_.left_ = x_min;
 		bbox_.top_ = points[0]->y_;
-		
+
 		bbox_.right_ = x_max;
 		bbox_.bottom_ = points[numPoints - 1]->y_;
     }
@@ -729,7 +677,7 @@ SVPSegment::~SVPSegment()
 		pt = NULL;
 		it++;
 	}
-	points_.clear();	
+	points_.clear();
 }
 
 int32 SVPSegment::compare( SVPSegment* segment )
@@ -742,7 +690,7 @@ int32 SVPSegment::compareSegments(  SVPSegment* seg1, SVPSegment* seg2  )
 	int32 result = 0;
 
 	if ( (NULL != seg1) && (NULL != seg2) ){
-		
+
 		if (seg1->points_[0]->y_ - EPSILON > seg2->points_[0]->y_) return 1;
 		else if (seg1->points_[0]->y_ + EPSILON < seg2->points_[0]->y_) return -1;
 		else if (seg1->points_[0]->x_ - EPSILON > seg2->points_[0]->x_) return 1;
@@ -757,11 +705,11 @@ int32 SVPSegment::compareSegments(  SVPSegment* seg1, SVPSegment* seg2  )
 }
 
 
-SortedVectorPath::SortedVectorPath( const SVPOperation& operation, 
+SortedVectorPath::SortedVectorPath( const SVPOperation& operation,
 		              SortedVectorPath* svp1, SortedVectorPath* svp2 )
 {
 	if ( (operation != SVPOP_NONE) && (NULL != svp1) && (NULL != svp2) ){
-		switch ( operation ){			
+		switch ( operation ){
 			case SVPOP_MERGE:{
 				this->mergeOf( svp1, svp2 );
 			}
@@ -793,7 +741,7 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 {
 	int n_segs = 0;
 	int n_segs_max = 16;
-	
+
 	int dir = 0;
 	int new_dir = 0;
 	int i = 0;
@@ -804,11 +752,11 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 	double x = 0.0;
 	double y = 0.0;
 	double x_min = 0.0;
-	double x_max = 0.0;		
-	
+	double x_max = 0.0;
+
 	//svp = (ArtSVP *)art_alloc (sizeof(ArtSVP) +
 	//		     (n_segs_max - 1) * sizeof(ArtSVPSeg));
-	
+
 	//this->segments_.resize( n_segs_max - 1, NULL );
 
 	VectorPath::Iterator it = vPath->points_.begin();
@@ -822,7 +770,7 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 					//	(n_segs_max - 1) *
 					//	sizeof(ArtSVPSeg));
 				}
-								
+
 				if (dir < 0)
 					VectorPath::reversePoints( points, n_points );
 
@@ -837,7 +785,7 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 				//the LibArt way
 				if (dir < 0)
 					VectorPath::reversePoints( points, n_points );
-				
+
 				n_segs++;
 				//points = NULL;
 				for( std::vector<Point*>::iterator it = points.begin();it!=points.end();it++){
@@ -846,8 +794,8 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 				points.clear();
 				pointCount = 0;
 			}
-			
-			
+
+
 			n_points = 1;
 			x = pathPoint->x_;
 			y = pathPoint->y_;
@@ -860,15 +808,15 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 			else{
 				points[0]->x_ = x;
 				points[0]->y_ = y;
-			}			
+			}
 			x_min = x;
 			x_max = x;
 			dir = 0;
 		}
-		else {// must be LINETO 	
+		else {// must be LINETO
 			new_dir = ( (pathPoint->y_ > y) ||	((pathPoint->y_ == y) && (pathPoint->x_ > x)) ) ? 1 : -1;
 			if ( (dir) && (dir != new_dir) ) {
-				//new segment 
+				//new segment
 				x = points[n_points - 1]->x_;
 				y = points[n_points - 1]->y_;
 				if ( n_segs == n_segs_max ){
@@ -888,9 +836,9 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 				//reset the points - reverse them again
 				if (dir < 0)
 					VectorPath::reversePoints( points, n_points );
-				
+
 				n_segs++;
-				
+
 				n_points = 1;
 				n_points_max = 4;
 				//points = art_new (ArtPoint, n_points_max);
@@ -899,7 +847,7 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 				x_min = x;
 				x_max = x;
 			}
-						
+
 			x = pathPoint->x_;
 			y = pathPoint->y_;
 			if ( n_points >= pointCount ){
@@ -910,17 +858,17 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 				points[n_points]->x_ = x;
 				points[n_points]->y_ = y;
 			}
-				
+
 			if (x < x_min) x_min = x;
 			else if (x > x_max) x_max = x;
 			n_points++;
-			
-			dir = new_dir;			
+
+			dir = new_dir;
 		}
 		i++;
-		it++; //increment iterator		
+		it++; //increment iterator
 	}//end of while
-	
+
 	if ( !points.empty() )  {
 		if ( n_points >= 2 ) {
 			if ( n_segs == n_segs_max ) {
@@ -943,14 +891,14 @@ SortedVectorPath::SortedVectorPath( VectorPath* vPath )
 			delete *it;
 		}
 		points.clear();
-    }	
+    }
 
 	//svp->n_segs = n_segs;
 	SVPSegment** svpSegs = (SVPSegment**)segments_.begin();
-	
+
 	std::sort( segments_.begin(), segments_.end(), SVPSegment::CompareSegments() );
 
-	//qsort ( svpSegs, n_segs, sizeof(SVPSegment*), SVPSegment::compareSegments );	
+	//qsort ( svpSegs, n_segs, sizeof(SVPSegment*), SVPSegment::compareSegments );
 }
 
 SortedVectorPath::~SortedVectorPath()
@@ -967,11 +915,11 @@ SortedVectorPath::~SortedVectorPath()
 
 int SortedVectorPath::addSegment( const int32& direction, const int32& numPoints, Point* points, Rect* bbox )
 {
-	
+
 	SVPSegment* seg = new SVPSegment( direction, numPoints, points, bbox  );
 
 	this->segments_.push_back( seg );
-	
+
 	return segments_.size();
 }
 
@@ -980,15 +928,15 @@ int SortedVectorPath::addSegment( const int32& direction, std::vector<Point*>& p
 	SVPSegment* seg = new SVPSegment( direction, points, bbox  );
 
 	this->segments_.push_back( seg );
-	
+
 	return segments_.size();
 }
 
 void SortedVectorPath::mergeOf( SortedVectorPath* svp1, SortedVectorPath* svp2 )
 {
-	int ix1 = 0; 
+	int ix1 = 0;
 	int ix2 = 0;
-	
+
 	int svp1Count = svp1->segments_.size();
 	int svp2Count = svp2->segments_.size();
 	int count = svp1Count + svp2Count;
@@ -996,21 +944,21 @@ void SortedVectorPath::mergeOf( SortedVectorPath* svp1, SortedVectorPath* svp2 )
 	for (int ix = 0; ix < count; ix++) {
 		if ( (ix1 < svp1Count) &&
 			((ix2 == svp2Count) || (svp1->segments_[ix1]->compare( svp2->segments_[ix2] ) < 1)) ) {
-			
+
 			this->segments_.push_back( new SVPSegment( (svp1->segments_[ix1++]) ) );
 		}
 		else {
 			this->segments_.push_back( new SVPSegment( (svp2->segments_[ix2++]) ) );
 		}
-    }	
+    }
 }
 
 void SortedVectorPath::mergePerturbed( SortedVectorPath* svp1, SortedVectorPath* svp2 )
 {
 	VectorPath vpath1( svp1 ); //==>>vpath1 = art_vpath_frosvp_ (svp1);
 
-	VectorPath* vpath1_p = vpath1.perturb();//==>>vpath1_p = art_vpath_perturb (vpath1);	
-	
+	VectorPath* vpath1_p = vpath1.perturb();//==>>vpath1_p = art_vpath_perturb (vpath1);
+
 	SortedVectorPath svp1_p(vpath1_p);
 	delete vpath1_p;
 	vpath1_p = NULL;
@@ -1022,10 +970,10 @@ void SortedVectorPath::mergePerturbed( SortedVectorPath* svp1, SortedVectorPath*
 	delete vpath2_p;
 	vpath2_p = NULL;
 
-	this->mergeOf( &svp1_p, &svp2_p );	
+	this->mergeOf( &svp1_p, &svp2_p );
 }
 
-void SortedVectorPath::intersectNeighbors( int i, int *active_segs, int *n_ips, int *n_ips_max, 
+void SortedVectorPath::intersectNeighbors( int i, int *active_segs, int *n_ips, int *n_ips_max,
 											std::vector<Point*>& ips, int *cursor )
 {
 	/*
@@ -1036,23 +984,23 @@ void SortedVectorPath::intersectNeighbors( int i, int *active_segs, int *n_ips, 
 	int asi01 = 0;
 	int asi23 = 0;
 	Point ip;
-	
+
 	asi01 = active_segs[i - 1];
-	
+
 	z0 = ips[asi01][0];
 	if (n_ips[asi01] == 1)
 		z1 = vp->segs[asi01].points[cursor[asi01] + 1];
 	else
 		z1 = ips[asi01][1];
-	
+
 	asi23 = active_segs[i];
-	
+
 	z2 = ips[asi23][0];
 	if (n_ips[asi23] == 1)
 		z3 = vp->segs[asi23].points[cursor[asi23] + 1];
 	else
 		z3 = ips[asi23][1];
-	
+
 	if (intersect_lines (z0, z1, z2, z3, &ip))
     {
 #ifdef VERBOSE
@@ -1071,37 +1019,37 @@ int SortedVectorPath::XOrder2 ( const Point& z0, const Point& z1, const Point& z
 	double c23 = 0.0;
 	double d0 = 0.0;
 	double d1 = 0.0;
-	
+
 	a23 = z2.y_ - z3.y_;
 	b23 = z3.x_ - z2.x_;
 	c23 = -(z2.x_ * a23 + z2.y_ * b23);
-	
+
 	if (a23 > 0)
     {
 		a23 = -a23;
 		b23 = -b23;
 		c23 = -c23;
     }
-	
+
 	d0 = a23 * z0.x_ + b23 * z0.y_ + c23;
-	
+
 	if (d0 > EPSILON)
 		return -1;
 	else if (d0 < -EPSILON)
 		return 1;
-	
+
 	d1 = a23 * z1.x_ + b23 * z1.y_ + c23;
 	if (d1 > EPSILON)
 		return -1;
 	else if (d1 < -EPSILON)
 		return 1;
-	
+
 	if (z0.x_ <= z2.x_ && z1.x_ <= z2.x_ && z0.x_ <= z3.x_ && z1.x_ <= z3.x_)
 		return -1;
 	if (z0.x_ >= z2.x_ && z1.x_ >= z2.x_ && z0.x_ >= z3.x_ && z1.x_ >= z3.x_)
 		return 1;
-	
-	
+
+
 	return 0;
 }
 
@@ -1120,35 +1068,35 @@ SortedVectorPath* SortedVectorPath::uncross()
 	int asi = 0;
 	int i = 0;
 	int j = 0;
-	 //new data structures 
+	 //new data structures
 	// intersection points; invariant: *ips[i] is only allocated if
-	//i is active 
+	//i is active
 	int* n_ips = NULL;
 	int* n_ips_max = NULL;
 
 	std::vector<Point*> ips;
 
-	// new sorted vector path 
+	// new sorted vector path
 	int n_segs_max, seg_num;
 
 	SortedVectorPath* new_vp = NULL;
-	
+
 	int *n_points_max;
 	// mapping from argument to new segment numbers - again, only valid
-	//if active 
+	//if active
 	int *seg_map;
 	double y_curs;
 	ArtPoint p_curs;
 	int first_share;
 	double share_x;
 	ArtPoint *pts;
-	
+
 	n_segs_max = 16;
-	
+
 	//new_vp = (ArtSVP *)art_alloc (sizeof(ArtSVP) +
 	//	(n_segs_max - 1) * sizeof(ArtSVPSeg));
 	//new_vp->n_segs = 0;
-	
+
 	new_vp = new SortedVectorPath();
 
 	//if we are empty then just return a new empty SVP !
@@ -1161,7 +1109,7 @@ SortedVectorPath* SortedVectorPath::uncross()
 	active_segs = new int[n_segs];
 
 	cursor = new int[n_segs];
-	
+
 	seg_map = new int[n_segs];
 
 	n_ips = new int[n_segs];
@@ -1169,20 +1117,20 @@ SortedVectorPath* SortedVectorPath::uncross()
 	n_ips_max = new int[n_segs];
 
 	//ips = art_new (ArtPoint *, vp->n_segs);
-	
+
 	n_points_max = new int[n_segs_max];
-	
+
 	n_active_segs = 0;
 	seg_idx = 0;
 	y = this->segments_[0]->points_[0]->y_;
 
 	while ( (seg_idx < n_segs) || (n_active_segs > 0) ) {
 
-		
+
 		// maybe move deletions to end of loop (to avoid so much special
-		//casing on the end of a segment)? 
-		
-		// delete segments ending at y from active list 
+		//casing on the end of a segment)?
+
+		// delete segments ending at y from active list
 
 		for (i = 0; i < n_active_segs; i++)	{
 			asi = active_segs[i];
@@ -1209,18 +1157,18 @@ SortedVectorPath* SortedVectorPath::uncross()
 				}
 				while ( (segNumPoints - 1 == cursor[asi]) &&
 					    (segments_[asi]->points_[cursor[asi]]->y_ == y) );
-				
-				// test intersection of neighbors 
+
+				// test intersection of neighbors
 				if (i > 0 && i < n_active_segs)
 					intersectNeighbors (i, active_segs,
 					n_ips, n_ips_max, ips,
 					cursor );
-				
+
 				i--;
-			}	      
+			}
 		}
-		
-		// insert new segments into the active list 
+
+		// insert new segments into the active list
 		while ( (seg_idx < n_segs) && (y == segments_[seg_idx]->points_[0]->y_)) {
 #ifdef VERBOSE
 			printf ("inserting %d\n", seg_idx);
@@ -1234,14 +1182,14 @@ SortedVectorPath* SortedVectorPath::uncross()
 												 *(segments_[asi]->points_[cursor[asi] + 1]) ) == -1 )
 					break;
 			}
-			
-			// Create and initialize the intersection points data structure 
+
+			// Create and initialize the intersection points data structure
 			n_ips[seg_idx] = 1;
 			n_ips_max[seg_idx] = 2;
 			ips[seg_idx] = art_new (ArtPoint, n_ips_max[seg_idx]);
 			ips[seg_idx][0] = vp->segs[seg_idx].points[0];
-			
-			// Start a new segment in the new vector path 
+
+			// Start a new segment in the new vector path
 			pts = art_new (ArtPoint, 16);
 			pts[0] = vp->segs[seg_idx].points[0];
 			seg_num = art_svp_add_segment (&new_vp, &n_segs_max,
@@ -1251,7 +1199,7 @@ SortedVectorPath* SortedVectorPath::uncross()
 				NULL);
 			n_points_max[seg_num] = 16;
 			seg_map[seg_idx] = seg_num;
-			
+
 			tmp1 = seg_idx;
 			for (j = i; j < n_active_segs; j++)
 			{
@@ -1261,22 +1209,22 @@ SortedVectorPath* SortedVectorPath::uncross()
 			}
 			active_segs[n_active_segs] = tmp1;
 			n_active_segs++;
-			
+
 			if (i > 0)
 				intersect_neighbors (i, active_segs,
 				n_ips, n_ips_max, ips,
 				cursor, vp);
-			
+
 			if (i + 1 < n_active_segs)
 				intersect_neighbors (i + 1, active_segs,
 				n_ips, n_ips_max, ips,
 				cursor, vp);
-			
+
 			seg_idx++;
 		}
-		
+
 		// all active segs cross the y scanline (considering segs to be
-		//closed on top and open on bottom) 
+		//closed on top and open on bottom)
 #ifdef VERBOSE
 		for (i = 0; i < n_active_segs; i++)
 		{
@@ -1292,15 +1240,15 @@ SortedVectorPath* SortedVectorPath::uncross()
 				vp->segs[asi].dir ? "v" : "^");
 		}
 #endif
-		
-		// advance y to the next event 
+
+		// advance y to the next event
 		//Note: this is quadratic. We'd probably get decent constant
-		//factor speed improvement by caching the y_curs values. 
+		//factor speed improvement by caching the y_curs values.
 		if (n_active_segs == 0)
 		{
 			if (seg_idx < vp->n_segs)
 				y = vp->segs[seg_idx].points[0].y;
-			// else we're done 
+			// else we're done
 		}
 		else
 		{
@@ -1322,11 +1270,11 @@ SortedVectorPath* SortedVectorPath::uncross()
 			if (seg_idx < vp->n_segs && y > vp->segs[seg_idx].points[0].y)
 				y = vp->segs[seg_idx].points[0].y;
 		}
-		
+
 		first_share = -1;
 		share_x = 0; // to avoid gcc warning, although share_x is never
-		      //used when first_share is -1 
-		// advance cursors to reach new y 
+		      //used when first_share is -1
+		// advance cursors to reach new y
 		for (i = 0; i < n_active_segs; i++)
 		{
 			asi = active_segs[i];
@@ -1338,41 +1286,41 @@ SortedVectorPath* SortedVectorPath::uncross()
 			{
 				svp_add_point (new_vp, n_points_max,
 					p_curs, seg_map, active_segs, n_active_segs, i);
-				
+
 				n_ips[asi]--;
 				for (j = 0; j < n_ips[asi]; j++)
 					ips[asi][j] = ips[asi][j + 1];
-				
+
 				if (n_ips[asi] == 0)
 				{
 					ips[asi][0] = p_curs;
 					n_ips[asi] = 1;
 					cursor[asi]++;
 				}
-				
+
 				if (first_share < 0 || p_curs.x != share_x)
 				{
 				// this is where crossings are detected, and if
-				//	found, the active segments switched around. 
-					
+				//	found, the active segments switched around.
+
 					fix_crossing (first_share, i,
 						active_segs, n_active_segs,
 						cursor, ips, n_ips, n_ips_max, vp, seg_map,
 						&new_vp,
 						&n_segs_max, &n_points_max);
-					
+
 					first_share = i;
 					share_x = p_curs.x;
 				}
-				
+
 				if (cursor[asi] < vp->segs[asi].n_points - 1)
 				{
-					
+
 					if (i > 0)
 						intersect_neighbors (i, active_segs,
 						n_ips, n_ips_max, ips,
 						cursor, vp);
-					
+
 					if (i + 1 < n_active_segs)
 						intersect_neighbors (i + 1, active_segs,
 						n_ips, n_ips_max, ips,
@@ -1381,7 +1329,7 @@ SortedVectorPath* SortedVectorPath::uncross()
 			}
 			else
 			{
-				// not on a cursor point 
+				// not on a cursor point
 				fix_crossing (first_share, i,
 					active_segs, n_active_segs,
 					cursor, ips, n_ips, n_ips_max, vp, seg_map,
@@ -1390,21 +1338,21 @@ SortedVectorPath* SortedVectorPath::uncross()
 				first_share = -1;
 			}
 		}
-		
-		// fix crossing on last shared group 
+
+		// fix crossing on last shared group
 		fix_crossing (first_share, i,
 			active_segs, n_active_segs,
 			cursor, ips, n_ips, n_ips_max, vp, seg_map,
 			&new_vp,
 			&n_segs_max, &n_points_max);
-		
+
 #ifdef VERBOSE
 		printf ("\n");
 #endif
     }
-	
+
 	// not necessary to sort, new segments only get added at y, which
-	//increases monotonically 
+	//increases monotonically
 #if 0
 	qsort (&new_vp->segs, new_vp->n_segs, sizeof (svp_seg), svp_seg_compare);
 	{
@@ -1424,7 +1372,7 @@ SortedVectorPath* SortedVectorPath::uncross()
 		}
 	}
 #endif
-	
+
 	art_free (n_points_max);
 	art_free (seg_map);
 	art_free (n_ips_max);
@@ -1432,7 +1380,7 @@ SortedVectorPath* SortedVectorPath::uncross()
 	art_free (ips);
 	art_free (cursor);
 	art_free (active_segs);
-	
+
 	return new_vp;
 	*/
 	return NULL;
@@ -1440,7 +1388,7 @@ SortedVectorPath* SortedVectorPath::uncross()
 
 void SortedVectorPath::uncross( SortedVectorPath* svp )
 {
-	
+
 }
 
 void SortedVectorPath::unionOf( SortedVectorPath* svp1, SortedVectorPath* svp2 )
@@ -1449,12 +1397,12 @@ void SortedVectorPath::unionOf( SortedVectorPath* svp1, SortedVectorPath* svp2 )
 	tmpSvp1.mergePerturbed( svp1, svp2 );
 	/*
 	ArtSVP *svp3, *svp4, *svp_new;
-	
+
 	this->mergePerturbed( svp1, svp2 );
 	//svp3 = art_svp_merge_perturbed (svp1, svp2);
 	svp4 = art_svp_uncross (svp3);
 	art_svp_free (svp3);
-	
+
 	svp_new = art_svp_rewind_uncrossed (svp4, ART_WIND_RULE_POSITIVE);
 
 	art_svp_free (svp4);
@@ -1476,5 +1424,43 @@ void SortedVectorPath::subtractionOf( SortedVectorPath* svp1, SortedVectorPath* 
 {
 
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
+*migration towards new directory structure
+*
+*Revision 1.14  2003/05/17 20:37:22  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.13.2.1  2003/03/12 03:12:07  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.13  2003/02/26 04:30:46  ddiego
+*merge of code in the devmain-0-5-9 branch into the current tree.
+*most additions are in the area of the current linux port, but the major
+*addition to this release is the addition of a Condition class (currently
+*still under development) and the change over to using the Delegate class
+*exclusively from the older event handler macros.
+*
+*Revision 1.12.20.1  2003/01/08 00:19:50  marcelloptr
+*mispellings and newlines at the end of all source files
+*
+*Revision 1.12  2002/01/24 01:46:49  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
 
 

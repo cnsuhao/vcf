@@ -1,6 +1,45 @@
+#ifndef _VCF_DISTRIBUTEDEXCEPTION_H__
+#define _VCF_DISTRIBUTEDEXCEPTION_H__
+//DistributedException.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+namespace VCFRemote  {
+
+/**
+*Class DistributedException documentation
+*/
+class REMOTEKIT_API DistributedException : public VCF::BasicException {
+public:
+	DistributedException();
+
+	virtual ~DistributedException();
+
+protected:
+
+private:
+};
+
+
+}; //end of namespace VCFRemote
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:45:50  ddiego
 *migration towards new directory structure
 *
@@ -19,43 +58,6 @@
 *
 */
 
-//DistributedException.h
-
-/**
-This program is free software; you can redistribute it and/or
-modify it as you choose. In fact, you can do anything you would like
-with it, so long as credit is given if used in commercial applications.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-NB: This software will not save the world. 
-*/
-
-#ifndef _VCF_DISTRIBUTEDEXCEPTION_H__
-#define _VCF_DISTRIBUTEDEXCEPTION_H__
-
-
-
-
-namespace VCFRemote  {
-
-/**
-*Class DistributedException documentation
-*/
-class REMOTEKIT_API DistributedException : public VCF::BasicException { 
-public:
-	DistributedException();
-
-	virtual ~DistributedException();
-
-protected:
-
-private:
-};
-
-
-}; //end of namespace VCFRemote
 
 #endif // _VCF_DISTRIBUTEDEXCEPTION_H__
 

@@ -1,6 +1,38 @@
+//DistributedException.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+//DistributedException.h
+#include "vcf/RemoteObjectKit/RemoteObjectKit.h"
+
+using namespace VCF;
+
+using namespace VCFRemote;
+
+
+DistributedException::DistributedException():
+	BasicException("")
+{
+
+}
+
+DistributedException::~DistributedException()
+{
+
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:45:50  ddiego
 *migration towards new directory structure
 *
@@ -22,34 +54,5 @@
 *to facilitate change tracking
 *
 */
-
-//DistributedException.h
-/**
-This program is free software; you can redistribute it and/or
-modify it as you choose. In fact, you can do anything you would like
-with it, so long as credit is given if used in commercial applications.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-NB: This software will not save the world. 
-*/
-#include "vcf/RemoteObjectKit/RemoteObjectKit.h"
-
-using namespace VCF;
-
-using namespace VCFRemote;
-
-
-DistributedException::DistributedException():
-	BasicException("")
-{
-
-}
-
-DistributedException::~DistributedException()
-{
-
-}
 
 

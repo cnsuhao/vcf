@@ -1,6 +1,129 @@
+//MemoryStream.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/FoundationKit/FoundationKit.h"
+using namespace VCF;
+
+
+
+MemoryStream::MemoryStream()
+{
+	this->init();
+}
+
+MemoryStream::MemoryStream( OutputStream* outStream )
+{
+	if ( NULL != outStream ){
+		this->init();
+		this->outputStream_ = outStream;
+	}
+	//else throw exception ?
+}
+
+MemoryStream::MemoryStream( InputStream* inStream )
+{
+	if ( NULL != inStream ){
+		this->init();
+		this->inputStream_ = inStream;
+	}
+}
+
+MemoryStream::~MemoryStream()
+{
+
+}
+
+void MemoryStream::init()
+{
+	this->inputStream_ = NULL;
+	this->outputStream_ = NULL;
+	this->size_ = 0;
+	currentSeekPos_ = 0;
+}
+
+void MemoryStream::seek(const unsigned long& offset, const SeekType& offsetFrom)
+{
+	switch ( offsetFrom ) {
+		case stSeekFromStart: {
+			stream_.setSeekPos( offset );
+		}
+		break;
+
+		case stSeekFromEnd: {
+			stream_.setSeekPos( stream_.getSize() - offset );
+		}
+		break;
+
+		case stSeekFromRelative: {
+			stream_.setSeekPos( stream_.getSeekPos() + offset );
+		}
+		break;
+	}
+}
+
+unsigned long MemoryStream::getSize()
+{
+	return size_;
+}
+
+void MemoryStream::write( Persistable* persistableObject )
+{
+	if ( NULL != this->outputStream_ ){
+		outputStream_->write( persistableObject );
+	}
+	else {
+		persistableObject->saveToStream( this );
+	}
+}
+
+void MemoryStream::write( const char* bytesToWrite, unsigned long sizeOfBytes )
+{
+	if ( NULL != this->outputStream_ ){
+		outputStream_->write( bytesToWrite, sizeOfBytes );
+	}
+	else {
+		this->stream_.write( bytesToWrite, sizeOfBytes );
+	}
+	size_ += sizeOfBytes;
+
+	currentSeekPos_ += sizeOfBytes;
+}
+
+void MemoryStream::read( char* bytesToRead, unsigned long sizeOfBytes )
+{
+	if ( NULL != this->inputStream_ ){
+		inputStream_->read( bytesToRead, sizeOfBytes );
+	}
+	else {
+		this->stream_.read( bytesToRead, sizeOfBytes );// currentSeekPos_ );
+	}
+	currentSeekPos_ += sizeOfBytes;
+}
+
+ulong32 MemoryStream::getCurrentSeekPos()
+{
+	if ( NULL != inputStream_ ) {
+		return inputStream_->getCurrentSeekPos();
+	}
+	else if ( NULL != outputStream_ ) {
+		return outputStream_->getCurrentSeekPos();
+	}
+	return currentSeekPos_;
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -56,144 +179,5 @@
 *to facilitate change tracking
 *
 */
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-//MemoryStream.cpp
-#include "vcf/FoundationKit/FoundationKit.h"
-using namespace VCF;
-
-
-
-MemoryStream::MemoryStream()
-{
-	this->init();	
-}
-
-MemoryStream::MemoryStream( OutputStream* outStream )
-{
-	if ( NULL != outStream ){
-		this->init();
-		this->outputStream_ = outStream;
-	}
-	//else throw exception ?
-}
-
-MemoryStream::MemoryStream( InputStream* inStream )
-{
-	if ( NULL != inStream ){
-		this->init();
-		this->inputStream_ = inStream;
-	}
-}
-
-MemoryStream::~MemoryStream()
-{
-	
-}
-
-void MemoryStream::init()
-{
-	this->inputStream_ = NULL;
-	this->outputStream_ = NULL;
-	this->size_ = 0;
-	currentSeekPos_ = 0;
-}
-
-void MemoryStream::seek(const unsigned long& offset, const SeekType& offsetFrom)
-{
-	switch ( offsetFrom ) {
-		case stSeekFromStart: {
-			stream_.setSeekPos( offset );
-		}
-		break;
-
-		case stSeekFromEnd: {			
-			stream_.setSeekPos( stream_.getSize() - offset );
-		}
-		break;
-
-		case stSeekFromRelative: {			
-			stream_.setSeekPos( stream_.getSeekPos() + offset );
-		}
-		break;
-	}
-}
-
-unsigned long MemoryStream::getSize()
-{		
-	return size_;
-}
-
-void MemoryStream::write( Persistable* persistableObject )
-{
-	if ( NULL != this->outputStream_ ){
-		outputStream_->write( persistableObject );
-	}
-	else {
-		persistableObject->saveToStream( this );		
-	}
-}
-
-void MemoryStream::write( const char* bytesToWrite, unsigned long sizeOfBytes )
-{	
-	if ( NULL != this->outputStream_ ){
-		outputStream_->write( bytesToWrite, sizeOfBytes );
-	}
-	else {
-		this->stream_.write( bytesToWrite, sizeOfBytes );
-	}
-	size_ += sizeOfBytes;
-
-	currentSeekPos_ += sizeOfBytes;
-}
-
-void MemoryStream::read( char* bytesToRead, unsigned long sizeOfBytes )
-{
-	if ( NULL != this->inputStream_ ){
-		inputStream_->read( bytesToRead, sizeOfBytes );
-	}
-	else {
-		this->stream_.read( bytesToRead, sizeOfBytes );// currentSeekPos_ );
-	}
-	currentSeekPos_ += sizeOfBytes;
-}
-
-ulong32 MemoryStream::getCurrentSeekPos()
-{
-	if ( NULL != inputStream_ ) {
-		return inputStream_->getCurrentSeekPos();
-	}
-	else if ( NULL != outputStream_ ) {
-		return outputStream_->getCurrentSeekPos();
-	}
-	return currentSeekPos_;
-}
 
 

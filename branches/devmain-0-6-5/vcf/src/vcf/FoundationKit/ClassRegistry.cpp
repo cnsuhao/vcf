@@ -1,33 +1,12 @@
+//ClassRegistry.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// ClassRegistry.cpp
+
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/VCFRTTIImpl.h"
 
@@ -55,7 +34,7 @@ ClassRegistry::ClassRegistry()
 	interfaceContainer_.initContainer( interfaceMap_ );
 
 #ifdef VCF_RTTI
-	//register "Object" as default class	
+	//register "Object" as default class
 	TypedClass<Object>* objClass = TypedClass<Object>::create("VCF::Object", OBJECT_CLASSID, "");
 
 		//new TypedClass<Object>( "VCF::Object", OBJECT_CLASSID, "" );
@@ -64,7 +43,7 @@ ClassRegistry::ClassRegistry()
 	classIDMap_[OBJECT_CLASSID] = objClass;
 #endif
 
-	//objClass->init();	
+	//objClass->init();
 }
 
 ClassRegistry::~ClassRegistry()
@@ -102,9 +81,9 @@ void ClassRegistry::removeClass( const String& className )
 	if ( !className.empty() ) {
 		String id ;
 
-		std::map<String,Class*>::iterator found = 
+		std::map<String,Class*>::iterator found =
 			registryInstance_->classMap_.find( className );
-		
+
 		if ( found != registryInstance_->classMap_.end() ){
 			Class* clazz = found->second;
 			id = clazz->getID();
@@ -117,7 +96,7 @@ void ClassRegistry::removeClass( const String& className )
 			}
 		}
 	}
-	
+
 }
 
 void ClassRegistry::removeClassByID( const String& classID )
@@ -129,9 +108,9 @@ void ClassRegistry::removeClassByID( const String& classID )
 	if ( !classID.empty() ) {
 		String name ;
 
-		std::map<String,Class*>::iterator found = 
+		std::map<String,Class*>::iterator found =
 			registryInstance_->classIDMap_.find( classID );
-		
+
 		if ( found != registryInstance_->classIDMap_.end() ){
 			Class* clazz = found->second;
 			name = clazz->getClassName();
@@ -155,9 +134,9 @@ void ClassRegistry::removeInterface( const String& interfaceName )
 	if ( !interfaceName.empty() ) {
 		String id ;
 
-		std::map<String,InterfaceClass*>::iterator found = 
+		std::map<String,InterfaceClass*>::iterator found =
 			registryInstance_->interfaceMap_.find( interfaceName );
-		
+
 		if ( found != registryInstance_->interfaceMap_.end() ){
 			InterfaceClass* clazz = found->second;
 			id = clazz->getID();
@@ -169,7 +148,7 @@ void ClassRegistry::removeInterface( const String& interfaceName )
 				registryInstance_->interfaceIDMap_.erase( found );
 			}
 
-			std::map<String,ImplementedInterfaceClass*>::iterator found2 = 
+			std::map<String,ImplementedInterfaceClass*>::iterator found2 =
 				registryInstance_->implementedInterfacesIDMap_.find( id );
 
 			if ( found2 != registryInstance_->implementedInterfacesIDMap_.end() ) {
@@ -188,9 +167,9 @@ void ClassRegistry::removeInterfaceByID( const String& interfaceID )
 	if ( !interfaceID.empty() ) {
 		String name ;
 
-		std::map<String,InterfaceClass*>::iterator found = 
+		std::map<String,InterfaceClass*>::iterator found =
 			registryInstance_->interfaceIDMap_.find( interfaceID );
-		
+
 		if ( found != registryInstance_->interfaceIDMap_.end() ){
 			InterfaceClass* clazz = found->second;
 			name = clazz->getInterfaceName();
@@ -202,7 +181,7 @@ void ClassRegistry::removeInterfaceByID( const String& interfaceID )
 				registryInstance_->interfaceMap_.erase( found );
 			}
 
-			std::map<String,ImplementedInterfaceClass*>::iterator found2 = 
+			std::map<String,ImplementedInterfaceClass*>::iterator found2 =
 				registryInstance_->implementedInterfacesIDMap_.find( interfaceID );
 
 			if ( found2 != registryInstance_->implementedInterfacesIDMap_.end() ) {
@@ -215,7 +194,7 @@ void ClassRegistry::removeInterfaceByID( const String& interfaceID )
 Class* ClassRegistry::getClass( const String& className )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getClass( className );
 }
@@ -223,7 +202,7 @@ Class* ClassRegistry::getClass( const String& className )
 Class* ClassRegistry::getClassFromClassID( const String& classID )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getClassFromClassID( classID );
 }
@@ -231,7 +210,7 @@ Class* ClassRegistry::getClassFromClassID( const String& classID )
 Class* ClassRegistry::getClass( Object* object )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getClass( object );
 }
@@ -239,7 +218,7 @@ Class* ClassRegistry::getClass( Object* object )
 Object* ClassRegistry::createNewInstance( const String& className )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_createNewInstance( className );
 }
@@ -247,7 +226,7 @@ Object* ClassRegistry::createNewInstance( const String& className )
 Object* ClassRegistry::createNewInstanceFromClassID( const String& classID )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_createNewInstanceFromClassID( classID );
 }
@@ -255,7 +234,7 @@ Object* ClassRegistry::createNewInstanceFromClassID( const String& classID )
 void* ClassRegistry::createNewInterfaceInstanceFromInterfaceName( const String& interfaceName, const String& implementerClassName )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_createNewInterfaceInstanceFromInterfaceName( interfaceName, implementerClassName );
 }
@@ -263,7 +242,7 @@ void* ClassRegistry::createNewInterfaceInstanceFromInterfaceName( const String& 
 void* ClassRegistry::createNewInterfaceInstanceFromInterfaceID( const String& interfaceID, const String& implementerClassID )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_createNewInterfaceInstanceFromInterfaceID( interfaceID, implementerClassID );
 }
@@ -271,7 +250,7 @@ void* ClassRegistry::createNewInterfaceInstanceFromInterfaceID( const String& in
 void ClassRegistry::addClass( const String& className, Class* classToRegister )
 {
 #ifndef VCF_RTTI
-	return ;	
+	return ;
 #endif
 	ClassRegistry::getClassRegistry()->internal_addClass( className, classToRegister );
 }
@@ -279,23 +258,23 @@ void ClassRegistry::addClass( const String& className, Class* classToRegister )
 void ClassRegistry::addInterface( const String& interfaceName, InterfaceClass* interfaceToRegister )
 {
 #ifndef VCF_RTTI
-	return ;	
+	return ;
 #endif
 	ClassRegistry::getClassRegistry()->internal_addInterface( interfaceName, interfaceToRegister );
 }
 
-Enumerator<Class*>* ClassRegistry::getClasses() 
+Enumerator<Class*>* ClassRegistry::getClasses()
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getClasses();
 }
 
-Enumerator<InterfaceClass*>* ClassRegistry::getInterfaces() 
+Enumerator<InterfaceClass*>* ClassRegistry::getInterfaces()
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getInterfaces();
 }
@@ -303,15 +282,15 @@ Enumerator<InterfaceClass*>* ClassRegistry::getInterfaces()
 ImplementedInterfaceClass* ClassRegistry::getImplementedInterface( const String& implementingClassName, const String& interfaceID )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getImplementedInterface( implementingClassName, interfaceID );
 }
 
-InterfaceClass* ClassRegistry::getInterface( const String& interfaceName ) 
+InterfaceClass* ClassRegistry::getInterface( const String& interfaceName )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getInterface( interfaceName );
 }
@@ -319,7 +298,7 @@ InterfaceClass* ClassRegistry::getInterface( const String& interfaceName )
 InterfaceClass* ClassRegistry::getInterfaceFromInterfaceID( const String& interfaceID )
 {
 #ifndef VCF_RTTI
-	return NULL;	
+	return NULL;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_getInterfaceFromInterfaceID( interfaceID );
 }
@@ -327,7 +306,7 @@ InterfaceClass* ClassRegistry::getInterfaceFromInterfaceID( const String& interf
 void ClassRegistry::addImplementedInterface( ImplementedInterfaceClass* interfaceToRegister, const String& implementerClassID )
 {
 #ifndef VCF_RTTI
-	return;	
+	return;
 #endif
 	ClassRegistry::getClassRegistry()->internal_addImplementedInterface( interfaceToRegister,implementerClassID );
 }
@@ -335,7 +314,7 @@ void ClassRegistry::addImplementedInterface( ImplementedInterfaceClass* interfac
 bool ClassRegistry::registerMethod( Method* method, const String& className, const bool& isInterfaceMethod )
 {
 #ifndef VCF_RTTI
-	return false;	
+	return false;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_registerMethod( method, className, isInterfaceMethod );
 }
@@ -343,7 +322,7 @@ bool ClassRegistry::registerMethod( Method* method, const String& className, con
 bool ClassRegistry::registerMethodByUUID( Method* method, const String& UUID, const bool& isInterfaceMethod )
 {
  #ifndef VCF_RTTI
-	return false;	
+	return false;
 #endif
 	return ClassRegistry::getClassRegistry()->internal_registerMethodByUUID( method, UUID, isInterfaceMethod );
 }
@@ -351,7 +330,7 @@ bool ClassRegistry::registerMethodByUUID( Method* method, const String& UUID, co
 void ClassRegistry::dump()
 {
 #ifndef VCF_RTTI
-	return;	
+	return;
 #endif
 	ClassRegistry::getClassRegistry()->internal_dump();
 }
@@ -376,9 +355,9 @@ Class* ClassRegistry::internal_getClass( const String& className )
 	Class* result = NULL;
 
 	if ( !className.empty() ) {
-		std::map<String,Class*>::iterator found = 
+		std::map<String,Class*>::iterator found =
 			classMap_.find( className );
-		
+
 		if ( found != classMap_.end() ){
 			result = found->second;
 		}
@@ -392,9 +371,9 @@ Class* ClassRegistry::internal_getClassFromClassID( const String& classID )
 	Class* result = NULL;
 
 	if ( !classID.empty() ) {
-		std::map<String,Class*>::iterator found = 
+		std::map<String,Class*>::iterator found =
 			classIDMap_.find( classID );
-		
+
 		if ( found != classIDMap_.end() ){
 			result = found->second;
 		}
@@ -406,7 +385,7 @@ Class* ClassRegistry::internal_getClassFromClassID( const String& classID )
 Class* ClassRegistry::internal_getClass( Object* object )
 {
 	Class* result = NULL;
-	std::map<String,Class*>::iterator found = 
+	std::map<String,Class*>::iterator found =
 		classMap_.begin();
 
 	Class* clazz = NULL;
@@ -426,7 +405,7 @@ Object* ClassRegistry::internal_createNewInstance( const String& className )
 {
 	Class* clazz = NULL;
 	Object* result = NULL;
-	std::map<String,Class*>::iterator found = 
+	std::map<String,Class*>::iterator found =
 		classMap_.find( className );
 
 	if ( found != classMap_.end() ){
@@ -444,7 +423,7 @@ Object* ClassRegistry::internal_createNewInstanceFromClassID( const String& clas
 {
 	Class* clazz = NULL;
 	Object* result = NULL;
-	std::map<String,Class*>::iterator found = 
+	std::map<String,Class*>::iterator found =
 		classIDMap_.find( classID );
 
 	if ( found != classIDMap_.end() ){
@@ -459,12 +438,12 @@ Object* ClassRegistry::internal_createNewInstanceFromClassID( const String& clas
 }
 
 void ClassRegistry::internal_addClass( const String& className, Class* classToRegister )
-{	
+{
 	if ( NULL == classToRegister )
 		return; //throw exception ?
 
 	ClassRegistry* classRegistry = ClassRegistry::getClassRegistry();
-	
+
 	String classID = classToRegister->getID();
 
 	std::map<String,Class*>::iterator found;
@@ -476,12 +455,12 @@ void ClassRegistry::internal_addClass( const String& className, Class* classToRe
 	else  {
 		found = classRegistry->classMap_.find( className );
 		classNotFound = !( found != classMap_.end() );
-	}	
+	}
 
-	if ( true == classNotFound ){	
-		classRegistry->classMap_[className] = classToRegister;	
-		
-		if  ( classID != "" ) {	
+	if ( true == classNotFound ){
+		classRegistry->classMap_[className] = classToRegister;
+
+		if  ( classID != "" ) {
 			classRegistry->classIDMap_[classID] = classToRegister;
 		}
 
@@ -493,10 +472,10 @@ void ClassRegistry::internal_addClass( const String& className, Class* classToRe
 			if ( NULL != props ){
 				while ( props->hasMoreElements() ){
 					Property* prop = props->nextElement();
-					if ( NULL != prop ){						
+					if ( NULL != prop ){
 						if ( false == classToRegister->hasProperty( prop->getName() ) ) {
-							
-							classToRegister->addProperty( prop->clone() );		
+
+							classToRegister->addProperty( prop->clone() );
 						}
 					}
 				}
@@ -506,10 +485,10 @@ void ClassRegistry::internal_addClass( const String& className, Class* classToRe
 			if ( NULL != fields ){
 				while ( fields->hasMoreElements() ){
 					Field* field = fields->nextElement();
-					if ( NULL != field ){						
+					if ( NULL != field ){
 						if ( false == classToRegister->hasField( field->getName() ) ) {
-							
-							classToRegister->addField( field->clone() );		
+
+							classToRegister->addField( field->clone() );
 						}
 					}
 				}
@@ -519,11 +498,11 @@ void ClassRegistry::internal_addClass( const String& className, Class* classToRe
 			if ( NULL != methods ){
 				while ( methods->hasMoreElements() ){
 					Method* method = methods->nextElement();
-					if ( NULL != method ){						
+					if ( NULL != method ){
 						if ( false == classToRegister->hasMethod( method->getName() ) ) {
 							Method* newMethod = method->clone();
 
-							classToRegister->addMethod( newMethod );		
+							classToRegister->addMethod( newMethod );
 						}
 					}
 				}
@@ -537,7 +516,7 @@ void ClassRegistry::internal_addClass( const String& className, Class* classToRe
 					if ( NULL != event ){
 						if ( false == classToRegister->hasEventHandler( event->getDelegateName() ) ) {
 							classToRegister->addEvent( event->clone() );
-						}						
+						}
 					}
 				}
 			}
@@ -557,7 +536,7 @@ void ClassRegistry::internal_dump()
 	/*
 	std::map<String,Class*>::iterator it = classMap_.begin();
 
-	while ( it != classMap_.end() ){	
+	while ( it != classMap_.end() ){
 		std::cout << typeid(*(it->second)).name() << std::endl;
 		it++;
 	}
@@ -581,7 +560,7 @@ void ClassRegistry::internal_addInterface( const String& interfaceName, Interfac
 		return; //throw exception ?
 
 	//ClassRegistry* classRegistry = ClassRegistry::getClassRegistry();
-	
+
 	String interfaceID = interfaceToRegister->getID();
 
 	std::map<String,InterfaceClass*>::iterator found;
@@ -594,12 +573,12 @@ void ClassRegistry::internal_addInterface( const String& interfaceName, Interfac
 	else  {
 		found = interfaceMap_.find( interfaceName );
 		interfaceNotFound = !( found != interfaceMap_.end() );
-	}	
+	}
 
-	if ( true == interfaceNotFound ){	
-		interfaceMap_[interfaceName] = interfaceToRegister;	
-		
-		if  ( interfaceID != "" ) {	
+	if ( true == interfaceNotFound ){
+		interfaceMap_[interfaceName] = interfaceToRegister;
+
+		if  ( interfaceID != "" ) {
 			interfaceIDMap_[interfaceID] = interfaceToRegister;
 		}
 
@@ -612,9 +591,9 @@ void ClassRegistry::internal_addInterface( const String& interfaceName, Interfac
 				Method* method = methods->nextElement();
 				Method* inheritedMethod = method->clone();
 				interfaceToRegister->addMethod( method );
-			}						
+			}
 
-			
+
 			tmp = superInterfaceClass;
 			superInterfaceClass = tmp->getSuperInterfaceClass();
 		}
@@ -628,9 +607,9 @@ Enumerator<InterfaceClass*>* ClassRegistry::internal_getInterfaces()
 
 InterfaceClass* ClassRegistry::internal_getInterface( const String& interfaceName )
 {
-	InterfaceClass* result = NULL;	
+	InterfaceClass* result = NULL;
 
-	std::map<String,InterfaceClass*>::iterator found = 
+	std::map<String,InterfaceClass*>::iterator found =
 		interfaceMap_.find( interfaceName );
 
 	if ( found != interfaceMap_.end() ){
@@ -644,7 +623,7 @@ InterfaceClass* ClassRegistry::internal_getInterfaceFromInterfaceID( const Strin
 {
 	InterfaceClass* result = NULL;
 
-	std::map<String,InterfaceClass*>::iterator found = 
+	std::map<String,InterfaceClass*>::iterator found =
 		interfaceIDMap_.find( interfaceID );
 
 	if ( found != interfaceIDMap_.end() ){
@@ -661,7 +640,7 @@ bool ClassRegistry::internal_registerMethod( Method* method, const String& class
 	if ( true == isInterfaceMethod ) {
 		InterfaceClass* interfaceClass = this->getInterface( className );
 		if ( NULL != interfaceClass ) {
-			if ( false == interfaceClass->hasMethod( method->getName() ) ){				
+			if ( false == interfaceClass->hasMethod( method->getName() ) ){
 				interfaceClass->addMethod( method );
 				result = true;
 			}
@@ -670,7 +649,7 @@ bool ClassRegistry::internal_registerMethod( Method* method, const String& class
 	else {
 		Class* clazz = this->getClass( className );
 		if ( NULL != clazz ) {
-			if ( false == clazz->hasMethod( method->getName() ) ){				
+			if ( false == clazz->hasMethod( method->getName() ) ){
 				clazz->addMethod( method );
 				result = true;
 			}
@@ -686,7 +665,7 @@ bool ClassRegistry::internal_registerMethodByUUID( Method* method, const String&
 	if ( true == isInterfaceMethod ) {
 		InterfaceClass* interfaceClass = this->getInterfaceFromInterfaceID( UUID );
 		if ( NULL != interfaceClass ) {
-			if ( false == interfaceClass->hasMethod( method->getName() ) ){				
+			if ( false == interfaceClass->hasMethod( method->getName() ) ){
 				interfaceClass->addMethod( method );
 				result = true;
 			}
@@ -695,7 +674,7 @@ bool ClassRegistry::internal_registerMethodByUUID( Method* method, const String&
 	else {
 		Class* clazz = this->getClassFromClassID( UUID );
 		if ( NULL != clazz ) {
-			if ( false == clazz->hasMethod( method->getName() ) ){				
+			if ( false == clazz->hasMethod( method->getName() ) ){
 				clazz->addMethod( method );
 				result = true;
 			}
@@ -708,10 +687,10 @@ bool ClassRegistry::internal_registerMethodByUUID( Method* method, const String&
 
 void* ClassRegistry::internal_createNewInterfaceInstanceFromInterfaceName( const String& interfaceName, const String& implementerClassName )
 {
-	
-	
+
+
 	std::map<String,ImplementedInterfaceClass*>::iterator it = implementedInterfacesIDMap_.begin();
-	
+
 	ImplementedInterfaceClass* foundInterface = NULL;
 
 	while ( (it != implementedInterfacesIDMap_.end()) && (NULL == foundInterface) ) {
@@ -720,14 +699,14 @@ void* ClassRegistry::internal_createNewInterfaceInstanceFromInterfaceName( const
 			String key = it->first;
 			int pos = key.find("::");
 			if ( pos != String::npos ) {
-				
+
 				std::map<String,Class*>::iterator found = classIDMap_.find( key.substr(pos+2, key.size()-(pos+2)) );
 				if ( found != classIDMap_.end() ) {
 					if ( found->second->getClassName() == implementerClassName ) {
 						foundInterface = implInterface;
 					}
 				}
-			}			
+			}
 		}
 		it++;
 	}
@@ -764,7 +743,7 @@ void* ClassRegistry::internal_createNewInterfaceInstanceFromInterfaceID( const S
 }
 
 void ClassRegistry::internal_addImplementedInterface( ImplementedInterfaceClass* interfaceToRegister, const String& implementerClassID )
-{	
+{
 	String key = interfaceToRegister->getID() + "::" + implementerClassID;
 	implementedInterfacesIDMap_[key] = interfaceToRegister;
 }
@@ -785,7 +764,7 @@ void ClassRegistry::removeClass( Class* clazz )
 	if ( found != reg->classMap_.end() ) {
 		reg->classMap_.erase( found );
 	}
-}	
+}
 
 void ClassRegistry::removeInterface( InterfaceClass* interfaceClass )
 {
@@ -806,11 +785,12 @@ void ClassRegistry::removeInterface( InterfaceClass* interfaceClass )
 }
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -961,6 +941,5 @@ void ClassRegistry::removeInterface( InterfaceClass* interfaceClass )
 *to facilitate change tracking
 *
 */
-
 
 

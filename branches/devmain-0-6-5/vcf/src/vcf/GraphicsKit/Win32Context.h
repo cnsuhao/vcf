@@ -1,6 +1,286 @@
+#ifndef _VCF_WIN32CONTEXT_H__
+#define _VCF_WIN32CONTEXT_H__
+//Win32Context.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+// Win32Context.h: interface for the Win32Context class.
+
+
+
+#include <deque>
+
+namespace VCF
+{
+
+
+class GRAPHICSKIT_API Win32Image;
+/**
+*A Context provides the lowest level graphics interface to the
+*native systems 2D drawing operations. Based loosely on PostScript,
+*a Context takes a series of of drawing operations, or commands
+*(lineTo, moveTo, etc), and then executes them by either filling or
+*strokeing the path(s) that result from the commands. Thus calling
+*ellipse() will not draw anything till the strokePath() or fillPath()
+*methods have been called. All path commands should add their information
+*to a stack of some sort that is then looped through and executed
+*using the appropriate native graphics calls. At each path command
+*a test should be made as to whether the buffer should be cleared.
+*The buffer should be cleared only after the stroke of fill methods
+*have been  called. For example:
+*
+*<p><pre>
+*	ellipse(23,23,45,67) //added to buffer
+*	moveTo(89,100) //add to buffer
+*	lineTo(300,40) //add to buffer
+*	strokePath()
+*	fillPath()
+*	rectangle(200,300,400,400)//buffer cleared, then add to buffer
+*</pre></p>
+*/
+class GRAPHICSKIT_API Win32Context  : public Object, public ContextPeer {
+public:
+	Win32Context();
+	/**
+	*Creates a new HDC from scratch
+	*/
+	Win32Context( const unsigned long& width, const unsigned long& height );
+
+	Win32Context( const unsigned long& contextID );
+
+	virtual ~Win32Context();
+
+	virtual void setContext( GraphicsContext* context );
+
+	virtual GraphicsContext* getContext();
+
+	virtual unsigned long getContextID();
+
+	virtual void setContextID( const unsigned long& handle );
+
+	virtual void textAt( const Rect& bounds, const String & text, const long& drawOptions=0 );
+
+	virtual double getTextWidth( const String& text );
+
+	virtual double getTextHeight( const String& text );
+
+    virtual void rectangle(const double & x1, const double & y1, const double & x2, const double & y2);
+
+	virtual void roundRect(const double & x1, const double & y1, const double & x2, const double & y2,
+							 const double & xc, const double & yc);
+
+    virtual void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
+
+	virtual void arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
+						 const double & y3, const double & x4, const double & y4);
+
+/*
+	virtual void pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
+						 const double & y3, const double & x4, const double & y4);
+
+	virtual void chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3,
+						 const double & y3, const double & x4, const double & y4);
+*/
+
+    virtual void polyline(const std::vector<Point>& pts);
+
+    virtual void curve(const double & x1, const double & y1, const double & x2, const double & y2,
+                         const double & x3, const double & y3, const double & x4, const double & y4);
+
+    virtual void lineTo(const double & x, const double & y);
+
+    virtual void moveTo(const double & x, const double & y);
+
+	void init();
+
+	virtual void setOrigin( const double& x, const double& y );
+
+	virtual Point getOrigin();
+
+	virtual void copyContext( const Rect& sourceRect,
+								const Rect& destRect,
+								ContextPeer* sourceContext );
+
+	virtual bool isMemoryContext();
+
+	virtual bool prepareForDrawing( long drawingOperation );
+
+	virtual void finishedDrawing( long drawingOperation );
+
+	virtual void drawImage( const double& x, const double& y, Rect* imageBounds, Image* image );
+
+
+	//utility functions
+	void copyToImage( Win32Image* image );
+
+	virtual void checkHandle(){};
+
+	virtual void releaseHandle();
+
+	virtual bool isXORModeOn();
+
+	virtual void setXORModeOn( const bool& XORModeOn );
+
+	virtual void setTextAlignment( const bool& alignTobaseline );
+
+	virtual bool isTextAlignedToBaseline();
+
+	virtual void drawSelectionRect( Rect* rect );
+
+	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
+
+	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
+
+	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
+
+	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
+
+	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed );
+
+	virtual void setClippingPath( Path* clippingPath );
+
+	virtual void setClippingRect( Rect* clipRect );
+
+	/**
+	Draws a button that is used to open up more details, for example
+	the button that opens up a tree node to reveal it's children, that is compliant
+	with the native windowing systems default look and feel.
+	On Win32 this is usually represented by the "+" and "-" look as found on
+	the tree controls, while on OSX it is the little triangles
+	*/
+	virtual void drawDisclosureButton( Rect* rect, const long& state );
+
+	/**
+	Draws a tab, the part of the TabbedPages control that acts like a
+	little button to activate a page, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawTab( Rect* rect, const bool& selected, const String& caption );
+
+	/**
+	Draws a tab page - the page on which other controls for the page are
+	parented to, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawTabPage( Rect* rect );
+
+	/**
+	Draws a tick mark, like that used for a slider control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
+
+	/**
+	Draws a slider thumb control, like that used for a slider control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
+
+	/**
+	Draws a slider control, like that used for a slider control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
+
+	/**
+	Draws a header control that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawHeader( Rect* rect );
+
+	/**
+	draws edges, useful for separators, that is compliant
+	with the native windowing systems default look and feel.
+	use a mask or 1 or more values of type ContextPeer::EdgeType
+	to indicate which sides of the rect to draw an edge on
+	*/
+	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle );
+
+	/**
+	Draws a size gripper for resizing a control/window that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawSizeGripper( Rect* rect );
+
+	/**
+	Draws the background appropriate for a control that is compliant
+	with the native windowing systems default look and feel.
+	This is typically called first by a control to give it a standard
+	look and feel in it's background before drawing any thing else
+	*/
+	virtual void drawControlBackground( Rect* rect );
+
+	/**
+	Draws the background appropriate for a window/frame that is compliant
+	with the native windowing systems default look and feel.
+	This is typically called first by a window/frame to give it a standard
+	look and feel in it's background before drawing any thing else
+	*/
+	virtual void drawWindowBackground( Rect* rect );
+
+	/**
+	Draws the background appropriate for a menu item that is compliant
+	with the native windowing systems default look and feel.
+	This is typically called first by a menu item to give it a standard
+	look and feel in it's background before drawing any thing else
+	*/
+	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
+protected:
+
+	HRGN clipRGN_;
+
+	bool pathStarted_;
+
+	Point oldOrigin_;
+	Point origin_;
+	bool inFillPath_;
+	HDC dc_;
+	HBITMAP memBitmap_;
+	HBITMAP originalBitmap_;
+
+	HBRUSH currentHBrush_;
+	HPEN currentHPen_;
+	HFONT currentHFont_;
+
+	int currentDCState_;
+
+	bool isMemoryCtx_;
+	GraphicsContext* context_;
+	bool isXORModeOn_;
+	double strokeWidth_;
+
+	bool alignToBaseline_;
+
+	HDC getDC();
+
+	/**
+	*Utility function to draw a transparent bitmap
+	*/
+	static void drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
+                           long yStart, COLORREF cTransparentColor);
+
+
+};
+
+};
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -134,295 +414,6 @@
 *
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
-// Win32Context.h: interface for the Win32Context class.
-
-#ifndef _VCF_WIN32CONTEXT_H__
-#define _VCF_WIN32CONTEXT_H__
-
-
-#include <deque>
-
-namespace VCF
-{
-
-
-class GRAPHICSKIT_API Win32Image;
-/**
-*A Context provides the lowest level graphics interface to the
-*native systems 2D drawing operations. Based loosely on PostScript,
-*a Context takes a series of of drawing operations, or commands 
-*(lineTo, moveTo, etc), and then executes them by either filling or
-*strokeing the path(s) that result from the commands. Thus calling 
-*ellipse() will not draw anything till the strokePath() or fillPath()
-*methods have been called. All path commands should add their information
-*to a stack of some sort that is then looped through and executed
-*using the appropriate native graphics calls. At each path command
-*a test should be made as to whether the buffer should be cleared.
-*The buffer should be cleared only after the stroke of fill methods
-*have been  called. For example:
-*
-*<p><pre>
-*	ellipse(23,23,45,67) //added to buffer 
-*	moveTo(89,100) //add to buffer
-*	lineTo(300,40) //add to buffer
-*	strokePath()
-*	fillPath()
-*	rectangle(200,300,400,400)//buffer cleared, then add to buffer
-*</pre></p>
-*/
-class GRAPHICSKIT_API Win32Context  : public Object, public ContextPeer {
-public:
-	Win32Context();
-	/**
-	*Creates a new HDC from scratch
-	*/
-	Win32Context( const unsigned long& width, const unsigned long& height );	
-
-	Win32Context( const unsigned long& contextID );	
-
-	virtual ~Win32Context();
-
-	virtual void setContext( GraphicsContext* context );
-
-	virtual GraphicsContext* getContext();	
-
-	virtual unsigned long getContextID();
-
-	virtual void setContextID( const unsigned long& handle );
-	
-	virtual void textAt( const Rect& bounds, const String & text, const long& drawOptions=0 );	
-
-	virtual double getTextWidth( const String& text );
-
-	virtual double getTextHeight( const String& text );
-
-    virtual void rectangle(const double & x1, const double & y1, const double & x2, const double & y2);
-
-	virtual void roundRect(const double & x1, const double & y1, const double & x2, const double & y2,
-							 const double & xc, const double & yc);    
-
-    virtual void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
-
-	virtual void arc(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
-						 const double & y3, const double & x4, const double & y4);
-
-/*
-	virtual void pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
-						 const double & y3, const double & x4, const double & y4);
-
-	virtual void chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, 
-						 const double & y3, const double & x4, const double & y4);
-*/
-
-    virtual void polyline(const std::vector<Point>& pts);
-
-    virtual void curve(const double & x1, const double & y1, const double & x2, const double & y2,
-                         const double & x3, const double & y3, const double & x4, const double & y4);
-
-    virtual void lineTo(const double & x, const double & y);
-
-    virtual void moveTo(const double & x, const double & y);
-
-	void init();
-
-	virtual void setOrigin( const double& x, const double& y );
-
-	virtual Point getOrigin();
-
-	virtual void copyContext( const Rect& sourceRect, 
-								const Rect& destRect, 
-								ContextPeer* sourceContext );
-
-	virtual bool isMemoryContext();
-
-	virtual bool prepareForDrawing( long drawingOperation );
-
-	virtual void finishedDrawing( long drawingOperation );
-
-	virtual void drawImage( const double& x, const double& y, Rect* imageBounds, Image* image );
-
-	
-	//utility functions
-	void copyToImage( Win32Image* image );	
-
-	virtual void checkHandle(){};
-	
-	virtual void releaseHandle();
-
-	virtual bool isXORModeOn();
-
-	virtual void setXORModeOn( const bool& XORModeOn );
-
-	virtual void setTextAlignment( const bool& alignTobaseline );
-
-	virtual bool isTextAlignedToBaseline();
-
-	virtual void drawSelectionRect( Rect* rect );
-
-	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
-	
-	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
-		
-	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
-
-	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
-
-	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed );
-
-	virtual void setClippingPath( Path* clippingPath );
-
-	virtual void setClippingRect( Rect* clipRect );
-
-	/**
-	Draws a button that is used to open up more details, for example 
-	the button that opens up a tree node to reveal it's children, that is compliant
-	with the native windowing systems default look and feel.
-	On Win32 this is usually represented by the "+" and "-" look as found on
-	the tree controls, while on OSX it is the little triangles
-	*/
-	virtual void drawDisclosureButton( Rect* rect, const long& state );
-
-	/**
-	Draws a tab, the part of the TabbedPages control that acts like a 
-	little button to activate a page, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawTab( Rect* rect, const bool& selected, const String& caption );
-
-	/**
-	Draws a tab page - the page on which other controls for the page are 
-	parented to, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawTabPage( Rect* rect );
-
-	/**
-	Draws a tick mark, like that used for a slider control, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
-
-	/**
-	Draws a slider thumb control, like that used for a slider control, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
-
-	/**
-	Draws a slider control, like that used for a slider control, that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
-
-	/**
-	Draws a header control that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawHeader( Rect* rect );
-
-	/**
-	draws edges, useful for separators, that is compliant
-	with the native windowing systems default look and feel.
-	use a mask or 1 or more values of type ContextPeer::EdgeType
-	to indicate which sides of the rect to draw an edge on
-	*/
-	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle );
-
-	/**
-	Draws a size gripper for resizing a control/window that is compliant
-	with the native windowing systems default look and feel
-	*/
-	virtual void drawSizeGripper( Rect* rect );
-
-	/**
-	Draws the background appropriate for a control that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a control to give it a standard
-	look and feel in it's background before drawing any thing else
-	*/
-	virtual void drawControlBackground( Rect* rect );
-
-	/**
-	Draws the background appropriate for a window/frame that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a window/frame to give it a standard
-	look and feel in it's background before drawing any thing else
-	*/
-	virtual void drawWindowBackground( Rect* rect );
-
-	/**
-	Draws the background appropriate for a menu item that is compliant
-	with the native windowing systems default look and feel.
-	This is typically called first by a menu item to give it a standard
-	look and feel in it's background before drawing any thing else
-	*/
-	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
-protected:
-	
-	HRGN clipRGN_;
-
-	bool pathStarted_;	
-	
-	Point oldOrigin_;
-	Point origin_;
-	bool inFillPath_;
-	HDC dc_;
-	HBITMAP memBitmap_;
-	HBITMAP originalBitmap_;
-
-	HBRUSH currentHBrush_;
-	HPEN currentHPen_;
-	HFONT currentHFont_;
-
-	int currentDCState_;
-
-	bool isMemoryCtx_;
-	GraphicsContext* context_;
-	bool isXORModeOn_;
-	double strokeWidth_;
-
-	bool alignToBaseline_;
-
-	HDC getDC();
-
-	/**
-	*Utility function to draw a transparent bitmap
-	*/
-	static void drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
-                           long yStart, COLORREF cTransparentColor);
-
-	
-};
-
-};
 
 #endif // _VCF_WIN32CONTEXT_H__
 

@@ -1,38 +1,18 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_DATETIME_H__
 #define _VCF_DATETIME_H__
+//DateTime.h
 
-
-/**
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
 
 #include "vcf/FoundationKit/VCFulong64.h"
 
@@ -42,17 +22,17 @@ namespace VCF {
 
 
 
-	
+
 /**
 This exception is thrown when a bad date format is used. An example
-of an invalid date might be Jan 32, 2003. 
+of an invalid date might be Jan 32, 2003.
 */
 class FRAMEWORK_API BadDateFormat : public std::exception {
 public:
 	BadDateFormat( const String& err ):err_(err) {
-		
+
 	}
-	
+
 	virtual ~BadDateFormat() throw() {} ;
 
 	virtual const char* what() const throw() {
@@ -66,14 +46,14 @@ protected:
 
 /**
 This exception is thrown when a bad time format is used. An example
-of an invalid time might be 26:65:03. 
+of an invalid time might be 26:65:03.
 */
 class FRAMEWORK_API BadTimeFormat : public std::exception {
 public:
 	BadTimeFormat( const String& err ):err_(err) {
-		
+
 	}
-	
+
 	virtual ~BadTimeFormat() throw() {} ;
 
 	virtual const char* what() const throw() {
@@ -90,7 +70,7 @@ class DateTime;
 /**
 The DateTimeSpan represents an absolute delta value between two date time
 values. You can get the individual components of the span by calling the various
-getYears(), getMonths(), etc methods, or you can get the total amount of time 
+getYears(), getMonths(), etc methods, or you can get the total amount of time
 this span covers in a praticular format, such the total minutes, or the total
 seconds. An example of this might look like so:
 <pre>
@@ -102,7 +82,7 @@ int totalMinutes = span.getTotalMinutes(); //returns 18,720 (or 60 * 24 * 13)
 
 int days = span.getDays(); //returns 13
 int months = span.getMonths(); //returns 0
-int minutes = span.getMinutes(); //returns 0 
+int minutes = span.getMinutes(); //returns 0
 </pre>
 
 */
@@ -167,7 +147,7 @@ public:
 	*/
 	unsigned long getMilliseconds() const ;
 
-	
+
 	/**
 	returns the total number of whole months if this span of time
 	is evaluated in months as the unit of measurement
@@ -206,8 +186,8 @@ public:
 
 	friend class DateTime;
 protected:
-	
-	void subtract( const DateTime& lhs, const DateTime& rhs ); 
+
+	void subtract( const DateTime& lhs, const DateTime& rhs );
 
 	DateTimeSpan& operator=( const ulong64& rhs ) {
 		delta_ = rhs;
@@ -227,9 +207,9 @@ protected:
 
 /**
 <p>
-This class is used to represent a point in time. The internal structure is a 
+This class is used to represent a point in time. The internal structure is a
 64bit unsigned long that counts the number of milliseconds from ~ 4700BC. The
-calendar used is the Gregorian calendar. There is logic to support switching 
+calendar used is the Gregorian calendar. There is logic to support switching
 to the Julian calendar for days before the Gregorian switch. At the moment
 there is no time zone support. This will be coming next.
 </p>
@@ -248,21 +228,21 @@ info, such as :
 <li>getting the time as C time(i.e. positive number of seconds since Jan 1, 1970)
 </ul>
 There is iteration support in the form of the DateTime::Iterator class which allows
-templatized iterator logic and lets you: 
+templatized iterator logic and lets you:
 <ul>
-  <li>incrementing or decrementing dates by a single unit in millisecond, second, 
-  minute, hour, day, month, or year resolution. This is done with the 
+  <li>incrementing or decrementing dates by a single unit in millisecond, second,
+  minute, hour, day, month, or year resolution. This is done with the
   operator++ or operator --.
-  <li>incrementing or decrementing dates by a 1 or more units in millisecond, second, 
-  minute, hour, day, month, or year resolution. This is done with the 
+  <li>incrementing or decrementing dates by a 1 or more units in millisecond, second,
+  minute, hour, day, month, or year resolution. This is done with the
   operator+=(n) or operator -=(n).
 </ul>
-Since the iterator template type is customizable, you can create your own iteration logic classes 
+Since the iterator template type is customizable, you can create your own iteration logic classes
 to perform custom iteration logic.
 </p>
 <p>
-You can modify the date time object in a variety of ways, by specifying the year, month, day, or 
-set the time specifying hour, minute, second, or have more control by setting all fields 
+You can modify the date time object in a variety of ways, by specifying the year, month, day, or
+set the time specifying hour, minute, second, or have more control by setting all fields
 (year, month, day, hour, minute, second, millisecond).
 </p>
 <p>
@@ -271,7 +251,7 @@ http://www.tondering.dk/claus/cal/
 
 */
 class FRAMEWORK_API DateTime : public Object, public Persistable {
-public:	
+public:
 
 	enum {
 		ONEDAY = 24 * 60 * 60 * 1000,
@@ -281,27 +261,27 @@ public:
 	};
 
 	enum Months {
-		Jan = 1, 
-		Feb, 
-		Mar, 
-		Apr, 
-		May, 
-		Jun, 
-		Jul, 
-		Aug, 
-		Sep, 
-		Oct, 
-		Nov, 
+		Jan = 1,
+		Feb,
+		Mar,
+		Apr,
+		May,
+		Jun,
+		Jul,
+		Aug,
+		Sep,
+		Oct,
+		Nov,
 		Dec
 	};
 
 	enum WeekDay {
 		Sun = 0,
-		Mon, 
-		Tue, 
-		Wed, 
-		Thu, 
-		Fri, 
+		Mon,
+		Tue,
+		Wed,
+		Thu,
+		Fri,
 		Sat
 	};
 
@@ -309,12 +289,12 @@ public:
 		AM = 0,
 		PM
 	};
-	
+
 	/**
 	Constructs a blank/empty date time object
 	*/
 	DateTime():time_(0) {
-		
+
 	}
 
 	/**
@@ -323,9 +303,9 @@ public:
 	DateTime( time_t newTime );
 
 	/**
-	Constructs a date time object given a year, month, and a day. 
-	The time will be set to 00:00:00. If the month or day is an 
-	invalid value, a BadDateFormat exception will be thrown. Valid ranges for months 
+	Constructs a date time object given a year, month, and a day.
+	The time will be set to 00:00:00. If the month or day is an
+	invalid value, a BadDateFormat exception will be thrown. Valid ranges for months
 	are between 1 and 12. Valid ranges for days are between 1 and the maximum day for the
 	specified month and year (i.e. for Feb 2004 the range would be 1-29, while Feb 2003
 	the range would be 1-28).
@@ -341,10 +321,10 @@ public:
 
 	/**
 	Constructs a date time object given a year, month, day, hour, minute,
-	and second. If the month or day is an invalid value, a 
+	and second. If the month or day is an invalid value, a
 	BadDateFormat exception will be thrown. If the hour, minute,
 	or second is invalid a BadTimeFormat exception will be thrown. The Valid range for
-	the hour value is between 0 and 23, and valid ranges for minutes, or seconds 
+	the hour value is between 0 and 23, and valid ranges for minutes, or seconds
 	are between 0 and 59.
 	An example:
 	<pre>
@@ -359,7 +339,7 @@ public:
 				unsigned long hour, unsigned long minute, unsigned long second );
 
 	/**
-	Static utility function to get the current local date on the computer 
+	Static utility function to get the current local date on the computer
 	the framework is running on. Resolution will be in milliseconds.
 	*/
 	static DateTime now() {
@@ -369,15 +349,15 @@ public:
 	}
 
 	/**
-	Returns a 64 bit unsigned integer that contains the total number 
+	Returns a 64 bit unsigned integer that contains the total number
 	of milliseconds in this object.
 	*/
 	ulong64 getMilliseconds() const;
 
 	/**
-	Sets the total number of milliseconds 
+	Sets the total number of milliseconds
 	*/
-	void setMilliseconds( const ulong64& milliseconds );	
+	void setMilliseconds( const ulong64& milliseconds );
 
 	/**
 	Allows you to modify the date/time of this object.
@@ -386,7 +366,7 @@ public:
 	@param unsigned long the month. This must be a value between 1 and 12. Values
 	outside of this range will cause a BadDateFormat exception to be thrown.
 
-	@param unsigned long the day. This must be a value between 1 and the maximum day 
+	@param unsigned long the day. This must be a value between 1 and the maximum day
 	for the specified month and year. Values
 	outside of this range will cause a BadDateFormat exception to be thrown.
 
@@ -405,18 +385,18 @@ public:
 	@throw BadDateFormat
     @throw BadTimeFormat
 	*/
-	void set( const unsigned long& year, 
-				const unsigned long& month, 
+	void set( const unsigned long& year,
+				const unsigned long& month,
 				const unsigned long& day,
 				const unsigned long& hour=0,
 				const unsigned long& minutes=0,
-				const unsigned long& seconds=0, 
-				const unsigned long& milliseconds=0 ); 	
+				const unsigned long& seconds=0,
+				const unsigned long& milliseconds=0 );
 
 	/**
 	Setting the date causes the current time to reset to 0:0:0.
-	So if you have a DateTime object that is set to Jan 23, 2123 12:23:22, and 
-	you call setDate( 2003, 6, 12 ), the result will be a DateTime object set 
+	So if you have a DateTime object that is set to Jan 23, 2123 12:23:22, and
+	you call setDate( 2003, 6, 12 ), the result will be a DateTime object set
 	to June 12, 2003 00:00:00.
 
     @param unsigned long the year
@@ -424,19 +404,19 @@ public:
 	@param unsigned long the month. This must be a value between 1 and 12. Values
 	outside of this range will cause a BadDateFormat exception to be thrown.
 
-	@param unsigned long the day. This must be a value between 1 and the maximum day 
+	@param unsigned long the day. This must be a value between 1 and the maximum day
 	for the specified month and year. Values
 	outside of this range will cause a BadDateFormat exception to be thrown.
 	@throw BadDateFormat
 	*/
-	void setDate( const unsigned long& year, 
-					const unsigned long& month, 
+	void setDate( const unsigned long& year,
+					const unsigned long& month,
 					const unsigned long& day );
 
 	/**
-	Setting the time via this function keeps the current date. So 
-	if you have a DateTime object that is set to Jan 23, 2123 12:23:22, and 
-	you call setTime( 16, 2, 45 ) , the result will be a DateTime object set 
+	Setting the time via this function keeps the current date. So
+	if you have a DateTime object that is set to Jan 23, 2123 12:23:22, and
+	you call setTime( 16, 2, 45 ) , the result will be a DateTime object set
 	to Jan 23, 2123 16:02:45.
 
     @param unsigned long the hour. This must be a value between 0 and 23. Values
@@ -446,59 +426,59 @@ public:
 	outside of this range will cause a BadTimeFormat exception to be thrown.
 
 	@param unsigned long the seconds. This must be a value between 0 and 59. Values
-	outside of this range will cause a BadTimeFormat exception to be thrown.	
+	outside of this range will cause a BadTimeFormat exception to be thrown.
 
     @throw BadTimeFormat
 	*/
-	void setTime( const unsigned long& hour, 
-					const unsigned long& minutes, 
+	void setTime( const unsigned long& hour,
+					const unsigned long& minutes,
 					const unsigned long& seconds );
 
 	/**
-	increments the year of this date object. 
+	increments the year of this date object.
 	@param unsigned long the amount to increment the year by
 	*/
-	void incrYear(const unsigned long& by=1);	
+	void incrYear(const unsigned long& by=1);
 
 	/**
-	increments the month of this date object. This takes into 
+	increments the month of this date object. This takes into
 	account increments greater than 12 (which would then also increment the
 	year).  It also treats the end of the month as follows: if the day of
 	the object falls on the very last day of the month prior to the increment
 	then the algorithm will "pin" the day, shortening or lengthening it depending
 	on the newly incremented months value. For example, if the current date instance
-	is set to Jan 31, 2003, and you increment the month by 1 unit, then the 
+	is set to Jan 31, 2003, and you increment the month by 1 unit, then the
 	new value will be set to Feb 28, 2003.
 	@param unsigned long the amount to increment the month by
 	*/
 	void incrMonth(const unsigned long& by=1);
 
 	/**
-	increments the day of this date object. 
+	increments the day of this date object.
 	@param unsigned long the amount to increment the day by
 	*/
 	void incrDay(const unsigned long& by=1);
 
 	/**
-	increments the hour of this date object. 
+	increments the hour of this date object.
 	@param unsigned long the amount to increment the hour by
 	*/
 	void incrHour(const unsigned long& by=1);
 
 	/**
-	increments the minute of this date object. 
+	increments the minute of this date object.
 	@param unsigned long the amount to increment the minute by
 	*/
 	void incrMinute(const unsigned long& by=1);
 
 	/**
-	increments the second of this date object. 
+	increments the second of this date object.
 	@param unsigned long the amount to increment the second by
 	*/
 	void incrSecond(const unsigned long& by=1);
 
 	/**
-	increments the millisecond of this date object. 
+	increments the millisecond of this date object.
 	@param unsigned long the amount to increment the millisecond by
 	*/
 	void incrMilliSecond(const unsigned long& by=1);
@@ -548,7 +528,7 @@ public:
 	void decrMilliSecond(const unsigned long& by=1);
 
 	/**
-	allows for assignment between this date time object and 
+	allows for assignment between this date time object and
 	another.
 	*/
 	DateTime& operator =( const DateTime& rhs ) {
@@ -582,7 +562,7 @@ public:
 	DateTime operator-( const DateTimeSpan& rhs ) const;
 
 	/**
-	Allows you to subtract one date time object from another and returns 
+	Allows you to subtract one date time object from another and returns
 	the date time span between them.
 	*/
 	DateTimeSpan operator-( const DateTime& rhs ) const;
@@ -625,7 +605,7 @@ public:
 	bool isLeapYear() const ;
 
 	time_t getCTime() const ;
-	
+
 	unsigned long getYear() const;
 	unsigned long getMonth() const;
 	unsigned long getDay() const;
@@ -635,13 +615,13 @@ public:
 	unsigned long getSeconds() const;
 	unsigned long getMilliSeconds() const;
 
-	WeekDay getWeekDay() const ;	
+	WeekDay getWeekDay() const ;
 
 	unsigned long getDayOfYear() const ;
 
 	unsigned long getDaysInYear() const ;
 
-	unsigned long getNumberOfDaysInMonth() const ;	
+	unsigned long getNumberOfDaysInMonth() const ;
 
 	unsigned long getWeekOfYearStartingSun() const ;
 	unsigned long getWeekOfYearStartingMon() const ;
@@ -666,7 +646,7 @@ public:
 	*/
 	template <typename DateLogic>
 	class Iterator {
-	public:	
+	public:
 
 		Iterator()  {
 
@@ -693,16 +673,16 @@ public:
 			return dt_ != rhs.dt_;
 		}
 
-		Iterator& operator++() {			
+		Iterator& operator++() {
 			DateLogic::incr( dt_, 1 );
 			return *this;
 		}
 
 		Iterator& operator+=( const unsigned long& rhs ) {
 			DateLogic::incr( dt_, rhs );
-			
+
 			return *this;
-		}		
+		}
 
 		Iterator& operator--() {
 			DateLogic::decr( dt_, 1 );
@@ -711,10 +691,10 @@ public:
 
 		Iterator& operator-=( const unsigned long& rhs ) {
 			DateLogic::decr( dt_, rhs );
-			
+
 			return *this;
 		}
-	protected:		
+	protected:
 		DateTime dt_;
 	};
 
@@ -728,26 +708,26 @@ public:
 
 	friend class DateTimeSpan;
 protected:
-	
 
-	void setAndAdjustForGregorianDay( const unsigned long& year, 
-				const unsigned long& month, 
+
+	void setAndAdjustForGregorianDay( const unsigned long& year,
+				const unsigned long& month,
 				const unsigned long& day,
 				const unsigned long& hour,
 				const unsigned long& minutes,
-				const unsigned long& seconds, 
-				const unsigned long& milliseconds ); 
+				const unsigned long& seconds,
+				const unsigned long& milliseconds );
 
 	static void setCurrent( DateTime& dt );
-	static bool isGregorianCalendarDate( const unsigned long& year, 
-											const unsigned long& month, 
+	static bool isGregorianCalendarDate( const unsigned long& year,
+											const unsigned long& month,
 											const unsigned long& day );
 
 	static bool isGregorianCalendarDate( const DateTime& dt );
 
 	static void getYearMonthDay( const DateTime& dt, unsigned long* year, unsigned long* month, unsigned long* day );
 	/**
-	time is stored as the number of milliseconds since 
+	time is stored as the number of milliseconds since
 	1 January 4713 BC. This is also known as the Julian Day
 	used by astronomers
 	*/
@@ -800,9 +780,13 @@ public :
 
 };
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

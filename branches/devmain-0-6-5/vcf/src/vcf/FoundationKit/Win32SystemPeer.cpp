@@ -1,33 +1,11 @@
+//Win32SystemPeer.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// Win32SystemPeer.cpp
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -66,19 +44,19 @@ bool Win32SystemPeer::doesFileExist( const String& fileName )
 
 
 	HANDLE hfile = NULL;
-	
+
 	if ( System::isUnicodeEnabled() ) {
-		hfile = ::CreateFileW( fileName.c_str(), 0, 
+		hfile = ::CreateFileW( fileName.c_str(), 0,
 								0/*FILE_SHARE_READ | FILE_SHARE_WRITE*/, NULL,
 								OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_SYSTEM, NULL );
 	}
 	else {
-		hfile = ::CreateFileA( fileName.ansi_c_str(), 0, 
+		hfile = ::CreateFileA( fileName.ansi_c_str(), 0,
 								0/*FILE_SHARE_READ | FILE_SHARE_WRITE*/, NULL,
 								OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_SYSTEM, NULL );
 	}
 
-	
+
 	if ( INVALID_HANDLE_VALUE == hfile ) {
 		int err = ::GetLastError();
 		if ( (err == ERROR_FILE_NOT_FOUND) || (err == ERROR_PATH_NOT_FOUND) ){
@@ -88,17 +66,17 @@ bool Win32SystemPeer::doesFileExist( const String& fileName )
 	else {
 		CloseHandle( hfile );
 	}
-	
+
 	return result;
 }
 
 String Win32SystemPeer::getEnvironmentVariable( const String& variableName )
 {
 	String result;
-	
+
 	BOOL ret = FALSE;
 	if ( System::isUnicodeEnabled() ) {
-		VCFChar path[4096];	
+		VCFChar path[4096];
 		memset( path, 0, 4096*sizeof(VCFChar) );
 		ret = ::GetEnvironmentVariableW( variableName.c_str(), path, (4096-1)*sizeof(VCFChar) );
 		if ( ret ) {
@@ -106,7 +84,7 @@ String Win32SystemPeer::getEnvironmentVariable( const String& variableName )
 		}
 	}
 	else {
-		char path[4096];	
+		char path[4096];
 		memset( path, 0, 4096 );
 		ret = ::GetEnvironmentVariableA( variableName.ansi_c_str(), path, 4096-1 );
 		if ( ret ) {
@@ -146,7 +124,7 @@ String Win32SystemPeer::getCurrentWorkingDirectory()
 		throw RuntimeException( MAKE_ERROR_MSG_2( error ) );
 	}
 	else {
-		
+
 		if ( result[result.size()-1] != '\\' ) {
 			result += "\\";
 		}
@@ -176,7 +154,7 @@ void Win32SystemPeer::setDateToSystemTime( DateTime* date )
 	//get current time
 	SYSTEMTIME tm;
 	::GetSystemTime( &tm );
-	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );	
+	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );
 }
 
 void Win32SystemPeer::setDateToLocalTime( DateTime* date )
@@ -184,12 +162,12 @@ void Win32SystemPeer::setDateToLocalTime( DateTime* date )
 	//get current time
 	SYSTEMTIME tm;
 	::GetLocalTime( &tm );
-	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );	
+	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );
 }
 
 void Win32SystemPeer::setCurrentThreadLocale( Locale* locale )
 {
-	
+
 	SetThreadLocale( (LCID) locale->getPeer()->getHandleID() );
 }
 
@@ -207,12 +185,15 @@ bool Win32SystemPeer::isUnicodeEnabled()
 	}
 
 	return result;
-}	
+}
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -287,6 +268,5 @@ bool Win32SystemPeer::isUnicodeEnabled()
 *to facilitate change tracking
 *
 */
-
 
 

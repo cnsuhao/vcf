@@ -1,3 +1,19 @@
+#ifndef _VCF_MGCBEZIERCURVE2_H__
+#define _VCF_MGCBEZIERCURVE2_H__
+//MgcBezierCurve2.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
 // Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
@@ -10,8 +26,6 @@
 // FREE SOURCE CODE
 // http://www.magic-software.com/License/free.pdf
 
-#ifndef _VCF_MGCBEZIERCURVE2_H__
-#define _VCF_MGCBEZIERCURVE2_H__
 
 #include "vcf/GraphicsKit/MgcSingleCurve2.h"
 
@@ -62,11 +76,15 @@ protected:
 } // namespace Mgc
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 
 #endif // _VCF_MGCBEZIERCURVE2_H__
-
-
-
-
 
 

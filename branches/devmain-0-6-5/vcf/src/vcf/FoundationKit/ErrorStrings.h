@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_ERRORSTRINGS_H__
 #define _VCF_ERRORSTRINGS_H__
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-//
 //ErrorStrings.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -58,15 +35,15 @@ namespace VCF
 #define BAD_COMPONENTSTATE_EXCEPTION	L"The component is in an invalid state."
 #define BAD_ITEMSTATE_EXCEPTION			L"The item is in an invalid state."
 #define BAD_IMAGE_BITS_EXCEPTION		L"The image's pixel bits are corrupt or the pointer to them is referencing bad memory."
-#define BAD_MODEL_STATE_EXCEPTION		L"The model's is corrupt or incorrect."	
-#define OUT_OF_BOUNDS_EXCEPTION			L"The requested index is outside of the coleections bounds."					
+#define BAD_MODEL_STATE_EXCEPTION		L"The model's is corrupt or incorrect."
+#define OUT_OF_BOUNDS_EXCEPTION			L"The requested index is outside of the coleections bounds."
 #define NO_SUCH_ELEMENT_FOUND			L"No corresponding element can be found with the index specified."
 #define NO_FREE_MEMORY_AVALIABLE		L"No more memory is available on the heap for this process."
 
 
 #define INVALID_IMAGE					L"This is image is invalid."
 
-#define CANT_ACCESS_FILE				L"Error attempting to access file: "				
+#define CANT_ACCESS_FILE				L"Error attempting to access file: "
 #define CANT_WRITE_TO_FILE				L"Error attempting to write to file: "
 #define PROPERTY_CHANGE_BAD				L"The requested value(s) cannot be set on the given object."
 
@@ -88,7 +65,7 @@ namespace VCF
 
 #ifdef _DEBUG
 /**
-This macro takes 2 arguments - the condition that causes the 
+This macro takes 2 arguments - the condition that causes the
 assert, and a string describing the reason for the assert
 */
 	#define VCF_ASSERT2(condition,msg) \
@@ -99,7 +76,7 @@ assert, and a string describing the reason for the assert
 Many thanks to Marcello for contributing this!!
 */
 	#define VCF_ASSERT(condition) VCF_ASSERT2( condition, #condition )
-		
+
 
 #else
 	#define VCF_ASSERT2(condition,msg)
@@ -107,10 +84,12 @@ Many thanks to Marcello for contributing this!!
 #endif //_DEBUG
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

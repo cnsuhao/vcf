@@ -1,32 +1,11 @@
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
 //Win32ProcessIORedirector.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/ProcessWithRedirectedIO.h"
@@ -44,17 +23,17 @@ Win32ProcessIORedirector::Win32ProcessIORedirector():
 	readThreadID_(0),
 	readThread_(NULL),
 	childStdinRdHandle_(NULL),
-	childStdinWrHandle_(NULL),	
+	childStdinWrHandle_(NULL),
 	childStdoutRdHandle_(NULL),
-	childStdoutWrHandle_(NULL),	
+	childStdoutWrHandle_(NULL),
 	savedStdinHandle_(NULL),
 	savedStdoutHandle_(NULL),
 	canContinueReading_(false),
 	startInfoPtr_(NULL)
 {
 	memset( &processInfo_, 0, sizeof(processInfo_) );
-	
-	
+
+
 
 	if ( System::isUnicodeEnabled() ) {
 		startInfoPtr_ = new STARTUPINFOW;
@@ -66,7 +45,7 @@ Win32ProcessIORedirector::Win32ProcessIORedirector():
 		memset( startInfoPtr_, 0, sizeof(STARTUPINFOA) );
 		((STARTUPINFOA*)startInfoPtr_)->cb = sizeof(STARTUPINFOA);
 	}
-	
+
 
 }
 
@@ -75,9 +54,9 @@ Win32ProcessIORedirector::~Win32ProcessIORedirector()
 	canContinueReading_ = false;
 	WaitForSingleObject( readThread_, INFINITE );
 	CloseHandle( readThread_ );
-				
+
 	readThread_ = NULL;
-	
+
 
 	if (processID_ != DWORD(-1))	{
 		DWORD dwExitCode;
@@ -86,7 +65,7 @@ Win32ProcessIORedirector::~Win32ProcessIORedirector()
 		// if the process handle is INVALID_HANDLEVALUE or
 		// the process handle is valid but ExitCode is set
 		if (!hProcess || (hProcess && GetExitCodeProcess(hProcess, &dwExitCode))) {
-			processID_ = DWORD(-1);		
+			processID_ = DWORD(-1);
 		}
 		else
 			if ( !CloseHandle(hProcess)) {
@@ -112,7 +91,7 @@ bool Win32ProcessIORedirector::testProcess()
 			DWORD exitCode;
 			BOOL bRet =  GetExitCodeProcess(hProcess, &exitCode);//WaitForSingleObject(hProcess,0);// 	// fails when the process is active
 			//if  (!CloseHandle(hProcess)) {
-			//	throw RuntimeException( MAKE_ERROR_MSG_2("CloseHandle(hProcess)"));	
+			//	throw RuntimeException( MAKE_ERROR_MSG_2("CloseHandle(hProcess)"));
 		//	}
 			return (exitCode == STILL_ACTIVE) ? true : false;
 		}
@@ -124,12 +103,12 @@ void Win32ProcessIORedirector::readPipe()
 {
 	DWORD bytesRead = 0;
 	const int BUFSIZE = 256;
-	char readBuffer[BUFSIZE+1]; 
+	char readBuffer[BUFSIZE+1];
 
 	DWORD bytesLeftToRead = 1;
 
 	while ( bytesLeftToRead > 0 ) {
-		if (!ReadFile(childStdoutRdHandle_, readBuffer, BUFSIZE, &bytesRead, NULL) || bytesRead == 0)  {	
+		if (!ReadFile(childStdoutRdHandle_, readBuffer, BUFSIZE, &bytesRead, NULL) || bytesRead == 0)  {
 
 			if (::GetLastError() == ERROR_BROKEN_PIPE)
 				break;
@@ -146,30 +125,30 @@ void Win32ProcessIORedirector::readPipe()
 
 		Sleep(100);
 		int err = PeekNamedPipe( childStdoutRdHandle_, NULL, 0, NULL, &bytesLeftToRead, NULL);
-				
-		
+
+
 		if ( !err || bytesLeftToRead == 0 ) {
 			if( !testProcess() ) {
 				//break;
 				bytesLeftToRead = 0;
 			}
 			else {
-				
+
 				bytesLeftToRead = 1;
 			}
 		}
 	}
 
 	if ( bytesLeftToRead > 0 ) {
-		//do one last read 
+		//do one last read
 		if (!ReadFile(childStdoutRdHandle_, readBuffer, BUFSIZE, &bytesRead, NULL) || bytesRead == 0)  {
 			if (::GetLastError() != ERROR_BROKEN_PIPE) {
-				//??????	
-			}			
+				//??????
+			}
 		}
 
 		readBuffer[bytesRead/sizeof(char)] = 0;
-		
+
 		//notify folks of an OutputReady event
 		String outputData = readBuffer;
 		OutputReadyEvent event( process_, outputData );
@@ -205,15 +184,15 @@ UINT __stdcall Win32ProcessIORedirector::ReadPipeThreadProc(LPVOID pParam)
 bool Win32ProcessIORedirector::createProcess( const String& processName, const String& arguments )
 {
 	bool result = false;
-	
+
 	canContinueReading_ = true;
 	commandLine_ = processName + " " + arguments;
-	
+
 	if ( NULL != readThread_ ) {
-		
+
 		::WaitForSingleObject( readThread_, INFINITE );
 		::CloseHandle( readThread_ );
-		
+
 		if ( !::CloseHandle(childStdinRdHandle_) ){
 			throw RuntimeException( MAKE_ERROR_MSG_2("CloseHandle(childStdinRdHandle_) failed"));
 		}
@@ -226,20 +205,20 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 		if ( !::CloseHandle(childStdoutRdHandle_) ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("CloseHandle(childStdoutRdHandle_) failed"));
 		}
-		
+
 		readThread_ = NULL;
 	}
-	
+
 	HANDLE hChildStdoutRdTmp, hChildStdinWrTmp;
 	SECURITY_ATTRIBUTES saAttr;
 	memset( &saAttr, 0, sizeof(saAttr) );
 	BOOL bSuccess;
-	
+
 	// Set the bInheritHandle flag so pipe handles are inherited.
 	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
 	saAttr.bInheritHandle = TRUE;
 	saAttr.lpSecurityDescriptor = NULL;
-	
+
 	//from Andreas notes
 	// The steps for redirecting child process's STDOUT:
 	//	 1. Save current STDOUT, to be restored later.
@@ -248,20 +227,20 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 	//		the pipe, so it is inherited by the child process.
 	//	 4. Create a noninheritable duplicate of the read handle and
 	//		close the inheritable read handle.
-	
+
 	// Save the handle to the current STDOUT.
 	HANDLE hSaveStdout = ::GetStdHandle(STD_OUTPUT_HANDLE);
-	
+
 	// Create a pipe for the child process's STDOUT.
 	if (!::CreatePipe(&hChildStdoutRdTmp, &childStdoutWrHandle_, &saAttr, 0))	{
 		throw RuntimeException( MAKE_ERROR_MSG_2("Stdout pipe creation failed") );
 	}
-	
+
 	// Set a write handle to the pipe to be STDOUT.
 	if (!::SetStdHandle(STD_OUTPUT_HANDLE, childStdoutWrHandle_)) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("Redirecting STDOUT failed"));
 	}
-	
+
 	// Create noninheritable read handle and close the inheritable read handle.
 	bSuccess = ::DuplicateHandle(::GetCurrentProcess(), hChildStdoutRdTmp,
 									::GetCurrentProcess(), &childStdoutRdHandle_,
@@ -269,11 +248,11 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 	if (!bSuccess) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("DuplicateHandle failed") ) ;
 	}
-	
+
 	if (! ::CloseHandle(hChildStdoutRdTmp)) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("CloseHandle(hChildStdoutRdTmp)") );
 	}
-	
+
 	// The steps for redirecting child process's STDIN:
 	//	 1.  Save current STDIN, to be restored later.
 	//	 2.  Create anonymous pipe to be STDIN for child process.
@@ -281,10 +260,10 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 	//		 pipe, so it is inherited by the child process.
 	//	 4.  Create a noninheritable duplicate of the write handle,
 	//		 and close the inheritable write handle.
-	
+
 	// Save the handle to the current STDIN.
 	savedStdinHandle_ = GetStdHandle(STD_INPUT_HANDLE);
-	
+
 	// Create a pipe for the child process's STDIN.
 	if (!::CreatePipe(&childStdinRdHandle_, &hChildStdinWrTmp, &saAttr, 0)) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("Stdin pipe creation failed") );
@@ -307,13 +286,13 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 	if (!::CloseHandle(hChildStdinWrTmp)) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("CloseHandle(hChildStdinWrTmp)") );
 	}
-	
-	
+
+
 	//now start the child process - this will start a new cmd with the
 	//the cmd line sent to it
 	childProcess_ = NULL;
-	
-	
+
+
 	String tmp = System::getEnvironmentVariable( L"ComSpec" );
 
 	if (tmp.empty()) {
@@ -324,10 +303,10 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 		shellCmdLine += L" /A /C ";
 		shellCmdLine += commandLine_;
 
-		
-		
+
+
 		BOOL retVal = FALSE;
-		
+
 		if ( System::isUnicodeEnabled() ) {
 			// Set up members of STARTUPINFO structure.
 			((STARTUPINFOW*)startInfoPtr_)->dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
@@ -340,7 +319,7 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 			memset(tmp,0,4096*sizeof(VCFChar));
 			shellCmdLine.copy( tmp, minVal<int>( 4095,shellCmdLine.size() ) );
 
-		
+
 			retVal = CreateProcessW(NULL,
 									tmp, 	   // applicatin name
 									NULL, 		  // process security attributes
@@ -365,7 +344,7 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 
 			tmp2.copy( tmp, minVal<int>( 4095,tmp2.size() ) );
 
-		
+
 			retVal = CreateProcessA(NULL,
 									tmp, 	   // applicatin name
 									NULL, 		  // process security attributes
@@ -388,27 +367,27 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 			processID_ = GetLastError();
 			DebugBreak();
 		}
-		
-				
-		readThread_ = (HANDLE)_beginthreadex( NULL, 
-											0, 
+
+
+		readThread_ = (HANDLE)_beginthreadex( NULL,
+											0,
 											Win32ProcessIORedirector::ReadPipeThreadProc,
-											(void*)this, 
-											CREATE_SUSPENDED, 
+											(void*)this,
+											CREATE_SUSPENDED,
 											&readThreadID_ );
-											
-	
+
+
 		::SetThreadPriority( readThread_, THREAD_PRIORITY_BELOW_NORMAL );
 		//read thread is started
 		::ResumeThread( readThread_ );
-	
+
 		if (!readThread_) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("Cannot start read-redirect thread!") );
 		}
 
-		
-		
-		
+
+
+
 		WaitForSingleObject( childProcess_, INFINITE );
 
 		//readPipe();
@@ -416,12 +395,12 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 
 		CloseHandle( childProcess_ );
 
-		
 
-		// After process creation, restore the saved STDIN and STDOUT.  
+
+		// After process creation, restore the saved STDIN and STDOUT.
 		if (!SetStdHandle(STD_INPUT_HANDLE, savedStdinHandle_ ))
 			throw RuntimeException( MAKE_ERROR_MSG_2("Re-redirecting Stdin failed") );
-		
+
 		if (!SetStdHandle(STD_OUTPUT_HANDLE, savedStdoutHandle_))
 			throw RuntimeException( MAKE_ERROR_MSG_2("Re-redirecting Stdout failed") );
 
@@ -437,7 +416,7 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 
 		result = retVal ? true : false;
 	}
-	
+
 	canContinueReading_ = false;
 
 	return result;
@@ -449,9 +428,14 @@ ulong32 Win32ProcessIORedirector::terminate()
 	TerminateProcess( processInfo_.hProcess, -1 );
 	return -1;
 }
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -561,6 +545,5 @@ ulong32 Win32ProcessIORedirector::terminate()
 *added support in the VCF FoundationKit for redirecting io in a process
 *
 */
-
 
 

@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_THREAD_H__
 #define _VCF_THREAD_H__
+//Thread.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -46,8 +23,8 @@ class ThreadPeer;
 *The Thread class represents a thread of execution in a process.
 *A Thread object can automatically delete itself if neccessary.
 *A Thread can either be derived from and the run() method overridden,
-*or a separate class that derives from Runnable may be passed into the 
-*Thread's constructor and this class's run() method will get called. 
+*or a separate class that derives from Runnable may be passed into the
+*Thread's constructor and this class's run() method will get called.
 *For example:<br>
 *Method 1) deriving a new thread class and over riding the run() method
 *<pre>
@@ -57,8 +34,8 @@ public:
 
 	virtual bool run() {
 		//do stuff here, for example a loop
-		//be a good citizen and check with the 
-		//canContinue() method to see if we should 
+		//be a good citizen and check with the
+		//canContinue() method to see if we should
 		//still be executing
 		while ( true == canContinue() ) {
 			//do some work
@@ -82,12 +59,12 @@ int main() {
 	//program does stuff here
 
 	//stop the thread cause we are shutting down
-	thread->stop(); 
+	thread->stop();
 
 	//delete the thread since it is NOT set to auto delete
-	//if we had passed in true in the Thread constructor then 
+	//if we had passed in true in the Thread constructor then
 	//we would not need this part
-	thread->free(); 
+	thread->free();
 
 	FoundationKit::terminate();
 	return 0;
@@ -105,12 +82,12 @@ public:
 	//override the run() method of Runnable - MUST do this
 	//for your class to be a concrete class
 	virtual bool run() {
-		//do stuff here, for example a loop		
-		
+		//do stuff here, for example a loop
+
 		//you must supply you own check methods to
 		//determine if you can keep looping,
 		//assuming that is what you need to do
-		
+
 		return true;
 	}
 };
@@ -129,7 +106,7 @@ int main() {
 	//program does stuff here
 
 	//stop the thread cause we are shutting down
-	thread->stop(); 
+	thread->stop();
 
 	//thread will auto delete itself
 
@@ -139,7 +116,7 @@ int main() {
 *</pre>
 */
 class FRAMEWORK_API Thread : public Object, public Runnable, public Waitable {
-public: 
+public:
 	Thread();
 
 	Thread( const bool& autoDelete );
@@ -147,24 +124,24 @@ public:
 	/**
 	*creates a thread with the attached runnableObject (if appropriate)
 	*@param Runnable the runnableObject the thread will use. By default this
-	*is NULL, which means the Thread's run method has been overridden in 
+	*is NULL, which means the Thread's run method has been overridden in
 	*a derived class.
-	*@param bool indicates whose responsibility it is to clean up after the 
+	*@param bool indicates whose responsibility it is to clean up after the
 	*thread is stopped. If autoDelete is true then the thread instance will
-	*clean up for itself, if autoDelete is false, then it is the caller's 
+	*clean up for itself, if autoDelete is false, then it is the caller's
 	*responsibility to clean up
 	*/
-	Thread( Runnable* runnableObject, const bool& autoDelete );	
+	Thread( Runnable* runnableObject, const bool& autoDelete );
 
 	/**
-	Creates a thread with a runnable object, and allows the thread to 
+	Creates a thread with a runnable object, and allows the thread to
 	automatically delete the runnable if appropriate.
 	*/
 	Thread( Runnable* runnableObject, const bool& autoDeleteRunnable,
 			const bool& autoDelete );
 
 	Thread( Runnable* runnableObject );
-	
+
 
 	virtual ~Thread();
 
@@ -173,28 +150,28 @@ public:
 	*If runnableObject_ is non NULL then it's run() will be called in here.
 	*/
 	virtual bool run();
-	
+
 
 	/**
-	*gracefully stops the thread and shuts it down, releasing 
+	*gracefully stops the thread and shuts it down, releasing
 	*any OS resources associated with the thread.
-	*Once a thread is stopped that thread instance may NOT be 
+	*Once a thread is stopped that thread instance may NOT be
 	*started again. If the thread is set of automatic deletion
 	*this is where it will happen
 	*/
 	virtual void stop();
 
 	/**
-	*Starts (or resumes) a thread running. 
+	*Starts (or resumes) a thread running.
 	*/
 	bool start();
 
 	/**
-	*causes the thread the thread to sleep for the specified number of 
+	*causes the thread the thread to sleep for the specified number of
 	*milliseconds
 	*@param uint32 - the number of milliseconds to sleep
 	*/
-	void sleep( unsigned int milliseconds ); 
+	void sleep( unsigned int milliseconds );
 
 	/**
 	*can the thread continue to execute ?
@@ -204,7 +181,7 @@ public:
 	bool canContinue(){
 		return canContinue_;
 	}
-	
+
 	/**
 	*can the thread auto delete itself ?
 	*@return bool true if the thread will auto delete itself. Determined by the parameters
@@ -228,15 +205,15 @@ public:
 		return peer_;
 	}
 
-    /*Returns TRUE if thread is running, FALSE if not 
+    /*Returns TRUE if thread is running, FALSE if not
 	*/
     bool isActive();
 
-    
+
 	/**
-	for thread peer's usage only - 
-	called to see if the thread is 
-	being shutdown via the stop() 
+	for thread peer's usage only -
+	called to see if the thread is
+	being shutdown via the stop()
 	method.
 	*/
     bool internal_isStopped() {
@@ -256,11 +233,11 @@ protected:
 
 	bool canContinue_;
 	Runnable* runnableObject_;
-	ThreadPeer* peer_;	
+	ThreadPeer* peer_;
 	bool autoDelete_;
 	bool autoDeleteRunnable_;
 	bool stopped_;
-	
+
 };
 
 /*
@@ -279,6 +256,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -367,6 +347,7 @@ public :
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_THREAD_H__
 

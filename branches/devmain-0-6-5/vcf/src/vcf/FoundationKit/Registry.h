@@ -1,39 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_REGISTRY_H__
 #define _VCF_REGISTRY_H__
+//Registry.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -59,13 +37,13 @@ enum RegistryDataType{
 class FRAMEWORK_API RegistryValueInfo : public Object {
 public:
 
-	RegistryValueInfo( VariantData* data, const RegistryDataType& dataType, 
-		               const String& valueName, char* dataBuffer=NULL, const uint32& dataBufferSize=0  ){		
-		
+	RegistryValueInfo( VariantData* data, const RegistryDataType& dataType,
+		               const String& valueName, char* dataBuffer=NULL, const uint32& dataBufferSize=0  ){
+
 		dataType_ = dataType;
 
 		valueName_ = valueName;
-		
+
 		dataBufferSize_ = dataBufferSize;
 
 		dataBuffer_ = NULL;
@@ -91,7 +69,7 @@ public:
 					dataBuffer_ = dataBuffer;
 				}
 				break;
-			}	
+			}
 		}
 	}
 
@@ -104,7 +82,7 @@ public:
 
 	RegistryDataType dataType_;
 
-	VariantData data_; 
+	VariantData data_;
 
 	String valueName_;
 
@@ -121,8 +99,8 @@ class RegistryPeer;
 *The registry represents an external data source that applications
 *may store application data in. This may be things like special file names,
 *UI positions, application state data etc. The external data may be anything
-*depending on the OS. In Win32, this represents a connection to the 
-*Win32 registry data base. 
+*depending on the OS. In Win32, this represents a connection to the
+*Win32 registry data base.
 */
 class FRAMEWORK_API Registry  : public Object{
 
@@ -132,18 +110,18 @@ public:
 	virtual ~Registry();
 
 	void setRoot( const RegistryKeyType& rootKey );
-	
+
 	RegistryKeyType getRoot();
 
 	bool openKey( const String& keyname, const bool& createIfNonExistant=false );
 
-	bool setValue( const String& value, const String& valuename ); 
+	bool setValue( const String& value, const String& valuename );
 
-	bool setValue( const uint32& value, const String& valuename ); 
-	
-	bool setValue( const bool& value, const String& valuename ); 
+	bool setValue( const uint32& value, const String& valuename );
 
-	bool setValue( void* dataBuffer, const uint32& dataBufferSize, const String& valuename ); 
+	bool setValue( const bool& value, const String& valuename );
+
+	bool setValue( void* dataBuffer, const uint32& dataBufferSize, const String& valuename );
 
 	String getStringValue( const String& valuename );
 
@@ -164,9 +142,13 @@ private:
 
 }; //end of namespace VCF
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -214,6 +196,7 @@ private:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_REGISTRY_H__
 

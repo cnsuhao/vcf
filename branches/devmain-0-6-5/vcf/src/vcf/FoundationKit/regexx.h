@@ -1,3 +1,19 @@
+#ifndef _VCF_REGEXX_H__
+#define _VCF_REGEXX_H__
+//regexx.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
 /*************************************************************************/
 /*                                                                       */
 /*  Regexx - Regular Expressions C++ solution.                           */
@@ -34,8 +50,6 @@
 *made it conform to VCF nameing standards
 */
 
-#ifndef _VCF_REGEXX_H__
-#define _VCF_REGEXX_H__
 
 
 
@@ -48,8 +62,8 @@ namespace RegExx {
    *
    *  @author Gustavo Niemeyer
    *
-   *Note: this class is not derived form VCF::Object because there is 
-   *simply no good reason to. It adds nothing to the functionality of hte 
+   *Note: this class is not derived form VCF::Object because there is
+   *simply no good reason to. It adds nothing to the functionality of hte
    *class.
    */
   class RegexxMatchAtom
@@ -72,28 +86,28 @@ namespace RegExx {
     }
 
     /// Retrieves the atom string.
-    inline String str() const { 
-		return str_.substr(start_,length_); 
+    inline String str() const {
+		return str_.substr(start_,length_);
 	}
 
     /// Returns the position in the original string where the atom starts.
-    inline const String::size_type& start() const{ 
-		return start_; 
+    inline const String::size_type& start() const{
+		return start_;
 	}
 
     /// Length of the atom string.
-    inline const String::size_type& length() const   { 
-		return length_; 
+    inline const String::size_type& length() const   {
+		return length_;
 	}
 
     /// Operator to transform a RegexxMatchAtom into a string.
-    inline operator String() const { 
-		return str_.substr(start_,length_); 
+    inline operator String() const {
+		return str_.substr(start_,length_);
 	}
 
     /// Operator to compare a RegexxMatchAtom with a string.
-    inline bool operator==(const String& s) const { 
-		return ( str_.substr(start_,length_) == s ); 
+    inline bool operator==(const String& s) const {
+		return ( str_.substr(start_,length_) == s );
 	}
 
   private:
@@ -107,8 +121,8 @@ namespace RegExx {
   /** Class to store matches.
    *
    *  @author Gustavo Niemeyer
-   *Note: this class is not derived form VCF::Object because there is 
-   *simply no good reason to. It adds nothing to the functionality of hte 
+   *Note: this class is not derived form VCF::Object because there is
+   *simply no good reason to. It adds nothing to the functionality of hte
    *class.
    */
   class RegexxMatch
@@ -128,28 +142,28 @@ namespace RegExx {
     }
 
     /// Retrieves the match string.
-    inline String str() const { 
-		return str_.substr(start_,length_); 
+    inline String str() const {
+		return str_.substr(start_,length_);
 	}
 
     /// Returns the position in the original string where the match starts.
-    inline const String::size_type& start() const { 
-		return start_; 
+    inline const String::size_type& start() const {
+		return start_;
 	}
 
     /// Length of the match string.
-    inline const String::size_type& length() const{ 
-		return length_; 
+    inline const String::size_type& length() const{
+		return length_;
 	}
 
     /// Operator to transform a RegexxMatch into a string.
-    inline operator String() const { 
-		return str_.substr(start_,length_); 
+    inline operator String() const {
+		return str_.substr(start_,length_);
 	}
 
     /// Operator to compare a RegexxMatch with a string.
-    inline bool operator==(const String& s) const { 
-		return (str_.substr(start_,length_)==s); 
+    inline bool operator==(const String& s) const {
+		return (str_.substr(start_,length_)==s);
 	}
 
     /// Vector of atoms found in this match.
@@ -173,8 +187,8 @@ namespace RegExx {
    *
    * @author Gustavo Niemeyer
    *
-   *Note: this class is not derived form VCF::Object because there is 
-   *simply no good reason to. It adds nothing to the functionality of hte 
+   *Note: this class is not derived form VCF::Object because there is
+   *simply no good reason to. It adds nothing to the functionality of hte
    *class.
    **/
 
@@ -211,7 +225,7 @@ namespace RegExx {
        **/
       study   = 16,
 
-      /** Match-any-character operators don't match the newline. A non 
+      /** Match-any-character operators don't match the newline. A non
        *  matching list ([^...]) not containing a newline does not match
        *  a newline. Match-beggining-of-line operator (^) matches the empty
        *  string immediately after a newline, regardless of whether
@@ -232,7 +246,7 @@ namespace RegExx {
       noteol  = 128
 
     };
-    
+
 
     /** This exception is thrown when there are errors while compiling
      *  expressions.
@@ -249,13 +263,13 @@ namespace RegExx {
     {}
 
     /// Destructor
-    inline ~Regexx() { 
-		if( compiled_ ) { 
-			free(preg_); 
-			if ( study_ ) { 
+    inline ~Regexx() {
+		if( compiled_ ) {
+			free(preg_);
+			if ( study_ ) {
 				free(extra_);
 			}
-		} 
+		}
 	}
 
     /** Constructor with regular expression execution.
@@ -267,9 +281,9 @@ namespace RegExx {
      *  @see operator int()
      */
     inline Regexx(const String& stringToUse, const String& expression, int flags = 0) throw(CompileException)
-      : compiled_(false), study_(false), extra_(NULL), matches_(0)  
-	{ 
-		exec( stringToUse, expression, flags); 
+      : compiled_(false), study_(false), extra_(NULL), matches_(0)
+	{
+		exec( stringToUse, expression, flags);
 	}
 
     /** Constructor with regular expression string replacing.
@@ -282,13 +296,13 @@ namespace RegExx {
      */
     inline
     Regexx(const String& stringToUse, const String& expression, const String& repstr, int flags = 0) throw(CompileException)
-      : compiled_(false), study_(false), extra_(NULL), matches_(0)  
-	{ 
-		replace(stringToUse,expression,repstr,flags); 
+      : compiled_(false), study_(false), extra_(NULL), matches_(0)
+	{
+		replace(stringToUse,expression,repstr,flags);
 	}
-    
+
     /** Set the regular expression to use with exec() and replace().
-     * 
+     *
      *  Use this function only if you are going to use the exec() and/or
      *  replace functions that don't provide the regular expression.
      *
@@ -297,12 +311,12 @@ namespace RegExx {
     inline Regexx&    expr(const String& expression);
 
     /// Retrieve the current regular expression.
-    inline const String& expr() const { 
-		return expr_; 
+    inline const String& expr() const {
+		return expr_;
 	}
 
     /** Set the string to use with exec() and replace().
-     * 
+     *
      *  Use this function only if you are going to use the exec() and/or
      *  replace functions that don't provide the string.
      *
@@ -311,8 +325,8 @@ namespace RegExx {
     inline Regexx& str(const String& stringToUse);
 
     /// Retrieve the current string.
-    inline const String& str() const { 
-		return str_; 
+    inline const String& str() const {
+		return str_;
 	}
 
     /** Execute a regular expression.
@@ -328,7 +342,7 @@ namespace RegExx {
 
     /** Execute a regular expression.
      *
-     *  To use this function you have to store the string with the str() 
+     *  To use this function you have to store the string with the str()
      *  function before. It also works if you want to reexecute a regular
      *  expression that you've executed before.
      *
@@ -357,7 +371,7 @@ namespace RegExx {
 
     /** Replace string with regular expression.
      *
-     *  To use this function you have to store the string with the str() 
+     *  To use this function you have to store the string with the str()
      *  function before. It also works if you want to reexecute a regular
      *  expression that you've executed before.
      *
@@ -371,7 +385,7 @@ namespace RegExx {
     /** Replace string with regular expression.
      *  @return Replaced string.
      */
-    inline const String& replace(const String& stringToUse, const String& expression, 
+    inline const String& replace(const String& stringToUse, const String& expression,
 									const String& repstr, int flags = 0)  throw(CompileException);
 
     /** Customized replace string with regular expression.
@@ -398,14 +412,14 @@ namespace RegExx {
      *  executed for each match of the regular expression and the match
      *  will be replaced by the string returned by the function/class.
      *
-     *  To use this function you have to store the string with the str() 
+     *  To use this function you have to store the string with the str()
      *  function before. It also works if you want to reexecute a regular
      *  expression that you've executed before.
      *
      *  @param func Function/Class to be executed for each match.
      *  @return Replaced string.
      */
-    inline const String& replacef(const String& expression, 
+    inline const String& replacef(const String& expression,
 									String (*func)(const RegexxMatch&), int flags = 0) throw(CompileException);
 
     /** Customized replace string with regular expression.
@@ -418,35 +432,35 @@ namespace RegExx {
      *  @param func Function/Class to be executed for each match.
      *  @return Replaced string.
      */
-    inline const String& replacef(const String& stringToUse, const String& expression, 
+    inline const String& replacef(const String& stringToUse, const String& expression,
 									String (*func)(const RegexxMatch&), int flags = 0) throw(CompileException);
-    
-    /** Returns the number of matches of the last exec()/replace()/replacef().
-     *
-     *  It works even if you use the nomatch flag.
-     *
-     */
-    inline const unsigned int& matches() const { 
-		return matches_; 
-	}
 
     /** Returns the number of matches of the last exec()/replace()/replacef().
      *
      *  It works even if you use the nomatch flag.
      *
      */
-    inline operator unsigned int() const { 
-		return matches_; 
+    inline const unsigned int& matches() const {
+		return matches_;
+	}
+
+    /** Returns the number of matches of the last exec()/replace()/replacef().
+     *
+     *  It works even if you use the nomatch flag.
+     *
+     */
+    inline operator unsigned int() const {
+		return matches_;
 	}
 
     /// Returns the string of the last replace() or replacef().
-    inline const String& replaced() const  { 
-		return replaced_; 
+    inline const String& replaced() const  {
+		return replaced_;
 	}
 
     /// Returns the string of the last replace() or replacef().
-    inline operator  String() const { 
-		return replaced_; 
+    inline operator  String() const {
+		return replaced_;
 	}
 
     /** The vector of matches.
@@ -458,13 +472,13 @@ namespace RegExx {
     std::vector<RegexxMatch> match;
 
   private:
-    
+
     bool compiled_;
     bool study_;
     String expr_;
     String str_;
     int capturecount_;
-    
+
     unsigned int matches_;
     String replaced_;
 
@@ -473,7 +487,7 @@ namespace RegExx {
 
   };
 
-  inline Regexx& Regexx::expr(const String& expression)  
+  inline Regexx& Regexx::expr(const String& expression)
   {
 	  if(compiled_) {
 		  free(preg_);
@@ -487,41 +501,41 @@ namespace RegExx {
 	  expr_ = expression;
 	  return *this;
   }
-  
+
   inline Regexx& Regexx::str(const String& stringToUse)
   {
 	  str_ = stringToUse;
 	  return *this;
   }
-  
+
   inline const unsigned int& Regexx::exec(const String& expression, int flags) throw(CompileException)
   {
 	  expr(expression);
 	  return exec(flags);
   }
-  
+
   inline const unsigned int& Regexx::exec(const String& stringToUse, const String& expression, int flags) throw(CompileException)
   {
 	  str(stringToUse);
 	  expr(expression);
 	  return exec(flags);
   }
-  
-  
+
+
   inline const String& Regexx::replace(const String& expression, const String& repstr, int flags) throw(CompileException)
   {
 	  expr(expression);
 	  return replace(repstr,flags);
   }
-  
-  inline const String& Regexx::replace(const String& stringToUse, const String& expression, 
+
+  inline const String& Regexx::replace(const String& stringToUse, const String& expression,
 										const String& repstr, int flags) throw(CompileException)
   {
 	  str(stringToUse);
 	  expr(expression);
 	  return replace(repstr,flags);
   }
-  
+
   inline const String& Regexx::replacef(String (*func)(const RegexxMatch&), int flags ) throw(CompileException)
   {
 	  exec( flags & ~nomatch );
@@ -531,15 +545,15 @@ namespace RegExx {
 		  replaced_.replace(m->start(),m->length(),func(*m));
 	  return replaced_;
   }
-  
-  inline const String& Regexx::replacef(const String& expression, 
+
+  inline const String& Regexx::replacef(const String& expression,
 										String (*func)(const RegexxMatch&), int flags ) throw(CompileException)
   {
 	  expr(expression);
 	  return replacef(func,flags);
   }
-  
-  inline const String& Regexx::replacef(const String& stringToUse, const String& expression, 
+
+  inline const String& Regexx::replacef(const String& stringToUse, const String& expression,
 										String (*func)(const RegexxMatch&), int flags ) throw(CompileException)
   {
 	  str(stringToUse);
@@ -547,14 +561,24 @@ namespace RegExx {
 	  return replacef(func,flags);
   }
 
-  
+
   std::vector<String> split(const String& where, const String& _str);
 
   std::vector<String> splitex(const String& exp, const String& _str);
 
-} //end of RegExx namespace 
+} //end of RegExx namespace
 
 } //end of VCF namespace
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 
 #endif // _VCF_REGEXX_H__
 

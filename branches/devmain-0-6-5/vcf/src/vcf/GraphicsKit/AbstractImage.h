@@ -1,43 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
-
 #ifndef _VCF_ABSTRACTIMAGE_H__
 #define _VCF_ABSTRACTIMAGE_H__
+//AbstractImage.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF{
@@ -47,13 +21,13 @@ class GraphicsContext;
 
 /**
 AbstractImage represents a base implementation of the Image interface. It implements
-common functions, such as getWidth, etc, but still requires actually image class GRAPHICSKIT_API to be 
-derived from it. It also provides basic support for ImageSizeChangedHandlers, so derived classes 
+common functions, such as getWidth, etc, but still requires actually image class GRAPHICSKIT_API to be
+derived from it. It also provides basic support for ImageSizeChangedHandlers, so derived classes
 do not have to baother with it. See Image for more information on what the functions do.
 
 @version 1.0
 @author Jim Crafton
-@delegates 
+@delegates
 	@del AbstractImage::ImageSizeChanged
 */
 class GRAPHICSKIT_API AbstractImage : public Image , public Object, public Persistable {
@@ -64,7 +38,7 @@ public:
 	virtual ~AbstractImage();
 
 
-	virtual void setSize( const unsigned long & width, const unsigned long & height );    
+	virtual void setSize( const unsigned long & width, const unsigned long & height );
 
     virtual unsigned long getWidth();
 
@@ -92,7 +66,7 @@ public:
 	*/
 	virtual void removeImageSizeChangedHandler( EventHandler* handler ) {
 		ImageSizeChanged -= handler;
-	}    
+	}
 
     virtual GraphicsContext* getImageContext();
 
@@ -100,11 +74,11 @@ public:
 
 	/**
 	*returns the color that is used to blend with the contents of
-	*a GraphicsContext when the Image is drawn. Only used when the 
+	*a GraphicsContext when the Image is drawn. Only used when the
 	*Image is set to Transparent
 	*/
 	virtual Color* getTransparencyColor() {
-		return &transparencyColor_;	
+		return &transparencyColor_;
 	}
 
 	virtual void setTransparencyColor( Color* transparencyColor ) {
@@ -119,7 +93,7 @@ public:
 	*wherever a pixel in the image is found that is the transparency color
 	*/
 	virtual bool isTransparent() {
-		return isTransparent_;	
+		return isTransparent_;
 	}
 
 	virtual void setIsTransparent( const bool& transparent ) {
@@ -130,7 +104,7 @@ public:
 	*Write the object to the specified output stream
 	*/
     virtual void saveToStream( OutputStream * stream );
-	
+
 	/**
 	**Read the object from the specified input stream
 	*/
@@ -152,9 +126,9 @@ protected:
 	bool isTransparent_;
 
 	/**
-	Implementer note: flags_ needs to be intialized in the constructor of the 
+	Implementer note: flags_ needs to be intialized in the constructor of the
 	platform implementation of the Image class. For Win32 an example might be:
-	<pre>	
+	<pre>
 	ImageBits::Traits::setChannelType( flags_, ImageBits::Traits::getTraitsChannelType() );
 	ImageBits::Traits::setChannelSize( flags_, ImageBits::Traits::getTraitsChannelSize() );
 	ImageBits::Traits::setImageType( flags_, ImageBits::Traits::getTraitsImageType() );
@@ -167,9 +141,13 @@ protected:
 
 };
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:30  ddiego
 *migration towards new directory structure
 *
@@ -272,6 +250,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_ABSTRACTIMAGE_H__
 

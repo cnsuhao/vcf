@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_LOCALES_H__
 #define _VCF_LOCALES_H__
+//Locales.h
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
-// Locales.h
 
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -49,21 +24,21 @@ class MessageLoader;
 /**
 \par
 A locale instance represents the cultural data used to convert data to string
-in manner appropriate to the language and country. Each locale is identified 
+in manner appropriate to the language and country. Each locale is identified
 by a language and a country code, where the language code is one of the possible
-values as listed by 
-<a href="http://www.loc.gov/standards/iso639-2/langcodes.html">ISO-639-1</a>, 
-and the country code is one of the possible values as listed in 
+values as listed by
+<a href="http://www.loc.gov/standards/iso639-2/langcodes.html">ISO-639-1</a>,
+and the country code is one of the possible values as listed in
 <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">
 ISO-3166</a>. The complete locale is referred to as a combination of both these values,
 for example, the french locale is referred to as "fr_FR", and the United States locale
-is referred to as "en_US". 
+is referred to as "en_US".
 \par
-A locale offers a variety of methods to translate data into a string, based on the rules 
-of the locale. For example, monetary units are represented by the dollar symbol ("$") 
+A locale offers a variety of methods to translate data into a string, based on the rules
+of the locale. For example, monetary units are represented by the dollar symbol ("$")
 in the "en_US" locale, but the United Kindom ("en_GB") are represented by the pound ("£").
-Other functions include the ability to sort 2 strings based on the locale's sorting 
-rules (also referred to as "collation"), transforming numerical data (ints, longs, 
+Other functions include the ability to sort 2 strings based on the locale's sorting
+rules (also referred to as "collation"), transforming numerical data (ints, longs,
 doubles, etc) to a string. For example:
 \code
 Locale loc("en_US"); //United States
@@ -74,8 +49,8 @@ String numString = loc.toString( 123456 ); //numString = "123.456"
 \endcode
 You can also convert currency data (as a double) to a string.
 \par
-There are date and time functions for transforming a DateTime instance into a string 
-that is representative of the time in hours, minutes, and seconds, and into 
+There are date and time functions for transforming a DateTime instance into a string
+that is representative of the time in hours, minutes, and seconds, and into
 a string that represents the date.
 \par
 There are case transformation functions, to convert a string into all upper case
@@ -552,12 +527,12 @@ public:
 		lcZhuang	= 'za',
 		lcChuang	= 'za',
 		lcZulu	= 'zu'
-		
+
 	};
-		
+
 	/**
 	Construct a new locale instance from a language code string, and a
-	country code string. 
+	country code string.
 	*/
 	Locale( const UnicodeString& languageCode, const UnicodeString& countryCode );
 
@@ -587,7 +562,7 @@ public:
 	http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html
 	Each code is 2 characters long, and are always upper case.
 	*/
-	UnicodeString getCountryCodeString() {		
+	UnicodeString getCountryCodeString() {
 		return Locale::countryCodeToString(getCountryCode());
 	}
 
@@ -600,8 +575,8 @@ public:
 
 
 	/**
-	Collates, or compares, taking case into consideration, two strings. 
-	Returns either -1, 0, 1, indicating 
+	Collates, or compares, taking case into consideration, two strings.
+	Returns either -1, 0, 1, indicating
 	s1 is less than, equal to, or greater than s2.
 	@param UnicodeString the first string
 	@param the second string
@@ -613,7 +588,7 @@ public:
 	int collate( const UnicodeString& s1, const UnicodeString& s2 );
 
 	/**
-	Collates, or compares, two strings, ignoring their case. Returns either -1, 0, 1, indicating 
+	Collates, or compares, two strings, ignoring their case. Returns either -1, 0, 1, indicating
 	s1 is less than, equal to, or greater than s2.
 	@param UnicodeString the first string
 	@param the second string
@@ -634,7 +609,7 @@ public:
 	//numStr will equal "12.345.678" since italy uses the "." as a decimal separator.
 	\endcode
 	@param int the value to convert
-	@return UnicodeString the value as a string, taking into consideration any formatting 
+	@return UnicodeString the value as a string, taking into consideration any formatting
 	rules of the locale.
 	@see getNumberDecimalPoint()
 	*/
@@ -643,7 +618,7 @@ public:
 	UnicodeString toString( const long& val );
 	UnicodeString toString( const unsigned long& val );
 	UnicodeString toString( const double& val );
-	UnicodeString toString( const float& val );	
+	UnicodeString toString( const float& val );
 
 	/**
 	Converts a double currency value into a string.
@@ -710,7 +685,7 @@ public:
 
 	DateTime aDate(12,11,1969);
 
-	UnicodeString datStr = loc.toStringFromDate( aDate, "dddd, MMM d yyyy" ); 
+	UnicodeString datStr = loc.toStringFromDate( aDate, "dddd, MMM d yyyy" );
 	//datStr will equal "Saturday, Nov 12 1969"
 	\endcode
 	@return UnicodeString the new string instance of a date
@@ -761,7 +736,7 @@ public:
 	  <tr>
 	    <td>ss</td><td>The second as a number (00-59) <b>with</b> leading zero.</td>
 	  </tr>
-	  
+
 	</table>
 	An example of this:
 	\code
@@ -769,13 +744,13 @@ public:
 
 	DateTime aDate(11,12,1969,14,34,45);
 
-	UnicodeString timeStr = loc.toStringFromDate( aDate, "h:mm:ss" ); 
+	UnicodeString timeStr = loc.toStringFromDate( aDate, "h:mm:ss" );
 	//timeStr will equal "2:34:45"
 	\endcode
 	@return UnicodeString the new string instance of a date
 	*/
 	UnicodeString toStringFromTime( const DateTime& val, const UnicodeString& format="" );
-	
+
 	/**
 	Converts a string to a integer.
 	*/
@@ -783,7 +758,7 @@ public:
 	unsigned int toUInt( const UnicodeString& str );
 	double toDouble( const UnicodeString& str );
 	float toFloat( const UnicodeString& str );
-	double toDoubleAsCurrency( const UnicodeString& str );	
+	double toDoubleAsCurrency( const UnicodeString& str );
 
 	/**
 	Transforms all alpha numeric characters in a string to lower case.
@@ -813,7 +788,7 @@ public:
 	UnicodeString getNumberGrouping();
 	UnicodeString getCurrencyDecimalPoint();
 	UnicodeString getCurrencyThousandsSeparator();
-	UnicodeString getCurrencySymbol();	
+	UnicodeString getCurrencySymbol();
 	int getCurrencyFractionalDigits();
 	UnicodeString getCurrencyPositiveSign();
 	UnicodeString getCurrencyNegativeSign();
@@ -834,7 +809,7 @@ public:
 protected:
 	LocalePeer* peer_;
 
-	
+
 };
 
 
@@ -846,6 +821,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -933,6 +911,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_LOCALES_H__
 

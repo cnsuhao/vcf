@@ -1,6 +1,35 @@
+//ServerSocketEvent.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/NetworkKit/NetworkKit.h"
+
+using namespace VCFNet;
+using namespace VCF;
+
+ServerSocketEvent::ServerSocketEvent( Object* source ):
+	Event( source )
+{
+
+}
+
+ServerSocketEvent::~ServerSocketEvent()
+{
+
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:45:48  ddiego
 *migration towards new directory structure
 *
@@ -22,23 +51,5 @@
 *to facilitate change tracking
 *
 */
-
-// ServerSocketEvent.cpp
-
-#include "vcf/NetworkKit/NetworkKit.h"
-
-using namespace VCFNet;
-using namespace VCF;
-
-ServerSocketEvent::ServerSocketEvent( Object* source ):
-	Event( source )
-{
-
-}
-
-ServerSocketEvent::~ServerSocketEvent()
-{
-
-}
 
 

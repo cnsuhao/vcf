@@ -1,40 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_OBJECT_H__
 #define _VCF_OBJECT_H__
+//Object.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF{
@@ -47,50 +24,50 @@ class Mutex;
 
 /**
 *Base class for entire Visual Component Framework.
-*New as of July 5,2001, Object will also support 
+*New as of July 5,2001, Object will also support
 *refcounting for those who need this kind of support.
 *There are several places in the ApplicationKit that will need to make use
-*of this fairly soon. 
+*of this fairly soon.
 *<p>
-*Also Object supports a new technique for destroying Object derived instances. 
-*In general, in C++, when creating a destroying an object instance on the heap (free-store) 
-*you would use the operator delete() function. This is being phased out in the VCF 
-*for a variety of reasons, in favor of a different scheme. 
+*Also Object supports a new technique for destroying Object derived instances.
+*In general, in C++, when creating a destroying an object instance on the heap (free-store)
+*you would use the operator delete() function. This is being phased out in the VCF
+*for a variety of reasons, in favor of a different scheme.
 *Destroying the memory now happens in two ways: The first is the equivalent of the operator delete()
-*call. This involves calling the objects free() method, which will call the virtual destroy() method 
+*call. This involves calling the objects free() method, which will call the virtual destroy() method
 *before calling operator delete() on itself;
 *The second way an object can be destroyed is if it's refcount drops to 0, at which point the object's
-*free() method will be invoked. Calling the object's release() method decrements the reference count 
+*free() method will be invoked. Calling the object's release() method decrements the reference count
 *on the object.
-*By default if an obejct is created on the heap via new, and no one addref()'s it, then a 
+*By default if an obejct is created on the heap via new, and no one addref()'s it, then a
 *single call to the release() method will free up it's memory.
 *</p>
 *<p>
 *<code>destroy()</code> is a virtual method, where common shared cleanup may take place. Because this
-*is called before the delete() method, it is still safe to call virtual methods and have them 
+*is called before the delete() method, it is still safe to call virtual methods and have them
 *execute correctly (in C++ virtual calls inside of a constructor or destructor are not allowed
 *and if made then the behaviour is undefined).
 *<p>
 *Classes which are heap based (such as all of the UI classes that derive from Component) should
-*define their destructor as having protected access. In addition the majority of the cleanup code 
-*should be placed in the overridden <code>destroy()</code> method as opposed to the class destructor. 
+*define their destructor as having protected access. In addition the majority of the cleanup code
+*should be placed in the overridden <code>destroy()</code> method as opposed to the class destructor.
 *Anything that requires method calls to other object or the class itself (particularly if the method
-*is a virtual one) should be moved to the 
+*is a virtual one) should be moved to the
 *</p>
 *<p>
 *Semantics of the addRef/release usage are as follows:
-*An object's refcount indicates "ownership " of the object. In other words, the "owner" of the 
+*An object's refcount indicates "ownership " of the object. In other words, the "owner" of the
 *object is responsible for releasing it's hold on the object, thus decrementing the objects
-*refcount, which, when reduced to 0, causes the object to be deleted. This is also known as 
-*a strong reference to an object, as opposed to a weak reference where the "owner" doesn't 
+*refcount, which, when reduced to 0, causes the object to be deleted. This is also known as
+*a strong reference to an object, as opposed to a weak reference where the "owner" doesn't
 *claim any responsibility over the object.
 *
 *Note that this whole scheme is aimed at heap based objects. Many objects that are created on the stack
-*do not need this. For example, common utility objects like Rect or Point do not need this - they 
+*do not need this. For example, common utility objects like Rect or Point do not need this - they
 *can be created on the stack.
 */
 class FRAMEWORK_API Object {
-public:    
+public:
 	Object();
 
 	virtual ~Object();
@@ -98,7 +75,7 @@ public:
 	virtual void init();
 
 	/**
-	*call this method to free up the memory of the class 
+	*call this method to free up the memory of the class
 	*for heap based objects
 	*/
 	void free();
@@ -127,15 +104,15 @@ public:
 	}
 
     /**
-     * returns a string representation of the object 
+     * returns a string representation of the object
      */
     virtual String toString();
 
     /**
-     * returns the class name of the object. 
+     * returns the class name of the object.
      */
     String getClassName();
-	
+
 	/**
 	This determines if object is equal to this
 	the equivalent of operator ==()
@@ -145,7 +122,7 @@ public:
 	};
 
 	/**
-	Copies the data from source to this object. 
+	Copies the data from source to this object.
 	This is the equivalent of operator=()
 	*/
 	virtual void copy( Object* source ) {};
@@ -159,16 +136,16 @@ public:
 	}
 	</pre>
 	In which the implementer simply creates a new instance on the heap
-	and calls the copy constructor. 
-	Objects which support cloning <b>should</b> also have a copy 
+	and calls the copy constructor.
+	Objects which support cloning <b>should</b> also have a copy
 	constructor defined as well.
 
 	@param bool deep if deep is true then any object instances
-	that this object owns should probably be cloned as well, with 
+	that this object owns should probably be cloned as well, with
 	full new copies made. Otherwise it would be acceptable to simply
 	copy the pointer values. The default value is for deep cloning to
 	be false.
-	@return Object a new instance that should be an copy of this. If 
+	@return Object a new instance that should be an copy of this. If
 	the object doesn't support cloning the return will value will be NULL.
 	*/
 	virtual Object* clone( bool deep=false ) {
@@ -176,11 +153,11 @@ public:
 	};
 
 	/**
-	*returns the RTTI Class instance associated object 
+	*returns the RTTI Class instance associated object
 	*of this type
 	*/
 	Class* getClass() ;
-	
+
 	/**
 	*returns a hash value that represents the object instance
 	*/
@@ -196,9 +173,9 @@ public:
 		Ptr(){
 			ptr_ = NULL;
 		}
-		
+
 		/**
-		*constructor for the Ptr passing in a 
+		*constructor for the Ptr passing in a
 		*new instance of an OBJECT_TYPE
 		*/
 		Ptr( OBJECT_TYPE* o ){
@@ -222,7 +199,7 @@ public:
 
 		/**
 		*equality operator.
-		*Compares the object passed in with the internal 
+		*Compares the object passed in with the internal
 		*object.
 		**@param OBJECT_TYPE the object to compare with. Current
 		*comparison is only a simple pointer comparison. This may
@@ -236,7 +213,7 @@ public:
 		*assignment operator.
 		*assigns a new object value to the Ptr instance.
 		*/
-		Ptr& operator= ( OBJECT_TYPE* o ) {			
+		Ptr& operator= ( OBJECT_TYPE* o ) {
 			ptr_ = o;
 			return *this;
 		}
@@ -246,7 +223,7 @@ public:
 		}
 
 		OBJECT_TYPE& operator *() {
-			return *ptr_;	
+			return *ptr_;
 		}
 
 		OBJECT_TYPE** operator &( ) {
@@ -265,12 +242,12 @@ public:
 
 	/**
 	indicates whether or not debug memory should be tracked. Note
-	that debug memory is tracked <b>only</b> in debug builds 
+	that debug memory is tracked <b>only</b> in debug builds
 	(meaning the VCF has been compiled with the _DEBUG symbol
 	defined). Memory tracking is turned off for release builds.
 	@param bool if this is true, then memory will be tracked, and when
 	the FoundationKit::terminate() is called, the system will
-	check how many outstanding objects (i.e. any class instance that 
+	check how many outstanding objects (i.e. any class instance that
 	derives from VCF::Object directly or indirectly) there are.
 	It will then perform a diagnostic dump, displaying the memory
 	address and the class name of the object instance
@@ -300,7 +277,7 @@ public:
 
 	static void dumpDebugInfo();
 
-	//we're gonna declare operator new here so we can track 
+	//we're gonna declare operator new here so we can track
 	//VCF related memory leaks
 	void* operator new( size_t allocationSize );
 
@@ -310,7 +287,7 @@ public:
 		return ::operator new(  allocationSize, p );
 	}
 
-#ifndef VCF_GCC	
+#ifndef VCF_GCC
 	void operator delete( void* objectPointer, void* p ) {
 		::operator delete( objectPointer, p );
 	}
@@ -327,22 +304,22 @@ public:
 		size_t objectAllocationSize_;
 		unsigned long objAddress_;
 	};
-	
+
 	static std::map<unsigned long,DebugInfo> debugAllocationMap;
 	static bool trackingDebugMemory;
-	
+
 #endif //_VCF_DEBUG_NEW
 
 protected:
 	/**
-	*called by the free() method. Should be overriden 
+	*called by the free() method. Should be overriden
 	*and any clean up code performed here
 	*/
 	virtual void destroy();
 
 	unsigned long refCount_;
 private:
-	
+
 };
 
 };
@@ -351,6 +328,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *

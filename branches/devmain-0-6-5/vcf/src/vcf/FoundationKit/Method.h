@@ -1,40 +1,17 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_METHOD_H__
 #define _VCF_METHOD_H__
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+//Method.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF {
@@ -52,7 +29,7 @@ namespace VCF {
 <p>
 <pre>
 	  code	|	primitive type
-	----------------------------	
+	----------------------------
 	  "i"   |		integer
 	  "l"	|		long
 	  "h"	|		short
@@ -63,18 +40,18 @@ namespace VCF {
 	  "o"	|		Object*
 	  "b"	|		bool
 	  "s"	|		String or String&
-	  "e"	|		Enum* 
+	  "e"	|		Enum*
 
 </pre>
 <p>
-*To create an instance of a Method object use one of the template 
+*To create an instance of a Method object use one of the template
 *based classes described below.
 */
 class FRAMEWORK_API Method  {
 
 public:
 	Method(){
-		argCount_ = 0;	
+		argCount_ = 0;
 		hasReturnValue_ = false;
 	};
 
@@ -83,28 +60,28 @@ public:
 	/**
 	*makes a copy of the method. Implemented in the templated
 	*derived classes.
-	*/	
+	*/
 
 	/**
 	*invoke the method on the source object
-	*We don't need the number of elements in the arguments[] because 
-	*argCount_ should be set and we can use these. If this is not the 
+	*We don't need the number of elements in the arguments[] because
+	*argCount_ should be set and we can use these. If this is not the
 	*case then the programmer has screwed up somewhere !
-	*the source argument may be NULL, in this case the 
+	*the source argument may be NULL, in this case the
 	*implementing code should Assumes setSource() has already been called
-	*this would have gotten set when the class or interface 
+	*this would have gotten set when the class or interface
 	*the method belonged to was retreived from the Object in question
 	*/
-	virtual VariantData* invoke( VariantData** arguments, 
+	virtual VariantData* invoke( VariantData** arguments,
 								 Object* source=NULL ) = 0;
-	
+
 	/**
 	*returns the name of the method
 	*/
 	String getName(){
 		return name_;
 	}
-	
+
 	/**
 	*sets the name of the method
 	*/
@@ -121,7 +98,7 @@ public:
 	}
 
 	/**
-	*specifies whether or not the method has a return 
+	*specifies whether or not the method has a return
 	*value
 	*@return bool true if the method has a return value
 	*otherwise false
@@ -143,9 +120,9 @@ public:
 
 	/**
 	*returns the argument type for the specified argument
-	*@param ulong32 a zero based index representing a particular 
+	*@param ulong32 a zero based index representing a particular
 	*argument. For a method declared like this void someMethod( bool, int )
-	*then an index of 0 would represent the frist argument (bool), and 
+	*then an index of 0 would represent the frist argument (bool), and
 	*index 1 would represnt the second argument(int).
 	*@return PropertyDescriptorType the argument type
 	*/
@@ -220,7 +197,7 @@ protected:
 	String argTypes_;
 	ulong32 argCount_;
 	bool hasReturnValue_;
-	String name_;	
+	String name_;
 };
 
 
@@ -232,6 +209,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:08  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *
@@ -294,6 +274,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_METHOD_H__
 

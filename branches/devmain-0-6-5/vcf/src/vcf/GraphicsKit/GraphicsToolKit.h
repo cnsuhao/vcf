@@ -1,42 +1,17 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_GRAPHICSTOOLKIT_H__
 #define _VCF_GRAPHICSTOOLKIT_H__
+//GraphicsToolKit.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF{
@@ -53,62 +28,62 @@ font. This class is intended for read only purposes
 class GRAPHICSKIT_API FontInfo {
 public:
 	FontInfo(){}
-	
+
 	FontInfo( const String& aName, const String& aFileName ):
 		name_(aName),
 		fileName_( aFileName ){}
-			
+
 	FontInfo( const FontInfo& fi ) {
-		*this = fi;	
+		*this = fi;
 	}
-	
+
 	FontInfo& operator=( const FontInfo& rhs ) {
 		name_ = rhs.name_;
 		fileName_ = rhs.fileName_;
-		return *this;	
+		return *this;
 	}
-	
+
 	bool operator == ( const FontInfo& rhs ) const {
 		return (name_ == rhs.name_) && (fileName_ == rhs.fileName_);
 	}
-	
+
 	bool operator > ( const FontInfo& rhs ) const {
 		return (name_ > rhs.name_) && (fileName_ > rhs.fileName_);
 	}
-	
+
 	bool operator < ( const FontInfo& rhs ) const {
 		return (name_ < rhs.name_) && (fileName_ < rhs.fileName_);
 	}
-	
+
 	bool operator != ( const FontInfo& rhs ) const {
 		return (name_ != rhs.name_) && (fileName_ != rhs.fileName_);
 	}
-	
+
 	/**
-	returns the human readable name of the font, such as "Arial", or 
-	"Century Schoolbook L". This is the name that should be used by the 
+	returns the human readable name of the font, such as "Arial", or
+	"Century Schoolbook L". This is the name that should be used by the
 	Font::setName() and will match when calling the Font::getName()
 	*/
 	String name() const {
-		return name_;	
+		return name_;
 	}
-	
-	
+
+
 	/**
 	This returns the fully qualified file name for the font. This will differ
 	greatly from the name returned by FontInfo;;name() or Font::getName().
-	For example the name of the font might be "Century Schoolbook L", while the file 
+	For example the name of the font might be "Century Schoolbook L", while the file
 	name might be /usr/share/fonts/default/Type1/c0590131.pfb
 	*/
 	String fileName() const {
-		return fileName_;	
+		return fileName_;
 	}
-	
-protected:		
+
+protected:
 	String name_;
 	String fileName_;
 };
-	
+
 
 
 /**
@@ -135,7 +110,7 @@ public:
 	static FontPeer* createFontPeer( const String& fontName );
 
 	static FontPeer* createFontPeer( const String& fontName, const double& pointSize );
-	
+
 	static OpenGLPeer* createOpenGLPeer( GraphicsContext* glContext );
 
 	static Image* createImage( const unsigned long& width, const unsigned long& height );
@@ -144,7 +119,7 @@ public:
 
 	/**
 	*Create a image from a filename. The file is loaded into a Bitmap instance.
-	*The toolkit looks up the file extension and matches the type to 
+	*The toolkit looks up the file extension and matches the type to
 	*an ImageLoader instance. The ImageLoader does the work of actually decoding the image
 	*/
 	static Image* createImage( const String& fileName );
@@ -180,7 +155,7 @@ public:
 	static void printColorNameMap( ) ;
 
 	static Enumerator<FontInfo>* getAvailableSystemFonts();
-	
+
 	static Font* getDefaultSystemFont() ;
 
 	static double getDPI();
@@ -201,7 +176,7 @@ protected:
 	virtual FontPeer* internal_createFontPeer( const String& fontName )  = 0;
 
 	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize )  = 0;
-	
+
 	virtual OpenGLPeer* internal_createOpenGLPeer( GraphicsContext* glContext ) = 0;
 
 	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height ) = 0;
@@ -210,14 +185,14 @@ protected:
 
 	/**
 	*Create a image from a filename. The file is loaded into a Bitmap instance.
-	*The toolkit looks up the file extension and matches the type to 
+	*The toolkit looks up the file extension and matches the type to
 	*an ImageLoader instance. The ImageLoader does the work of actually decoding the image
 	*/
 	virtual Image* internal_createImage( const String& fileName );
 
 	virtual void internal_saveImage( const String& fileName, Image* image );
 
-	void internal_registerImageLoader( const String& name, ImageLoader* imageLoader );	
+	void internal_registerImageLoader( const String& name, ImageLoader* imageLoader );
 
 	virtual Color* internal_getSystemColor( const unsigned long& systemColor );
 
@@ -226,11 +201,11 @@ protected:
 	virtual String internal_getColorNameFromMap( const Color& color ) const ;
 
 	virtual Font* internal_getDefaultSystemFont() {
-		return NULL;	
+		return NULL;
 	}
 
 	virtual double internal_getDPI() {
-		return -1.0;	
+		return -1.0;
 	};
 
 
@@ -257,20 +232,20 @@ protected:
 	void internal_printColorNameMap( ) const ;
 
 	Enumerator<FontInfo>* internal_getAvailableSystemFonts() {
-		return fontInfoContainer_.getEnumerator();	
+		return fontInfoContainer_.getEnumerator();
 	}
-	
-	
 
-	
+
+
+
 
 	/**
 	this will auto create our list for us - and is the only place where it can be created
-	initialization will happen in the ColorNames constructor 
+	initialization will happen in the ColorNames constructor
 	*/
 	//ColorNames colorNames_;
 
-	std::map<String,String> contentTypes_;	
+	std::map<String,String> contentTypes_;
 
 	MapStringColor colorMap_;
 	MapStringColorName colorNameMap_;
@@ -285,11 +260,11 @@ protected:
 
 	std::vector<FontInfo> availableSystemFonts_;
 	EnumeratorContainer<std::vector<FontInfo>,FontInfo> fontInfoContainer_;
-	
+
 
 	/**
 	this method should be overridden by implementers of the graphics toolkit
-	and should initialize the availableSystemFonts_ vector with a series of 
+	and should initialize the availableSystemFonts_ vector with a series of
 	FontInfo instances.
 	*/
 	virtual void initSystemFontNames() {};
@@ -299,7 +274,7 @@ protected:
 	static GraphicsToolkit* graphicsToolkitInstance;
 	/**
 	*ImageLoaders are stored in map, keyed by the MIME content type
-	*Thus JPEG loaders are stored under the key: 
+	*Thus JPEG loaders are stored under the key:
 	*<p><pre>
 	*	"image/jpeg"
 	*</pre></p>
@@ -310,10 +285,12 @@ protected:
 };	// namespace VCF
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -439,6 +416,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_GRAPHICSTOOLKIT_H__
 

@@ -1,31 +1,12 @@
+//Win32Font.cpp
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
@@ -37,7 +18,7 @@ Win32Font::Win32Font( const String& fontName ):
 	fontName_(fontName),
 	logFont_(NULL),
 	tm_(NULL)
-{		 
+{
 	init();
 }
 
@@ -47,7 +28,7 @@ Win32Font::Win32Font( const String& fontName, const double& pointSize ):
 	fontName_(fontName),
 	logFont_(NULL),
 	tm_(NULL)
-{	
+{
 	init();
 }
 
@@ -57,30 +38,30 @@ Win32Font::~Win32Font()
 	//fontName_ = "";
 
 	if ( System::isUnicodeEnabled() ) {
-		delete (LOGFONTW*)logFont_;		
-		delete (TEXTMETRICW*)tm_;		
+		delete (LOGFONTW*)logFont_;
+		delete (TEXTMETRICW*)tm_;
 	}
 	else {
-		delete (LOGFONTA*)logFont_;		
-		delete (TEXTMETRICA*)tm_;		
+		delete (LOGFONTA*)logFont_;
+		delete (TEXTMETRICA*)tm_;
 	}
 }
 
 void Win32Font::init()
 {
-	
+
 
 	if ( System::isUnicodeEnabled() ) {
 		logFont_ = new LOGFONTW;
-		memset( logFont_, 0, sizeof(LOGFONTW) );	
-		
+		memset( logFont_, 0, sizeof(LOGFONTW) );
+
 		tm_ = new TEXTMETRICW;
 		memset( tm_, 0, sizeof(TEXTMETRICW) );
 	}
 	else {
 		logFont_ = new LOGFONTA;
 		memset( logFont_, 0, sizeof(LOGFONTA) );
-		
+
 		tm_ = new TEXTMETRICA;
 		memset( tm_, 0, sizeof(TEXTMETRICA) );
 	}
@@ -107,7 +88,7 @@ void Win32Font::init()
 			LOGFONTW& tmpLF = *((LOGFONTW*)logFont_);
 			tmpLF.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
 			tmpLF.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-			tmpLF.lfEscapement = 0;		
+			tmpLF.lfEscapement = 0;
 			tmpLF.lfItalic = FALSE;
 			tmpLF.lfOrientation = 0;
 			tmpLF.lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -123,7 +104,7 @@ void Win32Font::init()
 			LOGFONTA& tmpLF = *((LOGFONTA*)logFont_);
 			tmpLF.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
 			tmpLF.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-			tmpLF.lfEscapement = 0;		
+			tmpLF.lfEscapement = 0;
 			tmpLF.lfItalic = FALSE;
 			tmpLF.lfOrientation = 0;
 			tmpLF.lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -145,31 +126,31 @@ void Win32Font::init()
 	}
 
 	HDC dc = GetDC( ::GetDesktopWindow() );//gets screen DC
-	
+
 	if ( pointSize_ > 0.0 ) {
 		fontHeight = -MulDiv( pointSize_, GetDeviceCaps( dc, LOGPIXELSY), 72 );
 	}
-	
+
 
 	ReleaseDC( ::GetDesktopWindow(), dc );
 
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW& tmpLF = *((LOGFONTW*)logFont_);
 
-		tmpLF.lfHeight = fontHeight; 
+		tmpLF.lfHeight = fontHeight;
 
 		if ( fontName_.empty() ) {
 			fontName_.append( tmpLF.lfFaceName, LF_FACESIZE );
 		}
 		else {
 			memset( ((LOGFONTW*)logFont_)->lfFaceName, 0, LF_FACESIZE*sizeof(VCFChar) );
-			fontName_.copy( tmpLF.lfFaceName, minVal<int>( fontName_.size(), LF_FACESIZE) );		
+			fontName_.copy( tmpLF.lfFaceName, minVal<int>( fontName_.size(), LF_FACESIZE) );
 		}
 	}
 	else {
 		LOGFONTA& tmpLF = *((LOGFONTA*)logFont_);
 
-		tmpLF.lfHeight = fontHeight; 
+		tmpLF.lfHeight = fontHeight;
 
 		if ( fontName_.empty() ) {
 			fontName_.append( tmpLF.lfFaceName, LF_FACESIZE );
@@ -177,17 +158,17 @@ void Win32Font::init()
 		else {
 			AnsiString tmpFntName = fontName_;
 			memset( ((LOGFONTA*)logFont_)->lfFaceName, 0, LF_FACESIZE*sizeof(char) );
-			tmpFntName.copy( tmpLF.lfFaceName, minVal<int>( tmpFntName.size(), LF_FACESIZE) );		
+			tmpFntName.copy( tmpLF.lfFaceName, minVal<int>( tmpFntName.size(), LF_FACESIZE) );
 		}
 	}
-	
-	
+
+
 	updateTextMetrics();
 
 	Win32FontManager::initializeFont( this );
 }
 
-ulong32 Win32Font::getFontHandleID()  
+ulong32 Win32Font::getFontHandleID()
 {
 	return (ulong32)logFont_;
 }
@@ -195,9 +176,9 @@ ulong32 Win32Font::getFontHandleID()
 void Win32Font::updateTextMetrics()
 {
 	HDC dc = GetDC( ::GetDesktopWindow() );//gets screen DC
-	
+
 	int dcs = ::SaveDC( dc );
-	
+
 
 
 	HFONT tmpFont = NULL;
@@ -206,31 +187,31 @@ void Win32Font::updateTextMetrics()
 	if ( System::isUnicodeEnabled() ) {
 		tmpFont = CreateFontIndirectW( (LOGFONTW*)logFont_ );
 		oldFont = (HFONT)SelectObject( dc, tmpFont );
-	
+
 		memset( tm_, 0, sizeof(TEXTMETRICW) );
 		GetTextMetricsW( dc, (TEXTMETRICW*)tm_ );
 	}
 	else {
 		tmpFont = CreateFontIndirectA( (LOGFONTA*)logFont_ );
 		oldFont = (HFONT)SelectObject( dc, tmpFont );
-	
+
 		memset( tm_, 0, sizeof(TEXTMETRICA) );
 		GetTextMetricsA( dc, (TEXTMETRICA*)tm_ );
 	}
-	
-	
+
+
 	::RestoreDC( dc, dcs );
-	
+
 	SelectObject( dc, oldFont );
 	DeleteObject( tmpFont );
-	
+
 	ReleaseDC( ::GetDesktopWindow(), dc );
 }
 
-bool Win32Font::isTrueType()  
-{	
+bool Win32Font::isTrueType()
+{
 	bool result = false;
-	if ( System::isUnicodeEnabled() ) {		
+	if ( System::isUnicodeEnabled() ) {
 		if ( (((TEXTMETRICW*)tm_)->tmPitchAndFamily & TMPF_TRUETYPE) != 0 ){
 			result = true;
 		}
@@ -244,7 +225,7 @@ bool Win32Font::isTrueType()
 	return result;
 }
 
-double Win32Font::getPointSize()  
+double Win32Font::getPointSize()
 {
 	HDC dc = GetDC( ::GetDesktopWindow() );
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
@@ -262,9 +243,9 @@ double Win32Font::getPointSize()
 }
 
 void Win32Font::setPointSize( const double pointSize )
-{	
+{
 	HDC dc = GetDC( ::GetDesktopWindow() );
-	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);	
+	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
 	long lfHeight = (pointSize / 72) * ppi;
 
 	bool needsUpdate = false;
@@ -275,8 +256,8 @@ void Win32Font::setPointSize( const double pointSize )
 	else {
 		needsUpdate = (lfHeight != ((LOGFONTA*)logFont_)->lfHeight);
 	}
-	
-	
+
+
 	ReleaseDC( ::GetDesktopWindow(), dc );
 
 	if ( true == needsUpdate ) {
@@ -291,16 +272,16 @@ void Win32Font::setPointSize( const double pointSize )
 		((LOGFONTA*)logFont_)->lfHeight = lfHeight;
 		((LOGFONTA*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
-	
+
 	if ( true == needsUpdate ) {
-		
+
 		updateTextMetrics();
 
 		Win32FontManager::initializeFont( this );
 	}
 }
 
-double Win32Font::getPixelSize()  
+double Win32Font::getPixelSize()
 {
 	double result = 0.0;
 
@@ -338,7 +319,7 @@ void Win32Font::setPixelSize( const double pixelSize )
 		((LOGFONTA*)logFont_)->lfWidth = 0; //let font mapper choose closest match
 	}
 
-	
+
 
 	if ( true == needsUpdate ) {
 		updateTextMetrics();
@@ -350,7 +331,7 @@ void Win32Font::setPixelSize( const double pixelSize )
 void Win32Font::setBold( const bool& bold )
 {
 	DWORD style = bold ? FW_BOLD : FW_NORMAL;
-	
+
 
 	bool needsUpdate = false;
 
@@ -379,7 +360,7 @@ void Win32Font::setBold( const bool& bold )
 	}
 }
 
-bool Win32Font::getBold()  
+bool Win32Font::getBold()
 {
 	bool result = false;
 
@@ -393,7 +374,7 @@ bool Win32Font::getBold()
 	return result;
 }
 
-bool Win32Font::getItalic()  
+bool Win32Font::getItalic()
 {
 	bool result = false;
 
@@ -430,7 +411,7 @@ void Win32Font::setItalic( const bool& italic )
 	else {
 		((LOGFONTA*)logFont_)->lfItalic = italic ? TRUE : FALSE;
 	}
-	
+
 
 	if ( true == needsUpdate ) {
 		updateTextMetrics();
@@ -439,7 +420,7 @@ void Win32Font::setItalic( const bool& italic )
 	}
 }
 
-bool Win32Font::getUnderlined()  
+bool Win32Font::getUnderlined()
 {
 	bool result = false;
 
@@ -457,7 +438,7 @@ void Win32Font::setUnderlined( const bool& underlined )
 {
 	BYTE lfUnderlined = underlined ? TRUE : FALSE;
 
-	
+
 	bool needsUpdate = false;
 
 	if ( System::isUnicodeEnabled() ) {
@@ -477,7 +458,7 @@ void Win32Font::setUnderlined( const bool& underlined )
 	else {
 		((LOGFONTA*)logFont_)->lfUnderline = underlined ? TRUE : FALSE;
 	}
-	
+
 
 	if ( true == needsUpdate ) {
 		updateTextMetrics();
@@ -486,7 +467,7 @@ void Win32Font::setUnderlined( const bool& underlined )
 	}
 }
 
-bool Win32Font::getStrikeOut()  
+bool Win32Font::getStrikeOut()
 {
 	bool result = false;
 
@@ -502,7 +483,7 @@ bool Win32Font::getStrikeOut()
 
 void Win32Font::setStrikeOut( const bool& strikeout )
 {
-	BYTE lfStrikeOut = strikeout ? TRUE : FALSE;	
+	BYTE lfStrikeOut = strikeout ? TRUE : FALSE;
 
 	bool needsUpdate = false;
 
@@ -517,7 +498,7 @@ void Win32Font::setStrikeOut( const bool& strikeout )
 		Win32FontManager::removeFont( this );
 	}
 
-	
+
 	if ( System::isUnicodeEnabled() ) {
 		((LOGFONTW*)logFont_)->lfStrikeOut = strikeout ? TRUE : FALSE;
 	}
@@ -532,7 +513,7 @@ void Win32Font::setStrikeOut( const bool& strikeout )
 	}
 }
 
-double Win32Font::getShear()  
+double Win32Font::getShear()
 {
 	return this->shear_;
 }
@@ -542,7 +523,7 @@ void Win32Font::setShear(const double& shear )
 	this->shear_ = shear;
 }
 
-double Win32Font::getAngle()  
+double Win32Font::getAngle()
 {
 	double tmp = 0.0;
 	if ( System::isUnicodeEnabled() ) {
@@ -552,7 +533,7 @@ double Win32Font::getAngle()
 		tmp = (double)((LOGFONTA*)logFont_)->lfEscapement;
 	}
 
-	return tmp / 10.0; //Win32 lfEscapement is in tenths of degrees i.e. 334.23° is 3342 
+	return tmp / 10.0; //Win32 lfEscapement is in tenths of degrees i.e. 334.23° is 3342
 }
 
 void Win32Font::setAngle( const double& angle )
@@ -578,7 +559,7 @@ void Win32Font::setAngle( const double& angle )
 		((LOGFONTA*)logFont_)->lfEscapement = angle * 10;
 		((LOGFONTA*)logFont_)->lfOrientation = angle * 10;
 	}
-	
+
 
 	if ( true == needsUpdate ) {
 		updateTextMetrics();
@@ -587,7 +568,7 @@ void Win32Font::setAngle( const double& angle )
 	}
 }
 
-String Win32Font::getName()  
+String Win32Font::getName()
 {
 	String result;
 	if ( System::isUnicodeEnabled() ) {
@@ -602,7 +583,7 @@ String Win32Font::getName()
 
 void Win32Font::setName( const String& name )
 {
-	bool needsUpdating = ( fontName_ != name );	
+	bool needsUpdating = ( fontName_ != name );
 
 	if ( true == needsUpdating ) {
 		Win32FontManager::removeFont( this );
@@ -621,14 +602,14 @@ void Win32Font::setName( const String& name )
 		tmpName.copy( ((LOGFONTA*)logFont_)->lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
 	}
 
-	if ( true == needsUpdating ) {	
+	if ( true == needsUpdating ) {
 		updateTextMetrics();
 
 		Win32FontManager::initializeFont( this );
 	}
 }
 
-GlyphCollection* Win32Font::getGlyphCollection( const String& text )  
+GlyphCollection* Win32Font::getGlyphCollection( const String& text )
 {
 	return NULL;
 }
@@ -638,7 +619,7 @@ bool Win32Font::isEqual( Object* object )
 	bool result = false;
 	Win32Font* fntObj = dynamic_cast<Win32Font*>(object);
 	if ( NULL != fntObj ){
-		
+
 		if ( (this->fontName_ == fntObj->fontName_) &&
 			 (this->color_.isEqual( &(fntObj->color_) )) &&
 			 (this->pointSize_ == fntObj->pointSize_) ) {
@@ -650,7 +631,7 @@ bool Win32Font::isEqual( Object* object )
 }
 
 
-double Win32Font::getAscent()  
+double Win32Font::getAscent()
 {
 	double result = 0.0;
 	if ( System::isUnicodeEnabled() ) {
@@ -662,7 +643,7 @@ double Win32Font::getAscent()
 	return result;
 }
 
-double Win32Font::getDescent()  
+double Win32Font::getDescent()
 {
 	double result = 0.0;
 	if ( System::isUnicodeEnabled() ) {
@@ -674,7 +655,7 @@ double Win32Font::getDescent()
 	return result;
 }
 
-double Win32Font::getExternalLeading()  
+double Win32Font::getExternalLeading()
 {
 	double result = 0.0;
 	if ( System::isUnicodeEnabled() ) {
@@ -686,7 +667,7 @@ double Win32Font::getExternalLeading()
 	return result;
 }
 
-double Win32Font::getInternalLeading()  
+double Win32Font::getInternalLeading()
 {
 	double result = 0.0;
 	if ( System::isUnicodeEnabled() ) {
@@ -698,7 +679,7 @@ double Win32Font::getInternalLeading()
 	return result;
 }
 
-double Win32Font::getHeight()  
+double Win32Font::getHeight()
 {
 	double result = 0.0;
 	if ( System::isUnicodeEnabled() ) {
@@ -710,7 +691,7 @@ double Win32Font::getHeight()
 	return result;
 }
 
-VCFChar Win32Font::getWordBreakCharacter()  
+VCFChar Win32Font::getWordBreakCharacter()
 {
 	VCFChar result = 0;
 	if ( System::isUnicodeEnabled() ) {
@@ -722,7 +703,7 @@ VCFChar Win32Font::getWordBreakCharacter()
 	return result;
 }
 
-VCFChar Win32Font::getFirstCharacter()  
+VCFChar Win32Font::getFirstCharacter()
 {
 	VCFChar result = 0;
 	if ( System::isUnicodeEnabled() ) {
@@ -734,7 +715,7 @@ VCFChar Win32Font::getFirstCharacter()
 	return result;
 }
 
-VCFChar Win32Font::getLastCharacter()   
+VCFChar Win32Font::getLastCharacter()
 {
 	VCFChar result = 0;
 	if ( System::isUnicodeEnabled() ) {
@@ -750,18 +731,18 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 								const bool& underlined, const bool& struckOut, const double& shear,
 								const double& angle, const String& name )
 {
-	
+
 	Win32FontManager::removeFont( this );
-	
-	fontName_ = name;	
+
+	fontName_ = name;
 
 	HDC dc = GetDC( ::GetDesktopWindow() );
-	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);	
-	long lfHeight = (pointSize / 72.0) * ppi;	
-	
+	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
+	long lfHeight = (pointSize / 72.0) * ppi;
+
 	ReleaseDC( ::GetDesktopWindow(), dc );
 
-	
+
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW& lfw = *((LOGFONTW*)logFont_);
 		lfw.lfHeight = lfHeight;
@@ -793,18 +774,19 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 		tmpName.copy( lfa.lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
 	}
 
-	
+
 	updateTextMetrics();
 
-	Win32FontManager::initializeFont( this );	
+	Win32FontManager::initializeFont( this );
 }
-
-
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *

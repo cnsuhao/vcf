@@ -1,54 +1,30 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_EVENTHANDLER_H__
 #define _VCF_EVENTHANDLER_H__
 //EventHandler.h
 
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world. 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF  {
 
 /**
-*EventHandler's form the back bone of the event 
+*EventHandler's form the back bone of the event
 *model in the VCF. The EventHandler base class
-*provides a clean way to invoke the class 
-*specific member function pointers in the 
-*derived EventHandlerInstance template class. 
+*provides a clean way to invoke the class
+*specific member function pointers in the
+*derived EventHandlerInstance template class.
 *
 */
-class FRAMEWORK_API EventHandler : public VCF::Object { 
+class FRAMEWORK_API EventHandler : public VCF::Object {
 public:
 	typedef std::vector<EventHandler*> Vector;
 
@@ -58,30 +34,30 @@ public:
 
 	/**
 	*called during the events dispatch cycle
-	*The implemtnation will end up calling the 
-	*appropriate call back method 
+	*The implemtnation will end up calling the
+	*appropriate call back method
 	*/
 	virtual void invoke( Event* e ) = 0;
 
 	/**
 	*adds the EventHandler to it's source object.
-	*For this to work the source must be derived 
+	*For this to work the source must be derived
 	*from ObjectWithEvents. By adding the event handler
-	*to the source, the handler's memory will be cleaned 
+	*to the source, the handler's memory will be cleaned
 	*up by the source when the source is destroyed.
-	*The EventHandler may be retreived at any time 
-	*by calling the getEventHandler() method on the 
+	*The EventHandler may be retreived at any time
+	*by calling the getEventHandler() method on the
 	*source (once again, assuming the source is derived
 	*from ObjectWithEvents).
 	*@param Object the source to which the EventHandler
 	*will be added.
 	*@param String the name the EventHandler is referred to.
-	*This should be a reasonably unique name. 
+	*This should be a reasonably unique name.
 	*/
 	void addHandlerToSource( Object* source, const String& handlerName );
 
 	/**
-	*adds the handler list to the event owner. The eventOwner must derive 
+	*adds the handler list to the event owner. The eventOwner must derive
 	*from ObjectWithEvent for this to work successfully.
 	*/
 	static void addHandlerList( Object* eventOwner, EventHandler::Vector* handlerList );
@@ -89,24 +65,24 @@ public:
 
 
 /**
-EventHandlerInstances are used to provide a 
+EventHandlerInstances are used to provide a
 typesafe wrapper around specific class members method pointers.
 In addition, when the are created, if the source passed in is
-derived from VCF::ObjectWithEvents, then the handler will be 
+derived from VCF::ObjectWithEvents, then the handler will be
 maintained in a list by the source, and destroyed when the source
 is destroyed, freeing the creator of the handler from worrying about
 memory leaks.
 */
-template <class SOURCE, class EVENT> 
+template <class SOURCE, class EVENT>
 class EventHandlerInstance : public EventHandler {
 public:
 	typedef void (SOURCE::*OnEventHandlerMethod)( EVENT* e );
 
 	EventHandlerInstance( SOURCE* source, OnEventHandlerMethod handlerMethod, const String& handlerName="" ) {
 		source_ = source;
-		handlerMethod_ = handlerMethod; 
-		
-		addHandlerToSource( source, handlerName );	
+		handlerMethod_ = handlerMethod;
+
+		addHandlerToSource( source, handlerName );
 	}
 
 	virtual ~EventHandlerInstance(){
@@ -125,26 +101,26 @@ protected:
 };
 
 /**
-StaticEventHandlerInstance's are used to provide a 
+StaticEventHandlerInstance's are used to provide a
 typesafe wrapper around a specific class's <b>static</a> function pointers,
 as opposed to method pointers (which take the implicit this pointer).
 In addition, when they are created, if the source passed in is
-derived from VCF::ObjectWithEvents, then the handler will be 
+derived from VCF::ObjectWithEvents, then the handler will be
 maintained in a list by the source, and destroyed when the source
 is destroyed, freeing the creator of the handler from worrying about
 memory leaks.
 */
-template <class EVENT> 
+template <class EVENT>
 class StaticEventHandlerInstance : public EventHandler {
 public:
 	typedef void (*OnStaticEventHandlerMethod)( EVENT* e );
 
 	StaticEventHandlerInstance( OnStaticEventHandlerMethod handlerMethod,
-								Object* source=NULL, 
+								Object* source=NULL,
 								const String& handlerName="" ) {
-		handlerMethod_ = handlerMethod; 
+		handlerMethod_ = handlerMethod;
 		if( NULL != source ) {
-			addHandlerToSource( source, handlerName );	
+			addHandlerToSource( source, handlerName );
 		}
 	}
 
@@ -167,27 +143,28 @@ protected:
 The GenericEventHandler class is provided as a convenience class for use when dealing with a generic
 Event object.
 */
-template <class SOURCE_TYPE> 
+template <class SOURCE_TYPE>
 class GenericEventHandler : public EventHandlerInstance<SOURCE_TYPE,Event> {
 public:
 	GenericEventHandler( SOURCE_TYPE* source,
-		_typename_ EventHandlerInstance<SOURCE_TYPE,Event>::OnEventHandlerMethod handlerMethod, 
+		_typename_ EventHandlerInstance<SOURCE_TYPE,Event>::OnEventHandlerMethod handlerMethod,
 		const String& handlerName="") :
 			EventHandlerInstance<SOURCE_TYPE,Event>( source, handlerMethod, handlerName ) {
-			
+
 	}
-	
+
 	virtual ~GenericEventHandler(){};
 };
 
 }; //end of namespace VCF
 
 
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

@@ -1,61 +1,43 @@
-#if     _MSC_VER > 1000
-#pragma once
+#ifndef _VCF_COMMANDLINE_H__
+#define _VCF_COMMANDLINE_H__
+//CommandLine.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
 #endif
 
 
-
-#ifndef _VCF_COMMANDLINE_H__
-#define _VCF_COMMANDLINE_H__
-
-/**
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
-*/
 /*
   Original code from Chris Losinger's CCmdLine class
-  
+
  Copyright (C) 1999 Chris Losinger, Smaller Animals Software.
    http://www.smalleranimals.com
 
    This software is provided 'as-is', without any express
-   or implied warranty.  In no event will the authors be 
+   or implied warranty.  In no event will the authors be
    held liable for any damages arising from the use of this software.
 
-   Permission is granted to anyone to use this software 
-   for any purpose, including commercial applications, and 
-   to alter it and redistribute it freely, subject to the 
+   Permission is granted to anyone to use this software
+   for any purpose, including commercial applications, and
+   to alter it and redistribute it freely, subject to the
    following restrictions:
 
-     1. The origin of this software must not be misrepresented; 
-   you must not claim that you wrote the original software. 
-   If you use this software in a product, an acknowledgment 
+     1. The origin of this software must not be misrepresented;
+   you must not claim that you wrote the original software.
+   If you use this software in a product, an acknowledgment
    in the product documentation would be appreciated but is not required.
-   
-     2. Altered source versions must be plainly marked as such, 
+
+     2. Altered source versions must be plainly marked as such,
    and must not be misrepresented as being the original software.
-   
-     3. This notice may not be removed or altered from any source 
+
+     3. This notice may not be removed or altered from any source
    distribution.
 
 */
@@ -85,20 +67,20 @@ Example :
    if the required switches are not present and continue with default
    values if the optional switches are not present.
 
-      Sample command line : 
+      Sample command line :
       MyApp.exe -p1 text1 text2 -p2 "this is a big argument" -opt1 -55 -opt2
 
-      Switches -p1 and -p2 are required. 
+      Switches -p1 and -p2 are required.
       p1 has two arguments and p2 has one.
-      
-      Switches -opt1 and -opt2 are optional. 
-      opt1 requires a numeric argument. 
+
+      Switches -opt1 and -opt2 are optional.
+      opt1 requires a numeric argument.
       opt2 has no arguments.
-      
+
       Also, assume that the app displays a 'help' screen if the '-h' switch
       is present on the command line.
 
-<pre>	
+<pre>
    #include "CmdLine.h"
 
    void main(int argc, char **argv)
@@ -106,7 +88,7 @@ Example :
       // our cmd line parser object
       CommandLine cmdLine;
 
-      // parse argc,argv 
+      // parse argc,argv
       if (cmdLine.splitLine(argc, argv) &lt; 1)
       {
          // no switches were given on the command line, abort
@@ -124,7 +106,7 @@ Example :
       // get the required arguments
       String p1_1, p1_2, p2_1;
       try
-      {  
+      {
          // if any of these fail, we'll end up in the catch() block
          p1_1 = cmdLine.getArgument("-p1", 0);
          p1_2 = cmdLine.getArgument("-p1", 1);
@@ -155,29 +137,29 @@ Example :
    @version 2.0 Jim Crafton
 */
 class FRAMEWORK_API CommandLine : public Object {
-	
+
 public:
-	
-/** 
+
+/**
 parse the command line into switches and arguments.
 @return int number of switches found
 	*/
 	int splitLine( int argc, char **argv );
-	
-	/**	
+
+	/**
 	was the switch found on the command line ?
 	<pre>
     ex. if the command line is : app.exe -a p1 p2 p3 -b p4 -c -d p5
-	
+
       call                          return
       ----                          ------
       cmdLine.HasSwitch("-a")       true
       cmdLine.HasSwitch("-z")       false
-	  </pre>	
+	  </pre>
 	  @return bool true if it has the swith, otherwise false
-	*/   
+	*/
 	bool hasSwitch( const String& aSwitch );
-	
+
 	/**
 	fetch an argument associated with a switch . if the parameter at
 	index iIdx is not found, this will return the default that you
@@ -186,7 +168,7 @@ parse the command line into switches and arguments.
 	example :
 	<pre>
 	command line is : app.exe -a p1 p2 p3 -b p4 -c -d p5
-	
+
       call                                      return
       ----                                      ------
       cmdLine.GetSafeArgument("-a", 0, "zz")    p1
@@ -195,44 +177,44 @@ parse the command line into switches and arguments.
       cmdLine.GetSafeArgument("-b", 1, "zz")    zz
 	  </pre>
 	*/
-	
+
 	String getSafeArgument(const String& aSwitch, int iIdx, const String& aDefault);
-	
+
 	/**
-	fetch a argument associated with a switch. throws an exception 
+	fetch a argument associated with a switch. throws an exception
 	of (int)0, if the parameter at index iIdx is not found.
 	<p>
 	example :
 	<pre>
 	command line is : app.exe -a p1 p2 p3 -b p4 -c -d p5
-	
+
       call                             return
       ----                             ------
       cmdLine.GetArgument("-a", 0)     p1
       cmdLine.GetArgument("-b", 1)     throws (int)0, returns an empty string
 	  </pre>
 	*/
-	String getArgument( const String& aSwitch, int iIdx ); 
-	
+	String getArgument( const String& aSwitch, int iIdx );
+
 	String getArgument( int index );
 
 	/**
-	@return the number of arguments found for a given switch. -1 if the 
+	@return the number of arguments found for a given switch. -1 if the
 	switch was not found
 	*/
 	int getArgumentCount(const String& aSwitch);
-	
+
 	Enumerator<String>* getOriginalCommands() {
 		return commandLineContainer_.getEnumerator();
 	}
-	
-	
+
+
 
 	unsigned long getArgCount() {
 		return originalCommandLine_.size();
 	}
 protected:
-	
+
 /**
 protected member function
 test a parameter to see if it's a switch :
@@ -245,14 +227,18 @@ the first character of a switch must be non-numeric!
 	CommandLineMap commandLine_;
 	std::vector<String> originalCommandLine_;
 	EnumeratorContainer<std::vector<String>,String> commandLineContainer_;
-	
+
 };
 
 };
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

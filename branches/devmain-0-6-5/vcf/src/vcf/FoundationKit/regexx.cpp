@@ -1,3 +1,12 @@
+//regexx.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 /*************************************************************************/
 /*                                                                       */
 /*  Regexx - Regular Expressions C++ solution.                           */
@@ -58,7 +67,7 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 		pcre_fullinfo(preg_, NULL, PCRE_INFO_CAPTURECOUNT, (void*)&capturecount_);
 		compiled_ = true;
 	}
-	
+
 	if(!study_ && (_flags&study)) {
 		const char *errptr;
 		extra_ = pcre_study(preg_, 0, &errptr);
@@ -66,18 +75,18 @@ const unsigned int& Regexx::exec(int _flags) throw(CompileException)
 			throw CompileException(errptr);
 		study_ = true;
 	}
-	
+
 	match.clear();
-	
+
 	int eflags = ((_flags&notbol)?PCRE_NOTBOL:0) | ((_flags&noteol)?PCRE_NOTEOL:0);
-	
+
 	int ssv[33];
 	int ssc;
 	matches_ = 0;
-	
+
 	ssc = pcre_exec(preg_,extra_,str_.c_str(),str_.length(),0,eflags,ssv,33);
 	bool ret = (ssc > 0);
-	
+
 	if(_flags&global) {
 		if(_flags&nomatch)
 			while(ret) {
@@ -194,5 +203,14 @@ std::vector<String> splitex(const String& regex, const String& str)
 	v.push_back(str.substr(lastpos,i->start()));
 	return v;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
 
 

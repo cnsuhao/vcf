@@ -1,42 +1,17 @@
-
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_IMAGEBITS_H__
 #define _VCF_IMAGEBITS_H__
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
-
 //ImageBits.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -80,13 +55,13 @@ struct PixelTraits {
 		Image::ImageDescriptor tmp =  (((val & 0xFFFF) ^ val) | (val & 0xFF));
 
 		val = (size << 8);
-		
+
 		val |= tmp;
 
 		return val;
 	}
 
-	static Image::ImageDescriptor setImageType( Image::ImageDescriptor& val, Image::ImageType type ) { 
+	static Image::ImageDescriptor setImageType( Image::ImageDescriptor& val, Image::ImageType type ) {
 		val = ((val & 0xF) ^ val) | type;
 		return val;
 	}
@@ -144,16 +119,16 @@ public:
 Defines a channel layout order of b,g,r,a with
 BitSizeType bits per channel
 */
-template < typename BitSizeType, 
+template < typename BitSizeType,
 			bool FloatingPoint=false,
 			typename PixTraitsType=PixelTraits<BitSizeType,FloatingPoint>,
 			typename PixAllocaterType=PixelAllocater<PixTraitsType>	>
 struct BGRAPixel {
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;		
+	typedef PixAllocaterType Allocater;
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	BitSizeType b;
 	BitSizeType g;
@@ -172,13 +147,13 @@ struct BGRAPixel<float, true > {
 	typedef PixelAllocater<Traits> Allocater;
 #else
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 #endif
-	
+
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	float b;
 	float g;
@@ -195,17 +170,17 @@ struct BGRAPixel<float, true > {
 Defines a channel layout order of r,g,b,a with
 BitSizeType bits per channel
 */
-template < typename BitSizeType, 
+template < typename BitSizeType,
 			bool FloatingPoint=false,
 			typename PixTraitsType=PixelTraits<BitSizeType,FloatingPoint>,
 			typename PixAllocaterType=PixelAllocater<PixTraitsType> >
 struct RGBAPixel {
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	BitSizeType r;
 	BitSizeType g;
@@ -225,12 +200,12 @@ struct RGBAPixel<float, true > {
 	typedef PixelAllocater<Traits> Allocater;
 #else
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 #endif
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	float r;
 	float g;
@@ -243,17 +218,17 @@ struct RGBAPixel<float, true > {
 Defines a channel layout order of a,r,g,b with
 BitSizeType bits per channel
 */
-template < typename BitSizeType, 
+template < typename BitSizeType,
 			bool FloatingPoint=false,
 			typename PixTraitsType=PixelTraits<BitSizeType,FloatingPoint>,
 			typename PixAllocaterType=PixelAllocater<PixTraitsType> >
 struct ARGBPixel {
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	BitSizeType a;
 	BitSizeType r;
@@ -273,17 +248,17 @@ struct ARGBPixel<float, true > {
 	typedef PixelAllocater<Traits> Allocater;
 #else
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
-#endif	
+	typedef PixAllocaterType Allocater;
+#endif
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	float a;
 	float r;
 	float g;
-	float b;	
+	float b;
 };
 #endif
 
@@ -300,11 +275,11 @@ template < typename BitSizeType,
 			typename PixAllocaterType=PixelAllocater<PixTraitsType> >
 struct ABGRPixel {
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	BitSizeType a;
 	BitSizeType b;
@@ -317,24 +292,24 @@ struct ABGRPixel {
 floating point specialization
 */
 template <  >
-struct ABGRPixel<float,true> {	
+struct ABGRPixel<float,true> {
 
 #ifdef VCF_VC71
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 #endif
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	float a;
 	float b;
 	float g;
-	float r;	
+	float r;
 };
 #endif
 
@@ -352,11 +327,11 @@ template < typename BitSizeType,
 struct GrayscalePixel {
 
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
+	typedef PixAllocaterType Allocater;
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
 	BitSizeType value;
 };
@@ -374,19 +349,19 @@ struct GrayscalePixel<float,true> {
 	typedef PixelAllocater<Traits> Allocater;
 #else
 	typedef PixTraitsType Traits;
-	typedef PixAllocaterType Allocater;	
-#endif	
+	typedef PixAllocaterType Allocater;
+#endif
 
 	enum {
 		ChannelSize = Traits::ChannelSize
-	};	
+	};
 
-	float value;	
+	float value;
 };
 #endif
 
 
-}; //VCF namespace 
+}; //VCF namespace
 
 
 
@@ -429,7 +404,7 @@ namespace VCF {
 
 
 /**
-*Basic class for image bit twiddling 
+*Basic class for image bit twiddling
 *default behaviour is to allow for RGBA channels
 */
 
@@ -439,24 +414,24 @@ class GRAPHICSKIT_API ImageBits : public Object {
 public :
 
 
-	ImageBits():needsMemAlloc_(true),pixels_(NULL),renderBuffer_(NULL) {	
+	ImageBits():needsMemAlloc_(true),pixels_(NULL),renderBuffer_(NULL) {
 		renderBuffer_ = new agg::rendering_buffer();
 	};
 
 	typedef SysPixelType::Traits Traits;
 
 	ImageBits( const unsigned long& width, const unsigned long& height, const bool& needsMemAlloc=true ):
-		needsMemAlloc_(needsMemAlloc), pixels_(NULL), renderBuffer_(NULL) {		
-		
+		needsMemAlloc_(needsMemAlloc), pixels_(NULL), renderBuffer_(NULL) {
+
 		allocatePixelMemory( width, height );
 
-		
+
 		renderBuffer_ = new agg::rendering_buffer();
 	};
 
 	virtual ~ImageBits(){
 		if ( (NULL != pixels_) && (true == needsMemAlloc_) ) {
-			delete [] pixels_;	
+			delete [] pixels_;
 		}
 
 		delete renderBuffer_;
@@ -467,13 +442,13 @@ public :
 			if ( NULL != pixels_ ){
 				delete [] pixels_;
 			}
-			
+
 			pixels_ = (SysPixelType*)SysPixelType::Allocater::allocate( width, height );
 		}
-	}	
+	}
 
 	void attachRenderBuffer( unsigned long width, unsigned long height ) {
-		renderBuffer_->attach( (unsigned char*)pixels_, width, height, 
+		renderBuffer_->attach( (unsigned char*)pixels_, width, height,
 								width * (Traits::getTraitsImageType()) );
 	}
 
@@ -489,6 +464,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *
@@ -618,7 +596,6 @@ public :
 */
 
 
-	
 #endif // _VCF_IMAGEBITS_H__
 
 

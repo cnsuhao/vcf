@@ -1,42 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
 #ifndef _VCF_CLASSREGISTRY_H__
 #define _VCF_CLASSREGISTRY_H__
+//ClassRegistry.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// ClassRegistry.h
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -45,8 +20,8 @@ namespace VCF
 
 /**
 *ClassRegistry contains all Class's in the Framework Runtime.
-*The ClassRegistry is used by the Framework Runtime to register Classes 
-*and properties for Classes. The ClassRegistry is also used to dynamically 
+*The ClassRegistry is used by the Framework Runtime to register Classes
+*and properties for Classes. The ClassRegistry is also used to dynamically
 *create new instances of a class from a class name.
 *
 *@author Jim Crafton
@@ -60,27 +35,27 @@ public:
 
 	ClassRegistry();
 
-	virtual ~ClassRegistry();	
+	virtual ~ClassRegistry();
 
 	/**
-	*returns a Class object from a string. If no matching 
+	*returns a Class object from a string. If no matching
 	*Class exists the function returns NULL.
-	*In terms of efficiency, this function is faster than 
+	*In terms of efficiency, this function is faster than
 	*getClass( Object*)
 	*@param String the name of the class to find
 	*@return Class the class associated with the className
 	*/
-	static Class* getClass( const String& className );	
+	static Class* getClass( const String& className );
 
 	/**
-	*returns a Class object from a string representing a ClassID/UUID. 
+	*returns a Class object from a string representing a ClassID/UUID.
 	*If no matching Class exists the function returns NULL.
-	*In terms of efficiency, this function is faster than 
+	*In terms of efficiency, this function is faster than
 	*getClass( Object*)
 	*@param String the UUID or ClassID of the class to find
 	*@return Class the class associated with the ClassID
 	*/
-	static Class* getClassFromClassID( const String& classID );	
+	static Class* getClassFromClassID( const String& classID );
 
 	/**
 	*returns a Class object for the object passed in.
@@ -94,14 +69,14 @@ public:
 	*@param String the class name of the object to create
 	*@param Object a pointer to the newly created object
 	*/
-	static Object* createNewInstance( const String& className ) ;	
+	static Object* createNewInstance( const String& className ) ;
 
 	/**
 	*creates a new instance of an object based on the classID.
 	*@param String the classID of the object to create
 	*@param Object a pointer to the newly created object
 	*/
-	static Object* createNewInstanceFromClassID( const String& classID ) ;	
+	static Object* createNewInstanceFromClassID( const String& classID ) ;
 
 	/**
 	*see ImplementedInterfaceClass::createInterfaceInstance()
@@ -124,7 +99,7 @@ public:
 	static void removeClassByID( const String& classID );
 
 	/**
-	*adds a new InterfaceClass object to the ClassRegistry that represents 
+	*adds a new InterfaceClass object to the ClassRegistry that represents
 	*a particular interface
 	*@param String the name of the interface
 	*@param InterfaceClass the InterfaceClass object to register
@@ -142,8 +117,8 @@ public:
 	static Enumerator<InterfaceClass*>* getInterfaces() ;
 
 	/**
-	*returns a ImplementedInterfaceClass object from a string. If no matching 
-	*ImplementedInterfaceClass exists the function returns NULL.	
+	*returns a ImplementedInterfaceClass object from a string. If no matching
+	*ImplementedInterfaceClass exists the function returns NULL.
 	*@param String the name of the implementing class to find
 	*@paramString the interface UUID to find
 	*@return ImplementedInterfaceClass the implemented interface associated with the implementingClassName
@@ -151,16 +126,16 @@ public:
 	static ImplementedInterfaceClass* getImplementedInterface( const String& implementingClassName, const String& interfaceID );
 
 	/**
-	*returns a InterfaceClass object from a string. If no matching 
-	*InterfaceClass exists the function returns NULL.	
+	*returns a InterfaceClass object from a string. If no matching
+	*InterfaceClass exists the function returns NULL.
 	*@param String the name of the interface to find
 	*@return InterfaceClass the interface associated with the interfaceName
 	*/
 	static InterfaceClass* getInterface( const String& interfaceName ) ;
 
 	/**
-	*returns a InterfaceClass object from a string ID. If no matching 
-	*InterfaceClass exists the function returns NULL.	
+	*returns a InterfaceClass object from a string ID. If no matching
+	*InterfaceClass exists the function returns NULL.
 	*@param String the UUID of the interface to find
 	*@return InterfaceClass the interface associated with the interfaceName
 	*/
@@ -173,7 +148,7 @@ public:
 
 	/**
 	*attempts to register the method with the class or interface
-	*@return bool represents whether or not the registration attempt 
+	*@return bool represents whether or not the registration attempt
 	*was successful. If the method returns false then the caller must
 	*free the Method object that was passed in
 	*/
@@ -183,11 +158,11 @@ public:
 	/**
 	*attempts to register the method with the class or interface
 	*@param Method the Method object that represents the method to registered
-	*@param String the UUID of the class or interface to register the Method 
+	*@param String the UUID of the class or interface to register the Method
 	*with
 	*@param bool whether or not the Method is associated with an Interface
 	*or a Class.
-	*@return bool represents whether or not the registration attempt 
+	*@return bool represents whether or not the registration attempt
 	*was successful. If the method returns false then the caller must
 	*free the Method object that was passed in
 	*/
@@ -196,27 +171,27 @@ public:
 	/**
 	*Dumps out the classes in registery to stdout
 	*/
-	static void dump();	
+	static void dump();
 
 	/**
 	Removes a class from teh ClassRegistry.
-	Dynamically loaded libraries should call this prior to termination to 
-	prevent bad memory from being deleted 
+	Dynamically loaded libraries should call this prior to termination to
+	prevent bad memory from being deleted
 	*/
 
 	static void removeClass( Class* clazz );
 
 	static void removeInterface( InterfaceClass* interfaceClass );
 protected:
-	Class* internal_getClass( const String& className );	
+	Class* internal_getClass( const String& className );
 
-	Class* internal_getClassFromClassID( const String& classID );	
+	Class* internal_getClassFromClassID( const String& classID );
 
 	Class* internal_getClass( Object* object ) ;
 
-	Object* internal_createNewInstance( const String& className ) ;	
+	Object* internal_createNewInstance( const String& className ) ;
 
-	Object* internal_createNewInstanceFromClassID( const String& classID ) ;	
+	Object* internal_createNewInstanceFromClassID( const String& classID ) ;
 
 	void* internal_createNewInterfaceInstanceFromInterfaceName( const String& interfaceName, const String& implementerClassName );
 
@@ -250,33 +225,33 @@ protected:
 	/**
 	*a static function that returns the global instance of the ClassRegistry.
 	*/
-	static ClassRegistry* getClassRegistry();	
+	static ClassRegistry* getClassRegistry();
 
 	EnumeratorMapContainer<std::map<String,Class*>,Class*> classContainer_;
 	EnumeratorMapContainer<std::map<String,InterfaceClass*>,InterfaceClass*> interfaceContainer_;
 
 	/**
-	*a map of all the classes in the ClassRegistry. keyed by the class name 
+	*a map of all the classes in the ClassRegistry. keyed by the class name
 	*/
 	std::map<String,Class*> classMap_;
 
 	/**
-	*a map of all the interfaces in the ClassRegistry. keyed by the interface name 
+	*a map of all the interfaces in the ClassRegistry. keyed by the interface name
 	*/
 	std::map<String,InterfaceClass*> interfaceMap_;
 
 	/**
-	*a map of all the classes in the ClassRegistry. keyed by the classID 
+	*a map of all the classes in the ClassRegistry. keyed by the classID
 	*/
 	std::map<String,InterfaceClass*> interfaceIDMap_;
-	
+
 	/**
-	*a map of all the classes in the ClassRegistry. keyed by the classID 
+	*a map of all the classes in the ClassRegistry. keyed by the classID
 	*/
 	std::map<String,ImplementedInterfaceClass*> implementedInterfacesIDMap_;
 
 	/**
-	*a map of all the classes in the ClassRegistry. keyed by the classID 
+	*a map of all the classes in the ClassRegistry. keyed by the classID
 	*/
 	std::map<String,Class*> classIDMap_;
 
@@ -288,10 +263,12 @@ protected:
 };
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:06  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -433,6 +410,7 @@ protected:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_CLASSREGISTRY_H__
 

@@ -1,45 +1,22 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
 #ifndef _VCF_DELEGATE_H__
 #define _VCF_DELEGATE_H__
-
 //Delegate.h
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 /**
 Use this macro to make sure you define a delegate named "name", and an accessor function
-called get<name>, which will return a reference to the delegate. 
+called get<name>, which will return a reference to the delegate.
 */
 #define DELEGATE(name)\
 	VCF::Delegate name;\
@@ -57,12 +34,12 @@ namespace VCF {
 
 /**
 The Delegate class is used to maintain a collection of event handlers
-and fire events to them. 
+and fire events to them.
 <p>
-Delegate's have their += and -= operators overloaded as a convenienc methods 
+Delegate's have their += and -= operators overloaded as a convenienc methods
 for adding or removing event handlers.
 <p>
-A Delegate is <b><i>not</i></b> meant to be subclassed or derived from. It maintains 
+A Delegate is <b><i>not</i></b> meant to be subclassed or derived from. It maintains
 a pointer to a vector of event handlers, and be default the pointer is null. A new vector
 will be created the first time a handler is added.
 */
@@ -76,7 +53,7 @@ public:
 		removeAllHandlers();
 		delete handlers_;
 	}
-	
+
 	Delegate( const Delegate& rhs ): handlers_(NULL) {
 		*this = rhs;
 	}
@@ -97,7 +74,7 @@ public:
 
 
 	/**
-	This adds a new event handler to the Delegate. If this is the first time that a 
+	This adds a new event handler to the Delegate. If this is the first time that a
 	handler has been added to this Delegate the Delgate's vector of event handlers will
 	be created.
 	@param EventHandler the new event handler to add. The event handler will <b>only</b>
@@ -106,23 +83,23 @@ public:
 	inline void addHandler( EventHandler* handler ) {
 		checkHandlers();
 
-		EventHandler::Vector::iterator found = 
+		EventHandler::Vector::iterator found =
 				std::find( handlers_->begin(), handlers_->end(), handler );
-			
+
 		if ( found == handlers_->end() ) {
 			handlers_->push_back( handler );
-		}		
+		}
 	}
 
 	/**
 	This removes an event handler from the Delegate
 	@param EventHandler the event handler to remove
 	*/
-	inline void removeHandler( EventHandler* handler ) { 
+	inline void removeHandler( EventHandler* handler ) {
 		if ( NULL != handlers_ ) {
-			EventHandler::Vector::iterator found = 
+			EventHandler::Vector::iterator found =
 				std::find( handlers_->begin(), handlers_->end(), handler );
-			
+
 			if ( found != handlers_->end() ) {
 				handlers_->erase( found );
 			}
@@ -132,7 +109,7 @@ public:
 	/**
 	a shortcut for adding an event handler
 	*/
-	inline Delegate& operator += ( EventHandler* handler ) { 
+	inline Delegate& operator += ( EventHandler* handler ) {
 		addHandler( handler );
 		return *this;
 	}
@@ -140,14 +117,14 @@ public:
 	/**
 	a shortcut for removing an event handler
 	*/
-	inline Delegate& operator -= ( EventHandler* handler ) { 
+	inline Delegate& operator -= ( EventHandler* handler ) {
 		removeHandler( handler );
 		return *this;
 	}
 
 	/**
 	This fires an event to all known event handlers in this delegate.
-	If an Event is marked as consumed (i.e. the Event's consume(true) is called) 
+	If an Event is marked as consumed (i.e. the Event's consume(true) is called)
 	then the iteration of handlers will stop and the method will exit, otherwise
 	each handler will have it's invoke() method called once, with the event passed in.
 	@param Event the event to pass to each event handler
@@ -156,7 +133,7 @@ public:
 		if ( NULL != handlers_ ) {
 			/**
 			copy the handlers_ vector so that if a call is made to the delegates
-			setFirstEventHandler, or removeAllHandlers, a crash does not 
+			setFirstEventHandler, or removeAllHandlers, a crash does not
 			occur due to the (possibly) changed state of the handlers_ vector.
 			*/
 			EventHandler::Vector tmpHandlers = *handlers_;
@@ -199,7 +176,7 @@ public:
 			handlers_->erase( found );
 		}
 
-		handlers_->insert( handlers_->begin(), handler );		
+		handlers_->insert( handlers_->begin(), handler );
 	}
 
 protected:
@@ -218,6 +195,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *
@@ -346,7 +326,6 @@ protected:
 *added the new Delegate class to facilate event handling
 *
 */
-
 
 
 #endif // _VCF_DELEGATE_H__

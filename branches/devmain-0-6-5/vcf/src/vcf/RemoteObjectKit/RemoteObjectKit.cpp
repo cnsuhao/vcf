@@ -1,6 +1,34 @@
+//RemoteObjectKit.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/RemoteObjectKit/RemoteObjectKit.h"
+
+using namespace VCF;
+using namespace VCFRemote;
+
+void initRemoteObjectKit()
+{
+	DistributedClassRegistry::create();
+}
+
+void terminateRemoteObjectKit()
+{
+	DistributedClassRegistry::getDistributedClassRegistry()->release();
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:45:50  ddiego
 *migration towards new directory structure
 *
@@ -23,21 +51,5 @@
 *to facilitate change tracking
 *
 */
-
-//RemoteObjectKit.cpp
-#include "vcf/RemoteObjectKit/RemoteObjectKit.h"
-
-using namespace VCF;
-using namespace VCFRemote;
-
-void initRemoteObjectKit() 
-{
-	DistributedClassRegistry::create();
-}
-
-void terminateRemoteObjectKit()
-{
-	DistributedClassRegistry::getDistributedClassRegistry()->release();
-}
 
 

@@ -1,32 +1,12 @@
-/**
-Copyright (c) 2000-2001, Jim Crafton
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+//VariantData.cpp
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in 
-	the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//VariantData.cpp
+
 #include "vcf/FoundationKit/FoundationKit.h"
 using namespace VCF;
 
@@ -100,12 +80,12 @@ String VariantData::toString()
 		break;
 
 		case pdBool:{
-			bool i = *this;								
+			bool i = *this;
 			result += i ? "true":"false";
 		}
 		break;
 
-		case pdObject:{				
+		case pdObject:{
 			Object* object = *this;
 			if ( NULL != object ){
 				//result += object->toString();
@@ -127,7 +107,7 @@ String VariantData::toString()
 		}
 		break;
 
-		case pdInterface:{				
+		case pdInterface:{
 			Interface* intrFace = *this;
 			if ( NULL != intrFace ){
 				Persistable* persist = dynamic_cast<Persistable*>(intrFace);
@@ -184,7 +164,7 @@ void VariantData::setFromString( const String& value )
 				swscanf( value.c_str(), W_STR_INT_CONVERSION, &i );
 			}
 			else {
-				sscanf( value.ansi_c_str(), STR_INT_CONVERSION, &i );				
+				sscanf( value.ansi_c_str(), STR_INT_CONVERSION, &i );
 			}
 
 			IntVal = i;
@@ -217,7 +197,7 @@ void VariantData::setFromString( const String& value )
 
 		case pdULong:{
 			int i = 0;
-			
+
 			if ( unicodeEnabled ) {
 				swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &i );
 			}
@@ -230,7 +210,7 @@ void VariantData::setFromString( const String& value )
 
 		case pdFloat:{
 			float i = 0.0f;
-			
+
 			if ( unicodeEnabled ) {
 				swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &i );
 			}
@@ -242,11 +222,11 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
-		case pdChar:{		
+		case pdChar:{
 
 			if ( unicodeEnabled ) {
 				WideChar i = '\0';
-				
+
 
 				swscanf( value.c_str(), W_STR_CHAR_CONVERSION, &i );
 
@@ -254,19 +234,19 @@ void VariantData::setFromString( const String& value )
 			}
 			else {
 				char i = '\0';
-				
+
 				sscanf( value.ansi_c_str(), STR_CHAR_CONVERSION, &i );
 
 				CharVal = i;
 			}
 
-			
+
 		}
 		break;
 
 		case pdDouble:{
 			float f = 0;
-			
+
 			if ( unicodeEnabled ) {
 				swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &f );
 			}
@@ -288,11 +268,11 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
-		case pdObject:{				
+		case pdObject:{
 			if ( NULL != ObjVal ){
 				Persistable* persist = dynamic_cast<Persistable*>(ObjVal);
 				if ( NULL != persist ){
-					
+
 					BasicInputStream bis( value );
 					TextInputStream tis( &bis );
 					persist->loadFromStream( &tis );
@@ -300,15 +280,15 @@ void VariantData::setFromString( const String& value )
 				else if ( (value == L"NULL") || (value == L"null") || (value == L"nil") || (value == L"0") ) {
 					ObjVal = NULL;
 				}
-			}				
+			}
 		}
 		break;
 
-		case pdInterface:{				
+		case pdInterface:{
 			if ( NULL != InterfaceVal ){
 				Persistable* persist = dynamic_cast<Persistable*>(InterfaceVal);
 				if ( NULL != persist ){
-					
+
 					BasicInputStream bis( value );
 					TextInputStream tis( &bis );
 					persist->loadFromStream( &tis );
@@ -316,7 +296,7 @@ void VariantData::setFromString( const String& value )
 				else if ( (value == L"NULL") || (value == L"null") || (value == L"nil") || (value == L"0") ) {
 					ObjVal = NULL;
 				}
-			}				
+			}
 		}
 		break;
 
@@ -367,7 +347,7 @@ void VariantData::setValue( const VariantData& value )
 			InterfaceVal = value.InterfaceVal;
 		}
 		break;
-		
+
 		case pdString:{
 			StringVal = value.StringVal;
 		}
@@ -378,8 +358,8 @@ void VariantData::setValue( const VariantData& value )
 		}
 		break;
 
-		case pdUndefined : {				
-			
+		case pdUndefined : {
+
 		}
 		break;
 
@@ -389,10 +369,10 @@ void VariantData::setValue( const VariantData& value )
 
 		case pdULong : {
 			ULongVal = value.ULongVal;
-		} 
+		}
 		break;
 
-		case pdFloat : {				
+		case pdFloat : {
 			FloatVal = value.FloatVal;
 		}
 		break;
@@ -404,9 +384,13 @@ void VariantData::setValue( const VariantData& value )
 	}
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -423,7 +407,5 @@ void VariantData::setValue( const VariantData& value )
 *and a ProgressControl.
 *
 */
-
-
 
 

@@ -1,64 +1,12 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
-*migration towards new directory structure
-*
-*Revision 1.10  2003/05/17 20:37:22  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.9.2.1  2003/03/12 03:12:04  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.9  2003/02/26 04:30:46  ddiego
-*merge of code in the devmain-0-5-9 branch into the current tree.
-*most additions are in the area of the current linux port, but the major
-*addition to this release is the addition of a Condition class (currently
-*still under development) and the change over to using the Delegate class
-*exclusively from the older event handler macros.
-*
-*Revision 1.8.20.1  2003/01/08 00:19:50  marcelloptr
-*mispellings and newlines at the end of all source files
-*
-*Revision 1.8  2002/01/24 01:46:49  ddiego
-*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
-*to facilitate change tracking
-*
+//MicroTiles.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
-*/
+
 #include "vcf/GraphicsKit/GraphicsKit.h"
 
 
@@ -105,27 +53,27 @@ MicroTileArray::MicroTileArray( Rect* rect )
 		int32 xf1 = 0;
 		int32 yf1 = 0;
 		int32 ix = 0;
-		
+
 		//uta = art_new (ArtUta, 1);
 		this->x0_ = ((int32)rect->left_) >> VCF_UTILE_SHIFT;
 		this->y0_ = ((int32)rect->top_) >> VCF_UTILE_SHIFT;
 		width = (((int32)(rect->right_) + VCF_UTILE_SIZE - 1) >> VCF_UTILE_SHIFT) - this->x0_;
 		height = ((((int32)rect->bottom_) + VCF_UTILE_SIZE - 1) >> VCF_UTILE_SHIFT) - this->y0_;
-		
+
 		this->UTiles_.resize( width * height, NULL );
 		//utiles = art_new (ArtMicroTileBBox, width * height);
-		
+
 		this->width_ = width;
 		this->height_ = height;
 		//this->utiles = utiles;
-		
+
 		xf0 = ((int32)rect->left_) & (VCF_UTILE_SIZE - 1);
 		yf0 = ((int32)rect->top_) & (VCF_UTILE_SIZE - 1);
 		xf1 = ((((int32)rect->right_) - 1) & (VCF_UTILE_SIZE - 1)) + 1;
 		yf1 = ((((int32)rect->bottom_) - 1) & (VCF_UTILE_SIZE - 1)) + 1;
 		if (height == 1) {
-			if (width == 1){				
-				this->insertTileAt( 0, xf0, yf0, xf1, yf1 );//==>>utiles[0] = ART_UTA_BBOX_CONS (xf0, yf0, xf1, yf1);				
+			if (width == 1){
+				this->insertTileAt( 0, xf0, yf0, xf1, yf1 );//==>>utiles[0] = ART_UTA_BBOX_CONS (xf0, yf0, xf1, yf1);
 			}
 			else {
 				this->insertTileAt( 0, xf0, yf0, VCF_UTILE_SIZE, yf1 );//==>>utiles[0] = ART_UTA_BBOX_CONS (xf0, yf0, VCF_UTILE_SIZE, yf1);
@@ -156,7 +104,7 @@ MicroTileArray::MicroTileArray( Rect* rect )
 				}
 				insertTileAt( x, 0, yf0, xf1, VCF_UTILE_SIZE );
 				ix = width;
-				for (y = 1; y < height - 1; y++) { 
+				for (y = 1; y < height - 1; y++) {
 					insertTileAt( ix++, xf0, 0, VCF_UTILE_SIZE, VCF_UTILE_SIZE );
 					//bb.setBBox( 0, 0, VCF_UTILE_SIZE, VCF_UTILE_SIZE );
 					for (x = 1; x < width - 1; x++){
@@ -171,12 +119,12 @@ MicroTileArray::MicroTileArray( Rect* rect )
 				}
 				insertTileAt( ix++, 0, 0, xf1, yf1 );
 			}
-		}		
+		}
 	}
 }
 
 MicroTileArray::MicroTileArray( VectorPath* path )
-{	
+{
 	Rect bbox;
 	//int32* rbuf = NULL;
 	int32 i = 0;
@@ -190,21 +138,21 @@ MicroTileArray::MicroTileArray( VectorPath* path )
 	int width = 0;
 	int height = 0;
 	int ix = 0;
-	
+
 	bbox = *(path->getBounds());//==>>art_vpath_bbox_irect (vec, &bbox);
-	
+
 	this->setNewCoords( bbox.left_, bbox.top_, bbox.right_, bbox.bottom_ );//=>>uta = art_uta_new_coords (bbox.x0, bbox.y0, bbox.x1, bbox.y1);
-	
+
 	width = this->width_;
-	height = this->height_;	
-	
+	height = this->height_;
+
 	//resize the tile array
 	this->UTiles_.resize( width * height, NULL );
 
 	std::vector<int32> intList;
 	for (i = 0; i < width * height; i++)
 		intList.push_back(0);
-	
+
 	x = 0;
 	y = 0;
 	int size = path->getPointCount();
@@ -223,7 +171,7 @@ MicroTileArray::MicroTileArray( VectorPath* path )
 			}
 			break;
 
-			case PCT_LINETO: { 
+			case PCT_LINETO: {
 				this->addLine( pt->x_, pt->y_, x, y, intList, width );//==>>art_uta_add_line (uta, vec[i].x, vec[i].y, x, y, rbuf, width);
 				x = pt->x_;
 				y = pt->y_;
@@ -234,19 +182,19 @@ MicroTileArray::MicroTileArray( VectorPath* path )
 			break;
 		}
     }
-	
+
 	/* now add in the filling from rbuf */
 	ix = 0;
 	for (yt = 0; yt < height; yt++) {
 		sum = 0;
 		for (xt = 0; xt < width; xt++){
-			
+
 			sum += intList[ix];
 			/* Nonzero winding rule - others are possible, but hardly
 			worth it. */
 			if (sum != 0) {
 				MicroTileBBox newBB(0);
-				
+
 				newBB = ((int32)newBB) & 0xffff0000;
 				newBB = ((int32)newBB) | ((VCF_UTILE_SIZE << 8) | VCF_UTILE_SIZE);
 				//utiles[ix] = bb;
@@ -280,9 +228,9 @@ MicroTileArray::MicroTileArray( VectorPath* path )
 			ix++;
 		}
     }
-	
+
 	//art_free (rbuf);
-	
+
 	//return uta;
 }
 
@@ -298,10 +246,10 @@ MicroTileArray::~MicroTileArray()
 	UTiles_.clear();
 }
 
-void MicroTileArray::addLine( double x0, double y0, double x1, double y1, 
+void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 							 std::vector<int32>& rbuf, int rbuf_rowstride )
 {
-	
+
 	int32 xmin = 0;
 	int32 ymin = 0;
 	double xmax = 0.0;
@@ -321,7 +269,7 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 	int ix = 0;
 	int ix1 = 0;
 	MicroTileBBox bb(0);
-	
+
 	xmin = floor (MIN(x0, x1));
 	xmax = MAX(x0, x1);
 	xmaxf = floor (xmax);
@@ -336,16 +284,16 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 	yt1 = (ymaxf >> VCF_UTILE_SHIFT) - this->y0_;
 	MicroTileBBox* tile = NULL;
 	if (xt0 == xt1 && yt0 == yt1) {
-		// entirely inside a microtile, this is easy! 
+		// entirely inside a microtile, this is easy!
 		xf0 = xmin & (VCF_UTILE_SHIFT - 1);
 		yf0 = ymin & (VCF_UTILE_SHIFT - 1);
 		xf1 = (xmaxf & (VCF_UTILE_SHIFT - 1)) + xmaxc - xmaxf;
 		yf1 = (ymaxf & (VCF_UTILE_SHIFT - 1)) + ymaxc - ymaxf;
-		
+
 		ix = yt0 * this->width_ + xt0;
-		
+
 		tile = this->UTiles_[ix];
-		//insertTileAt( ix, 
+		//insertTileAt( ix,
 		if ( NULL != tile ) {
 			if (*tile == 0) {
 				tile->setBBox(xf0, yf0, xf1, yf1);
@@ -360,24 +308,24 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 		else {
 			insertTileAt( ix, xf0, yf0, xf1, yf1 );
 		}
-		
+
 		//uta->utiles[ix] = bb;
 	}
 	else  {
 		double dx, dy;
 		int sx, sy;
-		
+
 		dx = x1 - x0;
 		dy = y1 - y0;
 		sx = dx > 0 ? 1 : dx < 0 ? -1 : 0;
 		sy = dy > 0 ? 1 : dy < 0 ? -1 : 0;
 		if (ymin == ymaxf)	{
-			// special case horizontal (dx/dy slope would be infinite) 
+			// special case horizontal (dx/dy slope would be infinite)
 			xf0 = xmin & (VCF_UTILE_SIZE - 1);
 			yf0 = ymin & (VCF_UTILE_SIZE - 1);
 			xf1 = (xmaxf & (VCF_UTILE_SIZE - 1)) + xmaxc - xmaxf;
 			yf1 = (ymaxf & (VCF_UTILE_SIZE - 1)) + ymaxc - ymaxf;
-			
+
 			ix = yt0 * this->width_ + xt0;
 			ix1 = yt0 * this->width_ + xt1;
 			while (ix != ix1){
@@ -410,73 +358,73 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 									MIN(tile->getY0(), yf0),
 									MAX(tile->getX1(), xf1),
 									MAX(tile->getY1(), yf1) );
-				}	
+				}
 			}
 			else {
 				insertTileAt( ix, 0, yf0, xf1, yf1 );
 			}
 		}
 		else {
-			// Do a Bresenham-style traversal of the line 
+			// Do a Bresenham-style traversal of the line
 			double dx_dy;
 			double x, y;
 			double xn, yn;
-			
-			// normalize coordinates to uta origin 
+
+			// normalize coordinates to uta origin
 			x0 -= this->x0_ << VCF_UTILE_SHIFT;
 			y0 -= this->y0_ << VCF_UTILE_SHIFT;
 			x1 -= this->x0_ << VCF_UTILE_SHIFT;
 			y1 -= this->y0_ << VCF_UTILE_SHIFT;
 			if (dy < 0)	{
 				double tmp;
-				
+
 				tmp = x0;
 				x0 = x1;
 				x1 = tmp;
-				
+
 				tmp = y0;
 				y0 = y1;
 				y1 = tmp;
-				
+
 				dx = -dx;
 				sx = -sx;
 				dy = -dy;
 				// we leave sy alone, because it would always be 1,
-				//and we need it for the rbuf stuff. 
+				//and we need it for the rbuf stuff.
 			}
 			xt0 = ((int)floor (x0) >> VCF_UTILE_SHIFT);
 			xt1 = ((int)floor (x1) >> VCF_UTILE_SHIFT);
-			// now [xy]0 is above [xy]1 
-			
+			// now [xy]0 is above [xy]1
+
 			ix = yt0 * this->width_ + xt0;
 			ix1 = yt1 * this->width_ + xt1;
-			
-			
+
+
 			dx_dy = dx / dy;
 			x = x0;
 			y = y0;
 			while (ix != ix1) {
 				int dix;
-				
-				// figure out whether next crossing is horizontal or vertical 
-				
+
+				// figure out whether next crossing is horizontal or vertical
+
 				yn = (yt0 + 1) << VCF_UTILE_SHIFT;
 				xn = x0 + dx_dy * (yn - y0);
 				if (xt0 != (int)floor (xn) >> VCF_UTILE_SHIFT) {
-					// horizontal crossing 
+					// horizontal crossing
 					xt0 += sx;
 					dix = sx;
 					if (dx > 0) {
 						xn = xt0 << VCF_UTILE_SHIFT;
 						yn = y0 + (xn - x0) / dx_dy;
-						
+
 						xf0 = (int)floor (x) & (VCF_UTILE_SHIFT - 1);
 						xf1 = VCF_UTILE_SIZE;
 					}
 					else {
 						xn = (xt0 + 1) << VCF_UTILE_SHIFT;
 						yn = y0 + (xn - x0) / dx_dy;
-						
+
 						xf0 = 0;
 						xmaxc = (int)ceil (x);
 						xf1 = xmaxc - ((xt0 + 1) << VCF_UTILE_SHIFT);
@@ -486,17 +434,17 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 					yf1 = (ymaxf & (VCF_UTILE_SIZE - 1)) + ymaxc - ymaxf;
 				}
 				else {
-					// vertical crossing 
+					// vertical crossing
 					dix = this->width_;
 					xf0 = (int)floor (MIN(x, xn)) & (VCF_UTILE_SIZE - 1);
 					xmax = MAX(x, xn);
 					xmaxc = (int)ceil (xmax);
 					xf1 = xmaxc - (xt0 << VCF_UTILE_SHIFT);
 					yf1 = VCF_UTILE_SIZE;
-					
+
 					if ( false == rbuf.empty() )
 						rbuf[yt0 * rbuf_rowstride + xt0] += sy;
-					
+
 					yt0++;
 				}
 				yf0 = (int)floor (y) & (VCF_UTILE_SIZE - 1);
@@ -515,7 +463,7 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 					}
 				}
 				else {
-					insertTileAt( ix, xf0, yf0, xf1, yf1 );	
+					insertTileAt( ix, xf0, yf0, xf1, yf1 );
 				}
 
 				/*bb = uta->utiles[ix];
@@ -544,7 +492,7 @@ void MicroTileArray::addLine( double x0, double y0, double x1, double y1,
 			tile = this->UTiles_[ix];
 			if ( NULL != tile ){
 				if ( 0 == *tile ){
-					tile->setBBox( xf0, yf0, xf1, yf1 ); 
+					tile->setBBox( xf0, yf0, xf1, yf1 );
 				}
 				else {
 					tile->setBBox( MIN( tile->getX0(), xf0),
@@ -566,9 +514,9 @@ void MicroTileArray::insertTileAt( const uint32& index, const int32& x0, const i
 	int size = this->UTiles_.size();
 	if ( index >= size ) {
 		//resize the array
-		UTiles_.resize( index, NULL );	
+		UTiles_.resize( index, NULL );
 	}
-	
+
 	MicroTileBBox* bbox = UTiles_[index];
 	if ( NULL == bbox ){
 		UTiles_[index] = new MicroTileBBox( x0, y0, x1, y1 );
@@ -584,9 +532,9 @@ void MicroTileArray::insertTileAt( const uint32& index, const MicroTileBBox& bbo
 	int size = this->UTiles_.size();
 	if ( index >= size ) {
 		//resize the array
-		UTiles_.resize( index, NULL );	
+		UTiles_.resize( index, NULL );
 	}
-	
+
 	MicroTileBBox* tile = UTiles_[index];
 	if ( NULL == tile ){
 		UTiles_[index] = new MicroTileBBox( bbox );
@@ -617,28 +565,28 @@ MicroTileBBox* MicroTileArray::addMicroTile( const int32& x0, const int32& y0, c
 
 void MicroTileArray::addMicroTile( MicroTileBBox* bbox )
 {
-	this->UTiles_.push_back( bbox );	
+	this->UTiles_.push_back( bbox );
 }
 
 
 MicroTileArray* MicroTileArray::unionOf( MicroTileArray* tileArray )
 {
 	MicroTileArray* result = NULL;
-	
+
 	int32 x0, y0, x1, y1;
 	int32 x, y;
 	int32 ix, ix1, ix2;
 	MicroTileBBox bb;
 	MicroTileBBox bb1;
 	MicroTileBBox bb2;
-	
+
 	x0 = MIN(this->x0_, tileArray->getX0());
 	y0 = MIN(this->y0_, tileArray->getY0());
 	x1 = MAX(this->x0_ + this->width_, tileArray->getX0() + tileArray->getWidth() );
 	y1 = MAX(this->y0_ + this->height_, tileArray->getY0() + tileArray->getHeight() );
-	
+
 	result = new MicroTileArray( x0, y0, x1, y1 );
-	
+
 	/* could move the first two if/else statements out of the loop */
 	ix = 0;
 	for (y = y0; y < y1; y++) {
@@ -677,8 +625,46 @@ MicroTileArray* MicroTileArray::unionOf( MicroTileArray* tileArray )
 			ix1++;
 			ix2++;
 		}
-    }	
+    }
 	return result;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
+*migration towards new directory structure
+*
+*Revision 1.10  2003/05/17 20:37:22  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.9.2.1  2003/03/12 03:12:04  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.9  2003/02/26 04:30:46  ddiego
+*merge of code in the devmain-0-5-9 branch into the current tree.
+*most additions are in the area of the current linux port, but the major
+*addition to this release is the addition of a Condition class (currently
+*still under development) and the change over to using the Delegate class
+*exclusively from the older event handler macros.
+*
+*Revision 1.8.20.1  2003/01/08 00:19:50  marcelloptr
+*mispellings and newlines at the end of all source files
+*
+*Revision 1.8  2002/01/24 01:46:49  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
 
 

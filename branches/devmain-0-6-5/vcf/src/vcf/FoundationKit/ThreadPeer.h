@@ -1,43 +1,17 @@
-#if     _MSC_VER > 1000
-#pragma once
-#endif
-
-
-
-
 #ifndef _VCF_THREADPEER_H__
 #define _VCF_THREADPEER_H__
+//ThreadPeer.h
 
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-// ThreadPeer.h
 
+#if _MSC_VER > 1000
+#   pragma once
+#endif
 
 
 namespace VCF
@@ -50,7 +24,7 @@ namespace VCF
 *@author Jim Crafton
 *@version 1.0
 */
-class FRAMEWORK_API ThreadPeer 
+class FRAMEWORK_API ThreadPeer
 {
 public:
 	virtual ~ThreadPeer() {}
@@ -61,7 +35,7 @@ public:
 	virtual bool start() = 0;
 
 	/**
-	*gracefully stops the thread and shuts it down, releasing 
+	*gracefully stops the thread and shuts it down, releasing
 	*any OS resources associated with the thread
 	*/
 	virtual void stop() = 0;
@@ -72,7 +46,7 @@ public:
 	virtual void pause() = 0;
 
 	/**
-	*causes the thread the thread to sleep for the specified number of 
+	*causes the thread the thread to sleep for the specified number of
 	*milliseconds
 	*@param uint32 - the number of milliseconds to sleep
 	*/
@@ -89,12 +63,12 @@ public:
 	virtual uint32 getOwningProcessID() = 0;
 
 	/**
-	*returns a handle ID for the thread. It's use and signifigance 
-	*are platform specific. On Win32 systems this is the HANDLE 
-	*returned by the CreateThread/_beginthreadex() calls 
+	*returns a handle ID for the thread. It's use and signifigance
+	*are platform specific. On Win32 systems this is the HANDLE
+	*returned by the CreateThread/_beginthreadex() calls
 	*/
 	virtual uint32 getHandleID() = 0;
-    
+
 	virtual bool isActive() = 0;
 
 	virtual int wait() = 0;
@@ -107,10 +81,12 @@ public:
 };
 
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:13  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -180,6 +156,7 @@ public:
 *to facilitate change tracking
 *
 */
+
 
 #endif // _VCF_THREADPEER_H__
 

@@ -1,3 +1,12 @@
+//Dictionary.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/Dictionary.h"
 
@@ -13,12 +22,12 @@ Dictionary::~Dictionary()
 
 }
 
-Dictionary::Dictionary( const Dictionary& rhs ) 
+Dictionary::Dictionary( const Dictionary& rhs )
 {
 	*this = rhs;
 }
 
-Dictionary& Dictionary::operator=( const Dictionary& rhs ) 
+Dictionary& Dictionary::operator=( const Dictionary& rhs )
 {
 	data_ = rhs.data_;
 	return *this;
@@ -26,12 +35,12 @@ Dictionary& Dictionary::operator=( const Dictionary& rhs )
 
 
 
-Dictionary::size_type Dictionary::size() const 
+Dictionary::size_type Dictionary::size() const
 {
 	return data_.size();
 }
 
-Dictionary::size_type Dictionary::max_size() const 
+Dictionary::size_type Dictionary::max_size() const
 {
 	return data_.max_size();
 }
@@ -43,12 +52,12 @@ bool Dictionary::empty() const
 
 
 
-void Dictionary::clear() 
+void Dictionary::clear()
 {
 	data_.clear();
 }
 
-void Dictionary::loadFromStream( InputStream* stream ) 
+void Dictionary::loadFromStream( InputStream* stream )
 {
 	int dictSize = 0;
 
@@ -67,7 +76,7 @@ void Dictionary::loadFromStream( InputStream* stream )
 	}
 }
 
-void Dictionary::saveToStream( OutputStream* stream ) 
+void Dictionary::saveToStream( OutputStream* stream )
 {
 	DictionaryMap::iterator it = data_.begin();
 
@@ -76,7 +85,7 @@ void Dictionary::saveToStream( OutputStream* stream )
 	while ( it != data_.end() ) {
 		Dictionary::pair& item = *it;
 
-		stream->write( item.first ); 
+		stream->write( item.first );
 
 		VariantDataOutputStream vdos(stream);
 		vdos.writeVariantData( &item.second );
@@ -85,7 +94,7 @@ void Dictionary::saveToStream( OutputStream* stream )
 	}
 }
 
-Dictionary::Value& Dictionary::operator[](const Dictionary::Key& key) 
+Dictionary::Value& Dictionary::operator[](const Dictionary::Key& key)
 {
 	return data_[key];
 }
@@ -102,12 +111,12 @@ Dictionary::Value Dictionary::operator[](const Key& key) const
 	return result;
 }
 
-void Dictionary::insert( const Dictionary::Key& key, const Dictionary::Value& value ) 
+void Dictionary::insert( const Dictionary::Key& key, const Dictionary::Value& value )
 {
 	data_[key] = value;
 }
 
-void Dictionary::remove( const Dictionary::Key& key ) 
+void Dictionary::remove( const Dictionary::Key& key )
 {
 	DictionaryMap::iterator found = data_.find(key);
 	if ( found != data_.end() ) {
@@ -119,3 +128,14 @@ Dictionary::Enumerator* Dictionary::getEnumerator()
 {
 	return dataContainer_.getEnumerator();
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
+

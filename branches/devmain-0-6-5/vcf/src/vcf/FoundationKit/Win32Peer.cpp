@@ -1,34 +1,12 @@
+//Win32Peer.cpp
 
-
-/**
-*Copyright (c) 2000-2001, Jim Crafton
-*All rights reserved.
-*Redistribution and use in source and binary forms, with or without
-*modification, are permitted provided that the following conditions
-*are met:
-*	Redistributions of source code must retain the above copyright
-*	notice, this list of conditions and the following disclaimer.
-*
-*	Redistributions in binary form must reproduce the above copyright
-*	notice, this list of conditions and the following disclaimer in 
-*	the documentation and/or other materials provided with the distribution.
-*
-*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-*LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-*A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
-*OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-*EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-*PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-*PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-*LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-*SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*NB: This software will not save the world.
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
 */
 
-//Win32Peer.cpp
+
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 
@@ -37,7 +15,7 @@ using namespace VCFWin32;
 
 
 unsigned long Win32Utils::translateKeyMask( UINT win32KeyMask )
-{	
+{
 	unsigned long result = VCF::kmUndefined;
 
 	if ( (win32KeyMask & MK_CONTROL) != 0 ){
@@ -47,11 +25,11 @@ unsigned long Win32Utils::translateKeyMask( UINT win32KeyMask )
 	if ( (win32KeyMask & MK_SHIFT) != 0 ){
 		result |= VCF::kmShift;
 	}
-	
+
 	if ( ::GetAsyncKeyState( VK_MENU ) < 0 ) {
 		result |= VCF::kmAlt;
 	}
-	
+
 	return result;
 }
 
@@ -78,7 +56,7 @@ DWORD Win32Utils::translateStyle( unsigned long style )
 {
 	DWORD result = 0;
 	//if ( (style & ) > 0 ){
-		
+
 	//};
 	return result;
 }
@@ -91,40 +69,40 @@ DWORD Win32Utils::translateExStyle( unsigned long style )
 }
 
 /**
-*translates the Win32 key code into an actually usable 
+*translates the Win32 key code into an actually usable
 *structure.
-*Specifies the repeat count, scan code, extended-key flag, context code, previous key-state flag, 
-*and transition-state flag, as shown in the following table. 
-*Value Description 
-*	0–15 Specifies the repeat count for the current message. 
-*	     The value is the number of times the keystroke is autorepeated 
-*		 as a result of the user holding down the key. If the keystroke is held 
-*		 long enough, multiple messages are sent. However, the repeat count is not cumulative. 
+*Specifies the repeat count, scan code, extended-key flag, context code, previous key-state flag,
+*and transition-state flag, as shown in the following table.
+*Value Description
+*	0–15 Specifies the repeat count for the current message.
+*	     The value is the number of times the keystroke is autorepeated
+*		 as a result of the user holding down the key. If the keystroke is held
+*		 long enough, multiple messages are sent. However, the repeat count is not cumulative.
 *
-*	16–23 Specifies the scan code. The value depends on the original equipment manufacturer (OEM). 
+*	16–23 Specifies the scan code. The value depends on the original equipment manufacturer (OEM).
 *
-*	24   Specifies whether the key is an extended key, such as the right-hand ALT and CTRL keys that 
-*	     appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key; 
-*		 otherwise, it is 0. 
+*	24   Specifies whether the key is an extended key, such as the right-hand ALT and CTRL keys that
+*	     appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key;
+*		 otherwise, it is 0.
 *
-*	25–28 Reserved; do not use. 
+*	25–28 Reserved; do not use.
 *
-*	29   Specifies the context code. The value is 1 if the ALT key is held down while the 
-*        key is pressed; otherwise, the value is 0. 
+*	29   Specifies the context code. The value is 1 if the ALT key is held down while the
+*        key is pressed; otherwise, the value is 0.
 *
 *	30   Specifies the previous key state. The value is 1 if the key is down before
-*        the message is sent, or it is 0 if the key is up. 
-*	31   Specifies the transition state. The value is 1 if the key is being released, or it 
-*	     is 0 if the key is being pressed. 
+*        the message is sent, or it is 0 if the key is up.
+*	31   Specifies the transition state. The value is 1 if the key is being released, or it
+*	     is 0 if the key is being pressed.
 */
 KeyboardData Win32Utils::translateKeyData( HWND wndHandle, LPARAM keyData )
 {
-	KeyboardData result;	
+	KeyboardData result;
 	memset( &result, 0, sizeof(KeyboardData) );
 	int sum = 0;
 
 	sum = ((BYTE*)&keyData)[2]; //gets bits 16-23
-	
+
 	BYTE keyState[256];
 	if ( GetKeyboardState( &keyState[0] ) ){
 		result.scanCode = sum;
@@ -132,17 +110,17 @@ KeyboardData Win32Utils::translateKeyData( HWND wndHandle, LPARAM keyData )
 		result.altKeyDown = ( keyData & KB_CONTEXT_CODE ) != 0;//replace with #define
 		result.isExtendedKey = ( keyData & KB_IS_EXTENDED_KEY ) != 0;
 		result.character = 0;
-		
+
 		result.VKeyCode = MapVirtualKey( result.scanCode, 1);
 
-		
+
 
 		HKL keyboardLayout = GetKeyboardLayout( GetWindowThreadProcessId( wndHandle, NULL ) );
 
 		ToAsciiEx( result.VKeyCode, result.scanCode, &keyState[0], &result.character, 1, keyboardLayout );
-		
+
 		std::bitset<16> keyBits;
-		keyBits = GetAsyncKeyState( VK_SHIFT );		
+		keyBits = GetAsyncKeyState( VK_SHIFT );
 		if ( keyBits[15] == 1 ){
 			result.keyMask |= MK_SHIFT;
 		}
@@ -170,7 +148,7 @@ void Win32Utils::trace( const VCF::String& text )
 	else {
 		OutputDebugStringA( text.ansi_c_str() );
 	}
-	
+
 #endif
 }
 
@@ -189,7 +167,7 @@ WORD Win32Utils::getWin32LangID( VCF::Locale* locale )
 		}
 	}
 	*/
-	
+
 	return result;
 }
 
@@ -197,7 +175,7 @@ int Win32Utils::getXFromLParam( LPARAM lParam )
 {
 	return (int)(short) LOWORD(lParam);
 }
-	
+
 int Win32Utils::getYFromLParam( LPARAM lParam )
 {
 	return (int)(short) HIWORD(lParam);
@@ -211,7 +189,7 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 		case VK_F1 :{
 			result = VCF::vkF1;
 		}
-		break;		
+		break;
 
 		case VK_F2 :{
 			result = VCF::vkF2;
@@ -337,7 +315,7 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 			result = VCF::vkCtrl;
 		}
 		break;
-		
+
 		case VK_MENU :{
 			result = VCF::vkAlt;
 		}
@@ -405,7 +383,7 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 		break;
 
 		//from WINUSER.h
-		/* VK_A thru VK_Z are the same as ASCII 'A' thru 'Z' (0x41 - 0x5A) */		
+		/* VK_A thru VK_Z are the same as ASCII 'A' thru 'Z' (0x41 - 0x5A) */
 		case 'A' :{
 			result = VCF::vkLetterA;
 		}
@@ -544,7 +522,7 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 			result = VCF::vkPause;
 		}
 		break;
-		
+
 		case VK_SCROLL :{
 			result = VCF::vkScrollLock;
 		}
@@ -571,7 +549,7 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 			result = VCF::vkMinusSign;
 		}
 		break;
-		
+
 		case VK_DECIMAL :{
 			result = VCF::vkPeriod;
 		}
@@ -580,9 +558,9 @@ VCF::ulong32 Win32Utils::translateVKCode( UINT vkCode )
 		case VK_DIVIDE :{
 			result = VCF::vkDivideSign;
 		}
-		break;			
+		break;
 	}
-	
+
 	return result;
 }
 
@@ -590,9 +568,9 @@ bool Win32Utils::fileExists( const VCF::String& fileName )
 {
 	bool result = false;
 	HANDLE fileHandle = NULL;
-	
+
 	if ( VCF::System::isUnicodeEnabled() ) {
-		fileHandle = CreateFileW( fileName.c_str(), 
+		fileHandle = CreateFileW( fileName.c_str(),
 									0,
 									FILE_SHARE_READ | FILE_SHARE_WRITE, //for now
 									NULL, //for now
@@ -601,7 +579,7 @@ bool Win32Utils::fileExists( const VCF::String& fileName )
 									NULL );
 	}
 	else {
-		fileHandle = CreateFileA( fileName.ansi_c_str(), 
+		fileHandle = CreateFileA( fileName.ansi_c_str(),
 									0,
 									FILE_SHARE_READ | FILE_SHARE_WRITE, //for now
 									NULL, //for now
@@ -609,7 +587,7 @@ bool Win32Utils::fileExists( const VCF::String& fileName )
 									FILE_ATTRIBUTE_NORMAL,
 									NULL );
 	}
-	
+
 	result = (fileHandle != INVALID_HANDLE_VALUE) ? true : false;
 	CloseHandle( fileHandle );
 	return result;
@@ -628,7 +606,7 @@ VCF::String Win32Utils::getErrorString( const DWORD& errorCode )
 										(LPWSTR) &msgBuf,
 										0,
 										NULL );
-		
+
 		result.append( msgBuf, bufSize );
 
 		// Free the buffer.
@@ -648,7 +626,7 @@ VCF::String Win32Utils::getErrorString( const DWORD& errorCode )
 		// Free the buffer.
 		LocalFree( msgBuf );
 	}
-	
+
 
 	return result;
 }
@@ -657,6 +635,9 @@ VCF::String Win32Utils::getErrorString( const DWORD& errorCode )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
@@ -727,6 +708,5 @@ VCF::String Win32Utils::getErrorString( const DWORD& errorCode )
 *to facilitate change tracking
 *
 */
-
 
 

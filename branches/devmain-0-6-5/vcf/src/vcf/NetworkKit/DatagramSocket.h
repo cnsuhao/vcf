@@ -1,11 +1,25 @@
+#ifndef _VCF_DATAGRAMSOCKET_H__
+#define _VCF_DATAGRAMSOCKET_H__
+//DatagramSocket.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
 /*
  * DatagramSocket is a thin wrapper around the socket using
  * connectionless oriented protocol.
  * -- by Ning Ke
  */
 
-#ifndef _VCF_DATAGRAMSOCKET_H__
-#define _VCF_DATAGRAMSOCKET_H__
 
 namespace VCFNet
 {
@@ -44,9 +58,19 @@ public:
 protected:
 	int port_;
 	VCF::String host_;
-	DatagramSocketPeer *peer_;	
+	DatagramSocketPeer *peer_;
 };
 };
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/29 04:12:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
 
 #endif // _VCF_DATAGRAMSOCKET_H__
 
