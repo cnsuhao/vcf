@@ -33,71 +33,92 @@ NB: This software will not save the world.
 		</para>
 		<itemizedlist>
 				<listitem><para>
-				A rich class hierarchy for easily accomplishing your application's programming needs .
+				Modern C++ design - use of modern C++ techniques like exceptions, templates 
+				(where useful), name spaces, and heavy use of the Standard Template Library.
 				</para></listitem>
 				
 				<listitem><para>
-				Classes that cover the basic needs such as threading, files, streaming, error logging, traces, and common string utils.
+				Modular - built across several libraries as opposed to one huge monolithic 
+				library that then becomes difficult to break apart. This means that while 
+				the VCF is incredibly powerful as a framework for writing GUI based applications, 
+				if you just want to use the core features, such as threads, file IO, and RTTI 
+				you can do so, with out having to have dependencies on all the GUI code. 
 				</para></listitem>
 				
 				<listitem><para>
-				Advanced RTTI features that allow for such things as dynamic object creation given a registered 
-				class name or a registered UUID string that represents the class, dynamic introspection of a given 
-				object's class and listing such data as the class name, super class, the properties of the class, member 
-				methods, and implemented interfaces.
+				Support for Thread, Mutexes, Semaphores, Files, Streaming data, error logging, 
+				string utility functions, and other basic services. All of this is part of 
+				the FoundationKit and has no dependencies on the graphics or UI code.
+				</para></listitem>
+				
+				<listitem><para>
+				Advanced RTTI features that allow for such things as dynamic object 
+				creation given a registered class name or a registered UUID string 
+				that represents the class, dynamic introspection of a given object's 
+				class and listing such data as the class name, super class, the 
+				properties of the class, member methods, and implemented interfaces.
 				</para></listitem>
 				
 				<listitem><para>
 				Memory leak detection in debug mode for catching VCF::Object derived classes that have not been 
-				freed. This can be turned completely off in debug by recompiling the libraries 
+				freed. This can be turned completely off in debug by recompiling the libraries. 
 				</para></listitem>
 				
 				<listitem><para>
-				Standard event architecture that can be used in console applications as well as GUI based applications. 
-				Allows for connecting class member functions to events that another object (or objects) may fire off.
+				Easy to use, and powerful event system, suitable for console as well as GUI based applications. 
 				</para></listitem>
 				
 				<listitem><para>
 				Graphics classes for easily drawing on a graphics context, as well as working with images. This 
 				includes easily manipulating things like the current color, pen and brush attributes, and 
-				current transformation matrix.
+				current transformation matrix. 
 				</para></listitem>
 				
 				<listitem><para>
-				A simple image loading architecture that allows multiple formats to be registered for loading up a 
-				variety of different graphics formats. On Win32 systems the default image loading support is limited 
-				to >BMP files, but by using the ImageFormats library (also a part of the VCF) a wide variety of 
-				additional image types are also supported. Currently the ImageFormats library uses FreeImage to 
-				support a image types such as .TIFF, .TGA, .PSD, .PNG, .PCX, .SGI, .MNG, .RAS, .PBM, .PPM. 
-				and many others. 
+				A simple image-loading architecture that allows multiple formats 
+				to be registered for loading up a variety of different graphics 
+				formats. On Win32 systems the default image loading support is limited 
+				to BMP files, but by using the ImageFormats library (also a part of the 
+				VCF) a wide variety of additional image types are also supported. 
+				Currently the ImageFormats library uses FreeImage to support a image 
+				types such as .TIFF, .TGA, .PSD, .PNG, .PCX, .SGI, .MNG, .RAS, .PBM, 
+				.PPM, and many others. 
 				</para></listitem>
 				
 				<listitem><para>
-				More advanced classes for customizing the drawing process with application defined behaviors.
+				More advanced classes for customizing the drawing process with application 
+				defined behaviors. Advanced features also icnlude support for anti-aliased 
+				vector graphics through the use the <ulink url="http://antigrain.com/">Anti 
+				Grain Graphics libraries</ulink>.
 				</para></listitem>
 				
 				<listitem><para>
-				A complete set of GUI classes, including a common set of base classes enabling advanced custom 
-				control creation. Some of the control classes include tree controls, list controls, check box and radio 
-				controls, push buttons, single line and multi line text controls, and many others.
+				A complete set of powerful GUI classes, including a common set 
+				of base classes enabling advanced custom control creation. Some 
+				of the control classes include tree controls, list controls, check 
+				box and radio controls, push buttons, single line and multi line 
+				text controls, and many others. 
 				</para></listitem>
 				
 				<listitem><para>
-				A standard set of application classes for things like resources, loading windows or forms dynamically 
-				at application startup, saving of application state, a registry class for common storage of system and 
-				application information.
+				A standard set of application classes for things like resources, 
+				loading windows or forms dynamically at application startup, 
+				saving of application state, a registry class for common storage 
+				of system and application information.
 				</para></listitem>
 				
 				<listitem><para>
-				Other application classes include a simple Undo/Redo architecture based on commands that allows 
-				for undoing and redoing commands as well as notifying other objects of the events.
+				Other application classes include an Undo/Redo architecture based 
+				on commands that allow for undoing and redoing commands as well 
+				as notifying other objects of the events. 
 				</para></listitem>
 				
 				<listitem><para>
-				GUI controls that support both alignment and anchoring. Any control may be aligned to the top, 
-				bottom, left or right of it's parent container control.  Alternately controls may use their anchoring 
-				properties to anchor themselves to the left, right, top and/or bottom sides of their parent container 
-				control. 
+				GUI controls that support both alignment and anchoring. Any control 
+				may be aligned to the top, bottom, left or right of it's parent container 
+				control.  Alternately controls may use their anchoring properties to 
+				anchor themselves to the left, right, top and/or bottom sides of their 
+				parent container control. 
 				</para></listitem>
 				
 				<listitem><para>
@@ -1224,6 +1245,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.6  2003/11/23 15:14:05  ddiego
+added more docs, and updated to account for new Dictionary tutorial
+
 Revision 1.1.2.5  2003/11/04 22:10:32  ddiego
 *** empty log message ***
 

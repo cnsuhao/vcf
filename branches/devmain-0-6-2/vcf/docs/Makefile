@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.10  2003/11/23 15:14:05  ddiego
+#added more docs, and updated to account for new Dictionary tutorial
+#
 #Revision 1.5.2.9  2003/10/25 04:30:20  ddiego
 #added two more examples one for progress bars and one for slider controls.
 #also added two more control classes to the ApplicationKit, a SliderControl
@@ -171,7 +174,8 @@ TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml \
 ../examples/Alignment/AnchorsArticle.xml \
 ../examples/Sliders/SlidersArticle.xml \
 ../examples/ProgressBars/ProgressBarsArticle.xml \
-../examples/Labels/LabelsArticle.xml
+../examples/Labels/LabelsArticle.xml \
+../examples/Dictionaries/DictionariesArticle.xml
 
 
 

@@ -72,6 +72,7 @@
 		<file src="../examples/Scrolling/Scrolling.xml" id="e1577446-a95e-4249-bc02-6c859215d734" parent="2b37d6fb-c055-4e7e-9769-4e7419479926"/>
 		<file src="./corelib_graphicsKit.xml" id="e9b5df9a-f493-4ae2-9d03-5b1e960f8d3f" parent="a3138d6c-d0a3-48ec-88ae-b5462d8a1074"/>
 		<file src="../examples/HeavyAndLight/HeavyAndLight.xml" id="eb4cc75c-a51c-49f7-ab13-725ab91c2b7c" parent="2b37d6fb-c055-4e7e-9769-4e7419479926"/>
+		<file src="../examples/Dictionaries/Dictionaries.xml" id="f78b5f5b-ef56-494e-aced-87d24dc0bb98" parent="2b37d6fb-c055-4e7e-9769-4e7419479926"/>
 		<file src="../examples/SharedLibraries/SharedLibraries.xml" id="f7a32c55-a693-485d-a82f-884be3e92f0d" parent="2b37d6fb-c055-4e7e-9769-4e7419479926"/>
 	</files>
 	<folders>
