@@ -223,7 +223,7 @@ public:
 
 		Color ltBlue(0.0,0.0,1.0);
 		//change the color by manipulating the HSV components
-		ltBlue.changeHSV( 0.23, 0.0, 0.0 );
+		ltBlue.setHSV( 0.23, 0.0, 0.0 );
 
 		stroke.setColor( &ltBlue );
 		stroke.setWidth( 4.0 );
@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2004/07/11 22:54:03  ddiego
+*fixed some miscellaneous examples
+*
 *Revision 1.4.2.4  2004/04/29 03:40:57  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

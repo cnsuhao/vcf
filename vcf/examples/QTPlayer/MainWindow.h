@@ -13,6 +13,7 @@ namespace VCF {
 	class SliderControl;
 	class Panel;
 	class TreeControl;
+	class Label;
 };
 
 
@@ -27,6 +28,8 @@ public:
 
 protected:
 	void onFileOpenMovie( VCF::Event* e );
+	void onFileCloseMovie( VCF::Event* e );
+	void updateFileCloseMovie( VCF::ActionEvent* e );
 
 	void onFileExit( VCF::Event* e );
 	void onHelpAbout( VCF::Event* e );
@@ -71,14 +74,37 @@ protected:
 	void onViewSideBar(  VCF::Event* event );
 	void updateViewSideBar( VCF::ActionEvent* e );
 
-	QuickTimeControl* m_quicktimeControl;
-	VCF::StatusBarControl* m_statusBar;
+	void onViewMediaInfo(  VCF::Event* event );
+	void updateViewMediaInfo( VCF::ActionEvent* e );
+
+	void onViewSearch(  VCF::Event* event );
+	void updateViewSearch( VCF::ActionEvent* e );
+
+	void onViewPlayControls(  VCF::Event* event );
+	void updateViewPlayControls( VCF::ActionEvent* e );
+
+	void onSearchIconClick( VCF::Event* e );
+	void onSearchTextEntered( VCF::KeyboardEvent* e );
+
+	QuickTimeControl* quicktimeControl_;
 	VCF::SliderControl* volumeControl_;
+
+	VCF::Panel* playPanel_;
+	VCF::Panel* searchPanel_;
+
 	VCF::Panel* sideBar_;
 	VCF::TreeControl* playListTree_;
 	VCF::Panel* mediaInfo_;
 
+	VCF::Panel* mediaBar_;
+	VCF::Label* mediaLabel_;
+
+	VCF::Panel* mainViewPanel_;
+	
+
 	bool movieLoaded_;
+
+
 };
 
 
