@@ -22,15 +22,6 @@
 			<exec command="xsltproc --nonet  $(XSL_DIR)/$(XSL_SHEET) $(dependency.name) > index.html"/>
 		</tool>
 	</config>
-
-	<target name="articles" id="9d192f20-6812-4900-9c4e-8478382abf49" parent="f936d9e6-4cf5-4e66-b9de-352b7db36d88" >
-		<dependsOn>
-			<dependency name="../examples/ImageBasics/ImageBasics.xml" id="0219e8d2-dfdf-4917-8771-c3d91c0254ce">
-				<exec command="xsltproc --nonet $(HTML_STYLESHEET) ../examples/ImageBasics/ImageBasicsArticle.xml > ../examples/ImageBasics/index.html" />
-			</dependency>
-		</dependsOn>
-	</target>
-
 	<config name="docbook" id="b7b6e6cc-36f6-4a22-bc6e-61f5c208be37" parent="b5c0bde4-1ae3-41f6-88c5-bdf5b49f7e9e" uuid="a380b702-2789-4f3b-94dc-73104227c750" active="true" >
 		<variable name="XSL_DIR" value=""/>
 		<variable name="HTMLOUTPUT" value=""/>
