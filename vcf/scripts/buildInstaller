@@ -1,0 +1,25 @@
+ISS="D:/Program Files/Inno Setup 4/ISCC.exe"
+
+VCF_VERSION=`cat ../VERSION`
+FULL_VCF_VERSION="$VCF_VERSION beta"
+
+echo $VCF_VERSION
+echo $FULL_VCF_VERSION
+
+cd ../installers/win32
+
+cp VCFFullInstaller.iss VCFFullInstaller.iss.bak
+
+sed "s?VCF-VERSION?$VCF_VERSION?g" VCFFullInstaller.iss > tmp
+mv tmp VCFFullInstaller.iss
+
+sed "s?VCF-LONG-VERSION?$FULL_VCF_VERSION?g" VCFFullInstaller.iss > tmp
+
+mv tmp VCFFullInstaller.iss
+
+notepad VCFFullInstaller.iss
+
+"$ISS" VCFFullInstaller.iss
+
+mv VCFFullInstaller.iss.bak VCFFullInstaller.iss 
+

@@ -165,6 +165,8 @@ SOURCE=..\..\..\src\graphics\GraphicsKit.cpp
 
 !IF  "$(CFG)" == "GraphicsKit - Win32 Release"
 
+# ADD CPP /Yc"GraphicsKit.h"
+
 !ELSEIF  "$(CFG)" == "GraphicsKit - Win32 Debug"
 
 # ADD CPP /Yc"GraphicsKit.h"

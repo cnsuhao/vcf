@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.5.2.1  2003/08/11 03:28:42  ddiego
+addressed some issues with the installer
+
 Revision 1.5  2003/08/09 21:01:40  ddiego
 minor changes to doc makefile
 
@@ -116,6 +119,7 @@ and images
 	<xsl:param name="htmlhelp.chm" select="'vcf_docs.chm'"/>
 	
 	<xsl:param name="htmlhelp.hhc.binary" select="1"/>
+	<xsl:param name="htmlhelp.chi.create" select="1"/>
 	<xsl:param name="htmlhelp.hhc.folders.instead.books" select="0"/>
 
 	<xsl:param name="toc.section.depth" select="4"/>
@@ -135,6 +139,224 @@ and images
 VCF-SOURCE-CHM
 </xsl:if>
 </xsl:param>
+
+
+
+
+
+<xsl:template name="hhp-main">
+<xsl:variable name="default.topic">
+  <xsl:choose>
+    <xsl:when test="$htmlhelp.default.topic != ''">
+      <xsl:value-of select="$htmlhelp.default.topic"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:call-template name="make-relative-filename">
+        <xsl:with-param name="base.dir" select="$base.dir"/>
+        <xsl:with-param name="base.name">
+          <xsl:choose>
+            <xsl:when test="$rootid != ''">
+              <xsl:apply-templates select="key('id',$rootid)" mode="chunk-filename"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="/" mode="chunk-filename"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:variable>
+<xsl:variable name="xnavigation">
+  <xsl:text>0x</xsl:text>
+  <xsl:call-template name="toHex">
+    <xsl:with-param name="n" select="9504 + $htmlhelp.show.menu * 65536
+                                          + $htmlhelp.show.advanced.search * 131072
+                                          + $htmlhelp.show.favorities * 4096"/>
+  </xsl:call-template>
+</xsl:variable>
+<xsl:variable name="xbuttons">
+  <xsl:text>0x</xsl:text>
+  <xsl:call-template name="toHex">
+    <xsl:with-param name="n" select="0 + $htmlhelp.button.hideshow * 2
+                                       + $htmlhelp.button.back * 4
+                                       + $htmlhelp.button.forward * 8
+                                       + $htmlhelp.button.stop * 16
+                                       + $htmlhelp.button.refresh * 32
+                                       + $htmlhelp.button.home * 64
+                                       + $htmlhelp.button.options * 4096
+                                       + $htmlhelp.button.print * 8192
+                                       + $htmlhelp.button.locate * 2048
+                                       + $htmlhelp.button.jump1 * 262144
+                                       + $htmlhelp.button.jump2 * 524288
+                                       + $htmlhelp.button.next * 2097152
+                                       + $htmlhelp.button.prev * 4194304
+                                       + $htmlhelp.button.zoom * 1048576"/>
+  </xsl:call-template>
+</xsl:variable>
+<xsl:text>[OPTIONS]
+</xsl:text>
+<xsl:if test="$generate.index">
+<xsl:text>Auto Index=Yes
+</xsl:text></xsl:if>
+<xsl:if test="$htmlhelp.hhc.binary != 0">
+<xsl:text>Binary TOC=Yes
+</xsl:text></xsl:if>
+<xsl:text>Compatibility=1.1 or later
+Compiled file=</xsl:text><xsl:value-of select="$htmlhelp.chm"/><xsl:text>
+Contents file=</xsl:text><xsl:value-of select="$htmlhelp.hhc"/><xsl:text>
+</xsl:text>
+<xsl:if test="$htmlhelp.chi.create">
+<xsl:text>Create CHI file=YES
+</xsl:text></xsl:if>
+<xsl:if test="$htmlhelp.hhp.window != ''">
+<xsl:text>Default Window=</xsl:text><xsl:value-of select="$htmlhelp.hhp.window"/><xsl:text>
+</xsl:text></xsl:if>
+<xsl:text>Default topic=</xsl:text><xsl:value-of select="$default.topic"/>
+<xsl:text>
+Display compile progress=Yes
+Full-text search=Yes
+</xsl:text>
+<xsl:if test="$generate.index">
+<xsl:text>Index file=</xsl:text><xsl:value-of select="$htmlhelp.hhk"/><xsl:text>
+</xsl:text></xsl:if>
+<xsl:text>Language=</xsl:text>
+<xsl:if test="//@lang">
+  <xsl:variable name="lang" select="//@lang[1]"/>
+  <xsl:value-of select="document('langcodes.xml')//gentext[@lang=string($lang)]"/>
+</xsl:if>
+<xsl:if test="not(//@lang)">
+  <xsl:text>0x0409 English (United States)</xsl:text>
+</xsl:if>
+<xsl:text>
+Title=</xsl:text>
+  <xsl:choose>
+    <xsl:when test="$htmlhelp.title = ''">
+      <xsl:choose>
+        <xsl:when test="$rootid != ''">
+          <xsl:apply-templates select="key('id',$rootid)" mode="title.markup"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="/*" mode="title.markup"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="$htmlhelp.title"/>
+    </xsl:otherwise>
+  </xsl:choose>
+
+<xsl:if test="$htmlhelp.hhp.window != ''">
+  <xsl:text>
+
+[WINDOWS]
+</xsl:text>
+<xsl:value-of select="$htmlhelp.hhp.window"/>
+<xsl:text>=,"</xsl:text><xsl:value-of select="$htmlhelp.hhc"/>
+<xsl:text>",</xsl:text>
+<xsl:if test="$generate.index">
+  <xsl:text>"</xsl:text>
+  <xsl:value-of select="$htmlhelp.hhk"/>
+  <xsl:text>"</xsl:text>
+</xsl:if>
+<xsl:text>,"</xsl:text>
+<xsl:value-of select="$default.topic"/>
+<xsl:text>",</xsl:text>
+<xsl:text>"</xsl:text>
+<xsl:choose>
+  <xsl:when test="$htmlhelp.button.home != 0">
+    <xsl:value-of select="$htmlhelp.button.home.url"/>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:value-of select="$default.topic"/>
+  </xsl:otherwise>
+</xsl:choose>
+<xsl:text>"</xsl:text>
+<xsl:text>,</xsl:text>
+<xsl:if test="$htmlhelp.button.jump1 != 0">
+  <xsl:text>"</xsl:text>
+  <xsl:value-of select="$htmlhelp.button.jump1.url"/>
+  <xsl:text>"</xsl:text>
+</xsl:if>
+<xsl:text>,</xsl:text>
+<xsl:if test="$htmlhelp.button.jump1 != 0">
+  <xsl:text>"</xsl:text>
+  <xsl:value-of select="$htmlhelp.button.jump1.title"/>
+  <xsl:text>"</xsl:text>
+</xsl:if>
+<xsl:text>,</xsl:text>
+<xsl:if test="$htmlhelp.button.jump2 != 0">
+  <xsl:text>"</xsl:text>
+  <xsl:value-of select="$htmlhelp.button.jump2.url"/>
+  <xsl:text>"</xsl:text>
+</xsl:if>
+<xsl:text>,</xsl:text>
+<xsl:if test="$htmlhelp.button.jump2 != 0">
+  <xsl:text>"</xsl:text>
+  <xsl:value-of select="$htmlhelp.button.jump2.title"/>
+  <xsl:text>"</xsl:text>
+</xsl:if>
+<xsl:text>,</xsl:text>
+<xsl:value-of select="$xnavigation"/>
+<xsl:text>,,</xsl:text>
+<xsl:value-of select="$xbuttons"/>
+<xsl:text>,,,,,,,,0
+</xsl:text>
+</xsl:if>
+
+<xsl:text>
+
+[FILES]
+</xsl:text>
+
+<xsl:choose>
+  <xsl:when test="$rootid != ''">
+    <xsl:apply-templates select="key('id',$rootid)" mode="enumerate-files"/>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:apply-templates select="/" mode="enumerate-files"/>
+  </xsl:otherwise>
+</xsl:choose>
+
+<xsl:if test="$htmlhelp.enumerate.images">
+  <xsl:variable name="imagelist">
+    <xsl:choose>
+      <xsl:when test="$rootid != ''">
+        <xsl:apply-templates select="key('id',$rootid)" mode="enumerate-images"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="/" mode="enumerate-images"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:choose>
+    <xsl:when test="function-available('exsl:node-set') and function-available('set:distinct')">
+      <xsl:for-each select="set:distinct(exsl:node-set($imagelist)/filename)">
+        <xsl:value-of select="."/>
+        <xsl:text>&#10;</xsl:text>
+      </xsl:for-each>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="$imagelist"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:if>
+
+<xsl:if test="($htmlhelp.force.map.and.alias != 0) or 
+              ($rootid = '' and //processing-instruction('dbhh')) or
+              ($rootid != '' and key('id',$rootid)//processing-instruction('dbhh'))">
+  <xsl:text>
+[ALIAS]
+#include </xsl:text><xsl:value-of select="$htmlhelp.alias.file"/><xsl:text>
+
+[MAP]
+#include </xsl:text><xsl:value-of select="$htmlhelp.map.file"/><xsl:text>
+</xsl:text>
+</xsl:if>
+
+<xsl:value-of select="$htmlhelp.hhp.tail"/>
+</xsl:template>
+
 
 
 

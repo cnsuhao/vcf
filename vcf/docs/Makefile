@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.1  2003/08/11 03:28:42  ddiego
+#addressed some issues with the installer
+#
 #Revision 1.5  2003/08/09 21:01:40  ddiego
 #minor changes to doc makefile
 #
@@ -306,6 +309,70 @@ alldocs_hh_with_source : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS
 		rm -rf tmp;\
 	fi
 		
+
+
+alldocs_hh_src_separate : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS) doxy doxy_hh
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.sgml > vcf_book.sgml.tmp
+	cp vcf_book.sgml vcf_book.sgml.bak
+	mv vcf_book.sgml.tmp vcf_book.sgml
+
+	sed "s?VERSION-NUMBER?$(XMAKE_VERSION)?g" xmake_book.sgml > xmake_book.sgml.tmp
+	cp xmake_book.sgml xmake_book.sgml.bak
+	mv xmake_book.sgml.tmp xmake_book.sgml
+
+	sed "s?VERSION-NUMBER?$(VCFB_VERSION)?g" vcfbuilder_book.sgml > vcfbuilder_book.sgml.tmp
+	cp vcfbuilder_book.sgml vcfbuilder_book.sgml.bak
+	mv vcfbuilder_book.sgml.tmp vcfbuilder_book.sgml
+
+	xsltproc --nonet vcf.xsl vcf_website_docs.sgml
+
+	mv vcf_book.sgml.bak vcf_book.sgml
+	mv xmake_book.sgml.bak xmake_book.sgml
+	mv vcfbuilder_book.sgml.bak vcfbuilder_book.sgml
+
+
+	cp htmlhelp.hhp htmlhelp.hhp.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
+	mv htmlhelp.hhp.tmp htmlhelp.hhp
+	cp toc.hhc toc.hhc.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" toc.hhc > toc.hhc.tmp
+	mv toc.hhc.tmp toc.hhc
+	-$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv htmlhelp.hhp.bak htmlhelp.hhp
+	mv toc.hhc.bak toc.hhc
+
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
+	if ( test -f $(RAW_CHI_FILENAME) )\
+	then\
+		mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME);\
+	fi
+	
+	if ( test -d $(UPLOADS_DIR) )\
+	then \
+		mkdir tmp;\
+		mkdir tmp/vcf-$(VERSION);\
+		mkdir tmp/vcf-$(VERSION)/docs;\
+		cp $(VERSIONED_CHM_FILENAME) tmp/vcf-$(VERSION)/docs/;\
+		if ( test -f $(VERSIONED_CHI_FILENAME) )\
+		then\
+			cp $(VERSIONED_CHI_FILENAME) tmp/vcf-$(VERSION)/docs/;\
+		fi;\
+		if ( test -f $(VERSIONED_SRC_CHM_FILENAME) )\
+		then\
+			cp $(VERSIONED_SRC_CHM_FILENAME) tmp/vcf-$(VERSION)/docs/;\
+		fi;\
+		if ( test -f $(VERSIONED_SRC_CHI_FILENAME) )\
+		then\
+			cp $(VERSIONED_SRC_CHI_FILENAME) tmp/vcf-$(VERSION)/docs/;\
+		fi;\
+		cd tmp;\
+		tar -cf vcf-$(VERSION)-htmlhelp.tar vcf-$(VERSION)/;\
+		gzip -f vcf-$(VERSION)-htmlhelp.tar;\
+		cd ../;\
+		mv tmp/vcf-$(VERSION)-htmlhelp.tar.gz $(UPLOADS_DIR)/;\
+		rm -rf tmp;\
+	fi
+
 
 
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
