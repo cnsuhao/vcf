@@ -18,23 +18,31 @@ using namespace VCF;
 This example demostrates how to use OpenGL
 */
 
-class OpenGLShapesControl : public OpenGLControl,public Runnable {
+class OpenGLShapesControl : public OpenGLControl {
 public:
 	OpenGLShapesControl():OpenGLControl(){
 		initialized=false;
 		angle=0;
-		finished=false;
-		waitForPaint=false;
-
-		Thread *thread=new Thread(this,false);
-		thread->start();
 
 		shape=0;
 		sphere=gluNewQuadric();
+
+		EventHandler* ev=new GenericEventHandler<OpenGLShapesControl>( this, &OpenGLShapesControl::onTimer, "OpenGLShapesControl::onTimer" );
+
+		TimerComponent* timer = new TimerComponent();
+		addComponent( timer );
+		timer->TimerPulse.addHandler(ev);//5 += ev;
+		timer->setTimeoutInterval( 33 ); //around 30 FPS
+		timer->setActivated( true );
 	}
 
 	~OpenGLShapesControl(){
 		gluDeleteQuadric(sphere);
+	}
+
+	void onTimer( Event* e ) {
+		angle++;
+		repaint();
 	}
 
 	void paint(GraphicsContext *ctx){
@@ -129,41 +137,13 @@ public:
 		}
 
 		glCtx->swapBuffers();
-
-		mutex.lock();
-		waitForPaint=false;
-		mutex.unlock();
-	}
-
-	bool run(){
-		while(finished==false){
-			mutex.lock();
-			if(finished==false && waitForPaint==false){
-				angle++;
-				repaint();
-				waitForPaint=true;
-			}
-			mutex.unlock();
-		}
-
-		return false;
-	}
-
-	void stop(){
-		mutex.lock();
-		finished=true;
-		mutex.unlock();
 	}
 
 	bool initialized;
-	bool finished;
-	bool waitForPaint;
 
 	float angle;
 	int shape;
 	GLUquadricObj *sphere;
-
-	Mutex mutex;
 };
 
 class OpenGLShapes : public Window {
@@ -201,8 +181,6 @@ public:
 
 		mControl=new OpenGLShapesControl();
 		add(mControl,AlignClient);
-
-		FrameClose.addHandler(new WindowEventHandler<OpenGLShapes>(this,&OpenGLShapes::onClose,"onClose"));
 	}
 
 	void cube(ButtonEvent *e){
@@ -215,10 +193,6 @@ public:
 
 	void sphere(ButtonEvent *e){
 		mControl->shape=2;
-	}
-
-	void onClose(WindowEvent *e){
-		mControl->stop();
 	}
 
 	virtual ~OpenGLShapes(){};
@@ -251,3 +225,4 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
+
