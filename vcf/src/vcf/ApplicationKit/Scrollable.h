@@ -232,50 +232,64 @@ public:
 	virtual double getVerticalScrollbarWidth() = 0;
 
 	/**
-	this will retrieves the values for three rectangular bounds, the bounds
-	of the scroll bar portion, the bounds of the left most spacer, and the
-	bounds of the right most spacer.
-	If a scroll bar has it's left and/or right scroll space set to 0, then the
-	right and left bounds for the spacers may be null, or a rect of (0,0,0,0).
-	@param Rect scrollBounds, the bounds of the actual horizontal scroll bar rect,
-	if this is NULL no value is returned
-	@param Rect leftBounds, the bounds of the left spacer rect,
-	if this is NULL no value is set
-	@param Rect rightBounds, the bounds of the right spacer rect,
-	if this is NULL no value is set
+	* this will retrieves the values for three rectangular bounds, the bounds
+	* of the scroll bar portion, the bounds of the left most spacer, and the
+	* bounds of the right most spacer.
+	* If a scroll bar has it's left and/or right scroll space set to 0, then the
+	* right and left bounds for the spacers may be null, or a rect of (0,0,0,0).
+	*@param Rect scrollBounds, the bounds of the actual horizontal scroll bar rect,
+	* if this is NULL no value is returned
+	*@param Rect leftBounds, the bounds of the left spacer rect,
+	* if this is NULL no value is set
+	*@param Rect rightBounds, the bounds of the right spacer rect,
+	* if this is NULL no value is set
 	*/
 	virtual void getHorizontalScrollRects( Rect* scrollBounds, Rect* leftBounds=NULL, Rect* rightBounds=NULL ) = 0;
 
 	/**
-	this will retrieves the values for three rectangular bounds, the bounds
-	of the scroll bar portion, the bounds of the left most spacer, and the
-	bounds of the right most spacer.
-	If a scroll bar has it's left and/or right scroll space set to 0, then the
-	right and left bounds for the spacers may be null, or a rect of (0,0,0,0).
-	@param Rect scrollBounds, the bounds of the actual vertical scroll bar rect,
-	if this is NULL no value is set
-	@param Rect topBounds, the bounds of the top spacer rect,
-	if this is NULL no value is set
-	@param Rect bottomBounds, the bounds of the bottom spacer rect,
-	if this is NULL no value is set
+	* this will retrieves the values for three rectangular bounds, the bounds
+	* of the scroll bar portion, the bounds of the left most spacer, and the
+	* bounds of the right most spacer.
+	* If a scroll bar has it's left and/or right scroll space set to 0, then the
+	* right and left bounds for the spacers may be null, or a rect of (0,0,0,0).
+	*@param Rect scrollBounds, the bounds of the actual vertical scroll bar rect,
+	* if this is NULL no value is set
+	*@param Rect topBounds, the bounds of the top spacer rect,
+	* if this is NULL no value is set
+	*@param Rect bottomBounds, the bounds of the bottom spacer rect,
+	* if this is NULL no value is set
 	*/
 	virtual void getVerticalScrollRects( Rect* scrollBounds, Rect* topBounds=NULL, Rect* bottomBounds=NULL ) = 0;
 
 	/**
-	This allows you to control whether or not the scrollbars disappear when they are no longer needed.
-	By default this is false, which means that the scrollabars will disappear when the virtual width
-	or height is less than the control's actual width or height. If this is true, then the
-	scrollbars will stay visible, but become disabled.
-	@param bool visible, true if we want it visible
+	* this allows you to control whether or not the scrollbars disappear when they are no longer needed.
+	* By default this is false, which means that the scrollabars will disappear when the virtual width
+	* or height is less than the control's actual width or height. If this is true, then the
+	* scrollbars will stay visible, but become disabled.
+	*@param bool visible, true if we want it visible
 	*/
 	virtual void setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible ) = 0;
 
 	/**
-	Gets whether or not the scrollbars disappear when they are no longer needed.
-	@return true if they stay visible even when not needed
+	* gets whether or not the scrollbars disappear when they are no longer needed.
+	* @return true if they stay visible even when not needed
 	*/
 	virtual bool getKeepHorzScrollbarVisible() = 0;
 	virtual bool getKeepVertScrollbarVisible() = 0;
+
+	/**
+	* this allows you to control whether or not the scrolling needs to be discrete or not.
+	* By default this is false, ( i.e. rounded to the same amount indicated by getVirtualViewStep ).
+	*@param bool visible, true if we want it visible
+	*/
+	virtual void setDiscreteScroll( const bool& horzDiscrete, const bool& vertDiscrete ) = 0;
+
+	/**
+	* gets whether or not the scrolling needs to be discrete or not.
+	*@return true if the scrolling is discrete.
+	*/
+	virtual bool getDiscreteHorzScroll() = 0;
+	virtual bool getDiscreteVertScroll() = 0;
 };
 
 
@@ -285,6 +299,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/15 00:52:38  marcelloptr
+*bugfix [ 1099910 ] plus other improvements of the scrolling
+*
 *Revision 1.3.2.1  2005/01/13 19:41:48  marcelloptr
 *scrollable documentation and related
 *

@@ -254,6 +254,27 @@ public:
 	*/
 	bool getKeepHorzScrollbarVisible();
 
+	/**
+	* this allows you to control whether or not the scrolling needs to be discrete or not.
+	* By default this is false, ( i.e. rounded to the same amount indicated by getVirtualViewStep ).
+	*@param bool visible, true if we want it visible
+	*/
+	virtual void setDiscreteScroll( const bool& horzDiscrete, const bool& vertDiscrete );
+
+	/**
+	* gets whether or not the scrolling on the vertical scrollbar
+	* needs to be discrete or not.
+	*@return true if the scrolling is discrete.
+	*/
+	virtual bool getDiscreteVertScroll();
+
+	/**
+	* gets whether or not the scrolling on the horizontal scrollbar
+	* needs to be discrete or not.
+	*@return true if the scrolling is discrete.
+	*/
+	virtual bool getDiscreteHorzScroll();
+
 protected:
 	virtual ~ScrollbarManager();
 
@@ -269,6 +290,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/15 00:52:38  marcelloptr
+*bugfix [ 1099910 ] plus other improvements of the scrolling
+*
 *Revision 1.3.2.1  2005/01/13 19:41:48  marcelloptr
 *scrollable documentation and related
 *

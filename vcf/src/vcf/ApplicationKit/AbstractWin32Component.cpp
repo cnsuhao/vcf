@@ -994,47 +994,91 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 							case SB_THUMBPOSITION : case SB_THUMBTRACK : {
 
-								scrollable->setVerticalPosition( si.nTrackPos );
+								int pos = si.nTrackPos;
+
+								if ( scrollable->getDiscreteVertScroll() ) {
+									double step = scrollable->getVirtualViewVertStep();
+									if ( 0 != step ) {
+										double n = pos / step;
+										pos = (((int)ceil(n)) * step);
+									}
+								}
+
+								scrollable->setVerticalPosition( pos );
+
 							}
 							break;
 
 							case SB_LINEDOWN: {
-								int step = scrollable->getVirtualViewVertStep();
-								int pos = min( (long)(scrollable->getVerticalPosition() + step),
-												abs((long)(scrollable->getVirtualViewHeight() - height)) );
-								si.nPos += step;
-								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
-								pos = si.nPos;
+								int p = scrollable->getVerticalPosition(); // p == si.nPos
+								double step = scrollable->getVirtualViewVertStep();
+								int pos = p + step;
+								if ( scrollable->getDiscreteVertScroll() ) {
+									if ( 0 != step ) {
+										double n = p / step;
+										pos = (((int)ceil(n)) * step) + step;
+									}
+								}
+
+								pos = min( pos, abs((long)(scrollable->getVirtualViewHeight() - height)) );
+								//si.nPos += step;
+								//si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
+								//pos = si.nPos;
 								scrollable->setVerticalPosition( pos );
+
 							}
 							break;
 
 							case SB_LINEUP: {
-								int step = scrollable->getVirtualViewVertStep();
-								int pos = max( (long)( scrollable->getVerticalPosition() - step ), 0 );
-								si.nPos -= step;
-								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
-								pos = si.nPos;
+								int p = scrollable->getVerticalPosition(); // p == si.nPos
+								double step = scrollable->getVirtualViewVertStep();
+								int pos = p - step;
+								if ( scrollable->getDiscreteVertScroll() ) {
+									if ( 0 != step ) {
+										double n = p / step;
+										pos = (((int)ceil(n)) * step) - step;
+									}
+								}
+
+								pos = max( pos, 0 );
+								//si.nPos -= step;
+								//si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
+								//pos = si.nPos;
 								scrollable->setVerticalPosition( pos );
+
 							}
 							break;
 
 							case SB_PAGEDOWN: {
-								int pos = min( (long)(scrollable->getVerticalPosition() + 50),
-												abs((long)(scrollable->getVirtualViewHeight() - height)) );
-								si.nPos += si.nPage;
-								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
-								pos = si.nPos;
+								int p = scrollable->getVerticalPosition(); // p == si.nPos
+								int pos = p + si.nPage;
+								if ( scrollable->getDiscreteVertScroll() ) {
+									double step = scrollable->getVirtualViewVertStep();
+									if ( 0 != step ) {
+										double n = (p + si.nPage) / step;
+										pos = ((int)ceil(n)) * step;
+									}
+								}
+
+								pos = min( pos, abs((long)(scrollable->getVirtualViewHeight() - height)) );
 								scrollable->setVerticalPosition( pos );
 							}
 							break;
 
 							case SB_PAGEUP: {
-								int pos = max( (long)(scrollable->getVerticalPosition() - 50), 0 );
-								si.nPos -= si.nPage;
-								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
-								pos = si.nPos;
+								int p = scrollable->getVerticalPosition(); // p == si.nPos
+								int pos = p - si.nPage;
+								if ( scrollable->getDiscreteVertScroll() ) {
+									double step = scrollable->getVirtualViewVertStep();
+									if ( 0 != step ) {
+										double n = (p - si.nPage) / step;
+										pos = ((int)ceil(n)) * step;
+									}
+								}
+
+								pos = max( pos, si.nMin );
 								scrollable->setVerticalPosition( pos );
+
 							}
 							break;
 						}
@@ -1073,7 +1117,19 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 						switch ( nScrollCode ) {
 							case SB_THUMBPOSITION : case SB_THUMBTRACK : {
-								scrollable->setHorizontalPosition( si.nTrackPos );
+
+								int pos = si.nTrackPos;
+
+								if ( scrollable->getDiscreteHorzScroll() ) {
+									double step = scrollable->getVirtualViewHorzStep();
+									if ( 0 != step ) {
+										double n = pos / step;
+										pos = (((int)ceil(n)) * step);
+									}
+								}
+
+								scrollable->setHorizontalPosition( pos );
+
 							}
 							break;
 
@@ -1089,40 +1145,79 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 							case SB_LINELEFT : {
 								//copied from SB_LINEUP
-								int step = scrollable->getVirtualViewHorzStep();
-								int pos = max( (long)( scrollable->getHorizontalPosition() - step ), 0 );
-								si.nPos -= step;
-								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
-								pos = si.nPos;
+								int p = scrollable->getHorizontalPosition(); // p == si.nPos
+								double step = scrollable->getVirtualViewHorzStep();
+								int pos = p - step;
+								if ( scrollable->getDiscreteHorzScroll() ) {
+									if ( 0 != step ) {
+										double n = p / step;
+										pos = (((int)ceil(n)) * step) - step;
+									}
+								}
+
+								pos = max( pos, 0 );
+								//si.nPos -= step;
+								//si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
+								//pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
+
 							}
 							break;
 
 							case SB_LINERIGHT : {
 								//copied from SB_LINEDOWN
-								int step = scrollable->getVirtualViewHorzStep();
-								int pos = min( (long)( scrollable->getHorizontalPosition() + step ),           
-												abs((long)(scrollable->getVirtualViewWidth() - width)) ); 
+								int p = scrollable->getHorizontalPosition(); // p == si.nPos
+								double step = scrollable->getVirtualViewHorzStep();
+								int pos = p + step;
+								if ( scrollable->getDiscreteHorzScroll() ) {
+									if ( 0 != step ) {
+										double n = p / step;
+										pos = (((int)ceil(n)) * step) + step;
+									}
+								}
 
-								si.nPos += step;
-								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
-								pos = si.nPos;
+								pos = min( pos, abs((long)(scrollable->getVirtualViewWidth() - width)) );
+								//si.nPos += step;
+								//si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
+								//pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
+
 							}
 							break;
 
 							case SB_PAGELEFT : {
-								int pos = max( (long)(scrollable->getHorizontalPosition() - 50), 0 );
+								//copied from SB_PAGEUP
+								int p = scrollable->getHorizontalPosition(); // p == si.nPos
+								int pos = p - si.nPage;
+								if ( scrollable->getDiscreteHorzScroll() ) {
+									double step = scrollable->getVirtualViewHorzStep();
+									if ( 0 != step ) {
+										double n = (p - si.nPage) / step;
+										pos = ((int)ceil(n)) * step;
+									}
+								}
 
+								pos = max( pos, si.nMin );
 								scrollable->setHorizontalPosition( pos );
+
 							}
 							break;
 
 							case SB_PAGERIGHT : {
-								int pos = min( (long)(scrollable->getHorizontalPosition() + 50),
-												abs((long)( scrollable->getVirtualViewWidth() - width) ) );
+								//copied from SB_PAGEDOWN
+								int p = scrollable->getHorizontalPosition(); // p == si.nPos
+								int pos = p + si.nPage;
+								if ( scrollable->getDiscreteHorzScroll() ) {
+									double step = scrollable->getVirtualViewHorzStep();
+									if ( 0 != step ) {
+										double n = (p + si.nPage) / step;
+										pos = ((int)ceil(n)) * step;
+									}
+								}
 
+								pos = min( pos, abs((long)(scrollable->getVirtualViewWidth() - width)) );
 								scrollable->setHorizontalPosition( pos );
+
 							}
 							break;
 
@@ -1375,6 +1470,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/01/15 00:52:38  marcelloptr
+*bugfix [ 1099910 ] plus other improvements of the scrolling
+*
 *Revision 1.5.2.1  2004/12/19 04:04:58  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
