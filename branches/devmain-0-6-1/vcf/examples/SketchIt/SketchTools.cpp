@@ -1,6 +1,12 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2003/07/28 23:49:58  ddiego
+*check in of the weekend's work from July 25
+*learned how to use agg image renedering, now have to integrate it into the
+*GraphicsKit - alos enabled setting a viewable bounds that sets the agg cliprect
+*as well, useful for later optimizations
+*
 *Revision 1.1.2.4  2003/07/24 04:10:43  ddiego
 *added fixes for the following tasks:
 *Task #82279 ApplicationKit: add static methods to singleton objects
@@ -343,6 +349,7 @@ void SelectTool::onMouseUp( VCF::MouseEvent* e )
 			
 			shape->polygon_.applyTransform( m2 );
 
+
 			
 /*
 			Control* c = (Control*)e->getSource();
@@ -465,7 +472,7 @@ void LineTool::onMouseUp( VCF::MouseEvent* e )
 		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
 		Shape shape;
 		shape.polygon_.moveTo( start_.x_, start_.y_ );
-		shape.polygon_.lineTo( end_.x_, end_.y_ );
+		shape.polygon_.lineTo( end_.x_, end_.y_ );				
 		doc->addShape( shape );
 	}
 }
@@ -562,8 +569,7 @@ void RotateTool::rotateShape( Shape* shape, Point pt )
 	
 	m1.translate( origin_.x_, origin_.y_ );
 	
-	shape->polygon_.applyTransform( *m2.multiply( &m2, &m1 ) );		
-	
+	shape->polygon_.applyTransform( *m2.multiply( &m2, &m1 ) );
 }
 
 void RotateTool::onMouseMove( VCF::MouseEvent* e )
@@ -1126,7 +1132,7 @@ void ImageTool::onMouseDown( VCF::MouseEvent* e )
 		if ( openDlg.execute() ) {
 			FilePath fp = openDlg.getFileName();
 			
-			Image* img = GraphicsToolkit::getDefaultGraphicsToolkit()->createImage( fp );
+			Image* img = GraphicsToolkit::createImage( fp );
 
 	
 			if ( NULL != img ) {
@@ -1141,11 +1147,7 @@ void ImageTool::onMouseDown( VCF::MouseEvent* e )
 				shape.polygon_.rectangle( imageRect );
 				shape.image_ = img;
 				shape.image_->getImageBits()->attachRenderBuffer( img->getWidth(), img->getHeight() );
-				doc->addShape( shape );
-
-
-
-				GraphicsToolkit::getDefaultGraphicsToolkit()->saveImage( "e:\\code\\futzing.bmp", img );
+				doc->addShape( shape );			
 			}
 			
 		}
