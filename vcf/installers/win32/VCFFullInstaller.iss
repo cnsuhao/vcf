@@ -11,13 +11,19 @@ Name: Tutorials; Description: VCF Tutorials and test projects; Types: full custo
 
 [Dirs]
 Name: {app}\bin; Components: Binaries
-Name: {app}\lib
+Name: {app}\lib; Components: Binaries
+Name: {app}\include; Components: Src
+Name: {app}\src; Components: Src
+Name: {app}\build; Components: Src
+Name: {app}\test; Components: Src
+Name: {app}\examples; Components: Src
 Name: {app}\VC6-Addins; Components: VC_Addins
 
+
+
+
 [Files]
-
-;#include "vcfSrcFiles.iss"
-
+#include "vcfSrcFiles.iss"
 Source: ..\..\bin\GraphicsKit_vc6.dll; DestDir: {app}\bin; Components: Binaries
 Source: ..\..\bin\ApplicationKit_vc6_d.dll; DestDir: {app}\bin; Components: Binaries
 Source: ..\..\bin\FoundationKit_vc6.dll; DestDir: {app}\bin; Components: Binaries
@@ -121,12 +127,12 @@ Name: msdnintegrate; Description: Integrate VCF Documentation with MSDN; Compone
 Name: addvc6dirs; Description: Add VCF Include and Library path to Microsoft's Visual C++
 
 [Run]
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}}"" -chi ""{app}\docs\VCFDocs.0.6.2.chi"" -chm ""{app}\docs\VCFDocs.0.6.2.chm"" -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}}"" -chi ""{app}\docs\VCFSrcDocs.0.6.2.chi"" -chm ""{app}\docs\VCFSrcDocs.0.6.2.chm"" -add -title ""VCF Source Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.0.6.2.chi"" -chm ""{app}\docs\VCFDocs.0.6.2.chm"" -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.0.6.2.chi"" -chm ""{app}\docs\VCFSrcDocs.0.6.2.chm"" -add -title ""VCF Source Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
 
 [UninstallRun]
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}}"" -chi ""{app}\docs\VCFDocs.0.6.2.chi"" -chm ""{app}\docs\VCFDocs.0.6.2.chm"" -remove -title ""VCF Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
-Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}}"" -chi ""{app}\docs\VCFSrcDocs.0.6.2.chi"" -chm ""{app}\docs\VCFSrcDocs.0.6.2.chm"" -remove -title ""VCF Source Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.0.6.2.chi"" -chm ""{app}\docs\VCFDocs.0.6.2.chm"" -remove -title ""VCF Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
+Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.0.6.2.chi"" -chm ""{app}\docs\VCFSrcDocs.0.6.2.chm"" -remove -title ""VCF Source Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
 [Code]
 function IsModuleLoaded(modulename: String ):  Boolean;
 external 'IsModuleLoaded@files:psvince.dll stdcall';
