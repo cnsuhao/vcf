@@ -147,7 +147,7 @@ void Win32Tree::create( Control* owningControl )
 
 	createParams();
 
-	backColor_.copy( treeControl_->getColor() );
+	backColor_ = *treeControl_->getColor();
 
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND parent = toolkit->getDummyParent();
@@ -194,6 +194,12 @@ void Win32Tree::create( Control* owningControl )
 
 		peerControl_->ControlModelChanged += 
 			new GenericEventHandler<Win32Tree>( this, &Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
+
+		COLORREF backColor = RGB(backColor_.getRed() * 255.0,
+									backColor_.getGreen() * 255.0,
+									backColor_.getBlue() * 255.0 );
+
+		TreeView_SetBkColor( hwnd_, backColor );
 	}
 	else {
 		//throw exception
@@ -379,6 +385,16 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
 
+			Color* color = peerControl_->getColor();
+			
+			COLORREF backColor = RGB(color->getRed() * 255.0,
+									color->getGreen() * 255.0,
+									color->getBlue() * 255.0 );
+			HBRUSH bkBrush = CreateSolidBrush( backColor );
+			FillRect( memDC_, &paintRect, bkBrush );
+			DeleteObject( bkBrush );
+
+
 			ctx->getPeer()->setContextID( (OSHandleID)memDC_ );
 
 			
@@ -439,18 +455,19 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case WM_ERASEBKGND :{/*
+		case WM_ERASEBKGND :{
 			Color* color = treeControl_->getColor();
 			if ( (backColor_.getRed() != color->getRed()) || (backColor_.getGreen() != color->getGreen()) || (backColor_.getBlue() != color->getBlue()) ) {
 				COLORREF backColor = RGB(color->getRed() * 255.0,
 									color->getGreen() * 255.0,
 									color->getBlue() * 255.0 );
 
-				//TreeView_SetBkColor( hwnd_, backColor );
+				TreeView_SetBkColor( hwnd_, backColor );
 
-				backColor_.copy( color );
+				backColor_ = *color;
 			}
-			*/
+			
+
 			wndProcResult = 0;
 			result = true;
 		}
@@ -1357,6 +1374,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/01/07 01:13:59  ddiego
+*fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
+*
 *Revision 1.3.2.4  2005/01/01 20:31:08  ddiego
 *made an adjustment to quitting and event loop, and added some changes to the DefaultTabModel.
 *
