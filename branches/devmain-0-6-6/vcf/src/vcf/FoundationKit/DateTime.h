@@ -98,12 +98,12 @@ public:
 	}
 
 	DateTimeSpan& operator= ( const DateTimeSpan& rhs ) {
-		delta_ = rhs.delta_;
-		start_ = rhs.start_;
-		end_ = rhs.end_;
-		years_ = rhs.years_;
+		delta_  = rhs.delta_ ;
+		start_  = rhs.start_ ;
+		end_    = rhs.end_   ;
+		years_  = rhs.years_ ;
 		months_ = rhs.months_;
-		days_ = rhs.days_;
+		days_   = rhs.days_  ;
 
 		return *this;
 	}
@@ -480,113 +480,6 @@ public:
 
 
 	/**
-	increments the year of this date object.
-	@param unsigned long the amount to increment the year by
-	@return the object itself
-	*/
-	DateTime& incrYear(const unsigned long& by=1);
-
-	/**
-	increments the month of this date object. This takes into
-	account increments greater than 12 (which would then also increment the
-	year).  It also treats the end of the month as follows: if the day of
-	the object falls on the very last day of the month prior to the increment
-	then the algorithm will "pin" the day, shortening or lengthening it depending
-	on the newly incremented months value. For example, if the current date instance
-	is set to Jan 31, 2003, and you increment the month by 1 unit, then the
-	new value will be set to Feb 28, 2003.
-	@param unsigned long the amount to increment the month by
-	@return the object itself
-	*/
-	DateTime& incrMonth(const unsigned long& by=1);
-
-	/**
-	increments the day of this date object.
-	@param unsigned long the amount to increment the day by
-	@return the object itself
-	*/
-	DateTime& incrDay(const unsigned long& by=1);
-
-	/**
-	increments the hour of this date object.
-	@param unsigned long the amount to increment the hour by
-	@return the object itself
-	*/
-	DateTime& incrHour(const unsigned long& by=1);
-
-	/**
-	increments the minute of this date object.
-	@param unsigned long the amount to increment the minute by
-	@return the object itself
-	*/
-	DateTime& incrMinute(const unsigned long& by=1);
-
-	/**
-	increments the second of this date object.
-	@param unsigned long the amount to increment the second by
-	@return the object itself
-	*/
-	DateTime& incrSecond(const unsigned long& by=1);
-
-	/**
-	increments the millisecond of this date object.
-	@param unsigned long the amount to increment the millisecond by
-	@return the object itself
-	*/
-	DateTime& incrMilliSecond(const unsigned long& by=1);
-
-	/**
-	decrements the year of this date object
-	@param unsigned long the amount to decrement the millisecond by
-	@return the object itself
-	*/
-	DateTime& decrYear(const unsigned long& by=1);
-
-	/**
-	decrements the month of this date object. See the incrMonth()
-	method for more details on the behaviour of this function.
-	@param unsigned long the amount to decrement the month by
-	@see incrMonth()
-	@return the object itself
-	*/
-	DateTime& decrMonth(const unsigned long& by=1);
-
-	/**
-	decrements the day of this date object
-	@param unsigned long the amount to decrement the day by
-	@return the object itself
-	*/
-	DateTime& decrDay(const unsigned long& by=1);
-
-	/**
-	decrements the hour of this date object
-	@param unsigned long the amount to decrement the hour by
-	@return the object itself
-	*/
-	DateTime& decrHour(const unsigned long& by=1);
-
-	/**
-	decrements the minute of this date object
-	@param unsigned long the amount to decrement the minute by
-	@return the object itself
-	*/
-	DateTime& decrMinute(const unsigned long& by=1);
-
-	/**
-	decrements the second of this date object
-	@param unsigned long the amount to decrement the second by
-	@return the object itself
-	*/
-	DateTime& decrSecond(const unsigned long& by=1);
-
-	/**
-	decrements the millisecond of this date object
-	@param unsigned long the amount to decrement the millisecond by
-	@return the object itself
-	*/
-	DateTime& decrMilliSecond(const unsigned long& by=1);
-
-	/**
 	allows for assignment between this date time object and
 	another.
 	*/
@@ -697,9 +590,137 @@ public:
 
 	unsigned long getWeeksInYear() const ;
 
+
+	virtual String toString();
+
 	virtual void loadFromStream( InputStream* stream );
 
 	virtual void saveToStream( OutputStream* stream );
+
+
+	static void getYearMonthDay( const DateTime& dt, 
+		                           unsigned long* year, unsigned long* month, unsigned long* day );
+
+	static void getHourMinuteSecond( const DateTime& dt, 
+	                                 unsigned long* hour, unsigned long* minute, unsigned long* second, 
+	                                 unsigned long* millsecond=NULL );
+
+	static unsigned long getNumberOfDaysInMonth( unsigned long year, Months month );
+
+	static bool isGregorianCalendarDate( const unsigned long& year, const unsigned long& month, const unsigned long& day );
+
+	static bool isGregorianCalendarDate( const DateTime& dt );
+
+	static bool isLeapYear( unsigned long year );
+
+
+	/**
+	increments the year of this date object.
+	@param unsigned long the amount to increment the year by
+	@return the object itself
+	*/
+	DateTime& incrYear(const unsigned long& by=1);
+
+	/**
+	increments the month of this date object. This takes into
+	account increments greater than 12 (which would then also increment the
+	year).  It also treats the end of the month as follows: if the day of
+	the object falls on the very last day of the month prior to the increment
+	then the algorithm will "pin" the day, shortening or lengthening it depending
+	on the newly incremented months value. For example, if the current date instance
+	is set to Jan 31, 2003, and you increment the month by 1 unit, then the
+	new value will be set to Feb 28, 2003.
+	@param unsigned long the amount to increment the month by
+	@return the object itself
+	*/
+	DateTime& incrMonth(const unsigned long& by=1);
+
+	/**
+	increments the day of this date object.
+	@param unsigned long the amount to increment the day by
+	@return the object itself
+	*/
+	DateTime& incrDay(const unsigned long& by=1);
+
+	/**
+	increments the hour of this date object.
+	@param unsigned long the amount to increment the hour by
+	@return the object itself
+	*/
+	DateTime& incrHour(const unsigned long& by=1);
+
+	/**
+	increments the minute of this date object.
+	@param unsigned long the amount to increment the minute by
+	@return the object itself
+	*/
+	DateTime& incrMinute(const unsigned long& by=1);
+
+	/**
+	increments the second of this date object.
+	@param unsigned long the amount to increment the second by
+	@return the object itself
+	*/
+	DateTime& incrSecond(const unsigned long& by=1);
+
+	/**
+	increments the millisecond of this date object.
+	@param unsigned long the amount to increment the millisecond by
+	@return the object itself
+	*/
+	DateTime& incrMilliSecond(const unsigned long& by=1);
+
+	/**
+	decrements the year of this date object
+	@param unsigned long the amount to decrement the millisecond by
+	@return the object itself
+	*/
+	DateTime& decrYear(const unsigned long& by=1);
+
+	/**
+	decrements the month of this date object. See the incrMonth()
+	method for more details on the behaviour of this function.
+	@param unsigned long the amount to decrement the month by
+	@see incrMonth()
+	@return the object itself
+	*/
+	DateTime& decrMonth(const unsigned long& by=1);
+
+	/**
+	decrements the day of this date object
+	@param unsigned long the amount to decrement the day by
+	@return the object itself
+	*/
+	DateTime& decrDay(const unsigned long& by=1);
+
+	/**
+	decrements the hour of this date object
+	@param unsigned long the amount to decrement the hour by
+	@return the object itself
+	*/
+	DateTime& decrHour(const unsigned long& by=1);
+
+	/**
+	decrements the minute of this date object
+	@param unsigned long the amount to decrement the minute by
+	@return the object itself
+	*/
+	DateTime& decrMinute(const unsigned long& by=1);
+
+	/**
+	decrements the second of this date object
+	@param unsigned long the amount to decrement the second by
+	@return the object itself
+	*/
+	DateTime& decrSecond(const unsigned long& by=1);
+
+	/**
+	decrements the millisecond of this date object
+	@param unsigned long the amount to decrement the millisecond by
+	@return the object itself
+	*/
+	DateTime& decrMilliSecond(const unsigned long& by=1);
+
 
 	/**
 	templatized class for iterating a date, either forward
@@ -772,27 +793,10 @@ public:
 	};
 	#endif //VCF__BCC
 
-	virtual String toString();
-
-	static bool isLeapYear( unsigned long year );
-
-	static unsigned long getNumberOfDaysInMonth( unsigned long year, Months month );
-
-	static bool isGregorianCalendarDate( const unsigned long& year, const unsigned long& month, const unsigned long& day );
-
-	static bool isGregorianCalendarDate( const DateTime& dt );
-
-	static void getYearMonthDay( const DateTime& dt, 
-		                           unsigned long* year, unsigned long* month, unsigned long* day );
-
-	static void getHourMinuteSecond( const DateTime& dt, 
-	                                 unsigned long* hour, unsigned long* minute, unsigned long* second, 
-	                                 unsigned long* millsecond=NULL );
-
 
 	friend class DateTimeSpan;
-protected:
 
+protected:
 
 	void setAndAdjustForGregorianDay( const unsigned long& year, const unsigned long& month, const unsigned long& day,
 	                                  const unsigned long& hour, const unsigned long& minutes, const unsigned long& seconds,
@@ -806,6 +810,7 @@ protected:
 	*/
 	ulong64 time_;
 };
+
 
 #ifdef VCF_BCC
 	template <typename DateLogic>
@@ -862,6 +867,7 @@ protected:
 		DateTime dt_;
 	};
 #endif
+
 
 class FOUNDATIONKIT_API ByMillisecond {
 public :
@@ -929,6 +935,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/20 23:19:02  marcelloptr
+*just moved some member declarations around
+*
 *Revision 1.2.2.1  2004/08/11 04:49:36  marcelloptr
 *added conversion operator to ulong64
 *
