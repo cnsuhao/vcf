@@ -161,11 +161,10 @@ protected:
     ulong32 imgWidth_;
     ulong32 imgHeight_;
 	GraphicsContext* context_;
-	void* bezierPath_;
 	long currentDrawingOperation_;
 	ATSUTextLayout textLayout_;
 	VCF::Point origin_;
-    bool xorModeOn_;
+    bool xorModeOn_;	
     
 	void atsuDrawTextInBox(	const VCF::Rect& rect );
 	
@@ -181,6 +180,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/23 14:12:18  ddiego
+*osx updates
+*
 *Revision 1.1.2.4  2004/05/16 02:39:10  ddiego
 *OSX code updates
 *

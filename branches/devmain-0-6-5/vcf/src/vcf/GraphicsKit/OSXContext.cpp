@@ -69,8 +69,7 @@ OSXContext::OSXContext():
 	inMemoryImage_(nil),
     imgWidth_(0),
     imgHeight_(0),
-	context_(NULL),
-	bezierPath_(nil),
+	context_(NULL),	
 	currentDrawingOperation_(0),
 	textLayout_(nil),
     xorModeOn_(false)
@@ -84,8 +83,7 @@ OSXContext::OSXContext( const unsigned long& width, const unsigned long& height 
 	inMemoryImage_(nil),
     imgWidth_(width),
     imgHeight_(height),
-	context_(NULL),
-	bezierPath_(nil),
+	context_(NULL),	
 	currentDrawingOperation_(0),
 	textLayout_(nil),
     xorModeOn_(false)
@@ -101,8 +99,7 @@ OSXContext::OSXContext( const unsigned long& contextID ):
 	inMemoryImage_(nil),
     imgWidth_(0),
     imgHeight_(0),
-	context_(NULL),
-	bezierPath_(nil),
+	context_(NULL),	
 	currentDrawingOperation_(0),
 	textLayout_(nil),
     xorModeOn_(false)
@@ -324,10 +321,18 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	//cfStr = text;
 	GrafPtr currentPort = grafPort_;
 	//GetPort( &currentPort );
-	::Rect portBounds;
-	GetPortBounds( currentPort, &portBounds );
+	::Rect portBounds = RectProxy( context_->getViewableBounds() );
+	
+	//GetPortBounds( currentPort, &portBounds );
 	int portH = portBounds.bottom - ((portBounds.top < 0) ? 0 : portBounds.top );
-			
+	/*
+	StringUtils::traceWithArgs( "OSXContext::textAt()/GetPortBounds(): %d, %d, %d, %d\n",
+									portBounds.left,
+									portBounds.top,
+									portBounds.right,
+									portBounds.bottom );
+									*/
+										
 	ATSUSetTextPointerLocation( textLayout_, 
 								text.c_str(), 
 								kATSUFromTextBeginning, 
@@ -446,17 +451,6 @@ void OSXContext::roundRect(const double & x1, const double & y1, const double & 
 
 void OSXContext::ellipse(const double & x1, const double & y1, const double & x2, const double & y2 )
 {
-/*
-	[bezierPath_ appendBezierPathWithOvalInRect:NSMakeRect(x1,y1,x2-x1,y2-y1)];
-	if ( GraphicsContext::doStroke == currentDrawingOperation_ ) {
-		[bezierPath_ stroke];	
-	}
-	else if ( GraphicsContext::doFill == currentDrawingOperation_ ) {
-		[bezierPath_ fill];
-	}
-	[bezierPath_ closePath];
-	*/
-
 	double widthDiv2 = (x2 - x1) / 2.0;
 	double heightDiv2 = (y2 - y1) / 2.0;
 	CGContextMoveToPoint( contextID_, x1, y1+heightDiv2 );
@@ -1000,7 +994,8 @@ void OSXContext::drawSelectionRect( VCF::Rect* rect )
 {
     ::Rect r = RectProxy(rect);
     
-    SwitchPort sw( grafPort_ );        
+    SwitchPort sw( 
+	 );        
     DrawThemeFocusRect( &r, TRUE );
 }
 
@@ -1128,9 +1123,9 @@ void OSXContext::drawEdge( Rect* rect, const long& edgeSides, const long& edgeSt
     if ( GraphicsContext::etAllSides == edgeSides ) {
         ::Rect r = RectProxy(rect);
     
-        SwitchPort sw( grafPort_ );
+        //SwitchPort sw( grafPort_ );
         
-        DrawThemePrimaryGroup( &r, kThemeStateActive );
+        //DrawThemePrimaryGroup( &r, kThemeStateActive );
     }
     else {    
         if ( edgeSides & GraphicsContext::etLeftSide ) {
@@ -1343,6 +1338,9 @@ void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/23 14:12:18  ddiego
+*osx updates
+*
 *Revision 1.1.2.5  2004/05/16 02:39:10  ddiego
 *OSX code updates
 *

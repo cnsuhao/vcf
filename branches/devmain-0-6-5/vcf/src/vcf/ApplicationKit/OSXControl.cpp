@@ -39,12 +39,17 @@ public:
 	OSXControlView( HIViewRef inControl ):
 		TView(inControl), osxControl_(NULL){
 		
+		VCF::OSXControl::setCurrentCreateHIView( this );
 	}
 	
 	virtual ~OSXControlView() {
 	
 	}
-		
+
+	virtual UInt32 GetBehaviors() {
+		return TView::GetBehaviors() | kHIViewAllowsSubviews;
+	}
+
 	void setOSXControl( VCF::OSXControl* val ) {
 		osxControl_ = val ;
 	}
@@ -98,6 +103,16 @@ static const EventTypeSpec osxHIViewEvents[] =
 	{ kEventClassControl, kEventControlGetSizeConstraints },
 	{ kEventClassControl, kEventControlHit },
 	
+	{ kEventClassMouse, kEventMouseDown },
+	{ kEventClassMouse, kEventMouseUp },
+	{ kEventClassMouse, kEventMouseMoved },
+	{ kEventClassMouse, kEventMouseDragged },
+	{ kEventClassMouse, kEventMouseEntered },
+	{ kEventClassMouse, kEventMouseExited },
+	{ kEventClassMouse, kEventMouseWheelMoved },
+	{ kEventClassKeyboard, kEventRawKeyDown },
+	{ kEventClassKeyboard, kEventRawKeyUp },
+							
 	{ kEventClassControl, kEventControlHiliteChanged },
 	{ kEventClassControl, kEventControlActivate },
 	{ kEventClassControl, kEventControlDeactivate },
@@ -178,6 +193,9 @@ void OSXControl::create( Control* owningControl )
 		if ( err != noErr ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXControlView!") );
 		}
+		
+		
+        
 	}
 	else {
 		throw RuntimeException( MAKE_ERROR_MSG_2("OSXControlView failed to be created!") );
@@ -258,7 +276,10 @@ void OSXControl::setParent( Control* parent )
 	}
 	else {
 		ControlRef parentControlRef = (ControlRef)parent->getPeer()->getHandleID();
-		HIViewAddSubview( parentControlRef, hiView_->GetViewRef() );
+		OSStatus err = HIViewAddSubview( parentControlRef, hiView_->GetViewRef() );
+		if ( err != noErr ) {
+			StringUtils::traceWithArgs( "HIViewAddSubview failed, err: %d\n", err );
+		}
 	}
 }
 
@@ -348,16 +369,35 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
     
     OSXEventMsg msg( theEvent, control_ );
     Event* vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
-    
+
+//	{ kEventClassControl, kEventControlDeactivate },
+	
     UInt32 whatHappened = GetEventKind (theEvent);
 	switch ( GetEventClass( theEvent ) )  {	
 		case kEventClassControl : {
 			switch( whatHappened ) {
+				case kEventControlActivate : {
+					result = ::CallNextEventHandler( nextHandler, theEvent ); 
+					
+					hiView_->Invalidate();					
+					
+					if ( !control_->isDestroying() ) {
+					
+							
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
+						}
+					}
+				}
+				break;
+
 				case kEventControlDraw : {
 					result = ::CallNextEventHandler( nextHandler, theEvent ); 
 				
 					if ( !control_->isDestroying() ) {
 						TCarbonEvent		event( theEvent );
+						
+						StringUtils::trace( "OSXControl::handleOSXEvent(), kEventClassControl, kEventControlDraw\n" );
 						
 						GrafPtr port = NULL;										
 						CGContextRef context = NULL;
@@ -368,14 +408,18 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
 						
 						GrafPtr oldPort;
-						GetPort( &oldPort );
-						SetPort( port );
+						//GetPort( &oldPort );
+						//SetPort( port );
 						
-						::Rect bounds = RectProxy( getBounds() );
+						::Rect bounds = RectProxy( control_->getClientBounds() );
 						
 						EraseRect( &bounds );
+						//EraseRgn( region );
 						
 						VCF::GraphicsContext* ctx = control_->getContext();
+						
+						ctx->setViewableBounds( control_->getClientBounds() );
+						
 						OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
 						osxCtx->setCGContext( context, port );
 		
@@ -383,7 +427,7 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 						
 						osxCtx->setCGContext( NULL, 0 );
 		
-						SetPort( oldPort );
+						//SetPort( oldPort );
 		
 						result = noErr;
 					}
@@ -410,6 +454,10 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
         break; 
 	}
 	
+	if ( NULL != vcfEvent ) {
+        delete vcfEvent;
+    }
+	
 	return result;
 }
 
@@ -422,6 +470,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
+*osx updates
+*
 *Revision 1.1.2.5  2004/05/16 05:31:06  ddiego
 *OSX code updates. Add basics for custom control peers.
 *
