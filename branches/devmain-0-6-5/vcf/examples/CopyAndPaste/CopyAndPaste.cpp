@@ -141,7 +141,7 @@ public:
 				//create some text
 				String text;
 				//append the contents of the stream's buffer to the string
-				text.append( (VCF::WideChar*)stream.getBuffer(), stream.getSize() );
+				text.append( stream.getBuffer(), stream.getSize() );
 
 				//set the text control model's text
 				edit2->getTextModel()->setText( text );
@@ -189,6 +189,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2004/06/26 15:22:49  ddiego
+*fixes bug [ 978681 ] Copy past example busted
+*
 *Revision 1.3.2.5  2004/04/29 03:40:52  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
