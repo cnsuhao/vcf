@@ -1,7 +1,6 @@
 //Directories.cpp
 
 #include "vcf/FoundationKit/FoundationKit.h"
-//#include "vcf/FoundationKit/FoundationKitPrivate.h"
 
 using namespace VCF;
 
@@ -123,7 +122,34 @@ public:
 
 };
 
+String formatDirectoryInfos( File* file, const Directory::Finder* finder )
+{
+	String filename = file->getName();
+	DateTime dt = file->getDateModified().toLocal();
 
+	String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
+
+	String text = StringUtils::format( L"[%d] %s %10s %5s [%s]\n", 
+	                                   finder->getRecursionLevel(), st.c_str(), L"", L"", filename.c_str() );
+
+	return text;
+}
+
+String formatFileInfos( File* file, const Directory::Finder* finder )
+{
+	String filename = file->getName();
+	DateTime dt = file->getDateModified().toLocal();
+
+	String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
+	String sz = StringUtils::toString( file->getSize() );
+	String sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
+	                                 file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
+
+	String text = StringUtils::format( L"[%d] %s %10s %s  %s\n", 
+	                                   finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+
+	return text;
+}
 
 class FinderTest3 : public FinderTest {
 public:
@@ -133,10 +159,10 @@ public:
 		countDirectories_   = 0;
 
 		String filename;
+		String text;
 
 		File* file = NULL;
 		Directory::Finder* finder = NULL;
-		DateTime dt;
 
 		Directory dir( FilePath::getExpandedRelativePathName( filepath ) );
 
@@ -157,54 +183,45 @@ public:
 				filename = file->getName();
 
 				if ( file->isDirectory() ) {
-					VCF_ASSERT( !( filename == L"." || filename == L".." ) );
-
 					countDirectories_ ++;
-					dt = System::convertUTCTimeToLocalTime( file->getDateModified() );
-					String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
-					//String st = StringUtils::format( L"%s", L"%d/%m/%Y %H:%M:%S" );
+
 					if ( g_showDirnames ) {
-						printf ( "[%d] %s %10s %5s [%s]\n", finder->getRecursionLevel(), st.ansi_c_str(), "", "", filename.ansi_c_str() );
-						StringUtils::traceWithArgs( L"[%d] %s %10s %5s [%s]\n", finder->getRecursionLevel(), st.c_str(), L"", L"", filename.c_str() );
+						text = formatDirectoryInfos( file, finder );
+						printf( text.ansi_c_str() );
+						StringUtils::trace( text );
 					}
-				} 
+				}
 				else {
 					countFiles_ ++;
-					String sz = StringUtils::toString( file->getSize() );
-					String sz2 = StringUtils::toString( file->getPeer()->getSize() );
-					
-					dt = System::convertUTCTimeToLocalTime( file->getDateModified() );
 
-					String st = StringUtils::format( dt, L"%d/%m/%Y %H:%M:%S" );
-					String sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
-																						file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
-					if ( g_showFilenames ) {
-						printf ( "[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.ansi_c_str(), sz.ansi_c_str(), sa.ansi_c_str(), filename.ansi_c_str() );
-						StringUtils::traceWithArgs( L"[%d] %s %10s %s  %s\n", finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+					if ( g_showDirnames ) {
+						text = formatFileInfos( file, finder );
+						printf( text.ansi_c_str() );
+						StringUtils::trace( text );
 					}
 
 					// setting file attributes
 					if ( g_testingFileAttributes ) {
 						File::FileAttributes fa = file->getFileAttributes();
 						file->setFileAttributes( (File::FileAttributes) ( fa | File::faReadOnly ) );
-						fa = file->getFileAttributes();
-						sa = StringUtils::format( "%c%c%c%c%c", file->isArchive()?'a':' ', file->isReadOnly()?'r':' ', 
-																							file->isHidden()?'h':' ', file->isSystem()?'s':' ', file->isExecutable()?'x':' ' );
-						StringUtils::traceWithArgs( L"[%d]*%s %10s %s  %s\n", finder->getRecursionLevel(), st.c_str(), sz.c_str(), sa.c_str(), filename.c_str() );
+
+						StringUtils::trace( formatFileInfos( file, finder ) );
 					}
 
 
 					// setting time stamp
 					if ( g_testingTimeStamps ) {
 						// this increase the timestamp of one day
-						dt = file->getDateModified();
-						dt.incrDay( 1 );
-						file->setDateModified( dt );
+						file->setDateModified( file->getDateModified().incrDay( 1 ) );
+
+						StringUtils::trace( formatFileInfos( file, finder ) );
 
 						// this set the time of the file to now
 						// this function must be completed though !
 						// see its implementation
 						//file->updateTime();
+						//
+						//StringUtils::trace( formatFileInfos( file, finder ) );
 					}
 
 				}
@@ -231,14 +248,9 @@ public:
 
 
 
-void test( FinderTest& finder, const String& name, const bool& recurse = false )
+void test( FinderTest& finderTest, const String& name, const bool& recurse = false )
 {
 	printf( String( "\nTesting: " + name + "\n" ).ansi_c_str() );
-
-	DateTime startTime, stopTime;
-	int countTot = 0;
-
-	startTime = DateTime::now();
 
 	String vcfIncludes = System::getEnvironmentVariable( "VCF_INCLUDE" );
 
@@ -247,12 +259,16 @@ void test( FinderTest& finder, const String& name, const bool& recurse = false )
 		return;
 	}
 
-	finder.loopTest( vcfIncludes, recurse );
+	DateTime startTime = DateTime::now();
 
-	stopTime = DateTime::now();
+	int countTot = 0;
+
+	finderTest.loopTest( vcfIncludes, recurse );
+
+	DateTime stopTime = DateTime::now();
 	DateTimeSpan deltaTime = stopTime - startTime;
 	double td = (1.0 * (double)deltaTime.getTotalMilliseconds())/1000;
-	printf( "[%s] files: %d, subdirs: %d  Total time: %.3f seconds\n", name.ansi_c_str(), finder.countFiles_, finder.countDirectories_, td );
+	printf( "[%s] files: %d, subdirs: %d  Total time: %.3f seconds\n", name.ansi_c_str(), finderTest.countFiles_, finderTest.countDirectories_, td );
 	printf( "\n" );
 }
 
