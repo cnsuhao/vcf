@@ -12,7 +12,7 @@
 	<!ENTITY componentAuthoring SYSTEM "corelib_componentAuthoring.xml">
 	<!ENTITY coreLibNetworkKit SYSTEM "corelib_networkKit.xml">
 	<!ENTITY coreLibRemoteObjectKit SYSTEM "corelib_remoteObjectKit.xml">
-	<!ENTITY coreLibFAQ SYSTEM "corelib_FAQ.xml">
+	<!ENTITY faqs SYSTEM "faqs.xml">
 
 	<!ENTITY tutorials SYSTEM "tutorials.xml">
 	<!ENTITY helloworld SYSTEM "../examples/HelloWorld/HelloWorld.xml">
@@ -21,6 +21,7 @@
 	<!ENTITY filesanddirectories SYSTEM "../examples/FilesAndDirectories/FilesAndDirectories.xml">
 	<!ENTITY graphicsandmousemoves SYSTEM "../examples/GraphicsAndMouseMoves/GraphicsAndMouseMoves.xml">
 	<!ENTITY strings SYSTEM "../examples/Strings/Strings.xml">
+	<!ENTITY copyandpaste_src SYSTEM "../examples/CopyAndPaste/CopyAndPaste.cpp">
 	<!ENTITY copyandpaste SYSTEM "../examples/CopyAndPaste/CopyAndPaste.xml">
 	<!ENTITY graphicsbasics SYSTEM "../examples/GraphicsBasics/GraphicsBasics.xml">
 	<!ENTITY strokesandfills SYSTEM "../examples/StrokesAndFills/StrokesAndFills.xml">
@@ -83,6 +84,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/10/01 01:58:31  ddiego
+added more faq documentation
+
 Revision 1.1.2.2  2003/09/27 23:04:57  ddiego
 added tutorial sections to documentation
 

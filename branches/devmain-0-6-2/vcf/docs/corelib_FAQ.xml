@@ -25,89 +25,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
 -->
-<section><title>FAQ</title>
-	<qandaset><title>FoundationKit</title>
-		<qandaentry>
-			<question>
-				<para>a question?</para>
-			</question>
-			<answer>
-				<para>
-				An answer.
-				</para>
-			</answer>			
-		</qandaentry>
-	</qandaset>
 
-	<qandaset><title>GraphicsKit</title>
-		<qandaentry>
-			<question>
-				<para>a question?</para>
-			</question>
-			<answer>
-				<para>
-				An answer.
-				</para>
-			</answer>			
-		</qandaentry>
-	</qandaset>
-
-	<qandaset><title>ApplicationKit</title>
-		<qandaentry>
-			<question>
-				<para>a question?</para>
-			</question>
-			<answer>
-				<para>
-				An answer.
-				</para>
-			</answer>			
-		</qandaentry>
-	</qandaset>
-
-	<qandaset><title>Component Authoring</title>
-		<qandaentry>
-			<question>
-				<para>a question?</para>
-			</question>
-			<answer>
-				<para>
-				An answer.
-				</para>
-			</answer>			
-		</qandaentry>
-	</qandaset>
-	
-	<qandaset><title>NetworkKit</title>
-		<qandaentry>
-			<question>
-				<para>a question?</para>
-			</question>
-			<answer>
-				<para>
-				An answer.
-				</para>
-			</answer>			
-		</qandaentry>
-	</qandaset>
-	<qandaset><title>RemoteObjectKit</title>
-		<qandaentry>
-			<question>
-				<para>a question?</para>
-			</question>
-			<answer>
-				<para>
-				An answer.
-				</para>
-			</answer>			
-		</qandaentry>
-	</qandaset>
-</section>
 
 
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/10/01 01:58:31  ddiego
+added more faq documentation
+
 Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile

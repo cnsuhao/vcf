@@ -1002,18 +1002,15 @@ int myCoolMethod( void* d, bool b, String s );
 			There are <ulink url="">forums</ulink> covering a wide range of topics that everyone is encouraged to 
 			visit and participate in. There is also a private developer forum, for VCF registered developers only.
 		</para>
-	</section>
-	
-	<section><title>FAQ</title>
-		<para>
-			To be finished
-		</para>
 	</section>		
 </chapter>
 
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/10/01 01:58:31  ddiego
+added more faq documentation
+
 Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile
