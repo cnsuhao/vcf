@@ -212,7 +212,12 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/11/01 17:19:00  marcelloptr
+*just added few lines at the end of file
+*
 *Revision 1.1.2.1  2004/11/01 14:38:59  pallindo
 *Initial checkin of the particle editor example.  Just shows off a more complex opengl application using the VCF.
 *
 */
+
+
