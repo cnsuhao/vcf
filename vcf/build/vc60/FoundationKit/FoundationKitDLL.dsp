@@ -23,6 +23,8 @@ CFG=FOUNDATIONKITDLL - WIN32 DEBUG
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -101,14 +103,6 @@ SOURCE=..\..\..\include\FoundationKitPrivate.h
 
 SOURCE=..\..\..\include\core\FoundationKitSelectLib.h
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\LocalePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\utils\StringsMessageLoader.h
-# End Source File
 # End Group
 # Begin Group "Source Files"
 
@@ -133,10 +127,6 @@ SOURCE=..\..\..\src\utils\Library.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\Locales.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\utils\StringsMessageLoader.cpp
 # End Source File
 # End Group
 # Begin Group "Peers"
@@ -596,6 +586,14 @@ SOURCE=..\..\..\include\utils\Semaphore.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\StringsMessageLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\StringsMessageLoader.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\StringTokenizer.h
 # End Source File
 # Begin Source File
@@ -737,6 +735,10 @@ SOURCE=..\..\..\include\implementer\ConditionPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\LibraryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\LocalePeer.h
 # End Source File
 # Begin Source File
 
