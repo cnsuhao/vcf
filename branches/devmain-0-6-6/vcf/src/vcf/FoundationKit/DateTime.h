@@ -108,7 +108,9 @@ public:
 		return *this;
 	}
 
-
+	/**
+	allows conversion to a ulong64 ( POD ) data type
+	*/
 	operator ulong64() const {
 		return delta_;
 	}
@@ -384,7 +386,7 @@ public:
 	outside of this range will cause a BadTimeFormat exception to be thrown.
 
 	@throw BadDateFormat
-    @throw BadTimeFormat
+	@throw BadTimeFormat
 	*/
 	void set( const unsigned long& year,
 				const unsigned long& month,
@@ -480,6 +482,7 @@ public:
 	/**
 	increments the year of this date object.
 	@param unsigned long the amount to increment the year by
+	@return the object itself
 	*/
 	DateTime& incrYear(const unsigned long& by=1);
 
@@ -493,42 +496,49 @@ public:
 	is set to Jan 31, 2003, and you increment the month by 1 unit, then the
 	new value will be set to Feb 28, 2003.
 	@param unsigned long the amount to increment the month by
+	@return the object itself
 	*/
 	DateTime& incrMonth(const unsigned long& by=1);
 
 	/**
 	increments the day of this date object.
 	@param unsigned long the amount to increment the day by
+	@return the object itself
 	*/
 	DateTime& incrDay(const unsigned long& by=1);
 
 	/**
 	increments the hour of this date object.
 	@param unsigned long the amount to increment the hour by
+	@return the object itself
 	*/
 	DateTime& incrHour(const unsigned long& by=1);
 
 	/**
 	increments the minute of this date object.
 	@param unsigned long the amount to increment the minute by
+	@return the object itself
 	*/
 	DateTime& incrMinute(const unsigned long& by=1);
 
 	/**
 	increments the second of this date object.
 	@param unsigned long the amount to increment the second by
+	@return the object itself
 	*/
 	DateTime& incrSecond(const unsigned long& by=1);
 
 	/**
 	increments the millisecond of this date object.
 	@param unsigned long the amount to increment the millisecond by
+	@return the object itself
 	*/
 	DateTime& incrMilliSecond(const unsigned long& by=1);
 
 	/**
 	decrements the year of this date object
 	@param unsigned long the amount to decrement the millisecond by
+	@return the object itself
 	*/
 	DateTime& decrYear(const unsigned long& by=1);
 
@@ -537,36 +547,42 @@ public:
 	method for more details on the behaviour of this function.
 	@param unsigned long the amount to decrement the month by
 	@see incrMonth()
+	@return the object itself
 	*/
 	DateTime& decrMonth(const unsigned long& by=1);
 
 	/**
 	decrements the day of this date object
 	@param unsigned long the amount to decrement the day by
+	@return the object itself
 	*/
 	DateTime& decrDay(const unsigned long& by=1);
 
 	/**
 	decrements the hour of this date object
 	@param unsigned long the amount to decrement the hour by
+	@return the object itself
 	*/
 	DateTime& decrHour(const unsigned long& by=1);
 
 	/**
 	decrements the minute of this date object
 	@param unsigned long the amount to decrement the minute by
+	@return the object itself
 	*/
 	DateTime& decrMinute(const unsigned long& by=1);
 
 	/**
 	decrements the second of this date object
 	@param unsigned long the amount to decrement the second by
+	@return the object itself
 	*/
 	DateTime& decrSecond(const unsigned long& by=1);
 
 	/**
 	decrements the millisecond of this date object
 	@param unsigned long the amount to decrement the millisecond by
+	@return the object itself
 	*/
 	DateTime& decrMilliSecond(const unsigned long& by=1);
 
@@ -577,6 +593,13 @@ public:
 	DateTime& operator =( const DateTime& rhs ) {
 		time_ = rhs.time_;
 		return *this;
+	}
+
+	/**
+	allows conversion to a ulong64 ( POD ) data type
+	*/
+	operator ulong64() const {
+		return time_;
 	}
 
 	/**
@@ -687,18 +710,18 @@ public:
 	public:
 		static void incr( DateTime& dt, unsigned long offset );
 		static void decr( DateTime& dt, unsigned long offset );
-    };
+	};
 	</pre>
 	*/
 	template <typename DateLogic>
 	class Iterator 
 	#ifdef VCF_BCC
 	;
-	#else	
+	#else
 	{
 	public:
 
-		Iterator()  {
+		Iterator() {
 
 		}
 
@@ -747,7 +770,7 @@ public:
 	protected:
 		DateTime dt_;
 	};
-        #endif //VCF__BCC
+	#endif //VCF__BCC
 
 	virtual String toString();
 
@@ -755,28 +778,25 @@ public:
 
 	static unsigned long getNumberOfDaysInMonth( unsigned long year, Months month );
 
-	static bool isGregorianCalendarDate( const unsigned long& year,
-											const unsigned long& month,
-											const unsigned long& day );
+	static bool isGregorianCalendarDate( const unsigned long& year, const unsigned long& month, const unsigned long& day );
 
 	static bool isGregorianCalendarDate( const DateTime& dt );
 
-	static void getYearMonthDay( const DateTime& dt, unsigned long* year, unsigned long* month, unsigned long* day );
+	static void getYearMonthDay( const DateTime& dt, 
+		                           unsigned long* year, unsigned long* month, unsigned long* day );
 
-	static void getHourMinuteSecond( const DateTime& dt, unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond=NULL );
+	static void getHourMinuteSecond( const DateTime& dt, 
+	                                 unsigned long* hour, unsigned long* minute, unsigned long* second, 
+	                                 unsigned long* millsecond=NULL );
 
 
 	friend class DateTimeSpan;
 protected:
 
 
-	void setAndAdjustForGregorianDay( const unsigned long& year,
-				const unsigned long& month,
-				const unsigned long& day,
-				const unsigned long& hour,
-				const unsigned long& minutes,
-				const unsigned long& seconds,
-				const unsigned long& milliseconds );
+	void setAndAdjustForGregorianDay( const unsigned long& year, const unsigned long& month, const unsigned long& day,
+	                                  const unsigned long& hour, const unsigned long& minutes, const unsigned long& seconds,
+	                                  const unsigned long& milliseconds );
 
 	static void setCurrent( DateTime& dt );
 	/**
@@ -792,7 +812,7 @@ protected:
 	class DateTime::Iterator {
 	public:
 
-		Iterator()  {
+		Iterator() {
 
 		}
 
@@ -909,6 +929,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/11 04:49:36  marcelloptr
+*added conversion operator to ulong64
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
