@@ -24,7 +24,7 @@ namespace VCF {
 * contains the string infos characterizing a document class or a kind of document.
 *
 *	classID     is the uuid identifying the document. It lets the VCF RTTI to create our document,
-*                with no other information or to get all the DocumentInfo associated to a document
+*                with no other informations or to get all the DocumentInfo associated to a document
 *                according to the map stored by the DocumentManager.
 *	className   is the name for this class of documents.
 *	view        is the uuid identifying the kind of view to be associated to this kind of document.
@@ -1523,7 +1523,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
+*Revision 1.2.2.2  2004/10/26 05:44:12  marcelloptr
 *Document Window documentation
 *
 *Revision 1.2  2004/08/07 02:49:08  ddiego
