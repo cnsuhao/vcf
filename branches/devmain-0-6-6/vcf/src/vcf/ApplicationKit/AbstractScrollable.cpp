@@ -104,46 +104,48 @@ void AbstractScrollable::onControlResized( ControlEvent* event )
 }
 
 void AbstractScrollable::updateVirtualViewSize( const double& maxWidth, const double& maxHeight ) {	
-	double controlWidth  = scrollableControl_->getWidth();//getClientBounds( true ).getWidth();
-	double controlHeight = scrollableControl_->getHeight();//getClientBounds( true ).getHeight();	
+	if ( NULL != this->scrollableControl_ ) {
+		double controlWidth  = scrollableControl_->getClientBounds( true ).getWidth();  
+		double controlHeight = scrollableControl_->getClientBounds( true ).getHeight();
 
-	virtualViewWidth_  = maxWidth;
-	virtualViewHeight_ = maxHeight;
+		virtualViewWidth_  = maxWidth;
+		virtualViewHeight_ = maxHeight;
 	
-	if ( keepScrollbarsVisible_ ) {
-		if ( maxHeight > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
-			virtualViewHeight_ = maxHeight + scrollPeer_->getHorizontalScrollbarHeight();
+		if ( keepScrollbarsVisible_ ) {
+			if ( maxHeight > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
+				virtualViewHeight_ = maxHeight + scrollPeer_->getHorizontalScrollbarHeight();
+			}
+			if ( maxWidth > ( controlWidth - scrollPeer_->getVerticalScrollbarWidth() ) ) {
+				virtualViewWidth_ = maxWidth + scrollPeer_->getVerticalScrollbarWidth();
+			}		
 		}
-		if ( maxWidth > ( controlWidth - scrollPeer_->getVerticalScrollbarWidth() ) ) {
-			virtualViewWidth_ = maxWidth + scrollPeer_->getVerticalScrollbarWidth();
-		}		
-	}
-	else {
-		if ( ( maxHeight > controlHeight ) || ( maxWidth > controlWidth ) ) {			
-			if ( ( maxHeight > controlHeight ) && ( maxWidth > controlWidth ) ) {
-				if ( hasVertScrollbar_ ) virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
-				if ( hasHorzScrollbar_ ) virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
-			}
-			else if ( maxHeight > controlHeight ) {
-				if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
-					if ( maxWidth > (controlWidth - scrollPeer_->getVerticalScrollbarWidth()) ) {
-						virtualViewWidth_  += (controlWidth - maxWidth);							
-						virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();//like above line not needed in anticipation for fixed vert.scroll distance = itemHeight
-					}
-				}					
-			}
-			else {//maxWidth_ > controlWidth
-				if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
-					if ( maxHeight > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
-						virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
-						virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
-					}
-				}					
-			}
-		}		
-	}
+		else {
+			if ( ( maxHeight > controlHeight ) || ( maxWidth > controlWidth ) ) {			
+				if ( ( maxHeight > controlHeight ) && ( maxWidth > controlWidth ) ) {
+					if ( hasVertScrollbar_ ) virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
+					if ( hasHorzScrollbar_ ) virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
+				}
+				else if ( maxHeight > controlHeight ) {
+					if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
+						if ( maxWidth > (controlWidth - scrollPeer_->getVerticalScrollbarWidth()) ) {
+							virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();//(controlWidth - maxWidth);							
+							virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
+						}
+					}					
+				}
+				else {//maxWidth_ > controlWidth
+					if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
+						if ( maxHeight > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
+							virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
+							virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
+						}
+					}					
+				}
+			}		
+		}
 	
-	recalcScrollPositions();
+		recalcScrollPositions();
+	}
 }
 
 void AbstractScrollable::recalcScrollPositions()
@@ -221,6 +223,9 @@ bool AbstractScrollable::getKeepScrollbarsVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/11 08:16:41  dougtinkham
+*changes to updateVirtualViewSize
+*
 *Revision 1.2.2.1  2004/09/10 22:31:18  dougtinkham
 *added updateVirtualViewSize member fct
 *
