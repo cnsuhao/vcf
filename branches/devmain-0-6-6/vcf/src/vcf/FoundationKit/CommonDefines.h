@@ -35,7 +35,12 @@ enum PropertyDescriptorType{
 	pdString,
 	pdEnum,
 	pdInterface,
-	pdEnumMask
+	pdEnumMask,
+	pdUInt    ,
+	pdLong64  ,
+	pdULong64 ,
+	pdDateTime,
+	pdDateTimeSpan,
 };
 
 /**
@@ -323,6 +328,9 @@ enum VirtualKeyCode{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 08:52:57  marcelloptr
+*added some property descriptor types
+*
 *Revision 1.2.2.1  2004/08/11 04:37:26  marcelloptr
 *minor fix on macro for string to double conversion
 *
