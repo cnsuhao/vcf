@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.9  2003/03/13 05:06:51  ddiego
+added some more documentation, and implemented the clone() method in all of the
+core event classes for the FoundationKit, GraphicsKit, and ApplicationKit.
+
 Revision 1.1.2.8  2003/03/13 02:34:40  ddiego
 added some more docs and broke apart the various "books" so they can be all
 put together or in separate books. Made to changes to Makefile
@@ -271,15 +275,50 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 			]]>
 			</programlisting>
 			However when you post an event, you <emphasis>must</emphasis> create the event on heap, since you will not
-			have control over when it gets destroyed. If you already have 
+			have control over when it gets destroyed. If you already have an existing event the easiest thing to do is to 
+			clone it, by calling the event's clone() method, and pass this cloned event instance to the post method. 
+
 			
+			 <note>
+			 this is actually a virtual method first defined in VCF::Object.
+			 </note>
+			
+			</para>
+			<para>
+			Once you have an event instance ready, you can post the event by either creating a new event handler
+			instance or getting an existing one, and then call the toolkit's postEvent() method. You can 
+			optionally tell the toolkit to <emphasis>not</emphasis> auotmatically delete the handler 
+			for you by passing in a boolean value set to false (the default behaviour is to delete the handler
+			you pass in). The event instance that is passed in is deleted automatically for you when the event
+			is finished processing.
 			</para>
 		</section>
 		
 		<section><title>Default Buttons</title>		
+			<para>
+			A default button is a button whose click method will get called fired when the user hits the 
+			return key. The button does not have to have the current focus for this to happen. Typically
+			a default button has some visual indicator that easily distinguishes it from other buttons. 
+				<note>
+				On Win32 systems the default button usually has a 1 pixel black border around it's edges.
+				On MacOSX the button is darker shade of blue and pulses.
+				</note>
+			</para>
+			<para>
+			You can set the default button programmatically by calling hte toolkit's setDefaultButton()
+			method. You pass in any control that implements the VCF::Button interface. 
+			</para>
+			<para>
+			To determine the current default button, call the toolkit's getDefaultButton() method, which 
+			will return the current default button instance, or NULL if there is no default button.
+			</para>
+			
 		</section>
 		
-		<section><title>Accelerators</title>		
+		<section><title>Accelerators</title>	
+			<para>
+			An accelerator is a 
+			</para>	
 		</section>
 		
 		
