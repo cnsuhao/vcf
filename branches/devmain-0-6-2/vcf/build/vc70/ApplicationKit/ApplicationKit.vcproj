@@ -29,7 +29,7 @@
 				PrecompiledHeaderThrough="ApplicationKit.h"
 				PrecompiledHeaderFile=".\vc70/ReleaseS\obj/ApplicationKit.pch"
 				AssemblerListingLocation=".\vc70/ReleaseS\obj/"
-				ObjectFile="vc70/ReleaseS\obj/"
+				ObjectFile=".\vc70/ReleaseS\obj/"
 				ProgramDataBaseFileName=".\vc70/ReleaseS\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -76,7 +76,7 @@
 				PrecompiledHeaderThrough="ApplicationKit.h"
 				PrecompiledHeaderFile=".\vc70/DebugS\obj/ApplicationKit.pch"
 				AssemblerListingLocation=".\vc70/DebugS\obj/"
-				ObjectFile="vc70/DebugS\obj/"
+				ObjectFile=".\vc70/DebugS\obj/"
 				ProgramDataBaseFileName="..\..\..\Lib/ApplicationKit_vc70_sd.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
@@ -825,6 +825,12 @@
 			<File
 				RelativePath="..\..\..\src\core\ApplicationKit.cpp">
 				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
@@ -877,6 +883,9 @@
 				RelativePath="..\..\..\src\core\ComponentInfo.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\core\Containers.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\core\Control.cpp">
 			</File>
 			<File
@@ -887,6 +896,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\core\CursorManager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\core\DataObject.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\DataObject.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\core\DefaultPropertyEditors.cpp">
@@ -941,6 +956,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\core\PackageInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\PackageInfo.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\core\PopupMenu.cpp">
@@ -1024,6 +1042,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\AbstractComponentEditor.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\AbstractContainer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\AbstractPropertyEditor.h">
@@ -1117,6 +1138,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\Container.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\Containers.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\Control.h">
@@ -1311,15 +1335,6 @@
 				RelativePath="..\..\..\include\core\Wizard.h">
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\..\src\core\DataObject.cpp">
-		</File>
-		<File
-			RelativePath="..\..\..\include\core\DataObject.h">
-		</File>
-		<File
-			RelativePath="..\..\..\include\core\PackageInfo.h">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

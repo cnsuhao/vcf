@@ -103,6 +103,10 @@ SOURCE=..\..\..\include\core\AbstractComponentEditor.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\AbstractContainer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\AbstractPropertyEditor.h
 # End Source File
 # Begin Source File
@@ -224,6 +228,10 @@ SOURCE=..\..\..\include\core\ComponentInfo.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\Container.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Containers.h
 # End Source File
 # Begin Source File
 
@@ -613,6 +621,10 @@ SOURCE=..\..\..\src\core\ComponentEditorManager.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\ComponentInfo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Containers.cpp
 # End Source File
 # Begin Source File
 
