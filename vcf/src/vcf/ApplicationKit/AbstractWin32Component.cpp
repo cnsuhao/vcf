@@ -363,15 +363,22 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 		
 		VCF::GraphicsContext* ctx = peerControl_->getContext();
 		
-		ctx->setViewableBounds( Rect(paintRect.left, paintRect.top,
-			paintRect.right, paintRect.bottom ) );
+		Rect viewableRect(paintRect.left, paintRect.top,
+			paintRect.right, paintRect.bottom );
+
+		ctx->setViewableBounds( viewableRect );
+		Image* drawingArea = ctx->getDrawingArea();
 		
-		if ( peerControl_->isUsingRenderBuffer() ) {
+		if ( peerControl_->isUsingRenderBuffer() && 
+				!viewableRect.isNull() && 
+				!viewableRect.isEmpty() &&
+				(NULL != drawingArea) ) {
 			
 			ctx->getPeer()->setContextID( (OSHandleID)paintDC );
 
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-			ctx->getDrawingArea()->getImageContext()->setViewableBounds(ctx->getViewableBounds());
+			
+			drawingArea->getImageContext()->setViewableBounds(ctx->getViewableBounds());
 
 			if ( ctx->isRenderAreaDirty() ) {
 
