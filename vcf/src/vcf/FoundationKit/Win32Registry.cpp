@@ -100,12 +100,12 @@ bool Win32Registry::setValue( const String& value, const String& valuename )
 	const unsigned char* val = NULL;
 	if ( System::isUnicodeEnabled() ) {
 		val = (const unsigned char*)value.c_str();
-		resVal = RegSetValueExW( currentKeyHandle_, valuename.c_str(), 0, REG_SZ, (BYTE*)val, sizeof(VCF::WideChar)*value.size() );
+		resVal = RegSetValueExW( currentKeyHandle_, valuename.c_str(), 0, REG_SZ, (BYTE*)val, sizeof(VCF::WideChar)*(value.size()+1) );
 	}
 	else {
 		AnsiString tmp = value;
 		val = (const unsigned char*)tmp.c_str();
-		resVal = RegSetValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, REG_SZ, (BYTE*)val, tmp.size() );
+		resVal = RegSetValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, REG_SZ, (BYTE*)val, tmp.size()+1 );
 	}
 
 	return (resVal == ERROR_SUCCESS);
@@ -383,6 +383,9 @@ String Win32Registry::getCurrentKey()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/15 17:49:14  ddiego
+*fixed win32 registry and a bug in the handling of the WM_CLOSE message that was introduced by the change in event handler signature last weekend.
+*
 *Revision 1.2.2.1  2004/09/15 03:08:40  ddiego
 *fixed win32 registry bug that was incorrectly writing out string values.
 *
