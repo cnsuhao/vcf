@@ -360,14 +360,12 @@
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories=".\Projs\GShell\Libraries\Vcf\vcf-active\vcf\build\resources\win32;$(NoInherit)"/>
+						Name="VCResourceCompilerTool"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories=".\Projs\GShell\Libraries\Vcf\vcf-active\vcf\build\resources\win32;$(NoInherit)"/>
+						Name="VCResourceCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File

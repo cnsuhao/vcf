@@ -89,7 +89,7 @@
 				PrecompiledHeaderFile=".\vc70\Debug\ImageFormats_vc70_d.pch"
 				AssemblerListingLocation=".\vc70\Debug\"
 				ObjectFile=".\vc70\Debug\"
-				ProgramDataBaseFileName=".\vc70\Debug\"
+				ProgramDataBaseFileName="..\..\..\bin\ImageFormats_vc70_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
