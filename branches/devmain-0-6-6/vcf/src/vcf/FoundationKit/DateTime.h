@@ -440,7 +440,7 @@ public:
 	unsigned long getHour() const;
 	unsigned long getMinute() const;
 	unsigned long getSecond() const;
-	unsigned long getMilliSecond() const;
+	unsigned long getMillisecond() const;
 
 	/*
 	* Gets the day of the week. Sunday is 0, Monday is 1, and so on. 
@@ -948,6 +948,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/08/26 04:05:47  marcelloptr
+*minor change on name of getMillisecond
+*
 *Revision 1.2.2.3  2004/08/23 21:24:04  marcelloptr
 *just moved some member declarations around
 *

@@ -1443,13 +1443,13 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					#ifdef VCF_OSX
 						CFTextString cfStr;
-						cfStr.format( CFSTR("%04d"), date.getMilliSecond() );
+						cfStr.format( CFSTR("%04d"), date.getMillisecond() );
 						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
 					#elif VCF_POSIX
-						swprintf( tmp, tmpLen-1, L"%04d", date.getMilliSecond()  );
+						swprintf( tmp, tmpLen-1, L"%04d", date.getMillisecond()  );
 					#else
-						swprintf( tmp, L"%04d", date.getMilliSecond()  );
+						swprintf( tmp, L"%04d", date.getMillisecond()  );
 					#endif
 
 
@@ -1501,6 +1501,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/26 04:05:47  marcelloptr
+*minor change on name of getMillisecond
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
