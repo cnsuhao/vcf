@@ -186,8 +186,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2005/03/28 18:04:07  marcelloptr
-*minor fixesor comments
+*Revision 1.3.2.3  2005/03/28 18:07:37  marcelloptr
+*minor fixes or comments
 *
 *Revision 1.3.2.1  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
