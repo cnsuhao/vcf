@@ -259,7 +259,7 @@ unsigned long DateTime::getMinute() const
 	return result;
 }
 
-unsigned long DateTime::getSeconds() const
+unsigned long DateTime::getSecond() const
 {
 	unsigned long result = 0;
 
@@ -268,7 +268,7 @@ unsigned long DateTime::getSeconds() const
 	return result;
 }
 
-unsigned long DateTime::getMilliSeconds() const
+unsigned long DateTime::getMilliSecond() const
 {
 	unsigned long result = 0;
 
@@ -429,7 +429,7 @@ void DateTime::setAndAdjustForGregorianDay( const unsigned long& year,
 
 	if ( gregorianDate != newGregorianDate ) {
 		if ( !gregorianDate ) {
-			set( getYear(), getMonth(), getDay()+10, getHour(), getMinute(), getSeconds(), getMilliSeconds() );
+			set( getYear(), getMonth(), getDay()+10, getHour(), getMinute(), getSecond(), getMilliSecond() );
 		}
 	}
 }
@@ -518,7 +518,7 @@ unsigned long DateTime::getDayOfYear() const
 	unsigned long result = 0;
 
 	DateTime startOfYear;
-	startOfYear.set( getYear(), 1, 1, getHour(), getMinute(), getSeconds(), getMilliSeconds() );
+	startOfYear.set( getYear(), 1, 1, getHour(), getMinute(), getSecond(), getMilliSecond() );
 
 	ulong64 diff = time_ - startOfYear.time_;
 	//+1 is added so we get a 1 based result - otherwise it'd be zero based
@@ -882,7 +882,7 @@ unsigned long DateTimeSpan::getSeconds() const
 	DateTime dt;
 	dt.time_ = delta_;
 
-	return dt.getSeconds();
+	return dt.getSecond();
 }
 
 unsigned long DateTimeSpan::getMilliseconds() const
@@ -890,7 +890,7 @@ unsigned long DateTimeSpan::getMilliseconds() const
 	DateTime dt;
 	dt.time_ = delta_;
 
-	return dt.getMilliSeconds();
+	return dt.getMilliSecond();
 }
 
 unsigned long DateTimeSpan::getTotalMonths() const
@@ -1011,7 +1011,7 @@ void ByMonth::incr( DateTime& dt, unsigned long offset )
 
 
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
 }
 
 void ByMonth::decr( DateTime& dt, unsigned long offset )
@@ -1046,7 +1046,7 @@ void ByMonth::decr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
 }
 
 void ByYear::incr( DateTime& dt, unsigned long offset )
@@ -1073,7 +1073,7 @@ void ByYear::incr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
 }
 
 void ByYear::decr( DateTime& dt, unsigned long offset )
@@ -1100,13 +1100,16 @@ void ByYear::decr( DateTime& dt, unsigned long offset )
 		}
 	}
 
-	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSeconds(), dt.getMilliSeconds() );
+	dt.set( y, m, d, dt.getHour(), dt.getMinute(), dt.getSecond(), dt.getMilliSecond() );
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/08/03 20:57:22  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.1.2.4  2004/07/30 17:28:40  kiklop74
 *Added first release of Borland midifications for VCF
 *

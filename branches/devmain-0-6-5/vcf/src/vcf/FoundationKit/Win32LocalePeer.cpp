@@ -1464,8 +1464,8 @@ UnicodeString Win32LocalePeer::toStringFromTime( const DateTime& val, const Unic
 	timeVal.wDayOfWeek = val.getWeekDay();
 	timeVal.wHour = val.getHour();
 	timeVal.wMinute = val.getMinute();
-	timeVal.wSecond = val.getSeconds();
-	timeVal.wMilliseconds = val.getMilliSeconds();
+	timeVal.wSecond = val.getSecond();
+	timeVal.wMilliseconds = val.getMilliSecond();
 
 
 
@@ -2725,6 +2725,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/08/03 20:57:22  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -202,8 +202,8 @@ DateTime Win32SystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 	st.wDay = date.getDay();
 	st.wHour = date.getHour();
 	st.wMinute = date.getMinute();
-	st.wSecond = date.getSeconds();
-	st.wMilliseconds = date.getMilliSeconds();
+	st.wSecond = date.getSecond();
+	st.wMilliseconds = date.getMilliSecond();
 
 	// convert system time to filetime
 	if ( !::SystemTimeToFileTime( &st, &ftUTC ) ) { // stUTC --> ftUTC
@@ -245,8 +245,8 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	st.wDay = date.getDay();
 	st.wHour = date.getHour();
 	st.wMinute = date.getMinute();
-	st.wSecond = date.getSeconds();
-	st.wMilliseconds = date.getMilliSeconds();
+	st.wSecond = date.getSecond();
+	st.wMilliseconds = date.getMilliSecond();
 
 	// convert system time to filetime
 	if ( !::SystemTimeToFileTime( &st, &ftLocal ) ) { // stUTC --> ftUTC
@@ -276,6 +276,9 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/08/03 20:57:22  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.1.2.3  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *

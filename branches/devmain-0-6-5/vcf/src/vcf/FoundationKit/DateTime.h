@@ -625,8 +625,8 @@ public:
 
 	unsigned long getHour() const;
 	unsigned long getMinute() const;
-	unsigned long getSeconds() const;
-	unsigned long getMilliSeconds() const;
+	unsigned long getSecond() const;
+	unsigned long getMilliSecond() const;
 
 	/*
 	* Gets the day of the week. Sunday is 0, Monday is 1, and so on. 
@@ -859,6 +859,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/08/03 20:57:22  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.1.2.7  2004/07/30 17:28:40  kiklop74
 *Added first release of Borland midifications for VCF
 *
