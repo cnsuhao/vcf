@@ -150,7 +150,8 @@ OSXWindow::OSXWindow( Control* control, Control* owner ):
     windowRef_(0),
     control_(control),
     handlerRef_(NULL),
-    internalClose_(false)
+    internalClose_(false),
+	mouseTrackRef_(NULL)
 {
 
 }
@@ -185,6 +186,10 @@ void OSXWindow::create( Control* owningControl )
     else {
         err = SetWindowProperty( windowRef_, 'vcfa', 'vcfw', sizeof(void*), (void*)this );
 
+		if ( noErr != err ) {
+            throw RuntimeException( MAKE_ERROR_MSG_2("SetWindowProperty() failed!") );
+        }
+		
         static EventTypeSpec eventsToHandle[] ={
                             // { kEventClassWindow, kEventWindowGetIdealSize },
                             //{ kEventClassCommand, kEventCommandProcess },
@@ -214,7 +219,10 @@ void OSXWindow::create( Control* owningControl )
                                     eventsToHandle,
                                     this,
                                     &handlerRef_ );
-
+									
+								
+		
+		
 		/*
 		windowView_ = NULL;
 		CFTextString s;
@@ -230,9 +238,7 @@ void OSXWindow::create( Control* owningControl )
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );
 
 		//setVisible( true );
-        if ( noErr != err ) {
-            throw RuntimeException( MAKE_ERROR_MSG_2("SetWindowProperty() failed!") );
-        }
+       
     }
 }
 
@@ -246,6 +252,9 @@ void OSXWindow::destroyControl()
     DisposeWindow( windowRef_ );
     StringUtils::traceWithArgs( "windowRef_: %p, destroyed\n", windowRef_ );
 
+	//DisposeRgn( mouseTrackRgn_ );
+	ReleaseMouseTrackingRegion( mouseTrackRef_ );
+	
 	windowRef_ = NULL;
 }
 
@@ -274,6 +283,32 @@ void OSXWindow::setBounds( Rect* rect )
     OSXRect r = rect;
 
     SetWindowBounds( windowRef_, kWindowStructureRgn, r );
+	
+	if ( NULL != mouseTrackRef_ ) {
+		ReleaseMouseTrackingRegion( mouseTrackRef_ );
+	}
+	
+	GetWindowBounds( windowRef_, kWindowContentRgn, r );	
+	
+	::Rect rgnRect = r;
+	RgnHandle rgn = NewRgn();
+	SetRectRgn( rgn, rgnRect.left, rgnRect.top, rgnRect.right, rgnRect.bottom );
+		
+	MouseTrackingRegionID id;
+	id.signature = 'vcfw';
+	id.id = (SInt32)this;
+		
+	OSStatus err = CreateMouseTrackingRegion( windowRef_, rgn, NULL, kMouseTrackingOptionsLocalClip,
+												  id, this, NULL, &mouseTrackRef_ );
+	if ( noErr == err ) {
+		RetainMouseTrackingRegion( mouseTrackRef_ );
+		err = SetMouseTrackingRegionEnabled( mouseTrackRef_, TRUE );
+	}
+	
+		
+	DisposeRgn( rgn );
+		
+	
 	/*
 	if ( !IsWindowVisible( windowRef_ ) ) {
 		//send an artificial size event!
@@ -1017,6 +1052,9 @@ bool OSXWindow::isActiveWindow()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12.2.3  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.12.2.2  2004/07/06 03:27:13  ddiego
 *more osx updates that add proper support
 *for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix

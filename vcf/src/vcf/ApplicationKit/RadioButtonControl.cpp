@@ -55,20 +55,20 @@ void RadioButtonControl::paint( GraphicsContext* context )
 		radioBtnRect.bottom_ = minVal<double>( r.bottom_, radioBtnRect.top_ + fixedRadioButtonHeight_ );
 	}
 	else {
-		radioBtnRect.inflate( -3.0, -3.0 );
+		//radioBtnRect.inflate( -3.0, -3.0 );
 	}
 
-	radioBtnRect.left_ += 3.0;
+	//radioBtnRect.left_ += 3.0;
 
-	radioBtnRect.right_ = radioBtnRect.left_ + radioBtnRect.getHeight();
+	//radioBtnRect.right_ = radioBtnRect.left_ + radioBtnRect.getHeight();
 
-	r.left_ = radioBtnRect.right_;
+	//r.left_ = radioBtnRect.right_;
 
 	ButtonState state;
-	state.setActive( true );
+	state.setActive( isActive() );
 	state.setEnabled( isEnabled() );
-	state.setPressed( checked_ );
-	state.setFocused( isFocused() );
+	state.setToggled( checked_ );
+	state.setFocused( isFocused() && state.isActive() );
 	state.buttonCaption_ = caption_;
 	
 	context->drawThemeRadioButtonRect( &radioBtnRect, state );
@@ -148,6 +148,9 @@ RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *

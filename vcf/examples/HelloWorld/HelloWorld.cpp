@@ -79,12 +79,24 @@ Experimental - ignore and get rid before 0-6-5 release!!!!!!!
 
         PushButton* pb = new PushButton();
 
-		pb->setHeight( 35 );
+		pb->setHeight( pb->getPreferredHeight() );
+		pb->setCaption( "A Push Button" );
         p1->add( pb, AlignTop );
         
 		RadioButtonControl* rb = new RadioButtonControl();
-		rb->setBounds( 25, pb->getBottom() + 10, 100, 15 );
-		rb->setCaption( "Radio Button!" );
+		rb->setBounds( 25, 60, 120, rb->getPreferredHeight() );
+		rb->setCaption( "Radio Button1" );
+		p1->add( rb );
+		
+		
+		rb = new RadioButtonControl();
+		rb->setBounds( 25, 85, 120, rb->getPreferredHeight() );
+		rb->setCaption( "Radio Button2" );
+		p1->add( rb );
+		
+		rb = new RadioButtonControl();
+		rb->setBounds( 25, 110, 120, rb->getPreferredHeight() );
+		rb->setCaption( "Radio Button3" );
 		p1->add( rb );
 
 		/**
@@ -142,6 +154,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10.2.2  2004/07/09 02:01:24  ddiego
+*more osx updates
+*
 *Revision 1.3.2.10.2.1  2004/06/27 18:19:15  ddiego
 *more osx updates
 *

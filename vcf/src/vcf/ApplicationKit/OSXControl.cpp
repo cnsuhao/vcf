@@ -384,6 +384,8 @@ OSStatus OSXControl::handleOSXEvents(EventHandlerCallRef nextHandler, EventRef t
     return control->handleOSXEvent( nextHandler, theEvent );
 }
 
+
+
 OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent )
 {
 	OSStatus result = eventNotHandledErr;
@@ -586,7 +588,8 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 		
 						control_->paint( ctx );	
 						
-						osxCtx->setCGContext( NULL, 0, bounds );
+						osxCtx->setCGContext( NULL, 0, bounds );		
+	
 						
 						result = noErr;						
 					}
@@ -629,6 +632,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11.2.3  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.11.2.2  2004/07/06 03:27:12  ddiego
 *more osx updates that add proper support
 *for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
@@ -647,6 +653,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.1.2.11.2.3  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
 *Revision 1.1.2.11.2.2  2004/07/06 03:27:12  ddiego
 *more osx updates that add proper support
 *for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
