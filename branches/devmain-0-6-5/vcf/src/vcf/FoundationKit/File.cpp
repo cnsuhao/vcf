@@ -76,15 +76,6 @@ void File::setFileAttributes( const File::FileAttributes fileAttributes )
 	filePeer_->setFileAttributes( fileAttributes );
 }
 
-void File::updateTime()
-{
-	DateTime currentTime = DateTime::now();
-
-	// %%% the time *must* be converted in UTC time now !
-
-	setDateModified ( currentTime );
-}
-
 void File::setDateModified( const DateTime& dateModified )
 {
 	filePeer_->setDateModified( dateModified );
@@ -197,6 +188,9 @@ FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/08/03 23:04:38  marcelloptr
+*completed implementation of updateTime
+*
 *Revision 1.1.2.8  2004/07/29 02:39:14  ddiego
 *fixed a bug with File::getINputStream and File::getOutputStream.
 *
