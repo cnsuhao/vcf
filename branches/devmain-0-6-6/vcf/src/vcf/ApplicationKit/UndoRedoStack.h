@@ -73,14 +73,18 @@ public:
 	/**
 	* undoes the last command.
 	* this default behaviour can be bypassed.
-	*@fire UNDOREDO_EVENT_UNDO event before the default undo action is performed.
+	*@fire UndoCommand, before the default undo action is performed.
+	*@event UndoRedoEvent
+	*@eventtype UNDOREDO_EVENT_UNDO
 	*/
 	virtual void undo();
 
 	/**
 	* redoes the last command ( undoes the previous undo ).
 	* this default behaviour can be bypassed.
-	*@fire UNDOREDO_EVENT_REDO event before the default redo action is performed.
+	*@fire UndoCommand, before the default redo action is performed.
+	*@event UndoRedoEvent
+	*@eventtype UNDOREDO_EVENT_REDO
 	*/
 	virtual void redo();
 
@@ -101,8 +105,12 @@ public:
 	*the action which is potentially undoable.
 	*@const bool& autoExecute, true if the operation needs also 
 	*to be executed. This is the default.
-	*@fire UNDOREDO_EVENT_EXECUTE event, only if autoExecute== true, after the command has been executed.
-	*@fire UNDOREDO_EVENT_STACK_CHANGED event, after the command has been added.
+	*@fire ExecuteCommand, only if autoExecute==true, after the command has been executed.
+	*@event UndoRedoEvent
+	*@eventtype UNDOREDO_EVENT_EXECUTE.
+	*@fire StackChanged, after the command has been added.
+	*@event UndoRedoEvent
+	*@eventtype UNDOREDO_EVENT_STACK_CHANGED.
 	*/
 	virtual void addCommand( Command* command, const bool& autoExecute=true );
 
@@ -118,7 +126,9 @@ public:
 
 	/**
 	* clears both the undo/redo stacks.
-	*@fire UNDOREDO_EVENT_STACK_CLEARED event before the stack is cleared.
+	*@fire StackChanged, event before the stack is cleared.
+	*@event UndoRedoEvent
+	*@eventtype UNDOREDO_EVENT_STACK_CHANGED.
 	*/
 	void clearCommands();
 
@@ -143,10 +153,7 @@ private:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/11/10 19:07:37  marcelloptr
-*fixed documentation for doxygen
-*
-*Revision 1.2.2.1  2004/11/07 19:32:19  marcelloptr
+*Revision 1.2.2.3  2004/11/13 22:30:42  marcelloptr
 *more documentation
 *
 *Revision 1.2  2004/08/07 02:49:10  ddiego

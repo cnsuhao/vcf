@@ -534,12 +534,14 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 		doc = newDefaultDocument( mimetype );
 	}
 
+	// finally reads what is specific about the document: its file
 	if ( NULL != doc ) {
 		doc->setFileName( fp );
 		if ( doc->openFromType( fp, mimetype ) ) {
 			addDocument( doc );
 		}
 		else {
+			// failed to open the file, we close the default document just opened.
 			setCurrentDocument( doc );
 			closeCurrentDocument();
 			doc = NULL;
@@ -578,7 +580,7 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/11/07 19:32:19  marcelloptr
+*Revision 1.2.2.3  2004/11/13 22:30:42  marcelloptr
 *more documentation
 *
 *Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr

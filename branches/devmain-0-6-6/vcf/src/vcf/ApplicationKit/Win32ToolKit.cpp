@@ -162,10 +162,14 @@ public:
 		return result;
 	}
 	
+	/**
+	* merges two menus by adding to the menu items of windowMenu 
+	* all the items and subitems of appMenu that are not in windowMenu.
+	*/
 	virtual void mergeMenus( Menu* appMenu, Menu* windowMenu ) {
 		MenuItem* windowRoot = windowMenu->getRootMenuItem();
 		MenuItem* appRoot = appMenu->getRootMenuItem();
-
+		// add all the first level menu items from appMenu to windowMenu
 		Enumerator<MenuItem*>* appChildren = appRoot->getChildren();
 		while ( appChildren->hasMoreElements() ) {
 			MenuItem* child = appChildren->nextElement();
@@ -187,6 +191,8 @@ public:
 					windowRoot->addChild( matchingChild );
 				}
 			}
+
+			// now merges the subitems of the first level menu items
 			copyMenuItems( child, matchingChild );
 
 		}
@@ -195,8 +201,9 @@ public:
 protected:
 
 	/**
-	* appends all the submenu items of appItem as subitems of the windowItem
-	* except for the subitems already existing in the subitems of the windowItem
+	* adds to the menu items of windowItem all the items of appItem that are not in windowItem.
+	* In other words, it appends all the submenu items of appItem as subitems of the windowItem
+	* except for the subitems already existing in the subitems of the windowItem.
 	*@param MenuItem* appItem, the menu item in the 'source' menu
 	*@param MenuItem* windowItem, the menu item in the 'destination' menu
 	*/
@@ -2086,6 +2093,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.12  2004/11/13 22:30:42  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.11  2004/10/25 03:52:02  ddiego
 *minor changes to osx checkin for win32
 *

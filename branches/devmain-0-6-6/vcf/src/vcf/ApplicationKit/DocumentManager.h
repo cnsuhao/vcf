@@ -302,8 +302,12 @@ public:
 	* the mime type identifying the document is extracted from
 	* the file extension stored with all the DocumentInfo(s)
 	* registered to the manager.
+	* After creating/opening the document, the file is 
+	* actually loaded too.
 	*@param const String&, the filename.
 	*@return Document*, the opened document.
+	*@see DocumentManager::getMimeTypeFromFileExtension()
+	*@see Document::openFromType()
 	*/
 	virtual Document* openFromFileName( const String& fileName );
 
@@ -349,7 +353,7 @@ public:
 	* The mimetype of the document to be opened can be optionally specified.
 	* The basic functionality is empty. The real implementation is dependent on the policy.
 	*@param const String& mimetype, the mime type. Default is an empty String, as this 
-	*function will be called only from an SDI policy.
+	*function will be called only from a SDI policy.
 	*in which case the only registered DocumentInfo is used to open the document.
 	*@return Document*, the newly created document.
 	*/
@@ -680,7 +684,8 @@ public:
 	*@param Document* doc, the document.
 	*@return bool, true if the operation completed successfully.
 	*@fire DocumentManager::SaveFile
-	*@see DocManagerEvent
+	*@event DocManagerEvent
+	*@eventtype DocumentManager::dmSaveDocument
 	*/
 	virtual bool saveFile( Document* document );
 
@@ -690,7 +695,8 @@ public:
 	* If we don't want this base behaviour, an event handler must be implemented
 	* and added to the SaveFile delegate.
 	*@fire DocumentManager::OpenFile
-	*@see DocManagerEvent
+	*@event DocManagerEvent
+	*@eventtype DocumentManager::dmOpenDocument
 	*/
 	virtual void openFile();
 
@@ -701,29 +707,41 @@ public:
 	virtual void closeCurrentDocument();
 
 	/**
-	* the default implementation is appropriate for an SDI policy:
-	* if we create a new document while the current document has been modified
-	* we need to ask the user what to do, and abort the operation if the user wants to.
-	* If getShouldCreateUI() returns true then a document specific user interface 
-	* is also added to the document and shown to the user, so he can view it and edit it.
-	* This function is never called from an MDI policy and from any other policy having
-	* saveBeforeNewDocument() returning false.
-	*/
-	virtual Document* newDefaultDocument( const String& mimetype=L"" );
-
-	/**
-	* MP
-	* 
-	* 
+	* just creates the object from its type using the VCF RTTI
+	* The info.classID is used first if available,
+	* otherwise the info.className.
 	*/
 	virtual Document* createDocumentFromType( const DocumentInfo& info );
 
 	/**
-	* MP
-	* 
-	* 
+	* gets a window to be associated to the document just created.
+	* This implementation just creates the associated window 
+	* from its type using the VCF RTTI.
+	* In a SDI policy the new window for the document is the main window.
+	* In a MDI policy the new window for the document is simply a new window.
+	* In an AdvancedMDIPolicy this implementation needs to be overriden.
 	*/
 	virtual Window* getWindowForNewDocument( Document* document, const DocumentInfo& info );
+
+	/**
+	* default procedures when creating a new document
+	* <ul>
+	*		<li>under SDI it saves the previous document if it was modified.
+	*		<li>it creates a document instance according to the mimetype.
+	*		<li>it calls the user implementation of Document::initNew()
+	*		<li>it attaches a UI to the document if this getShouldCreateUI() is true.
+	* </ul>
+	*\par
+	* this is normally called before actually opening the file for the document.
+	*\par
+	* In a SDI policy saveBeforeNewDocument() returns true so,
+	* if we create a new document while the current document has been modified
+	* the user is asked what to do, and the operation is aborted if the he decides to.
+	*@fire DocumentInitialized, indirectly if attachUI() is called.
+	*@see DocInterfacePolicy::saveBeforeNewDocument()
+	*@see DocumentManagerImpl:: attachUI()
+	*/
+	virtual Document* newDefaultDocument( const String& mimetype=L"" );
 
 	/**
 	* attaches a document specific User Interface to a document
@@ -732,21 +750,31 @@ public:
 	*   first it saves the current document if the policy requests this
 	*   then it does the work of attaching the UI ( by calling attachUI ),
 	*   finally it notifies the document has been changed.
-	*@fire Document::deOpened, after the UI has been attached. 
+	* The implementation is very similar to newDefaultDocument() with 
+	* the difference that a document instance is already given.
+	*@fire DocumentInitialized, indirectly if attachUI() is called.
+	*@fire Document::ModelChanged
+	*@event ModelEvent
+	*@eventtype Document::deOpened
 	*/
 	virtual void attachUIToDocument( const String& mimeType, Document* document );
 
 	/**
-	* MP
-	* 
-	* 
+	* creates the standard menu for a document based application
+	* and adds them as target to the appropriate action instances.
+	* The menu follows a standard for all the OS.
 	*/
 	virtual void createMenus();
 
 	/**
-	* MP
-	* 
-	* 
+	* initializes the menu for the window associated to a document.
+	* The DocumentInfo is also specified.
+	* Initializes the appropriate menu for the document's window, 
+	* by merging it with the application menu.
+	*@param DocumentInfo& info, the DocumentInfo.
+	*@param Window* window, the window.
+	*@param Document* document, the document.
+	*@see DocInterfacePolicy::mergeWindowMenus
 	*/
 	virtual void initializeWindowMenus( Window* window, Document* document, const DocumentInfo& info  );
 
@@ -756,8 +784,11 @@ protected:
 	* attaches a UI to the specified document
 	*param const DocumentInfo& info, the infos about this document's class.
 	*param Document* document, the document to attach the UI to.
-	*@fire DocumentManager::dmDocumentInitialized, after the UI 
-	*has been attached to the given document.
+	*@fire DocumentManager::DocumentInitialized
+	*@event DocManagerEvent
+	*@eventtype DocumentManager::dmDocumentInitialized
+	* this event is fired after the UI has been attached to the given document;
+	* it is useful for custom document initializations ( preferences ).
 	*/
 	void attachUI( const DocumentInfo& info, Document* document );
 
@@ -1195,10 +1226,19 @@ template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 {
 	closingDocument_ = true;
+
 	Document* currentDoc = DocInterfacePolicy::getCurrentDocument();
+
+	// remove the current document form the list of opened documents
+	// and frees it.
 	removeDocument( currentDoc );
+
+	// closes the current document window ( and so the window 
+	// associated  to the just deleted document ).
 	DocInterfacePolicy::closeDocument();
+
 	closingDocument_ = false;
+
 	removeUndoRedoStackForDocument( currentDoc );
 }
 
@@ -1208,16 +1248,14 @@ Window* DocumentManagerImpl<AppClass,DocInterfacePolicy>::getWindowForNewDocumen
 	Window* result;
 
 	if ( DocInterfacePolicy::usesMainWindow() ) {
-		/* the new window for the document is the main window */
+		// in a SDI policy the new window for the document is the main window
 		if ( NULL == app_->getMainWindow() ) {
 			if ( info.window.empty() ) {
 				result = new Window();
 			}
 			else {
-
 				Object* windowObj = ClassRegistry::createNewInstance( info.window );
 				result = dynamic_cast<Window*>(windowObj);
-
 			}
 			app_->setMainWindow( result );
 		}
@@ -1226,12 +1264,11 @@ Window* DocumentManagerImpl<AppClass,DocInterfacePolicy>::getWindowForNewDocumen
 		}
 	}
 	else {
-		/* the new window for the document is a new window */
+		// in a MDI policy the new window for the document is a new window
 		if ( info.window.empty() ) {
 			result = new Window();
 		}
 		else {
-
 			Object* windowObj = ClassRegistry::createNewInstance( info.window );
 			result = dynamic_cast<Window*>(windowObj);
 		}
@@ -1307,6 +1344,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 	//need to provide a common place to
 	//init everything once all the "connections" are in place
 
+	// let the policy to update its data to the new document
 	DocInterfacePolicy::afterNewDocument( document );
 
 	DocManagerEvent event( document, DocumentManager::dmDocumentInitialized );
@@ -1342,12 +1380,14 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const String& mimeType, Document* document )
 {
-	DocumentInfo info = getDocumentInfo( mimeType );
 	Window* window = NULL;
 
+	DocumentInfo info = getDocumentInfo( mimeType );
+
+	// this handler notifies the UI to display any changes on the document
 	EventHandler* docEv = app_->getEventHandler("onDocModified");
 
-
+	// see DocumentManagerImpl::newDefaultDocument() for explanation
 	if ( DocInterfacePolicy::saveBeforeNewDocument() ) {
 		Document* doc = DocInterfacePolicy::getCurrentDocument();
 		if ( NULL != doc ) {
@@ -1364,6 +1404,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 		}
 	}
 
+	// creates or activates a window for it, and fires event for custom initializations.
 	attachUI( info, document );
 
 	// with its creation, notifies the document has been changed
@@ -1376,27 +1417,29 @@ template < typename AppClass, typename DocInterfacePolicy >
 Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( const String& mimetype )
 {
 	/**
-	* this function is supposed to be called only with a SDI policy
-	* if we create a new document while the current document has been modified
-	* we need to ask the user what to do, and abort the operation if the user wants to.
+	* if we create a new document while the current document of 
+	* the same type has been modified, we need to ask the user 
+	* what to do and abort the operation if the user wants to.
 	*/
+
 	DocumentInfo info = getDocumentInfo( mimetype );
 
 	Window* window = NULL;
 
-	/* this handler notifies the UI to display any changes on the document */
+	// this handler notifies the UI to display any changes on the document
 	EventHandler* docEv = app_->getEventHandler("onDocModified");
 
 	if ( DocumentManager::getShouldCreateUI() ) {
-		/* only in a SDI policy */
 		if ( DocInterfacePolicy::saveBeforeNewDocument() ) {
+			// only in a SDI policy
+
 			Document* doc = DocInterfacePolicy::getCurrentDocument();
 			if ( NULL != doc ) {
-				/* we remove this handler as we don't want the UI to display any changes at this point */
+				// we remove this handler as we don't want the UI to display any changes at this point
 				doc->removeModelHandler( docEv );
 				if ( doc->isModified() ) {
-					/* a dialog is shown to the user asking him to save the changes 
-					   of the current document previously modified */
+					// a dialog is shown to the user asking him to save the changes 
+					// of the current document previously modified
 					switch ( saveChanges( doc ) ) {
 					case UIToolkit::mrCancel : {
 							/* the user wanted to abort saving the previous document
@@ -1412,13 +1455,16 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 		}
 	}
 
+	// just creates the object from its type using the VCF RTTI
 	Document* newDocument = createDocumentFromType( info );
 
 
 	if ( NULL != newDocument ) {
-
+		// calls user user implementation
 		newDocument->initNew();
+
 		if ( DocumentManager::getShouldCreateUI() ) {
+			// creates or activates a window for it, and fires event for custom initializations.
 			attachUI( info, newDocument );
 		}
 	}
@@ -1540,10 +1586,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.4  2004/11/10 19:07:34  marcelloptr
-*fixed documentation for doxygen
-*
-*Revision 1.2.2.3  2004/11/07 19:32:19  marcelloptr
+*Revision 1.2.2.5  2004/11/13 22:30:42  marcelloptr
 *more documentation
 *
 *Revision 1.2.2.2  2004/10/26 05:44:12  marcelloptr
