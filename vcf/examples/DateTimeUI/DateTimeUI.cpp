@@ -48,9 +48,7 @@ public:
 
 
 	virtual void paint( GraphicsContext* ctx ) {
-		CustomControl::paint( ctx );
-
-		StringUtils::trace( "Calendar::paint()\n" );
+		CustomControl::paint( ctx );	
 		
 		DateTime currentMonthDate( current.getYear(), current.getMonth(), 1 );
 		DateTime::Iterator<ByDay> dayIter = currentMonthDate;
@@ -250,7 +248,7 @@ public:
 		timer->TimerPulse += ev;
 
 		timer->setTimeoutInterval( 1000 );
-		//timer->setActivated( true );
+		timer->setActivated( true );
 
 		TitledBorder* bdr = new TitledBorder();
 
@@ -261,24 +259,20 @@ public:
 
 
 	virtual void paint( GraphicsContext* ctx ) {
-		StringUtils::trace( "DigitalClock::paint()\n" );
-	
+		
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
 
-		//rect.inflate( -5, -5 );
-		//Font oldFont = *ctx->getCurrentFont();
+		rect.inflate( -5, -5 );
 		ctx->setCurrentFont( getFont() );
 
 		String s = StringUtils::format( current, "%#I:%M:%S");
 		s += current.isAM() ? " AM" : " PM";
 
 		long options = GraphicsContext::tdoCenterVertAlign | GraphicsContext::tdoCenterHorzAlign;
-		ctx->textAt( 20, 70, s );
-		//textBoundedBy( &rect, s, options );
+		ctx->textBoundedBy( &rect, s, options );
 		
-		//ctx->setCurrentFont( &oldFont );
 	}
 
 	void onTimer( Event* e ) {
@@ -477,6 +471,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/05/31 19:42:31  ddiego
+*more osx updates
+*
 *Revision 1.2.2.5  2004/05/31 13:20:52  ddiego
 *more osx updates
 *
