@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedAlignment", "..\..\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedUI", "..\..\examples\AdvancedUI\AdvancedUI_vc71.vcproj", "{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alignment", "..\..\examples\Alignment\Alignment_vc71.vcproj", "{B2888126-5123-4467-8324-D9EB0893DB3C}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -82,6 +86,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{BF4DB392-C813-410D-94AF-AB63488811D5} = {BF4DB392-C813-410D-94AF-AB63488811D5}
 		{A644E260-9DF5-40A2-84AA-01DC6E0CA5A5} = {A644E260-9DF5-40A2-84AA-01DC6E0CA5A5}
 		{AF365164-E0E9-45D8-B9C4-4865DC269399} = {AF365164-E0E9-45D8-B9C4-4865DC269399}
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749} = {9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}
 		{B2888126-5123-4467-8324-D9EB0893DB3C} = {B2888126-5123-4467-8324-D9EB0893DB3C}
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1} = {8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B} = {4687B23F-F62A-4FD1-BEA9-0EC048748C9B}
@@ -428,6 +433,9 @@ Global
 		{AF365164-E0E9-45D8-B9C4-4865DC269399}.Debug.ActiveCfg = Debug|Win32
 		{AF365164-E0E9-45D8-B9C4-4865DC269399}.GTK Debug.ActiveCfg = Debug|Win32
 		{AF365164-E0E9-45D8-B9C4-4865DC269399}.Release.ActiveCfg = Release|Win32
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}.Debug.ActiveCfg = Debug|Win32
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}.GTK Debug.ActiveCfg = Debug|Win32
+		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}.Release.ActiveCfg = Release|Win32
 		{B2888126-5123-4467-8324-D9EB0893DB3C}.Debug.ActiveCfg = Debug|Win32
 		{B2888126-5123-4467-8324-D9EB0893DB3C}.GTK Debug.ActiveCfg = Debug|Win32
 		{B2888126-5123-4467-8324-D9EB0893DB3C}.Release.ActiveCfg = Release|Win32
