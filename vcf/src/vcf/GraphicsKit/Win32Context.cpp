@@ -133,6 +133,9 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 	Matrix2D& currentXFrm = *context_->getCurrentTransform();
 
 	if ( !context_->isDefaultTransform() ) {
+
+		bool safeToRender = true;
+
 		double xx = x * (currentXFrm[Matrix2D::mei00]) +
 							y * (currentXFrm[Matrix2D::mei10]) +
 								(currentXFrm[Matrix2D::mei20]);
@@ -279,87 +282,88 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
 
-
-
 		SysPixelType* bmpBuf = NULL;
-
 		HDC xfrmDC = ::CreateCompatibleDC( NULL );
 		HBITMAP hbmp = CreateDIBSection ( xfrmDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
-		HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
+			
 
-		BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
-				dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
+		safeToRender = (NULL != hbmp) ? true : false;
 
+		if ( safeToRender ) {			
 
-		agg::rendering_buffer xfrmImgRenderBuf;
-		xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth, 
-									-bmpInfo.bmiHeader.biHeight,
-									bmpInfo.bmiHeader.biWidth * 4 );
+			HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
 
-
-		
-		pixfmt pixf(xfrmImgRenderBuf);
-        RendererBase rb(pixf);
-        SolidRenderer srcImageRenderer(rb);
+			BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
+					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
-		agg::trans_affine imageMat;
-		imageMat *= agg::trans_affine_translation( -imageTX, -imageTY );
-		imageMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
-		imageMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
-		imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
-										Math::degreesToRadians(context_->getShearY()) );
-
-		imageMat *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
-		imageMat.invert();
-
-		
-		SpanAllocator spanAllocator;
-		
-        SpanInterpolator interpolator(imageMat);
+			agg::rendering_buffer xfrmImgRenderBuf;
+			xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth, 
+										-bmpInfo.bmiHeader.biHeight,
+										bmpInfo.bmiHeader.biWidth * 4 );
 
 
-		
-
-		image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
-
-		SpanGenerator spanGen(spanAllocator, 
-                         *image->getImageBits()->renderBuffer_, 
-                         agg::rgba(0, 0, 0, 1.0),
-                         interpolator);
-
-		
-		RendererType imageRenderer(rb, spanGen);
-
-		agg::rasterizer_scanline_aa<> rasterizer;
-        agg::scanline_u8 scanLine;
-
-		rasterizer.add_path(xfrmedImgPath2);
-        rasterizer.render(scanLine, imageRenderer);
-		
-		//rasterizer.render(scanLine, srcImageRenderer);
+			
+			pixfmt pixf(xfrmImgRenderBuf);
+			RendererBase rb(pixf);
+			SolidRenderer srcImageRenderer(rb);
 
 
+			agg::trans_affine imageMat;
+			imageMat *= agg::trans_affine_translation( -imageTX, -imageTY );
+			imageMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+			imageMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+			imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+											Math::degreesToRadians(context_->getShearY()) );
 
-		SetDIBitsToDevice( dc_,
-							(long)xfrmedImageRect.left_,
-							(long)xfrmedImageRect.top_,
-							(long)xfrmedImageRect.getWidth(),
-							(long)xfrmedImageRect.getHeight(),
-							0,
-							0,
-							0,
-							(long)xfrmedImageRect.getHeight(),
-							bmpBuf,
-							&bmpInfo,
-							DIB_RGB_COLORS );
+			imageMat *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+			imageMat.invert();
 
-		SelectObject( xfrmDC, oldBMP );
-		DeleteObject( hbmp );
+			
+			SpanAllocator spanAllocator;
+			
+			SpanInterpolator interpolator(imageMat);
+
+
+			
+
+			image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
+
+			SpanGenerator spanGen(spanAllocator, 
+							 *image->getImageBits()->renderBuffer_, 
+							 agg::rgba(0, 0, 0, 1.0),
+							 interpolator);
+
+			
+			RendererType imageRenderer(rb, spanGen);
+
+			agg::rasterizer_scanline_aa<> rasterizer;
+			agg::scanline_u8 scanLine;
+
+			rasterizer.add_path(xfrmedImgPath2);
+			rasterizer.render(scanLine, imageRenderer);
+			
+			//rasterizer.render(scanLine, srcImageRenderer);
+
+
+
+			SetDIBitsToDevice( dc_,
+								(long)xfrmedImageRect.left_,
+								(long)xfrmedImageRect.top_,
+								(long)xfrmedImageRect.getWidth(),
+								(long)xfrmedImageRect.getHeight(),
+								0,
+								0,
+								0,
+								(long)xfrmedImageRect.getHeight(),
+								bmpBuf,
+								&bmpInfo,
+								DIB_RGB_COLORS );
+
+			SelectObject( xfrmDC, oldBMP );
+			DeleteObject( hbmp );
+		}
 		DeleteDC( xfrmDC );
-
-
-		
 
 	}
 	else {
@@ -2413,6 +2417,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/09/08 02:21:57  ddiego
+*fixed bug due to not checking return value of HBITMAP in drawImage.
+*
 *Revision 1.2.2.9  2004/09/06 23:06:51  ddiego
 *fixed border in button class
 *
