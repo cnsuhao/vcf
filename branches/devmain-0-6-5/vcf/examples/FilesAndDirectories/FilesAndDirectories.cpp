@@ -84,13 +84,13 @@ int main( int argc, char** argv ){
 	fs.close();
 
 
-	{
 
 	/**
 	Use the file object to access the file
-		*/
+	*/
+	{
 		File file( fileName );		
-		System::println( "The file %S's size: %d", fileName.getFileName().c_str(), file.getSize() );
+		System::println( "The file %ls's size: %d", fileName.getFileName().c_str(), file.getSize() );
 
 
 		/**
@@ -104,38 +104,37 @@ int main( int argc, char** argv ){
 
 
 
-	{
 	/**
 	Enumerate all files ending with a .txt extension
-		*/
+	and removes them from the file system.
+	*/
+	{
 		
 		Directory dir( fileName.getPathName(true) );
 		
-		FileSearchFilterStandard filter( L"*.cpp" );
-		
 		Directory::Finder* finder = dir.findFiles( "*.txt" );
 		
-		if ( NULL != finder ) {
-			finder->setDisplayMode( Directory::Finder::dmFiles );			
-			
-			while ( finder->nextElement() ) {
-				File* foundFile = finder->getCurrentElement();
-
-				fileName = foundFile->getName();
-				
-				System::println( fileName );			
-				
+			if ( NULL != finder ) {
 				try {
-					if ( !foundFile->isDirectory() ) {
-						foundFile->remove();
+					finder->setDisplayMode( Directory::Finder::dmFiles );
+					
+					while ( finder->nextElement() ) {
+						File* foundFile = finder->getCurrentElement();
+		
+						fileName = foundFile->getName();
+						
+						System::println( fileName );
+						
+						if ( !foundFile->isDirectory() ) {
+							foundFile->remove();
+						}
 					}
 				}
 				catch ( BasicException& e ) {
 					System::errorPrint( &e );
 				}				
+				finder->free();
 			}
-			finder->free();
-		}
 	}
 
 
@@ -143,7 +142,6 @@ int main( int argc, char** argv ){
 	/**
 	File chaining -
 	*/
-
 	{
 		FileOutputStream textFile( "text-file.txt" );
 		TextOutputStream tos(&textFile);
@@ -181,6 +179,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.8  2004/07/25 17:04:02  marcelloptr
+*project changes
+*
 *Revision 1.2.4.7  2004/07/23 00:56:37  ddiego
 *added the latest changes to the File and Directory finder classes.
 *
