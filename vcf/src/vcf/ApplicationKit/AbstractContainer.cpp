@@ -316,12 +316,21 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 
 
 			context->setOrigin( originX, originY );
-			context->setClippingRect( &childClipRect );			
 			
+			
+			//do this to prevent matrix changes from 
+			//screwing up the state for the child control 
+			Matrix2D xfrm;
+			int gcs = context->saveState();
+			context->setCurrentTransform( &xfrm ); 
+			context->setClippingRect( &childClipRect );
+
 			child->paint( context );
+
+			context->restoreState( gcs );
 			
 			context->setOrigin( oldOrigin.x_, oldOrigin.y_ );
-			context->setClippingRect( &oldClipRect );
+			//context->setClippingRect( &oldClipRect );
 		}		
 	}	
 }
@@ -548,6 +557,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
 *Revision 1.2.2.1  2004/08/19 03:22:53  ddiego
 *updates so new system tray code compiles
 *

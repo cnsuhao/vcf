@@ -24,6 +24,9 @@ public:
 
 	GraphicsState& operator=( const GraphicsState& rhs );	
 
+
+	void compositeMatrix();
+
 	Fill* fill_;
 	Stroke* stroke_;	
 	Path* clippingPath_;
@@ -32,6 +35,15 @@ public:
 	Matrix2D transformMatrix_;
 	Point currentMoveTo_;
 	Color color_;
+
+	double rotation_;
+	double shearX_;
+	double shearY_;
+	double translateX_;
+	double translateY_;
+	double scaleX_;
+	double scaleY_;
+
 	double strokeWidth_;		
 };
 
@@ -44,7 +56,14 @@ GraphicsState::GraphicsState():
 	stroke_(NULL),
 	clippingPath_(NULL),
 	owningContext_(NULL),
-	strokeWidth_(1.0)
+	strokeWidth_(1.0),
+	rotation_(0.0),
+	shearX_(0.0),
+	shearY_(0.0),
+	translateX_(0.0),
+	translateY_(0.0),
+	scaleX_(1.0),
+	scaleY_(1.0)
 {
 	transformMatrix_.identity();
 }
@@ -54,7 +73,14 @@ GraphicsState::GraphicsState( const GraphicsState& rhs ):
 	stroke_(NULL),
 	clippingPath_(NULL),
 	owningContext_(NULL),
-	strokeWidth_(1.0)
+	strokeWidth_(1.0),
+	rotation_(0.0),
+	shearX_(0.0),
+	shearY_(0.0),
+	translateX_(0.0),
+	translateY_(0.0),
+	scaleX_(1.0),
+	scaleY_(1.0)
 {
 	transformMatrix_.identity();
 	*this = rhs;
@@ -62,7 +88,13 @@ GraphicsState::GraphicsState( const GraphicsState& rhs ):
 
 GraphicsState::~GraphicsState()
 {
-
+	
+	if ( NULL != clippingPath_ ) {
+		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+		pathObj->release();
+	}
+	clippingPath_ = NULL;
+	
 }
 
 GraphicsState& GraphicsState::operator=( const GraphicsState& rhs )
@@ -71,15 +103,56 @@ GraphicsState& GraphicsState::operator=( const GraphicsState& rhs )
 	fill_ = rhs.fill_;
 	stroke_ = rhs.stroke_;
 	font_ = rhs.font_;
+
+	if ( NULL != clippingPath_ ) { //release the underlying object instance
+		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+		pathObj->release();
+	}
+
 	clippingPath_ = rhs.clippingPath_;
+
+	if ( NULL != clippingPath_ ) { //take ownership of the underlying object instance
+		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
+		pathObj->addRef();
+	}
+
+
 	owningContext_ = rhs.owningContext_;
 	transformMatrix_ = rhs.transformMatrix_;
 	currentMoveTo_ = rhs.currentMoveTo_;
 	color_ = rhs.color_;
 
+	rotation_ = rhs.rotation_;
+	shearX_ = rhs.shearX_;
+	shearY_ = rhs.shearY_;
+	translateX_ = rhs.translateX_;
+	translateY_ = rhs.translateY_;
+	scaleX_ = rhs.scaleX_;
+	scaleY_ = rhs.scaleY_;
+
 	return *this;
 }
 
+void GraphicsState::compositeMatrix()
+{
+	Matrix2D rotate;
+	rotate.rotate( rotation_ );
+
+	Matrix2D scale;
+	scale.scale( scaleX_, scaleY_ );
+
+	Matrix2D shear;
+	shear.shear( shearX_, shearY_ );
+
+	Matrix2D translation;
+	translation.translate( translateX_, translateY_ );
+
+	Matrix2D tmp;	
+	tmp.multiply( &scale, &rotate );
+	tmp.multiply( &tmp, &shear );
+	tmp.multiply( &tmp, &translation );
+	transformMatrix_ = tmp;
+}
 
 
 
@@ -302,9 +375,21 @@ void GraphicsContext::textWithStateAt( const double& x, const double& y, const S
 void GraphicsContext::textAt(const double & x, const double & y, const String & text)
 {
 	Rect bounds( x, y, x + getTextWidth(text), y + getTextHeight(text) );
+	Rect tmp = bounds;
+
+	double xx = x * (currentGraphicsState_->transformMatrix_[Matrix2D::mei00]) +
+							y * (currentGraphicsState_->transformMatrix_[Matrix2D::mei10]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei20]);
+
+	double yy = x * (currentGraphicsState_->transformMatrix_[Matrix2D::mei01]) +
+							y * (currentGraphicsState_->transformMatrix_[Matrix2D::mei11]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei21]);
+
+	tmp.offset( xx - tmp.left_, yy - tmp.top_ );
+
 
 	if ( contextPeer_->prepareForDrawing( GraphicsContext::doText ) ) {
-		contextPeer_->textAt( bounds, text );
+		contextPeer_->textAt( tmp, text );
 
 		contextPeer_->finishedDrawing( 	GraphicsContext::doText );
 	}
@@ -313,6 +398,16 @@ void GraphicsContext::textAt(const double & x, const double & y, const String & 
 void GraphicsContext::textAt( const double & x, const double & y, const String& text, const long drawOptions )
 {
 	Rect bounds( x, y, x + getTextWidth(text), y + getTextHeight(text) );
+
+	double xx = x * (currentGraphicsState_->transformMatrix_[Matrix2D::mei00]) +
+							y * (currentGraphicsState_->transformMatrix_[Matrix2D::mei10]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei20]);
+
+	double yy = x * (currentGraphicsState_->transformMatrix_[Matrix2D::mei01]) +
+							y * (currentGraphicsState_->transformMatrix_[Matrix2D::mei11]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei21]);
+
+	bounds.offset( xx - bounds.left_, yy - bounds.top_ );
 
 	if ( contextPeer_->prepareForDrawing( GraphicsContext::doText ) ) {
 
@@ -486,41 +581,74 @@ Matrix2D* GraphicsContext::getCurrentTransform()
 
 void GraphicsContext::setRotation( const double& theta )
 {	
-	Matrix2D rot;
-	rot.rotate( theta );
-	Matrix2D tmp;
-	tmp.multiply( &rot, &currentGraphicsState_->transformMatrix_ );
-
-	currentGraphicsState_->transformMatrix_ = tmp;
+	currentGraphicsState_->rotation_  = theta;
+	currentGraphicsState_->compositeMatrix();
 }
 
 void GraphicsContext::setTranslation( const double transX, const double& transY )
 {
-	Matrix2D trans;
-	trans.translate( transX, transY );
-	Matrix2D tmp;
-	tmp.multiply( &trans, &currentGraphicsState_->transformMatrix_ );
-
-	currentGraphicsState_->transformMatrix_ = tmp;
+	currentGraphicsState_->translateX_  = transX;
+	currentGraphicsState_->translateY_  = transY;
+	currentGraphicsState_->compositeMatrix();
 }
 
 void GraphicsContext::setShear( const double& shearX, const double& shearY )
 {
-	Matrix2D shear;
-	shear.shear( shearX, shearY );
-
-	Matrix2D tmp;
-	tmp.multiply( &shear, &currentGraphicsState_->transformMatrix_ );	
-
-	currentGraphicsState_->transformMatrix_ = tmp;
+	currentGraphicsState_->shearX_  = shearX;
+	currentGraphicsState_->shearY_  = shearY;
+	currentGraphicsState_->compositeMatrix();
 }
 
 void GraphicsContext::setScale( const double& scaleX, const double& scaleY )
 {
+	currentGraphicsState_->scaleX_  = scaleX;
+	currentGraphicsState_->scaleY_  = scaleY;
+	currentGraphicsState_->compositeMatrix();
+}
+
+void GraphicsContext::concatRotation( const double& theta )
+{
+	currentGraphicsState_->rotation_  += theta;
+	Matrix2D rot;
+	rot.rotate( currentGraphicsState_->rotation_ );
+	Matrix2D tmp;
+	tmp.multiply( &rot, &currentGraphicsState_->transformMatrix_ );
+
+	currentGraphicsState_->transformMatrix_ = tmp;
+
+}
+
+void GraphicsContext::concatTranslation( const double transX, const double& transY )
+{
+	currentGraphicsState_->translateX_  += transX;
+	currentGraphicsState_->translateY_  += transY;
+	Matrix2D translation;
+	translation.translate( currentGraphicsState_->translateX_, currentGraphicsState_->translateY_);
+	Matrix2D tmp;
+	tmp.multiply( &translation, &currentGraphicsState_->transformMatrix_ );
+
+	currentGraphicsState_->transformMatrix_ = tmp;
+}
+
+void GraphicsContext::concatShear( const double& shearX, const double& shearY )
+{
+	currentGraphicsState_->shearX_  += shearX;
+	currentGraphicsState_->shearY_  += shearY;
+	Matrix2D shear;
+	shear.shear( currentGraphicsState_->shearX_, currentGraphicsState_->shearY_ );
+	Matrix2D tmp;
+	tmp.multiply( &shear, &currentGraphicsState_->transformMatrix_ );
+
+	currentGraphicsState_->transformMatrix_ = tmp;
+}
+
+void GraphicsContext::concatScale( const double& scaleX, const double& scaleY )
+{
+	currentGraphicsState_->scaleX_  += scaleX;
+	currentGraphicsState_->scaleY_  += scaleY;
 	Matrix2D scale;
-	scale.scale( scaleX, scaleY );
-	
-	Matrix2D tmp;	
+	scale.scale( currentGraphicsState_->scaleX_, currentGraphicsState_->scaleY_ );
+	Matrix2D tmp;
 	tmp.multiply( &scale, &currentGraphicsState_->transformMatrix_ );
 
 	currentGraphicsState_->transformMatrix_ = tmp;
@@ -547,8 +675,20 @@ Color* GraphicsContext::getColor()
 void GraphicsContext::textBoundedBy( Rect* bounds, const String& text, const bool& wordWrap )
 {
 	long drawOptions = wordWrap ? GraphicsContext::tdoWordWrap : GraphicsContext::tdoNone;
+
+	Rect tmp = *bounds;
+	double xx = tmp.left_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei00]) +
+							tmp.top_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei10]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei20]);
+
+	double yy = tmp.left_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei01]) +
+							tmp.top_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei11]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei21]);
+
+	tmp.offset( xx - tmp.left_, yy - tmp.top_ );
+
 	if ( contextPeer_->prepareForDrawing( GraphicsContext::doText ) ) {
-		contextPeer_->textAt( *bounds, text, drawOptions );
+		contextPeer_->textAt( tmp, text, drawOptions );
 
 		contextPeer_->finishedDrawing( 	GraphicsContext::doText );
 	}
@@ -556,8 +696,19 @@ void GraphicsContext::textBoundedBy( Rect* bounds, const String& text, const boo
 
 void GraphicsContext::textBoundedBy( Rect* bounds, const String& text, const long drawOptions )
 {
+	Rect tmp = *bounds;
+	double xx = tmp.left_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei00]) +
+							tmp.top_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei10]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei20]);
+
+	double yy = tmp.left_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei01]) +
+							tmp.top_ * (currentGraphicsState_->transformMatrix_[Matrix2D::mei11]) +
+								(currentGraphicsState_->transformMatrix_[Matrix2D::mei21]);
+
+	tmp.offset( xx - tmp.left_, yy - tmp.top_ );
+
 	if ( contextPeer_->prepareForDrawing( GraphicsContext::doText ) ) {
-		contextPeer_->textAt( *bounds, text, drawOptions );
+		contextPeer_->textAt( tmp, text, drawOptions );
 
 		contextPeer_->finishedDrawing( 	GraphicsContext::doText );
 	}
@@ -1265,6 +1416,65 @@ void GraphicsContext::restoreState( int state )
 	currentGraphicsState_ = stateCollection_[graphicsStateIndex_];
 }
 
+bool GraphicsContext::isDefaultTransform()
+{
+	return (currentGraphicsState_->rotation_ == 0.0) &&
+			(currentGraphicsState_->translateX_ == 0.0) &&
+			(currentGraphicsState_->translateY_ == 0.0) &&
+			(currentGraphicsState_->shearX_ == 0.0) &&
+			(currentGraphicsState_->shearY_ == 0.0) &&
+			(currentGraphicsState_->scaleX_ == 1.0) &&
+			(currentGraphicsState_->scaleY_ == 1.0);
+}
+
+void GraphicsContext::makeDefaultTransform()
+{
+	currentGraphicsState_->rotation_ = 0.0;
+	currentGraphicsState_->translateX_ = 0.0;
+	currentGraphicsState_->translateY_ = 0.0;
+	currentGraphicsState_->shearX_ = 0.0;
+	currentGraphicsState_->shearY_ = 0.0;
+	currentGraphicsState_->scaleX_ = 1.0;
+	currentGraphicsState_->scaleY_ = 1.0;
+
+	currentGraphicsState_->compositeMatrix();
+}
+
+double GraphicsContext::getRotation()
+{
+	return currentGraphicsState_->rotation_;
+}
+
+double GraphicsContext::getTranslationX()
+{
+	return currentGraphicsState_->translateX_;
+}
+
+double GraphicsContext::getTranslationY()
+{
+	return currentGraphicsState_->translateY_;
+}
+
+double GraphicsContext::getShearX()
+{
+	return currentGraphicsState_->shearX_;
+}
+
+double GraphicsContext::getShearY()
+{
+	return currentGraphicsState_->shearY_;
+}
+
+double GraphicsContext::getScaleX()
+{
+	return currentGraphicsState_->scaleX_;
+}
+
+double GraphicsContext::getScaleY()
+{
+	return currentGraphicsState_->scaleY_;
+}
+
 
 };	// namespace VCF
 
@@ -1272,6 +1482,9 @@ void GraphicsContext::restoreState( int state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/09/03 04:05:46  ddiego
+*fixes to add matrix transform support for images.
+*
 *Revision 1.2.2.7  2004/09/01 03:50:39  ddiego
 *fixed font drawing bug that tinkham pointed out.
 *

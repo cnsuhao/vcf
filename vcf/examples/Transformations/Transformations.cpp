@@ -34,7 +34,7 @@ public:
 		scaleYTag
 	}; 
 
-	TransFormController() :xfrmView_(NULL){
+	TransFormController() :xfrmView_(NULL),useConcatFunctions_(false){
 		HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
 		setContainer( container );		
 		
@@ -77,9 +77,10 @@ public:
 		add( slider );
 		slider->setTag( shearXTag );
 		slider->PositionChanged += getEventHandler( "TransFormController::onSliderValChanged" );
+		slider->setMinValue( -360 );
 		slider->setMaxValue( 360 );
 		slider->setHasTickMarks( false );
-		slider->setTickFrequency( 36 );
+		slider->setTickFrequency( 72 );
 
 
 		shearY = new Label();
@@ -91,9 +92,10 @@ public:
 		add( slider );
 		slider->setTag( shearYTag );
 		slider->PositionChanged += getEventHandler( "TransFormController::onSliderValChanged" );
+		slider->setMinValue( -360 );
 		slider->setMaxValue( 360 );
 		slider->setHasTickMarks( false );
-		slider->setTickFrequency( 36 );
+		slider->setTickFrequency( 72 );
 
 
 		scaleX = new Label();
@@ -132,12 +134,51 @@ public:
 		slider->setTickFrequency( 36 );
 
 
+		CommandButton* reset = new CommandButton();
+		reset->setCaption( "Reset" );
+		reset->addButtonClickHandler( new GenericEventHandler<TransFormController>( this, &TransFormController::onReset, "TransFormController::onReset" ) );
+		add( reset );
+
+		CheckBoxControl* checkBox = new CheckBoxControl();
+		checkBox->setCaption( "Use GraphicsContext::concatXXX functions" );
+		checkBox->addButtonClickHandler( new GenericEventHandler<TransFormController>( this, &TransFormController::onUseConcatFunctions, "TransFormController::onUseConcatFunctions" ) );
+		add( checkBox );
 	}
 
 	virtual double getPreferredHeight() {
 
 		HorizontalLayoutContainer* container = (HorizontalLayoutContainer*)getContainer();
 		return container->getMinimumVisibleHeight();
+	}
+
+	void onReset( Event* e ) {
+		SliderControl* slider = (SliderControl*) findComponent( "translateX" );
+		slider->setPosition( 0.0 );
+
+		slider = (SliderControl*) findComponent( "translateY" );
+		slider->setPosition( 0.0 );
+
+		slider = (SliderControl*) findComponent( "scaleX" );
+		slider->setPosition( 100.0 );
+
+		slider = (SliderControl*) findComponent( "scaleY" );
+		slider->setPosition( 100.0 );
+
+		slider = (SliderControl*) findComponent( "shearX" );
+		slider->setPosition( 0.0 );
+
+		slider = (SliderControl*) findComponent( "shearY" );
+		slider->setPosition( 0.0 );
+
+		slider = (SliderControl*) findComponent( "rotate" );
+		slider->setPosition( 0.0 );
+	}
+
+	void onUseConcatFunctions( Event* e ) {
+		useConcatFunctions_ = !useConcatFunctions_;
+		if ( NULL != xfrmView_ ) {
+			xfrmView_->repaint();
+		}
 	}
 
 	void onSliderValChanged( Event* e ) {
@@ -193,6 +234,8 @@ public:
 	Label* rotate;
 
 	Control* xfrmView_;
+
+	bool useConcatFunctions_;
 
 	double getTransX() {
 		
@@ -271,28 +314,20 @@ public:
 			context->setClippingRect( &r );
 		}
 
-		Matrix2D oldMatrix = *context->getCurrentTransform();
+		int gcs = context->saveState();
 
-		Matrix2D tmp;
-
-		Matrix2D rot;
-		rot.rotate( controller_->getRotate() );
-
-		Matrix2D scl;
-		scl.scale( controller_->getScaleX(), controller_->getScaleY() );
-
-		Matrix2D shr;
-		shr.shear( controller_->getShearX(), controller_->getShearY() );
-
-		Matrix2D trn;
-		trn.translate( controller_->getTransX(), controller_->getTransY() );
-
-		Matrix2D final;
-		tmp.multiply( &scl, &rot );
-		final.multiply( &tmp, &shr );		
-		tmp.multiply( &final, &trn );
-
-		context->setCurrentTransform( &tmp );
+		if ( controller_->useConcatFunctions_ ) {
+			context->concatRotation( controller_->getRotate() );
+			context->concatScale( controller_->getScaleX(), controller_->getScaleY() );
+			context->concatShear( controller_->getShearX(), controller_->getShearY() );
+			context->concatTranslation( controller_->getTransX(), controller_->getTransY() );
+		}
+		else {
+			context->setRotation( controller_->getRotate() );
+			context->setScale( controller_->getScaleX(), controller_->getScaleY() );
+			context->setShear( controller_->getShearX(), controller_->getShearY() );
+			context->setTranslation( controller_->getTransX(), controller_->getTransY() );
+		}
 
 		context->setStrokeWidth( 1 );
 
@@ -323,8 +358,18 @@ public:
 		context->roundRect( 350, 400, 500, 500, 20, 20 );
 		context->strokePath();
 
+		context->textAt( 200, 200, "Hello There!!" );
 
-		context->setCurrentTransform( &oldMatrix );
+
+		Image* img = GraphicsToolkit::createImage( "Prairie Wind.bmp" );
+		if ( NULL != img ) {
+
+			context->drawImage( 500, 270, img );
+
+			delete img;
+		}
+
+		context->restoreState( gcs );
 
 	}
 
