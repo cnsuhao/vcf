@@ -1209,13 +1209,13 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 						#ifdef VCF_OSX
 							CFTextString cfStr;
-							cfStr.format( CFSTR("%d"), date.getSeconds() );
+							cfStr.format( CFSTR("%d"), date.getSecond() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
 						#elif VCF_POSIX
-							swprintf( tmp, tmpLen-1, L"%d", date.getSeconds()  );
+							swprintf( tmp, tmpLen-1, L"%d", date.getSecond()  );
 						#else
-							swprintf( tmp, L"%d", date.getSeconds()  );
+							swprintf( tmp, L"%d", date.getSecond()  );
 						#endif
 
 					}
@@ -1223,13 +1223,13 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 						#ifdef VCF_OSX
 							CFTextString cfStr;
-							cfStr.format( CFSTR("%02d"), date.getSeconds() );
+							cfStr.format( CFSTR("%02d"), date.getSecond() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
 						#elif VCF_POSIX
-							swprintf( tmp, tmpLen-1, L"%02d", date.getSeconds()  );
+							swprintf( tmp, tmpLen-1, L"%02d", date.getSecond()  );
 						#else
-							swprintf( tmp, L"%02d", date.getSeconds()  );
+							swprintf( tmp, L"%02d", date.getSecond()  );
 						#endif
 
 					}
@@ -1443,13 +1443,13 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					#ifdef VCF_OSX
 						CFTextString cfStr;
-						cfStr.format( CFSTR("%04d"), date.getMilliSeconds() );
+						cfStr.format( CFSTR("%04d"), date.getMilliSecond() );
 						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
 					#elif VCF_POSIX
-						swprintf( tmp, tmpLen-1, L"%04d", date.getMilliSeconds()  );
+						swprintf( tmp, tmpLen-1, L"%04d", date.getMilliSecond()  );
 					#else
-						swprintf( tmp, L"%04d", date.getMilliSeconds()  );
+						swprintf( tmp, L"%04d", date.getMilliSecond()  );
 					#endif
 
 
@@ -1501,6 +1501,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.19  2004/08/03 20:57:22  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.1.2.18  2004/08/02 14:27:05  kiklop74
 *Minor fix in functions lowercase and uppercase that prevented them to
 *work under Borland C++

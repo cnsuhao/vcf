@@ -608,8 +608,8 @@ void Win32FilePeer::setDateModified( const DateTime& dateModified )
 		st.wDay = dateModified.getDay();
 		st.wHour = dateModified.getHour();
 		st.wMinute = dateModified.getMinute();
-		st.wSecond = dateModified.getSeconds();
-		st.wMilliseconds = dateModified.getMilliSeconds();
+		st.wSecond = dateModified.getSecond();
+		st.wMilliseconds = dateModified.getMilliSecond();
 
 		// convert system time to filetime
 		if ( !::SystemTimeToFileTime( &st, &ftUTC ) ) { // stUTC --> ftUTC
@@ -956,6 +956,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/08/03 20:57:22  marcelloptr
+*minor change on name DateTime:getSecond DateTime:getMillisecond
+*
 *Revision 1.1.2.7  2004/07/29 02:39:14  ddiego
 *fixed a bug with File::getINputStream and File::getOutputStream.
 *
