@@ -41,7 +41,9 @@ public:
 
 	virtual void setVirtualViewSize( const double& width, const double& height ) = 0;
 
-	virtual void updateVirtualViewSize( const double& width, const double& height ) = 0;
+	virtual bool isVerticalScrollbarVisible() = 0;
+
+	virtual bool isHorizontalScrollbarVisible() = 0;	
 
 	virtual void recalcScrollPositions() = 0;
 
@@ -118,7 +120,7 @@ public:
 
 	/**
 	Gets whether or not the scrollbars disappear when they are no longer needed.
-	@return true if it disappears when not needed
+	@return true if they stay visible even when not needed
 	*/
 	virtual bool getKeepHorzScrollbarVisible() = 0;
 	virtual bool getKeepVertScrollbarVisible() = 0;
@@ -131,6 +133,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/21 05:51:55  dougtinkham
+*removed updateVirtualViewSize, added isVerticalScrollbarVisible, isHorizontalScrollbarVisible
+*
 *Revision 1.2.2.2  2004/09/19 19:54:45  marcelloptr
 *scrollbars transitory changes
 *
