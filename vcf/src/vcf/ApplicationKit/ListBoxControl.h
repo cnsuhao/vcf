@@ -50,17 +50,17 @@ public:
 
 	void init();
 
-    ListModel* getListModel();
+	ListModel* getListModel();
 
-    void setListModel(ListModel * model);
+	void setListModel(ListModel * model);
 
 	virtual void rangeSelect( const bool & isSelected, ListItem * first, ListItem * last );
 
 	void onListModelContentsChanged( ListModelEvent* event );
 
-    void onItemAdded( ListModelEvent* event );
+	void onItemAdded( ListModelEvent* event );
 
-    void onItemDeleted( ListModelEvent* event );
+	void onItemDeleted( ListModelEvent* event );
 
 	virtual void paint( GraphicsContext* ctx );
 
@@ -170,12 +170,16 @@ protected:
 	void selectionChanged( ListItem* item );
 };
 
-};
+
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/17 17:55:06  marcelloptr
+*reformatting
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
