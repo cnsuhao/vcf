@@ -41,7 +41,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="rpcrt4.lib odbc32.lib odbccp32.lib"
+				AdditionalDependencies="rpcrt4.lib odbc32.lib odbccp32.lib version.lib"
 				OutputFile="..\..\..\bin\FoundationKit_vc71.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
