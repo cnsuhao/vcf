@@ -15,7 +15,10 @@ namespace VCF {
 	class TreeControl;
 	class Label;
 	class ListViewControl;
+	class Dictionary;
 };
+
+class PlayListDictionary;
 
 
 /**
@@ -122,6 +125,8 @@ protected:
 	VCF::Panel* mainViewPanel_;
 	
 	VCF::ListViewControl* playListCtrl_;
+
+	PlayListDictionary* playListDict_;
 
 	bool movieLoaded_;
 

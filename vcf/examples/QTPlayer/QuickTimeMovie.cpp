@@ -618,7 +618,7 @@ void QuickTimeMovie::getMovieMetaInfo( std::vector<QuickTimeMovie::MovieMetaInfo
 void QuickTimeMovie::setTitle()
 {
 	FilePath fp = filename_;
-	title_ = fp.getName();
+	title_ = fp.getBaseName();
 
 	UserData data = GetMovieUserData( qtMovie_ );	
 

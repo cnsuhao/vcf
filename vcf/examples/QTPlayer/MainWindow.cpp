@@ -8,7 +8,7 @@
 #include "QTPlayerAbout.h"
 #include "QuickTimeControl.h"
 #include "vcf/FoundationKit/StringTokenizer.h"
-
+#include "vcf/FoundationKit/Dictionary.h"
 #include "vcf/ApplicationKit/DefaultListItem.h"
 
 
@@ -17,6 +17,63 @@ using namespace VCF;
 
 
 
+
+class PlayListDictionary : public Object, public Dictionary {
+public:
+
+
+	virtual ~PlayListDictionary() {
+		deleteAll(getEnumerator());
+	}
+	
+
+	PlayListDictionary* addPlayList( const String& name ) {
+		PlayListDictionary* result = new PlayListDictionary();
+		
+		insert( name, result );
+
+		return result;
+	}
+
+	void removePlaylist( const String& name ) {
+		remove( name );	
+	}
+
+	void addMedia( const String& name, const String& fileName ) {
+		insert( name, fileName );
+	}
+
+	void removeMedia( const String& name ) {
+		remove( name );
+	}
+
+	void clear() {
+		deleteAll(getEnumerator());
+	}
+protected:
+	void deleteAll( Dictionary::Enumerator* items ) {
+		while ( items->hasMoreElements() ) {
+			Dictionary::pair& item = items->nextElement();
+			
+			if ( pdObject == item.second.type ) {
+				PlayListDictionary* pl = (PlayListDictionary*) (Object*)item.second;
+				Dictionary::Enumerator* subItems = pl->getEnumerator();
+				
+				deleteAll( subItems );
+
+				pl->free(); 
+			}
+		}
+
+		Dictionary::clear();
+	}
+};
+
+
+#define  PLAYLISTDICTIONARY_CLASSID  "1b8c4955-f290-49fb-93a8-39aae4bce3ec"
+
+BEGIN_CLASSINFO( PlayListDictionary, "PlayListDictionary", "VCF::Object", PLAYLISTDICTIONARY_CLASSID )
+END_CLASSINFO( PlayListDictionary )
 
 
 class PlayListItem : public DefaultListItem {
@@ -408,9 +465,14 @@ public:
 
 MainQTWindow::MainQTWindow():
 	quicktimeControl_(NULL),
-	movieLoaded_(false)
+	movieLoaded_(false),
+	playListDict_(NULL)
 {
 	
+
+	REGISTER_CLASSINFO_EXTERNAL(PlayListDictionary);
+
+	playListDict_ = new PlayListDictionary();
 
 	//build main menu
 	MenuBar* menuBar = new MenuBar();
@@ -1080,11 +1142,14 @@ MainQTWindow::MainQTWindow():
 	mediaInfo_ = new MediaInfoPanel();
 	mediaInfo_->setBorder( tb );	
 	sideBar_->add( mediaInfo_, AlignBottom );
+
+
 }
 
 MainQTWindow::~MainQTWindow()
 {
-	
+
+	playListDict_->free();
 }
 
 void MainQTWindow::onViewSideBar(  VCF::Event* event )
@@ -1627,7 +1692,7 @@ void MainQTWindow::onAddToFilesPlaylist(  VCF::Event* event )
 		while ( files->hasMoreElements() ) {
 			FilePath fp;
 			fp = openDlg.getDirectory();
-			if ( !fp.isDirectory() ) {
+			if ( !fp.isDirectoryName () ) {
 				fp = fp.getFileName() + FilePath::getDirectorySeparator();
 			}
 			fp = fp.getFileName() + files->nextElement();
@@ -1645,5 +1710,5 @@ void MainQTWindow::updateAddToFilesPlaylist( VCF::ActionEvent* e )
 
 void MainQTWindow::addFileNameToPlaylist( const VCF::String& fileName )
 {
-	StringUtils::traceWithArgs( "Adding %s to playlist\n", fileName.c_str() );
+	
 }

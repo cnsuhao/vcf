@@ -117,7 +117,28 @@ public:
 			*data = val;
 		}
 		else if ( type == "o" ) {
-			Object* obj = *data;
+			String className;
+			inStream_->read( className );
+
+			Object* obj = NULL;
+
+			try {
+				obj = ClassRegistry::createNewInstance( className );
+			}
+			catch ( BasicException& ) {
+				//do nothing, attempt to create from a class ID
+			}
+
+			try { 
+				if ( NULL == obj ) {
+					obj = ClassRegistry::createNewInstanceFromClassID( className );
+				}
+			}
+			catch ( BasicException& ) {
+			}
+
+			*data = obj;
+
 			if ( NULL != obj ) {
 				Persistable* persistentObj = dynamic_cast<Persistable*>(obj);
 				if ( NULL != persistentObj ) {
@@ -270,6 +291,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/20 04:56:30  ddiego
+*fixed bug in VariantDataINputStream, where an object was not getting created correctly. Made some small updates to QTPLayer.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
