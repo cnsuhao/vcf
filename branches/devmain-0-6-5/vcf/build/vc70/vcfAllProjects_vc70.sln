@@ -139,7 +139,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "..\..\src\thirdpart
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", ".\GraphicsKit\libAGG_vc70.vcproj", "{37414CE4-F3F0-4698-ACB7-A0F7F9D1E218}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "..\..\src\xmake\libXmake_vc70.vcproj", "{638EB083-7557-42A6-BC63-B91715BBD211}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "..\..\src\xmake\libXmake_vc70.vcproj", "{4eb0991e-4616-487a-832d-1a20f3cc0324}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllDynamicLibs", ".\vcfAllDynamicLibs_vc70.vcproj", "{8A107425-AE0F-4642-BF2D-BB8234C3F406}"
 EndProject
@@ -147,7 +147,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllLibs", ".\vcfAllLibs_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllStaticLibs", ".\vcfAllStaticLibs_vc70.vcproj", "{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmake", "..\..\src\xmake\xmake_vc70.vcproj", "{F5085B60-2C71-4563-82A3-E34AF054AF38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmake", "..\..\src\xmake\xmake_vc70.vcproj", "{f42364db-7ab2-49de-9d53-b4d7d1207d61}"
 EndProject
 Global
 	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
@@ -235,7 +235,7 @@ Global
 		{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}.0 = {5780BD1C-EDF0-464A-B26B-2CF12C7C7AA9}
 		{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}.1 = {6F9EB3F9-EE71-47E4-B715-A17C834C02A7}
 		{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}.2 = {7F7BCCF4-E803-4F10-8DDA-766043C635FD}
-		{F5085B60-2C71-4563-82A3-E34AF054AF38}.0 = {638EB083-7557-42A6-BC63-B91715BBD211}
+		{f42364db-7ab2-49de-9d53-b4d7d1207d61}.0 = {4eb0991e-4616-487a-832d-1a20f3cc0324}
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{23E62DF1-602C-4E22-AFD1-23CFAE80EC5F}.Debug.ActiveCfg = Debug|Win32
@@ -448,9 +448,9 @@ Global
 		{37414CE4-F3F0-4698-ACB7-A0F7F9D1E218}.Debug.ActiveCfg = Debug|Win32
 		{37414CE4-F3F0-4698-ACB7-A0F7F9D1E218}.GTK Debug.ActiveCfg = GTK Debug|Win32
 		{37414CE4-F3F0-4698-ACB7-A0F7F9D1E218}.Release.ActiveCfg = Release|Win32
-		{638EB083-7557-42A6-BC63-B91715BBD211}.Debug.ActiveCfg = Debug|Win32
-		{638EB083-7557-42A6-BC63-B91715BBD211}.GTK Debug.ActiveCfg = Debug|Win32
-		{638EB083-7557-42A6-BC63-B91715BBD211}.Release.ActiveCfg = Release|Win32
+		{4eb0991e-4616-487a-832d-1a20f3cc0324}.Debug.ActiveCfg = Debug|Win32
+		{4eb0991e-4616-487a-832d-1a20f3cc0324}.GTK Debug.ActiveCfg = Debug|Win32
+		{4eb0991e-4616-487a-832d-1a20f3cc0324}.Release.ActiveCfg = Release|Win32
 		{8A107425-AE0F-4642-BF2D-BB8234C3F406}.Debug.ActiveCfg = Debug|Win32
 		{8A107425-AE0F-4642-BF2D-BB8234C3F406}.GTK Debug.ActiveCfg = Debug|Win32
 		{8A107425-AE0F-4642-BF2D-BB8234C3F406}.Release.ActiveCfg = Release|Win32
@@ -460,9 +460,9 @@ Global
 		{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}.Debug.ActiveCfg = Debug|Win32
 		{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}.GTK Debug.ActiveCfg = Debug|Win32
 		{B22DB9B8-4546-42B7-B9F9-654AAA0075A3}.Release.ActiveCfg = Release|Win32
-		{F5085B60-2C71-4563-82A3-E34AF054AF38}.Debug.ActiveCfg = Debug|Win32
-		{F5085B60-2C71-4563-82A3-E34AF054AF38}.GTK Debug.ActiveCfg = Debug|Win32
-		{F5085B60-2C71-4563-82A3-E34AF054AF38}.Release.ActiveCfg = Release|Win32
+		{f42364db-7ab2-49de-9d53-b4d7d1207d61}.Debug.ActiveCfg = Debug|Win32
+		{f42364db-7ab2-49de-9d53-b4d7d1207d61}.GTK Debug.ActiveCfg = Debug|Win32
+		{f42364db-7ab2-49de-9d53-b4d7d1207d61}.Release.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

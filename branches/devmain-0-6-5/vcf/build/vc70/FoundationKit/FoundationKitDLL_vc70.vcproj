@@ -405,12 +405,6 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\FileStreamPeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\FileUtils.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\FileUtils.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\MemoryStream.cpp">
 			</File>
 			<File
