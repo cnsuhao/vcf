@@ -1,9 +1,9 @@
 //DragAndDrop.cpp
 
 
-#include "ApplicationKit.h"
-#include "ControlsKit.h"
-#include "utils/StringTokenizer.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/FoundationKit/StringTokenizer.h"
 
 using namespace VCF;
 

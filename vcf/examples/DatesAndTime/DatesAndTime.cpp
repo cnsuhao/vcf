@@ -1,12 +1,12 @@
 ////DatesAndTime.cpp
 
-#include "FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKit.h"
 
 /**
 include the DateTime header - this must come *after* your include 
 of the FoundationKit.
 */
-#include "utils/DateTime.h"
+#include "vcf/FoundationKit/DateTime.h"
 
 
 using namespace VCF;

@@ -1,6 +1,6 @@
 //SimpleDLL.cpp
 #include <stdio.h>
-#include "SimpleDLL.h"
+#include "../examples/SharedLibraries/SimpleDLL.h"
 #include <typeinfo>
 
 

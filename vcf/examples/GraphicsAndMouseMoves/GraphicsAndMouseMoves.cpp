@@ -1,7 +1,7 @@
 //GraphicsAndMouseMoves.cpp
 
 
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 
 
 using namespace VCF;

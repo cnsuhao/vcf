@@ -1,6 +1,9 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2004/04/28 00:27:40  ddiego
+*migration towards new directory structure
+*
 *Revision 1.2  2003/08/09 02:56:41  ddiego
 *merge over from the devmain-0-6-1 branch
 *Changes
@@ -43,9 +46,9 @@
 #ifndef _SKETCHDOCUMENT_H__
 #define _SKETCHDOCUMENT_H__
 
-#include "ModelViewKit.h"
+#include "vcf/ApplicationKit/ModelViewKit.h"
 
-#include "graphics/BezierCurve.h"
+#include "vcf/GraphicsKit/BezierCurve.h"
 
 
 class Shape {

@@ -1,7 +1,7 @@
 ////Dictionaries.cpp
 
-#include "FoundationKit.h"
-#include "utils/Dictionary.h"
+#include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/Dictionary.h"
 
 
 using namespace VCF;

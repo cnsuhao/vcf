@@ -1,9 +1,9 @@
 //ApplicationIcons.cpp
 
 
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 
-#include "ControlsKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
 
 
 using namespace VCF;

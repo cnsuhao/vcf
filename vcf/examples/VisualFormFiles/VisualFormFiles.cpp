@@ -1,9 +1,9 @@
 //VisualFormFiles.cpp
 
 
-#include "ApplicationKit.h"
-#include "ControlsKit.h"
-#include "io/VFFInputStream.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/ApplicationKit/VFFInputStream.h"
 
 using namespace VCF;
 

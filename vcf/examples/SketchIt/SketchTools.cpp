@@ -1,6 +1,9 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2004/04/28 00:27:41  ddiego
+*migration towards new directory structure
+*
 *Revision 1.2  2003/08/09 02:56:42  ddiego
 *merge over from the devmain-0-6-1 branch
 *Changes
@@ -55,9 +58,9 @@
 
 
 
-#include "ApplicationKit.h"
-#include "SketchTools.h"
-#include "SketchDocument.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "../examples/SketchIt/SketchTools.h"
+#include "../examples/SketchIt/SketchDocument.h"
 
 
 using namespace VCF;

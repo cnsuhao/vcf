@@ -1,6 +1,6 @@
-#include "ApplicationKit.h"
-#include "SketchWindow.h"
-#include "ModelViewKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "../examples/SketchIt/SketchWindow.h"
+#include "vcf/ApplicationKit/ModelViewKit.h"
 
 using namespace VCF;
 
