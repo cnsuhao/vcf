@@ -158,7 +158,7 @@ String StringUtils::lowerCase( const String& text )
 {
 	String result;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(VCF_BCC)
 	VCFChar* copyText = new VCFChar[text.size()+1];
 	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
 	text.copy( copyText, text.size() );
@@ -180,7 +180,7 @@ String StringUtils::lowerCase( const String& text )
 String StringUtils::upperCase( const VCF::String& text )
 {
 	String result;
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(VCF_BCC)
 	VCFChar* copyText = new VCFChar[text.size()+1];
 	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
 	text.copy( copyText, text.size() );
@@ -1501,6 +1501,10 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.18  2004/08/02 14:27:05  kiklop74
+*Minor fix in functions lowercase and uppercase that prevented them to
+*work under Borland C++
+*
 *Revision 1.1.2.17  2004/07/27 04:26:04  ddiego
 *updated devmain-0-6-5 branch with osx changes
 *
