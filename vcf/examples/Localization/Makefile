@@ -6,8 +6,8 @@ OBJECTFILES_D = $(DEBUG_OUT)/Localization.o
 OBJECTFILES = $(RELEASE_OUT)/Localization.o
 
 
-CXX_FLAGS_D=-ggdb -DVCF_GCC -DVCF_POSIX -D_DEBUG -I $(VCF_INCLUDE) -c
-CXX_FLAGS=-DVCF_GCC -DVCF_POSIX -I $(VCF_INCLUDE) -Os -c
+CXX_FLAGS_D=-ggdb -DVCF_GCC -DVCF_POSIX -D_DEBUG -Wno-multichar -I $(VCF_INCLUDE) -c
+CXX_FLAGS=-DVCF_GCC -DVCF_POSIX -Wno-multichar -I $(VCF_INCLUDE) -Os -c
 
 FOUNDATIONKIT_LIBS_D = -lpthread -lFoundationKit_d
 FOUNDATIONKIT_LIBS = -lpthread -lFoundationKit
