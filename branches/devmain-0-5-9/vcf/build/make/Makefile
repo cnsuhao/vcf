@@ -38,19 +38,23 @@ CXX_FLAGS_D=-ggdb -D VCF_GCC -D_DEBUG -I $(CXX_INC) -c
 
 GK_CXX_FLAGS_D=-I $(X11_INC) -I $(IMLIB2_INC) -DVCF_X11 $(CXX_FLAGS_D)
 
+NK_CXX_FLAGS_D=$(CXX_FLAGS_D)
+
 CXX_FLAGS=-D VCF_GCC -I $(CXX_INC) -O2 -c
 GK_CXX_FLAGS=-I $(X11_INC) -I $(IMLIB2_INC) -DVCF_X11 $(CXX_FLAGS)
 
+NK_CXX_FLAGS=$(CXX_FLAGS)
+
 
 LINKER_FLAGS_D=-ldl -shared -ggdb -o
-GK_LINKER_FLAGS_D=-L $(X11_LIB)  -lFoundationKit_d -lX11  -lttf -lImlib2 $(LINKER_FLAGS_D)
-AK_LINKER_FLAGS_D=-L $(X11_LIB)  -lFoundationKit_d -lGraphicsKit_d -lX11  -lttf -lImlib2 $(LINKER_FLAGS_D)
-NK_LINKER_FLAGS_D=-lFoundationKit_d $(LINKER_FLAGS_D)
+GK_LINKER_FLAGS_D=-L $(BIN_OUT) -L $(X11_LIB)  -lFoundationKit_d -lX11  -lttf -lImlib2 $(LINKER_FLAGS_D)
+AK_LINKER_FLAGS_D=-L $(BIN_OUT) -L $(X11_LIB)  -lFoundationKit_d -lGraphicsKit_d -lX11  -lttf -lImlib2 $(LINKER_FLAGS_D)
+NK_LINKER_FLAGS_D=-L $(BIN_OUT) -lFoundationKit_d $(LINKER_FLAGS_D)
 
 LINKER_FLAGS=-ldl -shared -o
-GK_LINKER_FLAGS=-L $(X11_LIB)  -lFoundationKit -lX11  -lttf -lImlib2 $(LINKER_FLAGS)
-AK_LINKER_FLAGS=-L $(X11_LIB)  -lFoundationKit -lGraphicsKit -lX11  -lttf -lImlib2 $(LINKER_FLAGS)
-NK_LINKER_FLAGS=-lFoundationKit $(LINKER_FLAGS)
+GK_LINKER_FLAGS=-L $(BIN_OUT) -L $(X11_LIB)  -lFoundationKit -lX11  -lttf -lImlib2 $(LINKER_FLAGS)
+AK_LINKER_FLAGS=-L $(BIN_OUT) -L $(X11_LIB)  -lFoundationKit -lGraphicsKit -lX11  -lttf -lImlib2 $(LINKER_FLAGS)
+NK_LINKER_FLAGS=-L $(BIN_OUT) -lFoundationKit $(LINKER_FLAGS)
 
 #debug object files.
 #note that they are in a different directory
@@ -541,9 +545,9 @@ ApplicationKit_debug : prep_dirs_AK_D $(APPLICATION_KIT_SO_D)
 ApplicationKit_release : prep_dirs_AK $(APPLICATION_KIT_SO)
 
 
-NetworkKit_debug : prep_dirs_AK_D $(NETWORK_KIT_SO_D)
+NetworkKit_debug : prep_dirs_NK_D $(NETWORK_KIT_SO_D)
 
-NetworkKit_release : prep_dirs_AK $(NETWORK_KIT_SO)
+NetworkKit_release : prep_dirs_NK $(NETWORK_KIT_SO)
 
 
 
@@ -681,7 +685,7 @@ $(NETWORK_KIT_SO) : $(NETKIT_OBJECT_FILES)
 
 include FoundationKitObjects.mak
 
-
+include NetworkKitObjects.mak
 
 
 

@@ -1,0 +1,64 @@
+###########################################################
+#
+#Object files for the NetworkKit 
+#
+###########################################################
+
+
+
+###########################################################
+#Debug files
+###########################################################
+
+$(OUTDIR_NK_D)/DatagramSocket.o : $(SRC_NET)/DatagramSocket.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/DatagramSocket.cpp -o $(OUTDIR_NK_D)/DatagramSocket.o
+	
+$(OUTDIR_NK_D)/NetToolkit.o : $(SRC_NET)/NetToolkit.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/NetToolkit.cpp -o $(OUTDIR_NK_D)/NetToolkit.o
+
+$(OUTDIR_NK_D)/ServerSocketEvent.o : $(SRC_NET)/ServerSocketEvent.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/ServerSocketEvent.cpp -o $(OUTDIR_NK_D)/ServerSocketEvent.o
+
+$(OUTDIR_NK_D)/Socket.o : $(SRC_NET)/Socket.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/Socket.cpp -o $(OUTDIR_NK_D)/Socket.o
+
+$(OUTDIR_NK_D)/SocketEvent.o : $(SRC_NET)/SocketEvent.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/SocketEvent.cpp -o $(OUTDIR_NK_D)/SocketEvent.o
+
+$(OUTDIR_NK_D)/SocketListeningLoop.o : $(SRC_NET)/SocketListeningLoop.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/SocketListeningLoop.cpp -o $(OUTDIR_NK_D)/SocketListeningLoop.o
+
+$(OUTDIR_NK_D)/URL.o  : $(SRC_NET)/URL.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS_D) $(SRC_NET)/URL.cpp -o $(OUTDIR_NK_D)/URL.o
+	
+	
+
+###########################################################
+#Release files
+###########################################################
+
+$(OUTDIR_NK)/DatagramSocket.o : $(SRC_NET)/DatagramSocket.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/DatagramSocket.cpp -o $(OUTDIR_NK)/DatagramSocket.o
+	
+$(OUTDIR_NK)/NetToolkit.o : $(SRC_NET)/NetToolkit.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/NetToolkit.cpp -o $(OUTDIR_NK)/NetToolkit.o
+
+$(OUTDIR_NK)/ServerSocketEvent.o : $(SRC_NET)/ServerSocketEvent.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/ServerSocketEvent.cpp -o $(OUTDIR_NK)/ServerSocketEvent.o
+
+$(OUTDIR_NK)/Socket.o : $(SRC_NET)/Socket.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/Socket.cpp -o $(OUTDIR_NK)/Socket.o
+
+$(OUTDIR_NK)/SocketEvent.o : $(SRC_NET)/SocketEvent.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/SocketEvent.cpp -o $(OUTDIR_NK)/SocketEvent.o
+
+$(OUTDIR_NK)/SocketListeningLoop.o : $(SRC_NET)/SocketListeningLoop.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/SocketListeningLoop.cpp -o $(OUTDIR_NK)/SocketListeningLoop.o
+
+$(OUTDIR_NK)/URL.o  : $(SRC_NET)/URL.cpp $(NETWORKKIT_HDRS)
+	$(CXX) $(NK_CXX_FLAGS) $(SRC_NET)/URL.cpp -o $(OUTDIR_NK)/URL.o
+	
+	
+	
+	
+	
