@@ -41,6 +41,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Colors", "..\..\examples\Co
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Combos", "..\..\examples\Combos\Combos_vc71.vcproj", "{d0a4981c-6636-4e51-8449-99911540cde0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Conditions", "..\..\examples\Conditions\Conditions_vc71.vcproj", "{DA366BD8-8EA2-4393-9849-C2A4E74F3162}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -104,6 +108,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{c80f26a7-68be-4380-abb5-a12293d4b62c} = {c80f26a7-68be-4380-abb5-a12293d4b62c}
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B} = {4687B23F-F62A-4FD1-BEA9-0EC048748C9B}
 		{9860dc7d-539a-4793-906e-ce9cfd326a01} = {9860dc7d-539a-4793-906e-ce9cfd326a01}
+		{d0a4981c-6636-4e51-8449-99911540cde0} = {d0a4981c-6636-4e51-8449-99911540cde0}
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162} = {DA366BD8-8EA2-4393-9849-C2A4E74F3162}
 		{b8e4ec84-8667-435b-a436-01830630546d} = {b8e4ec84-8667-435b-a436-01830630546d}
 		{7EA5507A-C49B-4F94-892E-3CA2CD0589C7} = {7EA5507A-C49B-4F94-892E-3CA2CD0589C7}
@@ -497,6 +502,8 @@ Global
 		{9860dc7d-539a-4793-906e-ce9cfd326a01}.Debug.ActiveCfg = Debug|Win32
 		{9860dc7d-539a-4793-906e-ce9cfd326a01}.GTK Debug.ActiveCfg = Debug|Win32
 		{9860dc7d-539a-4793-906e-ce9cfd326a01}.Release.ActiveCfg = Release|Win32
+		{d0a4981c-6636-4e51-8449-99911540cde0}.Debug.ActiveCfg = Debug|Win32
+		{d0a4981c-6636-4e51-8449-99911540cde0}.Release.ActiveCfg = Release|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.Debug.ActiveCfg = Debug|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.GTK Debug.ActiveCfg = Debug|Win32
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162}.Release.ActiveCfg = Release|Win32
