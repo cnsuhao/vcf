@@ -14,8 +14,7 @@
             <config name="GCC Debug" srcBinaryExt=".o">
                 <compiler name="g++" >
                     <flags>
-                        <flag value="-I $(INC)/core -I $(INC)/events -I $(INC)/dragdrop -I $(INC)/exceptions -I $(INC)/io"/>
-                        <flag value="-I $(INC)/utils -I $(INC)/implementer -I $(INC)/implementerKit -I $(INC)/graphics"/>
+                        <flag value="-I $(INC)"/>
                         <flag value="$(GCC_INC)"/>                      
                         <flag value="-c -DVCF_GCC"/>
                     </flags>
