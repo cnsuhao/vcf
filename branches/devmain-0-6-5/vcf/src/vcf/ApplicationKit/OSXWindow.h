@@ -32,7 +32,7 @@
 *NB: This software will not save the world.
 */
 
-#include "implementer/WindowPeer.h"
+#include "vcf/ApplicationKit/WindowPeer.h"
 
 namespace VCF {
 
@@ -169,6 +169,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 02:56:35  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:33  ddiego
 *added OSX changes for unicode migration
 *

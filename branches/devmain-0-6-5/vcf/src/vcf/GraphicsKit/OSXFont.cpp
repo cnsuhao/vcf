@@ -59,7 +59,7 @@ OSXFont::OSXFont( const String& fontName ):
 	
 	SInt16 iFONDNumber = 0;
     Str255 pStr;
-    CopyCStringToPascal( fontName.empty() ? "Arial" : fontName.c_str(), pStr );
+    CopyCStringToPascal( fontName.empty() ? "Arial" : fontName.ansi_c_str(), pStr );
 	iFONDNumber = FMGetFontFamilyFromName( pStr );
 	err = ATSUFONDtoFontID(iFONDNumber,  NULL, &attrFontID_);
 	
@@ -89,7 +89,7 @@ OSXFont::OSXFont( const String& fontName, const double& pointSize ):
 	}
 	SInt16 iFONDNumber = 0;
     Str255 pStr;
-    CopyCStringToPascal( fontName.empty() ? "Arial" : fontName.c_str(), pStr );
+    CopyCStringToPascal( fontName.empty() ? "Arial" : fontName.ansi_c_str(), pStr );
 	iFONDNumber = FMGetFontFamilyFromName( pStr );
 	err = ATSUFONDtoFontID(iFONDNumber,  NULL, &attrFontID_);
 	
@@ -372,6 +372,9 @@ bool OSXFont::isEqual( Object* object )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 03:01:29  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

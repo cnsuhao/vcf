@@ -26,9 +26,9 @@
 *
 *NB: This software will not save the world.
 */
-#include "ApplicationKit.h"
-#include "ApplicationKitPrivate.h"
-#include "implementerKit/OSXCursorPeer.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#include "vcf/ApplicationKit/OSXCursorPeer.h"
 
 
 using namespace VCF;
@@ -141,6 +141,9 @@ void OSXCursorPeer::createFromResourceName( const String& cursorName, const ulon
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/06 02:56:35  ddiego
+*checking in OSX updates
+*
 *Revision 1.1.2.3  2004/04/30 05:44:33  ddiego
 *added OSX changes for unicode migration
 *
