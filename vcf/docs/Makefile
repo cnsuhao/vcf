@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.3  2003/09/27 23:04:57  ddiego
+#added tutorial sections to documentation
+#
 #Revision 1.5.2.2  2003/09/24 19:41:18  ddiego
 #switched the sgml files over to xml file extensions
 #made a slight adjustment to the docbook makefile
@@ -50,8 +53,8 @@ VCFB_VERSION = 1.0.5
 XMAKE_VERSION = 1.0.5
 
 
-HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
-XSL_DOCBOOK_DIR = "d:/code/docbook-xsl-1.60.1"
+HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
+XSL_DOCBOOK_DIR = "d:/docbook-xsl-1.60.1"
 XSL_HTMLHELP_IMPORT = "$(XSL_DOCBOOK_DIR)/htmlhelp/htmlhelp.xsl"
 XSL_HTML_IMPORT = "$(XSL_DOCBOOK_DIR)/html/docbook.xsl"
 
@@ -119,7 +122,29 @@ vcfbuilder_designer.xml \
 vcfbuilder_quicktut.xml 
 
 
-TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml
+TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml \
+../examples/ApplicationIcons/ApplicationIconsArticle.xml \
+../examples/FilesAndDirectories/FilesAndDirectoriesArticle.xml \
+../examples/GraphicsAndMouseMoves/GraphicsAndMouseMovesArticle.xml \
+../examples/Strings/StringsArticle.xml \
+../examples/CopyAndPaste/CopyAndPasteArticle.xml \
+../examples/GraphicsBasics/GraphicsBasicsArticle.xml \
+../examples/StrokesAndFills/StrokesAndFillsArticle.xml \
+../examples/DragAndDrop/DragAndDropArticle.xml \
+../examples/HelloWorld/HelloWorldArticle.xml \
+../examples/EventBasics/EventBasicsArticle.xml \
+../examples/HelloWorld2/HelloWorld2Article.xml \
+../examples/TextLayout/TextLayoutArticle.xml \
+../examples/HelloWorld3/HelloWorld3Article.xml \
+../examples/ThreadBasics/ThreadBasicsArticle.xml \
+../examples/ImageBasics/ImageBasicsArticle.xml \
+../examples/ThreadsInGUI/ThreadsInGUIArticle.xml \
+../examples/ImageViewer/ImageViewerArticle.xml \
+../examples/WorkingWithEnumerators/WorkingWithEnumeratorsArticle.xml \
+../examples/Scrolling/ScrollingArticle.xml \
+../examples/SharedLibraries/SharedLibrariesArticle.xml 
+
+
 
 XMAKE_DOCS = vcf.css xmake_book.xml xmake_docbook.xml
 

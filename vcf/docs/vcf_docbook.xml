@@ -17,6 +17,26 @@
 	<!ENTITY tutorials SYSTEM "tutorials.xml">
 	<!ENTITY helloworld SYSTEM "../examples/HelloWorld/HelloWorld.xml">
 	
+	<!ENTITY applicationicons SYSTEM "../examples/ApplicationIcons/ApplicationIcons.xml">
+	<!ENTITY filesanddirectories SYSTEM "../examples/FilesAndDirectories/FilesAndDirectories.xml">
+	<!ENTITY graphicsandmousemoves SYSTEM "../examples/GraphicsAndMouseMoves/GraphicsAndMouseMoves.xml">
+	<!ENTITY strings SYSTEM "../examples/Strings/Strings.xml">
+	<!ENTITY copyandpaste SYSTEM "../examples/CopyAndPaste/CopyAndPaste.xml">
+	<!ENTITY graphicsbasics SYSTEM "../examples/GraphicsBasics/GraphicsBasics.xml">
+	<!ENTITY strokesandfills SYSTEM "../examples/StrokesAndFills/StrokesAndFills.xml">
+	<!ENTITY draganddrop SYSTEM "../examples/DragAndDrop/DragAndDrop.xml">	
+	<!ENTITY eventbasics SYSTEM "../examples/EventBasics/EventBasics.xml">
+	<!ENTITY helloworld2 SYSTEM "../examples/HelloWorld2/HelloWorld2.xml">
+	<!ENTITY textlayout SYSTEM "../examples/TextLayout/TextLayout.xml">
+	<!ENTITY helloworld3 SYSTEM "../examples/HelloWorld3/HelloWorld3.xml">
+	<!ENTITY threadbasics SYSTEM "../examples/ThreadBasics/ThreadBasics.xml">
+	<!ENTITY imagebasics SYSTEM "../examples/ImageBasics/ImageBasics.xml">
+	<!ENTITY threadsingui SYSTEM "../examples/ThreadsInGUI/ThreadsInGUI.xml">
+	<!ENTITY imageviewer SYSTEM "../examples/ImageViewer/ImageViewer.xml">
+	<!ENTITY workingwithenumerators SYSTEM "../examples/WorkingWithEnumerators/WorkingWithEnumerators.xml">
+	<!ENTITY scrolling SYSTEM "../examples/Scrolling/Scrolling.xml">
+	<!ENTITY sharedlibraries SYSTEM "../examples/SharedLibraries/SharedLibraries.xml">
+
 ]>
 
 
@@ -63,6 +83,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/09/27 23:04:57  ddiego
+added tutorial sections to documentation
+
 Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile
