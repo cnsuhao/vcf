@@ -162,6 +162,12 @@ public:
 
 protected:
 
+	/**
+	* appends all the submenu items of appItem as subitems of the windowItem
+	* except for the subitems already existing in the subitems of the windowItem
+	*@param MenuItem* appItem, the menu item in the 'source' menu
+	*@param MenuItem* windowItem, the menu item in the 'destination' menu
+	*/
 	void copyMenuItems( MenuItem* appItem, MenuItem* windowItem ) {
 
 		Enumerator<MenuItem*>* appChildren = appItem->getChildren();
@@ -181,6 +187,13 @@ protected:
 	}
 
 
+	/**
+	* search between the subitems of appItem a subitem having the same caption
+	* or the same tag of the window's item to search,
+	* no search is performed if appItem is a menu separator.
+	*@param MenuItem* appItem, the menu item in the 'source' menu
+	*@param MenuItem* windowItemToSearch, the menu item to search
+	*/
 	MenuItem* getMatchingMenuItem( MenuItem* appItem, MenuItem* windowItemToSearch ) {
 		MenuItem* result = NULL;
 
@@ -190,7 +203,10 @@ protected:
 
 			MenuItem* child = children->nextElement();
 
-			if ( (child->getCaption() == appItem->getCaption()) && (!child->isSeparator()) ) {
+			String appItemCaption   = StringUtils::eraseRightOfChar( appItem->getCaption(), '\t', true );
+			String childItemCaption = StringUtils::eraseRightOfChar( child->getCaption(), '\t', true );
+
+			if ( ( childItemCaption == appItemCaption ) && (!child->isSeparator()) ) {
 				result = child;
 				break;
 			}
@@ -2038,6 +2054,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/10/23 12:19:13  marcelloptr
+*bugfix [1048400] menus are now merged regardless of their shortcut key
+*
 *Revision 1.2.2.7  2004/09/29 16:16:24  dougtinkham
 *fixed paint of border around ToolTip
 *
