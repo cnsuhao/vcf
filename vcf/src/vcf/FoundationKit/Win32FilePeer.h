@@ -87,7 +87,7 @@ public:
 
 	virtual void setDateModified( const DateTime& dateModified );
 
-	virtual void open( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny );
+	virtual void open( const String& fileName, ulong32 openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny );
 
 	virtual void close();
 
@@ -97,7 +97,7 @@ public:
 	*'DirectorySeparator' character, then a directory 
 	*is created instead of a file.
 	*/
-	virtual void create( File::OpenFlags openFlags );
+	virtual void create( ulong32 openFlags );
 
 	virtual void remove();
 
@@ -173,6 +173,9 @@ public:
 	*/
 	static ulong32 convertAttributesToSystemSpecific( File::FileAttributes dwAttributes );
 
+	HANDLE getFileHandle() {
+		return fileHandle_;
+	}
 
 protected:
 
@@ -185,7 +188,6 @@ protected:
 	static void copyFromAttributeData( File* file, WIN32_FILE_ATTRIBUTE_DATA& fileAttribData, File::StatMask statMask = File::smMaskAll );
 
 
-private:
 	HANDLE fileHandle_;	// for some operations different than search
 
 	File* file_;
@@ -202,6 +204,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.5  2004/07/24 01:40:42  ddiego
 *committed changes requested by Marcello. Got rid of the remaining
 *date time members on the File class - now the dat time function call the

@@ -22,6 +22,8 @@ class Win32FileStream : public FileStreamPeer
 public:
 	Win32FileStream( const String& filename, const FileStreamAccessType& accessType );
 
+	Win32FileStream( File* file );
+
 	virtual ~Win32FileStream();
 
 	virtual void seek( const unsigned long& offset, const SeekType& offsetFrom );
@@ -36,6 +38,7 @@ public:
 private:
 	HANDLE fileHandle_;
 	VCF::String filename_;
+	File* file_;
 	DWORD translateAccessType( const FileStreamAccessType& accessType );
 	DWORD translateAccessTypeToCreationType( const FileStreamAccessType& accessType );
 	DWORD translateSeekTypeToMoveType( const SeekType& offsetFrom );
@@ -48,6 +51,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -13,7 +13,9 @@ where you installed the VCF.
 using namespace VCF;
 using namespace VCFWin32;
 
-Win32FileStream::Win32FileStream( const String& filename, const FileStreamAccessType& accessType )
+Win32FileStream::Win32FileStream( const String& filename, const FileStreamAccessType& accessType ):
+	fileHandle_(NULL),
+	file_(NULL)
 {
 	if ( filename.empty() ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("Invalid file specified by caller to Win32FileStream::Win32FileStream() - file name is empty.") );
@@ -46,9 +48,29 @@ Win32FileStream::Win32FileStream( const String& filename, const FileStreamAccess
 	}
 }
 
+Win32FileStream::Win32FileStream( File* file ):
+	fileHandle_(NULL),
+	file_(file)
+{
+	Win32FilePeer* peerImpl = (Win32FilePeer*)file->getPeer();
+
+	if ( NULL == peerImpl->getFileHandle() ) {
+		file->open();
+	}
+
+	filename_ = file->getName();
+	fileHandle_ = peerImpl->getFileHandle();
+
+	if ( INVALID_HANDLE_VALUE == fileHandle_ ){
+
+		throw FileIOError( CANT_ACCESS_FILE + filename_ + "\nPeer error string: " + Win32Utils::getErrorString(GetLastError()) );
+	}
+	
+}
+
 Win32FileStream::~Win32FileStream()
 {
-	if ( INVALID_HANDLE_VALUE != fileHandle_ ){
+	if ( (NULL == file_) && (INVALID_HANDLE_VALUE != fileHandle_) ){
 		CloseHandle( fileHandle_ );
 	}
 }
@@ -169,6 +191,9 @@ DWORD Win32FileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.1  2004/06/05 01:18:41  marcelloptr
 *moved some files to the directory where they logically belong
 *

@@ -87,7 +87,7 @@ public:
 	
 	File( const String& fileName );
 	
-	File( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags );
+	File( const String& fileName, ulong32 openFlags, ShareFlags shareFlags );
 
 	virtual ~File();
 
@@ -269,7 +269,7 @@ public:
 	*@param openFlags
 	*@param shareFlags
 	*/
-	void openWithRights( const String& fileName, OpenFlags openFlags = File::ofRead, ShareFlags shareFlags = File::shMaskAny );
+	void openWithRights( const String& fileName, ulong32 openFlags = File::ofRead, ShareFlags shareFlags = File::shMaskAny );
 
 	/**
 	* closes the file if open
@@ -282,7 +282,7 @@ public:
 	If the file already exists then create will empty it's contents.
 	@param newFileName the filename
 	*/
-	void create( const String& newFileName, OpenFlags openFlags = File::ofRead );
+	void create( const String& newFileName, ulong32 openFlags = File::ofRead );
 
 	/**
 	* deletes the file from the file system
@@ -355,7 +355,7 @@ protected:
 	FilePeer* filePeer_;
 	
 	StatMask validStat_;
-	OpenFlags openAccess_;
+	ulong32 openAccess_;
 	
 	String   fileName_;
 	String   owner_; // a string ?
@@ -478,6 +478,9 @@ inline bool File::isWriteable()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/07/29 02:39:14  ddiego
+*fixed a bug with File::getINputStream and File::getOutputStream.
+*
 *Revision 1.1.2.9  2004/07/26 03:40:31  ddiego
 *minor changes
 *
