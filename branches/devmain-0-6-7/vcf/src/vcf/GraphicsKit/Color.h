@@ -553,7 +553,7 @@ public:
 	@param bool true if an inverted scheme is desired, as it is in the Intel architecture.
 	       Example: the scheme 0x00RRGGBB would appear as BBGGRR00 with Intel architecture.
 	*/
-	static String Color::getHexCode( const Color& color, const unsigned char & r, const unsigned char & g, const unsigned char & b, const bool& inverted=false );
+	static String getHexCode( const Color& color, const unsigned char & r, const unsigned char & g, const unsigned char & b, const bool& inverted=false );
 
 private:
 	double r_;
@@ -1956,6 +1956,9 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/07 22:57:30  marcelloptr
+*fixed scope declaration bug of a static member function
+*
 *Revision 1.3  2004/12/01 04:31:42  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
