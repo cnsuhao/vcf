@@ -193,6 +193,10 @@ SOURCE=..\..\..\include\core\CheckBoxControl.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\core\Clipboard.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\graphics\ColorEtchedBorder.h
 # End Source File
 # Begin Source File
@@ -350,6 +354,10 @@ SOURCE=..\..\..\include\core\CustomControl.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\CustomControlPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DataObject.h
 # End Source File
 # Begin Source File
 
@@ -662,6 +670,10 @@ SOURCE=..\..\..\include\core\OpenGLControl.h
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\OpenGLControlContext.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\PackageInfo.h
 # End Source File
 # Begin Source File
 
@@ -1046,10 +1058,6 @@ SOURCE=..\..\..\src\core\Clipboard.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\ClipboardDataObject.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Events\ClipboardEvent.cpp
 # End Source File
 # Begin Source File
@@ -1143,6 +1151,10 @@ SOURCE=..\..\..\src\core\CursorManager.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\CustomControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DataObject.cpp
 # End Source File
 # Begin Source File
 
@@ -1495,43 +1507,27 @@ SOURCE=..\..\..\include\implementerKit\AbstractWin32Component.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\COM\COMDataObject.cpp
+SOURCE=..\..\..\src\ImplementerKit\COMDataObject.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\com\COMDataObject.h
+SOURCE=..\..\..\include\implementerKit\COMDataObject.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\COM\COMDragSource.cpp
+SOURCE=..\..\..\src\ImplementerKit\COMUtils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\COM\COMDropTarget.cpp
+SOURCE=..\..\..\include\implementerKit\COMUtils.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\com\COMDropTarget.h
+SOURCE=..\..\..\include\implementerKit\EnumObject.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\COM\COMObject.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\com\COMObject.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\COM\COMUtils.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\com\COMUtils.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\com\VCFCOM.h
+SOURCE=..\..\..\include\implementerKit\VCFCOM.h
 # End Source File
 # Begin Source File
 

@@ -23,6 +23,8 @@ CFG=ApplicationKit - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -47,7 +49,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"..\..\..\Lib\ApplicationKit_vc6_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /MACHINE:I386 /nologo /out:"..\..\..\Lib\ApplicationKit_vc6_s.lib"
+# ADD LIB32 /nologo /out:"..\..\..\Lib\ApplicationKit_vc6_s.lib" /MACHINE:I386
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 Debug"
 
@@ -70,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"..\..\..\Lib\ApplicationKit_vc6_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /MACHINE:I386 /nologo /out:"..\..\..\Lib\ApplicationKit_vc6_sd.lib"
+# ADD LIB32 /nologo /out:"..\..\..\Lib\ApplicationKit_vc6_sd.lib" /MACHINE:I386
 
 !ENDIF 
 
@@ -1747,7 +1749,17 @@ SOURCE=..\..\..\src\core\Window.cpp
 SOURCE=..\..\..\src\Events\WindowEvent.cpp
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DataObject.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\DataObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\PackageInfo.h
+# End Source File
 # End Target
 # End Project
-
-
