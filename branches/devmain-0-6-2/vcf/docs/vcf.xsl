@@ -341,8 +341,8 @@ will be replaced by a sed script in tyhe makefile
 	<!-- 
 	What follows are the header and footer customizations for the vcf docbook
 	-->	
-	<xsl:template name="user.header.navigation">
-	<![CDATA[
+	<xsl:template name="user.header.navigation">	
+	<![CDATA[	
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
  <tr>
   <td class="logoCell" width="400" height="80" valign="top">
@@ -385,7 +385,7 @@ will be replaced by a sed script in tyhe makefile
 <table align="center" width="95%" 
   border="0" cellpadding="0" cellspacing="0"><tr><td 
   width="100%" height="1" valign="top">
-	]]>
+	]]>	
 	</xsl:template>
 	
 	<xsl:template name="user.footer.navigation">	
@@ -426,6 +426,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.6  2003/10/06 04:25:56  ddiego
+updated foundationkit docs
+
 Revision 1.5.2.5  2003/09/29 03:45:38  ddiego
 added some further tweaks to update the docs with the upcoming
 website revision.

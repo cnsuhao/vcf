@@ -393,7 +393,10 @@ about that? I just saw the installer telling me you own the copyright, is that s
 					I can add  something?</para> 
 			</question>
 			<answer>
-				<para></para>
+				<para>You don't have to check it out. You can also send a patch. See the patch 
+				submission page at the SourceForge project page 
+				<ulink url="http://sourceforge.net/tracker/?group_id=6796&amp;atid=306796">here</ulink>
+				</para>
 			</answer>
 
 			<question>
@@ -403,7 +406,8 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>
 				You must be a member of Source Forge (it's free), which you can do 
 				<ulink url="http://sourceforge.net/account/register.php">here</ulink>. 
-				
+				Once you have joined the Source Forge, you can email the VCF Project admins
+				and they can add you to the project.
 				</para>
 			</answer>
 
@@ -411,14 +415,18 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>Can I submit changes with out using CVS?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Yes you can use the Patch system that can be found on the 
+				 VCF's Source Forge project page.</para>
 			</answer>
 			
 			<question>
 				<para>Do you accept a patches? </para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Yes, click <ulink url="http://sourceforge.net/tracker/?group_id=6796&amp;atid=306796">
+				here</ulink> for more information. You must be logged in to Source Forge as a 
+				registered Source Forge user before you can submit a new patch.
+				</para>
 			</answer>
 		</qandaentry>
 	</qandaset>			
@@ -430,8 +438,13 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>what is that blackbox stuff?</para>
 			</question>
 			<answer>
-				<para></para>
-			</answer>			
+				<para>
+				BlackBox is a Win32 DLL that can help track exceptions that happen at runtime,
+				and can provide a stack trace that shows where the error occured. It is conceptually
+				similar to the TalkBack module that Mozilla uses in their builds to handle error
+				reporting.
+				</para>
+			</answer>
 		</qandaentry>
 	</qandaset>	
 	</section>
@@ -442,37 +455,73 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>How do you document the source code?</para>
 			</question>
 			<answer>
-				<para></para>
-			</answer>			
+				<para>
+				Source code documentation is done through comments in the source headers
+				using <ulink url="http://java.sun.com/j2se/javadoc/writingdoccomments/index.html">
+				Javadoc notation</ulink> (such as @author, @version, @return, @param, etc).				
+				</para>
+				<para>
+				The documentation itself is produced by using 
+				<ulink url="http://www.stack.nl/~dimitri/doxygen/">doxygen</ulink> 
+				on all the source files.
+				</para>
+			</answer>
 			<question>
 				<para>What do you use to produce general documentation?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				The general documentation (which is what your reading right now) is produced
+				by using <ulink url="http://docbook.sourceforge.net">docbook</ulink>.
+				All the documentation is written in xml conforming to the docbook DTD. It is 
+				then transformed by various docbook xsl stylesheets to produce the online 
+				html and HTML Help files.
+				</para>
 			</answer>
 			<question>
 				<para>Is Doxygen free? Is it easy  to use like javadoc?</para>
 			</question>
 			<answer>
-				<para> </para>
+				<para>Yes, Doxygen is free, and supports most of the basic javadoc tags 
+				(which is why I use it).</para>
 			</answer>			
 			<question>
-				<para>What is its performance relative to MFC?</para>
+				<para>What is the VCF's performance relative to MFC?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				VCF performance is equivalent to MFC, and adds a noumber of "for free" features,
+				like double buffering, and layout, that you typically have to write by hand
+				in MFC. In addition the number of calls from when a native Win32 event is received
+				to getting to an event handler within the framework is often much less, as MFC adds 
+				a number of "extra" handling between the time the event is fired and is received 
+				by the developers callback.
+				</para>
 			</answer>			
 			<question>
-				<para>What is the size/memory footprint difference of an application written with VCF vs MFC?</para>
+				<para>What is the size/memory footprint difference of an 
+				application written with VCF vs MFC?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				In terms of memory used by an application, the VCF uses more memory. For small
+				utility applications, or size critical applications, this might make a difference,
+				but for larger "desktop" applications, the difference becomes much less as the 
+				application itself takes a lot of memory due to features and/or complexity
+				regardless of using MFC or the VCF.
+				</para>
+				<para>
+				The runtime binary libraries for the VCF are under 3MB in size (this includes
+				the FoundationKit, GraphicsKit, and ApplicationKit).
+				</para>
 			</answer>			
 			<question>
 				<para>Is there a way to statically link to VCF rather then use the dlls? </para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				Yes you can use the VCF as a static library.
+				</para>
 			</answer>						
 			<question>
 				<para>If I have written and application in MFC can I still use the VCF libraries in 
@@ -1141,6 +1190,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.7  2003/10/06 04:25:56  ddiego
+updated foundationkit docs
+
 Revision 1.1.2.6  2003/10/04 06:51:58  ddiego
 answered more faq questions
 
