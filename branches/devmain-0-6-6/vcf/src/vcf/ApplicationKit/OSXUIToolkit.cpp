@@ -22,6 +22,9 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXFolderBrowseDialog.h"
 #include "vcf/ApplicationKit/OSXFileOpenDialog.h"
 #include "vcf/ApplicationKit/OSXFileSaveDialog.h"
+#include "vcf/ApplicationKit/OSXMenuBar.h"
+#include "vcf/ApplicationKit/OSXMenuItem.h"
+
 
 #define kSleepTime	32767
 
@@ -739,12 +742,12 @@ ToolbarPeer* OSXUIToolkit::internal_createToolbarPeer( Toolbar* toolbar )
 
 MenuItemPeer* OSXUIToolkit::internal_createMenuItemPeer( MenuItem* item )
 {
-    return NULL;
+    return new OSXMenuItem( item );
 }
 
 MenuBarPeer* OSXUIToolkit::internal_createMenuBarPeer( MenuBar* menuBar )
 {
-    return NULL;
+    return new OSXMenuBar( menuBar );
 }
 
 PopupMenuPeer* OSXUIToolkit::internal_createPopupMenuPeer( PopupMenu* popupMenu )
@@ -1107,6 +1110,57 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
         }
         break;
 
+		case kEventClassCommand : {
+			switch ( GetEventKind( osxEvent ) ) {
+				case kEventProcessCommand : {
+					HICommand		command;
+					GetEventParameter( osxEvent, kEventParamDirectObject, typeHICommand, NULL,
+									sizeof( HICommand ), NULL, &command );
+									
+					MenuItem* item = NULL;
+					GetMenuCommandProperty( command.menu.menuRef, 
+										command.commandID,
+										VCF_PROPERTY_CREATOR, 
+										OSXMenuItem::propertyTag,
+										sizeof(item),
+										NULL, &item );
+					
+								
+					if ( NULL != item ) {
+						//cause the menu click method to be called!
+						item->click();
+						result = noErr;
+					}										
+                }
+                break;
+				
+				case kEventCommandUpdateStatus : {
+					HICommand		command;
+					GetEventParameter( osxEvent, kEventParamDirectObject, typeHICommand, NULL,
+									sizeof( HICommand ), NULL, &command );
+									
+					MenuItem* item = NULL;
+					GetMenuCommandProperty( command.menu.menuRef, 
+										command.commandID,
+										VCF_PROPERTY_CREATOR, 
+										OSXMenuItem::propertyTag,
+										sizeof(item),
+										NULL, &item );
+					
+					
+					result = ::CallNextEventHandler( nextHandler, osxEvent );
+								
+					if ( NULL != item ) {					
+						//cause the menu update method to be called!
+						//this updates the menu item
+						item->update();
+					}										
+                }
+                break;
+			}
+		}
+		break;
+		
         default : {
             return ::CallNextEventHandler( nextHandler, osxEvent );
         }
@@ -1970,12 +2024,27 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
         case kEventClassCommand : {
             switch ( whatHappened ) {
                 case kEventProcessCommand : {
-
+					
+					HICommand		command;
+					GetEventParameter( msg->osxEvent_, kEventParamDirectObject, typeHICommand, NULL,
+									sizeof( HICommand ), NULL, &command );
+									
+					MenuItem* item = NULL;
+					GetMenuCommandProperty( command.menu.menuRef, 
+										command.commandID,
+										VCF_PROPERTY_CREATOR, 
+										OSXMenuItem::propertyTag,
+										sizeof(item),
+										NULL, &item );				
+								
+					if ( NULL != item ) {
+						
+					}										
                 }
                 break;
 
                 case kEventCommandUpdateStatus : {
-
+					
                 }
                 break;
             }
@@ -2096,6 +2165,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/11/15 05:41:28  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.7  2004/11/10 06:16:40  ddiego
 *started adding osx menu code
 *

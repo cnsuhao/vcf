@@ -86,7 +86,7 @@ public:
 
 
 
-	static void init();
+	static void initialize();
 	static void terminate();
 
 	static ToolManager* getToolManager();
@@ -309,6 +309,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/11/15 05:41:27  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.3  2004/08/07 02:47:37  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

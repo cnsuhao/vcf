@@ -29,7 +29,7 @@ OSXContext::OSXContext():
 	textLayout_(nil),
     xorModeOn_(false),
 	lastPrimitive_(OSXContext::lpNone),
-	antialiasingOn_(false)
+	antialiasingOn_(true)
 {
 	init();
 }
@@ -45,7 +45,7 @@ OSXContext::OSXContext( const unsigned long& width, const unsigned long& height 
 	textLayout_(nil),
     xorModeOn_(false),
 	lastPrimitive_(OSXContext::lpNone),
-	antialiasingOn_(false)
+	antialiasingOn_(true)
 {
 	//allocate a RGBA buffer for use
     inMemoryImage_ = new unsigned char[imgWidth_ * imgHeight_ * 4];
@@ -63,7 +63,7 @@ OSXContext::OSXContext( const unsigned long& contextID ):
 	textLayout_(nil),
     xorModeOn_(false),
 	lastPrimitive_(OSXContext::lpNone),
-	antialiasingOn_(false)
+	antialiasingOn_(true)
 {
 	init();
 }
@@ -862,8 +862,8 @@ void OSXContext::drawImage( const double& x, const double& y, Rect* imageBounds,
     if ( (imgBoundsWidth == image->getWidth()) && (imgBoundsHeight == image->getHeight()) ) {
         CGImageRef imgRef = osXimage->getCGImage();
         CGRect imgBounds;
-        imgBounds.origin.x = x;
-        imgBounds.origin.y = y;
+        imgBounds.origin.x = x + origin_.x_;
+        imgBounds.origin.y = y + origin_.y_;
         imgBounds.size.width = imgBoundsWidth;
         imgBounds.size.height = imgBoundsHeight;
 
@@ -917,8 +917,8 @@ void OSXContext::drawImage( const double& x, const double& y, Rect* imageBounds,
         }
 
         CGRect imgBounds;
-        imgBounds.origin.x = x;
-        imgBounds.origin.y = y;
+        imgBounds.origin.x = x + origin_.x_;
+        imgBounds.origin.y = y + origin_.y_;
         imgBounds.size.width = imgBoundsWidth;
         imgBounds.size.height = imgBoundsHeight;
 
@@ -1182,12 +1182,12 @@ void OSXContext::setClippingPath( Path* clippingPath )
 				PathPoint& pt = *it;
 				switch ( pt.type_ ){
 					case PathPoint::ptMoveTo: {
-						CGPathMoveToPoint( pathRef, NULL, pt.point_.x_, pt.point_.y_);
+						CGPathMoveToPoint( pathRef, NULL, pt.point_.x_ + origin_.x_, pt.point_.y_ + origin_.y_);
 					}
 					break;
 
 					case PathPoint::ptLineTo: {
-						CGPathAddLineToPoint( pathRef, NULL, pt.point_.x_, pt.point_.y_);						
+						CGPathAddLineToPoint( pathRef, NULL, pt.point_.x_+origin_.x_, pt.point_.y_ + origin_.y_);
 					}
 					break;
 
@@ -1205,21 +1205,21 @@ void OSXContext::setClippingPath( Path* clippingPath )
 						if ( it == points.begin() ) {
 							CGPathMoveToPoint( pathRef, NULL, pt.point_.x_, pt.point_.y_);
 							CGPathAddCurveToPoint( pathRef, NULL, 
-													c1.point_.x_,
-													c1.point_.y_,
-													c2.point_.x_,
-													c2.point_.y_,
-													p2.point_.x_,
-													p2.point_.y_ );
+													c1.point_.x_ + origin_.x_,
+													c1.point_.y_ + origin_.y_,
+													c2.point_.x_ + origin_.x_,
+													c2.point_.y_ + origin_.y_,
+													p2.point_.x_ + origin_.x_,
+													p2.point_.y_ + origin_.y_ );
 						}
 						else {
 							CGPathAddCurveToPoint( pathRef, NULL, 
-													c1.point_.x_,
-													c1.point_.y_,
-													c2.point_.x_,
-													c2.point_.y_,
-													p2.point_.x_,
-													p2.point_.y_ );
+													c1.point_.x_ + origin_.x_,
+													c1.point_.y_ + origin_.y_,
+													c2.point_.x_ + origin_.x_,
+													c2.point_.y_ + origin_.y_,
+													p2.point_.x_ + origin_.x_,
+													p2.point_.y_ + origin_.y_ );
 						}
 					}
 					break;
@@ -1238,6 +1238,8 @@ void OSXContext::setClippingPath( Path* clippingPath )
 				it ++;
 			}
 			
+			CGContextSaveGState( contextID_ );
+			
 			CGContextBeginPath ( contextID_ );
 			
 			CGContextAddPath( contextID_, pathRef );
@@ -1250,15 +1252,24 @@ void OSXContext::setClippingPath( Path* clippingPath )
 		}
 	}
 	else {
-		//find some way to recover the original clip path???????
+		CGContextRestoreGState( contextID_ );
 	}
 }
 
 void OSXContext::setClippingRect( Rect* clipRect )
-{
-	OSXRect r = clipRect;
-	
-	CGContextClipToRect( contextID_, r );
+{	
+	if ( clipRect->isNull() || clipRect->isEmpty() ) {
+		CGContextRestoreGState( contextID_ );	
+	}
+	else {
+		Rect tmpClipRect = *clipRect;
+		tmpClipRect.offset( origin_.x_, origin_.y_ );
+		
+		OSXRect r = &tmpClipRect;
+		
+		CGContextSaveGState( contextID_ );
+		CGContextClipToRect( contextID_, r );
+	}
 }
 
 
@@ -1271,7 +1282,9 @@ void OSXContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
 	
 	CGContextSetAlpha( contextID_, 0.2 );
 	
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
 	CGContextSetLineWidth( contextID_, 1.0 );
 	CGContextSetRGBStrokeColor( contextID_, stroke->getRed(), stroke->getGreen(),
@@ -1291,7 +1304,9 @@ void OSXContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
 
 void OSXContext::drawThemeFocusRect( Rect* rect, DrawUIState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 
     DrawThemeFocusRect( r, state.isFocused() );
 }
@@ -1315,7 +1330,9 @@ void OSXContext_drawThemeButtonText( const ::Rect * bounds, ThemeButtonKind kind
 
 void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
@@ -1356,7 +1373,9 @@ void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
 
 void OSXContext::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
@@ -1393,7 +1412,9 @@ void OSXContext::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 
 void OSXContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
@@ -1430,7 +1451,9 @@ void OSXContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 
 void OSXContext::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
@@ -1486,7 +1509,9 @@ void OSXContext::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state )
 
 void OSXContext::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
@@ -1513,7 +1538,9 @@ void OSXContext::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& s
 
 void OSXContext::drawThemeTab( Rect* rect, TabState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
 	TabState* ts = (TabState*)&state;
 	
@@ -1552,13 +1579,17 @@ void OSXContext::drawThemeTab( Rect* rect, TabState& state )
 
 void OSXContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	DrawThemeTabPane( r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
 }
 
 void OSXContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 
     ThemeTrackDrawInfo info;
     info.kind = kThemeSlider;//kThemeMediumSlider;
@@ -1638,7 +1669,9 @@ void OSXContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 
 void OSXContext::drawThemeSlider( Rect* rect, SliderState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 
     ThemeTrackDrawInfo info;
     info.kind = kThemeSlider;//kThemeMediumSlider;
@@ -1693,7 +1726,9 @@ void OSXContext::drawThemeSlider( Rect* rect, SliderState& state )
 
 void OSXContext::drawThemeProgress( Rect* rect, ProgressState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 
     ThemeTrackDrawInfo info;
     info.kind = kThemeProgressBar;
@@ -1820,7 +1855,9 @@ void OSXContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
 
 void OSXContext::drawThemeHeader( Rect* rect, ButtonState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
@@ -1844,35 +1881,37 @@ void OSXContext::drawThemeHeader( Rect* rect, ButtonState& state )
 
 void OSXContext::drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle )
 {
-	
-	if ( GraphicsContext::etAllSides == edgeSides ) {       
-		OSXRect r = rect;
+	Rect modRect = *rect;
+	modRect.offset( origin_.x_, origin_.y_ );
+		
+	if ( GraphicsContext::etAllSides == edgeSides ) { 
+		OSXRect r = &modRect;
         DrawThemePrimaryGroup( r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
     }
-    else {
-        if ( edgeSides & GraphicsContext::etLeftSide ) {
-			OSXRect tmp = rect;
+    else {		
+        if ( edgeSides & GraphicsContext::etLeftSide ) {			
+			OSXRect tmp = &modRect;
 			::Rect r = tmp;
             r.right = r.left;
             DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
         }
 
         if ( edgeSides & GraphicsContext::etRightSide ) {
-            OSXRect tmp = rect;
+            OSXRect tmp = &modRect;
 			::Rect r = tmp;
             r.left = r.right;
             DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
         }
 
         if ( edgeSides & GraphicsContext::etTopSide ) {
-            OSXRect tmp = rect;
+            OSXRect tmp = &modRect;
 			::Rect r = tmp;
             r.bottom = r.top;
             DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
         }
 
         if ( edgeSides & GraphicsContext::etBottomSide ) {
-            OSXRect tmp = rect;
+            OSXRect tmp = &modRect;
 			::Rect r = tmp;
             r.top = r.bottom;
             DrawThemeSeparator( &r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
@@ -1882,21 +1921,26 @@ void OSXContext::drawThemeEdge( Rect* rect, DrawUIState& state, const long& edge
 
 void OSXContext::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 {
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	
 	::Rect bounds;
     ::Point gripperOrigin;
-    gripperOrigin.h = (int)rect->left_;
-    gripperOrigin.v = (int)rect->top_;
+    gripperOrigin.h = (int)tmp.left_;
+    gripperOrigin.v = (int)tmp.top_;
 
     GetThemeStandaloneGrowBoxBounds( gripperOrigin, 0, FALSE, &bounds );
-    gripperOrigin.h = (int)(rect->right_ - (bounds.right-bounds.left));
-    gripperOrigin.v = (int)(rect->bottom_ - (bounds.bottom-bounds.top));
+    gripperOrigin.h = (int)(tmp.right_ - (bounds.right-bounds.left));
+    gripperOrigin.v = (int)(tmp.bottom_ - (bounds.bottom-bounds.top));
 
     DrawThemeStandaloneGrowBox( gripperOrigin, 0, FALSE,  state.isActive() ? kThemeStateActive : kThemeStateInactive );
 }
 
 void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	OSStatus err = 0;
 	
 	Color* color = GraphicsToolkit::getSystemColor( state.colorType_ );
@@ -2104,7 +2148,9 @@ void OSXContext_drawThemeMenuItemText ( const ::Rect * inBounds, SInt16 inDepth,
  
 void OSXContext::drawThemeMenuItem( Rect* rect, MenuState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	::Point pt;
 	::Rect menuRect = r;
 	pt.h = menuRect.left;
@@ -2145,7 +2191,9 @@ void OSXContext::drawThemeMenuItem( Rect* rect, MenuState& state )
 
 void OSXContext::drawThemeText( Rect* rect, TextState& state )
 {
-	OSXRect r = rect;
+	Rect tmp = *rect;
+	tmp.offset( origin_.x_, origin_.y_ );
+	OSXRect r = &tmp;
 	
 	
 	ThemeTextColor textColor = kThemeTextColorDialogActive;
@@ -2223,6 +2271,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/11/15 05:41:28  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.4  2004/11/06 18:21:51  chriskr
 *small bugfixes and optimizations for line-drawing
 *

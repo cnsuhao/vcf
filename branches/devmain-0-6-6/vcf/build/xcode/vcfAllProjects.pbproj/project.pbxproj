@@ -4035,13 +4035,12 @@
 				5E9C1ACA06B5F0D7006671C6,
 				5E888AD20710EC28006110CF,
 				5E2CDFA00648693C00A8020D,
-				5E2CDFA10648693C00A8020D,
 				5E2CDFA20648693C00A8020D,
+				5E7A6E8907446B5000906508,
 				5E2CDF950648693C00A8020D,
 				5E2CDF970648693C00A8020D,
 				5E2CDF990648693C00A8020D,
 				5E2CDF9B0648693C00A8020D,
-				5E2CDFA10648693C00A8020D,
 			);
 			isa = PBXGroup;
 			name = Peers;
@@ -4379,7 +4378,6 @@
 				5E2CE18E0648693C00A8020D,
 				5E2CE1900648693C00A8020D,
 				5E2CE1920648693C00A8020D,
-				5E2CE1980648693C00A8020D,
 				5E2CE19A0648693C00A8020D,
 				5E2CE19C0648693C00A8020D,
 				5E2CE1A10648693C00A8020D,
@@ -4426,6 +4424,7 @@
 				5E725844073C6F5500135571,
 				5E092B100741D5AD004B45E4,
 				5E092B260741D94F004B45E4,
+				5E7A6E8A07446B5000906508,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6691,15 +6690,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = OSXUIToolkit.h;
 			path = ../../src/vcf/ApplicationKit/OSXUIToolkit.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5E2CDFA10648693C00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = OSXWindow.cpp;
-			path = ../../src/vcf/ApplicationKit/OSXWindow.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -9031,12 +9021,6 @@
 			settings = {
 			};
 		};
-		5E2CE1980648693C00A8020D = {
-			fileRef = 5E2CDFA10648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E2CE1990648693C00A8020D = {
 			fileRef = 5E2CDFA20648693C00A8020D;
 			isa = PBXBuildFile;
@@ -10258,6 +10242,27 @@
 		};
 		5E725847073C6F5500135571 = {
 			fileRef = 5E725843073C6F5500135571;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E7A6E8907446B5000906508 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXWindow.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXWindow.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E7A6E8A07446B5000906508 = {
+			fileRef = 5E7A6E8907446B5000906508;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E7A6E8B07446B5000906508 = {
+			fileRef = 5E7A6E8907446B5000906508;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -12689,7 +12694,6 @@
 				5EB255A00673DBD300DA4A17,
 				5EB255A10673DBD300DA4A17,
 				5EB255A20673DBD300DA4A17,
-				5EB255A50673DBD300DA4A17,
 				5EB255A60673DBD300DA4A17,
 				5EB255A70673DBD300DA4A17,
 				5EB255A80673DBD300DA4A17,
@@ -12739,6 +12743,7 @@
 				5E725846073C6F5500135571,
 				5E092B120741D5AD004B45E4,
 				5E092B280741D94F004B45E4,
+				5E7A6E8B07446B5000906508,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -16294,12 +16299,6 @@
 		};
 		5EB255A20673DBD300DA4A17 = {
 			fileRef = 5E2CDF9B0648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EB255A50673DBD300DA4A17 = {
-			fileRef = 5E2CDFA10648693C00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};

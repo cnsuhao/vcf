@@ -46,8 +46,12 @@ Enumerator<DocumentInfo>* DocumentManager::getRegisteredDocumentInfo()
 void DocumentManager::init()
 {
 	Application* app = Application::getRunningInstance();
-	String fileName = app->getName();
+	FilePath dir = app->getFileName();
+	
+	String fileName = dir.getPathName(true);
+	fileName += app->getName();	
 	fileName += ".xml";
+	
 	FileInputStream fs( fileName );
 
 	XMLParser parser;
@@ -580,6 +584,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/15 05:41:27  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.3  2004/11/13 22:30:42  marcelloptr
 *more documentation
 *

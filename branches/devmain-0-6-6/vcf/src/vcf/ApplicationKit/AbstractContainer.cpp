@@ -278,7 +278,6 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 	Scrollable* scrollable = controlContainer_->getScrollable();
 
 	Rect oldClipRect = context->getClippingRect();
-
 	Rect mainBounds;
 	if ( controlContainer_->getParent() ) {
 		mainBounds = controlContainer_->getBounds();
@@ -303,7 +302,6 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 			childClipRect.right_ = minVal<>(bounds.right_,mainBounds.right_);
 			childClipRect.bottom_ = minVal<>(bounds.bottom_,mainBounds.bottom_);
 			
-
 			childClipRect.offset( -bounds.left_, -bounds.top_ );
 
 			Point oldOrigin = context->getOrigin();
@@ -559,6 +557,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/11/15 05:41:27  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.5  2004/09/09 03:09:22  marcelloptr
 *minor change for style
 *

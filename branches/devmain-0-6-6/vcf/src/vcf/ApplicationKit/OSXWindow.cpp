@@ -134,7 +134,7 @@ void OSXWindow::create( Control* owningControl )
 		
         static EventTypeSpec eventsToHandle[] ={
                             // { kEventClassWindow, kEventWindowGetIdealSize },
-                            //{ kEventClassCommand, kEventCommandProcess },
+                            { kEventClassCommand, kEventCommandProcess },
                             //{ kEventClassCommand, kEventCommandUpdateStatus },
                             { kEventClassWindow, kEventWindowClose },
                             { kEventClassWindow, kEventWindowActivated },
@@ -380,7 +380,7 @@ void OSXWindow::repaint( Rect* repaintRect )
 
 	HIViewSetNeedsDisplay( getRootControl(), true );
 
-    InvalWindowRect( windowRef_, r );
+    //InvalWindowRect( windowRef_, r );
 }
 
 void OSXWindow::keepMouseEvents()
@@ -396,6 +396,7 @@ void OSXWindow::releaseMouseEvents()
 void OSXWindow::setBorder( Border* border )
 {
 	//cause the window to repaint itself!!!
+	HIViewSetNeedsDisplay( getRootControl(), true );
 }
 
 void OSXWindow::translateToScreenCoords( Point* pt )
@@ -983,9 +984,13 @@ OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, Even
 	
 	VCF::GraphicsContext* ctx = control_->getContext();	
 	
-	ctx->getPeer()->setContextID( (VCF::ulong32)port );	
-
 	VCF::Rect clientBounds = getClientBounds();
+	
+	//ctx->getPeer()->setContextID( (VCF::ulong32)port );	
+	OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
+	osxCtx->setCGContext( context, port, clientBounds );
+
+	
 	ctx->setViewableBounds( clientBounds );
 	int gcs = ctx->saveState();
 
@@ -994,6 +999,8 @@ OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, Even
 	control_->paint( ctx );
 	
 	ctx->restoreState( gcs );
+	
+	osxCtx->setCGContext( NULL, 0, clientBounds );
 	
 	return noErr;
 }
@@ -1027,6 +1034,9 @@ void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/11/15 05:41:28  ddiego
+*finished almost all the osx menu code except for custom drawing. This completes this releases osx effort.
+*
 *Revision 1.2.2.6  2004/10/28 03:34:16  ddiego
 *more dialog updates for osx
 *
