@@ -25,7 +25,7 @@ std::map<HWND,Win32SystemTrayPeer*> Win32SystemTrayPeer::sysTrayWndMap;
 
 Win32SystemTrayPeer::Win32SystemTrayPeer():
 	trayWnd_(NULL),
-	enabled_(false),
+	enabled_(true),
 	hidden_(true),
 	removed_(true),
 	notifyIconData_(NULL),
@@ -265,7 +265,7 @@ void Win32SystemTrayPeer::removeFromTray()
 void Win32SystemTrayPeer::showInTray()
 {
 	if ( removed_ ) {
-        return addToTray();
+        addToTray();
 	}
 
 	if (!hidden_) {
@@ -306,12 +306,23 @@ LRESULT Win32SystemTrayPeer::handleTrayMessage( WPARAM wParam, LPARAM lParam )
     // Clicking with right button brings up a context menu
 
     if ( LOWORD(lParam) == WM_RBUTTONUP ) {
+		HWND wnd = dummyWnd;
+
 		if ( NULL != this->popupMenu_ ) {
 			// Display and track the popup menu
 			POINT pos = {0};
 			::GetCursorPos(&pos);
+					
+			if ( Frame::getActiveFrame() ) {
+				wnd = (HWND)Frame::getActiveFrame()->getPeer()->getHandleID();
+			}
+			else if ( Application::getRunningInstance() ) {
+				wnd = (HWND) Application::getRunningInstance()->getMainWindow()->getPeer()->getHandleID();
+			}
 
-			::SetForegroundWindow( dummyWnd ); 
+			::SetForegroundWindow( wnd ); 
+
+			
 
 			MenuItem* rootItem = popupMenu_->getRootMenuItem();
 			if  ( NULL != rootItem )  {
@@ -330,7 +341,7 @@ LRESULT Win32SystemTrayPeer::handleTrayMessage( WPARAM wParam, LPARAM lParam )
 		}
 
         // BUGFIX: See "PRB: Menus for Notification Icons Don't Work Correctly"
-		::PostMessage( dummyWnd, WM_NULL, 0, 0);
+		::PostMessage( wnd, WM_NULL, 0, 0);
     } 
     else if (LOWORD(lParam) == WM_LBUTTONDBLCLK) {
         // double click received, the default action is to execute default menu item
@@ -352,14 +363,16 @@ LRESULT CALLBACK Win32SystemTrayPeer::wndProc(HWND hWnd, UINT message, WPARAM wP
 
 	bool trayMessage = false;
 
-	if ( System::isUnicodeEnabled() ) {
-		if ( thisPtr->notifyIconDataW()->uCallbackMessage == message ) {
-			trayMessage = true;
+	if ( NULL != thisPtr ) {
+		if ( System::isUnicodeEnabled() ) {
+			if ( thisPtr->notifyIconDataW()->uCallbackMessage == message ) {
+				trayMessage = true;
+			}
 		}
-	}
-	else{
-		if ( thisPtr->notifyIconDataA()->uCallbackMessage == message ) {
-			trayMessage = true;
+		else{
+			if ( thisPtr->notifyIconDataA()->uCallbackMessage == message ) {
+				trayMessage = true;
+			}
 		}
 	}
 

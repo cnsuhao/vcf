@@ -717,6 +717,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\EnumObject.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\SystemTray.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\VCFCOM.h
 # End Source File
 # Begin Source File
@@ -1526,6 +1530,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\StatusBar.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\StatusBar.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\SystemTray.cpp
 # End Source File
 # Begin Source File
 

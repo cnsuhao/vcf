@@ -17,6 +17,8 @@ This was created to improved compile times
 #include "vcf/ApplicationKit/TitledBorder.h"
 #include "vcf/ApplicationKit/MessageDialog.h"
 #include "vcf/ApplicationKit/DefaultMenuItem.h"
+#include "vcf/ApplicationKit/DefaultMenuItem.h"
+#include "vcf/ApplicationKit/SystemTray.h"
 
 
 namespace VCF {
@@ -602,6 +604,14 @@ BEGIN_CLASSINFO(SliderControl, "VCF::SliderControl", "VCF::CustomControl", SLIDE
 END_CLASSINFO(SliderControl)
 
 
+BEGIN_CLASSINFO(SystemTray, "VCF::SystemTray", "VCF::Component", SYSTEMTRAY_CLASSID )
+	EVENT("VCF::GenericEventHandler", SystemTray, VCF::Event, TrayIconChanged )
+	OBJECT_PROPERTY( PopupMenu, "popupMenu", SystemTray::getPopupMenu, Control::setPopupMenu );
+	PROPERTY( String, "tooltipText", SystemTray::getTooltipText, SystemTray::setTooltipText, pdString );
+END_CLASSINFO(SystemTray)
+
+
+
 
 
 };
@@ -610,6 +620,9 @@ END_CLASSINFO(SliderControl)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/20 03:08:13  ddiego
+*added SystemTray component
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

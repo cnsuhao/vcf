@@ -15,6 +15,12 @@ where you installed the VCF.
 
 namespace VCF {
 
+	/**
+	This is the Win32 implementation of the SystemTrayPeer class.
+	Many thanks to Chris Maunder's CSystemTray code from CodeProject
+	for providing a nice base to steal some ideas from in implementing
+	this. You can get the CSystemTray at http://codeproject.com/shell/systemtray.asp
+	*/
 	class Win32SystemTrayPeer : public Object, public SystemTrayPeer {
 	public:
 		Win32SystemTrayPeer();
