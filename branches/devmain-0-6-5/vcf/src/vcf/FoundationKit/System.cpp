@@ -80,8 +80,10 @@ void System::setErrorLog( ErrorLog* errorLog )
 
 void System::print( String text, ... )
 {
+	String text2 = StringUtils::convertFormatString( text );
+
 	va_list args;
-	va_start( args, text );
+	va_start( args, text2 );
 	int charRequired = 1024;
 	VCFChar* tmpChar = new VCFChar[charRequired];
 	memset( tmpChar, 0, charRequired );
@@ -91,7 +93,7 @@ void System::print( String text, ... )
   
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
+	CFStringAppendCharacters( fmt, text2.c_str(), text2.size() );
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
     
@@ -106,10 +108,10 @@ void System::print( String text, ... )
     CFRelease( fmt );
     
   #else
-	vswprintf( tmpChar, charRequired, text.c_str(), args );
+	vswprintf( tmpChar, charRequired, text2.c_str(), args );
   #endif	
 #else
-	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
+	_vsnwprintf( tmpChar, charRequired, text2.c_str(), args );
 #endif
 	
 	va_end( args ); 
@@ -130,8 +132,10 @@ void System::print( String text, ... )
 
 void System::println(String text, ...)
 {
+	String text2 = StringUtils::convertFormatString( text );
+	
 	va_list args;
-	va_start( args, text );
+	va_start( args, text2 );
 	int charRequired = 1024;
 	VCFChar* tmpChar = new VCFChar[charRequired];
 	memset( tmpChar, 0, charRequired );
@@ -141,7 +145,7 @@ void System::println(String text, ...)
 
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
+	CFStringAppendCharacters( fmt, text2.c_str(), text2.size() );
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
     
@@ -156,10 +160,10 @@ void System::println(String text, ...)
     CFRelease( res );
     CFRelease( fmt );
   #else
-	vswprintf( tmpChar, charRequired, text.c_str(), args );
+	vswprintf( tmpChar, charRequired, text2.c_str(), args );
   #endif	
 #else
-	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
+	_vsnwprintf( tmpChar, charRequired, text2.c_str(), args );
 #endif
 	
 	va_end( args ); 
@@ -236,6 +240,9 @@ bool System::isUnicodeEnabled()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/16 02:39:09  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.5  2004/05/03 03:44:53  ddiego
 *This checks in a bunch of changes to the FoundationKit for OSX
 *porting. The thread, mutex, semaphor, condition, and file peers

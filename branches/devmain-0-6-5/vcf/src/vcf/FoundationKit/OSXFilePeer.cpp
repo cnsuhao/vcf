@@ -10,7 +10,7 @@ where you installed the VCF.
 
 //#include "vcf/FoundationKit/regexx.h"
 
-#include "MoreFilesX.h"
+//#include "MoreFilesX.h"
 
 using namespace VCF;
 

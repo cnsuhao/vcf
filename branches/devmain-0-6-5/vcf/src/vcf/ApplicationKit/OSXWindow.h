@@ -140,6 +140,8 @@ public:
 	virtual void setIconImage( Image* icon );
     
     OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
+	
+	bool isComposited();
 protected:
 	static EventHandlerUPP getEventHandlerUPP();
     
@@ -152,11 +154,17 @@ protected:
 
 
 	WindowRef windowRef_;
+	
 	Control* control_;
 
 	Rect bounds_;
     EventHandlerRef handlerRef_;
+	EventHandlerRef contentViewHandlerRef_;
     
+	RgnHandle determineUnobscuredClientRgn();
+	
+	void handleDraw( bool drawingEvent, EventRef event );
+	
     bool internalClose_;
     
     static OSStatus handleOSXEvents(EventHandlerCallRef nextHandler, EventRef theEvent, void* userData); 
@@ -171,6 +179,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/16 02:39:01  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.5  2004/05/07 23:22:45  ddiego
 *more osx changes
 *

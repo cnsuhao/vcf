@@ -78,7 +78,7 @@ Window::Window( Control* control )
 
 Window::~Window()
 {
-
+	StringUtils::traceWithArgs( "In Window::~Window for instance %p\n", this );
 }
 
 void Window::destroy()
@@ -128,7 +128,6 @@ void Window::resizeChildren( Control* control )
 
 void Window::beforeDestroy( ComponentEvent* event )
 {
-
 	//remove me from my parent control if neccessary
 	Control* parent = getParent();
 	if ( NULL != parent ) {
@@ -137,6 +136,8 @@ void Window::beforeDestroy( ComponentEvent* event )
 			parentContainer->remove( this );
 		}
 	}
+	
+	Frame::beforeDestroy( event );
 }
 
 MenuBar* Window::getMenuBar()
@@ -289,6 +290,9 @@ void Window::handleEvent( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/16 02:39:01  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -31,6 +31,7 @@
 #include "vcf/ApplicationKit/OSXWindow.h"
 
 
+
 class WndSwitchPort {
 public:
     WndSwitchPort( WindowRef ptr ) :current(GetWindowPort(ptr)){
@@ -61,6 +62,101 @@ private:
     WndSwitchPort( const WndSwitchPort& rhs );
     WndSwitchPort& operator=(const WndSwitchPort& rhs );
 };
+
+
+class WndView : public TView {
+public:
+
+	WndView( HIViewRef inControl ):
+		TView(inControl),
+		windowPeer_(NULL){
+		
+	}
+	
+	virtual ~WndView() {
+	
+	}
+		
+	
+									
+	virtual ControlKind GetKind() {
+		const ControlKind result = { 'vcWv', 'vcWv' };	
+		return result;
+	}
+	
+	virtual OSStatus GetRegion( ControlPartCode inPart, RgnHandle outRgn ) {
+		OSStatus			err = noErr;
+		TRect				bounds;
+		Rect				qdBounds;
+		
+		if ( inPart == kControlContentMetaPart
+				|| inPart == kControlStructureMetaPart
+				/* || inPart == kControlOpaqueRegionMetaPart */ )
+		{
+			bounds = Bounds();
+			qdBounds = bounds;
+		
+			RectRgn( outRgn, &qdBounds );
+		}
+		
+		return err;
+	}
+
+	virtual void Draw( RgnHandle inLimitRgn, CGContextRef inContext, GrafPtr port ) {
+		if ( NULL == windowPeer_ ) {
+			
+			WindowRef wnd = GetOwner();
+			void* ptr = NULL;
+			OSStatus err = GetWindowProperty( wnd, 'vcfa', 'vcfw', sizeof(void*), NULL, &ptr );
+			VCF::StringUtils::traceWithArgs( "GetWindowProperty(): %d, wnd: %p, ptr: %p\n", err, wnd, ptr );
+			if ( err == noErr ) {
+				windowPeer_ = (VCF::OSXWindow*)ptr;
+			}
+		}	
+		
+		//windowPeer_->handleWndViewDrawEvent( inLimitRgn, inContext );
+		GrafPtr oldPort = 0;
+		GetPort( &oldPort );
+		SetPort( port );
+		TRect portBounds = Bounds();
+		::Rect r = portBounds;
+		
+		VCF::StringUtils::traceWithArgs( "portBounds: %d, %d, %d, %d\n",
+									r.left,
+									r.top,
+									r.right,
+									r.bottom );
+	
+		
+		::SetThemeBackground( kThemeBrushUtilityWindowBackgroundActive, 32, true ) ;
+		EraseRect( &r );
+		
+		VCF::GraphicsContext gc(0);
+		VCF::OSXContext* osxCtx =  (VCF::OSXContext*)gc.getPeer();
+		osxCtx->setCGContext( inContext, port );
+		
+		gc.rectangle(r.left,
+									r.top,
+									r.right,
+									r.bottom );
+		gc.setColor( VCF::Color::getColor( "gray123" ) );
+		gc.fillPath();
+		
+		osxCtx->setCGContext( NULL, 0 );
+		
+		SetPort( oldPort );
+	}
+	
+	void setWindowPeer( VCF::OSXWindow* peer ) {
+		windowPeer_ = peer ;
+	}
+protected:
+	VCF::OSXWindow* windowPeer_;
+	
+};
+
+
+
 
 
 namespace VCF {
@@ -95,7 +191,7 @@ void OSXWindow::create( Control* owningControl )
 {
     WindowAttributes attrs = 0;
     attrs |=  kWindowCloseBoxAttribute | kWindowFullZoomAttribute | kWindowCollapseBoxAttribute |
-                kWindowResizableAttribute | kWindowCloseBoxAttribute | 
+                kWindowResizableAttribute | kWindowCloseBoxAttribute | kWindowCompositingAttribute |
                 kWindowStandardHandlerAttribute | kWindowLiveResizeAttribute | kWindowInWindowMenuAttribute;
                 
     ::Rect bounds = {0,0,0,0};
@@ -114,7 +210,7 @@ void OSXWindow::create( Control* owningControl )
                             { kEventClassWindow, kEventWindowClose },
                             { kEventClassWindow, kEventWindowActivated },
                             { kEventClassWindow, kEventWindowDeactivated },
-                            { kEventClassWindow, kEventWindowDrawContent },
+//                            { kEventClassWindow, kEventWindowDrawContent },
                             { kEventClassMouse, kEventMouseDown },
                             { kEventClassMouse, kEventMouseUp },
                             { kEventClassMouse, kEventMouseMoved },
@@ -133,7 +229,17 @@ void OSXWindow::create( Control* owningControl )
                                     eventsToHandle, 
                                     this, 
                                     &handlerRef_ );
-        
+		/*	
+		windowView_ = NULL;
+		CFTextString s;
+		
+		TRect r(0,0,100,200);
+		
+		if ( noErr == ViewCreator<WndView>::create( &windowView_, r, windowRef_ ) ) {
+			HIViewSetVisible( windowView_, true );			
+		}
+		*/
+		
         UIToolkit::postEvent( new GenericEventHandler<Control>( owningControl, &Control::handleEvent, "Component::handleEvent" ),
 						new VCF::ComponentEvent( owningControl, Component::COMPONENT_CREATED ),	true );
                         
@@ -145,9 +251,15 @@ void OSXWindow::create( Control* owningControl )
 
 void OSXWindow::destroyControl()
 {
-    
+    StringUtils::trace( "OSXWindow::destroyControl\n" );
+	VCF::ComponentEvent event( control_, Component::COMPONENT_DELETED );
+	
+	control_->handleEvent( &event );
+	
     DisposeWindow( windowRef_ );
-    printf( "windowRef_: %p, destroyed\n", windowRef_ );
+    StringUtils::traceWithArgs( "windowRef_: %p, destroyed\n", windowRef_ );
+	
+	windowRef_ = NULL;
 }
 
 String OSXWindow::getText()
@@ -168,8 +280,6 @@ void OSXWindow::setText( const String& text )
     CFTextString wndTitle;
     wndTitle = text;
     SetWindowTitleWithCFString( windowRef_, wndTitle );
-    
-    printf( "OSXWindow::setText( \"%s\" )\n", text.c_str() );
 }
 
 void OSXWindow::setBounds( Rect* rect )
@@ -177,8 +287,6 @@ void OSXWindow::setBounds( Rect* rect )
     ::Rect r = RectProxy(rect);
     
     SetWindowBounds( windowRef_, kWindowStructureRgn, &r );
-    
-    printf( "OSXWindow::setBounds( %s )\n", rect->toString().c_str() );
 }
 
 bool OSXWindow::beginSetBounds( const ulong32& numberOfChildren )
@@ -208,9 +316,8 @@ void OSXWindow::setVisible( const bool& visible )
     }	
     else {
         ShowWindow( windowRef_ );
+		repaint( NULL );
     }
-    
-    printf( "OSXWindow::setVisible( %s )\n", visible ? "true" : "false" );
 }
 
 bool OSXWindow::getVisible()
@@ -261,7 +368,7 @@ bool OSXWindow::isEnabled()
 
 void OSXWindow::setEnabled( const bool& enabled )
 {
-
+	ActivateWindow( windowRef_, enabled ? TRUE : FALSE );
 }
 
 void OSXWindow::setFont( Font* font )
@@ -294,12 +401,30 @@ void OSXWindow::releaseMouseEvents()
 
 void OSXWindow::translateToScreenCoords( Point* pt )
 {
-
+	WndSwitchPort port(windowRef_);
+	
+	::Point point;
+    point.h = pt->x_;
+    point.v = pt->y_;
+	
+	LocalToGlobal( &point );
+	
+	pt->x_ = point.h;
+	pt->y_ = point.v;
 }
 
 void OSXWindow::translateFromScreenCoords( Point* pt )
 {
-
+	WndSwitchPort port(windowRef_);
+	
+	::Point point;
+    point.h = pt->x_;
+    point.v = pt->y_;
+	
+	GlobalToLocal( &point );
+	
+	pt->x_ = point.h;
+	pt->y_ = point.v;
 }
 
 OSXWindow* OSXWindow::getOSXWindowFromWindowRef( WindowRef windowRef )
@@ -333,8 +458,7 @@ Rect OSXWindow::getClientBounds()
     result.right_ = pt.h;
     result.bottom_ = pt.v;
     
-    result.inflate( -1, -1 );
-    
+	
     return result;
 }
 
@@ -342,8 +466,6 @@ void  OSXWindow::setClientBounds( Rect* bounds )
 {
     ::Rect r = RectProxy(bounds);
     SetWindowBounds( windowRef_, kWindowContentRgn, &r );
-    
-    printf( "OSXWindow::setClientBounds( %s )\n", bounds->toString().c_str() );
 }
 
 void OSXWindow::close()
@@ -415,16 +537,58 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
     Event* vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
     
     UInt32 whatHappened = GetEventKind (theEvent);
-    UInt32 attributes = 0;
-    
-                            
-    switch ( GetEventClass( theEvent ) )  {
-    
+    UInt32 attributes = 0;   
+	
+	                        
+    switch ( GetEventClass( theEvent ) )  {		
+		/*
+		case kEventClassControl : {
+			switch( whatHappened ) {
+				case kEventControlDraw : {
+					result = ::CallNextEventHandler( nextHandler, theEvent ); 
+				
+					if ( !control_->isDestroying() ) {
+						TCarbonEvent		event( theEvent );
+						
+						GrafPtr port = NULL;										
+						CGContextRef context = NULL;
+						RgnHandle region = NULL;
+						
+						event.GetParameter( kEventParamRgnHandle, &region );
+						event.GetParameter<CGContextRef>( kEventParamCGContextRef, typeCGContextRef, &context );
+						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
+						
+						::Rect portBounds;
+						GetControlBounds( windowView_, &portBounds );
+						portBounds.top = 0;
+						//EraseRect( &portBounds );
+						
+						::SetThemeBackground( kThemeBrushUtilityWindowBackgroundActive, 32, true ) ;
+                                                     
+						::EraseRect( &portBounds ) ; 
+						
+						VCF::GraphicsContext* ctx = control_->getContext();
+						OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
+						osxCtx->setCGContext( context, port );
+		
+						control_->paint( ctx );	
+		
+						result = noErr;
+					}					
+					
+				}
+				break;
+			}
+		}
+		break;
+		*/
+		
+		
         case kEventClassWindow : {
             switch( whatHappened ) {
                 case kEventWindowClose : {
-                    
-                    result = ::CallNextEventHandler( nextHandler, theEvent ); 
+					
+                    result = noErr;//::CallNextEventHandler( nextHandler, theEvent ); 
                     
                     VCF::Window* window = (VCF::Window*)getControl();
 
@@ -447,77 +611,73 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
                                 }
                             }
                         }
+						
+						result = ::CallNextEventHandler( nextHandler, theEvent ); 
                     }
+					else {
+						result = noErr;
+					}
                 }
                 break;
                 
                 case kEventWindowDrawContent: {
+					result = ::CallNextEventHandler( nextHandler, theEvent );
 					
-					
-                    WindowRef window = 0;
-                    
-                    
-                    OSStatus err = GetEventParameter( theEvent, 
-                                                kEventParamDirectObject, 
-                                                typeWindowRef,
-                                                NULL, 
-                                                sizeof( window ), 
-                                                NULL, &window );
-                    //draw content
-                    GrafPtr wndPort = NULL;
-                    GetPort( &wndPort );//GetWindowPort(window);
-                    
-                    
-                    //VCF::GraphicsContext gc( (VCF::ulong32)thePort );
-                    VCF::GraphicsContext* ctx = control_->getContext();
-                    ctx->getPeer()->setContextID( (VCF::ulong32)wndPort ); 
-                    
-                    control_->paint( ctx );	
-                    
-                    ctx->getPeer()->setContextID( 0 );
-                    
-                    result = ::CallNextEventHandler( nextHandler, theEvent );
-					//result = noErr;
+					handleDraw( true, theEvent );
                 }
 				break;
                 
-                case kEventWindowBoundsChanged: {
-                    result = ::CallNextEventHandler( nextHandler, theEvent );
-                
-                /*
-					OSStatus err = GetEventParameter( theEvent, 
-                                                kEventParamAttributes, 
-                                                typeUInt32,
-                                                NULL, 
-                                                sizeof( UInt32 ), 
-                                                NULL, &attributes );
-                                
-					if ( err == noErr ) 	{
-						if ( attributes & kWindowBoundsChangeSizeChanged ) {
-							//this->Resized();
-                            //updateWindow();
-							result = noErr;
+				
+				case kEventWindowDeactivated: case kEventWindowActivated: {
+					result = CallNextEventHandler( nextHandler, theEvent );
+					
+                    if ( !control_->isDestroying() ) {
+						handleDraw( false, theEvent );
+					
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
 						}
-						else if ( attributes & kWindowBoundsChangeOriginChanged ) {
-							//this->Moved();
-                            result = noErr;
-						}
-                        
 					}
-                    */
-                    
-                    if ( NULL != vcfEvent ) {
-                        control_->handleEvent( vcfEvent );
-                    }
+				}
+				break;
+				
+                case kEventWindowBoundsChanged: {
+					
+					if ( !control_->isDestroying() ) {
+                
+						OSStatus err = GetEventParameter( theEvent, 
+													kEventParamAttributes, 
+													typeUInt32,
+													NULL, 
+													sizeof( UInt32 ), 
+													NULL, &attributes );
+									
+						if ( err == noErr ) 	{
+							if ( attributes & kWindowBoundsChangeSizeChanged ) {
+								handleDraw( false, theEvent );
+							}                        
+						}
+						
+						result = ::CallNextEventHandler( nextHandler, theEvent );
+						
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
+						}
+					}
+					else {
+						result = ::CallNextEventHandler( nextHandler, theEvent );
+					}
                 }
                 break;
                     
                 default : {
                     result = CallNextEventHandler( nextHandler, theEvent );
-                    
-                    if ( NULL != vcfEvent ) {
-                        control_->handleEvent( vcfEvent );
-                    }
+					
+                    if ( !control_->isDestroying() ) {
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
+						}
+					}
                 }
                 break;
             }            
@@ -565,12 +725,92 @@ OSStatus OSXWindow::handleOSXEvents( EventHandlerCallRef nextHandler, EventRef t
     return window->handleOSXEvent( nextHandler, theEvent );
 }
 
+bool OSXWindow::isComposited()
+{
+	bool result = false;
+	WindowAttributes attrs = 0;
+	if ( noErr == GetWindowAttributes( windowRef_, &attrs ) ) {
+		if ( attrs & kWindowCompositingAttribute ) {
+			result = true;
+		}
+	}
+	
+	return result;
+}
+
+void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
+{
+	TCarbonEvent		carbonEvent( event );
+
+	SetPortWindowPort( windowRef_ );	
+	
+	RgnHandle rgn = determineUnobscuredClientRgn();		
+	
+	EraseRgn( rgn );
+	
+	DisposeRgn( rgn );
+	
+	GrafPtr wndPort = GetWindowPort(windowRef_);
+	
+	VCF::GraphicsContext* ctx = control_->getContext();
+	ctx->getPeer()->setContextID( (VCF::ulong32)wndPort ); 
+	
+	control_->paint( ctx );
+	
+	ctx->getPeer()->setContextID( 0 );
+}
+
+RgnHandle OSXWindow::determineUnobscuredClientRgn()
+{
+	RgnHandle result = NewRgn();	
+		
+	VCF::Rect currentClientBounds = getClientBounds();
+	
+	SetRectRgn( result, (int)currentClientBounds.left_,
+					(int)currentClientBounds.top_,
+					(int)currentClientBounds.right_,
+					(int)currentClientBounds.bottom_ );
+					
+					
+	
+	
+	VCF::Rect bounds;
+	RgnHandle childRgn = NewRgn();
+	
+	Container* container = control_->getContainer();
+	if ( NULL != container ) {
+		Enumerator<Control*>* children = container->getChildren();
+		
+		while ( children->hasMoreElements() ) {
+			Control* child = children->nextElement();
+			
+			if ( !child->isLightWeight() ) {
+				bounds = child->getBounds();
+				
+				SetRectRgn( childRgn, (int)currentClientBounds.left_,
+					(int)bounds.top_,
+					(int)bounds.right_,
+					(int)bounds.bottom_ );
+					
+				DiffRgn( result, childRgn, result );
+			}
+		}
+	}
+	
+	DisposeRgn( childRgn );
+	
+	return result;
+}
+
 };//end of namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/05/16 02:39:01  ddiego
+*OSX code updates
+*
 *Revision 1.1.2.5  2004/05/07 23:22:45  ddiego
 *more osx changes
 *
