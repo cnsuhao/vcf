@@ -23,13 +23,13 @@ public:
 
 		TableModel* model = table->getTableModel();
 
-		model->addColumns( 8 );
-		model->addRows(55);
-		model->setFixedRowsCount( 2 );
-		model->setFixedColumnsCount( 2 );
+		model->addColumns( 18 );
+		model->addRows(88);
+		model->setFixedRowsCount( 1 );
+		model->setFixedColumnsCount( 1 );
 
-		for (int y=0;y<55;y++ ){
-			for ( int x=0;x<8;x++ ) {
+		for (int y=0;y<88;y++ ){
+			for ( int x=0;x<18;x++ ) {
 				model->getItem( y, x )->setCaption( StringUtils::format( "Cell [%d,%d]", y, x ) );
 			}
 		}
