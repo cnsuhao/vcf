@@ -24,8 +24,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 NB: This software will not save the world.
-
-
+	
+	
 -->
 
 <!-- maybe off-topic: security, crypto -->
@@ -33,10 +33,8 @@ NB: This software will not save the world.
 <chapter><title>Tutorials</title>
 	<section><title>FoundationKit</title>
 		<section><title>Strings and characters</title>
-		</section>
-		
-		<section><title>Numbers and Math</title>
-		</section>
+			&strings;
+		</section>		
 		
 		<section><title>Dates and times</title>
 		</section>
@@ -45,18 +43,30 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Events</title>
+		&eventbasics;
 		</section>
 		
 		<section><title>File System handling</title>
+			&filesanddirectories;
 		</section>
 		
 		<section><title>Streams</title>
 		</section>
 		
+		
+		<section><title>Enumerators</title>
+			&workingwithenumerators;
+		</section>
+		
+		
 		<section><title>Dynamic Library Loading</title>
+			&sharedlibraries;
 		</section>		
 		
 		<section><title>Threads</title>
+			&threadbasics;
+			
+			&threadsingui;
 		</section>
 		
 		<section><title>Processes</title>
@@ -67,34 +77,51 @@ NB: This software will not save the world.
 	</section>
 	
 	<section><title>GraphicsKit</title>
-		<section><title>GraphicsContext (basic GDI classes ?)</title>
+		<section><title>GraphicsContext</title>
+			&graphicsbasics;
 		</section>
 		
-		<section><title>Fonts</title>
-		</section>
+		<section><title>Text and Fonts</title>
+			&textlayout;
+		</section>		
 		
 		<section><title>Images</title>
+			&imagebasics;
+		</section>
+
+		<section><title>Advanced Graphics and Anti-Aliased support</title>
+			&strokesandfills;
+			
+			&graphicsandmousemoves;
 		</section>
 		
 		<section><title>Printing</title>
-		</section>
+		</section>		
 	</section>
 	
 	<section><title>ApplicationKit</title>
 		<section><title>Hello World</title>
 			&helloworld;
-		</section>
+			
+			&helloworld2;
+			
+			&helloworld3;
+		</section>	
+		
 		
 		<section><title>Image viewer</title>
+			&imageviewer;
 		</section>
 		
 		<section><title>Clipboard</title>
+			&copyandpaste;
 		</section>
 		
 		<section><title>Lists and combos</title>
 		</section>
 		
 		<section><title>Scrolling</title>
+			&scrolling;
 		</section>
 		
 		<section><title>Tree view control</title>
@@ -121,6 +148,7 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Drag and drop</title>
+			&draganddrop;
 		</section>
 		
 		<section><title>Labels</title>
@@ -143,6 +171,12 @@ NB: This software will not save the world.
 		
 		<section><title>Slider</title>
 		</section>
+		
+		<section><title>Application and Window icons</title>
+			&applicationicons;
+		</section>
+		
+		
 	</section>
 	
 	<section><title>NetworkKit</title>	
@@ -163,6 +197,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/09/27 23:04:57  ddiego
+added tutorial sections to documentation
+
 Revision 1.1.2.1  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile

@@ -32,7 +32,7 @@ NB: This software will not save the world.
  <!--
  this uses a local path - may need to be modified for others
  -->
-	<xsl:import href="d:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
+	<xsl:import href="d:/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
@@ -429,6 +429,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.3  2003/09/27 23:04:57  ddiego
+added tutorial sections to documentation
+
 Revision 1.5.2.2  2003/09/24 19:41:18  ddiego
 switched the sgml files over to xml file extensions
 made a slight adjustment to the docbook makefile
