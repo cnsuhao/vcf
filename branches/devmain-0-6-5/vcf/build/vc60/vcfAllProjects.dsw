@@ -291,6 +291,9 @@ Package=<4>
     Project_Dep_Name MVCBasics
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name OpenGLShapes
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Processes
     End Project Dependency
     Begin Project Dependency
@@ -698,6 +701,18 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name ApplicationKitDLL
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "OpenGLShapes"="..\..\examples\OpenGLShapes\OpenGLShapes.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################

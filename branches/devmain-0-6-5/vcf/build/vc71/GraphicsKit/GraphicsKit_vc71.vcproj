@@ -155,6 +155,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Contextpeer.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\DrawUIState.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Ellipse.h">
 			</File>
 			<File
