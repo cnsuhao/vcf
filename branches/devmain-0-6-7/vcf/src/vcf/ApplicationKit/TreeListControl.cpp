@@ -599,7 +599,6 @@ void TreeListControl::paint( GraphicsContext * context )
 
 	std::vector<TreeItem*> visibleItems;
 
-
 	populateVisiblityList( visibleItems );
 
 	std::vector<TreeItem*>::iterator it = visibleItems.begin();
@@ -607,6 +606,7 @@ void TreeListControl::paint( GraphicsContext * context )
 	itemRect.left_ = borderRect.left_;
 	itemRect.right_ = borderRect.right_;
 	Rect tmp;
+	Rect intersection;
 	while ( it != visibleItems.end() ) {
 		TreeItem* item = *it;
 
@@ -614,10 +614,15 @@ void TreeListControl::paint( GraphicsContext * context )
 		itemRect.bottom_ = itemRect.top_ + getDefaultItemHeight();
 		tmp = itemRect;
 
-		paintItem( item, context, &itemRect );
+		// *MASSIVE* speedup for large trees by only drawing items that are visible on screen!! -aroman
+		intersection = clipRect.makeIntersection(&itemRect);
+		if (intersection.getWidth() > 0 && intersection.getHeight() > 0)
+		{
+			paintItem( item, context, &itemRect );
 
-		if ( item->canPaint() ) {
-			item->paint( context, &tmp );
+			if ( item->canPaint() ) {
+				item->paint( context, &tmp );
+			}
 		}
 
 		prevTop += (itemRect.bottom_ - tmp.top_);
@@ -1539,6 +1544,9 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/01/21 13:45:16  augusto_roman
+*Increased TreeListControl display speed for large trees by not trying to draw items that are off the screen. - aroman
+*
 *Revision 1.3.2.2  2005/01/19 01:36:46  augusto_roman
 *Fixed drawing of checked state in TreeListControl [ left out of last commit ]
 *
