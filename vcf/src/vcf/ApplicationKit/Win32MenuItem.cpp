@@ -222,18 +222,26 @@ bool Win32MenuItem::isChecked()
 	if ( true == menuItem_->isSeparator() ){
 		return false;
 	}
+	/**
+	JC
+	Fix for bug
+	[ 1119206 ] Win32MenuItem::isChecked returns "false". Allways!!!
+	*/
+	MenuItem* parent = getParent();
+	if ( NULL != parent ){
+		MenuItemPeer* parentPeer = parent->getPeer();
+		HMENU menuHandle = (HMENU)parentPeer->getMenuID();
+		if ( NULL != menuHandle ){
+			MENUITEMINFO info = {0};
+			info.cbSize = sizeof(MENUITEMINFO);
+			info.fMask = MIIM_STATE;
+			if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){
 
-	int index = menuItem_->getIndex();
-
-	MENUITEMINFO info = {0};
-	info.cbSize = sizeof(MENUITEMINFO);
-	info.fMask = MIIM_STATE;
-	HMENU menuHandle = (HMENU)getMenuID();
-	if ( NULL != menuHandle ){
-		if ( GetMenuItemInfo( menuHandle, itemId_, FALSE, &info ) ){
-			return ((info.fState & MFS_CHECKED) != 0) ? true : false;
+				return ((info.fState & MFS_CHECKED) != 0) ? true : false;
+			}
 		}
 	}
+
 	return false;
 }
 
@@ -812,6 +820,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/10 19:56:15  ddiego
+*fixed bug 1119206 in isChecked() impl for Win32.
+*
 *Revision 1.2.4.1  2004/12/19 04:05:00  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
