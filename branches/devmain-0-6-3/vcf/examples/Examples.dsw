@@ -57,7 +57,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "AlignmentGtk"="..\src\core\Alignment\Alignment-gtk.dsp" - Package Owner=<4>
+Project: "AlignmentGtk"="..\include\src\core\Alignment\Alignment-gtk.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -140,6 +140,21 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name GraphicsKitGtk
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Conditions"=.\Conditions\Conditions.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name FoundationKitDLL
     End Project Dependency
 }}}
 
@@ -231,7 +246,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Fields"=..\..\..\junk\Fields\Fields.dsp - Package Owner=<4>
+Project: "Fields"=..\..\junk\Fields\Fields.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -418,7 +433,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorldGtk"="..\src\tests\HelloWorld\HelloWorld-gtk.dsp" - Package Owner=<4>
+Project: "HelloWorldGtk"="..\include\src\tests\HelloWorld\HelloWorld-gtk.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -478,7 +493,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Localization"=..\src\core\Localization\Localization.dsp - Package Owner=<4>
+Project: "Localization"=..\include\src\core\Localization\Localization.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -490,7 +505,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "OSNewsArticle"=..\..\..\junk\OSNewsArticle\OSNewsArticle.dsp - Package Owner=<4>
+Project: "OSNewsArticle"=..\..\junk\OSNewsArticle\OSNewsArticle.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -675,6 +690,10 @@ Project: "Tables"=.\Tables\Tables.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
+    begin source code control
+    Tables
+    .\tables
+    end source code control
 }}}
 
 Package=<4>
@@ -772,7 +791,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "VFFTest"=..\src\core\VFFTest\VFFTest.dsp - Package Owner=<4>
+Project: "VFFTest"=..\include\src\core\VFFTest\VFFTest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -784,7 +803,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "VisualFormFiles"=..\src\core\VisualFormFiles\VisualFormFiles.dsp - Package Owner=<4>
+Project: "VisualFormFiles"=..\include\src\core\VisualFormFiles\VisualFormFiles.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -815,7 +834,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "libAGGGtk"="..\src\build\gtk\GraphicsKit\libAGG-gtk.dsp" - Package Owner=<4>
+Project: "libAGGGtk"="..\include\src\build\gtk\GraphicsKit\libAGG-gtk.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

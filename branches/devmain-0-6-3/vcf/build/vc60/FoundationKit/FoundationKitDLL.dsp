@@ -146,6 +146,14 @@ SOURCE=..\..\..\src\utils\StringsMessageLoader.cpp
 # PROP Default_Filter "*.h;*.cpp"
 # Begin Source File
 
+SOURCE=..\..\..\src\implementerkit\Win32Condition.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Condition.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32FilePeer.cpp
 # End Source File
 # Begin Source File
@@ -663,6 +671,10 @@ SOURCE=..\..\..\include\utils\VCFString.h
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\VCFulong64.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Waitable.h
 # End Source File
 # Begin Source File
 
