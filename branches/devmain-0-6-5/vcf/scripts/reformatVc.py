@@ -1459,6 +1459,14 @@ class DspApp:
         self.librariesChangePostfixDictDict = {}
         self.librariesChangePostfixPrintString = ''
 
+        self.projectsNoPostfixList = []
+        self.projectsNoPostfixMainNameLwrList = []
+        self.projectsNoPostfixMainNameLwrDict = {}
+
+        self.projectsNoPostfixOutputList = []
+        self.projectsNoPostfixOutputMainNameLwrList = []
+        self.projectsNoPostfixOutputMainNameLwrDict = {}
+
         self.projectsNoPostfixIfUnderCompilerDirList = []
         self.projectsNoPostfixIfUnderCompilerDirMainNameLwrList = []
         self.projectsNoPostfixIfUnderCompilerDirMainNameLwrDict = {}
@@ -1695,19 +1703,29 @@ class DspApp:
         print ' --keepDspCopy                    = ' + str(self.options.keepDspCopy                     )
 
         print ' --allowedExtensions              = \'' + str(self.options.allowedExtensions             ) + '\''
+        
         print ' --allowDirs      = ' + str(self.options.allowDirs)
         if ( self.options.allowDirs ):
             print '   ' + str( self.allowedDirsList )
+            
         print ' --excludeSubdirs = ' + str( self.options.excludeSubdirs )
         if ( self.options.excludeSubdirs ):
             print '   ' + str( self.excludedSubdirsList )
+            
         print '   ' + 'librariesChangePostfix:'
         if ( self.librariesChangePostfixPrintString ):
             # print '   ' + '  ' + str( self.librariesChangePostfixDictList ) # this does not respect the order
             print '   ' + '  ' + self.librariesChangePostfixPrintString
+            
+        print '   ' + 'projectsNoPostfixList:'
+        print '   ' + '  ' + str( self.projectsNoPostfixList )
+        
+        print '   ' + 'projectsNoPostfixOutputList:'
+        print '   ' + '  ' + str( self.projectsNoPostfixOutputList )
+        
         print '   ' + 'projectsNoPostfixIfUnderCompilerDirList:'
-        if ( self.projectsNoPostfixIfUnderCompilerDirList ):
-            print '   ' + '  ' + str( self.projectsNoPostfixIfUnderCompilerDirList )
+        print '   ' + '  ' + str( self.projectsNoPostfixIfUnderCompilerDirList )
+        
         print ''
 
         # giving time to see the output
@@ -1808,6 +1826,8 @@ class DspApp:
                     section_createWorkspaces                    = self.configGetStr ( comm_sect, 'section_createWorkspaces'       )
                     section_duplicateWorkspaces                 = self.configGetStr ( comm_sect, 'section_duplicateWorkspaces'    )
                     section_librariesChangePostfix              = self.configGetStr ( comm_sect, 'section_librariesChangePostfix' )
+                    section_projectsNoPostfix                   = self.configGetStr ( comm_sect, 'section_projectsNoPostfix'      )
+                    section_projectsNoPostfixOutput             = self.configGetStr ( comm_sect, 'section_projectsNoPostfixOutput')
                     section_projectsNoPostfixIfUnderCompilerDir = self.configGetStr ( comm_sect, 'section_projectsNoPostfixIfUnderCompilerDir' )
 
                     self.options.filename                       = self.getOptionValue( [ 'filename', 'f' ]                   , comm_sect, 'filename'                       , "string"    )
@@ -1932,9 +1952,21 @@ class DspApp:
             else:
                 raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_librariesChangePostfix, self.options.config ) )
 
+        if ( section_projectsNoPostfix ):
+            if ( self.config.has_section( section_projectsNoPostfix ) ):
+                self.makeProjectsNoPostfixList( section_projectsNoPostfix )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_projectsNoPostfix, self.options.config ) )
+
+        if ( section_projectsNoPostfixOutput ):
+            if ( self.config.has_section( section_projectsNoPostfixOutput ) ):
+                self.makeProjectsNoPostfixOutputList( section_projectsNoPostfixOutput )
+            else:
+                raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_projectsNoPostfixOutput, self.options.config ) )
+
         if ( section_projectsNoPostfixIfUnderCompilerDir ):
             if ( self.config.has_section( section_projectsNoPostfixIfUnderCompilerDir ) ):
-                self.makeProjectsNoPostfixIfUnderCompileDirList( section_projectsNoPostfixIfUnderCompilerDir )
+                self.makeProjectsNoPostfixIfUnderCompilerDirList( section_projectsNoPostfixIfUnderCompilerDir )
             else:
                 raise Exception( 'The section \'%s\' in the config file \'%s\' does not exists !' % ( section_projectsNoPostfixIfUnderCompilerDir, self.options.config ) )
 
@@ -2071,7 +2103,91 @@ class DspApp:
 
         return
 
-    def makeProjectsNoPostfixIfUnderCompileDirList( self, section ):
+    def makeProjectsNoPostfixList( self, section ):
+        # splits entries like [ c# = proj: lib1, lib2, libn ]
+        pairs = self.config.items( section )
+
+        # shorter names
+        libList = self.projectsNoPostfixList
+        lmLwrList = self.projectsNoPostfixMainNameLwrList
+        libDict = self.projectsNoPostfixMainNameLwrDict
+
+        # resettting the lists
+        libList = []
+        lmLwrList = []
+        libDict = {}
+
+        for pair in pairs:
+            ( name, item ) = pair
+
+            # project1, "project12", project1n
+            list = item
+            list = StringUtils.stripComment( list )
+            list = StringUtils.trimQuotes( list )
+            list = list.strip()
+
+            ls = list.split( ',' )
+            for lib in ls:
+                lib = lib.strip()
+
+                ( ( lp, lf ), ( lb, le ), ( li, lm, lmLwr, cpl ), ( ls, ld ) ) = DspFile.splitPostfixComponents( lib, '' )
+                if ( not lm ):
+                    continue
+
+                libList.append( lib )
+                lmLwr = lm.lower()
+                lmLwrList.append( lmLwr )
+                libDict[ lmLwr ] = ( lm, le, lib )
+
+            self.projectsNoPostfixList = libList
+            self.projectsNoPostfixMainNameLwrList = lmLwrList
+            self.projectsNoPostfixMainNameLwrDict = libDict
+
+        return
+
+    def makeProjectsNoPostfixOutputList( self, section ):
+        # splits entries like [ c# = proj: lib1, lib2, libn ]
+        pairs = self.config.items( section )
+
+        # shorter names
+        libList = self.projectsNoPostfixOutputList
+        lmLwrList = self.projectsNoPostfixOutputMainNameLwrList
+        libDict = self.projectsNoPostfixOutputMainNameLwrDict
+
+        # resettting the lists
+        libList = []
+        lmLwrList = []
+        libDict = {}
+
+        for pair in pairs:
+            ( name, item ) = pair
+
+            # project1, "project12", project1n
+            list = item
+            list = StringUtils.stripComment( list )
+            list = StringUtils.trimQuotes( list )
+            list = list.strip()
+
+            ls = list.split( ',' )
+            for lib in ls:
+                lib = lib.strip()
+
+                ( ( lp, lf ), ( lb, le ), ( li, lm, lmLwr, cpl ), ( ls, ld ) ) = DspFile.splitPostfixComponents( lib, '' )
+                if ( not lm ):
+                    continue
+
+                libList.append( lib )
+                lmLwr = lm.lower()
+                lmLwrList.append( lmLwr )
+                libDict[ lmLwr ] = ( lm, le, lib )
+
+            self.projectsNoPostfixOutputList = libList
+            self.projectsNoPostfixOutputMainNameLwrList = lmLwrList
+            self.projectsNoPostfixOutputMainNameLwrDict = libDict
+
+        return
+
+    def makeProjectsNoPostfixIfUnderCompilerDirList( self, section ):
         # splits entries like [ c# = proj: lib1, lib2, libn ]
         pairs = self.config.items( section )
 
@@ -2091,6 +2207,7 @@ class DspApp:
             # project1, "project12", project1n
             list = item
             list = StringUtils.stripComment( list )
+            list = StringUtils.trimQuotes( list )
             list = list.strip()
 
             ls = list.split( ',' )
@@ -5614,8 +5731,8 @@ class DspFile( GenericProjectFile ):
         fn = fm + postfix + fe
 
         putPostfix = True
-        if ( app.projectsNoPostfixIfUnderCompilerDirList ):
-            if ( self.isInProjectsNoPostfixIfUnderCompileDirList() ):
+        if ( app.projectsNoPostfixList or app.projectsNoPostfixOutputList or app.projectsNoPostfixIfUnderCompilerDirList ):
+            if ( self.isInProjectsNoPostfixList() or self.isInProjectsNoPostfixOutputList() or self.isInProjectsNoPostfixIfUnderCompilerDirList() ):
                 putPostfix = False
         if ( putPostfix ):
             fn2 = fm + postfix + fe
@@ -5641,9 +5758,9 @@ class DspFile( GenericProjectFile ):
             if ( 0 < app.options.warning ):
                 if ( 0 < self.n and self.n < len( self.lines ) ):
                     line = self.lines[ self.n - 1 ]
-                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn, config_name, self.filename, self.n, line.rstrip() )
+                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn2, config_name, self.filename, self.n, line.rstrip() )
                 else:
-                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn, config_name, self.filename )
+                    msg = 'WARNING: the entry has a postfix [ %s ] different than the expected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn2, config_name, self.filename )
                 print msg
 
         return pfn2
@@ -5757,7 +5874,31 @@ class DspFile( GenericProjectFile ):
 
         return list
 
-    def isInProjectsNoPostfixIfUnderCompileDirList( self ):
+    def isInProjectsNoPostfixList( self ):
+        isInList = False
+
+        if ( app.projectsNoPostfixList ):
+
+            ( ( sp, sf ), ( sb, se ), ( si, sm, smLwr, cpl ), ( ss, sd ) ) = DspFile.splitPostfixComponents( self.filename, self.compiler )
+            if ( sm ):
+                if ( app.projectsNoPostfixMainNameLwrDict.has_key( smLwr ) ):
+                    isInList = True
+
+        return isInList
+
+    def isInProjectsNoPostfixOutputList( self ):
+        isInList = False
+
+        if ( app.projectsNoPostfixOutputList ):
+
+            ( ( sp, sf ), ( sb, se ), ( si, sm, smLwr, cpl ), ( ss, sd ) ) = DspFile.splitPostfixComponents( self.filename, self.compiler )
+            if ( sm ):
+                if ( app.projectsNoPostfixOutputMainNameLwrDict.has_key( smLwr ) ):
+                    isInList = True
+
+        return isInList
+
+    def isInProjectsNoPostfixIfUnderCompilerDirList( self ):
         isInList = False
 
         if ( app.projectsNoPostfixIfUnderCompilerDirList ):
@@ -6372,8 +6513,8 @@ class DspFile( GenericProjectFile ):
                     fn = fn[:ipf]
 
                 putPostfix = True
-                if ( app.projectsNoPostfixIfUnderCompilerDirList ):
-                    if ( self.isInProjectsNoPostfixIfUnderCompileDirList() ):
+                if ( app.projectsNoPostfixList or app.projectsNoPostfixOutputList or app.projectsNoPostfixIfUnderCompilerDirList ):
+                    if ( self.isInProjectsNoPostfixList() or self.isInProjectsNoPostfixOutputList() or self.isInProjectsNoPostfixIfUnderCompilerDirList() ):
                         putPostfix = False
                 if ( putPostfix ):
                     fn += self.getPostFix()
