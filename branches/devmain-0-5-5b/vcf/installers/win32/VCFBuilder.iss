@@ -10,7 +10,7 @@ AppSupportURL=http://vcf.sourceforge.net
 AppUpdatesURL=http://vcf.sourceforge.net
 DefaultDirName={pf}\VCF Builder
 DefaultGroupName=VCF Builder
-OutputDir=E:\code\vcfdev\dev\vcf\installers\win32
+OutputDir=d:\code\vcfdev\dev\vcf\installers\win32
 OutputBaseFilename=VCFBuilder1.0.alpha
 ; uncomment the following line if you want your installation to run on NT 3.51 too.
 ; MinVersion=4,3.51
@@ -54,11 +54,8 @@ Source: ..\..\VCFBuilder2\Bin\ObjectRepository\basic_ui_proj.bmp; DestDir: {app}
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\console.vcp; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\CPPHeader.bmp; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\cppheader.file; DestDir: {app}\ObjectRepository; Components: ObjectRepository
-Source: ..\..\VCFBuilder2\Bin\ObjectRepository\CPPHeader.png; DestDir: {app}\ObjectRepository; Components: ObjectRepository
-Source: ..\..\VCFBuilder2\Bin\ObjectRepository\CPPHeader.png.psd; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\CPPImpl.bmp; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\cppimpl.file; DestDir: {app}\ObjectRepository; Components: ObjectRepository
-Source: ..\..\VCFBuilder2\Bin\ObjectRepository\CPPImpl.png; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\Form1.cpp; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\Form1.h; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\Form1.vff; DestDir: {app}\ObjectRepository; Components: ObjectRepository
@@ -68,6 +65,11 @@ Source: ..\..\VCFBuilder2\Bin\ObjectRepository\ObjectRepository.vcfdir; DestDir:
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\project1.vcp; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\simple_console_proj.bmp; DestDir: {app}\ObjectRepository; Components: ObjectRepository
 Source: ..\..\VCFBuilder2\Bin\ObjectRepository\text.file; DestDir: {app}\ObjectRepository; Components: ObjectRepository
+Source: ..\..\VCFBuilder2\Bin\ObjectRepository\FormResources.rc; DestDir: {app}\ObjectRepository; Components: ObjectRepository
+Source: ..\..\VCFBuilder2\Bin\help\features.html; DestDir: {app}\help; Components: Help
+Source: ..\..\VCFBuilder2\Bin\help\getting_help.html; DestDir: {app}\help; Components: Help
+Source: ..\..\VCFBuilder2\Bin\help\intro.html; DestDir: {app}\help; Components: Help
+Source: ..\..\VCFBuilder2\Bin\help\tutorial1.html; DestDir: {app}\help; Components: Help
 
 [Icons]
 Name: {group}\VCF Builder; Filename: {app}\VCFBuilder2_vc6.exe; IconIndex: 0
