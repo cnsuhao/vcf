@@ -47,87 +47,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name Dialogs
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Interfaces
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Scribble
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Tabs
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Threads
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Trees
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Drawing
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ErrorLogging
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Layout
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ListControls
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Menus
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Persistence
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Resources
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name SplashTest
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name TextStuff
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name UndoRedo
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Win32API
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name CopyPaste
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name DragNDrop
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name EventHandlers
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name HelloWorld
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name HelloWorld2
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name HelloWorld3
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Toolbars
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name FoundationKitDLL
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name GraphicsKitDLL
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -179,9 +98,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name FoundationKitDLL
-    End Project Dependency
     Begin Project Dependency
     Project_Dep_Name GraphicsKitDLL
     End Project Dependency
@@ -309,6 +225,144 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Examples"="..\..\examples\Examples\Examples.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Actions
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name AdvancedAlignment
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Alignment
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Anchors
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ApplicationIcons
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Conditions
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name CopyAndPaste
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DateTimeUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DatesAndTime
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Dictionaries
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DragAndDrop
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name EventBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name FilesAndDirectories
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name GraphicsAndMouseMoves
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name GraphicsBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name HeavyAndLight
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name HelloWorld
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name HelloWorld2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name HelloWorld3
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ImageBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ImageViewer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Labels
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Localization
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Processes
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ProgressBars
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name QTPlayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Reflection
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Scrolling
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name SharedLibraries
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name SketchIt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Sliders
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Splitters
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Strings
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name StrokesAndFills
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Tables
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name TextLayout
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ThreadBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ThreadsInGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Toolbars
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name TreeListControls
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name WorkingWithEnumerators
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "FilesAndDirectories"="..\..\examples\FilesAndDirectories\FilesAndDirectories.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -390,7 +444,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name libAGG
+    Project_Dep_Name libAgg
     End Project Dependency
 }}}
 
@@ -405,7 +459,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name FoundationKitDLL
+    Project_Dep_Name libAgg
     End Project Dependency
 }}}
 
@@ -443,9 +497,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKit
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -590,6 +641,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -602,6 +656,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -674,6 +731,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name NetworkKitDLL
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -686,6 +746,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name NetworkKit
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -830,9 +893,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -857,6 +917,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name RemoteObjectKit
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -869,6 +932,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name RemoteObjectKitStatic
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -905,6 +971,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name FoundationKit
+    End Project Dependency
 }}}
 
 ###############################################################################
