@@ -103,6 +103,49 @@ void AbstractScrollable::onControlResized( ControlEvent* event )
 	scrollPeer_->recalcScrollPositions( this );
 }
 
+void AbstractScrollable::updateVirtualViewSize( const double& maxWidth, const double& maxHeight ) {	
+	double controlWidth  = scrollableControl_->getWidth();//getClientBounds( true ).getWidth();
+	double controlHeight = scrollableControl_->getHeight();//getClientBounds( true ).getHeight();	
+
+	virtualViewWidth_  = maxWidth;
+	virtualViewHeight_ = maxHeight;
+	
+	if ( keepScrollbarsVisible_ ) {
+		if ( maxHeight > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
+			virtualViewHeight_ = maxHeight + scrollPeer_->getHorizontalScrollbarHeight();
+		}
+		if ( maxWidth > ( controlWidth - scrollPeer_->getVerticalScrollbarWidth() ) ) {
+			virtualViewWidth_ = maxWidth + scrollPeer_->getVerticalScrollbarWidth();
+		}		
+	}
+	else {
+		if ( ( maxHeight > controlHeight ) || ( maxWidth > controlWidth ) ) {			
+			if ( ( maxHeight > controlHeight ) && ( maxWidth > controlWidth ) ) {
+				if ( hasVertScrollbar_ ) virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
+				if ( hasHorzScrollbar_ ) virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
+			}
+			else if ( maxHeight > controlHeight ) {
+				if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
+					if ( maxWidth > (controlWidth - scrollPeer_->getVerticalScrollbarWidth()) ) {
+						virtualViewWidth_  += (controlWidth - maxWidth);							
+						virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();//like above line not needed in anticipation for fixed vert.scroll distance = itemHeight
+					}
+				}					
+			}
+			else {//maxWidth_ > controlWidth
+				if ( hasVertScrollbar_ && hasHorzScrollbar_ ){						
+					if ( maxHeight > ( controlHeight - scrollPeer_->getHorizontalScrollbarHeight() ) ) {
+						virtualViewHeight_ += scrollPeer_->getHorizontalScrollbarHeight();
+						virtualViewWidth_  += scrollPeer_->getVerticalScrollbarWidth();
+					}
+				}					
+			}
+		}		
+	}
+	
+	recalcScrollPositions();
+}
+
 void AbstractScrollable::recalcScrollPositions()
 {
 	if ( NULL != this->scrollableControl_ ) {
@@ -178,6 +221,9 @@ bool AbstractScrollable::getKeepScrollbarsVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/10 22:31:18  dougtinkham
+*added updateVirtualViewSize member fct
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -82,6 +82,8 @@ public:
 		recalcScrollPositions();
 	}
 
+	virtual void updateVirtualViewSize( const double& maxWidth, const double& maxHeight );
+
 	virtual void recalcScrollPositions();
 
 	virtual Control* getScrollableControl() {
@@ -189,6 +191,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/10 22:30:15  dougtinkham
+*added updateVirtualViewSize member fct
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
