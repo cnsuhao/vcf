@@ -62,7 +62,8 @@ void LinuxSystemPeer::sleep( const uint32& milliseconds )
 
 bool LinuxSystemPeer::doesFileExist( const String& fileName )
 {
-	return false;
+  // should work after a post on dos/freebsd/linux (?) (added by Marc reomve this if it's considered stable ;)
+  return (0==access("filename", F_OK));
 }
 
 String LinuxSystemPeer::getCurrentWorkingDirectory()
@@ -92,7 +93,7 @@ void LinuxSystemPeer::setCurrentWorkingDirectory( const String& currentDirectory
 
 void LinuxSystemPeer::setDateToSystemTime( DateTime* date )
 {
-
+  // throw an exception ? (Not implemented yet?)
 }
 
 void LinuxSystemPeer::setDateToLocalTime( DateTime* date )
@@ -119,10 +120,31 @@ DateTime LinuxSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	return result;
 }
 
+String LinuxSystemPeer::getOSName()
+{
+        /* is a really hard question because
+	 * there is one Win Win2000 WinXP..
+	 * OSX but there are many unix/linux versions around
+	 * should it be a function for a quickcheck Am I on win/osx/linux/bsd/?
+	 * or should this answer go into detail: e.g. debian woody version
+	 */
+	return "Linux";
+}
 
+String LinuxSystemPeer::getOSVersion(){
+  return "not implemented yet";
+}
+
+ProgramInfo* LinuxSystemPeer::getProgramInfoFromFileName( const String& fileName )
+{
+  return (ProgramInfo*)0;
+}
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/04/06 07:32:57  marcweber
+**** empty log message ***
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
