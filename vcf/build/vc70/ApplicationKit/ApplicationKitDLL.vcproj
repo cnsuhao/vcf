@@ -147,6 +147,9 @@
 				RelativePath="..\..\..\include\core\AbstractComponentEditor.h">
 			</File>
 			<File
+				RelativePath="..\..\..\include\core\AbstractContainer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\include\core\AbstractPropertyEditor.h">
 			</File>
 			<File
@@ -238,6 +241,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\Container.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\Containers.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\core\Control.h">
@@ -555,6 +561,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\core\ComponentInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\core\Containers.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\core\Control.cpp">
