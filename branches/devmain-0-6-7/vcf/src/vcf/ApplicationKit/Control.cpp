@@ -345,6 +345,12 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 		peer_->setBounds( bounds_ );
 	}
 
+	if ( useRenderBuffer_ ) {
+		if ( NULL == context_->getDrawingArea() ) {
+			context_->setDrawingArea( *bounds_ );
+		}
+	}
+
 	if ( true == anchorDeltasNeedUpdating ) {
 		updateAnchorDeltas();
 	}
@@ -474,8 +480,7 @@ void Control::handleEvent( Event* event )
 
 				if ( useRenderBuffer_ ) {
 					Rect bounds = getClientBounds(false);
-
-					context_->setDrawingArea( bounds );
+					context_->setDrawingArea( bounds );						
 				}
 			}
 			break;
@@ -1515,6 +1520,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.12  2005/03/29 05:00:16  ddiego
+*fixed an issue in drawing borders when the controls render buffer is turned on.
+*
 *Revision 1.4.2.11  2005/03/29 04:25:37  ddiego
 *fixed an issue in drawing borders when the controls render buffer is turned on.
 *
