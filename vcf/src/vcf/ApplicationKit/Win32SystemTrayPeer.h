@@ -43,6 +43,8 @@ namespace VCF {
 		bool hidden_;
 		bool removed_;
 		void* notifyIconData_;
+		PopupMenu* popupMenu_;
+		static std::map<HWND,Win32SystemTrayPeer*> sysTrayWndMap;
 
 		NOTIFYICONDATAW* notifyIconDataW() {
 			return (NOTIFYICONDATAW*)notifyIconData_;
@@ -51,6 +53,8 @@ namespace VCF {
 		NOTIFYICONDATAA* notifyIconDataA() {
 			return (NOTIFYICONDATAA*)notifyIconData_;
 		}
+
+		LRESULT handleTrayMessage( WPARAM wParam, LPARAM lParam );
 	};
 }
 
