@@ -14,7 +14,14 @@ namespace VCF {
 
 class OSXControl : public Object, public ControlPeer {
 public:
-
+	enum MouseState{
+		msNoState=0,
+		msDown,
+		msUp,
+		msEntered,
+		msExited
+	};
+	
 	OSXControl( Control* control );
 
 	virtual ~OSXControl();
@@ -82,7 +89,8 @@ protected:
 	TView* hiView_;
 	Control* control_;
 	EventHandlerRef handlerRef_;
-
+	MouseState mouseState_;
+	
 	OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 
 	static TView* currentCreatedView;
@@ -98,6 +106,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/06/07 03:07:07  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.1.2.6  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

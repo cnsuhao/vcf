@@ -338,6 +338,24 @@ public:
 		}
 		ctx->strokePath();
 
+		tickLength = 2.5;
+
+		for ( int j=0;j<60;j++ ) {
+			 double theta = (j/60.0) * (2*M_PI);
+
+			 double s = sin( theta );
+			 double c = cos( theta );
+
+			 ctx->moveTo( center.x_ + c*(radius-tickLength),
+							center.y_ - s*(radius-tickLength) );
+			 ctx->lineTo( center.x_ + c*radius,
+							center.y_ - s*radius );
+		}
+		ctx->setColor( Color::getColor("gray128") );
+		ctx->strokePath();
+		
+		ctx->setColor( Color::getColor("black") );
+
 		double hourLength = radius * 0.40;
 		double minLength = radius * 0.35;
 		double secLength = radius * 0.05;
@@ -467,6 +485,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/06/07 03:07:06  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.2.2.9  2004/06/06 07:04:42  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

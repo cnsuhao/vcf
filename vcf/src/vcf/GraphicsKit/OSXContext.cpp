@@ -341,35 +341,39 @@ void OSXContext::setLayoutWidth( ATSUTextLayout layout, double width )
 VCF::Size OSXContext::getLayoutDimensions( const String& text )
 {
 	int length = text.length();
-	//store off old values
-	void* oldTextPtr = NULL;
-	Boolean storedAsHandle;
-	UniCharArrayOffset offset;
-	UniCharCount len;
-	UniCharCount totalLen;
 
-	ATSUGetTextLocation( textLayout_, &oldTextPtr, &storedAsHandle, &offset, &len, &totalLen );
-
-	ATSUSetTextPointerLocation( textLayout_, text.c_str(),
-                                kATSUFromTextBeginning,
-								kATSUToTextEnd,
-								length );
-
-	setLayoutWidth( textLayout_, 0 );
-
+	if ( NULL == textLayout_ ) {
+		return Size();
+	}
+	
+	ATSUTextLayout tmpTextLayout = NULL;
+	OSStatus err = ATSUCreateAndCopyTextLayout( textLayout_, &tmpTextLayout );
+	if ( err != noErr ) {
+		String msg = StringUtils::format( "ATSUCreateAndCopyTextLayout failed, err: %d, textLayout_: %p, tmpTextLayout: %p", err, textLayout_, tmpTextLayout );
+		throw RuntimeException( MAKE_ERROR_MSG_2(msg) );
+	}	
+	
+	ATSUSetTextPointerLocation( tmpTextLayout, text.c_str(), 
+                                kATSUFromTextBeginning, 
+								kATSUToTextEnd, 
+								length );												
+	
+	setLayoutWidth( tmpTextLayout, 0 );
+		
 	Font* ctxFont = context_->getCurrentFont();
 	FontPeer* fontImpl = ctxFont->getFontPeer();
 	ATSUStyle fontStyle = (ATSUStyle)fontImpl->getFontHandleID();
-
-
-	ATSUSetRunStyle( textLayout_, fontStyle, 0, length );
-
-
+	
+											
+	ATSUSetRunStyle( tmpTextLayout, fontStyle, 0, length );
+	
+	
 	ItemCount actualBoundsReturned  = 1;
 	ATSTrapezoid bounds;
-	ATSUGetGlyphBounds( textLayout_, 0, 0, 0, length, 0, 1, &bounds, &actualBoundsReturned );
-
-
+																
+	ATSUGetGlyphBounds( tmpTextLayout, 0, 0, 0, length, kATSUseDeviceOrigins, 1, &bounds, &actualBoundsReturned );
+					
+	
 	VCF::Size result;
 	FixedPointNumber w = (Fixed)abs(bounds.upperLeft.x - bounds.upperRight.x);
 
@@ -377,12 +381,9 @@ VCF::Size OSXContext::getLayoutDimensions( const String& text )
 
 	FixedPointNumber h = (Fixed)(-bounds.upperLeft.y) + bounds.lowerLeft.y;
 	result.height_ = h.asDouble();
-
-	ATSUSetTextPointerLocation( textLayout_, (const UniChar*)oldTextPtr,
-                                offset,
-								len,
-								totalLen );
-
+	
+	ATSUDisposeTextLayout( tmpTextLayout );
+	
 	return  result;
 }
 
@@ -1326,6 +1327,9 @@ void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2004/06/07 03:07:07  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.1.2.9  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

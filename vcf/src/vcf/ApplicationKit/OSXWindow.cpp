@@ -519,15 +519,125 @@ void OSXWindow::setIconImage( Image* icon )
 OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef theEvent )
 {
     OSStatus result = eventNotHandledErr;
+    
+	Event* vcfEvent = NULL;
+    
 
     OSXEventMsg msg( theEvent, control_ );
     Event* vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
 
     UInt32 whatHappened = GetEventKind (theEvent);
-    UInt32 attributes = 0;
-
-
-    switch ( GetEventClass( theEvent ) )  {
+    UInt32 attributes = 0;   
+	
+	if ( GetEventClass( theEvent ) !=  kEventClassMouse ) {
+		OSXEventMsg msg( theEvent, control_ );
+		vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+	}
+    
+	                        
+    switch ( GetEventClass( theEvent ) )  {				
+		case kEventClassMouse : {
+			::Point mousePos;
+            GetEventParameter( theEvent, kEventParamMouseLocation, typeQDPoint, NULL,
+                                sizeof (mousePos), NULL, &mousePos);
+			VCF::Point pt( mousePos.h , 
+						   mousePos.v );
+						   					
+			switch( whatHappened ) {
+                case kEventMouseMoved : {
+					result = CallNextEventHandler( nextHandler, theEvent );
+					
+					Control* childControl = getControlForMouseEvent( pt, control_ );
+					if ( NULL != childControl && !childControl->isDestroying() ) {
+						OSXEventMsg msg( theEvent, childControl );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+		
+						//printf( "childControl %s found for mouse move!\n", childControl->getClassName().ansi_c_str() );
+						childControl->handleEvent( vcfEvent );
+					}
+					else if ( !control_->isDestroying() ) {
+						OSXEventMsg msg( theEvent, control_ );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						
+						//printf( "WindowRef found for mouse move!\n" );
+						control_->handleEvent( vcfEvent );
+					}
+				}
+				break;
+				
+				case kEventMouseDragged : {					
+					result = CallNextEventHandler( nextHandler, theEvent );
+					
+					Control* childControl = getControlForMouseEvent( pt, control_ );
+					if ( NULL != childControl && !childControl->isDestroying() ) {
+						OSXEventMsg msg( theEvent, childControl );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						
+						//printf( "childControl %s found for mouse move!\n", childControl->getClassName().ansi_c_str() );
+						childControl->handleEvent( vcfEvent );
+					}
+					else if ( !control_->isDestroying() ) {
+						OSXEventMsg msg( theEvent, control_ );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						
+						//printf( "WindowRef found for mouse move!\n" );
+						control_->handleEvent( vcfEvent );
+					}
+				}
+				break;
+				
+				case kEventMouseDown : {
+					result = CallNextEventHandler( nextHandler, theEvent );
+					
+					Control* childControl = getControlForMouseEvent( pt, control_ );
+					if ( NULL == childControl && !control_->isDestroying() ) {
+						OSXEventMsg msg( theEvent, control_ );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						
+						//printf( "childControl %s found for mouse move!\n", childControl->getClassName().ansi_c_str() );
+						control_->handleEvent( vcfEvent );
+					}
+					else {
+						OSXEventMsg msg( theEvent, childControl );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						childControl->handleEvent( vcfEvent );
+					}
+				}
+				break;
+				
+				case kEventMouseUp : {
+					result = CallNextEventHandler( nextHandler, theEvent );
+					
+					Control* childControl = getControlForMouseEvent( pt, control_ );
+					if ( NULL == childControl && !control_->isDestroying() ) {
+						OSXEventMsg msg( theEvent, control_ );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						
+						//printf( "childControl %s found for mouse move!\n", childControl->getClassName().ansi_c_str() );
+						control_->handleEvent( vcfEvent );
+					}
+					else {
+						OSXEventMsg msg( theEvent, childControl );
+						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
+						childControl->handleEvent( vcfEvent );
+					}
+				}
+				break;
+				
+				default : {
+					result = CallNextEventHandler( nextHandler, theEvent );
+					
+					if ( !control_->isDestroying() ) {
+						if ( NULL != vcfEvent ) {
+							control_->handleEvent( vcfEvent );
+						}
+					}
+				}
+				break;
+			}			
+		}
+		break;
+		
 
         case kEventClassWindow : {
             switch( whatHappened ) {
@@ -751,6 +861,56 @@ void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
 	}
 }
 
+/**
+We use this function to determine the *first* control
+that should get the mouse event - this control is at the top
+of the control hierarchy NOT the bottom. This gets called, because
+apparently some mouse events only get sent to the control's WindowRef
+and not to the HIView/ControlRef instance.
+*/
+Control* OSXWindow::getControlForMouseEvent( VCF::Point& pt, VCF::Control* parent )
+{	
+	Control* result = NULL;
+	Container* container = parent->getContainer();	
+	
+	if ( NULL != container ) {
+		VCF::Rect bounds;
+		
+		Enumerator<Control*>* children = container->getChildren();
+		VCF::Point tmpPt = pt;
+		translateFromScreenCoords( &tmpPt );
+		
+		while ( children->hasMoreElements() ) {
+			Control* child = children->nextElement();
+			
+			if ( !child->isLightWeight() ) {
+				bounds = child->getBounds();
+				parent->translateToScreenCoords( &bounds );
+				
+				control_->translateFromScreenCoords( &bounds );
+				//printf( "parent: %s, testing pt(%0.2f,%0.2f) against %s bounds: %s\n",
+				//			parent->getClassName().ansi_c_str(),
+				//			pt.x_, 
+				//			pt.y_, 
+				//			child->getClassName().ansi_c_str(), 
+				//			bounds.toString().ansi_c_str() );
+							
+				if ( bounds.containsPt( &tmpPt ) ) {
+					result = getControlForMouseEvent( pt, child );
+					if ( NULL == result ) {
+						result = child;
+					}
+				}				 
+			}
+			
+			if ( NULL != result ) {
+				break;
+			}
+		}
+	}
+	return result;
+}
+
 RgnHandle OSXWindow::determineUnobscuredClientRgn()
 {
 	//StringUtils::trace( "determineUnobscuredClientRgn()\n" );
@@ -786,7 +946,7 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 					(int)bounds.bottom_ );
 
 				::Rect r;
-	GetRegionBounds( childRgn, &r );
+				GetRegionBounds( childRgn, &r );
 	//StringUtils::traceWithArgs( "childRgn bounds: left: %d, top: %d, right: %d, bottom: %d\n",
 	//								r.left, r.top, r.right, r.bottom );
 
@@ -806,6 +966,9 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/06/07 03:07:07  ddiego
+*more osx updates dealing with mouse handling
+*
 *Revision 1.1.2.11  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
