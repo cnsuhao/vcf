@@ -70,7 +70,7 @@ where you installed the VCF.
 #	else
 #		pragma comment(lib, "Win32HTMLBrowser_"_LIB_CPLVERNUM".lib")
 #	endif
-#elif USE_WIN32HTMLBROWSER_LIB
+#elif defined USE_WIN32HTMLBROWSER_LIB
 //	using statically linked library
 #	ifdef _DEBUG
 #		pragma comment(lib, "Win32HTMLBrowser_"_LIB_CPLVERNUM"_sd.lib")
@@ -87,6 +87,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/29 03:17:40  marcelloptr
+*minor fixes on import/export library macros
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
