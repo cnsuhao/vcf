@@ -46,21 +46,7 @@ public:
 
 
 	void paint(GraphicsContext *ctx){
-		OpenGLControlContext* glCtx = dynamic_cast<OpenGLControlContext*>(context_);
-		if(NULL!=glCtx){
-			if(initialized==false){
-				glCtx->initGL();
-			}
-
-			glCtx->makeCurrent();
-		}
-		else{
-			Dialog::showMessage("Error initiailizing OpenGL context");
-		}
-
-		if(glCtx==NULL){
-			return;
-		}
+		OpenGLControl::paint(ctx);
 
 		Rect clientBounds = getClientBounds();
 
@@ -136,7 +122,7 @@ public:
 				break;
 		}
 
-		glCtx->swapBuffers();
+		swapBuffers();
 	}
 
 	bool initialized;
