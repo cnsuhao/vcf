@@ -1,6 +1,6 @@
 <ParticleResource >
 	<Type >
-		1
+		2
 		<dummy />
 	</Type>
 	<Alignment >
@@ -52,7 +52,7 @@
 		<dummy />
 	</StartColor>
 	<EndColor >
-		0.00000 0.00000 0.00000 1.00000
+		1.00000 0.00000 0.00000 1.00000
 		<dummy />
 	</EndColor>
 	<TrailingSystem >
