@@ -60,16 +60,16 @@ extSln = '.sln'
 #app.options.unixStyle = False
 g_internal_unixStyle = True  # IMPORTANT: use True otherwise it will not work under cygwin !
 g_uuidVisualStudio = '8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942' # the same everywhere: if this is wrong it will complain for all projects not installed
-g_options_showNamesForUuids = False # this breaks the solution file, but it shows the names !
+g_options_showNamesForUuids = False # Use False. This breaks the solution file, but it shows the names. When put it back to False it fixes the files corrupted when it was set to True!
 g_workspaceHasPrecedenceOverSolution = True # use True so changes in the workspaces will be reflected into the dependency changes in the solutions
 testingParse = False #%%%
 g_printFilterGroupTrees = False
 addEntriesForVc71WhenSynchToVc70 = False # this will alter the configuration information contained in the vcproj. Better False
 addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration information contained in the vcproj. Better False
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
-g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization' ]
+g_debugFileList = [] # [ 'defaultxmldoc_vc70' ] [ 'freeimagelib' ] [ 'msdnintegrator' ] [ 'localization' ]
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
-g_keepFirstDot_standard = 4 # === g_KeepFirstDot_AddOnlyIfNoDots # standard format for paths in projects files has ./ at the beginning
+g_keepFirstDot_standard = 4 # === g_keepFirstDot_StandardVc # standard format for paths in projects files has ./ at the beginning
 g_fix_last_slash_in_path = True # True only when we need to fix it. Then put it back
 
 # vc7 always put '/' at the end of a directory name when it creates one project file,
@@ -105,11 +105,19 @@ g_IsDirForSure_ChkDot = 2  # check automatically if the path is a directory or n
 
 
 #enum AppType
-enumAppTypeNone    = 0
-enumAppTypeGeneric = 1
-enumAppTypeExe     = 2
-enumAppTypeDll     = 3
+# we use same values as VisualStudio 7
+#typeUnknown        0
+#typeApplication    1
+#typeDynamicLibrary 2
+#typeStaticLibrary  4
+#typeGeneric        10
+enumAppTypeNone    = -1
+enumAppTypeUnknown = 0
+enumAppTypeExe     = 1
+enumAppTypeDll     = 2
 enumAppTypeLib     = 4
+enumAppTypeGeneric = 10
+
 
 enum_ADD_NONE        = 0
 enum_ADD_CPP         = 1
@@ -697,6 +705,48 @@ class FileUtils:
         return True
     sameDrive = staticmethod(sameDrive)
 
+    # Split a path in head (everything up to the last '/') and tail (the
+    # rest).  After the trailing '/' is stripped, the invariant
+    # join(head, tail) == p holds.
+    # The resulting head will have no slash even if it is the root (major change to npath's implementation ).
+    def split(p):
+        """Split a pathname.
+    
+        Return tuple (head, tail) where tail is everything after the final slash.
+        Either part may be empty.
+        
+        Used implementation similar to the one of npath so it works in the same way with cygwin/linux !
+        """
+    
+        i = max( p.rfind('/'), p.rfind('\\') )
+        if ( i != -1 ):
+            ( head, tail ) = p[:i+1], p[i+1:]  # now tail has no slashes
+        else:
+            ( head, tail ) = '', p
+            
+        return ( head, tail )
+    split = staticmethod(split)
+    
+    # Split a path in root and extension.
+    # The extension is everything starting at the last dot in the last
+    # pathname component; the root is everything before that.
+    # It is always true that root + ext == p.
+    def splitext(p):
+        """Split the extension from a pathname.
+    
+        Extension is everything from the last dot to the end.
+        Return (root, ext), either part may be empty.
+        
+        Used implementation of npath so it works in the same way with cygwin/linux !
+        """
+    
+        i = p.rfind('.')
+        if ( i <= max( p.rfind('/'), p.rfind('\\') ) ):
+            return p, ''
+        else:
+            return p[:i], p[i:]
+    splitext = staticmethod(splitext)
+
     def isUnixOs():
         # needs _names = sys.builtin_module_names
         isUnix = False
@@ -845,6 +895,7 @@ class FileUtils:
                 path = path + g_dir_final_separator
         elif ( isDirForSure == g_IsDirForSure_ChkDot ):
             if ( not path[-1] in '/\\' ):
+                # use FileUtils.splitext() in the future
                 i = path.rfind( '/' )
                 if ( i == -1 ):
                     i = path.rfind( '\\' )
@@ -968,13 +1019,13 @@ class FileUtils:
             wpath = wpath
             if ( wpath[-1] == '/' ):
                 wpath = wpath[:-1] # because we are going to wpath.rfind( sep )
-                
+
             # eliminates the first './' because './../subdir' vould be seen as a malformed path
             if ( rpath and rpath[0] == '.' ):
                 if ( 1 < len(rpath) and rpath[1] == '/' ):
                     rpath = rpath[2:]
                     rp = rpath.find( '../' )
-                    
+
             while ( rp != -1 ):
                 rp = rpath.find( '../' )
                 if ( rp != 0 ):
@@ -1403,9 +1454,7 @@ class DspApp:
         # this variable is introduced in order to have the table referenceSolution.dictSlnProjectDataByName filled up gradually
         self.getProjectDataForEachProject = False
 
-        self.changedFiles   = 0
-        self.unchangedFiles = 0
-        self.createdFiles   = 0
+        self.resetCounts()
 
         self.numErrors = 0
         self.numWarnings = 0
@@ -1462,6 +1511,8 @@ class DspApp:
         optparser.add_option(   "--excludeSubdirs"                           , type = "int"     , dest = "excludeSubdirs"                , default=False                 , help="exclude the subdirectories containing the strings specified in the excludeSubdirs section" )
         optparser.add_option(   "--allowedExtensions"                        , type = "string"  , dest = "allowedExtensions"             , default=''                    , help="allowedExtensions" )
 
+        optparser.add_option(   "--fixFilenamePostfix"                       , type = "int"     , dest = "fixFilenamePostfix"            , default=False                 , help="checks for the correctness of postfixes ( like \'_vc70_sd\' ) of filename entries and fixes them. Suggested put it back to False when not used ( fix probable bug of vc7 compiler. See note end of script )" )
+
         optparser.add_option(   "--dependenciesWorkspace"                    , type = "string"  , dest = "dependenciesWorkspace"         , default=''                    , help="dependency where to copy all the dependencies from" )
 
 
@@ -1510,6 +1561,12 @@ class DspApp:
         self.logFileClose()
         #print "del dspApp"
         pass
+
+    def resetCounts( self ):
+        self.changedFiles   = 0
+        self.unchangedFiles = 0
+        self.createdFiles   = 0
+        return
 
     def getcwd( self ):
         # this function was introduced as a temporary workaround to a problem with Cygwin:
@@ -1588,12 +1645,14 @@ class DspApp:
         print ' --duplicateWorkspaces            = ' + str(self.options.duplicateWorkspaces             )
         print ' --conformLibraries               = ' + str(self.options.conformLibraries                )
         print ''
-        print ' --deleteSccLines                 = ' + str(self.options.deleteSccLines                     )
+        print ' --deleteSccLines                 = ' + str(self.options.deleteSccLines                  )
         #print ' --deleteLineString               = \'' + str(self.options.deleteLineString              ) + '\''
         print ' --reformatOutputIntermediateDirs = ' + str(self.options.reformatOutputIntermediateDirs  )
         print ' --reformatOptionOutput           = ' + str(self.options.reformatOptionOutput            )
         print ''
-        print ' --dependenciesWorkspace           = ' + str(self.options.dependenciesWorkspace          )
+        print ' --fixFilenamePostfix             = ' + str(self.options.fixFilenamePostfix              )
+        print ''
+        print ' --dependenciesWorkspace          = ' + str(self.options.dependenciesWorkspace           )
 
         print ''
         print ' --reformatOptionOptimize         = ' + str(self.options.reformatOptionOptimize          )
@@ -1725,6 +1784,8 @@ class DspApp:
 
                     self.options.reformatOutputIntermediateDirs = self.getOptionValue( [ 'reformatOutputIntermediateDirs' ]  , comm_sect, 'reformatOutputIntermediateDirs' , "int"       )
                     self.options.reformatOptionOutput           = self.getOptionValue( [ 'reformatOptionOutput' ]            , comm_sect, 'reformatOptionOutput'           , "dbgrlsN"   )
+
+                    self.options.fixFilenamePostfix             = self.getOptionValue( [ 'fixFilenamePostfix'  ]             , comm_sect, 'fixFilenamePostfix'             , "bool"      )
 
                     self.options.dependenciesWorkspace          = self.getOptionValue( [ 'dependenciesWorkspace' ]           , comm_sect, 'dependenciesWorkspace'          , "string"    )
 
@@ -2063,6 +2124,7 @@ class GenericProjectFile( GenericFile ):
         self.warning_done_dirs_different_between_cfgs = False
         self.warning_done_dir_out_different_than_dir_prop = False
         self.warning_done_extension_different_than_expected = False
+        self.warning_unknown_configuration_type = False
         return
 
     def setFilename( self, filename ):
@@ -2366,8 +2428,8 @@ class GenericProjectFile( GenericFile ):
 
         return
 
+    pass
 
-        pass
 
 ################################################################################
 class DspGroupData:
@@ -3478,9 +3540,6 @@ class DspFile( GenericProjectFile ):
                         groupname = m_dsp_group.group( 'groupname' )
                         dspData.groupname = groupname
 
-                        #if ( self.isFileIn2() ):
-                        #    s = 3
-
                         if ( 0 <= fgIdx ):
                             previousFilterGroup = vcpFiltergrp
 
@@ -3502,8 +3561,6 @@ class DspFile( GenericProjectFile ):
                         fgIdx = fgIdx + 1
                         vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
-                        #level = level + 1
-
                         if ( g_printFilterGroupTrees and self.isFileIn2() ):
                             print 'getSouceEntriesDsp: file: %s' % self.filetitle
                             vcpFiles.printChildren( '.', 'vcpFiles' )
@@ -3521,9 +3578,6 @@ class DspFile( GenericProjectFile ):
                         self.dictDspGroupsData[ groupnameLwr ] = dspData
                         self.listGroups.append( groupname )
                         self.dictGroups[ groupnameLwr ] = groupname
-
-                        #if ( self.isFileIn2() ):
-                        #    x = 3
 
                         # for the other <file>s still to attach or whatever sub filter we have
                         # the 'current group is now the parent one !
@@ -3557,9 +3611,6 @@ class DspFile( GenericProjectFile ):
                 # # End Source File
                 m_dsp_src_file_end = re_dsp_src_file_end.match( line )
                 if ( m_dsp_src_file_end ):
-                    #if ( self.isFileIn2() ):
-                    #    x = 3
-
                     if ( 0 == level ):
                         container = vcpFiles
                     else:
@@ -4118,9 +4169,6 @@ class DspFile( GenericProjectFile ):
                     # to increment the level here or at the end of this function is pretty much the same thing
                     level = level + 1
 
-                    #if ( self.isFileIn2() ):
-                    #    s = 3
-
                     if ( 0 <= fgIdx ):
                         previousFilterGroup = vcpFiltergrp
 
@@ -4220,8 +4268,6 @@ class DspFile( GenericProjectFile ):
                 if ( m_vcp_sectionFile_end ):
                     #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
                     #fg.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
-                    #if ( self.isFileIn2() ):
-                    #    x = 3
 
                     if ( 0 == level ):
                         container = vcpFiles
@@ -4241,28 +4287,8 @@ class DspFile( GenericProjectFile ):
                 #               </Filter>
                 m_vcp_sectionFilter_end = re_vcp_sectionFilter_end.match( line )
                 if ( m_vcp_sectionFilter_end ):
+                    # at the beginning because += 1 is done at the end of the <Filter management
                     level = level - 1
-
-                    # store the data for the Filter section just completed
-                    #vcpFiltergrp.fileNamesList.append( vcpFilecfg.file_name )
-                    #vcpFiltergrp.fileNameFileConfigsDict[ vcpFilecfg.file_name.lower() ] = vcpFilecfg
-
-                    ## store the data for the FilterGroup just completed - already stored immediately !
-                    #vcpFiles.filtergroupNamesList.append( vcpFiltergrp.name )
-                    #vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
-
-                    #if ( groupname ):
-                    #    #save previous data
-                    #    groupnameLwr = groupname.lower()
-                    #    self.dictDspGroupsData[ groupnameLwr ] = dspFiltergrpData
-                    #    self.listGroups.append( groupname )
-                    #    self.dictGroups[ groupnameLwr ] = groupname
-
-                    #if ( self.isFileIn2() ):
-                    #    x = 3
-
-                    # at the beginning becase += 1 is done at the end of the <Filter management
-                    #level = level - 1
 
                     # for the other <file>s still to attach or whatever sub filter we have
                     # the 'current group is now the parent one !
@@ -4449,6 +4475,8 @@ class DspFile( GenericProjectFile ):
         replaceCompilerTuple = DspFile.replaceCompilerTextMakeTuple( oldCompiler, newCompiler )
 
         if ( convertProjectConfigSection ):
+            #<Configurations ...> ... </Configurations> section
+
             if ( newCompiler == compilerVc6 ):
                 vcpHdr.version_vc_project = '6.00'
             elif ( newCompiler == compilerVc70 ):
@@ -4461,11 +4489,21 @@ class DspFile( GenericProjectFile ):
                 config_nameLwr = config_name.lower()
                 vcpCfg = vcpHdr.configurationsFullNameSectionsDict[ config_nameLwr ]
 
+                # first gets the ConfigurationType
+                isDebug = ( config_nameLwr.find( 'debug' ) != -1 )
+                appType = enumAppTypeNone
+                for entryName in vcpCfg.entryNamesList:
+                    entryValue = vcpCfg.entryNameValueDict[ entryName ]
+                    if ( entryName == 'ConfigurationType' ):
+                        appType = DspFile.translateConfigurationType( eval( entryValue ) )
+                        break
+
                 # reformats/converts all the path entries
                 for entryName in vcpCfg.entryNamesList:
                     entryValue = vcpCfg.entryNameValueDict[ entryName ]
                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                        entryValue = self.fixFilenamePostfix( entryValue, newCompiler, config_name, appType, isDebug )
                         entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                         vcpCfg.entryNameValueDict[ entryName ] = entryValue
                 for tool_name in vcpCfg.toolNamesList:
@@ -4474,6 +4512,7 @@ class DspFile( GenericProjectFile ):
                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                             entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                            entryValue = self.fixFilenamePostfix( entryValue, newCompiler, config_name, appType, isDebug )
                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
@@ -4501,6 +4540,8 @@ class DspFile( GenericProjectFile ):
                                         #vcpTool.entryNameValueDict[ k ] = g_mapToolEntriesOnlyVc71DefaultValues[ k ]
                                         vcpTool.appendEntryKeyValue( k, g_mapToolEntriesOnlyVc71DefaultValues[ k ] )
 
+
+        # <Files ...> ... </Files> section
         vcpFiles = None
         if ( vcpFilesSrc ):
             vcpFiles = VcprojFilesSectionData()
@@ -4821,6 +4862,9 @@ class DspFile( GenericProjectFile ):
                 fileConfig_nameLwr = fileConfig_name.lower()
                 vcpFilecfg = vcpFile.fileConfigNameSectionsDict[ fileConfig_nameLwr ]
 
+                #appType = self.appType
+                #isDebug = ( config_nameLwr.find( 'debug' ) != -1 )
+
                 # first check if we have some tools configuration to write
                 toAddTools = False
                 for tool_name in vcpFilecfg.toolNamesList:
@@ -4866,6 +4910,7 @@ class DspFile( GenericProjectFile ):
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_keepFirstDot_standard, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
+                                        #entryValue = self.fixFilenamePostfix( entryValue, newCompiler, fileConfig_name, appType, isDebug )
 
                                     line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
@@ -4955,7 +5000,7 @@ class DspFile( GenericProjectFile ):
         # ( just by the name given by the user to the configuaration itself )
         # It should be much better to check for a /D "_DEBUG"or /D "NDEBUG" macro in the CPP line
         configName  = self.configName.lower()
-        self.isDebugCfg .append( configName.find( 'debug'  ) != -1 )
+        self.isDebugCfg .append( configName.find( 'debug' ) != -1 )
         if ( configName.find( 'debug' ) != -1 ):
             self.c = 'd'
         else:
@@ -5282,30 +5327,31 @@ class DspFile( GenericProjectFile ):
                 pass
         return
 
-    def getPostFixIndex( self, filename ):
+    def getPostFixIndex( self, filename, compiler = compilerVc6 ):
         basetitle = filename
         i = basetitle.rfind( '_' )
         if ( i != -1 ):
             name = basetitle[:i]
             postfix = basetitle[i+1:]
-            if ( postfix == 'd' or postfix == 's' or postfix == 'sd' or postfix == compilerVc6 ):
+            if ( postfix == 'd' or postfix == 's' or postfix == 'sd' or postfix == compiler ):
                 basetitle = name
                 #j = filename.rfind( '_', i-1 )  # the start index specification DOESN'T WORK AT ALL
                 j = basetitle.rfind( '_' )
                 if ( j != -1 ):
                     name = basetitle[:j]
                     postfix = filename[j+1:i]
-                    if ( postfix == compilerVc6 ):
-                        basetitle = name
+                    if ( postfix == compiler ):
+                        basetitle = name # fixed 2004/05
+                        i = j
                     else:
                         j = i
-                i = j
+                #i = j # fixed 2004/05
             else:
                 i = len( basetitle )
         return ( i, basetitle )
 
-    def getPostFix( self ):
-        postfix = '_' + compilerVc6
+    def getPostFix( self, compiler = compilerVc6 ):
+        postfix = '_' + compiler
         if ( self.appType == enumAppTypeDll ):
             if ( self.isDebugCfg[self.nCfg] ):
                 postfix += '_d'
@@ -5315,6 +5361,89 @@ class DspFile( GenericProjectFile ):
             else:
                 postfix += '_s'
         return postfix
+
+    def getPostFix2( self, compiler, appType, isDebug ):
+        postfix = '_' + compiler
+        if ( appType == enumAppTypeDll ):
+            if ( isDebug ):
+                postfix += '_d'
+        elif ( appType == enumAppTypeLib ):
+            if ( isDebug ):
+                postfix += '_sd'
+            else:
+                postfix += '_s'
+        return postfix
+
+    def fixFilenamePostfix( self, pathfilename, compiler, config_name, appType, isDebug ):
+        if ( not app.options.fixFilenamePostfix ):
+            return pathfilename
+
+        if ( not self.filename ):
+            # no changes
+            return pathfilename
+
+        if ( appType == enumAppTypeNone or appType == enumAppTypeUnknown ):
+            if ( 0 < app.options.warning ):
+                if ( not warning_unknown_configuration_type ):
+                    warning_unknown_configuration_type = True
+                    msg = 'WARNING: unknown configuration type (%d).  Configuration \'%s\'.  File \'%s\'. Please fix this manually.' % ( appType, config_name, self.filename )
+                    print msg
+
+        # looks for the mainFileTitleBase of both the current file and of pathfilename ( i.e. without any postfix )
+        ( sp, sf ) = FileUtils.split( self.filename ) # important: do not use os.path implemantation: it changes behaviour with cygwin
+        ( sb, se ) = FileUtils.splitext( sf )
+        ( si, sm ) = self.getPostFixIndex( sb, compiler )
+        if ( not sm ):
+            return pathfilename
+
+        ( fp, ff ) = FileUtils.split( pathfilename ) # important: do not use os.path implemantation: it changes behaviour with cygwin
+        ( fb, fe ) = FileUtils.splitext( ff )
+        ( fi, fm ) = self.getPostFixIndex( fb, compiler )
+        if ( not fm ):
+            return pathfilename
+
+        #if ( self.isFileIn2() ):
+        #    msg = 'WARNING: [%s\n fp: %s\nff: %s\n fb: %s\nfe: %s\n] the entry has a postfix [ %s ] NOT different than the unexpected one [ %s ]. Configuration \'%s\'.  File \'%s\'.' % ( pathfilename, fp, ff, fb, fe, fm, sm, config_name, self.filename )
+        #    print msg
+
+        if ( fm != sm ):
+            return pathfilename
+
+        # the right postfix
+        postfix = self.getPostFix2( compiler, appType, isDebug )
+        fn = fm + postfix + fe
+
+        # not using FileUtils.split
+        #if ( fp and ff ):
+        #    sep = pathfilename[ len( fp ) ]
+        #    pfn = fp + sep + fn
+        #else:
+        #    pfn = fn
+        #
+        # using FileUtils.split
+        if ( fp ):
+            pfn = fp + fn
+        else:
+            pfn = fn
+            
+        if ( pathfilename != pfn ):
+            if ( 0 < app.options.warning ):
+                if ( 0 < self.n and self.n < len( self.lines ) ):
+                    line = self.lines[ self.n - 1 ]
+                    msg = 'WARNING: the entry has a postfix [ %s ] different than the unexpected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\' (%d). Line: %s' % (  ff, fn, config_name, self.filename, self.n, line.rstrip() )
+                else:
+                    msg = 'WARNING: the entry has a postfix [ %s ] different than the unexpected one [ %s ]. This will be fixed.  Configuration \'%s\'.  File \'%s\'.' % (  ff, fn, config_name, self.filename )
+                print msg
+
+        return pfn
+
+    def translateConfigurationType( value ):
+        #val = enumAppTypeUnknown
+
+        # we use the same values:
+        val = value
+        return val
+    translateConfigurationType = staticmethod(translateConfigurationType)
 
     def reformatDir( self, relpath ):
         # adds '_compiler/' to the relpath and removes a possible '/obj'
@@ -5845,11 +5974,11 @@ class DspFile( GenericProjectFile ):
                 addFile = False # we usually want both in the same way
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, '', False, changeSomething, addDir, addFile )
             else:
-                if ( self.appType == enumAppTypeLib ):
+                if ( self.appType == enumAppTypeLib or self.appType == enumAppTypeDll ):
                     addDir  = app.options.reformatOptionPdb[self.c]
                     addFile = addDir# we usually want both in the same way
                 else:
-                    addDir  = False # ?
+                    addDir  = False # this will remove the option always
                     addFile = addDir# we usually want both in the same way
                 # for DLL's and Lib's also the filename is specified (and the link option '/pdb:' does not exist)
                 line = self.storeRemoveOption( line, '/Fd', self.OutputDirOut, self.mainFileTitleBase + '.pdb', False, changeSomething, addDir, addFile )
@@ -7144,6 +7273,7 @@ class Workspace( DspFile ):
             compiler = compilerVc71
             newFilenameSln = DspFile.makeDuplicateVcFilename( newFilenameSln, compilerVc6, compiler, g_internal_unixStyle, True )
             if ( not os.path.exists( newFilenameSln ) ):
+                print 'getReferenceInfos: WARNING: reference Workspace \'%s\' does not exists. We will proceed without its information ( i.e. its uuids ). This is safe.' % g_referenceSolution
                 return
 
         self.setFilename( newFilenameSln )
@@ -8019,9 +8149,7 @@ class Walker:
 
         singleFile = ( app.options.filename != '' )
 
-        app.changedFiles   = 0
-        app.unchangedFiles = 0
-        app.createdFiles   = 0
+        app.resetCounts()
         nFiles = 0
         for filename in self.walk_files( root, app.options.recurse ):
             allowed = StringUtils.isExtensionAllowed( filename, app.allowedExtensionsList )
@@ -8073,9 +8201,7 @@ class Walker:
 
         print '\n reformatting dps projects ...\n'
 
-        app.changedFiles   = 0
-        app.unchangedFiles = 0
-        app.createdFiles   = 0
+        app.resetCounts()
         nFiles = 0
 
         if ( app.getProjectDataForEachProject ):
@@ -8106,8 +8232,8 @@ class Walker:
             pass
 
         if ( 0 < app.options.verbose ):
-            print ' %s dsp files processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
-            #print ' %s dsp files processed [errors on %d, warnings on %d of them]. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.numErrors, app.numWarnings, app.changedFiles, app.unchangedFiles, app.createdFiles)
+            print ' %s dsp file(s) processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
+            #print ' %s dsp file(s) processed [errors on %d, warnings on %d of them]. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.numErrors, app.numWarnings, app.changedFiles, app.unchangedFiles, app.createdFiles)
 
         return
 
@@ -8117,9 +8243,7 @@ class Walker:
 
         print '\n synchronizing other compilers projects ...\n'
 
-        app.changedFiles   = 0
-        app.unchangedFiles = 0
-        app.createdFiles   = 0
+        app.resetCounts()
         nFiles = 0
         for filename in app.allProjectPathsList:
             nFiles += 1
@@ -8143,8 +8267,8 @@ class Walker:
             pass
 
         if ( 0 < app.options.verbose ):
-            print ' %s dsp files processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
-            #print ' %s dsp files processed [errors on %d, warnings on %d of them]. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.numErrors, app.numWarnings, app.changedFiles, app.unchangedFiles, app.createdFiles)
+            print ' %s project file(s) processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
+            #print ' %s dsp file(s) processed [errors on %d, warnings on %d of them]. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.numErrors, app.numWarnings, app.changedFiles, app.unchangedFiles, app.createdFiles)
 
         return
 
@@ -8165,25 +8289,45 @@ class Walker:
 
         if ( app.options.enableVcfSpecific and app.options.createWorkspaces ):
             print '\n creating workspaces ...\n'
+
+            app.resetCounts()
+            nFiles = 0
+
             # creates
             for workspaceName in app.createWorkspacesList:
+                nFiles += 1
                 workspacePath = FileUtils.absolutePath( app.currentdir, workspaceName, g_internal_unixStyle )
                 workspace = Workspace( workspacePath )
                 ( workspaceName, ext ) = os.path.splitext( os.path.basename( workspacePath ) )
                 workspaceName = workspaceName.lower()
                 workspace.create( app.allProjectNamesList, app.allProjectPathsList, g_tableFilterWorkspacesCreation[workspaceName], True )
                 workspace.duplicateVcs( True ) # %%% was False, but why not to update and reformat the original ?
+
+            if ( 0 < app.options.verbose ):
+                print ' %s workspace file(s) processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
+                #print ' %s dsp file(s) processed [errors on %d, warnings on %d of them]. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.numErrors, app.numWarnings, app.changedFiles, app.unchangedFiles, app.createdFiles)
+
         return
 
     def duplicateWorkspaces( self ):
         if ( app.options.enableVcfSpecific and app.options.duplicateWorkspaces ):
             print '\n duplicating workspaces ...\n'
+
+            app.resetCounts()
+            nFiles = 0
+
             #blackBoxWorkspaceName = './BlackBox/BlackBox.dsw'
             #xmakeWorkspaceName    = './xmake/xmake.dsw'
             for workspaceName in app.duplicateWorkspacesList:
+                nFiles += 1
                 workspacePath = FileUtils.absolutePath( app.currentdir, workspaceName, g_internal_unixStyle )
                 workspace = Workspace( workspacePath )
                 workspace.duplicateVcs( True )
+
+            if ( 0 < app.options.verbose ):
+                print ' %s workspace file(s) processed. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.changedFiles, app.unchangedFiles, app.createdFiles)
+                #print ' %s dsp file(s) processed [errors on %d, warnings on %d of them]. [changed: %s, unchanged: %s, created: %s]' % (nFiles, app.numErrors, app.numWarnings, app.changedFiles, app.unchangedFiles, app.createdFiles)
+
         return
 
 
@@ -8235,6 +8379,7 @@ Notes:
         the linker option /out: instead is so important that the script always garuantees that it is there in the dsp files
 
     6) For /pdb /debug  infos see the other notes below
+        Here we say that we tend to remove the /Fd:pathfilename.pdb option because vc6 tends to do it
 
     7) The way a configuration of a dsp project is considered debug versus release is still naive
         so it might fail if a user doesn't call it Debug
@@ -8301,11 +8446,15 @@ Other notes on some Visual Studio options:
             # libAGG_vc70_sd.lib(agg_affine_matrix.obj) : warning LNK4204: 'd:\Projs\GShell\Libraries\Vcf\vcf-active\examples\SketchIt\vc70\Debug\vc70.pdb' is missing debugging information for referencing module; linking object as if no debug info
             each time you compile a program with the /debug linker option to that library
 
+    2) Option fixFilenamePostfix
+        When vc7 comvert from a dsp files it is wrong with the created options: OutputFile and ProgramDatabaseFile
+        It does not to copy them right from the dsp !
+
 To do:
         See Note[*] around this script
         COMPARE with vc71 project
         create vc70 project from dsp
-        create vc71 project from vc70
+        ( plese remember:
 
         Creates a list of projects ( for vc70 and vc71 ) that can be updated from the vcproj version (vc7x) instead than from the dsp version (vc6)
             At this moment it is responsability of the person having the vcproj to keep updated the vc6 version
