@@ -17,8 +17,7 @@ using namespace VCF;
 
 
 Win32Toolbar::Win32Toolbar(Control* control):
-	AbstractWin32Component(control),
-	oldToolbarWndProc_(NULL),
+	AbstractWin32Component(control),	
 	imageListCtrl_(NULL),
 	currentlyModifyingItem_(false)
 {
@@ -67,7 +66,7 @@ void Win32Toolbar::create( Control* control )
 
 	if ( NULL != hwnd_ ) {
 		Win32Object::registerWin32Object( this );
-		oldToolbarWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
+		defaultWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
 
 		SendMessage(hwnd_, TB_BUTTONSTRUCTSIZE, (WPARAM) sizeof(TBBUTTON), 0);
 
@@ -75,7 +74,6 @@ void Win32Toolbar::create( Control* control )
 
 
 		SendMessage(hwnd_, TB_SETIMAGELIST, 0, 0 );
-		defaultWndProc_ = NULL;
 
 
 		currentlyModifyingItem_ = true;
@@ -123,12 +121,29 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 
 	switch ( message ) {
 		case WM_ERASEBKGND :{
-			result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
+			return 1;
 		}
 		break;
 
 		case WM_PAINT :{
-			result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
+
+			PAINTSTRUCT ps;
+			HDC dc = BeginPaint( hwnd_, &ps );
+
+			RECT r;
+			GetClientRect( hwnd_, &r );
+
+			FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) ); 
+
+			HDC memDC = doControlPaint( dc, r );
+
+			defaultWndProcedure( WM_PAINT, (WPARAM)memDC, 0 );
+
+			updatePaintDC( dc, r );
+
+			EndPaint( hwnd_, &ps );
+			result = 1;
 		}
 		break;
 
@@ -166,9 +181,9 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 				break;
 			}
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
-			result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
 
 			DWORD style = ::GetWindowLong( hwnd_, GWL_STYLE );
 
@@ -390,7 +405,7 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 		default : {
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
-			result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
 
 		}
 		break;
@@ -1349,6 +1364,10 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/14 04:56:02  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.6  2004/07/13 04:34:32  ddiego
 *little changes
 *

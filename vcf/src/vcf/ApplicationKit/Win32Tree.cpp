@@ -122,8 +122,7 @@ using namespace VCF;
 
 Win32Tree::Win32Tree( TreeControl* tree ):
 	AbstractWin32Component( tree ),
-	treeControl_( tree ),
-	oldTreeWndProc_(NULL),
+	treeControl_( tree ),	
 	imageListCtrl_(NULL),
 	stateImageListCtrl_(NULL),
 	internalTreeItemExpanded_(false)
@@ -187,8 +186,7 @@ void Win32Tree::create( Control* owningControl )
 
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
-		oldTreeWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
-		defaultWndProc_ = NULL;//oldTreeWndProc_;
+		defaultWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
 
 
 	}
@@ -314,12 +312,15 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 	switch ( message ) {
 		case WM_PAINT:{
+			/*
 			if ( System::isUnicodeEnabled() ) {
 				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 			}
 			else{
 				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 			}
+			*/
+			result = 0;
 		}
 		break;
 
@@ -334,26 +335,17 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 				backColor_.copy( color );
 			}
-			if ( System::isUnicodeEnabled() ) {
-				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}
-			else{
-				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}
+			result = 1;
 		}
 		break;
 
-		case WM_LBUTTONDOWN : {
-
-			if ( System::isUnicodeEnabled() ) {
-				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}
-			else{
-				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}
+		case WM_LBUTTONDOWN : {			
 
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
+
+
+
 			TVHITTESTINFO hitTestInfo;
 			memset( &hitTestInfo, 0, sizeof(TVHITTESTINFO) );
 
@@ -388,13 +380,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 			Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
 
-			if ( System::isUnicodeEnabled() ) {
-				result = CallWindowProcW( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}
-			else{
-				result = CallWindowProcA( oldTreeWndProc_, hwnd_, message, wParam, lParam );
-			}
-
+			
 			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
 				peerControl_->handleEvent( event );
 
@@ -402,6 +388,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			}
 
 			//DO NOT, REPEAT: DO NOT allow the DefaultWndProc to get called!
+			result = 1;
 		}
 		break;
 
@@ -671,7 +658,7 @@ LRESULT Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 
 		default: {
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam );
-			result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldTreeWndProc_, hwnd_, message, wParam, lParam );
 
 		}
 		break;
@@ -1050,6 +1037,10 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/14 04:56:02  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.5  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

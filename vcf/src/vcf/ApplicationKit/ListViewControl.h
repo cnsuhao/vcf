@@ -93,7 +93,7 @@ public:
 
 	void setListModel(ListModel * model);
 
-	virtual void paint( GraphicsContext * context ){};
+	virtual void paint( GraphicsContext * context );
 
 	virtual ColumnItem* addHeaderColumn( const String& columnName, const double& width=100.0 );
 
@@ -225,6 +225,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

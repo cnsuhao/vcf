@@ -56,7 +56,7 @@ public:
 	virtual bool isAutoResizeEnabled();
 protected:
 	void onModelChanged( ModelEvent* e );
-	WNDPROC oldToolbarWndProc_;
+	//WNDPROC oldToolbarWndProc_;
 	HIMAGELIST imageListCtrl_;
 
 	bool currentlyModifyingItem_;
@@ -79,6 +79,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/14 04:56:02  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *

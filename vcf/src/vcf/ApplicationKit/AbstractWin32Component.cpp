@@ -28,13 +28,25 @@ using namespace VCFWin32;
 
 
 
-AbstractWin32Component::AbstractWin32Component()
+AbstractWin32Component::AbstractWin32Component():
+	memDC_(NULL),
+	originalMemBMP_(NULL),
+	memBMP_(NULL),
+	mouseEnteredControl_(false),	
+	memDCState_(0),
+	parent_(NULL)
 {
 	init();
 	setPeerControl( NULL );
 }
 
-AbstractWin32Component::AbstractWin32Component( Control* component )
+AbstractWin32Component::AbstractWin32Component( Control* component ):
+	memDC_(NULL),
+	originalMemBMP_(NULL),
+	memBMP_(NULL),
+	mouseEnteredControl_(false),	
+	memDCState_(0),
+	parent_(NULL)
 {
 	init();
 	setPeerControl( component );
@@ -316,10 +328,157 @@ void AbstractWin32Component::setFont( Font* font )
 	}
 }
 
+HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect  )
+{
+	HDC result = NULL;
+
+	if ( peerControl_->getComponentState() != Component::csDestroying ) {
+		
+		if ( NULL == memDC_ ) {
+			//create here
+			HDC dc = ::GetDC(0);
+			memDC_ = ::CreateCompatibleDC( dc );
+			::ReleaseDC( 0,	dc );
+		}					
+		
+		
+		VCF::GraphicsContext* ctx = peerControl_->getContext();
+		
+		ctx->setViewableBounds( Rect(paintRect.left, paintRect.top,
+			paintRect.right, paintRect.bottom ) );
+		
+		if ( peerControl_->isUsingRenderBuffer() ) {
+			ctx->getPeer()->setContextID( (long)paintDC );
+			
+			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
+			ctx->getDrawingArea()->getImageContext()->setViewableBounds(ctx->getViewableBounds());
+			
+			if ( ctx->isRenderAreaDirty() ) {
+				peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
+			}
+			ctx->flushDrawingArea();
+			
+			ctx->getDrawingArea()->getImageContext()->setViewableBounds( Rect(0,0,0,0) );
+			
+			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
+
+			result = paintDC;
+		}
+		else if ( true == peerControl_->isDoubleBuffered() ){
+			
+			
+			Rect clientBounds = peerControl_->getBounds();
+			
+			/*
+			
+			  HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
+			  (int)clientBounds.getWidth(), //ps.rcPaint.right - ps.rcPaint.left,
+			  (int)clientBounds.getHeight() );//ps.rcPaint.bottom - ps.rcPaint.top );
+			*/
+			memBMP_ = ::CreateCompatibleBitmap( paintDC,
+				paintRect.right - paintRect.left,
+				paintRect.bottom - paintRect.top );
+			
+			memDCState_ = ::SaveDC( memDC_ );
+
+			originalMemBMP_ = (HBITMAP)::SelectObject( memDC_, memBMP_ );
+			
+			
+
+			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, NULL );
+			
+			//this is really dippy to have to do this here ?
+			//by setting the owning control to NULL we
+			//prevent the origin, and settings like it, from being
+			//lost every time a checkHandle()/releaseHandle() pair
+			//is called
+			//this is probably a bug that needs to fixed more completely
+			//internally - however this does get the job done
+			ctx->getPeer()->setContextID( (long)memDC_ );
+			
+			
+			
+			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
+			
+			peerControl_->paint( ctx );
+			
+			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
+			
+			
+			//reset back to original origin
+			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, NULL );
+			
+			
+			
+			result = memDC_;
+		}
+		else {
+			
+			ctx->getPeer()->setContextID( (long)paintDC );
+			//this is really dippy to have to do this here ?
+			//by setting the owning control to NULL we
+			//prevent the origin, and settings like it, from being
+			//lost every time a checkHandle()/releaseHandle() pair
+			//is called
+			//this is probably a bug that needs to fixed more completely
+			//internally - however this does get the job done
+			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
+			
+			peerControl_->paint( ctx );
+			
+			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
+
+			result = paintDC;
+		}
+		
+		ctx->setViewableBounds( Rect( 0,0,0,0 ) );
+		
+	}
+
+	return result;
+}
+
+void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect )
+{
+	VCF_ASSERT( memDCState_ != 0 );
+	VCF_ASSERT( originalMemBMP_ != 0 );
+	VCF_ASSERT( memBMP_ != 0 );
+
+	if ( peerControl_->getComponentState() != Component::csDestroying ) {
+		if ( true == peerControl_->isDoubleBuffered() ){
+			int err = /*::BitBlt( ps.hdc, 0, 0,
+					  (int)clientBounds.getWidth(),
+					  (int)clientBounds.getHeight(),
+					  memDC_, 0, 0, SRCCOPY );*/
+					  
+					  ::BitBlt( paintDC, paintRect.left, paintRect.top,
+					  paintRect.right - paintRect.left,
+					  paintRect.bottom - paintRect.top,
+					  memDC_, paintRect.left, paintRect.top, SRCCOPY );
+			
+			
+			::RestoreDC ( memDC_, memDCState_ );
+			
+			::DeleteObject( memBMP_ );
+			
+			memBMP_ = NULL;
+			originalMemBMP_ = NULL;
+			memDCState_ = 0;
+			
+			if ( err == FALSE ) {
+				err = GetLastError();
+				StringUtils::traceWithArgs( "error in BitBlt during drawing of double buffered Comp: error code=%d\n",
+					err );
+			}
+
+		}
+	}
+}
+
 LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
 {
 
-	LRESULT result = TRUE;//0;
+	LRESULT result = 0;
 
 	Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 
@@ -328,7 +487,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 	switch ( message ) {
 
 		case WM_ERASEBKGND :{
-			result = 0;
+			result = 1;
 		}
 		break;
 
@@ -400,129 +559,22 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 		case WM_PAINT:{
 			if ( true == isCreated() ){
 				if ( peerControl_->getComponentState() != Component::csDestroying ) {
-
-					if ( NULL == memDC_ ) {
-						//create here
-						HDC dc = ::GetDC(0);
-						memDC_ = ::CreateCompatibleDC( dc );
-						::ReleaseDC( 0,	dc );
-					}
-
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
-						return 0;
+						return 1;
 					}
 
 					PAINTSTRUCT ps;
 					HDC contextID = 0;
-
 					contextID = ::BeginPaint( hwnd_, &ps);
 
-					VCF::GraphicsContext* ctx = peerControl_->getContext();
-
-					ctx->setViewableBounds( Rect(ps.rcPaint.left, ps.rcPaint.top,
-													ps.rcPaint.right, ps.rcPaint.bottom ) );
-
-					if ( peerControl_->isUsingRenderBuffer() ) {
-						ctx->getPeer()->setContextID( (long)ps.hdc );
-
-						((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-						ctx->getDrawingArea()->getImageContext()->setViewableBounds(ctx->getViewableBounds());
-
-						if ( ctx->isRenderAreaDirty() ) {
-							peerControl_->paint( ctx->getDrawingArea()->getImageContext() );
-						}
-						ctx->flushDrawingArea();
-
-						ctx->getDrawingArea()->getImageContext()->setViewableBounds( Rect(0,0,0,0) );
-
-						((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
-					}
-					else if ( true == peerControl_->isDoubleBuffered() ){
-						int dcState = ::SaveDC( memDC_ );
-
-						Rect clientBounds = peerControl_->getBounds();
-
-						/*
-
-						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
-																		(int)clientBounds.getWidth(), //ps.rcPaint.right - ps.rcPaint.left,
-																		(int)clientBounds.getHeight() );//ps.rcPaint.bottom - ps.rcPaint.top );
-																		*/
-						HBITMAP memBitmap = ::CreateCompatibleBitmap( ps.hdc,
-																		ps.rcPaint.right - ps.rcPaint.left,
-																		ps.rcPaint.bottom - ps.rcPaint.top );
-
-
-						HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );
-
-						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
-
-						//this is really dippy to have to do this here ?
-						//by setting the owning control to NULL we
-						//prevent the origin, and settings like it, from being
-						//lost every time a checkHandle()/releaseHandle() pair
-						//is called
-						//this is probably a bug that needs to fixed more completely
-						//internally - however this does get the job done
-						ctx->getPeer()->setContextID( (long)memDC_ );
-
-						
-
-						((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-
-						peerControl_->paint( ctx );
-
-						((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
-
-
-						//reset back to original origin
-						::SetViewportOrgEx( memDC_, -ps.rcPaint.left, -ps.rcPaint.top, NULL );
-
-						
-						int err = /*::BitBlt( ps.hdc, 0, 0,
-											(int)clientBounds.getWidth(),
-											(int)clientBounds.getHeight(),
-											memDC_, 0, 0, SRCCOPY );*/
-											
-								  ::BitBlt( ps.hdc, ps.rcPaint.left, ps.rcPaint.top,
-											ps.rcPaint.right - ps.rcPaint.left,
-											ps.rcPaint.bottom - ps.rcPaint.top,
-											memDC_, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY );
-											
-
-						::RestoreDC ( memDC_, dcState );
-
-						::DeleteObject( memBitmap );
-						
-
-						if ( err == FALSE ) {
-							err = GetLastError();
-							StringUtils::traceWithArgs( "error in BitBlt during drawing of double buffered Comp: error code=%d\n",
-								err );
-						}
-					}
-					else {
-
-						ctx->getPeer()->setContextID( (long)ps.hdc );
-						//this is really dippy to have to do this here ?
-						//by setting the owning control to NULL we
-						//prevent the origin, and settings like it, from being
-						//lost every time a checkHandle()/releaseHandle() pair
-						//is called
-						//this is probably a bug that needs to fixed more completely
-						//internally - however this does get the job done
-						((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
-
-						peerControl_->paint( ctx );
-
-						((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
-					}
-
-					ctx->setViewableBounds( Rect( 0,0,0,0 ) );
+					doControlPaint( contextID, ps.rcPaint );
+					updatePaintDC( contextID, ps.rcPaint );
 
 					::EndPaint( hwnd_, &ps);
 				}
 			}
+
+			result = 1;
 		}
 		break;
 /*
@@ -551,7 +603,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				//peerControl_->handleEvent( event );
 			}
 
-			result = defaultWndProcedure( message, wParam, lParam );
+			//result = defaultWndProcedure( message, wParam, lParam );
 
 			destroyWindowHandle();
 		}
@@ -559,7 +611,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 		case WM_MOUSEMOVE: {
 			if ( peerControl_->getComponentState() == Component::csNormal ) {
-				result = defaultWndProcedure( message, wParam, lParam );
+				//result = defaultWndProcedure( message, wParam, lParam );
 			}
 
 			if ( false == mouseEnteredControl_ ) {
@@ -587,7 +639,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 		case WM_MOUSELEAVE: {
 			if ( peerControl_->getComponentState() == Component::csNormal ) {
-				result = defaultWndProcedure( message, wParam, lParam );
+				//result = defaultWndProcedure( message, wParam, lParam );
 			}
 
 			mouseEnteredControl_ = false;
@@ -638,7 +690,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					}
 				}
 				else {
-					result = defaultWndProcedure( message, wParam, lParam );
+					//result = defaultWndProcedure( message, wParam, lParam );
 				}
 			}
 		}
@@ -677,7 +729,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 				}
 			}
 			else {
-				result = defaultWndProcedure( message, wParam, lParam );
+				//result = defaultWndProcedure( message, wParam, lParam );
 			}
 		}
 		break;
@@ -696,7 +748,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					}
 				}
 				else {
-					result = defaultWndProcedure( message, wParam, lParam );
+					//result = defaultWndProcedure( message, wParam, lParam );
 				}
 			}
 		}
@@ -744,7 +796,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 					}
 				}
 				else {
-					result = defaultWndProcedure( message, wParam, lParam );
+					//result = defaultWndProcedure( message, wParam, lParam );
 				}
 			}
 		}
@@ -990,7 +1042,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 
 						StringUtils::trace( String(tmp2) );
 
-						defaultWndProcedure( message, wParam, lParam );
+						//defaultWndProcedure( message, wParam, lParam );
 					}
 				}
 				else {
@@ -1016,7 +1068,7 @@ LRESULT AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam
 		break;
 
 		default:{
-			result = defaultWndProcedure( message, wParam, lParam );			
+			//result = defaultWndProcedure( message, wParam, lParam );			
 
 			if ( NULL != event ) {
 				peerControl_->handleEvent( event );
@@ -1095,6 +1147,10 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.6  2004/07/12 02:05:45  ddiego
 *fixed a subtle bug (that only showed up when using a lightweight
 *control) that happened with MouseClick events being handled twice.

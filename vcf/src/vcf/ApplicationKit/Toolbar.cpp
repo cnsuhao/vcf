@@ -12,7 +12,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ToolbarPeer.h"
 #include "vcf/ApplicationKit/Action.h"
 #include "vcf/ApplicationKit/ActionEvent.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -417,10 +417,6 @@ Toolbar::~Toolbar()
 	this->removeFromUpdateTimer();
 }
 
-void Toolbar::paint( GraphicsContext* ctx )
-{
-
-}
 
 void Toolbar::setImageList( ImageList* imageList )
 {
@@ -488,6 +484,17 @@ void Toolbar::handleEvent( Event* event )
 	}
 }
 
+void Toolbar::paint( GraphicsContext* context )
+{
+	Rect innerBounds = getClientBounds( false );
+	BackgroundState bkg;
+	bkg.setEnabled( isEnabled() );
+	bkg.setActive( isActive() );
+	bkg.colorType_ = SYSCOLOR_FACE;	
+	
+	context->drawThemeBackground( &innerBounds, bkg );	
+}
+
 void Toolbar::setEnableAutoResize( const bool& val )
 {
 	toolbarPeer_->setEnableAutoResize( val );
@@ -523,6 +530,10 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 04:56:01  ddiego
+*fixed Win32 bugs. Got rid of flicker in the common control
+*wrappers and toolbar. tracking down combo box display bugs.
+*
 *Revision 1.1.2.4  2004/07/11 18:45:34  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *
