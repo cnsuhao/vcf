@@ -330,6 +330,10 @@ public:
 		System::println( "RunnableExample destroyed!: %p", this );
 	}
 
+	virtual void stop() {
+
+	}
+
 	virtual bool run() {
 		callFunc();
 		return true;

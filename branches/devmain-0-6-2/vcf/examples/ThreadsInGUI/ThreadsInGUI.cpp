@@ -212,7 +212,7 @@ public:
 	}
 
 	void threadChanged( Event* e ) {
-		//listBox_->repaint();
+		listBox_->repaint();
 	}
 
 	void deleteThread( Event* e ) {
