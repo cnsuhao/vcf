@@ -40,11 +40,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile=".\Debug\RegEnVar.exe"
+				OutputFile=".\Debug\RegEnVar_vc70.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\RegEnVar.pdb"
+				ProgramDatabaseFile=".\Debug\RegEnVar_vc70.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -94,10 +94,10 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile=".\RegEnVar.exe"
+				OutputFile=".\RegEnVar_vc70.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile="..\..\vcfdev\RegEnVar.pdb"
+				ProgramDatabaseFile="..\..\vcfdev\RegEnVar_vc70.pdb"
 				SubSystem="1"/>
 			<Tool
 				Name="VCMIDLTool"
