@@ -770,3 +770,7 @@ void MainQTWindow::onKeyHandler( VCF::KeyboardEvent* event )
 		break;
 	}
 }
+
+
+
+
