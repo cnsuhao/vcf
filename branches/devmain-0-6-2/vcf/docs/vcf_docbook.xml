@@ -41,6 +41,10 @@
 	<!ENTITY alignment SYSTEM "../examples/Alignment/Alignment.xml">
 	<!ENTITY advancedalignment SYSTEM "../examples/AdvancedAlignment/AdvancedAlignment.xml">
 	<!ENTITY anchors SYSTEM "../examples/Anchors/Anchors.xml">
+	<!ENTITY sliders SYSTEM "../examples/Sliders/Sliders.xml">
+	<!ENTITY progressbars SYSTEM "../examples/ProgressBars/ProgressBars.xml">
+	<!ENTITY labels SYSTEM "../examples/Labels/Labels.xml">
+	
 
 ]>
 
@@ -88,6 +92,11 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.6  2003/10/25 04:30:20  ddiego
+added two more examples one for progress bars and one for slider controls.
+also added two more control classes to the ApplicationKit, a SliderControl
+and a ProgressControl.
+
 Revision 1.1.2.5  2003/10/22 03:56:44  ddiego
 added two more tutorials for advanced alignment and another for anchors
 also finished off the alignment tutorial. yay :)

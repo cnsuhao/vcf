@@ -33,7 +33,7 @@ NB: This software will not save the world.
  <!--
  this uses a local path - may need to be modified for others
  --> 
-	<xsl:import href="d:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
+	<xsl:import href="d:/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
@@ -462,6 +462,11 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.8  2003/10/25 04:30:20  ddiego
+added two more examples one for progress bars and one for slider controls.
+also added two more control classes to the ApplicationKit, a SliderControl
+and a ProgressControl.
+
 Revision 1.5.2.7  2003/10/22 21:14:37  ddiego
 adjusted the xsl stylesheet so it works with new version of xsltproc
 
