@@ -338,7 +338,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 			SpanGenerator spanGen(spanAllocator, 
 							 *image->getImageBits()->renderBuffer_, 
-							 agg::rgba(0, 0, 0, 1.0),
+							 agg::rgba(0, 0, 0, 0.0),
 							 interpolator);
 
 			
@@ -2492,6 +2492,11 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/02/10 04:39:59  augusto_roman
+** Fixed rect::makeIntersection routine to correctly compute intersections when rects have common edges
+** Fixed black background on image transformations (made background alpha 0)
+** Fixed column selection crashing in TreeListControl
+*
 *Revision 1.4.2.3  2005/01/26 02:15:47  ddiego
 *fixed bug 1109025
 *
