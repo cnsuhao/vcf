@@ -62,7 +62,7 @@ GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned lon
 
 	contextPeer_->setContext( this );
 	init();
-	currentFont_->setPointSize( currentFont_->getPointSize() );
+	//currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& contextID ):
@@ -90,7 +90,7 @@ GraphicsContext::GraphicsContext( const unsigned long& contextID ):
 	}
 	contextPeer_->setContext( this );
 	init();
-	currentFont_->setPointSize( currentFont_->getPointSize() );
+	//currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
 GraphicsContext::~GraphicsContext()
@@ -129,7 +129,7 @@ GraphicsContext::~GraphicsContext()
 void GraphicsContext::init()
 {
 	currentFont_ = new Font();
-	currentFont_->setGraphicsContext( this );	
+	//currentFont_->setGraphicsContext( this );	
 
 	transformMatrix_.identity();
 }
@@ -137,10 +137,10 @@ void GraphicsContext::init()
 
 void GraphicsContext::setCurrentFont(Font * font)
 {
-	currentFont_->setGraphicsContext( this );
+	//currentFont_->setGraphicsContext( this );
 	currentFont_->copy( font );	
 
-	currentFont_->setPointSize( currentFont_->getPointSize() );
+	//currentFont_->setPointSize( currentFont_->getPointSize() );
 }
 
 void GraphicsContext::setCurrentFill(Fill * fill)
@@ -1009,6 +1009,9 @@ void GraphicsContext::flushDrawingArea()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/26 01:44:40  ddiego
+*fixed font pix size bug that handled non true type fonts poorly.
+*
 *Revision 1.2.2.2  2004/08/24 04:29:58  ddiego
 *more printing work, still not yet integrated.
 *
