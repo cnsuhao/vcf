@@ -53,6 +53,17 @@ public:
 	void setFilename( const ImageFilenameString& filename );
 
 	virtual void paint( GraphicsContext* context );
+
+        void setAutoDelete( bool b )
+        {
+                autoDelete_ = b;
+        }
+
+        bool getAutoDelete()
+        {
+                return autoDelete_;
+        }
+
 protected:
 
 
@@ -60,6 +71,7 @@ private:
 	Image* image_;
 	bool transparent_;
 	ImageFilenameString filename_;
+	bool autoDelete_;
 };
 
 
@@ -95,6 +107,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/27 01:35:02  scottpearson
+*Toggling for AutoDelete added.
+*
 *Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *

@@ -27,7 +27,7 @@ ImageControl::ImageControl():
 
 ImageControl::~ImageControl()
 {
-	if ( NULL != image_ ) {
+	if ( (NULL != image_) && autoDelete_ ) {
 		delete image_;
 	}
 
@@ -40,7 +40,7 @@ Image* ImageControl::getImage()
 
 void ImageControl::setImage( Image* image )
 {
-	if ( NULL != image_ ) {
+	if ( (NULL != image_) && autoDelete_ ) {
 		delete image_;
 		image_ = NULL;
 	}
@@ -73,7 +73,7 @@ ImageFilenameString ImageControl::getFilename()
 void ImageControl::setFilename( const ImageFilenameString& filename )
 {
 	filename_ = filename;
-	if ( NULL != image_ ) {
+	if ( (NULL != image_) && autoDelete_ ) {
 		delete image_;
 		image_ = NULL;
 	}
@@ -151,6 +151,9 @@ void ImagePropertyEditor::edit()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/27 01:35:02  scottpearson
+*Toggling for AutoDelete added.
+*
 *Revision 1.2.4.2  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *
