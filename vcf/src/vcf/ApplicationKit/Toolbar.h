@@ -220,6 +220,9 @@ public:
 	void setCaption( const String& val );
 
 	String getTooltip() {
+		if ( getUseLocaleStrings() ) {
+			return System::getCurrentThreadLocale()->translate( tooltip_ );
+		}
 		return tooltip_;
 	}
 
@@ -412,6 +415,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/06/06 07:05:31  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

@@ -795,6 +795,11 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 	LRESULT result = 0;
 	switch ( message ){
 
+		case WM_INPUTLANGCHANGE : {
+			StringUtils::traceWithArgs( "WM_INPUTLANGCHANGE\n" );
+		}
+		break;
+
 		case WM_ACTIVATEAPP: {
 
 			BOOL fActive = (BOOL) wParam;
@@ -1696,6 +1701,12 @@ void Win32ToolKit::internal_runEventLoop()
 		else if ( msg.message == WM_EXITMENULOOP ) {
 			StringUtils::traceWithArgs( "WM_EXITMENULOOP\n" );
 		}
+		else if ( msg.message == WM_INPUTLANGCHANGE ) {
+			StringUtils::traceWithArgs( "WM_INPUTLANGCHANGE\n" );
+		}
+		else if ( msg.message == WM_WININICHANGE ) {
+			StringUtils::traceWithArgs( "WM_WININICHANGE\n" );
+		}
 
 		do	{
 			//dispatch message, but quit on WM_QUIT
@@ -1994,6 +2005,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/06/30 19:19:29  ddiego
 *fixed some font issues. got rid of methods that are not implementable on other platforms
 *

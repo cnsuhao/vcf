@@ -63,7 +63,10 @@ void TitledBorder::paint( Rect* bounds, GraphicsContext* context )
 	textRect.inflate( -5, 0 );
 	context->fillPath();
 
-	context->textBoundedBy( &textRect, caption_, false );
+	String text = caption_;
+	text = System::getCurrentThreadLocale()->translate( text );
+
+	context->textBoundedBy( &textRect, text, false );
 
 	context->setCurrentFont( oldFont );
 }
@@ -91,6 +94,9 @@ Rect TitledBorder::getClientRect( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

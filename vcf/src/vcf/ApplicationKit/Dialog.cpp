@@ -86,9 +86,17 @@ void Dialog::setCaption( const String& caption )
 {
 	if ( NULL == dialogPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
+	}	
+
 	caption_ = caption;
-	peer_->setText( caption_ );
+
+	String text = caption_;
+	
+	if ( getUseLocaleStrings() ) {
+		text = System::getCurrentThreadLocale()->translate( text );
+	}
+
+	peer_->setText( text );
 }
 
 Rect Dialog::getClientBounds(const bool& includeBorder)
@@ -240,15 +248,24 @@ void Dialog::showMessage( const String& message, const String& caption )
 {
 	DialogPeer* dialogPeer = UIToolkit::createDialogPeer();// owner, this );
 	if ( NULL != dialogPeer ){
-		String realCaption = caption;
+		String captionText = caption;
+			
+		captionText = System::getCurrentThreadLocale()->translate( captionText );
+
+		String realCaption = captionText;
+
 		if ( realCaption.empty() ) {
 			Application* app = Application::getRunningInstance();
 			if ( NULL != app ) {
 				realCaption = app->getName();
 			}
 		}
+		
+		String msgText = message;
+			
+		msgText = System::getCurrentThreadLocale()->translate( msgText );
 
-		dialogPeer->showMessage( message, realCaption );
+		dialogPeer->showMessage( msgText, captionText );
 	}
 
 	delete dialogPeer;
@@ -263,7 +280,13 @@ UIToolkit::ModalReturnType Dialog::showMessage( const String& message, const Str
 
 	DialogPeer* dialogPeer = UIToolkit::createDialogPeer();// owner, this );
 	if ( NULL != dialogPeer ){
-		result = dialogPeer->showMessage( message, caption, messageButtons, messageStyle );
+		String captionText = caption;			
+		captionText = System::getCurrentThreadLocale()->translate( captionText );
+
+		String msgText = message;			
+		msgText = System::getCurrentThreadLocale()->translate( msgText );
+
+		result = dialogPeer->showMessage( msgText, captionText, messageButtons, messageStyle );
 	}
 
 	delete dialogPeer;
@@ -329,6 +352,9 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:04  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

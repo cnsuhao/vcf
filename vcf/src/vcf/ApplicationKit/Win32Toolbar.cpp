@@ -33,7 +33,7 @@ void Win32Toolbar::create( Control* control )
 
 	createParams();
 
-	styleMask_  = WS_CHILD | TBSTYLE_TOOLTIPS | TBSTYLE_FLAT | CCS_NODIVIDER;// | CCS_NORESIZE;
+	styleMask_  = WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | TBSTYLE_TOOLTIPS | TBSTYLE_FLAT | CCS_NODIVIDER;// | CCS_NORESIZE;
 
 	if ( System::isUnicodeEnabled() ) {
 		hwnd_ = ::CreateWindowExW( exStyleMask_,
@@ -358,6 +358,10 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.cbSize = sizeof(info);
 				VCFChar tmp[256];
 				String caption = tme->getItem()->getCaption();
+				if ( tme->getItem()->getUseLocaleStrings() ) {
+					caption = System::getCurrentThreadLocale()->translate( caption );
+				}
+
 				int size = minVal<int>(caption.size(), 255);
 				caption.copy( tmp, size );
 				tmp[size] = 0;
@@ -372,9 +376,15 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.dwMask = TBIF_TEXT ;
 				info.cbSize = sizeof(info);
 				char tmp[256];
-				AnsiString caption = tme->getItem()->getCaption();
-				int size = minVal<int>(caption.size(), 255);
-				caption.copy( tmp, size );
+				
+				String caption = tme->getItem()->getCaption();
+				if ( tme->getItem()->getUseLocaleStrings() ) {
+					caption = System::getCurrentThreadLocale()->translate( caption );
+				}
+
+				AnsiString ansiCaption = caption;
+				int size = minVal<int>(ansiCaption.size(), 255);
+				ansiCaption.copy( tmp, size );
 				tmp[size] = 0;
 
 				info.cchText = size;
@@ -767,6 +777,9 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 		btn.iBitmap = item->getImageIndex();
 		
 		String caption = item->getCaption();
+		if ( item->getUseLocaleStrings() ) {
+			caption = System::getCurrentThreadLocale()->translate( caption );
+		}
 		
 		VCFChar* tmp = new VCFChar[caption.size()+1];
 		
@@ -856,15 +869,20 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 		btn.dwData = (DWORD)item;
 		btn.iBitmap = item->getImageIndex();
 		
-		AnsiString caption = item->getCaption();
 		
-		char* tmp = new char[caption.size()+1];
+		String caption = item->getCaption();
+		if ( item->getUseLocaleStrings() ) {
+			caption = System::getCurrentThreadLocale()->translate( caption );
+		}
 		
-		caption.copy( tmp, caption.size() );
-		tmp[caption.size()] = 0;
+		AnsiString ansiCaption = caption;
+		char* tmp = new char[ansiCaption.size()+1];
+		
+		ansiCaption.copy( tmp, ansiCaption.size() );
+		tmp[ansiCaption.size()] = 0;
 		
 		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGA, (WPARAM) 0, (LPARAM) (LPSTR) tmp);
-		buttonCaptionsMap_[caption] = btn.iString;
+		buttonCaptionsMap_[ansiCaption] = btn.iString;
 		
 		if ( buttonCaptionsMap_.size() == 1 ) {
 			SendMessage(hwnd_, TB_AUTOSIZE, 0, 0 );
@@ -1270,6 +1288,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.3  2004/06/26 15:49:36  ddiego
 *miscellaneous Unicode changes
 *

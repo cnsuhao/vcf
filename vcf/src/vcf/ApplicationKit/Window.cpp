@@ -94,7 +94,14 @@ void Window::paint(GraphicsContext * context)
 void Window::setCaption( const String& caption )
 {
 	Frame::setCaption( caption );
-	peer_->setText( caption );
+
+	String text = caption;
+	
+	if ( getUseLocaleStrings() ) {
+		text = System::getCurrentThreadLocale()->translate( text );
+	}
+
+	peer_->setText( text );
 }
 
 Rect Window::getClientBounds(const bool& includeBorder)
@@ -294,6 +301,9 @@ bool Window::isActiveFrame()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/09 18:48:05  ddiego
+*added locale translation support for most classes
+*
 *Revision 1.1.2.5  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.
