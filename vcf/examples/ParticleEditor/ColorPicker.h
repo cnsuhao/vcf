@@ -13,6 +13,8 @@ public:
 	ColorPicker():ControlContainer(){
 		setBorder(0);
 
+		mAlpha=0;
+
 		mR=new TextControl();
 		mR->setBounds(0,0,25,20);
 		mR->getTextModel()->addTextModelChangedHandler(new TextModelEventHandler<ColorPicker>(this,&ColorPicker::onR));
@@ -105,7 +107,7 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(getColor(),mAlpha);
+		setColor(getColor(),a);
 	}
 
 	TextControl *mR;
