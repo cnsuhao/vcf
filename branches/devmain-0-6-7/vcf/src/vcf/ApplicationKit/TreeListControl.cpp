@@ -518,6 +518,22 @@ void TreeListControl::paintItemState( TreeItem* item, GraphicsContext* context, 
 		buttonState.setActive( true );
 		buttonState.setPressed( state == Item::idsChecked ? true : false );
 		context->drawThemeCheckboxRect( &stateRect, buttonState );
+		if ( state == Item::idsChecked )
+		{
+			stateRect.inflate(-2,-2);
+			stateRect.setRight(stateRect.getRight()-4);
+			context->setColor(Color::getColor("blue"));
+			context->rectangle(&stateRect);
+			context->fillPath();
+/*			// Below draws an X for a checked entry
+			context->setAntiAliasingOn(true);
+			context->moveTo(stateRect.getTopLeft());
+			context->lineTo(stateRect.getBottomRight());
+			context->moveTo(stateRect.getTopRight());
+			context->lineTo(stateRect.getBottomLeft());
+			context->strokePath();
+*/
+		}
 	}
 }
 
@@ -823,7 +839,7 @@ void TreeListControl::clearSelectedItems()
 		TreeItem* item = *it;
 		item->setSelected( false );
 		ItemEvent event( this, ITEM_EVENT_UNSELECTED );
-		event.setUserData(item);
+		event.setUserData( (void*)item );
 		ItemSelected.fireEvent( &event );
 		it ++;
 	}
@@ -1006,7 +1022,7 @@ void TreeListControl::mouseMove( MouseEvent* event )
 			while ( it != draggingSelectedItems_.end() ) {
 				(*it)->setSelected( false );
 				ItemEvent event( this, ITEM_EVENT_UNSELECTED );
-				event.setUserData(*it);
+				event.setUserData((void*)(*it));
 				ItemSelected.fireEvent( &event );
 
 				std::vector<TreeItem*>::iterator found = std::find( selectedItems_.begin(), selectedItems_.end(), *it ) ;
@@ -1237,13 +1253,13 @@ void TreeListControl::setSelectedItem( TreeItem* item, const bool& isSelected )
 
 	if ( true == isSelected ) {
 		ItemEvent event( this, ITEM_EVENT_SELECTED );
-		event.setUserData(item);
+		event.setUserData( (void*)item );
 		ItemSelected.fireEvent( &event );
 	}
 	else
 	{
 		ItemEvent event( this, ITEM_EVENT_UNSELECTED );
-		event.setUserData(item);
+		event.setUserData( (void*)item );
 		ItemSelected.fireEvent( &event );
 	}
 }
@@ -1523,6 +1539,9 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/01/19 01:36:46  augusto_roman
+*Fixed drawing of checked state in TreeListControl [ left out of last commit ]
+*
 *Revision 1.3.2.1  2005/01/17 22:44:51  augusto_roman
 *ErrorStrings - Fixed VCF namespace in VCF_ASSERT
 *ItemEvent - Added item unselected event
