@@ -1,6 +1,14 @@
-#makefile for foundation kit
-
 #########################################################
+#
+#CVS Log info
+#$Log$
+#Revision 1.1.2.7  2003/02/08 17:55:44  ddiego
+#modified the makefiles to have cvs Log entries, so we can keepo track of
+#whats going on :)
+#
+#
+#makefile for foundation kit
+#
 #
 #INCLUDES sections
 #
