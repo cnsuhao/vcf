@@ -622,6 +622,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 			}
 			*/
+			
 			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
 				peerControl_->handleEvent( event );
 			}
@@ -691,9 +692,8 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 		case WM_DESTROY: {
 			VCF_ASSERT( !destroyed_ );
-
 			
-			if ( NULL != event ) {
+			if ( (NULL != event) && (NULL != peerControl_) ) {
 				peerControl_->handleEvent( event );
 			}			
 
@@ -1355,6 +1355,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/12 22:34:20  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
 *Revision 1.2.2.5  2004/09/07 03:57:04  ddiego
 *misc tree control update
 *

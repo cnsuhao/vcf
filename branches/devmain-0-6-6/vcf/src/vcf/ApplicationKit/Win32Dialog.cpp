@@ -299,6 +299,10 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 
 
 	HWND activeWnd = GetActiveWindow();
+	//if ( !IsWindow ( activeWnd ) ) {
+		Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
+		activeWnd = toolkit->getDummyParent();
+	//}
 
 	String tmp = caption;
 
@@ -374,6 +378,9 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/12 22:34:21  ddiego
+*fixed bug in handling window cleanup when exception thrown from constructor.
+*
 *Revision 1.2.2.1  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *
