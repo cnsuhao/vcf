@@ -118,10 +118,10 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 
 	oldFontColor = *context->getCurrentFont()->getColor();
 
-	context->getCurrentFont()->setColor( selectedTextColor );
+	context->getCurrentFont()->setColor( textColor );
 
 	if ( true == isSelected() ) {
-		context->getCurrentFont()->setColor( textColor );
+		//context->getCurrentFont()->setColor( textColor );
 
 		context->setColor( hilite );
 		context->moveTo(paintRect->left_ , paintRect->bottom_ -1 );
@@ -159,11 +159,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);		
 		context->lineTo( paintRect->right_ - 2, paintRect->bottom_ );
 		context->strokePath();
-
-		context->setColor( hilite );
-		context->moveTo(paintRect->left_ , paintRect->bottom_ );
-		context->moveTo(paintRect->right_ , paintRect->bottom_ );
-		context->strokePath();
+		
 	}
 
 	String text = pageName_;
@@ -210,6 +206,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/17 14:49:11  dougtinkham
+*more paint changes.
+*
 *Revision 1.2.2.1  2004/08/16 20:49:08  dougtinkham
 *modified paint to give Win32 tab appearance.
 *
