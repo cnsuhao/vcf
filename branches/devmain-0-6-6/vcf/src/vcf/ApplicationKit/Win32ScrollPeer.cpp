@@ -116,7 +116,7 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 	if ( NULL != scrollable ) {
 
 		bool hasVertSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(vScrollHWnd_));
-		bool hasHorzSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
+		bool hasHorzSB = (scrollable->hasHorizontalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
 
 		if ( true == hasVertSB ) {
 			si.cbSize = sizeof(SCROLLINFO);
@@ -371,11 +371,11 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 	Scrollable* scrollable = scrollableControl_->getScrollable();
 	if ( NULL != scrollable ) {
 		bool hasVertSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(vScrollHWnd_));
-		bool hasHorzSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
+		bool hasHorzSB = (scrollable->hasHorizontalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
 
 		SCROLLINFO si;
 
-		if ( hasVertSB ) {
+		if ( hasHorzSB ) {
 			memset( &si, 0, sizeof(si) );
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_POS | SIF_TRACKPOS | SIF_PAGE;
@@ -401,6 +401,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/14 05:13:45  dougtinkham
+*changes to scrollTo and getAdjustedPositions for horizontal scrolling
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
