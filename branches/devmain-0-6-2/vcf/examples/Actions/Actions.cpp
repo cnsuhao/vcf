@@ -280,7 +280,6 @@ public:
 
 	Panel* sideBar_;
 	Panel* hammerBar_;
-	StatBar* statBar_;
 
 	bool canSave_;
 	bool canPaste_;
