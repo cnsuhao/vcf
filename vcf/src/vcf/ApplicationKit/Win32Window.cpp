@@ -503,6 +503,11 @@ void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
 
 		case fstFixed :{
 			style |= WS_OVERLAPPEDWINDOW;
+			
+			//remove the max/min box
+			style &= ~WS_MAXIMIZEBOX;
+			style &= ~WS_MINIMIZEBOX;
+
 			style &= ~WS_THICKFRAME;
 			exStyle &= ~WS_EX_TOOLWINDOW;
 		}
@@ -685,6 +690,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/20 04:55:51  ddiego
+*fixes bug [ 1161656 ] Window resize.
+*
 *Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

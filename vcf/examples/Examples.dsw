@@ -534,6 +534,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "FrameStyles"=.\FrameStyles\FrameStyles.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "GraphicsAndMouseMoves"=.\GraphicsAndMouseMoves\GraphicsAndMouseMoves.dsp - Package Owner=<4>
 
 Package=<5>
