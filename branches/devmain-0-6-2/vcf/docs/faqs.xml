@@ -1211,20 +1211,41 @@ gc->drawEdge( &Rect(20,20,100,100), edgeSides, edgeStyle );
 				<para>How do I change the color of a pen or brush ? Are there even pens or brushes ?</para>
 			</question>
 			<answer>
-				<para>
-				An answer.
-				</para>
+			<para>
+			There are no Pen or Brush objects in the VCF. Instead you set the basic 
+			attributes of a GraphicsContext object. For more advanced graphics features
+			you would implement specific Stroke or Fill classes.
+			</para>
+			<para>
+			To change the color that the GraphicsContext uses to fill or stroke a path
+			you just need to call GraphicsContext::setColor() and pass in a pointer to 
+			a color object. For example:
+			<programlisting>
+<![CDATA[
+GraphicsContext* gc = getMyGraphicsContext();//get the graphics context some how....
+gc->setColor( Color::getColor("red") );
+
+gc->moveTo( 10, 10 );
+gc->lineTo( 10, 100 );
+gc->strokePath();
+]]>			
+			</programlisting>
+			This will draw a straight vertical line, 90 pixels long, with the color
+			red.
+			</para>
 			</answer>
 			<question>
-				<para>What's the deal with GraphicsContext::strokePath() and GraphicsContext::fillPath()</para>
+				<para>What's the deal with GraphicsContext::strokePath() and GraphicsContext::fillPath() methods?</para>
 			</question>
 			<answer>
 				<para>
-				An answer.
+				The GraphicsContext::strokePath() or GraphicsContext::fillPath() are used to
+				either stroke, or fill the current path(s). A path is made using the GraphicsContext's
+				moveTo(), lineTo(), curveTo(), 
 				</para>
 			</answer>
 			<question>
-				<para>How do I create an Image ? Can I create one from a file ? A resource ?</para>
+				<para>How do I create an Image? Can I create one from a file? A resource?</para>
 			</question>
 			<answer>
 				<para>
@@ -1613,6 +1634,11 @@ gc->drawEdge( &Rect(20,20,100,100), edgeSides, edgeStyle );
 CVS Log info
 
 $Log$
+Revision 1.1.2.12  2003/12/01 03:44:12  ddiego
+added some fixes to the Win32Toolbar impl. A few minor changes to the
+toolbar example (which also got added). Some minor changes to docs
+as well.
+
 Revision 1.1.2.11  2003/11/10 22:17:36  ddiego
 added some more updates to docs - finished off event section
 

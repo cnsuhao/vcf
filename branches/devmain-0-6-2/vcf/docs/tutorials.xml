@@ -37,9 +37,11 @@ NB: This software will not save the world.
 		</section>		
 		
 		<section><title>Dates and times</title>
+		<para>Not complete at this time</para>
 		</section>
 		
 		<section><title>Reflection and RTTI</title>
+		<para>Not complete at this time</para>
 		</section>
 		
 		<section><title>Events</title>
@@ -74,9 +76,11 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Processes</title>
+		<para>Not complete at this time</para>
 		</section>
 		
 		<section><title>Internationalization and Unicode</title>
+		<para>Not complete at this time</para>
 		</section>
 	</section>
 	
@@ -100,6 +104,7 @@ NB: This software will not save the world.
 		</section>
 		
 		<section><title>Printing</title>
+		<para>Not complete at this time</para>
 		</section>		
 	</section>
 	
@@ -212,6 +217,11 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.7  2003/12/01 03:44:13  ddiego
+added some fixes to the Win32Toolbar impl. A few minor changes to the
+toolbar example (which also got added). Some minor changes to docs
+as well.
+
 Revision 1.1.2.6  2003/11/23 15:14:05  ddiego
 added more docs, and updated to account for new Dictionary tutorial
 

@@ -99,7 +99,7 @@ while ( classes->hasMoreElements() ) {
 	</para>
 	<para>
 	You may find that you want to use enumerators with your own classes or code. Doing
-	so is quite easy. For example, if you wanted to wrap a std::vector<String> instance
+	so is quite easy. For example, if you wanted to wrap a std::vector&lt;String&gt; instance
 	you can use the EnumeratorContainer&lt;&gt; template class. This takes two template
 	arguments, the first is the type of container or collection class, and 
 	the second is the element type.
@@ -135,6 +135,18 @@ strings.push_back( "4" );
 Enumerator<String>* stringEnum = stringContainer.getEnumerator();
 ]]>	
 	</programlisting>
+	We now have a pointer to an Enumerator, which we can use just the same as 
+	demonstrated earlier.
+	</para>
+	<para>
+	Note that an Enumerator that is a wrapper to one of the STL's collection classes
+	has the same limits as the underlying collection class. For example, if you have 
+	an Enumerator that wraps a vector&lt;String&gt;, and during the course of 
+	enumerating through it, you remove an element from the vector, then the enumeration
+	will become invalid, just like an iterator to the vector would be invalid.
+	In addition, there is no threading support built in beyond what the STL provides,
+	so anything else needs to added by the application developer, at least at this
+	point in time.
 	</para>
 </section>
 
@@ -144,6 +156,11 @@ Enumerator<String>* stringEnum = stringContainer.getEnumerator();
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/12/01 03:44:13  ddiego
+added some fixes to the Win32Toolbar impl. A few minor changes to the
+toolbar example (which also got added). Some minor changes to docs
+as well.
+
 Revision 1.1.2.2  2003/11/24 05:05:23  ddiego
 added some more docs, and some minor changes to the Win32ScrollPeer
 
