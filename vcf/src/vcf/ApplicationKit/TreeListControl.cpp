@@ -787,7 +787,7 @@ bool TreeListControl::multiSelectionChange( MouseEvent* event )
 				ItemEvent event( foundItem, TreeListControl::ITEM_STATECHANGE_REQUESTED );
 				ItemStateChangeRequested.fireEvent( &event );
 			}
-			else if ( (true == event->hasLeftButton()) && (true == event->hasShiftKey()) ) {
+			else if ( (true == event->hasLeftButton()) && (true == event->hasShiftKey()) && NULL!=currentlySelectedItem ) {
 				rootChildren->reset();
 				clearSelectedItems();
 
@@ -964,16 +964,19 @@ bool TreeListControl::hitTest( Rect* rect, TreeItem* item, std::vector<TreeItem*
 	if ( ! (displayOptions_ & TreeListControl::tdoShowFullRowSelection) ) {
 		ColumnItem* column = header_->getColumnModel()->getItemFromIndex(0);
 
-		itemBounds.right_ = itemBounds.left_ + column->getWidth();
-
-		if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
-			ColumnItem* column = header_->getColumnModel()->getItemFromIndex(0);
+		if (NULL != column)
+		{
 			itemBounds.right_ = itemBounds.left_ + column->getWidth();
-		}
-		else {
-			GraphicsContext* ctx = getContext();
-			double w = ctx->getTextWidth( item->getCaption() );
-			itemBounds.right_ = itemBounds.right_ + w + getCurrentIndent(item) ;
+
+			if ( displayOptions_ & TreeListControl::tdoShowColumnHeader ) {
+				//ColumnItem* column = header_->getColumnModel()->getItemFromIndex(0);
+				itemBounds.right_ = itemBounds.left_ + column->getWidth();
+			}
+			else {
+				GraphicsContext* ctx = getContext();
+				double w = ctx->getTextWidth( item->getCaption() );
+				itemBounds.right_ = itemBounds.right_ + w + getCurrentIndent(item) ;
+			}
 		}
 	}
 
@@ -1544,6 +1547,11 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/02/10 04:38:46  augusto_roman
+** Fixed rect::makeIntersection routine to correctly compute intersections when rects have common edges
+** Fixed black background on image transformations (made background alpha 0)
+** Fixed column selection crashing in TreeListControl
+*
 *Revision 1.3.2.3  2005/01/21 13:45:16  augusto_roman
 *Increased TreeListControl display speed for large trees by not trying to draw items that are off the screen. - aroman
 *
