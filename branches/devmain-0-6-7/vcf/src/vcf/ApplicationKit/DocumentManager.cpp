@@ -256,7 +256,8 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 	}
 	MessageDialog saveDocPrompt;
 	String message = StringUtils::format( Format("Do you want to save the changes you made to document \"%s\" ?") %
-											document->getName().c_str() );
+											document->getName() );
+
 	saveDocPrompt.setMessage( message );
 	saveDocPrompt.setCaption( caption );
 	saveDocPrompt.setInformation( "Your changes will be lost if you don't save them." );
@@ -602,6 +603,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/03/31 01:25:01  ddiego
+*fixed a string format glitch in doc mgr.
+*
 *Revision 1.3.2.6  2005/03/21 17:26:04  marcelloptr
 *openFromFileName now throws an exception sooner when trying to open a file that does not exist
 *
