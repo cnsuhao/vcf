@@ -1,5 +1,5 @@
 //QuickTimeMovie.h
-#include "ApplicationKit.h"
+#include "vcf/ApplicationKit/ApplicationKit.h"
 #include "QuickTimeMovie.h"
 
 using namespace VCF;
