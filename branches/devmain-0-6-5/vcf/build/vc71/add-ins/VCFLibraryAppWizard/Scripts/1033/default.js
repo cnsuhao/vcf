@@ -108,7 +108,7 @@ function AddConfig(proj, strProjectName)
 		strDefines += ";_WINDOWS;_USRDLL;";
 		var strExports = wizard.FindSymbol("UPPER_CASE_PROJECT_NAME") + "_EXPORTS";
 		strDefines += strExports;
-		strDefines += ";USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;USE_APPKIT_DLL";
+		strDefines += ";USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL";
 		CLTool.PreprocessorDefinitions = strDefines;
 		CLTool.DebugInformationFormat = debugEditAndContinue;
 		CLTool.RuntimeTypeInfo = true;
@@ -148,7 +148,7 @@ function AddConfig(proj, strProjectName)
 		strDefines += ";_WINDOWS;_USRDLL;";
 		var strExports = wizard.FindSymbol("UPPER_CASE_PROJECT_NAME") + "_EXPORTS";
 		strDefines += strExports;
-		strDefines += ";USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;USE_APPKIT_DLL";
+		strDefines += ";USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL";
 		CLTool.PreprocessorDefinitions = strDefines;
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.AdditionalIncludeDirectories = "$(VCF_INCLUDE)";

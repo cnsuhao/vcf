@@ -11,7 +11,7 @@ LIBS =  -L"G:/Dev-Cpp/lib" -L"E:/code/vcfdev/dev/vcf/lib" -lRpcrt4 -lkernel32 -l
 INCS =  -I"G:/Dev-Cpp/include"  -I"../../../include" 
 CXXINCS =  -I"G:/Dev-Cpp/include/c++"  -I"G:/Dev-Cpp/include/c++/mingw32"  -I"G:/Dev-Cpp/include/c++/backward"  -I"G:/Dev-Cpp/include"  -I"../../../include" 
 BIN  = FoundationKit_mingw_d.dll
-CXXFLAGS = $(CXXINCS)-D__GNUWIN32__ -DWIN32 -DVCF_GCC  -W -fexceptions  -D_DEBUG -D_WINDOWS -D_MBCS -D_USRDLL -DFRAMEWORK_DLL -DFRAMEWORK_EXPORTS -DBUILD_FRAMEWORK_LIB -Wno-multichar -Wno-deprecated   -fexceptions
+CXXFLAGS = $(CXXINCS)-D__GNUWIN32__ -DWIN32 -DVCF_GCC  -W -fexceptions  -D_DEBUG -D_WINDOWS -D_MBCS -D_USRDLL -DFOUNDATIONKIT_DLL -DFOUNDATIONKIT_EXPORTS -DBUILD_FOUNDATIONKIT_LIB -Wno-multichar -Wno-deprecated   -fexceptions
 CFLAGS = $(INCS)   -fexceptions
 
 .PHONY: all all-before all-after clean clean-custom

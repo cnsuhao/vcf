@@ -107,7 +107,7 @@ function AddConfig(proj, strProjectName)
 		CLTool.ExceptionHandling = true;
 		CLTool.AdditionalIncludeDirectories = "$(VCF_INCLUDE)";
 		CLTool.WarningLevel = warningLevelOption.warningLevel_3;
-		CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;USE_APPKIT_DLL";
+		CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL";
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.SuppressStartupBanner = true;
 
@@ -137,7 +137,7 @@ function AddConfig(proj, strProjectName)
 		CLTool.InlineFunctionExpansion = inlineExpansionOption.expandOnlyInline;
 		CLTool.Optimization = optimizeOption.optimizeMinSpace;
 		CLTool.StringPooling = true;
-		CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;USE_APPKIT_DLL";
+		CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL";
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.SuppressStartupBanner = true;
 
