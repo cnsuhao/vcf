@@ -35,8 +35,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc6/Release/"
-# PROP Intermediate_Dir "vc6/Release/"
+# PROP Output_Dir "vc71/Release/"
+# PROP Intermediate_Dir "vc71/Release/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GX /O1 /I "../" /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "USE_LIBMNG_LIB" /D "USE_LIBJPEG_LIB" /D "USE_LIBPNG_LIB" /D "USE_LIBTIFF_LIB" /D "USE_ZLIB_LIB" /D "BUILD_FREEIMAGE_LIB" /YX /FD /c
@@ -44,10 +44,10 @@ RSC=rc.exe
 # ADD RSC /l 0x413 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"../../../../lib/FreeImage_vc6_s.bsc"
+# ADD BSC32 /nologo /o"../../../../lib/FreeImage_vc71_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../lib/FreeImage_vc6_s.lib"
+# ADD LIB32 /nologo /out:"../../../../../lib/FreeImage_vc71_s.lib"
 
 !ELSEIF  "$(CFG)" == "FreeImageLib - Win32 Debug"
 
@@ -58,19 +58,19 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "vc6/Debug/"
-# PROP Intermediate_Dir "vc6/Debug/"
+# PROP Output_Dir "vc71/Debug/"
+# PROP Intermediate_Dir "vc71/Debug/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../" /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "USE_LIBMNG_LIB" /D "USE_LIBJPEG_LIB" /D "USE_LIBPNG_LIB" /D "USE_LIBTIFF_LIB" /D "USE_ZLIB_LIB" /D "BUILD_FREEIMAGE_LIB" /Fd"../../../../../../lib/FreeImage_vc6_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../" /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "USE_LIBMNG_LIB" /D "USE_LIBJPEG_LIB" /D "USE_LIBPNG_LIB" /D "USE_LIBTIFF_LIB" /D "USE_ZLIB_LIB" /D "BUILD_FREEIMAGE_LIB" /Fd"../../../../../../lib/FreeImage_vc71_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x413 /d "_DEBUG"
 # ADD RSC /l 0x413 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"../../../../lib/FreeImage_vc6_sd.bsc"
+# ADD BSC32 /nologo /o"../../../../lib/FreeImage_vc71_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../../lib/FreeImage_vc6_sd.lib"
+# ADD LIB32 /nologo /out:"../../../../../../lib/FreeImage_vc71_sd.lib"
 
 !ENDIF 
 
