@@ -608,7 +608,8 @@ public:
 		getFont()->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP_TEXT ) );
 		setFrameStyle( fstNoBorderFixed );
 		setFrameTopmost( true );
-		//setBounds( &Rect(200, 200, 400, 235 ) );
+		
+		setUseColorForBackground( true );
 
 	};
 
@@ -618,10 +619,14 @@ public:
 		Rect r(0,0,getWidth(), getHeight() );
 		ctx->rectangle( &r );
 		ctx->strokePath();
+
+		r.inflate( -1, -1 );
+
 		ctx->setCurrentFont( getFont() );
-		ctx->textAt( (r.getWidth()/2.0) - (ctx->getTextWidth(getCaption())/2.0),
-						(r.getHeight()/2.0) - (ctx->getTextHeight("EM")/2.0 + 1),
-						getCaption() );
+
+		long drawingOptions = GraphicsContext::tdoCenterHorzAlign | GraphicsContext::tdoCenterVertAlign;
+
+		ctx->textBoundedBy( &r, getCaption(), drawingOptions );
 	}
 
 	virtual void mouseClick( MouseEvent* e ) {
@@ -2033,6 +2038,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/01 03:50:14  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
 *Revision 1.2.2.3  2004/08/31 04:12:12  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out

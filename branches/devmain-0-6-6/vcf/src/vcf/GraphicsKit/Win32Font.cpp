@@ -752,6 +752,46 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 	double ppi = (double)GetDeviceCaps( dc, LOGPIXELSY);
 	long lfHeight = (pointSize / 72.0) * ppi;
 
+
+	bool trueTypeFont = false;
+	{ //test for true type
+		LOGFONT lfTmp = {0};
+		lfTmp.lfHeight = 10; //doesn't matter - just testing the name!
+		lfTmp.lfWidth = 0; //let font mapper choose closest match				
+		lfTmp.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
+		lfTmp.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+		lfTmp.lfItalic = FALSE;			
+		lfTmp.lfOutPrecision = OUT_DEFAULT_PRECIS;
+		lfTmp.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+		lfTmp.lfQuality = DEFAULT_QUALITY;
+		lfTmp.lfStrikeOut = FALSE;
+		lfTmp.lfUnderline = FALSE;
+		lfTmp.lfWeight = FW_NORMAL;
+		
+		AnsiString tmpName = fontName_;
+		memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(char) );
+		tmpName.copy( lfTmp.lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
+		
+		HFONT testFnt = CreateFontIndirect( &lfTmp );
+		if ( testFnt ) {
+			HFONT oldFnt = (HFONT)SelectObject( dc, testFnt );		
+
+			TEXTMETRIC tm = {0};
+			if ( GetTextMetrics( dc, &tm ) ) {
+
+				trueTypeFont = ((tm.tmPitchAndFamily & TMPF_TRUETYPE) != 0) ? true : false;
+			}
+
+			SelectObject( dc, oldFnt );
+			DeleteObject( testFnt );
+		}
+
+	}
+
+	if ( trueTypeFont ) {
+		lfHeight = -lfHeight;
+	}
+
 	if ( NULL == font_ ) {
 		ReleaseDC( ::GetDesktopWindow(), dc );		
 	}
@@ -801,6 +841,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/09/01 03:50:39  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
 *Revision 1.2.2.9  2004/08/31 08:55:58  marcelloptr
 *minor change on a comment
 *

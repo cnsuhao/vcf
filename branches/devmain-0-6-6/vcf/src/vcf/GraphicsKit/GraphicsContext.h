@@ -590,7 +590,7 @@ protected:
 
 
     ContextPeer * contextPeer_;		
-	GraphicsDrawingState currentState_;
+	GraphicsDrawingState currentDrawingState_;
 	std::vector<PointOperation> pathOperations_;
 	Image* drawingArea_;
 	Point drawingAreaTopLeft_;
@@ -599,6 +599,7 @@ protected:
 	Rect viewableBounds_;
 	GraphicsStateCollection stateCollection_;
 	int graphicsStateIndex_;
+	GraphicsState* currentGraphicsState_;
 
 	void buildArc( double centerX,  double centerY, 
             double radiusWidth, double radiusHeight, 
@@ -712,6 +713,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/01 03:50:39  ddiego
+*fixed font drawing bug that tinkham pointed out.
+*
 *Revision 1.2.2.2  2004/08/31 21:12:07  ddiego
 *graphice save and restore state
 *
