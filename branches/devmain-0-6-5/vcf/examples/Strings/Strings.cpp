@@ -50,17 +50,17 @@ int main(int argc, char *argv[])
     {
 		System::println( "trying to find string \"foo\": not found. returns String::npos: %d", pos);
     }
-    
+
     System::println( toFind );
 
 	toFind = "time";
-    
+
     System::println( toFind );
-    
+
 	pos = t.find("time"); // finds the string "time" in position 11
 	System::println("string \"time\" found at position: %d in string {%ls}", pos, t.c_str() );
-    
-    
+
+
 	/**
 	String utility functions
 	*/
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	*/
 
 	String className = StringUtils::getClassNameFromTypeInfo( typeid(double) );
-    
+
 	System::println( "StringUtils::getClassNameFromTypeInfo() returned: %ls", className.c_str() );
 
 	className = StringUtils::getClassNameFromTypeInfo( typeid(StringUtils) );
@@ -188,6 +188,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.8  2004/06/06 06:03:36  marcelloptr
+*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*
 *Revision 1.2.4.7  2004/05/31 13:20:56  ddiego
 *more osx updates
 *

@@ -66,12 +66,12 @@ public:
         Panel* p1 = new Panel();
         mainWindow->add( p1, AlignTop );
         p1->setBounds( 0, 0, 200, 300 );
-        
+
         p1->setBorderSize( 10 );
-        
+
         PushButton* pb = new PushButton();
         p1->add( pb, AlignClient );
-        
+
 		/**
 		*Set the caption of the main window. Setting the caption
 		*cause the text passed in to the method to appear on
@@ -127,6 +127,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2004/06/06 06:03:15  marcelloptr
+*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*
 *Revision 1.3.2.7  2004/05/31 22:24:52  ddiego
 *OSX code for handling focus events
 *

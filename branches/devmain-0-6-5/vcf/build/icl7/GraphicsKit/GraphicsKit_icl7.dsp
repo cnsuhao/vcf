@@ -91,10 +91,6 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\AggCommon.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Basic3DBorder.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\GraphicsKit\BasicFill.h
 # End Source File
 # Begin Source File
@@ -108,10 +104,6 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\BasicStroke.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\BezierCurve.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Border.h
 # End Source File
 # Begin Source File
 
@@ -183,7 +175,7 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\ImageBits.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\GraphicsKit\ImageList.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.h
 # End Source File
 # Begin Source File
 
@@ -191,7 +183,7 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\ImageLoader.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\ImageLoaderException.h
+SOURCE=..\..\..\src\vcf\GraphicsKit\ImageLoaderException.h
 # End Source File
 # Begin Source File
 
@@ -232,10 +224,6 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Size.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Stroke.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\GraphicsKit\VCFOpenGL.h
 # End Source File
 # Begin Source File
 
@@ -349,10 +337,6 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Win32Image.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\Win32Image.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32OpenGLPeer.h
 # End Source File
 # End Group
 # End Target

@@ -111,15 +111,15 @@ SOURCE=..\..\..\thirdparty\common\pcre\study.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\..\thirdparty\common\pcre\internal.h
+SOURCE=..\..\..\src\thirdparty\common\pcre\internal.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\thirdparty\common\pcre\pcre.h
+SOURCE=..\..\..\src\thirdparty\common\pcre\pcre.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\thirdparty\common\pcre\pcreposix.h
+SOURCE=..\..\..\src\thirdparty\common\pcre\pcreposix.h
 # End Source File
 # Begin Source File
 

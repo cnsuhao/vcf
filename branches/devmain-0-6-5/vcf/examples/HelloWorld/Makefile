@@ -12,11 +12,11 @@ CXX_FLAGS_D=-ggdb -DVCF_GCC -DVCF_POSIX -Wno-multichar -c -DVCF_GTK -D_DEBUG -I 
 CXX_FLAGS=-DVCF_GCC -DVCF_POSIX -Wno-multichar -I $(VCF_INCLUDE) $(GTK_CXX_FLAGS) -O2 -c
 
 GTK_LINKER_FLAGS = `pkg-config gtk+-2.0 --libs`
-APPKIT_LIBS_D = -lpthread -lFoundationKit_d -lGraphicsKit_d -lApplicationKit_d
-APPKIT_LIBS = -lFoundationKit -lGraphicsKit -lApplicationKit
-LINKER_FLAGS_D = -L$(VCF_BIN) $(GTK_LINKER_FLAGS) $(APPKIT_LIBS_D) -ggdb -o
+APPLICATIONKIT_LIBS_D = -lpthread -lFoundationKit_d -lGraphicsKit_d -lApplicationKit_d
+APPLICATIONKIT_LIBS = -lFoundationKit -lGraphicsKit -lApplicationKit
+LINKER_FLAGS_D = -L$(VCF_BIN) $(GTK_LINKER_FLAGS) $(APPLICATIONKIT_LIBS_D) -ggdb -o
 
-LINKER_FLAGS = -L$(VCF_BIN) $(GTK_LINKER_FLAGS) $(APPKIT_LIBS) -o
+LINKER_FLAGS = -L$(VCF_BIN) $(GTK_LINKER_FLAGS) $(APPLICATIONKIT_LIBS) -o
 
 
 CXX = g++

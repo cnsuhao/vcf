@@ -22,7 +22,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;NO_MFC;BUILD_FRAMEWORK_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;NO_MFC;BUILD_FOUNDATIONKIT_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -77,7 +77,7 @@
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NO_MFC;BUILD_FRAMEWORK_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;NO_MFC;BUILD_FOUNDATIONKIT_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -562,6 +562,9 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\InvalidPointerException.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\InvalidStateException.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\NoFreeMemException.h">
 			</File>
 			<File
@@ -569,6 +572,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\NoSuchElementException.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\NoToolKitFoundException.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\OutOfBoundsException.h">
@@ -1144,6 +1150,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Mutex.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Parser.cpp">

@@ -48,8 +48,8 @@ public:
 
 
 	virtual void paint( GraphicsContext* ctx ) {
-		CustomControl::paint( ctx );	
-		
+		CustomControl::paint( ctx );
+
 		DateTime currentMonthDate( current.getYear(), current.getMonth(), 1 );
 		DateTime::Iterator<ByDay> dayIter = currentMonthDate;
 
@@ -82,7 +82,7 @@ public:
 		s += current.isAM() ? " AM" : " PM";
 
 		ctx->textBoundedBy( &textRect, s );
-		
+
 		rect.top_ += 100;
 
 
@@ -96,7 +96,7 @@ public:
 		x = sizeBorder.width_;
 		y = rect.top_ + sizeBorder.height_;
 		Rect cellRect;
-	
+
 
 		for ( int i=0;i<7;i++ ) {
 			for ( int j=0;j<7;j++) {
@@ -259,7 +259,7 @@ public:
 
 
 	virtual void paint( GraphicsContext* ctx ) {
-		
+
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
@@ -272,7 +272,7 @@ public:
 
 		long options = GraphicsContext::tdoCenterVertAlign | GraphicsContext::tdoCenterHorzAlign;
 		ctx->textBoundedBy( &rect, s, options );
-		
+
 	}
 
 	void onTimer( Event* e ) {
@@ -313,12 +313,12 @@ public:
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
-		
+
 		rect.inflate( -5, -5 );
 
 		Point center = rect.getCenter();
 		double radius = minVal<>( rect.getHeight()/2.0, rect.getWidth()/2.0);
-		
+
 		ctx->setColor( Color::getColor("black") );
 		ctx->circle( center, radius );
 		ctx->strokePath();
@@ -401,7 +401,7 @@ class DateTimeUIWindow : public Window {
 public:
 	DateTimeUIWindow() {
 		setCaption( "DateTimeUI" );
-				
+
 
 		Panel* panel = new Panel();
 		panel->setHeight( 250 );
@@ -412,18 +412,18 @@ public:
 
 		DigitalClock* clock1 = new DigitalClock();
 		panel->add( clock1, AlignClient );
-		
+
 		AnalogClock* clock2 = new AnalogClock();
 		clock2->setWidth( 200 );
 		panel->add( clock2, AlignLeft );
-		
+
 
 		Calendar* calendar = new Calendar();
 
 		calendar->setColor( Color::getColor("white") );
 
 		add( calendar, AlignClient );
-        
+
 	}
 
 	virtual ~DateTimeUIWindow(){};
@@ -467,6 +467,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/06/06 06:03:05  marcelloptr
+*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*
 *Revision 1.2.2.7  2004/05/31 22:24:52  ddiego
 *OSX code for handling focus events
 *
