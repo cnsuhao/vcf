@@ -12,68 +12,80 @@ where you installed the VCF.
 
 using namespace VCF;
 
-Font::Font()
+Font::Font():
+	peer_(NULL),
+	locale_(NULL)
 {
-
-	Peer_ = NULL;
-	Peer_ = GraphicsToolkit::createFontPeer( "" );
-	if ( NULL == Peer_ ){
+	peer_ = GraphicsToolkit::createFontPeer( "" );
+	if ( NULL == peer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
 }
 
-Font::Font( const String& fontName )
+Font::Font( const String& fontName ):
+	peer_(NULL),
+	locale_(NULL)
 {
-	Peer_ = NULL;
-	Peer_ = GraphicsToolkit::createFontPeer( fontName );
-	if ( NULL == Peer_ ){
+	peer_ = GraphicsToolkit::createFontPeer( fontName );
+	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
+
+	peer_->setFont( this );
 }
 
-Font::Font( const String& fontName, const double& pointSize )
+Font::Font( const String& fontName, const double& pointSize ):
+	peer_(NULL),
+	locale_(NULL)
 {
 
-	Peer_ = NULL;
-	Peer_ = GraphicsToolkit::createFontPeer( fontName, pointSize );
-	if ( NULL == Peer_ ){
+	peer_ = GraphicsToolkit::createFontPeer( fontName, pointSize );
+	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
+
+	peer_->setFont( this );
 }
 
 Font::Font( const Font& font ):
-    Object( font )
+    Object( font ),
+	peer_(NULL),
+	locale_(NULL)
 {
-	Peer_ = NULL;
-
-	Peer_ = GraphicsToolkit::createFontPeer( font.getName() );
-	if ( NULL == Peer_ ){
+	peer_ = GraphicsToolkit::createFontPeer( font.getName() );
+	if ( NULL == peer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
+
+	peer_->setFont( this );
+
 	*this = font;
 }
 
 Font::~Font()
 {
-	delete Peer_;
+	delete peer_;
 }
 
 
 Font& Font::operator= (const Font& rhs )
 {
 	setAttributes( rhs.getPointSize(), rhs.getBold(), rhs.getItalic(), rhs.getUnderlined(),
-					rhs.getStrikeOut(), rhs.getShear(), rhs.getAngle(), &rhs.color_, rhs.getName() );
+					rhs.getStrikeOut(), &rhs.color_, rhs.getName() );
 
+	locale_ = rhs.locale_;
 	return *this;
+}
+
+void Font::setLocale( Locale* locale )
+{
+	locale_ = locale;
 }
 
 bool Font::isTrueType()  const
 
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->isTrueType();
+	return peer_->isTrueType();
 }
 
 Color* Font::getColor()
@@ -90,159 +102,84 @@ void Font::setColor( Color* color )
 
 double Font::getPointSize()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getPointSize();
+	return peer_->getPointSize();
 }
 
 void Font::setPointSize( const double& pointSize )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setPointSize( pointSize );
+	peer_->setPointSize( pointSize );
 }
 
 double Font::getPixelSize()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getPixelSize();
+	return peer_->getPixelSize();
 }
 
 void Font::setPixelSize( const double& pixelSize )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setPixelSize( pixelSize );
+	peer_->setPixelSize( pixelSize );
 }
 
 void Font::setBold( const bool& bold )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setBold( bold );
+	peer_->setBold( bold );
 }
 
 bool Font::getBold()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getBold();
+	return peer_->getBold();
 }
 
 bool Font::getItalic()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getItalic();
+	return peer_->getItalic();
 }
 
 void Font::setItalic( const bool& italic )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setItalic( italic );
+	peer_->setItalic( italic );
 }
 
 bool Font::getUnderlined()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getUnderlined();
+	return peer_->getUnderlined();
 }
 
 void Font::setUnderlined( const bool& underlined )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setUnderlined( underlined );
+	peer_->setUnderlined( underlined );
 }
 
 bool Font::getStrikeOut()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getStrikeOut();
+	return peer_->getStrikeOut();
 }
 
 void Font::setStrikeOut( const bool& strikeout )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setStrikeOut( strikeout );
+	peer_->setStrikeOut( strikeout );
 }
 
-double Font::getShear()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getShear();
-}
 
-void Font::setShear(const double& shear )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setShear( shear );
-}
-
-double Font::getAngle()  const
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getAngle();
-}
-
-void Font::setAngle( const double& angle )
-{
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setAngle( angle );
-}
 
 GlyphCollection* Font::getGlyphCollection( const String& text )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getGlyphCollection( text );
+	return peer_->getGlyphCollection( text );
 }
 
 FontPeer* Font::getFontPeer()
 {
-	return Peer_;
+	return peer_;
 }
 
 String Font::getName()  const
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	return Peer_->getName();
+	return peer_->getName();
 }
 
 void Font::setName( const String& name )
 {
-	if ( NULL == Peer_ ){
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	};
-	Peer_->setName( name );
+	peer_->setName( name );
 }
 
 void Font::copy( Object* source )
@@ -250,8 +187,6 @@ void Font::copy( Object* source )
 	if ( NULL != source ){
 		Font* srcFont = dynamic_cast<Font*>( source );
 		if ( NULL != srcFont ){
-			setAngle( srcFont->getAngle() );
-			setShear( srcFont->getShear() );
 			setStrikeOut( srcFont->getStrikeOut() );
 			setUnderlined( srcFont->getUnderlined() );
 			setBold( srcFont->getBold() );
@@ -267,50 +202,26 @@ void Font::copy( Object* source )
 
 double Font::getAscent()  const
 {
-	return Peer_->getAscent();
+	return peer_->getAscent();
 }
 
 double Font::getDescent()  const
 {
-	return Peer_->getDescent();
-}
-
-double Font::getExternalLeading()  const
-{
-	return Peer_->getExternalLeading();
-}
-
-double Font::getInternalLeading()  const
-{
-	return Peer_->getInternalLeading();
+	return peer_->getDescent();
 }
 
 double Font::getHeight()  const
 {
-	return Peer_->getHeight();
+	return peer_->getAscent() + peer_->getDescent();
 }
 
-VCFChar Font::getWordBreakCharacter()  const
-{
-	return Peer_->getWordBreakCharacter();
-}
 
-VCFChar Font::getFirstCharacter()  const
-{
-	return Peer_->getFirstCharacter();
-}
-
-VCFChar Font::getLastCharacter()  const
-{
-	return Peer_->getLastCharacter();
-}
 
 void Font::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const Color* color, const String& name )
+								const bool& underlined, const bool& struckOut, const Color* color, const String& name )
 {
 
-	Peer_->setAttributes( pointSize, bold, italic, underlined, struckOut, shear, angle, name );
+	peer_->setAttributes( pointSize, bold, italic, underlined, struckOut, name );
 	if ( NULL != color ) {
 		color_ = *color;
 	}
@@ -320,6 +231,9 @@ void Font::setAttributes( const double& pointSize, const bool& bold, const bool&
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

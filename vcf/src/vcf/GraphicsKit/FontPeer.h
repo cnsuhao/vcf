@@ -82,37 +82,17 @@ public:
 	virtual bool getStrikeOut()  = 0;
 
 	virtual void setStrikeOut( const bool& strikeout ) = 0;
-
-	virtual double getShear()  = 0;
-
-	virtual void setShear(const double& shear ) = 0;
-
-	virtual double getAngle()  = 0;
-
-	virtual void setAngle( const double& angle ) = 0;
-
+	
 	/**
 	sets ALL the attributes in one fell swoop
 	*/
 	virtual void setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const String& name ) = 0;
+								const bool& underlined, const bool& struckOut, const String& name ) = 0;
 
 	virtual double getAscent() = 0;
 
 	virtual double getDescent() = 0;
 
-	virtual double getExternalLeading() = 0;
-
-	virtual double getInternalLeading() = 0;
-
-	virtual double getHeight() = 0;
-
-	virtual VCFChar getWordBreakCharacter() = 0;
-
-	virtual VCFChar getFirstCharacter() = 0;
-
-	virtual VCFChar getLastCharacter() = 0;
 	/**
 	*returns a GlyphCollection that represents the set of shapes
 	*for the specified text string.
@@ -121,6 +101,8 @@ public:
 	*represent the text string.
 	*/
     virtual GlyphCollection* getGlyphCollection( const String& text )  = 0;
+
+	virtual void setFont( Font* font ) = 0;
 };
 
 };
@@ -129,6 +111,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

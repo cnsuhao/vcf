@@ -16,7 +16,7 @@ where you installed the VCF.
 
 namespace VCF {
 
-class GRAPHICSKIT_API Win32Font : /*public Object, */public FontPeer  {
+class GRAPHICSKIT_API Win32Font : public FontPeer  {
 
 public:
 	Win32Font( const String& fontName );
@@ -80,35 +80,12 @@ public:
 
     virtual void setStrikeOut( const bool& strikeout );
 
-    virtual double getShear() ;
-
-    virtual void setShear(const double& shear );
-
-    virtual double getAngle() ;
-
-    virtual void setAngle( const double& angle );
-
 	virtual void setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-								const bool& underlined, const bool& struckOut, const double& shear,
-								const double& angle, const String& name );
+								const bool& underlined, const bool& struckOut, const String& name );
 
 	virtual double getAscent()  ;
 
 	virtual double getDescent() ;
-
-	virtual double getExternalLeading() ;
-
-	virtual double getInternalLeading() ;
-
-	virtual double getHeight() ;
-
-	virtual VCFChar getWordBreakCharacter() ;
-
-	virtual VCFChar getFirstCharacter() ;
-
-	virtual VCFChar getLastCharacter()  ;
-
-
 	/**
 	*returns a GlyphCollection that represents the set of shapes
 	*for the specified text string.
@@ -119,12 +96,15 @@ public:
     virtual GlyphCollection* getGlyphCollection( const String& text )  ;
 
 	virtual bool isEqual( Object* object );
+
+	void setFont( Font* font ) {
+		font_ = font;
+	}
 private:
 	void updateTextMetrics();
 
 private:
-	double shear_;
-	Color color_;
+	Font* font_;
 	void* logFont_;
 	void* tm_;
 	double pointSize_;
@@ -137,6 +117,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.2  2004/04/29 04:10:28  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

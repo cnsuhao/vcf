@@ -44,7 +44,6 @@ void Win32GraphicsToolkit::initSystemFont()
 		LOGFONTW lf = {0};
 		GetObjectW( defGUIFont, sizeof(LOGFONTW), &lf );
 
-		systemFont_->setAngle( lf.lfEscapement / 10 );
 		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
 		systemFont_->setItalic( lf.lfItalic == TRUE );
 		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
@@ -57,7 +56,6 @@ void Win32GraphicsToolkit::initSystemFont()
 		LOGFONTA lf = {0};
 		GetObjectA( defGUIFont, sizeof(LOGFONTA), &lf );
 
-		systemFont_->setAngle( lf.lfEscapement / 10 );
 		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
 		systemFont_->setItalic( lf.lfItalic == TRUE );
 		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
@@ -191,6 +189,9 @@ void Win32GraphicsToolkit::loadSystemColors()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/06/30 19:17:11  ddiego
+*fixed some font issues. got rid of methods that are not implementable on other platforms
+*
 *Revision 1.1.2.4  2004/06/29 03:58:47  marcelloptr
 *Improvements on Color class - changes so to have Color::getColor inlined
 *
