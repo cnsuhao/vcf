@@ -1653,7 +1653,526 @@ VCF::String StringUtils::toString( const VariantData& value )
 	return value.toString();
 }
 
+VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
+{
+	VCF::String result;
 
+	switch ( code ) {
+		case vkF1: {			
+			result = "F1";
+		}
+		break;
+		
+		case vkF2: {			
+			result = "F2";
+		}
+		break;
+
+		case vkF3: {			
+			result = "F3";
+		}
+		break;
+
+		case vkF4: {			
+			result = "F4";
+		}
+		break;
+
+		case vkF5: {			
+			result = "F5";
+		}
+		break;
+
+		case vkF6: {			
+			result = "F6";
+		}
+		break;
+
+		case vkF7: {			
+			result = "F7";
+		}
+		break;
+
+		case vkF8: {			
+			result = "F8";
+		}
+		break;
+
+		case vkF9: {			
+			result = "F9";
+		}
+		break;
+
+		case vkF10: {			
+			result = "F10";
+		}
+		break;
+
+		case vkF11: {			
+			result = "F11";
+		}
+		break;
+
+		case vkF12: {			
+			result = "F12";
+		}
+		break;
+
+		case vkUpArrow: {			
+			result = "Up";
+		}
+		break;
+
+		case vkDownArrow: {			
+			result = "Down";
+		}
+		break;
+
+		case vkLeftArrow: {			
+			result = "Left";
+		}
+		break;
+
+		case vkRightArrow: {			
+			result = "Right";
+		}
+		break;
+
+		case vkPgUp: {
+			result = "Page Up";
+		}
+		break;
+
+		case vkPgDown: {
+			result = "Page Down";
+		}
+		break;
+
+		case vkHome: {
+			result = "Home";
+		}
+		break;
+
+		case vkEnd: {
+			result = "End";
+		}
+		break;
+
+		case vkInsert: {
+			result = "Ins";
+		}
+		break;
+
+		case vkDelete: {
+			result = "Del";
+		}
+		break;
+
+		case vkBackSpace: {
+			result = "Back";
+		}
+		break;
+
+		case vkNumber0: {
+			result = "0";
+		}
+		break;
+
+		case vkNumber1: {
+			result = "1";
+		}
+		break;
+
+		case vkNumber2: {
+			result = "2";
+		}
+		break;
+
+		case vkNumber3: {
+			result = "3";
+		}
+		break;
+
+		case vkNumber4: {
+			result = "4";
+		}
+		break;
+
+		case vkNumber5: {
+			result = "5";
+		}
+		break;
+
+		case vkNumber6: {
+			result = "6";
+		}
+		break;
+
+		case vkNumber7: {
+			result = "7";
+		}
+		break;
+
+		case vkNumber8: {
+			result = "8";
+		}
+		break;
+
+		case vkNumber9: {
+			result = "9";
+		}
+		break;
+
+		case vkLetterA: {
+			result = "A";
+		}
+		break;
+
+		case vkLetterB: {
+			result = "B";
+		}
+		break;
+
+		case vkLetterC: {
+			result = "C";
+		}
+		break;
+
+		case vkLetterD: {
+			result = "D";
+		}
+		break;
+
+		case vkLetterE: {
+			result = "E";
+		}
+		break;
+
+		case vkLetterF: {
+			result = "F";
+		}
+		break;
+			
+		case vkLetterG: {
+			result = "G";
+		}
+		break;
+
+		case vkLetterH: {
+			result = "H";
+		}
+		break;
+
+		case vkLetterI: {
+			result = "I";
+		}
+		break;
+
+		case vkLetterJ: {
+			result = "J";
+		}
+		break;
+
+		case vkLetterK: {
+			result = "K";
+		}
+		break;
+
+		case vkLetterL: {
+			result = "L";
+		}
+		break;
+
+		case vkLetterM: {
+			result = "M";
+		}
+		break;
+
+		case vkLetterN: {
+			result = "N";
+		}
+		break;
+
+		case vkLetterO: {
+			result = "O";
+		}
+		break;
+
+		case vkLetterP: {
+			result = "P";
+		}
+		break;
+
+		case vkLetterQ: {
+			result = "Q";
+		}
+		break;
+
+		case vkLetterR: {
+			result = "R";
+		}
+		break;
+
+		case vkLetterS: {
+			result = "S";
+		}
+		break;
+
+		case vkLetterT: {
+			result = "T";
+		}
+		break;
+
+		case vkLetterU: {
+			result = "U";
+		}
+		break;
+
+		case vkLetterV: {
+			result = "V";
+		}
+		break;
+
+		case vkLetterW: {
+			result = "W";
+		}
+		break;
+
+		case vkLetterX: {
+			result = "X";
+		}
+		break;
+
+		case vkLetterY: {
+			result = "Y";
+		}
+		break;
+
+		case vkLetterZ: {
+			result = "Z";
+		}
+		break;
+
+		case vkSpaceBar: {
+			result = "Space";
+		}
+		break;
+
+		case vkReturn: {
+			result = "Enter";
+		}
+		break;
+
+		case vkAlt: {
+			result = "Alt";
+		}
+		break;
+
+		case vkShift: {
+			result = "Shift";
+		}
+		break;
+
+		case vkCtrl: {
+			result = "Ctrl";
+		}
+		break;
+
+		case vkTab: {
+			result = "Tab";
+		}
+		break;
+
+		case vkEscape: {
+			result = "Esc";
+		}
+		break;
+
+		case vkLeftApostrophe: {
+			result = "`";
+		}
+		break;
+			//`
+		case vkTilde: {
+			result = "~";
+		}
+		break;
+					//~
+		case vkExclamation: {
+			result = "!";
+		}
+		break;
+				//!
+		case vkCommercialAt: {
+			result = "@";
+		}
+		break;
+				//@
+		case vkNumberSign: {
+			result = "#";
+		}
+		break;
+				//#
+		case vkDollarSign: {
+			result = "$";
+		}
+		break;
+				//$
+		case vkPercent: {
+			result = "%";
+		}
+		break;
+					//%
+		case vkCircumflex: {
+			result = "^";
+		}
+		break;
+				//^
+		case vkAmpersand: {
+			result = "&";
+		}
+		break;
+				//&
+		case vkAsterix: {
+			result = "*";
+		}
+		break;
+					//*
+		case vkOpenParen: {
+			result = "(";
+		}
+		break;
+				//(
+		case vkCloseParen: {
+			result = ")";
+		}
+		break;
+				//)
+		case vkHyphen: {
+			result = "-";
+		}
+		break;
+					//-
+		case vkUnderbar: {
+			result = "_";
+		}
+		break;
+					//_
+		case vkEqualsSign: {
+			result = "=";
+		}
+		break;
+				//=
+		case vkPlusSign: {
+			result = "+";
+		}
+		break;
+					//+
+		case vkUprightBar: {
+			result = "|";
+		}
+		break;
+				//|
+		case vkBackSlash: {
+			result = "\\";
+		}
+		break;
+				/* \   */
+		case vkOpenBracket: {
+			result = "[";
+		}
+		break;
+				//[
+		case vkOpenBrace: {
+			result = "{";
+		}
+		break;
+				//{
+		case vkCloseBracket: {
+			result = "]";
+		}
+		break;
+				//]
+		case vkCloseBrace: {
+			result = "}";
+		}
+		break;
+				//}
+		case vkSemiColon: {
+			result = ";";
+		}
+		break;
+
+		case vkColon: {
+			result = ":";
+		}
+		break;
+
+		case vkSingleQuote: {
+			result = "'";
+		}
+		break;
+
+		case vkDoubleQuote: {
+			result = "\"";
+		}
+		break;
+
+		case vkComma: {
+			result = ",";
+		}
+		break;
+
+		case vkLessThan: {
+			result = "<";
+		}
+		break;
+
+		case vkPeriod: {
+			result = ".";
+		}
+		break;
+
+		case vkGreaterThan: {
+			result = ">";
+		}
+		break;
+
+		case vkForwardSlash: {
+			result = "/";
+		}
+		break;
+
+		case vkQuestionMark: {
+			result = "?";
+		}
+		break;
+
+		//miscellaneous
+		case vkPrintScreen: {
+			result = "Print Screen";
+		}
+		break;
+
+		case vkScrollLock: {
+			result = "Scroll Lock";
+		}
+		break;
+
+		case vkPause: {
+			result = "Pause";
+		}
+		break;
+
+		case vkCapsLock: {
+			result = "Caps Lock";
+		}
+		break;
+
+	}
+
+	return result;
+}
 
 
 
@@ -1662,6 +2181,9 @@ VCF::String StringUtils::toString( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.1  2005/02/16 05:09:33  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

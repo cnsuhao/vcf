@@ -43,6 +43,18 @@ public:
 	virtual Frame* getOwnerForDialog() = 0;
 	
 	virtual Rect adjustInitialDialogBounds( Dialog* dialog ) = 0;
+
+	/**
+	\p
+	This returns a transformed string that is suitable for passing to text 
+	drawing API's when the input string has mnemonic values in it. This is
+	platform dependant, so not all platforms will handle this the same way.
+	\p
+	For example, the string "&OK" is meant to have a mnemonic in front of 
+	the "O". In Win32 this would be left alone, and the Win32 drawing API's
+	will draw it correctly. On OSX this "&" character would be stripped out.
+	*/
+	virtual String transformMnemonicValues( const String& input ) = 0;
 };
 
 
@@ -54,6 +66,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

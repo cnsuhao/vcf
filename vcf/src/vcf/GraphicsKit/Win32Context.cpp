@@ -2195,6 +2195,11 @@ void Win32Context::drawThemeMenuItem( Rect* rect, MenuState& state )
 			
 }
 
+void Win32Context::drawThemeMenuItemText( Rect* rect, MenuState& state )
+{
+
+}
+
 void Win32Context::drawThemeText( Rect* rect, TextState& state )
 {
 
@@ -2531,6 +2536,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/03/14 04:17:26  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.4.2.6  2005/02/21 16:22:27  ddiego
 *minor changes to various things, property editors, and tree list control.
 *

@@ -1573,12 +1573,12 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	MenuItem* root = standardMenu_->getRootMenuItem();
 	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, standardMenu_);
 
-	DefaultMenuItem* fileNew = new DefaultMenuItem( "&New\tCtrl+N", file, standardMenu_);
+	DefaultMenuItem* fileNew = new DefaultMenuItem( "&New", file, standardMenu_);
 	fileNew->setAcceleratorKey( vkLetterN, kmCtrl );
 	fileNew->setTag( DocumentManager::atFileNew );
 
 
-	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...\tCtrl+O", file, standardMenu_);
+	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...", file, standardMenu_);
 	fileOpen->setAcceleratorKey( vkLetterO, kmCtrl );
 	fileOpen->setTag( DocumentManager::atFileOpen );
 
@@ -1590,36 +1590,36 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	separator->setSeparator( true );
 
 
-	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save...\tCtrl+S", file, standardMenu_);
+	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save...", file, standardMenu_);
 	fileSave->setAcceleratorKey( vkLetterS, kmCtrl );
 	fileSave->setTag( DocumentManager::atFileSave );
 
-	DefaultMenuItem* fileSaveAs = new DefaultMenuItem( "Save &As...\tCtrl+Shift+S", file, standardMenu_);
+	DefaultMenuItem* fileSaveAs = new DefaultMenuItem( "Save &As...", file, standardMenu_);
 	fileSaveAs->setAcceleratorKey( vkLetterS, kmCtrl | kmShift );
 	fileSaveAs->setTag( DocumentManager::atFileSaveAs );
 
 
 	DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, standardMenu_);
-	DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo\tCtrl+Z", edit, standardMenu_);
+	DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo", edit, standardMenu_);
 	editUndo->setAcceleratorKey( vkLetterZ, kmCtrl  );
 	editUndo->setTag( DocumentManager::atEditUndo );
 
-	DefaultMenuItem* editRedo = new DefaultMenuItem( "&Redo\tCtrl+Shift+Z", edit, standardMenu_);
+	DefaultMenuItem* editRedo = new DefaultMenuItem( "&Redo", edit, standardMenu_);
 	editRedo->setAcceleratorKey( vkLetterZ, kmCtrl | kmShift );
 	editRedo->setTag( DocumentManager::atEditRedo );
 
 	separator = new DefaultMenuItem( "", edit, standardMenu_);
 	separator->setSeparator( true );
 
-	DefaultMenuItem* editCut = new DefaultMenuItem( "Cu&t\tCtrl+X", edit, standardMenu_);
+	DefaultMenuItem* editCut = new DefaultMenuItem( "Cu&t", edit, standardMenu_);
 	editCut->setAcceleratorKey( vkLetterX, kmCtrl );
 	editCut->setTag( DocumentManager::atEditCut );
 
-	DefaultMenuItem* editCopy = new DefaultMenuItem( "&Copy\tCtrl+C", edit, standardMenu_);
+	DefaultMenuItem* editCopy = new DefaultMenuItem( "&Copy", edit, standardMenu_);
 	editCopy->setAcceleratorKey( vkLetterC, kmCtrl );
 	editCopy->setTag( DocumentManager::atEditCopy );
 
-	DefaultMenuItem* editPaste = new DefaultMenuItem( "&Paste\tCtrl+V", edit, standardMenu_);
+	DefaultMenuItem* editPaste = new DefaultMenuItem( "&Paste", edit, standardMenu_);
 	editPaste->setAcceleratorKey( vkLetterV, kmCtrl );
 	editPaste->setTag( DocumentManager::atEditPaste );
 
@@ -1656,6 +1656,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/03/14 04:17:23  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.4  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

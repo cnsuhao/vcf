@@ -467,6 +467,7 @@ public:
 	*/
 	static VCF::String convertFormatString( const String& formattedString );
 
+	static VCF::String translateVKCodeToString( VirtualKeyCode code );
 protected:
 	static String weekdays[];
 	static String abbrevWeekdays[];
@@ -780,6 +781,9 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rh
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/14 04:17:25  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.2  2005/02/20 23:10:15  kiklop74
 *Fixed minor issue wioth ? operator. Borland compiler requires exactly same return types.
 *

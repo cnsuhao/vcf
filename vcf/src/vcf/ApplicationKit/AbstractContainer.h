@@ -84,6 +84,8 @@ public:
 
 	virtual void insertAtIndex( Control * child, const AlignmentType& alignment, const ulong32& index );
 
+	virtual void clear();
+
 	virtual void sendControlToFront( Control* child );
 
 	virtual void sendControlToBack( Control* child );
@@ -112,6 +114,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2005/03/14 04:17:22  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.4.1  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

@@ -81,8 +81,8 @@ protected:
 
 #define  PLAYLISTDICTIONARY_CLASSID  "1b8c4955-f290-49fb-93a8-39aae4bce3ec"
 
-BEGIN_CLASSINFO( PlayListDictionary, "PlayListDictionary", "VCF::Object", PLAYLISTDICTIONARY_CLASSID )
-END_CLASSINFO( PlayListDictionary )
+_class_rtti_( PlayListDictionary, "VCF::Object", PLAYLISTDICTIONARY_CLASSID )
+_class_rtti_end_
 
 
 class PlayListItem : public DefaultListItem {
@@ -536,8 +536,8 @@ void MainQTWindow::buildUI()
 	
 	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, menuBar );
 
-	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...\tCtrl+O", file, menuBar );
-	DefaultMenuItem* fileClose = new DefaultMenuItem( "&Close\tCtrl+Shift+C", file, menuBar );
+	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...", file, menuBar );
+	DefaultMenuItem* fileClose = new DefaultMenuItem( "&Close", file, menuBar );
 
 	DefaultMenuItem* sep = new DefaultMenuItem( "", file, menuBar );
 	sep->setSeparator( true );
@@ -551,10 +551,10 @@ void MainQTWindow::buildUI()
 
 
 	DefaultMenuItem* movie = new DefaultMenuItem( "&Movie", root, menuBar );	
-	DefaultMenuItem* moviePlay = new DefaultMenuItem( "&Play\tCtrl+Space", movie, menuBar );
-	DefaultMenuItem* moviePause = new DefaultMenuItem( "&Pause\tCtrl+Space", movie, menuBar );
+	DefaultMenuItem* moviePlay = new DefaultMenuItem( "&Play", movie, menuBar );
+	DefaultMenuItem* moviePause = new DefaultMenuItem( "&Pause", movie, menuBar );
 	DefaultMenuItem* movieReset= new DefaultMenuItem( "&Reset", movie, menuBar );
-	DefaultMenuItem* movieStop = new DefaultMenuItem( "&Stop\tEsc", movie, menuBar );	
+	DefaultMenuItem* movieStop = new DefaultMenuItem( "&Stop", movie, menuBar );	
 
 	sep = new DefaultMenuItem( "", movie, menuBar );
 	sep->setSeparator( true );
@@ -1137,10 +1137,9 @@ void MainQTWindow::buildUI()
 	addAcceleratorKey( vkRightArrow, kmCtrl, getEventHandler( "MainQTWindow::onKeyHandler" ) );
 
 
-	addAcceleratorKey( vkLetterO, kmCtrl, getEventHandler( "MainQTWindow::onFileOpenMovie" ) );	
-
-	addAcceleratorKey( vkEscape, kmUndefined, getEventHandler( "MainQTWindow::onMovieStop" ) );	
-	addAcceleratorKey( vkLetterC, kmCtrl | kmShift, getEventHandler( "MainQTWindow::onFileCloseMovie" ) );	
+	openAction->setAcceleratorKey( vkLetterO, kmCtrl );
+	stopAction->setAcceleratorKey( vkEscape, kmUndefined );
+	fileCloseAction->setAcceleratorKey( vkLetterC, kmCtrl | kmShift );
 
 
 

@@ -614,6 +614,13 @@ public:
 	*/
 	void drawThemeMenuItem( Rect* rect, MenuState& state );
 
+	/**
+	Draws the menu items text such that it's compliant with the 
+	native windowing platform look and feel. This will take into
+	consideration the accelerator values if present.
+	*/
+	void drawThemeMenuItemText( Rect* rect, MenuState& state );
+
 	void drawThemeText( Rect* rect, TextState& state );
 
 protected:
@@ -790,6 +797,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/03/14 04:17:26  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.4.2.1  2004/12/19 04:05:03  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

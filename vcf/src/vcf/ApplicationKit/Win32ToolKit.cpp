@@ -203,6 +203,10 @@ public:
 		}
 	}
 
+	virtual String transformMnemonicValues( const String& input ) {
+		return input;
+	}
+
 protected:
 
 	/**
@@ -2095,6 +2099,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/03/14 04:17:24  ddiego
+*adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
+*
 *Revision 1.3.2.5  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
