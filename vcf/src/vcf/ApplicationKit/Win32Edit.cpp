@@ -689,7 +689,6 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_KEYDOWN: {
-			
 			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
 
 			
@@ -711,9 +710,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				}
 				break;
 			}
-			
 
-			
+
 			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
 
 				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
@@ -1511,7 +1509,7 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.11  2005/03/28 18:23:58  marcelloptr
+*Revision 1.3.2.12  2005/03/28 18:25:23  marcelloptr
 *just a comment
 *
 *Revision 1.3.2.10  2005/03/27 05:25:13  ddiego
