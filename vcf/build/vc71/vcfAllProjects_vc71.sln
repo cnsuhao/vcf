@@ -198,7 +198,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibTIFF", "..\..\src\thirdp
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "..\..\xmake\libXmake_vc71.vcproj", "{BB28B02B-FEDF-49E5-818C-62A2582FEA6D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "..\..\src\xmake\libXmake_vc71.vcproj", "{BB28B02B-FEDF-49E5-818C-62A2582FEA6D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -347,7 +347,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkingWithEnumerators", ".
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmake", "..\..\xmake\xmake_vc71.vcproj", "{E375E65B-35EE-4CC7-A984-6F452D5B4DE8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmake", "..\..\src\xmake\xmake_vc71.vcproj", "{E375E65B-35EE-4CC7-A984-6F452D5B4DE8}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
