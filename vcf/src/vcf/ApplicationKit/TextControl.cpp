@@ -269,7 +269,7 @@ void TextControl::handleEvent( Event* event )
 						case vkBackSpace : {
 							ulong32 pos =  minVal<ulong32>( model->getSize()-1, textPeer_->getSelectionStart() );
 
-							if ( pos > 0 ) {
+							if ( pos >= 0 ) {
 								ulong32 length = maxVal<ulong32>( 1, textPeer_->getSelectionCount() );
 								
 								//Debug diagnostics - JC
@@ -404,6 +404,9 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/10/26 02:38:18  ddiego
+*fixed a bug in the handling of a backspace char event
+*
 *Revision 1.2.2.5  2004/10/04 23:47:28  ddiego
 *fixed text control char entry bug.
 *
