@@ -74,6 +74,16 @@ public:
 
 	void setVirtualViewWidth( const double& virtualViewWidth );
 
+	void setVirtualViewSize( const double& virtualViewWidth, const double& virtualViewHeight );
+
+	virtual void setVirtualViewHorzStep( const double& step );
+
+	virtual void setVirtualViewVertStep( const double& step );
+
+	virtual double getVirtualViewHorzStep();
+
+	virtual double getVirtualViewVertStep();
+
 	void setVerticalPosition( const double& vertPosition );
 
 	void setHorizontalPosition( const double& horzPosition );
@@ -116,6 +126,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.2.2.3  2004/09/21 05:49:23  dougtinkham
 *removed updateVirtualViewSize
 *

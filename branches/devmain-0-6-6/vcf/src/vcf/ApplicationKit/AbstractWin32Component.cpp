@@ -989,9 +989,10 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 							break;
 
 							case SB_LINEDOWN: {
-								int pos = min( (long)(scrollable->getVerticalPosition() + 5),
+								int step = scrollable->getVirtualViewVertStep();
+								int pos = min( (long)(scrollable->getVerticalPosition() + step),
 												abs((long)(scrollable->getVirtualViewHeight() - height)) );
-								si.nPos += 5;						// for a text file or a listbox it becomes important !
+								si.nPos += step;
 								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
 								scrollable->setVerticalPosition( pos );
@@ -999,8 +1000,9 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 							break;
 
 							case SB_LINEUP: {
-								int pos = max( (long)(scrollable->getVerticalPosition() - 5), 0 );
-								si.nPos -= 5;
+								int step = scrollable->getVirtualViewVertStep();
+								int pos = max( (long)( scrollable->getVerticalPosition() - step ), 0 );
+								si.nPos -= step;
 								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
 								scrollable->setVerticalPosition( pos );
@@ -1076,19 +1078,23 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 							break;
 
 							case SB_LINELEFT : {
-								int pos = max( (long)(scrollable->getHorizontalPosition() - 5),
-												0 );
-
+								//copied from SB_LINEUP
+								int step = scrollable->getVirtualViewHorzStep();
+								int pos = max( (long)( scrollable->getHorizontalPosition() - step ), 0 );
+								si.nPos -= step;
+								si.nPos = max ( si.nPos, si.nMin );	//useless: it is automatically done by Window's adjustments
+								pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
 							}
 							break;
 
 							case SB_LINERIGHT : {
 								//copied from SB_LINEDOWN
-								int pos = min( (long)(scrollable->getHorizontalPosition() + 5),           
+								int step = scrollable->getVirtualViewHorzStep();
+								int pos = min( (long)( scrollable->getHorizontalPosition() + step ),           
 												abs((long)(scrollable->getVirtualViewWidth() - width)) ); 
 
-								si.nPos += 5;						// for a text file or a listbox it becomes important !
+								si.nPos += step;
 								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
 								pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
@@ -1359,6 +1365,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.2.2.7  2004/09/21 05:37:36  dougtinkham
 *minor mod to handleEventMessages, case WM_HSCROLL, for horiz. scrolling
 *

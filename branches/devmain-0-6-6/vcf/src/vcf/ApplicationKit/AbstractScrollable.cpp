@@ -35,6 +35,8 @@ AbstractScrollable::AbstractScrollable():
 	resizeHandler_(NULL),
 	scrollPeer_(NULL),
 	scrollableControl_(NULL),
+	virtualViewHorzStep_(5.0),
+	virtualViewVertStep_(5.0),
 	virtualViewHeight_(0.0),
 	virtualViewWidth_(0.0),	
 	hasVertScrollbar_(false),
@@ -78,24 +80,28 @@ void AbstractScrollable::setScrollableControl( Control* scrollableControl ) {
 void AbstractScrollable::setVerticalTopScrollSpace( const double& topScrollSpace )
 {
 	this->topScrollSpace_ = topScrollSpace;
+
 	this->recalcScrollPositions();
 }
 
 void AbstractScrollable::setVerticalBottomScrollSpace( const double& bottomScrollSpace )
 {
 	this->bottomScrollSpace_ = bottomScrollSpace;
+
 	this->recalcScrollPositions();
 }
 
 void AbstractScrollable::setHorizontalLeftScrollSpace( const double& leftScrollSpace )
 {
 	this->leftScrollSpace_ = leftScrollSpace;
+
 	this->recalcScrollPositions();
 }
 
 void AbstractScrollable::setHorizontalRightScrollSpace( const double& rightScrollSpace )
 {
 	this->rightScrollSpace_ = rightScrollSpace;
+
 	this->recalcScrollPositions();
 }
 
@@ -106,9 +112,10 @@ void AbstractScrollable::onControlResized( ControlEvent* event )
 
 void AbstractScrollable::setVirtualViewSize( const double& width, const double& height )
 {
-	virtualViewWidth_ = width;    // old implem
-	virtualViewHeight_ = height;  // old implem	
-	scrollPeer_->recalcScrollPositions( this ); // old implem
+	virtualViewWidth_ = width;
+	virtualViewHeight_ = height;
+
+	scrollPeer_->recalcScrollPositions( this );
 }
 
 bool AbstractScrollable::isVerticalScrollbarVisible() {
@@ -181,8 +188,9 @@ void AbstractScrollable::getVerticalScrollRects( Rect* scrollBounds, Rect* topBo
 
 void AbstractScrollable::setKeepScrollbarsVisible( const bool& horzVisible, const bool& vertVisible )
 {
-	if ( hasHorzScrollbar_ ) keepHorzScrollbarVisible_ = horzVisible;
-	if ( hasVertScrollbar_ ) keepVertScrollbarVisible_ = vertVisible;
+	keepHorzScrollbarVisible_ = horzVisible;
+	keepVertScrollbarVisible_ = vertVisible;
+
 	this->recalcScrollPositions();
 }
 
@@ -201,6 +209,9 @@ bool AbstractScrollable::getKeepVertScrollbarVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/21 22:27:06  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.2.2.5  2004/09/21 05:43:21  dougtinkham
 *removed updateVirtualViewSize, addied isVerticalScrollbarVisible, isHorizontalScrollbarVisible
 *
