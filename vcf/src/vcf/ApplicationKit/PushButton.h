@@ -144,7 +144,7 @@ public:
 	*/
 	void setCommandType( const ButtonCommandType& commandType );
 protected:
-	std::string caption_;
+	String caption_;
 	long BtnImageIndex_;
 	ImageList* imageList_;
 	bool autoSizeForCaption_;
@@ -177,6 +177,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/19 16:37:57  marcelloptr
+*Preparation of the UnicodeString class to accept a custom allocator. Added missed conversion and assignement operators.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -73,7 +73,7 @@ public:
 
 	virtual double getPreferredWidth();
 private:
-    std::string caption_;
+	String caption_;
 	TextAlignmentType textAlignment_;
 	TextVerticalAlignment textVerticalAlignment_;
 	Control* focusControl_;
@@ -86,6 +86,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/19 16:37:56  marcelloptr
+*Preparation of the UnicodeString class to accept a custom allocator. Added missed conversion and assignement operators.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
