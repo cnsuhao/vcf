@@ -30,28 +30,28 @@ public:
 	virtual ~Win32Edit();
 
 	virtual void create( Control* owningControl );
-    /**
-     * sets the text for the widget
-     */
-    virtual void setText( const VCF::String& text );
+	/**
+	* sets the text for the widget
+	*/
+	virtual void setText( const VCF::String& text );
 
-    virtual void setRightMargin( const double & rightMargin );
+	virtual void setRightMargin( const double & rightMargin );
 
 	virtual void setLeftMargin( const double & leftMargin );
 
-    virtual unsigned long getLineCount();
+	virtual unsigned long getLineCount();
 
-    virtual unsigned long getCurrentLinePosition();
+	virtual unsigned long getCurrentLinePosition();
 
 	virtual void setCaretPosition( const unsigned long& caretPos );
 
-    virtual double getLeftMargin();
+	virtual double getLeftMargin();
 
-    virtual double getRightMargin();
+	virtual double getRightMargin();
 
-    virtual Point* getPositionFromCharIndex( const unsigned long& index );
+	virtual Point* getPositionFromCharIndex( const unsigned long& index );
 
-    virtual unsigned long getCharIndexFromPosition( Point* point );
+	virtual unsigned long getCharIndexFromPosition( Point* point );
 
 	/**
 	*returns the current caret position with in the text control
@@ -136,7 +136,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2005/02/24 05:39:39  marcelloptr
+*Revision 1.3.2.4  2005/02/24 06:16:11  marcelloptr
 *bugfix [1150773] - Win32Edit loses last n characters past the last 2048 written
 *
 *Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
