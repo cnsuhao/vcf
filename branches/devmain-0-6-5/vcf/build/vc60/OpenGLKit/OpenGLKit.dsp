@@ -23,6 +23,8 @@ CFG=OpenGLKit - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -40,7 +42,7 @@ RSC=rc.exe
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FOUNDATIONKIT_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_APPLICATIONKIT_LIB" /D "BUILD_OPENGLKIT_LIB" /FD /c
-# SUBTRACT CPP /YX /Yc /Yu /FR
+# SUBTRACT CPP /Fr /YX /Yc /Yu
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +66,7 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
 # ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FOUNDATIONKIT_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_APPLICATIONKIT_LIB" /D "BUILD_OPENGLKIT_LIB" /Fd"..\..\..\lib\OpenGLKit_vc6_sd.pdb" /FD /GZ /c
-# SUBTRACT CPP /YX /Yc /Yu /FR
+# SUBTRACT CPP /Fr /YX /Yc /Yu
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -85,10 +87,6 @@ LIB32=link.exe -lib
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLContext.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLControl.cpp
 # End Source File
 # Begin Source File
@@ -107,10 +105,6 @@ SOURCE=..\..\..\src\vcf\OpenGLKit\Win32OpenGLPeer.cpp
 # Begin Group "Headers"
 
 # PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLContext.h
-# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\OpenGLKit\OpenGLControl.h
