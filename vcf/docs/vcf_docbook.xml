@@ -45,6 +45,10 @@
 	<!ENTITY progressbars SYSTEM "../examples/ProgressBars/ProgressBars.xml">
 	<!ENTITY labels SYSTEM "../examples/Labels/Labels.xml">
 	<!ENTITY dictionaries SYSTEM "../examples/Dictionaries/Dictionaries.xml">
+	<!ENTITY actions SYSTEM "../examples/Actions/Actions.xml">
+	<!ENTITY toolbars SYSTEM "../examples/Toolbars/Toolbars.xml">
+	
+	
 	
 
 ]>
@@ -93,6 +97,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.8  2003/12/13 15:56:08  ddiego
+*** empty log message ***
+
 Revision 1.1.2.7  2003/11/23 15:14:05  ddiego
 added more docs, and updated to account for new Dictionary tutorial
 

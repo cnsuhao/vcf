@@ -185,6 +185,14 @@ NB: This software will not save the world.
 		<section><title>Menus</title>
 		</section>
 		
+		<section><title>Toolbars</title>
+			&toolbars;
+		</section>
+		
+		<section><title>Actions</title>
+			&actions;
+		</section>
+		
 		<section><title>Splitter controls</title>
 		</section>
 		
@@ -217,6 +225,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.8  2003/12/13 15:56:07  ddiego
+*** empty log message ***
+
 Revision 1.1.2.7  2003/12/01 03:44:13  ddiego
 added some fixes to the Win32Toolbar impl. A few minor changes to the
 toolbar example (which also got added). Some minor changes to docs

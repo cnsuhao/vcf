@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.5.2.12  2003/12/13 15:56:07  ddiego
+#*** empty log message ***
+#
 #Revision 1.5.2.11  2003/12/08 05:05:27  ddiego
 #added a bunch more documentation to classes, and added support for new doc
 #keywords (@delegates, @del, @delegate, @event, and @eventtype). This
@@ -183,7 +186,9 @@ TUTORIAL_ARTICLES = ../examples/HelloWorld/HelloWorldArticle.xml \
 ../examples/Sliders/SlidersArticle.xml \
 ../examples/ProgressBars/ProgressBarsArticle.xml \
 ../examples/Labels/LabelsArticle.xml \
-../examples/Dictionaries/DictionariesArticle.xml
+../examples/Dictionaries/DictionariesArticle.xml \
+../examples/Actions/ActionsArticle.xml \
+../examples/Toolbars/ToolbarsArticle.xml 
 
 
 

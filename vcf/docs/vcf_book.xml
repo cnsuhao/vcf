@@ -28,8 +28,8 @@ NB: This software will not save the world.
 
 -->
 
-<title>The VCF Book 0.6.2</title>
-	<titleabbrev>VCF Documentation 0.6.2</titleabbrev>
+<title>The VCF Book VERSION-NUMBER</title>
+	<titleabbrev>VCF Documentation VERSION-NUMBER</titleabbrev>
 	<bookinfo>
 		<legalnotice>
 			<para>
@@ -100,6 +100,14 @@ NB: This software will not save the world.
 			</revision>
 			<revision>
 			  <revnumber>0.6.2</revnumber>
+			  <date>12 December 2003</date>
+			  <authorinitials>JC</authorinitials>
+			  <revremark>Updates for 0-6-3, lots of new, complete, and more 
+			  improved documentation (all 'cause I remembered to eat my Wheaties!).</revremark>
+			</revision>
+			
+			<revision>
+			  <revnumber>0.6.3</revnumber>
 			  <date>9 August 2003</date>
 			  <authorinitials>JC</authorinitials>
 			  <revremark>Updates for 0-6-2</revremark>
@@ -229,6 +237,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/12/13 15:56:08  ddiego
+*** empty log message ***
+
 Revision 1.1.2.2  2003/10/01 01:58:31  ddiego
 added more faq documentation
 
