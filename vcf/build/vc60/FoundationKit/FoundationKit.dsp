@@ -209,6 +209,10 @@ SOURCE=..\..\..\include\core\Property.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\VariantData.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\VariantData.h
 # End Source File
 # End Group
