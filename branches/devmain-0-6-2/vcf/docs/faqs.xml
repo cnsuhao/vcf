@@ -50,41 +50,66 @@ NB: This software will not save the world.
 about that? I just saw the installer telling me you own the copyright, is that so?</para>
 			</question>
 			<answer>
+				<para>The VCF license is a BSD license. The only restriction is that
+				the copyright notice may not be stripped out from the source, and
+				you need to give credit to the project and or author(s). Beyond
+				that you are free to use the code however you like, and you are not
+				<emphasis>required</emphasis> to release changes you make back to
+				the VCF project (though they are certainly welcome). Copyright is 
+				owned by the authors of the content.</para>
+			</answer>
+			<question>
+				<para>How does the VCF compare to other frameworks or toolkits,
+					such as MFC, Qt, FLTK, FOX, and GTK?</para>
+			</question>
+			<answer>
+				<para></para>
+			</answer>
+
+			<question>
+				<para>Why not just help out an existing framework? Why write 
+					yet <emphasis>another</emphasis> framework/toolkit?</para>
+			</question>
+			<answer>
 				<para></para>
 			</answer>
 			<question>
 				<para>Can we use the VCF in commercial applications?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Yes. There are no restrictions made on how hte VCF is 
+				used. It can used in both OSS and commercial/proprietary projects.</para>
 			</answer>
 			
 			<question>
-				<para>Is the VCF Documentation available in PDF format</para>
+				<para>Is the VCF Documentation available in PDF format?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Not currently, though there is an effort to make this 
+				happen. </para>
 			</answer>
 			
 			<question>
 				<para>Is the VCF Documentation available in HTML for offline viewing?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Yes, see the project downloads section and look for the
+				Documentation area. </para>
 			</answer>
 			
 			<question>
 				<para>Is the VCF Documentation available as an HTML Help .CHM file?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>Yes, see the project downloads section and look for the
+				Documentation area.</para>
 			</answer>
 			
 			<question>
 				<para>What would be required to port my MFC App to VCF?</para>
 			</question>
 			<answer>
-				<para></para>
+				<para>A miracle?</para>
 			</answer>
 			<question>
 				<para>What platforms and/or compilers does the VCF support?</para>
@@ -203,7 +228,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para></para>
 			</answer>				
 			<question>
-				<para>Can use the VCF without writing a GUI?</para>
+				<para>Can I use the VCF without writing a GUI?</para>
 			</question>
 			<answer>
 				<para></para>
@@ -295,14 +320,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para></para>
-			</answer>			
-			<question>
-				<para>What are the advantages of the VCF versus other libraries like Fox, wxWindows, 
-				Qt, FLTK, etc?</para>
-			</question>
-			<answer>
-				<para></para>
-			</answer>			
+			</answer>						
 			<question>
 				<para>If I have written and application in MFC can I still use the VCF libraries in 
 				this app? How hard/easy is it to integrate VCF code with other frameworks or vice-versa?</para>
@@ -748,6 +766,7 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>
 				An answer.
 				</para>
+<<<<<<< faqs.xml
 			</answer>
 			<question>
 				<para>Can I use threads in my GUI built with the ApplicationKit? If
@@ -909,6 +928,15 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				An answer.
 				</para>
 			</answer>
+			<question>
+				<para>How do I make a control keep all the mouse events? Is there
+					something analgous to Win32's ::SetCapture GTK's gdk_pointer_grab()?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>
 		</qandaentry>
 	</qandaset>
 	</section>
@@ -960,6 +988,9 @@ about that? I just saw the installer telling me you own the copyright, is that s
 CVS Log info
 
 $Log$
+Revision 1.1.2.4  2003/10/03 01:45:29  ddiego
+updates to faqs
+
 Revision 1.1.2.3  2003/10/01 21:49:56  ddiego
 *** empty log message ***
 
