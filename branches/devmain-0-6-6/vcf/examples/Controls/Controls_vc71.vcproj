@@ -163,6 +163,9 @@
 			<File
 				RelativePath="MainWindow.h">
 			</File>
+			<File
+				RelativePath="Spacers.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
