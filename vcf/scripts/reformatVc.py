@@ -72,12 +72,15 @@ backupFiles = False
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
 
 # Some macros used internally for clarity
-g_KeepFirstDot_True  = True
 g_KeepFirstDot_False = False
-g_MinPathIsDot_True  = True
+g_KeepFirstDot_True  = True
 g_MinPathIsDot_False = False
-g_IsDirForSure_True  = True
-g_IsDirForSure_False = False
+g_MinPathIsDot_True  = True
+g_IsDirForSure_False = 0
+g_IsDirForSure_True  = 1
+g_IsDirForSure_ChkDot = 2  # check automatically if the path is a directory or not according with if it has a dot or not
+#                           # There is an option in vc70: 'ObjectFile=".\vc70\DebugDLL/" that *WANTS* the '/' at the end if it is not a file otherwise it
+#                           # compiles only in a 'partial' and weird way !!!
 
 
 #enum AppType
@@ -732,6 +735,10 @@ class FileUtils:
     normPathOld = staticmethod(normPathOld)
 
     def normPath( path, unixStyle, keepFirstDot = g_KeepFirstDot_False, minPathIsDot = g_MinPathIsDot_True, isDirForSure = g_IsDirForSure_False ):
+        # g_IsDirForSure_ChkDot is used because there is an option in vc70 'ObjectFile' such:
+        #   'ObjectFile=".\vc70\DebugDLL/"
+        # that *WANTS* the '/' at the end if it is not a file otherwise it compiles only in a 'partial' and weird way !!!
+
         # gets rid of exceding './' ( included the first ) and of the final '/'
         if ( path == '' ):
             return path
@@ -748,8 +755,10 @@ class FileUtils:
         path = FileUtils.normPathSimple( path, unixStyle )
 
         if ( path == '.' or path == curr ):
-            if ( isDirForSure and path == '.' ):
-                path = curr
+            if ( path == '.' ):
+                if ( isDirForSure == g_IsDirForSure_True or isDirForSure == g_IsDirForSure_ChkDot ):
+                    # in this way we make sure we have the '/' at the end
+                    path = curr
             else:
                 if ( keepFirstDot ):
                     path = curr
@@ -787,9 +796,23 @@ class FileUtils:
         # again unfortunately, because of os.path.normpath(). In the future implement just normPathSimple
         path = FileUtils.normPathSimple( path, unixStyle )
 
-        if ( isDirForSure ):
+        if ( isDirForSure == g_IsDirForSure_True ):
             if ( path and path[-1] != sep ):
                 path = path + sep
+        elif ( isDirForSure == g_IsDirForSure_ChkDot ):
+            if ( path[-1] != sep ):
+                i = path.rfind( sep )
+                # does it have a dot ?
+                j = path.rfind( '.' )
+                if ( i < j ):
+                    # yes. we guess it is a filename
+                    pass
+                else:
+                    # yes. we guess it is a directory and we add the sep
+                    path += sep
+            else:
+                #it is a dir for sure and with the '/' at the end
+                pass
 
         return path
     normPath = staticmethod(normPath)
@@ -4286,7 +4309,7 @@ class DspFile( GenericFile ):
                 for entryName in vcpCfg.entryNamesList:
                     entryValue = vcpCfg.entryNameValueDict[ entryName ]
                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                         entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                         vcpCfg.entryNameValueDict[ entryName ] = entryValue
                 for tool_name in vcpCfg.toolNamesList:
@@ -4294,7 +4317,7 @@ class DspFile( GenericFile ):
                     for entryName in vcpTool.entryNamesList:
                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
@@ -4379,7 +4402,7 @@ class DspFile( GenericFile ):
                                     for entryName in vcpTool.entryNamesList:
                                         entryValue = vcpTool.entryNameValueDict[ entryName ]
                                         if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+                                            entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
                                             entryValue = DspFile.replaceCompilerText( entryValue, replaceCompilerTuple )
                                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
@@ -4686,7 +4709,7 @@ class DspFile( GenericFile ):
 
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
-                                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
+                                        entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
                                     line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
@@ -5127,7 +5150,7 @@ class DspFile( GenericFile ):
             subdir = m.group('subdir')
             dirname = self.reformatDir( subdir )
 
-            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_True )
+            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
             if ( re_intermed_dir.match( line ) ):
                 self.PropIntermeDirList[self.nCfg] = dirname
@@ -5146,7 +5169,7 @@ class DspFile( GenericFile ):
             dirname = os.path.dirname( outdir )
             dirname =  FileUtils.normDir( dirname, g_internal_unixStyle )
 
-            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_True )
+            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
             self.OutputDirOutList[self.nCfg] = dirname
             if ( 0 < self.nCfg and not self.OutputDirOutList[0] == dirname ):
@@ -5187,7 +5210,7 @@ class DspFile( GenericFile ):
         if ( changeSomething ):
             dirname = self.reformatDir( subdir ) # for debug
 
-            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_True )
+            dirname = FileUtils.normPath( dirname, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_ChkDot )
 
             if ( re_intermed_dir.match( line ) ):
                 if ( self.PropIntermeDir != dirname ):
@@ -5943,7 +5966,7 @@ class Workspace( DspFile ):
         self.setFilename( newFilename )
         self.lines = wspOld.lines # copy all modified lines
 
-        self.saveFile( False )
+        self.saveFile( g_include_vcproj_in_changed_files_counted )
 
         if ( 0 < app.options.verbose ):
             if ( newCompiler ):
@@ -5970,7 +5993,7 @@ class Workspace( DspFile ):
         self.createSlnProjectEntries( wspOld, newCompiler )
 
         self.setFilename( newFilenameSln  ) #%%% + '.sln'
-        self.saveFile( False )
+        self.saveFile( g_include_vcproj_in_changed_files_counted )
 
         if ( 0 < app.options.verbose ):
             print ' created solution: %s' % self.filename
@@ -6000,7 +6023,7 @@ class Workspace( DspFile ):
         self.updateSlnProjectEntries( wspOld, newCompiler )
 
         self.setFilename( newFilenameSln ) #%%% + '.sln'
-        self.saveFile( False )
+        self.saveFile( g_include_vcproj_in_changed_files_counted )
 
         if ( 0 < app.options.verbose ):
             print ' updated solution: %s' % self.filename
