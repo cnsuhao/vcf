@@ -83,7 +83,7 @@ public:
 	}
 
 	void fireInvalidStateException(){
-		throw InvalidStateException(MAKE_ERROR_MSG(BAD_ITEMSTATE_EXCEPTION), __LINE__);
+		throw InvalidStateException(MAKE_ERROR_MSG_2(BAD_ITEMSTATE_EXCEPTION));
 	}
 
 	TableCellItem* getItemBeingEdited(){
@@ -127,6 +127,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *

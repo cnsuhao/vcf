@@ -395,7 +395,7 @@ void GTKWindow::setText( const String& text )
 	
 	text_ = text;
 
-	gtk_window_set_title( (GtkWindow*)wndHandle_, text_.c_str() );
+	gtk_window_set_title( (GtkWindow*)wndHandle_, text_.ansi_c_str() );
 }
 
 
@@ -421,6 +421,10 @@ Rect GTKWindow::getBounds()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *

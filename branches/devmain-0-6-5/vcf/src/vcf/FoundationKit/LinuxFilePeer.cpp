@@ -1,44 +1,3 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
-*migration towards new directory structure
-*
-*Revision 1.5  2003/05/17 20:37:33  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.4.14.2  2003/03/23 03:23:56  marcelloptr
-*3 empty lines at the end of the files
-*
-*Revision 1.4.14.1  2003/03/12 03:12:18  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.4  2002/05/27 22:52:34  ddiego
-*added two new tests for testing File and System support in the FoudnationKit
-*and verified that they work in Linux. Fixed associated code in getting that to
-*work.
-*
-*Revision 1.3  2002/05/27 15:58:22  ddiego
-*added linux peer classes for the FoundationKit port to linux
-*this now means the FoundationKit will start up correctly on
-*linu thought it is still not 100% functional yet
-*
-*Revision 1.2  2002/05/09 03:10:44  ddiego
-*merged over code from development branch devmain-0-5-1a into the main CVS trunk
-*
-*Revision 1.1.4.1  2002/03/26 04:46:34  cesarmello
-*Linux headers
-*
-*Revision 1.1  2002/01/28 02:07:59  cesarmello
-*Linux file peer
-*
-*/
 
 /**
 *Copyright (c) 2000-2001, Jim Crafton
@@ -131,7 +90,7 @@ void LinuxFilePeer::buildSearchFilters( const String& searchFilter )
 
 void LinuxFilePeer::remove()
 {
-	int err = ::remove( filename_.c_str() );
+	int err = ::remove( filename_.ansi_c_str() );
 	if ( -1 == err ) {
   	//somethign bad happened
 		int errorCode = errno;
@@ -149,7 +108,7 @@ void LinuxFilePeer::create()
 
 	int openFlags = O_CREAT; //O_RDWR |
 	
-	fileHandle_ = ::open( filename_.c_str(), openFlags, 0666 );
+	fileHandle_ = ::open( filename_.ansi_c_str(), openFlags, 0666 );
 
 	if (fileHandle_ < 0)
 	{
@@ -168,7 +127,7 @@ uint32 LinuxFilePeer::getSize()
 	if (fileHandle_ != 0)
 	{
 		struct stat buf;
-		if ((lstat(filename_.c_str(), &buf)) < 0)
+		if ((lstat(filename_.ansi_c_str(), &buf)) < 0)
 		{
 			result = 0;
 			//probably need to throw an exception
@@ -195,7 +154,7 @@ void LinuxFilePeer::copyTo( const String& copyFileName )
 {
 	//this is the brute force way - there is surely a better way to
 	//do this with system calls - I just don't know what they are yet !
-  FILE* sourceFile = fopen( filename_.c_str(), "rb" );
+  FILE* sourceFile = fopen( filename_.ansi_c_str(), "rb" );
 	if ( NULL != sourceFile ) {
   	fseek( sourceFile, 0, SEEK_END );
 		int size = ftell( sourceFile );
@@ -203,7 +162,7 @@ void LinuxFilePeer::copyTo( const String& copyFileName )
 		unsigned char* tmp = new unsigned char[size];
 		fread( tmp, 1, size, sourceFile );
 		fclose( sourceFile );
-		FILE* destFile = fopen( copyFileName.c_str(), "wb" );
+		FILE* destFile = fopen( copyFileName.ansi_c_str(), "wb" );
 		if ( NULL != destFile ) {
 			fwrite( tmp, 1, size, destFile );
 			fclose( destFile );
@@ -216,5 +175,54 @@ void LinuxFilePeer::copyTo( const String& copyFileName )
   	throw BasicFileError( MAKE_ERROR_MSG_2("Unable to open source file \"" + filename_ + "\" and read data from it.") );	
 	}
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
+*Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
+*migration towards new directory structure
+*
+*Revision 1.5  2003/05/17 20:37:33  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.4.14.2  2003/03/23 03:23:56  marcelloptr
+*3 empty lines at the end of the files
+*
+*Revision 1.4.14.1  2003/03/12 03:12:18  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.4  2002/05/27 22:52:34  ddiego
+*added two new tests for testing File and System support in the FoudnationKit
+*and verified that they work in Linux. Fixed associated code in getting that to
+*work.
+*
+*Revision 1.3  2002/05/27 15:58:22  ddiego
+*added linux peer classes for the FoundationKit port to linux
+*this now means the FoundationKit will start up correctly on
+*linu thought it is still not 100% functional yet
+*
+*Revision 1.2  2002/05/09 03:10:44  ddiego
+*merged over code from development branch devmain-0-5-1a into the main CVS trunk
+*
+*Revision 1.1.4.1  2002/03/26 04:46:34  cesarmello
+*Linux headers
+*
+*Revision 1.1  2002/01/28 02:07:59  cesarmello
+*Linux file peer
+*
+*/
+
+
 
 

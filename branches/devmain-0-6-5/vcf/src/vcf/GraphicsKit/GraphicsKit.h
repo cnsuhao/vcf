@@ -71,8 +71,8 @@
 #include "vcf/GraphicsKit/ClippingRegion.h"
 #include "vcf/GraphicsKit/GraphicsToolKit.h"
 #include "vcf/GraphicsKit/NoGraphicsToolkitFoundException.h"
-#include "vcf/ApplicationKit/InvalidImage.h"
-#include "vcf/ApplicationKit/ImageLoaderException.h"
+#include "vcf/GraphicsKit/InvalidImage.h"
+#include "vcf/GraphicsKit/ImageLoaderException.h"
 #include "vcf/GraphicsKit/AbstractImage.h"
 
 #include "vcf/GraphicsKit/BasicFill.h"
@@ -110,6 +110,10 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
 *migration towards new directory structure
 *

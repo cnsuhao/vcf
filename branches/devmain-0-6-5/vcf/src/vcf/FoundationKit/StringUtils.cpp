@@ -57,7 +57,7 @@ void StringUtils::traceWithArgs( String text,... )
 	memset( buf, 0, MAX_TRACE_STRING*sizeof(VCFChar) );
 
 #ifdef VCF_GCC
-	vsnprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );
+	vswprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );
 #else 
 	_vsnwprintf( buf, MAX_TRACE_STRING, text.c_str(), argList );	
 #endif
@@ -78,7 +78,7 @@ void StringUtils::trace( const String& text )
 #ifdef WIN32
 	VCFWin32::Win32Utils::trace( text );
 #else
-	printf( text.c_str() );
+	wprintf( text.c_str() );
 #endif
 
 #endif
@@ -186,7 +186,11 @@ VCF::String StringUtils::toString( const int& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%d", value  );
+#else
 	swprintf( tmp, L"%d", value );
+#endif	
 	return String( tmp );
 }
 
@@ -194,7 +198,11 @@ VCF::String StringUtils::toString( const long& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	swprintf( tmp, L"%d", (int)value );
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%d", value  );
+#else
+	swprintf( tmp, L"%d", value );
+#endif
 	return String( tmp );
 }
 
@@ -202,7 +210,11 @@ VCF::String StringUtils::toString( const float& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%.5f", value  );
+#else
 	swprintf( tmp, L"%.5f", value );
+#endif
 	return String( tmp );
 }
 
@@ -210,7 +222,12 @@ VCF::String StringUtils::toString( const double& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+	
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%.5f", value  );
+#else
 	swprintf( tmp, L"%.5f", value );
+#endif
 	return String( tmp );
 }
 
@@ -218,7 +235,11 @@ VCF::String StringUtils::toString( const ulong32& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%d", (int)value  );
+#else
 	swprintf( tmp, L"%d", (int)value );
+#endif
 	return String( tmp );
 }
 
@@ -226,7 +247,11 @@ VCF::String StringUtils::toString( const uint32& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%d", value  );
+#else
 	swprintf( tmp, L"%d", value );
+#endif
 	return String( tmp );
 }
 
@@ -234,7 +259,12 @@ VCF::String StringUtils::toString( const char& value )
 {
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
+	
+#ifdef VCF_POSIX
+	swprintf( tmp, sizeof(tmp)-1, L"%c", value  );
+#else
 	swprintf( tmp, L"%c", value );
+#endif
 	return String( tmp );
 }
 
@@ -274,8 +304,8 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 	VCFChar* buf = new VCFChar[MAX_TRACE_STRING];
 	memset( buf, 0, MAX_TRACE_STRING*sizeof(VCFChar) );
 
-#ifdef VCF_GCC
-	vsnprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
+#ifdef VCF_POSIX
+	vswprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
 #else 
 	_vsnwprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );	
 #endif
@@ -485,10 +515,19 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );
 					
 					if ( hashCharFound ) {
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", d );
+					#else
 						swprintf( tmp, L"%d", d );
+					#endif
+						
 					}
 					else {
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", d );
+					#else
 						swprintf( tmp, L"%02d", d );
+					#endif
 					}
 
 					result += tmp;
@@ -503,7 +542,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				case 'D' : { 
 					result.append( current, (P-current) -formatArgCount );
 
+					#ifdef VCF_POSIX
+					swprintf( tmp, sizeof(tmp)-1, L"%d", date.getDayOfYear() );
+					#else				
 					swprintf( tmp, L"%d", date.getDayOfYear() );
+					#endif
 
 					result += tmp;
 
@@ -518,10 +561,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );
 
 					if ( hashCharFound ) {
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getHour() );
+					#else
 						swprintf( tmp, L"%d", date.getHour() );
+					#endif
 					}
 					else {
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getHour() );
+					#else
 						swprintf( tmp, L"%02d", date.getHour() );
+					#endif
 					}					
 
 					result += tmp;
@@ -541,10 +592,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 						h = 12;
 					}
 					if ( hashCharFound ) {
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", h );
+					#else
 						swprintf( tmp, L"%d", h );
+					#endif
 					}
 					else {
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", h );
+					#else
 						swprintf( tmp, L"%02d", h );
+					#endif
 					}
 
 					result += tmp;
@@ -562,11 +621,19 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					
 
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", date.getDayOfYear() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getDayOfYear()  );
+					#else
+						swprintf( tmp, L"%d", date.getDayOfYear()  );
+					#endif
 						result += tmp;
 					}
 					else {
-						swprintf( tmp, L"%03d", date.getDayOfYear() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%03d", date.getDayOfYear()  );
+					#else
+						swprintf( tmp, L"%03d", date.getDayOfYear()  );
+					#endif
 						result += tmp;
 					}
 
@@ -582,10 +649,19 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );
 
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", m );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", m  );
+					#else
+						swprintf( tmp, L"%d", m  );
+					#endif
 					}
 					else {
-						swprintf( tmp, L"%02d", m );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", m  );
+					#else
+						swprintf( tmp, L"%02d", m  );
+					#endif
+						
 					}
 					
 
@@ -602,10 +678,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );
 
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", date.getMinute() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getMinute()  );
+					#else
+						swprintf( tmp, L"%d", date.getMinute()  );
+					#endif
 					}
 					else {
-						swprintf( tmp, L"%02d", date.getMinute() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getMinute()  );
+					#else
+						swprintf( tmp, L"%02d", date.getMinute()  );
+					#endif
 					}
 					
 
@@ -634,10 +718,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );				
 
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", date.getSeconds() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getSeconds()  );
+					#else
+						swprintf( tmp, L"%d", date.getSeconds()  );
+					#endif
 					}
 					else {
-						swprintf( tmp, L"%02d", date.getSeconds() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getSeconds()  );
+					#else
+						swprintf( tmp, L"%02d", date.getSeconds()  );
+					#endif
 					}
 
 					
@@ -654,10 +746,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );				
 					
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", date.getWeekOfYearStartingSun() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getWeekOfYearStartingSun()  );
+					#else
+						swprintf( tmp, L"%d", date.getWeekOfYearStartingSun()  );
+					#endif
 					}
 					else {
-						swprintf( tmp, L"%02d", date.getWeekOfYearStartingSun() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getWeekOfYearStartingSun()  );
+					#else
+						swprintf( tmp, L"%02d", date.getWeekOfYearStartingSun()  );
+					#endif
 					}	
 
 					result += tmp;
@@ -672,7 +772,12 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				case 'w' : { 
 					result.append( current, (P-current) -formatArgCount );				
 					
-					swprintf( tmp, L"%d", (int)date.getWeekDay() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", (int)date.getWeekDay()  );
+					#else
+						swprintf( tmp, L"%d", (int)date.getWeekDay()  );
+					#endif
+				
 					result += tmp;
 
 					current = P + 1;
@@ -686,10 +791,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );
 
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", date.getWeekOfYearStartingMon() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getWeekOfYearStartingMon()  );
+					#else
+						swprintf( tmp, L"%d", date.getWeekOfYearStartingMon()  );
+					#endif
 					}
 					else {
-						swprintf( tmp, L"%02d", date.getWeekOfYearStartingMon() );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getWeekOfYearStartingMon()  );
+					#else
+						swprintf( tmp, L"%02d", date.getWeekOfYearStartingMon()  );
+					#endif
 					}			
 
 					result += tmp;
@@ -728,10 +841,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					result.append( current, (P-current) -formatArgCount );				
 					
 					if ( hashCharFound ) {
-						swprintf( tmp, L"%d", y % 100 );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%d", y % 100  );
+					#else
+						swprintf( tmp, L"%d", y % 100  );
+					#endif
 					}
 					else {
-						swprintf( tmp, L"%02d", y % 100 );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%02d", y % 100  );
+					#else
+						swprintf( tmp, L"%02d", y % 100  );
+					#endif
 					}
 
 					
@@ -747,7 +868,13 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				case 'Y' : { 
 					result.append( current, (P-current) -formatArgCount );				
 					
-					swprintf( tmp, L"%04d", y );
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%04d", y  );
+					#else
+						swprintf( tmp, L"%04d", y  );
+					#endif
+				
+					
 					result += tmp;
 
 					current = P + 1;
@@ -760,7 +887,14 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				case 's' : { 
 					result.append( current, (P-current) -formatArgCount );				
 					
-					swprintf( tmp, L"%04d", date.getMilliSeconds() );
+					
+					#ifdef VCF_POSIX
+						swprintf( tmp, sizeof(tmp)-1, L"%04d", date.getMilliSeconds()  );
+					#else
+						swprintf( tmp, L"%04d", date.getMilliSeconds()  );
+					#endif
+				
+				
 					result += tmp;
 
 					current = P + 1;
@@ -790,6 +924,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 03:29:40  ddiego
 *migration towards new directory structure
 *

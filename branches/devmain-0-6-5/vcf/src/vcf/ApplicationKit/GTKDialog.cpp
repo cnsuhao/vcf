@@ -38,9 +38,9 @@ void GTKDialog::showMessage( const String& message, const String& caption )
 {
 	GtkWidget* dialog = gtk_message_dialog_new ( NULL,GTK_DIALOG_MODAL,
 												GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-												message.c_str() );
+												message.ansi_c_str() );
 
-	gtk_window_set_title( (GtkWindow*)dialog, caption.c_str() );
+	gtk_window_set_title( (GtkWindow*)dialog, caption.ansi_c_str() );
 	
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -92,9 +92,9 @@ UIToolkit::ModalReturnType GTKDialog::showMessage( const String& message, const 
 	GtkWidget* dialog = gtk_message_dialog_new ( NULL,GTK_DIALOG_MODAL,
 												(GtkMessageType)gtkStyle, 
 												(GtkButtonsType)gtkButtons,
-												message.c_str() );
+												message.ansi_c_str() );
 
-	gtk_window_set_title( (GtkWindow*)dialog, caption.c_str() );
+	gtk_window_set_title( (GtkWindow*)dialog, caption.ansi_c_str() );
 	
 	if ( messageButtons & Dialog::mbYesNoCancel ) {
 		gtkButtons = GTK_BUTTONS_NONE;	

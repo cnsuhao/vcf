@@ -238,7 +238,7 @@ bool LinuxLocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 
 	UnicodeString oldLocaleStr = setlocale( LC_CTYPE, NULL );
 
-	setlocale( LC_CTYPE, crtLocaleStr_ );
+	setlocale( LC_CTYPE, crtLocaleStr_.ansi_c_str() );
 
 	if ( charTypeMask & ctSpace ) {
 		if ( isspace( c ) ) {
@@ -312,7 +312,7 @@ bool LinuxLocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 		}
 	}
 
-	setlocale( LC_CTYPE, oldLocaleStr );
+	setlocale( LC_CTYPE, oldLocaleStr.ansi_c_str() );
 
 	return (0 == mask) ? false : true;
 }
@@ -355,6 +355,10 @@ ulong32 LinuxLocalePeer::getCountryCode()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
 *migration towards new directory structure
 *

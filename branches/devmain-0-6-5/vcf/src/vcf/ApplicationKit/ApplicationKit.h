@@ -210,7 +210,7 @@ Action classes
 #include "vcf/ApplicationKit/CursorManager.h"
 
 #include "vcf/ApplicationKit/ImageListEvent.h"
-#include "vcf/GraphicsKit/ImageList.h"
+#include "vcf/ApplicationKit/ImageList.h"
 
 
 // newly added by tiziano:
@@ -344,6 +344,10 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:25  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:13  ddiego
 *migration towards new directory structure
 *

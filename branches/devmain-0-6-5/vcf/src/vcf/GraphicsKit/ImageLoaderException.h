@@ -64,6 +64,10 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 00:28:17  ddiego
 *migration towards new directory structure
 *

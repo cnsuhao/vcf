@@ -1,35 +1,4 @@
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
-*migration towards new directory structure
-*
-*Revision 1.3  2003/05/17 20:37:34  ddiego
-*this is the checkin for the 0.6.1 release - represents the merge over from
-*the devmain-0-6-0 branch plus a few minor bug fixes
-*
-*Revision 1.2.14.2  2003/03/23 03:23:56  marcelloptr
-*3 empty lines at the end of the files
-*
-*Revision 1.2.14.1  2003/03/12 03:12:18  ddiego
-*switched all member variable that used the "m_"<name> prefix to
-* <name>"_" suffix nameing standard.
-*Also changed all vcf builder files to accomadate this.
-*Changes were made to the Stream classes to NOT multiple inheritance and to
-*be a little more correct. Changes include breaking the FileStream into two
-*distinct classes, one for input and one for output.
-*
-*Revision 1.2  2002/05/28 03:03:15  ddiego
-*added another test: FileStreaming to test out the FileStream class in
-*linux. Added some changes to the LinuxFileStream class. Also added the
-*LinuxLibraryPeer so the Library class now works in linux.
-*
-*Revision 1.1  2002/05/27 15:58:22  ddiego
-*added linux peer classes for the FoundationKit port to linux
-*this now means the FoundationKit will start up correctly on
-*linu thought it is still not 100% functional yet
-*
-*/
+
 
 /**
 *Copyright (c) 2000-2001, Jim Crafton
@@ -84,9 +53,10 @@ void LinuxLibraryPeer::load( const String& libraryFilename )
 	//have all the symbols of libary resolved at once,
 	//which would mean this call would block till that was
 	//done
-	libHandle_ = ::dlopen( libraryFilename.c_str(), RTLD_LAZY );
+	libHandle_ = ::dlopen( libraryFilename.ansi_c_str(), RTLD_LAZY );
 	StringUtils::traceWithArgs( "dlopen( %s ) returned %p\n",
-																	libraryFilename.c_str(),  libHandle_ );
+				libraryFilename.c_str(),  libHandle_ );
+
 	if ( NULL == libHandle_ ) {
   	String errMessage = dlerror();
 		throw RuntimeException( MAKE_ERROR_MSG_2( errMessage ) );		
@@ -99,7 +69,7 @@ void* LinuxLibraryPeer::getFunction( const String& functionName )
 	if ( NULL == libHandle_ ) {
 		throw InvalidPointerException( MAKE_ERROR_MSG_2( "You are trying to get function adress without a valid handle to a library" ) );  	
 	}
-	result = dlsym( libHandle_, functionName.c_str() );
+	result = dlsym( libHandle_, functionName.ansi_c_str() );
 	StringUtils::traceWithArgs( "error are: %s\n", dlerror() );
 	return result;
 }
@@ -110,5 +80,43 @@ void LinuxLibraryPeer::unload()
   	dlclose( libHandle_ );
 	}
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
+*Revision 1.1.2.1  2004/04/28 03:29:39  ddiego
+*migration towards new directory structure
+*
+*Revision 1.3  2003/05/17 20:37:34  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.2.14.2  2003/03/23 03:23:56  marcelloptr
+*3 empty lines at the end of the files
+*
+*Revision 1.2.14.1  2003/03/12 03:12:18  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.2  2002/05/28 03:03:15  ddiego
+*added another test: FileStreaming to test out the FileStream class in
+*linux. Added some changes to the LinuxFileStream class. Also added the
+*LinuxLibraryPeer so the Library class now works in linux.
+*
+*Revision 1.1  2002/05/27 15:58:22  ddiego
+*added linux peer classes for the FoundationKit port to linux
+*this now means the FoundationKit will start up correctly on
+*linu thought it is still not 100% functional yet
+*
+*/
 
 

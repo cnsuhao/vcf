@@ -107,6 +107,20 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 
 
 		delete [] tmp;
+	#elif VCF_POSIX
+		int size = mbstowcs (NULL, str, stringLength );
+		if ( !(size > 0) ) {
+			throw RuntimeException( L"size < 0 mbstowcs() failed in UnicodeString::transformAnsiToUnicode()" );
+		}
+	
+		UniChar* tmp = new UniChar[size];
+	
+		int err = mbstowcs( tmp, str, stringLength );
+		if ( err > 0 ) {
+			newStr.assign( tmp, size );
+		}
+	
+		delete [] tmp;
 	#endif
 	}
 }
@@ -121,6 +135,10 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 	if ( !(err > 0) ) {
 		throw RuntimeException( L"size > 0 MultiByteToWideChar() failed" );
 	}
+#elif VCF_POSIX
+	UnicodeString::UniChar tmp[2] = {0,0};
+	int err = mbstowcs( tmp, &c, 1 );
+	result = tmp[0];
 #endif	
 		
 	return result;
@@ -129,9 +147,10 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeString& str )
 {
 	UnicodeString::AnsiChar* result= NULL;
-#ifdef VCF_WIN32
 	int size = 0;
 	int strLength = str.data_.size();
+
+#ifdef VCF_WIN32	
 
 	if ( str.empty() ) {
 		strLength = 1;		
@@ -150,6 +169,22 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 	if (  0 == ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)str.data_.c_str(), strLength,
 									result, size, NULL, NULL ) ) {
 		//WideCharToMultiByte failed
+		delete [] result;
+		result = NULL;
+	}
+	else {
+		result[size] = 0;
+	}
+#elif VCF_POSIX
+	size = wcstombs( NULL, str.data_.c_str(), strLength );
+
+	if ( !(size > 0) ) {
+		throw RuntimeException( L"size < 0 wcstombs() failed" );
+	}
+
+	result = new UnicodeString::AnsiChar[size+1];
+
+	if ( 0 <= wcstombs( result, str.data_.c_str(), strLength ) ) {
 		delete [] result;
 		result = NULL;
 	}
@@ -634,6 +669,10 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/04/28 18:42:26  ddiego
+*migrating over changes for unicode strings.
+*This contains fixes for the linux port and changes to the Makefiles
+*
 *Revision 1.1.2.1  2004/04/28 03:29:41  ddiego
 *migration towards new directory structure
 *
