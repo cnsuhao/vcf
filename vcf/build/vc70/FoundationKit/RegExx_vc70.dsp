@@ -83,19 +83,19 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=../../../src/Utils/get.c
+SOURCE=..\..\..\thirdparty\common\pcre\get.c
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/Utils/maketables.c
+SOURCE=..\..\..\thirdparty\common\pcre\maketables.c
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/Utils/pcre.c
+SOURCE=..\..\..\thirdparty\common\pcre\pcre.c
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/Utils/pcreposix.c
+SOURCE=..\..\..\thirdparty\common\pcre\pcreposix.c
 # End Source File
 # Begin Source File
 
@@ -103,7 +103,7 @@ SOURCE=../../../src/Utils/regexx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=../../../src/Utils/study.c
+SOURCE=..\..\..\thirdparty\common\pcre\study.c
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -111,15 +111,15 @@ SOURCE=../../../src/Utils/study.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=../../../include/utils/internal.h
+SOURCE=..\..\..\thirdparty\common\pcre\internal.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/utils/pcre.h
+SOURCE=..\..\..\thirdparty\common\pcre\pcre.h
 # End Source File
 # Begin Source File
 
-SOURCE=../../../include/utils/pcreposix.h
+SOURCE=..\..\..\thirdparty\common\pcre\pcreposix.h
 # End Source File
 # Begin Source File
 

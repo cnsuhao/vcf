@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "Actions"=.\Actions\Actions.dsp - Package Owner=<4>
+Project: "Actions"="./Actions/Actions.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -15,7 +15,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "AdvancedAlignment"=.\AdvancedAlignment\AdvancedAlignment.dsp - Package Owner=<4>
+Project: "AdvancedAlignment"="./AdvancedAlignment/AdvancedAlignment.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -27,7 +27,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Alignment"=.\Alignment\Alignment.dsp - Package Owner=<4>
+Project: "Alignment"="./Alignment/Alignment.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -39,7 +39,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Anchors"=.\Anchors\Anchors.dsp - Package Owner=<4>
+Project: "Anchors"="./Anchors/Anchors.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -51,7 +51,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationIcons"=.\ApplicationIcons\ApplicationIcons.dsp - Package Owner=<4>
+Project: "ApplicationIcons"="./ApplicationIcons/ApplicationIcons.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -63,7 +63,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKit"=..\build\vc60\ApplicationKit\ApplicationKit.dsp - Package Owner=<4>
+Project: "ApplicationKit"="../build/vc60/ApplicationKit/ApplicationKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -78,7 +78,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKitDLL"=..\build\vc60\ApplicationKit\ApplicationKitDLL.dsp - Package Owner=<4>
+Project: "ApplicationKitDLL"="../build/vc60/ApplicationKit/ApplicationKitDLL.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -93,22 +93,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ApplicationKitGtk"="..\build\gtk\ApplicationKit\ApplicationKit-gtk.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name GraphicsKitGtk
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "Conditions"=.\Conditions\Conditions.dsp - Package Owner=<4>
+Project: "Conditions"="./Conditions/Conditions.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -120,7 +105,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "CopyAndPaste"=.\CopyAndPaste\CopyAndPaste.dsp - Package Owner=<4>
+Project: "CopyAndPaste"="./CopyAndPaste/CopyAndPaste.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -132,7 +117,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DateTimeUI"=.\DateTimeUI\DateTimeUI.dsp - Package Owner=<4>
+Project: "DatesAndTime"="./DatesAndTime/DatesAndTime.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -144,7 +129,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DatesAndTime"=.\DatesAndTime\DatesAndTime.dsp - Package Owner=<4>
+Project: "DateTimeUI"="./DateTimeUI/DateTimeUI.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -156,7 +141,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Dictionaries"=.\Dictionaries\Dictionaries.dsp - Package Owner=<4>
+Project: "Dictionaries"="./Dictionaries/Dictionaries.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -168,7 +153,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "DragAndDrop"=.\DragAndDrop\DragAndDrop.dsp - Package Owner=<4>
+Project: "DragAndDrop"="./DragAndDrop/DragAndDrop.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -180,7 +165,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "EventBasics"=.\EventBasics\EventBasics.dsp - Package Owner=<4>
+Project: "EventBasics"="./EventBasics/EventBasics.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -192,7 +177,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Examples"=.\Examples\Examples.dsp - Package Owner=<4>
+Project: "EventsWithMFC"="./EventsWithMFC/EventsWithMFC.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Examples"="./Examples/Examples.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -238,6 +235,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name EventBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name EventsWithMFC
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name FilesAndDirectories
@@ -324,13 +324,16 @@ Package=<4>
     Project_Dep_Name TreeListControls
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name VisualFormFiles
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name WorkingWithEnumerators
     End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "FilesAndDirectories"=.\FilesAndDirectories\FilesAndDirectories.dsp - Package Owner=<4>
+Project: "FilesAndDirectories"="./FilesAndDirectories/FilesAndDirectories.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -342,22 +345,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FoundationKit"=..\build\vc60\FoundationKit\FoundationKit.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name libAGG
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "FoundationKitDLL"=..\build\vc60\FoundationKit\FoundationKitDLL.dsp - Package Owner=<4>
+Project: "FoundationKit"="../build/vc60/FoundationKit/FoundationKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -372,7 +360,22 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsAndMouseMoves"=.\GraphicsAndMouseMoves\GraphicsAndMouseMoves.dsp - Package Owner=<4>
+Project: "FoundationKitDLL"="../build/vc60/FoundationKit/FoundationKitDLL.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libAGG
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "GraphicsAndMouseMoves"="./GraphicsAndMouseMoves/GraphicsAndMouseMoves.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -384,7 +387,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsBasics"=.\GraphicsBasics\GraphicsBasics.dsp - Package Owner=<4>
+Project: "GraphicsBasics"="./GraphicsBasics/GraphicsBasics.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -396,7 +399,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKit"=..\build\vc60\GraphicsKit\GraphicsKit.dsp - Package Owner=<4>
+Project: "GraphicsKit"="../build/vc60/GraphicsKit/GraphicsKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -411,7 +414,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKitDLL"=..\build\vc60\GraphicsKit\GraphicsKitDLL.dsp - Package Owner=<4>
+Project: "GraphicsKitDLL"="../build/vc60/GraphicsKit/GraphicsKitDLL.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -426,7 +429,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GraphicsKitGtk"="..\build\gtk\GraphicsKit\GraphicsKit-gtk.dsp" - Package Owner=<4>
+Project: "HeavyAndLight"="./HeavyAndLight/HeavyAndLight.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -438,7 +441,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HeavyAndLight"=.\HeavyAndLight\HeavyAndLight.dsp - Package Owner=<4>
+Project: "HelloWorld"="./HelloWorld/HelloWorld.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -450,7 +453,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorld"=.\HelloWorld\HelloWorld.dsp - Package Owner=<4>
+Project: "HelloWorld2"="./HelloWorld2/HelloWorld2.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -462,7 +465,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorld2"=.\HelloWorld2\HelloWorld2.dsp - Package Owner=<4>
+Project: "HelloWorld3"="./HelloWorld3/HelloWorld3.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -474,7 +477,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "HelloWorld3"=.\HelloWorld3\HelloWorld3.dsp - Package Owner=<4>
+Project: "ImageBasics"="./ImageBasics/ImageBasics.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -486,7 +489,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ImageBasics"=.\ImageBasics\ImageBasics.dsp - Package Owner=<4>
+Project: "ImageViewer"="./ImageViewer/ImageViewer.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -498,7 +501,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ImageViewer"=.\ImageViewer\ImageViewer.dsp - Package Owner=<4>
+Project: "Labels"="./Labels/Labels.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -510,7 +513,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Labels"=.\Labels\Labels.dsp - Package Owner=<4>
+Project: "libAGG"="../build/vc60/GraphicsKit/libAGG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -522,7 +525,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Localization"=.\Localization\Localization.dsp - Package Owner=<4>
+Project: "libAGG"="../build/vc60/GraphicsKit/libAGG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -530,14 +533,23 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name FoundationKitDLL
-    End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "NetworkKit"=..\build\vc60\NetworkKit\NetworkKit.dsp - Package Owner=<4>
+Project: "Localization"="./Localization/Localization.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "NetworkKit"="../build/vc60/NetworkKit/NetworkKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -552,7 +564,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "NetworkKitDLL"=..\build\vc60\NetworkKit\NetworkKitDLL.dsp - Package Owner=<4>
+Project: "NetworkKitDLL"="../build/vc60/NetworkKit/NetworkKitDLL.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -567,7 +579,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Processes"=.\Processes\Processes.dsp - Package Owner=<4>
+Project: "Processes"="./Processes/Processes.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -579,7 +591,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ProgressBars"=.\ProgressBars\ProgressBars.dsp - Package Owner=<4>
+Project: "ProgressBars"="./ProgressBars/ProgressBars.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -591,7 +603,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "QTPlayer"=.\QTPlayer\QTPlayer.dsp - Package Owner=<4>
+Project: "QTPlayer"="./QTPlayer/QTPlayer.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -603,7 +615,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Reflection"=.\Reflection\Reflection.dsp - Package Owner=<4>
+Project: "Reflection"="./Reflection/Reflection.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -615,7 +627,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RemoteObjectKit"=..\build\vc60\RemoteObjectKit\RemoteObjectKit.dsp - Package Owner=<4>
+Project: "RemoteObjectKit"="../build/vc60/RemoteObjectKit/RemoteObjectKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -630,7 +642,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RemoteObjectKitStatic"=..\build\vc60\RemoteObjectKit\RemoteObjectKitStatic.dsp - Package Owner=<4>
+Project: "RemoteObjectKitStatic"="../build/vc60/RemoteObjectKit/RemoteObjectKitStatic.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -645,7 +657,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Scrolling"=.\Scrolling\Scrolling.dsp - Package Owner=<4>
+Project: "Scrolling"="./Scrolling/Scrolling.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -657,7 +669,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "SharedLibraries"=.\SharedLibraries\SharedLibraries.dsp - Package Owner=<4>
+Project: "SharedLibraries"="./SharedLibraries/SharedLibraries.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -669,7 +681,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "SketchIt"=.\SketchIt\SketchIt.dsp - Package Owner=<4>
+Project: "SketchIt"="./SketchIt/SketchIt.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -681,7 +693,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Sliders"=.\Sliders\Sliders.dsp - Package Owner=<4>
+Project: "Sliders"="./Sliders/Sliders.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -693,7 +705,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Splitters"=.\Splitters\Splitters.dsp - Package Owner=<4>
+Project: "Splitters"="./Splitters/Splitters.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -705,7 +717,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Strings"=.\Strings\Strings.dsp - Package Owner=<4>
+Project: "Strings"="./Strings/Strings.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -717,7 +729,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "StrokesAndFills"=.\StrokesAndFills\StrokesAndFills.dsp - Package Owner=<4>
+Project: "StrokesAndFills"="./StrokesAndFills/StrokesAndFills.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -729,7 +741,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Tables"=.\Tables\Tables.dsp - Package Owner=<4>
+Project: "Tables"="./Tables/Tables.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -741,7 +753,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "TextLayout"=.\TextLayout\TextLayout.dsp - Package Owner=<4>
+Project: "TextLayout"="./TextLayout/TextLayout.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -753,7 +765,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ThreadBasics"=.\ThreadBasics\ThreadBasics.dsp - Package Owner=<4>
+Project: "ThreadBasics"="./ThreadBasics/ThreadBasics.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -765,7 +777,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ThreadsInGUI"=.\ThreadsInGUI\ThreadsInGUI.dsp - Package Owner=<4>
+Project: "ThreadsInGUI"="./ThreadsInGUI/ThreadsInGUI.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -777,7 +789,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Toolbars"=.\Toolbars\Toolbars.dsp - Package Owner=<4>
+Project: "Toolbars"="./Toolbars/Toolbars.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -789,7 +801,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "TreeListControls"=.\TreeListControls\TreeListControls.dsp - Package Owner=<4>
+Project: "TreeListControls"="./TreeListControls/TreeListControls.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -801,7 +813,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser"=..\build\vc60\Win32HTMLBrowser\Win32HTMLBrowser.dsp - Package Owner=<4>
+Project: "VisualFormFiles"="./VisualFormFiles/VisualFormFiles.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Win32HTMLBrowser"="../build/vc60/Win32HTMLBrowser/Win32HTMLBrowser.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -816,7 +840,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser_StaticLib"=..\build\vc60\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib.dsp - Package Owner=<4>
+Project: "Win32HTMLBrowser_StaticLib"="../build/vc60/Win32HTMLBrowser/Win32HTMLBrowser_StaticLib.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -831,37 +855,13 @@ Package=<4>
 
 ###############################################################################
 
-Project: "WorkingWithEnumerators"=.\WorkingWithEnumerators\WorkingWithEnumerators.dsp - Package Owner=<4>
+Project: "WorkingWithEnumerators"="./WorkingWithEnumerators/WorkingWithEnumerators.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
 }}}
 
 Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "libAGG"=..\build\vc60\GraphicsKit\libAGG.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Global:
-
-Package=<5>
-{{{
-}}}
-
-Package=<3>
 {{{
 }}}
 
