@@ -117,6 +117,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Cards"="..\..\examples\Cards\Cards_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Colors"="..\..\examples\Colors\Colors_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -328,6 +340,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ApplicationIcons
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Cards
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Colors
