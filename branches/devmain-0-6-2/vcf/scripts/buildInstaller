@@ -1,25 +1,78 @@
+#!/bin/bash
+
+
+
 ISS="D:/Program Files/Inno Setup 4/ISCC.exe"
 
 VCF_VERSION=`cat ../VERSION`
-FULL_VCF_VERSION="$VCF_VERSION beta"
+VCF_VERSION_STAGE=`cat ../VERSION_STAGE`
+FULL_VCF_VERSION="$VCF_VERSION $VCF_VERSION_STAGE"
+FULL_VCF_DOT_VERSION="$VCF_VERSION-$VCF_VERSION_STAGE"
 
-echo $VCF_VERSION
-echo $FULL_VCF_VERSION
+INSTALL_FILE_LISTING=../installers/win32/vcfSrcFiles.iss
+INSTALL_FILE=../installers/win32/VCFFullInstaller.iss
 
-cd ../installers/win32
+echo Starting build of all binaries and installation executable for 
+echo Visual Component Framework $FULL_VCF_DOT_VERSION
 
-cp VCFFullInstaller.iss VCFFullInstaller.iss.bak
 
-sed "s?VCF-VERSION?$VCF_VERSION?g" VCFFullInstaller.iss > tmp
-mv tmp VCFFullInstaller.iss
+#build a complete file list and saves it in installers/win32/vcfSrcFiles.iss
+#./installFiles
 
-sed "s?VCF-LONG-VERSION?$FULL_VCF_VERSION?g" VCFFullInstaller.iss > tmp
 
-mv tmp VCFFullInstaller.iss
 
-notepad VCFFullInstaller.iss
+#verify the existence of the vcfSrcFiles.iss file
 
-"$ISS" VCFFullInstaller.iss
+if ( ! test -f $INSTALL_FILE_LISTING )
+then
+	exit 1
+fi
 
-mv VCFFullInstaller.iss.bak VCFFullInstaller.iss 
+
+
+#build all the binaries - this will taking forever!
+
+echo WARNING ! Building all binaries - this will take some time...
+echo building Debug DLL configuration for FoundationKit, GraphicsKit, 
+echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
+echo
+msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAll – Win32 Debug" /OUT
+
+echo building Release DLL configuration for FoundationKit, GraphicsKit, 
+echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
+echo
+msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAll – Win32 Release" /OUT
+
+echo building Debug Static Library configuration for FoundationKit, GraphicsKit, 
+echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
+echo
+msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAllStaticLibs – Win32 Debug" /OUT
+
+
+echo building Release Static Library configuration for FoundationKit, GraphicsKit, 
+echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
+echo
+msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAllStaticLibs – Win32 Release" /OUT
+
+
+echo done building binaries, preparing to build installer
+
+
+
+
+
+cp $INSTALL_FILE $INSTALL_FILE.bak
+
+sed "s?VCF-VERSION?$VCF_VERSION?g" $INSTALL_FILE > tmp
+mv tmp $INSTALL_FILE
+
+sed "s?VCF-LONG-VERSION?$FULL_VCF_VERSION?g" $INSTALL_FILE > tmp
+
+mv tmp $INSTALL_FILE
+
+
+
+"$ISS" $INSTALL_FILE
+
+mv $INSTALL_FILE.bak $INSTALL_FILE 
 
