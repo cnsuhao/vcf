@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.4  2003/11/01 20:41:00  ddiego
+#updated makefil to add the gtk toolbar class
+#
 #Revision 1.3.4.3  2003/10/04 20:13:44  ddiego
 #updated the Makefiles - everything works now, including compiling
 #building on GCC 3.3.1
@@ -457,6 +460,8 @@ $(OUTDIR_AK_D)/GTKFileOpenDialog.o : $(SRC_IMPLKIT)/GTKFileOpenDialog.cpp $(APPK
 $(OUTDIR_AK_D)/GTKCommandButton.o : $(SRC_IMPLKIT)/GTKCommandButton.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKCommandButton.cpp -o $(OUTDIR_AK_D)/GTKCommandButton.o			
 
+$(OUTDIR_AK_D)/GTKToolbar.o : $(SRC_IMPLKIT)/GTKToolbar.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS_D) $(SRC_IMPLKIT)/GTKToolbar.cpp -o $(OUTDIR_AK_D)/GTKToolbar.o			
 
 
 
@@ -877,6 +882,9 @@ $(OUTDIR_AK)/GTKFileOpenDialog.o : $(SRC_IMPLKIT)/GTKFileOpenDialog.cpp $(APPKIT
 	
 $(OUTDIR_AK)/GTKCommandButton.o : $(SRC_IMPLKIT)/GTKCommandButton.cpp $(APPKIT_HDRS)
 	$(CXX) $(AK_CXX_FLAGS) $(SRC_IMPLKIT)/GTKCommandButton.cpp -o $(OUTDIR_AK)/GTKCommandButton.o			
+	
+$(OUTDIR_AK)/GTKToolbar.o : $(SRC_IMPLKIT)/GTKToolbar.cpp $(APPKIT_HDRS)
+	$(CXX) $(AK_CXX_FLAGS) $(SRC_IMPLKIT)/GTKToolbar.cpp -o $(OUTDIR_AK)/GTKToolbar.o				
 
 
 
