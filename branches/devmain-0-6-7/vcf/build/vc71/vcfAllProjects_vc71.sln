@@ -37,7 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKitDLL", ".\Appl
 		{A608B800-96D1-4692-8254-405EF8C2F482} = {A608B800-96D1-4692-8254-405EF8C2F482}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cards", "..\..\examples\Cards\Cards_vc71.vcproj", "{uuidgen: not found}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cards", "..\..\examples\Cards\Cards_vc71.vcproj", "{77f4a017-be91-4a7d-9041-98d8093d4d00}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -111,7 +111,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1} = {8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}
 		{c80f26a7-68be-4380-abb5-a12293d4b62c} = {c80f26a7-68be-4380-abb5-a12293d4b62c}
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B} = {4687B23F-F62A-4FD1-BEA9-0EC048748C9B}
-		{uuidgen: not found} = {uuidgen: not found}
+		{77f4a017-be91-4a7d-9041-98d8093d4d00} = {77f4a017-be91-4a7d-9041-98d8093d4d00}
 		{9860dc7d-539a-4793-906e-ce9cfd326a01} = {9860dc7d-539a-4793-906e-ce9cfd326a01}
 		{d0a4981c-6636-4e51-8449-99911540cde0} = {d0a4981c-6636-4e51-8449-99911540cde0}
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162} = {DA366BD8-8EA2-4393-9849-C2A4E74F3162}
@@ -504,8 +504,8 @@ Global
 		{BF4DB392-C813-410D-94AF-AB63488811D5}.Debug.ActiveCfg = Debug|Win32
 		{BF4DB392-C813-410D-94AF-AB63488811D5}.GTK Debug.ActiveCfg = Debug|Win32
 		{BF4DB392-C813-410D-94AF-AB63488811D5}.Release.ActiveCfg = Release|Win32
-		{uuidgen: not found}.Debug.ActiveCfg = Debug|Win32
-		{uuidgen: not found}.Release.ActiveCfg = Release|Win32
+		{77f4a017-be91-4a7d-9041-98d8093d4d00}.Debug.ActiveCfg = Debug|Win32
+		{77f4a017-be91-4a7d-9041-98d8093d4d00}.Release.ActiveCfg = Release|Win32
 		{9860dc7d-539a-4793-906e-ce9cfd326a01}.Debug.ActiveCfg = Debug|Win32
 		{9860dc7d-539a-4793-906e-ce9cfd326a01}.GTK Debug.ActiveCfg = Debug|Win32
 		{9860dc7d-539a-4793-906e-ce9cfd326a01}.Release.ActiveCfg = Release|Win32
