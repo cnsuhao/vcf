@@ -408,7 +408,9 @@ public:
 		switch ( type ) {
 			case UIMetricsManager::htLabelHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
-				result = f.getHeight() * 1.75;
+				//result = f.getHeight();// * 1.75;
+				Point pt = DLUToPixel( Point(0,8), f ) * 1.1;
+				result = pt.y_;
 			}
 			break;
 
@@ -2094,6 +2096,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/01/26 20:59:29  ddiego
+*some fixes to table control and to teh table item editor interface
+*
 *Revision 1.3.2.3  2005/01/01 20:31:07  ddiego
 *made an adjustment to quitting and event loop, and added some changes to the DefaultTabModel.
 *

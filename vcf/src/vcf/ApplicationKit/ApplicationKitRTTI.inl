@@ -222,8 +222,8 @@ BEGIN_ABSTRACT_CLASSINFO(TableCellItem, "VCF::TableCellItem", "VCF::Item", TABLE
 END_CLASSINFO(TableCellItem)
 
 BEGIN_ABSTRACT_CLASSINFO(TableItemEditor, "VCF::TableItemEditor", "VCF::Object", TABLEITEMEDITOR_CLASSID)
-ABSTRACT_EVENT("VCF::ItemEditorEventHandler", TableItemEditor, VCF::ItemEditorEvent, CellItemChanged )
-ABSTRACT_EVENT("VCF::ItemEditorEventHandler", TableItemEditor, VCF::ItemEditorEvent, CellItemValidateChange )
+EVENT("VCF::ItemEditorEventHandler", TableItemEditor, VCF::ItemEditorEvent, CellItemChanged )
+EVENT("VCF::ItemEditorEventHandler", TableItemEditor, VCF::ItemEditorEvent, CellItemValidateChange )
 END_CLASSINFO(TableItemEditor)
 
 
@@ -280,11 +280,13 @@ EVENT( "VCF::TreeModelEventHandler", AbstractTreeModel, VCF::TreeModelEvent, Nod
 END_CLASSINFO(AbstractTreeModel)
 */
 
-
+/*
 BEGIN_CLASSINFO(BasicTableItemEditor, "VCF::BasicTableItemEditor", "VCF::TableItemEditor", BASICTABLEITEMEDITOR_CLASSID)
 EVENT("VCF::ItemEditorEventHandler", BasicTableItemEditor, VCF::ItemEditorEvent, CellItemChanged )
 EVENT("VCF::ItemEditorEventHandler", BasicTableItemEditor, VCF::ItemEditorEvent, CellItemValidateChange )
 END_CLASSINFO(BasicTableItemEditor)
+*/
+
 
 BEGIN_CLASSINFO(CheckBoxControl, "VCF::CheckBoxControl", "VCF::ToggledButton", CHECKBOXCONTROL_CLASSID )
 END_CLASSINFO(CheckBoxControl)
@@ -640,6 +642,9 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/26 20:59:28  ddiego
+*some fixes to table control and to teh table item editor interface
+*
 *Revision 1.3  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -24,44 +24,42 @@ class TableCellItem;
 
 #define TABLEITEMEDITOR_CLASSID		"53EA0BA4-7068-11d4-8F12-00207811CFAB"
 
-class APPLICATIONKIT_API TableItemEditor : public Object{
+class APPLICATIONKIT_API TableItemEditor : public ObjectWithEvents {
 public:
 
 	TableItemEditor(){};
 
 	virtual ~TableItemEditor(){};
 
-	virtual bool isCellEditable() = 0;
-
-	virtual void addCellItemChangedHandler( EventHandler* handler ) = 0;
-
-	virtual void removeCellItemChangedHandler( EventHandler* handler ) = 0;
-
-	virtual void addCellItemValidateChangeHandler( EventHandler* handler ) = 0;
-
-	virtual void removeCellItemValidateChangeHandler( EventHandler* handler ) = 0;
+	/**
+	@delegate CellItemChanged
+	@event ItemEditorEvent
+	*/
+	DELEGATE(CellItemChanged);
 
 	/**
-	*this is called to initialize the table item editor with some value
-	*from the TableCellItem, typically the caption.
+	@delegate CellItemValidateChange
+	@event ItemEditorEvent
+	@eventtype ITEMEDITOR_CHANGED
 	*/
-	virtual void setItemToEdit( TableCellItem* itemToEdit ) = 0;
+	DELEGATE(CellItemValidateChange);
+	
 
+	/**
+	Returns an instance to the item current associated 
+	with this editor.
+	*/
 	virtual TableCellItem* getItemToEdit() = 0;
 
 	/**
-	*updates the item passed in during the setItemToEdit() call, to
-	*change to whatever new value has been set in the editor.
-	*prior to the data transfer, all ItemEditorListeners should have their
-	*ItemEditorListener::onValidateChange() method called. Implementers of
-	*ItemEditorListener::onValidateChange() should throw an exception if
-	*invalid data is detected. This can done by simply calling the
-	*ItemEditrEvent's fireInvalidStateException() method.
-	*the data is presumed to be stored in the Event's setUserData/getUserData
-	*calls.
+	Updates the item to change to whatever new value has been 
+	set in the editor. 
 	*/
 	virtual void updateItem() = 0;
 
+    /**
+	Returns a control instance that belongs to this editor.
+	*/
 	virtual Control* getEditingControl() = 0;
 };
 
@@ -71,6 +69,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/26 20:59:29  ddiego
+*some fixes to table control and to teh table item editor interface
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

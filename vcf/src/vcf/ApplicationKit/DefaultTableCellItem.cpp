@@ -65,6 +65,20 @@ void DefaultTableCellItem::setModel( Model* model )
 	model_ = model;
 }
 
+double DefaultTableCellItem::getTextCellWidth( GraphicsContext* context )
+{
+	double result = context->getTextWidth( getCaption() ) + (5*2) + 2;
+	if ( isFixed() ) {
+		result += 2;
+	}
+	return result;
+}
+
+double DefaultTableCellItem::getTextCellHeight( GraphicsContext* context )
+{
+	return (context->getTextHeight( getCaption() ) + 2) * 1.15;
+}
+
 void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 {
 	bounds_ = *paintRect;
@@ -135,7 +149,7 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 
 	Rect textRect( x, y, paintRect->right_, paintRect->bottom_ );
 	textRect.inflate( -1, -1 );
-	long options = GraphicsContext::tdoCenterVertAlign;
+	long options = GraphicsContext::tdoBottomAlign;
 	options |= GraphicsContext::tdoLeftAlign;
 
 	bool bold = f->getBold();
@@ -273,6 +287,9 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/26 20:59:28  ddiego
+*some fixes to table control and to teh table item editor interface
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

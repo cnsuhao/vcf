@@ -435,6 +435,11 @@ public:
 	}
 
 	virtual void keyDown( KeyboardEvent* e );
+
+	void resizeColumnWidths();
+	void resizeRowHeights();
+	void resizeColumnRowDimensions();
+
 protected:
 
 	enum MouseState{
@@ -462,8 +467,6 @@ protected:
 
 	double getFixedColumnWidth();
 	double getFixedRowHeight();
-
-	void resetColumnWidths();
 
 	void onTableModelChanged( TableModelEvent* event );
 	void onTableCellItemSelected( ItemEvent* event );
@@ -591,6 +594,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/26 20:59:28  ddiego
+*some fixes to table control and to teh table item editor interface
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
