@@ -84,7 +84,7 @@ void Win32OpenGLPeer::initGL()
 			int pixelformat = ChoosePixelFormat( dc, &pfd );
 			if ( pixelformat == 0 ){
 				String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-				StringUtils::traceWithArgs( Format(String("Error selecting pixelformat for GL context (" __FILE__ ":%d):\n"))+errmsg) % __LINE__);
+				StringUtils::traceWithArgs( Format( String("Error selecting pixelformat for GL context (" __FILE__ ":%d):\n") + errmsg ) % __LINE__);
 				VCF_ASSERT(pixelformat != 0);
 				throw BasicException(errmsg);
 			}
@@ -92,7 +92,7 @@ void Win32OpenGLPeer::initGL()
 			bool setPixelSuccess = ( TRUE == ::SetPixelFormat( dc, pixelformat, &pfd ) );
 			if ( !setPixelSuccess ){
 				String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-				StringUtils::traceWithArgs( Format(String("Error setting pixelformat for GL context (" __FILE__ ":%d):\n")+errmsg) % __LINE__);
+				StringUtils::traceWithArgs( Format( String("Error setting pixelformat for GL context (" __FILE__ ":%d):\n") + errmsg ) % __LINE__);
 				throw BasicException(errmsg);
 			}
 
@@ -158,6 +158,9 @@ void Win32OpenGLPeer::makeCurrent()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/16 22:59:32  marcelloptr
+*got rid of a parenthesis too much used with Format
+*
 *Revision 1.3.2.1  2005/03/15 01:51:54  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
