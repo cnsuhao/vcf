@@ -51,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../VCFBuilder2/Bin/VCFBuilder_vc6.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"../../../../VCFBuilder2/Bin/VCFBuilder_vc6.dll" /libpath:"../../../../VCFBuilder2/Packages" /libpath:"$(VCF_LIB)"
+# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"../../../../VCFBuilder2/Bin/VCFBuilder_vc6.dll" /libpath:"..\..\..\..\VCFBuilder2\Packages\" /libpath:"$(VCF_LIB)"
 
 !ELSEIF  "$(CFG)" == "VCFBuilder - Win32 Debug"
 
@@ -77,7 +77,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../VCFBuilder2/Bin/VCFBuilder_vc6_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /subsystem:windows /dll /debug /machine:I386 /out:"../../../../VCFBuilder2/Bin/VCFBuilder_vc6_d.dll" /pdbtype:sept /libpath:"../../../../VCFBuilder2/Packages" /libpath:"$(VCF_LIB)"
+# ADD LINK32 /nologo /subsystem:windows /dll /debug /machine:I386 /out:"../../../../VCFBuilder2/Bin/VCFBuilder_vc6_d.dll" /pdbtype:sept /libpath:"..\..\..\..\VCFBuilder2\Packages\" /libpath:"$(VCF_LIB)"
 
 !ENDIF 
 

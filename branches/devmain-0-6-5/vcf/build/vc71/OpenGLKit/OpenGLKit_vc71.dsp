@@ -35,8 +35,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "../../../lib/"
-# PROP Intermediate_Dir "vc71/ReleaseS/"
+# PROP Output_Dir "..\..\..\lib\"
+# PROP Intermediate_Dir "vc71\ReleaseS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "BUILD_OPENGLKIT_LIB" /FD /c
@@ -59,11 +59,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "../../../lib/"
-# PROP Intermediate_Dir "vc71/DebugS/"
+# PROP Output_Dir "..\..\..\lib\"
+# PROP Intermediate_Dir "vc71\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "BUILD_OPENGLKIT_LIB" /Fd"../../../lib/OpenGLKit_vc71_sd.pdb" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "BUILD_OPENGLKIT_LIB" /Fd"..\..\..\lib\OpenGLKit_vc71_sd.pdb" /FD /GZ /c
 # SUBTRACT CPP /YX /Yc /Yu /FR
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
