@@ -35,34 +35,23 @@ public:
 
 		setUseColorForBackground(true);
 
-		setColor(new Color((unsigned char)255,(unsigned char)255,(unsigned char)255));
-		setAlpha(1);
+		setColor(new Color((unsigned char)255,(unsigned char)255,(unsigned char)255),1);
 
 		setWidth(120);
 		setHeight(20);
 	}
 
-	virtual void setColor(Color *c){
+	virtual void setColor(Color *c,float alpha){
 		ControlContainer::setColor(c);
 
 		mR->getTextModel()->setText(StringUtils::toString(int(c->getRed()*255)));
 		mG->getTextModel()->setText(StringUtils::toString(int(c->getGreen()*255)));
 		mB->getTextModel()->setText(StringUtils::toString(int(c->getBlue()*255)));
+		mAlpha=alpha;
+		mA->getTextModel()->setText(StringUtils::toString(int(alpha*255)));
 
 		repaint();
 
-		// :(
-		ButtonEvent event(this,ITEM_EVENT_SELECTED);
-		ColorChanged.fireEvent(&event);
-	}
-
-	virtual void setAlpha(float a){
-		mAlpha=a;
-		mA->getTextModel()->setText(StringUtils::toString(int(a*255)));
-
-		repaint();
-
-		// :(
 		ButtonEvent event(this,ITEM_EVENT_SELECTED);
 		ColorChanged.fireEvent(&event);
 	}
@@ -80,7 +69,7 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(c);
+		setColor(c,mAlpha);
 	}
 
 	void onG(TextEvent *e){
@@ -92,7 +81,7 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(c);
+		setColor(c,mAlpha);
 	}
 
 	void onB(TextEvent *e){
@@ -104,7 +93,7 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(c);
+		setColor(c,mAlpha);
 	}
 
 	void onA(TextEvent *e){
@@ -116,7 +105,7 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setAlpha(a);
+		setColor(getColor(),mAlpha);
 	}
 
 	TextControl *mR;
@@ -128,16 +117,4 @@ public:
 };
 
 #endif
-
-/**
-*CVS Log info
-*$Log$
-*Revision 1.1.2.2  2004/11/01 17:19:00  marcelloptr
-*just added few lines at the end of file
-*
-*Revision 1.1.2.1  2004/11/01 14:38:59  pallindo
-*Initial checkin of the particle editor example.  Just shows off a more complex opengl application using the VCF.
-*
-*/
-
 
