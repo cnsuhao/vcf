@@ -14,9 +14,6 @@ where you installed the VCF.
 #endif
 
 
-// Win32Peer.h
-
-
 
 namespace VCF
 {
@@ -77,6 +74,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/05 01:55:21  marcelloptr
+*moved some files to the directory where they logically belong
+*
 *Revision 1.1.2.2  2004/04/29 04:07:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -20,7 +20,7 @@ where you installed the VCF.
 #ifdef WIN32
 //controls & GDI stuff
 #include <Commdlg.h>
-#	include "vcf/ApplicationKit/Win32Peer.h"
+#	include "vcf/FoundationKit/Win32Peer.h"
 #	include "vcf/ApplicationKit/Win32ToolKit.h"
 #	include "vcf/ApplicationKit/Win32Object.h"
 #	include "vcf/ApplicationKit/AbstractWin32Component.h"
@@ -43,6 +43,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/05 01:55:20  marcelloptr
+*moved some files to the directory where they logically belong
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

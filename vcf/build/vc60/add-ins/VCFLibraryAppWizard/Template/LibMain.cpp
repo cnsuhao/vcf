@@ -3,7 +3,7 @@
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/LibraryApplication.h"
-#include "vcf/ApplicationKit/Win32Peer.h"
+#include "vcf/FoundationKit/Win32Peer.h"
 
 
 

@@ -710,7 +710,7 @@ public:
 
 #ifdef WIN32
 
-#include "vcf/ApplicationKit/Win32Peer.h"
+#include "vcf/FoundationKit/Win32Peer.h"
 
 static ImageFormatsApplication* singleImageFormatsApplicationInstance = NULL;
 
