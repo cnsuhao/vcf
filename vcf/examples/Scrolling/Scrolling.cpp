@@ -49,7 +49,7 @@ public:
 			new MenuItemEventHandler<ScrollingWindow>( this,ScrollingWindow::openListboxMenu, "ScrollingWindow::openListboxMenu" ) );
 
 		// Scrollbar menu
-		MenuItem* scrollMenu = new DefaultMenuItem( "Scrollbars", menuBar->getRootMenuItem(), menuBar );
+		MenuItem* scrollMenu = new DefaultMenuItem( "FrameScrollbars", menuBar->getRootMenuItem(), menuBar );
 		hasHorzScrollbarMenu_ = new DefaultMenuItem( "Horizontal", scrollMenu, menuBar );
 		hasVertScrollbarMenu_ = new DefaultMenuItem( "Vertical", scrollMenu, menuBar );
 		MenuItem* separator = new DefaultMenuItem( "", scrollMenu, menuBar );
@@ -162,6 +162,8 @@ public:
 		if ( NULL != currentImage_ ) {
 			delete currentImage_;
 			currentImage_ = NULL;
+			/* hide the scrollbars of the main window 
+			as the scrollbars of the listbox will be use */
 			scrollBarMgr_->setHasHorizontalScrollbar( false );
 			scrollBarMgr_->setHasVerticalScrollbar( false );
 			updateMenuHasHorzScrollbar();
@@ -235,8 +237,8 @@ public:
 			//create a new image from the file name
 			currentImage_ = GraphicsToolkit::createImage( dlg.getFileName() );
 			
-			scrollBarMgr_->setVirtualViewWidth(  currentImage_->getWidth() );
-			scrollBarMgr_->setVirtualViewHeight( currentImage_->getHeight() );			
+			scrollBarMgr_->setVirtualViewSize(  currentImage_->getWidth(), currentImage_->getHeight() ); 
+
 			repaint(); //repaint ourselves to update the new image
 
 			FilePath fp = dlg.getFileName();
@@ -250,21 +252,25 @@ public:
 	void hasHorzScrollbar( MenuItemEvent* e ) {
 		scrollBarMgr_->setHasHorizontalScrollbar( !scrollBarMgr_->hasHorizontalScrollBar() );
 		updateMenuHasHorzScrollbar();
+		repaint();
 	}
 
 	void hasVertScrollbar( MenuItemEvent* e ) {
 		scrollBarMgr_->setHasVerticalScrollbar( !scrollBarMgr_->hasVerticalScrollBar() );
 		updateMenuHasVertScrollbar();
+		repaint();
 	}
 
 	void keepHorzScrollbarVisible( MenuItemEvent* e ) {
 		scrollBarMgr_->setKeepScrollbarsVisible( !scrollBarMgr_->getKeepHorzScrollbarVisible(), scrollBarMgr_->getKeepVertScrollbarVisible() );
 		updateMenuKeepHorzScrollbarVisible();
+		repaint();
 	}
 
 	void keepVertScrollbarVisible( MenuItemEvent* e ) {
 		scrollBarMgr_->setKeepScrollbarsVisible( scrollBarMgr_->getKeepHorzScrollbarVisible(), !scrollBarMgr_->getKeepVertScrollbarVisible() );
 		updateMenuKeepVertScrollbarVisible();
+		repaint();
 	}
 
 	void updateMenuHasHorzScrollbar() {
@@ -341,6 +347,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.9  2004/09/21 22:26:28  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.4.2.8  2004/09/21 05:55:21  dougtinkham
 *replaced updateVirtualViewSize
 *

@@ -82,6 +82,22 @@ public:
 		return virtualViewWidth_;
 	}
 
+	virtual void setVirtualViewHorzStep( const double& step ) {
+		virtualViewHorzStep_ = step;
+	}
+
+	virtual void setVirtualViewVertStep( const double& step ) {
+		virtualViewVertStep_ = step;
+	}
+
+	virtual double getVirtualViewHorzStep() {
+		return virtualViewHorzStep_;
+	}
+
+	virtual double getVirtualViewVertStep() {
+		return virtualViewVertStep_;
+	}
+
 	virtual bool isVerticalScrollbarVisible();
 		
 	virtual bool isHorizontalScrollbarVisible();
@@ -165,10 +181,12 @@ protected:
 
 	ScrollPeer* scrollPeer_;
 	Control* scrollableControl_;
+	double virtualViewHorzStep_;
+	double virtualViewVertStep_;
 	double virtualViewHeight_;
 	double virtualViewWidth_;	
-	bool hasVertScrollbar_;
 	bool hasHorzScrollbar_;
+	bool hasVertScrollbar_;
 	double vertPosition_;
 	double horzPosition_;
 	double topScrollSpace_;
@@ -189,6 +207,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.2.2.4  2004/09/21 05:44:36  dougtinkham
 *removed updateVirtualViewSize, added isVerticalScrollbarVisible, isHorizontalScrollbarVisible
 *

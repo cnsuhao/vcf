@@ -118,6 +118,31 @@ void ScrollbarManager::setVirtualViewWidth( const double& virtualViewWidth )
 	scrollable_->setVirtualViewWidth( virtualViewWidth );
 }
 
+void ScrollbarManager::setVirtualViewSize( const double& virtualViewWidth, const double& virtualViewHeight )
+{
+	scrollable_->setVirtualViewSize( virtualViewWidth, virtualViewHeight );
+}
+
+void ScrollbarManager::setVirtualViewHorzStep( const double& step )
+{
+	scrollable_->setVirtualViewHorzStep( step );
+}
+
+void ScrollbarManager::setVirtualViewVertStep( const double& step )
+{
+	scrollable_->setVirtualViewVertStep( step );
+}
+
+double ScrollbarManager::getVirtualViewHorzStep()
+{
+	return scrollable_->getVirtualViewHorzStep();
+}
+
+double ScrollbarManager::getVirtualViewVertStep()
+{
+	return scrollable_->getVirtualViewVertStep();
+}
+
 void ScrollbarManager::setVerticalPosition( const double& vertPosition )
 {
 	scrollable_->setVerticalPosition( vertPosition );
@@ -197,6 +222,9 @@ bool ScrollbarManager::getKeepVertScrollbarVisible()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/21 22:27:09  marcelloptr
+*added setVirtualViewStep functions for the scrollbars and other minor changes
+*
 *Revision 1.2.2.3  2004/09/21 05:50:21  dougtinkham
 *removed updateVirtualViewSize
 *
