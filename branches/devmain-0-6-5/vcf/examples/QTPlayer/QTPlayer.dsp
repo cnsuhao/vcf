@@ -23,8 +23,6 @@ CFG=QTPlayer - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -80,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"vc6/Debug/QTPlayer_vc6.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"QTPlayer.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib qtmlclient.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"vc6\Debug\QTPlayer_vc6.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -186,11 +184,11 @@ SOURCE=stop.bmp
 # End Source File
 # Begin Source File
 
-SOURCE="view-half.bmp"
+SOURCE=view-half.bmp
 # End Source File
 # Begin Source File
 
-SOURCE="view-normal.bmp"
+SOURCE=view-normal.bmp
 # End Source File
 # Begin Source File
 

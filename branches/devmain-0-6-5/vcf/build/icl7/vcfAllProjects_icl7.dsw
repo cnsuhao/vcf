@@ -300,6 +300,9 @@ Package=<4>
     Project_Dep_Name Labels
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name ListBox
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
@@ -628,6 +631,18 @@ Package=<4>
 ###############################################################################
 
 Project: "LibTIFF"="..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ListBox"="..\..\examples\ListBox\ListBox_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
