@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.6.3  2003/10/03 04:33:03  ddiego
+#add precompiled header target - doesn't seem to really work though
+#
 #Revision 1.2.6.2  2003/10/03 01:07:48  ddiego
 #added/fixed problems to get it to compile under linux
 #
@@ -33,6 +36,8 @@
 #Object files for the FoundationKit 
 #
 ###########################################################
+
+#precompiled headers
 
 
 

@@ -3,6 +3,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.3  2003/10/03 04:33:03  ddiego
+#add precompiled header target - doesn't seem to really work though
+#
 #Revision 1.3.4.2  2003/10/02 04:50:34  ddiego
 #changes to ensure the code compiles on linux. made a bunch of updates to
 #the makefiles
@@ -116,7 +119,7 @@ INC_UTILS=$(INC)/utils
 
 
 #toolchain definitions
-CXX_INC=$(INC)
+CXX_INC=$(INC) 
 
 
 #we are using the g++ compiler for C++
