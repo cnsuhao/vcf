@@ -526,13 +526,9 @@ void Control::handleEvent( Event* event )
 					if ( (true == autoStartDragDrop_) ) { //&& (false == dragDropStarted_) ) {
 						if ( true == canBeginDragDrop( mouseEvent->getPoint() ) ) {
 							//dragDropStarted_ = true;
-							StringUtils::trace( "Starting drag drop...\n" );	
-							if ( beginDragDrop ( mouseEvent ) ) {
-								StringUtils::trace( "beginDragDrop returned true\n" );
+							
+							if ( beginDragDrop ( mouseEvent ) ) {								
 								return;
-							}
-							else{
-								StringUtils::trace( "beginDragDrop returned false\n" );
 							}
 						}
 					}
@@ -1471,6 +1467,10 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2004/12/31 17:41:23  ddiego
+*fixes a drag-drop bug, initially listed under the vcfbuilders
+*bug list
+*
 *Revision 1.4.2.1  2004/12/31 17:39:47  ddiego
 *fixes a drag-drop bug, initially listed under the vcfbuilders
 *bug list
