@@ -28,17 +28,22 @@ where you installed the VCF.
 		#include <windows.h>
 	#endif
 #endif
-//core OpenGL
-#include <gl\gl.h>
-#include <gl\glu.h>
 
-//gl utility stuff
-#include <gl\glaux.h>
+#if defined(__APPLE__)
+#	include <OpenGL/gl.h>
+#	include	<OpenGL/glu.h>
+#else
+#	include <GL/gl.h>
+#	include <GL/glu.h>
+#endif
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/06 06:22:24  pallindo
+*Fixed up paths to include files
+*
 *Revision 1.1.2.4  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
