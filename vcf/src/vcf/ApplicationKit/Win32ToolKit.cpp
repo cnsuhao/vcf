@@ -129,7 +129,39 @@ public:
 	virtual ~Win32UIPolicyManager() {
 
 	}
+	
+	virtual Rect adjustInitialDialogBounds( Dialog* dialog ) {
+		Rect result;
+		Control* owner = dialog->getOwner();
+		if ( NULL != owner ) {			
+			result.left_ = owner->getLeft() + ( owner->getWidth()/2.0 - dialog->getWidth()/2.0 );
+			result.top_ = owner->getTop() + ( owner->getHeight()/2.0 - dialog->getHeight()/2.0 );
+			result.right_ = bounds.left_ + dialog->getWidth();
+			result.bottom_ = bounds.top_ + dialog->getHeight();
+			if ( NULL != owner->getParent() ) {
+				owner->translateToScreenCoords( &result );
+			}
+		}
+		
+		return result;
+	}
 
+	virtual Frame* getOwnerForDialog() {
+		Frame* result = NULL;
+		Frame* activeFrame = Frame::getActiveFrame();
+		
+		Application* app = Application::getRunningInstance();
+	
+		if ( NULL != activeFrame ) {
+			result = activeFrame;
+		}
+		else if ( NULL != app ) {
+			result = app->getMainWindow();
+		}	
+	
+		return result;
+	}
+	
 	virtual void mergeMenus( Menu* appMenu, Menu* windowMenu ) {
 		MenuItem* windowRoot = windowMenu->getRootMenuItem();
 		MenuItem* appRoot = appMenu->getRootMenuItem();
@@ -2054,6 +2086,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.9  2004/10/23 13:53:12  marcelloptr
 *comments for setUseColorForBackground; setActiveFrame renamed as internal
 *

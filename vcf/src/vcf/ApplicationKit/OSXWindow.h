@@ -133,6 +133,8 @@ public:
 	}
 	
 	virtual WindowAttributes getCreationWinAttrs();
+	
+	virtual WindowClass getCreationWinClass();
 protected:
 	static EventHandlerUPP getEventHandlerUPP();
 
@@ -164,6 +166,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.3  2004/10/23 18:10:43  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *

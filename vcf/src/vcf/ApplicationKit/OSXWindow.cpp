@@ -101,13 +101,18 @@ WindowAttributes OSXWindow::getCreationWinAttrs()
               kWindowStandardHandlerAttribute | kWindowLiveResizeAttribute | kWindowInWindowMenuAttribute;
 }
 
+WindowClass OSXWindow::getCreationWinClass()
+{
+	return kDocumentWindowClass;
+}
+
 void OSXWindow::create( Control* owningControl )
 {
     WindowAttributes attrs=getCreationWinAttrs();// = kWindowCompositingAttribute | kWindowStandardHandlerAttribute;
     
     ::Rect bounds = {0,0,0,0};
 
-    OSStatus err = CreateNewWindow( kDocumentWindowClass, attrs, &bounds, &windowRef_ );
+    OSStatus err = CreateNewWindow( getCreationWinClass(), attrs, &bounds, &windowRef_ );
     if ( noErr != err ) {
         throw RuntimeException( MAKE_ERROR_MSG_2("CreateNewWindow() failed!") );
     }
@@ -359,6 +364,8 @@ void OSXWindow::repaint( Rect* repaintRect )
         r = repaintRect;
     }
 
+	HIViewSetNeedsDisplay( getRootControl(), true );
+
     InvalWindowRect( windowRef_, r );
 }
 
@@ -557,14 +564,12 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
 						OSXEventMsg msg( theEvent, childControl );
 						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
 		
-						//printf( "childControl %s found for mouse move!\n", childControl->getClassName().ansi_c_str() );
 						childControl->handleEvent( vcfEvent );
 					}
 					else if ( !control_->isDestroying() ) {
 						OSXEventMsg msg( theEvent, control_ );
 						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
 						
-						//printf( "WindowRef found for mouse move!\n" );
 						control_->handleEvent( vcfEvent );
 					}
 					
@@ -579,7 +584,6 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
 						OSXEventMsg msg( theEvent, childControl );
 						vcfEvent = UIToolkit::createEventFromNativeOSEventData( &msg );
 						
-						//printf( "childControl %s found for mouse move!\n", childControl->getClassName().ansi_c_str() );
 						childControl->handleEvent( vcfEvent );
 					}
 					else if ( !control_->isDestroying() ) {
@@ -954,6 +958,8 @@ OSStatus OSXWindow::wndContentViewHandler(EventHandlerCallRef nextHandler, Event
 OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, EventRef theEvent )
 {
 	TCarbonEvent event( theEvent );
+	
+	printf( "\n\nOSXWindow::handleContentViewDraw for control %p, Active frame: %p\n\n", control_, Frame::getActiveFrame() );
 
 	GrafPtr port = NULL;										
 	CGContextRef context = NULL;
@@ -986,6 +992,9 @@ OSStatus OSXWindow::handleContentViewDraw( EventHandlerCallRef nextHandler, Even
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.4  2004/10/23 18:10:43  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *

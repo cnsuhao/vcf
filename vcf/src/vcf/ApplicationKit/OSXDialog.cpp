@@ -27,7 +27,7 @@ OSXDialog::OSXDialog( Control* owner, Dialog* component ):
 	dialogComponent_(component),
 	dialogRef_(NULL)
 {
-
+	
 }
 
 OSXDialog::~OSXDialog()
@@ -37,9 +37,13 @@ OSXDialog::~OSXDialog()
 
 WindowAttributes OSXDialog::getCreationWinAttrs()
 {
-	return kWindowCloseBoxAttribute | kWindowCollapseBoxAttribute |
-              kWindowCompositingAttribute |
+	return kWindowCompositingAttribute |
               kWindowStandardHandlerAttribute | kWindowLiveResizeAttribute;
+}
+
+WindowClass OSXDialog::getCreationWinClass()
+{
+	return kMovableModalWindowClass;
 }
 
 void OSXDialog::create( Control* owningControl )
@@ -122,48 +126,16 @@ void OSXDialog::setVisible( const bool& visible )
 		}
 	 }
 	 else {
-		OSXWindow::setVisible( visible ); 
+		OSXWindow::setVisible( visible );
+		if ( visible ) {
+			ActivateWindow( windowRef_, TRUE ); 
+			repaint();
+		}
 	 }
 }
 
 void OSXDialog::close()
 {
-	/*
-	if ( NULL != owner_ ) {		
-		
-		
-		Dialog* dlg = (Dialog*)control_;
-
-		if ( dlg->allowClose() ) {
-			
-			VCF::WindowEvent event( dlg, WINDOW_EVENT_CLOSE );
-			
-			
-			dlg->FrameClose.fireEvent( &event );
-			
-			if ( dlg->isModal() ) {
-				//JC - I don't think we need of any this stuff for OS X - this is Win32 behaviour
-				
-				if ( NULL != dlg->getOwner() ) {
-					dlg->getOwner()->setEnabled( true );
-				}
-				else if ( NULL != Application::getRunningInstance() ){
-					Application::getRunningInstance()->getMainWindow()->setEnabled( true );
-				}
-				else {
-					//thorw exception????
-				}
-				
-				HideSheetWindow( windowRef_ );	
-				EventLoopRef currentLoop = GetCurrentEventLoop();
-				QuitEventLoop( currentLoop );
-			}			
-		}
-	 }
-	 else {
-		
-	 }
-	 */
 	 OSXWindow::close(); 
 }
 
@@ -349,6 +321,15 @@ OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 	switch ( GetEventClass( theEvent ) )  {
 		case kEventClassWindow : {
             switch( whatHappened ) {
+				case kEventWindowActivated : {
+					printf( "\n\n\t!!!!!!\tOSXDialog kEventWindowActivated\t!!!!!\n\n\n" );
+					
+					printf( "\tActive frame: %p, dialog: %p\n\n", Frame::getActiveFrame(), control_ );
+					
+					return OSXWindow::handleOSXEvent( nextHandler, theEvent );
+				}
+				break;
+				
                 case kEventWindowClose : {
 
                     OSStatus result = noErr;//::CallNextEventHandler( nextHandler, theEvent );
@@ -363,15 +344,15 @@ OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
                         dlg->FrameClose.fireEvent( &event );
 
                         if ( dlg->isModal() ){
-							EventLoopRef currentLoop = GetCurrentEventLoop();
-							QuitEventLoop( currentLoop );
+							if ( NULL != owner_ ) {
+								HideSheetWindow( windowRef_ );
+							}
+						
+							//EventLoopRef currentLoop = GetCurrentEventLoop();
+							QuitAppModalLoopForWindow( windowRef_ );
                         }
 						
-						if ( NULL != owner_ ) {
-							HideSheetWindow( windowRef_ );	
-							EventLoopRef currentLoop = GetCurrentEventLoop();
-							QuitEventLoop( currentLoop );
-						}
+						
 						
 						result = ::CallNextEventHandler( nextHandler, theEvent );
 
@@ -394,6 +375,9 @@ OSStatus OSXDialog::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef th
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.2  2004/10/23 18:10:43  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *

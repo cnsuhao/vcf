@@ -15,7 +15,7 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+class Dialog;
 /**
 * class UIPolicyManager
 *
@@ -40,7 +40,9 @@ public:
 	*/
 	virtual void mergeMenus( Menu* appMenu, Menu* windowMenu ) = 0;
 
-
+	virtual Frame* getOwnerForDialog() = 0;
+	
+	virtual Rect adjustInitialDialogBounds( Dialog* dialog ) = 0;
 };
 
 
@@ -52,6 +54,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
 *Document Window documentation
 *

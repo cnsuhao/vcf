@@ -13,30 +13,23 @@ where you installed the VCF.
 
 using namespace VCF;
 
-void Dialog_postClose( Event* e )
-{
-	e->getSource()->free();
-}
 
-void Dialog_onClose( WindowEvent* e )
-{
-	Dialog* dialog = (Dialog*)e->getSource();
-	if ( !dialog->isModal() ) {
-		EventHandler* ev = new StaticEventHandlerInstance<Event>( &Dialog_postClose, e->getSource() );
-		UIToolkit::postEvent( ev, new Event( e->getSource() ) );
-	}
-}
 
 Dialog::Dialog( Control* owner )
 {
 	owner_ = owner;
 
-	modal_ = false;
+	modal_ = Dialog::msNonModal;
 
 	previousFocusedControl_ = Control::currentFocusedControl;
 
 	returnValue_ = UIToolkit::mrNone;
+	
+	if ( NULL == owner_ ) {
+		owner_ = UIToolkit::getUIPolicyManager()->getOwnerForDialog();
+	}
 
+/*
 	Frame* activeFrame = Frame::getActiveFrame();
 
 
@@ -49,6 +42,7 @@ Dialog::Dialog( Control* owner )
 			owner_ = app->getMainWindow();
 		}
 	}
+*/
 
 	dialogPeer_ = UIToolkit::createDialogPeer( owner_, this );
 
@@ -68,13 +62,36 @@ Dialog::Dialog( Control* owner )
 	setFrameStyle( fstFixed );
 
 	//add a close handler to get notified of the closing window
-	FrameClose.addHandler( new StaticEventHandlerInstance<WindowEvent>( &Dialog_onClose, this, "Dialog_onClose" ) );
+	FrameClose += new GenericEventHandler<Dialog>( this, &Dialog::onDialogClose, "Dialog::onDialogClose" );
 }
 
 
 Dialog::~Dialog()
 {
 
+}
+
+void Dialog::onDialogClose( Event* event )
+{
+	if ( isModal() ) {
+		DialogEvent e(this,Dialog::deModalFinished);
+		e.setModalResult( getModalReturnValue() );
+		ModalFinished.fireEvent(&e);
+	}
+	else if ( isSheetModal() ) {
+		DialogEvent e(this,Dialog::deSheetModalFinished);
+		e.setModalResult( getModalReturnValue() );
+		SheetModalFinished.fireEvent(&e);
+	}
+	else if ( !isModal() ) {
+		EventHandler* ev = new GenericEventHandler<Dialog>( this, &Dialog::onPostClose );
+		UIToolkit::postEvent( ev, new Event( event->getSource() ) );
+	}
+}
+
+void Dialog::onPostClose( Event* e )
+{
+	free();
 }
 
 void Dialog::paint(GraphicsContext * context)
@@ -184,9 +201,23 @@ protected:
 	Control* control_;
 };
 
+
+void Dialog::showSheetModal()
+{
+	if ( NULL == owner_ ) {
+		throw RuntimeException( MAKE_ERROR_MSG_2("No owner window specified! Invalid use of the Dialog::showSheetModal method!") );
+	}
+	
+	modal_ = Dialog::msSheetModal;
+	
+	show();
+	
+	owner_->setEnabled( false );	
+}	
+
 UIToolkit::ModalReturnType Dialog::showModal()
 {
-	modal_ = true;
+	modal_ = Dialog::msAppModal;
 
 	UIToolkit::ModalReturnType result = UIToolkit::mrNone;
 
@@ -226,18 +257,10 @@ void Dialog::show()
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	}
 
-	if ( NULL != owner_ ) {
-		Rect bounds;
+	Rect adjustedBounds = UIToolkit::getUIPolicyManager()->adjustInitialDialogBounds( this );
 
-		bounds.left_ = owner_->getLeft() + ( owner_->getWidth()/2.0 - getWidth()/2.0 );
-		bounds.top_ = owner_->getTop() + ( owner_->getHeight()/2.0 - getHeight()/2.0 );
-		bounds.right_ = bounds.left_ + getWidth();
-		bounds.bottom_ = bounds.top_ + getHeight();
-		if ( NULL != owner_->getParent() ) {
-			owner_->translateToScreenCoords( &bounds );
-		}
-
-		setBounds( &bounds );
+	if ( (!(adjustedBounds == getBounds())) && (!adjustedBounds.isEmpty()) && (!adjustedBounds.isNull()) ) {
+		setBounds( &adjustedBounds );
 	}
 
 	peer_->setVisible(true);
@@ -329,6 +352,7 @@ void Dialog::keyDown( KeyboardEvent* e )
 {
 	if ( vkEscape == e->getVirtualCode() ) {
 		e->setConsumed(true);
+		returnValue_ = UIToolkit::mrCancel;
 		close();
 	}
 }
@@ -337,7 +361,6 @@ bool Dialog::isActiveFrame()
 {
 	return windowPeer_->isActiveWindow();
 }
-
 
 /*
 void Dialog::onModalClose( WindowEvent* e )
@@ -350,6 +373,9 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.1  2004/10/18 03:10:29  ddiego
 *osx updates - add initial command button support, fixed rpoblem in mouse handling, and added dialog support.
 *

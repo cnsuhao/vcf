@@ -102,6 +102,16 @@ void CommandButton::click()
 						dialog->setModalReturnValue( UIToolkit::mrNo );
 					}
 					break;
+					
+					case BC_ABORT : {
+						dialog->setModalReturnValue( UIToolkit::mrAbort );
+					}
+					break;
+					
+					case BC_IGNORE : {
+						dialog->setModalReturnValue( UIToolkit::mrIgnore );
+					}
+					break;
 				}
 			}
 			frame->close();
@@ -210,6 +220,9 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/25 03:23:57  ddiego
+*and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
+*
 *Revision 1.2.2.1  2004/09/06 23:05:55  ddiego
 *fixed border in button class
 *
