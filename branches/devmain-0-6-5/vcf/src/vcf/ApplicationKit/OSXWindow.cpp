@@ -702,7 +702,6 @@ bool OSXWindow::isComposited()
 
 void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
 {	
-	if ( drawingEvent ) {
 	TCarbonEvent		carbonEvent( event );
 
 	
@@ -712,8 +711,6 @@ void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
 	
 	::Rect r;
 	GetRegionBounds( rgn, &r );
-	StringUtils::traceWithArgs( "Rgn bounds: left: %d, top: %d, right: %d, bottom: %d\n",
-									r.left, r.top, r.right, r.bottom );
 	
 	EraseRgn( rgn );	
 	
@@ -722,17 +719,52 @@ void OSXWindow::handleDraw( bool drawingEvent, EventRef event )
 	GrafPtr wndPort = GetWindowPort(windowRef_);	
 	
 	VCF::GraphicsContext* ctx = control_->getContext();
-	ctx->getPeer()->setContextID( (VCF::ulong32)wndPort ); 
+	OSXContext* osxCtx =  (OSXContext*)ctx->getPeer();
+	
+	CGContextRef context;
+	QDBeginCGContext(wndPort, &context);
+	GetPortBounds(wndPort, &r);
+	
+	CGContextSaveGState( context );
+			
+	CGContextTranslateCTM(context, 0,
+									(float)(r.bottom - r.top));
+	CGContextScaleCTM(context, 1, -1);
+			
+	
+	//ctx->getPeer()->setContextID( (VCF::ulong32)wndPort ); 
+	
+	VCF::Rect clientBounds = getClientBounds();
+	ctx->setViewableBounds( clientBounds );
+	osxCtx->setCGContext( context, wndPort, clientBounds );
 	
 	control_->paint( ctx );
 	
-	ctx->getPeer()->setContextID( 0 );		
+	osxCtx->setCGContext( NULL, 0, clientBounds );		
+	
+	CGContextRestoreGState( context );
+	QDEndCGContext(wndPort, &context);
+	
+	
+	if ( !drawingEvent ) {
+		Container* container = control_->getContainer();
+		if ( NULL != container ) {
+			Enumerator<Control*>* children = container->getChildren();
+			
+			while ( children->hasMoreElements() ) {
+				Control* child = children->nextElement();
+				
+				if ( !child->isLightWeight() && child->getVisible() ) {
+					child->repaint();
+				}
+			}
+		}
 	}
 }
 
 RgnHandle OSXWindow::determineUnobscuredClientRgn()
 {
-	StringUtils::trace( "determineUnobscuredClientRgn()\n" );
+	//StringUtils::trace( "determineUnobscuredClientRgn()\n" );
 	
 	RgnHandle result = NewRgn();	
 		
@@ -766,8 +798,8 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 				
 				::Rect r;
 	GetRegionBounds( childRgn, &r );
-	StringUtils::traceWithArgs( "childRgn bounds: left: %d, top: %d, right: %d, bottom: %d\n",
-									r.left, r.top, r.right, r.bottom );
+	//StringUtils::traceWithArgs( "childRgn bounds: left: %d, top: %d, right: %d, bottom: %d\n",
+	//								r.left, r.top, r.right, r.bottom );
 										
 				DiffRgn( result, childRgn, result );
 			}
@@ -785,6 +817,9 @@ RgnHandle OSXWindow::determineUnobscuredClientRgn()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/05/31 19:42:52  ddiego
+*more osx updates
+*
 *Revision 1.1.2.8  2004/05/31 13:20:57  ddiego
 *more osx updates
 *

@@ -301,21 +301,6 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
     VCF::Rect offsetBounds = bounds;
     offsetBounds.offset( origin_ );
 	
-	/*
-	Font* ctxFont = context_->getCurrentFont();
-	OSXFont* fontImpl = (OSXFont*)ctxFont->getFontPeer();
-	ATSUFontID id = fontImpl->getATSUFontID();
-	
-	GrafPtr currentPort;
-	GetPort( &currentPort );
-	SetPortTextFont( grafPort_, id );
-	
-	CFTextString cfStr;
-	cfStr = text;	
-
-    ::Rect r = RectProxy( bounds );
-	DrawThemeTextBox( cfStr, kThemeCurrentPortFont, kThemeStateActive, false, &r, 0, contextID_ );
-	*/			
 			
 	//tdoWordWrap=1,
 	//tdoLeftAlign=2,
@@ -324,14 +309,6 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	//tdoBottomAlign=16,
 	//tdoCenterVertAlign=32,
 	//tdoTopAlign=64
-	//CFTextString cfStr;
-	//cfStr = text;
-	//GrafPtr currentPort = grafPort_;
-	//GetPort( &currentPort );
-	::Rect portBounds = RectProxy( context_->getViewableBounds() );
-	
-	//GetPortBounds( currentPort, &portBounds );
-	int portH = context_->getViewableBounds().getHeight();// portBounds.bottom - ((portBounds.top < 0) ? 0 : portBounds.top );
 	
 										
 	ATSUSetTextPointerLocation( textLayout_, 
@@ -354,25 +331,15 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 												
 	if ( GraphicsContext::tdoWordWrap & drawOptions ) {
 		//do word wrap 
-		VCF::Rect r = offsetBounds;
-		int dy = ownerRect_.getHeight()-portH;
+		VCF::Rect r = offsetBounds;		
 		
-		r.top_ = portH - offsetBounds.top_;//(portH - ((offsetBounds.top_ + portBounds.top) - dy));//
-		r.bottom_ = r.top_ + offsetBounds.getHeight();//portH - offsetBounds.bottom_;
-//		printf( "atsuDrawTextInBox called with %s\n", r.toString().c_str() );
 		atsuDrawTextInBox( r );		
 	}
 	else {
 		setLayoutWidth( textLayout_, 0 );													
-		int dy = ownerRect_.getHeight()-portH;
-		FixedPointNumber x =  offsetBounds.left_ + portBounds.left;
-		FixedPointNumber y = (portH - ((offsetBounds.top_+portBounds.top) - dy));// - portBounds.top));
-		double xx = x;
-		double yy = y;
-		//::MoveTo( (int)xx, (int)yy );
+		FixedPointNumber x =  offsetBounds.left_;// + portBounds.left;
+		FixedPointNumber y = ((offsetBounds.top_ + getTextHeight("EM"))*-1.0);
 		
-		StringUtils::traceWithArgs( "ATSUDrawText( ..., %0.3f, %0.3f ), [portH: %d, portBounds.top: %d, offsetBounds.top_: %0.3f, dy:%d  ]\n", 
-									xx,yy,portH,portBounds.top,offsetBounds.top_, dy );
 		ATSUDrawText( textLayout_, 
 							kATSUFromTextBeginning, 
 							kATSUToTextEnd, 
@@ -395,9 +362,15 @@ void OSXContext::setLayoutWidth( ATSUTextLayout layout, double width )
 
 VCF::Size OSXContext::getLayoutDimensions( const String& text )
 {	
-//	CFTextString cfStr;
-//	cfStr = text;		
 	int length = text.length();
+	//store off old values
+	void* oldTextPtr = NULL;
+	Boolean storedAsHandle;
+	UniCharArrayOffset offset;
+	UniCharCount len;
+	UniCharCount totalLen;
+	
+	ATSUGetTextLocation( textLayout_, &oldTextPtr, &storedAsHandle, &offset, &len, &totalLen );
 	
 	ATSUSetTextPointerLocation( textLayout_, text.c_str(), 
                                 kATSUFromTextBeginning, 
@@ -426,6 +399,11 @@ VCF::Size OSXContext::getLayoutDimensions( const String& text )
 	
 	FixedPointNumber h = (Fixed)(-bounds.upperLeft.y) + bounds.lowerLeft.y;
 	result.height_ = h.asDouble();
+	
+	ATSUSetTextPointerLocation( textLayout_, (const UniChar*)oldTextPtr, 
+                                offset, 
+								len, 
+								totalLen );
 	
 	return  result;
 }
@@ -650,9 +628,13 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
 			//save state
 			CGContextSaveGState( contextID_ );
 			
-			CGAffineTransform xfrm = CGContextGetCTM( contextID_ );
-			CGAffineTransform invertedXFrm = CGAffineTransformInvert( xfrm );
-			CGContextConcatCTM( contextID_, invertedXFrm );
+			//change the scaling back to normal otherwise we will have vertically
+			//flipped glyphs - and no one wants that!!
+			CGAffineTransform xfrm = CGAffineTransformMakeScale( 1, -1 );
+			CGContextConcatCTM( contextID_, xfrm );
+			
+			//xfrm = CGAffineTransformMakeTranslation( 0, -(ownerRect_.top_) );
+			//CGContextConcatCTM( contextID_, xfrm );
             
             Font* ctxFont = context_->getCurrentFont();
             OSXFont* fontImpl = (OSXFont*)ctxFont->getFontPeer();
@@ -844,7 +826,7 @@ double OSXContext::getLayoutWidth( ATSUTextLayout layout )
 
 void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 {
-	OSStatus 			theStatus = noErr;
+	OSStatus 			err = noErr;
 	UniCharArrayOffset	textOffset = 0;
 	UniCharCount		textLength = 0;
 	UniCharArrayOffset*	lineEndOffsets = NULL;
@@ -852,34 +834,30 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 	bool failed = false;
 	
 	// the the range of text to be drawn
-	theStatus = ATSUGetTextLocation (textLayout_, NULL, NULL, &textOffset, &textLength, NULL);
-	if (theStatus == noErr) {
-		UniCharArrayOffset		lineStartOffset = textOffset;
-		UniCharArrayOffset		lineEndOffset = 0;
-		//printf( "textOffset: %d, textLength: %d\n",
-		//			(int)textOffset, (int)textLength );
-					
-		//	assume horizontal text values
-		ATSUTextMeasurement		xPos = vcf_IntToFixed((int)rect.left_);
-		ATSUTextMeasurement		yPos = vcf_IntToFixed((int)rect.top_);
-		ATSUTextMeasurement		lineStart = xPos;
-		ATSUTextMeasurement		lineEnd = vcf_IntToFixed((int)rect.right_);
-		ATSUTextMeasurement		lineWidth = 0;
+	err = ATSUGetTextLocation (textLayout_, NULL, NULL, &textOffset, &textLength, NULL);
+	if (err == noErr) {
+		UniCharArrayOffset lineStartOffset = textOffset;
+		UniCharArrayOffset lineEndOffset = 0;
+		
+		FixedPointNumber xPos = rect.left_;
+		
+		ATSUTextMeasurement	yPos = vcf_IntToFixed((int) ( rect.top_ + getTextHeight("EM") ));
+		
+		ATSUTextMeasurement	lineStart = xPos;
+		ATSUTextMeasurement	lineEnd = vcf_IntToFixed((int)rect.right_);
+		ATSUTextMeasurement	lineWidth = 0;
 		
 		//at the moment we are not taking text angle into account
-		Fixed					textAngle = 0;
+		Fixed textAngle = 0;
 		
-		ItemCount				lineCount = 0;
-		ItemCount				softBreakCount = 0;
-		ATSUTextMeasurement		maxAscent = 0, maxDescent = 0;
-		
+		ItemCount lineCount = 0;
+		ItemCount softBreakCount = 0;
+		ATSUTextMeasurement	maxAscent = 0, maxDescent = 0;		
 		ulong32 ln = 0;
 
 				
 		// check for linewidth set as a layout control
 		//lineWidth = getLayoutWidth( textLayout_ );
-		
-		//printf( "getLayoutWidth() returned %d\n", lineWidth );
 		
 		//	if there is no layout control set for width
 		//	then set it using the box bounds
@@ -896,10 +874,10 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 			ATSUTextMeasurement		ascent = 0, descent = 0;
 			
 			// set the soft breaks, we will use them later
-			theStatus = ATSUBreakLine(textLayout_, lineStartOffset, lineWidth, true, &lineEndOffset);
-			if ( theStatus != noErr ) {
+			err = ATSUBreakLine(textLayout_, lineStartOffset, lineWidth, true, &lineEndOffset);
+			if ( err != noErr ) {
 				failed = true;
-				printf ( "theStatus: %d, ATSUBreakLine()\n", (int)theStatus );
+				printf ( "err: %d, ATSUBreakLine()\n", (int)err );
 				goto EXIT;
 			}			
 			
@@ -914,11 +892,11 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 			{
 				ATSTrapezoid	glyphBounds;	// one should be enough when we're asking for the whole line.
 				
-				theStatus = ATSUGetGlyphBounds( textLayout_, 0, 0, lineStartOffset, lineEndOffset - lineStartOffset, kATSUseFractionalOrigins,
+				err = ATSUGetGlyphBounds( textLayout_, 0, 0, lineStartOffset, lineEndOffset - lineStartOffset, kATSUseFractionalOrigins,
 												1, &glyphBounds, NULL );
-				if ( theStatus != noErr ) {
+				if ( err != noErr ) {
 					failed = true;
-					printf ( "theStatus: %d, ATSUGetGlyphBounds()\n", (int)theStatus );
+					printf ( "err: %d, ATSUGetGlyphBounds()\n", (int)err );
 					goto EXIT;
 				}
 				
@@ -933,10 +911,10 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 				}
 			}
 #else
-			theStatus = ATSUMeasureText(textLayout_, lineStartOffset, lineEndOffset - lineStartOffset, NULL, NULL, &ascent, &descent);
-			if ( theStatus != noErr ) {
+			err = ATSUMeasureText(textLayout_, lineStartOffset, lineEndOffset - lineStartOffset, NULL, NULL, &ascent, &descent);
+			if ( err != noErr ) {
 				failed = true;
-				printf ( "theStatus: %d, ATSUMeasureText()\n", theStatus );
+				printf ( "err: %d, ATSUMeasureText()\n", err );
 				goto EXIT;
 			}
 #endif
@@ -952,14 +930,14 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 		
 		lineEndOffsets = (UniCharArrayOffset*) NewPtr(lineCount * sizeof(UniCharArrayOffset));
 		
-		theStatus = MemError();
-		if ( theStatus != noErr ) {
+		err = MemError();
+		if ( err != noErr ) {
 			failed = true;
-			printf ( "theStatus: %d, MemError()\n", (int)theStatus );
+			printf ( "err: %d, MemError()\n", (int)err );
 			goto EXIT;
 		}		
 
-		theStatus = ATSUGetSoftLineBreaks(	textLayout_, 
+		err = ATSUGetSoftLineBreaks(	textLayout_, 
 											textOffset, 
 											textLength, 
 											lineCount, 
@@ -969,9 +947,9 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 		//	assert that the number of soft breaks is always one less than the number of lines
 		//	since ATSUBreakLine does not insert a softbreak at the end of the text.
 			
-		if ( (theStatus != noErr) || (softBreakCount != (lineCount - 1)) ) {
+		if ( (err != noErr) || (softBreakCount != (lineCount - 1)) ) {
 			failed = true;
-			printf ( "theStatus: %d, ATSUGetSoftLineBreaks()\n", (int)theStatus );
+			printf ( "err: %d, ATSUGetSoftLineBreaks()\n", (int)err );
 			goto EXIT;
 		}
 
@@ -986,26 +964,27 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect )
 		// If you're using ATSUGetGlyphBounds above, you could ask for kATSUseDeviceOrigins to have ATSUI do this transformation for you.
 		
 		//	draw each line
+		
+		
 		for (ln = 0; ln < lineCount; ln++) {
 			lineEndOffset = lineEndOffsets[ln];
 			
-			yPos -= maxAscent;
-
-			theStatus = ATSUDrawText( textLayout_, 
+			err = ATSUDrawText( textLayout_, 
 										lineStartOffset, 
 										lineEndOffset - lineStartOffset, 
 										xPos,  
-										yPos);
+										yPos*-1);
 										
-			if ( theStatus != noErr ) {
+			if ( err != noErr ) {
 				failed = true;
-				printf ( "theStatus: %d, ATSUDrawText()\n", (int)theStatus );
+				printf ( "err: %d, ATSUDrawText() failed in OSXContect::atsuDrawTextInBox()\n", (int)err );
 				goto EXIT;
 			}
 
 			lineStartOffset = lineEndOffset;		
 			
-			yPos -= maxDescent;
+			yPos += maxAscent;
+			yPos += maxDescent;
 		}
 	}
 	
@@ -1368,6 +1347,9 @@ void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/05/31 19:42:53  ddiego
+*more osx updates
+*
 *Revision 1.1.2.7  2004/05/31 13:20:58  ddiego
 *more osx updates
 *

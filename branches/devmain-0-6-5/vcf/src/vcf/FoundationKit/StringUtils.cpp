@@ -412,7 +412,7 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 #ifdef VCF_OSX
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
     
-	CFStringAppendCharacters( fmt, formatText2.c_str(), formatText2.size() );    
+	CFStringAppendCharacters( fmt, formatText.c_str(), formatText.size() );    
     
     CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, argList );
     
@@ -424,7 +424,7 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
     CFRelease( fmt );
     
 #elif VCF_POSIX
-	vswprintf( buf, MAX_TRACE_STRING, formatText2.c_str(), argList );
+	vswprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
 #else
 	_vsnwprintf( buf, MAX_TRACE_STRING, formatText.c_str(), argList );
 #endif
@@ -1252,6 +1252,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/05/31 19:42:52  ddiego
+*more osx updates
+*
 *Revision 1.1.2.8  2004/05/31 13:20:57  ddiego
 *more osx updates
 *

@@ -86,6 +86,9 @@ public:
 	}
 	
 	double asDouble() const {
+		if ( 0 == val_ ) {
+			return 0.0;
+		}
 		return (double)vcf_FixedToInt(val_) + ((double)(0xFFFF)/(double)(0xFFFF0000 & val_));
 	}
 	
@@ -272,6 +275,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.5  2004/05/31 19:42:52  ddiego
+ *more osx updates
+ *
  *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
  *This checks in a bunch of changes to the FoundationKit for OSX
  *porting. The thread, mutex, semaphor, condition, and file peers

@@ -406,14 +406,8 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 						event.GetParameter<GrafPtr>( kEventParamGrafPort, typeGrafPtr, &port );						
 						
 						::Rect rgnBds;
-						GetRegionBounds( region, &rgnBds );
+						GetRegionBounds( region, &rgnBds );						
 						
-						StringUtils::traceWithArgs( "Control %ls with CGContextRef: %p drawing\n\trgnBds [%d,%d,%d,%d]",
-														control_->getClassName().c_str(), context,
-														rgnBds.left, 
-														rgnBds.top,
-														rgnBds.right,
-														rgnBds.bottom);
 						
 						VCF::Rect bounds = control_->getClientBounds();									
 						
@@ -432,8 +426,6 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 						bds.size.width = bounds.getWidth();
 						bds.size.height = bounds.getHeight();
 						HIViewConvertRect( &bds, hiView_->GetViewRef(), NULL );
-						StringUtils::traceWithArgs( "HIViewConvertRect(), bds: %0.2f,%0.2f [%0.2f,%0.2f]\n",
-														bds.origin.x,bds.origin.y,bds.size.width,bds.size.height );
 						
 						bounds.setRect( bds.origin.x,
 										bds.origin.y, 
@@ -492,6 +484,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/05/31 19:42:52  ddiego
+*more osx updates
+*
 *Revision 1.1.2.7  2004/05/31 13:20:57  ddiego
 *more osx updates
 *
