@@ -1145,11 +1145,8 @@ ulong64 DateTimeSpan::getTotalMilliseconds() const
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/08/23 21:24:04  marcelloptr
-*just moved some member declarations around
-*
-*Revision 1.2.2.1  2004/08/21 02:10:26  marcelloptr
-*just moved the DateTimeSpan member definitions before those of DateTime
+*Revision 1.2.2.3  2004/08/23 21:25:57  marcelloptr
+*just moved some member definitions around
 *
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
