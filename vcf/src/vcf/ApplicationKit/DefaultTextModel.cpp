@@ -28,29 +28,79 @@ void DefaultTextModel::setText( const String& text )
 	bool changed = ( text != text_ );
 	//text_ = text;	//this must stay commented
 	if ( true == changed ) {
-		AbstractTextModel::setText( text );
+		text_ = text;
+		
+		TextEvent event( dynamic_cast<Object*>(this), text );
+		
+		TextModelChanged.fireEvent( &event );
 	}
+}
+
+void DefaultTextModel::empty()
+{
+	DefaultTextModel::setText( "" );
+
+	AbstractModel::empty();
 }
 
 void DefaultTextModel::insertText( const unsigned long& index, const String& text )
 {
-	AbstractTextModel::insertText( index, text );
+	String changeText = getText();
+	changeText.insert( index, text );
+
+	DefaultTextModel::setText( changeText );
 }
 
 void DefaultTextModel::replaceText( const unsigned long& index, const unsigned long& len, const String& text )
 {
-	AbstractTextModel::replaceText( index, len, text );
+	String changeText = getText();
+	unsigned long length, pos;
+	length = changeText.size();
+	pos = VCF::minVal< unsigned long > ( index+len, length );
+	length = VCF::maxVal< unsigned long > ( 0, length-pos );
+	String preText = changeText.substr( 0, index );
+	String postText = changeText.substr( pos, length );
+	changeText = preText + text + postText;
+
+	DefaultTextModel::setText( changeText );
 }
 
 void DefaultTextModel::deleteText( const unsigned long& index, const unsigned long& count )
 {
-	AbstractTextModel::deleteText( index, count );
+	String changeText = this->text_.substr( index, count );
+
+	text_.erase( index, count );
+
+	TextEvent event( dynamic_cast<Object*>(this), changeText );
+
+	TextModelChanged.fireEvent( &event );	
+}
+
+void DefaultTextModel::appendText( const String& text )
+{
+	String changeText = getText();
+	changeText.append( text );
+
+	DefaultTextModel::setText( changeText );
+}
+
+String DefaultTextModel::getText()
+{
+	return this->text_;
+}
+
+unsigned long DefaultTextModel::getSize()
+{
+	return this->text_.size();
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/05 00:35:41  ddiego
+*fixed the way the DefaulttextModel is implemented. Got rid of the need for teh AbsractTextModel class, we should delete it.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
