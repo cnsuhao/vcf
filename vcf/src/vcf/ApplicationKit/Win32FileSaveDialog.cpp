@@ -136,7 +136,7 @@ bool Win32FileSaveDialog::execute()
 
 	if ( GetSaveFileName( &ofn ) ){
 		result = true;
-		TCHAR* fileStart = (char*)(ofn.lpstrFile + (ofn.nFileOffset-1));
+		char* fileStart = (char*)(ofn.lpstrFile + (ofn.nFileOffset-1));
 		if ( *fileStart == '\0' ){
 
 			directory_ = ofn.lpstrFile; //this represents the dir path - everything after this will be the file names
@@ -236,6 +236,9 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/28 18:16:51  marcelloptr
+*minor fixes: TCHAR removed
+*
 *Revision 1.2.4.1  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *
