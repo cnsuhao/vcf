@@ -318,12 +318,16 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	
 	ATSUStyle fontStyle = (ATSUStyle)fontImpl->getFontHandleID();
 	
-	ATSUAttributeTag tag = kATSULineFlushFactorTag;
+	ATSUSetRunStyle( textLayout_, fontStyle, 0, text.length() );
+	
+	OSStatus err = 0;
+	
+	ATSUAttributeTag tag[] = {kATSULineFlushFactorTag};
 	ByteCount tagSize = sizeof(Fract);
 	Fract orginalVal = 0;
 	Fract val = 0;
-	ByteCount actualSz = 0;
-	
+	ByteCount actualSz[] = {sizeof(Fract)};
+		
 	if ( drawOptions & GraphicsContext::tdoLeftAlign ) {
 		val = kATSUStartAlignment;
 	}
@@ -337,20 +341,20 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	ATSUAttributeValuePtr attrVals[] = {&val};
 	
 	
-	OSStatus err = ATSUGetLayoutControl( textLayout_, tag, tagSize, 
-										(ATSUAttributeValuePtr)&orginalVal, &actualSz );
+	err = ATSUGetLayoutControl( textLayout_, tag[0], tagSize, 
+										(ATSUAttributeValuePtr)&orginalVal, &actualSz[0] );
 	
 	if ( err != noErr ) {
 		StringUtils::trace( "ATSUGetLayoutControl(kATSULineFlushFactorTag) failed" );
 	}
 	
-	err = ATSUSetLayoutControls( textLayout_, 1, &tag, &tagSize, attrVals );
+	err = ATSUSetLayoutControls( textLayout_, 1, tag, actualSz, attrVals );
 	if ( err != noErr ) {
 		StringUtils::trace( "ATSUSetLayoutControls(kATSULineFlushFactorTag) failed" );
 	}
 	
 	
-	ATSUSetRunStyle( textLayout_, fontStyle, 0, text.length() );
+	
 
 	
 	if ( GraphicsContext::tdoWordWrap & drawOptions ) {
@@ -362,22 +366,39 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 	else {
 		double textHeight = getTextHeight("EM");
 		
-		offsetBounds.top_ += bounds.getHeight();
-		
 		setLayoutWidth( textLayout_, 0 );
 		FixedPointNumber x =  offsetBounds.left_;
+		FixedPointNumber lineWidth =  offsetBounds.getWidth();
 		FixedPointNumber y = ((offsetBounds.top_ + textHeight)*-1.0);
-
-		ATSUDrawText( textLayout_,
+		
+		if ( drawOptions & GraphicsContext::tdoBottomAlign ) {
+			y = ((offsetBounds.bottom_/* + textHeight*/) *-1.0);
+		}
+		else if ( drawOptions & GraphicsContext::tdoCenterVertAlign ) {
+			y = ((offsetBounds.top_ + offsetBounds.getHeight()/2.0 + textHeight/2.0 ) *-1.0 );
+		}
+		
+		
+		UniCharArrayOffset lineEndOffset;
+		err = ATSUBreakLine(textLayout_, kATSUFromTextBeginning, lineWidth, true, &lineEndOffset);
+		
+		if ( noErr != err ) {
+			StringUtils::trace( "ATSUBreakLine() failed" );
+		}
+		
+		err = ATSUDrawText( textLayout_,
 							kATSUFromTextBeginning,
-							kATSUToTextEnd,
+							lineEndOffset,
 							x,  y );
+		if ( noErr != err ) {
+			StringUtils::trace( "ATSUDrawText() failed" );
+		}
 
 	}
 
 	attrVals[0] = &orginalVal;
 	//reset original tag vals
-	ATSUSetLayoutControls( textLayout_, 1, &tag, &tagSize, attrVals );
+	ATSUSetLayoutControls( textLayout_, 1, tag, actualSz, attrVals );
 }
 
 void OSXContext::setLayoutWidth( ATSUTextLayout layout, double width )
@@ -2082,6 +2103,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/08/01 23:40:17  ddiego
+*fixed a few osx bugs
+*
 *Revision 1.1.2.11  2004/07/27 04:26:04  ddiego
 *updated devmain-0-6-5 branch with osx changes
 *

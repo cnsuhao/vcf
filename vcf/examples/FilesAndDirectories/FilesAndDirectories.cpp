@@ -90,7 +90,7 @@ int main( int argc, char** argv ){
 	*/
 	{
 		File file( fileName );		
-		System::println( "The file %ls's size: %d", fileName.getFileName().c_str(), file.getSize() );
+		System::println( "The file %ls's size: %d", fileName.getFileName().c_str(), (ulong32)file.getSize() );
 
 
 		/**
@@ -208,6 +208,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.10  2004/08/01 23:40:08  ddiego
+*fixed a few osx bugs
+*
 *Revision 1.2.4.9  2004/07/29 02:39:13  ddiego
 *fixed a bug with File::getINputStream and File::getOutputStream.
 *

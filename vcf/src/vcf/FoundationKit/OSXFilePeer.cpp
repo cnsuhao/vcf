@@ -15,6 +15,7 @@ where you installed the VCF.
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <time.h>
 	  
 //#include "vcf/FoundationKit/regexx.h"
 
@@ -46,6 +47,10 @@ void OSXFilePeer::setFile( File* file )
 ulong64 OSXFilePeer::getSize()
 {
 	ulong64 result ;
+	struct stat st = {0};
+	if ( -1 != fstat( fileHandle_, &st ) ) {
+		result = st.st_size;
+	}
 	
 	return result;
 }
@@ -77,6 +82,11 @@ DateTime OSXFilePeer::getDateModified()
 {
 	DateTime result ;
 	
+	struct stat st = {0};
+	if ( -1 != fstat( fileHandle_, &st ) ) {
+		result = st.st_mtimespec.tv_sec;
+	}
+	
 	return result;
 }
 
@@ -90,6 +100,11 @@ DateTime OSXFilePeer::getDateCreated()
 DateTime OSXFilePeer::getDateAccessed()
 {
 	DateTime result ;
+	
+	struct stat st = {0};
+	if ( -1 != fstat( fileHandle_, &st ) ) {
+		result = st.st_atimespec.tv_sec;
+	}
 	
 	return result;
 }
@@ -170,7 +185,9 @@ void OSXFilePeer::create( ulong32 openFlags )
 		if ( -1 == fileHandle_ ) {
 			fileHandle_ = 0;
 			throw BasicFileError( MAKE_ERROR_MSG_2("Unable to open the specified file " + file_->getName()));
-		}	
+		}
+		
+		::lseek( fileHandle_, 0, SEEK_SET );
 	}	
 }
 
@@ -232,7 +249,7 @@ void OSXFilePeer::initFileSearch( Directory::Finder* finder )
 
 File* OSXFilePeer::findNextFileInSearch( Directory::Finder* finder )
 {
-	File* result ;
+	File* result = NULL;
 	
 	return result;
 }
@@ -326,6 +343,9 @@ void OSXFilePeer::copyTo( const String& copyFileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2004/08/01 23:40:16  ddiego
+*fixed a few osx bugs
+*
 *Revision 1.1.2.10  2004/07/30 02:15:29  ddiego
 *added some impl in OSXFilePeer
 *

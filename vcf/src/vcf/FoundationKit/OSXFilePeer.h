@@ -117,6 +117,10 @@ public:
 	virtual File* findNextFileInSearch( Directory::Finder* finder );
 
 	virtual void endFileSearch( Directory::Finder* finder );
+	
+	int getFileHandle() {
+		return fileHandle_;
+	}
 private:
 	int fileHandle_;
 	File* file_;
@@ -136,6 +140,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.9  2004/08/01 23:40:16  ddiego
+ *fixed a few osx bugs
+ *
  *Revision 1.1.2.8  2004/07/29 03:55:21  ddiego
  *osx updates
  *

@@ -432,12 +432,8 @@ public:
 		clock2->setWidth( 200 );
 		panel->add( clock2, AlignLeft );
 
-		Calendar* calendar = new Calendar();
-
-		calendar->setColor( Color::getColor("white") );
-
+		Calendar* calendar = new Calendar();		
 		add( calendar, AlignClient );
-
 	}
 
 	virtual ~DateTimeUIWindow(){};
@@ -459,7 +455,7 @@ public:
 
 		Window* mainWindow = new DateTimeUIWindow();
 		setMainWindow(mainWindow);
-        mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+        mainWindow->setBounds( 100.0, 100.0, 500, 600 );
         mainWindow->show();
 
 		return result;
@@ -481,6 +477,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.13  2004/08/01 23:39:45  ddiego
+*fixed a few osx bugs
+*
 *Revision 1.2.2.12  2004/07/09 03:39:27  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.
