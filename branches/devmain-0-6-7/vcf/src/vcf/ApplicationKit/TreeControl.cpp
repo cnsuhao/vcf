@@ -69,6 +69,8 @@ void TreeControl::init()
 	setTreeModel( new DefaultTreeModel() );
 
 	setBorder( new Basic3DBorder( true ) );
+
+	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 }
 
 void TreeControl::setTreeModel( TreeModel * model )
@@ -351,6 +353,10 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/28 02:49:01  ddiego
+*fixed bug 1111096 where the text control was properly handlind
+*input from the numbpad keys.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

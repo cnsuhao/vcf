@@ -221,7 +221,15 @@ void TextControl::handleEvent( Event* event )
 {
 	switch( event->getType() ) {
 
-		case Control::KEYBOARD_DOWN : {
+		/**
+		I moved these two event types together to hopefully better hadnle the 
+		text processing, at least for Win32 - hopefully this will not screw things
+		up on OSX. 
+		The basic idea is to process things like TAB, back space, delete,etc on
+		Control::KEYBOARD_DOWN events, while processing actual printable characters
+		on the Control::KEYBOARD_PRESSED events
+		*/
+		case Control::KEYBOARD_DOWN : case Control::KEYBOARD_PRESSED : {
 			/**
 			HACK ALERT!
 			this is the braindead way - needs to be reworked in the future
@@ -243,10 +251,10 @@ void TextControl::handleEvent( Event* event )
 
 			TextModel* model = getTextModel();
 
-			if ( !getReadOnly() ) {
-				if ( !(getComponentState() & Component::csDesigning) ) {
-					KeyboardEvent* ke = (KeyboardEvent*)event;
+			if ( !getReadOnly() && !(getComponentState() & Component::csDesigning) ) {
+				KeyboardEvent* ke = (KeyboardEvent*)event;
 
+				if ( event->getType() == Control::KEYBOARD_DOWN ) {
 					switch ( ke->getVirtualCode() ) {
 						case vkDelete : {
 							ulong32 pos =  textPeer_->getSelectionStart();
@@ -411,33 +419,75 @@ void TextControl::handleEvent( Event* event )
 							}
 						}
 						break;
+					}
+
+				}
+				else {
+					switch ( ke->getVirtualCode() ) {
+						case vkDelete :
+						case vkBackSpace : 
+						case vkLeftArrow : 
+						case vkRightArrow : 
+						case vkPgUp : 
+						case vkPgDown : 
+						case vkHome : 
+						case vkEnd : 
+						case vkInsert : 
+						case vkAlt : 
+						case vkCtrl : 
+						case vkEscape : 
+						case vkPrintScreen : 
+						case vkScrollLock :
+						case vkPause : 
+						case vkCapsLock : 
+						case vkShift : 
+						case vkF1 : 							
+						case vkF2 : 
+						case vkF3 : 
+						case vkF4 : 
+						case vkF5 : 
+						case vkF6 : 
+						case vkF7 : 
+						case vkF8 : 
+						case vkF9 : 
+						case vkF10 : 
+						case vkF11 : 
+						case vkF12 : 
+						case vkDownArrow :
+						case vkUpArrow :
+						case vkTab :
+						case vkEnter :{
+							//no-op for these, since we don't want to add/delete text for them
+						}
+						break;
 
 						default : {
-
-							if ( !ke->hasAltKey() && !ke->hasControlKey() ) {
-								ulong32 pos =  textPeer_->getCaretPosition();
-								String text;
-								text += ke->getKeyValue();
-
+							ulong32 pos =  textPeer_->getCaretPosition();
+							
+							String text;
+							text += ke->getKeyValue();
+							
+							if ( !text.empty() ) {
+								
 								//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 								//	text.c_str(), text[0], text[0], pos );
-
+								
 								//determnine if we have sleected text. If we 
 								//have, then delete the selection ant *then*
 								//add in the new character(s)
-
+								
 								ulong32 length = textPeer_->getSelectionCount();
 								if ( length > 0 ) {
 									model->deleteText( pos, length );
 								}
-
+								
 								
 								model->insertText( pos, text );
 							}
-
 						}
 						break;
 					}
+					
 				}
 			}
 
@@ -449,12 +499,12 @@ void TextControl::handleEvent( Event* event )
 			Control::handleEvent( event );
 		}
 		break;
-
+/*
 		case Control::KEYBOARD_PRESSED : {
 			Control::handleEvent( event );
 		}
 		break;
-
+*/
 		default : {
 			Control::handleEvent( event );
 		}
@@ -473,6 +523,10 @@ void TextControl::setReadOnly( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/01/28 02:49:01  ddiego
+*fixed bug 1111096 where the text control was properly handlind
+*input from the numbpad keys.
+*
 *Revision 1.3.2.3  2005/01/18 00:15:33  ddiego
 *fixed aromans text edit bug
 *

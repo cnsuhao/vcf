@@ -846,7 +846,9 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		}
 		break;
-
+/*
+JC
+Do we need these? What advantage does processing these events have for us???
 		case NM_RCLICK :{
 			POINT pt = {0,0};
 			GetCursorPos( &pt );
@@ -865,13 +867,14 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			GetCursorPos( &pt );
 			ScreenToClient( hwnd_, &pt );
 			Point tmpPt( pt.x, pt.y );
-			VCF::MouseEvent event( getControl(), Control::MOUSE_UP,
+			VCF::MouseEvent event( getControl(), Control::MOUSE_CLICK,
 						mbmLeftButton, kmUndefined, &tmpPt );
 			if ( peerControl_ ) {
 					peerControl_->handleEvent( &event );
 			}
 		}
 		break;
+		*/
 
 		case NM_CUSTOMDRAW:{
 			static Rect itemRect;
@@ -1374,6 +1377,10 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/01/28 02:49:02  ddiego
+*fixed bug 1111096 where the text control was properly handlind
+*input from the numbpad keys.
+*
 *Revision 1.3.2.5  2005/01/07 01:13:59  ddiego
 *fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
 *

@@ -543,13 +543,36 @@ public:
 	virtual void redoForDocument( Document* doc );
 
 	/**
-	* gets the undo-redo stack associated to a document.
-	*@param Document& doc, the document.
+	performs an undo operation using
+	the shared undo-redo stack
+	*/
+	void undo();
+
+	/**
+	performs a redo operation using
+	the shared undo-redo stack
+	*/
+	void redo();
+
+	/**
+	* gets the undo-redo stack associated with a document.
+	*@param Document* doc, the document. If this is NULL
+	then the function returns the default undo-redo 
+	stack, that is "global" and not specific to a particular
+	document.
 	*@return UndoRedoStack&, a reference to the document's stack.
 	*/
 	UndoRedoStack& getUndoRedoStack( Document* doc );
 
-
+	/**
+	Returns the shared undo-redo stack for the document 
+	manager.
+	@return UndoRedoStack&, a reference to the document's stack.
+	@see getUndoRedoStack()
+	*/	
+	UndoRedoStack& getSharedUndoRedoStack() {
+		return getUndoRedoStack( NULL );
+	}
 protected:
 
 	/**
@@ -1603,6 +1626,10 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/28 02:49:01  ddiego
+*fixed bug 1111096 where the text control was properly handlind
+*input from the numbpad keys.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
