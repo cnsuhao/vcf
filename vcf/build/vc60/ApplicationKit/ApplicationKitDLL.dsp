@@ -1084,6 +1084,18 @@ SOURCE=..\..\..\include\events\WindowListener.h
 SOURCE=..\..\..\include\implementer\WindowPeer.h
 # End Source File
 # End Group
+# Begin Group "Res"
+
+# PROP Default_Filter "*.rc;*.bmp;*.ico"
+# Begin Source File
+
+SOURCE=..\..\resources\win32\ApplicationKit.rc
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\resources\win32\vcf.ico
+# End Source File
+# End Group
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -1716,18 +1728,6 @@ SOURCE=..\..\..\src\core\Window.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\Events\WindowEvent.cpp
-# End Source File
-# End Group
-# Begin Group "Res"
-
-# PROP Default_Filter "*.rc;*.bmp;*.ico"
-# Begin Source File
-
-SOURCE=..\..\resources\win32\ApplicationKit.rc
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resources\win32\vcf.ico
 # End Source File
 # End Group
 # End Target
