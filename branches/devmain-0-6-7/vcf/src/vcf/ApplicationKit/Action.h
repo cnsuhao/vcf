@@ -162,7 +162,7 @@ public:
 
 protected:
 	/**
-	* 
+	* the default event handler for the accelerator associated to this action.
 	*/
 	void onAccelerator( KeyboardEvent* e );
 
@@ -182,7 +182,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2005/03/14 18:56:31  marcelloptr
+*Revision 1.2.4.3  2005/03/14 19:02:02  marcelloptr
 *comments and added an error message to avoid an infinite loop
 *
 *Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
