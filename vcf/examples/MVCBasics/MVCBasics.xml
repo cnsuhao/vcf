@@ -416,6 +416,209 @@ public:
 };
 ]]>	
 	</programlisting>	
+	The change, obviously, is the addition of event handlers. We add an event handler 
+	(MVCBasicsPart3Window::onMouseClicked) to the window's MouseClicked delegate 
+	and another handler (MVCBasicsPart3Window::onKeyUp) to the window's KeyUp
+	delegate. Now let's see what we do for our implementation of MVCBasicsPart3Window::onKeyUp
+	and MVCBasicsPart3Window::onMouseClicked.
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart3Window : public Window {
+public:
+	...//rest of code ommitted
+
+	void onMouseClicked( MouseEvent* e ){
+		CircleModel* model = (CircleModel*)getView()->getViewModel();
+
+		model->addCircle( *e->getPoint(), 50 );
+	}
+
+	void onKeyUp( KeyboardEvent* e ) {
+		if ( e->getVirtualCode() == vkDelete ) {
+			CircleModel* model = (CircleModel*)getView()->getViewModel();
+			
+			model->empty();
+		}
+	}
+};
+]]>	
+	</programlisting>
+	When we click on the window we'll add a circle to the circle model. That's 
+	all we ahve to do - the update to the window and the repainting will all happen
+	automatically. When we get notified by the KeyUp delegate, if the 
+	delete key was pressed, then we will empty the model, clearing the display.
+	</para>
+	
+	<formalpara><title>Example 4</title>
+	This example will do things a little differently. We won't derive a new Window
+	class. Instead we'll create our own controller class which will handle the 
+	mouse click and key up events. We will also add another type of view.
+	</formalpara>
+	
+	<para>
+	First we'll look at our new view, MVCBasicsPart4View. The difference is simply in the
+	way the model is rendered.
+	<programlisting>
+<![CDATA[
+class MVCBasicsPart4View : public AbstractView {
+public:
+	virtual void paintView( GraphicsContext* ctx ) {
+		Control* control = AbstractView::getViewControl();
+
+		Rect r = control->getClientBounds();		
+
+		ctx->rectangle( &r );
+		ctx->setColor( Color::getColor("white") );
+		ctx->fillPath();		
+
+		CircleModel* model = (CircleModel*)getViewModel();
+
+		const std::vector<CircleShape>& circles = model->getCircles();
+		for ( std::vector<CircleShape>::const_iterator it = circles.begin(); it!=circles.end(); it++ ) {
+			const CircleShape& circle = *it;
+			
+			ctx->setColor( Color::getColor("blue") );
+			ctx->circle( circle.center_, circle.radius_ );
+			ctx->fillPath();
+
+			ctx->setColor( Color::getColor("black") );
+			ctx->circle( circle.center_, circle.radius_ );
+			ctx->strokePath();
+
+		}	
+		
+		EtchedBorder bdr;
+		bdr.setStyle( GraphicsContext::etSunken );
+		bdr.paint( &r, ctx );
+	}
+};
+]]>	
+	</programlisting>
+	As we can see, in this view we first paint a solid white background, then render 
+	each circle with a blue fill and a solid black outline. And finally we draw a 
+	etched border around the client bounds of the control that "owns" this view.
+	</para>
+	<para>
+	Next we'll look at the controller class. What we have done here, is simply to migrate the
+	code that we had previously put in our custom window class, and push it into our new 
+	controller class. First lets define our controller class:
+	<programlisting>
+<![CDATA[
+class MyMVCController : public Component {
+public:
+	CircleModel* model_;
+
+	void onMouseClicked( MouseEvent* e );
+
+	void onKeyUp( KeyboardEvent* e );
+};
+]]>	
+	</programlisting>
+	We're deriving from Component so that we can create an instance of our controller, and then 
+	add it to some other Component instance, which will automatically delete it when the 
+	owner component is deleted. We'll add a member variable that holds a pointer to the current
+	model to work with, which we will set when we create the controller.
+	</para>
+	<para>
+	Next we'll implement the onMouseClicked() and onKeyUp(). To do this, we just copy over 
+	the code that was previously in our MVCBasicsPart3Window.
+	<programlisting>
+<![CDATA[
+class MyMVCController : public Component {
+public:
+
+	CircleModel* model_;
+
+	void onMouseClicked( MouseEvent* e ) {	
+
+		if ( e->hasLeftButton() ) {
+			model_->addCircle( *e->getPoint(), 50 );
+		}
+		else if ( e->hasRightButton() ) {
+
+			const std::vector<CircleShape>& circles = model_->getCircles();
+
+			std::vector<CircleShape>::const_iterator it = circles.begin();
+			Rect r;
+			while ( it != circles.end() ) {
+				const CircleShape& shape = *it;
+				r.left_ = shape.center_.x_ - shape.radius_;
+				r.top_ = shape.center_.y_ - shape.radius_;
+				r.right_ = shape.center_.x_ + shape.radius_;
+				r.bottom_ = shape.center_.y_ + shape.radius_;
+
+				if ( r.containsPt( e->getPoint() ) ) {
+					model_->removeCircle( shape );
+					break;
+				}
+				it ++;
+			}
+			
+		}
+	}
+
+	void onKeyUp( KeyboardEvent* e ) {
+
+		if ( e->getVirtualCode() == vkDelete ) {
+			model_->empty();
+		}
+	}
+};
+]]>	
+	</programlisting>
+	The next big change is in how we hook all of this together. Lets look at the code in 
+	our example4() function:
+	<programlisting>
+<![CDATA[
+void example4( VCF::Event* ) {
+	Window* wnd = new Window();
+	MyMVCController* controller = new MyMVCController();
+
+	wnd->setCaption( "MVCBasics Part 4" );
+
+	CircleModel* model = new CircleModel();
+
+	model->addCircle( Point(100,200), 100 );
+	model->addCircle( Point(234,550), 300 );
+	model->addCircle( Point(300,400), 80 );		
+
+	View* view = new MVCBasicsPart4View();
+
+	wnd->setView( view );
+	model->addView( view );
+
+	wnd->MouseClicked += 
+		new MouseEventHandler<MyMVCController>( controller, &MyMVCController::onMouseClicked, "MyMVCController::onMouseClicked" );
+
+	wnd->KeyUp += 
+		new KeyboardEventHandler<MyMVCController>( controller, &MyMVCController::onKeyUp, "MyMVCController::onKeyUp" );
+
+	controller->model_ = model;
+
+	wnd->addComponent( controller );
+	wnd->show();
+}
+]]>	
+	</programlisting>
+	We create our window instance - note that we do <emphasis>not</emphasis> need to 
+	derive a new window class. We create our controller, of type MyMVCController. 
+	We then create our model and view. We set the window's view to our view instance,
+	which will cause the view to be responsible for painting the window. We also add the
+	view to our model instance. Next we add the the controller's onMouseClicked and 
+	onKeyUp functions as event handlers to the window instance's MouseClicked, and 
+	KeyUp delegates. Finally we set the controller's model pointer, and we add the controller
+	to our window component list. When the window is destroyed, it will destroy all it's
+	own component's, which in this case is the controller.
+	</para>
+	
+	<formalpara><title>Example 5</title>
+	Our last example will make a more complex UI. We will create 2 different views 
+	of our our circle model. One will present the model as a series of circles, for a 
+	graphical representation of the model. The second view will show the circle models
+	state by displaying the number of shapes it currently has as well as the current 
+	"action".
+	</formalpara>
+	<para>
 	</para>
 </section>
 
@@ -425,6 +628,9 @@ public:
 <!--
 CVS Log info
 $Log$
+Revision 1.1.2.4  2004/05/12 02:55:18  ddiego
+updated mvc docs
+
 Revision 1.1.2.3  2004/04/29 23:47:33  ddiego
 added more docs
 
