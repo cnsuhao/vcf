@@ -26,7 +26,9 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	isRichedit_(false),
 	OKToResetControlText_(true),
 	backgroundBrush_(NULL),
-	isMultiLined_(isMultiLineControl)
+	isMultiLined_(isMultiLineControl),
+	currentSelLength_(0),
+	currentSelStart_(-1)
 {
 
 }
@@ -59,7 +61,12 @@ void Win32Edit::create( Control* owningControl )
 		if ( GetVersionEx( &osInfo ) ) {
 			if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_NT ) {
 				richeditLibrary = "RICHED20.Dll";
-				className = RICHEDIT_CLASS;
+				if ( System::isUnicodeEnabled() ) {
+					className = RICHEDIT_CLASSW;
+				}
+				else {
+					className = RICHEDIT_CLASSA;
+				}
 			}
 			else if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS ) { //Windows 9.x
 				richeditLibrary = "RICHED32.DLL";
@@ -135,15 +142,11 @@ void Win32Edit::create( Control* owningControl )
 		Win32Object::registerWin32Object( this );
 		
 		subclassWindow();
-
-		TextModelEventHandler<Win32Edit>* tml =
-			new TextModelEventHandler<Win32Edit>( this, &Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
-
-
-		TextModel* tm = textControl_->getTextModel();
-		tm->addTextModelChangedHandler( tml );
-
+		
 		setFont( textControl_->getFont() );
+
+		textControl_->ControlModelChanged +=
+			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onControlModelChanged, "Win32Edit::onControlModelChanged" );
 
 	}
 	else {
@@ -319,14 +322,135 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 	switch ( message ) {
 
-		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP:{
+		case WM_RBUTTONDOWN :  case WM_LBUTTONDOWN : {
+
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+
+			ulong32 start = 0;
+			ulong32 end = 0;
+
+			getSelectionMark( start, end );
+			currentSelLength_ = end - start;
+			currentSelStart_ = start;
+
+		}
+		break;
+
+		case WM_RBUTTONUP : case WM_LBUTTONUP : {
+
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+
+			ulong32 start = 0;
+			ulong32 end = 0;
+
+			getSelectionMark( start, end );
+
+			if ( (currentSelLength_ != (end - start)) || (currentSelStart_ != start) ) {
+				//selection changed
+				TextEvent event( textControl_, start, end - start );
+
+				textControl_->SelectionChanged.fireEvent( &event );
+			}
+
+			currentSelLength_ = end - start;
+			currentSelStart_ = start;
+
+		}
+		break;
+
+		case WM_KEYDOWN: {
+			
+			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
+
+			switch ( virtKeyCode ) {
+				case vkLeftArrow : 
+				case vkRightArrow : 
+				case vkPgUp : 
+				case vkPgDown : 
+				case vkHome : 
+				case vkEnd : 
+				case vkDownArrow :
+				case vkUpArrow : {
+					ulong32 start = 0;
+					ulong32 end = 0;
+
+					getSelectionMark( start, end );
+					currentSelLength_ = end - start;
+					currentSelStart_ = start;
+				}
+				break;
+			}
+			
+
+			
+			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
+
+				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
+				unsigned long eventType = Control::KEYBOARD_DOWN;
+				
+
+				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+
+				virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+
+				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
+					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
+
+				OKToResetControlText_ = false;
+				
+				peerControl_->handleEvent( &event );
+				
+				switch ( virtKeyCode ) {
+					case vkLeftArrow : 
+					case vkRightArrow : 
+					case vkPgUp : 
+					case vkPgDown : 
+					case vkHome : 
+					case vkEnd : 
+					case vkDownArrow :
+					case vkUpArrow : {
 
 
+						ulong32 start = 0;
+						ulong32 end = 0;
+
+						getSelectionMark( start, end );
+
+						if ( event.hasShiftKey() && ((currentSelLength_ != (end - start)) || (currentSelStart_ != start)) ) {
+							//selection changed
+							TextEvent event( textControl_, start, end - start );
+							
+							textControl_->SelectionChanged.fireEvent( &event );
+						}
+
+						currentSelLength_ = end - start;
+						currentSelStart_ = start;
+					}
+					break;
+				}
+				
+
+				OKToResetControlText_ = true;
+
+				//wndProcResult = 1;
+				result = true;
+			}
 
 			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
 				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
 				result = true;
-				//result = CallWindowProc( oldEditWndProc_, hwnd_,
+			}
+
+
+		}
+		break;
+
+		case WM_CHAR:  case WM_KEYUP:{
+
+			
+			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
+				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+				result = true;
 			}
 
 			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
@@ -335,15 +459,10 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				unsigned long eventType = 0;
 				switch ( message ){
 					case WM_CHAR: {
-						eventType = Control::KEYBOARD_DOWN;
+						eventType = Control::KEYBOARD_PRESSED;
 					}
 					break;
-
-					case WM_KEYDOWN: {
-						eventType = Control::KEYBOARD_PRESSED;//KEYBOARD_EVENT_DOWN;
-					}
-					break;
-
+					
 					case WM_KEYUP: {
 						eventType = Control::KEYBOARD_UP;
 					}
@@ -356,30 +475,53 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
 				OKToResetControlText_ = false;
-
-				//processTextEvent( keyData, wParam, lParam );
-
+				
 				peerControl_->handleEvent( &event );
 
 				OKToResetControlText_ = true;
-
-				wndProcResult = 1;
+				
 				result = true;
+			}
+
+		}
+		break;
+		
+		case WM_COMMAND:{
+			
+			WPARAM fakeWParam = LOWORD(wParam);
+
+			
+			wndProcResult = 0;
+			result = true;
+
+			switch ( HIWORD(wParam) ) {
+				case EN_UPDATE:{
+					
+					// 
+
+					OKToResetControlText_ = false;
+
+					VCF::TextModel* model = textControl_->getTextModel();
+					if ( NULL != model ) {
+						
+					}
+
+					OKToResetControlText_ = true;
+				}
+				break; 
+
+				default : {
+
+				}
+				break;
 			}
 
 		}
 		break;
 
 		
-		case WM_COMMAND:{
 
-			handleEventMessages( HIWORD(wParam), LOWORD(wParam), lParam, wndProcResult );
-			wndProcResult = 1;
-			result = true;
-		}
-		break;
-
-		case EN_UPDATE:{
+		case WM_PASTE : {
 			OKToResetControlText_ = false;
 
 			VCF::TextModel* model = textControl_->getTextModel();
@@ -391,8 +533,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 			OKToResetControlText_ = true;
-			wndProcResult = 1;
-			result = true;
+			wndProcResult = 0;
+			result = false;
 		}
 		break;
 
@@ -469,7 +611,8 @@ void Win32Edit::onTextModelTextChanged( TextEvent* event )
 
 			String text = textControl_->getTextModel()->getText();
 
-			setText( text );
+			setText( text );		
+
 		}
 	}
 }
@@ -776,10 +919,43 @@ void Win32Edit::setReadOnly( const bool& readonly )
 	SendMessage( hwnd_, EM_SETREADONLY, readonly ? TRUE : FALSE, 0 );
 }
 
+void Win32Edit::print( PrintContext* context, const long& page )
+{
+
+}
+
+void Win32Edit::onControlModelChanged( Event* e )
+{
+	EventHandler* tml = getEventHandler( "Win32TextModelHandler" );
+	if ( NULL == tml ) {
+		tml = new TextModelEventHandler<Win32Edit>( this, &Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
+	}
+
+
+	TextModel* tm = textControl_->getTextModel();
+	tm->addTextModelChangedHandler( tml );
+
+	String text = tm->getText();
+
+	//OKToResetControlText_ = false;
+
+	setText( text );
+
+	//OKToResetControlText_ = true;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/21 23:41:24  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.2  2004/09/06 21:30:20  ddiego
 *added a separate paintBorder call to Control class
 *

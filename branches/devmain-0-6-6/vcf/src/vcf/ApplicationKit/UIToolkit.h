@@ -384,13 +384,6 @@ protected:
 
 	void onDefaultButton( KeyboardEvent* event );
 
-	Control* getNextChildControl( Control* control, Control* prevControl=NULL );
-
-	Control* getPrevChildControl( Control* control, Control* prevControl=NULL );
-
-
-
-
 	/**
 	*creates a new instance of a ControlPeer
 	*the component passed in represents the component the implmenter will get attached to.
@@ -566,6 +559,15 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/21 23:41:24  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.2  2004/08/31 04:12:12  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out

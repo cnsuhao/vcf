@@ -46,7 +46,7 @@ TreeListControl::TreeListControl():
 TreeListControl::~TreeListControl()
 {
 	if ( NULL != treeModel_ ) {
-		treeModel_->release();
+//		treeModel_->release();
 	}
 }
 
@@ -100,24 +100,29 @@ void TreeListControl::setTreeModel(TreeModel * model)
 			treeModel_->removeTreeNodeAddedHandler( handler );
 			treeModel_->removeTreeNodeDeletedHandler( handler );
 		}
-		treeModel_->removeView( this );
-		treeModel_->release();
+		getViewModel()->removeView( this );
 	}
 
 	treeModel_ = model;
 
-	this->setViewModel( treeModel_ );
-
 	if ( NULL != treeModel_ ) {
-		treeModel_->addRef();
-		treeModel_->addView( this );
+		Model* tm = dynamic_cast<Model*>(treeModel_);
+
+		tm->addView( this );
+
 		EventHandler* handler = getEventHandler( "TreeListControl::onModelChanged" );
 		if ( NULL == handler ) {
 			handler = new TreeModelEventHandler<TreeListControl>( this, &TreeListControl::onModelChanged, "TreeListControl::onModelChanged" );
-			addEventHandler( "TreeListControl::onModelChanged", handler );
+			
+			//JC - commented this out - this is unneccesary
+			//addEventHandler( "TreeListControl::onModelChanged", handler );
 		}
+
 		treeModel_->addTreeNodeAddedHandler( handler );
 		treeModel_->addTreeNodeDeletedHandler( handler );
+	}
+	else {
+		setViewModel( NULL );
 	}
 }
 
@@ -1505,6 +1510,15 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/21 23:41:24  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.1  2004/08/21 21:06:52  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

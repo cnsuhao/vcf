@@ -51,7 +51,7 @@ BEGIN_CLASSINFO(TitledBorder, "VCF::TitledBorder", "VCF::Border", TITLEDBORDER_C
 END_CLASSINFO(TitledBorder)
 
 
-
+/*
 BEGIN_ABSTRACT_CLASSINFO(AbstractListModel, "VCF::AbstractListModel", "VCF::ListModel", ABSTRACTLISTMODEL_CLASSID)
 EVENT( "VCF::ModelEventHandler", AbstractListModel, VCF::ModelEvent, ModelEmptied )
 EVENT( "VCF::ModelValidationEventHandler", AbstractListModel, VCF::ValidationEvent, ModelValidate )
@@ -59,16 +59,18 @@ EVENT( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, Con
 EVENT( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, ItemAdded )
 EVENT( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, ItemDeleted )
 END_CLASSINFO(AbstractListModel)
+*/
 
 BEGIN_ABSTRACT_CLASSINFO(AbstractModel, "VCF::AbstractModel", "VCF::Model", ABSTRACTMODEL_CLASSID)
 EVENT( "VCF::ModelEventHandler", AbstractModel, VCF::ModelEvent, ModelChanged )
 EVENT( "VCF::ModelValidationEventHandler", AbstractModel, VCF::ValidationEvent, ModelValidate )
 END_CLASSINFO(AbstractModel)
 
-
+/*
 BEGIN_ABSTRACT_CLASSINFO(TextModel, "VCF::TextModel", "VCF::Model", TEXTMODEL_CLASSID)
 ABSTRACT_EVENT("VCF::TextModelEventHandler", TextModel, VCF::TextEvent, TextModelChanged )
 END_CLASSINFO(TextModel)
+*/
 
 
 BEGIN_ABSTRACT_CLASSINFO(AbstractTextModel, "VCF::AbstractTextModel", "VCF::TextModel", ABSTRACTTEXTMODEL_CLASSID)
@@ -180,13 +182,14 @@ PROPERTY( String, "name", ListItem::getCaption, ListItem::setCaption, pdString )
 END_CLASSINFO(ListItem)
 
 
-
+/*
 BEGIN_ABSTRACT_CLASSINFO(ListModel, "VCF::ListModel", "VCF::Model", LISTMODEL_CLASSID)
 OBJECT_COLLECTION_PROPERTY(ListItem*, "items", ListModel::getItems, ListModel::addItem, ListModel::insertItem, ListModel::deleteItem, ListModel::deleteItemAtIndex )
 ABSTRACT_EVENT( "VCF::ListModelEventHandler", ListModel, VCF::ListModelEvent, ContentsChanged )
 ABSTRACT_EVENT( "VCF::ListModelEventHandler", ListModel, VCF::ListModelEvent, ItemAdded )
 ABSTRACT_EVENT( "VCF::ListModelEventHandler", ListModel, VCF::ListModelEvent, ItemDeleted )
 END_CLASSINFO(ListModel)
+*/
 
 
 BEGIN_ABSTRACT_CLASSINFO(MenuItem, "VCF::MenuItem", "VCF::Item", MENUITEM_CLASSID)
@@ -222,6 +225,7 @@ ABSTRACT_EVENT("VCF::ItemEditorEventHandler", TableItemEditor, VCF::ItemEditorEv
 END_CLASSINFO(TableItemEditor)
 
 
+/*
 BEGIN_ABSTRACT_CLASSINFO(TableModel, "VCF::TableModel", "VCF::AbstractModel", TABLEMODEL_CLASSID )
 EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableCellAdded )
 EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableCellDeleted )
@@ -230,6 +234,7 @@ EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableRow
 EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableColumnsAdded )
 EVENT( "VCF::TableModelEventHandler", TableModel, VCF::TableModelEvent, TableColumnsDeleted )
 END_CLASSINFO(TableModel);
+*/
 
 
 
@@ -249,21 +254,21 @@ PROPERTY( String, "name", TreeItem::getCaption, TreeItem::setCaption, pdString )
 END_CLASSINFO(TreeItem)
 
 
-
+/*
 BEGIN_ABSTRACT_CLASSINFO(TreeModel, "VCF::TreeModel", "VCF::Model", TREEMODEL_CLASSID)
 //	OBJECT_PROPERTY( TreeItem, "root", TreeModel::getRoot, TreeModel::setRoot );
 ABSTRACT_EVENT( "VCF::TreeModelEventHandler", TreeModel, VCF::TreeModelEvent, RootNodeChanged )
 ABSTRACT_EVENT( "VCF::TreeModelEventHandler", TreeModel, VCF::TreeModelEvent, NodeAdded )
 ABSTRACT_EVENT( "VCF::TreeModelEventHandler", TreeModel, VCF::TreeModelEvent, NodeDeleted )
 END_CLASSINFO(TreeModel)
-
+*/
 
 
 /**
 -------------------------------------------------------------------------------
 */
 
-
+/*
 BEGIN_CLASSINFO(AbstractTreeModel, "VCF::AbstractTreeModel", "VCF::TreeModel", ABSTRACTTREEMODEL_CLASSID)
 EVENT( "VCF::ModelEventHandler", AbstractTreeModel, VCF::ModelEvent, ModelEmptied )
 EVENT( "VCF::ModelValidationEventHandler", AbstractTreeModel, VCF::ValidationEvent, ModelValidate )
@@ -271,6 +276,8 @@ EVENT( "VCF::TreeModelEventHandler", AbstractTreeModel, VCF::TreeModelEvent, Roo
 EVENT( "VCF::TreeModelEventHandler", AbstractTreeModel, VCF::TreeModelEvent, NodeAdded )
 EVENT( "VCF::TreeModelEventHandler", AbstractTreeModel, VCF::TreeModelEvent, NodeDeleted )
 END_CLASSINFO(AbstractTreeModel)
+*/
+
 
 BEGIN_CLASSINFO(BasicTableItemEditor, "VCF::BasicTableItemEditor", "VCF::TableItemEditor", BASICTABLEITEMEDITOR_CLASSID)
 EVENT("VCF::ItemEditorEventHandler", BasicTableItemEditor, VCF::ItemEditorEvent, CellItemChanged )
@@ -620,6 +627,15 @@ END_CLASSINFO(SystemTray)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.1  2004/08/20 03:08:13  ddiego
 *added SystemTray component
 *

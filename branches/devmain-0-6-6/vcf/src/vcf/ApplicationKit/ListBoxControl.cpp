@@ -94,7 +94,7 @@ ListBoxControl::~ListBoxControl()
 		if ( NULL != ev ) {
 			listModel_->removeContentsChangedHandler( ev );
 		}
-		listModel_->release();
+		//listModel_->release();
 	}
 }
 
@@ -119,19 +119,17 @@ void ListBoxControl::setListModel( ListModel * model )
 		ev = getEventHandler( "ListBoxControl::onListModelContentsChanged" );
 		if ( NULL != ev ) {
 			listModel_->removeContentsChangedHandler( ev );
-		}
-
-		listModel_->release();
+		}		
 	}
 
 	listModel_ = model;
 
 
 	if ( NULL != listModel_ ) {
-		listModel_->addRef();
+		
 	}
 
-	setViewModel( listModel_ );
+	setViewModel( dynamic_cast<Model*>(listModel_) );
 
 	repaint();
 }
@@ -662,6 +660,15 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.7  2004/09/21 05:48:23  dougtinkham
 *mod onItemAdded, onItemDeleted
 *

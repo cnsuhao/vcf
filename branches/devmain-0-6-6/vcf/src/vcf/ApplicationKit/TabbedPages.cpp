@@ -74,7 +74,7 @@ void TabbedPages::init()
 TabbedPages::~TabbedPages()
 {
 	if ( NULL != model_ ){
-		model_->release();
+		//model_->release();
 	}
 }
 
@@ -240,15 +240,21 @@ TabModel* TabbedPages::getModel()
 void TabbedPages::setTabModel( TabModel* model )
 {
 	if ( NULL != model_ ) {
-		model_->release();
+//		model_->release();
 	}
 
 	model_ = model;
 
 
+	
 	if ( NULL != model_ ) {
-		model_->addRef();
-		model_->addView( this );
+		//model_->addRef();
+		//model_->addView( this );
+		Model* mod = dynamic_cast<Model*>(model_);
+		if ( NULL != mod ) {
+			mod->addView( this ); //calls setViewModel() for us
+		}
+
 
 		EventHandler* ev = getEventHandler( "TabbedPages::tabTabPageAddedHandler" );
 		if ( NULL == ev ) {
@@ -267,11 +273,12 @@ void TabbedPages::setTabModel( TabModel* model )
 		if ( NULL == ev ) {
 			ev = new TabModelEventHandler<TabbedPages>( this, &TabbedPages::onTabPageSelected, "TabbedPages::tabPageSelectedHandler" );
 		}
-		model_->addTabPageSelectedHandler( ev );
+		model_->addTabPageSelectedHandler( ev );		
 	}
 	else {
 		setViewModel( NULL );
 	}
+
 }
 
 void TabbedPages::onTabPageAdded( TabModelEvent* event )
@@ -369,7 +376,7 @@ void TabbedPages::onTabPageSelected( TabModelEvent* event )
 TabPage* TabbedPages::addNewPage( const String& caption )
 {
 	DefaultTabPage* page = new DefaultTabPage();
-	page->setModel( getModel() );
+	page->setModel( getViewModel() );
 	page->setPageName( caption );
 	Panel* sheet = new Panel();
 	sheet->setBorder( NULL );
@@ -551,6 +558,15 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.5  2004/09/08 01:51:54  ddiego
 *fixed bug in paint of tabbedPages control due to changes from weekend.
 *

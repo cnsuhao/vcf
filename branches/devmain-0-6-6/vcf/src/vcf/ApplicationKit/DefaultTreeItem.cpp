@@ -31,7 +31,7 @@ DefaultTreeItem::DefaultTreeItem( const String& caption, Control* owningControl,
 {
 	init();
 	owningControl_ = owningControl;
-	treeModel_ = model;
+	treeModel_ = dynamic_cast<Model*>(model);
 	setCaption( caption );
 }
 
@@ -297,7 +297,7 @@ Model* DefaultTreeItem::getModel()
 
 void DefaultTreeItem::setModel( Model* model )
 {
-	treeModel_ = dynamic_cast<TreeModel*>(model );
+	treeModel_ = model;
 	for (std::vector<TreeItem*>::iterator it = childNodeItems_.begin(); it != childNodeItems_.end(); it ++ ){
 		(*it)->setModel( model );
 	}
@@ -446,6 +446,15 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/21 23:41:23  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.1  2004/09/09 04:42:04  ddiego
 *fixed some custom draw bugs in win32 tree control. updated
 *advanced ui example.

@@ -1211,9 +1211,14 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 	HPEN oldPen = NULL;
 
 	RECT tmpRect = btnRect;
-	InflateRect( &tmpRect, -1, -1 );
+	//InflateRect( &tmpRect, -1, -1 );
 
 	RECT captionRect = btnRect;
+
+		
+	if ( state.isDefaultButton() ) {
+		InflateRect( &tmpRect, -1, -1 );
+	}
 
 	if ( true == isPressed ) {
 		HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
@@ -1221,9 +1226,11 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 		DeleteObject( shadowBrush );
 		::OffsetRect( &captionRect, 1, 1 );
 	}
-	else {
+	else {	
+
 		oldPen = (HPEN) ::SelectObject( dc_, hilightPen );
 
+		
 		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
 		::LineTo( dc_, tmpRect.left, tmpRect.top );
 		::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
@@ -1237,6 +1244,23 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
 		::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
 		::LineTo( dc_, tmpRect.left-1, tmpRect.bottom-1 );
+		
+/*
+		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
+		::LineTo( dc_, tmpRect.left, tmpRect.top );
+		::LineTo( dc_, tmpRect.left, tmpRect.bottom );
+
+		::SelectObject( dc_, shadowPen );
+		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top+1, NULL );
+		::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
+		::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
+
+		::SelectObject( dc_, blackPen );
+		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
+		::LineTo( dc_, tmpRect.right, tmpRect.bottom );
+		::LineTo( dc_, tmpRect.left, tmpRect.bottom );
+		*/
+
 	}
 
 	bool enabled = state.isEnabled();
@@ -1321,7 +1345,8 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 
 	if ( state.isFocused() ) {
 		RECT focusRect = btnRect;
-		InflateRect( &focusRect, -4, -4 );
+		InflateRect( &focusRect, -4, -4 );		
+
 		::DrawFocusRect( dc_, &focusRect );
 	}
 
@@ -2417,6 +2442,15 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.11  2004/09/21 23:41:24  ddiego
+*made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
+*concrete implementations of them now derive from BOTH Model and the specific
+*tree, table, etc model interface.
+*Also made some fixes to the way the text input is handled for a text control.
+*We now process on a character by character basis and modify the model one
+*character at a time. Previously we were just using brute force and setting
+*the whole models text. This is more efficent, though its also more complex.
+*
 *Revision 1.2.2.10  2004/09/08 02:21:57  ddiego
 *fixed bug due to not checking return value of HBITMAP in drawImage.
 *
