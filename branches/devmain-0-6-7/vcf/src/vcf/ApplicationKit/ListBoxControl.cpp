@@ -688,7 +688,7 @@ void ListBoxControl::mouseMove( MouseEvent* event )
 					singleSelectedItem_ = foundItem; 
 				}
 				else {
-					selectedItems_.push_back( foundItem );
+					//selectedItems_.push_back( foundItem );
 					setSelectedItem( foundItem );
 				}
 			}
@@ -696,7 +696,7 @@ void ListBoxControl::mouseMove( MouseEvent* event )
 				if ( foundItem != singleSelectedItem_ )  {	   
 					//JC - Integrated change by Berkano (Thanks Brian!) - fixes bug [1015368] ListBoxControl Mousemove error 
 					if(!selectedItems_.empty()) {
-					selectedItems_[0] = foundItem;//assumes index 0 exists
+					// selectedItems_[0] = foundItem;//assumes index 0 exists
 					setSelectedItem( foundItem );
 					}
 				}
@@ -881,6 +881,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2005/03/21 05:08:31  dougtinkham
+*fixed selection/deselection bug.
+*
 *Revision 1.5.2.5  2005/03/21 00:41:59  dougtinkham
 *more fixes to selection through code.
 *
