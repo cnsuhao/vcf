@@ -137,14 +137,17 @@ public:
 
 
 	/**
-	Decodes the unicode data in this string and returns a const ansi pointer using the provided
-	codec. The ansi pointer will be reclaimed when the string is destroyed.
+	Decodes the unicode data in this string and places the data in the ansi string buffer
+	passed in. When the function returns the strSize variable will be modified to reflect the
+	number of bytes written to the ansi string buffer.
 	@param TextCodec the code to use for decoding this string's data
-	@return const AnsiChar* a pointer to an allocated ansi string. It will be
-	null terminated.
+	@param AnsiChar* str the ansi buffer to use to write the decoded data to
+	@param size_type& strSize teh number of bytes in the str buffer. UIpon returning from this 
+	function this will hold the number of bytes actually written to the str buffer. The
+	null terminator will be written out
 	@see ansi_c_str()
 	*/
-	const AnsiChar* decode_ansi( TextCodec* codec ) const ;
+	void decode_ansi( TextCodec* codec, AnsiChar* str, size_type& strSize ) const ;
 
 	/**
 	Decodes the unicode data in the string and returns a new string with the
@@ -759,6 +762,7 @@ public:
 	void swap(UnicodeString& str) {
 		data_.swap( str.data_ );
 		modified();
+		str.modified();
 	}
 
 	size_type find(const UnicodeString& str, size_type pos = 0) const {
@@ -1079,6 +1083,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/11 22:55:45  ddiego
+*changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
+*
 *Revision 1.2.2.2  2004/09/11 19:16:36  ddiego
 *changed the way ansi_c_str() works and got rid of global static map of allocated char* strings. This was causing problems on SMP machines.
 *
