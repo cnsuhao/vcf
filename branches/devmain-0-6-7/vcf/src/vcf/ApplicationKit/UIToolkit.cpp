@@ -779,6 +779,8 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 																	event->getVirtualCode() );
 
 			postEvent( ev, acceleratorEvent, false );
+
+			// as the event has been processed, we don't let it to be forwarded further to any other controls
 			event->setConsumed( true );
 		}
 	}
@@ -1148,6 +1150,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/03/21 17:30:38  marcelloptr
+*added a comment
+*
 *Revision 1.3.2.8  2005/03/15 05:29:01  ddiego
 *makes the accelerator check logic a bit smarter and also changes
 *teh way menu items test to check whether or not they are enabled.
