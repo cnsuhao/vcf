@@ -172,6 +172,9 @@
 					RelativePath="Resources\es_ES\Localization.strings">
 				</File>
 			</Filter>
+			<File
+				RelativePath="info.xml">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -399,9 +399,6 @@ Package=<4>
     Project_Dep_Name Tables
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name TextEdit
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name TextLayout
     End Project Dependency
     Begin Project Dependency
@@ -874,18 +871,6 @@ Package=<4>
 ###############################################################################
 
 Project: "Tables"=".\Tables\Tables_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "TextEdit"=".\TextEdit\TextEdit_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

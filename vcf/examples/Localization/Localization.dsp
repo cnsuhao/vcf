@@ -135,7 +135,7 @@ SOURCE=Resources\es_ES\Localization.strings
 # End Group
 # Begin Source File
 
-SOURCE=.\info.xml
+SOURCE=info.xml
 # End Source File
 # End Group
 # End Target
