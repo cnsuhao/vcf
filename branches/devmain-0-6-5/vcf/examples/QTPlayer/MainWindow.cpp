@@ -2,7 +2,7 @@
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "vcf/ApplicationKit/TitledBorder.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 #include "MainWindow.h"
 #include "QTPlayerApplication.h"
 #include "QTPlayerAbout.h"
@@ -21,8 +21,8 @@ using namespace VCF;
 
 class PlayListItem : public DefaultListItem {
 public:
-	PlayListItem( const String& caption, Model* model ):
-	  DefaultListItem( model, caption ) {
+	PlayListItem( Control* control, const String& caption, Model* model ):
+	  DefaultListItem( model, caption ),control_(control) {
 
 	}
 
@@ -32,16 +32,45 @@ public:
 		//bdr.paint( paintRect, gc );
 		VCF::Rect tmp = *paintRect;
 		
-		tmp.right_ += 50;
+		VCF::Rect clientRect = control_->getClientBounds();
 
-		gc->setColor( Color::getColor( "purple" ) );
+		tmp.right_ = clientRect.right_;
+
+		Font oldFont = *gc->getCurrentFont();
+		if ( isSelected() ) {
+			gc->setColor( GraphicsToolkit::getSystemColor(SYSCOLOR_SELECTION) );
+			gc->getCurrentFont()->setColor( GraphicsToolkit::getSystemColor(SYSCOLOR_SELECTION_TEXT) );
+		}
+		else {
+			gc->getCurrentFont()->setColor( control_->getFont()->getColor() );
+			if ( !(getIndex() % 2) ) {
+				gc->setColor( Color::getColor( "lightsteelblue" ) );
+			}
+			else {
+				gc->setColor( control_->getColor() );
+			}
+		}
 		gc->rectangle( &tmp );
 		gc->fillPath();
+		
+		if ( isSelected() ) {
+			DrawUIState state;
+			state.setFocused(true);
+			gc->drawThemeSelectionRect( &tmp, state );
+		}
+
+		tmp.right_ = paintRect->right_;
+		tmp.inflate( -2, -2 );
+		long options = GraphicsContext::tdoCenterVertAlign | GraphicsContext::tdoLeftAlign;
+		gc->textBoundedBy( &tmp, getCaption(), options );
+		gc->setCurrentFont( &oldFont );
 	}
 	
 	virtual bool canPaint() {
 		return true;
 	}
+
+	Control* control_;
 };
 
 
@@ -381,6 +410,8 @@ MainQTWindow::MainQTWindow():
 	quicktimeControl_(NULL),
 	movieLoaded_(false)
 {
+	
+
 	//build main menu
 	MenuBar* menuBar = new MenuBar();
 	addComponent( menuBar );
@@ -443,10 +474,13 @@ MainQTWindow::MainQTWindow():
 	EventHandler* ev = new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onHelpAbout, "MainQTWindow::onHelpAbout" );
 	helpAbout->addMenuItemClickedHandler( ev );
 	
+	
 
 
 	EventHandler* windowClose = new WindowEventHandler<MainQTWindow>( this, MainQTWindow::onClose, "MainQTWindow::onClose" );
 	FrameClose += windowClose;
+
+
 
 
 	ImageList* il = new ImageList();
@@ -488,7 +522,7 @@ MainQTWindow::MainQTWindow():
 	il->addImage( img );
 	delete img;
 
-
+	
 
 
 
@@ -562,7 +596,6 @@ MainQTWindow::MainQTWindow():
 		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onVolumeFull, "MainQTWindow::onVolumeFull" ) ;	
 
 	
-
 
 
 	Label* spacer = new Label();
@@ -649,7 +682,7 @@ MainQTWindow::MainQTWindow():
 
 	searchText->KeyUp += new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onSearchTextEntered, "MainQTWindow::onSearchTextEntered" );
 
-
+		
 
 	/*
 	img = resBundle->getImage( "fullvol" );
@@ -688,6 +721,8 @@ MainQTWindow::MainQTWindow():
 	stop->setChecked( true );
 
 	
+
+
 	/**
 	Actions - this is where the various UI elements get hooked up
 	*/
@@ -915,7 +950,9 @@ MainQTWindow::MainQTWindow():
 
 	ListModel* lm = playListCtrl_->getListModel();
 
-	lm->addItem( new PlayListItem( "Foo", NULL ) );
+	lm->addItem( new PlayListItem( playListCtrl_, "Foo", NULL ) );
+	lm->addItem( new PlayListItem( playListCtrl_, "Foo", NULL ) );
+	lm->addItem( new PlayListItem( playListCtrl_, "Foo", NULL ) );
 
 	mainViewPanel_->add( playListCtrl_ );
 
