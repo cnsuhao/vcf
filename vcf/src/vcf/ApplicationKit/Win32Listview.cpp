@@ -478,6 +478,9 @@ void Win32Listview::postPaintItem( NMLVCUSTOMDRAW* drawItem )
 	ListItem* item = model->getItemFromIndex( (ulong32 )drawItem->nmcd.dwItemSpec );
 
 	if ( NULL != item ) {
+		
+		//item->setSelected( isItemSelected( item ) );
+		
 		if ( true == item->canPaint() ) {
 			RECT tmp = {0,0,0,0};
 			GraphicsContext* ctx = NULL;
@@ -710,10 +713,18 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 
 			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
 
-			
+			VCF::GraphicsContext* ctx = peerControl_->getContext();
+		
+			ctx->setViewableBounds( Rect(r.left, r.top,
+											r.right, r.bottom ) );
+
+			ctx->getPeer()->setContextID( (long)memDC_ );
+			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
+
 			defaultWndProcedure( WM_PAINT, (WPARAM)memDC_, 0 );
 
-			
+			((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
+
 
 			::BitBlt( dc, r.left, r.top,
 					  r.right - r.left,
@@ -981,6 +992,8 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 				if ( NULL != item ){
 					if ( (lvNotificationHdr->uChanged & LVIF_STATE) != 0 ) {
 						if ( (lvNotificationHdr->uNewState & LVIS_SELECTED) != 0 ){
+							item->setSelected( true );
+
 							POINT tmpPt = {0,0};
 							GetCursorPos( &tmpPt );
 							::ScreenToClient( hwnd_, &tmpPt );
@@ -1044,7 +1057,7 @@ LRESULT Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM 
 					case CDDS_ITEMPOSTPAINT : {
 						// Request prepaint notifications for each item.
 						postPaintItem( listViewCustomDraw );
-						result = CDRF_DODEFAULT;
+						result = CDRF_SKIPDEFAULT;
 					}
 					break;
 
@@ -2250,6 +2263,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/15 18:53:00  ddiego
+*more updates
+*
 *Revision 1.1.2.6  2004/07/15 14:55:11  ddiego
 *borders fixed
 *

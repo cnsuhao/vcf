@@ -79,6 +79,8 @@ void ListViewControl::init()
 	iconStyle_ = isLargeIcon;
 
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
+
+	setBorder( new Basic3DBorder( true ) );
 }
 
 ListModel* ListViewControl::getListModel()
@@ -604,6 +606,9 @@ void ListViewControl::paint( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/15 18:53:00  ddiego
+*more updates
+*
 *Revision 1.1.2.4  2004/07/15 14:55:11  ddiego
 *borders fixed
 *

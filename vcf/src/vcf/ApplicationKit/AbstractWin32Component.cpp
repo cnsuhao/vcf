@@ -66,11 +66,11 @@ void AbstractWin32Component::destroyControl()
 	peerControl_->handleEvent( event );
 
 	event->free();
+	peerControl_ = NULL;
 
 
-
-	if ( NULL != hwnd_ ){
-
+	if ( NULL != hwnd_ ){		
+		
 		if ( IsWindow( hwnd_ ) ) {
 			BOOL err = ::DestroyWindow( hwnd_ );
 			if ( FALSE == err )  {
@@ -82,7 +82,7 @@ void AbstractWin32Component::destroyControl()
 		hwnd_ = NULL;
 		wndProc_ = NULL;
 		defaultWndProc_ = NULL;
-		peerControl_ = NULL;
+		
 	}
 
 	if ( NULL != memDC_ ) {
@@ -1230,6 +1230,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2004/07/15 18:53:00  ddiego
+*more updates
+*
 *Revision 1.1.2.11  2004/07/15 14:55:11  ddiego
 *borders fixed
 *
