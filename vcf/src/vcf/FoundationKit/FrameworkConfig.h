@@ -71,15 +71,15 @@ VCF_BCC - compiling with Borland's C++ compiler
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"VC71"
 #elif (_MSC_VER >= 1300)
-#	define VCF_VC7
+#	define VCF_VC70
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"VC70"
 #elif (_MSC_VER >= 1200)
-#	define VCF_VC6
+#	define VCF_VC60
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"VC60"
 #elif (_MSC_VER >= 1100)
-#	define VCF_VC5
+#	define VCF_VC50
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"VC60"
 #endif
@@ -616,9 +616,10 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.1  2004/12/22 02:53:36  marcelloptr
+*Revision 1.3.2.2  2004/12/22 03:15:16  marcelloptr
 *fixed VCF_COMPILER_NAME macro so less error prone.
 *This also makes getExecutableNameFromBundlePath() to work right.
+*
 *
 *Revision 1.3  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
