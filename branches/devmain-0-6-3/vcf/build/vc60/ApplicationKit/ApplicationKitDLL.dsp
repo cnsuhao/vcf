@@ -23,6 +23,8 @@ CFG=ApplicationKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName "ApplicationKitDLL"
+# PROP Scc_LocalPath "..\..\.."
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -1109,10 +1111,6 @@ SOURCE=..\..\..\include\events\ScrollEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Events\TableModelEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\events\TableModelEvent.h
 # End Source File
 # Begin Source File
@@ -1198,14 +1196,6 @@ SOURCE=..\..\..\include\core\AbstractListModel.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\AbstractModel.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\AbstractTableModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\AbstractTableModel.h
 # End Source File
 # Begin Source File
 
