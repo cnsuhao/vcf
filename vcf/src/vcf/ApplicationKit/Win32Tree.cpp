@@ -508,12 +508,70 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case TVN_BEGINDRAG:{
-			NMTREEVIEW* info = (NMTREEVIEW*)lParam ;
+		case TVN_BEGINDRAGW:{
+			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam ;
+			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
+			StringUtils::traceWithArgs( "TVN_BEGINDRAGW item: %p\n", item );
+
+			StringUtils::traceWithArgs( "\tcaption: %s\n", (item != NULL) ? item->getCaption().c_str() : L"null" );
+
+			if ( NULL != item ) {				
+				Point pt( treeview->ptDrag.x, treeview->ptDrag.y );
+
+				TreeItem* oldItem = treeControl_->getSelectedItem();
+				if ( item != oldItem ) {
+					//hmm, we haven't selected this item before, so 
+					//let's go ahead and make it selected now
+					//we do this because the TVN_SELECTIONCHANGED 
+					//won't get called at this point
+					
+					item->setSelected( true );
+					
+					ItemEvent event( treeControl_, TREEITEM_SELECTED );
+					
+					event.setUserData( (void*)item );				
+					
+					event.setPoint( &pt );
+					
+					treeControl_->handleEvent( &event );
+					
+					if ( NULL != oldItem ) {
+						oldItem->setSelected( false );
+					}
+				}
+
+				SHORT keyState = GetKeyState( VK_SHIFT );
+				ulong32 keyMask = kmUndefined;
+				if ( (keyState >> 15) ) {
+					keyMask |= kmShift;
+				}
+				keyState = GetKeyState( VK_CONTROL );
+				if ( (keyState >> 15) ) {
+					keyMask |= kmCtrl;
+				}
+
+				keyState = GetKeyState( VK_MENU );
+				if ( (keyState >> 15) ) {
+					keyMask |= kmAlt;
+				}
+
+				VCF::MouseEvent event( treeControl_, Control::MOUSE_MOVE,
+										mbmLeftButton, keyMask, &pt );
+
+				treeControl_->beginDragDrop( &event );
+
+			}
+		}
+		break;
+
+		case TVN_BEGINDRAGA:{
+			NMTREEVIEWA* info = (NMTREEVIEWA*)lParam ;
+			/*
 			MouseEvent e(treeControl_);
 			e.setPoint( &Point(info->ptDrag.x,info->ptDrag.y) );
 
 			treeControl_->beginDragDrop( &e );
+			*/
 		}
 		break;
 
@@ -522,7 +580,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case TVN_BEGINRDRAG:{
+		case TVN_BEGINRDRAG:{			
 
 		}
 		break;
@@ -627,6 +685,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			internalTreeItemExpanded_ = true;
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
+			
 			if ( NULL != item ) {
 
 				if ( treeview->action & TVE_EXPAND ) {
@@ -665,6 +724,9 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_SELCHANGEDW:{
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
+			StringUtils::traceWithArgs( "TVN_SELCHANGEDW item: %p\n", item );
+			StringUtils::traceWithArgs( "\tcaption: %s\n", item ? item->getCaption().c_str() : L"null" );
+
 			if ( NULL != item ) {
 				item->setSelected( true );
 				POINT tmpPt = {0,0};
@@ -1254,6 +1316,10 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/31 17:39:47  ddiego
+*fixes a drag-drop bug, initially listed under the vcfbuilders
+*bug list
+*
 *Revision 1.3.2.1  2004/12/19 04:05:00  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
