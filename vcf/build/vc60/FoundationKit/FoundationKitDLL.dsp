@@ -129,6 +129,10 @@ SOURCE=..\..\..\include\core\ClassRegistry.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\utils\CommandLine.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\CommonDefines.h
 # End Source File
 # Begin Source File
@@ -317,10 +321,6 @@ SOURCE=..\..\..\include\io\Persistable.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Point.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\exceptions\ProcessException.h
 # End Source File
 # Begin Source File
@@ -353,10 +353,6 @@ SOURCE=..\..\..\include\events\PropertyListener.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Rect.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\utils\Registry.h
 # End Source File
 # Begin Source File
@@ -378,10 +374,6 @@ SOURCE=..\..\..\include\utils\Semaphore.h
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\SemaphorePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\Size.h
 # End Source File
 # Begin Source File
 
@@ -465,50 +457,6 @@ SOURCE=..\..\..\include\utils\VCFString.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\ImplementerKit\Win32FilePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32FileStream.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32LibraryPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Mutex.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32ProcessIORedirector.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32ProcessPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerkit\Win32Registry.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32SemaphorePeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32SystemPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32SystemToolkit.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementerKit\Win32Thread.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\utils\XMLParser.h
 # End Source File
 # End Group
@@ -534,6 +482,10 @@ SOURCE=..\..\..\src\core\Class.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\ClassRegistry.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\CommandLine.cpp
 # End Source File
 # Begin Source File
 
@@ -610,19 +562,11 @@ SOURCE=..\..\..\src\Utils\Parser.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Point.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Utils\ProcessWithRedirectedIO.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\Events\PropertyChangeEvent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Rect.cpp
 # End Source File
 # Begin Source File
 
@@ -674,7 +618,19 @@ SOURCE=..\..\..\src\Utils\VCFProcess.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\XMLParser.cpp
+# End Source File
+# End Group
+# Begin Group "Peers"
+
+# PROP Default_Filter "*.h;*.cpp"
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32FilePeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\ImplementerKit\Win32FilePeer.h
 # End Source File
 # Begin Source File
 
@@ -682,11 +638,23 @@ SOURCE=..\..\..\src\ImplementerKit\Win32FileStream.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32FileStream.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\implementerkit\Win32LibraryPeer.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerkit\Win32LibraryPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32Mutex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Mutex.h
 # End Source File
 # Begin Source File
 
@@ -698,7 +666,15 @@ SOURCE=..\..\..\src\ImplementerKit\Win32ProcessIORedirector.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32ProcessIORedirector.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\implementerkit\Win32ProcessPeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerkit\Win32ProcessPeer.h
 # End Source File
 # Begin Source File
 
@@ -706,7 +682,15 @@ SOURCE=..\..\..\src\implementerkit\Win32Registry.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerkit\Win32Registry.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32SemaphorePeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32SemaphorePeer.h
 # End Source File
 # Begin Source File
 
@@ -714,7 +698,15 @@ SOURCE=..\..\..\src\ImplementerKit\Win32SystemPeer.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32SystemPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32SystemToolkit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32SystemToolkit.h
 # End Source File
 # Begin Source File
 
@@ -722,7 +714,7 @@ SOURCE=..\..\..\src\ImplementerKit\Win32Thread.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Utils\XMLParser.cpp
+SOURCE=..\..\..\include\implementerKit\Win32Thread.h
 # End Source File
 # End Group
 # End Target
