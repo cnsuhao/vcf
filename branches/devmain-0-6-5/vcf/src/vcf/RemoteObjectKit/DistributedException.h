@@ -23,7 +23,7 @@ class REMOTEKIT_API DistributedException : public VCF::BasicException {
 public:
 	DistributedException();
 
-	virtual ~DistributedException();
+	virtual ~DistributedException() throw();
 
 protected:
 
@@ -37,6 +37,11 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/04 15:21:20  thrysoee
+*Fix gcc error "looser throw specifier"
+*This error occurs when a method in a derived class has a different throw specifier.
+*http://www.agapow.net/programming/looser_throw_specifier.html
+*
 *Revision 1.1.2.2  2004/04/29 04:12:58  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
