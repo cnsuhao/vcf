@@ -10,8 +10,8 @@ AppSupportURL=http://vcf.sourceforge.net
 AppUpdatesURL=http://vcf.sourceforge.net
 DefaultDirName={pf}\VCF Builder
 DefaultGroupName=VCF Builder
-OutputDir=d:\code\vcfdev\dev\vcf\installers\win32
-OutputBaseFilename=VCFBuilder1.0.alpha
+OutputDir=f:\code\vcfdev\dev\vcf\installers\win32
+OutputBaseFilename=VCFBuilder1.0.1.alpha
 ; uncomment the following line if you want your installation to run on NT 3.51 too.
 ; MinVersion=4,3.51
 
@@ -20,7 +20,7 @@ Name: desktopicon; Description: Create a &desktop icon; GroupDescription: Additi
 
 [Files]
 Source: ..\..\VCFBuilder2\Bin\VCFBuilder2_vc6.exe; DestDir: {app}; Components: Application_Core
-Source: ..\..\VCFBuilder2\Bin\BlackBox.dll; DestDir: {app}; Components: Application_Core
+Source: ..\..\BlackBox\BlackBox.dll; DestDir: {app}; Components: Application_Core
 Source: ..\..\VCFBuilder2\Bin\CPPParser_vc6.dll; DestDir: {app}; Components: Application_Core
 Source: ..\..\VCFBuilder2\Bin\SciLexer.dll; DestDir: {app}; Components: Application_Core
 Source: ..\..\VCFBuilder2\Bin\TextEditor_vc6.dll; DestDir: {app}; Components: Application_Core
@@ -70,6 +70,9 @@ Source: ..\..\VCFBuilder2\Bin\help\features.html; DestDir: {app}\help; Component
 Source: ..\..\VCFBuilder2\Bin\help\getting_help.html; DestDir: {app}\help; Components: Help
 Source: ..\..\VCFBuilder2\Bin\help\intro.html; DestDir: {app}\help; Components: Help
 Source: ..\..\VCFBuilder2\Bin\help\tutorial1.html; DestDir: {app}\help; Components: Help
+Source: ..\..\lib\ApplicationKit_vc6.pdb; DestDir: {app}
+Source: ..\..\lib\FoundationKit_vc6.pdb; DestDir: {app}
+Source: ..\..\lib\GraphicsKit_vc6.pdb; DestDir: {app}
 
 [Icons]
 Name: {group}\VCF Builder; Filename: {app}\VCFBuilder2_vc6.exe; IconIndex: 0
