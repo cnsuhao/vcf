@@ -26,14 +26,17 @@ BOOL CALLBACK Win32ResourceBundle_EnumResNameProc( HMODULE hModule, LPCTSTR lpsz
 static bool foundResName = false;
 static String foundResType="Hello";
 
+
+
 Win32ResourceBundle::Win32ResourceBundle()
 {
+	
 	//appPeer_ = NULL;
 }
 
 Win32ResourceBundle::~Win32ResourceBundle()
 {
-
+	System::findResourceDirectory();
 }
 
 String Win32ResourceBundle::getString( const String& resourceName )
@@ -222,6 +225,9 @@ HINSTANCE Win32ResourceBundle::getResourceInstance()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/08/26 04:29:28  ddiego
+*added support for getting the resource directory to the System class.
+*
 *Revision 1.1.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

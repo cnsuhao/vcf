@@ -44,6 +44,93 @@ public:
 	*/
 	static void terminate();
 
+	/**
+	Locates the resource directory, if possible.
+	Possible search patterns
+
+	A): Dead simple
+
+	\code
+	<app>.app/
+		<app>.exe
+		Resources/
+			button.png			<-----generic files - not localized
+			<app>.strings		<----- optional
+			en_US/
+				button.png		<-----localized files - localized for US english
+				<app>.strings	<-----localized strings data for en_US
+			pl_PL/
+				button.png		<-----localized files - localized for Poland polish
+				<app>.strings	<-----localized strings data for pl_PL
+			it_IT/
+				button.png		<-----localized files - localized for Italy italian
+				<app>.strings	<-----localized strings data for it_IT
+	\endcode
+
+
+	B): with contents - OSX compatible
+	\code
+	Bundle/
+		/Contents
+			<app>.exe
+			Resources/
+				button.png			<-----generic files - not localized
+				<app>.strings		<----- optional
+				en_US/
+					button.png		<-----localized files - localized for US english
+					<app>.strings	<-----localized strings data for en_US
+				pl_PL/
+					button.png		<-----localized files - localized for Poland polish
+					<app>.strings	<-----localized strings data for pl_PL
+				it_IT/
+					button.png		<-----localized files - localized for Italy italian
+					<app>.strings	<-----localized strings data for it_IT
+	\endcode
+
+	C): with contents and platform - OSX compatible		
+	\code
+	Bundle/
+		/Contents
+			/<OS-Name>
+				<app>.exe
+			Resources/
+				button.png			<-----generic files - not localized
+				<app>.strings		<----- optional
+				en_US/
+					button.png		<-----localized files - localized for US english
+					<app>.strings	<-----localized strings data for en_US
+				pl_PL/
+					button.png		<-----localized files - localized for Poland polish
+					<app>.strings	<-----localized strings data for pl_PL
+				it_IT/
+					button.png		<-----localized files - localized for Italy italian
+					<app>.strings	<-----localized strings data for it_IT
+					
+	\endcode				
+
+	D): with contents, platform, and compiler - OSX compatible		
+	\endcode
+	Bundle/
+		/Contents
+			/<OS-Name>
+				/<compiler>
+					<app>.exe
+			Resources/
+				button.png			<-----generic files - not localized
+				<app>.strings		<----- optional
+				en_US/
+					button.png		<-----localized files - localized for US english
+					<app>.strings	<-----localized strings data for en_US
+				pl_PL/
+					button.png		<-----localized files - localized for Poland polish
+					<app>.strings	<-----localized strings data for pl_PL
+				it_IT/
+					button.png		<-----localized files - localized for Italy italian
+					<app>.strings	<-----localized strings data for it_IT
+
+	\endcode
+	*/
+	static String findResourceDirectory();
 	
 
 	/**
@@ -195,6 +282,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/08/26 04:29:28  ddiego
+*added support for getting the resource directory to the System class.
+*
 *Revision 1.3.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.

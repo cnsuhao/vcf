@@ -64,6 +64,48 @@ System::~System()
 	delete systemPeer_;
 }
 
+String System::findResourceDirectory()
+{
+	String result;
+	
+	CommandLine cmdLine = FoundationKit::getCommandLine();
+
+	FilePath appPath = cmdLine.getArgument(0);
+
+	UnicodeString appDir = appPath.getPathName(true);
+
+	//case A: or case B:
+	String tmp = appDir + "Resources";
+	if ( File::exists( tmp ) ) {
+		result = tmp;
+	}
+	else {		
+		std::vector<String> pathComponents = appPath.getPathComponents();
+		std::vector<String>::reverse_iterator it = pathComponents.rbegin();
+		int depth = 1;
+		while ( it != pathComponents.rend() && (depth < 3) ) {
+			int length = (*it).length();// + FilePath::getDirectorySeparator().length();
+
+			//if depth == 1 then case C:
+			//if depth == 2 then case D:
+			appDir.erase( appDir.length()-length, length );
+
+			tmp = appDir + "Resources";
+			if ( File::exists( tmp ) ) {
+				result = tmp;
+				break;
+			}
+
+			
+			depth ++;
+			it ++;
+		}
+	}
+
+
+	return result;
+}
+
 unsigned long System::getTickCount()
 {
 	if ( NULL != System::systemInstance->systemPeer_ ) {
@@ -267,6 +309,9 @@ void System::internal_replaceResourceBundleInstance( ResourceBundle* newInstance
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/26 04:29:28  ddiego
+*added support for getting the resource directory to the System class.
+*
 *Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
 *migrated over the Resource code to the FoudationKit.
 *Added support for a GraphicsResourceBundle that can get images.
