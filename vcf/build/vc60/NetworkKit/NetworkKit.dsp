@@ -83,6 +83,10 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=..\..\..\src\net\DatagramSocket.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\net\NetToolkit.cpp
 # End Source File
 # Begin Source File
@@ -107,6 +111,10 @@ SOURCE=..\..\..\src\net\URL.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\ImplementerKit\Win32DatagramSocketPeer.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32SocketPeer.cpp
 # End Source File
 # End Group
@@ -115,15 +123,23 @@ SOURCE=..\..\..\src\ImplementerKit\Win32SocketPeer.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=..\..\..\include\net\DatagramSocket.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\net\NetToolkit.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\net\ServerSocketEvent.h
+SOURCE=..\..\..\include\NetworkKit.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\net\ServerSocketListener.h
+SOURCE=..\..\..\include\net\NetworkKitSelectLib.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\net\ServerSocketEvent.h
 # End Source File
 # Begin Source File
 
@@ -152,6 +168,10 @@ SOURCE=..\..\..\include\net\SocketPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\net\URL.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32DatagramSocketPeer.h
 # End Source File
 # Begin Source File
 

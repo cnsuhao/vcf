@@ -124,6 +124,14 @@ SOURCE=..\..\..\src\core\Locales.cpp
 # PROP Default_Filter "*.h;*.cpp"
 # Begin Source File
 
+SOURCE=..\..\..\src\implementerkit\Win32Condition.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32Condition.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\ImplementerKit\Win32FilePeer.cpp
 # End Source File
 # Begin Source File
@@ -145,6 +153,14 @@ SOURCE=..\..\..\src\implementerkit\Win32LibraryPeer.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\implementerkit\Win32LibraryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\implementerkit\Win32LocalePeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32LocalePeer.h
 # End Source File
 # Begin Source File
 
@@ -508,6 +524,14 @@ SOURCE=..\..\..\include\utils\Lock.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\MessageLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\MessageLoader.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Utils\Mutex.cpp
 # End Source File
 # Begin Source File
@@ -552,6 +576,14 @@ SOURCE=..\..\..\include\utils\Semaphore.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\StringsMessageLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\StringsMessageLoader.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\StringTokenizer.h
 # End Source File
 # Begin Source File
@@ -584,6 +616,14 @@ SOURCE=..\..\..\include\utils\SystemToolkit.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\TextCodec.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\TextCodec.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Utils\Thread.cpp
 # End Source File
 # Begin Source File
@@ -608,11 +648,19 @@ SOURCE=..\..\..\include\utils\VCFProcess.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\VCFString.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\VCFString.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\VCFulong64.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\Waitable.h
 # End Source File
 # Begin Source File
 
@@ -677,6 +725,10 @@ SOURCE=..\..\..\include\implementer\ConditionPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\LibraryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\LocalePeer.h
 # End Source File
 # Begin Source File
 
