@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc71\DebugS/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc71\DebugS\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -29,8 +29,8 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\vc71\DebugS\NetworkKit_vc71.pch"
-				AssemblerListingLocation=".\vc71\DebugS/"
-				ObjectFile=".\vc71\DebugS/"
+				AssemblerListingLocation=".\vc71\DebugS\"
+				ObjectFile=".\vc71\DebugS\"
 				ProgramDataBaseFileName="..\..\..\lib\NetworkKit_vc71_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -65,8 +65,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc71\ReleaseS/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc71\ReleaseS\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -83,9 +83,9 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\vc71\ReleaseS\NetworkKit_vc71.pch"
-				AssemblerListingLocation=".\vc71\ReleaseS/"
-				ObjectFile=".\vc71\ReleaseS/"
-				ProgramDataBaseFileName=".\vc71\ReleaseS/"
+				AssemblerListingLocation=".\vc71\ReleaseS\"
+				ObjectFile=".\vc71\ReleaseS\"
+				ProgramDataBaseFileName=".\vc71\ReleaseS\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>

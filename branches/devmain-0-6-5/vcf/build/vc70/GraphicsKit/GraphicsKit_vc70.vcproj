@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc70\ReleaseS/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\ReleaseS\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -31,9 +31,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/GraphicsKit/GraphicsKit.h"
 				PrecompiledHeaderFile=".\vc70\ReleaseS\GraphicsKit_vc70.pch"
-				AssemblerListingLocation=".\vc70\ReleaseS/"
-				ObjectFile=".\vc70\ReleaseS/"
-				ProgramDataBaseFileName=".\vc70\ReleaseS/"
+				AssemblerListingLocation=".\vc70\ReleaseS\"
+				ObjectFile=".\vc70\ReleaseS\"
+				ProgramDataBaseFileName=".\vc70\ReleaseS\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -60,8 +60,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc70\DebugS/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\DebugS\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -77,8 +77,8 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="vcf/GraphicsKit/GraphicsKit.h"
 				PrecompiledHeaderFile=".\vc70\DebugS\GraphicsKit_vc70.pch"
-				AssemblerListingLocation=".\vc70\DebugS/"
-				ObjectFile=".\vc70\DebugS/"
+				AssemblerListingLocation=".\vc70\DebugS\"
+				ObjectFile=".\vc70\DebugS\"
 				ProgramDataBaseFileName="..\..\..\lib\GraphicsKit_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"

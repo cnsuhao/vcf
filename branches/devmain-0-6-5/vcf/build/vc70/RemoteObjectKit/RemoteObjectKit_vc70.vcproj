@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc70\Release/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\Release\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -30,9 +30,9 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\vc70\Release\RemoteObjectKit_vc70.pch"
-				AssemblerListingLocation=".\vc70\Release/"
-				ObjectFile=".\vc70\Release/"
-				ProgramDataBaseFileName=".\vc70\Release/"
+				AssemblerListingLocation=".\vc70\Release\"
+				ObjectFile=".\vc70\Release\"
+				ProgramDataBaseFileName=".\vc70\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -45,7 +45,7 @@
 				OutputFile="..\..\..\bin\RemoteObjectKit_vc70.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib/"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				ProgramDatabaseFile="..\..\..\lib\RemoteObjectKit_vc70.pdb"
 				ImportLibrary=".\..\..\..\lib/RemoteObjectKit_vc70.lib"/>
 			<Tool
@@ -72,8 +72,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc70\Debug/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc70\Debug\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -88,9 +88,9 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\vc70\Debug\RemoteObjectKit_vc70.pch"
-				AssemblerListingLocation=".\vc70\Debug/"
-				ObjectFile=".\vc70\Debug/"
-				ProgramDataBaseFileName=".\vc70\Debug/"
+				AssemblerListingLocation=".\vc70\Debug\"
+				ObjectFile=".\vc70\Debug\"
+				ProgramDataBaseFileName=".\vc70\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -104,7 +104,7 @@
 				OutputFile="..\..\..\bin\RemoteObjectKit_vc70_d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\lib/"
+				AdditionalLibraryDirectories="..\..\..\lib\"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="..\..\..\lib\RemoteObjectKit_vc70_d.pdb"
 				ImportLibrary=".\..\..\..\lib/RemoteObjectKit_vc70_d.lib"/>

@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc71\DebugDLL/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc71\DebugDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -29,9 +29,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="FoundationKit.h"
 				PrecompiledHeaderFile=".\vc71\DebugDLL\FoundationKitDLL_vc71.pch"
-				AssemblerListingLocation=".\vc71\DebugDLL/"
-				ObjectFile=".\vc71\DebugDLL/"
-				ProgramDataBaseFileName=".\vc71\DebugDLL/"
+				AssemblerListingLocation=".\vc71\DebugDLL\"
+				ObjectFile=".\vc71\DebugDLL\"
+				ProgramDataBaseFileName=".\vc71\DebugDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -79,8 +79,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib/"
-			IntermediateDirectory=".\vc71\ReleaseDLL/"
+			OutputDirectory="..\..\..\lib\"
+			IntermediateDirectory=".\vc71\ReleaseDLL\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -98,9 +98,9 @@
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="FoundationKit.h"
 				PrecompiledHeaderFile=".\vc71\ReleaseDLL\FoundationKitDLL_vc71.pch"
-				AssemblerListingLocation=".\vc71\ReleaseDLL/"
-				ObjectFile=".\vc71\ReleaseDLL/"
-				ProgramDataBaseFileName=".\vc71\ReleaseDLL/"
+				AssemblerListingLocation=".\vc71\ReleaseDLL\"
+				ObjectFile=".\vc71\ReleaseDLL\"
+				ProgramDataBaseFileName=".\vc71\ReleaseDLL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>

@@ -69,8 +69,13 @@ addToolsForVc71WhenSynchToVc70   = False # this will alter the configuration inf
 g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
 g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization' ]
 g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
-g_keepFirstDot_standard = 3 # === g_KeepFirstDot_AddIfNoDots # standard format for paths in projects files has ./ at the beginning
-g_fix_slash_in_path = False # True only when we need to fix it. Then put it back
+g_keepFirstDot_standard = 3 # === g_KeepFirstDot_AddOnlyIfNoDots # standard format for paths in projects files has ./ at the beginning
+g_fix_slash_in_path = True # True only when we need to fix it. Then put it back
+
+# vc7 always put '/' at the end of a directory name when it creates one project file, 
+# but custom build cannot copy any file into a path like that !
+# so not any variable like $(InputPath) or $(OutDir) can have that format !
+g_dir_final_separator = '\\'
 
 # under win32 I am forced to get the uuid from a table because the uuid algorithms on win32 are pretty bad
 # this ends up in having a limited number of uuid which can cause problems
@@ -86,7 +91,7 @@ g_disableUuidgen_on_win32 = True
 g_KeepFirstDot_False = False
 g_KeepFirstDot_True  = 1
 g_KeepFirstDot_Add = 2         # add './' at the beginning anyway
-g_KeepFirstDot_AddIfNoDots = 3 # add './' at the beginning only if it is not already like: '../'
+g_KeepFirstDot_AddOnlyIfNoDots = 3 # add './' at the beginning only if it is not already like: '../'
 
 g_MinPathIsDot_False = False
 g_MinPathIsDot_True  = True
@@ -763,7 +768,7 @@ class FileUtils:
         if ( path == '' ):
             return path
 
-        hasCurr = False
+        hadCurr = False
         if ( unixStyle ):
             sep = '/'
             curr = './'
@@ -789,7 +794,7 @@ class FileUtils:
 
         if ( path and path[0] == '.' ):
             if ( 1 < len(path) and path[1] in '/\\' ):
-                hasCurr = True
+                hadCurr = True
 
         isUnix = FileUtils.isUnixOs()
 
@@ -806,42 +811,34 @@ class FileUtils:
             pass
 
         # brute force, because I am tired of coding this. I just need it working !
-        if ( hasCurr ):
-            if ( keepFirstDot == g_KeepFirstDot_True ):
-                if ( path and path[0] == '.' ):
-                    if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
-                        path = curr + path
-            elif ( keepFirstDot == g_KeepFirstDot_Add ):
-                if ( path and path[0] == '.' ):
-                    if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
-                        path = curr + path
-            elif ( keepFirstDot == g_KeepFirstDot_AddIfNoDots ):
-                # we do not add '.\' at the beginning if we have: '../'
-                # and not when we have something like: "$(VCF_LIB)\"
-                if ( path and not path[0] == '.' and not path[0] == '$' ):
-                    path = curr + path
-            else:
-                if ( path and path[0] == '.' ):
-                    if ( 1 < len(path) and path[1] in '/\\' ):
-                        path = path[2:]
-        else:
-            if ( keepFirstDot == g_KeepFirstDot_Add ):
-                if ( path and path[0] == '.' ):
-                    if ( not ( 1 < len(path) and path[1] in '/\\' ) ): # this check necessary on unix
-                        path = curr + path
-            elif ( keepFirstDot == g_KeepFirstDot_AddIfNoDots ):
-                # we do not add '.\' at the beginning if we have: '../'
-                # and not when we have something like: "$(VCF_LIB)\"
-                if ( path and not path[0] == '.' and not path[0] == '$' ):
-                    path = curr + path
+        stillHasCurr = False
+        if ( path and path[0] == '.' ):
+            if ( 1 < len(path) and path[1] in '/\\' ): # this check is necessary to do it again on unix/cygwin
+                stillHasCurr = True
 
+        if ( stillHasCurr ):
+            if ( not keepFirstDot ):
+                path = path[2:]
+        else:            
+            if ( keepFirstDot ):
+                if ( not FileUtils.isAbsolutePath( path ) ):
+                    add = False
+                    # never with '../'
+                    if ( keepFirstDot == g_KeepFirstDot_AddOnlyIfNoDots ):
+                        if ( path and not path[0] == '.' ):
+                            add = True
+                    else:
+                        add = True
+                    if ( add and path and not path[0] == '$' ):
+                        path = curr + path
+                
         # again unfortunately, because of os.path.normpath(). In the future implement just normPathSimple
         path = FileUtils.normPathSimple( path, unixStyle )
 
         if ( isDirForSure == g_IsDirForSure_True ):
             if ( path and not path[-1] in '/\\' ):
                 # the standard is '/' not '\', always !!!
-                path = path + '/'
+                path = path + g_dir_final_separator
         elif ( isDirForSure == g_IsDirForSure_ChkDot ):
             if ( not path[-1] in '/\\' ):
                 i = path.rfind( '/' )
@@ -857,12 +854,12 @@ class FileUtils:
                     # and not when we have something like: "$(VCF_LIB)\"
                     if ( path and not path[-1] == ')' ):
                         # the standard is '/' not '\', always !!!
-                        path += '/'
+                        path += g_dir_final_separator
             else:
                 #it is a dir for sure and with the '/' at the end
                 if ( path ):
                     # the standard is '/' not '\', always !!!
-                    path = path[:-1] + '/'
+                    path = path[:-1] + g_dir_final_separator
                 pass
             
         # we fix this always if we decide
@@ -8252,6 +8249,11 @@ Limitations:
                         ".\dirname\subir\filetitle.ext"
                 and the same for the <File entries too
             se we better try to keep the same format for vc6 project files too
+            Problem:
+                 vc7 always put '/' at the end of a directory name when it creates one project file, 
+                 but custom build cannot copy any file into a path like that !
+                 so not any variable like $(InputPath) or $(OutDir) can have that format !
+                 Some guys over there they should decide what they want to do with their filesystems !
 
     4) The script *requires* that the names of the source files ( cpp/h ) are unique (no matter what their case is)
         This is not a strong limitation and let the script to retrieve the informations about files
