@@ -302,7 +302,7 @@ public:
 	* the mime type identifying the document is extracted from
 	* the file extension stored with all the DocumentInfo(s)
 	* registered to the manager.
-	* After creating/opening the document, the file is 
+	* Afterward creating/opening the document, the file is 
 	* actually loaded too.
 	*@param const String&, the filename.
 	*@return Document*, the opened document.
@@ -1586,7 +1586,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.5  2004/11/13 22:30:42  marcelloptr
+*Revision 1.2.2.6  2004/11/13 22:39:11  marcelloptr
 *more documentation
 *
 *Revision 1.2.2.2  2004/10/26 05:44:12  marcelloptr

@@ -315,14 +315,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.3  2004/11/13 22:30:42  marcelloptr
+*Revision 1.2.2.4  2004/11/13 22:37:36  marcelloptr
 *more documentation
-*
-*Revision 1.2.2.2  2004/11/07 19:32:18  marcelloptr
-*more documentation
-*
-*Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
-*Document Window documentation
 *
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
