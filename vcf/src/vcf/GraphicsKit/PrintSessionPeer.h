@@ -14,6 +14,7 @@ class GRAPHICSKIT_API PrintSessionPeer {
 public: 	
 	virtual ~PrintSessionPeer(){};
 	
+	virtual double getDPI() = 0;
 	
 	virtual String getTitle() = 0;
 	virtual void setTitle( const String& title ) = 0;
@@ -30,6 +31,9 @@ public:
 	virtual void setEndPage( const ulong32& endPage ) = 0;
 	virtual ulong32 getEndPage() = 0;
 	
+	virtual std::vector<ulong32> getPrintablePages() = 0;
+	virtual void setPrintablePages( const std::vector<ulong32>& printablePages ) = 0;
+
 	virtual Rect getPageDrawingRect() = 0;
 	virtual void setPageDrawingRect( const Rect& drawingRect ) = 0;
 	

@@ -63,8 +63,9 @@ LINK32=link.exe
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "Debug\"
 # PROP Intermediate_Dir "Debug\"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ  /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
 # ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "USE_FOUNDATIONKIT_DLL" /D "USE_GRAPHICSKIT_DLL" /D "USE_APPLICATIONKIT_DLL" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -104,6 +105,10 @@ SOURCE=TextEditWindow.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=TextEdit.h
+# End Source File
+# Begin Source File
+
 SOURCE=TextEditDocument.h
 # End Source File
 # Begin Source File
@@ -111,9 +116,33 @@ SOURCE=TextEditDocument.h
 SOURCE=TextEditWindow.h
 # End Source File
 # End Group
-# Begin Group "Resource Files"
+# Begin Group "Dialogs"
 
-# PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=DataExchange.h
+# End Source File
+# Begin Source File
+
+SOURCE=FindDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=FindDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=ReplaceDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=ReplaceDialog.h
+# End Source File
+# End Group
+# Begin Group "Resources"
+
+# PROP Default_Filter ""
 # End Group
 # Begin Source File
 

@@ -43,7 +43,7 @@ void TextEditWindow::initToolbar()
 {
 	Toolbar* tb = new Toolbar();
 	tb->setName( "Toolbar1" );
-	tb->setHeight( 25 );
+	tb->setHeight( 22 );
 	add( tb, AlignTop );
 	
 	ImageList* il = new ImageList();
@@ -167,8 +167,7 @@ void TextEditWindow::initToolbar()
 	replaceItem->setTooltip( "Replace text in document" );
 	docMgr->getAction( TextEdit::atEditReplace )->addTarget( replaceItem );
 
-
-
+	resizeChildren(NULL);
 }
 
 void TextEditWindow::initMenus()

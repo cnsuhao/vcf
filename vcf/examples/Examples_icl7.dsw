@@ -63,6 +63,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "AppResources"=".\AppResources\AppResources_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ApplicationIcons"=".\ApplicationIcons\ApplicationIcons_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -288,6 +300,9 @@ Package=<4>
     Project_Dep_Name Anchors
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name AppResources
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ApplicationIcons
     End Project Dependency
     Begin Project Dependency
@@ -421,6 +436,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TeXLabel
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name TextEdit
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name TextLayout
@@ -931,6 +949,18 @@ Package=<4>
 ###############################################################################
 
 Project: "TeXLabel"=".\TeXLabel\TeXLabel_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TextEdit"=".\TextEdit\TextEdit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

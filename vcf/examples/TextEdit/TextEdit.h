@@ -18,6 +18,8 @@ public:
 	ReplaceInfo currentReplaceInfo_;
 
 
+	void onExit( VCF::Event* e );
+
 	void onPrint( VCF::Event* e );
 
 	void onUpdatePrint( VCF::ActionEvent* e );

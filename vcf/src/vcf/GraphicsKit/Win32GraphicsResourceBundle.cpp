@@ -36,18 +36,62 @@ Image* Win32GraphicsResourceBundle::getImage( const String& resourceName )
 	HBITMAP resBMP = NULL;
 	if ( System::isUnicodeEnabled() ) {
 		resBMP = (HBITMAP)LoadImageW( getResourceInstance(), resourceName.c_str(), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		
+		if ( NULL != resBMP ){
+			result = new Win32Image( resBMP );
+			DeleteObject( resBMP );
+		}
+		else {
+			
+			HICON ico = (HICON)LoadImageW( getResourceInstance(), resourceName.c_str(), IMAGE_ICON, 0, 0, LR_CREATEDIBSECTION );
+		
+			if ( NULL != ico ) {
+				result = new Win32Image( ico );
+				
+				DestroyIcon( ico );
+			}
+			else { //last gasp - try a cursor
+				HCURSOR cursor = (HICON)LoadImageW( getResourceInstance(), resourceName.c_str(), IMAGE_CURSOR, 0, 0, LR_CREATEDIBSECTION );
+
+				if ( NULL != cursor ) {
+					result = new Win32Image( (HICON)cursor );
+				
+					DestroyCursor( cursor );
+				}
+			}
+		}
 	}
 	else {
-		resBMP = (HBITMAP)LoadImageA( getResourceInstance(), resourceName.ansi_c_str(), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		const char* resName = resourceName.ansi_c_str();
+
+		resBMP = (HBITMAP)LoadImageA( getResourceInstance(), resName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		
+		if ( NULL != resBMP ){
+			result = new Win32Image( resBMP );
+			DeleteObject( resBMP );
+		}
+		else {
+			
+			HICON ico = (HICON)LoadImageA( getResourceInstance(), resName, IMAGE_ICON, 0, 0, LR_CREATEDIBSECTION );
+		
+			if ( NULL != ico ) {
+				result = new Win32Image( ico );
+				
+				DestroyIcon( ico );
+			}
+			else { //last gasp - try a cursor
+				HCURSOR cursor = (HICON)LoadImageA( getResourceInstance(), resName, IMAGE_CURSOR, 0, 0, LR_CREATEDIBSECTION );
+
+				if ( NULL != cursor ) {
+					result = new Win32Image( (HICON)cursor );
+				
+					DestroyCursor( cursor );
+				}
+			}
+		}
 	}
 
-	//LoadBitmap( getResourceInstance(), resourceName.c_str() );
-	if ( NULL != resBMP ){
-		result = new Win32Image( resBMP );
-	}
-	else {
-		//throw exception- resource not found !!!!
-	}
+	
 
 	if ( NULL == result ) {
 		bool fileExists = false;
@@ -70,6 +114,9 @@ Image* Win32GraphicsResourceBundle::getImage( const String& resourceName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/11/21 00:19:11  ddiego
+*fixed a few more res loading bugs, and added yet another resource example.
+*
 *Revision 1.1.2.4  2004/11/18 06:45:44  ddiego
 *updated toolbar btn bug, and added text edit sample.
 *

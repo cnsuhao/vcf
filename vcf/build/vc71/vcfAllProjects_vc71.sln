@@ -19,6 +19,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anchors", "..\..\examples\A
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppResources", "..\..\examples\AppResources\AppResources_vc71.vcproj", "{c80f26a7-68be-4380-abb5-a12293d4b62c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationIcons", "..\..\examples\ApplicationIcons\ApplicationIcons_vc71.vcproj", "{4687B23F-F62A-4FD1-BEA9-0EC048748C9B}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -93,6 +97,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749} = {9ed4ce87-3ffa-4a1a-a378-c0bdc84a1749}
 		{B2888126-5123-4467-8324-D9EB0893DB3C} = {B2888126-5123-4467-8324-D9EB0893DB3C}
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1} = {8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}
+		{c80f26a7-68be-4380-abb5-a12293d4b62c} = {c80f26a7-68be-4380-abb5-a12293d4b62c}
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B} = {4687B23F-F62A-4FD1-BEA9-0EC048748C9B}
 		{9860dc7d-539a-4793-906e-ce9cfd326a01} = {9860dc7d-539a-4793-906e-ce9cfd326a01}
 		{DA366BD8-8EA2-4393-9849-C2A4E74F3162} = {DA366BD8-8EA2-4393-9849-C2A4E74F3162}
@@ -138,6 +143,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{33459B8F-E879-4DB5-8F9C-92A2E7E42774} = {33459B8F-E879-4DB5-8F9C-92A2E7E42774}
 		{8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E} = {8B4A8445-0AB3-4C10-81AE-F8CFEA39C64E}
 		{917d25cc-5924-40df-9bc8-0a1ce6676fec} = {917d25cc-5924-40df-9bc8-0a1ce6676fec}
+		{1ec3dc66-9383-4f30-969a-7e4417d2118e} = {1ec3dc66-9383-4f30-969a-7e4417d2118e}
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035} = {FC9367AB-F11A-4C26-BAA2-C47F75A88035}
 		{3EA1D153-B1AC-4FAF-83DA-96C112E52381} = {3EA1D153-B1AC-4FAF-83DA-96C112E52381}
 		{4312214D-8E26-4707-B32D-28AFE8FF3D0B} = {4312214D-8E26-4707-B32D-28AFE8FF3D0B}
@@ -368,6 +374,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TeXLabel", "..\..\examples\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextEdit", "..\..\examples\TextEdit\TextEdit_vc71.vcproj", "{1ec3dc66-9383-4f30-969a-7e4417d2118e}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextLayout", "..\..\examples\TextLayout\TextLayout_vc71.vcproj", "{FC9367AB-F11A-4C26-BAA2-C47F75A88035}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -472,6 +482,9 @@ Global
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}.Debug.ActiveCfg = Debug|Win32
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}.GTK Debug.ActiveCfg = Debug|Win32
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}.Release.ActiveCfg = Release|Win32
+		{c80f26a7-68be-4380-abb5-a12293d4b62c}.Debug.ActiveCfg = Debug|Win32
+		{c80f26a7-68be-4380-abb5-a12293d4b62c}.GTK Debug.ActiveCfg = Debug|Win32
+		{c80f26a7-68be-4380-abb5-a12293d4b62c}.Release.ActiveCfg = Release|Win32
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B}.Debug.ActiveCfg = Debug|Win32
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B}.GTK Debug.ActiveCfg = Debug|Win32
 		{4687B23F-F62A-4FD1-BEA9-0EC048748C9B}.Release.ActiveCfg = Release|Win32
@@ -676,6 +689,9 @@ Global
 		{917d25cc-5924-40df-9bc8-0a1ce6676fec}.Debug.ActiveCfg = Debug|Win32
 		{917d25cc-5924-40df-9bc8-0a1ce6676fec}.GTK Debug.ActiveCfg = Debug|Win32
 		{917d25cc-5924-40df-9bc8-0a1ce6676fec}.Release.ActiveCfg = Release|Win32
+		{1ec3dc66-9383-4f30-969a-7e4417d2118e}.Debug.ActiveCfg = Debug|Win32
+		{1ec3dc66-9383-4f30-969a-7e4417d2118e}.GTK Debug.ActiveCfg = Debug|Win32
+		{1ec3dc66-9383-4f30-969a-7e4417d2118e}.Release.ActiveCfg = Release|Win32
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035}.Debug.ActiveCfg = Debug|Win32
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035}.GTK Debug.ActiveCfg = Debug|Win32
 		{FC9367AB-F11A-4C26-BAA2-C47F75A88035}.Release.ActiveCfg = Release|Win32

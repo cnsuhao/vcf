@@ -128,6 +128,48 @@ public:
 		btn3->ButtonClicked += 
 			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example3, "DialogsWindow::example3" );
 		add( btn3 );
+
+		CommandButton* btn4 = new CommandButton();
+		btn4->setBounds( 10, btn3->getBottom() + 20, 175, btn4->getPreferredHeight() );
+		btn4->setCaption( "Show Common Font Dialog" );
+		btn4->ButtonClicked += 
+			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example4, "DialogsWindow::example4" );
+		add( btn4 );
+
+		CommandButton* btn5 = new CommandButton();
+		btn5->setBounds( 10, btn4->getBottom() + 20, 175, btn4->getPreferredHeight() );
+		btn5->setCaption( "Show Common Color Dialog" );
+		btn5->ButtonClicked += 
+			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example5, "DialogsWindow::example5" );
+		add( btn5 );
+
+		CommandButton* btn6 = new CommandButton();
+		btn6->setBounds( 10, btn5->getBottom() + 20, 175, btn6->getPreferredHeight() );
+		btn6->setCaption( "Show Common File Browse Dialog" );
+		btn6->ButtonClicked += 
+			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example6, "DialogsWindow::example6" );
+		add( btn6 );
+
+		CommandButton* btn7 = new CommandButton();
+		btn7->setBounds( 10, btn6->getBottom() + 20, 175, btn6->getPreferredHeight() );
+		btn7->setCaption( "Show Common File Open Dialog" );
+		btn7->ButtonClicked += 
+			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example7, "DialogsWindow::example7" );
+		add( btn7 );
+
+		CommandButton* btn8 = new CommandButton();
+		btn8->setBounds( 10, btn7->getBottom() + 20, 175, btn6->getPreferredHeight() );
+		btn8->setCaption( "Show Common File Save Dialog" );
+		btn8->ButtonClicked += 
+			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example8, "DialogsWindow::example8" );
+		add( btn8 );
+
+		CommandButton* btn9 = new CommandButton();
+		btn9->setBounds( 10, btn8->getBottom() + 20, 175, btn6->getPreferredHeight() );
+		btn9->setCaption( "Show Common Print Dialog" );
+		btn9->ButtonClicked += 
+			new GenericEventHandler<DialogsWindow>( this, &DialogsWindow::example9, "DialogsWindow::example9" );
+		add( btn9 );
 	}
 
 	virtual ~DialogsWindow(){};
@@ -227,6 +269,85 @@ public:
 		Dialog::showMessage( "You selected: " + modalReturnToString( result ) );
 
 		dialog->free();
+	}
+
+
+	/**
+	This example shows how to call up the common font dialog
+	*/
+	void example4( Event* e ) {
+		CommonFont dlg(this);
+		dlg.setSelectedFont( getFont() );
+		if ( dlg.execute() ) {
+			Font font = *dlg.getSelectedFont();
+
+			Dialog::showMessage( "You selected the font named: " + font.getName() );
+		}
+	}
+
+	/**
+	This example shows how to call up the common Color dialog
+	*/	
+	void example5( Event* e ) {
+		CommonColor dlg(this);
+		dlg.setSelectedColor( getColor() );
+		if ( dlg.execute() ) {
+			Color color = *dlg.getSelectedColor();
+
+			String hexName = StringUtils::format( "#%02X%02X%02X", 
+													(int)(color.getRed() * 255.0),
+													(int)(color.getGreen() * 255.0),
+													(int)(color.getBlue() * 255.0) );
+
+			Dialog::showMessage( "You chose color (in hex) : " + hexName );
+		}
+	}
+
+	/**
+	This example shows how to call up the common file browse dialog
+	*/
+	void example6( Event* e ) {
+		CommonFileBrowse dlg(this);
+		
+		dlg.setDirectory( System::getCurrentWorkingDirectory() );
+
+		if ( dlg.execute() ) {
+			Dialog::showMessage( "You picked directory: " + dlg.getDirectory() );
+		}
+	}
+
+	/**
+	This example shows how to call up the common file open dialog
+	*/
+	void example7( Event* e ) {
+		CommonFileOpen dlg(this);
+		
+		dlg.addFilter( "Pumpernikel Bread", "*.pmk" );
+		if ( dlg.execute() ) {
+
+		}
+	}
+
+	/**
+	This example shows how to call up the common file save dialog
+	*/
+	void example8( Event* e ) {
+		CommonFileSave dlg(this);
+		
+		if ( dlg.execute() ) {
+
+		}
+	}
+
+	/**
+	This example shows how to call up the common print dialog
+	*/
+	void example9( Event* e ) {
+		CommonPrint dlg(this);
+		
+		if ( dlg.execute() ) {
+
+		}
 	}
 };
 

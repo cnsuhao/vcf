@@ -253,9 +253,7 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 
 BOOL CALLBACK Win32ResourceBundle::EnumResTypeProcA( HMODULE hModule, char* lpszType, LPARAM lParam )
 {
-	const char* rt1 = RT_STRING;
-
-	if ( (RT_STRING == lpszType) || (RT_VERSION == lpszType) || (RT_VXD == lpszType) ) {
+	if ( (RT_CURSOR == lpszType) || (RT_ICON == lpszType) || (RT_BITMAP == lpszType) || (RT_STRING == lpszType) || (RT_VERSION == lpszType) || (RT_VXD == lpszType) ) {
 		return TRUE;
 	}
 	return ::EnumResourceNamesA( hModule,
@@ -701,6 +699,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/11/21 00:19:11  ddiego
+*fixed a few more res loading bugs, and added yet another resource example.
+*
 *Revision 1.1.2.8  2004/11/17 19:02:55  ddiego
 *fixed compiler error in Win32ResourceBundle::getResource() method.
 *

@@ -23,6 +23,11 @@ PrintSession::~PrintSession()
 	delete peer_;
 }
 
+double PrintSession::getDPI()
+{
+	return peer_->getDPI();
+}
+
 String PrintSession::getTitle()
 {
 	return title_;
@@ -44,9 +49,80 @@ Size PrintSession::getPageSize()
 	return peer_->getPageSize();
 }
 
+Size PrintSession::getPageSizeIn( PrintSession::PageSizeUnits units )
+{	
+	Size adjustedPageSize(peer_->getPageSize());
+
+	double dpi = peer_->getDPI();
+
+	switch( units ) {
+		case psuPoints : {
+			adjustedPageSize.width_ = (adjustedPageSize.width_/dpi) * 72.0;
+			adjustedPageSize.height_ = (adjustedPageSize.height_/dpi) * 72.0;
+		}
+		break;
+
+		case psuInches : {
+			adjustedPageSize.width_ = adjustedPageSize.width_ / dpi;
+			adjustedPageSize.height_ = adjustedPageSize.height_ / dpi;
+		}
+		break;
+
+		case psuMillimeters : {
+			adjustedPageSize.width_ = (adjustedPageSize.width_/dpi) * 25.40;
+			adjustedPageSize.height_ = (adjustedPageSize.height_/dpi) * 25.40;
+		}
+		break;
+
+		case psuTwips : {
+			adjustedPageSize.width_ = (adjustedPageSize.width_/dpi) * 1400.0;
+			adjustedPageSize.height_ = (adjustedPageSize.height_/dpi) * 1400;			
+		}
+		break;
+	}
+
+	return adjustedPageSize;
+}
+
 void PrintSession::setPageSize( const Size& pageSize )
 {
 	peer_->setPageSize(pageSize);
+}
+
+void PrintSession::setPageSizeIn( const Size& pageSize, PrintSession::PageSizeUnits units )
+{
+	Size adjustedPageSize(pageSize);
+
+	double dpi = peer_->getDPI();
+
+	switch( units ) {
+		case psuPoints : {
+			adjustedPageSize.width_ = (pageSize.width_/72.0) * dpi;
+			adjustedPageSize.height_ = (pageSize.height_/72.0) * dpi;
+		}
+		break;
+
+		case psuInches : {
+			adjustedPageSize.width_ = pageSize.width_ * dpi;
+			adjustedPageSize.height_ = pageSize.height_ * dpi;
+		}
+		break;
+
+		case psuMillimeters : {
+			adjustedPageSize.width_ = (pageSize.width_/25.40) * dpi;
+			adjustedPageSize.height_ = (pageSize.height_/25.40) * dpi;
+		}
+		break;
+
+		case psuTwips : {
+			adjustedPageSize.width_ = (pageSize.width_/1400.0) * dpi;
+			adjustedPageSize.height_ = (pageSize.height_/1400.0) * dpi;
+		}
+		break;
+	}
+	
+
+	peer_->setPageSize(adjustedPageSize);
 }
 
 void PrintSession::setStandardPageSize( const PageSize& pageSize )
@@ -72,6 +148,16 @@ void PrintSession::setEndPage( const ulong32& endPage )
 ulong32 PrintSession::getEndPage()
 {
 	return peer_->getEndPage();
+}
+
+std::vector<ulong32> PrintSession::getPrintablePages()
+{
+	return peer_->getPrintablePages();
+}
+
+void PrintSession::setPrintablePages( const std::vector<ulong32>& printablePages )
+{
+	peer_->setPrintablePages( printablePages );
 }
 
 Rect PrintSession::getPageDrawingRect()

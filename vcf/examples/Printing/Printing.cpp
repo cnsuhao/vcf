@@ -98,8 +98,10 @@ public:
 		CommonPrint dlg(this);
 
 		dlg.setTitle( "Print Dialog from Printing Example" );
+		
 
 		if ( dlg.execute() ) {
+			
 			PrintSession printSession;			
 
 			printSession.setPrintInfoHandle( dlg.getPrintInfo() );

@@ -24,6 +24,16 @@ CommonFileBrowse::CommonFileBrowse()
 	setTitle( "Browse" );
 }
 
+CommonFileBrowse::CommonFileBrowse( Control* owner )
+{
+	peer_ = UIToolkit::createCommonFolderBrowseDialogPeer( owner );
+	if ( NULL == peer_ ){
+		//throw exception
+	}
+
+	setTitle( "Browse" );
+}
+
 CommonFileBrowse::~CommonFileBrowse()
 {
 	if ( NULL != peer_ ){
@@ -62,6 +72,9 @@ void CommonFileBrowse::setTitle( const String& title )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/21 00:19:10  ddiego
+*fixed a few more res loading bugs, and added yet another resource example.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

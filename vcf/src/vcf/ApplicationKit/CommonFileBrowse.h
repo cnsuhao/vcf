@@ -27,6 +27,8 @@ class APPLICATIONKIT_API CommonFileBrowse : public VCF::CommonDialog {
 public:
 	CommonFileBrowse();
 
+	CommonFileBrowse( Control* owner );	
+
 	virtual ~CommonFileBrowse();
 
     virtual bool execute();
@@ -46,6 +48,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/21 00:19:10  ddiego
+*fixed a few more res loading bugs, and added yet another resource example.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
