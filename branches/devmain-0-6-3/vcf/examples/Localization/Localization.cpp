@@ -5,14 +5,14 @@
 #include "utils/DateTime.h"
 #include "utils/TextCodec.h"
 #include "implementer/LocalePeer.h"
-#include "utils/MessageLoader.h"
-#include "utils/StringsMessageLoader.h"
 
 using namespace VCF;
 
 
 
-
+/**
+This class demonstrates how to write your own text codec 
+*/
 class MyTextCodec : public VCF::TextCodec {
 public:
 	//values from Mike Lischke pascal Unicode functions
@@ -65,6 +65,10 @@ public:
 
 
 
+	/**
+	These are the 4 methods you have to implement
+	*/
+	
 	virtual ulong32 convertToAnsiString( const UnicodeString& str, UnicodeString::AnsiChar* ansiStrBuffer, 
 										const ulong32& ansiStrBufferLength );
 
@@ -74,6 +78,9 @@ public:
 
 	virtual UnicodeString convertToUnicodeString( const UnicodeString::AnsiChar* str, UnicodeString::size_type stringLength );
 
+	/**
+	You need to return a name, which needs to be unique, for your codec
+	*/
 	virtual String getName() {
 		return "MyTextCodec";
 	}
@@ -207,7 +214,11 @@ UnicodeString MyTextCodec::convertToUnicodeString( const UnicodeString::AnsiChar
 
 
 
-
+/**
+This is a simple wrapper around the Win32 QueryPerformanceCounter API
+to allow hi resolution timing
+*/
+#ifdef VCF_WIN32 
 class HiResClock {
 public:
 
@@ -250,7 +261,38 @@ private:
 
 	HiResClock& operator=( const HiResClock& rhs );
 };
+#else
+//do nothing for now on other platforms
+class HiResClock {
+public:
 
+	HiResClock(){}	
+
+	void start() {
+		
+	}
+
+	void stop() {
+		
+	}
+
+	void clear() {
+		
+	}
+	
+	operator double() const {
+		return duration();
+	}
+
+	double duration() const {
+		return 0.0; 
+	}
+	
+private:
+	HiResClock( const HiResClock& rhs );
+	HiResClock& operator=( const HiResClock& rhs );
+};
+#endif
 
 
 
@@ -372,16 +414,23 @@ int main( int argc, char** argv ){
 	FoundationKit::init( argc, argv );
 
 
+	/**
+	register your custom codec
+	*/
 	VCF::TextCodec::registerCodec( new MyTextCodec() );
 	
-	MessageLoader::registerMessageLoader( "text/strings", new StringsMessageLoader() );
+	/**
+	This sections tests out a variety of locales
+	*/
 	
 	{
+		//test a locale identified by string codes for language and country
 		Locale loc( "en", "US" );
 		testLocale( loc );
 	}
 
 	{
+		//test a locale by using the LanguageCodes and CountryCodes enums
 		Locale loc( Locale::lcEnglish, Locale::ccUnitedKingdom );
 		testLocale( loc );
 	}
@@ -412,28 +461,23 @@ int main( int argc, char** argv ){
 		testLocale( loc );
 	}
 
-	const char* ptr = NULL;
+	
 	{
-		std::string str = "Hello World";
-		ptr = str.c_str();
-		printf( "ptr: %s\n", ptr );
-	}
-
-	printf( "ptr: %s\n", ptr );
-
-
-
-	{
+		//these are some silly tests tha demonstrate using a VCF::UnicodeString class
 		UnicodeString s;
 
 		UnicodeString s1("alsdjkasdjklasd");
 
-		ptr = s1;
+		const char* ptr = s1;
 		printf( "ptr: %s\n", ptr );
 
 		wprintf( L"ptr (as wchar_t): %s\n", UnicodeString(ptr).c_str() );
 
 
+		/**
+		This demonstrates using a TextCodec instance to transform a string
+		from one form (ansi) to another (UTF16)
+		*/
 		UnicodeString s2;
 		s2 = "Hello";
 		const char* s2_ansi = s2.decode_ansi( TextCodec::getCodec( "MyTextCodec" ) );
@@ -441,27 +485,25 @@ int main( int argc, char** argv ){
 		printf( "s2_ansi: %s\n", s2_ansi );
 	}
 
-	printf( "ptr: %s\n", ptr );
 
-
-	
-
-
+	//test out transforming a country code enum to a 2 character string.
 	UnicodeString cc = Locale::countryCodeToString( Locale::ccPanama );
 
+	//test out transforming a language code enum to a 2 character string.
 	cc = Locale::languageCodeToString( Locale::lcBengali );
 
+	//test out transforming a string to a langauge code for a locale
 	Locale::LanguageCodes lc = Locale::stringToLanguageCode( cc );
 	Locale::CountryCodes ccs = Locale::stringToCountryCode( Locale::countryCodeToString( Locale::ccUnitedKingdom ) );
 
 
-	
+	/**
+	Translation support !
+	*/
 	try {
 		
 		{
-			Locale loc(Locale::lcPolish, Locale::ccPoland );
-			
-			UnicodeString s = loc.translate( "Hello" );
+			Locale loc(Locale::lcPolish, Locale::ccPoland );				
 			
 			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
 			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
@@ -470,8 +512,6 @@ int main( int argc, char** argv ){
 		
 		{
 			Locale loc(Locale::lcFrench, Locale::ccFrance );
-			
-			UnicodeString s = loc.translate( "Hello" );
 			
 			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
 			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
@@ -488,6 +528,12 @@ int main( int argc, char** argv ){
 	
 	int count = 1000;
 
+	/**
+	The following tests demonstrate the performance of the STL's string class
+	vs. the performance of the VCF's new UnicodeString class (which is simply a class
+	with an identical interface to std::basic_string<> and that wraps a basic_string<wchar_t>
+	data member.
+	*/
 	//test 1
 	{
 		clock.start();
