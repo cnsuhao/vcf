@@ -189,17 +189,23 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 	foundResType_ = "\0";
 
 	searchResName_ = resourceName;
-
-	if ( System::isUnicodeEnabled() ) {
-		::EnumResourceTypesW( getResourceInstance(),
-								Win32ResourceBundle::EnumResTypeProcA,
-							 (LPARAM)this );
-	}
-	else {
-		::EnumResourceTypesA( getResourceInstance(),
+	/**
+	JC
+	we are using the ansi version as there isn't 
+	a wide string verion of the ENUMRESTYPEPROC
+	in the base version of the SDK headers that 
+	come with vc6.
+	The problem is that both the EnumResourceTypesA and 
+	EnumResourceTypeW functions are defined to take the 
+	same ENUMRESTYPEPROC, where in later version's of the 
+	SDK header the EnumResourceTypesA uses a ENUMRESTYPEPROCA
+	function pointer, and the EnumResourceTypesW uses a 
+	ENUMRESTYPEPROCW argument.
+	*/
+	::EnumResourceTypesA( getResourceInstance(),
 							 Win32ResourceBundle::EnumResTypeProcA,
 							 (LPARAM)this );
-	}
+	
 	if ( true == foundResName_ ){
 		HRSRC resHandle = NULL;
 
@@ -284,6 +290,26 @@ HINSTANCE Win32ResourceBundle::getResourceInstance()
 }
 
 
+
+
+/*
+
+ * Copyright (c) 2002 by Ted Peck <tpeck@roundwave.com>
+ * Permission is given by the author to freely redistribute and include
+ * this code in any program as long as this credit is given where due.
+ *
+ * THIS CODE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTY
+ * OF ANY KIND, EITHER EXPRESSED OR IMPLIED. IN PARTICULAR, NO WARRANTY IS MADE
+ * THAT THE CODE IS FREE OF DEFECTS, MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE
+ * OR NON-INFRINGING. IN NO EVENT WILL THE AUTHOR BE LIABLE FOR ANY COSTS OR DAMAGES 
+ * ARISING FROM ANY USE OF THIS CODE. NO USE OF THIS CODE IS AUTHORIZED EXCEPT UNDER
+ * THIS DISCLAIMER.
+ *
+ * Use at your own risk!
+
+ JC - Modified this for use in the VCF.
+*/
+
 template <typename CharType >
 struct VCF_VS_VERSIONINFO { 
   WORD  wLength; 
@@ -363,139 +389,7 @@ typedef VCF_VarFileInfo<char> VarFileInfo_A;
 typedef std::multimap<String,String> VersionMap;
 
 
-/*
 
- * Copyright (c) 2002 by Ted Peck <tpeck@roundwave.com>
- * Permission is given by the author to freely redistribute and include
- * this code in any program as long as this credit is given where due.
- *
- * THIS CODE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTY
- * OF ANY KIND, EITHER EXPRESSED OR IMPLIED. IN PARTICULAR, NO WARRANTY IS MADE
- * THAT THE CODE IS FREE OF DEFECTS, MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE
- * OR NON-INFRINGING. IN NO EVENT WILL THE AUTHOR BE LIABLE FOR ANY COSTS OR DAMAGES 
- * ARISING FROM ANY USE OF THIS CODE. NO USE OF THIS CODE IS AUTHORIZED EXCEPT UNDER
- * THIS DISCLAIMER.
- *
- * Use at your own risk!
- 
-struct VS_VERSIONINFO { 
-  WORD  wLength; 
-  WORD  wValueLength; 
-  WORD  wType; 
-  WCHAR szKey[1]; 
-  WORD  Padding1[1]; 
-  VS_FIXEDFILEINFO Value; 
-  WORD  Padding2[1]; 
-  WORD  Children[1]; 
-};
-
-struct String { 
-  WORD   wLength; 
-  WORD   wValueLength; 
-  WORD   wType; 
-  WCHAR  szKey[1]; 
-  WORD   Padding[1]; 
-  WORD   Value[1]; 
-}; 
-
-struct StringTable { 
-  WORD   wLength; 
-  WORD   wValueLength; 
-  WORD   wType; 
-  WCHAR  szKey[1]; 
-  WORD   Padding[1]; 
-  String Children[1]; 
-};
-
-struct StringFileInfo { 
-  WORD        wLength; 
-  WORD        wValueLength; 
-  WORD        wType; 
-  WCHAR       szKey[1]; 
-  WORD        Padding[1]; 
-  StringTable Children[1]; 
-};
-
-struct Var { 
-  WORD  wLength; 
-  WORD  wValueLength; 
-  WORD  wType; 
-  WCHAR szKey[1]; 
-  WORD  Padding[1]; 
-  DWORD Value[1]; 
-}; 
-
-struct VarFileInfo { 
-  WORD  wLength; 
-  WORD  wValueLength; 
-  WORD  wType; 
-  WCHAR szKey[1]; 
-  WORD  Padding[1]; 
-  Var   Children[1]; 
-}; 
-
-// ----------------------------------------------------------------------------
-
-int showVer(void* pVer, DWORD size)
-{
-	// Interpret the VS_VERSIONINFO header pseudo-struct
-	VS_VERSIONINFO* versionInfo = (VS_VERSIONINFO*)pVer;
-#define roundoffs(a,b,r)	(((byte*)(b) - (byte*)(a) + ((r)-1)) & ~((r)-1))
-#define VS_ROUNDPOS(b, a, r)	(((byte*)(a))+roundoffs(a,b,r))
-//	byte* nEndRaw   = VS_ROUNDPOS((((byte*)pVer) + size), pVer, 4);
-//	byte* nEndNamed = VS_ROUNDPOS((((byte*) versionInfo) + versionInfo->wLength), versionInfo, 4);
-//	ASSERT(nEndRaw == nEndNamed); // size reported from GetFileVersionInfoSize is much padded for some reason...
-
-	ASSERT(!wcscmp(versionInfo->szKey, L"VS_VERSION_INFO"));
-	printf(" (type:%d)\n", versionInfo->wType);
-	byte* pVt = (byte*) &versionInfo->szKey[wcslen(versionInfo->szKey)+1];
-	VS_FIXEDFILEINFO* fixedFileInfo = (VS_FIXEDFILEINFO*) VS_ROUNDPOS(pVt, versionInfo, 4);
-	if (versionInfo->wValueLength) {
-		showFIXEDFILEINFO(fixedFileInfo);	// Show the 'Value' element
-	}
-	// Iterate over the 'Children' elements of VS_VERSIONINFO (either StringFileInfo or VarFileInfo)
-	StringFileInfo* strFileInfo = (StringFileInfo*) VS_ROUNDPOS(((byte*)fixedFileInfo) + versionInfo->wValueLength, fixedFileInfo, 4);
-	for ( ; ((byte*) strFileInfo) < (((byte*) versionInfo) + versionInfo->wLength); strFileInfo = (StringFileInfo*)VS_ROUNDPOS((((byte*) strFileInfo) + strFileInfo->wLength), strFileInfo, 4)) { // StringFileInfo / VarFileInfo
-		if (!wcscmp(strFileInfo->szKey, L"StringFileInfo")) {
-			// The current child is a StringFileInfo element
-			ASSERT(1 == strFileInfo->wType);
-			ASSERT(!strFileInfo->wValueLength);
-			// Iterate through the StringTable elements of StringFileInfo
-			StringTable* strTable = (StringTable*) VS_ROUNDPOS(&strFileInfo->szKey[wcslen(strFileInfo->szKey)+1], strFileInfo, 4);
-			for ( ; ((byte*) strTable) < (((byte*) strFileInfo) + strFileInfo->wLength); strTable = (StringTable*)VS_ROUNDPOS((((byte*) strTable) + strTable->wLength), strTable, 4)) {
-				printf(" LangID: %S\n", strTable->szKey);
-				ASSERT(!strTable->wValueLength);
-				// Iterate through the String elements of StringTable
-				String* strElement = (String*) VS_ROUNDPOS(&strTable->szKey[wcslen(strTable->szKey)+1], strTable, 4);
-				for ( ; ((byte*) strElement) < (((byte*) strTable) + strTable->wLength); strElement = (String*) VS_ROUNDPOS((((byte*) strElement) + strElement->wLength), strElement, 4)) {
-					wchar_t* strValue = (wchar_t*) VS_ROUNDPOS(&strElement->szKey[wcslen(strElement->szKey)+1], strElement, 4);
-					printf("  %-18S: %.*S\n", strElement->szKey, strElement->wValueLength, strValue); // print <sKey> : <sValue>
-				}
-			}
-		}
-		else {
-			// The current child is a VarFileInfo element
-			ASSERT(1 == strFileInfo->wType); // ?? it just seems to be this way...
-			VarFileInfo* varFileInfo = (VarFileInfo*) strFileInfo;
-			ASSERT(!wcscmp(varFileInfo->szKey, L"VarFileInfo"));
-			ASSERT(!varFileInfo->wValueLength);
-			// Iterate through the Var elements of VarFileInfo (there should be only one, but just in case...)
-			Var* element = (Var*) VS_ROUNDPOS(&varFileInfo->szKey[wcslen(varFileInfo->szKey)+1], varFileInfo, 4);
-			for ( ; ((byte*) element) < (((byte*) varFileInfo) + varFileInfo->wLength); element = (Var*)VS_ROUNDPOS((((byte*) element) + element->wLength), element, 4)) {
-				printf(" %S: ", element->szKey);
-				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
-				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[wcslen(element->szKey)+1], element, 4);
-				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
-					printf("%04x%04x ", (int)*wpos++, (int)(*(wpos+1)));
-				}
-				printf("\n");
-			}
-		}
-	}
-	ASSERT((byte*) strFileInfo == VS_ROUNDPOS((((byte*) versionInfo) + versionInfo->wLength), versionInfo, 4));
-	return fixedFileInfo->dwFileVersionMS; // !!! return major version number
-}
-*/
 
 
 #define VS_ROUNDOFFS(a,b,r)	(((byte*)(b) - (byte*)(a) + ((r)-1)) & ~((r)-1))
@@ -807,6 +701,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/11/17 19:02:55  ddiego
+*fixed compiler error in Win32ResourceBundle::getResource() method.
+*
 *Revision 1.1.2.7  2004/11/17 04:52:49  ddiego
 *added some minor fixes to win32 resource loading, and added 2 new examples that demonstrate basic resource loading and basic usage of dialogs.
 *
