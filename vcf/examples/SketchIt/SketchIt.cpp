@@ -15,6 +15,9 @@ using namespace VCF;
 
 class SketchIt : public SDIDocumentBasedApplication {
 public:
+	SketchIt( int argc, char** argv ) : SDIDocumentBasedApplication(argc, argv ) {
+
+	}
 
 	virtual void terminateRunningApplication() {
 		SDIDocumentBasedApplication::terminateRunningApplication();
@@ -231,9 +234,9 @@ public:
 
 int main(int argc, char *argv[])
 {
-	SketchIt app;
+	SketchIt app( argc, argv );
 
-	Application::main( argc, argv );
+	Application::main();
 	
 	return 0;
 }

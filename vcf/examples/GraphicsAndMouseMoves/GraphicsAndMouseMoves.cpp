@@ -162,6 +162,10 @@ public:
 class GraphicsAndMouseMovesApplication : public Application {
 public:
 
+	GraphicsAndMouseMovesApplication(int argc, char** argv) : Application(argc,argv){
+
+	}
+
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
 		
@@ -178,7 +182,8 @@ public:
 
 int main(int argc, char *argv[])
 {
-	GraphicsAndMouseMovesApplication app;
+	GraphicsAndMouseMovesApplication app( argc, argv );
+	
 
 	Application::main( argc, argv );
 	
