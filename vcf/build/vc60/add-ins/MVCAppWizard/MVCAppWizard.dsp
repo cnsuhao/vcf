@@ -37,23 +37,23 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 2
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc7/Release"
-# PROP Intermediate_Dir "vc7/Release"
+# PROP Output_Dir "vc6/Release"
+# PROP Intermediate_Dir "vc6/Release"
 # PROP Target_Ext "awx"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Fo"vc7/Release/" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Fo"vc6/Release/" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
 # ADD RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc7/Release\MVCAppWizard_vc7.bsc"
+# ADD BSC32 /nologo /o"vc6/Release\MVCAppWizard_vc6.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 rpcrt4.lib /nologo /subsystem:windows /dll /out:"vc7/Release/MVCAppWizard_vc7.dll" /machine:I386
+# ADD LINK32 rpcrt4.lib /nologo /subsystem:windows /dll /out:"vc6/Release/MVCAppWizard_vc6.dll" /machine:I386
 # Begin Custom Build - Copying custom AppWizard to Template directory...
 OutDir=.\Release
 TargetPath=.\Release\MVCAppWizard.awx
@@ -78,22 +78,22 @@ SOURCE="$(InputPath)"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 2
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "vc7/Debug"
-# PROP Intermediate_Dir "vc7/Debug"
+# PROP Output_Dir "vc6/Debug"
+# PROP Intermediate_Dir "vc6/Debug"
 # PROP Target_Ext "awx"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /Gm /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_PSEUDO_DEBUG" /D "_WINDLL" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_PSEUDO_DEBUG" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /FR"vc7/Debug/" /Fo"vc7/Debug/" /Fd"vc7/Debug/MVCAppWizard_vc7_d.pdb" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_PSEUDO_DEBUG" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /FR"vc6/Debug/" /Fo"vc6/Debug/" /Fd"vc6/Debug/MVCAppWizard_vc6_d.pdb" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_PSEUDO_DEBUG" /d "_AFXDLL"
 # ADD RSC /l 0x409 /d "NDEBUG" /d "_PSEUDO_DEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"vc7/Debug\MVCAppWizard_vc7_d.bsc"
+# ADD BSC32 /nologo /o"vc6/Debug\MVCAppWizard_vc6_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /out:"vc7/Debug/MVCAppWizard_vc7_d.dll" /machine:I386
+# ADD LINK32 /nologo /subsystem:windows /dll /incremental:yes /debug /out:"vc6/Debug/MVCAppWizard_vc6_d.dll" /machine:I386
 # Begin Custom Build - Copying custom AppWizard to Template directory...
 OutDir=.\Debug
 TargetPath=.\Debug\MVCAppWizard.awx
