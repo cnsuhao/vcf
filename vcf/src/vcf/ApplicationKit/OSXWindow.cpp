@@ -13,10 +13,6 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXControl.h"
 
 
-#include "thirdparty/macOSX/HIView/TURLTextView.h"
-
-
-
 
 
 class WndSwitchPort {
@@ -1005,6 +1001,9 @@ bool OSXWindow::isActiveWindow()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/10 22:46:59  ddiego
+*os x updates
+*
 *Revision 1.2.2.1  2004/10/10 15:23:12  ddiego
 *updated os x code
 *

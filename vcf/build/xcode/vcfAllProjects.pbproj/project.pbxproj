@@ -91,8 +91,7 @@
 			sourceTree = "<group>";
 		};
 		08FB77AAFE841565C02AAC07 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Carbon.framework;
 			path = /System/Library/Frameworks/Carbon.framework;
@@ -110,8 +109,6 @@
 //4F3
 //4F4
 		4F0BB7EC011F40E904CA0E50 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -125,8 +122,6 @@
 			name = Development;
 		};
 		4F0BB7ED011F40E904CA0E50 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -452,8 +447,7 @@
 		};
 		5E2C80150641F7C600A8020D = {
 			explicitFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			path = FoundationKit.framework;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -3495,8 +3489,7 @@
 		};
 		5E2C821506420C6B00A8020D = {
 			explicitFileType = "compiled.mach-o.dylib";
-			fallbackIsa = PBXFileReference;
-			isa = PBXLibraryReference;
+			isa = PBXFileReference;
 			path = RegExx.a;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -4175,7 +4168,6 @@
 				5EC5A032064DD84E00345023,
 				5EC5A034064DD84E00345023,
 				5E9C1B2A06B5F0D8006671C6,
-				5E6ED4010718558900225828,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4328,7 +4320,6 @@
 				5EC5A033064DD84E00345023,
 				5E9C1B2906B5F0D8006671C6,
 				5E888AD40710EC28006110CF,
-				5E6ED4000718558900225828,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4418,8 +4409,7 @@
 		};
 		5E2CDE790648690500A8020D = {
 			explicitFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			path = ApplicationKit.framework;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -9545,8 +9535,7 @@
 			};
 		};
 		5E2CE26A06486BB200A8020D = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = GraphicsKit.framework;
 			path = ../../bin/GraphicsKit.framework;
@@ -9578,8 +9567,7 @@
 			};
 		};
 		5E444AE40647473E00A8020D = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = CoreServices.framework;
 			path = /System/Library/Frameworks/CoreServices.framework;
@@ -10054,48 +10042,6 @@
 			settings = {
 			};
 		};
-		5E6ED3FC0718558900225828 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = TURLTextView.cp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/thirdparty/macOSX/HIView/TURLTextView.cp;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		5E6ED3FD0718558900225828 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = TURLTextView.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/thirdparty/macOSX/HIView/TURLTextView.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		5E6ED3FE0718558900225828 = {
-			fileRef = 5E6ED3FC0718558900225828;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E6ED3FF0718558900225828 = {
-			fileRef = 5E6ED3FD0718558900225828;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E6ED4000718558900225828 = {
-			fileRef = 5E6ED3FC0718558900225828;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E6ED4010718558900225828 = {
-			fileRef = 5E6ED3FD0718558900225828;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E888AD20710EC28006110CF = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -10399,8 +10345,7 @@
 		};
 		5EAA3CED0647341200A8020D = {
 			explicitFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			path = GraphicsKit.framework;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -10411,8 +10356,7 @@
 			targetProxy = 5EC0F5F1064C50B300E18E6D;
 		};
 		5EAA3CF0064734CC00A8020D = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = FoundationKit.framework;
 			path = ../../bin/FoundationKit.framework;
@@ -10594,8 +10538,7 @@
 		};
 		5EAA3CFC0647358600A8020D = {
 			explicitFileType = "compiled.mach-o.dylib";
-			fallbackIsa = PBXFileReference;
-			isa = PBXLibraryReference;
+			isa = PBXFileReference;
 			path = libAgg.a;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -12369,7 +12312,6 @@
 				5EB255330673DBBE00DA4A17,
 				5EB255340673DBBE00DA4A17,
 				5E9C1AFA06B5F0D8006671C6,
-				5E6ED3FF0718558900225828,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12521,7 +12463,6 @@
 				5EB255CE0673DBD300DA4A17,
 				5E9C1AF906B5F0D8006671C6,
 				5E888AD30710EC28006110CF,
-				5E6ED3FE0718558900225828,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -16701,8 +16642,6 @@
 		};
 		5EC5A05B064DD85D00345023 = {
 			children = (
-				5E6ED3FC0718558900225828,
-				5E6ED3FD0718558900225828,
 				5EC5A025064DD84E00345023,
 				5EC5A026064DD84E00345023,
 				5EC5A027064DD84E00345023,
