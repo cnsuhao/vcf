@@ -8,13 +8,37 @@
 #ifndef VRTOAD_MATH_H
 #define VRTOAD_MATH_H
 
-#ifdef WIN32
+#if defined(WIN32) && defined(_MSC_VER)
 #	define inline __forceinline
 #	pragma warning(disable:4244)
 #endif
 
+#ifdef __BORLANDC__
+#include <cstdlib>
+#include <cmath>
+using std::srand;
+using std::rand;
+using std::sqrt;
+using std::acos;
+using std::asin;
+using std::cos;
+using std::sin;
+using std::atan2;
+using std::exp;
+using std::log;
+using std::fabs;
+using std::itoa;
+using std::putenv;
+using std::ultoa;
+using std::swab;
+#define _itoa itoa
+#define _ultoa ultoa
+#define _putenv putenv
+#define _swab swab
+#else
 #include <math.h>
 #include <stdlib.h>
+#endif
 #include <vector>
 
 #ifdef VRTOAD_MATH_DOUBLE
@@ -23,6 +47,7 @@
 #	define sqrt sqrt
 #	define vrReal double
 #else
+#ifndef __BORLANDC__
 #	define cos cosf
 #	define sin sinf
 #	if 1
@@ -30,6 +55,7 @@
 #	else
 #		define sqrt fastsqrt
 #	endif
+#endif
 #	define vrReal float
 #endif
 

@@ -34,18 +34,18 @@ ParticleEditor::ParticleEditor():Window(){
 		DefaultMenuItem *file=new DefaultMenuItem("&File",root,menuBar);
 
 		DefaultMenuItem *fileLoad=new DefaultMenuItem("&Load",file,menuBar);
-		menuItemHandler=new MenuItemEventHandler<ParticleEditor>(this,ParticleEditor::onFileLoad);
+		menuItemHandler=new MenuItemEventHandler<ParticleEditor>(this,&ParticleEditor::onFileLoad);
 		fileLoad->addMenuItemClickedHandler(menuItemHandler);
 
 		DefaultMenuItem *fileSave=new DefaultMenuItem("&Save",file,menuBar);
-		menuItemHandler=new MenuItemEventHandler<ParticleEditor>(this,ParticleEditor::onFileSave);
+		menuItemHandler=new MenuItemEventHandler<ParticleEditor>(this,&ParticleEditor::onFileSave);
 		fileSave->addMenuItemClickedHandler(menuItemHandler);
 
 		DefaultMenuItem *sep=new DefaultMenuItem("",file,menuBar);
 		sep->setSeparator(true);
 
 		DefaultMenuItem *fileExit=new DefaultMenuItem("E&xit",file,menuBar);
-		menuItemHandler=new MenuItemEventHandler<ParticleEditor>(this,ParticleEditor::onFileExit);
+		menuItemHandler=new MenuItemEventHandler<ParticleEditor>(this,&ParticleEditor::onFileExit);
 		fileExit->addMenuItemClickedHandler(menuItemHandler);
 	}
 
@@ -739,6 +739,9 @@ void ParticleEditor::onFileExit(MenuItemEvent *e){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/11/01 20:44:22  kiklop74
+*Added support for building ParticleEditor in BCB. Fixed some issues in header and cpp files
+*
 *Revision 1.1.2.1  2004/11/01 14:38:59  pallindo
 *Initial checkin of the particle editor example.  Just shows off a more complex opengl application using the VCF.
 *

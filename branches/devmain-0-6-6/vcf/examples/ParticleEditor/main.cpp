@@ -31,14 +31,17 @@ int main(int argc, char **argv){
 
 	ParticleEditorApplication *app=new ParticleEditorApplication(argc,argv);
 
-	app->main();
-	
+	ParticleEditorApplication::main();
+
 	return 0;
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/11/01 20:44:22  kiklop74
+*Added support for building ParticleEditor in BCB. Fixed some issues in header and cpp files
+*
 *Revision 1.1.2.2  2004/11/01 17:19:00  marcelloptr
 *just added few lines at the end of file
 *
