@@ -1,4 +1,9 @@
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
@@ -29,10 +34,7 @@ ProcessPeer* OSXSystemToolkit::internal_createProcessPeer( Process* process )
 
 ThreadPeer* OSXSystemToolkit::internal_createThreadPeer( Thread* thread )
 {
-	ThreadPeer* result = NULL;
-
-	//result = new OSXThread( thread );
-	return result;
+	return new OSXThread( thread );
 }
 
 SystemPeer* OSXSystemToolkit::internal_createSystemPeer()
@@ -42,7 +44,7 @@ SystemPeer* OSXSystemToolkit::internal_createSystemPeer()
 
 SemaphorePeer* OSXSystemToolkit::internal_createSemaphorePeer( long initialCount, long maxCount )
 {
-	return NULL;// LinuxSemaphorePeer( initialCount, maxCount );
+	return new OSXSemaphore( initialCount, maxCount );
 }
 
 RegistryPeer* OSXSystemToolkit::internal_createRegistryPeer( Registry* registry )
@@ -57,7 +59,7 @@ MutexPeer* OSXSystemToolkit::internal_createMutexPeer( Mutex* mutex )
 
 ConditionPeer* OSXSystemToolkit::internal_createConditionPeer( Condition* condition )
 {
-	return NULL;//new PosixCondition(mutex);
+	return new OSXConditionPeer(condition);
 }
 
 LibraryPeer* OSXSystemToolkit::internal_createLibraryPeer( Library* library )

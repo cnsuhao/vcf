@@ -50,12 +50,17 @@ int main(int argc, char *argv[])
     {
 		System::println( "trying to find string \"foo\": not found. returns String::npos: %d", pos);
     }
+    
+    System::println( toFind );
 
 	toFind = "time";
-	pos = t.find(toFind); // finds the string "time" in position 11
-	System::println("string \"time\" found at position: %d", pos);
-
-
+    
+    System::println( toFind );
+    
+	pos = t.find("time"); // finds the string "time" in position 11
+	System::println("string \"time\" found at position: %d in string {%s}", pos, t.c_str() );
+    
+    
 	/**
 	String utility functions
 	*/
@@ -64,14 +69,15 @@ int main(int argc, char *argv[])
 	format a string
 	*/
 
-	String formattedString = StringUtils::format( "Number: %d, as hex: 0x%08X, a string: %s", 12, 12, toFind.c_str() );
+	String formattedString = StringUtils::format( "Number: %d, as hex: 0x%08X, a string: %S", 12, 12, toFind.c_str() );
 	System::println( formattedString );
 
 	/**
 	getting a class name from type info
 	*/
 
-	String className = StringUtils::getClassNameFromTypeInfo( typeid(int) );
+	String className = StringUtils::getClassNameFromTypeInfo( typeid(double) );
+    
 	System::println( "StringUtils::getClassNameFromTypeInfo() returned: %s", className.c_str() );
 
 	className = StringUtils::getClassNameFromTypeInfo( typeid(StringUtils) );
@@ -182,6 +188,14 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.6  2004/05/03 03:44:52  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.2.4.5  2004/04/29 03:40:57  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

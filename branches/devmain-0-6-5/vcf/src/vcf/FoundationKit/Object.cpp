@@ -206,7 +206,7 @@ void Object::dumpDebugInfo()
 					className = "unknown<exception occured retreiving class name>";
 				}
 
-				StringUtils::traceWithArgs( "\tObject (type: %s) @ %p, allocated size of %d bytes\n",
+				StringUtils::traceWithArgs( "\tObject (type: %S) @ %p, allocated size of %d bytes\n",
 												className.c_str(), info.objAddress_, info.objectAllocationSize_ );
 
 
@@ -249,6 +249,14 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/05/03 03:44:53  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.1.2.2  2004/04/29 04:07:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -11,6 +11,9 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/DateTime.h"
 
+#ifdef VCF_OSX
+    #include <cxxabi.h>  //add this so we can demangle the GCC typeinfo names
+#endif
 
 #define TO_STRING_TXT_SIZE		50
 
@@ -165,7 +168,7 @@ String StringUtils::lowerCase( const String& text )
 #elif VCF_OSX
     CFTextString tmp;
     tmp = text;
-    CFStringLowercase( tmp, NULL );
+    tmp.lowerCase();
     
     result = tmp;
 #endif
@@ -186,8 +189,7 @@ String StringUtils::upperCase( const VCF::String& text )
 #elif VCF_OSX
     CFTextString tmp;
     tmp = text;
-    CFStringUppercase( tmp, NULL );
-    
+    tmp.upperCase();
     result = tmp;
 #endif
 	return result;
@@ -222,7 +224,7 @@ VCF::String StringUtils::toString( const int& value )
     VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%d", value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", value  );
   #else
 	swprintf( tmp, L"%d", value );
   #endif
@@ -240,7 +242,7 @@ VCF::String StringUtils::toString( const long& value )
     VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%d", value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", value  );
   #else
 	swprintf( tmp, L"%d", value );
   #endif
@@ -260,7 +262,7 @@ VCF::String StringUtils::toString( const float& value )
     VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%.5f", value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%.5f", value  );
   #else
 	swprintf( tmp, L"%.5f", value );
   #endif
@@ -280,7 +282,7 @@ VCF::String StringUtils::toString( const double& value )
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%.5f", value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%.5f", value  );
   #else
 	swprintf( tmp, L"%.5f", value );
   #endif
@@ -298,7 +300,7 @@ VCF::String StringUtils::toString( const ulong32& value )
     VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%d", (int)value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", (int)value  );
   #else
 	swprintf( tmp, L"%d", (int)value );
   #endif
@@ -316,7 +318,7 @@ VCF::String StringUtils::toString( const uint32& value )
     VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%d", value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%d", value  );
   #else
 	swprintf( tmp, L"%d", value );
   #endif
@@ -335,7 +337,7 @@ VCF::String StringUtils::toString( const char& value )
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 
   #ifdef VCF_POSIX
-	swprintf( tmp, sizeof(tmp)-1, L"%c", value  );
+	swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%c", value  );
   #else
 	swprintf( tmp, L"%c", value );
   #endif
@@ -440,8 +442,32 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 
 	#endif
 
+#elif VCF_OSX    
+    int status = 0;
+  char* c_name = 0;
+
+  c_name = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
+  /*
+    static String classPrefix( "class " );
+    String name( typeInfo.name() );
+    
+    // Work around gcc 3.0 bug: strip number before type name.
+    unsigned int firstNotDigitIndex = 0;
+    while ( firstNotDigitIndex < name.length()  &&
+                name[firstNotDigitIndex] >= '0'  &&
+                name[firstNotDigitIndex] <= '9' ) {
+        ++firstNotDigitIndex;
+    }
+    
+    name = name.substr( firstNotDigitIndex );
+
+    if ( name.substr( 0, classPrefix.length() ) == classPrefix ) {
+        result = name.substr( classPrefix.length() );
+    }
+    */
+	result = c_name;
 #else
-		result = typeInfo.name();
+    result = typeInfo.name();
 #endif
 
 	return result;
@@ -462,8 +488,10 @@ int StringUtils::fromStringAsInt( const VCF::String& value )
 {
 	int result = 0;
 #ifdef VCF_OSX
+    
     CFTextString tmp;
     tmp = value;
+    
     result = CFStringGetIntValue( tmp );
 #else
 	swscanf( value.c_str(), W_STR_INT_CONVERSION, &result );
@@ -564,6 +592,8 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 	unsigned long d = date.getDay();
 
 	VCFChar tmp[256];
+    int tmpLen = sizeof(tmp)/sizeof(VCFChar);
+    memset( tmp, 0, sizeof(tmp) );
 
 	bool hashCharFound = false;
 	int formatArgCount = 1;
@@ -630,7 +660,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%B - Full month name
 				case 'B' : {
-					result.append( current, (P-current) -formatArgCount );
+                    result.append( current, (P-current) -formatArgCount );
 
 					result += StringUtils::months[m-1];
 
@@ -660,7 +690,8 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), d );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
 						swprintf( tmp, sizeof(tmp)-1, L"%d", d );
 					#else
@@ -672,9 +703,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), d );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", d );
+						swprintf( tmp, tmpLen-1, L"%02d", d );
 					#else
 						swprintf( tmp, L"%02d", d );
 					#endif
@@ -695,9 +727,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getDayOfYear() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-					swprintf( tmp, sizeof(tmp)-1, L"%d", date.getDayOfYear() );
+					swprintf( tmp, tmpLen-1, L"%d", date.getDayOfYear() );
 					#else
 					swprintf( tmp, L"%d", date.getDayOfYear() );
 					#endif
@@ -718,9 +751,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getHour() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getHour() );
+						swprintf( tmp, tmpLen-1, L"%d", date.getHour() );
 					#else
 						swprintf( tmp, L"%d", date.getHour() );
 					#endif
@@ -729,16 +763,16 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), date.getHour() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getHour() );
+						swprintf( tmp, tmpLen-1, L"%02d", date.getHour() );
 					#else
 						swprintf( tmp, L"%02d", date.getHour() );
 					#endif
 					}
 
 					result += tmp;
-
 					current = P + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -747,7 +781,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%I - Hour in 12-hour format (01 – 12)
 				case 'I' : {
-					result.append( current, (P-current) -formatArgCount );
+                    result.append( current, (P-current) -formatArgCount );
 
 					int h = date.getHour() % 12;
 					if ( h == 0 ) {
@@ -757,9 +791,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), h );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", h );
+						swprintf( tmp, tmpLen-1, L"%d", h );
 					#else
 						swprintf( tmp, L"%d", h );
 					#endif
@@ -768,16 +803,17 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), h );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", h );
+						swprintf( tmp, tmpLen-1, L"%02d", h );
 					#else
 						swprintf( tmp, L"%02d", h );
 					#endif
 					}
 
 					result += tmp;
-
+                    
 					current = P + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -788,15 +824,14 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				case 'j' : {
 					result.append( current, (P-current) -formatArgCount );
 
-
-
 					if ( hashCharFound ) {
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getDayOfYear() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getDayOfYear()  );
+						swprintf( tmp, tmpLen-1, L"%d", date.getDayOfYear()  );
 					#else
 						swprintf( tmp, L"%d", date.getDayOfYear()  );
 					#endif
@@ -806,9 +841,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%03d"), date.getDayOfYear() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%03d", date.getDayOfYear()  );
+						swprintf( tmp, tmpLen-1, L"%03d", date.getDayOfYear()  );
 					#else
 						swprintf( tmp, L"%03d", date.getDayOfYear()  );
 					#endif
@@ -824,15 +860,16 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%m - Month as decimal number (01 – 12)
 				case 'm' : {
-					result.append( current, (P-current) -formatArgCount );
+                    result.append( current, (P-current) -formatArgCount );
 
 					if ( hashCharFound ) {
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), m );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", m  );
+						swprintf( tmp, tmpLen-1, L"%d", m  );
 					#else
 						swprintf( tmp, L"%d", m  );
 					#endif
@@ -841,9 +878,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), m );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", m  );
+						swprintf( tmp, tmpLen-1, L"%02d", m  );
 					#else
 						swprintf( tmp, L"%02d", m  );
 					#endif
@@ -852,7 +890,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 
 					result += tmp;
-
+                    
 					current = P + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -867,9 +905,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getMinute() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getMinute()  );
+						swprintf( tmp, tmpLen-1, L"%d", date.getMinute()  );
 					#else
 						swprintf( tmp, L"%d", date.getMinute()  );
 					#endif
@@ -878,9 +917,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), date.getMinute() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getMinute()  );
+						swprintf( tmp, tmpLen-1, L"%02d", date.getMinute()  );
 					#else
 						swprintf( tmp, L"%02d", date.getMinute()  );
 					#endif
@@ -888,7 +928,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 
 					result += tmp;
-
+                    
 					current = P + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -915,9 +955,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getSeconds() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getSeconds()  );
+						swprintf( tmp, tmpLen-1, L"%d", date.getSeconds()  );
 					#else
 						swprintf( tmp, L"%d", date.getSeconds()  );
 					#endif
@@ -926,9 +967,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), date.getSeconds() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getSeconds()  );
+						swprintf( tmp, tmpLen-1, L"%02d", date.getSeconds()  );
 					#else
 						swprintf( tmp, L"%02d", date.getSeconds()  );
 					#endif
@@ -936,7 +978,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 
 					result += tmp;
-
+                    
 					current = P + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -945,15 +987,16 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%U - Week of year as decimal number, with Sunday as first day of week (00 – 53)
 				case 'U' : {
-					result.append( current, (P-current) -formatArgCount );
+                    result.append( current, (P-current) -formatArgCount );
 
 					if ( hashCharFound ) {
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getWeekOfYearStartingSun() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getWeekOfYearStartingSun()  );
+						swprintf( tmp, tmpLen-1, L"%d", date.getWeekOfYearStartingSun()  );
 					#else
 						swprintf( tmp, L"%d", date.getWeekOfYearStartingSun()  );
 					#endif
@@ -961,17 +1004,18 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					else {
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
-                        cfStr.format( CFSTR("%02d"), date.getWeekOfYearStartingSun() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.format( CFSTR("%02d"), date.getWeekOfYearStartingSun() );                                            
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getWeekOfYearStartingSun()  );
+						swprintf( tmp, tmpLen-1, L"%02d", date.getWeekOfYearStartingSun()  );
 					#else
 						swprintf( tmp, L"%02d", date.getWeekOfYearStartingSun()  );
 					#endif
 					}
 
 					result += tmp;
-
+                    
 					current = P + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -980,14 +1024,15 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%w - Weekday as decimal number (0 – 6; Sunday is 0) 
 				case 'w' : { 
-					result.append( current, (P-current) -formatArgCount );				
+					result.append( current, (P-current) -formatArgCount );
 					
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getWeekDay() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", (int)date.getWeekDay()  );
+						swprintf( tmp, tmpLen-1, L"%d", (int)date.getWeekDay()  );
 					#else
 						swprintf( tmp, L"%d", (int)date.getWeekDay()  );
 					#endif
@@ -1008,9 +1053,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), date.getWeekOfYearStartingMon() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", date.getWeekOfYearStartingMon()  );
+						swprintf( tmp, tmpLen-1, L"%d", date.getWeekOfYearStartingMon()  );
 					#else
 						swprintf( tmp, L"%d", date.getWeekOfYearStartingMon()  );
 					#endif
@@ -1019,9 +1065,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), date.getWeekOfYearStartingMon() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", date.getWeekOfYearStartingMon()  );
+						swprintf( tmp, tmpLen-1, L"%02d", date.getWeekOfYearStartingMon()  );
 					#else
 						swprintf( tmp, L"%02d", date.getWeekOfYearStartingMon()  );
 					#endif
@@ -1066,9 +1113,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%d"), y % 100 );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%d", y % 100  );
+						swprintf( tmp, tmpLen-1, L"%d", y % 100  );
 					#else
 						swprintf( tmp, L"%d", y % 100  );
 					#endif
@@ -1077,9 +1125,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                      #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%02d"), y % 100 );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%02d", y % 100  );
+						swprintf( tmp, tmpLen-1, L"%02d", y % 100  );
 					#else
 						swprintf( tmp, L"%02d", y % 100  );
 					#endif
@@ -1101,9 +1150,10 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%04d"), y );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%04d", y  );
+						swprintf( tmp, tmpLen-1, L"%04d", y  );
 					#else
 						swprintf( tmp, L"%04d", y  );
 					#endif
@@ -1119,14 +1169,15 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				// %s - millisecond part
 				case 's' : { 
-					result.append( current, (P-current) -formatArgCount );				
+					result.append( current, (P-current) -formatArgCount );
 					
                     #ifdef VCF_OSX                        
 						CFTextString cfStr;
                         cfStr.format( CFSTR("%04d"), date.getMilliSeconds() );
-                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),sizeof(tmp)/sizeof(VCFChar)) );
+                        cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+                        tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
                     #elif VCF_POSIX
-						swprintf( tmp, sizeof(tmp)-1, L"%04d", date.getMilliSeconds()  );
+						swprintf( tmp, tmpLen-1, L"%04d", date.getMilliSeconds()  );
 					#else
 						swprintf( tmp, L"%04d", date.getMilliSeconds()  );
 					#endif
@@ -1161,6 +1212,14 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/03 03:44:53  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

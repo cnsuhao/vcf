@@ -41,6 +41,12 @@ class OSXThread : public ThreadPeer
 {
 
 public:
+    enum {
+        k_eExecutionContextSystemTask,
+        k_eExecutionContextDeferredTask,
+        k_eExecutionContextMPTask,
+        k_eExecutionContextOther
+    };
 
     /* Creates a normal priority, joinable thread */
     OSXThread( Thread* thread );
@@ -54,18 +60,23 @@ public:
     /* Stops the thread.  If called in Thread::run() the thread exits. */
 	virtual void stop();
 
+    virtual void pause();
+    
     /* Returns thread id */
 	virtual uint32 getThreadID() {
-		return threadID_; 
+		return (uint32)taskID_; 
 	}
 	
 	virtual uint32 getHandleID() {
-		return threadID_; 
+		return (uint32)taskID_; 
 	}
 
-    /* Returns process that created thread.  Is this useful? */
+    /** Returns process that created thread.  Is this useful? 
+    For OSX this is a pointer to a ProcessSerialNumber struct. See
+    the ProcessManager API for more info
+    */
 	virtual uint32 getOwningProcessID() {
-		return processID_; 
+		return (uint32)&processID_; 
 	}
 
     /* Returns TRUE if thread is running, FALSE if not */
@@ -73,45 +84,21 @@ public:
 		return isActive_; 
 	}
 
-    /* Returns TRUE if thread is detached, FALSE if not */
-    virtual bool isDetached() {
-		return isDetached_; 
-	}
-
-    /* Detaches thread so it does not have to be joined */
-    virtual void detach();
-
-    /* Joins with thread if it is not detached.
-		Has no affect if called inside the Thread object. */
-    virtual void join();
-
-    /* Enables this thread to yield the CPU to another, if any.
-		Has no affect if called outside the Thread object.       */
-    virtual void yield();
-
-    /* Enables this thread to exit Thread::run at an arbitrary point.
-		Has no affect if called outside Thread object.                */
-    virtual void exit();
-
-    /* Returns TRUE if called in Thread::run(), FALSE if not */
-	/*
-    int inThreadProc() {
-		return pthread_self() == threadID_; 
-	}
-	*/
-
-    /* Not implemented yet */
+     
 	virtual void sleep( uint32 milliseconds );
 
-    // Not implemented and should be deprecated
-	virtual void pause() {}
+    virtual int wait();
 
+	virtual int wait( uint32 milliseconds );
 protected:
-	uint32 threadID_;
-    uint32 processID_;
+    static int executionContext();
+    
+    static OSStatus taskProc( void *parameter );
+    MPQueueID queueID_;
+    MPTaskID taskID_;
+    ProcessSerialNumber processID_;
 	Thread* thread_;
     bool isActive_;
-    bool isDetached_;
 };
 
 };
@@ -120,6 +107,14 @@ protected:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
+ *This checks in a bunch of changes to the FoundationKit for OSX
+ *porting. The thread, mutex, semaphor, condition, and file peers
+ *have all been implemented and tested. The file peer could be improved
+ *and needs search functionality. The locale peer is only partially
+ *complete, but the functions will return values. The unicode transition
+ *is also finished and works OK now.
+ *
  *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
  *added OSX changes for unicode migration
  *

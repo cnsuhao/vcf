@@ -42,13 +42,22 @@ class OSXMutex : public MutexPeer
 {
 public:
 	OSXMutex();
-	virtual ~OSXMutex();
-	virtual bool lock();
-	virtual bool unlock();
-	virtual uint32 getHandleID() { return (uint32)&mutex_; }
+	
+    virtual ~OSXMutex();
+	
+    virtual bool lock();
+	
+    virtual bool unlock();
+    
+    /**
+    On OSX this returns a value that is a MPCriticalRegionID
+    */
+	virtual uint32 getHandleID() { 
+        return (uint32)&mutex_; 
+    }
 
 protected:
-	uint32 mutex_;
+	MPCriticalRegionID mutex_;
 };
 
 };
@@ -57,6 +66,14 @@ protected:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
+ *This checks in a bunch of changes to the FoundationKit for OSX
+ *porting. The thread, mutex, semaphor, condition, and file peers
+ *have all been implemented and tested. The file peer could be improved
+ *and needs search functionality. The locale peer is only partially
+ *complete, but the functions will return values. The unicode transition
+ *is also finished and works OK now.
+ *
  *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
  *added OSX changes for unicode migration
  *

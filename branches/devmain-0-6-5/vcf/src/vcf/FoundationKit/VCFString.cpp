@@ -11,6 +11,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/TextCodec.h"
 
+#include <cwchar>
+
 using namespace VCF;
 
 
@@ -58,6 +60,48 @@ UnicodeString::UnicodeString( size_type n, UnicodeString::UniChar c ):
 
 }
 
+
+#ifdef VCF_OSX
+UnicodeString::UnicodeString(const wchar_t* string )
+{
+    //!!!!!!!!!!!!!!!!!!MAJOR HACK ALERT!!!!!!!!!!!!!!!
+    //Because *&^$%'n Apple doesn't provide wcslen we have to do this here - completely 
+    //*&^#$%% LAME!!!!!! :(
+    int strLength = 0;
+    const wchar_t* P = string;
+    while ( *P != 0 ) {        
+        strLength ++;
+        P++;
+        
+        if ( strLength >= 10000 ) { //arbitrarily stop after 10,000 characters? Lame as HELLL
+            break;
+        }
+    }
+     
+    if ( *P == 0 ) {
+        strLength ++;
+    }
+    
+    
+    int size = strLength;
+
+	if ( !(size > 0) ) {
+		throw RuntimeException( "size < 0 wcstombs() failed" );
+	}
+
+	UnicodeString::AnsiChar* tmp = new UnicodeString::AnsiChar[size+1];
+
+	if ( wcstombs( tmp, string, strLength ) > 0 ) {
+		tmp[size] = 0;
+        UnicodeString::transformAnsiToUnicode( tmp, size, data_ );
+	}
+
+    delete [] tmp;
+	tmp = NULL;
+}
+#endif
+
+
 UnicodeString::~UnicodeString()
 {
 	garbageCollectAnsiStrings();
@@ -101,7 +145,7 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
         CFRange range = {0,size};	
         CFStringGetCharacters(cfStr,range,unicodeText);
         unicodeText[size] = 0;     
-        newStr.append( unicodeText, size );   
+        newStr.assign( unicodeText, size );   
         delete [] unicodeText;
 
 
@@ -136,11 +180,21 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 	}
 
 #elif VCF_OSX
-    //UniChar tmp[2] = { c,0 };
-    CFTextString tmp;
-    tmp.format( CFSTR("%c"), c );
-    result = tmp;
+    
+    char str[2] = {c,0};
+    CFStringRef cfStr = 
+            CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
+        
+    int size = CFStringGetLength( cfStr );
+    if ( !(size > 0) ) {
+        throw RuntimeException( L"size <= 0 CFStringCreateWithCString() failed in UnicodeString::transformAnsiToUnicode()" );
+    }
 
+    UniChar unicodeText[2];
+    CFRange range = {0,2};	
+    CFStringGetCharacters(cfStr,range,unicodeText);
+    result = unicodeText[0];   
+    
 #elif VCF_POSIX
 	UnicodeString::UniChar tmp[2] = {0,0};
 	int err = mbstowcs( tmp, &c, 1 );
@@ -182,28 +236,30 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 		result[size] = 0;
 	}
 
-#elif VCF_OSX
-    CFTextString tmp;
-    tmp = str;
-    CFRange r = {0,tmp.length()};
-    CFIndex size2 = 0;
-    CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, NULL, 0, &size2 );
-    
-    if ( !(size2 > 0) ) {
-		throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
-	} 
-    
-    result = new UnicodeString::AnsiChar[size2+1];
-    
-    if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, 
-                                    result, size2, &size2 ) ) {
-		//CFStringGetBytes failed
-		delete [] result;
-		result = NULL;
-	}
-	else {
-		result[size2] = 0;
-	}
+#elif VCF_OSX    
+    if ( str.length() > 0 ) {
+        CFTextString tmp;
+        tmp = str;
+        CFRange r = {0,tmp.length()};
+        CFIndex size2 = 0;
+        CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, NULL, 0, &size2 );
+        
+        if ( !(size2 > 0) ) {
+            throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
+        } 
+        
+        result = new UnicodeString::AnsiChar[size2+1];
+        
+        if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, 
+                                        result, size2, &size2 ) ) {
+            //CFStringGetBytes failed
+            delete [] result;
+            result = NULL;
+        }
+        else {
+            result[size2] = 0;
+        }
+    }
 
 #elif VCF_POSIX
 	size = wcstombs( NULL, str.data_.c_str(), strLength );
@@ -696,6 +752,14 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/05/03 03:44:53  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.1.2.4  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

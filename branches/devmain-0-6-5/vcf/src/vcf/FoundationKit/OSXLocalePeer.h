@@ -37,6 +37,8 @@ NB: This software will not save the world.
 
 namespace VCF {
 
+typedef std::pair<int,int> AppleLocalePair;
+
 
 class OSXLocalePeer : public LocalePeer {
 public:
@@ -88,15 +90,26 @@ public:
 	virtual UnicodeString translate( const UnicodeString& id );
 
 	virtual ulong32 getHandleID() {
-		return (ulong32)0;
+		return (ulong32)localeRef_;
 	}
 protected:
+
+    static std::map<String,AppleLocalePair> localeMaping;
+    LocaleRef localeRef_;
 	UnicodeString crtLocaleStr_;
 };
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
 *added OSX changes for unicode migration
 *

@@ -1,9 +1,16 @@
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/OSXFilePeer.h"
-#include "vcf/FoundationKit/regexx.h"
 
+//#include "vcf/FoundationKit/regexx.h"
+
+#include "MoreFilesX.h"
 
 using namespace VCF;
 
@@ -36,7 +43,7 @@ bool OSXFilePeer::beginFileSearch( Directory::Finder* finder )
 	
 	FileSearchData fsData;	
 	
-	RegExx::Regexx regex;	
+	//RegExx::Regexx regex;	
 	
 	return result;
 }
@@ -68,12 +75,23 @@ void OSXFilePeer::buildSearchFilters( const String& searchFilter )
 
 void OSXFilePeer::remove()
 {
-
+    
 }
 
 void OSXFilePeer::create()
 {
-	
+    const char* fName = filename_.ansi_c_str();
+    fileHandle_ = fopen( fName, "rb" );
+    if ( NULL == fileHandle_ ) {
+        //create it
+        fileHandle_ = fopen( fName, "w" );
+        fclose( fileHandle_ );
+        fileHandle_ = fopen( fName, "rb" );   
+    }
+    
+    if ( NULL == fileHandle_ ) {
+        throw RuntimeException( MAKE_ERROR_MSG_2("OSXFilePeer::create() failed!") );
+    }
 }
 
 
@@ -81,7 +99,9 @@ uint32 OSXFilePeer::getSize()
 {
 
 	uint32 result = 0;
-	
+	fseek( fileHandle_, 0, SEEK_END );
+    result = ftell( fileHandle_ );
+    fseek( fileHandle_, 0, SEEK_SET );
 	return result;	
 }
 
@@ -96,7 +116,7 @@ void OSXFilePeer::setName( const String& fileName )
 
 void OSXFilePeer::copyTo( const String& copyFileName )
 {
-
+    
 }
 
 

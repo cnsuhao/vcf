@@ -15,13 +15,22 @@ of the FoundationKit.
 */
 #include "vcf/FoundationKit/DateTime.h"
 
+#define __FF__(x) \
+    String(x) + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__)\
+    
+    
 
 using namespace VCF;
 
 int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
+    
+    String t2 = String("asdasdasd") + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__);
+    StringUtils::trace( __FF__("sdfsdfsdfsd") );
 
+    StringUtils::trace(  "Assertion failure: " + t2 );
+		
 	/**
 	retrieve the current time
 	*/
@@ -30,8 +39,8 @@ int main( int argc, char** argv ){
 	/**
 	Output the date time instance using the Object::toString method
 	*/
-
-	System::println( "currentTime: %s", currentTime.toString().c_str() );
+    String timeStr = currentTime.toString();
+	System::println( "currentTime: %s", timeStr.c_str() );
 
 
 	/**
@@ -158,17 +167,17 @@ int main( int argc, char** argv ){
 
 		fs << &storeMe;
 
-		System::println( "storeMe (%s) saved!", storeMe.toString().c_str() );
+		System::println( "storeMe (%S) saved!", storeMe.toString().c_str() );
 	}
 
 	DateTime loadMe;
-	System::println( "loadMe is equal to %s", loadMe.toString().c_str() );
+	System::println( "loadMe is equal to %S", loadMe.toString().c_str() );
 	{
 		FileInputStream fs( "datetime.out" );
 
 		fs >> &loadMe;
 
-		System::println( "loadMe (%s) loaded!", loadMe.toString().c_str() );
+		System::println( "loadMe (%S) loaded!", loadMe.toString().c_str() );
 	}
 
 
@@ -180,6 +189,14 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/05/03 03:44:52  ddiego
+*This checks in a bunch of changes to the FoundationKit for OSX
+*porting. The thread, mutex, semaphor, condition, and file peers
+*have all been implemented and tested. The file peer could be improved
+*and needs search functionality. The locale peer is only partially
+*complete, but the functions will return values. The unicode transition
+*is also finished and works OK now.
+*
 *Revision 1.2.2.4  2004/04/29 03:40:52  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -3,37 +3,56 @@
 
 // OSXSemaphorePeer.h
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+namespace VCF  {
+
 /**
-Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
-	Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+*Class MutexPeer documentation
+*/
+class OSXSemaphore : public SemaphorePeer {
+public:
+   
+    OSXSemaphore( long initialCount, long maxCount );
+	virtual ~OSXSemaphore();
 
-	Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the distribution.
+	virtual bool lock();
 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS
- OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-									  *PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-									  *PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-															*NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	virtual bool unlock();
 
- NB: This software will not save the world.
- */
- 
+    /**
+    on OSX this returns a MPSemaphoreID
+    */
+	virtual uint32 getHandleID() {
+        return (uint32) semaphoreID_;
+    }
+
+protected:
+    MPSemaphoreID semaphoreID_;
+
+};
+
+
+}; // end of namespace VCF
+
  
  
  /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.4  2004/05/03 03:44:53  ddiego
+ *This checks in a bunch of changes to the FoundationKit for OSX
+ *porting. The thread, mutex, semaphor, condition, and file peers
+ *have all been implemented and tested. The file peer could be improved
+ *and needs search functionality. The locale peer is only partially
+ *complete, but the functions will return values. The unicode transition
+ *is also finished and works OK now.
+ *
  *Revision 1.1.2.3  2004/04/30 05:44:34  ddiego
  *added OSX changes for unicode migration
  *

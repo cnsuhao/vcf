@@ -7,8 +7,8 @@
 	objects = {
 		034768DDFF38A45A11DB9C8B = {
 			children = (
-				5E2C80150641F7C600A8020D,
 				5E2C821506420C6B00A8020D,
+				5E2C80150641F7C600A8020D,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -106,12 +106,14 @@
 //5E4
 		5E2C800E0641F7AA00A8020D = {
 			children = (
+				5EC402DE0644A34200A8020D,
 				5E2C80180641F7E800A8020D,
 				5E2C80170641F7E200A8020D,
 				5E2C80160641F7DB00A8020D,
 			);
 			isa = PBXGroup;
 			name = FoundationKit;
+			path = "";
 			refType = 4;
 		};
 		5E2C800F0641F7C600A8020D = {
@@ -239,6 +241,7 @@
 				5E2C81EA0641F81600A8020D,
 				5E2C81EB0641F81600A8020D,
 				5E2C82050641F81600A8020D,
+				5EC402E20644A35F00A8020D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +318,7 @@
 				5E2C81E40641F81600A8020D,
 				5E2C81E70641F81600A8020D,
 				5E2C82040641F81600A8020D,
+				5EC402E10644A35F00A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,7 +328,6 @@
 			files = (
 				5E2C822E06420D8900A8020D,
 				5E2C823006420DB900A8020D,
-				5E2C82330642100E00A8020D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,16 +348,15 @@
 				5E2C80130641F7C600A8020D,
 			);
 			buildSettings = {
+				BUILD_DIR = "$(VCF_BIN)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
+				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\" \"$(VCF_INCLUDE)/thirdparty/macOSX\"";
+				LIBRARY_SEARCH_PATHS = "/usr/lib/gcc/darwin/3.1 \"$(VCF_LIB)\" /Users/jimcrafton/code/vcfdev/dev/vcf/build/osx-pb /Users/jimcrafton/code/vcfdev/dev/vcf/lib";
 				OTHER_CFLAGS = "-DVCF_GCC -D_DEBUG -DVCF_OSX  -Wno-multichar";
-				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
-				PREFIX_HEADER = "$(VCF_INCLUDE)/vcf/FoundationKit/FoundationKit.h";
 				PRINCIPAL_CLASS = "";
 				PRODUCT_NAME = FoundationKit;
 				SECTORDER_FLAGS = "";
@@ -394,7 +396,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.0.1d1</string>
+	<string>0.6.5</string>
 </dict>
 </plist>
 ";
@@ -607,6 +609,7 @@
 			);
 			isa = PBXGroup;
 			name = Peers;
+			path = "";
 			refType = 4;
 		};
 		5E2C80190641F81600A8020D = {
@@ -3061,6 +3064,7 @@
 				5E2C821306420C6B00A8020D,
 			);
 			buildSettings = {
+				BUILD_DIR = "$(VCF_LIB)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
@@ -3246,15 +3250,44 @@
 			settings = {
 			};
 		};
-		5E2C82330642100E00A8020D = {
-			fileRef = 5E2C821506420C6B00A8020D;
+		5E2C82360642105B00A8020D = {
+			isa = PBXTargetDependency;
+			target = 5E2C821406420C6B00A8020D;
+		};
+		5EC402DE0644A34200A8020D = {
+			children = (
+				5EC402DF0644A35F00A8020D,
+				5EC402E00644A35F00A8020D,
+			);
+			isa = PBXGroup;
+			name = Extras;
+			refType = 4;
+		};
+		5EC402DF0644A35F00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = MoreFilesX.c;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/thirdparty/macOSX/MoreFilesX.c;
+			refType = 0;
+		};
+		5EC402E00644A35F00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = MoreFilesX.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/thirdparty/macOSX/MoreFilesX.h;
+			refType = 0;
+		};
+		5EC402E10644A35F00A8020D = {
+			fileRef = 5EC402DF0644A35F00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		5E2C82360642105B00A8020D = {
-			isa = PBXTargetDependency;
-			target = 5E2C821406420C6B00A8020D;
+		5EC402E20644A35F00A8020D = {
+			fileRef = 5EC402E00644A35F00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 0867D690FE84028FC02AAC07;
