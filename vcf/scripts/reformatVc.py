@@ -23,12 +23,6 @@ _names = sys.builtin_module_names
 modules ={}
 
 
-testingParse = False #%%%
-backupFiles = False
-
-addEntriesForVc71WhenSynchToVc70 = False
-addToolsForVc71WhenSynchToVc70   = False
-
 # globals
 compilerVc6  = 'vc6'
 compilerVc70 = 'vc70'
@@ -61,15 +55,21 @@ extWsp = '.dsw'
 extVcproj = '.vcproj'
 extSln = '.sln'
 
+
 # this is hardcoded: expecially the sln files heed the non unix stye for the path
 #app.options.unixStyle = False
 g_internal_unixStyle = True  # IMPORTANT: use True otherwise it will not work under cygwin !
 g_uuidVisualStudio = '8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942' # the same everywhere: if this is wrong it will complain for all projects not installed
 g_options_showNamesForUuids = False # this breaks the solution file, but it shows the names !
 g_workspaceHasPrecedenceOverSolution = True # use True so changes in the workspaces will be reflected into the dependency changes in the solutions
-
-# deleteLineString               = '# PROP Scc_'   # obsolete
-
+testingParse = False #%%%
+g_printFilterGroupTrees = False
+addEntriesForVc71WhenSynchToVc70 = False
+addToolsForVc71WhenSynchToVc70   = False
+g_uses_FileConfiguration_infos_from_original_file = True # IMPORTANT: keep this True otherwise you loos all the per-file information specific of vc70 and vc71 and unknown to vc6
+g_debugFileList = [] # [ 'freeimagelib' ] # [ 'msdnintegrator' ] [ 'localization' ]
+backupFiles = False
+g_include_vcproj_in_changed_files_counted = True # this includes the vcproj files created/changed in the total count of changed files
 
 # Some macros used internally for clarity
 g_KeepFirstDot_True  = True
@@ -97,6 +97,8 @@ enum_SUBTRACT_LIB32  = 6
 enum_ADD_BSC32       = 7
 
 #enumStatic  = { 'static' : 1, 'dynamic' : 2 }
+
+re_find_one_of_non_path_char   = re.compile( r'[$;,;]+' )
 
 re_trueproject = re.compile( r'# Microsoft Developer Studio Project File - Name="(?P<trueProjectName>[a-zA-Z0-9_\- \\/.]*?)" - Package Owner=<([0-9]+)>' )
 re_output_or_intermed_dir   = re.compile( r'(^# PROP (Output|Intermediate)_Dir "(?P<subdir>[a-zA-Z0-9_\- $\(\)\\/.]*?)")' )
@@ -762,8 +764,17 @@ class FileUtils:
 
         isUnix = FileUtils.isUnixOs()
 
+        # nothing: this function is used also with paths like: 'AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)/../thirdparty/common/agg/include/"
+        if ( re_find_one_of_non_path_char.search( path ) ):
+            normalize = False
+        else:
+            normalize = True
+
         # eliminates the first './' unless it is just that BUT ONLY UNDER nt, not under unix/posix !
-        path = os.path.normpath( path )
+        if ( normalize ):
+            path = os.path.normpath( path )
+        else:
+            pass
 
         if ( hasCurr ):
             if ( keepFirstDot ):
@@ -1847,7 +1858,17 @@ class DspApp:
 
         return
 
+    def isFile( self, file, namelist ):
+        found = False
+        for name in namelist:
+            #name = name.lower()
+            if ( file.filename.lower().find( name ) != -1 ):
+                found = True
+                break
+        return found
 
+    def isFile2( self, file ):
+        return self.isFile(  file, g_debugFileList )
 
 
 ################################################################################
@@ -1989,6 +2010,12 @@ class GenericFile:
 
         return ''
     getCompilerFromName = staticmethod(getCompilerFromName)
+
+    def isFile( self, filelist ):
+        return app.isFile(  self, filelist )
+
+    def isFile2( self ):
+        return app.isFile(  self, g_debugFileList )
 
     def makeDuplicateVcFilename( filename, oldCompiler, newCompiler, unixStyle, keepFirstDot ):
         # if the filename is under a ocplUnderscor/ subdirectory then it is copied into a ncplUnderscor/ subdirectory
@@ -2153,7 +2180,7 @@ class GenericFile:
 
     def duplicateVcSaveShowMsg( self, newFilename, msg ):
         self.setFilename( newFilename ) #added just to make sure
-        self.saveFile( False )
+        self.saveFile( g_include_vcproj_in_changed_files_counted )
         if ( 1 < app.options.verbose ):
             # we require 1 verbose level more if we modifyVc6
             if ( msg and ( not app.options.modifyVc6 or 2 < app.options.verbose ) ):
@@ -2413,42 +2440,6 @@ class VcprojToolSectionData:
     pass
 
 
-class VcprojFilesSectionData:
-    """Structure to hold all the filter/group sections of a vcproj file"""
-    #   <Files>
-    #           <Filter
-    #           ...
-    #           </Filter>
-    #   </Files>
-    def __init__( self ):
-        self.reset()
-        return
-
-    def reset( self ):
-        #this is used to allocate memory or the groups
-        self.filtergroupNamesList = []
-        self.filtergroupNameValueDict = {} # dict of VcprojFilterGroupSectionData
-        # this is used for tree recursion
-        self.filtergroupChildrenList = []
-        return
-
-    def copyLists( self, src ):
-        # shallow copy
-        self.filtergroupChildrenList = src.filtergroupChildrenList[:]
-
-        self.filtergroupNamesList    = src.filtergroupNamesList[:]
-
-        for k, v in src.filtergroupNameValueDict.iteritems():
-            c = VcprojFilterGroupSectionData()
-            c.copy( v )
-            self.filtergroupNameValueDict[ k ] = c
-        return
-
-    def copy( self, src ):
-        self.copyLists( src )
-        return
-    pass
-
 class VcprojFilterGroupSectionData:
     """Structure to hold all the file sections for each filter/group section of a vcproj file"""
     #           <Filter
@@ -2459,32 +2450,25 @@ class VcprojFilterGroupSectionData:
     #                   </File>
     #           </Filter>
     def __init__( self ):
-        self.reset()
+        self.resetGroups()
+        self.isFiles = False
         return
 
-    def reset( self ):
-        self.filtergroup_name  = ''
-        self.filtergroup_value = ''
-        self.filtergroup_level = 0
-        self.filtergroup_level_next = -1
+    def resetGroups( self ):
+        self.name  = ''
+        self.value = ''
+        self.level = 0
         self.fileNamesList = []
         self.fileNameFileDict = {} # dict of VcprojFileSectionData
         self.childrenList = []
         self.parent = None
         return
 
-    def attachToParent( self, parent ):
-        self.parent = parent
-        if ( parent ):
-            parent.childrenList.append( self )
-
-    def hasChildren( self ):
-        return ( 0 != len( self.childrenList ) )
-
     def copyHierarchy( self, src ):
         self.parent         = src.parent
         self.childrenList   = src.childrenList[:]
-        # commetned: i.e. shallow copy because the filtergroupNameValueDict will store all the data
+
+        # commented: i.e. shallow copy because the filtergroupNameValueDict will store all the data
         #for ( a, b ) in zip( self.childrenList, src.childrenList ):
         #    a.copy( b )
         #return
@@ -2499,13 +2483,83 @@ class VcprojFilterGroupSectionData:
         return
 
     def copy( self, src ):
-        self.filtergroup_level      = src.filtergroup_level
-        self.filtergroup_level_next = src.filtergroup_level_next
-        self.filtergroup_name       = src.filtergroup_name
-        self.filtergroup_value      = src.filtergroup_value
+        self.level      = src.level
+        self.name       = src.name
+        self.value      = src.value
         self.copyLists( src )
         self.copyHierarchy( src )
         return
+
+    def hasChildren( self ):
+        return ( 0 != len( self.childrenList ) )
+
+    def attachAsChildOf( self, parent ):
+        self.parent = parent
+        if ( parent ):
+            parent.childrenList.append( self )
+
+    def attachAsSiblingOf( self, sibling ):
+        sibling.parent.childrenList.append( self )
+        self.parent = sibling.parent
+
+    def printChildren( self, indent, pretext = '' ):
+        if ( self.hasChildren() ):
+            for child in self.childrenList:
+                print '%s%s [%d] %s   { %d files: %s }' % ( pretext, indent, child.level, child.name, len( child.fileNamesList ), str( child.fileNamesList[:5] ) + '... ' )
+                child.printChildren( indent + ' ', pretext )
+
+    pass
+
+class VcprojFilesSectionData( VcprojFilterGroupSectionData ):
+    """Structure to hold all the filter/group sections of a vcproj file
+        It is derived from VcprojFilterGroupSectionData because it is a very similar container
+    """
+    #   <Files>
+    #           <Filter
+    #           ...
+    #           </Filter>
+    #   </Files>
+    def __init__( self ):
+        VcprojFilterGroupSectionData.__init__( self )
+
+        #self.morefiles = VcprojFilterGroupSectionData()
+
+        self.resetFiles()
+
+        self.isFiles = True
+        return
+
+    def resetFiles( self ):
+        self.resetGroups()
+        #this is used to allocate memory or the groups
+        self.filtergroupNamesList = []
+        self.filtergroupNameValueDict = {} # dict of VcprojFilterGroupSectionData
+        # this is used for tree recursion
+        #self.filtergroupChildrenList = []
+        #self.morefiles.reset()
+        return
+
+    def copyLists( self, src ):
+        # shallow copy
+        #self.filtergroupChildrenList = src.filtergroupChildrenList[:]
+
+        self.filtergroupNamesList = src.filtergroupNamesList[:]
+
+        for k, v in src.filtergroupNameValueDict.iteritems():
+            c = VcprojFilterGroupSectionData()
+            c.copy( v )
+            self.filtergroupNameValueDict[ k ] = c
+        return
+
+    def copy( self, src ):
+        self.copyLists( src )
+        VcprojFilterGroupSectionData.copy( self, src )
+        return
+
+    def attachChild( self, child ):
+        child.parent = self
+        self.childrenList.append( child )
+
     pass
 
 class VcprojFileSectionData:
@@ -3160,16 +3214,20 @@ class DspFile( GenericFile ):
         vcpFilesDsp = dsp.readSouceEntriesDsp()
 
         # now read the vcproj file
-        ( vcpHdr, vcpFiles ) = self.readEntriesVcproj( newCompiler )
+        ( vcpHdr, vcpFilesOrg ) = self.readEntriesVcproj( newCompiler )
 
         #if ( oldCompiler != newCompiler ):
-        #    ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, oldCompiler, newCompiler )
+        #    ( vcpHdr, vcpFilesOrg ) = self.convertEntriesVcproj( vcpHdr, vcpFilesOrg, oldCompiler, newCompiler )
 
-        ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, newCompiler, newCompiler )
+        ( vcpHdr, vcpFilesOrg ) = self.convertEntriesVcproj( vcpHdr, vcpFilesOrg, newCompiler, newCompiler )
 
-        #
+        if ( g_printFilterGroupTrees and self.isFile2() ):
+            vcpFilesDsp.printChildren( '.', 'vcpFilesDsp' )
+            vcpFilesOrg.printChildren( ' ', 'vcpFilesOrg' )
+            print 'now writelineEntriesVcprojAsStruct:\n'
+
         # this automatically 'converts' to the newCompiler if the entries exist
-        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, newCompiler, vcpFilesDsp )
+        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFilesDsp, newCompiler, vcpFilesOrg )
 
         return
 
@@ -3236,16 +3294,13 @@ class DspFile( GenericFile ):
 
         groupname = ''
         c_InitialLevel = 0
-        filtergroup_level = c_InitialLevel
-        filtergroup_parent = None
+        level = c_InitialLevel
         fgIdx = -1
+        previousFilterGroup = None
 
         for n in range( len(self.lines) ):
             line = self.lines[n]
             self.n = n + 1
-
-            #if ( self.filename.lower().find( 'sharedlibraries' ) != -1 ):
-            #    x = 3
 
             # skips the configurations body but save it into sectionBeforeLines
             if ( state == 0 ):
@@ -3279,51 +3334,42 @@ class DspFile( GenericFile ):
                 if ( m_dsp_group_basic_beg ):
                     m_dsp_group = re_dsp_group.match( line )
                     if ( m_dsp_group ):
-                        #filtergroup_level = filtergroup_level + 1
+                        # to increment the level here or at the end of this function is pretty much the same thing
+                        level = level + 1
 
                         dspData = DspGroupData()
                         groupname = m_dsp_group.group( 'groupname' )
                         dspData.groupname = groupname
 
-                        #if ( 0 <= fgIdx ):
-                        # we need to know for each level what will be the level of the next item
-                                #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                                #vcpFiltergrp.filtergroup_level_next = filtergroup_level
-
-                        #if ( vcpFiltergrp.filtergroup_level < filtergroup_level ):
-                        #    # it is a child
-                        #    filtergroup_parent = vcpFiltergrp
-                        #else:
-                        #    filtergroup_parent = None
+                        if ( self.isFile2() ):
+                            s = 3
 
                         if ( 0 <= fgIdx ):
                             previousFilterGroup = vcpFiltergrp
 
                         # new FilterGroup data
                         vcpFiltergrp = VcprojFilterGroupSectionData()
-                        vcpFiltergrp.filtergroup_name = groupname
-                        vcpFiltergrp.filtergroup_level = filtergroup_level
-                        #vcpFiltergrp.filtergroup_level_next = filtergroup_level
+                        vcpFiltergrp.name = groupname
+                        vcpFiltergrp.level = level
 
-                        if ( c_InitialLevel == filtergroup_level ):
-                            vcpFiles.filtergroupChildrenList.append( vcpFiltergrp )
+                        if ( c_InitialLevel + 1 == level ):
+                            vcpFiles.attachChild( vcpFiltergrp )
                         else:
-                            if ( previousFilterGroup.filtergroup_level < filtergroup_level ):
-                                vcpFiltergrp.attachToParent( previousFilterGroup )
-                                #vcpFiltergrp.parent = previousFilterGroup
-                                #if ( previousFilterGroup ):
-                                #    previousFilterGroup.childrenList.append( vcpFiltergrp )
+                            if ( previousFilterGroup.level < level ):
+                                vcpFiltergrp.attachAsChildOf( previousFilterGroup )
                             else:
-                                #siblings
-                                previousFilterGroup.parent.childrenList.append( vcpFiltergrp )
-                                vcpFiltergrp.parent = previousFilterGroup.parent
+                                vcpFiltergrp.attachAsSiblingOf( previousFilterGroup )
 
                         # store it immediately: it is a queue. So the order is preserved!
-                        vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
+                        vcpFiles.filtergroupNamesList.append( vcpFiltergrp.name )
                         fgIdx = fgIdx + 1
-                        vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+                        vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
-                        filtergroup_level = filtergroup_level + 1
+                        #level = level + 1
+
+                        if ( g_printFilterGroupTrees and self.isFile2() ):
+                            print 'getSouceEntriesDsp: file: %s' % self.filetitle
+                            vcpFiles.printChildren( '.', 'vcpFiles' )
 
                     else:
                         raise Exception( 'getSouceEntriesDsp: reading group but not group + infos. File: \'%s\'. Line[%d]: \'%s\'' % ( self.filename, self.n, line.rstrip() ) )
@@ -3339,25 +3385,30 @@ class DspFile( GenericFile ):
                         self.listGroups.append( groupname )
                         self.dictGroups[ groupnameLwr ] = groupname
 
-                        ## store the data for the FilterGroup just completed
-                        #vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
-                        #vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+                        #if ( self.isFile2() ):
+                        #    x = 3
 
-                        filtergroup_level = filtergroup_level - 1
+                        # for the other <file>s still to attach or whatever sub filter we have
+                        # the 'current group is now the parent one !
+                        vcpFiltergrp = vcpFiltergrp.parent
+
+                        # at the end becase += 1 is done at the beginning of the <Filter management
+                        level = level - 1
                     continue
 
 
+                # # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
                 m_dsp_filter_basic = re_dsp_filter_basic.match( line )
                 if ( m_dsp_filter_basic ):
                     m_dsp_filter = re_dsp_filter.match( line )
                     if ( m_dsp_filter ):
                         dspData.filtervalue = m_dsp_filter.group( 'filtervalue' )
-                        fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                        fg.filtergroup_value = dspData.filtervalue
+                        vcpFiltergrp.value = dspData.filtervalue
                     else:
                         raise Exception( 'getSouceEntriesDsp: reading filter but not filter + infos. File: \'%s\'. Line[%d]: \'%s\'' % ( self.filename, self.n, line.rstrip() ) )
                     continue
 
+                # # Begin Source File
                 m_dsp_src_file_beg = re_dsp_src_file_beg.match( line )
                 if ( m_dsp_src_file_beg ):
                     # new File data
@@ -3366,17 +3417,27 @@ class DspFile( GenericFile ):
                     insideFileSection = True
                     continue
 
+                # # End Source File
                 m_dsp_src_file_end = re_dsp_src_file_end.match( line )
                 if ( m_dsp_src_file_end ):
-                    fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                    fg.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
+                    #if ( self.isFile2() ):
+                    #    x = 3
+
+                    if ( 0 == level ):
+                        container = vcpFiles
+                    else:
+                        container = vcpFiltergrp
+
+                    container.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
                     filenameLwr = vcpFile.file_name.lower()
-                    if ( fg.fileNameFileDict.has_key( filenameLwr ) ):
-                        raise Exception( 'getSouceEntriesDsp: The file \'%s\' already exists in this FilterGroup section [%s]. File \'%s\' (%d). Line \'%s\'' % ( vcpFile.file_name, fg.filtergroup_name, self.filetitle, self.n, line.rstrip() ) )
-                    fg.fileNameFileDict[ filenameLwr ] = vcpFile
+                    if ( container.fileNameFileDict.has_key( filenameLwr ) ):
+                        raise Exception( 'getSouceEntriesDsp: The file \'%s\' already exists in this FilterGroup section [%s]. File \'%s\' (%d). Line \'%s\'' % ( vcpFile.file_name, container.name, self.filetitle, self.n, line.rstrip() ) )
+                    container.fileNameFileDict[ filenameLwr ] = vcpFile
+
                     insideFileSection = False
                     continue
 
+                # SOURCE=..\FreeImage\BitmapAccess.cpp
                 m_dsp_source_basic = re_dsp_source_basic.match( line )
                 if ( m_dsp_source_basic ):
                     m_dsp_source = re_dsp_source.match( line )
@@ -3408,6 +3469,11 @@ class DspFile( GenericFile ):
                 if ( insideFileSection ):
                     #!IF  "$(CFG)" == "libAGG - Win32 GTK Debug"
                     if ( line[0] == '!' ) :
+                        # !IF  "$(CFG)" == "ApplicationKitDLL - Win32 Release"
+                        # # ADD CPP /Yu
+                        # !ELSEIF  "$(CFG)" == "ApplicationKitDLL - Win32 Debug"
+                        # # ADD CPP /Yu
+                        # !ENDIF
                         m_configuration = re_configuration.match( line )
                         if ( m_configuration ):
                             insideCfg = True
@@ -3424,14 +3490,6 @@ class DspFile( GenericFile ):
                                 configNamePlatform = '%s|%s' % ( configFullName, platform )
                             else:
                                 raise Exception( 'getSouceEntriesDsp: unable to split the configFullName (%s) in its parts )' % self.configFullName )
-
-
-                            #m_confignamesplit = re_confignamesplit.match( self.configFullName )
-                            #if ( m_confignamesplit ):
-                            #    configName  = m_confignamesplit.group('configName')
-                            #else:
-                            #    raise Exception( 'getSouceEntriesDsp: unable to split the configFullName (%s) in its parts )' % self.configFullName )
-                            #configNamePlatform = '%s|%s' % ( configFullName, platform )
 
                             # new FileConfiguration data: we can add them at the beginning because they are pointers
                             vcpFilecfg = VcprojFileConfigurationSectionData()
@@ -3483,15 +3541,15 @@ class DspFile( GenericFile ):
                         if ( m_custom_build_end ):
                             pass
 
-
+                # End Project
                 if ( re.match( '# End Project', line ) ):
                     if ( groupname ):
                         #save previous data
                         groupnameLwr = groupname.lower()
                         self.dictDspGroupsData[ groupnameLwr ] = dspData
 
-                    if ( 0 != filtergroup_level ):
-                        msg = 'getSouceEntriesDsp: ***ERROR*** completed but the filtergroup_level is not null [%d]. File \'%s\' ' % ( filtergroup_level, self.filename )
+                    if ( 0 != level ):
+                        msg = 'getSouceEntriesDsp: ***ERROR*** completed but the level is not null [%d]. File \'%s\' ' % ( level, self.filename )
                         print( msg )
                         #raise Exception( msg )
 
@@ -3546,9 +3604,9 @@ class DspFile( GenericFile ):
 
         #groupname = ''
         c_InitialLevel = 0
-        filtergroup_level = c_InitialLevel
-        filtergroup_parent = None
+        level = c_InitialLevel
         fgIdx = -1
+        previousFilterGroup = None
 
         isKey = 0 # 1 --> Filter ; 2 --> File; 3 --> FileConfiguration; 4 --> Tool
         for n in range( len(self.lines) ):
@@ -3875,48 +3933,51 @@ class DspFile( GenericFile ):
             elif ( state == 4 ):
                 keyFound = False
 
+                #               <Filter>
                 m_vcp_sectionFilter_beg = re_vcp_sectionFilter_beg.match( line )
                 if ( m_vcp_sectionFilter_beg ):
+                    # to increment the level here or at the end of this function is pretty much the same thing
+                    level = level + 1
+
+                    #if ( self.isFile2() ):
+                    #    s = 3
 
                     if ( 0 <= fgIdx ):
                         previousFilterGroup = vcpFiltergrp
 
                     # new FilterGroup data
                     vcpFiltergrp = VcprojFilterGroupSectionData()
-                    #vcpFiltergrp.filtergroup_name = groupname
-                    vcpFiltergrp.filtergroup_level = filtergroup_level
-                    #vcpFiltergrp.filtergroup_level_next = filtergroup_level
+                    #vcpFiltergrp.name = groupname
+                    vcpFiltergrp.level = level
 
-                    if ( c_InitialLevel == filtergroup_level ):
-                        vcpFiles.filtergroupChildrenList.append( vcpFiltergrp )
+                    if ( c_InitialLevel + 1 == level ):
+                        vcpFiles.attachChild( vcpFiltergrp )
                     else:
-                        if ( previousFilterGroup.filtergroup_level < filtergroup_level ):
-                            vcpFiltergrp.attachToParent( previousFilterGroup )
-                            #vcpFiltergrp.parent = previousFilterGroup
-                            #if ( previousFilterGroup ):
-                            #    previousFilterGroup.childrenList.append( vcpFiltergrp )
+                        if ( previousFilterGroup.level < level ):
+                            vcpFiltergrp.attachAsChildOf( previousFilterGroup )
                         else:
-                            #siblings
-                            previousFilterGroup.parent.childrenList.append( vcpFiltergrp )
-                            vcpFiltergrp.parent = previousFilterGroup.parent
+                            vcpFiltergrp.attachAsSiblingOf( previousFilterGroup )
 
                     # store it immediately: it is a queue. So the order is preserved!
-                    vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
+                    vcpFiles.filtergroupNamesList.append( vcpFiltergrp.name )
                     fgIdx = fgIdx + 1
-                    vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+                    vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
-                    filtergroup_level = filtergroup_level + 1
+                    if ( g_printFilterGroupTrees and self.isFile2() ):
+                        print 'getSouceEntriesDsp: file: %s' % self.filetitle
+                        vcpFiles.printChildren( '.', 'vcpFiles' )
 
                     # store it immediately: it is a queue. So the order is preserved!
                     # well.. we store it when we have its name !
-                    #vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
+                    #vcpFiles.filtergroupNamesList.append( vcpFiltergrp.name )
                     #fgIdx = fgIdx + 1
-                    #vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+                    #vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
                     isKey = c_FilterGroupSection # 1
                     keyFound = True
                     continue
 
+                #               <File
                 m_vcp_sectionFile_beg = re_vcp_sectionFile_beg.match( line )
                 if ( m_vcp_sectionFile_beg ):
                     # new File data
@@ -3926,6 +3987,7 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                #           <FileConfiguration
                 m_vcp_sectionFileConfig_beg = re_vcp_sectionFileConfig_beg.match( line )
                 if ( m_vcp_sectionFileConfig_beg ):
                     # commented because we have a </FileConfiguration>
@@ -3942,6 +4004,7 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                #                <Tool
                 m_vcp_sectionTool_beg = re_vcp_sectionTool_beg.match( line )
                 if ( m_vcp_sectionTool_beg ):
                     # store the data for the last tool completed if existing one
@@ -3956,6 +4019,7 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                #                <FileConfiguration
                 m_vcp_sectionFileConfig_end = re_vcp_sectionFileConfig_end.match( line )
                 if ( m_vcp_sectionFileConfig_end ):
                     # store the data for the last tool completed
@@ -3972,27 +4036,41 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue # this continue is particularly important
 
+                #               </File>
                 m_vcp_sectionFile_end = re_vcp_sectionFile_end.match( line )
                 if ( m_vcp_sectionFile_end ):
-                    fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                    fg.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
+                    #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
+                    #fg.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
+                    #if ( self.isFile2() ):
+                    #    x = 3
+
+                    if ( 0 == level ):
+                        container = vcpFiles
+                    else:
+                        container = vcpFiltergrp
+
+                    container.fileNamesList.append( vcpFile.file_name ) # we know that they are unique
                     filenameLwr = vcpFile.file_name.lower()
-                    if ( fg.fileNameFileDict.has_key( filenameLwr ) ):
-                        raise Exception( 'The file \'%s\' already exists in this FilterGroup section [%s]. File \'%s\' (%d). Line \'%s\'' % ( vcpFile.file_name, fg.filtergroup_name, self.filetitle, self.n, line.rstrip() ) )
-                    fg.fileNameFileDict[ filenameLwr ] = vcpFile
+                    if ( container.fileNameFileDict.has_key( filenameLwr ) ):
+                        raise Exception( 'The file \'%s\' already exists in this FilterGroup section [%s]. File \'%s\' (%d). Line \'%s\'' % ( vcpFile.file_name, container.name, self.filetitle, self.n, line.rstrip() ) )
+                    container.fileNameFileDict[ filenameLwr ] = vcpFile
+
                     isKey = c_None # 0
                     keyFound = True
                     continue
 
+                #               </Filter>
                 m_vcp_sectionFilter_end = re_vcp_sectionFilter_end.match( line )
                 if ( m_vcp_sectionFilter_end ):
+                    level = level - 1
+
                     # store the data for the Filter section just completed
                     #vcpFiltergrp.fileNamesList.append( vcpFilecfg.file_name )
                     #vcpFiltergrp.fileNameFileConfigsDict[ vcpFilecfg.file_name.lower() ] = vcpFilecfg
 
                     ## store the data for the FilterGroup just completed - already stored immediately !
-                    #vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
-                    #vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+                    #vcpFiles.filtergroupNamesList.append( vcpFiltergrp.name )
+                    #vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
                     #if ( groupname ):
                     #    #save previous data
@@ -4001,22 +4079,33 @@ class DspFile( GenericFile ):
                     #    self.listGroups.append( groupname )
                     #    self.dictGroups[ groupnameLwr ] = groupname
 
-                    filtergroup_level = filtergroup_level - 1
+                    #if ( self.isFile2() ):
+                    #    x = 3
+
+                    # at the beginning becase += 1 is done at the end of the <Filter management
+                    #level = level - 1
+
+                    # for the other <file>s still to attach or whatever sub filter we have
+                    # the 'current group is now the parent one !
+                    vcpFiltergrp = vcpFiltergrp.parent
+
 
                     isKey = c_None # 0
                     keyFound = True
                     continue
 
+                #               Name="Release|Win32"
+                #                       Name="Source Files"
                 m_vcp_keyname = re_vcp_keyname.match( line )
                 if ( m_vcp_keyname ):
                     keyname = m_vcp_keyname.group( 'keyname' )
                     if ( isKey == c_FilterGroupSection ):
 
                         # we store as soon as we have the name: it is a queue. So the order is preserved!
-                        vcpFiltergrp.filtergroup_name = keyname
-                        vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
+                        vcpFiltergrp.name = keyname
+                        vcpFiles.filtergroupNamesList.append( vcpFiltergrp.name )
                         fgIdx = fgIdx + 1
-                        vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+                        vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.name.lower() ] = vcpFiltergrp
 
                         ##groupname = m_vcp_group.group( 'groupname' )
                         #groupname = dspFiltergrpData.groupname # with dsp is called group, with vcproj is called filter
@@ -4050,13 +4139,16 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                #                       Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
                 m_vcp_sectionFilter_content = re_vcp_sectionFilter_content.match( line )
                 if ( m_vcp_sectionFilter_content ):
-                    fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                    fg.filtergroup_value = m_vcp_sectionFilter_content.group( 'filtervalue' )
+                    #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
+                    #fg.value = m_vcp_sectionFilter_content.group( 'filtervalue' )
+                    vcpFiltergrp.value = m_vcp_sectionFilter_content.group( 'filtervalue' )
                     keyFound = True
                     continue
 
+                #                               RelativePath="..\FreeImage\PluginBMP.cpp">
                 m_vcp_sectionFile_content = re_vcp_sectionFile_content.match( line )
                 if ( m_vcp_sectionFile_content ):
                     source = m_vcp_sectionFile_content.group( 'sourcename' )
@@ -4086,13 +4178,15 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                #       </Files>
                 m_vcp_sectionFiles_end = re_vcp_sectionFiles_end.match( line )
                 if ( m_vcp_sectionFiles_end ):
                     state = 5
                     keyFound = True
                     continue
 
-                # this must be the last !
+                # this must be the last: it is for keys that are multilines
+                # the regular expression to match them matches almost everything
                 m_vcp_entry_cont0 = re_vcp_entry_cont0.match( line )
                 if ( m_vcp_entry_cont0 ):
                     entryNameMultiline = m_vcp_entry_cont0.group( 'entryName' )
@@ -4104,6 +4198,7 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                # this is the continuation of a multiline key
                 if ( keyToContinue ):
                     m_vcp_entry_cont1 = re_vcp_entry_cont1.match( line )
                     if ( m_vcp_entry_cont1 ):
@@ -4136,8 +4231,8 @@ class DspFile( GenericFile ):
             elif ( state == 5 ):
                 self.sectionAfterLines.append( line )
 
-                if ( 0 != filtergroup_level ):
-                    msg = 'getEntriesVcproj: ***ERROR*** completed but the filtergroup_level is not null [%d]. File \'%s\' ' % ( filtergroup_level, self.filename )
+                if ( 0 != level ):
+                    msg = 'getEntriesVcproj: ***ERROR*** completed but the level is not null [%d]. File \'%s\' ' % ( level, self.filename )
                     print( msg )
                     #raise Exception( msg )
 
@@ -4233,8 +4328,8 @@ class DspFile( GenericFile ):
             vcpFiles.copy( vcpFilesSrc )
 
             if ( addEntriesForVc71WhenSynchToVc70 ):
-                for filtergroup_name in vcpFiles.filtergroupNamesList:
-                    filtergroup_nameLwr = filtergroup_name.lower()
+                for name in vcpFiles.filtergroupNamesList:
+                    filtergroup_nameLwr = name.lower()
                     vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroup_nameLwr ]
                     for file_name in vcpFiltergrp.fileNamesList:
                         file_nameLwr = file_name.lower()
@@ -4269,8 +4364,8 @@ class DspFile( GenericFile ):
 
             # reformats/converts all the path entries
             if ( False ):
-                for filtergroup_name in vcpFiles.filtergroupNamesList:
-                    filtergroup_nameLwr = filtergroup_name.lower()
+                for name in vcpFiles.filtergroupNamesList:
+                    filtergroup_nameLwr = name.lower()
                     vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroup_nameLwr ]
                     for file_name in vcpFiltergrp.fileNamesList:
                         file_nameLwr = file_name.lower()
@@ -4297,7 +4392,7 @@ class DspFile( GenericFile ):
                 indent = indent + '\t'
         return indent
 
-    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, newCompiler, vcpFilesTemplateSrc = None ):
+    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFilesTemplate, newCompiler, vcpFilesOrg = None ):
         # Note part of the conversion work is already done by writelineEntriesVcprojAsStruct
         # because it does not write what is not accepted by that compiler's version
 
@@ -4305,16 +4400,17 @@ class DspFile( GenericFile ):
 
         # Important:
         #   vcpFilesTemplate is used to keep the same files entries as the source master file ( usually the dsp file ) ...
-        #   .... but their content is given by vcpFiles
+        #   .... but their content is given by vcpFilesOrg
 
-        #if ( self.filename.lower().find( 'sharedlibraries' ) != -1 ):
-        #    s =3
+        if ( g_printFilterGroupTrees and self.isFile2() ):
+            print 'writelineEntriesVcprojAsStruct: file: %s' % self.filetitle
+            vcpFilesTemplate.printChildren( '.', 'vcpFilesTemplate' )
+            print 'writelineEntriesVcprojAsStruct: file: %s' % self.filetitle
+            vcpFilesOrg.printChildren( '.', 'vcpFilesOrg' )
 
-        # no other master file if not specified
-        if ( vcpFilesTemplateSrc ):
-            vcpFilesTemplate = vcpFilesTemplateSrc
-        else:
-            vcpFilesTemplate = vcpFiles
+        # no other org file if not specified
+        if ( not vcpFilesOrg ):
+            vcpFilesOrg = vcpFilesTemplate
 
         if ( 0 == len( vcpHdr.configurationFullNamesList ) ):
             raise Exception( 'updateSouceEntriesVcprojAsStruct: vcpHdr.configurationFullNamesList is empty !' )
@@ -4326,7 +4422,10 @@ class DspFile( GenericFile ):
 
         isVc71 = ( newCompiler == compilerVc71 )
 
-        line = '<?xml version="%s" encoding = "%s"?>\n' % ( vcpHdr.version_xml, vcpHdr.encoding_xml )
+        if ( isVc71 ):
+            line = '<?xml version="%s" encoding="%s"?>\n' % ( vcpHdr.version_xml, vcpHdr.encoding_xml )
+        else:
+            line = '<?xml version="%s" encoding = "%s"?>\n' % ( vcpHdr.version_xml, vcpHdr.encoding_xml )
         lines.append( line )
 
         lines.append( '<VisualStudioProject\n' )
@@ -4410,13 +4509,10 @@ class DspFile( GenericFile ):
             lines.append( '\t<References>\n' )
             lines.append( '\t</References>\n' )
 
-
-        lines.append( '\t<Files>\n' )
-
         # all the groups here !
-        self.writelineEntriesFilterGroups( lines, vcpFiles, newCompiler, vcpFilesTemplateSrc )
-
-        lines.append( '\t</Files>\n' )
+        #lines.append( '\t<Files>\n' )
+        self.writelineEntriesFilesFilterGroups( lines, vcpFilesTemplate, newCompiler, vcpFilesOrg )
+        #lines.append( '\t</Files>\n' )
 
         lines.append( '\t<Globals>\n' )
 
@@ -4428,86 +4524,123 @@ class DspFile( GenericFile ):
 
         return
 
-
-    def writelineEntriesFilterGroups( self, lines, vcpFiles, newCompiler, vcpFilesTemplate_ = None ):
-        #vcpFiles.filtergroupNameValueDict[ 'source files' ].fileNameFileDict[ 'actions.cpp' ].fileConfigNameSectionsDict
-
-        # vcpFilesTemplate is used to keep the same files entries as the source master file ( usually the dsp file )
-        #  ( note: vcpFilesTemplate here, not vcpFiles ) ...
-
-        indent = ''
-
-        # vcpFilesTemplate is used to keep the same files entries as the source master file ( usually the dsp file )
-        #  ( note: vcpFilesTemplate here, not vcpFiles ) ...
-
-        if ( vcpFilesTemplate_ ):
-            vcpFilesTemplate = vcpFilesTemplate_
-        else:
-            vcpFilesTemplate = vcpFiles
-
-        childrenListSize = len( vcpFilesTemplate.filtergroupChildrenList )
-        for k in range( childrenListSize ):
-            filtergroupName    = vcpFilesTemplate.filtergroupNamesList[ k ]
-            filtergroupNameLwr = filtergroupName.lower()
-            #if ( self.filename.lower().find( 'localization' ) != -1 ): #%%%
-            #    x = 3
-            # .... but their content is given by vcpFiles ( note: vcpFiles here, not vcpFilesTemplate )
-            if ( vcpFiles.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
-                vcpFiltergrpChild = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
-            else:
-                vcpFiltergrpChild = vcpFilesTemplate.filtergroupNameValueDict[ filtergroupNameLwr ]
-
-            # again wetake the names list from the master, but the data from the source
-            self.writelineEntriesFilterGroupsChildren( lines, vcpFiles, newCompiler, vcpFilesTemplate, vcpFiltergrpChild, indent )
-
-        return
-
-    def writelineEntriesFilterGroupsChildren( self, lines, vcpFiles, newCompiler, vcpFilesTemplate, parent, indent ):
+    def writelineEntriesFilesFilterGroups( self, lines, vcpFilesTemplate, newCompiler, vcpFilesOrg, parent = None, indent = '\t' ):
         newCompilerVersion = g_mapCompilerNameVersion[ newCompiler ]
 
         # vcpFilesTemplate is used to keep the same files entries as the source master file ( usually the dsp file )
-        #  ( note: vcpFilesTemplate here, not vcpFiles ) ...
+        #  ( note: vcpFilesTemplate here, not vcpFilesOrg ) ...
+
+        if ( not parent ):
+            filtergroup = vcpFilesTemplate
+        else:
+            filtergroup = parent
+
+        filtergroupName      = filtergroup.name
+        filtergroupNameLwr   = filtergroupName.lower()
+
+        if ( filtergroup.isFiles ):
+            lines.append( indent + '<Files>\n' )
+        else:
+            lines.append( indent + '<Filter\n' )
+
+            # filter group header
+            line = 'Name=\"%s\"\n' % ( filtergroup.name )
+            lines.append( indent + '\t' + line )
+            line = 'Filter=\"%s\"\n' % ( filtergroup.value )
+            lines.append( indent + '\t' + line )
+            lines[-1] = lines[-1].rstrip() + '>\n'
+
+
+
+        # first the subgroups (the subfolders), then the content of this group (the files)
+
+        # here the recursion - after writing the file sections of itself
+        if ( filtergroup.hasChildren() ):
+
+            # the order from the 'master'
+            childrenListSize = len( filtergroup.childrenList )
+            for k in range( childrenListSize ):
+                filtergroupData     = filtergroup.childrenList[ k ]
+                filtergroupName     = filtergroupData.name
+                filtergroupNameLwr  = filtergroupName.lower()
+
+                if ( vcpFilesTemplate.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
+                    filtergroupChild = vcpFilesTemplate.filtergroupNameValueDict[ filtergroupNameLwr ]
+                else:
+                    raise Exception( 'writelineEntriesFilesFilterGroups: parent has not been provided by vcpFilesTemplate. Look into the code: the key for \'%s\' should be in this structure' % filtergroup.name )
+
+                # .... but their content is given by vcpFilesOrg ( note: vcpFilesOrg here, not vcpFilesTemplate )
+                # we prefere to use vcpFilesTemplate ( so the dsp file is the Template )
+                #if ( vcpFilesTemplate.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
+                #    filtergroupChild = vcpFilesTemplate.filtergroupNameValueDict[ filtergroupNameLwr ]
+                #else:
+                #    if ( vcpFilesOrg and vcpFilesOrg.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
+                #        filtergroupChild = vcpFilesOrg.filtergroupNameValueDict[ filtergroupNameLwr ]
+                #    else:
+                #        raise Exception( 'writelineEntriesFilesFilterGroups: parent has not been provided by vcpFilesTemplate. Look into the code: the key for \'%s\' should be in this structure' % filtergroup.name )
+
+                self.writelineEntriesFilesFilterGroups( lines, vcpFilesTemplate, newCompiler, vcpFilesOrg, filtergroupChild, indent + '\t' )
+
+
+        # writes all the <File  > </File> sections for the 'current' Files/Filter(group) section
+        self.writelineFileEntries( lines, vcpFilesTemplate, newCompiler, vcpFilesOrg, filtergroup, indent + '\t' )
+
+
+        if ( filtergroup.isFiles ):
+            lines.append( indent + '</Files>\n' )
+        else:
+            lines.append( indent +  '</Filter>\n' )
+
+        return
+
+    def writelineFileEntries( self, lines, vcpFilesTemplate, newCompiler, vcpFilesOrg, parent, indent ):
+        newCompilerVersion = g_mapCompilerNameVersion[ newCompiler ]
 
         filtergroup = parent
+        filtergroupNameLwr = filtergroup.name.lower()
+        if ( vcpFilesOrg.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
+            filtergroupChildOrg = vcpFilesOrg.filtergroupNameValueDict[ filtergroupNameLwr ]
+        else:
+            filtergroupChildOrg = None
 
-        filtergroupName      = filtergroup.filtergroup_name
-        filtergroupNameLwr   = filtergroupName.lower()
-        #indent = self.getIndent( filtergroupChild.filtergroup_level )
-
-        #if ( self.filename.lower().find( 'freeimagelib' ) != -1 or self.filename.lower().find( 'localization' ) != -1 ):
-        #    print 'group: [%d] %s' % ( filtergroupChild.filtergroup_level, filtergroupChild.filtergroupName )
-
-        lines.append( indent + '\t\t<Filter\n' )
-
-        # filter group header
-        line = '\t\t\tName=\"%s\"\n' % ( filtergroup.filtergroup_name )
-        lines.append( indent + line )
-        line = '\t\t\tFilter=\"%s\"\n' % ( filtergroup.filtergroup_value )
-        lines.append( indent + line )
-        lines[-1] = lines[-1].rstrip() + '>\n'
+        indent = indent
 
         # File
         for filename in filtergroup.fileNamesList:
             filenameLwr = filename.lower()
             vcpFile = filtergroup.fileNameFileDict[ filenameLwr ]
+            vcpFileOrg = None
 
-            lines.append( indent + '\t\t\t<File\n' )
+            #.... but their content is given by vcpFilesOrg ( note: vcpFiles here, not vcpFilesTemplate )
+            if ( g_uses_FileConfiguration_infos_from_original_file ):
+                if ( filtergroupChildOrg and filtergroupChildOrg.fileNameFileDict.has_key( filenameLwr ) ):
+                    vcpFileOrg = filtergroupChildOrg.fileNameFileDict[ filenameLwr ]
+
+            lines.append( indent + '<File\n' )
 
             # file header
             # standard format
             vcpFile.file_relativepath = FileUtils.normPath( vcpFile.file_relativepath, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
 
-            line = '\t\t\t\tRelativePath=\"%s\"\n' % ( vcpFile.file_relativepath )
+            line = '\tRelativePath=\"%s\"\n' % ( vcpFile.file_relativepath )
             lines.append( indent + line )
             lines[-1] = lines[-1].rstrip() + '>\n'
 
             # FileConfiguration
             # lets take them in the same sort order as
             #for fileConfig_name in vcpFile.fileConfigNameSectionsDict:
+
+            # Note[*] IMPORTANT: because the <FileConfiguration section information
+            # cannot easily ( and maybe it is impossible ) be calcultated from the dsp file
+            # we use the original one for the entries that were existing in the original vcproj file
+            # .... but their content is given by vcpFilesOrg ( note: vcpFiles here, not vcpFilesTemplate )
+            # we prefere to use vcpFilesTemplate ( so the dsp file is the Template )
+            if ( vcpFileOrg ):
+                vcpFile = vcpFileOrg
+
             for fileConfig_name in vcpFile.fileConfigNamesList:
                 fileConfig_nameLwr = fileConfig_name.lower()
                 vcpFilecfg = vcpFile.fileConfigNameSectionsDict[ fileConfig_nameLwr ]
-
 
                 # first check if we have some tools configuration to write
                 toAddTools = False
@@ -4523,15 +4656,15 @@ class DspFile( GenericFile ):
                                 break
 
                 if ( toAddTools ):
-                    lines.append( indent + '\t\t\t\t<FileConfiguration\n' )
+                    lines.append( indent + '\t<FileConfiguration\n' )
 
                     # fileConfig header
-                    line = '\t\t\t\t\tName=\"%s\"\n' % ( vcpFilecfg.fileConfig_name )
+                    line = '\t\tName=\"%s\"\n' % ( vcpFilecfg.fileConfig_name )
                     lines.append( indent + line )
                     # error !
                     #for entryName in vcpFilecfg.entryNamesList:
                     #    entryValue = vcpFilecfg.entryNameValueDict[ entryName ]
-                    #    line = '\t\t\t\t%s=\"%s\"' % ( entryName, entryValue )
+                    #    line = '\t%s=\"%s\"' % ( entryName, entryValue )
                     #    lines.append( indent + line + '\n' )
                     lines[-1] = lines[-1].rstrip() + '>\n'
 
@@ -4541,7 +4674,7 @@ class DspFile( GenericFile ):
 
                         if ( compilerVersionVc71 <= newCompilerVersion or \
                                 not g_mapToolsOnlyVc71.has_key( vcpTool.tool_name ) ):
-                            lines.append( indent + '\t\t\t\t\t<Tool\n' )
+                            lines.append( indent + '\t\t<Tool\n' )
 
                             addedToolEntry = False
 
@@ -4555,7 +4688,7 @@ class DspFile( GenericFile ):
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
 
-                                    line = '\t\t\t\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
+                                    line = '\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
                                     addedToolEntry = True
 
@@ -4565,39 +4698,9 @@ class DspFile( GenericFile ):
                                 lines[-1:] = [] # remove the entire tool !
 
 
-                    lines.append( indent + '\t\t\t\t</FileConfiguration>\n' )
+                    lines.append( indent + '\t</FileConfiguration>\n' )
 
-
-            lines.append( indent + '\t\t\t</File>\n' )
-
-
-        # here the recursion - after writing the file sections of itself
-        indentOld = indent
-        if ( filtergroup.hasChildren() ):
-
-            indent = indent + '\t'
-
-            # the order from the 'master'
-            childrenListSize = len( filtergroup.childrenList )
-            for k in range( childrenListSize ):
-                filtergroupData     = filtergroup.childrenList[ k ]
-                filtergroupName     = filtergroupData.filtergroup_name
-                filtergroupNameLwr  = filtergroupName.lower()
-
-                # .... but their content is given by vcpFiles ( note: vcpFiles here, not vcpFilesTemplate )
-                if ( vcpFiles.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
-                    filtergroupChild = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
-                else:
-                    filtergroupChild = vcpFilesTemplate.filtergroupNameValueDict[ filtergroupNameLwr ]
-
-                #if ( self.filename.lower().find( 'localization' ) != -1 ): #%%%
-                #    x = u
-                self.writelineEntriesFilterGroupsChildren( lines, vcpFiles, newCompiler, vcpFilesTemplate, filtergroupChild, indent )
-
-            #indent = indent[:-2] # remove the '\t' previously added
-
-        indent = indentOld
-        lines.append( indent +  '\t\t</Filter>\n' )
+            lines.append( indent + '</File>\n' )
 
         return
 
@@ -5805,7 +5908,7 @@ class Workspace( DspFile ):
                         wsp.reformatDswSave( wspOld, newCompiler, newFilenameDsw )
                     else:
                         if ( os.path.exists( newFilenameDsw ) ):
-                            #os.remove( newFilenameDsw ) #%%% # wait before removing the solutions !
+                            os.remove( newFilenameDsw ) #%%% # wait before removing the solutions !
                             pass
                 else:
                     wspOld = self
@@ -6241,7 +6344,7 @@ class Workspace( DspFile ):
                     #           {CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}.0 = {AB72FB3C-CF7D-4FB4-B808-BF12C26E8B04}
                     m_sln_globalSectionDependency_entry = re_sln_globalSectionDependency_entry.match( line )
                     if ( m_sln_globalSectionDependency_entry ):
-                        uuidProj = m_sln_globalSectionDependency_entry.group( 'uuidProj' )
+                        uuidProj  = m_sln_globalSectionDependency_entry.group( 'uuidProj'  )
                         uuidProj2 = m_sln_globalSectionDependency_entry.group( 'uuidProj2' )
                         depNumStr = m_sln_globalSectionDependency_entry.group( 'depNum' )
                         depNum = eval( depNumStr )
@@ -6264,9 +6367,13 @@ class Workspace( DspFile ):
                                 depNumCheck = -1
                                 lastUuid = '-1'
 
+                        # %%% should we put this if so it doesn't chrash ?
+                        # for sure we want to be able to remove some projcts from a solution if we want !
+                        if ( self.dictSlnProjectDataByUuid.has_key( uuidProj2 ) ):
+                            prjName1 = self.dictSlnProjectDataByUuid[ uuidProj  ].prjName # for debug
+                            prjName2 = self.dictSlnProjectDataByUuid[ uuidProj2 ].prjName # for debug
+
                         depNumCheck = depNumCheck + 1
-                        prjName1 = self.dictSlnProjectDataByUuid[ uuidProj  ].prjName # for debug
-                        prjName2 = self.dictSlnProjectDataByUuid[ uuidProj2 ].prjName # for debug
                         prjDependenciesUuidList.append( uuidProj2 )
                         lastUuid = uuidProj
 
@@ -7680,6 +7787,9 @@ Limitations:
         Do not touch the option: g_internal_unixStyle otherwise the script will not work under Cygwin
         Suggestion: keep app.options.unixStyle = False because vc70 does not read right the unix style from its solution files
 
+    4) The script *requires* that the names of the source files ( cpp/h ) are unique (no matter what their case is)
+        This is not a strong limitation and let the script to retrieve the informations about files
+        by their name only i.e. even if their relative path has been changed
 
 Other notes on some Visual Studio options:
 
