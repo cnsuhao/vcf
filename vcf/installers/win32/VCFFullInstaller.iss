@@ -80,30 +80,30 @@ Source: ..\..\build\vc60\add-ins\VCFNewClassWiz\Release\VCFNewClassWiz.dll; Dest
 Source: ..\..\build\vc60\add-ins\VPLAppWiz\Release\VPLAppWiz.awx; DestDir: {app}\VC6-Addins; Components: VC_Wizards
 
 Source: C:\WINNT\system32\msvcp60.dll; DestDir: {app}\VC6-Addins
-Source: ..\..\docs\VCFDocs.0.6.2.chm; DestDir: {app}\docs; Components: Help_Files
-Source: ..\..\docs\VCFDocs.0.6.2.chi; DestDir: {app}\docs; Components: Help_Files
-Source: ..\..\docs\VCFSrcDocs.0.6.2.chm; DestDir: {app}\docs; Components: Help_Files
-Source: ..\..\docs\VCFSrcDocs.0.6.2.chi; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFDocs.0.6.3.chm; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFDocs.0.6.3.chi; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFSrcDocs.0.6.3.chm; DestDir: {app}\docs; Components: Help_Files
+Source: ..\..\docs\VCFSrcDocs.0.6.3.chi; DestDir: {app}\docs; Components: Help_Files
 Source: ..\..\thirdparty\win32\MSDNIntegrator\MSDNIntegrator.exe; DestDir: {app}
 Source: D:\Program Files\ISTool 4\psvince.dll; Flags: dontcopy
 Source: ..\..\build\resources\win32\vcf.ico; DestDir: {app}
 
 [Setup]
 OutputDir=..\..\uploadToSF
-OutputBaseFilename=VCFFullInstaller.VCF-VERSION
-AppCopyright=2000-2002 Jim Crafton
-AppName=Visual Component Framework VCF-LONG-VERSION
-AppVerName=Visual Component Framework VCF-LONG-VERSION
+OutputBaseFilename=VCFFullInstaller.0.6.3
+AppCopyright=2000-2003 Jim Crafton
+AppName=Visual Component Framework 0.6.3 beta
+AppVerName=Visual Component Framework 0.6.3 beta
 LicenseFile=..\..\license.txt
 DefaultDirName={pf}\VCF
-DefaultGroupName=Visual Component Framework VCF-VERSION
+DefaultGroupName=Visual Component Framework 0.6.3
 AppPublisher=VCF
 AppPublisherURL=http://vcf.sf.net
 AppSupportURL=http://vcf.sf.net
 AppUpdatesURL=http://vcf.sf.net
-AppVersion=VCF-VERSION
+AppVersion=0.6.3
 UninstallDisplayIcon={app}\vcf.ico
-UninstallDisplayName=Visual Component Framework VCF-VERSION
+UninstallDisplayName=Visual Component Framework 0.6.3
 
 [Registry]
 Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_INCLUDE; ValueData: {app}\include; Flags: uninsdeletevalue dontcreatekey

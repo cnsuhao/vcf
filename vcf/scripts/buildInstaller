@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 ISS="D:/Program Files/Inno Setup 4/ISCC.exe"
 
 VCF_VERSION=`cat ../VERSION`
@@ -29,36 +27,32 @@ then
 fi
 
 
-
-#build all the binaries - this will taking forever!
-
-echo WARNING ! Building all binaries - this will take some time...
 echo building Debug DLL configuration for FoundationKit, GraphicsKit, 
 echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
-echo
-msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAll – Win32 Debug" /OUT
+
+#msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAll - Win32 Debug" /REBUILD /OUT vcfAll-debug.stat.log
+
 
 echo building Release DLL configuration for FoundationKit, GraphicsKit, 
 echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
-echo
-msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAll – Win32 Release" /OUT
 
-echo building Debug Static Library configuration for FoundationKit, GraphicsKit, 
+
+
+msdev ../build/vc60/vcfAll.dsw /MAKE "Cocksucker - FUCKYOU" /REBUILD /OUT vcfAll-release.stat.log
+
+
+echo building Debug Static Library configuration for FoundationKit, GraphicsKit,
 echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
-echo
-msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAllStaticLibs – Win32 Debug" /OUT
+
+msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAllStaticLibs - Win32 Debug" /REBUILD /OUT vcfAll-static-debug.stat.log
 
 
-echo building Release Static Library configuration for FoundationKit, GraphicsKit, 
+
+echo "building Release Static Library configuration for FoundationKit, GraphicsKit, "
 echo ApplicationKit, NetworkKit, and RemoteObjectsKit...
-echo
-msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAllStaticLibs – Win32 Release" /OUT
-
+msdev ../build/vc60/vcfAll.dsw /MAKE "vcfAllStaticLibs - Win32 Release" /REBUILD /OUT vcfAll-static-release.stat.log
 
 echo done building binaries, preparing to build installer
-
-
-
 
 
 cp $INSTALL_FILE $INSTALL_FILE.bak
