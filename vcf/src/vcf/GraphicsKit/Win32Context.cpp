@@ -13,11 +13,14 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/DrawUIState.h"
 #include "vcf/GraphicsKit/AggCommon.h"
 
-#include "thirdparty/common/agg/include/agg_image_transform.h"
-#include "thirdparty/common/agg/include/agg_span_null_interpolator.h"
-#include "thirdparty/common/agg/include/agg_pixfmt_rgba32_image.h"
-#include "thirdparty/common/agg/include/agg_renderer_scanline.h"
 
+
+
+#include "thirdparty/common/agg/include/agg_renderer_scanline.h"
+#include "thirdparty/common/agg/include/agg_span_allocator.h"
+#include "thirdparty/common/agg/include/agg_span_interpolator_linear.h"
+#include "thirdparty/common/agg/include/agg_span_image_filter_rgba32.h"
+#include "thirdparty/common/agg/include/agg_scanline_u.h"
 
 
 using namespace VCF;
@@ -139,12 +142,16 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 								(currentXFrm[Matrix2D::mei21]);
 
 
-		agg::affine_matrix mat( currentXFrm[Matrix2D::mei00],
-			currentXFrm[Matrix2D::mei01],
-			currentXFrm[Matrix2D::mei10],
-			currentXFrm[Matrix2D::mei11],
-			currentXFrm[Matrix2D::mei20],
-			currentXFrm[Matrix2D::mei21] );
+		agg::trans_affine pathMat;
+		
+		
+
+		pathMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		pathMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		pathMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+										Math::degreesToRadians(context_->getShearY()) );
+		
+
 		
 		agg::path_storage imagePath;
 		imagePath.move_to( imageBounds->left_, imageBounds->top_ );
@@ -153,12 +160,13 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		imagePath.line_to( imageBounds->left_, imageBounds->bottom_ );
 		imagePath.close_polygon();		
 		
-		mat *= agg::translation_matrix( xx, yy );
 		
-		//agg::conv_curve< agg::path_storage > imgConvCrv(imagePath);
-		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,mat);
+		
+		
+		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
 
 		agg::conv_transform< agg::path_storage >::iterator it = xfrmedImgPath.begin(0);
+		
 		
 		agg::vertex_type vert = *it;	
 
@@ -221,24 +229,42 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 			++it;
 		}
 
-		//xfrmedImageRect.offset( xx, yy );
-		//xfrmedImageRect.offset( -xfrmedImageRect.left_, -xfrmedImageRect.top_ );
+		xfrmedImageRect.offset( xx, yy );
+		xfrmedImageRect.inflate( 2, 2 );
 
 
-		typedef agg::image_transform_attr<agg::null_distortions,
-					ColorAlpha,//agg::null_color_alpha,
-					agg::null_gradient_alpha> ImgAttrType;
+		double imageTX = imageBounds->getWidth()/2.0;		
 
-		typedef agg::span_null_interpolator<ImgAttrType> SpanInterpolator;
-		typedef agg::pixfmt_bgra32_image_bilinear<ImgAttrType> SpanRenderer;
-		typedef agg::renderer_scanline<SpanInterpolator, SpanRenderer> RendererImageType;
+		double imageTY = imageBounds->getHeight()/2.0;
+		
 
+		double xfrmImageTX = xfrmedImageRect.getWidth()/2.0;
+		double xfrmImageTY = xfrmedImageRect.getHeight()/2.0;
 
-		agg::null_distortions    distortions;
-		ColorAlpha   colorAlpha;
-		colorAlpha.alphaValue_ = 255.0;
-		agg::null_gradient_alpha gradientAlpha;
+		agg::trans_affine pathMat2;
+		
+		
+		pathMat2 *= agg::trans_affine_translation( -imageTX, -imageTY );
+		pathMat2 *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		pathMat2 *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		pathMat2 *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+										Math::degreesToRadians(context_->getShearY()) );
+		pathMat2 *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+		
+		
 
+		
+		agg::conv_transform< agg::path_storage > xfrmedImgPath2(imagePath,pathMat2);
+
+		
+		
+		typedef agg::renderer_base<pixfmt> RendererBase;
+        typedef agg::renderer_scanline_u_solid<RendererBase> SolidRenderer;
+		typedef agg::span_allocator<agg::rgba8> SpanAllocator;
+		typedef agg::span_interpolator_linear<> SpanInterpolator;
+		typedef agg::span_image_filter_rgba32_bilinear<agg::order_bgra32, 
+                                                      SpanInterpolator> SpanGenerator;
+        typedef agg::renderer_scanline_u<RendererBase, SpanGenerator> RendererType;
 
 		
 
@@ -261,8 +287,8 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		HBITMAP hbmp = CreateDIBSection ( xfrmDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
 		HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
 
-		//BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
-			//	dc_, xx, yy, SRCCOPY );
+		BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
+				dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
 		agg::rendering_buffer xfrmImgRenderBuf;
@@ -271,32 +297,49 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 									bmpInfo.bmiHeader.biWidth * 4 );
 
 
-		RendererImageType imgRenderer(xfrmImgRenderBuf);
-		//RendererSolid renderer( xfrmImgRenderBuf );
 		
-		agg::affine_matrix mat2( currentXFrm[Matrix2D::mei00],
-			currentXFrm[Matrix2D::mei01],
-			currentXFrm[Matrix2D::mei10],
-			currentXFrm[Matrix2D::mei11],
-			currentXFrm[Matrix2D::mei20],
-			currentXFrm[Matrix2D::mei21] );
-		//mat2 *= agg::translation_matrix( -xx, -yy );
+		pixfmt pixf(xfrmImgRenderBuf);
+        RendererBase rb(pixf);
+        SolidRenderer srcImageRenderer(rb);
+
+
+		agg::trans_affine imageMat;
+		imageMat *= agg::trans_affine_translation( -imageTX, -imageTY );
+		imageMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		imageMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+										Math::degreesToRadians(context_->getShearY()) );
+
+		imageMat *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+		imageMat.invert();
+
+		
+		SpanAllocator spanAllocator;
+		
+        SpanInterpolator interpolator(imageMat);
+
+
+		
 
 		image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
-		ImgAttrType srcImgAttr( *image->getImageBits()->renderBuffer_, 
-								mat2, 
-								distortions, 
-								colorAlpha, 
-								gradientAlpha);
 
-		imgRenderer.attribute (srcImgAttr);
+		SpanGenerator spanGen(spanAllocator, 
+                         *image->getImageBits()->renderBuffer_, 
+                         agg::rgba(0, 0, 0, 1.0),
+                         interpolator);
+
+		
+		RendererType imageRenderer(rb, spanGen);
+
+		agg::rasterizer_scanline_aa<> rasterizer;
+        agg::scanline_u8 scanLine;
+
+		rasterizer.add_path(xfrmedImgPath2);
+        rasterizer.render(scanLine, imageRenderer);
+		
+		//rasterizer.render(scanLine, srcImageRenderer);
 
 
-		agg::rasterizer_scanline_aa<agg::scanline_u8, agg::gamma8> rasterizer;
-
-		rasterizer.add_path( xfrmedImgPath );
-
-		rasterizer.render (imgRenderer);
 
 		SetDIBitsToDevice( dc_,
 							(long)xfrmedImageRect.left_,
@@ -316,22 +359,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		DeleteDC( xfrmDC );
 
 
-		agg::conv_transform< agg::path_storage >::iterator it2 = xfrmedImgPath.begin(0);
 		
-		
-		//this->rectangle( xfrmedImageRect.left_, xfrmedImageRect.top_, xfrmedImageRect.right_, xfrmedImageRect.bottom_ );
-
-
-		POINT pts[256];
-		int i = 0;
-		while ( it2 != xfrmedImgPath.end() ) {
-			const agg::vertex_type& vert = *it2;
-			pts[i].x = vert.x;
-			pts[i].y = vert.y;
-			i++;
-			it2++;
-		}
-		::Polyline( dc_, &pts[0], i ); 		
 
 	}
 	else {
@@ -2335,6 +2363,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/06 03:33:21  ddiego
+*updated the graphic context code to support image transforms.
+*
 *Revision 1.2.2.4  2004/09/03 04:05:46  ddiego
 *fixes to add matrix transform support for images.
 *

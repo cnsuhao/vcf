@@ -14,10 +14,10 @@ where you installed the VCF.
 #endif
 
 
-
-namespace agg {
-	class rendering_buffer;
-};
+#ifndef AGG_RENDERING_BUFFER_INCLUDED
+#include "thirdparty/common/agg/include/agg_rendering_buffer.h"
+#endif
+	
 
 
 namespace VCF{
@@ -740,6 +740,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/06 03:33:21  ddiego
+*updated the graphic context code to support image transforms.
+*
 *Revision 1.2.2.4  2004/09/03 04:05:46  ddiego
 *fixes to add matrix transform support for images.
 *

@@ -188,6 +188,14 @@ void Win32Image::createBMP()
 	hBitmap_ = CreateDIBSection ( dc_, &bmpInfo_, DIB_RGB_COLORS, (void **)&imageBits_->pixels_, NULL, NULL );
 
 	if ( (NULL != hBitmap_) ) {
+		SysPixelType* pix = imageBits_->pixels_;
+		int sz = bmpInfo_.bmiHeader.biWidth * abs(bmpInfo_.bmiHeader.biHeight);
+		do {
+			sz --;
+			pix[sz].a = 255;
+		} while( sz > 0 );
+
+
 		hOldBitmap_ = (HBITMAP)::SelectObject( dc_, hBitmap_ );
 		//::DeleteObject( oldObj );//clear out the old object
 	}
@@ -239,6 +247,13 @@ void Win32Image::loadFromBMPHandle( HBITMAP bitmap )
 	::SelectObject(  tmpBMPDC, oldBitmap );
 	DeleteDC( tmpBMPDC );
 	DeleteObject( bitmap );
+
+	SysPixelType* pix = imageBits_->pixels_;
+	int sz = bmpInfo_.bmiHeader.biWidth * abs(bmpInfo_.bmiHeader.biHeight);
+	do {
+		sz --;
+		pix[sz].a = 255;
+	} while( sz > 0 );
 }
 
 void Win32Image::internal_saveToFile( const String& fileName )
@@ -482,6 +497,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/09/06 03:33:21  ddiego
+*updated the graphic context code to support image transforms.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

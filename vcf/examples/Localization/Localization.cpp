@@ -255,7 +255,7 @@ public:
 	}
 
 	double duration() const {
-		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency.LowPart;
+		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency_.LowPart;
 	}
 protected:
 	LARGE_INTEGER frequency_;
@@ -739,8 +739,7 @@ int main( int argc, char** argv ){
 		testTime( StringUtils::format("Test 12 - std::string assignment, %d times %d characters long", count, length ), clock );
 	}
 
-
-
+	
 
 	FoundationKit::terminate();
 	return 0;
@@ -750,6 +749,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/09/06 03:33:20  ddiego
+*updated the graphic context code to support image transforms.
+*
 *Revision 1.3.2.1  2004/08/31 04:12:10  ddiego
 *cleaned up the GraphicsContext class - made more pervasive use
 *of transformation matrix. Added common print dialog class. Fleshed out
