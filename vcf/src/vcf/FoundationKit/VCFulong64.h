@@ -476,12 +476,18 @@ public:
 		return result;
 	}
 
+	/**
+	This sets the top 32 bits of the number
+	*/
 	void hi( unsigned long val ) {
 		u64_t tmp = val;
 		tmp = tmp << 32;
 		data_ = tmp | (data_ & 0xffffffff);
 	}
 
+	/**
+	This sets the low 32 bits of the number
+	*/
 	void lo( unsigned long val ) {
 		/**
 		kind of hacky but GCC won't let me do this
@@ -504,6 +510,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/16 15:40:47  marcelloptr
+*just some comments
+*
 *Revision 1.1.2.3  2004/06/06 07:05:33  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
