@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.15  2003/04/07 03:38:47  ddiego
+did some documentation work, and got everything to compile cleanly with some
+of the new additions, particularly the chnages inteh Image/ImageBits classes.
+
 Revision 1.1.2.14  2003/03/24 06:05:01  ddiego
 more additions to the doc makefile and for allowing for online doxygen
 generation
@@ -580,7 +584,8 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 
 		<para>
 		Components can be "owned" by other components, freeing the developer from having to worry
-		about deleting the Components later on. To add a Component you simply call the Component's 
+		about deleting the Components later on. To add a Component you simply call the Component's
+		addComponent() method, passing in the instance of the component you want to "own".
 		</para>
 	</section>
 	
@@ -635,6 +640,10 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		takes place for child controls that are lightweight. Heavyweight controls do not need this, 
 		as they will receive events directly from the windowing system.
 		</para>
+		
+		<para>
+		
+		</para>
 
 
 	</section>
@@ -671,6 +680,13 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	
 	<section><title>Control Activation </title>
 		<para>
+		Controls get activated by receiving focus. A control with focus is able to receive
+		keyboard events. Without focus, <emphasis>no</emphasis> keyboard events will be received
+		by the control. Only one control at a time may have the focus. 
+		</para>
+		<para>
+		To get the focus, you simply call Control::setFocus(), which will return the control that
+		<emphasis>previously</emphasis> had the focus (but does not anymore). 
 		</para>
 	</section>
 	
@@ -680,8 +696,8 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	</section>		
 	
 	<section><title>Peer Classes</title>
-		<para>
-		</para>
+		<para>n2h120120h.
+		</para>h
 	</section>
 </section>
 		

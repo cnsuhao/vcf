@@ -1,8 +1,25 @@
-#make file
+###############################################################################
+#VCF Documentation makefile
+#
+#$Log$
+#Revision 1.1.2.12  2003/04/07 03:38:46  ddiego
+#did some documentation work, and got everything to compile cleanly with some
+#of the new additions, particularly the chnages inteh Image/ImageBits classes.
+#
+#
+#
+###############################################################################
 
-VERSION = 0.6.0
-VCFB_VERSION = 1.0.4
-XMAKE_VERSION = 1.0.4
+
+#This is the version number for the core VCF - make sure to modify this for new releases
+VERSION = 0.6.1
+
+#version number for the VCF Builder
+VCFB_VERSION = 1.0.5
+
+#version number for the XMake program
+XMAKE_VERSION = 1.0.5
+
 
 HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
 
@@ -27,7 +44,7 @@ VERSIONED_SRC_HHP_FILENAME = VCFSrcDocs.$(VERSION).hhp
 VERSIONED_SRC_CHM_FILENAME = VCFSrcDocs.$(VERSION).chm
 VERSIONED_SRC_CHI_FILENAME = VCFSrcDocs.$(VERSION).chi
 
-HTML_TAR_FILENAME = VCFDocs.$(VERSION).tar
+HTML_TAR_FILENAME = VCFDocs-$(VERSION).tar
 
 
 ONLINE_SRC_DOC_DIR = srcdocs
@@ -163,8 +180,22 @@ alldocs : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
 
 
 
-alldocs_hh : htmlhelp.hhp alldocs
+alldocs_hh : alldocs htmlhelp.hhp 
+	cp htmlhelp.hhp htmlhelp.hhp.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" htmlhelp.hhp > htmlhelp.hhp.tmp
+	mv htmlhelp.hhp.tmp htmlhelp.hhp
+	cp toc.hhc toc.hhc.bak
+	sed "s?VCF-SOURCE-CHM?$(VERSIONED_SRC_CHM_FILENAME)?g" toc.hhc > toc.hhc.tmp
+	mv toc.hhc.tmp toc.hhc
 	-$(HTMLHELP_COMPILER) htmlhelp.hhp
+	mv htmlhelp.hhp.bak htmlhelp.hhp
+	mv toc.hhc.bak toc.hhc
+	
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
+	if ( test -f $(RAW_CHI_FILENAME) )\
+	then\
+		mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME);\
+	fi	
 
 
 alldocs_online : $(VCF_DOCS) test_tools $(VCF_BUILDER_DOCS) $(XMAKE_DOCS)
@@ -345,6 +376,23 @@ dist : coredocs hh
 	rm files.out
 	rm images.out
 
+dist_all : alldocs
+	-mkdir VCFDocs-$(VERSION)	
+	cp *.html VCFDocs-$(VERSION)/
+	cp *.css VCFDocs-$(VERSION)/
+	cp -r gfx/ VCFDocs-$(VERSION)/
+	tar -cf VCFDocs-$(VERSION).tar VCFDocs-$(VERSION)/ 
+	gzip VCFDocs-$(VERSION).tar
+	rm -rf VCFDocs-$(VERSION)/
+	
+dist_all_hh : alldocs_hh
+	-mkdir VCFDocs-$(VERSION)	
+	cp $(VERSIONED_CHM_FILENAME) VCFDocs-$(VERSION)/
+	cp $(VERSIONED_CHI_FILENAME) VCFDocs-$(VERSION)/	
+	tar -cf VCFHtmlHelpDocs-$(VERSION).tar VCFDocs-$(VERSION)/ 
+	gzip VCFHtmlHelpDocs-$(VERSION).tar
+	rm -rf VCFDocs-$(VERSION)/	
+
 dist_online : coredocs_online strip_online_docs 
 	find *.html > files.out
 	find gfx/ -type f -name '*' > images.out
@@ -389,6 +437,8 @@ dist_all_online : alldocs_online strip_online_docs online_doxy
 	rm -rf gfx_bak/
 	
 clean :
+	mv doxy_footer.html doxy_footer.html.bak
+	mv doxy_header.html doxy_header.html.bak
 	rm -f *.html
 	rm -f $(HTML_TAR_FILENAME).gz
 	rm -f $(VERSIONED_SRC_CHM_FILENAME)
@@ -399,3 +449,5 @@ clean :
 	rm -rf doxy_html/
 	rm -f stripper stripper.o
 	rm -f hrefmunger hrefmunger.o
+	mv doxy_footer.html.bak doxy_footer.html
+	mv doxy_header.html.bak doxy_header.html

@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.2  2003/04/07 03:38:47  ddiego
+did some documentation work, and got everything to compile cleanly with some
+of the new additions, particularly the chnages inteh Image/ImageBits classes.
+
 Revision 1.1.2.1  2003/03/12 03:09:07  ddiego
 switched all member variable that used the "m_"<name> prefix to
  <name>"_" suffix nameing standard.
@@ -38,7 +42,57 @@ distinct classes, one for input and one for output.
 -->
 
 <chapter><title>Design and Architecture</title>
-	<section><title></title>
+	<section><title>Major Components</title>
+		<para>
+		This section lists the major components in the VCF Builder and what they do
+		</para>
+		<section><title>VCF Application</title>
+		<para>
+		This is the VCF Builder executable's application object. It does little otehr than show the 
+		main VCF Builder window, and then hand's off the rest of the work to the VCF Builder
+		UI library.		
+		</para>
+		</section>
+		
+		<section><title>VCF Builder UI</title>
+			<para>
+			This is the library application that is responsible for all of the core VCF Builder
+			UI. It contains the primary dialogs and application logic for interacting with 
+			other objects in the system. Some of these other objects include the Workspace, Project
+			and plugins.
+			</para>
+		</section>
+		
+		<section><title>Plugin Manager</title>
+			<para>
+			The Plug-in Manager does the initial load up of a plu-in, initializes the library
+			with the UI Application, and stores common information for each plug-in.
+			</para>
+		</section>
+		
+		<section><title>Workspace</title>
+		
+		</section>
+		
+		<section><title>Project</title>
+		</section>
+		
+		<section><title>Class DOM</title>
+		</section>
+		
+		<section><title>Documents</title>
+		</section>
+		
+		<section><title>Files</title>
+		</section>
+		
+		<section><title>Classes</title>
+		</section>
+		
+		<section><title>Forms</title>
+		</section>		
+	</section>
+	<section><title>Interfaces</title>
 	</section>
 </chapter>
 
