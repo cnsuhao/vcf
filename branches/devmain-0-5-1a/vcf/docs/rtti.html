@@ -48,16 +48,6 @@ Main body table
         <li>Explain how VCF RTTI is built on top of C++ RTTI - i.e. uses
           dynamic_cast operator, uses typeid operator, uses typeinfo class, as
           opposed to reinventing this part</li>
-        <li>Explain the various sections of RTTI
-          <ul>
-            <li>the Class class - think of typeinfo on steroids</li>
-            <li>Properties</li>
-            <li>Events</li>
-            <li>Methods</li>
-            <li>Interfaces</li>
-          </ul>
-        </li>
-        <li>&nbsp;</li>
       </ul>
       <p>]</p>
       <table border="0" width="100%">
@@ -69,7 +59,7 @@ Main body table
             <p align="right"><a href="#TopicTitle">top</a></td>
         </tr>
       </table>
-      <p>&nbsp;</p>
+      <p>N/A</p>
       <table border="0" width="100%">
         <tr>
           <td width="50%">
@@ -77,6 +67,89 @@ Main body table
           </td>
           <td width="50%">
             <p align="right"><a href="#TopicTitle">top</a></td>
+        </tr>
+      </table>
+      <p>[note - these are the classes to document and check for correct docs]</p>
+      <table border="0" width="100%">
+        <tr>
+          <td width="50%" bgcolor="#C0C0C0"><b>Class</b></td>
+          <td width="50%" bgcolor="#C0C0C0"><b>Header</b></td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::ClassRegistry</td>
+          <td width="50%">vcf/include/core/ClassRegistry.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::Class</td>
+          <td width="50%">vcf/include/core/Class.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedClass</td>
+          <td width="50%">vcf/include/core/Class.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedAbstractClass</td>
+          <td width="50%">vcf/include/core/Class.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::InterfaceClass</td>
+          <td width="50%">vcf/include/core/InterfaceClass.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::Property</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypeDefProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedObjectProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedObjectRefProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedEnumProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedCollectionProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::TypedObjectCollectionProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::EventProperty</td>
+          <td width="50%">vcf/include/core/Property.h</td>
+        </tr>
+        <tr>
+          <td width="50%">VCF::Method</td>
+          <td width="50%">vcf/include/core/Method.h</td>
+        </tr>
+        <tr>
+          <td width="50%"></td>
+          <td width="50%"></td>
+        </tr>
+        <tr>
+          <td width="50%"></td>
+          <td width="50%"></td>
+        </tr>
+        <tr>
+          <td width="50%"></td>
+          <td width="50%"></td>
+        </tr>
+        <tr>
+          <td width="50%"></td>
+          <td width="50%"></td>
         </tr>
       </table>
       <p>&nbsp;</p>
@@ -89,6 +162,22 @@ Main body table
             <p align="right"><a href="#TopicTitle">top</a></td>
         </tr>
       </table>
+      <p>[</p>
+      <ul>
+        <li>Explain the various sections of RTTI
+          <ul>
+            <li>the Class class - think of typeinfo on steroids</li>
+            <li>Properties</li>
+            <li>Events</li>
+            <li>Methods</li>
+            <li>Interfaces</li>
+          </ul>
+        </li>
+        <li>Explain how Class's are stored and the purpose of the ClassRegistry</li>
+        <li>Explain potential impact on memory, and advantages in using in
+          DLL/SO as opposed to static linking to library</li>
+      </ul>
+      <p>]</p>
       <p>&nbsp;</p>
       <hr>
       <table border="0" width="100%">
@@ -110,7 +199,19 @@ Main body table
             <p align="right"><a href="#TopicTitle">top</a></td>
         </tr>
       </table>
-      <p>&nbsp;</p>
+      <p>[</p>
+      <ul>
+        <li>Explain how to add to class
+          <ul>
+            <li>Explain Class macros</li>
+            <li>Explain Property macros</li>
+            <li>Explain Method macros</li>
+            <li>Explain Event macros</li>
+          </ul>
+        </li>
+        <li>Explain how to retrieve at run time</li>
+      </ul>
+      <p>]</p>
       <table border="0" width="100%">
         <tr>
           <td width="50%">
