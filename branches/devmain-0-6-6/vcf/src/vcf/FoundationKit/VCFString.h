@@ -17,6 +17,7 @@ where you installed the VCF.
 namespace VCF{
 
 
+typedef std::basic_string<char> AnsiString;
 
 
 
@@ -275,7 +276,7 @@ public:
 	@returns std::basic_string<UniChar>& a const reference to the string's
 	underlying std::basic_string member variable.
 	*/
-	operator const std::basic_string<UniChar>& () const {
+	operator const StringData& () const {
 		return data_;
 	}
 
@@ -287,7 +288,7 @@ public:
 	@returns std::basic_string<UniChar>& a reference to the string's
 	underlying std::basic_string member variable.
 	*/
-	operator std::basic_string<UniChar>& () {
+	operator StringData& () {
 		return data_;
 	}
 
@@ -297,15 +298,19 @@ public:
 	unicode to ansi, and returns a std::basic_string<AnsiChar> (also
 	known as std::string).
 
-	@returns std::basic_string<UniChar>& a reference to the string's
-	underlying std::basic_string member variable.
+	@returns AnsiString a converted string
 	*/
-	operator std::basic_string<AnsiChar> () const {
-		return std::basic_string<AnsiChar>(ansi_c_str());
+	operator AnsiString () const {	// was std::basic_string<AnsiChar> not a reference
+		return AnsiString( ansi_c_str() );	// was std::basic_string<AnsiChar>
 	}
 
 	UnicodeString& operator=(const UnicodeString& rhs) {
 		data_ = rhs.data_;
+		return *this;
+	}
+
+	UnicodeString& operator=(const AnsiString& s) {
+		UnicodeString::transformAnsiToUnicode( s.c_str(), s.size(), data_ );
 		return *this;
 	}
 
@@ -1025,14 +1030,15 @@ inline bool operator >=( const UnicodeString& lhs, const UnicodeString& rhs )
 
 typedef UnicodeString String;
 
-typedef std::basic_string<char> AnsiString;
-
 };
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/19 16:39:29  marcelloptr
+*Preparation of the UnicodeString class to accept a custom allocator. Added missed conversion and assignement operators.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
