@@ -3140,8 +3140,8 @@ class DspFile( GenericFile ):
         ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, newCompiler, newCompiler )
 
         #
-        # this automatically 'converts' to the newCompiler if the entry exists
-        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, newCompiler, vcpFilesDsp ) #vcpFilesDsp
+        # this automatically 'converts' to the newCompiler if the entries exist
+        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, newCompiler, vcpFilesDsp )
 
         return
 
@@ -4016,8 +4016,10 @@ class DspFile( GenericFile ):
         return ( vcpHdr, vcpFiles )
 
     def convertEntriesVcproj( self, vcpHdrSrc, vcpFilesSrc, oldCompiler, newCompiler, convertProjectConfigSection = True ):
-        # writelineEntriesVcprojAsStruct does already part of the work by not writing things for the wrong version
-        # here we need to add few entries if necessary
+        # Note part of the conversion work is already done by writelineEntriesVcprojAsStruct 
+        # because it does not write what is not accepted by that compiler's version
+        
+        # Here we need to add few entries if necessary
 
         # we need of vcpHdrSrc to convert the files because we need of the list of configurations
         # but for no other reasons. So please specify convertProjectConfigSection = False
@@ -4150,14 +4152,24 @@ class DspFile( GenericFile ):
 
         return ( vcpHdr, vcpFiles )
 
-    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, newCompiler, vcpFilesMaster ):
-        # writelineEntriesVcprojAsStruct does already part of the work by not writing the entries
-        # that do not exist for the newCompiler
+    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, newCompiler, vcpFilesMaster = None ):
+        # Note part of the conversion work is already done by writelineEntriesVcprojAsStruct 
+        # because it does not write what is not accepted by that compiler's version
 
         # oldCompiler is unused
+        
+        # Important:
+        #   vcpFilesMaster is used to keep the same files entries as the source master file ( usually the dsp file ) ...
+        #   .... but their content is given by vcpFiles
 
         #if ( self.filename.lower().find( 'sharedlibraries' ) != -1 ):
         #    s =3
+        
+        # no other master file if not specified
+        if ( vcpFilesMaster ):
+            vcpFilesMasterSource = vcpFilesMaster
+        else:
+            vcpFilesMasterSource = vcpFiles
             
         if ( 0 == len( vcpHdr.configurationFullNamesList ) ):
             raise Exception( 'updateSouceEntriesVcprojAsStruct: vcpHdr.configurationFullNamesList is empty !' )
@@ -4257,9 +4269,15 @@ class DspFile( GenericFile ):
         lines.append( '\t<Files>\n' )
 
         #vcpFiles.filtergroupNameValueDict[ 'source files' ].fileNameFileDict[ 'actions.cpp' ].fileConfigNameSectionsDict
-        for filtergroup_name in vcpFilesMaster.filtergroupNamesList:
+        
+        # vcpFilesMaster is used to keep the same files entries as the source master file ( usually the dsp file )
+        #  ( note: vcpFilesMaster here, not vcpFiles ) ...
+        for filtergroup_name in vcpFilesMasterSource.filtergroupNamesList:
             filtergroupNameLwr = filtergroup_name.lower()
-            vcpFiltergrp = vcpFilesMaster.filtergroupNameValueDict[ filtergroupNameLwr ]
+            
+            # .... but their content is given by vcpFiles ( note: vcpFiles here, not vcpFilesMaster )
+            vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
+
 
             lines.append( '\t\t<Filter\n' )
 
