@@ -30,6 +30,12 @@ fileHandle_(NULL)
 	}
 }
 
+OSXFileStream::OSXFileStream( File* file ):
+	fileHandle_(NULL)
+{
+
+}
+
 OSXFileStream::~OSXFileStream()
 {
 	if (fileHandle_ != NULL) {
@@ -167,6 +173,9 @@ int OSXFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/29 03:55:21  ddiego
+*osx updates
+*
 *Revision 1.1.2.6  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

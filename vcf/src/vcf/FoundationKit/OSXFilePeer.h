@@ -72,7 +72,7 @@ public:
 	*@param openFlags
 	*@param shareFlags
 	*/
-	virtual void open( const String& fileName, File::OpenFlags openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny );
+	virtual void open( const String& fileName, ulong32 openFlags = File::ofRead, File::ShareFlags shareFlags = File::shMaskAny );
 
 	/**
 	* closes the file if open
@@ -87,7 +87,7 @@ public:
 	instead of a file. The file name is omitted here as this is stored in the 
 	File instance kept by the peer.
 	*/
-	virtual void create( File::OpenFlags openFlags );
+	virtual void create( ulong32 openFlags );
 
 	/**
 	*deletes the file from the file system
@@ -118,7 +118,7 @@ public:
 
 	virtual void endFileSearch( Directory::Finder* finder );
 private:
-	FILE* fileHandle_;
+	int fileHandle_;
 	File* file_;
 	bool searchStarted_;
 	std::vector<String> searchFilters_;
@@ -136,6 +136,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.1.2.8  2004/07/29 03:55:21  ddiego
+ *osx updates
+ *
  *Revision 1.1.2.7  2004/07/27 04:26:04  ddiego
  *updated devmain-0-6-5 branch with osx changes
  *

@@ -39,6 +39,8 @@ public:
 		virtual FilePeer* internal_createFilePeer( File* file );
 
 		virtual FileStreamPeer* internal_createFileStreamPeer( const String& filename, const FileStreamAccessType& accessType );
+		
+		virtual FileStreamPeer* internal_createFileStreamPeer( File* file );
 
         virtual LocalePeer* internal_createLocalePeer();
 	};
@@ -49,6 +51,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/29 03:55:21  ddiego
+*osx updates
+*
 *Revision 1.1.2.6  2004/07/27 04:26:04  ddiego
 *updated devmain-0-6-5 branch with osx changes
 *
