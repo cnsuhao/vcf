@@ -323,8 +323,8 @@ public:
 		templates_->setColor( &col );
 		templates_->setBorder( NULL );
 		templates_->getFont()->setName( "Tahoma" );
-		templates_->getFont()->setPointSize( 10 );
 
+		templates_->getFont()->setPointSize( 10 );
 
 
 		TemplateItem* templateItem = new TemplateItem();
@@ -360,23 +360,31 @@ public:
 
 		il->setImageHeight( 93 );
 		il->setImageWidth( 93 );
-		Image* img = GraphicsToolkit::createImage( "template1.bmp" );
+		//try {
+
+		GraphicsResourceBundle* resBundle = Application::getRunningInstance()->getResourceBundle();
+
+		Image* img =  resBundle->getImage("template1.bmp"); //GraphicsToolkit::createImage( "template1.bmp" );
 		if ( NULL != img ) {
 			il->addImage( img );
 			delete img;
 		}
 
-		img = GraphicsToolkit::createImage( "template2.bmp" );
+		img = resBundle->getImage("template2.bmp");
 		if ( NULL != img ) {
 			il->addImage( img );
 			delete img;
 		}
 
-		img = GraphicsToolkit::createImage( "template3.bmp" );
+		img = resBundle->getImage("template3.bmp");
 		if ( NULL != img ) {
 			il->addImage( img );
 			delete img;
 		}
+		//}
+		//catch (BasicException& e ) {
+		//	Dialog::showMessage( e.getMessage() );
+		//}
 
 		templates_->setLargeImageList( il );
 	}
@@ -481,13 +489,11 @@ public:
 class AdvancedUIWindow : public Window {
 public:
 	AdvancedUIWindow() {
-		setCaption( "AdvancedUI" );
-		setVisible( true );
+		setCaption( "AdvancedUI" );		
 
 		Panel* p = new CategoryTemplatePanel();
 
 		add( p, AlignClient );
-
 		
 	}
 
@@ -511,6 +517,7 @@ public:
 		Window* mainWindow = new AdvancedUIWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 		
 		return result;
 	}

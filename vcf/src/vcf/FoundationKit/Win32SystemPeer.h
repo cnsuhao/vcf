@@ -52,6 +52,9 @@ public:
 
 	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
 	
+	virtual String getOSName();
+
+	virtual String getOSVersion();
 protected:
 };
 
@@ -61,6 +64,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2.2.2  2004/08/27 03:50:46  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe

@@ -273,10 +273,48 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	return result;
 }
 
+String Win32SystemPeer::getOSName()
+{
+	String result;
+	OSVERSIONINFO osVersion = {0};
+
+	
+	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
+	::GetVersionEx( &osVersion );
+	//need a way to tell WinCE???
+	if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
+		result = "WindowsNT";
+	}
+	else {
+		result = "Windows";
+	}
+	
+
+	return result;
+}
+
+
+String Win32SystemPeer::getOSVersion()
+{
+	String result;
+	OSVERSIONINFO osVersion = {0};
+
+	
+	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
+	::GetVersionEx( &osVersion );
+	
+	result = StringUtils::format( "%d.%d %d", osVersion.dwMajorVersion, osVersion.dwMinorVersion, osVersion.dwBuildNumber );
+
+	return result;
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2.2.3  2004/08/27 03:50:46  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe

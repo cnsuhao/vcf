@@ -62,22 +62,32 @@ VCF_BCC - compiling with Borland's C++ compiler
 
 
 
-
+#define VCF_COMPILER_NAME	""
 
 
 
 #if (_MSC_VER >= 1310)
 #	define VCF_VC71
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"VC71"
 #elif (_MSC_VER >= 1300)
 #	define VCF_VC7
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"VC7"
 #elif (_MSC_VER >= 1200)
 #	define VCF_VC6
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"VC6"
 #elif (_MSC_VER >= 1100)
 #	define VCF_VC5
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"VC6"
 #endif
 
 #ifdef __DMC__
 	#define VCF_DMC
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"DMC"
 #endif
 
 
@@ -86,12 +96,20 @@ VCF_BCC - compiling with Borland's C++ compiler
 
 #if (__BORLANDC__ >= 0x0570)
 	#define VCF_BCCKLX  //Kylix
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"BCCKLX"
 #elif (__BORLANDC__ >= 0x0560) && (__BORLANDC__ < 0x0570)
 	#define VCF_BCC6 //BCB 6
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"BCC6"
 #elif (__BORLANDC__ >= 0x0550) && (__BORLANDC__ < 0x0560)
 	#define VCF_BCC5 //BCB 5 - Free Compiler
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"BCC5"
 #elif (__BORLANDC__ >= 0x0540)
 	#define VCF_BCC4 //BCB 4
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"BCC4"
 #endif //bcc version
 
 #if defined(VCF_BCC6) && !defined(_USE_OLD_RW_STL)
@@ -589,9 +607,18 @@ The same is with BCC.
 #endif
 
 
+
+#ifdef VCF_GCC
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"GCC"
+#endif 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.2.2.1  2004/08/17 05:01:32  marcelloptr
 *improved macros for library selection
 *

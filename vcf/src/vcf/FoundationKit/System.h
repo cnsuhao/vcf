@@ -133,6 +133,42 @@ public:
 	static String findResourceDirectory();
 	
 
+
+	/**
+	\par
+	Returns the name of the operating system that the VCF is currently running on.
+	@return String the operating system name. Can be:
+		\li "MacOS" for Mac OS
+		\li	"Linux" for linux based systems
+		\li "Solaris" for solaris systems
+		\li	"Windows" for Win32 9.x based systems
+		\li	"WindowsNT" for Win32 NT based systems
+		\li	"WindowsCE" for WinCE based systems		
+
+	*/
+	static String getOSName();
+
+	/**
+	Returns the version of the operating system.
+	*/
+	static String getOSVersion();
+
+	/**
+	Returns the compiler that was used to build this version of the VCF. This is 
+	a fixed, build setting that is platform and vendor dependant
+	@return String the name of the compiler used to build the VCF. Can be:
+		\li "VC6"			Microsoft Visual C++ 6
+		\li "VC7"			Microsoft Visual C++ 7
+		\li "VC71"			Microsoft Visual C++ 7.1
+		\li "DMC"			Digital Mars
+		\li	"GCC"			GCC C++ compiler
+		\li "BCC4"			Borland C++ compiler BCB4
+		\li "BCC5"			Borland C++ compiler BCB5
+		\li "BCC6"			Borland C++ compiler BCB6
+
+	*/
+	static String getCompiler();
+
 	/**
 	Returns the current "tick" count. On Win32 systems this is analagous to the 
 	GetTickCount() API. Should be millisecond resolution, but this is not by any means 
@@ -282,6 +318,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2004/09/15 04:25:52  ddiego
+*fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
+*
 *Revision 1.3.2.2  2004/08/26 04:29:28  ddiego
 *added support for getting the resource directory to the System class.
 *
