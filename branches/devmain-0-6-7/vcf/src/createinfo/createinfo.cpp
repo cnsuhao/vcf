@@ -4,6 +4,16 @@
 
 using namespace VCF;
 
+
+/**
+createinfo is a little utility to create or update an INfo.xml file.
+It provides a very simple command line interface that allows you send in 
+the author, version and bundle name. It does everything else. If an
+output dir is specified and the Info.plsit/xml file exists, then an update
+is performed, otherwise a new file is created.
+If no output directory is specified, then the program outputs to stdout.
+*/
+
 #define USAGE "Proper arguments to send to me are:\n"\
 				"\t-version <version number>\n"\
 				"\t-author <author name, in double quotes!>\n"\

@@ -169,7 +169,7 @@ public:
 	calls the GraphicsToolkit's createContextPeer().
 	@see GraphicsToolkit::createContextPeer
 	*/
-	static ContextPeer* createContextPeer( const long& contextID );
+	static ContextPeer* createContextPeer( OSHandleID contextID );
 
 	/**
 	creates a memory based context peer given a width and height.
@@ -392,7 +392,7 @@ protected:
 
 	virtual ContextPeer* internal_createContextPeer( Control* component );
 
-	virtual ContextPeer* internal_createContextPeer( const long& contextID );
+	virtual ContextPeer* internal_createContextPeer( OSHandleID contextID );
 
 	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height );
 
@@ -559,6 +559,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2004/12/19 04:04:59  ddiego
+*made modifications to methods that return a handle type. Introduced
+*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
+*which was causing a problem for 64bit compiles.
+*
 *Revision 1.3  2004/12/01 04:31:39  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
