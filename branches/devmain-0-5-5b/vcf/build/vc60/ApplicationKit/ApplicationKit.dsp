@@ -142,17 +142,7 @@ SOURCE=..\..\..\src\core\Application.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\ApplicationKit.cpp
-
-!IF  "$(CFG)" == "ApplicationKit - Win32 Release"
-
 # ADD CPP /Yc"ApplicationKit.h"
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 Debug"
-
-# ADD CPP /Yc"ApplicationKit.h"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -816,23 +806,11 @@ SOURCE=..\..\..\include\core\CheckBoxControl.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\dragdrop\Clipboard.h
+SOURCE=..\..\..\include\core\Clipboard.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\dragdrop\ClipboardDataObject.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardPeer.h
+SOURCE=..\..\..\include\core\ClipboardDataObject.h
 # End Source File
 # Begin Source File
 
@@ -1012,11 +990,7 @@ SOURCE=..\..\..\include\implementer\CustomControlPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\dragdrop\DataObjectPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\DataType.h
+SOURCE=..\..\..\include\core\DataType.h
 # End Source File
 # Begin Source File
 

@@ -44,7 +44,6 @@ RSC=rc.exe
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "APPLICATIONKITDLL_EXPORTS" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "..\..\..\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FRAMEWORK_DLL" /D "GRAPHICSKIT_DLL" /D "APPKIT_DLL" /D "APPKIT_EXPORTS" /Yu"ApplicationKit.h" /FD /Zm120 /Zm120 /c
-# SUBTRACT CPP /Z<none>
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -195,26 +194,6 @@ SOURCE=..\..\..\include\implementer\ButtonPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\CheckBoxControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\Clipboard.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardDataObject.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardListener.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\dragdrop\ClipboardPeer.h
 # End Source File
 # Begin Source File
 
@@ -1207,6 +1186,10 @@ SOURCE=..\..\..\src\COM\COMDataObject.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\COM\COMDragSource.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\COM\COMDropTarget.cpp
 # End Source File
 # Begin Source File
@@ -1645,6 +1628,10 @@ SOURCE=..\..\..\src\ImplementerKit\Win32Desktop.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\ImplementerKit\Win32Dialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32DragDropPeer.cpp
 # End Source File
 # Begin Source File
 
