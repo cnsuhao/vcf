@@ -129,10 +129,11 @@ public:
 
 	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
 
-	virtual void drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText );
+	virtual void drawThemeText( Rect* rect, TextState& state );
 	
 	
 	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
+	void setPortFromImage( GrafPtr port, uint32 width, uint32 height );
 protected:
 	CGContextRef contextID_;
     GrafPtr grafPort_;
@@ -160,6 +161,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7.2.3  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.7.2.2  2004/06/16 05:18:56  ddiego
 *further updates to OSX theme compliant drawing code
 *

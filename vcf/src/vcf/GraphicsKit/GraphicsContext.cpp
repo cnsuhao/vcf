@@ -715,9 +715,9 @@ void GraphicsContext::drawThemeMenuItem( Rect* rect, MenuState& state )
 	contextPeer_->drawThemeMenuItem( rect, state );
 }
 
-void GraphicsContext::drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText )
+void GraphicsContext::drawThemeText( Rect* rect, TextState& state )
 {
-	contextPeer_->drawThemeText( rect, text, state, wrapText );
+	contextPeer_->drawThemeText( rect, state );
 }
 
 void GraphicsContext::setStrokeWidth( const double& width )
@@ -957,6 +957,9 @@ void GraphicsContext::flushDrawingArea()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.3  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.2.2.2  2004/06/16 05:18:56  ddiego
 *further updates to OSX theme compliant drawing code
 *

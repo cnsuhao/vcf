@@ -33,7 +33,7 @@ class SliderState;
 class ScrollBarState;
 class TabState;
 class BackgroundState;
-
+class TextState;
 
 /**
 *The ContextPeer serves as a platform neutral interface
@@ -261,7 +261,7 @@ public:
 	*/
 	virtual void drawThemeMenuItem( Rect* rect, MenuState& state ) = 0;
 
-	virtual void drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText ) = 0;
+	virtual void drawThemeText( Rect* rect, TextState& state ) = 0;
 
 };
 
@@ -271,6 +271,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.3  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.2.2.2  2004/06/16 05:18:56  ddiego
 *further updates to OSX theme compliant drawing code
 *

@@ -63,6 +63,22 @@ void OSXImage::init()
     context_ = new GraphicsContext(0);
 }
 
+void OSXImage::setAlpha( float val )
+{
+	uchar alphaVal = (uchar) val * 255.0;
+	
+	SysPixelType* bits = imageBits_->pixels_;
+	
+	uint32 size = getWidth() * getHeight();
+	while ( size > 0 ) {
+		bits[size-1].a = alphaVal;
+		
+		size --;
+	}
+	
+	
+}
+
 void OSXImage::createBMP()
 {
     if ( NULL != grafPort_ ) {
@@ -89,6 +105,8 @@ void OSXImage::createBMP()
     boundsRect.right = width;
     boundsRect.bottom = height;
 
+	
+
     OSStatus err = 0;
     err = NewGWorldFromPtr( &newGWorld,
                             k32RGBAPixelFormat,
@@ -98,6 +116,8 @@ void OSXImage::createBMP()
                             0,
                             (char*)imageBits_->pixels_,
                             bytesPerRow );
+							
+	//setAlpha( 0.67 );
 
     if ( noErr == err ) {
 
@@ -117,18 +137,26 @@ void OSXImage::createBMP()
                                    bitsPerPix,
                                    bytesPerRow,
                                    colorSpace,
-                                   kCGImageAlphaNone,
+                                   kCGImageAlphaNoneSkipFirst,
                                    provider,
                                    NULL,
                                    FALSE,
                                    kCGRenderingIntentDefault );
+								   
+								   
+								   
+								   
 
 
 
         CGColorSpaceRelease(colorSpace);
-        CGDataProviderRelease(provider);
-
-        context_->getPeer()->setContextID( (ulong32)grafPort_ );
+        CGDataProviderRelease(provider);		
+		
+        //context_->getPeer()->setContextID( (ulong32)grafPort_ );
+		OSXContext* peerCtx = (OSXContext*)context_->getPeer();
+		peerCtx->setPortFromImage( grafPort_, width, height );
+		//CGContextScaleCTM(contextID_, 1, -1);
+		
     }
     else {
         throw RuntimeException( MAKE_ERROR_MSG_2("OSXImage failed to create a new GWorld!") );
@@ -143,7 +171,8 @@ void OSXImage::setSize( const unsigned long & width, const unsigned long & heigh
 
 void OSXImage::beginDrawing()
 {
-
+	
+	
 }
 
 void OSXImage::finishedDrawing()
@@ -155,6 +184,9 @@ void OSXImage::finishedDrawing()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5.2.1  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.5  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

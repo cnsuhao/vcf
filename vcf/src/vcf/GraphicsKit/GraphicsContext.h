@@ -38,7 +38,7 @@ class SliderState;
 class ScrollBarState;
 class TabState;
 class BackgroundState;
-
+class TextState;
 
 
 /**
@@ -136,7 +136,15 @@ public:
 		etSunken = 0x040,
 	};
 
-	
+	enum ThemeTextType {
+		ttMenuItemFont = 0,
+		ttSelectedMenuItemFont,
+		ttSystemFont,
+		ttSystemSmallFont,
+		ttControlFont,
+		ttMessageFont,
+		ttToolTipFont
+	};
 	
 	
 
@@ -511,7 +519,7 @@ public:
 	*/
 	void drawThemeMenuItem( Rect* rect, MenuState& state );
 
-	void drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText );
+	void drawThemeText( Rect* rect, TextState& state );
 protected:
 
 
@@ -666,6 +674,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.3  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.2.2.2  2004/06/16 05:18:56  ddiego
 *further updates to OSX theme compliant drawing code
 *

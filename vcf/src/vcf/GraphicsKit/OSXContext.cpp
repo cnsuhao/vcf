@@ -14,30 +14,7 @@ where you installed the VCF.
 
 
 using namespace VCF;
-/*
-class SwitchPort {
-public:
-    SwitchPort( GrafPtr ptr ) :current(ptr){
-        GetPort( &old );
-        if ( old != current ) {
-            //make switch
-            SetPort( current ) ;
-        }
-    }
 
-    ~SwitchPort() {
-        if ( old != current ) {
-            //make switch
-            SetPort( old ) ;
-        }
-    }
-private:
-    GrafPtr current;
-    GrafPtr old;
-    SwitchPort( const SwitchPort& rhs );
-    SwitchPort& operator=(const SwitchPort& rhs );
-};
-*/
 
 
 
@@ -127,6 +104,7 @@ void OSXContext::setContextID( const unsigned long& handle )
         imgWidth_ = 0;
         imgHeight_ = 0;
         DisposeGWorld( grafPort_ );
+		
     }
 
 	if ( NULL != grafPort_ ) {
@@ -136,6 +114,43 @@ void OSXContext::setContextID( const unsigned long& handle )
 
 	grafPort_ = (GrafPtr)handle;
     init();
+}
+
+void OSXContext::setPortFromImage( GrafPtr port, uint32 width, uint32 height )
+{
+	
+	
+	
+	grafPort_ = port;
+	ownerRect_.setRect( 0, 0, width, height );
+	
+	if ( NULL != contextID_ ) {
+		CGContextRelease( contextID_);
+	}
+	
+	
+	CreateCGContextForPort( grafPort_, &contextID_);		
+	
+	//Note the absence of a transform! apparently we don't need to for 
+	//image based CG's
+	
+	if ( nil == textLayout_ ) {
+		ATSUCreateTextLayout( &textLayout_ );
+	}
+	
+	ATSUAttributeTag        cgTags[] = {kATSUCGContextTag};
+	ByteCount               cgSize[] = {sizeof (contextID_)};
+	ATSUAttributeValuePtr   cgValue[] = {&contextID_};
+
+	OSStatus err = ATSUSetLayoutControls (textLayout_,
+										  1,
+										  cgTags,
+										  cgSize,
+										  cgValue);
+	if ( err != noErr ) {
+		throw RuntimeException( MAKE_ERROR_MSG_2("ATSUSetLayoutControls failed.") );
+	}
+	
 }
 
 void OSXContext::setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  )
@@ -1714,17 +1729,99 @@ void OSXContext::drawThemeProgress( Rect* rect, ProgressState& state )
 			info.enableState = kThemeTrackInactive;
 		}
     }
-
-	
-	//GetThemeTrackBounds( &info, r );
-	//info.bounds = r;
 		
 	DrawThemeTrack( &info, NULL, NULL, 0 );
 }
 
 void OSXContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
 {
+	CGContextSaveGState( contextID_ );
+	
+	if ( !state.isEnabled() ) {
+		CGContextSetAlpha( contextID_, 0.2 );
+	}
+	
+	
+	if ( (rect->getWidth() > image->getWidth()) || (rect->getHeight() > image->getHeight()) ) {
+		throw BasicException( MAKE_ERROR_MSG("Invalid image bounds requested"), __LINE__);
+	}
 
+    OSXImage* osXimage = (OSXImage*)(image);
+    ulong32 imgBoundsWidth = rect->getWidth();
+    ulong32 imgBoundsHeight = rect->getHeight();
+
+    if ( (imgBoundsWidth == image->getWidth()) && (imgBoundsHeight == image->getHeight()) ) {
+        CGImageRef imgRef = osXimage->getCGImage();
+        CGRect imgBounds;
+        imgBounds.origin.x = rect->left_;
+        imgBounds.origin.y = rect->top_;
+        imgBounds.size.width = imgBoundsWidth;
+        imgBounds.size.height = imgBoundsHeight;
+
+        CGContextDrawImage( contextID_, imgBounds, imgRef );
+    }
+    else {
+        //create a smaller portion of the image
+        int componentCount = image->getType();
+        int bitsPerPix = image->getChannelSize() * componentCount;
+        int bitsPerComponent = image->getChannelSize();
+        int rowStride = ((imgBoundsWidth * bitsPerComponent * componentCount)  + 7)/ 8;
+
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        SysPixelType* data = new SysPixelType[imgBoundsWidth*imgBoundsHeight];
+
+        ulong32 imgSize = imgBoundsWidth * imgBoundsHeight * componentCount;
+        CGDataProviderRef provider = CGDataProviderCreateWithData( NULL,
+                                                                    (char*)data,
+                                                                    imgSize,
+                                                                    NULL );
+
+
+        CGImageRef imgRef = CGImageCreate( imgBoundsWidth,
+                                   imgBoundsHeight,
+                                   image->getChannelSize(),
+                                   bitsPerPix,
+                                   rowStride,
+                                   colorSpace,
+                                   kCGImageAlphaNone,
+                                   provider,
+                                   NULL,
+                                   FALSE,
+                                   kCGRenderingIntentDefault );
+
+        //copy over bits
+        SysPixelType* imageBuf = image->getImageBits()->pixels_;
+        SysPixelType* tmpBmpBuf = data;
+
+        ulong32 incr = (ulong32)((rect->top_ * image->getWidth()) + rect->left_);
+        imageBuf += incr;
+        ulong32 imgWidth = image->getWidth();
+
+        int s = (int)rect->top_;
+        int e = (int)rect->bottom_;
+        for (int y1=s;y1<e;y1++) {
+
+            memcpy( tmpBmpBuf, imageBuf, imgBoundsWidth*componentCount );
+
+            tmpBmpBuf += imgBoundsWidth;
+            imageBuf += imgWidth;
+        }
+
+        CGRect imgBounds;
+        imgBounds.origin.x = rect->left_;
+        imgBounds.origin.y = rect->top_;
+        imgBounds.size.width = imgBoundsWidth;
+        imgBounds.size.height = imgBoundsHeight;
+
+        CGContextDrawImage( contextID_, imgBounds, imgRef );
+
+        CGColorSpaceRelease(colorSpace);
+        CGDataProviderRelease(provider);
+        CGImageRelease( imgRef );
+        delete [] data;
+    }
+	
+	CGContextRestoreGState( contextID_ );
 }
 
 void OSXContext::drawThemeHeader( Rect* rect, DrawUIState& state )
@@ -1803,8 +1900,8 @@ void OSXContext::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
 	OSXRect r = rect;
+	OSStatus err = 0;
 	
-	//CGContextSaveGState( contextID_ );
 	Color* color = GraphicsToolkit::getSystemColor( state.colorType_ );
 	float colorComponents[4] =
 			{color->getRed(),
@@ -1824,11 +1921,12 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 		break;
 		
 		case SYSCOLOR_FACE : {
-			SetThemeBackground( state.isActive() ? kThemeBrushButtonFaceActive : kThemeBrushButtonFaceInactive,
+			err = SetThemeBackground( state.isActive() ? kThemeBrushButtonFaceActive : kThemeBrushButtonFaceInactive,
 									32, TRUE );
+			if ( err != noErr ) {
+				StringUtils::traceWithArgs( "SetThemeBackground() failed, err: %d\n", err );
+			}
 			EraseRect( r );
-			
-			//::SetThemeBackground(kThemeBrushWhite, 24, true);			
 		}
 		break;
 		
@@ -1913,63 +2011,214 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 		break;
 		
 		case SYSCOLOR_TOOLTIP : {
-			
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
 		}
 		break;
 		
 		case SYSCOLOR_TOOLTIP_TEXT : {
-		
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
 		}
 		break;
 		
-		case SYSCOLOR_MENU : {
-			SetThemeBackground( state.isHighlighted() ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground,
-									32, TRUE );
-			EraseRect( r );
+		case SYSCOLOR_MENU : {		
 			
-			//::SetThemeBackground(kThemeBrushWhite, 24, true);
+			err = SetThemeBackground( state.isHighlighted() ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground,
+									32, TRUE );
+			if ( err != noErr ) {
+				StringUtils::traceWithArgs( "SetThemeBackground() failed, err: %d\n", err );
+			}
+			
+			EraseRect( r );
 		}
 		break;
 		
 		case SYSCOLOR_MENU_TEXT : {
-		
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
 		}
 		break;
 		
 		case SYSCOLOR_WINDOW : {
-			SetThemeBackground( state.isActive() ? kThemeBrushUtilityWindowBackgroundActive : kThemeBrushUtilityWindowBackgroundInactive,
+			err = SetThemeBackground( state.isActive() ? kThemeBrushUtilityWindowBackgroundActive : kThemeBrushUtilityWindowBackgroundInactive,
 									32, TRUE );
-			EraseRect( r );
+									
+			if ( err != noErr ) {
+				StringUtils::traceWithArgs( "SetThemeBackground() failed, err: %d\n", err );
+			}
 			
-			//::SetThemeBackground(kThemeBrushWhite, 24, true);
+			EraseRect( r );
 		}
 		break;
 		
 		case SYSCOLOR_WINDOW_TEXT : {
-		
+			CGContextSetRGBFillColor( contextID_, colorComponents[0], colorComponents[1],
+										colorComponents[2], colorComponents[3] );
+			CGContextBeginPath( contextID_ );
+			CGContextAddRect( contextID_, r );
+			CGContextClosePath( contextID_ );
+			CGContextFillPath ( contextID_ );
 		}
 		break;
 		
 		case SYSCOLOR_WINDOW_FRAME : {
 			SetThemeBackground( state.isActive() ? kThemeBrushDocumentWindowBackground : kThemeBrushDocumentWindowBackground,
 									32, TRUE );
-			EraseRect( r );
-			
-			//::SetThemeBackground(kThemeBrushWhite, 24, true);
+			EraseRect( r );			
 		}
 		break;
 	}
-	//CGContextRestoreGState( contextID_ );
 }
 
+
+void OSXContext_drawThemeMenuItemText ( const ::Rect * inBounds, SInt16 inDepth, 
+										Boolean inIsColorDevice, SInt32 inUserData )
+{
+	MenuState* state = (MenuState*)inUserData;
+	CFTextString cfStr;
+	cfStr = state->menuCaption_;
+	int menuState;
+	if ( state->isActive() ) {
+		menuState = kThemeStateActive;
+	}
+	else if ( state->isSelected() ) {
+		menuState = kThemeStatePressed;
+	}
+	else if ( !state->isEnabled() ) {
+		menuState = kThemeStateInactive;
+	}
+	
+	::DrawThemeTextBox( cfStr, kThemeMenuItemFont, menuState, false, inBounds,
+			teFlushDefault, NULL );
+}
+ 
 void OSXContext::drawThemeMenuItem( Rect* rect, MenuState& state )
 {
-
+	OSXRect r = rect;
+	::Point pt;
+	::Rect menuRect = r;
+	pt.h = menuRect.left;
+	pt.v = menuRect.top;	
+	
+	//LocalToGlobal( &pt );
+	
+//	menuRect.left = pt.h;
+//	menuRect.top = pt.v;
+	
+	
+	pt.h = menuRect.right;
+	pt.v = menuRect.bottom;
+	LocalToGlobal( &pt );
+	
+//	menuRect.right = pt.h;
+//	menuRect.bottom = pt.v;
+	
+	::Rect menuItemRect = menuRect;
+	
+	ThemeMenuState menuState = kThemeMenuActive;
+	if ( state.isSelected() ) {
+		menuState = kThemeMenuSelected;
+	}
+	else if ( !state.isEnabled() ) {
+		menuState = kThemeMenuDisabled;
+	}
+	
+	MenuItemDrawingUPP menuDrawUPP = NewMenuItemDrawingUPP(OSXContext_drawThemeMenuItemText);
+	
+    	
+	DrawThemeMenuItem( &menuRect, &menuItemRect, menuRect.top, menuRect.bottom, 
+						menuState, kThemeMenuItemPlain, menuDrawUPP, (UInt32)&state );
+						
+	DisposeMenuItemDrawingUPP(menuDrawUPP);
+	
 }
 
-void OSXContext::drawThemeText( Rect* rect, const String& text, DrawUIState& state, bool wrapText )
+void OSXContext::drawThemeText( Rect* rect, TextState& state )
 {
-
+	OSXRect r = rect;
+	
+	
+	ThemeTextColor textColor = kThemeTextColorDialogActive;
+	int menuState = kThemeStateActive;
+	
+	if ( state.isSelected() ) {
+		menuState = kThemeStatePressed;
+	}
+	else if ( (!state.isEnabled()) || (!state.isActive()) ) {
+		menuState = kThemeStateInactive;
+		textColor = kThemeTextColorDialogInactive;
+	}
+	
+	
+	ThemeFontID fontID = 0;
+	switch ( state.themeFontType_ ) {
+		case GraphicsContext::ttMenuItemFont : {
+			fontID = kThemeMenuItemFont;
+		}
+		break;
+		
+		case GraphicsContext::ttSelectedMenuItemFont : {
+			fontID = kThemeMenuItemFont;
+		}
+		break;
+		
+		case GraphicsContext::ttSystemFont : {
+			fontID = kThemeSystemFont;
+		}
+		break;
+		
+		case GraphicsContext::ttSystemSmallFont : {
+			fontID = kThemeSmallSystemFont;
+		}
+		break;
+		
+		case GraphicsContext::ttControlFont : {
+			fontID = kThemeApplicationFont;
+		}
+		break;
+		
+		case GraphicsContext::ttMessageFont : {
+			fontID = kThemeAlertHeaderFont;
+		}
+		break;
+		
+		case GraphicsContext::ttToolTipFont : {
+			fontID = kThemeLabelFont;
+		}   
+		break;		
+	}
+	
+	/*
+	teJustLeft
+  teJustCenter
+  teJustRight
+  teForceLeft		// new names for the Justification (word alignment) styles 
+  teFlushDefault	//flush according to the line direction 
+  teCenter			//center justify (word alignment) 
+  teFlushRight		//flush right for all scripts 
+  teFlushLeft
+  */
+  
+	CFTextString cfStr;
+	cfStr = state.text_;
+	
+	::SetThemeTextColor( textColor, 32, true );
+	
+	::DrawThemeTextBox( cfStr, fontID, menuState, state.wrapText_, r,
+						teFlushDefault, NULL );
 }
 	
 	
@@ -1977,6 +2226,9 @@ void OSXContext::drawThemeText( Rect* rect, const String& text, DrawUIState& sta
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10.2.4  2004/06/20 00:36:11  ddiego
+*finished the new theme API updates
+*
 *Revision 1.1.2.10.2.3  2004/06/17 03:00:24  ddiego
 *further updates to OSX theme compliant drawing code
 *
