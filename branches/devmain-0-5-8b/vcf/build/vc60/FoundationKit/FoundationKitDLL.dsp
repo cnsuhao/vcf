@@ -285,6 +285,10 @@ SOURCE=..\..\..\include\exceptions\OutOfBoundsException.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\events\OutputReadyEvent.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\utils\Parser.h
 # End Source File
 # Begin Source File
@@ -301,7 +305,15 @@ SOURCE=..\..\..\include\exceptions\ProcessException.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementer\ProcessIORedirectionPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\implementer\ProcessPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\ProcessWithRedirectedIO.h
 # End Source File
 # Begin Source File
 
@@ -441,6 +453,10 @@ SOURCE=..\..\..\include\implementerKit\Win32Mutex.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\implementerKit\Win32ProcessIORedirector.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\implementerkit\Win32ProcessPeer.h
 # End Source File
 # Begin Source File
@@ -566,6 +582,10 @@ SOURCE=..\..\..\src\core\Point.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\Utils\ProcessWithRedirectedIO.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Events\PropertyChangeEvent.cpp
 # End Source File
 # Begin Source File
@@ -639,6 +659,10 @@ SOURCE=..\..\..\src\ImplementerKit\Win32Mutex.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\ImplementerKit\Win32Peer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ImplementerKit\Win32ProcessIORedirector.cpp
 # End Source File
 # Begin Source File
 
