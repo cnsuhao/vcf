@@ -83,6 +83,13 @@ public:
 		return false;
 	}
 
+	virtual bool equalTo( PropertyEditor* editor ) {
+		if ( NULL == editor ) {
+			return false;
+		}
+
+		return (typeid(*this) == typeid(*editor)) ? true : false;
+	}
 protected:
 	int attributes_;
 	VariantData data_;
@@ -90,12 +97,18 @@ private:
 
 };
 
+
+
+
 }; //end of namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.1  2005/02/16 05:09:30  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

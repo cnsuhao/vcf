@@ -112,6 +112,9 @@ public:
 
 	virtual ~PropertyEditor(){};
 
+
+	virtual bool equalTo( PropertyEditor* editor ) = 0;
+
 	/**
 	This method returns a mask of potential attributes. 
 	*/
@@ -255,6 +258,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

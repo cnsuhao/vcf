@@ -87,9 +87,17 @@ private:
 }; //end of namespace VCF
 
 
+
+
+
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.2  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *

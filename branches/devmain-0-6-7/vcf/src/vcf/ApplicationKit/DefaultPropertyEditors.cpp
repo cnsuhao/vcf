@@ -215,7 +215,7 @@ std::vector<PropertyEditor*> FontPropertyEditor::getSubProperties()
 			Object* obj = *getValue();
 			property->setSource( obj );
 
-			PropertyEditor* editor = PropertyEditorManager::findEditor( property->getTypeClassName () );
+			PropertyEditor* editor = PropertyEditorManager::createEditor( property->getTypeClassName () );
 			if ( NULL != editor ) {
 				result.push_back( editor );
 			}
@@ -251,6 +251,9 @@ DefaultListModelPropertyEditor::~DefaultListModelPropertyEditor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.2  2005/02/21 16:20:01  ddiego
 *minor changes to various things, property editors, and tree list control.
 *

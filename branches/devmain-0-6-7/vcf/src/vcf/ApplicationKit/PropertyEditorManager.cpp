@@ -18,27 +18,31 @@ PropertyEditorManager::PropertyEditorManager()
 
 PropertyEditorManager::~PropertyEditorManager()
 {
-	std::map<String,PropertyEditor*>::iterator it = propertEditorMap_.begin();
-	while ( it != propertEditorMap_.end() ){
-		PropertyEditor* pe = it->second;
-		delete pe;
-		it++;
-	}
 	propertEditorMap_.clear();
 }
 
-PropertyEditor* PropertyEditorManager::findEditor( const String& className )
+PropertyEditor* PropertyEditorManager::createEditor( const String& className )
 {
-	std::map<String,PropertyEditor*>::iterator found =
-		PropertyEditorManager::propertyEditorMgr->propertEditorMap_.find( className );
 	PropertyEditor* result = NULL;
+
+	std::map<String,Class*>::iterator found =
+		PropertyEditorManager::propertyEditorMgr->propertEditorMap_.find( className );
+	
 	if ( found != PropertyEditorManager::propertyEditorMgr->propertEditorMap_.end() ){
-		result = found->second;
+		Class* editorClass = found->second;
+
+		Object* instance = editorClass->createInstance();
+		if ( NULL != instance ) {
+			result = dynamic_cast<PropertyEditor*>(instance);
+			if ( NULL == result ) {
+				instance->free();
+			}
+		}
 	}
 	return result;
 }
 
-bool PropertyEditorManager::registerPropertyEditor( PropertyEditor* editor, const String& className )
+bool PropertyEditorManager::registerPropertyEditor( Class* editorClass, const String& className )
 {
 	bool result = true;
 	if ( PropertyEditorManager::propertyEditorMgr->propertEditorMap_.find(className) !=
@@ -46,10 +50,54 @@ bool PropertyEditorManager::registerPropertyEditor( PropertyEditor* editor, cons
 		result = false;
 	}
 	else {
-		PropertyEditorManager::propertyEditorMgr->propertEditorMap_[className] = editor;
+		PropertyEditorManager::propertyEditorMgr->propertEditorMap_[className] = editorClass;
 	}
 	
 	return result;
+}
+
+bool PropertyEditorManager::registerPropertyEditor( const String& editorClassName, const String& className )
+{
+	Class* editorClass = ClassRegistry::getClass( editorClassName );
+	if ( NULL != editorClass ) {
+		return PropertyEditorManager::registerPropertyEditor( editorClass, className );
+	}
+
+	return false;
+}
+
+void PropertyEditorManager::removePropertyEditor( const String& className )
+{
+	Class* editorClass = NULL;
+
+	std::map<String,Class*>::iterator found =
+		PropertyEditorManager::propertyEditorMgr->propertEditorMap_.find( className );
+	PropertyEditor* result = NULL;
+	if ( found != PropertyEditorManager::propertyEditorMgr->propertEditorMap_.end() ){
+		editorClass = found->second;
+	}
+	else {
+		return; //nothing to do
+	}
+
+	//prep to remove dupes if neccessary
+	std::map<String,Class*>::iterator it =
+		 PropertyEditorManager::propertyEditorMgr->propertEditorMap_.begin();
+
+	std::vector<std::map<String,Class*>::iterator> removeList;
+	while ( it != PropertyEditorManager::propertyEditorMgr->propertEditorMap_.end() ) {
+		if ( it->second == editorClass ) {
+			removeList.push_back( it );			
+		}
+		it ++;
+	}
+
+	std::vector<std::map<String,Class*>::iterator>::iterator it2 = 
+		removeList.begin();
+	while ( it2 != removeList.end() ) {
+		PropertyEditorManager::propertyEditorMgr->propertEditorMap_.erase( *it2 );
+		it2 ++;
+	}
 }
 
 void PropertyEditorManager::initPropertyEditorManager()
@@ -77,6 +125,9 @@ void PropertyEditorManager::closePropertyEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

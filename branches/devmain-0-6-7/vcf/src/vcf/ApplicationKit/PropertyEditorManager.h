@@ -69,24 +69,35 @@ public:
 	static void closePropertyEditorManager();
 
 	/**
-	find a suitable property editor for a given
-	classname.
+	create a suitable property editor for a given classname.
 	@param String the class name of the property type - this is the same
 	name that should have been used in the call to registerPropertyEditor()
-	to register the property editor with the PropertyEditorManager.
-	@return PropertyEditor returns an intance of a property editor. If 
+	to register the property editor Class with the PropertyEditorManager.
+	@return PropertyEditor returns a new intance of a property editor. If 
 	no match is found with the className parameter, then the return value is NULL.
 	*/
-	static PropertyEditor* findEditor( const String& className );
+	static PropertyEditor* createEditor( const String& className );
 
 	/**
 	Registers a property editor for a given class name. If an existing property
 	editor already exists with teh
-	@param PropertyEditor
-	@param String
+	@param Class the class instance that represents the property editor
+	@param String the name of the type associated with this property editor
 	@return bool 
 	*/
-	static bool registerPropertyEditor( PropertyEditor* editor, const String& className );	
+	static bool registerPropertyEditor( Class* editorClass, const String& className );	
+
+	/**
+	Registers a property editor for a given class/type name. If an existing property
+	editor already exists with the same name type name, then teh function returns
+	false.
+	@param String the class name that represents the property editor
+	@param String the name of the type associated with this property editor
+	@return bool 
+	*/
+	static bool registerPropertyEditor( const String& editorClassName, const String& className );	
+
+	static void removePropertyEditor( const String& className );	
 
 private:
 	PropertyEditorManager();
@@ -97,7 +108,7 @@ private:
 
 
 	static PropertyEditorManager* propertyEditorMgr;
-	std::map<String,PropertyEditor*> propertEditorMap_;
+	std::map<String,Class*> propertEditorMap_;
 
 };
 
@@ -108,6 +119,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
+*fixed property editor class.
+*
 *Revision 1.2.4.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
