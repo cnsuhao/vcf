@@ -913,6 +913,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp
 # End Source File
 # Begin Source File
@@ -1670,6 +1678,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ResourceStreamPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ScrollPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\SystemTrayPeer.h
 # End Source File
 # Begin Source File
 

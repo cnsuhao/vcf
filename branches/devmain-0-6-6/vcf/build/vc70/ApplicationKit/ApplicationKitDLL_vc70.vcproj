@@ -788,6 +788,12 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp">
 			</File>
 			<File
@@ -1360,6 +1366,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTrayPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TextPeer.h">
