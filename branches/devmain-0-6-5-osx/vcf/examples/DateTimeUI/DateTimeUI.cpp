@@ -426,15 +426,12 @@ public:
 		panel->setBorderSize( 5 );
 		add( panel, AlignTop );
 
-
-
 		DigitalClock* clock1 = new DigitalClock();
 		panel->add( clock1, AlignClient );
 
 		AnalogClock* clock2 = new AnalogClock();
 		clock2->setWidth( 200 );
 		panel->add( clock2, AlignLeft );
-
 
 		Calendar* calendar = new Calendar();
 
@@ -485,6 +482,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10.2.1  2004/06/27 18:19:14  ddiego
+*more osx updates
+*
 *Revision 1.2.2.10  2004/06/07 03:07:06  ddiego
 *more osx updates dealing with mouse handling
 *

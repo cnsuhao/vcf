@@ -1006,356 +1006,39 @@ void OSXContext::setClippingRect( Rect* clipRect )
 }
 
 
-/*
-void OSXContext::drawSelectionRect( VCF::Rect* rect )
-{
-    ::Rect r = RectProxy(rect);
-
-    DrawThemeFocusRect( &r, TRUE );
-}
-
-void OSXContext::drawButtonRect( Rect* rect, const bool& isPressed )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-    ThemeButtonDrawInfo btnInfo;
-    btnInfo.state = isPressed ? kThemeStatePressed : kThemeStateActive;
-    btnInfo.value = kThemeButtonOff;
-    btnInfo.adornment = kThemeAdornmentNone;
-
-
-    DrawThemeButton( &r, kThemePushButton, &btnInfo, NULL, NULL, NULL, 0 );
-}
-
-void OSXContext::drawCheckboxRect( Rect* rect, const bool& isPressed )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-    ThemeButtonDrawInfo btnInfo;
-    btnInfo.state = isPressed ? kThemeStatePressed : kThemeStateActive;
-    btnInfo.value = isPressed ?  kThemeButtonOn : kThemeButtonOff;
-    btnInfo.adornment = kThemeAdornmentNone;
-
-
-    DrawThemeButton( &r, kThemeCheckBox, &btnInfo, NULL, NULL, NULL, 0 );
-}
-
-void OSXContext::drawRadioButtonRect( Rect* rect, const bool& isPressed )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-    ThemeButtonDrawInfo btnInfo;
-    btnInfo.state = isPressed ? kThemeStatePressed : kThemeStateActive;
-    btnInfo.value = isPressed ?  kThemeButtonOn : kThemeButtonOff;
-    btnInfo.adornment = kThemeAdornmentNone;
-
-
-    DrawThemeButton( &r, kThemeRadioButton, &btnInfo, NULL, NULL, NULL, 0 );
-}
-
-void OSXContext::drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    //DrawThemeScrollBarArrows( &r,  kThemeTrackNothingToScroll, 0, TRUE, NULL );
-}
-
-void OSXContext::drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed )
-{
-
-}
-
-
-
-void OSXContext::drawDisclosureButton( Rect* rect, const long& state )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    ThemeButtonDrawInfo btnInfo;
-    btnInfo.state = kThemeStateActive;
-    //btnInfo.value = isPressed ?  kThemeButtonOn : kThemeButtonOff;
-    btnInfo.adornment = kThemeAdornmentNone;
-
-    switch ( state ) {
-        case GraphicsContext::dsClosed : {
-            btnInfo.value = kThemeDisclosureRight;
-        }
-        break;
-
-        case GraphicsContext::dsPartialOpened : {
-
-        }
-        break;
-
-        case GraphicsContext::dsOpened : {
-            btnInfo.value = kThemeDisclosureDown;
-        }
-        break;
-    }
-
-    DrawThemeButton( &r, kThemeDisclosureButton, &btnInfo, NULL, NULL, NULL, 0 );
-}
-
-
-void OSXContext::drawTab( Rect* rect, const bool& selected, const String& caption )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-    //we need more info
-    //DrawThemeTab ( &r,
-}
-
-
-void OSXContext::drawTabPage( Rect* rect )
-{
-
-}
-
-void OSXContext::drawHeader( Rect* rect )
-{
-
-}
-
-
-void OSXContext::drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle )
-{
-    if ( GraphicsContext::etAllSides == edgeSides ) {
-        ::Rect r = RectProxy(rect);
-
-        //SwitchPort sw( grafPort_ );
-
-        DrawThemePrimaryGroup( &r, kThemeStateActive );
-    }
-    else {
-        if ( edgeSides & GraphicsContext::etLeftSide ) {
-            ::Rect r = RectProxy(rect);
-            r.right = r.left;
-            DrawThemeSeparator( &r, kThemeStateActive );
-        }
-
-        if ( edgeSides & GraphicsContext::etRightSide ) {
-            ::Rect r = RectProxy(rect);
-            r.left = r.right;
-            DrawThemeSeparator( &r, kThemeStateActive );
-        }
-
-        if ( edgeSides & GraphicsContext::etTopSide ) {
-            ::Rect r = RectProxy(rect);
-            r.bottom = r.top;
-            DrawThemeSeparator( &r, kThemeStateActive );
-        }
-
-        if ( edgeSides & GraphicsContext::etBottomSide ) {
-            ::Rect r = RectProxy(rect);
-            r.top = r.bottom;
-            DrawThemeSeparator( &r, kThemeStateActive );
-        }
-    }
-}
-
-void OSXContext::drawSizeGripper( VCF::Rect* rect )
-{
-    ::Rect bounds;
-    ::Point gripperOrigin;
-    gripperOrigin.h = (int)rect->left_;
-    gripperOrigin.v = (int)rect->top_;
-
-    //SwitchPort sw( grafPort_ );
-
-    GetThemeStandaloneGrowBoxBounds( gripperOrigin, 0, FALSE, &bounds );
-    gripperOrigin.h = (int)(rect->right_ - (bounds.right-bounds.left));
-    gripperOrigin.v = (int)(rect->bottom_ - (bounds.bottom-bounds.top));
-
-    DrawThemeStandaloneGrowBox( gripperOrigin, 0, FALSE,  kThemeStateInactive );
-}
-
-
-void OSXContext::drawControlBackground( Rect* rect )
-{
-
-}
-
-
-void OSXContext::drawWindowBackground( Rect* rect )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    ::SetThemeBackground( kThemeBrushUtilityWindowBackgroundActive, 32, true ) ;
-
-    ::EraseRect( &r ) ;
-}
-
-void OSXContext::drawMenuItemBackground( Rect* rect, const bool& selected )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    ::SetThemeBackground( selected ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground,
-                            32,
-                            true ) ;
-
-    ::EraseRect( &r ) ;
-}
-
-void OSXContext::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    ThemeTrackDrawInfo info;
-    info.kind = kThemeMediumSlider;
-    info.bounds = r;
-    info.min = (int)sliderInfo.min;
-    info.max = (int)sliderInfo.max;
-    info.value = (int)sliderInfo.position;
-    info.attributes = sliderInfo.vertical ? 0 :  kThemeTrackHorizontal;
-    info.attributes |= kThemeTrackRightToLeft;
-
-    info.trackInfo.slider.thumbDir = 0;
-    info.trackInfo.slider.pressState = 0;
-
-
-    if ( sliderInfo.pressed ) {
-        info.enableState = kThemeTrackActive;
-    }
-    else if ( !sliderInfo.enabled ) {
-        info.enableState = kThemeTrackDisabled;
-    }
-    else {
-        info.enableState = kThemeTrackInactive;
-    }
-
-    if ( sliderInfo.bottomRightTicks ) {
-        info.trackInfo.slider.thumbDir = kThemeThumbUpward;
-    }
-    else if( sliderInfo.topLeftTicks ) {
-        info.trackInfo.slider.thumbDir = kThemeThumbDownward;
-    }
-
-    if ( noErr != DrawThemeTrackTickMarks( &info, sliderInfo.tickCount, NULL, 0 ) ) {
-        printf( "DrawThemeTrackTickMarks failed\n" );
-    }
-
-}
-
-
-void OSXContext::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
-{
-    
-    //::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    //ThemeTrackDrawInfo info;
-    //info.kind = kThemeMediumSlider;
-    //info.bounds = r;
-    //info.min = sliderInfo.min;
-    //info.max = sliderInfo.max;
-    //info.value = sliderInfo.position;
-    //info.attributes = sliderInfo.vertical ? 0 :  kThemeTrackHorizontal;
-    //info.attributes |= kThemeTrackRightToLeft | kThemeTrackShowThumb;
-
-    //info.trackInfo.slider.thumbDir = 0;
-    //info.trackInfo.slider.pressState = 0;
-
-
-    //if ( sliderInfo.pressed ) {
-     //   info.enableState = kThemeTrackActive;
-   // }
-    //else if ( !sliderInfo.enabled ) {
-      //  info.enableState = kThemeTrackDisabled;
-   // /}
-    //else {
-     //   info.enableState = kThemeTrackInactive;
-    //}
-
-    //if ( noErr != DrawThemeTrack( &info, NULL, NULL, NULL ) ) {
-      //  printf( "DrawThemeTrackTickMarks failed\n" );
-   // }
-    
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    ThemeButtonDrawInfo btnInfo;
-    btnInfo.value = 0;
-    if ( sliderInfo.pressed ) {
-        btnInfo.state = kThemeStatePressedDown;
-    }
-    else if ( !sliderInfo.enabled ) {
-        btnInfo.state = kThemeStateActive;
-
-    }
-    else {
-        btnInfo.state = kThemeStateInactive;
-    }
-    btnInfo.value = kThemeButtonOn;//isPressed ?  kThemeButtonOn : kThemeButtonOff;
-    btnInfo.adornment = kThemeAdornmentNone;
-
-
-
-    DrawThemeButton( &r, kThemeRoundButton, &btnInfo, NULL, NULL, NULL, 0 );
-}
-
-void OSXContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
-{
-    ::Rect r = RectProxy(rect);
-
-    //SwitchPort sw( grafPort_ );
-
-    ThemeTrackDrawInfo info;
-    info.kind = kThemeMediumSlider;
-    info.bounds = r;
-    info.min = (int)sliderInfo.min;
-    info.max = (int)sliderInfo.max;
-    info.value = (int)sliderInfo.position;
-    info.attributes = sliderInfo.vertical ? 0 :  kThemeTrackHorizontal;
-    info.attributes |= kThemeTrackRightToLeft;
-
-    info.trackInfo.slider.thumbDir = 0;
-    info.trackInfo.slider.pressState = 0;
-
-
-    if ( sliderInfo.pressed ) {
-        info.enableState = kThemeTrackActive;
-    }
-    else if ( !sliderInfo.enabled ) {
-        info.enableState = kThemeTrackDisabled;
-    }
-    else {
-        info.enableState = kThemeTrackInactive;
-    }
-
-    if ( noErr != DrawThemeTrack( &info, NULL, NULL, NULL ) ) {
-        printf( "DrawThemeTrackTickMarks failed\n" );
-    }
-}
-*/
-
-
-
-
-
-
 void OSXContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
+{
+	CGContextSaveGState( contextID_ );
+	
+	Color* stroke = Color::getColor("gray100");
+	Color* fill = Color::getColor("gray128");
+	
+	CGContextSetAlpha( contextID_, 0.2 );
+	
+	OSXRect r = rect;
+	
+	CGContextSetLineWidth( contextID_, 1.0 );
+	CGContextSetRGBStrokeColor( contextID_, stroke->getRed(), stroke->getGreen(),
+										stroke->getBlue(), 1.0 );
+										
+	CGContextSetRGBFillColor( contextID_, fill->getRed(), fill->getGreen(),
+										fill->getBlue(), 1.0 );
+										
+    CGContextBeginPath( contextID_ );
+	CGContextAddRect( contextID_, r );
+	CGContextClosePath( contextID_ );
+	CGContextDrawPath ( contextID_, kCGPathFillStroke );	
+	//CGContextFillPath ( contextID_ );
+	
+	CGContextRestoreGState( contextID_ );	
+}
+
+void OSXContext::drawThemeFocusRect( Rect* rect, DrawUIState& state )
 {
 	OSXRect r = rect;
 
     DrawThemeFocusRect( r, state.isFocused() );
 }
-
 
 void OSXContext_drawThemeButtonText( const ::Rect * bounds, ThemeButtonKind kind, 
 										const ThemeButtonDrawInfo * info, UInt32 userData,
@@ -1468,7 +1151,41 @@ void OSXContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	DisposeThemeButtonDrawUPP(btnDrawUPP);
 }
 
-void OSXContext::drawThemeScrollButtonRect( Rect* rect, DrawUIState& state )
+void OSXContext::drawThemeComboboxRect( Rect* rect, ButtonState& state )
+{
+	OSXRect r = rect;
+	
+    ThemeButtonDrawInfo btnInfo;
+	btnInfo.state = kThemeStateInactive ;
+	
+	btnInfo.value = kThemeButtonOff;
+	
+	if ( state.isPressed() ) {
+		btnInfo.state |= kThemeStatePressed;
+		btnInfo.value = kThemeButtonOn;
+	}
+	
+	if ( state.isActive() && state.isEnabled() ) {
+		btnInfo.state |= kThemeStateActive;
+	}
+	
+	
+	btnInfo.adornment = kThemeAdornmentNone;
+	
+	if ( state.isFocused() ) {
+		btnInfo.adornment |= kThemeAdornmentFocus;
+	}	
+    
+    
+
+	ThemeButtonDrawUPP btnDrawUPP = NewThemeButtonDrawUPP(OSXContext_drawThemeButtonText);
+	
+    DrawThemeButton( r, kThemePopupButton, &btnInfo, NULL, NULL, btnDrawUPP, (UInt32)&state );
+	
+	DisposeThemeButtonDrawUPP(btnDrawUPP);
+}
+
+void OSXContext::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state )
 {
 	/*
 	OSXRect r = rect;
@@ -1824,16 +1541,19 @@ void OSXContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
 	CGContextRestoreGState( contextID_ );
 }
 
-void OSXContext::drawThemeHeader( Rect* rect, DrawUIState& state )
+void OSXContext::drawThemeHeader( Rect* rect, ButtonState& state )
 {
 	OSXRect r = rect;
 	
     ThemeButtonDrawInfo btnInfo;
 	btnInfo.state = kThemeStateInactive ;
 	
-	btnInfo.value = 0;
+	btnInfo.value = kThemeButtonOff;
 	
-	
+	if ( state.isPressed() ) {
+		btnInfo.state |= kThemeStatePressed;
+		btnInfo.value = kThemeButtonOn;
+	}
 	
 	if ( state.isActive() && state.isEnabled() ) {
 		btnInfo.state |= kThemeStateActive;
@@ -2226,6 +1946,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10.2.5  2004/06/27 18:19:16  ddiego
+*more osx updates
+*
 *Revision 1.1.2.10.2.4  2004/06/20 00:36:11  ddiego
 *finished the new theme API updates
 *

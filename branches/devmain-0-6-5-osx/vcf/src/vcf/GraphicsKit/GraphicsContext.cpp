@@ -635,6 +635,11 @@ void GraphicsContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
 	contextPeer_->drawThemeSelectionRect( rect, state );
 }
 
+void GraphicsContext::drawThemeFocusRect( Rect* rect, DrawUIState& state )
+{
+	contextPeer_->drawThemeFocusRect( rect, state );
+}
+
 void GraphicsContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
 {
 	contextPeer_->drawThemeButtonRect( rect, state );
@@ -650,7 +655,13 @@ void GraphicsContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	contextPeer_->drawThemeRadioButtonRect( rect, state );
 }
 
-void GraphicsContext::drawThemeScrollButtonRect( Rect* rect, DrawUIState& state )
+void GraphicsContext::drawThemeComboboxRect( Rect* rect, ButtonState& state )
+{
+	contextPeer_->drawThemeComboboxRect( rect, state );
+}
+
+
+void GraphicsContext::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state )
 {   
 	contextPeer_->drawThemeScrollButtonRect( rect, state );
 }
@@ -690,7 +701,7 @@ void GraphicsContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& sta
 	contextPeer_->drawThemeImage( rect, image, state );
 }
 
-void GraphicsContext::drawThemeHeader( Rect* rect, DrawUIState& state )
+void GraphicsContext::drawThemeHeader( Rect* rect, ButtonState& state )
 {
 	contextPeer_->drawThemeHeader( rect, state );
 }
@@ -957,6 +968,9 @@ void GraphicsContext::flushDrawingArea()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2.2.4  2004/06/27 18:19:16  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2.2.3  2004/06/20 00:36:11  ddiego
 *finished the new theme API updates
 *

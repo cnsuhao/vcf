@@ -69,7 +69,6 @@
 				5E2C800E0641F7AA00A8020D,
 				0867D69AFE84028FC02AAC07,
 				034768DDFF38A45A11DB9C8B,
-				5EB250210673D6D200DA4A17,
 			);
 			isa = PBXGroup;
 			name = vcfAllProjects;
@@ -395,7 +394,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\" \"$(VCF_INCLUDE)/thirdparty/macOSX\"";
-				LIBRARY_SEARCH_PATHS = "/usr/lib/gcc/darwin/3.1 \"$(VCF_LIB)\"";
+				LIBRARY_SEARCH_PATHS = "/usr/lib/gcc/darwin/3.3 \"$(VCF_LIB)\"";
 				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX  -Wno-multichar";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3673,7 +3672,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libstdc++.a";
-			path = "/usr/lib/gcc/darwin/3.1/libstdc++.a";
+			path = "/usr/lib/gcc/darwin/3.3/libstdc++.a";
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
@@ -11657,14 +11656,6 @@
 			settings = {
 			};
 		};
-		5EB250210673D6D200DA4A17 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
-			name = "FoundationKit-release-Info.plist";
-			path = "/Users/jimcrafton/code/vcfdev/dev/vcf/build/xcode/FoundationKit-release-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
 		5EB250270673D6F900DA4A17 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -11901,7 +11892,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\"";
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.1";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.3";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX  -D_DEBUG -Wno-multichar";
 				OTHER_LDFLAGS = "";
@@ -12138,10 +12129,8 @@
 		5EB250460673D74A00DA4A17 = {
 			buildActionMask = 2147483647;
 			files = (
-				5EB254390673DB4F00DA4A17,
 				5EB2543A0673DB4F00DA4A17,
 				5EB2543B0673DB4F00DA4A17,
-				5EB2543C0673DB4F00DA4A17,
 				5EB256310673DE4900DA4A17,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -12169,7 +12158,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin";
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.1 /Users/jimcrafton/code/vcfdev/dev/vcf/lib";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.3";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX  -D_DEBUG -Wno-multichar";
 				OTHER_LDFLAGS = "";
@@ -12612,7 +12601,6 @@
 		5EB250530673D75500DA4A17 = {
 			buildActionMask = 2147483647;
 			files = (
-				5EB257270674017500DA4A17,
 				5EB257280674017500DA4A17,
 				5EB257210674016900DA4A17,
 				5EB2564E0673DF4800DA4A17,
@@ -12642,10 +12630,9 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin";
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.1";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.3";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX  -D_DEBUG -Wno-multichar";
-				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRINCIPAL_CLASS = "";
@@ -14425,12 +14412,6 @@
 			settings = {
 			};
 		};
-		5EB254390673DB4F00DA4A17 = {
-			fileRef = 5E2C822F06420DB900A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EB2543A0673DB4F00DA4A17 = {
 			fileRef = 5EAA3D18064737FE00A8020D;
 			isa = PBXBuildFile;
@@ -14439,12 +14420,6 @@
 		};
 		5EB2543B0673DB4F00DA4A17 = {
 			fileRef = 08FB77AAFE841565C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EB2543C0673DB4F00DA4A17 = {
-			fileRef = 5E444AE40647473E00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -16669,12 +16644,6 @@
 		};
 		5EB257210674016900DA4A17 = {
 			fileRef = 5EB256300673DE4900DA4A17;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EB257270674017500DA4A17 = {
-			fileRef = 5E2C822F06420DB900A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
