@@ -591,18 +591,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RTTI"="..\..\RTTI Compiler\RTTI.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "RegExx"=".\FoundationKit\RegExx.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -952,18 +940,6 @@ Package=<4>
 ###############################################################################
 
 Project: "libXmake"="..\..\xmake\libXmake.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "libart"=".\GraphicsKit\libart.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
