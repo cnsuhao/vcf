@@ -525,7 +525,8 @@ public:
 
 	virtual void setVisible( const bool& val );
 
-	virtual LRESULT handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc = NULL );
+	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndResult, WNDPROC defaultWndProc=NULL );
+	
 
 
 	virtual String getCurrentURL();
@@ -579,6 +580,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/08 01:16:50  ddiego
+*fixed incorrect win32htmlbrowser function due to changes from weekend.
+*
 *Revision 1.2.2.1  2004/08/17 05:01:29  marcelloptr
 *improved macros for library selection
 *
