@@ -604,7 +604,7 @@ public:
 	*/
 	template <typename DateLogic>
 	class Iterator 
-	#ifdef VCF_BCC
+	#if defined(VCF_BCC) || defined(__INTEL_COMPILER)
 	;
 	#else
 	{
@@ -680,7 +680,7 @@ protected:
 };
 
 
-#ifdef VCF_BCC
+#if defined(VCF_BCC) || defined(__INTEL_COMPILER)
 	template <typename DateLogic>
 	class DateTime::Iterator {
 	public:
@@ -948,6 +948,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/10/18 23:18:19  augusto_roman
+*Fixed DateTime iterator declaration to work with the intel compiler - aroman
+*
 *Revision 1.2.2.4  2004/08/26 04:05:47  marcelloptr
 *minor change on name of getMillisecond
 *
