@@ -830,7 +830,7 @@ class DspApp:
         #        print attr + ' = ' + x
 
         print '[' + self.options.configsection + ']'
-        print ' --workingDir                 = ' + str(self.currentdir                       )
+        print ' --workingDir     = ' + str(self.currentdir    )
         print ''
         print ' --config         = ' + str(self.options.config)
         print ' --section        = ' + str(self.options.section)
