@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "vc6/ReleaseS/"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /WX /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Yu"FoundationKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /WX /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -105,6 +105,8 @@ SOURCE=../../../src/vcf/FoundationKit/FoundationKit.cpp
 
 !IF  "$(CFG)" == "FoundationKit - Win32 Release"
 
+# ADD CPP /Yc"vcf/FoundationKit/FoundationKit.h"
+
 !ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
 
 # ADD CPP /Yc"vcf/FoundationKit/FoundationKit.h"
@@ -119,6 +121,13 @@ SOURCE=../../../src/vcf/FoundationKit/FoundationKitRTTI.inl
 # Begin Source File
 
 SOURCE=../../../src/vcf/FoundationKit/Library.cpp
+
+!IF  "$(CFG)" == "FoundationKit - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "FoundationKit - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Group "Peers"
