@@ -21,7 +21,8 @@ where you installed the VCF.
 namespace VCF {
 
 
-
+class InputStream;
+class OutputStream;
 
 /**
 This exception is thrown when a bad date format is used. An example
@@ -784,6 +785,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/06/25 20:02:14  marcelloptr
+*minor fix
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
