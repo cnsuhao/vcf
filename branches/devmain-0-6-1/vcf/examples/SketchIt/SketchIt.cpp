@@ -52,6 +52,20 @@ public:
 			MenuBar* menuBar = doc->getWindow()->getMenuBar();
 			
 			MenuItem* root = menuBar->getRootMenuItem();
+			MenuItem* view = new DefaultMenuItem( "&View", root, menuBar );
+			MenuItem* viewAA = new DefaultMenuItem( "&Anti-Aliased", view, menuBar );
+
+			viewAA->addMenuItemClickedHandler( 
+				new MenuItemEventHandler<SketchIt>( this, 
+													&SketchIt::onToggleAntiAliasing,
+													"SketchIt::onToggleAntiAliasing" ) );
+
+			viewAA->addMenuItemUpdateHandler( 
+				new MenuItemEventHandler<SketchIt>( this, 
+													&SketchIt::onUpdateToggleAntiAliasing,
+													"SketchIt::onUpdateToggleAntiAliasing" ) );
+
+
 			MenuItem* tools = new DefaultMenuItem( "&Tools", root, menuBar );
 			
 			MenuItem* toolsSelect = new DefaultMenuItem( "&Select", tools, menuBar );
@@ -75,10 +89,28 @@ public:
 			tool = new RotateTool();
 			ToolManager::getToolManager()->registerTool( tool, toolsXFormRotate );
 
+			ToolManager::getToolManager()->registerTool( new ScaleTool(), toolsXFormScale );
+
+			ToolManager::getToolManager()->registerTool( new SkewTool(), toolsXFormSkew );
 			
 		}
 
 		firstTime = false;
+	}
+
+	void onToggleAntiAliasing( MenuItemEvent* e ) {
+		getMainWindow()->setUsingRenderBuffer( !getMainWindow()->isUsingRenderBuffer() );	
+		GraphicsContext* ctx = getMainWindow()->getContext();
+		if ( getMainWindow()->isUsingRenderBuffer() ) {
+			ctx->setDrawingArea( *getMainWindow()->getClientBounds() );
+		}
+
+		getMainWindow()->repaint();
+	}
+
+	void onUpdateToggleAntiAliasing( MenuItemEvent* e ) {
+		MenuItem* item = (MenuItem*)e->getSource();
+		item->setChecked( getMainWindow()->isUsingRenderBuffer() );
 	}
 };
 

@@ -1,6 +1,10 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2003/07/18 04:38:54  ddiego
+*got more work done on the sketch examples plus fixed a bug in the application
+*of a transform ot a path
+*
 *Revision 1.1.2.1  2003/07/17 03:02:46  ddiego
 *added sketch example
 *
@@ -119,6 +123,7 @@ protected:
 	Shape* hitTest( VCF::Point& pt );
 	VCF::Point startDragPoint_;
 	VCF::Point dragPoint_;
+	
 };
 
 
@@ -155,8 +160,50 @@ protected:
 	VCF::Point startDragPoint_;
 	VCF::Point dragPoint_;
 	double startAngle_;
+	VCF::Point origin_;
+
+	void rotateShape( Shape* shape, VCF::Point pt );
 };
 
+class ScaleTool : public Tool {
+public:
+	virtual void paintState( VCF::GraphicsContext* ctx );
+
+	virtual void onMouseDown( VCF::MouseEvent* e );
+
+	virtual void onMouseMove( VCF::MouseEvent* e );
+
+	virtual void onMouseUp( VCF::MouseEvent* e );
+protected:
+	VCF::Point startDragPoint_;
+	VCF::Point dragPoint_;
+
+	VCF::Point origin_;
+	VCF::Rect bounds_;
+
+	void scaleShape( Shape* shape, VCF::Point pt );
+};
+
+
+
+class SkewTool : public Tool {
+public:
+	virtual void paintState( VCF::GraphicsContext* ctx );
+
+	virtual void onMouseDown( VCF::MouseEvent* e );
+
+	virtual void onMouseMove( VCF::MouseEvent* e );
+
+	virtual void onMouseUp( VCF::MouseEvent* e );
+protected:
+	VCF::Point startDragPoint_;
+	VCF::Point dragPoint_;
+	double startAngle_;
+	VCF::Point origin_;
+	VCF::Rect bounds_;
+
+	void skewShape( Shape* shape, VCF::Point pt );
+};
 
 #endif //_SKETCHTOOLS_H__
 

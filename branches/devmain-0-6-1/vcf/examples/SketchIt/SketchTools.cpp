@@ -1,6 +1,10 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2003/07/18 04:38:54  ddiego
+*got more work done on the sketch examples plus fixed a bug in the application
+*of a transform ot a path
+*
 *Revision 1.1.2.1  2003/07/17 03:02:46  ddiego
 *added sketch example
 *
@@ -451,8 +455,6 @@ void LineTool::onMouseUp( VCF::MouseEvent* e )
 
 #define _EPSILON_		0.000000000001
 
-#define radiansToDegrees( rads ) \
-	rads*(180.0/M_PI)
 
 double arcSin (double fValue)
 {
@@ -483,7 +485,7 @@ double getAngleFromLine( Point p1, Point p2 )
 
 	c = (c <= _EPSILON_) ? 0.0 : b/c;
 
-	d = radiansToDegrees(arcSin(c));
+	d = VCF::Math::radiansToDegrees(arcSin(c));
 
 	if ( (p1.x_ >= p2.x_) && (p1.y_ <= p2.y_)) {
 		result = 90-d;
@@ -518,20 +520,36 @@ void RotateTool::onMouseDown( VCF::MouseEvent* e )
 
 		Shape* shape = doc->getSelectedShape();
 
-		Matrix2D m2;
-		m2.rotate( 2 );
+		if ( NULL == shape ) {
+			return;
+		}
 
-		Matrix2D m3;
-		m3.scale( -1.0, -1.0 );
+		origin_ = startDragPoint_;
 
-		shape->polygon_.applyTransform( *m3.multiply( &m3, &m2 ) );
-
-		doc->updateAllViews();
+		Rect bounds = shape->polygon_.getBounds();
 	}
+}
+
+void RotateTool::rotateShape( Shape* shape, Point pt )
+{
+	Matrix2D m1;
+	m1.translate( -origin_.x_, -origin_.y_ );
+	
+	shape->polygon_.applyTransform( m1 );
+	
+	double angle = getAngleFromLine( pt, startDragPoint_ ) - getAngleFromLine( dragPoint_, startDragPoint_ ) ;		
+	Matrix2D m2;
+	m2.rotate( angle );//				
+	
+	m1.translate( origin_.x_, origin_.y_ );
+	
+	shape->polygon_.applyTransform( *m2.multiply( &m2, &m1 ) );		
+	
 }
 
 void RotateTool::onMouseMove( VCF::MouseEvent* e )
 {
+	
 	if ( e->hasLeftButton() ) {		
 
 		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
@@ -541,32 +559,8 @@ void RotateTool::onMouseMove( VCF::MouseEvent* e )
 			return;
 		}
 
+		rotateShape( shape, *e->getPoint() );
 
-
-		StringUtils::traceWithArgs( "angle: %.03f\n", getAngleFromLine( dragPoint_, startDragPoint_ ) );
-		
-		Matrix2D m1;
-		m1.translate( dragPoint_.x_ - startDragPoint_.x_,
-							dragPoint_.y_ - startDragPoint_.y_ );
-
-		m1.invert();
-		//shape->polygon_.applyTransform( m1 );
-		
-		
-		Matrix2D m2;
-		m2.rotate( 2 );//getAngleFromLine( *e->getPoint(), startDragPoint_ ) - getAngleFromLine( dragPoint_, startDragPoint_ ) );		
-		
-		m1.identity();
-
-		m1.translate( e->getPoint()->x_ - startDragPoint_.x_,
-							e->getPoint()->y_ - startDragPoint_.y_ );
-
-		shape->polygon_.applyTransform( m2 );
-
-		Matrix2D* m = m2.multiply( &m1, &m2 );
-		if ( NULL != m ) {
-			
-		}
 		doc->updateAllViews();
 
 		dragPoint_ = *e->getPoint();
@@ -576,6 +570,196 @@ void RotateTool::onMouseMove( VCF::MouseEvent* e )
 void RotateTool::onMouseUp( VCF::MouseEvent* e )
 {	
 	if ( e->hasLeftButton() ) {
+		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+		Shape* shape = doc->getSelectedShape();
 
+		if ( NULL == shape ) {
+			return;
+		}
+
+		rotateShape( shape, *e->getPoint() );
+
+		doc->updateAllViews();
+
+		dragPoint_ = *e->getPoint();
 	}
 }
+
+void ScaleTool::paintState( VCF::GraphicsContext* ctx )
+{
+
+}
+
+void ScaleTool::onMouseDown( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		startDragPoint_ = dragPoint_ = *e->getPoint();
+		
+		
+		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+
+		Shape* shape = doc->getSelectedShape();
+
+		if ( NULL == shape ) {
+			return;
+		}
+		origin_ = startDragPoint_;
+
+		bounds_ = shape->polygon_.getBounds();
+	}
+}
+
+void ScaleTool::scaleShape( Shape* shape, VCF::Point pt )
+{
+	Matrix2D m1;
+	m1.translate( -origin_.x_, -origin_.y_ );
+	
+	shape->polygon_.applyTransform( m1 );
+	
+	double dx = pt.x_ - origin_.x_;
+	double dy = pt.y_ - origin_.y_;
+	double t  = bounds_.getWidth() - (dx) /2.0;
+	if ( t  == 0.0 ) {
+		t = _EPSILON_;
+	}
+	double sx = bounds_.getWidth() / t;
+
+	t = bounds_.getHeight() - (dy)/2.0;
+	if ( t  == 0.0 ) {
+		t = _EPSILON_;
+	}
+
+	double sy = bounds_.getHeight() / t;
+
+		
+	Matrix2D m2;
+	m2.scale( sx,sy );
+	
+	m1.translate( origin_.x_, origin_.y_ );
+	
+	shape->polygon_.applyTransform( *m2.multiply( &m2, &m1 ) );	
+}
+
+void ScaleTool::onMouseMove( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+		Shape* shape = doc->getSelectedShape();
+
+		if ( NULL == shape ) {
+			return;
+		}
+
+		scaleShape( shape, *e->getPoint() );
+
+		doc->updateAllViews();
+
+		dragPoint_ = *e->getPoint();
+	}
+}
+
+void ScaleTool::onMouseUp( VCF::MouseEvent* e )
+{
+
+}
+
+
+void SkewTool::paintState( VCF::GraphicsContext* ctx )
+{
+
+}
+
+void SkewTool::onMouseDown( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		startDragPoint_ = dragPoint_ = *e->getPoint();
+		startAngle_ = getAngleFromLine( dragPoint_, startDragPoint_ );
+		
+		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+
+		Shape* shape = doc->getSelectedShape();
+
+		if ( NULL == shape ) {
+			return;
+		}
+
+		origin_ = startDragPoint_;
+
+		bounds_ = shape->polygon_.getBounds();
+	}
+}
+
+void SkewTool::onMouseMove( VCF::MouseEvent* e )
+{
+	if ( e->hasLeftButton() ) {
+		SketchDocument* doc = (SketchDocument*) DocumentManager::getDocumentManager()->getCurrentDocument();
+		Shape* shape = doc->getSelectedShape();
+
+		if ( NULL == shape ) {
+			return;
+		}
+
+		skewShape( shape, *e->getPoint() );
+
+		doc->updateAllViews();
+
+		dragPoint_ = *e->getPoint();
+	}
+}
+
+void SkewTool::onMouseUp( VCF::MouseEvent* e )
+{
+
+}
+
+void SkewTool::skewShape( Shape* shape, VCF::Point pt )
+{
+	double sx1 = dragPoint_.x_;
+	double sy1 = origin_.y_;
+
+	double sx2 = origin_.x_;
+	double sy2 = bounds_.bottom_;
+
+	double skx = 360.0 - getAngleFromLine( Point(sx1,sy1), Point(sx2,sy2) );
+
+	sx1 = pt.x_;
+	sy1 = origin_.y_;
+
+	sx2 = origin_.x_;
+	sy2 = bounds_.bottom_;
+
+	skx = (360.0 - getAngleFromLine( Point(sx1,sy1), Point(sx2,sy2) )) - skx;
+
+
+
+
+	sx1 = bounds_.right_;
+	sy1 = dragPoint_.y_;
+
+	sx2 = origin_.x_;
+	sy2 = origin_.y_;
+
+	double sky = 360 - getAngleFromLine( Point(sx1,sy1), Point(sx2,sy2) );
+
+
+	sx1 = bounds_.right_;
+	sy1 = pt.y_;
+
+	sx2 = origin_.x_;
+	sy2 = origin_.y_;
+
+	sky = (360 - getAngleFromLine( Point(sx1,sy1), Point(sx2,sy2) )) - sky;
+
+	Matrix2D m1;
+	m1.translate( -origin_.x_, -origin_.y_ );
+	
+	shape->polygon_.applyTransform( m1 );	
+	
+	Matrix2D m2;
+	m2.shear( skx, sky );
+	
+	m1.translate( origin_.x_, origin_.y_ );
+	
+	shape->polygon_.applyTransform( *m2.multiply( &m2, &m1 ) );	
+}
+
