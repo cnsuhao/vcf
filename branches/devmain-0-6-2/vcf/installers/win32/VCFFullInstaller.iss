@@ -89,6 +89,7 @@ Source: D:\Program Files\ISTool 4\psvince.dll; Flags: dontcopy
 Source: ..\..\build\resources\win32\vcf.ico; DestDir: {app}
 Source: ..\..\lib\libAGG_vc6_s.lib; DestDir: {app}\lib; Components: Binaries
 Source: ..\..\lib\libAGG_vc6_sd.lib; DestDir: {app}\lib; Components: Binaries
+Source: ..\..\..\..\RegEnVar.exe; DestDir: {app}
 
 [Setup]
 OutputDir=..\..\uploadToSF
@@ -97,7 +98,7 @@ AppCopyright=2000-2003 Jim Crafton
 AppName=Visual Component Framework VCF-LONG-VERSION
 AppVerName=Visual Component Framework VCF-LONG-VERSION
 LicenseFile=..\..\license.txt
-DefaultDirName={pf}\VCF
+DefaultDirName={pf}\VCF-VCF-VERSION
 DefaultGroupName=Visual Component Framework VCF-VERSION
 AppPublisher=VCF
 AppPublisherURL=http://vcf.sf.net
@@ -108,10 +109,10 @@ UninstallDisplayIcon={app}\vcf.ico
 UninstallDisplayName=Visual Component Framework VCF-VERSION
 
 [Registry]
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_INCLUDE; ValueData: {app}\include; Flags: uninsdeletevalue dontcreatekey; Components: Src Binaries
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_BIN; ValueData: {app}\bin; Components: Src Binaries
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_LIB; ValueData: {app}\lib; Components: Src Binaries
-Root: HKCU; Subkey: Environment; ValueType: string; ValueName: path; ValueData: "%VCF_BIN%;{olddata}"; Components: Src Binaries
+;Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_INCLUDE; ValueData: {app}\include; Flags: uninsdeletevalue dontcreatekey; Components: Src Binaries
+;Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_BIN; ValueData: {app}\bin; Components: Src Binaries
+;Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_LIB; ValueData: {app}\lib; Components: Src Binaries
+;Root: HKCU; Subkey: Environment; ValueType: string; ValueName: path; ValueData: "%VCF_BIN%;{olddata}"; Components: Src Binaries
 Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Platforms\Win32 (x86)\Directories; ValueType: string; ValueName: Include Dirs; ValueData: "{olddata};{app}\include"; Tasks: addvc6dirs
 Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Platforms\Win32 (x86)\Directories; ValueType: string; ValueName: Library Dirs; ValueData: "{olddata};{app}\lib"; Tasks: addvc6dirs
 Root: HKCU; Subkey: Software\Microsoft\Devstudio\6.0\Build System\Components\Platforms\Win32 (x86)\Directories; ValueType: string; ValueName: Path Dirs; ValueData: "{olddata};{app}\bin"; Tasks: addvc6dirs
@@ -127,14 +128,25 @@ Name: {group}\VCF Website; Filename: http://vcf.sf.net; IconFilename: {app}\vcf.
 [Tasks]
 Name: msdnintegrate; Description: Integrate VCF Documentation with MSDN; Components: Help_Files
 Name: addvc6dirs; Description: Add VCF Include and Library path to Microsoft's Visual C++
+Name: addenvpaths; Description: Add VCF environment variables, and to your Path
 
 [Run]
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm"" -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFSrcDocs.VCF-VERSION.chm"" -add -title ""VCF Source Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files
 
+Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_BIN ""{app}\bin"""; Components: Src Binaries; Tasks: addenvpaths
+Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_LIB ""{app}\lib"""; Components: Src Binaries; Tasks: addenvpaths
+Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_INCLUDE ""{app}\include"""; Components: Src Binaries; Tasks: addenvpaths
+Filename: {app}\RegEnVar.exe; Parameters: --add-to-user-path %VCF_BIN%; Components: Src Binaries; Tasks: addenvpaths
+
 [UninstallRun]
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm"" -remove -title ""VCF Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFSrcDocs.VCF-VERSION.chm"" -remove -title ""VCF Source Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
+Filename: {app}\RegEnVar.exe; Parameters: --del-from-user-path %VCF_BIN%; Tasks: addenvpaths; Components: Src Binaries
+Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_BIN; Tasks: addenvpaths; Components: Src Binaries
+Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_LIB; Tasks: addenvpaths; Components: Src Binaries
+Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_INCLUDE; Tasks: addenvpaths; Components: Src Binaries
+
 [Code]
 function IsModuleLoaded(modulename: String ):  Boolean;
 external 'IsModuleLoaded@files:psvince.dll stdcall';
