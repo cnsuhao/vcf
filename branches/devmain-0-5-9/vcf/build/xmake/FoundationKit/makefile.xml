@@ -62,7 +62,7 @@
 				<linker name="g++">
 					<flags>
 						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
-						<flag value="-ldl -shared -o $(BIN_OUT)/libFoundationKit.so"/>
+						<flag value="-ldl -lpthread -shared -o $(BIN_OUT)/libFoundationKit.so"/>
 					</flags>
 				</linker>
 			</config>
