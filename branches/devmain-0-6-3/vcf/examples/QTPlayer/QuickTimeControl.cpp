@@ -78,30 +78,46 @@ void QuickTimeControl::setMovieBounds( VCF::Rect* rect )
 				VCF::Rect originalBounds = m_currentMovie->getOriginalBounds();
 				
 
-				VCF::Rect bounds;
+				VCF::Rect clientRect(0, 0, rect->getWidth(), rect->getHeight() );
 
-				double min = minVal<double>( rect->getWidth(), rect->getHeight() );
+				VCF::Rect bounds;	
+
+				double aspectRatio = m_currentMovie->getAspectRatio();
 
 
 				if ( originalBounds.getWidth() > originalBounds.getHeight() ) {
-					double aspectRatio = originalBounds.getHeight() / originalBounds.getWidth();					
-					bounds.setRect( 0, 0, min, min*aspectRatio );
+					//horizontal orientation
+					if ( r.getHeight() > clientRect.getHeight() ) {
+						bounds.setRect( 0, 0, clientRect.getHeight()*aspectRatio, clientRect.getHeight() );
+					}
+					else {
+						bounds.setRect( 0, 0, clientRect.getWidth(), clientRect.getWidth()/aspectRatio );
+					}
 				}
 				else {
-					double aspectRatio = originalBounds.getWidth() / originalBounds.getHeight();
-					bounds.setRect( 0, 0, min*aspectRatio, min );
+					//vertical orientation					
+
+					if ( r.getWidth() > clientRect.getWidth() ) {
+						bounds.setRect( 0, 0, clientRect.getWidth(), clientRect.getWidth()*aspectRatio );
+					}
+					else {
+						bounds.setRect( 0, 0, clientRect.getHeight()/aspectRatio, clientRect.getHeight() );
+					}
 				}
+
+				bounds.inflate( -5, -5 );
+				
 
 				double w = bounds.getWidth();
 				double h = bounds.getHeight();
 
-				bounds.left_ = rect->left_ + ((rect->getWidth()*0.5) - (bounds.getWidth()*0.5));
-				bounds.top_ = rect->top_ + ((rect->getHeight()*0.5) - (bounds.getHeight()*0.5));
+				bounds.left_ = clientRect.left_ + ((clientRect.getWidth()*0.5) - (bounds.getWidth()*0.5));
+				bounds.top_ = clientRect.top_ + ((clientRect.getHeight()*0.5) - (bounds.getHeight()*0.5));
 
 				bounds.right_ = bounds.left_ + w;
 				bounds.bottom_ = bounds.top_ + h;
 
-				bounds.inflate( -5, -5 );
+				
 
 				m_currentMovie->setBounds( bounds );
 			}
@@ -112,7 +128,8 @@ void QuickTimeControl::setMovieBounds( VCF::Rect* rect )
 			}
 		}
 		else {
-			VCF::Rect bounds = *rect;
+
+			VCF::Rect bounds(0, 0, rect->getWidth(), rect->getHeight() );
 			
 			bounds.inflate( -5, -5 );
 			
@@ -172,7 +189,7 @@ void QuickTimeControl::onTimer( VCF::Event* e )
 
 QuickTimeScrubber::QuickTimeScrubber():
 	m_quickTimeControl(NULL),
-	m_maxRange(0.0),
+	m_maxRange(1.0),
 	m_minRange(0.0),
 	m_scrubbing(false)
 {

@@ -7,13 +7,21 @@
 #include "QuickTimeControl.h"
 #include "utils/StringTokenizer.h"
 
+#include "StatusBarControl.h"
+
+
+
 using namespace VCF;
 
 
 
 MainQTWindow::MainQTWindow():
-	m_quicktimeControl(NULL)
+	m_quicktimeControl(NULL),
+	movieLoaded_(false)
 {
+
+	setContainer( new FixedStandardContainer() );
+
 	//build main menu
 	MenuBar* menuBar = new MenuBar();
 	addComponent( menuBar );
@@ -51,6 +59,10 @@ MainQTWindow::MainQTWindow():
 	//add Help menu
 	DefaultMenuItem* help = new DefaultMenuItem( "&Help", root, menuBar );
 	DefaultMenuItem* helpAbout = new DefaultMenuItem( "About...", help, menuBar );	
+
+	EventHandler* ev = new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onHelpAbout, "MainQTWindow::onHelpAbout" );
+	helpAbout->addMenuItemClickedHandler( ev );
+	
 
 
 	EventHandler* windowClose = new WindowEventHandler<MainQTWindow>( this, MainQTWindow::onClose, "MainQTWindow::onClose" );
@@ -94,6 +106,27 @@ MainQTWindow::MainQTWindow():
 	il->addImage( img );
 	delete img;
 
+	img = resBundle->getImage( "viewnormal" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "view200" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "view50" );
+	il->addImage( img );
+	delete img;
+
+	/*
+	img = resBundle->getImage( "fullvol" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "mute" );
+	il->addImage( img );
+	delete img;
+*/
 
 
 	ToolbarItem* open = toolbar->addToolBarButton( "Open" );
@@ -110,10 +143,23 @@ MainQTWindow::MainQTWindow():
 	ToolbarItem* stop = toolbar->addToolBarButton( "Stop" );
 	stop->setImageIndex( 4 );
 
+	toolbar->addToolBarButton( "" )->setAsSeparator();
 
+	ToolbarItem* viewNormalBtn = toolbar->addToolBarButton( "View Normal(100%)" );
+	viewNormalBtn->setImageIndex( 5 );
+	viewNormalBtn->setGrouped(true);
+	viewNormalBtn->setChecked( true );
 
+	ToolbarItem* viewDoubleBtn = toolbar->addToolBarButton( "View Double(200%)" );
+	viewDoubleBtn->setImageIndex( 6 );
+	viewDoubleBtn->setGrouped(true);
+	viewDoubleBtn->setChecked( true );
 
-
+	ToolbarItem* viewHalfBtn = toolbar->addToolBarButton( "View Half(50%)" );
+	viewHalfBtn->setImageIndex( 7 );
+	viewHalfBtn->setGrouped(true);
+	viewHalfBtn->setChecked( true );
+	
 	/**
 	Actions - this is where the various UI elements get hooked up
 	*/
@@ -132,6 +178,8 @@ MainQTWindow::MainQTWindow():
 	addComponent( resetAction );
 	resetAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onMovieReset, "MainQTWindow::onMovieReset" );
+	resetAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateReset, "MainQTWindow::updateReset" );
 
 	resetAction->addTarget( reset );
 	resetAction->addTarget( movieReset );
@@ -140,6 +188,9 @@ MainQTWindow::MainQTWindow():
 	addComponent( playAction );
 	playAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onMoviePlay, "MainQTWindow::onMoviePlay" );
+	playAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updatePlay, "MainQTWindow::updatePlay" );
+
 
 	playAction->addTarget( play );
 	playAction->addTarget( moviePlay );
@@ -149,6 +200,8 @@ MainQTWindow::MainQTWindow():
 	addComponent( pauseAction );
 	pauseAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onMoviePause, "MainQTWindow::onMoviePause" );
+	pauseAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updatePause, "MainQTWindow::updatePause" );
 
 	pauseAction->addTarget( pause );
 	pauseAction->addTarget( moviePause );
@@ -158,6 +211,9 @@ MainQTWindow::MainQTWindow():
 	addComponent( stopAction );
 	stopAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onMovieStop, "MainQTWindow::onMovieStop" );
+	stopAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateStop, "MainQTWindow::updateStop" );
+
 
 	stopAction->addTarget( stop );
 	stopAction->addTarget( movieStop );
@@ -175,16 +231,24 @@ MainQTWindow::MainQTWindow():
 	addComponent( viewNormalAction );
 	viewNormalAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewNormal, "MainQTWindow::onViewNormal" );
+	viewNormalAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewNormal, "MainQTWindow::updateViewNormal" );
+
 
 	viewNormalAction->addTarget( viewNormal );
+	viewNormalAction->addTarget( viewNormalBtn );
+	
 
 
 	Action* viewDoubleAction = new Action();
 	addComponent( viewDoubleAction );
 	viewDoubleAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewDouble, "MainQTWindow::onViewDouble" );
+	viewDoubleAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewDouble, "MainQTWindow::updateViewDouble" );
 	
 	viewDoubleAction->addTarget( viewDouble );
+	viewDoubleAction->addTarget( viewDoubleBtn );
 
 
 
@@ -192,8 +256,11 @@ MainQTWindow::MainQTWindow():
 	addComponent( viewHalfAction );
 	viewHalfAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewHalf, "MainQTWindow::onViewHalf" );
+	viewHalfAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewHalf, "MainQTWindow::updateViewHalf" );
 
 	viewHalfAction->addTarget( viewHalf );
+	viewHalfAction->addTarget( viewHalfBtn );
 
 
 
@@ -201,6 +268,8 @@ MainQTWindow::MainQTWindow():
 	addComponent( viewLockAspectRatioAction );
 	viewLockAspectRatioAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewLockAspectRatio, "MainQTWindow::onViewLockAspectRatio" );
+	viewLockAspectRatioAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewLock, "MainQTWindow::updateViewLock" );
 
 	viewLockAspectRatioAction->addTarget( viewLockAspectRatio );
 
@@ -210,6 +279,8 @@ MainQTWindow::MainQTWindow():
 	addComponent( viewAllowResizeAction );
 	viewAllowResizeAction->Performed += 
 			new GenericEventHandler<MainQTWindow>(this, &MainQTWindow::onViewAllowResize, "MainQTWindow::onViewAllowResize" );
+	viewAllowResizeAction->Update += 
+		new EventHandlerInstance<MainQTWindow,ActionEvent>(this, &MainQTWindow::updateViewAllowResize, "MainQTWindow::updateViewAllowResize" );
 	
 	viewAllowResizeAction->addTarget( viewResizable );
 
@@ -240,9 +311,14 @@ MainQTWindow::MainQTWindow():
 	Panel* bottom = new Panel();
 	bottom->setBorder( NULL );
 	bottom->setHeight( bottom->getPreferredHeight() );
+	bottom->setBorderSize( 3 );
 	add( bottom, AlignBottom );
 
+	bottom->setContainer( new FixedStandardContainer() );
+
+	/*
 	m_timerLabel = new Label();
+	m_timerLabel->setCaption( "No Movie" );
 	m_timerLabel->setWidth( 100 );
 	m_timerLabel->setTextAlignment( taTextCenter ) ;
 	m_timerLabel->setVerticalAlignment( tvaTextCenter );
@@ -250,6 +326,44 @@ MainQTWindow::MainQTWindow():
 	border2->setInverted( true );
 	m_timerLabel->setBorder( border2 );
 	bottom->add( m_timerLabel, AlignLeft );
+	*/
+
+	ImageControl* mute = new ImageControl();
+	img = resBundle->getImage( "mute" );
+	img->setTransparencyColor( &Color(0.0,1.0,0.0) );
+	mute->setImage( img );
+	mute->setTransparent( true );
+	mute->setWidth( 11 );
+	bottom->add( mute, AlignLeft );
+
+	mute->MouseClicked += 
+		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onVolumeMute, "MainQTWindow::onVolumeMute" ) ;	
+
+
+	volumeControl_ = new VCF::SliderControl();
+	volumeControl_->setTickMarkStyle( SliderControl::tmsBottomRight );
+	//volumeControl_->setHasTickMarks( false );
+	volumeControl_->setMinValue( 0.0 );
+	volumeControl_->setMaxValue( 100.0 );
+	volumeControl_->setWidth( 100 );
+	volumeControl_->setPosition( 100 );
+	volumeControl_->PositionChanged += 
+		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onVolumeChanged, "MainQTWindow::onVolumeChanged" ) ;
+
+	bottom->add( volumeControl_, AlignLeft );
+
+	ImageControl* fullVol = new ImageControl();
+	img = resBundle->getImage( "fullvol" );
+	img->setTransparencyColor( &Color(0.0,1.0,0.0) );
+	fullVol->setImage( img );
+	fullVol->setTransparent( true );
+	fullVol->setWidth( 11 );
+	bottom->add( fullVol, AlignLeft );
+
+	fullVol->MouseClicked += 
+		new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onVolumeFull, "MainQTWindow::onVolumeFull" ) ;	
+
+	
 
 	
 	QuickTimeScrubber* scrubber = new QuickTimeScrubber();
@@ -257,6 +371,14 @@ MainQTWindow::MainQTWindow():
 	bottom->add( scrubber, AlignClient );
 	scrubber->setQuickTimeControl( m_quicktimeControl );
 	
+
+	m_statusBar = new StatusBarControl();
+	m_statusBar->setHeight( m_statusBar->getPreferredHeight() );
+	add( m_statusBar, AlignBottom );
+
+	m_statusBar->addStatusPane( 100, "" );
+	m_statusBar->setStatusText( -1, "No Movie" );
+
 
 	VCF::DropTarget* qtDropTarget = new VCF::DropTarget( m_quicktimeControl );
 	qtDropTarget->setName( "qtDropTarget" );
@@ -324,8 +446,17 @@ void MainQTWindow::onFileOpenMovie( Event* e )
 	if ( true == openDlg.execute() ) {
 		if ( m_quicktimeControl->open( openDlg.getFileName() ) ) {	
 			
-			m_quicktimeControl->getMovie()->play();
+			movieLoaded_ = true;
 
+			short vol = (volumeControl_->getPosition()/100.0) * 255.0;
+			
+			QuickTimeMovie* movie = m_quicktimeControl->getMovie();	
+			
+			::SetMovieVolume( movie->getMovie(), vol );
+			
+			m_statusBar->setStatusText( 0, "Movie Opened" );
+
+			onMoviePlay( NULL );			
 		}
 		else {
 			
@@ -351,21 +482,25 @@ void MainQTWindow::onHelpAbout( Event* e )
 void MainQTWindow::onMoviePlay( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->play();
+	m_statusBar->setStatusText( 0, "Movie Playing" );
 }
 
 void MainQTWindow::onMovieReset( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->reset();
+	m_statusBar->setStatusText( 0, "Movie Reset" );
 }
 
 void MainQTWindow::onMovieStop( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->stop();
+	m_statusBar->setStatusText( 0, "Movie Stopped" );
 }
 
 void MainQTWindow::onMoviePause( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->pause();
+	m_statusBar->setStatusText( 0, "Movie Paused" );
 }
 
 void MainQTWindow::onMovieChanged( Event* movieEvent )
@@ -399,8 +534,11 @@ void MainQTWindow::onMovieFrameChanged( Event* movieEvent )
 	int minutes = i_seconds / 60;
 	i_seconds = i_seconds - (minutes*60);
 
-	String s = StringUtils::format( "%02d:%02d:%02d", hours, minutes, i_seconds );
-	m_timerLabel->setCaption( s );
+	short tmp = ::GetMovieVolume( movie->getMovie() ) * 100;
+	int volume = tmp / 255;
+
+	String s = StringUtils::format( "%02d:%02d:%02d Volume: %d %%", hours, minutes, i_seconds, volume );	
+	m_statusBar->setStatusText( -1, s );	
 }
 
 void MainQTWindow::onClose( VCF::WindowEvent* event )
@@ -414,20 +552,17 @@ void MainQTWindow::onClose( VCF::WindowEvent* event )
 
 void MainQTWindow::onViewNormal( VCF::Event* e )
 {
-	//MenuItem* item = (MenuItem*)e->getSource();
-	//item->setRadioItem( true );
+	StringUtils::traceWithArgs( "zoom: %0.2f\n", m_quicktimeControl->getZoomLevel() );
 }
 
 void MainQTWindow::onViewDouble( VCF::Event* e )
 {
-	//MenuItem* item = (MenuItem*)e->getSource();
-	//item->setRadioItem( true );
+	
 }
 
 void MainQTWindow::onViewHalf( VCF::Event* e )
 {
-	//MenuItem* item = (MenuItem*)e->getSource();
-	//item->setRadioItem( true );
+	
 }
 
 void MainQTWindow::onViewLockAspectRatio( VCF::Event* e )
@@ -440,21 +575,73 @@ void MainQTWindow::onViewAllowResize( VCF::Event* e )
 	m_quicktimeControl->setAllowsResizing( !m_quicktimeControl->getAllowsResizing() );
 }
 
-void MainQTWindow::onViewSizeUpdate( VCF::Event* e )
+void MainQTWindow::updatePlay( VCF::ActionEvent* e )
 {
-	
+	e->setEnabled( movieLoaded_ );
 }
 
-void MainQTWindow::onViewLockUpdate( VCF::Event* e )
+void MainQTWindow::updateReset( VCF::ActionEvent* e )
 {
-	//MenuItem* item = (MenuItem*)e->getSource();
-	//item->setChecked( m_quicktimeControl->getLockAspectRatio() );
+	e->setEnabled( movieLoaded_ );
 }
 
-void MainQTWindow::onViewAllowResizeUpdate( VCF::Event* e )
+void MainQTWindow::updateStop( VCF::ActionEvent* e )
 {
-	//MenuItem* item = (MenuItem*)e->getSource();
-	//item->setChecked( m_quicktimeControl->getAllowsResizing() );
+	e->setEnabled( movieLoaded_ );
 }
 
+void MainQTWindow::updatePause( VCF::ActionEvent* e )
+{
+	e->setEnabled( movieLoaded_ );
+}
 
+void MainQTWindow::updateViewNormal( VCF::ActionEvent* e )
+{
+	e->setEnabled( movieLoaded_ );
+}
+
+void MainQTWindow::updateViewDouble( VCF::ActionEvent* e )
+{	
+	e->setEnabled( movieLoaded_ );
+}
+
+void MainQTWindow::updateViewHalf( VCF::ActionEvent* e )
+{
+	e->setEnabled( movieLoaded_ );
+}
+
+void MainQTWindow::updateViewLock( VCF::ActionEvent* e )
+{
+	e->setEnabled( movieLoaded_ );
+	e->setChecked( m_quicktimeControl->getLockAspectRatio() );
+}
+
+void MainQTWindow::updateViewAllowResize( VCF::ActionEvent* e )
+{
+	e->setEnabled( movieLoaded_ );
+	e->setChecked( m_quicktimeControl->getAllowsResizing() );
+}
+
+void MainQTWindow::onVolumeChanged( VCF::Event* event )
+{
+	short vol = (volumeControl_->getPosition()/100.0) * 255.0;
+
+	QuickTimeMovie* movie = m_quicktimeControl->getMovie();	
+
+	::SetMovieVolume( movie->getMovie(), vol );
+
+	vol = ::GetMovieVolume( movie->getMovie() ) * 100;
+
+	String s = StringUtils::format( "Volume: %d %%", vol/255 );	
+	m_statusBar->setStatusText( -1, s );
+}
+
+void MainQTWindow::onVolumeMute( VCF::Event* event )
+{
+	volumeControl_->setPosition( 0 );
+}
+
+void MainQTWindow::onVolumeFull( VCF::Event* event )
+{
+	volumeControl_->setPosition( 25500 / 100 );
+}

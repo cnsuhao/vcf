@@ -35,7 +35,7 @@ bool QTPlayerApplication::initRunningApplication(){
 	setMainWindow(m_mainQTWindow);
 	m_mainQTWindow->setBounds( &VCF::Rect( 100.0, 100.0, 500.0, 500.0 ) );
 	m_mainQTWindow->setVisible( true );
-	m_mainQTWindow->setCaption( "QTPlayer" );
+	m_mainQTWindow->setCaption( "QuickTime Media Player" );
 	
 	return result;
 }
