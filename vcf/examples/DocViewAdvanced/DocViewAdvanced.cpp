@@ -402,7 +402,7 @@ public:
 		setBorder( bdr );
 
 
-		setContainer( new FixedStandardContainer() );
+		setContainer( new StandardContainer() );
 
 		circleCount_ = new Label();
 		circleCount_->setCaption( "" );
