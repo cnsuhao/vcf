@@ -30,7 +30,7 @@
 				PrecompiledHeaderThrough="FoundationKit.h"
 				PrecompiledHeaderFile=".\vc70/DebugDLL\obj/FoundationKitDLL.pch"
 				AssemblerListingLocation=".\vc70/DebugDLL\obj/"
-				ObjectFile="vc70/DebugDLL\obj/"
+				ObjectFile=".\vc70/DebugDLL\obj/"
 				ProgramDataBaseFileName="..\..\..\bin/FoundationKit_vc70_d.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
@@ -81,6 +81,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FRAMEWORK_DLL;FRAMEWORK_EXPORTS;BUILD_FRAMEWORK_LIB"
@@ -92,7 +93,7 @@
 				PrecompiledHeaderThrough="FoundationKit.h"
 				PrecompiledHeaderFile=".\vc70/ReleaseDLL\obj/FoundationKitDLL.pch"
 				AssemblerListingLocation=".\vc70/ReleaseDLL\obj/"
-				ObjectFile="vc70/ReleaseDLL\obj/"
+				ObjectFile=".\vc70/ReleaseDLL\obj/"
 				ProgramDataBaseFileName=".\vc70/ReleaseDLL\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
