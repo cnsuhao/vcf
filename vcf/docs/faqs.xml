@@ -101,7 +101,11 @@ about that? I just saw the installer telling me you own the copyright, is that s
 			</question>
 			<answer>
 				<para>Yes. There are no restrictions made on how the VCF is 
-				used. It can used in both OSS and commercial/proprietary projects.
+				used. It can used in both OSS and commercial/proprietary 
+				projects. In addition, due to the BSD license, you are free
+				to make any changes to the VCF source code without obligations
+				to share the changes. While people are encouraged to do so if
+				possible, there is no requirement that forces this.
 				</para>
 			</answer>
 			
@@ -186,7 +190,43 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>How do I know what headers to use in my application? </para>
 			</question>
 			<answer>
-				<para></para>
+				<para>
+				As a general rule you can do the following:	
+				<itemizedlist>
+					<listitem><para>
+					If you're just using the FoundationKit, then you can 
+					simply include the FoundationKit.h, i.e.
+					<programlisting>
+<![CDATA[					
+#include "FoundationKit.h"					
+]]>
+					</programlisting>
+					</para></listitem>
+					<listitem><para>
+					If you're just using the GraphicsKit, then you can 
+					simply include the GraphicsKit.h, i.e.
+					<programlisting>
+<![CDATA[					
+#include "GraphicsKit.h"					
+]]>
+					</programlisting>
+					The GraphicsKit depends on the FoundationKit and will
+					automatically include the FoundationKit header.
+					</para></listitem>
+					<listitem><para>
+					If you're using the ApplicationKit, then you can 
+					simply include the ApplicationKit.h, i.e.
+					<programlisting>
+<![CDATA[					
+#include "ApplicationKit.h"					
+]]>
+					</programlisting>
+					The ApplicationKit depends on the GraphicsKit and will
+					automatically include the GraphicsKit header.
+					</para></listitem>		
+				</itemizedlist>
+				
+				</para>
 			</answer>
 			<question>
 				<para>Why do I have to set environment variables?</para>
@@ -1041,7 +1081,8 @@ String formattedString =
 ]]>
 </programlisting>
 				</para>
-			</answer>			
+			</answer>
+<!--			
 			<question>
 				<para></para>
 			</question>
@@ -1049,7 +1090,8 @@ String formattedString =
 				<para>
 				An answer.
 				</para>
-			</answer>			
+			</answer>
+-->			
 		</qandaentry>
 	</qandaset>
 	</section>
@@ -1114,7 +1156,17 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				To draw an ellips, use the GraphicsContext::ellipse 
+				method. To draw a rectangle, use the GraphicsContext::rectangle()
+				method.
+<programlisting>
+<![CDATA[
+GraphicsContext* gc = getMyGraphicsContext();//get the graphics context some how....
+gc->ellipse( 20, 20, 100, 100 );
+gc->rectangle( 400, 400, 500, 600 );
+gc->strokePath();
+]]>
+</programlisting>				
 				</para>
 			</answer>
 			<question>
@@ -1122,7 +1174,9 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes, the VCF uses the <ulink url="http://www.antigrain.com/">
+				AGG C++ graphics library</ulink> for 
+				performing advanced anti-aliased vector graphics.
 				</para>
 			</answer>
 			<question>
@@ -1130,7 +1184,11 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				If you're drawing in a Control, then the simplest way is 
+				to turn it on by calling Control::setUsingRenderBuffer(true),
+				and then use the BasicStroke and BasicFill classes to draw
+				with. You can see an example of this in the 
+				vcf/examples/StrokesAndFills directory.
 				</para>
 			</answer>
 			<question>
@@ -1138,7 +1196,15 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes, you can call the GraphicsContext::drawEdge() method.
+<programlisting>
+<![CDATA[
+GraphicsContext* gc = getMyGraphicsContext();//get the graphics context some how....
+long edgeSides = GraphicsContext::etAllSides;
+long edgeStyle = GraphicsContext::etSunken;
+gc->drawEdge( &Rect(20,20,100,100), edgeSides, edgeStyle );
+]]>
+</programlisting>				
 				</para>
 			</answer>
 			<question>
@@ -1547,6 +1613,9 @@ gc->strokePath();
 CVS Log info
 
 $Log$
+Revision 1.1.2.11  2003/11/10 22:17:36  ddiego
+added some more updates to docs - finished off event section
+
 Revision 1.1.2.10  2003/11/04 22:10:32  ddiego
 *** empty log message ***
 

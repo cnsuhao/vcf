@@ -332,8 +332,7 @@ while ( properties->hasMoreElements() ) {
 		to another object, and frequently the two objects may have no direct 
 		knowledge of each other beyond a basic base class. To further complicate 
 		matters, it is entirely possible that more than one object wants to 
-		notified when the event happens!
-		</para>
+		notified when the event happens!</para>
 <para>
 		One of the goals of the VCF is to provide a uniform architecture for
 		this and provide a solution that allows events to be used every where 
@@ -368,8 +367,9 @@ responsibilities as described in the table below.
 		<tbody>
 			<row>
 				<entry>Source object</entry>
-				<entry>The source must have a way to register, and un-register one 
-						or more observer objects.</entry>
+				<entry>The source must provide a way to register, and un-register one 
+						or more observer objects with a particular event that will
+						be fired by the source object.</entry>
 			</row>
 			<row>
 				<entry>Event object</entry>
@@ -378,13 +378,14 @@ responsibilities as described in the table below.
 				position of the mouse, the buttons that were held down, etc. In 
 				addition, the event must be able to expose who actually fired the 
 				event, in other words provide a pointer back to the source of the 
-				event.</entry>
+				event.
+				</entry>
 			</row>
 			<row>
 				<entry>Observer object</entry>
 				<entry>The observer must define one or more callback methods that 
-				will be invoked by the source object during the firing of specific 
-				event.</entry>
+				will be invoked during the firing of a specific event by the
+				source object that the observer has registered with.</entry>
 			</row>
 		</tbody>	
 	</tgroup>
@@ -446,17 +447,228 @@ Event event( this, 123 );
 d.fireEvent( &event );
 ]]>
 </programlisting>
-That's all there is to it! Delegate::fireEvent() will take the event, and loop through it's 
-list of event handler's. For each handler, it will check to verify the event has not been 
-marked as being consumed (Event::isConsumed() returns false), and then call the 
-EventHandler::invoke() method on the handler, which in turn invokes the callback function.
-
+That's all there is to it! Delegate::fireEvent() will take the event, and 
+loop through it's list of event handler's. For each handler, it will check 
+to verify the event has not been marked as being consumed (Event::isConsumed() 
+returns false), and then call the EventHandler::invoke() method on the 
+handler, which in turn invokes the callback function.
 </para>
+<para>
+The next step os to actually use the Delegate class within your source 
+object, so that the source can fire events. The VCF does this by declaring
+a public member variable of type Delegate and giving it the name of the
+event that will be fired. For example:
+<programlisting>
+<![CDATA[
+class Foo : public VCF::Object {
+public :
+	enum {
+		TalkingEvent = 0x111111
+	};
+	Delegate Talking;
+  
+	void speak() {
+		Event talkingEvent( this, TalkingEvent );
+		
+		Talking.fireEvent( &talkingEvent );		
+	}
+};
+]]>
+</programlisting>
+We have exposed the talking event by declaring a Delegate named Talking. Now 
+any interested observer can register their callback (or event handler) with 
+this and be notified when a talking event is fired. For example:
+<programlisting>
+<![CDATA[
+class FooObserver : public VCF::ObjectWithEvents {
+public:
+	void onTalking( Event* e ) {
+		System.println( "FooObserver got it's onTalking() method called!" );
+	}
+};
+
+int main( int argc, char** argv ) 
+{
+	FoundationKit::init(argc,argv);
+	
+	Foo foo;
+	
+	//our observer
+	FooObserver observer;
+	
+	//the observer now registers with the Foo object's Talking delegate
+	foo.Talking += 
+		new GenericEventHandler<FooObserver>(&observer, &FooObserver::onTalking, "onTalking" );
+	
+	//teh Foo speaks, and lo, and behold the FooObserver's onTalking() method will
+	//get called!
+	foo.speak();
+	
+	FoundationKit::terminate();
+	return 0;
+}
+]]>
+</programlisting>
+Talking events are fired if the Foo::speak() method is called, and we can see 
+how we have connected the two object (source and observer) through the use 
+of Delegates and EventHandlers.
+</para>
+
 	</section>
 
 	<section><title>Threads</title>
 		<para>
+		Threads in the VCF are quite simple to use and work with. A thread 
+		represents a piece of code that can be run, hence the reason that
+		the Thread class implements the Runnable interface. Any class that
+		implements the Runnable interface can be run in a separate thread.		
 		</para>
+		<para>
+		The Runnable interface provides two methods - one called run(), 
+		which is where your thread specific code goes, and another
+		called stop(), which is where you should put code to cleanly
+		stop your executing code in your run() method.		
+		</para>
+		<para>
+		A Thread implements both these methods, and you can derive your own 
+		thread classes directly from the Thread class. If you do this you 
+		should check the status of the canContinue() method, and if it returns
+		false, you should immediately stop what you're doing and exit your
+		run() implementation cleanly. For example:
+		<programlisting>
+<![CDATA[
+class MyThread : public Thread {
+public:
+	bool run() {
+		int count = 0;
+		while ( (count < 10000) && (canContinue()) ) {
+			System::println( "count: %d", count );
+			count ++;
+		}
+		return true;
+	}
+};
+]]>		
+		</programlisting>
+		In this simple example, we loop till count equals 10,000 <emphasis>or</emphasis>
+		canContinue() returns false. Doing this ensures that if the program 
+		requests the thread to stop, it will do so cleanly.		
+		</para>
+		<para>
+		To actually run you must call the Thread::start() method. All threads are 
+		inactive when first created, and will not run till the Thread::start() method
+		is called.
+		</para>
+		<para>
+		To stop the thread gracefully, you can call the Thread::stop() method. This
+		will block till the thread's peer actually stops and destroys the 
+		underlying thread handle. 
+		</para>
+		<para>
+		A Thread can automatically delete itself when it stops running, and this is
+		the default behaviour. By passing in a boolean flag set ot false in the 
+		Threads constructor, you can prevent this behaviour. In this case, it
+		is up to the caller who created the thread to delete it. Lets look at a 
+		short example:
+		<programlisting>
+<![CDATA[
+
+class MyThread : public Thread {
+public:
+	MyThread( bool autoDelete ):Thread(autoDelete)  {
+	
+	}
+	
+	bool run() {
+		//..do something interesting
+		return true;
+	}
+};
+
+
+int main( int argc, char** argv ) 
+{
+	FoundationKit::init(argc,argv);
+	
+	Thread* autoDeleteThread = new MyThread(true);
+	
+	Thread* manualDeleteThread = new MyThread(false);
+	
+	
+	autoDeleteThread->start();
+	manualDeleteThread->start();
+	
+	//wait and/or loop for the threads to finish
+	
+	manualDeleteThread->free();
+	
+	FoundationKit::terminate();
+	return 0;
+}
+]]>		
+		</programlisting>
+		</para>
+		<para>
+		An alternate way to work with a thread is to create a class 
+		that simply derives from Runnable, and implementing the run() 
+		and stop methods. Then you can simply create a Thread and pass in 
+		the Runnable instance to the Thread's constructor. For example:
+		<programlisting>
+<![CDATA[
+class MyRunnable : public Runnable {
+public:
+	MyRunnable() : conContinue_(true){
+		
+	}
+	
+	virtual bool run() {
+		int count = 0;
+		while ( (count < 10000) && conContinue_ ) {
+			count ++;
+			System::println( "count : %d", count );			
+		}
+		
+		return true;
+	}
+	
+	virtual void stop() {
+		conContinue_ = false;
+	}
+	
+	bool conContinue_;
+};
+
+int main( int argc, char** argv ) 
+{
+	FoundationKit::init(argc,argv);
+	
+	Thread* thread = new Thread(new MyRunnable());
+	
+	thread->start();
+	
+	//wait and/or loop for the thread to finish
+	System::sleep(2000); //wait 2 seconds
+	thread->stop(); //stop the thread
+		
+	FoundationKit::terminate();
+	return 0;
+}
+]]>		
+		</programlisting>
+		This creates a thread, and a new instance of our custom
+		runnable class (MyRunnable) starts the thread. By default,
+		both the thread and the runnable instance are automatically
+		deleted. We then wait for 2 seconds, and then stop the thread,
+		which in turn stops the runnable instance. Strictly speaking,
+		this is not the best idea to stop the thread like this 
+		when it's set to auto delete, as it is possible (depending 
+		on how you implemented your run() method) for the thread to have 
+		already finished by the time the code gets here. To be truly 
+		safe you would want to create the thread with auto deletion 
+		turned of. For more on this, please see the Thread.h and the
+		Thread constructors.
+		</para>
+		
 	</section>
 
 	<section><title>Streams</title>
@@ -493,6 +705,9 @@ EventHandler::invoke() method on the handler, which in turn invokes the callback
 <!-- 
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/11/10 22:17:36  ddiego
+added some more updates to docs - finished off event section
+
 Revision 1.1.2.4  2003/11/07 05:08:04  ddiego
 added some more docs
 
