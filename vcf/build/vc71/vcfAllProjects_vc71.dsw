@@ -345,6 +345,9 @@ Package=<4>
     Project_Dep_Name StrokesAndFills
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name SysTray
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Tables
     End Project Dependency
     Begin Project Dependency
@@ -925,6 +928,18 @@ Package=<4>
 ###############################################################################
 
 Project: "StrokesAndFills"="..\..\examples\StrokesAndFills\StrokesAndFills_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SysTray"="..\..\examples\SysTray\SysTray_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -616,6 +616,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\EnumObject.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\VCFCOM.h">
 			</File>
 			<File
@@ -1226,6 +1229,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\StatusBar.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TabbedPages.cpp">
