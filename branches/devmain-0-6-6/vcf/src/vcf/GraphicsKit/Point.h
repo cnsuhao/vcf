@@ -212,6 +212,7 @@ inline Point& Point::offset( const double& _offset ) {
 inline Point& Point::offset( const double& _offsetX, const double& _offsetY ) {
 	x_ += _offsetX;
 	y_ += _offsetY;
+	return (*this);
 }
 
 inline Point& Point::offset( const Point& offsetPt ) {
@@ -374,7 +375,7 @@ inline Point Point::operator/(const double d) const {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.3  2004/10/26 06:16:00  marcelloptr
+*Revision 1.2.2.4  2004/10/26 06:17:56  marcelloptr
 *bugfix [1045603] forgotten const in Point and Rect; better formatting and documentation
 *
 *Revision 1.2  2004/08/07 02:49:18  ddiego
