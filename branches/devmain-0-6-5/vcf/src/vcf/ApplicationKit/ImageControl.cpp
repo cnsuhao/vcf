@@ -85,14 +85,17 @@ void ImageControl::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
 	if ( NULL != image_ ) {
-		double w = getWidth();
-		double h = getHeight();
+
+		Rect clientRect = getClientBounds();
+
+		double w = clientRect.getWidth();
+		double h = clientRect.getHeight();
 		if ( (w < image_->getWidth()) && (h < image_->getHeight()) ) {
-			context->drawPartialImage( 0, 0, &Rect(0, 0, w, h ), image_ );
+			context->drawPartialImage( clientRect.left_, clientRect.top_, &Rect(0, 0, w, h ), image_ );
 		}
 		else {
-			context->drawImage( (w/2.0) - (image_->getWidth()/2.0),
-								(h/2.0) - (image_->getHeight()/2.0), image_ );
+			context->drawImage( clientRect.left_ + ( (w/2.0) - (image_->getWidth()/2.0) ),
+								clientRect.top_ + ( (h/2.0) - (image_->getHeight()/2.0) ), image_  );
 		}
 	}
 }
@@ -172,6 +175,9 @@ void ImagePropertyEditor::showImageEditor( VariantData* data )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -466,19 +466,38 @@ void Toolbar::handleEvent( Event* event )
 {
 	Control::handleEvent( event );
 	switch ( event->getType() ){
-			case Component::COMPONENT_NEEDS_UPDATING : {
-				ToolbarModel* model = getToolbarModel();
-				if ( NULL != model ) {
-					Enumerator<ToolbarItem*>* items = model->getToolbarItems();
-					while ( items->hasMoreElements() ) {
-						ToolbarItem* item = items->nextElement();
-						item->handleEvent( event );
-					}
+		case Component::COMPONENT_NEEDS_UPDATING : {
+			ToolbarModel* model = getToolbarModel();
+			if ( NULL != model ) {
+				Enumerator<ToolbarItem*>* items = model->getToolbarItems();
+				while ( items->hasMoreElements() ) {
+					ToolbarItem* item = items->nextElement();
+					item->handleEvent( event );
 				}
 			}
-			break;
+		}
+		break;
+
+		case CONTROL_SIZED:{
+			Control::handleEvent( event );
+			if ( getParent() ) {
+				getParent()->getContainer()->resizeChildren( NULL );
+			}
+		}
+		break;
 	}
 }
+
+void Toolbar::setEnableAutoResize( const bool& val )
+{
+	toolbarPeer_->setEnableAutoResize( val );
+}
+
+bool Toolbar::isAutoResizeEnabled()
+{
+	return toolbarPeer_->isAutoResizeEnabled();
+}
+
 
 
 
@@ -504,6 +523,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.3  2004/07/08 15:08:05  ddiego
 *made the change to the StandardContainer name - the
 *old StandardContainer is now called DesignTimeContainer and

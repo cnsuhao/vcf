@@ -258,6 +258,8 @@ public:
 	void update();
 
 	virtual void handleEvent( Event* event );
+
+	
 protected:
 	Control* control_;
 	Control* itemControl_;
@@ -384,6 +386,9 @@ public:
 		return buttonCaptionsHorizontal_;
 	}
 
+	void setEnableAutoResize( const bool& val );
+	bool isAutoResizeEnabled();
+
 	virtual void handleEvent( Event* event );
 protected:
 	ToolbarPeer* toolbarPeer_;
@@ -415,6 +420,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
 *added locale translation support for most classes
 *

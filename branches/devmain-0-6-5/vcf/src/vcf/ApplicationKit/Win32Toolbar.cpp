@@ -94,6 +94,29 @@ void Win32Toolbar::create( Control* control )
 
 }
 
+void Win32Toolbar::setEnableAutoResize( const bool& val )
+{
+	int style = GetWindowLong( hwnd_, GWL_STYLE );
+
+	if( val ) {
+		style &= ~CCS_NORESIZE;
+	}
+	else {
+		style |= CCS_NORESIZE;
+	}
+	SetWindowLong( hwnd_, GWL_STYLE, style );
+	::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
+	::UpdateWindow( hwnd_ );
+}
+
+bool Win32Toolbar::isAutoResizeEnabled()
+{
+	int style = GetWindowLong( hwnd_, GWL_STYLE );
+
+	return (style & CCS_NORESIZE) ? false : true;
+}
+
+
 LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, WNDPROC defaultWndProc )
 {
 	LRESULT result = 0;
@@ -105,6 +128,39 @@ LRESULT Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM l
 		break;
 
 		case WM_SIZE : {
+
+			switch ( wParam ) {
+				case SIZE_MAXHIDE : {
+					StringUtils::trace( "SIZE_MAXHIDE\n" );
+				}
+				break;
+
+				case SIZE_MAXIMIZED : {
+					StringUtils::trace( "SIZE_MAXIMIZED\n" );
+				}
+				break;
+
+				case SIZE_MAXSHOW : {
+					StringUtils::trace( "SIZE_MAXSHOW\n" );
+				}
+				break;
+
+				case SIZE_MINIMIZED : {
+					StringUtils::trace( "SIZE_MINIMIZED\n" );
+				}
+				break;
+
+				case SIZE_RESTORED : {
+					StringUtils::trace( "SIZE_RESTORED\n" );
+				}
+				break;
+
+				default : {
+					StringUtils::traceWithArgs( "WM_SIZE wParam unknown. wParam: %d\n",wParam );
+				}
+				break;
+			}
+
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
 
 			result = CallWindowProc( oldToolbarWndProc_, hwnd_, message, wParam, lParam );
@@ -1288,6 +1344,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.4  2004/07/09 18:48:05  ddiego
 *added locale translation support for most classes
 *

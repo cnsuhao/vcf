@@ -101,6 +101,8 @@ void Splitter::mouseDown( MouseEvent* e )
 		}
 		break;
 	}
+
+
 	this->attachedControl_ = NULL;
 	children = container->getChildren();
 	while ( children->hasMoreElements() ) {
@@ -524,6 +526,9 @@ double Splitter::getPreferredWidth()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/11 18:45:34  ddiego
+*some toolbar fixes, plus some other minor glithches fixed
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
