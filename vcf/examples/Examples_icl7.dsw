@@ -153,7 +153,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "CommonDirectories"=".\CommonDirectories\CommonDirectories__icl7.dsp" - Package Owner=<4>
+Project: "CommonDirectories"=".\CommonDirectories\CommonDirectories_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
