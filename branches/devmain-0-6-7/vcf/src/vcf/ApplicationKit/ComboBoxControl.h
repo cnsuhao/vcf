@@ -248,6 +248,14 @@ public:
 	}
 
 	/**
+	* lookup for an item in the dropdown list starting by a given text string.
+	*@param const String& text, the string to lookup
+	*@param const bool& ignoreCase, true if the lettercase is ignored in the search
+	*@return ListItem*, the item in the list starting with the given text.
+	*/
+	ListItem* lookupItem( const String& text, const bool& ignoreCase=false );
+
+	/**
 	*sets if the autoLookup of typed items is enabled
 	*@param bool state telling if the autoLookup is enabled
 	*/
@@ -328,6 +336,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/01/31 01:36:35  marcelloptr
+*fixed autolookup. Added behaviour when vkReturn is pressed.
+*
 *Revision 1.2.4.3  2005/01/15 00:52:38  marcelloptr
 *bugfix [ 1099910 ] plus other improvements of the scrolling
 *
