@@ -455,7 +455,7 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 {	
 
 	if ( peerControl_->getComponentState() != Component::csDestroying ) {
-		if ( true == peerControl_->isDoubleBuffered() ){
+		if ( true == peerControl_->isDoubleBuffered() && !peerControl_->isUsingRenderBuffer() ){
 			VCF_ASSERT( memDCState_ != 0 );
 			VCF_ASSERT( originalMemBMP_ != 0 );
 			VCF_ASSERT( memBMP_ != 0 );
@@ -1306,6 +1306,10 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.17  2004/07/24 03:56:03  ddiego
+*fixed a repaint bug that didn't take into account when a control
+*is using the render buffer.
+*
 *Revision 1.1.2.16  2004/07/21 03:35:49  ddiego
 *some minor updates to the QTPlayer example
 *
