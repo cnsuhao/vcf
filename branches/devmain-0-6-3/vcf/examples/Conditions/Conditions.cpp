@@ -6,40 +6,34 @@ using namespace VCF;
 
 
 static Mutex* theMutex = NULL;
-static Mutex* printMutex = NULL;
 static Condition* theCondition = NULL;
 static producerDone = false;
 
 
-void println( const String& s ) 
-{
-	Lock l(*printMutex);
-	System::println( s );
-}
 
 
 class Reporter : public Runnable {
 public:
 	virtual bool run() {
 		int count = 0;
-		println( StringUtils::format( "Reporter %p starting...", this ) );
+		System::println( "Reporter %p starting...", this );
 
 		while ( count < 10 && !producerDone ) {
 			Lock l(*theMutex);
 			
 			theCondition->wait();
 
-			println( StringUtils::format( "Reporter: Done waiting report %d, reporting from %p:\n\tNews Flash! Yada yada yada!", count + 1, this ) );
+			System::println( "Reporter: Done waiting report %d, reporting from %p:\n\tNews Flash! Yada yada yada!", count + 1, this );
 			count ++;
 		}
 
-		println( StringUtils::format( "Reporter done!" ) );
+		System::println( "Reporter done!" );
 
 		return true;
 	}
 
 	virtual void stop() {
-		println( StringUtils::format( "The Reporter has left the building!" ) );
+		System::println( "The Reporter has left the building!" );
 	}
 };
 
@@ -51,22 +45,22 @@ public:
 		while ( count < 10 ) {
 			Lock l(*theMutex);
 
-			println( StringUtils::format("Producer chomping %d vitamins...\n\tchomp, chomp, chomp...", count ));
+			System::println("Producer chomping %d vitamins...\n\tchomp, chomp, chomp...", count );
 			System::sleep( 300 );
-			println( StringUtils::format( "Yawn...Burp!" ));
+			System::println( "Yawn...Burp!" );
 			System::sleep( 100 );
 			System::println( "...Fart!" );
 
 			
 			theCondition->broadcast();
 
-			println( StringUtils::format( "Done chomping!" ));
+			System::println( "Done chomping!" );
 
 
 			count++;
 		}
 
-		println( StringUtils::format( "Producer done!" ));
+		System::println( "Producer done!" );
 		producerDone = true;
 		theCondition->broadcast();
 
@@ -82,7 +76,6 @@ public:
 
 void example1() {
 	theMutex = new Mutex();
-	printMutex = new Mutex();
 
 	theCondition = new Condition( theMutex );
 
