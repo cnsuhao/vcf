@@ -57,7 +57,7 @@ void Library::load( const String& libraryFilename )
 
 	typedef void (*initFunc)(void);
 
-	initFunc _init = (initFunc) getFunction("_vpl_init");
+	initFunc _init = (initFunc) getFunction( L"_vpl_init" );
 	if ( NULL != _init ) {
 		_init();
 	}
@@ -98,6 +98,9 @@ void* Library::getFunction( const String& functionName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/27 19:55:44  marcelloptr
+*Color changes
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

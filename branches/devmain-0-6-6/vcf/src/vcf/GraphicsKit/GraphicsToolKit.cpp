@@ -1302,15 +1302,7 @@ void GraphicsToolkit::initColorMap()
 
 void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const unsigned char & r, const unsigned char & g, const unsigned char & b)
 {
-#	ifdef VCF_DEBUG_COLORS
-	Color* color = new Color( colorName, (VCF::uchar)r, (VCF::uchar)g, (VCF::uchar)b );
-
-	color->s_ = colorName;
-	color->setColorDbgRgb();
-	color->setColorDbgHsl();
-#else
 	Color* color = new Color( (VCF::uchar)r, (VCF::uchar)g, (VCF::uchar)b );
-#endif
 
 	colorMap_[colorName] = color;
 
@@ -1364,6 +1356,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/08/27 19:59:55  marcelloptr
+*Color changes
+*
 *Revision 1.2.2.3  2004/08/27 03:50:47  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe
