@@ -368,7 +368,7 @@ Color* GraphicsToolkit::internal_getColorFromColormap( const String& colorName )
 
 Color* GraphicsToolkit::internal_getColorFromColormap( const int& gray )
 {
-	String colorName = StringUtils::format("gray%d", gray);
+	String colorName = StringUtils::format( Format("gray%d") % gray);
 	return getColorFromColormap( colorName );
 }
 
@@ -396,7 +396,7 @@ void GraphicsToolkit::internal_printColorNameMap( ) const
 		unsigned char cr = (unsigned char)(dr*255);
 		unsigned char cg = (unsigned char)dg*255;
 		unsigned char cb = (unsigned char)db*255;
-		StringUtils::traceWithArgs( "r=%0.06g, g=%0.06g, b=%0.06g - (%-25s) [%3d, %3d, %3d] (0x%02X, 0x%02X, 0x%02X) <%-25s>\n", dr, dg, db, s.c_str(),  cr, cg, cb,  cr, cg, cb, sg.c_str());
+		StringUtils::traceWithArgs( Format("r=%0.06g, g=%0.06g, b=%0.06g - (%-25s) [%3d, %3d, %3d] (0x%02X, 0x%02X, 0x%02X) <%-25s>\n") % dr % dg % db % s.c_str() %  cr % cg % cb % cr % cg % cb % sg.c_str());
 		it ++;
 	}
 }
@@ -1291,7 +1291,7 @@ void GraphicsToolkit::initColorMap()
 
 	String s;
 	for (int c = 0; c <= 255; c++) {
-		s = StringUtils::format("gray%d", c);
+		s = StringUtils::format( Format("gray%d") % c);
 		initColorNameMapItem( s, (VCF::uchar)c, (VCF::uchar)c, (VCF::uchar)c );	// 0xFFF0F8FF
 	}
 
@@ -1356,6 +1356,12 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/15 01:51:53  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.1  2004/12/19 04:05:03  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

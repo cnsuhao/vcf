@@ -41,23 +41,38 @@ public:
 	static void trace( const VCF::String& text );
 
 	/**
-	*Similar to trace() but allows variable arguments. Uses the
-	*same formatting rules as printf().
-	*@param String the text to trace out after formatting. See printf()
-	*for formatting rules.
+	Similar to trace() but allows variable arguments. Uses the
+	same formatting rules as printf().
+	@param String the text to trace out after formatting. See printf()
+	for formatting rules.
+	\deprecated 
+	This is now a deprecated function and should not be used at all. Existing
+	code should be changed to make use of the traceWithArgs( const Format& ) function 
+	instead. It will be removed entirely in an upcoming release.
 	*/
 	static void traceWithArgs( VCF::String text,... );
 
 	static void traceWithArgs( const Format& formatter );
 
 	/**
-	*formats a string. Uses the same formatting rules as
-	*sprintf().
-	*@param String the format text to use
-	*@return String the formatted string
+	formats a string. Uses the same formatting rules as
+	sprintf().
+	@param String the format text to use
+	@return String the formatted string
+	\deprecated 
+	This is now a deprecated function and should not be used at all. Existing
+	code should be changed to make use of the traceWithArgs( const Format& ) function 
+	instead. It will be removed entirely in an upcoming release.
 	*/
 	static VCF::String format( VCF::String formatText, ... );
 
+	/**
+	formats a string. Uses the same formatting rules as
+	sprintf().
+	@param Format the formatter to use
+	@return String the formatted string
+	@see Format
+	*/
 	static VCF::String format( const Format& formatter );
 
 	/**
@@ -791,6 +806,12 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rh
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/03/15 01:51:52  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.5  2005/03/14 18:56:47  marcelloptr
 *comments and added an error message to avoid an infinite loop
 *

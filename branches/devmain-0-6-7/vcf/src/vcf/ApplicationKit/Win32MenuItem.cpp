@@ -214,8 +214,8 @@ void Win32MenuItem::clearChildren()
 	for ( int i=0;i<count;i++ ){
 		if ( !DeleteMenu( itemHandle_, 0, MF_BYPOSITION ) ) {
 			int err = GetLastError();
-			StringUtils::traceWithArgs( "DeleteMenu( %p, 0, MF_BYPOSITION ) failed,GetLastError(): %d\n",
-										itemHandle_, err );
+			StringUtils::traceWithArgs( Format("DeleteMenu( %p, 0, MF_BYPOSITION ) failed,GetLastError(): %d\n") %
+										itemHandle_ % err );
 		}
 	}
 }
@@ -877,6 +877,12 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/03/15 01:51:50  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.2.4.4  2005/03/14 04:43:53  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

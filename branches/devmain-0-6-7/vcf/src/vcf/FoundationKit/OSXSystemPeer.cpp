@@ -232,7 +232,7 @@ String OSXSystemPeer::getOSVersion()
 	int minor = ((0x000000F0) & response) >> 4;
 	int major = ((0x0000FFFF) & response) >> 8;	
 	
-	return StringUtils::format( "%x.%x.%x", major, minor, bug );
+	return StringUtils::format( Format("%x.%x.%x") % major % minor % bug );
 }
 
 ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
@@ -243,6 +243,12 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/15 01:51:51  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

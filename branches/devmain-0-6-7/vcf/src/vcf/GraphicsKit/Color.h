@@ -1945,12 +1945,12 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 		//((unsigned char*)(&rgb))[2] = cr;
 		//((unsigned char*)(&rgb))[1] = cg;
 		//((unsigned char*)(&rgb))[0] = cb;
-		code = StringUtils::format( L"%02X%02X%02X", cr, cg, cb );
+		code = StringUtils::format( Format(L"%02X%02X%02X") % cr % cg % cb );
 	} else {
 		//((unsigned char*)(&rgb))[0] = cr;
 		//((unsigned char*)(&rgb))[1] = cg;
 		//((unsigned char*)(&rgb))[2] = cb;
-		code = StringUtils::format( L"%02X%02X%02X", cr, cg, cb );
+		code = StringUtils::format( Format(L"%02X%02X%02X") % cr % cg % cb );
 	}
 
 	return code;
@@ -1964,6 +1964,12 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/15 01:51:53  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.2  2005/02/16 05:09:34  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

@@ -121,7 +121,7 @@ Win32Image::Win32Image( HICON icon )
 			setSize( bmp.bmWidth, bmp.bmHeight );
 
 			if ( !DrawIcon( dc_, 0, 0, icon ) ) {
-				StringUtils::traceWithArgs( "DrawIcon failed, err: %d\n", GetLastError()  );
+				StringUtils::traceWithArgs( Format("DrawIcon failed, err: %d\n") % GetLastError()  );
 			}
 		}
 	}
@@ -518,6 +518,12 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/15 01:51:54  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.1  2004/12/19 04:05:05  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

@@ -372,7 +372,7 @@ String Win32SystemPeer::getOSVersion()
 	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
 	::GetVersionEx( &osVersion );
 	
-	result = StringUtils::format( "%d.%d %d", osVersion.dwMajorVersion, osVersion.dwMinorVersion, osVersion.dwBuildNumber );
+	result = StringUtils::format( Format("%d.%d %d") % osVersion.dwMajorVersion % osVersion.dwMinorVersion % osVersion.dwBuildNumber );
 
 	return result;
 }
@@ -385,6 +385,12 @@ ProgramInfo* Win32SystemPeer::getProgramInfoFromFileName( const String& fileName
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/15 01:51:52  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.2  2005/01/08 00:03:45  marcelloptr
 *fixed buffer management for GetEnvironmentVariable
 *

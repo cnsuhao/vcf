@@ -886,7 +886,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 	switch ( message ){
 
 		case WM_INPUTLANGCHANGE : {
-			StringUtils::traceWithArgs( "WM_INPUTLANGCHANGE\n" );
+			StringUtils::trace( "WM_INPUTLANGCHANGE\n" );
 		}
 		break;
 
@@ -1240,7 +1240,7 @@ Win32ToolKit::~Win32ToolKit()
 
 	if ( !::DestroyWindow( dummyParentWnd_ ) ) {
 		int err = GetLastError();
-		StringUtils::traceWithArgs( "::DestroyWindow( dummyParentWnd_[=%p] ) failed!, err: %d\n", dummyParentWnd_, err );
+		StringUtils::traceWithArgs( Format("::DestroyWindow( dummyParentWnd_[=%p] ) failed!, err: %d\n") % dummyParentWnd_ % err );
 
 		if ( NULL != toolTipWatcher ) {
 			toolTipWatcher->free();
@@ -1493,7 +1493,7 @@ void Win32ToolKit::internal_postEvent( EventHandler* eventHandler, Event* event,
 	Win32PostEventRecord* postEventRecord = new Win32PostEventRecord( eventHandler, event, deleteHandler );
 	if ( ! ::PostMessage( dummyParentWnd_, VCF_POST_EVENT, 0, (LPARAM)postEventRecord ) ) {
 		int err = ::GetLastError();
-		StringUtils::traceWithArgs( "!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n",
+		StringUtils::traceWithArgs( Format("!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n") %
 									err );
 
 	}
@@ -1791,17 +1791,17 @@ void Win32ToolKit::internal_runEventLoop()
 		}
 
 		if ( msg.message == WM_QUIT ) {
-			StringUtils::traceWithArgs( "WM_QUIT\n" );
+			StringUtils::trace( "WM_QUIT\n" );
 			return;
 		}
 		else if ( msg.message == WM_EXITMENULOOP ) {
-			StringUtils::traceWithArgs( "WM_EXITMENULOOP\n" );
+			StringUtils::trace( "WM_EXITMENULOOP\n" );
 		}
 		else if ( msg.message == WM_INPUTLANGCHANGE ) {
-			StringUtils::traceWithArgs( "WM_INPUTLANGCHANGE\n" );
+			StringUtils::trace( "WM_INPUTLANGCHANGE\n" );
 		}
 		else if ( msg.message == WM_WININICHANGE ) {
-			StringUtils::traceWithArgs( "WM_WININICHANGE\n" );
+			StringUtils::trace( "WM_WININICHANGE\n" );
 		}
 
 		do	{
@@ -1901,11 +1901,11 @@ void Win32ToolKit::internal_runEventLoop()
 				}
 
 				if ( msg.message == WM_QUIT ) {
-					StringUtils::traceWithArgs( "WM_QUIT\n" );
+					StringUtils::trace( "WM_QUIT\n" );
 					return;
 				}
 				else if ( msg.message == WM_EXITMENULOOP ) {
-					StringUtils::traceWithArgs( "WM_EXITMENULOOP\n" );
+					StringUtils::trace( "WM_EXITMENULOOP\n" );
 				}
 			}
 			else {
@@ -2102,6 +2102,12 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/03/15 01:51:50  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.7  2005/03/14 18:56:31  marcelloptr
 *comments and added an error message to avoid an infinite loop
 *

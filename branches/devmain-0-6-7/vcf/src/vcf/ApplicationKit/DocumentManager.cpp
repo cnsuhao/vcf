@@ -255,7 +255,7 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 		caption = app->getName();
 	}
 	MessageDialog saveDocPrompt;
-	String message = StringUtils::format( "Do you want to save the changes you made to document \"%s\" ?",
+	String message = StringUtils::format( Format("Do you want to save the changes you made to document \"%s\" ?") %
 											document->getName().c_str() );
 	saveDocPrompt.setMessage( message );
 	saveDocPrompt.setCaption( caption );
@@ -608,6 +608,12 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/03/15 01:51:49  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.4  2005/03/14 04:17:23  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

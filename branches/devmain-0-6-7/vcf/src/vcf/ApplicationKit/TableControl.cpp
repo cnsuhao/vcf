@@ -1492,8 +1492,8 @@ void TableControl::onFinishEditing( Event* e )
 	Control* editingControl = (Control*)e->getSource();
 	TableItemEditor* editor = fe->editor_;
 	if ( NULL != editingControl ){
-		StringUtils::traceWithArgs( "TableControl::finishEditing(), editor[%s]@ %s\n",
-									editor->getClassName().c_str(), editor->toString().c_str() );
+		StringUtils::traceWithArgs( Format("TableControl::finishEditing(), editor[%s]@ %s\n") %
+									editor->getClassName().c_str() % editor->toString().c_str() );
 		remove( editingControl );
 		removeComponent( editingControl );
 		editingControl->free();
@@ -2382,6 +2382,12 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/15 01:51:50  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.3  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

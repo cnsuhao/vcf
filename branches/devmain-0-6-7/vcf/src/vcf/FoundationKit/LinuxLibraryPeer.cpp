@@ -34,8 +34,8 @@ void LinuxLibraryPeer::load( const String& libraryFilename )
 	//which would mean this call would block till that was
 	//done
 	libHandle_ = ::dlopen( libraryFilename.ansi_c_str(), RTLD_LAZY );
-	StringUtils::traceWithArgs( "dlopen( %s ) returned %p\n",
-				libraryFilename.c_str(),  libHandle_ );
+	StringUtils::traceWithArgs( Format("dlopen( %s ) returned %p\n") %
+				libraryFilename.c_str() %  libHandle_ );
 
 	if ( NULL == libHandle_ ) {
   	String errMessage = dlerror();
@@ -50,7 +50,7 @@ void* LinuxLibraryPeer::getFunction( const String& functionName )
 		throw InvalidPointerException( MAKE_ERROR_MSG_2( "You are trying to get function adress without a valid handle to a library" ) );
 	}
 	result = dlsym( libHandle_, functionName.ansi_c_str() );
-	StringUtils::traceWithArgs( "error are: %s\n", dlerror() );
+	StringUtils::traceWithArgs( Format( "error are: %s\n" ) % dlerror() );
 	return result;
 }
 
@@ -65,6 +65,12 @@ void LinuxLibraryPeer::unload()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/15 01:51:51  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

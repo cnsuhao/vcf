@@ -63,6 +63,7 @@ text = StringUtils::convertFormatString( text );
 
 	va_end( argList );              // Reset variable arguments.
 
+	StringUtils::trace( String("WARNING: Using deprecated function!!!\n") );
 	StringUtils::trace( String(buf) );
 
 	delete [] buf;
@@ -520,6 +521,8 @@ VCF::String StringUtils::format( const Format& formatter )
 
 VCF::String StringUtils::format( VCF::String formatText, ... )
 {
+	StringUtils::trace( String("WARNING: Using deprecated function!!!\n") );
+
 	VCF::String result = "";
 
 
@@ -2191,6 +2194,12 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/03/15 01:51:51  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.3  2005/03/14 05:44:51  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *

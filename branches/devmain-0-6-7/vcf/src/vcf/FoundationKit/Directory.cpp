@@ -386,7 +386,7 @@ Directory::Finder* Directory::findFiles( FileSearchFilter* filterFileObject/*=NU
 
 
 	if ( FilePath::isRelativePath( fileName_ ) ) {
-		String msg = StringUtils::format( "Please provide a full path name to the directory when performing a file search.\nPath: %s", fileName_.c_str() );
+		String msg = StringUtils::format( Format("Please provide a full path name to the directory when performing a file search.\nPath: %s") % fileName_.c_str() );
 		throw BasicException( MAKE_ERROR_MSG_2( msg ) );
 	}
 
@@ -607,6 +607,12 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/03/15 01:51:51  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.2.4.3  2005/02/16 17:08:40  marcelloptr
 *improved an error message
 *

@@ -1070,7 +1070,7 @@ void Win32Context::setClippingRect( Rect* clipRect )
 
 	if ( NULL != clipRGN_ ) {
 		if ( !::DeleteObject( clipRGN_ ) ) {
-			StringUtils::traceWithArgs( "Error in DeleteObject( %p )\n", clipRGN_, GetLastError() );
+			StringUtils::traceWithArgs( Format("Error in DeleteObject( %p )\n") % clipRGN_ % GetLastError() );
 		}
 	}
 
@@ -1090,7 +1090,7 @@ void Win32Context::setClippingRect( Rect* clipRect )
 
 
 	if ( ERROR == ::SelectClipRgn( dc_, clipRGN_ ) ){
-		StringUtils::traceWithArgs( "Error in SelectClipRgn( %p, %p )\n", dc_, clipRGN_, GetLastError() );
+		StringUtils::traceWithArgs( Format( "Error in SelectClipRgn( %p, %p )\n" ) % dc_ % clipRGN_ % GetLastError() );
 	}
 
 	releaseHandle();
@@ -2536,6 +2536,12 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2005/03/15 01:51:54  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.4.2.7  2005/03/14 04:17:26  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

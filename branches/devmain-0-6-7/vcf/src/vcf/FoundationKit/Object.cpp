@@ -112,7 +112,7 @@ String Object::toString()
 	*/
 	//Note: %ls means we can pass in a WideChar* - if we wanted to 
 	//pass in a char* we would need to use the %s formatter
-	result = StringUtils::format( "%ls @ %p, refcount: %d", getClassName().c_str(), this, (int)refCount_ );
+	result = StringUtils::format( Format("%ls @ %p, refcount: %d") % getClassName().c_str() % this % (int)refCount_ );
 	
 	return result;
 }
@@ -202,7 +202,7 @@ void Object::dumpDebugInfo()
 	if ( true == Object::trackingDebugMemory ) {
 		if ( !Object::debugAllocationMap.empty() ) {
 			StringUtils::trace( "Oops there are objects still left. Dumping memory info...\n" );
-			StringUtils::traceWithArgs( "There are %d objects still left over that did not get deleted\n",
+			StringUtils::traceWithArgs( Format("There are %d objects still left over that did not get deleted\n") %
 				Object::debugAllocationMap.size() );
 
 			std::map<unsigned long,Object::DebugInfo>::const_iterator it = Object::debugAllocationMap.begin();
@@ -218,8 +218,8 @@ void Object::dumpDebugInfo()
 					className = "unknown<exception occured retreiving class name>";
 				}
 
-				StringUtils::traceWithArgs( "\tObject (type: %ls) @ %p, allocated size of %d bytes\n",
-												className.c_str(), info.objAddress_, info.objectAllocationSize_ );
+				StringUtils::traceWithArgs( Format("\tObject (type: %ls) @ %p, allocated size of %d bytes\n") %
+												className.c_str() % info.objAddress_ % info.objectAllocationSize_ );
 
 
 				it ++;
@@ -250,7 +250,7 @@ ulong32 Object::objectAllocationCount()
 
 		it ++;
 	}
-	StringUtils::traceWithArgs( "Total memory allocated: %d bytes\n", totmem );
+	StringUtils::traceWithArgs( Format("Total memory allocated: %d bytes\n") % totmem );
 
 	return Object::debugAllocationMap.size();
 #endif
@@ -261,6 +261,12 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/03/15 01:51:51  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

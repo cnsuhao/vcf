@@ -170,6 +170,7 @@ void System::print( String text, ... )
     CFRange range = {0, length };
     CFStringGetCharacters( res, range, tmpChar );
 
+	CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
     CFShow( res );
 
     CFRelease( res );
@@ -185,6 +186,7 @@ void System::print( String text, ... )
 	va_end( args );
 
   #ifndef VCF_OSX
+	wprintf( L"WARNING: Using deprecated function!!!\n" );
     wprintf( tmpChar );
   #endif
 
@@ -247,6 +249,7 @@ void System::println(String text, ...)
     CFRange range = {0, length };
     CFStringGetCharacters( res, range, tmpChar );
 
+	CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
     CFShow( res );
     CFShow( CFSTR( "\n" ) );
 
@@ -262,6 +265,7 @@ void System::println(String text, ...)
 	va_end( args );
 
   #ifndef VCF_OSX
+	wprintf( L"WARNING: Using deprecated function!!!\n" );
     wprintf( tmpChar );
     wprintf( L"\n" );
   #endif
@@ -735,6 +739,12 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/03/15 01:51:52  ddiego
+*added support for Format class to take the place of the
+*previously used var arg funtions in string utils and system. Also replaced
+*existing code in the framework that made use of the old style var arg
+*functions.
+*
 *Revision 1.3.2.7  2005/03/14 05:44:51  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *
