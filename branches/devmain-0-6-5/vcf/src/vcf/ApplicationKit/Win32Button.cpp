@@ -69,8 +69,7 @@ void Win32Button::create( Control* owningControl )
 
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
-		oldButtonWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
-		defaultWndProc_ = oldButtonWndProc_;
+		subclassWindow();
 	}
 	else {
 		//throw exception
@@ -263,7 +262,8 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 
 	switch ( message ) {
 		case WM_PAINT:{
-			result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
+			//result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
+			
 		}
 		break;
 
@@ -388,14 +388,11 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 		case WM_COMMAND: {
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
-			//result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
-
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );			
 		}
 
 		default: {
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam );
-			//result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
 
 		}
 	}
@@ -406,6 +403,10 @@ LRESULT Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lP
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

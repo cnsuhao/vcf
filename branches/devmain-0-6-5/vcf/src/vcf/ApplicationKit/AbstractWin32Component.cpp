@@ -143,8 +143,8 @@ VCF::String AbstractWin32Component::getText()
 void AbstractWin32Component::setText( const VCF::String& text )
 {
 	if ( System::isUnicodeEnabled() ) {
-
-		::SetWindowTextW( hwnd_, text.c_str() );
+		const VCFChar* chars = text.c_str();
+		::SetWindowTextW( hwnd_, chars );
 	}
 	else {
 		::SetWindowTextA( hwnd_, text.ansi_c_str() );
@@ -1147,6 +1147,10 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.7  2004/07/14 04:56:01  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.

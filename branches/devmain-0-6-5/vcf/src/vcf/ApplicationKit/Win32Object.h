@@ -73,6 +73,8 @@ public:
 		return false;
 	}
 
+	void subclassWindow();
+
 protected:
 	void destroyWindowHandle();
 
@@ -104,6 +106,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.5  2004/07/12 02:05:45  ddiego
 *fixed a subtle bug (that only showed up when using a lightweight
 *control) that happened with MouseClick events being handled twice.

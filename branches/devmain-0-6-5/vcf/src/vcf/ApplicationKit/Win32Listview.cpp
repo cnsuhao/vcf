@@ -290,7 +290,8 @@ void Win32Listview::create( Control* owningControl )
 
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
-		defaultWndProc_ = (WNDPROC)::SetWindowLong( hwnd_, GWL_WNDPROC, (LONG)wndProc_ );
+
+		subclassWindow();
 		
 		COLORREF backColor = RGB(backColor_.getRed() * 255.0,
 									backColor_.getGreen() * 255.0,
@@ -2198,6 +2199,10 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/14 18:18:14  ddiego
+*fixed problem with edit control. Turns out we were using the wrong
+*subclassed wndproc. This is now fixed.
+*
 *Revision 1.1.2.4  2004/07/14 04:56:02  ddiego
 *fixed Win32 bugs. Got rid of flicker in the common control
 *wrappers and toolbar. tracking down combo box display bugs.
