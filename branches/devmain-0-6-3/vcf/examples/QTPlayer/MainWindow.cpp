@@ -138,10 +138,16 @@ MainQTWindow::MainQTWindow():
 	reset->setImageIndex( 1 );
 	ToolbarItem* play = toolbar->addToolBarButton( "Play" );
 	play->setImageIndex( 2 );
+	play->setGrouped(true);
+	play->setChecked( true );
 	ToolbarItem* pause = toolbar->addToolBarButton( "Pause" );
 	pause->setImageIndex( 3 );
+	pause->setGrouped(true);
+	pause->setChecked( true );
 	ToolbarItem* stop = toolbar->addToolBarButton( "Stop" );
 	stop->setImageIndex( 4 );
+	stop->setGrouped(true);
+	stop->setChecked( true );
 
 	toolbar->addToolBarButton( "" )->setAsSeparator();
 
@@ -354,6 +360,24 @@ MainQTWindow::MainQTWindow():
 
 	
 
+	/**
+	Add accellerators
+	*/
+	
+	addAcceleratorKey( vkSpaceBar, 
+						kmUndefined, 
+						new KeyboardEventHandler<MainQTWindow>( this, &MainQTWindow::onKeyHandler, "MainQTWindow::onKeyHandler" ) );
+
+						
+
+	addAcceleratorKey( vkUpArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkDownArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkLeftArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+	addAcceleratorKey( vkRightArrow, kmUndefined, getEventHandler( "MainQTWindow::onKeyHandler" ) );
+
+
+	addAcceleratorKey( vkLetterO, kmCtrl, getEventHandler( "MainQTWindow::onFileOpenMovie" ) );
+
 	
 	QuickTimeScrubber* scrubber = new QuickTimeScrubber();
 	scrubber->setHeight( scrubber->getPreferredHeight() );
@@ -378,6 +402,9 @@ MainQTWindow::MainQTWindow():
 
 	qtDropTarget->DropTargetDropped += 
 			new VCF::DropEventHandler<MainQTWindow>( this, &MainQTWindow::onFilesDropped, "MainQTWindow::onFilesDropped" );
+
+
+
 }
 
 MainQTWindow::~MainQTWindow()
@@ -431,6 +458,8 @@ void MainQTWindow::onFileOpenMovie( Event* e )
 	CommonFileOpen openDlg( this );	
 	openDlg.addFilter( "Quicktime Movie", "*.mov" );
 	openDlg.addFilter( "MPEG movies", "*.mpg;*.mpeg" );
+	openDlg.addFilter( "AVI movies", "*.avi" );
+	openDlg.addFilter( "Soundtracks", "*.mp3;*.wav;*.au;*.aac;*.mid" );
 	openDlg.addFilter( "All Files", "*.*" );
 	if ( true == openDlg.execute() ) {
 		if ( m_quicktimeControl->open( openDlg.getFileName() ) ) {	
@@ -440,7 +469,7 @@ void MainQTWindow::onFileOpenMovie( Event* e )
 			short vol = (volumeControl_->getPosition()/100.0) * 255.0;
 			
 			QuickTimeMovie& movie = *m_quicktimeControl->getMovie();	
-			
+
 			::SetMovieVolume( movie, vol );
 			
 			m_statusBar->setStatusText( 0, "Movie Opened" );
@@ -471,25 +500,26 @@ void MainQTWindow::onHelpAbout( Event* e )
 void MainQTWindow::onMoviePlay( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->play();
-	m_statusBar->setStatusText( 0, "Movie Playing" );
+	
+	m_statusBar->setStatusText( 0, m_quicktimeControl->getMovie()->hasMovieTrack() ? "Movie Playing" : "Audio Playing" );
 }
 
 void MainQTWindow::onMovieReset( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->reset();
-	m_statusBar->setStatusText( 0, "Movie Reset" );
+	m_statusBar->setStatusText( 0, m_quicktimeControl->getMovie()->hasMovieTrack() ? "Movie Reset" : "Audio Reset" );
 }
 
 void MainQTWindow::onMovieStop( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->stop();
-	m_statusBar->setStatusText( 0, "Movie Stopped" );
+	m_statusBar->setStatusText( 0, m_quicktimeControl->getMovie()->hasMovieTrack() ? "Movie Stopped" : "Audio Stopped" );
 }
 
 void MainQTWindow::onMoviePause( VCF::Event* e )
 {
 	m_quicktimeControl->getMovie()->pause();
-	m_statusBar->setStatusText( 0, "Movie Paused" );
+	m_statusBar->setStatusText( 0, m_quicktimeControl->getMovie()->hasMovieTrack() ? "Movie Paused" : "Audio Paused" );
 }
 
 void MainQTWindow::onMovieChanged( Event* movieEvent )
@@ -542,16 +572,18 @@ void MainQTWindow::onClose( VCF::WindowEvent* event )
 void MainQTWindow::onViewNormal( VCF::Event* e )
 {
 	StringUtils::traceWithArgs( "zoom: %0.2f\n", m_quicktimeControl->getZoomLevel() );
+	
+	m_quicktimeControl->setViewNormalSize();
 }
 
 void MainQTWindow::onViewDouble( VCF::Event* e )
 {
-	
+	m_quicktimeControl->setViewDoubleSize();
 }
 
 void MainQTWindow::onViewHalf( VCF::Event* e )
 {
-	
+	m_quicktimeControl->setViewHalfSize();
 }
 
 void MainQTWindow::onViewLockAspectRatio( VCF::Event* e )
@@ -567,35 +599,94 @@ void MainQTWindow::onViewAllowResize( VCF::Event* e )
 void MainQTWindow::updatePlay( VCF::ActionEvent* e )
 {
 	e->setEnabled( movieLoaded_ );
+
+	QuickTimeMovie* movie = m_quicktimeControl->getMovie();
+
+	if ( movie->isPlaying() ) {
+		e->setChecked( true );
+		e->setState( e->getState() | ToolbarItem::tisPressed );
+	}
+	else {
+		e->setChecked( false );
+		e->setState( e->getState() & ~ToolbarItem::tisPressed );
+	}
 }
 
 void MainQTWindow::updateReset( VCF::ActionEvent* e )
 {
 	e->setEnabled( movieLoaded_ );
+
 }
 
 void MainQTWindow::updateStop( VCF::ActionEvent* e )
 {
 	e->setEnabled( movieLoaded_ );
+	QuickTimeMovie* movie = m_quicktimeControl->getMovie();
+
+	if ( movie->isStopped() ) {
+		e->setChecked( true );
+		e->setState( e->getState() | ToolbarItem::tisPressed );
+	}
+	else {
+		e->setChecked( false );
+		e->setState( e->getState() & ~ToolbarItem::tisPressed );
+	}
 }
 
 void MainQTWindow::updatePause( VCF::ActionEvent* e )
 {
 	e->setEnabled( movieLoaded_ );
+
+	QuickTimeMovie* movie = m_quicktimeControl->getMovie();
+
+	if ( movie->isPaused() ) {
+		e->setChecked( true );
+		e->setState( e->getState() | ToolbarItem::tisPressed );
+	}
+	else {
+		e->setChecked( false );
+		e->setState( e->getState() & ~ToolbarItem::tisPressed );
+	}
 }
 
 void MainQTWindow::updateViewNormal( VCF::ActionEvent* e )
 {
+	if ( m_quicktimeControl->isNormalSize() ) {
+		e->setChecked( true );
+		e->setState( e->getState() | ToolbarItem::tisPressed );
+	}
+	else {
+		e->setChecked( false );
+		e->setState( e->getState() & ~ToolbarItem::tisPressed );
+	}
+
 	e->setEnabled( movieLoaded_ );
 }
 
 void MainQTWindow::updateViewDouble( VCF::ActionEvent* e )
 {	
+	if ( m_quicktimeControl->isDoubleSize() ) {
+		e->setChecked( true );
+		e->setState( e->getState() | ToolbarItem::tisPressed );
+	}
+	else {
+		e->setChecked( false );
+		e->setState( e->getState() & ~ToolbarItem::tisPressed );
+	}
+
 	e->setEnabled( movieLoaded_ );
 }
 
 void MainQTWindow::updateViewHalf( VCF::ActionEvent* e )
 {
+	if ( m_quicktimeControl->isHalfSize() ) {
+		e->setChecked( true );
+		e->setState( e->getState() | ToolbarItem::tisPressed );
+	}
+	else {
+		e->setChecked( false );
+		e->setState( e->getState() & ~ToolbarItem::tisPressed );
+	}
 	e->setEnabled( movieLoaded_ );
 }
 
@@ -633,4 +724,49 @@ void MainQTWindow::onVolumeMute( VCF::Event* event )
 void MainQTWindow::onVolumeFull( VCF::Event* event )
 {
 	volumeControl_->setPosition( 25500 / 100 );
+}
+
+void MainQTWindow::onKeyHandler( VCF::KeyboardEvent* event )
+{
+	QuickTimeMovie& movie = *m_quicktimeControl->getMovie();	
+
+	switch ( event->getVirtualCode() ) {
+		case vkRightArrow : {
+			if ( movie.isPlaying() ){
+				onMoviePause( NULL );
+			}
+
+			movie.nextFrame();
+		}
+		break;
+
+		case vkLeftArrow : {
+			if ( movie.isPlaying() ){
+				onMoviePause( NULL );
+			}
+
+			movie.previousFrame();
+		}
+		break;
+
+		case vkUpArrow : {
+			volumeControl_->setPosition( minVal<int>( 100, 10 + volumeControl_->getPosition() ) );
+		}
+		break;
+
+		case vkDownArrow : {
+			volumeControl_->setPosition( maxVal<int>( 0, volumeControl_->getPosition() - 10 ) );
+		}
+		break;
+
+		case vkSpaceBar : {
+			if ( movie.isPlaying() ){
+				onMoviePause( NULL );
+			}
+			else {
+				onMoviePlay( NULL );
+			}
+		}
+		break;
+	}
 }

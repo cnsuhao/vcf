@@ -13,7 +13,8 @@ QuickTimeControl::QuickTimeControl():
 	m_currentMovie(NULL),
 	m_zoomLevel(1.0),
 	m_lockAspectRatio(true),
-	m_allowResizing(false)
+	m_allowResizing(false),
+	viewState_(vsNormal)
 {
 	EventHandler* ev = 
 			new GenericEventHandler<QuickTimeControl>( this, &QuickTimeControl::onTimer, "QuickTimeControl::onTimer" );
@@ -23,7 +24,7 @@ QuickTimeControl::QuickTimeControl():
 
 	timer->TimerPulse += ev;
 
-	timer->setTimeoutInterval( 10 );
+	timer->setTimeoutInterval( 100 );
 	timer->setActivated( true );
 
 }	
@@ -142,6 +143,69 @@ void QuickTimeControl::setMovieBounds( VCF::Rect* rect )
 		}
 		
 	}
+}
+
+
+void QuickTimeControl::setViewDoubleSize()
+{
+	VCF::Rect r = getMovie()->getOriginalBounds();
+
+	r.inflate( r.getWidth()/2.0, r.getHeight()/2.0 );
+
+	VCF::Rect bounds = getClientBounds();
+			
+	bounds.inflate( -5, -5 );
+			
+	bounds.left_ = bounds.left_ + ((bounds.getWidth()*0.5) - (r.getWidth()*0.5));
+	bounds.top_ = bounds.top_ + ((bounds.getHeight()*0.5) - (r.getHeight()*0.5));
+	bounds.right_ = bounds.left_ + r.getWidth();
+	bounds.bottom_ = bounds.top_ + r.getHeight();
+			
+	getMovie()->setBounds( bounds );	
+	
+	viewState_  = vsDouble;
+	repaint();
+}
+
+void QuickTimeControl::setViewHalfSize()
+{
+	VCF::Rect r = getMovie()->getOriginalBounds();
+
+	r.inflate( -r.getWidth()/4.0, -r.getHeight()/4.0 );	
+
+	VCF::Rect bounds = getClientBounds();
+			
+	bounds.inflate( -5, -5 );
+			
+	bounds.left_ = bounds.left_ + ((bounds.getWidth()*0.5) - (r.getWidth()*0.5));
+	bounds.top_ = bounds.top_ + ((bounds.getHeight()*0.5) - (r.getHeight()*0.5));
+	bounds.right_ = bounds.left_ + r.getWidth();
+	bounds.bottom_ = bounds.top_ + r.getHeight();
+			
+	getMovie()->setBounds( bounds );
+
+	viewState_  = vsHalf;
+	repaint();
+}
+
+void QuickTimeControl::setViewNormalSize()
+{	
+	VCF::Rect r = getMovie()->getOriginalBounds();
+
+	VCF::Rect bounds = getClientBounds();
+			
+	bounds.inflate( -5, -5 );
+			
+	bounds.left_ = bounds.left_ + ((bounds.getWidth()*0.5) - (r.getWidth()*0.5));
+	bounds.top_ = bounds.top_ + ((bounds.getHeight()*0.5) - (r.getHeight()*0.5));
+	bounds.right_ = bounds.left_ + r.getWidth();
+	bounds.bottom_ = bounds.top_ + r.getHeight();
+			
+	getMovie()->setBounds( bounds );
+
+	viewState_  = vsNormal;
+	
+	repaint();
 }
 
 void QuickTimeControl::setBounds( VCF::Rect* rect, const bool& anchorDeltasNeedUpdating )

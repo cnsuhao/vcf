@@ -64,6 +64,8 @@ protected:
 	void onVolumeMute( VCF::Event* event );
 	void onVolumeFull( VCF::Event* event );
 
+	void onKeyHandler( VCF::KeyboardEvent* event );
+
 	QuickTimeControl* m_quicktimeControl;
 	VCF::StatusBarControl* m_statusBar;
 	VCF::SliderControl* volumeControl_;
