@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "$(VCF_INCLUDE)\core" /I "$(VCF_INCLUDE)\exceptions" /I "$(VCF_INCLUDE)\dragdrop" /I "$(VCF_INCLUDE)\events" /I "$(VCF_INCLUDE)\graphics" /I "$(VCF_INCLUDE)\implementer" /I "$(VCF_INCLUDE)\implementerKit" /I "$(VCF_INCLUDE)\utils" /I "$(VCF_INCLUDE)\io" /I "$(VCF_INCLUDE)\com" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "USE_APPKIT_DLL" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)\core" /I "$(VCF_INCLUDE)\exceptions" /I "$(VCF_INCLUDE)\dragdrop" /I "$(VCF_INCLUDE)\events" /I "$(VCF_INCLUDE)\graphics" /I "$(VCF_INCLUDE)\implementer" /I "$(VCF_INCLUDE)\implementerKit" /I "$(VCF_INCLUDE)\utils" /I "$(VCF_INCLUDE)\io" /I "$(VCF_INCLUDE)\com" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "NO_MFC" /D "USE_FRAMEWORK_DLL" /D "USE_GRAPHICSKIT_DLL" /D "USE_APPKIT_DLL" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
