@@ -499,7 +499,10 @@ void ComboBoxControl::onListModelContentsChanged( ListModelEvent* event )
 	if ( NULL != event ){
 		switch ( event->getType() ){
 			case LIST_MODEL_CONTENTS_DELETED: {
-
+				if ( selectedItem_ ==  event->getListItem() ) {
+					selectedItem_ = NULL;
+					selectedIndex_ = 0;
+				}
 			}
 			break;
 
@@ -520,7 +523,10 @@ void ComboBoxControl::onItemAdded( ListModelEvent* event )
 
 void ComboBoxControl::onItemDeleted( ListModelEvent* event )
 {
-
+	if ( selectedItem_ ==  event->getListItem() ) {
+		selectedItem_ = NULL;
+		selectedIndex_ = 0;
+	}
 }
 
 void ComboBoxControl::closeDropDown( Event* event )
@@ -948,6 +954,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/26 03:42:58  ddiego
+*combo box fix
+*
 *Revision 1.2.2.1  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
