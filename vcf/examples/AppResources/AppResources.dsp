@@ -23,8 +23,6 @@ CFG=AppResources - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -78,7 +76,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"AppResources.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"Debug\AppResources_vc6.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
 
 !ENDIF 
 
@@ -106,11 +104,11 @@ SOURCE=AppResources.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=".\Resources\en_US\brushed-metal.bmp"
+SOURCE=Resources\en_US\brushed-metal.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\en_US\WhatIsVCF.txt
+SOURCE=Resources\en_US\WhatIsVCF.txt
 # End Source File
 # End Group
 # Begin Group "de_DE"
@@ -118,7 +116,7 @@ SOURCE=.\Resources\en_US\WhatIsVCF.txt
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=".\Resources\de_DE\brushed-metal.bmp"
+SOURCE=Resources\de_DE\brushed-metal.bmp
 # End Source File
 # End Group
 # Begin Group "it_IT"
@@ -126,16 +124,16 @@ SOURCE=".\Resources\de_DE\brushed-metal.bmp"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=".\Resources\it_IT\brushed-metal.bmp"
+SOURCE=Resources\it_IT\brushed-metal.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\it_IT\WhatIsVCF.txt
+SOURCE=Resources\it_IT\WhatIsVCF.txt
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE="Resources\brushed-metal.bmp"
+SOURCE=Resources\brushed-metal.bmp
 # End Source File
 # Begin Source File
 

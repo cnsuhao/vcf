@@ -123,10 +123,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", ".\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Resources", "..\..\examples\Resources\Resources_vc70.vcproj", "{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciLexer", "..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc70.vcproj", "{a4708e74-6ef5-470f-a323-20844a1b2c58}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScintillaKit", ".\ScintillaKit\ScintillaKit_vc70.vcproj", "{0cc1bcc2-e6ba-4b46-9e92-184b1f860062}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling", "..\..\examples\Scrolling\Scrolling_vc70.vcproj", "{9246E861-549F-4D1A-BEBA-C114CF2C7736}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SharedLibraries", "..\..\examples\SharedLibraries\SharedLibraries_vc70.vcproj", "{B6FB23B0-B928-4473-86F4-077A7472E889}"
@@ -474,12 +470,6 @@ Global
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.Debug.ActiveCfg = Debug|Win32
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.GTK Debug.ActiveCfg = Debug|Win32
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.Release.ActiveCfg = Release|Win32
-		{a4708e74-6ef5-470f-a323-20844a1b2c58}.Debug.ActiveCfg = Debug|Win32
-		{a4708e74-6ef5-470f-a323-20844a1b2c58}.GTK Debug.ActiveCfg = Debug|Win32
-		{a4708e74-6ef5-470f-a323-20844a1b2c58}.Release.ActiveCfg = Release|Win32
-		{0cc1bcc2-e6ba-4b46-9e92-184b1f860062}.Debug.ActiveCfg = Debug|Win32
-		{0cc1bcc2-e6ba-4b46-9e92-184b1f860062}.GTK Debug.ActiveCfg = Debug|Win32
-		{0cc1bcc2-e6ba-4b46-9e92-184b1f860062}.Release.ActiveCfg = Release|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.GTK Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Release.ActiveCfg = Release|Win32
