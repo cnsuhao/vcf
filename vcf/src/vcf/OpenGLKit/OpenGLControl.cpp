@@ -39,7 +39,6 @@ void OpenGLControl::paint(GraphicsContext * context)
 		glClear( GL_COLOR_BUFFER_BIT );
 		glColor3f( 1.0f, 0.0f, 0.0f );
 		glRectf( 100.0f, 150.0f, 150.0f, 200.0f );
-		auxWireTeapot( 100.0f );
 		glFlush();
 
 		glCtx->swapBuffers();
@@ -55,6 +54,9 @@ void OpenGLControl::afterCreate( ComponentEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/06 06:45:02  pallindo
+*Forgot to remove the reference to aux
+*
 *Revision 1.1.2.5  2004/06/06 07:05:34  marcelloptr
 *changed macros, text reformatting, copyright sections
 *
