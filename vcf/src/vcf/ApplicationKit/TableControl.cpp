@@ -245,10 +245,11 @@ void TableControl::paint( GraphicsContext * context )
 
 		if ( hasScrollable ) {
 			Rect tmp( fixedColWidth, fixedRowHeight,
-						viewBounds.getWidth(), viewBounds.getHeight() );
+						viewBounds.right_, viewBounds.bottom_ );
 
 			//set clipping region
-			context->setClippingRect( &tmp );
+			clipRect = tmp;
+			//context->setClippingRect( &tmp );
 		}
 
 
@@ -286,6 +287,8 @@ void TableControl::paint( GraphicsContext * context )
 					if ( colWidth > 0 ) {
 						rect.left_ = rect.right_+1;
 						rect.right_ = rect.left_ + colWidth-1;
+
+						StringUtils::traceWithArgs( "Cliprect: %s\n", clipRect.toString().c_str() );
 
 						if (rect.left_ > clipRect.right_ ) {
 							break;        // gone past cliprect
@@ -2309,6 +2312,11 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.3  2004/07/08 15:08:05  ddiego
 *made the change to the StandardContainer name - the
 *old StandardContainer is now called DesignTimeContainer and

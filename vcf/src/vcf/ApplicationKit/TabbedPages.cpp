@@ -13,6 +13,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/DefaultTabPage.h"
 #include "vcf/ApplicationKit/Panel.h"
 #include "vcf/ApplicationKit/Containers.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 
 
@@ -45,6 +46,7 @@ void TabbedPages::init()
 
 
 	EventHandler* ev = new ButtonEventHandler<TabbedPages>( this, &TabbedPages::onScrollButtonClicked, "onScrollButtonClicked" );
+	/*
 	scrollForward_ = new ScrollButton();
 	scrollForward_->setHeight( tabHeight_ );
 	scrollForward_->setWidth(  tabHeight_ );
@@ -65,6 +67,7 @@ void TabbedPages::init()
 
 	scrollForward_->setVisible( false );
 	scrollBackward_->setVisible( false );
+	*/
 
 }
 
@@ -77,6 +80,7 @@ TabbedPages::~TabbedPages()
 
 void TabbedPages::recalcScrollerButtonsPos()
 {
+	/*
 
 	TabModel* model = getModel();
 	double width = 0.0;
@@ -115,6 +119,7 @@ void TabbedPages::recalcScrollerButtonsPos()
 		scrollForward_->setVisible( false );
 		scrollBackward_->setVisible( false );
 	}
+	*/
 }
 
 double TabbedPages::getTabPageWidth( TabPage* page, GraphicsContext* ctx )
@@ -141,26 +146,33 @@ void TabbedPages::paint( GraphicsContext* context )
 	context->rectangle( 0, 0, bounds.getWidth(), bounds.getHeight() );
 	context->fillPath();
 
-
 	if ( NULL != model_ ){
 		Enumerator<TabPage*>* pages = model_->getPages();
+		
 
 		Rect oldClipRect = context->getClippingRect();
 		Rect tabClipRect( tabAreaBounds_.left_, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
 
-		context->setClippingRect( &tabClipRect );
+		//context->setClippingRect( &tabClipRect );
 
 		Rect tabsRect(0,0,0,0);
 
 		TabPage* selectedPage = NULL;
 
 		double currentLeft = tabAreaBounds_.left_;
-		double width = 0.0;
 		Rect selectedRect;
+
+
+		uint32 pageCount = model_->getPageCount();
+
+		double tabWidth =  tabAreaBounds_.getWidth() / pageCount;
+		double width = tabWidth;
+
+
 		while ( true == pages->hasMoreElements() ){
 			TabPage* page = pages->nextElement();
-			if ( NULL != page ){
-				width = getTabPageWidth( page, context );
+			VCF_ASSERT( NULL != page );
+				width = minVal<>( tabWidth, getTabPageWidth( page, context ) );
 				tabsRect.setRect( currentLeft, 3,
 						          currentLeft+ width, tabAreaBounds_.top_ -2  );
 
@@ -175,16 +187,15 @@ void TabbedPages::paint( GraphicsContext* context )
 				else {
 					page->paint( context, &tabsRect );
 				}
-			}
+			
 			currentLeft += width;
-			width = 0.0;
 		}
 
 		//if ( oldClipRect.isEmpty() ) {
-			oldClipRect.setRect( 0, 0, getWidth(), getHeight() );
+			//oldClipRect.setRect( 0, 0, getWidth(), getHeight() );
 		//}
 
-		context->setClippingRect( &oldClipRect );
+		//context->setClippingRect( &oldClipRect );
 
 		if ( NULL != selectedPage ) {
 
@@ -476,7 +487,23 @@ void TabbedPages::onScrollButtonClicked( ButtonEvent* e )
 
 void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 {
-	PushButton::paint( ctx );
+	//PushButton::paint( ctx );
+
+	DrawUIState state;
+	BackgroundState bkState;
+
+	Rect r = getClientBounds(false);
+
+	bkState.colorType_ = SYSCOLOR_FACE;
+	ctx->drawThemeBackground( &r, bkState );
+
+	ctx->drawThemeEdge( &r, state, 
+						GraphicsContext::etAllSides, GraphicsContext::etRaised );
+
+	
+
+
+
 	switch ( getTag() ) {
 		case SCROLL_FWD_TAG : {
 			//ctx->drawHorizontalScrollButtonRect( &getClientBounds(), false, this->isPressed_ );
@@ -494,6 +521,11 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

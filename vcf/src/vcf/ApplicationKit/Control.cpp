@@ -569,6 +569,7 @@ void Control::handleEvent( Event* event )
 				MouseEvent* mouseEvent = (MouseEvent*)event;
 
 				clickPt_ = *mouseEvent->getPoint();
+				
 
 				MouseDown.fireEvent( mouseEvent );
 				if (!event->isConsumed()) {
@@ -729,7 +730,12 @@ bool Control::canBeginDragDrop( Point* point )
 			clickPt_.x_ + dragDropDelta.width_ /2.0,
 			clickPt_.y_ + dragDropDelta.height_ /2.0 );
 
-	result = r.containsPt( point );
+	//we are only ready to to begin a drag drop operation
+	//if the point is NOT, I repeat, NOT, within the bounds of the
+	//drag-drop rect. This prevents us from starting too early.
+	//changing the dragDropDelta value allows us to control the 
+	//sensitivity of how we reacto to drag-drop starts
+	result = !r.containsPt( point );
 
 	return result;
 }
@@ -1435,6 +1441,11 @@ bool Control::isActive()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.5  2004/07/14 21:54:41  ddiego
 *attempts to fix problem with borders and drawing on common controls.
 *Sort of works on editor control. There is a subtle repaint problem in painting
