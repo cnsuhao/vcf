@@ -638,10 +638,16 @@ void ListBoxControl::mouseDown( MouseEvent* event )
 					}
 				}
 				else{
-					for( ulong32 j=0;j<selectedItems_.size();j++ ){
-						selectedItems_[j]->setSelected(false);
-					}
-					selectedItems_.clear();
+
+					if( !(selectedItems_.empty()) ) {
+
+						for( ulong32 j=0;j<selectedItems_.size();j++ ){
+							selectedItems_[j]->setSelected(false);
+						}
+
+						selectedItems_.clear();
+					}					
+					
 					selectedItems_.push_back(foundItem);
 					foundItem->setSelected( true );
 					singleSelectedItem_ = foundItem;
@@ -781,15 +787,27 @@ void ListBoxControl::selectionChanged( ListItem* item )
 
 void ListBoxControl::setSelectedItem( ListItem* selectedItem )
 {
-	if ( NULL != singleSelectedItem_ && true != allowsMultiSelect_ ) {
-		singleSelectedItem_->setSelected( false );
-		if(selectedItems_.size() > 0) selectedItems_.clear();
+	if ( true != allowsMultiSelect_ ) {
+
+		if( NULL != singleSelectedItem_ ) singleSelectedItem_->setSelected( false );		
+		
+		if( !(selectedItems_.empty()) ) {
+
+			for( ulong32 j=0;j<selectedItems_.size();j++ ){
+				selectedItems_[j]->setSelected(false);
+			}
+
+			selectedItems_.clear();
+		}
 	}
+	
 	singleSelectedItem_ = selectedItem;
 	if ( NULL != singleSelectedItem_ ) {
-		singleSelectedItem_->setSelected( true );
-		selectedItems_.push_back( selectedItem );
-		selectionChanged( singleSelectedItem_ );
+		if( !(selectedItem->isSelected()) ) { //If already selected, it is already in selectedItems_!!			
+			singleSelectedItem_->setSelected( true );			
+			selectedItems_.push_back( selectedItem );//should try to find it find it first, but!			
+			selectionChanged( singleSelectedItem_ );
+		}
 	}
 
 	repaint();
@@ -863,6 +881,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/03/21 00:41:59  dougtinkham
+*more fixes to selection through code.
+*
 *Revision 1.5.2.4  2005/03/20 20:46:32  dougtinkham
 *fixed to allow selection through code to work properly. BugFix 1166682 by glen_f.
 *
