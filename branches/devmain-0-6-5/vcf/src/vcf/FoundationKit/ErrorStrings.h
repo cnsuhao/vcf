@@ -58,24 +58,31 @@ namespace VCF
 #define BAD_SEC_VALUE					L"Second Value is out of range (either less than 0 or greater than 59)"
 #define BAD_MILLISEC_VALUE				L"Millisecond Value is out of range (either less than 0 or greater than 999)"
 
+// macros mainly introduced to have the __FILE__ macro to return a unicode literal
+#define VCF_WIDEN2(x) L ## x
+#define VCF_WIDEN(x) VCF_WIDEN2(x)
+#define __WFILE__ VCF_WIDEN(__FILE__)
+
 };
 
 
 
-
 #ifdef _DEBUG
+
 /**
 This macro takes 2 arguments - the condition that causes the
 assert, and a string describing the reason for the assert
 */
 	#define VCF_ASSERT2(condition,msg) \
-		VCF::FoundationKit::assertCondition( condition, String(msg) + String(L"\nAssertion in file: ") + String( __FILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__) ); \
+		if ( ! (condition) ) { \
+			VCF::FoundationKit::assertCondition( condition, String(msg) + String(L"\nAssertion in file: ") + String( __WFILE__ ) + String(L" at line: ") + StringUtils::toString(__LINE__) ); \
+		} \
 		\
 
 /**
 Many thanks to Marcello for contributing this!!
 */
-	#define VCF_ASSERT(condition) VCF_ASSERT2( condition, #condition )
+	#define VCF_ASSERT(condition) VCF_ASSERT2( (condition), #condition )
 
 
 #else
@@ -87,6 +94,9 @@ Many thanks to Marcello for contributing this!!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/25 20:00:52  marcelloptr
+*adjusted macros and other changes for better performance with Unicode
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
