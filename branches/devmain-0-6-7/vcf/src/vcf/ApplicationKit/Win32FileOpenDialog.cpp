@@ -288,7 +288,7 @@ bool Win32FileOpenDialog::executeA()
 
 
 	int size = _MAX_PATH * filter_.size();
-	char *tmpFilter = new TCHAR[size];
+	char *tmpFilter = new char[size];
 	memset( tmpFilter, 0, size );
 
 	filter = filter_.begin();
@@ -432,6 +432,9 @@ void Win32FileOpenDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/28 18:16:50  marcelloptr
+*minor fixes: TCHAR removed
+*
 *Revision 1.2.4.1  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *
