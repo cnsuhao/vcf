@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.4  2003/03/07 04:33:02  ddiego
+added more docs for appkit. made some mods to the vcf.xsl stylesheet
+to turn on section numbering
+
 Revision 1.1.2.3  2003/03/04 04:53:51  ddiego
 filled some docs
 
@@ -52,6 +56,12 @@ and images
 	<xsl:param name="admon.graphics.path">gfx/</xsl:param>
 	<xsl:param name="htmlhelp.chm" select="'vcf_docs.chm'"/>
 	
+	<xsl:param name="toc.section.depth" select="4"/>
+	<xsl:param name="generate.section.toc.level" select="1"/>
+	<xsl:param name="section.autolabel" select="1"/>
+	<xsl:param name="section.label.includes.component.label" select="1"/>
+
+
 	
 	<!-- 
 	What follows are the header and footer customizations for the vcf docbook

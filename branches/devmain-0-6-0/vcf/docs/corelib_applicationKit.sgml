@@ -26,6 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.5  2003/03/07 04:33:02  ddiego
+added more docs for appkit. made some mods to the vcf.xsl stylesheet
+to turn on section numbering
+
 Revision 1.1.2.4  2003/03/06 22:16:51  ddiego
 jkl
 
@@ -142,19 +146,75 @@ public:
 	</section>
 
 	<section><title>UI Toolkit </title>
-		<para>
-		The UI Toolkit is used to create instances of various peer's needed by the VCF,
-		as well as providing certain low level services, such as modal and non-modal event
-		loops, and getting at UI metrics.
-		</para>
+		<section><title>Intro</title>
+			<para>
+			The UI Toolkit is used to create instances of various peer's needed by the VCF,
+			as well as providing certain low level services, such as modal and non-modal event
+			loops, and getting at UI metrics. Each system the VCF is ported to has a concrete
+			implementation of the UIToolkit. The UIToolkit is a singleton, and there should 
+			only be <emphasis>one</emphasis> instance for a given process running the VCF
+			libraries.
+			</para>
+			<para>
+			To work with the toolkit you retreive it's instance via a static function,
+			<function>UIToolkit::getDefaultUIToolkit()</function>. If no toolkit is found 
+			(which is an extremely bad thing!) a NoToolKitFoundException is thrown. A 
+			quick example:
+			<programlisting>
+try {			
+	UIToolkit* toolkit = UIToolkit::getDefaultUIToolkit();
+}
+catch ( NoToolKitFoundException &amp; e ) {
+	//we are screwed!!!
+	System::print( e.getMessage() );
+}
+
+			</programlisting>
+			</para>
+		</section>
+		
+		
+		<section><title>UI Metrics</title>		
+		</section>
+		
+		<section><title>Event Loops</title>			
+		Please see the section on <link linkend="AppKit_EventLoops">Event loops</link> for a 
+		more through discussion.
+		</section>
+		
+		<section><title>Timers</title>		
+		</section>
+		
+		<section><title>Carets</title>		
+		</section>	
+		
+		
+		<section><title>Posting Events</title>		
+		</section>
+		
+		<section><title>Default Buttons</title>		
+		</section>
+		
+		<section><title>Accelerators</title>		
+		</section>
+		
+		
+		<section><title>Creating Peers</title>		
 		<para>
 		The toolkit peer creation methods should never have to be called for general VCF 
 		usage. If you are writing a new component/control that requires a peer to manage
 		part of it's work, then you may have to call the appropriate peer creation method.
 		</para>
+		</section>
+		
+		<section><title>Miscellaneous</title>		
+		</section>				
+		
+		<para>
+		</para>
 	</section>
 	
-	<section><title>Event loops </title>
+	<section id="AppKit_EventLoops"><title>Event loops </title>
 		<para>
 		</para>
 	</section>
