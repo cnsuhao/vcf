@@ -1,5 +1,11 @@
 //MVCBasics.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
@@ -16,7 +22,7 @@ public:
 	CircleShape( const Point& pt, const double& radius ) :  center_(pt), radius_(radius) {}
 
 	CircleShape():radius_(0.0){}
-	
+
 	//gotta be a good C++ citizen and provide an operator== overload so
 	//we can use this in STL Algorithms
 
@@ -32,7 +38,7 @@ public:
 /**
 First lets create a model - this will store a collection of circles.
 Each circle will have a point defining it's center and a radius.
-This model allows us to add, remove and get individual circles, as 
+This model allows us to add, remove and get individual circles, as
 well as access to the vector that stores the circles.
 */
 
@@ -55,13 +61,13 @@ public:
 	void addCircle( const Point& pt, const double& radius ) {
 		addCircle( CircleShape(pt,radius) );
 	}
-	
+
 	void removeCircle( const CircleShape& circle ) {
 		std::vector<CircleShape>::iterator found = std::find( circles_.begin(), circles_.end(), circle );
 		if ( found != circles_.end() ) {
 
 			circles_.erase( found );
-			
+
 			ModelEvent e( this, CircleModel::CircleRemoved );
 			ModelChanged.fireEvent( &e );
 			updateAllViews();
@@ -90,7 +96,7 @@ public:
 
 
 	/**
-	We need to override the Model::empty() method so we can support 
+	We need to override the Model::empty() method so we can support
 	clearing out our model.
 	*/
 	virtual void empty() {
@@ -120,7 +126,7 @@ public:
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
 		model->addCircle( Point(300,400), 80 );
-		
+
 		model->addView( this );
 	}
 
@@ -160,7 +166,7 @@ public:
 		ctx->rectangle( &r );
 		ctx->setColor( Color::getColor("white") );
 		ctx->fillPath();
-		
+
 
 		CircleModel* model = (CircleModel*)getViewModel();
 
@@ -215,10 +221,10 @@ public:
 		this->setView( view );
 		model->addView( view );
 
-		MouseClicked += 
+		MouseClicked +=
 			new MouseEventHandler<MVCBasicsPart3Window>( this, &MVCBasicsPart3Window::onMouseClicked, "MVCBasicsPart3Window::onMouseClicked" );
 
-		KeyUp += 
+		KeyUp +=
 			new KeyboardEventHandler<MVCBasicsPart3Window>( this, &MVCBasicsPart3Window::onKeyUp, "MVCBasicsPart3Window::onKeyUp" );
 	}
 
@@ -234,7 +240,7 @@ public:
 
 		if ( e->getVirtualCode() == vkDelete ) {
 			CircleModel* model = (CircleModel*)getView()->getViewModel();
-			
+
 			model->empty();
 		}
 	}
@@ -243,7 +249,7 @@ public:
 
 class MVCBasicsPart4View : public AbstractView {
 public:
-	
+
 
 	virtual void paintView( GraphicsContext* ctx ) {
 
@@ -252,20 +258,20 @@ public:
 
 		Rect r = control->getClientBounds();
 
-		
+
 
 		ctx->rectangle( &r );
 		ctx->setColor( Color::getColor("white") );
 		ctx->fillPath();
-		
-		
+
+
 
 		CircleModel* model = (CircleModel*)getViewModel();
 
 		const std::vector<CircleShape>& circles = model->getCircles();
 		for ( std::vector<CircleShape>::const_iterator it = circles.begin(); it!=circles.end(); it++ ) {
 			const CircleShape& circle = *it;
-			
+
 			ctx->setColor( Color::getColor("blue") );
 			ctx->circle( circle.center_, circle.radius_ );
 			ctx->fillPath();
@@ -274,8 +280,8 @@ public:
 			ctx->circle( circle.center_, circle.radius_ );
 			ctx->strokePath();
 
-		}	
-		
+		}
+
 		EtchedBorder bdr;
 		bdr.setStyle( GraphicsContext::etSunken );
 		bdr.paint( &r, ctx );
@@ -288,7 +294,7 @@ public:
 
 	CircleModel* model_;
 
-	void onMouseClicked( MouseEvent* e ) {	
+	void onMouseClicked( MouseEvent* e ) {
 
 		if ( e->hasLeftButton() ) {
 			model_->addCircle( *e->getPoint(), 50 );
@@ -312,7 +318,7 @@ public:
 				}
 				it ++;
 			}
-			
+
 		}
 	}
 
@@ -369,7 +375,7 @@ public:
 	virtual void setViewModel( Model* model ) {
 		EventHandler* ev = getEventHandler( "CircleInfoUI::onCircleModelChanged" );
 
-		
+
 		if ( NULL != model ) {
 			if ( NULL != ev ) {
 				model->removeModelHandler( ev );
@@ -402,7 +408,7 @@ public:
 			case Model::MODEL_EMPTIED : {
 				modelState_->setCaption( "Model emptied." );
 			}
-			break;			
+			break;
 		}
 	}
 
@@ -420,35 +426,35 @@ public:
 		setCaption( "MVC Basics" );
 
 		CommandButton* btn1 = new CommandButton();
-		btn1->ButtonClicked += 
+		btn1->ButtonClicked +=
 			new GenericEventHandler<MVCBasicsWindow>(this, &MVCBasicsWindow::example1, "MVCBasicsWindow::example1" );
 		btn1->setHeight( btn1->getPreferredHeight() );
 		btn1->setCaption( "MVC Basics Part 1" );
 		add( btn1, AlignTop );
 
 		CommandButton* btn2 = new CommandButton();
-		btn2->ButtonClicked += 
+		btn2->ButtonClicked +=
 			new GenericEventHandler<MVCBasicsWindow>(this, &MVCBasicsWindow::example2, "MVCBasicsWindow::example2" );
 		btn2->setHeight( btn2->getPreferredHeight() );
 		btn2->setCaption( "MVC Basics Part 2" );
 		add( btn2, AlignTop );
 
 		CommandButton* btn3 = new CommandButton();
-		btn3->ButtonClicked += 
+		btn3->ButtonClicked +=
 			new GenericEventHandler<MVCBasicsWindow>(this, &MVCBasicsWindow::example3, "MVCBasicsWindow::example3" );
 		btn3->setHeight( btn3->getPreferredHeight() );
 		btn3->setCaption( "MVC Basics Part 3" );
 		add( btn3, AlignTop );
 
 		CommandButton* btn4 = new CommandButton();
-		btn4->ButtonClicked += 
+		btn4->ButtonClicked +=
 			new GenericEventHandler<MVCBasicsWindow>(this, &MVCBasicsWindow::example4, "MVCBasicsWindow::example4" );
 		btn4->setHeight( btn4->getPreferredHeight() );
 		btn4->setCaption( "MVC Basics Part 4" );
 		add( btn4, AlignTop );
 
 		CommandButton* btn5 = new CommandButton();
-		btn5->ButtonClicked += 
+		btn5->ButtonClicked +=
 			new GenericEventHandler<MVCBasicsWindow>(this, &MVCBasicsWindow::example5, "MVCBasicsWindow::example5" );
 		btn5->setHeight( btn5->getPreferredHeight() );
 		btn5->setCaption( "MVC Basics Part 5" );
@@ -482,17 +488,17 @@ public:
 
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
-		model->addCircle( Point(300,400), 80 );		
+		model->addCircle( Point(300,400), 80 );
 
 		View* view = new MVCBasicsPart4View();
 
 		wnd->setView( view );
 		model->addView( view );
 
-		wnd->MouseClicked += 
+		wnd->MouseClicked +=
 			new MouseEventHandler<MyMVCController>( controller, &MyMVCController::onMouseClicked, "MyMVCController::onMouseClicked" );
 
-		wnd->KeyUp += 
+		wnd->KeyUp +=
 			new KeyboardEventHandler<MyMVCController>( controller, &MyMVCController::onKeyUp, "MyMVCController::onKeyUp" );
 
 		controller->model_ = model;
@@ -516,7 +522,7 @@ public:
 
 		Panel* circlePanel = new Panel();
 		circlePanel->setBorder( NULL );
-		
+
 		wnd->add( circlePanel, AlignClient );
 
 		CircleInfoUI* circleInfo = new CircleInfoUI();
@@ -532,10 +538,10 @@ public:
 		circlePanel->setView( view );
 		model->addView( view );
 
-		circlePanel->MouseClicked += 
+		circlePanel->MouseClicked +=
 			new MouseEventHandler<MyMVCController>( controller, &MyMVCController::onMouseClicked, "MyMVCController::onMouseClicked" );
 
-		circlePanel->KeyUp += 
+		circlePanel->KeyUp +=
 			new KeyboardEventHandler<MyMVCController>( controller, &MyMVCController::onKeyUp, "MyMVCController::onKeyUp" );
 
 		controller->model_ = model;
@@ -555,11 +561,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new MVCBasicsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-		
+
 		return result;
 	}
 
@@ -571,8 +577,17 @@ int main(int argc, char *argv[])
 	Application* app = new MVCBasicsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.4  2004/06/06 06:03:32  marcelloptr
+*FRAMEWORK -> FOUNDATIONKIT and APPKIT -> APPLICATIONKIT and reformatting of many source files
+*
+*/
 
 

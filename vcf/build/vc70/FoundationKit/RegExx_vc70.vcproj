@@ -131,13 +131,13 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="..\..\..\thirdparty\common\pcre\internal.h">
+				RelativePath="..\..\..\src\thirdparty\common\pcre\internal.h">
 			</File>
 			<File
-				RelativePath="..\..\..\thirdparty\common\pcre\pcre.h">
+				RelativePath="..\..\..\src\thirdparty\common\pcre\pcre.h">
 			</File>
 			<File
-				RelativePath="..\..\..\thirdparty\common\pcre\pcreposix.h">
+				RelativePath="..\..\..\src\thirdparty\common\pcre\pcreposix.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\regexx.h">

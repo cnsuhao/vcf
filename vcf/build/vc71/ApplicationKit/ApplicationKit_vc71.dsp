@@ -39,7 +39,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "vc71\ReleaseS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /D "BUILD_APPKIT_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm120 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FOUNDATIONKIT_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /D "BUILD_APPLICATIONKIT_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm120 /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -62,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc71\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FRAMEWORK_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /D "BUILD_APPKIT_LIB" /Fd"..\..\..\Lib\ApplicationKit_vc71_sd.pdb" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm150 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "USE_FOUNDATIONKIT_LIB" /D "USE_GRAPHICSKIT_LIB" /D "USE_WIN32HTMLBROWSER_LIB" /D "BUILD_APPLICATIONKIT_LIB" /Fd"..\..\..\Lib\ApplicationKit_vc71_sd.pdb" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm150 /c
 # SUBTRACT CPP /FR
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
@@ -134,17 +134,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKit.h
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitPrivate.h
 # End Source File
-
 # Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h
 # End Source File
-
-
 # Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\BadComponentStateException.h
 # End Source File
-
-
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\BadModelStateException.h
@@ -163,7 +160,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ColorEtchedBorder.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ColumnLayoutContainer.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\ColumnLayoutContainer.h
 # End Source File
 # Begin Source File
 
@@ -291,11 +288,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Frame.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\GraphicsKit\ImageList.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\InvalidStateException.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.h
 # End Source File
 # Begin Source File
 
@@ -328,18 +321,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MenuItem.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\MessageDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\NoToolKitFoundException.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\GraphicsKit\OpenGLControlContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.h
 # End Source File
 # Begin Source File
 
@@ -500,7 +481,15 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Basic3DBorder.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Basic3DBorder.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\BasicTableItemEditor.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Border.h
 # End Source File
 # Begin Source File
 
@@ -645,10 +634,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MessageDialog.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.cpp
 # End Source File
 # Begin Source File
 
@@ -896,10 +881,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Object.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Peer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.cpp
 # End Source File
 # Begin Source File
@@ -929,10 +910,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\Win32SystemPeer.h
 # End Source File
 # Begin Source File
 
@@ -1081,10 +1058,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MouseEvent.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\MouseEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\NotifyEvent.h
 # End Source File
 # Begin Source File
 

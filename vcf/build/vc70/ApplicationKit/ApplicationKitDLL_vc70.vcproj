@@ -23,7 +23,7 @@
 				AdditionalOptions="/Zm200 "
 				Optimization="0"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;APPKIT_DLL;APPKIT_EXPORTS;BUILD_APPKIT_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS;BUILD_APPLICATIONKIT_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -86,7 +86,7 @@
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)\..\thirdparty\common\agg\include\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_FRAMEWORK_DLL;USE_GRAPHICSKIT_DLL;APPKIT_DLL;APPKIT_EXPORTS;BUILD_APPKIT_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS;BUILD_APPLICATIONKIT_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -197,7 +197,7 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ColorEtchedBorder.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\core\ColumnLayoutContainer.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnLayoutContainer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Command.h">
@@ -293,10 +293,7 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Frame.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\ImageList.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\InvalidStateException.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Item.h">
@@ -321,15 +318,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MessageDialog.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\NoToolKitFoundException.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\GraphicsKit\OpenGLControlContext.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenu.h">
@@ -475,7 +463,13 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Basic3DBorder.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Basic3DBorder.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\BasicTableItemEditor.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Border.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Clipboard.cpp">
@@ -584,9 +578,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenu.cpp">
@@ -773,9 +764,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Object.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Peer.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.cpp">
 			</File>
 			<File
@@ -798,9 +786,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\Win32SystemPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp">
@@ -913,9 +898,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MouseEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\NotifyEvent.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollEvent.h">

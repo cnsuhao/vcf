@@ -91,8 +91,8 @@ g_disableUuidgen_on_win32 = False
 
 # Some macros used internally for clarity
 g_KeepFirstDot_False = False
-g_KeepFirstDot_True  = 1
-g_KeepFirstDot_Add = 2         # add './' at the beginning anyway
+g_KeepFirstDot_True = 1
+g_KeepFirstDot_Add  = 2       # add './' at the beginning anyway
 g_KeepFirstDot_AddOnlyIfNoDots = 3 # add './' at the beginning only if it is not already like: '../'
 g_keepFirstDot_StandardVc = 4 # like 3 but it also remove the './' if it exists
 
@@ -763,6 +763,18 @@ class FileUtils:
         else:
             return p[:i], p[i:]
     splitext = staticmethod(splitext)
+
+    def basename(p):
+         # Return the tail (basename) part of a path.
+        """Returns the final component of a pathname"""
+        return FileUtils.split(p)[1]
+    basename = staticmethod(basename)
+
+    def dirname(p):
+    # Return the head (dirname) part of a path.
+        """Returns the directory component of a pathname"""
+        return FileUtils.split(p)[0]
+    dirname = staticmethod(dirname)
 
     def isUnixOs():
         # needs _names = sys.builtin_module_names
@@ -1519,6 +1531,9 @@ class DspApp:
 
         optparser.add_option(   "-p", "--prompt"                             , type = "int"     , dest = "prompt"                        , default=True                  , help="ask to press any key before continuing" )
 
+        optparser.add_option(   "--enableProjectFilesModif"                  , type = "int"     , dest = "enableProjectFilesModif"       , default=False                 , help="disable any kind of changes in the project files content ( *.dsp and *.vcproj ). To see any problems. But no modifications." )
+        optparser.add_option(   "--enableSourceFilesModif"                   , type = "int"     , dest = "enableSourceFilesModif"        , default=False                 , help="disable any kind of changes in the source files content ( *.h and *.cpp ). To see any problems. But no modifications." )
+
         optparser.add_option(   "-u", "--unixStyle"                          , type = "int"     , dest = "unixStyle"                     , default=False                 , help="when True uses \'/\' instead than \'\\\' ( suggested False: sln files want windows style )" )
         optparser.add_option(   "-b", "--backupFiles"                        , type = "int"     , dest = "backupFiles"                   , default=False                 , help="not necessary ( it creates many annoying *.bak files )" )
         optparser.add_option(   "--modifyVc6"                                , type = "int"     , dest = "modifyVc6"                     , default=True                  , help="enable any modification on the original vc6 files" )
@@ -1680,6 +1695,11 @@ class DspApp:
         print ' --prompt         = ' + str(self.options.prompt )
         print ' --log            = ' + str(self.options.log)
         print ''
+
+        print ' --enableProjectFilesModif        = ' + str(self.options.enableProjectFilesModif         )
+        print ' --enableSourceFilesModif         = ' + str(self.options.enableSourceFilesModif          )
+        print ''
+
         print ' --unixStyle      = ' + str(self.options.unixStyle)
         print ' --backupFiles    = ' + str(self.options.backupFiles)
         print ' --modifyVc6                      = ' + str(self.options.modifyVc6                       )
@@ -1845,7 +1865,10 @@ class DspApp:
                     self.options.warning                        = self.getOptionValue( [ 'warning', 'w' ]                    , comm_sect, 'warning'                        , "int"       ) # was comm_sect, 'verbose' ! fixed April 2004
                     self.options.errorLevel                     = self.getOptionValue( [ 'errorLevel', 'e' ]                 , comm_sect, 'errorLevel'                     , "int"       )
                     self.options.prompt                         = self.getOptionValue( [ 'prompt', 'p' ]                     , comm_sect, 'prompt'                         , "int"       )
-                    self.options.log                            = self.getOptionValue( [ 'log', 'w' ]                        , comm_sect, 'log'                            , "int"       )
+                    self.options.log                            = self.getOptionValue( [ 'log', 'l' ]                        , comm_sect, 'log'                            , "int"       )
+
+                    self.options.enableProjectFilesModif        = self.getOptionValue( [ 'enableProjectFilesModif'  ]        , spec_sect, 'enableProjectFilesModif'        , "bool"      )
+                    self.options.enableSourceFilesModif         = self.getOptionValue( [ 'enableSourceFilesModif'   ]        , spec_sect, 'enableSourceFilesModif'         , "bool"      )
 
                     self.options.unixStyle                      = self.getOptionValue( [ 'unixStyle' ]                       , comm_sect, 'unixStyle'                      , "bool"      )
                     self.options.deleteSccLines                 = self.getOptionValue( [ 'deleteSccLines' ]                  , comm_sect, 'deleteSccLines'                 , "bool"      )
@@ -2317,17 +2340,17 @@ class DspApp:
 
         return
 
-    def isFileIn( self, file, namelist ):
+    def isFileIn( self, filename, namelist ):
         found = False
         for name in namelist:
             name = name.lower() # lowercase to make easier to define g_debugFileList
-            if ( file.filename.lower().find( name ) != -1 ):
+            if ( filename.lower().find( name ) != -1 ):
                 found = True
                 break
         return found
 
-    def isFileIn2( self, file ):
-        return self.isFileIn(  file, g_debugFileList )
+    def isFileIn2( self, filename ):
+        return self.isFileIn(  filename, g_debugFileList )
 
 
 ################################################################################
@@ -2424,6 +2447,12 @@ class GenericProjectFile( GenericFile ):
         self.filetitle = os.path.basename( filename )
         return
 
+    def isFileIn( self, filelist ):
+        return app.isFileIn( self.filename, filelist )
+
+    def isFileIn2( self ):
+        return app.isFileIn( self.filename, g_debugFileList )
+
     def setTrueProjectName( self, trueProjectName ):
         self.trueProjectName = trueProjectName
         return
@@ -2495,12 +2524,6 @@ class GenericProjectFile( GenericFile ):
 
         return ''
     getCompilerFromName = staticmethod(getCompilerFromName)
-
-    def isFileIn( self, filelist ):
-        return app.isFileIn(  self, filelist )
-
-    def isFileIn2( self ):
-        return app.isFileIn(  self, g_debugFileList )
 
     def makeDuplicateVcFilename( filename, oldCompiler, newCompiler, unixStyle, keepFirstDot ):
         # if the filename is under a ocplUnderscor/ subdirectory then it is copied into a ncplUnderscor/ subdirectory
@@ -2665,7 +2688,7 @@ class GenericProjectFile( GenericFile ):
 
     def duplicateVcSaveShowMsg( self, newFilename, msg ):
         self.setFilename( newFilename ) #added just to make sure
-        self.saveFile( g_include_vcproj_in_changed_files_counted )
+        self.saveFile( g_include_vcproj_in_changed_files_counted, app.options.enableProjectFilesModif )
         if ( 1 < app.options.verbose ):
             # we require 1 verbose level more if we modifyVc6
             if ( msg and ( not app.options.modifyVc6 or 2 < app.options.verbose ) ):
@@ -2678,7 +2701,7 @@ class GenericProjectFile( GenericFile ):
         self.readlines()
         self.process()
         if ( app.options.modifyVc6 ):
-            self.saveFile( True )
+            self.saveFile( True, app.options.enableProjectFilesModif )
         return
 
     def readlines(self):
@@ -2688,40 +2711,42 @@ class GenericProjectFile( GenericFile ):
         self.lines = fs.readlines()
         fs.close
 
-    def saveFile( self, count ):
-        return self.saveFileContentAs( self.filename, count )
+    def saveFile( self, count, modify ):
+        return self.saveFileContentAs( self.filename, count, modify )
 
-    def saveFileContentAs( self, destination, count ):
-        tmpFilename = destination + '.$x$y$'
-        #print 'tmpFilename ' + tmpFilename
-        if ( os.path.exists( tmpFilename ) ) :
-            os.remove( tmpFilename )
+    def saveFileContentAs( self, destination, count, modify ):
+        if ( modify ):
+            tmpFilename = destination + '.$x$y$'
+            #print 'tmpFilename ' + tmpFilename
+            if ( os.path.exists( tmpFilename ) ) :
+                os.remove( tmpFilename )
 
-        fd = file( tmpFilename, 'w' )
-        fd.writelines( self.lines )
-        fd.close()
+            fd = file( tmpFilename, 'w' )
+            fd.writelines( self.lines )
+            fd.close()
 
-        if ( not os.path.exists( tmpFilename ) ) :
-            raise Exception( 'saveFile() - the temporary file \'%s\' had not been created !' % source )
+            if ( not os.path.exists( tmpFilename ) ) :
+                raise Exception( 'saveFile() - the temporary file \'%s\' had not been created !' % source )
 
-        self.replaceWithFile( tmpFilename, count )
+            self.replaceWithFile( tmpFilename, count, modify )
 
         return
 
-    def replaceWithFile( self, source, count ):
-        destination = self.filename
+    def replaceWithFile( self, source, count, modify ):
+        if ( modify ):
+            destination = self.filename
 
-        ( changedFiles, unchangedFiles, createdFiles ) \
-                    = FileUtils.replaceFile( source, destination )
+            ( changedFiles, unchangedFiles, createdFiles ) \
+                        = FileUtils.replaceFile( source, destination )
 
-        app.changedFilesTot   += changedFiles
-        app.unchangedFilesTot += unchangedFiles
-        app.createdFilesTot   += createdFiles
+            app.changedFilesTot   += changedFiles
+            app.unchangedFilesTot += unchangedFiles
+            app.createdFilesTot   += createdFiles
 
-        if ( count ):
-            app.changedFiles   += changedFiles
-            app.unchangedFiles += unchangedFiles
-            app.createdFiles   += createdFiles
+            if ( count ):
+                app.changedFiles   += changedFiles
+                app.unchangedFiles += unchangedFiles
+                app.createdFiles   += createdFiles
 
         return
 
@@ -3172,7 +3197,7 @@ class DspFile( GenericProjectFile ):
         self.readlines()
         self.process()
         if ( app.options.modifyVc6 ):
-            self.saveFile( True )
+            self.saveFile( True, app.options.enableProjectFilesModif )
         return
 
     def replaceCompilerConfig( self, newCompiler, onlyInsideConfig ):
@@ -3443,18 +3468,19 @@ class DspFile( GenericProjectFile ):
 
     def replaceAllSections( self, configurationSection, targetSection ):
         tmpFilename = self.filename + '.$x$y$'
-
         #print 'tmpFilename ' + tmpFilename
-        if ( os.path.exists( tmpFilename ) ) :
-            os.remove( tmpFilename )
 
-        fd = file( tmpFilename, 'w' )
-        fd.writelines( configurationSection )
-        fd.writelines( targetSection )
-        fd.close()
+        if ( app.options.enableProjectFilesModif ):
+            if ( os.path.exists( tmpFilename ) ) :
+                os.remove( tmpFilename )
 
-        if ( not os.path.exists( tmpFilename ) ) :
-            raise Exception( 'replaceTarget() - the temporary file \'%s\' had not been created !' % tmpFilename )
+            fd = file( tmpFilename, 'w' )
+            fd.writelines( configurationSection )
+            fd.writelines( targetSection )
+            fd.close()
+
+            if ( not os.path.exists( tmpFilename ) ) :
+                raise Exception( 'replaceTarget() - the temporary file \'%s\' had not been created !' % tmpFilename )
 
         return tmpFilename
 
@@ -7092,7 +7118,7 @@ class Workspace( DspFile ):
         self.setFilename( newFilename )
         self.lines = wspOld.lines # copy all modified lines
 
-        self.saveFile( g_include_vcproj_in_changed_files_counted )
+        self.saveFile( g_include_vcproj_in_changed_files_counted, app.options.enableProjectFilesModif )
 
         if ( 0 < app.options.verbose ):
             if ( newCompiler ):
@@ -7119,7 +7145,7 @@ class Workspace( DspFile ):
         self.createSlnProjectEntries( wspOld, newCompiler )
 
         self.setFilename( newFilenameSln  ) #%%% + '.sln'
-        self.saveFile( g_include_vcproj_in_changed_files_counted )
+        self.saveFile( g_include_vcproj_in_changed_files_counted, app.options.enableProjectFilesModif )
 
         if ( 0 < app.options.verbose ):
             print ' created solution: %s' % self.filename
@@ -7151,7 +7177,7 @@ class Workspace( DspFile ):
         self.updateSlnProjectEntries( wspOld, newCompiler )
 
         self.setFilename( newFilenameSln ) #%%% + '.sln'
-        self.saveFile( g_include_vcproj_in_changed_files_counted )
+        self.saveFile( g_include_vcproj_in_changed_files_counted, app.options.enableProjectFilesModif )
 
         if ( 0 < app.options.verbose ):
             print ' updated solution: %s' % self.filename
@@ -8396,16 +8422,15 @@ class Workspace( DspFile ):
         if ( not os.path.exists( workspaceDirname ) ):
             raise Exception( 'Workspace directory \'%s\' does not exist.\n           It should have been already created !' % workspaceDirname )
 
-        if ( os.path.exists( self.filename ) ):
-            os.remove( self.filename )
-
-        fd = file( self.filename, 'w' )
-
         self.createBuildLines( projNamesList, filterString, ignorecase )
 
-        fd.writelines( self.lines ) # @@@@
+        if ( app.options.enableProjectFilesModif ):
+            if ( os.path.exists( self.filename ) ):
+                os.remove( self.filename )
 
-        fd.close
+            fd = file( self.filename, 'w' )
+            fd.writelines( self.lines ) # @@@@
+            fd.close
 
         print ' created workspace: %s' % self.filename
 
@@ -8487,7 +8512,7 @@ class Workspace( DspFile ):
                 dependencyList += dependencyAllProjects
             else:
                 # disabled the dependencies creation: now they are all copied from app.options.dependenciesWorkspace 2004/04/08
-                #dependencyList = self.calcDependencyStringList( prjName )
+                #dependencyList = self.calcDependencyList( prjName )
                 #if ( not dependencyList ):
                 # for projects without dependencies, copies them from app.options.dependenciesWorkspace
                 if ( self.dependencies ):
@@ -8607,7 +8632,7 @@ class Workspace( DspFile ):
                     dependencyAllProjects.append( self.buildDependencyListItem( prjName ) )
         return dependencyAllProjects
 
-    def calcDependencyStringList( self, project ):
+    def calcDependencyList( self, project ):
         # calc the dependency string of the library that a library project is dependent of
         # this string generally consists of the only library project that must be compiled before the library project itself
         lib = ''
@@ -8747,7 +8772,7 @@ class Workspace( DspFile ):
 
         tmpFilename = dw.replaceAllSections( configurationSection, targetSection )
 
-        dw.replaceWithFile( tmpFilename, False )
+        dw.replaceWithFile( tmpFilename, False, app.options.enableProjectFilesModif )
 
         nameMaster  = os.path.basename ( filenameMaster )
         nameChanged = os.path.basename ( filenameChanged )

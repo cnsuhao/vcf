@@ -39,7 +39,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "icl7\ReleaseS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /WX /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /c
+# ADD CPP /nologo /MD /W3 /WX /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FOUNDATIONKIT_LIB" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -62,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "icl7\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /WX /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FRAMEWORK_LIB" /Fd"..\..\..\lib\FoundationKit_icl7_sd.pdb" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /WX /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "NO_MFC" /D "BUILD_FOUNDATIONKIT_LIB" /Fd"..\..\..\lib\FoundationKit_icl7_sd.pdb" /Yu"vcf/FoundationKit/FoundationKit.h" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -272,6 +272,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\InvalidPointerException.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\InvalidStateException.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\FoundationKit\NoFreeMemException.h
 # End Source File
 # Begin Source File
@@ -281,6 +285,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\NoPeerFoundException.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\NoSuchElementException.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\NoToolKitFoundException.h
 # End Source File
 # Begin Source File
 
@@ -545,6 +553,14 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Mutex.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\Mutex.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.cpp
 # End Source File
 # Begin Source File
 
