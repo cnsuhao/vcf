@@ -103,6 +103,14 @@ SOURCE=..\..\..\include\FoundationKitPrivate.h
 
 SOURCE=..\..\..\include\core\FoundationKitSelectLib.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\LocalePeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\StringsMessageLoader.h
+# End Source File
 # End Group
 # Begin Group "Source Files"
 
@@ -127,6 +135,10 @@ SOURCE=..\..\..\src\utils\Library.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\core\Locales.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\utils\StringsMessageLoader.cpp
 # End Source File
 # End Group
 # Begin Group "Peers"
@@ -155,6 +167,14 @@ SOURCE=..\..\..\src\implementerkit\Win32LibraryPeer.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\implementerkit\Win32LibraryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\implementerkit\Win32LocalePeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementerKit\Win32LocalePeer.h
 # End Source File
 # Begin Source File
 
@@ -518,6 +538,14 @@ SOURCE=..\..\..\include\utils\Lock.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\MessageLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\MessageLoader.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Utils\Mutex.cpp
 # End Source File
 # Begin Source File
@@ -594,6 +622,14 @@ SOURCE=..\..\..\include\utils\SystemToolkit.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\utils\TextCodec.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\TextCodec.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\Utils\Thread.cpp
 # End Source File
 # Begin Source File
@@ -615,6 +651,10 @@ SOURCE=..\..\..\src\Utils\VCFProcess.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\VCFProcess.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\utils\VCFString.cpp
 # End Source File
 # Begin Source File
 
