@@ -18,7 +18,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Scrollable.h"
 #include "vcf/ApplicationKit/ScrollPeer.h"
 #include "vcf/ApplicationKit/Win32ScrollPeer.h"
-#include "vcf/ApplicationKit/Win32Peer.h"
+#include "vcf/FoundationKit/Win32Peer.h"
 #include "vcf/GraphicsKit/Win32Font.h"
 #include "vcf/ApplicationKit/CursorPeer.h"
 
@@ -1068,6 +1068,9 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/05 01:55:20  marcelloptr
+*moved some files to the directory where they logically belong
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

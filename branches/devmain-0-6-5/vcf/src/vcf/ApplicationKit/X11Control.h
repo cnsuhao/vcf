@@ -21,7 +21,7 @@ where you installed the VCF.
 
 
 /**
-For unusual looking typedefs please see the vcf/include/implementerKit/X11Peer.h
+For unusual looking typedefs please see the vcf/ApplicationKit/X11Peer.h
 */
 
 namespace VCF {
@@ -49,6 +49,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/05 01:55:20  marcelloptr
+*moved some files to the directory where they logically belong
+*
 *Revision 1.1.2.2  2004/04/29 03:43:16  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

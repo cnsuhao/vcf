@@ -18,14 +18,14 @@ where you installed the VCF.
 #	include "vcf/FoundationKit/Win32SystemToolkit.h"
 #	include "vcf/FoundationKit/Win32SemaphorePeer.h"
 #	include "vcf/FoundationKit/Win32LibraryPeer.h"
-#	include "vcf/ApplicationKit/Win32Peer.h"
+#	include "vcf/FoundationKit/Win32Peer.h"
 #	include "vcf/FoundationKit/Win32FilePeer.h"
 #	include "vcf/FoundationKit/Win32FileStream.h"
 #	include "vcf/FoundationKit/Win32ProcessPeer.h"
 #	include "vcf/FoundationKit/Win32SystemPeer.h"
 #	include "vcf/FoundationKit/Win32Thread.h"
 #	include "vcf/FoundationKit/Win32Registry.h"
-#	include "vcf/ApplicationKit/Win32Mutex.h"
+#	include "vcf/FoundationKit/Win32Mutex.h"
 #elif defined (VCF_POSIX)
 	//pull in the linux headers here
 #	include "vcf/FoundationKit/LinuxSystemToolkit.h"
@@ -61,6 +61,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/06/05 01:55:21  marcelloptr
+*moved some files to the directory where they logically belong
+*
 *Revision 1.1.2.2  2004/04/29 04:07:07  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
