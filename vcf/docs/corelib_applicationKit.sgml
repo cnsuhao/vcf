@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.3  2003/03/04 04:53:51  ddiego
+filled some docs
+
 Revision 1.1.2.2  2003/03/03 22:42:41  ddiego
 stuff
 
@@ -65,8 +68,73 @@ and images
 		incorrect and will break the application.
 		</para>
 		<para>
+		To use the Application class, simply create an instance on the stack in your programs
+		main() function, and then call the Application's static method, Application::appMain().
+		<programlisting>
+int main( int argc, char** argv ) 
+{
+	Application app;
+	
+	Application::appMain( argc, argv );
+	return 0;
+}
+		</programlisting>
+		</para>
+		<para>
+		This will start the program running, call the Application's initRunningApplication() method,
+		and then start the event loop. The Application stores it's arguments in a std::vector of 
+		Strings, in the member variable Application::m_cmdLine. You can retreive the current 
+		running instance of the Application by calling Application::getRunningInstance().
+		</para>
+		<para>
 		You can customize the initialization of your application by overriding the 
-		Application's 
+		Application's initialize() method.
+		<programlisting>
+class MyApplication : public Application {
+public:
+	virtual bool initRunningApplication() {		
+		bool result = Application::initRunningApplication();
+		
+		//your customizations here
+		
+		return result;
+	}
+};
+		</programlisting>
+		<note>
+			<para>
+			Don't forget to call the base class's initRunningApplication() method, or you may see 
+			incorrect or undefined behaviour.
+			</para>
+		</note>
+		</para>
+		<para>
+		You can use your new class like so:
+		<programlisting>
+int main( int argc, char** argv ) 
+{
+	MyApplication app;
+	
+	Application::appMain( argc, argv );
+	return 0;
+}
+		</programlisting>
+		
+		</para>
+		<para>
+		You can customize functionality for closing the Application as well by overriding the 
+		terminateRunningApplication() method. 
+		<programlisting>
+class MyApplication : public Application {
+public:
+	//rest of declaration
+	virtual void terminateRunningApplication() {
+		//your customizations here
+		
+		Application::terminateRunningApplication();
+	}
+};
+		</programlisting>
 		</para>
 	</section>
 
