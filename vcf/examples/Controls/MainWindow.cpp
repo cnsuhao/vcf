@@ -99,6 +99,9 @@ void MainWindow::makeListBoxPage()
 	scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
 	scrollbarManagerSingle->setTarget( listBox1 );
 	scrollbarManagerSingle->setKeepScrollbarsVisible( true );
+	
+	listBoxGroup->add( listBox1, AlignClient );
+	
 	//add some items to listBox1
 	ListModel* listBoxModel = listBox1->getListModel();	
 	for(int j=0; j<10; j++){
@@ -106,9 +109,8 @@ void MainWindow::makeListBoxPage()
 		String capt = L"ListItem " + indx;		
 		listBoxModel->addItem( new DefaultListItem( listBoxModel, capt ) );			
 	}
-	listBoxModel->addItem( new DefaultListItem( listBoxModel, "Add your own item below." ) );
-	
-	listBoxGroup->add( listBox1, AlignClient );	
+	listBoxModel->addItem( new DefaultListItem( listBoxModel, "Add your own item below." ) );	
+		
 
 	listBoxGroup->add( new VerticalSpacer( borderWidth ), AlignBottom );
 	
@@ -341,6 +343,9 @@ void MainWindow::makeBordersPage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/09/11 08:19:58  dougtinkham
+*moved line adding listbox to panel to before items added to listbox
+*
 *Revision 1.1.2.3  2004/08/30 03:50:47  dougtinkham
 *added copyright
 *
