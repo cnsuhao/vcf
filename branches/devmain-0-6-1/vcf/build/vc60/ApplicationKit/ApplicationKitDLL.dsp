@@ -153,15 +153,7 @@ SOURCE=..\..\..\include\core\BasicTableItemEditor.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Button.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\implementer\ButtonPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\CheckBoxControl.h
 # End Source File
 # Begin Source File
 
@@ -173,15 +165,7 @@ SOURCE=..\..\..\include\graphics\ColorEtchedBorder.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ComboBoxControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Command.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\CommandButton.h
 # End Source File
 # Begin Source File
 
@@ -249,19 +233,11 @@ SOURCE=..\..\..\include\core\Control.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ControlContainer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\ControlGraphicsContext.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\ControlPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\ControlsKit.h
 # End Source File
 # Begin Source File
 
@@ -274,10 +250,6 @@ SOURCE=..\..\..\include\core\CursorManager.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementer\CursorPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\CustomControl.h
 # End Source File
 # Begin Source File
 
@@ -325,19 +297,7 @@ SOURCE=..\..\..\include\graphics\EtchedBorder.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\FillState.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\FontState.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\Frame.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\HeaderControl.h
 # End Source File
 # Begin Source File
 
@@ -345,15 +305,7 @@ SOURCE=..\..\..\include\implementer\HeaderPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\HTMLBrowserControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\implementer\HTMLBrowserPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ImageControl.h
 # End Source File
 # Begin Source File
 
@@ -382,14 +334,6 @@ SOURCE=..\..\..\include\graphics\Light3DBorder.h
 # Begin Source File
 
 SOURCE=..\..\..\include\implementerKit\LightweightComponent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ListBoxControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ListViewControl.h
 # End Source File
 # Begin Source File
 
@@ -433,19 +377,11 @@ SOURCE=..\..\..\include\exceptions\NoToolKitFoundException.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\OpenGLControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\graphics\OpenGLControlContext.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\core\PackageInfo.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\Panel.h
 # End Source File
 # Begin Source File
 
@@ -473,14 +409,6 @@ SOURCE=..\..\..\include\core\PropertyEditorManager.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\PushButton.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\RadioButtonControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\utils\Resource.h
 # End Source File
 # Begin Source File
@@ -501,14 +429,6 @@ SOURCE=..\..\..\include\core\Scrollable.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\ScrollBarControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ScrollbarManager.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\ScrollPeer.h
 # End Source File
 # Begin Source File
@@ -517,31 +437,7 @@ SOURCE=..\..\..\include\core\Selectable.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\core\Splitter.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\StatusBar.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\implementer\StrokeState.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TabbedPages.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TableControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\core\TableItemEditor.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TextControl.h
 # End Source File
 # Begin Source File
 
@@ -554,34 +450,6 @@ SOURCE=..\..\..\include\core\TimerComponent.h
 # Begin Source File
 
 SOURCE=..\..\..\include\graphics\TitledBorder.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ToggledButton.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\Toolbar.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ToolbarButton.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ToolbarDock.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\ToolbarSeparator.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TreeControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\core\TreeListControl.h
 # End Source File
 # Begin Source File
 
@@ -698,23 +566,11 @@ SOURCE=..\..\..\src\core\BasicTableItemEditor.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\CheckBoxControl.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\Clipboard.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\Graphics\ColorEtchedBorder.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ComboBoxControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\CommandButton.cpp
 # End Source File
 # Begin Source File
 
@@ -766,10 +622,6 @@ SOURCE=..\..\..\src\core\Control.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\ControlContainer.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Graphics\ControlGraphicsContext.cpp
 # End Source File
 # Begin Source File
@@ -782,19 +634,7 @@ SOURCE=..\..\..\src\core\CursorManager.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\CustomControl.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\DataObject.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultColumnItem.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\DefaultMenuItem.cpp
 # End Source File
 # Begin Source File
 
@@ -835,18 +675,6 @@ SOURCE=..\..\..\src\core\Frame.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\HeaderControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\HTMLBrowserControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ImageControl.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\Graphics\ImageList.cpp
 # End Source File
 # Begin Source File
@@ -859,10 +687,6 @@ SOURCE=..\..\..\src\Events\KeyboardEvent.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Label.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\LibraryApplication.cpp
 # End Source File
 # Begin Source File
@@ -872,14 +696,6 @@ SOURCE=..\..\..\src\Graphics\Light3DBorder.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\ImplementerKit\LightweightComponent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ListBoxControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ListViewControl.cpp
 # End Source File
 # Begin Source File
 
@@ -899,19 +715,11 @@ SOURCE=..\..\..\src\core\MultilineTextControl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Panel.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\PopupMenu.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\core\PropertyEditorManager.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\PushButton.cpp
 # End Source File
 # Begin Source File
 
@@ -931,59 +739,11 @@ SOURCE=..\..\..\src\core\ScrollbarManager.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\core\Splitter.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\StatusBar.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\TabbedPages.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\TableControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\TextControl.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\core\TimerComponent.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\Graphics\TitledBorder.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ToggledButton.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\Toolbar.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ToolbarButton.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ToolbarDock.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\ToolbarSeparator.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\TreeControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\core\TreeListControl.cpp
 # End Source File
 # Begin Source File
 
@@ -1527,6 +1287,10 @@ SOURCE=..\..\..\include\core\ColumnModel.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\DefaultColumnItem.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\DefaultColumnItem.h
 # End Source File
 # Begin Source File
@@ -1552,6 +1316,10 @@ SOURCE=..\..\..\src\core\DefaultListModel.cpp
 # Begin Source File
 
 SOURCE=..\..\..\include\core\DefaultListModel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\DefaultMenuItem.cpp
 # End Source File
 # Begin Source File
 
@@ -1656,6 +1424,230 @@ SOURCE=..\..\..\include\core\TreeItem.h
 # Begin Source File
 
 SOURCE=..\..\..\include\core\TreeModel.h
+# End Source File
+# End Group
+# Begin Group "Controls"
+
+# PROP Default_Filter "*.h;*.cpp"
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Button.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\CheckBoxControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\CheckBoxControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ComboBoxControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ComboBoxControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\CommandButton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\CommandButton.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ControlContainer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ControlContainer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\ControlsKit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\CustomControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\CustomControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\HeaderControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\HeaderControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\HTMLBrowserControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\HTMLBrowserControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ImageControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ImageControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Label.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ListBoxControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ListBoxControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ListViewControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ListViewControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\OpenGLControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Panel.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Panel.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\PushButton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\PushButton.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\RadioButtonControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ScrollBarControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ScrollbarManager.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Splitter.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Splitter.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\StatusBar.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\StatusBar.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\TabbedPages.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TabbedPages.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\TableControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TableControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\TextControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TextControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ToggledButton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ToggledButton.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\Toolbar.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\Toolbar.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ToolbarButton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ToolbarButton.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ToolbarDock.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ToolbarDock.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\ToolbarSeparator.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\ToolbarSeparator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\TreeControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TreeControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\core\TreeListControl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\TreeListControl.h
 # End Source File
 # End Group
 # End Target
