@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.10  2003/03/13 22:13:43  ddiego
+added more docs, further info on event loops and drag and drop
+
 Revision 1.1.2.9  2003/03/13 05:06:51  ddiego
 added some more documentation, and implemented the clone() method in all of the
 core event classes for the FoundationKit, GraphicsKit, and ApplicationKit.
@@ -317,8 +320,49 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		
 		<section><title>Accelerators</title>	
 			<para>
-			An accelerator is a 
+			An accelerator is a special action that takes place when a key or key combination is 
+			pressed on the keyboard. For example, with many applications, hitting the "Ctrl" and the 
+			"C" keys together will copy something to the clipboard. Key combinations are one of hte 
+			alpha-numeric keys, and 0 or more "modifier" keys, such as Ctrl, Alt (or Option),
+			or Shift.
 			</para>	
+			<para>
+			Accelerators are managed by the toolkit, which also ensures that keyboard events that
+			match a particular accelerator get handled correctly. To register an accelerator you
+			call the toolkit's registerAccelerator() method which takes an instance of a 
+			VCF::AcceleratorKey class. You can remove an accelerator by calling the removeAccelerator()
+			method. You can query for the existance of an accelerator by calling the 
+			toolkit's getAccelerator() method, passing in the virtual key code, and a mask that indicates
+			which modifier keys are pressed (if any).
+			</para>
+			<para>
+			To register an accelerator you need an instance of AcceleratorKey. To do this you need 
+			the following information to pass to the AcceleratorKey's constructor:
+			<itemizedlist>
+				<listitem>
+					a control that is associated with the AcceleratorKey (this may be NULL).
+				</listitem>
+
+				<listitem>
+					a value for a virtual key code.
+				</listitem>
+
+				<listitem>
+					a value for a modifier mask (whether or not the accelerator uses 
+					the Ctrl, Shift, or Alt keys).
+				</listitem>
+
+				<listitem>
+					an EventHandler instance
+				</listitem>
+
+				<listitem>
+					and whether or not the accelerator is triggered via a mnemonic. 
+				</listitem>
+			</itemizedlist>
+			Once you have created the AcceleratorKey, call the toolkit's registerAccelerator()
+			and pass in the new AcceleratorKey instance.
+			</para>
 		</section>
 		
 		
@@ -330,7 +374,8 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		</para>
 		</section>
 		
-		<section><title>Miscellaneous</title>		
+		<section><title>Miscellaneous</title>
+
 		</section>				
 		
 		<para>
@@ -338,12 +383,108 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	</section>
 	
 	<section id="AppKit_EventLoops"><title>Event loops </title>
-		<para>		
+		<para>
+		An event loop is a special loop that runs and retreives and dispatches
+		events from the native windowing system's event queue. In general there
+		are two main types of event loops. The most commonly used is the non-modal
+		event loop. This is typically the main event loop that runs the application.
+		You can move from window to window, and events get fired, etc. 
+		</para>
+		<para>The other event loop type is the modal event loop. This is usually associated 
+		with a control of some sort, typically popup dialogs. This runs another event 
+		loop (on top of whatever is currently running), and restricts the flow of 
+		events to <emphasis>only</emphasis>	those events relevant to the control
+		associated with the loop. Thus you get a dialog that pops up, and you can't
+		continue (i.e. all mouse event, keyboard events, etc, are ignored) to other
+		windows till you dismiss the dialog (usually by clicking "OK" or "Cancel"
+		buttons). Hitting the "Escape" key on the keyboard will also stop the 
+		modal event loop. 
+		</para>
+		<para>
+		Another difference between modal and non modal event loops is the return value.
+		A non-modal event loop doesn't anything. A modal event <emphasis>does</emphasis>
+		return a value, and this value is used to indicate a variety of things. The value
+		returned is one of the ModalReturnType enumeration values. The most common value
+		returns is either UIToolkit::mrOK, usually indicating the user pressed an OK button,
+		or UIToolkit::mrCancel, typically indicating the user pressed the Cancel button. For
+		more complete information see the UIToolkit::ModalReturnType enumeration documentation.
+		</para>
+		<para>
+		To run a non-modal event loop call the toolkit's runEventLoop() method. To
+		run a modal event loop call the toolkit's runModalEventLoopFor() and pass in a 
+		valid control instance.
 		</para>
 	</section>
 	
 	<section><title>Drag and Drop </title>
 		<para>
+		Drag and Drop, some times referred to as a form direct manipulation, is the process of
+		selecting something (text, a link, a graphic, a chart, a file, etc), dragging it to a 
+		target (an open document, a folder, a chart, etc ), and then releasing the selection
+		to drop the selection and complete the operation. It is a form of transfer between 
+		a source and a target is similar to performing a cut/copy and paste operation, only 
+		more interactive (and with user feedback). The whole process can be 
+		broken into three main sections, the drag start, the drag movement itself, and 
+		the drop. Below we'll discuss each of these in more detail.
+		</para>
+		<para>
+		When performing a Drag and Drop operation there are two primary entities involved:
+		the drag <emphasis>source</emphasis> and the drop <emphasis>target</emphasis>. The 
+		source is responsible for preparing the data that is going to be dragged, and 
+		the target is concerned with responding to the data as it is dragged over the target
+		and when/if the data is dropped on the target. 
+		</para>
+		<para>
+		Starting a drag operation is typically done when the primary mouse button is held down
+		and while keeping this button held down, the user moves the mouse beyond some system
+		specific thresh hold. This threshold can be retreived from the UIToolkit by calling the 
+		getDragDropDelta() method, which returns a Size object indicating the minimum change 
+		in position that each coordinate must exceed before the drag is started. These mouse
+		events all take place on VCF::Control derived class, such as a VCF::Window, or 
+		VCF::TextControl, or some custom control.
+		</para>
+		<para>
+		Once it has been determined that a drag operation should start, the Control's 
+		beginDragDrop()	method is called, passing in the current MouseEvent. Since 
+		beginDragDrop() is a virtual method, it is up to application developers to overide 
+		this and customize it as they see fit. Typically you will create a DragSource 
+		object in your custom beginDragDrop() method and then call the DragSource object's 
+		startDragDrop() passing in some valid instance of a ClipboardDataObject. At this 
+		point, we now hand control over to the DragSource which in turn talks to the native 
+		windowing system to negotiate the internals of the Drag and Drop operation. The 
+		DragSource object's startDragDrop() will block until the Drag and Drop operation 
+		has either been completed successfully or abandoned. Once the DragSource's 
+		startDragDrop() has been called it first fires off a SourceBegin event. 
+		</para>
+		<para>
+		Once the started the next part of the process is dragging the source around, moving 
+		the mouse with the primary button held down. While this occurs, the DragSource will
+		continuously fire SourceGiveFeedback events of type DragSource. This allows you to 
+		control the feedback displayed to the user, typically by changing the mouse cursor,
+		and to set the type of Drag Drop operation is most appropriate. The operation types 
+		are defined in DragActionType enumeration. An event handler that gets notified of 
+		this event may call the DragSource event's setActionType() to indicate the preferred
+		action type (typically a link, copy, or move). If the mouse is over an area that
+		cannot receive a Drag Drop operation, then the action type should be none, or daNone.		
+		</para>
+		<para>
+		In addition to the the SourceGiveFeedback events, DragSource also fires 
+		SourceCanContinueDragOp events. These control whether or not the operation should
+		even continue at all. An event handler for this event can call the DragSource event's 
+		setActionType() method with a value of daStop to shutdown the Drag Drop operation.
+		</para>
+		<para>
+		While the mouse is dragging the source around, it is possible for it to encounter
+		a drop target. A drop target is another control that can receive the source data
+		of the Drag Drop operation. To act as a drop target the control registers itself
+		with a DropTarget, which is usually a member variable whose lifetime is the same 
+		as the target controls. To register itself, the control passes itself into the 
+		DropTarget's constructor.
+		</para>
+		<para>
+		Once registered with the DropTarget instance, the DropTarget will do all the 
+		neccessary interaction with the windowing system, and will fire events at the 
+		appropriate times. 
 		</para>
 	</section>
 	
