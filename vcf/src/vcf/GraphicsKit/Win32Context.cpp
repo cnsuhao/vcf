@@ -1282,7 +1282,7 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 	HFONT font = NULL;
 	HFONT oldFont = NULL;
 
-	VCF::Font btnFont;
+	VCF::Font btnFont = *context_->getCurrentFont();
 
 	Rect centerRect( captionRect.left, captionRect.top, captionRect.right, captionRect.bottom );
 	if ( System::isUnicodeEnabled() ) {
@@ -2531,6 +2531,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/02/21 16:22:27  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.4.2.5  2005/02/16 05:09:34  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
