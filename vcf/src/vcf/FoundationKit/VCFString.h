@@ -1084,9 +1084,8 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.1  2005/01/17 18:02:42  marcelloptr
+*Revision 1.3.2.2  2005/01/17 18:04:55  marcelloptr
 *removed unnecessary dllimport/dllexport keyword before global functions defined in the header
-*
 *which was causing problems with the inline keyword. Thank you Fraggle for pointing out and solving this.
 *
 *Revision 1.3  2004/12/01 04:31:41  ddiego
