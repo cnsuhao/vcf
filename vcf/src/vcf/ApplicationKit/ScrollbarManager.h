@@ -51,22 +51,25 @@ public:
 	ScrollbarManager( const String& name );
 
 	/**
+	* override of the callback always called when a component is created.
+	*/
+	virtual void afterCreate( ComponentEvent* event );
+
+	/**
 	* gets the control containing the scrollbars and associated to them.
-	* This the control that will be moved by the scrollable.
-	* MP ?
+	* This the control whose content will be moved by the scrollable, as
+	* for example the listbox or the text editor when it has scrollbars.
 	*/
 	Control* getTarget() {
 		return target_;
 	}
 
 	/**
-	* sets the control containing the scrollbars and associated to them.
-	* This the control that will be moved by the scrollable.
-	* MP ?
+	* assign the target control for the scrolling operations.
+	* This is the control containing the scrollbars which are associated
+	* to it. It's content is scrolled by the scrollable.
 	*/
 	void setTarget( Control* target );
-
-	virtual void afterCreate( ComponentEvent* event );
 
 	/**
 	* sets if the vertical scrolbar is ever visible
@@ -290,7 +293,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2005/01/15 00:52:38  marcelloptr
+*Revision 1.3.2.3  2005/01/17 17:52:19  marcelloptr
 *bugfix [ 1099910 ] plus other improvements of the scrolling
 *
 *Revision 1.3.2.1  2005/01/13 19:41:48  marcelloptr
