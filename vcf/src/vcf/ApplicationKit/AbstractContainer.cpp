@@ -116,7 +116,7 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 							}
 						}
 					}
-					
+
 
 					if ( event->getType() != Control::MOUSE_CLICK ) {
 						MouseEvent localEvent( child, event->getType(), event->getButtonMask(), event->getKeyMask(), &tmp );
@@ -316,13 +316,13 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 
 
 			context->setOrigin( originX, originY );
-			
-			
+
+
 			//do this to prevent matrix changes from 
 			//screwing up the state for the child control 
 			Matrix2D xfrm;
 			int gcs = context->saveState();
-			context->setCurrentTransform( &xfrm ); 
+			context->setCurrentTransform( xfrm );
 			context->setClippingRect( &childClipRect );
 
 			child->paintBorder( context );
@@ -330,11 +330,11 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 			child->paint( context );
 
 			context->restoreState( gcs );
-			
+
 			context->setOrigin( oldOrigin.x_, oldOrigin.y_ );
 			context->setClippingRect( &oldClipRect );
-		}		
-	}	
+		}
+	}
 }
 
 Enumerator<Control*>* AbstractContainer::getChildren()
@@ -559,6 +559,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2004/09/09 03:09:22  marcelloptr
+*minor change for style
+*
 *Revision 1.2.2.4  2004/09/08 03:49:05  ddiego
 *minor win32 tree mods
 *

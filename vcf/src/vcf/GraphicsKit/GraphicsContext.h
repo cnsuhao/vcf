@@ -287,7 +287,7 @@ public:
 	*into the final transform matrix. These matrices represent the various trnasform
 	*values (i.e. theta_, scaleX_, etc)
 	*/
-	void setCurrentTransform( Matrix2D* transform );
+	void setCurrentTransform( const Matrix2D& transform );
 
 	Matrix2D* getCurrentTransform();
 
@@ -740,6 +740,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/09 03:09:26  marcelloptr
+*minor change for style
+*
 *Revision 1.2.2.5  2004/09/06 03:33:21  ddiego
 *updated the graphic context code to support image transforms.
 *
