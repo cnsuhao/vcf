@@ -68,7 +68,11 @@ void AbstractTextModel::deleteText( const unsigned long& index, const unsigned l
 {
 	String changeText = this->text_.substr( index, count );
 
-	AbstractTextModel::setText( changeText );
+	text_.erase( index, count );
+
+	TextEvent event( dynamic_cast<Object*>(this), changeText );
+
+	TextModelChanged.fireEvent( &event );	
 }
 
 void AbstractTextModel::appendText( const String& text )
@@ -93,6 +97,9 @@ unsigned long AbstractTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/03 22:47:33  ddiego
+*fixed a text model bug that incorectly handled deleting chars.
+*
 *Revision 1.2.2.1  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific
