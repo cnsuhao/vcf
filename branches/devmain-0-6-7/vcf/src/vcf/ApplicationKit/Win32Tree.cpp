@@ -232,6 +232,8 @@ void Win32Tree::createParams()
 	styleMask_ &= ~WS_VISIBLE;
 
 	styleMask_ |= WS_HSCROLL | WS_VSCROLL;
+
+	styleMask_ |= TVS_DISABLEDRAGDROP;
 }
 
 TreeModel* Win32Tree::getTreeModel()
@@ -562,13 +564,55 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case TVN_BEGINDRAGA:{
-			NMTREEVIEWA* info = (NMTREEVIEWA*)lParam ;
-			/*
-			MouseEvent e(treeControl_);
-			e.setPoint( &Point(info->ptDrag.x,info->ptDrag.y) );
+			NMTREEVIEWA* treeview = (NMTREEVIEWA*)lParam ;
+			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
+			
+			if ( NULL != item ) {				
+				Point pt( treeview->ptDrag.x, treeview->ptDrag.y );
 
-			treeControl_->beginDragDrop( &e );
-			*/
+				TreeItem* oldItem = treeControl_->getSelectedItem();
+				if ( item != oldItem ) {
+					//hmm, we haven't selected this item before, so 
+					//let's go ahead and make it selected now
+					//we do this because the TVN_SELECTIONCHANGED 
+					//won't get called at this point
+					
+					item->setSelected( true );
+					
+					ItemEvent event( treeControl_, TREEITEM_SELECTED );
+					
+					event.setUserData( (void*)item );				
+					
+					event.setPoint( &pt );
+					
+					treeControl_->handleEvent( &event );
+					
+					if ( NULL != oldItem ) {
+						oldItem->setSelected( false );
+					}
+				}
+
+				SHORT keyState = GetKeyState( VK_SHIFT );
+				ulong32 keyMask = kmUndefined;
+				if ( (keyState >> 15) ) {
+					keyMask |= kmShift;
+				}
+				keyState = GetKeyState( VK_CONTROL );
+				if ( (keyState >> 15) ) {
+					keyMask |= kmCtrl;
+				}
+
+				keyState = GetKeyState( VK_MENU );
+				if ( (keyState >> 15) ) {
+					keyMask |= kmAlt;
+				}
+
+				VCF::MouseEvent event( treeControl_, Control::MOUSE_MOVE,
+										mbmLeftButton, keyMask, &pt );
+
+				treeControl_->beginDragDrop( &event );
+
+			}
 		}
 		break;
 
@@ -721,9 +765,11 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_SELCHANGEDW:{
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-			
+		
 			if ( NULL != item ) {
+
 				item->setSelected( true );
+				
 				POINT tmpPt = {0,0};
 				GetCursorPos( &tmpPt );
 				::ScreenToClient( hwnd_, &tmpPt );
@@ -1311,6 +1357,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/01/01 20:31:08  ddiego
+*made an adjustment to quitting and event loop, and added some changes to the DefaultTabModel.
+*
 *Revision 1.3.2.3  2004/12/31 17:41:23  ddiego
 *fixes a drag-drop bug, initially listed under the vcfbuilders
 *bug list

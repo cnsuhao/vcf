@@ -2071,12 +2071,13 @@ UIToolkit::ModalReturnType Win32ToolKit::internal_runModalEventLoopFor( Control*
 
 void Win32ToolKit::internal_quitCurrentEventLoop()
 {
-	if (!PostMessage( dummyParentWnd_, WM_QUIT, 0, 0 )) {
-		StringUtils::traceWithArgs( "GetLastError(): %d\n", GetLastError() );
-	}
-	else {
-		StringUtils::traceWithArgs( "internal_quitCurrentEventLoop called, PostMessage(WM_QUIT) sent\n" );
-	}
+	PostQuitMessage(0);
+	//if (!PostMessage( dummyParentWnd_, WM_QUIT, 0, 0 )) {
+	//	StringUtils::traceWithArgs( "GetLastError(): %d\n", GetLastError() );
+	//}
+	//else {
+	//	StringUtils::traceWithArgs( "internal_quitCurrentEventLoop called, PostMessage(WM_QUIT) sent\n" );
+	//}
 }
 
 Size Win32ToolKit::internal_getDragDropDelta()
@@ -2093,6 +2094,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/01/01 20:31:07  ddiego
+*made an adjustment to quitting and event loop, and added some changes to the DefaultTabModel.
+*
 *Revision 1.3.2.2  2004/12/20 21:58:00  ddiego
 *committing cheeseheads patches for the combobox control.
 *
