@@ -1434,7 +1434,7 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	r.top = (long)rect->top_;
 	r.right = (long)(rect->left_ + rect->getHeight());
 	r.bottom = (long)rect->bottom_;
-	UINT chkState =  state.isToggled() ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
+	UINT chkState =  (state.isToggled() || state.isPressed()) ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
 
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
 
@@ -2492,6 +2492,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/01/26 02:15:47  ddiego
+*fixed bug 1109025
+*
 *Revision 1.4.2.2  2004/12/20 21:59:09  ddiego
 *committing cheeseheads patches for the combobox control.
 *
