@@ -14,8 +14,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/WindowPeer.h"
 #include "vcf/ApplicationKit/OSXLightweightControl.h"
 #include "vcf/ApplicationKit/OSXWindow.h"
-
-
+#include "vcf/ApplicationKit/OSXCursorPeer.h"
 
 
 class OSXControlView : public TView {
@@ -266,7 +265,19 @@ void OSXControl::setControl( Control* component )
 
 void OSXControl::setCursor( Cursor* cursor )
 {
-
+	if (NULL == cursor) {
+		return;
+	}
+	
+	OSXCursorPeer *peer = (OSXCursorPeer*)cursor->getPeer();
+	
+	if (NULL == peer) {
+		return;
+	}
+	
+	if (peer->isSystemCursor()){
+		SetThemeCursor(peer->getCursorID());
+	}	
 }
 
 void OSXControl::setParent( Control* parent )
@@ -750,6 +761,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/27 03:11:40  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.3  2004/10/23 18:10:42  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *
@@ -786,6 +800,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.2.2.4  2004/10/27 03:11:40  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.3  2004/10/23 18:10:42  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *

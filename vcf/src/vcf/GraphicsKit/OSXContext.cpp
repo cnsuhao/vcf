@@ -27,7 +27,9 @@ OSXContext::OSXContext():
 	context_(NULL),
 	currentDrawingOperation_(0),
 	textLayout_(nil),
-    xorModeOn_(false)
+    xorModeOn_(false),
+	lastPrimitive_(OSXContext::lpNone),
+	antialiasingOn_(false)
 {
 	init();
 }
@@ -41,7 +43,9 @@ OSXContext::OSXContext( const unsigned long& width, const unsigned long& height 
 	context_(NULL),
 	currentDrawingOperation_(0),
 	textLayout_(nil),
-    xorModeOn_(false)
+    xorModeOn_(false),
+	lastPrimitive_(OSXContext::lpNone),
+	antialiasingOn_(false)
 {
 	//allocate a RGBA buffer for use
     inMemoryImage_ = new unsigned char[imgWidth_ * imgHeight_ * 4];
@@ -57,7 +61,9 @@ OSXContext::OSXContext( const unsigned long& contextID ):
 	context_(NULL),
 	currentDrawingOperation_(0),
 	textLayout_(nil),
-    xorModeOn_(false)
+    xorModeOn_(false),
+	lastPrimitive_(OSXContext::lpNone),
+	antialiasingOn_(false)
 {
 	init();
 }
@@ -476,6 +482,8 @@ double OSXContext::getTextHeight( const String& text )
 
 void OSXContext::rectangle(const double & x1, const double & y1, const double & x2, const double & y2)
 {
+	endLastPrimitive();
+
 	CGRect rect;
 	rect.origin.x = x1 + origin_.x_;
 	rect.origin.y = y1 + origin_.y_;
@@ -502,6 +510,8 @@ void OSXContext::roundRect(const double & x1, const double & y1, const double & 
 
 void OSXContext::ellipse(const double & x1, const double & y1, const double & x2, const double & y2 )
 {
+	endLastPrimitive();
+	
 	float a, b;
     CGPoint center;
 
@@ -536,6 +546,7 @@ void OSXContext::arc(const double & x1, const double & y1, const double & x2, co
 
 void OSXContext::polyline(const std::vector<Point>& pts )
 {
+	endLastPrimitive();
 
 	std::vector<Point>::const_iterator it = pts.begin();
 	CGPoint* cgPts = new CGPoint[pts.size()];
@@ -563,6 +574,8 @@ void OSXContext::polyline(const std::vector<Point>& pts )
 void OSXContext::curve(const double & x1, const double & y1, const double & x2, const double & y2,
                          const double & x3, const double & y3, const double & x4, const double & y4)
 {
+	endLastPrimitive();
+	
 	//CGContextBeginPath( contextID_ );
 
 	CGContextMoveToPoint( contextID_, x1 + origin_.x_, y1 + origin_.y_ );
@@ -581,21 +594,55 @@ void OSXContext::curve(const double & x1, const double & y1, const double & x2, 
 
 void OSXContext::lineTo(const double & x, const double & y)
 {
-	CGContextAddLineToPoint( contextID_, x + origin_.x_, y + origin_.y_ );
+	//CGContextAddLineToPoint( contextID_, x + origin_.x_, y + origin_.y_ );
 	//CGContextStrokePath ( contextID_ );
+	finishLastPrimitive(x,y);
+	
+	CGPoint pt = CGContextGetPathCurrentPoint ( contextID_ );
+	double dx = static_cast<double>(pt.x)-(x+.5);
+	double dy = static_cast<double>(pt.y)-(y+.5);
+	
+	double len = sqrt(dx*dx + dy*dy);
+	if ( len < 1.0 ){
+		return;
+	}
+	
+	double ndx = dx/len;
+	double ndy = dy/len;
+	
+	lastPrimitiveV1_.x_ = ndx;
+	lastPrimitiveV1_.y_ = ndy;
+	
+	lastPrimitive_ = OSXContext::lpLine;
+	
+	lastPrimitiveP1_.x_ = x;
+	lastPrimitiveP1_.y_ = y;
+	
+	CGContextAddLineToPoint( contextID_, x + origin_.x_ + ndx + .5, y + origin_.y_ +ndy + .5);	
 }
 
 void OSXContext::moveTo(const double & x, const double & y)
 {
 
-	CGContextMoveToPoint( contextID_, x + origin_.x_, y + origin_.y_ );
+	//CGContextMoveToPoint( contextID_, x + origin_.x_, y + origin_.y_ );
+	endLastPrimitive();
+	lastPrimitive_ = OSXContext::lpMove;
+	lastPrimitiveP1_.x_ = x;
+	lastPrimitiveP1_.y_ = y;
+	CGContextMoveToPoint( contextID_, x + origin_.x_ + .5, y + origin_.y_ + .5);
 }
 
 
 void OSXContext::setOrigin( const double& x, const double& y )
 {
-    origin_.x_ = x;
-    origin_.y_ = y;
+
+	if ( lastPrimitive_ != OSXContext::lpNone ) {
+		lastPrimitiveP1_.x_ += origin_.x_ - x;
+		lastPrimitiveP1_.y_ += origin_.y_ - y;
+	}
+	
+	origin_.x_ = x;
+	origin_.y_ = y;
 }
 
 VCF::Point OSXContext::getOrigin()
@@ -660,6 +707,9 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
         //SetPort( oldPort );
     }
 
+	CGContextSetShouldAntialias(contextID_, antialiasingOn_);
+
+
 	float colorComponents[4] =
 			{currentColor->getRed(),
 			currentColor->getGreen(),
@@ -720,6 +770,8 @@ bool OSXContext::prepareForDrawing( long drawingOperation )
 
 void OSXContext::finishedDrawing( long drawingOperation )
 {
+	endLastPrimitive();
+
 	switch ( drawingOperation ) {
 		case GraphicsContext::doStroke : {
 			//CGContextClosePath( contextID_ );
@@ -749,6 +801,49 @@ void OSXContext::finishedDrawing( long drawingOperation )
 
 
 }
+
+void OSXContext::setAntiAliasingOn( bool antiAliasingOn )
+{
+	endLastPrimitive();
+
+	antialiasingOn_ = antiAliasingOn;
+}
+
+void OSXContext::endLastPrimitive()
+{
+	if ( lastPrimitive_ == OSXContext::lpLine )  {
+		CGContextAddLineToPoint( contextID_, origin_.x_ + lastPrimitiveP1_.x_ + .5 - lastPrimitiveV1_.x_/2.0, origin_.y_ + lastPrimitiveP1_.y_ + .5 - lastPrimitiveV1_.y_/2.0);
+	}
+	lastPrimitive_ = OSXContext::lpNone;
+}
+
+void OSXContext::finishLastPrimitive(const double & x, const double & y)
+{
+	if ( lastPrimitive_ == OSXContext::lpNone ){
+		return;
+	}
+	if ( lastPrimitive_ == OSXContext::lpMove ) {
+		CGPoint pt=CGContextGetPathCurrentPoint ( contextID_ );
+		double dx=x-lastPrimitiveP1_.x_;
+		double dy=y-lastPrimitiveP1_.y_;
+
+		double len=sqrt(dx*dx+dy*dy);
+		
+		if (len<1.0) return;
+
+		double ndx=dx/len;
+		double ndy=dy/len;
+		
+		CGContextMoveToPoint(contextID_, origin_.x_ + lastPrimitiveP1_.x_ + .5 - ndx/2.0,
+								origin_.y_ + lastPrimitiveP1_.y_ + .5 - ndy/2.0);
+	}
+	else if ( lastPrimitive_ == OSXContext::lpLine ){
+		CGContextAddLineToPoint(contextID_, origin_.x_ + lastPrimitiveP1_.x_ + .5,
+								origin_.y_ + lastPrimitiveP1_.y_ + .5);
+	}
+}
+
+
 
 void OSXContext::drawImage( const double& x, const double& y, Rect* imageBounds, Image* image )
 {
@@ -850,6 +945,7 @@ bool OSXContext::isXORModeOn()
 
 void OSXContext::setXORModeOn( const bool& XORModeOn )
 {
+	endLastPrimitive();
     xorModeOn_ = XORModeOn;
 }
 
@@ -2123,6 +2219,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/27 03:12:18  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.2  2004/10/23 18:10:46  ddiego
 *mac osx updates, some more fixes for dialog code and for command button peer functionality
 *

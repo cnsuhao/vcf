@@ -1816,7 +1816,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 										sizeof (mousePos), NULL, &mousePos);
             
             
-					LocalToGlobal( &mousePos );
+					//LocalToGlobal( &mousePos );
 					
 					UInt32 keyboardModifier = 0;            
 					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
@@ -1827,7 +1827,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					
 					OSXControl* control = OSXControl::getControlFromControlRef( theControl );
 					//localizes the coords
-					control->translateFromScreenCoords( &pt );
+					//control->translateFromScreenCoords( &pt );
 					
 						   
 					Scrollable* scrollable = msg->control_->getScrollable();
@@ -2092,6 +2092,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/10/27 03:11:40  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.3  2004/10/25 03:23:57  ddiego
 *and even more dialog updates. Introduced smore docs to the dialog class and added a new showXXX function.
 *

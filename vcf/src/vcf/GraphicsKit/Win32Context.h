@@ -112,6 +112,13 @@ public:
 								ContextPeer* sourceContext );
 
 	virtual bool isMemoryContext();
+	
+	virtual bool isAntiAliasingOn(){
+		return false;
+	}
+	
+	virtual void setAntiAliasingOn( bool antiAliasingOn ) {} //no-op for now
+	
 
 	virtual bool prepareForDrawing( long drawingOperation );
 
@@ -276,6 +283,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/27 03:12:18  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -175,6 +175,12 @@ public:
 	*/
 	virtual void setXORModeOn( const bool& XORModeOn ) = 0;
 
+	virtual bool isAntiAliasingOn() = 0;
+	
+	virtual void setAntiAliasingOn( bool antiAliasingOn ) = 0;
+
+
+
 
 	virtual void drawImage( const double& x, const double& y, Rect* imageBounds, Image* image ) = 0;
 
@@ -279,6 +285,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/27 03:12:18  ddiego
+*integrated chrisk changes
+*
 *Revision 1.2.2.1  2004/08/19 03:22:54  ddiego
 *updates so new system tray code compiles
 *
