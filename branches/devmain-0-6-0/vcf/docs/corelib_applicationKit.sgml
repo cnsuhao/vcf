@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.6  2003/03/07 22:24:07  ddiego
+added initial vcf builders docbook files
+
 Revision 1.1.2.5  2003/03/07 04:33:02  ddiego
 added more docs for appkit. made some mods to the vcf.xsl stylesheet
 to turn on section numbering
@@ -174,7 +177,12 @@ catch ( NoToolKitFoundException &amp; e ) {
 		</section>
 		
 		
-		<section><title>UI Metrics</title>		
+		<section><title>UI Metrics</title>
+			<para>
+			UI Metrics are used to indicate a variety of user interface values, 
+			such as the preferred font for controls are, or the preferred vertical 
+			spacing between controls. These values are read only and may not be changed.
+			</para>
 		</section>
 		
 		<section><title>Event Loops</title>			
@@ -215,7 +223,7 @@ catch ( NoToolKitFoundException &amp; e ) {
 	</section>
 	
 	<section id="AppKit_EventLoops"><title>Event loops </title>
-		<para>
+		<para>		
 		</para>
 	</section>
 	
