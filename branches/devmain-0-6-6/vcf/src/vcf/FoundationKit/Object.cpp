@@ -100,7 +100,7 @@ String Object::toString()
 	String result = "";
 	char info[256];
 	sprintf( info, "%ls @ %p, refcount: %d",
-		     this->getClassName().c_str(), this, (int)refCount_ );
+		     this->getClassName().ansi_c_str(), this, (int)refCount_ );
 	result += info;
 	return result;
 }
@@ -249,6 +249,9 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/10/21 18:19:19  augusto_roman
+*Fixed Object's toString() method - it used c_str() instead of ansi_c_str() in sprintf() - aroman
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
