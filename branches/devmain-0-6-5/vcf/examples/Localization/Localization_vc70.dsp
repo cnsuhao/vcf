@@ -101,6 +101,22 @@ SOURCE=Localization.cpp
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# Begin Group "French"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=Resources\fr_FR\Localization.strings
+# End Source File
+# End Group
+# Begin Group "Italian"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=Resources\it_IT\Localization.strings
+# End Source File
+# End Group
 # Begin Group "Polish"
 
 # PROP Default_Filter ""
@@ -109,12 +125,12 @@ SOURCE=Localization.cpp
 SOURCE=Resources\pl_PL\Localization.strings
 # End Source File
 # End Group
-# Begin Group "French"
+# Begin Group "Spanish"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=Resources\fr_FR\Localization.strings
+SOURCE=Resources\es_ES\Localization.strings
 # End Source File
 # End Group
 # End Group

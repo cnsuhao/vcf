@@ -509,6 +509,22 @@ int main( int argc, char** argv ){
 	try {
 
 		{
+			Locale loc(Locale::lcFrench, Locale::ccFrance );
+
+			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
+			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
+		}
+
+
+		{
+			Locale loc(Locale::lcItalian, Locale::ccItaly );
+
+			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
+			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
+		}
+
+
+		{
 			Locale loc(Locale::lcPolish, Locale::ccPoland );
 
 			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
@@ -517,7 +533,7 @@ int main( int argc, char** argv ){
 
 
 		{
-			Locale loc(Locale::lcFrench, Locale::ccFrance );
+			Locale loc(Locale::lcSpanish, Locale::ccSpain );
 
 			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
 			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
@@ -735,6 +751,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/08/04 22:37:39  marcelloptr
+*added Italian and Spanish localization strings
+*
 *Revision 1.2.2.5  2004/04/29 03:40:55  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

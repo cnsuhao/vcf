@@ -147,6 +147,20 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<Filter
+				Name="French"
+				Filter="">
+				<File
+					RelativePath="Resources\fr_FR\Localization.strings">
+				</File>
+			</Filter>
+			<Filter
+				Name="Italian"
+				Filter="">
+				<File
+					RelativePath="Resources\it_IT\Localization.strings">
+				</File>
+			</Filter>
+			<Filter
 				Name="Polish"
 				Filter="">
 				<File
@@ -154,10 +168,10 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="French"
+				Name="Spanish"
 				Filter="">
 				<File
-					RelativePath="Resources\fr_FR\Localization.strings">
+					RelativePath="Resources\es_ES\Localization.strings">
 				</File>
 			</Filter>
 		</Filter>
