@@ -418,7 +418,6 @@ int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
 
-
 	/**
 	register your custom codec
 	*/
@@ -746,6 +745,8 @@ int main( int argc, char** argv ){
 	System::println( "This example ran on " + System::getOSName() + " " + System::getOSVersion() + " built with compiler: " +
 						System::getCompiler() );
 
+	
+	
 	FoundationKit::terminate();
 	return 0;
 }
@@ -754,6 +755,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2004/09/16 03:26:25  ddiego
+*fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
+*
 *Revision 1.3.2.3  2004/09/15 04:25:51  ddiego
 *fixed some issues that duff had with the examples, plu added the ability to get the platforms version and name and compiler
 *

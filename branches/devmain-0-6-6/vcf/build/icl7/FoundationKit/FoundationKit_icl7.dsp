@@ -97,10 +97,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKitSelectLib.h
 
 SOURCE=..\..\..\src\vcf\FoundationKit\FrameworkConfig.h
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h
-# End Source File
 # End Group
 # Begin Group "Source Files"
 
@@ -113,10 +109,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKit.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKitRTTI.inl
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundle.cpp
 # End Source File
 # End Group
 # Begin Group "Peers"
@@ -740,11 +732,23 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ObjectWithEvents.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\ProgramInfo.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\FoundationKit\Resource.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\Resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundle.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundle.h
 # End Source File
 # Begin Source File
 
@@ -792,7 +796,7 @@ SOURCE=..\..\..\src\vcf\FoundationKit\RegistryPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundle.h
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h
 # End Source File
 # Begin Source File
 

@@ -16,7 +16,7 @@ PackageInfo::PackageInfo( const String& packageName, const String& packageUUID,
 							long linkageFlags,
 							const String& author, const String& company,
 							const String& copyright, const String& additionalInfo):
-	ProgramInfo(packageName,author,copyright,company,additionalInfo)
+	ProgramInfo(packageName,author,copyright,company,additionalInfo,"","")
 {	
 	packageUUID_ = packageUUID;	
 	additionalInfo_ = additionalInfo;
@@ -101,6 +101,9 @@ void PackageInfo::removeAllSupportedPlatforms()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/09/16 03:26:26  ddiego
+*fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
+*
 *Revision 1.2.2.1  2004/09/15 21:14:28  ddiego
 *added support for getting program info from resource bundle.
 *

@@ -147,9 +147,6 @@
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FrameworkConfig.h">
 			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -171,9 +168,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FoundationKitRTTI.inl">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundle.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -647,10 +641,19 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\ObjectWithEvents.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ProgramInfo.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Resource.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Resource.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundle.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundle.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\VCF.h">
@@ -687,7 +690,7 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\RegistryPeer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundle.h">
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundlePeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\SemaphorePeer.h">

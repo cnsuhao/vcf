@@ -369,7 +369,7 @@ typedef VCF_VarFileInfo<VCF::WideChar> VarFileInfo_W;
 typedef VCF_VarFileInfo<char> VarFileInfo_A;
 
 
-typedef std::map<String,String> VersionMap;
+typedef std::multimap<String,String> VersionMap;
 
 
 /*
@@ -448,63 +448,67 @@ struct VarFileInfo {
 int showVer(void* pVer, DWORD size)
 {
 	// Interpret the VS_VERSIONINFO header pseudo-struct
-	VS_VERSIONINFO* pVS = (VS_VERSIONINFO*)pVer;
+	VS_VERSIONINFO* versionInfo = (VS_VERSIONINFO*)pVer;
 #define roundoffs(a,b,r)	(((byte*)(b) - (byte*)(a) + ((r)-1)) & ~((r)-1))
-#define roundpos(b, a, r)	(((byte*)(a))+roundoffs(a,b,r))
-//	byte* nEndRaw   = roundpos((((byte*)pVer) + size), pVer, 4);
-//	byte* nEndNamed = roundpos((((byte*) pVS) + pVS->wLength), pVS, 4);
+#define VS_ROUNDPOS(b, a, r)	(((byte*)(a))+roundoffs(a,b,r))
+//	byte* nEndRaw   = VS_ROUNDPOS((((byte*)pVer) + size), pVer, 4);
+//	byte* nEndNamed = VS_ROUNDPOS((((byte*) versionInfo) + versionInfo->wLength), versionInfo, 4);
 //	ASSERT(nEndRaw == nEndNamed); // size reported from GetFileVersionInfoSize is much padded for some reason...
 
-	ASSERT(!wcscmp(pVS->szKey, L"VS_VERSION_INFO"));
-	printf(" (type:%d)\n", pVS->wType);
-	byte* pVt = (byte*) &pVS->szKey[wcslen(pVS->szKey)+1];
-	VS_FIXEDFILEINFO* pValue = (VS_FIXEDFILEINFO*) roundpos(pVt, pVS, 4);
-	if (pVS->wValueLength) {
-		showFIXEDFILEINFO(pValue);	// Show the 'Value' element
+	ASSERT(!wcscmp(versionInfo->szKey, L"VS_VERSION_INFO"));
+	printf(" (type:%d)\n", versionInfo->wType);
+	byte* pVt = (byte*) &versionInfo->szKey[wcslen(versionInfo->szKey)+1];
+	VS_FIXEDFILEINFO* fixedFileInfo = (VS_FIXEDFILEINFO*) VS_ROUNDPOS(pVt, versionInfo, 4);
+	if (versionInfo->wValueLength) {
+		showFIXEDFILEINFO(fixedFileInfo);	// Show the 'Value' element
 	}
 	// Iterate over the 'Children' elements of VS_VERSIONINFO (either StringFileInfo or VarFileInfo)
-	StringFileInfo* pSFI = (StringFileInfo*) roundpos(((byte*)pValue) + pVS->wValueLength, pValue, 4);
-	for ( ; ((byte*) pSFI) < (((byte*) pVS) + pVS->wLength); pSFI = (StringFileInfo*)roundpos((((byte*) pSFI) + pSFI->wLength), pSFI, 4)) { // StringFileInfo / VarFileInfo
-		if (!wcscmp(pSFI->szKey, L"StringFileInfo")) {
+	StringFileInfo* strFileInfo = (StringFileInfo*) VS_ROUNDPOS(((byte*)fixedFileInfo) + versionInfo->wValueLength, fixedFileInfo, 4);
+	for ( ; ((byte*) strFileInfo) < (((byte*) versionInfo) + versionInfo->wLength); strFileInfo = (StringFileInfo*)VS_ROUNDPOS((((byte*) strFileInfo) + strFileInfo->wLength), strFileInfo, 4)) { // StringFileInfo / VarFileInfo
+		if (!wcscmp(strFileInfo->szKey, L"StringFileInfo")) {
 			// The current child is a StringFileInfo element
-			ASSERT(1 == pSFI->wType);
-			ASSERT(!pSFI->wValueLength);
+			ASSERT(1 == strFileInfo->wType);
+			ASSERT(!strFileInfo->wValueLength);
 			// Iterate through the StringTable elements of StringFileInfo
-			StringTable* pST = (StringTable*) roundpos(&pSFI->szKey[wcslen(pSFI->szKey)+1], pSFI, 4);
-			for ( ; ((byte*) pST) < (((byte*) pSFI) + pSFI->wLength); pST = (StringTable*)roundpos((((byte*) pST) + pST->wLength), pST, 4)) {
-				printf(" LangID: %S\n", pST->szKey);
-				ASSERT(!pST->wValueLength);
+			StringTable* strTable = (StringTable*) VS_ROUNDPOS(&strFileInfo->szKey[wcslen(strFileInfo->szKey)+1], strFileInfo, 4);
+			for ( ; ((byte*) strTable) < (((byte*) strFileInfo) + strFileInfo->wLength); strTable = (StringTable*)VS_ROUNDPOS((((byte*) strTable) + strTable->wLength), strTable, 4)) {
+				printf(" LangID: %S\n", strTable->szKey);
+				ASSERT(!strTable->wValueLength);
 				// Iterate through the String elements of StringTable
-				String* pS = (String*) roundpos(&pST->szKey[wcslen(pST->szKey)+1], pST, 4);
-				for ( ; ((byte*) pS) < (((byte*) pST) + pST->wLength); pS = (String*) roundpos((((byte*) pS) + pS->wLength), pS, 4)) {
-					wchar_t* psVal = (wchar_t*) roundpos(&pS->szKey[wcslen(pS->szKey)+1], pS, 4);
-					printf("  %-18S: %.*S\n", pS->szKey, pS->wValueLength, psVal); // print <sKey> : <sValue>
+				String* strElement = (String*) VS_ROUNDPOS(&strTable->szKey[wcslen(strTable->szKey)+1], strTable, 4);
+				for ( ; ((byte*) strElement) < (((byte*) strTable) + strTable->wLength); strElement = (String*) VS_ROUNDPOS((((byte*) strElement) + strElement->wLength), strElement, 4)) {
+					wchar_t* strValue = (wchar_t*) VS_ROUNDPOS(&strElement->szKey[wcslen(strElement->szKey)+1], strElement, 4);
+					printf("  %-18S: %.*S\n", strElement->szKey, strElement->wValueLength, strValue); // print <sKey> : <sValue>
 				}
 			}
 		}
 		else {
 			// The current child is a VarFileInfo element
-			ASSERT(1 == pSFI->wType); // ?? it just seems to be this way...
-			VarFileInfo* pVFI = (VarFileInfo*) pSFI;
-			ASSERT(!wcscmp(pVFI->szKey, L"VarFileInfo"));
-			ASSERT(!pVFI->wValueLength);
+			ASSERT(1 == strFileInfo->wType); // ?? it just seems to be this way...
+			VarFileInfo* varFileInfo = (VarFileInfo*) strFileInfo;
+			ASSERT(!wcscmp(varFileInfo->szKey, L"VarFileInfo"));
+			ASSERT(!varFileInfo->wValueLength);
 			// Iterate through the Var elements of VarFileInfo (there should be only one, but just in case...)
-			Var* pV = (Var*) roundpos(&pVFI->szKey[wcslen(pVFI->szKey)+1], pVFI, 4);
-			for ( ; ((byte*) pV) < (((byte*) pVFI) + pVFI->wLength); pV = (Var*)roundpos((((byte*) pV) + pV->wLength), pV, 4)) {
-				printf(" %S: ", pV->szKey);
+			Var* element = (Var*) VS_ROUNDPOS(&varFileInfo->szKey[wcslen(varFileInfo->szKey)+1], varFileInfo, 4);
+			for ( ; ((byte*) element) < (((byte*) varFileInfo) + varFileInfo->wLength); element = (Var*)VS_ROUNDPOS((((byte*) element) + element->wLength), element, 4)) {
+				printf(" %S: ", element->szKey);
 				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
-				WORD* pwV = (WORD*) roundpos(&pV->szKey[wcslen(pV->szKey)+1], pV, 4);
-				for (WORD* wpos = pwV ; ((byte*) wpos) < (((byte*) pwV) + pV->wValueLength); wpos+=2) {
+				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[wcslen(element->szKey)+1], element, 4);
+				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
 					printf("%04x%04x ", (int)*wpos++, (int)(*(wpos+1)));
 				}
 				printf("\n");
 			}
 		}
 	}
-	ASSERT((byte*) pSFI == roundpos((((byte*) pVS) + pVS->wLength), pVS, 4));
-	return pValue->dwFileVersionMS; // !!! return major version number
+	ASSERT((byte*) strFileInfo == VS_ROUNDPOS((((byte*) versionInfo) + versionInfo->wLength), versionInfo, 4));
+	return fixedFileInfo->dwFileVersionMS; // !!! return major version number
 }
 */
+
+
+#define VS_ROUNDOFFS(a,b,r)	(((byte*)(b) - (byte*)(a) + ((r)-1)) & ~((r)-1))
+#define VS_ROUNDPOS(b, a, r)	(((byte*)(a))+VS_ROUNDOFFS(a,b,r))
 
 void getVersionInfoW( VersionMap& map, HINSTANCE instance )
 {
@@ -513,23 +517,268 @@ void getVersionInfoW( VersionMap& map, HINSTANCE instance )
 
 	DWORD dummy;
 	DWORD size = GetFileVersionInfoSizeW( fileName, &dummy);
+
+	if ( 0 == size ) {
+		return;
+	}
+
 	unsigned char* buf = new unsigned char[size];
 	memset(buf, 0, size);
 
 	
 
 	if ( !GetFileVersionInfoW(fileName, 0, size, buf) ) {
+		delete [] buf;
 		return;
 	}
 
 	VS_VERSIONINFO_W* versionInfo = (VS_VERSIONINFO_W*)buf;
 
+	String key = versionInfo->szKey;
+
+	
+	VCF_ASSERT( key == L"VS_VERSION_INFO");
+
+
+	BYTE* node = (BYTE*) &versionInfo->szKey[wcslen(versionInfo->szKey)+1];
+	VS_FIXEDFILEINFO* fixedFileInfo = (VS_FIXEDFILEINFO*) VS_ROUNDPOS(node, versionInfo, 4);
+
+	if (versionInfo->wValueLength) {
+		//showFIXEDFILEINFO(fixedFileInfo);	// Show the 'Value' element
+	}
+
+	std::pair<String,String> entry;
+
+	
+	// Iterate over the 'Children' elements of VS_VERSIONINFO (either StringFileInfo or VarFileInfo)
+	StringFileInfo_W* strFileInfo = (StringFileInfo_W*) VS_ROUNDPOS(((byte*)fixedFileInfo) + versionInfo->wValueLength, fixedFileInfo, 4);
+	for ( ; ((byte*) strFileInfo) < (((byte*) versionInfo) + versionInfo->wLength); strFileInfo = (StringFileInfo_W*)VS_ROUNDPOS((((byte*) strFileInfo) + strFileInfo->wLength), strFileInfo, 4)) { // StringFileInfo_W / VarFileInfo
+		if (!wcscmp(strFileInfo->szKey, L"StringFileInfo")) {
+			// The current child is a StringFileInfo element
+			VCF_ASSERT(1 == strFileInfo->wType);
+			VCF_ASSERT(!strFileInfo->wValueLength);
+			// Iterate through the StringTable elements of StringFileInfo
+			StringTable_W* strTable = (StringTable_W*) VS_ROUNDPOS(&strFileInfo->szKey[wcslen(strFileInfo->szKey)+1], strFileInfo, 4);
+			for ( ; ((byte*) strTable) < (((byte*) strFileInfo) + strFileInfo->wLength); strTable = (StringTable_W*)VS_ROUNDPOS((((byte*) strTable) + strTable->wLength), strTable, 4)) {
+				
+				entry.first = String(L"LangID");
+				entry.second = strTable->szKey;
+				map.insert( entry );
+
+
+
+				VCF_ASSERT(!strTable->wValueLength);
+				// Iterate through the String elements of StringTable_W
+				String_W* strElement = (String_W*) VS_ROUNDPOS(&strTable->szKey[wcslen(strTable->szKey)+1], strTable, 4);
+				for ( ; ((byte*) strElement) < (((byte*) strTable) + strTable->wLength); strElement = (String_W*) VS_ROUNDPOS((((byte*) strElement) + strElement->wLength), strElement, 4)) {
+					wchar_t* strValue = (wchar_t*) VS_ROUNDPOS(&strElement->szKey[wcslen(strElement->szKey)+1], strElement, 4);
+					//printf("  %-18S: %.*S\n", strElement->szKey, strElement->wValueLength, strValue); // print <sKey> : <sValue>
+
+					entry.first = strElement->szKey;
+					entry.second.assign( strValue, strElement->wValueLength );
+					map.insert( entry );
+				}
+			}
+		}
+		else {
+			// The current child is a VarFileInfo element
+			VCF_ASSERT(1 == strFileInfo->wType); // ?? it just seems to be this way...
+			VarFileInfo_W* varFileInfo = (VarFileInfo_W*) strFileInfo;
+			VCF_ASSERT(!wcscmp(varFileInfo->szKey, L"VarFileInfo"));
+			VCF_ASSERT(!varFileInfo->wValueLength);
+			// Iterate through the Var elements of VarFileInfo (there should be only one, but just in case...)
+			Var_W* element = (Var_W*) VS_ROUNDPOS(&varFileInfo->szKey[wcslen(varFileInfo->szKey)+1], varFileInfo, 4);
+			for ( ; ((byte*) element) < (((byte*) varFileInfo) + varFileInfo->wLength); element = (Var_W*)VS_ROUNDPOS((((byte*) element) + element->wLength), element, 4)) {
+				
+				entry.first = element->szKey;				
+
+				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
+				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[wcslen(element->szKey)+1], element, 4);
+				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
+					entry.second += StringUtils::format( L"%04x%04x ", (int)*wpos++, (int)(*(wpos+1)) );
+				}
+
+				map.insert( entry );
+			}
+		}
+	}
+
+	delete [] buf;
 
 }
+
+
+
+void getVersionInfoA( VersionMap& map, HINSTANCE instance )
+{
+
+	char fileName[MAX_PATH];
+	::GetModuleFileNameA( instance, fileName, MAX_PATH );
+
+	DWORD dummy;
+	DWORD size = GetFileVersionInfoSizeA( fileName, &dummy);
+
+	if ( 0 == size ) {
+		return;
+	}
+
+	unsigned char* buf = new unsigned char[size];
+	memset(buf, 0, size);
+
+	
+
+	if ( !GetFileVersionInfoA(fileName, 0, size, buf) ) {
+		delete [] buf;
+		return;
+	}
+
+	VS_VERSIONINFO_A* versionInfo = (VS_VERSIONINFO_A*)buf;
+
+	String key = versionInfo->szKey;
+
+	
+	VCF_ASSERT( key == L"VS_VERSION_INFO");
+
+
+	BYTE* node = (BYTE*) &versionInfo->szKey[strlen(versionInfo->szKey)+1];
+	VS_FIXEDFILEINFO* fixedFileInfo = (VS_FIXEDFILEINFO*) VS_ROUNDPOS(node, versionInfo, 4);
+
+	if (versionInfo->wValueLength) {
+		//showFIXEDFILEINFO(fixedFileInfo);	// Show the 'Value' element
+	}
+
+	std::pair<String,String> entry;
+
+	
+	// Iterate over the 'Children' elements of VS_VERSIONINFO (either StringFileInfo or VarFileInfo)
+	StringFileInfo_A* strFileInfo = (StringFileInfo_A*) VS_ROUNDPOS(((byte*)fixedFileInfo) + versionInfo->wValueLength, fixedFileInfo, 4);
+	for ( ; ((byte*) strFileInfo) < (((byte*) versionInfo) + versionInfo->wLength); strFileInfo = (StringFileInfo_A*)VS_ROUNDPOS((((byte*) strFileInfo) + strFileInfo->wLength), strFileInfo, 4)) { // StringFileInfo_A / VarFileInfo
+		if (!strcmp(strFileInfo->szKey, "StringFileInfo")) {
+			// The current child is a StringFileInfo element
+			VCF_ASSERT(1 == strFileInfo->wType);
+			VCF_ASSERT(!strFileInfo->wValueLength);
+			// Iterate through the StringTable elements of StringFileInfo
+			StringTable_A* strTable = (StringTable_A*) VS_ROUNDPOS(&strFileInfo->szKey[strlen(strFileInfo->szKey)+1], strFileInfo, 4);
+			for ( ; ((byte*) strTable) < (((byte*) strFileInfo) + strFileInfo->wLength); strTable = (StringTable_A*)VS_ROUNDPOS((((byte*) strTable) + strTable->wLength), strTable, 4)) {
+				
+				entry.first = String(L"LangID");
+				entry.second = strTable->szKey;
+				map.insert( entry );
+
+
+
+				VCF_ASSERT(!strTable->wValueLength);
+				// Iterate through the String elements of StringTable_W
+				String_A* strElement = (String_A*) VS_ROUNDPOS(&strTable->szKey[strlen(strTable->szKey)+1], strTable, 4);
+				for ( ; ((byte*) strElement) < (((byte*) strTable) + strTable->wLength); strElement = (String_A*) VS_ROUNDPOS((((byte*) strElement) + strElement->wLength), strElement, 4)) {
+					char* strValue = (char*) VS_ROUNDPOS(&strElement->szKey[strlen(strElement->szKey)+1], strElement, 4);
+					
+					entry.first = strElement->szKey;
+					entry.second.assign( strValue, strElement->wValueLength );
+					map.insert( entry );
+				}
+			}
+		}
+		else {
+			// The current child is a VarFileInfo element
+			VCF_ASSERT(1 == strFileInfo->wType); // ?? it just seems to be this way...
+			VarFileInfo_A* varFileInfo = (VarFileInfo_A*) strFileInfo;
+			VCF_ASSERT(!strcmp(varFileInfo->szKey, "VarFileInfo"));
+			VCF_ASSERT(!varFileInfo->wValueLength);
+			// Iterate through the Var elements of VarFileInfo (there should be only one, but just in case...)
+			Var_A* element = (Var_A*) VS_ROUNDPOS(&varFileInfo->szKey[strlen(varFileInfo->szKey)+1], varFileInfo, 4);
+			for ( ; ((byte*) element) < (((byte*) varFileInfo) + varFileInfo->wLength); element = (Var_A*)VS_ROUNDPOS((((byte*) element) + element->wLength), element, 4)) {
+				
+				entry.first = element->szKey;				
+
+				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
+				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[strlen(element->szKey)+1], element, 4);
+				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
+					entry.second += StringUtils::format( L"%04x%04x ", (int)*wpos++, (int)(*(wpos+1)) );
+				}
+
+				map.insert( entry );
+			}
+		}
+	}
+
+	delete [] buf;
+
+}
+
+
+class FindVersionInfoVal {
+public:
+	FindVersionInfoVal( const String& value ): value_(StringUtils::lowerCase( value )){};
+
+	bool operator() ( const std::pair<String,String>& x ) const {
+		String x1 = StringUtils::lowerCase( x.first );
+		int pos = x1.find( value_ );
+		return pos != String::npos;
+	}
+
+	String value_;
+};
 
 ProgramInfo* Win32ResourceBundle::getProgramInfo()
 {
 	ProgramInfo* result = NULL;
+
+	VersionMap map;
+
+	if ( System::isUnicodeEnabled() ) {
+		getVersionInfoW( map, getResourceInstance() );
+	}		
+	else {
+		getVersionInfoA( map, getResourceInstance() );
+	}
+
+	if ( !map.empty() ) {
+		String name;
+		String author;
+		String copyright;
+		String company;
+		String description;
+		String programVersion;
+		String fileVersion;
+	
+		VersionMap::iterator found =  std::find_if( map.begin(), map.end(), FindVersionInfoVal("Author") );
+		if ( found != map.end() ) {
+			author = found->second;
+		}
+
+		found = std::find_if( map.begin(), map.end(), FindVersionInfoVal("ProductName") );
+		if ( found != map.end() ) {
+			name = found->second;
+		}
+
+		found = std::find_if( map.begin(), map.end(), FindVersionInfoVal("copyright") );
+		if ( found != map.end() ) {
+			copyright = found->second;
+		}
+
+		found = std::find_if( map.begin(), map.end(), FindVersionInfoVal("ProductVersion") );
+		if ( found != map.end() ) {
+			fileVersion = found->second;
+		}
+
+		found = std::find_if( map.begin(), map.end(), FindVersionInfoVal("Company") );
+		if ( found != map.end() ) {
+			company = found->second;
+		}
+
+		found = std::find_if( map.begin(), map.end(), FindVersionInfoVal("Comments") );
+		if ( found != map.end() ) {
+			description = found->second;
+		}
+
+		found = std::find_if( map.begin(), map.end(), FindVersionInfoVal("FileVersion") );
+		if ( found != map.end() ) {
+			programVersion = found->second;
+		}
+
+		result = new ProgramInfo( name, author, copyright, company, description, programVersion, fileVersion );
+	}
 
 	return result;
 }
@@ -539,6 +788,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/09/16 03:26:26  ddiego
+*fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
+*
 *Revision 1.1.2.4  2004/09/15 21:14:28  ddiego
 *added support for getting program info from resource bundle.
 *
