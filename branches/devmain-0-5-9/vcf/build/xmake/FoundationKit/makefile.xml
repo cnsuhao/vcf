@@ -38,7 +38,7 @@
 			<config name="GCC Debug" srcBinaryExt=".o">
 				<compiler name="g++" >
 					<flags>
-						<flag value="-I $(INC)"/>						
+						<flag value="-I $(INC)"/>
 						<flag value="-c -DVCF_GCC -D_DEBUG -ggdb"/><!-- -fPIC"/ -->
 					</flags>
 				</compiler>	
@@ -46,7 +46,7 @@
 				<linker name="g++">
 					<flags>
 						<!-- the ldl flag is to link to the dynamic library routines for stuff like dlopen, etc-->
-						<flag value="-ggdb -ldl -shared -o $(BIN_OUT)/libFoundationKit_d.so"/>
+						<flag value="-ggdb -ldl -lpthread -shared -o $(BIN_OUT)/libFoundationKit_d.so"/>
 					</flags>
 				</linker>
 			</config>
@@ -161,7 +161,7 @@
 			<source name="$(SRC)/ImplementerKit/LinuxPeer.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxFilePeer.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxFileStream.cpp" partOfConfig="GCC Debug|GCC Release"/>
-			<source name="$(SRC)/ImplementerKit/LinuxThread.cpp" partOfConfig="GCC Debug|GCC Release"/>
+			<source name="$(SRC)/ImplementerKit/PosixThread.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxLibraryPeer.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxMutex.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxProcessPeer.cpp" partOfConfig="GCC Debug|GCC Release"/>
@@ -170,6 +170,7 @@
 			<source name="$(SRC)/ImplementerKit/LinuxSystemPeer.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxSystemToolkit.cpp" partOfConfig="GCC Debug|GCC Release"/>
 			<source name="$(SRC)/ImplementerKit/LinuxProcessIORedirector.cpp" partOfConfig="GCC Debug|GCC Release"/>
+			
 		</sources>
 	</project>
 </make>
