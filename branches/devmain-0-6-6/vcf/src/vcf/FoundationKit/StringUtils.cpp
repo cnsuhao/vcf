@@ -319,7 +319,7 @@ VCF::String StringUtils::toString( const VCF::long64& value )
 		// would be a wrong implementation
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_ULONG_CONVERSION, (int)value.lo() );
 	#else
-		swprintf( tmp, L"%I64", (__int64)value );
+		swprintf( tmp, L"%I64d", (__int64)value );
 	#endif
 	return String( tmp );
 #endif
@@ -700,7 +700,7 @@ VCF::long64 StringUtils::fromStringAsLong64( const VCF::String& value )
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
 	#else
-		int ret = swscanf( value.c_str(), L"%I64", &result );
+		int ret = swscanf( value.c_str(), L"%I64d", &result );
 		if ( ret != 1 ) {
 			throw BasicException( L"Unable to convert: " + value );
 		}
@@ -1501,6 +1501,9 @@ String StringUtils::convertFormatString( const String& formattedString )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/31 08:50:52  marcelloptr
+*minor fix string <--> signed long64 conversion
+*
 *Revision 1.2.2.1  2004/08/26 04:05:47  marcelloptr
 *minor change on name of getMillisecond
 *
