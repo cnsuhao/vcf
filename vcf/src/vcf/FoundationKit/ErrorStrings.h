@@ -14,16 +14,18 @@ where you installed the VCF.
 #endif
 
 
+// the VCF namespace must be explicitely specified in this macro so it can be used inside any header file.
+#ifdef _DEBUG
+#define MAKE_ERROR_MSG(message)       VCF::String(message) +	VCF::String(L"\nException in file: ") + VCF::String( __FILE__ )
+#define MAKE_ERROR_MSG_2(message)     VCF::String(message) +	VCF::String(L"\nException in file: ") + VCF::String( __FILE__ ) + VCF::String(" at line: ") + VCF::StringUtils::toString(__LINE__)
+#else
+#define MAKE_ERROR_MSG(message)       VCF::String(message)
+#define MAKE_ERROR_MSG_2(message)     VCF::String(message)
+#endif
+
+
 namespace VCF
 {
-
-#ifdef _DEBUG
-#define MAKE_ERROR_MSG(message)			String(message) +	String(L"\nException in file: ") + String( __FILE__ )
-#define MAKE_ERROR_MSG_2(message)		String(message) +	String(L"\nException in file: ") + String( __FILE__ ) + String(" at line: ") + StringUtils::toString(__LINE__)
-#else
-#define MAKE_ERROR_MSG(message)			String(message)
-#define MAKE_ERROR_MSG_2(message)		String(message)
-#endif
 
 #define APPLICATION_EXCEPTION         L"Application error."
 #define BAD_COMPONENTSTATE_EXCEPTION  L"The component is in an invalid state."
@@ -119,6 +121,9 @@ Many thanks to Marcello for contributing this!!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/11/10 02:04:39  marcelloptr
+*minor fix on MAKE_ERROR_MSG so it can be used inside any header files
+*
 *Revision 1.3.2.1  2004/08/23 22:26:06  marcelloptr
 *added NotImplementedException
 *
