@@ -71,7 +71,13 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(c,mAlpha);
+
+		ControlContainer::setColor(c);
+
+		repaint();
+
+		ButtonEvent event(this,ITEM_EVENT_SELECTED);
+		ColorChanged.fireEvent(&event);
 	}
 
 	void onG(TextEvent *e){
@@ -83,7 +89,13 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(c,mAlpha);
+
+		ControlContainer::setColor(c);
+
+		repaint();
+
+		ButtonEvent event(this,ITEM_EVENT_SELECTED);
+		ColorChanged.fireEvent(&event);
 	}
 
 	void onB(TextEvent *e){
@@ -95,11 +107,17 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(c,mAlpha);
+
+		ControlContainer::setColor(c);
+
+		repaint();
+
+		ButtonEvent event(this,ITEM_EVENT_SELECTED);
+		ColorChanged.fireEvent(&event);
 	}
 
 	void onA(TextEvent *e){
-		float a=255;
+		float a=1;
 		try{
 			int v=StringUtils::fromStringAsInt(mA->getTextModel()->getText());
 			a=float(v)/255.0f;
@@ -107,7 +125,11 @@ public:
 		catch(std::exception &e){
 			e.what();
 		}
-		setColor(getColor(),a);
+
+		mAlpha=a;;
+
+		ButtonEvent event(this,ITEM_EVENT_SELECTED);
+		ColorChanged.fireEvent(&event);
 	}
 
 	TextControl *mR;
