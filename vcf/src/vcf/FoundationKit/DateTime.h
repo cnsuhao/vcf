@@ -400,7 +400,7 @@ public:
 	you call setDate( 2003, 6, 12 ), the result will be a DateTime object set
 	to June 12, 2003 00:00:00.
 
-    @param unsigned long the year
+	@param unsigned long the year
 
 	@param unsigned long the month. This must be a value between 1 and 12. Values
 	outside of this range will cause a BadDateFormat exception to be thrown.
@@ -420,7 +420,7 @@ public:
 	you call setTime( 16, 2, 45 ) , the result will be a DateTime object set
 	to Jan 23, 2123 16:02:45.
 
-    @param unsigned long the hour. This must be a value between 0 and 23. Values
+	@param unsigned long the hour. This must be a value between 0 and 23. Values
 	outside of this range will cause a BadTimeFormat exception to be thrown.
 
 	@param unsigned long the minutes. This must be a value between 0 and 59. Values
@@ -429,12 +429,42 @@ public:
 	@param unsigned long the seconds. This must be a value between 0 and 59. Values
 	outside of this range will cause a BadTimeFormat exception to be thrown.
 
-    @throw BadTimeFormat
+	@throw BadTimeFormat
 	*/
 	void setTime( const unsigned long& hour,
 					const unsigned long& minutes,
 					const unsigned long& seconds );
 
+	/**
+	Gets all the components of date/time.
+	@param pointer to unsigned long accepting the year.
+	@param pointer to unsigned long accepting the month.
+	@param pointer to unsigned long accepting the day.
+	@param pointer to unsigned long accepting the hour.
+	@param pointer to unsigned long accepting the minute.
+	@param pointer to unsigned long accepting the second.
+	@param pointer to unsigned long accepting the millisecond.
+	Any pointer that is NULL does not accept any value.
+	*/
+	void get( unsigned long* year, unsigned long* month, unsigned long* day, unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond=NULL ) const;
+
+	/**
+	Gets all the components of the date.
+	@param pointer to unsigned long accepting the year.
+	@param pointer to unsigned long accepting the month.
+	@param pointer to unsigned long accepting the day.
+	Any pointer that is NULL does not accept any value.
+	*/
+	void getDate( unsigned long* year, unsigned long* month, unsigned long* day ) const;
+
+	/**
+	Gets all the components of the time.
+	@param pointer to unsigned long accepting the minute.
+	@param pointer to unsigned long accepting the second.
+	@param pointer to unsigned long accepting the millisecond.
+	Any pointer that is NULL does not accept any value.
+	*/
+	void getTime( unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond=NULL ) const;
 
 	/**
 	Converts the time to the system's local time
@@ -725,6 +755,16 @@ public:
 
 	static unsigned long getNumberOfDaysInMonth( unsigned long year, Months month );
 
+	static bool isGregorianCalendarDate( const unsigned long& year,
+											const unsigned long& month,
+											const unsigned long& day );
+
+	static bool isGregorianCalendarDate( const DateTime& dt );
+
+	static void getYearMonthDay( const DateTime& dt, unsigned long* year, unsigned long* month, unsigned long* day );
+
+	static void getHourMinuteSecond( const DateTime& dt, unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond=NULL );
+
 
 	friend class DateTimeSpan;
 protected:
@@ -739,13 +779,6 @@ protected:
 				const unsigned long& milliseconds );
 
 	static void setCurrent( DateTime& dt );
-	static bool isGregorianCalendarDate( const unsigned long& year,
-											const unsigned long& month,
-											const unsigned long& day );
-
-	static bool isGregorianCalendarDate( const DateTime& dt );
-
-	static void getYearMonthDay( const DateTime& dt, unsigned long* year, unsigned long* month, unsigned long* day );
 	/**
 	time is stored as the number of milliseconds since
 	1 January 4713 BC. This is also known as the Julian Day
@@ -853,12 +886,32 @@ public :
 };
 
 
+
+inline void DateTime::getDate( unsigned long* year, unsigned long* month, unsigned long* day ) const {
+	getYearMonthDay( *this, year, month, day );
+}
+
+inline void DateTime::getTime( unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond/*=NULL*/ ) const {
+	getHourMinuteSecond( *this, hour, minute, second, millsecond );
+}
+
+inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned long* day, unsigned long* hour, unsigned long* minute, unsigned long* second, unsigned long* millsecond/*=NULL*/ ) const {
+	getYearMonthDay( *this, year, month, day );
+
+	getHourMinuteSecond( *this, hour, minute, second, millsecond );
+}
+
+
+
 };
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2004/08/06 01:45:04  ddiego
+*updated and added Marcellos DateTime changes.
+*
 *Revision 1.1.2.8  2004/08/03 20:57:22  marcelloptr
 *minor change on name DateTime:getSecond DateTime:getMillisecond
 *
