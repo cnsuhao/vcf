@@ -35,12 +35,13 @@ _MSC_VER - the Microsoft Visaul C++ compiler
 #include "CmdLine.h"
 #include "FilePath.h"
 
-#ifdef WIN32
-	#include <windows.h>
-    #include <io.h>
-    #include <stdio.h>
-	#include <process.h>
-#endif 
+// MP - moved to xmake.h
+//#ifdef WIN32
+//	#include <windows.h>
+//    #include <io.h>
+//    #include <stdio.h>
+//	#include <process.h>
+//#endif 
 
 #include "DependencyNodes.h"
 #include "xmakeUtils.h"
@@ -174,7 +175,8 @@ void XMLMake::searchIncludeFile( const String& name, long& dependencyCount, Stri
 {
 	
 #ifdef WIN32
-	int      i, j;
+	unsigned int i;
+	int j;
 	char     tmp[MAXPATH];
 	struct   _finddata_t  find;
 	
@@ -280,7 +282,7 @@ void XMLMake::makeDependFiles( String name, StringList& dependsList, long& depen
 	FILE  *sf;
 //	char  line[LINE_SIZE];
 	const char  *s; 
-	const char* e;
+		//const char* e;
 	int   i, first, last;	
 	
 	//printf( "makeDependFiles for %s\n", name.c_str() );
@@ -1052,7 +1054,7 @@ bool XMLMake::targetUptodate( const String name )
 
 		target.uptodate = fileExists( targetFilename );
 
-		for ( int i=0;i<target.dependencies.size();i++ ) {
+		for ( unsigned int i=0;i<target.dependencies.size();i++ ) {
 			//chekc to see if the "dependency" is uptodate
 			Dependency& dependency = target.dependencies[i];
 			if ( dependency.buildable ) {
@@ -1541,7 +1543,7 @@ void XMLMake::replaceAutomaticVariablesFor( String& s, Target& target, Dependenc
 			}
 		}
 		else if ( component1 == "dependsOn.children" ) {
-			for ( int i=0;i<target.dependencies.size();i++ ) {
+			for ( unsigned int i=0;i<target.dependencies.size();i++ ) {
 				if ( target.dependencies[i].buildable ) {
 					if ( component2 == "name" ) {
 						replacement += target.dependencies[i].name;					
@@ -1608,10 +1610,10 @@ void XMLMake::replaceAutomaticVariables( DependencyNode::Vector& sortedDependenc
 		if ( found != targets_.end() ) {
 			Target& target = found->second;
 			
-			for ( int i=0;i<target.dependencies.size();i++ ) {
+			for ( unsigned int i=0;i<target.dependencies.size();i++ ) {
 				found = targets_.find( target.dependencies[i].name );
 				if ( found == targets_.end() ) {
-					for ( int j=0;j<target.dependencies[i].commands.size();j++ ) {
+					for ( unsigned int j=0;j<target.dependencies[i].commands.size();j++ ) {
 						String command = target.dependencies[i].commands[j];
 						replaceAutomaticVariablesFor( command, target, &target.dependencies[i] );
 						target.dependencies[i].commands[j] = command;
@@ -1620,7 +1622,7 @@ void XMLMake::replaceAutomaticVariables( DependencyNode::Vector& sortedDependenc
 			}
 
 
-			for ( int j=0;j<target.commands.size();j++ ) {
+			for ( unsigned int j=0;j<target.commands.size();j++ ) {
 				//printf( "\texec: %s\n", target.commands[j].c_str() );
 				String command = target.commands[j];
 
@@ -1688,7 +1690,7 @@ void XMLMake::applyCurrentConfiguration( DependencyNode::Vector& sortedDependenc
 		if ( found != targets_.end() ) {
 			Target& target = found->second;
 			
-			for ( int i=0;i<target.dependencies.size();i++ ) {
+			for ( unsigned int i=0;i<target.dependencies.size();i++ ) {
 				//chekc to see if the "dependency" is actually a 
 				//target
 				Dependency& dependency = target.dependencies[i];
@@ -1697,7 +1699,7 @@ void XMLMake::applyCurrentConfiguration( DependencyNode::Vector& sortedDependenc
 
 			applyConfig( target );
 
-			for ( int j=0;j<target.commands.size();j++ ) {
+			for ( unsigned int j=0;j<target.commands.size();j++ ) {
 				//printf( "\texec: %s\n", target.commands[j].c_str() );
 				String command = target.commands[j];
 
@@ -2428,7 +2430,7 @@ void XMLMake::buildTarget()
 			execCount += target.commands.size();
 
 
-			for ( int i=0;i<target.dependencies.size();i++ ) {
+			for ( unsigned int i=0;i<target.dependencies.size();i++ ) {
 				Dependency& dep = target.dependencies[i];
 				found = targets_.find( dep.name );
 
@@ -2436,7 +2438,7 @@ void XMLMake::buildTarget()
 					//execCount += dep.commands.size();
 					printf( " dependency: %s\n", dep.name.c_str() );
 
-					for ( int j=0;j<dep.commands.size();j++ ) {						
+					for ( unsigned int j=0;j<dep.commands.size();j++ ) {						
 						upToDate = false; // uptodate is false cause we're building something...
 						printf( "  %s\n", dep.commands[j].c_str() );
 						fflush( NULL );
@@ -2453,7 +2455,7 @@ void XMLMake::buildTarget()
 				}
 			}
 
-			for ( int j=0;j<target.commands.size();j++ ) {
+			for ( unsigned int j=0;j<target.commands.size();j++ ) {
 				printf( " %s\n", target.commands[j].c_str() );
 				fflush( NULL );
 				upToDate = false; // uptodate is false cause we're building something...
@@ -2726,7 +2728,7 @@ void XMLMake::clean()
 
 			printf( "deleting target: %s\n", target.output.c_str() );
 			deleteFile( target.output );
-			for ( int i=0;i<target.dependencies.size();i++ ) {
+			for ( unsigned int i=0;i<target.dependencies.size();i++ ) {
 				Dependency& dep = target.dependencies[i];
 				found = targets_.find( dep.output );
 
