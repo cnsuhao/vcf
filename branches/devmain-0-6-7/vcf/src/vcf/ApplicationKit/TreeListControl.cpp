@@ -822,6 +822,9 @@ void TreeListControl::clearSelectedItems()
 	while ( it != selectedItems_.end() ) {
 		TreeItem* item = *it;
 		item->setSelected( false );
+		ItemEvent event( this, ITEM_EVENT_UNSELECTED );
+		event.setUserData(item);
+		ItemSelected.fireEvent( &event );
 		it ++;
 	}
 	selectedItems_.clear();
@@ -1002,6 +1005,9 @@ void TreeListControl::mouseMove( MouseEvent* event )
 			std::vector<TreeItem*>::iterator it = draggingSelectedItems_.begin() ;
 			while ( it != draggingSelectedItems_.end() ) {
 				(*it)->setSelected( false );
+				ItemEvent event( this, ITEM_EVENT_UNSELECTED );
+				event.setUserData(*it);
+				ItemSelected.fireEvent( &event );
 
 				std::vector<TreeItem*>::iterator found = std::find( selectedItems_.begin(), selectedItems_.end(), *it ) ;
 				if ( found != selectedItems_.end() ) {
@@ -1231,6 +1237,13 @@ void TreeListControl::setSelectedItem( TreeItem* item, const bool& isSelected )
 
 	if ( true == isSelected ) {
 		ItemEvent event( this, ITEM_EVENT_SELECTED );
+		event.setUserData(item);
+		ItemSelected.fireEvent( &event );
+	}
+	else
+	{
+		ItemEvent event( this, ITEM_EVENT_UNSELECTED );
+		event.setUserData(item);
 		ItemSelected.fireEvent( &event );
 	}
 }
@@ -1510,6 +1523,13 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/01/17 22:44:51  augusto_roman
+*ErrorStrings - Fixed VCF namespace in VCF_ASSERT
+*ItemEvent - Added item unselected event
+*TreeListControl:
+*- Added handling for sending unselected event
+*- Added correct state drawing for checked/unchecked items
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
