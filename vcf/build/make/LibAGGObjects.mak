@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.4.1  2004/04/28 14:40:01  ddiego
+#migration towards new directory structure
+#
 #Revision 1.2  2003/12/18 05:15:47  ddiego
 #merge from devmain-0-6-2 branch into the stable branch
 #
@@ -9,8 +12,8 @@
 #added/fixed problems to get it to compile under linux
 #
 
-SRC_AGG = ../../thirdparty/common/agg/src
-AGG_CX_FLAGS_D=$(GK_CXX_FLAGS_D) -I../../thirdparty/common/agg/include
+SRC_AGG = ../../src/thirdparty/common/agg/src
+AGG_CX_FLAGS_D=$(GK_CXX_FLAGS_D) -I../../src/thirdparty/common/agg/include
 
 $(OUTDIR_GK_D)/agg_affine_matrix.o : $(SRC_AGG)/agg_affine_matrix.cpp 
 	$(CXX) $(AGG_CX_FLAGS_D) $(SRC_AGG)/agg_affine_matrix.cpp -o $(OUTDIR_GK_D)/agg_affine_matrix.o
@@ -38,7 +41,7 @@ $(OUTDIR_GK_D)/agg_scanline_u8.o : $(SRC_AGG)/agg_scanline_u8.cpp
 	
 
 
-AGG_CX_FLAGS=$(GK_CXX_FLAGS) -I../../thirdparty/common/agg/include
+AGG_CX_FLAGS=$(GK_CXX_FLAGS) -I../../src/thirdparty/common/agg/include
 
 $(OUTDIR_GK)/agg_affine_matrix.o : $(SRC_AGG)/agg_affine_matrix.cpp 
 	$(CXX) $(AGG_CX_FLAGS) $(SRC_AGG)/agg_affine_matrix.cpp -o $(OUTDIR_GK)/agg_affine_matrix.o
