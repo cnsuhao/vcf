@@ -1,4 +1,5 @@
-<!--Copyright (c) 2003, Author Name
+<!-- 
+Copyright (c) 2003, Author Name
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -93,7 +94,7 @@ public:
 	}
 
 ]]>
-	</programlisting>	
+  </programlisting>
 	The rectangular bounds is defined as 4 coordinates, an X and Y coordinate for the top left corner,
 	and another X and Y coordinate for the bottom right corner of the Window. These coordinates are always
 	in the coordinate space of the parent control, and since a Window doesn't have a parent, the coordinates
@@ -102,9 +103,24 @@ public:
 	<para>
 	Finally, we'll actually show the window - remember to do this step or your window will not be visible 
 	(there are alternate ways of handling this, but we are not going to cover them here).
-	
+	<programlisting>
+<![CDATA[
+	//remainder of code ommitted for clarity
+
+	virtual bool initRunningApplication(){ 
+		//remainder of code ommitted for clarity
+		mainWindow->show();
+	}
+
+]]>
+	</programlisting>
+	</para>
+	<para>
+	So we can see that creating a new window is quite easy, and we have also learned to customize the
+	start up behaviour of our application.
 	</para>
 </section>
+
 
 
 
@@ -112,7 +128,8 @@ public:
 <!--
 CVS Log info
 $Log$
-<!--Copyright (c) 2003, Author Name
+<!-- 
+Copyright (c) 2003, Author Name
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -207,7 +224,7 @@ public:
 	}
 
 ]]>
-	</programlisting>	
+  </programlisting>
 	The rectangular bounds is defined as 4 coordinates, an X and Y coordinate for the top left corner,
 	and another X and Y coordinate for the bottom right corner of the Window. These coordinates are always
 	in the coordinate space of the parent control, and since a Window doesn't have a parent, the coordinates
@@ -216,17 +233,33 @@ public:
 	<para>
 	Finally, we'll actually show the window - remember to do this step or your window will not be visible 
 	(there are alternate ways of handling this, but we are not going to cover them here).
-	
+	<programlisting>
+<![CDATA[
+	//remainder of code ommitted for clarity
+
+	virtual bool initRunningApplication(){ 
+		//remainder of code ommitted for clarity
+		mainWindow->show();
+	}
+
+]]>
+	</programlisting>
+	</para>
+	<para>
+	So we can see that creating a new window is quite easy, and we have also learned to customize the
+	start up behaviour of our application.
 	</para>
 </section>
 
 
 
 
+
 <!--
 CVS Log info
-Revision 1.1.2.3  2003/09/28 04:55:01  ddiego
-<!--Copyright (c) 2003, Author Name
+Revision 1.1.2.4  2003/09/28 22:18:39  ddiego
+<!-- 
+Copyright (c) 2003, Author Name
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -321,7 +354,7 @@ public:
 	}
 
 ]]>
-	</programlisting>	
+  </programlisting>
 	The rectangular bounds is defined as 4 coordinates, an X and Y coordinate for the top left corner,
 	and another X and Y coordinate for the bottom right corner of the Window. These coordinates are always
 	in the coordinate space of the parent control, and since a Window doesn't have a parent, the coordinates
@@ -330,17 +363,33 @@ public:
 	<para>
 	Finally, we'll actually show the window - remember to do this step or your window will not be visible 
 	(there are alternate ways of handling this, but we are not going to cover them here).
-	
+	<programlisting>
+<![CDATA[
+	//remainder of code ommitted for clarity
+
+	virtual bool initRunningApplication(){ 
+		//remainder of code ommitted for clarity
+		mainWindow->show();
+	}
+
+]]>
+	</programlisting>
+	</para>
+	<para>
+	So we can see that creating a new window is quite easy, and we have also learned to customize the
+	start up behaviour of our application.
 	</para>
 </section>
 
 
 
 
+
 <!--
 CVS Log info
-updated docs for tutorial
-<!--Copyright (c) 2003, Author Name
+further docs for the examples
+<!-- 
+Copyright (c) 2003, Author Name
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -435,7 +484,7 @@ public:
 	}
 
 ]]>
-	</programlisting>	
+  </programlisting>
 	The rectangular bounds is defined as 4 coordinates, an X and Y coordinate for the top left corner,
 	and another X and Y coordinate for the bottom right corner of the Window. These coordinates are always
 	in the coordinate space of the parent control, and since a Window doesn't have a parent, the coordinates
@@ -444,21 +493,30 @@ public:
 	<para>
 	Finally, we'll actually show the window - remember to do this step or your window will not be visible 
 	(there are alternate ways of handling this, but we are not going to cover them here).
-	
+	<programlisting>
+<![CDATA[
+	//remainder of code ommitted for clarity
+
+	virtual bool initRunningApplication(){ 
+		//remainder of code ommitted for clarity
+		mainWindow->show();
+	}
+
+]]>
+	</programlisting>
+	</para>
+	<para>
+	So we can see that creating a new window is quite easy, and we have also learned to customize the
+	start up behaviour of our application.
 	</para>
 </section>
 
 
 
 
+
 <!--
 CVS Log info
-
-Revision 1.1.2.2  2003/09/28 02:13:51  ddiego
-further documentation for examples
-
-Revision 1.1.2.1  2003/09/27 23:04:20  ddiego
-added tutorial docbook files
 
 -->
 
