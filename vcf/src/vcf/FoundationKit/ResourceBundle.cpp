@@ -47,7 +47,16 @@ Resource* ResourceBundle::getResource( const String& resourceName )
 	return peer_->getResource( resourceName );
 }
 
+ProgramInfo* ResourceBundle::getProgramInfo()
+{
+	ProgramInfo* result = peer_->getProgramInfo();
 
+	if ( NULL == result ) {
+
+	}
+
+	return result;
+}
 
 
 
@@ -56,6 +65,9 @@ Resource* ResourceBundle::getResource( const String& resourceName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2004/09/15 21:14:28  ddiego
+*added support for getting program info from resource bundle.
+*
 *Revision 1.1.2.1  2004/08/27 03:50:46  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe
