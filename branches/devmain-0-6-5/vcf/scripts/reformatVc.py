@@ -26,6 +26,8 @@ modules ={}
 testingParse = False #%%%
 backupFiles = False
 
+addEntriesForVc71WhenSynchToVc70 = False
+addToolsForVc71WhenSynchToVc70   = False
 
 # globals
 compilerVc6  = 'vc6'
@@ -101,12 +103,14 @@ re_output_or_intermed_dir   = re.compile( r'(^# PROP (Output|Intermediate)_Dir "
 re_output_dir               = re.compile( r'^# PROP Output_Dir "(?P<subdir>[a-zA-Z0-9_\- $\(\)\\/.]*?)"' )
 re_intermed_dir             = re.compile( r'^# PROP Intermediate_Dir "(?P<subdir>[a-zA-Z0-9_\- $\(\)\\/.]*?)"' )
 re_targettype           = re.compile( r'# TARGTYPE "(?P<platform>\w+) \((?P<platformNum>\w+)\) (?P<projectType>[a-zA-Z0-9_\- ]+?)" (?P<code>\w+)' )
-re_configuration        = re.compile( r'!(ELSE)?IF  "\$\(CFG\)"\s+==\s+"(?P<projectName>\w+)\s+-\s+(?P<platform>\w+)\s+(?P<configFullName>(\w+\s*)+)"' )
-re_confignamesplit      = re.compile( r'((\w+)\s+)*(?P<configName>\w+)' )
+#re_configurationOld        = re.compile( r'!(ELSE)?IF  "\$\(CFG\)"\s+==\s+"(?P<projectName>\w+)\s+-\s+(?P<platform>\w+)\s+(?P<configFullName>(\w+\s*)+)"' )
+re_configuration        = re.compile( r'!(ELSE)?IF  "\$\(CFG\)"\s+==\s+"(?P<projectName>\w+)\s*?-\s*?(?P<platform>\w+)\s+(?P<configFullName>[a-zA-Z0-9_\- $\(\)\\/.]*)"' )
+#re_confignamesplitOld      = re.compile( r'((\w+)\s+)*(?P<configName>\w+)' )
+re_confignamesplit      = re.compile( r'((\w+)\s+)+?(?P<configName>[a-zA-Z0-9 _\- $\(\)\\/.]*)' ) # the first word and take all the others
 re_configuration_endif  = re.compile( r'!ENDIF\s*?$' )
 
 re_dsp_group_name_basic = re.compile( r'# Name' )
-re_dsp_group_name       = re.compile( r'# Name "(?P<projectName>\w+) - (?P<platform>\w+) (?P<configName>\w+)"' )
+re_dsp_group_name       = re.compile( r'# Name "(?P<projectName>\w+) - (?P<platform>\w+) (?P<configName>[a-zA-Z0-9_\- $\(\)\\/.]*)"' )
 re_dsp_group_basic_beg  = re.compile( r'# Begin Group' )
 re_dsp_group            = re.compile( r'# Begin Group "(?P<groupname>[a-zA-Z0-9_\- $\(\)\\/.]*?)"' )
 re_dsp_group_basic_end  = re.compile( r'# End Group' )
@@ -138,7 +142,7 @@ re_dsp_useprecompheader_u = re.compile( r'/Yu"?(?P<precompheader>[a-zA-Z0-9_\- $
 #re.compile( r'/Yu"?(?P<precompheader>[a-zA-Z0-9_\- $\(\)\\/.]*)"?' )  match '/Yu something'
 
 
-re_vcp_general_version_xml              = re.compile( r'\s*?<\?xml version="(?P<version_xml>[a-zA-Z0-9\.]+)" encoding = "(?P<encoding_xml>[a-zA-Z0-9_;,\- $\(\)\\/.]+)"\?>' )
+re_vcp_general_version_xml              = re.compile( r'\s*?<\?xml version\s*=\s*"(?P<version_xml>[a-zA-Z0-9\.]+)"\s*encoding\s*=\s*"(?P<encoding_xml>[a-zA-Z0-9_;,\- $\(\)\\/.]+)"\?>' )
 re_vcp_general_visualStudioProject_beg  = re.compile( r'\s*?<VisualStudioProject$' )
 re_vcp_general_visualStudioProject_end  = re.compile( r'\s*?</VisualStudioProject>' )
 re_vcp_general_projectType              = re.compile( r'\s*?ProjectType="(?P<projectType>[a-zA-Z0-9_;,\-\+ $\(\)\\/.]*?)"' )
@@ -146,6 +150,8 @@ re_vcp_general_projectType              = re.compile( r'\s*?ProjectType="(?P<pro
 re_vcp_general_version_vc_project       = re.compile( r'\s*?Version="(?P<version_vc_project>[a-zA-Z0-9\.]+)"' )
 re_vcp_general_sccProjectName           = re.compile( r'\s*?SccProjectName="(?P<sccProjectName>[a-zA-Z0-9_;,\-\* $\(\)\\/.]*?)"' )
 re_vcp_general_sccLocalPath             = re.compile( r'\s*?SccLocalPath="(?P<sccLocalPath>[a-zA-Z0-9_;,\-\* $\(\)\\/.]*?)"' )
+re_vcp_general_keyword                  = re.compile( r'\s*?Keyword="(?P<keyword>[a-zA-Z0-9_;,\-\* $\(\)\\/.]*?)"' )
+re_vcp_general_projectGUID              = re.compile( r'\s*?ProjectGUID="(?P<projectGUID>[a-zA-Z0-9_;,\-\* $\(\)\{\}\\/.]*?)"' )
 re_vcp_general_platforms_beg            = re.compile( r'\s*?<Platforms>' )
 re_vcp_general_platforms_end            = re.compile( r'\s*?</Platforms>' )
 re_vcp_general_platform_beg             = re.compile( r'\s*?<Platform$' )
@@ -158,7 +164,9 @@ re_vcp_config_outputDirectory           = re.compile( r'\s*?OutputDirectory="(?P
 
 
 #re_vcp_entry = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)="(?P<entryValue>[a-zA-Z0-9_:;,\-\+ $\(\)\\/.]*?)"' )
-re_vcp_entry = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValue>[a-zA-Z0-9_:;,\-\+ $\(\)\\/.]*?)"' )
+re_vcp_entry = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValue>[a-zA-Z0-9_:;,\-\+ $\(\)\{\}\\/.]*?)"' )
+re_vcp_entry_cont0 = re.compile( r'\s*?(?P<entryName>[a-zA-Z0-9]*?)\s*?=\s*?"(?P<entryValueMultiline>[a-zA-Z0-9_:;,\-\+ $\(\)\{\}\\/.]*)' )
+re_vcp_entry_cont1 = re.compile( r'(?P<entryValueMultiline>.*)' )
 
 
 re_vcp_sectionReferences_beg = re.compile( r'\s*?<References>' )
@@ -233,6 +241,9 @@ re_ADD_BSC32_ALL            = re.compile( r'^# ADD (BASE |)BSC32' )
 re_ADD_BSC32_BASE           = re.compile( r'^# ADD BASE BSC32' )
 re_option_out_dir           = re.compile( r'/out:"(?P<subdir>[a-zA-Z0-9_\- $\(\)\\/.]*?)"' )
 
+
+re_custom_build_beg         = re.compile( r'^# Begin Custom Build' )
+re_custom_build_end         = re.compile( r'^# End Custom Build'   )
 
 
 g_mapCompilerNameVersion = {}
@@ -2272,10 +2283,13 @@ class VcprojGeneralSectionData:
         self.projectType = ''
         self.version_vc_project = ''
         self.trueProjectName = ''
-        self.sccProjectName = ''
-        self.sccLocalPath = ''
+        #self.sccProjectName = ''
+        #self.sccLocalPath = ''
+        #self.keyword = ''
         self.platformName = ''
 
+        self.entryNamesList = []
+        self.entryNameValueDict = {} # dict of entries for the Config section
         self.configurationFullNamesList = []
         self.configurationsFullNameSectionsDict = {} # dict of all the VcprojConfigSectionData
         return
@@ -2286,12 +2300,17 @@ class VcprojGeneralSectionData:
         self.projectType        = src.projectType
         self.version_vc_project = src.version_vc_project
         self.trueProjectName    = src.trueProjectName
-        self.sccProjectName     = src.sccProjectName
-        self.sccLocalPath       = src.sccLocalPath
+        #self.sccProjectName     = src.sccProjectName
+        #self.sccLocalPath       = src.sccLocalPath
+        #self.keyword            = src.keyword
         self.platformName       = src.platformName
         return
 
     def copyLists( self, src ):
+        self.entryNamesList = src.entryNamesList[:]
+        for k, v in src.entryNameValueDict.iteritems():
+            self.entryNameValueDict[ k ] = v
+
         self.configurationFullNamesList = src.configurationFullNamesList[:]
         for k, v in src.configurationsFullNameSectionsDict.iteritems():
             c = VcprojConfigSectionData()
@@ -2733,10 +2752,10 @@ class DspFile( GenericFile ):
         # buy just providing all the ( ocpl, ocplUnderscor, ocplSep ) crap
 
         # replaces the entries oldcompiler --> newcompiler only inside the configurations section of a dsp file
-        
+
         if ( oldCompiler == newCompiler ):
             return text
-        
+
         changed = False
         i = 0
         while ( i != -1 ):
@@ -2995,17 +3014,33 @@ class DspFile( GenericFile ):
                         platformList.append( platform )
                         configFullName  = m_configuration.group('configFullName')
                         configFullNameList.append( configFullName ) # 'GTK Debug'
-                        m_confignamesplit = re_confignamesplit.match( configFullName )
-                        if ( m_confignamesplit ):
-                            configName  = m_confignamesplit.group('configName')
+                        #m_confignamesplit = re_confignamesplit.match( configFullName )
+                        #if ( m_confignamesplit ):
+                        configFullNameList.append( configFullName )
+                        if ( configFullName ):
+                            splitlist = configFullName.split()
+                            if ( 1 < len( splitlist ) ):
+                                configName = ' '.join( splitlist[1:] )
+                            else:
+                                configName = configFullName
+                            configNameList.append( configName )
                             configNameList.append( configName )
                             configOrPlatformName = '%s|%s' % ( configFullName, platform )
                             configOrPlatformNameList.append( configOrPlatformName )
 
                             configFullNameExCfgPlatfAssocDict[ configFullName ] = configOrPlatformName
-
                         else:
-                            raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % configFullName )
+                            raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+                            
+                        #m_confignamesplit = re_confignamesplit.match( configFullName )
+                        #if ( m_confignamesplit ):
+                        #    configName  = m_confignamesplit.group('configName')
+                        #    configNameList.append( configName )
+                        #    configOrPlatformName = '%s|%s' % ( configFullName, platform )
+                        #    configOrPlatformNameList.append( configOrPlatformName )
+                        #    configFullNameExCfgPlatfAssocDict[ configFullName ] = configOrPlatformName
+                        #else:
+                        #    raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % configFullName )
                         continue
 
                 if ( re.match( '# Begin Target', line ) ):
@@ -3097,18 +3132,16 @@ class DspFile( GenericFile ):
         vcpFilesDsp = dsp.readSouceEntriesDsp()
 
         # now read the vcproj file
-        self.readEntriesVcproj( newCompiler )
-
-        ( vcpHdr, vcpFiles ) = self.getEntriesVcproj( newCompiler, False )
+        ( vcpHdr, vcpFiles ) = self.readEntriesVcproj( newCompiler )
 
         #if ( oldCompiler != newCompiler ):
         #    ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, oldCompiler, newCompiler )
-        
-        ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFilesDsp, newCompiler, newCompiler )
 
-        # IMPORTANT: note the vcpFilesDsp instead than vcpFiles: is this too simple ?
+        ( vcpHdr, vcpFiles ) = self.convertEntriesVcproj( vcpHdr, vcpFiles, newCompiler, newCompiler )
+
+        #
         # this automatically 'converts' to the newCompiler if the entry exists
-        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFilesDsp, newCompiler )
+        self.writelineEntriesVcprojAsStruct( vcpHdr, vcpFiles, newCompiler, vcpFilesDsp ) #vcpFilesDsp
 
         return
 
@@ -3169,12 +3202,18 @@ class DspFile( GenericFile ):
         c_ToolSection        = 4
 
         vcpFiles = VcprojFilesSectionData()
-
+        
+        isKey = c_None
+        insideFileSection = False 
+        
         groupname = ''
         for n in range( len(self.lines) ):
             line = self.lines[n]
             self.n = n + 1
 
+            #if ( self.filename.lower().find( 'sharedlibraries' ) != -1 ):
+            #    x = 3
+                    
             # skips the configurations body but save it into sectionBeforeLines
             if ( state == 0 ):
                 self.sectionBeforeLines.append( line )
@@ -3185,8 +3224,6 @@ class DspFile( GenericFile ):
                     state = 1
 
             elif ( state == 1 ):
-                isKey = c_None
-
                 # Name "ApplicationKitDLL - Win32 Release"
                 # Name "ApplicationKitDLL - Win32 Debug"
                 m_dsp_group_name_basic = re_dsp_group_name_basic.match( line )
@@ -3250,6 +3287,7 @@ class DspFile( GenericFile ):
                     # new File data
                     vcpFile = VcprojFileSectionData()
                     isKey = c_FileSection # 2
+                    insideFileSection = True
                     continue
 
                 m_dsp_src_file_end = re_dsp_src_file_end.match( line )
@@ -3259,7 +3297,7 @@ class DspFile( GenericFile ):
                     if ( vcpFiltergrp.fileNameFileDict.has_key( filenameLwr ) ):
                         raise Exception( 'getSouceEntriesDsp: The file \'%s\' already exists in this FilterGroup section [%s]. File \'%s\' (%d). Line \'%s\'' % ( vcpFile.file_name, vcpFiltergrp.filtergroup_name, self.filetitle, self.n, line.rstrip() ) )
                     vcpFiltergrp.fileNameFileDict[ filenameLwr ] = vcpFile
-                    isKey = c_None # 0
+                    insideFileSection = False
                     continue
 
                 m_dsp_source_basic = re_dsp_source_basic.match( line )
@@ -3277,6 +3315,8 @@ class DspFile( GenericFile ):
 
                         vcpFile.file_relativepath = source
                         vcpFile.file_name = basename
+                        
+                        isKey = c_FileSection
                     else:
                         raise Exception( 'getSouceEntriesDsp: reading source but not source + infos. File: \'%s\'. Line[%d]: \'%s\'' % ( self.filename, self.n, line.rstrip() ) )
                     continue
@@ -3287,26 +3327,45 @@ class DspFile( GenericFile ):
                 #    self.dictPrecompHeader[  basenameLwr ] = precompHeader
                 #    continue
 
-                if ( isKey == c_FileSection ):
+
+                if ( insideFileSection ):
                     #!IF  "$(CFG)" == "libAGG - Win32 GTK Debug"
                     if ( line[0] == '!' ) :
-                        m_configuration = re_configuration.math( line )
+                        m_configuration = re_configuration.match( line )
                         if ( m_configuration ):
                             insideCfg = True
                             projectName = m_configuration.group('projectName')
                             platform    = m_configuration.group('platform').rstrip()  # we don't really need it
                             configFullName  = m_configuration.group('configFullName') # GTK Debug
-                            m_confignamesplit = re_confignamesplit.match( self.configFullName )
-                            if ( m_confignamesplit ):
-                                configName  = m_confignamesplit.group('configName')
+                            
+                            if ( configFullName ):
+                                splitlist = configFullName.split()
+                                if ( 1 < len( splitlist ) ):
+                                    configName = ' '.join( splitlist[1:] )
+                                else:
+                                    configName = configFullName
+                                configNamePlatform = '%s|%s' % ( configFullName, platform )
                             else:
                                 raise Exception( 'getSouceEntriesDsp: unable to split the configFullName (%s) in its parts )' % self.configFullName )
-                            configNamePlatform = '%s|%s' % ( configFullName, platform )
+                            
+                            
+                            #m_confignamesplit = re_confignamesplit.match( self.configFullName )
+                            #if ( m_confignamesplit ):
+                            #    configName  = m_confignamesplit.group('configName')
+                            #else:
+                            #    raise Exception( 'getSouceEntriesDsp: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+                            #configNamePlatform = '%s|%s' % ( configFullName, platform )
 
-                            # new FileConfiguration data
+                            # new FileConfiguration data: we can add them at the beginning because they are pointers
                             vcpFilecfg = VcprojFileConfigurationSectionData()
                             vcpFilecfg.fileConfig_name = configNamePlatform
                             vcpFile.fileConfigNamesList.append( vcpFilecfg.fileConfig_name )
+                            fileConfig_nameLwr = vcpFilecfg.fileConfig_name.lower()
+                            vcpFile.fileConfigNameSectionsDict[ fileConfig_nameLwr ] = vcpFilecfg                            
+                            continue
+
+                        m_configuration_endif = re_configuration_endif.match( line )
+                        if ( m_configuration_endif ):
                             continue
 
                         m_ADD_CPP = re_ADD_CPP.match( line )
@@ -3334,10 +3393,19 @@ class DspFile( GenericFile ):
 
                             vcpFilecfg.toolNamesList.append( vcpTool.tool_name )
                             vcpFilecfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool
-
-                        m_configuration_endif = re_configuration_endif.math( line )
-                        if ( m_configuration_endif ):
-                            continue
+                            
+                        m_PROP = re_PROP.match( line )
+                        if ( m_PROP ):
+                            pass
+                        
+                        m_custom_build_beg = re_custom_build_beg.amtch( line )
+                        if ( m_custom_build_beg ):
+                            pass
+                            
+                        m_custom_build_end = re_custom_build_end.amtch( line )
+                        if ( m_custom_build_end ):
+                            pass
+                            
 
                 if ( re.match( '# End Project', line ) ):
                     if ( groupname ):
@@ -3360,9 +3428,9 @@ class DspFile( GenericFile ):
 
         self.readlines()
 
-        self.getEntriesVcproj( compiler )
+        ( vcpHdr, vcpFiles ) = self.getEntriesVcproj( compiler )
 
-        return
+        return  ( vcpHdr, vcpFiles )
 
     def getEntriesVcproj( self, compiler, reset = False ):
         state = 0
@@ -3383,9 +3451,16 @@ class DspFile( GenericFile ):
         c_FileConfigSection  = 3
         c_ToolSection        = 4
 
+        keyToContinue = True
+        entryNameMultiline = ''
+        entryValueMultiline = ''
+        entryValueMultilineNumLines = 0
+
         vcpHdr = VcprojGeneralSectionData()
         vcpFiles = VcprojFilesSectionData()
 
+        toolName = ''
+            
         #groupname = ''
         isKey = 0 # 1 --> Filter ; 2 --> File; 3 --> FileConfiguration; 4 --> Tool
         for n in range( len(self.lines) ):
@@ -3417,54 +3492,6 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
-                #       ProjectType="Visual C++"
-                m_vcp_general_projectType = re_vcp_general_projectType.match( line )
-                if ( m_vcp_general_projectType ):
-                    vcpHdr.projectType = m_vcp_general_projectType.group( 'projectType' )
-                    substate_general = substate_general + 1
-                    keyFound = True
-                    continue
-
-                #       Version="7.00"
-                m_vcp_general_version_vc_project = re_vcp_general_version_vc_project.match( line )
-                if ( m_vcp_general_version_vc_project ):
-                    version = m_vcp_general_version_vc_project.group( 'version_vc_project' )
-                    if ( compiler == compilerVc70 ):
-                        if ( not version == '7.00' ):
-                            raise Exception( 'Version of the vcproj [%s] is incompatible with the expected compiler [%s]. File \'%s\'(%d). Line \'%s\'' % ( version, compiler, self.filetitle, self.n, line.rstrip() ) )
-                    if ( compiler == compilerVc71 ):
-                        if ( not version == '7.10' ):
-                            raise Exception( 'Version of the vcproj [%s] is incompatible with the expected compiler [%s]. File \'%s\'(%d). Line \'%s\'' % ( version, compiler, self.filetitle, self.n, line.rstrip() ) )
-                    vcpHdr.version_vc_project = version
-                    substate_general = substate_general + 1
-                    keyFound = True
-                    continue
-
-                #       Name="Actions"
-                m_vcp_keyname = re_vcp_keyname.match( line )
-                if ( m_vcp_keyname ):
-                    keyname = m_vcp_keyname.group( 'keyname' )
-                    vcpHdr.trueProjectName = keyname
-                    substate_general = substate_general + 1
-                    keyFound = True
-                    continue
-
-                #       SccProjectName=""
-                m_vcp_general_sccProjectName = re_vcp_general_sccProjectName.match( line )
-                if ( m_vcp_general_sccProjectName ):
-                    vcpHdr.sccProjectName = m_vcp_general_sccProjectName.group( 'sccProjectName' )
-                    # substate_general = substate_general + 1 # no: we don't want this !
-                    keyFound = True
-                    continue
-
-                #       SccLocalPath="">
-                m_vcp_general_sccLocalPath = re_vcp_general_sccLocalPath.match( line )
-                if ( m_vcp_general_sccLocalPath ):
-                    vcpHdr.sccLocalPath = m_vcp_general_sccLocalPath.group( 'sccLocalPath' )
-                    # substate_general = substate_general + 1 # no: we don't want this !
-                    keyFound = True
-                    continue
-
                 #       <Platforms>
                 m_vcp_general_platforms_beg = re_vcp_general_platforms_beg.match( line )
                 if ( m_vcp_general_platforms_beg ):
@@ -3478,6 +3505,64 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
+                m_vcp_entry = re_vcp_entry.match( line )
+                if ( m_vcp_entry ):
+                    entryName = m_vcp_entry.group( 'entryName' )
+                    entryValue = m_vcp_entry.group( 'entryValue' )
+                    vcpHdr.entryNamesList.append( entryName )
+                    vcpHdr.entryNameValueDict[ entryName ] = entryValue
+                    if ( entryName == 'Version' ):
+                        vcpHdr.version_vc_project = entryValue
+                        if ( compiler == compilerVc70 ):
+                            if ( not vcpHdr.version_vc_project == '7.00' ):
+                                raise Exception( 'Version of the vcproj [%s] is incompatible with the expected compiler [%s]. File \'%s\'(%d). Line \'%s\'' % ( vcpHdr.version_vc_project, compiler, self.filetitle, self.n, line.rstrip() ) )
+                        if ( compiler == compilerVc71 ):
+                            if ( not vcpHdr.version_vc_project == '7.10' ):
+                                raise Exception( 'Version of the vcproj [%s] is incompatible with the expected compiler [%s]. File \'%s\'(%d). Line \'%s\'' % ( vcpHdr.version_vc_project, compiler, self.filetitle, self.n, line.rstrip() ) )
+                    elif ( entryName == 'Name' ):
+                        vcpHdr.trueProjectName = entryValue
+                    else:
+                        pass
+
+                    #raise Exception( 'please add the key \'%s\' to the struct VcprojGeneralSectionData and create a specific regular expression for the key. ( %s=\"%s\" ).  File \'%s\' (%d). Line \'%s\'' % ( entryName, entryName, entryValue, self.filetitle, self.n, line.rstrip() ) )
+                    substate_general = substate_general + 1
+                    keyFound = True
+                    continue
+
+                if ( False ):
+                    # this must be the last !
+                    m_vcp_entry_cont0 = re_vcp_entry_cont0.match( line )
+                    if ( m_vcp_entry_cont0 ):
+                        entryNameMultiline = m_vcp_entry_cont0.group( 'entryName' )
+                        value = m_vcp_entry_cont0.group( 'entryValueMultiline' )
+                        keyToContinue = True
+                        entryValueMultilineNumLines = 0
+                        entryValueMultiline = value + '\n'
+                        substate_general = substate_general + 1
+                        keyFound = True
+                        continue
+    
+                    if ( keyToContinue ):
+                        m_vcp_entry_cont1 = re_vcp_entry_cont1.match( line )
+                        if ( m_vcp_entry_cont1 ):
+                            value = m_vcp_entry_cont1.group( 'entryValueMultiline' )
+                            keyToContinue = True
+                            value = value.rstrip()
+                            entryValueMultilineNumLines = entryValueMultilineNumLines + 1
+                            entryValueMultiline = entryValueMultiline + value + '\n'
+                            if ( value[-1] == '\"' ):
+                                entryName = entryNameMultiline
+                                if ( not entryName == entryNameMultiline ):
+                                    raise Exception( 'getEntriesVcproj: it should be (entryName == entryNameMultiline). Instead is (%s != %s)' % ( entryName, entryNameMultiline ) )
+                                entryValue = value
+                                vcpTool.entryNamesList.append( entryName )
+                                vcpTool.entryNameValueDict[ entryName ] = entryValueMultiline
+                                entryNameMultiline = ''
+                                keyToContinue = False
+                            substate_general = substate_general + 1
+                            keyFound = True
+                            continue
+    
                 if ( not keyFound ):
                     raise Exception( 'getEntriesVcproj: bad parsing, key not found. File \'%s\' (%d). Line \'%s\'' % ( self.filetitle, self.n, line.rstrip() ) )
 
@@ -3729,6 +3814,8 @@ class DspFile( GenericFile ):
 
                     # new FileConfiguration data
                     vcpFilecfg = VcprojFileConfigurationSectionData()
+                    
+                    toolName = ''
 
                     isKey = c_FileConfigSection # 3
                     keyFound = True
@@ -3736,9 +3823,10 @@ class DspFile( GenericFile ):
 
                 m_vcp_sectionTool_beg = re_vcp_sectionTool_beg.match( line )
                 if ( m_vcp_sectionTool_beg ):
-                    # store the data for the tool just completed
-                    vcpFilecfg.toolNamesList.append( vcpTool.tool_name )
-                    vcpFilecfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool
+                    # store the data for the last tool completed if existing one
+                    if ( toolName ):
+                        vcpFilecfg.toolNamesList.append( vcpTool.tool_name )
+                        vcpFilecfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool
 
                     # new tool data
                     vcpTool = VcprojToolSectionData()
@@ -3749,6 +3837,11 @@ class DspFile( GenericFile ):
 
                 m_vcp_sectionFileConfig_end = re_vcp_sectionFileConfig_end.match( line )
                 if ( m_vcp_sectionFileConfig_end ):
+                    # store the data for the last tool completed
+                    if ( toolName ):
+                        vcpFilecfg.toolNamesList.append( vcpTool.tool_name )
+                        vcpFilecfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool
+                    
                     # store the data for the last FileConfiguration just completed
                     vcpFile.fileConfigNamesList.append( vcpFilecfg.fileConfig_name )
                     fileConfig_nameLwr = vcpFilecfg.fileConfig_name.lower()
@@ -3818,6 +3911,11 @@ class DspFile( GenericFile ):
                             self.listGroupNamesPlatform.append( platform )
                     elif( isKey == c_ToolSection ):
                         vcpTool.tool_name = keyname
+                        toolName = keyname
+                        entryName = 'Name'
+                        entryValue = keyname
+                        vcpTool.entryNamesList.append( entryName )
+                        vcpTool.entryNameValueDict[ entryName ] = entryValue
                         #self.dictTools[ basenameLwr ] = vcpTool.tool_name
                     keyFound = True
                     continue
@@ -3857,24 +3955,49 @@ class DspFile( GenericFile ):
                     keyFound = True
                     continue
 
-                if ( False ):
-                    m_vcp_addIncludeDir = re_vcp_addIncludeDir.match( line )
-                    if ( m_vcp_addIncludeDir ):
-                        includedir = m_vcp_addIncludeDir.group( 'includedir' )
-                        self.dictCfgIncludeDir[ basenameLwr + '_' + confignamePlatformLwr ] = includedir
-                        continue
-
-                    m_vcp_preprocDefin = re_vcp_preprocDefin.match( line )
-                    if ( m_vcp_preprocDefin ):
-                        preprocdefin = m_vcp_preprocDefin.group( 'preprocdefin' )
-                        self.dictCfgPreprocDef[ basenameLwr + '_' + confignamePlatformLwr ] = preprocdefin
-                        continue
-
                 m_vcp_sectionFiles_end = re_vcp_sectionFiles_end.match( line )
                 if ( m_vcp_sectionFiles_end ):
                     state = 5
                     keyFound = True
                     continue
+
+                # this must be the last !
+                m_vcp_entry_cont0 = re_vcp_entry_cont0.match( line )
+                if ( m_vcp_entry_cont0 ):
+                    entryNameMultiline = m_vcp_entry_cont0.group( 'entryName' )
+                    value = m_vcp_entry_cont0.group( 'entryValueMultiline' )
+                    keyToContinue = True
+                    entryValueMultilineNumLines = 0
+                    entryValueMultiline = value + '\n'
+                    substate_general = substate_general + 1
+                    keyFound = True
+                    continue
+
+                if ( keyToContinue ):
+                    m_vcp_entry_cont1 = re_vcp_entry_cont1.match( line )
+                    if ( m_vcp_entry_cont1 ):
+                        value = m_vcp_entry_cont1.group( 'entryValueMultiline' )
+                        keyToContinue = True
+                        value = value.rstrip()
+                        entryValueMultilineNumLines = entryValueMultilineNumLines + 1
+                        if ( value[-1] == '\"' ):
+                            # eliminates last '\"' and also no '\n' at the end
+                            entryValueMultiline = entryValueMultiline + value[:-1]
+                            entryName = entryNameMultiline
+                            if ( not entryName == entryNameMultiline ):
+                                raise Exception( 'getEntriesVcproj: it should be (entryName == entryNameMultiline). Instead is (%s != %s)' % ( entryName, entryNameMultiline ) )
+                            entryValue = value
+                            vcpTool.entryNamesList.append( entryName )
+                            vcpTool.entryNameValueDict[ entryName ] = entryValueMultiline
+                            entryNameMultiline = ''
+                            keyToContinue = False
+                        else:
+                            # store another line
+                            entryValueMultiline = entryValueMultiline + value + '\n'
+                            
+                        substate_general = substate_general + 1
+                        keyFound = True
+                        continue
 
                 if ( not keyFound ):
                     raise Exception( 'getEntriesVcproj: bad parsing, key not found. File \'%s\' (%d). Line: \'%s\'' % ( self.filetitle, self.n, line.rstrip() ) )
@@ -3889,7 +4012,7 @@ class DspFile( GenericFile ):
 
         #raise Exception( 'Not implemented yet' )
         #dspSrc = DspSourceData()
-
+        
         return ( vcpHdr, vcpFiles )
 
     def convertEntriesVcproj( self, vcpHdrSrc, vcpFilesSrc, oldCompiler, newCompiler, convertProjectConfigSection = True ):
@@ -3919,6 +4042,7 @@ class DspFile( GenericFile ):
                 vcpHdr.version_vc_project = '7.00'
             else: # ( newCompiler == compilerVc71 ):
                 vcpHdr.version_vc_project = '7.10'
+            vcpHdr.entryNameValueDict[ 'Version' ] = vcpHdr.version_vc_project
 
             for config_name in vcpHdr.configurationFullNamesList:
                 config_nameLwr = config_name.lower()
@@ -3941,67 +4065,68 @@ class DspFile( GenericFile ):
                             vcpTool.entryNameValueDict[ entryName ] = entryValue
 
                 # add tools and entries existing only on ( compilerVc71 <= compilers )
-                if ( compilerVc71 <= newCompiler ):
-                    for tn in g_vecToolNamesVc71:
-                        if ( g_mapToolsOnlyVc71.has_key( tn  ) ):
-                            # add tools if not there yet
-                            if ( not vcpCfg.toolNameSectionsDict.has_key( tn ) ):
-                                vcpTool = VcprojToolSectionData()
-                                vcpTool.compiler_version = compilerVersionVc71
-                                vcpTool.tool_name = tn
-                                vcpTool.entryNamesList.append( 'Name' )
-                                vcpTool.entryNameValueDict[ 'Name' ] = vcpTool.tool_name
-                                vcpCfg.toolNamesList.append( vcpTool.tool_name )
-                                vcpCfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool
-
-                        # add entries if not there yet
-                        for k, v in g_mapToolEntriesOnlyVc71.iteritems():
-                            vcpTool = vcpCfg.toolNameSectionsDict[ v ]
-                            if ( not vcpTool.entryNameValueDict.has_key( k ) ):
-                                #vcpTool.entryNamesList.append( k )
-                                #vcpTool.entryNameValueDict[ k ] = g_mapToolEntriesOnlyVc71DefaultValues[ k ]
-                                vcpTool.appendEntryKeyValue( k, g_mapToolEntriesOnlyVc71DefaultValues[ k ] )
-
-                    vcpCfg.toolNamesList = g_vecToolNamesVc71[:] #[:] or not ? %%%
+                if ( addEntriesForVc71WhenSynchToVc70 ):
+                    if ( compilerVc71 <= newCompiler ):
+                        for tn in g_vecToolNamesVc71:
+                            if ( g_mapToolsOnlyVc71.has_key( tn  ) ):
+                                # add tools if not there yet
+                                if ( not vcpCfg.toolNameSectionsDict.has_key( tn ) ):
+                                    vcpTool = VcprojToolSectionData()
+                                    vcpTool.compiler_version = compilerVersionVc71
+                                    vcpTool.tool_name = tn
+                                    vcpTool.entryNamesList.append( 'Name' )
+                                    vcpTool.entryNameValueDict[ 'Name' ] = vcpTool.tool_name
+                                    vcpCfg.toolNamesList.append( vcpTool.tool_name )
+                                    vcpCfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool
+    
+                            # add entries if not there yet
+                            for k, v in g_mapToolEntriesOnlyVc71.iteritems():
+                                if ( vcpCfg.toolNameSectionsDict.has_key( v ) ):
+                                    vcpTool = vcpCfg.toolNameSectionsDict[ v ]
+                                    if ( not vcpTool.entryNameValueDict.has_key( k ) ):
+                                        #vcpTool.entryNamesList.append( k )
+                                        #vcpTool.entryNameValueDict[ k ] = g_mapToolEntriesOnlyVc71DefaultValues[ k ]
+                                        vcpTool.appendEntryKeyValue( k, g_mapToolEntriesOnlyVc71DefaultValues[ k ] )
 
         vcpFiles = None
         if ( vcpFilesSrc ):
             vcpFiles = VcprojFilesSectionData()
             vcpFiles.copy( vcpFilesSrc )
 
-            for filtergroup_name in vcpFiles.filtergroupNamesList:
-                filtergroup_nameLwr = filtergroup_name.lower()
-                vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroup_nameLwr ]
-                for file_name in vcpFiltergrp.fileNamesList:
-                    file_nameLwr = file_name.lower()
-                    ( root, ext ) = os.path.splitext( file_nameLwr )
-                    if ( ext == '.cpp' ):
-                        vcpFile = vcpFiltergrp.fileNameFileDict[ file_nameLwr ]
-                        # we need to add all the fileConfigurations !
-                        for config_name in vcpHdr.configurationFullNamesList:
-                            config_nameLwr = config_name.lower()
-                            if ( vcpFile.fileConfigNameSectionsDict.has_key( config_nameLwr ) ):
-                                vcpFilecfg = vcpFile.fileConfigNameSectionsDict[ config_nameLwr ]
-                            else:
-                                vcpFilecfg = VcprojFileConfigurationSectionData()
-                                vcpFilecfg.fileConfig_name = config_name
-                                vcpFile.fileConfigNameSectionsDict[ config_nameLwr ] = vcpFilecfg
-                            # and we add the 'VCCLCompilerTool'
-                            vcpTool = VcprojToolSectionData()
-                            vcpTool.tool_name = 'VCCLCompilerTool'
-                            vcpTool.entryNamesList.append( 'Name' )
-                            vcpTool.entryNameValueDict[ 'Name' ] = vcpTool.tool_name
-                            vcpFilecfg.toolNamesList.append( vcpTool.tool_name )            # we can do it before too
-                            vcpFilecfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool  # we can do it before too
-                            if ( vcpFilecfg.fileConfig_name.lower().find( 'debug' ) != -1 ):
-                                vcpTool.appendEntryKeyValue( 'Optimization',                   '0' )
-                                vcpTool.appendEntryKeyValue( 'AdditionalIncludeDirectories',   ''  )
-                                vcpTool.appendEntryKeyValue( 'PreprocessorDefinitions',        ''  )
-                                vcpTool.appendEntryKeyValue( 'BasicRuntimeChecks',             '3' )
-                            else:
-                                vcpTool.appendEntryKeyValue( 'Optimization',                   '1' )
-                                vcpTool.appendEntryKeyValue( 'AdditionalIncludeDirectories',   ''  )
-                                vcpTool.appendEntryKeyValue( 'PreprocessorDefinitions',        ''  )
+            if ( addEntriesForVc71WhenSynchToVc70 ):
+                for filtergroup_name in vcpFiles.filtergroupNamesList:
+                    filtergroup_nameLwr = filtergroup_name.lower()
+                    vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroup_nameLwr ]
+                    for file_name in vcpFiltergrp.fileNamesList:
+                        file_nameLwr = file_name.lower()
+                        ( root, ext ) = os.path.splitext( file_nameLwr )
+                        if ( ext == '.cpp' ):
+                            vcpFile = vcpFiltergrp.fileNameFileDict[ file_nameLwr ]
+                            # we need to add all the fileConfigurations !
+                            for config_name in vcpHdr.configurationFullNamesList:
+                                config_nameLwr = config_name.lower()
+                                if ( vcpFile.fileConfigNameSectionsDict.has_key( config_nameLwr ) ):
+                                    vcpFilecfg = vcpFile.fileConfigNameSectionsDict[ config_nameLwr ]
+                                else:
+                                    vcpFilecfg = VcprojFileConfigurationSectionData()
+                                    vcpFilecfg.fileConfig_name = config_name
+                                    vcpFile.fileConfigNameSectionsDict[ config_nameLwr ] = vcpFilecfg
+                                # and we add the 'VCCLCompilerTool'
+                                vcpTool = VcprojToolSectionData()
+                                vcpTool.tool_name = 'VCCLCompilerTool'
+                                vcpTool.entryNamesList.append( 'Name' )
+                                vcpTool.entryNameValueDict[ 'Name' ] = vcpTool.tool_name
+                                vcpFilecfg.toolNamesList.append( vcpTool.tool_name )            # we can do it before too
+                                vcpFilecfg.toolNameSectionsDict[ vcpTool.tool_name ] = vcpTool  # we can do it before too
+                                if ( vcpFilecfg.fileConfig_name.lower().find( 'debug' ) != -1 ):
+                                    vcpTool.appendEntryKeyValue( 'Optimization',                   '0' )
+                                    vcpTool.appendEntryKeyValue( 'AdditionalIncludeDirectories',   ''  )
+                                    vcpTool.appendEntryKeyValue( 'PreprocessorDefinitions',        ''  )
+                                    vcpTool.appendEntryKeyValue( 'BasicRuntimeChecks',             '3' )
+                                else:
+                                    vcpTool.appendEntryKeyValue( 'Optimization',                   '1' )
+                                    vcpTool.appendEntryKeyValue( 'AdditionalIncludeDirectories',   ''  )
+                                    vcpTool.appendEntryKeyValue( 'PreprocessorDefinitions',        ''  )
 
             # reformats/converts all the path entries
             for filtergroup_name in vcpFiles.filtergroupNamesList:
@@ -4025,12 +4150,15 @@ class DspFile( GenericFile ):
 
         return ( vcpHdr, vcpFiles )
 
-    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, newCompiler ):
+    def writelineEntriesVcprojAsStruct( self, vcpHdr, vcpFiles, newCompiler, vcpFilesMaster ):
         # writelineEntriesVcprojAsStruct does already part of the work by not writing the entries
         # that do not exist for the newCompiler
-                
+
         # oldCompiler is unused
 
+        #if ( self.filename.lower().find( 'sharedlibraries' ) != -1 ):
+        #    s =3
+            
         if ( 0 == len( vcpHdr.configurationFullNamesList ) ):
             raise Exception( 'updateSouceEntriesVcprojAsStruct: vcpHdr.configurationFullNamesList is empty !' )
 
@@ -4046,20 +4174,24 @@ class DspFile( GenericFile ):
 
         lines.append( '<VisualStudioProject\n' )
 
-        line = '\tProjectType=\"%s\"\n' % ( vcpHdr.projectType )
-        lines.append( line )
+        #line = '\tProjectType=\"%s\"\n' % ( vcpHdr.projectType )
+        #lines.append( line )
+        #
+        #line = '\tVersion=\"%s\"\n' % vcpHdr.version_vc_project
+        #lines.append( line )
+        #
+        #line = '\tName=\"%s\"\n' % vcpHdr.trueProjectName
+        #lines.append( line )
 
-        line = '\tVersion=\"%s\"\n' % vcpHdr.version_vc_project
-        lines.append( line )
-
-        line = '\tName=\"%s\"\n' % vcpHdr.trueProjectName
-        lines.append( line )
-
-        #line = '\tSccProjectName=\"\"\n'
-        #line = '\tSccLocalPath=\"\"\n'
-
-        #puts'>\n' instead than just '\n' for the last one
+        # general section header
+        for entryName in vcpHdr.entryNamesList:
+            entryValue = vcpHdr.entryNameValueDict[ entryName ]
+            if ( entryName == 'Version' and entryValue != vcpHdr.version_vc_project ):
+                raise Exception( 'writelineEntriesVcprojAsStruct: Version is incompatible with vcpHdr.entryNameValueDict[ \'Version\' ].  It should be: %s == %s' % ( entryValue, vcpHdr.version_vc_project ) )
+            line = '\t%s=\"%s\"\n' % ( entryName, entryValue )
+            lines.append( line )
         lines[-1] = lines[-1].rstrip() + '>\n'
+
 
         lines.append( '\t<Platforms>\n' )
 
@@ -4125,9 +4257,9 @@ class DspFile( GenericFile ):
         lines.append( '\t<Files>\n' )
 
         #vcpFiles.filtergroupNameValueDict[ 'source files' ].fileNameFileDict[ 'actions.cpp' ].fileConfigNameSectionsDict
-        for filtergroup_name in vcpFiles.filtergroupNamesList:
+        for filtergroup_name in vcpFilesMaster.filtergroupNamesList:
             filtergroupNameLwr = filtergroup_name.lower()
-            vcpFiltergrp = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
+            vcpFiltergrp = vcpFilesMaster.filtergroupNameValueDict[ filtergroupNameLwr ]
 
             lines.append( '\t\t<Filter\n' )
 
@@ -4381,13 +4513,23 @@ class DspFile( GenericFile ):
                     self.projectName = m_configuration.group('projectName')
                     self.platform    = m_configuration.group('platform').rstrip()  # we don't really need it
                     self.configFullName  = m_configuration.group('configFullName') # GTK Debug
-                    self.configFullNameList.append( self.configName )
-                    m_confignamesplit = re_confignamesplit.match( self.configFullName )
-                    if ( m_confignamesplit ):
-                        self.configName  = m_confignamesplit.group('configName')
+                    #self.configFullNameList.append( self.configName )
+                    self.configFullNameList.append( self.configFullName )
+                    if ( self.configFullName ):
+                        splitlist = self.configFullName.split()
+                        if ( 1 < len( splitlist ) ):
+                            self.configName = ' '.join( splitlist[1:] )
+                        else:
+                            self.configName = self.configFullName
                         self.configNameList.append( self.configName )
                     else:
                         raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+                    #m_confignamesplit = re_confignamesplit.match( self.configFullName )
+                    #if ( m_confignamesplit ):
+                    #    self.configName  = m_confignamesplit.group('configName')
+                    #    self.configNameList.append( self.configName )
+                    #else:
+                    #    raise Exception( 'getOutputTypeAndDir: unable to split the configFullName (%s) in its parts )' % self.configFullName )
                     continue
 
             #* Modify 'PROP Intermediate_Dir "vc6/ReleaseDLL\obj"' and set intermediateDir
@@ -4480,12 +4622,23 @@ class DspFile( GenericFile ):
                         self.projectName = m_configuration.group('projectName')
                         self.platform    = m_configuration.group('platform').rstrip() # we don't really need it
                         self.configFullName  = m_configuration.group('configFullName')
-                        m_confignamesplit = re_confignamesplit.match( self.configFullName )
-                        if ( m_confignamesplit ):
-                            self.configName  = m_confignamesplit.group('configName')
+                        #m_confignamesplit = re_confignamesplit.match( self.configFullName )
+                        
+                        if ( self.configFullName ):
+                            splitlist = self.configFullName.split()
+                            if ( 1 < len( splitlist ) ):
+                                self.configName = ' '.join( splitlist[1:] )
+                            else:
+                                self.configName = self.configFullName
                             self.configNameList.append( self.configName )
                         else:
                             raise Exception( 'modifyLines: unable to split the configFullName (%s) in its parts )' % self.configFullName )
+                        
+                        #if ( self.configFullName ):
+                        #    self.configName  = m_confignamesplit.group('configName')
+                        #    self.configNameList.append( self.configName )
+                        #else:
+                        #    raise Exception( 'modifyLines: unable to split the configFullName (%s) in its parts )' % self.configFullName )
                         #continue # why this was here ???
 
                         self.checkSetDebug()
@@ -5411,7 +5564,7 @@ class Workspace( DspFile ):
                         wsp.reformatDswSave( wspOld, newCompiler, newFilenameDsw )
                     else:
                         if ( os.path.exists( newFilenameDsw ) ):
-                            #os.remove( newFilenameDsw ) #%%%
+                            #os.remove( newFilenameDsw ) #%%% # wait before removing the solutions !
                             pass
                 else:
                     wspOld = self
