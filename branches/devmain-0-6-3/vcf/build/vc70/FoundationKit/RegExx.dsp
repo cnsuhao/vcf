@@ -23,6 +23,8 @@ CFG=RegExx - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -83,27 +85,30 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\..\src\Utils\get.c
+SOURCE=..\..\..\thirdparty\common\pcre\get.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Utils\maketables.c
+SOURCE=..\..\..\thirdparty\common\pcre\maketables.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Utils\pcre.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\Utils\pcreposix.c
+SOURCE=..\..\..\thirdparty\common\pcre\pcre.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\Utils\regexx.cpp
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\Utils\study.c
+SOURCE=..\..\..\thirdparty\common\pcre\study.c
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -111,19 +116,134 @@ SOURCE=..\..\..\src\Utils\study.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\..\include\utils\internal.h
+SOURCE=..\..\..\thirdparty\common\pcre\internal.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\utils\pcre.h
+SOURCE=..\..\..\thirdparty\common\pcre\pcre.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\utils\pcreposix.h
+SOURCE=..\..\..\thirdparty\common\pcre\pcreposix.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\regexx.h
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+!ENDIF 
+
+# End Source File
+# End Group
+# Begin Group "tmp"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\get.c
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\internal.h
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\maketables.c
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\pcre.c
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\pcre.h
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\pcreposix.c
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\utils\pcreposix.h
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\Utils\study.c
+
+!IF  "$(CFG)" == "RegExx - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "RegExx - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # End Group
 # End Target
