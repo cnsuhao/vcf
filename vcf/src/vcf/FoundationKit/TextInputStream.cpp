@@ -119,7 +119,7 @@ void TextInputStream::readLine( String& line )
 		inStream_->read( &c, sizeof(c) );
 		totCharRead_++;
 
-		while ( (c != '\n' && c!= '\r') && (totCharRead_ < size_) )
+		while ( (c != '\n' && c!= '\r') && (totCharRead_ <= size_) )
 		{
 			line += c;
 			inStream_->read( &c, sizeof(c) );
@@ -130,11 +130,14 @@ void TextInputStream::readLine( String& line )
 		// line += c;
 
 		//last character!
-		if ( (c == '\n' || c == '\r') && (totCharRead_ < size_) ) {
+		if ( c == '\r' && (totCharRead_ <= size_) ) {
 			inStream_->read( &c, sizeof(c) );
 			totCharRead_++;
-			// commented: we don't want the cr/lf in the string
-			// line += c;
+			if ( c != '\n' ) {
+				//back up 1
+				totCharRead_--;
+				inStream_->seek( inStream_->getCurrentSeekPos() - sizeof(c), stSeekFromStart );
+			}
 		}
 	}
 }
@@ -195,7 +198,7 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.7  2004/06/28 14:49:46  marcelloptr
+*Revision 1.1.2.8  2004/06/28 20:04:11  marcelloptr
 *fixed readLine so it reads cr/lf but it doesn't include it in the string
 *
 *Revision 1.1.2.6  2004/06/27 17:59:52  ddiego
