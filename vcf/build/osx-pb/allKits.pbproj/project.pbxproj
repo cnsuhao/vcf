@@ -17,6 +17,38 @@
 			settings = {
 			};
 		};
+		5E07A95205E6BF9700A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXLocalePeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXLocalePeer.cpp;
+			refType = 0;
+		};
+		5E07A95305E6BF9700A8020D = {
+			fileRef = 5E07A95205E6BF9700A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E07A95405E6C06100A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = OSXLocalePeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementerKit/OSXLocalePeer.h;
+			refType = 0;
+		};
+		5E07A95505E6C06100A8020D = {
+			fileRef = 5E07A95405E6C06100A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E07A95605E6CD6F00A8020D = {
+			fileRef = 5EB3AF9604B5D44700A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E16D77904A4B96000A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -27,8 +59,8 @@
 		5E16D77A04A4B96000A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXFilePeer.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXFilePeer.mm;
+			name = OSXFilePeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXFilePeer.cpp;
 			refType = 0;
 		};
 		5E16D77B04A4B96000A8020D = {
@@ -62,8 +94,8 @@
 		5E16D77F04A4B96000A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXProcessPeer.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXProcessPeer.mm;
+			name = OSXProcessPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXProcessPeer.cpp;
 			refType = 0;
 		};
 		5E16D78004A4B96000A8020D = {
@@ -83,8 +115,8 @@
 		5E16D78204A4B96000A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXSystemPeer.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXSystemPeer.mm;
+			name = OSXSystemPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXSystemPeer.cpp;
 			refType = 0;
 		};
 		5E16D78304A4B96000A8020D = {
@@ -302,7 +334,6 @@
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)../thirdparty/common/pcre\" \"$(VCF_INCLUDE)\"";
 				INSTALL_PATH = "";
 				LIBRARY_STYLE = STATIC;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -426,9 +457,7 @@
 		5E4931B30465DE9C00A8020D = {
 			children = (
 				5E4931B60465DF9800A8020D,
-				5E4931B80465DFD500A8020D,
 				5E011622047C8E0200A8020D,
-				5EB3AF9E04B5F14100A8020D,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libs";
@@ -447,17 +476,256 @@
 			settings = {
 			};
 		};
-		5E4931B80465DFD500A8020D = {
-			isa = PBXFrameworkReference;
-			name = Foundation.framework;
-			path = /System/Library/Frameworks/Foundation.framework;
+		5E4CA09205E6AC7400A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Class.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/rtti/Class.cpp;
 			refType = 0;
 		};
-		5E4931B90465DFD500A8020D = {
-			fileRef = 5E4931B80465DFD500A8020D;
+		5E4CA09305E6AC7400A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = ClassRegistry.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/rtti/ClassRegistry.cpp;
+			refType = 0;
+		};
+		5E4CA09405E6AC7400A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = InterfaceClass.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/rtti/InterfaceClass.cpp;
+			refType = 0;
+		};
+		5E4CA09505E6AC7400A8020D = {
+			fileRef = 5E4CA09205E6AC7400A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		5E4CA09605E6AC7400A8020D = {
+			fileRef = 5E4CA09305E6AC7400A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA09705E6AC7400A8020D = {
+			fileRef = 5E4CA09405E6AC7400A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA09805E6ACB100A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = DateTime.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/utils/DateTime.cpp;
+			refType = 0;
+		};
+		5E4CA09905E6ACB100A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Dictionary.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/utils/Dictionary.cpp;
+			refType = 0;
+		};
+		5E4CA09A05E6ACB100A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = MessageLoader.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/utils/MessageLoader.cpp;
+			refType = 0;
+		};
+		5E4CA09B05E6ACB100A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = TextCodec.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/utils/TextCodec.cpp;
+			refType = 0;
+		};
+		5E4CA09C05E6ACB100A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = VCFString.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/utils/VCFString.cpp;
+			refType = 0;
+		};
+		5E4CA09D05E6ACB100A8020D = {
+			fileRef = 5E4CA09805E6ACB100A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA09E05E6ACB100A8020D = {
+			fileRef = 5E4CA09905E6ACB100A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA09F05E6ACB100A8020D = {
+			fileRef = 5E4CA09A05E6ACB100A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0A005E6ACB100A8020D = {
+			fileRef = 5E4CA09B05E6ACB100A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0A105E6ACB100A8020D = {
+			fileRef = 5E4CA09C05E6ACB100A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0A205E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Class.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/Class.h;
+			refType = 0;
+		};
+		5E4CA0A305E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = ClassInfo.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/ClassInfo.h;
+			refType = 0;
+		};
+		5E4CA0A405E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = ClassRegistry.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/ClassRegistry.h;
+			refType = 0;
+		};
+		5E4CA0A505E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Enum.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/Enum.h;
+			refType = 0;
+		};
+		5E4CA0A605E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Field.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/Field.h;
+			refType = 0;
+		};
+		5E4CA0A705E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = InterfaceClass.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/InterfaceClass.h;
+			refType = 0;
+		};
+		5E4CA0A805E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Method.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/Method.h;
+			refType = 0;
+		};
+		5E4CA0A905E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Property.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/Property.h;
+			refType = 0;
+		};
+		5E4CA0AA05E6ACFD00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = VCFRTTIImpl.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/rtti/VCFRTTIImpl.h;
+			refType = 0;
+		};
+		5E4CA0AB05E6ACFD00A8020D = {
+			fileRef = 5E4CA0A205E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0AC05E6ACFD00A8020D = {
+			fileRef = 5E4CA0A305E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0AD05E6ACFD00A8020D = {
+			fileRef = 5E4CA0A405E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0AE05E6ACFD00A8020D = {
+			fileRef = 5E4CA0A505E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0AF05E6ACFD00A8020D = {
+			fileRef = 5E4CA0A605E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0B005E6ACFD00A8020D = {
+			fileRef = 5E4CA0A705E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0B105E6ACFD00A8020D = {
+			fileRef = 5E4CA0A805E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0B205E6ACFD00A8020D = {
+			fileRef = 5E4CA0A905E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0B305E6ACFD00A8020D = {
+			fileRef = 5E4CA0AA05E6ACFD00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0B405E6B52400A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = VariantData.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/core/VariantData.cpp;
+			refType = 0;
+		};
+		5E4CA0B505E6B52400A8020D = {
+			fileRef = 5E4CA0B405E6B52400A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0B605E6B54000A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = StringsMessageLoader.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/utils/StringsMessageLoader.cpp;
+			refType = 0;
+		};
+		5E4CA0B705E6B54000A8020D = {
+			fileRef = 5E4CA0B605E6B54000A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CA0BC05E6B84F00A8020D = {
+			isa = PBXTargetDependency;
+			target = 5EB3AEBD04B5C19200A8020D;
 		};
 		5E97487F047DC0F500A8020D = {
 			fileEncoding = 4;
@@ -510,12 +778,12 @@
 				5E9B105104A7BF9900A8020D,
 				5E9B105204A7BF9900A8020D,
 				5E9B105304A7BF9900A8020D,
-				5E9B105404A7BF9900A8020D,
 				5E9B105504A7BF9900A8020D,
 				5E9B108F04A7C0A800A8020D,
 				5E9B109104A7C0BE00A8020D,
 				5E9B109204A7C0BE00A8020D,
 				5EB3AF8904B5C74100A8020D,
+				5EF89BEC05C372A700A8020D,
 			);
 			isa = PBXGroup;
 			name = Source;
@@ -534,7 +802,6 @@
 				5E9B102104A7BF4100A8020D,
 				5E9B102204A7BF4100A8020D,
 				5E9B102304A7BF4100A8020D,
-				5E9B102404A7BF4100A8020D,
 				5E9B102504A7BF4100A8020D,
 				5E9B102604A7BF4100A8020D,
 				5E9B102704A7BF4100A8020D,
@@ -547,9 +814,9 @@
 				5E9B102E04A7BF4100A8020D,
 				5E9B102F04A7BF4100A8020D,
 				5E9B103104A7BF4100A8020D,
-				5E9B103204A7BF4100A8020D,
 				5E9B103304A7BF4100A8020D,
 				5E9B103404A7BF4100A8020D,
+				5ED0698405E8502600A8020D,
 			);
 			isa = PBXGroup;
 			name = Headers;
@@ -630,13 +897,6 @@
 			isa = PBXFileReference;
 			name = Color.h;
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/graphics/Color.h;
-			refType = 0;
-		};
-		5E9B102404A7BF4100A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Curve.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/graphics/Curve.h;
 			refType = 0;
 		};
 		5E9B102504A7BF4100A8020D = {
@@ -723,13 +983,6 @@
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/graphics/PixelBuffer.h;
 			refType = 0;
 		};
-		5E9B103204A7BF4100A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Polygon.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/graphics/Polygon.h;
-			refType = 0;
-		};
 		5E9B103304A7BF4100A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -793,13 +1046,6 @@
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/graphics/Matrix2D.cpp;
 			refType = 0;
 		};
-		5E9B105404A7BF9900A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Polygon.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/graphics/Polygon.cpp;
-			refType = 0;
-		};
 		5E9B105504A7BF9900A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -821,7 +1067,6 @@
 				5E9B107204A7C06D00A8020D,
 				5E9B107304A7C06E00A8020D,
 				5E9B107404A7C07600A8020D,
-				5E9B107504A7C07800A8020D,
 				5E9B107604A7C07800A8020D,
 				5E9B107704A7C07900A8020D,
 				5E9B107804A7C07900A8020D,
@@ -834,13 +1079,13 @@
 				5E9B107F04A7C07D00A8020D,
 				5E9B108004A7C07E00A8020D,
 				5E9B108204A7C08000A8020D,
-				5E9B108304A7C08100A8020D,
 				5E9B108404A7C08200A8020D,
 				5E9B108504A7C08300A8020D,
 				5EB3AF8F04B5D42700A8020D,
 				5EB3AF9004B5D42700A8020D,
 				5EB3AF9104B5D42700A8020D,
 				5EB3AF9204B5D42700A8020D,
+				5ED0698505E8502600A8020D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -862,7 +1107,6 @@
 				5E9B108A04A7C08C00A8020D,
 				5E9B108B04A7C08C00A8020D,
 				5E9B108C04A7C08D00A8020D,
-				5E9B108D04A7C08D00A8020D,
 				5E9B108E04A7C08E00A8020D,
 				5E9B109004A7C0A800A8020D,
 				5E9B109304A7C0BE00A8020D,
@@ -871,6 +1115,8 @@
 				5EB3AF9704B5D44700A8020D,
 				5E44A89904B8AF7500A8020D,
 				5EF8243504B8B47D00A8020D,
+				5EF89BED05C372A700A8020D,
+				5E07A95605E6CD6F00A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,10 +1124,10 @@
 		5E9B106204A7BFD700A8020D = {
 			buildActionMask = 2147483647;
 			files = (
-				5EB3AF9D04B5F12200A8020D,
-				5EB3AF9F04B5F14100A8020D,
 				5E9B106704A7C04600A8020D,
 				5EB3AF8704B5C35D00A8020D,
+				5EC303CE05C3916800A8020D,
+				5EC303CF05C3916C00A8020D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -906,10 +1152,12 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\" \"$(VCF_INCLUDE)/../thirdparty/common/agg/include\"";
-				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX -D_DEBUG";
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
+				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX -D_DEBUG -Wno-multichar";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREFIX_HEADER = "$(VCF_INCLUDE)/GraphicsKit.h";
 				PRINCIPAL_CLASS = "";
 				PRODUCT_NAME = GraphicsKit;
 				SECTORDER_FLAGS = "";
@@ -917,7 +1165,7 @@
 				WRAPPER_EXTENSION = framework;
 			};
 			dependencies = (
-				5EB3AF8804B5C59200A8020D,
+				5E4CA0BC05E6B84F00A8020D,
 				5E9B106804A7C05900A8020D,
 			);
 			isa = PBXFrameworkTarget;
@@ -1036,12 +1284,6 @@
 			settings = {
 			};
 		};
-		5E9B107504A7C07800A8020D = {
-			fileRef = 5E9B102404A7BF4100A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E9B107604A7C07800A8020D = {
 			fileRef = 5E9B102504A7BF4100A8020D;
 			isa = PBXBuildFile;
@@ -1114,12 +1356,6 @@
 			settings = {
 			};
 		};
-		5E9B108304A7C08100A8020D = {
-			fileRef = 5E9B103204A7BF4100A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E9B108404A7C08200A8020D = {
 			fileRef = 5E9B103304A7BF4100A8020D;
 			isa = PBXBuildFile;
@@ -1170,12 +1406,6 @@
 		};
 		5E9B108C04A7C08D00A8020D = {
 			fileRef = 5E9B105304A7BF9900A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E9B108D04A7C08D00A8020D = {
-			fileRef = 5E9B105404A7BF9900A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1483,9 +1713,9 @@
 				5EB3AF8104B5C32E00A8020D,
 				5EB3AF8204B5C32E00A8020D,
 				5EB3AF8304B5C32E00A8020D,
-				5EB3AF8404B5C32E00A8020D,
-				5EB3AF8504B5C32E00A8020D,
 				5EB3AF8604B5C32E00A8020D,
+				5EF89BEF05C374AA00A8020D,
+				5EF89BF105C374F600A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1515,6 +1745,7 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)/../thirdparty/common/agg/include\" \"$(VCF_INCLUDE)\"";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
 				LIBRARY_STYLE = STATIC;
 				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX -D_DEBUG";
@@ -1562,9 +1793,9 @@
 				5EB3AF7904B5C32E00A8020D,
 				5EB3AF7A04B5C32E00A8020D,
 				5EB3AF7B04B5C32E00A8020D,
-				5EB3AF7C04B5C32E00A8020D,
-				5EB3AF7D04B5C32E00A8020D,
 				5EB3AF7E04B5C32E00A8020D,
+				5EF89BEE05C374AA00A8020D,
+				5EF89BF005C374F600A8020D,
 			);
 			isa = PBXGroup;
 			name = src;
@@ -2830,20 +3061,6 @@
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/thirdparty/common/agg/src/agg_path_storage.cpp;
 			refType = 0;
 		};
-		5EB3AF7C04B5C32E00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = agg_rasterizer.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/thirdparty/common/agg/src/agg_rasterizer.cpp;
-			refType = 0;
-		};
-		5EB3AF7D04B5C32E00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = agg_rendering_buffer.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/thirdparty/common/agg/src/agg_rendering_buffer.cpp;
-			refType = 0;
-		};
 		5EB3AF7E04B5C32E00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2881,18 +3098,6 @@
 			settings = {
 			};
 		};
-		5EB3AF8404B5C32E00A8020D = {
-			fileRef = 5EB3AF7C04B5C32E00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EB3AF8504B5C32E00A8020D = {
-			fileRef = 5EB3AF7D04B5C32E00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EB3AF8604B5C32E00A8020D = {
 			fileRef = 5EB3AF7E04B5C32E00A8020D;
 			isa = PBXBuildFile;
@@ -2904,10 +3109,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		5EB3AF8804B5C59200A8020D = {
-			isa = PBXTargetDependency;
-			target = 5EB3AEBD04B5C19200A8020D;
 		};
 		5EB3AF8904B5C74100A8020D = {
 			fileEncoding = 30;
@@ -2977,29 +3178,29 @@
 		5EB3AF9304B5D44700A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXContext.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXContext.mm;
+			name = OSXContext.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXContext.cpp;
 			refType = 0;
 		};
 		5EB3AF9404B5D44700A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXFont.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXFont.mm;
+			name = OSXFont.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXFont.cpp;
 			refType = 0;
 		};
 		5EB3AF9504B5D44700A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXGraphicsToolkit.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXGraphicsToolkit.mm;
+			name = OSXGraphicsToolkit.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXGraphicsToolkit.cpp;
 			refType = 0;
 		};
 		5EB3AF9604B5D44700A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			name = OSXImage.mm;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXImage.mm;
+			name = OSXImage.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/implementerkit/OSXImage.cpp;
 			refType = 0;
 		};
 		5EB3AF9704B5D44700A8020D = {
@@ -3008,20 +3209,14 @@
 			settings = {
 			};
 		};
-		5EB3AF9D04B5F12200A8020D = {
-			fileRef = 5E4931B80465DFD500A8020D;
+		5EC303CE05C3916800A8020D = {
+			fileRef = 5E011622047C8E0200A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		5EB3AF9E04B5F14100A8020D = {
-			isa = PBXFrameworkReference;
-			name = AppKit.framework;
-			path = /System/Library/Frameworks/AppKit.framework;
-			refType = 0;
-		};
-		5EB3AF9F04B5F14100A8020D = {
-			fileRef = 5EB3AF9E04B5F14100A8020D;
+		5EC303CF05C3916C00A8020D = {
+			fileRef = 5E4931B60465DF9800A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3110,18 +3305,12 @@
 				5EC58EC40465D96400A8020D,
 				5EC58EC50465D96400A8020D,
 				5EC58F250465DABB00A8020D,
-				5EC58F260465DABB00A8020D,
-				5EC58F270465DABB00A8020D,
-				5EC58F280465DABB00A8020D,
 				5EC58F290465DABB00A8020D,
 				5EC58F2A0465DABB00A8020D,
 				5EC58F2B0465DABB00A8020D,
-				5EC58F2C0465DABB00A8020D,
 				5EC58F2D0465DABB00A8020D,
 				5EC58F2E0465DABB00A8020D,
 				5EC58F2F0465DABB00A8020D,
-				5EC58F310465DABB00A8020D,
-				5EC58F320465DABB00A8020D,
 				5EC58F330465DABB00A8020D,
 				5EC58F350465DABB00A8020D,
 				5EC58F360465DABB00A8020D,
@@ -3208,6 +3397,16 @@
 				5EA68980046D4E7D00A8020D,
 				5E974880047DC0F500A8020D,
 				5E20855A04A7533000A8020D,
+				5E4CA0AB05E6ACFD00A8020D,
+				5E4CA0AC05E6ACFD00A8020D,
+				5E4CA0AD05E6ACFD00A8020D,
+				5E4CA0AE05E6ACFD00A8020D,
+				5E4CA0AF05E6ACFD00A8020D,
+				5E4CA0B005E6ACFD00A8020D,
+				5E4CA0B105E6ACFD00A8020D,
+				5E4CA0B205E6ACFD00A8020D,
+				5E4CA0B305E6ACFD00A8020D,
+				5E07A95505E6C06100A8020D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3222,9 +3421,6 @@
 		5EC58EBC0465D93300A8020D = {
 			buildActionMask = 2147483647;
 			files = (
-				5EC58FCF0465DCE800A8020D,
-				5EC58FD00465DCE800A8020D,
-				5EC58FD10465DCE800A8020D,
 				5EC58FD20465DCE800A8020D,
 				5EC58FD30465DCE800A8020D,
 				5EC58FD50465DCE800A8020D,
@@ -3273,6 +3469,17 @@
 				5E16D78F04A4B96000A8020D,
 				5E16D79004A4B96000A8020D,
 				5E20855804A7530800A8020D,
+				5E4CA09505E6AC7400A8020D,
+				5E4CA09605E6AC7400A8020D,
+				5E4CA09705E6AC7400A8020D,
+				5E4CA09D05E6ACB100A8020D,
+				5E4CA09E05E6ACB100A8020D,
+				5E4CA09F05E6ACB100A8020D,
+				5E4CA0A005E6ACB100A8020D,
+				5E4CA0A105E6ACB100A8020D,
+				5E4CA0B505E6B52400A8020D,
+				5E4CA0B705E6B54000A8020D,
+				5E07A95305E6BF9700A8020D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3282,7 +3489,6 @@
 			files = (
 				5E4931B70465DF9800A8020D,
 				5E20855E04A75B1500A8020D,
-				5E4931B90465DFD500A8020D,
 				5E011623047C8E0200A8020D,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -3310,7 +3516,7 @@
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX -D_DEBUG";
+				OTHER_CFLAGS = "-DVCF_GCC -DVCF_OSX -D_DEBUG -Wno-multichar";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3354,7 +3560,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.0.1d1</string>
+	<string>0.6.3</string>
 </dict>
 </plist>
 ";
@@ -3408,27 +3614,6 @@
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/VCFMath.h;
 			refType = 0;
 		};
-		5EC58F130465DABB00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Property.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/Property.h;
-			refType = 0;
-		};
-		5EC58F140465DABB00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Method.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/Method.h;
-			refType = 0;
-		};
-		5EC58F150465DABB00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = InterfaceClass.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/InterfaceClass.h;
-			refType = 0;
-		};
 		5EC58F160465DABB00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3450,13 +3635,6 @@
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/FoundationKitSelectLib.h;
 			refType = 0;
 		};
-		5EC58F190465DABB00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Class.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/Class.h;
-			refType = 0;
-		};
 		5EC58F1A0465DABB00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3476,20 +3654,6 @@
 			isa = PBXFileReference;
 			name = Object.h;
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/Object.h;
-			refType = 0;
-		};
-		5EC58F1E0465DABB00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = ClassInfo.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/ClassInfo.h;
-			refType = 0;
-		};
-		5EC58F1F0465DABB00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = ClassRegistry.h;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/core/ClassRegistry.h;
 			refType = 0;
 		};
 		5EC58F200465DABB00A8020D = {
@@ -3519,24 +3683,6 @@
 			settings = {
 			};
 		};
-		5EC58F260465DABB00A8020D = {
-			fileRef = 5EC58F130465DABB00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EC58F270465DABB00A8020D = {
-			fileRef = 5EC58F140465DABB00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EC58F280465DABB00A8020D = {
-			fileRef = 5EC58F150465DABB00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EC58F290465DABB00A8020D = {
 			fileRef = 5EC58F160465DABB00A8020D;
 			isa = PBXBuildFile;
@@ -3555,12 +3701,6 @@
 			settings = {
 			};
 		};
-		5EC58F2C0465DABB00A8020D = {
-			fileRef = 5EC58F190465DABB00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EC58F2D0465DABB00A8020D = {
 			fileRef = 5EC58F1A0465DABB00A8020D;
 			isa = PBXBuildFile;
@@ -3575,18 +3715,6 @@
 		};
 		5EC58F2F0465DABB00A8020D = {
 			fileRef = 5EC58F1C0465DABB00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EC58F310465DABB00A8020D = {
-			fileRef = 5EC58F1E0465DABB00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EC58F320465DABB00A8020D = {
-			fileRef = 5EC58F1F0465DABB00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3616,10 +3744,7 @@
 				5EC58F790465DC1E00A8020D,
 				5EC58F810465DC1E00A8020D,
 				5EC58F440465DB8400A8020D,
-				5EC58F190465DABB00A8020D,
-				5EC58F1E0465DABB00A8020D,
 				5EC58F4A0465DB8400A8020D,
-				5EC58F1F0465DABB00A8020D,
 				5E97487F047DC0F500A8020D,
 				5EC58F220465DABB00A8020D,
 				5EC58F970465DC6700A8020D,
@@ -3645,7 +3770,6 @@
 				5EC58F180465DABB00A8020D,
 				5EC58F230465DABB00A8020D,
 				5EC58F160465DABB00A8020D,
-				5EC58F150465DABB00A8020D,
 				5EC58F470465DB8400A8020D,
 				5EC58F480465DB8400A8020D,
 				5EC58F4F0465DB8400A8020D,
@@ -3655,7 +3779,6 @@
 				5EC58FA70465DC6700A8020D,
 				5EC58F750465DC1E00A8020D,
 				5EC58F760465DC1E00A8020D,
-				5EC58F140465DABB00A8020D,
 				5EC58FA40465DC6700A8020D,
 				5EC58F690465DBDA00A8020D,
 				5EC58F4E0465DB8400A8020D,
@@ -3672,7 +3795,6 @@
 				5EC58F680465DBDA00A8020D,
 				5EC58F670465DBDA00A8020D,
 				5EC58FAD0465DC6700A8020D,
-				5EC58F130465DABB00A8020D,
 				5EC58F510465DB8400A8020D,
 				5EC58FA10465DC6700A8020D,
 				5EC58F660465DBDA00A8020D,
@@ -3699,6 +3821,15 @@
 				5EC58F1A0465DABB00A8020D,
 				5EC58F830465DC1E00A8020D,
 				5EC58FA60465DC6700A8020D,
+				5E4CA0A205E6ACFD00A8020D,
+				5E4CA0A305E6ACFD00A8020D,
+				5E4CA0A405E6ACFD00A8020D,
+				5E4CA0A505E6ACFD00A8020D,
+				5E4CA0A605E6ACFD00A8020D,
+				5E4CA0A705E6ACFD00A8020D,
+				5E4CA0A805E6ACFD00A8020D,
+				5E4CA0A905E6ACFD00A8020D,
+				5E4CA0AA05E6ACFD00A8020D,
 			);
 			isa = PBXGroup;
 			name = Headers;
@@ -3710,8 +3841,6 @@
 				5EC58FE10465DD1D00A8020D,
 				5EC58FEB0465DD4100A8020D,
 				5EC58FE80465DD4100A8020D,
-				5EC58FC70465DCE800A8020D,
-				5EC58FC60465DCE800A8020D,
 				5E974881047DC4DE00A8020D,
 				5EC590020465DD7400A8020D,
 				5EC58FE90465DD4100A8020D,
@@ -3722,7 +3851,6 @@
 				5EC5900C0465DD7400A8020D,
 				5EC58FE60465DD4100A8020D,
 				5EC58FC90465DCE800A8020D,
-				5EC58FC50465DCE800A8020D,
 				5EC590010465DD7400A8020D,
 				5EC58FC80465DCE800A8020D,
 				5EC58FE30465DD4100A8020D,
@@ -3745,6 +3873,16 @@
 				5EC58FCD0465DCE800A8020D,
 				5EC590000465DD7400A8020D,
 				5EC58FF70465DD7400A8020D,
+				5E4CA09205E6AC7400A8020D,
+				5E4CA09305E6AC7400A8020D,
+				5E4CA09405E6AC7400A8020D,
+				5E4CA09805E6ACB100A8020D,
+				5E4CA09905E6ACB100A8020D,
+				5E4CA09A05E6ACB100A8020D,
+				5E4CA09B05E6ACB100A8020D,
+				5E4CA09C05E6ACB100A8020D,
+				5E4CA0B405E6B52400A8020D,
+				5E4CA0B605E6B54000A8020D,
 			);
 			isa = PBXGroup;
 			name = Source;
@@ -4154,6 +4292,8 @@
 				5EA6894F046D4B2E00A8020D,
 				5E16D78404A4B96000A8020D,
 				5EA6896B046D4E7D00A8020D,
+				5E07A95205E6BF9700A8020D,
+				5E07A95405E6C06100A8020D,
 			);
 			isa = PBXGroup;
 			name = Peers;
@@ -4679,27 +4819,6 @@
 			settings = {
 			};
 		};
-		5EC58FC50465DCE800A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = InterfaceClass.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/core/InterfaceClass.cpp;
-			refType = 0;
-		};
-		5EC58FC60465DCE800A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = ClassRegistry.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/core/ClassRegistry.cpp;
-			refType = 0;
-		};
-		5EC58FC70465DCE800A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Class.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/core/Class.cpp;
-			refType = 0;
-		};
 		5EC58FC80465DCE800A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4734,24 +4853,6 @@
 			name = VCFMath.cpp;
 			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/core/VCFMath.cpp;
 			refType = 0;
-		};
-		5EC58FCF0465DCE800A8020D = {
-			fileRef = 5EC58FC50465DCE800A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EC58FD00465DCE800A8020D = {
-			fileRef = 5EC58FC60465DCE800A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EC58FD10465DCE800A8020D = {
-			fileRef = 5EC58FC70465DCE800A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		5EC58FD20465DCE800A8020D = {
 			fileRef = 5EC58FC80465DCE800A8020D;
@@ -5160,8 +5261,60 @@
 			settings = {
 			};
 		};
+		5ED0698405E8502600A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = ContextPeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/include/implementer/ContextPeer.h;
+			refType = 0;
+		};
+		5ED0698505E8502600A8020D = {
+			fileRef = 5ED0698405E8502600A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EF8243504B8B47D00A8020D = {
 			fileRef = 5EB3AF9504B5D44700A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EF89BEC05C372A700A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = BezierCurve.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/graphics/BezierCurve.cpp;
+			refType = 0;
+		};
+		5EF89BED05C372A700A8020D = {
+			fileRef = 5EF89BEC05C372A700A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EF89BEE05C374AA00A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = agg_curves.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/thirdparty/common/agg/src/agg_curves.cpp;
+			refType = 0;
+		};
+		5EF89BEF05C374AA00A8020D = {
+			fileRef = 5EF89BEE05C374AA00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EF89BF005C374F600A8020D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = agg_rasterizer_scanline_aa.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/thirdparty/common/agg/src/agg_rasterizer_scanline_aa.cpp;
+			refType = 0;
+		};
+		5EF89BF105C374F600A8020D = {
+			fileRef = 5EF89BF005C374F600A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
