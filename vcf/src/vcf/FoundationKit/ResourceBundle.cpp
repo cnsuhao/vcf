@@ -53,6 +53,106 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 
 	if ( NULL == result ) {
 
+		String resDir = System::findResourceDirectory();
+
+		int pos = resDir.find( "Resources" );
+
+		if ( pos != String::npos ) {
+			resDir.erase( pos, resDir.size()-pos );
+			String infoFilename = resDir + "Info.plist";
+
+			bool found = false;
+			if ( File::exists( infoFilename ) ) {
+				found = true;
+			}
+			else {
+				infoFilename = resDir + "Info.xml";
+				if ( File::exists( infoFilename ) ) {
+					found = true;
+				}
+			}	
+
+			if ( found ) {
+				String name;
+				String author;
+				String copyright;
+				String company;
+				String description;
+				String programVersion;
+				String fileVersion;
+
+				XMLParser xmlParser;
+				FileInputStream fs(infoFilename);
+				xmlParser.parse( &fs );				
+				fs.close();
+
+				XMLNode* dictNode = NULL;
+				Enumerator<XMLNode*>* nodes = xmlParser.getParsedNodes();
+				while ( nodes->hasMoreElements() ) {
+					XMLNode* node = nodes->nextElement();
+					if ( node->getName() == L"plist" ) {
+						dictNode = node->getNodeByName( L"dict" );
+						break;
+					}
+				}
+
+				if ( NULL != dictNode ) {
+					nodes = dictNode->getChildNodes();
+					while ( nodes->hasMoreElements() ) {
+						XMLNode* node = nodes->nextElement();
+						XMLNode* val = NULL;
+
+						if ( nodes->hasMoreElements() ) {
+							val = nodes->nextElement();
+						}
+
+						if ( (NULL != val) && (node->getName() == "key") ) {
+							if ( node->getCDATA() == "CFBundleName" ) {
+								name = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "CFBundleDisplayName" ) {
+								name = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "CFBundleVersion" ) {
+								fileVersion = programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "CFBundleGetInfoString" ) {
+								copyright = programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "NSHumanReadableCopyright" ) {
+								copyright = programVersion = val->getCDATA();							
+							}
+
+							
+							//VCF cross platform keys
+							else if ( node->getCDATA() == "ProgramVersion" ) {
+								programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "FileVersion" ) {
+								programVersion = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "ProductName" ) {
+								name = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Copyright" ) {
+								copyright = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Author" ) {
+								author = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Company" ) {
+								author = val->getCDATA();
+							}
+							else if ( node->getCDATA() == "Description" ) {
+								description = val->getCDATA();
+							}
+						}
+					}
+
+					result = new ProgramInfo( name, author, copyright, company, description, programVersion, fileVersion );
+				}
+			}
+		}
 	}
 
 	return result;
@@ -65,6 +165,9 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/09/16 03:26:26  ddiego
+*fixed it so we can now get program information from a resource bundle. This can be embedded in the exe like in windows, or read from an external file a la OS X info.plist xml files.
+*
 *Revision 1.1.2.2  2004/09/15 21:14:28  ddiego
 *added support for getting program info from resource bundle.
 *

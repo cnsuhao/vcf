@@ -27,12 +27,16 @@ namespace VCF {
 						const String& author,
 						const String& copyright,
 						const String& company,
-						const String& description ):
+						const String& description,
+						const String& programVersion,
+						const String& fileVersion):
 							programName_(programName),
 							author_(author),
 							copyright_(copyright),
 							company_(company),
-							description_(description){}
+							description_(description),
+							programVersion_(programVersion),
+							fileVersion_(fileVersion){}
 
 
 
@@ -64,12 +68,22 @@ namespace VCF {
 		String getDescription() const  {
 			return description_;
 		}
+
+		String getFileVersion() const {
+			return fileVersion_;
+		}
+
+		String getProgramVersion() const {
+			return programVersion_;
+		}
 	protected:
 		String programName_;
 		String author_;
 		String copyright_;
 		String company_;
 		String description_;
+		String programVersion_;
+		String fileVersion_;
 	};
 
 
