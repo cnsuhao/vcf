@@ -3235,7 +3235,8 @@ class DspFile( GenericFile ):
         insideFileSection = False
 
         groupname = ''
-        filtergroup_level = 0
+        c_InitialLevel = 0
+        filtergroup_level = c_InitialLevel
         filtergroup_parent = None
         fgIdx = -1
 
@@ -3278,38 +3279,51 @@ class DspFile( GenericFile ):
                 if ( m_dsp_group_basic_beg ):
                     m_dsp_group = re_dsp_group.match( line )
                     if ( m_dsp_group ):
-                        filtergroup_level = filtergroup_level + 1
+                        #filtergroup_level = filtergroup_level + 1
 
                         dspData = DspGroupData()
                         groupname = m_dsp_group.group( 'groupname' )
                         dspData.groupname = groupname
 
+                        #if ( 0 <= fgIdx ):
                         # we need to know for each level what will be the level of the next item
-                        if ( 0 <= fgIdx ):
-                            #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                            vcpFiltergrp.filtergroup_level_next = filtergroup_level
+                                #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
+                                #vcpFiltergrp.filtergroup_level_next = filtergroup_level
 
-                        if ( 1 < filtergroup_level ):
-                            # it is a child
-                            filtergroup_parent = vcpFiltergrp
-                        else:
-                            filtergroup_parent = None
+                        #if ( vcpFiltergrp.filtergroup_level < filtergroup_level ):
+                        #    # it is a child
+                        #    filtergroup_parent = vcpFiltergrp
+                        #else:
+                        #    filtergroup_parent = None
+
+                        if ( 0 <= fgIdx ):
+                            previousFilterGroup = vcpFiltergrp
 
                         # new FilterGroup data
                         vcpFiltergrp = VcprojFilterGroupSectionData()
                         vcpFiltergrp.filtergroup_name = groupname
                         vcpFiltergrp.filtergroup_level = filtergroup_level
-                        vcpFiltergrp.filtergroup_level_next = filtergroup_level
+                        #vcpFiltergrp.filtergroup_level_next = filtergroup_level
 
-                        if ( filtergroup_parent ):
-                            vcpFiltergrp.attachToParent( filtergroup_parent )
-                        else:
+                        if ( c_InitialLevel == filtergroup_level ):
                             vcpFiles.filtergroupChildrenList.append( vcpFiltergrp )
+                        else:
+                            if ( previousFilterGroup.filtergroup_level < filtergroup_level ):
+                                vcpFiltergrp.attachToParent( previousFilterGroup )
+                                #vcpFiltergrp.parent = previousFilterGroup
+                                #if ( previousFilterGroup ):
+                                #    previousFilterGroup.childrenList.append( vcpFiltergrp )
+                            else:
+                                #siblings
+                                previousFilterGroup.parent.childrenList.append( vcpFiltergrp )
+                                vcpFiltergrp.parent = previousFilterGroup.parent
 
                         # store it immediately: it is a queue. So the order is preserved!
                         vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
                         fgIdx = fgIdx + 1
                         vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+
+                        filtergroup_level = filtergroup_level + 1
 
                     else:
                         raise Exception( 'getSouceEntriesDsp: reading group but not group + infos. File: \'%s\'. Line[%d]: \'%s\'' % ( self.filename, self.n, line.rstrip() ) )
@@ -3531,7 +3545,8 @@ class DspFile( GenericFile ):
         toolName = ''
 
         #groupname = ''
-        filtergroup_level = 0
+        c_InitialLevel = 0
+        filtergroup_level = c_InitialLevel
         filtergroup_parent = None
         fgIdx = -1
 
@@ -3862,35 +3877,35 @@ class DspFile( GenericFile ):
 
                 m_vcp_sectionFilter_beg = re_vcp_sectionFilter_beg.match( line )
                 if ( m_vcp_sectionFilter_beg ):
-                    filtergroup_level = filtergroup_level + 1
 
-                    # we need to know for each level what will be the level of the next item
                     if ( 0 <= fgIdx ):
-                        #fg = vcpFiles.filtergroupNameValueDict[ vcpFiles.filtergroupNamesList[ fgIdx ].lower() ]
-                        vcpFiltergrp.filtergroup_level_next = filtergroup_level
-
-
-                    if ( 1 < filtergroup_level ):
-                        # it is a child
-                        filtergroup_parent = vcpFiltergrp
-                    else:
-                        filtergroup_parent = None
+                        previousFilterGroup = vcpFiltergrp
 
                     # new FilterGroup data
                     vcpFiltergrp = VcprojFilterGroupSectionData()
                     #vcpFiltergrp.filtergroup_name = groupname
                     vcpFiltergrp.filtergroup_level = filtergroup_level
                     #vcpFiltergrp.filtergroup_level_next = filtergroup_level
-                    #vcpFiltergrp.attachToParent( filtergroup_parent )
 
-                    if ( filtergroup_parent ):
-                        vcpFiltergrp.attachToParent( filtergroup_parent )
-                    else:
+                    if ( c_InitialLevel == filtergroup_level ):
                         vcpFiles.filtergroupChildrenList.append( vcpFiltergrp )
+                    else:
+                        if ( previousFilterGroup.filtergroup_level < filtergroup_level ):
+                            vcpFiltergrp.attachToParent( previousFilterGroup )
+                            #vcpFiltergrp.parent = previousFilterGroup
+                            #if ( previousFilterGroup ):
+                            #    previousFilterGroup.childrenList.append( vcpFiltergrp )
+                        else:
+                            #siblings
+                            previousFilterGroup.parent.childrenList.append( vcpFiltergrp )
+                            vcpFiltergrp.parent = previousFilterGroup.parent
 
-                    # new FilterGroup data
-                    #vcpFiltergrp = VcprojFilterGroupSectionData()
-                    #vcpFiltergrp.filtergroup_level = filtergroup_level
+                    # store it immediately: it is a queue. So the order is preserved!
+                    vcpFiles.filtergroupNamesList.append( vcpFiltergrp.filtergroup_name )
+                    fgIdx = fgIdx + 1
+                    vcpFiles.filtergroupNameValueDict[ vcpFiltergrp.filtergroup_name.lower() ] = vcpFiltergrp
+
+                    filtergroup_level = filtergroup_level + 1
 
                     # store it immediately: it is a queue. So the order is preserved!
                     # well.. we store it when we have its name !
@@ -4434,7 +4449,8 @@ class DspFile( GenericFile ):
         for k in range( childrenListSize ):
             filtergroupName    = vcpFilesTemplate.filtergroupNamesList[ k ]
             filtergroupNameLwr = filtergroupName.lower()
-
+            #if ( self.filename.lower().find( 'localization' ) != -1 ): #%%%
+            #    x = 3
             # .... but their content is given by vcpFiles ( note: vcpFiles here, not vcpFilesTemplate )
             if ( vcpFiles.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
                 vcpFiltergrpChild = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
@@ -4453,7 +4469,7 @@ class DspFile( GenericFile ):
         #  ( note: vcpFilesTemplate here, not vcpFiles ) ...
 
         filtergroup = parent
-        
+
         filtergroupName      = filtergroup.filtergroup_name
         filtergroupNameLwr   = filtergroupName.lower()
         #indent = self.getIndent( filtergroupChild.filtergroup_level )
@@ -4486,7 +4502,7 @@ class DspFile( GenericFile ):
             lines[-1] = lines[-1].rstrip() + '>\n'
 
             # FileConfiguration
-            # lets take them in the same sort order as 
+            # lets take them in the same sort order as
             #for fileConfig_name in vcpFile.fileConfigNameSectionsDict:
             for fileConfig_name in vcpFile.fileConfigNamesList:
                 fileConfig_nameLwr = fileConfig_name.lower()
@@ -4534,11 +4550,11 @@ class DspFile( GenericFile ):
                                 if ( compilerVersionVc71 <= newCompilerVersion or \
                                         not g_mapToolEntriesOnlyVc71.has_key( entryName ) ):
                                     entryValue = vcpTool.entryNameValueDict[ entryName ]
-                                    
+
                                     # standard format
                                     if ( entryValue and g_mapPathEntries.has_key( entryName ) ):
                                         entryValue = FileUtils.normPath( entryValue, app.options.unixStyle, g_KeepFirstDot_False, g_MinPathIsDot_True, g_IsDirForSure_False )
-                                    
+
                                     line = '\t\t\t\t\t\t%s=\"%s\"\n' % ( entryName, entryValue )
                                     lines.append( indent + line )
                                     addedToolEntry = True
@@ -4555,26 +4571,32 @@ class DspFile( GenericFile ):
             lines.append( indent + '\t\t\t</File>\n' )
 
 
-            # here the recursion !
-            if ( filtergroup.hasChildren() ):
-                
-                # the order from the 'master'
-                childrenListSize = len( filtergroup.childrenList )
-                for k in range( childrenListSize ):
-                    filtergroupData     = filtergroup.childrenList[ k ]
-                    filtergroupName     = filtergroupData.filtergroup_name
-                    filtergroupNameLwr  = filtergroupName.lower()
-        
-                    # .... but their content is given by vcpFiles ( note: vcpFiles here, not vcpFilesTemplate )
-                    if ( vcpFiles.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
-                        filtergroupChild = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
-                    else:
-                        filtergroupChild = vcpFilesTemplate.filtergroupNameValueDict[ filtergroupNameLwr ]
-                
-                    indent = indent + '\t'
-                    self.writelineEntriesFilterGroupsChildren( lines, vcpFiles, newCompiler, vcpFilesTemplate, filtergroupChild, indent )
+        # here the recursion - after writing the file sections of itself
+        indentOld = indent
+        if ( filtergroup.hasChildren() ):
 
+            indent = indent + '\t'
 
+            # the order from the 'master'
+            childrenListSize = len( filtergroup.childrenList )
+            for k in range( childrenListSize ):
+                filtergroupData     = filtergroup.childrenList[ k ]
+                filtergroupName     = filtergroupData.filtergroup_name
+                filtergroupNameLwr  = filtergroupName.lower()
+
+                # .... but their content is given by vcpFiles ( note: vcpFiles here, not vcpFilesTemplate )
+                if ( vcpFiles.filtergroupNameValueDict.has_key( filtergroupNameLwr ) ):
+                    filtergroupChild = vcpFiles.filtergroupNameValueDict[ filtergroupNameLwr ]
+                else:
+                    filtergroupChild = vcpFilesTemplate.filtergroupNameValueDict[ filtergroupNameLwr ]
+
+                #if ( self.filename.lower().find( 'localization' ) != -1 ): #%%%
+                #    x = u
+                self.writelineEntriesFilterGroupsChildren( lines, vcpFiles, newCompiler, vcpFilesTemplate, filtergroupChild, indent )
+
+            #indent = indent[:-2] # remove the '\t' previously added
+
+        indent = indentOld
         lines.append( indent +  '\t\t</Filter>\n' )
 
         return
