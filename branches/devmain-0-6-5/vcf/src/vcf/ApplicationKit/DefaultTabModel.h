@@ -165,6 +165,10 @@ public:
      * clears out the model's data
      */
     virtual void empty(){};
+
+	virtual uint32 getPageCount() {
+		return pages_.size();
+	}
 protected:
 	std::vector<TabPage*> pages_;
 	EnumeratorContainer<std::vector<TabPage*>, TabPage*> container_;
@@ -177,6 +181,11 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

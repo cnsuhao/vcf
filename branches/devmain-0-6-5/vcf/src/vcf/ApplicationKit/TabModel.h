@@ -63,6 +63,8 @@ public:
 	virtual void setSelectedPage( const ulong32& index ) = 0;
 
 	virtual Enumerator<TabPage*>* getPages() = 0;
+
+	virtual uint32 getPageCount() = 0;
 };
 
 };
@@ -71,6 +73,11 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:30  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

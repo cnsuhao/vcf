@@ -156,18 +156,18 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->strokePath();
 	}
 
-	Rect tmpR = *paintRect;
-
-	tmpR.left_ = tmpR.left_ + (tmpR.getWidth()/2.0 - context->getTextWidth( pageName_ )/2.0);
-
-	tmpR.top_ = tmpR.top_ + (tmpR.getHeight()/2.0 - context->getTextHeight( "EM" )/2.0);
-
 	String text = pageName_;
 	if ( this->getUseLocaleStrings() ) {
 		text = System::getCurrentThreadLocale()->translate( pageName_ );
 	}
 
-	context->textBoundedBy( &tmpR, text, false );
+	Rect tmpR = *paintRect;
+
+	tmpR.inflate( -2, 0 );
+
+	
+	long flags = GraphicsContext::tdoCenterHorzAlign | GraphicsContext::tdoCenterVertAlign;
+	context->textBoundedBy( &tmpR, text, flags );
 
 	context->getCurrentFont()->setColor( &oldFontColor );
 
@@ -199,6 +199,11 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

@@ -373,7 +373,9 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 			result = paintDC;
 		}
 		else if ( true == peerControl_->isDoubleBuffered() ){
-			
+			Rect dirtyRect( paintRect.left,paintRect.top,paintRect.right,paintRect.bottom);
+			StringUtils::traceWithArgs( "WM_PAINT: dirtyRect: %s\n", dirtyRect.toString().c_str() );
+
 			memBMP_ = ::CreateCompatibleBitmap( paintDC,
 					paintRect.right - paintRect.left,
 					paintRect.bottom - paintRect.top );
@@ -1290,6 +1292,11 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.14  2004/07/17 17:56:24  ddiego
+*minor mods to the TableControl and the TabbedPages control
+*so that drawing updates get drawn better, and we don't have weird missing
+*artifacts.
+*
 *Revision 1.1.2.13  2004/07/16 04:01:45  ddiego
 *fixed the last of border redraw issues, I hope.
 *
