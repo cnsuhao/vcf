@@ -58,11 +58,11 @@ void RadioButtonControl::paint( GraphicsContext* context )
 		radioBtnRect.inflate( -3.0, -3.0 );
 	}
 
-	radioBtnRect.left_ += 3.0;
+	//radioBtnRect.left_ += 3.0;
 
-	radioBtnRect.right_ = radioBtnRect.left_ + radioBtnRect.getHeight();
+	//radioBtnRect.right_ = radioBtnRect.left_ + radioBtnRect.getHeight();
 
-	r.left_ = radioBtnRect.right_;
+	//r.left_ = radioBtnRect.right_;
 
 	ButtonState state;
 	state.setActive( true );
@@ -156,6 +156,10 @@ RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/11 22:08:06  ddiego
+*fixed an accidental checkin that resulted in scrolled
+*drawing not showing up correctly
+*
 *Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.

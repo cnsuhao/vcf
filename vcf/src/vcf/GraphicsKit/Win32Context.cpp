@@ -1141,13 +1141,24 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	RECT r = {0,0,0,0};
 	r.left = (long)rect->left_;
 	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
+	r.right = (long)(rect->left_ + rect->getHeight());
 	r.bottom = (long)rect->bottom_;
 	UINT chkState =  state.isToggled() ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
 
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
 
+	Rect tmp = *rect;
+	tmp.left_ = r.right + 3;
+	tmp.inflate( -1.0, -1.0 );
+
+	if ( state.isFocused() ) {
+		drawThemeFocusRect( &tmp, state );
+	}
+	
 	releaseHandle();
+
+
+	context_->textBoundedBy( &tmp, state.buttonCaption_, false );
 }
 
 void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
@@ -1157,13 +1168,24 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	RECT r = {0,0,0,0};
 	r.left = (long)rect->left_;
 	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
+	r.right = (long)(rect->left_ + rect->getHeight());
 	r.bottom = (long)rect->bottom_;
 	UINT btnState =  state.isToggled() ?  DFCS_BUTTONRADIO | DFCS_CHECKED : DFCS_BUTTONRADIO;
 
 	::DrawFrameControl( dc_, &r, DFC_BUTTON, btnState );
 
+	Rect tmp = *rect;
+	tmp.left_ = r.right + 3;
+	tmp.inflate( -1.0, -1.0 );
+
+	if ( state.isFocused() ) {
+		drawThemeFocusRect( &tmp, state );
+	}
+	
 	releaseHandle();
+
+
+	context_->textBoundedBy( &tmp, state.buttonCaption_, false );	
 }
 
 void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
@@ -2056,6 +2078,10 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/11 22:08:45  ddiego
+*fixed an accidental checkin that resulted in scrolled
+*drawing not showing up correctly
+*
 *Revision 1.1.2.6  2004/07/11 18:45:55  ddiego
 *some toolbar fixes, plus some other minor glithches fixed
 *
