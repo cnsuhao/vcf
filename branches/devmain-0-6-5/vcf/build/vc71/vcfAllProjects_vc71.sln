@@ -49,6 +49,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dictionaries", "..\..\examp
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocViewAdvanced", "..\..\examples\DocViewAdvanced\DocViewAdvanced_vc71.vcproj", "{a7b526e0-714c-4ea2-99d0-21eda96682ff}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocViewBasics", "..\..\examples\DocViewBasics\DocViewBasics_vc71.vcproj", "{7fff80e3-81cb-43c6-9131-ce61da63a340}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DragAndDrop", "..\..\examples\DragAndDrop\DragAndDrop_vc71.vcproj", "{A2C58E55-986F-4260-8EF6-0C3AEA3CDF72}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -91,6 +99,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{F88EEAD7-D118-4750-9C49-08D3692042D6} = {F88EEAD7-D118-4750-9C49-08D3692042D6}
 		{C718B6D1-4AEE-4C2E-AF85-90FB00B7FA2A} = {C718B6D1-4AEE-4C2E-AF85-90FB00B7FA2A}
 		{A2C58E55-986F-4260-8EF6-0C3AEA3CDF72} = {A2C58E55-986F-4260-8EF6-0C3AEA3CDF72}
+		{7fff80e3-81cb-43c6-9131-ce61da63a340} = {7fff80e3-81cb-43c6-9131-ce61da63a340}
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff} = {a7b526e0-714c-4ea2-99d0-21eda96682ff}
 		{EC9AF066-1753-4918-9BB2-912E499069F1} = {EC9AF066-1753-4918-9BB2-912E499069F1}
 		{C23F7734-0900-43A6-8718-3F5F46B6DB61} = {C23F7734-0900-43A6-8718-3F5F46B6DB61}
 		{3B156A14-57D6-4485-8818-DFD99456F391} = {3B156A14-57D6-4485-8818-DFD99456F391}
@@ -435,6 +445,18 @@ Global
 		{EC9AF066-1753-4918-9BB2-912E499069F1}.GTK Debug.Build.0 = Debug|Win32
 		{EC9AF066-1753-4918-9BB2-912E499069F1}.Release.ActiveCfg = Release|Win32
 		{EC9AF066-1753-4918-9BB2-912E499069F1}.Release.Build.0 = Release|Win32
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff}.Debug.ActiveCfg = Debug|Win32
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff}.Debug.Build.0 = Debug|Win32
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff}.GTK Debug.ActiveCfg = Debug|Win32
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff}.GTK Debug.Build.0 = Debug|Win32
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff}.Release.ActiveCfg = Release|Win32
+		{a7b526e0-714c-4ea2-99d0-21eda96682ff}.Release.Build.0 = Release|Win32
+		{7fff80e3-81cb-43c6-9131-ce61da63a340}.Debug.ActiveCfg = Debug|Win32
+		{7fff80e3-81cb-43c6-9131-ce61da63a340}.Debug.Build.0 = Debug|Win32
+		{7fff80e3-81cb-43c6-9131-ce61da63a340}.GTK Debug.ActiveCfg = Debug|Win32
+		{7fff80e3-81cb-43c6-9131-ce61da63a340}.GTK Debug.Build.0 = Debug|Win32
+		{7fff80e3-81cb-43c6-9131-ce61da63a340}.Release.ActiveCfg = Release|Win32
+		{7fff80e3-81cb-43c6-9131-ce61da63a340}.Release.Build.0 = Release|Win32
 		{A2C58E55-986F-4260-8EF6-0C3AEA3CDF72}.Debug.ActiveCfg = Debug|Win32
 		{A2C58E55-986F-4260-8EF6-0C3AEA3CDF72}.Debug.Build.0 = Debug|Win32
 		{A2C58E55-986F-4260-8EF6-0C3AEA3CDF72}.GTK Debug.ActiveCfg = Debug|Win32
