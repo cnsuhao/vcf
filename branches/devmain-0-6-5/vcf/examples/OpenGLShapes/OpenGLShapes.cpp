@@ -31,7 +31,7 @@ public:
 
 		TimerComponent* timer = new TimerComponent();
 		addComponent( timer );
-		timer->TimerPulse.addHandler(ev);//5 += ev;
+		timer->TimerPulse.addHandler(ev);
 		timer->setTimeoutInterval( 33 ); //around 30 FPS
 		timer->setActivated( true );
 	}
