@@ -13,6 +13,7 @@ where you installed the VCF.
 
 using namespace VCF;
 
+
 AbstractImage::AbstractImage( const bool& needsMemAlloc )
 {
 	imageBits_ = new ImageBits(0,0,needsMemAlloc);
@@ -100,29 +101,32 @@ void AbstractImage::loadFromStream( InputStream * stream )
 
 Image::ImageType AbstractImage::getType() const
 {
-	return ImageBits::Traits::getImageType( flags_ );
+	return IMTRAITS::getImageType( flags_ );
 }
 
 
 Image::ImageChannelSize AbstractImage::getChannelSize() const
 {
-	return ImageBits::Traits::getChannelSize( flags_ );
+	return IMTRAITS::getChannelSize( flags_ );
 }
 
 Image::ImageChannelType AbstractImage::getChannelType() const
 {
-	return ImageBits::Traits::getChannelType( flags_ );
+	return IMTRAITS::getChannelType( flags_ );
 }
 
 Image::PixelLayoutOrder AbstractImage::getPixelLayoutOrder() const
 {
-	return ImageBits::Traits::getPixelLayoutOrder( flags_ );
+	return IMTRAITS::getPixelLayoutOrder( flags_ );
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/08/01 18:52:27  kiklop74
+*A bit ugly workaround around BCB5 bugs during compilation
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

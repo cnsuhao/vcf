@@ -401,7 +401,11 @@ namespace VCF {
 
 
 
-
+#if (__BORLANDC__ < 0x0560)
+#  define IMTRAITS SysPixelType::Traits
+#else
+#  define IMTRAITS ImageBits::Traits
+#endif
 
 /**
 *Basic class for image bit twiddling
@@ -411,14 +415,15 @@ namespace VCF {
 #define IMAGEBITS_CLASSID		"ED88C098-26AB-11d4-B539-00C04F0196DA"
 
 class GRAPHICSKIT_API ImageBits : public Object {
+//	typedef SysPixelType::Traits Traits;
 public :
 
+	typedef SysPixelType::Traits Traits;
 
 	ImageBits():needsMemAlloc_(true),pixels_(NULL),renderBuffer_(NULL) {
 		renderBuffer_ = new agg::rendering_buffer();
 	};
 
-	typedef SysPixelType::Traits Traits;
 
 	ImageBits( const unsigned long& width, const unsigned long& height, const bool& needsMemAlloc=true ):
 		needsMemAlloc_(needsMemAlloc), pixels_(NULL), renderBuffer_(NULL) {
@@ -449,7 +454,7 @@ public :
 
 	void attachRenderBuffer( unsigned long width, unsigned long height ) {
 		renderBuffer_->attach( (unsigned char*)pixels_, width, height,
-								width * (Traits::getTraitsImageType()) );
+								width * (IMTRAITS::getTraitsImageType()) );
 	}
 
 	bool needsMemAlloc_;
@@ -464,6 +469,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/08/01 18:52:27  kiklop74
+*A bit ugly workaround around BCB5 bugs during compilation
+*
 *Revision 1.1.2.3  2004/07/30 17:30:05  kiklop74
 *Added first release of Borland midifications for VCF
 *
