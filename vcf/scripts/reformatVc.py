@@ -6849,9 +6849,9 @@ class DspFile( GenericProjectFile ):
             option = option.lower()
 
         # This accepts:
-        # /D "BUILD_APPKIT_LIB" /FR /Yu"ApplicationKit.h"
+        # /D "BUILD_APPLICATIONKIT_LIB" /FR /Yu"ApplicationKit.h"
         # but also
-        # /D "BUILD_APPKIT_LIB" /FR"vc6\DebugDLL\" /Yu"ApplicationKit.h"
+        # /D "BUILD_APPLICATIONKIT_LIB" /FR"vc6\DebugDLL\" /Yu"ApplicationKit.h"
         reOption = re.VERBOSE
         if ( ignorecase ): reOption += re.IGNORECASE
         if ( option and option[ len(option) -1 ] == ':' ):

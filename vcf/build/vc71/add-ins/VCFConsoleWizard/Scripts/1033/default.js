@@ -109,7 +109,7 @@ function AddConfig(proj, strProjectName)
 		CLTool.ExceptionHandling = true;
 		CLTool.AdditionalIncludeDirectories = "$(VCF_INCLUDE)";
 		CLTool.WarningLevel = warningLevelOption.warningLevel_3;
-		CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;_CONSOLE;USE_FRAMEWORK_DLL";
+		CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;_CONSOLE;USE_FOUNDATIONKIT_DLL";
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.SuppressStartupBanner = true;
 
@@ -143,7 +143,7 @@ function AddConfig(proj, strProjectName)
 		CLTool.InlineFunctionExpansion = inlineExpansionOption.expandOnlyInline;
 		CLTool.Optimization = optimizeOption.optimizeMinSpace;
 		CLTool.StringPooling = true;
-		CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;_CONSOLE;USE_FRAMEWORK_DLL";
+		CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;_CONSOLE;USE_FOUNDATIONKIT_DLL";
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.SuppressStartupBanner = true;
 
