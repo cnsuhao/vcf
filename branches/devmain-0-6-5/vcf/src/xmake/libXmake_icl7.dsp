@@ -44,10 +44,10 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"../lib/libXmake_icl7_s.bsc"
+# ADD BSC32 /nologo /o"..\..\lib/libXmake_icl7_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../lib/libXmake_icl7_s.lib"
+# ADD LIB32 /nologo /out:"..\..\lib/libXmake_icl7_s.lib"
 
 !ELSEIF  "$(CFG)" == "libXmake - Win32 Debug"
 
@@ -62,15 +62,15 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "icl7\Debug\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBXMAKE_LIB" /Fd"..\lib\libXmake_icl7_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "BUILD_LIBXMAKE_LIB" /Fd"..\..\lib\libXmake_icl7_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"../lib/libXmake_icl7_sd.bsc"
+# ADD BSC32 /nologo /o"..\..\lib/libXmake_icl7_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../lib/libXmake_icl7_sd.lib"
+# ADD LIB32 /nologo /out:"..\..\lib/libXmake_icl7_sd.lib"
 
 !ENDIF 
 

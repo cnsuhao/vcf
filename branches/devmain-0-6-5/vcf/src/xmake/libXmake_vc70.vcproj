@@ -37,7 +37,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\lib\libXmake_vc70_s.lib"
+				OutputFile="..\..\lib\libXmake_vc70_s.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -72,7 +72,7 @@
 				PrecompiledHeaderFile=".\vc70\Debug\libXmake_vc70_sd.pch"
 				AssemblerListingLocation=".\vc70\Debug\"
 				ObjectFile=".\vc70\Debug\"
-				ProgramDataBaseFileName="..\lib\libXmake_vc70_sd.pdb"
+				ProgramDataBaseFileName="..\..\lib\libXmake_vc70_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"/>
@@ -80,7 +80,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\lib\libXmake_vc70_sd.lib"
+				OutputFile="..\..\lib\libXmake_vc70_sd.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
