@@ -153,8 +153,8 @@ parse the command line into switches and arguments.
 
       call                          return
       ----                          ------
-      cmdLine.HasSwitch("-a")       true
-      cmdLine.HasSwitch("-z")       false
+      cmdLine.hasSwitch("-a")       true
+      cmdLine.hasSwitch("-z")       false
 	  </pre>
 	  @return bool true if it has the swith, otherwise false
 	*/
@@ -171,10 +171,10 @@ parse the command line into switches and arguments.
 
       call                                      return
       ----                                      ------
-      cmdLine.GetSafeArgument("-a", 0, "zz")    p1
-      cmdLine.GetSafeArgument("-a", 1, "zz")    p2
-      cmdLine.GetSafeArgument("-b", 0, "zz")    p4
-      cmdLine.GetSafeArgument("-b", 1, "zz")    zz
+      cmdLine.getSafeArgument("-a", 0, "zz")    p1
+      cmdLine.getSafeArgument("-a", 1, "zz")    p2
+      cmdLine.getSafeArgument("-b", 0, "zz")    p4
+      cmdLine.getSafeArgument("-b", 1, "zz")    zz
 	  </pre>
 	*/
 
@@ -190,8 +190,8 @@ parse the command line into switches and arguments.
 
       call                             return
       ----                             ------
-      cmdLine.GetArgument("-a", 0)     p1
-      cmdLine.GetArgument("-b", 1)     throws (int)0, returns an empty string
+      cmdLine.getArgument("-a", 0)     p1
+      cmdLine.getArgument("-b", 1)     throws (int)0, returns an empty string
 	  </pre>
 	*/
 	String getArgument( const String& aSwitch, int iIdx );
@@ -236,6 +236,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/20 02:30:31  ddiego
+*made some minor changes to Directories example, per Marcello.
+*
 *Revision 1.1.2.3  2004/06/06 07:05:32  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

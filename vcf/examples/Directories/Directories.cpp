@@ -6,98 +6,6 @@
 using namespace VCF;
 
 
-const String TestDir = L"C:/";//L"E:/code/vcfdev/dev/marcello/test/cpp/";
-
-/*
-DateTime convertUtcToLocal( const DateTime& dtUTC )
-{
-	DateTime dtLocal;
-
-	FILETIME   ftUTC, ftLocal;
-	SYSTEMTIME st;
-
-	// DateTime --> systemTime
-	st.wYear = dtUTC.getYear();
-	st.wMonth = dtUTC.getMonth();
-	st.wDayOfWeek = dtUTC.getWeekDay();
-	st.wDay = dtUTC.getDay();
-	st.wHour = dtUTC.getHour();
-	st.wMinute = dtUTC.getMinute();
-	st.wSecond = dtUTC.getSeconds();
-	st.wMilliseconds = dtUTC.getMilliSeconds();
-
-	// convert system time to filetime
-	if ( !::SystemTimeToFileTime( &st, &ftUTC ) ) { // stUTC --> ftUTC
-		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
-	}
-
-	// convert UTC time to local time
-	if (!::FileTimeToLocalFileTime( &ftUTC, &ftLocal ) ) {	// ftUTC --> ftUTC
-		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
-	}
-
-	// convert the local file time from UTC to system time
-	if ( !::FileTimeToSystemTime( &ftLocal, &st ) ) { // ftLocal --> stLocal
-		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
-	}
-
-	dtLocal.set( st.wYear, st.wMonth, st.wDay,
-						st.wHour, st.wMinute, st.wSecond, 
-						st.wMilliseconds );
-
-	return dtLocal;
-
-}
-
-DateTime convertLocalToUtc( const DateTime& dtLocal )
-{
-	// see also HOWTO: FileTimeToLocalFileTime() Adjusts for Daylight Saving Time
-
-	DateTime dtUTC;
-
-	FILETIME   ftLocal, ftUTC;
-	SYSTEMTIME st;
-
-	// DateTime --> systemTime
-	st.wYear = dtLocal.getYear();
-	st.wMonth = dtLocal.getMonth();
-	st.wDayOfWeek = dtLocal.getWeekDay();
-	st.wDay = dtLocal.getDay();
-	st.wHour = dtLocal.getHour();
-	st.wMinute = dtLocal.getMinute();
-	st.wSecond = dtLocal.getSeconds();
-	st.wMilliseconds = dtLocal.getMilliSeconds();
-
-	// convert system time to filetime
-	if ( !::SystemTimeToFileTime( &st, &ftLocal ) ) { // stUTC --> ftUTC
-		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
-	}
-
-	// convert UTC time to local time
-	if (!::LocalFileTimeToFileTime( &ftLocal, &ftUTC ) ) {	// ftUTC --> ftUTC
-		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
-	}
-
-	// convert the local file time from UTC to system time
-	if ( !::FileTimeToSystemTime( &ftUTC, &st ) ) { // ftLocal --> stLocal
-		String error = VCFWin32::Win32Utils::getErrorString( GetLastError() );
-		throw BasicException( error );
-	}
-
-	dtUTC.set( st.wYear, st.wMonth, st.wDay,
-						st.wHour, st.wMinute, st.wSecond, 
-						st.wMilliseconds );
-
-	return dtUTC;
-
-}
-*/
-
 
 
 
@@ -324,7 +232,15 @@ void test( FinderTest& finder, const String& name, const bool& recurse = false )
 	int countTot = 0;
 
 	startTime = DateTime::now();
-	finder.loopTest( TestDir, recurse );
+
+	String vcfIncludes = System::getEnvironmentVariable( "VCF_INCLUDE" );
+
+	if ( vcfIncludes.empty() ) {
+		printf( "No \"VCF_INCLUDE\" environment variable found!\n" );
+		return;
+	}
+
+	finder.loopTest( vcfIncludes, recurse );
 
 	stopTime = DateTime::now();
 	DateTimeSpan deltaTime = stopTime - startTime;
@@ -351,41 +267,27 @@ void test()
 	test( finderTest3, L"t3 (*.cpp)", true );
 }
 
-void getArguments( int argc, char** argv )
+void getArguments()
 {
-	if ( 1 < argc ) {
-		String a = argv[1];
-		if ( a.length() == 2 ) {
-			char m = argv[1][0];
-			char o = argv[1][1];
-			if ( m == 'a' ) {
-				g_displayMode = Directory::Finder::dmAny;
-			}
-			if ( m == 'f' ) {
-				g_displayMode = Directory::Finder::dmFiles;
-			}
-			if ( m == 'd' ) {
-				g_displayMode = Directory::Finder::dmDirs;
-			}
+	CommandLine cmdLine = FoundationKit::getCommandLine();
 
-			if ( o == 'a' ) {
-				g_displayOrder = Directory::Finder::dmAny;
-			}
-			if ( o == 'f' ) {
-				g_displayOrder = Directory::Finder::dmFiles;
-			}
-			if ( o == 'd' ) {
-				g_displayOrder = Directory::Finder::dmDirs;
-			}
-		}
+	if ( cmdLine.hasSwitch( "a" ) ){
+		g_displayMode = Directory::Finder::dmAny;
 	}
+	if ( cmdLine.hasSwitch( "f" ) ){
+		g_displayMode = Directory::Finder::dmFiles;
+	}
+
+	if ( cmdLine.hasSwitch( "d" ) ){
+		g_displayMode = Directory::Finder::dmDirs;
+	}	
 }
 
 int main(int argc, char *argv[])
 {
 	FoundationKit::init( argc, argv );
 
-	getArguments( argc, argv );
+	getArguments();
 
 	try {
 		test();
