@@ -1084,9 +1084,13 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 							break;
 
 							case SB_LINERIGHT : {
-								int pos = min( (long)(scrollable->getHorizontalPosition() + 5),
-												abs((long)(scrollable->getVirtualViewWidth() - width)) );
+								//copied from SB_LINEDOWN
+								int pos = min( (long)(scrollable->getHorizontalPosition() + 5),           
+												abs((long)(scrollable->getVirtualViewWidth() - width)) ); 
 
+								si.nPos += 5;						// for a text file or a listbox it becomes important !
+								si.nPos = min ( si.nPos, si.nMax );	//useless: it is automatically done by Window's adjustments
+								pos = si.nPos;
 								scrollable->setHorizontalPosition( pos );
 							}
 							break;
@@ -1355,6 +1359,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2004/09/21 05:37:36  dougtinkham
+*minor mod to handleEventMessages, case WM_HSCROLL, for horiz. scrolling
+*
 *Revision 1.2.2.6  2004/09/12 22:34:20  ddiego
 *fixed bug in handling window cleanup when exception thrown from constructor.
 *
