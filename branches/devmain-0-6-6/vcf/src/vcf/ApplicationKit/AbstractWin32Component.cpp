@@ -346,7 +346,8 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 	if ( peerControl_->getComponentState() != Component::csDestroying ) {
 		
 		if ( NULL == memDC_ ) {
-			//create here
+			// we need a memory HDC, so we create it here one compatible 
+			// with the HDC of the entire screen
 			HDC dc = ::GetDC(0);
 			memDC_ = ::CreateCompatibleDC( dc );
 			::ReleaseDC( 0,	dc );
@@ -404,9 +405,12 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 
 			result = paintDC;
 		}
-		else if ( true == peerControl_->isDoubleBuffered() ){
+		else if ( true == peerControl_->isDoubleBuffered() ) {
+
 			Rect dirtyRect( paintRect.left,paintRect.top,paintRect.right,paintRect.bottom);
 			
+			// implements double buffering by painting everything 
+			//  in a memory device context first
 
 			memBMP_ = ::CreateCompatibleBitmap( paintDC,
 					paintRect.right - paintRect.left,
@@ -415,24 +419,25 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 			memDCState_ = ::SaveDC( memDC_ );
 			originalMemBMP_ = (HBITMAP)::SelectObject( memDC_, memBMP_ );
 
+
+			// changes the origin of the paint coordinates, by specifying which
+			// point of the device context points to the origin of the window.
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
 			
-
-
-			//this is really dippy to have to do this here ?
-			//by setting the owning control to NULL we
-			//prevent the origin, and settings like it, from being
-			//lost every time a checkHandle()/releaseHandle() pair
-			//is called
-			//this is probably a bug that needs to fixed more completely
-			//internally - however this does get the job done
+			
+			/**
+			* we prevents the owning control of the context to alter
+			* the HDC and the viewport, as this is done here using 
+			* the DC given by the system with the message itself.
+			* We temporarly use a memory context as teh current 
+			* HDC for the Graphics context because we are 
+			* doing double buffering.
+			*/
 			ctx->getPeer()->setContextID( (long)memDC_ );
-
-
-
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
 			
+			// save the state of Graphics control so to be fully restored after the paint.
 			int gcs = ctx->saveState();
 
 			switch( whatToPaint ) {
@@ -468,14 +473,12 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 		}
 		else {
 			
+			/**
+			* we prevents the owning control of the context to alter
+			* the HDC and the viewport, as this is done here using 
+			* the DC given by the system with the message itself.
+			*/
 			ctx->getPeer()->setContextID( (long)paintDC );
-			//this is really dippy to have to do this here ?
-			//by setting the owning control to NULL we
-			//prevent the origin, and settings like it, from being
-			//lost every time a checkHandle()/releaseHandle() pair
-			//is called
-			//this is probably a bug that needs to fixed more completely
-			//internally - however this does get the job done
 			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
 
 			if ( NULL != exclusionRect ) {
@@ -522,7 +525,7 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 {	
 
 	if ( peerControl_->getComponentState() != Component::csDestroying ) {
-		if ( true == peerControl_->isDoubleBuffered() && !peerControl_->isUsingRenderBuffer() ){
+		if ( true == peerControl_->isDoubleBuffered() && !peerControl_->isUsingRenderBuffer() ) {
 			VCF_ASSERT( memDCState_ != 0 );
 			VCF_ASSERT( originalMemBMP_ != 0 );
 			VCF_ASSERT( memBMP_ != 0 );
@@ -532,6 +535,11 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 									exclusionRect->right, exclusionRect->bottom );
 			}
 
+			/**
+			* does the final part of the double buffering mechanism
+			* copies the memory context into the device context
+			* given by the system with the paint message itself.
+			*/
 			int err = /*::BitBlt( ps.hdc, 0, 0,
 					  (int)clientBounds.getWidth(),
 					  (int)clientBounds.getHeight(),
@@ -1365,6 +1373,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2004/11/07 19:32:18  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.8  2004/09/21 22:27:09  marcelloptr
 *added setVirtualViewStep functions for the scrollbars and other minor changes
 *

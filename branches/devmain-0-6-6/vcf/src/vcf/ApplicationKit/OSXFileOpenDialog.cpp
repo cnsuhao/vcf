@@ -463,4 +463,16 @@ void OSXFileOpenDialog::setFileMustExist( const bool& fileMustExist )
 }
 
 
-};
+}; // namespace VCF
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.4  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
+*/
+
+
+

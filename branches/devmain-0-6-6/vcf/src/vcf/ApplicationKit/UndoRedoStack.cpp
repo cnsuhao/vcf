@@ -56,6 +56,8 @@ void UndoRedoStack::undo()
 
 	UndoRedoEvent event( this, UNDOREDO_EVENT_UNDO,firstCommand );
 	UndoCommand.fireEvent( &event );
+
+	/* the default undo action of this class is bypassed if the user needs */
 	if ( true == event.getAllowsUndo() ) {
 		firstCommand->undo();
 		undoStack_.pop_back();
@@ -70,8 +72,11 @@ void UndoRedoStack::redo()
 	}
 
 	Command* firstCommand = redoStack_.front();
+
 	UndoRedoEvent event( this, UNDOREDO_EVENT_REDO,firstCommand );
 	RedoCommand.fireEvent( &event );
+
+	/* the default redo action of this class is bypassed if the user needs */
 	if ( true == event.getAllowsRedo() ) {
 		firstCommand->redo();
 		redoStack_.pop_front();
@@ -94,6 +99,7 @@ void UndoRedoStack::addCommand( Command* command, const bool& autoExecute )
 	command->setOwningStack( this );
 	undoStack_.push_back( command );
 	redoStack_.clear();
+
 	if ( true == autoExecute ) {
 		command->execute();
 		UndoRedoEvent event( this, UNDOREDO_EVENT_EXECUTE,command );
@@ -109,12 +115,12 @@ void UndoRedoStack::movetToRedoStack( Command* command )
 
 }
 
-Command* UndoRedoStack::getCurrentUndoComand()
+Command* UndoRedoStack::getCurrentUndoCommand()
 {
 	return undoStack_.back();
 }
 
-Command* UndoRedoStack::getCurrentRedoComand()
+Command* UndoRedoStack::getCurrentRedoCommand()
 {
 	return redoStack_.front();
 }
@@ -123,6 +129,9 @@ Command* UndoRedoStack::getCurrentRedoComand()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -361,7 +361,7 @@ void DocumentManager::updateUndo( ActionEvent* event, Document* doc )
 
 		bool hasUndoableCmds = undoRedoStack.hasUndoableItems();
 		if ( true == hasUndoableCmds ) {
-			event->setText( "Undo " + undoRedoStack.getCurrentUndoComand()->getName() + "\tCtrl+Z" );
+			event->setText( "Undo " + undoRedoStack.getCurrentUndoCommand()->getName() + "\tCtrl+Z" );
 		}
 		else {
 			event->setText( "Nothing to Undo\tCtrl+Z" );
@@ -376,7 +376,7 @@ void DocumentManager::updateRedo( ActionEvent* event, Document* doc )
 		UndoRedoStack& undoRedoStack = getUndoRedoStack( doc );
 		bool hasRedoableCmds = undoRedoStack.hasRedoableItems();
 		if ( true == hasRedoableCmds ) {
-			event->setText( "Redo " + undoRedoStack.getCurrentRedoComand()->getName()+ "\tCtrl+Shift+Z" );
+			event->setText( "Redo " + undoRedoStack.getCurrentRedoCommand()->getName()+ "\tCtrl+Shift+Z" );
 		}
 		else {
 			event->setText( "Nothing to Redo\tCtrl+Shift+Z" );
@@ -578,6 +578,9 @@ void DocumentManager::addAction( ActionTag tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
 *Document Window documentation
 *

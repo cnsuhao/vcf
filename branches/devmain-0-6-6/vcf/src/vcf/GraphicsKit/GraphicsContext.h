@@ -74,7 +74,7 @@ class GraphicsState;
 */
 class GRAPHICSKIT_API GraphicsContext : public Object {
 public:
-	GraphicsContext();
+	GraphicsContext( );
 
 	/**
 	Creates a new blank graphics context of the specified width and height
@@ -87,7 +87,7 @@ public:
 	*/
 	GraphicsContext( const unsigned long& contextID );
 
-	virtual ~GraphicsContext();
+	virtual ~GraphicsContext( );
 
 	/**
 	represents what kind of high level drawing operation we
@@ -154,9 +154,10 @@ public:
 	typedef GraphicsStateCollection::iterator GraphicsStateIterator;
 	typedef GraphicsStateCollection::const_iterator GraphicsStateConstIterator;
 
-	void init();
+public:
+	void init( );
 
-	bool isAntiAliasingOn();
+	bool isAntiAliasingOn( );
 	
 	void setAntiAliasingOn( bool antiAliasingOn );
 	
@@ -164,30 +165,30 @@ public:
 	*sets the current font
 	*A copy of the Font is made when this is set
 	*/
-    void setCurrentFont(Font * font);
+	void setCurrentFont(Font * font );
 
 	/**
 	*returns the current Font
 	*/
-	Font* getCurrentFont();
+	Font* getCurrentFont( );
 
 	/**
 	*sets the current fill
 	*/
-    void setCurrentFill(Fill * fill);
+	void setCurrentFill(Fill * fill );
 
 	/**
 	*sets the current stroke
 	*/
-    void setCurrentStroke(Stroke * stroke);
+	void setCurrentStroke(Stroke * stroke );
 
 	void setClippingRect( Rect* rect );
 
 	void setClippingPath( Path* clippingPath );
 
-	Rect getClippingRect();
+	Rect getClippingRect( );
 
-	Path* getClippingPath();
+	Path* getClippingPath( );
 
 	Rect getViewableBounds() {
 		return viewableBounds_;
@@ -199,9 +200,9 @@ public:
 
 	void setDrawingArea( Rect bounds );
 
-	void deleteDrawingArea();
+	void deleteDrawingArea( );
 
-	void flushDrawingArea();
+	void flushDrawingArea( );
 
 	void markRenderAreaDirty() {
 		renderAreaDirty_ = true;
@@ -230,177 +231,45 @@ public:
 		renderBuffer_ = buffer;
 	}
 
+	/**
+	*	saves the state of a Graphics context after the 
+	*	paint operations are done.
+	*	The save/restore idea idea is the same as for Win32 SaveDC and RestoreDC.
+	*	It allows you to save the state of the DC (device context) at a given point in time, 
+	*	and then make a whole bunch of changes to it, and when you're all done 
+	*	just call RestoreDC() and everything is set back.
+	*	\par
+	*	This prevents all sorts of extra SelectObject() calls and is more efficent.
+	*	\par
+	*	Similarly this makes it easy to guarantee that the 
+	*	state of the GraphicsContext is reset correctly.
+	*@return int, the index of the newly saved graphics state.
+	*@see GraphicsContext::restoreState()
+	*/
+	int saveState( );
 
 	/**
-	*draws a path. See Path for more info. Basically this simple enumerates all the
-	*path points and uses the current stroke and fill to render the shape
+	* restores the state of a Graphics context after the 
+	* paint operations are done.
+	*@param int state, the index of the graphics state we want to restore. All
+	* the graphics states saved after this index are lost as they have lost meaning,
+	* and the current graphics state index is set to the state just restored.
+	*@see GraphicsContext::saveState()
 	*/
-    void draw(Path * path);
-
-	/**
-	*draws an image at the x,y, coordinates
-	*/
-    void drawImage( const double& x, const double& y, Image * image);
-	void drawImage( const Point & pt, Image * image);
-
-
-
-	/**
-	*draws an image at the x,y, coordinates, with
-	*state
-	*@param double x coordinate
-	*@param double y coordinate
-	*@param Image the image to draw
-	*@param bool the state of the image, if true then draws the
-	*image normally, if false draws a grayed out and embossed
-	*version
-	*Note: as of 8/4/2001 not implemented yet
-	*/
-    void drawImageWithState( const double& x, const double& y, Image * image, const bool& enabled );
-	void drawImageWithState( const Point & pt, Image * image, const bool& enabled );
-
-	/**
-	*draws a portion of the image.
-	*@param Rect boudns - the left_, top_ members of the bounds rect describe
-	*where on the GraphicsContext the image will be drawn, while the height
-	*and width of the bounds tells how much of the image to draw. A height or width
-	*greater than the Image is ignored, and the whole image is draw. A height
-	*or width less than the image results in only a portion of the image getting
-	*drawn, or the top, left of the image to the specified height and width.
-	*@param Image the image to draw
-	*/
-	void drawImageWithinBounds( Rect* bounds, Image* image );
-
-	/**
-	*draws a partial image at the x,y, coordinates specified
-	*@param double x - the x coordinate on the GraphicsContext
-	*@param double y - the y coordinate on the GraphicsContext
-	*@param Rect* imageBounds - a rectangle in the coordinate space
-	*of the image that specifies which rectangular portion of the
-	*image to draw
-	*@param Image image - the image to draw
-	*/
-	void drawPartialImage( const double& x, const double& y, Rect* imageBounds, Image* image );
-	void drawPartialImage( const Point & pt, Rect* imageBounds, Image* image );
-
-
-
-	/**
-	*returns current transform matrix for this GraphicsContext instance.
-	*Before the matrix is returned, a new matrix is created and then multiplied
-	*into the final transform matrix. These matrices represent the various trnasform
-	*values (i.e. theta_, scaleX_, etc)
-	*/
-	void setCurrentTransform( const Matrix2D& transform );
-
-	Matrix2D* getCurrentTransform();
-
-	/**
-	*End of high level gaphics functions. The funtions below are lower level
-	*See ContextPeer for more information on the functions below
-	*/
-
-    void setStrokeWidth( const double& width );
-
-	double getStrokeWidth();
-
-
-	void textAt(const double & x, const double & y, const String & text);
-	void textAt(const Point & pt, const String & text);
-
-	void textAt( const double & x, const double & y, const String& text, const long drawOptions );
-	void textAt( const Point & pt, const String& text, const long drawOptions );
-
-	void textWithStateAt( const double& x, const double& y, const String& text, const bool& enabled );
-	void textWithStateAt( const Point & pt, const String& text, const bool& enabled );
-
-	/**
-	*draws text within the bounds specified. If specified the
-	*text will be word wrapped within the bounds.
-	*@param Rect bounds - the left, top, right, and bottom of the
-	*rectangle to draw the text within
-	*@param String the text to draw
-	*@param bool wordWrap whether or not wrap the text to
-	*bounds specified. If wordWrap is false, then the text is
-	*treated as a single line, and any text extending past the
-	*right coordinate value will be clipped using an ellipsis.
-	*So if "Hello World" is passed in and the bounds only fits
-	*"Hello W", then the string will be drawn as "Hello..."
-	*/
-	void textBoundedBy( Rect* bounds, const String& text, const bool& wordWrap=true );
-
-	void textBoundedBy( Rect* bounds, const String& text, const long drawOptions );
-
-	double getTextWidth( const String& text );
-
-	double getTextHeight( const String& text );
-
-    void rectangle(const double & x1, const double & y1, const double & x2, const double & y2);
-    void rectangle(const Rect & rc);
-	void rectangle(const Point & pt1, const Point & pt2);
-
-	void rectangle( Rect* r ){
-		if ( NULL != r ) {
-			this->rectangle( r->left_, r->top_, r->right_, r->bottom_ );
-		}
-	};
-
-    void roundRect(const double & x1, const double & y1, const double & x2, const double & y2, const double & xc, const double & yc);
-    void roundRect(const Rect & rc, const Point & ptc);
-	void roundRect(const Point & pt1, const Point & pt2, const Point & ptc);
-
-	void roundRect( Rect* r, Point * p ){
-		if ( NULL != r && NULL != p ) {
-			this->roundRect( r->left_, r->top_, r->right_, r->bottom_, p->x_, p->y_ );
-		}
-	};
-
-    void circle(const double & x, const double & y, const double & radius);
-    void circle(const Point & pt, const double & radius);
-
-    void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
-    void ellipse(const Point & pt1, const Point & pt2 );
-
-    void arc( const double& centerX,  const double& centerY, 
-				const double& radiusWidth, const double& radiusHeight, 
-				const double& startAngle, const double& endAngle);
-
-    void arc(const Point & centerPt, const Size& radius, 
-				const double& startAngle, const double& endAngle);
-
-
-    void pie(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
-    void pie(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
-
-    void chord(const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4);
-    void chord(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
-
-    void polyline( const std::vector<Point> & pts );
-
-    void curve(const double& x1, const double& y1, const double& x2, const double& y2,
-                          const double& x3, const double& y3, const double& x4, const double& y4);
-    void curve(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4);
-
-    void lineTo(const double& x, const double& y);
-    void lineTo(const Point & pt);
-
-    void moveTo(const double& x, const double& y);
-    void moveTo(const Point & pt);
+	void restoreState( int state );
 
 
 	void setColor( Color* color );
 
-	Color* getColor();
+	Color* getColor( );
 
-    void fillPath();
+	void fillPath( );
 
-    void strokePath();
+	void strokePath( );
 
-	ContextPeer* getPeer();
+	ContextPeer* getPeer( );
 
-	void copyContext( const Rect& sourceRect,
-						const Rect& destRect,
-						GraphicsContext* context );
+	void copyContext( const Rect& sourceRect, const Rect& destRect, GraphicsContext* context );
 
 	/**
 	*Sets the context's origin for drawing. The default is 0,0 in the top, left of the corner of
@@ -409,7 +278,7 @@ public:
 	void setOrigin( const double& x, const double& y );
 	void setOrigin( const Point & pt );
 
-	Point getOrigin();
+	Point getOrigin( );
 
 	/**
 	*sets the current rotation value of the transformation matrix. The 
@@ -450,27 +319,27 @@ public:
 	translation, scale, and shear values are all
 	at their default values.
 	*/
-	bool isDefaultTransform();
+	bool isDefaultTransform( );
 
 	/**
 	This (re)sets the current values for rotation,
 	shear, scale, and translation to their default values.
 	*/
-	void makeDefaultTransform();
+	void makeDefaultTransform( );
 
-	double getRotation();
+	double getRotation( );
 
-	double getTranslationX();
+	double getTranslationX( );
 
-	double getTranslationY();
+	double getTranslationY( );
 
-	double getShearX();
+	double getShearX( );
 
-	double getShearY();
+	double getShearY( );
 
-	double getScaleX();
+	double getScaleX( );
 
-	double getScaleY();
+	double getScaleY( );
 
 	/**
 	*returns whether or not the XOR Mode is turned on.
@@ -479,7 +348,7 @@ public:
 	*at the pixel level. Thus a line drawn once, and then
 	*a second time at the same coordinates will erase itself
 	*/
-	bool isXORModeOn();
+	bool isXORModeOn( );
 
 	/**
 	*Turns the XOR mode on or off.
@@ -487,6 +356,164 @@ public:
 	*otherwise if it's false it turns it off.
 	*/
 	void setXORModeOn( const bool& XORModeOn );
+
+
+	/**
+	*draws a path. See Path for more info. Basically this simple enumerates all the
+	*path points and uses the current stroke and fill to render the shape
+	*/
+		void draw(Path * path );
+
+	/**
+	*draws an image at the x,y, coordinates
+	*/
+	void drawImage( const double& x, const double& y, Image * image );
+	void drawImage( const Point & pt, Image * image );
+
+
+
+	/**
+	*draws an image at the x,y, coordinates, with
+	*state
+	*@param double x coordinate
+	*@param double y coordinate
+	*@param Image the image to draw
+	*@param bool the state of the image, if true then draws the
+	*image normally, if false draws a grayed out and embossed
+	*version
+	*Note: as of 8/4/2001 not implemented yet
+	*/
+	void drawImageWithState( const double& x, const double& y, Image * image, const bool& enabled );
+	void drawImageWithState( const Point & pt, Image * image, const bool& enabled );
+
+	/**
+	*draws a portion of the image.
+	*@param Rect boudns - the left_, top_ members of the bounds rect describe
+	*where on the GraphicsContext the image will be drawn, while the height
+	*and width of the bounds tells how much of the image to draw. A height or width
+	*greater than the Image is ignored, and the whole image is draw. A height
+	*or width less than the image results in only a portion of the image getting
+	*drawn, or the top, left of the image to the specified height and width.
+	*@param Image the image to draw
+	*/
+	void drawImageWithinBounds( Rect* bounds, Image* image );
+
+	/**
+	*draws a partial image at the x,y, coordinates specified
+	*@param double x - the x coordinate on the GraphicsContext
+	*@param double y - the y coordinate on the GraphicsContext
+	*@param Rect* imageBounds - a rectangle in the coordinate space
+	*of the image that specifies which rectangular portion of the
+	*image to draw
+	*@param Image image - the image to draw
+	*/
+	void drawPartialImage( const double& x, const double& y, Rect* imageBounds, Image* image );
+	void drawPartialImage( const Point & pt, Rect* imageBounds, Image* image );
+
+
+
+	/**
+	*returns current transform matrix for this GraphicsContext instance.
+	*Before the matrix is returned, a new matrix is created and then multiplied
+	*into the final transform matrix. These matrices represent the various trnasform
+	*values (i.e. theta_, scaleX_, etc)
+	*/
+	void setCurrentTransform( const Matrix2D& transform );
+
+	Matrix2D* getCurrentTransform( );
+
+	/**
+	*End of high level gaphics functions. The funtions below are lower level
+	*See ContextPeer for more information on the functions below
+	*/
+
+	void setStrokeWidth( const double& width );
+
+	double getStrokeWidth( );
+
+
+	void textAt( const double & x, const double & y, const String & text );
+	void textAt( const Point & pt, const String & text );
+
+	void textAt( const double & x, const double & y, const String& text, const long drawOptions );
+	void textAt( const Point & pt, const String& text, const long drawOptions );
+
+	void textWithStateAt( const double& x, const double& y, const String& text, const bool& enabled );
+	void textWithStateAt( const Point & pt, const String& text, const bool& enabled );
+
+	/**
+	*draws text within the bounds specified. If specified the
+	*text will be word wrapped within the bounds.
+	*@param Rect bounds - the left, top, right, and bottom of the
+	*rectangle to draw the text within
+	*@param String the text to draw
+	*@param bool wordWrap whether or not wrap the text to
+	*bounds specified. If wordWrap is false, then the text is
+	*treated as a single line, and any text extending past the
+	*right coordinate value will be clipped using an ellipsis.
+	*So if "Hello World" is passed in and the bounds only fits
+	*"Hello W", then the string will be drawn as "Hello..."
+	*/
+	void textBoundedBy( Rect* bounds, const String& text, const bool& wordWrap=true );
+
+	void textBoundedBy( Rect* bounds, const String& text, const long drawOptions );
+
+	double getTextWidth( const String& text );
+
+	double getTextHeight( const String& text );
+
+	void rectangle( const double & x1, const double & y1, const double & x2, const double & y2 );
+	void rectangle( const Rect & rc );
+	void rectangle( const Point & pt1, const Point & pt2 );
+
+	void rectangle( Rect* r ){
+		if ( NULL != r ) {
+			this->rectangle( r->left_, r->top_, r->right_, r->bottom_ );
+		}
+	};
+
+	void lineTo( const double& x, const double& y );
+	void lineTo( const Point & pt );
+
+	void moveTo( const double& x, const double& y );
+	void moveTo( const Point & pt );
+
+	void roundRect( const double & x1, const double & y1, const double & x2, const double & y2, const double & xc, const double & yc );
+	void roundRect( const Rect & rc, const Point & ptc );
+	void roundRect( const Point & pt1, const Point & pt2, const Point & ptc );
+
+	void roundRect( Rect* r, Point * p ){
+		if ( NULL != r && NULL != p ) {
+			this->roundRect( r->left_, r->top_, r->right_, r->bottom_, p->x_, p->y_ );
+		}
+	};
+
+	void circle( const double & x, const double & y, const double & radius );
+	void circle( const Point & pt, const double & radius );
+
+	void ellipse( const double & x1, const double & y1, const double & x2, const double & y2 );
+	void ellipse( const Point & pt1, const Point & pt2 );
+
+	void arc( const double& centerX,  const double& centerY, 
+	          const double& radiusWidth, const double& radiusHeight, 
+	          const double& startAngle, const double& endAngle );
+
+	void arc( const Point & centerPt, const Size& radius, 
+	          const double& startAngle, const double& endAngle );
+
+
+	void pie( const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4 );
+	void pie( const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4 );
+
+	void chord( const double & x1, const double & y1, const double & x2, const double & y2, const double & x3, const double & y3, const double & x4, const double & y4 );
+	void chord( const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4 );
+
+	void polyline( const std::vector<Point> & pts );
+
+	void curve( const double& x1, const double& y1, const double& x2, const double& y2,
+	            const double& x3, const double& y3, const double& x4, const double& y4 );
+	void curve( const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4 );
+
 
 
 
@@ -589,12 +616,32 @@ public:
 
 	void drawThemeText( Rect* rect, TextState& state );
 
-	int saveState();
-	void restoreState( int state );
 protected:
 
+	void buildArc( double centerX,  double centerY, 
+	               double radiusWidth, double radiusHeight, 
+	               double startAngle, double endAngle, 
+	               std::vector<Point>& pts, const Matrix2D& transform );
+
+	void buildRoundRect( double x1, double y1, double x2, double y2, 
+	                     double cornerArcWidth, double cornerArcHeight, 
+	                     std::vector<Point>& pts, const Matrix2D& transform );
+
+	void buildEllipse( double x1, double y1, double x2, double y2, 
+	                   std::vector<Point>& pts, const Matrix2D& transform );
 
 
+	void checkPathOperations( );
+
+	void execPathOperations( );
+
+
+protected:
+
+	/**
+	*
+	*
+	*/
 	struct PointOperation {
 		enum PrimitiveType{
 			ptMoveTo=0,
@@ -608,19 +655,16 @@ protected:
 			ptClose
 		};
 
-
 		PointOperation( const double& ax=0.0, const double& ay=0.0, PrimitiveType op=ptMoveTo ):
 			x(ax), y(ay),primitive(op) {
 		}
-
 
 		double x;
 		double y;
 		PrimitiveType primitive;
 	};
 
-
-    ContextPeer * contextPeer_;		
+	ContextPeer* contextPeer_;
 	GraphicsDrawingState currentDrawingState_;
 	std::vector<PointOperation> pathOperations_;
 	Image* drawingArea_;
@@ -628,32 +672,34 @@ protected:
 	agg::rendering_buffer* renderBuffer_;
 	bool renderAreaDirty_;
 	Rect viewableBounds_;
+
+	/**
+	* the collection of all the saved Graphics states.
+	*@see GraphicsContext::saveState()
+	*/
 	GraphicsStateCollection stateCollection_;
+
+	/**
+	* the index of the current state in the collection of 
+	* all the saved Graphics states.
+	*@see GraphicsContext::saveState()
+	*/
 	int graphicsStateIndex_;
+
+	/**
+	* the current Graphics state that has been saved.
+	*@see GraphicsContext::saveState()
+	*/
 	GraphicsState* currentGraphicsState_;
-
-	void buildArc( double centerX,  double centerY, 
-            double radiusWidth, double radiusHeight, 
-            double startAngle, double endAngle, std::vector<Point>& pts, const Matrix2D& transform );
-
-	void buildRoundRect( double x1, double y1, double x2, double y2, 
-							double cornerArcWidth, double cornerArcHeight, 
-							std::vector<Point>& pts, const Matrix2D& transform );
-
-	void buildEllipse( double x1, double y1, double x2, double y2, 
-							std::vector<Point>& pts, const Matrix2D& transform );
-
-
-	void checkPathOperations();
-
-	void execPathOperations();
 
 };
 
 
-// inline
+///////////////////////////////////////////////////////////////////////////////
+// inlines
+
 inline void GraphicsContext::drawImage( const Point & pt, Image * image) {
-	drawImage( pt.x_, pt.y_, image);
+	drawImage( pt.x_, pt.y_, image );
 }
 
 inline void GraphicsContext::drawImageWithState( const Point & pt, Image * image, const bool& enabled ) {
@@ -670,7 +716,7 @@ inline void GraphicsContext::textWithStateAt( const Point & pt, const String& te
 }
 
 
-inline void GraphicsContext::textAt(const Point & pt, const String & text) {
+inline void GraphicsContext::textAt( const Point & pt, const String & text) {
 	textAt( pt.x_, pt.y_, text );
 }
 
@@ -678,55 +724,55 @@ inline void GraphicsContext::textAt( const Point & pt, const String& text, const
 	textAt( pt.x_, pt.y_, text, drawOptions );
 }
 
-inline void GraphicsContext::rectangle(const Point & pt1, const Point & pt2) {
+inline void GraphicsContext::rectangle( const Point & pt1, const Point & pt2) {
 	rectangle( pt1.x_, pt1.y_, pt2.x_, pt2.y_ );
 }
 
-inline void GraphicsContext::rectangle(const Rect & rc) {
+inline void GraphicsContext::rectangle( const Rect & rc) {
 	rectangle( rc.left_, rc.top_, rc.right_, rc.bottom_ );
 }
 
-inline void GraphicsContext::roundRect(const Point & pt1, const Point & pt2, const Point & ptc) {
+inline void GraphicsContext::roundRect( const Point & pt1, const Point & pt2, const Point & ptc) {
 	roundRect( pt1.x_, pt1.y_, pt2.x_, pt2.y_, ptc.x_, ptc.y_ );
 }
 
-inline void GraphicsContext::roundRect(const Rect & rc, const Point & ptc) {
+inline void GraphicsContext::roundRect( const Rect & rc, const Point & ptc) {
 	roundRect( rc.left_, rc.top_, rc.right_, rc.bottom_, ptc.x_, ptc.y_ );
 }
 
-inline void GraphicsContext::circle(const Point & pt, const double & radius) {
+inline void GraphicsContext::circle( const Point & pt, const double & radius) {
 	circle( pt.x_, pt.y_, radius );
 }
 
-inline void GraphicsContext::ellipse(const Point & pt1, const Point & pt2 ) {
-	ellipse( pt1.x_, pt1.y_, pt2.x_, pt2.y_);
+inline void GraphicsContext::ellipse( const Point & pt1, const Point & pt2 ) {
+	ellipse( pt1.x_, pt1.y_, pt2.x_, pt2.y_ );
 }
 
 
-inline void GraphicsContext::arc(const Point & centerPt, const Size& radius, 
+inline void GraphicsContext::arc( const Point & centerPt, const Size& radius, 
 								 const double& startAngle, const double& endAngle) {
 	arc( centerPt.x_, centerPt.y_, radius.width_, radius.height_, startAngle, endAngle );
 }
 
 
-inline void GraphicsContext::pie(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
+inline void GraphicsContext::pie( const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
 	pie( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
 }
 
-inline void GraphicsContext::chord(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
+inline void GraphicsContext::chord( const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
 	chord( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
 }
 
-inline void GraphicsContext::curve(const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
+inline void GraphicsContext::curve( const Point & pt1, const Point & pt2, const Point & pt3, const Point & pt4) {
 	curve( pt1.x_, pt1.y_, pt2.x_, pt2.y_, pt3.x_, pt3.y_, pt4.x_, pt4.y_ );
 }
 
-inline void GraphicsContext::lineTo(const Point & pt)
+inline void GraphicsContext::lineTo( const Point & pt)
 {
 	lineTo( pt.x_, pt.y_ );
 }
 
-inline void GraphicsContext::moveTo(const Point & pt)
+inline void GraphicsContext::moveTo( const Point & pt)
 {
 	moveTo( pt.x_, pt.y_ );
 }
@@ -744,6 +790,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2004/11/07 19:32:20  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.7  2004/10/27 03:12:18  ddiego
 *integrated chrisk changes
 *

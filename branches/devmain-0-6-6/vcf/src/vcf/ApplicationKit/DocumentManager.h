@@ -179,58 +179,59 @@ public:
 	};
 
 	/**
-	@delegate SaveFile this is called when the document manager's saveFile()
-	method is called from the UI. It implements the way used to bypass 
-	the normal behaviour of the document manager's saveFile() method itself.
-	It is effective only if a DocManagerEvent event handler is added to this 
-	delegate and setAllowFileOperation( false ) is called from the handler.
-	@event VCF::DocManagerEvent
-	@eventtype DocumentManager::dmSaveDocument
-	@see saveFile()
+	* @delegate SaveFile this is called when the document manager's saveFile()
+	* method is called from the UI. It implements the way used to bypass 
+	* the normal behaviour of the document manager's saveFile() method itself.
+	* It is effective only if a DocManagerEvent event handler is added to this 
+	* delegate and setAllowFileOperation( false ) is called from the handler.
+	* @event VCF::DocManagerEvent
+	* @eventtype DocumentManager::dmSaveDocument
+	* @see saveFile()
 	*/
 	DELEGATE(SaveFile);
 
 	/**
-	@delegate OpenFile this is called when the document manager's openFile()
-	method is called from the UI. It implements the way used to bypass 
-	the normal behaviour of the document manager's openFile() method itself.
-	It is effective only if a DocManagerEvent event handler is added to this 
-	delegate and setAllowFileOperation( false ) is called from the handler.
-	@event VCF::DocManagerEvent
-	@eventtype  DocumentManager::dmOpenDocument
-	@see openFile()
+	* @delegate OpenFile this is called when the document manager's openFile()
+	* method is called from the UI. It implements the way used to bypass 
+	* the normal behaviour of the document manager's openFile() method itself.
+	* It is effective only if a DocManagerEvent event handler is added to this 
+	* delegate and setAllowFileOperation( false ) is called from the handler.
+	* @event VCF::DocManagerEvent
+	* @eventtype  DocumentManager::dmOpenDocument
+	* @see openFile()
 	*/
 	DELEGATE(OpenFile);
 
 	/**
-	@delegate DocumentInitialized this is called after a newly created document has
-	been fully initialized by the document manager. At this point the document should
-	be connected to it's views (at least as many of them as the document manager knows
-	about), as well as having a window set for it.
-	@event VCF::Event
-	@eventtype DocumentManager::dmDocumentInitialized
-	@see Document::setWindow
+	* @delegate DocumentInitialized this is called after a newly created document has
+	* been fully initialized by the document manager. At this point the document should
+	* be connected to it's views (at least as many of them as the document manager knows
+	* about), as well as having a window set for it.
+	* @event VCF::Event
+	* @eventtype DocumentManager::dmDocumentInitialized
+	* @see Document::setWindow
 	*/
 	DELEGATE(DocumentInitialized)
 
 	/**
-	@delegate DocumentClosed this is called when the document is closed by
-	the DocInterfacePolicy. It is up to the implementer to call fire the
-	event to the delegate.
-	@event VCF::Event
-	@eventtype DocumentManager::dmCloseDocument
+	* @delegate DocumentClosed this fires to notify the user it is the time to
+	* close the document. It is up to the implementer to add an event handler
+	* to this delegate so to handle how to close the document and destroy it.
+	* @event VCF::Event
+	* @eventtype DocumentManager::dmCloseDocument
 	*/
 	DELEGATE(DocumentClosed)
 
 	/**
-	@delegate CurrentDocumentChanged this is fired whenever the
-	currentDocumentChanged() method is called. It is the responsibility of
-	the DocInterfacePolicy to call the currentDocumentChanged() method
-	when appropriate.
-	An event fired from this delegate causes the UI to be notified of any changes
-	on any document so it can choose to display them or else.
-	@event VCF::Event
-	@eventtype DocumentManager::dmCurrentDocumentChanged
+	* @delegate CurrentDocumentChanged this is fired whenever the
+	* currentDocumentChanged() method is called, to motify that 
+	* the application has changed its active document.
+	* It is the responsibility of the DocInterfacePolicy to call 
+	* the currentDocumentChanged() method when appropriate.
+	* An event fired from this delegate causes the UI to be notified of any changes
+	* on any document so it can choose to display them or else.
+	* @event VCF::Event
+	* @eventtype DocumentManager::dmCurrentDocumentChanged
 	*/
 	DELEGATE(CurrentDocumentChanged)
 
@@ -323,8 +324,8 @@ public:
 	};
 
 	/**
-	* function called to notify any change on the current document.
-	* The associated event is fired.
+	* this method is called to notify the application has changed
+	* its active document, child or not.
 	*/
 	void currentDocumentChanged() {
 		DocManagerEvent event( getCurrentDocument(), DocumentManager::dmCurrentDocumentChanged );
@@ -409,9 +410,13 @@ public:
 	String getMimeTypeFromFileExtension( const String& fileName );
 
 	/**
-	* sets a specified view for a specified new document and its window
-	* The DocumentInfo is also specified because we can decide to select
-	* which documents to add a view to.
+	* sets a specified view for a specified new document.
+	* In this default implementation the window, previously 'assigned' 
+	* to the document, becomes the view itself.
+	* The DocumentInfo is also specified because in alternative 
+	* implementations we may need to decide to select which view
+	* will be associated to the document: the window could be the view 
+	* itself or the control hosting the view instead.
 	*@param DocumentInfo& info, the DocumentInfo.
 	*@param View* view, the specified view.
 	*@param Window* window, the window.
@@ -657,7 +662,8 @@ public:
 	}
 
 	/**
-	* sets the given document as the active one
+	* sets the given document as the active one.
+	* Applies the policy's implemenation and send a change notification.
 	*/
 	virtual void setCurrentDocument( Document* newCurrentDocument ) {
 
@@ -689,7 +695,8 @@ public:
 	virtual void openFile();
 
 	/**
-	* closes the current document.
+	* closes the current document, and all its children if they exist
+	* according to the policy.
 	*/
 	virtual void closeCurrentDocument();
 
@@ -723,9 +730,9 @@ public:
 	* using the appropriate DocumentInfo extracted from the mimeType.
 	* In this standard implementation:
 	*   first it saves the current document if the policy requests this
-	*   then it does the work of attaching the UI
-	*   finally it notifyes the document has been changed
-	*see 
+	*   then it does the work of attaching the UI ( by calling attachUI ),
+	*   finally it notifies the document has been changed.
+	*@fire Document::deOpened, after the UI has been attached. 
 	*/
 	virtual void attachUIToDocument( const String& mimeType, Document* document );
 
@@ -745,7 +752,13 @@ public:
 
 
 protected:
-	/* attaches a UI to the specified document */
+	/**
+	* attaches a UI to the specified document
+	*param const DocumentInfo& info, the infos about this document's class.
+	*param Document* document, the document to attach the UI to.
+	*@fire DocumentManager::dmDocumentInitialized, after the UI 
+	*has been attached to the given document.
+	*/
 	void attachUI( const DocumentInfo& info, Document* document );
 
 	/**
@@ -836,6 +849,7 @@ protected:
 
 	/*
 	* handles notification that a document ( specified  by the event ) has been changed.
+	* The UI will set the caption to the caption of modified document's window.
 	*/
 	void onDocModified( ModelEvent* e ) {
 		Document* doc = (Document*)e->getSource();
@@ -1299,6 +1313,8 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 
 	DocumentInitialized.fireEvent( &event );
 
+	// makes sure the Frame has an handler to 
+	// to catch if the document's window is to be closing
 	EventHandler* newEv = app_->getEventHandler("onDocWindowClosing");
 	if ( NULL == newEv ) {
 
@@ -1308,7 +1324,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 	}
 	window->FrameClosing += newEv;
 
-
+	// makes sure the window has an handler to catch if the document's window has been activated
 	newEv = app_->getEventHandler("onDocWindowActive");
 	if ( NULL == newEv ) {
 
@@ -1316,7 +1332,6 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 					&DocumentManagerImpl<AppClass,DocInterfacePolicy>::onDocWindowActive,
 					"onDocWindowActive" );
 	}
-
 	window->FrameActivation += newEv;
 
 	window->show();
@@ -1351,6 +1366,8 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 
 	attachUI( info, document );
 
+	// with its creation, notifies the document has been changed
+	// so the UI updates itself
 	ModelEvent e( document, Document::deOpened );
 	document->ModelChanged.fireEvent( &e );
 }
@@ -1523,6 +1540,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/11/07 19:32:19  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.2  2004/10/26 05:44:12  marcelloptr
 *Document Window documentation
 *

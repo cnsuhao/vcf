@@ -148,22 +148,6 @@ void Win32SystemPeer::setCurrentWorkingDirectory( const String& currentDirectory
 }
 
 
-void Win32SystemPeer::setDateToSystemTime( DateTime* date )
-{
-	//get current time
-	SYSTEMTIME tm;
-	::GetSystemTime( &tm );
-	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );
-}
-
-void Win32SystemPeer::setDateToLocalTime( DateTime* date )
-{
-	//get current time
-	SYSTEMTIME tm;
-	::GetLocalTime( &tm );
-	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );
-}
-
 void Win32SystemPeer::setCurrentThreadLocale( Locale* locale )
 {
 
@@ -186,6 +170,23 @@ bool Win32SystemPeer::isUnicodeEnabled()
 	return result;
 }
 
+
+void Win32SystemPeer::setDateToSystemTime( DateTime* date )
+{
+	//get current time
+	SYSTEMTIME tm;
+	::GetSystemTime( &tm );
+	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );
+}
+
+void Win32SystemPeer::setDateToLocalTime( DateTime* date )
+{
+	//get current time
+	SYSTEMTIME tm;
+	::GetLocalTime( &tm );
+	date->set( tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds );
+}
+
 DateTime Win32SystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 {
 	DateTime result = date;
@@ -193,10 +194,14 @@ DateTime Win32SystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 	FILETIME   ftUTC, ftLocal;
 	SYSTEMTIME st;
 
-
 	// DateTime --> systemTime
 	unsigned long y, m, d, h, min, s, ms;
 	date.get( &y, &m, &d, &h, &min, &s, &ms );
+
+	if ( ( y < 1601 ) || ( 30827 < y ) ) {
+		throw BasicException( "The SYSTEMTIME structure doesn't allow dates outside the range [1601,30827]" );
+	}
+
 	st.wYear   = y;
 	st.wMonth  = m;
 	st.wDayOfWeek = date.getWeekDay();
@@ -239,8 +244,13 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	FILETIME   ftLocal, ftUTC;
 	SYSTEMTIME st;
 
+	unsigned long y = date.getYear();
+	if ( ( y < 1601 ) || ( 30827 < y ) ) {
+		throw BasicException( "The SYSTEMTIME structure doesn't allow dates outside the range [1601,30827]" );
+	}
+
 	// DateTime --> systemTime
-	st.wYear = date.getYear();
+	st.wYear = y;
 	st.wMonth = date.getMonth();
 	st.wDayOfWeek = date.getWeekDay();
 	st.wDay = date.getDay();
@@ -317,6 +327,9 @@ ProgramInfo* Win32SystemPeer::getProgramInfoFromFileName( const String& fileName
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/11/07 19:32:20  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.5  2004/09/17 11:38:06  ddiego
 *added program info support in library and process classes.
 *

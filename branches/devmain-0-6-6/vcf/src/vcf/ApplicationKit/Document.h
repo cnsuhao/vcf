@@ -133,8 +133,8 @@ public:
 
 
 	/**
-	* saves the document as a specified type of file with a name that is different
-	* than the current name for the document.
+	* saves the document as a specified type of file with a name that could be
+	* different than the current name for the document.
 	* We may need to save the document as a different type without renaming this
 	* document, so it is let to the user to call setFileName() first if he needs.
 	*@param const String& fileName, the filename to be saved as.
@@ -311,6 +311,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/11/07 19:32:18  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.1  2004/10/24 18:48:56  marcelloptr
 *Document Window documentation
 *

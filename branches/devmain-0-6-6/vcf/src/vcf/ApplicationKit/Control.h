@@ -459,7 +459,8 @@ public:
     virtual void setHeight( const double& height ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
 
 	/**
-	*determines whether or not the control is visible.
+	*determines whether or not the control is visible,
+	* and set it visible if it wasn't.
 	*@param bool true to show the control, false to hide it
 	*/
     virtual void setVisible( const bool& visible ) ;/**throw( InvalidPeer ); -JEC - FIXME later*/
@@ -1286,6 +1287,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/11/07 19:32:18  marcelloptr
+*more documentation
+*
 *Revision 1.2.2.3  2004/10/23 13:53:12  marcelloptr
 *comments for setUseColorForBackground; setActiveFrame renamed as internal
 *
