@@ -1354,6 +1354,42 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 	if ( NULL != scrollable ) {
 		Rect innerBounds = getClientBounds(true);
 
+		//account for any children that overlap
+		if ( NULL != this->container_ ) {
+			Enumerator<Control*>* children = container_->getChildren();
+			Rect childBounds;
+			while ( children->hasMoreElements() ) {
+				Control* child = children->nextElement();
+
+				
+				if ( child->getAlignment() != AlignNone && child->getVisible() ) {
+					childBounds = child->getBounds();
+					switch( child->getAlignment() ) {
+						case AlignLeft : {
+							innerBounds.left_ += childBounds.getWidth();
+						}
+						break;
+
+						case AlignRight : {
+							innerBounds.right_ -= childBounds.getWidth();
+						}
+						break;
+
+						case AlignTop : {
+							innerBounds.top_ += childBounds.getHeight();
+						}
+						break;
+
+						case AlignBottom : {
+							innerBounds.bottom_ -= childBounds.getHeight();
+						}
+						break;
+					}
+				}
+			}
+		}
+
+
 		Point scrollPos;
 		scrollPos.x_ = scrollable->getHorizontalPosition();
 		scrollPos.y_ = scrollable->getVerticalPosition();
@@ -1447,6 +1483,12 @@ void Control::setViewModel( Model* viewModel )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/08/21 21:06:52  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2.2.1  2004/08/19 03:22:53  ddiego
 *updates so new system tray code compiles
 *

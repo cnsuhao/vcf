@@ -167,26 +167,6 @@
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\FoundationKitRTTI.inl">
 			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\Library.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<Filter
 			Name="Peers"
@@ -422,6 +402,12 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\Win32Registry.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32ResourceBundle.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Win32ResourceBundle.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Win32SemaphorePeer.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -587,6 +573,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\PropertyChangeException.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceException.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\RuntimeException.h">
@@ -1482,6 +1471,9 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\CommonDefines.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Library.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Locales.h">
 			</File>
 			<File
@@ -1531,6 +1523,12 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\ObjectWithEvents.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Resource.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\Resource.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\VCF.h">
 			</File>
 			<File
@@ -1563,6 +1561,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\RegistryPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\ResourceBundle.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\SemaphorePeer.h">

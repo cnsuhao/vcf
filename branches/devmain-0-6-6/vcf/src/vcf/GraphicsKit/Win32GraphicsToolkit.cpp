@@ -10,6 +10,7 @@ where you installed the VCF.
 //Win32GraphicsToolkit.h
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
+#include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
 
 
 using namespace VCF;
@@ -26,7 +27,9 @@ Win32GraphicsToolkit::Win32GraphicsToolkit()
 	registerImageLoader( "image/bmp", new BMPLoader() );
 
 	initSystemFont();
+	Win32GraphicsResourceBundle* newInstance = new Win32GraphicsResourceBundle();
 
+	System::internal_replaceResourceBundleInstance( reinterpret_cast<ResourceBundle*>(newInstance) );
 }
 
 Win32GraphicsToolkit::~Win32GraphicsToolkit()
@@ -189,6 +192,12 @@ void Win32GraphicsToolkit::loadSystemColors()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:07:10  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

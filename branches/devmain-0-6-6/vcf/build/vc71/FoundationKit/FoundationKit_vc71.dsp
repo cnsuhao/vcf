@@ -110,10 +110,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKit.cpp
 
 SOURCE=..\..\..\src\vcf\FoundationKit\FoundationKitRTTI.inl
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\Library.cpp
-# End Source File
 # End Group
 # Begin Group "Peers"
 
@@ -197,6 +193,14 @@ SOURCE=..\..\..\src\vcf\FoundationKit\Win32Registry.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\Win32Registry.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32ResourceBundle.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Win32ResourceBundle.h
 # End Source File
 # Begin Source File
 
@@ -305,6 +309,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ProcessException.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\PropertyChangeException.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceException.h
 # End Source File
 # Begin Source File
 
@@ -700,6 +708,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\CommonDefines.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\FoundationKit\Library.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\FoundationKit\Locales.h
 # End Source File
 # Begin Source File
@@ -717,6 +729,14 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ObjectWithEvents.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\ObjectWithEvents.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Resource.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\Resource.h
 # End Source File
 # Begin Source File
 
@@ -761,6 +781,10 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ProcessPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\RegistryPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\ResourceBundle.h
 # End Source File
 # Begin Source File
 

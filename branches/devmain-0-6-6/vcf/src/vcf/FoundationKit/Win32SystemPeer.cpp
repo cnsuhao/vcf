@@ -15,17 +15,25 @@ where you installed the VCF.
 #include "vcf/FoundationKit/DateTime.h"
 
 #include "vcf/FoundationKit/DateTime.h"
+#include "vcf/FoundationKit/Win32ResourceBundle.h"
+
+
 
 using namespace VCF;
 
 Win32SystemPeer::Win32SystemPeer()
 {
-
+	resBundle_ = new Win32ResourceBundle();
 }
 
 Win32SystemPeer::~Win32SystemPeer()
 {
 
+}
+
+ResourceBundle* Win32SystemPeer::getResourceBundle()
+{	
+	return resBundle_;
 }
 
 unsigned long Win32SystemPeer::getTickCount()
@@ -273,9 +281,16 @@ DateTime Win32SystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	return result;
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -22,7 +22,7 @@ using namespace VCF;
 System* System::create()
 {
 	if ( NULL == System::systemInstance ) {
-		System::systemInstance = new System();
+		System::systemInstance = new System();		
 		System::systemInstance->init();
 	}
 
@@ -39,7 +39,8 @@ System::System():
 	systemPeer_(NULL),
 	errorLogInstance_(NULL),
 	locale_(NULL),
-	unicodeEnabled_(false)
+	unicodeEnabled_(false),
+	resBundle_(NULL)
 {
 	systemPeer_ = SystemToolkit::createSystemPeer();
 
@@ -52,10 +53,13 @@ System::System():
 	errorLogInstance_ = NULL;
 
 	locale_ = new Locale( L"", L"" );
+
+	resBundle_ = systemPeer_->getResourceBundle();
 }
 
 System::~System()
 {
+	delete resBundle_;
 	delete locale_;
 	delete systemPeer_;
 }
@@ -246,9 +250,29 @@ DateTime System::convertLocalTimeToUTCTime( const DateTime& date )
 	return System::systemInstance->systemPeer_->convertLocalTimeToUTCTime( date );
 }
 
+ResourceBundle* System::getResourceBundle()
+{
+	return System::systemInstance->resBundle_;
+}
+
+void System::internal_replaceResourceBundleInstance( ResourceBundle* newInstance )
+{
+	if ( NULL != System::systemInstance->resBundle_ ) {
+		delete System::systemInstance->resBundle_;
+		System::systemInstance->resBundle_ = NULL;
+	}
+	System::systemInstance->resBundle_ = newInstance;
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2004/08/21 21:06:53  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

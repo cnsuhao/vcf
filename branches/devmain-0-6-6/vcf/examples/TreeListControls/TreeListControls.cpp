@@ -169,8 +169,15 @@ public:
 			new MenuItemEventHandler<TreeListControlsWindow>( this, TreeListControlsWindow::enumerateSelectedItems, "TreeListControlsWindow::enumerateSelectedItems" ) );
 
 
+		ScrollbarManager* scrollbarManager = new ScrollbarManager();
+		addComponent( scrollbarManager );
+		scrollbarManager->setHasVerticalScrollbar( true );
+		
+
 		treeList = new TreeListControl();
 		treeList->setDefaultItemHeight( 18 );
+
+		scrollbarManager->setTarget( treeList );
 
 		treeList->setPopupMenu( popup );
 
@@ -290,11 +297,7 @@ public:
 		treeList->getHeader()->addColumn( "Column 4" );
 		treeList->getHeader()->addColumn( "Column 5" );
 
-		ScrollbarManager* scrollbarManager = new ScrollbarManager();
-		addComponent( scrollbarManager );
-
-		scrollbarManager->setHasVerticalScrollbar( true );
-		scrollbarManager->setTarget( treeList );
+		
 
 		treeList->showColumnHeader( true );
 
@@ -317,7 +320,7 @@ public:
 		panel->add( status, AlignClient );
 		status->setCaption( "status: " );
 
-		setVisible( true );
+		
 
 		HeaderControl* header = treeList->getHeader();
 		header->ColumnItemClicked.addHandler(
@@ -373,12 +376,14 @@ public:
 	}
 
 	virtual bool initRunningApplication(){
-		this->setAutoLoadSaveAppState( true );
+		
 		bool result = Application::initRunningApplication();
 
 		Window* mainWindow = new TreeListControlsWindow();
 		setMainWindow(mainWindow);
-		//mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
+		mainWindow->show();
+
 
 		return result;
 	}
@@ -399,6 +404,12 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2004/08/21 21:06:51  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
 *Revision 1.4  2004/08/07 02:47:41  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -174,6 +174,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsKitSelectLib.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundle.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsToolKit.h">
 			</File>
 			<File
@@ -306,6 +309,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32FontManager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32GraphicsResourceBundle.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32GraphicsResourceBundle.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32GraphicsToolkit.cpp">
