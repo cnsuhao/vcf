@@ -125,6 +125,35 @@ public:
 	virtual int getAttributes() = 0;
 
 	/**
+	Don't call this - this is used strictly by the framework.
+	*/
+	virtual void internal_setPropertyType( const String& type ) = 0;
+
+	/**
+	Returns the property type that this editor instance is associated with.
+	*/
+	virtual String getPropertyType() = 0;
+
+
+	/**
+	returns the root component that is being edited in a 
+	form designer. This may or may not be a control.
+	*/
+	virtual Component* getRootDesignerComponent() = 0;
+
+	/**
+	Sets the root component that is being edited in a 
+	form designer. This may or may not be a control.
+	This root component is then used by some property editor's 
+	to enumerator choices for assign values to properties. For example
+	a component proeprty editor might try and find all sub components
+	of the root component whose class name matches a certain criteria
+	and disply these as possible choices to assign a value to the
+	property editor.
+	*/
+	virtual void setRootDesignerComponent( Component* rootDesigner )  = 0;
+
+	/**
 	\par
 	Returns a control instance that belongs to this editor. This control
 	instance is managed by the tool using this property editor so
@@ -262,6 +291,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/03/11 04:28:21  ddiego
+*added some minor modifications to the PropertyEditor interface.
+*
 *Revision 1.2.4.4  2005/03/09 23:16:17  marcelloptr
 *more comments
 *
