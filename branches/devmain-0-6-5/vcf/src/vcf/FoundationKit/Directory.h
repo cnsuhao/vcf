@@ -130,14 +130,7 @@ public:
 		*gets the pointer to the last searched element.
 		*@return the pointer to the last searched element.
 		*/
-		virtual File* getCurrentElement() const;
-
-		/*
-		*Are there any more elements in this Finder ?
-		*This function doesn't affect the search in any way.
-		*@return if the there are some more elements to search.
-		*/
-		virtual bool hasMoreElements() const;
+		File* getCurrentElement() const;
 
 		/**
 		*gets the next file name in the search.
@@ -146,12 +139,12 @@ public:
 		*@return File* pointer to the file object where the informations 
 		*about the file currently found are copied into.
 		*/
-		virtual File* nextElement();
+		bool nextElement();
 
 		/**
 		*resets the search.
 		*/
-		virtual void reset();
+		void reset();
 
 		/**
 		*returns the Directory object that created
@@ -674,6 +667,9 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2004/07/23 00:56:37  ddiego
+*added the latest changes to the File and Directory finder classes.
+*
 *Revision 1.1.2.6  2004/07/20 02:03:13  ddiego
 *fixed some miscellaneous bugs in directory search code. Many
 *thanks to Marcello for helping out on this.

@@ -51,7 +51,9 @@ public:
 
 		Directory::Finder* finder = dir.findFiles();
 
-		while ( file = finder->nextElement() ) {
+		while ( finder->nextElement() ) {
+			file = finder->getCurrentElement();
+
 			filename = file->getName();
 			path = filepath + filename;
 
@@ -98,7 +100,8 @@ public:
 
 		Directory::Finder* finder = dir.findFiles( &filterFilesObj2 );
 		finder->setStatMask( File::smAttributes );
-		while ( file = finder->nextElement() ) {
+		while ( finder->nextElement() ) {
+			file = finder->getCurrentElement();
 			filename = file->getName();
 			path = filepath + filename;
 
@@ -146,9 +149,8 @@ public:
 		finder->ignoreStat( File::smMaskDateAll | File::smSize );
 		finder->setRecursion( recurse, 10 );
 
-		file = finder->nextElement();
-
-		while ( NULL != file ) {
+		while ( finder->nextElement() ) {
+			file = finder->getCurrentElement();
 			filename = file->getName();
 
 			if ( file->isDirectory() ) {
@@ -197,13 +199,6 @@ public:
 					//file->updateTime();
 				}
 
-			}
-
-			try {
-				file = finder->nextElement();
-			}
-			catch ( BasicException& e ) {
-				System::errorPrint( &e );
 			}
 		}
 

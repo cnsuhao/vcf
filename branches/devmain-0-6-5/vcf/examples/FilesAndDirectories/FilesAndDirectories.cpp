@@ -116,10 +116,11 @@ int main( int argc, char** argv ){
 		Directory::Finder* finder = dir.findFiles( "*.txt" );
 		
 		if ( NULL != finder ) {
-			finder->setDisplayMode( Directory::Finder::dmFiles );
+			finder->setDisplayMode( Directory::Finder::dmFiles );			
 			
-			File* foundFile = finder->nextElement();
-			while ( NULL != foundFile) {
+			while ( finder->nextElement() ) {
+				File* foundFile = finder->getCurrentElement();
+
 				fileName = foundFile->getName();
 				
 				System::println( fileName );			
@@ -131,9 +132,7 @@ int main( int argc, char** argv ){
 				}
 				catch ( BasicException& e ) {
 					System::errorPrint( &e );
-				}
-				
-				foundFile = finder->nextElement();
+				}				
 			}
 			finder->free();
 		}
@@ -182,6 +181,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.7  2004/07/23 00:56:37  ddiego
+*added the latest changes to the File and Directory finder classes.
+*
 *Revision 1.2.4.6  2004/07/19 04:08:52  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *

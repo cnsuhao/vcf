@@ -84,11 +84,13 @@ public:
 
 
 public:
-	/*
-	*  PLEASE SEE COMMENTS WHERE openWithRights() and stat()
-	*/
-	File( const String& fileName, OpenFlags openFlags = File::ofNone, ShareFlags shareFlags = File::shMaskAny );
-	~File();
+	
+	File( const String& fileName );
+	
+	File( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags );
+
+	virtual ~File();
+
 
 	/*
 	* gets the file peer
@@ -262,25 +264,12 @@ public:
 
 	/**
 	* opens a file with read/write access
-	* Closes the old one if previously opened
-	* - is this useful ?        MARCELLO: I really think so
-	* - do we need executable ? MARCELLO: I have no idea - only Linux experience can tell but I guess yes
-	* HOW TO IMPLEMENT THE LPSECURITY_ATTRIBUTES lpSecurityAttributes ( see CreateFile ) ?
-	* FOR SURE, soon or later, somebody will want it and I think it will have to be implemented (IMHO)
+	* Closes the old one if previously opened	
 	*@param fileName the desired new filename
 	*@param openFlags
 	*@param shareFlags
 	*/
 	void openWithRights( const String& fileName, OpenFlags openFlags = File::ofRead, ShareFlags shareFlags = File::shMaskAny );
-
-	/**
-	* open a file ONLY for informational purposes. Does this make sense? Do we need this in addition to open ?
-	* Marcello: is this necessary ? MARCELLO: I think that updateStat() is doing all the work, so we don't need of this
-	*     MARCELLO: it is true that the OS uses different functions to get some infos when a file is open or not
-	*               expecially if the file is opened with DO_SHARE_WITH_ANYBODY_! flag
-	*               Should we need to implement updateStat for this case too ? I would do only when we will see it necessary
-	*/
-	void stat();
 
 	/**
 	* closes the file if open
@@ -303,20 +292,16 @@ public:
 	/**
 	* renames/moves a file
 	* - or should we have move() ?
-	* MARCELLO: maybe is better to have only one function 
-	* MARCELLO: so I would choose move,
-	* MARCELLO: but in this space here I would maybe put the word 'rename'
-	*  so a user can quicly find it ?
 	*@param newFileName the filename
-	*/
-	//void rename( const String& newFileName ); //renames the file
-	void move( const String& newFileName );   //renames/moves the file
+	*/	
+	void move( const String& newFileName );
+
 
 	/**
 	* copies the file into another one
 	*@param fileNameToCopyTo the filename to create/overwrite.
 	*/
-	void copyTo( const String& fileNameToCopyTo ); //copies the file
+	void copyTo( const String& fileNameToCopyTo );
 
 	/**
 	This returns a new instance of an InputStream that's attached to this file. Please
@@ -378,6 +363,7 @@ protected:
 	FilePeer* filePeer_;
 	
 	StatMask validStat_;
+	OpenFlags	openAccess_;
 	
 	String   fileName_;
 	String   owner_; // a string ?
@@ -516,6 +502,16 @@ inline bool File::exists() const
 }
 
 
+inline bool File::isReadable()
+{
+	return (openAccess_ & File::ofRead) ? true : false;;
+}
+
+inline bool File::isWriteable() 
+{
+	return (openAccess_ & File::ofWrite) ? true : false;
+}
+
 
 
 
@@ -529,6 +525,9 @@ inline bool File::exists() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/23 00:56:37  ddiego
+*added the latest changes to the File and Directory finder classes.
+*
 *Revision 1.1.2.5  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *
