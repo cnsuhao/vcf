@@ -357,7 +357,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "FreeImageLib"="../../thirdparty/common/FreeImage/Source/FreeImageLib/FreeImageLib_vc70.dsp" - Package Owner=<4>
+Project: "FreeImageLib"="../../src/thirdparty/common/FreeImage/Source/FreeImageLib/FreeImageLib_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -549,7 +549,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"="../../thirdparty/common/FreeImage/Source/LibJPEG/LibJPEG_vc70.dsp" - Package Owner=<4>
+Project: "LibJPEG"="../../src/thirdparty/common/FreeImage/Source/LibJPEG/LibJPEG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -561,7 +561,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibMNG"="../../thirdparty/common/FreeImage/Source/LibMNG/LibMNG_vc70.dsp" - Package Owner=<4>
+Project: "LibMNG"="../../src/thirdparty/common/FreeImage/Source/LibMNG/LibMNG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -573,7 +573,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"="../../thirdparty/common/FreeImage/Source/LibPNG/LibPNG_vc70.dsp" - Package Owner=<4>
+Project: "LibPNG"="../../src/thirdparty/common/FreeImage/Source/LibPNG/LibPNG_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -585,7 +585,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibTIFF"="../../thirdparty/common/FreeImage/Source/LibTIFF/LibTIFF_vc70.dsp" - Package Owner=<4>
+Project: "LibTIFF"="../../src/thirdparty/common/FreeImage/Source/LibTIFF/LibTIFF_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -621,7 +621,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "MSDNIntegrator"="../../thirdparty/win32/MSDNIntegrator/MSDNIntegrator_vc70.dsp" - Package Owner=<4>
+Project: "MSDNIntegrator"="../../src/thirdparty/win32/MSDNIntegrator/MSDNIntegrator_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1029,7 +1029,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="../../thirdparty/common/FreeImage/Source/ZLib/ZLib_vc70.dsp" - Package Owner=<4>
+Project: "ZLib"="../../src/thirdparty/common/FreeImage/Source/ZLib/ZLib_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
