@@ -1,6 +1,13 @@
-
 #ifndef _XMAKE_UTILS_H__
 #define _XMAKE_UTILS_H__
+//xmakeUtils.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "xmake.h"
 
@@ -14,6 +21,16 @@ namespace xmake {
 	};
 
 };
+
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.4.1  2004/12/21 01:25:17  marcelloptr
+*added cvs log section
+*
+*/
 
 
 
