@@ -843,7 +843,8 @@ void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
 		else {
 			ListItem* item = this->getSelectedItem();
 			if ( NULL != item ) {
-				item->setCaption( edit_->getTextModel()->getText() );
+				// commented as we don't want to change the caption of the items in the list [ bugfix 1112867]
+				//item->setCaption( edit_->getTextModel()->getText() );
 				repaint();
 			}
 		}
@@ -1041,6 +1042,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/01/31 01:40:18  marcelloptr
+*bugfix [1112867] Press Return on ComboBox changes the selected item's caption
+*
 *Revision 1.3.2.6  2005/01/31 01:37:29  marcelloptr
 *fixed crash when vkEscape pressed
 *
