@@ -154,19 +154,8 @@ void CommandButton::paint(GraphicsContext * context)
 	state.setDefaultButton( this == UIToolkit::getDefaultButton() );
 	state.buttonCaption_ = getCaption();
 
+	context->setCurrentFont( getFont() );
 	context->drawThemeButtonRect( &rect, state );
-
-//	rect
-
-	/*
-	if ( this == UIToolkit::getDefaultButton() ) {
-		rect.right_ -=1;
-		rect.bottom_ -= 1;
-		context->setColor( Color::getColor( "black" ) );
-		context->rectangle( &rect );
-		context->strokePath();
-	}
-	*/
 }
 
 ButtonCommandType CommandButton::getCommandType()
@@ -220,6 +209,9 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/02/21 16:20:00  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.3  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -2024,9 +2024,35 @@ void TreeListControl::onEditingControlKeyPressed( KeyboardEvent* event )
 	}
 }
 
+bool TreeListControl::finishEditingFromFocusLoss( Control* lostFocusCtrl, Control* currentFocusedCtrl )
+{
+	bool result = true;
+	Control* parent = currentFocusedCtrl->getParent();
+	while ( NULL != parent ) {
+		if ( currentEditingControl_ == parent ) {
+			//skip function, we don't need to do anything
+			//at all!
+			result = false; 
+			break;
+		}
+		parent = parent->getParent();
+	}
+
+	return result;
+}
+
 void TreeListControl::onEditorFocusLost( Event* e ) 
 {
-	finishEditing();
+	Control* control = (Control*)e->getSource();
+
+	//check to see if we have lost focus because
+	//we have clicked on a child control of the 
+	//currentEditingControl_
+	Control* currentFocused = Control::getCurrentFocusedControl();
+
+	if ( finishEditingFromFocusLoss( control, currentFocused ) ) {
+		finishEditing();
+	}	
 }
 
 void TreeListControl::postFinishedEditing( Event* e ) {		
@@ -2100,6 +2126,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/02/21 16:20:01  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.3.2.5  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

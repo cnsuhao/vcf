@@ -57,20 +57,20 @@ std::vector<String> EnumPropertyEditor::getStringValues(){
 	int current = val->get();
 	int end = val->end();
 	int start = val->begin();
-
-	String s1 = val->toString();
-
-	String s2 = val->toString();
-	result.push_back( s1 );
-	result.push_back( s2 );
+	
+	result.push_back( val->toString() );	
 
 	int next = val->next();
 
 	while ( next != end ) {
-		next = val->next();
 		result.push_back( val->toString() );
+		next = val->next();		
 	}
 	
+	val->end();
+
+	result.push_back( val->toString() );
+
 	return result;
 }
 
@@ -155,7 +155,9 @@ std::vector<String> ColorPropertyEditor::getStringValues()
 FontPropertyEditor::FontPropertyEditor()
 {
 	//later on it would be nice to be able to get the list of system fonts here
-	attributes_ = PropertyEditor::paUsesModalDialogForEditing | PropertyEditor::paNeedsCustomPaint;
+	attributes_ = PropertyEditor::paUsesModalDialogForEditing | 
+					PropertyEditor::paNeedsCustomPaint |
+					PropertyEditor::paHasSubProperties;
 }
 
 FontPropertyEditor::~FontPropertyEditor()
@@ -199,6 +201,30 @@ void FontPropertyEditor::edit()
 	}
 }
 
+std::vector<PropertyEditor*> FontPropertyEditor::getSubProperties()
+{
+	std::vector<PropertyEditor*> result;
+
+	Class* fontClass = ClassRegistry::getClass( "VCF::Font" );
+	
+	if ( NULL != fontClass ) {
+		Enumerator<Property*>* properties = fontClass->getProperties();
+
+		while ( properties->hasMoreElements() ) {
+			Property* property = properties->nextElement();
+			Object* obj = *getValue();
+			property->setSource( obj );
+
+			PropertyEditor* editor = PropertyEditorManager::findEditor( property->getTypeClassName () );
+			if ( NULL != editor ) {
+				result.push_back( editor );
+			}
+		}
+	}
+
+	return result;
+}
+
 DefaultMenuItemPropertyEditor::DefaultMenuItemPropertyEditor()
 {
 
@@ -225,6 +251,9 @@ DefaultListModelPropertyEditor::~DefaultListModelPropertyEditor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/21 16:20:01  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

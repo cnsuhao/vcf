@@ -270,6 +270,14 @@ protected:
 	virtual Control* createEditor( TreeItem* item, int column ) {
 		return NULL;
 	}
+
+	/**
+	virtual function to control whether or not to allow an edit to finish due to 
+	focus loss. 
+	@return bool return true to enable the edit session to finish, otherwise
+	return false.
+	*/
+	virtual bool finishEditingFromFocusLoss( Control* lostFocusCtrl, Control* currentFocusedCtrl );
 };
 
 
@@ -279,6 +287,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/02/21 16:20:02  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.3.2.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

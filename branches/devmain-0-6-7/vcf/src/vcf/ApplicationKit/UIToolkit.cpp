@@ -93,7 +93,13 @@ void UIToolkit::init()
 	PropertyEditorManager::registerPropertyEditor( new DoublePropertyEditor(), CLASS_DOUBLE );
 	PropertyEditorManager::registerPropertyEditor( new BoolPropertyEditor(), CLASS_BOOL );
 	PropertyEditorManager::registerPropertyEditor( new StringPropertyEditor(), CLASS_STRING );
-	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), CLASS_ENUM );
+
+	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::AlignmentType" );
+	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::IconStyleType" );
+	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::IconAlignType" );
+	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::TextAlignmentType" );
+	PropertyEditorManager::registerPropertyEditor( new EnumPropertyEditor(), "VCF::TextVerticalAlignment" );
+	
 	PropertyEditorManager::registerPropertyEditor( new ColorPropertyEditor(), "VCF::Color" );
 	PropertyEditorManager::registerPropertyEditor( new FontPropertyEditor(), "VCF::Font" );
 	PropertyEditorManager::registerPropertyEditor( new DefaultMenuItemPropertyEditor(), "VCF::DefaultMenuItem" );
@@ -977,6 +983,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/02/21 16:20:02  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.3.2.2  2004/12/19 07:09:18  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.

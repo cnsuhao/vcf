@@ -109,6 +109,8 @@ public:
 
 	virtual void edit();
 
+	virtual std::vector<PropertyEditor*> getSubProperties();
+
 };
 
 
@@ -135,6 +137,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/02/21 16:20:01  ddiego
+*minor changes to various things, property editors, and tree list control.
+*
 *Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
