@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.1.2.5  2003/02/18 19:59:55  catwallader
+#Added Condition classes. Also added comments to Thread and Mutex class
+#headers.
+#
 #Revision 1.1.2.4  2003/02/12 19:33:44  catwallader
 #Added PosixMutex class.
 #
@@ -80,6 +84,9 @@ $(OUTDIR_FK_D)/MemoryStream.o : $(SRC_IO)/MemoryStream.cpp $(FOUNDATIONKIT_HDRS)
 $(OUTDIR_FK_D)/Mutex.o : $(SRC_UTILS)/Mutex.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Mutex.cpp -o $(OUTDIR_FK_D)/Mutex.o
 
+$(OUTDIR_FK_D)/Condition.o : $(SRC_UTILS)/Condition.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_UTILS)/Condition.cpp -o $(OUTDIR_FK_D)/Condition.o
+
 $(OUTDIR_FK_D)/Object.o : $(SRC_CORE)/Object.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_CORE)/Object.cpp -o $(OUTDIR_FK_D)/Object.o
 
@@ -151,6 +158,9 @@ $(OUTDIR_FK_D)/LinuxLibraryPeer.o : $(SRC_IMPLKIT)/LinuxLibraryPeer.cpp $(FOUNDA
 
 $(OUTDIR_FK_D)/PosixMutex.o : $(SRC_IMPLKIT)/PosixMutex.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/PosixMutex.cpp -o $(OUTDIR_FK_D)/PosixMutex.o
+
+$(OUTDIR_FK_D)/PosixCondition.o : $(SRC_IMPLKIT)/PosixCondition.cpp $(FOUNDATIONKIT_HDRS)
+	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/PosixCondition.cpp -o $(OUTDIR_FK_D)/PosixCondition.o
 
 $(OUTDIR_FK_D)/LinuxProcessPeer.o : $(SRC_IMPLKIT)/LinuxProcessPeer.cpp $(FOUNDATIONKIT_HDRS)
 	$(CXX) $(CXX_FLAGS_D) $(SRC_IMPLKIT)/LinuxProcessPeer.cpp -o $(OUTDIR_FK_D)/LinuxProcessPeer.o

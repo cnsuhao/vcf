@@ -2,6 +2,10 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.1.2.9  2003/02/18 19:59:56  catwallader
+#Added Condition classes. Also added comments to Thread and Mutex class
+#headers.
+#
 #Revision 1.1.2.8  2003/02/12 19:33:45  catwallader
 #Added PosixMutex class.
 #
@@ -40,9 +44,6 @@ FOUNDATION_KIT_SO=$(BIN_OUT)/libFoundationKit.so
 GRAPHICS_KIT_SO=$(BIN_OUT)/libGraphicsKit.so
 APPLICATION_KIT_SO=$(BIN_OUT)/libApplicationKit.so
 NETWORK_KIT_SO=$(BIN_OUT)/libNetworkKit.so
-
-
-
 
 #toolchain definitions
 CXX_FLAGS_D=-ggdb -D VCF_GCC -D_DEBUG -I $(CXX_INC) -c
@@ -93,6 +94,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/Locales.o \
 	$(OUTDIR_FK_D)/MemoryStream.o \
 	$(OUTDIR_FK_D)/Mutex.o \
+	$(OUTDIR_FK_D)/Condition.o \
 	$(OUTDIR_FK_D)/Object.o \
 	$(OUTDIR_FK_D)/ObjectWithEvents.o \
 	$(OUTDIR_FK_D)/Parser.o \
@@ -117,6 +119,7 @@ FK_OBJECT_FILES_D=$(OUTDIR_FK_D)/BasicException.o \
 	$(OUTDIR_FK_D)/PosixThread.o \
 	$(OUTDIR_FK_D)/LinuxLibraryPeer.o \
 	$(OUTDIR_FK_D)/PosixMutex.o \
+	$(OUTDIR_FK_D)/PosixCondition.o \
 	$(OUTDIR_FK_D)/LinuxProcessPeer.o \
 	$(OUTDIR_FK_D)/LinuxRegistry.o \
 	$(OUTDIR_FK_D)/LinuxSemaphorePeer.o \
@@ -147,6 +150,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/Locales.o \
 	$(OUTDIR_FK)/MemoryStream.o \
 	$(OUTDIR_FK)/Mutex.o \
+	$(OUTDIR_FK)/Condition.o \
 	$(OUTDIR_FK)/Object.o \
 	$(OUTDIR_FK)/ObjectWithEvents.o \
 	$(OUTDIR_FK)/Parser.o \
@@ -171,6 +175,7 @@ FK_OBJECT_FILES=$(OUTDIR_FK)/BasicException.o \
 	$(OUTDIR_FK)/PosixThread.o \
 	$(OUTDIR_FK)/LinuxLibraryPeer.o \
 	$(OUTDIR_FK)/PosixMutex.o \
+	$(OUTDIR_FK)/PosixCondition.o \
 	$(OUTDIR_FK)/LinuxProcessPeer.o \
 	$(OUTDIR_FK)/LinuxRegistry.o \
 	$(OUTDIR_FK)/LinuxSemaphorePeer.o \
@@ -530,12 +535,10 @@ target :
 	echo please choose either "debug", "release" or "all" '(for both debug and release)'
 
 
-
 #debug target
 
 debug : FoundationKit_debug
 
-	
 
 #release target
 
@@ -582,28 +585,28 @@ prep_dirs_FK_D:
 	if ! `test -d $(OUTDIR_FK_D)`;then mkdir $(OUTDIR_FK_D);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-	
+
 #creates the foundationkit output directories for a release build
 prep_dirs_FK: 
 	if ! `test -d $(OUTPUT_BASE_FK)`;then mkdir $(OUTPUT_BASE_FK);fi;\
 	if ! `test -d $(OUTDIR_FK)`;then mkdir $(OUTDIR_FK);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-		
+
 #creates the GraphicsKit output directories for a debug build
 prep_dirs_GK_D: 
 	if ! `test -d $(OUTPUT_BASE_GK)`;then mkdir $(OUTPUT_BASE_GK);fi;\
 	if ! `test -d $(OUTDIR_GK_D)`;then mkdir $(OUTDIR_GK_D);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-	
+
 #creates the GraphicsKit output directories for a release build
 prep_dirs_GK: 
 	if ! `test -d $(OUTPUT_BASE_GK)`;then mkdir $(OUTPUT_BASE_GK);fi;\
 	if ! `test -d $(OUTDIR_GK)`;then mkdir $(OUTDIR_GK);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-		
+
 
 #creates the ApplicationKit output directories for a debug build
 prep_dirs_AK_D: 
@@ -611,22 +614,21 @@ prep_dirs_AK_D:
 	if ! `test -d $(OUTDIR_AK_D)`;then mkdir $(OUTDIR_AK_D);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-	
+
 #creates the ApplicationKit output directories for a release build
 prep_dirs_AK: 
 	if ! `test -d $(OUTPUT_BASE_AK)`;then mkdir $(OUTPUT_BASE_AK);fi;\
 	if ! `test -d $(OUTDIR_AK)`;then mkdir $(OUTDIR_AK);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-		
-		
+
 #creates the NetworkKit output directories for a debug build
 prep_dirs_NK_D: 
 	if ! `test -d $(OUTPUT_BASE_NK)`;then mkdir $(OUTPUT_BASE_NK);fi;\
 	if ! `test -d $(OUTDIR_NK_D)`;then mkdir $(OUTDIR_NK_D);fi;\
 	if ! `test -d $(BIN_OUT)`;then mkdir $(BIN_OUT);fi;\
 	if ! `test -d $(LIB_OUT)`;then mkdir $(LIB_OUT);fi;
-	
+
 #creates the NetworkKit output directories for a release build
 prep_dirs_NK: 
 	if ! `test -d $(OUTPUT_BASE_NK)`;then mkdir $(OUTPUT_BASE_NK);fi;\
@@ -663,7 +665,7 @@ $(GRAPHICS_KIT_SO_D) : $(GRAFKIT_OBJECT_FILES_D)
 #GraphicsKit shared object library
 $(GRAPHICS_KIT_SO) : $(GRAFKIT_OBJECT_FILES)
 	$(LINKER) $(GK_LINKER_FLAGS) $(GRAPHICS_KIT_SO) $(GRAFKIT_OBJECT_FILES)
-	
+
 #this is the debug build target for the 
 #ApplicationKit shared object library
 $(APPLICATION_KIT_SO_D) : $(APPKIT_OBJECT_FILES_D)
@@ -674,8 +676,6 @@ $(APPLICATION_KIT_SO_D) : $(APPKIT_OBJECT_FILES_D)
 #ApplicationKit shared object library
 $(APPLICATION_KIT_SO) : $(APPKIT_OBJECT_FILES)
 	$(LINKER) $(AK_LINKER_FLAGS) $(APPLICATION_KIT_SO) $(APPKIT_OBJECT_FILES)	
-	
-	
 
 #this is the debug build target for the 
 #ApplicationKit shared object library
@@ -716,7 +716,7 @@ include NetworkKitObjects.mak
 clean-FoundationKit-debug :
 	rm $(FK_OBJECT_FILES_D)
 	rm $(FOUNDATION_KIT_SO_D)
-	
+
 clean-FoundationKit-release :
 	rm $(FK_OBJECT_FILES)
 	rm $(FOUNDATION_KIT_SO)
@@ -724,16 +724,15 @@ clean-FoundationKit-release :
 clean-GraphicsKit-debug : clean-FoundationKit-debug
 	rm $(GRAFKIT_OBJECT_FILES_D)
 	rm $(GRAPHICS_KIT_SO_D)
-	
+
 clean-GraphicsKit-release : clean-FoundationKit-release
 	rm $(GRAFKIT_OBJECT_FILES)
 	rm $(GRAPHICS_KIT_SO)
-	
-	
+
 clean-ApplicationKit-debug : clean-GraphicsKit-debug
 	rm $(APPKIT_OBJECT_FILES_D)
 	rm $(APPLICATION_KIT_SO_D)
-	
+
 clean-ApplicationKit-release : clean-GraphicsKit-release
 	rm $(APPKIT_OBJECT_FILES)
 	rm $(APPLICATION_KIT_SO)	
@@ -756,7 +755,7 @@ clean-debug :
 	rm $(GRAPHICS_KIT_SO_D)
 	rm $(APPLICATION_KIT_SO_D)
 	rm $(NETWORK_KIT_SO_D)
-	
+
 
 clean-release : 
 	rm $(FK_OBJECT_FILES)
@@ -769,4 +768,4 @@ clean-release :
 	rm $(NETWORK_KIT_SO)
 
 clean : clean-debug clean-release
-	
+
