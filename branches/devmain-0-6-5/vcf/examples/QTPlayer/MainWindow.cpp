@@ -140,8 +140,52 @@ class MediaInfoPanel : public Panel {
 public:
 	MediaInfoPanel() {
 		setHeight( 200 );
+
+		HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
+		container->setNumberOfColumns( 2 );	
+		container->setColumnWidth( 0, 75 );		
+		setContainer( container );
 	}
 
+	void setMovie( QuickTimeMovie* movie ) {
+		Container* container = getContainer();
+		while ( container->getChildCount() > 0 ) {
+			Control* child = container->getControlAtIndex( 0 );
+
+			container->remove(child);
+			child->free();
+		}
+
+		if ( NULL != movie ) {
+			std::vector<QuickTimeMovie::MovieMetaInfo> infoList;
+			movie->getMovieMetaInfo( infoList );
+
+			std::vector<QuickTimeMovie::MovieMetaInfo>::iterator it = infoList.begin();
+			while ( it != infoList.end() ) {
+				QuickTimeMovie::MovieMetaInfo& info = *it;
+
+				Label* l = new Label();
+				l->getFont()->setName( "Tahoma" );
+				l->getFont()->setPointSize( 7 );
+				//l->getFont()->setBold( true );
+				l->setCaption( info.first );
+				l->setToolTipText( info.first );
+				container->add( l );
+
+				l = new Label();
+				l->getFont()->setName( "Tahoma" );
+				l->getFont()->setPointSize( 7 );
+				l->setCaption( info.second );
+				l->setToolTipText( info.second );
+				l->setUseLocaleStrings( false );
+				container->add( l );
+
+				it ++;
+			}
+
+			container->resizeChildren(NULL);
+		}
+	}
 };
 
 
@@ -168,10 +212,10 @@ MainQTWindow::MainQTWindow():
 
 
 	DefaultMenuItem* movie = new DefaultMenuItem( "&Movie", root, menuBar );	
-	DefaultMenuItem* moviePlay = new DefaultMenuItem( "&Play...", movie, menuBar );
-	DefaultMenuItem* moviePause = new DefaultMenuItem( "&Pause...", movie, menuBar );
-	DefaultMenuItem* movieReset= new DefaultMenuItem( "&Reset...", movie, menuBar );
-	DefaultMenuItem* movieStop = new DefaultMenuItem( "&Stop...", movie, menuBar );	
+	DefaultMenuItem* moviePlay = new DefaultMenuItem( "&Play", movie, menuBar );
+	DefaultMenuItem* moviePause = new DefaultMenuItem( "&Pause", movie, menuBar );
+	DefaultMenuItem* movieReset= new DefaultMenuItem( "&Reset", movie, menuBar );
+	DefaultMenuItem* movieStop = new DefaultMenuItem( "&Stop", movie, menuBar );	
 
 
 	DefaultMenuItem* view = new DefaultMenuItem( "&View", root, menuBar );
@@ -266,22 +310,27 @@ MainQTWindow::MainQTWindow():
 
 
 	ToolbarItem* open = toolbar->addToolBarButton( "Open" );
+	open->setTooltip( "Open" );
 	open->setImageIndex( 0 );
 
 	toolbar->addToolBarButton("")->setAsSeparator();
 
 	ToolbarItem* reset = toolbar->addToolBarButton( "Reset" );
+	reset->setTooltip( "Reset" );
 	reset->setImageIndex( 1 );
 	ToolbarItem* play = toolbar->addToolBarButton( "Play" );
+	play->setTooltip( "Play" );
 	play->setImageIndex( 2 );
 	play->setGrouped(true);
 	play->setChecked( true );
 	ToolbarItem* pause = toolbar->addToolBarButton( "Pause" );
 	pause->setImageIndex( 3 );
+	pause->setTooltip( "Pause" );
 	pause->setGrouped(true);
 	pause->setChecked( true );
 	ToolbarItem* stop = toolbar->addToolBarButton( "Stop" );
 	stop->setImageIndex( 4 );
+	stop->setTooltip( "Stop" );
 	stop->setGrouped(true);
 	stop->setChecked( true );
 
@@ -610,7 +659,7 @@ void MainQTWindow::onFilesDropped( VCF::DropTargetEvent* e )
 			if ( tok.hasMoreElements() ) {				
 				
 				if ( m_quicktimeControl->open( tok.nextElement() ) ) {	
-					
+					((MediaInfoPanel*)mediaInfo_)->setMovie( m_quicktimeControl->getMovie() );
 					m_quicktimeControl->getMovie()->play();
 				}
 			}
@@ -636,6 +685,8 @@ void MainQTWindow::onFileOpenMovie( Event* e )
 			
 			QuickTimeMovie& movie = *m_quicktimeControl->getMovie();	
 
+			((MediaInfoPanel*)mediaInfo_)->setMovie( m_quicktimeControl->getMovie() );
+
 			::SetMovieVolume( movie, vol );
 			
 			m_statusBar->setStatusText( 0, "Movie Opened" );
@@ -643,7 +694,7 @@ void MainQTWindow::onFileOpenMovie( Event* e )
 			onMoviePlay( NULL );			
 		}
 		else {
-			
+			((MediaInfoPanel*)mediaInfo_)->setMovie( NULL );
 		}
 	}
 	
