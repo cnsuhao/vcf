@@ -98,7 +98,10 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/ProcessException.h"
 
+
+#include "vcf/FoundationKit/ProgramInfo.h"
 #include "vcf/FoundationKit/PackageInfo.h"
+
 
 #include "vcf/FoundationKit/Persistable.h"
 #include "vcf/FoundationKit/DateTime.h"
@@ -270,6 +273,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2004/09/15 21:14:28  ddiego
+*added support for getting program info from resource bundle.
+*
 *Revision 1.3.2.3  2004/08/23 22:26:06  marcelloptr
 *added NotImplementedException
 *

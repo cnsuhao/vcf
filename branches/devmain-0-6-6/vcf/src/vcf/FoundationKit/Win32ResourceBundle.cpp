@@ -293,9 +293,255 @@ HINSTANCE Win32ResourceBundle::getResourceInstance()
 }
 
 
+template <typename CharType >
+struct VCF_VS_VERSIONINFO { 
+  WORD  wLength; 
+  WORD  wValueLength; 
+  WORD  wType; 
+  CharType szKey[1]; 
+  WORD  Padding1[1]; 
+  VS_FIXEDFILEINFO Value; 
+  WORD  Padding2[1]; 
+  WORD  Children[1]; 
+};
+typedef VCF_VS_VERSIONINFO<VCF::WideChar> VS_VERSIONINFO_W;
+typedef VCF_VS_VERSIONINFO<char> VS_VERSIONINFO_A;
+
+template <typename CharType >
+struct VCF_String { 
+  WORD   wLength; 
+  WORD   wValueLength; 
+  WORD   wType; 
+  CharType  szKey[1]; 
+  WORD   Padding[1]; 
+  WORD   Value[1]; 
+}; 
+
+typedef VCF_String<VCF::WideChar> String_W;
+typedef VCF_String<char> String_A;
+
+template <typename CharType >
+struct VCF_StringTable { 
+  WORD   wLength; 
+  WORD   wValueLength; 
+  WORD   wType; 
+  CharType  szKey[1]; 
+  WORD   Padding[1]; 
+  VCF_String<CharType> Children[1]; 
+};
+typedef VCF_StringTable<VCF::WideChar> StringTable_W;
+typedef VCF_StringTable<char> StringTable_A;
+
+template <typename CharType >
+struct VCF_StringFileInfo { 
+  WORD        wLength; 
+  WORD        wValueLength; 
+  WORD        wType; 
+  CharType       szKey[1]; 
+  WORD        Padding[1]; 
+  VCF_StringTable<CharType> Children[1]; 
+};
+typedef VCF_StringFileInfo<VCF::WideChar> StringFileInfo_W;
+typedef VCF_StringFileInfo<char> StringFileInfo_A;
+
+template <typename CharType >
+struct VCF_Var { 
+  WORD  wLength; 
+  WORD  wValueLength; 
+  WORD  wType; 
+  CharType szKey[1]; 
+  WORD  Padding[1]; 
+  DWORD Value[1]; 
+}; 
+typedef VCF_Var<VCF::WideChar> Var_W;
+typedef VCF_Var<char> Var_A;
+
+template <typename CharType >
+struct VCF_VarFileInfo { 
+  WORD  wLength; 
+  WORD  wValueLength; 
+  WORD  wType; 
+  CharType szKey[1]; 
+  WORD  Padding[1]; 
+  VCF_Var<CharType>  Children[1]; 
+}; 
+typedef VCF_VarFileInfo<VCF::WideChar> VarFileInfo_W;
+typedef VCF_VarFileInfo<char> VarFileInfo_A;
+
+
+typedef std::map<String,String> VersionMap;
+
+
+/*
+
+ * Copyright (c) 2002 by Ted Peck <tpeck@roundwave.com>
+ * Permission is given by the author to freely redistribute and include
+ * this code in any program as long as this credit is given where due.
+ *
+ * THIS CODE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTY
+ * OF ANY KIND, EITHER EXPRESSED OR IMPLIED. IN PARTICULAR, NO WARRANTY IS MADE
+ * THAT THE CODE IS FREE OF DEFECTS, MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE
+ * OR NON-INFRINGING. IN NO EVENT WILL THE AUTHOR BE LIABLE FOR ANY COSTS OR DAMAGES 
+ * ARISING FROM ANY USE OF THIS CODE. NO USE OF THIS CODE IS AUTHORIZED EXCEPT UNDER
+ * THIS DISCLAIMER.
+ *
+ * Use at your own risk!
+ 
+struct VS_VERSIONINFO { 
+  WORD  wLength; 
+  WORD  wValueLength; 
+  WORD  wType; 
+  WCHAR szKey[1]; 
+  WORD  Padding1[1]; 
+  VS_FIXEDFILEINFO Value; 
+  WORD  Padding2[1]; 
+  WORD  Children[1]; 
+};
+
+struct String { 
+  WORD   wLength; 
+  WORD   wValueLength; 
+  WORD   wType; 
+  WCHAR  szKey[1]; 
+  WORD   Padding[1]; 
+  WORD   Value[1]; 
+}; 
+
+struct StringTable { 
+  WORD   wLength; 
+  WORD   wValueLength; 
+  WORD   wType; 
+  WCHAR  szKey[1]; 
+  WORD   Padding[1]; 
+  String Children[1]; 
+};
+
+struct StringFileInfo { 
+  WORD        wLength; 
+  WORD        wValueLength; 
+  WORD        wType; 
+  WCHAR       szKey[1]; 
+  WORD        Padding[1]; 
+  StringTable Children[1]; 
+};
+
+struct Var { 
+  WORD  wLength; 
+  WORD  wValueLength; 
+  WORD  wType; 
+  WCHAR szKey[1]; 
+  WORD  Padding[1]; 
+  DWORD Value[1]; 
+}; 
+
+struct VarFileInfo { 
+  WORD  wLength; 
+  WORD  wValueLength; 
+  WORD  wType; 
+  WCHAR szKey[1]; 
+  WORD  Padding[1]; 
+  Var   Children[1]; 
+}; 
+
+// ----------------------------------------------------------------------------
+
+int showVer(void* pVer, DWORD size)
+{
+	// Interpret the VS_VERSIONINFO header pseudo-struct
+	VS_VERSIONINFO* pVS = (VS_VERSIONINFO*)pVer;
+#define roundoffs(a,b,r)	(((byte*)(b) - (byte*)(a) + ((r)-1)) & ~((r)-1))
+#define roundpos(b, a, r)	(((byte*)(a))+roundoffs(a,b,r))
+//	byte* nEndRaw   = roundpos((((byte*)pVer) + size), pVer, 4);
+//	byte* nEndNamed = roundpos((((byte*) pVS) + pVS->wLength), pVS, 4);
+//	ASSERT(nEndRaw == nEndNamed); // size reported from GetFileVersionInfoSize is much padded for some reason...
+
+	ASSERT(!wcscmp(pVS->szKey, L"VS_VERSION_INFO"));
+	printf(" (type:%d)\n", pVS->wType);
+	byte* pVt = (byte*) &pVS->szKey[wcslen(pVS->szKey)+1];
+	VS_FIXEDFILEINFO* pValue = (VS_FIXEDFILEINFO*) roundpos(pVt, pVS, 4);
+	if (pVS->wValueLength) {
+		showFIXEDFILEINFO(pValue);	// Show the 'Value' element
+	}
+	// Iterate over the 'Children' elements of VS_VERSIONINFO (either StringFileInfo or VarFileInfo)
+	StringFileInfo* pSFI = (StringFileInfo*) roundpos(((byte*)pValue) + pVS->wValueLength, pValue, 4);
+	for ( ; ((byte*) pSFI) < (((byte*) pVS) + pVS->wLength); pSFI = (StringFileInfo*)roundpos((((byte*) pSFI) + pSFI->wLength), pSFI, 4)) { // StringFileInfo / VarFileInfo
+		if (!wcscmp(pSFI->szKey, L"StringFileInfo")) {
+			// The current child is a StringFileInfo element
+			ASSERT(1 == pSFI->wType);
+			ASSERT(!pSFI->wValueLength);
+			// Iterate through the StringTable elements of StringFileInfo
+			StringTable* pST = (StringTable*) roundpos(&pSFI->szKey[wcslen(pSFI->szKey)+1], pSFI, 4);
+			for ( ; ((byte*) pST) < (((byte*) pSFI) + pSFI->wLength); pST = (StringTable*)roundpos((((byte*) pST) + pST->wLength), pST, 4)) {
+				printf(" LangID: %S\n", pST->szKey);
+				ASSERT(!pST->wValueLength);
+				// Iterate through the String elements of StringTable
+				String* pS = (String*) roundpos(&pST->szKey[wcslen(pST->szKey)+1], pST, 4);
+				for ( ; ((byte*) pS) < (((byte*) pST) + pST->wLength); pS = (String*) roundpos((((byte*) pS) + pS->wLength), pS, 4)) {
+					wchar_t* psVal = (wchar_t*) roundpos(&pS->szKey[wcslen(pS->szKey)+1], pS, 4);
+					printf("  %-18S: %.*S\n", pS->szKey, pS->wValueLength, psVal); // print <sKey> : <sValue>
+				}
+			}
+		}
+		else {
+			// The current child is a VarFileInfo element
+			ASSERT(1 == pSFI->wType); // ?? it just seems to be this way...
+			VarFileInfo* pVFI = (VarFileInfo*) pSFI;
+			ASSERT(!wcscmp(pVFI->szKey, L"VarFileInfo"));
+			ASSERT(!pVFI->wValueLength);
+			// Iterate through the Var elements of VarFileInfo (there should be only one, but just in case...)
+			Var* pV = (Var*) roundpos(&pVFI->szKey[wcslen(pVFI->szKey)+1], pVFI, 4);
+			for ( ; ((byte*) pV) < (((byte*) pVFI) + pVFI->wLength); pV = (Var*)roundpos((((byte*) pV) + pV->wLength), pV, 4)) {
+				printf(" %S: ", pV->szKey);
+				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
+				WORD* pwV = (WORD*) roundpos(&pV->szKey[wcslen(pV->szKey)+1], pV, 4);
+				for (WORD* wpos = pwV ; ((byte*) wpos) < (((byte*) pwV) + pV->wValueLength); wpos+=2) {
+					printf("%04x%04x ", (int)*wpos++, (int)(*(wpos+1)));
+				}
+				printf("\n");
+			}
+		}
+	}
+	ASSERT((byte*) pSFI == roundpos((((byte*) pVS) + pVS->wLength), pVS, 4));
+	return pValue->dwFileVersionMS; // !!! return major version number
+}
+*/
+
+void getVersionInfoW( VersionMap& map, HINSTANCE instance )
+{
+	VCF::WideChar fileName[MAX_PATH];
+	::GetModuleFileNameW( instance, fileName, MAX_PATH );
+
+	DWORD dummy;
+	DWORD size = GetFileVersionInfoSizeW( fileName, &dummy);
+	unsigned char* buf = new unsigned char[size];
+	memset(buf, 0, size);
+
+	
+
+	if ( !GetFileVersionInfoW(fileName, 0, size, buf) ) {
+		return;
+	}
+
+	VS_VERSIONINFO_W* versionInfo = (VS_VERSIONINFO_W*)buf;
+
+
+}
+
+ProgramInfo* Win32ResourceBundle::getProgramInfo()
+{
+	ProgramInfo* result = NULL;
+
+	return result;
+}
+
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/09/15 21:14:28  ddiego
+*added support for getting program info from resource bundle.
+*
 *Revision 1.1.2.3  2004/08/27 03:50:46  ddiego
 *finished off therest of the resource refactoring code. We
 *can now load in resoruces either from the burned in data in the .exe
