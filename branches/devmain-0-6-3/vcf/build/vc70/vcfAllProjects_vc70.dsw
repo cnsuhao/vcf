@@ -279,9 +279,6 @@ Package=<4>
     Project_Dep_Name ProgressBars
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name QTPlayer
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name Reflection
     End Project Dependency
     Begin Project Dependency
@@ -682,18 +679,6 @@ Package=<4>
 ###############################################################################
 
 Project: "ProgressBars"="../../examples/ProgressBars/ProgressBars_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "QTPlayer"="../../examples/QTPlayer/QTPlayer_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
