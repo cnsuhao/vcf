@@ -1190,7 +1190,95 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 
 void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 {
+	int dcState = ::SaveDC( dc_ );
+	RECT r = {0};
+	r.left = rect->left_;
+	r.top = rect->top_;
+	r.right = rect->right_;
+	r.bottom = rect->bottom_;
 
+	::FillRect( dc_, &r, (HBRUSH)(COLOR_WINDOW+1) );
+
+	RECT btnRect = r;
+
+	NONCLIENTMETRICS ncm;
+	memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+	ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+
+	SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+
+	btnRect.left = r.right - ncm.iScrollWidth;
+
+	::FillRect( dc_, &btnRect, (HBRUSH)(COLOR_3DFACE+1) );
+
+	UINT flags = 0;
+
+	flags |= DFCS_SCROLLDOWN;
+
+	if ( state.isPressed() ) {
+		flags |= DFCS_PUSHED;	
+	}
+
+	if ( !state.isEnabled() ) {
+		flags |= DFCS_INACTIVE;
+	}
+
+	DrawFrameControl( dc_, &btnRect, DFC_SCROLL, flags );
+
+	RECT bkRect = r;
+	bkRect.right = btnRect.left;
+
+
+	SetBkMode( dc_, TRANSPARENT );
+	COLORREF bkColor;
+	COLORREF textColor;
+	if ( !state.isEnabled() ) {
+		bkColor = GetSysColor( COLOR_BTNFACE );
+		textColor = GetSysColor( COLOR_WINDOWTEXT );
+	}
+	else {
+		InflateRect( &bkRect, -2, -2 );
+
+		if ( state.isFocused() ) {
+			bkColor = GetSysColor( COLOR_HIGHLIGHT );
+			textColor = GetSysColor( COLOR_HIGHLIGHTTEXT );
+
+			InflateRect( &bkRect, +1, +1 );
+
+			::DrawFocusRect( dc_, &bkRect );
+
+			InflateRect( &bkRect, -1, -1 );
+		}
+		else {
+			bkColor = GetSysColor( COLOR_WINDOW );
+			textColor = GetSysColor( COLOR_WINDOWTEXT );
+		}
+	}
+
+	HBRUSH bkBrush = CreateSolidBrush( bkColor );
+
+	FillRect( dc_, &bkRect, bkBrush );
+	SetTextColor( dc_, textColor );
+	UINT fmt = DT_VCENTER | DT_SINGLELINE | DT_LEFT | DT_EXPANDTABS | DT_END_ELLIPSIS;
+
+	HFONT font;
+	prepareDCWithContextFont( font );
+
+	::SelectObject( dc_, font );
+
+	if ( System::isUnicodeEnabled() ) {
+		DrawTextW( dc_, state.buttonCaption_.c_str(), state.buttonCaption_.size(), &bkRect, fmt );
+	}
+	else {
+		AnsiString tmp = state.buttonCaption_;
+		DrawTextA( dc_, tmp.c_str(), tmp.size(), &bkRect, fmt );
+	}
+	
+
+	::RestoreDC( dc_, dcState );
+
+	DeleteObject( font );
+	DeleteObject( bkBrush );
 }
 
 void Win32Context::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state )
@@ -1821,6 +1909,140 @@ void Win32Context::drawThemeText( Rect* rect, TextState& state )
 	context_->setCurrentFont( &oldFont );
 }
 
+void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
+{
+	Font* ctxFont = context_->getCurrentFont();
+	if ( NULL == ctxFont ){
+		//throw exception
+	}
+	FontPeer* fontImpl = ctxFont->getFontPeer();
+
+	if ( NULL == fontImpl ){
+		//throw exception
+	}
+
+	fontHandle = NULL;
+
+	DWORD charSet;
+
+	Locale* fontLocale = ctxFont->getLocale();
+	if ( NULL == fontLocale ) {
+		fontLocale = System::getCurrentThreadLocale();
+	}
+
+
+	//fontLocale = NULL;
+
+	if ( NULL == fontLocale ) {
+		charSet = DEFAULT_CHARSET;
+	}
+	else if ( !ctxFont->isTrueType() ) {
+		charSet = DEFAULT_CHARSET;
+	}
+	else {
+
+		/**
+		This doesn't seem to make any difference, other than to 
+		make thefont really small. Need to figure out why!!!
+		*/
+
+		LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
+		WORD langID = LANGIDFROMLCID( lcid );
+
+		WORD primaryLangID = PRIMARYLANGID(langID);
+		WORD subLangID = SUBLANGID(langID);
+		
+		switch ( primaryLangID ) {
+			case LANG_LITHUANIAN: case LANG_LATVIAN: case LANG_ESTONIAN: {
+				charSet = BALTIC_CHARSET;
+			}
+			break;
+
+			case LANG_CHINESE: {
+				charSet = CHINESEBIG5_CHARSET;
+
+				if ( SUBLANG_CHINESE_SIMPLIFIED == subLangID ) {
+					charSet = GB2312_CHARSET;
+				}
+			}
+			break;
+
+			case LANG_SLOVENIAN: case LANG_ALBANIAN:
+			case LANG_ROMANIAN: case LANG_BULGARIAN: case LANG_CROATIAN: 
+			case LANG_BELARUSIAN: case LANG_UKRAINIAN: case LANG_HUNGARIAN: 
+			case LANG_SLOVAK: case LANG_POLISH: case LANG_CZECH: {
+				charSet = EASTEUROPE_CHARSET;
+			}
+			break;
+
+			case LANG_GREEK: {
+				charSet = GREEK_CHARSET;
+			}
+			break;
+
+			case LANG_KOREAN: {
+				charSet = HANGUL_CHARSET;//???JOHAB_CHARSET instead????
+			}
+			break;
+
+			case LANG_RUSSIAN: {
+				charSet = RUSSIAN_CHARSET;
+			}
+			break;
+
+			case LANG_TURKISH: {
+				charSet = TURKISH_CHARSET;
+			}
+			break;
+
+			case LANG_JAPANESE: {
+				charSet = SHIFTJIS_CHARSET;
+			}
+			break;
+
+			case LANG_HEBREW: {
+				charSet = HEBREW_CHARSET;
+			}
+			break;
+
+			case LANG_ARABIC: {
+				charSet = ARABIC_CHARSET;
+			}
+			break;
+
+			case LANG_THAI: {
+				charSet = THAI_CHARSET;
+			}
+			break;
+
+			default : {
+				charSet = DEFAULT_CHARSET;
+			}
+			break;
+		}
+	}
+
+	if ( System::isUnicodeEnabled() ) {
+		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
+
+		DWORD oldCharSet = logFont->lfCharSet;
+		logFont->lfCharSet = charSet;
+		
+		fontHandle = CreateFontIndirectW( logFont );
+
+		logFont->lfCharSet = oldCharSet;
+	}
+	else {
+		LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
+
+		DWORD oldCharSet = logFont->lfCharSet;
+		logFont->lfCharSet = charSet;
+
+		fontHandle = CreateFontIndirectA( logFont );
+
+		logFont->lfCharSet = oldCharSet;
+	}	
+}
 
 bool Win32Context::prepareForDrawing( long drawingOperation )
 {
@@ -1893,124 +2115,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 					//throw exception
 				}
 
-				currentHFont_ = NULL;
-
-				DWORD charSet;
-
-				Locale* fontLocale = ctxFont->getLocale();
-				if ( NULL == fontLocale ) {
-					fontLocale = System::getCurrentThreadLocale();
-				}
-
-
-				fontLocale = NULL;
-
-				if ( NULL == fontLocale ) {
-					charSet = DEFAULT_CHARSET;
-				}
-				else{
-
-					/**
-					This doesn't seem to make any difference, other than to 
-					make thefont really small. Need to figure out why!!!
-					*/
-
-					LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
-					WORD langID = LANGIDFROMLCID( lcid );
-
-					WORD primaryLangID = PRIMARYLANGID(langID);
-					WORD subLangID = SUBLANGID(langID);
-					
-					switch ( primaryLangID ) {
-						case LANG_LITHUANIAN: case LANG_LATVIAN: case LANG_ESTONIAN: {
-							charSet = BALTIC_CHARSET;
-						}
-						break;
-
-						case LANG_CHINESE: {
-							charSet = CHINESEBIG5_CHARSET;
-
-							if ( SUBLANG_CHINESE_SIMPLIFIED == subLangID ) {
-								charSet = GB2312_CHARSET;
-							}
-						}
-						break;
-
-						case LANG_SLOVENIAN: case LANG_ALBANIAN:
-						case LANG_ROMANIAN: case LANG_BULGARIAN: case LANG_CROATIAN: 
-						case LANG_BELARUSIAN: case LANG_UKRAINIAN: case LANG_HUNGARIAN: 
-						case LANG_SLOVAK: case LANG_POLISH: case LANG_CZECH: {
-							charSet = EASTEUROPE_CHARSET;
-						}
-						break;
-
-						case LANG_GREEK: {
-							charSet = GREEK_CHARSET;
-						}
-						break;
-
-						case LANG_KOREAN: {
-							charSet = HANGUL_CHARSET;//???JOHAB_CHARSET instead????
-						}
-						break;
-
-						case LANG_RUSSIAN: {
-							charSet = RUSSIAN_CHARSET;
-						}
-						break;
-
-						case LANG_TURKISH: {
-							charSet = TURKISH_CHARSET;
-						}
-						break;
-
-						case LANG_JAPANESE: {
-							charSet = SHIFTJIS_CHARSET;
-						}
-						break;
-
-						case LANG_HEBREW: {
-							charSet = HEBREW_CHARSET;
-						}
-						break;
-
-						case LANG_ARABIC: {
-							charSet = ARABIC_CHARSET;
-						}
-						break;
-
-						case LANG_THAI: {
-							charSet = THAI_CHARSET;
-						}
-						break;
-
-						default : {
-							charSet = DEFAULT_CHARSET;
-						}
-						break;
-					}
-				}
-
-				if ( System::isUnicodeEnabled() ) {
-					LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
-
-					DWORD oldCharSet = logFont->lfCharSet;
-					logFont->lfCharSet = charSet;
-					
-					currentHFont_ = CreateFontIndirectW( logFont );
-
-					logFont->lfCharSet = oldCharSet;
-				}
-				else {
-					LOGFONTA* logFont = (LOGFONTA*)fontImpl->getFontHandleID();
-
-					DWORD oldCharSet = logFont->lfCharSet;
-					logFont->lfCharSet = charSet;
-
-					currentHFont_ = CreateFontIndirectA( logFont );
-
-					logFont->lfCharSet = oldCharSet;
-				}
+				prepareDCWithContextFont( currentHFont_ );
 
 				Color* fontColor = ctxFont->getColor();
 
@@ -2020,6 +2125,8 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 				else {
 					::SetTextColor( dc_, RGB(0,0,0) );
 				}
+
+				
 
 				::SelectObject( dc_, currentHFont_ );
 
@@ -2078,6 +2185,10 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2004/07/15 01:52:54  ddiego
+*added drawThemeComboboxRect implementation so a combobox
+*control draws itself correctly.
+*
 *Revision 1.1.2.7  2004/07/11 22:08:45  ddiego
 *fixed an accidental checkin that resulted in scrolled
 *drawing not showing up correctly

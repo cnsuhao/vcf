@@ -257,6 +257,8 @@ protected:
 
 	bool alignToBaseline_;
 
+	void prepareDCWithContextFont( HFONT& fontHandle );
+
 	HDC getDC();
 
 	/**
@@ -274,6 +276,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/15 01:52:54  ddiego
+*added drawThemeComboboxRect implementation so a combobox
+*control draws itself correctly.
+*
 *Revision 1.1.2.3  2004/07/09 03:39:30  ddiego
 *merged in changes from the OSX branch for new theming API. Added
 *support for controlling the use of locale translated strings in components.
