@@ -19,6 +19,13 @@ namespace VCF
 
 class PropertyEditor;
 
+/**
+* This is the class managing the property editors provided 
+* by the VCF framework, or by the user application.
+* In fact an instance for each kind of editor is already
+* instantiated by the UIToolkit.
+*@see UIToolkit::init()
+*/
 class APPLICATIONKIT_API PropertyEditorManager : public Object
 {
 public:
@@ -62,6 +69,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/24 18:11:59  marcelloptr
+*documentation
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

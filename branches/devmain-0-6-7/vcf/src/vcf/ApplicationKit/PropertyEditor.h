@@ -22,7 +22,17 @@ class Control;
 class GraphicsContext;
 
 /**
-*PropertyEditor
+* This is the common base class for any editor that is specific
+* of any property.
+*@see VCF::Property
+* \par
+* Any property, and in general any kind of data, can be changed 
+* through an appropriate GUI interface called editor. A text 
+* editor is good for many kind of data, but some of them are
+* more easily chaged through more specific editors. For example 
+* a ComboBox control can be considered an appropriate editor for
+* any boolean value, or for any enumerated value.
+* The VCF library makes readily available some of them.
 */
 class APPLICATIONKIT_API PropertyEditor{
 public:
@@ -78,12 +88,15 @@ public:
 
 
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/01/24 18:09:18  marcelloptr
+*documentation
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
