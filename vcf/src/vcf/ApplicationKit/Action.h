@@ -159,12 +159,18 @@ public:
 	Returns the accelerator for the action item.
 	*/
 	AcceleratorKey* getAccelerator();
+
+protected:
+	/**
+	* 
+	*/
+	void onAccelerator( KeyboardEvent* e );
+
 protected:
 	AcceleratorKey* currentAccelerator_;
 	std::vector<Component*> targets_;
 	EnumeratorContainer<std::vector<Component*>,Component*> targetsContainer_;
 
-	void onAccelerator( KeyboardEvent* e );
 };
 
 
@@ -176,6 +182,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/03/14 18:56:31  marcelloptr
+*comments and added an error message to avoid an infinite loop
+*
 *Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

@@ -472,6 +472,11 @@ public:
 	*/
 	static VCF::String convertFormatString( const String& formattedString );
 
+	/**
+	* Translate a VirtualKey code into a human readable string.
+	* This can be used to display an accelerator key into a string to
+	* be displayed in a MenuItem when an accelerator is associated to it.
+	*/
 	static VCF::String translateVKCodeToString( VirtualKeyCode code );
 protected:
 	static String weekdays[];
@@ -786,6 +791,9 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rh
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/03/14 18:56:47  marcelloptr
+*comments and added an error message to avoid an infinite loop
+*
 *Revision 1.3.2.4  2005/03/14 05:44:51  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *
