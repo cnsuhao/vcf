@@ -542,15 +542,9 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 	/**
 	Whoops! Someone alert Bozo The Clown, we've been passed a 
 	bogus file name!!!
-	should we throw an exception here? 
-	For the moment we'll be "nice" and just gracefully return a NULL value.
 	*/
 	if ( !File::exists( fileName ) ) {
-		return NULL;
-
-		//This is another alternative, I have commented it out for the 
-		//moment, but we may choose to use this way in the future.
-		//throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager: the file \"" + fileName + "\" does not exists." ) );
+		throw RuntimeException( MAKE_ERROR_MSG_2("DocumentManager: the file \"" + fileName + "\" does not exists." ) );
 	}
 
 	FilePath fp = fileName;
@@ -608,6 +602,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/03/21 17:26:04  marcelloptr
+*openFromFileName now throws an exception sooner when trying to open a file that does not exist
+*
 *Revision 1.3.2.5  2005/03/15 01:51:49  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
