@@ -54,15 +54,15 @@ where you installed the VCF.
     /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
        link the Win32HTMLBrowser_StaticLib, but also he will not have to
        link to it either if is not using it in any of his projects */
-#	ifdef USE_WIN32HTMLBROWSER_LIB
+#   ifdef USE_WIN32HTMLBROWSER_LIB
 //     ApplicationKit statically linked in
 #      include "vcf/ApplicationKit/Win32HTMLBrowserApplication.h"
 #      pragma message ( "Win32HTMLBrowser linked in statically" )
 #   endif
 #else
-// Win32HTMLBrowser will be loaded at runtime
-#	define RUNTIME_LOADLIBRARY
-#	pragma message ( "Win32HTMLBrowser linked dynamically" )
+    /* Win32HTMLBrowser will be loaded at runtime */
+#   define RUNTIME_LOADLIBRARY
+#   pragma message ( "Win32HTMLBrowser linked dynamically" )
 #endif
 
 
@@ -2038,6 +2038,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2004/09/28 20:18:49  marcelloptr
+*just some spaces for clarity
+*
 *Revision 1.2.2.5  2004/09/06 18:33:43  ddiego
 *fixed some more transparent drawing issues
 *
