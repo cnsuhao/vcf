@@ -17,9 +17,17 @@ where you installed the VCF.
 namespace VCF {
 
 
+#define COLUMNLAYOUTCONTAINER_CLASSID		"3df1d3a5-d362-4d33-8b49-2ce693c72006"
+
 class ColumnLayoutContainer : public StandardContainer {
 public:
 	ColumnLayoutContainer(): columnCount_(0) {
+		UIMetricsManager* metricsMgr = UIToolkit::getUIMetricsManager();
+		setBorderWidth( metricsMgr->getPreferredSpacingFor(UIMetricsManager::stWindowBorderDelta) );
+
+	}
+
+	ColumnLayoutContainer(Component* owner): StandardContainer(owner), columnCount_(0) {
 		UIMetricsManager* metricsMgr = UIToolkit::getUIMetricsManager();
 		setBorderWidth( metricsMgr->getPreferredSpacingFor(UIMetricsManager::stWindowBorderDelta) );
 
@@ -133,6 +141,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

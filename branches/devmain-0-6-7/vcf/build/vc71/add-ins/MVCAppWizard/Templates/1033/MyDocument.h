@@ -3,6 +3,14 @@
 
 #include "vcf/ApplicationKit/ModelViewKit.h"
 
+
+/**
+Include this file to access the various RTTI macros
+for declaring RTTI information for your class(es)
+*/
+#include "vcf/FoundationKit/RTTIMacros.h"
+
+
 #define [!output UPPER_CASE_PROJECT_NAME]DOCUMENT_CLASSID		"[!output DOC_UUID]"
 
 /**
@@ -10,8 +18,8 @@ class [!output PROJECT_NAME]Document documentation
 */
 class [!output PROJECT_NAME]Document : public VCF::Document {
 public: 
-	BEGIN_CLASSINFO( [!output PROJECT_NAME]Document, "[!output PROJECT_NAME]Document", "VCF::Document", [!output UPPER_CASE_PROJECT_NAME]DOCUMENT_CLASSID )
-	END_CLASSINFO([!output PROJECT_NAME]Document)
+	_class_rtti_( [!output PROJECT_NAME]Document, "VCF::Document", [!output UPPER_CASE_PROJECT_NAME]DOCUMENT_CLASSID )
+	_class_rtti_end_
 
 	[!output PROJECT_NAME]Document();
 	virtual ~[!output PROJECT_NAME]Document();

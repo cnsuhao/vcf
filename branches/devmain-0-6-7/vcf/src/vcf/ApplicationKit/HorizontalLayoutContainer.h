@@ -21,7 +21,9 @@ where you installed the VCF.
 
 namespace VCF {
 
-class /*APPLICATIONKIT_API*/ HorizontalLayoutContainer : public StandardContainer {
+#define HORIZONTALLAYOUTCONTAINER_CLASSID		"11aab5e2-36d2-47c7-9391-c40b185d6b9e"
+
+class HorizontalLayoutContainer : public StandardContainer {
 public:
 
 	HorizontalLayoutContainer() : maximizeLastRow_(false){
@@ -41,6 +43,29 @@ public:
 
 		setRowSpacerHeight( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stControlVerticalSpacing) );
 	}
+
+	HorizontalLayoutContainer( Component* owner ): 
+		StandardContainer(owner),
+		maximizeLastRow_(false)
+	{
+
+		setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
+
+		setNumberOfColumns(2);
+
+		setColumnWidth( 0, 100 );
+
+		setColumnWidth( 1, 100 );
+
+		setColumnTweenWidth( 0, UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stControlHorizontalSpacing) );
+
+
+		setMaxRowHeight( UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight ) );
+
+		setRowSpacerHeight( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stControlVerticalSpacing) );
+
+	}
+
 
 	void setNumberOfColumns( int numColumns ) {
 		columns_.clear();
@@ -231,6 +256,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2.2.1  2005/02/10 20:59:37  ddiego
 *fixed a layout error in horz layout container
 *

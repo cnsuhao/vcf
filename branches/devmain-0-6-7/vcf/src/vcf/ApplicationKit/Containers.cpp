@@ -23,6 +23,16 @@ StandardContainer::StandardContainer():
 
 }
 
+StandardContainer::StandardContainer( Component* owner ):
+	AbstractContainer(owner),		
+	bottomBorderHeight_(0.0),
+	topBorderHeight_(0.0),
+	rightBorderWidth_(0.0),
+	leftBorderWidth_(0.0)
+{
+
+}
+
 void StandardContainer::resizeChildren( Control* control )
 {
 	Rect bounds = controlContainer_->getClientBounds();
@@ -620,6 +630,9 @@ void DesignTimeContainer::resizeChildrenUsingBounds( Control* control, Rect* bou
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

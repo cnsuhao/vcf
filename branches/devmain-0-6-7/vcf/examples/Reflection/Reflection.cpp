@@ -9,6 +9,12 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
+/**
+Include this file to access the various RTTI macros
+for declaring RTTI information for your class(es)
+*/
+#include "vcf/FoundationKit/RTTIMacros.h"
+
 using namespace VCF;
 
 
@@ -40,8 +46,8 @@ class SimpleClass : public VCF::Object {
 public:
 	/**
 	Define you're class's Reflection (or RTTI if you prefer) information:
-	use the BEGIN_CLASSINFO() and END_CLASSINFO() macros for this.
-	BEGIN_CLASSINFO takes as it's arguments the class, the class name (as a
+	use the _class_rtti_() and _class_rtti_end_ macros for this.
+	_class_rtti_ takes as it's arguments the class, the class name (as a
 	string), the super class name (as a string) which must be itself either
 	VCF::Object or some class that ultimately derives from VCF::Object,
 	and the class's UUID string. Please note that if you class is within a
@@ -49,11 +55,11 @@ public:
 	we had class Foo, that was part of the Bar namespace, we would refer
 	to the Foo class's name as "Bar::Foo" not "Foo". The same also applies
 	to the super class name.
-	You end your class's reflection info calling the END_CLASSINFO macro, and
+	You end your class's reflection info by calling the _class_rtti_end_ macro, and
 	pass in the class as its sole argument.
 	*/
-	BEGIN_CLASSINFO( SimpleClass, "SimpleClass", "VCF::Object", SIMPLECLASS_CLASSID )
-	END_CLASSINFO( SimpleClass )
+	_class_rtti_( SimpleClass, "VCF::Object", SIMPLECLASS_CLASSID )
+	_class_rtti_end_
 
 
 	/**
@@ -162,9 +168,9 @@ the reflection information.
 class HelloWorldInterface {
 public:
 
-	BEGIN_INTERFACEINFO(HelloWorldInterface,"HelloWorldInterface","Interface",HELLOWORLDINTERFACE_ID)
-	INTERFACE_METHOD_VOID( HelloWorldInterface, helloWorld);
-	END_INTERFACEINFO(HelloWorldInterface)
+	_interface_rtti_(HelloWorldInterface,"Interface",HELLOWORLDINTERFACE_ID)
+		_procedure_( helloWorld )
+	_interface_rtti_end_
 
 
 	virtual ~HelloWorldInterface(){};
@@ -191,9 +197,9 @@ indeed implement the HelloWorldInterface.
 
 class HelloWorld : public VCF::Object, public HelloWorldInterface {
 public:
-	BEGIN_CLASSINFO( HelloWorld, "HelloWorld", "VCF::Object", HELLOWORLD_CLASSID )
-	IMPLEMENTS_INTERFACE(HelloWorld,HelloWorldInterface,"HelloWorld","HelloWorldInterface",HELLOWORLDINTERFACE_ID,"Interface")
-	END_CLASSINFO(HelloWorld)
+	_class_rtti_( HelloWorld, "VCF::Object", HELLOWORLD_CLASSID )
+		_implements_(HelloWorldInterface,HELLOWORLDINTERFACE_ID,"Interface")
+	_class_rtti_end_
 
 	HelloWorld() {}
 
@@ -240,10 +246,10 @@ Lets extend the SimpleClass class and add some methods to it.
 */
 class ClassWithMethods : public SimpleClass {
 public:
-	BEGIN_CLASSINFO( ClassWithMethods, "ClassWithMethods", "SimpleClass", CLASSWITHMETHODS_CLASSID )
-	METHOD_VOID( ClassWithMethods, doit )
-	METHOD_2VOID( ClassWithMethods, twoDoubles, const double&, double, "dd" )
-	END_CLASSINFO( ClassWithMethods )
+	_class_rtti_( ClassWithMethods, "SimpleClass", CLASSWITHMETHODS_CLASSID )
+		_procedure_( doit )
+		_procedure2_( twoDoubles, const double&, double, "dd" )
+	_class_rtti_end_
 
 
 	ClassWithMethods(){};
@@ -375,6 +381,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/03/06 22:50:55  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3  2004/08/07 02:47:35  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

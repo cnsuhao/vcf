@@ -11,9 +11,12 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ModelViewKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "vcf/ApplicationKit/DefaultPropertyEditors.h"
-#include "vcf/FoundationKit/ClassInfo.h"
+
+#include "vcf/FoundationKit/RTTIMacros.h"
 #include "vcf/ApplicationKit/ApplicationKitRTTI.inl"
 
+#include "vcf/ApplicationKit/HorizontalLayoutContainer.h"
+#include "vcf/ApplicationKit/ColumnLayoutContainer.h"
 
 using namespace VCF;
 
@@ -67,11 +70,25 @@ void ApplicationKit::init( int argc, char** argv )
 //		REGISTER_CLASSINFO_EXTERNAL( TextModel );
 		REGISTER_CLASSINFO_EXTERNAL( TreeItem );
 //		REGISTER_CLASSINFO_EXTERNAL( TreeModel );
-		REGISTER_CLASSINFO_EXTERNAL( Border );
+		
 //		REGISTER_CLASSINFO_EXTERNAL( AbstractListModel );
 //		REGISTER_CLASSINFO_EXTERNAL( AbstractTextModel );
 //		REGISTER_CLASSINFO_EXTERNAL( AbstractTreeModel );
 		REGISTER_CLASSINFO_EXTERNAL( Component );
+		
+		REGISTER_CLASSINFO_EXTERNAL( Border );
+		REGISTER_CLASSINFO_EXTERNAL( Basic3DBorder );
+		REGISTER_CLASSINFO_EXTERNAL( EtchedBorder );
+		REGISTER_CLASSINFO_EXTERNAL( ColorEtchedBorder );
+		REGISTER_CLASSINFO_EXTERNAL( Light3DBorder );
+		REGISTER_CLASSINFO_EXTERNAL( TitledBorder );
+
+		REGISTER_CLASSINFO_EXTERNAL( Container );
+		REGISTER_CLASSINFO_EXTERNAL( AbstractContainer );
+		REGISTER_CLASSINFO_EXTERNAL( StandardContainer );
+		REGISTER_CLASSINFO_EXTERNAL( ColumnLayoutContainer );
+		REGISTER_CLASSINFO_EXTERNAL( HorizontalLayoutContainer );
+
 		REGISTER_CLASSINFO_EXTERNAL( Control );
 		REGISTER_CLASSINFO_EXTERNAL( CustomControl );
 		REGISTER_CLASSINFO_EXTERNAL( ControlContainer );
@@ -98,7 +115,7 @@ void ApplicationKit::init( int argc, char** argv )
 		REGISTER_CLASSINFO_EXTERNAL( MenuBar );
 		REGISTER_CLASSINFO_EXTERNAL( PopupMenu );
 		REGISTER_CLASSINFO_EXTERNAL( ListBoxControl );
-		REGISTER_CLASSINFO_EXTERNAL( Basic3DBorder );
+		
 		REGISTER_CLASSINFO_EXTERNAL( CommandButton );
 		//REGISTER_CLASSINFO_EXTERNAL( OpenGLControl );
 		REGISTER_CLASSINFO_EXTERNAL( ComboBoxControl );
@@ -175,6 +192,9 @@ void ApplicationKit::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.1  2005/02/28 04:51:55  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *

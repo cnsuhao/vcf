@@ -15,6 +15,41 @@ using namespace VCF;
 
 
 
+AbstractContainer::AbstractContainer():
+	controlContainer_(NULL),
+	currentTabControlIndex_(0),
+	controlHandler_(NULL),
+	mouseHandler_(NULL)
+{
+	init();
+}
+
+AbstractContainer::AbstractContainer( Component* owner ):
+	Container(owner),
+	controlContainer_(NULL),
+	currentTabControlIndex_(0),
+	controlHandler_(NULL),
+	mouseHandler_(NULL)
+{
+	init();
+}
+
+AbstractContainer::~AbstractContainer()
+{
+	if ( NULL != controlContainer_ ){
+		controlContainer_->ControlSized -= controlHandler_;
+
+		controlContainer_->MouseDoubleClicked -= mouseHandler_;
+		controlContainer_->MouseClicked -= mouseHandler_;
+		controlContainer_->MouseMove -= mouseHandler_;
+		controlContainer_->MouseUp -= mouseHandler_;
+		controlContainer_->MouseDown -= mouseHandler_;
+		controlContainer_->MouseLeave -= mouseHandler_;
+		controlContainer_->MouseEnter -= mouseHandler_;
+	}
+
+	controls_.clear();
+}
 
 void AbstractContainer::containerResized( ControlEvent* event )
 {
@@ -139,41 +174,6 @@ void AbstractContainer::onMouseEvent( MouseEvent* event )
 	}
 }
 
-AbstractContainer::AbstractContainer():
-	controlContainer_(NULL),
-	currentTabControlIndex_(0),
-	controlHandler_(NULL),
-	mouseHandler_(NULL)
-{
-	init();
-}
-
-AbstractContainer::~AbstractContainer()
-{
-	if ( NULL != controlContainer_ ){
-		controlContainer_->ControlSized -= controlHandler_;
-
-		controlContainer_->MouseDoubleClicked -= mouseHandler_;
-		controlContainer_->MouseClicked -= mouseHandler_;
-		controlContainer_->MouseMove -= mouseHandler_;
-		controlContainer_->MouseUp -= mouseHandler_;
-		controlContainer_->MouseDown -= mouseHandler_;
-		controlContainer_->MouseLeave -= mouseHandler_;
-		controlContainer_->MouseEnter -= mouseHandler_;
-	}
-
-	/*
-	std::vector<Control*>::iterator it = controls_.begin();
-	while ( it != controls_.end() ){
-		Control* control = *it;
-		control->free();
-		control = NULL;
-		it++;
-	}
-	*/
-	controls_.clear();
-
-}
 
 
 
@@ -191,7 +191,7 @@ void AbstractContainer::init()
 													"AbstractContainer::onMouseEvent");
 
 	controlContainer_ = NULL;
-	initContainer( controls_ );
+	controlsContainer_.initContainer( controls_ );
 }
 
 void AbstractContainer::add( Control * child )
@@ -267,7 +267,7 @@ void AbstractContainer::remove( Control* child )
 
 void AbstractContainer::paintChildren( GraphicsContext* context ){
 
-	Enumerator<Control*>* children = getEnumerator();
+	Enumerator<Control*>* children = controlsContainer_.getEnumerator();
 	if ( NULL == controlContainer_ ){
 		throw InvalidPointerException(MAKE_ERROR_MSG(INVALID_POINTER_ERROR), __LINE__);
 	};
@@ -339,12 +339,12 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 
 Enumerator<Control*>* AbstractContainer::getChildren()
 {
-	return getEnumerator();
+	return controlsContainer_.getEnumerator();
 }
 
 unsigned long AbstractContainer::getChildCount()
 {
-	return 	controls_.size();
+	return controls_.size();
 }
 
 
@@ -559,6 +559,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.4  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

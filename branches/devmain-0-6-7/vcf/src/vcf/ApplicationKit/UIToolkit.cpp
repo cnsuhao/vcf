@@ -109,7 +109,9 @@ void UIToolkit::init()
 	PropertyEditorManager::registerPropertyEditor( new ImagePropertyEditor(), "VCF::Win32Image" );
 
 	/**
-	*register the components in categorys
+	register the components in categorys
+	It's entirely possible that this might ultimately make more sense moved to the 
+	VCF Builder at one point.
 	*/
 
 	Component::registerComponent( "VCF::TabbedPages", STANDARD_CATEGORY );
@@ -140,6 +142,17 @@ void UIToolkit::init()
 	Component::registerComponent( "VCF::Splitter", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::TreeListControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::HeaderControl", ADDITIONAL_CATEGORY );
+
+	Component::registerComponent( "VCF::Basic3DBorder", BORDER_CATEGORY );
+	Component::registerComponent( "VCF::EtchedBorder", BORDER_CATEGORY );
+	Component::registerComponent( "VCF::ColorEtchedBorder", BORDER_CATEGORY );
+	Component::registerComponent( "VCF::Light3DBorder", BORDER_CATEGORY );
+	Component::registerComponent( "VCF::TitledBorder", BORDER_CATEGORY );
+
+
+	Component::registerComponent( "VCF::StandardContainer", CONTAINER_CATEGORY );
+	Component::registerComponent( "VCF::ColumnLayoutContainer", CONTAINER_CATEGORY );
+	Component::registerComponent( "VCF::HorizontalLayoutContainer", CONTAINER_CATEGORY );
 	
 
 	internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
@@ -997,6 +1010,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.4  2005/02/28 04:51:56  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *

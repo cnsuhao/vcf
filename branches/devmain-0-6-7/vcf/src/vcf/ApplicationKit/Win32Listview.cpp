@@ -2228,7 +2228,10 @@ void Win32Listview::setLargeImageList( ImageList* imageList )
 
 	if ( NULL != imageList ) {
 		largeImageListCtrl_ = ImageList_Create( imageList->getImageWidth(), imageList->getImageHeight(),
-										ILC_COLOR32, imageList->getImageCount(), 4 );
+										ILC_COLOR24|ILC_MASK, imageList->getImageCount(), 4 );
+
+			//ImageList_Create( imageList->getImageWidth(), imageList->getImageHeight(),
+								//		ILC_COLOR32, imageList->getImageCount(), 4 );
 
 		Win32Image* win32Img = (Win32Image*)imageList->getMasterImage();
 		SysPixelType* pix = win32Img->getImageBits()->pixels_;
@@ -2240,6 +2243,15 @@ void Win32Listview::setLargeImageList( ImageList* imageList )
 			pix[sz].a = 0;
 		} while( sz > 0 );
 
+		COLORREF transparentColor = RGB(0,0,0);
+		if ( win32Img->isTransparent() ) {
+			Color* c = win32Img->getTransparencyColor();
+			transparentColor = RGB( c->getRed() * 255, c->getGreen() * 255, c->getBlue() * 255 );
+		}
+		else {
+			transparentColor = ::GetPixel( win32Img->getDC(), 0, 0 );
+		}
+
 
 		HBITMAP hbmImage = win32Img->getBitmap();
 
@@ -2249,7 +2261,7 @@ void Win32Listview::setLargeImageList( ImageList* imageList )
 			//error - throw exception
 		}
 
-		int err = ImageList_Add( largeImageListCtrl_, hCopyImg, NULL );//RGB(98,94,94) );
+		int err = ImageList_AddMasked( largeImageListCtrl_, hCopyImg, transparentColor );
 		if ( err < 0 ) {
 			//error condition !
 		}
@@ -2306,7 +2318,16 @@ void Win32Listview::setSmallImageList( ImageList* imageList )
 
 		HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
 
-		int err = ImageList_AddMasked( smallImageListCtrl_, hCopyImg, RGB(0,255,0) );
+		COLORREF transparentColor = RGB(0,0,0);
+		if ( win32Img->isTransparent() ) {
+			Color* c = win32Img->getTransparencyColor();
+			transparentColor = RGB( c->getRed() * 255, c->getGreen() * 255, c->getBlue() * 255 );
+		}
+		else {
+			transparentColor = ::GetPixel( win32Img->getDC(), 0, 0 );
+		}
+
+		int err = ImageList_AddMasked( smallImageListCtrl_, hCopyImg, transparentColor );
 		if ( err < 0 ) {
 			//error condition !
 		}
@@ -2383,6 +2404,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/03/06 22:50:59  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3.2.2  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

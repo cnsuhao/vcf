@@ -27,6 +27,8 @@ namespace VCF {
 
 		ColorEtchedBorder();
 
+		ColorEtchedBorder( Component* owner );
+
 		virtual ~ColorEtchedBorder(){};
 
 		virtual void paint( Control* control, GraphicsContext* context );
@@ -60,6 +62,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

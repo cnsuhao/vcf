@@ -71,7 +71,7 @@ public:
 
 		//set the border of the window, this will give us a nice etched border
 		EtchedBorder* bdr = new EtchedBorder();
-		bdr->setStyle( GraphicsContext::etSunken );
+		bdr->setEdgeStyle( GraphicsContext::etSunken );
 		setBorder( bdr );
 
 		//this is what gives us the capability to easily control the
@@ -350,6 +350,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/03/06 22:50:56  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.5.2.1  2005/01/17 18:51:15  marcelloptr
 *added discrete scrolling behaviour to examples of ListBoxControl
 *

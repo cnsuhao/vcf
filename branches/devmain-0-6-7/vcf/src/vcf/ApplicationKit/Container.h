@@ -35,17 +35,22 @@ class MouseHandler;
 class Rect;
 
 
-/**
-*A Container is an interface that is implemented when a Control
-*wants to be able to contain other child controls within itself.
-*A container can have child controls added or removed, and supports
-*searching all of it's child controls by name.
-*In addition a container has methods for enumerating all of it's children
-*and a method for explicitly resizing all of the children
-*/
-class APPLICATIONKIT_API Container : public Interface{
+#define CONTAINER_CLASSID		"70ac023d-fb3f-44ee-9fc9-9b4dcebe472f"
 
+/**
+A Container is a Component that is implemented when a Control
+wants to be able to contain other child controls within itself.
+A container can have child controls added or removed, and supports
+searching all of it's child controls by name.
+In addition a container has methods for enumerating all of it's children
+and a method for explicitly resizing all of the children
+*/
+class APPLICATIONKIT_API Container : public Component {
 public:
+	Container(){};
+
+	Container( Component* owner ): Component(owner){};
+
 	virtual ~Container(){};
 
 	/**
@@ -416,6 +421,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

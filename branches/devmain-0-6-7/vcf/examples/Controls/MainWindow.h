@@ -31,7 +31,7 @@ private:
 	//individual TabPage
 	VCF::TabPage* listBoxPage;
 	VCF::TabPage* bordersPage;
-
+	VCF::TabPage* buttonsPage;
 public:
 	//related to ListBoxTabPage
 	void makeListBoxPage();
@@ -50,6 +50,11 @@ public:
 
 	//related to bordersTabPage
 public: 
+	void makeButtonsPage();
+
+
+	//related to buttonsTabPage
+public: 
 	void makeBordersPage();
 
 	VCF::Panel* basic3DBorderPanel_;
@@ -65,6 +70,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/03/06 22:50:53  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.2  2004/12/01 04:15:00  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -15,12 +15,15 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/TitledBorder.h"
 #include "vcf/ApplicationKit/EtchedBorder.h"
 #include "vcf/ApplicationKit/ColorEtchedBorder.h"
+#include "vcf/ApplicationKit/HorizontalLayoutContainer.h"
+
 
 #include "ControlsApplication.h"
 #include "ControlsAbout.h"
 #include "Spacers.h"
 
 #include "MainWindow.h"
+
 
 using namespace VCF;
 
@@ -56,6 +59,9 @@ MainWindow::MainWindow()
 
 	bordersPage = mainPages->addNewPage( "Borders" );
 	makeBordersPage();
+
+	buttonsPage = mainPages->addNewPage( "Buttons" );
+	makeButtonsPage();
 
 	mainPagesModel = mainPages->getModel();
 	mainPagesModel->setSelectedPage( listBoxPage );				
@@ -101,8 +107,6 @@ void MainWindow::makeListBoxPage()
 	scrollbarManagerSingle->setHasHorizontalScrollbar( true );		
 	scrollbarManagerSingle->setTarget( listBox1_ );
 	scrollbarManagerSingle->setKeepScrollbarsVisible( false, false );
-	scrollbarManagerSingle->setVirtualViewVertStep( 17 );
-	scrollbarManagerSingle->setDiscreteScroll( false, true );
 	
 	listBoxGroup->add( listBox1_, AlignClient );
 	
@@ -317,7 +321,7 @@ void MainWindow::makeBordersPage()
 	light3DBorderPanel_->setBorder( new Light3DBorder( false ) );
 	etchedBorderPanel_->setBorder( new EtchedBorder( GraphicsContext::etAllSides, GraphicsContext::etEtched ) );
 	colorEtchedBorderPanel_->setBorder( new ColorEtchedBorder() );
-	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setStyle( GraphicsContext::etEtched );
+	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setEdgeStyle( GraphicsContext::etEtched );
 	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setHighlight( Color::getColor( "white" ) );
 	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setShadow( Color::getColor( "blue" ) );
 }
@@ -325,11 +329,67 @@ void MainWindow::makeBordersPage()
 
 
 
+
+void MainWindow::makeButtonsPage()
+{
+	HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
+	container->setColumnWidth( 0, 200 );
+
+	buttonsPage->getPageComponent()->setContainer( container );
+
+	Label* label = new Label();	
+
+	container->add( label );
+
+	CommandButton* btn1 = new CommandButton();
+	btn1->setCaption(  "Button 1" );
+
+	label->setCaption( btn1->getClassName() + ":" );
+
+	container->add( btn1 );
+
+	label = new Label();
+	container->add( label );
+
+	CommandButton* btn2 = new CommandButton();
+	btn2->setCaption(  "Button 2" );
+	
+	label->setCaption( btn2->getClassName() + " Disabled:" );
+
+	btn2->setEnabled( false );
+	
+	container->add( btn2 );
+
+
+	label = new Label();
+	container->add( label );
+
+	PushButton* btn3 = new PushButton();
+	btn3->setCaption(  "Button 3" );
+	
+	label->setCaption( btn3->getClassName() + ":" );
+	
+	container->add( btn3 );
+
+
+	label = new Label();
+	container->add( label );
+
+	PushButton* btn4 = new PushButton();
+	btn4->setCaption(  "Button 4" );
+	btn4->setEnabled( false );
+	
+	label->setCaption( btn4->getClassName()  + " Disabled:" );
+	
+	container->add( btn4 );
+}
+
+
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2005/01/17 18:49:07  marcelloptr
-*added discrete scrolling behaviour to examples of ListBoxControl
+*Revision 1.2.2.2  2005/03/06 22:50:53  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
 *Revision 1.2  2004/12/01 04:15:00  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job

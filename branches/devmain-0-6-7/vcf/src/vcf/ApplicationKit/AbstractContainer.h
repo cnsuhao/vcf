@@ -29,6 +29,8 @@ class MouseHandler;
 class Rect;
 
 
+#define ABSTRACTCONTAINER_CLASSID		"80cafd13-cd05-4b48-a1c3-6c4d9811361c"
+
 /**
 AbstractContainer implements the basics of a
 container with the exception of actual layout rules,
@@ -46,13 +48,11 @@ When the attached control is resized, the AbstractContainer
 will detect this as well and call resizeChildren() where
 appropriate.
 */
-class APPLICATIONKIT_API AbstractContainer : public Container, public ObjectWithEvents,
-									public EnumeratorContainer<std::vector<Control*>, Control*>{
+class APPLICATIONKIT_API AbstractContainer : public Container {
 public:
-
-
-
 	AbstractContainer();
+
+	AbstractContainer( Component* owner );
 
 	virtual ~AbstractContainer();
 
@@ -95,6 +95,7 @@ public:
 	}
 protected:
 	std::vector<Control*> controls_;
+	EnumeratorContainer<std::vector<Control*>, Control*> controlsContainer_;
 	std::map<long,Control*> tabOrderMap_;
 	long currentTabControlIndex_;
 	Control* controlContainer_;
@@ -111,6 +112,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/03/06 22:50:58  ddiego
+*overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
+*
 *Revision 1.3  2004/08/08 22:09:32  ddiego
 *final checkin before the 0-6-5 release
 *
