@@ -3,6 +3,13 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.2.2.1  2003/04/19 22:21:43  ddiego
+#tested the code developed in windows using gtk in linux. Seems to work ok except for a
+#few minor compiler glitches. Had to comment out the partial specialization for
+#floating point image bits in include/graphics/ImageBits.h. Also made some
+#adjustments in the makefiles for building the GraphicsKit and ApplicationKit
+#from the build/make/Makefile.
+#
 #Revision 1.2  2003/02/26 04:30:25  ddiego
 #merge of code in the devmain-0-5-9 branch into the current tree.
 #most additions are in the area of the current linux port, but the major
@@ -258,7 +265,6 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 	$(INC)/graphics/Color.h \
 	$(INC)/graphics/ColorEtchedBorder.h \
 	$(INC)/graphics/Composition.h \
-	$(INC)/graphics/confdefs.h \
 	$(INC)/graphics/ControlGraphicsContext.h \
 	$(INC)/graphics/Curve.h \
 	$(INC)/graphics/DrawToolkit.h \
@@ -271,7 +277,6 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 	$(INC)/graphics/Glyph.h \
 	$(INC)/graphics/GlyphCollection.h \
 	$(INC)/graphics/GraphicsContext.h \
-	$(INC)/graphics/GraphicsKit.h \
 	$(INC)/graphics/GraphicsKitSelectLib.h \
 	$(INC)/graphics/GraphicsObject.h \
 	$(INC)/graphics/GraphicsResourceMgr.h \
@@ -282,13 +287,8 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 	$(INC)/graphics/ImageTile.h \
 	$(INC)/graphics/Kernel.h \
 	$(INC)/graphics/Layer.h \
-	$(INC)/graphics/libart-features.h \
-	$(INC)/graphics/libart.h \
-	$(INC)/graphics/LibArtDLL.h \
-	$(INC)/graphics/LibartSelectLib.h \
 	$(INC)/graphics/Light3DBorder.h \
 	$(INC)/graphics/MagicFMLibType.h \
-	$(INC)/graphics/Matrix.h \
 	$(INC)/graphics/Matrix2D.h \
 	$(INC)/graphics/MatrixFunction.h \
 	$(INC)/graphics/MgcBezierCurve2.h \
@@ -320,13 +320,10 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 	$(INC)/exceptions/NoGraphicsToolkitFoundException.h \
 	$(INC)/exceptions/ImageLoaderException.h \
 	$(INC)/exceptions/InvalidImage.h \
-	$(INC)/implementerKit/X11Context.h \
-	$(INC)/implementerKit/X11Font.h \
-	$(INC)/implementerKit/X11GraphicsToolkit.h \
-	$(INC)/implementerKit/X11Image.h \
-	$(INC)/implementerKit/X11VCFUtils.h \
-	$(INC)/implementer/FillState.h \
-	$(INC)/implementer/FontState.h \
+	$(INC)/implementerKit/GTKContext.h \
+	$(INC)/implementerKit/GTKFont.h \
+	$(INC)/implementerKit/GTKGraphicsToolkit.h \
+	$(INC)/implementerKit/GTKImage.h \
 	$(INC)/utils/GraphicsToolKit.h
 
 
@@ -337,8 +334,7 @@ GRAPHICSKIT_HDRS=$(FOUNDATIONKIT_HDRS) $(INC)/events/ImageEvent.h \
 #GraphicsKit headers (and by definition FoundationKit headers
 ###########################################################
 
-APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ControlsKit.h \
-	$(INC)/ApplicationKit.h \
+APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ApplicationKit.h \
 	$(INC)/ApplicationKitPrivate.h \
 	$(INC)/com/ClassFactory.h \
 	$(INC)/com/COMDataObject.h \
@@ -396,7 +392,6 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ControlsKit.h \
 	$(INC)/core/Control.h \
 	$(INC)/core/ControlContainer.h \
 	$(INC)/core/Controller.h \
-	$(INC)/core/ControlsKit.h \
 	$(INC)/core/Cursor.h \
 	$(INC)/core/CursorManager.h \
 	$(INC)/core/CustomControl.h \
@@ -574,7 +569,6 @@ APPKIT_HDRS=$(GRAPHICSKIT_HDRS) $(INC)/ControlsKit.h \
 	$(INC)/implementer/ResourceStreamPeer.h \
 	$(INC)/implementer/ScrollbarPeer.h \
 	$(INC)/implementer/ScrollPeer.h \
-	$(INC)/implementer/StrokeState.h \
 	$(INC)/implementer/TextPeer.h \
 	$(INC)/implementer/TreePeer.h \
 	$(INC)/implementer/WindowPeer.h \
