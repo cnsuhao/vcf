@@ -718,7 +718,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
 
-				virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+				//virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
 
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
@@ -1443,6 +1443,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/02/17 04:06:35  ddiego
+*fixed bug in handling wm_keydown event in win32edit
+*
 *Revision 1.3.2.3  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
