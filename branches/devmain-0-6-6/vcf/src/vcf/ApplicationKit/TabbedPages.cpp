@@ -40,7 +40,7 @@ void TabbedPages::init()
 
 
 	borderWidth_ = 8.0;
-	tabHeight_ = 12.0;
+	tabHeight_ = 21.0;
 
 	tabViewOffset_ = 0.0;
 
@@ -150,8 +150,8 @@ void TabbedPages::paint( GraphicsContext* context )
 		Enumerator<TabPage*>* pages = model_->getPages();
 		
 
-		Rect oldClipRect = context->getClippingRect();
-		Rect tabClipRect( tabAreaBounds_.left_ - 2, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
+		//Rect oldClipRect = context->getClippingRect();
+		//Rect tabClipRect( tabAreaBounds_.left_ - 2, 3, tabAreaBounds_.right_, tabAreaBounds_.top_ - 2 );
 
 		//context->setClippingRect( &tabClipRect );
 
@@ -173,7 +173,7 @@ void TabbedPages::paint( GraphicsContext* context )
 			TabPage* page = pages->nextElement();
 			VCF_ASSERT( NULL != page );
 				width = minVal<>( tabWidth, getTabPageWidth( page, context ) );
-				tabsRect.setRect( currentLeft, tabAreaBounds_.top_ - tabHeight_,
+				tabsRect.setRect( currentLeft, tabAreaBounds_.top_ - tabHeight_ + 1,
 						          currentLeft+ width, tabAreaBounds_.top_ -2  );
 
 				tabsRect.offset( tabViewOffset_, 0 );
@@ -203,7 +203,7 @@ void TabbedPages::paint( GraphicsContext* context )
 
 			if ( NULL != component ){
 				Rect tmp( tabAreaBounds_ );//*(component->getBounds()) );
-				tmp.inflate( 3,3 );
+				tmp.inflate( 2,2 );
 				activePageBorder_.paint( &tmp, context );
 			}
 
@@ -531,6 +531,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/22 19:03:01  dougtinkham
+*default tab height is now 21. modified paint.
+*
 *Revision 1.2.2.2  2004/08/16 22:31:05  dougtinkham
 *fixed my bug
 *
