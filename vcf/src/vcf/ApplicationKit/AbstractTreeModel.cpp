@@ -55,53 +55,14 @@ void AbstractTreeModel::empty()
 
 void AbstractTreeModel::insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter)
 {
-	TreeItem* parent = nodeToInsertAfter->getParent();
-	if ( NULL != parent ) {
-		parent->insertChild( nodeToInsertAfter->getIndex(), node );
-		TreeModelEvent event(dynamic_cast<Object*>(this), node, TreeModel::TREEITEM_ADDED );
-		NodeAdded.fireEvent( &event );
-	}
-	else {
-		//bad call throw exception
-	}
 }
 
 void AbstractTreeModel::deleteNodeItem(TreeItem * nodeToDelete)
 {
-	TreeItem* parent = nodeToDelete->getParent();
-
-	TreeModelEvent event(dynamic_cast<Object*>(this), nodeToDelete, TreeModel::TREEITEM_DELETED );
-	NodeDeleted.fireEvent( &event );
-
-	if ( NULL != parent ){
-		parent->deleteChild( nodeToDelete );
-	}
-	else {
-		std::vector<TreeItem*>::iterator found = std::find( rootNodes_.begin(), rootNodes_.end(), nodeToDelete );
-		if ( found != rootNodes_.end() ) {
-			TreeItem* item = *found;
-			rootNodes_.erase( found );			
-
-			delete item;
-			item = NULL;
-		}
-	}
 }
 
 void AbstractTreeModel::addNodeItem( TreeItem * node, TreeItem * nodeParent )
 {
-	node->setModel( dynamic_cast<Model*>(this) );
-	if ( NULL == nodeParent ){
-		rootNodes_.push_back( node );
-		TreeModelEvent event(dynamic_cast<Object*>(this), node, TreeModel::TREEITEM_ADDED );
-		RootNodeChanged.fireEvent( &event );
-	}
-	else {
-		nodeParent->addChild( node );
-	}
-
-	TreeModelEvent event(dynamic_cast<Object*>(this), node, TreeModel::TREEITEM_ADDED );
-	NodeAdded.fireEvent( &event );
 }
 
 void AbstractTreeModel::sort()
@@ -151,6 +112,9 @@ Enumerator<TreeItem*>* AbstractTreeModel::getRootItems()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2004/10/05 03:15:23  kiklop74
+*Additional changes in tree model
+*
 *Revision 1.2.2.1  2004/09/21 23:41:23  ddiego
 *made some big changes to how the base list, tree, text, table, and tab models are laid out. They are not just plain interfaces. The actual
 *concrete implementations of them now derive from BOTH Model and the specific

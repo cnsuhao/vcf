@@ -87,6 +87,12 @@ public:
 		AbstractModel::empty();
 	}
 
+    virtual void insertNodeItem(TreeItem * node, TreeItem * nodeToInsertAfter);
+
+    virtual void deleteNodeItem(TreeItem * nodeToDelete);
+
+    virtual void addNodeItem( TreeItem * node, TreeItem * nodeParent=NULL );
+
 protected:
 
 	virtual void onItemPaint( ItemEvent* event );
@@ -108,6 +114,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/10/05 03:15:23  kiklop74
+*Additional changes in tree model
+*
 *Revision 1.2.2.2  2004/10/05 02:48:22  kiklop74
 *Added needed changes that will enable Borland compiler to compile RTTI for ApplicationKit
 *
