@@ -29,7 +29,7 @@ String VariantData::toString() const
 			long i = (long)*this;
 			char tmp[VariantData::DefaultPropertyValLength];
 			memset(tmp, 0, VariantData::DefaultPropertyValLength);
-			sprintf( tmp, "%d", i );
+			sprintf( tmp, "%ld", i );
 			result += tmp;
 		}
 		break;
@@ -38,7 +38,16 @@ String VariantData::toString() const
 			short i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
 			memset(tmp, 0, VariantData::DefaultPropertyValLength);
-			sprintf( tmp, "%d", i );
+			sprintf( tmp, "%hd", i );
+			result += tmp;
+		}
+		break;
+
+		case pdUInt:{
+			unsigned int i = *this;
+			char tmp[VariantData::DefaultPropertyValLength];
+			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			sprintf( tmp, "%u", i );
 			result += tmp;
 		}
 		break;
@@ -47,7 +56,7 @@ String VariantData::toString() const
 			unsigned long i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
 			memset(tmp, 0, VariantData::DefaultPropertyValLength);
-			sprintf( tmp, "%d", (int)i );
+			sprintf( tmp, "%lu", i );
 			result += tmp;
 		}
 		break;
@@ -81,7 +90,7 @@ String VariantData::toString() const
 
 		case pdBool:{
 			bool i = *this;
-			result += i ? "true":"false";
+			result += i ? "true" : "false";
 		}
 		break;
 
@@ -159,12 +168,12 @@ void VariantData::setFromString( const String& value )
 
 	switch( type ){
 		case pdInt:{
-            IntVal = StringUtils::fromStringAsInt( value );
+			IntVal = StringUtils::fromStringAsInt( value );
 		}
 		break;
 
 		case pdLong:{
-			LongVal = StringUtils::fromStringAsInt( value );
+			LongVal = StringUtils::fromStringAsLong( value );
 		}
 		break;
 
@@ -173,9 +182,14 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
+		case pdUInt:{
+			UIntVal = StringUtils::fromStringAsUInt( value );
+		}
+		break;
+
 		case pdULong:{
-			ULongVal = StringUtils::fromStringAsUInt( value );
-        }
+			ULongVal = StringUtils::fromStringAsULong( value );
+		}
 		break;
 
 		case pdFloat:{
@@ -184,9 +198,7 @@ void VariantData::setFromString( const String& value )
 		break;
 
 		case pdChar:{
-
-            CharVal = StringUtils::fromStringAsChar( value );
-
+			CharVal = StringUtils::fromStringAsChar( value );
 		}
 		break;
 
@@ -196,7 +208,7 @@ void VariantData::setFromString( const String& value )
 		break;
 
 		case pdBool:{
-            BoolVal = StringUtils::fromStringAsBool( value );
+			BoolVal = StringUtils::fromStringAsBool( value );
 		}
 		break;
 
@@ -299,6 +311,11 @@ void VariantData::setValue( const VariantData& value )
 			ShortVal = value.ShortVal;
 		}
 
+		case pdUInt : {
+			UIntVal = value.UIntVal;
+		}
+		break;
+
 		case pdULong : {
 			ULongVal = value.ULongVal;
 		}
@@ -320,6 +337,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2004/12/24 04:53:59  marcelloptr
+*added support for unsigned int in VariantData. Fixed other glitches of this class.
+*
 *Revision 1.3.2.1  2004/12/24 00:59:28  marcelloptr
 *VariantData::toString() made const
 *
