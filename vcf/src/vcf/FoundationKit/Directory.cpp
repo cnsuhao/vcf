@@ -413,12 +413,8 @@ File* Directory::Finder::getCurrentElement() const
 	return currentElement_;
 }
 
-bool Directory::Finder::hasMoreElements() const
-{
-	return searchHasMoreElements_;
-}
 
-File* Directory::Finder::nextElement()
+bool Directory::Finder::nextElement()
 {
 	// continues the search until a valid element is found 
 	// or the search is completed along all the allowed subdirectories
@@ -457,7 +453,7 @@ File* Directory::Finder::nextElement()
 
 	searchHasMoreElements_ = ( NULL != currentElement_ );
 
-	return currentElement_;
+	return searchHasMoreElements_;
 }
 
 
@@ -616,6 +612,9 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/23 00:56:37  ddiego
+*added the latest changes to the File and Directory finder classes.
+*
 *Revision 1.1.2.5  2004/07/20 02:03:13  ddiego
 *fixed some miscellaneous bugs in directory search code. Many
 *thanks to Marcello for helping out on this.

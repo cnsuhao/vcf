@@ -12,12 +12,20 @@ where you installed the VCF.
 using namespace VCF;
 
 
-File::File( const String& fileName, OpenFlags openFlags/*=File::ofNone*/, ShareFlags shareFlags/*=File::shMaskAny*/ )
-{
-	filePeer_ = NULL;
-	
+File::File( const String& fileName ):
+	filePeer_(NULL),
+	openAccess_(File::ofNone)
+{	
 	setName( fileName );
 }
+
+File::File( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags ):
+	filePeer_(NULL),
+	openAccess_(File::ofNone)
+{
+	openWithRights( fileName, openFlags, shareFlags );	
+}
+
 
 File::~File()
 {
@@ -42,7 +50,8 @@ void File::setName( const String& fileName )
 		if ( NULL == filePeer_ ) {
 			throw NoPeerFoundException();
 		}
-	} else {
+	} 
+	else {
 		filePeer_->setFile( this );
 	}
 
@@ -130,12 +139,14 @@ void File::openWithFileName( const String& fileName )
 {
 	fileName_ = fileName;
 	filePeer_->open( fileName );
+	openAccess_ = File::ofStat;
 }
 
 void File::openWithRights( const String& fileName, OpenFlags openFlags, ShareFlags shareFlags )
 {
 	fileName_ = fileName;
 	filePeer_->open( fileName, openFlags, shareFlags );
+	openAccess_ = openFlags;
 }
 
 void File::close()
@@ -147,12 +158,20 @@ FileInputStream* File::getInputStream()
 {
 	FileInputStream* result = NULL;
 
+	if ( isReadable() ) {
+		result = new FileInputStream( fileName_ );
+	}
+
 	return result;
 }
 
 FileOutputStream* File::getOutputStream()
 {
 	FileOutputStream* result = NULL;
+
+	if ( isWriteable() ) {
+		result = new FileOutputStream( fileName_ );
+	}
 
 	return result;
 }
@@ -161,6 +180,9 @@ FileOutputStream* File::getOutputStream()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/23 00:56:37  ddiego
+*added the latest changes to the File and Directory finder classes.
+*
 *Revision 1.1.2.4  2004/07/19 04:08:53  ddiego
 *more files and directories integration. Added Marcello's Directories example as well
 *
