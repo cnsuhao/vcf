@@ -324,6 +324,8 @@ public:
 	}
 };
 
+
+
 class CircleInfoUI : public CustomControl {
 public:
 	CircleInfoUI() : CustomControl(true) {
