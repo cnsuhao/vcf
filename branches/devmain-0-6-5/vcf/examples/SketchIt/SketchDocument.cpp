@@ -52,10 +52,10 @@ void SketchDocument::addShape( Shape& shape )
 	shapes_.push_back( new Shape(shape) );
 
 	setModified( true );
-	
+
 	ModelEvent e( this, Model::MODEL_CHANGED );
 	ModelChanged.fireEvent( &e );
-	
+
 	updateAllViews();
 }
 
@@ -109,17 +109,17 @@ void SketchDocument::removeSelectedShape( Shape* shape )
 	}
 }
 
-void SketchDocument::removeShape( Shape* shape ) 
+void SketchDocument::removeShape( Shape* shape )
 {
 	if ( NULL != shape ) {
 		std::vector<Shape*>::iterator found = std::find( selectedShapes_.begin(), selectedShapes_.end(), shape );
 		if ( found != selectedShapes_.end() ) {
-			selectedShapes_.erase( found );			
+			selectedShapes_.erase( found );
 		}
 
 		found = std::find( shapes_.begin(), shapes_.end(), shape );
 		if ( found != shapes_.end() ) {
-			shapes_.erase( found );	
+			shapes_.erase( found );
 			updateAllViews();
 		}
 	}
@@ -140,7 +140,7 @@ Shape* SketchDocument::getSelectedShape()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.6.2  2004/04/29 03:04:29  marcelloptr
+*Revision 1.2.6.3  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *

@@ -18,7 +18,7 @@ using namespace VCF;
 
 
 /**
-This class demonstrates how to write your own text codec 
+This class demonstrates how to write your own text codec
 */
 class MyTextCodec : public VCF::TextCodec {
 public:
@@ -34,7 +34,7 @@ public:
 		FormFeed			= 12,
 		CarriageReturn		= 13,
 		LineSeparator		= 0x2028,
-		ParagraphSeparator	= 0x2029	
+		ParagraphSeparator	= 0x2029
 	};
 
 	//values from Mike Lischke pascal Unicode functions
@@ -75,8 +75,8 @@ public:
 	/**
 	These are the 4 methods you have to implement
 	*/
-	
-	virtual ulong32 convertToAnsiString( const UnicodeString& str, UnicodeString::AnsiChar* ansiStrBuffer, 
+
+	virtual ulong32 convertToAnsiString( const UnicodeString& str, UnicodeString::AnsiChar* ansiStrBuffer,
 										const ulong32& ansiStrBufferLength );
 
 	virtual UnicodeString::AnsiChar convertToAnsiChar( const UnicodeString::UniChar& c );
@@ -93,7 +93,7 @@ public:
 	}
 
 protected:
-	static unsigned long offsetsFromUTF8[6]; 
+	static unsigned long offsetsFromUTF8[6];
 	static unsigned char firstByteMark[7];
 	static unsigned char bytesFromUTF8[256];
 };
@@ -113,43 +113,43 @@ unsigned char MyTextCodec::bytesFromUTF8[256] = {
 unsigned long MyTextCodec::offsetsFromUTF8[6] = {0x00000000, 0x00003080, 0x000E2080, 0x03C82080, 0xFA082080, 0x82082080};
 
 
-ulong32 MyTextCodec::convertToAnsiString( const UnicodeString& str, UnicodeString::AnsiChar* ansiStrBuffer, 
+ulong32 MyTextCodec::convertToAnsiString( const UnicodeString& str, UnicodeString::AnsiChar* ansiStrBuffer,
 									const ulong32& ansiStrBufferLength )
 {
-	long ch;		
+	long ch;
 	short T = 0;
 	short bytesToWrite = 0;
 	long byteMask = 0;
 	long byteMark = 0;
-	
+
 	long length =  str.size();
 	if ( ansiStrBufferLength > 0 ) {
 		length = minVal<long>( ansiStrBufferLength, length );
 	}
-	
+
 	if ( 0 == length ){
 		return 0;
 	}
 
-	
+
 	const UnicodeString::UniChar* unicodeStr = str.c_str();
 
 	long strLength = 0;
-	
+
 	T = 0;
 	for ( int J=0;J<length;J++) {
 		byteMask = 0xBF;
 		byteMark = 0x80;
-		
+
 		ch = (long)unicodeStr[J];
-		
+
 		if ( ch < 0x80 ) {
 			bytesToWrite = 1;
 		}
 		else if ( ch < 0x800 ) {
 			bytesToWrite = 2;
 		}
-		else if ( ch < 0x10000 ) { 
+		else if ( ch < 0x10000 ) {
 			bytesToWrite = 3;
 		}
 		else if ( ch < 0x200000 ) {
@@ -165,15 +165,15 @@ ulong32 MyTextCodec::convertToAnsiString( const UnicodeString& str, UnicodeStrin
 			bytesToWrite = 2;
 			ch = ReplacementCharacter;
 		}
-		
-		for ( int L=bytesToWrite; L>2;L--) { 
+
+		for ( int L=bytesToWrite; L>2;L--) {
 			if ( ansiStrBufferLength > 0 ) {
 				ansiStrBuffer[T + L - 1] = (UnicodeString::AnsiChar)((ch | byteMark) & byteMask);
 			}
-			
+
 			strLength ++;
 
-			ch = ch >> 6;    
+			ch = ch >> 6;
 		}
 		strLength ++;
 
@@ -182,15 +182,15 @@ ulong32 MyTextCodec::convertToAnsiString( const UnicodeString& str, UnicodeStrin
 		}
 
 		T += bytesToWrite;
-	}	
-	
+	}
+
 	if ( 0 == ansiStrBufferLength ) {
 		strLength ++; //account for null terminator
 	}
 	else {
 		ansiStrBuffer[strLength] = 0;
 	}
-	
+
 	return strLength;
 }
 
@@ -225,7 +225,7 @@ UnicodeString MyTextCodec::convertToUnicodeString( const UnicodeString::AnsiChar
 This is a simple wrapper around the Win32 QueryPerformanceCounter API
 to allow hi resolution timing
 */
-#ifdef VCF_WIN32 
+#ifdef VCF_WIN32
 class HiResClock {
 public:
 
@@ -233,8 +233,8 @@ public:
 		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
 		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
 	}
-	
-	
+
+
 
 	void start() {
 		QueryPerformanceCounter( &performanceCounter1_ );
@@ -248,7 +248,7 @@ public:
 		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
 		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
 	}
-	
+
 	operator double() const {
 		return duration();
 	}
@@ -257,14 +257,14 @@ public:
 		LARGE_INTEGER frequency;
 		QueryPerformanceFrequency( &frequency );
 
-		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency.LowPart; 
+		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency.LowPart;
 	}
-protected:	
+protected:
 	LARGE_INTEGER performanceCounter1_;
 	LARGE_INTEGER performanceCounter2_;
 private:
 	HiResClock( const HiResClock& rhs );
-	
+
 
 	HiResClock& operator=( const HiResClock& rhs );
 };
@@ -273,28 +273,28 @@ private:
 class HiResClock {
 public:
 
-	HiResClock(){}	
+	HiResClock(){}
 
 	void start() {
-		
+
 	}
 
 	void stop() {
-		
+
 	}
 
 	void clear() {
-		
+
 	}
-	
+
 	operator double() const {
 		return duration();
 	}
 
 	double duration() const {
-		return 0.0; 
+		return 0.0;
 	}
-	
+
 private:
 	HiResClock( const HiResClock& rhs );
 	HiResClock& operator=( const HiResClock& rhs );
@@ -337,7 +337,7 @@ void testTime( const String& testName, const HiResClock& clock )
 
 void testLocale( Locale& loc )
 {
-		
+
 
 	wprintf( L"*******************************************************************************\n" );
 
@@ -347,8 +347,8 @@ void testLocale( Locale& loc )
 	UnicodeString lang = loc.getLanguageName();
 	wprintf( L"Testing Locale %s. Lang code: %s, country code: %s, lang name: %s\n",
 			name.c_str(),
-			lc.c_str(), 
-			cc.c_str(), 
+			lc.c_str(),
+			cc.c_str(),
 			lang.c_str() );
 
 	wprintf( L"-------------------------------------------------------------------------------\n\n" );
@@ -424,11 +424,11 @@ int main( int argc, char** argv ){
 	register your custom codec
 	*/
 	VCF::TextCodec::registerCodec( new MyTextCodec() );
-	
+
 	/**
 	This sections tests out a variety of locales
 	*/
-	
+
 	{
 		//test a locale identified by string codes for language and country
 		Locale loc( "en", "US" );
@@ -467,7 +467,7 @@ int main( int argc, char** argv ){
 		testLocale( loc );
 	}
 
-	
+
 	{
 		//these are some silly tests tha demonstrate using a VCF::UnicodeString class
 		UnicodeString s;
@@ -507,22 +507,22 @@ int main( int argc, char** argv ){
 	Translation support !
 	*/
 	try {
-		
+
 		{
-			Locale loc(Locale::lcPolish, Locale::ccPoland );				
-			
+			Locale loc(Locale::lcPolish, Locale::ccPoland );
+
 			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
 			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
 		}
-		
-		
+
+
 		{
 			Locale loc(Locale::lcFrench, Locale::ccFrance );
-			
+
 			printf( "loc[%s].translate( \"Hello\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "Hello" ).ansi_c_str() );
 			printf( "loc[%s].translate( \"I understand\" ) = %s\n", loc.getName().ansi_c_str(), loc.translate( "I understand" ).ansi_c_str() );
 		}
-		
+
 	}
 	catch ( std::exception& e ) {
 		printf( "Exception: %s\n", e.what() );
@@ -531,7 +531,7 @@ int main( int argc, char** argv ){
 
 
 	HiResClock clock;
-	
+
 	int count = 1000;
 
 	/**
@@ -556,7 +556,7 @@ int main( int argc, char** argv ){
 	//test 2
 	{
 		clock.start();
-		
+
 		for ( int i=0;i<count;i++ ) {
 			UnicodeString s = "Some text: MySQL 3.23.54 running on mysql.sourceforge.net as vcf@sc8-pr-web3-b.sourceforge.net";
 		}
@@ -582,7 +582,7 @@ int main( int argc, char** argv ){
 	//test 4
 	{
 		clock.start();
-		
+
 		for ( int i=0;i<count;i++ ) {
 			std::string s = "Some text: MySQL 3.23.54 running on mysql.sourceforge.net as vcf@sc8-pr-web3-b.sourceforge.net";
 		}
@@ -591,7 +591,7 @@ int main( int argc, char** argv ){
 
 		testTime( StringUtils::format("Test 4 - new std::string instance assignment, %d times", count ), clock );
 	}
-	
+
 
 	count = 100000;
 	//test 5
@@ -610,7 +610,7 @@ int main( int argc, char** argv ){
 	//test 6
 	{
 		clock.start();
-		
+
 		for ( int i=0;i<count;i++ ) {
 			UnicodeString s = "Some text: MySQL 3.23.54 running on mysql.sourceforge.net as vcf@sc8-pr-web3-b.sourceforge.net";
 		}
@@ -636,7 +636,7 @@ int main( int argc, char** argv ){
 	//test 8
 	{
 		clock.start();
-		
+
 		for ( int i=0;i<count;i++ ) {
 			std::string s = "Some text: MySQL 3.23.54 running on mysql.sourceforge.net as vcf@sc8-pr-web3-b.sourceforge.net";
 		}
@@ -724,7 +724,7 @@ int main( int argc, char** argv ){
 		testTime( StringUtils::format("Test 12 - std::string assignment, %d times %d characters long", count, length ), clock );
 	}
 
-	
+
 
 
 	FoundationKit::terminate();
@@ -735,7 +735,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.3  2004/04/29 03:04:27  marcelloptr
+*Revision 1.2.2.4  2004/04/29 03:10:55  marcelloptr
 *reformatting of source files
 *
 *

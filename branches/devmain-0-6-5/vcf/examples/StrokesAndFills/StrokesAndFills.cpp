@@ -16,7 +16,7 @@ using namespace VCF;
 
 
 /**
-This example will demonstrate the use of the 
+This example will demonstrate the use of the
 Fill and Stroke classes and the new AGG anti-aliased
 vector library support.
 */
@@ -43,9 +43,9 @@ public:
 
 	/**
 	This event handler will toggle whether or not hte render
-	buffer is enabled. If the render buffer is enabled 
+	buffer is enabled. If the render buffer is enabled
 	(isUsingRenderBuffer() returns true) then anti-aliased
-	drawing is possible for the control, otherwise no 
+	drawing is possible for the control, otherwise no
 	anti-aliased drawing will take place.
 	*/
 	void onButtonClicked( ButtonEvent* e ) {
@@ -56,13 +56,13 @@ public:
 		/**
 		calling this method sets the use of an render buffer
 		to support the anti-aliasing features of AGG. Each control
-		can control whether or not it support this, and by 
-		default controls start up *not* using the render 
+		can control whether or not it support this, and by
+		default controls start up *not* using the render
 		buffer.
 		*/
 		setUsingRenderBuffer( antiAliasToggle->isChecked() );
 
-		
+
 		if ( isUsingRenderBuffer() ) {
 			GraphicsContext* ctx = getContext();
 			ctx->setDrawingArea( getClientBounds() );
@@ -83,21 +83,21 @@ public:
 		BezierCurve shape;
 
 		/**
-		This is a stroke object. You can use it 
-		to draw the shape of your path. You 
-		set properties of the stroke object 
+		This is a stroke object. You can use it
+		to draw the shape of your path. You
+		set properties of the stroke object
 		such as the width, color, etc.
 		*/
 		BasicStroke stroke;
 
 		/**
-		This sets the current stroke to use. This 
+		This sets the current stroke to use. This
 		pointer is *not* owned by the GraphicsContext
-		so be sure to set it to NULL (or 
+		so be sure to set it to NULL (or
 		the previous value) when you're done
 		*/
 		ctx->setCurrentStroke( &stroke );
-		
+
 		/**
 		Add two points to the path
 		*/
@@ -107,7 +107,7 @@ public:
 		/**
 		Draw the path. The GraphicsContext will use
 		it's current Stroke and Fill pointers to stroke
-		and fill the path. Since we have not specified a 
+		and fill the path. Since we have not specified a
 		Fill to use, the path will only be stroked
 		*/
 		ctx->draw( &shape );
@@ -121,10 +121,10 @@ public:
 		ctx->setTranslation( 0, 50 );
 
 		/**
-		set the stroke's color to green and the 
+		set the stroke's color to green and the
 		width to 3
 		*/
-		stroke.setColor( &Color(0.0,1.0,0.0) ); 
+		stroke.setColor( &Color(0.0,1.0,0.0) );
 		stroke.setWidth( 3.0 );
 
 		ctx->draw( &shape );
@@ -137,14 +137,14 @@ public:
 		/**
 		create a curved shape .
 		the curve() method takes 4 points, a
-		starting point, the first control point, the second 
+		starting point, the first control point, the second
 		control point, and the end point.
 		*/
 		BezierCurve shape2;
 
 		/**
 		This will overlap the previous shapes a bit
-		so we can see the effects of setting the 
+		so we can see the effects of setting the
 		stroke's opacity
 		*/
 		shape2.curve( 50, 300,
@@ -153,14 +153,14 @@ public:
 						375, 300 );
 
 
-		stroke.setColor( &Color(1.0,0.0,0.75) ); 
+		stroke.setColor( &Color(1.0,0.0,0.75) );
 		stroke.setWidth( 15.0 );
 		/**
 		Note we set the stroke to be 75% opaque
 		so we'll be able to partially see what ever is
 		"underneath" this shape. However this will
-		only take effect if the anti-aliasing support 
-		is enabled by calling setUsingRenderBuffer() with 
+		only take effect if the anti-aliasing support
+		is enabled by calling setUsingRenderBuffer() with
 		a true value passed in.
 		*/
 		stroke.setOpacity( 0.75 );
@@ -188,7 +188,7 @@ public:
 		*/
 		Matrix2D translate;
 		/**
-		tranlation matrix to move the rect shape back to 
+		tranlation matrix to move the rect shape back to
 		0,0 centered around it's center.
 		Our rect's left/top coordinate was at 75,350
 		and it's width/height was 100,100 so to center
@@ -201,8 +201,8 @@ public:
 		rotate.rotate( 45 );
 
 		Matrix2D mat;
-		
-		mat.multiply( &translate, &rotate );	
+
+		mat.multiply( &translate, &rotate );
 
 		/**
 		apply the rotation/translation matrix to the shape
@@ -249,12 +249,12 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new StrokesAndFillsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
 		mainWindow->show();
-		
+
 		return result;
 	}
 
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
 	Application* app = new StrokesAndFillsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -274,7 +274,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.2  2004/04/29 03:04:30  marcelloptr
+*Revision 1.4.2.3  2004/04/29 03:10:58  marcelloptr
 *reformatting of source files
 *
 *

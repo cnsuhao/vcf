@@ -295,7 +295,7 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		REGISTER_CLASSINFO_EXTERNAL(VisualFormFilesWindow);
 
 		FilePath fp = getFileName();
@@ -308,11 +308,11 @@ public:
 		BasicInputStream bis( vff );
 		VFFInputStream vis( &bis );
 		vis.readComponent( (Component**)&window );
-		
+
 		VisualFormFilesWindow* w = (VisualFormFilesWindow*)window;
 
 		setMainWindow(window);
-		
+
 		return result;
 	}
 
@@ -324,7 +324,7 @@ int main(int argc, char *argv[])
 	Application* app = new VisualFormFilesApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -332,7 +332,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/04/29 03:04:31  marcelloptr
+*Revision 1.2.2.3  2004/04/29 03:11:00  marcelloptr
 *reformatting of source files
 *
 *

@@ -10,14 +10,14 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKit.h"
 
 /**
-*use the VCF namespace to make it more convenient 
+*use the VCF namespace to make it more convenient
 *to refer to VCF classes
 */
 using namespace VCF;
 
 
 /**
-This example show how to work with strings 
+This example show how to work with strings
 in the VCF and some of the extra utility functions in the StringUtils class.
 Many thanks to Cesar Mello for doing the initial work on this
 */
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 {
 	FoundationKit::init( argc, argv );
 
-	// creating strings 
+	// creating strings
     String s = "Now";
     String t = s + " is the time."; // concatenate strings with + operator
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 	System::println( "StringUtils::getClassNameFromTypeInfo() returned: %s", className.c_str() );
 
 
-	
+
 	/**
 	transform a string to and from upper case and lowercase
 	*/
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 
 
 	/**
-	A trace statement useful for debugging. On Win32 systems this goes to the 
+	A trace statement useful for debugging. On Win32 systems this goes to the
 	debugger for the current application
 	*/
 
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 	Same as above, only with variable arguments
 	*/
 	StringUtils::traceWithArgs( "Hello World %d times", 10 );
-	
+
 
 	/**
 	This demonstrates trimming text from a string
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	StringUtils::trimWhiteSpacesRight( xfrmedString );
 	System::println( "original: \"%s\"\nxfrmedString after StringUtils::trimWhiteSpacesRight(): \"%s\"", original.c_str(), xfrmedString.c_str() );
 
-	
+
 
 	FoundationKit::terminate();
 
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.3  2004/04/29 03:04:29  marcelloptr
+*Revision 1.2.4.4  2004/04/29 03:10:58  marcelloptr
 *reformatting of source files
 *
 *

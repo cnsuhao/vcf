@@ -13,7 +13,7 @@ where you installed the VCF.
 using namespace VCF;
 
 /**
-This example will introduce the basics of working with alignments. 
+This example will introduce the basics of working with alignments.
 The example will demonstrate how to align by client, top, left, right,
 bottom. We'll make use of both heavyweight and lighweight containers.
 For a further information on lightweight vs. heavyweight controls,
@@ -26,7 +26,7 @@ be used with any control.
 class LightWeightControl : public ControlContainer {
 public:
 	LightWeightControl(): ControlContainer(false){}
-	
+
 
 };
 
@@ -34,7 +34,7 @@ public:
 
 class AlignmentWindow : public Window {
 public:
-	
+
 
 	AlignmentWindow() {
 		setCaption( "Alignment" );
@@ -44,7 +44,7 @@ public:
 		//we don't have to do this - this is strictly to have a control
 		//that is aligned as a AlignClient
 		Panel* main = new Panel();
-		add( main, AlignClient );		
+		add( main, AlignClient );
 		main->setToolTipText( "main panel" );
 
 		//create a new container  - agina, by default we do not have top do this
@@ -61,14 +61,14 @@ public:
 
 
 		/**
-		Now lets add a bunch of child controls - each one a panel, each one a 
+		Now lets add a bunch of child controls - each one a panel, each one a
 		different color. Notice that the order the control is added IS retained
 		as the parent control is resized.
 		*/
 		/**
-		The first set will be aligned to the bottom. This means that the original height of the 
-		control is maintained, but the left and right sides are controlled by the parent, 
-		making the child control's width changed as the parent is resized.		
+		The first set will be aligned to the bottom. This means that the original height of the
+		control is maintained, but the left and right sides are controlled by the parent,
+		making the child control's width changed as the parent is resized.
 		*/
 		Panel* p1 = new Panel();
 		p1->setHeight( 20 );
@@ -87,7 +87,7 @@ public:
 		main->add( p3, AlignBottom );
 		p3->setColor( Color::getColor("red") );
 		p3->setToolTipText( "p3: AlignBottom, red" );
-		
+
 		/**
 		These two  control are aligned to the left. This will maintain the controls
 		width, but alter the height to match that of the parent.
@@ -128,17 +128,17 @@ public:
 
 
 		/**
-		Now we add a lightweight control that *also* holds a 
-		container - this means you can have container that are *not* 
+		Now we add a lightweight control that *also* holds a
+		container - this means you can have container that are *not*
 		heavy weight controls, and cuts down on resources a bit.
 		*/
 		LightWeightControl* clientControl = new LightWeightControl();
 
 		/**
-		add the control aligned as a client. 
+		add the control aligned as a client.
 		A control that is client aligned will take up any remain space left
 		after the bounds for left, top, right, and bottom aligned controls
-		have been calculated (using a standard container - other custom 
+		have been calculated (using a standard container - other custom
 		container may enforce their own layout algorithms).
 		*/
 		main->add( clientControl, AlignClient );
@@ -172,7 +172,7 @@ public:
 	}
 
 	virtual ~AlignmentWindow(){};
-	
+
 };
 
 
@@ -187,12 +187,12 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new AlignmentWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
 		mainWindow->show();
-		
+
 		return result;
 	}
 
@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
 	Application* app = new AlignmentApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:24  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:48  marcelloptr
 *reformatting of source files
 *
 *

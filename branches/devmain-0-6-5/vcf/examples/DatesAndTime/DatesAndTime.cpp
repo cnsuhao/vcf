@@ -10,7 +10,7 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKit.h"
 
 /**
-include the DateTime header - this must come *after* your include 
+include the DateTime header - this must come *after* your include
 of the FoundationKit.
 */
 #include "vcf/FoundationKit/DateTime.h"
@@ -152,7 +152,7 @@ int main( int argc, char** argv ){
 
 	DateTime storeMe( 1977, 10, 3, 19, 23, 12 );
 
-	
+
 	{
 		FileOutputStream fs( "datetime.out" );
 
@@ -180,7 +180,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/04/29 03:04:25  marcelloptr
+*Revision 1.2.2.3  2004/04/29 03:10:50  marcelloptr
 *reformatting of source files
 *
 *

@@ -22,12 +22,12 @@ where you installed the VCF.
 using namespace VCF;
 
 /**
-*This is our application derived class that 
+*This is our application derived class that
 *we are going to customize.
 *We override one method: the initRunningApplication() method,
 *which surprisingly enough, is called to initialize the running
 *application.
-*In this method we can execute whatever appropriate start up code is 
+*In this method we can execute whatever appropriate start up code is
 *neccessary for our application, including createing the main
 *window like we'll do below.
 */
@@ -43,18 +43,18 @@ public:
 		*call the super classes initRunningApplication()
 		*and store off the result.
 		*If anything goes wrong here that will prevent our app
-		*from starting, we should return false, to attempt 
+		*from starting, we should return false, to attempt
 		*to gracefully allow the application to shut down
 		*/
 		bool result = Application::initRunningApplication();
-		
+
 		/**
 		*Create the window as before
 		*/
 		Window* mainWindow = new Window();
 
 		/**
-		*set the main window, again as we did in the first 
+		*set the main window, again as we did in the first
 		*HelloWorld example
 		*/
 		setMainWindow( mainWindow );
@@ -62,14 +62,14 @@ public:
 		/**
 		*set the bounds for the main window.
 		*First create a VCF::Rect object on the stack
-		*passing in the desired left, top, right, and 
+		*passing in the desired left, top, right, and
 		*bottom coordinates. Our coordinates are screen
 		*coordinates, since this is the main window and
 		*it does not have a parent. As usual, the coordinates
 		*origin is in the top left corner of the screen
 		*
 		*In our case we will pass in 100.0, 100.0 for the left
-		*and top coordinates, and 500.0, and 500.0 for the 
+		*and top coordinates, and 500.0, and 500.0 for the
 		*right and bottom, thus giving us a window with a
 		*width and height of 400.0 and 400.0 respectively.
 		*/
@@ -80,7 +80,7 @@ public:
 		*via the setBounds() call
 		*/
 		mainWindow->setBounds( &mainWindowBounds );
-		
+
 		/**
 		*Show the main window
 		*/
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 	*call the appMain() method
 	*/
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:26  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:54  marcelloptr
 *reformatting of source files
 *
 *

@@ -8,8 +8,8 @@ where you installed the VCF.
 
 
 /**
-*The purpose of this example is to demonstrate creating not only 
-*our own custom application class, but our first case of deriving 
+*The purpose of this example is to demonstrate creating not only
+*our own custom application class, but our first case of deriving
 *a new window class
 */
 
@@ -20,20 +20,20 @@ using namespace VCF;
 
 /**
 *This is our main window class. The code that was previously
-*in the initialization method of our app class, but will now 
+*in the initialization method of our app class, but will now
 *migrate to our constructor
 */
 class HelloWorld3Window : public Window {
 public:
 	HelloWorld3Window() {
 		/**
-		*Here we get the current running Application instance for 
+		*Here we get the current running Application instance for
 		*this process
 		*/
 		Application* runningApp = Application::getRunningInstance();
 
 		/**
-		*This gets the app instance's class name to put in the 
+		*This gets the app instance's class name to put in the
 		*caption of our man window
 		*/
 		String appname = runningApp->getClassName();
@@ -42,9 +42,9 @@ public:
 		*this sets the caption of the main window
 		*/
 		setCaption( appname + " - Hello World!" );
-		
+
 		/*
-		*This will set the bounds of the window, see the 
+		*This will set the bounds of the window, see the
 		*previous HelloWorld example for a more in depth
 		*discussion of this.
 		*/
@@ -52,7 +52,7 @@ public:
 		setBounds( &bounds );
 
 		/**
-		*Here we can use the debug trace with variable 
+		*Here we can use the debug trace with variable
 		*arguments just like printf(), in this
 		*case printing out the value of our "this" pointer
 		*and the string value returned by the Rect's toString()
@@ -61,18 +61,18 @@ public:
 		StringUtils::traceWithArgs( "HelloWorld3Window constructor @%p, bounds: %s\n", this, bounds.toString().c_str() );
 
 		/**
-		*Show the main window. Previously we had used 
+		*Show the main window. Previously we had used
 		*the show(), but setVisible(true) also works
 		*/
 		setVisible( true );
-		
+
 		Locale loc(Locale::lcPolish, Locale::ccPoland );
 		System::setCurrentThreadLocale( &loc );
-		
+
 	}
 
 	/**
-	*Always, always, always make our destructor virtual 
+	*Always, always, always make our destructor virtual
 	*/
 	virtual ~HelloWorld3Window(){};
 
@@ -98,10 +98,10 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		/**
 		*allocate some dummy temporary memory - we
-		*will clean this up in the termination method of our 
+		*will clean this up in the termination method of our
 		*app class
 		*/
 		m_tmpDummyBuffer = new char[4096];
@@ -109,13 +109,13 @@ public:
 		/**
 		*Create a new instance of our window class
 		*/
-		Window* mainWindow = new HelloWorld3Window();	
+		Window* mainWindow = new HelloWorld3Window();
 
 
 		/**
 		*set the app's main window
 		*/
-		setMainWindow(mainWindow);		
+		setMainWindow(mainWindow);
 
 		return result;
 	}
@@ -123,17 +123,17 @@ public:
 	/**
 	*terminates the running application. This is where
 	*you can do your clean up of resources
-	*In our case we'll clean up the memory we had allocated in our 
+	*In our case we'll clean up the memory we had allocated in our
 	*initRunningApplication() method above
 	*and then call the super classes terminateRunningApplication()
 	*/
-	virtual void terminateRunningApplication() {		
+	virtual void terminateRunningApplication() {
 		delete [] m_tmpDummyBuffer;
 		m_tmpDummyBuffer = NULL;
 
 		/**
-		*here's an example of outputting to 
-		*debug messages. In Win32 these get 
+		*here's an example of outputting to
+		*debug messages. In Win32 these get
 		*resolved to a call to OutputDebugString
 		*thus if you're debugging with VC++ you'll
 		*see this in the Output window.
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
 	Application* app = new HelloWorld3Application( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2004/04/29 03:04:27  marcelloptr
+*Revision 1.3.2.4  2004/04/29 03:10:54  marcelloptr
 *reformatting of source files
 *
 *

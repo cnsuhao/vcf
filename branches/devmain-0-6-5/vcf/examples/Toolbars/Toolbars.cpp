@@ -46,7 +46,7 @@ public:
 		img = resBundle->getImage( "bmp3" );
 		il->addImage( img );
 		delete img;
-		
+
 		img = resBundle->getImage( "bmp4" );
 		il->addImage( img );
 		delete img;
@@ -54,7 +54,7 @@ public:
 
 		ToolbarItem* item = tb->addToolBarButton( "tbn1" );
 		item->setTooltip( "Toolbar Item 1" );
-		
+
 
 		item = tb->addToolBarButton( "" );
 		item->setAsSeparator();
@@ -64,14 +64,14 @@ public:
 		item->setWidth( 200 );
 		item->setTooltip( "Toolbar Item 2" );
 
-		item = tb->addToolBarButton( "tbn3" );			
+		item = tb->addToolBarButton( "tbn3" );
 		item->setEnabled( false );
-		
+
 		TextControl* tc = new TextControl();
 		tc->setWidth( 175 );
 		item->setItemControl( tc );
-		
-		
+
+
 
 
 		item = tb->addToolBarButton( "Click Me!" );
@@ -79,7 +79,7 @@ public:
 		item->setTag( 3 );
 		item->setImageIndex(2);
 
-		
+
 		//item = tb->addToolBarButton( "" );
 		//item->setAsSeparator();
 
@@ -89,7 +89,7 @@ public:
 		item->setImageIndex(3);
 
 		item->setChecked(true);
-		
+
 
 		item->setTag( 2 );
 
@@ -97,7 +97,7 @@ public:
 		item->setTooltip( "Toolbar Item 6 - Click to toggle visible captions" );
 
 		item->ItemClicked += ev;
-		
+
 		item->setChecked(true);
 
 
@@ -106,15 +106,15 @@ public:
 
 		item->setTag( 1 );
 		tb->setShowButtonCaptions( false );
-		
 
-		
+
+
 		Panel* p = new Panel();
 		add( p, AlignClient );
 
-		
 
-		
+
+
 
 		tb->setButtonCaptionsHorizontal( false );
 
@@ -130,7 +130,7 @@ public:
 
 	void onItemUpdate( Event* e ) {
 		ToolbarItem* item = (ToolbarItem*)e->getSource();
-			
+
 	}
 
 	void onItemClicked( ButtonEvent* e ) {
@@ -151,17 +151,17 @@ public:
 
 				tb->setButtonCaptionsHorizontal( capsHorz );
 			}
-			break;		
+			break;
 
 			case 3 : {
 				Size sz(100,100);
 				tb->setButtonSize( sz );
 			}
-			break;		
-			
-			
-		}	
-		
+			break;
+
+
+		}
+
 	}
 };
 
@@ -177,11 +177,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new ToolbarsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 800.0, 500.0 ) );
-		
+
 		return result;
 	}
 
@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
 	Application* app = new ToolbarsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -201,7 +201,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:31  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:59  marcelloptr
 *reformatting of source files
 *
 *

@@ -34,7 +34,7 @@ int getAnInteger( int val1, double d )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2004/04/29 03:04:28  marcelloptr
+*Revision 1.2.4.3  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *

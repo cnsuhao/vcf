@@ -36,7 +36,7 @@ int main( int argc, char** argv ){
 
 	dict["Name"] = "Bob";
 
-	
+
 	Dictionary::Enumerator* items = dict.getEnumerator();
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair& item = items->nextElement();
@@ -52,13 +52,13 @@ int main( int argc, char** argv ){
 		//store the dictionary
 		FileOutputStream fs("test.dict.txt");
 
-		//note: The use of the TextOutputStream is not neccessary, it's 
+		//note: The use of the TextOutputStream is not neccessary, it's
 		//just for demonstration purposes.
 		TextOutputStream tos(&fs);
-		
+
 		//dump the dictionary to the stream
 		tos << &dict;
-		
+
 	}
 
 	System::println( "Loading dictionary..." );
@@ -67,13 +67,13 @@ int main( int argc, char** argv ){
 		//read in the dictionary from a file
 		FileInputStream fs("test.dict.txt");
 
-		//note: The use of the TextInputStream is not neccessary, it's 
+		//note: The use of the TextInputStream is not neccessary, it's
 		//just for demonstration purposes.
-		TextInputStream tis(&fs);		
-		
+		TextInputStream tis(&fs);
+
 		//clear the dictionary - this will remove all elements in the dictionary
 		dict.clear();
-		
+
 		//read in the dictionary from the stream
 		tis >> &dict;
 	}
@@ -85,8 +85,8 @@ int main( int argc, char** argv ){
 
 		System::println( "dict[\"%s\"] = %s", item.first.c_str(), item.second.toString().c_str() );
 	}
-	
-	
+
+
 
 	FoundationKit::terminate();
 	return 0;
@@ -96,7 +96,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5.2.2  2004/04/29 03:04:25  marcelloptr
+*Revision 1.5.2.3  2004/04/29 03:10:51  marcelloptr
 *reformatting of source files
 *
 *

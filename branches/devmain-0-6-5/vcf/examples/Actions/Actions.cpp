@@ -24,7 +24,7 @@ It's a good way to see how the different elements work together
 class ActionsWindow : public Window {
 public:
 	ActionsWindow() {
-		setCaption( "Actions" );		
+		setCaption( "Actions" );
 
 
 		Toolbar* tb = new Toolbar();
@@ -85,14 +85,14 @@ public:
 
 		MenuBar* menuBar = new MenuBar();
 		setMenuBar( menuBar );
-		addComponent( menuBar ); 
+		addComponent( menuBar );
 
 		MenuItem* root = menuBar->getRootMenuItem();
 
 		DefaultMenuItem* file = new DefaultMenuItem( "&File", root, menuBar );
 
 		DefaultMenuItem* fileNew = new DefaultMenuItem( "&New", file, menuBar );
-		
+
 		DefaultMenuItem* menuSep = new DefaultMenuItem( "", file, menuBar );
 		menuSep->setSeparator( true );
 
@@ -101,7 +101,7 @@ public:
 		DefaultMenuItem* fileSaveAll = new DefaultMenuItem( "Save &All", file, menuBar );
 
 		DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, menuBar );
-		
+
 		DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo", edit, menuBar );
 
 		menuSep = new DefaultMenuItem( "", edit, menuBar );
@@ -189,14 +189,14 @@ public:
 		addComponent( fileNewAction );
 		fileNewAction->addTarget(fileNew);
 		fileNewAction->addTarget(newTBitem);
-		fileNewAction->Performed += 
+		fileNewAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onFileNew, "ActionsWindow::onFileNew" );
 
 		Action* fileOpenAction = new Action();
 		addComponent( fileOpenAction );
 		fileOpenAction->addTarget(fileOpen);
 		fileOpenAction->addTarget(openTBitem);
-		fileOpenAction->Performed += 
+		fileOpenAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onFileOpen, "ActionsWindow::onFileOpen" );
 
 
@@ -204,22 +204,22 @@ public:
 		addComponent( fileSaveAction );
 		fileSaveAction->addTarget(fileSave);
 		fileSaveAction->addTarget(saveTBitem);
-		
-		fileSaveAction->Performed += 
+
+		fileSaveAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onFileSave, "ActionsWindow::onFileSave" );
 
-		fileSaveAction->Update += 
+		fileSaveAction->Update +=
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateFileSave, "ActionsWindow::onUpdateFileSave" );
 
-		
+
 
 		Action* fileSaveAllAction = new Action();
 		addComponent( fileSaveAllAction );
 		fileSaveAllAction->addTarget(fileSaveAll);
 		fileSaveAllAction->addTarget(saveAllTBitem);
-		fileSaveAllAction->Performed += 
+		fileSaveAllAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onFileSaveAll, "ActionsWindow::onFileSaveAll" );
-		fileSaveAllAction->Update += 
+		fileSaveAllAction->Update +=
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateFileSaveAll, "ActionsWindow::onUpdateFileSaveAll" );
 
 
@@ -227,27 +227,27 @@ public:
 		addComponent( editCopyAction );
 		editCopyAction->addTarget(editCopy);
 		editCopyAction->addTarget(copyTBitem);
-		editCopyAction->Performed += 
+		editCopyAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onEditCopy, "ActionsWindow::onEditCopy" );
 
 		Action* editPasteAction = new Action();
 		addComponent( editPasteAction );
 		editPasteAction->addTarget(editPaste);
 		editPasteAction->addTarget(pasteTBitem);
-		
-		editPasteAction->Performed += 
+
+		editPasteAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onEditPaste, "ActionsWindow::onEditPaste" );
-		editPasteAction->Update += 
+		editPasteAction->Update +=
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateEditPaste, "ActionsWindow::onUpdateEditPaste" );
 
 		Action* editUndoAction = new Action();
 		addComponent( editUndoAction );
 		editUndoAction->addTarget(editUndo);
 		editUndoAction->addTarget(undoTBitem);
-		
-		editUndoAction->Performed += 
+
+		editUndoAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onEditUndo, "ActionsWindow::onEditUndo" );
-		editUndoAction->Update += 
+		editUndoAction->Update +=
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateEditUndo, "ActionsWindow::onUpdateEditUndo" );
 
 
@@ -258,10 +258,10 @@ public:
 		viewSidebarAction->addTarget( viewSidebar );
 		viewSidebarAction->addTarget( sidebarTBitem );
 
-		viewSidebarAction->Performed += 
+		viewSidebarAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onViewSidebar, "ActionsWindow::onViewSidebar" );
 
-		viewSidebarAction->Update += 
+		viewSidebarAction->Update +=
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateViewSidebar, "ActionsWindow::onUpdateViewSidebar" );
 
 
@@ -271,10 +271,10 @@ public:
 		viewHammerBarAction->addTarget( viewHammer );
 		viewHammerBarAction->addTarget( hammerTBitem );
 
-		viewHammerBarAction->Performed += 
+		viewHammerBarAction->Performed +=
 			new GenericEventHandler<ActionsWindow>(this, &ActionsWindow::onViewHammerBar, "ActionsWindow::onViewHammerBar" );
 
-		viewHammerBarAction->Update += 
+		viewHammerBarAction->Update +=
 			new EventHandlerInstance<ActionsWindow,ActionEvent>(this, &ActionsWindow::onUpdateViewHammerBar, "ActionsWindow::onUpdateViewHammerBar" );
 
 
@@ -323,7 +323,7 @@ public:
 		canPaste_ = true;
 		Dialog::showMessage( "Edit Copy!" );
 	}
-	
+
 
 	void onEditPaste( Event* e ) {
 		canPaste_ = false;
@@ -339,7 +339,7 @@ public:
 	}
 
 	void onUpdateEditUndo( ActionEvent* e ) {
-		
+
 	}
 
 
@@ -391,12 +391,12 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new ActionsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
 		mainWindow->show();
-		
+
 		return result;
 	}
 
@@ -411,7 +411,7 @@ int main(int argc, char *argv[])
 	Application* app = new ActionsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -419,7 +419,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:21  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:10  marcelloptr
 *reformatting of source files
 *
 *

@@ -68,8 +68,8 @@ protected:
 class ToolManager documentation
 */
 class ToolManager : public VCF::ObjectWithEvents {
-public: 
-	
+public:
+
 	void registerTool( Tool* tool, VCF::MenuItem* item );
 
 	Tool* getCurrentTool() {
@@ -84,7 +84,7 @@ public:
 		currentControl_ = val;
 	}
 
-	
+
 
 	static void init();
 	static void terminate();
@@ -111,7 +111,7 @@ class Shape;
 class SelectTool documentation
 */
 class SelectTool : public Tool{
-public: 
+public:
 	SelectTool();
 	virtual ~SelectTool();
 
@@ -127,7 +127,7 @@ protected:
 	Shape* hitTest( VCF::Point& pt );
 	VCF::Point startDragPoint_;
 	VCF::Point dragPoint_;
-	
+
 };
 
 
@@ -136,7 +136,7 @@ protected:
 class LineTool documentation
 */
 class LineTool : public Tool {
-public: 
+public:
 	LineTool();
 	virtual ~LineTool();
 
@@ -211,8 +211,8 @@ protected:
 
 
 class RectangleTool : public Tool {
-public: 
-	
+public:
+
 
 	virtual void onMouseDown( VCF::MouseEvent* e );
 
@@ -226,7 +226,7 @@ protected:
 
 
 class CurveTool : public Tool {
-public: 
+public:
 	enum State {
 		sFirstPoint = 0,
 		sNextPoint
@@ -251,12 +251,12 @@ public:
 						(ctrl1 != rhs.ctrl1) ||
 						(ctrl2 != rhs.ctrl2);
 		}
-	};	
+	};
 
 
-	CurveTool(): state_(sFirstPoint){}	
+	CurveTool(): state_(sFirstPoint){}
 
-	
+
 
 	virtual void onMouseDown( VCF::MouseEvent* e );
 
@@ -283,13 +283,13 @@ protected:
 	bool overFirstPoint( VCF::Point& pt );
 	void finishCurve();
 	void paintSegments( VCF::GraphicsContext* ctx );
-	
+
 };
 
 
 class ImageTool : public Tool {
-public: 
-	
+public:
+
 	ImageTool(): img_(NULL){}
 
 	virtual void onMouseDown( VCF::MouseEvent* e );
@@ -309,7 +309,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.6.1  2004/04/29 03:04:29  marcelloptr
+*Revision 1.2.6.2  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *Revision 1.2  2003/08/09 02:56:42  ddiego

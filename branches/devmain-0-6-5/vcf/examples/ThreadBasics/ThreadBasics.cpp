@@ -22,10 +22,10 @@ series of operations - see example1()
 Creating a thread that delete's itself, but is stopped before
 it finishes what it's doing - see example2()
 
-Creating a thread that is does not automatically delete 
+Creating a thread that is does not automatically delete
 itself  - see example3()
 
-Derive a new class from Runnable and use a Thread to 
+Derive a new class from Runnable and use a Thread to
 run it - see example4().
 
 */
@@ -42,22 +42,22 @@ bool example3Done = false;
 /**
 This will create a simple thread that loops
 10,000 times, incrementing a counter
-and then printing out the counter value 
-to stdout. 
-Notice the usage of checking the 
+and then printing out the counter value
+to stdout.
+Notice the usage of checking the
 Thread::canContinue() method. It is critical
 that any kind of looping or repetitive functionality
 use this test to determine if the thread should continue.
 If Thread::canContinue() should return false, a correct
-implementation of a run() method must return as soon as 
+implementation of a run() method must return as soon as
 possible.
 Since we do not provide any constructor for our
 SimpleThread thread class we use the default
 constructors for Thread.
 */
 class SimpleThread : public Thread {
-public:	
-	
+public:
+
 	/**
 	this is our method execution.
 	We override the run() method from
@@ -70,7 +70,7 @@ public:
 			if ( (i % 100) == 0 ) {
 				System::println( "printing i: %d", i );
 			}
-			i++;			
+			i++;
 		}
 		test1Done = true;
 		return true;
@@ -79,9 +79,9 @@ public:
 protected:
 	/**
 	destroy will get called just prior to the instance's destructor.
-	destroy is useful to overide and put clean up code in because it is 
+	destroy is useful to overide and put clean up code in because it is
 	still valid to make calls to virtual methods here. Due to the nature
-	of C++, virtual method calls made in an object's destructor may not 
+	of C++, virtual method calls made in an object's destructor may not
 	perform	as expected.
 	*/
 	virtual void destroy() {
@@ -93,22 +93,22 @@ protected:
 
 /**
 This example create the thread,
-and starts it. The thread will delete 
-itself, so all we have to do is wait for 
+and starts it. The thread will delete
+itself, so all we have to do is wait for
 the test1Done variable to become true.
-Note that 2 loops are running - the process's 
-main loop (in this code the "while ( !test1Done ) {" 
+Note that 2 loops are running - the process's
+main loop (in this code the "while ( !test1Done ) {"
 loop), and the loop for the SimpleThread's run()
 method.
 
-Note that once we create and start the thread, we do 
+Note that once we create and start the thread, we do
 not reference the pointer any more. Since the thread
 can complete it task at any point, and once completed
-it will self delete, we have to be careful when we 
-reference the pointer. 
-Threads that auto deleted are appropriate to use where 
-the thread object can operate on it's own and doesn't 
-need to be intereacted with by anyone else. 
+it will self delete, we have to be careful when we
+reference the pointer.
+Threads that auto deleted are appropriate to use where
+the thread object can operate on it's own and doesn't
+need to be intereacted with by anyone else.
 */
 void example1()
 {
@@ -120,22 +120,22 @@ void example1()
 	*/
 	Thread* thread = new SimpleThread();
 	/**
-	start the thread - if you don't call this your thread 
+	start the thread - if you don't call this your thread
 	won't run!. Alternately, in this case, we could
 	have placed the call to start() in the SimpleThread
 	class's constructor.
 	*/
 	thread->start();
-	
+
 	/**
 	Now loop around, sleeping for 1 second
 	(1000 milliseconds), and print to stdout.
 	*/
-	while ( !test1Done ) {	
+	while ( !test1Done ) {
 
 		System::sleep( 1000 );
-		System::println( "Sleeping for a sec..." );		
-		
+		System::println( "Sleeping for a sec..." );
+
 	}
 
 	/**
@@ -148,23 +148,23 @@ void example1()
 
 /**
 This thread will delete itself.
-Note the 
+Note the
 */
 class SimpleThread2 : public Thread {
-public:	
-	
+public:
+
 	/**
 	this is our method execution.
 	We override the run() method from
 	Thread.
 	*/
 	virtual bool run() {
-		
+
 		int i = 0;
 		while ( i < 10000 ) {
-			
+
 			System::println( "printing i: %d", i );
-			
+
 			i++;
 			/**
 			Note the detection that we have been interrupted (canContinue() returning false)
@@ -177,7 +177,7 @@ public:
 				break;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -188,7 +188,7 @@ protected:
 };
 
 /**
-This will demostrate the usage of 
+This will demostrate the usage of
 calling stop to interupt the threads work.
 The thread is still set up to auto delete,
 so we have to be a bit careful here.
@@ -200,12 +200,12 @@ void example2()
 	Thread* thread = new SimpleThread2();
 	thread->start();
 
-	
-	System::sleep( 100 );		
+
+	System::sleep( 100 );
 
 	//hopefully the thread has not finished at this point
-	thread->stop();	
-	
+	thread->stop();
+
 
 	System::println( "example2 done" );
 	example2Done = true;
@@ -222,8 +222,8 @@ public:
 	/**
 	We have to declare a constructor
 	here. Note that we pass in "false"
-	to the Thread constructor. This is 
-	to indicate that we are not to be 
+	to the Thread constructor. This is
+	to indicate that we are not to be
 	automatically deleted. By default
 	a Thread is automatically deleted.
 	*/
@@ -242,7 +242,7 @@ public:
 
 		while ( (counter_ < 100) && canContinue() ) {
 			System::println( "counter_: %d", counter_ );
-			counter_++;			
+			counter_++;
 		}
 
 		return true;
@@ -267,8 +267,8 @@ protected:
 
 /**
 This wil demonstrate a thread that does
-not automatically delete itself. 
-Instead the creator of the thread is 
+not automatically delete itself.
+Instead the creator of the thread is
 responsible for it's clean up.
 */
 void example3()
@@ -288,8 +288,8 @@ void example3()
 						thread->getThreadID() );
 
 	System::println( "Thread: %s", thread->toString().c_str() );
-	thread->free();	
-	
+	thread->free();
+
 
 	System::println( "example3 done" );
 	example3Done = true;
@@ -321,9 +321,9 @@ public:
 
 /**
 We create a runnable class here.
-A class is runnable if it implements the 
-VCF::Runnable interface, and overrides the run() 
-method. In our example we will simply call the 
+A class is runnable if it implements the
+VCF::Runnable interface, and overrides the run()
+method. In our example we will simply call the
 function pointer store in our ExampleTest
 class
 */
@@ -350,8 +350,8 @@ public:
 /**
 This demonstrates the use a thread and a separate Runnable
 object.
-Each runnable object is attached to a thread. Each runnable object 
-is connected to a function pointer for each of the 
+Each runnable object is attached to a thread. Each runnable object
+is connected to a function pointer for each of the
 previous examples. Once instantiated, each thread is immediately started
 thus demonstrating how the Runnable interface works, and 3 simultaneous
 threads running together
@@ -360,8 +360,8 @@ void example4()
 {
 	System::println( "example4 starting" );
 
-	
-	
+
+
 	Thread* thread1 = new Thread( new RunnableExample(example1) );
 	Thread* thread2 = new Thread( new RunnableExample(example2) );
 	Thread* thread3 = new Thread( new RunnableExample(example3) );
@@ -373,13 +373,13 @@ void example4()
 	thread1->start();
 	thread2->start();
 	thread3->start();
-	
 
-	while ( (!example1Done) || (!example2Done) || (!example3Done) ) {	
+
+	while ( (!example1Done) || (!example2Done) || (!example3Done) ) {
 
 		System::sleep( 1000 );
-		System::println( "Waiting for examples..." );		
-		
+		System::println( "Waiting for examples..." );
+
 	}
 
 	System::println( "example4 done" );
@@ -388,9 +388,9 @@ void example4()
 int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
-	
 
-	example1();	
+
+	example1();
 
 	example2();
 
@@ -406,7 +406,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2004/04/29 03:04:30  marcelloptr
+*Revision 1.2.4.3  2004/04/29 03:10:59  marcelloptr
 *reformatting of source files
 *
 *

@@ -19,12 +19,12 @@ This example will only use the CommandButton and Panel controls
 to demonstrate this, but you can use anchors with *any* control
 in the framework.
 
-One note: for acnhors to work, the control parent's container 
-*must* implement an algorithm that takes advantage of this. The 
+One note: for acnhors to work, the control parent's container
+*must* implement an algorithm that takes advantage of this. The
 default container used by any control that support's containers
-*does*, in fact, implement this support, so if you are simply using 
+*does*, in fact, implement this support, so if you are simply using
 the default settings this will not be a problem. If, however,
-you explicitly set the container to something else, then you may 
+you explicitly set the container to something else, then you may
 get different behaviour.
 */
 
@@ -35,7 +35,7 @@ public:
 		setVisible( true );
 
 		/**
-		note: we must have the width (or height) set 
+		note: we must have the width (or height) set
 		to some value PRIOR to adding the child controls that will
 		be anchored in it.
 		*/
@@ -51,7 +51,7 @@ public:
 		/**
 		set the anchor - the anchor can be any combination of AnchorLeft, AnchorRight,
 		AnchorTop, or AnchorBottom, or it can be set to AnchorNone, to indicate that
-		no anchoring layout is to be performed for the control. AnchorNone is the 
+		no anchoring layout is to be performed for the control. AnchorNone is the
 		default anchor value for all controls.
 		*/
 		btn1->setAnchor( AnchorLeft | AnchorRight );
@@ -98,11 +98,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new AnchorsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-		
+
 		return result;
 	}
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 	Application* app = new AnchorsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2004/04/29 03:04:24  marcelloptr
+*Revision 1.3.2.3  2004/04/29 03:10:49  marcelloptr
 *reformatting of source files
 *
 *

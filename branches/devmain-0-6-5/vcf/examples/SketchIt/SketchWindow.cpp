@@ -17,11 +17,11 @@ using namespace VCF;
 SketchWindow::SketchWindow()
 {
 	DocumentManager* docMgr = DocumentManager::getDocumentManager();
-	docMgr->DocumentInitialized += new GenericEventHandler<SketchWindow>( this, 
+	docMgr->DocumentInitialized += new GenericEventHandler<SketchWindow>( this,
 																			&SketchWindow::onDocInitialized,
 																			"SketchWindow::onDocInitialized" );
 
-	//setUsingRenderBuffer( true );	
+	//setUsingRenderBuffer( true );
 }
 
 SketchWindow::~SketchWindow()
@@ -29,20 +29,20 @@ SketchWindow::~SketchWindow()
 
 }
 
-void SketchWindow::onDocInitialized( Event* e ) 
+void SketchWindow::onDocInitialized( Event* e )
 {
 	Document* doc = (Document*)e->getSource();
-	
-	
 
-	
+
+
+
 }
 
 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.6.2  2004/04/29 03:04:29  marcelloptr
+*Revision 1.2.6.3  2004/04/29 03:10:57  marcelloptr
 *reformatting of source files
 *
 *

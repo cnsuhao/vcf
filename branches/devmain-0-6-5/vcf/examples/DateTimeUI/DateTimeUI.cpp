@@ -21,7 +21,7 @@ public:
 
 
 	Calendar() {
-	
+
 		EventHandler* ev = new KeyboardEventHandler<Calendar>( this, &Calendar::onUpArrow, "Calendar::onUpArrow" );
 
 		Application::getRunningInstance()->addAcceleratorKey( vkUpArrow, 0, ev );
@@ -64,14 +64,14 @@ public:
 		textRect.bottom_ = 100;
 		textRect.inflate( -5, -5 );
 
-		String s = 
-			StringUtils::format( "%s. %s", 
+		String s =
+			StringUtils::format( "%s. %s",
 						StringUtils::format( tmp, "The current month starts on %A, %B %d, %Y" ).c_str(),
 						StringUtils::format( current, "Today is %A, %B %d, %Y week %#W" ).c_str() );
 
-		String s2 = 
+		String s2 =
 			StringUtils::format( "\nThe current month has %d days in it, and the current year has %d days in it, starts on week %d,\nand has %d total weeks in the year\n",
-										tmp.getNumberOfDaysInMonth(), 
+										tmp.getNumberOfDaysInMonth(),
 										tmp.getDaysInYear(),
 										tmp.getWeekOfYearStartingMon(),
 										tmp.getWeeksInYear() );
@@ -90,27 +90,27 @@ public:
 		Size sz;
 		sz.width_  = ( rect.getWidth()  - 2 * sizeBorder.width_  ) / 7;
 		sz.height_ = ( rect.getHeight() - 2 * sizeBorder.height_ ) / 7;
-		
+
 
 		int x,y;
 		x = sizeBorder.width_;
 		y = rect.top_ + sizeBorder.height_;
 		Rect cellRect;
 
-		for ( int i=0;i<7;i++ ) {		
+		for ( int i=0;i<7;i++ ) {
 			for ( int j=0;j<7;j++) {
 				ctx->setColor( Color::getColor("black") );
 				cellRect.setRect( x, y, x + sz.width_, y + sz.height_ );
 				ctx->rectangle( &cellRect );
 				ctx->strokePath();
-				
+
 				if ( 0 == i ) {
 					cellRect.inflate( -1, -1 );
-					
+
 					ctx->setColor( &Color(0.8,0.8,0.8) );
 					ctx->rectangle( &cellRect );
 					ctx->fillPath();
-					
+
 					switch ( j ) {
 						case 0 : {
 							ctx->textBoundedBy( &cellRect, "Sun" );
@@ -160,10 +160,10 @@ public:
 					}
 					else if (dt.getMonth() == tmp.getMonth()) {
 						drawText = true;
-					}			
-					
+					}
+
 					if ( drawText == true ) {
-						if ( dt.getDayOfYear() == current.getDayOfYear() ) {							
+						if ( dt.getDayOfYear() == current.getDayOfYear() ) {
 							ctx->setColor( &Color(1.0,0.8,0.0) );
 							ctx->rectangle( &cellRect );
 							ctx->fillPath();
@@ -172,9 +172,9 @@ public:
 
 						dayIter ++;
 					}
-					
+
 				}
-				
+
 
 				x += sz.width_;
 			}
@@ -238,9 +238,9 @@ public:
 		getFont()->setPointSize( 15 );
 		getFont()->setBold( true );
 
-		EventHandler* ev = 
+		EventHandler* ev =
 			new GenericEventHandler<DigitalClock>( this, &DigitalClock::onTimer, "DigitalClock::onTimer" );
-		
+
 		TimerComponent* timer = new TimerComponent();
 		addComponent( timer );
 
@@ -261,7 +261,7 @@ public:
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
-		
+
 		rect.inflate( -5, -5 );
 		ctx->setCurrentFont( getFont() );
 
@@ -283,13 +283,13 @@ public:
 
 class AnalogClock : public CustomControl {
 public:
-	AnalogClock()	{	
+	AnalogClock()	{
 
 		current = DateTime::now();
 
-		EventHandler* ev = 
+		EventHandler* ev =
 			new GenericEventHandler<AnalogClock>( this, &AnalogClock::onTimer, "AnalogClock::onTimer" );
-		
+
 		TimerComponent* timer = new TimerComponent();
 		addComponent( timer );
 
@@ -310,7 +310,7 @@ public:
 		CustomControl::paint( ctx );
 
 		Rect rect = getClientBounds();
-		
+
 		rect.inflate( -5, -5 );
 
 		Point center = rect.getCenter();
@@ -318,18 +318,18 @@ public:
 		ctx->setColor( Color::getColor("black") );
 		ctx->circle( center, radius );
 		ctx->strokePath();
-	
+
 		double tickLength = 5.0;
-		
+
 		for ( int i=0;i<12;i++ ) {
 			 double theta = (i/12.0) * (2*M_PI);
 
 			 double s = sin( theta );
 			 double c = cos( theta );
 
-			 ctx->moveTo( center.x_ + c*(radius-tickLength), 
+			 ctx->moveTo( center.x_ + c*(radius-tickLength),
 							center.y_ - s*(radius-tickLength) );
-			 ctx->lineTo( center.x_ + c*radius, 
+			 ctx->lineTo( center.x_ + c*radius,
 							center.y_ - s*radius );
 		}
 		ctx->strokePath();
@@ -345,12 +345,12 @@ public:
 		ctx->setColor( Color::getColor("midnightblue") );
 		ctx->setStrokeWidth( 2 );
 		ctx->moveTo( center );
-		ctx->lineTo( center.x_ + c*(radius-hourLength), 
+		ctx->lineTo( center.x_ + c*(radius-hourLength),
 							center.y_ - s*(radius-hourLength) );
 
 		ctx->strokePath();
 
-		
+
 		theta = (current.getMinute()/60.0) * (2*M_PI);
 		c = sin( theta );
 		s = cos( theta );
@@ -358,7 +358,7 @@ public:
 		ctx->setColor( Color::getColor("red") );
 		ctx->setStrokeWidth( 0 );
 		ctx->moveTo( center );
-		ctx->lineTo( center.x_ + c*(radius-minLength), 
+		ctx->lineTo( center.x_ + c*(radius-minLength),
 							center.y_ - s*(radius-minLength) );
 
 		ctx->strokePath();
@@ -368,9 +368,9 @@ public:
 		s = cos( theta );
 
 		ctx->setColor( Color::getColor("forestgreen") );
-		
+
 		ctx->moveTo( center );
-		ctx->lineTo( center.x_ + c*(radius-secLength), 
+		ctx->lineTo( center.x_ + c*(radius-secLength),
 							center.y_ - s*(radius-secLength) );
 
 		ctx->strokePath();
@@ -405,7 +405,7 @@ public:
 		panel->setHeight( 100 );
 		add( panel, AlignTop );
 
-		
+
 
 		DigitalClock* clock1 = new DigitalClock();
 		clock1->setWidth( panel->getWidth()/2.0 );
@@ -419,11 +419,11 @@ public:
 		Calendar* calendar = new Calendar();
 
 		Rect r = getClientBounds();
-		r.inflate( -10, -10 );	
-		
+		r.inflate( -10, -10 );
+
 		calendar->setColor( Color::getColor("white") );
-		
-		add( calendar, AlignClient );		
+
+		add( calendar, AlignClient );
 	}
 
 	virtual ~DateTimeUIWindow(){};
@@ -442,11 +442,11 @@ public:
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new DateTimeUIWindow();
 		setMainWindow(mainWindow);
-		
-		
+
+
 		return result;
 	}
 
@@ -458,7 +458,7 @@ int main(int argc, char *argv[])
 	Application* app = new DateTimeUIApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -466,7 +466,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2004/04/29 03:04:25  marcelloptr
+*Revision 1.2.2.3  2004/04/29 03:10:50  marcelloptr
 *reformatting of source files
 *
 *

@@ -26,7 +26,7 @@ void example1()
 
 	//create a process
 
-	p1.createProcess( "XCOPY", "/?" );	
+	p1.createProcess( "XCOPY", "/?" );
 }
 
 
@@ -35,7 +35,7 @@ int main( int argc, char** argv ){
 	FoundationKit::init( argc, argv );
 
 	example1();
-	
+
 
 	FoundationKit::terminate();
 	return 0;
@@ -45,7 +45,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2004/04/29 03:04:28  marcelloptr
+*Revision 1.2.4.3  2004/04/29 03:10:55  marcelloptr
 *reformatting of source files
 *
 *

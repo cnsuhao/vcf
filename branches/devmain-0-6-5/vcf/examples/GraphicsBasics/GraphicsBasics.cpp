@@ -15,12 +15,12 @@ using namespace VCF;
 
 /**
 This simple example will demostrate the basics of using the GraphicsContext
-class for drawing. 
+class for drawing.
 */
 class GraphicsBasicsWindow : public Window {
 public:
 	GraphicsBasicsWindow() {
-		setCaption( "GraphicsBasics" );		
+		setCaption( "GraphicsBasics" );
 	}
 
 	virtual ~GraphicsBasicsWindow(){};
@@ -30,16 +30,16 @@ public:
 	/**
 	To start with we need to override the paint() method
 	to handle any custom drawing for our window (or any other control for
-	that matter).	
+	that matter).
 
 	When drawing with the GraphicsContext, the origin is always at the top left
 	of the control. The default origin is at 0,0 unless you change it.
 	Drawing consists of setting various properties of the GraphicsContext,
 	telling it to execute certain drawing commands, and then telling the GraphicsContext
 	to stroke or fill the path, if neccessary. Any line drawing, such as straight
-	lines, rectangles, ellipses, polylines, etc, are not drawn till the 
+	lines, rectangles, ellipses, polylines, etc, are not drawn till the
 	GraphicsContext::strokePath() or GraphicsContext::filePath() is called.
-	
+
 
 	Drawing text or images happens right away.
 	*/
@@ -65,7 +65,7 @@ public:
 		/**
 		offset the rect by 100 pixels in the y direction
 		*/
-		rect.offset( 0, 100 ); 
+		rect.offset( 0, 100 );
 		ctx->setColor( &Color(0.0,0.0,1.0) ); //r,g,b, blue is r(0), g(0), b(1)
 		ctx->rectangle( &rect );
 		ctx->fillPath();
@@ -84,7 +84,7 @@ public:
 			ctx->setStrokeWidth( i + 1 );
 
 			/**
-			draw a horizontal line 100 pixels long 
+			draw a horizontal line 100 pixels long
 			*/
 			ctx->moveTo( x, y + i*10 );
 			ctx->lineTo( x + 100, y + i*10 );
@@ -131,7 +131,7 @@ public:
 		myFont.setColor( &Color(1.0,0.0,0.0) );
 
 		/**
-		Set the current font - the GraphicsContext keeps it own font instance, and 
+		Set the current font - the GraphicsContext keeps it own font instance, and
 		simply copies all the attributes of the font passed into setCurrentFont().
 		This means the font you pass in can be temporary, and allocated on the stack
 		if you want.
@@ -146,7 +146,7 @@ public:
 
 
 /**
-The application class 
+The application class
 */
 
 class GraphicsBasicsApplication : public Application {
@@ -157,12 +157,12 @@ public:
 	}
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
-		
+
 		Window* mainWindow = new GraphicsBasicsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
 		mainWindow->show();
-		
+
 		return result;
 	}
 
@@ -170,11 +170,11 @@ public:
 
 
 int main(int argc, char *argv[])
-{	 
+{
 	Application* app = new GraphicsBasicsApplication( argc, argv );
 
 	Application::main();
-	
+
 	return 0;
 }
 
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.2  2004/04/29 03:04:26  marcelloptr
+*Revision 1.4.2.3  2004/04/29 03:10:53  marcelloptr
 *reformatting of source files
 *
 *
