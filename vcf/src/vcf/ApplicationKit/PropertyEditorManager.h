@@ -80,7 +80,8 @@ public:
 
 	/**
 	Registers a property editor for a given class name. If an existing property
-	editor already exists with teh
+	editor already exists with the same name type name, then the function returns
+	false.
 	@param Class the class instance that represents the property editor
 	@param String the name of the type associated with this property editor
 	@return bool 
@@ -89,7 +90,7 @@ public:
 
 	/**
 	Registers a property editor for a given class/type name. If an existing property
-	editor already exists with the same name type name, then teh function returns
+	editor already exists with the same name type name, then the function returns
 	false.
 	@param String the class name that represents the property editor
 	@param String the name of the type associated with this property editor
@@ -123,7 +124,7 @@ private:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.5  2005/03/10 00:14:27  marcelloptr
+*Revision 1.2.4.6  2005/03/10 03:19:54  marcelloptr
 *more comments
 *
 *Revision 1.2.4.3  2005/03/09 05:11:19  ddiego
