@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="WorkingWithEnumerators"
-	ProjectGUID="{10B4A69A-B18E-487C-AB9C-40C1439FD9F1}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

@@ -2,7 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="FoundationKitDLL">
+	Name="FoundationKitDLL"
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -388,13 +390,13 @@
 				RelativePath="..\..\..\include\io\FileUtils.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\io\MemStreamUtils.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\IO\MemoryStream.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\include\io\MemoryStream.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\io\MemStreamUtils.h">
 			</File>
 			<File
 				RelativePath="..\..\..\include\io\Persistable.h">
@@ -521,9 +523,6 @@
 				RelativePath="..\..\..\include\utils\Thread.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\implementer\ThreadPeer.h">
-			</File>
-			<File
 				RelativePath="..\..\..\include\utils\VCFChar.h">
 			</File>
 			<File
@@ -582,7 +581,13 @@
 				RelativePath="..\..\..\include\core\Property.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\core\VariantData.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\include\core\VariantData.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\core\VCFRTTIImpl.h">
 			</File>
 		</Filter>
 		<Filter
@@ -645,6 +650,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\utils\SystemPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\implementer\ThreadPeer.h">
 			</File>
 		</Filter>
 	</Files>

@@ -23,6 +23,8 @@ CFG=FOUNDATIONKITDLL - WIN32 DEBUG
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -584,10 +586,6 @@ SOURCE=..\..\..\include\utils\Thread.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\include\implementer\ThreadPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\include\utils\VCFChar.h
 # End Source File
 # Begin Source File
@@ -664,7 +662,15 @@ SOURCE=..\..\..\include\core\Property.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\core\VariantData.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\core\VariantData.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\core\VCFRTTIImpl.h
 # End Source File
 # End Group
 # Begin Group "Core"
@@ -745,6 +751,10 @@ SOURCE=..\..\..\include\utils\SemaphorePeer.h
 # Begin Source File
 
 SOURCE=..\..\..\include\utils\SystemPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\implementer\ThreadPeer.h
 # End Source File
 # End Group
 # End Target

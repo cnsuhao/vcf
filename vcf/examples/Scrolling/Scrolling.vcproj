@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="Scrolling"
-	ProjectGUID="{D9408AFB-325C-4A8F-9ECD-6C9B0B823B6C}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

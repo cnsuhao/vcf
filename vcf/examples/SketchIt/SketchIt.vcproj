@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="SketchIt"
-	ProjectGUID="{02FF6892-03B3-43A4-9E36-89341C9A7776}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

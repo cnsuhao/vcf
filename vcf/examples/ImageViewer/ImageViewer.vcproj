@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="ImageViewer"
-	ProjectGUID="{4615CD05-0D13-4267-A836-2303068089D0}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

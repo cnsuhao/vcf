@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="DragAndDrop"
-	ProjectGUID="{E44C5250-796B-4E61-A47A-F65749942926}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
