@@ -229,98 +229,98 @@ public:
 	/**
 	*converts the VariantData to an int
 	*/
-	operator int () {
+	operator int () const {
 		return IntVal;
 	};
 
 	/**
 	*converts the VariantData to an long
 	*/
-	operator long () {
+	operator long () const {
 		return LongVal;
 	};
 
 	/**
 	*converts the VariantData to an short
 	*/
-	operator short () {
+	operator short () const {
 		return ShortVal;
 	};
 
 	/**
 	*converts the VariantData to an unsigned long
 	*/
-	operator unsigned long () {
+	operator unsigned long () const {
 		return ULongVal;
 	};
 
 	/**
 	*converts the VariantData to an float
 	*/
-	operator float () {
+	operator float () const {
 		return FloatVal;
 	};
 
 	/**
 	*converts the VariantData to an char
 	*/
-	operator char () {
+	operator char () const {
 		return CharVal;
 	};
 
 	/**
 	*converts the VariantData to an double
 	*/
-	operator double () {
+	operator double () const {
 		return DblVal;
 	};
 
 	/**
 	*converts the VariantData to an Interface pointer
 	*/
-	operator Interface* (){
+	operator Interface* () const {
 		return InterfaceVal;
 	}
 
 	/**
 	*converts the VariantData to an Object pointer
 	*/
-	operator Object* (){
+	operator Object* () const {
 		return ObjVal;
 	};
 
 	/**
 	*converts the VariantData to an Object reference
 	*/
-	operator Object& (){
+	operator Object& () const {
 		return *ObjVal;
 	};
 
 	/**
 	*converts the VariantData to an String
 	*/
-	operator String () {
+	operator String () const {
 		return StringVal;
 	};
 
 	/**
 	*converts the VariantData to a bool
 	*/
-	operator bool ()  {
+	operator bool () const {
 		return BoolVal;
 	};
 
 	/**
 	*converts the VariantData to an Enum pointer
 	*/
-	operator Enum* (){
+	operator Enum* () const {
 		return EnumVal.getEnum();
 	};
 
 	/**
 	*converts the VariantData to an Enum reference
 	*/
-	operator Enum& (){
+	operator Enum& () const {
 		return *EnumVal.getEnum();
 	};
 
@@ -478,7 +478,8 @@ public:
 	*if they support Persistable, otherwise the Object's toString()
 	*method is invoked.
 	*/
-	virtual String toString();
+	virtual String toString() const;
+
 	/**
 	*Assigns the VariantData's data from a string. The conversion
 	*process is dependent on the type of the VariantData.
@@ -497,6 +498,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2004/12/24 00:59:28  marcelloptr
+*VariantData::toString() made const
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

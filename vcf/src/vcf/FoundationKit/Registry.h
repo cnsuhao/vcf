@@ -37,7 +37,7 @@ enum RegistryDataType{
 class FOUNDATIONKIT_API RegistryValueInfo : public Object {
 public:
 
-	RegistryValueInfo( VariantData* data, const RegistryDataType& dataType,
+	RegistryValueInfo( const VariantData* data, const RegistryDataType& dataType,
 		               const String& valueName, char* dataBuffer=NULL, const uint32& dataBufferSize=0  ){
 
 		dataType_ = dataType;
@@ -146,6 +146,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2004/12/24 00:59:28  marcelloptr
+*VariantData::toString() made const
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
