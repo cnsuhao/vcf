@@ -2,6 +2,9 @@
 #
 #CVS Log info
 #$Log$
+#Revision 1.3.4.2  2003/09/27 16:19:10  ddiego
+#further mods to bring it up to synch with the current win32 rev
+#
 #Revision 1.3.4.1  2003/09/27 16:11:30  ddiego
 #fixed some minor glitches in the makefile due to changes made on the Win32
 #side.
@@ -68,7 +71,7 @@ APPLICATION_KIT_SO=$(BIN_OUT)/libApplicationKit.so
 NETWORK_KIT_SO=$(BIN_OUT)/libNetworkKit.so
 
 #toolchain definitions
-CXX_FLAGS_D=-ggdb -D VCF_GCC -D_DEBUG -I $(CXX_INC) -c
+CXX_FLAGS_D=-ggdb -D VCF_GCC -DVCF_POSIX -D_DEBUG -I $(CXX_INC) -c
 
 GTK_CXX_FLAGS = `pkg-config gtk+-2.0 --cflags`
 
@@ -78,7 +81,7 @@ AK_CXX_FLAGS_D=$(GK_CXX_FLAGS_D)
 
 NK_CXX_FLAGS_D=$(CXX_FLAGS_D)
 
-CXX_FLAGS=-D VCF_GCC -I $(CXX_INC) -O2 -c
+CXX_FLAGS=-D VCF_GCC -DVCF_POSIX -I $(CXX_INC) -O2 -c
 GK_CXX_FLAGS=$(GTK_CXX_FLAGS) -DVCF_GTK $(CXX_FLAGS)
 
 AK_CXX_FLAGS=$(GK_CXX_FLAGS)
