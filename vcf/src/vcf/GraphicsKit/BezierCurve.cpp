@@ -374,14 +374,13 @@ Rect BezierCurve::getBounds()
 	return result;
 }
 
-
-Enumerator<PathPoint>* BezierCurve::getPoints( Matrix2D* transform )
+bool BezierCurve::getPoints( std::vector<PathPoint>& points, Matrix2D* transform )
 {
 	if ( NULL != transform ) {
-		transformedPoints_ = points_;
+		points = points_;
 
 		std::vector<PathPoint>::iterator it1 = points_.begin();
-		std::vector<PathPoint>::iterator it2 = transformedPoints_.begin();
+		std::vector<PathPoint>::iterator it2 = points.begin();
 
 		Matrix2D& m = *transform;
 
@@ -399,16 +398,13 @@ Enumerator<PathPoint>* BezierCurve::getPoints( Matrix2D* transform )
 
 			it2 ++;
 			it1 ++;
-		}
-		pointsContainer_.initContainer( transformedPoints_ );
+		}		
 	}
 	else {
-		pointsContainer_.initContainer( points_ );
+		points = points_;
 	}
 
-
-
-	return pointsContainer_.getEnumerator();
+	return !points.empty();
 }
 
 void BezierCurve::flattenPoints( std::vector<Point>& flattenedPoints )
@@ -500,6 +496,16 @@ void BezierCurve::clear()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

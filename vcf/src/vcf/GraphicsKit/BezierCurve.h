@@ -45,7 +45,7 @@ public:
 		windingRule_ = rule;
 	}
 
-	virtual Enumerator<PathPoint>* getPoints( Matrix2D* transform );
+	virtual bool getPoints( std::vector<PathPoint>& points, Matrix2D* transform );
 
 	virtual void flattenPoints( std::vector<Point>& flattenedPoints );
 
@@ -75,8 +75,6 @@ protected:
 	Path::WindingRule windingRule_;
 	long currentMoveToIndex_;
 	std::vector<PathPoint> points_;
-	std::vector<PathPoint> transformedPoints_;
-	EnumeratorContainer<std::vector<PathPoint>,PathPoint> pointsContainer_;
 
 };
 
@@ -88,6 +86,16 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -162,7 +162,12 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 
 	tmpR.top_ = tmpR.top_ + (tmpR.getHeight()/2.0 - context->getTextHeight( "EM" )/2.0);
 
-	context->textBoundedBy( &tmpR, pageName_, false );
+	String text = pageName_;
+	if ( this->getUseLocaleStrings() ) {
+		text = System::getCurrentThreadLocale()->translate( pageName_ );
+	}
+
+	context->textBoundedBy( &tmpR, text, false );
 
 	context->getCurrentFont()->setColor( &oldFontColor );
 
@@ -194,6 +199,10 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

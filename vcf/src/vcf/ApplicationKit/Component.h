@@ -395,6 +395,38 @@ public:
 	void removeFromUpdateTimer();
 
 	/**
+	Allows the user to control whether or not the component should 
+	attempt to translate the text of a specific component. This is typically 
+	used in derived control classes paint() methods, which would check this value
+	before calling System::getCurrentThreadLocale()->translate() to 
+	translate the text to a specific locale sensitive value. Setting this
+	value will also set it for any child components.
+	@param bool A boolean value that indicates whether or not a  
+	lookup should be made based on the current thread's locale to
+	translate any text that needs displaying. A value of true means the
+	lookup should take place, a value of false means the lookup should be 
+	ignored.
+	@see Locale
+	@see System::getCurrentThreadLocale
+	*/
+	void setUseLocaleStrings( const bool& val );
+
+	/**
+	Returns a value indicating whether or not the component will attempt 
+	to translate any text using the current thread's locale. By
+	default, this is true.
+	@return bool A boolean value that indicates whether or not a  
+	lookup will be made based on the current thread's locale to
+	translate any text that needs displaying. A value of true means the
+	lookup will take place, a value of false means the lookup will be 
+	ignored.
+
+	*/
+	bool getUseLocaleStrings() {
+		return useLocaleStrings_;
+	}
+
+	/**
 	*registers a component in the system component map. The map is organized into
 	a series of keys called categories, with 1 or more entries in each category.
 	The UIToolkit registers the default ApplicationKit components, and other developers may
@@ -432,6 +464,8 @@ protected:
 	Action* action_;
 	std::vector<Component*> components_;
 	EnumeratorContainer<std::vector<Component*>, Component*> componentContainer_;
+	
+	bool useLocaleStrings_;
 
 
 	/**
@@ -454,6 +488,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2004/07/09 03:39:28  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.4  2004/06/06 07:05:29  marcelloptr
 *changed macros, text reformatting, copyright sections
 *

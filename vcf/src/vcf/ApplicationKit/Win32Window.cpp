@@ -581,10 +581,18 @@ void Win32Window::setIconImage( Image* icon )
 	::DestroyIcon( winIcon );
 }
 
+bool Win32Window::isActiveWindow()
+{	
+	return ::GetActiveWindow() == hwnd_ ? true : false;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.3  2004/07/01 20:53:43  ddiego
 *minor fix in WS_XXX styles
 *

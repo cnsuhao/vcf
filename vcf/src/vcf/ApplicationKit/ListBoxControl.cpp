@@ -357,12 +357,18 @@ void ListBoxControl::paint( GraphicsContext* ctx )
 					//ctx->setColor( &oldFontColor );
 				}
 				
+
+				String itemText = item->getCaption();
+				if ( getUseLocaleStrings() ) {
+					itemText = System::getCurrentThreadLocale()->translate( itemText );
+				}
+
 				if( textBounded_ ){
 					itemPaintRect.setRect(bounds.left_ + leftGutter_, currentTop, offsetx + width - scrollW - leftGutter_, currentTop + defaultItemHeight_ );
-					ctx->textBoundedBy( &itemPaintRect, item->getCaption(), false );
+					ctx->textBoundedBy( &itemPaintRect, itemText, false );
 				}
 				else{
-					ctx->textAt( bounds.left_ + leftGutter_, y, item->getCaption() );
+					ctx->textAt( bounds.left_ + leftGutter_, y, itemText );
 				}
 				
 				if ( true == item->canPaint() ) {
@@ -671,6 +677,10 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.3  2004/07/08 19:41:48  dougtinkham
 *implemented multi-selection and extended-selection, modified mouseDown, mouseMove, and paint. Text in list box can be painted using textBoundedBy or textAt, set by making a call to setTextBounded(const bool&). Added double leftGutter_ and double rightGutter_, which control the distance between text left and right edge of borders, respectively.
 *

@@ -13,7 +13,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/DefaultTreeModel.h"
 #include "vcf/ApplicationKit/DefaultTreeItem.h"
 #include "vcf/ApplicationKit/Containers.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -235,7 +235,11 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 
 		if ( true == isFocused() ) {
 			context->fillPath();
-			context->drawSelectionRect( &tmp );
+			DrawUIState state;
+			state.setFocused( true );
+			state.setActive( true );
+			
+			context->drawThemeSelectionRect( &tmp, state );
 		}
 		else {
 			context->strokePath();
@@ -462,13 +466,10 @@ void TreeListControl::paintItemState( TreeItem* item, GraphicsContext* context, 
 		stateRect.inflate( -1, -1 );
 		long state = item->getState();
 
-		if ( state == Item::idsChecked ) {
-			context->drawCheckboxRect( &stateRect, true );
-		}
-		else if ( state == Item::idsUnChecked ) {
-			context->drawCheckboxRect( &stateRect, false );
-		}
-
+		ButtonState buttonState;
+		buttonState.setActive( true );
+		buttonState.setPressed( state == Item::idsChecked ? true : false );
+		context->drawThemeCheckboxRect( &stateRect, buttonState );
 	}
 }
 
@@ -928,16 +929,24 @@ void TreeListControl::mouseMove( MouseEvent* event )
 	CustomControl::mouseMove( event );
 	if ( (true == event->hasLeftButton()) && (true == draggingSelectionRect_) ) {
 
+		/**
+		!!!!!!!HACK!!!!!!!
+		
+		We need to put this in the paint code and simply invalidate here!
+		
+		!!!!!!!HACK!!!!!!!
+		*/
 		GraphicsContext* context = getContext();
-
-		context->drawSelectionRect( &dragSelectionRect_ );
+		DrawUIState state;
+		state.setActive( true );
+		context->drawThemeSelectionRect( &dragSelectionRect_, state );
 
 		Point* pt = event->getPoint();
 		dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, pt->x_, pt->y_ );
 
 		dragSelectionRect_.normalize();
 
-		context->drawSelectionRect( &dragSelectionRect_ );
+		context->drawThemeSelectionRect( &dragSelectionRect_, state );
 
 		bool needsRepaint = false;
 
@@ -988,15 +997,17 @@ void TreeListControl::mouseUp( MouseEvent* event )
 	CustomControl::mouseUp( event );
 	if ( (true == event->hasLeftButton()) && (true == draggingSelectionRect_) ) {
 		GraphicsContext* context = getContext();
-		context->drawSelectionRect( &dragSelectionRect_ );
+		DrawUIState state;
+		state.setActive(true);
+		context->drawThemeSelectionRect( &dragSelectionRect_, state );
 
 		Point* pt = event->getPoint();
 		dragSelectionRect_.setRect( dragPoint_.x_, dragPoint_.y_, pt->x_, pt->y_ );
 
 		dragSelectionRect_.normalize();
 
-		context->drawSelectionRect( &dragSelectionRect_ );
-		context->drawSelectionRect( &dragSelectionRect_ );
+		context->drawThemeSelectionRect( &dragSelectionRect_, state );
+		context->drawThemeSelectionRect( &dragSelectionRect_, state );
 		repaint();
 	}
 }
@@ -1445,6 +1456,13 @@ bool TreeListControl::listSelectedItems( std::vector<TreeItem*>& items, TreeItem
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:15  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -9,7 +9,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/SliderControl.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 
 
@@ -129,47 +129,46 @@ void SliderControl::paint( GraphicsContext* ctx )
 	Rect tickMarkRect;
 	Rect thumbRect;
 
-
-	SliderInfo info;
-	info.bottomRightTicks = hasTickMarksOnBottomRight();
-	info.enabled = isEnabled();
-	info.max = maxVal_;
-	info.min = minVal_;
-	info.position = position_;
-	info.pressed = pressed_;
-	info.tickCount = this->tickFrequency_;
-	info.topLeftTicks = hasTickMarksOnTopLeft();
-	info.vertical = (SliderControl::doVertical == orientation_) ? true : false;
-
+	SliderState state;
+	state.setTickMarkingOnTopLeft( hasTickMarksOnTopLeft() );
+	state.setTickMarkingOnBottomRight( hasTickMarksOnBottomRight() );
+	state.setEnabled( isEnabled() );
+	state.setFocused( isFocused() );
+	state.max_ = maxVal_;
+	state.min_ = minVal_;
+	state.position_ = position_;
+	state.setPressed( pressed_ );
+	state.tickMarkFrequency_ = tickFrequency_;
+	state.setVertical( (SliderControl::doVertical == orientation_) ? true : false );
 
 	sliderRect = clientBounds;
 
 
 	Size thumbSize = UIToolkit::getUIMetricsManager()->getDefaultSliderThumbDimensions();
 
-	if ( info.vertical ) {
+	if ( state.isVertical() ) {
 		sliderRect.inflate( -2, -thumbSize.width_/2.0 );
-		if ( info.bottomRightTicks ) {
+		if ( state.isTickMarkingOnBottomRight() ) {
 			sliderRect.right_ -= 5;
 		}
 
-		if ( info.topLeftTicks ) {
+		if ( state.isTickMarkingOnTopLeft() ) {
 			sliderRect.left_ += 5;
 		}
 	}
 	else {
 		sliderRect.inflate( -thumbSize.width_/2.0, -2 );
-		if ( info.bottomRightTicks ) {
+		if ( state.isTickMarkingOnBottomRight() ) {
 			sliderRect.bottom_ -= 5;
 		}
 
-		if ( info.topLeftTicks ) {
+		if ( state.isTickMarkingOnTopLeft() ) {
 			sliderRect.top_ += 5;
 		}
 	}
 
 	tickMarkRect = sliderRect;
-
+/*
 	thumbRect = sliderRect;
 	if ( info.vertical ) {
 		thumbRect.top_ = thumbRect.bottom_ - thumbSize.width_;
@@ -180,19 +179,12 @@ void SliderControl::paint( GraphicsContext* ctx )
 		thumbRect.right_ = thumbRect.left_ + thumbSize.width_;
 
 		thumbRect.offset( (int)(((position_-minVal_)/(maxVal_-minVal_))*sliderRect.getWidth()) - (int)(thumbSize.width_/2), 0 );
-	}
+	}	
+*/
 
-	if ( true == isFocused() ) {
-		clientBounds.inflate( -1, -1 );
-		ctx->drawSelectionRect( &clientBounds );
-	}
+	ctx->drawThemeTickMarks( &tickMarkRect, state );
 
-
-	ctx->drawSlider( &sliderRect, info );
-
-	ctx->drawTickMarks( &tickMarkRect, info );
-
-	ctx->drawSliderThumb( &thumbRect, info );
+	ctx->drawThemeSlider( &sliderRect, state );	
 }
 
 
@@ -330,6 +322,13 @@ void SliderControl::keyUp( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

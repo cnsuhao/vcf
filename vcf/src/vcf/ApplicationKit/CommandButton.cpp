@@ -116,7 +116,12 @@ void CommandButton::setCaption( const String& caption )
 
 String CommandButton::getCaption()
 {
-	return this->peer_->getText();
+	String result = peer_->getText();
+	if ( getUseLocaleStrings() ) {
+		result = System::getCurrentThreadLocale()->translate( result );
+	}
+
+	return result;
 }
 
 void CommandButton::paint(GraphicsContext * context)
@@ -183,6 +188,10 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:28  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

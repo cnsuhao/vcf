@@ -18,7 +18,8 @@ Component::Component():
 	owner_(NULL),
 	componentState_(Component::csUnknown),
 	tag_(ComponentTagID),
-	action_(NULL)
+	action_(NULL),
+	useLocaleStrings_(true)
 {
 	ComponentTagID++;
 	componentContainer_.initContainer( components_ );
@@ -30,7 +31,8 @@ Component::Component( Component* owner ):
 	owner_(NULL),
 	componentState_(Component::csUnknown),
 	tag_(ComponentTagID),
-	action_(NULL)
+	action_(NULL),
+	useLocaleStrings_(true)
 {
 	ComponentTagID++;
 	componentContainer_.initContainer( components_ );
@@ -44,7 +46,8 @@ Component::Component( const String& name, Component* owner ):
 	owner_(NULL),
 	componentState_(Component::csUnknown),
 	tag_(ComponentTagID),
-	action_(NULL)
+	action_(NULL),
+	useLocaleStrings_(true)
 {
 	ComponentTagID++;
 	componentContainer_.initContainer( components_ );
@@ -59,7 +62,8 @@ Component::Component( const String& name ):
 	owner_(NULL),
 	componentState_(Component::csUnknown),
 	tag_(ComponentTagID),
-	action_(NULL)
+	action_(NULL),
+	useLocaleStrings_(true)
 {
 	ComponentTagID++;
 	componentContainer_.initContainer( components_ );
@@ -449,9 +453,25 @@ void Component::setDesigning( const bool& designing )
 }
 
 
+void Component::setUseLocaleStrings( const bool& val )
+{
+	useLocaleStrings_ = val;
+	std::vector<Component*>::iterator componentIter = components_.begin();
+	while ( componentIter != components_.end() ){
+		Component* component = *componentIter;
+		component->setUseLocaleStrings( val );
+		componentIter++;
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2004/07/09 03:39:28  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.5  2004/07/01 04:02:17  ddiego
 *minor stuff
 *

@@ -9,8 +9,8 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
-
 #include "vcf/FoundationKit/LocalePeer.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -860,126 +860,6 @@ void Win32Context::drawTransparentBitmap(HDC hdc, HBITMAP hBitmap, long xStart,
 	DeleteDC(hdcTemp);
 }
 
-void Win32Context::drawSelectionRect( Rect* rect )
-{
-	checkHandle();
-
-	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
-	r.bottom = (long)rect->bottom_;
-
-	int err = ::DrawFocusRect( dc_, &r );
-
-	releaseHandle();
-}
-
-void Win32Context::drawButtonRect( Rect* rect, const bool& isPressed )
-{
-	checkHandle();
-
-	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
-	r.bottom = (long)rect->bottom_;
-	UINT state =  isPressed ?  DFCS_BUTTONPUSH | DFCS_PUSHED : DFCS_BUTTONPUSH;
-
-	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
-
-	releaseHandle();
-}
-
-void Win32Context::drawCheckboxRect( Rect* rect, const bool& isPressed )
-{
-	checkHandle();
-
-	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
-	r.bottom = (long)rect->bottom_;
-	UINT state =  isPressed ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
-
-	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
-
-	releaseHandle();
-}
-
-void Win32Context::drawRadioButtonRect( Rect* rect, const bool& isPressed )
-{
-	checkHandle();
-
-	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
-	r.bottom = (long)rect->bottom_;
-	UINT state =  isPressed ?  DFCS_BUTTONRADIO | DFCS_CHECKED : DFCS_BUTTONRADIO;
-
-	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
-	if ( !err ) {
-		err = GetLastError();
-	}
-
-	releaseHandle();
-}
-
-void Win32Context::drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed )
-{
-	checkHandle();
-
-	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
-	r.bottom = (long)rect->bottom_;
-	UINT state =  0;
-
-	if ( true == topButton ) {
-		state |= DFCS_SCROLLUP;
-	}
-	else {
-		state |= DFCS_SCROLLDOWN;
-	}
-
-	if ( true == isPressed ) {
-		state |= DFCS_PUSHED;
-	}
-
-	int err = ::DrawFrameControl( dc_, &r, DFC_SCROLL, state );
-
-	releaseHandle();
-}
-
-void Win32Context::drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed )
-{
-	checkHandle();
-
-	RECT r = {0,0,0,0};
-	r.left = (long)rect->left_;
-	r.top = (long)rect->top_;
-	r.right = (long)rect->right_;
-	r.bottom = (long)rect->bottom_;
-	UINT state =  0;
-
-	if ( true == leftButton ) {
-		state |= DFCS_SCROLLLEFT;
-	}
-	else {
-		state |= DFCS_SCROLLRIGHT;
-	}
-
-	if ( true == isPressed ) {
-		state |= DFCS_PUSHED;
-	}
-
-	int err = ::DrawFrameControl( dc_, &r, DFC_SCROLL, state );
-
-	releaseHandle();
-}
-
 void Win32Context::setClippingRect( Rect* clipRect )
 {
 	checkHandle();
@@ -1014,11 +894,16 @@ void Win32Context::setClippingPath( Path* clippingPath )
 	if ( NULL != clippingPath ) {
 		::BeginPath( dc_ );
 
+		std::vector<PathPoint> points;
 		Matrix2D* currentXFrm = context_->getCurrentTransform();
-		Enumerator<PathPoint>* points = clippingPath->getPoints( currentXFrm );
+		clippingPath->getPoints( points, currentXFrm );
 
-		while ( true == points->hasMoreElements() ) {
-			PathPoint& pt = points->nextElement();
+
+		std::vector<PathPoint>::iterator it = points.begin();
+
+		while ( it != points.end() ) {
+			const PathPoint& pt = *it;
+
 			switch ( pt.type_ ){
 				case PathPoint::ptMoveTo: {
 					MoveToEx( dc_, (long)pt.point_.x_, (long)pt.point_.y_, NULL );
@@ -1046,6 +931,8 @@ void Win32Context::setClippingPath( Path* clippingPath )
 				break;
 			}
 
+			it++;
+
 		}
 
 		::EndPath( dc_ );
@@ -1059,47 +946,324 @@ void Win32Context::setClippingPath( Path* clippingPath )
 	releaseHandle();
 }
 
-void Win32Context::drawDisclosureButton( Rect* rect, const long& state )
+
+void Win32Context::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
+{
+	checkHandle();
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+
+	int err = ::DrawFocusRect( dc_, &r );
+
+	releaseHandle();
+}
+
+void Win32Context::drawThemeFocusRect( Rect* rect, DrawUIState& state )
+{
+	checkHandle();
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+
+	int err = ::DrawFocusRect( dc_, &r );
+
+	releaseHandle();
+}
+
+void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
+{
+	checkHandle();
+
+	RECT btnRect;
+	btnRect.left = rect->left_;
+	btnRect.top = rect->top_;
+	btnRect.right = rect->right_;
+	btnRect.bottom = rect->bottom_;
+
+
+	COLORREF backColor = ::GetSysColor( COLOR_3DFACE );
+
+	HBRUSH backBrush = CreateSolidBrush( backColor );
+	HPEN hilightPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DHIGHLIGHT ) );
+	HPEN shadowPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DSHADOW ) );
+	HPEN blackPen = CreatePen( PS_SOLID, 0, 0 );
+
+	HBRUSH oldBrush = (HBRUSH)::SelectObject( dc_, backBrush );
+	::FillRect( dc_, &btnRect, backBrush );
+
+	bool isPressed = state.isPressed();	
+
+	HPEN oldPen = NULL;
+
+	RECT tmpRect = btnRect;
+	InflateRect( &tmpRect, -1, -1 );
+
+	RECT captionRect = btnRect;
+
+	if ( true == isPressed ) {
+		HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
+		::FrameRect( dc_, &tmpRect, shadowBrush );
+		DeleteObject( shadowBrush );
+		::OffsetRect( &captionRect, 1, 1 );
+	}
+	else {
+		oldPen = (HPEN) ::SelectObject( dc_, hilightPen );
+
+		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
+		::LineTo( dc_, tmpRect.left, tmpRect.top );
+		::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
+
+		::SelectObject( dc_, shadowPen );
+		::MoveToEx( dc_, tmpRect.right-2, tmpRect.top+1, NULL );
+		::LineTo( dc_, tmpRect.right-2, tmpRect.bottom-2 );
+		::LineTo( dc_, tmpRect.left, tmpRect.bottom-2 );
+
+		::SelectObject( dc_, blackPen );
+		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
+		::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
+		::LineTo( dc_, tmpRect.left-1, tmpRect.bottom-1 );
+	}
+
+	bool enabled = state.isEnabled();
+
+	
+
+
+	HFONT font = NULL;
+	HFONT oldFont = NULL;
+
+	VCF::Font btnFont;
+
+	Rect centerRect( captionRect.left, captionRect.top, captionRect.right, captionRect.bottom );
+	if ( System::isUnicodeEnabled() ) {
+		LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
+		font = ::CreateFontIndirectW( lf );
+		oldFont = (HFONT) ::SelectObject( dc_, font );
+
+		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
+	}
+	else {
+		LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
+		font = ::CreateFontIndirectA( lf );
+		oldFont = (HFONT) ::SelectObject( dc_, font );
+
+		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
+	}
+
+
+	::OffsetRect( &captionRect,
+		(centerRect.getWidth() - (captionRect.right - captionRect.left))/2,
+		(centerRect.getHeight() - (captionRect.bottom - captionRect.top))/2 );
+
+	int oldBkMode = SetBkMode( dc_, TRANSPARENT );
+
+
+	COLORREF textColor = 0;
+	if ( true == enabled ) {
+		textColor = ::GetSysColor( COLOR_BTNTEXT );
+	}
+	else {
+		textColor = ::GetSysColor( COLOR_GRAYTEXT );
+	}
+
+
+
+	COLORREF oldTextColor = SetTextColor( dc_, textColor );
+
+	if ( false == enabled ) {
+		SetTextColor( dc_, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
+
+		OffsetRect( &captionRect, 1, 1 );
+
+		if ( System::isUnicodeEnabled() ) {
+			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+		}
+		else {
+			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+		}
+
+		OffsetRect( &captionRect, -1, -1 );
+
+		SetTextColor( dc_, textColor );
+	}
+
+	if ( System::isUnicodeEnabled() ) {
+		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+	}
+	else {
+		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+	}
+
+
+
+	SetTextColor( dc_, oldTextColor );
+	SetBkMode( dc_, oldBkMode );
+
+	::SelectObject( dc_, oldFont );
+	::DeleteObject( font );
+
+
+
+	if ( state.isFocused() ) {
+		RECT focusRect = btnRect;
+		InflateRect( &focusRect, -4, -4 );
+		::DrawFocusRect( dc_, &focusRect );
+	}
+
+	if ( NULL != oldBrush ) {
+		::SelectObject( dc_, oldBrush );
+	}
+	if ( NULL != oldPen ) {
+		::SelectObject( dc_, oldPen );
+	}
+
+	::DeleteObject( hilightPen );
+	::DeleteObject( shadowPen );
+	::DeleteObject( blackPen );
+	::DeleteObject( backBrush );
+
+
+
+	releaseHandle();
+}
+
+void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
+{
+	checkHandle();
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+	UINT chkState =  state.isToggled() ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
+
+	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
+
+	releaseHandle();
+}
+
+void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
+{
+	checkHandle();
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+	UINT btnState =  state.isToggled() ?  DFCS_BUTTONRADIO | DFCS_CHECKED : DFCS_BUTTONRADIO;
+
+	::DrawFrameControl( dc_, &r, DFC_BUTTON, btnState );
+
+	releaseHandle();
+}
+
+void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 {
 
 }
 
-void Win32Context::drawTab( Rect* rect, const bool& selected, const String& caption )
+void Win32Context::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state )
+{
+	checkHandle();
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+	UINT scrollState =  0;
+
+	if ( state.isVertical() ) {
+		if ( state.isScrollBarIncrArrowPressed() ) {
+			scrollState |= DFCS_SCROLLUP;
+		}
+		else if ( state.isScrollBarDecrArrowPressed() ) {
+			scrollState |= DFCS_SCROLLDOWN;
+		}
+	}
+	else if ( !state.isVertical() ) {
+		if ( state.isScrollBarIncrArrowPressed() ) {
+			scrollState |= DFCS_SCROLLRIGHT;
+		}
+		else if ( state.isScrollBarDecrArrowPressed() ) {
+			scrollState |= DFCS_SCROLLLEFT;
+		}
+	}
+
+	if ( true == state.isScrollBarThumbPressed() ) {
+		scrollState |= DFCS_PUSHED;
+	}
+
+	int err = ::DrawFrameControl( dc_, &r, DFC_SCROLL, scrollState );
+
+	releaseHandle();
+}
+
+void Win32Context::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state )
 {
 
 }
 
-void Win32Context::drawTabPage( Rect* rect )
+/**
+Draws a tab, the part of the TabbedPages control that acts like a
+little button to activate a page, that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeTab( Rect* rect, TabState& state )
 {
 
 }
 
-void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
+/**
+Draws a tab page - the page on which other controls for the page are
+parented to, that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeTabPage( Rect* rect, DrawUIState& state )
 {
-	if ( sliderInfo.tickCount <= 0 ) {
+
+}
+
+/**
+Draws a tick mark, like that used for a slider control, that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
+{
+	if ( state.tickMarkFrequency_ <= 0 ) {
 		return;
 	}
 
 
-	double range = sliderInfo.max - sliderInfo.min;
+	double range = state.max_ - state.min_;
 
 	context_->setColor( Color::getColor( "black" ) );
 
 	double incr = 0;
-	if ( sliderInfo.vertical ) {
-		incr = (1.0/(double)(sliderInfo.tickCount)) * rect->getHeight();
+	if ( state.isVertical() ) {
+		incr = (1.0/(double)(state.tickMarkFrequency_)) * rect->getHeight();
 	}
 	else {
-		incr = (1.0/(double)(sliderInfo.tickCount)) * rect->getWidth();
+		incr = (1.0/(double)(state.tickMarkFrequency_)) * rect->getWidth();
 	}
 
 	double y = rect->top_;
 	double x = rect->left_;
 
-	for (long i=0;i<=sliderInfo.tickCount;i++ ) {
-		if ( sliderInfo.vertical ) {
+	for (long i=0;i<=state.tickMarkFrequency_;i++ ) {
+		if ( state.isVertical() ) {
 
-			if ( sliderInfo.topLeftTicks ) {
+			
+			if ( state.isTickMarkingOnTopLeft() ) {
 				x = rect->left_;
 				double x2 = x - 5;
 
@@ -1108,7 +1272,7 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 				context_->strokePath();
 			}
 
-			if ( sliderInfo.bottomRightTicks ) {
+			if ( state.isTickMarkingOnBottomRight() ) {
 				x = rect->right_;
 				double x2 = x + 5;
 
@@ -1119,7 +1283,7 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 			y += incr;
 		}
 		else {
-			if ( sliderInfo.topLeftTicks ) {
+			if ( state.isTickMarkingOnTopLeft() ) {
 				y = rect->top_;
 				double y2 = y - 5;
 
@@ -1128,7 +1292,7 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 				context_->strokePath();
 			}
 
-			if ( sliderInfo.bottomRightTicks ) {
+			if ( state.isTickMarkingOnBottomRight() ) {
 				y = rect->bottom_;
 				double y2 = y + 5;
 
@@ -1141,8 +1305,30 @@ void Win32Context::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo )
 	}
 }
 
-void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
+/**
+Draws a slider control, like that used for a slider control, that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 {
+	Rect tmp = *rect;
+
+
+	if ( state.isVertical() ) {
+		tmp.left_ = tmp.left_ + rect->getWidth()/2.0;
+		tmp.right_ = tmp.left_;
+		tmp.inflate( 2, 0 );
+	}
+	else{
+		tmp.top_ = tmp.top_ + rect->getHeight()/2.0;
+		tmp.bottom_ = tmp.top_;
+		tmp.inflate( 0, 2 );
+	}
+
+	drawThemeEdge( &tmp, state, GraphicsContext::etAllSides, GraphicsContext::etSunken );
+
+
+
 	Color* highlite = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
 	Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 	Color faceTmp = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
@@ -1150,7 +1336,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 
 	//
 
-	if ( (!sliderInfo.enabled) || sliderInfo.pressed ) {
+	if ( (!state.isEnabled()) || state.isPressed() ) {
 		double h,l,s;
 		faceTmp.getHLS( h,l,s );
 		faceTmp.setHLS( h,0.85,s );
@@ -1159,7 +1345,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 	Color* face = &faceTmp;
 
 
-	if ( sliderInfo.vertical ) {
+	if ( state.isVertical() ) {
 
 		int x1 = rect->left_;
 		int x2 = rect->right_;
@@ -1167,7 +1353,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 		int y2 = rect->bottom_;
 
 
-		if ( sliderInfo.bottomRightTicks && sliderInfo.topLeftTicks ) {
+		if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
 			context_->setColor( face );
 			context_->rectangle( rect );
 			context_->fillPath();
@@ -1192,7 +1378,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 			context_->strokePath();
 		}
 		else {
-			if ( sliderInfo.topLeftTicks ) {
+			if ( state.isTickMarkingOnTopLeft() ) {
 				int xmid = x1 + ((y2-y1)/2);
 				int ymid = y1 + ((y2-y1)/2);
 
@@ -1232,7 +1418,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 				context_->strokePath();
 
 			}
-			else if (sliderInfo.bottomRightTicks) {
+			else if (state.isTickMarkingOnBottomRight()) {
 				int xmid = x2 - ((y2-y1)/2);
 				int ymid = y1 + ((y2-y1)/2);
 
@@ -1281,7 +1467,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 		int y2 = rect->bottom_;
 
 
-		if ( sliderInfo.bottomRightTicks && sliderInfo.topLeftTicks ) {
+		if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
 			context_->setColor( face );
 			context_->rectangle( rect );
 			context_->fillPath();
@@ -1306,7 +1492,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 			context_->strokePath();
 		}
 		else {
-			if ( sliderInfo.topLeftTicks ) {
+			if ( state.isTickMarkingOnTopLeft() ) {
 
 
 				int xmid = x1 + ((x2-x1)/2);
@@ -1350,7 +1536,7 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 
 				context_->strokePath();
 			}
-			else if (sliderInfo.bottomRightTicks) {
+			else if (state.isTickMarkingOnBottomRight()) {
 
 				int xmid = x1 + ((x2-x1)/2);
 				int ymid = y2 - ((x2-x1)/2);
@@ -1396,25 +1582,47 @@ void Win32Context::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
 	}
 }
 
-void Win32Context::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
+/**
+Draws a progress bar control, that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 {
 	Rect tmp = *rect;
+	
+	drawThemeEdge( &tmp, state, GraphicsContext::etAllSides, GraphicsContext::etSunken );
 
-	if ( sliderInfo.vertical ) {
-		tmp.left_ = tmp.left_ + rect->getWidth()/2.0;
-		tmp.right_ = tmp.left_;
-		tmp.inflate( 2, 0 );
+	tmp.inflate( -1, -1 );
+
+	Rect progressRect = tmp;	
+
+	double s = minVal<>( state.min_, state.max_ );
+	double e = maxVal<>( state.min_, state.max_ );
+
+	if ( state.isVertical() ) {
+		progressRect.top_ = progressRect.bottom_ - ((state.position_/fabs(e-s)) * tmp.getHeight());
 	}
-	else{
-		tmp.top_ = tmp.top_ + rect->getHeight()/2.0;
-		tmp.bottom_ = tmp.top_;
-		tmp.inflate( 0, 2 );
+	else {
+		progressRect.right_ = progressRect.left_ + ((state.position_/(e-s)) * tmp.getWidth());
 	}
 
-	context_->drawEdge( &tmp, GraphicsContext::etAllSides, GraphicsContext::etSunken );
+	Color* progressBarColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION );
+
+	context_->setColor( progressBarColor );
+	context_->rectangle( progressRect );
+	context_->fillPath();
 }
 
-void Win32Context::drawHeader( Rect* rect )
+void Win32Context::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
+{
+	drawImage( rect->left_, rect->top_, rect, image );
+}
+
+/**
+Draws a header control that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeHeader( Rect* rect, ButtonState& state )
 {
 	checkHandle();
 
@@ -1423,14 +1631,20 @@ void Win32Context::drawHeader( Rect* rect )
 	r.top = (long)rect->top_;
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
-	UINT state =  DFCS_BUTTONPUSH;
+	UINT hdrState =  DFCS_BUTTONPUSH;
 
-	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, state );
+	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, hdrState );
 
 	releaseHandle();
 }
 
-void Win32Context::drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle )
+/**
+draws edges, useful for separators, that is compliant
+with the native windowing systems default look and feel.
+use a mask or 1 or more values of type ContextPeer::EdgeType
+to indicate which sides of the rect to draw an edge on
+*/
+void Win32Context::drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle )
 {
 	checkHandle();
 
@@ -1485,24 +1699,87 @@ void Win32Context::drawEdge( Rect* rect, const long& edgeSides, const long& edge
 	releaseHandle();
 }
 
-void Win32Context::drawSizeGripper( Rect* rect )
+/**
+Draws a size gripper for resizing a control/window that is compliant
+with the native windowing systems default look and feel
+*/
+void Win32Context::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 {
 
 }
 
-void Win32Context::drawControlBackground( Rect* rect )
+/**
+Draws a them compliant background
+*/
+void Win32Context::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
+	Color* backColor = GraphicsToolkit::getSystemColor( state.colorType_ );
 
+	context_->setColor( backColor );
+	context_->rectangle( rect );
+	context_->fillPath();
 }
 
-void Win32Context::drawWindowBackground( Rect* rect )
+/**
+Draws the background appropriate for a menu item that is compliant
+with the native windowing systems default look and feel.
+This is typically called first by a menu item to give it a standard
+look and feel in it's background before drawing any thing else
+*/
+void Win32Context::drawThemeMenuItem( Rect* rect, MenuState& state )
 {
-
+			
 }
 
-void Win32Context::drawMenuItemBackground( Rect* rect, const bool& selected )
+void Win32Context::drawThemeText( Rect* rect, TextState& state )
 {
 
+	Font font;
+
+	switch ( state.themeFontType_ ) {
+		case GraphicsContext::ttMenuItemFont : {
+			
+		}
+		break;
+		
+		case GraphicsContext::ttSelectedMenuItemFont : {
+			
+		}
+		break;
+		
+		case GraphicsContext::ttSystemFont : {
+			
+		}
+		break;
+		
+		case GraphicsContext::ttSystemSmallFont : {
+			
+		}
+		break;
+		
+		case GraphicsContext::ttControlFont : {
+			
+		}
+		break;
+		
+		case GraphicsContext::ttMessageFont : {
+			
+		}
+		break;
+		
+		case GraphicsContext::ttToolTipFont : {
+			
+		}   
+		break;		
+	}
+
+	Font oldFont = *context_->getCurrentFont();
+
+	context_->setCurrentFont( &font );
+
+	context_->textBoundedBy( rect, state.text_, state.wrapText_ );
+
+	context_->setCurrentFont( &oldFont );
 }
 
 
@@ -1753,6 +2030,10 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
 *Revision 1.1.2.3  2004/06/30 20:05:53  ddiego
 *added Locale support to Font class, and added support in the
 *Win32Context class to check for the locale and set and appropriate

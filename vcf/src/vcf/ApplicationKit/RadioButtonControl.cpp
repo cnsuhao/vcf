@@ -9,7 +9,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/RadioButtonControl.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -64,18 +64,17 @@ void RadioButtonControl::paint( GraphicsContext* context )
 
 	r.left_ = radioBtnRect.right_;
 
-	context->drawRadioButtonRect( &radioBtnRect, checked_ );
-
-	r.inflate( -2.0, -2.0 );
-
-	if ( true == isFocused() ) {
-		context->drawSelectionRect( &r );
-	}
-
-	r.inflate( -1.0, -1.0 );
-	r.left_ = radioBtnRect.right_ + 5.0;
-
-	context->textBoundedBy( &r, caption_, false );
+	ButtonState state;
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	state.setPressed( checked_ );
+	state.setFocused( isFocused() );
+	state.buttonCaption_ = caption_;
+	if ( getUseLocaleStrings() ) {
+		state.buttonCaption_ = System::getCurrentThreadLocale()->translate( caption_ );
+	}	
+	
+	context->drawThemeRadioButtonRect( &radioBtnRect, state );
 }
 
 
@@ -157,8 +156,12 @@ RadioButtonControl* RadioButtonControl::getSelectedRadioButtonFromGroup()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.3  2004/06/18 17:45:04  ddiego
-*fixed bug in radio button control in implementation of setChecked().
+*Revision 1.1.2.4  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
 *
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections

@@ -12,7 +12,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/PushButton.h"
 #include "vcf/ApplicationKit/Action.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -48,27 +48,27 @@ PushButton::~PushButton()
 void PushButton::drawHighLighted( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
-	tmp.inflate( -1, -1 );
+	tmp.inflate( -1, 0 );
 
-	ctx->drawButtonRect( &tmp, isPressed_ );
-	if ( !isPressed_ ) {
-		tmp.inflate( 1, 1 );
-		ctx->setColor( Color::getColor( "black" ) );
-		ctx->moveTo( tmp.left_, tmp.top_ );
-		ctx->lineTo( tmp.left_, tmp.bottom_ );
-		ctx->moveTo( tmp.left_, tmp.top_ );
-		ctx->rectangle( &tmp );
-		ctx->strokePath();
-
-	}
+	ButtonState state;
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	state.setPressed( isPressed_ );
+	state.setFocused( true );	
+	ctx->drawThemeButtonRect( &tmp, state );	
 }
 
 void PushButton::drawNormal( Rect* rect, GraphicsContext* ctx )
 {
 	Rect tmp = *rect;
-	tmp.inflate( -1, -1 );
-
-	ctx->drawButtonRect( &tmp, isPressed_ );
+	tmp.inflate( -1, 0 );
+	ButtonState state;
+	state.setActive( true );
+	state.setEnabled( isEnabled() );
+	state.setPressed( isPressed_ );
+	state.setFocused( isFocused() || (this == UIToolkit::getDefaultButton()) );
+	
+	ctx->drawThemeButtonRect( &tmp, state );
 }
 
 void PushButton::drawImage( Rect* rect, Rect* imageRect, GraphicsContext* context )
@@ -194,41 +194,23 @@ void PushButton::paint(GraphicsContext * context)
 {
 	CustomControl::paint( context );
 	Rect r( 0,0,getWidth(), getHeight() );
-	r.inflate( 0, -1 );
+	r.inflate( -2, -3 );	
+	
+	ButtonState state;
+	state.setActive( isActive() );
+	state.setEnabled( isEnabled() );
+	state.setPressed( isPressed_ );
+	state.setFocused( isFocused() || (this == UIToolkit::getDefaultButton()) );
+	if ( showCaption_ ) {
+		state.buttonCaption_ = caption_;
 
-	r.normalize();
-
-	if ( (true == isHighlighted_)  ) {
-		drawHighLighted( &r, context );
-
+		if ( getUseLocaleStrings() ) {
+			state.buttonCaption_ = System::getCurrentThreadLocale()->translate( caption_ );
+		}
 	}
-	else {
-		drawNormal( &r, context );
-	}
+	
+	context->drawThemeButtonRect( &r, state );	
 
-	Rect imgRect(0, 0, 0, 0 );
-
-	drawImage( &r, &imgRect, context );
-
-	drawCaption( &r, &imgRect, context );
-
-
-
-
-	if ( this == UIToolkit::getDefaultButton() ) {
-
-		Rect rect = getClientBounds();
-		context->setColor( Color::getColor( "black" ) );
-		context->rectangle( &rect );
-		context->strokePath();
-	}
-
-	if ( true == isFocused() ) {
-		Rect rect = getClientBounds();
-		rect.inflate( -5, -5 );
-
-		context->drawSelectionRect( &rect );
-	}
 }
 
 void PushButton::click()
@@ -295,7 +277,7 @@ String PushButton::getCaption()
 
 double PushButton::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight ) + 6;
 }
 
 double PushButton::getPreferredWidth()
@@ -437,6 +419,16 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:14  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

@@ -35,7 +35,8 @@ void BasicFill::render( Path* path )
 
 
 		Matrix2D* currentXFrm = context_->getCurrentTransform();
-		Enumerator<PathPoint>* points = path->getPoints( currentXFrm );
+		std::vector<PathPoint> points;
+		path->getPoints( points, currentXFrm );
 
 		std::vector<Point> pts;
 
@@ -52,13 +53,15 @@ void BasicFill::render( Path* path )
 		*/
 
 		PathPoint pt, p2, c1, c2;
+		
+		std::vector<PathPoint>::iterator pathIt = points.begin();
 
 		agg::rendering_buffer* renderingBuffer = context_->getRenderingBuffer();
 		if ( (NULL == renderingBuffer) || (!antiAlias_) ){
 
 
-			while ( true == points->hasMoreElements() ) {
-				pt = points->nextElement();
+			while ( pathIt != points.end() ) {
+				pt = *pathIt;
 
 				switch ( pt.type_ ){
 					case PathPoint::ptMoveTo: {
@@ -77,13 +80,14 @@ void BasicFill::render( Path* path )
 					break;
 
 					case PathPoint::ptQuadTo: {
+						pathIt ++;					
+						c1 = *pathIt;
+						
+						pathIt ++;
+						c2 = *pathIt;
 
-
-						c1 = points->nextElement();
-
-						c2 = points->nextElement();
-
-						p2 = points->nextElement();
+						pathIt++;
+						p2 = *pathIt;
 
 						context_->curve( pt.point_.x_, pt.point_.y_,
 											c1.point_.x_, c1.point_.y_,
@@ -105,6 +109,8 @@ void BasicFill::render( Path* path )
 					}
 					break;
 				}
+				
+				pathIt ++;
 			}
 
 			if ( !pts.empty() ) {
@@ -127,8 +133,8 @@ void BasicFill::render( Path* path )
 			agg::rasterizer_scanline_aa<agg::scanline_u8, agg::gamma8> rasterizer;
 
 
-			while ( true == points->hasMoreElements() ) {
-				pt = points->nextElement();
+			while ( pathIt != points.end() ) {
+				pt = *pathIt;
 
 				switch ( pt.type_ ){
 					case PathPoint::ptMoveTo: {
@@ -145,11 +151,15 @@ void BasicFill::render( Path* path )
 
 						fillPath.move_to( pt.point_.x_, pt.point_.y_ );
 
-						c1 = points->nextElement();
+						pathIt++;
+						c1 = *pathIt;
 
-						c2 = points->nextElement();
+						pathIt++;
+						c2 = *pathIt;
 
-						p2 = points->nextElement();
+						pathIt++;
+						p2 = *pathIt;
+						
 						fillPath.curve4( c1.point_.x_, c1.point_.y_,
 										c2.point_.x_, c2.point_.y_,
 										p2.point_.x_, p2.point_.y_ );
@@ -166,6 +176,8 @@ void BasicFill::render( Path* path )
 					}
 					break;
 				}
+				
+				pathIt ++;
 			}
 
 			agg::conv_curve<agg::path_storage> smooth(fillPath);
@@ -185,6 +197,16 @@ void BasicFill::render( Path* path )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:30  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/07/06 03:27:13  ddiego
+*more osx updates that add proper support
+*for lightweight controls, some fixes to text layout, and some window painting issues. Also a fix
+*so that controls and windows paint either their default theme background or their background
+*color.
+*
 *Revision 1.1.2.2  2004/04/29 04:10:26  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

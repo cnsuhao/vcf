@@ -11,7 +11,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/DefaultTableCellItem.h"
 #include "vcf/ApplicationKit/BasicTableItemEditor.h"
 #include "vcf/ApplicationKit/TableModel.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -120,7 +120,9 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 		context->fillPath();
 
 		if ( this->isFocused() ) {
-			context->drawSelectionRect( &tmp );
+			DrawUIState state;
+			state.setFocused( true );
+			context->drawThemeSelectionRect( &tmp, state );
 		}
 
 	}
@@ -271,6 +273,13 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:29  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:13  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *

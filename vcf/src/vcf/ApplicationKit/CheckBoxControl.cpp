@@ -9,7 +9,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/CheckBoxControl.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -48,23 +48,23 @@ void CheckBoxControl::paint( GraphicsContext* context )
 		checkBtnRect.top_ = maxVal<double>( 0, r.top_ + (r.getHeight() / 2.0 - fixedCheckboxHeight_/2.0));
 		checkBtnRect.bottom_ = minVal<double>( r.bottom_, checkBtnRect.top_ + fixedCheckboxHeight_ );
 	}
+	
+	ButtonState buttonState;
+	buttonState.setActive( isActive() );
+	buttonState.setEnabled( isEnabled() );
+	//buttonState.setPressed( checked_ );
+	buttonState.setToggled( checked_ );
+	buttonState.setFocused( isFocused() && buttonState.isActive() );
+
+	if ( getUseLocaleStrings() ) {
+		buttonState.buttonCaption_ = System::getCurrentThreadLocale()->translate( caption_ );
+	}
 	else {
-		checkBtnRect.inflate( -3, -3 );
-	}
-	checkBtnRect.left_ += 3;
-	checkBtnRect.right_ = checkBtnRect.left_ + checkBtnRect.getHeight();
-	r.left_ = checkBtnRect.right_;
-
-	context->drawCheckboxRect( &checkBtnRect, checked_ );
-
-	r.inflate( -2, -2 );
-	if ( true == isFocused() ) {
-		context->drawSelectionRect( &r );
+		buttonState.buttonCaption_ = caption_;
 	}
 
-	r.inflate( -1, -1 );
-	r.left_ = checkBtnRect.right_ + 5;
-	context->textBoundedBy( &r, caption_, false );
+	
+	context->drawThemeCheckboxRect( &checkBtnRect, buttonState );
 }
 
 
@@ -84,6 +84,19 @@ void CheckBoxControl::setUseFixedCheckboxSize( const bool& fixedCheckboxSize )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2004/07/09 03:39:28  ddiego
+*merged in changes from the OSX branch for new theming API. Added
+*support for controlling the use of locale translated strings in components.
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
+*Revision 1.1.2.2.2.2  2004/07/09 02:01:28  ddiego
+*more osx updates
+*
+*Revision 1.1.2.2.2.1  2004/06/27 18:19:15  ddiego
+*more osx updates
+*
 *Revision 1.1.2.2  2004/04/29 03:43:12  marcelloptr
 *reformatting of source files: macros and csvlog and copyright sections
 *
