@@ -341,6 +341,23 @@ public:
 	};
 
 	/**
+	*comparison operator
+	*/
+	bool operator == ( const VariantData& v ) const {
+		return (	type == v.type &&
+		          ( ( type == pdString && StringVal == v.StringVal ) ||
+		            ( type != pdString && ObjVal == v.ObjVal ) )
+		          );
+	}
+
+	/**
+	*comparison operator
+	*/
+	bool operator != ( const VariantData& v ) const {
+		return ( !operator==( v ) );
+	}
+
+	/**
 	*Assigns an int value to the VariantData
 	*/
 	VariantData& operator=( const int& newValue ){
@@ -523,6 +540,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/02/24 05:51:05  marcelloptr
+*Added comparison operators to VariantData
+*
 *Revision 1.2.4.2  2004/12/24 04:53:59  marcelloptr
 *added support for unsigned int in VariantData. Fixed other glitches of this class.
 *
