@@ -3,9 +3,9 @@
 VERSION = 0.6.0
 VCFB_VERSION = 1.0.4
 
-HTMLHELP_COMPILER = "d:/Program Files/HTML Help Workshop/hhc.exe"
+HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
 
-XSL_HTMLHELP_IMPORT = "D:/dork/docbook/xsl/htmlhelp/htmlhelp.xsl"
+XSL_HTMLHELP_IMPORT = "D:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"
 
 RAW_CHM_FILENAME = vcf_docs.chm
 RAW_VCF_BUILDER_CHM_FILENAME = vcfbuilder_docs.chm
@@ -34,10 +34,24 @@ vcf.dsl \
 vcf.xsl
 
 
-VCF_BUILDER_DOCS = vcfbuilder_docbook.sgml \
-vcf.css \
-vcf.xsl \
-vcfbuilder.xsl
+VCF_BUILDER_DOCS = vcf.css vcfbuilder.xsl \
+vcfbuilder_docbook.sgml \
+vcfbuilder_ui.sgml \
+vcfbuilder_building.sgml \
+vcfbuilder_faq.sgml \
+vcfbuilder_versionctrl.sgml \
+vcfbuilder_debug.sgml \
+vcfbuilder_ide.sgml \
+vcfbuilder_wspprj.sgml \
+vcfbuilder_design.sgml \
+vcfbuilder_intro.sgml \
+vcfbuilder_designer.sgml \
+vcfbuilder_quicktut.sgml 
+
+
+XMAKE_DOCS = vcf.css xmake_docbook.sgml
+
+
 
 
 docs :  $(VCF_DOCS) test_tools
@@ -56,11 +70,8 @@ strip_online_docs :  online_docs stripper
 vcf_builder_docs : $(VCF_BUILDER_DOCS) test_tools
 	xsltproc --catalogs --docbook vcfbuilder.xsl vcfbuilder_docbook.sgml
 
-
-pdf : $(VCF_BUILDER_DOCS)
-	xsltproc --catalogs --docbook dbforpdf.xsl vcf_docbook.sgml > out.fo
-	xsltproc --catalogs dbforfop.xsl out.fo > out2.out
-
+xmake_docs : $(XMAKE_DOCS) test_tools
+	xsltproc --catalogs vcf.xsl xmake_docbook.sgml
 
 test_tools : 
 	if ( test -f $(HTMLHELP_COMPILER) )\

@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 CVS Log info
 $Log$
+Revision 1.1.2.6  2003/03/12 02:51:39  ddiego
+more documentation updates
+
 Revision 1.1.2.5  2003/03/10 03:58:34  ddiego
 fixes ot better support online html, plus the addition of a little C++
 program to stip stuff
@@ -51,7 +54,7 @@ and images
  <!--
  this uses a local path - may need to be modified for others
  -->
-	<xsl:import href="D:/dork/docbook/xsl/htmlhelp/htmlhelp.xsl"/>
+	<xsl:import href="D:/code/docbook-xsl-1.60.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
