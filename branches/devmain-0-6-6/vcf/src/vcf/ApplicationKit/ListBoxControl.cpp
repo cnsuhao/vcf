@@ -209,12 +209,23 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 
 		double realMaxWidth = currentMaxWidth_;
 		double realMaxHeight = currentMaxHeight_;
-		if ( (currentMaxHeight_ > getHeight())  ) {
-			realMaxWidth += scrollable->getVerticalScrollbarWidth();
-		}
+		if ( scrollable->getKeepScrollbarsVisible() ) {
+			if ( currentMaxHeight_ > (getHeight() - scrollable->getHorizontalScrollbarHeight()) ){
+				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
+			}
 
-		if ( currentMaxWidth_ > getWidth() ) {
-			realMaxHeight += scrollable->getHorizontalScrollbarHeight();
+			if ( currentMaxWidth_ > (getWidth() - scrollable->getVerticalScrollbarWidth()) ){
+				realMaxWidth += scrollable->getVerticalScrollbarWidth();
+			}
+		}
+		else {
+            if ( (currentMaxHeight_ > getHeight())  ) {
+				realMaxWidth += scrollable->getVerticalScrollbarWidth();
+			}
+
+			if ( currentMaxWidth_ > getWidth() ) {
+				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
+			}
 		}
 
 		scrollable->setVirtualViewHeight( realMaxHeight );
@@ -250,16 +261,27 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 
 		double realMaxWidth = currentMaxWidth_;
 		double realMaxHeight = currentMaxHeight_;
-		if ( (currentMaxHeight_ > getHeight())  ) {
-			realMaxWidth += scrollable->getVerticalScrollbarWidth();
-		}
+		if ( scrollable->getKeepScrollbarsVisible() ) {
+			if ( currentMaxHeight_ > (getHeight() - scrollable->getHorizontalScrollbarHeight()) ){
+				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
+			}
 
-		if ( currentMaxWidth_ > getWidth() ) {
-			realMaxHeight += scrollable->getHorizontalScrollbarHeight();
+			if ( currentMaxWidth_ > (getWidth() - scrollable->getVerticalScrollbarWidth()) ){
+				realMaxWidth += scrollable->getVerticalScrollbarWidth();
+			}
+		}
+		else {
+            if ( (currentMaxHeight_ > getHeight())  ) {
+				realMaxWidth += scrollable->getVerticalScrollbarWidth();
+			}
+
+			if ( currentMaxWidth_ > getWidth() ) {
+				realMaxHeight += scrollable->getHorizontalScrollbarHeight();
+			}
 		}
 
 		scrollable->setVirtualViewHeight( realMaxHeight );
-		scrollable->setVirtualViewWidth( realMaxWidth );
+		scrollable->setVirtualViewWidth( realMaxWidth );		
 	}
 
 	repaint();
@@ -683,6 +705,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2004/09/08 21:12:39  dougtinkham
+*modified onItemAdded for scrolling behavior
+*
 *Revision 1.2.2.3  2004/08/25 19:20:34  dougtinkham
 *modified onItemDeleted
 *
