@@ -72,7 +72,7 @@ namespace VCF {
 			currentPos_ = fmtStr_.find( "%" );
 			if ( String::npos == currentPos_ ) {
 				output_ += fmtStr_;
-				fmtStr_.resize(0);
+				fmtStr_.erase();
 			}
 		}
 		
@@ -114,7 +114,7 @@ namespace VCF {
 						}
 						else{
 							fmt = fmtStr_;						
-							fmtStr_.resize(0);
+							fmtStr_.erase();
 						}
 						
 						int cb = fmt.size()+256;
@@ -130,13 +130,13 @@ namespace VCF {
 				}
 				else {
 					output_ += fmtStr_;
-					fmtStr_.resize(0);
+					fmtStr_.erase();
 				}
 				
 				currentPos_ = fmtStr_.find( "%" );
 				if ( String::npos == currentPos_ ) {
 					output_ += fmtStr_;
-					fmtStr_.resize(0);
+					fmtStr_.erase();
 				}
 			}		
 			return *this;
@@ -176,7 +176,7 @@ namespace VCF {
 						}
 						else{
 							fmt = fmtStr_;						
-							fmtStr_.resize(0);
+							fmtStr_.erase();
 						}
 						
 						char* tmp = new char[fmt.size()+val.size()+10];
@@ -187,13 +187,13 @@ namespace VCF {
 				}
 				else {
 					output_ += fmtStr_;
-					fmtStr_.resize(0);
+					fmtStr_.erase();
 				}
 				
 				currentPos_ = fmtStr_.find( "%" );
 				if ( String::npos == currentPos_ ) {
 					output_ += fmtStr_;
-					fmtStr_.resize(0);
+					fmtStr_.erase();
 				}
 			}		
 			return *this;
@@ -266,6 +266,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2005/04/05 16:42:56  marcelloptr
+*introduced safer use of erase to clear a string
+*
 *Revision 1.1.2.5  2005/03/25 17:59:18  marcelloptr
 *added template specialization for String so to avoid problems with c_str() ansi_c_str()
 *
