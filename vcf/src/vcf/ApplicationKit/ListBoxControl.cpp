@@ -230,7 +230,11 @@ void ListBoxControl::onItemDeleted( ListModelEvent* event )
 	if ( item == singleSelectedItem_ ) {
 		singleSelectedItem_ = NULL;
 	}
-
+	
+	if ( item->isSelected() ) {
+		eraseFromSelectedItems( item );
+	}
+	
 	currentMaxHeight_ -= item->getBounds()->getHeight();
 
 	Scrollable* scrollable = getScrollable();
@@ -679,6 +683,9 @@ void ListBoxControl::setTextBounded( const bool& istextbounded ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2004/08/25 19:20:34  dougtinkham
+*modified onItemDeleted
+*
 *Revision 1.2.2.2  2004/08/21 02:38:28  ddiego
 *updated listbox
 *
