@@ -607,8 +607,8 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2005/02/16 16:10:51  marcelloptr
-*improved a message
+*Revision 1.2.4.3  2005/02/16 17:08:40  marcelloptr
+*improved an error message
 *
 *Revision 1.2.4.1  2004/12/10 22:32:42  ddiego
 *fixed bug in the Win32 file peer class that was not properly

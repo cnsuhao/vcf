@@ -798,8 +798,9 @@ void Win32FilePeer::open( const String& fileName, ulong32 openFlags, File::Share
 	if ( (NULL == fileHandle_) || (INVALID_HANDLE_VALUE == fileHandle_) ){
 		fileHandle_ = NULL;
 		//throw exception
-		int err = GetLastError();
-		throw BasicFileError( MAKE_ERROR_MSG_2("Unable to create the specified file " + winFileName));
+		String errmsg = VCFWin32::Win32Utils::getErrorString( GetLastError() );
+		StringUtils::trimWhiteSpaces( errmsg );
+		throw BasicFileError( MAKE_ERROR_MSG_2( errmsg + " - file: " + winFileName ) );
 	}
 }
 
@@ -971,6 +972,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/02/16 17:08:42  marcelloptr
+*improved an error message
+*
 *Revision 1.3.2.2  2004/12/11 17:50:00  ddiego
 *added 2 new projects that are command line tools. One is for
 *creating the basic shell for app bundles, the other is for filling in, or
