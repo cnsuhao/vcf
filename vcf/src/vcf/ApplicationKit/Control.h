@@ -745,8 +745,17 @@ public:
 	*/
 	void setColor( Color* color );
 
+	/**
+	* called just prior to completely destroying the control
+	* and it's associated memory.
+	*@see Component::beforeDestroy()
+	*/
 	virtual void beforeDestroy( ComponentEvent* event );
 
+	/**
+	* Special initializations may then happen here.
+	*@see Component::afterCreate()
+	*/
 	virtual void afterCreate( ComponentEvent* event );
 
 	/**
@@ -1318,6 +1327,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/04/09 17:20:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.4  2005/03/20 04:29:21  ddiego
 *added ability to set image lists for list box control.
 *

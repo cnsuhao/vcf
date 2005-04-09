@@ -62,8 +62,8 @@ void Win32ComboBox::createParams()
 void Win32ComboBox::addItem( ListItem * item )
 {
 	String caption = item->getCaption();
-	char* tmp = new char[caption.size()];
-	memset( tmp, 0, caption.size() );
+	VCFChar* tmp = new VCFChar[caption.size()];
+	memset( tmp, 0, caption.size()*sizeof(VCFChar) );
 	caption.copy( tmp, caption.size() );
 	int index = ::SendMessage( this->hwnd_, CB_ADDSTRING, 0, (LPARAM)caption.c_str() );
 	item->setIndex( index );
@@ -109,6 +109,9 @@ void Win32ComboBox::setBounds( VCF::Rect* rect )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

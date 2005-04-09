@@ -491,6 +491,7 @@ UnicodeString Win32LocalePeer::toString( const int& val )
 
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%d", val );
 
 		NUMBERFMTW fmt = {0};
@@ -511,6 +512,7 @@ UnicodeString Win32LocalePeer::toString( const int& val )
 	}
 	else {
 		char tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%d", val );
 
 		NUMBERFMTA fmt = {0};
@@ -518,7 +520,7 @@ UnicodeString Win32LocalePeer::toString( const int& val )
 
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
 
 
@@ -539,6 +541,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned int& val )
 
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%d", val );
 
 		NUMBERFMTW fmt = {0};
@@ -559,6 +562,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned int& val )
 	}
 	else {
 		char tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%d", val );
 
 		NUMBERFMTA fmt = {0};
@@ -566,7 +570,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned int& val )
 
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
 
 
@@ -586,6 +590,7 @@ UnicodeString Win32LocalePeer::toString( const long& val )
 	UnicodeString result;
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%d", val );
 
 		NUMBERFMTW fmt = {0};
@@ -606,6 +611,7 @@ UnicodeString Win32LocalePeer::toString( const long& val )
 	}
 	else {
 		char tmp[256];;
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%d", val );
 
 		NUMBERFMTA fmt = {0};
@@ -613,7 +619,7 @@ UnicodeString Win32LocalePeer::toString( const long& val )
 
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
 
 
@@ -634,6 +640,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned long& val )
 
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%d", val );
 
 		NUMBERFMTW fmt = {0};
@@ -654,6 +661,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned long& val )
 	}
 	else {
 		char tmp[256];;
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%d", val );
 
 		NUMBERFMTA fmt = {0};
@@ -661,7 +669,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned long& val )
 
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, &fmt, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, &fmt, numStr, size );
 
 
@@ -683,6 +691,7 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%.08f", val );
 
 		NUMBERFMTW fmt = {0};
@@ -703,6 +712,7 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 	}
 	else {
 		char tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%.08f", val );
 
 		NUMBERFMTA fmt = {0};
@@ -710,7 +720,7 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
 
 
@@ -731,6 +741,7 @@ UnicodeString Win32LocalePeer::toString( const float& val )
 
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%.08f", val );
 
 		NUMBERFMTW fmt = {0};
@@ -751,6 +762,7 @@ UnicodeString Win32LocalePeer::toString( const float& val )
 	}
 	else {
 		char tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%.08f", val );
 
 		NUMBERFMTA fmt = {0};
@@ -758,7 +770,7 @@ UnicodeString Win32LocalePeer::toString( const float& val )
 
 		int size = ::GetNumberFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
 
 		delete [] fmt.lpDecimalSep;
@@ -779,6 +791,7 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		swprintf( tmp, L"%.08f", val );
 
 		int size = ::GetCurrencyFormatW( lcid_, 0, tmp, NULL, NULL, 0 );
@@ -792,11 +805,12 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 	}
 	else {
 		char tmp[256];
+		memset(tmp,0,sizeof(tmp));
 		sprintf( tmp, "%.08f", val );
 
 		int size = ::GetCurrencyFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
-		memset(numStr,0,size+1);
+		memset(numStr,0,(size+1)*sizeof(char));
 		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
 
 
@@ -1040,7 +1054,7 @@ UnicodeString Win32LocalePeer::toLowerCase( const UnicodeString& s )
 		int size = LCMapStringA( lcid_, LCMAP_LOWERCASE, ansiStr, ansiSize, NULL, 0 );
 
 		char* tmp = new char[size+1];
-		memset( tmp, 0, size+1);
+		memset( tmp, 0, (size+1)*sizeof(char));
 
 		LCMapStringA( lcid_, LCMAP_LOWERCASE, ansiStr, ansiSize, tmp, size );
 
@@ -1076,7 +1090,7 @@ UnicodeString Win32LocalePeer::toUpperCase( const UnicodeString& s )
 		int size = LCMapStringA( lcid_, LCMAP_UPPERCASE, ansiStr, ansiSize, NULL, 0 );
 
 		char* tmp = new char[size+1];
-		memset( tmp, 0, size+1);
+		memset( tmp, 0, (size+1)*sizeof(char));
 
 		LCMapStringA( lcid_, LCMAP_UPPERCASE, ansiStr, ansiSize, tmp, size );
 
@@ -1427,7 +1441,7 @@ UnicodeString Win32LocalePeer::toStringFromDate( const DateTime& val, const Unic
 
 		size = GetDateFormatW( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		VCFChar* dateStr = new VCFChar[size+1];
-		memset(dateStr,0,size+1);
+		memset(dateStr,0,(size+1)*sizeof(VCFChar));
 
 
 		GetDateFormatW( lcid_, flags, &timeVal, formatStr, dateStr, size );
@@ -1444,7 +1458,7 @@ UnicodeString Win32LocalePeer::toStringFromDate( const DateTime& val, const Unic
 
 		size = GetDateFormatA( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		char* dateStr = new char[size+1];
-		memset(dateStr,0,size+1);
+		memset(dateStr,0,(size+1)*sizeof(char));
 
 
 		GetDateFormatA( lcid_, flags, &timeVal, formatStr, dateStr, size );
@@ -1490,7 +1504,7 @@ UnicodeString Win32LocalePeer::toStringFromTime( const DateTime& val, const Unic
 
 		int size = GetTimeFormatW( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		VCFChar* dateStr = new VCFChar[size+1];
-		memset(dateStr,0,size+1);
+		memset(dateStr,0,(size+1)*sizeof(VCFChar));
 
 
 		GetTimeFormatW( lcid_, flags, &timeVal, formatStr, dateStr, size );
@@ -1507,7 +1521,7 @@ UnicodeString Win32LocalePeer::toStringFromTime( const DateTime& val, const Unic
 
 		int size = GetTimeFormatA( lcid_, flags, &timeVal, formatStr, NULL, 0 );
 		char* dateStr = new char[size+1];
-		memset(dateStr,0,size+1);
+		memset(dateStr,0,(size+1)*sizeof(char));
 
 
 		GetTimeFormatA( lcid_, flags, &timeVal, formatStr, dateStr, size );
@@ -2736,6 +2750,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/04/09 17:21:32  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3  2004/12/01 04:31:42  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

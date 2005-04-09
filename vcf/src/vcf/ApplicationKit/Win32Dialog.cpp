@@ -248,7 +248,7 @@ void Win32Dialog::showMessage( const String& message, const String& caption )
 
 	if ( tmp == "" ){
 		TCHAR modFilename[MAX_PATH];
-		memset(modFilename, 0, MAX_PATH );
+		memset(modFilename, 0, sizeof(modFilename) );
 		GetModuleFileName( GetModuleHandle(NULL), modFilename, MAX_PATH );
 		tmp = modFilename;
 		FilePath fp = tmp;
@@ -332,7 +332,7 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 
 	if ( tmp == "" ){
 		TCHAR modFilename[MAX_PATH];
-		memset(modFilename, 0, MAX_PATH );
+		memset(modFilename, 0, sizeof(modFilename) );
 		GetModuleFileName( GetModuleHandle(NULL), modFilename, MAX_PATH );
 		tmp = modFilename;
 		FilePath fp = tmp;
@@ -402,6 +402,9 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.4.2.3  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

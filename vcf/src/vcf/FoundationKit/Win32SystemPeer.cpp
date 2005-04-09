@@ -85,7 +85,7 @@ String Win32SystemPeer::getEnvironmentVariable( const String& variableName )
 	}
 	else {
 		char path[4096];
-		memset( path, 0, 4096 );
+		memset( path, 0, sizeof(path) );
 		ret = ::GetEnvironmentVariableA( variableName.ansi_c_str(), path, 4096-1 );
 		if ( ret ) {
 			result = path;
@@ -478,8 +478,8 @@ String Win32SystemPeer::getCommonDirectory( System::CommonDirectory directory )
 						RegQueryValueExW( key, L"TEMP", 0, &type, NULL, &size );
 						if ( size > 0 ) {
 							BYTE* buf = NULL;
-							buf = new BYTE[size+sizeof(VCF::WideChar)];
-							memset( buf, 0, size+sizeof(VCF::WideChar) );
+							buf = new BYTE[(size+1)*sizeof(VCF::WideChar)];
+							memset( buf, 0, (size+1)*sizeof(VCF::WideChar) );
 							if ( ERROR_SUCCESS == RegQueryValueExW( key, L"TEMP", 0, &type, buf, &size ) ) {								
 								result = (VCF::WideChar*)buf;
 							}
@@ -494,7 +494,7 @@ String Win32SystemPeer::getCommonDirectory( System::CommonDirectory directory )
 						if ( size > 0 ) {
 							BYTE* buf = NULL;
 							buf = new BYTE[size+1];
-							memset( buf, 0, size+1 );
+							memset( buf, 0, (size+1)*sizeof(BYTE) );
 							if ( ERROR_SUCCESS == RegQueryValueExA( key, "TEMP", 0, &type, buf, &size ) ) {
 								buf[size] = 0;
 								result = (char*)buf;
@@ -544,8 +544,8 @@ String Win32SystemPeer::getCommonDirectory( System::CommonDirectory directory )
 						RegQueryValueExW( key, L"TEMP", 0, &type, NULL, &size );
 						if ( size > 0 ) {
 							BYTE* buf = NULL;
-							buf = new BYTE[size+sizeof(VCF::WideChar)];
-							memset( buf, 0, size+sizeof(VCF::WideChar) );
+							buf = new BYTE[(size+1)*sizeof(VCF::WideChar)];
+							memset( buf, 0, (size+1)*sizeof(VCF::WideChar) );
 							if ( ERROR_SUCCESS == RegQueryValueExW( key, L"TEMP", 0, &type, buf, &size ) ) {								
 								VCF::WideChar tmp[MAX_PATH];
 								ExpandEnvironmentStringsW( (VCF::WideChar*)buf, tmp, MAX_PATH );
@@ -562,7 +562,7 @@ String Win32SystemPeer::getCommonDirectory( System::CommonDirectory directory )
 						if ( size > 0 ) {
 							BYTE* buf = NULL;
 							buf = new BYTE[size+1];
-							memset( buf, 0, size+1 );
+							memset( buf, 0, (size+1)*sizeof(BYTE) );
 							if ( ERROR_SUCCESS == RegQueryValueExA( key, "TEMP", 0, &type, buf, &size ) ) {
 								char tmp[MAX_PATH];
 								ExpandEnvironmentStringsA( (char*)buf, tmp, MAX_PATH );
@@ -634,6 +634,9 @@ String Win32SystemPeer::getUserName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/04/09 17:21:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.4  2005/03/26 00:10:30  ddiego
 *added some minor funs to system class
 *

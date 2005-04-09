@@ -1147,7 +1147,7 @@ void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 			//String caption = item->getCaption();
 
 			//VCFChar* tmp = new VCFChar[ caption.size()+1 ];
-			//memset( tmp, 0, sizeof(VCFChar)*(caption.size()+1) );
+			//memset( tmp, 0, (caption.size()+1)*sizeof(VCFChar) );
 			//caption.copy( tmp, caption.size() );
 
 
@@ -1166,7 +1166,7 @@ void Win32Listview::insertItem( const unsigned long& index, ListItem * item )
 			//AnsiString caption = item->getCaption();
 
 			//char* tmp = new char[ caption.size()+1 ];
-			//memset( tmp, 0, sizeof(char)*(caption.size()+1) );
+			//memset( tmp, 0, (caption.size()+1)*sizeof(char) );
 			//caption.copy( tmp, caption.size() );
 
 
@@ -1620,7 +1620,7 @@ void Win32Listview::insertHeaderColumn( const unsigned long& index, const String
 		column.fmt = LVCFMT_LEFT;
 
 		VCFChar* tmp = new VCFChar[columnName.size()+1];
-		memset( tmp, 0, sizeof(VCFChar)*(columnName.size()+1) );
+		memset( tmp, 0, (columnName.size()+1)*sizeof(VCFChar) );
 
 		columnName.copy( tmp, columnName.size() );
 
@@ -1661,7 +1661,7 @@ void Win32Listview::insertHeaderColumn( const unsigned long& index, const String
 		column.fmt = LVCFMT_LEFT;
 
 		char* tmp = new char[tmpColName.size()+1];
-		memset( tmp, 0, sizeof(char)*(tmpColName.size()+1) );
+		memset( tmp, 0, (tmpColName.size()+1)*sizeof(char) );
 
 		tmpColName.copy( tmp, tmpColName.size() );
 
@@ -1876,8 +1876,8 @@ void Win32Listview::onItemChanged( ItemEvent* event )
 						String caption = item->getCaption();
 						lvItem.cchTextMax = caption.size();
 						lvItem.iItem = item->getIndex();
-						char* tmp = new char[lvItem.cchTextMax];
-						memset( tmp, 0, lvItem.cchTextMax );
+						TCHAR* tmp = new TCHAR[lvItem.cchTextMax];
+						memset( tmp, 0, lvItem.cchTextMax * sizeof(TCHAR) );
 						caption.copy( tmp, lvItem.cchTextMax );
 						lvItem.pszText = tmp;
 						ListView_SetItem( hwnd_, &lvItem );
@@ -1929,7 +1929,7 @@ void Win32Listview::onItemChanged( ItemEvent* event )
 				lvItem.iItem = item->getIndex();
 
 				//char* tmp = new char[lvItem.cchTextMax];
-				//memset( tmp, 0, lvItem.cchTextMax );
+				//memset( tmp, 0, lvItem.cchTextMax * sizeof(char) );
 				//caption.copy( tmp, lvItem.cchTextMax-1 );
 				lvItem.pszText = LPSTR_TEXTCALLBACKA;
 				SendMessage( hwnd_, LVM_SETITEMA, 0, (LPARAM)&lvItem );
@@ -2046,7 +2046,7 @@ void Win32Listview::setColumnName( const unsigned long& index, const String& col
 		columnInfo.cchTextMax = tmpColName.size();
 
 		char* tmp = new char[columnInfo.cchTextMax+1];
-		memset(tmp,0,columnInfo.cchTextMax+1);
+		memset(tmp,0,(columnInfo.cchTextMax+1)*sizeof(char));
 		tmpColName.copy( tmp, columnInfo.cchTextMax );
 
 		columnInfo.pszText = tmp;
@@ -2409,6 +2409,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.4  2005/03/07 01:59:50  ddiego
 *minor fix to win32 scroll peer, and fix to win32 list view for display of list items.
 *

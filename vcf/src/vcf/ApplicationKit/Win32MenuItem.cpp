@@ -117,7 +117,7 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 	info.cch = itemName.size();
 
 	char* tmpName = new char[info.cch+1];
-	memset( tmpName, 0, info.cch+1 );
+	memset( tmpName, 0, (info.cch+1)*sizeof(char) );
 	itemName.copy( tmpName, info.cch );
 
 	info.dwTypeData = tmpName;
@@ -514,7 +514,7 @@ void Win32MenuItem::setCaption( const String& caption )
 					info.cch = tmpCaption.size();
 
 					char* tmpName = new char[info.cch+1];
-					memset( tmpName, 0, info.cch+1 );
+					memset( tmpName, 0, (info.cch+1)*sizeof(char) );
 					tmpCaption.copy( tmpName, info.cch );
 
 					info.dwTypeData = tmpName;
@@ -877,6 +877,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.6  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.4.5  2005/03/15 01:51:50  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

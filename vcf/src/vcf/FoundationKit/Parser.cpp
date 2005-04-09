@@ -36,7 +36,7 @@ void Parser::resetStream()
 	memset( buffer_, 0, (strSize+1) * sizeof(VCFChar) );
 
 	char* tmp = new char[ strSize+1 ];
-	memset( tmp, 0, (strSize+1) );
+	memset( tmp, 0, (strSize+1) * sizeof(char) );
 
 	stream_->seek( 0, stSeekFromStart );
 
@@ -313,6 +313,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/09 17:21:30  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.4.1  2005/03/15 01:51:51  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

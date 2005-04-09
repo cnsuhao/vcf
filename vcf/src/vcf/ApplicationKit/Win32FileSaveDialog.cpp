@@ -42,10 +42,10 @@ void Win32FileSaveDialog::setTitle( const String& title )
 	title_ = title;
 }
 
-bool Win32FileSaveDialog::execute()
+bool Win32FileSaveDialog::executeW()
 {
 
-	OPENFILENAME ofn;
+	OPENFILENAMEW ofn;
 	memset( &ofn, 0, sizeof(OPENFILENAME) );
 	ofn.lStructSize = sizeof(ofn);
 	HWND ownerWnd = NULL;
@@ -59,23 +59,28 @@ bool Win32FileSaveDialog::execute()
 
 	ofn.hwndOwner = ownerWnd;
 	ofn.hInstance = NULL;
-	TCHAR tmpFileName[_MAX_PATH];
-	memset(tmpFileName, 0, _MAX_PATH);
-	TCHAR tmpDir[_MAX_PATH];
-	memset(tmpDir, 0, _MAX_PATH);
-	directory_.copy( tmpDir, directory_.size() );
 
-	fileName_.copy( tmpFileName, fileName_.size() );
+	WCHAR tmpFileName[_MAX_PATH];
+	memset(tmpFileName, 0, sizeof(tmpFileName));
+	String fileName = FilePath::transformToOSSpecific( fileName_ );
+	fileName.copy( tmpFileName, fileName.size() );
+
+	WCHAR tmpDir[_MAX_PATH];
+	memset(tmpDir, 0, sizeof(tmpDir));
+	String directory = FilePath::transformToOSSpecific( directory_ );
+	directory.copy( tmpDir, directory.size() );
 
 	ofn.lpstrFile = tmpFileName;
 	ofn.lpstrInitialDir = tmpDir;
 	ofn.nMaxFile = _MAX_PATH;
 
-	TCHAR* tmpTitle = NULL;
-	if ( title_.size() > 0 ){
-		tmpTitle = new TCHAR[title_.size()+1];
-		memset( tmpTitle, 0, title_.size()+1 );
-		title_.copy( tmpTitle, title_.size() );
+	WCHAR* tmpTitle = NULL;
+
+	size_t titleSz = title_.size();
+	if ( titleSz > 0 ){
+		tmpTitle = new WCHAR[titleSz+1];
+		memset( tmpTitle, 0, (titleSz+1)*sizeof(WCHAR) );
+		title_.copy( tmpTitle, titleSz );
 	}
 
 	ofn.lpstrTitle = tmpTitle;
@@ -103,7 +108,7 @@ bool Win32FileSaveDialog::execute()
 
 			String s = *filter;
 			if ( String::npos != s.find( selectedFilter_ ) ) {
-				selectedFilterIndex = (filter - filter_.begin())+1;
+				selectedFilterIndex = ((filter - filter_.begin())/2)+1;
 				break;
 			}
 
@@ -113,8 +118,8 @@ bool Win32FileSaveDialog::execute()
 
 
 	int size = _MAX_PATH * filter_.size();
-	TCHAR *tmpFilter = new TCHAR[size];
-	memset( tmpFilter, 0, size );
+	WCHAR *tmpFilter = new WCHAR[size];
+	memset( tmpFilter, 0, size*sizeof(WCHAR) );
 
 	filter = filter_.begin();
 	String tmp;
@@ -125,7 +130,7 @@ bool Win32FileSaveDialog::execute()
 	tmp += '\0';
 	tmp.copy( tmpFilter, tmp.size() );
 
-	ofn.lpstrFilter = 	tmpFilter;
+	ofn.lpstrFilter = tmpFilter;
 	ofn.nFilterIndex = selectedFilterIndex;
 
 	bool result = false;
@@ -134,14 +139,157 @@ bool Win32FileSaveDialog::execute()
 
 	selectedFilter_ = "";
 
-	if ( GetSaveFileName( &ofn ) ){
+	if ( GetSaveFileNameW( &ofn ) ){
+		result = true;
+		WCHAR* fileStart = (WCHAR*)(ofn.lpstrFile + (ofn.nFileOffset-1));
+		if ( *fileStart == '\0' ){
+
+			directory_ = ofn.lpstrFile; //this represents the dir path - everything after this will be the file names
+
+			WCHAR* s = fileStart + 1;
+			bool atTheEnd = false;
+			if ( *(s+1) == '\0' ){//double null terminators end the string
+				atTheEnd = true;
+			}
+			while ( !atTheEnd ){
+				selectedFiles_.push_back( s );
+				while ( *s != '\0' ){
+					s++;
+				}
+				s++;//increment past the null seperator
+				if ( *(s+1) == '\0' ){
+					atTheEnd = true;
+				}
+			}
+			fileName_ = "";
+		}
+		else {
+			fileName_ = ofn.lpstrFile;
+			FilePath fp = fileName_;
+			directory_ = fp.getPathName(true);
+		}
+
+		if ( ofn.nFilterIndex > 0 ) {
+			int index = ((ofn.nFilterIndex-1) * 2) + 1;
+
+			selectedFilter_ = filter_[index];
+		}
+
+	}
+
+
+	delete [] tmpFilter;
+
+	delete [] tmpTitle;
+
+	return result;
+}
+
+bool Win32FileSaveDialog::executeA()
+{
+
+	OPENFILENAMEA ofn;
+	memset( &ofn, 0, sizeof(OPENFILENAME) );
+	ofn.lStructSize = sizeof(ofn);
+	HWND ownerWnd = NULL;
+	if ( NULL != owner_ ){
+		ControlPeer* impl = owner_->getPeer();
+		ownerWnd = (HWND)impl->getHandleID();
+	}	
+	else {
+		ownerWnd = ::GetActiveWindow();
+	}
+
+	ofn.hwndOwner = ownerWnd;
+	ofn.hInstance = NULL;
+
+	char tmpFileName[_MAX_PATH];
+	memset(tmpFileName, 0, sizeof(tmpFileName));
+	String fileName = FilePath::transformToOSSpecific( fileName_ );
+	fileName.copy( tmpFileName, fileName.size() );
+
+	char tmpDir[_MAX_PATH];
+	memset(tmpDir, 0, sizeof(tmpDir));
+	String directory = FilePath::transformToOSSpecific( directory_ );
+	directory.copy( tmpDir, directory.size() );
+
+
+	ofn.lpstrFile = tmpFileName;
+	ofn.lpstrInitialDir = tmpDir;
+	ofn.nMaxFile = _MAX_PATH;
+
+	char* tmpTitle = NULL;
+	size_t titleSz = title_.size();
+	if ( titleSz > 0 ){
+		tmpTitle = new char[titleSz+1];
+		memset( tmpTitle, 0, (titleSz+1)*sizeof(char) );
+		title_.copy( tmpTitle, titleSz );
+	}
+
+	ofn.lpstrTitle = tmpTitle;
+
+	ofn.Flags = OFN_EXPLORER;
+
+	if ( true == allowsMultiSelect_ ){
+		ofn.Flags |= OFN_ALLOWMULTISELECT;
+	}
+
+	if ( filter_.size() == 0 ) {//then add a default filter
+		filter_.push_back( "Any File" );
+		filter_.push_back( "*.*" );
+	}
+
+
+	int selectedFilterIndex = 0;
+
+	std::vector<String>::iterator filter = filter_.begin();
+
+	if ( !selectedFilter_.empty() ) {
+		std::vector<String>::iterator filter = filter_.begin();
+		while ( filter != filter_.end() ){
+			filter++;
+
+			String s = *filter;
+			if ( String::npos != s.find( selectedFilter_ ) ) {
+				selectedFilterIndex = ((filter - filter_.begin())/2)+1;
+				break;
+			}
+
+			filter++;
+		}
+	}
+
+
+	int size = _MAX_PATH * filter_.size();
+	char *tmpFilter = new char[size];
+	memset( tmpFilter, 0, size*sizeof(char) );
+
+	filter = filter_.begin();
+	String tmp;
+	while ( filter != filter_.end() ){
+		tmp += *filter + '\0';
+		filter++;
+	}
+	tmp += '\0';
+	tmp.copy( tmpFilter, tmp.size() );
+
+	ofn.lpstrFilter = tmpFilter;
+	ofn.nFilterIndex = selectedFilterIndex;
+
+	bool result = false;
+
+	selectedFiles_.clear();
+
+	selectedFilter_ = "";
+
+	if ( GetSaveFileNameA( &ofn ) ){
 		result = true;
 		char* fileStart = (char*)(ofn.lpstrFile + (ofn.nFileOffset-1));
 		if ( *fileStart == '\0' ){
 
 			directory_ = ofn.lpstrFile; //this represents the dir path - everything after this will be the file names
 
-			TCHAR* s = fileStart + 1;
+			char* s = fileStart + 1;
 			bool atTheEnd = false;
 			if ( *(s+1) == '\0' ){//double null terminators end the string
 				atTheEnd = true;
@@ -179,6 +327,19 @@ bool Win32FileSaveDialog::execute()
 	delete [] tmpTitle;
 
 	return result;
+}
+
+bool Win32FileSaveDialog::execute()
+{
+	bool result = false;
+	if ( System::isUnicodeEnabled() ) {
+		result = executeW();
+	}
+	else {
+		result = executeA();
+	}
+	return result;
+
 }
 
 void Win32FileSaveDialog::addFilter( const String & description, const String & extension )
@@ -236,6 +397,9 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.4.2  2005/03/28 18:16:51  marcelloptr
 *minor fixes: TCHAR removed
 *

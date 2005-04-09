@@ -497,7 +497,7 @@ public:
 
 	virtual String toString(){
 		char tmp[256];
-		memset( tmp, 0, 256 );
+		memset( tmp, 0, sizeof(tmp) );
 		sprintf( tmp, "#%02X%02X%02X", (int)(r_*255.0), (int)(g_*255.0), (int)(b_*255.0) );
 		return String(tmp);
 	};
@@ -1964,6 +1964,9 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/09 17:21:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.3  2005/03/15 01:51:53  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

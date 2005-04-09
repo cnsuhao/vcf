@@ -839,7 +839,7 @@ void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
 				}
 			}
 
-		} // MP-end
+		}
 		else {
 			ListItem* item = this->getSelectedItem();
 			if ( NULL != item ) {
@@ -1046,6 +1046,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/04/09 17:20:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.11  2005/03/10 00:17:27  marcelloptr
 *set discrete scrolling as default behaviour for ListBoxControls
 *

@@ -114,7 +114,7 @@ String VCF::Rect::toString() const
 	String result = "";
 
 	char tmp[256];
-	memset(tmp, 0, 256 );
+	memset(tmp, 0, sizeof(tmp) );
 	sprintf( tmp, "%.3f,%.3f,%.3f,%.3f", left_, top_, right_, bottom_ );
 
 	result = tmp;
@@ -248,6 +248,9 @@ Rect VCF::Rect::makeUnion( const Rect* rect )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/09 17:21:39  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.1  2005/02/10 04:39:59  augusto_roman
 ** Fixed rect::makeIntersection routine to correctly compute intersections when rects have common edges
 ** Fixed black background on image transformations (made background alpha 0)

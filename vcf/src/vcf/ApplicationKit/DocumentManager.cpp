@@ -255,8 +255,8 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 		caption = app->getName();
 	}
 	MessageDialog saveDocPrompt;
-	String message = StringUtils::format( Format("Do you want to save the changes you made to document \"%s\" ?") %
-											document->getName() );
+	String message = StringUtils::format( Format("Do you want to save the changes you made to the document \"%s\" ?") %
+	                                              document->getName() );
 
 	saveDocPrompt.setMessage( message );
 	saveDocPrompt.setCaption( caption );
@@ -603,6 +603,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/04/09 17:20:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.7  2005/03/31 01:25:01  ddiego
 *fixed a string format glitch in doc mgr.
 *
