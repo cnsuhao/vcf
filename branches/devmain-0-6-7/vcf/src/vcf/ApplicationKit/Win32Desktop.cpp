@@ -102,7 +102,7 @@ String Win32Desktop::desktopGetDirectory()
 		}
 		else {
 			char desktopPath[MAX_PATH];
-			memset( desktopPath, 0, MAX_PATH );
+			memset( desktopPath, 0, MAX_PATH*sizeof(char) );
 			LPITEMIDLIST pidl;
 
 			hr = ::SHGetSpecialFolderLocation(NULL, CSIDL_DESKTOP, &pidl);
@@ -182,6 +182,9 @@ Rect Win32Desktop::desktopGetUsableBounds()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.4.1  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

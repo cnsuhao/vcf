@@ -74,28 +74,31 @@ public:
 
 protected:
 	InputStream* stream_;
-    long origin_;
-    VCFChar* buffer_;
+	long origin_;
+	VCFChar* buffer_;
 	VCFChar* bufPtr_;
 	VCFChar* bufEnd_;
 	VCFChar* sourcePtr_;
-    VCFChar* sourceEnd_;
-    VCFChar* tokenPtr_;
-    VCFChar* stringPtr_;
-    long sourceLine_;
-    VCFChar saveChar_;
-    VCFChar token_;
+	VCFChar* sourceEnd_;
+	VCFChar* tokenPtr_;
+	VCFChar* stringPtr_;
+	long sourceLine_;
+	VCFChar saveChar_;
+	VCFChar token_;
 
-    void skipBlanks();
+	void skipBlanks();
 };
 
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/09 17:21:32  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

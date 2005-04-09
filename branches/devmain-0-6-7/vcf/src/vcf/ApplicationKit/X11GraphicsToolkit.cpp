@@ -112,7 +112,7 @@ X11GraphicsToolkit::~X11GraphicsToolkit()
 
 	if ( !colorLookupMap_.empty() ) {
 		unsigned long*  pixels = new unsigned long[colorLookupMap_.size()+1];
-		memset( pixels, 0, sizeof(unsigned long) * colorLookupMap_.size()+1 );
+		memset( pixels, 0, (colorLookupMap_.size()+1) * sizeof(unsigned long) );
 
 		Colormap colorMap = DefaultColormap( X11Display_, X11ScreenID_ );
 
@@ -371,6 +371,9 @@ String X11GraphicsToolkit::getUserFontsPath()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

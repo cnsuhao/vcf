@@ -334,7 +334,7 @@ void Win32Image::internal_saveToFile( const String& fileName )
 
 	unsigned char* tmpRow = row;
 	for ( int y=height-1;y>=0;y-- ) {
-		memset( row, 0, width );
+		memset( row, 0, width * sizeof(unsigned char) );
 		tmpRow = row;
 		for (unsigned long x=0;x<imgWidth;x++ ) {
 			if ( xx < width ) {
@@ -563,6 +563,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/09 17:21:39  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.3  2005/04/03 18:13:45  ddiego
 *fixed bug 1175667 - Lack of SysTray Icon Transparency.
 *

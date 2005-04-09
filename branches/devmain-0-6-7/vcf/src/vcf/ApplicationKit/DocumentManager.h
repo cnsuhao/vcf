@@ -298,6 +298,18 @@ public:
 	}
 
 	/**
+	* save a document into a file.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param Document* doc, the document.
+	*@param const String& newFileName, the new destination filename. By default it is empty
+	* so the user is prompted with a dialog.
+	*@return bool, true if the operation completed successfully.
+	*/
+	virtual bool saveFileAs( Document* document, const String& newFileName=L"" ){
+		return false;
+	}
+
+	/**
 	* opens a document instance from a file.
 	* the mime type identifying the document is extracted from
 	* the file extension stored with all the DocumentInfo(s)
@@ -325,6 +337,14 @@ public:
 	*/
 	virtual void closeCurrentDocument(){
 	
+	};
+
+	/**
+	* reloads a file for an existing document.
+	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*/
+	virtual void reloadDocument( Document* document ) {
+
 	};
 
 	/**
@@ -701,7 +721,10 @@ public:
 
 	/**
 	* save a document into a file.
-	* the standard behaviour is to show a dialog asking the user which file to open.
+	* the standard behaviour is simply save the file, and to create a backup copy first
+	* if the document specifies to keep one.
+	* If there is a problem with the destination directory, the user is prompted
+	* with a dialog in order to specify an alternative location.
 	* If we don't want this base behaviour, an event handler must be implemented
 	* and added to the SaveFile delegate.
 	*@param Document* doc, the document.
@@ -711,6 +734,23 @@ public:
 	*@eventtype DocumentManager::dmSaveDocument
 	*/
 	virtual bool saveFile( Document* document );
+
+	/**
+	* save a document into a file.
+	* the standard behaviour is to show a dialog asking the user which file to open.
+	* The user is prompted with a dialog if the destination filename is not specified
+	* or if its directory does not exists.
+	* If we don't want this base behaviour, an event handler must be implemented
+	* and added to the SaveFile delegate.
+	*@param Document* doc, the document.
+	*@param const String& newFileName, the new destination filename. By default it is empty
+	* so the user is prompted with a dialog.
+	*@return bool, true if the operation completed successfully.
+	*@fire DocumentManager::SaveFile
+	*@event DocManagerEvent
+	*@eventtype DocumentManager::dmSaveDocument
+	*/
+	virtual bool saveFileAs( Document* document, const String& newFileName=String( L"" ) );
 
 	/**
 	* opens a file.
@@ -728,6 +768,14 @@ public:
 	* according to the policy.
 	*/
 	virtual void closeCurrentDocument();
+
+	/**
+	* reloads a file for an existing document.
+	* It the operation fails, the user is warned with a message,
+	* but the document is not closed.
+	*@param Document* document, the document.
+	*/
+	virtual void reloadDocument( Document* document );
 
 	/**
 	* just creates the object from its type using the VCF RTTI
@@ -828,50 +876,20 @@ protected:
 	**/
 
 	/**
-	* saves the current document.
+	* saves the current document, if it has been modified.
 	*/
 	void onSave( Event* e ) {
 		saveFile( DocInterfacePolicy::getCurrentDocument() );
 	}
 
 	/**
-	* saves the current document, but let the user to specify an alternative filename and type.
+	* saves the current document, but let the user to specify
+	* an alternative filename and type through a dialog box.
 	*/
 	void onSaveAs( Event* e ) {
 		Document* doc = DocInterfacePolicy::getCurrentDocument();
 
-		/**
-		Store off the old file name and whether or not the 
-		document is currently modified (at the time that this
-		function is called the document may or may not be 
-		modified).
-		*/
-		String oldFileName = doc->getFileName();
-		bool modified = doc->isModified();
-
-		/**
-		Set the file name to empty ("")
-		Set the document modified to true. Doing this ensures that 
-		we actually get prompted for a Save Dialog. 
-		*/
-		doc->setFileName( "" );
-		doc->setModified(true);
-
-		/**
-		Excecute the file save code...
-		*/
-		if ( !saveFile( doc ) ) {
-			/**
-			Oops! The user canceled out the file save operation
-			by either closing the dialog or clicking the "Cancel" 
-			button.
-			This means we need to restore the doc's old file and
-			the modified value
-			*/
-			doc->setFileName( oldFileName );
-			doc->setModified(modified);
-		}
-
+		saveFileAs( doc );
 	}
 
 	/**
@@ -1167,63 +1185,21 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initActions()
 
 
 template < typename AppClass, typename DocInterfacePolicy >
-bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc ) {
+bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
+{
 	bool result = false;
 
 	if ( NULL == doc ) {
-
 		return false;
 	}
 
 	if ( doc->isModified() ) {
-		/**
-		* allow the base behaviour to be bypassed if necessary.
-		*@see DocManagerEvent
-		*/
-		DocManagerEvent event( doc, DocumentManager::dmSaveDocument );
-		SaveFile.fireEvent( &event );
-		if ( !event.allowFileOperation() ) {
-			return event.getFileOperationStatus();
-		}
 
-		String fileType;
-		String fileTypes;
-
-		DocumentInfo* info = getDocumentInfo( doc );
-		if ( NULL != info ) {
-			fileType = info->mimetype;
-			fileTypes = info->fileTypes;
-		}
+		FilePath fp = doc->getFileName();
 
 		FilePath tmpName;
-		FilePath fp = doc->getFileName();
-		if ( !File::exists( fp ) ) {
-			String currentDir = System::getCurrentWorkingDirectory();
-			CommonFileSave saveDialog( doc->getWindow(), currentDir );
-
-			prepareSaveDialog( &saveDialog, doc );
-
-			if ( saveDialog.execute() ) {
-
-				saveDialogFinished( &saveDialog );
-
-				fp = saveDialog.getFileName();
-
-				if ( fp.getExtension().empty() ) {
-					String selectedFilter = saveDialog.getSelectedFilter();
-					selectedFilter.erase( 0, 1 );
-					fp = saveDialog.getFileName() + selectedFilter;
-				}
-
-				doc->setFileName( fp );
-			}
-			else {
-
-				return false;
-			}
-		}
-		else {
-			//save back up
+		if ( File::exists( fp ) ) {
+			//save back up first
 			File backup( fp );
 			String tmp = fp.getPathName(true);
 			tmp += "~" + fp.getBaseName() + ".tmp";
@@ -1231,17 +1207,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 			backup.copyTo( tmpName );
 		}
 
-		if ( fileType.empty() ) {
-			fileType = fp.getExtension();
-		}
-
-		try {
-			result = doc->saveAsType( doc->getFileName(), fileType );
-		}
-		catch ( BasicException& e) {
-			Dialog::showMessage( "Error saving '" + doc->getName() + "'\nError: " + e.getMessage() );
-			result = false;
-		}
+		result = saveFileAs( doc, fp );
 
 		if ( result ) {
 			if ( (!doc->getKeepsBackUpFile()) && File::exists( tmpName ) ) {
@@ -1249,13 +1215,142 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFile( Document* doc )
 				backup.remove();
 			}
 		}
+
 	}
 
 	return result;
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
-void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile() {
+bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc, const String& newFileName )
+{
+	bool result = false;
+
+	if ( NULL == doc ) {
+		return false;
+	}
+
+	/**
+	* allow the base behaviour to be bypassed if necessary.
+	*@see DocManagerEvent
+	*/
+	DocManagerEvent event( doc, DocumentManager::dmSaveDocument );
+	SaveFile.fireEvent( &event );
+	if ( !event.allowFileOperation() ) {
+		return event.getFileOperationStatus();
+	}
+
+	String fileType;
+	String fileTypes;
+
+	DocumentInfo* info = getDocumentInfo( doc );
+	if ( NULL != info ) {
+		fileType = info->mimetype;
+		fileTypes = info->fileTypes;
+	}
+
+
+	// prompts the user with a dialog if the destination filename is empty
+	// or if its directory does not exists.
+	bool prompt = false;
+
+	FilePath fp = newFileName;
+	if ( newFileName.empty() ) {
+		fp = doc->getFileName();
+		prompt = true;
+	}
+
+	String currentDir = fp.getPathName(true);
+	if ( !prompt && !File::exists( currentDir ) ) {
+		prompt = true;
+	}
+
+	if ( prompt ) {
+
+		String basename = fp.getBaseName(true);
+
+		if ( currentDir.empty() ) {
+			currentDir = System::getCurrentWorkingDirectory();
+		}
+		else {
+			if ( !File::exists( currentDir ) ) {
+				// we look for the first existing parent directory
+				String appDir = currentDir;
+				std::vector<String> pathComponents = fp.getPathComponents();
+				std::vector<String>::reverse_iterator it = pathComponents.rbegin();
+
+				bool found = false;
+				while ( it != pathComponents.rend() ) {
+					String s = (*it);
+					int length = (*it).length();// + FilePath::getDirectorySeparator().length();
+
+					appDir.erase( appDir.length()-length, length );
+					
+					if ( File::exists( appDir ) ) {
+						found = true;
+						break;
+					}
+
+					it ++;
+				}
+
+				if ( found ) {
+					currentDir = appDir;
+				}
+				else {
+					currentDir = System::getCurrentWorkingDirectory();
+				}
+			}
+		}
+
+		CommonFileSave saveDialog( doc->getWindow(), currentDir );
+
+		saveDialog.setFileName( currentDir + basename );
+		prepareSaveDialog( &saveDialog, doc );
+		saveDialog.addFilter( ".* files", "*.*" );
+		if ( saveDialog.execute() ) {
+
+			saveDialogFinished( &saveDialog );
+
+			fp = saveDialog.getFileName();
+
+			// adds the filter's extension if specified but missing from the filename
+			String selectedFilter = saveDialog.getSelectedFilter();
+			selectedFilter.erase( 0, 1 );
+			if ( ( !selectedFilter.empty() ) && ( selectedFilter != L".*" ) && 
+			     ( selectedFilter != fp.getExtension() ) ) {
+				fp = fp + selectedFilter;
+			}
+		}
+		else {
+
+			return false;
+		}
+	}
+
+	if ( fileType.empty() ) {
+		fileType = fp.getExtension();
+	}
+
+	try {
+		result = doc->saveAsType( fp, fileType );
+	}
+	catch ( BasicException& e) {
+		Dialog::showMessage( "Error saving '" + doc->getName() + "'\nError: " + e.getMessage() );
+		result = false;
+	}
+
+	if ( result ) {
+		doc->setModified(false);
+		doc->setFileName( fp );
+	}
+
+	return result;
+}
+
+template < typename AppClass, typename DocInterfacePolicy >
+void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile()
+{
 	Document* doc = DocInterfacePolicy::getCurrentDocument();
 
 	/**
@@ -1302,6 +1397,35 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 	closingDocument_ = false;
 
 	removeUndoRedoStackForDocument( currentDoc );
+}
+
+template < typename AppClass, typename DocInterfacePolicy >
+void DocumentManagerImpl<AppClass,DocInterfacePolicy>::reloadDocument( Document* document )
+{
+	// returns if the user doesn't want to save the changes.
+	if ( !saveDocument( document ) ) {
+		return;
+	};
+
+	String fileName = document->getFileName();
+
+	//String mimetype = app->getMimeTypeFromFileExtension( fileName );
+	//String mimetype = getDocumentMimeType( document );
+
+	String mimeType;
+	String fileTypes;
+
+	DocumentInfo* info = getDocumentInfo( document );
+	if ( NULL != info ) {
+		mimeType = info->mimetype;
+		fileTypes = info->fileTypes;
+	}
+	//VCF_ASSERT( !mimetype.empty() );
+
+	document->openFromType( fileName, mimeType );
+
+	// reset the undo/redo stack
+	getUndoRedoStack( document).clearCommands();
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -1590,7 +1714,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	separator->setSeparator( true );
 
 
-	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save...", file, standardMenu_);
+	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save", file, standardMenu_);
 	fileSave->setAcceleratorKey( vkLetterS, kmCtrl );
 	fileSave->setTag( DocumentManager::atFileSave );
 
@@ -1656,6 +1780,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/09 17:20:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.5  2005/03/14 04:17:23  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

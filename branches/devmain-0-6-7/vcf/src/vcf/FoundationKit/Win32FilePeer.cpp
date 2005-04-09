@@ -103,7 +103,7 @@ void Win32FilePeer::create(  ulong32 openFlags  )
 			String fileDir = fp.getPathName(true);
 			if ( true == fileDir.empty() ){
 				TCHAR currentDir[MAX_PATH];
-				memset( currentDir, 0 , MAX_PATH );
+				memset( currentDir, 0 , sizeof(currentDir) );
 				GetCurrentDirectory( MAX_PATH, currentDir );
 				filename = "\\" + filename;
 				filename = currentDir +  filename;
@@ -749,7 +749,7 @@ void Win32FilePeer::open( const String& fileName, ulong32 openFlags, File::Share
 	String fileDir = fp.getPathName(true);
 	if ( true == fileDir.empty() ){
 		TCHAR currentDir[MAX_PATH];
-		memset( currentDir, 0 , MAX_PATH );
+		memset( currentDir, 0 , sizeof(currentDir) );
 		GetCurrentDirectory( MAX_PATH, currentDir );
 		winFileName = "\\" + winFileName;
 		winFileName = currentDir +  winFileName;
@@ -973,6 +973,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/04/09 17:21:32  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.4  2005/02/27 01:46:10  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.

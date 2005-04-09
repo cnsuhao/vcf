@@ -987,7 +987,7 @@ void Win32Tree::addItem( TreeItem* item )
 
 		tvItem.cchTextMax = 0;//item->getCaption().size()+1;
 		//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
-		//memset( tmpName, 0, tvItem.cchTextMax );
+		//memset( tmpName, 0, tvItem.cchTextMax*sizeof(VCFChar) );
 		//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
 
 		tvItem.pszText = LPSTR_TEXTCALLBACKW;//tmpName;
@@ -1036,7 +1036,7 @@ void Win32Tree::addItem( TreeItem* item )
 
 		tvItem.cchTextMax = 0;//item->getCaption().size()+1;
 		//VCFChar* tmpName = new VCFChar[tvItem.cchTextMax];
-		//memset( tmpName, 0, tvItem.cchTextMax );
+		//memset( tmpName, 0, tvItem.cchTextMax*sizeof(VCFChar) );
 		//item->getCaption().copy( tmpName, tvItem.cchTextMax-1 );
 
 		tvItem.pszText = LPSTR_TEXTCALLBACKA;//tmpName;
@@ -1382,6 +1382,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.7  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

@@ -19,7 +19,7 @@ String VariantData::toString() const
 		case pdInt:{
 			int i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%d", i );
 			result += tmp;
 		}
@@ -28,7 +28,7 @@ String VariantData::toString() const
 		case pdLong:{
 			long i = (long)*this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%ld", i );
 			result += tmp;
 		}
@@ -37,7 +37,7 @@ String VariantData::toString() const
 		case pdShort:{
 			short i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%hd", i );
 			result += tmp;
 		}
@@ -46,7 +46,7 @@ String VariantData::toString() const
 		case pdUInt:{
 			unsigned int i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%u", i );
 			result += tmp;
 		}
@@ -55,7 +55,7 @@ String VariantData::toString() const
 		case pdULong:{
 			unsigned long i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%lu", i );
 			result += tmp;
 		}
@@ -64,7 +64,7 @@ String VariantData::toString() const
 		case pdFloat:{
 			float i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%.5f", i );
 			result += tmp;
 		}
@@ -73,7 +73,7 @@ String VariantData::toString() const
 		case pdChar:{
 			char i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%c", i );
 			result += tmp;
 		}
@@ -82,7 +82,7 @@ String VariantData::toString() const
 		case pdDouble:{
 			double i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
-			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%.5f", i );
 			result += tmp;
 		}
@@ -337,6 +337,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/04/09 17:21:32  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.2  2004/12/24 04:53:59  marcelloptr
 *added support for unsigned int in VariantData. Fixed other glitches of this class.
 *

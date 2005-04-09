@@ -1311,7 +1311,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						StringUtils::trace( "win32Obj == NULL!\n" );
 						UINT wID = LOWORD(wParam);
 						char tmp2[256];
-						memset( tmp2, 0, 256 );
+						memset( tmp2, 0, sizeof(tmp2) );
 						sprintf( tmp2, "command ID: %d\n", wID );
 
 						StringUtils::trace( String(tmp2) );
@@ -1388,7 +1388,7 @@ String AbstractWin32Component::toString()
 {
 	String result = Win32Object::toString();
 	char tmp[256];
-	memset(tmp,0,256);
+	memset(tmp,0,sizeof(tmp));
 	sprintf(tmp, "\n\tpeerControl_=%p\n\tHWND=%p\n", peerControl_, hwnd_ );
 	result += tmp;
 	return result;

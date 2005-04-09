@@ -277,7 +277,7 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 			int length = ::GetWindowTextLengthA( hwnd_ );
 
 			char* text = new char[length+1];
-			memset( text, 0, length+1);
+			memset( text, 0, (length+1)*sizeof(char));
 			::GetWindowTextA( hwnd_, text, length+1 );
 
 			newText = text;
@@ -1007,7 +1007,7 @@ DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-def
 	String::size_type len = text.size();
 
 
-	memset( pbBuff, 0, cb );
+	memset( pbBuff, 0, cb*sizeof(BYTE) );
 
 	if ( len > 0 ) {
 
@@ -1509,6 +1509,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/04/09 17:20:36  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.12  2005/03/28 18:25:23  marcelloptr
 *just a comment
 *

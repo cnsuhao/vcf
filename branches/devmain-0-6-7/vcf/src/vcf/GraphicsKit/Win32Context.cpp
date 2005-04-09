@@ -796,7 +796,7 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	else {
 		AnsiString tmpText = text;
 		char* textToDraw = new char[tmpText.size()+1];
-		memset( textToDraw, 0, tmpText.size()+1 );
+		memset( textToDraw, 0, (tmpText.size()+1)*sizeof(char) );
 		text.copy( textToDraw, tmpText.size() );
 		DrawTextExA( dc_, textToDraw, tmpText.size(), &r, formatOptions, NULL );
 
@@ -2536,6 +2536,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.9  2005/04/09 17:21:39  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.4.2.8  2005/03/15 01:51:54  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

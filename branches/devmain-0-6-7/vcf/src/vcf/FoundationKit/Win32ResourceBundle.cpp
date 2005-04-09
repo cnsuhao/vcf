@@ -408,8 +408,8 @@ void getVersionInfoW( VersionMap& map, const String& fileName )
 		return;
 	}
 
-	unsigned char* buf = new unsigned char[size];
-	memset(buf, 0, size);
+	unsigned char* buf = new unsigned char[size*sizeof(VCF::WideChar)];
+	memset(buf, 0, size*sizeof(VCF::WideChar));
 
 	
 
@@ -511,7 +511,7 @@ void getVersionInfoA( VersionMap& map, const String& fileName )
 	}
 
 	unsigned char* buf = new unsigned char[size];
-	memset(buf, 0, size);
+	memset(buf, 0, size*sizeof(unsigned char));
 
 	
 
@@ -699,6 +699,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/04/09 17:21:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.2.1  2005/03/15 01:51:52  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

@@ -33,18 +33,18 @@ HRESULT COMUtils::createCOMObject( const String& progID, IID interfaceID,
 	CLSID clsid;
 
 #ifdef __GNUWIN32__
-    wchar_t* tmp = new wchar_t[progID.size()+1];
-	memset( tmp, 0 , progID.size()+1 );
+	wchar_t* tmp = new wchar_t[progID.size()+1];
+	memset( tmp, 0 , (progID.size()+1)sizeof(wchar_t) );
 	if ( 0 == MultiByteToWideChar( CP_ACP, 0, progID.c_str(), progID.size(), tmp, progID.size() ) ) {
-	    return comResult;
+		return comResult;
 	}
 
 
  	BSTR tmpProgID = SysAllocString( tmp );
-    if ( NULL == tmpProgID ) {
-        delete [] tmp;
-        return comResult;
-    }
+	if ( NULL == tmpProgID ) {
+		delete [] tmp;
+		return comResult;
+	}
 
 	comResult = CLSIDFromProgID( tmpProgID, &clsid );
 
@@ -55,10 +55,10 @@ HRESULT COMUtils::createCOMObject( const String& progID, IID interfaceID,
 	SysFreeString( tmpProgID );
 	delete [] tmp;
 #else
-    _bstr_t tmpProgID;
-    tmpProgID = progID.c_str();
+	_bstr_t tmpProgID;
+	tmpProgID = progID.c_str();
 
-    comResult = CLSIDFromProgID( tmpProgID, &clsid );
+	comResult = CLSIDFromProgID( tmpProgID, &clsid );
 
 	if ( SUCCEEDED(comResult) ){
 		comResult = createCOMObject( clsid, interfaceID, object );
@@ -96,23 +96,23 @@ HRESULT COMUtils::BSTRtoString( const BSTR src, String& dest )
 {
 	HRESULT result = E_FAIL;
 #ifdef __GNUWIN32__
-    String tmpString;
+	String tmpString;
 	SAFEARRAY* safeArray = NULL;
 	result = VectorFromBstr(src, &safeArray );
 	if ( SUCCEEDED(result) ){
-        wchar_t *buf = NULL;
-        ulong32 bstrSize = SysStringLen( src );
-        result = SafeArrayAccessData(safeArray, (void**)&buf );
-        if ( SUCCEEDED(result) ) {
+		wchar_t *buf = NULL;
+		ulong32 bstrSize = SysStringLen( src );
+		result = SafeArrayAccessData(safeArray, (void**)&buf );
+		if ( SUCCEEDED(result) ) {
 			char* tmp = new char[bstrSize+1];
-			memset( tmp, 0, bstrSize+1 );
+			memset( tmp, 0, (bstrSize+1)*sizeof(char) );
 			WideCharToMultiByte( CP_ACP, 0, buf, bstrSize, tmp, bstrSize, NULL, NULL );
 			tmpString = tmp;
 			delete [] tmp;
 			result = S_OK;
-        }
-        SafeArrayUnaccessData( safeArray );
-        SafeArrayDestroy( safeArray );
+		}
+		SafeArrayUnaccessData( safeArray );
+		SafeArrayDestroy( safeArray );
 	}
 #else
 	_bstr_t tmp( src );
@@ -233,10 +233,10 @@ HRESULT COMUtils::StringtoBSTR( const String& src, BSTR& dest )
 	HRESULT result = E_FAIL;
 
 #ifdef __GNUWIN32__
-    wchar_t* tmp = new wchar_t[src.size()+1];
-	memset( tmp, 0 , src.size()+1 );
+	wchar_t* tmp = new wchar_t[src.size()+1];
+	memset( tmp, 0 , (src.size()+1)sizeof(wchar_t) );
 	if ( 0 == MultiByteToWideChar( CP_ACP, 0, src.c_str(), src.size(), tmp, src.size() ) ) {
-	    return result;
+		return result;
 	}
 
 	result = SysReAllocString( &dest, tmp );
@@ -910,6 +910,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/09 17:20:35  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.4.1  2005/02/23 03:53:31  ddiego
 *fixed a bug in the com translation of file names.
 *

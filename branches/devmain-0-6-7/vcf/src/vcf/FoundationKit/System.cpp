@@ -154,7 +154,7 @@ void System::print( String text, ... )
 	va_start( args, text );
 	int charRequired = 1024;
 	VCFChar* tmpChar = new VCFChar[charRequired];
-	memset( tmpChar, 0, charRequired );
+	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
 
 #ifdef VCF_GCC
   #ifdef VCF_OSX
@@ -755,6 +755,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/04/09 17:21:32  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.3.2.9  2005/03/26 00:10:29  ddiego
 *added some minor funs to system class
 *
