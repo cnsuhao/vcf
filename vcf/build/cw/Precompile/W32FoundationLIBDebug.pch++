@@ -1,0 +1,11 @@
+#pragma precompile_target "W32FoundationLIBDebug.mch"
+// #pragma once on
+#include "ansi_prefix.win32.h"
+#define NOMINMAX
+#include <windows.h>
+// VCF Includes
+
+#include "prefix/W32LIBDebug.h"
+
+#include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKitPrivate.h"

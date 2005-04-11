@@ -1,0 +1,4 @@
+#define OSX
+
+#define APPLICATIONKIT_DLL
+#define APPLICATIONKIT_IMPORTS

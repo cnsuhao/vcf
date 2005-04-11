@@ -1,0 +1,5 @@
+#define WIN32
+#define _DEBUG
+
+#define APPLICATIONKIT_DLL
+#define APPLICATIONKIT_EXPORTS

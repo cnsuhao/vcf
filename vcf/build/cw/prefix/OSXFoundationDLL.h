@@ -1,0 +1,4 @@
+#define OSX
+
+#define FOUNDATIONKIT_DLL
+#define FOUNDATIONKIT_EXPORTS
