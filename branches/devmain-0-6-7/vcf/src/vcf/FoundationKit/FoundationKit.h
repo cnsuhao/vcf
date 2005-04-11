@@ -54,7 +54,17 @@ where you installed the VCF.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <memory.h>
+#ifndef __MWERKS__
+	#include <memory.h>
+#else
+	#include <wchar.h>
+	#include <wctype.h>
+	#ifdef VCF_CW_W32
+		#include <memory>
+	#elif defined(VCF_CW_OSX)
+		#include <memory.h>
+	#endif
+#endif //__MWERKS__
 //#include <assert.h>
 #include <vector>
 #include <map>
@@ -315,6 +325,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/04/11 17:07:10  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.4.2.3  2005/03/14 05:44:51  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *

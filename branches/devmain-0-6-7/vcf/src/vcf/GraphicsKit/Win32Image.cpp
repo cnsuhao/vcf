@@ -279,8 +279,11 @@ void Win32Image::loadFromBMPHandle( HBITMAP bitmap )
 
 void Win32Image::internal_saveToFile( const String& fileName )
 {
+#ifdef VCF_CW
+	FILE* f = fopen( fileName.ansi_c_str(), "w" );
+#else
 	FILE* f = _wfopen( fileName.c_str(), L"w" );
-
+#endif
 
 	bool bitFields = (bmpInfo_.bmiHeader.biBitCount == 16);
 
@@ -563,6 +566,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/04/11 17:07:17  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.4  2005/04/09 17:21:39  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

@@ -17,7 +17,8 @@ where you installed the VCF.
 /**
 *Helps linking with the right library
 */
-
+//If using the All-in-1 library, this task has already been done
+#if !defined(VCF_ALLIN1_DLL) && !defined(VCF_ALLIN1_LIB)
 
 #ifdef _LIB_CPLVERNUM
 #		undef _LIB_CPLVERNUM
@@ -78,10 +79,13 @@ defined to use the DLL or static libraries.
 
 #endif //_MSC_VER
 
-
+#endif //VCF_ALLIN1_DLL/LIB
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/11 17:07:11  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.1  2004/12/11 17:49:59  ddiego
 *added 2 new projects that are command line tools. One is for
 *creating the basic shell for app bundles, the other is for filling in, or

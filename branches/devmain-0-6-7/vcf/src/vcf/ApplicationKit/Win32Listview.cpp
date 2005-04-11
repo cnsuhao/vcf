@@ -942,8 +942,8 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 					else{
 						caption = item->getCaption();
 					}
-
-					int size = min( caption.size(), displayInfo->item.cchTextMax );
+//Changed to unsigned ints after discussion with Jim, but he seemed uncertain so it'd be worth checking - ACH
+					unsigned int size = VCF::minVal<unsigned int>( caption.size(), displayInfo->item.cchTextMax );
 					caption.copy( displayInfo->item.pszText, size );
 					if ( size < displayInfo->item.cchTextMax ) {
 						displayInfo->item.pszText[size] = '\0';
@@ -966,8 +966,8 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 					else{
 						caption = item->getCaption();
 					}
-
-					int size = min( caption.size(), displayInfo->item.cchTextMax );
+//Changed to unsigned ints after discussion with Jim, but he seemed uncertain so it'd be worth checking - ACH
+					unsigned int size = VCF::minVal<unsigned int>( caption.size(), displayInfo->item.cchTextMax );
 					caption.copy( displayInfo->item.pszText, size );
 					if ( size < displayInfo->item.cchTextMax ) {
 						displayInfo->item.pszText[size] = '\0';
@@ -2409,6 +2409,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/11 17:04:51  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.5  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

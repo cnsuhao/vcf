@@ -604,7 +604,7 @@ public:
 	*/
 	template <typename DateLogic>
 	class Iterator 
-	#if defined(VCF_BCC) || defined(__INTEL_COMPILER)
+	#if defined(VCF_BCC) || defined(__INTEL_COMPILER) || defined(VCF_CW)
 	;
 	#else
 	{
@@ -692,7 +692,7 @@ protected:
 };
 
 
-#if defined(VCF_BCC) || defined(__INTEL_COMPILER)
+#if defined(VCF_BCC) || defined(__INTEL_COMPILER) || defined(VCF_CW)
 	template <typename DateLogic>
 	class DateTime::Iterator {
 	public:
@@ -972,6 +972,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/04/11 17:07:09  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.2  2004/12/07 23:15:31  marcelloptr
 *added postfix iterator for the DateTime::Iterator
 *
