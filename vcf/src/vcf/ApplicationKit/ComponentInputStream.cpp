@@ -426,7 +426,7 @@ void ComponentInputStream::readControl( Control** controlToReadInto )
 	try {
 		XMLPlatformUtils::Initialize();
 		bufData = new char[size];
-		memset( bufData, 0, size );
+		memset( bufData, 0, size*sizeof(char) );
 		this->read( bufData, size );
 		MemBufInputSource* buf = new MemBufInputSource( (const XMLByte*)bufData, size, "MEM_BUF", false );
 
@@ -456,6 +456,9 @@ void ComponentInputStream::readControl( Control** controlToReadInto )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/04/11 23:09:31  marcelloptr
+*bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
+*
 *Revision 1.2.4.2  2005/04/11 17:04:51  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
