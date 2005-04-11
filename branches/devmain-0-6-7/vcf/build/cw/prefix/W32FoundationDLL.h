@@ -1,0 +1,4 @@
+#define WIN32
+
+#define FOUNDATIONKIT_DLL
+#define FOUNDATIONKIT_EXPORTS

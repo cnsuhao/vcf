@@ -1,0 +1,4 @@
+#define OSX
+
+#define GRAPHICSKIT_DLL
+#define GRAPHICSKIT_IMPORTS

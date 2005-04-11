@@ -1,0 +1,4 @@
+#define OSX
+
+#define OPENGLKIT_DLL
+#define OPENGLKIT_IMPORTS

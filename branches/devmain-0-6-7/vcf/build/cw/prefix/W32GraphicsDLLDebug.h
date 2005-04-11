@@ -1,0 +1,5 @@
+#define WIN32
+#define _DEBUG
+
+#define GRAPHICSKIT_DLL
+#define GRAPHICSKIT_EXPORTS

@@ -1,0 +1,13 @@
+//#pragma always_inline on
+
+#pragma precompile_target "W32FoundationDLLDebug.mch"
+// #pragma once on
+#include "ansi_prefix.win32.h"
+#define NOMINMAX
+#include <windows.h>
+// VCF Includes
+
+#include "prefix/W32FoundationDLLDebug.h"
+
+#include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/FoundationKitPrivate.h"

@@ -1,0 +1,4 @@
+#define WIN32
+
+#define OPENGLKIT_DLL
+#define OPENGLKIT_EXPORTS
