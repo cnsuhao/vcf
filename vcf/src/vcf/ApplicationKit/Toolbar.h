@@ -237,7 +237,7 @@ public:
 	/**
 	Utility method - not meant for public use
 	*/
-	void internal_setBounds( Rect& bounds );
+	void internal_setBounds( const Rect& bounds ); //Parameter made const for ANSI compliance - ACH
 
 	void setGrouped( const bool& val );
 
@@ -411,6 +411,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/04/11 17:04:51  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

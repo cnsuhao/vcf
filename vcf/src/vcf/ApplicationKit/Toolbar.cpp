@@ -206,7 +206,7 @@ void ToolbarItem::setSelected( const bool& selected )
 	}
 }
 
-void ToolbarItem::internal_setBounds( Rect& bounds )
+void ToolbarItem::internal_setBounds( const Rect& bounds ) //Parameter made const for ANSI compliance - ACH
 {
 	bounds_ = bounds;
 	if ( NULL != itemControl_ ) {
@@ -528,6 +528,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/11 17:04:51  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.1  2005/01/07 01:13:58  ddiego
 *fixed a foundation kit but that was cause a crash by releasing the system instance and then making use of a member variable for it. The member variable is now static, which is more appropriate.
 *

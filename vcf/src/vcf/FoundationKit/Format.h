@@ -83,7 +83,7 @@ namespace VCF {
 
 
 		// operator used to concatenate arguments
-		template<typename ValType>
+		template<typename ValType> 
 			Format& operator% ( const ValType& val ) {
 			currentFormatArgCount_  ++;
 			
@@ -142,10 +142,10 @@ namespace VCF {
 			return *this;
 		}
 		
-
+#ifndef VCF_CW
 		// specialization for a String value.
-		template<>
-			Format& operator% ( const String& val ) {
+		template <> 
+			Format& operator%<String> (const String& val) {
 
 			currentFormatArgCount_  ++;
 			
@@ -198,7 +198,7 @@ namespace VCF {
 			}		
 			return *this;
 		}
-		
+#endif //VCF_CW		
 		
 		
 		operator String() const {
@@ -258,14 +258,74 @@ namespace VCF {
 		int currentFormatArgCount_;
 	};
 
+// In-class member template specializations (as used above)
+// are non-standard (Section 14.7.3.2) hence this definition below. - ACH
+#ifdef VCF_CW
+		// specialization for a String value.
+		template <> inline
+			Format& Format::operator%<String> (const String& val) {
+
+			currentFormatArgCount_  ++;
+			
+			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
+			if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
+				return *this;
+			}
+			
+			if ( !fmtStr_.empty() ) {  
+				if ( String::npos != currentPos_ ) {
+					//look ahead and see if we have two consecutive %% chars
+					//if so treat as one %
+					if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
+						output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
+						fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
+					}
+					else { //we have to format this string
+						int endPos = getNextFormatTokenEndPos( currentPos_ );
+						
+						output_ += fmtStr_.substr( 0, currentPos_ );
+						fmtStr_.erase( 0, currentPos_ );
+						String fmt;
+						
+						if ( String::npos != endPos ) {												
+							fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
+							
+							fmtStr_.erase( 0, endPos-currentPos_ );
+						}
+						else{
+							fmt = fmtStr_;						
+							fmtStr_.erase();
+						}
+						
+						char* tmp = new char[fmt.size()+val.size()+10];
+						sprintf( tmp, fmt.ansi_c_str(), val.ansi_c_str() );
+						output_ += tmp;
+						delete [] tmp;
+					}
+				}
+				else {
+					output_ += fmtStr_;
+					fmtStr_.erase();
+				}
+				
+				currentPos_ = fmtStr_.find( "%" );
+				if ( String::npos == currentPos_ ) {
+					output_ += fmtStr_;
+					fmtStr_.erase();
+				}
+			}		
+			return *this;
+		}
+#endif VCF_CW
+
 };
-
-
-
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2005/04/11 17:07:10  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.1.2.6  2005/04/05 16:42:56  marcelloptr
 *introduced safer use of erase to clear a string
 *

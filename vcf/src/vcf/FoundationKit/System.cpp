@@ -156,7 +156,7 @@ void System::print( String text, ... )
 	VCFChar* tmpChar = new VCFChar[charRequired];
 	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
 
-#ifdef VCF_GCC
+#if defined(VCF_GCC) || defined(VCF_CW)
   #ifdef VCF_OSX
 
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
@@ -235,7 +235,7 @@ void System::println(String text, ...)
 	VCFChar* tmpChar = new VCFChar[charRequired];
 	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
 
-#ifdef VCF_GCC
+#if defined(VCF_GCC) || defined(VCF_CW)
   #ifdef VCF_OSX
 
     CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
@@ -755,6 +755,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/04/11 17:07:14  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.10  2005/04/09 17:21:32  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

@@ -982,11 +982,11 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						int pos = 0;
 						//StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
 						if ( zDelta < 0 ) {
-							pos = min( (long)(scrollable->getVerticalPosition() + 10),
+							pos = VCF::minVal<long>((scrollable->getVerticalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewHeight() - peerControl_->getHeight())) );
 						}
 						else if ( zDelta > 0 ) {
-							pos = max( (long)(scrollable->getVerticalPosition() - 10), 0 );
+							pos = VCF::maxVal<long>((scrollable->getVerticalPosition() - 10), 0 );
 						}
 
 						scrollable->setVerticalPosition( pos );
@@ -996,11 +996,11 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						int pos = 0;
 						//StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
 						if ( zDelta < 0 ) {
-							pos = min( (long)(scrollable->getHorizontalPosition() + 10),
+							pos = VCF::minVal<long>((scrollable->getHorizontalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewWidth() - peerControl_->getWidth())) );
 						}
 						else if ( zDelta > 0 ) {
-							pos = max( (long)(scrollable->getHorizontalPosition() - 10), 0 );
+							pos = VCF::maxVal<long>((scrollable->getHorizontalPosition() - 10), 0 );
 						}
 
 						scrollable->setHorizontalPosition( pos );
@@ -1069,7 +1069,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = min( pos, abs((long)(scrollable->getVirtualViewHeight() - height)) );
-								pos = min ( pos, si.nMax );
+								pos = VCF::minVal ( pos, si.nMax );
 								//si.nPos += step;
 								//si.nPos = min ( si.nPos, si.nMax );
 								//pos = si.nPos;
@@ -1091,7 +1091,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = max( pos, 0 );
-								pos = max ( pos, si.nMin );
+								pos = VCF::maxVal ( pos, si.nMin );
 								//si.nPos -= step;
 								//si.nPos = max ( si.nPos, si.nMin );
 								//pos = si.nPos;
@@ -1113,7 +1113,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = min( pos, abs((long)(scrollable->getVirtualViewHeight() - height)) );
-								pos = min ( pos, si.nMax );
+								pos = VCF::minVal ( pos, si.nMax );
 								scrollable->setVerticalPosition( pos );
 							}
 							break;
@@ -1131,7 +1131,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = max( pos, 0 );
-								pos = max( pos, si.nMin );
+								pos = VCF::maxVal( pos, si.nMin );
 								scrollable->setVerticalPosition( pos );
 
 							}
@@ -1212,7 +1212,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = max( pos, 0 );
-								pos = max ( pos, si.nMin );
+								pos = VCF::maxVal ( pos, si.nMin );
 								//si.nPos -= step;
 								//si.nPos = max ( si.nPos, si.nMin );
 								//pos = si.nPos;
@@ -1235,7 +1235,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = min( pos, abs((long)(scrollable->getVirtualViewWidth() - width)) );
-								pos = min ( pos, si.nMax );
+								pos = VCF::minVal ( pos, si.nMax );
 								//si.nPos += step;
 								//si.nPos = min ( si.nPos, si.nMax );
 								//pos = si.nPos;
@@ -1258,7 +1258,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = max( pos, 0 );
-								pos = max( pos, si.nMin );
+								pos = VCF::maxVal( pos, si.nMin );
 								scrollable->setHorizontalPosition( pos );
 
 							}
@@ -1278,7 +1278,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 								}
 
 								//pos = min( pos, abs((long)(scrollable->getVirtualViewWidth() - width)) );
-								pos = min ( pos, si.nMax );
+								pos = VCF::minVal ( pos, si.nMax );
 								scrollable->setHorizontalPosition( pos );
 
 							}

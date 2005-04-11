@@ -760,10 +760,11 @@ public:
 	}
 
 	void swap(UnicodeString& str) {
-		data_.swap( str.data_ );
-		modified();
-		str.modified();
+	data_.swap( str.data_ );
+	modified();
+	str.modified();
 	}
+
 
 	size_type find(const UnicodeString& str, size_type pos = 0) const {
 		return data_.find( str.data_, pos );
@@ -1073,7 +1074,6 @@ inline bool operator >=( const UnicodeString& lhs, const UnicodeString& rhs )
 
 
 
-
 //typedef std::basic_string<VCFChar> String;
 
 typedef UnicodeString String;
@@ -1084,6 +1084,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/11 17:07:14  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.3  2005/02/16 05:09:33  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

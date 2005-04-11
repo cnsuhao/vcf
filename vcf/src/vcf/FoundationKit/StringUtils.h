@@ -536,81 +536,81 @@ System::println( "Name " + str + " number " + 1223 );
 */
 
 	
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const int& val );
+String operator+ ( const String& lhs, const int& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const int& val );
+String& operator+= ( String& lhs, const int& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned int& val );
+String operator+ ( const String& lhs, const unsigned int& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned int& val );
+String& operator+= ( String& lhs, const unsigned int& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const long& val );
+String operator+ ( const String& lhs, const long& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const long& val );
+String& operator+= ( String& lhs, const long& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned long& val );
+String operator+ ( const String& lhs, const unsigned long& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned long& val );
+String& operator+= ( String& lhs, const unsigned long& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const short& val );
+String operator+ ( const String& lhs, const short& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const short& val );
+String& operator+= ( String& lhs, const short& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const double& val );
+String operator+ ( const String& lhs, const double& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const double& val );
+String& operator+= ( String& lhs, const double& val );
 
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const float& val );
+String operator+ ( const String& lhs, const float& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const float& val );
+String& operator+= ( String& lhs, const float& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const bool& val );
+String operator+ ( const String& lhs, const bool& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const bool& val );
+String& operator+= ( String& lhs, const bool& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const ulong64& val );
+String operator+ ( const String& lhs, const ulong64& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const ulong64& val );
+String& operator+= ( String& lhs, const ulong64& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const long64& val );
+String operator+ ( const String& lhs, const long64& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const long64& val );
+String& operator+= ( String& lhs, const long64& val );
 
 /*
 void pointers!
 */
-FOUNDATIONKIT_API String operator+ ( const String& lhs, void* val );
+String operator+ ( const String& lhs, void* val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, void* val );
+String& operator+= ( String& lhs, void* val );
 
 /**
 Objects!
 */
-FOUNDATIONKIT_API String operator+ ( const String& lhs, Object& val );
+String operator+ ( const String& lhs, Object& val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, Object& val );
+String& operator+= ( String& lhs, Object& val );
 
-FOUNDATIONKIT_API String operator+ ( const String& lhs, Object* val );
+String operator+ ( const String& lhs, Object* val );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, Object* val );
+String& operator+= ( String& lhs, Object* val );
 
 
 /**
 type info!
 */
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const std::type_info& typeInfo );
+String operator+ ( const String& lhs, const std::type_info& typeInfo );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const std::type_info& typeInfo );
+String& operator+= ( String& lhs, const std::type_info& typeInfo );
 
 
 
 /**
 Variant data
 */
-FOUNDATIONKIT_API String operator+ ( const String& lhs, const VariantData& rhs );
+String operator+ ( const String& lhs, const VariantData& rhs );
 
-FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rhs );
+String& operator+= ( String& lhs, const VariantData& rhs );
 
 
 
@@ -629,103 +629,102 @@ Implementation of string operators
 
 
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const int& val )
+inline String operator+ ( const String& lhs, const int& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const int& val )
+inline String& operator+= ( String& lhs, const int& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned int& val )
+inline String operator+ ( const String& lhs, const unsigned int& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned int& val )
+inline String& operator+= ( String& lhs, const unsigned int& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const long& val )
+inline String operator+ ( const String& lhs, const long& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const long& val )
+inline String& operator+= ( String& lhs, const long& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const unsigned long& val )
+inline String operator+ ( const String& lhs, const unsigned long& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const unsigned long& val )
+inline String& operator+= ( String& lhs, const unsigned long& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const short& val )
+inline String operator+ ( const String& lhs, const short& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const short& val )
+inline String& operator+= ( String& lhs, const short& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const double& val )
+inline String operator+ ( const String& lhs, const double& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const double& val )
+inline String& operator+= ( String& lhs, const double& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const float& val )
+inline String operator+ ( const String& lhs, const float& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const float& val )
+inline String& operator+= ( String& lhs, const float& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const bool& val )
+inline String operator+ ( const String& lhs, const bool& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const bool& val )
+inline String& operator+= ( String& lhs, const bool& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const ulong64& val )
+inline String operator+ ( const String& lhs, const ulong64& val )
 {
 	return lhs + StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const ulong64& val )
+inline String& operator+= ( String& lhs, const ulong64& val )
 {
 	return lhs += StringUtils::toString(val);
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const long64& val )
+inline String operator+ ( const String& lhs, const long64& val )
 {
 	return lhs + StringUtils::toString(val); 
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const long64& val )
+inline String& operator+= ( String& lhs, const long64& val )
 {
 	return lhs += StringUtils::toString(val);
 }
@@ -733,7 +732,7 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const long64& val )
 /*
 void pointers!
 */
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, void* val )
+inline String operator+ ( const String& lhs, void* val )
 {
 	char tmp[256];
 	sprintf( tmp, "%p", val );
@@ -741,7 +740,7 @@ inline FOUNDATIONKIT_API String operator+ ( const String& lhs, void* val )
 	return lhs + tmp;
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, void* val )
+inline String& operator+= ( String& lhs, void* val )
 {
 	char tmp[256];
 	sprintf( tmp, "%p", val );
@@ -753,22 +752,22 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, void* val )
 Objects!
 */
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, Object& val )
+inline String operator+ ( const String& lhs, Object& val )
 {
 	return lhs + val.toString();
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object& val )
+inline String& operator+= ( String& lhs, Object& val )
 {
 	return lhs += val.toString();
 }
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, Object* val )
+inline String operator+ ( const String& lhs, Object* val )
 {
 	return lhs + ((val != NULL) ? val->toString() : String("null"));
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object* val )
+inline String& operator+= ( String& lhs, Object* val )
 {
 	return lhs += ((val != NULL) ? val->toString() : String("null"));
 }
@@ -777,12 +776,12 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, Object* val )
 /**
 type info!
 */
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const std::type_info& typeInfo )
+inline String operator+ ( const String& lhs, const std::type_info& typeInfo )
 {
 	return lhs + StringUtils::getClassNameFromTypeInfo( typeInfo );
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const std::type_info& typeInfo )
+inline String& operator+= ( String& lhs, const std::type_info& typeInfo )
 {
 	return lhs += StringUtils::getClassNameFromTypeInfo( typeInfo );
 }
@@ -791,12 +790,12 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const std::type_info&
 Variant data
 */
 
-inline FOUNDATIONKIT_API String operator+ ( const String& lhs, const VariantData& rhs )
+inline String operator+ ( const String& lhs, const VariantData& rhs )
 {
 	return lhs + StringUtils::toString(rhs);
 }
 
-inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rhs )
+inline String& operator+= ( String& lhs, const VariantData& rhs )
 {
 	return lhs += StringUtils::toString(rhs);
 }
@@ -806,6 +805,9 @@ inline FOUNDATIONKIT_API String& operator+= ( String& lhs, const VariantData& rh
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/04/11 17:07:13  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.6  2005/03/15 01:51:52  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

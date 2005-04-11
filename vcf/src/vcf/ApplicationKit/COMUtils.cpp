@@ -14,7 +14,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32Clipboard.h"
 #include <shellapi.h>
 
-#ifndef __GNUWIN32__
+#if !defined(__GNUWIN32__) && !defined(VCF_CW_W32)
 #include <comdef.h>
 #endif
 
@@ -32,10 +32,11 @@ HRESULT COMUtils::createCOMObject( const String& progID, IID interfaceID,
 
 	CLSID clsid;
 
-#ifdef __GNUWIN32__
+#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
 	wchar_t* tmp = new wchar_t[progID.size()+1];
-	memset( tmp, 0 , (progID.size()+1)sizeof(wchar_t) );
-	if ( 0 == MultiByteToWideChar( CP_ACP, 0, progID.c_str(), progID.size(), tmp, progID.size() ) ) {
+	memset( tmp, 0 , (progID.size()+1)*sizeof(wchar_t) );
+	AnsiString id = progID;
+	if ( 0 == MultiByteToWideChar( CP_ACP, 0, id.c_str(), id.size(), tmp, progID.size() ) ) {
 		return comResult;
 	}
 
@@ -95,7 +96,7 @@ HRESULT COMUtils::createCOMObject( CLSID clsid, IID interfaceID,
 HRESULT COMUtils::BSTRtoString( const BSTR src, String& dest )
 {
 	HRESULT result = E_FAIL;
-#ifdef __GNUWIN32__
+#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
 	String tmpString;
 	SAFEARRAY* safeArray = NULL;
 	result = VectorFromBstr(src, &safeArray );
@@ -232,10 +233,17 @@ HRESULT COMUtils::StringtoBSTR( const String& src, BSTR& dest )
 {
 	HRESULT result = E_FAIL;
 
-#ifdef __GNUWIN32__
+/*#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
+    wchar_t* tmp = new wchar_t[src.size()+1];
+	memset( tmp, 0 , src.size()+1 );
+	AnsiString asrc = src;
+	if ( 0 == MultiByteToWideChar( CP_ACP, 0, asrc.c_str(), asrc.size(), tmp, src.size() ) ) {
+	    return result;*/
+#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
 	wchar_t* tmp = new wchar_t[src.size()+1];
-	memset( tmp, 0 , (src.size()+1)sizeof(wchar_t) );
-	if ( 0 == MultiByteToWideChar( CP_ACP, 0, src.c_str(), src.size(), tmp, src.size() ) ) {
+	memset( tmp, 0 , (src.size()+1)*sizeof(wchar_t) );
+	AnsiString asrc = src;
+	if ( 0 == MultiByteToWideChar( CP_ACP, 0, asrc.c_str(), asrc.size(), tmp, src.size() ) ) {
 		return result;
 	}
 
@@ -910,6 +918,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/04/11 17:04:50  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.2.4.2  2005/04/09 17:20:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

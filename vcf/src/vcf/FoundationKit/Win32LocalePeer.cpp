@@ -492,8 +492,11 @@ UnicodeString Win32LocalePeer::toString( const int& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
+	#else
 		swprintf( tmp, L"%d", val );
-
+	#endif
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
 
@@ -542,8 +545,11 @@ UnicodeString Win32LocalePeer::toString( const unsigned int& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
+	#else
 		swprintf( tmp, L"%d", val );
-
+	#endif
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
 
@@ -591,8 +597,11 @@ UnicodeString Win32LocalePeer::toString( const long& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
+	#else
 		swprintf( tmp, L"%d", val );
-
+	#endif
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
 
@@ -641,8 +650,11 @@ UnicodeString Win32LocalePeer::toString( const unsigned long& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
+	#else
 		swprintf( tmp, L"%d", val );
-
+	#endif
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForIntW( fmt );
 
@@ -692,8 +704,11 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%.08f", val );
+	#else
 		swprintf( tmp, L"%.08f", val );
-
+	#endif
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForFloatW( fmt );
 
@@ -742,8 +757,11 @@ UnicodeString Win32LocalePeer::toString( const float& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%.08f", val );
+	#else
 		swprintf( tmp, L"%.08f", val );
-
+	#endif
 		NUMBERFMTW fmt = {0};
 		initNumberFormatForFloatW( fmt );
 
@@ -792,8 +810,11 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
+	#ifdef VCF_CW
+		swprintf( tmp, sizeof(tmp)-1, L"%.08f", val );
+	#else
 		swprintf( tmp, L"%.08f", val );
-
+	#endif
 		int size = ::GetCurrencyFormatW( lcid_, 0, tmp, NULL, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
@@ -1246,10 +1267,16 @@ bool Win32LocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 
 
 	if ( System::isUnicodeEnabled() ) {
+	
+	#ifdef VCF_CW
+		oldLocaleStr = setlocale( LC_CTYPE, NULL );
+		
+		setlocale( LC_CTYPE, crtLocaleStr_.ansi_c_str() );
+	#else
 		oldLocaleStr = _wsetlocale( LC_CTYPE, NULL );
 
 		_wsetlocale( LC_CTYPE, crtLocaleStr_.c_str() );
-
+	#endif
 
 		if ( charTypeMask & ctSpace ) {
 			if ( iswspace( c ) ) {
@@ -1323,7 +1350,11 @@ bool Win32LocalePeer::isCharA( const long& charTypeMask, const VCFChar& c )
 			}
 		}
 
+	#ifdef VCF_CW
+		setlocale( LC_CTYPE, oldLocaleStr.ansi_c_str() );
+	#else
 		_wsetlocale( LC_CTYPE, oldLocaleStr.c_str() );
+	#endif
 	}
 	else {
 		oldLocaleStr = setlocale( LC_CTYPE, NULL );
@@ -2750,6 +2781,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/11 17:07:15  iamfraggle
+*Changes allowing compilation of Win32 port under CodeWarrior
+*
 *Revision 1.3.2.1  2005/04/09 17:21:32  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
