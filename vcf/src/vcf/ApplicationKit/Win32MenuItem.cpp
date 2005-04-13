@@ -115,11 +115,15 @@ void Win32MenuItem::insertSimpleMenuItem( MenuItem* child, HMENU menu )
 
 
 	info.cch = itemName.size();
-
+#if defined(VCF_CW) && defined(UNICODE)
+	wchar_t* tmpName = new wchar_t[info.cch+1];
+	memset( tmpName, 0, (info.cch+1)*sizeof(wchar_t) );
+	itemName.copy( tmpName, info.cch );
+#else
 	char* tmpName = new char[info.cch+1];
 	memset( tmpName, 0, (info.cch+1)*sizeof(char) );
 	itemName.copy( tmpName, info.cch );
-
+#endif
 	info.dwTypeData = tmpName;
 
 	if ( InsertMenuItem( menu, child->getIndex()/*info.wID*/, TRUE, &info ) ) {
@@ -877,6 +881,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.7  2005/04/13 00:57:02  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.2.4.6  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

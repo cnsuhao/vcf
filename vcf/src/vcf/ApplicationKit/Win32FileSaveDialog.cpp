@@ -46,7 +46,7 @@ bool Win32FileSaveDialog::executeW()
 {
 
 	OPENFILENAMEW ofn;
-	memset( &ofn, 0, sizeof(OPENFILENAME) );
+	memset( &ofn, 0, sizeof(OPENFILENAMEW) );
 	ofn.lStructSize = sizeof(ofn);
 	HWND ownerWnd = NULL;
 	if ( NULL != owner_ ){
@@ -189,7 +189,7 @@ bool Win32FileSaveDialog::executeA()
 {
 
 	OPENFILENAMEA ofn;
-	memset( &ofn, 0, sizeof(OPENFILENAME) );
+	memset( &ofn, 0, sizeof(OPENFILENAMEA) );
 	ofn.lStructSize = sizeof(ofn);
 	HWND ownerWnd = NULL;
 	if ( NULL != owner_ ){
@@ -397,6 +397,9 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/04/13 00:57:02  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.2.4.3  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

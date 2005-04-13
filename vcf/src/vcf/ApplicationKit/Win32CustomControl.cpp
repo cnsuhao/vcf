@@ -63,11 +63,7 @@ void Win32CustomControl::registerWndClass()
 		wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_BTNFACE+1);
 		wcex.lpszMenuName	= NULL;
-	#ifdef VCF_CW
-		wcex.lpszClassName  = this->getClassName().ansi_c_str();
-	#else
 		wcex.lpszClassName	= this->getClassName().c_str();
-	#endif
 		wcex.hIconSm		= NULL;
 
 		if ( 0 != RegisterClassEx(&wcex) ){
@@ -250,6 +246,9 @@ void Win32CustomControl::releaseMouseEvents()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/13 00:57:02  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.2.4.1  2005/04/11 17:04:51  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
