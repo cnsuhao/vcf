@@ -1,11 +1,11 @@
+#include "prefix/W32LIBDebug.h"
+
 #pragma precompile_target "W32GraphicsLIBDebug.mch"
 // #pragma once on
 #include "ansi_prefix.win32.h"
 #define NOMINMAX
 #include <windows.h>
 // VCF Includes
-
-#include "prefix/W32LIBDebug.h"
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"

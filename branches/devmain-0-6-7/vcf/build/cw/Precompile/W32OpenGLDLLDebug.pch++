@@ -1,10 +1,10 @@
+#include "prefix/W32OpenGLDLLDebug.h"
+
 #pragma precompile_target "W32OpenGLDLLDebug.mch"
 // #pragma once on
 #include "ansi_prefix.win32.h"
 #define NOMINMAX
 #include <windows.h>
 // VCF Includes
-
-#include "prefix/W32OpenGLDLLDebug.h"
 
 #include "vcf/OpenGLKit/OpenGLKit.h"

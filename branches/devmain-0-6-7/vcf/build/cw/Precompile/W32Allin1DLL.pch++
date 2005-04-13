@@ -1,11 +1,12 @@
 #pragma precompile_target "W32Allin1DLL.mch"
+
+#include "Prefix/W32Allin1DLL.h"
+
 // #pragma once on
 #include "ansi_prefix.win32.h"
 #define NOMINMAX
 #include <windows.h>
 // VCF Includes
-
-#include "Prefix/W32Allin1DLL.h"
 
 #ifndef VCF_ALLIN1_NO_OPENGLKIT
 	#include "vcf/OpenGLKit/OpenGLKit.h"
