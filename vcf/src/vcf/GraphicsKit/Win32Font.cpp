@@ -846,11 +846,14 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 		lfTmp.lfStrikeOut = FALSE;
 		lfTmp.lfUnderline = FALSE;
 		lfTmp.lfWeight = FW_NORMAL;
-		
+#if defined(VCF_CW) && defined(UNICODE)
+		memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(WCHAR) );
+		fontName_.copy( lfTmp.lfFaceName, minVal<int>( fontName_.size(), LF_FACESIZE) );
+#else		
 		AnsiString tmpName = fontName_;
 		memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(char) );
 		tmpName.copy( lfTmp.lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
-		
+#endif		
 		HFONT testFnt = CreateFontIndirect( &lfTmp );
 		if ( testFnt ) {
 			HFONT oldFnt = (HFONT)SelectObject( dc, testFnt );		
@@ -917,6 +920,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/04/13 01:08:49  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.3.2.2  2005/02/16 05:09:34  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

@@ -79,8 +79,11 @@ void Win32PrintSession::setDefaultPageSettings()
 	}
 	
 
+#if defined(VCF_CW) && defined(UNICODE)
+	printInfo_.docInfo_.lpszDocName = L"Untitled";	
+#else
 	printInfo_.docInfo_.lpszDocName = "Untitled";
-
+#endif
 	printerDC_ = hDC;
 
 
@@ -172,7 +175,11 @@ void Win32PrintSession::abort()
 
 PrintContext* Win32PrintSession::beginPrintingDocument()
 {
+#if defined(VCF_CW) && defined(UNICODE)
+	printInfo_.docInfo_.lpszDocName = title_.c_str();	
+#else
 	printInfo_.docInfo_.lpszDocName = title_.ansi_c_str();
+#endif
 	if ( !::StartDoc( printerDC_, &printInfo_.docInfo_ ) ) {
 		//throw exception???		
 		return NULL;
