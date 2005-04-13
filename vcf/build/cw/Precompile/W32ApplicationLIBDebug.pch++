@@ -1,11 +1,12 @@
 #pragma precompile_target "W32ApplicationLIBDebug.mch"
+
+#include "prefix/W32LIBDebug.h"
+
 // #pragma once on
 #include "ansi_prefix.win32.h"
 #define NOMINMAX
 #include <windows.h>
 // VCF Includes
-
-#include "prefix/W32LIBDebug.h"
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"

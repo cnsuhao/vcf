@@ -1,11 +1,12 @@
+#pragma precompile_target "OSXFoundationDLLDebug.mch"
+
 #define TARGET_API_MAC_CARBON 1
 #define __MACH__ 1
-#pragma precompile_target "OSXFoundationDLLDebug.mch"
+#include "prefix/OSXFoundationDLLDebug.h"
+
 #pragma once on
 #include "MacHeaders.c"
 
 // VCF Includes
-#include "prefix/OSXFoundationDLLDebug.h"
-
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
