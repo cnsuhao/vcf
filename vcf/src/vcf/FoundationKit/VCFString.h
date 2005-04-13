@@ -943,7 +943,7 @@ protected:
 	StringData data_;
 	mutable AnsiChar* ansiDataBuffer_;
 
-	inline void modified() {
+	void modified() {
 		if ( NULL != ansiDataBuffer_ ) {
 			delete [] ansiDataBuffer_;
 			ansiDataBuffer_ = NULL;
@@ -1083,6 +1083,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/13 02:53:11  iamfraggle
+*Remove inadvertantly added 'inline'
+*
 *Revision 1.3.2.5  2005/04/11 22:47:58  marcelloptr
 *minor fix
 *
