@@ -315,7 +315,11 @@ Enumerator<String>* Win32Registry::getKeyNames()
 Enumerator<RegistryValueInfo*>* Win32Registry::getValues()
 {
 	DWORD index = 0;
+#if defined(VCF_CW) && defined(UNICODE)
+	WCHAR valName[256];
+#else
 	CHAR valName[256];
+#endif
 	DWORD type = 0;
 	DWORD valNameSize = 256;
 	BYTE buffer[256];
@@ -330,7 +334,7 @@ Enumerator<RegistryValueInfo*>* Win32Registry::getValues()
 	}
 
 	values_.clear();
-	memset( valName, 0, 256*sizeof(CHAR) );
+	memset( valName, 0, sizeof(valName) );
 
 	while ( ERROR_NO_MORE_ITEMS != RegEnumValue( currentKeyHandle_, index, valName, &valNameSize, NULL, &type, (BYTE*)&buffer, &bufferSize ) ){
 		String tmp = String(valName);
@@ -383,6 +387,9 @@ String Win32Registry::getCurrentKey()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/13 02:50:45  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.3.2.1  2005/04/09 17:21:34  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

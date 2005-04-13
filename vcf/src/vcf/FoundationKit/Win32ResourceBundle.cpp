@@ -253,6 +253,7 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 
 BOOL CALLBACK Win32ResourceBundle::EnumResTypeProcA( HMODULE hModule, char* lpszType, LPARAM lParam )
 {
+#if !defined(VCF_CW) && !defined(UNICODE)
 	if ( (RT_CURSOR == lpszType) || (RT_ICON == lpszType) || (RT_BITMAP == lpszType) || (RT_STRING == lpszType) || (RT_VERSION == lpszType) || (RT_VXD == lpszType) ) {
 		return TRUE;
 	}
@@ -260,6 +261,9 @@ BOOL CALLBACK Win32ResourceBundle::EnumResTypeProcA( HMODULE hModule, char* lpsz
 		                        lpszType,
 								Win32ResourceBundle::EnumResNameProcA,
 								lParam );
+#else
+	return FALSE;
+#endif
 }
 
 
@@ -699,6 +703,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2005/04/13 02:50:45  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.2.2.2  2005/04/09 17:21:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
