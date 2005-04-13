@@ -491,8 +491,11 @@ VCF::String StringUtils::newUUID()
 #ifdef WIN32
 	UUID id;
 	if ( RPC_S_OK == ::UuidCreate( &id ) ){
+#if defined(VCF_CW) && defined(UNICODE)
+		unsigned short *tmpid = NULL;
+#else
 		unsigned char *tmpid = NULL;
-
+#endif
 		RPC_STATUS rpcresult = UuidToString(  &id, &tmpid );
 
 		if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
@@ -2194,6 +2197,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/13 02:50:45  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.3.2.5  2005/04/11 17:07:12  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
