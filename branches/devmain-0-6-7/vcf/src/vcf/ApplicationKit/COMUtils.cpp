@@ -127,9 +127,11 @@ HRESULT COMUtils::BSTRtoString( const BSTR src, String& dest )
 HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 {
 	HRESULT result = E_FAIL;
-
+#if defined(VCF_CW) && defined(UNICODE)
+	unsigned short *tmpid = NULL;
+#else
 	unsigned char *tmpid = NULL;
-
+#endif
 	RPC_STATUS rpcresult = UuidToString( const_cast<UUID*>( &id ), &tmpid );
 
 	if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
@@ -150,8 +152,13 @@ HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 HRESULT COMUtils::StringtoUUID( const String& src, UUID& destID )
 {
 	HRESULT result = E_FAIL;
+#if defined(VCF_CW) && defined(UNICODE)
+	//this is derived from the #else statement so if that's a bad idea, so is this! - ACH
+	unsigned short *tmpid = (unsigned short*) ( src.c_str() );
+#else
 	//the (unsigned char*) cast below might be a bad idea ????
 	unsigned char *tmpid = (unsigned char*) const_cast<char*>( src.ansi_c_str() );
+#endif
 	UUID tmpUUID;
 
 	RPC_STATUS rpcresult = UuidFromString ( tmpid, &tmpUUID );
@@ -201,7 +208,11 @@ HRESULT COMUtils::getPidlsFromHGlobal(const HGLOBAL HGlob, std::vector<String>& 
 		LPCITEMIDLIST pidlf = NULL;
 		pidlf = (LPCITEMIDLIST)( ((UINT)pCIDA) + pCIDA->aoffset[0]);
 
+#if defined(VCF_CW) && defined(UNICODE)
+		wchar_t pathf[MAX_PATH] = L"";
+#else
 		char pathf[MAX_PATH] = "";
+#endif
 		SHGetPathFromIDList(pidlf, pathf);
 
 		String fixedPath( pathf );
@@ -209,7 +220,11 @@ HRESULT COMUtils::getPidlsFromHGlobal(const HGLOBAL HGlob, std::vector<String>& 
 		LPCITEMIDLIST pidl = NULL;
 		pidl = (LPCITEMIDLIST)( ((UINT)pCIDA) + pCIDA->aoffset[i+1]);
 
+#if defined(VCF_CW) && defined(UNICODE)
+		wchar_t path[MAX_PATH] = L"";
+#else
 		char path[MAX_PATH] = "";
+#endif
 		SHGetPathFromIDList(pidl, path);
 		String pidlPath( path );
 		int pos = pidlPath.find_last_of( "\\");
@@ -902,6 +917,18 @@ VCF::DataObject* COMUtils::getDataObjectFromOLEDataObject( const VCF::String dat
 
 void COMUtils::registerDataTypes()
 {
+#if defined(VCF_CW) && defined(UNICODE)
+	VCFCOM::COMUtils::standardWin32DataTypes[STRING_DATA_TYPE] = CF_TEXT;
+	VCFCOM::COMUtils::standardWin32DataTypes[INTEGER_DATA_TYPE] = ::RegisterClipboardFormat( L"text/x-vcf-integer" );
+	VCFCOM::COMUtils::standardWin32DataTypes[OBJECT_DATA_TYPE] = ::RegisterClipboardFormat( L"application/x-vcf-object" );
+	VCFCOM::COMUtils::standardWin32DataTypes[FILE_DATA_TYPE] = CF_HDROP;
+	VCFCOM::COMUtils::standardWin32DataTypes[BYTE_STREAM_DATA_TYPE] = ::RegisterClipboardFormat( L"application/octet-stream" );
+	VCFCOM::COMUtils::standardWin32DataTypes[IMAGE_DATA_TYPE] = ::RegisterClipboardFormat( L"image/x-vcf-image" );
+	VCFCOM::COMUtils::standardWin32DataTypes["image/application-x-wmf"] = CF_METAFILEPICT;
+	VCFCOM::COMUtils::standardWin32DataTypes["image/application-x-emf"] = CF_ENHMETAFILE;
+	VCFCOM::COMUtils::standardWin32DataTypes["image/bmp"] = CF_BITMAP;
+	VCFCOM::COMUtils::standardWin32DataTypes[COMPONENT_DATA_TYPE] = ::RegisterClipboardFormat( L"text/x-vcf-vff" );
+#else
 	VCFCOM::COMUtils::standardWin32DataTypes[STRING_DATA_TYPE] = CF_TEXT;
 	VCFCOM::COMUtils::standardWin32DataTypes[INTEGER_DATA_TYPE] = ::RegisterClipboardFormat( "text/x-vcf-integer" );
 	VCFCOM::COMUtils::standardWin32DataTypes[OBJECT_DATA_TYPE] = ::RegisterClipboardFormat( "application/x-vcf-object" );
@@ -912,12 +939,16 @@ void COMUtils::registerDataTypes()
 	VCFCOM::COMUtils::standardWin32DataTypes["image/application-x-emf"] = CF_ENHMETAFILE;
 	VCFCOM::COMUtils::standardWin32DataTypes["image/bmp"] = CF_BITMAP;
 	VCFCOM::COMUtils::standardWin32DataTypes[COMPONENT_DATA_TYPE] = ::RegisterClipboardFormat( "text/x-vcf-vff" );
+#endif
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/04/13 00:57:01  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.2.4.3  2005/04/11 17:04:50  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *

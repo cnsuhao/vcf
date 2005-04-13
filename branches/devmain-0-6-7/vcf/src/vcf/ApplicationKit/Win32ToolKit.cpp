@@ -1288,30 +1288,46 @@ Win32ToolKit::Win32ToolKit():
 	browserLibAvailable_ = false;
 #endif
 
+#if defined(VCF_CW) && defined(UNICODE)
+	VCF_POST_EVENT = RegisterWindowMessage( L"VCF_POST_EVENT" );
+#else
 	VCF_POST_EVENT = RegisterWindowMessage( "VCF_POST_EVENT" );
+#endif
 	if ( 0 == VCF_POST_EVENT ) {
 		//oops it failed - do it the stupid way
 		VCF_POST_EVENT = WM_USER + 2000;
 	}
-
+#if defined(VCF_CW) && defined(UNICODE)
+	HBITMAP bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"stop", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#else
 	HBITMAP bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "stop", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#endif
 	if ( NULL != bmp ) {
 		stopImage_ = new Win32Image( bmp );
 	}
-
+#if defined(VCF_CW) && defined(UNICODE)
+	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"warning", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#else
 	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "warning", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#endif
 	if ( NULL != bmp ) {
 		warningImage_ = new Win32Image( bmp );
 	}
-
+#if defined(VCF_CW) && defined(UNICODE)
+	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"inform", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#else
 	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "inform", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#endif
 	if ( NULL != bmp ) {
 		informationImage_ = new Win32Image( bmp );
 		informationImage_->setTransparencyColor( &Color(0.0,1.0,0.0) );
 		informationImage_->setIsTransparent( true );
 	}
-
+#if defined(VCF_CW) && defined(UNICODE)
+	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"question", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#else
 	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "question", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+#endif
 	if ( NULL != bmp ) {
 		questionImage_ = new Win32Image( bmp );
 	}
@@ -2204,6 +2220,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/04/13 00:57:02  iamfraggle
+*Enable Unicode in CodeWarrior
+*
 *Revision 1.3.2.9  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *
