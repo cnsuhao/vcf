@@ -110,6 +110,10 @@ AcceleratorKey* AbstractApplication::getAccelerator( const VirtualKeyCode& keyCo
 
 void AbstractApplication::addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, EventHandler* eventHandler )
 {
+	if ( NULL == eventHandler ) {
+		throw InvalidPointerException( MAKE_ERROR_MSG_2("The Event handler passed in is NULL!") );
+	}
+
 	AcceleratorKey* accelerator = new AcceleratorKey( this, keyCode, modifierMask, eventHandler );
 	addAcceleratorKey( accelerator );
 }
@@ -128,6 +132,9 @@ void AbstractApplication::setName( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/14 16:05:00  marcelloptr
+*added exception on NULL pointer to handler given to addAcceleratorKey as in Control class implementation
+*
 *Revision 1.3.2.1  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *
