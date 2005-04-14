@@ -144,8 +144,8 @@ namespace VCF {
 		
 #ifndef VCF_CW
 		// specialization for a String value.
-		template <> 
-			Format& operator%<String> (const String& val) {
+		template <String>
+			Format& operator% (const String& val) {
 
 			currentFormatArgCount_  ++;
 			
@@ -323,6 +323,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.8  2005/04/14 16:01:21  marcelloptr
+*fixed template specialization sintax
+*
 *Revision 1.1.2.7  2005/04/11 17:07:10  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
