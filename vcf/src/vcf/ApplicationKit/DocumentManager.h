@@ -1341,8 +1341,14 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc
 	}
 
 	if ( result ) {
-		doc->setModified(false);
+		doc->setModified(false); // it already is, we just make sure.
 		doc->setFileName( fp );
+
+		// notifies the UI that the document has changed name
+		ModelEvent e( doc, Document::deSaved );
+		doc->ModelChanged.fireEvent( &e );
+
+		doc->undoRedoBalance_ = 0;
 	}
 
 	return result;
@@ -1426,6 +1432,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::reloadDocument( Document*
 
 	// reset the undo/redo stack
 	getUndoRedoStack( document).clearCommands();
+
+	// Do we need to further notify the UI ? I guess not, it seems 
+	// that all the necessary notifications have been already done. - MP
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -1601,8 +1610,8 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 	// creates or activates a window for it, and fires event for custom initializations.
 	attachUI( info, document );
 
-	// with its creation, notifies the document has been changed
-	// so the UI updates itself
+	// after the document has been created, notifies that it has
+	// been changed, so the UI can updates itself.
 	ModelEvent e( document, Document::deOpened );
 	document->ModelChanged.fireEvent( &e );
 }
@@ -1780,6 +1789,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/04/15 20:25:39  marcelloptr
+*fix: saveAs now notifies the UI that the document has changed name
+*
 *Revision 1.3.2.6  2005/04/09 17:20:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
