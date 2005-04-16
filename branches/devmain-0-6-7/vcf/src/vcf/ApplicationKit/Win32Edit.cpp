@@ -1090,6 +1090,8 @@ int Win32Edit::getCRCount( const unsigned long& begin, const unsigned long& end,
 
 void Win32Edit::setText( const VCF::String& text )
 {
+	int firstLine1 = ::SendMessage( hwnd_, EM_GETFIRSTVISIBLELINE, (WPARAM)0, (LPARAM)0 );
+
 	DWORD start = getSelectionStart();
 	DWORD count = getSelectionCount();
 
@@ -1126,6 +1128,22 @@ void Win32Edit::setText( const VCF::String& text )
 	}
 
 	setSelectionMark( start, count );
+
+	int firstLine2 = ::SendMessage( hwnd_, EM_GETFIRSTVISIBLELINE, (WPARAM)0, (LPARAM)0 );
+
+	if ( firstLine2 != firstLine1 ) {
+		// workaround necessary only while insertText is implemented with setText - MP
+		// if we could know the number of lines visible in the editor, we would be able
+		// to save these two calls.
+		// setText() empties the editor first, then puts back the text plus the added text,
+		// but in this way it looses the scrolling position information.
+		// At that point setSelectionMark() will make the selection visible, but at the end
+		// of the page.
+		::SendMessage( hwnd_, EM_LINESCROLL, (WPARAM)0, (LPARAM)(-(firstLine2-firstLine1)) );
+
+		// this will not move the the scrollbar if the selection is already visible
+		setSelectionMark( start, count );
+	}
 }
 
 unsigned long Win32Edit::getSelectionStart()
@@ -1509,6 +1527,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.14  2005/04/16 17:22:55  marcelloptr
+*temporary workaround for scrolling problem when inserting text (and selecting it)
+*
 *Revision 1.3.2.13  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
