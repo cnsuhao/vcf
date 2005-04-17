@@ -26,11 +26,11 @@ public:
 
 	virtual String getProcessFileName();
 
-	virtual ulong32 getHandleID();
+	virtual OSHandleID getHandleID();
 
 	virtual ulong32 terminate();
 protected:
-	ulong32 processHandle_;
+	OSHandleID processHandle_;
 	VCF::String processFileName_;
 };
 
@@ -40,6 +40,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

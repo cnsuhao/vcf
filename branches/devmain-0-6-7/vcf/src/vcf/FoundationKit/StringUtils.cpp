@@ -11,9 +11,16 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/DateTime.h"
 
-#ifdef VCF_OSX
+#ifdef VCF_OSX 
     #include <cxxabi.h>  //add this so we can demangle the GCC typeinfo names
 #endif
+
+#ifdef VCF_POSIX
+    #include <cxxabi.h>  //add this so we can demangle the GCC typeinfo names
+#endif
+
+
+
 
 #define TO_STRING_TXT_SIZE		50
 
@@ -615,7 +622,7 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 	/*
 		static String classPrefix( "class " );
 		String name( typeInfo.name() );
-
+#ifdef VCF_POSIX
 		// Work around gcc 3.0 bug: strip number before type name.
 		unsigned int firstNotDigitIndex = 0;
 		while ( firstNotDigitIndex < name.length()  &&
@@ -631,8 +638,14 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 		}
 	*/
 	result = c_name;
+#elif VCF_POSIX
+	int status = 0;
+	char* c_name = 0;
+
+	c_name = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
+	result = c_name;
 #else
-    result = typeInfo.name();
+	result = typeInfo.name();
 #endif
 
 	return result;
@@ -1083,7 +1096,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%d - Day of month as decimal number (01 – 31)
+				//	%d - Day of month as decimal number (01  31)
 				case 'd' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1147,7 +1160,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%H - Hour in 24-hour format (00 – 23)
+				//	%H - Hour in 24-hour format (00  23)
 				case 'H' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1187,7 +1200,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%I - Hour in 12-hour format (01 – 12)
+				//	%I - Hour in 12-hour format (01  12)
 				case 'I' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1232,7 +1245,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					}
 				break;
 
-				//	%j - Day of year as decimal number (001 – 366)
+				//	%j - Day of year as decimal number (001  366)
 				case 'j' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1274,7 +1287,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%m - Month as decimal number (01 – 12)
+				//	%m - Month as decimal number (01  12)
 				case 'm' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1315,7 +1328,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%M - Minute as decimal number (00 – 59)
+				//	%M - Minute as decimal number (00  59)
 				case 'M' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1368,7 +1381,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%S - Second as decimal number (00 – 59)
+				//	%S - Second as decimal number (00  59)
 				case 'S' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1410,7 +1423,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%U - Week of year as decimal number, with Sunday as first day of week (00 – 53)
+				//	%U - Week of year as decimal number, with Sunday as first day of week (00  53)
 				case 'U' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1451,7 +1464,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%w - Weekday as decimal number (0 – 6; Sunday is 0)
+				//	%w - Weekday as decimal number (0  6; Sunday is 0)
 				case 'w' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1474,7 +1487,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%W - Week of year as decimal number, with Monday as first day of week (00 – 53)
+				//	%W - Week of year as decimal number, with Monday as first day of week (00  53)
 				case 'W' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -1538,7 +1551,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				//	%y - Year without century, as decimal number (00 – 99)
+				//	%y - Year without century, as decimal number (00  99)
 				case 'y' : {
 					result.append( current, (P-current) -formatArgCount );
 
@@ -2197,6 +2210,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.3.2.6  2005/04/13 02:50:45  iamfraggle
 *Enable Unicode in CodeWarrior
 *

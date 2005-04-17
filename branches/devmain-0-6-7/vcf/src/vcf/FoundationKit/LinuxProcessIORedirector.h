@@ -67,8 +67,8 @@ public:
 		return commandLine_;
 	}
 
-	virtual ulong32 getHandleID() {
-		return childProcess_;
+	virtual OSHandleID getHandleID() {
+		return (OSHandleID)childProcess_;
 	}
 
 	virtual void setProcess( ProcessWithRedirectedIO* process ) {
@@ -93,6 +93,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -28,7 +28,7 @@ public:
 	virtual ~PosixMutex();
 	virtual bool lock();
 	virtual bool unlock();
-	virtual uint32 getHandleID() { return (uint32)&mutex_; }
+	virtual OSHandleID getHandleID() { return (OSHandleID)&mutex_; }
 
 protected:
 
@@ -42,6 +42,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

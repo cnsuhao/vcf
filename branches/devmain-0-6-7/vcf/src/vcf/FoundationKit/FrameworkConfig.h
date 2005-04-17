@@ -159,6 +159,7 @@ VCF_BCC - compiling with Borland's C++ compiler
 // This will discover the GCC compiler and it's version number (eg 3.4.2)
 // __GNUC_VERSION__ contains the version number in integer form (eg 30402) - ACH
 #ifdef __GNUC__
+	#undef VCF_GCC
 	#define VCF_GCC
 	#if defined(__GNU_PATCHLEVEL__)
 		#define __GNUC_VERSION__ (__GNUC__ * 10000 \
@@ -169,7 +170,10 @@ VCF_BCC - compiling with Borland's C++ compiler
                             + __GNUC_MINOR__ * 100)
 	#endif
 	#undef VCF_COMPILER_NAME
-	#define VCF_COMPILER_NAME "GCC"__GNUC__"."__GNUC_MINOR__"."__GNUC_PATCHLEVEL__
+	
+	//The below does NOT compile under GCC 3.3.3. Does anyone know why not???
+	//#define VCF_COMPILER_NAME "GCC"__GNUC__"."__GNUC_MINOR__"."__GNUC_PATCHLEVEL__
+	#define VCF_COMPILER_NAME String("GCC") + __GNUC__ + "."
 #endif // __GNUC__
 
 
@@ -654,6 +658,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/17 16:11:31  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.3.2.5  2005/04/11 17:07:12  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *

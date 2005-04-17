@@ -261,7 +261,7 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 		throw RuntimeException( L"size < 0 wctomb() failed" );
 	}
 
-	UnicodeString::AnsiChar tmp = new UnicodeString::AnsiChar[size+1];
+	UnicodeString::AnsiChar* tmp = new UnicodeString::AnsiChar[size+1];
 
 	if ( wctomb( tmp, c ) < 0 ) {
 		throw RuntimeException( L"wctomb() failed" );
@@ -815,6 +815,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.3.2.1  2005/02/16 05:09:33  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

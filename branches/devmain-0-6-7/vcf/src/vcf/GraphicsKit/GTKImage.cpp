@@ -59,7 +59,7 @@ GTKImage::~GTKImage()
 void GTKImage::init()
 {
 
-	context_ = new GraphicsContext( (unsigned long) gdk_get_default_root_window() );
+	context_ = new GraphicsContext( (OSHandleID) gdk_get_default_root_window() );
 	GTKContext* gtkCtx = (GTKContext*)context_->getPeer();
 	gtkCtx->setParentImage( this );
 }
@@ -105,7 +105,7 @@ void GTKImage::createImage( const unsigned long & width, const unsigned long & h
 
 	gdk_pixbuf_render_pixmap_and_mask( pixBuf_, &pixmap_, &bitmap_, 255 );
 
-	context_->getPeer()->setContextID( (unsigned long)pixmap_ );
+	context_->getPeer()->setContextID( (OSHandleID)pixmap_ );
 
 	imageBits_->pixels_ = (SysPixelType*)gdk_pixbuf_get_pixels( pixBuf_ );
 
@@ -142,6 +142,9 @@ void GTKImage::finishedDrawing()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

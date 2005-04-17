@@ -141,6 +141,8 @@ namespace VCF{
 		public:
 			Assertion( const String& msg ) :msg_(msg){}
 			
+			virtual ~Assertion() throw() {} //make GCC happy :)
+			
 			virtual const char *what() const throw() {
 				return msg_.ansi_c_str();
 			}
@@ -325,6 +327,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/04/17 16:11:31  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.4.2.4  2005/04/11 17:07:10  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
