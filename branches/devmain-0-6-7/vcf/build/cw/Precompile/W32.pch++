@@ -1,6 +1,4 @@
-#pragma precompile_target "W32Allin1DLL.mch"
-
-#include "Prefix/W32Allin1DLL.h"
+#include "W32.h"
 
 // #pragma once on
 #include "ansi_prefix.win32.h"
@@ -8,6 +6,7 @@
 #include <windows.h>
 // VCF Includes
 
+#ifdef VCF_ALLIN1
 #ifndef VCF_ALLIN1_NO_OPENGLKIT
 	#include "vcf/OpenGLKit/OpenGLKit.h"
 #endif
@@ -22,4 +21,18 @@
 #ifndef VCF_ALLIN1_NO_FOUNDATIONKIT
 	#include "vcf/FoundationKit/FoundationKit.h"
 	#include "vcf/FoundationKit/FoundationKitPrivate.h"
+#endif
+#endif
+
+#ifdef FOUNDATIONKIT
+	#include "vcf/FoundationKit/FoundationKit.h"
+	#include "vcf/FoundationKit/FoundationKitPrivate.h"
+#elif defined(GRAPHICSKIT)
+	#include "vcf/GraphicsKit/GraphicsKit.h"
+	#include "vcf/GraphicsKit/GraphicsKitPrivate.h"
+#elif defined(APPLICATIONKIT)
+	#include "vcf/ApplicationKit/ApplicationKit.h"
+	#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+#elif defined(OPENGLKIT)
+	#include "vcf/OpenGLKit/OpenGLKit.h"
 #endif
