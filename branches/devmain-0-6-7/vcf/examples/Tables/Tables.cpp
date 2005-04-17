@@ -36,7 +36,7 @@ public:
 
 		for (int y=0;y<model->getRowCount();y++ ){
 			for ( int x=0;x<model->getColumnCount();x++ ) {
-				model->getItem( y, x )->setCaption( Format( "Cell [%d,%d]" ) % y % x ) );
+				model->getItem( y, x )->setCaption( Format( "Cell [%d,%d]" ) % y % x );
 			}
 		}
 
@@ -88,6 +88,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/04/17 17:19:10  iamfraggle
+*Small fixes
+*
 *Revision 1.4.2.1  2005/04/17 15:11:48  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

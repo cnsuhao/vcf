@@ -68,7 +68,7 @@ public:
 
 		String s = Format( "%ls. %ls")
 					%	StringUtils::format( currentMonthDate, "The current month starts on %A, %B %d, %Y" ).c_str()
-					%	StringUtils::format( current, "Today is %A, %B %d, %Y week %#W" ).c_str() );
+					%	StringUtils::format( current, "Today is %A, %B %d, %Y week %#W" ).c_str();
 
 		String s2 =
 			StringUtils::format( Format("\nThe current month has %d days in it, and the current year has %d days in it, starts on week %d,\nand has %d total weeks in the year\n")
@@ -479,6 +479,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/04/17 17:18:24  iamfraggle
+*Small fixes
+*
 *Revision 1.4.2.1  2005/04/17 15:11:42  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

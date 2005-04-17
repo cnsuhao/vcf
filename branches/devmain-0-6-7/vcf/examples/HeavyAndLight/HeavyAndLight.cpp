@@ -154,7 +154,7 @@ public:
 	void paint( GraphicsContext* gc ) {
 		Window::paint( gc );
 
-		String text = Format( "GraphicsContext's peer handle: 0x%08X" ) % gc->getPeer()->getContextID() );
+		String text = Format( "GraphicsContext's peer handle: 0x%08X" ) % gc->getPeer()->getContextID();
 
 		gc->textAt( 0, 0, text );
 	}
@@ -201,6 +201,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.2  2005/04/17 17:19:09  iamfraggle
+*Small fixes
+*
 *Revision 1.4.4.1  2005/04/17 15:11:44  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

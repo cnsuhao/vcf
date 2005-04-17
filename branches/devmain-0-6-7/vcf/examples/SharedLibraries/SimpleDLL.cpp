@@ -15,7 +15,7 @@ where you installed the VCF.
 
 void HelloWorld::hello()
 {
-	printf( Format("Hello from class: %s, instance @ %p\n") % typeid(*this).name() % this );
+	printf( "Hello from class: %s, instance @ %p\n", typeid(*this).name(), this );
 }
 
 extern "C" {
@@ -38,6 +38,9 @@ void vpl_terminate (void) {}
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/04/17 17:19:10  iamfraggle
+*Small fixes
+*
 *Revision 1.4.2.1  2005/04/17 15:11:47  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

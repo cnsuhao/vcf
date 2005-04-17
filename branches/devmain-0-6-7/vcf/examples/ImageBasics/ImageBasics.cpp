@@ -65,7 +65,7 @@ public:
 		y += logoImage->getHeight() + 20;
 
 		String imageInfo = Format( "Image width: %d, height: %d")
-									 %logoImage->getWidth() % logoImage->getHeight() );
+									 %logoImage->getWidth() % logoImage->getHeight();
 
 		ctx->textAt( x, y, imageInfo );
 
@@ -198,6 +198,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.2  2005/04/17 17:19:10  iamfraggle
+*Small fixes
+*
 *Revision 1.4.4.1  2005/04/17 15:11:45  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *
