@@ -29,7 +29,7 @@ public:
 
 	void init();
 
-	virtual ulong32 getFontHandleID() ;
+	virtual OSHandleID getFontHandleID() ;
 
 	virtual String getName() ;
 
@@ -60,37 +60,20 @@ public:
 	virtual bool getStrikeOut() ;
 
 	virtual void setStrikeOut( const bool& strikeout );
-
-	virtual double getShear() ;
-
-	virtual void setShear(const double& shear );
-
-	virtual double getAngle() ;
-
-	virtual void setAngle( const double& angle );
-
+	
 	virtual void setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-					const bool& underlined, const bool& struckOut, const double& shear,
-					const double& angle, const String& name );
+					const bool& underlined, const bool& struckOut, const String& name );
 
 	virtual double getAscent() ;
 
 	virtual double getDescent() ;
-
-	virtual double getExternalLeading() ;
-
-	virtual double getInternalLeading() ;
-
-	virtual double getHeight() ;
-
-	virtual VCFChar getWordBreakCharacter() ;
-
-	virtual VCFChar getFirstCharacter() ;
-
-	virtual VCFChar getLastCharacter() ;
-
+	
+	virtual bool isFixedPitch();
+	
 	virtual GlyphCollection* getGlyphCollection( const String& text ) ;
 
+	virtual void setFont( Font* font );
+	
 	virtual bool isEqual( Object* object );
 
 	PangoFontDescription* getPangoFontDescription() {
@@ -107,6 +90,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

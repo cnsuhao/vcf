@@ -31,6 +31,7 @@ LinuxRegistry.cpp \
 LinuxSemaphorePeer.cpp \
 LinuxSystemPeer.cpp \
 LinuxSystemToolkit.cpp \
+LinuxResourceBundle.cpp \
 Locales.cpp \
 MIMEType.cpp \
 MemoryStream.cpp \
@@ -46,6 +47,7 @@ PosixThread.cpp \
 ProcessWithRedirectedIO.cpp \
 PropertyChangeEvent.cpp \
 Registry.cpp \
+ResourceBundle.cpp \
 Semaphore.cpp \
 Stream.cpp \
 StringUtils.cpp \

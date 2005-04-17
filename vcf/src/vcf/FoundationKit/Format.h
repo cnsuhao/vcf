@@ -144,7 +144,12 @@ namespace VCF {
 		
 #ifndef VCF_CW
 		// specialization for a String value.
+		//JC - it appears GCC 3.3.3 doesn't like this - do we need this
+		//here for VC?? This is exceedingly ugly, it would be nice not to have this 
+		//here at all!
+		#ifndef VCF_GCC
 		template <String>
+		#endif
 			Format& operator% (const String& val) {
 
 			currentFormatArgCount_  ++;
@@ -323,6 +328,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.9  2005/04/17 16:11:31  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.1.2.8  2005/04/14 16:01:21  marcelloptr
 *fixed template specialization sintax
 *

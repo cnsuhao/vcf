@@ -35,8 +35,8 @@ public:
     virtual void broadcast();
 
     /* Return "handle" that must be cast to a pthread_cond_t pointer */
-	virtual uint32 getHandleID() {
-		return (uint32)&cond_;
+	virtual OSHandleID getHandleID() {
+		return (OSHandleID)&cond_;
 	}
 
 protected:
@@ -52,6 +52,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

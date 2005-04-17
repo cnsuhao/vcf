@@ -10,7 +10,13 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 
+#include "vcf/GraphicsKit/PrintSessionPeer.h"
+#include "vcf/GraphicsKit/GTKPrintSession.h"
+#include "vcf/FoundationKit/ResourceBundle.h"
 
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
+#include "vcf/GraphicsKit/GTKGraphicsResourceBundle.h"
 
 using namespace VCF;
 
@@ -114,10 +120,11 @@ ContextPeer* GTKGraphicsToolkit::internal_createContextPeer( const unsigned long
 	return new GTKContext( width, height );
 }
 
-ContextPeer* GTKGraphicsToolkit::internal_createContextPeer( const unsigned long& contextID )
+ContextPeer* GTKGraphicsToolkit::internal_createContextPeer( OSHandleID contextID )
 {
 	return new GTKContext( contextID );
 }
+
 
 FontPeer* GTKGraphicsToolkit::internal_createFontPeer( const String& fontName )
 {
@@ -138,6 +145,17 @@ Image* GTKGraphicsToolkit::internal_createImage( const unsigned long& width, con
 Image* GTKGraphicsToolkit::internal_createImage( GraphicsContext* context, Rect* rect )
 {
 	return new GTKImage( context, rect );
+}
+
+
+PrintSessionPeer* GTKGraphicsToolkit::internal_createPrintSessionPeer()
+{
+	return new GTKPrintSession();
+}
+
+GraphicsResourceBundlePeer* GTKGraphicsToolkit::internal_createGraphicsResourceBundlePeer()
+{
+	return new GTKGraphicsResourceBundle();
 }
 
 void GTKGraphicsToolkit::loadSystemColors()
@@ -264,7 +282,7 @@ void GTKGraphicsToolkit::loadSystemColors()
 
 }
 
-double GTKGraphicsToolkit::getDPI()
+double GTKGraphicsToolkit::internal_getDPI(GraphicsContext* context)
 {
 	double result = 0.0;
 
@@ -280,6 +298,9 @@ double GTKGraphicsToolkit::getDPI()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

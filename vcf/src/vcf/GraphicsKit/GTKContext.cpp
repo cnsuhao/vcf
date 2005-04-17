@@ -9,7 +9,8 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
-#include "vcf/GraphicsKit/MgcBezierCurve2.h"
+#include "vcf/GraphicsKit/DrawUIState.h"
+
 
 using namespace VCF;
 
@@ -43,7 +44,7 @@ GTKContext::GTKContext( const unsigned long& width, const unsigned long& height 
 	init();
 }
 
-GTKContext::GTKContext( const unsigned long& contextID ):
+GTKContext::GTKContext( OSHandleID contextID ):
 	drawable_(NULL),
 	gdkGC_(NULL),
 	pixmapWidth_(0),
@@ -102,12 +103,12 @@ GraphicsContext* GTKContext::getContext()
 }
 
 
-unsigned long GTKContext::getContextID()
+OSHandleID GTKContext::getContextID()
 {
-	return (unsigned long)drawable_;
+	return (OSHandleID)drawable_;
 }
 
-void GTKContext::setContextID( const unsigned long& handle )
+void GTKContext::setContextID( OSHandleID handle )
 {
 	if ( isMemoryCtx_ ) {
 		g_object_unref( drawable_ );
@@ -276,6 +277,12 @@ void GTKContext::rectangle(const double & x1, const double & y1, const double & 
 						(gint)r.getHeight() );
 }
 
+void GTKContext::roundRect( const double & x1, const double & y1,
+								const double & x2, const double & y2,
+								const double & xc, const double & yc )
+{
+
+}
 
 void GTKContext::ellipse( const double & x1, const double & y1, const double & x2, const double & y2 )
 {
@@ -330,50 +337,7 @@ void GTKContext::polyline( const std::vector<Point>& pts)
 void GTKContext::curve(const double & x1, const double & y1, const double & x2, const double & y2,
 					 const double & x3, const double & y3, const double & x4, const double & y4)
 {
-	int degree = 3; //3rd degree bezier poly - needs 4 controls
-	Mgc::Vector2* bezPts = new Mgc::Vector2[4];
-	bezPts[0][0] = (long)(x1 + origin_.x_);
-	bezPts[0][1] = (long)(y1 + origin_.y_);
-
-	bezPts[1][0] = (long)(x2 + origin_.x_);
-	bezPts[1][1] = (long)(y2 + origin_.y_);
-
-	bezPts[2][0] = (long)(x3 + origin_.x_);
-	bezPts[2][1] = (long)(y3 + origin_.y_);
-
-	bezPts[3][0] = (long)(x4 + origin_.x_);
-	bezPts[3][1] = (long)(y4 + origin_.y_);
-
-
-	Mgc::BezierCurve2 bezCurve( degree, bezPts );
-
-	//get the length over the duration of the curve from
-	//t= 0.0 to t=1.0
-	double length = bezCurve.GetLength(0.0, 0.1250 );
-	double max = bezCurve.GetMaxTime();
-	double min = bezCurve.GetMinTime();
-	double t = min;
-	std::vector<GdkPoint> xPts;
-
-	double dt = (max - min) / length;
-	while ( t < max ) {
-		Mgc::Vector2 vec = bezCurve.GetPosition( t );
-		GdkPoint pt = {0};
-		pt.x = (gint)vec[0];
-		pt.y = (gint)vec[1];
-		xPts.push_back( pt );
-		t += dt;
-	}
-
-	if ( !xPts.empty() ) {
-		if ( inFillPath_ ) {
-			gdk_draw_polygon( drawable_, gdkGC_, TRUE, &xPts[0], xPts.size() );
-		}
-		else {
-			gdk_draw_lines( drawable_, gdkGC_, &xPts[0], xPts.size() );
-		}
-
-	}
+	
 }
 
 void GTKContext::lineTo(const double & x, const double & y)
@@ -456,6 +420,16 @@ void GTKContext::setXORModeOn( const bool& XORModeOn )
 	isXORModeOn_ = XORModeOn;
 }
 
+bool GTKContext::isAntiAliasingOn()
+{
+	return false;
+}
+	
+void GTKContext::setAntiAliasingOn( bool antiAliasingOn )
+{
+
+}
+	
 void GTKContext::setTextAlignment( const bool& alignTobaseline )
 {
 	alignToBaseline_ = alignTobaseline;
@@ -492,7 +466,7 @@ GtkStateType GTKContext::getGTKState( GtkWidget* widget )
 	return result;
 }
 
-void GTKContext::drawSelectionRect( Rect* rect )
+void GTKContext::drawThemeSelectionRect( Rect* rect, DrawUIState& state )
 {
 	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
@@ -511,7 +485,12 @@ void GTKContext::drawSelectionRect( Rect* rect )
 						r.height );
 }
 
-void GTKContext::drawButtonRect( Rect* rect, const bool& isPressed )
+void GTKContext::drawThemeFocusRect( Rect* rect, DrawUIState& state )
+{
+
+}
+
+void GTKContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
 {
 	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
@@ -521,7 +500,7 @@ void GTKContext::drawButtonRect( Rect* rect, const bool& isPressed )
 
 	gtk_paint_box ( style, drawable_,
 						getGTKState(widget),
-						isPressed ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
+						state.isPressed() ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
 						&r,
 						widget,
 						"button",
@@ -532,7 +511,7 @@ void GTKContext::drawButtonRect( Rect* rect, const bool& isPressed )
 
 }
 
-void GTKContext::drawCheckboxRect( Rect* rect, const bool& isPressed )
+void GTKContext::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 {
 	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
@@ -542,7 +521,7 @@ void GTKContext::drawCheckboxRect( Rect* rect, const bool& isPressed )
 
 	gtk_paint_check ( style, drawable_,
 						getGTKState(widget),
-						isPressed ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
+						state.isPressed() ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
 						&r,
 						widget,
 						"button",
@@ -552,7 +531,7 @@ void GTKContext::drawCheckboxRect( Rect* rect, const bool& isPressed )
 						r.height );
 }
 
-void GTKContext::drawRadioButtonRect( Rect* rect, const bool& isPressed )
+void GTKContext::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 {
 	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
@@ -562,7 +541,7 @@ void GTKContext::drawRadioButtonRect( Rect* rect, const bool& isPressed )
 
 	gtk_paint_option ( style, drawable_,
 						getGTKState(widget),
-						isPressed ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
+						state.isPressed() ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
 						&r,
 						widget,
 						"button",
@@ -572,52 +551,57 @@ void GTKContext::drawRadioButtonRect( Rect* rect, const bool& isPressed )
 						r.height );
 }
 
-void GTKContext::drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed )
+void GTKContext::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 {
 
 }
 
-void GTKContext::drawDisclosureButton( Rect* rect, const long& state )
+void GTKContext::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state )
 {
 
 }
 
-void GTKContext::drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed )
+void GTKContext::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state )
 {
 
 }
 
-void GTKContext::drawTab( Rect* rect, const bool& selected, const String& caption )
+void GTKContext::drawThemeTab( Rect* rect, TabState& state )
 {
 
 }
 
-void GTKContext::drawTabPage( Rect* rect )
+void GTKContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 {
 
 }
 
-void GTKContext::drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  )
+void GTKContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 {
 
 }
 
-void GTKContext::drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo )
+void GTKContext::drawThemeSlider( Rect* rect, SliderState& state )
 {
 
 }
 
-void GTKContext::drawSlider( Rect* rect, const SliderInfo& sliderInfo )
+void GTKContext::drawThemeProgress( Rect* rect, ProgressState& state )
 {
 
 }
 
-void GTKContext::drawHeader( Rect* rect )
+void GTKContext::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
 {
 
 }
 
-void GTKContext::drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle )
+void GTKContext::drawThemeHeader( Rect* rect, ButtonState& state )
+{
+
+}
+
+void GTKContext::drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const 									long& edgeStyle )
 {
 	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
@@ -694,50 +678,130 @@ void GTKContext::drawEdge( Rect* rect, const long& edgeSides, const long& edgeSt
 	}
 }
 
-void GTKContext::drawSizeGripper( Rect* rect )
+void GTKContext::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 {
 
 }
 
-void GTKContext::drawControlBackground( Rect* rect )
+void GTKContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
 	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
-
+	
 	GtkWidget* widget = NULL;
 	gdk_window_get_user_data( drawable_, (gpointer*)&widget );
 	GtkStyle* style = getGTKStyle( widget );
-
-	gtk_style_apply_default_background ( style,widget->window, FALSE,
+	
+	
+	switch ( state.colorType_ ) { 
+		case SYSCOLOR_SHADOW : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_FACE : {
+			gtk_style_apply_default_background ( style,widget->window, FALSE,
                                              getGTKState(widget),
                                              &r, r.x, r.y, r.width, r.height);
+		}
+		break;
+		
+		case SYSCOLOR_HIGHLIGHT : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_ACTIVE_CAPTION : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_ACTIVE_BORDER : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_DESKTOP : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_CAPTION_TEXT : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_SELECTION_TEXT : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_INACTIVE_BORDER : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_INACTIVE_CAPTION : {
+			
+		}   
+		break;
+		
+		case SYSCOLOR_TOOLTIP : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_TOOLTIP_TEXT : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_MENU : {		
+			gtk_style_apply_default_background ( style,widget->window, FALSE,
+                                             getGTKState(widget),
+                                             &r, r.x, r.y, r.width, r.height);
+		}
+		break;
+		
+		case SYSCOLOR_MENU_TEXT : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_WINDOW : {
+			gtk_style_apply_default_background ( style,widget->window, FALSE,
+                                             getGTKState(widget),
+                                             &r, r.x, r.y, r.width, r.height);
+		}
+		break;
+		
+		case SYSCOLOR_WINDOW_TEXT : {
+			
+		}
+		break;
+		
+		case SYSCOLOR_WINDOW_FRAME : {
+			
+		}
+		break;
+	}
 }
 
-void GTKContext::drawWindowBackground( Rect* rect )
+
+void GTKContext::drawThemeMenuItem( Rect* rect, MenuState& state )
 {
-	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
-	GtkWidget* widget = NULL;
-	gdk_window_get_user_data( drawable_, (gpointer*)&widget );
-	GtkStyle* style = getGTKStyle( widget );
-
-	gtk_style_apply_default_background ( style,widget->window, FALSE,
-                                             getGTKState(widget),
-                                             &r, r.x, r.y, r.width, r.height);
 }
 
-void GTKContext::drawMenuItemBackground( Rect* rect, const bool& selected )
+void GTKContext::drawThemeMenuItemText( Rect* rect, MenuState& state )
 {
-	GdkRectangle r = {(gint)rect->left_, (gint)rect->top_, (gint)rect->getWidth(), (gint)rect->getHeight() };
 
-	GtkWidget* widget = NULL;
-	gdk_window_get_user_data( drawable_, (gpointer*)&widget );
-	GtkStyle* style = getGTKStyle( widget );
-
-	gtk_style_apply_default_background ( style,widget->window, FALSE,
-                                             getGTKState(widget),
-                                             &r, r.x, r.y, r.width, r.height);
 }
 
+void GTKContext::drawThemeText( Rect* rect, TextState& state )
+{
+
+}
+	
 
 bool GTKContext::prepareForDrawing( long drawingOperation )
 {
@@ -839,6 +903,9 @@ void GTKContext::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

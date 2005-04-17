@@ -46,7 +46,7 @@ String LinuxProcessPeer::getProcessFileName()
 	return processFileName_;
 }
 
-ulong32 LinuxProcessPeer::getHandleID()
+OSHandleID LinuxProcessPeer::getHandleID()
 {
 	return processHandle_;
 }
@@ -60,6 +60,9 @@ ulong32 LinuxProcessPeer::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

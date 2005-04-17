@@ -17,14 +17,14 @@ GTKFont::GTKFont( const String& fontName ):
 	fontDescriptor_(NULL)
 {
 	init();
-	setAttributes( 12.0, false, false, false, false, 0.0, 0.0, fontName );
+	setAttributes( 12.0, false, false, false, false, fontName );
 }
 
 GTKFont::GTKFont( const String& fontName, const double& pointSize ):
 	fontDescriptor_(NULL)
 {
 	init();
-	setAttributes( pointSize, false, false, false, false, 0.0, 0.0, fontName );
+	setAttributes( pointSize, false, false, false, false, fontName );
 }
 
 GTKFont::~GTKFont()
@@ -37,9 +37,9 @@ void GTKFont::init()
 	fontDescriptor_ = pango_font_description_new();
 }
 
-ulong32 GTKFont::getFontHandleID()
+OSHandleID GTKFont::getFontHandleID()
 {
-	return (ulong32)fontDescriptor_;
+	return (OSHandleID)fontDescriptor_;
 }
 
 String GTKFont::getName()
@@ -128,29 +128,8 @@ void GTKFont::setStrikeOut( const bool& strikeout )
 
 }
 
-double GTKFont::getShear()
-{
-	return 0.0;
-}
-
-void GTKFont::setShear(const double& shear )
-{
-
-}
-
-double GTKFont::getAngle()
-{
-	return 0.0;
-}
-
-void GTKFont::setAngle( const double& angle )
-{
-
-}
-
 void GTKFont::setAttributes( const double& pointSize, const bool& bold, const bool& italic,
-				const bool& underlined, const bool& struckOut, const double& shear,
-				const double& angle, const String& name )
+				const bool& underlined, const bool& struckOut, const String& name )
 
 {
 	pango_font_description_set_size( fontDescriptor_, (int)pointSize * PANGO_SCALE );
@@ -192,46 +171,9 @@ double GTKFont::getDescent()
 	return result;
 }
 
-double GTKFont::getExternalLeading()
+bool GTKFont::isFixedPitch()
 {
-	return 0.0;
-}
-
-double GTKFont::getInternalLeading()
-{
-	return 0.0;
-}
-
-double GTKFont::getHeight()
-{
-	double result =  0.0;
-	PangoFontMetrics* pfm = NULL;
-
-	GTKGraphicsToolkit* toolkit = (GTKGraphicsToolkit*)GraphicsToolkit::internal_getDefaultGraphicsToolkit();
-	pfm = pango_context_get_metrics( toolkit->getGTKPangoContext(), fontDescriptor_, NULL );
-
-	if ( NULL != pfm ) {
-		result = PANGO_PIXELS( pango_font_metrics_get_descent( pfm ) );
-		result += PANGO_PIXELS( pango_font_metrics_get_ascent( pfm ) );
-		pango_font_metrics_unref( pfm );
-	}
-
-	return result;
-}
-
-VCFChar GTKFont::getWordBreakCharacter()
-{
-	return ' ';
-}
-
-VCFChar GTKFont::getFirstCharacter()
-{
-	return 0;
-}
-
-VCFChar GTKFont::getLastCharacter()
-{
-	return 0xff;
+	return false; //Put a meaningful val here!
 }
 
 GlyphCollection* GTKFont::getGlyphCollection( const String& text )
@@ -244,10 +186,17 @@ bool GTKFont::isEqual( Object* object )
 	return false;
 }
 
+void GTKFont::setFont( Font* font )
+{
+
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

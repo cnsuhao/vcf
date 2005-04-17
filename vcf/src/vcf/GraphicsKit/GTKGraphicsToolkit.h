@@ -28,7 +28,7 @@ public:
 
 	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height );
 
-	virtual ContextPeer* internal_createContextPeer( const unsigned long& contextID );
+	virtual ContextPeer* internal_createContextPeer( OSHandleID contextID );
 
 	virtual FontPeer* internal_createFontPeer( const String& fontName );
 
@@ -38,6 +38,12 @@ public:
 
 	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect );
 
+	virtual PrintSessionPeer* internal_createPrintSessionPeer();
+	
+	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer();
+	
+	virtual double internal_getDPI( GraphicsContext* context );
+	
 	virtual Font* getDefaultSystemFont() {
 		return systemFont_;
 	}
@@ -52,7 +58,7 @@ public:
 
 	void init();
 
-	virtual double getDPI();
+	
 
 	GtkStyle* getDefaultGTKStyle() {
 		return defaultGTKStyle_;
@@ -74,6 +80,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

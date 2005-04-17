@@ -29,7 +29,7 @@ public:
 
 	GTKContext( const unsigned long& width, const unsigned long& height );
 
-	GTKContext( const unsigned long& contextID );
+	GTKContext( OSHandleID contextID );
 
 	virtual ~GTKContext();
 
@@ -39,9 +39,9 @@ public:
 
 	virtual GraphicsContext* getContext();
 
-	virtual unsigned long getContextID();
+	virtual OSHandleID getContextID();
 
-	virtual void setContextID( const unsigned long& handle );
+	virtual void setContextID( OSHandleID handle );
 
 	virtual void setClippingPath( Path* clippingPath );
 
@@ -61,6 +61,10 @@ public:
 	virtual double getTextHeight( const String& text );
 
     virtual void rectangle(const double & x1, const double & y1, const double & x2, const double & y2);
+	
+	virtual void roundRect( const double & x1, const double & y1,
+								const double & x2, const double & y2,
+								const double & xc, const double & yc );
 
     virtual void ellipse(const double & x1, const double & y1, const double & x2, const double & y2 );
 
@@ -95,46 +99,108 @@ public:
 
 	virtual void setXORModeOn( const bool& XORModeOn );
 
+	virtual bool isAntiAliasingOn();
+	
+	virtual void setAntiAliasingOn( bool antiAliasingOn );
+	
 	virtual void setTextAlignment( const bool& alignTobaseline );
 
 	virtual bool isTextAlignedToBaseline();
 
-	virtual void drawSelectionRect( Rect* rect );
+	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeFocusRect( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state );
 
-	virtual void drawButtonRect( Rect* rect, const bool& isPressed );
+	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
 
-	virtual void drawCheckboxRect( Rect* rect, const bool& isPressed );
+	virtual void drawThemeRadioButtonRect( Rect* rect, ButtonState& state );
 
-	virtual void drawRadioButtonRect( Rect* rect, const bool& isPressed );
+	virtual void drawThemeComboboxRect( Rect* rect, ButtonState& state );
 
-	virtual void drawVerticalScrollButtonRect( Rect* rect, const bool& topButton, const bool& isPressed );
+	virtual void drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state );
 
-	virtual void drawDisclosureButton( Rect* rect, const long& state );
+	/**
+	Draws a button that is used to open up more details, for example
+	the button that opens up a tree node to reveal it's children, that is compliant
+	with the native windowing systems default look and feel.
+	On Win32 this is usually represented by the "+" and "-" look as found on
+	the tree controls, while on OSX it is the little triangles
+	*/
+	virtual void drawThemeDisclosureButton( Rect* rect, DisclosureButtonState& state );
 
-	virtual void drawHorizontalScrollButtonRect( Rect* rect, const bool& leftButton, const bool& isPressed );
+	/**
+	Draws a tab, the part of the TabbedPages control that acts like a
+	little button to activate a page, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeTab( Rect* rect, TabState& state );
 
-	virtual void drawTab( Rect* rect, const bool& selected, const String& caption );
+	/**
+	Draws a tab page - the page on which other controls for the page are
+	parented to, that is compliant) = 0;
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
-	virtual void drawTabPage( Rect* rect );
+	/**
+	Draws a tick mark, like that used for a slider control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeTickMarks( Rect* rect, SliderState& state );
+	
+	/**
+	Draws a slider control, like that used for a slider control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeSlider( Rect* rect, SliderState& state );
+	
+	/**
+	Draws a progress bar control, that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeProgress( Rect* rect, ProgressState& state );	
+	
+	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state );
 
-	virtual void drawTickMarks( Rect* rect, const SliderInfo& sliderInfo  );
+	/**
+	Draws a header control that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeHeader( Rect* rect, ButtonState& state );
 
-	virtual void drawSliderThumb( Rect* rect, const SliderInfo& sliderInfo );
+	/**
+	draws edges, useful for separators, that is compliant
+	with the native windowing systems default look and feel.
+	use a mask or 1 or more values of type ContextPeer::EdgeType
+	to indicate which sides of the rect to draw an edge on
+	*/
+	virtual void drawThemeEdge( Rect* rect, DrawUIState& state, const long& edgeSides, const long& edgeStyle );
 
-	virtual void drawSlider( Rect* rect, const SliderInfo& sliderInfo );
+	/**
+	Draws a size gripper for resizing a control/window that is compliant
+	with the native windowing systems default look and feel
+	*/
+	virtual void drawThemeSizeGripper( Rect* rect, DrawUIState& state );
 
-	virtual void drawHeader( Rect* rect );
+	/**
+	Draws a them compliant background
+	*/
+	virtual void drawThemeBackground( Rect* rect, BackgroundState& state );
 
-	virtual void drawEdge( Rect* rect, const long& edgeSides, const long& edgeStyle );
+	/**
+	Draws the background appropriate for a menu item that is compliant
+	with the native windowing systems default look and feel.
+	This is typically called first by a menu item to give it a standard
+	look and feel in it's background before drawing any thing else
+	*/
+	virtual void drawThemeMenuItem( Rect* rect, MenuState& state );
 
-	virtual void drawSizeGripper( Rect* rect );
+	virtual void drawThemeMenuItemText( Rect* rect, MenuState& state );
 
-	virtual void drawControlBackground( Rect* rect );
-
-	virtual void drawWindowBackground( Rect* rect );
-
-	virtual void drawMenuItemBackground( Rect* rect, const bool& selected );
-
+	virtual void drawThemeText( Rect* rect, TextState& state );
+	
 	void setParentImage( GTKImage* image ) {
 		parentImage_ = image;
 	}
@@ -193,6 +259,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
+*brought the foundation, agg, and graphics kits uptodate on linux
+*
 *Revision 1.2  2004/08/07 02:49:17  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
