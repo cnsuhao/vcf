@@ -63,7 +63,11 @@ void Win32CustomControl::registerWndClass()
 		wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 		wcex.hbrBackground	= NULL;//(HBRUSH)(COLOR_BTNFACE+1);
 		wcex.lpszMenuName	= NULL;
+#if defined(VCF_CW) && !defined(UNICODE)
+		wcex.lpszClassName  = this->getClassName().ansi_c_str();
+#else
 		wcex.lpszClassName	= this->getClassName().c_str();
+#endif
 		wcex.hIconSm		= NULL;
 
 		if ( 0 != RegisterClassEx(&wcex) ){
@@ -246,6 +250,9 @@ void Win32CustomControl::releaseMouseEvents()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/04/17 06:10:54  iamfraggle
+*UNICODE fix for CW
+*
 *Revision 1.2.4.2  2005/04/13 00:57:02  iamfraggle
 *Enable Unicode in CodeWarrior
 *
