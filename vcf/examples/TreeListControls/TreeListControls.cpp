@@ -363,7 +363,7 @@ public:
 
 		TreeItem* item = (TreeItem*)e->getSource();
 		String s;
-		s = StringUtils::format( "State item: %s, state: %d", item->getCaption().c_str(), item->getState() );
+		s = Format( "State item: %s, state: %d" ) % item->getCaption().c_str() % item->getState();
 
 		if ( item->getState() == Item::idsChecked ) {
 			s += ", Item is Checked!";
@@ -414,6 +414,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2005/04/17 15:12:05  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.6.2.3  2005/03/04 19:59:22  marcelloptr
 *minor improvement to the example
 *

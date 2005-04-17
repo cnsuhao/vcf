@@ -907,7 +907,7 @@ void CurveTool::drawCurve( VCF::GraphicsContext* ctx )
 
 void CurveTool::onMouseDown( VCF::MouseEvent* e )
 {
-	StringUtils::traceWithArgs( "CurveTool::onMouseDown, state: %d\n", state_ );
+	StringUtils::traceWithArgs( Format("CurveTool::onMouseDown, state: %d\n") % state_ );
 	if ( e->hasLeftButton() ) {
 
 		switch ( state_ ) {
@@ -997,7 +997,7 @@ void CurveTool::onMouseMove( VCF::MouseEvent* e )
 
 void CurveTool::onMouseUp( VCF::MouseEvent* e )
 {
-	StringUtils::traceWithArgs( "CurveTool::onMouseUp, state: %d\n", state_ );
+	StringUtils::traceWithArgs( Format("CurveTool::onMouseUp, state: %d\n") % state_ );
 
 	if ( e->hasLeftButton() ) {
 		Control* c = (Control*)e->getSource();
@@ -1048,7 +1048,7 @@ void CurveTool::finishCurve()
 
 void CurveTool::onDblClick( VCF::MouseEvent* e )
 {
-	StringUtils::traceWithArgs( "CurveTool::onDblClick, state: %d\n", state_ );
+	StringUtils::traceWithArgs( Format("CurveTool::onDblClick, state: %d\n") % state_ );
 
 	finishCurve();
 }
@@ -1152,6 +1152,9 @@ void ImageTool::paintState( VCF::GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/04/17 15:11:47  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.4  2004/12/01 04:15:13  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

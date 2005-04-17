@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 		System::println(t);
 
 		int len = t.size();  // number of characters: 16
-		System::println("Number of characters: %d", len);
+		System::println(Format("Number of characters: %d") % len);
 
 		String sub = t.substr(4); // returns char 4 to end: "is the time."
 		System::println("substr(4): " + sub);
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
 		if (pos == UnicodeString::npos)
 		{
-			System::println( "trying to find string \"foo\": not found. returns String::npos: %d", pos);
+			System::println( Format("trying to find string \"foo\": not found. returns String::npos: %d") % pos);
 		}
 
 		System::println( toFind );
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 		System::println( toFind );
 
 		pos = t.find("time"); // finds the string "time" in position 11
-		System::println("string \"time\" found at position: %d in string {%ls}", pos, t.c_str() );
+		System::println(Format("string \"time\" found at position: %d in string {%ls}") % pos % t.c_str() );
 
 
 		
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
 		format a string
 		*/		
 		String formattedString = Format( "hello %d, %0.2f World!!" ) % 1002 % 12.456330;
-		System::println( Format( "hello %d, %0.2f World!!" ) % 1002 % 12.456330 );
+		System::println( formattedString );
 
 		//error - too many arguments, expecting 2 argument, recv'd 3!
 		try {
@@ -189,13 +189,13 @@ int main(int argc, char *argv[])
 
 		String className = StringUtils::getClassNameFromTypeInfo( typeid(double) );
 
-		System::println( "StringUtils::getClassNameFromTypeInfo() returned: %ls", className.c_str() );
+		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %ls") % className.c_str() );
 
 		className = StringUtils::getClassNameFromTypeInfo( typeid(StringUtils) );
-		System::println( "StringUtils::getClassNameFromTypeInfo() returned: %ls", className.c_str() );
+		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %ls") % className.c_str() );
 
 		className = StringUtils::getClassNameFromTypeInfo( typeid(System) );
-		System::println( "StringUtils::getClassNameFromTypeInfo() returned: %ls", className.c_str() );
+		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %ls") % className.c_str() );
 
 
 
@@ -205,11 +205,11 @@ int main(int argc, char *argv[])
 
 		String xfrmedString = StringUtils::lowerCase( className );
 
-		System::println( "lowercase: %ls", xfrmedString.c_str() );
+		System::println( Format("lowercase: %ls") % xfrmedString.c_str() );
 
 		xfrmedString = StringUtils::upperCase( className );
 
-		System::println( "uppercase: %ls", xfrmedString.c_str() );
+		System::println( Format("uppercase: %ls") % xfrmedString.c_str() );
 
 
 		/**
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
 		*/
 		String newUUID = StringUtils::newUUID();
 
-		System::println( "new UUID: %ls", newUUID.c_str() );
+		System::println( Format("new UUID: %ls") % newUUID.c_str() );
 
 
 		/**
@@ -225,19 +225,19 @@ int main(int argc, char *argv[])
 		*/
 
 		String val = StringUtils::toString( 12 );
-		System::println( "value: %ls", val.c_str() );
+		System::println( Format("value: %ls") % val.c_str() );
 
 		val = StringUtils::toString( 1234.009459034 );
-		System::println( "value: %ls", val.c_str() );
+		System::println( Format("value: %ls") % val.c_str() );
 
 		val = StringUtils::toString( 53433.000034f );
-		System::println( "value: %ls", val.c_str() );
+		System::println( Format("value: %ls") % val.c_str() );
 
 		val = StringUtils::toString( true );
-		System::println( "value: %ls", val.c_str() );
+		System::println( Format("value: %ls") % val.c_str() );
 
 		val = StringUtils::toString( false );
-		System::println( "value: %ls", val.c_str() );
+		System::println( Format("value: %ls") % val.c_str() );
 
 
 		/**
@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
 		/**
 		Same as above, only with variable arguments
 		*/
-		StringUtils::traceWithArgs( "Hello World %d times", 10 );
+		StringUtils::traceWithArgs( Format("Hello World %d times") % 10 );
 
 
 		/**
@@ -259,14 +259,14 @@ int main(int argc, char *argv[])
 		String original = "####Some text#######";
 
 		xfrmedString = StringUtils::trim( original, '#' );
-		System::println( "original: %ls \nxfrmedString after StringUtils::trim(): %ls", original.c_str(), xfrmedString.c_str() );
+		System::println( Format("original: %ls \nxfrmedString after StringUtils::trim(): %ls") % original.c_str() % xfrmedString.c_str() );
 
 
 		xfrmedString = StringUtils::trimLeft( original, '#' );
-		System::println( "original: %ls \nxfrmedString after StringUtils::trimLeft(): %ls", original.c_str(), xfrmedString.c_str() );
+		System::println( Format("original: %ls \nxfrmedString after StringUtils::trimLeft(): %ls") % original.c_str() % xfrmedString.c_str() );
 
 		xfrmedString = StringUtils::trimRight( original, '#' );
-		System::println( "original: %ls \nxfrmedString after StringUtils::trimRight(): %ls", original.c_str(), xfrmedString.c_str() );
+		System::println( Format("original: %ls \nxfrmedString after StringUtils::trimRight(): %ls") % original.c_str() % xfrmedString.c_str() );
 
 
 		/**
@@ -277,16 +277,16 @@ int main(int argc, char *argv[])
 
 		xfrmedString = original;
 		StringUtils::trimWhiteSpaces( xfrmedString );
-		System::println( "original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpaces(): %ls", original.c_str(), xfrmedString.c_str() );
+		System::println( Format("original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpaces(): %ls") % original.c_str() % xfrmedString.c_str() );
 
 		xfrmedString = original;
 		StringUtils::trimWhiteSpacesLeft( xfrmedString );
-		System::println( "original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpacesLeft(): \"%ls\"", original.c_str(), xfrmedString.c_str() );
+		System::println( Format("original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpacesLeft(): \"%ls\"") % original.c_str() % xfrmedString.c_str() );
 
 
 		xfrmedString = original;
 		StringUtils::trimWhiteSpacesRight( xfrmedString );
-		System::println( "original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpacesRight(): \"%ls\"", original.c_str(), xfrmedString.c_str() );
+		System::println( Format("original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpacesRight(): \"%ls\"") % original.c_str() % xfrmedString.c_str() );
 	}
 	catch ( std::exception& e ) {
 		printf( e.what() );
@@ -321,6 +321,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.4  2005/04/17 15:11:47  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.3.4.3  2005/03/14 05:44:50  ddiego
 *added the Formatter class as part of the process of getting rid of the var arg methods in System and StringUtils.
 *

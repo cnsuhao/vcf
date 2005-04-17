@@ -243,10 +243,10 @@ public:
 			repaint(); //repaint ourselves to update the new image
 
 			FilePath fp = dlg.getFileName();
-			infoLabel_->setCaption( StringUtils::format( "Image: %s Size: %d, %d",
-															fp.getBaseName(true).c_str(),
-															currentImage_->getWidth(),
-															currentImage_->getHeight() ) );
+			infoLabel_->setCaption( Format( "Image: %s Size: %d, %d" )
+									% fp.getBaseName(true).c_str(),
+									% currentImage_->getWidth(),
+									% currentImage_->getHeight() );
 		}
 	}
 
@@ -348,6 +348,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/04/17 15:11:46  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.5.2.3  2005/03/10 17:27:37  marcelloptr
 *set discrete scrolling as default behaviour for ListBoxControls
 *

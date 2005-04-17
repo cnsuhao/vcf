@@ -68,7 +68,7 @@ public:
 		int i = 0;
 		while ( i < 10000 ) {
 			if ( (i % 100) == 0 ) {
-				System::println( "printing i: %d", i );
+				System::println( Format("printing i: %d") % i );
 			}
 			i++;
 		}
@@ -85,7 +85,7 @@ protected:
 	perform	as expected.
 	*/
 	virtual void destroy() {
-		System::println( "Bye, bye from %p", this );
+		System::println( Format("Bye, bye from %p") % this );
 	}
 };
 
@@ -163,7 +163,7 @@ public:
 		int i = 0;
 		while ( i < 10000 ) {
 
-			System::println( "printing i: %d", i );
+			System::println( Format("printing i: %d") % i );
 
 			i++;
 			/**
@@ -183,7 +183,7 @@ public:
 
 protected:
 	virtual void destroy() {
-		System::println( "Bye, bye from %p", this );
+		System::println( Format("Bye, bye from %p") % this );
 	}
 };
 
@@ -243,7 +243,7 @@ public:
 		counter_ = 0;
 
 		while ( (counter_ < 100) && canContinue() ) {
-			System::println( "counter_: %d", counter_ );
+			System::println( Format("counter_: %d") % counter_ );
 			counter_++;
 		}
 
@@ -261,7 +261,7 @@ public:
 
 protected:
 	virtual void destroy() {
-		System::println( "Bye, bye from %p", this );
+		System::println( Format("Bye, bye from %p") % this );
 	}
 
 };
@@ -285,11 +285,11 @@ void example3()
 		System::sleep( 1000 );
 	}
 
-	System::println( "Thread process id: 0x%08x, thread id: 0x%08x",
-						thread->getOwningProcessID(),
-						thread->getThreadID() );
+	System::println( Format("Thread process id: 0x%08x, thread id: 0x%08x")
+						% thread->getOwningProcessID()
+						% thread->getThreadID() );
 
-	System::println( "Thread: %s", thread->toString().c_str() );
+	System::println( Format("Thread: %s") % thread->toString().c_str() );
 	thread->free();
 
 
@@ -336,7 +336,7 @@ public:
 	}
 
 	virtual ~RunnableExample() {
-		System::println( "RunnableExample destroyed!: %p", this );
+		System::println( Format("RunnableExample destroyed!: %p") % this );
 	}
 
 	virtual void stop() {
@@ -408,6 +408,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/04/17 15:12:05  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.3  2004/08/07 02:47:40  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

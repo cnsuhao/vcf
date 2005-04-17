@@ -372,7 +372,7 @@ public:
 	virtual void updateView( Model* model ) {
 		CircleModel* circleModel = (CircleModel*)model;
 
-		String text = StringUtils::format( "Number of circle shapes: %d", circleModel->getCircles().size() );
+		String text = Format( "Number of circle shapes: %d" ) % circleModel->getCircles().size();
 
 		circleCount_->setCaption( text );
 
@@ -593,6 +593,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/17 15:11:45  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.3.2.1  2005/03/06 22:50:55  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

@@ -75,7 +75,7 @@ public:
 
 		//draw the GraphicsContext's peer handler, in Win32 this is the
 		//value of the HDC handle for the GraphicsContext
-		text = StringUtils::format( "GraphicsContext's peer handle: 0x%08X", gc->getPeer()->getContextID() );
+		text = Format( "GraphicsContext's peer handle: 0x%08X") % gc->getPeer()->getContextID();
 		gc->textBoundedBy(&Rect(0,y,bounds.getWidth(),y+h), text, false );
 
 	}
@@ -118,7 +118,7 @@ public:
 
 		//draw the GraphicsContext's peer handler, in Win32 this is the
 		//value of the HDC handle for the GraphicsContext
-		text = StringUtils::format( "GraphicsContext's peer handle: 0x%08X", gc->getPeer()->getContextID() );
+		text = Format( "GraphicsContext's peer handle: 0x%08X" ) % gc->getPeer()->getContextID();
 		gc->textBoundedBy(&Rect(0,y,bounds.getWidth(),y+h), text, false );
 	}
 };
@@ -154,7 +154,7 @@ public:
 	void paint( GraphicsContext* gc ) {
 		Window::paint( gc );
 
-		String text = StringUtils::format( "GraphicsContext's peer handle: 0x%08X", gc->getPeer()->getContextID() );
+		String text = Format( "GraphicsContext's peer handle: 0x%08X" ) % gc->getPeer()->getContextID() );
 
 		gc->textAt( 0, 0, text );
 	}
@@ -201,6 +201,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.1  2005/04/17 15:11:44  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.4  2004/08/07 02:47:04  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

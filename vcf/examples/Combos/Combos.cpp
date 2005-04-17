@@ -150,7 +150,7 @@ void MainWindow::setComboItemCount()
 	cb_->getViewModel()->empty(); // cb_->getListModel()->empty(); is obsolete
 
 	for (int i=0; i < itemCount_; i++) {
-		s = StringUtils::format( "item %d", i+1 );
+		s = Format( "item %d")% (i+1);
 		cb_->addItem( s );
 	}
 }
