@@ -244,8 +244,8 @@ public:
 
 			FilePath fp = dlg.getFileName();
 			infoLabel_->setCaption( Format( "Image: %s Size: %d, %d" )
-									% fp.getBaseName(true).c_str(),
-									% currentImage_->getWidth(),
+									% fp.getBaseName(true).c_str()
+									% currentImage_->getWidth()
 									% currentImage_->getHeight() );
 		}
 	}
@@ -348,6 +348,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/04/17 17:19:10  iamfraggle
+*Small fixes
+*
 *Revision 1.5.2.4  2005/04/17 15:11:46  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

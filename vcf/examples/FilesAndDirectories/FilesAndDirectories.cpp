@@ -194,7 +194,7 @@ int main( int argc, char** argv ){
 		String s;
 		tis >> s;
 		
-		System::println( Format("File contents of \"%ls\" :\n%ls") % f1.getName().c_str(), s.c_str() );
+		System::println( Format("File contents of \"%ls\" :\n%ls") % f1.getName().c_str() % s.c_str() );
 
 		fis->free();
 
@@ -210,6 +210,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2005/04/17 17:19:09  iamfraggle
+*Small fixes
+*
 *Revision 1.3.4.1  2005/04/17 15:11:44  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *
