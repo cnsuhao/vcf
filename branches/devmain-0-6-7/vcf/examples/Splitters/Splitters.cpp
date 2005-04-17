@@ -138,16 +138,16 @@ public:
 			p->setHeight( height );
 			p->setColor( Color::getColor( colors[i-1] ) );
 			p->setBorder( NULL );
-			s = StringUtils::format( "panel%d", i );
+			s = Format( "panel%d" ) % i;
 			p->setName( s );
 			if ( i < n ) {
-				sTip = StringUtils::format( "p%d: %s, %s", i, alignments[alignment].c_str(), colors[i-1].c_str() );
+				sTip = Format( "p%d: %s, %s" ) % i % alignments[alignment].c_str() % colors[i-1].c_str();
 				p->setToolTipText( sTip );
 				panel->add( p, alignment );
 
 #ifdef USING_SPLITTER
 				splitter = new Splitter( alignment );
-				s = StringUtils::format( "splitter %d", i );
+				s = Format( "splitter %d" ) % i;
 				splitter->setToolTipText( s );
 				splitter->setToolTipText( s );
 				splitter->setWidth( 5 );
@@ -156,7 +156,7 @@ public:
 				panel->add( splitter, alignment );
 #endif
 			} else {
-				sTip = StringUtils::format( "p%d: %s, %s", i, alignments[AlignClient].c_str(), colors[i-1].c_str() );
+				sTip = Format( "p%d: %s, %s" ) % i % alignments[AlignClient].c_str() % colors[i-1].c_str();
 				p->setToolTipText( sTip );
 				panel->add( p, AlignClient );
 			}
@@ -167,7 +167,7 @@ public:
 
 	void onBtnHide( ButtonEvent* e ) {
 		int i = 1;
-		String s = StringUtils::format( "panel%d", i );
+		String s = Format( "panel%d" ) % i;
 		//Panel* panel = (Panel*)panelLeft_->findComponent( s );
 		if ( NULL != clickedPanel_ ) {
 			clickedPanel_->setVisible( false );
@@ -207,13 +207,13 @@ public:
 	void onResized( ControlEvent*e ) {
 
 		double w = main_->getWidth()/2;
-		StringUtils::traceWithArgs( "w: %0.2f\n", w );
+		StringUtils::traceWithArgs( Format("w: %0.2f\n") % w );
 
 		panelLeft_->setWidth( w );
 
 		w = main_->getWidth()/2;
 
-		StringUtils::traceWithArgs( "w: %0.2f\n", w );
+		StringUtils::traceWithArgs( Format("w: %0.2f\n") % w );
 
 		panelRight_->setWidth( w );
 	}
@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/04/17 15:11:47  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.6  2004/12/01 04:15:14  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

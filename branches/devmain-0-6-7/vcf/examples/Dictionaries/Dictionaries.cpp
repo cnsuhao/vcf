@@ -503,7 +503,8 @@ int main( int argc, char** argv ){
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair item = items->nextElement();
 
-		System::println( "dict[\"%ls\"] = %ls", item.first.c_str(), item.second.toString().c_str() );
+		System::println( Format("dict[\"%ls\"] = %ls") % item.first.c_str() 
+								% item.second.toString().c_str() );
 	}
 
 
@@ -547,7 +548,8 @@ int main( int argc, char** argv ){
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair item = items->nextElement();
 
-		System::println( "dict[\"%ls\"] = %ls", item.first.c_str(), item.second.toString().c_str() );
+		System::println( Format("dict[\"%ls\"] = %ls") % item.first.c_str() 
+								% item.second.toString().c_str() );
 	}
 
 
@@ -560,6 +562,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2005/04/17 15:11:43  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.7.2.1  2004/12/19 04:04:57  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

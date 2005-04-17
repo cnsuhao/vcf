@@ -145,7 +145,7 @@ public:
 	}
 
 	void onPrintPage( PrintEvent* e ) {
-		StringUtils::traceWithArgs( "Printing page %d\n", e->getCurrentPage() );
+		StringUtils::traceWithArgs( Format("Printing page %d\n") % e->getCurrentPage() );
 
 		PrintSession* printSession = (PrintSession*)e->getSource();
 		doDrawing( e->getPrintContext(), e->getPageBounds() );

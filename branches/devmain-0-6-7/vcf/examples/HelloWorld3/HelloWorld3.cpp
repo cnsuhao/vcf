@@ -58,7 +58,8 @@ public:
 		*and the string value returned by the Rect's toString()
 		*method
 		*/
-		StringUtils::traceWithArgs( "HelloWorld3Window constructor @%p, bounds: %s\n", this, bounds.toString().c_str() );
+		StringUtils::traceWithArgs( Format("HelloWorld3Window constructor @%p, bounds: %s\n")
+									% this % bounds.toString().c_str() );
 
 		/**
 		*Show the main window. Previously we had used
@@ -160,6 +161,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.1  2005/04/17 15:11:45  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.4  2004/08/07 02:47:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

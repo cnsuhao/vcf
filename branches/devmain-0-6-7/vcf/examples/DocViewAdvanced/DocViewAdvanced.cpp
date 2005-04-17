@@ -430,7 +430,7 @@ public:
 	virtual void updateView( Model* model ) {
 		CircleDocument* circleModel = (CircleDocument*)model;
 
-		String text = StringUtils::format( "Number of circle shapes: %d", circleModel->getCircles().size() );
+		String text = Format("Number of circle shapes: %d") % circleModel->getCircles().size();
 
 		circleCount_->setCaption( text );
 

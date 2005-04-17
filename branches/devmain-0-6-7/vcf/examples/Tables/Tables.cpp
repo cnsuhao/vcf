@@ -36,7 +36,7 @@ public:
 
 		for (int y=0;y<model->getRowCount();y++ ){
 			for ( int x=0;x<model->getColumnCount();x++ ) {
-				model->getItem( y, x )->setCaption( StringUtils::format( "Cell [%d,%d]", y, x ) );
+				model->getItem( y, x )->setCaption( Format( "Cell [%d,%d]" ) % y % x ) );
 			}
 		}
 
@@ -88,6 +88,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/04/17 15:11:48  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
 *Revision 1.4  2004/12/01 04:15:15  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
