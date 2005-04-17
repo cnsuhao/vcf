@@ -206,10 +206,10 @@ Win32 side we can phase in this code
 		Rect textBounds;
 		String text;
 		if ( useProgressFormatString_ && (!progressFormatString_.empty()) ) {
-			text = StringUtils::format( progressFormatString_, position_ );
+			text = StringUtils::format( Format(progressFormatString_) % position_ );
 		}
 		else {
-			text = StringUtils::format( "%0.1f %%", position_ );
+			text = StringUtils::format( Format("%0.1f %%") % position_ );
 		}
 
 
@@ -256,6 +256,9 @@ Win32 side we can phase in this code
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/17 06:09:07  iamfraggle
+*Fixed old-style format call
+*
 *Revision 1.3.2.3  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *
