@@ -492,7 +492,7 @@ UnicodeString Win32LocalePeer::toString( const int& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
 	#else
 		swprintf( tmp, L"%d", val );
@@ -545,7 +545,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned int& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
 	#else
 		swprintf( tmp, L"%d", val );
@@ -597,7 +597,7 @@ UnicodeString Win32LocalePeer::toString( const long& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
 	#else
 		swprintf( tmp, L"%d", val );
@@ -650,7 +650,7 @@ UnicodeString Win32LocalePeer::toString( const unsigned long& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];;
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%d", val);
 	#else
 		swprintf( tmp, L"%d", val );
@@ -704,7 +704,7 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%.08f", val );
 	#else
 		swprintf( tmp, L"%.08f", val );
@@ -757,7 +757,7 @@ UnicodeString Win32LocalePeer::toString( const float& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%.08f", val );
 	#else
 		swprintf( tmp, L"%.08f", val );
@@ -810,7 +810,7 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar tmp[256];
 		memset(tmp,0,sizeof(tmp));
-	#ifdef VCF_CW
+	#if defined(VCF_CW) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)-1, L"%.08f", val );
 	#else
 		swprintf( tmp, L"%.08f", val );
@@ -2781,6 +2781,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/04/18 04:28:29  dougtinkham
+*change for DMC, on swprintf calls
+*
 *Revision 1.3.2.2  2005/04/11 17:07:15  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
