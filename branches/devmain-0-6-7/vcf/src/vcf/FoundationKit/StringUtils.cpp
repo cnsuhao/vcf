@@ -276,7 +276,7 @@ VCF::String StringUtils::toStringFromHexNumber( const uchar& value )
 	result = cfTmp;
 #else
 	VCFChar hexBytes[50];
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 	swprintf( hexBytes, sizeof(hexBytes)-1, L"%02X", value  );
 #else
 	swprintf( hexBytes, L"%02X", value );
@@ -297,7 +297,7 @@ VCF::String StringUtils::toString( const int& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_INT_CONVERSION, value  );
 	#else
 		swprintf( tmp, W_STR_INT_CONVERSION, value );
@@ -317,7 +317,7 @@ VCF::String StringUtils::toString( const VCF::uint32& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_UINT_CONVERSION, value  );
 	#else
 		swprintf( tmp, W_STR_UINT_CONVERSION, value );
@@ -337,7 +337,7 @@ VCF::String StringUtils::toString( const long& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_LONG_CONVERSION, value  );
 	#else
 		swprintf( tmp, W_STR_LONG_CONVERSION, value );
@@ -358,7 +358,7 @@ VCF::String StringUtils::toString( const VCF::ulong32& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_ULONG_CONVERSION, value  );
 	#else
 		swprintf( tmp, W_STR_ULONG_CONVERSION, value );
@@ -383,7 +383,7 @@ VCF::String StringUtils::toString( const VCF::long64& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		// if ( 0 != valHi )
 		// swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%lu%lu", value.hi(), value.lo() );
 		// would be a wrong implementation
@@ -410,7 +410,7 @@ VCF::String StringUtils::toString( const VCF::ulong64& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		// if ( 0 != valHi )
 		// swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%lu%lu", value.hi(), value.lo() );
 		// would be a wrong implementation
@@ -435,7 +435,7 @@ VCF::String StringUtils::toString( const float& value )
 #else
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%.5f", value  );
 	#else
 		swprintf( tmp, L"%.5f", value );
@@ -457,7 +457,7 @@ VCF::String StringUtils::toString( const double& value )
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, L"%.5f", value  );
 	#else
 		swprintf( tmp, L"%.5f", value );
@@ -478,7 +478,7 @@ VCF::String StringUtils::toString( const char& value )
 	VCFChar tmp[TO_STRING_TXT_SIZE];
 	memset( tmp, 0, TO_STRING_TXT_SIZE * sizeof(VCFChar) );
 
-	#if defined(VCF_POSIX) || defined(VCF_CW_W32)
+	#if defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 		swprintf( tmp, sizeof(tmp)/sizeof(VCFChar)-1, W_STR_CHAR_CONVERSION, value  );
 	#else
 		swprintf( tmp, W_STR_CHAR_CONVERSION, value );
@@ -1146,7 +1146,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 						cfStr.format( CFSTR("%d"), date.getDayOfYear() );
 						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 						tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 						swprintf( tmp, tmpLen-1, L"%d", date.getDayOfYear() );
 					#else
 						swprintf( tmp, L"%d", date.getDayOfYear() );
@@ -1171,7 +1171,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), date.getHour() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", date.getHour() );
 						#else
 							swprintf( tmp, L"%d", date.getHour() );
@@ -1185,7 +1185,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), date.getHour() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", date.getHour() );
 						#else
 							swprintf( tmp, L"%02d", date.getHour() );
@@ -1215,7 +1215,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), h );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", h );
 						#else
 							swprintf( tmp, L"%d", h );
@@ -1229,7 +1229,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), h );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", h );
 						#else
 							swprintf( tmp, L"%02d", h );
@@ -1256,7 +1256,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), date.getDayOfYear() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", date.getDayOfYear()  );
 						#else
 							swprintf( tmp, L"%d", date.getDayOfYear()  );
@@ -1271,7 +1271,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%03d"), date.getDayOfYear() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%03d", date.getDayOfYear()  );
 						#else
 							swprintf( tmp, L"%03d", date.getDayOfYear()  );
@@ -1298,7 +1298,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), m );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", m  );
 						#else
 							swprintf( tmp, L"%d", m  );
@@ -1312,7 +1312,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), m );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", m  );
 						#else
 							swprintf( tmp, L"%02d", m  );
@@ -1339,7 +1339,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), date.getMinute() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", date.getMinute()  );
 						#else
 							swprintf( tmp, L"%d", date.getMinute()  );
@@ -1353,7 +1353,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), date.getMinute() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", date.getMinute()  );
 						#else
 							swprintf( tmp, L"%02d", date.getMinute()  );
@@ -1392,7 +1392,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), date.getSecond() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", date.getSecond()  );
 						#else
 							swprintf( tmp, L"%d", date.getSecond()  );
@@ -1406,7 +1406,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), date.getSecond() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", date.getSecond()  );
 						#else
 							swprintf( tmp, L"%02d", date.getSecond()  );
@@ -1434,7 +1434,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), date.getWeekOfYearStartingSun() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", date.getWeekOfYearStartingSun()  );
 						#else
 							swprintf( tmp, L"%d", date.getWeekOfYearStartingSun()  );
@@ -1448,7 +1448,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), date.getWeekOfYearStartingSun() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", date.getWeekOfYearStartingSun()  );
 						#else
 							swprintf( tmp, L"%02d", date.getWeekOfYearStartingSun()  );
@@ -1473,7 +1473,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 						cfStr.format( CFSTR("%d"), date.getWeekDay() );
 						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 						swprintf( tmp, tmpLen-1, L"%d", (int)date.getWeekDay()  );
 					#else
 						swprintf( tmp, L"%d", (int)date.getWeekDay()  );
@@ -1498,7 +1498,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), date.getWeekOfYearStartingMon() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", date.getWeekOfYearStartingMon()  );
 						#else
 							swprintf( tmp, L"%d", date.getWeekOfYearStartingMon()  );
@@ -1512,7 +1512,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), date.getWeekOfYearStartingMon() );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", date.getWeekOfYearStartingMon()  );
 						#else
 							swprintf( tmp, L"%02d", date.getWeekOfYearStartingMon()  );
@@ -1562,7 +1562,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), y % 100 );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%d", y % 100  );
 						#else
 							swprintf( tmp, L"%d", y % 100  );
@@ -1576,7 +1576,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), y % 100 );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", y % 100  );
 						#else
 							swprintf( tmp, L"%02d", y % 100  );
@@ -1602,7 +1602,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 						cfStr.format( CFSTR("%04d"), y );
 						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 						swprintf( tmp, tmpLen-1, L"%04d", y  );
 					#else
 						swprintf( tmp, L"%04d", y  );
@@ -1626,7 +1626,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 						cfStr.format( CFSTR("%04d"), date.getMillisecond() );
 						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 						swprintf( tmp, tmpLen-1, L"%04d", date.getMillisecond()  );
 					#else
 						swprintf( tmp, L"%04d", date.getMillisecond()  );
@@ -2210,6 +2210,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/04/18 04:26:25  dougtinkham
+*change for DMC, on swprintf calls
+*
 *Revision 1.3.2.7  2005/04/17 16:11:32  ddiego
 *brought the foundation, agg, and graphics kits uptodate on linux
 *
