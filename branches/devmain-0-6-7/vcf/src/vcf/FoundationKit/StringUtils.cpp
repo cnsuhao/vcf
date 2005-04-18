@@ -1107,7 +1107,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%d"), d );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, sizeof(tmp)-1, L"%d", d );
 						#else
 							swprintf( tmp, L"%d", d );
@@ -1121,7 +1121,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 							cfStr.format( CFSTR("%02d"), d );
 							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
 							tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32)
+						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
 							swprintf( tmp, tmpLen-1, L"%02d", d );
 						#else
 							swprintf( tmp, L"%02d", d );
@@ -2210,6 +2210,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/04/18 12:41:29  dougtinkham
+*changes for DMC
+*
 *Revision 1.3.2.8  2005/04/18 04:26:25  dougtinkham
 *change for DMC, on swprintf calls
 *
