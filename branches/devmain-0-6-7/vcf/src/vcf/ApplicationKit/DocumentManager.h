@@ -1347,8 +1347,6 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc
 		// notifies the UI that the document has changed name
 		ModelEvent e( doc, Document::deSaved );
 		doc->ModelChanged.fireEvent( &e );
-
-		doc->undoRedoBalance_ = 0;
 	}
 
 	return result;
@@ -1789,6 +1787,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/04/18 14:53:58  marcelloptr
+*removed member variable added too soon
+*
 *Revision 1.3.2.7  2005/04/15 20:25:39  marcelloptr
 *fix: saveAs now notifies the UI that the document has changed name
 *
