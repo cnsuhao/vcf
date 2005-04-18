@@ -1430,9 +1430,6 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::reloadDocument( Document*
 
 	// reset the undo/redo stack
 	getUndoRedoStack( document).clearCommands();
-
-	// Do we need to further notify the UI ? I guess not, it seems 
-	// that all the necessary notifications have been already done. - MP
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -1608,7 +1605,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 	// creates or activates a window for it, and fires event for custom initializations.
 	attachUI( info, document );
 
-	// after the document has been created, notifies that it has
+	// after the document has been created, we notify that it has
 	// been changed, so the UI can updates itself.
 	ModelEvent e( document, Document::deOpened );
 	document->ModelChanged.fireEvent( &e );
@@ -1787,7 +1784,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.8  2005/04/18 14:53:58  marcelloptr
+*Revision 1.3.2.9  2005/04/18 14:56:51  marcelloptr
 *removed member variable added too soon
 *
 *Revision 1.3.2.7  2005/04/15 20:25:39  marcelloptr
