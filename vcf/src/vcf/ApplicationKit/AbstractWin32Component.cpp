@@ -274,8 +274,12 @@ void AbstractWin32Component::setControl( VCF::Control* component )
 
 void AbstractWin32Component::setParent( VCF::Control* parent )
 {
+	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
+	HWND dummyParent = toolkit->getDummyParent();
+
 	if ( NULL == parent ) {
-		::SetParent( hwnd_, NULL );
+		::ShowWindow( hwnd_, SW_HIDE );
+		::SetParent( hwnd_, dummyParent );
 	}
 	else {
 		VCF::ControlPeer* parentPeer = parent->getPeer();
@@ -296,7 +300,13 @@ void AbstractWin32Component::setParent( VCF::Control* parent )
 				//throw exception !!!
 			}
 			
+			HWND currentParent = ::GetParent( hwnd_ );
+
 			::SetParent( hwnd_, wndParent );
+
+			if ( currentParent == dummyParent ) {
+				::ShowWindow( hwnd_, SW_NORMAL );
+			}		
 		}
 	}
 }
@@ -350,7 +360,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 {
 	HDC result = NULL;
 
-	if ( peerControl_->getComponentState() != Component::csDestroying ) {
+	if ( !peerControl_->isDestroying() ) {
 		
 		if ( NULL == memDC_ ) {
 			// we need a memory HDC, so we create it here one compatible 
@@ -540,7 +550,7 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* exclusionRect )
 {	
 
-	if ( peerControl_->getComponentState() != Component::csDestroying ) {
+	if ( !peerControl_->isDestroying() ) {
 		if ( true == peerControl_->isDoubleBuffered() && !peerControl_->isUsingRenderBuffer() ) {
 			VCF_ASSERT( memDCState_ != 0 );
 			VCF_ASSERT( originalMemBMP_ != 0 );
@@ -631,7 +641,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_CTLCOLOREDIT : case WM_CTLCOLORBTN: case WM_CTLCOLORLISTBOX: {
-			if ( peerControl_->getComponentState() != Component::csDestroying ) {
+			if ( !peerControl_->isDestroying() ) {
 				HWND hwndCtl = (HWND) lParam; // handle to static control
 				if ( hwndCtl != hwnd_ ) {
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
@@ -657,7 +667,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 			}
 			*/
-			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
+			if ( NULL != event && (!peerControl_->isDestroying()) ) {
 				peerControl_->handleEvent( event );
 			}
 		}
@@ -675,7 +685,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			}
 			*/
 			
-			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
+			if ( NULL != event && (!peerControl_->isDestroying()) ) {
 				peerControl_->handleEvent( event );
 			}
 		}
@@ -699,7 +709,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 		case WM_PAINT:{
 			if ( true == isCreated() ){
-				if ( peerControl_->getComponentState() != Component::csDestroying ) {
+				if ( !peerControl_->isDestroying() ) {
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
 						wndProcResult = 0;
 						result = true;
@@ -725,7 +735,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 
 		case WM_HELP : {
-			if ( peerControl_->getComponentState() != Component::csDestroying ) {
+			if ( !peerControl_->isDestroying() ) {
 				HELPINFO* helpInfo = (HELPINFO*) lParam;
 				if ( HELPINFO_WINDOW == helpInfo->iContextType ) {
 					if ( helpInfo->hItemHandle == hwnd_ ) {
@@ -762,7 +772,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_MOUSEMOVE: {
-			if ( peerControl_->getComponentState() == Component::csNormal ) {
+			if ( peerControl_->isNormal() ) {
 				//result = defaultWndProcedure( message, wParam, lParam );
 			}
 
@@ -790,7 +800,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 
 		case WM_MOUSELEAVE: {
-			if ( peerControl_->getComponentState() == Component::csNormal ) {
+			if ( peerControl_->isNormal() ) {
 				//result = defaultWndProcedure( message, wParam, lParam );
 			}
 
@@ -807,7 +817,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			UINT idCtl = (UINT) wParam;
 			DRAWITEMSTRUCT* drawItemStruct = (DRAWITEMSTRUCT*) lParam;
 
-			if ( (peerControl_->getComponentState() != Component::csDestroying) && (0 == idCtl)
+			if ( (!peerControl_->isDestroying()) && (0 == idCtl)
 					&& (ODT_MENU == drawItemStruct->CtlType) ) {
 				// we have received a draw item for a menu item
 				MenuItem* foundItem = Win32MenuItem::getMenuItemFromID( drawItemStruct->itemID );
@@ -836,7 +846,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 				}
 			}
 			else {
-				if ( (peerControl_->getComponentState() != Component::csDestroying) && (ODT_BUTTON == drawItemStruct->CtlType) ) {
+				if ( (!peerControl_->isDestroying()) && (ODT_BUTTON == drawItemStruct->CtlType) ) {
 					HWND hwndCtl = drawItemStruct->hwndItem;
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
@@ -855,7 +865,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 			UINT idCtl = (UINT) wParam;
 			MEASUREITEMSTRUCT* measureInfo = (MEASUREITEMSTRUCT*) lParam;
-			if ( (peerControl_->getComponentState() != Component::csDestroying) && (0 == idCtl)
+			if ( (!peerControl_->isDestroying()) && (0 == idCtl)
 					&& (ODT_MENU == measureInfo->CtlType) ) {
 
 				// we have received a draw item for a menu item
@@ -890,7 +900,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_MENUSELECT : {
-			if ( peerControl_->getComponentState() != Component::csDestroying ) {
+			if ( !peerControl_->isDestroying() ) {
 				UINT uItem = (UINT) LOWORD(wParam);
 				UINT fuFlags = (UINT) HIWORD(wParam);
 				HMENU hmenuPopup = (HMENU) lParam;
@@ -910,7 +920,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_INITMENUPOPUP : {
-			if ( peerControl_->getComponentState() != Component::csDestroying ) {
+			if ( !peerControl_->isDestroying() ) {
 				HMENU hmenuPopup = (HMENU) wParam;//thisis the menu handle of the menu popuping up or dropping down
 				if ( GetMenuItemCount( hmenuPopup ) > 0 ) {
 					//UINT Pos = (UINT) LOWORD(lParam);
@@ -957,7 +967,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		case WM_NOTIFY : {
 			result = true;
 			wndProcResult = defaultWndProcedure( message, wParam, lParam );
-			if ( peerControl_->getComponentState() != Component::csDestroying ) {
+			if ( !peerControl_->isDestroying() ) {
 				NMHDR* notificationHdr = (LPNMHDR)lParam;
 				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( notificationHdr->hwndFrom );
 				if ( NULL != win32Obj ){
@@ -972,7 +982,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			if ( NULL != peerControl_ ) {
 				Scrollable* scrollable = peerControl_->getScrollable();
 
-				if ( (peerControl_->getComponentState() != Component::csDestroying) && (NULL != scrollable) ) {
+				if ( (!peerControl_->isDestroying()) && (NULL != scrollable) ) {
 					short fwKeys = LOWORD(wParam);    // key flags
 					short zDelta = (short) HIWORD(wParam);    // wheel rotation
 					short xPos = (short) LOWORD(lParam);    // horizontal position of pointer
@@ -1013,7 +1023,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		case WM_VSCROLL : {
 			result = 0;
 			if ( NULL != peerControl_ ) {
-				if ( peerControl_->getComponentState() != Component::csDestroying ) {
+				if ( !peerControl_->isDestroying() ) {
 
 					HWND hwndScrollBar = (HWND) lParam;
 
@@ -1146,7 +1156,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		case WM_HSCROLL : {
 			result = 0;
 			if ( NULL != peerControl_ ) {
-				if ( peerControl_->getComponentState() != Component::csDestroying ) {
+				if ( !peerControl_->isDestroying() ) {
 
 					HWND hwndScrollBar = (HWND) lParam;
 
@@ -1296,7 +1306,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_COMMAND:{
-			if ( peerControl_->getComponentState() != Component::csDestroying ) {
+			if ( !peerControl_->isDestroying() ) {
 				UINT notifyCode = HIWORD(wParam);
 				HWND hwndCtl = (HWND) lParam;
 				Win32Object* win32Obj = NULL;
@@ -1511,7 +1521,7 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 
 	//return res;
 
-	if ( (NULL != rectToModify) && (peerControl_->getComponentState() != Component::csDestroying) ) {
+	if ( (NULL != rectToModify) && (!peerControl_->isDestroying()) ) {
 		Border* border = peerControl_->getBorder();
 		Rect clientBounds( rectToModify->left, rectToModify->top, rectToModify->right, rectToModify->bottom );
 

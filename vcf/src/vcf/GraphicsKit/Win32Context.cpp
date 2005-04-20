@@ -1457,13 +1457,18 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
 
+	
 	tmp = *rect;
 	tmp.left_ = r.right + 3;
 	tmp.inflate( -1.0, -1.0 );
 
+	/*
+	JC - commented this out - it looked dorky???
 	if ( state.isFocused() ) {
 		drawThemeFocusRect( &tmp, state );
 	}
+	*/
+
 	
 	releaseHandle();
 
@@ -1504,13 +1509,17 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 
 	::DrawFrameControl( dc_, &r, DFC_BUTTON, btnState );
 
+	
 	tmp = *rect;
 	tmp.left_ = r.right + 3;
 	tmp.inflate( -1.0, -1.0 );
 
+	/*
+	JC - commented this out - it looked dorky???
 	if ( state.isFocused() ) {
 		drawThemeFocusRect( &tmp, state );
 	}
+	*/
 	
 	releaseHandle();
 
@@ -2536,6 +2545,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.10  2005/04/20 02:27:45  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.4.2.9  2005/04/09 17:21:39  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

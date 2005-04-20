@@ -99,6 +99,8 @@ void Win32Window::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
 
+		setFont( owningControl->getFont() );
+
 		if ( NULL != icon ) {		
 			SendMessage( hwnd_, WM_SETICON, ICON_BIG, (LPARAM) icon );
 		}
@@ -690,6 +692,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/20 02:26:01  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.3  2005/03/20 04:55:51  ddiego
 *fixes bug [ 1161656 ] Window resize.
 *

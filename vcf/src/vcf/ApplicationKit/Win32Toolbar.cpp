@@ -77,6 +77,8 @@ void Win32Toolbar::create( Control* control )
 
 		subclassWindow();
 
+		setFont( control->getFont() );
+
 		SendMessage(hwnd_, TB_BUTTONSTRUCTSIZE, (WPARAM) sizeof(TBBUTTON), 0);
 
 		DWORD btnSize = SendMessage(hwnd_, TB_GETBUTTONSIZE, 0, 0 );
@@ -1419,6 +1421,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/20 02:26:01  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.1  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

@@ -57,7 +57,7 @@ void Win32Edit::create( Control* owningControl )
 	OSVERSIONINFO osInfo;
 	memset( &osInfo, 0, sizeof(OSVERSIONINFO) );
 	osInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	if ( true == isMultiLined_ ) {
+	//if ( true == isMultiLined_ ) {
 		if ( GetVersionEx( &osInfo ) ) {
 			if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_NT ) {
 				// this provides at least Rich Edit Version 2.0 ( depending on the Windows OS )
@@ -100,7 +100,7 @@ void Win32Edit::create( Control* owningControl )
 			className = "EDIT";
 			isRichedit_ = false;
 		}
-	}
+	//}
 
 	CreateParams params = createParams();
 	
@@ -648,8 +648,8 @@ uint32 Win32Edit::convertCharToVKCode( VCFChar ch )
 bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
 	bool result = false;
-	wndProcResult = 0;
-
+	wndProcResult = 0;		
+	
 	switch ( message ) {
 
 		case WM_RBUTTONDOWN :  case WM_LBUTTONDOWN : {
@@ -665,6 +665,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		}
 		break;
+
 
 		case WM_RBUTTONUP : case WM_LBUTTONUP : {
 
@@ -834,7 +835,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 			if ( !peerControl_->isDesigning() ) {
-				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+				wndProcResult = defaultWndProcedure( message, wParam, lParam );
 				result = true;
 			}
 			else if ( peerControl_->isDesigning() ) {
@@ -843,7 +844,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 		}
 		break;
-		
+
 		case WM_COMMAND:{
 			
 			WPARAM fakeWParam = LOWORD(wParam);
@@ -876,8 +877,6 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		}
 		break;
-
-		
 
 		case WM_PASTE : {
 			wndProcResult = 0;
@@ -953,15 +952,22 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 									color->getGreen() * 255.0,
 									color->getBlue() * 255.0 );
 
+			color = peerControl_->getFont()->getColor();
+
+			COLORREF textColor = RGB(color->getRed() * 255.0,
+									color->getGreen() * 255.0,
+									color->getBlue() * 255.0 );
+
 			backgroundBrush_ = CreateSolidBrush( backColor );
 			SetBkColor( hdcEdit, backColor );
+			SetTextColor( hdcEdit, textColor );			
 
 			wndProcResult = (LRESULT)backgroundBrush_;
 			return true;
 		}
 		break;
 
-		
+	
 		//this may be useful to uncomment, but at the
 		//moment it never gets called, possible because we
 		//do not use the default Dialog wnd proc
@@ -970,12 +976,14 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		//	result = DLGC_WANTALLKEYS;
 		//}
 		//break;
-		
 
-		default: {				
+		default: {	
+			
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			
 		}
-		break;		
+		break;	
+
 	}
 	
 	return result;
@@ -1501,7 +1509,7 @@ void Win32Edit::copy()
 
 void Win32Edit::paste()
 {
-	SendMessage( hwnd_, WM_PASTE, 0, 0 );
+	SendMessage( hwnd_, WM_PASTE, 0, 0 );	
 }
 
 bool Win32Edit::canUndo()
@@ -1527,6 +1535,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.15  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.14  2005/04/16 17:22:55  marcelloptr
 *temporary workaround for scrolling problem when inserting text (and selecting it)
 *

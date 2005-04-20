@@ -189,6 +189,8 @@ void Win32Tree::create( Control* owningControl )
 
 		subclassWindow();
 
+		setFont( owningControl->getFont() );
+
 		treeControl_ = (TreeControl*)owningControl;
 		peerControl_ = owningControl;
 
@@ -1382,6 +1384,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/04/20 02:26:01  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.8  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
