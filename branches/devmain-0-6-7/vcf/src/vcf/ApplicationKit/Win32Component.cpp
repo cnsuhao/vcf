@@ -60,6 +60,7 @@ void Win32Component::create( Control* owningControl )
 
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
+		setFont( owningControl->getFont() );
 	}
 	else {
 		//throw exception
@@ -72,6 +73,9 @@ void Win32Component::create( Control* owningControl )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.2.4.1  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

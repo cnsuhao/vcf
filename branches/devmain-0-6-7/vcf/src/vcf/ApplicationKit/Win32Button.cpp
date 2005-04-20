@@ -70,6 +70,7 @@ void Win32Button::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
 		subclassWindow();
+		setFont( owningControl->getFont() );
 	}
 	else {
 		//throw exception
@@ -268,6 +269,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.3  2005/03/15 01:51:50  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

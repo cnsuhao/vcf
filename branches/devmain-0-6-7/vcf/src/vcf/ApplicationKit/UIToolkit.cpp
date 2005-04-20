@@ -691,20 +691,20 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 
 	AccelMapIter it = range.first;
 	if ( control ) {			
-			if ( control->areParentsEnabled() ) {
+		if ( control->areParentsEnabled() ) {
+			
+			while ( it != range.second ) {
 				
-				while ( it != range.second ) {
-					
-					AcceleratorKey* accel = it->second;
-					if ( accel->getAssociatedControl() == control ) {
-						accelerator = accel;
-						break;
-					}
-					
-					it ++;
+				AcceleratorKey* accel = it->second;
+				if ( accel->getAssociatedControl() == control ) {
+					accelerator = accel;
+					break;
 				}
+				
+				it ++;
 			}
 		}
+	}
 
 	
 
@@ -727,8 +727,7 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 			}
 			
 			it ++;
-		}	
-
+		}
 	}
 	
 	//if accelerator is still null try and find the first matching object
@@ -782,75 +781,7 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 		switch( keyCode ) {
 
 			case vkTab : /*case vkUpArrow : case vkDownArrow : case vkLeftArrow : case vkRightArrow :*/{
-
-				bool goForward = !event->hasShiftKey();
-
-				Control* currentFocused = Control::getCurrentFocusedControl();
-				if ( NULL == currentFocused ) {
-					currentFocused = control;
-				}
-				Frame* parentFrame = currentFocused->getParentFrame();
-
-				std::vector<Control*> tabList;
-				Control::buildTabList( parentFrame, tabList );
-
-				Control* newFocusedControl = NULL;
-				std::vector<Control*>::iterator found = std::find( tabList.begin(), tabList.end(), currentFocused );
-				long index = -1;
-				if ( found != tabList.end() ) {
-					index = found - tabList.begin();
-				}
-				if ( goForward ) {
-					index ++;
-
-					if ( index >= tabList.size() ) {
-						index = 0;
-					}
-
-					if ( index >= 0 ) {
-						while ( index < tabList.size() ) {
-							Control* c = tabList[index];
-							if ( c->canAcceptFocus() ) {
-								if ( c->getTabStop() ) {
-									break;
-								}
-							}
-							index++;
-						}
-					}
-
-					if ( index >= tabList.size() ) {
-						index = 0;
-					}
-
-				}
-				else {
-					index --;
-
-					if ( index <= 0 ) {
-						index = tabList.size()-1;
-					}
-
-					if ( index < tabList.size() ) {
-						while ( index > -1 ) {
-							Control* c = tabList[index];
-							if ( c->canAcceptFocus() ) {
-								if ( c->getTabStop() ) {
-									break;
-								}
-							}
-							index--;
-						}
-					}
-
-					if ( index <= 0 ) {
-						index = tabList.size()-1;
-					}
-				}
-
-
-				newFocusedControl = tabList[index];
-				newFocusedControl->setFocused();
+				handleTabKeyboardEvent( event );				
 			}
 			break;
 
@@ -876,6 +807,84 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 			}
 			break;
 		}
+	}
+}
+
+void UIToolkit::handleTabKeyboardEvent( KeyboardEvent* event )
+{
+	Control* control = (Control*) event->getSource();
+
+	if ( !control->keepsTabKey() ) {
+		bool goForward = !event->hasShiftKey();
+		
+		Control* currentFocused = Control::getCurrentFocusedControl();
+		if ( NULL == currentFocused ) {
+			currentFocused = control;
+		}
+		Frame* parentFrame = currentFocused->getParentFrame();
+		
+		std::vector<Control*> tabList;
+		Control::buildTabList( parentFrame, tabList );
+		
+		Control* newFocusedControl = NULL;
+		std::vector<Control*>::iterator found = std::find( tabList.begin(), tabList.end(), currentFocused );
+		long index = -1;
+		if ( found != tabList.end() ) {
+			index = found - tabList.begin();
+		}
+		if ( goForward ) {
+			index ++;
+			
+			if ( index >= tabList.size() ) {
+				index = 0;
+			}
+			
+			if ( index >= 0 ) {
+				while ( index < tabList.size() ) {
+					Control* c = tabList[index];
+					if ( c->canAcceptFocus() ) {
+						if ( c->getTabStop() ) {
+							break;
+						}
+					}
+					index++;
+				}
+			}
+			
+			if ( index >= tabList.size() ) {
+				index = 0;
+			}
+			
+		}
+		else {
+			index --;
+			
+			if ( index <= 0 ) {
+				index = tabList.size()-1;
+			}
+			
+			if ( index < tabList.size() ) {
+				while ( index > -1 ) {
+					Control* c = tabList[index];
+					if ( c->canAcceptFocus() ) {
+						if ( c->getTabStop() ) {
+							break;
+						}
+					}
+					index--;
+				}
+			}
+			
+			if ( index <= 0 ) {
+				index = tabList.size()-1;
+			}
+		}
+		
+		
+		newFocusedControl = tabList[index];
+		newFocusedControl->setFocused();
+
+		event->consume();
 	}
 }
 
@@ -1137,6 +1146,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.10  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *

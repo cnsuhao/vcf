@@ -293,6 +293,7 @@ void Win32Listview::create( Control* owningControl )
 		Win32Object::registerWin32Object( this );
 
 		subclassWindow();
+		setFont( owningControl->getFont() );
 		
 		COLORREF backColor = RGB(backColor_.getRed() * 255.0,
 									backColor_.getGreen() * 255.0,
@@ -2411,6 +2412,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/04/20 02:26:01  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.7  2005/04/11 23:01:30  marcelloptr
 *minor fix
 *

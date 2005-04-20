@@ -92,6 +92,7 @@ private:
 	bool visible_;
 	bool enabled_;
 	bool focused_;
+	std::vector<bool> hiddenControls_;
 };
 
 
@@ -101,6 +102,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.2.4.2  2004/12/19 04:04:59  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

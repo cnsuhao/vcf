@@ -987,9 +987,8 @@ void Control::setUseParentFont( const bool& useParentFont )
 }
 
 void Control::afterCreate( ComponentEvent* event )
-{
+{	
 	
-	peer_->setFont( font_ );
 }
 
 void Control::repaint( Rect* repaintRect )
@@ -1520,6 +1519,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.13  2005/04/20 02:25:59  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.4.2.12  2005/03/29 05:00:16  ddiego
 *fixed an issue in drawing borders when the controls render buffer is turned on.
 *

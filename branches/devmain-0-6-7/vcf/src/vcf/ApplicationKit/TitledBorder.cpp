@@ -17,21 +17,21 @@ using namespace VCF;
 TitledBorder::TitledBorder():
 	sidesToPaint_(GraphicsContext::etAllSides)
 {
-
+	font_ = UIToolkit::getUIMetricsManager()->getDefaultFontFor(UIMetricsManager::ftControlFont);
 }
 
 TitledBorder::TitledBorder(const String& title):
 	caption_(title),
 	sidesToPaint_(GraphicsContext::etAllSides)
 {
-
+	font_ = UIToolkit::getUIMetricsManager()->getDefaultFontFor(UIMetricsManager::ftControlFont);
 }
 
 TitledBorder::TitledBorder(const String& title, long sidesToPaint):
 	caption_(title),
 	sidesToPaint_(sidesToPaint)
 {
-
+	font_ = UIToolkit::getUIMetricsManager()->getDefaultFontFor(UIMetricsManager::ftControlFont);
 }
 
 TitledBorder::TitledBorder(const String& title, long sidesToPaint, const Font& font):
@@ -39,14 +39,14 @@ TitledBorder::TitledBorder(const String& title, long sidesToPaint, const Font& f
 	sidesToPaint_(sidesToPaint),
 	font_(font)
 {
-
+	
 }
 
 TitledBorder::TitledBorder( Component* owner ):
 	Border(owner),
 	sidesToPaint_(GraphicsContext::etAllSides)
 {
-
+	font_ = UIToolkit::getUIMetricsManager()->getDefaultFontFor(UIMetricsManager::ftControlFont);
 }
 
 
@@ -126,6 +126,9 @@ Rect TitledBorder::getClientRect( Rect* initialBounds, Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.2.4.1  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

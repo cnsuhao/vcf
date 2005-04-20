@@ -49,6 +49,9 @@ void Parser::resetStream()
 
 	bufPtr_ = buffer_;
 	bufEnd_ = bufPtr_ + stream_->getSize();
+
+	VCF_ASSERT( bufEnd_ > bufPtr_ );
+
 	sourcePtr_ = buffer_;
 	sourceEnd_ = buffer_;
 	tokenPtr_ = buffer_;
@@ -313,6 +316,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/04/20 02:27:44  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.2.4.2  2005/04/09 17:21:30  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

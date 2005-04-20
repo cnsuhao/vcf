@@ -249,6 +249,9 @@ void AbstractContainer::remove( Control* child )
 	std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), child );
 	if ( found != controls_.end() ){
 		controls_.erase( found );
+
+		child->setParent( NULL );
+
 		resizeChildren(NULL);
 
 		std::map<long,Control*>::iterator it = tabOrderMap_.begin();
@@ -564,6 +567,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/04/20 02:25:59  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.4.2.2  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

@@ -617,6 +617,8 @@ protected:
 	void internal_setUpdateTimerSpeed( const unsigned long& milliseconds );
 
 	void onUpdateComponentsTimer( TimerEvent* e );
+
+	void handleTabKeyboardEvent( KeyboardEvent* event );
 };
 
 };
@@ -625,6 +627,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.5  2005/03/14 04:17:24  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

@@ -481,6 +481,7 @@ public:
 
 			case UIMetricsManager::ftControlFont :  case UIMetricsManager::ftSystemFont : {
 				//do nothing the Win32Font already is initialized ot this by default
+				result.setColor( &Color( ::GetSysColor( COLOR_WINDOWTEXT ) ) );
 			}
 			break;
 
@@ -2220,6 +2221,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/04/20 02:26:01  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.3.2.10  2005/04/13 00:57:02  iamfraggle
 *Enable Unicode in CodeWarrior
 *

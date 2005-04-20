@@ -165,7 +165,8 @@ public:
 				continue;
 			}
 
-			h = maxVal<>( h, control->getPreferredHeight() );
+			h = maxVal<>( h, 
+							maxVal<>( control->getHeight(), control->getPreferredHeight() ) );
 
 			col ++;
 			if ( col >= colCount ) {
@@ -266,6 +267,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/04/20 02:26:00  ddiego
+*fixes for single line text and formatting problems in text window creation.
+*
 *Revision 1.2.2.3  2005/03/20 04:29:21  ddiego
 *added ability to set image lists for list box control.
 *
