@@ -494,6 +494,7 @@ int main( int argc, char** argv ){
 	//add 2 elements to the dictionary.
 
 	dict.insert( "size", 200 );
+
 	dict["width"] = 150;
 
 	dict["Name"] = "Bob";
@@ -562,6 +563,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.3  2005/04/25 00:11:55  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.7.2.2  2005/04/17 15:11:43  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

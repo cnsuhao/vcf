@@ -417,7 +417,6 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 				int wIncr = (long)imageBounds->getWidth();
 				int s = (int)imageBounds->top_;
 				int e = (int)imageBounds->bottom_;
-				unsigned char * scanLine = new unsigned char[wIncr];
 
 				for (int y1=s;y1<e;y1++) {
 					int xIndex = 0;
@@ -2545,6 +2544,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.11  2005/04/25 00:11:59  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.4.2.10  2005/04/20 02:27:45  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

@@ -20,7 +20,7 @@ TextControl::TextControl( const bool& multiLineControl ):
 	model_(NULL),
 	readOnly_(false)
 {
-	textPeer_ =	UIToolkit::createTextPeer( this, multiLineControl );
+	textPeer_ =	UIToolkit::createTextEditPeer( this, multiLineControl );
 	
 	if ( NULL == textPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
@@ -243,14 +243,14 @@ void TextControl::selectAll()
 	textPeer_->setSelectionMark( 0, text.size() );
 }
 
-void TextControl::setSelectionFont( Font* font )
+void TextControl::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
-	textPeer_->setSelectionFont( font );
+	textPeer_->setStyle( start, length, styles );
 }
 
-void TextControl::setParagraphAlignment( const TextAlignmentType& alignment )
+void TextControl::setDefaultStyle( Dictionary& styles )
 {
-	textPeer_->setParagraphAlignment( alignment );
+	textPeer_->setDefaultStyle( styles );
 }
 
 String TextControl::getSelectedText()
@@ -654,6 +654,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/04/25 00:11:57  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.9  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *

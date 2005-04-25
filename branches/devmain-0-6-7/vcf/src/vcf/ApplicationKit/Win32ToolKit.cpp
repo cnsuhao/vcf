@@ -55,6 +55,9 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32PrintDialog.h"
 
 
+#include "vcf/ApplicationKit/Win32TextPeer.h"
+
+
 #ifdef _LIB
     /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
        link the Win32HTMLBrowser_StaticLib, but also he will not have to
@@ -1372,7 +1375,12 @@ ApplicationPeer* Win32ToolKit::internal_createApplicationPeer()
 	return new Win32Application();
 }
 
-TextPeer* Win32ToolKit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl)
+TextPeer* Win32ToolKit::internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined )
+{
+	return new Win32TextPeer(autoWordWrap,multiLined);
+}
+
+TextEditPeer* Win32ToolKit::internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl)
 {
 	return new Win32Edit( component, isMultiLineControl );
 }
@@ -2221,6 +2229,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/04/25 00:11:58  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.11  2005/04/20 02:26:01  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

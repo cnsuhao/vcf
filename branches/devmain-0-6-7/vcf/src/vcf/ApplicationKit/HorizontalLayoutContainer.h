@@ -168,6 +168,9 @@ public:
 			h = maxVal<>( h, 
 							maxVal<>( control->getHeight(), control->getPreferredHeight() ) );
 
+			if ( h > maxRowHeight_ ) {
+				maxRowHeight_ = h;
+			}
 			col ++;
 			if ( col >= colCount ) {
 				col = 0;				
@@ -267,6 +270,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2005/04/25 00:11:57  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.2.2.4  2005/04/20 02:26:00  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

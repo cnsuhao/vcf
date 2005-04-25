@@ -58,7 +58,9 @@ public:
 
 	virtual ApplicationPeer* internal_createApplicationPeer();
 
-	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl);
+	virtual TextPeer* internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined );
+
+	virtual TextEditPeer* internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl);
 
 	virtual TreePeer* internal_createTreePeer( TreeControl* component);
 
@@ -180,6 +182,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/04/25 00:11:59  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.1  2004/12/19 07:09:19  ddiego
 *more modifications to better handle resource bundles, especially
 *if they are part of a LibraryApplication instance.

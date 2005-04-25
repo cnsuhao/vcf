@@ -25,6 +25,7 @@ where you installed the VCF.
 #include "MainWindow.h"
 
 
+
 using namespace VCF;
 
 
@@ -62,6 +63,9 @@ MainWindow::MainWindow()
 
 	buttonsPage = mainPages->addNewPage( "Buttons" );
 	makeButtonsPage();
+
+	textPage = mainPages->addNewPage( "Text" );
+	makeTextPage();
 
 	mainPagesModel = mainPages->getModel();
 	mainPagesModel->setSelectedPage( listBoxPage );				
@@ -384,10 +388,51 @@ void MainWindow::makeButtonsPage()
 	container->add( btn4 );
 }
 
+void MainWindow::makeTextPage()
+{
+	HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
+	container->setColumnWidth( 0, 200 );
+
+	textPage->getPageComponent()->setContainer( container );
+
+	Label* label = new Label();	
+
+	label->setCaption( "Single Line Text:" );
+	container->add( label );
+
+	TextControl* singleTextCtrl = new TextControl();
+	container->add( singleTextCtrl );
+
+	singleTextCtrl->getTextModel()->setText( "Hello, here's some text!" );
+	singleTextCtrl->setSelectionMark( 3, 8 );
+	Font selectionFont;
+	selectionFont.setColor( Color::getColor("green") );
+	selectionFont.setBold( true );
+	selectionFont.setName( "Arial" );
+
+	singleTextCtrl->setSelectionFont( &selectionFont );
+
+	
+
+
+
+	label = new Label();	
+
+	label->setCaption( "Multi Line Text:" );
+	container->add( label );
+	
+	
+	MultilineTextControl* multiTextCtrl = new MultilineTextControl();
+	multiTextCtrl->setHeight( 200 );
+	container->add( multiTextCtrl );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2005/04/25 00:11:54  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.2.2.2  2005/03/06 22:50:53  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

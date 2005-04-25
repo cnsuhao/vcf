@@ -441,6 +441,12 @@ Package=<4>
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name MFCIntegration1
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MFCIntegration2
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name MVCBasics
     End Project Dependency
     Begin Project Dependency
@@ -834,6 +840,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "MFCIntegration1"="..\..\examples\MFCIntegration1\MFCIntegration1_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MFCIntegration2"="..\..\examples\MFCIntegration2\MFCIntegration2_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "MVCBasics"="..\..\examples\MVCBasics\MVCBasics_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1045,6 +1075,30 @@ Package=<4>
 ###############################################################################
 
 Project: "Resources"="..\..\examples\Resources\Resources_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SciLexer"="..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ScintillaKit"=".\ScintillaKit\ScintillaKit_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

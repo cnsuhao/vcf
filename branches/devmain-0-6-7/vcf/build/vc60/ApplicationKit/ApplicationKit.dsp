@@ -649,14 +649,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\View.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Window.cpp
 # End Source File
 # Begin Source File
@@ -889,6 +881,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp
 # End Source File
 # Begin Source File
@@ -902,6 +902,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32TextPeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32TextPeer.h
 # End Source File
 # Begin Source File
 

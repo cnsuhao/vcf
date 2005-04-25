@@ -35,6 +35,7 @@ namespace VCF{
 class ListviewPeer;
 class ComboBoxPeer;
 class TextPeer;
+class TextEditPeer;
 class RichTextPeer;
 class ControlPeer;
 class TreePeer;
@@ -196,12 +197,17 @@ public:
 	*/
     static TreePeer* createTreePeer( TreeControl* component);
 
+	
 	/**
 	This creates a peer that implements the TextPeer interface. A TextPeer allows you to
 	view and edit text, either in a single line edit control, or a multiline edit control.
 	For Win32 systems this is equivalent to creating a Richedit window handle.
 	*/
-    static TextPeer* createTextPeer( TextControl* component, const bool& isMultiLineControl);
+    static TextPeer* createTextPeer( const bool& autoWordWrap, const bool& multiLined );
+
+	static TextEditPeer* createTextEditPeer( TextControl* component, const bool& isMultiLineControl);
+
+	
 
 	/**
 	This creates a peer that implements the HTMLBrowserPeer interface. The HTMLBrowserPeer
@@ -460,7 +466,9 @@ protected:
 
     virtual TreePeer* internal_createTreePeer( TreeControl* component) = 0;
 
-    virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl) = 0;
+	virtual TextPeer* internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined ) = 0;
+
+    virtual TextEditPeer* internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl ) = 0;
 
 	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control ) = 0;
 
@@ -627,6 +635,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/04/25 00:11:57  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.6  2005/04/20 02:26:00  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

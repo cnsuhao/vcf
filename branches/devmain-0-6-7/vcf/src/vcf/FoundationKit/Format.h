@@ -147,7 +147,7 @@ namespace VCF {
 		//JC - it appears GCC 3.3.3 doesn't like this - do we need this
 		//here for VC?? This is exceedingly ugly, it would be nice not to have this 
 		//here at all!
-		#if !defined(VCF_GCC) && !defined(VCF_DMC)
+		#if !defined(VCF_GCC) && !defined(VCF_DMC) && !defined(VCF_VC60)
 		template <String>
 		#endif
 			Format& operator% (const String& val) {
@@ -328,6 +328,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2005/04/25 00:11:59  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.1.2.10  2005/04/18 04:22:47  dougtinkham
 *change on template spec. for DMC
 *
