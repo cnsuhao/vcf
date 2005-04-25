@@ -27,8 +27,8 @@ where you installed the VCF.
 namespace VCF {
 
 
-class TextPeer;
-
+class TextEditPeer;
+class Dictionary;
 
 
 #define TEXTCONTROL_CLASSID			"ED88C09E-26AB-11d4-B539-00C04F0196DA"
@@ -77,9 +77,9 @@ public:
 
 	void selectAll();
 
-	void setSelectionFont( Font* font );
+	void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
 
-	void setParagraphAlignment( const TextAlignmentType& alignment );
+	void setDefaultStyle( Dictionary& styles );
 
 	String getSelectedText();
 
@@ -171,7 +171,7 @@ protected:
 	void selectAllAccelerator( Event* e );
 
 protected:
-	TextPeer * textPeer_;
+	TextEditPeer * textPeer_;
 	TextModel* model_;
 	bool keepTabbingCharacters_;
 	bool keepReturnCharacter_;
@@ -186,6 +186,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/25 00:11:57  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.3  2005/03/28 18:07:37  marcelloptr
 *minor fixes or comments
 *

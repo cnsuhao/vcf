@@ -240,28 +240,14 @@ GraphicsContext::~GraphicsContext()
 		delete contextPeer_;
 	}
 	contextPeer_ = NULL;
-/*
-	if ( NULL != currentFill_ ){
-		delete currentFill_;
-	}
-	currentFill_ = NULL;
 
-	if ( NULL != currentStroke_ ){
-		delete currentStroke_;
-	}
-	currentStroke_ = NULL;
 
-	if ( NULL != currentFont_ ){
-		delete currentFont_;
+	GraphicsStateCollection::iterator it = stateCollection_.begin();
+	while ( it != stateCollection_.end () ) {
+		delete *it;
+		it ++;
 	}
-	currentFont_ = NULL;
-
-	if ( NULL != clippingPath_ ) {
-		Object* pathObj = dynamic_cast<Object*>( clippingPath_ );
-		pathObj->release();
-	}
-	clippingPath_ = NULL;
-*/
+	stateCollection_.clear();
 
 	if ( NULL != drawingArea_ ) {
 		delete drawingArea_;
@@ -1297,6 +1283,8 @@ void GraphicsContext::buildArc( double centerX,  double centerY,
 		++it;
 	}
 
+	
+	path.remove_all();
 }
 
 
@@ -1499,6 +1487,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/04/25 00:11:59  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.4.2.1  2004/12/19 04:05:03  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

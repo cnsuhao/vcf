@@ -11,7 +11,11 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Edit.h"
 #include "vcf/ApplicationKit/TextControl.h"
+
 #include <richedit.h>
+#include "thirdparty/win32/Microsoft/TOM.h"
+#include "thirdparty/win32/Microsoft/textserv.h"
+
 
 
 using namespace VCFWin32;
@@ -20,7 +24,8 @@ using namespace VCF;
 static bool Win32RicheditLibraryLoaded = false;
 
 Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
-	AbstractWin32Component( component ),	
+	AbstractWin32Component( component ),
+	Win32TextPeer(),
 	textControl_(component),
 	numCharsStreamedIn_(0),
 	isRichedit_(false),
@@ -149,6 +154,10 @@ void Win32Edit::create( Control* owningControl )
 		textControl_->ControlModelChanged +=
 			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onControlModelChanged, "Win32Edit::onControlModelChanged" );
 
+
+
+		initFromRichEdit( hwnd_ );
+
 	}
 	else {
 		//throw exception
@@ -156,6 +165,11 @@ void Win32Edit::create( Control* owningControl )
 	}
 
 	setCreated( true );
+}
+
+OSHandleID Win32Edit::getTextObjectHandle()
+{
+	return Win32TextPeer::getTextObjectHandle();
 }
 
 void Win32Edit::setRightMargin( const double & rightMargin )
@@ -200,6 +214,70 @@ double Win32Edit::getRightMargin()
 	result = HIWORD(margin);
 	return result;
 }
+
+
+void Win32Edit::insertText( unsigned int start, unsigned int length, const String& text )
+{
+	Win32TextPeer::insertText( start, length, text );
+}
+
+void Win32Edit::deleteText( unsigned int start, unsigned int length )
+{
+	Win32TextPeer::deleteText( start, length );
+}
+
+unsigned int Win32Edit::getTextLength()
+{
+	return Win32TextPeer::getTextLength();
+}
+
+String Win32Edit::getText( unsigned int start, unsigned int length )
+{
+	return Win32TextPeer::getText(start,length);
+}
+
+
+
+
+void Win32Edit::paint( GraphicsContext* context, const Rect& paintRect )
+{
+	Win32TextPeer::paint( context, paintRect );
+}
+
+
+void Win32Edit::setTopMargin( const double & topMargin )
+{
+	Win32TextPeer::setTopMargin( topMargin );
+}
+
+void Win32Edit::setBottomMargin( const double & bottomMargin )
+{
+	Win32TextPeer::setBottomMargin( bottomMargin );
+}
+
+
+double Win32Edit::getTopMargin()
+{
+	return Win32TextPeer::getTopMargin();
+}
+
+double Win32Edit::getBottomMargin()
+{
+	return Win32TextPeer::getBottomMargin();
+}
+
+void Win32Edit::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
+{
+	Win32TextPeer::setStyle( start, length, styles );
+}
+
+
+void Win32Edit::setDefaultStyle( Dictionary& styles )
+{
+	Win32TextPeer::setDefaultStyle( styles );
+}
+
+
 
 VCF::Point* Win32Edit::getPositionFromCharIndex( const unsigned long& index )
 {
@@ -892,7 +970,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			// copy the control's text into the model
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
-				String text = getText();
+				String text = AbstractWin32Component::getText();
 				if ( text != model->getText() ) {
 					model->setText( text );
 				}
@@ -1213,6 +1291,11 @@ void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 	}
 }
 
+void Win32Edit::clearSelection()
+{
+	
+}
+
 void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
 	/**
@@ -1235,6 +1318,7 @@ void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned lon
 	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)adjustedStart, (LPARAM)end );
 }
 
+/*
 void Win32Edit::setSelectionFont( Font* font )
 {
 	CHARFORMAT charFormat;
@@ -1266,7 +1350,9 @@ void Win32Edit::setSelectionFont( Font* font )
 
 	::SendMessage( hwnd_, EM_SETCHARFORMAT, (WPARAM)SCF_WORD | SCF_SELECTION, (LPARAM)&charFormat );
 }
+*/
 
+/*
 void Win32Edit::setParagraphAlignment( const TextAlignmentType& alignment )
 {
 	PARAFORMAT paragraphFormat;
@@ -1291,6 +1377,7 @@ void Win32Edit::setParagraphAlignment( const TextAlignmentType& alignment )
 	}
 	::SendMessage( hwnd_, EM_SETPARAFORMAT, 0, (LPARAM)&paragraphFormat );
 }
+*/
 
 void Win32Edit::scrollToLine( const ulong32& lineIndex )
 {
@@ -1535,6 +1622,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.16  2005/04/25 00:11:58  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.15  2005/04/20 02:26:00  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

@@ -429,6 +429,12 @@ Package=<4>
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name MFCIntegration1
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MFCIntegration2
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name MVCBasics
     End Project Dependency
     Begin Project Dependency
@@ -721,6 +727,30 @@ Package=<4>
 ###############################################################################
 
 Project: "Localization"=".\Localization\Localization_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MFCIntegration1"=".\MFCIntegration1\MFCIntegration1_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MFCIntegration2"=".\MFCIntegration2\MFCIntegration2_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

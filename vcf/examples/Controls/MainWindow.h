@@ -32,6 +32,7 @@ private:
 	VCF::TabPage* listBoxPage;
 	VCF::TabPage* bordersPage;
 	VCF::TabPage* buttonsPage;
+	VCF::TabPage* textPage;
 public:
 	//related to ListBoxTabPage
 	void makeListBoxPage();
@@ -52,6 +53,8 @@ public:
 public: 
 	void makeButtonsPage();
 
+	void makeTextPage();
+
 
 	//related to buttonsTabPage
 public: 
@@ -70,6 +73,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/04/25 00:11:55  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.2.2.1  2005/03/06 22:50:53  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

@@ -235,9 +235,14 @@ TreePeer* UIToolkit::createTreePeer( TreeControl* component)
 	return UIToolkit::toolKitInstance->internal_createTreePeer( component );
 }
 
-TextPeer* UIToolkit::createTextPeer( TextControl* component, const bool& isMultiLineControl)
+TextPeer* UIToolkit::createTextPeer( const bool& autoWordWrap, const bool& multiLined )
 {
-	return UIToolkit::toolKitInstance->internal_createTextPeer( component, isMultiLineControl );
+	return UIToolkit::toolKitInstance->internal_createTextPeer( autoWordWrap,multiLined );
+}
+
+TextEditPeer* UIToolkit::createTextEditPeer( TextControl* component, const bool& isMultiLineControl)
+{
+	return UIToolkit::toolKitInstance->internal_createTextEditPeer( component, isMultiLineControl );
 }
 
 HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
@@ -1146,6 +1151,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/04/25 00:11:57  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.11  2005/04/20 02:26:00  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

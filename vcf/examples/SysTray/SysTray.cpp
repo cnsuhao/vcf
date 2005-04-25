@@ -58,6 +58,7 @@ public:
 		/**
 		Make the image transparent
 		*/
+
 		img->setIsTransparent( true );
 		/**
 		Sets the transparency color

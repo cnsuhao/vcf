@@ -20,6 +20,8 @@ namespace VCF {
 class FOUNDATIONKIT_API MessageLoader {
 public:
 
+	virtual ~MessageLoader(){};
+
 	/**
 	Loads the contents of the message file specified by the
 	file named fileName into the memory of this MessageLoader
@@ -46,6 +48,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/04/25 00:11:59  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

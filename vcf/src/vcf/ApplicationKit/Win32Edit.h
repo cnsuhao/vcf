@@ -14,15 +14,15 @@ where you installed the VCF.
 #endif
 
 
-#include "vcf/ApplicationKit/TextPeer.h"
+#include "vcf/ApplicationKit/Win32TextPeer.h"
 
 namespace VCF
 {
 
 class TextEvent;
 
-class Win32Edit : public AbstractWin32Component, public VCF::TextPeer
-{
+class Win32Edit : public AbstractWin32Component, 
+					public VCF::TextEditPeer, public Win32TextPeer {
 
 public:
 	Win32Edit( TextControl* component, const bool& isMultiLineControl );
@@ -35,38 +35,72 @@ public:
 	*/
 	virtual void setText( const VCF::String& text );
 
+	virtual CreateParams createParams();
+
+	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
+
+	virtual void repaint( Rect* repaintRect=NULL );
+
+	virtual bool acceptsWMCommandMessages() {
+		return true;
+	}
+
+
+	//TextPeer interface
+
+	virtual OSHandleID getTextObjectHandle();
+
+	//storage	
+	virtual void insertText( unsigned int start, unsigned int length, const String& text );
+
+	virtual void deleteText( unsigned int start, unsigned int length );
+
+	virtual unsigned int getTextLength();
+
+	virtual String getText( unsigned int start, unsigned int length );
+
+	
+	//display
+	virtual void paint( GraphicsContext* context, const Rect& paintRect );
+
 	virtual void setRightMargin( const double & rightMargin );
 
-	virtual void setLeftMargin( const double & leftMargin );
+	virtual void setLeftMargin( const double & leftMargin );	
 
-	virtual unsigned long getLineCount();
+	virtual void setTopMargin( const double & topMargin );
 
-	virtual unsigned long getCurrentLinePosition();
-
-	virtual void setCaretPosition( const unsigned long& caretPos );
+	virtual void setBottomMargin( const double & bottomMargin );	
 
 	virtual double getLeftMargin();
 
 	virtual double getRightMargin();
 
+	virtual double getTopMargin();
+
+	virtual double getBottomMargin();	
+
+	virtual unsigned long getLineCount();	
+
+	virtual void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
+
+	virtual void setDefaultStyle( Dictionary& styles );
+
+
+
+
+
+	
 	virtual Point* getPositionFromCharIndex( const unsigned long& index );
 
 	virtual unsigned long getCharIndexFromPosition( Point* point );
 
-	/**
-	*returns the current caret position with in the text control
-	*this is specified by a zero based number representing the
-	*insertion point with the text control's text (stored in the text
-	*control's Model).
-	*@return long the index of the current insertion point in the Model's text
-	*/
 	virtual unsigned long getCaretPosition();
 
-	virtual CreateParams createParams();
+	virtual void setCaretPosition( const unsigned long& caretPos );
 
-	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
+	virtual unsigned long getCurrentLinePosition();
 
-	void onTextModelTextChanged( TextEvent* event );
+	
 
 	virtual unsigned long getSelectionStart();
 
@@ -74,21 +108,15 @@ public:
 
 	virtual void setSelectionMark( const unsigned long& start, const unsigned long& count );
 
-	virtual void setSelectionFont( Font* font );
-
-	virtual void setParagraphAlignment( const TextAlignmentType& alignment );
-
+	virtual void clearSelection();
+	
 	virtual void scrollToLine( const ulong32& lineIndex );
 
 	virtual void scrollToSelection( const bool& _showEndSel = false );
 
 	virtual void setReadOnly( const bool& readonly );
 
-	virtual void repaint( Rect* repaintRect=NULL );
-
-	virtual bool acceptsWMCommandMessages() {
-		return true;
-	}
+	
 
 	virtual void print( PrintContext* context, const long& page );
 
@@ -110,6 +138,9 @@ public:
 
 	virtual void redo();
 protected:
+
+	void onTextModelTextChanged( TextEvent* event );
+
 	//WNDPROC oldEditWndProc_;
 	VCF::Point posAtChar_;
 	HBRUSH backgroundBrush_;
@@ -150,6 +181,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/04/25 00:11:58  ddiego
+*added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
+*
 *Revision 1.3.2.5  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *

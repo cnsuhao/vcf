@@ -591,12 +591,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\View.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.cpp">
 			</File>
 			<File
@@ -772,6 +766,12 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PopupMenu.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32PrintDialog.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ScrollPeer.cpp">
 			</File>
 			<File
@@ -782,6 +782,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32SystemTrayPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32TextPeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32TextPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Toolbar.cpp">
