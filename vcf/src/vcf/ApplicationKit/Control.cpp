@@ -557,6 +557,7 @@ void Control::handleEvent( Event* event )
 				MouseEvent*  mouseEvent = (MouseEvent*)event;
 
 				Point tmpPt = *mouseEvent->getPoint();
+				Point origPt = *mouseEvent->getPoint();
 
 
 				bool rightBtn = mouseEvent->hasRightButton();
@@ -583,7 +584,7 @@ void Control::handleEvent( Event* event )
 											MOUSE_CLICK,
 											mouseEvent->getButtonMask(),
 											mouseEvent->getKeyMask(),
-											mouseEvent->getPoint() );
+											&origPt );
 
 
 					handleEvent( &clickEvent );
@@ -1519,6 +1520,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.14  2005/04/26 04:05:22  ddiego
+*the first half of [ 1184432 ] Tables cell edit box follows scroll movement, is fixed. Still need to get the scrollbars to update.
+*
 *Revision 1.4.2.13  2005/04/20 02:25:59  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

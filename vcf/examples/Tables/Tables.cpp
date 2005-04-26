@@ -19,7 +19,7 @@ class TablesWindow : public Window {
 public:
 	TablesWindow() {
 		setCaption( "Tables" );
-		setVisible( true );
+		
 
 		TableControl* table = new TableControl();
 
@@ -66,6 +66,7 @@ public:
 		Window* mainWindow = new TablesWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 
 		return result;
 	}
@@ -88,6 +89,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/04/26 04:03:47  ddiego
+*the first half of [ 1184432 ] Tables cell edit box follows scroll movement, is fixed. Still need to get the scrollbars to update.
+*
 *Revision 1.4.2.2  2005/04/17 17:19:10  iamfraggle
 *Small fixes
 *
