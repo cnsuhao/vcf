@@ -128,6 +128,7 @@ protected:
 	HBITMAP memBMP_;
 	bool mouseEnteredControl_;	
 	int memDCState_;
+	HFONT currentFont_;
 
 	/*
 	JC I remove this cause we don't really need them
@@ -152,6 +153,8 @@ protected:
 	*
 	*/
 	LRESULT handleNCCalcSize( WPARAM wParam, LPARAM lParam );
+
+	void checkForFontChange();
 };
 
 
@@ -161,6 +164,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/04/26 02:29:39  ddiego
+*fixes font setting bug brought up by scott and glen_f
+*
 *Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

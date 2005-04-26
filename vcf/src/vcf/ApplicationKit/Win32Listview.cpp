@@ -415,7 +415,7 @@ LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM w
 
 
 		case WM_PAINT:{
-			//result = 
+			//result = 			
 
 			PAINTSTRUCT ps;
 			HDC dc = BeginPaint( hWnd, &ps );
@@ -659,6 +659,9 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 
 		case WM_PAINT:{
 			//result = CallWindowProc( oldListviewWndProc_, hwnd_, message, wParam, lParam );
+
+			//check to see if the font needs updating
+			checkForFontChange();
 
 			PAINTSTRUCT ps;
 			HDC dc = BeginPaint( hwnd_, &ps );
@@ -2412,6 +2415,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/04/26 02:29:40  ddiego
+*fixes font setting bug brought up by scott and glen_f
+*
 *Revision 1.3.2.8  2005/04/20 02:26:01  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

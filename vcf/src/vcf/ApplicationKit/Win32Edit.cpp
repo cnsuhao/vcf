@@ -999,6 +999,9 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_PAINT:{
+			//check to see if the font needs updating
+			checkForFontChange();
+
 			wndProcResult = 0;
 			result = false;
 		}
@@ -1622,6 +1625,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.17  2005/04/26 02:29:39  ddiego
+*fixes font setting bug brought up by scott and glen_f
+*
 *Revision 1.3.2.16  2005/04/25 00:11:58  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
