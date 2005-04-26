@@ -41,7 +41,7 @@ GraphicsToolkit::~GraphicsToolkit()
 	destroyColorMaps();
 
 	std::map<String,ImageLoader*>::iterator it3 = imageLoaders_.begin();
-	if ( it3 != imageLoaders_.end() ){
+	while ( it3 != imageLoaders_.end() ){
 		delete it3->second;
 		it3->second = NULL;
 		it3 ++;
@@ -1381,6 +1381,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/04/26 03:02:01  ddiego
+*fixes 1176555Mem Leak bug
+*
 *Revision 1.3.2.3  2005/04/09 17:21:38  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
