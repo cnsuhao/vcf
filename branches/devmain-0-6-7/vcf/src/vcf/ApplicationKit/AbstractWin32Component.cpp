@@ -35,7 +35,8 @@ AbstractWin32Component::AbstractWin32Component():
 	mouseEnteredControl_(false),	
 	memDCState_(0),
 	destroyed_(false),
-	canProcessMessages_(false)
+	canProcessMessages_(false),
+	currentFont_(NULL)
 {
 	init();
 	setPeerControl( NULL );
@@ -48,7 +49,8 @@ AbstractWin32Component::AbstractWin32Component( Control* component ):
 	mouseEnteredControl_(false),	
 	memDCState_(0),
 	destroyed_(false),
-	canProcessMessages_(false)
+	canProcessMessages_(false),
+	currentFont_(NULL)
 {
 	init();
 	setPeerControl( component );
@@ -348,6 +350,7 @@ void AbstractWin32Component::setFont( Font* font )
 			HFONT fontHandle = Win32FontManager::getFontHandleFromFontPeer( win32FontPeer );
 			if ( NULL != fontHandle ){
 				::SendMessage( hwnd_, WM_SETFONT, (WPARAM)fontHandle, MAKELPARAM(TRUE, 0) );
+				currentFont_ = fontHandle;
 			}
 		}
 		else {
@@ -595,6 +598,61 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 	}
 }
 
+void AbstractWin32Component::checkForFontChange()
+{	
+	if ( NULL != currentFont_ ) {
+		Font* font = peerControl_->getFont();
+
+		void* lf1 = NULL;
+		void* lf2 = NULL;
+		int lfSize = 0;
+		lf1 = font->getFontPeer()->getFontHandleID();
+
+		LOGFONTW lf2w;
+		LOGFONTA lf2a;
+
+		if ( System::isUnicodeEnabled() ) {			
+			memset( &lf2w, 0, sizeof(LOGFONTW) );
+			GetObjectW( currentFont_, sizeof(LOGFONTW), &lf2w );
+
+			//set lfWidth to 0 - essentially we want to 
+			//ignore this in our compare, as we do
+			//not bother to set it
+			lf2w.lfWidth = 0;
+
+			lf2 = &lf2w;
+			lfSize = sizeof(LOGFONTW);
+		}
+		else {
+			memset( &lf2a, 0, sizeof(LOGFONTW) );		
+			GetObjectA( currentFont_, sizeof(LOGFONTA), &lf2a );
+
+			//set lfWidth to 0 - essentially we want to 
+			//ignore this in our compare, as we do
+			//not bother to set it
+			lf2a.lfWidth = 0;
+
+			lf2 = &lf2a;
+			lfSize = sizeof(LOGFONTA);
+		}	
+		
+		
+		
+		int cmp = memcmp( &lf2, lf1, lfSize );
+		if ( cmp != 0 ) {
+			Win32Font* win32FontPeer = (Win32Font*)font->getFontPeer();
+			
+			HFONT fontHandle = Win32FontManager::getFontHandleFromFontPeer( win32FontPeer );
+			if ( NULL != fontHandle ){
+				::SendMessage( hwnd_, WM_SETFONT, (WPARAM)fontHandle, MAKELPARAM(FALSE, 0) );
+				currentFont_ = fontHandle;
+			}
+			
+
+		}
+	}
+}
+
 bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
 	
@@ -715,6 +773,12 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						result = true;
 						return result;
 					}
+
+
+					//check to see if the font needs updating
+					checkForFontChange();
+
+
 
 					PAINTSTRUCT ps;
 					HDC contextID = 0;

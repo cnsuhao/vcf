@@ -361,6 +361,9 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 	switch ( message ) {
 		case WM_PAINT:{
+			//check to see if the font needs updating
+			checkForFontChange();
+
 			PAINTSTRUCT ps;
 
 			HDC dc = BeginPaint( hwnd_, &ps );
@@ -1384,6 +1387,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/04/26 02:29:40  ddiego
+*fixes font setting bug brought up by scott and glen_f
+*
 *Revision 1.3.2.9  2005/04/20 02:26:01  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

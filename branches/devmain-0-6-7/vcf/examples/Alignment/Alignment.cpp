@@ -168,6 +168,35 @@ public:
 		clientControl->add( label1, AlignTop );
 
 
+		TextControl *entry1 = new TextControl();
+ entry1->getTextModel()->setText("1234");
+ clientControl->add( entry1, AlignTop );
+ entry1->getFont()->setName("Courier New");
+ entry1->getFont()->setPointSize( 13 );
+
+ entry1->setHeight(30);
+ entry1->setWidth(75);
+
+
+ TreeControl* tc = new TreeControl();
+tc->setHeight( 100 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+tc->addItem( NULL, "asdasd", 0 );
+
+tc->getFont()->setName( "Tahoma" );
+//f = *tc->getFont();
+//tc->setFont( &f );
+ clientControl->add( tc, AlignTop );
+
+
 
 		Label* label2 = new Label();
 		label2->setHeight( 75 );
@@ -222,6 +251,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.1  2005/04/26 02:28:42  ddiego
+*fixes font setting bug brought up by scott and glen_f
+*
 *Revision 1.4  2004/08/07 02:46:55  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
