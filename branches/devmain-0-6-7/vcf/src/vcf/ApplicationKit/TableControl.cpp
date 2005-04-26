@@ -2222,12 +2222,22 @@ void TableControl::onVerticalScrolling( Event* e )
 {
 	topLeftCell_.row = -1;
 	getTopLeftNonFixedCell();
+
+	if ( NULL != currentEditingControl_ ) {
+		Rect bounds = getEditCellRect( currentCell_ );
+		currentEditingControl_->setBounds( &bounds );
+	}	
 }
 
 void TableControl::onHorizontalScrolling( Event* e )
 {
 	topLeftCell_.column = -1;
 	getTopLeftNonFixedCell();
+
+	if ( NULL != currentEditingControl_ ) {
+		Rect bounds = getEditCellRect( currentCell_ );
+		currentEditingControl_->setBounds( &bounds );
+	}
 }
 
 bool TableControl::autoSizeColumn( int column, AutoSizeOption autoSizeStyle/*=asoDefault*/,
@@ -2382,6 +2392,9 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/04/26 04:05:22  ddiego
+*the first half of [ 1184432 ] Tables cell edit box follows scroll movement, is fixed. Still need to get the scrollbars to update.
+*
 *Revision 1.3.2.4  2005/03/15 01:51:50  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
