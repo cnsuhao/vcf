@@ -1606,6 +1606,10 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 
 /**
 *CVS Log info
+*$Log$
+*Revision 1.5.2.15  2005/04/27 02:03:42  marcelloptr
+*somehow the first line of the cvs log section got deleted... restored
+*
 *Revision 1.5.2.7  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *
