@@ -360,14 +360,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Resources", "..\..\examples
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciLexer", "..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc71.vcproj", "{bd01c3f3-cde9-48f5-ae81-2fb745519e9a}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScintillaKit", ".\ScintillaKit\ScintillaKit_vc71.vcproj", "{759e9278-23e9-4caf-a844-b3a4bb0c3b90}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling", "..\..\examples\Scrolling\Scrolling_vc71.vcproj", "{9246E861-549F-4D1A-BEBA-C114CF2C7736}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -706,10 +698,6 @@ Global
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.Debug.ActiveCfg = Debug|Win32
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.GTK Debug.ActiveCfg = Debug|Win32
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.Release.ActiveCfg = Release|Win32
-		{bd01c3f3-cde9-48f5-ae81-2fb745519e9a}.Debug.ActiveCfg = Debug|Win32
-		{bd01c3f3-cde9-48f5-ae81-2fb745519e9a}.Release.ActiveCfg = Release|Win32
-		{759e9278-23e9-4caf-a844-b3a4bb0c3b90}.Debug.ActiveCfg = Debug|Win32
-		{759e9278-23e9-4caf-a844-b3a4bb0c3b90}.Release.ActiveCfg = Release|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.GTK Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Release.ActiveCfg = Release|Win32
