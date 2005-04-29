@@ -1,5 +1,12 @@
 //Win32PrintSession.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
 #include <commdlg.h>
@@ -229,3 +236,14 @@ void Win32PrintSession::setPrintablePages( const std::vector<ulong32>& printable
 {
 	printInfo_.pages_ = printablePages;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.2.3  2005/04/29 15:03:40  marcelloptr
+*added cvs log section
+*
+*/
+
+
