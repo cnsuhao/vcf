@@ -121,7 +121,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.1  2005/04/29 19:42:35  marcelloptr
+*Revision 1.2.4.2  2005/04/29 19:51:05  marcelloptr
 *added a comment for the oKToResetControlText_ member variable
 *
 *Revision 1.2  2004/08/07 02:49:12  ddiego

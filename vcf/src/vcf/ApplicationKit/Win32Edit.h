@@ -163,7 +163,7 @@ protected:
 	Set this to false to prevent the control to change its content when the text model is changed,
 	but remember to set it back to true when not necessary anymore.
 	*/
-	bool OKToResetControlText_;
+	bool okToResetControlText_;
 
 	std::map<ulong32,ulong32> printPageMap_;
 
@@ -188,7 +188,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.7  2005/04/29 19:42:35  marcelloptr
+*Revision 1.3.2.8  2005/04/29 19:51:05  marcelloptr
 *added a comment for the oKToResetControlText_ member variable
 *
 *Revision 1.3.2.6  2005/04/25 00:11:58  ddiego
