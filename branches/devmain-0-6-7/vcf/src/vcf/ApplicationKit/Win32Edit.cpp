@@ -113,10 +113,10 @@ void Win32Edit::create( Control* owningControl )
 
 	if ( System::isUnicodeEnabled() ) {
 		hwnd_ = ::CreateWindowExW( params.second,
-		                             className.c_str(),
+									 className.c_str(),
 									 NULL,
 									 params.first,
-		                             0,
+									 0,
 									 0,
 									 1,
 									 CW_USEDEFAULT,
@@ -127,10 +127,10 @@ void Win32Edit::create( Control* owningControl )
 	}
 	else {
 		hwnd_ = ::CreateWindowExA( params.second,
-		                             className.ansi_c_str(),
+									 className.ansi_c_str(),
 									 NULL,
 									 params.first,
-		                             0,
+									 0,
 									 0,
 									 1,
 									 CW_USEDEFAULT,
@@ -1625,6 +1625,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.18  2005/04/29 19:42:34  marcelloptr
+*added a comment for the oKToResetControlText_ member variable
+*
 *Revision 1.3.2.17  2005/04/26 02:29:39  ddiego
 *fixes font setting bug brought up by scott and glen_f
 *

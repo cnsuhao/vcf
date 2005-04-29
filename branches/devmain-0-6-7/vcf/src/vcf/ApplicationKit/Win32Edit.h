@@ -59,7 +59,7 @@ public:
 
 	virtual String getText( unsigned int start, unsigned int length );
 
-	
+
 	//display
 	virtual void paint( GraphicsContext* context, const Rect& paintRect );
 
@@ -89,7 +89,7 @@ public:
 
 
 
-	
+
 	virtual Point* getPositionFromCharIndex( const unsigned long& index );
 
 	virtual unsigned long getCharIndexFromPosition( Point* point );
@@ -100,7 +100,7 @@ public:
 
 	virtual unsigned long getCurrentLinePosition();
 
-	
+
 
 	virtual unsigned long getSelectionStart();
 
@@ -116,7 +116,7 @@ public:
 
 	virtual void setReadOnly( const bool& readonly );
 
-	
+
 
 	virtual void print( PrintContext* context, const long& page );
 
@@ -137,6 +137,7 @@ public:
 	virtual void undo();
 
 	virtual void redo();
+
 protected:
 
 	void onTextModelTextChanged( TextEvent* event );
@@ -156,6 +157,12 @@ protected:
 	ulong32 numCharsStreamedIn_;
 	void processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam );
 
+	/**
+	this is introduced in order to prevent getting into a stack overflow situation 
+	due to infinite callback from the TextModel::setText() 
+	Set this to false to prevent the control to change its content when the text model is changed,
+	but remember to set it back to true when not necessary anymore.
+	*/
 	bool OKToResetControlText_;
 
 	std::map<ulong32,ulong32> printPageMap_;
@@ -175,12 +182,15 @@ protected:
 };
 
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/04/29 19:42:35  marcelloptr
+*added a comment for the oKToResetControlText_ member variable
+*
 *Revision 1.3.2.6  2005/04/25 00:11:58  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
