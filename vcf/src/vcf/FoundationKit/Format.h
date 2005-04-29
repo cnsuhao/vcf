@@ -13,6 +13,23 @@ where you installed the VCF.
 #endif
 
 
+#ifndef VCF_CW
+// In-class member template specializations are non-standard (Section 14.7.3.2)
+#  define VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
+#endif
+
+#if defined(VCF_GCC) || defined(VCF_DMC) || defined(VCF_VC60) || defined(VCF_VC70)
+// these compilers do not want 'template <DataType>' specified before the specialization
+// JC - it appears GCC 3.3.3 doesn't like this - do we need to have this here at all!?
+#  define VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
+#endif
+
+#if defined(_MSC_VER) || defined(__MINGW32__) || defined(VCF_BCC)
+#  define snprintf _snprintf
+#  define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
+#endif
+
+
 namespace VCF {
 
 	/**
@@ -117,15 +134,18 @@ namespace VCF {
 							fmtStr_.erase();
 						}
 						
-						int cb = fmt.size()+256;
-						char* tmp = new char[cb];
-						int n = sprintf( tmp, fmt.ansi_c_str(), val );
-						if ( (cb-1) < n ) {
-							// we probably had a memory corruption
-							throw RuntimeException( MAKE_ERROR_MSG_2("Format: unable to printout the full string as required.") );
+						size_t size = fmt.size()+256;
+						char* tmp = new char[size+1];
+						memset( tmp, 0, (size+1)*sizeof(char) );
+						int cb = snprintf( tmp, size, fmt.ansi_c_str(), val );
+						if ( (size < cb) || (cb < 0) ) {
+							String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
+							StringUtils::trace( msg );
 						}
 						output_ += tmp;
 						delete [] tmp;
+
+
 					}
 				}
 				else {
@@ -141,14 +161,13 @@ namespace VCF {
 			}		
 			return *this;
 		}
-		
-#ifndef VCF_CW
+
+	#ifdef VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 		// specialization for a String value.
-		//JC - it appears GCC 3.3.3 doesn't like this - do we need this
-		//here for VC?? This is exceedingly ugly, it would be nice not to have this 
-		//here at all!
-		#if !defined(VCF_GCC) && !defined(VCF_DMC) && !defined(VCF_VC60)
+		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 		template <String>
+		#else
+		template <>
 		#endif
 			Format& operator% (const String& val) {
 
@@ -183,9 +202,11 @@ namespace VCF {
 							fmt = fmtStr_;						
 							fmtStr_.erase();
 						}
-						
-						char* tmp = new char[fmt.size()+val.size()+10];
-						sprintf( tmp, fmt.ansi_c_str(), val.ansi_c_str() );
+
+						size_t size = fmt.size()+val.size()+20;
+						char* tmp = new char[size+1];
+						memset( tmp, 0, (size+1)*sizeof(char) );
+						int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
 						output_ += tmp;
 						delete [] tmp;
 					}
@@ -203,7 +224,7 @@ namespace VCF {
 			}		
 			return *this;
 		}
-#endif //VCF_CW		
+	#endif //VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS		
 		
 		
 		operator String() const {
@@ -255,6 +276,7 @@ namespace VCF {
 			
 			return result;
 		}
+
 	private:
 		String fmtStr_;
 		int currentPos_;
@@ -263,71 +285,80 @@ namespace VCF {
 		int currentFormatArgCount_;
 	};
 
-// In-class member template specializations (as used above)
-// are non-standard (Section 14.7.3.2) hence this definition below. - ACH
-#ifdef VCF_CW
-		// specialization for a String value.
-		template <> inline
-			Format& Format::operator%<String> (const String& val) {
 
-			currentFormatArgCount_  ++;
-			
-			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
-			if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
-				return *this;
-			}
-			
-			if ( !fmtStr_.empty() ) {  
-				if ( String::npos != currentPos_ ) {
-					//look ahead and see if we have two consecutive %% chars
-					//if so treat as one %
-					if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
-						output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
-						fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
-					}
-					else { //we have to format this string
-						int endPos = getNextFormatTokenEndPos( currentPos_ );
-						
-						output_ += fmtStr_.substr( 0, currentPos_ );
-						fmtStr_.erase( 0, currentPos_ );
-						String fmt;
-						
-						if ( String::npos != endPos ) {												
-							fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
-							
-							fmtStr_.erase( 0, endPos-currentPos_ );
-						}
-						else{
-							fmt = fmtStr_;						
-							fmtStr_.erase();
-						}
-						
-						char* tmp = new char[fmt.size()+val.size()+10];
-						sprintf( tmp, fmt.ansi_c_str(), val.ansi_c_str() );
-						output_ += tmp;
-						delete [] tmp;
-					}
-				}
-				else {
-					output_ += fmtStr_;
-					fmtStr_.erase();
-				}
-				
-				currentPos_ = fmtStr_.find( "%" );
-				if ( String::npos == currentPos_ ) {
-					output_ += fmtStr_;
-					fmtStr_.erase();
-				}
-			}		
+
+#ifndef VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
+
+	// specialization for a String value.
+	template <> inline
+		Format& Format::operator%<String> (const String& val) {
+
+		currentFormatArgCount_  ++;
+		
+		VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
+		if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
 			return *this;
 		}
-#endif VCF_CW
+		
+		if ( !fmtStr_.empty() ) {  
+			if ( String::npos != currentPos_ ) {
+				//look ahead and see if we have two consecutive %% chars
+				//if so treat as one %
+				if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
+					output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
+					fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
+				}
+				else { //we have to format this string
+					int endPos = getNextFormatTokenEndPos( currentPos_ );
+					
+					output_ += fmtStr_.substr( 0, currentPos_ );
+					fmtStr_.erase( 0, currentPos_ );
+					String fmt;
+					
+					if ( String::npos != endPos ) {												
+						fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
+						
+						fmtStr_.erase( 0, endPos-currentPos_ );
+					}
+					else{
+						fmt = fmtStr_;						
+						fmtStr_.erase();
+					}
+					
+					size_t size = fmt.size()+val.size()+20;
+					char* tmp = new char[size+1];
+					memset( tmp, 0, (size+1)*sizeof(char) );
+					int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
+					output_ += tmp;
+					delete [] tmp;
+				}
+			}
+			else {
+				output_ += fmtStr_;
+				fmtStr_.erase();
+			}
+			
+			currentPos_ = fmtStr_.find( "%" );
+			if ( String::npos == currentPos_ ) {
+				output_ += fmtStr_;
+				fmtStr_.erase();
+			}
+		}		
+		return *this;
+	}
 
-};
+#endif VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
+
+
+}; // namespace VCF
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2005/04/29 19:08:38  marcelloptr
+*introduced snprintf() for safety and more generic MACROs
+*
 *Revision 1.1.2.11  2005/04/25 00:11:59  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
