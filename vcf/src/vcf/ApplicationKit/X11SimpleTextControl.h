@@ -108,7 +108,7 @@ protected:
 	Set this to false to prevent the control to change its content when the text model is changed,
 	but remember to set it back to true when not necessary anymore.
 	*/
-	bool okToResetControlText_;
+	bool enabledSetTextOnControl_;
 
 	double leftMargin_;
 	double rightMargin_;
@@ -121,8 +121,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.2  2005/04/29 19:51:05  marcelloptr
-*added a comment for the oKToResetControlText_ member variable
+*Revision 1.2.4.3  2005/04/30 11:52:36  marcelloptr
+*added a comment for the enabledSetTextOnControl_ member variable
 *
 *Revision 1.2  2004/08/07 02:49:12  ddiego
 *merged in the devmain-0-6-5 branch to stable

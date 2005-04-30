@@ -29,7 +29,7 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	textControl_(component),
 	numCharsStreamedIn_(0),
 	isRichedit_(false),
-	okToResetControlText_(true),
+	enabledSetTextOnControl_(true),
 	backgroundBrush_(NULL),
 	isMultiLined_(isMultiLineControl),
 	currentSelLength_(0),
@@ -366,11 +366,11 @@ void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam,
 
 
 
-		okToResetControlText_ = false;
+		enabledSetTextOnControl_ = false;
 
 		model->setText( newText );
 
-		okToResetControlText_ = true;
+		enabledSetTextOnControl_ = true;
 	}
 }
 
@@ -804,7 +804,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
-				okToResetControlText_ = false;
+				enabledSetTextOnControl_ = false;
 				
 				peerControl_->handleEvent( &event );
 				
@@ -838,7 +838,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				}
 				
 
-				okToResetControlText_ = true;
+				enabledSetTextOnControl_ = true;
 
 				//wndProcResult = 1;
 				result = true;
@@ -903,11 +903,11 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
-				okToResetControlText_ = false;
+				enabledSetTextOnControl_ = false;
 				
 				peerControl_->handleEvent( &event );
 
-				okToResetControlText_ = true;
+				enabledSetTextOnControl_ = true;
 				
 				result = true;
 			}
@@ -936,14 +936,14 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					
 					// 
 
-					okToResetControlText_ = false;
+					enabledSetTextOnControl_ = false;
 
 					VCF::TextModel* model = textControl_->getTextModel();
 					if ( NULL != model ) {
 						
 					}
 
-					okToResetControlText_ = true;
+					enabledSetTextOnControl_ = true;
 				}
 				break; 
 
@@ -960,7 +960,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			wndProcResult = 0;
 			result = false;
 
-			okToResetControlText_ = false;		
+			enabledSetTextOnControl_ = false;		
 
 			if ( !peerControl_->isDesigning() ) {
 				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
@@ -976,7 +976,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				}
 			}
 
-			okToResetControlText_ = true;
+			enabledSetTextOnControl_ = true;
 			
 		}
 		break;
@@ -1073,7 +1073,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 void Win32Edit::onTextModelTextChanged( TextEvent* event )
 {
 	if ( NULL != event ){
-		if ( true == okToResetControlText_ ){
+		if ( true == enabledSetTextOnControl_ ){
 
 			String text = textControl_->getTextModel()->getText();
 
@@ -1574,11 +1574,11 @@ void Win32Edit::onControlModelChanged( Event* e )
 	
 	String text = tm->getText();
 
-	//okToResetControlText_ = false;
+	//enabledSetTextOnControl_ = false;
 
 	setText( text );
 
-	//okToResetControlText_ = true;
+	//enabledSetTextOnControl_ = true;
 }
 
 void Win32Edit::cut()
@@ -1587,9 +1587,9 @@ void Win32Edit::cut()
 	
 	SendMessage( hwnd_, WM_CUT, 0, 0 );
 
-	okToResetControlText_ = false;
+	enabledSetTextOnControl_ = false;
 
-	okToResetControlText_ = true;
+	enabledSetTextOnControl_ = true;
 }
 
 void Win32Edit::copy()
@@ -1625,8 +1625,8 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.19  2005/04/29 19:51:05  marcelloptr
-*added a comment for the oKToResetControlText_ member variable
+*Revision 1.3.2.20  2005/04/30 11:52:36  marcelloptr
+*added a comment for the enabledSetTextOnControl_ member variable
 *
 *Revision 1.3.2.17  2005/04/26 02:29:39  ddiego
 *fixes font setting bug brought up by scott and glen_f
