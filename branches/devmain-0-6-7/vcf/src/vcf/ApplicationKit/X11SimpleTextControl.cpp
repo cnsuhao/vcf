@@ -25,7 +25,7 @@ X11SimpleTextControl::X11SimpleTextControl( TextControl* component, const bool& 
 	currentLinePos_(0),
 	selectionStart_(0),
 	selectionEnd_(0),
-	okToResetControlText_(true),
+	enabledSetTextOnControl_(true),
 	leftMargin_(5.0),
 	rightMargin_(5.0)
 {
@@ -575,7 +575,7 @@ void X11SimpleTextControl::onTextModelTextChanged( TextEvent* event )
 {
 	if ( NULL != event ){
 		String text = event->getChangeText();
-		if ( true == okToResetControlText_ ){
+		if ( true == enabledSetTextOnControl_ ){
 			setText( text );
 		}
 	}
@@ -585,6 +585,9 @@ void X11SimpleTextControl::onTextModelTextChanged( TextEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/04/30 11:52:36  marcelloptr
+*added a comment for the enabledSetTextOnControl_ member variable
+*
 *Revision 1.2.4.1  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
