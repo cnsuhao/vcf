@@ -47,7 +47,9 @@ void AbstractTextModel::insertText( const unsigned long& index, const String& te
 	String changeText = getText();
 	changeText.insert( index, text );
 
-	AbstractTextModel::setText( changeText );
+	//TextEvent event( dynamic_cast<Object*>(this), text );
+
+	//AbstractTextModel::setText( changeText );
 }
 
 void AbstractTextModel::replaceText( const unsigned long& index, const unsigned long& len, const String& text )
@@ -97,6 +99,9 @@ unsigned long AbstractTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

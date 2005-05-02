@@ -16,7 +16,9 @@ using namespace VCF;
 TextEvent::TextEvent( Object * source ):
 	Event( source ),
 	selectionStart_(-1),
-	selectionLength_(0)
+	selectionLength_(0),
+	changeStart_(0),
+	changeLength_(0)
 {
 	this->changeText_ = "";
 }
@@ -24,7 +26,9 @@ TextEvent::TextEvent( Object * source ):
 TextEvent::TextEvent( Object * source, const String& changedText ):
 	Event( source ),
 	selectionStart_(-1),
-	selectionLength_(0)
+	selectionLength_(0),
+	changeStart_(0),
+	changeLength_(0)
 {
 	this->changeText_ = changedText;
 }
@@ -48,6 +52,9 @@ TextModel* TextEvent::getTextModel()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

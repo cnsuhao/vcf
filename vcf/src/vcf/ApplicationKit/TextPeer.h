@@ -172,6 +172,7 @@ public:
 
 	virtual unsigned long getLineCount() = 0;	
 	
+	virtual Rect getContentBoundsForWidth( const double& width ) = 0;
 	
 	/**
 	This sets the style for the text. Pass in a Dictionary with a set of values 
@@ -328,6 +329,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3.2.2  2005/04/25 00:11:57  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

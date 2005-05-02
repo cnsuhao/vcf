@@ -236,7 +236,7 @@ Win32Object::CreateParams Win32Tree::createParams()
 	Win32Object::CreateParams result;
 
 	
-	result.first = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_NOTOOLTIPS | TVS_SHOWSELALWAYS;
+	result.first = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | /*TVS_NOTOOLTIPS | */ TVS_SHOWSELALWAYS;
 
 	result.first &= ~WS_BORDER;
 	result.first &= ~WS_VISIBLE;
@@ -1387,6 +1387,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3.2.10  2005/04/26 02:29:40  ddiego
 *fixes font setting bug brought up by scott and glen_f
 *

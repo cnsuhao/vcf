@@ -1085,7 +1085,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 #endif
 		case WM_VSCROLL : {
-			result = 0;
+			result = false;
 			if ( NULL != peerControl_ ) {
 				if ( !peerControl_->isDestroying() ) {
 
@@ -1218,7 +1218,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_HSCROLL : {
-			result = 0;
+			result = false;
 			if ( NULL != peerControl_ ) {
 				if ( !peerControl_->isDestroying() ) {
 
@@ -1607,6 +1607,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.17  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.5.2.16  2005/04/27 02:05:38  marcelloptr
 *somehow the first line of the cvs log section got deleted... restored
 *

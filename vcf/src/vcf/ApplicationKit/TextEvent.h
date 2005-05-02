@@ -30,11 +30,27 @@ public:
 	TextEvent( Object * source, int selectionStart, ulong32 selectionLength ):
 		Event(source),
 		selectionStart_(selectionStart),
-		selectionLength_(selectionLength){
+		selectionLength_(selectionLength),
+		changeStart_(0),
+		changeLength_(0){
 
 	}
 
-	TextEvent( const TextEvent& rhs ):Event(rhs),selectionStart_(-1),selectionLength_(0) {
+	TextEvent( Object * source, ulong32 type, const String& changedText, ulong32 changeStart, ulong32 changeLength ):
+		Event(source, type),
+		selectionStart_(-1),
+		selectionLength_(0),
+		changeStart_(changeStart),
+		changeLength_(changeLength){
+
+		VCF_ASSERT( changeLength == changedText.size() );
+		changeText_ = changedText;
+	}
+
+	TextEvent( const TextEvent& rhs ):Event(rhs),
+		selectionStart_(-1),selectionLength_(0),
+		changeStart_(0),
+		changeLength_(0){
 		*this = rhs;
 	}
 
@@ -46,6 +62,9 @@ public:
 		changeText_ = rhs.changeText_;
 		selectionStart_ = rhs.selectionStart_;
 		selectionLength_ = rhs.selectionLength_;
+
+		changeStart_ = rhs.changeStart_;
+		changeLength_ = rhs.changeLength_;
 
 		return *this;
 	}
@@ -78,12 +97,28 @@ public:
 		return selectionLength_;
 	}
 
+	/**
+	returns the start of the change
+	*/
+	ulong32 getChangeStart() const {
+		return changeStart_;
+	}
+
+	/**
+	returns the length of the change
+	*/
+	ulong32 getChangeLength() const {
+		return changeLength_;
+	}
+
 
 private:
 	String changeText_;
 	int selectionStart_;
 	ulong32 selectionLength_;
 
+	ulong32 changeStart_;
+	ulong32 changeLength_;
 };
 
 
@@ -114,6 +149,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
