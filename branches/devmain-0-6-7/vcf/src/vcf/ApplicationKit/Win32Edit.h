@@ -81,6 +81,8 @@ public:
 
 	virtual unsigned long getLineCount();	
 
+	virtual Rect getContentBoundsForWidth(const double& width);
+
 	virtual void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
 
 	virtual void setDefaultStyle( Dictionary& styles );
@@ -151,7 +153,7 @@ protected:
 	int currentSelStart_;
 
 	TextControl* textControl_;
-	bool isRichedit_;
+	//bool isRichedit_; //JC - I am prepping to get rid of this
 	bool isMultiLined_;
 
 	ulong32 numCharsStreamedIn_;
@@ -188,6 +190,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3.2.9  2005/04/30 11:52:36  marcelloptr
 *added a comment for the enabledSetTextOnControl_ member variable
 *

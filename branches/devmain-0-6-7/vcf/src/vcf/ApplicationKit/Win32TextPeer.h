@@ -65,6 +65,8 @@ public:
 
 	virtual unsigned long getLineCount();	
 
+	virtual Rect getContentBoundsForWidth(const double& width);
+
 	virtual void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
 
 	virtual void setDefaultStyle( Dictionary& styles );

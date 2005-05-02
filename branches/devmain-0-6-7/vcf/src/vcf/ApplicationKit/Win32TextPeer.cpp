@@ -720,6 +720,30 @@ unsigned long Win32TextPeer::getLineCount()
 	return result;
 }
 
+Rect Win32TextPeer::getContentBoundsForWidth(const double& width)
+{
+	Rect result;
+	long w;
+	long h;
+	w = width;
+	h = 1;
+	SIZEL sz;
+	sz.cx = w;
+	sz.cy = h;
+
+	HDC dc = GetDC( GetDesktopWindow() );
+	HRESULT hr = textSvcs_->TxGetNaturalSize( DVASPECT_CONTENT, dc, NULL, NULL, 
+								TXTNS_FITTOCONTENT, &sz, &w, &h );
+
+	ReleaseDC( GetDesktopWindow(), dc );
+
+	result.bottom_ = result.top_ + h;
+	result.right_ = result.left_ + w;
+		
+
+	return result;
+}
+
 void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
 	String result;
@@ -818,6 +842,9 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 					para->SetAlignment( val );
 				}
 			}
+
+			para->Release();
+			font->Release();
 		}
 		
 		range->Release();

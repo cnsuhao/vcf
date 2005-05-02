@@ -28,7 +28,7 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	Win32TextPeer(),
 	textControl_(component),
 	numCharsStreamedIn_(0),
-	isRichedit_(false),
+	//isRichedit_(false),		
 	enabledSetTextOnControl_(true),
 	backgroundBrush_(NULL),
 	isMultiLined_(isMultiLineControl),
@@ -85,7 +85,7 @@ void Win32Edit::create( Control* owningControl )
 			if ( !Win32RicheditLibraryLoaded ) {
 				if  ( NULL != LoadLibraryA( richeditLibrary.c_str() ) ) {
 					Win32RicheditLibraryLoaded = true;
-					isRichedit_ = true;
+					//isRichedit_ = true;
 				}
 				else {
 					String errMsg =
@@ -97,13 +97,13 @@ void Win32Edit::create( Control* owningControl )
 				}
 			}
 			else {
-				isRichedit_ = true;
+				//isRichedit_ = true;
 			}
 		}
 		catch (...) {
 			//we couldn't load the richedit libraries so lets downgrade to the default edit control
 			className = "EDIT";
-			isRichedit_ = false;
+			//isRichedit_ = false;
 		}
 	//}
 
@@ -154,8 +154,6 @@ void Win32Edit::create( Control* owningControl )
 		textControl_->ControlModelChanged +=
 			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onControlModelChanged, "Win32Edit::onControlModelChanged" );
 
-
-
 		initFromRichEdit( hwnd_ );
 
 	}
@@ -185,6 +183,11 @@ void Win32Edit::setLeftMargin( const double & leftMargin )
 unsigned long Win32Edit::getLineCount()
 {
 	return ::SendMessage( hwnd_, EM_GETLINECOUNT, 0, 0 );
+}
+
+Rect Win32Edit::getContentBoundsForWidth(const double& width)
+{
+	return Win32TextPeer::getContentBoundsForWidth(width);
 }
 
 unsigned long Win32Edit::getCurrentLinePosition()
@@ -984,7 +987,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case WM_ERASEBKGND :{
 			wndProcResult = 1;
 
-			if ( isRichedit_ ) {
+			//if ( isRichedit_ ) {
 				//EM_SETBKGNDCOLOR
 				Color* color = peerControl_->getColor();
 
@@ -992,7 +995,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 										color->getGreen() * 255.0,
 										color->getBlue() * 255.0 );
 				SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
-			}
+			//}
 
 			result = true;
 		}
@@ -1000,7 +1003,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_PAINT:{
 			//check to see if the font needs updating
-			checkForFontChange();
+			//checkForFontChange();
 
 			wndProcResult = 0;
 			result = false;
@@ -1075,6 +1078,7 @@ void Win32Edit::onTextModelTextChanged( TextEvent* event )
 	if ( NULL != event ){
 		if ( true == enabledSetTextOnControl_ ){
 
+			
 			String text = textControl_->getTextModel()->getText();
 
 			setText( text );		
@@ -1184,7 +1188,7 @@ void Win32Edit::setText( const VCF::String& text )
 	DWORD start = getSelectionStart();
 	DWORD count = getSelectionCount();
 
-	if ( isRichedit_ ) {
+//	if ( isRichedit_ ) {
 		EDITSTREAM editStream;
 		memset( &editStream, 0, sizeof(EDITSTREAM) );
 		editStream.dwCookie = (DWORD)this;
@@ -1199,7 +1203,7 @@ void Win32Edit::setText( const VCF::String& text )
 			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );
 		}
 		int err = UpdateWindow( hwnd_ );
-	}
+	/*}
 	else {
 		int err = 0;
 		if ( System::isUnicodeEnabled() ) {		
@@ -1215,7 +1219,7 @@ void Win32Edit::setText( const VCF::String& text )
 			StringUtils::traceWithArgs( Format("error is %d\n") % err );
 		}
 	}
-
+*/
 	setSelectionMark( start, count );
 
 	int firstLine2 = ::SendMessage( hwnd_, EM_GETFIRSTVISIBLELINE, (WPARAM)0, (LPARAM)0 );
@@ -1625,6 +1629,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.21  2005/05/02 02:31:42  ddiego
+*minor text updates.
+*
 *Revision 1.3.2.20  2005/04/30 11:52:36  marcelloptr
 *added a comment for the enabledSetTextOnControl_ member variable
 *
