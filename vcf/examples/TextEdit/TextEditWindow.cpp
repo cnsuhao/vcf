@@ -215,7 +215,7 @@ This will get called each time a new document is created, after it has been
 intialized by the DocumentManager.
 The TextEditWindow is going to act as a sort of "Controller" between the document
 and the edit control, so that when the document's selection changes the text
-control's selction is updated, and when the text control changes it's selection
+control's selection is updated, and when the text control changes it's selection
 the document is correspondingly updated.
 */
 void TextEditWindow::onDocInitialized( VCF::Event* e )
@@ -272,7 +272,7 @@ void TextEditWindow::onSelectionChanged( VCF::Event* e )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2005/05/04 20:47:20  marcelloptr
+*Revision 1.2.2.2  2005/05/04 20:54:29  marcelloptr
 *standard file formatting and cvs log section added
 *
 */
