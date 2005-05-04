@@ -25,14 +25,15 @@ protected:
 
 private:
 	//Our primary TabbedPages control
-	VCF::TabbedPages* mainPages;
-	VCF::TabModel* mainPagesModel;
+	VCF::TabbedPages* mainPages_;
+	VCF::TabModel* mainPagesModel_;
 
 	//individual TabPage
-	VCF::TabPage* listBoxPage;
-	VCF::TabPage* bordersPage;
-	VCF::TabPage* buttonsPage;
-	VCF::TabPage* textPage;
+	VCF::TabPage* listBoxPage_;
+	VCF::TabPage* bordersPage_;
+	VCF::TabPage* buttonsPage_;
+	VCF::TabPage* textPage_;
+
 public:
 	//related to ListBoxTabPage
 	void makeListBoxPage();
@@ -73,6 +74,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2005/05/04 01:20:38  marcelloptr
+*member variables following VCF standard
+*
 *Revision 1.2.2.2  2005/04/25 00:11:55  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

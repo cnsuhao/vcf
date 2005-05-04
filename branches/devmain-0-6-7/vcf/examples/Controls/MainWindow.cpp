@@ -49,26 +49,26 @@ MainWindow::MainWindow()
 	helpAbout->addMenuItemClickedHandler( menuItemHandler );	
 
 	//add TabbedPages
-	mainPages = new TabbedPages();	
-	mainPages->setBorderWidth( 4 );
-	( (StandardContainer*)mainPages->getContainer() )->setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
-	this->add( mainPages, AlignClient );
+	mainPages_ = new TabbedPages();	
+	mainPages_->setBorderWidth( 4 );
+	( (StandardContainer*)mainPages_->getContainer() )->setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
+	this->add( mainPages_, AlignClient );
 
 	//add individual TabPage here.
-	listBoxPage = mainPages->addNewPage( "ListBoxControl" );	
+	listBoxPage_ = mainPages_->addNewPage( "ListBoxControl" );	
 	makeListBoxPage();
 
-	bordersPage = mainPages->addNewPage( "Borders" );
+	bordersPage_ = mainPages_->addNewPage( "Borders" );
 	makeBordersPage();
 
-	buttonsPage = mainPages->addNewPage( "Buttons" );
+	buttonsPage_ = mainPages_->addNewPage( "Buttons" );
 	makeButtonsPage();
 
-	textPage = mainPages->addNewPage( "Text" );
+	textPage_ = mainPages_->addNewPage( "Text" );
 	makeTextPage();
 
-	mainPagesModel = mainPages->getModel();
-	mainPagesModel->setSelectedPage( listBoxPage );				
+	mainPagesModel_ = mainPages_->getModel();
+	mainPagesModel_->setSelectedPage( listBoxPage_ );				
 	setVisible( true );	
 }
 
@@ -86,12 +86,12 @@ void MainWindow::onHelpAbout( MenuItemEvent* e )
 }
 
 
-// begin listBoxPage code
+// begin listBoxPage_ code
 void MainWindow::makeListBoxPage()
 {
 	double borderWidth = UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta);
 
-	Panel* panel1 = (Panel*)listBoxPage->getPageComponent();
+	Panel* panel1 = (Panel*)listBoxPage_->getPageComponent();
 
 	//add a panel for ListBoxControl-related controls
 	Panel* listBoxGroup = new Panel();	
@@ -265,7 +265,7 @@ void MainWindow::makeBordersPage()
 {
 	double borderWidth = UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta);
 
-	Panel* pagePanel = (Panel*)bordersPage->getPageComponent();	
+	Panel* pagePanel = (Panel*)bordersPage_->getPageComponent();
 
 	// 2 panels, just to aid in layout.
 	Panel* leftPanel = new Panel();
@@ -339,7 +339,7 @@ void MainWindow::makeButtonsPage()
 	HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
 	container->setColumnWidth( 0, 200 );
 
-	buttonsPage->getPageComponent()->setContainer( container );
+	buttonsPage_->getPageComponent()->setContainer( container );
 
 	Label* label = new Label();	
 
@@ -388,12 +388,14 @@ void MainWindow::makeButtonsPage()
 	container->add( btn4 );
 }
 
+
+
 void MainWindow::makeTextPage()
 {
 	HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
 	container->setColumnWidth( 0, 200 );
 
-	textPage->getPageComponent()->setContainer( container );
+	textPage_->getPageComponent()->setContainer( container );
 
 	Label* label = new Label();	
 
@@ -427,9 +429,13 @@ void MainWindow::makeTextPage()
 	container->add( multiTextCtrl );
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/05/04 01:20:35  marcelloptr
+*member variables following VCF standard
+*
 *Revision 1.2.2.3  2005/04/25 00:11:54  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
