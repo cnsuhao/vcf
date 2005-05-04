@@ -18,8 +18,15 @@ for declaring RTTI information for your class(es)
 */
 #include "vcf/FoundationKit/RTTIMacros.h"
 
+
 /**
-class TextEditWindow documentation
+* The TextEditWindow class.
+* 
+* The TextEditWindow acts as a sort of "Controller" between the document
+*   and the edit control, so that when the document's selection changes the text
+*   control's selection is updated, and when the text control changes it's selection
+*   the document is correspondingly updated.
+@see TextEditWindow::onDocInitialized()
 */
 class TextEditWindow  : public VCF::Window{
 public: 
@@ -47,7 +54,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2005/05/04 20:47:20  marcelloptr
+*Revision 1.2.2.3  2005/05/04 20:57:41  marcelloptr
 *standard file formatting and cvs log section added
 *
 */
