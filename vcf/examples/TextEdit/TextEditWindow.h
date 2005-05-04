@@ -1,5 +1,12 @@
 #ifndef _TEXTEDITWINDOW_H__
 #define _TEXTEDITWINDOW_H__
+//TextEditWindow.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
 
 
 #define TEXTEDITWINDOW_CLASSID		"60614ad0-b9bb-40d4-94f3-34ceb0683c85"
@@ -37,6 +44,13 @@ protected:
 };
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.2.2  2005/05/04 20:47:20  marcelloptr
+*standard file formatting and cvs log section added
+*
+*/
 
 
 #endif //_TEXTEDITWINDOW_H__

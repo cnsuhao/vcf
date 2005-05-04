@@ -1,6 +1,13 @@
-
 #ifndef _TEXTEDITDOCUMENT_H__
 #define _TEXTEDITDOCUMENT_H__
+//TextEditDocument.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/ApplicationKit/ModelViewKit.h"
 
@@ -309,6 +316,14 @@ protected:
 	void internal_removeText( const VCF::ulong32& pos, const VCF::ulong32& length );
 };
 
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.2.3  2005/05/04 20:47:20  marcelloptr
+*standard file formatting and cvs log section added
+*
+*/
 
 
 #endif //_TEXTEDITDOCUMENT_H__

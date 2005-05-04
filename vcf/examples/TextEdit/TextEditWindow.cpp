@@ -1,3 +1,11 @@
+//TextEditWindow.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
@@ -6,7 +14,6 @@
 #include "TextEdit.h"
 
 using namespace VCF;
-
 
 
 
@@ -260,3 +267,14 @@ void TextEditWindow::onSelectionChanged( VCF::Event* e )
 		doc->setSelectionRange( start, te->getSelectionLength() );
 	}
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.2.2.1  2005/05/04 20:47:20  marcelloptr
+*standard file formatting and cvs log section added
+*
+*/
+
+
