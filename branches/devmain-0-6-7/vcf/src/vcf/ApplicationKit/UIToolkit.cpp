@@ -99,7 +99,7 @@ void UIToolkit::init()
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::IconAlignType" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextAlignmentType" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextVerticalAlignment" );
-	
+
 	PropertyEditorManager::registerPropertyEditor( "VCF::ColorPropertyEditor", "VCF::Color" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::FontPropertyEditor", "VCF::Font" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::DefaultMenuItemPropertyEditor", "VCF::DefaultMenuItem" );
@@ -116,7 +116,7 @@ void UIToolkit::init()
 
 	Component::registerComponent( "VCF::TabbedPages", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::Panel", STANDARD_CATEGORY );
-	Component::registerComponent( "VCF::CommandButton", STANDARD_CATEGORY );	
+	Component::registerComponent( "VCF::CommandButton", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::ListBoxControl", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::ListViewControl", STANDARD_CATEGORY );
 	Component::registerComponent( "VCF::TreeControl", STANDARD_CATEGORY );
@@ -153,7 +153,7 @@ void UIToolkit::init()
 	Component::registerComponent( "VCF::StandardContainer", CONTAINER_CATEGORY );
 	Component::registerComponent( "VCF::ColumnLayoutContainer", CONTAINER_CATEGORY );
 	Component::registerComponent( "VCF::HorizontalLayoutContainer", CONTAINER_CATEGORY );
-	
+
 
 	internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
 
@@ -626,7 +626,7 @@ void UIToolkit::internal_registerAccelerator( AcceleratorKey* accelerator )
 
 	std::pair<ulong32,AcceleratorKey*> item(key,accelerator);
 	acceleratorMap_.insert( item );
-}	
+}
 
 AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
@@ -646,7 +646,7 @@ AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCod
 		if ( (src == accel->getAssociatedControl()) || 
 				(src == accel->getAssociatedMenuItem()) || 
 				(src == accel->getAssociatedObject()) ) {
-			
+
 			result = accel;
 			break;
 		}
@@ -692,62 +692,63 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 	//look for accelerator in control then app
 	AcceleratorKey* accelerator = NULL;
 	Control* control = (Control*)event->getSource();
-	
+
 
 	AccelMapIter it = range.first;
-	if ( control ) {			
+	if ( control ) {
 		if ( control->areParentsEnabled() ) {
-			
+
 			while ( it != range.second ) {
-				
+
 				AcceleratorKey* accel = it->second;
 				if ( accel->getAssociatedControl() == control ) {
 					accelerator = accel;
 					break;
 				}
-				
+
 				it ++;
 			}
 		}
 	}
 
-	
 
-	
+
+
 	//if accelerator is still null try and find the first matching menu item
-	if ( NULL == accelerator ) {		
+	if ( NULL == accelerator ) {
 		it = range.first;
-		while ( it != range.second ) {			
+		while ( it != range.second ) {
 			AcceleratorKey* accel = it->second;
 			if ( accel->getAssociatedMenuItem() != NULL ) {
 				accelerator = accel;
-				//check to make sure the menu item's
-				//frame is enabled!
+				//check to make sure the menu item's frame is enabled!
 				if ( NULL != accel ) {
-					if ( !accel->getAssociatedMenuItem()->isEnabled() ) {
+					MenuItem* mi = accel->getAssociatedMenuItem();
+					mi->update();
+					if ( !mi->isEnabled() ) {
 						accelerator = NULL;
 					}
 				}
 				break;
 			}
-			
+
 			it ++;
 		}
 	}
-	
+
 	//if accelerator is still null try and find the first matching object
 	if ( NULL == accelerator ) {
 		it = range.first;
 		while ( it != range.second ) {
-			
+
 			AcceleratorKey* accel = it->second;
 			if ( accel->getAssociatedObject() != NULL ) {
 				accelerator = accel;
 				break;
 			}
-			
+
 			it ++;
-		}		
+		}
 	}
 
 
@@ -786,7 +787,7 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 		switch( keyCode ) {
 
 			case vkTab : /*case vkUpArrow : case vkDownArrow : case vkLeftArrow : case vkRightArrow :*/{
-				handleTabKeyboardEvent( event );				
+				handleTabKeyboardEvent( event );
 			}
 			break;
 
@@ -821,16 +822,16 @@ void UIToolkit::handleTabKeyboardEvent( KeyboardEvent* event )
 
 	if ( !control->keepsTabKey() ) {
 		bool goForward = !event->hasShiftKey();
-		
+
 		Control* currentFocused = Control::getCurrentFocusedControl();
 		if ( NULL == currentFocused ) {
 			currentFocused = control;
 		}
 		Frame* parentFrame = currentFocused->getParentFrame();
-		
+
 		std::vector<Control*> tabList;
 		Control::buildTabList( parentFrame, tabList );
-		
+
 		Control* newFocusedControl = NULL;
 		std::vector<Control*>::iterator found = std::find( tabList.begin(), tabList.end(), currentFocused );
 		long index = -1;
@@ -839,11 +840,11 @@ void UIToolkit::handleTabKeyboardEvent( KeyboardEvent* event )
 		}
 		if ( goForward ) {
 			index ++;
-			
+
 			if ( index >= tabList.size() ) {
 				index = 0;
 			}
-			
+
 			if ( index >= 0 ) {
 				while ( index < tabList.size() ) {
 					Control* c = tabList[index];
@@ -855,19 +856,19 @@ void UIToolkit::handleTabKeyboardEvent( KeyboardEvent* event )
 					index++;
 				}
 			}
-			
+
 			if ( index >= tabList.size() ) {
 				index = 0;
 			}
-			
+
 		}
 		else {
 			index --;
-			
+
 			if ( index <= 0 ) {
 				index = tabList.size()-1;
 			}
-			
+
 			if ( index < tabList.size() ) {
 				while ( index > -1 ) {
 					Control* c = tabList[index];
@@ -879,13 +880,13 @@ void UIToolkit::handleTabKeyboardEvent( KeyboardEvent* event )
 					index--;
 				}
 			}
-			
+
 			if ( index <= 0 ) {
 				index = tabList.size()-1;
 			}
 		}
-		
-		
+
+
 		newFocusedControl = tabList[index];
 		newFocusedControl->setFocused();
 
@@ -1151,6 +1152,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/05/04 00:36:17  marcelloptr
+*the accelerator checks first for an unitialized menu item associated to an action... fixed
+*
 *Revision 1.3.2.12  2005/04/25 00:11:57  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
