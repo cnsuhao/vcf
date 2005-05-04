@@ -211,12 +211,13 @@ void TextEditWindow::updateViewToolbar( VCF::MenuItemEvent* e )
 }
 
 /**
-This will get called each time a new document is created, after it has been 
-intialized by the DocumentManager.
-The TextEditWindow is going to act as a sort of "Controller" between the document
-and the edit control, so that when the document's selection changes the text
-control's selection is updated, and when the text control changes it's selection
-the document is correspondingly updated.
+* This will get called each time a new document is created, after it has been 
+* intialized by the DocumentManager.
+*
+* The TextEditWindow acts as a sort of "Controller" between the document
+*   and the edit control, so that when the document's selection changes the text
+*   control's selection is updated, and when the text control changes it's selection
+*   the document is correspondingly updated.
 */
 void TextEditWindow::onDocInitialized( VCF::Event* e )
 {	
@@ -272,7 +273,7 @@ void TextEditWindow::onSelectionChanged( VCF::Event* e )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.2  2005/05/04 20:54:29  marcelloptr
+*Revision 1.2.2.3  2005/05/04 20:57:40  marcelloptr
 *standard file formatting and cvs log section added
 *
 */
