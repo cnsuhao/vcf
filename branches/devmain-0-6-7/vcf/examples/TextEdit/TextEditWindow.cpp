@@ -273,8 +273,8 @@ void TextEditWindow::onSelectionChanged( VCF::Event* e )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.3  2005/05/04 20:57:40  marcelloptr
-*standard file formatting and cvs log section added
+*Revision 1.2.2.4  2005/05/04 20:58:54  marcelloptr
+*standard file formatting and cvs log section added. More documentation.
 *
 */
 
