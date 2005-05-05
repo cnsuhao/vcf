@@ -152,7 +152,7 @@ DynoCardLoader CardControl::dnc;
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.3  2005/05/05 14:15:42  marcelloptr
+*Revision 1.1.2.4  2005/05/05 14:22:00  marcelloptr
 *standard VCF formatting
 *
 */
@@ -161,4 +161,3 @@ DynoCardLoader CardControl::dnc;
 #endif //_VCF_CARDCONTAINER_H__
 
 
- 
