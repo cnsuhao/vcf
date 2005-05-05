@@ -1,5 +1,13 @@
-#ifndef CARDCONTAINER_H
-#define CARDCONTAINER_H
+#ifndef _VCF_CARDCONTAINER_H__
+#define _VCF_CARDCONTAINER_H__
+//CardContainer.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
 
 enum CardDrawMode {
   FaceUp = 0,       /* Draw card face up, card to draw specified by cd */
@@ -134,10 +142,23 @@ private:
   int myDeckItem;
   CardDrawMode myDrawMode;
   static DynoCardLoader dnc;
-  static const int Defaultcard;// = 12;
+  static const int Defaultcard; // = 12;
 };
 
 DynoCardLoader CardControl::dnc;
 
-#endif //CARDCONTAINER_H
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.3  2005/05/05 14:15:42  marcelloptr
+*standard VCF formatting
+*
+*/
+
+
+#endif //_VCF_CARDCONTAINER_H__
+
+
  
