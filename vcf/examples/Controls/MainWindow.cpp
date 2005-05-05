@@ -419,7 +419,7 @@ void MainWindow::makeTextPage()
 	styles [ Text::fsPointSize ] = 15.0;
 	styles [ Text::fsUnderlined ] = Text::utDotted;
 	styles [ Text::fsFontName ] = "Arial";
-	singleTextCtrl->setStyle( 3, 8, styles );
+	singleTextCtrl->setStyle( 7, 6, styles );
 
 
 
@@ -472,7 +472,7 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.6  2005/05/05 14:18:40  marcelloptr
+*Revision 1.2.2.7  2005/05/05 16:00:26  marcelloptr
 *standard VCF formatting
 *
 *Revision 1.2.2.5  2005/05/05 12:42:25  ddiego
