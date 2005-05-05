@@ -1101,30 +1101,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "SciLexer"="..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc71.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "ScintillaKit"=".\ScintillaKit\ScintillaKit_vc71.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "Scrolling"="..\..\examples\Scrolling\Scrolling_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
