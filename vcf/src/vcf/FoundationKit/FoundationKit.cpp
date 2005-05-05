@@ -11,6 +11,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/MessageLoader.h"
 #include "vcf/FoundationKit/TextCodec.h"
 #include "vcf/FoundationKit/StringsMessageLoader.h"
+#include "vcf/FoundationKit/ThreadManager.h"
+
 
 #include "vcf/FoundationKit/RTTIMacros.h"
 
@@ -51,6 +53,7 @@ void FoundationKit::init( int argc, char** argv )
 
 		MessageLoader::registerMessageLoader( "text/strings", new StringsMessageLoader() );
 
+		ThreadManager::create();
 
 	}
 	catch ( BasicException& e ) {
@@ -88,6 +91,7 @@ void FoundationKit::terminate()
 
 	SystemToolkit::terminate();
 
+	ThreadManager::terminate();
 
 #ifdef _VCF_DEBUG_NEW
 	Mutex* mutex = Object::accessMutex_;
@@ -121,6 +125,12 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.2.4.2  2005/03/06 22:50:59  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

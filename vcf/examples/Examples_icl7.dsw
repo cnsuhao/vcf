@@ -462,6 +462,9 @@ Package=<4>
     Project_Dep_Name Resources
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name RunLoops
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Scrolling
     End Project Dependency
     Begin Project Dependency
@@ -919,6 +922,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Resources"=".\Resources\Resources_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "RunLoops"=".\RunLoops\RunLoops_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -36,7 +36,8 @@ AbstractWin32Component::AbstractWin32Component():
 	memDCState_(0),
 	destroyed_(false),
 	canProcessMessages_(false),
-	currentFont_(NULL)
+	currentFont_(NULL),
+	cachedMessages_(NULL)
 {
 	init();
 	setPeerControl( NULL );
@@ -50,7 +51,8 @@ AbstractWin32Component::AbstractWin32Component( Control* component ):
 	memDCState_(0),
 	destroyed_(false),
 	canProcessMessages_(false),
-	currentFont_(NULL)
+	currentFont_(NULL),
+	cachedMessages_(NULL)
 {
 	init();
 	setPeerControl( component );
@@ -105,6 +107,9 @@ void AbstractWin32Component::init()
 {
 	memDC_ = NULL;
 	mouseEnteredControl_ = false;
+
+	cachedMessages_ = new std::vector<MSG>();
+
 	/*
 	JC I remove this cause we don't really need them
 	*/
@@ -668,8 +673,20 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 	and just general ugliness, so we put this check in here to prevent weird things from
 	happening.
 	*/
-	if ( !canProcessMessages_ && (VCF_CONTROL_CREATE != message) ) {		
+	if ( !canProcessMessages_ && (VCF_CONTROL_CREATE != message) ) {
 		
+		if ( (message == WM_SIZE) || (message == WM_MOVE) ||
+			(message == WM_SETFOCUS) ||
+			(message == WM_KILLFOCUS) )  {
+			
+			MSG m = {0};
+			m.hwnd = hwnd_;
+			m.lParam = lParam;
+			m.message = message;
+			m.wParam = wParam;
+			cachedMessages_->push_back( m );
+		}
+
 		return result;
 	}
 
@@ -680,7 +697,22 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 	switch ( message ) {
 		case VCF_CONTROL_CREATE : {
 			canProcessMessages_ = true;
+
 			peerControl_->handleEvent( event );
+
+
+			if ( !cachedMessages_->empty() ) {
+				std::vector<MSG>::iterator it = cachedMessages_->begin();
+				while ( it != cachedMessages_->end() ) {
+					MSG& m = *it;
+					::SendMessage( m.hwnd, m.message, m.wParam, m.lParam );
+					it++;
+				}
+			}
+
+			delete cachedMessages_;
+/*
+			
 
 			Rect r = peerControl_->getBounds();
 
@@ -689,6 +721,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			if ( NULL != c ) {
 				c->resizeChildren(NULL);
 			}
+			*/
 		}
 		break;
 
@@ -1607,6 +1640,12 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.18  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.5.2.17  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *

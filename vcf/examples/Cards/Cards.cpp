@@ -7,6 +7,7 @@
 
 using namespace VCF;
 
+const int CardControl::Defaultcard = 12;
 
 class CardsWindow : public Window {
 public:

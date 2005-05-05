@@ -56,8 +56,36 @@ void Win32Edit::create( Control* owningControl )
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND parent = toolkit->getDummyParent();
 
-	String className = "EDIT";
-	AnsiString richeditLibrary = "";
+	String className;// = "EDIT";
+
+	AnsiString richeditLibrary = "RICHED20.Dll";
+
+	if ( !Win32RicheditLibraryLoaded ) {
+		if  ( NULL != LoadLibraryA( richeditLibrary.c_str() ) ) {
+			Win32RicheditLibraryLoaded = true;
+			//isRichedit_ = true;
+		}
+		else {
+			String errMsg =
+				StringUtils::format( Format("Failed to load \"%s\", a required DLL when using richedit controls. \n"\
+				"Please make sure this DLL is located in your Windows system, or application directory.") %
+				richeditLibrary.c_str() );
+			
+			throw RuntimeException( errMsg );
+		}
+	}
+
+	if ( System::isUnicodeEnabled() ) {
+		className = RICHEDIT_CLASSW;
+	}
+	else {
+		className = RICHEDIT_CLASSA;
+	}
+
+	/*
+	I have temporarily gotten rid of this. I don't think we need it?
+	Any platform that doesn't have RICHED20.Dll can have it by manually
+	redistributing the file.
 
 	OSVERSIONINFO osInfo;
 	memset( &osInfo, 0, sizeof(OSVERSIONINFO) );
@@ -106,6 +134,7 @@ void Win32Edit::create( Control* owningControl )
 			//isRichedit_ = false;
 		}
 	//}
+	*/
 
 	CreateParams params = createParams();
 	
@@ -1629,6 +1658,12 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.22  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.3.2.21  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *

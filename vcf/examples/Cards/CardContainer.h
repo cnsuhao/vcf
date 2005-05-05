@@ -115,7 +115,7 @@ public:
   }
 
   virtual void paint( VCF::GraphicsContext* ctx ) {
-     VCF::CustomControl::paint(ctx);
+     CustomControl::paint(ctx);
      dnc.cdtDraw( reinterpret_cast<HDC>(ctx->getPeer()->getContextID()),
                   0, 0,
                   (myDrawMode == FaceDown) ? myDeckItem : myCardItem,
@@ -134,7 +134,7 @@ private:
   int myDeckItem;
   CardDrawMode myDrawMode;
   static DynoCardLoader dnc;
-  static const int Defaultcard = 12;
+  static const int Defaultcard;// = 12;
 };
 
 DynoCardLoader CardControl::dnc;

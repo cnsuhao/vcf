@@ -24,6 +24,7 @@ controls.
 class MyDialog : public Dialog {
 public:
 	MyDialog() {
+
 		setWidth( 350 );
 		setHeight( 150 );
 

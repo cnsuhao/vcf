@@ -223,7 +223,7 @@ unsigned long Component::getComponentCount()
 	return components_.size();
 }
 
-Component* Component::findComponent( const String& componentName )
+Component* Component::findComponent( const String& componentName, const bool& recursive )
 {
 	Component* result = NULL;
 	//this is very slow !! for the moment !
@@ -234,7 +234,14 @@ Component* Component::findComponent( const String& componentName )
 			result = child;
 			break;
 		}
-		it ++;
+		else if (recursive) {
+			//call the child component's findComponent
+			result = child->findComponent( componentName, recursive );
+			if ( NULL != result ) {
+				break;
+			}
+		}
+		++ it;
 	}
 
 	return result;
@@ -498,6 +505,12 @@ void Component::setUseLocaleStrings( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.3.2.1  2005/02/28 04:51:55  ddiego
 *fixed issue in handling componenent state and events when in design mode
 *

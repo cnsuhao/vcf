@@ -356,6 +356,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Win32FontManager.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\Win32FontManager.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Win32GraphicsResourceBundle.cpp
 # End Source File
 # Begin Source File
