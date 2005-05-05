@@ -100,6 +100,10 @@ void Win32Dialog::create( Control* owningControl )
 		Win32Object::registerWin32Object( this );
 		setFont( owningControl->getFont() );
 
+		
+/*
+JC - this needs to be removed as this gives us stupid icon that looks dumb
+and forces us to have a system menu!!!
 		if ( NULL != icon ) {		
 			SendMessage( hwnd_, WM_SETICON, ICON_BIG, (LPARAM) icon );
 		}
@@ -112,8 +116,9 @@ void Win32Dialog::create( Control* owningControl )
 			//::RemoveMenu ( sysMenu, SC_SIZE, MF_BYCOMMAND );
 
 		}
+		*/
 
-
+/*
 		DWORD style = ::GetWindowLong( hwnd_, GWL_STYLE );
 
 
@@ -126,6 +131,7 @@ void Win32Dialog::create( Control* owningControl )
 			}
 			::SetWindowLong( hwnd_, GWL_STYLE, style );
 			::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
+			*/
 
 	}
 	setCreated( true );
@@ -138,6 +144,7 @@ Win32Object::CreateParams Win32Dialog::createParams()
 	result.first = WS_POPUPWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | /*WS_OVERLAPPED | *//*WS_DLGFRAME |*/ DS_MODALFRAME | DS_3DLOOK;
 	result.first &= ~WS_MINIMIZEBOX;
 	result.first &= ~WS_MAXIMIZEBOX;
+	
 
 	if ( result.first & WS_VISIBLE ) {
 		result.first &= ~WS_VISIBLE;
@@ -404,6 +411,12 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.4.2.5  2005/04/20 02:26:00  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *

@@ -29,11 +29,12 @@ private:
 	VCF::TabModel* mainPagesModel_;
 
 	//individual TabPage
+
 	VCF::TabPage* listBoxPage_;
 	VCF::TabPage* bordersPage_;
 	VCF::TabPage* buttonsPage_;
 	VCF::TabPage* textPage_;
-
+	VCF::TabPage* treePage_;
 public:
 	//related to ListBoxTabPage
 	void makeListBoxPage();
@@ -56,6 +57,8 @@ public:
 
 	void makeTextPage();
 
+	void makeTreePage();
+
 
 	//related to buttonsTabPage
 public: 
@@ -74,6 +77,12 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/05/05 12:42:25  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.2.2.3  2005/05/04 01:20:38  marcelloptr
 *member variables following VCF standard
 *

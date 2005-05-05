@@ -8,6 +8,7 @@ where you installed the VCF.
 
 
 #include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/ThreadManager.h"
 
 using namespace VCF;
 
@@ -72,7 +73,13 @@ public:
 			}
 			i++;
 		}
+		
 		test1Done = true;
+
+		Thread* th = ThreadManager::getCurrentThread();
+
+		System::println( Format("ThreadManager::getCurrentThread(): %p, this: %p") % th % this );
+
 		return true;
 	}
 
@@ -408,6 +415,12 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.3.4.1  2005/04/17 15:12:05  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

@@ -69,7 +69,16 @@ void ToolbarItem::handleEvent( Event* event )
 
 			setEnabled( actionEvent->isEnabled() );
 
-			setCaption( actionEvent->getText() );
+			Toolbar* toolbar = (Toolbar*)control_;
+
+			if ( NULL != toolbar ) {
+				if ( toolbar->getShowButtonCaptions() ) {
+					setCaption( actionEvent->getText() );
+				}
+				else {
+					setTooltip( actionEvent->getText() );
+				}
+			}
 
 			if ( this->isChecked() && (actionEvent->getState() & tisPressed) ) {
 				setPressed( true );
@@ -528,6 +537,12 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.3.2.2  2005/04/11 17:04:51  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *

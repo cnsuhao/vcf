@@ -586,7 +586,7 @@ void QuickTimeMovie::getMovieMetaInfo( std::vector<QuickTimeMovie::MovieMetaInfo
 
 
 	VCF::Rect bounds = getBounds();
-	movieInfo.second = Format( L"%d x %d pixels" ) % (int)bounds.getWidth() % (int)bounds.getHeight() );
+	movieInfo.second = Format( L"%d x %d pixels" ) % (int)bounds.getWidth() % (int)bounds.getHeight();
 
 	infoList.push_back(movieInfo);
 
@@ -602,13 +602,13 @@ void QuickTimeMovie::getMovieMetaInfo( std::vector<QuickTimeMovie::MovieMetaInfo
 	int minutes = i_seconds / 60;
 	i_seconds = i_seconds - (minutes*60);
 
-	movieInfo.second = Format( "%02d:%02d:%02d" ) % hours % minutes % i_seconds );	
+	movieInfo.second = Format( "%02d:%02d:%02d" ) % hours % minutes % i_seconds;	
 	infoList.push_back(movieInfo);
 	
 	
 
 	movieInfo.first = L"Movie FPS";	
-	movieInfo.second = Format( "%0.2f" ) % scale/100.0 );	
+	movieInfo.second = Format( "%0.2f" ) % (scale/100.0);
 	infoList.push_back(movieInfo);
 
 

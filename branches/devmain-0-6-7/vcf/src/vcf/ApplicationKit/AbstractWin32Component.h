@@ -142,6 +142,7 @@ protected:
 	//set to true
 	bool canProcessMessages_;
 
+	std::vector<MSG>* cachedMessages_;
 	/**
 	*
 	*
@@ -164,6 +165,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.3.2.3  2005/04/26 02:29:39  ddiego
 *fixes font setting bug brought up by scott and glen_f
 *

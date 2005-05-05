@@ -16,7 +16,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/EtchedBorder.h"
 #include "vcf/ApplicationKit/ColorEtchedBorder.h"
 #include "vcf/ApplicationKit/HorizontalLayoutContainer.h"
-
+#include "vcf/FoundationKit/Dictionary.h"
+#include "vcf/ApplicationKit/TextPeer.h"
 
 #include "ControlsApplication.h"
 #include "ControlsAbout.h"
@@ -67,8 +68,13 @@ MainWindow::MainWindow()
 	textPage_ = mainPages_->addNewPage( "Text" );
 	makeTextPage();
 
+
+	treePage_ = mainPages_->addNewPage( "Tree Control" );
+	makeTreePage();
+
 	mainPagesModel_ = mainPages_->getModel();
 	mainPagesModel_->setSelectedPage( listBoxPage_ );				
+
 	setVisible( true );	
 }
 
@@ -406,13 +412,14 @@ void MainWindow::makeTextPage()
 	container->add( singleTextCtrl );
 
 	singleTextCtrl->getTextModel()->setText( "Hello, here's some text!" );
-	singleTextCtrl->setSelectionMark( 3, 8 );
-	Font selectionFont;
-	selectionFont.setColor( Color::getColor("green") );
-	selectionFont.setBold( true );
-	selectionFont.setName( "Arial" );
-
-	singleTextCtrl->setSelectionFont( &selectionFont );
+	
+	Dictionary styles;
+	styles [ Text::fsColor ] = Color::getColor("green");
+	styles [ Text::fsBold ] = true;
+	styles [ Text::fsPointSize ] = 15.0;
+	styles [ Text::fsUnderlined ] = Text::utDotted;
+	styles [ Text::fsFontName ] = "Arial";
+	singleTextCtrl->setStyle( 3, 8, styles );
 
 	
 
@@ -430,9 +437,47 @@ void MainWindow::makeTextPage()
 }
 
 
+
+void MainWindow::makeTreePage()
+{
+	Container* container = treePage_->getPageComponent()->getContainer();
+
+	Label* label = new Label();
+	label->setWidth( 200 );
+	container->add( label, AlignLeft );
+	label->setWordWrap( true );
+
+	String s = "This is a TreeControl.\n"\
+				"Many neat things can be done with it. For Win32 "\
+				"platforms this is a direct wrapper around the TREEVIEW "\
+				"control.";
+	label->setCaption( s );
+	TreeControl* tc = new TreeControl();
+
+	TreeItem* i = tc->addItem( NULL, "Item 1" );
+	tc->addItem( i, "Item 1a" );
+	tc->addItem( i, "Item 1b" );
+	tc->addItem( i, "Item 1c" );
+	tc->addItem( i, "Item 1d" );
+	tc->addItem( i, "Item 1e" );
+	tc->addItem( i, "Item 1f" );
+	tc->addItem( i, "Item 1g" );
+	tc->addItem( i, "Item 1h" );
+	tc->addItem( i, "Item 1i" );
+
+	container->add( tc, AlignClient );
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2005/05/05 12:42:25  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.2.2.4  2005/05/04 01:20:35  marcelloptr
 *member variables following VCF standard
 *

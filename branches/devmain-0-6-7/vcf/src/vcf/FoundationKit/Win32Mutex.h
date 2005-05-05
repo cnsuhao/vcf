@@ -29,6 +29,8 @@ public:
 
 	virtual bool unlock();
 
+	virtual bool lock( uint32 timeoutInMilliseconds );
+
 	virtual OSHandleID getHandleID() {
 		return (OSHandleID)mutexHandle_;
 	}
@@ -44,6 +46,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/05/05 12:42:27  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.2.4.1  2004/12/19 04:05:02  ddiego
 *made modifications to methods that return a handle type. Introduced
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,

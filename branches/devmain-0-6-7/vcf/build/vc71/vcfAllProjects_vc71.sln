@@ -155,6 +155,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{f33e4049-2a63-43f6-afb0-93bf5f0f0a8a} = {f33e4049-2a63-43f6-afb0-93bf5f0f0a8a}
 		{5AEE6D4D-E08B-4D5B-BCD0-97ABFDF289C0} = {5AEE6D4D-E08B-4D5B-BCD0-97ABFDF289C0}
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7} = {f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}
+		{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84} = {7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736} = {9246E861-549F-4D1A-BEBA-C114CF2C7736}
 		{B6FB23B0-B928-4473-86F4-077A7472E889} = {B6FB23B0-B928-4473-86F4-077A7472E889}
 		{2F65E795-3F71-4B02-996B-35787026F3BC} = {2F65E795-3F71-4B02-996B-35787026F3BC}
@@ -357,6 +358,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", ".\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Resources", "..\..\examples\Resources\Resources_vc71.vcproj", "{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunLoops", "..\..\examples\RunLoops\RunLoops_vc71.vcproj", "{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciLexer", "..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc71.vcproj", "{9a3a614f-49d6-4463-aa57-c39ea03f2a4e}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScintillaKit", ".\ScintillaKit\ScintillaKit_vc71.vcproj", "{7bc714ef-e41a-4ae5-80fa-572499ea808f}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -698,6 +711,12 @@ Global
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.Debug.ActiveCfg = Debug|Win32
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.GTK Debug.ActiveCfg = Debug|Win32
 		{f3da05f8-cc0b-460b-96ff-f4c7ee84e2a7}.Release.ActiveCfg = Release|Win32
+		{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}.Debug.ActiveCfg = Debug|Win32
+		{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}.Release.ActiveCfg = Release|Win32
+		{9a3a614f-49d6-4463-aa57-c39ea03f2a4e}.Debug.ActiveCfg = Debug|Win32
+		{9a3a614f-49d6-4463-aa57-c39ea03f2a4e}.Release.ActiveCfg = Release|Win32
+		{7bc714ef-e41a-4ae5-80fa-572499ea808f}.Debug.ActiveCfg = Debug|Win32
+		{7bc714ef-e41a-4ae5-80fa-572499ea808f}.Release.ActiveCfg = Release|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.GTK Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Release.ActiveCfg = Release|Win32

@@ -353,6 +353,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32FontManager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32FontManager.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32GraphicsResourceBundle.cpp">
 			</File>
 			<File

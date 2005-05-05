@@ -58,7 +58,7 @@ void TextEdit::onPrint( VCF::Event* e )
 		PrintContext* pc = printSession.beginPrintingDocument();
 
 		Control* textControl = (Control*)currentDoc->getWindow()->findComponent( "EditControl" );
-		TextPeer* textPeer = dynamic_cast<TextPeer*>(textControl->getPeer());
+		TextEditPeer* textPeer = dynamic_cast<TextEditPeer*>(textControl->getPeer());
 		ulong32 pageCount = textPeer->getTotalPrintablePageCount( pc );
 		ulong32 page = printSession.getStartPage();
 		while ( page <= pageCount ) {
@@ -196,11 +196,11 @@ bool TextEdit::initRunningApplication()
 		ulong32 editCount = edit->getChildCount();
 		
 		
-		MenuItem* find = new DefaultMenuItem( "&Find...\tCtrl+F" );	
+		MenuItem* find = new DefaultMenuItem( "&Find..." );	
 		find->setAcceleratorKey( vkLetterF, kmCtrl );
 		findAction->addTarget( find ); 
 		
-		DefaultMenuItem* replace = new DefaultMenuItem( "&Replace...\tCtrl+H" );	
+		DefaultMenuItem* replace = new DefaultMenuItem( "&Replace..." );	
 		replace->setAcceleratorKey( vkLetterH, kmCtrl );
 		replaceAction->addTarget( replace ); 
 		
@@ -274,6 +274,12 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/05/05 12:42:25  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.2.2.1  2005/05/04 20:47:20  marcelloptr
 *standard file formatting and cvs log section added
 *

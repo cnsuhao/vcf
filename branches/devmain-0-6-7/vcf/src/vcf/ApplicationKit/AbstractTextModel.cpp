@@ -28,7 +28,7 @@ void AbstractTextModel::setText( const String& text )
 {
 	text_ = text;
 
-	TextEvent event( dynamic_cast<Object*>(this), text );
+	TextEvent event( dynamic_cast<Object*>(this), TextModel::tmTextInserted, text, 0, text.size() );
 
 	TextModelChanged.fireEvent( &event );
 }
@@ -37,23 +37,27 @@ void AbstractTextModel::empty()
 {
 	AbstractTextModel::setText( "" );
 
-	//this->text_ = "";
+	//text_ = "";
 	//
 	//TextModel::empty();
 }
 
 void AbstractTextModel::insertText( const unsigned long& index, const String& text )
-{
-	String changeText = getText();
-	changeText.insert( index, text );
+{	
+	text_.insert( index, text );
 
-	//TextEvent event( dynamic_cast<Object*>(this), text );
+	TextEvent event( dynamic_cast<Object*>(this), TextModel::tmTextInserted, text, index, text.size() );
 
-	//AbstractTextModel::setText( changeText );
+	TextModelChanged.fireEvent( &event );
 }
 
 void AbstractTextModel::replaceText( const unsigned long& index, const unsigned long& len, const String& text )
 {
+
+	VCF_ASSERT( len > 0 );
+	VCF_ASSERT( (index+len) < text_.size() );
+
+/*
 	String changeText = getText();
 	unsigned long length, pos;
 	length = changeText.size();
@@ -64,41 +68,63 @@ void AbstractTextModel::replaceText( const unsigned long& index, const unsigned 
 	changeText = preText + text + postText;
 
 	AbstractTextModel::setText( changeText );
+	*/
+
+
+	//remove old text
+	String removedText = text_.substr( index, len );
+
+	text_.erase( index, len );
+
+	Object* source = dynamic_cast<Object*>(this);
+
+	TextEvent removeEvent( source, TextModel::tmTextRemoved, removedText, index, len );
+	TextModelChanged.fireEvent( &removeEvent );
+
+
+	//insert new text
+	text_.insert( index, text );
+
+	TextEvent insertEvent( source, TextModel::tmTextInserted, text, index, text.size() );
+	TextModelChanged.fireEvent( &insertEvent );
 }
 
 void AbstractTextModel::deleteText( const unsigned long& index, const unsigned long& count )
 {
-	String changeText = this->text_.substr( index, count );
+	String changeText = text_.substr( index, count );
 
 	text_.erase( index, count );
 
-	TextEvent event( dynamic_cast<Object*>(this), changeText );
+	TextEvent event( dynamic_cast<Object*>(this), TextModel::tmTextRemoved, changeText, index, count );
 
 	TextModelChanged.fireEvent( &event );	
 }
 
 void AbstractTextModel::appendText( const String& text )
 {
-	String changeText = getText();
-	changeText.append( text );
-
-	AbstractTextModel::setText( changeText );
+	insertText( text_.size()-1, text );
 }
 
 String AbstractTextModel::getText()
 {
-	return this->text_;
+	return text_;
 }
 
 unsigned long AbstractTextModel::getSize()
 {
-	return this->text_.size();
+	return text_.size();
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/05 12:42:26  ddiego
+*this adds initial support for run loops,
+*fixes to some bugs in the win32 control peers, some fixes to the win32 edit
+*changes to teh etxt model so that notification of text change is more
+*appropriate.
+*
 *Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *
