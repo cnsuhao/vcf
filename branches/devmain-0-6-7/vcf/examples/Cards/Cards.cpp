@@ -1,3 +1,12 @@
+//Cards.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "vcf/ApplicationKit/TitledBorder.h"
@@ -133,3 +142,14 @@ int main(int argc, char** argv)
   } 
   return 0;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.3  2005/05/05 14:15:43  marcelloptr
+*standard VCF formatting
+*
+*/
+
+

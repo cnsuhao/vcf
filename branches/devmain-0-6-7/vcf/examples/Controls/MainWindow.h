@@ -1,3 +1,6 @@
+#ifndef _MAINWINDOW_H__
+#define _MAINWINDOW_H__
+
 //MainWindow.h
 
 /*
@@ -6,9 +9,6 @@ Please see License.txt in the top level directory
 where you installed the VCF.
 */
 
-
-#ifndef _MAINWINDOW_H__
-#define _MAINWINDOW_H__
 
 #include "vcf/ApplicationKit/ControlsKit.h"
 
@@ -71,12 +71,12 @@ public:
 };
 
 
-#endif //_MAINWINDOW_H__
-
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2005/05/05 14:18:42  marcelloptr
+*standard VCF formatting
+*
 *Revision 1.2.2.4  2005/05/05 12:42:25  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit
@@ -107,3 +107,7 @@ public:
 *added copyright
 *
 */
+
+#endif //_MAINWINDOW_H__
+
+
