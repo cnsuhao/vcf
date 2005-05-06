@@ -201,9 +201,12 @@ void Object::dumpDebugInfo()
 {
 	if ( true == Object::trackingDebugMemory ) {
 		if ( !Object::debugAllocationMap.empty() ) {
+
 			StringUtils::trace( "Oops there are objects still left. Dumping memory info...\n" );
 			StringUtils::traceWithArgs( Format("There are %d objects still left over that did not get deleted\n") %
 				Object::debugAllocationMap.size() );
+
+			int totalAllocationSize = 0;
 
 			std::map<unsigned long,Object::DebugInfo>::const_iterator it = Object::debugAllocationMap.begin();
 			while ( it != Object::debugAllocationMap.end ()  ) {
@@ -221,9 +224,12 @@ void Object::dumpDebugInfo()
 				StringUtils::traceWithArgs( Format("\tObject (type: %ls) @ %p, allocated size of %d bytes\n") %
 												className.c_str() % info.objAddress_ % info.objectAllocationSize_ );
 
-
+				totalAllocationSize += info.objectAllocationSize_;
 				it ++;
 			}
+
+			StringUtils::traceWithArgs( Format("Total allocated memory size of %d bytes in %d object(s).\n") %
+					totalAllocationSize % Object::debugAllocationMap.size() );
 
 			Object::debugAllocationMap.clear();
 
@@ -261,6 +267,9 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/06 21:12:23  marcelloptr
+*message of dumpDebugInfo extended
+*
 *Revision 1.3.2.1  2005/03/15 01:51:51  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
