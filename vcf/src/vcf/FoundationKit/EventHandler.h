@@ -168,9 +168,12 @@ public:
 	name is specified (the default), then the event handler will \em not
 	be added to the source instance. If the a name is specified and the 
 	source instance derives from ObjectWithEvents, then the event handler
-	instance will be added to the source with the name passed in. Note that
-	any text may be used for the name, but if an event handler already
-	exists on the source then a memory leak will occur.
+	instance will be added to the source with the name passed in destroyed 
+	when the source is destroyed. Note that any text may be used for the name, 
+	but if an event handler already exists on the source then a memory leak 
+	will occur. If instead the same handler will be added twice with two
+	different names we may have a memory access exception, as the framework 
+	will try to delete twice the same object.
 	*/
 	EventHandlerInstance( SOURCE* source, OnEventHandlerMethod handlerMethod, const String& handlerName="" ) {
 		source_ = source;
@@ -199,10 +202,10 @@ StaticEventHandlerInstance's are used to provide a
 typesafe wrapper around a specific class's <b>static</a> function pointers,
 as opposed to method pointers (which take the implicit this pointer).
 In addition, when they are created, if the source passed in is
-derived from VCF::ObjectWithEvents, then the handler will be
-maintained in a list by the source, and destroyed when the source
-is destroyed, freeing the creator of the handler from worrying about
-memory leaks.
+derived from VCF::ObjectWithEvents /em and the handler name is specified,
+then the handler will be maintained in a list by the source, and destroyed 
+when the source is destroyed, freeing the creator of the handler from 
+worrying about memory leaks.
 */
 template <class EVENT>
 class StaticEventHandlerInstance : public EventHandler {
@@ -256,6 +259,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/05/06 20:32:33  marcelloptr
+*more documentation. Minor improvements.
+*
 *Revision 1.4.2.2  2005/01/26 22:42:32  ddiego
 *added some docs on event handler and post event mechanics.
 *

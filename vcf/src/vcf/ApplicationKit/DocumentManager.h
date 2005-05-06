@@ -340,10 +340,13 @@ public:
 	};
 
 	/**
-	* reloads a file for an existing document.
+	* reloads from the hard drive the file for an existing document.
 	* The basic functionality is empty. The real implementation is dependent on the policy.
+	*@param Document* doc, the document whose file needs to be reloaded.
+	*@param const bool& keepPosition, true to reopen the file in the same
+	* position as before. The default is true.
 	*/
-	virtual void reloadDocument( Document* document ) {
+	virtual void reloadDocument( Document* document, const bool& keepPosition=true ) {
 
 	};
 
@@ -773,9 +776,11 @@ public:
 	* reloads a file for an existing document.
 	* It the operation fails, the user is warned with a message,
 	* but the document is not closed.
-	*@param Document* document, the document.
+	*@param Document* doc, the document whose file needs to be reloaded.
+	*@param const bool& keepPosition, true to reopen the file in the same
+	* position as before. The default is true.
 	*/
-	virtual void reloadDocument( Document* document );
+	virtual void reloadDocument( Document* document, const bool& keepPosition=true );
 
 	/**
 	* just creates the object from its type using the VCF RTTI
@@ -1404,7 +1409,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
-void DocumentManagerImpl<AppClass,DocInterfacePolicy>::reloadDocument( Document* document )
+void DocumentManagerImpl<AppClass,DocInterfacePolicy>::reloadDocument( Document* document, const bool& keepPosition )
 {
 	// returns if the user doesn't want to save the changes.
 	if ( !saveDocument( document ) ) {
@@ -1784,6 +1789,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/05/06 20:32:18  marcelloptr
+*more documentation. Minor improvements.
+*
 *Revision 1.3.2.9  2005/04/18 14:56:51  marcelloptr
 *removed member variable added too soon
 *
