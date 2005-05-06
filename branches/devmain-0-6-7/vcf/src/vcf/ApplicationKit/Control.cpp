@@ -1520,8 +1520,8 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.15  2005/05/06 20:32:18  marcelloptr
-*more documentation. Minor improvements.
+*Revision 1.4.2.16  2005/05/06 20:33:37  marcelloptr
+*Error message improved.
 *
 *Revision 1.4.2.14  2005/04/26 04:05:22  ddiego
 *the first half of [ 1184432 ] Tables cell edit box follows scroll movement, is fixed. Still need to get the scrollbars to update.
