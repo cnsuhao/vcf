@@ -1789,8 +1789,8 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.10  2005/05/06 20:32:18  marcelloptr
-*more documentation. Minor improvements.
+*Revision 1.3.2.11  2005/05/06 20:35:19  marcelloptr
+*Added option to reloadDocument function
 *
 *Revision 1.3.2.9  2005/04/18 14:56:51  marcelloptr
 *removed member variable added too soon
