@@ -13,7 +13,7 @@ where you installed the VCF.
 #endif
 
 
-#ifndef VCF_CW
+#if !defined(VCF_CW) && !defined(VCF_DMC)
 // In-class member template specializations are non-standard (Section 14.7.3.2)
 #  define VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 #endif
@@ -24,7 +24,7 @@ where you installed the VCF.
 #  define VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__) || defined(VCF_BCC)
+#if defined(_MSC_VER) || defined(__MINGW32__) || defined(VCF_BCC) || defined(VCF_DMC)
 #  define snprintf _snprintf
 #  define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
 #endif
@@ -291,7 +291,7 @@ namespace VCF {
 
 	// specialization for a String value.
 	template <> inline
-		Format& Format::operator%<String> (const String& val) {
+		Format& Format::operator% (const String& val) {
 
 		currentFormatArgCount_  ++;
 		
@@ -356,6 +356,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.13  2005/05/06 17:15:28  dougtinkham
+*change for dmc (and cw operator%) only
+*
 *Revision 1.1.2.12  2005/04/29 19:08:38  marcelloptr
 *introduced snprintf() for safety and more generic MACROs
 *
