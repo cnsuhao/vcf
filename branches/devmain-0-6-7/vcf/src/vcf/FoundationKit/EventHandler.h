@@ -259,8 +259,8 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.3  2005/05/06 20:32:33  marcelloptr
-*more documentation. Minor improvements.
+*Revision 1.4.2.4  2005/05/06 20:36:00  marcelloptr
+*more documentation.
 *
 *Revision 1.4.2.2  2005/01/26 22:42:32  ddiego
 *added some docs on event handler and post event mechanics.
