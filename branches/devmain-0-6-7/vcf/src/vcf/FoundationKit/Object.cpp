@@ -267,8 +267,8 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2005/05/06 21:12:23  marcelloptr
-*message of dumpDebugInfo extended
+*Revision 1.3.2.3  2005/05/06 21:13:44  marcelloptr
+*extended message in dumpDebugInfo
 *
 *Revision 1.3.2.1  2005/03/15 01:51:51  ddiego
 *added support for Format class to take the place of the
