@@ -35,9 +35,9 @@ void OSXLightweightControl::destroyControl()
 
 }
 
-long OSXLightweightControl::getHandleID()
+OSHandleID OSXLightweightControl::getHandleID()
 {
-	long result = -1;
+	OSHandleID result = NULL;
 	VCF::Control* parent = getHeavyWeightParent();
 	if ( NULL != parent ) {
 		result = parent->getPeer()->getHandleID();
@@ -302,6 +302,9 @@ void OSXLightweightControl::translateFromScreenCoords( Point* pt )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3  2004/12/01 04:31:37  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

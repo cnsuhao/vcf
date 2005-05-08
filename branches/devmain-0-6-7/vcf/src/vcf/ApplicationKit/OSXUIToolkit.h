@@ -135,8 +135,10 @@ public:
 
 	virtual ApplicationPeer* internal_createApplicationPeer();
 
-	virtual TextPeer* internal_createTextPeer( TextControl* component, const bool& isMultiLineControl );
+	virtual TextPeer* internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined );
 
+    virtual TextEditPeer* internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl );
+	
 	virtual TreePeer* internal_createTreePeer( TreeControl* component );
 
 	virtual ListviewPeer* internal_createListViewPeer( ListViewControl* component );
@@ -185,6 +187,8 @@ public:
 
 	virtual ScrollPeer* internal_createScrollPeer( Control* control );
 
+	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer( AbstractApplication* app );
+	
 	virtual SystemTrayPeer* internal_createSystemTrayPeer();
 
 	virtual CursorPeer* internal_createCursorPeer( Cursor* cursor );
@@ -256,6 +260,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

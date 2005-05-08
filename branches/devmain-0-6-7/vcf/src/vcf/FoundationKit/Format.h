@@ -166,10 +166,12 @@ namespace VCF {
 		// specialization for a String value.
 		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 		template <String>
+		#elif defined(VCF_GCC) && defined(VCF_OSX)
+		//nothing needed here, GCC on OSX 10.3.x doesn't like anything here
 		#else
 		template <>
 		#endif
-			Format& operator% (const String& val) {
+		Format& operator% (const String& val) {
 
 			currentFormatArgCount_  ++;
 			
@@ -356,6 +358,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.14  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.1.2.13  2005/05/06 17:15:28  dougtinkham
 *change for dmc (and cw operator%) only
 *

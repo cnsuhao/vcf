@@ -168,12 +168,6 @@ void Font::setStrikeOut( const bool& strikeout )
 }
 
 
-
-GlyphCollection* Font::getGlyphCollection( const String& text )
-{
-	return peer_->getGlyphCollection( text );
-}
-
 FontPeer* Font::getFontPeer()
 {
 	return peer_;
@@ -233,6 +227,9 @@ void Font::setAttributes( const double& pointSize, const bool& bold, const bool&
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3.2.1  2005/02/16 05:09:34  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

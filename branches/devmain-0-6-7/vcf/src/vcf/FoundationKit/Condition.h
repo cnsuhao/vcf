@@ -69,9 +69,9 @@ public:
 	condition is signaled before the timeout period is ellapsed the function will
 	return Waitable::wrTimeout value.
 	*/
-	virtual Waitable::WaitResult wait( uint32 milliseconds );
+	Waitable::WaitResult wait( uint32 milliseconds );
 
-	virtual OSHandleID getPeerHandleID();
+	OSHandleID getPeerHandleID();
 
 	/**
 	Returns the mutex associated with the condition.
@@ -91,6 +91,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.2.4.1  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

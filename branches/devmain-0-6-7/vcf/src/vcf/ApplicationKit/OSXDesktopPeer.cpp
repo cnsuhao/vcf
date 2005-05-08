@@ -68,15 +68,15 @@ String OSXDesktopPeer::desktopGetDirectory()
 	return result;
 }
 
-ulong32 OSXDesktopPeer::desktopGetHandleID()
+OSHandleID OSXDesktopPeer::desktopGetHandleID()
 {
-	ulong32 result = 0;
+	OSHandleID result = 0;
 
 
 	return result;
 }
 
-ulong32 OSXDesktopPeer::desktopGetGraphicsContextHandleID()
+OSHandleID OSXDesktopPeer::desktopGetGraphicsContextHandleID()
 {
 
 	return desktopGetHandleID();
@@ -116,6 +116,9 @@ VCF::Rect OSXDesktopPeer::desktopGetUsableBounds()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

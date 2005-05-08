@@ -23,14 +23,16 @@ public:
     virtual ~OSXMutex();
 
     virtual bool lock();
+	
+	virtual bool lock( uint32 timeoutInMilliseconds );
 
     virtual bool unlock();
 
     /**
     On OSX this returns a value that is a MPCriticalRegionID
     */
-	virtual uint32 getHandleID() {
-        return (uint32)&mutex_;
+	virtual OSHandleID getHandleID() {
+        return (OSHandleID)&mutex_;
     }
 
 protected:
@@ -43,6 +45,9 @@ protected:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.2.4.1  2005/05/08 19:55:32  ddiego
+ *osx updates, not yet functional.
+ *
  *Revision 1.2  2004/08/07 02:49:14  ddiego
  *merged in the devmain-0-6-5 branch to stable
  *

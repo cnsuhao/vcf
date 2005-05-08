@@ -616,6 +616,16 @@ public:
 		
 		return result;
 	}
+	
+	virtual String transformMnemonicValues( const String& input ) {
+		return "";
+	}
+	
+	virtual AcceleratorKey::Value getStandardAcceleratorFor( const StandardAccelerator& val ) {
+		AcceleratorKey::Value result;
+		
+		return result;
+	}
 };
 
 
@@ -687,11 +697,17 @@ ApplicationPeer* OSXUIToolkit::internal_createApplicationPeer()
     return new OSXApplicationPeer();
 }
 
-TextPeer* OSXUIToolkit::internal_createTextPeer( TextControl* component, const bool& isMultiLineControl )
+TextPeer* OSXUIToolkit::internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined )
 {
-    return NULL;
+	return NULL;
 }
 
+TextEditPeer* OSXUIToolkit::internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl )
+{
+	return NULL;
+}
+	
+	
 TreePeer* OSXUIToolkit::internal_createTreePeer( TreeControl* component )
 {
     return NULL;
@@ -821,6 +837,11 @@ ScrollPeer* OSXUIToolkit::internal_createScrollPeer( Control* control )
 }
 
 SystemTrayPeer* OSXUIToolkit::internal_createSystemTrayPeer()
+{
+	return NULL;
+}
+
+GraphicsResourceBundlePeer* OSXUIToolkit::internal_createGraphicsResourceBundlePeer( AbstractApplication* app )
 {
 	return NULL;
 }
@@ -2165,6 +2186,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3.2.1  2005/03/15 01:51:49  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

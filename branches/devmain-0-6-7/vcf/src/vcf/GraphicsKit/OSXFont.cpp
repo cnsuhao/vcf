@@ -137,9 +137,9 @@ void OSXFont::init()
 
 }
 
-ulong32 OSXFont::getFontHandleID()
+OSHandleID OSXFont::getFontHandleID()
 {
-	return (ulong32)fontStyle_;
+	return (OSHandleID)fontStyle_;
 }
 
 String OSXFont::getName()
@@ -298,11 +298,9 @@ double OSXFont::getDescent()
 	return FixedPointNumber(val);
 }
 
-
-
-VCF::GlyphCollection* OSXFont::getGlyphCollection( const String& text )
+bool OSXFont::isFixedPitch()
 {
-	return NULL;
+	return false;
 }
 
 bool OSXFont::isEqual( Object* object )
@@ -327,6 +325,9 @@ bool OSXFont::isEqual( Object* object )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3  2004/12/01 04:31:44  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
