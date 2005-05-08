@@ -32,6 +32,14 @@ OSXMutex::~OSXMutex()
     VCF_ASSERT(err == noErr);
 }
 
+bool OSXMutex::lock( uint32 timeoutInMilliseconds )
+{	
+	Duration timeout = kDurationMillisecond * timeoutInMilliseconds;
+		
+	OSStatus err = MPEnterCriticalRegion( mutex_, timeout );
+	return (err == noErr) ? true : false;
+}
+
 bool OSXMutex::lock()
 {
    OSStatus err = MPEnterCriticalRegion( mutex_, kDurationForever );
@@ -49,6 +57,9 @@ bool OSXMutex::unlock()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

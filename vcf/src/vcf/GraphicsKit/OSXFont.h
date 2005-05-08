@@ -44,7 +44,7 @@ public:
 
 	void init();
 
-	virtual ulong32 getFontHandleID() ;
+	virtual OSHandleID getFontHandleID() ;
 
 	virtual String getName() ;
 
@@ -83,8 +83,8 @@ public:
 	virtual double getAscent()  ;
 
 	virtual double getDescent() ;
-
-	virtual VCF::GlyphCollection* getGlyphCollection( const String& text )  ;
+	
+	virtual bool isFixedPitch();
 
 	virtual bool isEqual( Object* object );
 	
@@ -125,6 +125,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3  2004/12/01 04:31:44  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

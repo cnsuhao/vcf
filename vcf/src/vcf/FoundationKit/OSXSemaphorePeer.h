@@ -21,14 +21,16 @@ public:
 	virtual ~OSXSemaphore();
 
 	virtual bool lock();
+	
+	virtual bool lock( uint32 timeoutInMilliseconds );
 
 	virtual bool unlock();
 
     /**
     on OSX this returns a MPSemaphoreID
     */
-	virtual uint32 getHandleID() {
-        return (uint32) semaphoreID_;
+	virtual OSHandleID getHandleID() {
+        return (OSHandleID) semaphoreID_;
     }
 
 protected:
@@ -43,6 +45,9 @@ protected:
  /**
 *CVS Log info
  *$Log$
+ *Revision 1.2.4.1  2005/05/08 19:55:32  ddiego
+ *osx updates, not yet functional.
+ *
  *Revision 1.2  2004/08/07 02:49:14  ddiego
  *merged in the devmain-0-6-5 branch to stable
  *

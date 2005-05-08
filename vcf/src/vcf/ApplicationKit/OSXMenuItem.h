@@ -36,7 +36,7 @@ public:
 
 	void init();
 
-	virtual ulong32 getMenuID();
+	virtual OSHandleID getMenuID();
 
 	virtual void addChild( MenuItem* child );
 
@@ -75,6 +75,8 @@ public:
 	virtual void setCaption( const String& caption );
 
 	virtual void setAsSeparator( const bool& isSeperator );
+	
+	virtual void setAcceleratorKey( AcceleratorKey* accelerator );
 
 	bool isMenuItemRoot();
 	
@@ -85,6 +87,8 @@ public:
 	static bool isParentMenuItemRoot( MenuItem* item );
 	
 	void fixChildren( MenuItem* child );
+	
+	
 protected:
 	uint32 itemID_;
 	MenuItem* menuItem_;
@@ -99,6 +103,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.2  2004/12/01 04:31:37  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

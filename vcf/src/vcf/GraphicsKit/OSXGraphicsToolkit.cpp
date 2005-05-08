@@ -196,7 +196,7 @@ ContextPeer* OSXGraphicsToolkit::internal_createContextPeer( const unsigned long
 	return new OSXContext( width, height );
 }
 
-ContextPeer* OSXGraphicsToolkit::internal_createContextPeer( const unsigned long& contextID )
+ContextPeer* OSXGraphicsToolkit::internal_createContextPeer( OSHandleID contextID )
 {
 	return new OSXContext( contextID );
 }
@@ -239,6 +239,9 @@ double OSXGraphicsToolkit::internal_getDPI( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3  2004/12/01 04:31:44  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -63,8 +63,8 @@ public:
 
 	virtual UnicodeString translate( const UnicodeString& id );
 
-	virtual ulong32 getHandleID() {
-		return (ulong32)localeRef_;
+	virtual OSHandleID getHandleID() {
+		return (OSHandleID)localeRef_;
 	}
 protected:
 
@@ -82,6 +82,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

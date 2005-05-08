@@ -50,7 +50,6 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/BasicFill.h"
 #include "vcf/GraphicsKit/BasicStroke.h"
-#include "vcf/GraphicsKit/GlyphCollection.h"
 #include "vcf/GraphicsKit/ContextPeer.h"
 
 //graphics resources
@@ -88,6 +87,9 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.4  2004/12/02 04:11:10  ddiego
 *removed some old, extraneous files from graphics kit dir.
 *

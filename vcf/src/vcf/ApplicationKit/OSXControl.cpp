@@ -140,9 +140,9 @@ OSXControl::~OSXControl()
 
 }
 
-long OSXControl::getHandleID()
+OSHandleID OSXControl::getHandleID()
 {
-	return (long) hiView_;
+	return (OSHandleID) hiView_;
 }
 
 EventHandlerUPP OSXControl::getEventHandlerUPP()
@@ -761,6 +761,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3.2.1  2005/03/15 01:51:49  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
@@ -811,6 +814,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.3.2.2  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3.2.1  2005/03/15 01:51:49  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

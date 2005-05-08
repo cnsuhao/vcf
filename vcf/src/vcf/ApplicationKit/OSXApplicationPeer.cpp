@@ -63,18 +63,18 @@ String OSXApplicationPeer::getFileName()
 	if ( CFURLGetFileSystemRepresentation( url, true, (UInt8*)buf, sizeof(buf) ) ) {
 		result = buf;
 		result += "/Contents/MacOS/";
-		result += val;//OSXUtils::extractStringValueFromCFType( val );
+		result += val.c_str();//OSXUtils::extractStringValueFromCFType( val );
 	}
 	
 	return result;
 }
 
-long OSXApplicationPeer::getHandleID()
+OSHandleID OSXApplicationPeer::getHandleID()
 {
-	return handleID_;
+	return (OSHandleID)handleID_;
 }
 
-void OSXApplicationPeer::setHandleID( const long& handleID )
+void OSXApplicationPeer::setHandleID( OSHandleID handleID )
 {
 	handleID_ = handleID;
 }
@@ -83,6 +83,9 @@ void OSXApplicationPeer::setHandleID( const long& handleID )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

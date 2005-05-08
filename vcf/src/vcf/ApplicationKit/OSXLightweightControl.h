@@ -23,7 +23,7 @@ public:
 
 	virtual void destroyControl();
 
-    virtual long getHandleID();
+    virtual OSHandleID getHandleID();
 
     virtual VCF::String getText();
 
@@ -89,6 +89,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/05/08 19:55:31  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.2  2004/08/07 17:15:07  ddiego
 *added missing osx files and projects
 *

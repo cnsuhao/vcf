@@ -52,7 +52,7 @@ OSXContext::OSXContext( const unsigned long& width, const unsigned long& height 
 	init();
 }
 
-OSXContext::OSXContext( const unsigned long& contextID ):
+OSXContext::OSXContext( OSHandleID contextID ):
 	contextID_(0),
     grafPort_((GrafPtr)contextID),
 	inMemoryImage_(nil),
@@ -97,12 +97,12 @@ GraphicsContext* OSXContext::getContext()
 	return context_;
 }
 
-unsigned long OSXContext::getContextID()
+OSHandleID OSXContext::getContextID()
 {
-	return (unsigned long)grafPort_;
+	return (OSHandleID)grafPort_;
 }
 
-void OSXContext::setContextID( const unsigned long& handle )
+void OSXContext::setContextID( OSHandleID handle )
 {
     if ( NULL != inMemoryImage_ ) {
         delete [] inMemoryImage_;
@@ -2189,6 +2189,11 @@ void OSXContext::drawThemeMenuItem( Rect* rect, MenuState& state )
 	
 }
 
+void OSXContext::drawThemeMenuItemText( Rect* rect, MenuState& state )
+{
+
+}
+
 void OSXContext::drawThemeText( Rect* rect, TextState& state )
 {
 	Rect tmp = *rect;
@@ -2271,6 +2276,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/08 19:55:32  ddiego
+*osx updates, not yet functional.
+*
 *Revision 1.3.2.1  2005/03/15 01:51:54  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced
