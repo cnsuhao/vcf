@@ -60,10 +60,15 @@ bool Win32FileSaveDialog::executeW()
 	ofn.hwndOwner = ownerWnd;
 	ofn.hInstance = NULL;
 
+	
+
 	WCHAR tmpFileName[_MAX_PATH];
 	memset(tmpFileName, 0, sizeof(tmpFileName));
-	String fileName = FilePath::transformToOSSpecific( fileName_ );
-	fileName.copy( tmpFileName, fileName.size() );
+
+	if ( !FilePath::getBaseName(fileName_).empty() ) {
+		String fileName = FilePath::transformToOSSpecific( fileName_ );
+		fileName.copy( tmpFileName, fileName.size() );
+	}
 
 	WCHAR tmpDir[_MAX_PATH];
 	memset(tmpDir, 0, sizeof(tmpDir));
@@ -205,8 +210,12 @@ bool Win32FileSaveDialog::executeA()
 
 	char tmpFileName[_MAX_PATH];
 	memset(tmpFileName, 0, sizeof(tmpFileName));
-	String fileName = FilePath::transformToOSSpecific( fileName_ );
-	fileName.copy( tmpFileName, fileName.size() );
+	
+	
+	if ( !FilePath::getBaseName(fileName_).empty() ) {
+		String fileName = FilePath::transformToOSSpecific( fileName_ );
+		fileName.copy( tmpFileName, fileName.size() );
+	}	
 
 	char tmpDir[_MAX_PATH];
 	memset(tmpDir, 0, sizeof(tmpDir));
@@ -397,6 +406,9 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/05/09 00:02:42  ddiego
+*fix for invalid file name init in Win32 common save dialog.
+*
 *Revision 1.2.4.4  2005/04/13 00:57:02  iamfraggle
 *Enable Unicode in CodeWarrior
 *
