@@ -183,8 +183,11 @@ bool Win32FileSaveDialog::executeW()
 	}
 	else {
 		 ulong32 err = CommDlgExtendedError();
-		 String msg = Format( "Unable to open the FileSaveDialog. Error code: %u\r\n" ) % err;
-		 StringUtils::trace( msg );
+		 if ( 0 != err ) {
+			String msg = Format( "Unable to open the FileSaveDialog. Error code: %u\r\n" ) % err;
+			StringUtils::trace( msg );
+			Dialog::showMessage( msg );
+		 }
 	}
 
 
@@ -334,10 +337,10 @@ bool Win32FileSaveDialog::executeA()
 	}
 	else {
 		 ulong32 err = CommDlgExtendedError();
-		 String msg = Format( "Unable to open the FileSaveDialog. Error code: %u\r\n" ) % err;
-		 StringUtils::trace( msg );
-
-		 Dialog::showMessage( msg );
+		 if ( 0 != err ) {
+			String msg = Format( "Unable to open the FileSaveDialog. Error code: %u\r\n" ) % err;
+			StringUtils::trace( msg );
+		 }
 	}
 
 
@@ -417,7 +420,7 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.6  2005/05/09 00:37:29  marcelloptr
+*Revision 1.2.4.7  2005/05/09 00:41:54  marcelloptr
 *added trace msg if Win32 common save dialog doens't open when it is expected to do it
 *
 *Revision 1.2.4.5  2005/05/09 00:02:42  ddiego
