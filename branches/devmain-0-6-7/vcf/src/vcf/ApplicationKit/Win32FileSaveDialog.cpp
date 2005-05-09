@@ -60,7 +60,7 @@ bool Win32FileSaveDialog::executeW()
 	ofn.hwndOwner = ownerWnd;
 	ofn.hInstance = NULL;
 
-	
+
 
 	WCHAR tmpFileName[_MAX_PATH];
 	memset(tmpFileName, 0, sizeof(tmpFileName));
@@ -144,7 +144,7 @@ bool Win32FileSaveDialog::executeW()
 
 	selectedFilter_ = "";
 
-	if ( GetSaveFileNameW( &ofn ) ){
+	if ( GetSaveFileNameW( &ofn ) ) {
 		result = true;
 		WCHAR* fileStart = (WCHAR*)(ofn.lpstrFile + (ofn.nFileOffset-1));
 		if ( *fileStart == '\0' ){
@@ -181,6 +181,11 @@ bool Win32FileSaveDialog::executeW()
 		}
 
 	}
+	else {
+		 ulong32 err = CommDlgExtendedError();
+		 String msg = Format( "Unable to open the FileSaveDialog. Error code: %u\r\n" ) % err;
+		 StringUtils::trace( msg );
+	}
 
 
 	delete [] tmpFilter;
@@ -192,7 +197,6 @@ bool Win32FileSaveDialog::executeW()
 
 bool Win32FileSaveDialog::executeA()
 {
-
 	OPENFILENAMEA ofn;
 	memset( &ofn, 0, sizeof(OPENFILENAMEA) );
 	ofn.lStructSize = sizeof(ofn);
@@ -291,7 +295,7 @@ bool Win32FileSaveDialog::executeA()
 
 	selectedFilter_ = "";
 
-	if ( GetSaveFileNameA( &ofn ) ){
+	if ( GetSaveFileNameA( &ofn ) ) {
 		result = true;
 		char* fileStart = (char*)(ofn.lpstrFile + (ofn.nFileOffset-1));
 		if ( *fileStart == '\0' ){
@@ -327,6 +331,13 @@ bool Win32FileSaveDialog::executeA()
 			selectedFilter_ = filter_[index];
 		}
 
+	}
+	else {
+		 ulong32 err = CommDlgExtendedError();
+		 String msg = Format( "Unable to open the FileSaveDialog. Error code: %u\r\n" ) % err;
+		 StringUtils::trace( msg );
+
+		 Dialog::showMessage( msg );
 	}
 
 
@@ -406,6 +417,9 @@ void Win32FileSaveDialog::setSelectedFilter( const String& selectedFilter )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.6  2005/05/09 00:37:29  marcelloptr
+*added trace msg if Win32 common save dialog doens't open when it is expected to do it
+*
 *Revision 1.2.4.5  2005/05/09 00:02:42  ddiego
 *fix for invalid file name init in Win32 common save dialog.
 *
