@@ -1153,14 +1153,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractModel.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractTextModel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractTextModel.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractTreeModel.cpp
 # End Source File
 # Begin Source File

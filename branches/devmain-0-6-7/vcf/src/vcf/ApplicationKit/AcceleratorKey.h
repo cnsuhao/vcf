@@ -311,6 +311,12 @@ public:
 		return isMnemonic_;
 	}
 
+	bool isEnabled() {
+		return enabled_;
+	}
+
+	void setEnabled( const bool& val );
+
 	virtual Object* clone( bool deep=false );
 protected:
 	VirtualKeyCode keyCode_;
@@ -320,6 +326,7 @@ protected:
 	Object* associatedObject_;
 	EventHandler* eventHandler_;
 	bool isMnemonic_;
+	bool enabled_;
 
 	AcceleratorKey( const AcceleratorKey& rhs );
 
@@ -333,6 +340,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.2.4.4  2005/03/27 05:25:13  ddiego
 *added more fixes to accelerator handling.
 *

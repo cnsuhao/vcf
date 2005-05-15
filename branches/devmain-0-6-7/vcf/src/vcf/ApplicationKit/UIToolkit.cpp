@@ -496,6 +496,11 @@ AcceleratorKey* UIToolkit::getAccelerator( const VirtualKeyCode& keyCode, const 
 	return UIToolkit::toolKitInstance->internal_getAccelerator( keyCode, modifierMask, src );
 }
 
+bool UIToolkit::findMatchingAccelerators( AcceleratorKey* key, std::vector<AcceleratorKey*>& matchingAccelerators )
+{
+	return UIToolkit::toolKitInstance->internal_findMatchingAccelerators( key, matchingAccelerators );
+}
+
 void UIToolkit::removeAcceleratorKeysForControl( Control* control )
 {
 	UIToolkit::toolKitInstance->internal_removeAcceleratorKeysForControl( control );
@@ -619,22 +624,65 @@ void UIToolkit::internal_removeComponentInfo( ComponentInfo* info )
 
 void UIToolkit::internal_registerAccelerator( AcceleratorKey* accelerator )
 {
-	ulong32 key = 0;
-	key = accelerator->getKeyCode() << 16;
-	key |= accelerator->getModifierMask();
+	AcceleratorKey::Value key;
+	key = accelerator;	
 
+
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
+	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );
+
+	std::multimap<ulong32,AcceleratorKey*>::iterator it = range.first;
+	while ( it != range.second ) {
+		AcceleratorKey* accel = it->second;
+
+		if ( (accelerator->getAssociatedControl() == accel->getAssociatedControl()) && 
+				(accelerator->getAssociatedMenuItem() == accel->getAssociatedMenuItem()) && 
+				(accelerator->getAssociatedObject() == accel->getAssociatedObject()) ) {
+
+			accel->free();
+			//remove old entry!
+			acceleratorMap_.erase( it );
+			break;
+		}
+
+		it ++;
+	}
 
 	std::pair<ulong32,AcceleratorKey*> item(key,accelerator);
 	acceleratorMap_.insert( item );
+}
+
+bool UIToolkit::internal_findMatchingAccelerators( AcceleratorKey* key, std::vector<AcceleratorKey*>& matchingAccelerators )
+{
+	matchingAccelerators.clear();
+
+	AcceleratorKey::Value keyVal;
+	keyVal = key;
+
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
+	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( keyVal );
+
+	std::multimap<ulong32,AcceleratorKey*>::iterator it = range.first;
+	while ( it != range.second ) {
+		AcceleratorKey* accel = it->second;
+
+		if ( (accel->getEventHandler() == key->getEventHandler()) && 
+				(accel != key) ) {
+			matchingAccelerators.push_back( accel );
+		}
+
+		it ++;
+	}
+
+	return !matchingAccelerators.empty();
 }
 
 AcceleratorKey* UIToolkit::internal_getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
 	AcceleratorKey* result = NULL;
 
-	ulong32 key = 0;
-	key = keyCode << 16;
-	key |= modifierMask;
+	AcceleratorKey::Value key( modifierMask, keyCode );
+
 
 	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
 	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );
@@ -682,9 +730,7 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 		}
 	}
 
-	ulong32 key = 0;
-	key = event->getVirtualCode() << 16;
-	key |= event->getKeyMask();
+	AcceleratorKey::Value key( event->getKeyMask(), event->getVirtualCode() );
 
 	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
 	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );
@@ -725,9 +771,6 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 				if ( NULL != accel ) {
 					MenuItem* mi = accel->getAssociatedMenuItem();
 					mi->update();
-					if ( !mi->isEnabled() ) {
-						accelerator = NULL;
-					}
 				}
 				break;
 			}
@@ -763,14 +806,25 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 			ev = accelerator->getEventHandler();
 		}
 
-		if ( ev ) {
-			KeyboardEvent* acceleratorEvent = new KeyboardEvent( accelerator, Control::KEYBOARD_ACCELERATOR,
+		if ( NULL != ev ) {
+			if ( accelerator->isEnabled() ) {
+				KeyboardEvent* acceleratorEvent = new KeyboardEvent( accelerator, Control::KEYBOARD_ACCELERATOR,
 																	event->getRepeatCount(),
 																	event->getKeyMask(),
 																	event->getKeyValue(),
 																	event->getVirtualCode() );
 
-			postEvent( ev, acceleratorEvent, false );
+				postEvent( ev, acceleratorEvent, false );
+			}
+
+			//KeyboardEvent acceleratorEvent( accelerator, Control::KEYBOARD_ACCELERATOR,
+			//														event->getRepeatCount(),
+			//														event->getKeyMask(),
+			//														event->getKeyValue(),
+			//														event->getVirtualCode() );
+
+			//ev->invoke( &acceleratorEvent );
+
 
 			// as the event has been processed, we don't let it to be forwarded further to any other controls
 			event->setConsumed( true );
@@ -1007,14 +1061,32 @@ void UIToolkit::internal_removeDefaultButton( Button* defaultButton )
 
 void UIToolkit::internal_removeAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src )
 {
-	ulong32 key = 0;
-	key = keyCode << 16;
-	key |= modifierMask;
 
-	std::multimap<ulong32,AcceleratorKey*>::iterator found = acceleratorMap_.find( key );
-	if ( found != acceleratorMap_.end() ) {
-		found->second->release();
-		acceleratorMap_.erase( found );
+	AcceleratorKey::Value key( modifierMask, keyCode );
+
+	typedef std::multimap<ulong32,AcceleratorKey*>::iterator AccelMapIter;
+
+	std::pair<AccelMapIter, AccelMapIter> range = acceleratorMap_.equal_range( key );	
+
+	std::vector<AccelMapIter> removeAccels;
+
+	AccelMapIter it = range.first;
+	while ( it != range.second ) {
+		AcceleratorKey* accel = it->second;
+		if ( (accel->getAssociatedControl() == src) || 
+			(accel->getAssociatedMenuItem() == src) ||
+			(accel->getAssociatedObject() == src) ) {
+			accel->release();
+			removeAccels.push_back( it );
+		}
+
+		it ++;
+	}
+
+	std::vector<AccelMapIter>::iterator it2 = removeAccels.begin();
+	while ( it2 != removeAccels.end() ) {
+		acceleratorMap_.erase( *it2 );
+		it2 ++;
 	}
 }
 
@@ -1152,6 +1224,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.14  2005/05/15 23:17:38  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.13  2005/05/04 00:36:17  marcelloptr
 *the accelerator checks first for an unitialized menu item associated to an action... fixed
 *

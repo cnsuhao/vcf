@@ -247,7 +247,7 @@ public:
 
 	bool isChecked();
 
-	void update();
+	virtual bool updateAction();
 
 	virtual void handleEvent( Event* event );
 
@@ -411,6 +411,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/15 23:17:38  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.1  2005/04/11 17:04:51  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *

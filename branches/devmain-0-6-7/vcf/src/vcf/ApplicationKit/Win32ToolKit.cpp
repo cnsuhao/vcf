@@ -268,7 +268,7 @@ public:
 			break;
 
 			case UIPolicyManager::saEditRedo : {
-				result = AcceleratorKey::Value( kmCtrl | kmShift, vkLetterZ );
+				result = AcceleratorKey::Value( kmCtrl, vkLetterY );
 			}
 			break;
 
@@ -2229,6 +2229,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/05/15 23:17:38  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.12  2005/04/25 00:11:58  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

@@ -647,7 +647,10 @@ UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeStr
 
 UnicodeString::size_type UnicodeString::copy(UnicodeString::AnsiChar *s, UnicodeString::size_type n, UnicodeString::size_type pos) const
 {
-
+/*
+JC this is commented out to make the copy code simpler here.
+We translate to a AnsiString, adn then call the copy() method on that
+and return the result
 	UnicodeString::AnsiChar* copyStr = UnicodeString::transformUnicodeToAnsi( *this );
 
 	UnicodeString::size_type result = minVal<UnicodeString::size_type>( strlen(copyStr+pos), n );
@@ -657,8 +660,14 @@ UnicodeString::size_type UnicodeString::copy(UnicodeString::AnsiChar *s, Unicode
 
 	delete [] copyStr;
 
-
 	return result;
+*/
+
+	AnsiString copyStr = *this;
+
+
+	return copyStr.copy( s, n, pos );
+	
 }
 
 UnicodeString::size_type UnicodeString::find(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n) const
@@ -815,6 +824,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/15 23:17:39  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.2  2005/04/17 16:11:32  ddiego
 *brought the foundation, agg, and graphics kits uptodate on linux
 *

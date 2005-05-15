@@ -35,6 +35,9 @@ TextEditWindow::TextEditWindow():
 	tc->SelectionChanged += 
 		new GenericEventHandler<TextEditWindow>( this, &TextEditWindow::onSelectionChanged, "TextEditWindow::onSelectionChanged" );
 
+
+	tc->disableStandardAccelerators();
+
 	initMenus();
 
 	initToolbar();
@@ -285,6 +288,9 @@ void TextEditWindow::onSelectionChanged( VCF::Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.2.2.5  2005/05/05 12:42:25  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

@@ -132,6 +132,11 @@ void Component::handleEvent( Event* event )
 				ComponentDeleted.fireEvent( componentEvent );
 			}
 			break;
+
+			case Component::COMPONENT_NEEDS_UPDATING : {
+				updateAction();
+			}
+			break;				
 		}
 	}
 }
@@ -398,6 +403,24 @@ void Component::clearRegistedComponents()
 void Component::setAction( Action* action )
 {
 	action_ = action;
+
+	if ( NULL == action_ ) {
+		removeFromUpdateTimer();
+	}
+	else {
+		addToUpdateTimer();
+	}
+}
+
+bool Component::updateAction()
+{
+	Action* action = getAction();
+	if ( NULL != action ) {
+		action->update();
+		return true;
+	}
+
+	return false;
 }
 
 void Component::addToUpdateTimer()
@@ -505,6 +528,9 @@ void Component::setUseLocaleStrings( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.2  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

@@ -105,13 +105,6 @@ _abstract_event_("VCF::TextModelEventHandler", TextModel, VCF::TextEvent, TextMo
 _class_rtti_end_
 */
 
-/*
-_class_abstract_rtti_(AbstractTextModel, "VCF::AbstractTextModel", "VCF::TextModel", ABSTRACTTEXTMODEL_CLASSID)
-
-_event_("VCF::TextModelEventHandler", AbstractTextModel, VCF::TextEvent, TextModelChanged )
-_class_rtti_end_
-*/
-
 _class_abstract_rtti_(ColumnItem, "VCF::Item", COLUMNITEM_CLASSID)
 _class_rtti_end_
 
@@ -768,6 +761,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.5  2005/03/09 05:11:19  ddiego
 *fixed property editor class.
 *

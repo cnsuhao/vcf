@@ -1159,6 +1159,15 @@ void Control::addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& m
 	addAcceleratorKey( newAccelKey );
 }
 
+void Control::addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Action* action )
+{
+	if ( NULL == action ) {
+		throw InvalidPointerException( MAKE_ERROR_MSG_2("The action instance passed in for the accelerator is NULL!") );
+	}
+
+	addAcceleratorKey( keyCode, modifierMask, action->getAcceleratorEventHandler() );
+}
+
 void Control::addAcceleratorKey( AcceleratorKey* accelerator )
 {
 	UIToolkit::registerAccelerator( accelerator );
@@ -1520,6 +1529,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.17  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.4.2.16  2005/05/06 20:33:37  marcelloptr
 *Error message improved.
 *

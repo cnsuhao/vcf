@@ -331,6 +331,11 @@ void DefaultMenuItem::setEnabled( const bool& enabled )
 	isEnabled_ = enabled;
 	peer_->setEnabled( enabled );
 
+	AcceleratorKey* accel = getAccelerator();
+	if ( NULL != accel ) {
+		accel->setEnabled( enabled );
+	}
+
 	ItemEvent event( this, ITEM_EVENT_CHANGED );
 	ItemChanged.fireEvent( &event );
 }
@@ -533,6 +538,7 @@ Object* DefaultMenuItem::clone(bool deep)
 			ulong32 mask = accel->getModifierMask();
 			//remove the old one!
 			UIToolkit::removeAccelerator( keyCode, mask, this );
+			currentAccelerator_ = NULL;
 			result->setAcceleratorKey( keyCode, mask );
 		}
 		else {
@@ -552,52 +558,52 @@ void DefaultMenuItem::handleEvent( Event* event )
 {
 	Component::handleEvent( event );
 	switch ( event->getType() ){
-			case Action::UpdateEvent : {
-				ActionEvent* actionEvent = (ActionEvent*)event;
+		case Action::UpdateEvent : {
+			ActionEvent* actionEvent = (ActionEvent*)event;
 
-				if ( actionEvent->isModified() ) {
-					setEnabled( actionEvent->isEnabled() );
+			if ( actionEvent->isModified() ) {
+				setEnabled( actionEvent->isEnabled() );
 
-					if ( !actionEvent->getText().empty() ) {
-						setCaption( actionEvent->getText() );
-					}
-
-					if ( actionEvent->isExclusiveChecked() ) {
-						setRadioItem( actionEvent->isChecked() );
-					}
-					else {
-						setChecked( actionEvent->isChecked() );
-					}
+				if ( !actionEvent->getText().empty() ) {
+					setCaption( actionEvent->getText() );
 				}
 
-			}
-			break;
-
-			case Action::AcceleratorChanged : {
-				Action* action = (Action*)event->getSource();
-			
-				//update the peer!
-				peer_->setAcceleratorKey( action->getAccelerator() );
-			}
-			break;
-
-			case Component::COMPONENT_ADDED : {
-				if ( isLoading() ) {
-					ComponentEvent* ev = (ComponentEvent*)event;
-					Component* child = ev->getChildComponent();
-					MenuItem* item = dynamic_cast<MenuItem*>(child);
-					if ( NULL != item ) {
-						item->setMenuOwner( getMenuOwner() );
-						addChild( item );
-					}
+				if ( actionEvent->isExclusiveChecked() ) {
+					setRadioItem( actionEvent->isChecked() );
+				}
+				else {
+					setChecked( actionEvent->isChecked() );
 				}
 			}
-			break;
 
-			case Component::COMPONENT_REMOVED : {
+		}
+		break;
 
+		case Action::AcceleratorChanged : {
+			Action* action = (Action*)event->getSource();
+		
+			//update the peer!
+			peer_->setAcceleratorKey( action->getAccelerator() );
+		}
+		break;
+
+		case Component::COMPONENT_ADDED : {
+			if ( isLoading() ) {
+				ComponentEvent* ev = (ComponentEvent*)event;
+				Component* child = ev->getChildComponent();
+				MenuItem* item = dynamic_cast<MenuItem*>(child);
+				if ( NULL != item ) {
+					item->setMenuOwner( getMenuOwner() );
+					addChild( item );
+				}
 			}
-			break;
+		}
+		break;
+
+		case Component::COMPONENT_REMOVED : {
+
+		}
+		break;
 	}
 }
 
@@ -645,6 +651,9 @@ MenuItem* DefaultMenuItem::findChildNamed( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.2  2005/03/15 05:29:01  ddiego
 *makes the accelerator check logic a bit smarter and also changes
 *teh way menu items test to check whether or not they are enabled.

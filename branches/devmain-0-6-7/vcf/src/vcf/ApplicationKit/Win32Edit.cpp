@@ -27,9 +27,10 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	AbstractWin32Component( component ),
 	Win32TextPeer(),
 	textControl_(component),
-	numCharsStreamedIn_(0),
+	//numCharsStreamedIn_(0),
 	//isRichedit_(false),		
 	enabledSetTextOnControl_(true),
+	updateTextModelNeeded_(false),
 	backgroundBrush_(NULL),
 	isMultiLined_(isMultiLineControl),
 	currentSelLength_(0),
@@ -51,12 +52,11 @@ void Win32Edit::create( Control* owningControl )
 	if ( NULL == textControl_ ){
 		//throw exception !!!!!!
 	}
-	createParams();
 
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND parent = toolkit->getDummyParent();
 
-	String className;// = "EDIT";
+	String className;
 
 	AnsiString richeditLibrary = "RICHED20.Dll";
 
@@ -80,61 +80,7 @@ void Win32Edit::create( Control* owningControl )
 	}
 	else {
 		className = RICHEDIT_CLASSA;
-	}
-
-	/*
-	I have temporarily gotten rid of this. I don't think we need it?
-	Any platform that doesn't have RICHED20.Dll can have it by manually
-	redistributing the file.
-
-	OSVERSIONINFO osInfo;
-	memset( &osInfo, 0, sizeof(OSVERSIONINFO) );
-	osInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	//if ( true == isMultiLined_ ) {
-		if ( GetVersionEx( &osInfo ) ) {
-			if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_NT ) {
-				// this provides at least Rich Edit Version 2.0 ( depending on the Windows OS )
-				richeditLibrary = "RICHED20.Dll";
-				if ( System::isUnicodeEnabled() ) {
-					className = RICHEDIT_CLASSW;
-				}
-				else {
-					className = RICHEDIT_CLASSA;
-				}
-			}
-			else if ( osInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS ) { //Windows 9.x
-				richeditLibrary = "RICHED32.DLL";
-				className = "RichEdit";
-			}
-		}
-
-
-		try {
-			if ( !Win32RicheditLibraryLoaded ) {
-				if  ( NULL != LoadLibraryA( richeditLibrary.c_str() ) ) {
-					Win32RicheditLibraryLoaded = true;
-					//isRichedit_ = true;
-				}
-				else {
-					String errMsg =
-						StringUtils::format( Format("Failed to load \"%s\", a required DLL when using richedit controls. \n"\
-						"Please make sure this DLL is located in your Windows system, or application directory.") %
-						richeditLibrary.c_str() );
-
-					throw RuntimeException( errMsg );
-				}
-			}
-			else {
-				//isRichedit_ = true;
-			}
-		}
-		catch (...) {
-			//we couldn't load the richedit libraries so lets downgrade to the default edit control
-			className = "EDIT";
-			//isRichedit_ = false;
-		}
-	//}
-	*/
+	}	
 
 	CreateParams params = createParams();
 	
@@ -178,6 +124,10 @@ void Win32Edit::create( Control* owningControl )
 		
 		subclassWindow();
 		
+		//make sure that we get ALL richedit change notfications!
+		::SendMessage( hwnd_, EM_SETEVENTMASK, 0, ENM_CHANGE );
+
+
 		setFont( textControl_->getFont() );
 
 		textControl_->ControlModelChanged +=
@@ -268,6 +218,36 @@ String Win32Edit::getText( unsigned int start, unsigned int length )
 	return Win32TextPeer::getText(start,length);
 }
 
+String Win32Edit::getText()
+{
+	String result;
+	ITextRange* range;
+	textDocument_->Range( 0, 0, &range );
+	if ( NULL != range ) {
+		long len = 0;
+		range->GetStoryLength( &len );				
+		range->SetEnd ( len );
+
+		BSTR str = SysAllocString( NULL );
+		range->GetText( &str );
+
+		/**
+		don't copy the very last character as this will be a 
+		0x0D, from MSDN:
+		"Another important feature is that all stories contain 
+		an undeletable final CR (0xD) character at the end. So 
+		even an empty story has a single character, namely the 
+		final CR."
+		*/
+		
+		result.assign( str, SysStringLen(str)-1 );
+
+		SysFreeString( str );
+
+		range->Release();
+	}
+	return result;
+}
 
 
 
@@ -364,47 +344,6 @@ Win32Object::CreateParams Win32Edit::createParams()
 	return result;
 }
 
-void Win32Edit::processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam )
-{
-	VCF::TextModel* model = textControl_->getTextModel();
-	if ( NULL != model ){
-		//this is the braindead way - needs to be reworked in the future
-
-		VCF::String newText;
-
-		if ( System::isUnicodeEnabled() ) {
-			int length = ::GetWindowTextLengthW( hwnd_ );
-
-			VCFChar* text = new VCFChar[length+1];
-			memset( text, 0, (length+1)*sizeof(VCFChar));
-			::GetWindowTextW( hwnd_, text, length+1 );
-
-			newText = text;
-
-			delete[] text;
-		}
-		else {
-			int length = ::GetWindowTextLengthA( hwnd_ );
-
-			char* text = new char[length+1];
-			memset( text, 0, (length+1)*sizeof(char));
-			::GetWindowTextA( hwnd_, text, length+1 );
-
-			newText = text;
-
-			delete[] text;
-		}
-
-
-
-
-		enabledSetTextOnControl_ = false;
-
-		model->setText( newText );
-
-		enabledSetTextOnControl_ = true;
-	}
-}
 
 uint32 Win32Edit::convertCharToVKCode( VCFChar ch )
 {
@@ -759,9 +698,9 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 {
 	bool result = false;
 	wndProcResult = 0;		
-	
+						
 	switch ( message ) {
-
+		
 		case WM_RBUTTONDOWN :  case WM_LBUTTONDOWN : {
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
@@ -776,6 +715,22 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
+		case WM_SETTEXT : case EM_STREAMIN : {
+			result = true;
+
+			updateTextModelNeeded_ = false;
+
+			//let the default rich text code handle this!
+			wndProcResult = defaultWndProcedure( message, wParam, lParam );
+
+			//modify the model, but ignore an change notifications to us!
+			enabledSetTextOnControl_ = false;
+
+			textControl_->getTextModel()->setText( getText() );
+
+			enabledSetTextOnControl_ = true;
+		}
+		break;
 
 		case WM_RBUTTONUP : case WM_LBUTTONUP : {
 
@@ -802,7 +757,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case WM_KEYDOWN: {
 			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
 
-			
+			updateTextModelNeeded_ = false;
+
 			switch ( virtKeyCode ) {
 				case vkLeftArrow : 
 				case vkRightArrow : 
@@ -886,6 +842,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_CHAR:  case WM_KEYUP:{
+			updateTextModelNeeded_ = false;
+
 			/**
 			JC
 			I moved the defaultWndProcedure(  message, wParam, lParam );
@@ -955,44 +913,39 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case WM_COMMAND:{
-			
-			WPARAM fakeWParam = LOWORD(wParam);
+		case WM_COMMAND:{			
 
 			
-			wndProcResult = 0;
+			wndProcResult = defaultWndProcedure(  message, wParam, lParam );
 			result = true;
 
 			switch ( HIWORD(wParam) ) {
-				case EN_UPDATE:{
-					
-					// 
-
-					enabledSetTextOnControl_ = false;
-
-					VCF::TextModel* model = textControl_->getTextModel();
-					if ( NULL != model ) {
+				case EN_CHANGE:{
+					if ( updateTextModelNeeded_ ) {
+						enabledSetTextOnControl_ = false;
 						
+						VCF::TextModel* model = textControl_->getTextModel();
+						if ( NULL != model ) {
+							String text = getText();
+							
+							model->setText( text );				
+						}
+						
+						enabledSetTextOnControl_ = true;
 					}
-
-					enabledSetTextOnControl_ = true;
+					updateTextModelNeeded_ = true;
 				}
 				break; 
-
-				default : {
-
-				}
-				break;
 			}
 
 		}
 		break;
 
-		case WM_PASTE : {
+		case WM_CUT : case EM_REDO :case EM_UNDO : case WM_PASTE : {
 			wndProcResult = 0;
 			result = false;
 
-			enabledSetTextOnControl_ = false;		
+			updateTextModelNeeded_ = false;
 
 			if ( !peerControl_->isDesigning() ) {
 				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
@@ -1000,31 +953,28 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 			// copy the control's text into the model
+			enabledSetTextOnControl_ = false;
+
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
-				String text = AbstractWin32Component::getText();
-				if ( text != model->getText() ) {
-					model->setText( text );
-				}
+				String text = getText();				
+				model->setText( text );				
 			}
 
 			enabledSetTextOnControl_ = true;
-			
 		}
 		break;
 
 		case WM_ERASEBKGND :{
 			wndProcResult = 1;
+			
+			Color* color = peerControl_->getColor();
 
-			//if ( isRichedit_ ) {
-				//EM_SETBKGNDCOLOR
-				Color* color = peerControl_->getColor();
-
-				COLORREF backColor = RGB(color->getRed() * 255.0,
+			COLORREF backColor = RGB(color->getRed() * 255.0,
 										color->getGreen() * 255.0,
 										color->getBlue() * 255.0 );
-				SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
-			//}
+			SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
+			
 
 			result = true;
 		}
@@ -1104,55 +1054,34 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 void Win32Edit::onTextModelTextChanged( TextEvent* event )
 {
-	if ( NULL != event ){
-		if ( true == enabledSetTextOnControl_ ){
+	if ( (NULL != event) && enabledSetTextOnControl_ ){
+		bool oldVal = updateTextModelNeeded_;
+		updateTextModelNeeded_ = false;
+		switch ( event->getType() ) {
+			case TextModel::tmTextInserted : {
+				Win32TextPeer::insertText( event->getChangeStart(),
+											event->getChangeLength(),
+											event->getChangeText() );
+			}
+			break;
 
-			
-			String text = textControl_->getTextModel()->getText();
+			case TextModel::tmTextRemoved : {
+				Win32TextPeer::deleteText( event->getChangeStart(),
+											event->getChangeLength() );
+			}
+			break;
 
-			setText( text );		
-
+			case TextModel::tmTextSet : {
+				setText( textControl_->getTextModel()->getText() );
+			}
+			break;
 		}
+
+		updateTextModelNeeded_ = oldVal;
 	}
 }
 
-DWORD CALLBACK Win32Edit::EditStreamCallback( DWORD dwCookie, // application-defined value
-												LPBYTE pbBuff,  // pointer to a buffer
-												LONG cb,        // number of bytes to read or write
-												LONG *pcb       // pointer to number of bytes transferred
-												)
-{
-	Win32Edit* thisPtr = (Win32Edit*)dwCookie;
-	*pcb = 0;
-	TextControl* tc = (TextControl*)thisPtr->getControl();
-	String text = tc->getTextModel()->getText();
-	String::size_type len = text.size();
 
-
-	memset( pbBuff, 0, cb*sizeof(BYTE) );
-
-	if ( len > 0 ) {
-
-		if ( System::isUnicodeEnabled() ) {
-
-			String::size_type n = VCF::minVal<String::size_type>( cb, len-(thisPtr->numCharsStreamedIn_/sizeof(VCFChar)) );
-
-			*pcb = text.copy( (VCFChar*)pbBuff, n, thisPtr->numCharsStreamedIn_/sizeof(VCFChar) ) * sizeof(VCFChar);
-		}
-		else{
-			String::size_type n = VCF::minVal<String::size_type>( cb, len-thisPtr->numCharsStreamedIn_ );
-
-			AnsiString tmp = text;
-
-			*pcb = tmp.copy( (char*)pbBuff, n, thisPtr->numCharsStreamedIn_ );
-		}
-
-		thisPtr->numCharsStreamedIn_ += *pcb;
-
-	}
-
-	return 0;//(*pcb>0 ? NOERROR : E_FAIL);
-}
 
 int Win32Edit::getCRCount( const unsigned long& begin, const unsigned long& end, const bool& limitCountsAreExact )
 {
@@ -1217,38 +1146,23 @@ void Win32Edit::setText( const VCF::String& text )
 	DWORD start = getSelectionStart();
 	DWORD count = getSelectionCount();
 
-//	if ( isRichedit_ ) {
-		EDITSTREAM editStream;
-		memset( &editStream, 0, sizeof(EDITSTREAM) );
-		editStream.dwCookie = (DWORD)this;
-		editStream.pfnCallback = Win32Edit::EditStreamCallback;
-		numCharsStreamedIn_ = 0;//text.size();
+	ITextRange* range;
+	textDocument_->Range( 0, 0, &range );
+	if ( NULL != range ) {
 
-		int streamedIn = 0;
-		if ( System::isUnicodeEnabled() ) {
-			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT | SF_UNICODE, (LPARAM)&editStream );
-		}
-		else{
-			streamedIn = ::SendMessage( hwnd_, EM_STREAMIN, SF_TEXT, (LPARAM)&editStream );
-		}
-		int err = UpdateWindow( hwnd_ );
-	/*}
-	else {
-		int err = 0;
-		if ( System::isUnicodeEnabled() ) {		
+		long len = 0;
+		range->GetStoryLength( &len );
+		range->SetEnd( len );
 
-			err = ::SetWindowTextW( hwnd_, text.c_str() );
-		}
-		else {
-			err = ::SetWindowTextA( hwnd_, text.ansi_c_str() );
-		}
+		BSTR str = SysAllocStringLen( text.c_str(), text.length() );		
 
-		if ( !err ) {
-			err = GetLastError();
-			StringUtils::traceWithArgs( Format("error is %d\n") % err );
-		}
-	}
-*/
+		range->SetText( str );
+		
+		SysFreeString( str );
+
+		range->Release();
+	}	
+
 	setSelectionMark( start, count );
 
 	int firstLine2 = ::SendMessage( hwnd_, EM_GETFIRSTVISIBLELINE, (WPARAM)0, (LPARAM)0 );
@@ -1354,66 +1268,6 @@ void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned lon
 	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)adjustedStart, (LPARAM)end );
 }
 
-/*
-void Win32Edit::setSelectionFont( Font* font )
-{
-	CHARFORMAT charFormat;
-	memset( &charFormat, 0, sizeof(CHARFORMAT) );
-	charFormat.cbSize = sizeof(CHARFORMAT);
-	charFormat.dwMask = CFM_BOLD | CFM_COLOR | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_STRIKEOUT | CFM_UNDERLINE ;
-	charFormat.yHeight = (long)(font->getPointSize() * 20.0);
-	charFormat.crTextColor = RGB( font->getColor()->getRed() * 255.0,
-									font->getColor()->getGreen() * 255.0,
-									font->getColor()->getBlue() * 255.0 );
-
-	font->getName().copy( charFormat.szFaceName, 31 );
-
-	if ( true == font->getBold() ) {
-		charFormat.dwEffects |= CFE_BOLD;
-	}
-
-	if ( true == font->getItalic() ) {
-		charFormat.dwEffects |= CFE_ITALIC;
-	}
-
-	if ( true == font->getStrikeOut() ) {
-		charFormat.dwEffects |= CFE_STRIKEOUT;
-	}
-
-	if ( true == font->getUnderlined() ) {
-		charFormat.dwEffects |= CFE_UNDERLINE;
-	}
-
-	::SendMessage( hwnd_, EM_SETCHARFORMAT, (WPARAM)SCF_WORD | SCF_SELECTION, (LPARAM)&charFormat );
-}
-*/
-
-/*
-void Win32Edit::setParagraphAlignment( const TextAlignmentType& alignment )
-{
-	PARAFORMAT paragraphFormat;
-	memset( &paragraphFormat, 0, sizeof(PARAFORMAT) );
-	paragraphFormat.cbSize = sizeof(PARAFORMAT);
-	paragraphFormat.dwMask = PFM_ALIGNMENT;
-	switch( alignment ) {
-		case taTextLeft : {
-			paragraphFormat.wAlignment = PFA_LEFT;
-		}
-		break;
-
-		case taTextCenter : {
-			paragraphFormat.wAlignment = PFA_CENTER;
-		}
-		break;
-
-		case taTextRight : {
-			paragraphFormat.wAlignment = PFA_RIGHT;
-		}
-		break;
-	}
-	::SendMessage( hwnd_, EM_SETPARAFORMAT, 0, (LPARAM)&paragraphFormat );
-}
-*/
 
 void Win32Edit::scrollToLine( const ulong32& lineIndex )
 {
@@ -1607,11 +1461,10 @@ void Win32Edit::onControlModelChanged( Event* e )
 	
 	String text = tm->getText();
 
-	//enabledSetTextOnControl_ = false;
 
 	setText( text );
 
-	//enabledSetTextOnControl_ = true;
+
 }
 
 void Win32Edit::cut()
@@ -1658,6 +1511,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.23  2005/05/15 23:17:38  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.22  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

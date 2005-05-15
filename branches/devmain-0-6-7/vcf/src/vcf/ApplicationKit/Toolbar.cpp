@@ -47,16 +47,15 @@ void ToolbarItem::click()
 
 }
 
-void ToolbarItem::update()
+bool ToolbarItem::updateAction()
 {
-	Action* action = getAction();
-	if ( NULL != action ) {
-		action->update();
-	}
-	else {
+	if ( !Component::updateAction() ) {
 		Event event( this, ToolbarItem::tbItemUpdate );
 		ItemUpdate.fireEvent( &event );
+		return true;
 	}
+
+	return false;
 }
 
 void ToolbarItem::handleEvent( Event* event )
@@ -87,12 +86,9 @@ void ToolbarItem::handleEvent( Event* event )
 				setPressed( false );
 			}
 		}
-		break;
-
-		case Component::COMPONENT_NEEDS_UPDATING : {
-			update();
-		}
-		break;
+		break;	
+		
+		
 	}
 }
 
@@ -405,9 +401,7 @@ Toolbar::Toolbar():
 	buttonCaptionsHorizontal_(false)
 {
 	toolbarPeer_ = UIToolkit::createToolbarPeer( this );
-	peer_ = dynamic_cast<ControlPeer*>(toolbarPeer_);
-
-	addToUpdateTimer();
+	peer_ = dynamic_cast<ControlPeer*>(toolbarPeer_);	
 
 	setViewModel( new ToolbarModel() );
 
@@ -469,6 +463,7 @@ void Toolbar::handleEvent( Event* event )
 {
 	Control::handleEvent( event );
 	switch ( event->getType() ){
+		/*
 		case Component::COMPONENT_NEEDS_UPDATING : {
 			ToolbarModel* model = getToolbarModel();
 			if ( NULL != model ) {
@@ -480,6 +475,7 @@ void Toolbar::handleEvent( Event* event )
 			}
 		}
 		break;
+		*/
 
 		case CONTROL_SIZED:{
 			Control::handleEvent( event );
@@ -537,6 +533,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.3  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

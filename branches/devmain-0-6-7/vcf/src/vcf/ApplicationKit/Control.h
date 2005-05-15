@@ -1165,34 +1165,43 @@ public:
 
 
 	/**
-	*Returns the AcceleratorKey instance that is associated with this control and
-	*the specified key code and modifier mask. The AcceleratorKey will be activated
-	*whenever the corresponding keyboard combination is pressed.
-	*@param VirtualKeyCode the key code that represents this AcceleratorKey. For
-	*example, vkLetterV is used to indicated an accelerator that is triggered whenever
-	*the "V" key is pressed.
-	*@param ulong32 a mask of special keys that can be pressed together with the
-	*specified key code, such as Shift, Alt or Ctrl.
-	*@see AcceleratorKey
+	Returns the AcceleratorKey instance that is associated with this control and
+	the specified key code and modifier mask. The AcceleratorKey will be activated
+	whenever the corresponding keyboard combination is pressed.
+	@param VirtualKeyCode the key code that represents this AcceleratorKey. For
+	example, vkLetterV is used to indicated an accelerator that is triggered whenever
+	the "V" key is pressed.
+	@param ulong32 a mask of special keys that can be pressed together with the
+	specified key code, such as Shift, Alt or Ctrl.
+	@see AcceleratorKey
 	*/
 	AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask );
 
 	/**
-	*Associates a new AcceleratorKey with the Control.
-	*The key code, modifier mask and event handler
-	*all become the attributes of the new AcceleratorKey
+	Associates a new AcceleratorKey with the Control.
+	The key code, modifier mask and event handler
+	all become the attributes of the new AcceleratorKey
 	*/
 	void addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, EventHandler* eventHandler );
 
 	/**
-	*
+	Associates a new AcceleratorKey with the Control.
+	The key code, modifier mask and the action's 
+	accelerator event handler all become the attributes 
+	of the new AcceleratorKey instance.
+	*/
+	void addAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Action* action );
+
+	/**
+	This should generally not be called. It's for framework usage only at this
+	point.
 	*/
 	void addAcceleratorKey( AcceleratorKey* accelerator );
 
 	/**
-	*Pressing the accelerator character will cause the control's
-	*mnemonicActivate() method to be fired, which by default
-	*sets focus to the control
+	Pressing the accelerator character will cause the control's
+	mnemonicActivate() method to be fired, which by default
+	sets focus to the control
 	*/
 	virtual void mnemonicActivate();
 
@@ -1327,6 +1336,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.5  2005/04/09 17:20:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
