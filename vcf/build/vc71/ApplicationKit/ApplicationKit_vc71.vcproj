@@ -947,12 +947,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractModel.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractTextModel.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractTextModel.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractTreeModel.cpp">
 			</File>
 			<File

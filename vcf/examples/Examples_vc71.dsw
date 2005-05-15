@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "Accelerators"=".\Accelerators\Accelerators_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Actions"=".\Actions\Actions_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -319,6 +331,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Accelerators
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Actions

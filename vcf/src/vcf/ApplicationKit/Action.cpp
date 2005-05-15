@@ -61,6 +61,10 @@ void Action::update()
 		(*it)->handleEvent( &event );
 		it ++;
 	}
+
+	if ( NULL != currentAccelerator_ ) {
+		currentAccelerator_->setEnabled( event.isEnabled() );
+	}
 }
 
 void Action::perform( Event* event )
@@ -103,14 +107,23 @@ unsigned long Action::getTargetCount()
 	return targets_.size();
 }
 
-void Action::setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+EventHandler* Action::getAcceleratorEventHandler()
 {
-	EventHandler* eventHandler = getEventHandler( "Action::onAccelerator" );
-	if ( NULL == eventHandler ) {
-		eventHandler = 
+	EventHandler* result = getEventHandler( "Action::onAccelerator" );
+	if ( NULL == result ) {
+		result = 
 			new KeyboardEventHandler<Action>( this, &Action::onAccelerator, "Action::onAccelerator" );
 	}
+
+	return result;
+}
+
+
+void Action::setAcceleratorKey( const VirtualKeyCode& keyCode, const ulong32& modifierMask )
+{
 	
+	EventHandler* eventHandler = getAcceleratorEventHandler();
+
 	AcceleratorKey* newAccelKey = new AcceleratorKey( this, keyCode, modifierMask, eventHandler );
 
 	setAcceleratorKey( newAccelKey );
@@ -150,9 +163,13 @@ void Action::onAccelerator( KeyboardEvent* e )
 	perform();
 }
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

@@ -160,6 +160,13 @@ public:
 	*/
 	AcceleratorKey* getAccelerator();
 
+	/**
+	Returns the event handler used to trigger the action's 
+	perform() method when the appropriate key combination
+	is pressed. If no event handler exists at the time of this
+	call, a new instance will be created.
+	*/
+	EventHandler* getAcceleratorEventHandler();
 protected:
 	/**
 	* the default event handler for the accelerator associated to this action.
@@ -182,6 +189,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.2.4.3  2005/03/14 19:02:02  marcelloptr
 *comments and added an error message to avoid an infinite loop
 *

@@ -116,17 +116,44 @@ public:
 	}
 
 	/**
-	Cuts the selection and places it in the clipboard
+	Call this function to disable the standard, built-in,
+	accelerator's that make sure the platforms standard 
+	shortcut's for cut, copy, paste, undo, and redo get
+	handled by the underlying platform. You may choose
+	to turn these off if your use of a text control
+	provides more advanced cut/copy/paste/undo/redo support.
+	If you're using the DocView arcichtecture you'll
+	almost certainly want to turn them off.
+	*/
+	void disableStandardAccelerators();
+
+	/**
+	Call this function to disable the standard, built-in,
+	accelerator's that make sure the platforms standard 
+	shortcut's for cut, copy, paste, undo, and redo get
+	handled by the underlying platform.
+	By default these are enabled for every text control.
+	*/
+	void enableStandardAccelerators();
+
+	/**
+	Cuts the selection and places it in the clipboard.
+	This uses the standard cut implementation provided by the
+	underlying windowing platform. 
 	*/
 	void cut();
 
 	/**
-	Copies the selection and places it in the clipboard
+	Copies the selection and places it in the clipboard.
+	This uses the standard copy implementation provided by the
+	underlying windowing platform. 
 	*/
 	void copy();
 
 	/**
 	Pastes the contents of the clipboard into the text control.
+	This uses the standard paste implementation provided by the
+	underlying windowing platform. 
 	*/
 	void paste();
 
@@ -151,12 +178,16 @@ public:
 	bool canRedo();
 
 	/**
-	Undoes the last operation
+	Undoes the last operation.
+	This uses the standard undo implementation provided by the
+	underlying windowing platform. 
 	*/
 	void undo();
 
 	/**
-	Redoes the last operation
+	Redoes the last operation.
+	This uses the standard redo implementation provided by the
+	underlying windowing platform. 
 	*/
 	void redo();
 
@@ -186,6 +217,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.4  2005/04/25 00:11:57  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

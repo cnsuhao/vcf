@@ -1703,16 +1703,23 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::createDocumentFromTy
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	standardMenu_ = new MenuBar();
+	
+	UIPolicyManager* mgr = UIToolkit::getUIPolicyManager();
+
 	MenuItem* root = standardMenu_->getRootMenuItem();
 	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, standardMenu_);
 
 	DefaultMenuItem* fileNew = new DefaultMenuItem( "&New", file, standardMenu_);
-	fileNew->setAcceleratorKey( vkLetterN, kmCtrl );
+
+	AcceleratorKey::Value val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileNew);
+
+	fileNew->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileNew->setTag( DocumentManager::atFileNew );
 
 
 	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...", file, standardMenu_);
-	fileOpen->setAcceleratorKey( vkLetterO, kmCtrl );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileOpen);
+	fileOpen->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileOpen->setTag( DocumentManager::atFileOpen );
 
 	DefaultMenuItem* fileClose = new DefaultMenuItem( "Close", file, standardMenu_);
@@ -1724,36 +1731,43 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 
 
 	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save", file, standardMenu_);
-	fileSave->setAcceleratorKey( vkLetterS, kmCtrl );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileSave);
+	fileSave->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileSave->setTag( DocumentManager::atFileSave );
 
 	DefaultMenuItem* fileSaveAs = new DefaultMenuItem( "Save &As...", file, standardMenu_);
-	fileSaveAs->setAcceleratorKey( vkLetterS, kmCtrl | kmShift );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileSaveAs);
+	fileSaveAs->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileSaveAs->setTag( DocumentManager::atFileSaveAs );
 
 
 	DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, standardMenu_);
 	DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo", edit, standardMenu_);
-	editUndo->setAcceleratorKey( vkLetterZ, kmCtrl  );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
+	editUndo->setAcceleratorKey( val.getKeyCode(), val.getModifierMask()  );
 	editUndo->setTag( DocumentManager::atEditUndo );
 
 	DefaultMenuItem* editRedo = new DefaultMenuItem( "&Redo", edit, standardMenu_);
-	editRedo->setAcceleratorKey( vkLetterZ, kmCtrl | kmShift );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditRedo);
+	editRedo->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editRedo->setTag( DocumentManager::atEditRedo );
 
 	separator = new DefaultMenuItem( "", edit, standardMenu_);
 	separator->setSeparator( true );
 
 	DefaultMenuItem* editCut = new DefaultMenuItem( "Cu&t", edit, standardMenu_);
-	editCut->setAcceleratorKey( vkLetterX, kmCtrl );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCut);
+	editCut->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editCut->setTag( DocumentManager::atEditCut );
 
 	DefaultMenuItem* editCopy = new DefaultMenuItem( "&Copy", edit, standardMenu_);
-	editCopy->setAcceleratorKey( vkLetterC, kmCtrl );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCopy);
+	editCopy->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editCopy->setTag( DocumentManager::atEditCopy );
 
 	DefaultMenuItem* editPaste = new DefaultMenuItem( "&Paste", edit, standardMenu_);
-	editPaste->setAcceleratorKey( vkLetterV, kmCtrl );
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditPaste);
+	editPaste->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editPaste->setTag( DocumentManager::atEditPaste );
 
 	separator = new DefaultMenuItem( "", edit, standardMenu_);
@@ -1789,6 +1803,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.11  2005/05/06 20:35:19  marcelloptr
 *Added option to reloadDocument function
 *

@@ -80,6 +80,35 @@ void TextControl::init()
 	UIPolicyManager::saEditSelectAll
 	*/
 
+	enableStandardAccelerators();	
+}
+
+void TextControl::disableStandardAccelerators()
+{
+	UIPolicyManager* mgr = UIToolkit::getUIPolicyManager();
+
+	AcceleratorKey::Value val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
+	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
+
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
+	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCut);
+	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCopy);
+	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditPaste);
+	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditSelectAll);
+	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
+}
+
+void TextControl::enableStandardAccelerators()
+{
 	EventHandler* ev = NULL;
 	
 	UIPolicyManager* mgr = UIToolkit::getUIPolicyManager();
@@ -113,7 +142,6 @@ void TextControl::init()
 		ev = new GenericEventHandler<TextControl>(this, &TextControl::selectAllAccelerator, "TextControl::selectAllAccelerator" );
 		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
 	}
-	
 }
 
 void TextControl::undoAccelerator( Event* e )
@@ -654,6 +682,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.10  2005/04/25 00:11:57  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

@@ -408,6 +408,18 @@ public:
 	void setAction( Action* action );
 
 	/**
+	Calling this triggers an update event to be fired.
+	The default behaviour is to see if the component has an action 
+	associated with it, and then calls the action's update()
+	method. 
+	@return bool the method returns true if the component has an
+	action and the action's update() method is called. Otherwise 
+	it returns false.
+	@see Action::update()
+	*/
+	virtual bool updateAction();
+
+	/**
 	Adds the component to the framework's update time. This timer
 	will be fired off periodically and will create a COMPONENT_NEEDS_UPDATING
 	event and pass it to the component. The component can specialize this
@@ -532,6 +544,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.2  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

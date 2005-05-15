@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "Accelerators"="..\..\examples\Accelerators\Accelerators.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Actions"="..\..\examples\Actions\Actions.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -331,6 +343,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Accelerators
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Actions
@@ -1090,6 +1105,30 @@ Package=<4>
 ###############################################################################
 
 Project: "RunLoops"="..\..\examples\RunLoops\RunLoops.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SciLexer"="..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ScintillaKit"=".\ScintillaKit\ScintillaKit.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

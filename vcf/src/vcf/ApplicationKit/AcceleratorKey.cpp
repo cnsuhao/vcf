@@ -24,7 +24,8 @@ AcceleratorKey::AcceleratorKey( Control* associatedControl, const VirtualKeyCode
 	associatedMenuItem_(NULL),
 	associatedObject_(NULL),
 	eventHandler_(eventHandler),
-	isMnemonic_(isMnemonic)
+	isMnemonic_(isMnemonic),
+	enabled_(true)
 {
 	
 }
@@ -38,7 +39,8 @@ AcceleratorKey::AcceleratorKey( MenuItem* associatedMenuItem, const VirtualKeyCo
 	associatedMenuItem_(associatedMenuItem),
 	associatedObject_(NULL),
 	eventHandler_(eventHandler),
-	isMnemonic_(isMnemonic)
+	isMnemonic_(isMnemonic),
+	enabled_(true)
 {
 	
 }
@@ -52,7 +54,8 @@ AcceleratorKey::AcceleratorKey( Object* associatedObject, const VirtualKeyCode& 
 	associatedMenuItem_(NULL),
 	associatedObject_(associatedObject),
 	eventHandler_(eventHandler),
-	isMnemonic_(isMnemonic)
+	isMnemonic_(isMnemonic),
+	enabled_(true)
 {
 	
 }
@@ -69,7 +72,8 @@ AcceleratorKey::AcceleratorKey( const AcceleratorKey& rhs ):
 	associatedMenuItem_(NULL),
 	associatedObject_(NULL),
 	eventHandler_(NULL),
-	isMnemonic_(false)
+	isMnemonic_(false),
+	enabled_(true)
 {
 	keyCode_ = rhs.keyCode_;
 	modifierMask_ = rhs.modifierMask_;
@@ -77,7 +81,8 @@ AcceleratorKey::AcceleratorKey( const AcceleratorKey& rhs ):
 	associatedMenuItem_ = rhs.associatedMenuItem_;
 	associatedObject_ = rhs.associatedObject_;
 	eventHandler_ = rhs.eventHandler_;
-	isMnemonic_ = rhs.isMnemonic_;	
+	isMnemonic_ = rhs.isMnemonic_;
+	enabled_ = rhs.enabled_;
 }
 
 bool AcceleratorKey::hasShiftKey()
@@ -113,9 +118,26 @@ Object* AcceleratorKey::clone( bool deep )
 	return new AcceleratorKey(*this);
 }
 
+void AcceleratorKey::setEnabled( const bool& val )
+{
+	enabled_ = val;
+	std::vector<AcceleratorKey*> matchingAccelerators;
+	if ( UIToolkit::findMatchingAccelerators( this, matchingAccelerators ) ) {
+		std::vector<AcceleratorKey*>::iterator it = matchingAccelerators.begin();
+		while ( it != matchingAccelerators.end() ) {
+			(*it)->enabled_ = enabled_;
+			it ++;
+		}
+	}
+
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.2.4.1  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

@@ -37,6 +37,7 @@ public:
 
 	enum TextModelEvents {
 		tmTextInserted = VCF::Model::MODEL_CHANGED + 3210,
+		tmTextSet,
 		tmTextRemoved
 	};
 
@@ -111,6 +112,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *

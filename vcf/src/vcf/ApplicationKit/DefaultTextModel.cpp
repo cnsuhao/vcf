@@ -25,6 +25,7 @@ DefaultTextModel::~DefaultTextModel()
 
 void DefaultTextModel::setText( const String& text )
 {
+/*
 	bool changed = ( text != text_ );
 	//text_ = text;	//this must stay commented
 	if ( true == changed ) {
@@ -34,6 +35,12 @@ void DefaultTextModel::setText( const String& text )
 		
 		TextModelChanged.fireEvent( &event );
 	}
+	*/
+	text_ = text;
+
+	TextEvent event( this, TextModel::tmTextSet, text, 0, text.size() );
+
+	TextModelChanged.fireEvent( &event );
 }
 
 void DefaultTextModel::empty()
@@ -45,14 +52,23 @@ void DefaultTextModel::empty()
 
 void DefaultTextModel::insertText( const unsigned long& index, const String& text )
 {
-	String changeText = getText();
+	/*String changeText = getText();
 	changeText.insert( index, text );
 
 	DefaultTextModel::setText( changeText );
+	*/
+	text_.insert( index, text );
+
+	TextEvent event( this, TextModel::tmTextInserted, text, index, text.size() );
+
+	TextModelChanged.fireEvent( &event );
 }
 
 void DefaultTextModel::replaceText( const unsigned long& index, const unsigned long& len, const String& text )
 {
+	VCF_ASSERT( len > 0 );
+	VCF_ASSERT( (index+len) < text_.size() );
+	/*
 	String changeText = getText();
 	unsigned long length, pos;
 	length = changeText.size();
@@ -63,10 +79,28 @@ void DefaultTextModel::replaceText( const unsigned long& index, const unsigned l
 	changeText = preText + text + postText;
 
 	DefaultTextModel::setText( changeText );
+	*/
+
+
+	//remove old text
+	String removedText = text_.substr( index, len );
+
+	text_.erase( index, len );	
+
+	TextEvent removeEvent( this, TextModel::tmTextRemoved, removedText, index, len );
+	TextModelChanged.fireEvent( &removeEvent );
+
+
+	//insert new text
+	text_.insert( index, text );
+
+	TextEvent insertEvent( this, TextModel::tmTextInserted, text, index, text.size() );
+	TextModelChanged.fireEvent( &insertEvent );
 }
 
 void DefaultTextModel::deleteText( const unsigned long& index, const unsigned long& count )
 {
+	/*
 	String changeText = this->text_.substr( index, count );
 
 	text_.erase( index, count );
@@ -74,14 +108,27 @@ void DefaultTextModel::deleteText( const unsigned long& index, const unsigned lo
 	TextEvent event( dynamic_cast<Object*>(this), changeText );
 
 	TextModelChanged.fireEvent( &event );	
+	*/
+	String changeText = text_.substr( index, count );
+
+	text_.erase( index, count );
+
+	TextEvent event( this, TextModel::tmTextRemoved, changeText, index, count );
+
+	TextModelChanged.fireEvent( &event );
 }
 
 void DefaultTextModel::appendText( const String& text )
 {
+	
+	/*
 	String changeText = getText();
 	changeText.append( text );
 
 	DefaultTextModel::setText( changeText );
+	*/
+
+	insertText( text_.size()-1, text );
 }
 
 String DefaultTextModel::getText()
@@ -98,6 +145,9 @@ unsigned long DefaultTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -397,6 +397,8 @@ public:
 
 	static AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
+	static bool findMatchingAccelerators( AcceleratorKey* key, std::vector<AcceleratorKey*>& matchingAccelerators );
+
 	static void removeAcceleratorKeysForControl( Control* control );
 
 	static void removeAcceleratorKeysForMenuItem( MenuItem* item );
@@ -606,6 +608,8 @@ protected:
 
 	void internal_removeAcceleratorKeysForObject( Object* src );
 
+	bool internal_findMatchingAccelerators( AcceleratorKey* key, std::vector<AcceleratorKey*>& matchingAccelerators );
+
 
 
 	ComponentInfo* internal_getComponentInfo( const String& componentUUID );
@@ -635,6 +639,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/05/15 23:17:38  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.7  2005/04/25 00:11:57  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

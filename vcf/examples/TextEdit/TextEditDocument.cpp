@@ -448,7 +448,7 @@ void TextEditDocument::internal_insertText( const VCF::ulong32& pos, const VCF::
 	
 	ModelChanged.fireEvent( &e );
 
-	TextEvent event( this, text );
+	TextEvent event( this, TextModel::tmTextInserted, text, pos, text.size() );
 
 	TextModelChanged.fireEvent( &event );
 
@@ -468,7 +468,7 @@ void TextEditDocument::internal_removeText( const VCF::ulong32& pos, const VCF::
 	
 	ModelChanged.fireEvent( &e );
 
-	TextEvent event( this, e.text_ );
+	TextEvent event( this, TextModel::tmTextRemoved, e.text_, pos, length );
 
 	TextModelChanged.fireEvent( &event );
 
@@ -479,6 +479,9 @@ void TextEditDocument::internal_removeText( const VCF::ulong32& pos, const VCF::
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/05/15 23:17:36  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.2.2.1  2005/05/04 20:47:20  marcelloptr
 *standard file formatting and cvs log section added
 *

@@ -20,8 +20,19 @@ where you installed the VCF.
 #endif // _VCF_ABSTRACTMODEL_H__
 
 
+
+#ifndef _VCF_TEXTMODEL_H__
+#	include "vcf/ApplicationKit/TextModel.h"
+#endif // _VCF_TEXTMODEL_H__
+
+#ifndef _VCF_TEXTEVENT_H__
+#	include "vcf/ApplicationKit/TextEvent.h"
+#endif // _VCF_TEXTEVENT_H__
+
+
+
 #ifndef _VCF_ABSTRACTTEXTMODEL_H__
-#	include "vcf/ApplicationKit/AbstractTextModel.h"
+//#	include "vcf/ApplicationKit/AbstractTextModel.h"
 #endif // _VCF_ABSTRACTTEXTMODEL_H__
 
 
@@ -112,6 +123,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/05/15 23:17:37  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -35,6 +35,8 @@ public:
 	*/
 	virtual void setText( const VCF::String& text );
 
+	virtual VCF::String getText();
+
 	virtual CreateParams createParams();
 
 	virtual bool handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc = NULL);
@@ -156,9 +158,10 @@ protected:
 	//bool isRichedit_; //JC - I am prepping to get rid of this
 	bool isMultiLined_;
 
-	ulong32 numCharsStreamedIn_;
+//	ulong32 numCharsStreamedIn_;
+	/*
 	void processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam );
-
+*/
 	/**
 	this is introduced in order to prevent getting into a stack overflow situation 
 	due to infinite callback from the TextModel::setText() 
@@ -166,6 +169,13 @@ protected:
 	but remember to set it back to true when not necessary anymore.
 	*/
 	bool enabledSetTextOnControl_;
+
+	/**
+	This is used to determine if hte text model 
+	should be updated as a result of handling an EN_CHANGE 
+	notification
+	*/
+	bool updateTextModelNeeded_;
 
 	std::map<ulong32,ulong32> printPageMap_;
 
@@ -180,7 +190,7 @@ protected:
 	
 	static uint32 convertCharToVKCode( VCFChar ch );
 
-	static DWORD CALLBACK EditStreamCallback( DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb );
+	//static DWORD CALLBACK EditStreamCallback( DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb );
 };
 
 
@@ -190,6 +200,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/05/15 23:17:38  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.10  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *
