@@ -21,14 +21,14 @@ namespace VCF {
 
 class TextModel;
 
-class APPLICATIONKIT_API TextEvent : public Event {
+class APPLICATIONKIT_API TextEvent : public ModelEvent {
 public:
 	TextEvent( Object * source);
 
 	TextEvent( Object * source, const String& changedText );
 
 	TextEvent( Object * source, int selectionStart, ulong32 selectionLength ):
-		Event(source),
+		ModelEvent(source,0),
 		selectionStart_(selectionStart),
 		selectionLength_(selectionLength),
 		changeStart_(0),
@@ -37,7 +37,7 @@ public:
 	}
 
 	TextEvent( Object * source, ulong32 type, const String& changedText, ulong32 changeStart, ulong32 changeLength ):
-		Event(source, type),
+		ModelEvent(source, type),
 		selectionStart_(-1),
 		selectionLength_(0),
 		changeStart_(changeStart),
@@ -47,7 +47,7 @@ public:
 		changeText_ = changedText;
 	}
 
-	TextEvent( const TextEvent& rhs ):Event(rhs),
+	TextEvent( const TextEvent& rhs ):ModelEvent(rhs),
 		selectionStart_(-1),selectionLength_(0),
 		changeStart_(0),
 		changeLength_(0){
@@ -57,7 +57,7 @@ public:
 	virtual ~TextEvent();
 
 	TextEvent& operator= ( const TextEvent& rhs ) {
-		Event::operator =( rhs );
+		ModelEvent::operator =( rhs );
 
 		changeText_ = rhs.changeText_;
 		selectionStart_ = rhs.selectionStart_;
@@ -149,6 +149,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/16 00:05:06  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *
