@@ -14,7 +14,7 @@ where you installed the VCF.
 using namespace VCF;
 
 TextEvent::TextEvent( Object * source ):
-	Event( source ),
+	ModelEvent( source,0 ),
 	selectionStart_(-1),
 	selectionLength_(0),
 	changeStart_(0),
@@ -24,7 +24,7 @@ TextEvent::TextEvent( Object * source ):
 }
 
 TextEvent::TextEvent( Object * source, const String& changedText ):
-	Event( source ),
+	ModelEvent( source,0 ),
 	selectionStart_(-1),
 	selectionLength_(0),
 	changeStart_(0),
@@ -52,6 +52,9 @@ TextModel* TextEvent::getTextModel()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/16 00:05:06  ddiego
+*fixes for better accelerator handling, and various fixes in hwo the text model works.
+*
 *Revision 1.3.2.1  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *
