@@ -45,9 +45,9 @@ public:
 
 	virtual void paint( GraphicsContext * context );
 
-    void setTextModel( TextModel * model );
+	void setTextModel( TextModel * model );
 
-    TextModel* getTextModel();
+	TextModel* getTextModel();
 
 	unsigned long getCaretPosition() ;
 
@@ -128,7 +128,7 @@ public:
 	void disableStandardAccelerators();
 
 	/**
-	Call this function to disable the standard, built-in,
+	Call this function to enable the standard, built-in,
 	accelerator's that make sure the platforms standard 
 	shortcut's for cut, copy, paste, undo, and redo get
 	handled by the underlying platform.
@@ -217,6 +217,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/05/16 16:02:00  marcelloptr
+*minor change on doc
+*
 *Revision 1.3.2.5  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *
