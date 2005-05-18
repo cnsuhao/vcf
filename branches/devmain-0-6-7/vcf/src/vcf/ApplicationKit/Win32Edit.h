@@ -171,7 +171,7 @@ protected:
 	crlf's
 	*/
 	int getCRCount( const unsigned long& begin, const unsigned long& end, const bool& limitCountsAreExact );
-	void getSelectionMark( unsigned long & start, unsigned long & count );
+	void getSelectionMark( unsigned long & start, unsigned long & end );
 
 	void onControlModelChanged( Event* e );
 	
@@ -187,6 +187,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/05/18 16:19:54  marcelloptr
+*minor changes
+*
 *Revision 1.3.2.12  2005/05/18 03:19:18  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *
