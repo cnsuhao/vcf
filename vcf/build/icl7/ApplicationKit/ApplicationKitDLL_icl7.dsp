@@ -1084,10 +1084,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\TabModelEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\TextEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TextEvent.h
 # End Source File
 # Begin Source File

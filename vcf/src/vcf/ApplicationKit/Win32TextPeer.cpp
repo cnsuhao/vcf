@@ -574,10 +574,10 @@ OSHandleID Win32TextPeer::getTextObjectHandle()
 }
 
 //storage	
-void Win32TextPeer::insertText( unsigned int start, unsigned int length, const String& text )
+void Win32TextPeer::insertText( unsigned int start, const String& text )
 {
 	ITextRange* range;
-	textDocument_->Range( start, start+length, &range );
+	textDocument_->Range( start, start, &range );
 	if ( NULL != range ) {
 		BSTR str = SysAllocStringLen( text.c_str(), text.length() );
 		
