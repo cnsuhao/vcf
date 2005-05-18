@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accelerators", "..\..\examples\Accelerators\Accelerators_vc70.vcproj", "{126635e7-4660-41d3-ad9e-799381446b3a}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accelerators", "..\..\examples\Accelerators\Accelerators_vc70.vcproj", "{837cacfe-411c-48ef-b378-96fc8be178ec}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Actions", "..\..\examples\Actions\Actions_vc70.vcproj", "{5934541A-5748-4418-A15B-07F102747B28}"
 EndProject
@@ -141,10 +141,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Resources", "..\..\examples
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunLoops", "..\..\examples\RunLoops\RunLoops_vc70.vcproj", "{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SciLexer", "..\..\src\thirdparty\common\scintilla\vcbuild\SciLexer_vc70.vcproj", "{39235584-87a2-4e0c-9db8-050e6b578801}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScintillaKit", ".\ScintillaKit\ScintillaKit_vc70.vcproj", "{993c9bcd-cfc7-4713-8663-535ae0da7499}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling", "..\..\examples\Scrolling\Scrolling_vc70.vcproj", "{3B829669-0925-469A-AE5D-62027E947190}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SharedLibraries", "..\..\examples\SharedLibraries\SharedLibraries_vc70.vcproj", "{19CE1DEB-D549-4988-B348-F2022DC2FF77}"
@@ -217,7 +213,7 @@ Global
 		{C37DA410-4B43-49C1-8751-9F1A3210FA35}.0 = {F2B501E7-C290-4C43-AC3F-9E7208E5D18E}
 		{73E3CC19-2969-4980-8D5B-591998DF267D}.0 = {8BC25430-ECF4-4B9E-88BD-E0FE0D80D14C}
 		{2213F9DC-48A7-443F-8D97-2F0911818130}.0 = {73E3CC19-2969-4980-8D5B-591998DF267D}
-		{2213F9DC-48A7-443F-8D97-2F0911818130}.1 = {126635e7-4660-41d3-ad9e-799381446b3a}
+		{2213F9DC-48A7-443F-8D97-2F0911818130}.1 = {837cacfe-411c-48ef-b378-96fc8be178ec}
 		{2213F9DC-48A7-443F-8D97-2F0911818130}.2 = {5934541A-5748-4418-A15B-07F102747B28}
 		{2213F9DC-48A7-443F-8D97-2F0911818130}.3 = {0EF60867-425A-4912-8DF5-269745D820E6}
 		{2213F9DC-48A7-443F-8D97-2F0911818130}.4 = {572A12E1-1486-45AB-AF90-D153F8D23918}
@@ -317,8 +313,8 @@ Global
 		{89D27C93-4106-4B3B-BBB0-92EC16FC6BF0}.0 = {14EF3DA3-3B87-4397-85D0-890DBD6A3A60}
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{126635e7-4660-41d3-ad9e-799381446b3a}.Debug.ActiveCfg = Debug|Win32
-		{126635e7-4660-41d3-ad9e-799381446b3a}.Release.ActiveCfg = Release|Win32
+		{837cacfe-411c-48ef-b378-96fc8be178ec}.Debug.ActiveCfg = Debug|Win32
+		{837cacfe-411c-48ef-b378-96fc8be178ec}.Release.ActiveCfg = Release|Win32
 		{5934541A-5748-4418-A15B-07F102747B28}.Debug.ActiveCfg = Debug|Win32
 		{5934541A-5748-4418-A15B-07F102747B28}.Generate YY and LL files.ActiveCfg = Release|Win32
 		{5934541A-5748-4418-A15B-07F102747B28}.GTK Debug.ActiveCfg = Debug|Win32
@@ -585,10 +581,6 @@ Global
 		{2C480E64-1603-4BD8-B7E6-022DD2C583E0}.Release.ActiveCfg = Release|Win32
 		{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}.Debug.ActiveCfg = Debug|Win32
 		{7b2a9e0e-bd5f-46a4-83f7-1e5146a6ff84}.Release.ActiveCfg = Release|Win32
-		{39235584-87a2-4e0c-9db8-050e6b578801}.Debug.ActiveCfg = Debug|Win32
-		{39235584-87a2-4e0c-9db8-050e6b578801}.Release.ActiveCfg = Release|Win32
-		{993c9bcd-cfc7-4713-8663-535ae0da7499}.Debug.ActiveCfg = Debug|Win32
-		{993c9bcd-cfc7-4713-8663-535ae0da7499}.Release.ActiveCfg = Release|Win32
 		{3B829669-0925-469A-AE5D-62027E947190}.Debug.ActiveCfg = Debug|Win32
 		{3B829669-0925-469A-AE5D-62027E947190}.Generate YY and LL files.ActiveCfg = Release|Win32
 		{3B829669-0925-469A-AE5D-62027E947190}.GTK Debug.ActiveCfg = Debug|Win32

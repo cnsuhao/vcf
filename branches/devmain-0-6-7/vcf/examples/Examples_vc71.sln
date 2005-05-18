@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accelerators", ".\Accelerators\Accelerators_vc71.vcproj", "{126635e7-4660-41d3-ad9e-799381446b3a}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accelerators", ".\Accelerators\Accelerators_vc71.vcproj", "{837cacfe-411c-48ef-b378-96fc8be178ec}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -108,7 +108,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Examples_vc71.vcproj", "{E23CC433-DEB3-46EB-8D93-503988D85980}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9DFBD97B-1C30-4434-9B64-0748F33662B9} = {9DFBD97B-1C30-4434-9B64-0748F33662B9}
-		{126635e7-4660-41d3-ad9e-799381446b3a} = {126635e7-4660-41d3-ad9e-799381446b3a}
+		{837cacfe-411c-48ef-b378-96fc8be178ec} = {837cacfe-411c-48ef-b378-96fc8be178ec}
 		{878B7E99-C065-4D2B-9E4D-CCC81D7B275B} = {878B7E99-C065-4D2B-9E4D-CCC81D7B275B}
 		{31B25FC7-D9AD-446B-B341-E5D2DC28441B} = {31B25FC7-D9AD-446B-B341-E5D2DC28441B}
 		{9ED4CE87-3FFA-4A1A-A378-C0BDC84A1749} = {9ED4CE87-3FFA-4A1A-A378-C0BDC84A1749}
@@ -420,8 +420,8 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{126635e7-4660-41d3-ad9e-799381446b3a}.Debug.ActiveCfg = Debug|Win32
-		{126635e7-4660-41d3-ad9e-799381446b3a}.Release.ActiveCfg = Release|Win32
+		{837cacfe-411c-48ef-b378-96fc8be178ec}.Debug.ActiveCfg = Debug|Win32
+		{837cacfe-411c-48ef-b378-96fc8be178ec}.Release.ActiveCfg = Release|Win32
 		{878B7E99-C065-4D2B-9E4D-CCC81D7B275B}.Debug.ActiveCfg = Debug|Win32
 		{878B7E99-C065-4D2B-9E4D-CCC81D7B275B}.Generate YY and LL files.ActiveCfg = Release|Win32
 		{878B7E99-C065-4D2B-9E4D-CCC81D7B275B}.GTK Debug.ActiveCfg = Debug|Win32
