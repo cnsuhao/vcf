@@ -27,7 +27,7 @@ void DefaultTextModel::setText( const String& text )
 {
 	if ( text == text_ ) {
 		//do nothing  - there's no reason to change the text 
-		//as it's equivalent!
+		//as it's equivalent! This also avoid unwanted recursions.
 		return;
 	}
 
@@ -62,8 +62,8 @@ void DefaultTextModel::replaceText( const uint32& index, const uint32& count, co
 
 	//remove old text
 	String removedText = text_.substr( index, count );
-
 	text_.erase( index, count );
+
 	//insert new text
 	text_.insert( index, text );
 
@@ -103,6 +103,9 @@ uint32 DefaultTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/18 16:19:53  marcelloptr
+*minor changes
+*
 *Revision 1.3.2.2  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *
