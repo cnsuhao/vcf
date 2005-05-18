@@ -27,7 +27,7 @@ void DefaultTextModel::setText( const String& text )
 {
 	if ( text == text_ ) {
 		//do nothing  - there's no reason to change the text 
-		//as it's equivalent! This also avoid unwanted recursions.
+		//as it's equivalent! This also avoids unwanted recursions.
 		return;
 	}
 
@@ -103,8 +103,8 @@ uint32 DefaultTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2005/05/18 16:19:53  marcelloptr
-*minor changes
+*Revision 1.3.2.4  2005/05/18 16:43:55  marcelloptr
+*minor comment
 *
 *Revision 1.3.2.2  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
