@@ -27,16 +27,16 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	AbstractWin32Component( component ),
 	Win32TextPeer(),
 	textControl_(component),
-	//numCharsStreamedIn_(0),
-	//isRichedit_(false),		
-	enabledSetTextOnControl_(true),
-	updateTextModelNeeded_(false),
+	//enabledSetTextOnControl_(true),
+	//updateTextModelNeeded_(false),
 	backgroundBrush_(NULL),
-	isMultiLined_(isMultiLineControl),
+	editState_(0),
 	currentSelLength_(0),
 	currentSelStart_(-1)
 {
-
+	if ( isMultiLineControl ) {
+		editState_ |= esMultiLined; 
+	}
 }
 
 Win32Edit::~Win32Edit()
@@ -63,7 +63,6 @@ void Win32Edit::create( Control* owningControl )
 	if ( !Win32RicheditLibraryLoaded ) {
 		if  ( NULL != LoadLibraryA( richeditLibrary.c_str() ) ) {
 			Win32RicheditLibraryLoaded = true;
-			//isRichedit_ = true;
 		}
 		else {
 			String errMsg =
@@ -151,12 +150,20 @@ OSHandleID Win32Edit::getTextObjectHandle()
 
 void Win32Edit::setRightMargin( const double & rightMargin )
 {
+	editState_ |= esStyleChanging;
+
 	::SendMessage( hwnd_, EM_SETMARGINS, EC_RIGHTMARGIN, (long)rightMargin );
+
+	editState_ &= ~esStyleChanging;
 }
 
 void Win32Edit::setLeftMargin( const double & leftMargin )
 {
+	editState_ |= esStyleChanging;
+
 	::SendMessage( hwnd_, EM_SETMARGINS, EC_LEFTMARGIN, (long)leftMargin );
+
+	editState_ &= ~esStyleChanging;
 }
 
 unsigned long Win32Edit::getLineCount()
@@ -198,14 +205,22 @@ double Win32Edit::getRightMargin()
 }
 
 
-void Win32Edit::insertText( unsigned int start, unsigned int length, const String& text )
+void Win32Edit::insertText( unsigned int start, const String& text )
 {
-	Win32TextPeer::insertText( start, length, text );
+	editState_ |= esPeerTextChanging;
+
+	Win32TextPeer::insertText( start, text );
+
+	editState_ &= ~esPeerTextChanging;
 }
 
 void Win32Edit::deleteText( unsigned int start, unsigned int length )
 {
+	editState_ |= esPeerTextChanging;
+
 	Win32TextPeer::deleteText( start, length );
+
+	editState_ &= ~esPeerTextChanging;
 }
 
 unsigned int Win32Edit::getTextLength()
@@ -259,12 +274,20 @@ void Win32Edit::paint( GraphicsContext* context, const Rect& paintRect )
 
 void Win32Edit::setTopMargin( const double & topMargin )
 {
+	editState_ |= esStyleChanging;
+
 	Win32TextPeer::setTopMargin( topMargin );
+
+	editState_ &= ~esStyleChanging;
 }
 
 void Win32Edit::setBottomMargin( const double & bottomMargin )
 {
+	editState_ |= esStyleChanging;
+
 	Win32TextPeer::setBottomMargin( bottomMargin );
+
+	editState_ &= ~esStyleChanging;
 }
 
 
@@ -280,13 +303,21 @@ double Win32Edit::getBottomMargin()
 
 void Win32Edit::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
+	editState_ |= esStyleChanging;
+
 	Win32TextPeer::setStyle( start, length, styles );
+
+	editState_ &= ~esStyleChanging;
 }
 
 
 void Win32Edit::setDefaultStyle( Dictionary& styles )
 {
+	editState_ |= esStyleChanging;
+
 	Win32TextPeer::setDefaultStyle( styles );
+
+	editState_ &= ~esStyleChanging;
 }
 
 
@@ -335,7 +366,7 @@ Win32Object::CreateParams Win32Edit::createParams()
 	// a method giving the option to the user, and painting the selection
 	// in an unfocused control with a light gray on the background - MP.
 	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
-	if ( true == isMultiLined_ ) {
+	if ( editState_ & esMultiLined ) {
 		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
 	}
 	
@@ -694,6 +725,21 @@ uint32 Win32Edit::convertCharToVKCode( VCFChar ch )
 	return result;
 }
 
+bool Win32Edit::stateAllowsModelChange()
+{
+	bool result = false;
+
+	if ( !(editState_ & esStyleChanging) && 
+		!(editState_ & esPeerTextChanging) &&
+		!(editState_ & esKeyEvent) &&
+		!(editState_ & esExternalTextChanging) ) {
+
+		result = true;
+	}
+
+	return result;
+}
+
 bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
 	bool result = false;
@@ -718,17 +764,19 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case WM_SETTEXT : case EM_STREAMIN : {
 			result = true;
 
-			updateTextModelNeeded_ = false;
+			editState_ |= esPeerTextChanging;
 
 			//let the default rich text code handle this!
-			wndProcResult = defaultWndProcedure( message, wParam, lParam );
-
+			wndProcResult = defaultWndProcedure( message, wParam, lParam );			
+			
 			//modify the model, but ignore an change notifications to us!
-			enabledSetTextOnControl_ = false;
-
+			editState_ |= esModelTextChanging;
+			
 			textControl_->getTextModel()->setText( getText() );
 
-			enabledSetTextOnControl_ = true;
+			editState_ &= ~esModelTextChanging;
+
+			editState_ &= ~esPeerTextChanging;
 		}
 		break;
 
@@ -755,9 +803,10 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_KEYDOWN: {
-			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
 
-			updateTextModelNeeded_ = false;
+			editState_ |= esKeyEvent;
+
+			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
 
 			switch ( virtKeyCode ) {
 				case vkLeftArrow : 
@@ -792,7 +841,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
-				enabledSetTextOnControl_ = false;
+				
 				
 				peerControl_->handleEvent( &event );
 				
@@ -824,9 +873,6 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					}
 					break;
 				}
-				
-
-				enabledSetTextOnControl_ = true;
 
 				//wndProcResult = 1;
 				result = true;
@@ -838,11 +884,12 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 
+			editState_ &= ~esKeyEvent;
 		}
 		break;
 
 		case WM_CHAR:  case WM_KEYUP:{
-			updateTextModelNeeded_ = false;
+			editState_ |= esKeyEvent;
 
 			/**
 			JC
@@ -893,11 +940,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
-				enabledSetTextOnControl_ = false;
-				
 				peerControl_->handleEvent( &event );
-
-				enabledSetTextOnControl_ = true;
 				
 				result = true;
 			}
@@ -910,6 +953,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				wndProcResult = 0;
 				result = true;
 			}
+
+			editState_ &= ~esKeyEvent;
 		}
 		break;
 
@@ -921,19 +966,18 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 			switch ( HIWORD(wParam) ) {
 				case EN_CHANGE:{
-					if ( updateTextModelNeeded_ ) {
-						enabledSetTextOnControl_ = false;
-						
+					if ( stateAllowsModelChange() ) {
+						editState_ |= esModelTextChanging;
+
 						VCF::TextModel* model = textControl_->getTextModel();
 						if ( NULL != model ) {
 							String text = getText();
 							
-							model->setText( text );				
+							model->setText( text );
 						}
-						
-						enabledSetTextOnControl_ = true;
+
+						editState_ &= ~esModelTextChanging;
 					}
-					updateTextModelNeeded_ = true;
 				}
 				break; 
 			}
@@ -943,9 +987,9 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_CUT : case EM_REDO :case EM_UNDO : case WM_PASTE : {
 			wndProcResult = 0;
-			result = false;
+			result = false;			
 
-			updateTextModelNeeded_ = false;
+			editState_ |= esExternalTextChanging;
 
 			if ( !peerControl_->isDesigning() ) {
 				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
@@ -953,15 +997,19 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 			// copy the control's text into the model
-			enabledSetTextOnControl_ = false;
-
+			
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
-				String text = getText();				
-				model->setText( text );				
-			}
+				editState_ |= esModelTextChanging;
 
-			enabledSetTextOnControl_ = true;
+				String text = getText();
+				model->setText( text );
+
+				editState_ &= ~esModelTextChanging;
+			}
+			
+
+			editState_ &= ~esExternalTextChanging;
 		}
 		break;
 
@@ -1054,19 +1102,29 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 void Win32Edit::onTextModelTextChanged( TextEvent* event )
 {
-	if ( (NULL != event) && enabledSetTextOnControl_ ){
-		bool oldVal = updateTextModelNeeded_;
-		updateTextModelNeeded_ = false;
+	if ( (NULL != event) && 
+		!(editState_ & esModelTextChanging) &&
+		!(editState_ & esKeyEvent) ){
+
 		switch ( event->getType() ) {
 			case TextModel::tmTextInserted : {
-				Win32TextPeer::insertText( event->getChangeStart(),
-											event->getChangeLength(),
+				insertText( event->getChangeStart(),
+											event->getChangeText() );
+			}
+			break;
+
+			case TextModel::tmTextReplaced : {
+				String originalText = event->getOriginalText();
+				deleteText( event->getChangeStart(),
+											originalText.size() );
+
+				insertText( event->getChangeStart(),
 											event->getChangeText() );
 			}
 			break;
 
 			case TextModel::tmTextRemoved : {
-				Win32TextPeer::deleteText( event->getChangeStart(),
+				deleteText( event->getChangeStart(),
 											event->getChangeLength() );
 			}
 			break;
@@ -1076,8 +1134,6 @@ void Win32Edit::onTextModelTextChanged( TextEvent* event )
 			}
 			break;
 		}
-
-		updateTextModelNeeded_ = oldVal;
 	}
 }
 
@@ -1141,6 +1197,8 @@ int Win32Edit::getCRCount( const unsigned long& begin, const unsigned long& end,
 
 void Win32Edit::setText( const VCF::String& text )
 {
+	editState_ |= esPeerTextChanging;
+
 	int firstLine1 = ::SendMessage( hwnd_, EM_GETFIRSTVISIBLELINE, (WPARAM)0, (LPARAM)0 );
 
 	DWORD start = getSelectionStart();
@@ -1180,6 +1238,8 @@ void Win32Edit::setText( const VCF::String& text )
 		// this will not move the the scrollbar if the selection is already visible
 		setSelectionMark( start, count );
 	}
+
+	editState_ &= ~esPeerTextChanging;
 }
 
 unsigned long Win32Edit::getSelectionStart()
@@ -1469,13 +1529,7 @@ void Win32Edit::onControlModelChanged( Event* e )
 
 void Win32Edit::cut()
 {
-	TextModel* tm = textControl_->getTextModel();
-	
 	SendMessage( hwnd_, WM_CUT, 0, 0 );
-
-	enabledSetTextOnControl_ = false;
-
-	enabledSetTextOnControl_ = true;
 }
 
 void Win32Edit::copy()
@@ -1511,6 +1565,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.24  2005/05/18 03:19:17  ddiego
+*more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
+*
 *Revision 1.3.2.23  2005/05/15 23:17:38  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

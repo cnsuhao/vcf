@@ -142,7 +142,7 @@ public:
 	virtual OSHandleID getTextObjectHandle() = 0;
 	
 	//storage	
-	virtual void insertText( unsigned int start, unsigned int length, const String& text ) = 0;
+	virtual void insertText( unsigned int start, const String& text ) = 0;
 
 	virtual void deleteText( unsigned int start, unsigned int length ) = 0;
 
@@ -329,6 +329,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/05/18 03:19:17  ddiego
+*more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
+*
 *Revision 1.3.2.3  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *

@@ -79,7 +79,7 @@ public:
 
 class TextEditDocumentEvent : public VCF::ModelEvent {
 public:
-	TextEditDocumentEvent( VCF::Object* source, const unsigned long& eventType ) 
+	TextEditDocumentEvent( VCF::Object* source, const VCF::uint32& eventType ) 
 		:VCF::ModelEvent(source,eventType),start_(0){
 
 	};
@@ -101,7 +101,7 @@ public:
 	virtual VCF::Object* clone( bool deep=false ) {
 		return new TextEditDocumentEvent(*this);
 	}
-	unsigned long start_;
+	VCF::uint32 start_;
 	VCF::String text_;
 
 };
@@ -177,14 +177,14 @@ public:
 	*a zero based index.
 	*@param String the text to insert
 	*/
-    virtual void insertText( const unsigned long& index, const VCF::String& text );
+    virtual void insertText( const VCF::uint32& index, const VCF::String& text );
 
 	/**
 	*replace text into the model in place of the selected text is any,
 	*or at the current position otherwise
 	*@param String the text to replace with
 	*/
-    virtual void replaceText( const unsigned long& index, const unsigned long& len, const VCF::String& text );
+    virtual void replaceText( const VCF::uint32& index, const VCF::uint32& len, const VCF::String& text );
 
 	/**
 	*deletes text from the model, starting at index, and continuing for count characters,
@@ -192,22 +192,19 @@ public:
 	*@param long the starting point. The index is zero based.
 	*@param long the number of characters to delete
 	*/
-    virtual void deleteText( const unsigned long& index, const unsigned long& count );
-
-	/**
-	*adds text to end of the current text data
-	*/
-    virtual void appendText( const VCF::String& text );
+    virtual void deleteText( const VCF::uint32& index, const VCF::uint32& count );
 
 	/**
 	*returns all of the TextModel's text in a string.
 	*/
 	virtual VCF::String getText();
 
+	virtual VCF::String getText( const VCF::uint32& index, const VCF::uint32& count );
+
 	/**
 	*returns the size of the TextModel
 	*/
-	virtual unsigned long getSize() {
+	virtual VCF::uint32 getSize() {
 		return textData_.size();
 	}
 
@@ -220,9 +217,7 @@ public:
 
 	bool replace( ReplaceInfo& replaceInfo );
 
-	bool replaceAll( ReplaceInfo& replaceInfo );
-
-	VCF::String getText( const VCF::ulong32 pos, const VCF::ulong32 length  );	
+	bool replaceAll( ReplaceInfo& replaceInfo );	
 
 	/**
 	sets the selection range 
@@ -263,10 +258,12 @@ public:
 protected:
 	class AddText;
 	class RemoveText;
+	class ReplaceText;
 
 
 	friend class AddText;
 	friend class RemoveText;
+	friend class ReplaceText;
 
 
 	class AddText : public VCF::AbstractCommand {
@@ -283,6 +280,27 @@ protected:
 		TextEditDocument* doc_;
 		VCF::ulong32 pos_;
 		VCF::String text_;
+		VCF::ulong32 selStart_;
+		VCF::ulong32 selLength_;
+	};
+
+	class ReplaceText : public VCF::AbstractCommand {
+	public:
+		ReplaceText(TextEditDocument* doc, VCF::ulong32 pos,
+					VCF::ulong32 length, const VCF::String& originalText,
+					const VCF::String& text );
+
+		virtual void undo();
+
+		virtual void redo();
+
+		virtual void execute();
+		
+		TextEditDocument* doc_;
+		VCF::ulong32 pos_;
+		VCF::ulong32 length_;
+		VCF::String text_;
+		VCF::String originalText_;
 		VCF::ulong32 selStart_;
 		VCF::ulong32 selLength_;
 	};
@@ -313,6 +331,8 @@ protected:
 
 	void internal_insertText( const VCF::ulong32& pos, const VCF::String& text );
 
+	void internal_replaceText( const VCF::ulong32& pos, const VCF::ulong32& length, const VCF::String& text );
+
 	void internal_removeText( const VCF::ulong32& pos, const VCF::ulong32& length );
 };
 
@@ -320,6 +340,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/05/18 03:19:17  ddiego
+*more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
+*
 *Revision 1.2.2.3  2005/05/04 20:47:20  marcelloptr
 *standard file formatting and cvs log section added
 *

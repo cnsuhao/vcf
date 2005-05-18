@@ -25,17 +25,12 @@ DefaultTextModel::~DefaultTextModel()
 
 void DefaultTextModel::setText( const String& text )
 {
-/*
-	bool changed = ( text != text_ );
-	//text_ = text;	//this must stay commented
-	if ( true == changed ) {
-		text_ = text;
-		
-		TextEvent event( dynamic_cast<Object*>(this), text );
-		
-		TextModelChanged.fireEvent( &event );
+	if ( text == text_ ) {
+		//do nothing  - there's no reason to change the text 
+		//as it's equivalent!
+		return;
 	}
-	*/
+
 	text_ = text;
 
 	TextEvent event( this, TextModel::tmTextSet, text, 0, text.size() );
@@ -50,13 +45,8 @@ void DefaultTextModel::empty()
 	AbstractModel::empty();
 }
 
-void DefaultTextModel::insertText( const unsigned long& index, const String& text )
+void DefaultTextModel::insertText( const uint32& index, const String& text )
 {
-	/*String changeText = getText();
-	changeText.insert( index, text );
-
-	DefaultTextModel::setText( changeText );
-	*/
 	text_.insert( index, text );
 
 	TextEvent event( this, TextModel::tmTextInserted, text, index, text.size() );
@@ -64,51 +54,26 @@ void DefaultTextModel::insertText( const unsigned long& index, const String& tex
 	TextModelChanged.fireEvent( &event );
 }
 
-void DefaultTextModel::replaceText( const unsigned long& index, const unsigned long& len, const String& text )
+void DefaultTextModel::replaceText( const uint32& index, const uint32& count, const String& text )
 {
-	VCF_ASSERT( len > 0 );
-	VCF_ASSERT( (index+len) < text_.size() );
-	/*
-	String changeText = getText();
-	unsigned long length, pos;
-	length = changeText.size();
-	pos = VCF::minVal< unsigned long > ( index+len, length );
-	length = VCF::maxVal< unsigned long > ( 0, length-pos );
-	String preText = changeText.substr( 0, index );
-	String postText = changeText.substr( pos, length );
-	changeText = preText + text + postText;
-
-	DefaultTextModel::setText( changeText );
-	*/
+	VCF_ASSERT( count > 0 );
+	VCF_ASSERT( (index+count) < text_.size() );
 
 
 	//remove old text
-	String removedText = text_.substr( index, len );
+	String removedText = text_.substr( index, count );
 
-	text_.erase( index, len );	
-
-	TextEvent removeEvent( this, TextModel::tmTextRemoved, removedText, index, len );
-	TextModelChanged.fireEvent( &removeEvent );
-
-
+	text_.erase( index, count );
 	//insert new text
 	text_.insert( index, text );
 
-	TextEvent insertEvent( this, TextModel::tmTextInserted, text, index, text.size() );
-	TextModelChanged.fireEvent( &insertEvent );
+	TextEvent event( this, TextModel::tmTextReplaced, removedText, text, 
+							index, count );
+	TextModelChanged.fireEvent( &event );
 }
 
-void DefaultTextModel::deleteText( const unsigned long& index, const unsigned long& count )
+void DefaultTextModel::deleteText( const uint32& index, const uint32& count )
 {
-	/*
-	String changeText = this->text_.substr( index, count );
-
-	text_.erase( index, count );
-
-	TextEvent event( dynamic_cast<Object*>(this), changeText );
-
-	TextModelChanged.fireEvent( &event );	
-	*/
 	String changeText = text_.substr( index, count );
 
 	text_.erase( index, count );
@@ -118,33 +83,29 @@ void DefaultTextModel::deleteText( const unsigned long& index, const unsigned lo
 	TextModelChanged.fireEvent( &event );
 }
 
-void DefaultTextModel::appendText( const String& text )
-{
-	
-	/*
-	String changeText = getText();
-	changeText.append( text );
-
-	DefaultTextModel::setText( changeText );
-	*/
-
-	insertText( text_.size()-1, text );
-}
 
 String DefaultTextModel::getText()
 {
-	return this->text_;
+	return text_;
 }
 
-unsigned long DefaultTextModel::getSize()
+String DefaultTextModel::getText( const uint32& index, const uint32& count )
 {
-	return this->text_.size();
+	return text_.substr( index, count );
+}
+
+uint32 DefaultTextModel::getSize()
+{
+	return text_.size();
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/18 03:19:17  ddiego
+*more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
+*
 *Revision 1.3.2.1  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

@@ -889,9 +889,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TabModelEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TextEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TextEvent.h">
 			</File>
 			<File

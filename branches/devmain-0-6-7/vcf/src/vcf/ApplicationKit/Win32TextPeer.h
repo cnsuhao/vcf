@@ -35,7 +35,7 @@ public:
 	virtual OSHandleID getTextObjectHandle();
 
 	//storage	
-	virtual void insertText( unsigned int start, unsigned int length, const String& text );
+	virtual void insertText( unsigned int start, const String& text );
 
 	virtual void deleteText( unsigned int start, unsigned int length );
 

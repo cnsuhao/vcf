@@ -25,6 +25,17 @@ class Win32Edit : public AbstractWin32Component,
 					public VCF::TextEditPeer, public Win32TextPeer {
 
 public:
+
+	enum EditState {
+		esMultiLined =				0x0001,
+		esStyleChanging =			0x0010,
+		esPeerTextChanging =		0x0100,
+		esModelTextChanging =		0x0200,
+		esExternalTextChanging =	0x0400, //means something like undo/redo/cut/paste
+		esKeyEvent =				0x1000
+	};
+
+
 	Win32Edit( TextControl* component, const bool& isMultiLineControl );
 
 	virtual ~Win32Edit();
@@ -53,7 +64,7 @@ public:
 	virtual OSHandleID getTextObjectHandle();
 
 	//storage	
-	virtual void insertText( unsigned int start, unsigned int length, const String& text );
+	virtual void insertText( unsigned int start, const String& text );
 
 	virtual void deleteText( unsigned int start, unsigned int length );
 
@@ -143,41 +154,17 @@ public:
 	virtual void redo();
 
 protected:
-
-	void onTextModelTextChanged( TextEvent* event );
-
-	//WNDPROC oldEditWndProc_;
 	VCF::Point posAtChar_;
 	HBRUSH backgroundBrush_;
-
-	//unsigned long currentPos_; //JC - I commented this out - it wasn't being used
 	int currentSelLength_;
 	int currentSelStart_;
-
-	TextControl* textControl_;
-	//bool isRichedit_; //JC - I am prepping to get rid of this
-	bool isMultiLined_;
-
-//	ulong32 numCharsStreamedIn_;
-	/*
-	void processTextEvent( VCFWin32::KeyboardData keyData, WPARAM wParam, LPARAM lParam );
-*/
-	/**
-	this is introduced in order to prevent getting into a stack overflow situation 
-	due to infinite callback from the TextModel::setText() 
-	Set this to false to prevent the control to change its content when the text model is changed,
-	but remember to set it back to true when not necessary anymore.
-	*/
-	bool enabledSetTextOnControl_;
-
-	/**
-	This is used to determine if hte text model 
-	should be updated as a result of handling an EN_CHANGE 
-	notification
-	*/
-	bool updateTextModelNeeded_;
-
+	TextControl* textControl_;	
+	int editState_;
 	std::map<ulong32,ulong32> printPageMap_;
+
+	bool stateAllowsModelChange();
+
+	void onTextModelTextChanged( TextEvent* event );	
 
 	/**
 	this is a fix from Marcello to work around an apparent bug in Win32's handling of
@@ -200,6 +187,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/05/18 03:19:18  ddiego
+*more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
+*
 *Revision 1.3.2.11  2005/05/15 23:17:38  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *
