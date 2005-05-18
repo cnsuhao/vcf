@@ -158,13 +158,13 @@ protected:
 	HBRUSH backgroundBrush_;
 	int currentSelLength_;
 	int currentSelStart_;
-	TextControl* textControl_;	
+	TextControl* textControl_;
 	int editState_;
 	std::map<ulong32,ulong32> printPageMap_;
 
 	bool stateAllowsModelChange();
 
-	void onTextModelTextChanged( TextEvent* event );	
+	void onTextModelTextChanged( TextEvent* event );
 
 	/**
 	this is a fix from Marcello to work around an apparent bug in Win32's handling of
@@ -187,7 +187,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.13  2005/05/18 16:19:54  marcelloptr
+*Revision 1.3.2.14  2005/05/18 16:22:39  marcelloptr
 *minor changes
 *
 *Revision 1.3.2.12  2005/05/18 03:19:18  ddiego
