@@ -385,8 +385,8 @@ void TextControl::handleEvent( Event* event )
 
 							//Thanks to Marcello to fixing this!!!
 							ulong32 size = model->getSize();
-							if ( pos <= (size-1) ) {
-								ulong32 length = maxVal<ulong32>( 1, textPeer_->getSelectionCount() );							
+							if ( ( 0 < size ) && pos <= (size-1) ) {
+								ulong32 length = maxVal<ulong32>( 1, textPeer_->getSelectionCount() );
 
 								// workaround for a '\r\n' sequence: we need to
 								// delete '\n' too at the end of the selection
@@ -407,7 +407,9 @@ void TextControl::handleEvent( Event* event )
 								//StringUtils::traceWithArgs( "vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 								//		text.c_str(), text[pos], text[pos], pos );
 
-								model->deleteText( pos, length );
+								if ( 0 != length ) {
+									model->deleteText( pos, length );
+								}
 
 								//text = model->getText();
 								//StringUtils::traceWithArgs( "after vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
@@ -450,11 +452,11 @@ void TextControl::handleEvent( Event* event )
 							//StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 							//		text.c_str(), text[pos], text[pos], pos );
 
-							
+
 							if ( 0 != length ) {
-							model->deleteText( pos, length );
-							// MP- end
-							
+								model->deleteText( pos, length );
+							}
+
 
 							//text = model->getText();
 							//StringUtils::traceWithArgs( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
@@ -700,10 +702,7 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.14  2005/05/19 22:18:56  marcelloptr
-*Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
-*
-*Revision 1.3.2.12  2005/05/19 22:07:45  marcelloptr
+*Revision 1.3.2.15  2005/05/19 22:24:32  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
 *Revision 1.3.2.11  2005/05/15 23:17:37  ddiego
