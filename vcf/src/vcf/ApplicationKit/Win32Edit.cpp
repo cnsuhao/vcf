@@ -69,7 +69,7 @@ void Win32Edit::create( Control* owningControl )
 				StringUtils::format( Format("Failed to load \"%s\", a required DLL when using richedit controls. \n"\
 				"Please make sure this DLL is located in your Windows system, or application directory.") %
 				richeditLibrary.c_str() );
-			
+
 			throw RuntimeException( errMsg );
 		}
 	}
@@ -79,11 +79,11 @@ void Win32Edit::create( Control* owningControl )
 	}
 	else {
 		className = RICHEDIT_CLASSA;
-	}	
+	}
 
 	CreateParams params = createParams();
-	
-	
+
+
 
 	if ( System::isUnicodeEnabled() ) {
 		hwnd_ = ::CreateWindowExW( params.second,
@@ -120,9 +120,9 @@ void Win32Edit::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 
 		Win32Object::registerWin32Object( this );
-		
+
 		subclassWindow();
-		
+
 		//make sure that we get ALL richedit change notfications!
 		::SendMessage( hwnd_, EM_SETEVENTMASK, 0, ENM_CHANGE | ENM_SELCHANGE );
 
@@ -240,7 +240,7 @@ String Win32Edit::getText()
 	textDocument_->Range( 0, 0, &range );
 	if ( NULL != range ) {
 		long len = 0;
-		range->GetStoryLength( &len );				
+		range->GetStoryLength( &len );
 		range->SetEnd ( len );
 
 		BSTR str = SysAllocString( NULL );
@@ -254,7 +254,7 @@ String Win32Edit::getText()
 		even an empty story has a single character, namely the 
 		final CR."
 		*/
-		
+
 		result.assign( str, SysStringLen(str)-1 );
 
 		SysFreeString( str );
@@ -356,7 +356,7 @@ Win32Object::CreateParams Win32Edit::createParams()
 {
 	Win32Object::CreateParams result;
 
-	
+
 	result.first = SIMPLE_VIEW;
 	result.first &= ~WS_BORDER;
 
@@ -369,7 +369,7 @@ Win32Object::CreateParams Win32Edit::createParams()
 	if ( editState_ & esMultiLined ) {
 		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
 	}
-	
+
 	result.second = 0;
 
 	return result;
@@ -744,9 +744,9 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 {
 	bool result = false;
 	wndProcResult = 0;
-						
+
 	switch ( message ) {
-		
+
 		case WM_RBUTTONDOWN :  case WM_LBUTTONDOWN : {
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
@@ -767,11 +767,11 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			editState_ |= esPeerTextChanging;
 
 			//let the default rich text code handle this!
-			wndProcResult = defaultWndProcedure( message, wParam, lParam );			
-			
+			wndProcResult = defaultWndProcedure( message, wParam, lParam );
+
 			//modify the model, but ignore an change notifications to us!
 			editState_ |= esModelTextChanging;
-			
+
 			textControl_->getTextModel()->setText( getText() );
 
 			editState_ &= ~esModelTextChanging;
@@ -832,7 +832,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
 				unsigned long eventType = Control::KEYBOARD_DOWN;
-				
+
 
 				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
 
@@ -841,10 +841,10 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
-				
-				
+
+
 				peerControl_->handleEvent( &event );
-				
+
 				switch ( virtKeyCode ) {
 					case vkLeftArrow : 
 					case vkRightArrow : 
@@ -864,7 +864,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 						if ( event.hasShiftKey() && ((currentSelLength_ != (end - start)) || (currentSelStart_ != start)) ) {
 							//selection changed
 							TextEvent event( textControl_, start, end - start );
-							
+
 							textControl_->SelectionChanged.fireEvent( &event );
 						}
 
@@ -928,7 +928,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 						}
 					}
 					break;
-					
+
 					case WM_KEYUP: {
 						eventType = Control::KEYBOARD_UP;
 					}
@@ -936,12 +936,12 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				}
 
 				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
-				
+
 				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
 
 				peerControl_->handleEvent( &event );
-				
+
 				result = true;
 			}
 
@@ -958,9 +958,9 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case WM_COMMAND:{			
+		case WM_COMMAND:{
 
-			
+
 			wndProcResult = defaultWndProcedure(  message, wParam, lParam );
 			result = true;
 
@@ -972,7 +972,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 						VCF::TextModel* model = textControl_->getTextModel();
 						if ( NULL != model ) {
 							String text = getText();
-							
+
 							model->setText( text );
 						}
 
@@ -981,7 +981,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				}
 				break; 
 
-						
+
 			}
 
 		}
@@ -989,17 +989,17 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case EN_SELCHANGE : {
 			wndProcResult = 0;
-			result = true;	
+			result = true;
 
 			SELCHANGE* selChange = (SELCHANGE*)lParam;
 			if ( selChange->chrg.cpMax != selChange->chrg.cpMin ) {
 				//selection changed
-			
+
 				currentSelLength_ = selChange->chrg.cpMax - selChange->chrg.cpMin;
 				currentSelStart_ = selChange->chrg.cpMin;
 
 				TextEvent event( textControl_, currentSelStart_, currentSelLength_ );
-						
+
 				textControl_->SelectionChanged.fireEvent( &event );
 			}
 		}
@@ -1007,7 +1007,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_CUT : case EM_REDO :case EM_UNDO : case WM_PASTE : {
 			wndProcResult = 0;
-			result = false;			
+			result = false;
 
 			editState_ |= esExternalTextChanging;
 
@@ -1017,7 +1017,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 
 			// copy the control's text into the model
-			
+
 			VCF::TextModel* model = textControl_->getTextModel();
 			if ( NULL != model ) {
 				editState_ |= esModelTextChanging;
@@ -1037,7 +1037,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				editState_ &= ~esModelTextChanging;
 			}
-			
+
 
 			editState_ &= ~esExternalTextChanging;
 		}
@@ -1045,14 +1045,14 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_ERASEBKGND :{
 			wndProcResult = 1;
-			
+
 			Color* color = peerControl_->getColor();
 
 			COLORREF backColor = RGB(color->getRed() * 255.0,
 										color->getGreen() * 255.0,
 										color->getBlue() * 255.0 );
 			SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
-			
+
 
 			result = true;
 		}
@@ -1066,7 +1066,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			result = false;
 		}
 		break;
-		
+
 
 		case WM_NCCALCSIZE: {
 			wndProcResult = handleNCCalcSize( wParam, lParam );
@@ -1074,7 +1074,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case WM_NCPAINT: {	
+		case WM_NCPAINT: {
 
 			wndProcResult = handleNCPaint( wParam, lParam );
 			return true;
@@ -1101,14 +1101,14 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 			backgroundBrush_ = CreateSolidBrush( backColor );
 			SetBkColor( hdcEdit, backColor );
-			SetTextColor( hdcEdit, textColor );			
+			SetTextColor( hdcEdit, textColor );
 
 			wndProcResult = (LRESULT)backgroundBrush_;
 			return true;
 		}
 		break;
 
-	
+
 		//this may be useful to uncomment, but at the
 		//moment it never gets called, possible because we
 		//do not use the default Dialog wnd proc
@@ -1118,15 +1118,15 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		//}
 		//break;
 
-		default: {	
-			
+		default: {
+
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
-			
+
 		}
-		break;	
+		break;
 
 	}
-	
+
 	return result;
 }
 
@@ -1242,14 +1242,14 @@ void Win32Edit::setText( const VCF::String& text )
 		range->GetStoryLength( &len );
 		range->SetEnd( len );
 
-		BSTR str = SysAllocStringLen( text.c_str(), text.length() );		
+		BSTR str = SysAllocStringLen( text.c_str(), text.length() );
 
 		range->SetText( str );
-		
+
 		SysFreeString( str );
 
 		range->Release();
-	}	
+	}
 
 	setSelectionMark( start, count );
 
@@ -1338,7 +1338,7 @@ void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 
 void Win32Edit::clearSelection()
 {
-	
+
 }
 
 void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned long& count )
@@ -1454,7 +1454,7 @@ ulong32 Win32Edit::getTotalPrintablePageCount( PrintContext* context )
 	TextControl* tc = (TextControl*)this->getControl();
 	String text = tc->getTextModel()->getText();
 	ulong32 textSize = text.size();
-	
+
 	SendMessage( hwnd_, EM_FORMATRANGE, 0, 0 );
 
 	printPageMap_[result] = (ulong32)-1;
@@ -1500,44 +1500,44 @@ void Win32Edit::print( PrintContext* context, const long& page )
 			formatRange.chrg.cpMin = printPageMap_[page-1];
 		}
 
-		
+
 		formatRange.hdc = (HDC)context->getPeer()->getContextID();
 		formatRange.hdcTarget = formatRange.hdc;
-		
+
 		Rect printRect = context->getViewableBounds();
 		double dpi = GraphicsToolkit::getDPI(context);
-		
+
 		printRect.left_ = (printRect.left_ / dpi) * 1400.0;
 		printRect.top_ = (printRect.top_ / dpi) * 1400.0;
 		printRect.bottom_ = (printRect.bottom_ / dpi) * 1400.0;
 		printRect.right_ = (printRect.right_ / dpi) * 1400.0;
-		
+
 		formatRange.rcPage.left = printRect.left_;
 		formatRange.rcPage.top = printRect.top_;
 		formatRange.rcPage.right = printRect.right_;
 		formatRange.rcPage.bottom = printRect.bottom_;
-		
+
 		formatRange.rc.left = printRect.left_;
 		formatRange.rc.top = printRect.top_;
 		formatRange.rc.right = printRect.right_;
 		formatRange.rc.bottom = printRect.bottom_;
-		
+
 		HDC dc = GetDC( hwnd_ );
 		double ctrlDPI = (double)GetDeviceCaps( dc, LOGPIXELSY);
 		ReleaseDC( hwnd_, dc );
-		
+
 		DWORD margins = ::SendMessage( hwnd_, EM_GETMARGINS, 0, 0 );
 		double lm = ((double)LOWORD(margins)/ctrlDPI) * 1400;
 		double rm = ((double)HIWORD(margins)/ctrlDPI) * 1400;
-		
+
 		formatRange.rc.left += lm;
 		formatRange.rc.right -= lm;
 		formatRange.rc.top += 350; //add a 1/4"
 		formatRange.rc.bottom -= 350; //add a 1/4"
-		
-		
-		
-		SendMessage( hwnd_, EM_FORMATRANGE, TRUE, (LPARAM)&formatRange );		
+
+
+
+		SendMessage( hwnd_, EM_FORMATRANGE, TRUE, (LPARAM)&formatRange );
 	}
 }
 
@@ -1553,12 +1553,12 @@ void Win32Edit::onControlModelChanged( Event* e )
 		tml = new TextModelEventHandler<Win32Edit>( this, &Win32Edit::onTextModelTextChanged, "Win32TextModelHandler" );
 	}
 
-	
+
 
 	TextModel* tm = textControl_->getTextModel();
 	tm->addTextModelChangedHandler( tml );
 
-	
+
 	String text = tm->getText();
 
 
@@ -1579,7 +1579,7 @@ void Win32Edit::copy()
 
 void Win32Edit::paste()
 {
-	SendMessage( hwnd_, WM_PASTE, 0, 0 );	
+	SendMessage( hwnd_, WM_PASTE, 0, 0 );
 }
 
 bool Win32Edit::canUndo()
@@ -1600,13 +1600,13 @@ void Win32Edit::undo()
 void Win32Edit::redo()
 {
 	//this one is necessary too, otherwise the model wouldn't be updated
-	SendMessage( hwnd_, EM_REDO, 0, 0 ); // MP-
+	SendMessage( hwnd_, EM_REDO, 0, 0 );
 }
 
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.26  2005/05/19 22:07:45  marcelloptr
+*Revision 1.3.2.27  2005/05/19 22:14:51  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
 *Revision 1.3.2.25  2005/05/19 02:19:11  ddiego

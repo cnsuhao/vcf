@@ -21,7 +21,7 @@ TextControl::TextControl( const bool& multiLineControl ):
 	readOnly_(false)
 {
 	textPeer_ =	UIToolkit::createTextEditPeer( this, multiLineControl );
-	
+
 	if ( NULL == textPeer_ ){
 		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
 	};
@@ -33,7 +33,7 @@ TextControl::TextControl( const bool& multiLineControl ):
 
 	setColor(  GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
-	
+
 	peer_->create( this );
 
 	setTextModel( new DefaultTextModel() );
@@ -80,7 +80,7 @@ void TextControl::init()
 	UIPolicyManager::saEditSelectAll
 	*/
 
-	enableStandardAccelerators();	
+	enableStandardAccelerators();
 }
 
 void TextControl::disableStandardAccelerators()
@@ -700,6 +700,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/05/19 22:11:33  marcelloptr
+*Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
+*
 *Revision 1.3.2.12  2005/05/19 22:07:45  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
