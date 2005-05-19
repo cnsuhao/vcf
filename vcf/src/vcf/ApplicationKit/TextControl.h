@@ -196,6 +196,7 @@ protected:
 	handlers of some standard accelerator events.
 	*/
 	void undoAccelerator( Event* e );
+	void redoAccelerator( Event* e );
 	void cutAccelerator( Event* e );
 	void copyAccelerator( Event* e );
 	void pasteAccelerator( Event* e );
@@ -217,6 +218,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/05/19 22:07:45  marcelloptr
+*Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
+*
 *Revision 1.3.2.6  2005/05/16 16:02:00  marcelloptr
 *minor change on doc
 *
