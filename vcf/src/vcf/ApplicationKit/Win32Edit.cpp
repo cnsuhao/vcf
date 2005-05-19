@@ -124,7 +124,7 @@ void Win32Edit::create( Control* owningControl )
 		subclassWindow();
 		
 		//make sure that we get ALL richedit change notfications!
-		::SendMessage( hwnd_, EM_SETEVENTMASK, 0, ENM_CHANGE );
+		::SendMessage( hwnd_, EM_SETEVENTMASK, 0, ENM_CHANGE | ENM_SELCHANGE );
 
 
 		setFont( textControl_->getFont() );
@@ -980,8 +980,28 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					}
 				}
 				break; 
+
+						
 			}
 
+		}
+		break;
+
+		case EN_SELCHANGE : {
+			wndProcResult = 0;
+			result = true;	
+
+			SELCHANGE* selChange = (SELCHANGE*)lParam;
+			if ( selChange->chrg.cpMax != selChange->chrg.cpMin ) {
+				//selection changed
+			
+				currentSelLength_ = selChange->chrg.cpMax - selChange->chrg.cpMin;
+				currentSelStart_ = selChange->chrg.cpMin;
+
+				TextEvent event( textControl_, currentSelStart_, currentSelLength_ );
+						
+				textControl_->SelectionChanged.fireEvent( &event );
+			}
 		}
 		break;
 
@@ -1003,6 +1023,16 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				editState_ |= esModelTextChanging;
 
 				String text = getText();
+
+				if ( WM_PASTE == message ) {
+					//remove \r\n and replace with \n
+					uint32 pos = text.find( "\r\n" );
+					while ( pos != String::npos ) {
+						text.erase( pos, 1 ); //erase \r
+						pos = text.find( "\r\n" );
+					}
+				}
+
 				model->setText( text );
 
 				editState_ &= ~esModelTextChanging;
@@ -1565,6 +1595,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.25  2005/05/19 02:19:11  ddiego
+*more win32 edit fixes.
+*
 *Revision 1.3.2.24  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *
