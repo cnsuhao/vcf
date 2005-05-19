@@ -448,6 +448,12 @@ bool TextEditDocument::paste( DataObject* data )
 	String text;
 	bis >> text;
 
+	uint32 pos = text.find( "\r\n" );
+	while ( pos != String::npos ) {
+		text.erase( pos, 1 ); //erase \r
+		pos = text.find( "\r\n" );
+	}
+
 	if ( -1 == selectionStart_ ) {
 		setText( text );
 		//textData_ = text;
@@ -534,6 +540,9 @@ void TextEditDocument::internal_replaceText( const VCF::ulong32& pos, const VCF:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/05/19 02:19:09  ddiego
+*more win32 edit fixes.
+*
 *Revision 1.2.2.3  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *
