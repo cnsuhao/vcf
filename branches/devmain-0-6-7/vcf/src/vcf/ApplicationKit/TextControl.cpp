@@ -110,7 +110,7 @@ void TextControl::disableStandardAccelerators()
 void TextControl::enableStandardAccelerators()
 {
 	EventHandler* ev = NULL;
-	
+
 	UIPolicyManager* mgr = UIToolkit::getUIPolicyManager();
 
 	AcceleratorKey::Value val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
@@ -186,7 +186,7 @@ void TextControl::paint( GraphicsContext * context )
 	Border* border = getBorder();
 
 	Rect innerBounds = getClientBounds( false );
-	
+
 	context->setColor( getColor() );
 
 	context->rectangle( &innerBounds );
@@ -197,7 +197,7 @@ void TextControl::paint( GraphicsContext * context )
 void TextControl::setTextModel( TextModel * model )
 {
 	model_ = model;
-	
+
 	setViewModel( dynamic_cast<Model*>(model_) );
 }
 
@@ -216,7 +216,7 @@ unsigned long TextControl::getCaretPosition()
 
 void TextControl::setCaretPosition( const unsigned long& caretPos )
 {
-	
+
 	textPeer_->setCaretPosition( caretPos );
 }
 
@@ -394,7 +394,7 @@ void TextControl::handleEvent( Event* event )
 								if ( pos2 < (size-1)  ) {
 									String text = model->getText();
 									const VCFChar* textBuffer = text.c_str();
-									
+
 									if ( textBuffer[pos2] == '\r' ) {
 										if ( textBuffer[pos2+1] == '\n' ) {
 											length += 1;
@@ -420,7 +420,7 @@ void TextControl::handleEvent( Event* event )
 						case vkBackSpace : {
 							ulong32 length = textPeer_->getSelectionCount();
 							ulong32 pos =  minVal<ulong32>( model->getSize(), textPeer_->getSelectionStart() );
-							
+
 							// if the selection is not empty we delete it, but the cursor doesn't move.
 							if ( 0 == length ) {
 								if ( pos > 0 ) {
@@ -430,13 +430,13 @@ void TextControl::handleEvent( Event* event )
 								}
 							}
 
-							
+						
 							// workaround for a '\r\n' sequence: we need to
 							// delete '\r' too at the beginning of the selection
 							if ( pos > 0 ) {
 								String text = model->getText();
 								const VCFChar* textBuffer = text.c_str();
-								
+
 								if ( textBuffer[pos] == '\n' ) {
 									if ( textBuffer[pos-1] == '\r' ) {
 										pos -= 1;
@@ -444,7 +444,7 @@ void TextControl::handleEvent( Event* event )
 									}
 								}
 							}
-							
+
 							//Debug diagnostics - JC
 							//String text = model->getText();								
 							//StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
@@ -459,8 +459,8 @@ void TextControl::handleEvent( Event* event )
 							//text = model->getText();
 							//StringUtils::traceWithArgs( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 							//		text.c_str(), text[pos-length], text[pos-length], pos-length );
-							
-						
+
+
 						}
 						break;
 
@@ -479,7 +479,7 @@ void TextControl::handleEvent( Event* event )
 						case vkPause : 
 						case vkCapsLock : 
 						case vkShift : 
-						case vkF1 : 							
+						case vkF1 :
 						case vkF2 : 
 						case vkF3 : 
 						case vkF4 : 
@@ -505,24 +505,24 @@ void TextControl::handleEvent( Event* event )
 						case vkTab : {
 							if ( keepsTabKey() ) {
 								//process the tab
-								
+
 								if ( !ke->hasShiftKey() && !ke->hasAltKey() && !ke->hasControlKey() ) {
 									// we add the 'tab' text in place of the selection
 
 									ulong32 pos =  textPeer_->getCaretPosition();
 									String text;
 									text += ke->getKeyValue();
-									
+
 									//determine if we have selected text. If we 
 									//have, then delete the selection and *then*
 									//add in the new character(s)
-									
+
 									ulong32 length = textPeer_->getSelectionCount();
 									if ( length > 0 ) {
 										model->deleteText( pos, length );
 									}
-									
-									
+
+
 									model->insertText( pos, text );
 								}
 							}
@@ -535,7 +535,7 @@ void TextControl::handleEvent( Event* event )
 								if ( supportsMultiLinedText() ) {
 									ulong32 pos =  textPeer_->getCaretPosition();
 									String text = "\n";
-									
+
 									ulong32 length = textPeer_->getSelectionCount();
 									if ( length > 0 ) {
 										model->deleteText( pos, length );
@@ -543,7 +543,7 @@ void TextControl::handleEvent( Event* event )
 
 									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 									//	text.c_str(), text[0], text[0], pos );
-									
+
 									model->insertText( pos, text );
 								}
 							}
@@ -571,7 +571,7 @@ void TextControl::handleEvent( Event* event )
 						case vkPause : 
 						case vkCapsLock : 
 						case vkShift : 
-						case vkF1 : 							
+						case vkF1 : 
 						case vkF2 : 
 						case vkF3 : 
 						case vkF4 : 
@@ -596,32 +596,32 @@ void TextControl::handleEvent( Event* event )
 							if ( !ke->hasAltKey() && !ke->hasControlKey() ) {
 
 								ulong32 pos =  textPeer_->getCaretPosition();
-								
+
 								String text;
 								text += ke->getKeyValue();
-								
+
 								if ( !text.empty() ) {
-									
+
 									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 									//	text.c_str(), text[0], text[0], pos );
-									
+
 									//determnine if we have sleected text. If we 
 									//have, then delete the selection ant *then*
 									//add in the new character(s)
-									
+
 									ulong32 length = textPeer_->getSelectionCount();
 									if ( length > 0 ) {
 										model->deleteText( pos, length );
 									}
-									
-									
+
+
 									model->insertText( pos, text );
 								}
 							}
 						}
 						break;
 					}
-					
+
 				}
 			}
 
@@ -700,7 +700,7 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.13  2005/05/19 22:11:33  marcelloptr
+*Revision 1.3.2.14  2005/05/19 22:18:56  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
 *Revision 1.3.2.12  2005/05/19 22:07:45  marcelloptr
