@@ -91,7 +91,7 @@ void TextControl::disableStandardAccelerators()
 	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
 
 
-	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditRedo);
 	UIToolkit::removeAccelerator( val.getKeyCode(), val.getModifierMask(), this );
 
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCut);
@@ -118,6 +118,13 @@ void TextControl::enableStandardAccelerators()
 		ev = new GenericEventHandler<TextControl>(this, &TextControl::undoAccelerator, "TextControl::undoAccelerator" );
 		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
 	}
+
+	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditRedo);
+	if ( !val.isEmpty() ) {
+		ev = new GenericEventHandler<TextControl>(this, &TextControl::redoAccelerator, "TextControl::redoAccelerator" );
+		addAcceleratorKey( val.getKeyCode(), val.getModifierMask(), ev );
+	}
+
 
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCut);
 	if ( !val.isEmpty() ) {
@@ -147,6 +154,11 @@ void TextControl::enableStandardAccelerators()
 void TextControl::undoAccelerator( Event* e )
 {
 	undo();
+}
+
+void TextControl::redoAccelerator( Event* e )
+{
+	redo();
 }
 
 void TextControl::cutAccelerator( Event* e )
@@ -406,15 +418,19 @@ void TextControl::handleEvent( Event* event )
 						break;
 
 						case vkBackSpace : {
+							ulong32 length = textPeer_->getSelectionCount();
 							ulong32 pos =  minVal<ulong32>( model->getSize(), textPeer_->getSelectionStart() );
 							
-							if ( pos > 0 ) {
-								pos -= 1;
+							// if the selection is not empty we delete it, but the cursor doesn't move.
+							if ( 0 == length ) {
+								if ( pos > 0 ) {
+									// we are deleting the previous character
+									pos -= 1;
+									length = 1;
+								}
 							}
 
 							
-							ulong32 length = maxVal<ulong32>( 1, textPeer_->getSelectionCount() );
-
 							// workaround for a '\r\n' sequence: we need to
 							// delete '\r' too at the beginning of the selection
 							if ( pos > 0 ) {
@@ -435,7 +451,9 @@ void TextControl::handleEvent( Event* event )
 							//		text.c_str(), text[pos], text[pos], pos );
 
 							
+							if ( 0 != length ) {
 							model->deleteText( pos, length );
+							// MP- end
 							
 
 							//text = model->getText();
@@ -682,6 +700,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/05/19 22:07:45  marcelloptr
+*Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
+*
 *Revision 1.3.2.11  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

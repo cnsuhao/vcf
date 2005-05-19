@@ -743,7 +743,7 @@ bool Win32Edit::stateAllowsModelChange()
 bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
 	bool result = false;
-	wndProcResult = 0;		
+	wndProcResult = 0;
 						
 	switch ( message ) {
 		
@@ -1024,14 +1024,14 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				String text = getText();
 
-				if ( WM_PASTE == message ) {
+				/*if ( WM_PASTE == message ) {
 					//remove \r\n and replace with \n
 					uint32 pos = text.find( "\r\n" );
 					while ( pos != String::npos ) {
 						text.erase( pos, 1 ); //erase \r
 						pos = text.find( "\r\n" );
 					}
-				}
+				}*/
 
 				model->setText( text );
 
@@ -1294,10 +1294,14 @@ unsigned long Win32Edit::getSelectionCount()
 
 void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 {
+	::SendMessage( hwnd_, EM_GETSEL, (WPARAM)&start, (LPARAM)&end );
+
 	/**
 	Bug fix from Marcello, EM_GETSEL doesn't handle
 	CRLF's right
 	*/
+	/*
+	Not necessary anymore with TOM !
 
 	// Note: we tested well that to use CHARRANGE chrg with a isRichedit_ control doesn't make any difference
 	::SendMessage( hwnd_, EM_GETSEL, (WPARAM)&start, (LPARAM)&end );
@@ -1329,6 +1333,7 @@ void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 	if ( size < end ) {
 		end = size;
 	}
+	*/
 }
 
 void Win32Edit::clearSelection()
@@ -1338,12 +1343,16 @@ void Win32Edit::clearSelection()
 
 void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
+	unsigned long end = start + count;
+
+	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)start, (LPARAM)end );
+
 	/**
 	Bug fix from Marcello, EM_SETSEL doesn't like temporary vars as it's
 	message parameters
 	*/
-
-	unsigned long end = start + count;
+	/*
+	Not necessary anymore with TOM !
 
 	int CRCount = getCRCount( 0, start, true );
 	int CRCountSpan = getCRCount( start, end, true );	//fix 2004/01/14 was false before which gives error that seem almost random
@@ -1356,6 +1365,7 @@ void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned lon
 	// Remark:  to use EM_EXSETSEL with CHARRANGE doesn't work with a isRichedit_ control:
 	//          both if we are using (adjustedStart, adjustedCount) or not. Anybody surprised ?
 	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)adjustedStart, (LPARAM)end );
+	*/
 }
 
 
@@ -1579,7 +1589,7 @@ bool Win32Edit::canUndo()
 
 bool Win32Edit::canRedo()
 {
-	return false;
+	return SendMessage( hwnd_, EM_CANREDO, 0, 0 ) ? true : false;
 }
 
 void Win32Edit::undo()
@@ -1589,12 +1599,16 @@ void Win32Edit::undo()
 
 void Win32Edit::redo()
 {
-	//no-op on Win32???
+	//this one is necessary too, otherwise the model wouldn't be updated
+	SendMessage( hwnd_, EM_REDO, 0, 0 ); // MP-
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.26  2005/05/19 22:07:45  marcelloptr
+*Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
+*
 *Revision 1.3.2.25  2005/05/19 02:19:11  ddiego
 *more win32 edit fixes.
 *

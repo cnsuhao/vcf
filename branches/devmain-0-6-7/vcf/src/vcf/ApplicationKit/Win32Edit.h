@@ -31,7 +31,7 @@ public:
 		esStyleChanging =			0x0010,
 		esPeerTextChanging =		0x0100,
 		esModelTextChanging =		0x0200,
-		esExternalTextChanging =	0x0400, //means something like undo/redo/cut/paste
+		esExternalTextChanging =	0x0400, /* means something like undo/redo/cut/paste */
 		esKeyEvent =				0x1000
 	};
 
@@ -187,8 +187,8 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.14  2005/05/18 16:22:39  marcelloptr
-*minor changes
+*Revision 1.3.2.15  2005/05/19 22:07:45  marcelloptr
+*Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
 *Revision 1.3.2.12  2005/05/18 03:19:18  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
