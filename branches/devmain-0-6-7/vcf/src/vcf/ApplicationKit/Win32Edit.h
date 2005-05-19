@@ -63,7 +63,7 @@ public:
 
 	virtual OSHandleID getTextObjectHandle();
 
-	//storage	
+	//storage
 	virtual void insertText( unsigned int start, const String& text );
 
 	virtual void deleteText( unsigned int start, unsigned int length );
@@ -78,11 +78,11 @@ public:
 
 	virtual void setRightMargin( const double & rightMargin );
 
-	virtual void setLeftMargin( const double & leftMargin );	
+	virtual void setLeftMargin( const double & leftMargin );
 
 	virtual void setTopMargin( const double & topMargin );
 
-	virtual void setBottomMargin( const double & bottomMargin );	
+	virtual void setBottomMargin( const double & bottomMargin );
 
 	virtual double getLeftMargin();
 
@@ -90,9 +90,9 @@ public:
 
 	virtual double getTopMargin();
 
-	virtual double getBottomMargin();	
+	virtual double getBottomMargin();
 
-	virtual unsigned long getLineCount();	
+	virtual unsigned long getLineCount();
 
 	virtual Rect getContentBoundsForWidth(const double& width);
 
@@ -124,7 +124,7 @@ public:
 	virtual void setSelectionMark( const unsigned long& start, const unsigned long& count );
 
 	virtual void clearSelection();
-	
+
 	virtual void scrollToLine( const ulong32& lineIndex );
 
 	virtual void scrollToSelection( const bool& _showEndSel = false );
@@ -174,7 +174,7 @@ protected:
 	void getSelectionMark( unsigned long & start, unsigned long & end );
 
 	void onControlModelChanged( Event* e );
-	
+
 	static uint32 convertCharToVKCode( VCFChar ch );
 
 	//static DWORD CALLBACK EditStreamCallback( DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb );
@@ -187,7 +187,7 @@ protected:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.15  2005/05/19 22:07:45  marcelloptr
+*Revision 1.3.2.16  2005/05/19 22:11:34  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
 *Revision 1.3.2.12  2005/05/18 03:19:18  ddiego
