@@ -307,10 +307,14 @@ String TextControl::getSelectedText()
 	return result;
 }
 
-void TextControl::replaceText( const String& text )
+void TextControl::replaceSelectedText( const String& text )
 {
 	unsigned long selectionStart = getSelectionStart();
 	unsigned long selectionCount = getSelectionCount();
+
+	if ( selectionCount == 0 ) {
+		throw RuntimeException( "No characters currently selected. Invalid selection count." );
+	}
 
 	model_->replaceText( selectionStart, selectionCount, text );
 }
@@ -702,6 +706,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.16  2005/05/20 03:04:04  ddiego
+*minor mods to set focused control.
+*
 *Revision 1.3.2.15  2005/05/19 22:24:32  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
