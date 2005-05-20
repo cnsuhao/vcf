@@ -411,7 +411,9 @@ void MainWindow::makeTextPage()
 	TextControl* singleTextCtrl = new TextControl();
 	container->add( singleTextCtrl );
 
-	singleTextCtrl->getTextModel()->setText( "Hello, here's some text!" );
+	singleTextCtrl->setReadOnly( true );
+
+	singleTextCtrl->getTextModel()->insertText( 0, "Hello, here's some text!" );
 
 	Dictionary styles;
 	styles [ Text::fsColor ] = Color::getColor("green");
@@ -472,6 +474,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2005/05/20 03:04:00  ddiego
+*minor mods to set focused control.
+*
 *Revision 1.2.2.7  2005/05/05 16:00:26  marcelloptr
 *standard VCF formatting
 *

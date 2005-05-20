@@ -2000,14 +2000,23 @@ void Win32ToolKit::internal_runEventLoop()
 						Win32Object* w = Win32Object::getWin32ObjectFromHWND( msg.hwnd );
 
 						Control* control = NULL;
+						Control* currentFocusedControl = Control::getCurrentFocusedControl();
+
 						if ( NULL != w ) {
-							control = w->getPeerControl();
-							Control* currentFocusedControl = Control::getCurrentFocusedControl();
+							control = w->getPeerControl();							
 							if ( NULL != currentFocusedControl ) {
 								if ( (control != currentFocusedControl) && (currentFocusedControl->isLightWeight()) ) {
 									control = currentFocusedControl;
 								}
 							}
+						}
+						/**
+						JC - I put this very small change to attempt to 
+						properly capture the "correct" focused control, 
+						from the VCF's perspective. It seems to work fine.
+						*/
+						else {
+							control = currentFocusedControl;
 						}
 
 						KeyboardEvent event( control, Control::KEYBOARD_ACCELERATOR, keyData.repeatCount,
@@ -2229,6 +2238,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.14  2005/05/20 03:04:05  ddiego
+*minor mods to set focused control.
+*
 *Revision 1.3.2.13  2005/05/15 23:17:38  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

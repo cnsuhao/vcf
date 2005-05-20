@@ -83,7 +83,7 @@ public:
 
 	String getSelectedText();
 
-	void replaceText( const String& text );
+	void replaceSelectedText( const String& text );
 
 	virtual bool keepsTabbingCharacters() {
 		return keepTabbingCharacters_;
@@ -218,6 +218,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/05/20 03:04:05  ddiego
+*minor mods to set focused control.
+*
 *Revision 1.3.2.7  2005/05/19 22:07:45  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
