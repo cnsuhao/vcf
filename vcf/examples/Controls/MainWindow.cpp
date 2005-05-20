@@ -419,8 +419,8 @@ void MainWindow::makeTextPage()
 	styles [ Text::fsColor ] = Color::getColor("green");
 	styles [ Text::fsBold ] = true;
 	styles [ Text::fsPointSize ] = 15.0;
-	styles [ Text::fsItalic ] = true;  // MP-
-	styles [ Text::fsStrikeout ] = true; // MP-
+	styles [ Text::fsItalic ] = true;
+	styles [ Text::fsStrikeout ] = true;
 	styles [ Text::fsUnderlined ] = Text::utDotted;
 	styles [ Text::fsFontName ] = "Arial";
 	singleTextCtrl->setStyle( 7, 6, styles );
@@ -476,7 +476,7 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.9  2005/05/20 17:25:31  marcelloptr
+*Revision 1.2.2.10  2005/05/20 17:26:43  marcelloptr
 *added all remaining style examples
 *
 *Revision 1.2.2.8  2005/05/20 03:04:00  ddiego
