@@ -57,7 +57,6 @@ public:
 		changeStart_(changeStart),
 		changeLength_(changeLength){
 
-		VCF_ASSERT( changeLength == changedText.size() );
 		changeText_ = changedText;
 	}
 
@@ -185,6 +184,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/05/22 04:05:43  ddiego
+*more text edit fixes.
+*
 *Revision 1.3.2.3  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *

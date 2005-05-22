@@ -147,7 +147,7 @@ public:
 		VCF::Rect cell = clientBounds;
 		cell.right_ = cell.left_ + columns_[col];
 
-		cell.bottom_ = cell.top_ + maxRowHeight_;
+		//cell.bottom_ = cell.top_ + maxRowHeight_;
 
 		
 
@@ -156,7 +156,7 @@ public:
 
 		//calculate row heights so that thigns don't get "scrunched" together
 		std::vector<double> rowHeights(rowCount);
-		double h = maxRowHeight_;
+		double h = 0;//maxRowHeight_;
 		while ( it != controls_.end() ) {
 			Control* control = *it;
 			
@@ -177,7 +177,7 @@ public:
 				
 				rowHeights[row] = h;
 
-				h = maxRowHeight_;
+				h = 0;//maxRowHeight_;
 				row ++;
 			}
 
@@ -270,6 +270,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2005/05/22 04:05:43  ddiego
+*more text edit fixes.
+*
 *Revision 1.2.2.5  2005/04/25 00:11:57  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
