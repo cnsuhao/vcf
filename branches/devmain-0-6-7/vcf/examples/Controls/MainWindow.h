@@ -68,12 +68,17 @@ public:
 	VCF::Panel* light3DBorderPanel_;
 	VCF::Panel* etchedBorderPanel_;
 	VCF::Panel* colorEtchedBorderPanel_;
+
+	void onSingletextCtrlSelectionChanged( VCF::Event* e );
 };
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2005/05/22 04:04:29  ddiego
+*more text edit fixes.
+*
 *Revision 1.2.2.5  2005/05/05 14:18:42  marcelloptr
 *standard VCF formatting
 *

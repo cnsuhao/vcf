@@ -395,6 +395,16 @@ void MainWindow::makeButtonsPage()
 }
 
 
+void MainWindow::onSingletextCtrlSelectionChanged( Event* e )
+{
+	TextControl* tc = (TextControl*) e->getSource();
+	Label* label = (Label*)textPage_->getPageComponent()->findComponent( "SelectionStart", true );
+
+	label->setCaption( Format("%d") % tc->getSelectionStart() );
+
+	label = (Label*)textPage_->getPageComponent()->findComponent( "SelectionCount", true );
+	label->setCaption( Format("%d") % tc->getSelectionCount() );
+}
 
 void MainWindow::makeTextPage()
 {
@@ -411,22 +421,38 @@ void MainWindow::makeTextPage()
 	TextControl* singleTextCtrl = new TextControl();
 	container->add( singleTextCtrl );
 
-	singleTextCtrl->setReadOnly( true );
+	//singleTextCtrl->setReadOnly( true );
 
 	singleTextCtrl->getTextModel()->insertText( 0, "Hello, here's some text!" );
 
 	Dictionary styles;
 	styles [ Text::fsColor ] = Color::getColor("green");
 	styles [ Text::fsBold ] = true;
-	styles [ Text::fsPointSize ] = 15.0;
 	styles [ Text::fsItalic ] = true;
 	styles [ Text::fsStrikeout ] = true;
 	styles [ Text::fsUnderlined ] = Text::utDotted;
 	styles [ Text::fsFontName ] = "Arial";
 	singleTextCtrl->setStyle( 7, 6, styles );
 
+	singleTextCtrl->SelectionChanged +=
+		new GenericEventHandler<MainWindow>( this, &MainWindow::onSingletextCtrlSelectionChanged, "MainWindow::onSingletextCtrlSelectionChanged" );
 
 
+	label = new Label();
+	label->setCaption( "Selection start:" );
+	container->add( label );
+
+	label = new Label();
+	label->setName( "SelectionStart" );
+	container->add( label );
+	
+	label = new Label();
+	label->setCaption( "Selection count:" );
+	container->add( label );
+
+	label = new Label();
+	label->setName( "SelectionCount" );
+	container->add( label );
 
 
 	label = new Label();
@@ -476,6 +502,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.11  2005/05/22 04:04:29  ddiego
+*more text edit fixes.
+*
 *Revision 1.2.2.10  2005/05/20 17:26:43  marcelloptr
 *added all remaining style examples
 *

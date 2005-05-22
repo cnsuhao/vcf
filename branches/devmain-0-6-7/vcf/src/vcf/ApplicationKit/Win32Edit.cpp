@@ -1294,46 +1294,13 @@ unsigned long Win32Edit::getSelectionCount()
 
 void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 {
-	::SendMessage( hwnd_, EM_GETSEL, (WPARAM)&start, (LPARAM)&end );
-
-	/**
-	Bug fix from Marcello, EM_GETSEL doesn't handle
-	CRLF's right
-	*/
-	/*
-	Not necessary anymore with TOM !
-
-	// Note: we tested well that to use CHARRANGE chrg with a isRichedit_ control doesn't make any difference
-	::SendMessage( hwnd_, EM_GETSEL, (WPARAM)&start, (LPARAM)&end );
-
-	TextControl* tc = (TextControl*)this->getControl();
-	String text = tc->getTextModel()->getText();
-	unsigned long size = text.size();
-	if ( size < start ) {
-		start = size;
-	}
-	if ( size < end ) {
-		end = size;
-	}
-
-	unsigned long count = end - start;
-	unsigned long CRCount = getCRCount( 0, start, false );
-	unsigned long realSelectionStart = start + CRCount;
-	unsigned long CRCountSpan = 0;
-	if ( end != -1 ) {
-		// we need to see if the selection has some '\r' in it
-		CRCountSpan = getCRCount( realSelectionStart, realSelectionStart + count, false );
-	}
-	start = realSelectionStart;
-	end = realSelectionStart + count + CRCountSpan;
-
-	if ( size < start ) {
-		start = size;
-	}
-	if ( size < end ) {
-		end = size;
-	}
-	*/
+	ITextSelection* selection = NULL;
+	textDocument_->GetSelection( &selection );
+	if ( NULL != selection ) {
+		selection->GetStart( (long*)&start );
+		selection->GetEnd( (long*)&start );
+		selection->Release();
+	}	
 }
 
 void Win32Edit::clearSelection()
@@ -1345,27 +1312,7 @@ void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned lon
 {
 	unsigned long end = start + count;
 
-	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)start, (LPARAM)end );
-
-	/**
-	Bug fix from Marcello, EM_SETSEL doesn't like temporary vars as it's
-	message parameters
-	*/
-	/*
-	Not necessary anymore with TOM !
-
-	int CRCount = getCRCount( 0, start, true );
-	int CRCountSpan = getCRCount( start, end, true );	//fix 2004/01/14 was false before which gives error that seem almost random
-
-
-	unsigned long adjustedStart = start - CRCount;
-	unsigned long adjustedCount = count - CRCountSpan;
-	end = adjustedStart + adjustedCount;
-
-	// Remark:  to use EM_EXSETSEL with CHARRANGE doesn't work with a isRichedit_ control:
-	//          both if we are using (adjustedStart, adjustedCount) or not. Anybody surprised ?
-	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)adjustedStart, (LPARAM)end );
-	*/
+	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)start, (LPARAM)end );	
 }
 
 
@@ -1606,6 +1553,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.28  2005/05/22 04:05:43  ddiego
+*more text edit fixes.
+*
 *Revision 1.3.2.27  2005/05/19 22:14:51  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *
