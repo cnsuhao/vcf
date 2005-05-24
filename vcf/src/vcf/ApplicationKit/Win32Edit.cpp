@@ -1298,7 +1298,7 @@ void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 	textDocument_->GetSelection( &selection );
 	if ( NULL != selection ) {
 		selection->GetStart( (long*)&start );
-		selection->GetEnd( (long*)&start );
+		selection->GetEnd( (long*)&end );
 		selection->Release();
 	}	
 }
@@ -1553,6 +1553,9 @@ void Win32Edit::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.29  2005/05/24 21:03:12  ddiego
+*fixed typo bug in get selection mark.
+*
 *Revision 1.3.2.28  2005/05/22 04:05:43  ddiego
 *more text edit fixes.
 *
