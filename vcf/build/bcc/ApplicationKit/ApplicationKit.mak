@@ -118,7 +118,6 @@ CPPFILES=AbstractApplication.cpp \
          Menu.cpp \
          MenuBar.cpp \
          MessageDialog.cpp \
-         MultilineTextControl.cpp \
          PopupMenu.cpp \
          PropertyEditorManager.cpp \
          TitledBorder.cpp \
@@ -126,7 +125,6 @@ CPPFILES=AbstractApplication.cpp \
          UndoRedoStack.cpp \
          VFFInputStream.cpp \
          VFFOutputStream.cpp \
-         Win32PrintDialog.cpp \
          Window.cpp \
          WindowEvent.cpp \
          AbstractWin32Component.cpp \
@@ -154,8 +152,10 @@ CPPFILES=AbstractApplication.cpp \
          Win32MenuItem.cpp \
          Win32Object.cpp \
          Win32PopupMenu.cpp \
+         Win32PrintDialog.cpp \
          Win32ScrollPeer.cpp \
          Win32SystemTrayPeer.cpp \
+         Win32TextPeer.cpp \
          Win32Toolbar.cpp \
          Win32ToolKit.cpp \
          Win32Tree.cpp \
@@ -172,7 +172,6 @@ CPPFILES=AbstractApplication.cpp \
          MenuItemEvent.cpp \
          MouseEvent.cpp \
          TabModelEvent.cpp \
-         TextEvent.cpp \
          TimerEvent.cpp \
          ToolTipEvent.cpp \
          TreeModelEvent.cpp \
@@ -180,7 +179,6 @@ CPPFILES=AbstractApplication.cpp \
          ValidationEvent.cpp \
          WhatsThisHelpEvent.cpp \
          AbstractListModel.cpp \
-         AbstractTextModel.cpp \
          AbstractTreeModel.cpp \
          AbstractView.cpp \
          DefaultColumnItem.cpp \
@@ -208,6 +206,7 @@ CPPFILES=AbstractApplication.cpp \
          Label.cpp \
          ListBoxControl.cpp \
          ListViewControl.cpp \
+         MultilineTextControl.cpp \
          Panel.cpp \
          ProgressControl.cpp \
          PushButton.cpp \
