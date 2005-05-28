@@ -18,7 +18,7 @@ where you installed the VCF.
 #  define VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 #endif
 
-#if defined(VCF_GCC) || defined(VCF_DMC) || defined(VCF_VC60) || defined(VCF_VC70)
+#if defined(VCF_GCC) || defined(VCF_DMC) || defined(VCF_VC60) || defined(VCF_VC70) || defined(VCF_BCC)
 // these compilers do not want 'template <DataType>' specified before the specialization
 // JC - it appears GCC 3.3.3 doesn't like this - do we need to have this here at all!?
 #  define VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
@@ -358,6 +358,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.15  2005/05/28 14:49:06  kiklop74
+*Fixed problem with compiling on borland free compiler
+*
 *Revision 1.1.2.14  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *
