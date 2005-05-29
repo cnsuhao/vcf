@@ -42,8 +42,10 @@ public:
 	
    /* These functions override those in VCF::TableModel.  This is done
 	* due to a complicated multiple inheritance rule that only the
-	* pedantic CodeWarrior enforces. ACH */
-#ifdef VCF_CW
+	* pedantic CodeWarrior enforces. ACH 
+	* The same thing happens with Borland compiler.
+	*/
+#if defined(VCF_CW) || defined(VCF_BCC)
 	VCF::Delegate& getTableCellAdded(){ return TableCellAdded; } 
 	VCF::Delegate& getTableCellDeleted(){ return TableCellDeleted; } 
 	VCF::Delegate& getTableRowsAdded(){ return TableRowsAdded; } 
@@ -151,6 +153,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/05/29 13:04:07  kiklop74
+*Fixed problem with compiling on borland free compiler
+*
 *Revision 1.3.2.1  2005/04/11 17:04:51  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
