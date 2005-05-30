@@ -74,6 +74,7 @@ public:
 protected:
 
 	void initFromRichEdit( HWND hwnd );
+	void initHostDefaultStyle( Font* font );
 
 	TextHost* host_;
 	ITextServices* textSvcs_;

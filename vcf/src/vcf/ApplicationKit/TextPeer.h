@@ -69,6 +69,7 @@ namespace Text {
 	const VCF::String fsUnderlined = "fsUnderlined";
 
 	enum UnderlineTypes {
+		utNone = -1,
 		utSingle = 0, //the most common form to use
 		utDouble,
 		utDotted
@@ -329,6 +330,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/05/30 22:22:29  ddiego
+*fixed readonly mode in text edit and added better default font change support.
+*
 *Revision 1.3.2.4  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *

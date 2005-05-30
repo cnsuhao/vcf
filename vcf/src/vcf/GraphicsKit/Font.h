@@ -33,7 +33,19 @@ class GraphicsContext;
 class GRAPHICSKIT_API Font : public Object {
 
 public:
+	enum FontChangeEvent{
+		fcFontName = 0xF097,
+		fcFontItalic,
+		fcFontBold,
+		fcFontStrikeOut,
+		fcFontUnderline,
+		fcFontSize,
+		fcFontColor,
+		fcFontLocale,
+		fcAll
+	};
 
+	DELEGATE(FontChanged);
 
     Font();
 
@@ -155,6 +167,8 @@ protected:
 	Color color_;
 	Locale* locale_;
 	GraphicsContext* context_;
+
+	void changed( int eventType );
 };
 
 };
@@ -163,6 +177,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/05/30 22:22:30  ddiego
+*fixed readonly mode in text edit and added better default font change support.
+*
 *Revision 1.3.2.2  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *

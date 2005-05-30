@@ -361,53 +361,7 @@ public:
 	HRESULT TxGetPropertyBits(DWORD dwMask, DWORD *pdwBits){
 
 		DWORD bits = *pdwBits;
-		StringUtils::trace( String("TxGetPropertyBits ") + this + " dwMask: " + dwMask + ", pdwBits: " + bits + "\n" );
-
-		if ( dwMask & TXTBIT_ALLOWBEEP ) {
-			StringUtils::trace( "\tinterested in TXTBIT_ALLOWBEEP bits\n" );
-		}
-		if ( dwMask & TXTBIT_AUTOWORDSEL ) {
-			StringUtils::trace( "\tinterested in TXTBIT_AUTOWORDSEL bits\n" );
-		}
-		if ( dwMask & TXTBIT_BACKSTYLECHANGE ) {
-			StringUtils::trace( "\tinterested in TXTBIT_BACKSTYLECHANGE bits\n" );
-		}
-		if ( dwMask & TXTBIT_CHARFORMATCHANGE  ) {
-			StringUtils::trace( "\tinterested in TXTBIT_CHARFORMATCHANGE  bits\n" );
-		}
-		if ( dwMask & TXTBIT_CLIENTRECTCHANGE ) {
-			StringUtils::trace( "\tinterested in TXTBIT_CLIENTRECTCHANGE bits\n" );
-		}
-		if ( dwMask & TXTBIT_DISABLEDRAG ) {
-			StringUtils::trace( "\tinterested in TXTBIT_DISABLEDRAG bits\n" );
-		}
-		if ( dwMask & TXTBIT_EXTENTCHANGE ) {
-			StringUtils::trace( "\tinterested in TXTBIT_EXTENTCHANGE bits\n" );
-		}
-		if ( dwMask & TXTBIT_HIDESELECTION ) {
-			StringUtils::trace( "\tinterested in TXTBIT_HIDESELECTION bits\n" );
-		}
-		if ( dwMask & TXTBIT_MULTILINE ) {
-			StringUtils::trace( "\tinterested in TXTBIT_MULTILINE bits\n" );
-		}
-		if ( dwMask & TXTBIT_PARAFORMATCHANGE ) {
-			StringUtils::trace( "\tinterested in TXTBIT_PARAFORMATCHANGE bits\n" );
-		}
-		if ( dwMask & TXTBIT_READONLY ) {
-			StringUtils::trace( "\tinterested in TXTBIT_READONLY bits\n" );
-		}
-		if ( dwMask & TXTBIT_RICHTEXT ) {
-			StringUtils::trace( "\tinterested in TXTBIT_RICHTEXT bits\n" );
-		}
-		if ( dwMask & TXTBIT_SAVESELECTION ) {
-			StringUtils::trace( "\tinterested in TXTBIT_SAVESELECTION bits\n" );
-		}
-		if ( dwMask & TXTBIT_USEPASSWORD ) {
-			StringUtils::trace( "\tinterested in TXTBIT_USEPASSWORD bits\n" );
-		}
-		if ( dwMask & TXTBIT_WORDWRAP ) {
-			StringUtils::trace( "\tinterested in TXTBIT_WORDWRAP bits\n" );
-		}
+		
 
 		bits = TXTBIT_RICHTEXT | TXTBIT_USECURRENTBKG;
 		
@@ -418,8 +372,6 @@ public:
 		if ( multiLines_ ) {
 			bits |= TXTBIT_MULTILINE;
 		}
-
-		StringUtils::trace( String("bits: ") + bits + "\n" );
 
 		*pdwBits = bits;
 		return S_OK;
@@ -562,6 +514,50 @@ void Win32TextPeer::initFromRichEdit( HWND hwnd )
 	unk->Release();
 }
 
+void Win32TextPeer::initHostDefaultStyle( Font* font )
+{	
+	String name = font->getName();
+	name.copy( host_->charFmt_.szFaceName, name.size() );
+
+	Color* color = font->getColor();
+	host_->charFmt_.crTextColor = RGB( 255.0 * color->getRed(),
+								255.0 * color->getGreen(),
+								255.0 * color->getBlue() );
+
+	
+	host_->charFmt_.yHeight = font->getPointSize();
+		
+	if ( font->getBold() ) {
+		host_->charFmt_.dwEffects |= CFE_BOLD;
+	}
+	else {
+		host_->charFmt_.dwEffects &= ~CFE_BOLD;
+	}
+	
+	
+	if ( font->getUnderlined() ) {
+		host_->charFmt_.dwEffects |= CFE_ITALIC;
+	}
+	else {
+		host_->charFmt_.dwEffects &= ~CFE_ITALIC;
+	}
+		
+	if ( font->getStrikeOut() ) {
+		host_->charFmt_.dwEffects |= CFE_STRIKEOUT;
+	}
+	else {
+		host_->charFmt_.dwEffects &= ~CFE_STRIKEOUT;
+	}
+		
+	if ( font->getUnderlined() ) {
+		host_->charFmt_.dwEffects &= ~CFE_UNDERLINE;
+	}
+	else {
+		host_->charFmt_.dwEffects |= CFE_UNDERLINE;
+	}
+
+}
+
 OSHandleID Win32TextPeer::getTextObjectHandle()
 {
 	OSHandleID result ;
@@ -581,7 +577,7 @@ void Win32TextPeer::insertText( unsigned int start, const String& text )
 	if ( NULL != range ) {
 		BSTR str = SysAllocStringLen( text.c_str(), text.length() );
 		
-		range->SetText( str );
+		HRESULT hr = range->SetText( str );
 		
 		SysFreeString( str );
 
@@ -595,7 +591,7 @@ void Win32TextPeer::deleteText( unsigned int start, unsigned int length )
 	textDocument_->Range( start, start+length, &range );
 	if ( NULL != range ) {
 		
-		range->Delete( tomCharacter, 0, NULL );
+		HRESULT hr = range->Delete( tomCharacter, 0, NULL );
 
 		range->Release();
 	}
@@ -853,6 +849,11 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 
 void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 {
+	if ( NULL == host_ ) {
+		return;
+	}
+
+
 	Dictionary::Enumerator* items = styles.getEnumerator();
 	
 	while ( items->hasMoreElements() ) {
@@ -902,11 +903,12 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 			}
 		}
 		else if ( style.first == Text::fsUnderlined ) {
-			if ( (bool)style.second ) {
-				host_->charFmt_.dwEffects |= CFE_UNDERLINE;
+			int underline = style.second;
+			if ( Text::utNone == underline ) {
+				host_->charFmt_.dwEffects &= ~CFE_UNDERLINE;
 			}
 			else {
-				host_->charFmt_.dwEffects &= ~CFE_UNDERLINE;
+				host_->charFmt_.dwEffects |= CFE_UNDERLINE;
 			}
 		}
 		else if ( style.first == Text::psAlignment ) {
