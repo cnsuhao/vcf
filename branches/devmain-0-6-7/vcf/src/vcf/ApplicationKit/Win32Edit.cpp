@@ -1693,70 +1693,6 @@ void Win32Edit::redo()
 void Win32Edit::onTextControlFontChanged( Event* event )
 {
 	Font* font = (Font*) event->getSource();	
-/*
-	Dictionary styles;
-	
-	switch( event->getType() ) {
-		case Font::fcFontName : {
-			styles [ Text::fsFontName ] = font->getName();
-		}
-		break;
-
-		case Font::fcFontItalic : {
-			styles [ Text::fsItalic ] = font->getItalic();
-		}
-		break;
-
-		case Font::fcFontBold : {
-			styles [ Text::fsBold ] = font->getBold();
-		}
-		break;
-
-		case Font::fcFontStrikeOut : {
-			styles [ Text::fsStrikeout ] = font->getStrikeOut();
-		}
-		break;
-
-		case Font::fcFontUnderline : {
-			if ( font->getUnderlined() ) {
-				styles [ Text::fsUnderlined ] = Text::utSingle;
-			}
-			else {
-				styles [ Text::fsUnderlined ] = Text::utNone;
-			}
-		}
-		break;
-
-		case Font::fcFontSize : {
-			styles [ Text::fsPointSize ] = font->getPointSize();
-		}
-		break;
-
-		case Font::fcFontColor : {
-			styles [ Text::fsColor ] = font->getColor();
-		}
-		break;
-
-		case Font::fcAll : {
-			styles [ Text::fsColor ] = font->getColor();
-			styles [ Text::fsBold ] = font->getBold();
-			styles [ Text::fsItalic ] = font->getItalic();
-			styles [ Text::fsStrikeout ] = font->getStrikeOut();
-			if ( font->getUnderlined() ) {
-				styles [ Text::fsUnderlined ] = Text::utSingle;
-			}
-			else {
-				styles [ Text::fsUnderlined ] = Text::utNone;
-			}
-			
-			styles [ Text::fsFontName ] = font->getName();
-			styles [ Text::fsPointSize ] = font->getPointSize();
-		}
-		break;
-	}
-	
-	setDefaultStyle( styles );
-	*/
 
 	setFont( font );
 }
@@ -1764,6 +1700,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.31  2005/05/30 22:31:29  ddiego
+*fixed readonly mode in text edit and added better default font change support.
+*
 *Revision 1.3.2.30  2005/05/30 22:22:29  ddiego
 *fixed readonly mode in text edit and added better default font change support.
 *
