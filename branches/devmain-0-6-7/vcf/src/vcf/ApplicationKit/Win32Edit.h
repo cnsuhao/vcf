@@ -16,10 +16,14 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/Win32TextPeer.h"
 
+
+
 namespace VCF
 {
 
 class TextEvent;
+class Win32RichEditOleCallback;
+
 
 class Win32Edit : public AbstractWin32Component, 
 					public VCF::TextEditPeer, public Win32TextPeer {
@@ -161,11 +165,13 @@ protected:
 	TextControl* textControl_;
 	int editState_;
 	std::map<ulong32,ulong32> printPageMap_;
+	Win32RichEditOleCallback* richEditCallback_;//only needed in readonly mode
 
 	bool stateAllowsModelChange();
 
 	void onTextModelTextChanged( TextEvent* event );
 
+	void onTextControlFontChanged( Event* event );
 	/**
 	this is a fix from Marcello to work around an apparent bug in Win32's handling of
 	crlf's
@@ -187,6 +193,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.17  2005/05/30 22:22:29  ddiego
+*fixed readonly mode in text edit and added better default font change support.
+*
 *Revision 1.3.2.16  2005/05/19 22:11:34  marcelloptr
 *Fixes around Win32Edit: selectAll and Redo operation. Deleting characters. Going to get read of getCRCount :)
 *

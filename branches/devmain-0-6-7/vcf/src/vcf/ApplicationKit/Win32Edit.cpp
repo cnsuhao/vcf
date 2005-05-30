@@ -11,15 +11,106 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Edit.h"
 #include "vcf/ApplicationKit/TextControl.h"
+#include "vcf/FoundationKit/Dictionary.h"
 
 #include <richedit.h>
 #include "thirdparty/win32/Microsoft/TOM.h"
 #include "thirdparty/win32/Microsoft/textserv.h"
-
+#include <Richole.h>
 
 
 using namespace VCFWin32;
 using namespace VCF;
+
+
+namespace VCF {
+
+class Win32RichEditOleCallback : public  IRichEditOleCallback {
+public:
+	STDMETHODIMP QueryInterface( REFIID iid, void ** ppvObject ) {
+		String uuidStr;
+		
+		if ( iid == IID_IRichEditOleCallback ) {
+			*ppvObject = (void*) (IRichEditOleCallback*)this;
+		}
+		else if ( iid == IID_IUnknown ) {
+			*ppvObject = (void*) (IUnknown*)this;
+		}
+		else {
+			*ppvObject = NULL;
+			return E_NOINTERFACE;
+		}
+
+		return S_OK;
+	}
+
+	STDMETHODIMP_(ULONG) AddRef() {
+		return 0;
+	}
+
+	STDMETHODIMP_(ULONG) Release() {
+		return 0;
+	}
+
+	// *** IRichEditOleCallback methods ***
+	STDMETHODIMP GetNewStorage ( LPSTORAGE FAR * lplpstg) {
+		return E_NOTIMPL;
+	}
+
+    STDMETHODIMP GetInPlaceContext(LPOLEINPLACEFRAME FAR * lplpFrame,
+								  LPOLEINPLACEUIWINDOW FAR * lplpDoc,
+								  LPOLEINPLACEFRAMEINFO lpFrameInfo) {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP ShowContainerUI(BOOL fShow) {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP QueryInsertObject(LPCLSID lpclsid, LPSTORAGE lpstg,
+		LONG cp) {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP DeleteObject( LPOLEOBJECT lpoleobj) {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP QueryAcceptData (LPDATAOBJECT lpdataobj,
+								CLIPFORMAT FAR * lpcfFormat, DWORD reco,
+								BOOL fReally, HGLOBAL hMetaPict) {
+
+		if ( !fReally ) {
+			
+		}
+		return S_FALSE;
+	}
+
+	STDMETHODIMP ContextSensitiveHelp ( BOOL fEnterMode) {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP GetClipboardData ( CHARRANGE FAR * lpchrg, DWORD reco,
+		LPDATAOBJECT FAR * lplpdataobj) {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP GetDragDropEffect ( BOOL fDrag, DWORD grfKeyState,
+		LPDWORD pdwEffect) {
+		if ( fDrag ) {
+			*pdwEffect = 0;
+		}
+		return S_OK;
+	}
+
+	STDMETHODIMP GetContextMenu ( WORD seltype, LPOLEOBJECT lpoleobj,
+									CHARRANGE FAR * lpchrg,
+									HMENU FAR * lphmenu) {
+		return E_NOTIMPL;
+	}
+};
+
+};
 
 static bool Win32RicheditLibraryLoaded = false;
 
@@ -32,7 +123,8 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	backgroundBrush_(NULL),
 	editState_(0),
 	currentSelLength_(0),
-	currentSelStart_(-1)
+	currentSelStart_(-1),
+	richEditCallback_(NULL)
 {
 	if ( isMultiLineControl ) {
 		editState_ |= esMultiLined; 
@@ -43,6 +135,10 @@ Win32Edit::~Win32Edit()
 {
 	if ( NULL != backgroundBrush_ ) {
 		DeleteObject( backgroundBrush_ );
+	}
+	if ( NULL != richEditCallback_ ) {
+		SendMessage( hwnd_, EM_SETOLECALLBACK, 0, (LPARAM)0 );
+		delete richEditCallback_;		
 	}
 }
 
@@ -132,7 +228,10 @@ void Win32Edit::create( Control* owningControl )
 		textControl_->ControlModelChanged +=
 			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onControlModelChanged, "Win32Edit::onControlModelChanged" );
 
-		initFromRichEdit( hwnd_ );
+		initFromRichEdit( hwnd_ );		
+
+		textControl_->getFont()->FontChanged += 
+			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onTextControlFontChanged, "Win32Edit::onTextControlFontChanged" );
 
 	}
 	else {
@@ -762,21 +861,27 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_SETTEXT : case EM_STREAMIN : {
-			result = true;
-
-			editState_ |= esPeerTextChanging;
-
-			//let the default rich text code handle this!
-			wndProcResult = defaultWndProcedure( message, wParam, lParam );
-
-			//modify the model, but ignore an change notifications to us!
-			editState_ |= esModelTextChanging;
-
-			textControl_->getTextModel()->setText( getText() );
-
-			editState_ &= ~esModelTextChanging;
-
-			editState_ &= ~esPeerTextChanging;
+			if ( textControl_->getReadOnly() ) {
+				wndProcResult = 0;
+				result = true;
+			}
+			else {
+				result = true;
+				
+				editState_ |= esPeerTextChanging;
+				
+				//let the default rich text code handle this!
+				wndProcResult = defaultWndProcedure( message, wParam, lParam );
+				
+				//modify the model, but ignore an change notifications to us!
+				editState_ |= esModelTextChanging;
+				
+				textControl_->getTextModel()->setText( getText() );
+				
+				editState_ &= ~esModelTextChanging;
+				
+				editState_ &= ~esPeerTextChanging;
+			}
 		}
 		break;
 
@@ -804,46 +909,15 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_KEYDOWN: {
 
-			editState_ |= esKeyEvent;
-
-			ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
-
-			switch ( virtKeyCode ) {
-				case vkLeftArrow : 
-				case vkRightArrow : 
-				case vkPgUp : 
-				case vkPgDown : 
-				case vkHome : 
-				case vkEnd : 
-				case vkDownArrow :
-				case vkUpArrow : {
-					ulong32 start = 0;
-					ulong32 end = 0;
-
-					getSelectionMark( start, end );
-					currentSelLength_ = end - start;
-					currentSelStart_ = start;
-				}
-				break;
+			if ( textControl_->getReadOnly() ) {
+				wndProcResult = 0;
+				result = true;
 			}
+			else {
 
+				editState_ |= esKeyEvent;
 
-			if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
-
-				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
-				unsigned long eventType = Control::KEYBOARD_DOWN;
-
-
-				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
-
-				//virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
-
-				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
-					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
-
-
-
-				peerControl_->handleEvent( &event );
+				ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
 
 				switch ( virtKeyCode ) {
 					case vkLeftArrow : 
@@ -854,107 +928,152 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					case vkEnd : 
 					case vkDownArrow :
 					case vkUpArrow : {
-
-
 						ulong32 start = 0;
 						ulong32 end = 0;
 
 						getSelectionMark( start, end );
-
-						if ( event.hasShiftKey() && ((currentSelLength_ != (end - start)) || (currentSelStart_ != start)) ) {
-							//selection changed
-							TextEvent event( textControl_, start, end - start );
-
-							textControl_->SelectionChanged.fireEvent( &event );
-						}
-
 						currentSelLength_ = end - start;
 						currentSelStart_ = start;
 					}
 					break;
 				}
 
-				//wndProcResult = 1;
-				result = true;
+
+				if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
+
+					KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
+					unsigned long eventType = Control::KEYBOARD_DOWN;
+
+
+					unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+
+					//virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+
+					VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
+						keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
+
+
+
+					peerControl_->handleEvent( &event );
+
+					switch ( virtKeyCode ) {
+						case vkLeftArrow : 
+						case vkRightArrow : 
+						case vkPgUp : 
+						case vkPgDown : 
+						case vkHome : 
+						case vkEnd : 
+						case vkDownArrow :
+						case vkUpArrow : {
+
+
+							ulong32 start = 0;
+							ulong32 end = 0;
+
+							getSelectionMark( start, end );
+
+							if ( event.hasShiftKey() && ((currentSelLength_ != (end - start)) || (currentSelStart_ != start)) ) {
+								//selection changed
+								TextEvent event( textControl_, start, end - start );
+
+								textControl_->SelectionChanged.fireEvent( &event );
+							}
+
+							currentSelLength_ = end - start;
+							currentSelStart_ = start;
+						}
+						break;
+					}
+
+					//wndProcResult = 1;
+					result = true;
+				}
+
+				if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
+					wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+					result = true;
+				}
+
+
+				editState_ &= ~esKeyEvent;
 			}
-
-			if ( !(peerControl_->getComponentState() & Component::csDesigning) ) {
-				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
-				result = true;
-			}
-
-
-			editState_ &= ~esKeyEvent;
 		}
 		break;
 
 		case WM_CHAR:  case WM_KEYUP:{
-			editState_ |= esKeyEvent;
-
-			/**
-			JC
-			I moved the defaultWndProcedure(  message, wParam, lParam );
-			block *after* I call the peerControl_->handleEvent() 
-			method. Otherwise the caretpos is "wrong", for lack of a better 
-			word, which in turn screws up where data is removed from the model.
-			*/
-			if ( !peerControl_->isDestroying() && !peerControl_->isDesigning() ) {
-
-				KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
-				ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
-
-				unsigned long eventType = 0;
-				switch ( message ){
-					case WM_CHAR: {
-						/**
-						JC
-						we do this to overcome getting weird virtual key values
-						for WM_CHAR messages, as translateKeyData isn't quite right.
-						In fact, we should conceivably look into ditching period
-						*/
-						eventType = Control::KEYBOARD_PRESSED;
-						keyData.character = (VCFChar)wParam;
-
-						/**
-						JC
-						if the character is a graphic char (like ":" or "a")
-						then re-calculate the virtual key code, based on the 
-						character value. This was put here to overcome a bug
-						when handling WM_CHAR's from the numpad, which gives
-						us the right character, but a bogus virtual key
-						*/
-						if ( isgraph( keyData.character ) ) {
-							virtKeyCode = Win32Edit::convertCharToVKCode( keyData.character );
-						}
-					}
-					break;
-
-					case WM_KEYUP: {
-						eventType = Control::KEYBOARD_UP;
-					}
-					break;
-				}
-
-				unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
-
-				VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
-					keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
-
-				peerControl_->handleEvent( &event );
-
-				result = true;
-			}
-
-			if ( !peerControl_->isDesigning() ) {
-				wndProcResult = defaultWndProcedure( message, wParam, lParam );
-				result = true;
-			}
-			else if ( peerControl_->isDesigning() ) {
+			if ( textControl_->getReadOnly() ) {
 				wndProcResult = 0;
 				result = true;
 			}
+			else {
+				
+				editState_ |= esKeyEvent;
 
-			editState_ &= ~esKeyEvent;
+				/**
+				JC
+				I moved the defaultWndProcedure(  message, wParam, lParam );
+				block *after* I call the peerControl_->handleEvent() 
+				method. Otherwise the caretpos is "wrong", for lack of a better 
+				word, which in turn screws up where data is removed from the model.
+				*/
+				if ( !peerControl_->isDestroying() && !peerControl_->isDesigning() ) {
+
+					KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
+					ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+
+					unsigned long eventType = 0;
+					switch ( message ){
+						case WM_CHAR: {
+							/**
+							JC
+							we do this to overcome getting weird virtual key values
+							for WM_CHAR messages, as translateKeyData isn't quite right.
+							In fact, we should conceivably look into ditching period
+							*/
+							eventType = Control::KEYBOARD_PRESSED;
+							keyData.character = (VCFChar)wParam;
+
+							/**
+							JC
+							if the character is a graphic char (like ":" or "a")
+							then re-calculate the virtual key code, based on the 
+							character value. This was put here to overcome a bug
+							when handling WM_CHAR's from the numpad, which gives
+							us the right character, but a bogus virtual key
+							*/
+							if ( isgraph( keyData.character ) ) {
+								virtKeyCode = Win32Edit::convertCharToVKCode( keyData.character );
+							}
+						}
+						break;
+
+						case WM_KEYUP: {
+							eventType = Control::KEYBOARD_UP;
+						}
+						break;
+					}
+
+					unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+
+					VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
+						keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
+
+					peerControl_->handleEvent( &event );
+
+					result = true;
+				}
+
+				if ( !peerControl_->isDesigning() ) {
+					wndProcResult = defaultWndProcedure( message, wParam, lParam );
+					result = true;
+				}
+				else if ( peerControl_->isDesigning() ) {
+					wndProcResult = 0;
+					result = true;
+				}
+
+				editState_ &= ~esKeyEvent;
+			}
 		}
 		break;
 
@@ -1006,40 +1125,47 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_CUT : case EM_REDO :case EM_UNDO : case WM_PASTE : {
-			wndProcResult = 0;
-			result = false;
-
-			editState_ |= esExternalTextChanging;
-
-			if ( !peerControl_->isDesigning() ) {
-				wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+			if ( textControl_->getReadOnly() ) {
+				wndProcResult = 0;
 				result = true;
 			}
-
-			// copy the control's text into the model
-
-			VCF::TextModel* model = textControl_->getTextModel();
-			if ( NULL != model ) {
-				editState_ |= esModelTextChanging;
-
-				String text = getText();
-
-				/*if ( WM_PASTE == message ) {
+			else {
+				
+				wndProcResult = 0;
+				result = false;
+				
+				editState_ |= esExternalTextChanging;
+				
+				if ( !peerControl_->isDesigning() ) {
+					wndProcResult = defaultWndProcedure(  message, wParam, lParam );
+					result = true;
+				}
+				
+				// copy the control's text into the model
+				
+				VCF::TextModel* model = textControl_->getTextModel();
+				if ( NULL != model ) {
+					editState_ |= esModelTextChanging;
+					
+					String text = getText();
+					
+					/*if ( WM_PASTE == message ) {
 					//remove \r\n and replace with \n
 					uint32 pos = text.find( "\r\n" );
 					while ( pos != String::npos ) {
-						text.erase( pos, 1 ); //erase \r
-						pos = text.find( "\r\n" );
+					text.erase( pos, 1 ); //erase \r
+					pos = text.find( "\r\n" );
 					}
 				}*/
-
-				model->setText( text );
-
-				editState_ &= ~esModelTextChanging;
+					
+					model->setText( text );
+					
+					editState_ &= ~esModelTextChanging;
+				}
+				
+				
+				editState_ &= ~esExternalTextChanging;
 			}
-
-
-			editState_ &= ~esExternalTextChanging;
 		}
 		break;
 
@@ -1059,9 +1185,6 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		break;
 
 		case WM_PAINT:{
-			//check to see if the font needs updating
-			//checkForFontChange();
-
 			wndProcResult = 0;
 			result = false;
 		}
@@ -1350,7 +1473,16 @@ void Win32Edit::repaint( Rect* repaintRect )
 
 void Win32Edit::setReadOnly( const bool& readonly )
 {
-	SendMessage( hwnd_, EM_SETREADONLY, readonly ? TRUE : FALSE, 0 );
+	//SendMessage( hwnd_, EM_SETREADONLY, readonly ? TRUE : FALSE, 0 );
+	if ( NULL != richEditCallback_ ) {
+		SendMessage( hwnd_, EM_SETOLECALLBACK, 0, (LPARAM)0 );
+		delete richEditCallback_;		
+	}
+
+	if ( readonly ) {
+		richEditCallback_ = new Win32RichEditOleCallback();
+		SendMessage( hwnd_, EM_SETOLECALLBACK, 0, (LPARAM)richEditCallback_ );
+	}
 }
 
 ulong32 Win32Edit::getTotalPrintablePageCount( PrintContext* context )
@@ -1516,7 +1648,9 @@ void Win32Edit::onControlModelChanged( Event* e )
 
 void Win32Edit::cut()
 {
-	SendMessage( hwnd_, WM_CUT, 0, 0 );
+	if ( !textControl_->getReadOnly() ) {
+		SendMessage( hwnd_, WM_CUT, 0, 0 );
+	}
 }
 
 void Win32Edit::copy()
@@ -1526,7 +1660,9 @@ void Win32Edit::copy()
 
 void Win32Edit::paste()
 {
-	SendMessage( hwnd_, WM_PASTE, 0, 0 );
+	if ( !textControl_->getReadOnly() ) {
+		SendMessage( hwnd_, WM_PASTE, 0, 0 );
+	}
 }
 
 bool Win32Edit::canUndo()
@@ -1541,18 +1677,96 @@ bool Win32Edit::canRedo()
 
 void Win32Edit::undo()
 {
-	SendMessage( hwnd_, EM_UNDO, 0, 0 );
+	if ( !textControl_->getReadOnly() ) {
+		SendMessage( hwnd_, EM_UNDO, 0, 0 );
+	}
 }
 
 void Win32Edit::redo()
 {
 	//this one is necessary too, otherwise the model wouldn't be updated
-	SendMessage( hwnd_, EM_REDO, 0, 0 );
+	if ( !textControl_->getReadOnly() ) {
+		SendMessage( hwnd_, EM_REDO, 0, 0 );
+	}
+}
+
+void Win32Edit::onTextControlFontChanged( Event* event )
+{
+	Font* font = (Font*) event->getSource();	
+/*
+	Dictionary styles;
+	
+	switch( event->getType() ) {
+		case Font::fcFontName : {
+			styles [ Text::fsFontName ] = font->getName();
+		}
+		break;
+
+		case Font::fcFontItalic : {
+			styles [ Text::fsItalic ] = font->getItalic();
+		}
+		break;
+
+		case Font::fcFontBold : {
+			styles [ Text::fsBold ] = font->getBold();
+		}
+		break;
+
+		case Font::fcFontStrikeOut : {
+			styles [ Text::fsStrikeout ] = font->getStrikeOut();
+		}
+		break;
+
+		case Font::fcFontUnderline : {
+			if ( font->getUnderlined() ) {
+				styles [ Text::fsUnderlined ] = Text::utSingle;
+			}
+			else {
+				styles [ Text::fsUnderlined ] = Text::utNone;
+			}
+		}
+		break;
+
+		case Font::fcFontSize : {
+			styles [ Text::fsPointSize ] = font->getPointSize();
+		}
+		break;
+
+		case Font::fcFontColor : {
+			styles [ Text::fsColor ] = font->getColor();
+		}
+		break;
+
+		case Font::fcAll : {
+			styles [ Text::fsColor ] = font->getColor();
+			styles [ Text::fsBold ] = font->getBold();
+			styles [ Text::fsItalic ] = font->getItalic();
+			styles [ Text::fsStrikeout ] = font->getStrikeOut();
+			if ( font->getUnderlined() ) {
+				styles [ Text::fsUnderlined ] = Text::utSingle;
+			}
+			else {
+				styles [ Text::fsUnderlined ] = Text::utNone;
+			}
+			
+			styles [ Text::fsFontName ] = font->getName();
+			styles [ Text::fsPointSize ] = font->getPointSize();
+		}
+		break;
+	}
+	
+	setDefaultStyle( styles );
+	*/
+
+	setFont( font );
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.30  2005/05/30 22:22:29  ddiego
+*fixed readonly mode in text edit and added better default font change support.
+*
 *Revision 1.3.2.29  2005/05/24 21:03:12  ddiego
 *fixed typo bug in get selection mark.
 *

@@ -423,6 +423,8 @@ void MainWindow::makeTextPage()
 
 	//singleTextCtrl->setReadOnly( true );
 
+	singleTextCtrl->getFont()->setName( "Courier New" );
+
 	singleTextCtrl->getTextModel()->insertText( 0, "Hello, here's some text!" );
 
 	Dictionary styles;
@@ -433,6 +435,8 @@ void MainWindow::makeTextPage()
 	styles [ Text::fsUnderlined ] = Text::utDotted;
 	styles [ Text::fsFontName ] = "Arial";
 	singleTextCtrl->setStyle( 7, 6, styles );
+
+	
 
 	singleTextCtrl->SelectionChanged +=
 		new GenericEventHandler<MainWindow>( this, &MainWindow::onSingletextCtrlSelectionChanged, "MainWindow::onSingletextCtrlSelectionChanged" );
@@ -502,6 +506,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.12  2005/05/30 22:22:17  ddiego
+*fixed readonly mode in text edit and added better default font change support.
+*
 *Revision 1.2.2.11  2005/05/22 04:04:29  ddiego
 *more text edit fixes.
 *
