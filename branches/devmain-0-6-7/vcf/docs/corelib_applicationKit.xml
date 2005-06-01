@@ -822,7 +822,29 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		Components can be "owned" by other components, freeing the developer from having to 
 		worry about deleting the Components later on. To add a Component you simply call the 
 		Component's <function>addComponent()</function> method, passing in the instance of 
-		the component you want to "own".
+		the component you want to "own". Once the component is added, it's owner will take 
+		care of destroying it when the owner is destroyed. You can also remove a component. If
+		you remove a component, and then do not add it back to some other owner, the responsibility 
+		for destroying the component is up to you. 
+		</para>
+		<para>
+		When components get added or removed they fire an event which can be handled. You
+		can register for this event by adding an event handler to the either the 
+		Component's ComponentAdded or ComponentRemoved delegate. 
+		</para>
+		<para>
+		Component's also have state. This indicates the state of the component. In general the
+		component's state is csNormal indicating that it's been created. When a component is 
+		in the process of being read in from a stream, it's state is marked as csLoading, and
+		when the component is being written to a stream it's state is marked as csSaving. As a 
+		general rule most event's are only fired if the component's state is csNormal. The other 
+		important state is the csDesigning state. This is set when the component is being edited 
+		through some visual editing tool (like the VCF Builder's Form Designer). A component in the
+		csDesigning state can process some event, but ignores most others. This is particularly
+		true if the component is a control. For example, if the component is a TextControl, then
+		any keyboard events are ignored if it's state is set to csDesigning.
+		</para>
+		<para>
 		</para>
 	</section>
 	
@@ -889,23 +911,40 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	
 	<section id="Layout"><title>Layout </title>
 		<para>
+		Layout in the VCF is accomplished by the use of the Container class. 
 		</para>
 	</section>
+	
 	<section><title>Frames, Dialogs, and Windows</title>
 		<para>
-		Most applications today are GUI based.  The main components of any 
-		GUI application are frames, dialogs, and windows. Many vendors claim
-		platform independence it usually does not involve the GUI.  Each 
-		platform has its own style guidlines and look and feel.  
-		</para>
+		In most GUI applications there exist a special set of controls
+		(or widgets) that house the rest of the user interface. In the 
+		VCF we refer to these as Frames. A frame (which is represented 
+		by the VCF::Frame class) is an abstract concept that represents 
+		the top level control (for lack of a better term) usually with 
+		some sort of "decoration" in the form of a caption bar and special 
+		buttons for closing the frame as well as buttons for minimizing 
+		and/or maximizing the frame. A frame can be resized and or/moved. 
+		Depending on the style of the frame it may be a standard frame or 
+		a floating toolbar style frame. The exact look of the frame is 
+		determined by the underlying windowing platform, and is not under 
+		the control of the VCF.
+		</para>		
 		<para>
-		Java was originally promised to be able to write once and run anywhere.  
-		That did not totally turn out to be true though.  C++ libraries for
-		platfom independet graphics have existed in the past ;however, they were
-		cumbersome to use.  Many also suffered from licensing cost and divergence 
-		from the platforms standard.  VCF provides a clean and easy to use 
-		framework that goes well beyond common graphics packages and adheres 
-		strictly to platform look and feel guidelines.
+		Frames are further broken down into two divisions: the Dialog 
+		(represented by the VCF::Dialog class) and the Window (represented
+		by the VCF::Window class). A Window is the concrete implementation 
+		that represents the top level frame that a user will see and manipulate. 
+		Open a new browser window, and the frame that holds all the controls 
+		and HTML view is considers a "Window" in the VCF. A Dialog is a similar
+		to a Window but is used specifically for either getting input from a user,
+		such as a dialog that asks the user to input the number of pages to print,
+		or to present a message to the user. Usually a dialog is run in a modal
+		state, which means that all other user input is ignored by the application
+		till the user dismisses the dialog. As a general rule a dialog is not 
+		resizeable, while a window is. There may be some subtle (or not so subtle) 
+		visual cues as well that distinguish a dialog from a window, but this
+		depends on the underlying windowing platform.
 		</para>
 		<section><title>Dialog usage in VFC</title>
 		<para>
@@ -914,21 +953,20 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		supports modal and non modal dialog types.   
 		</para>
 		
-                <section><title>Standard Dialogs</title>
+        <section><title>Standard Dialogs</title>
 		<para>
-                There are several standard dialogs already in VCF.
+		There are several standard dialogs already in VCF.
 		</para>
-                <note>These common dialogs are fully supported in Windows in this
-		version.  The OSX platform has no support in this release.  The
+		<note>These common dialogs are fully supported in Windows in this
+		version.  The OSX platform has full support in this release.  The
 		linux platform has partial support in this release.
 		</note>
 		<para>
-		File load and save dialogs are derived from CommonFileDialog.  To open a file load dialog use the
-		CommonFileOpen class. To bring up a save dialog, use the CommonFileSave class. 
-		Another related dialog is the CommonFileBrowse. This dialog is used when you
-		want to browse the folders in a tree. Here is an example of how to use the 
-		common file realated dialogs.
-		
+		File load and save dialogs are derived from CommonFileDialog.  To open a 
+		file dialog use the	CommonFileOpen class. To bring up a save dialog, use the 
+		CommonFileSave class. Another related dialog is the CommonFileBrowse. This 
+		dialog is used when you	want to browse the folders in a tree. Here is an example 
+		of how to use the common file related dialogs.		
 		<programlisting>
                   <![CDATA[
                   
@@ -1223,9 +1261,110 @@ class MyAbout : public VCF::Dialog {
 
 		</section>
 		<section><title>Frame usage in the VFC</title>
-		
+		<para>
+		In the VCF you never create a Frame instance directly. Instead you create either a 
+		Window or Dialog instance (or classes that derive from Window or Dialog). However the 
+		Frame class has a number of methods that you can use to change things like it's style,
+		it's icon image (this depends greatly on the windowing platform), controlling the 
+		background color, and whether or not the frame is a topmost frame. 
+		</para>
+		<para>
+		You can change the frame's style by calling the Frame::setFrameStyle() method and pass in
+		one of the 6 standard frame style enumeration values. These can be either fstSizeable,
+		fstNoBorder, fstFixed, fstNoBorderFixed, fstToolbarBorder, or fstToolbarBorderFixed. These
+		are "hints" to the windowing platform to behave in the following ways:
+		<itemizedlist>
+		  <listitem><para>
+		  fstSizeable - the frame is sizeable and has the standard frame decorations like
+		  caption bar, etc. This is the default for a Window instance.
+		  </para></listitem>
+		  <listitem><para>
+		  fstNoBorder - the frame's border is removed leaving only the frame 
+		  rectangle. Some platforms may still leave the resize border (Win32).
+		  </para></listitem>
+		  <listitem><para>
+		  fstFixed - the frame is <emphasis>not</emphasis> resizeable but still has 
+		  the standard border. This is the default for Dialogs.
+		  </para></listitem>
+		  <listitem><para>
+		  fstNoBorderFixed - the frame has no border area and is not resizeable. You
+		  might use this for a splashscreen.
+		  </para></listitem>
+		  <listitem><para>
+		  fstToolbarBorder - the frame's border is decorated as a toolbar. Typically this 
+		  means that the caption bar's height is shorter and the caption font is smaller.
+		  The frame is resizeable.
+		  </para></listitem>		  
+		  <listitem><para>
+		  fstToolbarBorderFixed - similar to fstToolbarBorder but the frame is 
+		  <emphasis>not</emphasis> resizeable.
+		  </para></listitem>
+		</itemizedlist>
+		</para>
+		<para>
+		Frequently a frame has a small image associated with it. For example, on Win32
+		systems this is displayed on the border areas far left side. You can set this
+		image by creating a small image, and then calling the Frame's setIconImage() 
+		function. Note that at the moment the image <emphasis>must</emphasis> be 32 
+		by 32 pixels in size. 
+		<programlisting>
+<![CDATA[
+Window* newWindow = Window();
+
+//assumes a resource exists named icon1
+Image* img = Application::getRunningInstance()->getResourceBundle()->getImage( "icon1" );
+newWindow->setIconImage( img );
+delete img;
+
+newWindow->setBounds( 300, 300, 500, 500 );
+newWindow->show();
+]]>
+		</programlisting>
+		Note that you need to delete the image you created once the call to setIconImage()
+		returns.
+		</para>		
+		<para>
+		A Frame can have either a custom background color (that's set by calling 
+		Control::setColor() ) or it can be painted using the default theme background. The 
+		latter is the default for any frame. Calling Frame::setUseColorForBackground ()
+		toggles this behaviour. A value of true will cause the frame's color as set in 
+		Control::setColor() to be used, a value of false will enable the theme background
+		to be used.
+		</para>
+		<para>
+		A frame can be toggled to be the topmost frame by calling Frame::setFrameTopmost().
+		A top most frame will be on the top of the Z-order of windows. This is typically 
+		called by frames that used as toolbar frames.
+<![CDATA[
+Window* newWindow = Window();
+
+//makes the frame float on top of all others
+newWindow->setFrameTopmost( true );
+newWindow->setBounds( 300, 300, 500, 500 );
+newWindow->show();
+]]>
+		</para>
 		</section>
 		<section><title>Window usage in the VFC</title>
+		A Window is simply created and then one can add controls to it. By default
+		the window instance is <emphasis>not</emphasis> visible when first created.
+		To make the window visible you must call the Window's show() method. For example,
+		let's create a window and add a multi-lined text control to it:
+		<programlisting>
+<![CDATA[
+Window* newWindow = Window();
+
+MultilineTextControl* edit = new MultilineTextControl ();
+newWindow->add( edit, AlignClient ); //add the text edit control
+
+//position the window at 300,300 
+//and give it a width/height of 500,500
+newWindow->setBounds( 300, 300, 500, 500 );
+
+//display the window!
+newWindow->show();
+]]>
+		</programlisting>
 		</section>
 
 	</section>
@@ -1415,7 +1554,7 @@ control->setView( view );
 	</section>
 	
 	<section><title>Control Focus and Activation </title>
-		<para>
+	<para>
 		A control with focus is able to receive
 		keyboard events. Without focus, <emphasis>no</emphasis> keyboard events will be 
 		received by the control. Only one control at a time may have the focus. 
@@ -1453,6 +1592,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.1  2005/06/01 21:05:23  ddiego
+docs udpates
+
 Revision 1.4  2004/12/03 03:06:01  ddiego
 minor doc changes
 
