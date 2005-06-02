@@ -91,6 +91,10 @@ public:
 		editUndo->addMenuItemUpdateHandler( ehUpdateEditUndo1 );
 		editUndo->setAcceleratorKey( vkLetterZ, kmCtrl );
 
+		// menu item only, so it is different than the update handler
+		// automatically assigned to the TextControl. Because of that 
+		// the Ctrl+Z accelerator will still trigger the Undo operation
+		// even if the Undo menu item is disabled.
 
 
 
@@ -240,10 +244,16 @@ public:
 
 		Control* focusedControl = Control::getCurrentFocusedControl();
 
+		ae->setText( "Copy text" );
+
 		switch ( focusedControl->getTag() ) {
 
 			case 101 : {
 				ae->setEnabled( true );
+
+				// any target (MenuItem) will read this ActionEvent's text 
+				// and modify it's caption ( see Action::getText() ).
+				ae->setText( "Copy" );
 			}
 			break;
 			
@@ -318,6 +328,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/06/02 20:25:44  marcelloptr
+*few more comments
+*
 *Revision 1.1.2.2  2005/06/02 17:27:31  marcelloptr
 *Example made by Jim.
 *Added comments and few fixes.
