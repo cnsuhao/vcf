@@ -62,6 +62,7 @@ void DefaultTextModel::replaceText( const uint32& index, const uint32& count, co
 
 	//remove old text
 	String removedText = text_.substr( index, count );
+
 	// this relies on STL to be smart enough to delete only
 	// the count character that are part of the string
 	text_.erase( index, count );
@@ -107,7 +108,7 @@ uint32 DefaultTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.5  2005/06/02 15:42:01  marcelloptr
+*Revision 1.3.2.6  2005/06/02 15:43:27  marcelloptr
 *more documentation
 *
 *Revision 1.3.2.4  2005/05/18 16:43:55  marcelloptr
