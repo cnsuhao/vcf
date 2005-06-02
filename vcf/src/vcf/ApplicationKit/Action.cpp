@@ -52,6 +52,7 @@ void Action::update()
 {
 	ActionEvent event( this, Action::UpdateEvent );
 
+	// let the application to set the desired state for the ActionEvent.
 	Update.fireEvent( &event );
 
 
@@ -167,6 +168,9 @@ void Action::onAccelerator( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/06/02 15:28:35  marcelloptr
+*more documentation
+*
 *Revision 1.2.4.2  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

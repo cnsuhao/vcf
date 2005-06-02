@@ -96,6 +96,13 @@ public:
 	/**
 	This is called by a target (or the framework itself) to tell the action to fire off an
 	update event to all the actions targets.
+	First an Update event is fired in order to let the application to set, in the event(s) 
+	handler(s) of this action, the desired state for the ActionEvent ( e.g. enabled
+	or not, checked or not.
+	Then the update ActionEvent is fired off to all the actions targets.
+	The enabled state of the accelerator associated to this action, if any, is also updated
+	accordingly.
+	@see ActionEvent
 	*/
 	void update();
 
@@ -189,6 +196,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/06/02 15:26:54  marcelloptr
+*more documentation
+*
 *Revision 1.2.4.4  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *
