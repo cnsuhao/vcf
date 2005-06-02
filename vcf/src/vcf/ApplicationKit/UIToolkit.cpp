@@ -666,6 +666,7 @@ bool UIToolkit::internal_findMatchingAccelerators( AcceleratorKey* key, std::vec
 	while ( it != range.second ) {
 		AcceleratorKey* accel = it->second;
 
+		// we don't need to put in the list the accelerator (key) to which all the others are matching.
 		if ( (accel->getEventHandler() == key->getEventHandler()) && 
 				(accel != key) ) {
 			matchingAccelerators.push_back( accel );
@@ -747,6 +748,7 @@ void UIToolkit::internal_handleKeyboardEvent( KeyboardEvent* event )
 			while ( it != range.second ) {
 
 				AcceleratorKey* accel = it->second;
+				// check if the control associated to this accelerator is the same having the focus
 				if ( accel->getAssociatedControl() == control ) {
 					accelerator = accel;
 					break;
@@ -1224,6 +1226,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.15  2005/06/02 16:12:16  marcelloptr
+*some more documentation
+*
 *Revision 1.3.2.14  2005/05/15 23:17:38  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *
