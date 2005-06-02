@@ -1,5 +1,16 @@
 //Accelerators.cpp
 
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+/**
+This example will introduce the basics of working with acceleratorss.
+*/
+
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
@@ -60,6 +71,9 @@ public:
 		EventHandler* ehUpdateEditCopy = 
 			new GenericEventHandler<AcceleratorsWindow>( this, &AcceleratorsWindow::onUpdateEditCopy, "AcceleratorsWindow::onUpdateEditCopy" );
 
+		EventHandler* ehUpdateEditCopy1 = 
+			new GenericEventHandler<AcceleratorsWindow>( this, &AcceleratorsWindow::onUpdateEditCopy1, "AcceleratorsWindow::onUpdateEditCopy1" );
+
 		EventHandler* ehUpdateEditCopy2 = 
 			new GenericEventHandler<AcceleratorsWindow>( this, &AcceleratorsWindow::onUpdateEditCopy2, "AcceleratorsWindow::onUpdateEditCopy2" );
 
@@ -73,10 +87,11 @@ public:
 
 
 
-
-		editUndo->setAcceleratorKey( vkLetterZ, kmCtrl );
 		editUndo->addMenuItemClickedHandler( ehEditUndo1 );
 		editUndo->addMenuItemUpdateHandler( ehUpdateEditUndo1 );
+		editUndo->setAcceleratorKey( vkLetterZ, kmCtrl );
+
+
 
 
 		panelsChangeColor->addMenuItemClickedHandler( ehPanelsChangeColors );
@@ -91,6 +106,7 @@ public:
 		TabPage* tab = tabs->addNewPage( "Page 1" );
 
 		TextControl* tc = new TextControl();
+		//note setting the tag here - this is a cheap easy way to identify a component
 		tc->setTag( 100 );
 
 		tc->setBounds( 10, 10, 100, tc->getPreferredHeight() );
@@ -131,20 +147,27 @@ public:
 
 		Action* copyAction = new Action(this);
 
+		//we can add multiple update handlers to the same action.
 		copyAction->Performed += ehEditCopy;
 		copyAction->Update += ehUpdateEditCopy;
+		copyAction->Update += ehUpdateEditCopy1;
 		copyAction->Update += ehUpdateEditCopy2;
 
 
-		copyAction->addTarget( editCopy );
+		copyAction->addTarget( editCopy ); // the "Copy" menu item
 		copyAction->setAcceleratorKey( vkLetterC, kmCtrl );
 
-
+		//the text controls cannot be targets for the TextControl(s),
+		// otherwise they would be enabled/disabled according to 
+		// the state of the Action or Accelerator.
+		//So the accelerator needs to be added to each control
+		// we want to be responding to it.
+		tc->addAcceleratorKey( vkLetterC, kmCtrl, copyAction );
 		tc2->addAcceleratorKey( vkLetterC, kmCtrl, copyAction );
 	}
 
 	void onEditUndo1( Event* e ) {
-		Dialog::showMessage( "Hello World!" );
+		Dialog::showMessage( "Undo: Hello World!" );
 	}
 
 	void onUpdateEditUndo1( Event* e ) {
@@ -156,13 +179,13 @@ public:
 
 			case 100 : {
 				item->setEnabled( true );
-				item->setCaption( "Undo" );
+				item->setCaption( "Undo on tc1" );
 			}
 			break;
 
 			case 101 : {
 				item->setEnabled( false );
-				item->setCaption( "Undo, Sorry, no dice!!!" );
+				item->setCaption( "Undo on tc2, Sorry, no dice!!!" );
 			}
 			break;
 
@@ -193,16 +216,23 @@ public:
 
 		Control* focusedControl = Control::getCurrentFocusedControl();
 
-		ae->setEnabled( true );
+		// the undo is disabled when the focus is on a generic control, by default.
+		ae->setEnabled( false );
+	}
+
+	void onUpdateEditCopy1( Event* e ) {
+		ActionEvent* ae = (ActionEvent*)e;
+
+		Control* focusedControl = Control::getCurrentFocusedControl();
 
 		switch ( focusedControl->getTag() ) {
 
 			case 100 : {
-				ae->setEnabled( false );
+				ae->setEnabled( true );
 			}
 			break;
-			
-		}		
+
+		}
 	}
 
 	void onUpdateEditCopy2( Event* e ) {
@@ -210,16 +240,14 @@ public:
 
 		Control* focusedControl = Control::getCurrentFocusedControl();
 
-		ae->setEnabled( true );
-
 		switch ( focusedControl->getTag() ) {
 
 			case 101 : {
-				ae->setEnabled( false );
+				ae->setEnabled( true );
 			}
 			break;
 			
-		}	
+		}
 	}
 
 
@@ -286,4 +314,13 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.2  2005/06/02 17:27:31  marcelloptr
+*Example made by Jim.
+*Added comments and few fixes.
+*
+*/
 
