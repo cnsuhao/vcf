@@ -397,6 +397,12 @@ public:
 
 	static AcceleratorKey* getAccelerator( const VirtualKeyCode& keyCode, const ulong32& modifierMask, Object* src );
 
+	/**
+	Finds all the matching accelerators and store them in a list.
+	A matching accelerator is defined as an accelerator that has the same key code, 
+	modifier mask, and event handler. This let the synchronize the state of all
+	the matching accelerators when one of them has its changed enabled/disabled state.
+	*/
 	static bool findMatchingAccelerators( AcceleratorKey* key, std::vector<AcceleratorKey*>& matchingAccelerators );
 
 	static void removeAcceleratorKeysForControl( Control* control );
@@ -639,6 +645,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/06/02 16:17:34  marcelloptr
+*some more documentation
+*
 *Revision 1.3.2.8  2005/05/15 23:17:38  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *
