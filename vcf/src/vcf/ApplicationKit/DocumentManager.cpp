@@ -417,6 +417,21 @@ bool DocumentManager::saveDocument( Document* doc )
 	return result;
 }
 
+void DocumentManager::updateSave( ActionEvent* event, Document* doc )
+{
+	event->setEnabled( NULL != doc );
+}
+
+void DocumentManager::updateSaveAs( ActionEvent* event, Document* doc )
+{
+	event->setEnabled( NULL != doc );
+}
+
+void DocumentManager::updateClose( ActionEvent* event, Document* doc )
+{
+	event->setEnabled( NULL != doc );
+}
+
 DocumentManager* DocumentManager::getDocumentManager()
 {
 	return DocumentManager::docManagerInstance;
@@ -603,6 +618,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/06/02 15:56:03  marcelloptr
+*more documentation. Made some handlers virtual. Added some forgotten onUpdateXXX
+*
 *Revision 1.3.2.8  2005/04/09 17:20:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
