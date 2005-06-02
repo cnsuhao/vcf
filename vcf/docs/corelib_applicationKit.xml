@@ -81,7 +81,7 @@ int main( int argc, char** argv )
 		<para>
 		You can customize the initialization of your application by overriding the 
 		Application's initialize() method.
-		<programlisting>
+		<programlisting>		
 class MyApplication : public Application {
 public:
 	virtual bool initRunningApplication() {		
@@ -813,9 +813,9 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		The PackageInfo class describes the library the component is part of. It specifies 
 		the author of the package library, the company, copyright info, and text for other 
 		information. It gives out the name of the library <emphasis>excluding</emphasis> the 
-		platform specific extension (such as .lib or .a or .so). It indicates the platforms/
-		toolchains it supports (if no source is provided). It indicates whether it allows 
-		static linkage, dynamic linkage, or both.
+		platform specific extension (such as .lib or .a or .so). It indicates the 
+		platforms/toolchains it supports (if no source is provided). It indicates whether 
+		it allows static linkage, dynamic linkage, or both.
 		</para>
 
 		<para>
@@ -823,9 +823,9 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		worry about deleting the Components later on. To add a Component you simply call the 
 		Component's <function>addComponent()</function> method, passing in the instance of 
 		the component you want to "own". Once the component is added, it's owner will take 
-		care of destroying it when the owner is destroyed. You can also remove a component. If
-		you remove a component, and then do not add it back to some other owner, the responsibility 
-		for destroying the component is up to you. 
+		care of destroying it when the owner is destroyed. You can also remove a component. 
+		If you remove a component, and then do not add it back to some other owner, the 
+		responsibility for destroying the component is up to you. 
 		</para>
 		<para>
 		When components get added or removed they fire an event which can be handled. You
@@ -833,16 +833,17 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		Component's ComponentAdded or ComponentRemoved delegate. 
 		</para>
 		<para>
-		Component's also have state. This indicates the state of the component. In general the
-		component's state is csNormal indicating that it's been created. When a component is 
-		in the process of being read in from a stream, it's state is marked as csLoading, and
-		when the component is being written to a stream it's state is marked as csSaving. As a 
-		general rule most event's are only fired if the component's state is csNormal. The other 
-		important state is the csDesigning state. This is set when the component is being edited 
-		through some visual editing tool (like the VCF Builder's Form Designer). A component in the
-		csDesigning state can process some event, but ignores most others. This is particularly
-		true if the component is a control. For example, if the component is a TextControl, then
-		any keyboard events are ignored if it's state is set to csDesigning.
+		Component's also have state. This indicates the state of the component. In general 
+		the	component's state is csNormal indicating that it's been created. When a component 
+		is in the process of being read in from a stream, it's state is marked as csLoading, 
+		and	when the component is being written to a stream it's state is marked as csSaving. 
+		As a general rule most event's are only fired if the component's state is csNormal. 
+		The other important state is the csDesigning state. This is set when the component 
+		is being edited through some visual editing tool (like the VCF Builder's Form Designer). 
+		A component in the csDesigning state can process some event, but ignores most others. 
+		This is particularly true if the component is a control. For example, if the component 
+		is a TextControl, then any keyboard events are ignored if it's state is set to 
+		csDesigning.
 		</para>
 		<para>
 		</para>
@@ -865,41 +866,63 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		</para>
 
 		<para>
-		A Control has "parent" property which indicates the "container" the control. A control
-		that has a parent is known as a child control. Typically controls with no parent
-		are top level controls like a Window, Toolbar, or Dialog. The parent control is responsible 
-		for resizing the child if appropriate (see <link linkend="Layout">Layout</link> for 
-		more information on this). It is okay for a parent to be NULL for top level controls
-		like a Window or Dialog.
+		A Control has a "parent" property which indicates the parent control that
+		contains the child control. A control that has a parent is known as a child control. 
+		Typically controls with no parent are top level controls like a Window, Toolbar, 
+		or Dialog. The parent control is responsible for resizing the child if appropriate 
+		(see <link linkend="Layout">Layout</link> for more information on this). It is okay 
+		for a parent to be NULL for top level controls like a Window or Dialog.
 		</para>
 
 		<para>
-		Each Control has the potential to be a container. A container means the control
-		can act as a parent for other child controls. You can dynamically specify or
-		query the specific type of container by using the Control's setContainer()
-		and/or getContainer(). In either case you'll be working with an instance of the 
-		Container class. 
+		Each Control has the potential to act or behave as a container. This means the 
+		control	can act as a parent for other child controls. You can dynamically specify 
+		or query the specific type of container by using the Control's setContainer()
+		and/or getContainer() methods. In either case you'll be working with an instance 
+		of the Container class. The following examle shows how to retreive the container 
+		instance of a control:
+		<programlisting>
+<![CDATA[
+Control* panel = new Panel();
+Container* container = panel->getContainer();
+if ( NULL != container ) {
+	Label* label = new Label();
+	container->add( label, AlignTop );
+}
+]]>
+		</programlisting>
+		This next fragment shows how to set the container of a control:
+		<programlisting>
+<![CDATA[
+Control* panel = new Panel();
+panel->setContainer( new HorizontalLayoutContainer () );
+]]>
+		</programlisting>		
 		</para>
 
 		<para>
 		A Container has methods for adding, inserting, and removing controls. A Container 
-		instance owns all the child controls it has, and is responsible for deleting them 
-		when the container itself is destroyed. The container is owned by the Control it 
-		belongs to. The Container class itself cannot be created, as it is an abstract 
-		interface class. Instead you must create some concrete class derived from the 
-		Container class.
+		instance owns all the child controls it has, meaning that the control's addComponent()
+		method is called whenever a control is added to the container. The Container class 
+		itself cannot be created, as it is an abstract class. Instead you must create some 
+		concrete class derived from the Container class. Unless you want to completely 
+		control the collection type used to hold the child controls	you don't need to 
+		derive directly from VCF::Container, but instead can derive from VCF::StandardContainer 
+		which does some of the basic grunge work for you. VCF::StandardContainer uses 
+		a vector to maintain it's collection of child controls. 
 		</para>
-
 		<para>
 		A Containers primary job is to manage a collection of child controls
 		and to respond to certain events, forwarding them along to other child controls. 
 		Containers can automatically resize their child controls when a resize event happens
 		to the Control that owns the Container. When this happens, the 
 		<emphasis>default</emphasis> behaviour is to follow standard <link linkend="Layout">
-		layout rules</link> depending on the child's alignment or anchor settings. The event 
-		forwarding behaviour only takes place for child controls that are lightweight. 
-		Heavyweight controls do not need this, as they will receive events directly from the
-		windowing system.
+		layout rules</link> depending on the child's alignment or anchor settings. The 
+		event forwarding behaviour only takes place for child controls that are lightweight. 
+		Heavyweight controls do not need this, as they will receive events directly from 
+		the windowing system. This event forwarding is implemented in VCF::StandardContainer, 
+		which is yet another reason to derive from this class when implementing a custom 
+		container type.
 		</para>
 		
 		<para>
@@ -911,7 +934,72 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	
 	<section id="Layout"><title>Layout </title>
 		<para>
-		Layout in the VCF is accomplished by the use of the Container class. 
+		Layout in the VCF is accomplished by the use of the Container class. The container 
+		maintains a list of all the child controls it owns. Using this list of controls the
+		container decides how to layout the controls. The default layout algorithm uses the 
+		alignment value of it's child controls to determine how to lay them out within the 
+		parent control's client bounds. Layout is performed whenever the resizeChildren()
+		method is called.
+		</para>
+		<para>
+		The default layout algorithm, as implemented in the VCF::StandardContainer class,
+		does the following:
+		<itemizedlist>
+		  <listitem>
+		  Get the container controls client bounds
+		  </listitem>
+		  <listitem>
+		  Adjust these bounds for the StandardContainer's top, left, right, and bottom
+		  border widths (which are 0.0 by default).
+		  </listitem>
+		  <listitem>
+		  Determine if there are any child controls that may need to have their bounds 
+		  adjusted because their are anchored to one or more sides of their parent control.
+		  </listitem>
+		  <listitem>
+		  Determine if there are any child controls that may need to have their bounds 
+		  adjusted because their are aligned to some side of the parent control.
+		  </listitem>
+		  <listitem>
+		  If alignment work is needed, then adjust any child control bounds that is aligned
+		  to the top of the parent control. The child controls original height is respected
+		  but it's width is adjusted to that of the container's client bounds.
+		  </listitem>
+		  <listitem>
+		  If alignment work is needed, then adjust any child control bounds that is aligned
+		  to the bottom of the parent control. The child controls original height is respected
+		  but it's width is adjusted to that of the container's client bounds.
+		  </listitem>
+		  <listitem>
+		  If alignment work is needed, then adjust any child control bounds that is aligned
+		  to the left of the parent control. The child controls original width is respected
+		  but it's height is adjusted to that of the container's client bounds.
+		  </listitem>
+		  <listitem>
+		  If alignment work is needed, then adjust any child control bounds that is aligned
+		  to the right of the parent control. The child controls original height is respected
+		  but it's width is adjusted to that of the container's client bounds.
+		  </listitem>
+		  <listitem>
+		  If alignment work is needed, then adjust any child control bounds that is aligned
+		  to the client area of the parent control. The child control's bounds are assigned 
+		  to whatever remaining bounds are left after aligning the appropriate child controls 
+		  to top, bottom, left, and right.
+		  </listitem>
+		  <listitem>
+		  If anchor work is needed, then adjust each child control that has anchors accordingly.
+		  </listitem>
+		  <listitem>
+		  Any control that has it's alignment marked as AlignNone is left wherever it's bounds 
+		  say it is - no adjusting at all is performed.
+		  </listitem>
+		</itemizedlist>
+		</para>
+		<para>
+		More advanced layouts can be achieved by writing a custom Container class and 
+		overriding the resizeChildren method. For examples of this see the 
+		HorizontalLayoutContainer and ColumnLayoutContainer classes.
+		
 		</para>
 	</section>
 	
@@ -961,6 +1049,14 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 		version.  The OSX platform has full support in this release.  The
 		linux platform has partial support in this release.
 		</note>
+		<para>
+		The standard pattern of usage is to create the dialog, set various
+		fields as appropriate, and then call the dialog instance's execute()
+		method. This will show the dialog in a modal state. If the uses 
+		dismisses the dialog through whatever means (such as hitting the "Esc"
+		key, or clicking the "Cancel" button) execute() will return false. If
+		the options/settings on the dialog are accepted, execute will return true.
+		</para>
 		<para>
 		File load and save dialogs are derived from CommonFileDialog.  To open a 
 		file dialog use the	CommonFileOpen class. To bring up a save dialog, use the 
@@ -1032,9 +1128,6 @@ class MyWindow :public Window{
 		saveDialog.setCaption("Saving " + filename);
 		saveDialog.setFilename(filename);
 
-		// now show the dialog
-		saveDialog.showModal();
-
 		//Now get the results.
 		if( openDialog.execute()){
 		    Enumerator<String>* fileList = saveDialog.getSelectedFiles();
@@ -1067,9 +1160,6 @@ class MyWindow :public Window{
 
 		//set initial direcory
 		browseDialog.setDirectory(path);
-
-		// now show the dialog
-		browseDialog.showModal();
 
 		if( browseDialog.execute()){
 			String dir = browseDialog.getDirectory();
@@ -1592,6 +1682,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.2  2005/06/02 19:52:27  ddiego
+updates to docs
+
 Revision 1.4.2.1  2005/06/01 21:05:23  ddiego
 docs udpates
 
