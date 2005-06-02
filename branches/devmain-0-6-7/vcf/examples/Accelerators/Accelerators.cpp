@@ -90,7 +90,7 @@ public:
 		editUndo->addMenuItemClickedHandler( ehEditUndo1 );
 		editUndo->addMenuItemUpdateHandler( ehUpdateEditUndo1 );
 		editUndo->setAcceleratorKey( vkLetterZ, kmCtrl );
-
+		// Note that the update handler has been assigned to the
 		// menu item only, so it is different than the update handler
 		// automatically assigned to the TextControl. Because of that 
 		// the Ctrl+Z accelerator will still trigger the Undo operation
@@ -328,7 +328,7 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.3  2005/06/02 20:25:44  marcelloptr
+*Revision 1.1.2.4  2005/06/02 20:27:03  marcelloptr
 *few more comments
 *
 *Revision 1.1.2.2  2005/06/02 17:27:31  marcelloptr
