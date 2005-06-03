@@ -33,7 +33,7 @@ NB: This software will not save the world.
  <!--
  this uses a local path - may need to be modified for others
  --> 
-	<xsl:import href="f:/docbook-xsl-1.68.1/htmlhelp/htmlhelp.xsl"/>
+	<xsl:import href="c:/code/docbook-xsl-1.68.1/htmlhelp/htmlhelp.xsl"/>
 	
 	<xsl:param name="generate.legalnotice.link" select="1"/>
 	<xsl:param name="html.stylesheet" select="'vcf.css'"/>
@@ -46,8 +46,8 @@ NB: This software will not save the world.
 	<xsl:param name="htmlhelp.chi.create" select="1"/>
 	<xsl:param name="htmlhelp.hhc.folders.instead.books" select="0"/>
 
-	<xsl:param name="toc.section.depth" select="3"/>
-	<xsl:param name="generate.section.toc.level" select="3"/>	
+	<xsl:param name="toc.section.depth" select="2"/>
+	<xsl:param name="generate.section.toc.level" select="5"/>	
 	<xsl:param name="section.autolabel" select="1"/>
 	<xsl:param name="section.label.includes.component.label" select="1"/>
 
@@ -462,6 +462,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.6.10.2  2005/06/03 21:40:20  ddiego
+more doc updates
+
 Revision 1.6.10.1  2005/04/25 00:11:53  ddiego
 added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 

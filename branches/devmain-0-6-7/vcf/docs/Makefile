@@ -2,6 +2,9 @@
 #VCF Documentation makefile
 #
 #$Log$
+#Revision 1.13.2.2  2005/06/03 21:40:18  ddiego
+#more doc updates
+#
 #Revision 1.13.2.1  2005/04/25 00:11:52  ddiego
 #added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 #
@@ -125,7 +128,7 @@ XMAKE_VERSION = 1.0.5
 
 
 HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
-XSL_DOCBOOK_DIR = "f:/docbook-xsl-1.68.1"
+XSL_DOCBOOK_DIR = "c:/code/docbook-xsl-1.68.1"
 XSL_HTMLHELP_IMPORT = "$(XSL_DOCBOOK_DIR)/htmlhelp/htmlhelp.xsl"
 XSL_HTML_IMPORT = "$(XSL_DOCBOOK_DIR)/html/docbook.xsl"
 
