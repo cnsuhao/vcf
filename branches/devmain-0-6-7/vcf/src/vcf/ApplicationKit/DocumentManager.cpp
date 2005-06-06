@@ -22,7 +22,6 @@ using namespace VCF;
 DocumentManager* DocumentManager::docManagerInstance = NULL;
 
 DocumentManager::DocumentManager():
-	standardMenu_(NULL),
 	shouldCreateUI_(true)
 {
 	DocumentManager::docManagerInstance = this;
@@ -106,15 +105,6 @@ void DocumentManager::init()
 }
 
 void DocumentManager::terminate() {
-	standardMenu_->free();
-	standardMenu_ = NULL;
-
-	ActionMap::iterator actionIt =  actionsMap_.begin();
-	while ( actionIt != actionsMap_.end() ) {
-		actionIt->second->free();
-		actionIt ++;
-	}
-
 	DocumentUndoRedoMap::iterator it = undoRedoStack_.begin();
 	while ( it != undoRedoStack_.end() ) {
 		delete it->second;
@@ -612,12 +602,17 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 {
 	actionsMap_[tag] = action;
 	action->setTag( tag );
+
+	MenuManager::getMainMenu()->addComponent( action );
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.9  2005/06/02 15:56:03  marcelloptr
 *more documentation. Made some handlers virtual. Added some forgotten onUpdateXXX
 *

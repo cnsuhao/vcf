@@ -85,6 +85,8 @@ void Component::destroy()
 	Action* action = getAction();
 	if ( NULL != action ) {
 		action->removeTarget( this );
+	
+		removeFromUpdateTimer();	
 	}
 
 	std::vector<Component*>::iterator componentIter = components_.begin();
@@ -528,6 +530,9 @@ void Component::setUseLocaleStrings( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.3  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

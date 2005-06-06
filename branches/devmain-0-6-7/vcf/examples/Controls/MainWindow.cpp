@@ -47,7 +47,7 @@ MainWindow::MainWindow()
 	DefaultMenuItem* help = new DefaultMenuItem( "&Help", root, menuBar );
 	DefaultMenuItem* helpAbout = new DefaultMenuItem( "About...", help, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, &MainWindow::onHelpAbout, "helpAbout" );
-	helpAbout->addMenuItemClickedHandler( menuItemHandler );
+	helpAbout->MenuItemClicked += menuItemHandler;
 
 	//add TabbedPages
 	mainPages_ = new TabbedPages();
@@ -506,6 +506,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.13  2005/06/06 02:34:03  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.2.2.12  2005/05/30 22:22:17  ddiego
 *fixed readonly mode in text edit and added better default font change support.
 *

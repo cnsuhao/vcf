@@ -118,6 +118,8 @@ public:
 
 	virtual SystemTrayPeer* internal_createSystemTrayPeer();
 
+	virtual  MenuManagerPeer* internal_createMenuManagerPeer();
+
 	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer( AbstractApplication* app );
 
 	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  );
@@ -182,6 +184,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.2  2005/04/25 00:11:59  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

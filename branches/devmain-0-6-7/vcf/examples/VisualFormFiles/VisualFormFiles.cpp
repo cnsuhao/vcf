@@ -43,7 +43,7 @@ public:
 		while ( children->hasMoreElements() ) {
 			MenuItem* item = children->nextElement();
 
-			item->addMenuItemClickedHandler( ev );
+			item->MenuItemClicked += ev;
 		}
 
 		
@@ -349,6 +349,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.2  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.4.4.1  2005/03/06 22:50:58  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

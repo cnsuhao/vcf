@@ -32,28 +32,28 @@ public:
 
 		EventHandler* ev = new MenuItemEventHandler<FrameStylesWindow>(this, &FrameStylesWindow::onSetFrameStyle, "FrameStylesWindow::onSetFrameStyle" );
 		MenuItem* sizeable = new DefaultMenuItem( "fstSizeable", frameStyle, menu );
-		sizeable->addMenuItemClickedHandler( ev );
+		sizeable->MenuItemClicked += ev;
 		sizeable->setTag( 0 );
 
 
 		MenuItem* noBorder = new DefaultMenuItem( "fstNoBorder", frameStyle, menu );
-		noBorder->addMenuItemClickedHandler( ev );
+		noBorder->MenuItemClicked += ev;
 		noBorder->setTag( 1 );
 
 		MenuItem* fixed = new DefaultMenuItem( "fstFixed", frameStyle, menu );
-		fixed->addMenuItemClickedHandler( ev );
+		fixed->MenuItemClicked += ev;
 		fixed->setTag( 2 );
 
 		MenuItem* noBorderFixed = new DefaultMenuItem( "fstNoBorderFixed", frameStyle, menu );
-		noBorderFixed->addMenuItemClickedHandler( ev );
+		noBorderFixed->MenuItemClicked += ev;
 		noBorderFixed->setTag( 3 );
 
 		MenuItem* toolbarBorder = new DefaultMenuItem( "fstToolbarBorder", frameStyle, menu );
-		toolbarBorder->addMenuItemClickedHandler( ev );
+		toolbarBorder->MenuItemClicked += ev;
 		toolbarBorder->setTag( 4 );
 
 		MenuItem* toolbarBorderFixed = new DefaultMenuItem( "fstToolbarBorderFixed", frameStyle, menu );
-		toolbarBorderFixed->addMenuItemClickedHandler( ev );
+		toolbarBorderFixed->MenuItemClicked += ev;
 		toolbarBorderFixed->setTag( 5 );
 	}
 

@@ -32,70 +32,26 @@ public:
 
 	void init();
 
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
+	virtual void addItemPaintHandler( EventHandler* handler ){}
 
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint +=  handler;
-	}
+	virtual void addItemChangedHandler( EventHandler* handler ){}
 
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
+	virtual void addItemSelectedHandler( EventHandler* handler ){}
 
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
+	virtual void addItemAddedHandler( EventHandler* handler ){}
 
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
+	virtual void addItemDeletedHandler( EventHandler* handler ){}
 
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
+	virtual void removeItemPaintHandler( EventHandler* handler ){}
 
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
+	virtual void removeItemChangedHandler( EventHandler* handler ){}
 
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
+	virtual void removeItemSelectedHandler( EventHandler* handler ){}
 
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
+	virtual void removeItemAddedHandler( EventHandler* handler ){}
 
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
-	DELEGATE(MenuItemClicked);
-	DELEGATE(MenuItemUpdate);
-
-	virtual void addMenuItemClickedHandler( EventHandler* handler ) {
-		MenuItemClicked += handler;
-	}
-
-	virtual void removeMenuItemClickedHandler( EventHandler* handler ) {
-		MenuItemClicked -= handler;
-	}
-
-	virtual void addMenuItemUpdateHandler( EventHandler* handler ) {
-		MenuItemUpdate += handler;
-	}
-
-	virtual void removeMenuItemUpdateHandler( EventHandler* handler ) {
-		MenuItemUpdate -= handler;
-	}
+	virtual void removeItemDeletedHandler( EventHandler* handler ){}	
+	
 
 
 	virtual bool containsPoint( Point * pt );
@@ -203,10 +159,12 @@ public:
 	}
 
 	virtual long getState(){
-		return 0;
+		return state_;
 	}
 
-	virtual void setState( const long& state ){}
+	virtual void setState( const long& state ){
+		state_ = state;
+	}
 
 	virtual void setBounds( Rect* bounds );
 
@@ -227,6 +185,8 @@ public:
 	virtual void setAcceleratorKey( AcceleratorKey* accelerator );
 
 	virtual AcceleratorKey* getAccelerator();
+
+	virtual uint32 getChildIndex( MenuItem* child );
 	
 	virtual Object* clone(bool deep=false);
 
@@ -235,23 +195,16 @@ protected:
 	void onAccelerator( KeyboardEvent* e );
 
 protected:
-	MenuItemPeer* peer_;
 	std::vector<MenuItem*> menuItems_;
 	EnumeratorContainer<std::vector<MenuItem*>, MenuItem*> container_;
 	String caption_;
-	bool visible_;
-	ulong32 index_;
-	bool selected_;
 	void* data_;
 	Menu* menuOwner_;
-	bool separator_;
 	MenuItem* parent_;
-	bool radioItem_;
 	long imageIndex_;
-	bool isEnabled_;
 	Rect bounds_;
 	AcceleratorKey* currentAccelerator_;
-
+	uint32 state_;
 };
 
 
@@ -274,6 +227,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.2  2005/03/14 04:17:23  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

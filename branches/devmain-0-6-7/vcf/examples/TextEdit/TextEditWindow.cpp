@@ -204,11 +204,11 @@ void TextEditWindow::initMenus()
 	MenuItem* view = new DefaultMenuItem( "&View", menuBar->getRootMenuItem(), menuBar );
 	MenuItem* viewToolbar = new DefaultMenuItem( "&Toolbar", view, menuBar );
 
-	viewToolbar->addMenuItemClickedHandler( 
-						new MenuItemEventHandler<TextEditWindow>( this, &TextEditWindow::viewToolbarClicked, "TextEditWindow::viewToolbarClicked" ) );	
+	viewToolbar->MenuItemClicked += 
+						new MenuItemEventHandler<TextEditWindow>( this, &TextEditWindow::viewToolbarClicked, "TextEditWindow::viewToolbarClicked" );	
 
-	viewToolbar->addMenuItemUpdateHandler( 
-						new MenuItemEventHandler<TextEditWindow>( this, &TextEditWindow::updateViewToolbar, "TextEditWindow::updateViewToolbar" ) );
+	viewToolbar->MenuItemUpdate += 
+						new MenuItemEventHandler<TextEditWindow>( this, &TextEditWindow::updateViewToolbar, "TextEditWindow::updateViewToolbar" );
 
 	
 	MenuItem* help = new DefaultMenuItem( "&Help", menuBar->getRootMenuItem(), menuBar );
@@ -288,6 +288,9 @@ void TextEditWindow::onSelectionChanged( VCF::Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.2.2.6  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *

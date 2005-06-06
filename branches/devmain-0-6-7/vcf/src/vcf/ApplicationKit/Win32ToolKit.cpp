@@ -57,6 +57,10 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/Win32TextPeer.h"
 
+#include "vcf/ApplicationKit/MenuManagerPeer.h"
+#include "vcf/ApplicationKit/Win32MenuManagerPeer.h"
+
+
 
 #ifdef _LIB
     /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
@@ -1590,6 +1594,11 @@ SystemTrayPeer* Win32ToolKit::internal_createSystemTrayPeer()
 	return new Win32SystemTrayPeer();
 }
 
+MenuManagerPeer* Win32ToolKit::internal_createMenuManagerPeer()
+{
+	return new Win32MenuManagerPeer();
+}
+
 GraphicsResourceBundlePeer* Win32ToolKit::internal_createGraphicsResourceBundlePeer( AbstractApplication* app )
 {
 	return new Win32AppResourceBundle( app );
@@ -2238,6 +2247,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.15  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.14  2005/05/20 03:04:05  ddiego
 *minor mods to set focused control.
 *
