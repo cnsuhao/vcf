@@ -1177,6 +1177,18 @@ String formattedStr = Format( "Hello %d times!" ) % 100;
 			</section>
 			<section><title>Formatting</title>
 				<para>
+				There's support for formatting a DateTime instance and transforming it's
+				value to a string. For example:
+				<programlisting>
+<![CDATA[
+String dtStr = StringUtils::format( DateTime::now(), "%a %B %#d, %Y" );
+]]>
+				</programlisting>
+				The value in dtStr should read something like "Mon June 2, 2005" after 
+				StringUtils::format() returns. Using the "#" causes leading 0's to be 
+				stripped from the string conversion. For a complete list of the 
+				various format specifiers, see the source documentation of 
+				StringUtils::format().
 				</para>
 			</section>
 		</section>
@@ -1184,33 +1196,154 @@ String formattedStr = Format( "Hello %d times!" ) % 100;
 	
 	<section><title>Locales</title>
 		<para>
+		To support internationalization (i18n) and localization (i10n)
+		the VCF has a Locale class. Each locale instance represents a
+		way to identify a language/country/region and to indication to 
+		the underlying OS that it should use this identifier for certain
+		operations. For example, on platforms that support this, you can
+		tell the OS to set the locale of a specific thread, so that all
+		operations are made with that locale in mind. The Locale class
+		also provides specific methods to convert date/time, numeric, and 
+		currency values into string values appropriate to the locale. 
 		</para>
 		<section><title>Naming</title>
 			<para>
+			Each locale is identified by a string name that is composed of
+			(currently) several elements. The first is a language identifier
+			as specified by ISO-639-1 (e.g. English is "en", Polish is 
+			"pl", and Italian is "it"). The second is the 2 character country 
+			identifier as specified by ISO-3166 (e.g. the United States is
+			"US", Poland is "PL", and Italy is "IT"). 
+			</para>
+			<para>
+			These two codes are then joined together, separated by an "_" 
+			character to form a complete identifier for the locale, such as 
+			"en_US", or "en_GB".
+			</para>
+			<para>
+			This identifier is then used in the construction of a locale:
+			<programlisting>
+<![CDATA[
+Locale loc("en_US); //american english locale
+Locale loc2("ar_AE); //UAE arabic locale
+]]>
+			</programlisting>
+			Depending on your platform, it's possible that a valid locale identifier
+			may not be supported which will cause an exception to be thrown by the 
+			locale. For example your OS may not support arabic, thus the "ar_AE", 
+			while valid, would cause an exception.
+			</para>
+			<para>
+			Once created a locale instance maintains a peer that maps directly to the
+			OS's support for locale operations.
 			</para>
 		</section>
 		
 		<section><title>Numeric Formatting</title>
 			<para>
+			The locale class supports formatting numeric values to strings appropriate
+			to the locale in question. Any integer value may be converted to a string
+			using the Locale::toString() methods. For example:
+			<programlisting>
+<![CDATA[
+Locale loc("en_US");
+String numStr = loc.toString( 203456 ); 
+]]>
+			</programlisting>
+			The numStr variable will now contain the string value "203,456". Note that
+			this is different than what StringUtils::toString() does, which is to just do 
+			a plain conversion of the 203456 value into "203456". Floating point 
+			conversion is also supported in the form of converting float and double
+			types.
+			</para>
+			<para>
+			Currency values may be converted using the Locale::toStringFromCurrency() 
+			function which takes a single double value. 
+			<programlisting>
+<![CDATA[
+Locale loc("en_US");
+String numStr = loc.toStringFromCurrency( 120034.231 ); 
+]]>
+			</programlisting>
 			</para>
 		</section>
 		
 		<section><title>Date Time Formatting</title>
 			<para>
+			There are two separate functions for transformating a DateTime instance 
+			into a string. The first, Locale::toStringFromDate(), only uses the 
+			date portion of a DateTime instance. The second, Locale::toStringFromTime(),
+			only uses the time portion of a DateTime instance. 
+			<note>
+			<para>
+			The format codes used by Locale::toStringFromTime() and Locale::toStringFromDate()
+			are not the same as the format codes used by StringUtils::format(DateTime). 
+			</para>
+			</note>
+			An empty format string (the default value for the argument) means the
+			implementation should use whatever default values are most appropriate.
+			An example of using this:
+			<programlisting>
+<![CDATA[
+Locale loc("it_IT");
+String dateStr = loc.toStringFromDate( DateTime::now() );
+String timeStr = loc.toStringFromTime( DateTime::now() );
+]]>
+			</programlisting>
+			
 			</para>
 		</section>
 		
 		<section><title>Collation</title>
 			<para>
+			Collation means comparing to string values for equivalency or order. The Locale
+			class has two functions for this, one for case sensitive compares, 
+			Locale::collate(), and another for case in-sensitive compares, Locale::collateCaseInsensitive().
+			Both return an integer value that is one of the following: 
+				<itemizedlist>
+					<listitem>
+					0 - Indicates that both strings should be considered equal.
+					</listitem>
+					<listitem>
+					-1 - Indicates that the first string is "less than", or should
+					come before, the second string.
+					</listitem>
+					<listitem>
+					1 - Indicates that the first string is "greater than", or should
+					come after, the second string.
+					</listitem>
+				</itemizedlist>
 			</para>
 		</section>
 		
 		<section><title>Translation</title>
 			<para>
+			The Locale class also supports translating a string in one language, into
+			the language represented by the Locale instance. Typically the "source" 
+			string is in english. For instance, here's an example of using the
+			string "Hello", and translating it with a French locale:
+			<programlisting>
+<![CDATA[
+Locale loc("fr_FR");
+String frHelloStr = loc.translate( "Hello" );
+]]>
+			</programlisting>
+			After loc.translate() returns the frHelloStr variable should contain "Salute", 
+			assuming a translation could be found. If no translation is found, then the 
+			return value is the same as the source.
 			</para>
 			
 			<formalpara><title>Mechanics</title>
+			The translation works by using some sort of localized key/value file. A special
+			class called the MessageLoader is used to look up and extract data from the file. 
+			The default translation file is a ".strings" file, but because the MessageLoader
+			class allows a developer to register a specific MessageLoader instance with
+			a mimetype (matched to a file name extension), it's possible to add support for 
+			other localization files, such as .po/.mo files and the gettext API.
 			</formalpara>
+			<para>
+			
+			</para>
 			
 			<formalpara><title>Custom Message Parsing</title>
 			</formalpara>
@@ -1400,6 +1533,9 @@ String formattedStr = Format( "Hello %d times!" ) % 100;
 <!-- 
 CVS Log info
 $Log$
+Revision 1.3.4.3  2005/06/06 21:21:18  ddiego
+updates again
+
 Revision 1.3.4.2  2005/06/03 21:40:19  ddiego
 more doc updates
 
