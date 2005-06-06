@@ -89,6 +89,8 @@ class TimerEvent;
 
 class SystemTrayPeer;
 
+class MenuManagerPeer;
+
 
 
 
@@ -272,6 +274,8 @@ public:
 	static CursorPeer* createCursorPeer( Cursor* cursor );
 
 	static SystemTrayPeer* createSystemTrayPeer();
+
+	static MenuManagerPeer* createMenuManagerPeer();
 
 	static GraphicsResourceBundlePeer* createGraphicsResourceBundlePeer( AbstractApplication* app );
 
@@ -529,6 +533,8 @@ protected:
 
 	virtual SystemTrayPeer* internal_createSystemTrayPeer() = 0;
 
+	virtual  MenuManagerPeer* internal_createMenuManagerPeer() = 0;
+
 	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer( AbstractApplication* app ) = 0;
 
 	virtual bool internal_createCaret( Control* owningControl, Image* caretImage  ) = 0;
@@ -645,6 +651,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.9  2005/06/02 16:17:34  marcelloptr
 *some more documentation
 *

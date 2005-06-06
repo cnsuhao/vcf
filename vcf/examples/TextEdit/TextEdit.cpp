@@ -191,7 +191,7 @@ bool TextEdit::initRunningApplication()
 		add additional menu items	
 		*/
 		
-		MenuItem* root = getStandardMenu()->getRootMenuItem();
+		MenuItem* root = MenuManager::getMainMenu()->getRootMenuItem();
 		MenuItem* edit = root->findChildNamedSimilarTo( "edit" );
 		ulong32 editCount = edit->getChildCount();
 		
@@ -228,8 +228,8 @@ bool TextEdit::initRunningApplication()
 		file->addChild( sep );
 
 		DefaultMenuItem* fileExit = new DefaultMenuItem( "E&xit" );	
-		fileExit->addMenuItemClickedHandler( 
-				new GenericEventHandler<TextEdit>( this, &TextEdit::onExit, "TextEdit::onExit" ) );
+		fileExit->MenuItemClicked += 
+				new GenericEventHandler<TextEdit>( this, &TextEdit::onExit, "TextEdit::onExit" );
 
 		file->addChild( fileExit );
 
@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.2.2.2  2005/05/05 12:42:25  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

@@ -106,27 +106,27 @@ public:
 		MenuItem* root = menuBar->getRootMenuItem();
 		MenuItem* test = new DefaultMenuItem( "Test", root, menuBar );
 		MenuItem* menuItem = new DefaultMenuItem( "Remove Selected Item", test, menuBar );
-		menuItem->addMenuItemClickedHandler(
-			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::removeSelectedItem, "TreeListControlsWindow::removeSelectedItem" ) );
+		menuItem->MenuItemClicked +=
+			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::removeSelectedItem, "TreeListControlsWindow::removeSelectedItem" );
 
 
 		menuItem = new DefaultMenuItem( "Set Multi select", test, menuBar );
-		menuItem->addMenuItemClickedHandler(
-			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::setMultiSelection, "TreeListControlsWindow::setMultiSelection" ) );
+		menuItem->MenuItemClicked +=
+			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::setMultiSelection, "TreeListControlsWindow::setMultiSelection" );
 
 
 		menuItem = new DefaultMenuItem( "Full Row Selection", test, menuBar );
-		menuItem->addMenuItemClickedHandler(
-			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::setFullRowSelect, "TreeListControlsWindow::setFullRowSelect" ) );
+		menuItem->MenuItemClicked +=
+			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::setFullRowSelect, "TreeListControlsWindow::setFullRowSelect" );
 
 
 		menuItem = new DefaultMenuItem( "Full Row Selection Off", test, menuBar );
-		menuItem->addMenuItemClickedHandler(
-			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::setFullRowSelectOff, "TreeListControlsWindow::setFullRowSelectOff" ) );
+		menuItem->MenuItemClicked +=
+			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::setFullRowSelectOff, "TreeListControlsWindow::setFullRowSelectOff" );
 
 		menuItem = new DefaultMenuItem( "Change Caption", test, menuBar );
-		menuItem->addMenuItemClickedHandler(
-			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::changeCaption, "TreeListControlsWindow::changeCaption" ) );
+		menuItem->MenuItemClicked +=
+			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::changeCaption, "TreeListControlsWindow::changeCaption" );
 
 
 		ImageList* listIL = new ImageList();
@@ -165,8 +165,8 @@ public:
 		root = popup->getRootMenuItem();
 
 		menuItem = new DefaultMenuItem( "Enumerate Selected items", root, popup );
-		menuItem->addMenuItemClickedHandler(
-			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::enumerateSelectedItems, "TreeListControlsWindow::enumerateSelectedItems" ) );
+		menuItem->MenuItemClicked +=
+			new MenuItemEventHandler<TreeListControlsWindow>( this, &TreeListControlsWindow::enumerateSelectedItems, "TreeListControlsWindow::enumerateSelectedItems" );
 
 
 		ScrollbarManager* scrollbarManager = new ScrollbarManager();
@@ -414,6 +414,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.6.2.4  2005/04/17 15:12:05  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

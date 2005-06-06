@@ -40,8 +40,8 @@ public:
 		MenuItem* fileOpenImageMenu = new DefaultMenuItem( "Open Image...", fileMenu, menuBar );
 
 		//add our event handler to the menu item
-		fileOpenImageMenu->addMenuItemClickedHandler(
-			new MenuItemEventHandler<ImageViewerWindow>( this,&ImageViewerWindow::openImage, "ImageViewerWindow::openImage" ) );
+		fileOpenImageMenu->MenuItemClicked +=
+			new MenuItemEventHandler<ImageViewerWindow>( this,&ImageViewerWindow::openImage, "ImageViewerWindow::openImage" );
 
 
 
@@ -162,6 +162,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/06/06 02:34:03  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.6.2.1  2005/03/06 22:50:54  ddiego
 *overhaul of RTTI macros. this includes changes to various examples to accommadate the new changes.
 *

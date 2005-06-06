@@ -26,6 +26,7 @@ class ComponentEvent;
 class APPLICATIONKIT_API Menu : public Component {
 public:
 
+	DELEGATE(MenuItemChanged);
 
 	Menu();
 
@@ -40,10 +41,11 @@ public:
 
 	MenuItem* getRootMenuItem();
 
-	void setRootMenuItem( MenuItem* item );
+	void setRootMenuItem( MenuItem* item );	
 
-	virtual void afterCreate( ComponentEvent* event ){};//no-op for now
+	void itemChanged( const int& eventType, MenuItem* item );
 
+	uint32 getItemIndex( MenuItem* item );
 protected:
 	MenuItem* rootMenuItem_;
 
@@ -60,6 +62,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -234,7 +234,7 @@ public:
 		}
 		
 
-		StringUtils::traceWithArgs( Format("currentDocument_: %p\n") % result );
+		//StringUtils::traceWithArgs( Format("currentDocument_: %p\n") % result );
 
 		return result;
 	}
@@ -437,6 +437,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/06/06 02:34:05  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.1  2005/03/15 01:51:49  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

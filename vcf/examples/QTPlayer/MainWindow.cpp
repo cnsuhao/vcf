@@ -596,7 +596,7 @@ void MainQTWindow::buildUI()
 	DefaultMenuItem* helpAbout = new DefaultMenuItem( "About...", help, menuBar );	
 
 	EventHandler* ev = new GenericEventHandler<MainQTWindow>( this, &MainQTWindow::onHelpAbout, "MainQTWindow::onHelpAbout" );
-	helpAbout->addMenuItemClickedHandler( ev );
+	helpAbout->MenuItemClicked += ev;
 	
 	
 
@@ -797,7 +797,7 @@ void MainQTWindow::buildUI()
 
 	DefaultMenuItem* pmItem = new DefaultMenuItem( "Edit/Create a search Catalog...", pmRoot,pm );
 
-	pmItem->addMenuItemClickedHandler ( new GenericEventHandler<MainQTWindow>(this,&MainQTWindow::onEditCreateSearchCatalog, "MainQTWindow::onEditCreateSearchCatalog" ) );
+	pmItem->MenuItemClicked += new GenericEventHandler<MainQTWindow>(this,&MainQTWindow::onEditCreateSearchCatalog, "MainQTWindow::onEditCreateSearchCatalog" );
 
 	pm->setRootMenuItem( pmRoot );
 

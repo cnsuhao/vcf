@@ -13,7 +13,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/DefaultPropertyEditors.h"
 #include "vcf/ApplicationKit/ImageControl.h"
-
+#include "vcf/ApplicationKit/MenuManager.h"
 
 //Peers
 
@@ -65,6 +65,8 @@ UIToolkit::~UIToolkit()
 	delete systemClipboard_;
 
 	Component::clearRegistedComponents();
+
+	MenuManager::terminate();
 
 	delete stopImage_;
 	delete warningImage_;
@@ -157,6 +159,7 @@ void UIToolkit::init()
 
 	internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
 
+	MenuManager::init();
 	//Desktop::getDesktop()->init();
 }
 
@@ -368,6 +371,11 @@ CursorPeer* UIToolkit::createCursorPeer( Cursor* cursor )
 SystemTrayPeer* UIToolkit::createSystemTrayPeer()
 {
 	return UIToolkit::toolKitInstance->internal_createSystemTrayPeer();
+}
+
+MenuManagerPeer* UIToolkit::createMenuManagerPeer()
+{
+	return UIToolkit::toolKitInstance->internal_createMenuManagerPeer();
 }
 
 GraphicsResourceBundlePeer* UIToolkit::createGraphicsResourceBundlePeer( AbstractApplication* app )
@@ -1226,6 +1234,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.16  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.15  2005/06/02 16:12:16  marcelloptr
 *some more documentation
 *

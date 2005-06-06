@@ -13,6 +13,11 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#ifndef _VCF_MENUMANAGER_H__
+	#include "vcf/ApplicationKit/MenuManager.h"
+#endif //_VCF_MENUMANAGER_H__
+
+
 
 namespace VCF {
 
@@ -499,13 +504,6 @@ public:
 
 
 	/**
-	* gets the standard menu built for any document based application.
-	*/
-	Menu* getStandardMenu() {
-		return standardMenu_;
-	}
-
-	/**
 	* creates the menus associated to our document based application.
 	* The basic functionality is empty. The real implementation is dependent on the policy.
 	*/
@@ -661,27 +659,38 @@ protected:
 	typedef std::map<Document*,UndoRedoStack*> DocumentUndoRedoMap;
 	typedef std::map< ulong32, Action* > ActionMap;
 
-	/** the only document manager instance for the application */
+	/** 
+	the only document manager instance for the application 
+	*/
 	static DocumentManager* docManagerInstance;
 
-	/** the map of all registered DocumentInfo(s) */
+	/**
+	The map of all registered DocumentInfo(s) 
+	*/
 	DocumentInfoMap docInfo_;
 	EnumeratorMapContainer< DocumentInfoMap, DocumentInfo > docInfoContainer_;
 
-	/** the list of all the opened document at this moment */
+	/**
+	The list of all the opened document at this moment 
+	*/
 	std::vector<Document*> openDocuments_;
 	EnumeratorContainer< std::vector<Document*>, Document* > openDocContainer_;
 
-	/** this DocumentManager has a User Interface */
+	/** 
+	this DocumentManager has a User Interface 
+	*/
 	bool shouldCreateUI_;
 
-	/** the standard menu for a Document based application */
-	Menu* standardMenu_;
-
-	/** the map of all actions and their associated tags according to our document manager */
+	
+	/**
+	the map of all actions and their associated tags according 
+	to our document manager 
+	*/
 	ActionMap actionsMap_;
 
-	/** the map of all undo redo stack associated to each document */
+	/** 
+	the map of all undo redo stack associated to each document 
+	*/
 	DocumentUndoRedoMap undoRedoStack_;
 };
 
@@ -1529,7 +1538,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::initializeWindowMenus( Wi
 		window->addComponent( menu );
 	}
 
-	DocInterfacePolicy::mergeWindowMenus( standardMenu_, window->getMenuBar() );
+	DocInterfacePolicy::mergeWindowMenus( MenuManager::getMainMenu(), window->getMenuBar() );
 }
 
 
@@ -1749,14 +1758,14 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::createDocumentFromTy
 
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
-	standardMenu_ = new MenuBar();
+	Menu* standardMenu = MenuManager::getMainMenu();
 	
 	UIPolicyManager* mgr = UIToolkit::getUIPolicyManager();
 
-	MenuItem* root = standardMenu_->getRootMenuItem();
-	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, standardMenu_);
+	MenuItem* root = standardMenu->getRootMenuItem();
+	DefaultMenuItem* file = new DefaultMenuItem( "&File", root, standardMenu);
 
-	DefaultMenuItem* fileNew = new DefaultMenuItem( "&New", file, standardMenu_);
+	DefaultMenuItem* fileNew = new DefaultMenuItem( "&New", file, standardMenu);
 
 	AcceleratorKey::Value val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileNew);
 
@@ -1764,63 +1773,63 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	fileNew->setTag( DocumentManager::atFileNew );
 
 
-	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...", file, standardMenu_);
+	DefaultMenuItem* fileOpen = new DefaultMenuItem( "&Open...", file, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileOpen);
 	fileOpen->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileOpen->setTag( DocumentManager::atFileOpen );
 
-	DefaultMenuItem* fileClose = new DefaultMenuItem( "Close", file, standardMenu_);
+	DefaultMenuItem* fileClose = new DefaultMenuItem( "Close", file, standardMenu);
 	fileClose->setTag( DocumentManager::atFileClose );
 
 
-	DefaultMenuItem* separator = new DefaultMenuItem( "", file, standardMenu_);
+	DefaultMenuItem* separator = new DefaultMenuItem( "", file, standardMenu);
 	separator->setSeparator( true );
 
 
-	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save", file, standardMenu_);
+	DefaultMenuItem* fileSave = new DefaultMenuItem( "&Save", file, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileSave);
 	fileSave->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileSave->setTag( DocumentManager::atFileSave );
 
-	DefaultMenuItem* fileSaveAs = new DefaultMenuItem( "Save &As...", file, standardMenu_);
+	DefaultMenuItem* fileSaveAs = new DefaultMenuItem( "Save &As...", file, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saFileSaveAs);
 	fileSaveAs->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	fileSaveAs->setTag( DocumentManager::atFileSaveAs );
 
 
-	DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, standardMenu_);
-	DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo", edit, standardMenu_);
+	DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, standardMenu);
+	DefaultMenuItem* editUndo = new DefaultMenuItem( "&Undo", edit, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditUndo);
 	editUndo->setAcceleratorKey( val.getKeyCode(), val.getModifierMask()  );
 	editUndo->setTag( DocumentManager::atEditUndo );
 
-	DefaultMenuItem* editRedo = new DefaultMenuItem( "&Redo", edit, standardMenu_);
+	DefaultMenuItem* editRedo = new DefaultMenuItem( "&Redo", edit, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditRedo);
 	editRedo->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editRedo->setTag( DocumentManager::atEditRedo );
 
-	separator = new DefaultMenuItem( "", edit, standardMenu_);
+	separator = new DefaultMenuItem( "", edit, standardMenu);
 	separator->setSeparator( true );
 
-	DefaultMenuItem* editCut = new DefaultMenuItem( "Cu&t", edit, standardMenu_);
+	DefaultMenuItem* editCut = new DefaultMenuItem( "Cu&t", edit, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCut);
 	editCut->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editCut->setTag( DocumentManager::atEditCut );
 
-	DefaultMenuItem* editCopy = new DefaultMenuItem( "&Copy", edit, standardMenu_);
+	DefaultMenuItem* editCopy = new DefaultMenuItem( "&Copy", edit, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditCopy);
 	editCopy->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editCopy->setTag( DocumentManager::atEditCopy );
 
-	DefaultMenuItem* editPaste = new DefaultMenuItem( "&Paste", edit, standardMenu_);
+	DefaultMenuItem* editPaste = new DefaultMenuItem( "&Paste", edit, standardMenu);
 	val = mgr->getStandardAcceleratorFor(UIPolicyManager::saEditPaste);
 	editPaste->setAcceleratorKey( val.getKeyCode(), val.getModifierMask() );
 	editPaste->setTag( DocumentManager::atEditPaste );
 
-	separator = new DefaultMenuItem( "", edit, standardMenu_);
+	separator = new DefaultMenuItem( "", edit, standardMenu);
 	separator->setSeparator( true );
 
-	DefaultMenuItem* editPreferences = new DefaultMenuItem( "P&references...", edit, standardMenu_);
+	DefaultMenuItem* editPreferences = new DefaultMenuItem( "P&references...", edit, standardMenu);
 	editPreferences->setTag( DocumentManager::atEditPreferences );
 
 
@@ -1850,6 +1859,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.14  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.3.2.13  2005/06/02 15:56:04  marcelloptr
 *more documentation. Made some handlers virtual. Added some forgotten onUpdateXXX
 *

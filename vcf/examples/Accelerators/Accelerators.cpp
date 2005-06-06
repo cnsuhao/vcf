@@ -87,9 +87,11 @@ public:
 
 
 
-		editUndo->addMenuItemClickedHandler( ehEditUndo1 );
-		editUndo->addMenuItemUpdateHandler( ehUpdateEditUndo1 );
+
+
 		editUndo->setAcceleratorKey( vkLetterZ, kmCtrl );
+		editUndo->MenuItemClicked += ehEditUndo1;
+		editUndo->MenuItemUpdate += ehUpdateEditUndo1;
 		// Note that the update handler has been assigned to the
 		// menu item only, so it is different than the update handler
 		// automatically assigned to the TextControl. Because of that 
@@ -98,8 +100,9 @@ public:
 
 
 
-		panelsChangeColor->addMenuItemClickedHandler( ehPanelsChangeColors );
-		panelsChangeColor->addMenuItemUpdateHandler( ehUpdatePanelsChangeColors );
+
+		panelsChangeColor->MenuItemClicked += ehPanelsChangeColors;
+		panelsChangeColor->MenuItemUpdate += ehUpdatePanelsChangeColors;
 
 
 		TabbedPages* tabs = new TabbedPages();
@@ -328,6 +331,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2005/06/06 02:34:03  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.1.2.4  2005/06/02 20:27:03  marcelloptr
 *few more comments
 *

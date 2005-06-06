@@ -26,9 +26,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 NB: This software will not save the world.
 -->
 
-<section><title>ApplicationKit</title>
-	<para>
+<section><title>ApplicationKit</title>	
+	<section><title>Introduction</title>
+	  <para>
+		The ApplicationKit is the primary library used for writing applications
+		that need a Graphical User Interface (GUI). It depends on both the FoundationKit
+		and the GraphicsKit. 
 	</para>
+	<para>
+	The following sections will go over all the major features of the ApplicationKit
+	starting with a very brief example of creating an application (for more
+	on the exact details of this see the HelloWorld examples in the 
+	vcf/examples directory). It will then explain the basic features of the
+	UIToolkit class, and then on to the specific features of the ApplicationKit
+	library.
+	</para>
+	</section>
 	<section><title>Applications </title>
 		<para>
 		<indexterm><primary>UI Applications</primary></indexterm>
@@ -47,9 +60,9 @@ NB: This software will not save the world.
 		</para>
 		<para>
 		<indexterm><primary>apps</primary></indexterm>
-		An application either represents a program (or process) or a library in the
+		An application either represents a program (or process), or a library in the
 		form of a dynamic link library (DLL) or shared object (SO). If the application
-		is part of a library then the specific instance must be dericed from 
+		is part of a library then the specific instance must be derived from 
 		VCF::LibraryApplication. There can be more than one LibraryApplication instance
 		loaded. 
 		</para>
@@ -59,16 +72,32 @@ NB: This software will not save the world.
 		incorrect and will break the application.
 		</para>
 		<para>
-		To use the Application class, simply create an instance on the stack in your programs
-		main() function, and then call the Application's static method, Application::appMain().
+		To create a program that has a main Application class, create a new custom 
+		class that derives from VCF::Application. Add a constructor that takes an int
+		argument and a char** argument, and then call the derived Application's 
+		constructor. Override the virtual method Application::initRunningApplication() 
+		and put in your own custom initialization code. In the program's main() function
+		create a single instance of your class and then call the Application::appMain()
+		function. And <emphasis>Voila!</emphasis> you have created a simple application
+		with a running event loop. As an example:
 		<programlisting>
+<![CDATA[		
+class MyApp : public Application {
+public:
+	MyApp( int argc, char** argv ) : Application(argc,argv){}
+	virtual bool initRunningApplication() {
+		//your custom initialization here
+		return Application::initRunningApplication();
+	}
+};
+
 int main( int argc, char** argv ) 
 {
-	Application app;
-	
-	Application::appMain( argc, argv );
+	Application* app = new MyApp( argc, argv );	
+	Application::appMain();
 	return 0;
 }
+]]>
 		</programlisting>
 		</para>
 		<para>
@@ -81,7 +110,9 @@ int main( int argc, char** argv )
 		<para>
 		You can customize the initialization of your application by overriding the 
 		Application's initialize() method.
-		<programlisting>		
+
+		<programlisting>
+<![CDATA[
 class MyApplication : public Application {
 public:
 	virtual bool initRunningApplication() {		
@@ -92,6 +123,7 @@ public:
 		return result;
 	}
 };
+]]>
 		</programlisting>
 		<note>
 			<para>
@@ -99,23 +131,13 @@ public:
 			may see incorrect or undefined behaviour.
 			</para>
 		</note>
-		
-		You can use your new class like so:
-		<programlisting>
-int main( int argc, char** argv ) 
-{
-	MyApplication app;
-	
-	Application::appMain( argc, argv );
-	return 0;
-}
-		</programlisting>
-		
+				
 		</para>
 		<para>
 		You can customize functionality for closing the Application as well by overriding the 
 		terminateRunningApplication() method. 
 		<programlisting>
+<![CDATA[		
 class MyApplication : public Application {
 public:
 	//rest of declaration
@@ -125,6 +147,7 @@ public:
 		Application::terminateRunningApplication();
 	}
 };
+]]>
 		</programlisting>
 		</para>
 	</section>
@@ -136,34 +159,26 @@ public:
 			The UI Toolkit is used to create instances of various peer's needed by the 
 			VCF, as well as providing certain low level services, such as modal and
 			non-modal event loops, and getting at UI metrics. Each system the VCF is 
-			ported to has a concrete implementation of the UIToolkit. Below are the
-			available port for UIToolkit.
+			ported to has a concrete implementation of the UIToolkit. For eample, 
+			the VCF version that runs on Win32 compatible operating systems has 
+			a concrete implementation of the UIToolkit called the Win32Toolkit. Likewise
+			for Mac OSX there's the OSXUIToolkit.
 			</para>
 			<para>
-			 	Windows	-> Win32Toolkit	
-				Linux	-> GTKUIToolkit
-				OSX	-> OSXUIToolkit
-				X11	-> X11UIToolkit
+			Many of the functions on the UIToolkit are used primarily by the framework. A 
+			developer using the VCF generally does not need to call or be aware of them
+			as there are higher level classes that deal these. 
 			</para>
 			<para>
-                        The UIToolkit is a singleton, and there should only be <emphasis>one</emphasis>
-			instance for a given process running the VCF libraries.
+            The UIToolkit is a singleton, and there is only <emphasis>one</emphasis>
+			instance for a given process running the VCF libraries. As a developer you will
+			never create this instance - it's lifetime is completely managed by the 
+			framework. 
 			</para>
 			<para>
-			To work with the toolkit you retreive it's instance via a static function,
-			<function>UIToolkit::getDefaultUIToolkit()</function>. If no toolkit is found
-			(which is an extremely bad thing!) a NoToolKitFoundException is thrown. A 
-			quick example:
-			<programlisting>
-try {			
-	UIToolkit* toolkit = UIToolkit::getDefaultUIToolkit();
-}
-catch ( NoToolKitFoundException &amp; e ) {
-	//we are screwed!!!
-	System::print( e.getMessage() );
-}
-
-			</programlisting>
+			Any of the functions that a developer might want to call are static 
+			functions, which in	turn call a concrete implementation on the 
+			singleton instance of the toolkit. 
 			</para>
 		</section>
 		
@@ -175,7 +190,7 @@ catch ( NoToolKitFoundException &amp; e ) {
 			spacing between controls. These values are read only and may not be changed.
 			</para>
 			<para>
-			The UI Metrics are intended to be a guide. It allows you properly control the 
+			UI Metrics are intended to be a guide. It allows you properly control the 
 			spacing between controls, something that is frequently guess work and done 
 			with hard coded values. By using the UI Metrics provided by the toolkit, you 
 			can ensure that the values you work with are standard and consistent for the 
@@ -195,6 +210,37 @@ catch ( NoToolKitFoundException &amp; e ) {
 			versus the font used in a message dialog, is frequently different, and may 
 			depend on the users settings within the system. By using the UI Metrics you 
 			dont' have to resort to guess work as to what this is.
+			</para>	
+			<para>
+			Now that we know what metrics are for, lets look at some example usage.
+			Lets examine how to get the proper spacing between two controls:
+			<programlisting>
+<![CDATA[
+UIMetricsManager* metricMgr = UIToolkit::getUIMetricsManager();
+
+Label* label = new Label();
+TextControl* edit = new TextControl();
+
+label->setBounds( 10, 10, 50, label->getPreferredHeight() );
+Rect bounds = label->getBounds();
+bounds.offset( metricMgr->getPreferredSpacingFor(UIMetricsManager::stControlHorizontalSpacing),
+				0 );
+edit->setBounds( &bounds );	
+]]>
+			</programlisting>
+			Here's an example of retrieving the correct font. Lets say you want to 
+			draw some text is the right font for displaying messages:
+			<programlisting>	
+<![CDATA[			
+void drawSomeText( GraphicsContext* ctx )
+{
+	UIMetricsManager* metricMgr = UIToolkit::getUIMetricsManager();
+	Font font = metricMgr->getDefaultFontFor(UIMetricsManager::ftMessageFont);
+	ctx->setCurrentFont( &font );
+	ctx->textAt( 20, 20, "Here's a message!" );
+}
+]]>
+			</programlisting>			
 			</para>			
 		</section>
 		
@@ -221,18 +267,17 @@ catch ( NoToolKitFoundException &amp; e ) {
 			<para>
 			To add a timer all you have to do is call the toolkit's 
 			<function>
-                         <![CDATA[
+			<![CDATA[
 			UIToolkit::registerTimerHandler(Object* source, EventHandler*
 			handler, const ulong32& timeoutInMilliSeconds )
 			 ]]>
 			 </function> function.
-			This method is not static, so you'll first need to get an instance of the 
-			toolkit. The source is an instance of 
+			The source is an instance of 
 			a VCF::Object (or some class derived from it), the handler is a
-			VCF::EventHandler instance. The timeoutInMilliSeconds term is the duration 
-			of the timer, or how long to wait till the next time to call the handler's 
-			invoke() method. The Object you pass in represents the source that is used 
-			for all TimerEvents that get created.  
+			VCF::EventHandler instance. The timeoutInMilliSeconds term is the 
+			duration of the timer, or how long to wait till the next time to call the 
+			handler's invoke() method. The Object you pass in represents the source that 
+			is used for all TimerEvents that get created.  
 			</para>
 			
 
@@ -258,8 +303,8 @@ class TimerEx :public EventHandler, Object
     		UIToolkit::registerTimerHandler( this, this, 4000L);
     	}
 
-    	//The invoke takes an Event. For timers the event type is TimerEvent.
-	void invoke(TimerEvent * evt){
+	//The invoke takes an Event. For timers the event type is TimerEvent.
+	void invoke(Event * evt){
 		Object * src = evt->getSource();
 
 		//Invoke any time specific code tied to this timer.
@@ -325,7 +370,7 @@ class TimerEx2 :public EventHandler, Object
 			Alternativly, A new timer class could be created that would send all timer
 			events on seperate threads.  This could consume significant resources if
 			there are many events getting fired at near real-time.
-			</para>
+			</para>			
 		</section>
 
 		<section><title>Carets</title>
@@ -360,27 +405,62 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 			]]>
 			</programlisting>
 			However when you post an event, you <emphasis>must</emphasis> create the 
-			event on heap, since you will not have control over when it gets destroyed. 
+			event on heap, since you will not have control over when it gets destroyed 
+			(instead the framework will take care of the destruction for you). 
 			If you already have an existing event the easiest thing to do is to 
 			clone it, by calling the event's clone() method, and pass this cloned event 
 			instance to the post method. 
 
 			
 			 <note>
-			 this is actually a virtual method first defined in VCF::Object.
+			 Object::clone() is actually a virtual method first defined in the
+			 VCF::Object class.
 			 </note>
 			
 			</para>
 			<para>
 			Once you have an event instance ready, you can post the event by either 
 			creating a new event handler instance or getting an existing one, and then 
-			call the <![CDATA[ UIToolkit::postEvent(EventHandler* eventHandler, Event*
-			event, const bool& deleteHandler=true)]]> method.
+			call the 
+			<function>
+			<![CDATA[ UIToolkit::postEvent(EventHandler* eventHandler, Event*
+			event, const bool& deleteHandler=true)]]> </function> method.
 			You can optionally tell the toolkit to <emphasis>not</emphasis> 
 			auotmatically delete the handler for you by setting the deleteHandler to 
 			false (the default behaviour is to delete the handler you pass in). The 
 			event instance that is passed in is deleted automatically for you when the 
 			event is finished processing.
+			</para>
+			<para>
+			Let's look at a simple example:
+			<programlisting>
+<![CDATA[
+class MyControl : public CustomControl {
+public:
+	MyControl() {
+		EventHandler* ev = 
+			new GenericEventHandler<MyControl>(this, &MyControl::myPostedEventHandler,
+										"MyControl::myPostedEventHandler" );
+	}
+	void myPostedEventHandler( Event* e ) {
+		Dialog::showMessage( "Recv'd the Event!" );
+	}
+	
+	virtual void mouseDown( MouseEvent* e ) {
+		CustomControl::mouseDown( e );
+		Event* e = (Event*)e->clone();
+		UIToolkit::postEvent( getEventHandler("MyControl::myPostedEventHandler"), e, false );
+	}
+};
+]]>
+			</programlisting>
+			We create a new event handler in our constructor. Then when the control's
+			mouseDown method is called we clone the mouse event, and call the
+			UIToolkit's postEvent() method, passing our newly cloned event instance,
+			our event handler (named "MyControl::myPostedEventHandler"), and a flag that 
+			tells the UIToolkit <emphasis>not</emphasis> to delete the event handler when 
+			posted event has been processed. The new event instance will be deleted by the
+			UIToolkit, so you don't need to worry about a memory leak here.
 			</para>
 		</section>
 		
@@ -458,6 +538,10 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 			Once you have created the AcceleratorKey, call the toolkit's 
 			registerAccelerator() and pass in the new AcceleratorKey instance.
 			</para>
+			<para>
+			For more details on usage and how accelerators work pelase see the
+			<link linkend="Accelerator_Keys">Accelerator Keys section</link>.
+			</para>
 		</section>
 		
 		
@@ -479,7 +563,7 @@ someControl->handleEvent( &e ); //we block here till all the event handling is d
 	
 	<section id="AppKit_EventLoops"><title>Event loops </title>
 		<para>
-		An event loop is a special loop that runs and retreives and dispatches
+		An event loop is a special loop that runs and retrieves and dispatches
 		events from the native windowing system's event queue. In general there
 		are two main types of event loops. The most commonly used is the non-modal
 		event loop. This is typically the main event loop that runs the application.
@@ -1664,7 +1748,7 @@ control->setView( view );
 		
 	</section>
 	
-	<section><title>Accelerator Keys ("Hot Keys") </title>
+	<section id="Accelerator_Keys"><title>Accelerator Keys ("Hot Keys") </title>
 		<para>
 		</para>
 	</section>		
@@ -1682,6 +1766,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.3  2005/06/06 02:34:02  ddiego
+menu changes to better support win32 and osx.
+
 Revision 1.4.2.2  2005/06/02 19:52:27  ddiego
 updates to docs
 

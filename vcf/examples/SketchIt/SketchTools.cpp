@@ -164,14 +164,14 @@ void ToolManager::registerTool( Tool* tool, MenuItem* item )
 	if ( NULL == ev ) {
 		ev = new MenuItemEventHandler<ToolManager>( this, &ToolManager::onMenuItemClicked, "ToolManager::onMenuItemClicked" );
 	}
-	item->addMenuItemClickedHandler( ev );
+	item->MenuItemClicked += ev;
 
 	ev = getEventHandler( "ToolManager::onMenuItemUpdate" );
 	if ( NULL == ev ) {
 		ev = new MenuItemEventHandler<ToolManager>( this, &ToolManager::onMenuItemUpdate, "ToolManager::onMenuItemUpdate" );
 	}
 
-	item->addMenuItemUpdateHandler( ev );
+	item->MenuItemUpdate += ev;
 }
 
 void ToolManager::onMenuItemClicked( MenuItemEvent* e )
@@ -1152,6 +1152,9 @@ void ImageTool::paintState( VCF::GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/06/06 02:34:04  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.4.2.1  2005/04/17 15:11:47  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

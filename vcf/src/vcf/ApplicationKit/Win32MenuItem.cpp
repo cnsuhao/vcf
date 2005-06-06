@@ -183,9 +183,14 @@ void Win32MenuItem::fixChildren( MenuItem* child )
 
 void Win32MenuItem::addChild( MenuItem* child )
 {
-	if ( NULL != child ){
-		insertSimpleMenuItem( child, (HMENU)getMenuID() );
-	}
+	VCF_ASSERT( NULL != child );
+	
+	insertSimpleMenuItem( child, (HMENU)getMenuID() );	
+
+	//mark the child as being bound to the peer
+	long state = child->getState();
+	state |= MenuItem::mdsBoundToMenuPeer;
+	child->setState( state );
 }
 
 void Win32MenuItem::insertChild( const unsigned long& index, MenuItem* child )
@@ -881,6 +886,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.8  2005/06/06 02:34:06  ddiego
+*menu changes to better support win32 and osx.
+*
 *Revision 1.2.4.7  2005/04/13 00:57:02  iamfraggle
 *Enable Unicode in CodeWarrior
 *
