@@ -49,7 +49,7 @@ namespace VCF {
 		4) applicationIcon_ is NON NULL. If it is NULL then depending on value
 		of style_ a standard icon image is assigned to it. If it is NOT NULL then
 		if the style_ is Dialog::msDefault, the image is displayed normally. If the style_
-		is Dialog::msError, Dialog::msInfo, or Dialog::msWarning, then the standard icon for the
+		is Dialog::msError, Dialog::msQuestion, Dialog::msInfo, or Dialog::msWarning, then the standard icon for the 
 		value is displayed normal size, while the applicationIcon_ is shrunk by 50% and superimposed
 		on top of the standard image, aligned in the lower bottom right hand corner.
 		The standard dimensions of the icon are windowing system dependent, but in general on Win32 systems
@@ -108,6 +108,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/06/07 16:56:45  marcelloptr
+*documentation
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
