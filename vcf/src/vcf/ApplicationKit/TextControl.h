@@ -69,13 +69,24 @@ public:
 
 	unsigned long getCharIndexFromPosition( Point* point );
 
+	/**
+	*returns the zero based index that indicates where the current selection begins.
+	*It may be the same index that getCaretPosition() returns
+	*/
 	unsigned long getSelectionStart();
 
+	/**
+	gives the number of characters selected.
+	@return unsigned long, the number of characters selected, a return value
+	of 0 indicates that no characters are currently selected.
+	*/
 	unsigned long getSelectionCount();
 
 	void setSelectionMark( const unsigned long& start, const unsigned long& count );
 
 	void selectAll();
+
+	void getStyle( unsigned int start, unsigned int length, Dictionary& styles, Color& color );
 
 	void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
 
@@ -202,6 +213,13 @@ protected:
 	void pasteAccelerator( Event* e );
 	void selectAllAccelerator( Event* e );
 
+	/**
+	handler called when the control is getting the focus.
+	By default it is added only to a single line control,
+	so we can select all the text whenever we get the focus.
+	*/
+	virtual void onFocusGained( FocusEvent* event ); // MP- (made virtual)
+
 protected:
 	TextEditPeer * textPeer_;
 	TextModel* model_;
@@ -218,6 +236,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/06/07 17:23:53  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
 *Revision 1.3.2.8  2005/05/20 03:04:05  ddiego
 *minor mods to set focused control.
 *
