@@ -102,6 +102,8 @@ public:
 
 	virtual void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
 
+	virtual void getStyle( unsigned int start, unsigned int length, Dictionary& styles, Color& color );
+
 	virtual void setDefaultStyle( Dictionary& styles );
 
 
@@ -193,6 +195,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.18  2005/06/07 18:35:32  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
 *Revision 1.3.2.17  2005/05/30 22:22:29  ddiego
 *fixed readonly mode in text edit and added better default font change support.
 *

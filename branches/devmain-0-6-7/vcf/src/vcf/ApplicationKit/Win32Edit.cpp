@@ -110,7 +110,8 @@ public:
 	}
 };
 
-};
+}; // namespace VCF
+
 
 static bool Win32RicheditLibraryLoaded = false;
 
@@ -144,7 +145,6 @@ Win32Edit::~Win32Edit()
 
 void Win32Edit::create( Control* owningControl )
 {
-
 	if ( NULL == textControl_ ){
 		//throw exception !!!!!!
 	}
@@ -240,6 +240,29 @@ void Win32Edit::create( Control* owningControl )
 	}
 
 	setCreated( true );
+}
+
+Win32Object::CreateParams Win32Edit::createParams()
+{
+	Win32Object::CreateParams result;
+
+
+	result.first = SIMPLE_VIEW;
+	result.first &= ~WS_BORDER;
+
+
+	result.first &= ~WS_VISIBLE;
+	// this is a temporary solution: it would be better to implement
+	// a method giving the option to the user, and painting the selection
+	// in an unfocused control with a light gray on the background - MP.
+	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
+	if ( editState_ & esMultiLined ) {
+		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
+	}
+
+	result.second = 0;
+
+	return result;
 }
 
 OSHandleID Win32Edit::getTextObjectHandle()
@@ -409,6 +432,11 @@ void Win32Edit::setStyle( unsigned int start, unsigned int length, Dictionary& s
 	editState_ &= ~esStyleChanging;
 }
 
+void Win32Edit::getStyle( unsigned int start, unsigned int length, Dictionary& styles, Color& color )
+{
+	Win32TextPeer::getStyle( start, length, styles, color );
+}
+
 
 void Win32Edit::setDefaultStyle( Dictionary& styles )
 {
@@ -450,30 +478,6 @@ void Win32Edit::setCaretPosition( const unsigned long& caretPos )
 {
 
 }
-
-Win32Object::CreateParams Win32Edit::createParams()
-{
-	Win32Object::CreateParams result;
-
-
-	result.first = SIMPLE_VIEW;
-	result.first &= ~WS_BORDER;
-
-
-	result.first &= ~WS_VISIBLE;
-	// this is a temporary solution: it would be better to implement
-	// a method giving the option to the user, and painting the selection
-	// in an unfocused control with a light gray on the background - MP.
-	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
-	if ( editState_ & esMultiLined ) {
-		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
-	}
-
-	result.second = 0;
-
-	return result;
-}
-
 
 uint32 Win32Edit::convertCharToVKCode( VCFChar ch )
 {
@@ -1130,17 +1134,16 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				result = true;
 			}
 			else {
-				
 				wndProcResult = 0;
 				result = false;
-				
+	
 				editState_ |= esExternalTextChanging;
-				
+	
 				if ( !peerControl_->isDesigning() ) {
 					wndProcResult = defaultWndProcedure(  message, wParam, lParam );
 					result = true;
 				}
-				
+	
 				// copy the control's text into the model
 				
 				VCF::TextModel* model = textControl_->getTextModel();
@@ -1150,14 +1153,14 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					String text = getText();
 					
 					/*if ( WM_PASTE == message ) {
-					//remove \r\n and replace with \n
-					uint32 pos = text.find( "\r\n" );
-					while ( pos != String::npos ) {
-					text.erase( pos, 1 ); //erase \r
-					pos = text.find( "\r\n" );
-					}
-				}*/
-					
+						//remove \r\n and replace with \n
+						uint32 pos = text.find( "\r\n" );
+						while ( pos != String::npos ) {
+							text.erase( pos, 1 ); //erase \r
+							pos = text.find( "\r\n" );
+						}
+					}*/
+	
 					model->setText( text );
 					
 					editState_ &= ~esModelTextChanging;
@@ -1423,7 +1426,7 @@ void Win32Edit::getSelectionMark( unsigned long & start, unsigned long & end )
 		selection->GetStart( (long*)&start );
 		selection->GetEnd( (long*)&end );
 		selection->Release();
-	}	
+	}
 }
 
 void Win32Edit::clearSelection()
@@ -1700,6 +1703,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.32  2005/06/07 18:35:31  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
 *Revision 1.3.2.31  2005/05/30 22:31:29  ddiego
 *fixed readonly mode in text edit and added better default font change support.
 *
