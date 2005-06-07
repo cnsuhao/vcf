@@ -124,7 +124,7 @@ void MainWindow::onEditUndoUpdate( VCF::MenuItemEvent* e )
 		UndoRedoStack* cmdStack = $$Root$$Application::get$$Root$$Application()->getCommandStack();
 		bool hasUndoableCmds = cmdStack->hasUndoableItems();
 		if ( true == hasUndoableCmds ) {
-			itemToUpdate->setCaption( "Undo \"" + cmdStack->getCurrentUndoComand()->getName() + "\"" );
+			itemToUpdate->setCaption( "Undo \"" + cmdStack->getCurrentUndoCommand()->getName() + "\"" );
 		}
 		else {
 			itemToUpdate->setCaption( "Nothing to Undo" );
@@ -146,7 +146,7 @@ void MainWindow::onEditRedoUpdate( VCF::MenuItemEvent* e )
 		UndoRedoStack* cmdStack = $$Root$$Application::get$$Root$$Application()->getCommandStack();
 		bool hasRedoableCmds = cmdStack->hasRedoableItems();
 		if ( true == hasRedoableCmds ) {
-			itemToUpdate->setCaption( "Redo \"" + cmdStack->getCurrentRedoComand()->getName() + "\"" );
+			itemToUpdate->setCaption( "Redo \"" + cmdStack->getCurrentRedoCommand()->getName() + "\"" );
 		}
 		else {
 			itemToUpdate->setCaption( "Nothing to Redo" );
