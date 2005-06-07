@@ -27,12 +27,12 @@ MainWindow::MainWindow()
 [!if FILE_MENU]
 	DefaultMenuItem* fileOpenProject = new DefaultMenuItem( "&Open...", file, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onFileOpenProject, "fileOpen" );
-	fileOpenProject->addMenuItemClickedHandler( menuItemHandler );
+	fileOpenProject->MenuItemClicked += menuItemHandler;
 	
 	
 	DefaultMenuItem* fileSaveProject = new DefaultMenuItem( "&Save...", file, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onFileSaveProject, "fileSave" );	
-	fileSaveProject->addMenuItemClickedHandler( menuItemHandler );
+	fileSaveProject->MenuItemClicked += menuItemHandler;
 	
 
 	DefaultMenuItem* sep = new DefaultMenuItem( "", file, menuBar );
@@ -40,25 +40,25 @@ MainWindow::MainWindow()
 [!endif]	
 	DefaultMenuItem* fileExit = new DefaultMenuItem( "E&xit", file, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onFileExit, "fileExit" );	
-	fileExit->addMenuItemClickedHandler( menuItemHandler );
+	fileExit->MenuItemClicked += menuItemHandler;
 
 [!if UNDO_REDO]
 	//edit Undo/Redo support
 	DefaultMenuItem* edit = new DefaultMenuItem( "&Edit", root, menuBar );
 	DefaultMenuItem* editUndo = new DefaultMenuItem( "Undo", edit, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onEditUndo, "editUndoClick" );	
-	editUndo->addMenuItemClickedHandler( menuItemHandler );
+	editUndo->MenuItemClicked += menuItemHandler;
 
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onEditUndoUpdate, "editUndoUpdate" );	
-	editUndo->addMenuItemUpdateHandler( menuItemHandler );
+	editUndo->MenuItemUpdate += menuItemHandler;
 	
 	
 	DefaultMenuItem* editRedo = new DefaultMenuItem( "Redo", edit, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onEditRedo, "editRedoClick" );	
-	editRedo->addMenuItemClickedHandler( menuItemHandler );
+	editRedo->MenuItemClicked += menuItemHandler;
 
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onEditRedoUpdate, "editRedoUpdate" );	
-	editRedo->addMenuItemUpdateHandler( menuItemHandler );
+	editRedo->MenuItemUpdate += menuItemHandler;
 
 [!endif]
 [!if HELP_MENU]
@@ -67,7 +67,7 @@ MainWindow::MainWindow()
 	DefaultMenuItem* help = new DefaultMenuItem( "&Help", root, menuBar );
 	DefaultMenuItem* helpAbout = new DefaultMenuItem( "About...", help, menuBar );
 	menuItemHandler = new MenuItemEventHandler<MainWindow>(this, MainWindow::onHelpAbout, "helpAbout" );	
-	helpAbout->addMenuItemClickedHandler( menuItemHandler );
+	helpAbout->MenuItemClicked += menuItemHandler;
 
 [!endif]
 }
