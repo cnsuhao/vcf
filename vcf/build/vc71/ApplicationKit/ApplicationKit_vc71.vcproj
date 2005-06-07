@@ -131,6 +131,15 @@
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManager.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManagerPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Res"
@@ -494,6 +503,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuItem.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MessageDialog.cpp">
 			</File>
 			<File
@@ -729,6 +741,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32MenuItem.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Object.cpp">
 			</File>
 			<File
@@ -860,9 +875,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ListModelEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuItemEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuItemEvent.h">
