@@ -197,6 +197,15 @@ public:
 	virtual void setStyle( unsigned int start, unsigned int length, Dictionary& styles ) = 0;		
 
 	/**
+	gets the current style of the text.
+	@param unsigned int start the beginning of the location of which we are getting the style.
+	@param unsigned int length the length of the location of which we are getting the style.
+	@param Dictionary& styles the dictionary storing the values for each style attribute.
+	@param Color& color the instance to which the color style attribute in the dictionary is pointing to.
+	*/
+	virtual void getStyle( unsigned int start, unsigned int length, VCF::Dictionary& styles, VCF::Color& color ) = 0;
+
+	/**
 	call this to set the defaults for the text peer.
 	If this is not called, then the default font is that
 	used for label controls and the defaul paragraph alignment
@@ -324,12 +333,15 @@ public:
 	virtual void finishPrinting() = 0;	
 };
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/06/07 17:23:53  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
 *Revision 1.3.2.5  2005/05/30 22:22:29  ddiego
 *fixed readonly mode in text edit and added better default font change support.
 *

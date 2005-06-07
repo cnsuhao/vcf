@@ -283,6 +283,11 @@ void TextControl::selectAll()
 	textPeer_->setSelectionMark( 0, text.size() );
 }
 
+void TextControl::getStyle( unsigned int start, unsigned int length, Dictionary& styles, Color& color )
+{
+	textPeer_->getStyle( start, length, styles, color );
+}
+
 void TextControl::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
 	textPeer_->setStyle( start, length, styles );
@@ -452,7 +457,7 @@ void TextControl::handleEvent( Event* event )
 							}
 
 							//Debug diagnostics - JC
-							//String text = model->getText();								
+							//String text = model->getText();					
 							//StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
 							//		text.c_str(), text[pos], text[pos], pos );
 
@@ -706,6 +711,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.17  2005/06/07 17:23:52  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
 *Revision 1.3.2.16  2005/05/20 03:04:04  ddiego
 *minor mods to set focused control.
 *

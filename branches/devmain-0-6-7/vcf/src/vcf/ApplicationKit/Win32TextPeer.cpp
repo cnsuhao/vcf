@@ -740,6 +740,107 @@ Rect Win32TextPeer::getContentBoundsForWidth(const double& width)
 	return result;
 }
 
+void Win32TextPeer::getStyle( unsigned int start, unsigned int length, Dictionary& styles, Color& color )
+{
+	String result;
+	ITextRange* range = NULL;
+	textDocument_->Range( start, start+length, &range );
+	if ( NULL != range ) {
+		ITextFont* font = NULL;
+		ITextPara* para = NULL;
+		range->GetFont( &font );
+		range->GetPara( &para );
+
+		if ( (NULL != font) && (NULL != para) ) {
+			BSTR str = SysAllocString( NULL );
+			styles[ Text::fsFontName ] = font->GetName( &str );
+			SysFreeString( str );
+
+			long val;
+
+			font->GetForeColor( &val );
+			color.setRGB( val, Color::cfARGB );
+			styles[ Text::fsColor ] = (Object*)&color; // color cannot be a temporary
+			//styles.remove( Text::fsColor );
+
+			float size = 0;
+			font->GetSize( &size );
+			styles[ Text::fsPointSize ] = (double)size;
+
+			font->GetBold( &val );
+			styles[ Text::fsBold ] = ( tomTrue == val ) ? true : false;
+
+			font->GetItalic( &val );
+			styles[ Text::fsItalic ] = ( tomTrue == val ) ? true : false;
+
+			font->GetStrikeThrough( &val );
+			styles[ Text::fsStrikeout ] = ( tomTrue == val ) ? true : false;
+
+			Text::UnderlineTypes underline = Text::utNone;
+			font->GetUnderline( &val );
+			switch ( (int)val ) {
+				case tomNone : {
+					underline = Text::utNone;
+				}
+				break;
+
+				case tomSingle : {
+					underline = Text::utSingle;
+				}
+				break;
+
+				case tomDouble : {
+					underline = Text::utDouble;
+				}
+				break;
+
+				case tomDotted : {
+					underline = Text::utDotted;
+				}
+				break;
+			}
+			styles[ Text::fsUnderlined ] = underline;
+
+
+			font->Release();
+		}
+
+		if ( NULL != para ) {
+			Text::ParagraphAlignment alignment = Text::paLeft;
+			long val = 0;
+			para->GetAlignment( &val );
+
+			switch ( (int)val ) {
+				case tomAlignLeft : {
+					alignment = Text::paLeft;
+				}
+				break;
+
+				case tomAlignCenter : {
+					alignment = Text::paCenter;
+				}
+				break;
+
+				case tomAlignRight : {
+					alignment = Text::paRight;
+				}
+				break;
+
+				case tomAlignJustify : {
+					alignment = Text::paJustified;
+				}
+				break;
+			}
+			styles[ Text::psAlignment ] = alignment;
+
+
+			para->Release();
+		}
+		
+		range->Release();
+	}
+}
+
 void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
 	String result;
@@ -792,6 +893,11 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 				else if ( style.first == Text::fsUnderlined ) {
 					long val = tomNone;
 					switch ( (int)style.second ) {
+						case Text::utNone : {
+							val = tomNone;
+						}
+						break;
+
 						case Text::utSingle : {
 							val = tomSingle;
 						}
