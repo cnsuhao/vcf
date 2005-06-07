@@ -102,6 +102,18 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitPrivate.h
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManager.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManagerPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.h
+# End Source File
 # End Group
 # Begin Group "Res"
 
@@ -553,6 +565,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MenuItem.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManager.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\MessageDialog.cpp
 # End Source File
 # Begin Source File
@@ -865,6 +881,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuItem.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Object.cpp
 # End Source File
 # Begin Source File
@@ -1038,10 +1058,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ListModelEvent.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ListModelEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\MenuItemEvent.cpp
 # End Source File
 # Begin Source File
 
