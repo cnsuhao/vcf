@@ -1,4 +1,12 @@
 //Win32TextPeer.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32TextPeer.h"
@@ -1046,4 +1054,14 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 	}
 	
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.6  2005/06/07 17:31:29  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
+*/
+
 
