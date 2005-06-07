@@ -299,6 +299,11 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 			mbStyle = MB_ICONWARNING;
 		}
 		break;
+
+		case Dialog::msQuestion: {
+			mbStyle = MB_ICONQUESTION;
+		}
+		break;
 	}
 
 	if ( messageButtons & Dialog::mbOK ) {
@@ -411,6 +416,9 @@ UIToolkit::ModalReturnType Win32Dialog::showMessage( const String& message, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/06/07 21:16:24  marcelloptr
+*added Dialog::msQuestion
+*
 *Revision 1.4.2.6  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit
