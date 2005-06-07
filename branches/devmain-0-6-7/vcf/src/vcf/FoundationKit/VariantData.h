@@ -206,34 +206,39 @@ public:
 		this->setValue( value );
 	};
 
+	/**
+	*destructor
+	*/
 	virtual ~VariantData(){};
 
-	/**
-	*defines the data type of the VariantData, where type can represent
-	* an int, unsigned int, long, unsigned long, short, char, 
-	* double, float, bool, string, Enum pointer, or Object pointer.
-	*/
-	PropertyDescriptorType type;
+public:
 
-	union{
-			int IntVal;
-			long LongVal;
-			short ShortVal;
-			unsigned int UIntVal;
-			unsigned long ULongVal;
-			float FloatVal;
-			char CharVal;
-			double DblVal;
-			bool BoolVal;
-			Object* ObjVal;
-			EnumValue EnumVal;
-			Interface* InterfaceVal;
-	};
 
 	/**
-	*string are a special case, not allowed in unions
+	*comparison operator
 	*/
-	String StringVal;
+	bool operator == ( const VariantData& v ) const {
+		return (	type == v.type &&
+		          ( ( type == pdString && StringVal == v.StringVal ) ||
+		            ( type != pdString && ObjVal == v.ObjVal ) )
+		          );
+	}
+
+	/**
+	*comparison operator
+	*/
+	bool operator != ( const VariantData& v ) const {
+		return ( !operator==( v ) );
+	}
+
+
+	/**
+	*
+	*conversion operators
+	*
+	*/
+
+
 
 	/**
 	*converts the VariantData to an int
@@ -340,22 +345,24 @@ public:
 		return *EnumVal.getEnum();
 	};
 
-	/**
-	*comparison operator
+
+
+	/*
+	*
+	*	Assignments
+	*
 	*/
-	bool operator == ( const VariantData& v ) const {
-		return (	type == v.type &&
-		          ( ( type == pdString && StringVal == v.StringVal ) ||
-		            ( type != pdString && ObjVal == v.ObjVal ) )
-		          );
+
+	VariantData& operator= ( const VariantData& newValue ) {
+		setValue( newValue );
+		return *this;
 	}
 
-	/**
-	*comparison operator
-	*/
-	bool operator != ( const VariantData& v ) const {
-		return ( !operator==( v ) );
+	VariantData& operator= ( VariantData* newValue ) {
+		setValue( *newValue );
+		return *this;
 	}
+
 
 	/**
 	*Assigns an int value to the VariantData
@@ -504,15 +511,6 @@ public:
 		return *this;
 	};
 
-	VariantData& operator= ( const VariantData& newValue ) {
-		setValue( newValue );
-		return *this;
-	}
-
-	VariantData& operator= ( VariantData* newValue ) {
-		setValue( *newValue );
-		return *this;
-	}
 
 	/**
 	*converts the VariantData to a string, no matter
@@ -530,16 +528,49 @@ public:
 
 protected:
 	void setValue( const VariantData& value );
+
+
+public:
+	union{
+			int IntVal;
+			long LongVal;
+			short ShortVal;
+			unsigned int UIntVal;
+			unsigned long ULongVal;
+			float FloatVal;
+			char CharVal;
+			double DblVal;
+			bool BoolVal;
+			Object* ObjVal;
+			EnumValue EnumVal;
+			Interface* InterfaceVal;
+	};
+
+	/**
+	*string are a special case, not allowed in unions
+	*/
+	String StringVal;
+
+	/**
+	*defines the data type of the VariantData, where type can represent
+	* an int, unsigned int, long, unsigned long, short, char, 
+	* double, float, bool, string, Enum pointer, or Object pointer.
+	*/
+	PropertyDescriptorType type;
+
 };
 
 
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/06/07 16:32:48  marcelloptr
+*code simply rearranged
+*
 *Revision 1.2.4.3  2005/02/24 05:51:05  marcelloptr
 *Added comparison operators to VariantData
 *
