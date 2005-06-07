@@ -170,10 +170,10 @@ public:
 	source instance derives from ObjectWithEvents, then the event handler
 	instance will be added to the source with the name passed in destroyed 
 	when the source is destroyed. Note that any text may be used for the name, 
-	but if an event handler already exists on the source then a memory leak 
-	will occur. If instead the same handler will be added twice with two
-	different names we may have a memory access exception, as the framework 
-	will try to delete twice the same object.
+	but if an event handler already exists on the source with that same name,
+	then a memory leak will occur. If instead the same handler will be added 
+	twice with two different names we may have a memory access exception, 
+	as the framework will try to delete twice the same object.
 	*/
 	EventHandlerInstance( SOURCE* source, OnEventHandlerMethod handlerMethod, const String& handlerName="" ) {
 		source_ = source;
@@ -259,8 +259,8 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.4  2005/05/06 20:36:00  marcelloptr
-*more documentation.
+*Revision 1.4.2.5  2005/06/07 16:12:35  marcelloptr
+*more documentation
 *
 *Revision 1.4.2.2  2005/01/26 22:42:32  ddiego
 *added some docs on event handler and post event mechanics.
