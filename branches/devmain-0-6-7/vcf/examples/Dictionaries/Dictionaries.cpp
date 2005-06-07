@@ -504,8 +504,7 @@ int main( int argc, char** argv ){
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair item = items->nextElement();
 
-		System::println( Format("dict[\"%ls\"] = %ls") % item.first.c_str() 
-								% item.second.toString().c_str() );
+		System::println( Format("dict[\"%s\"] = %s") % item.first % item.second.toString() ); // MP-
 	}
 
 
@@ -549,8 +548,7 @@ int main( int argc, char** argv ){
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair item = items->nextElement();
 
-		System::println( Format("dict[\"%ls\"] = %ls") % item.first.c_str() 
-								% item.second.toString().c_str() );
+		System::println( Format("dict[\"%s\"] = %s") % item.first % item.second.toString() ); // MP-
 	}
 
 
@@ -563,6 +561,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.4  2005/06/07 15:50:39  marcelloptr
+*project change on use of Format
+*
 *Revision 1.7.2.3  2005/04/25 00:11:55  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *
