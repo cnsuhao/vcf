@@ -1,7 +1,6 @@
-
 #ifndef _VCF_WIN32TEXTPEER_H__
 #define _VCF_WIN32TEXTPEER_H__
-
+//Win32TextPeer.h
 
 /*
 Copyright 2000-2004 The VCF Project.
@@ -67,6 +66,8 @@ public:
 
 	virtual Rect getContentBoundsForWidth(const double& width);
 
+	virtual void getStyle( unsigned int start, unsigned int length, Dictionary& styles, Color& color );
+
 	virtual void setStyle( unsigned int start, unsigned int length, Dictionary& styles );
 
 	virtual void setDefaultStyle( Dictionary& styles );
@@ -84,7 +85,16 @@ protected:
 
 
 
-};
+}; // namespace VCF
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.5  2005/06/07 18:11:31  marcelloptr
+*added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
+*
+*/
 
 
 #endif //_VCF_WIN32TEXTPEER_H__
