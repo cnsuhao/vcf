@@ -347,14 +347,15 @@ NB: This software will not save the world.
 			</section>		
 			<section><title>Microsoft Visual C++ 7/7.1</title>				
 				<para>
-				The first thing you'll want to is build the various add-ins for 
-				Developer Studio. 
-				</para>
-				<para>
-				Someone needs to fill in the rest of this...
-				</para>
+				The first thing you'll want to is install the various wizards for 
+				Developer Studio. To install in Visual C++ 7.1, navigate to the directory
+				vcf/build/vc71/add-ins, and run (double click) Setup.js.  This will install the
+				various wizards for use in the IDE. To verify that these were installed correctly,
+				go to "File | New..." and click on the "Projects" tab and you should see something 
+				like the following:
+				</para>				
 				<screenshot>
-					<graphic fileref="gfx/insert-some-vc7-screenshot-here.png"></graphic>
+					<graphic fileref="gfx/addins_vc71_verify.png"></graphic>
 				</screenshot>
 				<para>
 				The red circle indicates the various new Application Wizards that you should see.
@@ -1607,6 +1608,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.1  2005/06/07 03:56:26  dougtinkham
+vc71 AppWizard installation.
+
 Revision 1.5  2004/12/03 03:06:01  ddiego
 minor doc changes
 
