@@ -1342,20 +1342,281 @@ String frHelloStr = loc.translate( "Hello" );
 			other localization files, such as .po/.mo files and the gettext API.
 			</formalpara>
 			<para>
-			
+			The default file format used to store translation files is the "strings" format.
+			This is pretty much identical to the format specifed for Mac OSX systems
+			and you can read more about it here:  
+			<ulink url="http://developer.apple.com/documentation/Cocoa/Conceptual/Internationalization/index.html#//apple_ref/doc/uid/10000003i">
+			Strings Files (Apple Documentation)</ulink>. Basically a .strings file is a very
+			simple that that contains 1 or more key/value pairs. You can also have comments
+			using C style "/*" and "*/" comment brackets. For example, here's a sample:
+			<programlisting>
+<![CDATA[
+/*
+Some comments!
+*/
+"Hello" = "Salute" /*this is Hello in french*/
+
+"I understand" = "Je comprends"
+]]>
+			</programlisting>
+			When Locale::translate("Hello") is called, if this file is loaded by the appropriate
+			MessageLoader, the string "Hello" will be matched to "Salute" and the return value of 
+			Locale::translate() will be "Salute". Since a .strings file is considered a resource, 
+			they are stored under the application's resource folder. See <link linkend="Resources">
+			Resources</link> for more information about how resource folders work.
 			</para>
 			
 			<formalpara><title>Custom Message Parsing</title>
+			It's possible to create a custom message parser to handle other translation
+			file formats, such as the .po/.mo file format used in many linux applications.
+			You do this by creating a new class that derives from VCF::MessageLoader
+			and override the MessageLoader::loadMessageFile() and MessageLoader::getMessageFromID()
+			functions. 
 			</formalpara>
 			
 			<formalpara><title>Registering Your MessageLoader</title>
+			You need to register an instance of your MessageLoader class
+			with the FoundationKit. You can do this by calling MessageLoader::registerMessageLoader().
+			In your initialization code you might do the following:
+			<programlisting>
+<![CDATA[
+MessageLoader::registerMessageLoader( "text/cool", new MyCustomMessageLoader() );
+]]>
+			</programlisting>
+			Files whose mime type corresponds to "text/cool" will be opened with the MyCustomMessageLoader
+			instance.
 			</formalpara>
 		</section>
 	</section>
 	
-	<section><title>Resources</title>
+	<section id="Resources"><title>Resources</title>
 		<para>
+		A resource is considered a chunk of data used by the program at runtime. For example,
+		a look up table of string translations, or an xml file contaning program settings. The 
+		VCF allows you access these resources in a variety of ways, all exposed through the
+		use of a ResourceBundle. The ResourceBundle holds 0 or more resources, each accessed by
+		a string name. The resource may be stored in some platform dependant way (such as embedded
+		resources created vi .rc scripts and the Win32 resource compiler), or in a generic platform
+		independant method that closely mirrors how resources are handled on Mac OSX.
+		</para>	
+		<section><title>Accessing a resource</title>
+		<para>
+		Access to resource is provided by the ResourceBundle. For a given program there is 
+		one and only one ResourceBundle, and you get it by calling the System::getResourceBundle()
+		function. Once you have a ResourceBundle instance, you can get access to a particular
+		resource by calling one of it's functions. The lowest level way to do this is calling the
+		ResourceBundle::getResource() function:
+		<programlisting>
+<![CDATA[
+ResourceBundle* resBundle = System::getResourceBundle();
+Resource* res = resBundle->getResource( "stuff" );
+BasicInputStream bis( (const char*)res->getData(), res->getDataSize () );
+//extract data from input stream...
+]]>
+		</programlisting>
+		Each resource is named, and then the Resource class allows acces to the buffer of data for the
+		resource.
+		</para>	
+		
+		<para>
+		If you don't want to deal with a Resource instance directly, there's a function for 
+		extracting text resources (there are also other resource types like images but those 
+		are covered	in the GraphicsKit). 
+		<programlisting>
+<![CDATA[
+ResourceBundle* resBundle = System::getResourceBundle();
+String text = resBundle->getString( "Text1" );
+]]>
+		</programlisting>
+		This will return a string resource that corresponds to the name "Text1". 
 		</para>
+		
+		</section>		
+		<section><title>Program Information</title>
+		<para>
+		Another common resource is program information. You can think of this as metadata
+		about the running executable. For example, the name of the program, it's copyright
+		information, the author(s) of the program, and so on. Like regular resources, this can be
+		stored either in a platform dependant way (in Win32 as an embedded VS_VERSION_INFO 
+		struct), or in a platform neutral way that is extremely similar to the way this is 
+		stored on Mac OS X. Either way, you can retreive this information by calling the 
+		ResourceBundle's getProgramInfo() function, which returns a ProgramInfo instance.
+		</para>	
+		<para>
+		Once a ProgramInfo instance is obtained, you can access the following information:
+		<itemizedlist>
+			<listitem>	
+			Program Name - see ProgramInfo::getProgramName()
+			</listitem>
+			<listitem>
+			Program Version - see ProgramInfo::getProgramVersion()
+			</listitem>
+			<listitem>
+			Program File name - see ProgramInfo::getProgramFileName()
+			</listitem>
+			<listitem>
+			File Version - see ProgramInfo::getFileVersion()
+			</listitem>
+			<listitem>
+			Description - see ProgramInfo::getDescription()
+			</listitem>
+			<listitem>
+			Copyright - see ProgramInfo::getCopyright()
+			</listitem>
+			<listitem>
+			Company name (and/or description) - see ProgramInfo::getCompany()
+			</listitem>
+			<listitem>
+			Author (or authors) - see ProgramInfo::getAuthor()
+			</listitem>
+		</itemizedlist>		
+		A quick example:
+		<programlisting>
+<![CDATA[
+ResourceBundle* resBundle = System::getResourceBundle();
+ProgramInfo* info = resBundle->getProgramInfo();
+//retrieve data
+delete info;
+]]>
+		</programlisting>
+		</para>
+		</section>
+		
+			
+		<section><title>Platform Specific</title>
+		<para>
+		The VCF resource system supports embedded resources on Win32 when created using
+		.rc scripts. On OS X if you store your resources in an app bundle, the VCF 
+		supports that as well. Program information can be stored using the VS_VERSION_INFO
+		on Win32 (see MSDN for how to add this resource type to your .rc script).
+		Mac OS X developers can use their Info.plist files to store program information.
+		</para>	
+		</section>
+		
+		<section><title>Platform Neutral</title>
+		<para>
+		An alternate option is to store resources in a platform neutral way. The 
+		VCF does this by largely following the bundle layout that is used on Mac OSX.
+		Instead of directly enbedding the resource in the executable image, a
+		specific directory structure is followed, and resources are placed inside as 
+		a file. The name of the resource <emphasis>must</emphasis> be the same 
+		as the name of resource file. If you want to add localized string 
+		trnaslations using the default .strings format, then the name of the file 
+		must be the same as the name of you executable (e.g. a program called
+		"bleep" would store it's localized strings in a file called "bleep.strings").
+		</para>
+		<para>
+		The basic idea is that there's a resource directory. Each resource is then stored in
+		this directory as a file. Localized resources are supported by creating a sub directory
+		named for the locale (like "en_US"), and then putting localized resource files in each
+		locale specific sub directory. For example (assuming this is for a program called "bleep"):
+		<screen>
+Resources\
+	SomeData.dat
+	bleep.strings
+		</screen>
+		If we add locale support for Italian, German, and Polish then we'd have:
+		<screen>
+Resources\
+	SomeData.dat
+	bleep.strings
+	it_IT\
+		bleep.strings
+	de_DE\
+		bleep.strings
+	pl_PL\
+		bleep.strings
+		</screen>
+		</para>
+		<para>
+		The precise location of the "Resources" directory can be somewhat varied. There are four
+		main "styles" that the developer can follow and that the VCF runtime understands how to 
+		look up resource files for. Some styles may not be compatible with Mac OSX's resource 
+		look up patterns. The examples below will all assume a program called "bleep".
+		</para>
+		<formalpara><title>Style A</title>
+		This is the simplest style (but it's not OSX compatible).
+		<screen>
+<![CDATA[		
+<application directory>/
+	bleep.exe
+	Resources/
+		SomeData.dat
+		bleep.strings
+		it_IT/
+			bleep.strings
+		de_DE/
+			bleep.strings
+		pl_PL/
+			bleep.strings
+]]>				
+		</screen>
+		</formalpara>
+		
+		<formalpara><title>Style B</title>
+		Using the Contents directory - this <emphasis>is</emphasis> OSX compatible.
+		<screen>
+<![CDATA[		
+<application directory>/
+	Contents/
+		bleep.exe
+		Resources/
+			SomeData.dat
+			bleep.strings
+			it_IT/
+				bleep.strings
+			de_DE/
+				bleep.strings
+			pl_PL/
+				bleep.strings
+]]>				
+		</screen>
+		</formalpara>
+		
+		<formalpara><title>Style C</title>
+		With contents and platform directory - OSX compatible	
+		<screen>
+<![CDATA[		
+<application directory>/
+	Contents/
+		<OS Name>/
+			bleep.exe
+		Resources/
+			SomeData.dat
+			bleep.strings
+			it_IT/
+				bleep.strings
+			de_DE/
+				bleep.strings
+			pl_PL/
+				bleep.strings
+]]>				
+		</screen>
+		</formalpara>
+		
+		<formalpara><title>Style D</title>
+		With contents, platform, and compiler - OSX compatible
+		<screen>
+<![CDATA[		
+<application directory>/
+	Contents/
+		<OS Name>/
+			<Compiler Name>/
+				bleep.exe
+		Resources/
+			SomeData.dat
+			bleep.strings
+			it_IT/
+				bleep.strings
+			de_DE/
+				bleep.strings
+			pl_PL/
+				bleep.strings
+]]>				
+		</screen>
+		</formalpara>
+		
+		</section>
 	</section>
 	
 	<section><title>System Functions</title>
@@ -1533,6 +1794,9 @@ String frHelloStr = loc.translate( "Hello" );
 <!-- 
 CVS Log info
 $Log$
+Revision 1.3.4.4  2005/06/08 21:09:51  ddiego
+more docs updates
+
 Revision 1.3.4.3  2005/06/06 21:21:18  ddiego
 updates again
 
