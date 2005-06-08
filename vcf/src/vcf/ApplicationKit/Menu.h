@@ -46,6 +46,8 @@ public:
 	void itemChanged( const int& eventType, MenuItem* item );
 
 	uint32 getItemIndex( MenuItem* item );
+
+	virtual void handleEvent( Event* event );
 protected:
 	MenuItem* rootMenuItem_;
 
@@ -62,6 +64,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/08 03:27:26  ddiego
+*fix for popup menus
+*
 *Revision 1.2.4.1  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *

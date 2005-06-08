@@ -208,9 +208,15 @@ public:
 
 	\endcode
 	*/
-	static String findResourceDirectory();
+	static String findResourceDirectory();	
+
+	static String findResourceDirectory( Locale* locale );
 
 	static String findResourceDirectoryForExecutable( const String& fileName );
+
+	static String findResourceDirectory( const String& fileName, Locale* locale );
+
+	
 	
 
 
@@ -476,6 +482,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/06/08 03:27:28  ddiego
+*fix for popup menus
+*
 *Revision 1.4.2.6  2005/03/26 00:10:30  ddiego
 *added some minor funs to system class
 *

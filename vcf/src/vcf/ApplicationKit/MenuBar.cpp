@@ -125,6 +125,7 @@ void MenuBar::setFrame( Frame* frame )
 void MenuBar::handleEvent( Event* event )
 {
 	Menu::handleEvent( event );
+	/*
 	switch ( event->getType() ){
 		case Component::COMPONENT_ADDED : {
 			ComponentEvent* ev = (ComponentEvent*)event;
@@ -144,12 +145,16 @@ void MenuBar::handleEvent( Event* event )
 		}
 		break;
 	}
+	*/
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/06/08 03:27:26  ddiego
+*fix for popup menus
+*
 *Revision 1.2.4.2  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *
