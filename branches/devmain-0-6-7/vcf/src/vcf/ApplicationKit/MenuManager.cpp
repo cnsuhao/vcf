@@ -122,3 +122,15 @@ Menu* MenuManager::getMainMenu()
 {
 	return menuManager->mainMenu_;
 }
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.3  2005/06/08 13:37:49  marcelloptr
+*added CVS log section
+*
+*/
+
+
+
