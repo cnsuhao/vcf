@@ -127,7 +127,7 @@ Menu* MenuManager::getMainMenu()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.4  2005/06/08 13:50:29  marcelloptr
+*Revision 1.1.2.5  2005/06/08 13:51:29  marcelloptr
 *added CVS log section
 *
 */
