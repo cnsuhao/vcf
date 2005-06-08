@@ -107,6 +107,15 @@ namespace VCF {
 };
 
 
+/**
+*CVS Log info
+*$Log$
+*Revision 1.1.2.4  2005/06/08 13:50:29  marcelloptr
+*added CVS log section
+*
+*/
+
 
 #endif //_VCF_MENUMANAGER_H__
+
 
