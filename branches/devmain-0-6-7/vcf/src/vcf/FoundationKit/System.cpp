@@ -73,8 +73,20 @@ String System::findResourceDirectory()
 	return System::findResourceDirectoryForExecutable( cmdLine.getArgument(0) );
 }
 
-String System::findResourceDirectoryForExecutable( const String& fileName )
+String System::findResourceDirectory( Locale* locale )
 {
+	VCF_ASSERT( NULL != locale );
+	
+	CommandLine cmdLine = FoundationKit::getCommandLine();
+
+	return System::findResourceDirectory( cmdLine.getArgument(0), locale );
+}
+
+String System::findResourceDirectory( const String& fileName, Locale* locale )
+{
+	VCF_ASSERT( NULL != locale );
+	VCF_ASSERT( !fileName.empty() );
+
 	String result;	
 
 	FilePath appPath = fileName;
@@ -114,7 +126,7 @@ String System::findResourceDirectoryForExecutable( const String& fileName )
 		//found the top level res dir
 		//now attempt to see if we can use a more locale specific dir
 		//if not, fall back on the default Resources dir
-		String localeName = System::getCurrentThreadLocale()->getName();
+		String localeName = locale->getName();
 		tmp = result + FilePath::getDirectorySeparator() + localeName;
 		if ( File::exists( tmp ) ) {
 			result = tmp;
@@ -125,6 +137,11 @@ String System::findResourceDirectoryForExecutable( const String& fileName )
 	}
 
 	return result;
+}
+
+String System::findResourceDirectoryForExecutable( const String& fileName )
+{
+	return System::findResourceDirectory( fileName, System::getCurrentThreadLocale() );
 }
 
 
@@ -755,6 +772,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/06/08 03:27:28  ddiego
+*fix for popup menus
+*
 *Revision 1.3.2.11  2005/04/11 17:07:14  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *

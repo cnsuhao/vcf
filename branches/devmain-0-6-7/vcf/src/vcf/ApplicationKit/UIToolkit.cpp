@@ -159,7 +159,7 @@ void UIToolkit::init()
 
 	internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
 
-	MenuManager::init();
+	MenuManager::create();
 	//Desktop::getDesktop()->init();
 }
 
@@ -1234,6 +1234,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.17  2005/06/08 03:27:26  ddiego
+*fix for popup menus
+*
 *Revision 1.3.2.16  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *

@@ -38,7 +38,7 @@ MenuManager::~MenuManager()
 	delete peer_;
 }
 
-void MenuManager::init()
+void MenuManager::create()
 {
 	MenuManager::menuManager = new MenuManager();
 }
@@ -83,6 +83,18 @@ void MenuManager::registerMenuBar( MenuBar* menuBar )
 	}
 
 	menuBar->MenuItemChanged += ev;
+}
+
+void MenuManager::registerPopupMenu( PopupMenu* popupMenu )
+{
+	VCF_ASSERT( NULL != popupMenu );
+
+	EventHandler* ev = MenuManager::menuManager->getEventHandler( "MenuManager::onMenuItemChange" );
+	if ( NULL == ev ) {
+		ev = new GenericEventHandler<MenuManager>( MenuManager::menuManager, &MenuManager::onMenuItemChange, "MenuManager::onMenuItemChange" );
+	}
+
+	popupMenu->MenuItemChanged += ev;
 }
 
 void MenuManager::onWindowActivated( Event* event )
