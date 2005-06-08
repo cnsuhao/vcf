@@ -43,13 +43,13 @@ namespace VCF {
 	class APPLICATIONKIT_API MenuManager : public ObjectWithEvents{
 	public:
 		/**
-		Used by the UITOolkit to create the singleton instance of the 
+		Used by the UIToolkit to create the singleton instance of the 
 		MenuManager
 		*/
 		static void create();
 
 		/**
-		Used by the UITOolkit to destroy the singleton instance of the 
+		Used by the UIToolkit to destroy the singleton instance of the 
 		MenuManager
 		*/
 		static void terminate();
