@@ -430,6 +430,7 @@ void MainWindow::makeTextPage()
 	Dictionary styles;
 	styles [ Text::fsColor ] = Color::getColor("green");
 	styles [ Text::fsBold ] = true;
+	styles [ Text::fsPointSize ] = 10.0;
 	styles [ Text::fsItalic ] = true;
 	styles [ Text::fsStrikeout ] = true;
 	styles [ Text::fsUnderlined ] = Text::utDotted;
@@ -506,6 +507,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.14  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2.2.13  2005/06/06 02:34:03  ddiego
 *menu changes to better support win32 and osx.
 *

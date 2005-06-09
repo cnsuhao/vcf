@@ -128,7 +128,7 @@ public:
                   0, 0,
                   (myDrawMode == FaceDown) ? myDeckItem : myCardItem,
                   myDrawMode,
-                  getColor()->getRGB());
+                  getColor()->getColorref32() );
   }
 private:
   void doCtrlInit(const int cardValue = Defaultcard, const int deck = FaceDownFirst) {
@@ -152,6 +152,9 @@ DynoCardLoader CardControl::dnc;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.6  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.1.2.5  2005/05/28 14:45:36  kiklop74
 *Fixed problem with compiling on borland free compiler
 *

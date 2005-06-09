@@ -197,9 +197,7 @@ void Win32Tree::create( Control* owningControl )
 		peerControl_->ControlModelChanged += 
 			new GenericEventHandler<Win32Tree>( this, &Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
 
-		COLORREF backColor = RGB(backColor_.getRed() * 255.0,
-									backColor_.getGreen() * 255.0,
-									backColor_.getBlue() * 255.0 );
+		COLORREF backColor = backColor_.getColorref32();
 
 		TreeView_SetBkColor( hwnd_, backColor );
 	}
@@ -395,11 +393,9 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
 
-			Color* color = peerControl_->getColor();
-			
-			COLORREF backColor = RGB(color->getRed() * 255.0,
-									color->getGreen() * 255.0,
-									color->getBlue() * 255.0 );
+			Color* color = peerControl_->getColor();			
+			COLORREF backColor = color->getColorref32();
+
 			HBRUSH bkBrush = CreateSolidBrush( backColor );
 			FillRect( memDC_, &paintRect, bkBrush );
 			DeleteObject( bkBrush );
@@ -467,11 +463,8 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 		case WM_ERASEBKGND :{
 			Color* color = treeControl_->getColor();
-			if ( (backColor_.getRed() != color->getRed()) || (backColor_.getGreen() != color->getGreen()) || (backColor_.getBlue() != color->getBlue()) ) {
-				COLORREF backColor = RGB(color->getRed() * 255.0,
-									color->getGreen() * 255.0,
-									color->getBlue() * 255.0 );
-
+			if ( backColor_ != *color ) {
+				COLORREF backColor = color->getColorref32();
 				TreeView_SetBkColor( hwnd_, backColor );
 
 				backColor_ = *color;
@@ -1306,7 +1299,7 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 		HBITMAP hBMPcopy = (HBITMAP)CopyImage( win32Img->getBitmap(), IMAGE_BITMAP, 0, 0, NULL );
 		//flip the bits
 
-		int err = ImageList_AddMasked( stateImageListCtrl_, hBMPcopy, transparentColor->getRGB() );
+		int err = ImageList_AddMasked( stateImageListCtrl_, hBMPcopy, transparentColor->getColorref32() );
 
 		if ( err < 0 ) {
 			//error condition !
@@ -1387,6 +1380,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.12  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.11  2005/05/02 02:31:42  ddiego
 *minor text updates.
 *

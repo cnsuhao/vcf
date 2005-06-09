@@ -1273,7 +1273,7 @@ void Win32Toolbar::onImageListImageChanged( ImageListEvent* e )
 
 			Color* transparentColor = imageList->getTransparentColor();
 
-			COLORREF color = (COLORREF)transparentColor->getRGB();
+			COLORREF color = transparentColor->getColorref32();
 			err = ImageList_AddMasked( imageListCtrl_, hCopyImg, color );
 			if ( err < 0 ) {
 				//error condition !
@@ -1309,7 +1309,7 @@ void Win32Toolbar::onImageListImageChanged( ImageListEvent* e )
 
 			Color* transparentColor = imageList->getTransparentColor();
 
-			COLORREF color = (COLORREF)transparentColor->getRGB();
+			COLORREF color = transparentColor->getColorref32();
 
 			int err = ImageList_AddMasked( imageListCtrl_, hCopyImg, color );
 
@@ -1378,7 +1378,7 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 			HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
 
 			Color* transparentColor = imageList->getTransparentColor();
-			COLORREF color = (COLORREF)transparentColor->getRGB();
+			COLORREF color = transparentColor->getColorref32();
 
 			int err = ImageList_AddMasked( imageListCtrl_, hCopyImg, color );
 
@@ -1423,6 +1423,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.4  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

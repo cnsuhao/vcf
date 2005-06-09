@@ -53,17 +53,10 @@ bool Win32FontDialog::execute()
 		chooseFont.lpLogFont = &logFont;
 		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
 		Color* c = font_.getColor();
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		c->getRGB( r, g, b );
-		chooseFont.rgbColors = RGB( c->getRed()*255, c->getGreen()*255, c->getBlue()*255 );
+		chooseFont.rgbColors = c->getColorref32();
 
 		if ( ChooseFontW( &chooseFont ) ){
-			r = GetRValue( chooseFont.rgbColors );
-			g = GetGValue( chooseFont.rgbColors );
-			b = GetBValue( chooseFont.rgbColors );
-			c->setRGB( r,g,b);
+			c->setColorref32(chooseFont.rgbColors);
 			LOGFONTW* fontLogFont = (LOGFONTW*)font_.getFontPeer()->getFontHandleID();
 			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTW) );
 			result = true;
@@ -88,17 +81,10 @@ bool Win32FontDialog::execute()
 		chooseFont.lpLogFont = &logFont;
 		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
 		Color* c = font_.getColor();
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		c->getRGB( r, g, b );
-		chooseFont.rgbColors = RGB( c->getRed()*255, c->getGreen()*255, c->getBlue()*255 );
+		chooseFont.rgbColors = c->getColorref32();
 
 		if ( ChooseFontA( &chooseFont ) ){
-			r = GetRValue( chooseFont.rgbColors );
-			g = GetGValue( chooseFont.rgbColors );
-			b = GetBValue( chooseFont.rgbColors );
-			c->setRGB( r,g,b);
+			c->setColorref32(chooseFont.rgbColors);
 			LOGFONTA* fontLogFont = (LOGFONTA*)font_.getFontPeer()->getFontHandleID();
 			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTA) );
 			result = true;
@@ -123,6 +109,9 @@ void Win32FontDialog::setSelectedFont( Font* selectedFont )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

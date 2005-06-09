@@ -40,7 +40,8 @@ enum PropertyDescriptorType{
 	pdLong64  ,
 	pdULong64 ,
 	pdDateTime,
-	pdDateTimeSpan
+	pdDateTimeSpan,
+	pdLast,
 };
 
 /**
@@ -328,6 +329,9 @@ enum VirtualKeyCode{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/06/09 06:13:09  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.1  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

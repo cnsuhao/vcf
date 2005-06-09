@@ -816,9 +816,7 @@ bool GTKContext::prepareForDrawing( long drawingOperation )
 		Color* current = context_->getColor();
 
 		GdkColor color;
-		color.red = (guint16)(current->getRed() * 65535.0);
-		color.green = (guint16)(current->getGreen() * 65535.0);
-		color.blue = (guint16)(current->getBlue() * 65535.0);
+		current->getRGB16( color.red, color.green, color.blue );
 
 		gdk_gc_set_rgb_fg_color( gdkGC_, &color );
 
@@ -866,9 +864,7 @@ bool GTKContext::prepareForDrawing( long drawingOperation )
 
 				Color* fontColor = ctxFont->getColor();
 
-				color.red = (guint16)(fontColor->getRed() * 65535.0);
-				color.green = (guint16)(fontColor->getGreen() * 65535.0);
-				color.blue = (guint16)(fontColor->getBlue() * 65535.0);
+				fontColor->getRGB16( color.red, color.green, color.blue );
 
 				gdk_gc_set_rgb_fg_color( gdkGC_, &color );
 
@@ -903,6 +899,9 @@ void GTKContext::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
 *brought the foundation, agg, and graphics kits uptodate on linux
 *

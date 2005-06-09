@@ -18,14 +18,15 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/GraphicsKitSelectLib.h"
 
-#include "vcf/GraphicsKit/GraphicsToolKit.h"
-#include "vcf/GraphicsKit/NoGraphicsToolkitFoundException.h"
-
 #include "vcf/GraphicsKit/Point.h"
 #include "vcf/GraphicsKit/Size.h"
 #include "vcf/GraphicsKit/Rect.h"
 
 #include "vcf/GraphicsKit/Color.h"
+
+#include "vcf/GraphicsKit/GraphicsToolKit.h"
+#include "vcf/GraphicsKit/NoGraphicsToolkitFoundException.h"
+
 #include "vcf/GraphicsKit/Stroke.h"
 #include "vcf/GraphicsKit/Fill.h"
 #include "vcf/GraphicsKit/Matrix2D.h"
@@ -87,6 +88,9 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.4.2.1  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *

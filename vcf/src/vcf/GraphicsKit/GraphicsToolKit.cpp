@@ -151,11 +151,6 @@ Color* GraphicsToolkit::getColorMatchFromColormap( const Color& color )
 	return GraphicsToolkit::graphicsToolkitInstance->internal_getColorMatchFromColormap( color );
 }
 
-Color GraphicsToolkit::getColorContrast( const Color& clrRef, double deltaL )
-{
-	return GraphicsToolkit::graphicsToolkitInstance->internal_getColorContrast( clrRef, deltaL );
-}
-
 void GraphicsToolkit::printColorNameMap( )
 {
 	GraphicsToolkit::graphicsToolkitInstance->internal_printColorNameMap();
@@ -393,9 +388,9 @@ void GraphicsToolkit::internal_printColorNameMap( ) const
 		double dr = c.getRed();
 		double dg = c.getGreen();
 		double db = c.getBlue();
-		unsigned char cr = (unsigned char)(dr*255);
-		unsigned char cg = (unsigned char)dg*255;
-		unsigned char cb = (unsigned char)db*255;
+		Color::uint8 cr = (Color::uint8)(dr*255+0.5);
+		Color::uint8 cg = (Color::uint8)(dg*255+0.5);
+		Color::uint8 cb = (Color::uint8)(db*255+0.5);
 		StringUtils::traceWithArgs( Format("r=%0.06g, g=%0.06g, b=%0.06g - (%-25s) [%3d, %3d, %3d] (0x%02X, 0x%02X, 0x%02X) <%-25s>\n") % dr % dg % db % s.c_str() %  cr % cg % cb % cr % cg % cb % sg.c_str());
 		it ++;
 	}
@@ -461,47 +456,6 @@ Color* GraphicsToolkit::internal_getColorMatchFromColormap( const Color& color )
 	closestColor = f->second;
 
 	return const_cast<Color*>(closestColor);
-}
-
-Color GraphicsToolkit::internal_getColorContrast( const Color& clrRef, double deltaL/*=0.3*/ )
-{
-	double deltaLum = deltaL;
-
-	Color clrCnt = clrRef;
-
-	Color clrTst = clrRef;
-
-//#define TEST_RGBToHSLToRGB
-#ifdef TEST_RGBToHSLToRGB
-	//ColorSpace::HSLtype _hslTst = ColorSpace::ColorToHSL( clrTst );
-	ColorSpace::RGBtype rgbTst = ColorSpace::ColorToRGB( clrTst );
-	ColorSpace::HSLtype _hslTst = ColorSpace::RGBToHSL ( rgbTst );
-	//Color clrTest = ColorSpace::HSLToColor( _hslTst );
-	ColorSpace::RGBtype rgbTest = ColorSpace::HSLToRGB (_hslTst);
-	Color clrTest = ColorSpace::RGBToColor( rgbTest );
-#endif
-
-	ColorSpace::HSLtype _hslCnt = ColorSpace::ColorToHSL( clrCnt );
-	int lumin = clrCnt.getLuminosity();
-
-	// not enough contrast ?
-	if ( lumin < 128 ) {
-		if ( 0 < deltaLum ) {
-			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, +deltaLum); // lighter
-		} else {
-			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, -deltaLum); // lighter
-		}
-	} else {
-		if ( 0 < deltaLum ) {
-			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, -deltaLum); // darker
-		} else {
-			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, +deltaLum); // darker
-		}
-	}
-
-	clrCnt = ColorSpace::HSLToColor( _hslCnt );
-
-	return clrCnt;
 }
 
 void GraphicsToolkit::initGraphicsToolkit()
@@ -1302,7 +1256,7 @@ void GraphicsToolkit::initColorMap()
 }
 
 
-void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const unsigned char & r, const unsigned char & g, const unsigned char & b)
+void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const Color::uint8& r, const Color::uint8& g, const Color::uint8& b)
 {
 	MapStringColor::iterator found = colorMap_.find( colorName );
 	if ( found != colorMap_.end() ) {
@@ -1312,7 +1266,7 @@ void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const 
 
 		// what happens if we are using the color map inside a loop somewherelse ?
 		// May we get into an infinite loop ? I think no, if the loop is well written.
-		clr->setRGB( (VCF::uchar)r, (VCF::uchar)g, (VCF::uchar)b );
+		clr->setRGB8( r, g, b );
 
 		// we keep only one color for the same color name
 		MapStringColorName::iterator it = colorNameMap_->begin();
@@ -1381,6 +1335,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.4  2005/04/26 03:02:01  ddiego
 *fixes 1176555Mem Leak bug
 *

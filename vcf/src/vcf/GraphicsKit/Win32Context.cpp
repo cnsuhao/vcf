@@ -2428,7 +2428,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 				LOGPEN logPen;
 				memset( &logPen, 0, sizeof(logPen) );
 
-				logPen.lopnColor = currentColor->getRGB();
+				logPen.lopnColor = currentColor->getColorref32();
 
 				logPen.lopnStyle = PS_SOLID;//translateStrokeStyle( currentStroke_.style_ );
 				logPen.lopnWidth.x = (long)context_->getStrokeWidth();
@@ -2447,7 +2447,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 			break;
 
 			case GraphicsContext::doFill : {
-				logBrush.lbColor = currentColor->getRGB();
+				logBrush.lbColor = currentColor->getColorref32();
 
 				logBrush.lbStyle = BS_SOLID;
 				logBrush.lbHatch = BS_NULL;
@@ -2479,7 +2479,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 				Color* fontColor = ctxFont->getColor();
 
 				if ( NULL != fontColor ){
-					::SetTextColor( dc_, fontColor->getRGB() );
+					::SetTextColor( dc_, fontColor->getColorref32() );
 				}
 				else {
 					::SetTextColor( dc_, RGB(0,0,0) );
@@ -2544,6 +2544,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.12  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.4.2.11  2005/04/25 00:11:59  ddiego
 *added more advanced text support. fixed some memory leaks. fixed some other miscellaneous things as well.
 *

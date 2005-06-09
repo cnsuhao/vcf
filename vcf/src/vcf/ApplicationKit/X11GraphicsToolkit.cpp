@@ -307,9 +307,8 @@ ulong32 X11GraphicsToolkit::getPixelForColor( Color* color )
 {
 	ulong32 result = 0;
 
-	unsigned char red = (unsigned char)(color->getRed() * 255.0);
-	unsigned char green = (unsigned char)(color->getGreen() * 255.0);
-	unsigned char blue = (unsigned char)(color->getBlue() * 255.0);
+	Color::uint8 red, green, blue;
+	color->getRGB8( red, green, blue );
 	//in the future we can get an alpha value
 
 	ulong32 key = red;
@@ -371,6 +370,9 @@ String X11GraphicsToolkit::getUserFontsPath()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/09 06:13:09  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2.4.1  2005/04/09 17:20:36  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *
