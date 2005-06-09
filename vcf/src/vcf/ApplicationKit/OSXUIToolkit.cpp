@@ -25,6 +25,9 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXMenuBar.h"
 #include "vcf/ApplicationKit/OSXMenuItem.h"
 
+#include "vcf/ApplicationKit/MenuManagerPeer.h"
+#include "vcf/ApplicationKit/OSXMenuManagerPeer.h"
+
 
 #define kSleepTime	32767
 
@@ -839,6 +842,11 @@ ScrollPeer* OSXUIToolkit::internal_createScrollPeer( Control* control )
 SystemTrayPeer* OSXUIToolkit::internal_createSystemTrayPeer()
 {
 	return NULL;
+}
+
+MenuManagerPeer* OSXUIToolkit::internal_createMenuManagerPeer()
+{
+	return new OSXMenuManagerPeer();
 }
 
 GraphicsResourceBundlePeer* OSXUIToolkit::internal_createGraphicsResourceBundlePeer( AbstractApplication* app )
@@ -2186,6 +2194,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/09 02:25:50  ddiego
+*updated osx build
+*
 *Revision 1.3.2.2  2005/05/08 19:55:31  ddiego
 *osx updates, not yet functional.
 *

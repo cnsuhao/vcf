@@ -226,7 +226,6 @@ protected:
 	bool keepTabbingCharacters_;
 	bool keepReturnCharacter_;
 	bool readOnly_;
-	void onFocusGained( FocusEvent* event );
 
 };
 
@@ -236,6 +235,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/06/09 02:25:50  ddiego
+*updated osx build
+*
 *Revision 1.3.2.9  2005/06/07 17:23:53  marcelloptr
 *added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
 *
