@@ -1047,8 +1047,8 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.1.2.8  2005/06/09 07:15:11  marcelloptr
-*fixed problem of printInfo_.docInfo_.lpszDocName assigned to a temporary
+*Revision 1.1.2.9  2005/06/09 07:18:25  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
 *
 *Revision 1.1.2.6  2005/06/07 17:31:29  marcelloptr
 *added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
