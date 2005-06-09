@@ -1530,9 +1530,9 @@ Resources\
 		</para>
 		<para>
 		The precise location of the "Resources" directory can be somewhat varied. There are four
-		main "styles" that the developer can follow and that the VCF runtime understands how to 
-		look up resource files for. Some styles may not be compatible with Mac OSX's resource 
-		look up patterns. The examples below will all assume a program called "bleep".
+		main "styles" that the developer can follow and that the VCF runtime understands in
+		order to look up resource files. Some styles may not be compatible with Mac OSX's 
+		resource look up patterns. The examples below will all assume a program called "bleep".
 		</para>
 		<formalpara><title>Style A</title>
 		This is the simplest style (but it's not OSX compatible).
@@ -1621,10 +1621,16 @@ Resources\
 	
 	<section><title>System Functions</title>
 		<para>
+		The System is a singleton class that has a variety of useful functions
+		that all deal with low level OS functionality.
 		</para>
 		
 		<section><title>String functions</title>
 			<para>
+			There are several functions that return string information about the
+			OS the VCF is running on. These include the operating system name,
+			the OS version, the compiler the VCF was built with, the name of the
+			computer (the hostname)
 			System::getOSName()
 			System::getOSVersion()
 			System::getCompiler()
@@ -1794,6 +1800,9 @@ Resources\
 <!-- 
 CVS Log info
 $Log$
+Revision 1.3.4.5  2005/06/09 21:00:55  ddiego
+update
+
 Revision 1.3.4.4  2005/06/08 21:09:51  ddiego
 more docs updates
 
