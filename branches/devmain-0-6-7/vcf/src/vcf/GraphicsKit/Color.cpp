@@ -30,8 +30,6 @@ EnumeratorMapContainer<std::map<ColorNames::ColorID, String>, String > ColorName
 String ColorNames::unknownColorName;
 
 const double ColorSpace::HueCriticalMax	= HUECRITICALMAX;	// Hue > HueCriticalMax => rgb.R > 1;
-const int	ColorSpace::RGBMax			= RGBMAX;			// This is what Windows in the Display Properties dialog uses in the ColorPicker tool.
-const int	ColorSpace::HSLMax			= HSLMAX;			// max r/g/b value is 255 in Windows
 
 
 
@@ -50,12 +48,21 @@ const int	ColorSpace::HSLMax			= HSLMAX;			// max r/g/b value is 255 in Windows
 //
 int ColorSpace::getLuminosity( const Color& color )
 {
-	int r = (int)(color.getRed() * 255.0);
-	int g = (int)(color.getGreen() * 255.0);
-	int b = (int)(color.getBlue() * 255.0);
+	/*
+	int r = (int)(color.r_ * Color::xFF + 0.5);
+	int g = (int)(color.g_ * Color::xFF + 0.5);
+	int b = (int)(color.b_ * Color::xFF + 0.5);
 	int rgbMax = maxVal<>( maxVal<>(r,g), b);
 	int rgbMin = minVal<>( minVal<>(r,g), b);
 	return (int) (double) (((rgbMax+rgbMin) * ColorSpace::HSLMax) + ColorSpace::RGBMax ) / (2 * ColorSpace::RGBMax);
+	*/
+
+	// enhancing the precision
+	Color::uint16 r, g, b;
+	color.getRGB16(r, g, b);
+	int rgbMax = maxVal<>( maxVal<>(r,g), b);
+	int rgbMin = minVal<>( minVal<>(r,g), b);
+	return (int) (double) (((double)(rgbMax+rgbMin) * ColorSpace::HSLMax16) + ColorSpace::RGBMax16 ) / (2 * ColorSpace::RGBMax16);
 }
 
 ColorSpace::HSVtype ColorSpace::RGBToHSV( const RGBtype& rgb )
@@ -440,9 +447,9 @@ ColorSpace::RGBtype ColorSpace::ColorLongToRGB ( const ulong32 color )
 	RGBtype rgb;
 	Color c(color);
 	//the casting is necessary
-	rgb.R = (double) (c.getRed() * 255.0) / ColorSpace::RGBMax;				// red..
-	rgb.G = (double) (c.getGreen() * 255.0) / ColorSpace::RGBMax;				// ..green
-	rgb.B = (double) (c.getBlue() * 255.0) / ColorSpace::RGBMax;				// ..blue color vals
+	rgb.R = (double) (c.r_ * Color::xFF) / ColorSpace::RGBMax;
+	rgb.G = (double) (c.g_ * Color::xFF) / ColorSpace::RGBMax;
+	rgb.B = (double) (c.b_ * Color::xFF) / ColorSpace::RGBMax;
 	return rgb;
 }
 
@@ -459,9 +466,9 @@ ColorSpace::HSLtype ColorSpace::ColorLongToHSL ( const ulong32 color )
 	RGBtype rgb;
 	//the casting is necessary
 	Color c(color);
-	rgb.R = (double) (c.getRed() * 255.0) / ColorSpace::RGBMax;
-	rgb.G = (double) (c.getGreen() * 255.0) / ColorSpace::RGBMax;
-	rgb.B = (double) (c.getBlue() * 255.0) / ColorSpace::RGBMax;
+	rgb.R = (double) (c.r_ * Color::xFF) / ColorSpace::RGBMax;
+	rgb.G = (double) (c.g_ * Color::xFF) / ColorSpace::RGBMax;
+	rgb.B = (double) (c.b_ * Color::xFF) / ColorSpace::RGBMax;
 
 	return RGBToHSL(rgb);
 }
@@ -492,9 +499,9 @@ ColorSpace::HSLrangetype ColorSpace::ColorLongToHSLRange ( ulong32 color )
 	RGBtype rgb;
 	Color c(color);
 	//the casting is necessary
-	rgb.R = (double) (c.getRed() * 255.0) / ColorSpace::RGBMax;
-	rgb.G = (double) (c.getGreen() * 255.0)/ ColorSpace::RGBMax;
-	rgb.B = (double) (c.getBlue() * 255.0) / ColorSpace::RGBMax;
+	rgb.R = (double) (c.r_ * Color::xFF) / ColorSpace::RGBMax;
+	rgb.G = (double) (c.g_ * Color::xFF)/ ColorSpace::RGBMax;
+	rgb.B = (double) (c.b_ * Color::xFF) / ColorSpace::RGBMax;
 
 	return RGBToHSLRange (rgb);
 }
@@ -663,6 +670,97 @@ void ColorSpace::changeHWB ( HWBtype& hwb, const double& percentH, const double&
 	hwb.B = getChanged( hwb.B, percentB );
 }
 
+Color Color::getColorContrast( const Color& color, double deltaL/*=0.3*/ )
+{
+	double deltaLum = deltaL;
+
+	Color clrCnt = color;
+
+	Color clrTst = color;
+
+//#define TEST_RGBToHSLToRGB
+#ifdef TEST_RGBToHSLToRGB
+	//ColorSpace::HSLtype _hslTst = ColorSpace::ColorToHSL( clrTst );
+	ColorSpace::RGBtype rgbTst = ColorSpace::ColorToRGB( clrTst );
+	ColorSpace::HSLtype _hslTst = ColorSpace::RGBToHSL ( rgbTst );
+	//Color clrTest = ColorSpace::HSLToColor( _hslTst );
+	ColorSpace::RGBtype rgbTest = ColorSpace::HSLToRGB (_hslTst);
+	Color clrTest = ColorSpace::RGBToColor( rgbTest );
+#endif
+
+	ColorSpace::HSLtype _hslCnt = ColorSpace::ColorToHSL( clrCnt );
+	int lumin = clrCnt.getLuminosity();
+
+	// not enough contrast ?
+	if ( lumin < 128 ) {
+		if ( 0 < deltaLum ) {
+			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, +deltaLum); // lighter
+		} else {
+			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, -deltaLum); // lighter
+		}
+	} else {
+		if ( 0 < deltaLum ) {
+			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, -deltaLum); // darker
+		} else {
+			_hslCnt.L = ColorSpace::getChanged( _hslCnt.L, +deltaLum); // darker
+		}
+	}
+
+	clrCnt = ColorSpace::HSLToColor( _hslCnt );
+
+	return clrCnt;
+}
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Color implementation
+
+Color::Color( const String& colorName ) {
+	( *this ) = (* GraphicsToolkit::getColorFromColormap( colorName ) );
+}
+
+Color& Color::brighter()
+{
+	throw NotImplementedException();
+	return *this;
+}
+
+Color& Color::darker()
+{
+	throw NotImplementedException();
+	return *this;
+}
+
+Color* Color::getColor( const int& gray )
+{
+	return GraphicsToolkit::getColorFromColormap( gray );
+}
+
+Color* Color::getColor( const String& colorName )
+{
+	return GraphicsToolkit::getColorFromColormap( colorName );
+}
+
+Color* Color::getColorMatch( const Color& color )
+{
+	return GraphicsToolkit::getColorMatchFromColormap( color );
+}
+
+const String Color::getColorNameFromMap( const Color& color )
+{
+	return GraphicsToolkit::getColorNameFromMap( color );
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// ColorNames implementation
 
 ColorNames::ColorNames()
 {
@@ -1420,6 +1518,9 @@ String ColorNames::unknownColor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/06/09 06:13:09  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

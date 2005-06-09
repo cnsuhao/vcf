@@ -380,9 +380,7 @@ void OSXControl::setFont( Font* font )
 	}
 	
 	Color* color = font->getColor();
-	fontRec.foreColor.red = (65535.0 * color->getRed());
-	fontRec.foreColor.green = (65535.0 * color->getGreen());
-	fontRec.foreColor.blue = (65535.0 * color->getBlue());
+	color->getRGB16( fontRec.foreColor.red, fontRec.foreColor.green, fontRec.foreColor.blue );
 	SetControlFontStyle( hiView_, &fontRec );	
 }
 
@@ -761,6 +759,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.2  2005/05/08 19:55:31  ddiego
 *osx updates, not yet functional.
 *
@@ -814,6 +815,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.3.2.3  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.2  2005/05/08 19:55:31  ddiego
 *osx updates, not yet functional.
 *

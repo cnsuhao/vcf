@@ -78,21 +78,19 @@ public:
 
 		memset(&charFmt_,0,sizeof(charFmt_)) ;
 		charFmt_.cbSize = sizeof(charFmt_);
-		
+
 		charFmt_.yHeight = font.getPointSize();
 
 
 		charFmt_.yOffset = 0;
-		charFmt_.crTextColor = RGB( 255.0*font.getColor()->getRed(),
-									255.0*font.getColor()->getGreen(),
-									255.0*font.getColor()->getBlue() );
+		charFmt_.crTextColor = font.getColorref32();
 
 
 		charFmt_.dwEffects = CFM_EFFECTS | CFE_AUTOBACKCOLOR;
 		charFmt_.dwEffects &= ~(CFE_PROTECTED | CFE_LINK | CFE_AUTOCOLOR);
-	
+
 		charFmt_.dwEffects &= ~CFE_BOLD;
-		charFmt_.dwEffects &= ~CFE_ITALIC;	
+		charFmt_.dwEffects &= ~CFE_ITALIC;
 		charFmt_.dwEffects &= ~CFE_UNDERLINE;
 		charFmt_.dwEffects &= ~CFE_STRIKEOUT;
 
@@ -110,8 +108,8 @@ public:
 
 		if ( font.getUnderlined() ) {
 			charFmt_.dwEffects |= CFE_UNDERLINE;
-		}	
-		
+		}
+
 
 		charFmt_.dwMask = CFM_ALL | CFM_BACKCOLOR | CFM_STYLE;
 		charFmt_.bCharSet = DEFAULT_CHARSET;
@@ -124,7 +122,7 @@ public:
 
 	STDMETHODIMP QueryInterface( REFIID iid, void ** ppvObject ) {
 		String uuidStr;
-		
+
 		if ( iid == IID_ITextHost ) {
 			*ppvObject = (void*) (ITextHost*)this;
 		}
@@ -156,7 +154,7 @@ public:
 	INT TxReleaseDC(HDC hdc) {
 		return ReleaseDC( hwnd_, hdc );
 	}
-	
+
 	//@cmember Show the scroll bar
 	BOOL TxShowScrollBar(INT fnBar, BOOL fShow) {
 		return FALSE;
@@ -188,9 +186,9 @@ public:
 
 	//@cmember Send a WM_PAINT to the window
 	void TxViewChange(BOOL fUpdate) {
-		
+
 	}
-	
+
 	//@cmember Create the caret
 	BOOL TxCreateCaret(HBITMAP hbmp, INT xWidth, INT yHeight) {
 		StringUtils::trace( "TxCreateCaret\n" );
@@ -240,7 +238,7 @@ public:
 							UINT fuScroll) {
 
 	}
-	
+
 	//@cmember Get mouse capture
 	void TxSetCapture(BOOL fCapture) {
 		StringUtils::trace( "TxSetCapture\n" );
@@ -285,7 +283,7 @@ public:
 	}
 
 	//@cmember Retrieves the coordinates of a window's client area
-	HRESULT TxGetClientRect(LPRECT prc){		
+	HRESULT TxGetClientRect(LPRECT prc){
 		GetClientRect( hwnd_, prc );
 		return S_OK;
 	}
@@ -301,7 +299,7 @@ public:
 
 	//@cmember Get the default character format for the text
 	HRESULT TxGetCharFormat(const CHARFORMATW **ppCF ){
-		
+
 		*ppCF = &charFmt_;
 
 		return S_OK;
@@ -369,12 +367,12 @@ public:
 	HRESULT TxGetPropertyBits(DWORD dwMask, DWORD *pdwBits){
 
 		DWORD bits = *pdwBits;
-		
+
 
 		bits = TXTBIT_RICHTEXT | TXTBIT_USECURRENTBKG;
-		
+
 		if ( wrapLines_ ) {
-			bits |= TXTBIT_WORDWRAP; 
+			bits |= TXTBIT_WORDWRAP;
 		}
 
 		if ( multiLines_ ) {
@@ -431,7 +429,7 @@ Win32TextPeer::Win32TextPeer( const bool& autoWordWrap, const bool& multiLined )
 		//load up the Riched20.dll
 
 		HINSTANCE riched20 = LoadLibraryA( "Riched20.dll" );
-		
+
 		if ( NULL == riched20 ) {
 			throw RuntimeException( "Riched20.dll not found on this system! Can't create Text Peer implementation!" );
 		}
@@ -452,7 +450,7 @@ Win32TextPeer::Win32TextPeer( const bool& autoWordWrap, const bool& multiLined )
 	CreateTextServicesFunc( NULL, host_, &unk );
 
 	unk->QueryInterface( IID_ITextServices, (void**)&textSvcs_ );
-	
+
 	if ( NULL == textSvcs_ ) {
 		throw RuntimeException( "Unable to get ITextServices interface! Can't create Text Peer implementation!" );
 	}
@@ -460,14 +458,14 @@ Win32TextPeer::Win32TextPeer( const bool& autoWordWrap, const bool& multiLined )
 	textSvcs_->AddRef();
 
 	unk->QueryInterface( IID_ITextDocument, (void**)&textDocument_ );
-	
+
 	if ( NULL == textDocument_ ) {
 		throw RuntimeException( "Unable to get ITextDocument interface! Can't create Text Peer implementation!" );
 	}
 
 	textDocument_->AddRef();
 
-	unk->Release();		
+	unk->Release();
 }
 
 Win32TextPeer::Win32TextPeer():
@@ -476,7 +474,7 @@ Win32TextPeer::Win32TextPeer():
 	textDocument_(NULL)
 {
 
-	
+
 }
 
 Win32TextPeer::~Win32TextPeer()
@@ -488,7 +486,7 @@ Win32TextPeer::~Win32TextPeer()
 	if ( NULL != textDocument_ ) {
 		textDocument_->Release();
 	}
-	
+
 	delete host_;
 }
 
@@ -498,65 +496,63 @@ void Win32TextPeer::initFromRichEdit( HWND hwnd )
 	//extract the TOM interfaces!
 	IUnknown* unk = NULL;
 	::SendMessage( hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&unk );
-	
+
 	if ( NULL == unk ) {
 		throw RuntimeException( "Unable to retrieve IUnknown interface from edit control." );
 	}
-	
+
 	unk->QueryInterface( IID_ITextDocument, (void**)&textDocument_ );
-	
+
 	if ( NULL == textDocument_ ) {
 		throw RuntimeException( "Unable to get ITextDocument interface! Can't create Text Peer implementation!" );
 	}
 
 	textDocument_->AddRef();
-	
+
 	unk->QueryInterface( IID_ITextServices, (void**)&textSvcs_ );
-	
+
 	if ( NULL == textSvcs_ ) {
 		throw RuntimeException( "Unable to get ITextServices interface! Can't create Text Peer implementation!" );
 	}
-	
+
 	textSvcs_->AddRef();
 
 	unk->Release();
 }
 
 void Win32TextPeer::initHostDefaultStyle( Font* font )
-{	
+{
 	String name = font->getName();
 	name.copy( host_->charFmt_.szFaceName, name.size() );
 
 	Color* color = font->getColor();
-	host_->charFmt_.crTextColor = RGB( 255.0 * color->getRed(),
-								255.0 * color->getGreen(),
-								255.0 * color->getBlue() );
+	host_->charFmt_.crTextColor = color->getColorref32();
 
-	
+
 	host_->charFmt_.yHeight = font->getPointSize();
-		
+
 	if ( font->getBold() ) {
 		host_->charFmt_.dwEffects |= CFE_BOLD;
 	}
 	else {
 		host_->charFmt_.dwEffects &= ~CFE_BOLD;
 	}
-	
-	
+
+
 	if ( font->getUnderlined() ) {
 		host_->charFmt_.dwEffects |= CFE_ITALIC;
 	}
 	else {
 		host_->charFmt_.dwEffects &= ~CFE_ITALIC;
 	}
-		
+
 	if ( font->getStrikeOut() ) {
 		host_->charFmt_.dwEffects |= CFE_STRIKEOUT;
 	}
 	else {
 		host_->charFmt_.dwEffects &= ~CFE_STRIKEOUT;
 	}
-		
+
 	if ( font->getUnderlined() ) {
 		host_->charFmt_.dwEffects &= ~CFE_UNDERLINE;
 	}
@@ -571,22 +567,22 @@ OSHandleID Win32TextPeer::getTextObjectHandle()
 	OSHandleID result ;
 
 	IUnknown* unk = (IUnknown*)textDocument_;
-	
+
 	result = (OSHandleID) unk;
 
 	return result;
 }
 
-//storage	
+//storage
 void Win32TextPeer::insertText( unsigned int start, const String& text )
 {
 	ITextRange* range;
 	textDocument_->Range( start, start, &range );
 	if ( NULL != range ) {
 		BSTR str = SysAllocStringLen( text.c_str(), text.length() );
-		
+
 		HRESULT hr = range->SetText( str );
-		
+
 		SysFreeString( str );
 
 		range->Release();
@@ -598,7 +594,7 @@ void Win32TextPeer::deleteText( unsigned int start, unsigned int length )
 	ITextRange* range;
 	textDocument_->Range( start, start+length, &range );
 	if ( NULL != range ) {
-		
+
 		HRESULT hr = range->Delete( tomCharacter, 0, NULL );
 
 		range->Release();
@@ -613,7 +609,7 @@ unsigned int Win32TextPeer::getTextLength()
 	if ( NULL != range ) {
 		long len = 0;
 		range->GetStoryLength( &len );
-		
+
 		result = len;
 
 		range->Release();
@@ -713,7 +709,7 @@ unsigned long Win32TextPeer::getLineCount()
 	textDocument_->Range( 0, 0, &range );
 	if ( NULL != range ) {
 		long len = 0;
-		range->GetStoryLength( &len );				
+		range->GetStoryLength( &len );
 		range->SetEnd ( len );
 		HRESULT hr = range->MoveStart( tomLine, 1, NULL );
 		while ( S_OK == hr ) {
@@ -736,14 +732,14 @@ Rect Win32TextPeer::getContentBoundsForWidth(const double& width)
 	sz.cy = h;
 
 	HDC dc = GetDC( GetDesktopWindow() );
-	HRESULT hr = textSvcs_->TxGetNaturalSize( DVASPECT_CONTENT, dc, NULL, NULL, 
+	HRESULT hr = textSvcs_->TxGetNaturalSize( DVASPECT_CONTENT, dc, NULL, NULL,
 								TXTNS_FITTOCONTENT, &sz, &w, &h );
 
 	ReleaseDC( GetDesktopWindow(), dc );
 
 	result.bottom_ = result.top_ + h;
 	result.right_ = result.left_ + w;
-		
+
 
 	return result;
 }
@@ -767,9 +763,8 @@ void Win32TextPeer::getStyle( unsigned int start, unsigned int length, Dictionar
 			long val;
 
 			font->GetForeColor( &val );
-			color.setRGB( val, Color::cfARGB );
+			color.setColorref32( val );
 			styles[ Text::fsColor ] = (Object*)&color; // color cannot be a temporary
-			//styles.remove( Text::fsColor );
 
 			float size = 0;
 			font->GetSize( &size );
@@ -844,10 +839,10 @@ void Win32TextPeer::getStyle( unsigned int start, unsigned int length, Dictionar
 
 			para->Release();
 		}
-		
+
 		range->Release();
 	}
-}
+} // MP- end
 
 void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
@@ -876,9 +871,7 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 					Color* color = (Color*)(Object*)style.second;
 					VCF_ASSERT( NULL != color );
 
-					font->SetForeColor( RGB( 255.0*color->getRed(),
-												255.0*color->getGreen(),
-												255.0*color->getBlue() ) );
+					font->SetForeColor( color->getColorref32() );
 
 				}
 				else if ( style.first == Text::fsPointSize ) {
@@ -901,10 +894,10 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 				else if ( style.first == Text::fsUnderlined ) {
 					long val = tomNone;
 					switch ( (int)style.second ) {
-						case Text::utNone : {
+						case Text::utNone : { // MP- beg
 							val = tomNone;
 						}
-						break;
+						break; // MP- end
 
 						case Text::utSingle : {
 							val = tomSingle;
@@ -925,7 +918,7 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 				}
 				else if ( style.first == Text::psAlignment ) {
 					int alignment = style.second;
-					
+
 					long val = 0;
 
 					switch ( alignment ) {
@@ -956,7 +949,7 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 			para->Release();
 			font->Release();
 		}
-		
+
 		range->Release();
 	}
 }
@@ -969,24 +962,19 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 
 
 	Dictionary::Enumerator* items = styles.getEnumerator();
-	
+
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair style = items->nextElement();
 
 		if ( style.first == Text::fsFontName ) {
-			String s = style.second;				
+			String s = style.second;
 			s.copy( host_->charFmt_.szFaceName, s.size() );
-
 		}
 		else if ( style.first == Text::fsColor ) {
 			Color* color = (Color*)(Object*)style.second;
 			VCF_ASSERT( NULL != color );
 
-			host_->charFmt_.crTextColor = RGB( 255.0 * color->getRed(),
-								255.0 * color->getGreen(),
-								255.0 * color->getBlue() );
-
-
+			host_->charFmt_.crTextColor = color->getColorref32();
 		}
 		else if ( style.first == Text::fsPointSize ) {
 			double val = style.second;
@@ -1052,13 +1040,16 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 			}
 		}
 	}
-	
+
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.1.2.6  2005/06/07 17:31:29  marcelloptr
 *added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
 *

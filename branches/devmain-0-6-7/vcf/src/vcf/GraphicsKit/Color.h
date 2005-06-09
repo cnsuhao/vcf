@@ -29,6 +29,13 @@ where you installed the VCF.
 #endif
 
 
+/**
+* Uses a large map collecting all the standard internet color names,
+* which are 548. The standard short list has 138 names.
+* Uncomment the following if you desire to use the large list.
+*/
+//#define VCF_LARGE_COLOR_LIST
+
 
 namespace VCF {
 
@@ -88,21 +95,43 @@ class managing all the color transformations between different color spaces
 	Choose a hue. Lighten it with white. Darken it with black.
 	We explain that lightening is not the opposite of darkening.
 
-<p>Modified, with some fixes, by Marcello Pietrobon
+<p>Modified, with some fixes to the algorithms, by Marcello Pietrobon
 <p>Modified, by Jim Crafton, fixed some errors due to inclusion of Win32 types
 */
 class GRAPHICSKIT_API ColorSpace {
 public:
-	#define HUECRITICALMAX	( 1.0 - 1.0 / 6.0 )	// max r/g/b value is 255
-	#define RGBMAX			255					// max r/g/b value is 255
-	#define HSLMAX			240					// This is what Windows' Display Properties uses: it is not too much important an exact value: see how GetLuminosity() is used for.
-
 	/**
 	 Theoretically, hue 0 (pure red) is identical to hue 6 in these transforms. Pure
 	 red always maps to 6 in this implementation. Therefore UNDEFINED can be
 	 defined as 0 in situations where only unsigned numbers are desired.
 	 */
 	#define HUE_UNDEFINED	-1
+
+	#define HUECRITICALMAX	( 1.0 - 1.0 / 6.0 )	// max r/g/b value is 255 ?
+
+	static const double HueCriticalMax;	// = ( 1.0 - 1.0 / 6.0 )	- Hue > HueCriticalMax => rgb.R > 1;
+
+	enum {
+		RGBMax   = 0xFF,      // 255  When the max r/g/b value is 255
+		HSLMax   = 0xF0,      // 240  This is what Windows' Display Properties uses: it is not too much important an exact value: see how GetLuminosity() is used for.
+		RGBMax16 = 0xFFFF,    // Used when the max r/g/b value is 0xFFFF ( used for more precision )
+		HSLMax16 = 0xF0F0,    // ( 0xFFFF * 240 / 255 ) 
+	};
+
+	enum {
+		hue_undefined = HUE_UNDEFINED,
+	};
+
+	/*
+	enum colormodelType {
+		colormodel_RGB = 1,
+		colormodel_HSV = 2,
+		colormodel_HSL = 3,
+		colormodel_HWB = 4
+	};
+	*/
+
+
 	struct RGBtype {
 		double R;
 		double G;
@@ -150,24 +179,6 @@ public:
 	#define SPLIT_HSL(hsl, h, s, l) h = hsl.H; s = hsl.S; l = hsl.L;
 	#define SPLIT_HWB(hwb, h, w, b) h = hwb.H; w = hwb.W; b = hwb.B;
 
-
-	static const double HueCriticalMax;	// = ( 1.0 - 1.0 / 6.0 )	- Hue > HueCriticalMax => rgb.R > 1;
-	//Used by GetLuminosity()
-	static const int	RGBMax;			// This is what Windows in the Display Properties dialog uses in the ColorPicker tool.
-	static const int	HSLMax;			// max r/g/b value is 255 in Windows
-
-	enum {
-		hue_undefined = HUE_UNDEFINED,
-	};
-
-	/*
-	enum colormodelType {
-		colormodel_RGB = 1,
-		colormodel_HSV = 2,
-		colormodel_HSL = 3,
-		colormodel_HWB = 4
-	};
-	*/
 
 
 	/**
@@ -288,9 +299,11 @@ public:
 Color class documentation
 */
 class GRAPHICSKIT_API Color : public VCF::Object {
-
-	friend class ColorSpace;
 public:
+	friend class ColorSpace;
+
+	typedef unsigned char  uint8;
+	typedef unsigned short uint16;
 
 
 	/**
@@ -298,19 +311,19 @@ public:
 	32/64 bit integer value. Sadly not everyone stores this the same way
 	so this will indicate how the bits are arranged
 	*/
-	enum ColorFormat {
+	enum ColorPackScheme {
 		/**
 		Alpha value, Red value, Green Value, and Blue value.
 		Seen in a 32 bit number as 0xAARRGGBB
 		*/
-		cfARGB = 0,
+		cpsARGB = 0,
 
 		/**
 		Alpha value, Blue value, Green Value, and Red value.
-		This is the default in Win32 systems
+		This is the default in Win32 systems (i.e. inverted).
 		Seen in a 32 bit number as 0xAABBGGRR
 		*/
-		cfABGR
+		cpsABGR,
 	};
 
 	/**
@@ -343,24 +356,83 @@ public:
 		ctCMY
 	};
 
-	Color();
+	/**
+	the factor used when ranging the color components with integers.
+	*/
+	enum MaxFactor {
+		xFF = 0xFF,
+		xFFFF = 0xFFFF,
+	};
 
-	Color( const Color& color );	// copy ctor
 
 	/**
-	This will initialize a color based on three double values, the meaning of which
-	depends on the type.
-	@param ColorType indicates what the val1, val2, and val3 components represent. By default it is
-	set to ctRGB, which means that val1, val2, and val3, represent red, green, and blue color values
+	default ctor
 	*/
-	Color( const double & val1, const double & val2, const double & val3, ColorType type= ctRGB );
+	Color();
 
-	Color( const double & c, const double & m, const double & y, const double & k );
+	/**
+	the copy ctor
+	*/
+	Color( const Color& color );
 
-	Color( const unsigned char & r, const unsigned char & g, const unsigned char & b );
+	/**
+	Initializes a color based on the double values (type: double) of its three components 
+	in a specified color coordinates sytem. The values, in double (4 bytes), are directly translated 
+	into the internal color components (in double).
+	Usage: Color color = Color( 1.0, 1.0, 0.5 );  Color color2 = Color( color.getRed(), color.getGreen(), color.getBlue() );
+	@param ColorType indicates the coordinates used in the color space. By default 
+	the RGB (red, green, and blue) system is used.
+	@see ColorType
+	*/
+	Color( const double& val1, const double& val2, const double& val3, ColorType type=ctRGB );
 
-	Color( const unsigned long & color, ColorFormat cf=cfABGR );
+	/**
+	Initializes a color based on the integer values (called range values) of its three components 
+	in a specified color coordinates sytem. The values are divided by 0xFF (255 - 1 byte) before being
+	translated into the internal color components (in double). This conversion introduces a 'discreteness'
+	in the color values that can be perceived by the human eye when drawing a a color gradient.
+	Usage: Color color = Color( (uint8)255, 255, 128 );
+	@param ColorType indicates the coordinates used in the color space. By default 
+	the RGB (red, green, and blue) system is used.
+	@see ColorType
+	*/
+	Color( const uint8& val1, const uint8& val2, const uint8& val3, ColorType type=ctRGB );
 
+	/**
+	Initializes a color based on the values (type: unsigned short) of its three components 
+	in a specified color coordinates sytem. The values are divided by 0xFFFF (65535 - 2 bytes)
+	before being translated into the internal color components (in double).
+	Usage: Color color = Color( (uint16)0xFFFF, 0xFFFF, 0x7FFF );
+	@param ColorType indicates the coordinates system used in the color space. By default 
+	the RGB (red, green, and blue) system is used.
+	@see ColorType
+	*/
+	Color( const uint16& val1, const uint16& val2, const uint16& val3, ColorType type=ctRGB );
+
+	/**
+	initializes a color from its components in the 4 color space. ( not implemented yet )
+	*/
+	Color( const double& c, const double& m, const double& y, const double& k );
+
+	/**
+	this is a constructor halping us in the conversion from an uint32 (COLORREF)
+	into which the color components have been packed (4 x 8bits).
+	@param the system used to pack the color components.
+	@see ColorFormat
+	*/
+	Color( const uint32& color, const ColorPackScheme& cps=cpsABGR );
+
+	/**
+	this is a constructor halping us in the conversion from an ulong64 (COLORREF)
+	into which the color components have been packed (4 x 16bits).
+	@param the system used to pack the color components.
+	@see ColorFormat
+	*/
+	Color( const ulong64& color, const ColorPackScheme& cps=cpsABGR );
+
+	/**
+	extract a color from its color name. An internal map is used for this.
+	*/
 	Color( const String& colorName );
 
 	virtual ~Color(){};
@@ -377,22 +449,30 @@ public:
 
 	void setBlue( const double& blue );
 
-	void getRGB(unsigned char & r, unsigned char & g, unsigned char & b) const;
-	void getRGB(double & r, double & g, double & b) const;
-	unsigned long getRGB( ColorFormat cf=cfABGR ) const;
+	void getRGB(double& r, double& g, double& b) const;
+	void getRGB8(uint8& r, uint8& g, uint8& b) const;
+	void getRGB16(uint16& r, uint16& g, uint16& b) const;
+	ulong64 getRGBPack16( const ColorPackScheme& cps=cpsABGR ) const;
+	uint32 getRGBPack8( const ColorPackScheme& cps=cpsABGR ) const;
+	uint32 getColorref32() const; // to make life easier to win32 users.
+	ulong64 getColorref64() const;
 
-	void setRGB( const unsigned char & r, const unsigned char & g, const unsigned char & b);
-	void setRGB( const double & r, const double & g, const double & b);
-	void setRGB( const unsigned long& rgb, ColorFormat cf=cfABGR );
+	void setRGB( const double& r, const double& g, const double& b);
+	void setRGB8( const uint8& r, const uint8& g, const uint8& b);
+	void setRGB16( const uint16& r, const uint16& g, const uint16& b);
+	Color& setRGBPack16( const ulong64& rgb, const ColorPackScheme& cps=cpsABGR );
+	Color& setRGBPack8( const uint32& rgb, const ColorPackScheme& cps=cpsABGR );
+	Color& setColorref32( const uint32& rgb ); // to make life easier to win32 users.
+	Color& setColorref64( const ulong64& rgb );
 
-	void getHSV(double & h, double & s, double & v) const;
-	void setHSV( const double & h, const double & s, const double & v);
+	void getHSV(double& h, double& s, double& v) const;
+	void setHSV( const double& h, const double& s, const double& v);
 
-	void getHLS(double & h, double & l, double & s) const;
-	void setHLS( const double & h, const double & l, const double & s);
+	void getHLS(double& h, double& l, double& s) const;
+	void setHLS( const double& h, const double& l, const double& s);
 
-	void getCMYK(double & c, double & m, double & y, double & k) const;
-	void setCMYK( const double & c, const double & m, const double & y, const double & k);
+	void getCMYK(double& c, double& m, double& y, double& k) const;
+	void setCMYK( const double& c, const double& m, const double& y, const double& k);
 
 	void getLab() const;
 	void setLab();
@@ -419,12 +499,11 @@ public:
 	};
 
 	bool operator==( const Color& clr ) const {
-		//return (clr.b_ == b_) && (clr.g_ == g_) && (clr.r_ == r_);
-		return isEqual( &clr );
+		return ( (clr.b_ == b_) && (clr.g_ == g_) && (clr.r_ == r_) );
 	}
 
 	bool operator!=( const Color& clr ) const {
-		return ! isEqual( &clr );
+		return ( (clr.b_ != b_) || (clr.g_ != g_) || (clr.r_ != r_) );
 	}
 
 	// this operator is necessary for Map<Color, something>
@@ -443,7 +522,7 @@ public:
 		#ifdef VCF_DEBUG_COLORS_COMPARISON_OPERATORS
 			// this compare is less precise: so we can have rgb1==rgb2
 			bool result2 = ( getRGB() < clr.getRGB() ) ;
-			unsigned char r, g, b, r2, g2, b2;
+			uint8 r, g, b, r2, g2, b2;
 			getRGB(r, g, b);
 			clr.getRGB(r2, g2, b2);
 			VCF_ASSERT2( result2 == result || ( b==b2 || ( g!=g2 || r!=r2) ), L"different result for rounding reasons" );
@@ -473,7 +552,7 @@ public:
 		#ifdef VCF_DEBUG_COLORS_COMPARISON_OPERATORS
 			// this compare is less precise: so we can have rgb1==rgb2
 			bool result2 = ( getRGB() > clr.getRGB() ) ;
-			unsigned char r, g, b, r2, g2, b2;
+			uint8 r, g, b, r2, g2, b2;
 			getRGB(r, g, b);
 			clr.getRGB(r2, g2, b2);
 			VCF_ASSERT2( result2 == result || ( b==b2 || ( g!=g2 || r!=r2) ), L"different result for rounding reasons" );
@@ -496,10 +575,7 @@ public:
 	};
 
 	virtual String toString(){
-		char tmp[256];
-		memset( tmp, 0, sizeof(tmp) );
-		sprintf( tmp, "#%02X%02X%02X", (int)(r_*255.0), (int)(g_*255.0), (int)(b_*255.0) );
-		return String(tmp);
+		return Format(L"#%02X%02X%02X") % (int)(r_*xFF+0.5) % (int)(g_*xFF+0.5) % int)(b_*xFF+0.5);
 	};
 
 	void changeHSV ( const double& percentH, const double& percentS, const double& percentV );
@@ -515,53 +591,99 @@ public:
 	*/
 	int getLuminosity() const ;
 
-	void getInvertedRGB(unsigned char & r, unsigned char & g, unsigned char & b) const;
-
-	void getInvertedRGB(double & r, double & g, double & b) const;
-
-	unsigned long getInvertedRGB( ColorFormat cf=cfABGR ) const;
-
-	void brighter();
-
-	void darker();
-
 	/**
-	change the color to its complement
+	change the color to its complement (inverted)
+	@return Color& the color itself.
 	*/
-	void invert();
+	Color& invert();
 
 	/**
-	change the color to its complement
-	*/
-	Color& inverted();
-
-	/**
-	calc the complement of the color
+	compute the complement of the color
+	@return Color& the computed color.
 	*/
 	Color getInverted() const ;
+
+	/**
+	compute the inverted color of a color, given its components.
+	*/
+	void getInvertedRGB(double& r, double& g, double& b) const;
+
+	/**
+	compute the inverted components of a color, given its components in 8 bit.
+	*/
+	void getInvertedRGB8(uint8& r, uint8& g, uint8& b) const;
+
+	/**
+	compute the inverted components of a color, given its components in 16 bit.
+	*/
+	void getInvertedRGB16(uint16& r, uint16& g, uint16& b) const;
+
+	/**
+	makes the color brighter
+	@return Color& the color itself.
+	*/
+	Color& brighter();
+
+	/**
+	makes the color brighter
+	@return Color& the color itself.
+	*/
+	Color& darker();
 
 	virtual Object* clone( bool deep ) {
 		return new Color(*this);
 	}
 
+	/**
+	gets a gray color from the map of internet colors.
+	@param const int& gray, a gray value between 0 (black) and 255 (white)
+	@return Color* a pointer to the color in the map.
+	*/
 	static Color* getColor( const int& gray );
 
+	/**
+	gets a color from the map of internet colors.
+	@param const String& colorName the name of the color.
+	@return Color* a pointer to the color in the map.
+	*/
 	static Color* getColor( const String& colorName );
 
+	/**
+	gets a color from the map with the closest match a given color.
+	@param const Color& color the given color.
+	@return Color* a pointer to the color in the map.
+	*/
 	static Color* getColorMatch( const Color& color );
 
-	static Color getColorContrast( const Color& clrRef, double deltaL = 0.3 );
-
+	/**
+	gets the name of the color from the map with the closest match a given color.
+	@param const Color& color the given color.
+	@return const String the name of the matching color in the map. The name
+	is ColorNames::unknownColorName if not found.
+	*/
 	static const String getColorNameFromMap( const Color& color );
 
+	/**
+	creates the map of internet colors.
+	*/
 	static void createColorMap();
 
 	/**
-	Helper function: generate a String with the internal representation of the color in hexadecimal format.
-	@param bool true if an inverted scheme is desired, as it is in the Intel architecture.
+	Helper function: generate a String with the internal representation of the color 
+	in hexadecimal format with 8bits per component.
+	@param const ColorPackScheme& cps. With a value of cpsABGR we use an inverted scheme, 
+	as it is in the Intel architecture. The default is not inverted.
 	       Example: the scheme 0x00RRGGBB would appear as BBGGRR00 with Intel architecture.
 	*/
-	static String getHexCode( const Color& color, const unsigned char & r, const unsigned char & g, const unsigned char & b, const bool& inverted=false );
+	static String getHexCode( const uint8& r, const uint8& g, const uint8& b, const ColorPackScheme& cps=cpsARGB );
+
+	/**
+	computes a color with increased contrast.
+	@param const Color& color the given color.
+	@param double deltaL, the assigned fractional increase in luminosity.
+	@return Color the computed color.
+	*/
+	static Color getColorContrast( const Color& color, double deltaL = 0.3 );
 
 private:
 	double r_;
@@ -642,7 +764,7 @@ inline Color::Color( const Color& color ) {
 	r_ = color.r_;
 }
 
-inline Color::Color( const double & val1, const double & val2, const double & val3, ColorType type ) {
+inline Color::Color( const double& val1, const double& val2, const double& val3, ColorType type ) {
 	switch ( type ) {
 		case ctRGB : {
 			r_ = val1;
@@ -681,36 +803,94 @@ inline Color::Color( const double & val1, const double & val2, const double & va
 	}
 }
 
-inline Color::Color( const double & c, const double & m, const double & y, const double & k ) {
-	throw NotImplementedException();
-}
-
-inline Color::Color( const unsigned char & r, const unsigned char & g, const unsigned char & b ) {
-	r_ = ((double)r) / 255.0;
-	g_ = ((double)g) / 255.0;
-	b_ = ((double)b) / 255.0;
-}
-
-inline Color::Color(const unsigned long & color, ColorFormat cf ) {
-	switch ( cf ) {
-		case cfARGB : {
-			r_ = ((unsigned char*)&color)[2] / 255.0;
-			g_ = ((unsigned char*)&color)[1] / 255.0;
-			b_ = ((unsigned char*)&color)[0] / 255.0;
+inline Color::Color( const uint8& val1, const uint8& val2, const uint8& val3, ColorType type ) {
+	switch ( type ) {
+		case ctRGB : {
+			r_ = (double)val1 / xFF;
+			g_ = (double)val2 / xFF;
+			b_ = (double)val3 / xFF;
 		}
 		break;
 
-		case cfABGR : {
-			r_ = ((unsigned char*)&color)[0] / 255.0;
-			g_ = ((unsigned char*)&color)[1] / 255.0;
-			b_ = ((unsigned char*)&color)[2] / 255.0;
+		case ctHLS : {
+			ColorSpace::HSLtype hls;
+			hls.H = (double)val1 / xFF;
+			hls.L = (double)val2 / xFF;
+			hls.S = (double)val3 / xFF;
+
+			ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB( hls );
+
+			r_ = rgb.R;
+			g_ = rgb.G;
+			b_ = rgb.B;
+		}
+		break;
+
+		case ctHSV : {
+			ColorSpace::HSVtype hsv;
+			hsv.H = (double)val1 / xFF;
+			hsv.S = (double)val2 / xFF;
+			hsv.V = (double)val3 / xFF;
+
+			ColorSpace::RGBtype rgb = ColorSpace::HSVToRGB( hsv );
+
+			r_ = rgb.R;
+			g_ = rgb.G;
+			b_ = rgb.B;
 		}
 		break;
 	}
 }
 
-inline Color::Color( const String& colorName ) {
-	( *this ) = (* GraphicsToolkit::getColorFromColormap( colorName ) );
+inline Color::Color( const uint16& val1, const uint16& val2, const uint16& val3, ColorType type ) {
+	switch ( type ) {
+		case ctRGB : {
+			r_ = (double)val1 / xFFFF;
+			g_ = (double)val2 / xFFFF;
+			b_ = (double)val3 / xFFFF;
+		}
+		break;
+
+		case ctHLS : {
+			ColorSpace::HSLtype hls;
+			hls.H = (double)val1 / xFFFF;
+			hls.L = (double)val2 / xFFFF;
+			hls.S = (double)val3 / xFFFF;
+
+			ColorSpace::RGBtype rgb = ColorSpace::HSLToRGB( hls );
+
+			r_ = rgb.R;
+			g_ = rgb.G;
+			b_ = rgb.B;
+		}
+		break;
+
+		case ctHSV : {
+			ColorSpace::HSVtype hsv;
+			hsv.H = (double)val1 / xFFFF;
+			hsv.S = (double)val2 / xFFFF;
+			hsv.V = (double)val3 / xFFFF;
+
+			ColorSpace::RGBtype rgb = ColorSpace::HSVToRGB( hsv );
+
+			r_ = rgb.R;
+			g_ = rgb.G;
+			b_ = rgb.B;
+		}
+		break;
+	}
+}
+
+inline Color::Color( const double& c, const double& m, const double& y, const double& k ) {
+	throw NotImplementedException();
+}
+
+inline Color::Color(const uint32& rgb, const ColorPackScheme& cps ) {
+	setRGBPack8( rgb, cps );
+}
+
+inline Color::Color(const ulong64& rgb, const ColorPackScheme& cps ) {
+	setRGBPack16( rgb, cps );
 }
 
 
@@ -738,33 +918,39 @@ inline void Color::setBlue( const double& blue ) {
 	b_ = blue;
 }
 
-inline void Color::getRGB( unsigned char & r, unsigned char & g, unsigned char & b ) const {
-	r = (unsigned char)(r_ * 255 + 0.5);
-	g = (unsigned char)(g_ * 255 + 0.5);
-	b = (unsigned char)(b_ * 255 + 0.5);
-}
-
-inline void Color::getRGB( double & r, double & g, double & b ) const {
+inline void Color::getRGB( double& r, double& g, double& b ) const {
 	r = r_;
 	g = g_;
 	b = b_;
 }
 
-inline unsigned long Color::getRGB( ColorFormat cf ) const {
-	unsigned long rgb = 0;
+inline void Color::getRGB8( uint8& r, uint8& g, uint8& b ) const {
+	r = (uint8)(r_ * xFF + 0.5);
+	g = (uint8)(g_ * xFF + 0.5);
+	b = (uint8)(b_ * xFF + 0.5);
+}
 
-	switch ( cf ) {
-		case cfARGB : {
-			((unsigned char*)(&rgb))[2] = (unsigned char)(r_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)(g_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[0] = (unsigned char)(b_ * 255 + 0.5);
+inline void Color::getRGB16( uint16& r, uint16& g, uint16& b ) const {
+	r = (uint16)(r_ * xFFFF + 0.5);
+	g = (uint16)(g_ * xFFFF + 0.5);
+	b = (uint16)(b_ * xFFFF + 0.5);
+}
+
+inline uint32 Color::getRGBPack8( const ColorPackScheme& cps ) const {
+	uint32 rgb = 0;
+
+	switch ( cps ) {
+		case cpsARGB : {
+			((uint8*)(&rgb))[2] = (uint8)(r_ * xFF + 0.5);
+			((uint8*)(&rgb))[1] = (uint8)(g_ * xFF + 0.5);
+			((uint8*)(&rgb))[0] = (uint8)(b_ * xFF + 0.5);
 		}
 		break;
 
-		case cfABGR : {
-			((unsigned char*)(&rgb))[0] = (unsigned char)(r_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)(g_ * 255 + 0.5);
-			((unsigned char*)(&rgb))[2] = (unsigned char)(b_ * 255 + 0.5);
+		case cpsABGR : {
+			((uint8*)(&rgb))[0] = (uint8)(r_ * xFF + 0.5);
+			((uint8*)(&rgb))[1] = (uint8)(g_ * xFF + 0.5);
+			((uint8*)(&rgb))[2] = (uint8)(b_ * xFF + 0.5);
 		}
 		break;
 	}
@@ -772,38 +958,104 @@ inline unsigned long Color::getRGB( ColorFormat cf ) const {
 	return rgb;
 }
 
-inline void Color::setRGB( const unsigned char & r, const unsigned char & g, const unsigned char & b ) {
-	r_ = ((double)r) / 255.0;
-	g_ = ((double)g) / 255.0;
-	b_ = ((double)b) / 255.0;
+inline ulong64 Color::getRGBPack16( const ColorPackScheme& cps ) const {
+	ulong64 rgb;
+
+	switch ( cps ) {
+		case cpsARGB : {
+			((uint16*)(&rgb.data_))[2] = (uint16)(r_ * xFFFF + 0.5);
+			((uint16*)(&rgb.data_))[1] = (uint16)(g_ * xFFFF + 0.5);
+			((uint16*)(&rgb.data_))[0] = (uint16)(b_ * xFFFF + 0.5);
+		}
+		break;
+
+		case cpsABGR : {
+			((uint16*)(&rgb.data_))[0] = (uint16)(r_ * xFFFF + 0.5);
+			((uint16*)(&rgb.data_))[1] = (uint16)(g_ * xFFFF + 0.5);
+			((uint16*)(&rgb.data_))[2] = (uint16)(b_ * xFFFF + 0.5);
+		}
+		break;
+	}
+
+	return rgb;
 }
 
-inline void Color::setRGB( const double & r, const double & g, const double & b) {
+inline uint32 Color::getColorref32() const {
+	return getRGBPack8( cpsABGR );
+}
+
+inline ulong64 Color::getColorref64() const {
+	return getRGBPack16( cpsABGR );
+}
+
+inline void Color::setRGB( const double& r, const double& g, const double& b) {
 	r_ = r;
 	g_ = g;
 	b_ = b;
 }
 
-inline void Color::setRGB( const unsigned long& rgb, ColorFormat cf ) {
-	switch ( cf ) {
-		case cfARGB : {
-			r_ = ((unsigned char*)&rgb)[2] / 255.0;
-			g_ = ((unsigned char*)&rgb)[1] / 255.0;
-			b_ = ((unsigned char*)&rgb)[0] / 255.0;
+inline void Color::setRGB8( const uint8& r, const uint8& g, const uint8& b ) {
+	r_ = ((double)r) / xFF;
+	g_ = ((double)g) / xFF;
+	b_ = ((double)b) / xFF;
+}
+
+inline void Color::setRGB16( const uint16& r, const uint16& g, const uint16& b ) {
+	r_ = ((double)r) / xFFFF;
+	g_ = ((double)g) / xFFFF;
+	b_ = ((double)b) / xFFFF;
+}
+
+inline Color& Color::setRGBPack8( const uint32& rgb, const ColorPackScheme& cps ) {
+	switch ( cps ) {
+		case cpsARGB : {
+			r_ = (double)((uint8*)&rgb)[2] / xFF;
+			g_ = (double)((uint8*)&rgb)[1] / xFF;
+			b_ = (double)((uint8*)&rgb)[0] / xFF;
 		}
 		break;
 
-		case cfABGR : {
-			r_ = ((unsigned char*)&rgb)[0] / 255.0;
-			g_ = ((unsigned char*)&rgb)[1] / 255.0;
-			b_ = ((unsigned char*)&rgb)[2] / 255.0;
+		case cpsABGR : {
+			r_ = (double)((uint8*)&rgb)[0] / xFF;
+			g_ = (double)((uint8*)&rgb)[1] / xFF;
+			b_ = (double)((uint8*)&rgb)[2] / xFF;
 		}
 		break;
 	}
+
+	return *this;
+}
+
+inline Color& Color::setRGBPack16( const ulong64& rgb, const ColorPackScheme& cps ) {
+	switch ( cps ) {
+		case cpsARGB : {
+			r_ = (double)((uint16*)&rgb.data_)[2] / xFFFF;
+			g_ = (double)((uint16*)&rgb.data_)[1] / xFFFF;
+			b_ = (double)((uint16*)&rgb.data_)[0] / xFFFF;
+		}
+		break;
+
+		case cpsABGR : {
+			r_ = (double)((uint16*)&rgb.data_)[0] / xFFFF;
+			g_ = (double)((uint16*)&rgb.data_)[1] / xFFFF;
+			b_ = (double)((uint16*)&rgb.data_)[2] / xFFFF;
+		}
+		break;
+	}
+
+	return *this;
+}
+
+inline Color& Color::setColorref32( const uint32& rgb ) {
+	return setRGBPack8( rgb, cpsABGR );
+}
+
+inline Color& Color::setColorref64( const ulong64& rgb ) {
+	return setRGBPack16( rgb, cpsABGR );
 }
 
 
-inline void Color::getHSV( double & h, double & s, double & v ) const {
+inline void Color::getHSV( double& h, double& s, double& v ) const {
 	ColorSpace::HSVtype hsv;
 	ColorSpace::RGBtype rgb;
 	rgb.R = r_;
@@ -817,7 +1069,7 @@ inline void Color::getHSV( double & h, double & s, double & v ) const {
 	v = hsv.V;
 }
 
-inline void Color::setHSV( const double & h, const double & s, const double & v ) {
+inline void Color::setHSV( const double& h, const double& s, const double& v ) {
 	ColorSpace::HSVtype hsv;
 	hsv.H = h;
 	hsv.S = s;
@@ -830,7 +1082,7 @@ inline void Color::setHSV( const double & h, const double & s, const double & v 
 	b_ = rgb.B;
 }
 
-inline void Color::getHLS( double & h, double & l, double & s ) const {
+inline void Color::getHLS( double& h, double& l, double& s ) const {
 	ColorSpace::HSLtype hls;
 	ColorSpace::RGBtype rgb;
 	rgb.R = r_;
@@ -844,7 +1096,7 @@ inline void Color::getHLS( double & h, double & l, double & s ) const {
 	s = hls.S;
 }
 
-inline void Color::setHLS( const double & h, const double & l, const double & s ) {
+inline void Color::setHLS( const double& h, const double& l, const double& s ) {
 	ColorSpace::HSLtype hls;
 	hls.H = h;
 	hls.L = l;
@@ -857,11 +1109,11 @@ inline void Color::setHLS( const double & h, const double & l, const double & s 
 	b_ = rgb.B;
 }
 
-inline void Color::getCMYK( double & c, double & m, double & y, double & k ) const {
+inline void Color::getCMYK( double& c, double& m, double& y, double& k ) const {
 	throw NotImplementedException();
 }
 
-inline void Color::setCMYK( const double & c, const double & m, const double & y, const double & k ) {
+inline void Color::setCMYK( const double& c, const double& m, const double& y, const double& k ) {
 	throw NotImplementedException();
 }
 
@@ -898,61 +1150,16 @@ inline void Color::copyColor( const Color& color ) {
 
 
 inline int Color::getLuminosity() const {
-	unsigned char r, g, b;
-	getRGB (r, g, b);
-	int rgbMax = maxVal<>( maxVal<>(r,g), b);
-	int rgbMin = minVal<>( minVal<>(r,g), b);
-	return (int) (double) (((rgbMax+rgbMin) * ColorSpace::HSLMax) + ColorSpace::RGBMax ) / (2 * ColorSpace::RGBMax);
+	return ColorSpace::getLuminosity( *this );
 }
 
-inline void Color::getInvertedRGB( unsigned char & r, unsigned char & g, unsigned char & b ) const {
-	r = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
-	g = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
-	b = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
-}
-
-inline void Color::getInvertedRGB( double & r, double & g, double & b ) const {
-	r =  ( 1.0 - r_ );
-	g =  ( 1.0 - g_ );
-	b =  ( 1.0 - b_ );
-}
-
-inline unsigned long Color::getInvertedRGB( ColorFormat cf ) const {
-	unsigned long rgb = 0;
-
-	switch ( cf ) {
-		case cfARGB : {
-			((unsigned char*)(&rgb))[2] = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[0] = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
-		}
-		break;
-
-		case cfABGR : {
-			((unsigned char*)(&rgb))[0] = (unsigned char)( (1.0 - r_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[1] = (unsigned char)( (1.0 - g_ ) * 255 + 0.5);
-			((unsigned char*)(&rgb))[2] = (unsigned char)( (1.0 - b_ ) * 255 + 0.5);
-		}
-		break;
-	}
-
-	return rgb;
-}
-
-inline void Color::brighter() {
-	throw NotImplementedException();
-}
-
-
-inline void Color::darker() {
-	throw NotImplementedException();
-}
-
-inline void Color::invert() {
+inline Color& Color::invert() {
 	// change the color to its complement
 	r_ =  ( 1.0 - r_ );
 	g_ =  ( 1.0 - g_ );
 	b_ =  ( 1.0 - b_ );
+
+	return *this;
 }
 
 inline Color Color::getInverted() const {
@@ -965,26 +1172,23 @@ inline Color Color::getInverted() const {
 	return color;
 }
 
-inline Color* Color::getColor( const int& gray ) {
-	return GraphicsToolkit::getColorFromColormap( gray );
+inline void Color::getInvertedRGB( double& r, double& g, double& b ) const {
+	r =  ( 1.0 - r_ );
+	g =  ( 1.0 - g_ );
+	b =  ( 1.0 - b_ );
 }
 
-inline Color* Color::getColor( const String& colorName ) {
-	return GraphicsToolkit::getColorFromColormap( colorName );
+inline void Color::getInvertedRGB8( uint8& r, uint8& g, uint8& b ) const {
+	r = (uint8)( (1.0 - r_ ) * xFF + 0.5);
+	g = (uint8)( (1.0 - g_ ) * xFF + 0.5);
+	b = (uint8)( (1.0 - b_ ) * xFF + 0.5);
 }
 
-inline Color* Color::getColorMatch( const Color& color ) {
-	return GraphicsToolkit::getColorMatchFromColormap( color );
+inline void Color::getInvertedRGB16( uint16& r, uint16& g, uint16& b ) const {
+	r = (uint16)( (1.0 - r_ ) * xFFFF + 0.5);
+	g = (uint16)( (1.0 - g_ ) * xFFFF + 0.5);
+	b = (uint16)( (1.0 - b_ ) * xFFFF + 0.5);
 }
-
-inline Color Color::getColorContrast( const Color& clrRef, double deltaL/*=0.3*/ ) {
-	return GraphicsToolkit::getColorContrast( clrRef, deltaL );
-}
-
-inline const String Color::getColorNameFromMap( const Color& color ) {
-	return GraphicsToolkit::getColorNameFromMap( color );
-}
-
 
 
 
@@ -1006,6 +1210,8 @@ public:
 
 	enum ColorID  {				//		NAMES					RGB (0x00RRGGBB)
 #ifdef  VCF_LARGE_COLOR_LIST
+        // long list ( 548 names )
+
         //from http://www.winvideo.net/colori.htm
 
         //shades of gray
@@ -1587,6 +1793,8 @@ public:
         silver                  ,   //  230;232;250     // 0x00E6E8FA
 
 #else
+        // short list ( 138 names )
+
         black = 0            ,  //  = "black";                  // 0x00000000
         dimgray              ,  //  = "dimgray";                // 0x00696969
         gray                 ,  //  = "gray";                   // 0x00808080
@@ -1926,7 +2134,7 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 	return color2;
 }
 
-inline String Color::getHexCode( const Color& color, const unsigned char & r, const unsigned char & g, const unsigned char & b, const bool& inverted/*=false*/ ) {
+inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b, const ColorPackScheme& cps ) {
 
 	// Remark:
 	//   scheme: 0x00RRGGBB ( it would appear as BB GG RR 00 with Intel architecture ) so it should be:
@@ -1934,23 +2142,29 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 
 	String code = "";
 
-	unsigned char cr, cg, cb;
-	cr = (unsigned char)(r * 255 + 0.5);
-	cg = (unsigned char)(g * 255 + 0.5);
-	cb = (unsigned char)(b * 255 + 0.5);
+	uint8 cr, cg, cb;
+	cr = (uint8)(r * xFF + 0.5);
+	cg = (uint8)(g * xFF + 0.5);
+	cb = (uint8)(b * xFF + 0.5);
 
-	unsigned long rgb = 0;
+	uint32 rgb = 0;
 
-	if ( !inverted ) {
-		//((unsigned char*)(&rgb))[2] = cr;
-		//((unsigned char*)(&rgb))[1] = cg;
-		//((unsigned char*)(&rgb))[0] = cb;
-		code = StringUtils::format( Format(L"%02X%02X%02X") % cr % cg % cb );
-	} else {
-		//((unsigned char*)(&rgb))[0] = cr;
-		//((unsigned char*)(&rgb))[1] = cg;
-		//((unsigned char*)(&rgb))[2] = cb;
-		code = StringUtils::format( Format(L"%02X%02X%02X") % cr % cg % cb );
+	switch ( cps ) {
+		case cpsARGB : {
+			//((uint8*)(&rgb))[2] = cr;
+			//((uint8*)(&rgb))[1] = cg;
+			//((uint8*)(&rgb))[0] = cb;
+			code = Format(L"#%02X%02X%02X") % cr % cg % cb;
+		}
+		break;
+
+		case cpsABGR : {
+			//((uint8*)(&rgb))[0] = cr;
+			//((uint8*)(&rgb))[1] = cg;
+			//((uint8*)(&rgb))[2] = cb;
+			code = Format(L"#%02X%02X%02X") % cb % cg % cr;
+		}
+		break;
 	}
 
 	return code;
@@ -1964,6 +2178,9 @@ inline String Color::getHexCode( const Color& color, const unsigned char & r, co
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.4  2005/04/09 17:21:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

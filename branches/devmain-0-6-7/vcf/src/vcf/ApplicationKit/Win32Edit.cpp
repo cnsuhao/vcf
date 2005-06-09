@@ -1176,10 +1176,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			wndProcResult = 1;
 
 			Color* color = peerControl_->getColor();
+			COLORREF backColor = color->getColorref32();
 
-			COLORREF backColor = RGB(color->getRed() * 255.0,
-										color->getGreen() * 255.0,
-										color->getBlue() * 255.0 );
 			SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
 
 
@@ -1214,16 +1212,10 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				DeleteObject( backgroundBrush_ );
 			}
 			Color* color = peerControl_->getColor();
-
-			COLORREF backColor = RGB(color->getRed() * 255.0,
-									color->getGreen() * 255.0,
-									color->getBlue() * 255.0 );
+			COLORREF backColor = color->getColorref32();
 
 			color = peerControl_->getFont()->getColor();
-
-			COLORREF textColor = RGB(color->getRed() * 255.0,
-									color->getGreen() * 255.0,
-									color->getBlue() * 255.0 );
+			COLORREF textColor = color->getColorref32();
 
 			backgroundBrush_ = CreateSolidBrush( backColor );
 			SetBkColor( hdcEdit, backColor );
@@ -1703,6 +1695,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.33  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3.2.32  2005/06/07 18:35:31  marcelloptr
 *added missed getStyle() function. Fixed underline text that couldn't be removed once introduced.
 *

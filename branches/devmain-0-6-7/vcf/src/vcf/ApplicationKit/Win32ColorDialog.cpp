@@ -61,16 +61,13 @@ bool Win32ColorDialog::execute()
 		color.hwndOwner = GetActiveWindow();
 	}
 
-	color.rgbResult = color_.getRGB();
+	color.rgbResult = color_.getColorref32();
 
 	color.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 
 	if ( ChooseColor( &color ) ){
 		result = true;
-		uchar r = GetRValue( color.rgbResult );
-		uchar g = GetGValue( color.rgbResult );
-		uchar b = GetBValue( color.rgbResult );
-		color_.setRGB( r, g, b );
+		color_.setColorref32( color.rgbResult );
 	}
 
 	return result;
@@ -80,6 +77,9 @@ bool Win32ColorDialog::execute()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2.4.1  2005/02/21 16:20:16  ddiego
 *minor changes to various things, property editors, and tree list control.
 *

@@ -161,123 +161,85 @@ GraphicsResourceBundlePeer* GTKGraphicsToolkit::internal_createGraphicsResourceB
 void GTKGraphicsToolkit::loadSystemColors()
 {
 
-
 	//style has initial values that are already set - use these
 	//look in the style->fg, style->bg, style->text
-
 
 
 	GdkColor color;
 
 	Color* sysColor = NULL;
-	color = defaultGTKStyle_->dark[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
 
+	color = defaultGTKStyle_->dark[GTK_STATE_NORMAL];
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_SHADOW] = sysColor;
 
 	color = defaultGTKStyle_->bg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_FACE] = sysColor;
 
 	color = defaultGTKStyle_->light[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_HIGHLIGHT] = sysColor;
 
 	color = defaultGTKStyle_->text[GTK_STATE_ACTIVE];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_ACTIVE_CAPTION] = sysColor;
 
 	color = defaultGTKStyle_->fg[GTK_STATE_ACTIVE];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_ACTIVE_BORDER] = sysColor;
 
 	color = defaultGTKStyle_->fg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_DESKTOP] = sysColor;
 
 	color = defaultGTKStyle_->text[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_CAPTION_TEXT] = sysColor;
 
 	color = defaultGTKStyle_->base[GTK_STATE_SELECTED];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_SELECTION] = sysColor;
 
 	color = defaultGTKStyle_->text[GTK_STATE_SELECTED];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_SELECTION_TEXT] = sysColor;
 
 	color = defaultGTKStyle_->fg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_INACTIVE_BORDER] = sysColor;
 
 	color = defaultGTKStyle_->bg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_INACTIVE_CAPTION] = sysColor;
 
 	color = defaultGTKStyle_->bg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_TOOLTIP] = sysColor;
 
 
 	color = defaultGTKStyle_->text[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_TOOLTIP_TEXT] = sysColor;
 
 	color = defaultGTKStyle_->fg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_MENU] = sysColor;
 
 	color = defaultGTKStyle_->fg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_MENU_TEXT] = sysColor;
 
 	color = defaultGTKStyle_->base[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_WINDOW] = sysColor;
 
 	color = defaultGTKStyle_->text[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_WINDOW_TEXT] = sysColor;
 
 	color = defaultGTKStyle_->fg[GTK_STATE_NORMAL];
-	sysColor = new Color( ((double)color.red)/65535.0,
-							((double)color.green)/65535.0,
-							((double)color.blue)/65535.0 );
+	sysColor = new Color( (uint16)color.red, color.green, color.blue );
 	systemColors_[SYSCOLOR_WINDOW_FRAME] = sysColor;
 
 }
@@ -298,6 +260,9 @@ double GTKGraphicsToolkit::internal_getDPI(GraphicsContext* context)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.2.4.1  2005/04/17 16:11:32  ddiego
 *brought the foundation, agg, and graphics kits uptodate on linux
 *

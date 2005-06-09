@@ -120,6 +120,8 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 	context->getCurrentFont()->setColor( textColor );
 
 	if ( true == isSelected() ) {
+		context->getCurrentFont()->setBold( true );
+
 		//context->getCurrentFont()->setColor( textColor );
 
 		context->setColor( hilite );
@@ -204,6 +206,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/06/09 06:13:08  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
