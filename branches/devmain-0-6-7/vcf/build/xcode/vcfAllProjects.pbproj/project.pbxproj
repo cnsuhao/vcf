@@ -2315,6 +2315,9 @@
 		};
 		5E2CDE71064868C800A8020D = {
 			children = (
+				5E8EF5DA0857DCC30030F875,
+				5E8EF5DB0857DCC30030F875,
+				5E8EF5DC0857DCC30030F875,
 				5EA23224082E9C5B009E9B28,
 				5EA23225082E9C5B009E9B28,
 				5EA23226082E9C5B009E9B28,
@@ -2373,7 +2376,6 @@
 				5E2CDF770648693C00A8020D,
 				5E2CDF7C0648693C00A8020D,
 				5E2CDF7E0648693C00A8020D,
-				5E2CDF820648693C00A8020D,
 				5E2CDF870648693C00A8020D,
 				5E2CDF8D0648693C00A8020D,
 				5E2CDFA50648693C00A8020D,
@@ -2381,7 +2383,6 @@
 				5E2CDFBD0648693C00A8020D,
 				5E2CDFD40648693C00A8020D,
 				5E2CDFD10648693C00A8020D,
-				5E2CDFD90648693C00A8020D,
 				5E2CDFDD0648693C00A8020D,
 				5E2CDFDF0648693C00A8020D,
 				5E2CDFE10648693C00A8020D,
@@ -2405,6 +2406,7 @@
 		};
 		5E2CDE72064868CD00A8020D = {
 			children = (
+				5E8EF5F70857DE000030F875,
 				5EC5A05B064DD85D00345023,
 				5E092B240741D94F004B45E4,
 				5E092B250741D94F004B45E4,
@@ -2589,24 +2591,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = AbstractTableModel.h;
 			path = ../../src/vcf/ApplicationKit/AbstractTableModel.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5E2CDE8E0648693B00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AbstractTextModel.cpp;
-			path = ../../src/vcf/ApplicationKit/AbstractTextModel.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5E2CDE8F0648693B00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AbstractTextModel.h;
-			path = ../../src/vcf/ApplicationKit/AbstractTextModel.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -4383,15 +4367,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		5E2CDF820648693C00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = MenuItemEvent.cpp;
-			path = ../../src/vcf/ApplicationKit/MenuItemEvent.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		5E2CDF830648693C00A8020D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -5010,15 +4985,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = TextControl.h;
 			path = ../../src/vcf/ApplicationKit/TextControl.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5E2CDFD90648693C00A8020D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = TextEvent.cpp;
-			path = ../../src/vcf/ApplicationKit/TextEvent.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -8044,7 +8010,6 @@
 				5E734177082E76C300CDD184,
 				5E734178082E76C300CDD184,
 				5E734179082E76C300CDD184,
-				5E73417A082E76C300CDD184,
 				5E73417B082E76C300CDD184,
 				5E73417C082E76C300CDD184,
 				5E73417D082E76C300CDD184,
@@ -8258,6 +8223,8 @@
 				5EA2321F082E9C08009E9B28,
 				5EA2322B082E9C5B009E9B28,
 				5EA2322C082E9C5B009E9B28,
+				5E8EF5DE0857DCC30030F875,
+				5E8EF5DF0857DCC30030F875,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8312,12 +8279,6 @@
 		};
 		5E734179082E76C300CDD184 = {
 			fileRef = 5E2CDE8D0648693B00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E73417A082E76C300CDD184 = {
-			fileRef = 5E2CDE8F0648693B00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -9599,7 +9560,6 @@
 				5E734254082E76C300CDD184,
 				5E734255082E76C300CDD184,
 				5E734256082E76C300CDD184,
-				5E734257082E76C300CDD184,
 				5E734258082E76C300CDD184,
 				5E734259082E76C300CDD184,
 				5E73425A082E76C300CDD184,
@@ -9675,7 +9635,6 @@
 				5E7342A0082E76C300CDD184,
 				5E7342A1082E76C300CDD184,
 				5E7342A2082E76C300CDD184,
-				5E7342A3082E76C300CDD184,
 				5E7342A4082E76C300CDD184,
 				5E7342A5082E76C300CDD184,
 				5E7342A6082E76C300CDD184,
@@ -9700,7 +9659,6 @@
 				5E7342B9082E76C300CDD184,
 				5E7342BA082E76C300CDD184,
 				5E7342BB082E76C300CDD184,
-				5E7342BC082E76C300CDD184,
 				5E7342BD082E76C300CDD184,
 				5E7342BE082E76C300CDD184,
 				5E7342BF082E76C300CDD184,
@@ -9737,6 +9695,8 @@
 				5E7342DE082E76C300CDD184,
 				5EA2321E082E9C08009E9B28,
 				5EA2322A082E9C5B009E9B28,
+				5E8EF5DD0857DCC30030F875,
+				5E8EF5F80857DE000030F875,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9779,12 +9739,6 @@
 		};
 		5E734256082E76C300CDD184 = {
 			fileRef = 5E2CDE8C0648693B00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E734257082E76C300CDD184 = {
-			fileRef = 5E2CDE8E0648693B00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -10239,12 +10193,6 @@
 			settings = {
 			};
 		};
-		5E7342A3082E76C300CDD184 = {
-			fileRef = 5E2CDF820648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E7342A4082E76C300CDD184 = {
 			fileRef = 5E2CDF870648693C00A8020D;
 			isa = PBXBuildFile;
@@ -10385,12 +10333,6 @@
 		};
 		5E7342BB082E76C300CDD184 = {
 			fileRef = 5E2CDFD70648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E7342BC082E76C300CDD184 = {
-			fileRef = 5E2CDFD90648693C00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -10666,6 +10608,90 @@
 			path = ../../src/vcf/ApplicationKit/OSXUIToolkit.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		5E8EF5DA0857DCC30030F875 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = MenuManager.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/MenuManager.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E8EF5DB0857DCC30030F875 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MenuManager.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/MenuManager.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E8EF5DC0857DCC30030F875 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MenuManagerPeer.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/MenuManagerPeer.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E8EF5DD0857DCC30030F875 = {
+			fileRef = 5E8EF5DA0857DCC30030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5DE0857DCC30030F875 = {
+			fileRef = 5E8EF5DB0857DCC30030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5DF0857DCC30030F875 = {
+			fileRef = 5E8EF5DC0857DCC30030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5E00857DCC30030F875 = {
+			fileRef = 5E8EF5DA0857DCC30030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5E10857DCC30030F875 = {
+			fileRef = 5E8EF5DB0857DCC30030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5E20857DCC30030F875 = {
+			fileRef = 5E8EF5DC0857DCC30030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5F70857DE000030F875 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXMenuManagerPeer.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXMenuManagerPeer.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E8EF5F80857DE000030F875 = {
+			fileRef = 5E8EF5F70857DE000030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8EF5F90857DE000030F875 = {
+			fileRef = 5E8EF5F70857DE000030F875;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		5E9060E9070CFC4B00B184D4 = {
 			fileEncoding = 30;
@@ -13180,7 +13206,6 @@
 				5EA23394082E9F19009E9B28,
 				5EA23395082E9F19009E9B28,
 				5EA23396082E9F19009E9B28,
-				5EA23397082E9F19009E9B28,
 				5EA23398082E9F19009E9B28,
 				5EA23399082E9F19009E9B28,
 				5EA2339A082E9F19009E9B28,
@@ -13392,6 +13417,8 @@
 				5EA23469082E9F19009E9B28,
 				5EA2346A082E9F19009E9B28,
 				5EA2346B082E9F19009E9B28,
+				5E8EF5E10857DCC30030F875,
+				5E8EF5E20857DCC30030F875,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13446,12 +13473,6 @@
 		};
 		5EA23396082E9F19009E9B28 = {
 			fileRef = 5E2CDE8D0648693B00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EA23397082E9F19009E9B28 = {
-			fileRef = 5E2CDE8F0648693B00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -14746,7 +14767,6 @@
 				5EA23473082E9F19009E9B28,
 				5EA23474082E9F19009E9B28,
 				5EA23475082E9F19009E9B28,
-				5EA23476082E9F19009E9B28,
 				5EA23477082E9F19009E9B28,
 				5EA23478082E9F19009E9B28,
 				5EA23479082E9F19009E9B28,
@@ -14822,7 +14842,6 @@
 				5EA234BF082E9F19009E9B28,
 				5EA234C0082E9F19009E9B28,
 				5EA234C1082E9F19009E9B28,
-				5EA234C2082E9F19009E9B28,
 				5EA234C3082E9F19009E9B28,
 				5EA234C4082E9F19009E9B28,
 				5EA234C5082E9F19009E9B28,
@@ -14847,7 +14866,6 @@
 				5EA234D8082E9F19009E9B28,
 				5EA234D9082E9F19009E9B28,
 				5EA234DA082E9F19009E9B28,
-				5EA234DB082E9F19009E9B28,
 				5EA234DC082E9F19009E9B28,
 				5EA234DD082E9F19009E9B28,
 				5EA234DE082E9F19009E9B28,
@@ -14881,6 +14899,8 @@
 				5EA234FA082E9F19009E9B28,
 				5EA234FB082E9F19009E9B28,
 				5EA234FC082E9F19009E9B28,
+				5E8EF5E00857DCC30030F875,
+				5E8EF5F90857DE000030F875,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -14923,12 +14943,6 @@
 		};
 		5EA23475082E9F19009E9B28 = {
 			fileRef = 5E2CDE8C0648693B00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EA23476082E9F19009E9B28 = {
-			fileRef = 5E2CDE8E0648693B00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -15383,12 +15397,6 @@
 			settings = {
 			};
 		};
-		5EA234C2082E9F19009E9B28 = {
-			fileRef = 5E2CDF820648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EA234C3082E9F19009E9B28 = {
 			fileRef = 5E2CDF870648693C00A8020D;
 			isa = PBXBuildFile;
@@ -15529,12 +15537,6 @@
 		};
 		5EA234DA082E9F19009E9B28 = {
 			fileRef = 5E2CDFD70648693C00A8020D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EA234DB082E9F19009E9B28 = {
-			fileRef = 5E2CDFD90648693C00A8020D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -16576,7 +16578,6 @@
 				5E2CDE860648693B00A8020D,
 				5E2CDE870648693B00A8020D,
 				5E2CDE8D0648693B00A8020D,
-				5E2CDE8F0648693B00A8020D,
 				5E2CDE910648693B00A8020D,
 				5E2CDE930648693B00A8020D,
 				5E2CDEBD0648693C00A8020D,
@@ -16610,7 +16611,6 @@
 				5E2CE0070648693C00A8020D,
 				5E2CDE850648693B00A8020D,
 				5E2CDE8C0648693B00A8020D,
-				5E2CDE8E0648693B00A8020D,
 				5E2CDE900648693B00A8020D,
 				5E2CDE920648693B00A8020D,
 				5E2CDF090648693C00A8020D,
