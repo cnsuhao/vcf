@@ -2178,8 +2178,8 @@ inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b,
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.6  2005/06/09 07:17:33  marcelloptr
-*fixed problem of printInfo_.docInfo_.lpszDocName assigned to a temporary
+*Revision 1.3.2.7  2005/06/09 07:18:25  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
 *
 *Revision 1.3.2.4  2005/04/09 17:21:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
