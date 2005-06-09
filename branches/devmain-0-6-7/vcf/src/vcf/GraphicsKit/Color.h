@@ -575,7 +575,7 @@ public:
 	};
 
 	virtual String toString(){
-		return Format(L"#%02X%02X%02X") % (int)(r_*xFF+0.5) % (int)(g_*xFF+0.5) % int)(b_*xFF+0.5);
+		return Format(L"#%02X%02X%02X") % (int)(r_*xFF+0.5) % (int)(g_*xFF+0.5) % (int)(b_*xFF+0.5);
 	};
 
 	void changeHSV ( const double& percentH, const double& percentS, const double& percentV );
@@ -2178,8 +2178,8 @@ inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b,
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.5  2005/06/09 06:13:10  marcelloptr
-*simpler and more useful use of Color class with ctor and getters/setters
+*Revision 1.3.2.6  2005/06/09 07:17:33  marcelloptr
+*fixed problem of printInfo_.docInfo_.lpszDocName assigned to a temporary
 *
 *Revision 1.3.2.4  2005/04/09 17:21:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
