@@ -19,6 +19,11 @@ using namespace VCF;
 
 
 
+#if defined(VCF_CW) && defined(UNICODE)
+	static wchar_t szDocName[] = L"Untitled";
+#else
+	static char szDocName[] = "Untitled";
+#endif
 
 
 Win32PrintSession::Win32PrintSession():
@@ -86,13 +91,9 @@ void Win32PrintSession::setDefaultPageSettings()
 	}
 	
 
-#if defined(VCF_CW) && defined(UNICODE)
-	printInfo_.docInfo_.lpszDocName = L"Untitled";	
-#else
-	printInfo_.docInfo_.lpszDocName = "Untitled";
-#endif
-	printerDC_ = hDC;
+	printInfo_.docInfo_.lpszDocName = szDocName;
 
+	printerDC_ = hDC;
 
 	::SetAbortProc( printerDC_, Win32PrintSession::AbortProc );
 
@@ -241,6 +242,9 @@ void Win32PrintSession::setPrintablePages( const std::vector<ulong32>& printable
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/06/09 06:49:44  marcelloptr
+*fixed problem of printInfo_.docInfo_.lpszDocName assigned to a temporary
+*
 *Revision 1.2.2.3  2005/04/29 15:03:40  marcelloptr
 *added cvs log section
 *
