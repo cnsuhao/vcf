@@ -128,7 +128,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->moveTo(paintRect->left_ , paintRect->bottom_ -1 );
 		context->lineTo(paintRect->left_ , paintRect->top_ + 2 );
 		context->lineTo(paintRect->left_ + 2 , paintRect->top_ );
-		context->lineTo(paintRect->right_ - 2 , paintRect->top_);			
+		context->lineTo(paintRect->right_ - 2 , paintRect->top_);
 		context->strokePath();
 
 		context->setColor( Color::getColor( "black" ) );
@@ -138,7 +138,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->strokePath();
 
 		context->setColor( shadow );
-		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);		
+		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);
 		context->lineTo( paintRect->right_ - 2, paintRect->bottom_ );
 		context->strokePath();
 	}
@@ -147,7 +147,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->moveTo(paintRect->left_ , paintRect->bottom_ );
 		context->lineTo(paintRect->left_ , paintRect->top_ + 2 );
 		context->lineTo(paintRect->left_ + 2 , paintRect->top_  );
-		context->lineTo(paintRect->right_ - 2 , paintRect->top_ );			
+		context->lineTo(paintRect->right_ - 2 , paintRect->top_ );
 		context->strokePath();
 
 		context->setColor( Color::getColor( "black" ) );
@@ -157,9 +157,9 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 		context->strokePath();
 
 		context->setColor( shadow );
-		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);		
+		context->moveTo( paintRect->right_ - 2, paintRect->top_ + 2);
 		context->lineTo( paintRect->right_ - 2, paintRect->bottom_ );
-		context->strokePath();		
+		context->strokePath();
 	}
 
 	String text = pageName_;
@@ -172,7 +172,7 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 	tmpR.inflate( -4, 0 );
 	tmpR.normalize();
 
-	
+
 	long flags = GraphicsContext::tdoCenterHorzAlign | GraphicsContext::tdoCenterVertAlign;
 	context->textBoundedBy( &tmpR, text, flags );
 
@@ -206,7 +206,7 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.1  2005/06/09 06:13:08  marcelloptr
+*Revision 1.3.2.2  2005/06/09 06:39:21  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
 *Revision 1.3  2004/12/01 04:31:21  ddiego
