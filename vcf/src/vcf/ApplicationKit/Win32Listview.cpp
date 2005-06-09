@@ -295,7 +295,7 @@ void Win32Listview::create( Control* owningControl )
 		subclassWindow();
 		setFont( owningControl->getFont() );
 
-		COLORREF backColor = backColor_->getColorref32();
+		COLORREF backColor = backColor_.getColorref32();
 		ListView_SetBkColor( hwnd_, backColor );
 	}
 	else {
@@ -2408,8 +2408,8 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.10  2005/06/09 06:13:08  marcelloptr
-*simpler and more useful use of Color class with ctor and getters/setters
+*Revision 1.3.2.11  2005/06/09 07:15:10  marcelloptr
+*fixed problem of printInfo_.docInfo_.lpszDocName assigned to a temporary
 *
 *Revision 1.3.2.9  2005/04/26 02:29:40  ddiego
 *fixes font setting bug brought up by scott and glen_f
