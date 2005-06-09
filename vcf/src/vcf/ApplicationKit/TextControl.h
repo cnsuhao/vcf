@@ -218,7 +218,7 @@ protected:
 	By default it is added only to a single line control,
 	so we can select all the text whenever we get the focus.
 	*/
-	virtual void onFocusGained( FocusEvent* event ); // MP- (made virtual)
+	virtual void onFocusGained( FocusEvent* event );
 
 protected:
 	TextEditPeer * textPeer_;
@@ -235,6 +235,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/06/09 03:40:38  marcelloptr
+*removed a forgotten comment
+*
 *Revision 1.3.2.10  2005/06/09 02:25:50  ddiego
 *updated osx build
 *
