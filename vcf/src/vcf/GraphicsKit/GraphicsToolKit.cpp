@@ -388,9 +388,9 @@ void GraphicsToolkit::internal_printColorNameMap( ) const
 		double dr = c.getRed();
 		double dg = c.getGreen();
 		double db = c.getBlue();
-		Color::uint8 cr = (Color::uint8)(dr*255+0.5);
-		Color::uint8 cg = (Color::uint8)(dg*255+0.5);
-		Color::uint8 cb = (Color::uint8)(db*255+0.5);
+		uint8 cr = (uint8)(dr*255+0.5);
+		uint8 cg = (uint8)(dg*255+0.5);
+		uint8 cb = (uint8)(db*255+0.5);
 		StringUtils::traceWithArgs( Format("r=%0.06g, g=%0.06g, b=%0.06g - (%-25s) [%3d, %3d, %3d] (0x%02X, 0x%02X, 0x%02X) <%-25s>\n") % dr % dg % db % s.c_str() %  cr % cg % cb % cr % cg % cb % sg.c_str());
 		it ++;
 	}
@@ -1256,7 +1256,7 @@ void GraphicsToolkit::initColorMap()
 }
 
 
-void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const Color::uint8& r, const Color::uint8& g, const Color::uint8& b)
+void GraphicsToolkit::initColorNameMapItem( const VCF::String& colorName, const uint8& r, const uint8& g, const uint8& b)
 {
 	MapStringColor::iterator found = colorMap_.find( colorName );
 	if ( found != colorMap_.end() ) {
@@ -1335,6 +1335,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/06/11 00:50:50  marcelloptr
+*moved uint8/uint16 to VCF namespace
+*
 *Revision 1.3.2.5  2005/06/09 06:13:10  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

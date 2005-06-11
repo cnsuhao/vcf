@@ -307,7 +307,7 @@ ulong32 X11GraphicsToolkit::getPixelForColor( Color* color )
 {
 	ulong32 result = 0;
 
-	Color::uint8 red, green, blue;
+	uint8 red, green, blue;
 	color->getRGB8( red, green, blue );
 	//in the future we can get an alpha value
 
@@ -370,6 +370,9 @@ String X11GraphicsToolkit::getUserFontsPath()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/06/11 00:50:50  marcelloptr
+*moved uint8/uint16 to VCF namespace
+*
 *Revision 1.2.4.2  2005/06/09 06:13:09  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
