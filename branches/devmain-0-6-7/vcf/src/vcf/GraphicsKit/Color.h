@@ -302,10 +302,6 @@ class GRAPHICSKIT_API Color : public VCF::Object {
 public:
 	friend class ColorSpace;
 
-	typedef unsigned char  uint8;
-	typedef unsigned short uint16;
-
-
 	/**
 	this enum defines the way color is stored when compressed into a
 	32/64 bit integer value. Sadly not everyone stores this the same way
@@ -2154,7 +2150,7 @@ inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b,
 			//((uint8*)(&rgb))[2] = cr;
 			//((uint8*)(&rgb))[1] = cg;
 			//((uint8*)(&rgb))[0] = cb;
-			code = Format(L"#%02X%02X%02X") % cr % cg % cb;
+			code = Format(L"%02X%02X%02X") % cr % cg % cb; // do not prefix '#' here (MP)
 		}
 		break;
 
@@ -2162,7 +2158,7 @@ inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b,
 			//((uint8*)(&rgb))[0] = cr;
 			//((uint8*)(&rgb))[1] = cg;
 			//((uint8*)(&rgb))[2] = cb;
-			code = Format(L"#%02X%02X%02X") % cb % cg % cr;
+			code = Format(L"%02X%02X%02X") % cb % cg % cr; // do not prefix '#' here (MP)
 		}
 		break;
 	}
@@ -2178,6 +2174,9 @@ inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/06/11 00:50:50  marcelloptr
+*moved uint8/uint16 to VCF namespace
+*
 *Revision 1.3.2.7  2005/06/09 07:18:25  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

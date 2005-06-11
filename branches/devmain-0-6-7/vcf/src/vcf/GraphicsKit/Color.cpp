@@ -48,21 +48,21 @@ const double ColorSpace::HueCriticalMax	= HUECRITICALMAX;	// Hue > HueCriticalMa
 //
 int ColorSpace::getLuminosity( const Color& color )
 {
-	/*
 	int r = (int)(color.r_ * Color::xFF + 0.5);
 	int g = (int)(color.g_ * Color::xFF + 0.5);
 	int b = (int)(color.b_ * Color::xFF + 0.5);
 	int rgbMax = maxVal<>( maxVal<>(r,g), b);
 	int rgbMin = minVal<>( minVal<>(r,g), b);
 	return (int) (double) (((rgbMax+rgbMin) * ColorSpace::HSLMax) + ColorSpace::RGBMax ) / (2 * ColorSpace::RGBMax);
-	*/
 
-	// enhancing the precision
-	Color::uint16 r, g, b;
+	/*
+	// enhancing the precision ... debug later
+	uint16 r, g, b;
 	color.getRGB16(r, g, b);
 	int rgbMax = maxVal<>( maxVal<>(r,g), b);
 	int rgbMin = minVal<>( minVal<>(r,g), b);
 	return (int) (double) (((double)(rgbMax+rgbMin) * ColorSpace::HSLMax16) + ColorSpace::RGBMax16 ) / (2 * ColorSpace::RGBMax16);
+	*/
 }
 
 ColorSpace::HSVtype ColorSpace::RGBToHSV( const RGBtype& rgb )
@@ -1518,6 +1518,9 @@ String ColorNames::unknownColor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/11 00:50:50  marcelloptr
+*moved uint8/uint16 to VCF namespace
+*
 *Revision 1.2.4.1  2005/06/09 06:13:09  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

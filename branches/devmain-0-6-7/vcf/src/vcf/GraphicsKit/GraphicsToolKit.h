@@ -263,7 +263,7 @@ protected:
 	MapStringColorName* colorNameMap_;
 
 	void initColorMap();
-	void initColorNameMapItem( const VCF::String& colorName, const Color::uint8& r, const Color::uint8& g, const Color::uint8& b );
+	void initColorNameMapItem( const VCF::String& colorName, const uint8& r, const uint8& g, const uint8& b );
 	void destroyColorMaps();
 
 	std::map<unsigned long,Color*> systemColors_;
@@ -303,6 +303,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/11 00:50:50  marcelloptr
+*moved uint8/uint16 to VCF namespace
+*
 *Revision 1.3.2.2  2005/06/09 06:13:10  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
