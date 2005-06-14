@@ -675,7 +675,9 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 	*/
 	if ( !canProcessMessages_ && (VCF_CONTROL_CREATE != message) ) {
 		
-		if ( (message == WM_SIZE) || (message == WM_MOVE) ||
+		if ( (message == WM_SIZE) || 
+			(message == WM_MOVE) ||
+			(message == WM_ERASEBKGND) ||
 			(message == WM_SETFOCUS) ||
 			(message == WM_KILLFOCUS) )  {
 			
@@ -687,7 +689,20 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			cachedMessages_->push_back( m );
 		}
 
-		return result;
+		/**
+		We don't want WM_ERASEBKGND to go to ::DefWindowProc if we are not
+		processing messages or registered yet. If it does, Windows will do an erase 
+		where this control will be, (but before this control is to be painted), and 
+		we will get a flicker effect.
+		*/
+		if( message == WM_ERASEBKGND )
+		{
+			wndProcResult = 0;			
+			return true;
+		}
+		else{
+			return result;
+		}
 	}
 
 	Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
@@ -1640,6 +1655,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.19  2005/06/14 07:33:35  dougtinkham
+*Fixed flicker effect with WM_ERASEBKGND in handleEventMessages
+*
 *Revision 1.5.2.18  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit
