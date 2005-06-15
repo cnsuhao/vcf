@@ -1013,7 +1013,56 @@ panel->setContainer( new HorizontalLayoutContainer () );
 		
 		</para>
 
-
+		<section><title>Control Listing</title>
+			<para>		
+			</para>
+			<formalpara><title>CustomControl</title>
+			</formalpara>
+			<formalpara><title>CommandButton</title>
+			</formalpara>
+			<formalpara><title>ListViewControl</title>
+			</formalpara>
+			<formalpara><title>TreeControl</title>
+			</formalpara>
+			<formalpara><title>Toolbar</title>
+			</formalpara>
+			<formalpara><title>TextControl</title>
+			</formalpara>
+			<formalpara><title>MultilineTextControl</title>
+			</formalpara>
+			<formalpara><title>HTMLBrowserControl</title>
+			</formalpara>
+			<formalpara><title>Label</title>
+			</formalpara>
+			<formalpara><title>ComboBoxControl</title>
+			</formalpara>
+			<formalpara><title>HeaderControl</title>
+			</formalpara>
+			<formalpara><title>ImageControl</title>
+			</formalpara>
+			<formalpara><title>ListBoxControl</title>
+			</formalpara>
+			<formalpara><title>OpenGLControl</title>
+			</formalpara>
+			<formalpara><title>ProgressControl</title>
+			</formalpara>			
+			<formalpara><title>PushButton</title>
+			</formalpara>
+			<formalpara><title>SliderControl</title>
+			</formalpara>
+			<formalpara><title>Splitter</title>
+			</formalpara>
+			<formalpara><title>TabbedPages</title>
+			</formalpara>
+			<formalpara><title>TableControl</title>			
+			</formalpara>
+			<formalpara><title>TreeListControl</title>
+			</formalpara>
+			<formalpara><title>CheckBoxControl</title>
+			</formalpara>
+			<formalpara><title>RadioButtonControl</title>
+			</formalpara>
+		</section>
 	</section>
 	
 	<section id="Layout"><title>Layout </title>
@@ -1766,6 +1815,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.4  2005/06/15 21:02:41  ddiego
+updates
+
 Revision 1.4.2.3  2005/06/06 02:34:02  ddiego
 menu changes to better support win32 and osx.
 
