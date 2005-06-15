@@ -112,7 +112,7 @@ void someFunction()
 		it then deletes the instance. So, if you have a class that is 
 		intended to be used on the heap, it's a good idea to override the 
 		destroy() method (keeping it in protected scope), and put your 
-		clean ciode in there, instead of the destructor.
+		clean code in there, instead of the destructor.
 		</formalpara>
 		<formalpara><title>RTTI</title>
 		You can get the VCF::Class instance from any instance of a VCF::Object 
@@ -1630,30 +1630,98 @@ Resources\
 			There are several functions that return string information about the
 			OS the VCF is running on. These include the operating system name,
 			the OS version, the compiler the VCF was built with, the name of the
-			computer (the hostname)
-			System::getOSName()
-			System::getOSVersion()
-			System::getCompiler()
-			System::getComputerName()
-			System::getUserName()
+			computer (the hostname). I simple example of how to use these:
+			<programlisting>
+<![CDATA[
+String os = System::getOSName();
+String version = System::getOSVersion();
+String compiler = System::getCompiler();
+String hostName = System::getComputerName();
+String user = System::getUserName();
+System::println( "OS: " + os + " version: " + version + 
+				"\nBuilt with " + compiler + " compiler\nComputer: " + 
+				hostName + " has user " + user + " logged in." );	
+]]>
+			</programlisting>			
 			</para>
 		</section>
 		
 		<section><title>Filesystem Functions</title>
 			<para>
-			System::doesFileExist()
-			System::getCurrentWorkingDirectory()
-			System::setCurrentWorkingDirectory()
-			System::getCommonDirectory()			
+			The System class also exposes several file system functions. It allows 
+			you to get or set the current working directory with System::getCurrentWorkingDirectory()
+			and System::setCurrentWorkingDirectory() respectively. It also 
+			allows you to determine if, given a valid file name, a file exists on the file system.
+			This is done using the System::doesFileExist() function. 
+			</para>
+			<para>
+			Finally the System class also lets you get standard directory locations for 
+			common directories like the users home directory, where user favorites might 
+			be located, where the users temp directory is, where the systems temp directory
+			is, and others. For example:
+			<programlisting>
+<![CDATA[
+String homeDir = System::getCommonDirectory( System::cdUserHome );
+String systemTemp = System::getCommonDirectory( System::cdSystemTemp );
+]]>
+			</programlisting>			
 			</para>
 		</section>
 		
 		<section><title>Date/Time Functions</title>
 			<para>
-			System::getTickCount()
-			System::sleep()
-			System::setDateToSystemTime()			
-			System::setDateToLocalTime()
+			The System class has functions for both getting and setting various 
+			date/time values. You can query the current "tick" count, meaning the number 
+			of milliseconds the system has been up and running. This value may wrap
+			depending on the OS, so it's not useful for any long range time calculations.
+			<programlisting>
+<![CDATA[
+ulong32 tick1 = System::getTickCount();
+
+doSomeLengthyCalculation();
+
+ulong32 tick2 = System::getTickCount();
+
+System::println( Format("It took %d millsecs for calc.") % (tick2-tick1) );
+]]>
+			</programlisting>
+			You can ask the system to "sleep" for a set number of milliseconds by 
+			calling the System::sleep() function. This 
+			is effective for the current thread that the call is made in.
+			</para>
+			<para>
+			It also possible to get the current system time, in either UTC (GMT) or
+			local time, and store this in a DateTime instance. 
+			<TODO>
+			RENAME these functions - these are piss poor names and are quite confusing
+			as to what they do. Also it's debateable that we need BOTH functions - perhaps
+			only one would do.
+			</TODO>
+			<programlisting>
+<![CDATA[
+DateTime localSysTime;
+System::setDateToLocalTime( &localSysTime );
+
+DateTime utcSysTime;
+System::setDateToSystemTime( &utcSysTime );
+]]>
+			</programlisting>
+			In addition to this, you can translate a date/time value from local to GMT or
+			from GMT to local by using the System::convertLocalTimeToUTCTime() and 
+			System::convertUTCTimeToLocalTime() functions respectively.
+			<programlisting>
+<![CDATA[
+DateTime localTime(2004,2,24,10,32,12); //February 24, 2004 10:32:12
+DateTime utcTime = System::convertLocalTimeToUTCTime( localTime );
+
+System::println( utcTime );
+
+DateTime utcTime2(2004,2,24,10,32,12); //February 24, 2004 10:32:12;
+
+localTime = System::convertUTCTimeToLocalTime( &utcTime );
+System::println( localTime );
+]]>
+			</programlisting>
 			</para>
 		</section>
 		
@@ -1800,6 +1868,9 @@ Resources\
 <!-- 
 CVS Log info
 $Log$
+Revision 1.3.4.6  2005/06/15 21:02:42  ddiego
+updates
+
 Revision 1.3.4.5  2005/06/09 21:00:55  ddiego
 update
 
