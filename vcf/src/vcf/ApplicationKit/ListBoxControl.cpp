@@ -205,7 +205,13 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 
 	currentMaxHeight_ += item->getBounds()->getHeight();
 
-	currentMaxWidth_ = maxVal<double>( ctx->getTextWidth( item->getCaption() ) + leftGutter_ + rightGutter_, currentMaxWidth_ ); 
+	double imageWidth = 0.0;
+
+	if ( NULL != imageList_ ) {
+		imageWidth += imageList_->getImageWidth();
+	}
+
+	currentMaxWidth_ = maxVal<double>( ctx->getTextWidth( item->getCaption() ) + leftGutter_ + rightGutter_ + imageWidth, currentMaxWidth_ ); 
 
 	if ( NULL != scrollable ) {
 		if ( (getHeight() > currentMaxHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {
@@ -396,7 +402,7 @@ void ListBoxControl::paintItem( GraphicsContext* ctx, Rect& itemRect,
 {
 	double y = currentTop + ( (itemRect.getHeight()/2.0) - (ctx->getTextHeight( "EM" )/2.0) );
 	if ( item->isSelected() ) {
-		paintSelectionRect( ctx, &Rect(itemRect.left_-leftGutter_, itemRect.top_, itemRect.right_, itemRect.bottom_), item );
+		paintSelectionRect( ctx, &Rect(bounds.left_-leftGutter_, itemRect.top_, itemRect.right_, itemRect.bottom_), item );
 		ctx->getCurrentFont()->setColor( selectedTextColor );
 	}
 	else {
@@ -416,6 +422,8 @@ void ListBoxControl::paintItem( GraphicsContext* ctx, Rect& itemRect,
 	if ( Item::idsNone != item->getState() ) {
 		stateNeedsDrawing = true;
 	}
+
+	itemRect.setLeft( bounds.left_ );
 
 	if ( imageNeedsDrawing ) {
 		paintItemImage( ctx, itemRect, item );
@@ -881,6 +889,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2005/06/16 20:13:02  dougtinkham
+*fixed horizontal scrolling
+*
 *Revision 1.5.2.6  2005/03/21 05:08:31  dougtinkham
 *fixed selection/deselection bug.
 *
