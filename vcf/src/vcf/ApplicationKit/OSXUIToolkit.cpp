@@ -24,6 +24,11 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXFileSaveDialog.h"
 #include "vcf/ApplicationKit/OSXMenuBar.h"
 #include "vcf/ApplicationKit/OSXMenuItem.h"
+#include "vcf/ApplicationKit/OSXDropTargetPeer.h"
+#include "vcf/ApplicationKit/OSXDragDropPeer.h"
+#include "vcf/ApplicationKit/OSXListview.h"
+#include "vcf/ApplicationKit/OSXPopupMenu.h"
+#include "vcf/ApplicationKit/OSXTree.h"
 
 #include "vcf/ApplicationKit/MenuManagerPeer.h"
 #include "vcf/ApplicationKit/OSXMenuManagerPeer.h"
@@ -713,12 +718,12 @@ TextEditPeer* OSXUIToolkit::internal_createTextEditPeer( TextControl* component,
 	
 TreePeer* OSXUIToolkit::internal_createTreePeer( TreeControl* component )
 {
-    return NULL;
+    return new OSXTree(component);
 }
 
 ListviewPeer* OSXUIToolkit::internal_createListViewPeer( ListViewControl* component )
 {
-    return NULL;
+    return new OSXListview(component);
 }
 
 DialogPeer* OSXUIToolkit::internal_createDialogPeer( Control* owner, Dialog* component )
@@ -771,7 +776,7 @@ MenuBarPeer* OSXUIToolkit::internal_createMenuBarPeer( MenuBar* menuBar )
 
 PopupMenuPeer* OSXUIToolkit::internal_createPopupMenuPeer( PopupMenu* popupMenu )
 {
-    return NULL;
+    return new OSXPopupMenu(popupMenu);
 }
 
 ButtonPeer* OSXUIToolkit::internal_createButtonPeer( CommandButton* component )
@@ -816,7 +821,7 @@ CommonFontDialogPeer* OSXUIToolkit::internal_createCommonFontDialogPeer( Control
 
 DragDropPeer* OSXUIToolkit::internal_createDragDropPeer()
 {
-    return NULL;
+    return new OSXDragDropPeer();
 }
 
 DataObjectPeer* OSXUIToolkit::internal_createDataObjectPeer()
@@ -826,7 +831,7 @@ DataObjectPeer* OSXUIToolkit::internal_createDataObjectPeer()
 
 DropTargetPeer* OSXUIToolkit::internal_createDropTargetPeer()
 {
-    return NULL;
+    return new OSXDropTargetPeer();
 }
 
 DesktopPeer* OSXUIToolkit::internal_createDesktopPeer( Desktop* desktop )
@@ -2194,6 +2199,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/06/22 03:59:30  ddiego
+*added osx stub classes for peers
+*
 *Revision 1.3.2.3  2005/06/09 02:25:50  ddiego
 *updated osx build
 *
