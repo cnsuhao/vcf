@@ -26,16 +26,23 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXMenuItem.h"
 #include "vcf/ApplicationKit/OSXDropTargetPeer.h"
 #include "vcf/ApplicationKit/OSXDragDropPeer.h"
+
+#include "vcf/ApplicationKit/ListViewControl.h"
 #include "vcf/ApplicationKit/OSXListview.h"
+
 #include "vcf/ApplicationKit/OSXPopupMenu.h"
 #include "vcf/ApplicationKit/OSXTree.h"
 
 #include "vcf/ApplicationKit/MenuManagerPeer.h"
 #include "vcf/ApplicationKit/OSXMenuManagerPeer.h"
+#include "vcf/ApplicationKit/OSXTextPeer.h"
 
+#include "vcf/ApplicationKit/Toolbar.h"
 #include "vcf/ApplicationKit/OSXToolbar.h"
 #include "vcf/ApplicationKit/OSXScrollPeer.h"
 
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
 #include "vcf/ApplicationKit/OSXAppResourceBundle.h"
 
 
@@ -687,6 +694,10 @@ OSXUIToolkit::OSXUIToolkit():
     if ( err != noErr ) {
         printf( "InstallEventHandler failed" );
     }
+	
+	
+	
+	
 }
 
 OSXUIToolkit::~OSXUIToolkit()
@@ -714,7 +725,7 @@ ApplicationPeer* OSXUIToolkit::internal_createApplicationPeer()
 
 TextPeer* OSXUIToolkit::internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined )
 {
-	return NULL;
+	return new OSXTextPeer(autoWordWrap,multiLined);
 }
 
 TextEditPeer* OSXUIToolkit::internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl )
@@ -2206,6 +2217,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/06/23 01:26:55  ddiego
+*build updates
+*
 *Revision 1.3.2.5  2005/06/23 00:35:36  ddiego
 *added osx classes
 *

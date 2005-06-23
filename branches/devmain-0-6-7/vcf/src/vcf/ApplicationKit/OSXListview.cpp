@@ -11,6 +11,9 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/ListViewControl.h"
+
+#include "vcf/ApplicationKit/OSXControl.h"
+
 #include "vcf/ApplicationKit/OSXListview.h"
 
 
@@ -76,7 +79,7 @@ void OSXListview::selectItem(ListItem * item)
 	
 }
 
-Rect* OSXListview::getItemRect( ListItem* item )
+VCF::Rect* OSXListview::getItemRect( ListItem* item )
 {
 	
 	
@@ -230,9 +233,9 @@ void OSXListview::setSmallImageList( ImageList* imageList )
 	
 }
 
-Rect OSXListview::getItemImageRect( ListItem* item )
+VCF::Rect OSXListview::getItemImageRect( ListItem* item )
 {
-	Rect result;
+	VCF::Rect result;
 
 	return result;
 }
@@ -254,6 +257,9 @@ void OSXListview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/23 01:26:55  ddiego
+*build updates
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *

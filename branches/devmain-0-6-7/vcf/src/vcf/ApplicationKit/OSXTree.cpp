@@ -10,6 +10,9 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+
+#include "vcf/ApplicationKit/OSXControl.h"
+
 #include "vcf/ApplicationKit/OSXTree.h"
 #include "vcf/ApplicationKit/TreeControl.h"
 #include "vcf/ApplicationKit/DefaultTreeItem.h"
@@ -96,9 +99,9 @@ void OSXTree::onImageListImageChanged( ImageListEvent* event )
 	setImageList( imageList );
 }
 
-Rect OSXTree::getItemImageRect( TreeItem* item )
+VCF::Rect OSXTree::getItemImageRect( TreeItem* item )
 {
-	Rect result;
+	VCF::Rect result;
 
 	return result;
 }
@@ -158,6 +161,9 @@ void OSXTree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/23 01:26:55  ddiego
+*build updates
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *

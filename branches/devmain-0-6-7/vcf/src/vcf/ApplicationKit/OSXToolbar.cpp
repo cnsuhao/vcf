@@ -9,6 +9,9 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
+
+#include "vcf/ApplicationKit/OSXControl.h"
+
 #include "vcf/ApplicationKit/OSXToolbar.h"
 #include "vcf/ApplicationKit/Toolbar.h"
 
@@ -108,7 +111,7 @@ void OSXToolbar::onModelChanged( ModelEvent* e )
 		case ToolbarItem::tbAdded : {
 			ToolbarModelEvent* tme = (ToolbarModelEvent*)e;
 
-			bool val = ((Toolbar*)peerControl_)->getShowButtonCaptions();			
+			bool val = ((Toolbar*)control_)->getShowButtonCaptions();			
 		}
 		break;
 
@@ -166,11 +169,11 @@ void OSXToolbar::onModelChanged( ModelEvent* e )
 
 void OSXToolbar::showButtonCaptions( const bool& val )
 {
-	peerControl_->setVisible( false );
+	control_->setVisible( false );
 
 	
 
-	peerControl_->setVisible( true );
+	control_->setVisible( true );
 }
 
 void OSXToolbar::setButtonCaptionPlacementHorizontal( const bool& val )
@@ -181,11 +184,11 @@ void OSXToolbar::setButtonCaptionPlacementHorizontal( const bool& val )
 
 	currentlyModifyingItem_ = true;
 
-	peerControl_->setVisible( false );
+	control_->setVisible( false );
 
 	
 
-	peerControl_->setVisible( true );
+	control_->setVisible( true );
 
 	currentlyModifyingItem_ = false;
 }
@@ -198,11 +201,11 @@ void OSXToolbar::setButtonSize( const Size& buttonSize )
 
 	currentlyModifyingItem_ = true;
 
-	peerControl_->setVisible( false );
+	control_->setVisible( false );
 
 	
 
-	peerControl_->setVisible( true );
+	control_->setVisible( true );
 	currentlyModifyingItem_ = false;
 }
 
@@ -234,7 +237,7 @@ void OSXToolbar::setImageList( ImageList* imageList )
 {
 	if ( NULL != imageList ) {
 
-		peerControl_->setVisible( false );
+		control_->setVisible( false );
 		
 		EventHandler* imgListHandler = getEventHandler( "OSXToolbar::onImageListImageChanged" );
 
@@ -249,10 +252,10 @@ void OSXToolbar::setImageList( ImageList* imageList )
 		imageList->ImageDeleted.addHandler( imgListHandler );
 
 
-		bool val = ((Toolbar*)peerControl_)->getShowButtonCaptions();
+		bool val = ((Toolbar*)control_)->getShowButtonCaptions();
 
 		
-		peerControl_->setVisible( true );
+		control_->setVisible( true );
 	}
 }
 
@@ -260,6 +263,9 @@ void OSXToolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/23 01:26:55  ddiego
+*build updates
+*
 *Revision 1.1.2.1  2005/06/23 00:35:36  ddiego
 *added osx classes
 *
