@@ -9,7 +9,9 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
-
+#include "vcf/FoundationKit/ResourceBundlePeer.h"
+#include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
+#include "vcf/GraphicsKit/OSXGraphicsResourceBundle.h"
 
 
 using namespace VCF;
@@ -190,7 +192,7 @@ PrintSessionPeer* OSXGraphicsToolkit::internal_createPrintSessionPeer()
 
 GraphicsResourceBundlePeer* OSXGraphicsToolkit::internal_createGraphicsResourceBundlePeer()
 {
-	return NULL;
+	return new OSXGraphicsResourceBundle();
 }
 
 double OSXGraphicsToolkit::internal_getDPI( GraphicsContext* context )
@@ -201,6 +203,9 @@ double OSXGraphicsToolkit::internal_getDPI( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/23 01:26:56  ddiego
+*build updates
+*
 *Revision 1.3.2.2  2005/06/09 06:13:10  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

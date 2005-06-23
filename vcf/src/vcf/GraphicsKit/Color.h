@@ -450,16 +450,16 @@ public:
 	void getRGB16(uint16& r, uint16& g, uint16& b) const;
 	ulong64 getRGBPack16( const ColorPackScheme& cps=cpsABGR ) const;
 	uint32 getRGBPack8( const ColorPackScheme& cps=cpsABGR ) const;
-	uint32 getColorref32() const; // to make life easier to win32 users.
-	ulong64 getColorref64() const;
+	uint32 getColorRef32() const; // to make life easier to win32 users.
+	ulong64 getColorRef64() const;
 
 	void setRGB( const double& r, const double& g, const double& b);
 	void setRGB8( const uint8& r, const uint8& g, const uint8& b);
 	void setRGB16( const uint16& r, const uint16& g, const uint16& b);
 	Color& setRGBPack16( const ulong64& rgb, const ColorPackScheme& cps=cpsABGR );
 	Color& setRGBPack8( const uint32& rgb, const ColorPackScheme& cps=cpsABGR );
-	Color& setColorref32( const uint32& rgb ); // to make life easier to win32 users.
-	Color& setColorref64( const ulong64& rgb );
+	Color& setColorRef32( const uint32& rgb ); // to make life easier to win32 users.
+	Color& setColorRef64( const ulong64& rgb );
 
 	void getHSV(double& h, double& s, double& v) const;
 	void setHSV( const double& h, const double& s, const double& v);
@@ -976,11 +976,11 @@ inline ulong64 Color::getRGBPack16( const ColorPackScheme& cps ) const {
 	return rgb;
 }
 
-inline uint32 Color::getColorref32() const {
+inline uint32 Color::getColorRef32() const {
 	return getRGBPack8( cpsABGR );
 }
 
-inline ulong64 Color::getColorref64() const {
+inline ulong64 Color::getColorRef64() const {
 	return getRGBPack16( cpsABGR );
 }
 
@@ -1042,11 +1042,11 @@ inline Color& Color::setRGBPack16( const ulong64& rgb, const ColorPackScheme& cp
 	return *this;
 }
 
-inline Color& Color::setColorref32( const uint32& rgb ) {
+inline Color& Color::setColorRef32( const uint32& rgb ) {
 	return setRGBPack8( rgb, cpsABGR );
 }
 
-inline Color& Color::setColorref64( const ulong64& rgb ) {
+inline Color& Color::setColorRef64( const ulong64& rgb ) {
 	return setRGBPack16( rgb, cpsABGR );
 }
 
@@ -2174,6 +2174,9 @@ inline String Color::getHexCode( const uint8& r, const uint8& g, const uint8& b,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/06/23 01:26:56  ddiego
+*build updates
+*
 *Revision 1.3.2.8  2005/06/11 00:50:50  marcelloptr
 *moved uint8/uint16 to VCF namespace
 *

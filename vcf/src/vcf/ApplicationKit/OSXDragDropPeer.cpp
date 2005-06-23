@@ -28,7 +28,7 @@ OSXDragDropPeer::~OSXDragDropPeer()
 DragActionType OSXDragDropPeer::startDragDrop( DataObject* cdo )
 {
 
-	clipDataObj_ = cdo;
+	dataObj_ = cdo;
 
 	return actionType_;
 
@@ -51,6 +51,9 @@ void OSXDragDropPeer::setDragSource( VCF::DragSource* dragSource )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/23 01:26:55  ddiego
+*build updates
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *

@@ -79,6 +79,7 @@
 		};
 		0867D69AFE84028FC02AAC07 = {
 			children = (
+				5E9409A108611273001790A9,
 				5EB2564D0673DF4800DA4A17,
 				5EB256300673DE4900DA4A17,
 				5E444AE40647473E00A8020D,
@@ -2406,16 +2407,15 @@
 		};
 		5E2CDE72064868CD00A8020D = {
 			children = (
-				5E8EF5F70857DE000030F875,
 				5EC5A05B064DD85D00345023,
-				5E092B240741D94F004B45E4,
-				5E092B250741D94F004B45E4,
-				5E092B0E0741D5AD004B45E4,
-				5E092B0F0741D5AD004B45E4,
 				5E2CDF930648693C00A8020D,
 				5E2CDF940648693C00A8020D,
+				5E834885086A3D78007C5678,
+				5E834886086A3D78007C5678,
 				5EBD42770721E92300CF5F4C,
 				5EBD42780721E92300CF5F4C,
+				5E9407EA08610AF4001790A9,
+				5E9407EB08610AF4001790A9,
 				5E533EC60731EAA400CCD2C0,
 				5E533EC70731EAA400CCD2C0,
 				5E2CDF950648693C00A8020D,
@@ -2428,6 +2428,10 @@
 				5E2CDF9C0648693C00A8020D,
 				5E60084F071F430C0036F6CF,
 				5E2CDF9E0648693C00A8020D,
+				5E834887086A3D78007C5678,
+				5E834888086A3D78007C5678,
+				5E834889086A3D78007C5678,
+				5E83488A086A3D78007C5678,
 				5E949B5D07359C9A00B82507,
 				5E949B5E07359C9A00B82507,
 				5E725842073C6F5500135571,
@@ -2436,10 +2440,28 @@
 				5E5380E5073408ED00133CE2,
 				5E9C1AC906B5F0D7006671C6,
 				5E9C1ACA06B5F0D7006671C6,
+				5E83488B086A3D78007C5678,
+				5E83488C086A3D78007C5678,
+				5E092B0E0741D5AD004B45E4,
+				5E092B0F0741D5AD004B45E4,
+				5E092B240741D94F004B45E4,
+				5E092B250741D94F004B45E4,
+				5E8EF5F70857DE000030F875,
+				5E9409C108611482001790A9,
+				5E83488D086A3D78007C5678,
+				5E83488E086A3D78007C5678,
+				5E83488F086A3D78007C5678,
+				5E834890086A3D78007C5678,
+				5E9409C208611482001790A9,
+				5E9409C308611482001790A9,
+				5E834891086A3D78007C5678,
+				5E834892086A3D78007C5678,
+				5E834893086A3D78007C5678,
+				5E834894086A3D78007C5678,
 				5E888AD20710EC28006110CF,
 				5E2CDFA00648693C00A8020D,
-				5E2CDFA20648693C00A8020D,
 				5E7A6E8907446B5000906508,
+				5E2CDFA20648693C00A8020D,
 				5E2CDF950648693C00A8020D,
 				5E2CDF970648693C00A8020D,
 				5E2CDF990648693C00A8020D,
@@ -7486,6 +7508,7 @@
 				5E734111082E73CC00CDD184,
 				5E734112082E73CC00CDD184,
 				5E734113082E73CC00CDD184,
+				5E863E390859162E00DB8D8C,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7783,6 +7806,7 @@
 				5E734126082E73CC00CDD184,
 				5E734127082E73CC00CDD184,
 				5E734128082E73CC00CDD184,
+				5E863E380859162E00DB8D8C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8225,6 +8249,17 @@
 				5EA2322C082E9C5B009E9B28,
 				5E8EF5DE0857DCC30030F875,
 				5E8EF5DF0857DCC30030F875,
+				5E9407ED08610AF4001790A9,
+				5E9409C408611482001790A9,
+				5E9409C608611482001790A9,
+				5E834896086A3D78007C5678,
+				5E834898086A3D78007C5678,
+				5E83489A086A3D78007C5678,
+				5E83489C086A3D78007C5678,
+				5E83489E086A3D78007C5678,
+				5E8348A0086A3D78007C5678,
+				5E8348A2086A3D78007C5678,
+				5E8348A4086A3D78007C5678,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9697,6 +9732,16 @@
 				5EA2322A082E9C5B009E9B28,
 				5E8EF5DD0857DCC30030F875,
 				5E8EF5F80857DE000030F875,
+				5E9407EC08610AF4001790A9,
+				5E9409C508611482001790A9,
+				5E834895086A3D78007C5678,
+				5E834897086A3D78007C5678,
+				5E834899086A3D78007C5678,
+				5E83489B086A3D78007C5678,
+				5E83489D086A3D78007C5678,
+				5E83489F086A3D78007C5678,
+				5E8348A1086A3D78007C5678,
+				5E8348A3086A3D78007C5678,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10544,9 +10589,11 @@
 		5E7342DF082E76C300CDD184 = {
 			buildActionMask = 2147483647;
 			files = (
+				5E9409A008611249001790A9,
 				5E7342E0082E76C300CDD184,
 				5E7342E1082E76C300CDD184,
 				5E7342E2082E76C300CDD184,
+				5E9409A208611273001790A9,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10599,6 +10646,384 @@
 			path = ../../src/vcf/ApplicationKit/OSXWindow.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		5E834885086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXAppResourceBundle.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXAppResourceBundle.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834886086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXAppResourceBundle.h;
+			path = ../../src/vcf/ApplicationKit/OSXAppResourceBundle.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834887086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXDragDropPeer.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXDragDropPeer.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834888086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXDragDropPeer.h;
+			path = ../../src/vcf/ApplicationKit/OSXDragDropPeer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834889086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXDropTargetPeer.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXDropTargetPeer.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E83488A086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXDropTargetPeer.h;
+			path = ../../src/vcf/ApplicationKit/OSXDropTargetPeer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E83488B086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXListview.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXListview.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E83488C086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXListview.h;
+			path = ../../src/vcf/ApplicationKit/OSXListview.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E83488D086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXPopupMenu.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXPopupMenu.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E83488E086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXPopupMenu.h;
+			path = ../../src/vcf/ApplicationKit/OSXPopupMenu.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E83488F086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXScrollPeer.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXScrollPeer.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834890086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXScrollPeer.h;
+			path = ../../src/vcf/ApplicationKit/OSXScrollPeer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834891086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXToolbar.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXToolbar.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834892086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXToolbar.h;
+			path = ../../src/vcf/ApplicationKit/OSXToolbar.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834893086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXTree.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXTree.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834894086A3D78007C5678 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXTree.h;
+			path = ../../src/vcf/ApplicationKit/OSXTree.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E834895086A3D78007C5678 = {
+			fileRef = 5E834885086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E834896086A3D78007C5678 = {
+			fileRef = 5E834886086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E834897086A3D78007C5678 = {
+			fileRef = 5E834887086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E834898086A3D78007C5678 = {
+			fileRef = 5E834888086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E834899086A3D78007C5678 = {
+			fileRef = 5E834889086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E83489A086A3D78007C5678 = {
+			fileRef = 5E83488A086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E83489B086A3D78007C5678 = {
+			fileRef = 5E83488B086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E83489C086A3D78007C5678 = {
+			fileRef = 5E83488C086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E83489D086A3D78007C5678 = {
+			fileRef = 5E83488D086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E83489E086A3D78007C5678 = {
+			fileRef = 5E83488E086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E83489F086A3D78007C5678 = {
+			fileRef = 5E83488F086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A0086A3D78007C5678 = {
+			fileRef = 5E834890086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A1086A3D78007C5678 = {
+			fileRef = 5E834891086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A2086A3D78007C5678 = {
+			fileRef = 5E834892086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A3086A3D78007C5678 = {
+			fileRef = 5E834893086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A4086A3D78007C5678 = {
+			fileRef = 5E834894086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A5086A3D78007C5678 = {
+			fileRef = 5E834885086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A6086A3D78007C5678 = {
+			fileRef = 5E834886086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A7086A3D78007C5678 = {
+			fileRef = 5E834887086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A8086A3D78007C5678 = {
+			fileRef = 5E834888086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348A9086A3D78007C5678 = {
+			fileRef = 5E834889086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348AA086A3D78007C5678 = {
+			fileRef = 5E83488A086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348AB086A3D78007C5678 = {
+			fileRef = 5E83488B086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348AC086A3D78007C5678 = {
+			fileRef = 5E83488C086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348AD086A3D78007C5678 = {
+			fileRef = 5E83488D086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348AE086A3D78007C5678 = {
+			fileRef = 5E83488E086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348AF086A3D78007C5678 = {
+			fileRef = 5E83488F086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348B0086A3D78007C5678 = {
+			fileRef = 5E834890086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348B1086A3D78007C5678 = {
+			fileRef = 5E834891086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348B2086A3D78007C5678 = {
+			fileRef = 5E834892086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348B3086A3D78007C5678 = {
+			fileRef = 5E834893086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E8348B4086A3D78007C5678 = {
+			fileRef = 5E834894086A3D78007C5678;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E863E360859162E00DB8D8C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXGraphicsResourceBundle.cpp;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/GraphicsKit/OSXGraphicsResourceBundle.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E863E370859162E00DB8D8C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXGraphicsResourceBundle.h;
+			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/GraphicsKit/OSXGraphicsResourceBundle.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E863E380859162E00DB8D8C = {
+			fileRef = 5E863E360859162E00DB8D8C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E863E390859162E00DB8D8C = {
+			fileRef = 5E863E370859162E00DB8D8C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E863E3A0859162E00DB8D8C = {
+			fileRef = 5E863E360859162E00DB8D8C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E863E3B0859162E00DB8D8C = {
+			fileRef = 5E863E370859162E00DB8D8C;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		5E888AD20710EC28006110CF = {
 			fileEncoding = 30;
@@ -10677,9 +11102,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = OSXMenuManagerPeer.cpp;
-			path = /Users/jimcrafton/code/vcfdev/dev/vcf/src/vcf/ApplicationKit/OSXMenuManagerPeer.cpp;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../src/vcf/ApplicationKit/OSXMenuManagerPeer.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5E8EF5F80857DE000030F875 = {
 			fileRef = 5E8EF5F70857DE000030F875;
@@ -10701,6 +11126,137 @@
 			path = ../../src/vcf/FoundationKit/OSXResourceBundle.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		5E9407EA08610AF4001790A9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXClipboard.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXClipboard.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E9407EB08610AF4001790A9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXClipboard.h;
+			path = ../../src/vcf/ApplicationKit/OSXClipboard.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E9407EC08610AF4001790A9 = {
+			fileRef = 5E9407EA08610AF4001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9407ED08610AF4001790A9 = {
+			fileRef = 5E9407EB08610AF4001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9407EE08610AF4001790A9 = {
+			fileRef = 5E9407EA08610AF4001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9407EF08610AF4001790A9 = {
+			fileRef = 5E9407EB08610AF4001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409A008611249001790A9 = {
+			fileRef = 5E444AE40647473E00A8020D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409A108611273001790A9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = ApplicationServices.framework;
+			path = /System/Library/Frameworks/ApplicationServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E9409A208611273001790A9 = {
+			fileRef = 5E9409A108611273001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409A308611273001790A9 = {
+			fileRef = 5E9409A108611273001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409C108611482001790A9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXMenuManagerPeer.h;
+			path = ../../src/vcf/ApplicationKit/OSXMenuManagerPeer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E9409C208611482001790A9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OSXTextPeer.cpp;
+			path = ../../src/vcf/ApplicationKit/OSXTextPeer.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E9409C308611482001790A9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OSXTextPeer.h;
+			path = ../../src/vcf/ApplicationKit/OSXTextPeer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E9409C408611482001790A9 = {
+			fileRef = 5E9409C108611482001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409C508611482001790A9 = {
+			fileRef = 5E9409C208611482001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409C608611482001790A9 = {
+			fileRef = 5E9409C308611482001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409C708611482001790A9 = {
+			fileRef = 5E9409C108611482001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409C808611482001790A9 = {
+			fileRef = 5E9409C208611482001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9409C908611482001790A9 = {
+			fileRef = 5E9409C308611482001790A9;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		5E949B5D07359C9A00B82507 = {
 			fileEncoding = 30;
@@ -12673,6 +13229,7 @@
 				5EA2335F082E9EC2009E9B28,
 				5EA23360082E9EC2009E9B28,
 				5EA23361082E9EC2009E9B28,
+				5E863E3B0859162E00DB8D8C,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12970,6 +13527,7 @@
 				5EA23374082E9EC2009E9B28,
 				5EA23375082E9EC2009E9B28,
 				5EA23376082E9EC2009E9B28,
+				5E863E3A0859162E00DB8D8C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13419,6 +13977,17 @@
 				5EA2346B082E9F19009E9B28,
 				5E8EF5E10857DCC30030F875,
 				5E8EF5E20857DCC30030F875,
+				5E9407EF08610AF4001790A9,
+				5E9409C708611482001790A9,
+				5E9409C908611482001790A9,
+				5E8348A6086A3D78007C5678,
+				5E8348A8086A3D78007C5678,
+				5E8348AA086A3D78007C5678,
+				5E8348AC086A3D78007C5678,
+				5E8348AE086A3D78007C5678,
+				5E8348B0086A3D78007C5678,
+				5E8348B2086A3D78007C5678,
+				5E8348B4086A3D78007C5678,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -14901,6 +15470,16 @@
 				5EA234FC082E9F19009E9B28,
 				5E8EF5E00857DCC30030F875,
 				5E8EF5F90857DE000030F875,
+				5E9407EE08610AF4001790A9,
+				5E9409C808611482001790A9,
+				5E8348A5086A3D78007C5678,
+				5E8348A7086A3D78007C5678,
+				5E8348A9086A3D78007C5678,
+				5E8348AB086A3D78007C5678,
+				5E8348AD086A3D78007C5678,
+				5E8348AF086A3D78007C5678,
+				5E8348B1086A3D78007C5678,
+				5E8348B3086A3D78007C5678,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -15746,6 +16325,7 @@
 				5EA234FF082E9F19009E9B28,
 				5EA23500082E9F19009E9B28,
 				5EA23501082E9F19009E9B28,
+				5E9409A308611273001790A9,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -15886,6 +16466,8 @@
 		};
 		5EAA3CF50647352E00A8020D = {
 			children = (
+				5E863E360859162E00DB8D8C,
+				5E863E370859162E00DB8D8C,
 				5EAA3D6A0647393800A8020D,
 				5EAA3D6B0647393800A8020D,
 				5EAA3D6C0647393800A8020D,

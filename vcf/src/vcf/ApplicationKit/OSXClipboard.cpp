@@ -14,12 +14,18 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/OSXClipboard.h"
 
 
+
+
 using namespace VCF;
 
 
+#define kUTTypePlainText CFSTR("public.plain-text")
+#define kUTTypeRTF CFSTR("public.rtf")
+#define kUTTypeFileURL CFSTR("public.file-url")
+#define kUTTypePNG CFSTR("public.png")
 
 
-String UTItoMimeType( CStringRef uti )
+String UTItoMimeType( CFStringRef uti )
 {
 	String result;
 
@@ -40,7 +46,7 @@ OSXClipboard::OSXClipboard()
 		//globalPasteBoard_ = tmp;
 	}
 	else {
-		throw RuntimeException( MAKE_ERROR_MSG2("Failed to attach to global pasteboard!") );
+		throw RuntimeException( MAKE_ERROR_MSG_2("Failed to attach to global pasteboard!") );
 	}
 }
 
@@ -82,7 +88,7 @@ void OSXClipboard::copy( VCF::DataObject* data )
 		}
 
 		BasicOutputStream memStream;
-		if ( dataObj_->saveToStream( type, &memStream ) ) {
+		if ( data->saveToStream( type, &memStream ) ) {
 			memStream.seek( 0, stSeekFromStart );
 
 			CFRefObject<CFDataRef> dataRef = CFDataCreate( NULL, (const UInt8*)memStream.getBuffer(), memStream.getSize() );
@@ -182,6 +188,9 @@ bool OSXClipboard::hasDataType( const String& dataType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/23 01:26:55  ddiego
+*build updates
+*
 *Revision 1.1.2.1  2005/06/15 15:41:13  ddiego
 *minor osx stuff
 *

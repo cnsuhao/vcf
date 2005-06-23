@@ -69,8 +69,12 @@ public:
 protected:
 
     static std::map<String,AppleLocalePair> localeMaping;
-    LocaleRef localeRef_;
+	CFLocaleRef localeRef_;	
+	LocaleRef collateLocaleRef_;
+	CFNumberFormatterRef numberFormatterRef_;
 	UnicodeString crtLocaleStr_;
+	
+
 };
 
 
@@ -82,6 +86,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/23 01:26:56  ddiego
+*build updates
+*
 *Revision 1.2.4.1  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *
