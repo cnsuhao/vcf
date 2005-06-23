@@ -33,6 +33,13 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/MenuManagerPeer.h"
 #include "vcf/ApplicationKit/OSXMenuManagerPeer.h"
 
+#include "vcf/ApplicationKit/OSXToolbar.h"
+#include "vcf/ApplicationKit/OSXScrollPeer.h"
+
+#include "vcf/ApplicationKit/OSXAppResourceBundle.h"
+
+
+
 
 #define kSleepTime	32767
 
@@ -761,7 +768,7 @@ WindowPeer* OSXUIToolkit::internal_createWindowPeer( Control* control, Control* 
 
 ToolbarPeer* OSXUIToolkit::internal_createToolbarPeer( Toolbar* toolbar )
 {
-    return NULL;
+    return new OSXToolbar(toolbar);
 }
 
 MenuItemPeer* OSXUIToolkit::internal_createMenuItemPeer( MenuItem* item )
@@ -841,7 +848,7 @@ DesktopPeer* OSXUIToolkit::internal_createDesktopPeer( Desktop* desktop )
 
 ScrollPeer* OSXUIToolkit::internal_createScrollPeer( Control* control )
 {
-    return NULL;
+    return new OSXScrollPeer(control);
 }
 
 SystemTrayPeer* OSXUIToolkit::internal_createSystemTrayPeer()
@@ -856,7 +863,7 @@ MenuManagerPeer* OSXUIToolkit::internal_createMenuManagerPeer()
 
 GraphicsResourceBundlePeer* OSXUIToolkit::internal_createGraphicsResourceBundlePeer( AbstractApplication* app )
 {
-	return NULL;
+	return new OSXAppResourceBundle(app);
 }
 
 CommonPrintDialogPeer* OSXUIToolkit::internal_createCommonPrintDialogPeer( Control* owner )
@@ -2199,6 +2206,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/23 00:35:36  ddiego
+*added osx classes
+*
 *Revision 1.3.2.4  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *
