@@ -32,6 +32,23 @@ NB: This software will not save the world.
 	Both the GraphicsKit and the ApplicationKit build upon it,
 	especially the ApplicationKit. 
 	</para>
+	<section><title>Uses</title>
+	<para>
+	So what is the FoundationKit good for? Just about any application that 
+	would run on a command line, will find a set of useful classes within the 
+	FoundationKit. This includes support for the VCF's RTTI, input and output
+	classes (with support for file IO too), thread and synchronization primitives
+	like mutexs, semaphores and conditions, locale support, string support, 
+	date/time classes, support for string formatting, and even 
+	support for run loops for control over code that runs in a loop. This makes
+	many application tasks easy to deal with, and takes care of many of the
+	more error prone activities that you have to deal with as a programmer.
+	</para>
+	<para>
+	The following sections will deal with each of the core sections of the
+	FoundationKit separately and in more detail.
+	</para>
+	</section>
 	<section><title>Startup and Shutdown</title>
 		<para>
 		The FoundationKit needs to be initialized before you can use
@@ -1401,8 +1418,8 @@ MessageLoader::registerMessageLoader( "text/cool", new MyCustomMessageLoader() )
 		</para>	
 		<section><title>Accessing a resource</title>
 		<para>
-		Access to resource is provided by the ResourceBundle. For a given program there is 
-		one and only one ResourceBundle, and you get it by calling the System::getResourceBundle()
+		Access to a resource is provided by the ResourceBundle. For a given program there is 
+		one and only one ResourceBundle, and you gain access to it by calling the System::getResourceBundle()
 		function. Once you have a ResourceBundle instance, you can get access to a particular
 		resource by calling one of it's functions. The lowest level way to do this is calling the
 		ResourceBundle::getResource() function:
@@ -1727,51 +1744,153 @@ System::println( localTime );
 		
 		<section><title>Environment Functions</title>
 			<para>
-			System::getEnvironmentVariable()
-			System::setEnvironmentVariable()
-			System::addPathDirectory()
+			You can query and set environment variable easily by using the 
+			System::getEnvironmentVariable() and System::setEnvironmentVariable()
+			functions. System::getEnvironmentVariable() returns a string that 
+			represents the environment variable name passed into the function. 
+			System::setEnvironmentVariable() lets you set the value of a specific
+			environment variable. Setting these values does so only for the
+			lifetime of the program that makes these calls. You don't need to 
+			include the "%" or "$" prefixs to variable names.
+			</para>
+			<para>
+			You can add a new directory to the system path variable. This is the
+			variable that the OS uses in order to find an executable. In Windows
+			this is the %PATH% variable, in unix systems this is the $PATH variable.
+			The System::addPathDirectory() allows you to pass in a directory to
+			add to this environment variable.
 			</para>
 		</section>
 		
 		<section><title>Resource functions</title>
-			<para>			
-			System::findResourceDirectoryForExecutable()
-			System::findResourceDirectory()
-			System::getResourceBundle()
-			System::getProgramInfoFromFileName()
-			System::getBundlePathFromExecutableName()
-			System::getExecutableNameFromBundlePath()			
+			<para>
+			The System class has several functions that deal exclusively with resources. 
+			Several of these deal with either gaining access to the Resource bundle,
+			or determining the directory where it exists. Use System::findResourceDirectoryForExecutable()
+			to determine what the resource bundle directory for a program would be. 
+			Note that this just gives the directory name, there may not be anything there, 
+			or the directory may not even exist if the program is not using resources. 
+			System::findResourceDirectoryForExecutable() takes the path to an executable as 
+			it's only argument. So if you have a path to another program (that's VCF 
+			based) you can use this function to determine it's resource bundle 
+			location. As a general rule, you'll have little need for this as a developer.
+			<programlisting>
+<![CDATA[
+String resDir = System::findResourceDirectoryForExecutable( "/usr/local/bin/foo" );
+]]>
+			</programlisting>
+			System::findResourceDirectory() is identical to
+			System::findResourceDirectoryForExecutable() but it uses the current program
+			executable path as the path to System::findResourceDirectoryForExecutable().
+			<programlisting>
+<![CDATA[
+String resDir = System::findResourceDirectory();
+]]>
+			</programlisting>
+			</para>
+			<para>
+			You can obtain the resource bundle of the running program by calling 
+			System::getResourceBundle() which will return a pointer to the program
+			ResourceBundle. See <link linkend="Resources">
+			Resources</link> for more information about Resource Bundles. 			
+			</para>
+			<para>
+			The next functions deal with program "meta data". Calling System::getProgramInfoFromFileName()
+			allows you to access the programs information, such as the program copyright (if it 
+			exists), the author, and so forth. The functions returns a pointer to a new instance of a 
+			ProgramInfo object. You're responsible for deleting it, and if no information can be found
+			the function may return a NULL value. You can determine the "bundle" directory of full
+			program path by calling System::getBundlePathFromExecutableName(). For example (assuming
+			we are running on Mac OS X):
+			<programlisting>
+<![CDATA[
+String programBundleDir = 
+	System::getBundlePathFromExecutableName("/Applications/Bob/Contents/MacOS/BobsYourUncle.exe");
+]]>
+			</programlisting>
+			This would result in programBundleDir being assigned the string value "/Applications/Bob". 
+			Again, as a general rule, these functions are more useful to the internals of the VCF than
+			to an application developer. To do the opposite, to retrieve the full program
+			path from just a "bundle" path, you can use the System::getExecutableNameFromBundlePath()
+			function. For example:
+			<programlisting>
+<![CDATA[
+String bobExePath = 
+	System::getBundlePathFromExecutableName("C:\Program Files\Bob.app");
+]]>
+			</programlisting>
+			Now bobExePath would equal "C:\Program Files\Bob.app\Contents\WinNT\Bob.exe". 
 			</para>
 		</section>
 		
 		<section><title>Locale functions</title>
-			<para>			
-			System::setCurrentThreadLocale()
-			System::getCurrentThreadLocale()
+			<para>
+			The System allows you to get and set the locale instance of the current thread. 
+			You can retrieve the current thread's locale by calling System::getCurrentThreadLocale().
+			You can set the current thread's locale by calling System::setCurrentThreadLocale().
+			Setting the thread's locale means that any VCF locale sensitive functions will default
+			to this new locale value for the thread. Depending on the platform, there may be 
+			other effects when setting the thread locale. On Win32 calling 
+			System::setCurrentThreadLocale() also affects <emphasis>any</emphasis> Win32 API
+			calls since, under the hood, System::setCurrentThreadLocale() ends up calling 
+			the API SetThreadLocale() function. On Mac OS X, there's no concept of per thread 
+			locales so this is not an issue.			
 			</para>
 		</section>
 		
 		<section><title>Miscellaneous functions</title>
-			<para>			
-			System::isUnicodeEnabled()
+			<para>
+			Since some platform may or may not support Unicode you can query this
+			by calling the System::isUnicodeEnabled() function. If the platform supports 
+			Unicode then System::isUnicodeEnabled() will return true, otherwise it will
+			return false. So on Windows 98, a VCF program calling System::isUnicodeEnabled()
+			would be returned a false value, while the same program running on Windows NT
+			would get a true value.
 			</para>
 		</section>		
 	</section>
 	
 	<section><title>Dates and Time</title>
 		<para>
+		The DateTime class is used to represent all date-time values in the
+		VCF. 
 		</para>
 		
 		<section><title>Data Representation</title>
 			<para>
+			The data of the DateTime class is stored as a 64 bit value. It is based
+			on the concept of a Julian Day (see Claus Tøndering's 
+			<ulink url="http://www.tondering.dk/claus/cal/">Calendar FAQ</ulink>for 
+			more information on this) and has a resolution of 1 millisecond.
 			</para>
 			
 			<formalpara><title>Use of custom 64 bit integer class</title>
+			The 64 bit data value is a class that in turns wraps some 64 bit number. 
+			The class was used to make access to the value uniform and less of a 
+			hassle to deal with. See the VCF::ulong64 and VCF::long64 class 
+			documentation for more details.	YOu can use it just like you would any
+			other primitive integer type.
 			</formalpara>
 		</section>
 		
 		<section><title>Date Time Spans</title>
 			<para>
+			Given two dates there exists a "span", or delta value between the two date-time
+			values. This delta or span value is represented by the DateTimeSpan class.
+			You can subtract two DateTime values from each other and get a DateTimeSpan
+			as a the result, as well as adding (or subtracting) a DateTimeSpan to (or from)
+			a DateTime instance.
+			<programlisting>
+<![CDATA[
+DateTime dt1(2003,2,12);
+DateTime dt2(2005,6,3);
+DateTimeSpan span = dt2 - dt1;
+
+DateTime dt3 = dt1 + span;
+]]>		
+			</programlisting>
+			Given a DateTimeSpan instance, you can get the total minutes, seconds, hours, and so forth
+			from the span. See the VCF::DateTimeSpan class documentation for more information.
 			</para>
 		</section>
 		
@@ -1868,6 +1987,9 @@ System::println( localTime );
 <!-- 
 CVS Log info
 $Log$
+Revision 1.3.4.7  2005/06/24 20:43:07  ddiego
+more updates to foundationkit docs.
+
 Revision 1.3.4.6  2005/06/15 21:02:42  ddiego
 updates
 
