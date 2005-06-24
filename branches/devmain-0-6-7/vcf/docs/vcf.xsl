@@ -405,9 +405,9 @@ will be replaced by a sed script in tyhe makefile
  <tr>
   <td class="topCell" width="100%" height="20" align="right" valign="middle">
    &#160;&#160;
-   <a class="topLink" href="http://vcf.sourceforge.net/index.php">The VCF Website Home</a>
+   <a class="topLink" href="http://vcf-online.org/index.php">The VCF Website Home</a>
    &#160;&#160;|&#160;&#160;
-   <a class="topLink" href="http://vcf.sourceforge.net/forums/">Online Discussion Forums</a>
+   <a class="topLink" href="http://vcf-online.org/forums/">Online Discussion Forums</a>
    &#160;&#160;|&#160;&#160;	
    <a class="topLink" href="http://sourceforge.net/projects/vcf/">Sourceforge.net Project Page</a>
    &#160;&#160;
@@ -437,9 +437,9 @@ will be replaced by a sed script in tyhe makefile
  <tr>
   <td class="footerCell" width="100%" height="1" align="center" valign="middle">
    &#160;&#160;
-   <a class="footerLink" href="http://vcf.sourceforge.net/comments.php">Comments or Suggestions?</a>   
+   <a class="footerLink" href="http://vcf-online.org/comments.php">Comments or Suggestions?</a>   
    &#160;&#160;
-   <a class="footerLink" href="http://vcf.sourceforge.net/license.php">License Information</a>
+   <a class="footerLink" href="http://vcf-online.org/license.php">License Information</a>
    &#160;&#160;
   </td>
  </tr>
@@ -462,6 +462,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.6.10.3  2005/06/24 20:43:07  ddiego
+more updates to foundationkit docs.
+
 Revision 1.6.10.2  2005/06/03 21:40:20  ddiego
 more doc updates
 

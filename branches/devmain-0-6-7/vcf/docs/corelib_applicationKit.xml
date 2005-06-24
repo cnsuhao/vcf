@@ -1591,12 +1591,12 @@ newWindow->show();
 		</section>
 
 	</section>
-	<section><title>Model View Controller</title>
+	<section><title>Model/View/Controller</title>
                 <para>
-		MVC, also known as Model-View-Controller, is a common pattern
+		MVC, also known as Model/View/Controller, is a common pattern
 		for implementing UI interaction between the User, the presentation,
 		and the data being viewed or modified. The pattern was pioneered in the
-		mid ot later 1970's at Xerox's PARC research center. It orginated in
+		mid to late 1970's at Xerox's PARC research center. It orginated in
 		Alan Kay's Learning Research Group, the same group that would take Kay's
 		Smalltalk language and implement it on PARC's Alto, Dorado, and later
 		the commercial Xerox Star computer systems. 
@@ -1815,6 +1815,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.5  2005/06/24 20:43:07  ddiego
+more updates to foundationkit docs.
+
 Revision 1.4.2.4  2005/06/15 21:02:41  ddiego
 updates
 
