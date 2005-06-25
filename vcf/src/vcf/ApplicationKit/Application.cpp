@@ -129,6 +129,8 @@ void Application::init()
 
 void Application::main()
 {
+	// this is used in order to break in the right place when an exception is thrown. - MP -
+	Window* mainWindow = NULL;
 
 	//main try...catch
 	try {
@@ -146,7 +148,7 @@ void Application::main()
 			runningInstance->init();
 
 			/**
-			*initialize the impementer first - we are not going to rely
+			*initialize the implementer first - we are not going to rely
 			*on someone remembering to call the base class functionality of the Application
 			*if the Peer returns false then bomb out and terminate
 			*/
@@ -160,7 +162,7 @@ void Application::main()
 				appPeer->terminateApp();
 			}
 			else {
-				if ( true != runningInstance->initRunningApplication() ){ //initialization failed
+				if ( true != runningInstance->initRunningApplication() ) { //initialization failed
 
 					runningInstance->terminateRunningApplication();
 
@@ -171,6 +173,7 @@ void Application::main()
 					appPeer->terminateApp();
 				}
 				else{
+					mainWindow = runningInstance->mainWindow_;
 
 					bool libsInitialized = false;
 					try {
@@ -209,6 +212,8 @@ void Application::main()
 					*/
 					runningInstance->terminateRunningApplication();
 
+					mainWindow = runningInstance->mainWindow_;
+
 					if ( runningInstance->mainWindow_ != NULL ) {
 						StringUtils::trace( "Oops! The Main window has not been freed.\nDid you forget to call the super class's terminateRunningApplication() method?\n" );
 					}
@@ -226,7 +231,10 @@ void Application::main()
 	catch ( BasicException& e  ){
 		String errString = e.getMessage().c_str();
 
-		Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
+		StringUtils::trace( "Framework Exception: " + errString + "\n" );
+		if ( NULL != mainWindow ) {
+			Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
+		}
 
 #ifdef _DEBUG
 		throw;
@@ -237,7 +245,10 @@ void Application::main()
 		errString += e.what();
 		errString += "\".\nApplication exiting abnormally.";
 
-		Dialog::showMessage( errString, "Framework Assertion Exception", Dialog::mbOK, Dialog::msError  );
+		StringUtils::trace( "Framework Exception: " + errString + "\n" );
+		if ( NULL != mainWindow ) {
+			Dialog::showMessage( errString, "Framework Assertion Exception", Dialog::mbOK, Dialog::msError  );
+		}
 
 #ifdef _DEBUG
 		throw;
@@ -451,6 +462,9 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/25 20:02:58  marcelloptr
+*made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
+*
 *Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
