@@ -37,7 +37,7 @@ public:
 	* roundings and other internal considerations related to the position 
 	* of the involved controls and windows.
 	*@see ScrollPeer::getAdjustedPositions()
-	*@param const double& xPosition, the desired position in the orizontal scrollbar
+	*@param const double& xPosition, the desired position in the horizontal scrollbar 
 	*@param const double& yPosition, the desired position in the vertical scrollbar
 	*/
 	virtual void scrollTo( const double& xPosition, const double& yPosition ) = 0;
@@ -129,6 +129,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/25 21:05:52  marcelloptr
+*minor fix on a comment
+*
 *Revision 1.3.2.2  2005/01/17 17:50:43  marcelloptr
 *scrollable documentation and related
 *

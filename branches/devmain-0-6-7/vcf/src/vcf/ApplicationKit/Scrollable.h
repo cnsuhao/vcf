@@ -147,7 +147,7 @@ public:
 
 	/**
 	* gets the position of the scrollbox of a vertical scrollbar.
-	* This is postion is always the one adjusted by the OS according
+	* This position is always the one adjusted by the OS according
 	* to internal considerations.
 	*@see ScrollPeer::getAdjustedPositions()
 	*/
@@ -155,7 +155,7 @@ public:
 
 	/**
 	* gets the position of the scrollbox of a horizontal scrollbar.
-	* This is postion is always the one adjusted by the OS according
+	* This position is always the one adjusted by the OS according 
 	* to internal considerations.
 	*@see ScrollPeer::getAdjustedPositions()
 	*/
@@ -306,6 +306,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/06/25 21:05:52  marcelloptr
+*minor fix on a comment
+*
 *Revision 1.3.2.3  2005/01/17 17:52:19  marcelloptr
 *bugfix [ 1099910 ] plus other improvements of the scrolling
 *
