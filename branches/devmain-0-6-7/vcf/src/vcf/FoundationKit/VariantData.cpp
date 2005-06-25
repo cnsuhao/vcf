@@ -94,7 +94,7 @@ String VariantData::toString() const
 		}
 		break;
 
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 		case pdLong64:{
 			long64::int64_t value = this->Long64Val;
 			VCFChar tmp[VariantData::DefaultPropertyValLength];
@@ -126,7 +126,7 @@ String VariantData::toString() const
 		}
 		break;
 
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 
 		case pdObject:{
 			Object* object = *this;
@@ -246,7 +246,7 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 		case pdLong64:{
 			ulong64::int64_t result = 0;
 			int ret = swscanf( value.c_str(), L"%I64", &result );
@@ -277,7 +277,7 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 
 		case pdObject:{
 			if ( NULL != ObjVal ){
@@ -393,7 +393,7 @@ void VariantData::setValue( const VariantData& value )
 		}
 		break;
 
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 		case pdLong64 : {
 			Long64Val = value.Long64Val;
 		}
@@ -414,7 +414,7 @@ void VariantData::setValue( const VariantData& value )
 		}
 		break;
 
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 
 		case pdUndefined : {
 
@@ -434,8 +434,8 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.4  2005/06/25 21:19:06  marcelloptr
-*added support for long64 and ulong64 and DateTime classes previous local VARIANT64 macro
+*Revision 1.3.2.5  2005/06/25 21:23:06  marcelloptr
+*added support for long64 and ulong64 and DateTime classes previous VCF_VARIANT64 macro
 *
 *Revision 1.3.2.3  2005/04/09 17:21:32  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
