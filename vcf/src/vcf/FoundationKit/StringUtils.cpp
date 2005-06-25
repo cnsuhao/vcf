@@ -106,11 +106,11 @@ String StringUtils::trimLeft( const String& text, const char& c )
 	String result = text;
 
 	for (int n=0; n<result.length(); ++n) {
-		if (result[0] != c) {
+		if (result[n] != c) {
 			break;
 		}
-		result.erase(0,1);
 	}
+	result.erase(0,n);
 
 	return result;
 }
@@ -686,13 +686,30 @@ void check_true_error( const VCF::String& value )
 int StringUtils::fromStringAsHexNumber( const VCF::String& value )
 {
 	int result = 0;
-	#ifdef VCF_OSX
-		int ret = sscanf( value.ansi_c_str(), "%X", &result );
+
+	String::size_type size = value.size();
+
+#ifdef VCF_OSX
+		// is the string beginning with "0x" ?
+		const UnicodeString::AnsiChar* p = value.ansi_c_str();
+		if ( 2 < size ) {
+			if ( ( '0' == p[0] ) && ( 'x' == p[1] ) ) {
+				p += 2;
+			}
+		}
+		int ret = sscanf( p, "%X", &result );
 		if ( ret != 1 ) {
 			throw BasicException( L"Unable to convert: " + value );
 		}
 	#else
-		int ret = swscanf( value.c_str(), L"%X", &result );
+		// is the string beginning with "0x" ?
+		const UnicodeString::UniChar* p = value.c_str();
+		if ( 2 < size ) {
+			if ( ( '0' == p[0] ) && ( 'x' == p[1] ) ) {
+				p += 2;
+			}
+		}
+		int ret = swscanf( p, L"%X", &result );
 		if ( ret != 1 ) {
 			throw BasicException( L"Unable to convert: " + value );
 		}
@@ -2210,6 +2227,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.10  2005/06/25 21:49:06  marcelloptr
+*fixes on trimLeft and fromStringAsHexNumber
+*
 *Revision 1.3.2.9  2005/04/18 12:41:29  dougtinkham
 *changes for DMC
 *
