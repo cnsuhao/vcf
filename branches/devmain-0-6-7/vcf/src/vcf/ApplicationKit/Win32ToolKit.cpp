@@ -1034,6 +1034,13 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				Frame* activeFrame = Frame::getActiveFrame();
 
 				if ( NULL != activeFrame ) {
+					/** - MP -
+					REMARK: if we break here with a crash of the application, we probably had the
+					crash before the main frame window for the application has been fully initialized.
+					In order to see what the cause was, please put a break on the Dialog::showMessage 
+					line inside the catch block of Application::main() and then skip it and run again 
+					from the throw statement.
+					*/
 					activeFrame->activate();
 				}
 			}
@@ -2247,6 +2254,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.16  2005/06/25 20:02:58  marcelloptr
+*made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
+*
 *Revision 1.3.2.15  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *
