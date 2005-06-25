@@ -20,9 +20,9 @@ using namespace VCF;
 
 
 #if defined(VCF_CW) && defined(UNICODE)
-	static wchar_t szDocName[] = L"Untitled";
+	static wchar_t szDefaultDocName[] = L"Untitled";
 #else
-	static char szDocName[] = "Untitled";
+	static char szDefaultDocName[] = "Untitled";
 #endif
 
 
@@ -91,7 +91,8 @@ void Win32PrintSession::setDefaultPageSettings()
 	}
 	
 
-	printInfo_.docInfo_.lpszDocName = szDocName;
+	// [bugfix 1227570] do not assign this to a temporary
+	printInfo_.docInfo_.lpszDocName = szDefaultDocName;
 
 	printerDC_ = hDC;
 
@@ -242,8 +243,8 @@ void Win32PrintSession::setPrintablePages( const std::vector<ulong32>& printable
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.4  2005/06/09 06:49:44  marcelloptr
-*fixed problem of printInfo_.docInfo_.lpszDocName assigned to a temporary
+*Revision 1.2.2.5  2005/06/25 23:10:24  marcelloptr
+*[bugfix 1227570] Win32PrintSession::setDefaultPageSettings assigns a pointer to a temporary
 *
 *Revision 1.2.2.3  2005/04/29 15:03:40  marcelloptr
 *added cvs log section
