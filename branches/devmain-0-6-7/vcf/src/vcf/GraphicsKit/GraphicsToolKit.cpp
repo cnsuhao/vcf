@@ -343,7 +343,7 @@ Color* GraphicsToolkit::internal_getSystemColor( const unsigned long& systemColo
 String GraphicsToolkit::internal_getSystemColorNameFromMap( Color& sysColor ) const
 {
 	// not pointer are used, so any color can be compared
-	String result = ColorNames::unknownColorName;
+	String result = ColorNames::unknownColorName_;
 	GraphicsToolkit::MapStringColorName::const_iterator found = systemColorNameMap_->find( sysColor );
 	if ( found != systemColorNameMap_->end() ){
 		result = found->second;
@@ -370,7 +370,7 @@ Color* GraphicsToolkit::internal_getColorFromColormap( const int& gray )
 String GraphicsToolkit::internal_getColorNameFromMap( const Color& color ) const
 {
 	// not pointer are used, so any color can be compared
-	String result = ColorNames::unknownColorName;
+	String result = ColorNames::unknownColorName_;
 	MapStringColorName::const_iterator found = colorNameMap_->find( color );
 	if ( found != colorNameMap_->end() ){
 		result = found->second;
@@ -1335,6 +1335,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/06/25 21:44:23  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.3.2.6  2005/06/11 00:50:50  marcelloptr
 *moved uint8/uint16 to VCF namespace
 *
