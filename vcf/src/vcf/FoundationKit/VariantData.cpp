@@ -94,6 +94,40 @@ String VariantData::toString() const
 		}
 		break;
 
+#ifdef VARIANT64
+		case pdLong64:{
+			long64::int64_t value = this->Long64Val;
+			VCFChar tmp[VariantData::DefaultPropertyValLength];
+			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			swprintf( tmp, L"%I64d", (__int64)value );
+			result += tmp;
+		}
+		break;
+
+		case pdULong64:{
+			ulong64::u64_t value = this->ULong64Val;
+			VCFChar tmp[VariantData::DefaultPropertyValLength];
+			memset(tmp, 0, VariantData::DefaultPropertyValLength);
+			swprintf( tmp, L"%I64u", (unsigned __int64)value );
+			result += tmp;
+		}
+		break;
+
+		case pdDateTime:{
+			DateTime dt = (long64)this->Long64Val;
+			result += StringUtils::format( dt, L"%Y-%m-%d %H:%M:%S.%s (%w)%a" );
+			//result += StringUtils::lowerCase( StringUtils::format( dt, L"%a" ) );
+		}
+		break;
+
+		case pdDateTimeSpan:{
+			DateTimeSpan dts = (long64)this->Long64Val;
+			result += StringUtils::format( dts, L"%y-%m-%d %h:%m:%s" );
+		}
+		break;
+
+#endif // VARIANT64
+
 		case pdObject:{
 			Object* object = *this;
 			if ( NULL != object ){
@@ -212,6 +246,39 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
+#ifdef VARIANT64
+		case pdLong64:{
+			ulong64::int64_t result = 0;
+			int ret = swscanf( value.c_str(), L"%I64", &result );
+			if ( ret != 1 ) {
+				throw BasicException( L"Unable to convert: " + value );
+			}
+			Long64Val = result;
+		}
+		break;
+
+		case pdULong64:{
+			ulong64::u64_t result = 0;
+			int ret = swscanf( value.c_str(), L"%I64u", &result );
+			if ( ret != 1 ) {
+				throw BasicException( L"Unable to convert: " + value );
+			}
+			ULong64Val = result;
+		}
+		break;
+
+		case pdDateTime:{
+			throw NotImplementedException();
+		}
+		break;
+
+		case pdDateTimeSpan:{
+			throw NotImplementedException();
+		}
+		break;
+
+#endif // VARIANT64
+
 		case pdObject:{
 			if ( NULL != ObjVal ){
 				Persistable* persist = dynamic_cast<Persistable*>(ObjVal);
@@ -302,11 +369,6 @@ void VariantData::setValue( const VariantData& value )
 		}
 		break;
 
-		case pdUndefined : {
-
-		}
-		break;
-
 		case pdShort : {
 			ShortVal = value.ShortVal;
 		}
@@ -330,6 +392,41 @@ void VariantData::setValue( const VariantData& value )
 			CharVal = value.CharVal;
 		}
 		break;
+
+#ifdef VARIANT64
+		case pdLong64 : {
+			Long64Val = value.Long64Val;
+		}
+		break;
+
+		case pdULong64 : {
+			ULong64Val = value.ULong64Val;
+		}
+		break;
+
+		case pdDateTime : {
+			Long64Val = value.Long64Val;
+		}
+		break;
+
+		case pdDateTimeSpan : {
+			Long64Val = value.Long64Val;
+		}
+		break;
+
+#endif // VARIANT64
+
+		case pdUndefined : {
+
+		}
+		break;
+
+		default:
+			type = pdUndefined;
+			// this let this class to work with types not considered in this implementation.
+			Long64Val = value.Long64Val;
+			StringVal = value.StringVal;
+			type = value.type;
 	}
 }
 
@@ -337,6 +434,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/06/25 21:19:06  marcelloptr
+*added support for long64 and ulong64 and DateTime classes previous local VARIANT64 macro
+*
 *Revision 1.3.2.3  2005/04/09 17:21:32  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

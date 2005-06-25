@@ -13,6 +13,12 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+/*
+ Uncomment this to have a variant of 64 bits at least
+ This enables the automatic conversion of DateTime objects too
+*/
+#define VARIANT64
+
 
 namespace VCF {
 
@@ -198,6 +204,49 @@ public:
 		type = pdInterface;
 	}
 
+#ifdef VARIANT64
+	/**
+	*creates a Variant initialized by a long64 value
+	*/
+	VariantData( const VCF::long64& val ) {
+		Long64Val = val;
+		type = pdLong64;
+	};
+
+	/**
+	*creates a Variant initialized by a ulong64 value
+	*/
+	VariantData( const VCF::ulong64& val ) {
+		ULong64Val = val;
+		type  = pdULong64;
+	};
+
+	/**
+	*creates a Variant initialized by a DateTime value
+	*/
+	VariantData( const DateTime& val ) {
+		Long64Val = ( val.operator long64() ).data_; // (ulong64::u64_t) (VCF::ulong64&) val;
+		type  = pdDateTime;
+	};
+
+	/**
+	*creates a Variant initialized by a DateTimeSpan value
+	*/
+	VariantData( const DateTimeSpan& val ) {
+		Long64Val = ( val.operator long64() ).data_; // (ulong64::u64_t) (VCF::ulong64&) val;
+		type  = pdDateTimeSpan;
+	};
+
+	///**
+	//*creates a Variant initialized by a Color value
+	//*/
+	//VariantData( const Color& val ) {
+	//	Long64Val = ( val.operator long64() ).data_; // (ulong64::u64_t) (VCF::ulong64&) val;
+	//	type  = pdDateTimeSpan;
+	//};
+
+#endif // VARIANT64
+
 	/**
 	*copy constructor
 	*/
@@ -344,6 +393,43 @@ public:
 	operator Enum& () const {
 		return *EnumVal.getEnum();
 	};
+
+#ifdef VARIANT64
+	/**
+	*converts the Variant to a long64
+	*/
+	operator VCF::long64 () const {
+		return Long64Val;
+	};
+
+	/**
+	*converts the Variant to an ulong64
+	*/
+	operator VCF::ulong64 () const {
+		return ULong64Val;
+	};
+
+	/**
+	*converts the Variant to a DateTime
+	*/
+	operator VCF::DateTime () const {
+		return (long64) Long64Val; // uses the conversion DateTime::operator long64()
+	};
+
+	/**
+	*converts the Variant to a DateTimeSpan
+	*/
+	operator VCF::DateTimeSpan () const {
+		return (long64) Long64Val; // uses the conversion DateTimeSpan::operator long64()
+	};
+
+	///**
+	//*converts the Variant to a Color
+	//*/
+	//operator VCF::Color () const {
+	//	return Color(ULong64Val);
+	//};
+#endif // VARIANT64
 
 
 
@@ -512,6 +598,46 @@ public:
 	};
 
 
+#ifdef VARIANT64
+	/**
+	*Assigns a long64 value to the Variant
+	*/
+	VariantData& operator= ( const long64& newValue ){
+		Long64Val = newValue;
+		type = pdLong64;
+		return *this;
+	};
+
+	/**
+	*Assigns an ulong64 value to the Variant
+	*/
+	VariantData& operator= ( const ulong64& newValue ){
+		ULong64Val = newValue;
+		type = pdULong64;
+		return *this;
+	};
+
+	/**
+	*Assigns a DateTime value to the Variant
+	*/
+	VariantData& operator= ( const DateTime& newValue ){
+		Long64Val = ( newValue.operator long64() ).data_;
+		type = pdDateTime;
+		return *this;
+	};
+
+	/**
+	*Assigns a DateTimeSpan value to the Variant
+	*/
+	VariantData& operator= ( const DateTimeSpan& newValue ){
+		Long64Val = ( newValue.operator long64() ).data_;
+		type = pdDateTimeSpan;
+		return *this;
+	};
+#endif // VARIANT64
+
+
+
 	/**
 	*converts the VariantData to a string, no matter
 	*what the type. Object* are persisted to a TextOutputStream
@@ -544,6 +670,10 @@ public:
 			Object* ObjVal;
 			EnumValue EnumVal;
 			Interface* InterfaceVal;
+#ifdef VARIANT64
+			VCF::ulong64::int64_t Long64Val;
+			VCF::ulong64::u64_t   ULong64Val;
+#endif // VARIANT64
 	};
 
 	/**
@@ -568,6 +698,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/06/25 21:19:07  marcelloptr
+*added support for long64 and ulong64 and DateTime classes previous local VARIANT64 macro
+*
 *Revision 1.2.4.4  2005/06/07 16:32:48  marcelloptr
 *code simply rearranged
 *
