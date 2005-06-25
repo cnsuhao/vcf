@@ -504,7 +504,7 @@ int main( int argc, char** argv ){
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair item = items->nextElement();
 
-		System::println( Format("dict[\"%s\"] = %s") % item.first % item.second.toString() ); // MP-
+		System::println( Format("dict[\"%s\"] = %s") % item.first % item.second.toString() );
 	}
 
 
@@ -548,7 +548,7 @@ int main( int argc, char** argv ){
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair item = items->nextElement();
 
-		System::println( Format("dict[\"%s\"] = %s") % item.first % item.second.toString() ); // MP-
+		System::println( Format("dict[\"%s\"] = %s") % item.first % item.second.toString() );
 	}
 
 
@@ -561,6 +561,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.5  2005/06/25 19:53:32  marcelloptr
+*forgotten MP mark
+*
 *Revision 1.7.2.4  2005/06/07 15:50:39  marcelloptr
 *project change on use of Format
 *
