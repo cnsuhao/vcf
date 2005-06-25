@@ -212,10 +212,11 @@ void AbstractContainer::add( Control * child )
 		}
 
 		child->setParent( controlContainer_ );
-		child->setTabOrder( controls_.size()/*-1*/ );
-		resizeChildren( child );
 
 		controls_.push_back( child );
+
+		child->setTabOrder( controls_.size() - 1 );
+		resizeChildren( child );
 	}
 }
 
@@ -237,10 +238,11 @@ void AbstractContainer::add( Control * child, const AlignmentType& alignment )
 
 		child->setParent( controlContainer_ );
 		child->setAlignment( alignment );
-		child->setTabOrder( controls_.size()/*-1*/ );
-		resizeChildren( child );
 
 		controls_.push_back( child );
+
+		child->setTabOrder( controls_.size() - 1 );
+		resizeChildren( child );
 	}
 }
 
@@ -567,6 +569,11 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/06/25 22:17:24  marcelloptr
+*[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows. And other improvements.
+*A
+*bstractContainer::add() needs to resizeChildren *after* the child control has been added.
+*
 *Revision 1.4.2.3  2005/04/20 02:25:59  ddiego
 *fixes for single line text and formatting problems in text window creation.
 *
