@@ -69,12 +69,12 @@ where you installed the VCF.
 #   ifdef USE_WIN32HTMLBROWSER_LIB
 //     ApplicationKit statically linked in
 #      include "vcf/ApplicationKit/Win32HTMLBrowserApplication.h"
-#      pragma message ( "Win32HTMLBrowser linked in statically" )
+#      pragma message ( "Win32HTMLBrowser is linked in statically" )
 #   endif
 #else
     /* Win32HTMLBrowser will be loaded at runtime */
 #   define RUNTIME_LOADLIBRARY
-#   pragma message ( "Win32HTMLBrowser linked dynamically" )
+#   pragma message ( "Win32HTMLBrowser is linked dynamically" )
 #endif
 
 
@@ -2254,7 +2254,7 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.16  2005/06/25 20:02:58  marcelloptr
+*Revision 1.3.2.17  2005/06/25 21:56:06  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
 *
 *Revision 1.3.2.15  2005/06/06 02:34:06  ddiego
