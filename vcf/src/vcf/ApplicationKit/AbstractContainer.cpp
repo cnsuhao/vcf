@@ -281,10 +281,10 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 	if ( NULL == controlContainer_ ){
 		throw InvalidPointerException(MAKE_ERROR_MSG(INVALID_POINTER_ERROR), __LINE__);
 	};
-	
+
 	double originX = 0.0;
 	double originY = 0.0;
-	
+
 	Scrollable* scrollable = controlContainer_->getScrollable();
 
 	Rect oldClipRect = context->getClippingRect();
@@ -306,13 +306,13 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 		VCF_ASSERT( NULL != child );
 
 		if ( child->isLightWeight() && child->getVisible() ){
-			bounds = child->getBounds();			
-			
+			bounds = child->getBounds();
+
 			childClipRect.left_ = maxVal<>(bounds.left_,mainBounds.left_);
 			childClipRect.top_ = maxVal<>(bounds.top_,mainBounds.top_);
 			childClipRect.right_ = minVal<>(bounds.right_,mainBounds.right_);
 			childClipRect.bottom_ = minVal<>(bounds.bottom_,mainBounds.bottom_);
-			
+
 			childClipRect.offset( -bounds.left_, -bounds.top_ );
 
 			Point oldOrigin = context->getOrigin();
@@ -327,8 +327,8 @@ void AbstractContainer::paintChildren( GraphicsContext* context ){
 			context->setOrigin( originX, originY );
 
 
-			//do this to prevent matrix changes from 
-			//screwing up the state for the child control 
+			//do this to prevent matrix changes from
+			//screwing up the state for the child control
 			Matrix2D xfrm;
 			int gcs = context->saveState();
 			context->setCurrentTransform( xfrm );
@@ -569,10 +569,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.4  2005/06/25 22:17:24  marcelloptr
-*[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows. And other improvements.
-*A
-*bstractContainer::add() needs to resizeChildren *after* the child control has been added.
+*Revision 1.4.2.5  2005/06/25 22:19:34  marcelloptr
+*[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.
+*AbstractContainer::add() needs to resizeChildren *after* the child control has been added.
 *
 *Revision 1.4.2.3  2005/04/20 02:25:59  ddiego
 *fixes for single line text and formatting problems in text window creation.
