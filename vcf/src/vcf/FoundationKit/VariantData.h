@@ -17,7 +17,7 @@ where you installed the VCF.
  Uncomment this to have a variant of 64 bits at least
  This enables the automatic conversion of DateTime objects too
 */
-#define VARIANT64
+#define VCF_VARIANT64
 
 
 namespace VCF {
@@ -204,7 +204,7 @@ public:
 		type = pdInterface;
 	}
 
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 	/**
 	*creates a Variant initialized by a long64 value
 	*/
@@ -245,7 +245,7 @@ public:
 	//	type  = pdDateTimeSpan;
 	//};
 
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 
 	/**
 	*copy constructor
@@ -394,7 +394,7 @@ public:
 		return *EnumVal.getEnum();
 	};
 
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 	/**
 	*converts the Variant to a long64
 	*/
@@ -429,7 +429,7 @@ public:
 	//operator VCF::Color () const {
 	//	return Color(ULong64Val);
 	//};
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 
 
 
@@ -598,7 +598,7 @@ public:
 	};
 
 
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 	/**
 	*Assigns a long64 value to the Variant
 	*/
@@ -634,7 +634,7 @@ public:
 		type = pdDateTimeSpan;
 		return *this;
 	};
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 
 
 
@@ -670,10 +670,10 @@ public:
 			Object* ObjVal;
 			EnumValue EnumVal;
 			Interface* InterfaceVal;
-#ifdef VARIANT64
+#ifdef VCF_VARIANT64
 			VCF::ulong64::int64_t Long64Val;
 			VCF::ulong64::u64_t   ULong64Val;
-#endif // VARIANT64
+#endif // VCF_VARIANT64
 	};
 
 	/**
@@ -698,8 +698,8 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.5  2005/06/25 21:19:07  marcelloptr
-*added support for long64 and ulong64 and DateTime classes previous local VARIANT64 macro
+*Revision 1.2.4.6  2005/06/25 21:23:06  marcelloptr
+*added support for long64 and ulong64 and DateTime classes previous VCF_VARIANT64 macro
 *
 *Revision 1.2.4.4  2005/06/07 16:32:48  marcelloptr
 *code simply rearranged
