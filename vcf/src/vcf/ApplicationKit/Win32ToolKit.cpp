@@ -2254,7 +2254,7 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.17  2005/06/25 21:56:06  marcelloptr
+*Revision 1.3.2.18  2005/06/25 23:14:38  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
 *
 *Revision 1.3.2.15  2005/06/06 02:34:06  ddiego
