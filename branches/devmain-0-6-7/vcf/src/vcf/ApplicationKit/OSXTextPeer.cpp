@@ -20,19 +20,19 @@ void initMLTE()
 {
 	if ( 0 == MLTERefCount ) {
 		TXNInitOptions options;
-		TXNMacOSPreferredFontDescription  defaults; 
+		TXNMacOSPreferredFontDescription  defaults;
 		memset( &defaults, 0, sizeof(TXNMacOSPreferredFontDescription) );
-		
+
 		defaults.pointSize = kTXNDefaultFontSize;
-		defaults.fontStyle = kTXNDefaultFontStyle; 
+		defaults.fontStyle = kTXNDefaultFontStyle;
 		options = kTXNWantMoviesMask | kTXNWantSoundMask |
                                          kTXNWantGraphicsMask;
-		
+
 		if ( noErr != TXNInitTextension ( NULL, 0, options) ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("MLTE TXNInitTextension failed!") );
 		}
 	}
-	
+
 	MLTERefCount ++;
 }
 
@@ -46,16 +46,16 @@ OSXTextPeer::OSXTextPeer():
 	txnObject_(NULL)
 {
 	initMLTE();
-	
+
 	TXNFrameOptions frameOptions;
     frameOptions = kTXNDoFontSubstitutionMask;
-	
+
 	//we may want these in the future
 	//kTXNShowWindowMask | kTXNWantVScrollBarMask |
 	//kTXNWantHScrollBarMask |kTXNDrawGrowIconMask;
 	::HIRect r;
 	r.origin.x = 0;
-	r.origin.y = 0;				
+	r.origin.y = 0;
 	r.size.width = 0;
 	r.size.height = 0;
 	if ( noErr != TXNCreateObject( &r, frameOptions, &txnObject_ ) ) {
@@ -65,15 +65,15 @@ OSXTextPeer::OSXTextPeer():
 
 OSXTextPeer::~OSXTextPeer()
 {
-	
+
 	TXNDeleteObject(txnObject_);
-	 
+	
 	if ( MLTERefCount > 0 ) {
 		MLTERefCount --;
 	}
-	
+
 	if ( MLTERefCount <= 0 ) {
-		TXNTerminateTextension();		
+		TXNTerminateTextension();
 	}
 }
 
@@ -83,7 +83,7 @@ OSHandleID OSXTextPeer::getTextObjectHandle()
 	OSHandleID result ;
 
 	result = (OSHandleID)txnObject_;
-	
+
 	return result;
 }
 
@@ -101,7 +101,7 @@ void OSXTextPeer::deleteText( unsigned int start, unsigned int length )
 unsigned int OSXTextPeer::getTextLength()
 {
 	unsigned int result = 0;
-	
+
 	result = TXNDataSize(txnObject_) / sizeof(UniChar);
 
 	return result;
@@ -110,26 +110,26 @@ unsigned int OSXTextPeer::getTextLength()
 String OSXTextPeer::getText( unsigned int start, unsigned int length )
 {
 	String result;
-	
+
 	Handle data = NULL;
 	if ( noErr == TXNGetData( txnObject_, start, start+length, &data ) ) {
 		HLock(data);
 		CFRefObject<CFDataRef>  stringData = CFDataCreate(kCFAllocatorDefault, (UInt8*)*data, GetHandleSize(data));
 		HUnlock(data);
 		DisposeHandle( data );
-		
-		
+
+
 		CFRefObject<CFStringRef> stringRef = CFStringCreateFromExternalRepresentation(kCFAllocatorDefault, stringData, kCFStringEncodingUnicode);
 		CFTextString tmp(stringRef);
-		result = tmp;		
+		result = tmp;
 	}
-	
+
 	return result;
 }
 
 void OSXTextPeer::paint( GraphicsContext* context, const Rect& paintRect )
 {
-	
+
 }
 
 void OSXTextPeer::setRightMargin( const double & rightMargin )
@@ -175,14 +175,14 @@ double OSXTextPeer::getBottomMargin()
 unsigned long OSXTextPeer::getLineCount()
 {
 	unsigned long result = 0;
-	
+
 	return result;
 }
 
 VCF::Rect OSXTextPeer::getContentBoundsForWidth(const double& width)
 {
 	VCF::Rect result;
-	
+
 	return result;
 }
 
@@ -200,54 +200,54 @@ void OSXTextPeer::getStyle( unsigned int start, unsigned int length, Dictionary&
 	Str255 fontName;
 	RGBColor  fontColor;
 	FixedPointNumber size;
-	
+
 	attrs[0].tag = kTXNQDFontNameAttribute;
 	attrs[0].size = kTXNQDFontNameAttributeSize;
 	attrs[0].data.dataPtr = fontName;
-	
+
 	attrs[1].tag = kTXNQDFontColorAttribute;
 	attrs[1].size = kTXNQDFontColorAttributeSize;
 	attrs[1].data.dataPtr = &fontColor;
-	
+
 	attrs[2].tag = kTXNQDFontSizeAttribute;
 	attrs[2].size = kTXNQDFontSizeAttributeSize;
 	attrs[2].data.dataValue = size.asInt();
-	
+
 	attrs[3].tag = kATSUQDBoldfaceTag;
 	attrs[3].size = sizeof(Boolean);
-	
+
 	attrs[4].tag = kATSUQDItalicTag;
 	attrs[4].size = sizeof(Boolean);
-	
+
 	attrs[5].tag = kATSUStyleStrikeThroughTag;
 	attrs[5].size = sizeof(Boolean);
-	
+
 	attrs[6].tag = kATSUQDUnderlineTag;
 	attrs[6].size = sizeof(Boolean);
-	
+
 	for (int index=0;index<count;index ++ ) {
-	
+
 		TXNGetIndexedRunInfoFromRange( txnObject_, index, start, start+length, &s, &e, &dataType, attrCount, &attrs[0] );
 	}
-	
+
 	CFTextString tmp;
 	tmp = fontName;
-	
+
 	styles [Text::fsFontName] = (String)tmp;
-	
+
 	styles [Text::fsColor] = &color;
 	color.setRed( (double)fontColor.red / 65535.0 );
 	color.setGreen( (double)fontColor.green / 65535.0 );
 	color.setBlue( (double)fontColor.blue / 65535.0 );
-	
+
 	styles [Text::fsPointSize] = (double)size;
-	
+
 	styles [Text::fsBold] = (bool)attrs[3].data.dataValue;
 	styles [Text::fsItalic] = (bool)attrs[4].data.dataValue;
 	styles [Text::fsStrikeout] = (bool)attrs[5].data.dataValue;
 	styles [Text::fsUnderlined] = (bool)attrs[6].data.dataValue;
-	
-} 
+
+}
 
 void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
@@ -258,13 +258,13 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 		Dictionary::pair style = items->nextElement();
 		if ( style.first == Text::fsFontName ) {
 			String s = style.second;
-			
+
 			CFTextString tmp(s);
-			
+
 			TXNTypeAttributes tag;
 			tag.tag = kTXNQDFontNameAttribute;
 			tag.size = kTXNQDFontNameAttributeSize;
-			
+
 			CopyCStringToPascal( s.ansi_c_str(), pStr );
 			tag.data.dataPtr = pStr;
 			attrs.push_back( tag );
@@ -272,7 +272,7 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 		else if ( style.first == Text::fsColor ) {
 			Color* color = (Color*)(Object*)style.second;
 			VCF_ASSERT( NULL != color );
-			
+
 			RGBColor  fontColor = { (int)(color->getRed()*65535.0), (int)(color->getGreen()*65535.0), (int)(color->getBlue()*65535.0) };
 			TXNTypeAttributes tag;
 			tag.tag = kTXNQDFontColorAttribute;
@@ -280,7 +280,7 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 			tag.data.dataPtr = &fontColor;
 			attrs.push_back( tag );
 		}
-		else if ( style.first == Text::fsPointSize ) {			
+		else if ( style.first == Text::fsPointSize ) {
 			FixedPointNumber val = (double)style.second;
 			TXNTypeAttributes tag;
 			tag.tag = kTXNQDFontSizeAttribute;
@@ -289,8 +289,8 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 			attrs.push_back( tag );
 		}
 		else if ( style.first == Text::fsBold ) {
-			bool val = style.second;		
-			
+			bool val = style.second;
+
 			TXNTypeAttributes tag;
 			tag.tag = kATSUQDBoldfaceTag;
 			tag.size = sizeof(Boolean);
@@ -307,7 +307,7 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 		}
 		else if ( style.first == Text::fsStrikeout ) {
 			bool val = style.second;
-			
+
 			TXNTypeAttributes tag;
 			tag.tag = kATSUStyleStrikeThroughTag;
 			tag.size = sizeof(Boolean);
@@ -318,59 +318,59 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 			TXNTypeAttributes tag;
 			tag.tag = kATSUQDUnderlineTag;
 			tag.size = sizeof(Boolean);
-			
-			
+
+
 			switch ( (int)style.second ) {
-				case Text::utNone : { // MP- beg
+				case Text::utNone : {
 					tag.data.dataValue = false;
 				}
-				break; // MP- end
-					
+				break;
+
 				case Text::utSingle : {
 					tag.data.dataValue = true;
 				}
 				break;
-					
+
 				case Text::utDouble : {
 					tag.data.dataValue = true;
 				}
 				break;
-					
+
 				case Text::utDotted : {
 					tag.data.dataValue = true;
 				}
 				break;
 			}
-			
+
 			attrs.push_back( tag );
 		}
 		else if ( style.first == Text::psAlignment ) {
 			int alignment = style.second;
-			
+
 			switch ( alignment ) {
 				case Text::paLeft : {
-					
+
 				}
 				break;
-					
+
 				case Text::paCenter : {
-					
+
 				}
 				break;
-					
+
 				case Text::paRight : {
-					
+
 				}
 				break;
-					
+
 				case Text::paJustified : {
-					
+
 				}
 				break;
 			}
 		}
 	}
-	
+
 	if ( !attrs.empty() ) {
 		TXNSetTypeAttributes( txnObject_, attrs.size(), &attrs[0], start, start+length );
 	}
@@ -378,29 +378,29 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 
 void OSXTextPeer::setDefaultStyle( Dictionary&  styles )
 {
-	
+
 	TXNMacOSPreferredFontDescription defaults;
 	defaults.encoding = CreateTextEncoding(kTextEncodingMacRoman, kTextEncodingDefaultVariant, kTextEncodingDefaultFormat);
-	
-	
+
+
 	Dictionary::Enumerator* items = styles.getEnumerator();
 	while ( items->hasMoreElements() ) {
 		Dictionary::pair style = items->nextElement();
 		if ( style.first == Text::fsFontName ) {
 			AnsiString tmp  = (String)style.second;
-				
+
 			ATSUFindFontFromName ( tmp.c_str(), tmp.length(),
 						kFontFullName, kFontNoPlatform, kFontNoScript, kFontNoLanguage,
 						&defaults.fontID );
-						
+
 		}
 		else if ( style.first == Text::fsColor ) {
 			//Color* color = (Color*)(Object*)style.second;
 			//VCF_ASSERT( NULL != color );
-			
-			//RGBColor  fontColor = { (int)(color->getRed()*65535.0), (int)(color->getGreen()*65535.0), (int)(color->getBlue()*65535.0) };			
+
+			//RGBColor  fontColor = { (int)(color->getRed()*65535.0), (int)(color->getGreen()*65535.0), (int)(color->getBlue()*65535.0) };
 		}
-		else if ( style.first == Text::fsPointSize ) {			
+		else if ( style.first == Text::fsPointSize ) {
 			FixedPointNumber val = (double)style.second;
 			defaults.pointSize = val;
 		}
@@ -414,57 +414,57 @@ void OSXTextPeer::setDefaultStyle( Dictionary&  styles )
 			bool val = style.second;
 		}
 		else if ( style.first == Text::fsUnderlined ) {
-			
-			
+
+
 			switch ( (int)style.second ) {
 				case Text::utNone : {
-					
+
 				}
 				break;
-					
+
 				case Text::utSingle : {
-					
+
 				}
 				break;
-					
+
 				case Text::utDouble : {
-					
+
 				}
 				break;
-					
+
 				case Text::utDotted : {
-					
+
 				}
 				break;
 			}
 		}
 		else if ( style.first == Text::psAlignment ) {
 			int alignment = style.second;
-			
+
 			switch ( alignment ) {
 				case Text::paLeft : {
-					
+
 				}
 				break;
-					
+
 				case Text::paCenter : {
-					
+
 				}
 				break;
-					
+
 				case Text::paRight : {
-					
+
 				}
 				break;
-					
+
 				case Text::paJustified : {
-					
+
 				}
 				break;
 			}
 		}
 	}
-	
+
 	TXNSetFontDefaults( txnObject_, 1, &defaults );
 }
 
@@ -472,6 +472,9 @@ void OSXTextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/25 19:46:59  marcelloptr
+*forgotten MP mark
+*
 *Revision 1.1.2.1  2005/06/23 01:26:55  ddiego
 *build updates
 *

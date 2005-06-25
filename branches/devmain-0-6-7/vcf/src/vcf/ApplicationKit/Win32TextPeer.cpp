@@ -842,7 +842,7 @@ void Win32TextPeer::getStyle( unsigned int start, unsigned int length, Dictionar
 
 		range->Release();
 	}
-} // MP- end
+}
 
 void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionary& styles )
 {
@@ -894,10 +894,10 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 				else if ( style.first == Text::fsUnderlined ) {
 					long val = tomNone;
 					switch ( (int)style.second ) {
-						case Text::utNone : { // MP- beg
+						case Text::utNone : {
 							val = tomNone;
 						}
-						break; // MP- end
+						break;
 
 						case Text::utSingle : {
 							val = tomSingle;
@@ -1047,6 +1047,9 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.10  2005/06/25 19:50:49  marcelloptr
+*forgotten MP mark
+*
 *Revision 1.1.2.9  2005/06/09 07:18:25  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
