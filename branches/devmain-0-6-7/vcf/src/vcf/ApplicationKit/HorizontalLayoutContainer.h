@@ -26,8 +26,12 @@ namespace VCF {
 class HorizontalLayoutContainer : public StandardContainer {
 public:
 
-	HorizontalLayoutContainer() : maximizeLastRow_(false){
-		
+	HorizontalLayoutContainer() :
+		maximizeLastRow_(false),
+		equalizeHeights_(false),
+		averageHeights_(false),
+		keepControlWidth_(false) {
+
 		setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
 
 		setNumberOfColumns(2);
@@ -44,7 +48,7 @@ public:
 		setRowSpacerHeight( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stControlVerticalSpacing) );
 	}
 
-	HorizontalLayoutContainer( Component* owner ): 
+	HorizontalLayoutContainer( Component* owner ):
 		StandardContainer(owner),
 		maximizeLastRow_(false)
 	{
@@ -73,7 +77,7 @@ public:
 
 		columns_.resize( numColumns, 0.0 );
 
-		columnTweens_.resize( numColumns-1, 0.0 );  
+		columnTweens_.resize( numColumns-1, 0.0 );
 	}
 
 	int getNumberOfColumns() const {
@@ -100,7 +104,42 @@ public:
 		maxRowHeight_ = val;
 	}
 
-	double getMinimumVisibleHeight() {		
+	/**
+	sets if we want all the row heights to be the same
+	as the hightest one. The default is false;
+	This flag excludes setEqualizeHeights().
+	*/
+	void setEqualizeHeights( bool equalize ) {
+		equalizeHeights_ = equalize;
+	}
+	bool getEqualizeHeights() {
+		return equalizeHeights_;
+	}
+
+	/**
+	sets if we want all the row heights to be the same
+	as the average height that fills the parent control. The default is false;
+	*/
+	void setAverageHeights( bool average ) {
+		averageHeights_ = average;
+	}
+	bool getAverageHeights() {
+		return averageHeights_;
+	}
+
+	/**
+	sets if we want the controls to keep their width or,
+	as it is by default, resizing their width to the one of
+	the column where they are located.
+	*/
+	void setKeepControlsWidth( bool keep ) {
+		keepControlsWidth_ = keep;
+	}
+	bool getKeepControlsWidth() {
+		return keepControlsWidth_;
+	}
+
+	double getMinimumVisibleHeight() {
 
 		double result = 0.0;
 		std::vector<Control*>::iterator it = controls_.begin();
@@ -108,7 +147,7 @@ public:
 
 		int col = 0;
 
-		result = maxRowHeight_;		
+		result = maxRowHeight_;
 
 		while ( it != controls_.end() ) {
 			Control* control = *it;
@@ -149,42 +188,64 @@ public:
 
 		//cell.bottom_ = cell.top_ + maxRowHeight_;
 
-		
+
 
 		int rowCount = (controls_.size() / columns_.size()) + (controls_.size() % columns_.size());
 		int row = 0;
 
-		//calculate row heights so that thigns don't get "scrunched" together
+		//calculate row heights so that things don't get "scrunched" together
 		std::vector<double> rowHeights(rowCount);
 		double h = 0;//maxRowHeight_;
 		while ( it != controls_.end() ) {
 			Control* control = *it;
-			
+
 			if ( control->isIgnoredForLayout() ) {
 				it ++;
 				continue;
 			}
 
-			h = maxVal<>( h, 
-							maxVal<>( control->getHeight(), control->getPreferredHeight() ) );
+			h = maxVal<>( h, maxVal<>( control->getHeight(), control->getPreferredHeight() ) );
 
 			if ( h > maxRowHeight_ ) {
 				maxRowHeight_ = h;
 			}
 			col ++;
-			if ( col >= colCount ) {
-				col = 0;				
-				
-				rowHeights[row] = h;
 
-				h = 0;//maxRowHeight_;
+ 			// this stays here: we do not always have all the controls in all the columns.
+			rowHeights[row] = h;
+
+			if ( col >= colCount ) {
+				col = 0;
+
+				h = 0;
 				row ++;
 			}
 
-			it ++;
+			++ it;
+		}
+
+		if ( equalizeHeights_ ) {
+			row = 0;
+			std::vector<double>::iterator it = rowHeights.begin();
+			while ( it != rowHeights.end() ) {
+				rowHeights[row] = maxRowHeight_;
+				row ++;
+				++ it;
+			}
+		}
+		else if ( averageHeights_ && ( 0 < row ) ) {
+			maxRowHeight_ = ( clientBounds.getHeight() - (rowSpacerHeight_*(row-1)) ) / row;
+			row = 0;
+			std::vector<double>::iterator it = rowHeights.begin();
+			while ( it != rowHeights.end() ) {
+				rowHeights[row] = maxRowHeight_;
+				row ++;
+				++ it;
+			}
 		}
 
 		row = 0;
+		col = 0;
 
 		it = controls_.begin();
 
@@ -198,11 +259,11 @@ public:
 				continue;
 			}
 
-			cell.bottom_ = cell.top_ + rowHeights[row];
-
-			if ( col == (colCount-1) ) {
+			if ( !keepControlWidth_ &&  ( col == (colCount-1) ) ) {
 				cell.right_ = clientBounds.right_;
 			}
+
+			cell.bottom_ = cell.top_ + rowHeights[row];
 
 			if ( (row == (rowCount-1)) && maximizeLastRow_ ) {
 				cell.bottom_ = clientBounds.bottom_;
@@ -230,10 +291,10 @@ public:
 			else {
 				cell.offset( cell.getWidth() + columnTweens_[tween], 0 );
 				tween ++;
-			}  
+			}
 
 
-			it ++;
+			++ it;
 		}
 	}
 
@@ -256,10 +317,13 @@ public:
 	double maxRowHeight_;
 	double rowSpacerHeight_;
 	bool maximizeLastRow_;
+	bool equalizeHeights_;
+	bool averageHeights_;
+	bool keepControlsWidth_;
 };
 
 
-};
+}; // namespace VCF
 
 
 
@@ -270,6 +334,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2005/06/25 22:47:20  marcelloptr
+*[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.
+*AbstractContainer::add() needs to resizeChildren *after* the child control has been added.
+*
 *Revision 1.2.2.6  2005/05/22 04:05:43  ddiego
 *more text edit fixes.
 *

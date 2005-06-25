@@ -24,7 +24,7 @@ StandardContainer::StandardContainer():
 }
 
 StandardContainer::StandardContainer( Component* owner ):
-	AbstractContainer(owner),		
+	AbstractContainer(owner),
 	bottomBorderHeight_(0.0),
 	topBorderHeight_(0.0),
 	rightBorderWidth_(0.0),
@@ -49,7 +49,7 @@ void StandardContainer::resizeChildren( Control* control )
 	if ( NULL != control ) {
 		std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), control );
 
-		controlJustAdded = (found == controls_.end());
+		controlJustAdded = ( found == (controls_.end()-1) );
 	}
 
 	bool needAnchorWork = anchorWork() ||
@@ -503,7 +503,7 @@ Control* StandardContainer::getControlInAlignmentList( const AlignmentType& alig
 		if ( 0 != alignmentList.size() ) {
 			if ( first ) {
 				control = alignmentList[0];
-			} 
+			}
 			else {
 				control = alignmentList[alignmentList.size()-1];
 			}
@@ -600,7 +600,7 @@ void DesignTimeContainer::resizeChildrenUsingBounds( Control* control, Rect* bou
 	if ( NULL != control ) {
 		std::vector<Control*>::iterator found = std::find( controls_.begin(), controls_.end(), control );
 
-		controlJustAdded = (found == controls_.end());
+		controlJustAdded = ( found == (controls_.end()-1) );
 	}
 
 	bool needAnchorWork = anchorWork() ||
@@ -636,6 +636,10 @@ void DesignTimeContainer::resizeChildrenUsingBounds( Control* control, Rect* bou
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/06/25 22:47:20  marcelloptr
+*[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.
+*AbstractContainer::add() needs to resizeChildren *after* the child control has been added.
+*
 *Revision 1.2.4.2  2005/03/20 04:29:21  ddiego
 *added ability to set image lists for list box control.
 *
