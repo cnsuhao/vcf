@@ -654,7 +654,7 @@ void MainWindow::makeButtonsPage()
 	PushButton* toggle = new PushButton();
 
 	label = new Label();
-	label->setCaption( toggle->getClassName()  + " (images - toggling):" );
+	label->setCaption( toggle->getClassName()  + " (images - toggled):" );
 	container->add( label );
 
 	panel = new Panel();
@@ -835,7 +835,7 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.16  2005/06/26 02:05:09  marcelloptr
+*Revision 1.2.2.17  2005/06/26 14:15:28  marcelloptr
 *added images to a PushButton
 *
 *Revision 1.2.2.14  2005/06/09 06:13:08  marcelloptr
