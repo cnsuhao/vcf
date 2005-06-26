@@ -122,7 +122,7 @@ using namespace VCF;
 
 Win32Tree::Win32Tree( TreeControl* tree ):
 	AbstractWin32Component( tree ),
-	treeControl_( tree ),	
+	treeControl_( tree ),
 	imageListCtrl_(NULL),
 	stateImageListCtrl_(NULL),
 	internalTreeItemExpanded_(false)
@@ -194,10 +194,10 @@ void Win32Tree::create( Control* owningControl )
 		treeControl_ = (TreeControl*)owningControl;
 		peerControl_ = owningControl;
 
-		peerControl_->ControlModelChanged += 
+		peerControl_->ControlModelChanged +=
 			new GenericEventHandler<Win32Tree>( this, &Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
 
-		COLORREF backColor = backColor_.getColorref32();
+		COLORREF backColor = backColor_.getColorRef32();
 
 		TreeView_SetBkColor( hwnd_, backColor );
 	}
@@ -233,7 +233,7 @@ Win32Object::CreateParams Win32Tree::createParams()
 {
 	Win32Object::CreateParams result;
 
-	
+
 	result.first = BORDERED_VIEW | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | /*TVS_NOTOOLTIPS | */ TVS_SHOWSELALWAYS;
 
 	result.first &= ~WS_BORDER;
@@ -290,7 +290,7 @@ void Win32Tree::setImageList( ImageList* imageList )
 
 		/*
 		JC added this cause it appears that for 32bit images the alpa val
-		matters! If it's not set back to 0 then the transparency affect doesn't 
+		matters! If it's not set back to 0 then the transparency affect doesn't
 		work? Bizarre
 		*/
 		SysPixelType* pix = win32Img->getImageBits()->pixels_;
@@ -332,7 +332,7 @@ void Win32Tree::setImageList( ImageList* imageList )
 			sz --;
 			pix[sz].a = oldAlpaVals[sz];
 		} while( sz > 0 );
-		
+
 		delete [] oldAlpaVals;
 
 
@@ -378,7 +378,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 
 			VCF::GraphicsContext* ctx = peerControl_->getContext();
-			
+
 			ctx->setViewableBounds( Rect(paintRect.left, paintRect.top,
 									paintRect.right, paintRect.bottom ) );
 
@@ -393,8 +393,8 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
 
-			Color* color = peerControl_->getColor();			
-			COLORREF backColor = color->getColorref32();
+			Color* color = peerControl_->getColor();
+			COLORREF backColor = color->getColorRef32();
 
 			HBRUSH bkBrush = CreateSolidBrush( backColor );
 			FillRect( memDC_, &paintRect, bkBrush );
@@ -403,23 +403,23 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 			ctx->getPeer()->setContextID( (OSHandleID)memDC_ );
 
-			
-			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );				
-			
+
+			((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
+
 			int gcs = ctx->saveState();
 
 			//paint the control here - double buffered
 			peerControl_->paint( ctx );
 
 
-			ctx->restoreState( gcs );		
+			ctx->restoreState( gcs );
 
 
 			//reset back to original origin
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
-			
+
 			//let the tree control's DefWndProc do windwos painting
-						
+
 			defaultWndProcedure( WM_PAINT, (WPARAM)memDC_, 0 );
 
 
@@ -432,18 +432,18 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 					  memDC_, paintRect.left, paintRect.top, SRCCOPY );
 
 			::RestoreDC ( memDC_, memDCState_ );
-			
+
 			::DeleteObject( memBMP_ );
-			
+
 			memBMP_ = NULL;
 			originalMemBMP_ = NULL;
 			memDCState_ = 0;
 
-			
 
-			
+
+
 			EndPaint( hwnd_, &ps );
-			
+
 			wndProcResult = 1;
 			result = true;
 		}
@@ -464,19 +464,19 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case WM_ERASEBKGND :{
 			Color* color = treeControl_->getColor();
 			if ( backColor_ != *color ) {
-				COLORREF backColor = color->getColorref32();
+				COLORREF backColor = color->getColorRef32();
 				TreeView_SetBkColor( hwnd_, backColor );
 
 				backColor_ = *color;
 			}
-			
+
 
 			wndProcResult = 0;
 			result = true;
 		}
 		break;
 
-		case WM_LBUTTONDOWN : {			
+		case WM_LBUTTONDOWN : {
 
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
@@ -517,7 +517,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 			Event* event = UIToolkit::createEventFromNativeOSEventData( &msg );
 
-			
+
 			if ( NULL != event && (peerControl_->getComponentState() != Component::csDestroying) ) {
 				peerControl_->handleEvent( event );
 
@@ -533,27 +533,27 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_BEGINDRAGW:{
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam ;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-			
-			if ( NULL != item ) {				
+
+			if ( NULL != item ) {
 				Point pt( treeview->ptDrag.x, treeview->ptDrag.y );
 
 				TreeItem* oldItem = treeControl_->getSelectedItem();
 				if ( item != oldItem ) {
-					//hmm, we haven't selected this item before, so 
+					//hmm, we haven't selected this item before, so
 					//let's go ahead and make it selected now
-					//we do this because the TVN_SELECTIONCHANGED 
+					//we do this because the TVN_SELECTIONCHANGED
 					//won't get called at this point
-					
+
 					item->setSelected( true );
-					
+
 					ItemEvent event( treeControl_, TREEITEM_SELECTED );
-					
-					event.setUserData( (void*)item );				
-					
+
+					event.setUserData( (void*)item );
+
 					event.setPoint( &pt );
-					
+
 					treeControl_->handleEvent( &event );
-					
+
 					if ( NULL != oldItem ) {
 						oldItem->setSelected( false );
 					}
@@ -586,27 +586,27 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_BEGINDRAGA:{
 			NMTREEVIEWA* treeview = (NMTREEVIEWA*)lParam ;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-			
-			if ( NULL != item ) {				
+
+			if ( NULL != item ) {
 				Point pt( treeview->ptDrag.x, treeview->ptDrag.y );
 
 				TreeItem* oldItem = treeControl_->getSelectedItem();
 				if ( item != oldItem ) {
-					//hmm, we haven't selected this item before, so 
+					//hmm, we haven't selected this item before, so
 					//let's go ahead and make it selected now
-					//we do this because the TVN_SELECTIONCHANGED 
+					//we do this because the TVN_SELECTIONCHANGED
 					//won't get called at this point
-					
+
 					item->setSelected( true );
-					
+
 					ItemEvent event( treeControl_, TREEITEM_SELECTED );
-					
-					event.setUserData( (void*)item );				
-					
+
+					event.setUserData( (void*)item );
+
 					event.setPoint( &pt );
-					
+
 					treeControl_->handleEvent( &event );
-					
+
 					if ( NULL != oldItem ) {
 						oldItem->setSelected( false );
 					}
@@ -641,7 +641,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
-		case TVN_BEGINRDRAG:{			
+		case TVN_BEGINRDRAG:{
 
 		}
 		break;
@@ -658,7 +658,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				String text = lptvdi->item.pszText;
 				TreeItem* item = (TreeItem*)lptvdi->item.lParam;
 				item->setCaption( text );
-				
+
 				wndProcResult = 1;
 				result = true;
 			}
@@ -746,7 +746,7 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			internalTreeItemExpanded_ = true;
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-			
+
 			if ( NULL != item ) {
 
 				if ( treeview->action & TVE_EXPAND ) {
@@ -785,11 +785,11 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case TVN_SELCHANGEDW:{
 			NMTREEVIEWW* treeview = (NMTREEVIEWW*)lParam;
 			TreeItem* item = (TreeItem*)treeview->itemNew.lParam;
-		
+
 			if ( NULL != item ) {
 
 				item->setSelected( true );
-				
+
 				POINT tmpPt = {0,0};
 				GetCursorPos( &tmpPt );
 				::ScreenToClient( hwnd_, &tmpPt );
@@ -895,7 +895,7 @@ Do we need these? What advantage does processing these events have for us???
 
 					case CDDS_ITEMPREPAINT : {
 						RECT r;
-						TreeView_GetItemRect( hwnd_, 
+						TreeView_GetItemRect( hwnd_,
 											(HTREEITEM) treeViewDraw->nmcd.dwItemSpec,
 											&r, TRUE );
 
@@ -909,10 +909,10 @@ Do we need these? What advantage does processing these events have for us???
 					break;
 
 					case CDDS_ITEMPOSTPAINT : {
-						
-						
+
+
 						wndProcResult = CDRF_DODEFAULT;
-						
+
 						if ( NULL != treeViewDraw->nmcd.lItemlParam ) {
 							TreeItem* item = (TreeItem*)treeViewDraw->nmcd.lItemlParam;
 
@@ -924,7 +924,7 @@ Do we need these? What advantage does processing these events have for us???
 					break;
 
 					default : {
-						
+
 						wndProcResult = 0;
 					}
 					break;
@@ -1299,7 +1299,7 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 		HBITMAP hBMPcopy = (HBITMAP)CopyImage( win32Img->getBitmap(), IMAGE_BITMAP, 0, 0, NULL );
 		//flip the bits
 
-		int err = ImageList_AddMasked( stateImageListCtrl_, hBMPcopy, transparentColor->getColorref32() );
+		int err = ImageList_AddMasked( stateImageListCtrl_, hBMPcopy, transparentColor->getColorRef32() );
 
 		if ( err < 0 ) {
 			//error condition !
@@ -1311,7 +1311,7 @@ void Win32Tree::setStateImageList( ImageList* imageList )
 			sz --;
 			pix[sz].a = oldAlpaVals[sz];
 		} while( sz > 0 );
-		
+
 		delete [] oldAlpaVals;
 
 		TreeView_SetImageList( hwnd_, stateImageListCtrl_, TVSIL_STATE );
@@ -1380,6 +1380,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/06/26 01:31:20  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.3.2.12  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

@@ -17,7 +17,7 @@ using namespace VCF;
 
 
 Win32Toolbar::Win32Toolbar(Control* control):
-	AbstractWin32Component(control),	
+	AbstractWin32Component(control),
 	imageListCtrl_(NULL),
 	currentlyModifyingItem_(false)
 {
@@ -40,7 +40,7 @@ void Win32Toolbar::create( Control* control )
 	HWND parent = toolkit->getDummyParent();
 
 
-	CreateParams params = createParams();	
+	CreateParams params = createParams();
 
 	if ( System::isUnicodeEnabled() ) {
 		hwnd_ = ::CreateWindowExW( params.second,
@@ -70,7 +70,7 @@ void Win32Toolbar::create( Control* control )
 									 ::GetModuleHandleA(NULL),
 									 NULL );
 	}
-	
+
 
 	if ( NULL != hwnd_ ) {
 		Win32Object::registerWin32Object( this );
@@ -147,9 +147,9 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			HDC dc = BeginPaint( hwnd_, &ps );
 
 			RECT r;
-			GetClientRect( hwnd_, &r );			
+			GetClientRect( hwnd_, &r );
 
-			////FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) ); 
+			////FillRect( dc, &r, (HBRUSH) (COLOR_3DFACE + 1) );
 
 			HDC memDC = doControlPaint( dc, r, NULL, cpControlOnly );
 
@@ -170,7 +170,7 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		case WM_NCPAINT: {	
+		case WM_NCPAINT: {
 
 			wndProcResult = handleNCPaint( wParam, lParam );
 			return true;
@@ -178,9 +178,9 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		break;
 
 		case WM_SIZE : {
-			
 
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );			
+
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			DWORD style = ::GetWindowLong( hwnd_, GWL_STYLE );
 
@@ -191,7 +191,7 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		case TBN_GETDISPINFOW : {
 			NMTBDISPINFOW* dispInfo = (NMTBDISPINFOW*)lParam;
 			ToolbarItem* item = (ToolbarItem*)dispInfo->lParam;
-			dispInfo->iImage = item->getImageIndex();			
+			dispInfo->iImage = item->getImageIndex();
 		}
 		break;
 
@@ -226,16 +226,16 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		case NM_CLICK : {
 			if ( System::isUnicodeEnabled() ) {
 				TBNOTIFYW* tbn = (TBNOTIFYW*)lParam;
-				
+
 				TBBUTTONINFOW info = {0};
 				info.dwMask = TBIF_STATE | TBIF_LPARAM ;
 				info.cbSize = sizeof(info);
-				
+
 				if ( SendMessage( hwnd_, TB_GETBUTTONINFOW, tbn->iItem, (LPARAM)&info ) >= 0 ) {
-					
+
 					ToolbarItem* item = (ToolbarItem*)info.lParam;
 					long state = item->getState();
-					
+
 					if ( (TBSTATE_CHECKED  & info.fsState) && ( state & ToolbarItem::tisChecked ) ) {
 						state |= ToolbarItem::tisPressed;
 					}
@@ -249,16 +249,16 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 			}
 			else {
 				TBNOTIFYA* tbn = (TBNOTIFYA*)lParam;
-				
+
 				TBBUTTONINFOA info = {0};
 				info.dwMask = TBIF_STATE | TBIF_LPARAM ;
 				info.cbSize = sizeof(info);
-				
+
 				if ( SendMessage( hwnd_, TB_GETBUTTONINFOA, tbn->iItem, (LPARAM)&info ) >= 0 ) {
-					
+
 					ToolbarItem* item = (ToolbarItem*)info.lParam;
 					long state = item->getState();
-					
+
 					if ( (TBSTATE_CHECKED  & info.fsState) && ( state & ToolbarItem::tisChecked ) ) {
 						state |= ToolbarItem::tisPressed;
 					}
@@ -285,10 +285,10 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 				SendMessage( hwnd_, TB_GETBUTTONINFOW, wID, (LPARAM)&info );
 				ToolbarItem* item = (ToolbarItem*)info.lParam;
 				if ( NULL != item ) {
-					
-					
+
+
 					long state = item->getState();
-					
+
 					if ( (TBSTATE_CHECKED  & info.fsState) && ( state & ToolbarItem::tisChecked ) ) {
 						state |= ToolbarItem::tisPressed;
 					}
@@ -298,9 +298,9 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 					currentlyModifyingItem_ = true;
 					item->setState( state );
 					currentlyModifyingItem_ = false;
-					
-					
-					
+
+
+
 					item->click();
 				}
 			}
@@ -311,10 +311,10 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 				SendMessage( hwnd_, TB_GETBUTTONINFOA, wID, (LPARAM)&info );
 				ToolbarItem* item = (ToolbarItem*)info.lParam;
 				if ( NULL != item ) {
-					
-					
+
+
 					long state = item->getState();
-					
+
 					if ( (TBSTATE_CHECKED  & info.fsState) && ( state & ToolbarItem::tisChecked ) ) {
 						state |= ToolbarItem::tisPressed;
 					}
@@ -324,13 +324,13 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 					currentlyModifyingItem_ = true;
 					item->setState( state );
 					currentlyModifyingItem_ = false;
-					
-					
-					
+
+
+
 					item->click();
 				}
 			}
-			
+
 
 		}
 		break;
@@ -363,12 +363,12 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 							else {
 								state &= ~ToolbarItem::tisPressed;
 							}
-							
+
 							currentlyModifyingItem_ = true;
 							item->setState( state );
 							currentlyModifyingItem_ = false;
 						}
-						
+
 					}
 					else {
 						TBBUTTONINFOA info = {0};
@@ -382,14 +382,14 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 							else {
 								state &= ~ToolbarItem::tisPressed;
 							}
-							
+
 							currentlyModifyingItem_ = true;
 							item->setState( state );
 							currentlyModifyingItem_ = false;
 						}
 					}
-					
-					
+
+
 					wndProcResult = CDRF_DODEFAULT;
 					result = true;
 				}
@@ -447,7 +447,7 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.dwMask = TBIF_TEXT ;
 				info.cbSize = sizeof(info);
 				char tmp[256];
-				
+
 				String caption = tme->getItem()->getCaption();
 				if ( tme->getItem()->getUseLocaleStrings() ) {
 					caption = System::getCurrentThreadLocale()->translate( caption );
@@ -472,32 +472,32 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 
 		case ToolbarItem::tbImageIndexChanged : {
 			ToolbarModelEvent* tme = (ToolbarModelEvent*)e;
-			
+
 			if ( System::isUnicodeEnabled() ) {
 				TBBUTTONINFOW info = {0};
 				info.dwMask = TBIF_IMAGE  ;
 				info.cbSize = sizeof(info);
-				
+
 				index = tme->getItem()->getIndex();
 				SendMessage( hwnd_, TB_GETBUTTONINFOW, index, (LPARAM)&info );
-				
+
 				info.iImage = tme->getItem()->getImageIndex();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOW, index, (LPARAM)&info );
 			}
 			else {
 				TBBUTTONINFOA info = {0};
 				info.dwMask = TBIF_IMAGE  ;
 				info.cbSize = sizeof(info);
-				
+
 				index = tme->getItem()->getIndex();
 				SendMessage( hwnd_, TB_GETBUTTONINFOA, index, (LPARAM)&info );
-				
+
 				info.iImage = tme->getItem()->getImageIndex();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOA, index, (LPARAM)&info );
 			}
-			
+
 		}
 		break;
 
@@ -514,35 +514,35 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				TBBUTTONINFOW info = {0};
 				info.dwMask = TBIF_STYLE  ;
 				info.cbSize = sizeof(info);
-				
+
 				SendMessage( hwnd_, TB_GETBUTTONINFOW, tme->getItem()->getIndex(), (LPARAM)&info );
-				
+
 				if ( tme->getItem()->isGrouped() ) {
 					info.fsStyle |= TBSTYLE_GROUP;
 				}
 				else {
 					info.fsStyle &= ~TBSTYLE_GROUP;
 				}
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOW, tme->getItem()->getIndex(), (LPARAM)&info );
 			}
 			else {
 				TBBUTTONINFOA info = {0};
 				info.dwMask = TBIF_STYLE  ;
 				info.cbSize = sizeof(info);
-				
+
 				SendMessage( hwnd_, TB_GETBUTTONINFOA, tme->getItem()->getIndex(), (LPARAM)&info );
-				
+
 				if ( tme->getItem()->isGrouped() ) {
 					info.fsStyle |= TBSTYLE_GROUP;
 				}
 				else {
 					info.fsStyle &= ~TBSTYLE_GROUP;
 				}
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOA, tme->getItem()->getIndex(), (LPARAM)&info );
 			}
-			
+
 		}
 		break;
 
@@ -553,16 +553,16 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				TBBUTTONINFOW info = {0};
 				info.dwMask = TBIF_STYLE  ;
 				info.cbSize = sizeof(info);
-				
+
 				if ( SendMessage( hwnd_, TB_GETBUTTONINFOW, tme->getItem()->getIndex(), (LPARAM)&info ) >= 0 ) {
-					
+
 					if ( tme->getItem()->isChecked() ) {
 						info.fsStyle |= TBSTYLE_CHECK;
 					}
 					else {
 						info.fsStyle &= ~TBSTYLE_CHECK;
 					}
-					
+
 					int i = SendMessage( hwnd_, TB_SETBUTTONINFOW, tme->getItem()->getIndex(), (LPARAM)&info );
 				}
 				else {
@@ -573,26 +573,26 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				TBBUTTONINFOA info = {0};
 				info.dwMask = TBIF_STYLE  ;
 				info.cbSize = sizeof(info);
-				
+
 				if ( SendMessage( hwnd_, TB_GETBUTTONINFOA, tme->getItem()->getIndex(), (LPARAM)&info ) >= 0 ) {
-					
+
 					if ( tme->getItem()->isChecked() ) {
 						info.fsStyle |= TBSTYLE_CHECK;
 					}
 					else {
 						info.fsStyle &= ~TBSTYLE_CHECK;
 					}
-					
+
 					int i = SendMessage( hwnd_, TB_SETBUTTONINFOA, tme->getItem()->getIndex(), (LPARAM)&info );
 				}
 				else {
 					int err = GetLastError();
 				}
 			}
-			
+
 		}
 		break;
-		
+
 		case ToolbarItem::tbItemControlAdded : {
 			ToolbarModelEvent* tme = (ToolbarModelEvent*)e;
 			Control* addedControl = NULL;
@@ -602,21 +602,21 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.dwMask = TBIF_STYLE;
 				info.fsStyle = TBSTYLE_SEP ;
 				info.cbSize = sizeof(info);
-				
+
 				index = tme->getItem()->getIndex();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOW, index, (LPARAM)&info );
-				
-				
+
+
 				addedControl = tme->getItem()->getItemControl();
 				Rect r = addedControl->getBounds();
-				
-				
+
+
 				memset( &info, 0, sizeof(info) );
 				info.dwMask = TBIF_SIZE;
 				info.cbSize = sizeof(info);
 				info.cx = r.getWidth();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOW, index, (LPARAM)&info );
 			}
 			else {
@@ -624,26 +624,26 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.dwMask = TBIF_STYLE;
 				info.fsStyle = TBSTYLE_SEP ;
 				info.cbSize = sizeof(info);
-				
+
 				index = tme->getItem()->getIndex();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOA, index, (LPARAM)&info );
-				
-				
+
+
 				addedControl = tme->getItem()->getItemControl();
 				Rect r = addedControl->getBounds();
-				
-				
+
+
 				memset( &info, 0, sizeof(info) );
 				info.dwMask = TBIF_SIZE;
 				info.cbSize = sizeof(info);
 				info.cx = r.getWidth();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOA, index, (LPARAM)&info );
-				
+
 			}
 
-			
+
 
 			resizeToolbarItems();
 
@@ -680,9 +680,9 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.dwMask = TBIF_SIZE ;
 				info.cbSize = sizeof(info);
 				Rect r = *tme->getItem()->getBounds();
-				
+
 				info.cx = r.getWidth();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOW, tme->getItem()->getIndex(), (LPARAM)&info );
 			}
 			else {
@@ -690,12 +690,12 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 				info.dwMask = TBIF_SIZE ;
 				info.cbSize = sizeof(info);
 				Rect r = *tme->getItem()->getBounds();
-				
+
 				info.cx = r.getWidth();
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOA, tme->getItem()->getIndex(), (LPARAM)&info );
 			}
-			
+
 			resizeToolbarItems();
 		}
 		break;
@@ -723,7 +723,7 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 			if ( System::isUnicodeEnabled() ) {
 				TBBUTTONINFOW info = {0};
 				info.cbSize = sizeof(info);
-				
+
 				if ( state == ToolbarItem::tisSeparator ) {
 					info.dwMask = TBIF_STYLE | TBIF_SIZE;
 					info.fsStyle = TBSTYLE_SEP ;
@@ -736,17 +736,17 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 							info.fsState |= TBSTATE_CHECKED  ;
 						}
 					}
-					
+
 					if ( state & ToolbarItem::tisGrouped ) {
 						info.dwMask |= TBIF_STYLE ;
 						info.fsStyle |= TBSTYLE_GROUP  ;
 					}
-					
+
 					if ( state & ToolbarItem::tisChecked ) {
 						info.dwMask |= TBIF_STYLE ;
 						info.fsStyle |= TBSTYLE_CHECK  ;
 					}
-					
+
 					if ( state & ToolbarItem::tisEnabled ) {
 						info.dwMask |= TBIF_STATE ;
 						info.fsState |= TBSTATE_ENABLED  ;
@@ -756,13 +756,13 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 						info.fsState &= ~TBSTATE_ENABLED  ;
 					}
 				}
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOW, tme->getItem()->getIndex(), (LPARAM)&info );
 			}
 			else {
 				TBBUTTONINFOA info = {0};
 				info.cbSize = sizeof(info);
-				
+
 				if ( state == ToolbarItem::tisSeparator ) {
 					info.dwMask = TBIF_STYLE | TBIF_SIZE;
 					info.fsStyle = TBSTYLE_SEP ;
@@ -775,17 +775,17 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 							info.fsState |= TBSTATE_CHECKED  ;
 						}
 					}
-					
+
 					if ( state & ToolbarItem::tisGrouped ) {
 						info.dwMask |= TBIF_STYLE ;
 						info.fsStyle |= TBSTYLE_GROUP  ;
 					}
-					
+
 					if ( state & ToolbarItem::tisChecked ) {
 						info.dwMask |= TBIF_STYLE ;
 						info.fsStyle |= TBSTYLE_CHECK  ;
 					}
-					
+
 					if ( state & ToolbarItem::tisEnabled ) {
 						info.dwMask |= TBIF_STATE ;
 						info.fsState |= TBSTATE_ENABLED  ;
@@ -795,11 +795,11 @@ void Win32Toolbar::onModelChanged( ModelEvent* e )
 						info.fsState &= ~TBSTATE_ENABLED  ;
 					}
 				}
-				
+
 				SendMessage( hwnd_, TB_SETBUTTONINFOA, tme->getItem()->getIndex(), (LPARAM)&info );
 			}
 
-			
+
 		}
 		break;
 
@@ -843,53 +843,53 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 	TBBUTTON btn = {0};
 
 	if ( System::isUnicodeEnabled() ) {
-		
+
 		btn.dwData = (DWORD)item;
 		btn.iBitmap = item->getImageIndex();
-		
+
 		String caption = item->getCaption();
 		if ( item->getUseLocaleStrings() ) {
 			caption = System::getCurrentThreadLocale()->translate( caption );
 		}
-		
+
 		VCFChar* tmp = new VCFChar[caption.size()+1];
-		
+
 		caption.copy( tmp, caption.size() );
 		tmp[caption.size()] = 0;
-		
+
 		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGW, (WPARAM) 0, (LPARAM) (LPSTR) tmp);
 		buttonCaptionsMap_[caption] = btn.iString;
-		
+
 		if ( buttonCaptionsMap_.size() == 1 ) {
 			SendMessage(hwnd_, TB_AUTOSIZE, 0, 0 );
 		}
-		
+
 		if ( !showCaption ) {
 			btn.iString = -1;
 		}
-		
+
 		btn.fsState = TBSTATE_ENABLED;
 		btn.fsStyle = TBSTYLE_BUTTON /*| TBSTYLE_AUTOSIZE */;
 		btn.idCommand = index;
-		
+
 		if ( !SendMessage( hwnd_, TB_INSERTBUTTONW, (WPARAM) index, (LPARAM)&btn ) ) {
 			int err = GetLastError();
 		}
-		
+
 		TBBUTTONINFOW info = {0};
 		//info.dwMask = TBIF_IMAGE;
 		info.cbSize = sizeof(info);
-		
-		
+
+
 		if ( !SendMessage( hwnd_, TB_GETBUTTONINFOW, 0, (LPARAM)&info ) ) {
 			int err = GetLastError();
 		}
-		
+
 		info.dwMask |= TBIF_LPARAM;
 		info.lParam = (LPARAM)item;
-		
+
 		long state = item->getState();
-		
+
 		if ( state == ToolbarItem::tisSeparator ) {
 			info.dwMask = TBIF_STYLE | TBIF_SIZE;
 			info.fsStyle = TBSTYLE_SEP ;
@@ -904,17 +904,17 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 					info.fsState |= TBSTATE_CHECKED ;
 				}
 			}
-			
+
 			if ( state & ToolbarItem::tisGrouped ) {
 				info.dwMask |= TBIF_STYLE ;
 				info.fsStyle |= TBSTYLE_GROUP  ;
 			}
-			
+
 			if ( state & ToolbarItem::tisChecked ) {
 				info.dwMask |= TBIF_STYLE ;
 				info.fsStyle |= TBSTYLE_CHECK  ;
 			}
-			
+
 			if ( state & ToolbarItem::tisEnabled ) {
 				info.dwMask |= TBIF_STATE ;
 				info.fsState |= TBSTATE_ENABLED  ;
@@ -924,67 +924,67 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 				info.fsState &= ~TBSTATE_ENABLED  ;
 			}
 		}
-		
+
 		if ( NULL != item->getItemControl() ) {
 			Rect bounds = item->getItemControl()->getBounds();
 			info.cx = bounds.getWidth();
 			info.dwMask = TBIF_STYLE | TBIF_SIZE;
 			info.fsStyle = TBSTYLE_SEP ;
 		}
-		
+
 		//info.iImage = I_IMAGECALLBACK;
 		SendMessage( hwnd_, TB_SETBUTTONINFOW, index, (LPARAM)&info );
 		delete [] tmp;
 	}
-	else {		
+	else {
 		btn.dwData = (DWORD)item;
 		btn.iBitmap = item->getImageIndex();
-		
-		
+
+
 		String caption = item->getCaption();
 		if ( item->getUseLocaleStrings() ) {
 			caption = System::getCurrentThreadLocale()->translate( caption );
 		}
-		
+
 		AnsiString ansiCaption = caption;
 		char* tmp = new char[ansiCaption.size()+1];
-		
+
 		ansiCaption.copy( tmp, ansiCaption.size() );
 		tmp[ansiCaption.size()] = 0;
-		
+
 		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGA, (WPARAM) 0, (LPARAM) (LPSTR) tmp);
 		buttonCaptionsMap_[ansiCaption] = btn.iString;
-		
+
 		if ( buttonCaptionsMap_.size() == 1 ) {
 			SendMessage(hwnd_, TB_AUTOSIZE, 0, 0 );
 		}
-		
+
 		if ( !showCaption ) {
 			btn.iString = -1;
 		}
-		
+
 		btn.fsState = TBSTATE_ENABLED;
 		btn.fsStyle = TBSTYLE_BUTTON | TBSTYLE_AUTOSIZE ;
 		btn.idCommand = index;
-		
+
 		if ( !SendMessage( hwnd_, TB_INSERTBUTTONA, (WPARAM) index, (LPARAM)&btn ) ) {
 			int err = GetLastError();
 		}
-		
+
 		TBBUTTONINFOA info = {0};
 		//info.dwMask = TBIF_IMAGE;
 		info.cbSize = sizeof(info);
-		
-		
+
+
 		if ( !SendMessage( hwnd_, TB_GETBUTTONINFOA, 0, (LPARAM)&info ) ) {
 			int err = GetLastError();
 		}
-		
+
 		info.dwMask |= TBIF_LPARAM;
 		info.lParam = (LPARAM)item;
-		
+
 		long state = item->getState();
-		
+
 		if ( state == ToolbarItem::tisSeparator ) {
 			info.dwMask = TBIF_STYLE | TBIF_SIZE;
 			info.fsStyle = TBSTYLE_SEP ;
@@ -999,17 +999,17 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 					info.fsState |= TBSTATE_CHECKED ;
 				}
 			}
-			
+
 			if ( state & ToolbarItem::tisGrouped ) {
 				info.dwMask |= TBIF_STYLE ;
 				info.fsStyle |= TBSTYLE_GROUP  ;
 			}
-			
+
 			if ( state & ToolbarItem::tisChecked ) {
 				info.dwMask |= TBIF_STYLE ;
 				info.fsStyle |= TBSTYLE_CHECK  ;
 			}
-			
+
 			if ( state & ToolbarItem::tisEnabled ) {
 				info.dwMask |= TBIF_STATE ;
 				info.fsState |= TBSTATE_ENABLED  ;
@@ -1019,20 +1019,20 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 				info.fsState &= ~TBSTATE_ENABLED  ;
 			}
 		}
-		
+
 		if ( NULL != item->getItemControl() ) {
 			Rect bounds = item->getItemControl()->getBounds();
 			info.cx = bounds.getWidth();
 			info.dwMask = TBIF_STYLE | TBIF_SIZE;
 			info.fsStyle = TBSTYLE_SEP ;
 		}
-		
+
 		//info.iImage = I_IMAGECALLBACK;
 		SendMessage( hwnd_, TB_SETBUTTONINFOA, index, (LPARAM)&info );
 		delete [] tmp;
 	}
 
-	
+
 
 
 	resizeToolbarItems();
@@ -1041,7 +1041,7 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 
 
 
-	
+
 }
 
 void Win32Toolbar::resetItems( std::vector<ToolbarItem*>& items )
@@ -1060,23 +1060,23 @@ void Win32Toolbar::resetItems( std::vector<ToolbarItem*>& items )
 
 	for (index=0;index<buttonCount;index++ ) {
 		if ( unicodeEnabled ) {
-			
+
 			TBBUTTONINFOW info = {0};
 			info.cbSize = sizeof(info);
 			info.dwMask |= TBIF_LPARAM | TBIF_STYLE | TBIF_STATE;
 			SendMessage( hwnd_, TB_GETBUTTONINFOW, index, (LPARAM)&info );
 			item = (ToolbarItem*)info.lParam;
 			items[index] = item;
-			
+
 			state = item->getState();
-			
+
 			if ( (TBSTATE_CHECKED  & info.fsState) && ( state & ToolbarItem::tisChecked ) ) {
 				state |= ToolbarItem::tisPressed;
 			}
 			else {
 				state &= ~ToolbarItem::tisPressed;
 			}
-			
+
 		}
 		else {
 			TBBUTTONINFOA info = {0};
@@ -1085,9 +1085,9 @@ void Win32Toolbar::resetItems( std::vector<ToolbarItem*>& items )
 			SendMessage( hwnd_, TB_GETBUTTONINFOA, index, (LPARAM)&info );
 			item = (ToolbarItem*)info.lParam;
 			items[index] = item;
-			
+
 			state = item->getState();
-			
+
 			if ( (TBSTATE_CHECKED  & info.fsState) && ( state & ToolbarItem::tisChecked ) ) {
 				state |= ToolbarItem::tisPressed;
 			}
@@ -1095,7 +1095,7 @@ void Win32Toolbar::resetItems( std::vector<ToolbarItem*>& items )
 				state &= ~ToolbarItem::tisPressed;
 			}
 		}
-		
+
 
 
 		currentlyModifyingItem_ = true;
@@ -1253,7 +1253,7 @@ void Win32Toolbar::onImageListImageChanged( ImageListEvent* e )
 
 			/*
 			JC added this cause it appears that for 32bit images the alpa val
-			matters! If it's not set back to 0 then the transparency affect doesn't 
+			matters! If it's not set back to 0 then the transparency affect doesn't
 			work? Bizarre
 			*/
 			SysPixelType* pix = win32Img->getImageBits()->pixels_;
@@ -1273,7 +1273,7 @@ void Win32Toolbar::onImageListImageChanged( ImageListEvent* e )
 
 			Color* transparentColor = imageList->getTransparentColor();
 
-			COLORREF color = transparentColor->getColorref32();
+			COLORREF color = transparentColor->getColorRef32();
 			err = ImageList_AddMasked( imageListCtrl_, hCopyImg, color );
 			if ( err < 0 ) {
 				//error condition !
@@ -1309,7 +1309,7 @@ void Win32Toolbar::onImageListImageChanged( ImageListEvent* e )
 
 			Color* transparentColor = imageList->getTransparentColor();
 
-			COLORREF color = transparentColor->getColorref32();
+			COLORREF color = transparentColor->getColorRef32();
 
 			int err = ImageList_AddMasked( imageListCtrl_, hCopyImg, color );
 
@@ -1378,7 +1378,7 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 			HBITMAP hCopyImg = (HBITMAP)CopyImage( hbmImage, IMAGE_BITMAP, 0, 0, NULL );
 
 			Color* transparentColor = imageList->getTransparentColor();
-			COLORREF color = transparentColor->getColorref32();
+			COLORREF color = transparentColor->getColorRef32();
 
 			int err = ImageList_AddMasked( imageListCtrl_, hCopyImg, color );
 
@@ -1423,6 +1423,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/06/26 01:31:20  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.3.2.5  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

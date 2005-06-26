@@ -61,13 +61,13 @@ bool Win32ColorDialog::execute()
 		color.hwndOwner = GetActiveWindow();
 	}
 
-	color.rgbResult = color_.getColorref32();
+	color.rgbResult = color_.getColorRef32();
 
 	color.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 
 	if ( ChooseColor( &color ) ){
 		result = true;
-		color_.setColorref32( color.rgbResult );
+		color_.setColorRef32( color.rgbResult );
 	}
 
 	return result;
@@ -77,6 +77,9 @@ bool Win32ColorDialog::execute()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/06/26 01:31:20  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.2.4.2  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
