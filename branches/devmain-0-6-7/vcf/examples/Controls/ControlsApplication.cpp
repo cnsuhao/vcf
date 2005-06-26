@@ -34,7 +34,7 @@ bool ControlsApplication::initRunningApplication(){
 	MainWindow* mainWindow = new MainWindow();
 	
 	setMainWindow(mainWindow);
-	mainWindow->setBounds( &Rect( 50.0, 50.0, 650.0, 600.0 ) );
+	mainWindow->setBounds( &Rect( 50.0, 50.0, 650.0, 700.0 ) );
 	mainWindow->setVisible( true );
 	mainWindow->setCaption( "Controls" );
 	
@@ -45,6 +45,9 @@ bool ControlsApplication::initRunningApplication(){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/06/26 02:03:47  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.2  2004/12/01 04:15:00  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
