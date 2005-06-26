@@ -15,7 +15,7 @@ where you installed the VCF.
 /**
 *Class MainWindow documentation
 */
-class MainWindow : public VCF::Window { 
+class MainWindow : public VCF::Window {
 public:
 	MainWindow();
 
@@ -35,6 +35,7 @@ private:
 	VCF::TabPage* buttonsPage_;
 	VCF::TabPage* textPage_;
 	VCF::TabPage* treePage_;
+
 public:
 	//related to ListBoxTabPage
 	void makeListBoxPage();
@@ -51,8 +52,8 @@ public:
 	VCF::TextControl* txtCtrlAddToListBox_;
 
 
-	//related to bordersTabPage
-public: 
+	//fills the pages with controls
+public:
 	void makeButtonsPage();
 
 	void makeTextPage();
@@ -61,8 +62,9 @@ public:
 
 
 	//related to buttonsTabPage
-public: 
+public:
 	void makeBordersPage();
+	void onButtonClicked( ButtonEvent* e );
 
 	VCF::Panel* basic3DBorderPanel_;
 	VCF::Panel* light3DBorderPanel_;
@@ -76,6 +78,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2005/06/26 01:40:25  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.2.2.6  2005/05/22 04:04:29  ddiego
 *more text edit fixes.
 *

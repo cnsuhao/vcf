@@ -24,6 +24,7 @@ where you installed the VCF.
 #include "Spacers.h"
 
 #include "MainWindow.h"
+//#include "HorizontalLayoutContainer.h"
 
 
 
@@ -34,7 +35,7 @@ using namespace VCF;
 MainWindow::MainWindow()
 {
 	this->setWidth( 600 );
-	this->setHeight( 610 );
+	this->setHeight( 800 );
 
 	//build main menu
 	MenuBar* menuBar = new MenuBar( this );
@@ -344,56 +345,382 @@ void MainWindow::makeButtonsPage()
 {
 	HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
 	container->setColumnWidth( 0, 200 );
+	//container->setEqualizeHeights(true);
+	//container->setAverageHeights(true);
+	container->setKeepControlsWidth( false );
 
 	buttonsPage_->getPageComponent()->setContainer( container );
 
-	Label* label = new Label();
 
+
+	Label* label = NULL;
+
+	RadioButtonControl* radioBtn = new RadioButtonControl();
+
+	label = new Label();
+	label->setCaption( radioBtn->getClassName() + "s:" );
 	container->add( label );
+
+
+	Panel* panel = new Panel();
+	panel->setBorder( NULL );
+	panel->setBounds( 0, 0, 500, 30 );
+	container->add( panel );
+
+
+	radioBtn->setCaption("yes");
+	radioBtn->setBounds( 1, 1, radioBtn->getPreferredWidth(), radioBtn->getPreferredHeight() );
+	panel->add( radioBtn );
+
+	radioBtn = new RadioButtonControl();
+	radioBtn->setCaption("no");
+	radioBtn->setBounds( 1 + radioBtn->getPreferredWidth() + 7.0, 1, radioBtn->getPreferredWidth(), radioBtn->getPreferredHeight() );
+	panel->add( radioBtn );
+
+
+
 
 	CommandButton* btn1 = new CommandButton();
-	btn1->setCaption(  "Button 1" );
-
-	label->setCaption( btn1->getClassName() + ":" );
-
-	container->add( btn1 );
 
 	label = new Label();
+	label->setCaption( btn1->getClassName() + ":" );
 	container->add( label );
+
+	btn1->setCaption(  "Button 1" );
+	container->add( btn1 );
+	btn1->ButtonClicked.addHandler( new ButtonEventHandler<MainWindow>( this, &MainWindow::onButtonClicked, "MainWindow::onButtonClicked" ) );
+
+
 
 	CommandButton* btn2 = new CommandButton();
-	btn2->setCaption(  "Button 2" );
-
-	label->setCaption( btn2->getClassName() + " Disabled:" );
-
-	btn2->setEnabled( false );
-
-	container->add( btn2 );
-
 
 	label = new Label();
+	label->setCaption( btn2->getClassName() + " Disabled:" );
 	container->add( label );
 
+	btn2->setCaption(  "Button 2" );
+	btn2->setEnabled( false );
+	container->add( btn2 );
+	btn2->ButtonClicked.addHandler( new ButtonEventHandler<MainWindow>( this, &MainWindow::onButtonClicked, "MainWindow::onButtonClicked" ) );
+
+
+
+
 	PushButton* btn3 = new PushButton();
-	btn3->setCaption(  "Button 3" );
 
+	label = new Label();
 	label->setCaption( btn3->getClassName() + ":" );
+	container->add( label );
 
+	btn3->setCaption(  "Button 3" );
 	container->add( btn3 );
 
 
-	label = new Label();
-	container->add( label );
 
 	PushButton* btn4 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn4->getClassName()  + " Disabled:" );
+	container->add( label );
+
 	btn4->setCaption(  "Button 4" );
 	btn4->setEnabled( false );
-
-	label->setCaption( btn4->getClassName()  + " Disabled:" );
-
 	container->add( btn4 );
+
+
+
+	/**
+	image list for the PushButton
+	*/
+	ImageList* il = new ImageList();
+	il->setImageHeight( 16 );
+	il->setImageWidth( 16 );
+	il->setTransparentColor( &Color( 1.0, 0.0, 1.0) );
+	addComponent( il );
+
+
+	GraphicsResourceBundle* resBundle = Application::getRunningInstance()->getResourceBundle();
+	Image* img = resBundle->getImage( "bmp1" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "bmp2" );
+	il->addImage( img );
+	delete img;
+
+	int indexImgSaveUp = il->getImageCount();
+	img = resBundle->getImage( "iconSaveUp" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "iconSaveDown" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "iconSaveDisabled" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "iconSaveFocus" );
+	il->addImage( img );
+	delete img;
+
+	img = resBundle->getImage( "iconSaveHighlight" );
+	il->addImage( img );
+	delete img;
+
+
+	// for images of different size we need a different ImageList
+	resBundle = Application::getRunningInstance()->getResourceBundle();
+	img = resBundle->getImage( "bmpLong" );
+
+	ImageList* il2 = new ImageList();
+	il2->setImageHeight( img->getHeight() );
+	il2->setImageWidth( img->getWidth() );
+	il2->setTransparentColor( &Color( 0.0, 1.0, 0.0) );
+	addComponent( il2 );
+
+	il2->addImage( img );
+	delete img;
+
+
+
+
+	PushButton* btn5 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn5->getClassName() + " (left):" );
+	container->add( label );
+
+	btn5->setCaption(  "Button (left)" );
+	btn5->setImageList( il );
+	btn5->setBtnImageIndex( 0 );
+	btn5->setCaptionAlignment( PushButton::bcaLeft );
+	container->add( btn5 );
+
+
+
+
+
+	PushButton* btn6 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn6->getClassName()  + " (right - disabled):" );
+	container->add( label );
+
+	btn6->setCaption(  "Button (right)" );
+	btn6->setEnabled( false );
+	btn6->setImageList( il );
+	btn6->setBtnImageIndex( 1 );
+	btn6->setCaptionAlignment( PushButton::bcaRight );
+	container->add( btn6 );
+
+
+
+
+	PushButton* btn7 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn7->getClassName() + " (top):" );
+	container->add( label );
+
+	btn7->setCaption(  "Button (top)" );
+	btn7->setImageList( il );
+	btn7->setBtnImageIndex( 0 );
+	btn7->setCaptionAlignment( PushButton::bcaTop );
+	container->add( btn7 );
+
+
+	PushButton* btn8 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn8->getClassName()  + " (bottom):" );
+	container->add( label );
+
+	btn8->setCaption(  "Button (bottom)" );
+	btn8->setHeight( 80 );
+	btn8->setImageList( il );
+	btn8->setBtnImageIndex( 0 );
+	btn8->setCaptionAlignment( PushButton::bcaBottom );
+	container->add( btn8 );
+
+
+	PushButton* btn9 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn9->getClassName() + " (center):" );
+	container->add( label );
+
+	btn9->setCaption(  "Button (center)" );
+	btn9->setImageList( il );
+	btn9->setBtnImageIndex( 1 );
+	container->add( btn9 );
+
+
+
+
+
+	PushButton* btn10 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn10->getClassName() + " (caption):" );
+	container->add( label );
+
+	btn10->setCaption(  "Button (caption)" );
+	//btn10->setImageList( il );
+	//btn10->setBtnImageIndex( 1 );
+	container->add( btn10 );
+
+
+
+	PushButton* btn11 = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn11->getClassName()  + " (image only):" );
+	container->add( label );
+
+	btn11->setShowCaption( false );
+	btn11->setCaption(  "Button (image only)" );
+	btn11->setImageList( il2 );
+	btn11->setBtnImageIndex( 0 );
+	container->add( btn11 );
+
+
+
+
+	PushButton* btn = new PushButton();
+
+	label = new Label();
+	label->setCaption( btn->getClassName()  + " (images):" );
+	container->add( label );
+
+	panel = new Panel();
+	panel->setBorder( NULL );
+	panel->setBounds( 0, 0, 500, 30 );
+	container->add( panel );
+
+	Size btnSize;
+	double x = 0, y = 1;
+	double w = il->getImageWidth() + 10;
+	double h = il->getImageHeight() + 10;
+	double sep = 7.0;
+
+	btn->setBounds( x, y, w, h );
+	btn->setCaption( "Button (all state images)" );
+	btn->setShowCaption( false );
+	btn->setToolTipText( "Button (all state images)" );
+	btn->setImageList( il );
+	btn->setBtnImageIndex( indexImgSaveUp+0, PushButton::bisUp );
+	btn->setBtnImageIndex( indexImgSaveUp+1, PushButton::bisDown );
+	btn->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
+	btn->setBtnImageIndex( indexImgSaveUp+3, PushButton::bisFocus );
+	btn->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisHighlight );
+	btnSize = btn->calcMinimumSize();
+	btn->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( btn );
+	x += btnSize.width_ + sep;
+
+	btn = new PushButton();
+	btn->setBounds( w*1 + sep*1, 1, w, h );
+	btn->setCaption( "Button (only Up/Disable images)" );
+	btn->setShowCaption( false );
+	btn->setToolTipText( "Button (only Up/Disable images)" );
+	btn->setEnabled( false );
+	btn->setImageList( il );
+	btn->setBtnImageIndex( indexImgSaveUp+0 );
+	btn->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
+	btnSize = btn->calcMinimumSize();
+	btn->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( btn );
+	x += btnSize.width_ + sep;
+
+
+	btn = new PushButton();
+	btn->setBounds( w*2 + sep*2, 1, w, h );
+	btn->setCaption( "Button (only Up image)" );
+	btn->setShowCaption( false );
+	btn->setToolTipText( "Button (only Up image)" );
+	btn->setImageList( il );
+	btn->setBtnImageIndex( indexImgSaveUp+0 );
+	btnSize = btn->calcMinimumSize();
+	btn->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( btn );
+	x += btnSize.width_ + sep;
+
+
+
+
+
+	PushButton* toggle = new PushButton();
+
+	label = new Label();
+	label->setCaption( toggle->getClassName()  + " (images - toggling):" );
+	container->add( label );
+
+	panel = new Panel();
+	panel->setBorder( NULL );
+	panel->setBounds( 0, 0, 500, 30 );
+	container->add( panel );
+
+	//Size btnSize;
+	x = 0, y = 1;
+	w = il->getImageWidth() + 10;
+	h = il->getImageHeight() + 10;
+	sep = 7.0;
+
+	//toggle = new PushButton();
+	toggle->setToggled( true );
+	toggle->setBounds( x, y, w, h );
+	toggle->setCaption( "Button (all state images)" );
+	toggle->setShowCaption( false );
+	toggle->setToolTipText( "Button (all state images)" );
+	toggle->setImageList( il );
+	toggle->setBtnImageIndex( indexImgSaveUp+0, PushButton::bisUp );
+	toggle->setBtnImageIndex( indexImgSaveUp+1, PushButton::bisDown );
+	toggle->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
+	toggle->setBtnImageIndex( indexImgSaveUp+3, PushButton::bisFocus );
+	toggle->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisHighlight );
+	btnSize = toggle->calcMinimumSize();
+	toggle->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( toggle );
+	x += btnSize.width_ + sep;
+
+	toggle = new PushButton();
+	toggle->setToggled( true );
+	toggle->setBounds( w*1 + sep*1, 1, w, h );
+	toggle->setCaption( "Button (only Up/Disable images)" );
+	toggle->setShowCaption( false );
+	toggle->setEnabled( false );
+	toggle->setToolTipText( "Button (only Up/Disable images)" );
+	toggle->setImageList( il );
+	toggle->setBtnImageIndex( indexImgSaveUp+0 );
+	toggle->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
+	btnSize = toggle->calcMinimumSize();
+	toggle->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( toggle );
+	x += btnSize.width_ + sep;
+
+
+	toggle = new PushButton();
+	toggle->setToggled( true );
+	toggle->setBounds( w*2 + sep*2, 1, w, h );
+	toggle->setCaption( "Button (only Up image)" );
+	toggle->setShowCaption( false );
+	toggle->setToolTipText( "Button (only Up image)" );
+	toggle->setImageList( il );
+	toggle->setBtnImageIndex( indexImgSaveUp+0 );
+	btnSize = toggle->calcMinimumSize();
+	toggle->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( toggle );
+	x += btnSize.width_ + sep;
+
+
 }
 
+void MainWindow::onButtonClicked( ButtonEvent* e )
+{
+	Dialog::showMessage( "Hello world !" );
+}
 
 void MainWindow::onSingletextCtrlSelectionChanged( Event* e )
 {
@@ -421,6 +748,7 @@ void MainWindow::makeTextPage()
 	TextControl* singleTextCtrl = new TextControl();
 	container->add( singleTextCtrl );
 
+	// uncomment this to test if the formatting is correctly applied in this case too.
 	//singleTextCtrl->setReadOnly( true );
 
 	singleTextCtrl->getFont()->setName( "Courier New" );
@@ -437,7 +765,7 @@ void MainWindow::makeTextPage()
 	styles [ Text::fsFontName ] = "Arial";
 	singleTextCtrl->setStyle( 7, 6, styles );
 
-	
+
 
 	singleTextCtrl->SelectionChanged +=
 		new GenericEventHandler<MainWindow>( this, &MainWindow::onSingletextCtrlSelectionChanged, "MainWindow::onSingletextCtrlSelectionChanged" );
@@ -450,7 +778,7 @@ void MainWindow::makeTextPage()
 	label = new Label();
 	label->setName( "SelectionStart" );
 	container->add( label );
-	
+
 	label = new Label();
 	label->setCaption( "Selection count:" );
 	container->add( label );
@@ -507,6 +835,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.15  2005/06/26 01:40:25  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.2.2.14  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
