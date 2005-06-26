@@ -130,7 +130,7 @@ public:
 void Win32Context::drawImage( const double& x, const double& y, Rect* imageBounds, Image* image )
 {
 	//checkHandle();
-	
+
 
 	if ( (imageBounds->getWidth() > image->getWidth()) || (imageBounds->getHeight() > image->getHeight()) ) {
 		throw BasicException( MAKE_ERROR_MSG("Invalid image bounds requested"), __LINE__);
@@ -153,41 +153,41 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 
 		agg::trans_affine pathMat;
-		
-		
+
+
 
 		pathMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
 		pathMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
-		pathMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+		pathMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()),
 										Math::degreesToRadians(context_->getShearY()) );
-		
 
-		
+
+
 		agg::path_storage imagePath;
 		imagePath.move_to( imageBounds->left_, imageBounds->top_ );
 		imagePath.line_to( imageBounds->right_, imageBounds->top_ );
 		imagePath.line_to( imageBounds->right_, imageBounds->bottom_ );
 		imagePath.line_to( imageBounds->left_, imageBounds->bottom_ );
-		imagePath.close_polygon();		
-		
-		
-		
-		
+		imagePath.close_polygon();
+
+
+
+
 		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
 
 		agg::conv_transform< agg::path_storage >::iterator it = xfrmedImgPath.begin(0);
-		
-		
-		agg::vertex_type vert = *it;	
+
+
+		agg::vertex_type vert = *it;
 
 		Rect xfrmedImageRect;
 		Point p1(vert.x, vert.y );
-		
+
 		++it;
-		vert = *it;	
+		vert = *it;
 
 		Point p2(vert.x, vert.y );
-		
+
 		if ( p2.x_ > p1.x_ ) {
 			xfrmedImageRect.left_ = p1.x_;
 		}
@@ -218,7 +218,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 
 
-		while ( it != xfrmedImgPath.end() ) {			
+		while ( it != xfrmedImgPath.end() ) {
 
 			if ( xfrmedImageRect.left_ > (*it).x ) {
 				xfrmedImageRect.left_ = (*it).x;
@@ -243,40 +243,40 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		xfrmedImageRect.inflate( 2, 2 );
 
 
-		double imageTX = imageBounds->getWidth()/2.0;		
+		double imageTX = imageBounds->getWidth()/2.0;
 
 		double imageTY = imageBounds->getHeight()/2.0;
-		
+
 
 		double xfrmImageTX = xfrmedImageRect.getWidth()/2.0;
 		double xfrmImageTY = xfrmedImageRect.getHeight()/2.0;
 
 		agg::trans_affine pathMat2;
-		
-		
+
+
 		pathMat2 *= agg::trans_affine_translation( -imageTX, -imageTY );
 		pathMat2 *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
 		pathMat2 *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
-		pathMat2 *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+		pathMat2 *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()),
 										Math::degreesToRadians(context_->getShearY()) );
 		pathMat2 *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
-		
-		
 
-		
+
+
+
 		agg::conv_transform< agg::path_storage > xfrmedImgPath2(imagePath,pathMat2);
 
-		
-		
+
+
 		typedef agg::renderer_base<pixfmt> RendererBase;
         typedef agg::renderer_scanline_u_solid<RendererBase> SolidRenderer;
 		typedef agg::span_allocator<agg::rgba8> SpanAllocator;
 		typedef agg::span_interpolator_linear<> SpanInterpolator;
-		typedef agg::span_image_filter_rgba32_bilinear<agg::order_bgra32, 
+		typedef agg::span_image_filter_rgba32_bilinear<agg::order_bgra32,
                                                       SpanInterpolator> SpanGenerator;
         typedef agg::renderer_scanline_u<RendererBase, SpanGenerator> RendererType;
 
-		
+
 
 		BITMAPINFO bmpInfo;
 		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
@@ -292,25 +292,25 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		SysPixelType* bmpBuf = NULL;
 		HDC xfrmDC = ::CreateCompatibleDC( NULL );
 		HBITMAP hbmp = CreateDIBSection ( xfrmDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
-			
+
 
 		safeToRender = (NULL != hbmp) ? true : false;
 
-		if ( safeToRender ) {			
+		if ( safeToRender ) {
 
 			HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
 
-			BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight, 
+			BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight,
 					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
 			agg::rendering_buffer xfrmImgRenderBuf;
-			xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth, 
+			xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
 										-bmpInfo.bmiHeader.biHeight,
 										bmpInfo.bmiHeader.biWidth * 4 );
 
 
-			
+
 			pixfmt pixf(xfrmImgRenderBuf);
 			RendererBase rb(pixf);
 			SolidRenderer srcImageRenderer(rb);
@@ -320,28 +320,28 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 			imageMat *= agg::trans_affine_translation( -imageTX, -imageTY );
 			imageMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
 			imageMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
-			imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()), 
+			imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()),
 											Math::degreesToRadians(context_->getShearY()) );
 
 			imageMat *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
 			imageMat.invert();
 
-			
+
 			SpanAllocator spanAllocator;
-			
+
 			SpanInterpolator interpolator(imageMat);
 
 
-			
+
 
 			image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
 
-			SpanGenerator spanGen(spanAllocator, 
-							 *image->getImageBits()->renderBuffer_, 
+			SpanGenerator spanGen(spanAllocator,
+							 *image->getImageBits()->renderBuffer_,
 							 agg::rgba(0, 0, 0, 0.0),
 							 interpolator);
 
-			
+
 			RendererType imageRenderer(rb, spanGen);
 
 			agg::rasterizer_scanline_aa<> rasterizer;
@@ -349,7 +349,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 			rasterizer.add_path(xfrmedImgPath2);
 			rasterizer.render(scanLine, imageRenderer);
-			
+
 			//rasterizer.render(scanLine, srcImageRenderer);
 
 
@@ -402,7 +402,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 			SysPixelType* bmpBuf = NULL;
 			SysPixelType* tmpBmpBuf = NULL;
 
-			
+
 			HBITMAP hbmp = CreateDIBSection ( dc_, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
 
 
@@ -425,10 +425,10 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 						tmpBmpBuf[xIndex].r = imageBuf[xIndex].r;
 						tmpBmpBuf[xIndex].g = imageBuf[xIndex].g;
 						tmpBmpBuf[xIndex].b = imageBuf[xIndex].b;
-						tmpBmpBuf[xIndex].a = 0; //JC don't use the alpha val here it mucks 
+						tmpBmpBuf[xIndex].a = 0; //JC don't use the alpha val here it mucks
 												//up the transparent drawing code.
 												//we can replace this once we add in real transparency
-					}			
+					}
 
 					tmpBmpBuf += wIncr;
 					imageBuf += imgWidth;
@@ -439,13 +439,13 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 					COLORREF transColor = RGB( imageTransColor->getRed()*255,
 						imageTransColor->getGreen()*255,
 						imageTransColor->getBlue()*255 );
-					
-					
-					
+
+
+
 
 					Win32Context::drawTransparentBitmap( dc_, hbmp, (short)x, (short)y, transColor );
 
-					
+
 				}
 				else {
 					SetDIBitsToDevice( dc_,
@@ -1077,10 +1077,10 @@ void Win32Context::setClippingRect( Rect* clipRect )
 
 	if ( NULL != clipRect ) {
 		if ( !clipRect->isNull() ) {
-			clipRGN_ = CreateRectRgn( (long)clipRect->left_ + origin_.x_, 
-										(long)clipRect->top_ + origin_.y_, 
-										(long)clipRect->right_ + origin_.x_, 
-										(long)clipRect->bottom_  + origin_.y_);			
+			clipRGN_ = CreateRectRgn( (long)clipRect->left_ + origin_.x_,
+										(long)clipRect->top_ + origin_.y_,
+										(long)clipRect->right_ + origin_.x_,
+										(long)clipRect->bottom_  + origin_.y_);
 		}
 		else {
 			clipRGN_ = NULL;
@@ -1191,10 +1191,19 @@ void Win32Context::drawThemeFocusRect( Rect* rect, DrawUIState& state )
 	releaseHandle();
 }
 
-void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
+void Win32Context::drawThemeButtonFocusRect( Rect* rect )
+{
+	Rect focusRect = *rect;
+	focusRect.inflate( -4, -4 );
+
+	DrawUIState state;
+	drawThemeFocusRect( &focusRect, state );
+}
+
+void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* captionRect )
 {
 #ifdef WINTHEMES
-	if (drawThemeButtonRectDLL( rect, state )) return;
+	if (drawThemeButtonRectDLL( rect, state, captionRect )) return;
 #endif
 
 	checkHandle();
@@ -1216,31 +1225,36 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 	HBRUSH oldBrush = (HBRUSH)::SelectObject( dc_, backBrush );
 	::FillRect( dc_, &btnRect, backBrush );
 
-	bool isPressed = state.isPressed();	
+	bool isPressed = state.isPressed();
 
 	HPEN oldPen = NULL;
 
 	RECT tmpRect = btnRect;
 	//InflateRect( &tmpRect, -1, -1 );
-
-	RECT captionRect = btnRect;
-
-		
 	if ( state.isDefaultButton() ) {
 		InflateRect( &tmpRect, -1, -1 );
 	}
+
+	RECT capRect = btnRect;
+	if ( NULL != captionRect ) {
+		capRect.left = captionRect->left_;
+		capRect.top = captionRect->top_;
+		capRect.right = captionRect->right_;
+		capRect.bottom = captionRect->bottom_;
+	}
+
 
 	if ( true == isPressed ) {
 		HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
 		::FrameRect( dc_, &tmpRect, shadowBrush );
 		DeleteObject( shadowBrush );
-		::OffsetRect( &captionRect, 1, 1 );
+		::OffsetRect( &capRect, 1, 1 );
 	}
-	else {	
+	else {
 
 		oldPen = (HPEN) ::SelectObject( dc_, hilightPen );
 
-		
+
 		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
 		::LineTo( dc_, tmpRect.left, tmpRect.top );
 		::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
@@ -1254,7 +1268,7 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
 		::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
 		::LineTo( dc_, tmpRect.left-1, tmpRect.bottom-1 );
-		
+
 /*
 		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
 		::LineTo( dc_, tmpRect.left, tmpRect.top );
@@ -1275,7 +1289,7 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 
 	bool enabled = state.isEnabled();
 
-	
+
 
 
 	HFONT font = NULL;
@@ -1283,26 +1297,26 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 
 	VCF::Font btnFont = *context_->getCurrentFont();
 
-	Rect centerRect( captionRect.left, captionRect.top, captionRect.right, captionRect.bottom );
+	Rect centerRect( capRect.left, capRect.top, capRect.right, capRect.bottom );
 	if ( System::isUnicodeEnabled() ) {
 		LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 		font = ::CreateFontIndirectW( lf );
 		oldFont = (HFONT) ::SelectObject( dc_, font );
 
-		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
+		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
 	}
 	else {
 		LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
 		font = ::CreateFontIndirectA( lf );
 		oldFont = (HFONT) ::SelectObject( dc_, font );
 
-		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
+		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
 	}
 
 
-	::OffsetRect( &captionRect,
-		(centerRect.getWidth() - (captionRect.right - captionRect.left))/2,
-		(centerRect.getHeight() - (captionRect.bottom - captionRect.top))/2 );
+	::OffsetRect( &capRect,
+		(centerRect.getWidth() - (capRect.right - capRect.left))/2,
+		(centerRect.getHeight() - (capRect.bottom - capRect.top))/2 );
 
 	int oldBkMode = SetBkMode( dc_, TRANSPARENT );
 
@@ -1322,25 +1336,25 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 	if ( false == enabled ) {
 		SetTextColor( dc_, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
 
-		OffsetRect( &captionRect, 1, 1 );
+		OffsetRect( &capRect, 1, 1 );
 
 		if ( System::isUnicodeEnabled() ) {
-			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 		}
 		else {
-			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 		}
 
-		OffsetRect( &captionRect, -1, -1 );
+		OffsetRect( &capRect, -1, -1 );
 
 		SetTextColor( dc_, textColor );
 	}
 
 	if ( System::isUnicodeEnabled() ) {
-		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 	}
 	else {
-		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &captionRect, DT_WORDBREAK | DT_CENTER);
+		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 	}
 
 
@@ -1353,12 +1367,12 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 
 
 
-	if ( state.isFocused() ) {
+	/*if ( state.isFocused() ) {
 		RECT focusRect = btnRect;
-		InflateRect( &focusRect, -4, -4 );		
+		InflateRect( &focusRect, -4, -4 );
 
 		::DrawFocusRect( dc_, &focusRect );
-	}
+	}*/
 
 
 	if ( state.isDefaultButton() ) {
@@ -1392,7 +1406,7 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state )
 bool Win32Context::drawThemeButtonRectDLL( Rect* rect, ButtonState& state )
 {
 	if (!pThemeDLL_->IsAppThemed()) return false;
-    
+
 	HWND hWin=::WindowFromDC(dc_);
     HTHEME hTheme = pThemeDLL_->OpenThemeData(hWin, L"BUTTON");
 
@@ -1429,10 +1443,10 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	checkHandle();
 
 	Rect tmp = *rect;
-	
+
 	/**
 	JC
-	it turns out that the height/width is ALWAYS 13 pixels - no matter what 
+	it turns out that the height/width is ALWAYS 13 pixels - no matter what
 	the DPI is
 	GetSystemMetrics( SM_CXMENUCHECK ) returns a value that changes based on the DPI
 	13 at 96 DPI and 17 at 120 DPI
@@ -1444,7 +1458,7 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	tmp.bottom_ = tmp.top_ + checkBoxHeight;
 	tmp.right_ = tmp.left_ + checkBoxHeight;
 
-	
+
 
 
 	RECT r = {0,0,0,0};
@@ -1456,7 +1470,7 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 
 	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
 
-	
+
 	tmp = *rect;
 	tmp.left_ = r.right + 3;
 	tmp.inflate( -1.0, -1.0 );
@@ -1468,7 +1482,7 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	}
 	*/
 
-	
+
 	releaseHandle();
 
 
@@ -1483,7 +1497,7 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 
 	/**
 	JC
-	it turns out that the height/width is ALWAYS 13 pixels - no matter what 
+	it turns out that the height/width is ALWAYS 13 pixels - no matter what
 	the DPI is
 	GetSystemMetrics( SM_CXMENUCHECK ) returns a value that changes based on the DPI
 	13 at 96 DPI and 17 at 120 DPI
@@ -1495,7 +1509,7 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	tmp.bottom_ = tmp.top_ + radioBoxHeight;
 	tmp.right_ = tmp.left_ + radioBoxHeight;
 
-	
+
 
 
 	RECT r = {0,0,0,0};
@@ -1508,7 +1522,7 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 
 	::DrawFrameControl( dc_, &r, DFC_BUTTON, btnState );
 
-	
+
 	tmp = *rect;
 	tmp.left_ = r.right + 3;
 	tmp.inflate( -1.0, -1.0 );
@@ -1519,11 +1533,11 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 		drawThemeFocusRect( &tmp, state );
 	}
 	*/
-	
+
 	releaseHandle();
 
 
-	context_->textBoundedBy( &tmp, state.buttonCaption_, false );	
+	context_->textBoundedBy( &tmp, state.buttonCaption_, false );
 }
 
 void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
@@ -1541,7 +1555,7 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 
 	NONCLIENTMETRICS ncm;
 	memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-	ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+	ncm.cbSize = sizeof(NONCLIENTMETRICS);
 
 	SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
 
@@ -1614,7 +1628,7 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 		AnsiString tmp = state.buttonCaption_;
 		DrawTextA( dc_, tmp.c_str(), tmp.size(), &bkRect, fmt );
 	}
-	
+
 
 	::RestoreDC( dc_, dcState );
 
@@ -1713,7 +1727,7 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 	for (long i=0;i<=state.tickMarkFrequency_;i++ ) {
 		if ( state.isVertical() ) {
 
-			
+
 			if ( state.isTickMarkingOnTopLeft() ) {
 				x = rect->left_;
 				double x2 = x - 5;
@@ -1806,8 +1820,8 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 
 	if ( (!state.isEnabled()) || state.isPressed() ) {
 		double h,l,s;
-		faceTmp.getHLS( h,l,s );
-		faceTmp.setHLS( h,0.85,s );
+		faceTmp.getHSL( h,l,s );
+		faceTmp.setHSL( h,0.85,s );
 	}
 
 	Color* face = &faceTmp;
@@ -2057,12 +2071,12 @@ with the native windowing systems default look and feel
 void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 {
 	Rect tmp = *rect;
-	
+
 	drawThemeEdge( &tmp, state, GraphicsContext::etAllSides, GraphicsContext::etSunken );
 
 	tmp.inflate( -1, -1 );
 
-	Rect progressRect = tmp;	
+	Rect progressRect = tmp;
 
 	double s = minVal<>( state.min_, state.max_ );
 	double e = maxVal<>( state.min_, state.max_ );
@@ -2200,7 +2214,7 @@ look and feel in it's background before drawing any thing else
 */
 void Win32Context::drawThemeMenuItem( Rect* rect, MenuState& state )
 {
-			
+
 }
 
 void Win32Context::drawThemeMenuItemText( Rect* rect, MenuState& state )
@@ -2215,39 +2229,39 @@ void Win32Context::drawThemeText( Rect* rect, TextState& state )
 
 	switch ( state.themeFontType_ ) {
 		case GraphicsContext::ttMenuItemFont : {
-			
+
 		}
 		break;
-		
+
 		case GraphicsContext::ttSelectedMenuItemFont : {
-			
+
 		}
 		break;
-		
+
 		case GraphicsContext::ttSystemFont : {
-			
+
 		}
 		break;
-		
+
 		case GraphicsContext::ttSystemSmallFont : {
-			
+
 		}
 		break;
-		
+
 		case GraphicsContext::ttControlFont : {
-			
+
 		}
 		break;
-		
+
 		case GraphicsContext::ttMessageFont : {
-			
+
 		}
 		break;
-		
+
 		case GraphicsContext::ttToolTipFont : {
-			
-		}   
-		break;		
+
+		}
+		break;
 	}
 
 	Font oldFont = *context_->getCurrentFont();
@@ -2289,14 +2303,14 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 	else if ( !ctxFont->isTrueType() ) {
 		charSet = DEFAULT_CHARSET;
 	}
-	else {	
+	else {
 
 		LCID lcid = (LCID)fontLocale->getPeer()->getHandleID();
 		WORD langID = LANGIDFROMLCID( lcid );
 
 		WORD primaryLangID = PRIMARYLANGID(langID);
 		WORD subLangID = SUBLANGID(langID);
-		
+
 		switch ( primaryLangID ) {
 			case LANG_LITHUANIAN: case LANG_LATVIAN: case LANG_ESTONIAN: {
 				charSet = BALTIC_CHARSET;
@@ -2313,8 +2327,8 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 			break;
 
 			case LANG_SLOVENIAN: case LANG_ALBANIAN:
-			case LANG_ROMANIAN: case LANG_BULGARIAN: case LANG_CROATIAN: 
-			case LANG_BELARUSIAN: case LANG_UKRAINIAN: case LANG_HUNGARIAN: 
+			case LANG_ROMANIAN: case LANG_BULGARIAN: case LANG_CROATIAN:
+			case LANG_BELARUSIAN: case LANG_UKRAINIAN: case LANG_HUNGARIAN:
 			case LANG_SLOVAK: case LANG_POLISH: case LANG_CZECH: {
 				charSet = EASTEUROPE_CHARSET;
 			}
@@ -2372,14 +2386,14 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 		LOGFONTW* logFont = (LOGFONTW*)fontImpl->getFontHandleID();
 
 		LONG oldOrientation = logFont->lfOrientation;
-		
+
 		DWORD oldCharSet = logFont->lfCharSet;
 
 		logFont->lfCharSet = charSet;
-		
+
 		logFont->lfOrientation = logFont->lfEscapement = (LONG)(-context_->getRotation() * 10.0);
-		
-		
+
+
 		fontHandle = CreateFontIndirectW( logFont );
 
 		logFont->lfCharSet = oldCharSet;
@@ -2400,7 +2414,7 @@ void Win32Context::prepareDCWithContextFont( HFONT& fontHandle )
 
 		logFont->lfCharSet = oldCharSet;
 		logFont->lfOrientation = logFont->lfEscapement = oldOrientation;
-	}	
+	}
 }
 
 bool Win32Context::prepareForDrawing( long drawingOperation )
@@ -2428,7 +2442,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 				LOGPEN logPen;
 				memset( &logPen, 0, sizeof(logPen) );
 
-				logPen.lopnColor = currentColor->getColorref32();
+				logPen.lopnColor = currentColor->getColorRef32();
 
 				logPen.lopnStyle = PS_SOLID;//translateStrokeStyle( currentStroke_.style_ );
 				logPen.lopnWidth.x = (long)context_->getStrokeWidth();
@@ -2447,7 +2461,7 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 			break;
 
 			case GraphicsContext::doFill : {
-				logBrush.lbColor = currentColor->getColorref32();
+				logBrush.lbColor = currentColor->getColorRef32();
 
 				logBrush.lbStyle = BS_SOLID;
 				logBrush.lbHatch = BS_NULL;
@@ -2479,13 +2493,13 @@ bool Win32Context::prepareForDrawing( long drawingOperation )
 				Color* fontColor = ctxFont->getColor();
 
 				if ( NULL != fontColor ){
-					::SetTextColor( dc_, fontColor->getColorref32() );
+					::SetTextColor( dc_, fontColor->getColorRef32() );
 				}
 				else {
 					::SetTextColor( dc_, RGB(0,0,0) );
 				}
 
-				
+
 
 				::SelectObject( dc_, currentHFont_ );
 
@@ -2544,6 +2558,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.13  2005/06/26 01:27:54  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.4.2.12  2005/06/09 06:13:10  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

@@ -20,7 +20,10 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
-*Class ToggledButton documentation
+RadioButtonControl base class for toggled buttons.
+This means for a button that stays down if clicked until it is clicked again.
+This base class is used as base class for RadioButtonControl, but not for
+the PushButton with a toggled behaviour.
 */
 class APPLICATIONKIT_API ToggledButton : public CustomControl, public Button {
 public:
@@ -89,6 +92,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/26 01:27:53  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.2.4.1  2005/02/27 01:45:33  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.
