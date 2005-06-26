@@ -1176,7 +1176,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			wndProcResult = 1;
 
 			Color* color = peerControl_->getColor();
-			COLORREF backColor = color->getColorref32();
+			COLORREF backColor = color->getColorRef32();
 
 			SendMessage( hwnd_, EM_SETBKGNDCOLOR, 0, (LPARAM)backColor );
 
@@ -1212,10 +1212,10 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				DeleteObject( backgroundBrush_ );
 			}
 			Color* color = peerControl_->getColor();
-			COLORREF backColor = color->getColorref32();
+			COLORREF backColor = color->getColorRef32();
 
 			color = peerControl_->getFont()->getColor();
-			COLORREF textColor = color->getColorref32();
+			COLORREF textColor = color->getColorRef32();
 
 			backgroundBrush_ = CreateSolidBrush( backColor );
 			SetBkColor( hdcEdit, backColor );
@@ -1695,6 +1695,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.34  2005/06/26 01:53:03  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.3.2.33  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
