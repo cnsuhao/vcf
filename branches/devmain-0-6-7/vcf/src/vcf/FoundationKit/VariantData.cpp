@@ -424,8 +424,11 @@ void VariantData::setValue( const VariantData& value )
 		default:
 			type = pdUndefined;
 			// this let this class to work with types not considered in this implementation.
+			ObjVal = value.ObjVal;
+#ifdef VCF_VARIANT64
 			Long64Val = value.Long64Val;
 			StringVal = value.StringVal;
+#endif // VCF_VARIANT64
 			type = value.type;
 	}
 }
@@ -434,7 +437,7 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.5  2005/06/25 21:23:06  marcelloptr
+*Revision 1.3.2.6  2005/06/26 01:49:58  marcelloptr
 *added support for long64 and ulong64 and DateTime classes previous VCF_VARIANT64 macro
 *
 *Revision 1.3.2.3  2005/04/09 17:21:32  marcelloptr
