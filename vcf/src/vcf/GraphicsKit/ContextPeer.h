@@ -98,13 +98,13 @@ public:
 	virtual void setClippingRect( Rect* clipRect ) = 0;
 
 	/**
-	* this is used to determine how to align text 
-	* when the windowing systems draws it. 
+	* this is used to determine how to align text
+	* when the windowing systems draws it.
 	* Currently the choices are 2:
 	*  either it is aligned to the top, or in other
 	*  words the coordinates specified represent the
 	*  top, left position to start rendering the text,
-	* or 
+	* or
 	*  aligned to the baseline, in which the top,
 	*  left coordinates represent the baseline point of
 	*  origin. The latter setting is useful when
@@ -177,7 +177,7 @@ public:
 	virtual void setXORModeOn( const bool& XORModeOn ) = 0;
 
 	virtual bool isAntiAliasingOn() = 0;
-	
+
 	virtual void setAntiAliasingOn( bool antiAliasingOn ) = 0;
 
 
@@ -187,10 +187,21 @@ public:
 
 
 	virtual void drawThemeSelectionRect( Rect* rect, DrawUIState& state ) = 0;
-	
+
+	/**
+	Draws a focus rect, which is an inverted gray dotted line around the rect.
+	*/
 	virtual void drawThemeFocusRect( Rect* rect, DrawUIState& state ) = 0;
 
-	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state ) = 0;
+	/**
+	Draws a button's background, the border, and its caption.
+	*/
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* captionRect=NULL ) = 0;
+
+	/**
+	Similar to drawThemeFocusRect, but dimension of the focus rect is chosen by the peer.
+	*/
+	virtual void drawThemeButtonFocusRect( Rect* rect ) = 0;
 
 	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state ) = 0;
 
@@ -228,19 +239,19 @@ public:
 	with the native windowing systems default look and feel
 	*/
 	virtual void drawThemeTickMarks( Rect* rect, SliderState& state ) = 0;
-	
+
 	/**
 	Draws a slider control, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
 	*/
 	virtual void drawThemeSlider( Rect* rect, SliderState& state ) = 0;
-	
+
 	/**
 	Draws a progress bar control, that is compliant
 	with the native windowing systems default look and feel
 	*/
-	virtual void drawThemeProgress( Rect* rect, ProgressState& state ) = 0;	
-	
+	virtual void drawThemeProgress( Rect* rect, ProgressState& state ) = 0;
+
 	virtual void drawThemeImage( Rect* rect, Image* image, DrawUIState& state ) = 0;
 
 	/**
@@ -288,6 +299,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/06/26 01:27:53  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.4.2.2  2005/03/14 04:17:26  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

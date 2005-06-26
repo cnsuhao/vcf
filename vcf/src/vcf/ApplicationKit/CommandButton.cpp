@@ -33,11 +33,11 @@ CommandButton::CommandButton()
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
 	}
 
-	
+
 	peer_->create( this );
 	peer_->setControl( this );
 
-	
+
 
 	commandType_ = BC_NONE;
 
@@ -102,12 +102,12 @@ void CommandButton::click()
 						dialog->setModalReturnValue( UIToolkit::mrNo );
 					}
 					break;
-					
+
 					case BC_ABORT : {
 						dialog->setModalReturnValue( UIToolkit::mrAbort );
 					}
 					break;
-					
+
 					case BC_IGNORE : {
 						dialog->setModalReturnValue( UIToolkit::mrIgnore );
 					}
@@ -165,6 +165,9 @@ void CommandButton::paint(GraphicsContext * context)
 
 	context->setCurrentFont( getFont() );
 	context->drawThemeButtonRect( &rect, state );
+	if ( state.isFocused() ) {
+		context->drawThemeButtonFocusRect( &rect ); // MP-
+	}
 }
 
 ButtonCommandType CommandButton::getCommandType()
@@ -218,6 +221,9 @@ double CommandButton::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/26 01:27:53  marcelloptr
+*added images to a PushButton
+*
 *Revision 1.3.2.2  2005/02/27 01:45:33  ddiego
 *fixed bug in testing whether a path should be loaded as a bundle.
 *added some additional rtti info for certain classes in app kit.
