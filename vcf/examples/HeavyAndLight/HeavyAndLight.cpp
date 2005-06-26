@@ -47,7 +47,7 @@ public:
 		Color color;
 		//set the HLS color, where 240 is the color/hue (240 is Blue in a 360 color wheel)
 		//and lightness is at 70% and saturation at 100%
-		color.setHLS(240.0,0.7,1.0);
+		color.setHSL(240.0,0.7,1.0);
 
 		//set the color for the control
 		setColor( &color );
@@ -93,7 +93,7 @@ public:
 	HeavyWeightControl() : CustomControl() {
 		Color color;
 
-		color.setHLS(60.0,0.5,1.0);
+		color.setHSL(60.0,0.5,1.0);
 
 		//set the color for the control
 		setColor( &color );
@@ -201,6 +201,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.3  2005/06/26 00:40:36  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.4.4.2  2005/04/17 17:19:09  iamfraggle
 *Small fixes
 *

@@ -128,7 +128,7 @@ public:
                   0, 0,
                   (myDrawMode == FaceDown) ? myDeckItem : myCardItem,
                   myDrawMode,
-                  getColor()->getColorref32() );
+                  getColor()->getColorRef32() );
   }
 private:
   void doCtrlInit(const int cardValue = Defaultcard, const int deck = FaceDownFirst) {
@@ -152,6 +152,9 @@ DynoCardLoader CardControl::dnc;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.7  2005/06/26 00:40:36  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.1.2.6  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
