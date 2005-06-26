@@ -141,11 +141,11 @@ public:
 	virtual ~Win32UIPolicyManager() {
 
 	}
-	
+
 	virtual Rect adjustInitialDialogBounds( Dialog* dialog ) {
 		Rect result;
 		Control* owner = dialog->getOwner();
-		if ( NULL != owner ) {			
+		if ( NULL != owner ) {
 			result.left_ = owner->getLeft() + ( owner->getWidth()/2.0 - dialog->getWidth()/2.0 );
 			result.top_ = owner->getTop() + ( owner->getHeight()/2.0 - dialog->getHeight()/2.0 );
 			result.right_ = result.left_ + dialog->getWidth();
@@ -154,28 +154,28 @@ public:
 				owner->translateToScreenCoords( &result );
 			}
 		}
-		
+
 		return result;
 	}
 
 	virtual Frame* getOwnerForDialog() {
 		Frame* result = NULL;
 		Frame* activeFrame = Frame::getActiveFrame();
-		
+
 		Application* app = Application::getRunningInstance();
-	
+
 		if ( NULL != activeFrame ) {
 			result = activeFrame;
 		}
 		else if ( NULL != app ) {
 			result = app->getMainWindow();
-		}	
-	
+		}
+
 		return result;
 	}
-	
+
 	/**
-	* merges two menus by adding to the menu items of windowMenu 
+	* merges two menus by adding to the menu items of windowMenu
 	* all the items and subitems of appMenu that are not in windowMenu.
 	*/
 	virtual void mergeMenus( Menu* appMenu, Menu* windowMenu ) {
@@ -219,7 +219,7 @@ public:
 
 	virtual AcceleratorKey::Value getStandardAcceleratorFor( const StandardAccelerator& val ) {
 		AcceleratorKey::Value result;
-		
+
 		switch ( val ) {
 			case UIPolicyManager::saApplicationQuit : {
 				result = AcceleratorKey::Value( kmCtrl,vkLetterQ );
@@ -262,7 +262,7 @@ public:
 			break;
 
 			case UIPolicyManager::saFilePageSetup : {
-				
+
 			}
 			break;
 
@@ -536,7 +536,7 @@ public:
 			case UIMetricsManager::htComboBoxHeight : {
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
 				Point pt = DLUToPixel( Point(0,12), f );
-				result = pt.y_;				
+				result = pt.y_;
 			}
 			break;
 
@@ -559,8 +559,8 @@ public:
 			case UIMetricsManager::htRadioBoxHeight : case UIMetricsManager::htCheckBoxHeight : {
 				/**
 				JC
-				Stripped this all out  - 
-				it turns out that the height/width is ALWAYS 13 pixels - no matter what 
+				Stripped this all out  -
+				it turns out that the height/width is ALWAYS 13 pixels - no matter what
 				the DPI is
 				GetSystemMetrics( SM_CXMENUCHECK ) returns a value that changes based on the DPI
 				13 at 96 DPI and 17 at 120 DPI
@@ -715,7 +715,7 @@ public:
 
 		NONCLIENTMETRICS ncm;
 		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
-		ncm.cbSize = sizeof(NONCLIENTMETRICS);	
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);
 
 		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
 
@@ -728,7 +728,7 @@ public:
 		Size result;
 
 		result.width_ = ::GetSystemMetrics( SM_CXHTHUMB );
-		result.height_ = ::GetSystemMetrics( SM_CYVTHUMB );	
+		result.height_ = ::GetSystemMetrics( SM_CYVTHUMB );
 
 		return result;
 	}
@@ -786,7 +786,7 @@ public:
 		getFont()->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP_TEXT ) );
 		setFrameStyle( fstNoBorderFixed );
 		setFrameTopmost( true );
-		
+
 		setUseColorForBackground( true );
 
 	};
@@ -1037,8 +1037,8 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 					/** - MP -
 					REMARK: if we break here with a crash of the application, we probably had the
 					crash before the main frame window for the application has been fully initialized.
-					In order to see what the cause was, please put a break on the Dialog::showMessage 
-					line inside the catch block of Application::main() and then skip it and run again 
+					In order to see what the cause was, please put a break on the Dialog::showMessage
+					line inside the catch block of Application::main() and then skip it and run again
 					from the throw statement.
 					*/
 					activeFrame->activate();
@@ -2019,7 +2019,7 @@ void Win32ToolKit::internal_runEventLoop()
 						Control* currentFocusedControl = Control::getCurrentFocusedControl();
 
 						if ( NULL != w ) {
-							control = w->getPeerControl();							
+							control = w->getPeerControl();
 							if ( NULL != currentFocusedControl ) {
 								if ( (control != currentFocusedControl) && (currentFocusedControl->isLightWeight()) ) {
 									control = currentFocusedControl;
@@ -2027,8 +2027,8 @@ void Win32ToolKit::internal_runEventLoop()
 							}
 						}
 						/**
-						JC - I put this very small change to attempt to 
-						properly capture the "correct" focused control, 
+						JC - I put this very small change to attempt to
+						properly capture the "correct" focused control,
 						from the VCF's perspective. It seems to work fine.
 						*/
 						else {
@@ -2254,7 +2254,7 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.18  2005/06/25 23:14:38  marcelloptr
+*Revision 1.3.2.19  2005/06/26 01:32:41  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
 *
 *Revision 1.3.2.15  2005/06/06 02:34:06  ddiego
