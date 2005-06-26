@@ -83,7 +83,7 @@ public:
 
 
 		charFmt_.yOffset = 0;
-		charFmt_.crTextColor = font.getColor()->getColorref32();
+		charFmt_.crTextColor = font.getColor()->getColorRef32();
 
 
 		charFmt_.dwEffects = CFM_EFFECTS | CFE_AUTOBACKCOLOR;
@@ -526,7 +526,7 @@ void Win32TextPeer::initHostDefaultStyle( Font* font )
 	name.copy( host_->charFmt_.szFaceName, name.size() );
 
 	Color* color = font->getColor();
-	host_->charFmt_.crTextColor = color->getColorref32();
+	host_->charFmt_.crTextColor = color->getColorRef32();
 
 
 	host_->charFmt_.yHeight = font->getPointSize();
@@ -763,7 +763,7 @@ void Win32TextPeer::getStyle( unsigned int start, unsigned int length, Dictionar
 			long val;
 
 			font->GetForeColor( &val );
-			color.setColorref32( val );
+			color.setColorRef32( val );
 			styles[ Text::fsColor ] = (Object*)&color; // color cannot be a temporary
 
 			float size = 0;
@@ -871,7 +871,7 @@ void Win32TextPeer::setStyle( unsigned int start, unsigned int length, Dictionar
 					Color* color = (Color*)(Object*)style.second;
 					VCF_ASSERT( NULL != color );
 
-					font->SetForeColor( color->getColorref32() );
+					font->SetForeColor( color->getColorRef32() );
 
 				}
 				else if ( style.first == Text::fsPointSize ) {
@@ -974,7 +974,7 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 			Color* color = (Color*)(Object*)style.second;
 			VCF_ASSERT( NULL != color );
 
-			host_->charFmt_.crTextColor = color->getColorref32();
+			host_->charFmt_.crTextColor = color->getColorRef32();
 		}
 		else if ( style.first == Text::fsPointSize ) {
 			double val = style.second;
@@ -1047,6 +1047,9 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.11  2005/06/26 01:31:20  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.1.2.10  2005/06/25 19:50:49  marcelloptr
 *forgotten MP mark
 *

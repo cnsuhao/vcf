@@ -295,7 +295,7 @@ void Win32Listview::create( Control* owningControl )
 		subclassWindow();
 		setFont( owningControl->getFont() );
 
-		COLORREF backColor = backColor_.getColorref32();
+		COLORREF backColor = backColor_.getColorRef32();
 		ListView_SetBkColor( hwnd_, backColor );
 	}
 	else {
@@ -549,7 +549,7 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 			/*
 			Color* color = listviewControl_->getColor();
 			if ( (backColor_.getRed() != color->getRed()) || (backColor_.getGreen() != color->getGreen()) || (backColor_.getBlue() != color->getBlue()) ) {
-				COLORREF backColor = color->getColorref32();
+				COLORREF backColor = color->getColorRef32();
 				ListView_SetBkColor( hwnd_, backColor );
 
 				backColor_.copy( color );
@@ -710,7 +710,7 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 			::SetViewportOrgEx( memDC_, -r.left, -r.top, NULL );
 
 			Color* color = listviewControl_->getColor();
-			COLORREF backColor = color->getColorref32();
+			COLORREF backColor = color->getColorRef32();
 
 			HBRUSH bkBrush = CreateSolidBrush( backColor );
 			FillRect( memDC_, &r, bkBrush );
@@ -2408,6 +2408,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/06/26 01:31:20  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.3.2.12  2005/06/09 07:18:24  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
