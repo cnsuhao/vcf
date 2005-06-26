@@ -16,8 +16,9 @@ where you installed the VCF.
 /*
  Uncomment this to have a variant of 64 bits at least
  This enables the automatic conversion of DateTime objects too
+ Please the 15th of July whne the DateTime class will be fully implemented.
 */
-#define VCF_VARIANT64
+// #define VCF_VARIANT64
 
 
 namespace VCF {
@@ -698,7 +699,7 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.6  2005/06/25 21:23:06  marcelloptr
+*Revision 1.2.4.7  2005/06/26 01:49:59  marcelloptr
 *added support for long64 and ulong64 and DateTime classes previous VCF_VARIANT64 macro
 *
 *Revision 1.2.4.4  2005/06/07 16:32:48  marcelloptr
