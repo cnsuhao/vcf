@@ -30,7 +30,7 @@ public:
 		maximizeLastRow_(false),
 		equalizeHeights_(false),
 		averageHeights_(false),
-		keepControlWidth_(false) {
+		keepControlsWidth_(false) {
 
 		setBorderWidth( UIToolkit::getUIMetricsManager()->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) );
 
@@ -259,7 +259,7 @@ public:
 				continue;
 			}
 
-			if ( !keepControlWidth_ &&  ( col == (colCount-1) ) ) {
+			if ( !keepControlsWidth_ &&  ( col == (colCount-1) ) ) {
 				cell.right_ = clientBounds.right_;
 			}
 
@@ -334,7 +334,7 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.7  2005/06/25 22:47:20  marcelloptr
+*Revision 1.2.2.8  2005/06/26 01:34:37  marcelloptr
 *[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.
 *AbstractContainer::add() needs to resizeChildren *after* the child control has been added.
 *
