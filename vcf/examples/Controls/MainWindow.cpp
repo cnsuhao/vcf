@@ -358,7 +358,7 @@ void MainWindow::makeButtonsPage()
 	RadioButtonControl* radioBtn = new RadioButtonControl();
 
 	label = new Label();
-	label->setCaption( radioBtn->getClassName() + "s:" );
+	label->setCaption( radioBtn->getClassName() + "(s):" );
 	container->add( label );
 
 
@@ -835,7 +835,7 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.15  2005/06/26 01:40:25  marcelloptr
+*Revision 1.2.2.16  2005/06/26 02:05:09  marcelloptr
 *added images to a PushButton
 *
 *Revision 1.2.2.14  2005/06/09 06:13:08  marcelloptr
