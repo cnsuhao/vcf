@@ -53,10 +53,10 @@ bool Win32FontDialog::execute()
 		chooseFont.lpLogFont = &logFont;
 		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
 		Color* c = font_.getColor();
-		chooseFont.rgbColors = c->getColorref32();
+		chooseFont.rgbColors = c->getColorRef32();
 
 		if ( ChooseFontW( &chooseFont ) ){
-			c->setColorref32(chooseFont.rgbColors);
+			c->setColorRef32(chooseFont.rgbColors);
 			LOGFONTW* fontLogFont = (LOGFONTW*)font_.getFontPeer()->getFontHandleID();
 			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTW) );
 			result = true;
@@ -81,10 +81,10 @@ bool Win32FontDialog::execute()
 		chooseFont.lpLogFont = &logFont;
 		chooseFont.Flags = CF_SCREENFONTS | CF_EFFECTS | CF_INITTOLOGFONTSTRUCT;
 		Color* c = font_.getColor();
-		chooseFont.rgbColors = c->getColorref32();
+		chooseFont.rgbColors = c->getColorRef32();
 
 		if ( ChooseFontA( &chooseFont ) ){
-			c->setColorref32(chooseFont.rgbColors);
+			c->setColorRef32(chooseFont.rgbColors);
 			LOGFONTA* fontLogFont = (LOGFONTA*)font_.getFontPeer()->getFontHandleID();
 			memcpy( fontLogFont, chooseFont.lpLogFont, sizeof(LOGFONTA) );
 			result = true;
@@ -109,6 +109,9 @@ void Win32FontDialog::setSelectedFont( Font* selectedFont )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/26 01:53:03  marcelloptr
+*improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
+*
 *Revision 1.2.4.1  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
