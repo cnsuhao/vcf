@@ -29,6 +29,10 @@ public:
 
 protected:
 	DropTarget* dropTarget_;
+	EventHandlerRef eventHandlerRef_;
+	DataObject* currentDataObj_;
+	
+	static OSStatus handleDropTargetEvents(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);
 };
 
 
@@ -38,6 +42,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *

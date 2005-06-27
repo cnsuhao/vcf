@@ -141,6 +141,10 @@ public:
 	operator Fixed () const {
 		return val_;
 	}
+	
+	Fixed* operator&() {
+		return 	&val_;
+	}
 protected:
 	Fixed val_;
 };
@@ -359,6 +363,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.3.2.2  2005/06/27 03:28:54  ddiego
+ *more osx work.
+ *
  *Revision 1.3.2.1  2005/06/15 15:41:14  ddiego
  *minor osx stuff
  *

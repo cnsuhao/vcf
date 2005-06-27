@@ -61,6 +61,16 @@ OSXTextPeer::OSXTextPeer():
 	if ( noErr != TXNCreateObject( &r, frameOptions, &txnObject_ ) ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2("MLTE TXNCreateObject failed!") );
 	}
+	
+	TXNCarbonEventInfo      carbonEventInfo;
+	TXNControlTag           iControlTags[] = { kTXNUseCarbonEvents };  
+	TXNControlData          iControlData[1];
+	carbonEventInfo.useCarbonEvents = false;  
+	carbonEventInfo.filler = 0;
+	carbonEventInfo.flags = 0;   
+	carbonEventInfo.fDictionary = NULL;
+	iControlData[0].uValue = (UInt32) &carbonEventInfo;
+	TXNSetTXNObjectControls( txnObject_, false, 1, iControlTags, iControlData ); 
 }
 
 OSXTextPeer::~OSXTextPeer()
@@ -130,6 +140,29 @@ String OSXTextPeer::getText( unsigned int start, unsigned int length )
 void OSXTextPeer::paint( GraphicsContext* context, const Rect& paintRect )
 {
 
+	OSXContext* ctxPeer = (OSXContext*) context->getPeer();
+	
+	HIRect txBounds;
+	txBounds.origin.x = paintRect.left_;
+	txBounds.origin.y = paintRect.top_;
+	txBounds.size.width = paintRect.getWidth();
+	txBounds.size.height = paintRect.getHeight();
+	
+	TXNControlTag  controlTags[] = { kATSUCGContextTag };
+	TXNControlData  controlData[1];
+	controlData[0].uValue = (UInt32) ctxPeer->getCGContext();
+	
+	//set the txnObject_ to use the CGContext associated with the GraphicsContext!
+ 	TXNSetTXNObjectControls( txnObject_, false, sizeof( controlTags ) / sizeof( TXNControlTag ),
+								controlTags, controlData );
+ 
+	//resize it
+	TXNSetHIRectBounds( txnObject_, &txBounds, &txBounds, false );
+	//recalc the layout
+	TXNRecalcTextLayout( txnObject_ );
+	
+	//draw it!!!
+	TXNDrawObject( txnObject_, NULL, kTXNDrawItemTextMask );	
 }
 
 void OSXTextPeer::setRightMargin( const double & rightMargin )
@@ -176,6 +209,9 @@ unsigned long OSXTextPeer::getLineCount()
 {
 	unsigned long result = 0;
 
+	
+	TXNGetLineCount( txnObject_, (ItemCount*)&result );
+	
 	return result;
 }
 
@@ -183,6 +219,37 @@ VCF::Rect OSXTextPeer::getContentBoundsForWidth(const double& width)
 {
 	VCF::Rect result;
 
+	
+	HIRect originalBounds;
+	TXNGetHIRect( txnObject_, kTXNViewRectKey, &originalBounds );
+	
+	//set the tmp bounds that we want to recalc the 
+	//text for
+	HIRect tmpBounds;
+	tmpBounds.origin.x = 0;
+	tmpBounds.origin.y = 0;
+	tmpBounds.size.width = width;
+	tmpBounds.size.height = 10; //doesn't really matter?
+	
+	//recalc the layout
+	TXNSetHIRectBounds( txnObject_, &tmpBounds, &tmpBounds, false );
+	TXNRecalcTextLayout( txnObject_ );
+	
+	ItemCount lines = 0;
+	TXNGetLineCount( txnObject_, &lines );
+	
+	FixedPointNumber lineWidth;
+	FixedPointNumber lineHeight;
+	for ( ItemCount line=0;line<lines;line++ ) {
+		TXNGetLineMetrics( txnObject_, line, &lineWidth, &lineHeight );
+		result.right_ = maxVal<double>( result.right_, lineWidth );
+		result.bottom_ += lineHeight.asDouble();
+	}
+	
+	//reset the old bounds! 
+	TXNSetHIRectBounds( txnObject_, &originalBounds, &originalBounds, false );
+	TXNRecalcTextLayout( txnObject_ );
+	
 	return result;
 }
 
@@ -346,28 +413,33 @@ void OSXTextPeer::setStyle( unsigned int start, unsigned int length, Dictionary&
 		}
 		else if ( style.first == Text::psAlignment ) {
 			int alignment = style.second;
-
+			
+			TXNControlTag tag = kTXNJustificationTag;
+			TXNControlData data;
+			
 			switch ( alignment ) {
 				case Text::paLeft : {
-
+					data.uValue = kTXNFlushLeft;
 				}
 				break;
 
 				case Text::paCenter : {
-
+					data.uValue = kTXNCenter;
 				}
 				break;
 
 				case Text::paRight : {
-
+					data.uValue = kTXNFlushRight;
 				}
 				break;
 
 				case Text::paJustified : {
-
+					data.uValue = kTXNForceFullJust;
 				}
 				break;
-			}
+			}				
+			
+			TXNSetTXNObjectControls( txnObject_, false, 1, &tag, &data );
 		}
 	}
 
@@ -472,6 +544,9 @@ void OSXTextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.1.2.2  2005/06/25 19:46:59  marcelloptr
 *forgotten MP mark
 *

@@ -32,6 +32,8 @@ protected:
 	VCF::DragSource * dragSrc_;
 	VCF::DataObject * dataObj_;
 	DragActionType actionType_;
+	
+	static OSErr DragInputFunction ( ::Point * mouse, SInt16 * modifiers, void * dragInputRefCon, DragRef theDrag);
 };
 
 };
@@ -40,6 +42,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *

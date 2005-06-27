@@ -32,7 +32,7 @@ public:
 
 	virtual bool hasDataType( const String& dataType );
 
-
+	static DataObject* createDataObjectFromPasteBoard( PasteboardRef pasteBoard );
 protected:
 	CFRefObject<PasteboardRef> globalPasteBoard_;
 
@@ -45,6 +45,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.1.2.1  2005/06/15 15:41:13  ddiego
 *minor osx stuff
 *
