@@ -28,12 +28,12 @@ NB: This software will not save the world.
 
 -->
 
-<title>The VCF Book 0.6.6</title>
-	<titleabbrev>VCF Documentation 0.6.6</titleabbrev>
+<title>The VCF Book 0.6.8</title>
+	<titleabbrev>VCF Documentation 0.6.8</titleabbrev>
 	<bookinfo>
 		<legalnotice>
 			<para>
-			Copyright (c) 2000-2003, Jim Crafton
+			Copyright (c) 2000-2005, Jim Crafton
 			</para>
 			<para>
 			All rights reserved.
@@ -89,6 +89,7 @@ NB: This software will not save the world.
 			<year>2002</year>
 			<year>2003</year>
 			<year>2004</year>
+			<year>2005</year>
 			<holder>Jim Crafton, VCF Project</holder>
 		</copyright>
 
@@ -291,6 +292,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.2  2005/06/27 05:56:36  dougtinkham
+0.6.x->0.6.8, (c) to 2005
+
 Revision 1.6.2.1  2005/06/24 20:51:30  ddiego
 more updates to foundationkit docs.
 
