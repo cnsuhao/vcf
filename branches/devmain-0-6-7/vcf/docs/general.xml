@@ -329,7 +329,7 @@ NB: This software will not save the world.
 		<section><title>VCF Tools</title>
 			<section><title>Microsoft Visual C++ 6</title>				
 				<para>
-				The first thing you'll want to is build the various add-ins for 
+				The first thing you'll want to do is build the various add-ins for 
 				Developer Studio. Open the main workspace found in vcf/build/vc60/add-ins/all.dsw. 
 				Build the "Win32 Release" configuration, making sure that the "all" 
 				project is the current active project. This should build the 
@@ -347,12 +347,13 @@ NB: This software will not save the world.
 			</section>		
 			<section><title>Microsoft Visual C++ 7/7.1</title>				
 				<para>
-				The first thing you'll want to is install the various wizards for 
-				Developer Studio. To install in Visual C++ 7.1, navigate to the directory
-				vcf/build/vc71/add-ins, and run (double click) Setup.js.  This will install the
-				various wizards for use in the IDE. To verify that these were installed correctly,
-				go to "File | New..." and click on the "Projects" tab and you should see something 
-				like the following:
+				The first thing you'll want to do is install the various wizards for 
+				Developer Studio. To install, navigate to the directory	vcf/build/vc70/add-ins (for 
+				Visual Studio.NET) OR vcf/build/vc71/add-ins (for Visual Studio.NET2003), and run 
+				(double click) Setup.js.  This will install the	various wizards for use in the IDE. 
+				To verify that these were installed correctly,	go to "File | New | Projects" and 
+				click on the "Visual C++ Projects" directory icon and you should see something like 
+				the	following:
 				</para>				
 				<screenshot>
 					<graphic fileref="gfx/addins_vc71_verify.png"></graphic>
@@ -383,7 +384,7 @@ NB: This software will not save the world.
 		<section><title>Building the VCF Libraries</title>
 			<section><title>Win32</title>
 				<formalpara><title>Microsoft Visual C++ 6</title>
-				The following section deals with build the VCF libraries using the Microsoft 
+				The following section deals with building the VCF libraries using the Microsoft 
 				Visual C++ 6 IDE.
 				</formalpara>
 				<para>
@@ -429,7 +430,7 @@ NB: This software will not save the world.
 				</para>
 	
 				<formalpara><title>Microsoft Visual C++ 7.0</title>
-				The following section deals with build the VCF libraries using the Microsoft 
+				The following section deals with building the VCF libraries using the Microsoft 
 				Visual C++ 7.0 IDE.
 				</formalpara>
 				<para>
@@ -450,8 +451,8 @@ NB: This software will not save the world.
 				</para>
 				
 				<formalpara><title>Microsoft Visual C++ 7.1</title>
-				The following section deals with build the VCF libraries using the Microsoft 
-				Visual C++ 7.0 IDE.
+				The following section deals with building the VCF libraries using the Microsoft 
+				Visual C++ 7.1 IDE.
 				</formalpara>
 				<para>
 				To build the VCF open the vcf/build/vc71/vcfAllProjects.dsw workspace. 
@@ -476,7 +477,7 @@ NB: This software will not save the world.
 				</para>				
 				
 				<formalpara><title>Microsoft Visual C++ 6 using the Intel C/C++ compiler</title>
-				The following section deals with build the VCF libraries using the Microsoft 
+				The following section deals with building the VCF libraries using the Microsoft 
 				Visual C++ 7.0 IDE with the Intel C/C++ compiler installed.
 				</formalpara>
 				<para>
@@ -551,7 +552,7 @@ NB: This software will not save the world.
 	<programlisting>
 	echo `pkg-config gtk+-2.0 --cflags`
 	</programlisting>
-				You should see some sort GCC compiler flags - if you get back error messages 
+				You should see some sort of GCC compiler flags - if you get back error messages 
 				like:
 	<programlisting>
 	pkg-config: command not found
@@ -1608,6 +1609,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.5.2.2  2005/06/27 05:54:40  dougtinkham
+minor changes
+
 Revision 1.5.2.1  2005/06/07 03:56:26  dougtinkham
 vc71 AppWizard installation.
 
