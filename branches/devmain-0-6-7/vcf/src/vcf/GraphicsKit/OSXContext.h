@@ -155,6 +155,15 @@ public:
 	
 	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
 	void setPortFromImage( GrafPtr port, uint32 width, uint32 height );
+	
+	
+	CGContextRef getCGContext() {
+		return contextID_;
+	}
+	
+	GrafPtr getGrafPtr() {
+		return grafPort_;
+	}
 protected:
 	CGContextRef contextID_;
     GrafPtr grafPort_;
@@ -192,6 +201,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.3.2.1  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *

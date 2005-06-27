@@ -113,8 +113,6 @@ void OSXCursorPeer::createSystemCursor( const Cursor::SystemCursorType& systemCu
 		}
 		break;
 	}
-
-
 }
 
 void OSXCursorPeer::createFromResourceName( const String& cursorName, OSHandleID instanceHandle )
@@ -126,6 +124,9 @@ void OSXCursorPeer::createFromResourceName( const String& cursorName, OSHandleID
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.3.2.1  2005/05/08 19:55:31  ddiego
 *osx updates, not yet functional.
 *

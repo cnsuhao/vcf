@@ -106,6 +106,8 @@ static const EventTypeSpec osxHIViewEvents[] =
 	{ kEventClassControl, kEventControlTrack },
 	{ kEventClassControl, kEventControlGetSizeConstraints },
 	{ kEventClassControl, kEventControlHit },
+	{ kEventClassControl, kEventControlOwningWindowChanged },
+	
 	
 	{ kEventClassKeyboard, kEventRawKeyDown },
 	{ kEventClassKeyboard, kEventRawKeyUp },
@@ -197,10 +199,7 @@ void OSXControl::create( Control* owningControl )
 							
 		if ( err != noErr ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXControl!") );
-		}
-		
-		
-        
+		}        
 	}
 	else {
 		throw RuntimeException( MAKE_ERROR_MSG_2("OSXControl failed to be created!") );
@@ -759,6 +758,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.3.2.3  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
@@ -815,6 +817,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.3.2.4  2005/06/27 03:28:54  ddiego
+*more osx work.
+*
 *Revision 1.3.2.3  2005/06/09 06:13:08  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *
