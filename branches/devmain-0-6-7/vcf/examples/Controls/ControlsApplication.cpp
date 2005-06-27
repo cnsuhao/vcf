@@ -21,23 +21,23 @@ ControlsApplication::ControlsApplication( int argc, char** argv ):
 	Application( argc, argv )
 
 {
-	
+
 }
 
 ControlsApplication::~ControlsApplication()
 {
-	
+
 }
 
 bool ControlsApplication::initRunningApplication(){
 	bool result = Application::initRunningApplication();
 	MainWindow* mainWindow = new MainWindow();
-	
+
 	setMainWindow(mainWindow);
 	mainWindow->setBounds( &Rect( 50.0, 50.0, 650.0, 700.0 ) );
 	mainWindow->setVisible( true );
 	mainWindow->setCaption( "Controls" );
-	
+
 	return result;
 }
 
@@ -45,7 +45,7 @@ bool ControlsApplication::initRunningApplication(){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.2.1  2005/06/26 02:03:47  marcelloptr
+*Revision 1.2.2.2  2005/06/27 23:58:03  marcelloptr
 *added images to a PushButton
 *
 *Revision 1.2  2004/12/01 04:15:00  ddiego
@@ -57,3 +57,5 @@ bool ControlsApplication::initRunningApplication(){
 *added copyright
 *
 */
+
+
