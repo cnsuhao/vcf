@@ -1328,7 +1328,7 @@ void OSXContext_drawThemeButtonText( const ::Rect * bounds, ThemeButtonKind kind
 }
 
 
-void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
+void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* captionRect )
 {
 	Rect tmp = *rect;
 	tmp.offset( origin_.x_, origin_.y_ );
@@ -1369,6 +1369,11 @@ void OSXContext::drawThemeButtonRect( Rect* rect, ButtonState& state )
     DrawThemeButton( r, kThemePushButton, &btnInfo, NULL, NULL, btnDrawUPP, (UInt32)&state );
 	
 	DisposeThemeButtonDrawUPP(btnDrawUPP);
+}
+
+void OSXContext::drawThemeButtonFocusRect( Rect* rect )
+{
+
 }
 
 void OSXContext::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
@@ -2276,6 +2281,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/28 04:09:05  ddiego
+*adjusted for marcellos change.
+*
 *Revision 1.3.2.2  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *

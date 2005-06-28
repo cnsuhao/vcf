@@ -114,7 +114,9 @@ public:
 	
 	virtual void drawThemeFocusRect( Rect* rect, DrawUIState& state );
 
-	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state );
+	virtual void drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* captionRect=NULL );
+	
+	virtual void drawThemeButtonFocusRect( Rect* rect );
 
 	virtual void drawThemeCheckboxRect( Rect* rect, ButtonState& state );
 
@@ -201,6 +203,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/28 04:09:05  ddiego
+*adjusted for marcellos change.
+*
 *Revision 1.3.2.2  2005/06/27 03:28:54  ddiego
 *more osx work.
 *
