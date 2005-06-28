@@ -141,7 +141,7 @@ public:
 			s = Format( "panel%d" ) % i;
 			p->setName( s );
 			if ( i < n ) {
-				sTip = Format( "p%d: %s, %s" ) % i % alignments[alignment].c_str() % colors[i-1].c_str();
+				sTip = Format( "p%d: %s, %s" ) % i % alignments[alignment] % colors[i-1];
 				p->setToolTipText( sTip );
 				panel->add( p, alignment );
 
@@ -156,7 +156,7 @@ public:
 				panel->add( splitter, alignment );
 #endif
 			} else {
-				sTip = Format( "p%d: %s, %s" ) % i % alignments[AlignClient].c_str() % colors[i-1].c_str();
+				sTip = Format( "p%d: %s, %s" ) % i % alignments[AlignClient] % colors[i-1];
 				p->setToolTipText( sTip );
 				panel->add( p, AlignClient );
 			}
@@ -207,13 +207,9 @@ public:
 	void onResized( ControlEvent*e ) {
 
 		double w = main_->getWidth()/2;
-		StringUtils::traceWithArgs( Format("w: %0.2f\n") % w );
+		StringUtils::trace( Format("w: %0.2f\n") % w );
 
 		panelLeft_->setWidth( w );
-
-		w = main_->getWidth()/2;
-
-		StringUtils::traceWithArgs( Format("w: %0.2f\n") % w );
 
 		panelRight_->setWidth( w );
 	}
@@ -274,6 +270,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/06/28 20:37:08  marcelloptr
+*first step to remove flickering when dragging a splitter
+*
 *Revision 1.6.2.1  2005/04/17 15:11:47  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *
