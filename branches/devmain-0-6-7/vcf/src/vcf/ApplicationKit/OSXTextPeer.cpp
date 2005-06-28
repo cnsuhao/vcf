@@ -125,13 +125,14 @@ String OSXTextPeer::getText( unsigned int start, unsigned int length )
 	if ( noErr == TXNGetData( txnObject_, start, start+length, &data ) ) {
 		HLock(data);
 		CFRefObject<CFDataRef>  stringData = CFDataCreate(kCFAllocatorDefault, (UInt8*)*data, GetHandleSize(data));
-		HUnlock(data);
-		DisposeHandle( data );
+		HUnlock(data);	
 
 
 		CFRefObject<CFStringRef> stringRef = CFStringCreateFromExternalRepresentation(kCFAllocatorDefault, stringData, kCFStringEncodingUnicode);
 		CFTextString tmp(stringRef);
 		result = tmp;
+		
+		DisposeHandle( data );
 	}
 
 	return result;
@@ -544,6 +545,9 @@ void OSXTextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2005/06/28 04:03:36  ddiego
+*osx text edit mods and started on osx tree peer.
+*
 *Revision 1.1.2.3  2005/06/27 03:28:54  ddiego
 *more osx work.
 *

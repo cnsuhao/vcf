@@ -55,13 +55,22 @@ public:
 	virtual void setAllowLabelEditing( const bool& allowLabelEditing );
 
 	
-private:
+protected:
+	
 	TreeControl* treeControl_;
 
 	void onImageListImageChanged( ImageListEvent* event );
 	void onStateImageListImageChanged( ImageListEvent* event );
 	void onControlModelChanged( Event* e );
 	void onTreeNodeDeleted( TreeModelEvent* event );
+	
+	static OSStatus DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
+										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
+										Boolean setValue );
+										
+	static OSStatus DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
+															DataBrowserItemNotification message);
+
 };
 
 };
@@ -70,6 +79,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/28 04:03:36  ddiego
+*osx text edit mods and started on osx tree peer.
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *
