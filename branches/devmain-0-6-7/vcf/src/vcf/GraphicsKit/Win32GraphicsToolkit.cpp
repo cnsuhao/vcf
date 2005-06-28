@@ -34,7 +34,7 @@ Win32GraphicsToolkit::Win32GraphicsToolkit()
 	loadSystemColors();
 	registerImageLoader( "image/bmp", new BMPLoader() );
 
-	initSystemFont();	
+	initSystemFont();
 }
 
 Win32GraphicsToolkit::~Win32GraphicsToolkit()
@@ -220,7 +220,7 @@ GraphicsResourceBundlePeer* Win32GraphicsToolkit::internal_createGraphicsResourc
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.2  2005/06/25 21:51:12  marcelloptr
+*Revision 1.3.2.3  2005/06/28 00:12:14  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *
 *Revision 1.3.2.1  2004/12/19 04:05:05  ddiego
