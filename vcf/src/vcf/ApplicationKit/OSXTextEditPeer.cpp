@@ -744,6 +744,9 @@ void OSXTextEditPeer::setText( const VCF::String& text )
 {
 	editState_ |= esPeerTextChanging;
 
+	deleteText( 0, getTextLength() );
+	
+	insertText( 0, text );
 
 	editState_ &= ~esPeerTextChanging;
 }
@@ -752,12 +755,22 @@ unsigned long OSXTextEditPeer::getSelectionStart()
 {
 	unsigned long start = 0;
 	
+	TXNOffset s, e;
+	
+	TXNGetSelection( txnObject_, &s, &e );
+	
+	start = s;
+	
 	return start;
 }
 
 unsigned long OSXTextEditPeer::getSelectionCount()
 {
-	return 0;
+	TXNOffset s, e;
+	
+	TXNGetSelection( txnObject_, &s, &e );
+	
+	return e - s;
 }
 
 /*
@@ -770,12 +783,12 @@ void OSXTextEditPeer::getSelectionMark( unsigned long & start, unsigned long & e
 
 void OSXTextEditPeer::clearSelection()
 {
-
+	TXNClear( txnObject_ );
 }
 
 void OSXTextEditPeer::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
-	
+	TXNSetSelection( txnObject_, start, start + count );
 }
 
 
@@ -791,12 +804,21 @@ void OSXTextEditPeer::scrollToSelection( const bool& _showEndSel/*=false*/ )
 
 void OSXTextEditPeer::repaint( Rect* repaintRect )
 {
-	
+	OSXControl::repaint( repaintRect );
 }
 
 void OSXTextEditPeer::setReadOnly( const bool& readonly )
 {
-
+	
+	TXNControlTag           iControlTags[] = { kTXNIOPrivilegesTag };  
+	TXNControlData          iControlData[1];
+	if ( readonly ) {
+		iControlData[0].uValue = (UInt32) kTXNReadOnly;
+	}
+	else {
+		iControlData[0].uValue = (UInt32) kTXNReadWrite;	
+	}
+	TXNSetTXNObjectControls( txnObject_, false, 1, iControlTags, iControlData ); 
 }
 
 ulong32 OSXTextEditPeer::getTotalPrintablePageCount( PrintContext* context )
@@ -838,36 +860,36 @@ void OSXTextEditPeer::onControlModelChanged( Event* e )
 void OSXTextEditPeer::cut()
 {
 	if ( !textControl_->getReadOnly() ) {
-		
+		TXNCut( txnObject_ );
 	}
 }
 
 void OSXTextEditPeer::copy()
 {
-	
+	TXNCopy( txnObject_ );
 }
 
 void OSXTextEditPeer::paste()
 {
 	if ( !textControl_->getReadOnly() ) {
-		
+		TXNPaste( txnObject_ );
 	}
 }
 
 bool OSXTextEditPeer::canUndo()
 {
-	return false;
+	return TXNCanUndo( txnObject_, NULL );
 }
 
 bool OSXTextEditPeer::canRedo()
 {
-	return false;
+	return TXNCanRedo( txnObject_, NULL );
 }
 
 void OSXTextEditPeer::undo()
 {
 	if ( !textControl_->getReadOnly() ) {
-		
+		TXNUndo( txnObject_ );
 	}
 }
 
@@ -875,7 +897,7 @@ void OSXTextEditPeer::redo()
 {
 	//this one is necessary too, otherwise the model wouldn't be updated
 	if ( !textControl_->getReadOnly() ) {
-		
+		TXNRedo( txnObject_ );
 	}
 }
 
@@ -889,6 +911,9 @@ void OSXTextEditPeer::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/28 04:03:35  ddiego
+*osx text edit mods and started on osx tree peer.
+*
 *Revision 1.1.2.1  2005/06/27 03:28:54  ddiego
 *more osx work.
 *
