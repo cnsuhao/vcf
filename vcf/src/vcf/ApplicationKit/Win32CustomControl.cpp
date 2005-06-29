@@ -98,9 +98,9 @@ void Win32CustomControl::setText( const String& text )
 void Win32CustomControl::setBounds( Rect* rect )
 {
 	::SetWindowPos( this->wndHandle_, NULL,
-		            rect->left_, rect->top_,
-		            rect->getWidth(), rect->getHeight(),
-					SWP_NOACTIVATE );
+	                rect->left_, rect->top_,
+	                rect->getWidth(), rect->getHeight(),
+	                SWP_NOACTIVATE );
 }
 
 Rect* Win32CustomControl::getBounds()
@@ -250,6 +250,9 @@ void Win32CustomControl::releaseMouseEvents()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/06/29 05:00:03  marcelloptr
+*some white spaces
+*
 *Revision 1.2.4.3  2005/04/17 06:10:54  iamfraggle
 *UNICODE fix for CW
 *

@@ -726,12 +726,11 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			}
 
 			delete cachedMessages_;
-/*
-			
 
+			/*
 			Rect r = peerControl_->getBounds();
 
-			peerControl_->setBounds(&r);
+			peerControl_->setBounds( &r );
 			Container* c = peerControl_->getContainer();
 			if ( NULL != c ) {
 				c->resizeChildren(NULL);
@@ -1655,6 +1654,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.20  2005/06/29 05:00:02  marcelloptr
+*some white spaces
+*
 *Revision 1.5.2.19  2005/06/14 07:33:35  dougtinkham
 *Fixed flicker effect with WM_ERASEBKGND in handleEventMessages
 *

@@ -290,18 +290,20 @@ public:
 	void setCommandType( const ButtonCommandType& commandType );
 
 protected:
+	/**
+	event handler called when the button gets the focus
+	*/
+	void onFocusGained( FocusEvent* event );
+
+	/**
+	event handler called when the button looses the focus
+	*/
+	void onFocusLost( FocusEvent* event );
+
 	/*
-	obsolete, they should be removed.
-	virtual void drawHighLighted( const Rect& rect, GraphicsContext* ctx );
-
-	virtual void drawNormal( const Rect& rect, GraphicsContext* ctx );
-
-	virtual void drawCaption( const Rect& rect, Rect* imageRect, GraphicsContext* ctx );
+	draws the image for the button, if any
 	*/
 	virtual void drawImage( const Rect& rect, const ButtonState& state, const Rect* imageRect, GraphicsContext* ctx );
-
-	void onFocusGained( FocusEvent* event );
-	void onFocusLost( FocusEvent* event );
 
 	/**
 	calculates the central rectangle including both the image and the caption ( if shown ).
@@ -349,6 +351,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/06/29 05:00:03  marcelloptr
+*some white spaces
+*
 *Revision 1.4.2.2  2005/06/26 01:27:53  marcelloptr
 *added images to a PushButton
 *
