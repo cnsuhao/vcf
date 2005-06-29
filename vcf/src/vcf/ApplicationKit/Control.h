@@ -1257,9 +1257,27 @@ public:
 	void setContainer( Container* container );
 
 
+	/**
+	sets a new model for the view
+	Once set, the control fires a ControlModelChanged event.
+	*/
 	virtual void setViewModel( Model* viewModel );
 
+	/**
+	tells if the control is currently sending a repaint message
+	when resizing, or not.
+	*/
+	bool getRepaintOnSize() {
+		return repaintOnSize_;
+	}
 
+	/**
+	let the user to control if the control will send a repaint message
+	when is resized, or not.
+	*/
+	void setRepaintOnSize( const bool& repaint ) {
+		repaintOnSize_ = repaint;
+	}
 
 	/**
 	*returns the current control that has captured the mouse input.
@@ -1326,6 +1344,7 @@ protected:
 	bool useRenderBuffer_;
 	Container* container_;
 	bool ignoredForLayout_;
+	bool repaintOnSize_;
 
 };
 
@@ -1336,6 +1355,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/06/29 20:30:15  marcelloptr
+*second step to remove flickering when dragging a splitter
+*
 *Revision 1.3.2.7  2005/06/29 05:00:03  marcelloptr
 *some white spaces
 *

@@ -167,7 +167,6 @@ void AbstractWin32Component::setText( const VCF::String& text )
 
 void AbstractWin32Component::setBounds( VCF::Rect* rect )
 {
-		
 	/*
 	JEC - I commented this out to simplify/speed up some resize/repaint issues
 	HDWP winPosInfo = NULL;
@@ -185,9 +184,14 @@ void AbstractWin32Component::setBounds( VCF::Rect* rect )
                     (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );
 	}
 	*/
-	//
 
-	::MoveWindow( hwnd_, (int)rect->left_, (int)rect->top_, rect->getWidth(), (int)rect->getHeight(), TRUE );
+	bool repaint = peerControl_->getRepaintOnSize();
+	//StringUtils::trace( Format( "AbstractWin32Component::MoveWindow: [%d] %s\n" ) % repaint  % peerControl_->getToolTipText());
+
+	::MoveWindow( hwnd_, (int)rect->left_, (int)rect->top_, rect->getWidth(), (int)rect->getHeight(), repaint );
+	//UINT rep = ( repaint ) ? 0 : SWP_NOREDRAW;
+	//::SetWindowPos( hwnd_, NULL, (int)rect->left_, (int)rect->top_,
+	//                (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER | rep );
 }
 
 
@@ -1479,6 +1483,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 	return result;
 }
+
 void AbstractWin32Component::repaint( Rect* repaintRect )
 {
 	if ( NULL == repaintRect ){
@@ -1654,6 +1659,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.21  2005/06/29 20:30:15  marcelloptr
+*second step to remove flickering when dragging a splitter
+*
 *Revision 1.5.2.20  2005/06/29 05:00:02  marcelloptr
 *some white spaces
 *

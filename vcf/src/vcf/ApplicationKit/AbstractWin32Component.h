@@ -122,27 +122,6 @@ public:
 	void updatePaintDC( HDC paintDC, RECT paintRect, RECT* exclusionRect );
 
 protected:
-	void init();
-	HDC memDC_;
-	HBITMAP originalMemBMP_;
-	HBITMAP memBMP_;
-	bool mouseEnteredControl_;	
-	int memDCState_;
-	HFONT currentFont_;
-
-	/*
-	JC I remove this cause we don't really need them
-	//HDWP winPosInfo_;
-	//AbstractWin32Component* parent_;
-	*/
-	bool destroyed_;
-
-	//this starts off false - the control just ignores messages UNTIL 
-	//it recv's a VCF_CONTROL_CREATE message - at that point it's
-	//set to true
-	bool canProcessMessages_;
-
-	std::vector<MSG>* cachedMessages_;
 	/**
 	*
 	*
@@ -155,16 +134,51 @@ protected:
 	*/
 	LRESULT handleNCCalcSize( WPARAM wParam, LPARAM lParam );
 
+	/**
+	let the peer to change its font 
+	when the font has been changed.
+	Actually this function is obsolete, as
+	now the peer listen to a font change notification.
+	@see Font::FontChanged delegate.
+	*/
 	void checkForFontChange();
+
+protected:
+	void init();
+	HDC memDC_;
+	HBITMAP originalMemBMP_;
+	HBITMAP memBMP_;
+	bool mouseEnteredControl_;	
+	int memDCState_;
+	HFONT currentFont_;
+
+	bool destroyed_;
+
+	//this starts off false - the control just ignores messages UNTIL 
+	//it recv's a VCF_CONTROL_CREATE message - at that point it's
+	//set to true
+	bool canProcessMessages_;
+
+	std::vector<MSG>* cachedMessages_;
+
+	/*
+	JC I remove this cause we don't really need them
+	//HDWP winPosInfo_;
+	//AbstractWin32Component* parent_;
+	*/
+
 };
 
 
-};
+}; // namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/29 20:30:15  marcelloptr
+*second step to remove flickering when dragging a splitter
+*
 *Revision 1.3.2.4  2005/05/05 12:42:26  ddiego
 *this adds initial support for run loops,
 *fixes to some bugs in the win32 control peers, some fixes to the win32 edit

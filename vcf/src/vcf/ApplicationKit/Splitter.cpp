@@ -185,8 +185,6 @@ void Splitter::mouseDblClick( MouseEvent* e )
 
 void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ )
 {
-	//StringUtils::trace( "updateAttachedControl\r\n" );
-
 	Rect parentBounds = getParent()->getBounds();
 
 	double parentWidth = parentBounds.getWidth()-1;
@@ -201,12 +199,6 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 	if ( NULL == controlLast ) {
 		return;
 	}
-
-	// This doesn't seems to make a difference though for the minor flickering (?) problem
-	// This doesn't really seems to be a flickering problem, but instead the fact that the
-	// scrollbars don't move with the control ( immediately ) as they should
-	// If that is the problem then beginSetBounds / endSetBounds should be removed from here
-	container->getContainerControl()->getPeer()->beginSetBounds( 2 );	// 2 or 3 ? I think 2
 
 	bool shouldResize = true;
 	double delta, deltaAlt, width, widthMax, newWidth, widthAlt, newWidthAlt;
@@ -238,12 +230,20 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							Rect boundsAlt = attachedCtrlAltBounds;
 							boundsAlt.setLeft( attachedCtrlAltBounds.getLeft() - deltaAlt );
 							boundsAlt.setWidth( newWidthAlt );
+							attachedControlAlt_->setRepaintOnSize( false );
+							//StringUtils::trace( Format( "Splitter:ctrlAlt : [false] %s\n" ) % attachedControlAlt_->getToolTipText() );
 							attachedControlAlt_->setBounds( &boundsAlt );
+							attachedControlAlt_->setRepaintOnSize( true );
 							//StringUtils::traceWithArgs( "updateAttachedControl newWidthAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
-						attachedControl_->setWidth( newWidth );
+						Rect bounds = attachedControl_->getBounds();
+						bounds.setWidth( newWidth );
+						attachedControl_->setRepaintOnSize( false );
+						//StringUtils::trace( Format( "Splitter: ctrl : [false] %s\n" ) % attachedControlAlt_->getToolTipText() );
+						attachedControl_->setBounds( &bounds );
+						attachedControl_->setRepaintOnSize( true );
 						//StringUtils::traceWithArgs( "updateAttachedControl newWidth: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
 					}
 				}
@@ -277,12 +277,18 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							Rect boundsAlt = attachedCtrlAltBounds;
 							boundsAlt.setTop( attachedCtrlAltBounds.getTop() - deltaAlt );
 							boundsAlt.setHeight( newWidthAlt );
+							attachedControlAlt_->setRepaintOnSize( false );
 							attachedControlAlt_->setBounds( &boundsAlt );
+							attachedControlAlt_->setRepaintOnSize( true );
 							//StringUtils::traceWithArgs( "updateAttachedControl newHeightAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
-						attachedControl_->setHeight( newWidth );
+						Rect bounds = attachedControl_->getBounds();
+						bounds.setHeight( newWidth );
+						attachedControl_->setRepaintOnSize( false );
+						attachedControl_->setBounds( &bounds );
+						attachedControl_->setRepaintOnSize( true );
 						//StringUtils::traceWithArgs( "updateAttachedControl newHeight: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
 					}
 				}
@@ -317,12 +323,18 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							Rect boundsAlt = attachedCtrlAltBounds;
 							boundsAlt.setRight( attachedCtrlAltBounds.getRight() - deltaAlt );	//2ch
 							boundsAlt.setWidth( newWidthAlt );
+							attachedControlAlt_->setRepaintOnSize( false );
 							attachedControlAlt_->setBounds( &boundsAlt );
+							attachedControlAlt_->setRepaintOnSize( true );
 							//StringUtils::traceWithArgs( "updateAttachedControl newWidthAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
-						attachedControl_->setWidth( newWidth );
+						Rect bounds = attachedControl_->getBounds();
+						bounds.setWidth( newWidth );
+						attachedControl_->setRepaintOnSize( false );
+						attachedControl_->setBounds( &bounds );
+						attachedControl_->setRepaintOnSize( true );
 						//StringUtils::traceWithArgs( "updateAttachedControl newWidth: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
 					}
 				}
@@ -357,12 +369,18 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							Rect boundsAlt = attachedCtrlAltBounds;
 							boundsAlt.setBottom( attachedCtrlAltBounds.getBottom() - deltaAlt );	//2ch
 							boundsAlt.setHeight( newWidthAlt );
+							attachedControlAlt_->setRepaintOnSize( false );
 							attachedControlAlt_->setBounds( &boundsAlt );
+							attachedControlAlt_->setRepaintOnSize( true );
 							//StringUtils::traceWithArgs( "updateAttachedControl newHeightAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
-						attachedControl_->setHeight( newWidth );
+						Rect bounds = attachedControl_->getBounds();
+						bounds.setHeight( newWidth );
+						attachedControl_->setRepaintOnSize( false );
+						attachedControl_->setBounds( &bounds );
+						attachedControl_->setRepaintOnSize( true );
 						//StringUtils::traceWithArgs( "updateAttachedControl newHeight: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
 					}
 				}
@@ -372,16 +390,10 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 
 	}
 
-	// This doesn't seems to make a difference though for the minor flickering (?) problem
-	// This doesn't really seems to be a flickering problem, but instead the fact that the
-	// scrollbars don't move with the control ( immediately ) as they should
-	// If that is the problem then beginSetBounds / endSetBounds should be removed from here
-	container->getContainerControl()->getPeer()->endSetBounds();
-
- 	//Container* container = getParent()->getContainer();
-	//if ( NULL != container ) {
+	//StringUtils::trace( Format( "Splitter: calling resizeChildren( NULL )\n" ) );
+	attachedControlAlt_->repaint();
+	attachedControl_->repaint();
 	container->resizeChildren( NULL );
-	//}
 }
 
 void Splitter::updateAttachedControlJump( Point& pt, const bool& shiftAll )
@@ -561,6 +573,9 @@ double Splitter::getPreferredWidth()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/29 20:30:16  marcelloptr
+*second step to remove flickering when dragging a splitter
+*
 *Revision 1.2.4.1  2005/06/28 20:14:11  marcelloptr
 *first step to remove flickering when dragging a splitter
 *
