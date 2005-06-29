@@ -49,7 +49,12 @@ OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item
 			case OSX_TREE_CTRL_PRIMARY_COL : {
 				//CFStringRef s = CFStringCreateWithCString( NULL, itemsText[item-BASE_ID], kCFStringEncodingMacRoman );
 				//SetDataBrowserItemDataText( itemData, s );
-				//CFRelease( s );			
+				//CFRelease( s );
+				
+				TreeItem* treeItem	 = (TreeItem*)item;
+				CFTextString tmp;
+				tmp = treeItem->getCaption();
+				SetDataBrowserItemDataText( itemData, tmp );
 			}
 			break;
 			
@@ -59,12 +64,9 @@ OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item
 			break;
 			
 			case kDataBrowserItemIsContainerProperty : {
-				//if ( item == BASE_ID ) {
-				//	err = SetDataBrowserItemDataBooleanValue( itemData, true );
-				//}
-				//else {
-				//	err = SetDataBrowserItemDataBooleanValue( itemData, false );				
-				//}
+				TreeItem* treeItem	 = (TreeItem*)item;
+				
+				SetDataBrowserItemDataBooleanValue( itemData, treeItem->isLeaf() );				
 			}
 			break;
 			
@@ -106,6 +108,11 @@ OSStatus OSXTree::DBItemNotificationCallback( ControlRef browser, DataBrowserIte
 			*/
 			//DataBrowserItemID item2 = BASE_ID +1;
 			//status = AddDataBrowserItems( browser, BASE_ID, 1, &item2, kDataBrowserItemNoProperty );
+	
+			TreeItem* treeItem	 = (TreeItem*)itemID;
+			OSXTree* tree = (OSXTree*) OSXControl::getControlFromControlRef( browser );
+			
+			tree->addChildItems( treeItem );
 	
             break;  
         }   
@@ -169,6 +176,20 @@ void OSXTree::create( Control* owningControl )
 		
 		SetDataBrowserSelectionFlags( hiView_, kDataBrowserSelectOnlyOne | kDataBrowserResetSelection );
 		
+		
+		OSXControl* thisPtr = this;
+		SetControlProperty( hiView_, 
+							VCF_PROPERTY_CREATOR, 
+							VCF_PROPERTY_CONTROL_VAL, 
+							sizeof(thisPtr), 
+							&thisPtr );
+							
+		err = OSXControl::installStdControlHandler();
+							
+		if ( err != noErr ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXTree!") );
+		}
+							
 	}
 	else {
 		throw RuntimeException( MAKE_ERROR_MSG_2("CreateDataBrowserControl failed to create view!") );
@@ -287,20 +308,62 @@ void OSXTree::onControlModelChanged( Event* e )
 													"OSXTree::onTreeNodeDeleted" );
 	}
 	treeControl_->getTreeModel()->addTreeNodeDeletedHandler( ev );
+	
+	addChildItems( NULL );
 }
 
 void OSXTree::onTreeNodeDeleted( TreeModelEvent* event )
 {
 	TreeItem* item = event->getTreeItem();
 	if ( NULL != item ){
+		DataBrowserItemID dbParentItem = (DataBrowserItemID)item->getParent();
+		DataBrowserItemID dbItem = (DataBrowserItemID)item;
 		
+		RemoveDataBrowserItems( hiView_, dbParentItem, 1, &dbItem, kDataBrowserItemNoProperty );
 	}
 }
 
+void OSXTree::addChildItems( TreeItem* parent )
+{
+	if ( NULL == parent ) {
+		//start from the tree model!!!
+		
+ 		TreeModel* treeModel = treeControl_->getTreeModel();
+ 		Enumerator<TreeItem*>* rootItems = treeModel->getRootItems();		
+		while ( rootItems->hasMoreElements() ) {
+			TreeItem* item = rootItems->nextElement();
+			DataBrowserItemID dbItem = (DataBrowserItemID)item;
+			AddDataBrowserItems( hiView_, kDataBrowserNoItem, 1, 
+										&dbItem, kDataBrowserItemNoProperty );	
+										
+			addChildItems( item );
+		}
+	}
+	else {
+		uint32 count = parent->getChildCount();
+		if ( count > 0 ) {
+			Enumerator<TreeItem*>* children = parent->getChildren();
+			while ( children->hasMoreElements() ) {
+				TreeItem* child = children->nextElement();
+				
+				//use the child's pointer address as the item ID
+				DataBrowserItemID dbItem = (DataBrowserItemID)child;
+				
+				AddDataBrowserItems( hiView_, (DataBrowserItemID)parent, 1, 
+										&dbItem, kDataBrowserItemNoProperty );	
+				
+				addChildItems( child );
+			}
+		}
+	}
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.1.2.3  2005/06/28 04:03:36  ddiego
 *osx text edit mods and started on osx tree peer.
 *

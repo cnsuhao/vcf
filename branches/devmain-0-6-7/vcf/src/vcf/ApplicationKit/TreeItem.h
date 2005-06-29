@@ -115,6 +115,8 @@ public:
 
 	virtual void setCaption( const String& caption ) = 0;
 
+	virtual uint32 getChildCount() = 0;
+	
 	virtual Enumerator<TreeItem*>* getChildren() = 0;
 
 	virtual void addChild( TreeItem* child ) = 0;
@@ -157,6 +159,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.2.4.1  2005/01/31 02:08:05  marcelloptr
 *member function expandAllChildren() added
 *

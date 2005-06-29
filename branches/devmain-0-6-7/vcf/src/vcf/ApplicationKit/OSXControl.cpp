@@ -195,7 +195,7 @@ void OSXControl::create( Control* owningControl )
 							&thisPtr );
 							
 		
-		OSStatus err = OSXControl::installStdControlHandler();
+		OSStatus err = installStdControlHandler();
 							
 		if ( err != noErr ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXControl!") );
@@ -758,6 +758,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.3.2.4  2005/06/27 03:28:54  ddiego
 *more osx work.
 *
@@ -817,6 +820,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.3.2.4  2005/06/27 03:28:54  ddiego
 *more osx work.
 *

@@ -203,6 +203,11 @@ void DefaultTreeItem::setCaption( const String& caption )
 	changed( ITEM_EVENT_TEXT_CHANGED );
 }
 
+uint32 DefaultTreeItem::getChildCount()
+{
+	return childNodeItems_.size();
+}
+
 Enumerator<TreeItem*>* DefaultTreeItem::getChildren()
 {
 	return enumContainer_.getEnumerator();
@@ -461,6 +466,9 @@ void DefaultTreeItem::changed( const ulong32& eventType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.3.2.4  2005/03/04 04:41:54  ddiego
 *fixed a bug in the tree list control that was not taking into account the tree item text color or text bold.
 *
