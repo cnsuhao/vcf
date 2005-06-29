@@ -758,7 +758,7 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.6  2005/06/29 05:00:03  marcelloptr
+*Revision 1.3.2.7  2005/06/29 05:04:31  marcelloptr
 *some white spaces
 *
 *Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
@@ -822,9 +822,6 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
-*$Log$
-*Revision 1.3.2.6  2005/06/29 05:00:03  marcelloptr
-*some white spaces
 *
 *Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
