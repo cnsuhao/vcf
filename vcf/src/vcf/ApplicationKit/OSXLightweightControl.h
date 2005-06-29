@@ -23,21 +23,21 @@ public:
 
 	virtual void destroyControl();
 
-    virtual OSHandleID getHandleID();
+	virtual OSHandleID getHandleID();
 
-    virtual VCF::String getText();
+	virtual VCF::String getText();
 
-    virtual void setText( const VCF::String& text );
+	virtual void setText( const VCF::String& text );
 
-    virtual void setBounds( VCF::Rect* rect );
+	virtual void setBounds( VCF::Rect* rect );
 
-    virtual VCF::Rect getBounds();
+	virtual VCF::Rect getBounds();
 
-    virtual void setVisible( const bool& visible );
+	virtual void setVisible( const bool& visible );
 
-    virtual bool getVisible();
+	virtual bool getVisible();
 
-    virtual VCF::Control* getControl();
+	virtual VCF::Control* getControl();
 
 	virtual void setControl( VCF::Control* component );
 
@@ -89,6 +89,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/06/29 05:15:41  marcelloptr
+*fixed some white spaces
+*
 *Revision 1.2.4.1  2005/05/08 19:55:31  ddiego
 *osx updates, not yet functional.
 *
