@@ -818,6 +818,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 		case WM_PAINT:{
 			if ( true == isCreated() ){
+				//StringUtils::trace( Format( "AbstractWin32Component::WM_PAINT: [%d] %s\n" ) % peerControl_->getRepaintOnSize() % peerControl_->getToolTipText() );
 				if ( !peerControl_->isDestroying() ) {
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
 						wndProcResult = 0;
@@ -1659,7 +1660,7 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5.2.21  2005/06/29 20:30:15  marcelloptr
+*Revision 1.5.2.22  2005/06/29 20:33:35  marcelloptr
 *second step to remove flickering when dragging a splitter
 *
 *Revision 1.5.2.20  2005/06/29 05:00:02  marcelloptr
