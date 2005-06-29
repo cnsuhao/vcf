@@ -45,9 +45,15 @@ public:
 		fcAll
 	};
 
+	/**
+	an event is fired every time a font is changed.
+	This let the peer of a control to be notified of the change
+	even when the font is not changed through its
+	associated control.
+	*/
 	DELEGATE(FontChanged);
 
-    Font();
+	Font();
 
 	Font( const String& fontName );
 
@@ -96,10 +102,10 @@ public:
 	void setBold( const bool& bold );
 	bool getBold() const;
 
-    bool getItalic() const;
+	bool getItalic() const;
 	void setItalic( const bool& italic );
 
-    bool getUnderlined() const;
+	bool getUnderlined() const;
 	void setUnderlined( const bool& underlined );
 
 	bool getStrikeOut() const;
@@ -177,6 +183,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/06/29 20:31:09  marcelloptr
+*second step to remove flickering when dragging a splitter
+*
 *Revision 1.3.2.3  2005/05/30 22:22:30  ddiego
 *fixed readonly mode in text edit and added better default font change support.
 *

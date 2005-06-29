@@ -22,10 +22,10 @@ Control* Control::previousMouseOverControl = NULL;
 Control::Control():
 	peer_(NULL),
 	context_(NULL),
-    parent_(NULL),
-    aligment_(AlignNone),
+	parent_(NULL),
+	aligment_(AlignNone),
 	anchor_(AnchorNone),
-    bounds_(NULL),
+	bounds_(NULL),
 	clientBounds_(NULL),
 	border_(NULL),
 	color_(NULL),
@@ -43,7 +43,8 @@ Control::Control():
 	tabOrder_(-1),
 	useRenderBuffer_(false),
 	container_(NULL),
-	ignoredForLayout_(false)
+	ignoredForLayout_(false),
+	repaintOnSize_(true)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -1529,6 +1530,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.18  2005/06/29 20:30:15  marcelloptr
+*second step to remove flickering when dragging a splitter
+*
 *Revision 1.4.2.17  2005/05/15 23:17:37  ddiego
 *fixes for better accelerator handling, and various fixes in hwo the text model works.
 *
