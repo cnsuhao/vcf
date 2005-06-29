@@ -33,9 +33,9 @@ public:
 
 	virtual void setText( const String& text );
 
-    virtual void setBounds( VCF::Rect* rect );
+	virtual void setBounds( VCF::Rect* rect );
 
-    virtual void setVisible( const bool& visible );
+	virtual void setVisible( const bool& visible );
 
 	virtual void setParent( VCF::Control* parent );
 
@@ -81,6 +81,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/06/29 05:15:41  marcelloptr
+*fixed some white spaces
+*
 *Revision 1.3.2.1  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *
