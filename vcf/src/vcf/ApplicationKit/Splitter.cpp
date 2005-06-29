@@ -391,8 +391,12 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 	}
 
 	//StringUtils::trace( Format( "Splitter: calling resizeChildren( NULL )\n" ) );
-	attachedControlAlt_->repaint();
-	attachedControl_->repaint();
+	if ( NULL != attachedControlAlt_ ) {
+		attachedControlAlt_->repaint();
+	}
+	if ( NULL != attachedControl_ ) {
+		attachedControl_->repaint();
+	}
 	container->resizeChildren( NULL );
 }
 
@@ -573,6 +577,9 @@ double Splitter::getPreferredWidth()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/06/29 21:18:16  marcelloptr
+*minor bug fixed
+*
 *Revision 1.2.4.2  2005/06/29 20:30:16  marcelloptr
 *second step to remove flickering when dragging a splitter
 *
