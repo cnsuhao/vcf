@@ -132,6 +132,8 @@ public:
 	virtual String getCaption();
 
 	virtual void setCaption( const String& caption );
+	
+	virtual uint32 getChildCount();
 
 	virtual Enumerator<TreeItem*>* getChildren();
 
@@ -271,6 +273,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.3.2.2  2005/03/04 16:49:25  marcelloptr
 *more comments
 *

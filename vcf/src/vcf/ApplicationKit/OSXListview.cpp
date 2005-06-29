@@ -40,6 +40,99 @@ void OSXListview::create( Control* owningControl )
 }
 
 
+OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
+										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
+										Boolean setValue )
+{
+	OSStatus err = noErr;
+	
+	if ( !setValue ) {
+		switch ( property ) {
+
+			case OSX_TREE_CTRL_PRIMARY_COL : {
+				//CFStringRef s = CFStringCreateWithCString( NULL, itemsText[item-BASE_ID], kCFStringEncodingMacRoman );
+				//SetDataBrowserItemDataText( itemData, s );
+				//CFRelease( s );
+				
+				TreeItem* treeItem	 = (TreeItem*)item;
+				CFTextString tmp;
+				tmp = treeItem->getCaption();
+				SetDataBrowserItemDataText( itemData, tmp );
+			}
+			break;
+			
+			case kDataBrowserItemIsSelectableProperty : {
+				err = SetDataBrowserItemDataBooleanValue( itemData, true );
+			}
+			break;
+			
+			case kDataBrowserItemIsContainerProperty : {
+				TreeItem* treeItem	 = (TreeItem*)item;
+				
+				SetDataBrowserItemDataBooleanValue( itemData, treeItem->isLeaf() );				
+			}
+			break;
+			
+			default: {
+				err = errDataBrowserPropertyNotSupported;				
+			}
+			break;
+		}		
+	}
+	else {
+		err = errDataBrowserPropertyNotSupported;
+	}
+	
+	return err;
+}
+
+
+OSStatus OSXTree::DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
+															DataBrowserItemNotification message)
+{
+	OSStatus status = noErr;
+    switch (message)
+    {
+        case kDataBrowserContainerOpened: 
+// 1
+        {           
+            /*int i, myItemsPerContainer;
+            myItemsPerContainer = myTunesDatabase[itemID].songsInAlbum; 
+// 2
+ 
+            DataBrowserItemID myItems [myItemsPerContainer];
+            for ( i = 0; i < myItemsPerContainer; i++) 
+// 3
+                        myItems[i] =  MyGetChild (itemID, i);
+            status = AddDataBrowserItems (browser, itemID,
+                                    myItemsPerContainer, 
+                                    myItems, kTitleColumn); 
+// 4
+			*/
+			//DataBrowserItemID item2 = BASE_ID +1;
+			//status = AddDataBrowserItems( browser, BASE_ID, 1, &item2, kDataBrowserItemNoProperty );
+	
+			TreeItem* treeItem	 = (TreeItem*)itemID;
+			OSXTree* tree = (OSXTree*) OSXControl::getControlFromControlRef( browser );
+			
+			tree->addChildItems( treeItem );
+	
+            break;  
+        }   
+		case kDataBrowserItemSelected : {
+			SetDataBrowserSelectedItems( browser, 1, &itemID, kDataBrowserItemsAdd );
+		}
+		break;
+		
+		case kDataBrowserItemDeselected : {
+			SetDataBrowserSelectedItems( browser, 1, &itemID, kDataBrowserItemsRemove );		
+		}
+		break;
+		
+    }
+    return status;
+}
+
 
 void OSXListview::addItem( ListItem * item )
 {
@@ -257,6 +350,9 @@ void OSXListview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.1.2.2  2005/06/23 01:26:55  ddiego
 *build updates
 *

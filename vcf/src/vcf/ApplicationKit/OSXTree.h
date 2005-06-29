@@ -64,6 +64,8 @@ protected:
 	void onControlModelChanged( Event* e );
 	void onTreeNodeDeleted( TreeModelEvent* event );
 	
+	void addChildItems( TreeItem* parent );
+	
 	static OSStatus DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
 										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
 										Boolean setValue );
@@ -79,6 +81,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.1.2.2  2005/06/28 04:03:36  ddiego
 *osx text edit mods and started on osx tree peer.
 *

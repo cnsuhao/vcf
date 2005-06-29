@@ -98,6 +98,13 @@ protected:
 	ListViewControl* listviewControl_;
 	std::vector<ListItem*> selectedItems_;
 	EnumeratorContainer<std::vector<ListItem*>, ListItem*> enumContainer_;	
+	
+	static OSStatus DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
+										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
+										Boolean setValue );
+										
+	static OSStatus DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
+															DataBrowserItemNotification message);
 };
 
 
@@ -107,6 +114,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2005/06/29 03:46:13  ddiego
+*more osx tree and list coding.
+*
 *Revision 1.1.2.1  2005/06/22 03:59:30  ddiego
 *added osx stub classes for peers
 *
