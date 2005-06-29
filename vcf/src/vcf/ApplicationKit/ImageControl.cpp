@@ -86,14 +86,16 @@ void ImageControl::setFilename( const ImageFilenameString& filename )
 void ImageControl::paint( GraphicsContext* context )
 {
 	CustomControl::paint( context );
-	if ( NULL != image_ ) {
 
+	if ( NULL != image_ ) {
 		Rect clientRect = getClientBounds();
 
 		double w = clientRect.getWidth();
 		double h = clientRect.getHeight();
-		if ( (w < image_->getWidth()) && (h < image_->getHeight()) ) {
-			context->drawPartialImage( clientRect.left_, clientRect.top_, &Rect(0, 0, w, h ), image_ );
+		if ( (w < image_->getWidth()) || (h < image_->getHeight()) ) {
+			context->drawPartialImage(	maxVal<int>(clientRect.left_,clientRect.left_ + ( (w/2.0) - (image_->getWidth()/2.0) )),
+										maxVal<int>(clientRect.top_,clientRect.top_ + ( (h/2.0) - (image_->getHeight()/2.0) )),
+										&Rect(0, 0, minVal<int>(w,image_->getWidth()), minVal<int>(h,image_->getHeight() )), image_ );
 		}
 		else {
 			context->drawImage( clientRect.left_ + ( (w/2.0) - (image_->getWidth()/2.0) ),
@@ -101,7 +103,6 @@ void ImageControl::paint( GraphicsContext* context )
 		}
 	}
 }
-
 
 
 
@@ -153,6 +154,9 @@ void ImagePropertyEditor::edit()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/06/29 15:34:47  pallindo
+*Fixed ImageControl borders if the image is larger than the bounds.
+*
 *Revision 1.2.4.4  2005/03/28 17:55:51  marcelloptr
 *minor fixes
 *
