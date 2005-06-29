@@ -107,11 +107,11 @@ static const EventTypeSpec osxHIViewEvents[] =
 	{ kEventClassControl, kEventControlGetSizeConstraints },
 	{ kEventClassControl, kEventControlHit },
 	{ kEventClassControl, kEventControlOwningWindowChanged },
-	
+
 	
 	{ kEventClassKeyboard, kEventRawKeyDown },
 	{ kEventClassKeyboard, kEventRawKeyUp },
-							
+
 	{ kEventClassControl, kEventControlHiliteChanged },
 	{ kEventClassControl, kEventControlActivate },
 	{ kEventClassControl, kEventControlDeactivate },
@@ -193,17 +193,17 @@ void OSXControl::create( Control* owningControl )
 							VCF_PROPERTY_CONTROL_VAL, 
 							sizeof(thisPtr), 
 							&thisPtr );
-							
-		
+
+
 		OSStatus err = installStdControlHandler();
-							
+
 		if ( err != noErr ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXControl!") );
-		}        
+		}
 	}
 	else {
 		throw RuntimeException( MAKE_ERROR_MSG_2("OSXControl failed to be created!") );
-	}	
+	}
 }
 
 void OSXControl::destroyControl()
@@ -758,6 +758,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/06/29 05:00:03  marcelloptr
+*some white spaces
+*
 *Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
 *
@@ -820,6 +823,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.3.2.6  2005/06/29 05:00:03  marcelloptr
+*some white spaces
+*
 *Revision 1.3.2.5  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
 *
