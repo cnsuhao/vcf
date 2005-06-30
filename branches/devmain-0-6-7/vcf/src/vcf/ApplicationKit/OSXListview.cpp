@@ -16,7 +16,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/OSXListview.h"
 
-
+#define OSX_LISTVIEW_CTRL_PRIMARY_COL		'PRIM'
 
 using namespace VCF;
 
@@ -36,11 +36,70 @@ OSXListview::~OSXListview()
 
 void OSXListview::create( Control* owningControl )
 {
-
+	::Rect r;
+	r.left = 0;
+	r.top = 0;
+	r.right = 0;
+	r.bottom = 0;
+	
+	OSStatus err;
+	if ( noErr == CreateDataBrowserControl( NULL, &r, kDataBrowserListView, &hiView_ ) ) {
+		DataBrowserCallbacks callbacks;
+		callbacks.version = kDataBrowserLatestCallbacks;
+		err = InitDataBrowserCallbacks( &callbacks ); 	
+		callbacks.u.v1.itemDataCallback = OSXListview::DBItemDataCallback;
+		callbacks.u.v1.itemNotificationCallback = OSXListview::DBItemNotificationCallback;
+		
+		err = SetDataBrowserCallbacks( hiView_, &callbacks );
+		
+		
+		//create initial column (DataBrowser doesn't work without at least one column
+		DataBrowserListViewColumnDesc col;
+		col.propertyDesc.propertyID = OSX_LISTVIEW_CTRL_PRIMARY_COL;
+		col.propertyDesc.propertyType =  kDataBrowserTextType;
+		col.propertyDesc.propertyFlags =  kDataBrowserListViewSelectionColumn;
+		
+		col.headerBtnDesc.version = kDataBrowserListViewLatestHeaderDesc;
+		col.headerBtnDesc.minimumWidth = 10;
+		col.headerBtnDesc.maximumWidth = 200;
+		col.headerBtnDesc.titleOffset = 0;
+		col.headerBtnDesc.titleString = NULL;
+		col.headerBtnDesc.initialOrder = kDataBrowserOrderIncreasing;
+		col.headerBtnDesc.btnFontStyle.flags = 0;
+		col.headerBtnDesc.btnFontStyle.font = 0;
+		col.headerBtnDesc.btnFontStyle.size = 0;
+		col.headerBtnDesc.btnFontStyle.style = 0;
+		col.headerBtnDesc.btnFontStyle.mode = 0;
+		col.headerBtnDesc.btnFontStyle.just = 0;
+		
+		col.headerBtnDesc.btnContentInfo.contentType = kControlContentTextOnly;
+		
+		AddDataBrowserListViewColumn( hiView_, &col, 0 );
+		
+		SetDataBrowserSelectionFlags( hiView_, kDataBrowserSelectOnlyOne | kDataBrowserResetSelection );
+		
+		
+		OSXControl* thisPtr = this;
+		SetControlProperty( hiView_, 
+							VCF_PROPERTY_CREATOR, 
+							VCF_PROPERTY_CONTROL_VAL, 
+							sizeof(thisPtr), 
+							&thisPtr );
+							
+		err = OSXControl::installStdControlHandler();
+							
+		if ( err != noErr ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXTree!") );
+		}
+							
+	}
+	else {
+		throw RuntimeException( MAKE_ERROR_MSG_2("CreateDataBrowserControl failed to create view!") );
+	}
 }
 
 
-OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
+OSStatus OSXListview::DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
 										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
 										Boolean setValue )
 {
@@ -49,14 +108,10 @@ OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item
 	if ( !setValue ) {
 		switch ( property ) {
 
-			case OSX_TREE_CTRL_PRIMARY_COL : {
-				//CFStringRef s = CFStringCreateWithCString( NULL, itemsText[item-BASE_ID], kCFStringEncodingMacRoman );
-				//SetDataBrowserItemDataText( itemData, s );
-				//CFRelease( s );
-				
-				TreeItem* treeItem	 = (TreeItem*)item;
+			case OSX_LISTVIEW_CTRL_PRIMARY_COL : {
+				ListItem* listItem	 = (ListItem*)item;
 				CFTextString tmp;
-				tmp = treeItem->getCaption();
+				tmp = listItem->getCaption();
 				SetDataBrowserItemDataText( itemData, tmp );
 			}
 			break;
@@ -67,9 +122,7 @@ OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item
 			break;
 			
 			case kDataBrowserItemIsContainerProperty : {
-				TreeItem* treeItem	 = (TreeItem*)item;
-				
-				SetDataBrowserItemDataBooleanValue( itemData, treeItem->isLeaf() );				
+				SetDataBrowserItemDataBooleanValue( itemData, false );				
 			}
 			break;
 			
@@ -87,38 +140,17 @@ OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item
 }
 
 
-OSStatus OSXTree::DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
+OSStatus OSXListview::DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
 															DataBrowserItemNotification message)
 {
 	OSStatus status = noErr;
     switch (message)
     {
-        case kDataBrowserContainerOpened: 
-// 1
-        {           
-            /*int i, myItemsPerContainer;
-            myItemsPerContainer = myTunesDatabase[itemID].songsInAlbum; 
-// 2
- 
-            DataBrowserItemID myItems [myItemsPerContainer];
-            for ( i = 0; i < myItemsPerContainer; i++) 
-// 3
-                        myItems[i] =  MyGetChild (itemID, i);
-            status = AddDataBrowserItems (browser, itemID,
-                                    myItemsPerContainer, 
-                                    myItems, kTitleColumn); 
-// 4
-			*/
-			//DataBrowserItemID item2 = BASE_ID +1;
-			//status = AddDataBrowserItems( browser, BASE_ID, 1, &item2, kDataBrowserItemNoProperty );
-	
-			TreeItem* treeItem	 = (TreeItem*)itemID;
-			OSXTree* tree = (OSXTree*) OSXControl::getControlFromControlRef( browser );
-			
-			tree->addChildItems( treeItem );
-	
-            break;  
-        }   
+        case kDataBrowserContainerOpened:  {		
+              
+        }
+		break;
+		   
 		case kDataBrowserItemSelected : {
 			SetDataBrowserSelectedItems( browser, 1, &itemID, kDataBrowserItemsAdd );
 		}
@@ -156,7 +188,6 @@ void OSXListview::deleteItem( ListItem* item )
 
 bool OSXListview::ensureVisible(ListItem * item, bool partialOK )
 {
-	//LVM_ENSUREVISIBLE
 	bool result = false;
 	
 	return result;
@@ -174,8 +205,7 @@ void OSXListview::selectItem(ListItem * item)
 
 VCF::Rect* OSXListview::getItemRect( ListItem* item )
 {
-	
-	
+		
 	return NULL;
 }
 
@@ -212,8 +242,6 @@ ListItem* OSXListview::getSelectedItem()
 
 Enumerator<ListItem*>* OSXListview::getSelectedItems()
 {
-	//int index = ListView_GetSelectionMark( hwnd_ );
-
 	ListItem* item = NULL;
 	
 	return NULL;
@@ -226,12 +254,43 @@ void OSXListview::rangeSelect( Rect* selectionRect )
 
 void OSXListview::addHeaderColumn( const String& columnName, const double& width )
 {
+	unsigned int columnCount = 0;
+	GetDataBrowserTableViewColumnCount( hiView_, &columnCount );
 	
+	insertHeaderColumn( columnCount, columnName, width );
 }
 
 void OSXListview::insertHeaderColumn( const unsigned long& index, const String& columnName, const double& width )
 {
+	if ( index == 0 ) {
 	
+	}
+	else {
+		DataBrowserListViewColumnDesc col;
+		col.propertyDesc.propertyID = 'TEST';
+		col.propertyDesc.propertyType =  kDataBrowserTextType;
+		col.propertyDesc.propertyFlags =  kDataBrowserListViewSelectionColumn;
+		
+		col.headerBtnDesc.version = kDataBrowserListViewLatestHeaderDesc;
+		col.headerBtnDesc.minimumWidth = 10;
+		col.headerBtnDesc.maximumWidth = width;
+		col.headerBtnDesc.titleOffset = 0;
+		
+		CFTextString tmp(columnName);
+		
+		col.headerBtnDesc.titleString = tmp;
+		col.headerBtnDesc.initialOrder = kDataBrowserOrderIncreasing;
+		col.headerBtnDesc.btnFontStyle.flags = 0;
+		col.headerBtnDesc.btnFontStyle.font = 0;
+		col.headerBtnDesc.btnFontStyle.size = 0;
+		col.headerBtnDesc.btnFontStyle.style = 0;
+		col.headerBtnDesc.btnFontStyle.mode = 0;
+		col.headerBtnDesc.btnFontStyle.just = 0;
+		
+		col.headerBtnDesc.btnContentInfo.contentType = kControlContentTextOnly;
+		
+		AddDataBrowserListViewColumn( hiView_, &col, index );
+	}
 }
 
 void OSXListview::deleteHeaderColumn( const unsigned long& index )
@@ -346,10 +405,32 @@ void OSXListview::setDisplayOptions( const long& displayOptions )
 	
 }
 
-
+void OSXListview::addListItems()
+{
+	ListModel* listModel = listviewControl_->getListModel();
+	
+	unsigned long count = listModel->getCount();
+	int i = 0;
+	DataBrowserItemID* dbItems = new DataBrowserItemID[count];
+	
+	Enumerator<ListItem*>* items = listModel->getItems();
+	while ( items->hasMoreElements() ) {
+		ListItem* item = items->nextElement();
+		dbItems[i] = (DataBrowserItemID)item;
+		
+		i++;
+	}
+	
+	AddDataBrowserItems( hiView_, kDataBrowserNoItem, count, dbItems, kDataBrowserItemNoProperty );
+	
+	delete [] dbItems;
+}
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2005/06/30 02:29:12  ddiego
+*more osx work on list view
+*
 *Revision 1.1.2.3  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
 *
