@@ -105,6 +105,8 @@ protected:
 										
 	static OSStatus DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
 															DataBrowserItemNotification message);
+															
+	void addListItems();
 };
 
 
@@ -114,6 +116,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/06/30 02:29:12  ddiego
+*more osx work on list view
+*
 *Revision 1.1.2.2  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
 *
