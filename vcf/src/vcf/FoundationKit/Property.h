@@ -59,6 +59,22 @@ public:
 		//StringUtils::trace( "Deleted Property\n\tProperty Count = " + StringUtils::toString(prop_count) + "\n" );
 	};
 
+	Property& operator=( const Property& rhs ) {
+		value_ = rhs.value_;
+		isReadOnly_ = rhs.isReadOnly_;
+		isCollection_ = rhs.isCollection_;
+
+		name_ = rhs.name_;
+		displayName_ = rhs.displayName_;
+		description_ = rhs.description_;
+		type_ = rhs.type_;
+		source_ = rhs.source_;
+		bound_ = rhs.bound_;
+
+		return *this;
+	};
+
+
 	/**
 	*makes a copy of the property. Implemented in the templated
 	*derived classes.
@@ -338,12 +354,12 @@ protected:
 	bool isReadOnly_;
 
 private:
-	bool bound_;
 	String name_;
 	String displayName_;
 	String description_;
 	PropertyDescriptorType type_;
 	Object* source_;
+	bool bound_;
 };
 
 
@@ -455,6 +471,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/07/01 15:34:36  marcelloptr
+*added assignment operator
+*
 *Revision 1.2.4.1  2005/01/07 23:21:48  marcelloptr
 *fixed forgotten initialization
 *
