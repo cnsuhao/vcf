@@ -174,38 +174,38 @@ void System::print( String text, ... )
 	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
 
 #if defined(VCF_GCC) || defined(VCF_CW)
-  #ifdef VCF_OSX
+	#ifdef VCF_OSX
 
-    CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
+		CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
 
-	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
+		CFStringAppendCharacters( fmt, text.c_str(), text.size() );
 
-    CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
+		CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
 
-    int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
+		int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
 
-    CFRange range = {0, length };
-    CFStringGetCharacters( res, range, tmpChar );
+		CFRange range = {0, length };
+		CFStringGetCharacters( res, range, tmpChar );
 
-	CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
-    CFShow( res );
+		CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
+		CFShow( res );
 
-    CFRelease( res );
-    CFRelease( fmt );
+		CFRelease( res );
+		CFRelease( fmt );
 
-  #else
-	vswprintf( tmpChar, charRequired, text.c_str(), args );
-  #endif
+	#else
+		vswprintf( tmpChar, charRequired, text.c_str(), args );
+	#endif
 #else
 	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
 #endif
 
 	va_end( args );
 
-  #ifndef VCF_OSX
-	wprintf( L"WARNING: Using deprecated function!!!\n" );
-    wprintf( tmpChar );
-  #endif
+	#ifndef VCF_OSX
+		wprintf( L"WARNING: Using deprecated function!!!\n" );
+		wprintf( tmpChar );
+	#endif
 
 	if ( NULL != System::systemInstance ) {
 		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
@@ -226,11 +226,11 @@ void System::print( const Format& formatter )
 	}
 
 #ifdef VCF_OSX
-    CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
+	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
 
-	CFStringAppendCharacters( tmp, output.c_str(), output.size() );    
-    CFShow( tmp );    
-    CFRelease( tmp );
+	CFStringAppendCharacters( tmp, output.c_str(), output.size() );
+	CFShow( tmp );
+	CFRelease( tmp );
 #else
 	wprintf( output.c_str() );
 #endif
@@ -253,39 +253,39 @@ void System::println(String text, ...)
 	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
 
 #if defined(VCF_GCC) || defined(VCF_CW)
-  #ifdef VCF_OSX
+	#ifdef VCF_OSX
 
-    CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
+		CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
 
-	CFStringAppendCharacters( fmt, text.c_str(), text.size() );
+		CFStringAppendCharacters( fmt, text.c_str(), text.size() );
 
-    CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
+		CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
 
-    int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
+		int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
 
-    CFRange range = {0, length };
-    CFStringGetCharacters( res, range, tmpChar );
+		CFRange range = {0, length };
+		CFStringGetCharacters( res, range, tmpChar );
 
-	CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
-    CFShow( res );
-    CFShow( CFSTR( "\n" ) );
+		CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
+		CFShow( res );
+		CFShow( CFSTR( "\n" ) );
 
-    CFRelease( res );
-    CFRelease( fmt );
-  #else
-	vswprintf( tmpChar, charRequired, text.c_str(), args );
-  #endif
+		CFRelease( res );
+		CFRelease( fmt );
+	#else
+		vswprintf( tmpChar, charRequired, text.c_str(), args );
+	#endif
 #else
 	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
 #endif
 
 	va_end( args );
 
-  #ifndef VCF_OSX
-	wprintf( L"WARNING: Using deprecated function!!!\n" );
-    wprintf( tmpChar );
-    wprintf( L"\n" );
-  #endif
+	#ifndef VCF_OSX
+		wprintf( L"WARNING: Using deprecated function!!!\n" );
+		wprintf( tmpChar );
+		wprintf( L"\n" );
+	#endif
 
 	if ( NULL != System::systemInstance ) {
 		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
@@ -293,6 +293,7 @@ void System::println(String text, ...)
 			System::systemInstance->errorLogInstance_->toLog( tmp );
 		}
 	}
+
 	delete [] tmpChar;
 }
 
@@ -307,17 +308,17 @@ void System::println( const Format& formatter )
 	output += "\n";
 
 #ifdef VCF_OSX
-    CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
+	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
 
-	CFStringAppendCharacters( tmp, output.c_str(), output.size() );    
-    CFShow( tmp );    
-    CFRelease( tmp );
+	CFStringAppendCharacters( tmp, output.c_str(), output.size() );
+	CFShow( tmp );
+	CFRelease( tmp );
 #else
 	wprintf( output.c_str() );
 #endif
 
 	if ( NULL != System::systemInstance ) {
-		if ( NULL != System::systemInstance->errorLogInstance_ ) {			
+		if ( NULL != System::systemInstance->errorLogInstance_ ) { 
 			System::systemInstance->errorLogInstance_->toLog( output );
 		}
 	}
@@ -772,6 +773,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/07/01 15:52:10  marcelloptr
+*spaces spaces spaces
+*
 *Revision 1.3.2.12  2005/06/08 03:27:28  ddiego
 *fix for popup menus
 *
