@@ -419,7 +419,8 @@ File* Win32FilePeer::findNextFileInSearch( Directory::Finder* finder )
 				break;
 			}
 			else {
-				String error = "findNextFileInSearch: " + VCFWin32::Win32Utils::getErrorString( GetLastError() );
+				String dirInfo = "\ndirectory: " + file_->getName();
+				String error = "findNextFileInSearch: " + VCFWin32::Win32Utils::getErrorString( GetLastError() ) + dirInfo ;
 				throw BasicException( error );
 			}
 		}
@@ -973,6 +974,9 @@ DateTime Win32FilePeer::convertFileTimeToDateTime( const FILETIME& ft )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/07/01 15:47:59  marcelloptr
+*minor improvements on a message
+*
 *Revision 1.3.2.5  2005/04/09 17:21:32  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

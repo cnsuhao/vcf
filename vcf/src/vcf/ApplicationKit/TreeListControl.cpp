@@ -102,7 +102,7 @@ void TreeListControl::init()
 
 void TreeListControl::setTreeModel(TreeModel * model)
 {
-    if ( NULL != treeModel_ ) {
+	if ( NULL != treeModel_ ) {
 		EventHandler* handler = getEventHandler( "TreeListControl::onModelChanged" );
 		if ( NULL != handler ) {
 			treeModel_->removeTreeNodeAddedHandler( handler );
@@ -2141,6 +2141,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/07/01 15:47:56  marcelloptr
+*minor improvements on a message
+*
 *Revision 1.3.2.7  2005/03/04 04:41:55  ddiego
 *fixed a bug in the tree list control that was not taking into account the tree item text color or text bold.
 *
