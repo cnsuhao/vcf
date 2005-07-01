@@ -199,6 +199,12 @@ public:
 	void setBtnImageIndex( const long& btnImageIndex, ImageState imgStates=bisNormal );
 
 	/**
+	helper to write less and more clear code.
+	For the button image is assumed the bisNormal ImageState.
+	*/
+	void setBtnImageIndex( ImageList* imageList, const long& btnImageIndex, const CaptionAlignment& captionAlignment=bcaRight, const double& separationImageCaption=5.0 );
+
+	/**
 	Tells if the button's caption needs to be aligned on the left, right,
 	top or bottom,or it should be centered.
 	*/
@@ -217,7 +223,10 @@ public:
 		return separationImageCaption_;
 	}
 
-	void setSeparationImageCaption( const double& separationImageCaption_ );
+	void setSeparationImageCaption( const double& separationImageCaption ) {
+		separationImageCaption_ = separationImageCaption;
+	}
+
 
 	/**
 	tells if the buttons has the behaviour of a toggled button. 
@@ -351,6 +360,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/07/01 15:45:43  marcelloptr
+*minor improvements on PushButton
+*
 *Revision 1.4.2.3  2005/06/29 05:00:03  marcelloptr
 *some white spaces
 *

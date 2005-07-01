@@ -139,23 +139,22 @@ Rect PushButton::calcCenterRect( const Rect& rect, GraphicsContext* context, Rec
 		// the caption and the image are both displayed
 		// in a rectangle centered in the button
 
-		double sep = separationImageCaption_;
+		double sep = 0;
 
-		double ch = context->getTextHeight( caption_ );
-		double cw = context->getTextWidth( caption_ );
-
-		double ih = imageList_->getImageHeight();
-		double iw = imageList_->getImageWidth();
-
-		if ( !showCaption_ ) {
-			sep = 0;
-			ch = 0;
-			cw = 0;
+		double ch = 0;
+		double cw = 0;
+		if ( showCaption_ ) {
+			sep = separationImageCaption_;
+			ch = context->getTextHeight( caption_ );
+			cw = context->getTextWidth( caption_ );
 		}
-		if ( NULL == imageList_ ) {
-			sep = 0;
-			ih = 0;
-			iw = 0;
+
+		double ih = 0;
+		double iw = 0;
+		if ( NULL != imageList_ ) {
+			sep = separationImageCaption_;
+			ih = imageList_->getImageHeight();
+			iw = imageList_->getImageWidth();
 		}
 
 		Rect r = rect;
@@ -337,8 +336,8 @@ Size PushButton::calcMinimumSize()
 
 	rect.setRect( 0, 0, cw, ch );
 
-	// counterbalance what done in paint()
-	rect.inflate( 2, 3 );
+	//// counterbalance what done in paint()
+	//rect.inflate( 2, 3 );
 
 	// drawThemeButtonRect requires this ( 4, 4 are just for the focus rect ).
 	// It seems that under windows the best dimensions are (5,5)
@@ -353,7 +352,7 @@ void PushButton::paint(GraphicsContext * context)
 {
 	CustomControl::paint( context );
 	Rect r( 0,0,getWidth(), getHeight() );
-	r.inflate( -2, -3 );
+	//r.inflate( -2, -3 );
 
 	ButtonState state;
 	state.setActive( isActive() );
@@ -460,7 +459,7 @@ String PushButton::getCaption()
 
 double PushButton::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight ) + 6;
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight ); // MP-
 }
 
 double PushButton::getPreferredWidth()
@@ -557,7 +556,7 @@ void PushButton::keyUp( KeyboardEvent* event )
 void PushButton::setShowCaption( const bool& showCaption )
 {
 	showCaption_ = showCaption;
-	// repaint(); // MP- ?
+	// repaint(); // MP ?
 }
 
 long PushButton::getBtnImageIndex( const ImageState& imgState )
@@ -608,7 +607,14 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 		moveImageWhenPressed_ = false;
 	}
 
-	// repaint(); // MP- ?
+	// repaint(); // MP ?
+}
+
+void PushButton::setBtnImageIndex( ImageList* imageList, const long& btnImageIndex, const CaptionAlignment& captionAlignment/*=bcaRight*/, const double& separationImageCaption/*=5.0*/ ) {
+	setImageList( imageList );
+	setBtnImageIndex( btnImageIndex, bisNormal );
+	setCaptionAlignment( captionAlignment );
+	setSeparationImageCaption( separationImageCaption );
 }
 
 void PushButton::setImageList( ImageList* imageList )
@@ -672,6 +678,9 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/07/01 15:45:43  marcelloptr
+*minor improvements on PushButton
+*
 *Revision 1.2.4.2  2005/06/26 01:27:53  marcelloptr
 *added images to a PushButton
 *
