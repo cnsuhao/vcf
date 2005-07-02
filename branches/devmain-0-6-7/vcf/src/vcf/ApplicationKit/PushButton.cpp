@@ -48,6 +48,7 @@ PushButton::PushButton():
 PushButton::~PushButton()
 {
 
+	UIToolkit::removeDefaultButton( this );
 }
 
 /*
@@ -457,6 +458,11 @@ String PushButton::getCaption()
 	return this->caption_;
 }
 
+void PushButton::setCommandType( const ButtonCommandType& commandType )
+{
+	commandType_ = commandType;
+}
+
 double PushButton::getPreferredHeight()
 {
 	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight ); // MP-
@@ -610,7 +616,7 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 	// repaint(); // MP ?
 }
 
-void PushButton::setBtnImageIndex( ImageList* imageList, const long& btnImageIndex, const CaptionAlignment& captionAlignment/*=bcaRight*/, const double& separationImageCaption/*=5.0*/ ) {
+void PushButton::setBtnImageIndex( ImageList* imageList, const long& btnImageIndex, const CaptionAlignment& captionAlignment, const double& separationImageCaption ) {
 	setImageList( imageList );
 	setBtnImageIndex( btnImageIndex, bisNormal );
 	setCaptionAlignment( captionAlignment );
@@ -669,15 +675,13 @@ void PushButton::onFocusLost( FocusEvent* event )
 	UIToolkit::removeDefaultButton( this );
 }
 
-void PushButton::setCommandType( const ButtonCommandType& commandType )
-{
-	commandType_ = commandType;
-}
-
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/07/02 04:05:21  marcelloptr
+*forgotten removeDefaultButton in the dtor
+*
 *Revision 1.2.4.3  2005/07/01 15:45:43  marcelloptr
 *minor improvements on PushButton
 *
