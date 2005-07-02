@@ -679,8 +679,8 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.4  2005/07/02 04:05:21  marcelloptr
-*forgotten removeDefaultButton in the dtor
+*Revision 1.2.4.5  2005/07/02 04:15:19  marcelloptr
+*forgotten removeDefaultButton in the dtor was causing crash after closing a MessageDialog
 *
 *Revision 1.2.4.3  2005/07/01 15:45:43  marcelloptr
 *minor improvements on PushButton
