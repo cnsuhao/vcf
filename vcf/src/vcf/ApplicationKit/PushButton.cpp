@@ -681,8 +681,8 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.7  2005/07/02 20:51:01  marcelloptr
-*with the button is pressed, the image was moving when passing the mouse over it (higlighted)
+*Revision 1.2.4.8  2005/07/02 20:52:37  marcelloptr
+*with the button is pressed, the image was moving when it was higlighted, i.e. when passing the mouse over it
 *
 *Revision 1.2.4.5  2005/07/02 04:15:19  marcelloptr
 *forgotten removeDefaultButton in the dtor was causing crash after closing a MessageDialog
