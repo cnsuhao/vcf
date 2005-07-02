@@ -114,7 +114,7 @@ void PushButton::drawImage( const Rect& rect, const ButtonState& state, const Re
 		if ( 0 <= btnImageIndex ) {
 			Rect imgRect = *imageRect;
 			//imgRect.inflate( -2, -2 );
-			if ( ( true == isPressed_ ) && ( moveImageWhenPressed_ || isHighlighted_ ) ) {
+			if ( ( true == isPressed_ ) && ( moveImageWhenPressed_ ) ) {
 				imgRect.setRect( imgRect.left_ + 1.0, imgRect.top_ + 1.0, imgRect.right_ + 1.0, imgRect.bottom_ + 1.0 );
 			}
 
@@ -679,6 +679,9 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.6  2005/07/02 20:41:45  marcelloptr
+*with the button is pressed, the image was moving when passing the mouse over it (higlighted)
+*
 *Revision 1.2.4.5  2005/07/02 04:15:19  marcelloptr
 *forgotten removeDefaultButton in the dtor was causing crash after closing a MessageDialog
 *
