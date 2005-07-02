@@ -140,12 +140,11 @@ Rect PushButton::calcCenterRect( const Rect& rect, GraphicsContext* context, Rec
 		// the caption and the image are both displayed
 		// in a rectangle centered in the button
 
-		double sep = 0;
+		double sep = separationImageCaption_;
 
 		double ch = 0;
 		double cw = 0;
 		if ( showCaption_ ) {
-			sep = separationImageCaption_;
 			ch = context->getTextHeight( caption_ );
 			cw = context->getTextWidth( caption_ );
 		}
@@ -153,9 +152,12 @@ Rect PushButton::calcCenterRect( const Rect& rect, GraphicsContext* context, Rec
 		double ih = 0;
 		double iw = 0;
 		if ( NULL != imageList_ ) {
-			sep = separationImageCaption_;
 			ih = imageList_->getImageHeight();
 			iw = imageList_->getImageWidth();
+		}
+
+		if ( !showCaption_ || ( NULL == imageList_ ) ) {
+			sep = 0;
 		}
 
 		Rect r = rect;
@@ -679,7 +681,7 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.6  2005/07/02 20:41:45  marcelloptr
+*Revision 1.2.4.7  2005/07/02 20:51:01  marcelloptr
 *with the button is pressed, the image was moving when passing the mouse over it (higlighted)
 *
 *Revision 1.2.4.5  2005/07/02 04:15:19  marcelloptr
