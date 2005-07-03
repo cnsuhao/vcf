@@ -89,13 +89,15 @@ def main():
 	fileTest = re.compile( reStr, re.IGNORECASE )
 	
 	cvsTest = re.compile( ".*\/CVS" )
+
+	buildLogTest = re.compile( "BuildLog.htm", re.IGNORECASE )
 	
 	for dir in SRC_DIRS :
 		for root, dirs, files in os.walk( dir ):
 			if not cvsTest.match( root ) :
 				print ( 'Scanning ' + root + "..." ) 
 				for afile in files :
-					if  fileTest.match( afile ) :
+					if  fileTest.match( afile ) and not buildLogTest.match( afile ) :
 						srcFiles.append( os.path.join( root, afile ) )
 				
 				
