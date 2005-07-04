@@ -950,7 +950,6 @@ public:
 	void onToolTipLostFocus( WindowEvent* e ) {
 		Window* w = (Window*)e->getSource();
 
-
 		if ( false == w->isActive() ) {
 			w->hide();
 		}
@@ -2254,7 +2253,7 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.20  2005/07/01 15:56:09  marcelloptr
+*Revision 1.3.2.21  2005/07/04 03:46:07  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
 *
 *Revision 1.3.2.15  2005/06/06 02:34:06  ddiego
