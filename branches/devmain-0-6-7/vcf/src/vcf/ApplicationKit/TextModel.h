@@ -52,18 +52,18 @@ public:
 	/**
 	*adds a new TextModelEvent handler
 	*/
-    virtual void addTextModelChangedHandler( EventHandler * handler ) = 0;
+	virtual void addTextModelChangedHandler( EventHandler * handler ) = 0;
 
 	/**
 	*removes a TextModelEvent handler
 	*/
-    virtual void removeTextModelChangedHandler( EventHandler * handler ) = 0;
+	virtual void removeTextModelChangedHandler( EventHandler * handler ) = 0;
 
 	/**
 	*sets the contents of the text model, completely changes what was previously
 	*in the model
 	*/
-    virtual void setText( const String& text ) = 0;
+	virtual void setText( const String& text ) = 0;
 
 	/**
 	*inserts text into the model at the given index
@@ -71,14 +71,14 @@ public:
 	*a zero based index.
 	*@param String the text to insert
 	*/
-    virtual void insertText( const uint32& index, const String& text ) = 0;
+	virtual void insertText( const uint32& index, const String& text ) = 0;
 
 	/**
 	*replace text into the model in place of the selected text is any,
 	*or at the current position otherwise
 	*@param String the text to replace with
 	*/
-    virtual void replaceText( const uint32& index, const uint32& count, const String& text ) = 0;
+	virtual void replaceText( const uint32& index, const uint32& count, const String& text ) = 0;
 
 	/**
 	*deletes text from the model, starting at index, and continuing for count characters,
@@ -86,7 +86,7 @@ public:
 	*@param long the starting point. The index is zero based.
 	*@param long the number of characters to delete
 	*/
-    virtual void deleteText( const uint32& index, const uint32& count ) = 0;
+	virtual void deleteText( const uint32& index, const uint32& count ) = 0;
 	
 	/**
 	*returns all of the TextModel's text in a string.
@@ -114,6 +114,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/07/04 03:44:55  marcelloptr
+*spaces spaces spaces
+*
 *Revision 1.3.2.3  2005/05/18 03:19:17  ddiego
 *more text edit changes, fixes some subtle bugs in doc and win32 edit peer.
 *
