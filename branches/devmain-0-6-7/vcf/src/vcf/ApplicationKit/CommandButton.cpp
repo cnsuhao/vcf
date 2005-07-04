@@ -59,6 +59,58 @@ CommandButton::~CommandButton()
 	UIToolkit::removeDefaultButton( this );
 }
 
+void CommandButton::setName( const String& name )
+{
+	Control::setName( name );
+	if ( isDesigning() && getCaption().empty() ) {
+		setCaption( name );
+	}
+}
+
+
+void CommandButton::setCaption( const String& caption )
+{
+	VirtualKeyCode keyCode = UIToolkit::findMnemonic( caption );
+
+	if ( keyCode != vkUndefined ) {
+		AcceleratorKey* newAccelKey = new AcceleratorKey( this, keyCode, kmAlt, NULL, true );
+		addAcceleratorKey( newAccelKey );
+	}
+
+	this->peer_->setText( caption );
+}
+
+String CommandButton::getCaption()
+{
+	String result = peer_->getText();
+	if ( getUseLocaleStrings() ) {
+		result = System::getCurrentThreadLocale()->translate( result );
+	}
+
+	return result;
+}
+
+void CommandButton::setCommandType( const ButtonCommandType& commandType )
+{
+	commandType_ = commandType;
+}
+
+ButtonCommandType CommandButton::getCommandType()
+{
+	return this->commandType_;
+}
+
+double CommandButton::getPreferredHeight()
+{
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
+}
+
+void CommandButton::mnemonicActivate()
+{
+	Control::mnemonicActivate();
+	click();
+}
+
 void CommandButton::click()
 {
 	ButtonEvent event( this, 0 );
@@ -119,37 +171,6 @@ void CommandButton::click()
 	}
 }
 
-void CommandButton::setName( const String& name )
-{
-	Control::setName( name );
-	if ( isDesigning() && getCaption().empty() ) {
-		setCaption( name );
-	}
-}
-
-
-void CommandButton::setCaption( const String& caption )
-{
-	VirtualKeyCode keyCode = UIToolkit::findMnemonic( caption );
-
-	if ( keyCode != vkUndefined ) {
-		AcceleratorKey* newAccelKey = new AcceleratorKey( this, keyCode, kmAlt, NULL, true );
-		addAcceleratorKey( newAccelKey );
-	}
-
-	this->peer_->setText( caption );
-}
-
-String CommandButton::getCaption()
-{
-	String result = peer_->getText();
-	if ( getUseLocaleStrings() ) {
-		result = System::getCurrentThreadLocale()->translate( result );
-	}
-
-	return result;
-}
-
 void CommandButton::paint(GraphicsContext * context)
 {
 
@@ -170,22 +191,6 @@ void CommandButton::paint(GraphicsContext * context)
 	}
 }
 
-ButtonCommandType CommandButton::getCommandType()
-{
-	return this->commandType_;
-}
-
-void CommandButton::setCommandType( const ButtonCommandType& commandType )
-{
-	commandType_ = commandType;
-}
-
-void CommandButton::mnemonicActivate()
-{
-	Control::mnemonicActivate();
-	click();
-}
-
 void CommandButton::setDefault( const bool& defaultButton )
 {
 	if ( true == defaultButton ) {
@@ -198,7 +203,6 @@ void CommandButton::setDefault( const bool& defaultButton )
 
 bool CommandButton::isDefault()
 {
-
 	return (this == UIToolkit::getDefaultButton());
 }
 
@@ -212,15 +216,13 @@ void CommandButton::onFocusLost( FocusEvent* event )
 	UIToolkit::removeDefaultButton( this );
 }
 
-double CommandButton::getPreferredHeight()
-{
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
-}
-
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/07/04 03:43:14  marcelloptr
+*PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
+*
 *Revision 1.3.2.3  2005/06/26 01:27:53  marcelloptr
 *added images to a PushButton
 *

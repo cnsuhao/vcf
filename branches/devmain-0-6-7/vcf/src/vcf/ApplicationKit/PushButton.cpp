@@ -32,6 +32,7 @@ PushButton::PushButton():
 	separationImageCaption_ = 5.0;
 	moveImageWhenPressed_ = true;
 	drawFocusRectWhenFocus_ = true;
+	drawFocusRectWhenFocusDown_ = true;
 	imageStateSpecified_ = -1;
 
 	commandType_ = BC_NONE;
@@ -96,18 +97,54 @@ void PushButton::drawCaption( const Rect& rect, Rect* imageRect, GraphicsContext
 void PushButton::drawImage( const Rect& rect, const ButtonState& state, const Rect* imageRect, GraphicsContext* context )
 {
 	if ( NULL != this->imageList_ ) {
+
 		ImageState imageState = bisUp;
+
 		if ( !state.isEnabled() ) {
 			imageState = bisDisable;
 		}
-		else if ( state.isPressed() ) {
-			imageState = bisDown;
-		}
-		else if ( state.isFocused() ) {
-			imageState = bisFocus;
-		}
-		else if ( isHighlighted_ ) { // state.isHighlighted()
-			imageState = bisHighlight;
+		else {
+			if ( toggled_ ) {
+				if ( state.isPressed() ) {
+					imageState = bisDown;
+
+					if ( isHighlighted_ && ( imageStateSpecified_ & bisHighlight ) ) {
+						imageState = bisHighlight;
+					}
+					else {
+						if ( state.isFocused() ) {
+							if ( imageStateSpecified_ & bisFocusDown ) {
+								imageState = bisFocusDown;
+							}
+							else if ( imageStateSpecified_ & bisFocus ) {
+								imageState = bisFocus;
+							}
+						}
+					}
+
+				}
+				else {
+					if ( isHighlighted_ && ( imageStateSpecified_ & bisHighlight ) ) {
+						imageState = bisHighlight;
+					}
+					else {
+						if ( state.isFocused() && ( imageStateSpecified_ & bisFocus ) ) {
+							imageState = bisFocus;
+						}
+					}				
+				}
+			}
+			else {
+				if ( state.isPressed() ) {
+					imageState = bisDown;
+				}
+				else if ( state.isFocused() ) {
+					imageState = bisFocus;
+				}
+				else if ( isHighlighted_ ) { // state.isHighlighted()
+					imageState = bisHighlight;
+				}
+			}
 		}
 
 		long btnImageIndex = getBtnImageIndex( imageState );
@@ -377,17 +414,18 @@ void PushButton::paint(GraphicsContext * context)
 		Rect rc = calcCenterRect( r, context, &captionRect, &imageRect );
 		context->drawThemeButtonRect( &r, state, &captionRect );
 		drawImage( r, state, &imageRect, context );
-		if ( state.isFocused() && drawFocusRectWhenFocus_ ) {
-			context->drawThemeButtonFocusRect( &r );
-		}
 	}
 	else {
 		context->drawThemeButtonRect( &r, state );
-		if ( state.isFocused() && drawFocusRectWhenFocus_ ) {
-			context->drawThemeButtonFocusRect( &r );
-		}
 	}
 
+
+	bool drawFocusRect = ( state.isFocused() &&
+				( (!isPressed_ && drawFocusRectWhenFocus_ ) || ( isPressed_ && drawFocusRectWhenFocusDown_ ) ) );
+
+	if ( drawFocusRect ) {
+		context->drawThemeButtonFocusRect( &r );
+	}
 }
 
 void PushButton::click()
@@ -475,6 +513,11 @@ double PushButton::getPreferredWidth()
 	return 120;
 }
 
+void PushButton::setInitialStatePressed( const bool& pressed )
+{
+	isPressed_ = pressed;
+}
+
 void PushButton::mouseDown( MouseEvent* event )
 {
 	CustomControl::mouseDown( event );
@@ -526,6 +569,9 @@ void PushButton::mouseEnter( MouseEvent* event )
 void PushButton::mouseLeave( MouseEvent* event )
 {
 	isHighlighted_ = false;
+	if ( toggled_ ) {
+		isPressed_ = wasPressed_;
+	}
 	repaint();
 }
 
@@ -564,7 +610,7 @@ void PushButton::keyUp( KeyboardEvent* event )
 void PushButton::setShowCaption( const bool& showCaption )
 {
 	showCaption_ = showCaption;
-	// repaint(); // MP ?
+	repaint();
 }
 
 long PushButton::getBtnImageIndex( const ImageState& imgState )
@@ -594,6 +640,7 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 		imageIndexes_[ bisDown      ] = btnImageIndex;
 		imageIndexes_[ bisDisable   ] = btnImageIndex;
 		imageIndexes_[ bisFocus     ] = btnImageIndex;
+		imageIndexes_[ bisFocusDown ] = btnImageIndex;
 		imageIndexes_[ bisHighlight ] = btnImageIndex;
 		imageStateSpecified_ = 0;
 	}
@@ -602,6 +649,7 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 		imageIndexes_[ imgStates & bisDown      ] = btnImageIndex;
 		imageIndexes_[ imgStates & bisDisable   ] = btnImageIndex;
 		imageIndexes_[ imgStates & bisFocus     ] = btnImageIndex;
+		imageIndexes_[ imgStates & bisFocusDown ] = btnImageIndex;
 		imageIndexes_[ imgStates & bisHighlight ] = btnImageIndex;
 	}
 
@@ -609,13 +657,38 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 	imageStateSpecified_ |= ( imgStates & bisDown      );
 	imageStateSpecified_ |= ( imgStates & bisDisable   );
 	imageStateSpecified_ |= ( imgStates & bisFocus     );
+	imageStateSpecified_ |= ( imgStates & bisFocusDown );
 	imageStateSpecified_ |= ( imgStates & bisHighlight );
 
-	if ( 0 != ( imgStates & bisDown ) ) {
+	// if we specified a bisDown state image then we don't move it
+	if ( 0 != ( imageStateSpecified_ & bisDown ) ) {
 		moveImageWhenPressed_ = false;
 	}
 
-	// repaint(); // MP ?
+	// if we specified a bisDown state image then we don't move it
+	if ( 0 != ( imageStateSpecified_ & bisFocus ) ) {
+		drawFocusRectWhenFocus_ = false;
+	}
+	else {
+		if ( 0 != ( imageStateSpecified_ & bisFocusDown ) ) {
+			// the bisFocusDown state image supplies for the bisFocus one
+			imageIndexes_[ bisFocus     ] = btnImageIndex;
+		}
+	}
+
+	// if we specified a bisFocusDown state image then we don't move it
+	if ( 0 != ( imageStateSpecified_ & bisFocusDown ) ) {
+		drawFocusRectWhenFocusDown_ = false;
+	}
+	else {
+		if ( 0 != ( imageStateSpecified_ & bisFocus ) ) {
+			// the bisFocus state image supplies for the bisFocusDown one
+			imageIndexes_[ bisFocusDown ] = btnImageIndex;
+		}
+	}
+
+	// commented: better to let the user to manage all the options, and then to repaint
+	// repaint();
 }
 
 void PushButton::setBtnImageIndex( ImageList* imageList, const long& btnImageIndex, const CaptionAlignment& captionAlignment, const double& separationImageCaption ) {
@@ -681,6 +754,9 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.9  2005/07/04 03:43:23  marcelloptr
+*PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
+*
 *Revision 1.2.4.8  2005/07/02 20:52:37  marcelloptr
 *with the button is pressed, the image was moving when it was higlighted, i.e. when passing the mouse over it
 *
