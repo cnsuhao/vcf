@@ -78,8 +78,9 @@ public:
 		bisDown         = 0x2,
 		bisDisable      = 0x4,
 		bisFocus        = 0x8,
-		bisHighlight    = 0x10,
-		bisAll = bisUp|bisDown|bisDisable|bisFocus|bisHighlight,
+		bisFocusDown    = 0x10,
+		bisHighlight    = 0x20,
+		bisAll = bisUp|bisDown|bisDisable|bisFocus|bisFocusDown|bisHighlight,
 		/* bisLast = bisHover // remove this soon */
 	};
 
@@ -249,6 +250,18 @@ public:
 	}
 
 	/**
+	set the initial state as pressed for a toggled button.
+	This function establish an association between a user's variable and 
+	the pressed/unpressed state of the button. For example, if the variable
+	is onlyToday_, then toggleButton_->setInitialStatePressed( !onlyToday_ )
+	will state that the button will appear pressed when onlyToday_ is false.
+	The management of the pressed/unpressed state should be done through
+	the click() member function or through mouseClick() or keyUp() handlers,
+	so it is suggested to use this function only to set the initial state.
+	*/
+	void setInitialStatePressed( const bool& pressed );
+
+	/**
 	tells if the buttons is currently highlighted, i.e. the mouse is over it.
 	*/
 	bool isHighlighted() {
@@ -273,14 +286,29 @@ public:
 	/**
 	let the user to specify if we want to draw the focus rect when the button
 	has the focus.  The default is to always draw it.
-	Use the value false if the fucus is already drawn by the image.
+	Use the value false if the focus is already drawn by the image.
+	This flag is automatically set to false if a bisFocus state image is provided,
+	but you can set it back to true, if you need, after the focus images are set.
 	*/
 	bool getDrawFocusRectWhenFocus() {
 		return drawFocusRectWhenFocus_;
 	}
-
 	void setDrawFocusRectWhenFocus( const bool& drawFocusRectWhenFocus ) {
 		drawFocusRectWhenFocus_ = drawFocusRectWhenFocus;
+	}
+
+	/**
+	same as getDrawFocusRectWhenFocus, but when the button is pressed down.
+	This is important for toggled buttons, as the 'focus rect' may be good
+	when the button is up, but not when it is down or viceversa.
+	This flag is automatically set to true if a bisFocusDown state image is provided,
+	but you can set it back to true, if you need, after the focus images are set.
+	*/
+	bool getDrawFocusRectWhenFocusDown() {
+		return drawFocusRectWhenFocusDown_;
+	}
+	void setDrawFocusRectWhenFocusDown( const bool& drawFocusRectWhenFocusDown ) {
+		drawFocusRectWhenFocusDown_ = drawFocusRectWhenFocusDown;
 	}
 
 	/**
@@ -348,6 +376,7 @@ protected:
 	std::map< long, ulong32 > imageIndexes_;
 	bool moveImageWhenPressed_;
 	bool drawFocusRectWhenFocus_;
+	bool drawFocusRectWhenFocusDown_;
 	long imageStateSpecified_; // the image states explicitely specified
 
 private:
@@ -360,6 +389,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/07/04 03:43:23  marcelloptr
+*PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
+*
 *Revision 1.4.2.4  2005/07/01 15:45:43  marcelloptr
 *minor improvements on PushButton
 *

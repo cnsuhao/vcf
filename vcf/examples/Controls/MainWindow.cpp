@@ -465,6 +465,10 @@ void MainWindow::makeButtonsPage()
 	il->addImage( img );
 	delete img;
 
+	img = resBundle->getImage( "iconSaveFocusDown" );
+	il->addImage( img );
+	delete img;
+
 	img = resBundle->getImage( "iconSaveHighlight" );
 	il->addImage( img );
 	delete img;
@@ -614,11 +618,30 @@ void MainWindow::makeButtonsPage()
 	btn->setBtnImageIndex( indexImgSaveUp+1, PushButton::bisDown );
 	btn->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
 	btn->setBtnImageIndex( indexImgSaveUp+3, PushButton::bisFocus );
-	btn->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisHighlight );
+	btn->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisFocusDown );
+	btn->setBtnImageIndex( indexImgSaveUp+5, PushButton::bisHighlight );
 	btnSize = btn->calcMinimumSize();
 	btn->setBounds( x, y, btnSize.width_, btnSize.height_ );
 	panel->add( btn );
 	x += btnSize.width_ + sep;
+
+
+	btn = new PushButton();
+	btn->setBounds( x, y, w, h );
+	btn->setCaption( "Button (all state images but not Highlight)" );
+	btn->setShowCaption( false );
+	btn->setToolTipText( "Button (all state images)" );
+	btn->setImageList( il );
+	btn->setBtnImageIndex( indexImgSaveUp+0, PushButton::bisUp );
+	btn->setBtnImageIndex( indexImgSaveUp+1, PushButton::bisDown );
+	btn->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
+	btn->setBtnImageIndex( indexImgSaveUp+3, PushButton::bisFocus );
+	btn->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisFocusDown );
+	btnSize = btn->calcMinimumSize();
+	btn->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( btn );
+	x += btnSize.width_ + sep;
+
 
 	btn = new PushButton();
 	btn->setBounds( w*1 + sep*1, 1, w, h );
@@ -671,27 +694,47 @@ void MainWindow::makeButtonsPage()
 	//toggle = new PushButton();
 	toggle->setToggled( true );
 	toggle->setBounds( x, y, w, h );
-	toggle->setCaption( "Button (all state images)" );
+	toggle->setCaption( "Toggled (all state images)" );
 	toggle->setShowCaption( false );
-	toggle->setToolTipText( "Button (all state images)" );
+	toggle->setToolTipText( "Toggled (all state images)" );
 	toggle->setImageList( il );
 	toggle->setBtnImageIndex( indexImgSaveUp+0, PushButton::bisUp );
 	toggle->setBtnImageIndex( indexImgSaveUp+1, PushButton::bisDown );
 	toggle->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
 	toggle->setBtnImageIndex( indexImgSaveUp+3, PushButton::bisFocus );
-	toggle->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisHighlight );
+	toggle->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisFocusDown );
+	toggle->setBtnImageIndex( indexImgSaveUp+5, PushButton::bisHighlight );
 	btnSize = toggle->calcMinimumSize();
 	toggle->setBounds( x, y, btnSize.width_, btnSize.height_ );
 	panel->add( toggle );
 	x += btnSize.width_ + sep;
 
+
+	toggle = new PushButton();
+	toggle->setToggled( true );
+	toggle->setBounds( x, y, w, h );
+	toggle->setCaption( "Toggled (all state images but not Highlight)" );
+	toggle->setShowCaption( false );
+	toggle->setToolTipText( "Toggled (all state images but not Highlight)" );
+	toggle->setImageList( il );
+	toggle->setBtnImageIndex( indexImgSaveUp+0, PushButton::bisUp );
+	toggle->setBtnImageIndex( indexImgSaveUp+1, PushButton::bisDown );
+	toggle->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
+	toggle->setBtnImageIndex( indexImgSaveUp+3, PushButton::bisFocus );
+	toggle->setBtnImageIndex( indexImgSaveUp+4, PushButton::bisFocusDown );
+	btnSize = toggle->calcMinimumSize();
+	toggle->setBounds( x, y, btnSize.width_, btnSize.height_ );
+	panel->add( toggle );
+	x += btnSize.width_ + sep;
+
+
 	toggle = new PushButton();
 	toggle->setToggled( true );
 	toggle->setBounds( w*1 + sep*1, 1, w, h );
-	toggle->setCaption( "Button (only Up/Disable images)" );
+	toggle->setCaption( "Toggled (only Up/Disable images)" );
 	toggle->setShowCaption( false );
 	toggle->setEnabled( false );
-	toggle->setToolTipText( "Button (only Up/Disable images)" );
+	toggle->setToolTipText( "Toggled (only Up/Disable images)" );
 	toggle->setImageList( il );
 	toggle->setBtnImageIndex( indexImgSaveUp+0 );
 	toggle->setBtnImageIndex( indexImgSaveUp+2, PushButton::bisDisable );
@@ -704,9 +747,9 @@ void MainWindow::makeButtonsPage()
 	toggle = new PushButton();
 	toggle->setToggled( true );
 	toggle->setBounds( w*2 + sep*2, 1, w, h );
-	toggle->setCaption( "Button (only Up image)" );
+	toggle->setCaption( "Toggled (only Up image)" );
 	toggle->setShowCaption( false );
-	toggle->setToolTipText( "Button (only Up image)" );
+	toggle->setToolTipText( "Toggled (only Up image)" );
 	toggle->setImageList( il );
 	toggle->setBtnImageIndex( indexImgSaveUp+0 );
 	btnSize = toggle->calcMinimumSize();
@@ -835,6 +878,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.18  2005/07/04 03:42:57  marcelloptr
+*PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
+*
 *Revision 1.2.2.17  2005/06/26 14:15:28  marcelloptr
 *added images to a PushButton
 *
