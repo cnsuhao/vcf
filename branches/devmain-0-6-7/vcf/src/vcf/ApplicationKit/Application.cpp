@@ -265,15 +265,19 @@ void Application::main()
 		errString += e.what();
 		errString += "\".\nApplication exiting abnormally.";
 
-		Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
+		if ( NULL != mainWindow ) {
+			Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
+		}
 
 #ifdef _DEBUG
 		throw;
 #endif
 	}
 	catch (...){
-		Dialog::showMessage( "Unknown exception occurred. Application exiting abnormally.",
-								"Framework Exception", Dialog::mbOK, Dialog::msError  );
+		if ( NULL != mainWindow ) {
+			Dialog::showMessage( "Unknown exception occurred. Application exiting abnormally.",
+									"Framework Exception", Dialog::mbOK, Dialog::msError  );
+		}
 //#ifdef _DEBUG
 		throw ;
 //#endif
@@ -462,7 +466,7 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2005/06/25 20:02:58  marcelloptr
+*Revision 1.3.2.4  2005/07/04 03:44:18  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
 *
 *Revision 1.3.2.2  2005/02/16 05:09:31  ddiego
