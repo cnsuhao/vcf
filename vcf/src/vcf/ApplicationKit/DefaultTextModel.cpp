@@ -57,7 +57,7 @@ void DefaultTextModel::insertText( const uint32& index, const String& text )
 void DefaultTextModel::replaceText( const uint32& index, const uint32& count, const String& text )
 {
 	VCF_ASSERT( count > 0 );
-	VCF_ASSERT( (index+count) < text_.size() );
+	VCF_ASSERT( (index+count) <= text_.size() );
 
 
 	//remove old text
@@ -108,6 +108,9 @@ uint32 DefaultTextModel::getSize()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/07/05 14:57:11  marcelloptr
+*minor change on an assertion in ReplaceText so it can replace all text
+*
 *Revision 1.3.2.6  2005/06/02 15:43:27  marcelloptr
 *more documentation
 *
