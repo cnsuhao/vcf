@@ -687,7 +687,7 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 		}
 	}
 
-	// commented: better to let the user to manage all the options, and then to repaint
+	// commented: better to let the user to manage all the options for the images, and then to repaint
 	// repaint();
 }
 
@@ -754,7 +754,7 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.9  2005/07/04 03:43:23  marcelloptr
+*Revision 1.2.4.10  2005/07/05 03:33:31  marcelloptr
 *PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
 *
 *Revision 1.2.4.8  2005/07/02 20:52:37  marcelloptr
