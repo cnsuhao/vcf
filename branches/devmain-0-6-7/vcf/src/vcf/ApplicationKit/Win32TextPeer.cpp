@@ -716,7 +716,10 @@ unsigned long Win32TextPeer::getLineCount()
 			result ++;
 			hr = range->MoveStart( tomLine, 1, NULL );
 		}
+
+		range->Release();
 	}
+
 	return result;
 }
 
@@ -1047,6 +1050,9 @@ void Win32TextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.12  2005/07/05 03:34:35  marcelloptr
+*minor bug fixed
+*
 *Revision 1.1.2.11  2005/06/26 01:31:20  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *
