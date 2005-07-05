@@ -505,7 +505,7 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 
 double PushButton::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight ); // MP-
+	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
 }
 
 double PushButton::getPreferredWidth()
@@ -754,7 +754,7 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.10  2005/07/05 03:33:31  marcelloptr
+*Revision 1.2.4.11  2005/07/05 03:36:00  marcelloptr
 *PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
 *
 *Revision 1.2.4.8  2005/07/02 20:52:37  marcelloptr
