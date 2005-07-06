@@ -196,8 +196,10 @@ public:
 	with the given image index. The user can specify more than one image state at
 	the same time for the given index. If this function is called only once
 	for one ImageState only, then that index will be used for all image states.
+	@param const bool& redraw, repaint the button once changed the image. The default is true
+	but the user may want this false in some cases.
 	*/
-	void setBtnImageIndex( const long& btnImageIndex, ImageState imgStates=bisNormal );
+	void setBtnImageIndex( const long& btnImageIndex, ImageState imgStates=bisNormal, const bool& redraw=false );
 
 	/**
 	helper to write less and more clear code.
@@ -389,6 +391,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/07/06 00:23:12  marcelloptr
+*two very minor bug fixes more. Hope the last ones.
+*
 *Revision 1.4.2.5  2005/07/04 03:43:23  marcelloptr
 *PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
 *

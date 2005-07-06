@@ -516,6 +516,8 @@ double PushButton::getPreferredWidth()
 void PushButton::setInitialStatePressed( const bool& pressed )
 {
 	isPressed_ = pressed;
+	wasPressed_ = isPressed_;
+	repaint();
 }
 
 void PushButton::mouseDown( MouseEvent* event )
@@ -624,7 +626,7 @@ long PushButton::getBtnImageIndex( const ImageState& imgState )
 	return index;
 }
 
-void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStates )
+void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStates, const bool& redraw )
 {
 	if ( NULL == imageList_ ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2( "No image list specified yet" ) );
@@ -687,8 +689,9 @@ void PushButton::setBtnImageIndex( const long& btnImageIndex, ImageState imgStat
 		}
 	}
 
-	// commented: better to let the user to manage all the options for the images, and then to repaint
-	// repaint();
+	if ( redraw ) {
+		repaint();
+	}
 }
 
 void PushButton::setBtnImageIndex( ImageList* imageList, const long& btnImageIndex, const CaptionAlignment& captionAlignment, const double& separationImageCaption ) {
@@ -754,6 +757,9 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.12  2005/07/06 00:23:12  marcelloptr
+*two very minor bug fixes more. Hope the last ones.
+*
 *Revision 1.2.4.11  2005/07/05 03:36:00  marcelloptr
 *PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
 *
