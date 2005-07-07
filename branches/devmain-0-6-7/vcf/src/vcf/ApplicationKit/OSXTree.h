@@ -54,7 +54,7 @@ public:
 
 	virtual void setAllowLabelEditing( const bool& allowLabelEditing );
 
-	
+	virtual OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 protected:
 	
 	TreeControl* treeControl_;
@@ -81,6 +81,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.1.2.3  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
 *

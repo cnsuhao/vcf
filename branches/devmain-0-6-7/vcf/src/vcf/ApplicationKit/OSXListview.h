@@ -38,7 +38,7 @@ public:
 
 	virtual void selectItem(ListItem * item);
 
-	virtual Rect* getItemRect( ListItem* item );
+	virtual Rect getItemRect( ListItem* item );
 
 	virtual bool isItemSelected(ListItem* item);
 
@@ -94,10 +94,15 @@ public:
 
 	virtual void setDisplayOptions( const long& displayOptions );
 
+	virtual OSStatus handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent );
 protected:	
 	ListViewControl* listviewControl_;
 	std::vector<ListItem*> selectedItems_;
 	EnumeratorContainer<std::vector<ListItem*>, ListItem*> enumContainer_;	
+	
+	void onControlModelChanged( Event* e );
+	void onListModelItemAdded( Event* e );
+	void onListModelItemDeleted( Event* e );
 	
 	static OSStatus DBItemDataCallback( ControlRef browser, DataBrowserItemID item, 
 										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
@@ -106,6 +111,7 @@ protected:
 	static OSStatus DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
 															DataBrowserItemNotification message);
 															
+	static void findPtForEachItem ( DataBrowserItemID item, DataBrowserItemState state, void *clientData );
 	void addListItems();
 };
 
@@ -116,6 +122,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.4  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.1.2.3  2005/06/30 02:29:12  ddiego
 *more osx work on list view
 *
