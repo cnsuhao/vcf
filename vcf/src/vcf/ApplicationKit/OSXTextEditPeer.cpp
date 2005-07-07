@@ -840,16 +840,13 @@ void OSXTextEditPeer::finishPrinting()
 
 void OSXTextEditPeer::onControlModelChanged( Event* e )
 {
-	EventHandler* tml = getEventHandler( "Win32TextModelHandler" );
+	EventHandler* tml = getEventHandler( "OSXTextEditPeer::onTextModelTextChanged" );
 	if ( NULL == tml ) {
-		tml = new TextModelEventHandler<OSXTextEditPeer>( this, &OSXTextEditPeer::onTextModelTextChanged, "Win32TextModelHandler" );
+		tml = new TextModelEventHandler<OSXTextEditPeer>( this, &OSXTextEditPeer::onTextModelTextChanged, "OSXTextEditPeer::onTextModelTextChanged" );
 	}
-
-
 
 	TextModel* tm = textControl_->getTextModel();
 	tm->addTextModelChangedHandler( tml );
-
 
 	String text = tm->getText();
 
@@ -911,6 +908,9 @@ void OSXTextEditPeer::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.3  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.1.2.2  2005/06/28 04:03:35  ddiego
 *osx text edit mods and started on osx tree peer.
 *

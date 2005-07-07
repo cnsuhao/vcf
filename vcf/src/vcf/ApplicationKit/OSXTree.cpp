@@ -307,6 +307,8 @@ void OSXTree::onControlModelChanged( Event* e )
 													&OSXTree::onTreeNodeDeleted,
 													"OSXTree::onTreeNodeDeleted" );
 	}
+	
+	
 	treeControl_->getTreeModel()->addTreeNodeDeletedHandler( ev );
 	
 	addChildItems( NULL );
@@ -358,9 +360,44 @@ void OSXTree::addChildItems( TreeItem* parent )
 	}
 }
 
+OSStatus OSXTree::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent )
+{
+	OSStatus result = eventNotHandledErr;
+	
+    UInt32 whatHappened = GetEventKind (theEvent);
+	TCarbonEvent event( theEvent );
+	
+	switch ( GetEventClass( theEvent ) )  {				 
+		case kEventClassControl : {
+			switch( whatHappened ) {
+				case kEventControlDraw : {
+					result = CallNextEventHandler( nextHandler, theEvent );
+				}
+				break;
+				
+				default : {
+					result = OSXControl::handleOSXEvent( nextHandler, theEvent );
+				}	
+				break;
+			}
+		}
+		break;
+		
+		default : {
+			result = OSXControl::handleOSXEvent( nextHandler, theEvent );
+		}	
+		break;
+	}
+	
+	return result;
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.1.2.4  2005/06/29 03:46:13  ddiego
 *more osx tree and list coding.
 *

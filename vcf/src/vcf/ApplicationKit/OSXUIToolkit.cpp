@@ -2017,6 +2017,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 }
                 break;
 
+
                 case kEventControlBoundsChanged : {
 					UInt32 attributes = 0;
 					OSStatus err = GetEventParameter( msg->osxEvent_,
@@ -2217,6 +2218,9 @@ VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.7  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.3.2.6  2005/06/23 01:26:55  ddiego
 *build updates
 *

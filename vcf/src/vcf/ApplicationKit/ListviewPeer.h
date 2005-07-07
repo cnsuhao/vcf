@@ -41,7 +41,7 @@ public:
 
 	virtual void selectItem(ListItem * item) = 0;
 
-	virtual Rect* getItemRect( ListItem* item ) = 0;
+	virtual Rect getItemRect( ListItem* item ) = 0;
 
 	virtual bool isItemSelected(ListItem* item) = 0;
 
@@ -104,6 +104,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

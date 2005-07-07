@@ -21,6 +21,18 @@ where you installed the VCF.
 using namespace VCF;
 
 
+
+struct ForEachData {
+	OSXListview* listview;
+};
+
+
+struct FindPtForItemData : public ForEachData {
+	VCF::Rect rect;
+	VCF::Point* pt;
+};
+
+
 OSXListview::OSXListview( ListViewControl* listviewControl ):
 	OSXControl( listviewControl ),
 	listviewControl_( listviewControl )
@@ -78,6 +90,7 @@ void OSXListview::create( Control* owningControl )
 		
 		SetDataBrowserSelectionFlags( hiView_, kDataBrowserSelectOnlyOne | kDataBrowserResetSelection );
 		
+		SetDataBrowserTableViewHiliteStyle( hiView_, kDataBrowserTableViewFillHilite );
 		
 		OSXControl* thisPtr = this;
 		SetControlProperty( hiView_, 
@@ -91,7 +104,12 @@ void OSXListview::create( Control* owningControl )
 		if ( err != noErr ) {
 			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXTree!") );
 		}
-							
+		
+		EventHandler* ev = 
+			new GenericEventHandler<OSXListview>( this, &OSXListview::onControlModelChanged, "OSXListview::onControlModelChanged" );					
+		
+		owningControl->ControlModelChanged += ev;
+				
 	}
 	else {
 		throw RuntimeException( MAKE_ERROR_MSG_2("CreateDataBrowserControl failed to create view!") );
@@ -168,7 +186,10 @@ OSStatus OSXListview::DBItemNotificationCallback( ControlRef browser, DataBrowse
 
 void OSXListview::addItem( ListItem * item )
 {
-
+	unsigned int index = item->getIndex();
+	
+	DataBrowserItemID dbItem = (DataBrowserItemID)item;
+	AddDataBrowserItems( hiView_, kDataBrowserNoItem, 1, &dbItem, kDataBrowserItemNoProperty );
 }
 
 void OSXListview::insertItem( const unsigned long& index, ListItem * item )
@@ -178,12 +199,15 @@ void OSXListview::insertItem( const unsigned long& index, ListItem * item )
 
 void OSXListview::clear()
 {
-	
+	RemoveDataBrowserItems( hiView_, kDataBrowserNoItem, 0, NULL, kDataBrowserItemNoProperty );
 }
 
 void OSXListview::deleteItem( ListItem* item )
 {
+	unsigned int index = item->getIndex();
+	DataBrowserItemID dbItem = (DataBrowserItemID)item;
 	
+	RemoveDataBrowserItems( hiView_, kDataBrowserNoItem, 1, &dbItem, kDataBrowserItemNoProperty );
 }
 
 bool OSXListview::ensureVisible(ListItem * item, bool partialOK )
@@ -203,10 +227,30 @@ void OSXListview::selectItem(ListItem * item)
 	
 }
 
-VCF::Rect* OSXListview::getItemRect( ListItem* item )
-{
+VCF::Rect OSXListview::getItemRect( ListItem* item )
+{	
+	VCF::Rect result;
+	UInt32 columns = 0;
+	GetDataBrowserTableViewColumnCount( hiView_, &columns );
+	DataBrowserTableViewColumnID colID = 0;
+	DataBrowserItemID itemID = (DataBrowserItemID)item;
+	::Rect itemBounds;
+	for (UInt32 col=0;col<columns;col++ ) {
+		GetDataBrowserTableViewColumnProperty( hiView_, col, &colID );
+		GetDataBrowserItemPartBounds( hiView_, itemID, colID, kDataBrowserPropertyEnclosingPart, &itemBounds );
+		if ( col == 0 ) {
+			result.left_ = itemBounds.left;
+			result.top_ = itemBounds.top;
+			result.right_ = itemBounds.right;
+			result.bottom_ = itemBounds.bottom;
+		}
+		else {
+			result.right_ = itemBounds.right;
+			result.bottom_ = itemBounds.bottom;		
+		}
+	}	
 		
-	return NULL;
+	return result;
 }
 
 bool OSXListview::isItemSelected(ListItem* item)
@@ -216,10 +260,25 @@ bool OSXListview::isItemSelected(ListItem* item)
 	return result;
 }
 
+void OSXListview::findPtForEachItem ( DataBrowserItemID item, DataBrowserItemState state, void *clientData )
+{
+	FindPtForItemData* data = (FindPtForItemData*)clientData;
+	
+	::Rect itemBounds;
+	//DataBrowserTableViewColumnID colID = 0;
+	//GetDataBrowserItemPartBounds( data->listview->hiView_, item, colID, kDataBrowserPropertyEnclosingPart, &itemBounds );
+}
+
 ListItem* OSXListview::isPtOverItem( Point* point )
 {
 	ListItem* result = NULL;
-
+		
+	FindPtForItemData data;
+	data.listview = this;
+	data.pt = point;	
+	if ( noErr == ForEachDataBrowserItem( hiView_, kDataBrowserNoItem, false, 0, OSXListview::findPtForEachItem, &data ) ) {
+		//result = data.rect;
+	}	
 	
 	return result;
 }
@@ -235,8 +294,21 @@ ListItem* OSXListview::getFocusedItem()
 ListItem* OSXListview::getSelectedItem()
 {
 	ListItem* result = NULL;
-
+	Handle items = NewHandle(0);
 	
+	if ( noErr == GetDataBrowserItems( hiView_, kDataBrowserNoItem, false, kDataBrowserItemIsSelected, items ) ) {
+ 		int count = GetHandleSize(items)/sizeof(DataBrowserItemID);
+		
+		if ( count > 0 ) {
+			HLock( items );
+			DataBrowserItemID* item = *((DataBrowserItemID**)items);
+		
+			result = (ListItem*)(*item);
+		
+			HUnlock( items );
+		}
+	}
+	DisposeHandle( items );
 	return result;
 }
 
@@ -267,7 +339,7 @@ void OSXListview::insertHeaderColumn( const unsigned long& index, const String& 
 	}
 	else {
 		DataBrowserListViewColumnDesc col;
-		col.propertyDesc.propertyID = 'TEST';
+		col.propertyDesc.propertyID = OSX_LISTVIEW_CTRL_PRIMARY_COL + 1;
 		col.propertyDesc.propertyType =  kDataBrowserTextType;
 		col.propertyDesc.propertyFlags =  kDataBrowserListViewSelectionColumn;
 		
@@ -295,7 +367,10 @@ void OSXListview::insertHeaderColumn( const unsigned long& index, const String& 
 
 void OSXListview::deleteHeaderColumn( const unsigned long& index )
 {
-	
+	ListModel* listModel = listviewControl_->getListModel();
+	ListItem* item = listModel->getItemFromIndex( index );
+	DataBrowserTableViewColumnID columnId = OSX_LISTVIEW_CTRL_PRIMARY_COL + index;
+	RemoveDataBrowserTableViewColumn( hiView_, columnId );
 }
 
 IconStyleType OSXListview::getIconStyle()
@@ -310,12 +385,26 @@ void OSXListview::setIconStyle( const IconStyleType& iconStyle )
 
 bool OSXListview::getAllowsMultiSelect()
 {
+	DataBrowserSelectionFlags flags = 0;
+	if ( noErr == GetDataBrowserSelectionFlags( hiView_, &flags ) ) {
+		return (flags & kDataBrowserSelectOnlyOne) ? false : true;
+	}
 	return false;
 }
 
 void OSXListview::setAllowsMultiSelect( const bool& allowsMultiSelect )
 {
-	
+	DataBrowserSelectionFlags flags = 0;
+	if ( noErr == GetDataBrowserSelectionFlags( hiView_, &flags ) ) {	
+		if ( allowsMultiSelect ) {
+			flags |= kDataBrowserDragSelect;
+			flags &= ~kDataBrowserSelectOnlyOne;
+		}
+		else {
+			flags |= kDataBrowserDragSelect | kDataBrowserSelectOnlyOne;
+		}
+		SetDataBrowserSelectionFlags( hiView_, flags );
+	}
 }
 
 IconAlignType OSXListview::getIconAlignment()
@@ -344,27 +433,52 @@ void OSXListview::setAllowLabelEditing( const bool& allowLabelEditing )
 
 void OSXListview::setColumnWidth( const unsigned long& index, const double& width, ListViewControl::AutoSizeType type )
 {
-	
+	DataBrowserTableViewColumnID columnId = OSX_LISTVIEW_CTRL_PRIMARY_COL + index;
+	SetDataBrowserTableViewNamedColumnWidth( hiView_, columnId, width );
 }
 
 double OSXListview::getColumnWidth( const unsigned long& index )
 {
 	double result = 0.0;
 	
+	DataBrowserTableViewColumnID columnId = OSX_LISTVIEW_CTRL_PRIMARY_COL + index;
+	UInt16 width = 0;
 	
-	
+	if ( noErr == GetDataBrowserTableViewNamedColumnWidth( hiView_, columnId, &width ) ) {
+		result = width;
+	}
 	return result;
 }
 
 void OSXListview::setColumnName( const unsigned long& index, const String& columnName )
 {
+	DataBrowserTableViewColumnID columnId = OSX_LISTVIEW_CTRL_PRIMARY_COL + index;
+	DataBrowserListViewHeaderDesc col;	
+	memset( &col, 0, sizeof(col) );
+	col.version = kDataBrowserListViewLatestHeaderDesc;	
 	
+	if ( noErr == GetDataBrowserListViewHeaderDesc( hiView_, columnId, &col ) ) {
+		CFTextString tmp(columnName);
+		col.titleString = tmp;
+		SetDataBrowserListViewHeaderDesc( hiView_, columnId, &col );
+	}	
 }
 
 String OSXListview::getColumnName( const unsigned long& index )
 {
 	String result;	
 
+	DataBrowserTableViewColumnID columnId = OSX_LISTVIEW_CTRL_PRIMARY_COL + index;
+	DataBrowserListViewHeaderDesc col;	
+	memset( &col, 0, sizeof(col) );
+	col.version = kDataBrowserListViewLatestHeaderDesc;	
+	
+	if ( noErr == GetDataBrowserListViewHeaderDesc( hiView_, columnId, &col ) ) {
+		CFTextString tmp;
+		tmp = col.titleString;
+		result = tmp;
+	}
+	
 	return result;
 }
 
@@ -388,7 +502,21 @@ void OSXListview::setSmallImageList( ImageList* imageList )
 VCF::Rect OSXListview::getItemImageRect( ListItem* item )
 {
 	VCF::Rect result;
-
+	
+	UInt32 columns = 0;
+	GetDataBrowserTableViewColumnCount( hiView_, &columns );
+	DataBrowserTableViewColumnID colID = 0;
+	DataBrowserItemID itemID = (DataBrowserItemID)item;
+	::Rect itemBounds;
+	
+	GetDataBrowserTableViewColumnProperty( hiView_, 0, &colID );
+	GetDataBrowserItemPartBounds( hiView_, itemID, colID, kDataBrowserPropertyIconPart, &itemBounds );
+	
+	result.left_ = itemBounds.left;
+	result.top_ = itemBounds.top;
+	result.right_ = itemBounds.right;
+	result.bottom_ = itemBounds.bottom;
+	
 	return result;
 }
 
@@ -425,9 +553,86 @@ void OSXListview::addListItems()
 	
 	delete [] dbItems;
 }
+
+OSStatus OSXListview::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theEvent )
+{
+	OSStatus result = eventNotHandledErr;
+	
+    UInt32 whatHappened = GetEventKind (theEvent);
+	TCarbonEvent event( theEvent );
+	
+	switch ( GetEventClass( theEvent ) )  {				 
+		case kEventClassControl : {
+			switch( whatHappened ) {
+				case kEventControlDraw : {
+					result = CallNextEventHandler( nextHandler, theEvent );
+				}
+				break;
+				
+				default : {
+					result = OSXControl::handleOSXEvent( nextHandler, theEvent );
+				}	
+				break;
+			}
+		}
+		break;
+		
+		default : {
+			result = OSXControl::handleOSXEvent( nextHandler, theEvent );
+		}	
+		break;
+	}
+	
+	return result;			
+}
+
+void OSXListview::onControlModelChanged( Event* e )
+{
+	addListItems();
+	
+	EventHandler* ev = getEventHandler( "OSXListview::onListModelItemAdded" );
+	if ( NULL == ev ) {
+		ev = new GenericEventHandler<OSXListview>( this, &OSXListview::onListModelItemAdded, "OSXListview::onListModelItemAdded" );
+	}	
+	
+	ListModel* listModel = listviewControl_->getListModel();
+	listModel->addItemAddedHandler( ev );
+	
+	ev = getEventHandler( "OSXListview::onListModelItemDeleted" );
+	if ( NULL == ev ) {
+		ev = new GenericEventHandler<OSXListview>( this, &OSXListview::onListModelItemDeleted, "OSXListview::onListModelItemDeleted" );
+	}
+	
+	listModel->addItemDeletedHandler( ev );
+}
+
+void OSXListview::onListModelItemAdded( Event* e )
+{
+	ListModelEvent* ev = (ListModelEvent*)e;
+	ListItem* item = ev->getListItem();
+
+	unsigned int index = item->getIndex();
+	
+	DataBrowserItemID dbItem = (DataBrowserItemID)item;
+	AddDataBrowserItems( hiView_, kDataBrowserNoItem, 1, &dbItem, kDataBrowserItemNoProperty );	
+}
+
+void OSXListview::onListModelItemDeleted( Event* e )
+{
+	ListModelEvent* ev = (ListModelEvent*)e;
+	ListItem* item = ev->getListItem();
+
+	unsigned int index = item->getIndex();
+	DataBrowserItemID dbItem = (DataBrowserItemID)item;
+	
+	RemoveDataBrowserItems( hiView_, kDataBrowserNoItem, 1, &dbItem, kDataBrowserItemNoProperty );
+}
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.5  2005/07/07 23:28:58  ddiego
+*last osx checkins before release - not complete :(
+*
 *Revision 1.1.2.4  2005/06/30 02:29:12  ddiego
 *more osx work on list view
 *
