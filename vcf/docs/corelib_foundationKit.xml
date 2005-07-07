@@ -1914,27 +1914,79 @@ for (int i=0;i<5;i++ ) {
 }
 ]]>
 			</programlisting>
-			The above example iterates across 4 hours, incrementing value by 1 hour each pass.
+			The above example iterates across 4 hours, incrementing value by 1 hour 
+			each pass.
 			</para>
 		</section>
 		
 		<section><title>String Formatting</title>
 			<para>
+			A DateTime instance can be transformed into a string by calling the 
+			StringUtils::format() function and passing in certain formatting strings. 
+			For example:
+			<programlisting>
+<![CDATA[
+DateTime dt1(2003,2,12);
+String s = StringUtils::format( "%a %B %#d, %Y", dt );
+]]>
+			</programlisting>
+			This would result in the string value "Monday January 2, 2003". The 
+			precise formatting codes are specified ing the documentation for the 
+			StringUtils::format() function.
 			</para>
 		</section>
 	</section>
 	
 	<section><title>Streams</title>
 		<para>
+		Streams are used to store data, either input or output. A stream object 
+		allows you to either read or write an arbitrary number of bytes to (or 
+		from) the stream. A stream may be used to store data in memory, or it may 
+		be used to access the file system (such as a FileInputStream). Streams may 
+		be "chained" together to form a more complex interaction. For example a text 
+		output stream, that converts data to a format suitable for text storage, 
+		might be chained to a file output stream, that takes this data from the 
+		text outptu stream and then writes it 
+		to disk.
+		<programlisting>
+<![CDATA[
+FileOutputStream fs("out.txt");
+TextOutputStream tos(&fs);
+tos << 12345;
+]]>
+		</programlisting>
+		This will output the integer value 12345, convert it to a string of "12345", 
+		and then write that	data to disk.
 		</para>
 		
 		<section><title>Base Functionality</title>
 			<para>
+			The base functionality of any stream is to access the data buffer of 
+			the stream, retreive the stream's size (in bytes), get the current seek 
+			position (in bytes) from the beginning of the stream, and to move, or 
+			seek, to a specific position (again, specified in bytes) within the stream.
+			Note that some stream implements may not implement these functions
+			due to constraints of the specific stream type being implemented.
+			</para>
+			<para>
+			The base class for all streams is the VCF::Stream class which declares the 
+			above mentioned functionality in four functions: VCF::Stream::seek(), 
+			VCF::Stream::getCurrentSeekPos(), VCF::Stream::getSize(), and VCF::Stream::getBuffer().
 			</para>
 		</section>
 		
 		<section><title>Input Streams</title>
 			<para>
+			Input streams are used to <emphasis>read</emphasis> data 
+			the stream. The base class for all input streams is the VCF::InputStream 
+			class. All other input stream implementations derive from this. 
+			</para>
+			<para>
+			The basic method for reading data from a stream is the 
+			InputStream::read()	method, which takes a pointer to a buffer of bytes, 
+			and length argument, indicating the size (in bytes) of the buffer passed
+			in. In addition to this basic read() method, the InputStream class also
+			has a number of "helper" methods to make it easy to read 
 			</para>
 		</section>
 		
@@ -2006,6 +2058,9 @@ for (int i=0;i<5;i++ ) {
 <!-- 
 CVS Log info
 $Log$
+Revision 1.3.4.9  2005/07/07 02:24:15  ddiego
+docs update
+
 Revision 1.3.4.8  2005/06/28 21:11:00  ddiego
 update docs
 
