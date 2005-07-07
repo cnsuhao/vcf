@@ -1235,7 +1235,7 @@ inline int Color::getLuminosity() const {
 }
 
 inline void Color::setLuminosity( const int& luminosity ) {
-	return ColorSpace::setLuminosity( *this, luminosity );
+	ColorSpace::setLuminosity( *this, luminosity );
 }
 
 inline Color& Color::invert() {
@@ -2230,6 +2230,9 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/07/07 22:03:11  pallindo
+*Color::setLuminosity was trying to return a void, just removed the return
+*
 *Revision 1.3.2.10  2005/06/25 21:40:12  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *
