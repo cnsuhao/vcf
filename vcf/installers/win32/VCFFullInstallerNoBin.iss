@@ -111,10 +111,10 @@ Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_LIB ""{app}\lib"""
 Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_INCLUDE ""{app}\src"""; Components: Src; Tasks: addenvpaths
 Filename: {app}\RegEnVar.exe; Parameters: --add-to-user-path %VCF_BIN%; Components: Src; Tasks: addenvpaths
 
-Filename: {app}\docs\H2Reg.exe; Parameters: "-R ""cmdfile=H2Reg_cmd.ini"""; Tasks: VC7_msdnintegrate; Components: Help_Files/VC6_Help_Files
+Filename: {app}\docs\H2Reg.exe; Parameters: "-R ""cmdfile=H2Reg_cmd.ini"""; Tasks: VC7_msdnintegrate; Components: Help_Files/VC7_Help_Files
 
-Filename: {app}\build\vc70\Add-Ins\Setup.js; Tasks: VC70_installwizards; Components: Src
-Filename: {app}\build\vc71\Add-Ins\Setup.js; Tasks: VC71_installwizards; Components: Src
+Filename: {app}\build\vc70\Add-Ins\Setup.js; Tasks: VC70_installwizards; Components: Src;  Flags: shellexec waituntilterminated
+Filename: {app}\build\vc71\Add-Ins\Setup.js; Tasks: VC71_installwizards; Components: Src;  Flags: shellexec waituntilterminated
 
 [UninstallRun]
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm"" -remove -title ""VCF Documentation"""; StatusMsg: Removing VCF Documentation with MSDN...; Components: Help_Files; Tasks: msdnintegrate
