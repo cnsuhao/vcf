@@ -42,15 +42,13 @@ Source: ..\..\src\thirdparty\win32\MSDNIntegrator\MSDNIntegrator.exe; DestDir: {
 Source: ..\..\docs\VS7\H2Reg.exe;      DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
 Source: ..\..\docs\VS7\H2Reg.ini;      DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
 Source: ..\..\docs\VS7\H2Reg_cmd.ini;  DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFBook.HxS;    DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFSource.HxS;  DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFHelp2.HxA;   DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFHelp2.HxC;   DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFBook.HxI;    DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFSource.HxI;  DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFHelp2_K.HxK; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFHelp2.HxT;   DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFHelp2_NamedUrlIndex.HxK; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\vcf-docbook.0.6.8.HxS; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\VCFSrcDocs.0.6.8.HxS;  DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\VCFDocs.HxA;   DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\VCFDocs.HxC;   DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\VCFDocs_K.HxK; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\VCFDocs.HxT;   DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\VCFDocs_NamedUrlIndex.HxK; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
 
 Source: psvince.dll; Flags: dontcopy
 Source: ..\..\build\resources\win32\vcf.ico; DestDir: {app}
