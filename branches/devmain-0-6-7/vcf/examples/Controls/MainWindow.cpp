@@ -840,6 +840,19 @@ void MainWindow::makeTextPage()
 	MultilineTextControl* multiTextCtrl = new MultilineTextControl();
 	multiTextCtrl->setHeight( 200 );
 	container->add( multiTextCtrl );
+
+
+	String text = "a\nb\nc\nd";
+	int c = text.size();
+	TextModel* textModel = multiTextCtrl->getTextModel();
+	textModel->setText( text );
+	String txt1 = textModel->getText();
+	
+	c = txt1.size();
+
+	String txt2 = (dynamic_cast<TextEditPeer*>(multiTextCtrl->getPeer()))->getText( 0, textModel->getSize() );
+
+	c = txt2.size();
 }
 
 
@@ -878,6 +891,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.19  2005/07/08 00:05:17  ddiego
+*update to win32 listview impl.
+*
 *Revision 1.2.2.18  2005/07/04 03:42:57  marcelloptr
 *PushButton, toggled, needs also an image for FocusDown. Management images improved and fully tested.
 *

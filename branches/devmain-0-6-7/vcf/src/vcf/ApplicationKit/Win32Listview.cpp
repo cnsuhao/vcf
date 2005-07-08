@@ -1353,8 +1353,10 @@ void Win32Listview::selectItem(ListItem * item)
 	}
 }
 
-Rect* Win32Listview::getItemRect( ListItem* item )
+Rect Win32Listview::getItemRect( ListItem* item )
 {
+	Rect result;
+
 	RECT rect = {0,0,0,0};
 	if ( NULL != item ){
 		LVFINDINFO findInfo;
@@ -1365,13 +1367,10 @@ Rect* Win32Listview::getItemRect( ListItem* item )
 		int index = ListView_FindItem( hwnd_, -1, &findInfo );
 		if ( index > -1 ) {
 			ListView_GetItemRect( hwnd_, index, &rect, LVIR_BOUNDS );
-			itemRect_.setRect( rect.left, rect.top, rect.right, rect.bottom );
+			result.setRect( rect.left, rect.top, rect.right, rect.bottom );
 		}
 	}
-	else {
-		return NULL;
-	}
-	return &itemRect_;
+	return result;
 }
 
 bool Win32Listview::isItemSelected(ListItem* item)
@@ -2408,6 +2407,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.14  2005/07/08 00:05:18  ddiego
+*update to win32 listview impl.
+*
 *Revision 1.3.2.13  2005/06/26 01:31:20  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *

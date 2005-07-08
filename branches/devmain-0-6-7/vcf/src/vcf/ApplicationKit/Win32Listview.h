@@ -46,7 +46,7 @@ public:
 
 	virtual void selectItem(ListItem * item);
 
-	virtual Rect* getItemRect( ListItem* item );
+	virtual Rect getItemRect( ListItem* item );
 
 	virtual bool isItemSelected(ListItem* item);
 
@@ -120,7 +120,6 @@ private:
 	bool headerControlIsTracking_;
 	std::vector<ListItem*> selectedItems_;
 	EnumeratorContainer<std::vector<ListItem*>, ListItem*> enumContainer_;
-	Rect itemRect_;	
 	WNDPROC oldHeaderWndProc_;
 	Color backColor_;
 	HIMAGELIST largeImageListCtrl_;
@@ -169,6 +168,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/07/08 00:05:18  ddiego
+*update to win32 listview impl.
+*
 *Revision 1.3.2.1  2005/02/16 05:09:32  ddiego
 *bunch o bug fixes and enhancements to the property editor and treelist control.
 *

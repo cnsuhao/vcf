@@ -250,7 +250,7 @@ public:
 class CategoryTemplatePanel : public Panel {
 public:
 	CategoryTemplatePanel() {
-		setBorder( new WhiteBorder("Choose Wank Style") );
+		setBorder( new WhiteBorder("Choose Style") );
 
 		HorizontalLayoutContainer* container = new HorizontalLayoutContainer();
 		container->setMaximizeLastRow( true );
