@@ -122,7 +122,7 @@ Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_BIN; Tasks: addenvp
 Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_LIB; Tasks: addenvpaths; Components: Src
 Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_INCLUDE; Tasks: addenvpaths; Components: Src
 
-Filename: {app}\docs\H2Reg.exe; Parameters: "-U ""cmdfile=H2Reg_cmd.ini"""; Tasks: VC7_msdnintegrate; Components: Help_Files/VC6_Help_Files
+Filename: {app}\docs\H2Reg.exe; Parameters: "-U ""cmdfile=H2Reg_cmd.ini"""; Tasks: VC7_msdnintegrate; Components: Help_Files/VC7_Help_Files
 ; Must uninstall VS addins/wizards through IDE, I guess.
 
 
