@@ -23,7 +23,7 @@ int main( int argc, char** argv ){
 
 	FoundationKit::init( argc, argv );
 
-    /**
+	/**
 	retrieve the current time
 	*/
 	DateTime currentTime = DateTime::now();
@@ -31,8 +31,8 @@ int main( int argc, char** argv ){
 	/**
 	Output the date time instance using the Object::toString method
 	*/
-    String timeStr = currentTime.toString();
-	System::println( Format("currentTime: %ls") % timeStr.c_str() );
+	String timeStr = currentTime.toString();
+	System::println( Format("currentTime: %s") % timeStr );
 
 
 	/**
@@ -44,21 +44,21 @@ int main( int argc, char** argv ){
 	/**
 	Output the date time instance using the StringUtils::format() method
 	*/
-	System::println( Format("currentTime from StringUtils::format():\n\t%ls")
-					% StringUtils::format( currentTime, "Day %#j in the year %Y, week %#U, %A day %#d of %B month %#m" ).c_str() );
+	System::println( Format("currentTime from StringUtils::format():\n\t%s")
+					% StringUtils::format( currentTime % "Day %#j in the year %Y % week %#U % %A day %#d of %B month %#m" ) );
 
 	/**
 	Output the time portion of the date time instance using the StringUtils::format() method
 	*/
-	System::println( Format("currentTime from StringUtils::format():\n\t%ls")
-					% StringUtils::format( currentTime, "%H:%M:%S.%s" ).c_str() );
+	System::println( Format("currentTime from StringUtils::format():\n\t%s")
+					% StringUtils::format( currentTime % "%H:%M:%S.%s" ) );
 
 	/**
 	Modify the time, hours, minutes and seconds
 	*/
 	currentTime.setTime( 9, 45, 12 );
-	System::println( Format("currentTime from StringUtils::format():\n\t%ls")
-					% StringUtils::format( currentTime, "%H:%M:%S.%s" ).c_str() );
+	System::println( Format("currentTime from StringUtils::format():\n\t%s")
+					% StringUtils::format( currentTime % "%H:%M:%S.%s" ) );
 
 
 	/**
@@ -66,8 +66,8 @@ int main( int argc, char** argv ){
 	*/
 	currentTime.set( 1982, 5, 21, 18, 23, 10, 456 );
 
-	System::println( Format("currentTime from StringUtils::format():\n\t%ls")
-					% StringUtils::format( currentTime, "%Y/%m/%d-%H:%M:%S.%s" ).c_str() );
+	System::println( Format("currentTime from StringUtils::format():\n\t%s")
+					% StringUtils::format( currentTime % "%Y/%m/%d-%H:%M:%S.%s" ) );
 
 
 	/**
@@ -95,8 +95,8 @@ int main( int argc, char** argv ){
 	*/
 
 	if ( dt1 == dt2 ) {
-		System::println( Format("Date {%ls} equals date {%ls}")
-						% dt1.toString().c_str() % dt2.toString().c_str() );
+		System::println( Format("Date {%s} equals date {%s}")
+						% dt1.toString() % dt2.toString() );
 	}
 
 	/**
@@ -105,8 +105,8 @@ int main( int argc, char** argv ){
 	dt2.incrHour( 10 );
 
 	if ( dt1 < dt2 ) {
-		System::println( Format("Date {%ls} is earlier than date {%ls}")
-						% dt1.toString().c_str() % dt2.toString().c_str() );
+		System::println( Format("Date {%s} is earlier than date {%s}")
+						% dt1.toString() % dt2.toString() );
 	}
 
 	/**
@@ -115,8 +115,8 @@ int main( int argc, char** argv ){
 	dt2.decrYear( 10 );
 
 	if ( dt1 > dt2 ) {
-		System::println( Format("Date {%ls} is later than date {%ls}")
-						% dt1.toString().c_str() % dt2.toString().c_str() );
+		System::println( Format("Date {%s} is later than date {%s}")
+						% dt1.toString() % dt2.toString() );
 	}
 
 
@@ -153,23 +153,22 @@ int main( int argc, char** argv ){
 
 	DateTime storeMe( 1977, 10, 3, 19, 23, 12 );
 
-
 	{
 		FileOutputStream fs( "datetime.out" );
 
 		fs << &storeMe;
 
-		System::println( Format("storeMe (%ls) saved!")%  storeMe.toString().c_str() );
+		System::println( Format("storeMe (%s) saved!") %  storeMe.toString() );
 	}
 
 	DateTime loadMe;
-	System::println( Format("loadMe is equal to %ls") % loadMe.toString().c_str() );
+	System::println( Format("loadMe is equal to %s") % loadMe.toString() );
 	{
 		FileInputStream fs( "datetime.out" );
 
 		fs >> static_cast<VCF::Persistable*>(&loadMe);
 
-		System::println( Format("loadMe (%ls) loaded!") % loadMe.toString().c_str() );
+		System::println( Format("loadMe (%s) loaded!") % loadMe.toString() );
 	}
 
 
@@ -181,6 +180,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/07/11 18:36:18  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.4.2.1  2005/04/17 15:11:42  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

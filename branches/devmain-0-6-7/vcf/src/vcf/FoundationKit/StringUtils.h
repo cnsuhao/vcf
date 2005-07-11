@@ -379,6 +379,10 @@ public:
 		<td>outputs just a "%" character</td>
 		</tr>
 		<tr>
+			<td>#</td>
+		<td>outputs the numeric value that is following, without leading zeroes</td>
+		</tr>
+		<tr>
 			<td>%a</td>
 		<td>Abbreviated weekday name</td>
 		</tr>
@@ -413,6 +417,10 @@ public:
 		<tr>
 			<td>%I</td>
 		<td>Hour in 12-hour format (01 – 12)</td>
+		</tr>
+		<tr>
+			<td>%I64u</td>
+		<td>the time in the internal representation (ulong64)</td>
 		</tr>
 		<tr>
 			<td>%j </td>
@@ -526,7 +534,7 @@ The goal is to slowly get away from using the variable argument sprintf() style
 functions such as StringUtils::traceWithArgs(), or System::println().
 For example, you might have written the following code:
 \code
-System::println( "Name %s, number %d", str.c_str(), 1223 );
+System::println( Format("Name %s, number %d") % str, 1223 );
 \endcode
 With the operators below you can now rewrite this like so:
 \code
@@ -805,6 +813,9 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/07/11 18:36:20  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.7  2005/04/11 17:07:13  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *
