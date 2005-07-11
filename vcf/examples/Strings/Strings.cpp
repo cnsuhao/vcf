@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 		System::println( toFind );
 
 		pos = t.find("time"); // finds the string "time" in position 11
-		System::println(Format("string \"time\" found at position: %d in string {%ls}") % pos % t.c_str() );
+		System::println( Format("string \"time\" found at position: %d in string {%s}") % pos % t );
 
 
 		
@@ -174,12 +174,12 @@ int main(int argc, char *argv[])
 		}
 
 		//StringUtils::format is deprecated - don't use in new code
-		formattedString = StringUtils::format( "Number: %d, as hex: 0x%08X, a string: %ls", 12, 12, toFind.c_str() );
+		formattedString = Format( "Number: %d % as hex: 0x%08X % a string: %s" ) % 12 % 12 % toFind );
 		System::println( formattedString );
 
 
 		//same thing with a Format
-		formattedString = Format( "Number: %d, as hex: 0x%08X, a string: %ls") % 12 % 12 % toFind.c_str();
+		formattedString = Format( "Number: %d % as hex: 0x%08X % a string: %s") % 12 % 12 % toFind;
 		System::println( formattedString );
 
 		
@@ -189,13 +189,13 @@ int main(int argc, char *argv[])
 
 		String className = StringUtils::getClassNameFromTypeInfo( typeid(double) );
 
-		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %ls") % className.c_str() );
+		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %s") % className );
 
 		className = StringUtils::getClassNameFromTypeInfo( typeid(StringUtils) );
-		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %ls") % className.c_str() );
+		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %s") % className );
 
 		className = StringUtils::getClassNameFromTypeInfo( typeid(System) );
-		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %ls") % className.c_str() );
+		System::println( Format("StringUtils::getClassNameFromTypeInfo() returned: %s") % className );
 
 
 
@@ -205,11 +205,11 @@ int main(int argc, char *argv[])
 
 		String xfrmedString = StringUtils::lowerCase( className );
 
-		System::println( Format("lowercase: %ls") % xfrmedString.c_str() );
+		System::println( Format("lowercase: %s") % xfrmedString );
 
 		xfrmedString = StringUtils::upperCase( className );
 
-		System::println( Format("uppercase: %ls") % xfrmedString.c_str() );
+		System::println( Format("uppercase: %s") % xfrmedString );
 
 
 		/**
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
 		*/
 		String newUUID = StringUtils::newUUID();
 
-		System::println( Format("new UUID: %ls") % newUUID.c_str() );
+		System::println( Format("new UUID: %s") % newUUID );
 
 
 		/**
@@ -225,19 +225,19 @@ int main(int argc, char *argv[])
 		*/
 
 		String val = StringUtils::toString( 12 );
-		System::println( Format("value: %ls") % val.c_str() );
+		System::println( Format("value: %s") % val );
 
 		val = StringUtils::toString( 1234.009459034 );
-		System::println( Format("value: %ls") % val.c_str() );
+		System::println( Format("value: %s") % val );
 
 		val = StringUtils::toString( 53433.000034f );
-		System::println( Format("value: %ls") % val.c_str() );
+		System::println( Format("value: %s") % val );
 
 		val = StringUtils::toString( true );
-		System::println( Format("value: %ls") % val.c_str() );
+		System::println( Format("value: %s") % val );
 
 		val = StringUtils::toString( false );
-		System::println( Format("value: %ls") % val.c_str() );
+		System::println( Format("value: %s") % val );
 
 
 		/**
@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
 		/**
 		Same as above, only with variable arguments
 		*/
-		StringUtils::traceWithArgs( Format("Hello World %d times") % 10 );
+		trace( Format( Format("Hello World %d times") % 10 );
 
 
 		/**
@@ -259,14 +259,14 @@ int main(int argc, char *argv[])
 		String original = "####Some text#######";
 
 		xfrmedString = StringUtils::trim( original, '#' );
-		System::println( Format("original: %ls \nxfrmedString after StringUtils::trim(): %ls") % original.c_str() % xfrmedString.c_str() );
+		System::println( Format("original: %s \nxfrmedString after StringUtils::trim(): %s") % original % xfrmedString );
 
 
 		xfrmedString = StringUtils::trimLeft( original, '#' );
-		System::println( Format("original: %ls \nxfrmedString after StringUtils::trimLeft(): %ls") % original.c_str() % xfrmedString.c_str() );
+		System::println( Format("original: %s \nxfrmedString after StringUtils::trimLeft(): %s") % original % xfrmedString );
 
 		xfrmedString = StringUtils::trimRight( original, '#' );
-		System::println( Format("original: %ls \nxfrmedString after StringUtils::trimRight(): %ls") % original.c_str() % xfrmedString.c_str() );
+		System::println( Format("original: %s \nxfrmedString after StringUtils::trimRight(): %s") % original % xfrmedString );
 
 
 		/**
@@ -277,16 +277,16 @@ int main(int argc, char *argv[])
 
 		xfrmedString = original;
 		StringUtils::trimWhiteSpaces( xfrmedString );
-		System::println( Format("original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpaces(): %ls") % original.c_str() % xfrmedString.c_str() );
+		System::println( Format("original: \"%s\"\nxfrmedString after StringUtils::trimWhiteSpaces(): %s") % original % xfrmedString );
 
 		xfrmedString = original;
 		StringUtils::trimWhiteSpacesLeft( xfrmedString );
-		System::println( Format("original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpacesLeft(): \"%ls\"") % original.c_str() % xfrmedString.c_str() );
+		System::println( Format("original: \"%s\"\nxfrmedString after StringUtils::trimWhiteSpacesLeft(): \"%s\"") % original % xfrmedString );
 
 
 		xfrmedString = original;
 		StringUtils::trimWhiteSpacesRight( xfrmedString );
-		System::println( Format("original: \"%ls\"\nxfrmedString after StringUtils::trimWhiteSpacesRight(): \"%ls\"") % original.c_str() % xfrmedString.c_str() );
+		System::println( Format("original: \"%s\"\nxfrmedString after StringUtils::trimWhiteSpacesRight(): \"%s\"") % original % xfrmedString );
 	}
 	catch ( std::exception& e ) {
 		printf( e.what() );
@@ -321,6 +321,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.5  2005/07/11 18:36:19  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.4.4  2005/04/17 15:11:47  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *
