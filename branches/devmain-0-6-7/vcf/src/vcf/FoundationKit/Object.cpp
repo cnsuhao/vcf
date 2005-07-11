@@ -112,7 +112,7 @@ String Object::toString()
 	*/
 	//Note: %ls means we can pass in a WideChar* - if we wanted to 
 	//pass in a char* we would need to use the %s formatter
-	result = Format("%s @ %p % refcount: %d") % getClassName() % this % (int)refCount_ ;
+	result = Format("%s @ %p, refcount: %d") % getClassName() % this % (int)refCount_ ;
 	
 	return result;
 }
@@ -267,7 +267,7 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.6  2005/07/11 19:58:56  marcelloptr
+*Revision 1.3.2.7  2005/07/11 20:46:16  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.4  2005/07/11 17:49:15  marcelloptr
