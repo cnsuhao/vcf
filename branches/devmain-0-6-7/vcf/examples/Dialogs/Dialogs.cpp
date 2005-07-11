@@ -295,10 +295,7 @@ public:
 		if ( dlg.execute() ) {
 			Color color = *dlg.getSelectedColor();
 
-			String hexName = StringUtils::format( Format("#%02X%02X%02X") 
-												%	(int)(color.getRed() * 255.0)
-												%	(int)(color.getGreen() * 255.0)
-												%	(int)(color.getBlue() * 255.0) );
+			String hexName = color.toString();
 
 			Dialog::showMessage( "You chose color (in hex) : " + hexName );
 		}
