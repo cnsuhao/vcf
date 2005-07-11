@@ -513,7 +513,7 @@ double PushButton::getPreferredWidth()
 	return 120;
 }
 
-void PushButton::setInitialStatePressed( const bool& pressed )
+void PushButton::setStatePressed( const bool& pressed )
 {
 	isPressed_ = pressed;
 	wasPressed_ = isPressed_;
@@ -757,6 +757,9 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.13  2005/07/11 16:00:24  marcelloptr
+*changed name to the setStatePressed as needed not only initially but also in some other special cases.
+*
 *Revision 1.2.4.12  2005/07/06 00:23:12  marcelloptr
 *two very minor bug fixes more. Hope the last ones.
 *
