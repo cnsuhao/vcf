@@ -82,7 +82,7 @@ Window::Window( Control* control )
 
 Window::~Window()
 {
-	StringUtils::traceWithArgs( Format("In Window::~Window for instance %p\n") % this );
+	StringUtils::trace( Format("In Window::~Window for instance %p\n") % this );
 }
 
 void Window::destroy()
@@ -187,7 +187,7 @@ void Window::onClose( WindowEvent* e )
 
 void Window::postClose( Event* event )
 {
-	//StringUtils::traceWithArgs( "Preparing to destroy window %p after a Window::close() call\n", this );
+	//StringUtils::trace( Format( "Preparing to destroy window %p after a Window::close() call\n" ) % this );
 
 	Application* app = Application::getRunningInstance();
 	if ( NULL != app ) {
@@ -204,7 +204,7 @@ void Window::postClose( Event* event )
 		return;
 	}
 
-	//StringUtils::traceWithArgs( "Destroying window %p\n", this );
+	//StringUtils::trace( Format( "Destroying window %p\n" ) % this );
 	free();
 }
 
@@ -306,6 +306,9 @@ bool Window::isActiveFrame()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/07/11 17:04:16  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.2  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *

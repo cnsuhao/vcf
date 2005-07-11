@@ -288,7 +288,7 @@ void TableControl::paint( GraphicsContext * context )
 						rect.left_ = rect.right_+1;
 						rect.right_ = rect.left_ + colWidth-1;
 
-						//StringUtils::traceWithArgs( "Cliprect: %s\n", clipRect.toString().c_str() );
+						//StringUtils::trace( Format( "Cliprect: %s\n" ) % clipRect.toString() );
 
 						if (rect.left_ > clipRect.right_ ) {
 							break;        // gone past cliprect
@@ -593,7 +593,7 @@ void TableControl::onFocusLost( FocusEvent* e )
 	//else {
 	//	EventHandler* ev = getEventHandler( "TableControl::onFocusLost" );
 	//	FocusEvent* newEvent = new FocusEvent( e->getSource(), 0 );
-	//	StringUtils::traceWithArgs( "newEvent: %s\n", newEvent->toString().c_str() );
+	//	StringUtils::trace( Format( "newEvent: %s\n" ) % newEvent->toString() );
 	//	UIToolkit::postEvent( ev, newEvent, false );
 	//}
 }
@@ -1492,8 +1492,8 @@ void TableControl::onFinishEditing( Event* e )
 	Control* editingControl = (Control*)e->getSource();
 	TableItemEditor* editor = fe->editor_;
 	if ( NULL != editingControl ){
-		StringUtils::traceWithArgs( Format("TableControl::finishEditing(), editor[%s]@ %s\n") %
-									editor->getClassName().c_str() % editor->toString().c_str() );
+		StringUtils::trace( Format("TableControl::finishEditing(), editor[%s]@ %s\n") %
+									editor->getClassName() % editor->toString() );
 		remove( editingControl );
 		removeComponent( editingControl );
 		editingControl->free();
@@ -2392,6 +2392,9 @@ void TableControl::keyDown( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/07/11 17:04:14  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.5  2005/04/26 04:05:22  ddiego
 *the first half of [ 1184432 ] Tables cell edit box follows scroll movement, is fixed. Still need to get the scrollbars to update.
 *

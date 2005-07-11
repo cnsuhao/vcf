@@ -305,7 +305,7 @@ void OSXControl::setParent( Control* parent )
 		ControlRef parentControlRef = (ControlRef)parent->getPeer()->getHandleID();
 		OSStatus err = HIViewAddSubview( parentControlRef, hiView_ );
 		if ( err != noErr ) {
-			StringUtils::traceWithArgs( Format("HIViewAddSubview failed, err: %d\n") % err );
+			StringUtils::trace( Format("HIViewAddSubview failed, err: %d\n") % err );
 		}
 	}
 }
@@ -758,6 +758,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/07/11 17:04:13  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.7  2005/06/29 05:04:31  marcelloptr
 *some white spaces
 *

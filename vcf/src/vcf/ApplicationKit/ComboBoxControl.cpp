@@ -199,7 +199,7 @@ public:
 	virtual ~ComboBoxDropDown() {
 
 
-		//StringUtils::traceWithArgs( "ComboBoxDropDown::~ComboBoxDropDown() @ %p\n", this );
+		//StringUtils::trace( Format( "ComboBoxDropDown::~ComboBoxDropDown() @ %p\n" ) % this );
 
 	}
 
@@ -813,7 +813,7 @@ void ComboBoxControl::onEditKeyPressed( KeyboardEvent* event )
 			new KeyboardEventHandler<ComboBoxControl>( this, &ComboBoxControl::onEditReturnKeyPressed ), postedEvent );
 	//}
 	//VirtualKeyCode key = event->getVirtualCode();
-	//StringUtils::traceWithArgs( "Key: %d\r\n", key );
+	//StringUtils::trace( Format( "Key: %d\r\n" ) % key );
 }
 
 void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
@@ -1046,6 +1046,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/07/11 17:04:12  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.12  2005/04/09 17:20:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

@@ -185,8 +185,7 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				if ( err == FALSE ) {
 					err = GetLastError();
-					StringUtils::traceWithArgs( Format("error in BitBlt during drawing of double buffered Comp: error code=%d\n") %
-						err );
+					StringUtils::trace( Format("error in BitBlt during drawing of double buffered Comp: error code=%d\n") % err );
 				}
 			}
 			else {
@@ -272,6 +271,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/07/11 17:04:15  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.5  2005/04/26 02:29:39  ddiego
 *fixes font setting bug brought up by scott and glen_f
 *

@@ -1372,7 +1372,7 @@ Win32ToolKit::~Win32ToolKit()
 
 	if ( !::DestroyWindow( dummyParentWnd_ ) ) {
 		int err = GetLastError();
-		StringUtils::traceWithArgs( Format("::DestroyWindow( dummyParentWnd_[=%p] ) failed!, err: %d\n") % dummyParentWnd_ % err );
+		StringUtils::trace( Format("::DestroyWindow( dummyParentWnd_[=%p] ) failed!, err: %d\n") % dummyParentWnd_ % err );
 
 		if ( NULL != toolTipWatcher ) {
 			toolTipWatcher->free();
@@ -1635,7 +1635,7 @@ void Win32ToolKit::internal_postEvent( EventHandler* eventHandler, Event* event,
 	Win32PostEventRecord* postEventRecord = new Win32PostEventRecord( eventHandler, event, deleteHandler );
 	if ( ! ::PostMessage( dummyParentWnd_, VCF_POST_EVENT, 0, (LPARAM)postEventRecord ) ) {
 		int err = ::GetLastError();
-		StringUtils::traceWithArgs( Format("!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n") %
+		StringUtils::trace( Format("!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n") %
 									err );
 
 	}
@@ -2232,10 +2232,10 @@ void Win32ToolKit::internal_quitCurrentEventLoop()
 {
 	PostQuitMessage(0);
 	//if (!PostMessage( dummyParentWnd_, WM_QUIT, 0, 0 )) {
-	//	StringUtils::traceWithArgs( "GetLastError(): %d\n", GetLastError() );
+	//	StringUtils::trace( Format( "GetLastError(): %d\n" ) % GetLastError() );
 	//}
 	//else {
-	//	StringUtils::traceWithArgs( "internal_quitCurrentEventLoop called, PostMessage(WM_QUIT) sent\n" );
+	//	StringUtils::trace( Format( "internal_quitCurrentEventLoop called % PostMessage(WM_QUIT) sent\n" );
 	//}
 }
 
@@ -2253,6 +2253,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.22  2005/07/11 17:04:16  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.21  2005/07/04 03:46:07  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.
 *

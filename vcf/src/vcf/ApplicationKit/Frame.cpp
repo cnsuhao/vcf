@@ -223,8 +223,8 @@ void Frame::activate()
 				
 				VCF::WindowEvent event( oldActiveFrame, Frame::ACTIVATION_EVENT );
 
-				//StringUtils::traceWithArgs( "oldActiveFrame->FrameActivation.fireEvent, this[%s]@ %s\n",
-				//					oldActiveFrame->getClassName().c_str(), oldActiveFrame->toString().c_str() );
+				//StringUtils::trace( Format( "oldActiveFrame->FrameActivation.fireEvent, this[%s]@ %s\n" ) %
+				//					oldActiveFrame->getClassName() % oldActiveFrame->toString() );
 
 				oldActiveFrame->FrameActivation.fireEvent( &event );
 			}
@@ -246,9 +246,9 @@ bool Frame::isActive()
 Frame* Frame::getActiveFrame()
 {
 	/*
-	StringUtils::traceWithArgs( "Frame::getActiveFrame(): %p\n", Frame::currentActiveFrame );
+	StringUtils::trace( Format( "Frame::getActiveFrame(): %p\n" ) % Frame::currentActiveFrame );
 	Control* c = Control::getCurrentFocusedControl();
-	StringUtils::traceWithArgs( "Control::getCurrentFocusedControl(): %p\n", c );
+	StringUtils::trace( Format( "Control::getCurrentFocusedControl(): %p\n" ) % c );
 
 	if ( NULL == Frame::currentActiveFrame ) {
 		Frame::currentActiveFrame = c->getParentFrame();
@@ -281,6 +281,9 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/07/11 17:04:13  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.1  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *

@@ -234,7 +234,7 @@ public:
 		}
 		
 
-		//StringUtils::traceWithArgs( Format("currentDocument_: %p\n") % result );
+		//StringUtils::trace( Format("currentDocument_: %p\n") % result );
 
 		return result;
 	}
@@ -245,7 +245,7 @@ public:
 	void setCurrentDocument( VCF::Document* doc ) {
 		
 
-		StringUtils::traceWithArgs( Format("setCurrentDocument( %p )\n") % doc );
+		StringUtils::trace( Format("setCurrentDocument( %p )\n") % doc );
 
 		if ( NULL != doc ) {
 			doc->getWindow()->activate();
@@ -437,6 +437,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/07/11 17:04:13  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.2  2005/06/06 02:34:05  ddiego
 *menu changes to better support win32 and osx.
 *

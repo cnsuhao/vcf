@@ -61,82 +61,82 @@ VirtualKeyCode translateOSXKeyToVirtKeyCode( VCFChar ch, UInt32 keyCode, UInt32 
 		case kHomeCharCode : {
 			result = vkHome;
 		}
-        break;
+		break;
 
 		case kEnterCharCode : {
 			result = vkReturn;
 		}
-        break;
+		break;
 
-        case kEndCharCode : {
+		case kEndCharCode : {
 			result = vkEnd;
 		}
 		break;
 
-        case kHelpCharCode : {
+		case kHelpCharCode : {
 			result = vkF1;
 		}
 		break;
 
-        case kBackspaceCharCode : {
+		case kBackspaceCharCode : {
 			result = vkBackSpace;
 		}
-        break;
+		break;
 
-        case kTabCharCode : {
+		case kTabCharCode : {
 			result = vkTab;
 		}
 		break;
 
-        case kPageUpCharCode : {
+		case kPageUpCharCode : {
 			result = vkPgUp;
 		}
-        break;
+		break;
 
 		case kPageDownCharCode : {
 			result = vkPgDown;
 		}
-        break;
+		break;
 
 		case kReturnCharCode : {
 			result = vkReturn;
 		}
-        break;
+		break;
 
 		case kEscapeCharCode : {
 			result = vkEscape;
 		}
-        break;
+		break;
 
 		case kLeftArrowCharCode : {
 			result = vkLeftArrow;
 		}
-        break;
+		break;
 
 		case kRightArrowCharCode : {
 			result = vkRightArrow;
 		}
-        break;
+		break;
 
 		case kUpArrowCharCode : {
 			result = vkUpArrow;
 		}
-        break;
+		break;
 
 		case kDownArrowCharCode : {
 			result = vkDownArrow;
 		}
-        break;
+		break;
 
 		case kDeleteCharCode : {
 			result = vkDelete;
 		}
-        break;
+		break;
 
 		case kSpaceCharCode : {
 			result = vkSpaceBar;
 		}
-        break;
+		break;
 
 		case kFunctionKeyCharCode : {
 			switch( keyCode ) {
@@ -661,39 +661,39 @@ using namespace VCF;
 
 
 OSXUIToolkit::OSXUIToolkit():
-    quitEventLoop_(false),
-    eventHandlerRef_(NULL),
-    handlerUPP_(NULL),
-    timerUPP_(NULL),
-    idleTimerUPP_(NULL),
-    idleTimerRef_(NULL)
+	quitEventLoop_(false),
+	eventHandlerRef_(NULL),
+	handlerUPP_(NULL),
+	timerUPP_(NULL),
+	idleTimerUPP_(NULL),
+	idleTimerRef_(NULL)
 {
-    metricsMgr_ = new OSXUIMetricsManager();
+	metricsMgr_ = new OSXUIMetricsManager();
 	policyMgr_ = new OSXUIPolicyManager();
-    //install event loop callbacks
-    handlerUPP_ = NewEventHandlerUPP(OSXUIToolkit::handleOSXApplicationEvents);
-    static EventTypeSpec eventsToHandle[] ={
-                            { kEventClassCommand, kEventCommandProcess },
-                            { kEventClassCommand, kEventCommandUpdateStatus },
-                            { OSXUIToolkit::CustomEventClass, OSXUIToolkit::EventPosted} };
+	//install event loop callbacks
+	handlerUPP_ = NewEventHandlerUPP(OSXUIToolkit::handleOSXApplicationEvents);
+	static EventTypeSpec eventsToHandle[] ={
+							{ kEventClassCommand, kEventCommandProcess },
+							{ kEventClassCommand, kEventCommandUpdateStatus },
+							{ OSXUIToolkit::CustomEventClass, OSXUIToolkit::EventPosted} };
 
-    OSStatus err = InstallEventHandler( GetApplicationEventTarget(),
-                                        handlerUPP_,
-                                        sizeof(eventsToHandle)/sizeof(eventsToHandle[0]),
-                                        eventsToHandle,
-                                        this,
-                                        &eventHandlerRef_ );
+	OSStatus err = InstallEventHandler( GetApplicationEventTarget(),
+										handlerUPP_,
+										sizeof(eventsToHandle)/sizeof(eventsToHandle[0]),
+										eventsToHandle,
+										this,
+										&eventHandlerRef_ );
 
-    timerUPP_ = NewEventLoopTimerUPP(OSXUIToolkit::handleTimerEvent);
-    idleTimerUPP_ = NewEventLoopIdleTimerUPP(OSXUIToolkit::handleIdleTimer);
+	timerUPP_ = NewEventLoopTimerUPP(OSXUIToolkit::handleTimerEvent);
+	idleTimerUPP_ = NewEventLoopIdleTimerUPP(OSXUIToolkit::handleIdleTimer);
 
-    InstallEventLoopIdleTimer( GetCurrentEventLoop(), 0, 0.25,
-                                idleTimerUPP_, this, &idleTimerRef_ );
+	InstallEventLoopIdleTimer( GetCurrentEventLoop(), 0, 0.25,
+								idleTimerUPP_, this, &idleTimerRef_ );
 
 
-    if ( err != noErr ) {
-        printf( "InstallEventHandler failed" );
-    }
+	if ( err != noErr ) {
+		printf( "InstallEventHandler failed" );
+	}
 	
 	
 	
@@ -703,24 +703,24 @@ OSXUIToolkit::OSXUIToolkit():
 OSXUIToolkit::~OSXUIToolkit()
 {
 
-    std::map<EventLoopTimerRef,TimeOutHandler>::iterator found = timeoutHandlers_.begin();
-    while ( !timeoutHandlers_.empty() ) {
-        internal_unregisterTimerHandler( found->second.handler_ );
-        found = timeoutHandlers_.begin();
-    }
+	std::map<EventLoopTimerRef,TimeOutHandler>::iterator found = timeoutHandlers_.begin();
+	while ( !timeoutHandlers_.empty() ) {
+		internal_unregisterTimerHandler( found->second.handler_ );
+		found = timeoutHandlers_.begin();
+	}
 
 
-    DisposeEventHandlerUPP(handlerUPP_);
-    DisposeEventLoopTimerUPP(timerUPP_);
+	DisposeEventHandlerUPP(handlerUPP_);
+	DisposeEventLoopTimerUPP(timerUPP_);
 
-    RemoveEventLoopTimer( idleTimerRef_ );
-    DisposeEventLoopIdleTimerUPP(idleTimerUPP_);
-    printf( "OSXUIToolkit destroyed\n");
+	RemoveEventLoopTimer( idleTimerRef_ );
+	DisposeEventLoopIdleTimerUPP(idleTimerUPP_);
+	printf( "OSXUIToolkit destroyed\n");
 }
 
 ApplicationPeer* OSXUIToolkit::internal_createApplicationPeer()
 {
-    return new OSXApplicationPeer();
+	return new OSXApplicationPeer();
 }
 
 TextPeer* OSXUIToolkit::internal_createTextPeer( const bool& autoWordWrap, const bool& multiLined )
@@ -736,22 +736,22 @@ TextEditPeer* OSXUIToolkit::internal_createTextEditPeer( TextControl* component,
 	
 TreePeer* OSXUIToolkit::internal_createTreePeer( TreeControl* component )
 {
-    return new OSXTree(component);
+	return new OSXTree(component);
 }
 
 ListviewPeer* OSXUIToolkit::internal_createListViewPeer( ListViewControl* component )
 {
-    return new OSXListview(component);
+	return new OSXListview(component);
 }
 
 DialogPeer* OSXUIToolkit::internal_createDialogPeer( Control* owner, Dialog* component )
 {
-    return new OSXDialog( owner, component );
+	return new OSXDialog( owner, component );
 }
 
 DialogPeer* OSXUIToolkit::internal_createDialogPeer()
 {
-    return new OSXDialog();
+	return new OSXDialog();
 }
 
 ControlPeer* OSXUIToolkit::internal_createControlPeer( Control* control, ComponentType componentType )
@@ -774,92 +774,92 @@ ControlPeer* OSXUIToolkit::internal_createControlPeer( Control* control, Compone
 
 WindowPeer* OSXUIToolkit::internal_createWindowPeer( Control* control, Control* owner )
 {
-    return new OSXWindow( control, owner );
+	return new OSXWindow( control, owner );
 }
 
 ToolbarPeer* OSXUIToolkit::internal_createToolbarPeer( Toolbar* toolbar )
 {
-    return new OSXToolbar(toolbar);
+	return new OSXToolbar(toolbar);
 }
 
 MenuItemPeer* OSXUIToolkit::internal_createMenuItemPeer( MenuItem* item )
 {
-    return new OSXMenuItem( item );
+	return new OSXMenuItem( item );
 }
 
 MenuBarPeer* OSXUIToolkit::internal_createMenuBarPeer( MenuBar* menuBar )
 {
-    return new OSXMenuBar( menuBar );
+	return new OSXMenuBar( menuBar );
 }
 
 PopupMenuPeer* OSXUIToolkit::internal_createPopupMenuPeer( PopupMenu* popupMenu )
 {
-    return new OSXPopupMenu(popupMenu);
+	return new OSXPopupMenu(popupMenu);
 }
 
 ButtonPeer* OSXUIToolkit::internal_createButtonPeer( CommandButton* component )
 {
-    return new OSXButton( component );
+	return new OSXButton( component );
 }
 
 HTMLBrowserPeer* OSXUIToolkit::internal_createHTMLBrowserPeer( Control* control )
 {
-    return NULL;
+	return NULL;
 }
 
 ContextPeer* OSXUIToolkit::internal_createContextPeer( Control* control )
 {
-    return new OSXControlContextPeer( control->getPeer() );
+	return new OSXControlContextPeer( control->getPeer() );
 }
 
 CommonFileDialogPeer* OSXUIToolkit::internal_createCommonFileOpenDialogPeer( Control* owner )
 {
-    return new OSXFileOpenDialog(owner);
+	return new OSXFileOpenDialog(owner);
 }
 
 CommonFileDialogPeer* OSXUIToolkit::internal_createCommonFileSaveDialogPeer( Control* owner )
 {
-    return new OSXFileSaveDialog(owner);
+	return new OSXFileSaveDialog(owner);
 }
 
 CommonColorDialogPeer* OSXUIToolkit::internal_createCommonColorDialogPeer( Control* owner )
 {
-    return new OSXColorDialog( owner );
+	return new OSXColorDialog( owner );
 }
 
 CommonFolderBrowseDialogPeer* OSXUIToolkit::internal_createCommonFolderBrowseDialogPeer( Control* owner )
 {
-    return new OSXFolderBrowseDialog( owner );
+	return new OSXFolderBrowseDialog( owner );
 }
 
 CommonFontDialogPeer* OSXUIToolkit::internal_createCommonFontDialogPeer( Control* owner )
 {
-    return NULL;
+	return NULL;
 }
 
 DragDropPeer* OSXUIToolkit::internal_createDragDropPeer()
 {
-    return new OSXDragDropPeer();
+	return new OSXDragDropPeer();
 }
 
 DataObjectPeer* OSXUIToolkit::internal_createDataObjectPeer()
 {
-    return NULL;
+	return NULL;
 }
 
 DropTargetPeer* OSXUIToolkit::internal_createDropTargetPeer()
 {
-    return new OSXDropTargetPeer();
+	return new OSXDropTargetPeer();
 }
 
 DesktopPeer* OSXUIToolkit::internal_createDesktopPeer( Desktop* desktop )
 {
-    return new OSXDesktopPeer(desktop);
+	return new OSXDesktopPeer(desktop);
 }
 
 ScrollPeer* OSXUIToolkit::internal_createScrollPeer( Control* control )
 {
-    return new OSXScrollPeer(control);
+	return new OSXScrollPeer(control);
 }
 
 SystemTrayPeer* OSXUIToolkit::internal_createSystemTrayPeer()
@@ -884,22 +884,22 @@ CommonPrintDialogPeer* OSXUIToolkit::internal_createCommonPrintDialogPeer( Contr
 
 CursorPeer* OSXUIToolkit::internal_createCursorPeer( Cursor* cursor )
 {
-    return new OSXCursorPeer(cursor);
+	return new OSXCursorPeer(cursor);
 }
 
 ClipboardPeer* OSXUIToolkit::internal_createClipboardPeer()
 {
-    return NULL;
+	return NULL;
 }
 
 bool OSXUIToolkit::internal_createCaret( Control* owningControl, Image* caretImage  )
 {
-    return false;
+	return false;
 }
 
 bool OSXUIToolkit::internal_destroyCaret( Control* owningControl )
 {
-    return false;
+	return false;
 }
 
 void OSXUIToolkit::internal_setCaretVisible( const bool& caretVisible )
@@ -914,50 +914,50 @@ void OSXUIToolkit::internal_setCaretPos( Point* point )
 
 void OSXUIToolkit::internal_postEvent( VCF::EventHandler* eventHandler, Event* event, const bool& deleteHandler )
 {
-    EventRef osxEvent = OSXUIToolkit::createUserCarbonEvent(OSXUIToolkit::EventPosted);
+	EventRef osxEvent = OSXUIToolkit::createUserCarbonEvent(OSXUIToolkit::EventPosted);
 
 
-    OSStatus err = SetEventParameter( osxEvent, OSXUIToolkit::EventHandler,
-                        typeUInt32, OSXUIToolkit::SizeOfEventHandler, &eventHandler );
-    if ( err != noErr ) {
-        printf( "SetEventParameter failed\n" );
-    }
-
-    err = SetEventParameter( osxEvent, OSXUIToolkit::EventHandlerEvent,
-                        typeUInt32, OSXUIToolkit::SizeOfEventHandlerEvent, &event );
+	OSStatus err = SetEventParameter( osxEvent, OSXUIToolkit::EventHandler,
+						typeUInt32, OSXUIToolkit::SizeOfEventHandler, &eventHandler );
 	if ( err != noErr ) {
-        printf( "SetEventParameter failed\n" );
-    }
+		printf( "SetEventParameter failed\n" );
+	}
 
-    Boolean val = deleteHandler ? TRUE : FALSE;
-    err = SetEventParameter( osxEvent, OSXUIToolkit::DeletePostedEvent,
-                        typeBoolean, OSXUIToolkit::SizeOfDeletePostedEvent, &val );
+	err = SetEventParameter( osxEvent, OSXUIToolkit::EventHandlerEvent,
+						typeUInt32, OSXUIToolkit::SizeOfEventHandlerEvent, &event );
 	if ( err != noErr ) {
-        printf( "SetEventParameter failed\n" );
-    }
+		printf( "SetEventParameter failed\n" );
+	}
 
-    err = PostEventToQueue( GetCurrentEventQueue(), osxEvent, kEventPriorityStandard );
-    if ( err != noErr ) {
-        printf( "PostEventToQueue failed\n" );
-    }
+	Boolean val = deleteHandler ? TRUE : FALSE;
+	err = SetEventParameter( osxEvent, OSXUIToolkit::DeletePostedEvent,
+						typeBoolean, OSXUIToolkit::SizeOfDeletePostedEvent, &val );
+	if ( err != noErr ) {
+		printf( "SetEventParameter failed\n" );
+	}
+
+	err = PostEventToQueue( GetCurrentEventQueue(), osxEvent, kEventPriorityStandard );
+	if ( err != noErr ) {
+		printf( "PostEventToQueue failed\n" );
+	}
 }
 
 void OSXUIToolkit::handleIdleTimer( EventLoopTimerRef inTimer, EventLoopIdleTimerMessage inState, void *inUserData )
 {
-    OSXUIToolkit* toolkit = (OSXUIToolkit*)inUserData;
+	OSXUIToolkit* toolkit = (OSXUIToolkit*)inUserData;
 
-    printf( "idle handler...\n" );
+	printf( "idle handler...\n" );
 
-    switch ( inState ) {
-        case kEventLoopIdleTimerStarted : {
+	switch ( inState ) {
+		case kEventLoopIdleTimerStarted : {
 
-        }
-        break;
+		}
+		break;
 
-        case kEventLoopIdleTimerIdling : {
-            printf( "\tkEventLoopIdleTimerIdling...\n" );
-            Application* app = Application::getRunningInstance();
-            if ( NULL != app ) {
+		case kEventLoopIdleTimerIdling : {
+			printf( "\tkEventLoopIdleTimerIdling...\n" );
+			Application* app = Application::getRunningInstance();
+			if ( NULL != app ) {
 				app->idleTime();
 			}
 
@@ -967,84 +967,84 @@ void OSXUIToolkit::handleIdleTimer( EventLoopTimerRef inTimer, EventLoopIdleTime
 				LibraryApplication* libraryApp = registeredLibs->nextElement();
 				libraryApp->idleTime();
 			}
-        }
-        break;
+		}
+		break;
 
-        case kEventLoopIdleTimerStopped : {
+		case kEventLoopIdleTimerStopped : {
 
-        }
-        break;
-    }
+		}
+		break;
+	}
 }
 
 void OSXUIToolkit::handleTimerEvent( EventLoopTimerRef inTimer, void * inUserData )
 {
    OSXUIToolkit* toolkit = (OSXUIToolkit*)inUserData;
    std::map<EventLoopTimerRef,TimeOutHandler>::iterator found =
-        toolkit->timeoutHandlers_.find( inTimer );
-    if ( found != toolkit->timeoutHandlers_.end() ) {
-        TimeOutHandler& toh = found->second;
-        TimerEvent event( toh.source_, TIMER_EVENT_PULSE );
+		toolkit->timeoutHandlers_.find( inTimer );
+	if ( found != toolkit->timeoutHandlers_.end() ) {
+		TimeOutHandler& toh = found->second;
+		TimerEvent event( toh.source_, TIMER_EVENT_PULSE );
 		toh.handler_->invoke( &event );
-    }
+	}
 }
 
 
 void OSXUIToolkit::internal_registerTimerHandler( Object* source, VCF::EventHandler* handler, const ulong32& timeoutInMilliSeconds )
 {
 
-    TimeOutHandler toh;
-    toh.source_ = source;
-    toh.handler_ = handler;
+	TimeOutHandler toh;
+	toh.source_ = source;
+	toh.handler_ = handler;
 
 
-    std::map<EventLoopTimerRef,TimeOutHandler>::iterator found = timeoutHandlers_.begin();
-    while ( found != timeoutHandlers_.end() ) {
-        TimeOutHandler& tmHandler = found->second;
-        if ( tmHandler.handler_ == handler ) {
-            RemoveEventLoopTimer( tmHandler.timerRef_ );
-            timeoutHandlers_.erase( found );
-            break;
-        }
-        found ++;
-    }
+	std::map<EventLoopTimerRef,TimeOutHandler>::iterator found = timeoutHandlers_.begin();
+	while ( found != timeoutHandlers_.end() ) {
+		TimeOutHandler& tmHandler = found->second;
+		if ( tmHandler.handler_ == handler ) {
+			RemoveEventLoopTimer( tmHandler.timerRef_ );
+			timeoutHandlers_.erase( found );
+			break;
+		}
+		found ++;
+	}
 
-    double timeout = ((double)timeoutInMilliSeconds/1000.0);
+	double timeout = ((double)timeoutInMilliSeconds/1000.0);
 
-    InstallEventLoopTimer( GetCurrentEventLoop(),
-                            timeout,
-                            timeout,
-                            timerUPP_,
-                            this,
-                            &toh.timerRef_ );
+	InstallEventLoopTimer( GetCurrentEventLoop(),
+							timeout,
+							timeout,
+							timerUPP_,
+							this,
+							&toh.timerRef_ );
 
-    timeoutHandlers_[toh.timerRef_] = toh;
+	timeoutHandlers_[toh.timerRef_] = toh;
 }
 
 void OSXUIToolkit::internal_unregisterTimerHandler( VCF::EventHandler* handler )
 {
-    std::map<EventLoopTimerRef,TimeOutHandler>::iterator found = timeoutHandlers_.begin();
-    while ( found != timeoutHandlers_.end() ) {
-        TimeOutHandler& tmHandler = found->second;
-        if ( tmHandler.handler_ == handler ) {
-            RemoveEventLoopTimer( tmHandler.timerRef_ );
-            timeoutHandlers_.erase( found );
-            break;
-        }
-        found ++;
-    }
+	std::map<EventLoopTimerRef,TimeOutHandler>::iterator found = timeoutHandlers_.begin();
+	while ( found != timeoutHandlers_.end() ) {
+		TimeOutHandler& tmHandler = found->second;
+		if ( tmHandler.handler_ == handler ) {
+			RemoveEventLoopTimer( tmHandler.timerRef_ );
+			timeoutHandlers_.erase( found );
+			break;
+		}
+		found ++;
+	}
 }
 
 
 void OSXUIToolkit::internal_runEventLoop()
 {
-    //set to false to begin with
-    quitEventLoop_ = false;
+	//set to false to begin with
+	quitEventLoop_ = false;
 
-    RunApplicationEventLoop();
+	RunApplicationEventLoop();
 
-    //reset back to false when finished
-    quitEventLoop_ = false;
+	//reset back to false when finished
+	quitEventLoop_ = false;
 }
 
 UIToolkit::ModalReturnType OSXUIToolkit::internal_runModalEventLoopFor( Control* control )
@@ -1092,75 +1092,75 @@ UIToolkit::ModalReturnType OSXUIToolkit::internal_runModalEventLoopFor( Control*
 	
 	//EndAppModalStateForWindow( controlWindow );
 	
-    return result;
+	return result;
 }
 
 void OSXUIToolkit::internal_quitCurrentEventLoop()
 {
-    EventLoopRef currentLoop = GetCurrentEventLoop();
-    QuitEventLoop( currentLoop );
-    quitEventLoop_ = true;
+	EventLoopRef currentLoop = GetCurrentEventLoop();
+	QuitEventLoop( currentLoop );
+	quitEventLoop_ = true;
 }
 
 OSStatus OSXUIToolkit::handleOSXApplicationEvents( EventHandlerCallRef nextHandler, EventRef osxEvent, void* userData )
 {
-    OSXUIToolkit * toolkit = (OSXUIToolkit*)userData;
-    return toolkit->handleAppEvents( nextHandler, osxEvent );
+	OSXUIToolkit * toolkit = (OSXUIToolkit*)userData;
+	return toolkit->handleAppEvents( nextHandler, osxEvent );
 }
 
 OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRef osxEvent )
 {
-    OSStatus result = eventNotHandledErr;
-    switch ( GetEventClass( osxEvent ) ) {
-        case OSXUIToolkit::CustomEventClass : {
-            switch ( GetEventKind( osxEvent ) ) {
-                case OSXUIToolkit::EventPosted : {
-                    ::CallNextEventHandler( nextHandler, osxEvent );
+	OSStatus result = eventNotHandledErr;
+	switch ( GetEventClass( osxEvent ) ) {
+		case OSXUIToolkit::CustomEventClass : {
+			switch ( GetEventKind( osxEvent ) ) {
+				case OSXUIToolkit::EventPosted : {
+					::CallNextEventHandler( nextHandler, osxEvent );
 
-                    UInt32 val;
-                    Boolean deleteHandler;
-                    OSStatus err = GetEventParameter( osxEvent,
-                                        OSXUIToolkit::EventHandler,
-                                        typeUInt32,
-                                        NULL,
-                                        OSXUIToolkit::SizeOfEventHandler,
-                                        NULL,
-                                        &val );
+					UInt32 val;
+					Boolean deleteHandler;
+					OSStatus err = GetEventParameter( osxEvent,
+										OSXUIToolkit::EventHandler,
+										typeUInt32,
+										NULL,
+										OSXUIToolkit::SizeOfEventHandler,
+										NULL,
+										&val );
 
-                    VCF::EventHandler* eventHandler  = (VCF::EventHandler*)val;
+					VCF::EventHandler* eventHandler  = (VCF::EventHandler*)val;
 
-                    err = GetEventParameter( osxEvent,
-                                        OSXUIToolkit::EventHandlerEvent,
-                                        typeUInt32,NULL,
-                                        OSXUIToolkit::SizeOfEventHandlerEvent,NULL,
-                                        &val );
-
-
-                    Event* e = (Event*)val;
-
-                    err = GetEventParameter( osxEvent,
-                                        OSXUIToolkit::DeletePostedEvent,
-                                        typeBoolean,NULL,
-                                        OSXUIToolkit::SizeOfDeletePostedEvent,NULL,
-                                        &deleteHandler );
+					err = GetEventParameter( osxEvent,
+										OSXUIToolkit::EventHandlerEvent,
+										typeUInt32,NULL,
+										OSXUIToolkit::SizeOfEventHandlerEvent,NULL,
+										&val );
 
 
-                    if ( (NULL != eventHandler) && (NULL != e ) ) {
+					Event* e = (Event*)val;
 
-                        eventHandler->invoke( e );
+					err = GetEventParameter( osxEvent,
+										OSXUIToolkit::DeletePostedEvent,
+										typeBoolean,NULL,
+										OSXUIToolkit::SizeOfDeletePostedEvent,NULL,
+										&deleteHandler );
 
-                        if ( deleteHandler ) {
-                            delete eventHandler;
-                        }
-                        delete e;
-                    }
 
-                    result = noErr;
-                }
-                break;
-            }
-        }
-        break;
+					if ( (NULL != eventHandler) && (NULL != e ) ) {
+
+						eventHandler->invoke( e );
+
+						if ( deleteHandler ) {
+							delete eventHandler;
+						}
+						delete e;
+					}
+
+					result = noErr;
+				}
+				break;
+			}
+		}
+		break;
 
 		case kEventClassCommand : {
 			switch ( GetEventKind( osxEvent ) ) {
@@ -1183,8 +1183,8 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
 						item->click();
 						result = noErr;
 					}										
-                }
-                break;
+				}
+				break;
 				
 				case kEventCommandUpdateStatus : {
 					HICommand		command;
@@ -1207,19 +1207,19 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
 						//this updates the menu item
 						item->update();
 					}										
-                }
-                break;
+				}
+				break;
 			}
 		}
 		break;
 		
-        default : {
-            return ::CallNextEventHandler( nextHandler, osxEvent );
-        }
-        break;
-    }
+		default : {
+			return ::CallNextEventHandler( nextHandler, osxEvent );
+		}
+		break;
+	}
 
-    return result;
+	return result;
 }
 
 
@@ -1227,142 +1227,142 @@ OSStatus OSXUIToolkit::handleAppEvents( EventHandlerCallRef nextHandler, EventRe
 
 VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* eventData )
 {
-    VCF::Event* result = NULL;
-    OSXEventMsg* msg = (OSXEventMsg*)eventData;
-    UInt32 whatHappened = GetEventKind( msg->osxEvent_ );
+	VCF::Event* result = NULL;
+	OSXEventMsg* msg = (OSXEventMsg*)eventData;
+	UInt32 whatHappened = GetEventKind( msg->osxEvent_ );
 
-    UInt32 type = GetEventClass( msg->osxEvent_ );
+	UInt32 type = GetEventClass( msg->osxEvent_ );
 
-    switch ( type ) {
-        case kEventClassMouse : {
-            EventMouseButton button = kEventMouseButtonPrimary;
-            GetEventParameter( msg->osxEvent_, kEventParamMouseButton, typeMouseButton, NULL,
-                                sizeof (EventMouseButton), NULL, &button);
+	switch ( type ) {
+		case kEventClassMouse : {
+			EventMouseButton button = kEventMouseButtonPrimary;
+			GetEventParameter( msg->osxEvent_, kEventParamMouseButton, typeMouseButton, NULL,
+								sizeof (EventMouseButton), NULL, &button);
 
-            UInt32 keyboardModifier = 0;
-            GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
-                                sizeof (keyboardModifier), NULL, &keyboardModifier);
+			UInt32 keyboardModifier = 0;
+			GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
+								sizeof (keyboardModifier), NULL, &keyboardModifier);
 
-            ::Point mousePos;
-            GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
-                                sizeof (mousePos), NULL, &mousePos);
+			::Point mousePos;
+			GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
+								sizeof (mousePos), NULL, &mousePos);
 
 
-            UInt32 clickCount = 0;
-            GetEventParameter( msg->osxEvent_, kEventParamClickCount, typeUInt32, NULL,
-                                sizeof (clickCount), NULL, &clickCount);
+			UInt32 clickCount = 0;
+			GetEventParameter( msg->osxEvent_, kEventParamClickCount, typeUInt32, NULL,
+								sizeof (clickCount), NULL, &clickCount);
 
-            VCF::Point pt( mousePos.h ,
+			VCF::Point pt( mousePos.h ,
 						   mousePos.v );
 
 
 
-            switch ( whatHappened ) {
-                case kEventMouseDown : {
+			switch ( whatHappened ) {
+				case kEventMouseDown : {
 
-                    Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
-
-                    result = new VCF::MouseEvent( msg->control_, Control::MOUSE_DOWN,
-											OSXUtils::translateButtonMask( button ),
-											OSXUtils::translateKeyMask( keyboardModifier ), &pt );
-
-                }
-                break;
-
-                case kEventMouseUp : {
-                    Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
-
-                    result = new VCF::MouseEvent( msg->control_, Control::MOUSE_UP,
-											OSXUtils::translateButtonMask( button ),
-											OSXUtils::translateKeyMask( keyboardModifier ), &pt );
-                }
-                break;
-
-                case kEventMouseMoved : {
-
-                    Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
-
-                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
-                                                OSXUtils::translateButtonMask( button ),
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
-                }
-                break;
-
-                case kEventMouseDragged : {
 					Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
-                    
-                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
-                                                OSXUtils::translateButtonMask( button ),
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
-                }
-                break;
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
 
-                case kEventMouseEntered : {
-                    Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
+					result = new VCF::MouseEvent( msg->control_, Control::MOUSE_DOWN,
+											OSXUtils::translateButtonMask( button ),
+											OSXUtils::translateKeyMask( keyboardModifier ), &pt );
 
-                    result = new VCF::MouseEvent( msg->control_, Control::MOUSE_ENTERED,
-                                                    OSXUtils::translateButtonMask( 0 ),
-                                                    OSXUtils::translateKeyMask( 0 ), &pt );
-                }
-                break;
+				}
+				break;
 
-                case kEventMouseExited : {
-                    Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
+				case kEventMouseUp : {
+					Scrollable* scrollable = msg->control_->getScrollable();
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
 
-                    result = new VCF::MouseEvent( msg->control_, Control::MOUSE_LEAVE,
-                                                    OSXUtils::translateButtonMask( 0 ),
-                                                    OSXUtils::translateKeyMask( 0 ), &pt );
-                }
-                break;
+					result = new VCF::MouseEvent( msg->control_, Control::MOUSE_UP,
+											OSXUtils::translateButtonMask( button ),
+											OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+				}
+				break;
 
-                case kEventMouseWheelMoved : {
+				case kEventMouseMoved : {
 
-                }
-                break;
-            }
-        }
-        break;
+					Scrollable* scrollable = msg->control_->getScrollable();
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
 
-        case kEventClassKeyboard : {
-            switch ( whatHappened ) {
-                case kEventRawKeyDown : {
+					result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
+												OSXUtils::translateButtonMask( button ),
+												OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+				}
+				break;
+
+				case kEventMouseDragged : {
+					Scrollable* scrollable = msg->control_->getScrollable();
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
+					
+					result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
+												OSXUtils::translateButtonMask( button ),
+												OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+				}
+				break;
+
+				case kEventMouseEntered : {
+					Scrollable* scrollable = msg->control_->getScrollable();
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
+
+					result = new VCF::MouseEvent( msg->control_, Control::MOUSE_ENTERED,
+													OSXUtils::translateButtonMask( 0 ),
+													OSXUtils::translateKeyMask( 0 ), &pt );
+				}
+				break;
+
+				case kEventMouseExited : {
+					Scrollable* scrollable = msg->control_->getScrollable();
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
+
+					result = new VCF::MouseEvent( msg->control_, Control::MOUSE_LEAVE,
+													OSXUtils::translateButtonMask( 0 ),
+													OSXUtils::translateKeyMask( 0 ), &pt );
+				}
+				break;
+
+				case kEventMouseWheelMoved : {
+
+				}
+				break;
+			}
+		}
+		break;
+
+		case kEventClassKeyboard : {
+			switch ( whatHappened ) {
+				case kEventRawKeyDown : {
 					char c = 0;
 					UInt32 keyCode = 0;
 					UInt32 keyMods = 0;
 					UInt32 kbType = 0;
 
 					GetEventParameter( msg->osxEvent_, kEventParamKeyMacCharCodes, typeChar, NULL,
-                                sizeof (char), NULL, &c);
+								sizeof (char), NULL, &c);
 					GetEventParameter( msg->osxEvent_, kEventParamKeyCode, typeUInt32, NULL,
-                                sizeof (keyCode), NULL, &keyCode);
+								sizeof (keyCode), NULL, &keyCode);
 					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
-                                sizeof (keyMods), NULL, &keyMods);
+								sizeof (keyMods), NULL, &keyMods);
 					GetEventParameter( msg->osxEvent_, kEventParamKeyboardType, typeUInt32, NULL,
-                                sizeof (kbType), NULL, &kbType);
+								sizeof (kbType), NULL, &kbType);
 
 
 
@@ -1391,30 +1391,29 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 						//result = NULL;
 					}
 
-					StringUtils::traceWithArgs( Format("keyMask: %d, virtKeyValue: %d\n") %
-												keyMask% virtKeyValue );
-                }
-                break;
+					StringUtils::trace( Format("keyMask: %d, virtKeyValue: %d\n") % keyMask % virtKeyValue );
+				}
+				break;
 
-                case kEventRawKeyRepeat : {
+				case kEventRawKeyRepeat : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventRawKeyUp : {
+				case kEventRawKeyUp : {
 					char c = 0;
 					UInt32 keyCode = 0;
 					UInt32 keyMods = 0;
 					UInt32 kbType = 0;
 
 					GetEventParameter( msg->osxEvent_, kEventParamKeyMacCharCodes, typeChar, NULL,
-                                sizeof (char), NULL, &c);
+								sizeof (char), NULL, &c);
 					GetEventParameter( msg->osxEvent_, kEventParamKeyCode, typeUInt32, NULL,
-                                sizeof (keyCode), NULL, &keyCode);
+								sizeof (keyCode), NULL, &keyCode);
 					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
-                                sizeof (keyMods), NULL, &keyMods);
+								sizeof (keyMods), NULL, &keyMods);
 					GetEventParameter( msg->osxEvent_, kEventParamKeyboardType, typeUInt32, NULL,
-                                sizeof (kbType), NULL, &kbType);
+								sizeof (kbType), NULL, &kbType);
 
 
 
@@ -1438,483 +1437,483 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 														1, keyMask, c, virtKeyValue );
 
 
-                }
-                break;
+				}
+				break;
 
-                case kEventRawKeyModifiersChanged : {
+				case kEventRawKeyModifiersChanged : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventHotKeyPressed : {
+				case kEventHotKeyPressed : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventHotKeyReleased : {
+				case kEventHotKeyReleased : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassTextInput : {
-            switch ( whatHappened ) {
+		case kEventClassTextInput : {
+			switch ( whatHappened ) {
 
-            }
-        }
-        break;
+			}
+		}
+		break;
 
-        case kEventClassApplication : {
-            switch ( whatHappened ) {
-                case kEventAppActivated : {
+		case kEventClassApplication : {
+			switch ( whatHappened ) {
+				case kEventAppActivated : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppDeactivated : {
+				case kEventAppDeactivated : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppQuit : {
+				case kEventAppQuit : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppLaunchNotification : {
+				case kEventAppLaunchNotification : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppLaunched : {
+				case kEventAppLaunched : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppTerminated : {
+				case kEventAppTerminated : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppFrontSwitched : {
+				case kEventAppFrontSwitched : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppFocusMenuBar : {
+				case kEventAppFocusMenuBar : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppFocusNextDocumentWindow : {
+				case kEventAppFocusNextDocumentWindow : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppFocusNextFloatingWindow : {
+				case kEventAppFocusNextFloatingWindow : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppFocusToolbar : {
+				case kEventAppFocusToolbar : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppGetDockTileMenu : {
+				case kEventAppGetDockTileMenu : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppHidden : {
+				case kEventAppHidden : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppShown : {
+				case kEventAppShown : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventAppSystemUIModeChanged : {
+				case kEventAppSystemUIModeChanged : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassAppleEvent : {
+		case kEventClassAppleEvent : {
 
-        }
-        break;
+		}
+		break;
 
-        case kEventClassMenu : {
-            switch ( whatHappened ) {
-                case kEventMenuBeginTracking : {
+		case kEventClassMenu : {
+			switch ( whatHappened ) {
+				case kEventMenuBeginTracking : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuEndTracking : {
+				case kEventMenuEndTracking : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuChangeTrackingMode : {
+				case kEventMenuChangeTrackingMode : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuOpening : {
+				case kEventMenuOpening : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuClosed : {
+				case kEventMenuClosed : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuTargetItem : {
+				case kEventMenuTargetItem : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuMatchKey : {
+				case kEventMenuMatchKey : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuEnableItems : {
+				case kEventMenuEnableItems : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuPopulate : {
+				case kEventMenuPopulate : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuMeasureItemWidth : {
+				case kEventMenuMeasureItemWidth : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuMeasureItemHeight : {
+				case kEventMenuMeasureItemHeight : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuDrawItem : {
+				case kEventMenuDrawItem : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuDrawItemContent : {
+				case kEventMenuDrawItemContent : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventMenuDispose : {
+				case kEventMenuDispose : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassWindow : {
-            switch ( whatHappened ) {
-                case kEventWindowFocusAcquired : {
-                    result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );
-                }
-                break;
+		case kEventClassWindow : {
+			switch ( whatHappened ) {
+				case kEventWindowFocusAcquired : {
+					result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );
+				}
+				break;
 
-                case kEventWindowFocusRelinquish : {
-                    result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );
-                }
-                break;
+				case kEventWindowFocusRelinquish : {
+					result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );
+				}
+				break;
 
-                case kEventWindowCollapse : {
+				case kEventWindowCollapse : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowCollapseAll : {
+				case kEventWindowCollapseAll : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowExpand : {
+				case kEventWindowExpand : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowExpandAll : {
+				case kEventWindowExpandAll : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowClose : {
-                    result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
-                }
-                break;
+				case kEventWindowClose : {
+					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
+				}
+				break;
 
-                case kEventWindowCloseAll : {
+				case kEventWindowCloseAll : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowZoom : {
+				case kEventWindowZoom : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowZoomAll : {
+				case kEventWindowZoomAll : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowContextualMenuSelect : {
+				case kEventWindowContextualMenuSelect : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowPathSelect : {
+				case kEventWindowPathSelect : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowGetIdealSize : {
+				case kEventWindowGetIdealSize : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowGetMinimumSize : {
+				case kEventWindowGetMinimumSize : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowGetMaximumSize : {
+				case kEventWindowGetMaximumSize : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowBoundsChanged: {
-                    UInt32 attributes = 0;
+				case kEventWindowBoundsChanged: {
+					UInt32 attributes = 0;
 					OSStatus err = GetEventParameter( msg->osxEvent_,
-                                                kEventParamAttributes,
-                                                typeUInt32,
-                                                NULL,
-                                                sizeof( UInt32 ),
-                                                NULL, &attributes );
+												kEventParamAttributes,
+												typeUInt32,
+												NULL,
+												sizeof( UInt32 ),
+												NULL, &attributes );
 
 					if ( err == noErr ) 	{
-                        ::Rect currentBounds;
-                            GetEventParameter( msg->osxEvent_, kEventParamCurrentBounds, typeQDRectangle,
-                                                NULL, sizeof(currentBounds), NULL, &currentBounds);
+						::Rect currentBounds;
+							GetEventParameter( msg->osxEvent_, kEventParamCurrentBounds, typeQDRectangle,
+												NULL, sizeof(currentBounds), NULL, &currentBounds);
 
 						if ( attributes & kWindowBoundsChangeSizeChanged ) {
 
-                            VCF::Size sz( abs(currentBounds.right - currentBounds.left),
-                                            abs(currentBounds.bottom - currentBounds.top) );
-                            result = new ControlEvent( msg->control_, sz );
+							VCF::Size sz( abs(currentBounds.right - currentBounds.left),
+											abs(currentBounds.bottom - currentBounds.top) );
+							result = new ControlEvent( msg->control_, sz );
 						}
 						else if ( attributes & kWindowBoundsChangeOriginChanged ) {
 							VCF::Point pt( currentBounds.left , currentBounds.top );
-                            result = new VCF::ControlEvent( msg->control_, pt );
+							result = new VCF::ControlEvent( msg->control_, pt );
 						}
 					}
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowConstrain : {
+				case kEventWindowConstrain : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowHandleContentClick : {
+				case kEventWindowHandleContentClick : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowGetDockTileMenu : {
+				case kEventWindowGetDockTileMenu : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowProxyBeginDrag : {
+				case kEventWindowProxyBeginDrag : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowProxyEndDrag : {
+				case kEventWindowProxyEndDrag : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventWindowToolbarSwitchMode : {
+				case kEventWindowToolbarSwitchMode : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassControl : {
-            switch ( whatHappened ) {
+		case kEventClassControl : {
+			switch ( whatHappened ) {
 
-                case kEventControlInitialize : {
+				case kEventControlInitialize : {
 					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_CREATED );
-                }
-                break;
+				}
+				break;
 
-                case kEventControlDispose : {
+				case kEventControlDispose : {
 					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
-                }
-                break;
+				}
+				break;
 
-                case kEventControlSetFocusPart : {
+				case kEventControlSetFocusPart : {
 					UInt32 attributes = 0;
 					ControlRef ctrl = NULL;
 					ControlRef startCtrl = NULL;
 					ControlPartCode part = 0;
 					OSStatus err = GetEventParameter( msg->osxEvent_,
-                                                kEventParamDirectObject,
-                                                typeControlRef,
-                                                NULL,
-                                                sizeof( ControlRef ),
-                                                NULL, &ctrl );
+												kEventParamDirectObject,
+												typeControlRef,
+												NULL,
+												sizeof( ControlRef ),
+												NULL, &ctrl );
 					
 					err = GetEventParameter( msg->osxEvent_,
-                                                kEventParamStartControl,
-                                                typeControlRef,
-                                                NULL,
-                                                sizeof( ControlRef ),
-                                                NULL, &startCtrl );
+												kEventParamStartControl,
+												typeControlRef,
+												NULL,
+												sizeof( ControlRef ),
+												NULL, &startCtrl );
 												
 					err = GetEventParameter( msg->osxEvent_,
-                                                kEventParamControlPart,
-                                                typeControlPartCode,
-                                                NULL,
-                                                sizeof( ControlPartCode ),
-                                                NULL, &part );	
+												kEventParamControlPart,
+												typeControlPartCode,
+												NULL,
+												sizeof( ControlPartCode ),
+												NULL, &part );	
 												
 																																				
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetOptimalBounds : {
+				case kEventControlGetOptimalBounds : {
 
-                }
-                break;
+				}
+				break;
 				
 				case kEventControlHit : {
 
-                }
-                break;
+				}
+				break;
 				
 
-                case kEventControlHitTest : {
+				case kEventControlHitTest : {
 					::Point mousePos;
 					GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
 										sizeof (mousePos), NULL, &mousePos);
-                    
+					
 					//LocalToGlobal( &mousePos );
 					VCF::Point pt( mousePos.h , mousePos.v );
 					//localizes the coords
 					//msg->control_->translateFromScreenCoords( &pt );
 			
 					Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
 					
-                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
-                                                mbmLeftButton,
-                                                OSXUtils::translateKeyMask( 0 ), &pt );
+					result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
+												mbmLeftButton,
+												OSXUtils::translateKeyMask( 0 ), &pt );
 
-                }
-                break;
+				}
+				break;
 
-                
-                
-                
-                case kEventControlGetFocusPart : {
+				
+				
+				
+				case kEventControlGetFocusPart : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlActivate : {
+				case kEventControlActivate : {
 					result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_GAINED );
-                }
-                break;
+				}
+				break;
 
-                case kEventControlDeactivate : {
+				case kEventControlDeactivate : {
 					result = new VCF::FocusEvent ( msg->control_, Control::FOCUS_LOST );
-                }
-                break;
+				}
+				break;
 
-                case kEventControlSetCursor : {
+				case kEventControlSetCursor : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlContextualMenuClick : {
+				case kEventControlContextualMenuClick : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlClick : {
+				case kEventControlClick : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetNextFocusCandidate : {
+				case kEventControlGetNextFocusCandidate : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetAutoToggleValue : {
+				case kEventControlGetAutoToggleValue : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlInterceptSubviewClick : {
+				case kEventControlInterceptSubviewClick : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetClickActivation : {
+				case kEventControlGetClickActivation : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlDragEnter : {
+				case kEventControlDragEnter : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlDragWithin : {
+				case kEventControlDragWithin : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlDragLeave : {
+				case kEventControlDragLeave : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlDragReceive : {
+				case kEventControlDragReceive : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlTrack : {
+				case kEventControlTrack : {
 					ControlRef theControl;
 					GetEventParameter( msg->osxEvent_, kEventParamDirectObject, typeControlRef, NULL,
 										sizeof (theControl), NULL, &theControl);
@@ -1924,11 +1923,11 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					::Point mousePos;
 					GetEventParameter( msg->osxEvent_, kEventParamMouseLocation, typeQDPoint, NULL,
 										sizeof (mousePos), NULL, &mousePos);
-            
-            
+			
+			
 					//LocalToGlobal( &mousePos );
 					
-					UInt32 keyboardModifier = 0;            
+					UInt32 keyboardModifier = 0;			
 					GetEventParameter( msg->osxEvent_, kEventParamKeyModifiers, typeUInt32, NULL,
 										sizeof (keyboardModifier), NULL, &keyboardModifier);
 								
@@ -1941,142 +1940,142 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					
 						   
 					Scrollable* scrollable = msg->control_->getScrollable();
-                    if ( NULL != scrollable ) {
-                        pt.x_ += scrollable->getHorizontalPosition();
-                        pt.y_ += scrollable->getVerticalPosition();
-                    }
-                    
-                    result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_DOWN,
-                                                mbmLeftButton,
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
-                }
-                break;
+					if ( NULL != scrollable ) {
+						pt.x_ += scrollable->getHorizontalPosition();
+						pt.y_ += scrollable->getVerticalPosition();
+					}
+					
+					result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_DOWN,
+												mbmLeftButton,
+												OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+				}
+				break;
 
-                case kEventControlGetScrollToHereStartPoint : {
+				case kEventControlGetScrollToHereStartPoint : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetIndicatorDragConstraint : {
+				case kEventControlGetIndicatorDragConstraint : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlIndicatorMoved : {
+				case kEventControlIndicatorMoved : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGhostingFinished : {
+				case kEventControlGhostingFinished : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetActionProcPart : {
+				case kEventControlGetActionProcPart : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetPartRegion : {
+				case kEventControlGetPartRegion : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetPartBounds : {
+				case kEventControlGetPartBounds : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlSetData : {
+				case kEventControlSetData : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetData : {
+				case kEventControlGetData : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlGetSizeConstraints : {
+				case kEventControlGetSizeConstraints : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlValueFieldChanged : {
+				case kEventControlValueFieldChanged : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlAddedSubControl : {
+				case kEventControlAddedSubControl : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlRemovingSubControl : {
+				case kEventControlRemovingSubControl : {
 
-                }
-                break;
+				}
+				break;
 
 
-                case kEventControlBoundsChanged : {
+				case kEventControlBoundsChanged : {
 					UInt32 attributes = 0;
 					OSStatus err = GetEventParameter( msg->osxEvent_,
-                                                kEventParamAttributes,
-                                                typeUInt32,
-                                                NULL,
-                                                sizeof( UInt32 ),
-                                                NULL, &attributes );
+												kEventParamAttributes,
+												typeUInt32,
+												NULL,
+												sizeof( UInt32 ),
+												NULL, &attributes );
 
 					if ( err == noErr ) 	{
-                        ::Rect currentBounds;
-                            GetEventParameter( msg->osxEvent_, kEventParamCurrentBounds, typeQDRectangle,
-                                                NULL, sizeof(currentBounds), NULL, &currentBounds);
+						::Rect currentBounds;
+							GetEventParameter( msg->osxEvent_, kEventParamCurrentBounds, typeQDRectangle,
+												NULL, sizeof(currentBounds), NULL, &currentBounds);
 
 						if ( attributes & kControlBoundsChangeSizeChanged  ) {
 
-                            VCF::Size sz( abs(currentBounds.right - currentBounds.left),
-                                            abs(currentBounds.bottom - currentBounds.top) );
-                            result = new ControlEvent( msg->control_, sz );
+							VCF::Size sz( abs(currentBounds.right - currentBounds.left),
+											abs(currentBounds.bottom - currentBounds.top) );
+							result = new ControlEvent( msg->control_, sz );
 						}
 						else if ( attributes & kControlBoundsChangePositionChanged ) {
 							VCF::Point pt( currentBounds.left , currentBounds.top );
-                            result = new VCF::ControlEvent( msg->control_, pt );
+							result = new VCF::ControlEvent( msg->control_, pt );
 						}
 					}
-                }
-                break;
+				}
+				break;
 
-                case kEventControlTitleChanged : {
+				case kEventControlTitleChanged : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlOwningWindowChanged : {
+				case kEventControlOwningWindowChanged : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlHiliteChanged : {
+				case kEventControlHiliteChanged : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlEnabledStateChanged : {
+				case kEventControlEnabledStateChanged : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventControlArbitraryMessage : {
+				case kEventControlArbitraryMessage : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassCommand : {
-            switch ( whatHappened ) {
-                case kEventProcessCommand : {
+		case kEventClassCommand : {
+			switch ( whatHappened ) {
+				case kEventProcessCommand : {
 					
 					HICommand		command;
 					GetEventParameter( msg->osxEvent_, kEventParamDirectObject, typeHICommand, NULL,
@@ -2093,131 +2092,134 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					if ( NULL != item ) {
 						
 					}										
-                }
-                break;
+				}
+				break;
 
-                case kEventCommandUpdateStatus : {
+				case kEventCommandUpdateStatus : {
 					
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassTablet : {
+		case kEventClassTablet : {
 
-        }
-        break;
+		}
+		break;
 
-        case kEventClassVolume : {
+		case kEventClassVolume : {
 
-        }
-        break;
+		}
+		break;
 
-        case kEventClassAppearance : {
-            switch ( whatHappened ) {
-                case kEventParamNewScrollBarVariant : {
+		case kEventClassAppearance : {
+			switch ( whatHappened ) {
+				case kEventParamNewScrollBarVariant : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassService : {
-            switch ( whatHappened ) {
-                case kEventServiceCopy : {
+		case kEventClassService : {
+			switch ( whatHappened ) {
+				case kEventServiceCopy : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventServicePaste : {
+				case kEventServicePaste : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventServiceGetTypes : {
+				case kEventServiceGetTypes : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventServicePerform : {
+				case kEventServicePerform : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassToolbar : {
-            switch ( whatHappened ) {
-                case kEventParamToolbar : {
+		case kEventClassToolbar : {
+			switch ( whatHappened ) {
+				case kEventParamToolbar : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventParamToolbarItem : {
+				case kEventParamToolbarItem : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventParamToolbarItemIdentifier : {
+				case kEventParamToolbarItemIdentifier : {
 
-                }
-                break;
+				}
+				break;
 
-                case kEventParamToolbarItemConfigData : {
+				case kEventParamToolbarItemConfigData : {
 
-                }
-                break;
-            }
-        }
-        break;
+				}
+				break;
+			}
+		}
+		break;
 
-        case kEventClassToolbarItem : {
+		case kEventClassToolbarItem : {
 
-        }
-        break;
+		}
+		break;
 
-        case kEventClassAccessibility : {
+		case kEventClassAccessibility : {
 
-        }
-        break;
-    }
-    return result;
+		}
+		break;
+	}
+	return result;
 }
 
 EventRef OSXUIToolkit::createUserCarbonEvent( UInt32 eventType )
 {
-    EventRef result = NULL;
+	EventRef result = NULL;
 
-    OSStatus err = CreateEvent( NULL,
-                                OSXUIToolkit::CustomEventClass,
-                                eventType,
-                                0,
-                                kEventAttributeUserEvent,
-                                &result );
+	OSStatus err = CreateEvent( NULL,
+								OSXUIToolkit::CustomEventClass,
+								eventType,
+								0,
+								kEventAttributeUserEvent,
+								&result );
 
-    if ( err != noErr ) {
-        printf( "OSXUIToolkit::createUserCarbonEvent CreateEvent failed!\n" );
-    }
-    else {
+	if ( err != noErr ) {
+		printf( "OSXUIToolkit::createUserCarbonEvent CreateEvent failed!\n" );
+	}
+	else {
 
-    }
+	}
 
-    return result;
+	return result;
 }
 
 VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 {
-    Size result;
-    return result;
+	Size result;
+	return result;
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/07/11 17:04:14  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.7  2005/07/07 23:28:58  ddiego
 *last osx checkins before release - not complete :(
 *
