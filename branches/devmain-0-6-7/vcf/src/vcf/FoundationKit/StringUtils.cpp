@@ -1198,40 +1198,67 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				case 'I' : {
 					result.append( current, (p-current) -formatArgCount );
 
-					int h = date.getHour() % 12;
-					if ( h == 0 ) {
-						h = 12;
-					}
-					if ( hashCharFound ) {
-
-						#ifdef VCF_OSX
-							CFTextString cfStr;
-							cfStr.format( CFSTR("%d"), h );
-							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
-							tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
-							swprintf( tmp, tmpLen-1, L"%d", h );
-						#else
-							swprintf( tmp, L"%d", h );
-						#endif
-
-					}
-					else {
-
-						#ifdef VCF_OSX
-							CFTextString cfStr;
-							cfStr.format( CFSTR("%02d"), h );
-							cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
-							tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-						#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
-							swprintf( tmp, tmpLen-1, L"%02d", h );
-						#else
-							swprintf( tmp, L"%02d", h );
-						#endif
-
-					}
-
-					result += tmp;
+						int h = date.getHour() % 12;
+						if ( h == 0 ) {
+							h = 12;
+						}
+						if ( hashCharFound ) {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+							#ifdef VCF_OSX
+								CFTextString cfStr;
+								cfStr.format( CFSTR("%d"), h );
+								cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+								tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
+							#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
+								swprintf( tmp, tmpLen-1, L"%d", h );
+							#else
+								swprintf( tmp, L"%d", h );
+							#endif
+	
+						}
+						else {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+							#ifdef VCF_OSX
+								CFTextString cfStr;
+								cfStr.format( CFSTR("%02d"), h );
+								cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+								tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
+							#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
+								swprintf( tmp, tmpLen-1, L"%02d", h );
+							#else
+								swprintf( tmp, L"%02d", h );
+							#endif
+	
+	
+						}
+	
+						result += tmp;
 
 					current = p + 1;
 					hashCharFound = false;
@@ -2204,7 +2231,7 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.11  2005/07/11 17:49:15  marcelloptr
+*Revision 1.3.2.12  2005/07/11 17:58:31  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *
 *Revision 1.3.2.10  2005/06/25 21:49:06  marcelloptr
