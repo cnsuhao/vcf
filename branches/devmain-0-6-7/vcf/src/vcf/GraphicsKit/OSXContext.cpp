@@ -1970,7 +1970,7 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 			err = SetThemeBackground( state.isActive() ? kThemeBrushButtonFaceActive : kThemeBrushButtonFaceInactive,
 									32, TRUE );
 			if ( err != noErr ) {
-				StringUtils::traceWithArgs( Format("SetThemeBackground() failed, err: %d\n") % err );
+				StringUtils::trace( Format("SetThemeBackground() failed, err: %d\n") % err );
 			}
 			EraseRect( r );
 		}
@@ -2081,7 +2081,7 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 			err = SetThemeBackground( state.isHighlighted() ? kThemeBrushMenuBackgroundSelected : kThemeBrushMenuBackground,
 									32, TRUE );
 			if ( err != noErr ) {
-				StringUtils::traceWithArgs( Format("SetThemeBackground() failed, err: %d\n") % err );
+				StringUtils::trace( Format("SetThemeBackground() failed, err: %d\n") % err );
 			}
 			
 			EraseRect( r );
@@ -2103,7 +2103,7 @@ void OSXContext::drawThemeBackground( Rect* rect, BackgroundState& state )
 									32, TRUE );
 									
 			if ( err != noErr ) {
-				StringUtils::traceWithArgs( Format("SetThemeBackground() failed, err: %d\n") % err );
+				StringUtils::trace( Format("SetThemeBackground() failed, err: %d\n") % err );
 			}
 			
 			EraseRect( r );
@@ -2281,6 +2281,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/07/11 17:50:40  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.3  2005/06/28 04:09:05  ddiego
 *adjusted for marcellos change.
 *

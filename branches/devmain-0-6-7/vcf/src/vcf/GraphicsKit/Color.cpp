@@ -254,7 +254,7 @@ ColorSpace::RGBtype ColorSpace::HSLToRGB ( const HSLtype& hsl )
 			//commented: H has been probably set manually. But this is not harmful anyway.
 			//#ifdef _DEBUG
 			//	if ( H == ColorSpace::hue_undefined) {
-			//		StringUtils::traceWithArgs("HSLToRGB: Warning: function used with S==0 (h=%f, s=%f, l=%f\n", H, S, L );
+			//		StringUtils::trace( Format("HSLToRGB: Warning: function used with S==0 (h=%f, s=%f, l=%f\n" ) % H % S % L );
 			//		//assert( H == ColorSpace::hue_undefined );
 			//	}
 			//#endif
@@ -1676,6 +1676,9 @@ String ColorNames::unknownColorName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/07/11 17:50:39  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2.4.3  2005/06/25 21:40:11  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *

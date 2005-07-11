@@ -391,7 +391,7 @@ void GraphicsToolkit::internal_printColorNameMap( ) const
 		uint8 cr = (uint8)(dr*255+0.5);
 		uint8 cg = (uint8)(dg*255+0.5);
 		uint8 cb = (uint8)(db*255+0.5);
-		StringUtils::traceWithArgs( Format("r=%0.06g, g=%0.06g, b=%0.06g - (%-25s) [%3d, %3d, %3d] (0x%02X, 0x%02X, 0x%02X) <%-25s>\n") % dr % dg % db % s.c_str() %  cr % cg % cb % cr % cg % cb % sg.c_str());
+		StringUtils::trace( Format("r=%0.06g, g=%0.06g, b=%0.06g - (%-25s) [%3d, %3d, %3d] (0x%02X, 0x%02X, 0x%02X) <%-25s>\n") % dr % dg % db % s.c_str() %  cr % cg % cb % cr % cg % cb % sg );
 		it ++;
 	}
 }
@@ -446,9 +446,9 @@ Color* GraphicsToolkit::internal_getColorMatchFromColormap( const Color& color )
 		//Note: Colors in colorNameMap_ do not have s_ initialized
 		//it = colorNameMap_->find( *closestClr );
 		//if ( it == colorNameMap_->end() ) {
-		//	StringUtils::traceWithArgs("Warning: color not matched ((%s -> ) %0.2f, %0.2f, %0.2f\n", ((closestClr->s_)?closestClr->s_->c_str():"???"), diffMinH, diffMinS, diffMinL );
+		//	StringUtils::trace( Format("Warning: color not matched ((%s -> ) %0.2f, %0.2f, %0.2f\n") % ((closestClr->s_)?closestClr->s_:"???"), diffMinH, diffMinS, diffMinL );
 		//} else {
-		//	StringUtils::traceWithArgs("Ok: color matched (%s -> %s) %0.2f, %0.2f, %0.2f\n", color.s_->c_str(), ((closestClr->s_)?closestClr->s_->c_str():"???"), diffMinH, diffMinS, diffMinL );
+		//	StringUtils::trace( Format("Ok: color matched (%s -> %s) %0.2f, %0.2f, %0.2f\n") % color.s_, ((closestClr->s_)?closestClr->s_:"???"), diffMinH, diffMinS, diffMinL );
 		//}
 	}
 
@@ -1335,6 +1335,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.8  2005/07/11 17:50:39  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.7  2005/06/25 21:44:23  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *

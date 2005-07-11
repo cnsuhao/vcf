@@ -121,7 +121,7 @@ Win32Image::Win32Image( HICON icon )
 			setSize( bmp.bmWidth, bmp.bmHeight );
 
 			if ( !DrawIcon( dc_, 0, 0, icon ) ) {
-				StringUtils::traceWithArgs( Format("DrawIcon failed, err: %d\n") % GetLastError()  );
+				StringUtils::trace( Format("DrawIcon failed, err: %d\n") % GetLastError()  );
 			}
 		}
 	}
@@ -566,6 +566,9 @@ void BMPLoader::saveImageToFile( const String& fileName, Image* image )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/07/11 17:50:41  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.5  2005/04/11 17:07:17  iamfraggle
 *Changes allowing compilation of Win32 port under CodeWarrior
 *

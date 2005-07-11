@@ -34,9 +34,9 @@ String StringUtils::abbrevMonths[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 
 
-void StringUtils::traceWithArgs( String text,... )
+void StringUtils::traceWithArgs( String text, ... )
 {
-text = StringUtils::convertFormatString( text );
+	text = StringUtils::convertFormatString( text );
 
 //#ifdef _DEBUG
 	va_list argList;
@@ -70,7 +70,7 @@ text = StringUtils::convertFormatString( text );
 
 	va_end( argList );              // Reset variable arguments.
 
-	StringUtils::trace( String("WARNING: Using deprecated function!!!\n") );
+	StringUtils::trace( String("WARNING: Using deprecated function!!! - StringUtils::traceWithArgs(...)\n") );
 	StringUtils::trace( String(buf) );
 
 	delete [] buf;
@@ -531,7 +531,7 @@ VCF::String StringUtils::format( const Format& formatter )
 
 VCF::String StringUtils::format( VCF::String formatText, ... )
 {
-	StringUtils::trace( String("WARNING: Using deprecated function!!!\n") );
+	StringUtils::trace( String("WARNING: Using deprecated function!!! - StringUtils::format(...)\n") );
 
 	VCF::String result = "";
 
@@ -1013,9 +1013,9 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 {
 	String result;
 
-	const VCFChar* P = formatting.c_str();
-	const VCFChar* start = P;
-	const VCFChar* current = P;
+	const VCFChar* p = formatting.c_str();
+	const VCFChar* start = p;
+	const VCFChar* current = p;
 	int size = formatting.size();
 	int pos = 0;
 	unsigned long  y = date.getYear();
@@ -1029,25 +1029,25 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 	bool hashCharFound = false;
 	int formatArgCount = 1;
 
-	while ( (P-start) < size ) {
-		if ( ('%' == *P) || (hashCharFound) ) {
+	while ( (p-start) < size ) {
+		if ( ('%' == *p) || (hashCharFound) ) {
 
-			P++;
+			p++;
 
-			switch ( *P ) {
+			switch ( *p ) {
 				case '#' : {
 					hashCharFound = true;
 					formatArgCount = 2;
-					P --;
+					p --;
 				}
 				break;
 
 				//	%% - Percent sign
 				case '%' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 					result += "%";
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1055,11 +1055,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%a - Abbreviated weekday name
 				case 'a' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += StringUtils::abbrevWeekdays[date.getWeekDay()];
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1067,11 +1067,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%A - Full weekday name
 				case 'A' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += StringUtils::weekdays[date.getWeekDay()];
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1079,11 +1079,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%b - Abbreviated month name
 				case 'b' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += StringUtils::abbrevMonths[m-1];
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1091,11 +1091,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%B - Full month name
 				case 'B' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += StringUtils::months[m-1];
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1103,11 +1103,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%c - Date and time representation appropriate for locale
 				case 'c' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += L"{insert Locale date/time here}";
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1115,7 +1115,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%d - Day of month as decimal number (01  31)
 				case 'd' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1148,30 +1148,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
-					hashCharFound = false;
-					formatArgCount = 1;
-				}
-				break;
-
-				//	%D - Day of the year as decimal number	// added
-				case 'D' : {
-					result.append( current, (P-current) -formatArgCount );
-
-					#ifdef VCF_OSX
-						CFTextString cfStr;
-						cfStr.format( CFSTR("%d"), date.getDayOfYear() );
-						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
-						tmp[ minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
-						swprintf( tmp, tmpLen-1, L"%d", date.getDayOfYear() );
-					#else
-						swprintf( tmp, L"%d", date.getDayOfYear() );
-					#endif
-
-					result += tmp;
-
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1179,7 +1156,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%H - Hour in 24-hour format (00  23)
 				case 'H' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1211,7 +1188,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 					}
 
 					result += tmp;
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1219,7 +1196,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%I - Hour in 12-hour format (01  12)
 				case 'I' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					int h = date.getHour() % 12;
 					if ( h == 0 ) {
@@ -1254,17 +1231,17 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					}
 
-						result += tmp;
+					result += tmp;
 
-						current = P + 1;
-						hashCharFound = false;
-						formatArgCount = 1;
-					}
+					current = p + 1;
+					hashCharFound = false;
+					formatArgCount = 1;
+				}
 				break;
 
-				//	%j - Day of year as decimal number (001  366)
-				case 'j' : {
-					result.append( current, (P-current) -formatArgCount );
+				//	%j or %D - Day of year as decimal number (001  366)
+				case 'j' : case 'D' : {
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1297,7 +1274,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					}
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 
@@ -1306,7 +1283,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%m - Month as decimal number (01  12)
 				case 'm' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1339,7 +1316,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1347,7 +1324,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%M - Minute as decimal number (00  59)
 				case 'M' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1380,19 +1357,42 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
 				break;
 
-				//	%p - Current locale's A.M./P.M. indicator for 12-hour clock
-				case 'p' : {
-					result.append( current, (P-current) -formatArgCount );
+				//	%P - Current locale's A.M./p.M. indicator for 12-hour clock
+				case 'P' : {
+					result.append( current, (p-current) -formatArgCount );
 
 					result += L"{Locale's AM/PM indicator}";
 
-					current = P + 1;
+					current = p + 1;
+					hashCharFound = false;
+					formatArgCount = 1;
+				}
+				break;
+
+				// %s - millisecond part
+				case 's' : {
+					result.append( current, (p-current) -formatArgCount );
+
+					#ifdef VCF_OSX
+						CFTextString cfStr;
+						cfStr.format( CFSTR("%03d"), date.getMillisecond() );
+						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
+						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
+					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
+						swprintf( tmp, tmpLen-1, L"%03d", date.getMillisecond()  );
+					#else
+						swprintf( tmp, L"%03d", date.getMillisecond()  );
+					#endif
+
+					result += tmp;
+
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1400,7 +1400,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%S - Second as decimal number (00  59)
 				case 'S' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1434,7 +1434,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1442,7 +1442,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%U - Week of year as decimal number, with Sunday as first day of week (00  53)
 				case 'U' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1475,7 +1475,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1483,7 +1483,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%w - Weekday as decimal number (0  6; Sunday is 0)
 				case 'w' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					#ifdef VCF_OSX
 						CFTextString cfStr;
@@ -1498,7 +1498,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1506,7 +1506,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%W - Week of year as decimal number, with Monday as first day of week (00  53)
 				case 'W' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1539,18 +1539,19 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
 				break;
+
 				//	%x - Date representation for current locale
 				case 'x' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += L"{Locale's Date}";
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1558,11 +1559,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%X - Time representation for current locale
 				case 'X' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					result += L"{Locale's Time}";
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1570,7 +1571,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%y - Year without century, as decimal number (00  99)
 				case 'y' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					if ( hashCharFound ) {
 
@@ -1604,7 +1605,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1612,7 +1613,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 				//	%Y - Year with century, as decimal number
 				case 'Y' : {
-					result.append( current, (P-current) -formatArgCount );
+					result.append( current, (p-current) -formatArgCount );
 
 					#ifdef VCF_OSX
 						CFTextString cfStr;
@@ -1628,31 +1629,7 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 
 					result += tmp;
 
-					current = P + 1;
-					hashCharFound = false;
-					formatArgCount = 1;
-				}
-				break;
-
-				// %s - millisecond part
-				case 's' : {
-					result.append( current, (P-current) -formatArgCount );
-
-					#ifdef VCF_OSX
-						CFTextString cfStr;
-						cfStr.format( CFSTR("%04d"), date.getMillisecond() );
-						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
-						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
-						swprintf( tmp, tmpLen-1, L"%04d", date.getMillisecond()  );
-					#else
-						swprintf( tmp, L"%04d", date.getMillisecond()  );
-					#endif
-
-
-					result += tmp;
-
-					current = P + 1;
+					current = p + 1;
 					hashCharFound = false;
 					formatArgCount = 1;
 				}
@@ -1665,11 +1642,11 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				break;
 			}
 		}
-		P++;
+		p++;
 	}
 
-	if ( current < P ) {
-		result.append( current, (P-current) );
+	if ( current < p ) {
+		result.append( current, (p-current) );
 	}
 
 	return result;
@@ -2227,6 +2204,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/07/11 17:49:15  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.10  2005/06/25 21:49:06  marcelloptr
 *fixes on trimLeft and fromStringAsHexNumber
 *
