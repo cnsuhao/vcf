@@ -59,7 +59,7 @@ Win32MenuItem::~Win32MenuItem()
 	else if ( NULL != itemHandle_ ){
 		if ( ! DestroyMenu( itemHandle_ ) ) {
 			int err = GetLastError();
-			//StringUtils::traceWithArgs( "Menu Item handle leak for handle %p with id of: %d, GetLastError(): %d\n", itemHandle_, itemId_, err );
+			//StringUtils::trace( Format( "Menu Item handle leak for handle %p with id of: %d, GetLastError(): %d\n" ) % itemHandle_ % itemId_ % err );
 		}
 	}
 }
@@ -223,7 +223,7 @@ void Win32MenuItem::clearChildren()
 	for ( int i=0;i<count;i++ ){
 		if ( !DeleteMenu( itemHandle_, 0, MF_BYPOSITION ) ) {
 			int err = GetLastError();
-			StringUtils::traceWithArgs( Format("DeleteMenu( %p, 0, MF_BYPOSITION ) failed,GetLastError(): %d\n") %
+			StringUtils::trace( Format("DeleteMenu( %p, 0, MF_BYPOSITION ) failed,GetLastError(): %d\n") %
 										itemHandle_ % err );
 		}
 	}
@@ -886,6 +886,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.9  2005/07/11 17:04:15  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2.4.8  2005/06/06 02:34:06  ddiego
 *menu changes to better support win32 and osx.
 *

@@ -229,7 +229,7 @@ void AbstractGTKControl::keepMouseEvents()
 
 	if ( res != GDK_GRAB_SUCCESS ) {
 		//report error throw exception here ????
-		StringUtils::traceWithArgs( "gdk_pointer_grab failed!\n" );
+		StringUtils::trace( "gdk_pointer_grab failed!\n" );
 		return;
 	}
 
@@ -446,10 +446,10 @@ gboolean AbstractGTKControl::handleEvent( GdkEvent* gtkEvent )
 {
 
 
-	//StringUtils::traceWithArgs( "widget: %p, name: %s, event: %s\n",
-	//								wndHandle_,
-	//								wndHandle_->name,
-	//								GTK_EventToString(gtkEvent).c_str() );
+	//StringUtils::trace( Format( "widget: %p, name: %s, event: %s\n" ) %
+	//											wndHandle_ %
+	//											wndHandle_->name %
+	//											GTK_EventToString(gtkEvent) );
 
 
 
@@ -900,7 +900,7 @@ void AbstractGTKControl::Container::sizeRequest( GtkWidget *widget, GtkRequisiti
 	g_return_if_fail (GTK_IS_VCF_CONTAINER (widget));
 	g_return_if_fail (requisition != NULL);
 
-	StringUtils::traceWithArgs( "Container::sizeRequest widget: %p, name:%s\n", widget, widget->name );
+	StringUtils::trace( Format( "Container::sizeRequest widget: %p % name:%s\n" ) % widget % widget->name );
 
 
 	Rect bounds = AbstractGTKControl::Container::getBounds( widget );
@@ -919,8 +919,8 @@ void AbstractGTKControl::Container::sizeRequest( GtkWidget *widget, GtkRequisiti
 		children = children->next;
 
 		if (GTK_WIDGET_VISIBLE (child->widget)) {
-			//StringUtils::traceWithArgs( "\tcalling gtk_widget_size_request for widget: %p, name:%s, parent: %p\n",
-				//							child->widget, child->widget->name, widget );
+			//StringUtils::trace( Format( "\tcalling gtk_widget_size_request for widget: %p, name:%s, parent: %p\n" ) %
+				//							child->widget % child->widget->name % widget );
 			gtk_widget_size_request (child->widget, &child_requisition);
 /*
 			if ( child->widget->name == String("VCF::CommandButton") ) {
@@ -940,7 +940,7 @@ void AbstractGTKControl::Container::sizeAllocate( GtkWidget *widget, GtkAllocati
 
 	g_return_if_fail (allocation != NULL);
 
-	StringUtils::traceWithArgs( "Container::sizeAllocate widget: %p, name:%s\n", widget, widget->name );
+	StringUtils::trace( Format( "Container::sizeAllocate widget: %p, name:%s\n" ) % widget % widget->name );
 
 	AbstractGTKControl::Container *container;
 
@@ -980,8 +980,8 @@ void AbstractGTKControl::Container::sizeAllocate( GtkWidget *widget, GtkAllocati
 
 			if (GTK_WIDGET_VISIBLE (widget)) {
 				bounds = AbstractGTKControl::Container::getBounds( child->widget );
-				//StringUtils::traceWithArgs( "\tcalling gtk_widget_get_child_requisition for widget: %p, name:%s, parent: %p\n",
-					//						child->widget, child->widget->name, widget );
+				//StringUtils::trace( Format( "\tcalling gtk_widget_get_child_requisition for widget: %p, name:%s, parent: %p\n" ) %
+					//						child->widget % child->widget->name % widget );
 
 				gtk_widget_get_child_requisition (child->widget, &child_requisition);
 				child_allocation.x = bounds.left_; //child->x;
@@ -996,11 +996,11 @@ void AbstractGTKControl::Container::sizeAllocate( GtkWidget *widget, GtkAllocati
 				child_allocation.height = bounds.getHeight();// child->height;//child_requisition.height;
 
 
-				StringUtils::traceWithArgs( "\tcalling gtk_widget_size_allocate for widget: %p, name:%s, parent: %p\n\t\tx:%d, y:%d, w:%d, h:%d\n",
-											child->widget, child->widget->name, widget,
-											child->x,
-											child->y,
-											child->width,
+				StringUtils::trace( Format( "\tcalling gtk_widget_size_allocate for widget: %p, name:%s, parent: %p\n\t\tx:%d, y:%d, w:%d, h:%d\n" ) %
+											child->widget, child->widget->name, widget %
+											child->x %
+											child->y %
+											child->width %
 											child->height);
 				gtk_widget_size_allocate (child->widget, &child_allocation);
 
@@ -1023,8 +1023,8 @@ gboolean AbstractGTKControl::Container::expose( GtkWidget *widget, GdkEventExpos
 	if (GTK_WIDGET_DRAWABLE (widget)) {
 
 
-		//StringUtils::traceWithArgs( "AbstractGTKControl::Container::expose, widget: %p, name: %s\n",
-		//								widget, widget->name );
+		//StringUtils::trace( Format( "AbstractGTKControl::Container::expose, widget: %p, name: %s\n" ) %
+		//								widget % widget->name );
 
 
 
@@ -1057,8 +1057,8 @@ gboolean AbstractGTKControl::Container::expose( GtkWidget *widget, GdkEventExpos
 						gdk_region_get_clipbox (child_event->expose.region, &child_event->expose.area);
 
 
-						//StringUtils::traceWithArgs( "gtk_widget_send_expose( %p - %s )\n",
-						//								childObj->widget, childObj->widget->name );
+						//StringUtils::trace( Format( "gtk_widget_send_expose( %p - %s )\n" ) %
+						//								childObj->widget % childObj->widget->name );
 
 
 
@@ -1095,8 +1095,8 @@ void AbstractGTKControl::Container::add ( GtkContainer* container, GtkWidget* wi
 	g_return_if_fail (GTK_IS_VCF_CONTAINER (container));
 	g_return_if_fail (widget != NULL);
 
-	//StringUtils::traceWithArgs( "Container::add container: %p, widget: %p, name:%s\n",
-		//							container, widget, widget->name );
+	//StringUtils::trace( Format( "Container::add container: %p, widget: %p, name:%s\n" ) %
+		//							container % widget % widget->name );
 
 
 	AbstractGTKControl::Container *absContainer;
@@ -1215,6 +1215,9 @@ void AbstractGTKControl::ContainerClass::init ( ContainerClass *clazz )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/07/11 17:04:11  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

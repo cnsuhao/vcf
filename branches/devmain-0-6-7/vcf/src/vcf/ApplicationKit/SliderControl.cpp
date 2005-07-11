@@ -257,7 +257,7 @@ void SliderControl::movePosition( MouseEvent* e )
 		newPos = ((dragPosStart_.x_/w + delta)) * range;
 	}
 
-	StringUtils::traceWithArgs( Format("newPos: %0.1f\n") % newPos );
+	StringUtils::trace( Format("newPos: %0.1f\n") % newPos );
 	newPos += minVal_;
 
 	if ( tickFrequency_ > 0.0 ) {
@@ -322,6 +322,9 @@ void SliderControl::keyUp( KeyboardEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/07/11 17:04:14  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2.4.1  2005/03/15 01:51:50  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

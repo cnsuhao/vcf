@@ -657,8 +657,7 @@ void Control::handleEvent( Event* event )
 			case FOCUS_LOST:{
 				FocusEvent* focusEvent = (FocusEvent*)event;
 
-				//StringUtils::traceWithArgs( "Control::FOCUS_LOST, this[%s]@ %p\n",
-				//					getClassName().c_str(), this );
+				//StringUtils::trace( Format( "Control::FOCUS_LOST % this[%s]@ %p\n" ) % getClassName() % this );
 
 				FocusLost.fireEvent( focusEvent );
 
@@ -668,8 +667,7 @@ void Control::handleEvent( Event* event )
 			case FOCUS_GAINED:{
 				FocusEvent* focusEvent = (FocusEvent*)event;
 
-				//StringUtils::traceWithArgs( "Control::FOCUS_GAINED, this[%s]@ %p\n",
-				//					getClassName().c_str(), this );
+				//StringUtils::trace( Format( "Control::FOCUS_GAINED % this[%s]@ %p\n" ) % getClassName() % this );
 
 				FocusGained.fireEvent( focusEvent );
 
@@ -1530,6 +1528,9 @@ void Control::paintBorder( GraphicsContext * context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.19  2005/07/11 17:04:13  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.4.2.18  2005/06/29 20:30:15  marcelloptr
 *second step to remove flickering when dragging a splitter
 *

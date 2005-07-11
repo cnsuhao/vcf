@@ -243,7 +243,7 @@ GTKUIToolkit::GTKUIToolkit():
 	gdk_parse_args (NULL, NULL);
 
 	if (!gdk_display_open_default_libgtk_only () ) {
-		StringUtils::trace("gdk_display_open_default_libgtk_only () failed!\n");
+		StringUtils::trace( "gdk_display_open_default_libgtk_only () failed!\n" );
 		//throw exception????
 	}
 
@@ -589,7 +589,7 @@ bool GTKUIToolkit::handleGdkEvent( GdkEvent* gdkEvent )
 					KeyboardEvent event( control, Control::KEYBOARD_ACCELERATOR, 1,
 											modifierKey, keyChar, vkCode );
 
-					StringUtils::traceWithArgs( "control: %p, keyChar: %c\n", control, keyChar );
+					StringUtils::trace( Format( "control: %p, keyChar: %c\n" ) % control % keyChar );
 					handleKeyboardEvent( &event );
 					if ( event.isConsumed() ) {
 						result = false;
@@ -664,7 +664,7 @@ VCF::Event* GTKUIToolkit::internal_createEventFromNativeOSEventData( void* event
 		break;
 
 		case GDK_BUTTON_PRESS : case GDK_2BUTTON_PRESS : case GDK_3BUTTON_PRESS : {
-			StringUtils::traceWithArgs( "GDK_BUTTON_PRESS, %p\n", eventMsg->control_ );
+			StringUtils::trace( Format( "GDK_BUTTON_PRESS, %p\n" ) % eventMsg->control_ );
 			GdkEventButton* gdkBtnEvent = (GdkEventButton*)eventMsg->gdkEvent_;
 
 			VCF::Point pt( gdkBtnEvent->x, gdkBtnEvent->y );
@@ -1265,6 +1265,9 @@ ulong32 GTKUIToolkit::translateKeyMask( GdkModifierType keyState )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/07/11 17:04:13  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

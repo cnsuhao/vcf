@@ -109,7 +109,7 @@ void Splitter::mouseDown( MouseEvent* e )
 		child = children->nextElement();
 		if ( true == (child->getBounds().containsPt( &tmp )) ) {
 			this->attachedControl_ = child;
-			//StringUtils::traceWithArgs( "attachedControl_.toolTip_: \"%s\"\r\n", child->getToolTipText().c_str() );
+			//StringUtils::trace( Format( "attachedControl_.toolTip_: \"%s\"\r\n" ) % child->getToolTipText() );
 			break;
 		}
 	}
@@ -144,7 +144,7 @@ void Splitter::mouseDown( MouseEvent* e )
 			child = children->nextElement();
 			if ( true == (child->getBounds().containsPt( &tmp )) ) {
 				this->attachedControlAlt_ = child;
-				//StringUtils::traceWithArgs( "attachedControlAlt_.toolTip_: \"%s\"\r\n", child->getToolTipText().c_str() );
+				//StringUtils::trace( Format( "attachedControlAlt_.toolTip_: \"%s\"\r\n" ) % child->getToolTipText() );
 				break;
 			}
 		}
@@ -234,7 +234,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							//StringUtils::trace( Format( "Splitter:ctrlAlt : [false] %s\n" ) % attachedControlAlt_->getToolTipText() );
 							attachedControlAlt_->setBounds( &boundsAlt );
 							attachedControlAlt_->setRepaintOnSize( true );
-							//StringUtils::traceWithArgs( "updateAttachedControl newWidthAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
+							//StringUtils::trace( Format( "updateAttachedControl newWidthAlt: %3.1f  deltaAlt: [%.3f]\r\n" ) % newWidthAlt % deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
@@ -244,7 +244,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 						//StringUtils::trace( Format( "Splitter: ctrl : [false] %s\n" ) % attachedControlAlt_->getToolTipText() );
 						attachedControl_->setBounds( &bounds );
 						attachedControl_->setRepaintOnSize( true );
-						//StringUtils::traceWithArgs( "updateAttachedControl newWidth: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
+						//StringUtils::trace( Format( "updateAttachedControl newWidth: %3.1f  delta: [%.3f]\r\n" ) % newWidth % delta );
 					}
 				}
 			}
@@ -280,7 +280,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							attachedControlAlt_->setRepaintOnSize( false );
 							attachedControlAlt_->setBounds( &boundsAlt );
 							attachedControlAlt_->setRepaintOnSize( true );
-							//StringUtils::traceWithArgs( "updateAttachedControl newHeightAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
+							//StringUtils::trace( Format( "updateAttachedControl newHeightAlt: %3.1f  deltaAlt: [%.3f]\r\n" ) % newWidthAlt % deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
@@ -289,7 +289,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 						attachedControl_->setRepaintOnSize( false );
 						attachedControl_->setBounds( &bounds );
 						attachedControl_->setRepaintOnSize( true );
-						//StringUtils::traceWithArgs( "updateAttachedControl newHeight: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
+						//StringUtils::trace( Format( "updateAttachedControl newHeight: %3.1f  delta: [%.3f]\r\n" ) % newWidth % delta );
 					}
 				}
 			}
@@ -326,7 +326,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							attachedControlAlt_->setRepaintOnSize( false );
 							attachedControlAlt_->setBounds( &boundsAlt );
 							attachedControlAlt_->setRepaintOnSize( true );
-							//StringUtils::traceWithArgs( "updateAttachedControl newWidthAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
+							//StringUtils::trace( Format( "updateAttachedControl newWidthAlt: %3.1f  deltaAlt: [%.3f]\r\n" ) % newWidthAlt % deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
@@ -335,7 +335,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 						attachedControl_->setRepaintOnSize( false );
 						attachedControl_->setBounds( &bounds );
 						attachedControl_->setRepaintOnSize( true );
-						//StringUtils::traceWithArgs( "updateAttachedControl newWidth: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
+						//StringUtils::trace( Format( "updateAttachedControl newWidth: %3.1f  delta: [%.3f]\r\n" ) % newWidth % delta );
 					}
 				}
 			}
@@ -372,7 +372,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 							attachedControlAlt_->setRepaintOnSize( false );
 							attachedControlAlt_->setBounds( &boundsAlt );
 							attachedControlAlt_->setRepaintOnSize( true );
-							//StringUtils::traceWithArgs( "updateAttachedControl newHeightAlt: %3.1f  deltaAlt: [%.3f]\r\n" ,newWidthAlt, deltaAlt );
+							//StringUtils::trace( Format( "updateAttachedControl newHeightAlt: %3.1f  deltaAlt: [%.3f]\r\n" ) % newWidthAlt % deltaAlt );
 						}
 					}
 					if ( shouldResize ) {
@@ -381,7 +381,7 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 						attachedControl_->setRepaintOnSize( false );
 						attachedControl_->setBounds( &bounds );
 						attachedControl_->setRepaintOnSize( true );
-						//StringUtils::traceWithArgs( "updateAttachedControl newHeight: %3.1f  delta: [%.3f]\r\n" ,newWidth, delta );
+						//StringUtils::trace( Format( "updateAttachedControl newHeight: %3.1f  delta: [%.3f]\r\n" ) % newWidth % delta );
 					}
 				}
 			}
@@ -445,7 +445,7 @@ void Splitter::updateAttachedControlJump( Point& pt, const bool& shiftAll )
 					}
 				}
 			}
-			//StringUtils::traceWithArgs( "mouseDblClick delta_: %3.1f\r\n" ,delta_ );
+			//StringUtils::trace( Format( "mouseDblClick delta_: %3.1f\r\n" ) % delta_ );
 		}
 		break;
 
@@ -577,6 +577,9 @@ double Splitter::getPreferredWidth()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.4  2005/07/11 17:04:14  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2.4.3  2005/06/29 21:18:16  marcelloptr
 *minor bug fixed
 *
