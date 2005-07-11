@@ -737,7 +737,7 @@ String Color::toHexCode8( const ColorPackScheme& cps, const ColorType& ct )
 {
 	// Remark:
 	//   scheme: 0x00RRGGBB ( it would appear as BB GG RR 00 with Intel architecture ) so it should be:
-	//   code = StringUtils::format( L"%02x%02x%02x", cb, cg, cr ); if we want to see as it would appear with Intel architecture
+	//   code = Format( L"%02x%02x%02x" ) % cb % cg % cr; if we want to see as it would appear with Intel architecture
 
 	String code = "";
 
@@ -811,7 +811,7 @@ String Color::toHexCode16( const ColorPackScheme& cps, const ColorType& ct )
 {
 	// Remark:
 	//   scheme: 0x00RRGGBB ( it would appear as BB GG RR 00 with Intel architecture ) so it should be:
-	//   code = StringUtils::format( L"%04X%04X%04X", cb, cg, cr ); if we want to see as it would appear with Intel architecture
+	//   code = Format( L"%04X%04X%04X" ) % cb % cg % cr; if we want to see as it would appear with Intel architecture
 
 	String code = "";
 
@@ -1676,6 +1676,9 @@ String ColorNames::unknownColorName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.5  2005/07/11 19:40:18  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.2.4.4  2005/07/11 17:50:39  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *

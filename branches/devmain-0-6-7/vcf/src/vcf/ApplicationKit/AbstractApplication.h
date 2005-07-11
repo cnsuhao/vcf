@@ -109,7 +109,7 @@ public:
 	*for example:
 	*<pre>
 		String appFileName = Application::getRunningInstance()->getFileName();
-		Sting msg = StringUtils::formatString( "The app file name is: %s", appFileName.c_str() );
+		Sting msg = Format( "The app file name is: %s" ) % appFileName;
 		Dialog::showMessage( msg );
 	*</pre>
 	*/
@@ -172,6 +172,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/07/11 19:39:58  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.3  2005/03/14 04:17:22  ddiego
 *adds a fix plus better handling of accelerator keys, ands auto menu title for the accelerator key data.
 *

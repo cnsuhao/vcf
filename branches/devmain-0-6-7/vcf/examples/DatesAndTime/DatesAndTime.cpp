@@ -135,13 +135,13 @@ int main( int argc, char** argv ){
 
 	DateTimeSpan howLong = dt3 - dt4;
 
-	System::println( Format("Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %ls seconds!")
+	System::println( Format("Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %s seconds!")
 					%	howLong.getYears()
 					%	howLong.getMonths()
 					%	howLong.getDays()
 					%	howLong.getHours()
 					%	howLong.getMinutes()
-					%	System::getCurrentThreadLocale()->toString( howLong.getTotalSeconds() ).c_str() );
+					%	System::getCurrentThreadLocale()->toString( howLong.getTotalSeconds() ) );
 
 
 	/**
@@ -180,7 +180,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.2  2005/07/11 18:36:18  marcelloptr
+*Revision 1.4.2.3  2005/07/11 19:37:48  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.4.2.1  2005/04/17 15:11:42  iamfraggle

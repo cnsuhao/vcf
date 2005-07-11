@@ -363,7 +363,7 @@ Color* GraphicsToolkit::internal_getColorFromColormap( const String& colorName )
 
 Color* GraphicsToolkit::internal_getColorFromColormap( const int& gray )
 {
-	String colorName = StringUtils::format( Format("gray%d") % gray);
+	String colorName = Format("gray%d") % gray;
 	return getColorFromColormap( colorName );
 }
 
@@ -1248,7 +1248,7 @@ void GraphicsToolkit::initColorMap()
 
 	String name;
 	for (int c = 0; c <= 255; c++) {
-		name = StringUtils::format( Format("gray%d") % c);
+		name = Format("gray%d") % c;
 		initColorNameMapItem( name, (VCF::uchar)c, (VCF::uchar)c, (VCF::uchar)c );	// 0xFFF0F8FF
 	}
 
@@ -1335,6 +1335,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.9  2005/07/11 19:40:23  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.8  2005/07/11 17:50:39  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *

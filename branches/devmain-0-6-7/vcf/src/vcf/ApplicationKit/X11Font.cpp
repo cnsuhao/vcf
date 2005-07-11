@@ -51,7 +51,7 @@ void X11Font::init()
 	double dpi = toolkit->getDPI();
 	int pixelSize = (int)((pointSize_ / 72.0) * dpi);
 
-	fontString_ = StringUtils::format( "%s/%d", fontName_.c_str(), pixelSize );
+	fontString_ = Format( "%s/%d" ) % fontName_ % pixelSize;
 
 	updateFont();
 
@@ -108,7 +108,7 @@ void X11Font::setPointSize( const double pointSize )
 		double dpi = toolkit->getDPI();
 		int pixelSize = (int)((pointSize_ / 72.0) * dpi);
 
-		fontString_ = StringUtils::format( "%s/%d", fontName_.c_str(), pixelSize );
+		fontString_ = Format( "%s/%d" ) % fontName_ % pixelSize;
 
 		updateFont();
 
@@ -141,7 +141,7 @@ void X11Font::setPixelSize( const double pixelSize )
 	if ( true == needsUpdate ) {
 		int pixelSize = (int)((pointSize_ / 72.0) * dpi);
 
-		fontString_ = StringUtils::format( "%s/%d", fontName_.c_str(), pixelSize );
+		fontString_ = Format( "%s/%d" ) % fontName_ % pixelSize;
 
 		updateFont();
 		//X11FontManager::initializeFont( this );
@@ -281,7 +281,7 @@ void X11Font::setName( const String& name )
 		double dpi = toolkit->getDPI();
 		int pixelSize = (int)((pointSize_ / 72.0) * dpi);
 
-		fontString_ = StringUtils::format( "%s/%d", fontName_.c_str(), pixelSize );
+		fontString_ = Format( "%s/%d" ) % fontName_ % pixelSize;
 
 		updateFont();
 		//X11FontManager::initializeFont( this );
@@ -396,7 +396,7 @@ void X11Font::setAttributes( const double& pointSize, const bool& bold, const bo
 	double dpi = toolkit->getDPI();
 	int pixelSize = (int)((pointSize_ / 72.0) * dpi);
 
-	fontString_ = StringUtils::format( "%s/%d", fontName_.c_str(), pixelSize );
+	fontString_ = Format( "%s/%d" ) % fontName_ % pixelSize;
 
 	updateFont();
 
@@ -407,6 +407,9 @@ void X11Font::setAttributes( const double& pointSize, const bool& bold, const bo
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.1  2005/07/11 19:40:03  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
