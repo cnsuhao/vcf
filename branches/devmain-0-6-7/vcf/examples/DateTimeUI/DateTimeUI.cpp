@@ -66,7 +66,7 @@ public:
 		textRect.bottom_ = 100;
 		textRect.inflate( -5, -5 );
 
-		String s = Format( "%ls. %ls")
+		String s = Format( "%s. %s")
 					%	StringUtils::format( currentMonthDate, "The current month starts on %A, %B %d, %Y" ).c_str()
 					%	StringUtils::format( current, "Today is %A, %B %d, %Y week %#W" ).c_str();
 
@@ -479,6 +479,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/07/11 19:56:46  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.4.2.2  2005/04/17 17:18:24  iamfraggle
 *Small fixes
 *

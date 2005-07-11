@@ -97,8 +97,8 @@ void createFromName()
 	try {
 		Object* newInstance = ClassRegistry::createNewInstance( "SimpleClass" );
 
-		System::print( Format("Created newInstance class name: %ls\n" )
-						% newInstance->getClassName().c_str() );
+		System::print( Format("Created newInstance class name: %s\n" )
+						% newInstance->getClassName() );
 
 		// we're done, free the object
 		newInstance->free();
@@ -127,8 +127,8 @@ void createFromUUID()
 		Object* newInstance =
 			ClassRegistry::createNewInstanceFromClassID( SIMPLECLASS_CLASSID );
 
-		System::print( Format("Created newInstance class name: %ls\n")
-						% newInstance->getClassName().c_str() );
+		System::print( Format("Created newInstance class name: %s\n")
+						% newInstance->getClassName() );
 		// we're done, free the object
 		newInstance->free();
 	}
@@ -289,13 +289,13 @@ void outputClassInfo( Object* o )
 
 		Method* method = methods->nextElement();
 
-		System::print( Format("\tMethod name: \"%ls\", number of arguments: %d\n")
-			% method->getName().c_str() % method->getArgCount() );
+		System::print( Format("\tMethod name: \"%s\", number of arguments: %d\n")
+			% method->getName() % method->getArgCount() );
 
 		if ( method->getArgCount() == 0 ) {
 			//if the method has no args, lets invoke it
 
-			System::print( Format("invoking method for Object: %ls\n") % o->toString().c_str() );
+			System::print( Format("invoking method for Object: %s\n") % o->toString() );
 			method->invoke( NULL );
 
 			System::print( "\n\n" );
@@ -317,7 +317,7 @@ void createAndInvoke()
 	try {
 		Object* newInstance = ClassRegistry::createNewInstance( "ClassWithMethods" );
 
-		System::print( Format("Created newInstance class name: %ls\n") % newInstance->getClassName().c_str() );
+		System::print( Format("Created newInstance class name: %s\n") % newInstance->getClassName() );
 
 		Class* clazz = newInstance->getClass();
 		Method* twoDoubles = clazz->getMethod( "twoDoubles" );
@@ -383,6 +383,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2005/07/11 19:58:54  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.4.2  2005/04/17 15:11:46  iamfraggle
 *Replaced old-style var arg calls with new Format calls.
 *

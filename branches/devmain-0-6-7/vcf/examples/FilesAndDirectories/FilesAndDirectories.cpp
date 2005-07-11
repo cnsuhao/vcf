@@ -48,18 +48,18 @@ int main( int argc, char** argv ){
 	String extension = fileName.getExtension();
 	String nativeOSFilePath = FilePath::transformToOSSpecific( fileName );
 
-	System::println( Format("The filename %ls has the following components:\n"\
-						"\tdrive: %ls\n"\
-						"\tdirectoryPath: %ls\n"\
-						"\tname: %ls\n"\
-						"\textension: %ls\n"\
-						"\tnativeOSFilePath: %ls")
-					%	fileName.getFileName().c_str()
-					%	drive.c_str()
-					%	directoryPath.c_str()
-					%	name.c_str()
-					%	extension.c_str()
-					%	nativeOSFilePath.c_str() );
+	System::println( Format("The filename %s has the following components:\n"\
+						"\tdrive: %s\n"\
+						"\tdirectoryPath: %s\n"\
+						"\tname: %s\n"\
+						"\textension: %s\n"\
+						"\tnativeOSFilePath: %s")
+					%	fileName.getFileName()
+					%	drive
+					%	directoryPath
+					%	name
+					%	extension
+					%	nativeOSFilePath );
 
 
 	/**
@@ -90,8 +90,8 @@ int main( int argc, char** argv ){
 	*/
 	{
 		File file( fileName );		
-		System::println( Format("The file %ls's size: %d") 
-						% fileName.getFileName().c_str()
+		System::println( Format("The file %s's size: %d") 
+						% fileName.getFileName()
 						% (ulong32)file.getSize() );
 
 
@@ -194,7 +194,7 @@ int main( int argc, char** argv ){
 		String s;
 		tis >> s;
 		
-		System::println( Format("File contents of \"%ls\" :\n%ls") % f1.getName() % s );
+		System::println( Format("File contents of \"%s\" :\n%s") % f1.getName() % s );
 
 		fis->free();
 
@@ -210,6 +210,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.4  2005/07/11 19:58:52  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.4.3  2005/07/11 18:36:18  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *

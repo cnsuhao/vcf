@@ -221,7 +221,7 @@ void Object::dumpDebugInfo()
 					className = "unknown<exception occured retreiving class name>";
 				}
 
-				StringUtils::trace( Format("\tObject (type: %ls) @ %p, allocated size of %d bytes\n") %
+				StringUtils::trace( Format("\tObject (type: %s) @ %p, allocated size of %d bytes\n") %
 															className % info.objAddress_ % info.objectAllocationSize_ );
 
 				totalAllocationSize += info.objectAllocationSize_;
@@ -267,7 +267,7 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.5  2005/07/11 19:40:04  marcelloptr
+*Revision 1.3.2.6  2005/07/11 19:58:56  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.4  2005/07/11 17:49:15  marcelloptr
