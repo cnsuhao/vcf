@@ -373,7 +373,7 @@ String Win32SystemPeer::getOSVersion()
 	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
 	::GetVersionEx( &osVersion );
 	
-	result = StringUtils::format( Format("%d.%d %d") % osVersion.dwMajorVersion % osVersion.dwMinorVersion % osVersion.dwBuildNumber );
+	result = Format("%d.%d %d") % osVersion.dwMajorVersion % osVersion.dwMinorVersion % osVersion.dwBuildNumber;
 
 	return result;
 }
@@ -634,6 +634,9 @@ String Win32SystemPeer::getUserName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/07/11 19:40:07  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.5  2005/04/09 17:21:35  marcelloptr
 *bugfix [ 1179853 ] memory fixes around memset. Documentation. DocumentManager::saveAs and DocumentManager::reload
 *

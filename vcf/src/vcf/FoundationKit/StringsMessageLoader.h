@@ -27,7 +27,7 @@ public:
 	class FOUNDATIONKIT_API Exception : public BasicException {
 	public:
 		Exception( const String& message, int line, int col ):
-		  BasicException( message + StringUtils::format( Format("\nError occurred on line %d, column %d.") % line % col ) ) {	}
+		  BasicException( message + ( Format("\nError occurred on line %d, column %d.") % line % col ) ) {	}
 	};
 
 	StringsMessageLoader();
@@ -68,6 +68,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2005/07/11 19:40:06  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.2.4.1  2005/03/15 01:51:52  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

@@ -485,7 +485,7 @@ void getVersionInfoW( VersionMap& map, const String& fileName )
 				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
 				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[wcslen(element->szKey)+1], element, 4);
 				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
-					entry.second += StringUtils::format( Format(L"%04x%04x ") % (int)*wpos++ % (int)(*(wpos+1)) );
+					entry.second += Format(L"%04x%04x ") % (int)*wpos++ % (int)(*(wpos+1));
 				}
 
 				map.insert( entry );
@@ -586,7 +586,7 @@ void getVersionInfoA( VersionMap& map, const String& fileName )
 				// Iterate through the array of pairs of 16-bit language ID values that make up the standard 'Translation' VarFileInfo element.
 				WORD* wordElement = (WORD*) VS_ROUNDPOS(&element->szKey[strlen(element->szKey)+1], element, 4);
 				for (WORD* wpos = wordElement ; ((byte*) wpos) < (((byte*) wordElement) + element->wValueLength); wpos+=2) {
-					entry.second += StringUtils::format( Format(L"%04x%04x ") % (int)*wpos++ % (int)(*(wpos+1)) );
+					entry.second += Format(L"%04x%04x ") % (int)*wpos++ % (int)(*(wpos+1));
 				}
 
 				map.insert( entry );
@@ -703,6 +703,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/07/11 19:40:07  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.2.2.3  2005/04/13 02:50:45  iamfraggle
 *Enable Unicode in CodeWarrior
 *

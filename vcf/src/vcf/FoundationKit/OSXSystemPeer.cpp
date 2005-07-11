@@ -260,7 +260,7 @@ String OSXSystemPeer::getOSVersion()
 	int minor = ((0x000000F0) & response) >> 4;
 	int major = ((0x0000FFFF) & response) >> 8;	
 	
-	return StringUtils::format( Format("%x.%x.%x") % major % minor % bug );
+	return Format( Format("%x.%x.%x") % major % minor % bug ;
 }
 
 ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
@@ -271,6 +271,9 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/07/11 19:40:03  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.2  2005/05/08 19:55:32  ddiego
 *osx updates, not yet functional.
 *

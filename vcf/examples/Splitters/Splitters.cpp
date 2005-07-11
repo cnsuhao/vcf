@@ -176,7 +176,7 @@ public:
 	}
 
 	void onBtnShow( ButtonEvent* e ) {
-		//String s = StringUtils::format( "panel%d", i );
+		//String s = Format( "panel%d" ) % i ;
 		//Panel* panel = (Panel*)panelLeft_->findComponent( s );
 		if ( NULL != clickedPanel_ ) {
 			panelVisible_ = !panelVisible_;
@@ -232,7 +232,7 @@ void MyPanel::onMouseClicked( ControlEvent* e ) {
 	getMainWindow()->setClickedPanel( this );
 	getMainWindow()->btnShow_->setCaption( "Hide " + getName() );
 	//Rect r = getBounds();
-	//StringUtils::traceWithArgs( "New Left/Top: %0.2f, %0.2f\n", r.left_, r.top_ );
+	//trace( Format( "New Left/Top: %0.2f, %0.2f\n", r.left_, r.top_ );
 }
 
 
@@ -270,6 +270,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/07/11 19:39:57  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.6.2.2  2005/06/28 20:37:08  marcelloptr
 *first step to remove flickering when dragging a splitter
 *

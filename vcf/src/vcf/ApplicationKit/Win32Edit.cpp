@@ -161,10 +161,9 @@ void Win32Edit::create( Control* owningControl )
 			Win32RicheditLibraryLoaded = true;
 		}
 		else {
-			String errMsg =
-				StringUtils::format( Format("Failed to load \"%s\", a required DLL when using richedit controls. \n"\
-				"Please make sure this DLL is located in your Windows system, or application directory.") %
-				richeditLibrary.c_str() );
+			String errMsg = Format("Failed to load \"%s\", a required DLL when using richedit controls. \n"\
+											"Please make sure this DLL is located in your Windows system, or application directory.") %
+											richeditLibrary.c_str();
 
 			throw RuntimeException( errMsg );
 		}
@@ -1695,6 +1694,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.35  2005/07/11 19:40:00  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.34  2005/06/26 01:53:03  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
 *

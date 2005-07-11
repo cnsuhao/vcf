@@ -143,13 +143,13 @@ String Win32FontManager::makeStringID(  Win32Font* font )
 		result += font->getItalic();
 
 		/*
-		result = StringUtils::format( Format("%s%d%s%s%s%s") %
-										font->getName().c_str() %
-										(int)font->getPixelSize() %
-										(font->getBold() ? L"true" : L"false") %
-										(font->getUnderlined() ? L"true" : L"false") %
-										(font->getStrikeOut() ? L"true" : L"false") %
-										(font->getItalic() ? L"true" : L"false") );
+		result = Format("%s%d%s%s%s%s") %
+								font->getName().c_str() %
+								(int)font->getPixelSize() %
+								(font->getBold() ? L"true" : L"false") %
+								(font->getUnderlined() ? L"true" : L"false") %
+								(font->getStrikeOut() ? L"true" : L"false") %
+								(font->getItalic() ? L"true" : L"false");
 		*/
 
 	}
@@ -220,6 +220,9 @@ void Win32FontManager::removeFont( Win32Font* font )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/07/11 19:40:27  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.1  2005/03/15 01:51:54  ddiego
 *added support for Format class to take the place of the
 *previously used var arg funtions in string utils and system. Also replaced

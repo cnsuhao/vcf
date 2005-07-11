@@ -432,7 +432,7 @@ VCF::Size OSXContext::getLayoutDimensions( const String& text )
 	ATSUTextLayout tmpTextLayout = NULL;
 	OSStatus err = ATSUCreateAndCopyTextLayout( textLayout_, &tmpTextLayout );
 	if ( err != noErr ) {
-		String msg = StringUtils::format( Format("ATSUCreateAndCopyTextLayout failed, err: %d, textLayout_: %p, tmpTextLayout: %p") % err % textLayout_ % tmpTextLayout );
+		String msg = Format("ATSUCreateAndCopyTextLayout failed, err: %d, textLayout_: %p, tmpTextLayout: %p") % err % textLayout_ % tmpTextLayout;
 		throw RuntimeException( MAKE_ERROR_MSG_2(msg) );
 	}	
 	
@@ -2281,6 +2281,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/07/11 19:40:26  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.4  2005/07/11 17:50:40  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *

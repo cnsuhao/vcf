@@ -567,7 +567,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 1 - UnicodeString assignment, %d times", count ), clock );
+		testTime( ( Format("Test 1 - UnicodeString assignment % %d times" ) % count ), clock );
 	}
 
 	//test 2
@@ -580,7 +580,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 2 - new UnicodeString instance assignment, %d times", count ), clock );
+		testTime( ( Format("Test 2 - new UnicodeString instance assignment % %d times" ) % count ), clock );
 	}
 
 	//test 3
@@ -593,7 +593,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 3 - std::string assignment, %d times", count ), clock );
+		testTime( ( Format("Test 3 - std::string assignment % %d times" ) % count ), clock );
 	}
 
 	//test 4
@@ -606,7 +606,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 4 - new std::string instance assignment, %d times", count ), clock );
+		testTime( ( Format("Test 4 - new std::string instance assignment % %d times" ) % count ), clock );
 	}
 
 
@@ -621,7 +621,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 5 - UnicodeString assignment, %d times", count ), clock );
+		testTime( (Format("Test 5 - UnicodeString assignment % %d times" ) % count ), clock );
 	}
 
 	//test 6
@@ -634,7 +634,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 6 - new UnicodeString instance assignment, %d times", count ), clock );
+		testTime( (Format("Test 6 - new UnicodeString instance assignment % %d times" ) % count ), clock );
 	}
 
 	//test 7
@@ -647,7 +647,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 7 - std::string assignment, %d times", count ), clock );
+		testTime( (Format("Test 7 - std::string assignment % %d times" ) % count ), clock );
 	}
 
 	//test 8
@@ -660,7 +660,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 8 - new std::string instance assignment, %d times", count ), clock );
+		testTime( (Format("Test 8 - new std::string instance assignment % %d times" ) % count ), clock );
 	}
 
 
@@ -678,7 +678,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 9 - UnicodeString assignment, %d times", count ), clock );
+		testTime( (Format("Test 9 - UnicodeString assignment % %d times" ) % count ), clock );
 	}
 
 	//test 10
@@ -691,7 +691,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 10 - std::string assignment, %d times", count ), clock );
+		testTime( (Format("Test 10 - std::string assignment % %d times" ) % count ), clock );
 	}
 
 #define A_REALLY_LONG_STRING	"Developing globalized software is a continuous balancing act as software "\
@@ -725,7 +725,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 11 - UnicodeString assignment, %d times %d characters long", count, length ), clock );
+		testTime( (Format("Test 11 - UnicodeString assignment % %d times %d characters long" ) % count % length ), clock );
 	}
 
 	//test 12
@@ -738,7 +738,7 @@ int main( int argc, char** argv ){
 
 		clock.stop();
 
-		testTime( StringUtils::format("Test 12 - std::string assignment, %d times %d characters long", count, length ), clock );
+		testTime( (Format("Test 12 - std::string assignment % %d times %d characters long" ) % count % length ), clock );
 	}
 
 	
@@ -755,6 +755,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/07/11 19:39:49  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.4  2004/12/01 04:15:08  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

@@ -245,8 +245,7 @@ UIToolkit::ModalReturnType DocumentManager::saveChanges( Document* document )
 		caption = app->getName();
 	}
 	MessageDialog saveDocPrompt;
-	String message = StringUtils::format( Format("Do you want to save the changes you made to the document \"%s\" ?") %
-	                                              document->getName() );
+	String message = Format("Do you want to save the changes you made to the document \"%s\" ?") % document->getName();
 
 	saveDocPrompt.setMessage( message );
 	saveDocPrompt.setCaption( caption );
@@ -610,6 +609,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.11  2005/07/11 19:39:59  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.10  2005/06/06 02:34:05  ddiego
 *menu changes to better support win32 and osx.
 *
