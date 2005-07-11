@@ -203,8 +203,8 @@ void Object::dumpDebugInfo()
 		if ( !Object::debugAllocationMap.empty() ) {
 
 			StringUtils::trace( "Oops there are objects still left. Dumping memory info...\n" );
-			StringUtils::traceWithArgs( Format("There are %d objects still left over that did not get deleted\n") %
-				Object::debugAllocationMap.size() );
+			StringUtils::trace( Format("There are %d objects still left over that did not get deleted\n") %
+							Object::debugAllocationMap.size() );
 
 			int totalAllocationSize = 0;
 
@@ -221,15 +221,15 @@ void Object::dumpDebugInfo()
 					className = "unknown<exception occured retreiving class name>";
 				}
 
-				StringUtils::traceWithArgs( Format("\tObject (type: %ls) @ %p, allocated size of %d bytes\n") %
-												className.c_str() % info.objAddress_ % info.objectAllocationSize_ );
+				StringUtils::trace( Format("\tObject (type: %ls) @ %p, allocated size of %d bytes\n") %
+															className % info.objAddress_ % info.objectAllocationSize_ );
 
 				totalAllocationSize += info.objectAllocationSize_;
 				it ++;
 			}
 
-			StringUtils::traceWithArgs( Format("Total allocated memory size of %d bytes in %d object(s).\n") %
-					totalAllocationSize % Object::debugAllocationMap.size() );
+			StringUtils::trace( Format("Total allocated memory size of %d bytes in %d object(s).\n") %
+																totalAllocationSize % Object::debugAllocationMap.size() );
 
 			Object::debugAllocationMap.clear();
 
@@ -256,7 +256,7 @@ ulong32 Object::objectAllocationCount()
 
 		it ++;
 	}
-	StringUtils::traceWithArgs( Format("Total memory allocated: %d bytes\n") % totmem );
+	StringUtils::trace( Format("Total memory allocated: %d bytes\n") % totmem );
 
 	return Object::debugAllocationMap.size();
 #endif
@@ -267,6 +267,9 @@ ulong32 Object::objectAllocationCount()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/07/11 17:49:15  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.3  2005/05/06 21:13:44  marcelloptr
 *extended message in dumpDebugInfo
 *

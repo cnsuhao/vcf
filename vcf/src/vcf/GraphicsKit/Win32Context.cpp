@@ -1069,7 +1069,7 @@ void Win32Context::setClippingRect( Rect* clipRect )
 
 	if ( NULL != clipRGN_ ) {
 		if ( !::DeleteObject( clipRGN_ ) ) {
-			StringUtils::traceWithArgs( Format("Error in DeleteObject( %p )\n") % clipRGN_ % GetLastError() );
+			StringUtils::trace( Format("Error in DeleteObject( %p )\n") % clipRGN_ % GetLastError() );
 		}
 	}
 
@@ -1089,7 +1089,7 @@ void Win32Context::setClippingRect( Rect* clipRect )
 
 
 	if ( ERROR == ::SelectClipRgn( dc_, clipRGN_ ) ){
-		StringUtils::traceWithArgs( Format( "Error in SelectClipRgn( %p, %p )\n" ) % dc_ % clipRGN_ % GetLastError() );
+		StringUtils::trace( Format( "Error in SelectClipRgn( %p, %p )\n" ) % dc_ % clipRGN_ % GetLastError() );
 	}
 
 	releaseHandle();
@@ -2558,6 +2558,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.14  2005/07/11 17:50:40  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.4.2.13  2005/06/26 01:27:54  marcelloptr
 *added images to a PushButton
 *

@@ -96,10 +96,10 @@ void GTKGraphicsToolkit::initSystemFont()
 	PangoFontFamily **  families_;
 	pango_context_list_families ( gtkPangoContext_, &families_, &n_families);
 
-	for (int i=0; i<n_families; i++)   {
-      const char *name = pango_font_family_get_name (families_[i]);
-	  StringUtils::traceWithArgs( "font family name @ %d, %s\n", i, name );
-    }
+	for (int i=0; i<n_families; i++) {
+		const char *name = pango_font_family_get_name (families_[i]);
+		StringUtils::trace( Format( "font family name @ %d % %s\n" ) % i % name );
+	}
 	*/
 
 	systemFont_ = new Font( "ARIAL", 10 );
@@ -260,6 +260,9 @@ double GTKGraphicsToolkit::internal_getDPI(GraphicsContext* context)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2005/07/11 17:50:39  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.2.4.2  2005/06/09 06:13:10  marcelloptr
 *simpler and more useful use of Color class with ctor and getters/setters
 *

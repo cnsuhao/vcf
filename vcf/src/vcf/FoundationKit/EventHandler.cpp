@@ -26,8 +26,8 @@ void EventHandler::addHandlerToSource( Object* source, const String& handlerName
 		}
 	}
 	else {
-		//StringUtils::traceWithArgs( "this event handler does not have a source object (class Name: %s) that can clean up it's memory. \nExpect memory leaks from this!\n",
-		//							source->getClassName().c_str() );
+		//StringUtils::trace( Format( "this event handler does not have a source object (class Name: %s) that can clean up it's memory. \nExpect memory leaks from this!\n" ) %
+		//							source->getClassName() );
 	}
 }
 
@@ -35,6 +35,9 @@ void EventHandler::addHandlerToSource( Object* source, const String& handlerName
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/07/11 17:49:14  marcelloptr
+*fixed all deprecated traceWithArgs calls
+*
 *Revision 1.3.2.1  2004/12/10 21:14:01  ddiego
 *fixed bug 1082362 App Icons do not appear.
 *
