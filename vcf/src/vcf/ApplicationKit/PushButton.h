@@ -252,16 +252,18 @@ public:
 	}
 
 	/**
-	set the initial state as pressed for a toggled button.
+	set the state as pressed for a toggled button.
 	This function establish an association between a user's variable and 
-	the pressed/unpressed state of the button. For example, if the variable
-	is onlyToday_, then toggleButton_->setInitialStatePressed( !onlyToday_ )
+	the pressed/unpressed state of the button.
+	For example, if the variable is 'bool onlyToday_', then
+	toggleButton_->setStatePressed( !onlyToday_ )
 	will state that the button will appear pressed when onlyToday_ is false.
 	The management of the pressed/unpressed state should be done through
 	the click() member function or through mouseClick() or keyUp() handlers,
-	so it is suggested to use this function only to set the initial state.
+	so the use of this function is suggested only to set the initial state
+	or to get some special effects in the behaviour of the button.
 	*/
-	void setInitialStatePressed( const bool& pressed );
+	void setStatePressed( const bool& pressed );
 
 	/**
 	tells if the buttons is currently highlighted, i.e. the mouse is over it.
@@ -391,6 +393,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/07/11 16:00:24  marcelloptr
+*changed name to the setStatePressed as needed not only initially but also in some other special cases.
+*
 *Revision 1.4.2.6  2005/07/06 00:23:12  marcelloptr
 *two very minor bug fixes more. Hope the last ones.
 *
