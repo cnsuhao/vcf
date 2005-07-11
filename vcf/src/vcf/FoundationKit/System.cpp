@@ -187,7 +187,7 @@ void System::print( String text, ... )
 		CFRange range = {0, length };
 		CFStringGetCharacters( res, range, tmpChar );
 
-		CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
+		CFShow( CFSTR("WARNING: Using deprecated function!!! - System::print(...)\n") );
 		CFShow( res );
 
 		CFRelease( res );
@@ -203,7 +203,7 @@ void System::print( String text, ... )
 	va_end( args );
 
 	#ifndef VCF_OSX
-		wprintf( L"WARNING: Using deprecated function!!!\n" );
+		wprintf( L"WARNING: Using deprecated function!!! - System::print(...)\n" );
 		wprintf( tmpChar );
 	#endif
 
@@ -266,7 +266,7 @@ void System::println(String text, ...)
 		CFRange range = {0, length };
 		CFStringGetCharacters( res, range, tmpChar );
 
-		CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
+		CFShow( CFSTR("WARNING: Using deprecated function!!! - System::println(...)\n") );
 		CFShow( res );
 		CFShow( CFSTR( "\n" ) );
 
@@ -282,7 +282,7 @@ void System::println(String text, ...)
 	va_end( args );
 
 	#ifndef VCF_OSX
-		wprintf( L"WARNING: Using deprecated function!!!\n" );
+		wprintf( L"WARNING: Using deprecated function!!! - System::println(...)\n" );
 		wprintf( tmpChar );
 		wprintf( L"\n" );
 	#endif
@@ -773,6 +773,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.14  2005/07/11 19:58:59  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.13  2005/07/01 15:52:10  marcelloptr
 *spaces spaces spaces
 *
