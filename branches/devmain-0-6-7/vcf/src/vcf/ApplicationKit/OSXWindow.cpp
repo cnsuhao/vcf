@@ -187,7 +187,7 @@ void OSXWindow::destroyControl()
 	//control_->handleEvent( &event );
 
 	DisposeWindow( windowRef_ );
-	StringUtils::trace( Format("windowRef_: %p % destroyed\n") % windowRef_ );
+	StringUtils::trace( Format("windowRef_: %p, destroyed\n") % windowRef_ );
 
 	//DisposeRgn( mouseTrackRgn_ );
 	ReleaseMouseTrackingRegion( mouseTrackRef_ );
@@ -1034,8 +1034,8 @@ void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.3  2005/07/11 17:04:14  marcelloptr
-*fixed all deprecated traceWithArgs calls
+*Revision 1.3.2.4  2005/07/12 13:43:49  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.2  2005/06/29 05:15:41  marcelloptr
 *fixed some white spaces

@@ -2235,7 +2235,7 @@ void Win32ToolKit::internal_quitCurrentEventLoop()
 	//	StringUtils::trace( Format( "GetLastError(): %d\n" ) % GetLastError() );
 	//}
 	//else {
-	//	StringUtils::trace( Format( "internal_quitCurrentEventLoop called % PostMessage(WM_QUIT) sent\n" );
+	//	StringUtils::trace( "internal_quitCurrentEventLoop called, PostMessage(WM_QUIT) sent\n" );
 	//}
 }
 
@@ -2253,8 +2253,8 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.22  2005/07/11 17:04:16  marcelloptr
-*fixed all deprecated traceWithArgs calls
+*Revision 1.3.2.23  2005/07/12 13:43:50  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.21  2005/07/04 03:46:07  marcelloptr
 *made the error handling block to break in the right place even when the main application's frame is not fully initialized yet.

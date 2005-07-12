@@ -300,7 +300,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			Frame* frame = (Frame*)peerControl_;
-			//StringUtils::trace( Format( "WM_NCACTIVATE % active: %d\n" ) % active );
+			//StringUtils::trace( Format( "WM_NCACTIVATE, active: %d\n" ) % active );
 
 			if ( active ) {
 				handleActivate();
@@ -311,7 +311,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		case WM_ACTIVATEAPP : {
 			BOOL fActive = (BOOL) wParam;
 
-			//StringUtils::trace( Format( "WM_ACTIVATEAPP % fActive: %d\n" ) % fActive );
+			//StringUtils::trace( Format( "WM_ACTIVATEAPP, fActive: %d\n" ) % fActive );
 			if ( !fActive && (NULL != peerControl_) ) {
 				Frame* frame = (Frame*)peerControl_;
 
@@ -337,7 +337,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
-			//StringUtils::trace( Format( "WM_ACTIVATE % active: %d\n" ) % active );
+			//StringUtils::trace( Format( "WM_ACTIVATE, active: %d\n" ) % active );
 
 			if ( active ) {
 				handleActivate();
@@ -695,8 +695,8 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.6  2005/07/11 17:04:16  marcelloptr
-*fixed all deprecated traceWithArgs calls
+*Revision 1.3.2.7  2005/07/12 13:43:50  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.5  2005/04/26 02:29:40  ddiego
 *fixes font setting bug brought up by scott and glen_f

@@ -93,7 +93,7 @@ void Parser::checkToken( const VCFChar& T )
 			break;
 
 			default: {
-				error( Format("Char Expected % instead: %c") % T );
+				error( Format("Char Expected, instead: %c") % T );
 			}
 			break;
 		}
@@ -124,7 +124,7 @@ void Parser::checkTokenSymbol( const String& s )
 {
 	bool tki = tokenSymbolIs( s );
 	if ( false == tki ) {
-		error( Format("Symbol Expected % instead: %s") % s );
+		error( Format("Symbol Expected, instead: %s") % s );
 	}
 }
 
@@ -135,7 +135,7 @@ void Parser::error( const String& Ident )
 
 void Parser::errorStr( const String& Message)
 {
-	throw RuntimeException( MAKE_ERROR_MSG_2( Format("Parse Error % message: %s") % Message ) );
+	throw RuntimeException( MAKE_ERROR_MSG_2( Format("Parse Error, message: %s") % Message ) );
 }
 
 VCFChar Parser::nextToken()
@@ -316,7 +316,7 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.4  2005/07/11 19:40:05  marcelloptr
+*Revision 1.2.4.5  2005/07/12 13:44:57  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.2.4.3  2005/04/20 02:27:44  ddiego
