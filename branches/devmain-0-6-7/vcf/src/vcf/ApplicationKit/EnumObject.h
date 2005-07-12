@@ -51,7 +51,7 @@ template <class T> class EnumObject {
 		*/
 		virtual void add( T item ){
 			items_.push_back( item );
-			//StringUtils::trace( Format( "added %s % now have %d items\n" ) % typeid(T).name() % items_.size() );
+			//StringUtils::trace( Format( "added %s, now have %d items\n" ) % typeid(T).name() % items_.size() );
 		};
 
 		void initList() throw ( VCF::CantCreateObjectException ){
@@ -155,8 +155,8 @@ template <class T> class EnumObject {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.1  2005/07/11 17:04:13  marcelloptr
-*fixed all deprecated traceWithArgs calls
+*Revision 1.2.4.2  2005/07/12 13:38:05  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable

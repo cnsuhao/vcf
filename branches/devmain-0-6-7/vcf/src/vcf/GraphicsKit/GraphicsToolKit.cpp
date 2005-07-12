@@ -446,7 +446,7 @@ Color* GraphicsToolkit::internal_getColorMatchFromColormap( const Color& color )
 		//Note: Colors in colorNameMap_ do not have s_ initialized
 		//it = colorNameMap_->find( *closestClr );
 		//if ( it == colorNameMap_->end() ) {
-		//	StringUtils::trace( Format("Warning: color not matched ((%s -> ) %0.2f, %0.2f, %0.2f\n") % ((closestClr->s_)?closestClr->s_:"???"), diffMinH, diffMinS, diffMinL );
+		//	StringUtils::trace( Format("Warning: color not matched (%s -> ) %0.2f, %0.2f, %0.2f\n") % ((closestClr->s_)?closestClr->s_:"???"), diffMinH, diffMinS, diffMinL );
 		//} else {
 		//	StringUtils::trace( Format("Ok: color matched (%s -> %s) %0.2f, %0.2f, %0.2f\n") % color.s_, ((closestClr->s_)?closestClr->s_:"???"), diffMinH, diffMinS, diffMinL );
 		//}
@@ -1335,7 +1335,7 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.9  2005/07/11 19:40:23  marcelloptr
+*Revision 1.3.2.10  2005/07/12 13:29:00  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.8  2005/07/11 17:50:39  marcelloptr
