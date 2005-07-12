@@ -900,7 +900,7 @@ void AbstractGTKControl::Container::sizeRequest( GtkWidget *widget, GtkRequisiti
 	g_return_if_fail (GTK_IS_VCF_CONTAINER (widget));
 	g_return_if_fail (requisition != NULL);
 
-	StringUtils::trace( Format( "Container::sizeRequest widget: %p % name:%s\n" ) % widget % widget->name );
+	StringUtils::trace( Format( "Container::sizeRequest widget: %p, name:%s\n" ) % widget % widget->name );
 
 
 	Rect bounds = AbstractGTKControl::Container::getBounds( widget );
@@ -1215,7 +1215,7 @@ void AbstractGTKControl::ContainerClass::init ( ContainerClass *clazz )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.1  2005/07/11 17:04:11  marcelloptr
+*Revision 1.2.4.2  2005/07/12 13:27:34  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *
 *Revision 1.2  2004/08/07 02:49:05  ddiego

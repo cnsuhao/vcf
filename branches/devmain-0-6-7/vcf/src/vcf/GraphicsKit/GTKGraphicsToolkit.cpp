@@ -98,7 +98,7 @@ void GTKGraphicsToolkit::initSystemFont()
 
 	for (int i=0; i<n_families; i++) {
 		const char *name = pango_font_family_get_name (families_[i]);
-		StringUtils::trace( Format( "font family name @ %d % %s\n" ) % i % name );
+		StringUtils::trace( Format( "font family name @ %d, %s\n" ) % i % name );
 	}
 	*/
 
@@ -260,7 +260,7 @@ double GTKGraphicsToolkit::internal_getDPI(GraphicsContext* context)
 /**
 *CVS Log info
 *$Log$
-*Revision 1.2.4.3  2005/07/11 17:50:39  marcelloptr
+*Revision 1.2.4.4  2005/07/12 13:28:36  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *
 *Revision 1.2.4.2  2005/06/09 06:13:10  marcelloptr
