@@ -174,12 +174,12 @@ int main(int argc, char *argv[])
 		}
 
 		//StringUtils::format is deprecated - don't use in new code
-		formattedString = Format( "Number: %d % as hex: 0x%08X % a string: %s" ) % 12 % 12 % toFind;
+		formattedString = Format( "Number: %d, as hex: 0x%08X, a string: %s" ) % 12 % 12 % toFind;
 		System::println( formattedString );
 
 
 		//same thing with a Format
-		formattedString = Format( "Number: %d % as hex: 0x%08X % a string: %s") % 12 % 12 % toFind;
+		formattedString = Format( "Number: %d, as hex: 0x%08X, a string: %s") % 12 % 12 % toFind;
 		System::println( formattedString );
 
 		
@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
 		/**
 		Same as above, only with variable arguments
 		*/
-		trace( Format( Format("Hello World %d times") % 10 );
+		StringUtils::trace( Format("Hello World %d times") % 10 );
 
 
 		/**
@@ -321,10 +321,7 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.4.6  2005/07/11 19:39:58  marcelloptr
-*fixed all deprecated traceWithArgs(...) and format(...) calls
-*
-*Revision 1.3.4.5  2005/07/11 18:36:19  marcelloptr
+*Revision 1.3.4.7  2005/07/12 13:33:58  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.4.4  2005/04/17 15:11:47  iamfraggle

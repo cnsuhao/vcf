@@ -534,7 +534,7 @@ The goal is to slowly get away from using the variable argument sprintf() style
 functions such as StringUtils::traceWithArgs(), or System::println().
 For example, you might have written the following code:
 \code
-System::println( Format("Name %s, number %d") % str, 1223 );
+System::println( Format("Name %s, number %d") % str % 1223 );
 \endcode
 With the operators below you can now rewrite this like so:
 \code
@@ -813,7 +813,7 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3.2.9  2005/07/11 19:58:57  marcelloptr
+*Revision 1.3.2.10  2005/07/12 13:38:06  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.3.2.7  2005/04/11 17:07:13  iamfraggle
