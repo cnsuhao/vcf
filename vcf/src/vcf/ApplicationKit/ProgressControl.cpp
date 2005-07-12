@@ -185,7 +185,7 @@ Win32 side we can phase in this code
 	if ( displayProgressText_ ) {
 		String text;
 		if ( useProgressFormatString_ && (!progressFormatString_.empty()) ) {
-			text = Format( progressFormatString_ % position_;
+			text = Format( progressFormatString_ ) % position_;
 		}
 		else {
 			text = Format( "%0.1f %%" ) % position_;
@@ -256,6 +256,9 @@ Win32 side we can phase in this code
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2005/07/12 13:43:50  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
+*
 *Revision 1.3.2.5  2005/07/11 19:40:00  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
