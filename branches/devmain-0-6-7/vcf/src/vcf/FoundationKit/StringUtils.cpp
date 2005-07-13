@@ -104,8 +104,10 @@ void StringUtils::trace( const String& text )
 String StringUtils::trimLeft( const String& text, const char& c )
 {
 	String result = text;
+	int n=0; // Standard wants it declared before the for loop
+			 // (As it will be used afterwards) - ACH
 
-	for (int n=0; n<result.length(); ++n) {
+	for ( ; n<result.length(); ++n) {
 		if (result[n] != c) {
 			break;
 		}
@@ -237,6 +239,21 @@ String StringUtils::lowerCase( const String& text )
 	result = copyText;
 	delete [] copyText;
 
+/* This is not an ideal solution as apparently Unicode has three
+cases - ACH */
+#elif defined(VCF_CW_W32)
+	VCFChar* copyText = new VCFChar[text.size()+1];
+	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
+	text.copy( copyText, text.size() );
+	int i=0;
+	while (i<text.size()) {
+		copyText[i] = towlower( copyText[i] );
+		++i;
+	}
+
+	result = copyText;
+	delete [] copyText;
+
 #elif VCF_OSX
 	CFTextString tmp;
 	tmp = text;
@@ -258,6 +275,22 @@ String StringUtils::upperCase( const VCF::String& text )
 
 	result = copyText;
 	delete [] copyText;
+
+/* This is not an ideal solution as apparently Unicode has three
+cases - ACH */	
+#elif defined(VCF_CW_W32)
+	VCFChar* copyText = new VCFChar[text.size()+1];
+	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
+	text.copy( copyText, text.size() );
+	int i=0;
+	while (i<text.size()) {
+		copyText[i] = towupper( copyText[i] );
+		++i;
+	}
+
+	result = copyText;
+	delete [] copyText;
+
 #elif VCF_OSX
 	CFTextString tmp;
 	tmp = text;
@@ -2231,6 +2264,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.13  2005/07/13 22:54:38  iamfraggle
+*Corrected non-standard variable initialization in trimLeft and provided CW workarounds for lowerCase and upperCase
+*
 *Revision 1.3.2.12  2005/07/11 17:58:31  marcelloptr
 *fixed all deprecated traceWithArgs calls
 *
