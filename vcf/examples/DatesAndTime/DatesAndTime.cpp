@@ -45,20 +45,20 @@ int main( int argc, char** argv ){
 	Output the date time instance using the StringUtils::format() method
 	*/
 	System::println( Format("currentTime from StringUtils::format():\n\t%s")
-					% StringUtils::format( currentTime % "Day %#j in the year %Y % week %#U % %A day %#d of %B month %#m" ) );
+					% StringUtils::format( currentTime, "Day %#j in the year %Y % week %#U % %A day %#d of %B month %#m" ) );
 
 	/**
 	Output the time portion of the date time instance using the StringUtils::format() method
 	*/
 	System::println( Format("currentTime from StringUtils::format():\n\t%s")
-					% StringUtils::format( currentTime % "%H:%M:%S.%s" ) );
+					% StringUtils::format( currentTime, "%H:%M:%S.%s" ) );
 
 	/**
 	Modify the time, hours, minutes and seconds
 	*/
 	currentTime.setTime( 9, 45, 12 );
 	System::println( Format("currentTime from StringUtils::format():\n\t%s")
-					% StringUtils::format( currentTime % "%H:%M:%S.%s" ) );
+					% StringUtils::format( currentTime, "%H:%M:%S.%s" ) );
 
 
 	/**
@@ -67,7 +67,7 @@ int main( int argc, char** argv ){
 	currentTime.set( 1982, 5, 21, 18, 23, 10, 456 );
 
 	System::println( Format("currentTime from StringUtils::format():\n\t%s")
-					% StringUtils::format( currentTime % "%Y/%m/%d-%H:%M:%S.%s" ) );
+					% StringUtils::format( currentTime, "%Y/%m/%d-%H:%M:%S.%s" ) );
 
 
 	/**
@@ -180,7 +180,7 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.3  2005/07/11 19:37:48  marcelloptr
+*Revision 1.4.2.4  2005/07/14 03:45:15  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.4.2.1  2005/04/17 15:11:42  iamfraggle
