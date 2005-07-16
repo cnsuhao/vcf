@@ -10,6 +10,7 @@
 
 #define WIN32
 #define _DEBUG
+#define _LIB
 
 // #pragma once on
 #include "ansi_prefix.win32.h"
