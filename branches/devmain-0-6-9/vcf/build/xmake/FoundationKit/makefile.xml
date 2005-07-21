@@ -1,0 +1,112 @@
+<variable name="FK_SRC" value="../../../src/vcf/FoundationKit"/>
+
+<config name="VC6 Debug">
+	<!-- un-comment this out if you want to add
+	custom include paths for this configuration.
+		<include path=""/>
+	-->
+ 
+
+	<!-- compiler tool -->
+	<tool id="cc" name="cl" type=".cc;.cpp;.cxx">
+		<flags value="/nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I $(VCF_INCLUDE) /DWIN32 /D_DEBUG /D_WINDOWS /D_MBCS /D_USRDLL /DFOUNDATIONKIT_DLL /DFOUNDATIONKIT_EXPORTS /Fp'vc6\DebugDLL\FoundationKitDLL.pch' /Yu'$(FK_SRC)/FoundationKit.h' /Fo'vc6\DebugDLL\\' /Fd'..\..\..\bin\FoundationKit_vc6_d.pdb /FD /GZ /c"/>
+		<exec command="cl /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I $(VCF_INCLUDE) /DWIN32 /D_DEBUG /D_WINDOWS /D_MBCS /D_USRDLL /DFOUNDATIONKIT_DLL /DFOUNDATIONKIT_EXPORTS /Fp'vc6\DebugDLL\FoundationKitDLL.pch' /Yu'$(FK_SRC)/FoundationKit.h' /Fo'vc6\DebugDLL\\' /Fd'..\..\..\bin\FoundationKit_vc6_d.pdb /FD /GZ /c $(dependency.name) "/>
+	</tool>
+
+
+	<!-- linker tool -->
+	<tool id="link" name="link" >
+		<flags value="/nologo Rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib version.lib /nologo /dll /profile /debug /machine:I386 /out:$(target.output) /implib:'..\..\..\lib\$(target.name).lib' "/>
+		<exec command="link Rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib version.lib /nologo /dll /profile /debug /machine:I386 /out:$(target.output) /implib:'..\..\..\lib\$(target.name).lib'  $(dependsOn.children.output) "/>
+	</tool>
+</config>
+
+<project name="FoundationKitDLL">
+	<dependsOn>
+		<!-- place a dependency entry here where the
+		dependency is another project that must be built
+		before this project. The form is:
+			<dependency name="name_of_some_project"/>
+		-->
+	</dependsOn>
+	
+	<target name="FoundationKit" tool="link">
+		<dependsOn>
+		<!-- put the projects source files here -->
+			<dependency name="FoundationKit.obj"/>			
+			<dependency name="$(FK_SRC)/BasicException.cpp" output="BasicException.obj"/>
+			<dependency name="$(FK_SRC)/BasicInputStream.cpp" output="BasicInputStream.obj"/>
+			<dependency name="$(FK_SRC)/BasicOutputStream.cpp" output="BasicOutputStream.obj"/>
+			<dependency name="$(FK_SRC)/Class.cpp" output="Class.obj"/>
+			<dependency name="$(FK_SRC)/ClassRegistry.cpp" output="ClassRegistry.obj"/>
+			<dependency name="$(FK_SRC)/CommandLine.cpp" output="CommandLine.obj"/>
+			<dependency name="$(FK_SRC)/Condition.cpp" output="Condition.obj"/>
+			<dependency name="$(FK_SRC)/DateTime.cpp" output="DateTime.obj"/>
+			<dependency name="$(FK_SRC)/Dictionary.cpp" output="Dictionary.obj"/>
+			<dependency name="$(FK_SRC)/Directory.cpp" output="Directory.obj"/>
+			<dependency name="$(FK_SRC)/ErrorLog.cpp" output="ErrorLog.obj"/>
+			<dependency name="$(FK_SRC)/Event.cpp" output="Event.obj"/>
+			<dependency name="$(FK_SRC)/EventHandler.cpp" output="EventHandler.obj"/>
+			<dependency name="$(FK_SRC)/File.cpp" output="File.obj"/>
+			<dependency name="$(FK_SRC)/FilePath.cpp" output="FilePath.obj"/>
+			<dependency name="$(FK_SRC)/FileStream.cpp" output="FileStream.obj"/>			
+			<dependency name="$(FK_SRC)/InterfaceClass.cpp" output="InterfaceClass.obj"/>
+			<dependency name="$(FK_SRC)/Library.cpp" output="Library.obj"/>
+			<dependency name="$(FK_SRC)/Locales.cpp" output="Locales.obj"/>
+			<dependency name="$(FK_SRC)/MIMEType.cpp" output="MIMEType.obj"/>
+			<dependency name="$(FK_SRC)/MemoryStream.cpp" output="MemoryStream.obj"/>
+			<dependency name="$(FK_SRC)/MessageLoader.cpp" output="MessageLoader.obj"/>
+			<dependency name="$(FK_SRC)/Mutex.cpp" output="Mutex.obj"/>
+			<dependency name="$(FK_SRC)/Object.cpp" output="Object.obj"/>
+			<dependency name="$(FK_SRC)/ObjectWithEvents.cpp" output="ObjectWithEvents.obj"/>
+			<dependency name="$(FK_SRC)/PackageInfo.cpp" output="PackageInfo.obj"/>
+			<dependency name="$(FK_SRC)/Parser.cpp" output="Parser.obj"/>
+			<dependency name="$(FK_SRC)/ProcessWithRedirectedIO.cpp" output="ProcessWithRedirectedIO.obj"/>
+			<dependency name="$(FK_SRC)/PropertyChangeEvent.cpp" output="PropertyChangeEvent.obj"/>
+			<dependency name="$(FK_SRC)/Registry.cpp" output="Registry.obj"/>
+			<dependency name="$(FK_SRC)/Resource.cpp" output="Resource.obj"/>
+			<dependency name="$(FK_SRC)/ResourceBundle.cpp" output="ResourceBundle.obj"/>
+			<dependency name="$(FK_SRC)/Semaphore.cpp" output="Semaphore.obj"/>
+			<dependency name="$(FK_SRC)/Stream.cpp" output="Stream.obj"/>
+			<dependency name="$(FK_SRC)/StringUtils.cpp" output="StringUtils.obj"/>
+			<dependency name="$(FK_SRC)/StringsMessageLoader.cpp" output="StringsMessageLoader.obj"/>
+			<dependency name="$(FK_SRC)/System.cpp" output="System.obj"/>
+			<dependency name="$(FK_SRC)/SystemToolkit.cpp" output="SystemToolkit.obj"/>
+			<dependency name="$(FK_SRC)/TextCodec.cpp" output="TextCodec.obj"/>
+			<dependency name="$(FK_SRC)/TextInputStream.cpp" output="TextInputStream.obj"/>
+			<dependency name="$(FK_SRC)/TextOutputStream.cpp" output="TextOutputStream.obj"/>
+			<dependency name="$(FK_SRC)/Thread.cpp" output="Thread.obj"/>
+			<dependency name="$(FK_SRC)/ThreadEvent.cpp" output="ThreadEvent.obj"/>
+			<dependency name="$(FK_SRC)/VCFMath.cpp" output="VCFMath.obj"/>
+			<dependency name="$(FK_SRC)/VCFProcess.cpp" output="VCFProcess.obj"/>
+			<dependency name="$(FK_SRC)/VCFString.cpp" output="VCFString.obj"/>
+			<dependency name="$(FK_SRC)/VariantData.cpp" output="VariantData.obj"/>
+			<dependency name="$(FK_SRC)/Win32Condition.cpp" output="Win32Condition.obj"/>
+			<dependency name="$(FK_SRC)/Win32FilePeer.cpp" output="Win32FilePeer.obj"/>
+			<dependency name="$(FK_SRC)/Win32FileStream.cpp" output="Win32FileStream.obj"/>
+			<dependency name="$(FK_SRC)/Win32LibraryPeer.cpp" output="Win32LibraryPeer.obj"/>
+			<dependency name="$(FK_SRC)/Win32LocalePeer.cpp" output="Win32LocalePeer.obj"/>
+			<dependency name="$(FK_SRC)/Win32Mutex.cpp" output="Win32Mutex.obj"/>
+			<dependency name="$(FK_SRC)/Win32Peer.cpp" output="Win32Peer.obj"/>
+			<dependency name="$(FK_SRC)/Win32ProcessIORedirector.cpp" output="Win32ProcessIORedirector.obj"/>
+			<dependency name="$(FK_SRC)/Win32ProcessPeer.cpp" output="Win32ProcessPeer.obj"/>
+			<dependency name="$(FK_SRC)/Win32Registry.cpp" output="Win32Registry.obj"/>
+			<dependency name="$(FK_SRC)/Win32ResourceBundle.cpp" output="Win32ResourceBundle.obj"/>
+			<dependency name="$(FK_SRC)/Win32SemaphorePeer.cpp" output="Win32SemaphorePeer.obj"/>
+			<dependency name="$(FK_SRC)/Win32SystemImplementer.cpp" output="Win32SystemImplementer.obj"/>
+			<dependency name="$(FK_SRC)/Win32SystemPeer.cpp" output="Win32SystemPeer.obj"/>
+			<dependency name="$(FK_SRC)/Win32SystemToolkit.cpp" output="Win32SystemToolkit.obj"/>
+			<dependency name="$(FK_SRC)/Win32Thread.cpp" output="Win32Thread.obj"/>
+			<dependency name="$(FK_SRC)/XMLParser.cpp" output="XMLParser.obj"/>
+		</dependsOn>
+	</target>
+	
+	
+	<target name="FoundationKit.obj">
+		<dependsOn>		
+			<dependency name="$(FK_SRC)/FoundationKit.cpp"/>
+		</dependsOn>		
+		<exec command="cl /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I $(VCF_INCLUDE) /DWIN32 /D_DEBUG /D_WINDOWS /D_MBCS /D_USRDLL /DFOUNDATIONKIT_DLL /DFOUNDATIONKIT_EXPORTS /Fp'vc6\DebugDLL\FoundationKitDLL.pch' /Yc'$(FK_SRC)/FoundationKit.h' /Fo'vc6\DebugDLL\' /Fd'..\..\..\bin\FoundationKit_vc6_d.pdb /FD /GZ /c $(FK_SRC)/FoundationKit.cpp"/>
+	</target>	
+	
+</project>
