@@ -1669,7 +1669,7 @@ void MainQTWindow::onSearchIconClick( VCF::Event* e )
 void MainQTWindow::onSearchTextEntered( VCF::KeyboardEvent* e )
 {
 	TextControl* textCtrl = (TextControl*)e->getSource();
-	StringUtils::trace( Format( "Searching for \"" + textCtrl->getTextModel()->getText() + "\"...\n" );
+	StringUtils::trace( "Searching for \"" + textCtrl->getTextModel()->getText() + "\"...\n" );
 }
 
 void MainQTWindow::onPlaylistItemSelected( VCF::Event* e )
@@ -2118,7 +2118,7 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.4  2005/07/11 19:39:53  marcelloptr
+*Revision 1.4.2.5  2005/07/22 00:22:43  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.4.2.3  2005/06/25 22:47:20  marcelloptr
