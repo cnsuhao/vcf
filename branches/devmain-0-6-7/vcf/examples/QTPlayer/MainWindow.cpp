@@ -2118,12 +2118,14 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.5  2005/07/22 00:22:43  marcelloptr
+*Revision 1.4.2.6  2005/07/22 00:24:39  marcelloptr
 *fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.4.2.3  2005/06/25 22:47:20  marcelloptr
 *[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.
 *AbstractContainer::add() needs to resizeChildren *after* the child control has been added.
 *
+*/
+
 
 
