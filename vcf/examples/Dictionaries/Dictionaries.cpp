@@ -561,16 +561,8 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
-*Revision 1.9  2005/07/09 23:14:35  ddiego
-*merging in changes from devmain-0-6-7 branch.
-*
-*Revision 1.8  2005/01/02 03:04:18  ddiego
-*merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
-*
-*Revision 1.7.2.1  2004/12/19 04:04:57  ddiego
-*made modifications to methods that return a handle type. Introduced
-*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
-*which was causing a problem for 64bit compiles.
+*Revision 1.9.2.1  2005/07/23 21:45:35  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.7.2.5  2005/06/25 19:53:32  marcelloptr
 *forgotten MP mark
@@ -589,6 +581,7 @@ int main( int argc, char** argv ){
 *a new typedef for handles, that is a pointer, as opposed to a 32bit int,
 *which was causing a problem for 64bit compiles.
 *
+>>>>>>> 1.7.2.5
 *Revision 1.7  2004/12/01 04:15:01  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

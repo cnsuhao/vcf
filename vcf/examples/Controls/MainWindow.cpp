@@ -15,6 +15,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/TitledBorder.h"
 #include "vcf/ApplicationKit/EtchedBorder.h"
 #include "vcf/ApplicationKit/ColorEtchedBorder.h"
+
 #include "vcf/ApplicationKit/HorizontalLayoutContainer.h"
 #include "vcf/FoundationKit/Dictionary.h"
 #include "vcf/ApplicationKit/TextPeer.h"
@@ -26,8 +27,6 @@ where you installed the VCF.
 
 #include "MainWindow.h"
 //#include "HorizontalLayoutContainer.h"
-
-
 
 
 using namespace VCF;
@@ -339,7 +338,6 @@ void MainWindow::makeBordersPage()
 	( (ColorEtchedBorder*)colorEtchedBorderPanel_->getBorder() )->setShadow( Color::getColor( "blue" ) );
 }
 // end bordersPage code
-
 
 
 
@@ -889,10 +887,12 @@ void MainWindow::makeTreePage()
 	container->add( tc, AlignClient );
 }
 
-
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/07/23 21:45:34  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
+*
 *Revision 1.3  2005/07/09 23:14:34  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -414,8 +414,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.7  2005/07/09 23:14:46  ddiego
-*merging in changes from devmain-0-6-7 branch.
+*Revision 1.7.2.1  2005/07/23 21:45:44  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.6.2.5  2005/06/06 02:34:05  ddiego
 *menu changes to better support win32 and osx.
