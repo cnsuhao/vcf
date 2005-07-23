@@ -1386,7 +1386,7 @@ void MainQTWindow::onMovieFrameChanged( Event* movieEvent )
 	short tmp = ::GetMovieVolume( *movie ) * 100;
 	int volume = tmp / 255;
 
-	String s = StringUtils::format( "%02d:%02d:%02d", hours, minutes, i_seconds );
+	String s = Format( "%02d:%02d:%02d" ) % hours % minutes % i_seconds ;
 
 	mediaLabel_->setCaption( movie->getTitle() + "\n" + s );
 }
@@ -1669,7 +1669,7 @@ void MainQTWindow::onSearchIconClick( VCF::Event* e )
 void MainQTWindow::onSearchTextEntered( VCF::KeyboardEvent* e )
 {
 	TextControl* textCtrl = (TextControl*)e->getSource();
-	StringUtils::traceWithArgs( "Searching for \"" + textCtrl->getTextModel()->getText() + "\"...\n" );
+	StringUtils::trace( "Searching for \"" + textCtrl->getTextModel()->getText() + "\"...\n" );
 }
 
 void MainQTWindow::onPlaylistItemSelected( VCF::Event* e )
@@ -2115,13 +2115,20 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 }
 
 
+
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5  2005/07/09 23:14:41  ddiego
-*merging in changes from devmain-0-6-7 branch.
+*Revision 1.5.2.1  2005/07/23 21:45:39  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
+*
+*Revision 1.4.2.6  2005/07/22 00:24:39  marcelloptr
+*fixed all deprecated traceWithArgs(...) and format(...) calls
 *
 *Revision 1.4.2.3  2005/06/25 22:47:20  marcelloptr
 *[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.
 *AbstractContainer::add() needs to resizeChildren *after* the child control has been added.
+*
 */
+
+

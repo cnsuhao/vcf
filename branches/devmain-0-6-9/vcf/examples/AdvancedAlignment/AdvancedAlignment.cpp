@@ -471,8 +471,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5  2005/07/09 23:14:14  ddiego
-*merging in changes from devmain-0-6-7 branch.
+*Revision 1.5.2.1  2005/07/23 21:44:57  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.4.4.1  2005/06/25 22:46:10  marcelloptr
 *[bugfix 1227549] HorizontalLayoutContainer set the heights in the wrong rows.

@@ -274,8 +274,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3  2005/07/09 23:14:45  ddiego
-*merging in changes from devmain-0-6-7 branch.
+*Revision 1.3.2.1  2005/07/23 21:45:43  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.2.2.3  2005/06/06 02:34:05  ddiego
 *menu changes to better support win32 and osx.
@@ -290,5 +290,4 @@ int main(int argc, char *argv[])
 *standard file formatting and cvs log section added
 *
 */
-
 

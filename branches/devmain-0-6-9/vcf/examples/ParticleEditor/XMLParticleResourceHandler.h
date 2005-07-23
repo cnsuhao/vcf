@@ -224,8 +224,8 @@ public:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3  2005/01/02 03:04:18  ddiego
-*merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
+*Revision 1.3.2.1  2005/07/23 21:45:39  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.2.2.1  2004/12/21 01:24:32  marcelloptr
 *added cvs log section

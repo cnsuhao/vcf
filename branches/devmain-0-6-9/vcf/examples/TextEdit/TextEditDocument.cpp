@@ -534,8 +534,8 @@ void TextEditDocument::internal_replaceText( const VCF::ulong32& pos, const VCF:
 /**
 *CVS Log info
 *$Log$
-*Revision 1.3  2005/07/09 23:14:45  ddiego
-*merging in changes from devmain-0-6-7 branch.
+*Revision 1.3.2.1  2005/07/23 21:45:43  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.2.2.5  2005/06/02 16:28:23  marcelloptr
 *removed obsolete code
@@ -553,5 +553,6 @@ void TextEditDocument::internal_replaceText( const VCF::ulong32& pos, const VCF:
 *standard file formatting and cvs log section added
 *
 */
+
 
 

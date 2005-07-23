@@ -201,8 +201,8 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5  2005/07/09 23:14:38  ddiego
-*merging in changes from devmain-0-6-7 branch.
+*Revision 1.5.2.1  2005/07/23 21:45:36  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
 *
 *Revision 1.4.4.4  2005/06/28 00:10:10  marcelloptr
 *improvements to the Color class. The default, when packing the components into a single integer, is now cpsARGB instead than cpsABGR.
