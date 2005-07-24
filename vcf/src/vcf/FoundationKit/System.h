@@ -314,9 +314,9 @@ public:
 	code should be changed to make use of the print( const Format& ) function 
 	instead. It will be removed entirely in an upcoming release.
 	*/
-	static void print( String text, ... );
+	static void print( const String& text );
 
-	static void print( const Format& formatter );
+	//static void print( const Format& formatter );
 
 	/**
 	@see System::print
@@ -325,9 +325,9 @@ public:
 	code should be changed to make use of the println( const Format& ) function 
 	instead. It will be removed entirely in an upcoming release.
 	*/
-	static void println( String text, ... );
+	static void println( const String& text );
 
-	static void println( const Format& formatter );
+	//static void println( const Format& formatter );
 
 	/**
 	This will print the contents of the exception to stdout and the 
@@ -479,6 +479,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.1  2005/07/24 02:30:27  ddiego
+*fixed bug in retreiving program info.
+*
 *Revision 1.8  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

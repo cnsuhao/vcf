@@ -33,7 +33,7 @@ String StringUtils::abbrevMonths[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 
 
-
+/*
 void StringUtils::traceWithArgs( String text,... )
 {
 text = StringUtils::convertFormatString( text );
@@ -76,6 +76,8 @@ text = StringUtils::convertFormatString( text );
 	delete [] buf;
 //#endif
 }
+*/
+
 
 void StringUtils::traceWithArgs( const Format& formatter )
 {
@@ -528,7 +530,7 @@ VCF::String StringUtils::format( const Format& formatter )
 {
 	return formatter;
 }
-
+/*
 VCF::String StringUtils::format( VCF::String formatText, ... )
 {
 	StringUtils::trace( String("WARNING: Using deprecated function!!!\n") );
@@ -573,6 +575,7 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 
 	return result;
 }
+*/
 
 VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInfo  )
 {
@@ -2227,6 +2230,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/07/24 02:30:26  ddiego
+*fixed bug in retreiving program info.
+*
 *Revision 1.4  2005/07/09 23:15:05  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
