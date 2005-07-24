@@ -50,7 +50,7 @@ public:
 	code should be changed to make use of the traceWithArgs( const Format& ) function 
 	instead. It will be removed entirely in an upcoming release.
 	*/
-	static void traceWithArgs( VCF::String text,... );
+	//static void traceWithArgs( const VCF::String& text );
 
 	static void traceWithArgs( const Format& formatter );
 
@@ -64,7 +64,7 @@ public:
 	code should be changed to make use of the traceWithArgs( const Format& ) function 
 	instead. It will be removed entirely in an upcoming release.
 	*/
-	static VCF::String format( VCF::String formatText, ... );
+	//static VCF::String format( VCF::String formatText );
 
 	/**
 	formats a string. Uses the same formatting rules as
@@ -805,6 +805,9 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/07/24 02:30:26  ddiego
+*fixed bug in retreiving program info.
+*
 *Revision 1.5  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

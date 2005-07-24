@@ -162,8 +162,9 @@ void System::setErrorLog( ErrorLog* errorLog )
 	System::systemInstance->errorLogInstance_ = errorLog;
 }
 
-void System::print( String text, ... )
+void System::print( const String& text )
 {
+	/*
 	text = StringUtils::convertFormatString( text );
 
 	va_list args;
@@ -213,9 +214,27 @@ void System::print( String text, ... )
 		}
 	}
 
-	delete [] tmpChar;
+	delete [] tmpChar;*/
+
+
+#ifdef VCF_OSX
+	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
+
+	CFStringAppendCharacters( tmp, text.c_str(), text.size() );
+	CFShow( tmp );
+	CFRelease( tmp );
+#else
+	wprintf( text.c_str() );
+#endif
+
+	if ( NULL != System::systemInstance ) {
+		if ( NULL != System::systemInstance->errorLogInstance_ ) {			
+			System::systemInstance->errorLogInstance_->toLog( text );
+		}
+	}
 }
 
+/*
 void System::print( const Format& formatter )
 {
 	String output = formatter;
@@ -240,9 +259,11 @@ void System::print( const Format& formatter )
 		}
 	}
 }
+*/
 
-void System::println(String text, ...)
+void System::println( const String& text )
 {
+	/*
 	text = StringUtils::convertFormatString( text );
 
 	va_list args;
@@ -294,8 +315,34 @@ void System::println(String text, ...)
 	}
 
 	delete [] tmpChar;
+	*/
+
+	String output = text;
+
+	if ( output.empty() ) {
+		return;
+	}
+
+	output += "\n";
+
+#ifdef VCF_OSX
+	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
+
+	CFStringAppendCharacters( tmp, output.c_str(), output.size() );
+	CFShow( tmp );
+	CFRelease( tmp );
+#else
+	wprintf( output.c_str() );
+#endif
+
+	if ( NULL != System::systemInstance ) {
+		if ( NULL != System::systemInstance->errorLogInstance_ ) { 
+			System::systemInstance->errorLogInstance_->toLog( output );
+		}
+	}
 }
 
+/*
 void System::println( const Format& formatter )
 {
 	String output = formatter;
@@ -322,10 +369,11 @@ void System::println( const Format& formatter )
 		}
 	}
 }
+*/
 
 void System::errorPrint( BasicException* exception )
 {
-	System::print( L"Exception occured ! Error string: %s\n", exception->getMessage().c_str() );
+	System::print( Format("Exception occured ! Error string: %s\n") % exception->getMessage() );
 }
 
 bool System::doesFileExist( const String& fileName )
@@ -771,6 +819,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/07/24 02:30:27  ddiego
+*fixed bug in retreiving program info.
+*
 *Revision 1.6  2005/07/09 23:15:05  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
