@@ -72,7 +72,7 @@ public:
 	* This is the name of the file without its path component
 	*@return String, the filename.
 	*/
-	String getName() {
+	virtual String getName() {
 		return fileName_.getBaseName(true);
 	}
 
@@ -83,7 +83,7 @@ public:
 	* path component of the previous filename.
 	*@param String, the filename.
 	*/
-	void setName( const String& name ) {
+	virtual void setName( const String& name ) {
 		FilePath fp = name;
 
 		fileName_ = fileName_.getPathName(true) + fp.getBaseName(true);
@@ -319,6 +319,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/07/30 17:01:09  iamfraggle
+*get/setName made explicitly virtual
+*
 *Revision 1.5  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
