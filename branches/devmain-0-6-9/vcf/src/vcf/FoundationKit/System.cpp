@@ -223,6 +223,8 @@ void System::print( const String& text )
 	CFStringAppendCharacters( tmp, text.c_str(), text.size() );
 	CFShow( tmp );
 	CFRelease( tmp );
+#elif defined(VCF_CW_W32)
+	printf( text.ansi_c_str() );
 #else
 	wprintf( text.c_str() );
 #endif
@@ -331,6 +333,8 @@ void System::println( const String& text )
 	CFStringAppendCharacters( tmp, output.c_str(), output.size() );
 	CFShow( tmp );
 	CFRelease( tmp );
+#elif defined(VCF_CW_W32)
+	printf( output.ansi_c_str() );
 #else
 	wprintf( output.c_str() );
 #endif
@@ -819,6 +823,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/07/30 16:54:17  iamfraggle
+*CW workarounds for console output
+*
 *Revision 1.6.2.1  2005/07/24 02:30:27  ddiego
 *fixed bug in retreiving program info.
 *
