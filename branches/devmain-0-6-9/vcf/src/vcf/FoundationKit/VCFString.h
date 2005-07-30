@@ -360,7 +360,11 @@ public:
 	friend bool operator <( const UnicodeString& lhs, const UnicodeString& rhs );
 
 	bool operator <( const StringData& rhs ) const {
-		return data_ <= rhs;
+		return data_ < rhs;
+	}
+	
+	bool operator <( const UniChar* rhs ) const {
+		return data_ < rhs;
 	}
 
 	friend bool operator <=( const UnicodeString& lhs, const UnicodeString& rhs );
@@ -1083,6 +1087,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/07/30 16:57:34  iamfraggle
+*Fix operator < overloads for AnsiChar and UniChar
+*
 *Revision 1.4  2005/07/09 23:15:06  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
