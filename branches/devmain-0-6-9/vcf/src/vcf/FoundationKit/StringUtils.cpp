@@ -107,7 +107,9 @@ String StringUtils::trimLeft( const String& text, const char& c )
 {
 	String result = text;
 
-	for (int n=0; n<result.length(); ++n) {
+	int n=0;
+	
+	for (; n<result.length(); ++n) {
 		if (result[n] != c) {
 			break;
 		}
@@ -238,6 +240,18 @@ String StringUtils::lowerCase( const String& text )
 
 	result = copyText;
 	delete [] copyText;
+	
+#elif defined(VCF_CW_W32)
+	VCFChar* copyText = new VCFChar[text.size()+1];
+	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
+	text.copy( copyText, text.size() );
+	for (int n=0; n<text.size(); n++)
+	{
+		copyText[n] = std::towlower(copyText[n]);
+	}
+	
+	result = copyText;
+	delete [] copyText;
 
 #elif VCF_OSX
 	CFTextString tmp;
@@ -260,6 +274,19 @@ String StringUtils::upperCase( const VCF::String& text )
 
 	result = copyText;
 	delete [] copyText;
+
+#elif defined(VCF_CW_W32)
+	VCFChar* copyText = new VCFChar[text.size()+1];
+	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
+	text.copy( copyText, text.size() );
+	for (int n=0; n<text.size(); n++)
+	{
+		copyText[n] = std::towupper(copyText[n]);
+	}
+	
+	result = copyText;
+	delete [] copyText;
+
 #elif VCF_OSX
 	CFTextString tmp;
 	tmp = text;
@@ -2230,6 +2257,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/07/30 16:52:57  iamfraggle
+*Provide (temporary) CW implementations of lowerCase and upperCase and made trimLeft use standard variable declaration
+*
 *Revision 1.4.2.1  2005/07/24 02:30:26  ddiego
 *fixed bug in retreiving program info.
 *
