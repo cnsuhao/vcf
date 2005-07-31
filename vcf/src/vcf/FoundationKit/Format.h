@@ -35,29 +35,29 @@ namespace VCF {
 
 	/**
 	\p
-	The Format class is used to format a string, similar to the 
+	The Format class is used to format a string, similar to the
 	sprintf/printf family of functions, only made typesafe for
-	C++, and less likely to encounter buffer overflow errors 
+	C++, and less likely to encounter buffer overflow errors
 	that are so easy to do with sprintf and friends.
 	\p
 	The inspiration for this class comes unashamedly from the
 	Boost Format library (http://www.boost.org/libs/format/doc/format.html).
 	Any mistakes in the "translation" are mine, not Boost's.
-	
+
 	\p
 	The basic idea is to pass in a string to the Format instance,
-	and then use the "%" operator to separate your arguments. 
-	Currently the usage is \e exactly the same as you would use 
+	and then use the "%" operator to separate your arguments.
+	Currently the usage is \e exactly the same as you would use
 	printf/sprintf, in terms of formatting. For example:
 	\code
-	//printf	
+	//printf
 	printf( "Hello World, %d times!", 10 );
 
 	//Encoding the same using a Format object
 	String s = Format("Hello World, %d times!") % 10;
 	\endcode
-	The "s" variable will now contain "Hello World, 10 times!". 
-	
+	The "s" variable will now contain "Hello World, 10 times!".
+
 	\p
 	The Format object will throw assert exceptions (in debug mode) if too
 	few arguments are passed in, or too many. For example:
@@ -66,7 +66,7 @@ namespace VCF {
 	String s = Format("Hello World, %d times!");
 	\endcode
 	The above example is expecting 1 argument, and didn't receive any, and will
-	thus assert. 
+	thus assert.
 
 	\code
 	//BAD too many arguments!!
@@ -81,91 +81,77 @@ namespace VCF {
 	*/
 	class Format {
 	public:
-		
-		Format( const String& fmtStr ): fmtStr_(fmtStr),currentPos_(0),
+
+		Format( const String& fmtStr ): fmtStr_(fmtStr),
 			expectedFormatArgCount_(0), currentFormatArgCount_(0){
-			
+
+			start_ = fmtStr_.c_str();
+			end_ = start_ + fmtStr_.size();
+			p_ = start_;
+			prev_ = p_;
+
 			expectedFormatArgCount_ = countFormatTokens();
-			
-			currentPos_ = fmtStr_.find( "%" );
-			if ( String::npos == currentPos_ ) {
-				output_ += fmtStr_;
-				fmtStr_.erase();
+
+			prev_ = p_;
+			gobblePercents();
+
+			if ( p_ == end_ ) {
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
 			}
 		}
-		
+
 		//should we add virtual here for customizing the class???
 		~Format() {
-			
+
 		}
 
 
 		// operator used to concatenate arguments
-		template<typename ValType> 
-			Format& operator% ( const ValType& val ) {
+		template<typename ValType>
+		Format& operator% ( const ValType& val ) {
+
 			currentFormatArgCount_  ++;
-			
+
 			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
 			if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
 				return *this;
 			}
-			
-			if ( !fmtStr_.empty() ) {  
-				if ( String::npos != currentPos_ ) {
-					//look ahead and see if we have two consecutive %% chars
-					//if so treat as one %
-					if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
-						output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
-						fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
-					}
-					else { //we have to format this string
-						int endPos = getNextFormatTokenEndPos( currentPos_ );
-						
-						output_ += fmtStr_.substr( 0, currentPos_ );
-						fmtStr_.erase( 0, currentPos_ );
-						String fmt;
-						
-						if ( String::npos != endPos ) {												
-							fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
-							
-							fmtStr_.erase( 0, endPos-currentPos_ );
-						}
-						else{
-							fmt = fmtStr_;						
-							fmtStr_.erase();
-						}
-						
-						size_t size = fmt.size()+256;
-						char* tmp = new char[size+1];
-						memset( tmp, 0, (size+1)*sizeof(char) );
-						int cb = snprintf( tmp, size, fmt.ansi_c_str(), val );
-						if ( (size < cb) || (cb < 0) ) {
-							String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
-							StringUtils::trace( msg );
-						}
-						output_ += tmp;
-						delete [] tmp;
+
+			if ( p_ < end_ ) {
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+
+				const VCFChar* p = getNextFormatTokenEndPos( (p_-start_) );
+
+				String fmt;
+				fmt.assign( p_, p - p_ );
+				p_ = p;
 
 
-					}
+				size_t size = fmt.size()+256;
+				char* tmp = new char[size+1];
+				memset( tmp, 0, (size+1)*sizeof(char) );
+				int cb = snprintf( tmp, size, fmt.ansi_c_str(), val );
+				if ( (size < cb) || (cb < 0) ) {
+					String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
+					StringUtils::trace( msg );
 				}
-				else {
-					output_ += fmtStr_;
-					fmtStr_.erase();
-				}
-				
-				currentPos_ = fmtStr_.find( "%" );
-				if ( String::npos == currentPos_ ) {
-					output_ += fmtStr_;
-					fmtStr_.erase();
-				}
-			}		
+				output_ += tmp;
+				delete [] tmp;
+			}
+
+			prev_ = p_;
+
+			gobblePercents();
+
+			if ( p_ == end_ ) {
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+			}
+
 			return *this;
 		}
 
 	#ifdef VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 		// specialization for a String value.
-			
 		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 		template <String>
 		#elif defined(VCF_GCC) && defined(VCF_OSX)
@@ -176,61 +162,43 @@ namespace VCF {
 		Format& operator% (const String& val) {
 
 			currentFormatArgCount_  ++;
-			
+
 			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
 			if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
 				return *this;
 			}
-			
-			if ( !fmtStr_.empty() ) {  
-				if ( String::npos != currentPos_ ) {
-					//look ahead and see if we have two consecutive %% chars
-					//if so treat as one %
-					if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
-						output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
-						fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
-					}
-					else { //we have to format this string
-						int endPos = getNextFormatTokenEndPos( currentPos_ );
-						
-						output_ += fmtStr_.substr( 0, currentPos_ );
-						fmtStr_.erase( 0, currentPos_ );
-						String fmt;
-						
-						if ( String::npos != endPos ) {												
-							fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
-							
-							fmtStr_.erase( 0, endPos-currentPos_ );
-						}
-						else{
-							fmt = fmtStr_;						
-							fmtStr_.erase();
-						}
 
-						size_t size = fmt.size()+val.size()+20;
-						char* tmp = new char[size+1];
-						memset( tmp, 0, (size+1)*sizeof(char) );
-						int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
-						output_ += tmp;
-						delete [] tmp;
-					}
-				}
-				else {
-					output_ += fmtStr_;
-					fmtStr_.erase();
-				}
-				
-				currentPos_ = fmtStr_.find( "%" );
-				if ( String::npos == currentPos_ ) {
-					output_ += fmtStr_;
-					fmtStr_.erase();
-				}
-			}		
+			if ( p_ < end_ ) {
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+
+				const VCFChar* p = getNextFormatTokenEndPos( (p_-start_) );
+
+				String fmt;
+				fmt.assign( p_, p - p_ );
+				p_ = p;
+
+
+				size_t size = fmt.size()+val.size()+20;
+				char* tmp = new char[size+1];
+				memset( tmp, 0, (size+1)*sizeof(char) );
+				int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
+				output_ += tmp;
+				delete [] tmp;
+			}
+
+			prev_ = p_;
+
+			gobblePercents();
+
+			if ( p_ == end_ ) {
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+			}
+
 			return *this;
 		}
-	#endif //VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS		
-		
-		
+	#endif //VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
+
+
 		operator String() const {
 			//assert if the % operator wasn't called the correct number of times
 			VCF_ASSERT ( currentFormatArgCount_ == expectedFormatArgCount_ );
@@ -243,50 +211,90 @@ namespace VCF {
 			int result = 0;
 			String searchToken = "%";
 			int pos = fmtStr_.find( searchToken );
-			
+
 			while ( pos != String::npos ) {
-				if ( !( (fmtStr_.size() >= (pos+1)) && (fmtStr_[pos+1] == '%') ) ) {
+				if ( ((pos+1) <= fmtStr_.size()) && (fmtStr_[pos+1] == '%') ) {
+					pos += 1;
+				}
+				else {
 					result ++;
 				}
 				pos = fmtStr_.find( searchToken, pos+1);
 			}
-			
+
 			return result;
 		}
-		
-		int getNextFormatTokenEndPos( int startPos ) const {  
-			
-			int result = String::npos;
-			
-			if ( fmtStr_[startPos] != '%' ) {
-				return result;
-			}
-			
-			
+
+		const VCFChar* getNextFormatTokenEndPos( int startPos ) const {
+
+			const VCFChar* p = end_;
+
+			// not necessary anymore
+			//if ( fmtStr_[startPos] != '%' ) {
+			//	return result;
+			//}
+
+
 			//flags: "-+0 #"
-			
+
 			//width [1..9,0]*
-			
+
 			//precision ".[1..9,0]"
-			
+
 			//precision for int? "hlI64L"
-			
+
 			//type "cCdiouxXeEfgnpsS"
-			
-			
+
+
 			String search = "-+0 #123456789*.hlI64LcCdiouxXeEfgnpsS";
-			
-			result = fmtStr_.find_first_not_of( search, startPos+1 );
-			
-			return result;
+
+			int pos = fmtStr_.find_first_not_of( search, startPos+1 );
+			if ( String::npos != pos ) {
+				p = start_ + pos;
+			}
+
+			return p;
+		}
+
+		void gobblePercents() {
+			int pos = fmtStr_.find( "%", ( p_ - start_ ) );
+			if ( String::npos == pos ) {
+				p_ = end_;
+			}
+			else {
+				p_ = start_ + pos;
+			}
+			while ( p_ < end_ ) {
+				if ( ( '%' == *p_ ) && ( ( p_+1 < end_ ) && ( '%' == *(p_+1) ) ) ) {
+						p_ ++;
+						output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+						p_ ++;
+
+						prev_ = p_;
+						pos = fmtStr_.find( "%", ( p_ - start_ ) );
+						if ( String::npos == pos ) {
+							p_ = end_;
+						}
+						else {
+							p_ = start_ + pos;
+						}
+				}
+				else {
+					break;
+				}
+			}
 		}
 
 	private:
 		String fmtStr_;
-		int currentPos_;
 		String output_;
 		int expectedFormatArgCount_;
 		int currentFormatArgCount_;
+
+		const VCFChar* start_;
+		const VCFChar* p_;
+		const VCFChar* prev_;
+		const VCFChar* end_;
 	};
 
 
@@ -295,59 +303,41 @@ namespace VCF {
 
 	// specialization for a String value.
 	template <> inline
-		Format& Format::operator% (const String& val) {
+	Format& Format::operator% (const String& val) {
 
 		currentFormatArgCount_  ++;
-		
+
 		VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
 		if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
 			return *this;
 		}
-		
-		if ( !fmtStr_.empty() ) {  
-			if ( String::npos != currentPos_ ) {
-				//look ahead and see if we have two consecutive %% chars
-				//if so treat as one %
-				if ( (fmtStr_.size() >= (currentPos_+1)) && (fmtStr_[currentPos_+1] == '%') ) {
-					output_ += fmtStr_.substr(0, currentPos_ ); //just copy off the first "%" char
-					fmtStr_.erase( 0, currentPos_+1 );//erase up the 2nd "%" pos
-				}
-				else { //we have to format this string
-					int endPos = getNextFormatTokenEndPos( currentPos_ );
-					
-					output_ += fmtStr_.substr( 0, currentPos_ );
-					fmtStr_.erase( 0, currentPos_ );
-					String fmt;
-					
-					if ( String::npos != endPos ) {												
-						fmt = fmtStr_.substr( 0, endPos-currentPos_ );			
-						
-						fmtStr_.erase( 0, endPos-currentPos_ );
-					}
-					else{
-						fmt = fmtStr_;						
-						fmtStr_.erase();
-					}
-					
-					size_t size = fmt.size()+val.size()+20;
-					char* tmp = new char[size+1];
-					memset( tmp, 0, (size+1)*sizeof(char) );
-					int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
-					output_ += tmp;
-					delete [] tmp;
-				}
-			}
-			else {
-				output_ += fmtStr_;
-				fmtStr_.erase();
-			}
-			
-			currentPos_ = fmtStr_.find( "%" );
-			if ( String::npos == currentPos_ ) {
-				output_ += fmtStr_;
-				fmtStr_.erase();
-			}
-		}		
+
+		if ( p_ < end_ ) {
+			output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+
+			const VCFChar* p = getNextFormatTokenEndPos( (p_-start_) );
+
+			String fmt;
+			fmt.assign( p_, p - p_ );
+			p_ = p;
+
+
+			size_t size = fmt.size()+val.size()+20;
+			char* tmp = new char[size+1];
+			memset( tmp, 0, (size+1)*sizeof(char) );
+			int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
+			output_ += tmp;
+			delete [] tmp;
+		}
+
+		prev_ = p_;
+
+		gobblePercents();
+
+		if ( p_ == end_ ) {
+			output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+		}
+
 		return *this;
 	}
 
@@ -360,6 +350,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/07/31 02:37:31  marcelloptr
+*made the Format class 10% faster and fixed handling on the %% character sequence
+*
 *Revision 1.2.2.1  2005/07/28 15:23:21  ddiego
 *fixed vc71 compile bug with format class in dev branch.
 *
