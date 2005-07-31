@@ -95,10 +95,10 @@ int main(int argc, char *argv[])
 		System::println( String("The value of the void* pointer ptr is: ") + ptr );
 
 
-		int i;
-		bool j;
-		const double* k;
-		float l;
+		int i = 0;
+		bool j = false;
+		const double* k = NULL;
+		float l = 0;
 		Object o;
 		
 		System::println( "i is a " + typeid(i) + " type" );
@@ -181,6 +181,91 @@ int main(int argc, char *argv[])
 		//same thing with a Format
 		formattedString = Format( "Number: %d, as hex: 0x%08X, a string: %s") % 12 % 12 % toFind;
 		System::println( formattedString );
+
+
+
+		/**
+		code added with only purpose of fulling testing the Format functionality
+		*/
+		s = Format( "abc" );
+		VCF_ASSERT(  "abc" == s );
+
+		s = Format( "%%" );
+		VCF_ASSERT(  "%" == s );
+
+		s = Format( "%d" ) % 1;
+		VCF_ASSERT(  "1" == s );
+
+		s = Format( "%d%%" ) % 1;
+		VCF_ASSERT(  "1%" == s );
+
+		s = Format( "a %d%%" ) % 1;
+		VCF_ASSERT(  "a 1%" == s );
+
+		s = Format( "%% %d%%" ) % 1;
+		VCF_ASSERT(  "% 1%" == s );
+
+		s = Format( "a %% %% %d" ) % 1;
+		VCF_ASSERT(  "a % % 1" == s );
+
+		s = Format( "%da %% %% %d" ) % 1 % 2;
+		VCF_ASSERT(  "1a % % 2" == s );
+
+		s = Format( "%da %% %% %d%%" ) % 1 % 2;
+		VCF_ASSERT(  "1a % % 2%" == s );
+
+		s = Format( "%da %% %% %d%%%d" ) % 1 % 2 % 3;
+		VCF_ASSERT( "1a % % 2%3" == s );
+
+		s = Format( "%da %% %% %d%%%d%%" ) % 1 % 2 % 3;
+		VCF_ASSERT( "1a % % 2%3%" == s );
+
+		s = Format( "%da %% %% %d%%%%%d%%" ) % 1 % 2 % 3;
+		VCF_ASSERT( "1a % % 2%%3%" == s );
+
+		s = Format("Hola from %s") % String("me");
+		VCF_ASSERT( "Hola from me" == s );
+
+		s = Format("Hola from %s%%") % String("me");
+		VCF_ASSERT( "Hola from me%" == s );
+
+		s = Format( "a %d \r\n" ) % 1 ;
+		VCF_ASSERT( "a 1 \r\n" == s );
+
+		s = Format( "a %5d \r\n" ) % 1 ;
+		VCF_ASSERT( "a     1 \r\n" == s );
+
+		s = Format( "a	%d --> %d  is %d .. %d \r\n" ) % 1 % 2 % 3 % 4;
+		VCF_ASSERT( "a	1 --> 2  is 3 .. 4 \r\n" == s );
+
+
+		//error - too many arguments, expecting 2 argument, recv'd 3!
+		try {
+			s = Format( "%%d" ) % 1;
+		}
+		catch ( std::exception& e ) {
+			printf( "%s\n", e.what() );
+		}
+
+		s = Format( "%d" ) %1;
+
+		try {
+			s = Format( "%d" );
+		}
+		catch ( std::exception& e ) {
+			printf( "%s\n", e.what() );
+		}
+
+		try {
+			s = Format( "%d %d" ) % 1;
+		}
+		catch ( std::exception& e ) {
+			printf( "%s\n", e.what() );
+		}
+
+
+
+
 
 		
 		/**
@@ -287,6 +372,10 @@ int main(int argc, char *argv[])
 		xfrmedString = original;
 		StringUtils::trimWhiteSpacesRight( xfrmedString );
 		System::println( Format("original: \"%s\"\nxfrmedString after StringUtils::trimWhiteSpacesRight(): \"%s\"") % original % xfrmedString );
+
+
+		System::println( "." );
+		System::println( "all the tests and the example have completed successfully" );
 	}
 	catch ( std::exception& e ) {
 		printf( e.what() );
@@ -321,6 +410,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/07/31 02:36:54  marcelloptr
+*made the Format class 10% faster and fixed handling on the %% character sequence
+*
 *Revision 1.4.2.1  2005/07/23 21:45:42  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *
