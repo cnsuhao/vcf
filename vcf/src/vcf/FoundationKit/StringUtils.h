@@ -64,7 +64,7 @@ public:
 	code should be changed to make use of the traceWithArgs( const Format& ) function 
 	instead. It will be removed entirely in an upcoming release.
 	*/
-	//static VCF::String format( VCF::String formatText );
+	//static VCF::String format( VCF::String formatText, ... );
 
 	/**
 	formats a string. Uses the same formatting rules as
@@ -526,7 +526,7 @@ The goal is to slowly get away from using the variable argument sprintf() style
 functions such as StringUtils::traceWithArgs(), or System::println().
 For example, you might have written the following code:
 \code
-System::println( "Name %s, number %d", str.c_str(), 1223 );
+System::println( Format("Name %s, number %d") % str % 1223 );
 \endcode
 With the operators below you can now rewrite this like so:
 \code
@@ -805,6 +805,9 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/08/01 17:11:46  marcelloptr
+*minor fixes or additions
+*
 *Revision 1.5.2.1  2005/07/24 02:30:26  ddiego
 *fixed bug in retreiving program info.
 *
