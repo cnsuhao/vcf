@@ -373,7 +373,7 @@ String Win32SystemPeer::getOSVersion()
 	osVersion.dwOSVersionInfoSize = sizeof(osVersion);
 	::GetVersionEx( &osVersion );
 	
-	result = StringUtils::format( Format("%d.%d %d") % osVersion.dwMajorVersion % osVersion.dwMinorVersion % osVersion.dwBuildNumber );
+	result = Format("%d.%d %d") % osVersion.dwMajorVersion % osVersion.dwMinorVersion % osVersion.dwBuildNumber;
 
 	return result;
 }
@@ -634,6 +634,9 @@ String Win32SystemPeer::getUserName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/01 17:20:46  marcelloptr
+*minor changes
+*
 *Revision 1.5  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

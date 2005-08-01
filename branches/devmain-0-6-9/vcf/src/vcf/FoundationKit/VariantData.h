@@ -265,9 +265,6 @@ public:
 
 
 	/**
-	defines the data type of the VariantData, where type can represent
-	* an int, unsigned int, long, unsigned long, short, char, 
-	* double, float, bool, string, Enum pointer, or Object pointer.
 	comparison operator
 	*/
 	bool operator == ( const VariantData& v ) const {
@@ -701,6 +698,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/01 17:20:46  marcelloptr
+*minor changes
+*
 *Revision 1.5  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *
