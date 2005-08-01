@@ -30,7 +30,6 @@ String VariantData::toString() const
 			char tmp[VariantData::DefaultPropertyValLength];
 			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%ld", i );
-
 			result += tmp;
 		}
 		break;
@@ -49,7 +48,6 @@ String VariantData::toString() const
 			char tmp[VariantData::DefaultPropertyValLength];
 			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%u", i );
-
 			result += tmp;
 		}
 		break;
@@ -59,7 +57,6 @@ String VariantData::toString() const
 			char tmp[VariantData::DefaultPropertyValLength];
 			memset(tmp, 0, sizeof(tmp));
 			sprintf( tmp, "%lu", i );
-
 			result += tmp;
 		}
 		break;
@@ -257,7 +254,6 @@ void VariantData::setFromString( const String& value )
 				throw BasicException( L"Unable to convert: " + value );
 			}
 			Long64Val = result;
-
 		}
 		break;
 
@@ -441,6 +437,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/01 18:52:23  marcelloptr
+*minor changes
+*
 *Revision 1.5  2005/07/09 23:15:06  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

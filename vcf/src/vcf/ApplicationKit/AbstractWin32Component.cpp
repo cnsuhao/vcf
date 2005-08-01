@@ -599,7 +599,7 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 			
 			if ( err == FALSE ) {
 				err = GetLastError();
-				StringUtils::traceWithArgs( Format("error in BitBlt during drawing of double buffered Comp: error code=%d\n") %	
+				StringUtils::trace( Format("error in BitBlt during drawing of double buffered Comp: error code=%d\n") %	
 											err );
 			}
 
@@ -769,10 +769,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			Win32Object* obj = Win32Object::getWin32ObjectFromHWND( hwndLoseFocus );
 			if ( NULL != obj ){
 
-
-				StringUtils::traceWithArgs( "lost focus: %s @ %p\n",
-											obj->getPeerControl()->getClassName().c_str(), obj->getPeerControl() );
-
+				StringUtils::trace( Format( "lost focus: %s @ %p\n" ) % obj->getPeerControl()->getClassName() % obj->getPeerControl() );
 
 			}
 			*/
@@ -788,8 +785,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			Win32Object* obj = Win32Object::getWin32ObjectFromHWND( hwndGetFocus );
 			if ( NULL != obj ){
 
-				StringUtils::traceWithArgs( "gained focus: %s @ %p\n",
-											obj->getPeerControl()->getClassName().c_str(), obj->getPeerControl() );
+				StringUtils::trace( Format( "gained focus: %s @ %p\n" ) % obj->getPeerControl()->getClassName() % obj->getPeerControl() );
 
 			}
 			*/
@@ -1106,7 +1102,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 					if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > peerControl_->getHeight() ) ) {
 						int pos = 0;
-						//StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
+						//StringUtils::trace( Format( "zDelta: %d\n" ) % zDelta );
 						if ( zDelta < 0 ) {
 							pos = VCF::minVal<long>((scrollable->getVerticalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewHeight() - peerControl_->getHeight())) );
@@ -1120,7 +1116,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 					}
 					else if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > peerControl_->getWidth() ) ) {
 						int pos = 0;
-						//StringUtils::traceWithArgs( "zDelta: %d\n", zDelta );
+						//StringUtils::trace( Format( "zDelta: %d\n" ) % zDelta );
 						if ( zDelta < 0 ) {
 							pos = VCF::minVal<long>((scrollable->getHorizontalPosition() + 10),
 												abs((long)(scrollable->getVirtualViewWidth() - peerControl_->getWidth())) );
@@ -1660,6 +1656,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.1  2005/08/01 18:50:29  marcelloptr
+*minor changes
+*
 *Revision 1.7  2005/07/09 23:14:50  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -413,16 +413,16 @@ void TextControl::handleEvent( Event* event )
 
 								//Debug diagnostics - JC
 								//String text = model->getText();
-								//StringUtils::traceWithArgs( "vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-								//		text.c_str(), text[pos], text[pos], pos );
+								//StringUtils::trace( Format( "vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n" ) %
+								//											text % text[pos] % text[pos] % pos );
 
 								if ( 0 != length ) {
 									model->deleteText( pos, length );
 								}
 
 								//text = model->getText();
-								//StringUtils::traceWithArgs( "after vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-								//		text.c_str(), text[pos], text[pos], pos );
+								//StringUtils::trace( Format( "after vkDelete [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n" ) %
+								//											text % text[pos] % text[pos] % pos );
 							}
 
 						}
@@ -458,8 +458,8 @@ void TextControl::handleEvent( Event* event )
 
 							//Debug diagnostics - JC
 							//String text = model->getText();
-							//StringUtils::traceWithArgs( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-							//		text.c_str(), text[pos], text[pos], pos );
+							//StringUtils::trace( Format( "vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n" ) %
+							//											text % text[pos] % text[pos] % pos );
 
 
 							if ( 0 != length ) {
@@ -468,8 +468,8 @@ void TextControl::handleEvent( Event* event )
 
 
 							//text = model->getText();
-							//StringUtils::traceWithArgs( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-							//		text.c_str(), text[pos-length], text[pos-length], pos-length );
+							//StringUtils::trace( Format( "after vkBackSpace [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n" ) %
+							//											text % text[pos-length] % text[pos-length] % pos-length );
 
 
 						}
@@ -552,8 +552,8 @@ void TextControl::handleEvent( Event* event )
 										model->deleteText( pos, length );
 									}
 
-									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-									//	text.c_str(), text[0], text[0], pos );
+									//StringUtils::trace( Format( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n" ) %
+									//											text % text[0] % text[0] % pos );
 
 									model->insertText( pos, text );
 								}
@@ -613,8 +613,8 @@ void TextControl::handleEvent( Event* event )
 
 								if ( !text.empty() ) {
 
-									//StringUtils::traceWithArgs( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n", 
-									//	text.c_str(), text[0], text[0], pos );
+									//StringUtils::trace( Format( "adding [ %s ] (as char: %c[0x%04X]) to text model at pos %d\n" ) %
+									//											text % text[0] % text[0] % pos );
 
 									//determnine if we have sleected text. If we 
 									//have, then delete the selection ant *then*
@@ -711,6 +711,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.1  2005/08/01 18:50:31  marcelloptr
+*minor changes
+*
 *Revision 1.8  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

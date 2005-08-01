@@ -537,7 +537,6 @@ public:
 				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
 				Point pt = DLUToPixel( Point(0,12), f );
 				result = pt.y_;
-
 			}
 			break;
 
@@ -1035,7 +1034,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				Frame* activeFrame = Frame::getActiveFrame();
 
 				if ( NULL != activeFrame ) {
-					/** - MP -
+					/**
 					REMARK: if we break here with a crash of the application, we probably had the
 					crash before the main frame window for the application has been fully initialized.
 					In order to see what the cause was, please put a break on the Dialog::showMessage
@@ -1374,7 +1373,7 @@ Win32ToolKit::~Win32ToolKit()
 
 	if ( !::DestroyWindow( dummyParentWnd_ ) ) {
 		int err = GetLastError();
-		StringUtils::traceWithArgs( Format("::DestroyWindow( dummyParentWnd_[=%p] ) failed!, err: %d\n") % dummyParentWnd_ % err );
+		StringUtils::trace( Format("::DestroyWindow( dummyParentWnd_[=%p] ) failed!, err: %d\n") % dummyParentWnd_ % err );
 
 		if ( NULL != toolTipWatcher ) {
 			toolTipWatcher->free();
@@ -1602,7 +1601,6 @@ SystemTrayPeer* Win32ToolKit::internal_createSystemTrayPeer()
 	return new Win32SystemTrayPeer();
 }
 
-
 MenuManagerPeer* Win32ToolKit::internal_createMenuManagerPeer()
 {
 	return new Win32MenuManagerPeer();
@@ -1638,7 +1636,7 @@ void Win32ToolKit::internal_postEvent( EventHandler* eventHandler, Event* event,
 	Win32PostEventRecord* postEventRecord = new Win32PostEventRecord( eventHandler, event, deleteHandler );
 	if ( ! ::PostMessage( dummyParentWnd_, VCF_POST_EVENT, 0, (LPARAM)postEventRecord ) ) {
 		int err = ::GetLastError();
-		StringUtils::traceWithArgs( Format("!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n") %
+		StringUtils::trace( Format("!!!!!!! WARNING ::PostMessage Failed (GetLastError(): %d !!!!!!\n") %
 									err );
 
 	}
@@ -2235,10 +2233,10 @@ void Win32ToolKit::internal_quitCurrentEventLoop()
 {
 	PostQuitMessage(0);
 	//if (!PostMessage( dummyParentWnd_, WM_QUIT, 0, 0 )) {
-	//	StringUtils::traceWithArgs( "GetLastError(): %d\n", GetLastError() );
+	//	StringUtils::trace( Format( "GetLastError(): %d\n" ) % GetLastError() );
 	//}
 	//else {
-	//	StringUtils::traceWithArgs( "internal_quitCurrentEventLoop called, PostMessage(WM_QUIT) sent\n" );
+	//	StringUtils::trace( "internal_quitCurrentEventLoop called, PostMessage(WM_QUIT) sent\n" );
 	//}
 }
 
@@ -2256,6 +2254,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/08/01 18:50:31  marcelloptr
+*minor changes
+*
 *Revision 1.6  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
