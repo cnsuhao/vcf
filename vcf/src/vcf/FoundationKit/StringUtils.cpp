@@ -1663,30 +1663,6 @@ VCF::String StringUtils::format( const DateTime& date, const String& formatting 
 				}
 				break;
 
-				// %s - millisecond part
-				case 's' : {
-					result.append( current, (p-current) -formatArgCount );
-
-					#ifdef VCF_OSX
-						CFTextString cfStr;
-						cfStr.format( CFSTR("%04d"), date.getMillisecond() );
-						cfStr.copy( tmp, minVal<uint32>(cfStr.length(),tmpLen-1) );
-						tmp[minVal<uint32>(cfStr.length(),tmpLen-1) ] = 0;
-					#elif defined(VCF_POSIX) || defined(VCF_CW_W32) || defined(VCF_DMC)
-						swprintf( tmp, tmpLen-1, L"%04d", date.getMillisecond()  );
-					#else
-						swprintf( tmp, L"%04d", date.getMillisecond()  );
-					#endif
-
-
-					result += tmp;
-
-					current = p + 1;
-					hashCharFound = false;
-					formatArgCount = 1;
-				}
-				break;
-
 				default : {
 					hashCharFound = false;
 					formatArgCount = 1;
@@ -2256,7 +2232,7 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.3  2005/08/01 17:11:45  marcelloptr
+*Revision 1.4.2.4  2005/08/01 19:57:01  marcelloptr
 *minor fixes or additions
 *
 *Revision 1.4.2.2  2005/07/30 16:52:57  iamfraggle
