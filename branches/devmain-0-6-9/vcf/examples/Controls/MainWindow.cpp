@@ -465,7 +465,7 @@ void MainWindow::makeButtonsPage()
 	il->addImage( img );
 	delete img;
 
-	img = resBundle->getImage( "iconSaveDown" );
+	img = resBundle->getImage( "iconSaveFocusDown" );
 	il->addImage( img );
 	delete img;
 
@@ -890,6 +890,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/08/01 16:46:06  marcelloptr
+*forgotten fixes
+*
 *Revision 1.3.2.1  2005/07/23 21:45:34  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *
