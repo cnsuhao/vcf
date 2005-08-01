@@ -293,7 +293,7 @@ public:
 
 			//if found equals the controls_.end, then control has not been added yet, and this is the first time
 			//this control has been positioned for this container
-			controlJustAdded = ( found == controls_.end() - 1 );
+			controlJustAdded = ( found == controls_.end() );
 		}
 
 
@@ -2119,6 +2119,9 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/08/01 20:02:23  marcelloptr
+*rolled back a container's change
+*
 *Revision 1.5.2.1  2005/07/23 21:45:39  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *
