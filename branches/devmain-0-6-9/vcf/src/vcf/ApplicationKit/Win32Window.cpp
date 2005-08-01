@@ -182,7 +182,7 @@ void Win32Window::setBounds( VCF::Rect* rect )
 
 void Win32Window::setVisible( const bool& visible )
 {
-	//StringUtils::traceWithArgs( "Win32Window::setVisible( %d )\n", visible );
+	//StringUtils::trace( Format( "Win32Window::setVisible( %d )\n" ) % visible );
 	if ( true == visible ){
 
 		Frame* frame = (Frame*)peerControl_;
@@ -300,7 +300,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			Frame* frame = (Frame*)peerControl_;
-			//StringUtils::traceWithArgs( "WM_NCACTIVATE, active: %d\n", active );
+			//StringUtils::trace( Format( "WM_NCACTIVATE, active: %d\n" ) % active );
 
 			if ( active ) {
 				handleActivate();
@@ -311,7 +311,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		case WM_ACTIVATEAPP : {
 			BOOL fActive = (BOOL) wParam;
 
-			//StringUtils::traceWithArgs( "WM_ACTIVATEAPP, fActive: %d\n", fActive );
+			//StringUtils::trace( Format( "WM_ACTIVATEAPP, fActive: %d\n" ) % fActive );
 			if ( !fActive && (NULL != peerControl_) ) {
 				Frame* frame = (Frame*)peerControl_;
 
@@ -337,7 +337,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
-			//StringUtils::traceWithArgs( "WM_ACTIVATE, active: %d\n", active );
+			//StringUtils::trace( Format( "WM_ACTIVATE, active: %d\n" ) % active );
 
 			if ( active ) {
 				handleActivate();
@@ -493,6 +493,7 @@ void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
 		case fstSizeable :{
 			style |= WS_OVERLAPPEDWINDOW;
 			exStyle &= ~WS_EX_TOOLWINDOW;
+			exStyle |= WS_EX_WINDOWEDGE;// otherwise it is not resizable anymore (MP)
 			style |= WS_THICKFRAME;
 		}
 		break;
@@ -667,6 +668,7 @@ void Win32Window::setIconImage( Image* icon )
 
 	RedrawWindow( hwnd_, NULL, 0, RDW_FRAME | RDW_INVALIDATE );
 
+
 	//JC I commented this out. If this get's called
 	//just before the window is made visible for the first time
 	//then it ends up making everything (all the icons) disapear
@@ -694,6 +696,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/01 18:50:32  marcelloptr
+*minor changes
+*
 *Revision 1.5  2005/07/09 23:14:59  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -199,7 +199,7 @@ public:
 	virtual ~ComboBoxDropDown() {
 
 
-		//StringUtils::traceWithArgs( "ComboBoxDropDown::~ComboBoxDropDown() @ %p\n", this );
+		//StringUtils::trace( Format( "ComboBoxDropDown::~ComboBoxDropDown() @ %p\n" ) % this );
 
 	}
 
@@ -813,7 +813,7 @@ void ComboBoxControl::onEditKeyPressed( KeyboardEvent* event )
 			new KeyboardEventHandler<ComboBoxControl>( this, &ComboBoxControl::onEditReturnKeyPressed ), postedEvent );
 	//}
 	//VirtualKeyCode key = event->getVirtualCode();
-	//StringUtils::traceWithArgs( "Key: %d\r\n", key );
+	//StringUtils::trace( Format( "Key: %d\r\n" ) % key );
 }
 
 void ComboBoxControl::onEditReturnKeyPressed( KeyboardEvent* event )
@@ -1046,6 +1046,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/01 18:50:31  marcelloptr
+*minor changes
+*
 *Revision 1.5  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

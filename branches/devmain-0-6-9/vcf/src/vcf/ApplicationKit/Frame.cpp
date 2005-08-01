@@ -223,8 +223,8 @@ void Frame::activate()
 				
 				VCF::WindowEvent event( oldActiveFrame, Frame::ACTIVATION_EVENT );
 
-				//StringUtils::traceWithArgs( "oldActiveFrame->FrameActivation.fireEvent, this[%s]@ %s\n",
-				//					oldActiveFrame->getClassName().c_str(), oldActiveFrame->toString().c_str() );
+				//StringUtils::trace( Format( "oldActiveFrame->FrameActivation.fireEvent, this[%s]@ %s\n" ) %
+				//					oldActiveFrame->getClassName() % oldActiveFrame->toString() );
 
 				oldActiveFrame->FrameActivation.fireEvent( &event );
 			}
@@ -246,9 +246,9 @@ bool Frame::isActive()
 Frame* Frame::getActiveFrame()
 {
 	/*
-	StringUtils::traceWithArgs( "Frame::getActiveFrame(): %p\n", Frame::currentActiveFrame );
+	StringUtils::trace( Format( "Frame::getActiveFrame(): %p\n" ) % Frame::currentActiveFrame );
 	Control* c = Control::getCurrentFocusedControl();
-	StringUtils::traceWithArgs( "Control::getCurrentFocusedControl(): %p\n", c );
+	StringUtils::trace( Format( "Control::getCurrentFocusedControl(): %p\n" ) % c );
 
 	if ( NULL == Frame::currentActiveFrame ) {
 		Frame::currentActiveFrame = c->getParentFrame();
@@ -281,6 +281,9 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/01 18:50:31  marcelloptr
+*minor changes
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
