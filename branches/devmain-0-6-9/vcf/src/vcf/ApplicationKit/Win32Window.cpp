@@ -327,6 +327,9 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 					break;
 				}
 			}
+			else if ( fActive && (NULL != peerControl_) ) {
+				RedrawWindow( hwnd_, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN );	
+			}
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
@@ -544,12 +547,9 @@ void Win32Window::setFrameStyle( const FrameStyleType& frameStyle )
 	::SetWindowLong( hwnd_, GWL_STYLE, style );
 	::SetWindowLong( hwnd_, GWL_EXSTYLE, exStyle );
 
-	//Rect* r = peerControl_->getBounds();
 	::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE );
 
 	::UpdateWindow( hwnd_ );
-
-	//peerControl_->setBounds( r );
 }
 
 void Win32Window::setFrameTopmost( const bool& isTopmost )
@@ -696,6 +696,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/08/05 01:11:38  ddiego
+*splitter fixes finished.
+*
 *Revision 1.5.2.1  2005/08/01 18:50:32  marcelloptr
 *minor changes
 *

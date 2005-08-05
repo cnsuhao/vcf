@@ -424,8 +424,9 @@ void Control::setVisible( const bool& visible ) /**throw( InvalidPeer ); -JEC - 
 {
 	bool oldVisible = peer_->getVisible();
 
-	if ( oldVisible != visible ) {
+	if ( oldVisible != visible ) {	
 		peer_->setVisible( visible );
+
 		Control* parent = getParent();
 		if ( NULL != parent ) {
 			Container* container = parent->getContainer();
@@ -994,9 +995,16 @@ void Control::afterCreate( ComponentEvent* event )
 }
 
 void Control::repaint( Rect* repaintRect )
+{	
+	peer_->repaint( repaintRect, false );
+	if ( useRenderBuffer_ ) {
+		context_->markRenderAreaDirty();
+	}
+}
+
+void Control::repaintNow( Rect* repaintRect )
 {
-	
-	peer_->repaint( repaintRect );
+	peer_->repaint( repaintRect, true );
 	if ( useRenderBuffer_ ) {
 		context_->markRenderAreaDirty();
 	}
@@ -1525,11 +1533,27 @@ void Control::paintBorder( GraphicsContext * context )
 	}
 }
 
+bool Control::hasChildren()
+{
+	bool result = false;
+	Container* container = getContainer();
+	if ( NULL != container ) {
+		result = container->getChildCount() > 0;
+	}
+	return result;
+}
 
+bool Control::isChild()
+{
+	return getParent() != NULL;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.1  2005/08/05 01:11:37  ddiego
+*splitter fixes finished.
+*
 *Revision 1.8  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

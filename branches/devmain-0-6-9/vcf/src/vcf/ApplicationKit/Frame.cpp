@@ -160,10 +160,9 @@ void Frame::paint( GraphicsContext * context )
 }
 
 void Frame::show()
-{
-	//if ( !getVisible() ) {
-		setVisible( true );
-	//}
+{	
+	setVisible( true );
+	repaint();
 
 	activate();
 }
@@ -281,6 +280,9 @@ bool Frame::allowClose()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/08/05 01:11:38  ddiego
+*splitter fixes finished.
+*
 *Revision 1.4.2.1  2005/08/01 18:50:31  marcelloptr
 *minor changes
 *

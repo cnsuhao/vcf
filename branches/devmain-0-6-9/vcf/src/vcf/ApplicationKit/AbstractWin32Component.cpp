@@ -108,14 +108,7 @@ void AbstractWin32Component::init()
 	memDC_ = NULL;
 	mouseEnteredControl_ = false;
 
-	cachedMessages_ = new std::vector<MSG>();
-
-	/*
-	JC I remove this cause we don't really need them
-	*/
-	//parent_ = NULL;
-	//winPosInfo_ = NULL;
-	
+	cachedMessages_ = new std::vector<MSG>();	
 }
 
 OSHandleID AbstractWin32Component::getHandleID()
@@ -166,59 +159,31 @@ void AbstractWin32Component::setText( const VCF::String& text )
 }
 
 void AbstractWin32Component::setBounds( VCF::Rect* rect )
-{
-	/*
-	JEC - I commented this out to simplify/speed up some resize/repaint issues
-	HDWP winPosInfo = NULL;
-	if ( NULL != parent_ ) {
-		winPosInfo = parent_->getWindPosInfo();
+{	
+	if ( !peerControl_->hasChildren() ) {
+		::MoveWindow( hwnd_, (int)rect->left_, (int)rect->top_, rect->getWidth(), (int)rect->getHeight(), TRUE );
 	}
-
-
-	if ( NULL != winPosInfo ) {
-		parent_->winPosInfo_ = ::DeferWindowPos( winPosInfo, hwnd_, NULL, (int)rect->left_, (int)rect->top_,
-													(int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );
-	}
-	else{
+	else {
 		::SetWindowPos( hwnd_, NULL, (int)rect->left_, (int)rect->top_,
-                    (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER| SWP_NOZORDER );
-	}
-	*/
-
-	bool repaint = peerControl_->getRepaintOnSize();
-	//StringUtils::trace( Format( "AbstractWin32Component::MoveWindow: [%d] %s\n" ) % repaint  % peerControl_->getToolTipText());
-
-	::MoveWindow( hwnd_, (int)rect->left_, (int)rect->top_, rect->getWidth(), (int)rect->getHeight(), repaint );
-	//UINT rep = ( repaint ) ? 0 : SWP_NOREDRAW;
-	//::SetWindowPos( hwnd_, NULL, (int)rect->left_, (int)rect->top_,
-	//                (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER | rep );
+			          (int)rect->getWidth(), (int)rect->getHeight(), SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER );
+	}	
 }
 
 
 
 bool AbstractWin32Component::beginSetBounds( const ulong32& numberOfChildren )
 {
-	/*
-	JEC - I commented this out to simplify/speed up some resize/repaint issues
-	bool result = false;
+	
+	//JEC - I commented this out to simplify/speed up some resize/repaint issues
+	bool result = true;
 
-	winPosInfo_ = NULL;
-	winPosInfo_ = ::BeginDeferWindowPos( numberOfChildren );
-
-	result = (NULL != winPosInfo_);
-	*/
-
-	return true;//result;
+	
+	return result;
 }
 
 void AbstractWin32Component::endSetBounds()
 {
-	/*
-	JEC - I commented this out to simplify/speed up some resize/repaint issues
-	::EndDeferWindowPos( winPosInfo_ );
-
-	winPosInfo_ = NULL;
-	*/
+	
 }
 
 VCF::Rect AbstractWin32Component::getBounds()
@@ -258,7 +223,7 @@ VCF::Rect AbstractWin32Component::getBounds()
 void AbstractWin32Component::setVisible( const bool& visible )
 {
 	if ( true == visible ){
-		::ShowWindow( hwnd_, SW_SHOW );
+		::ShowWindow( hwnd_, SW_SHOWNA );
 	}
 	else{
 		::ShowWindow( hwnd_, SW_HIDE );
@@ -294,18 +259,9 @@ void AbstractWin32Component::setParent( VCF::Control* parent )
 	}
 	else {
 		VCF::ControlPeer* parentPeer = parent->getPeer();
-		/*
-		JC I remove this cause we don't really need them
-		*/
-		//parent_ = NULL;
 		
 		if ( NULL == dynamic_cast<Frame*>(peerControl_) ){
-			HWND wndParent = (HWND)parentPeer->getHandleID();
-			
-			/*
-			JC I remove this cause we don't really need them
-			*/
-			//parent_ = (AbstractWin32Component*)(parentPeer);
+			HWND wndParent = (HWND)parentPeer->getHandleID();			
 			
 			if ( NULL == wndParent ){
 				//throw exception !!!
@@ -815,7 +771,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		case WM_PAINT:{
 			if ( true == isCreated() ){
 				//StringUtils::trace( Format( "AbstractWin32Component::WM_PAINT: [%d] %s\n" ) % peerControl_->getRepaintOnSize() % peerControl_->getToolTipText() );
-				if ( !peerControl_->isDestroying() ) {
+				if ( !peerControl_->isDestroying() ) {					
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
 						wndProcResult = 0;
 						result = true;
@@ -1481,8 +1437,8 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 	return result;
 }
 
-void AbstractWin32Component::repaint( Rect* repaintRect )
-{
+void AbstractWin32Component::repaint( Rect* repaintRect, const bool& immediately )
+{	
 	if ( NULL == repaintRect ){
 		::InvalidateRect( hwnd_, NULL, TRUE );
 	}
@@ -1494,6 +1450,10 @@ void AbstractWin32Component::repaint( Rect* repaintRect )
 		rect.bottom = (long)repaintRect->bottom_;
 		::InvalidateRect( hwnd_, &rect, TRUE );
 	}
+
+	if ( immediately ) {
+		UpdateWindow( hwnd_ );
+	}	
 }
 
 void AbstractWin32Component::keepMouseEvents()
@@ -1656,6 +1616,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2005/08/05 01:11:37  ddiego
+*splitter fixes finished.
+*
 *Revision 1.7.2.1  2005/08/01 18:50:29  marcelloptr
 *minor changes
 *

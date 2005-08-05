@@ -59,7 +59,7 @@ public:
 
 	virtual void setFont( Font* font );
 
-	void repaint( Rect* repaintRect=NULL );
+	void repaint( Rect* repaintRect, const bool& immediately );
 
 	virtual void keepMouseEvents();
 
@@ -102,6 +102,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/05 01:11:38  ddiego
+*splitter fixes finished.
+*
 *Revision 1.5  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

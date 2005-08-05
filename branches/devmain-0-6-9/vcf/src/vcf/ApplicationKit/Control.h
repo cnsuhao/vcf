@@ -797,6 +797,8 @@ public:
 	*/
 	void repaint( Rect* repaintRect=NULL );
 
+	void repaintNow( Rect* repaintRect=NULL );
+
 	/**
 	*is this component double buffered.
 	*@return bool true if the component is double buffered, otherwise
@@ -1256,6 +1258,33 @@ public:
 	*/
 	void setContainer( Container* container );
 
+	/**
+	This returns whether or not the control has 
+	any child controls associated with it. 
+
+	@return bool returns true if the control has children. 
+	A control with children, by definition, \em must 
+	have a Container instance. Returns false if the
+	control has no children. Note that a false
+	return value doesn't neccessarily mean that the 
+	control has no container (just that the container
+	has no child controls yet).
+
+	@see getContainer()
+	*/
+	bool hasChildren();
+
+	/**
+	Returns whether or not this control is a 
+	child of some other control. Equivalent 
+	to checking the return value of getParent()
+	for a non-null value.
+	@return bool returns true if the control has a 
+	parent. Otherwise it returns false.
+
+	@see getParent()
+	*/
+	bool isChild();
 
 	/**
 	sets a new model for the view
@@ -1355,6 +1384,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/05 01:11:37  ddiego
+*splitter fixes finished.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
