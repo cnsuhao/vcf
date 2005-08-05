@@ -126,7 +126,7 @@ public:
 
 	virtual void setFont( Font* font ) = 0;
 
-	virtual void repaint( Rect* repaintRect=NULL ) = 0;
+	virtual void repaint( Rect* repaintRect, const bool& immediately ) = 0;
 
 	/**
 	*this keeps the mouse events being sent to this control, even is the
@@ -171,6 +171,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/05 01:11:38  ddiego
+*splitter fixes finished.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

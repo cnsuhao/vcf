@@ -392,12 +392,13 @@ void Splitter::updateAttachedControl( Point& pt, const bool& shiftAll/*=false*/ 
 
 	//StringUtils::trace( Format( "Splitter: calling resizeChildren( NULL )\n" ) );
 	if ( NULL != attachedControlAlt_ ) {
-		attachedControlAlt_->repaint();
+		attachedControlAlt_->repaintNow();
 	}
 	if ( NULL != attachedControl_ ) {
-		attachedControl_->repaint();
+		attachedControl_->repaintNow();
 	}
 	container->resizeChildren( NULL );
+	getParent()->repaintNow();
 }
 
 void Splitter::updateAttachedControlJump( Point& pt, const bool& shiftAll )
@@ -577,6 +578,9 @@ double Splitter::getPreferredWidth()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/08/05 01:11:38  ddiego
+*splitter fixes finished.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

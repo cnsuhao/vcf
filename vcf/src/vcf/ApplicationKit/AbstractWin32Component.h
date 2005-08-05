@@ -81,7 +81,7 @@ public:
 	virtual void setFont( Font* font );
 
 
-	virtual void repaint( Rect* repaintRect=NULL );
+	virtual void repaint( Rect* repaintRect, const bool& immediately );
 
 	virtual void keepMouseEvents();
 
@@ -102,12 +102,6 @@ public:
 	virtual void translateFromScreenCoords( Point* pt );
 
 	virtual void setBorder( Border* border );
-
-	/*
-	HDWP getWindPosInfo() {
-		return winPosInfo_;
-	}
-	*/
 
 	/**
 	* manages a paint message for a control.
@@ -161,12 +155,6 @@ protected:
 
 	std::vector<MSG>* cachedMessages_;
 
-	/*
-	JC I remove this cause we don't really need them
-	//HDWP winPosInfo_;
-	//AbstractWin32Component* parent_;
-	*/
-
 };
 
 
@@ -176,6 +164,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/05 01:11:37  ddiego
+*splitter fixes finished.
+*
 *Revision 1.5  2005/07/09 23:14:50  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
