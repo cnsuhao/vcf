@@ -57,6 +57,10 @@ protected:
 	String binToHex( Persistable* persistableObject );
 
 	void writeObject( Object* object, const String& objectPropertyName );
+
+	void writeEvents( Component* component );
+
+	String generateEventHandlerString( EventProperty* eventProperty, EventHandler* handler );
 };
 
 };
@@ -65,6 +69,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/08 03:18:40  ddiego
+*minor updates
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -45,31 +45,50 @@ public:
 	virtual ~EventHandler();
 
 	/**
-	*called during the events dispatch cycle
-	*The implemtnation will end up calling the
-	*appropriate call back method
+	\par
+	Called during the events dispatch cycle.
+	The implementation will end up calling the
+	appropriate call back method.
 	*/
 	virtual void invoke( Event* e ) = 0;
 
+
 	/**
-	*adds the EventHandler to it's source object.
-	*For this to work the source must be derived
-	*from ObjectWithEvents. By adding the event handler
-	*to the source, the handler's memory will be cleaned
-	*up by the source when the source is destroyed.
-	*The EventHandler may be retreived at any time
-	*by calling the getEventHandler() method on the
-	*source (once again, assuming the source is derived
-	*from ObjectWithEvents).
-	*@param Object the source to which the EventHandler
-	*will be added.
-	*@param String the name the EventHandler is referred to.
-	*This should be a reasonably unique name.
+	Returns the source that the event handler is attached to. Some 
+	event handler implementations may not return a source for public
+	use, or may not use one at all, so this method may return NULL. 
+	An example of not using a source would be the StaticEventHandlerInstance
+	which is used to wrap static functions.
+	The default implementation returns a NULL object source.
+	*/
+	virtual Object* getSource() {
+		return NULL;
+	}
+
+
+	/**
+	\par
+	Adds the EventHandler to it's source object.
+	For this to work the source must be derived
+	from ObjectWithEvents. By adding the event handler
+	to the source, the handler's memory will be cleaned
+	up by the source when the source is destroyed.
+	\par
+	The EventHandler may be retreived at any time
+	by calling the getEventHandler() method on the
+	source (once again, assuming the source is derived
+	from ObjectWithEvents).
+	@param Object the source to which the EventHandler
+	will be added.
+	@param String the name the EventHandler is referred to.
+	This should be a reasonably unique name.
 	*/
 	void addHandlerToSource( Object* source, const String& handlerName );
 
+	String getHandlerName();
 protected:
-	
+
+	String getHandlerNameFromSource( Object* source );	
 };
 
 
@@ -192,6 +211,9 @@ public:
 		}
 	}
 
+	virtual Object* getSource() {
+		return source_;
+	}
 protected:
 	SOURCE* source_;
 	OnEventHandlerMethod handlerMethod_;
@@ -259,6 +281,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.1  2005/08/08 03:19:17  ddiego
+*minor updates
+*
 *Revision 1.7  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -1291,23 +1291,7 @@ public:
 	Once set, the control fires a ControlModelChanged event.
 	*/
 	virtual void setViewModel( Model* viewModel );
-
-	/**
-	tells if the control is currently sending a repaint message
-	when resizing, or not.
-	*/
-	bool getRepaintOnSize() {
-		return repaintOnSize_;
-	}
-
-	/**
-	let the user to control if the control will send a repaint message
-	when is resized, or not.
-	*/
-	void setRepaintOnSize( const bool& repaint ) {
-		repaintOnSize_ = repaint;
-	}
-
+	
 	/**
 	*returns the current control that has captured the mouse input.
 	*This may return NULL if no control has expressly captured the
@@ -1373,7 +1357,6 @@ protected:
 	bool useRenderBuffer_;
 	Container* container_;
 	bool ignoredForLayout_;
-	bool repaintOnSize_;
 
 };
 
@@ -1384,6 +1367,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/08/08 03:18:40  ddiego
+*minor updates
+*
 *Revision 1.4.2.1  2005/08/05 01:11:37  ddiego
 *splitter fixes finished.
 *
