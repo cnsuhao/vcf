@@ -165,6 +165,9 @@ void VFFOutputStream::writeComponent( Component* component )
 			container = control->getContainer();
 		}
 
+		std::vector<Component*> componentsAlreadyWritten;
+		std::vector<Component*>::iterator found;
+
 		if ( NULL != container ) {
 			Enumerator<Control*>* children = container->getChildren();
 			if ( NULL != children ) {
@@ -172,6 +175,7 @@ void VFFOutputStream::writeComponent( Component* component )
 				while ( true == children->hasMoreElements() ) {
 					Control* child = children->nextElement();
 					writeComponent( child );
+					componentsAlreadyWritten.push_back( child );
 				}
 				tabLevel_ --;
 			}
@@ -182,21 +186,136 @@ void VFFOutputStream::writeComponent( Component* component )
 			tabLevel_ ++;
 			while ( true == components->hasMoreElements() ) {
 				Component* childComponent = components->nextElement();
-				writeComponent( childComponent );
+				found = std::find( componentsAlreadyWritten.begin(), componentsAlreadyWritten.end(), childComponent );
+				if ( found == componentsAlreadyWritten.end() ) {
+					writeComponent( childComponent );
+				}
 			}
 			tabLevel_ --;
 		}
 
+
+		//write out the events for the components
+		writeEvents( component );
+
+
 		tabString = getTabString();
 		s = tabString + "end\n";
 		stream_->write( s );
+	}	
+}
+
+/**
+This is used to generate a string that has the 
+event handler source name, if possible, followed by an "@"
+character, followed by the name of the event handler.
+If the name of the source can't be determined, then a 
+empty string is returned.
+*/
+String VFFOutputStream::generateEventHandlerString( EventProperty* eventProperty, EventHandler* handler )
+{
+	String result;
+
+	Object* source = handler->getSource();
+	if ( NULL != source ) {
+		//check if it's a component??
+		Component* componentSrc = dynamic_cast<Component*>( source );
+		if ( NULL != componentSrc ) {
+			String srcName = componentSrc->getName();
+			String handlerName = handler->getHandlerName();
+			if ( !srcName.empty() && !handlerName.empty() ) {
+				result = srcName + "@" + handlerName;
+			}
+		}
+	}	
+
+	return result;
+}
+
+void VFFOutputStream::writeEvents( Component* component )
+{
+	Class* clazz = component->getClass();
+	tabLevel_ ++;
+	String tabString = getTabString();
+	if ( NULL != clazz ) {
+		String s;
+
+		Enumerator<EventProperty*>* events = clazz->getEvents();
+		
+
+		bool needsDelegateSection = events->hasMoreElements();
+
+		if ( needsDelegateSection ) {
+			s = tabString + "delegates \n";
+			stream_->write( s );
+		}
+
+		tabLevel_ ++;
+		tabString = getTabString();
+
+		tabLevel_ ++;
+		String tabString2 = getTabString();
+
+		while ( events->hasMoreElements() ) {
+			EventProperty* eventProp = events->nextElement();
+			Delegate* eventDelegate = eventProp->getEventDelegate(component);
+
+			if ( NULL != eventDelegate ) {
+				EventHandler::Vector handlers;
+				String delegateStr;
+
+				if ( eventDelegate->getEventHandlers( handlers ) ) {
+					
+					EventHandler::Vector::iterator it = handlers.begin();
+					
+					while ( it != handlers.end() ) {
+						EventHandler* ev = *it;
+						String evStr = generateEventHandlerString( eventProp, ev );
+
+						if ( !evStr.empty() ) {
+							if ( it > handlers.begin() ) {
+								delegateStr += ", ";
+							}
+							delegateStr += evStr;
+						}
+						
+						it ++;
+					}
+
+					//make sure we don't end up with "[]" an empty set
+					if ( !delegateStr.empty() ) {
+						s = tabString + eventProp->getDelegateName() + " = [\n";
+						s += tabString2 + delegateStr +  "]\n";
+						stream_->write( s );
+					}
+					
+					
+				}
+			}
+		}
+
+		tabLevel_ --;
+
+		tabLevel_ --;
+		tabString = getTabString();
+
+		if ( needsDelegateSection ) {
+			s = tabString + "end\n";
+			stream_->write( s );
+		}
+		
 	}
+
+	tabLevel_ --;
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/08/08 03:18:40  ddiego
+*minor updates
+*
 *Revision 1.3  2005/07/09 23:14:57  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

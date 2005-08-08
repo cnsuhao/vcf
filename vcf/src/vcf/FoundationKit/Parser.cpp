@@ -135,7 +135,7 @@ void Parser::error( const String& Ident )
 
 void Parser::errorStr( const String& Message)
 {
-	throw RuntimeException( MAKE_ERROR_MSG_2(StringUtils::format( Format("Parse Error, message: %s") % Message.c_str() )) );
+	throw RuntimeException( MAKE_ERROR_MSG_2(StringUtils::format( Format("Parse Error, message: %s") % Message )) );
 }
 
 VCFChar Parser::nextToken()
@@ -151,10 +151,22 @@ VCFChar Parser::nextToken()
 	tokenPtr_ = P;
 	if ( ((*P >= 'A') && (*P <= 'Z')) || ((*P >= 'a') && (*P <= 'z')) || ( *P == '_' ) ) {
 		P++;
-		while ( ((*P == ':')) || ((*P >= 'A') && (*P <= 'Z')) || ((*P >= 'a') && (*P <= 'z')) || ((*P >= '0') && (*P <= '9')) || ( *P == '_' ) ) {
+		while ( ((*P == ':')) || ((*P >= 'A') && (*P <= 'Z')) || ((*P >= 'a') && (*P <= 'z')) || ((*P >= '0') && (*P <= '9')) || ( *P == '_' )
+			     || ( *P == '@' ) ) {
 			P++;
 		}
 		result = TO_SYMBOL;
+	}
+	else if ( *P == '@' ) {
+		P++;
+		if ( ((*P >= 'A') && (*P <= 'Z')) || ((*P >= 'a') && (*P <= 'z')) || ( *P == '_' ) ) {
+			P++;
+			while ( ((*P == ':')) || ((*P >= 'A') && (*P <= 'Z')) || ((*P >= 'a') && (*P <= 'z')) || ((*P >= '0') && (*P <= '9')) || ( *P == '_' )
+				    || ( *P == '@' ) ) {
+				P++;
+			}
+			result = TO_SYMBOL;
+		}
 	}
 	else if ( (*P == '#') || (*P == '\'') ) {
 		S = P;
@@ -319,6 +331,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/08/08 03:19:17  ddiego
+*minor updates
+*
 *Revision 1.3.2.1  2005/07/30 16:56:04  iamfraggle
 *Provide CW implementation of tokenSymbolIs
 *

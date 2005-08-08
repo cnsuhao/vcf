@@ -189,6 +189,23 @@ public:
 		handlers_->insert( handlers_->begin(), handler );
 	}
 
+	/**
+	This allows you to retreive a copy of the handlers registered with this 
+	delegate.
+	@param EventHandler::Vector a reference to a std::vector<EventHandler*>
+	that will be filled with the event handlers registered with this
+	delegate.
+	@return bool returns true if the handlers were successfully copied over.
+	Otherwise returns false. A delegate with no handlers will also return 
+	false.
+	*/
+	inline bool getEventHandlers( EventHandler::Vector& handlers ) {
+		if ( NULL != handlers_ ) {
+			handlers = *handlers_;
+		}
+
+		return !handlers.empty();
+	}
 protected:
 	inline void checkHandlers() {
 		if ( NULL == handlers_ ) {
@@ -205,6 +222,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/08/08 03:19:17  ddiego
+*minor updates
+*
 *Revision 1.6  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

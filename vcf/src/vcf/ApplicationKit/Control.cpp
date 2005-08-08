@@ -43,8 +43,7 @@ Control::Control():
 	tabOrder_(-1),
 	useRenderBuffer_(false),
 	container_(NULL),
-	ignoredForLayout_(false),
-	repaintOnSize_(true)
+	ignoredForLayout_(false)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -1551,6 +1550,9 @@ bool Control::isChild()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.2  2005/08/08 03:18:40  ddiego
+*minor updates
+*
 *Revision 1.8.2.1  2005/08/05 01:11:37  ddiego
 *splitter fixes finished.
 *
