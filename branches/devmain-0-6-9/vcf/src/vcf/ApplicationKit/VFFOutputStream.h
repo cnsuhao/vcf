@@ -23,6 +23,7 @@ public:
 	VFFOutputStream( OutputStream* stream ) {
 		stream_ = stream;
 		tabLevel_ = 0;
+		saveUnNamedComponents_ = false;
 	}
 
 	virtual ~VFFOutputStream(){};
@@ -50,9 +51,14 @@ public:
 	void writeComponent( Component* component );
 
 	String getTabString();
+
+	void setSaveUnNamedComponents( const bool& val ) {
+		saveUnNamedComponents_ = val;
+	}
 protected:
 	OutputStream* stream_;
 	long tabLevel_;
+	bool saveUnNamedComponents_;
 
 	String binToHex( Persistable* persistableObject );
 
@@ -69,6 +75,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/08/09 04:30:35  ddiego
+*minor vff output stream change.
+*
 *Revision 1.2.6.1  2005/08/08 03:18:40  ddiego
 *minor updates
 *
