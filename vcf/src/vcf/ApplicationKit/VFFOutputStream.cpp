@@ -109,6 +109,10 @@ void VFFOutputStream::writeObject( Object* object, const String& objectPropertyN
 
 void VFFOutputStream::writeComponent( Component* component )
 {
+	if ( !saveUnNamedComponents_ && (component->getName().empty()) ) {
+		return;
+	}
+
 	Class* clazz = component->getClass();
 	String tabString = getTabString();
 	if ( NULL != clazz ) {
@@ -313,6 +317,9 @@ void VFFOutputStream::writeEvents( Component* component )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/08/09 04:30:35  ddiego
+*minor vff output stream change.
+*
 *Revision 1.3.2.1  2005/08/08 03:18:40  ddiego
 *minor updates
 *
