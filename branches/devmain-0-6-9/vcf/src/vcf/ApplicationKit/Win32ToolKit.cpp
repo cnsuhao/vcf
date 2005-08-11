@@ -676,7 +676,7 @@ public:
 			SelectObject( dc, oldFont );
 
 			// height of item is just height of a standard menu item
-			result.height_ = __max( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
+			result.height_ = maxVal<>( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
 
 			const int CXGAP = 1;		// num pixels between button and text
 			const int CXTEXTMARGIN = 2;		// num pixels after hilite to start text
@@ -2254,6 +2254,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/08/11 02:11:37  ddiego
+*fixed __max problem by replacing with maxVal.
+*
 *Revision 1.6.2.1  2005/08/01 18:50:31  marcelloptr
 *minor changes
 *
