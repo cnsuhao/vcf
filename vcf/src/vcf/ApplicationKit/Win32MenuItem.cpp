@@ -697,7 +697,7 @@ void Win32MenuItem::fillInMeasureItemInfo( MEASUREITEMSTRUCT& measureItemInfo )
 						SelectObject( dc, oldFont );
 
 						// height of item is just height of a standard menu item
-						measureItemInfo.itemHeight = __max( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
+						measureItemInfo.itemHeight = maxVal<>( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
 
 						// width is width of text plus a bunch of stuff
 						int cx = rcText.right - rcText.left;	// text width
@@ -886,6 +886,9 @@ void Win32MenuItem::drawMenuItemText( HDC dc, RECT rc, COLORREF color )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/11 02:11:37  ddiego
+*fixed __max problem by replacing with maxVal.
+*
 *Revision 1.4  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
