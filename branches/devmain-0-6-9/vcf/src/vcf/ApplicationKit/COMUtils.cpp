@@ -504,10 +504,10 @@ VCF::DataObject* COMUtils_createFromHGlobal( STGMEDIUM& stg, const VCF::String& 
 		result = new TextDataObject(String(tmp));
 	}
 	else if ( dataType == COMPONENT_DATA_TYPE ) {
-		String text;
-		text.append( (VCF::WideChar*)rawGlobalMem, memSize );
+		AnsiString tmp;
+		tmp.append( rawGlobalMem, memSize );
 
-		result = new TextDataObject(text);
+		result = new TextDataObject(tmp);
 	}
 	else if ( (dataType == "image/bmp") || (dataType == IMAGE_DATA_TYPE) ) {
 		BasicInputStream bis( rawGlobalMem, memSize );
@@ -946,6 +946,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/08/12 03:13:44  ddiego
+*minor changes
+*
 *Revision 1.3  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
