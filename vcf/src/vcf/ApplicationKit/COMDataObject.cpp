@@ -114,7 +114,7 @@ COMDataObject::COMDataObject( IDataObject* outerDataObject ):
 
 COMDataObject::~COMDataObject()
 {
-	//dataObj_->release();
+	
 }
 
 
@@ -143,7 +143,9 @@ STDMETHODIMP COMDataObject::GetData( FORMATETC * formatETC, STGMEDIUM * stgMediu
 				}
 
 				*stgMedium = dataRender.storage_;
+				
 				AddRef();
+
 				result = S_OK;
 			}
 		}
@@ -440,6 +442,9 @@ String COMDataObject::translateClipboardFmt( const UINT& fmtType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/12 03:13:44  ddiego
+*minor changes
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

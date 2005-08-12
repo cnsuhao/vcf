@@ -165,6 +165,8 @@ void DocumentManager::copyFromDocument( Document* doc ) {
 	if ( NULL != data ) {
 		Clipboard* clipboard = UIToolkit::getSystemClipboard();
 		clipboard->copyTo( data );
+
+		data->free();
 	}
 }
 
@@ -610,6 +612,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/12 03:13:44  ddiego
+*minor changes
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

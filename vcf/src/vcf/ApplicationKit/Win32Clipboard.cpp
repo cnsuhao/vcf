@@ -41,7 +41,6 @@ void Win32Clipboard::copy( VCF::DataObject* data )
 
 	HRESULT hr = ::OleSetClipboard( dataObj );
 	if ( !SUCCEEDED(hr) ) {
-
 	}
 }
 
@@ -57,6 +56,8 @@ VCF::DataObject* Win32Clipboard::paste( const String& dataType )
 	if ( (SUCCEEDED(hr)) && (NULL != oleDataObject) ) {
 		FORMATETC fmtETC = translateDataTypeToWin32( dataType );
 		result = VCFCOM::COMUtils::getDataObjectFromOLEDataObject( dataType, oleDataObject, &fmtETC );
+
+		oleDataObject->Release();
 	}
 	else {
 		//throw exception
@@ -92,6 +93,9 @@ FORMATETC Win32Clipboard::translateDataTypeToWin32( const String& dataType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/12 03:13:44  ddiego
+*minor changes
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
