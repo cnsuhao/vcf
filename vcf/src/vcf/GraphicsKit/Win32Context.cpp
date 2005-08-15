@@ -1485,8 +1485,8 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 
 	releaseHandle();
 
-
-	context_->textBoundedBy( &tmp, state.buttonCaption_, false );
+	long flags = GraphicsContext::tdoCenterVertAlign;
+	context_->textBoundedBy( &tmp, state.buttonCaption_, flags );
 }
 
 void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
@@ -1537,7 +1537,8 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	releaseHandle();
 
 
-	context_->textBoundedBy( &tmp, state.buttonCaption_, false );
+	long flags = GraphicsContext::tdoCenterVertAlign;
+	context_->textBoundedBy( &tmp, state.buttonCaption_, flags );
 }
 
 void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
@@ -2558,6 +2559,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.1  2005/08/15 03:10:52  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.7  2005/07/09 23:06:01  ddiego
 *added missing gtk files
 *

@@ -373,6 +373,7 @@ void StandardContainer::doAnchors( Control* initialControl, const bool& controlJ
 		Control* child = *it;
 
 		if ( child->isIgnoredForLayout() ) {
+			it ++;
 			continue;
 		}
 
@@ -636,6 +637,9 @@ void DesignTimeContainer::resizeChildrenUsingBounds( Control* control, Rect* bou
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/08/15 03:10:51  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.3.2.1  2005/07/29 03:04:25  ddiego
 *rolled back a few conatainer changes.
 *

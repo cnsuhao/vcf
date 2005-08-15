@@ -149,6 +149,7 @@ void TreeListControl::onModelEmptied( Event* event )
 {
 	if ( Model::MODEL_EMPTIED == event->getType() ) {
 		selectedItems_.clear();
+		cancelEditing();
 		recalcScrollable();
 	}
 }
@@ -2141,6 +2142,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/15 03:10:51  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.4  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

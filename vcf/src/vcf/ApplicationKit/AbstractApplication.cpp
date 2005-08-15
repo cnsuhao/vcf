@@ -53,7 +53,7 @@ Frame* AbstractApplication::createFrame( const String& frameClassName )
 		if ( false == vffString.empty() ){
 			BasicInputStream bis( vffString );
 			VFFInputStream vis( &bis );
-			vis.readComponent( (Component**)&result );
+			result = (Frame*)vis.readNewComponent();
 		}
 		else{
 			String errMsg = "VFF Resource \"" + frameClassName + "\" has no data.";
@@ -132,6 +132,9 @@ void AbstractApplication::setName( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/15 03:10:51  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.4  2005/07/09 23:14:50  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

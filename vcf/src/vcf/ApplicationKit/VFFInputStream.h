@@ -21,11 +21,19 @@ class Parser;
 
 class APPLICATIONKIT_API VFFInputStream : public Object, public InputStream {
 public:
-	VFFInputStream( InputStream* stream );
+	public:
+	enum UsageFlags {
+		ufCreateComponent				=	0x0001,
+		ufCreateChildren				=	0x0002,
+		ufCreateChildrenIfNoInstance	=	0x0004,
+		ufFindSubComponent				=	0x0008
+	};
+
+	VFFInputStream( VCF::InputStream* stream );
 
 	virtual ~VFFInputStream();
 
-	virtual void seek(const unsigned long& offset, const SeekType& offsetFrom) {
+	virtual void seek(const unsigned long& offset, const VCF::SeekType& offsetFrom) {
 		stream_->seek( offset, offsetFrom );
 	}
 
@@ -37,7 +45,7 @@ public:
 		return stream_->getBuffer();
 	}
 
-	virtual ulong32 getCurrentSeekPos() {
+	virtual VCF::ulong32 getCurrentSeekPos() {
 		return stream_->getCurrentSeekPos();
 	}
 
@@ -49,7 +57,7 @@ public:
 	*retreives the outer most class/UUID that contains all other obejcts
 	*in this VFF stream
 	*/
-	void getOuterClassNameAndUUID( String& className, String& UUID );
+	void getOuterClassNameAndUUID( VCF::String& className, VCF::String& UUID );
 
 	/**
 	*reads in a new component, that is the caller passes in a pointer to
@@ -57,7 +65,7 @@ public:
 	*@param Component**  the derefenced component ptr should be NULL when invoking this
 	*method, usually this is a top level component like a Frame
 	*/
-	void readComponent( Component** component );
+	VCF::Component* readNewComponent();
 
 	/**
 	*reads in a Component from the stream, and assigns it's value to the
@@ -65,7 +73,13 @@ public:
 	*@param Component* must NOT be null. Represents the already existing component
 	*that will be updated as a result of reading the contents of the stream.
 	*/
-	void readComponentInstance( Component* component );
+	void readComponentInstance( VCF::Component* component );
+
+	/**
+	Assumes we have a new, empty, top level component (typically a FormRootWindow
+	instance), but NO child components yet. Will create child components as neccessary
+	*/
+	void readNewComponentInstance( VCF::Component* component );
 
 	virtual bool isEOS()
 	{
@@ -77,28 +91,36 @@ protected:
 
 	class DeferredPropertySetter {
 	public:
-		DeferredPropertySetter( const String& propertyVal, const String& propertyName, Object* source ) {
+		DeferredPropertySetter( const VCF::String& propertyVal, const VCF::String& propertyName, VCF::Object* source ) {
 			propertyVal_ = propertyVal;
 			propertyName_ = propertyName;
 			source_ = source;
 		}
 
 		virtual ~DeferredPropertySetter(){};
-		String propertyVal_;
-		String propertyName_;
-		Object* source_;
+		VCF::String propertyVal_;
+		VCF::String propertyName_;
+		VCF::Object* source_;
 	};
 
-	InputStream* stream_;
-	Parser* parser_;
-	void hexToBin( const String& hexString, Persistable* persistableObject );
+	VCF::InputStream* stream_;
+	VCF::Parser* parser_;
+	void hexToBin( const VCF::String& hexString, VCF::Persistable* persistableObject );
 
-	void readChildComponents( Component* component );
+	void processAsignmentTokens( const VCF::VCFChar& token, const VCF::String& currentSymbol, VCF::Class* clazz );
 
-	void processAsignmentTokens( const VCFChar& token, const String& currentSymbol, Class* clazz );
+	void processDelegateAsignment( const VCF::VCFChar& token, const VCF::String& currentSymbol, VCF::Class* clazz );
+	
+
+	void readDelegates( VCF::Component* component, VCF::Class* clazz );
+
+	VCF::Component* readObject( VCF::Component* componentInstance, int flags );
+		//bool createComponent, bool createChildren );
+
+	void assignDeferredProperties( VCF::Component* component );
 
 	std::vector<DeferredPropertySetter*> deferredProperties_;
-	Component* topLevelComponent_;
+	VCF::Component* topLevelComponent_;
 	bool atTopLevel_;
 	long componentInputLevel_;
 };
@@ -110,6 +132,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/15 03:10:51  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

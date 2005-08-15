@@ -107,6 +107,13 @@ void VFFOutputStream::writeObject( Object* object, const String& objectPropertyN
 	}
 }
 
+void VFFOutputStream::getComponentHeader( Component* component, String& className, String& classID )
+{
+	Class* clazz = component->getClass();
+	className = clazz->getClassName();
+	classID = clazz->getID();
+}
+
 void VFFOutputStream::writeComponent( Component* component )
 {
 	if ( !saveUnNamedComponents_ && (component->getName().empty()) ) {
@@ -116,8 +123,12 @@ void VFFOutputStream::writeComponent( Component* component )
 	Class* clazz = component->getClass();
 	String tabString = getTabString();
 	if ( NULL != clazz ) {
-		String className = clazz->getClassName();
-		String s = tabString + "object " + component->getName() + " : " + className + ", \'" + clazz->getID() + "\'\n";
+		String className;// = clazz->getClassName();
+		String classID;
+
+		getComponentHeader( component, className, classID );
+
+		String s = tabString + "object " + component->getName() + " : " + className + ", \'" + classID + "\'\n";
 		stream_->write( s );
 		Enumerator<Property*>* props = clazz->getProperties();
 		if ( NULL != props ) {
@@ -317,6 +328,9 @@ void VFFOutputStream::writeEvents( Component* component )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/08/15 03:10:51  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.3.2.2  2005/08/09 04:30:35  ddiego
 *minor vff output stream change.
 *
