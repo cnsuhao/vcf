@@ -223,7 +223,7 @@ VCF::Rect AbstractWin32Component::getBounds()
 void AbstractWin32Component::setVisible( const bool& visible )
 {
 	if ( true == visible ){
-		::ShowWindow( hwnd_, SW_SHOWNA );
+		::ShowWindow( hwnd_, SW_SHOW );
 	}
 	else{
 		::ShowWindow( hwnd_, SW_HIDE );
@@ -1616,6 +1616,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.3  2005/08/15 03:10:51  ddiego
+*minor updates to vff in out streaming.
+*
 *Revision 1.7.2.2  2005/08/05 01:11:37  ddiego
 *splitter fixes finished.
 *
