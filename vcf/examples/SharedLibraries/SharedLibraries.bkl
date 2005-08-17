@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="../../build/bakefiles/VCFCommon.bkl"/>
+
+    <dll id="SimpleDLL">
+        <set var="DLLEXT">.so</set>
+        <dirname>.</dirname>
+        <sources>SimpleDLL.cpp</sources>
+    </dll>
+
+    <exe id="SharedLibraries" template="vcf_exe_console">
+        <dirname>.</dirname>
+        <sources>SharedLibraries.cpp</sources>
+        <vcf-use-FoundationKit/>
+        <depends>SimpleDLL</depends>
+    </exe>
+</makefile>
