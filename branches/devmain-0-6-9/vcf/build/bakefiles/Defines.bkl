@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <define-tag name="headers" rules="dll,lib,exe,module">
+        <if cond="FORMAT in ['msvc6prj','msevc4prj']">
+            <msvc-project-files>$(value)</msvc-project-files>
+        </if>
+    </define-tag>
+
+    
+    <set var="USE_FOUNDATIONKIT">
+        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
+        <if cond="OPTION_ALLIN1=='0'">USE_FOUNDATIONKIT_$(SUFFIX_VAR)</if>
+    </set>
+    <define-tag name="vcf-use-FoundationKit" rules="dll,lib,exe,module">
+        <define>$(USE_FOUNDATIONKIT)</define>
+    </define-tag>
+
+
+    <set var="USE_GRAPHICSKIT">
+        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
+        <if cond="OPTION_ALLIN1=='0'">USE_GRAPHICSKIT_$(SUFFIX_VAR)</if>
+    </set>
+    <define-tag name="vcf-use-GraphicsKit" rules="dll,lib,exe,module">
+        <define>$(USE_GRAPHICSKIT)</define>
+    </define-tag>
+
+
+    <set var="USE_APPLICATIONKIT">
+        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
+        <if cond="OPTION_ALLIN1=='0'">USE_APPLICATIONKIT_$(SUFFIX_VAR)</if>
+    </set>
+    <define-tag name="vcf-use-ApplicationKit" rules="dll,lib,exe,module">
+        <define>$(USE_APPLICATIONKIT)</define>
+    </define-tag>
+
+
+    <set var="USE_OPENGLKIT">
+        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
+        <if cond="OPTION_ALLIN1=='0'">USE_OPENGLKIT_$(SUFFIX_VAR)</if>
+    </set>
+    <define-tag name="vcf-use-OpenGLKit" rules="dll,lib,exe,module">
+        <define>$(USE_OPENGLKIT)</define>
+    </define-tag>
+
+
+    <set var="USE_NETWORKKIT">
+        <if cond="OPTION_SHARED=='0'">USE_NETKIT_LIB</if>
+        <if cond="OPTION_SHARED=='1'">USE_NETKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-NetworkKit" rules="dll,lib,exe,module">
+        <define>$(USE_NETWORKKIT)</define>
+    </define-tag>
+
+
+    <set var="USE_REMOTEOBJECTKIT">
+        <if cond="OPTION_SHARED=='0'">USE_REMOTEOBJECTKIT_LIB</if>
+        <if cond="OPTION_SHARED=='1'">USE_REMOTEOBJECTKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-RemoteObjectKit" rules="dll,lib,exe,module">
+        <define>$(USE_REMOTEOBJECTKIT)</define>
+    </define-tag>
+
+</makefile>

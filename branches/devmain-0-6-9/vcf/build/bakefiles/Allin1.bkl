@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <template id="Allin1_base">
+        <set var="LIBRARY_NAME">VCF</set>
+
+        <set var="FK_HDR" hints="files">
+            <if cond="OPTION_FOUNDATIONKIT=='1'">$(FOUNDATIONKIT_HDR)</if>
+        </set>
+        <set var="GK_HDR" hints="files">
+            <if cond="OPTION_GRAPHICSKIT=='1'">$(GRAPHICSKIT_HDR)</if>
+        </set>
+        <set var="AK_HDR" hints="files">
+            <if cond="OPTION_APPLICATIONKIT=='1'">$(APPLICATIONKIT_HDR)</if>
+        </set>
+        <set var="OK_HDR" hints="files">
+            <if cond="OPTION_OPENGLKIT=='1'">$(OPENGLKIT_HDR)</if>
+        </set>
+        
+        <set var="FK_SRC" hints="files">
+            <if cond="OPTION_FOUNDATIONKIT=='1'">$(FOUNDATIONKIT_SRC)</if>
+        </set>
+        <set var="GK_SRC" hints="files">
+            <if cond="OPTION_GRAPHICSKIT=='1'">$(GRAPHICSKIT_SRC)</if>
+        </set>
+        <set var="AK_SRC" hints="files">
+            <if cond="OPTION_APPLICATIONKIT=='1'">$(APPLICATIONKIT_SRC)</if>
+        </set>
+        <set var="OK_SRC" hints="files">
+            <if cond="OPTION_OPENGLKIT=='1'">$(OPENGLKIT_SRC)</if>
+        </set>
+
+        <headers>$(FK_HDR) $(AK_HDR) $(GK_HDR) $(OK_HDR)</headers>
+        <sources>$(FK_SRC) $(AK_SRC) $(GK_SRC) $(OK_SRC)</sources>
+
+        <if cond="FORMAT in ['msvc','msvc6prj']">
+            <ldflags>/INCREMENTAL:NO</ldflags>
+        </if>
+
+        <depends>libAGG_lib</depends>
+    </template>
+
+    <lib id="Allin1_lib" template="Allin1_base,vcf_lib"
+            cond="OPTION_SHARED=='0' and OPTION_ALLIN1=='1'">
+        <define>VCF_ALLIN1_LIB</define>
+    </lib>
+
+    <dll id="Allin1_dll" template="Allin1_base,vcf_dll"
+            cond="OPTION_SHARED=='1' and OPTION_ALLIN1=='1'">
+        <define>VCF_ALLIN1_DLL</define>
+        <define>VCF_ALLIN1_EXPORTS</define>
+    </dll>
+
+    <set var="MSVC6PRJ_MERGED_TARGETS" append="1" cond="OPTION_ALLIN1=='1'">
+        Allin1=Allin1_lib+Allin1_dll
+    </set>
+
+</makefile>

@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <using module="datafiles"/>
+
+
+    <include file="Options.bkl"/>
+    <include file="Vars.bkl"/>
+    <include file="Defines.bkl"/>
+
+
+    <template id="base">
+        <debug-info>$(DEBUG_INFO)</debug-info>
+        <debug-runtime-libs>$(DEBUG_RUNTIME_LIBS)</debug-runtime-libs>
+        <runtime-libs>$(RUNTIME_LIBS)</runtime-libs>
+        <optimize>$(OPTIMIZE)</optimize>
+        <threading>multi</threading>
+        <cxx-rtti>on</cxx-rtti>
+        <cxx-exceptions>on</cxx-exceptions>
+        <warnings>default</warnings>
+
+        <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">        
+		    <if cond="FORMAT=='borland'">
+                <sys-lib>ole2w32</sys-lib>
+            </if>
+
+	        <if cond="FORMAT!='borland'">
+                <sys-lib>rpcrt4</sys-lib>
+                <sys-lib>odbc32</sys-lib>
+                <sys-lib>odbccp32</sys-lib>
+                <sys-lib>version</sys-lib>
+                <sys-lib>kernel32</sys-lib>
+                <sys-lib>user32</sys-lib>
+                <sys-lib>gdi32</sys-lib>
+                <sys-lib>winspool</sys-lib>
+                <sys-lib>comdlg32</sys-lib>
+                <sys-lib>advapi32</sys-lib>
+                <sys-lib>shell32</sys-lib>
+                <sys-lib>ole32</sys-lib>
+                <sys-lib>oleaut32</sys-lib>
+                <sys-lib>uuid</sys-lib>
+                <sys-lib>odbc32</sys-lib>
+                <sys-lib>odbccp32</sys-lib>
+                <sys-lib>comctl32</sys-lib>
+                <sys-lib>ws2_32</sys-lib>
+                <sys-lib>opengl32</sys-lib>
+                <sys-lib>glu32</sys-lib>
+                <sys-lib>glaux</sys-lib>
+            </if>
+
+            <if cond="FORMAT in ['msvc','msvc6prj','borland']">
+                <sys-lib>oleacc</sys-lib>
+            </if>
+        </if>
+
+        <include>$(VCF_INCLUDE)</include>
+        <lib-path>$(VCF_LIB)</lib-path>
+    </template>
+
+    
+    <template id="precomp">
+        <if cond="FORMAT in ['msvc','msvc6prj']">
+            <precomp-headers>on</precomp-headers>
+            <precomp-headers-file>$(LIBRARY_FILENAME)</precomp-headers-file>
+            <precomp-headers-header>$(LIBRARY_PRECOMP_HDR)</precomp-headers-header>
+            <precomp-headers-gen>$(LIBRARY_PRECOMP_SRC)</precomp-headers-gen>
+        </if>
+    </template>
+
+    
+    <template id="precomp_auto">
+        <if cond="FORMAT in ['msvc','msvc6prj']">
+            <precomp-headers>on</precomp-headers>
+            <precomp-headers-file>$(LIBRARY_FILENAME)</precomp-headers-file>
+            <precomp-headers-header>$(LIBRARY_PRECOMP_HDR)</precomp-headers-header>
+        </if>
+    </template>
+
+    
+    <template id="vcf_base" template="base">
+        <dirname>$(VCF_LIB)</dirname>
+    </template>
+
+
+    <template id="vcf_lib" template="vcf_base">
+        <set var="SUFFIX_STATIC">
+            <if cond="OPTION_DEBUG=='0'">_s</if>
+            <if cond="OPTION_DEBUG=='1'">_sd</if>
+        </set>
+        <set var="LIBRARY_FILENAME">
+            $(LIBRARY_NAME)$(SUFFIX_SELECTLIB)$(SUFFIX_STATIC)
+        </set>
+        <libname>$(LIBRARY_FILENAME)</libname>
+
+        <if cond="FORMAT in ['msvc','msvc6prj']">
+           <define>_MBCS</define>
+           <define>_LIB</define>
+           <define>NO_MFC</define>
+        </if>
+    </template>
+
+    
+    <template id="vcf_dll" template="vcf_base">
+        <set var="SUFFIX_SHARED">
+            <if cond="OPTION_DEBUG=='0'"></if>
+            <if cond="OPTION_DEBUG=='1'">_d</if>
+        </set>
+        <set var="LIBRARY_FILENAME">
+            $(LIBRARY_NAME)$(SUFFIX_SELECTLIB)$(SUFFIX_SHARED)
+        </set>
+
+        <libname>$(LIBRARY_FILENAME)</libname>
+        <dllname>..$(DIRSEP)bin$(DIRSEP)$(LIBRARY_FILENAME)</dllname>
+        
+        <if cond="FORMAT in ['msvc','msvc6prj']">
+            <define>_USRDLL</define>
+        </if>
+    </template>
+
+    
+    <template id="vcf_exe" template="base">
+        <set var="EXE_FILENAME">
+            $(id)$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY)
+        </set>
+        <exename>$(EXE_FILENAME)</exename>
+    </template>
+
+
+    <template id="vcf_exe_gui" template="vcf_exe">
+        <app-type>gui</app-type>
+        <if cond="FORMAT in ['msvc','msvc6prj']">
+            <ldflags>/ENTRY:"mainCRTStartup"</ldflags>
+        </if>
+    </template>
+
+    
+    <template id="vcf_exe_console" template="vcf_exe">
+        <app-type>console</app-type>
+    </template>
+
+</makefile>

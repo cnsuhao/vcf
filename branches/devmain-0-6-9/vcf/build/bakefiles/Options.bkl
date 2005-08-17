@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <if cond="FORMAT in ['borland','msvc','msvc6prj']">
+        <option name="OPTION_SELECTLIB">
+            <values>default,bcc,icl6,icl7,vc5,vc6,vc70,vc71</values>
+            <values-description>default,bcc,icl6,icl7,vc5,vc6,vc70,vc71</values-description>
+            <default-value>default</default-value>
+            <description>
+                Your preference:
+            </description>
+        </option>
+    </if>
+
+    <option name="OPTION_SHARED">
+        <values>0,1</values>
+        <values-description>,DLL</values-description>
+        <default-value>1</default-value>
+        <description>
+            The type of libraries:
+        </description>
+    </option>
+
+    <option name="OPTION_SHARED_RUNTIME">
+        <values>default,0,1</values>
+        <default-value>default</default-value>
+        <description>
+            The type of runtime libraries:
+        </description>
+    </option>
+
+    <option name="OPTION_DEBUG">
+        <values>0,1</values>
+        <values-description>Release,Debug</values-description>
+        <default-value>1</default-value>
+        <description>
+            The build configuration:
+        </description>
+    </option>
+
+    <option name="OPTION_ALLIN1">
+        <values>0,1</values>
+        <default-value>0</default-value>
+        <description>
+            Make the all-in-1 library:
+        </description>
+    </option>
+
+    <option name="OPTION_FOUNDATIONKIT">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile FoundationKit:
+        </description>
+    </option>
+
+    <option name="OPTION_GRAPHICSKIT">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile GraphicsKit:
+        </description>
+    </option>
+
+    <option name="OPTION_APPLICATIONKIT">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile ApplicationKit:
+        </description>
+    </option>
+
+    <option name="OPTION_OPENGLKIT">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile OpenGLKit:
+        </description>
+    </option>
+
+    <option name="OPTION_NETWORKKIT">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile NetworkKit:
+        </description>
+    </option>
+
+    <option name="OPTION_REMOTEOBJECTKIT">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile RemoteObjectKit:
+        </description>
+    </option>
+
+    <option name="OPTION_IMAGEFORMATS">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile ImageFormats:
+        </description>
+    </option>
+
+</makefile>

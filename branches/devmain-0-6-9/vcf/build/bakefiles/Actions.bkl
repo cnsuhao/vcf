@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='1'">
+
+        <action id="thirdparty">
+            <is-phony>1</is-phony>
+            <depends>libAGG_lib</depends>
+            <depends>LibJPEG_lib</depends>
+            <depends>LibMNG_lib</depends>
+            <depends>LibPNG_lib</depends>
+            <depends>LibTIFF_lib</depends>
+            <depends>ZLib_lib</depends>
+            <depends>FreeImage_lib</depends>
+            <depends>RegExx_lib</depends>
+        </action>
+        
+        <action id="FoundationKit">
+            <is-phony>1</is-phony>
+            <depends>FoundationKit_lib</depends>
+            <depends>FoundationKit_dll</depends>
+        </action>
+        
+        <action id="GraphicsKit">
+            <is-phony>1</is-phony>
+            <depends>GraphicsKit_lib</depends>
+            <depends>GraphicsKit_dll</depends>
+        </action>
+        
+        <action id="ApplicationKit">
+            <is-phony>1</is-phony>
+            <depends>ApplicationKit_lib</depends>
+            <depends>ApplicationKit_dll</depends>
+        </action>
+        
+        <action id="OpenGLKit">
+            <is-phony>1</is-phony>
+            <depends>OpenGLKit_lib</depends>
+            <depends>OpenGLKit_dll</depends>
+        </action>
+        
+        <action id="NetworkKit">
+            <is-phony>1</is-phony>
+            <depends>NetworkKit_lib</depends>
+            <depends>NetworkKit_dll</depends>
+        </action>
+        
+        <action id="RemoteObjectKit">
+            <is-phony>1</is-phony>
+            <depends>RemoteObjectKit_lib</depends>
+            <depends>RemoteObjectKit_dll</depends>
+        </action>
+        
+        <action id="ImageFormats">
+            <is-phony>1</is-phony>
+            <depends>ImageFormats_lib</depends>
+            <depends>ImageFormats_dll</depends>
+        </action>
+
+        <action id="Win32HTMLBrowser" cond="PLATFORM_WIN32=='1'">
+            <is-phony>1</is-phony>
+            <depends>Win32HTMLBrowser_lib</depends>
+            <depends>Win32HTMLBrowser_dll</depends>
+        </action>
+        
+    </if>
+
+</makefile>

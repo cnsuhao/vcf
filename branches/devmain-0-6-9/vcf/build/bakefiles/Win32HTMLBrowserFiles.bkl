@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <set var="WIN32HTMLBROWSER_HDR" hints="files">
+        vcf/ApplicationKit/Win32HTMLBrowser.h
+    </set>
+
+    <set var="WIN32HTMLBROWSER_SRC" hints="files">
+        vcf/ApplicationKit/Win32HTMLBrowser.cpp
+    </set>
+
+</makefile>
