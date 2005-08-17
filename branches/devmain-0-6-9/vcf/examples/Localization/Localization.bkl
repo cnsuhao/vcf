@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="../../build/bakefiles/VCFCommon.bkl"/>
+
+    <exe id="Localization" template="vcf_exe_console">
+        <dirname>.</dirname>
+        <exename>Localization</exename>
+        <sources>Localization.cpp</sources>
+        <vcf-use-FoundationKit/>
+    </exe>
+</makefile>
