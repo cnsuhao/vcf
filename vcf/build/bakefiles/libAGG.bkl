@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="LibAGGFiles.bkl"/>
+
+    <template id="libAGG_base">
+        <set var="LIBRARY_NAME">libAGG</set>
+
+        <include>$(SRCDIR)$(DIRSEP)thirdparty$(DIRSEP)common$(DIRSEP)agg$(DIRSEP)include</include>
+        <headers>$(LIBAGG_HDR)</headers>
+        <sources>$(LIBAGG_SRC)</sources>
+    </template>
+
+    <lib id="libAGG_lib" template="libAGG_base,vcf_lib">
+    </lib>
+</makefile>

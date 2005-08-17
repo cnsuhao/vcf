@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <set var="REGEXX_HDR" hints="files">
+        thirdparty/common/pcre/internal.h
+        thirdparty/common/pcre/pcre.h
+        thirdparty/common/pcre/pcreposix.h
+    </set>
+
+    <set var="REGEXX_SRC" hints="files">
+        thirdparty/common/pcre/chartables.c
+        thirdparty/common/pcre/get.c
+        thirdparty/common/pcre/maketables.c
+        thirdparty/common/pcre/pcre.c
+        thirdparty/common/pcre/pcreposix.c
+        thirdparty/common/pcre/study.c
+    </set>
+
+</makefile>

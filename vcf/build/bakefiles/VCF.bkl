@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <include file="VCFCommon.bkl"/>
+
+
+    <set var="SRCDIR">
+        $(VCF_DIR)$(DIRSEP)src
+    </set>
+
+    <mkdir id="mkdir_bin">
+        <dir>$(VCF_BIN)</dir>
+        <dependency-of>all</dependency-of>
+    </mkdir>
+
+    <mkdir id="mkdir_lib">
+        <dir>$(VCF_LIB)</dir>
+        <dependency-of>all</dependency-of>
+    </mkdir>
+
+    <include file="libAGG.bkl"/>
+    <include file="LibJPEG.bkl"/>
+    <include file="LibMNG.bkl"/>
+    <include file="LibPNG.bkl"/>
+    <include file="LibTIFF.bkl"/>
+    <include file="ZLib.bkl"/>
+    <include file="FreeImage.bkl"/>
+    <include file="RegExx.bkl"/>
+
+    <include file="FoundationKit.bkl"/>
+    <include file="GraphicsKit.bkl"/>
+    <include file="ApplicationKit.bkl"/>
+    <include file="OpenGLKit.bkl"/>
+
+    <include file="Allin1.bkl"/>
+
+    <include file="NetworkKit.bkl"/>
+    <include file="RemoteObjectKit.bkl"/>
+    <include file="ImageFormats.bkl"/>
+    <include file="Win32HTMLBrowser.bkl"/>
+
+    <include file="Actions.bkl"/>
+
+</makefile>
