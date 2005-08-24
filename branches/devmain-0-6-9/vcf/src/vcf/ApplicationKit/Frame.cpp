@@ -276,10 +276,30 @@ bool Frame::allowClose()
 	return result;
 }
 
+Frame* Frame::createDialog( Class* dialogClazz, ResourceBundle* resBundle )
+{
+	Frame* result = NULL;
+
+	result = (Frame*)Component::createComponentFromResources( dialogClazz, classid(VCF::Dialog), resBundle );
+
+	return result;
+}
+
+Frame* Frame::createWindow( Class* windowClazz, ResourceBundle* resBundle )
+{
+	Frame* result = NULL;
+
+	result = (Frame*)Component::createComponentFromResources( windowClazz, classid(VCF::Window), resBundle );
+
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/08/24 05:03:21  ddiego
+*better component loading and creation functions.
+*
 *Revision 1.4.2.2  2005/08/05 01:11:38  ddiego
 *splitter fixes finished.
 *

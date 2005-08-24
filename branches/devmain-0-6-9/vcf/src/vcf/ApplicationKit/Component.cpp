@@ -8,6 +8,7 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/VFFInputStream.h"
 
 
 static long ComponentTagID = 0;
@@ -527,9 +528,67 @@ void Component::setUseLocaleStrings( const bool& val )
 }
 
 
+void Component::initComponent( Component* instance, Class* clazz, Class* rootClazz, ResourceBundle* resBundle ) 
+{
+	if ( (clazz->getID() == COMPONENT_CLASSID) || (clazz == rootClazz) ) {
+		return;
+	}
+
+	Component::initComponent( instance, clazz->getSuperClass(), rootClazz, resBundle );
+
+	String resourceName;
+	ResourceBundle* bundle = resBundle;
+	if ( NULL == bundle ) {
+		bundle = System::getResourceBundle();
+	}
+
+	String vffContents;
+
+	resourceName = clazz->getClassName();
+
+	vffContents = bundle->getVFF(resourceName);
+		
+	if ( !vffContents.empty() ) {
+		BasicInputStream bis( vffContents );
+		VFFInputStream vis( &bis );
+		vis.readNewComponentInstance( instance );
+	}
+}
+
+
+Component* Component::createComponentFromResources( Class* clazz, Class* rootClazz, ResourceBundle* resBundle )
+{
+	Component* result = NULL;
+	
+	VCF_ASSERT( clazz != NULL );
+
+	try {
+		Object* newObject = clazz->createInstance();
+
+		result = dynamic_cast<Component*>(newObject);
+
+		if ( NULL != result ) {
+			Component::initComponent( result, clazz, rootClazz );
+			
+			result->loaded();
+		}
+		else {
+			newObject->free();
+		}
+	}
+	catch ( BasicException& ) {
+
+	}
+
+	return result;
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/24 05:03:21  ddiego
+*better component loading and creation functions.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
