@@ -5,7 +5,6 @@ object Form1 : VisualFormFilesWindow, '6dbafd3f-c8cf-4fc5-9141-43af516db748'
 	name = 'Form1'
 	tag = 53
 	top = 300
-	visible = true
 	width = 650
 
 	object label1 : VCF::Label, 'ED88C09F-26AB-11d4-B539-00C04F0196DA'
@@ -20,6 +19,17 @@ object Form1 : VisualFormFilesWindow, '6dbafd3f-c8cf-4fc5-9141-43af516db748'
 		color.green = 1.0
 		color.blue = 0.5
 		transparent = false
+	end
+
+	object text1 : VCF::TextControl, 'ED88C09E-26AB-11d4-B539-00C04F0196DA'
+		top = 80
+		left = 20
+		width = 300
+		height = 35
+		visible = true		
+		color.red = 0.0
+		color.green = 1.0
+		color.blue = 0.5		
 	end
 	
 	object menuBar : VCF::MenuBar, '7B6F28B4-3E3F-11d4-B555-00C04F0196DA'
@@ -495,5 +505,14 @@ object Form1 : VisualFormFilesWindow, '6dbafd3f-c8cf-4fc5-9141-43af516db748'
 			end	
 
 		end
+	end
+
+	object button1 : VCF::CommandButton, '8B2CDC30-3CAD-11d4-B553-00C04F0196DA'
+		top = 120
+		left = 20
+		width = 300
+		height = 35
+		visible = true
+		caption = 'Hello World!'
 	end
 end
