@@ -498,6 +498,15 @@ public:
 	*/
 	static void clearRegistedComponents();
 
+
+	/**
+	Takes a valid component instance and initializes it from a VFF file that
+	is assumed to be present in the programs resource bundle.
+	*/
+	static void initComponent( Component* instance, Class* clazz, Class* rootClazz, ResourceBundle* resBundle=NULL );
+
+	static Component* createComponentFromResources( Class* clazz, Class* rootClazz, ResourceBundle* resBundle=NULL );
+
 protected:
 	/**
 	*
@@ -544,6 +553,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/24 05:03:21  ddiego
+*better component loading and creation functions.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -326,6 +326,13 @@ public:
 	*/
 	static void internal_setActiveFrame( Frame* activeFrame );
 
+	/**
+	*/
+	static Frame* createDialog( Class* dialogClazz, ResourceBundle* resBundle=NULL );
+
+	/**
+	*/
+	static Frame* createWindow( Class* windowClazz, ResourceBundle* resBundle=NULL );
 protected:
 	static Frame* currentActiveFrame;
 	String caption_;
@@ -344,6 +351,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/24 05:03:21  ddiego
+*better component loading and creation functions.
+*
 *Revision 1.4  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

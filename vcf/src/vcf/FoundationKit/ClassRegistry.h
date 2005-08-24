@@ -13,6 +13,23 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+/**
+\par
+This macro is used in a way similar to the C++ typeid operator.
+Where typeid() returns a const type_info reference, the classid()
+"operator" returns a Class pointer or NULL if no class can be found
+in the ClassRegistry. For example:
+\code
+Class* clazz = classid(Window);
+\endcode
+The clazz variable will now point to a Class instance associated with
+the Window class.
+
+*/
+#define classid(classType) \
+	VCF::ClassRegistry::getClass( #classType )\
+	\
+
 
 namespace VCF
 {
@@ -260,12 +277,18 @@ protected:
 
 
 
+
+
+
 };
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/24 05:03:22  ddiego
+*better component loading and creation functions.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
