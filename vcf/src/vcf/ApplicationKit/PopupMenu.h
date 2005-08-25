@@ -43,7 +43,10 @@ public:
 
 	void setControl( Control* control );
 protected:
-	PopupMenuPeer* popupPeer_;
+
+	void init();
+
+	PopupMenuPeer* popupPeer_;	
 };
 
 };
@@ -52,6 +55,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/25 01:48:19  ddiego
+*minor update to popupmenu code
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

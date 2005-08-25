@@ -801,13 +801,11 @@ void MainQTWindow::buildUI()
 
 	PopupMenu* pm = new PopupMenu();
 	this->addComponent( pm );
-	DefaultMenuItem* pmRoot = new DefaultMenuItem("root",NULL,pm);
+	MenuItem* pmRoot = pm->getRootMenuItem();
 
 	DefaultMenuItem* pmItem = new DefaultMenuItem( "Edit/Create a search Catalog...", pmRoot,pm );
 
 	pmItem->MenuItemClicked += new GenericEventHandler<MainQTWindow>(this,&MainQTWindow::onEditCreateSearchCatalog, "MainQTWindow::onEditCreateSearchCatalog" );
-
-	pm->setRootMenuItem( pmRoot );
 
 	searchIcon->setPopupMenu( pm );
 
@@ -2119,6 +2117,9 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/08/25 01:48:42  ddiego
+*minor update to popupmenu code
+*
 *Revision 1.5.2.2  2005/08/01 20:02:23  marcelloptr
 *rolled back a container's change
 *

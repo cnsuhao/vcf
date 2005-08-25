@@ -160,8 +160,6 @@ public:
 		popup = new PopupMenu();
 		addComponent( popup );
 
-		popup->setRootMenuItem( new DefaultMenuItem() );
-
 		root = popup->getRootMenuItem();
 
 		menuItem = new DefaultMenuItem( "Enumerate Selected items", root, popup );
@@ -414,6 +412,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2005/08/25 01:48:42  ddiego
+*minor update to popupmenu code
+*
 *Revision 1.7.2.1  2005/07/23 21:45:44  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *
