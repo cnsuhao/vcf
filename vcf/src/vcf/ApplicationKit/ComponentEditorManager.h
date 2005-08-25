@@ -40,6 +40,12 @@ public:
 	static void registerComponentEditor( ComponentEditor* componentEditor, const String& className );
 
 	/**
+	Removes a ComponentEditor with a given class/type name from the
+	list of registered component editors.
+	*/
+	static void removeComponentEditor( const String& className );
+
+	/**
 	*initializes the Component editor manager for use - must be called at start up
 	*/
 	static void initComponentEditorManager();
@@ -62,6 +68,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/25 02:38:06  ddiego
+*minor update to component editor manager.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

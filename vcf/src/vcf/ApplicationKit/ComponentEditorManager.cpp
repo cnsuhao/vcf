@@ -49,6 +49,16 @@ void ComponentEditorManager::registerComponentEditor( ComponentEditor* component
 	ComponentEditorManager::componentEditorMgr->componentEditorMap_[className] = componentEditor;
 }
 
+void ComponentEditorManager::removeComponentEditor( const String& className )
+{
+	ComponentEditor* result = NULL;
+	std::map<String,ComponentEditor*>::iterator found =
+		ComponentEditorManager::componentEditorMgr->componentEditorMap_.find( className );
+	if ( found != ComponentEditorManager::componentEditorMgr->componentEditorMap_.end() ) {
+		delete found->second;
+		ComponentEditorManager::componentEditorMgr->componentEditorMap_.erase( found );
+	}
+}
 
 void ComponentEditorManager::initComponentEditorManager()
 {
@@ -70,6 +80,9 @@ void ComponentEditorManager::closeComponentEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/25 02:38:06  ddiego
+*minor update to component editor manager.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
