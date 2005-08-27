@@ -53,6 +53,11 @@ MenuItemPeer* MenuManager::getMenuItemPeer( MenuItem* item )
 	return MenuManager::menuManager->peer_->getMenuItemPeer( item );
 }
 
+void MenuManager::destroyMenuItemPeer( MenuItem* item )
+{
+	MenuManager::menuManager->peer_->destroyMenuItemPeer( item );
+}
+
 void MenuManager::registerWindow( Window* window )
 {
 	VCF_ASSERT( NULL != window );
@@ -127,6 +132,9 @@ Menu* MenuManager::getMainMenu()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.2  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

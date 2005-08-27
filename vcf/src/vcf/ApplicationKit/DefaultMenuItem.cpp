@@ -238,14 +238,12 @@ void DefaultMenuItem::insertChild( const unsigned long& index, MenuItem* child )
 
 void DefaultMenuItem::deleteChild( MenuItem* child )
 {
-	//peer_->deleteChild( child );
-
 	std::vector<MenuItem*>::iterator found = std::find( menuItems_.begin(), menuItems_.end(), child );
 	if ( found != menuItems_.end() ){
 		unsigned long index = found - menuItems_.begin();
 	
-		//ItemEvent event( this, ITEM_EVENT_DELETED );
-		//ItemDeleted.fireEvent( &event );
+		state_ &= ~MenuItem::mdsBoundToMenuPeer;
+
 		Menu* owner = getMenuOwner();
 		if ( NULL != owner ) {
 			owner->itemChanged( MenuItem::miRemoved, child );
@@ -255,17 +253,7 @@ void DefaultMenuItem::deleteChild( MenuItem* child )
 
 		menuItems_.erase( found );
 		child->free();
-		child = NULL;
-		/*
-		std::vector<MenuItem*>::iterator it = menuItems_.begin() + index;
-		unsigned long newIndex = index;
-		while ( it != menuItems_.end() ) {
-			(*it)->setIndex( newIndex );		
-			it ++;
-			newIndex ++;
-		}
-		*/
-	
+		child = NULL;	
 	}
 }
 
@@ -276,8 +264,8 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 	std::vector<MenuItem*>::iterator found = menuItems_.begin() + index;
 	if ( found != menuItems_.end() ){
 
-		//ItemEvent event( this, ITEM_EVENT_DELETED );
-		//ItemDeleted.fireEvent( &event );
+		state_ &= ~MenuItem::mdsBoundToMenuPeer;
+
 		Menu* owner = getMenuOwner();
 		if ( NULL != owner ) {
 			owner->itemChanged( MenuItem::miRemoved, *found );
@@ -287,16 +275,6 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 
 		menuItems_.erase( found );
 		(*found)->free();
-		
-		/*
-		std::vector<MenuItem*>::iterator it = menuItems_.begin() + index;
-		unsigned long newIndex = index;
-		while ( it != menuItems_.end() ) {
-			(*it)->setIndex( newIndex );		
-			it ++;
-			newIndex ++;
-		}
-		*/
 	}
 }
 
@@ -707,7 +685,21 @@ void DefaultMenuItem::handleEvent( Event* event )
 		break;
 
 		case Component::COMPONENT_REMOVED : {
+			if ( isDestroying() ) {
+				ComponentEvent* ev = (ComponentEvent*)event;
+				Component* child = ev->getChildComponent();
+				MenuItem* item = dynamic_cast<MenuItem*>(child);
+				if ( NULL != item ) {
+					if ( state_ & MenuItem::mdsBoundToMenuPeer ) {
+						deleteChild( item );
+					}
+				}
+			}
+		}
+		break;
 
+		case Component::COMPONENT_DESTROYED : {
+			MenuManager::destroyMenuItemPeer( this );
 		}
 		break;
 	}
@@ -774,6 +766,9 @@ uint32 DefaultMenuItem::getChildIndex( MenuItem* child )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

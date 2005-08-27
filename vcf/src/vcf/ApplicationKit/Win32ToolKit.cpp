@@ -1792,7 +1792,7 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 		break;
 
 		case WM_DESTROY: {
-			result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
+			result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DESTROYED );
 		}
 		break;
 
@@ -2254,6 +2254,9 @@ Size Win32ToolKit::internal_getDragDropDelta()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.6.2.3  2005/08/16 19:04:37  ddiego
 *fixed little vc71 compile bug with maxval usage.
 *

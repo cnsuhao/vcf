@@ -30,6 +30,8 @@ namespace VCF {
 
 		virtual MenuItemPeer* getMenuItemPeer( MenuItem* item );
 
+		virtual void destroyMenuItemPeer( MenuItem* item );
+
 
 		virtual void windowActivated( Window* window );
 
@@ -37,7 +39,6 @@ namespace VCF {
 
 		virtual void menuItemChanged( int menuItemEventType, MenuItem* item );
 	protected:
-
 		MenuItemMap menuItemsMap_;
 	};
 

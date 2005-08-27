@@ -89,9 +89,9 @@ void Control::destroy()
 {
 	
 	if ( this->isLightWeight() ) {
-		//have to handle a Component::COMPONENT_DELETED event manually
+		//have to handle a Component::COMPONENT_DESTROYED event manually
 		//as they will NOT recv notification from the underlying windowing system
-		VCF::ComponentEvent event( this, Component::COMPONENT_DELETED );
+		VCF::ComponentEvent event( this, Component::COMPONENT_DESTROYED );
 		handleEvent( &event );
 	}
 
@@ -1550,6 +1550,9 @@ bool Control::isChild()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.3  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.8.2.2  2005/08/08 03:18:40  ddiego
 *minor updates
 *

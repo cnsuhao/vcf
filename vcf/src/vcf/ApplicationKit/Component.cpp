@@ -83,6 +83,11 @@ Component::~Component()
 
 void Component::destroy()
 {
+	if ( !(Component::csDestroying & componentState_) ) {
+		VCF::ComponentEvent e( this, Component::COMPONENT_DESTROYED );
+		handleEvent( &e );
+	}
+
 	Action* action = getAction();
 	if ( NULL != action ) {
 		action->removeTarget( this );
@@ -97,7 +102,7 @@ void Component::destroy()
 		component = NULL;
 		componentIter++;
 	}
-	components_.clear();
+	components_.clear();	
 
 	ObjectWithEvents::destroy();
 }
@@ -129,10 +134,10 @@ void Component::handleEvent( Event* event )
 			}
 			break;
 
-			case Component::COMPONENT_DELETED:{
+			case Component::COMPONENT_DESTROYED:{
 				ComponentEvent* componentEvent = (ComponentEvent*)event;
 				beforeDestroy( componentEvent );
-				ComponentDeleted.fireEvent( componentEvent );
+				ComponentDestroyed.fireEvent( componentEvent );
 			}
 			break;
 
@@ -586,6 +591,9 @@ Component* Component::createComponentFromResources( Class* clazz, Class* rootCla
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.4.2.1  2005/08/24 05:03:21  ddiego
 *better component loading and creation functions.
 *
