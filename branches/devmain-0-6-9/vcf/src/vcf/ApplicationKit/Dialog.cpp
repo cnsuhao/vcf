@@ -145,7 +145,7 @@ public:
 		if ( NULL != control_ ) {
 			EventHandler* ev = getEventHandler( "onDestroy" );
 			if ( NULL != ev ) {
-				control_->ComponentDeleted -= ev;
+				control_->ComponentDestroyed -= ev;
 			}
 		}
 	}
@@ -180,7 +180,7 @@ protected:
 			if ( NULL == ev ) {
 				ev = new ComponentEventHandler<ControlHolder>(this, &ControlHolder::onDestroy, "onDestroy" );
 			}
-			control_->ComponentDeleted += ev;
+			control_->ComponentDestroyed += ev;
 		}
 	}
 	Control* control_;
@@ -354,6 +354,9 @@ void Dialog::onModalClose( WindowEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

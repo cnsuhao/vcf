@@ -80,6 +80,16 @@ PopupMenu::~PopupMenu()
 	popupPeer_ = NULL;
 }
 
+void PopupMenu::destroy()
+{
+	if ( NULL != popupPeer_ ){
+		delete popupPeer_;
+		popupPeer_ = NULL;
+	}
+
+	Menu::destroy();
+}
+
 void PopupMenu::init()
 {
 	MenuManager::registerPopupMenu( this );
@@ -110,6 +120,9 @@ void PopupMenu::setControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.3.2.1  2005/08/25 01:48:19  ddiego
 *minor update to popupmenu code
 *

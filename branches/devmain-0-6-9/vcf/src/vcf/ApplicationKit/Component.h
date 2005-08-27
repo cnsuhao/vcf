@@ -82,7 +82,7 @@ public:
 
 	enum ComponentEvents{
 		COMPONENT_CREATED = 0,
-		COMPONENT_DELETED,
+		COMPONENT_DESTROYED,
 		COMPONENT_NEEDS_UPDATING,
 		COMPONENT_ADDED,
 		COMPONENT_REMOVED,
@@ -144,9 +144,9 @@ public:
 	Handlers attached to this delegate may safely call virtual methods of the component
 	as the component's destructor has not yet been called.
 	@event ComponentEvent
-	@eventtype Component::COMPONENT_CREATED
+	@eventtype Component::COMPONENT_DESTROYED
 	*/
-	DELEGATE(ComponentDeleted)
+	DELEGATE(ComponentDestroyed)
 
 	/**
 	@delegate ComponentAdded this is fired when a new child component is added
@@ -553,6 +553,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.4.2.1  2005/08/24 05:03:21  ddiego
 *better component loading and creation functions.
 *

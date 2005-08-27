@@ -62,6 +62,8 @@ namespace VCF {
 		*/
 		static MenuItemPeer* getMenuItemPeer( MenuItem* item );
 
+		static void destroyMenuItemPeer( MenuItem* item );
+
 		/**
 		Register this window with the menu manager
 		so that it can take note of change to the
@@ -110,6 +112,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.2  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -121,7 +121,7 @@ _class_abstract_rtti_(Component, "VCF::Object", COMPONENT_CLASSID)
 _property_( long, "tag", getTag, setTag, "" );
 _property_( String, "name", getName, setName, "" );
 _event_("VCF::ComponentEventHandler", VCF::ComponentEvent, ComponentCreated );
-_event_("VCF::ComponentEventHandler", VCF::ComponentEvent, ComponentDeleted );
+_event_("VCF::ComponentEventHandler", VCF::ComponentEvent, ComponentDestroyed );
 _class_rtti_end_
 
 
@@ -761,6 +761,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.4  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

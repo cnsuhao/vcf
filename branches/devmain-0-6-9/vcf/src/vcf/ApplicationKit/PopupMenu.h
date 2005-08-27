@@ -46,6 +46,8 @@ protected:
 
 	void init();
 
+	virtual void destroy();
+
 	PopupMenuPeer* popupPeer_;	
 };
 
@@ -55,6 +57,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/08/27 04:49:35  ddiego
+*menu fixes.
+*
 *Revision 1.2.6.1  2005/08/25 01:48:19  ddiego
 *minor update to popupmenu code
 *

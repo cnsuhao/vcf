@@ -24,6 +24,8 @@ namespace VCF {
 
 		virtual MenuItemPeer* getMenuItemPeer( MenuItem* item ) = 0;
 
+		virtual void destroyMenuItemPeer( MenuItem* item ) = 0;
+
 		virtual void windowActivated( Window* frame ) = 0;
 
 		virtual void windowClosed( Window* frame ) = 0;
