@@ -215,7 +215,7 @@ protected:
 class APPLICATIONKIT_API SeparatorMenuItem : public DefaultMenuItem {
 public:
 	SeparatorMenuItem( MenuItem* parent, Menu* menuOwner=NULL ) :
-		DefaultMenuItem( "", parent, menuOwner_) {
+		DefaultMenuItem( "", parent, menuOwner) {
 		setSeparator( true );
 	}
 };
@@ -227,6 +227,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.5  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

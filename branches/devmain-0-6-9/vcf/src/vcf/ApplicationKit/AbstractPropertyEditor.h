@@ -13,6 +13,10 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#ifndef _VCF_PROPERTYEDITOR_H__
+#include "vcf/ApplicationKit/PropertyEditor.h"
+#endif 
+
 
 namespace VCF {
 
@@ -124,6 +128,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.3  2005/07/09 23:14:50  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

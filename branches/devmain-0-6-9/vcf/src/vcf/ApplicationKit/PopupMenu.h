@@ -39,7 +39,17 @@ public:
 
 	virtual ~PopupMenu();
 
-	virtual void popup( Point* pt );
+	/**
+	This "pops up" a context menu and shows it to the user.
+	If the user clicks on a menu item in the popup menu, that
+	menu item is returned. Keep in mind that the menu item is 
+	"owned" by the popup menu instance, and is destroyed when
+	the popup menu is.
+	@return MenuItem returns a pointer to the menu item that
+	the user selected, or NULL if the user dismissed the popup
+	menu without clicking on any menu item.
+	*/
+	virtual MenuItem* popup( Point* pt );
 
 	void setControl( Control* control );
 protected:
@@ -57,6 +67,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.2.6.2  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

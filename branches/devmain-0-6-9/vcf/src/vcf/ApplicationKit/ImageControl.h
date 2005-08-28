@@ -14,6 +14,10 @@ where you installed the VCF.
 #endif
 
 
+#ifndef _VCF_ABSTRACTPROPERTYEDITOR_H__
+#include "vcf/ApplicationKit/AbstractPropertyEditor.h"
+#endif 
+
 #define IMAGEFILENAMESTRING_CLASSID		"166982EF-60DB-4476-ABF1-AD4EB82B2B08"
 
 
@@ -106,6 +110,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.4  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

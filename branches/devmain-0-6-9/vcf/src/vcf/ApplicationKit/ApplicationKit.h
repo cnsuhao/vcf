@@ -176,24 +176,6 @@ Action classes
 #include "vcf/ApplicationKit/ImageList.h"
 
 
-// newly added by tiziano:
-
-/**
-*for dealing with property editors
-*/
-#include "vcf/ApplicationKit/PropertyEditor.h"
-#include "vcf/ApplicationKit/PropertyEditorManager.h"
-#include "vcf/ApplicationKit/AbstractPropertyEditor.h"
-/**
-*
-*You don't need this file unless you are directly working with property
-editors
-#include "vcf/ApplicationKit/DefaultPropertyEditors.h"
-*/
-
-
-
-
 /**
 *Borders
 */
@@ -206,24 +188,6 @@ editors
 */
 #include "vcf/ApplicationKit/Desktop.h"
 
-/**
-*Component editor support
-*/
-#include "vcf/ApplicationKit/ComponentEditorManager.h"
-#include "vcf/ApplicationKit/ComponentEditor.h"
-#include "vcf/ApplicationKit/AbstractComponentEditor.h"
-
-
-
-/**
-*Visual Form File streams
-*/
-/**
-*
-*You only need this stuff if you are directly working with VFF files
-#include "vcf/ApplicationKit/VFFInputStream.h"
-#include "vcf/ApplicationKit/VFFOutputStream.h"
-*/
 
 
 /**
@@ -308,6 +272,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.3  2004/12/01 04:31:19  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
