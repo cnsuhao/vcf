@@ -14,6 +14,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/DefaultPropertyEditors.h"
 #include "vcf/ApplicationKit/ImageControl.h"
 #include "vcf/ApplicationKit/MenuManager.h"
+#include "vcf/ApplicationKit/PropertyEditorManager.h"
 
 //Peers
 
@@ -1234,6 +1235,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.5  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

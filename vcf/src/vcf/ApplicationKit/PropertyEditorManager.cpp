@@ -8,6 +8,9 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/PropertyEditor.h"
+#include "vcf/ApplicationKit/PropertyEditorManager.h"
+
 using namespace VCF;
 
 
@@ -128,6 +131,9 @@ void PropertyEditorManager::closePropertyEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

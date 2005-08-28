@@ -106,9 +106,9 @@ void PopupMenu::init()
 	ComponentRemoved += ev;
 }
 
-void PopupMenu::popup( Point* pt )
+MenuItem* PopupMenu::popup( Point* pt )
 {
-	popupPeer_->popup( pt );
+	return popupPeer_->popup( pt );
 }
 
 void PopupMenu::setControl( Control* control )
@@ -120,6 +120,9 @@ void PopupMenu::setControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.3.2.2  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

@@ -9,6 +9,8 @@ where you installed the VCF.
 
 //ComponentEditorManager.h
 #include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ComponentEditor.h"
+#include "vcf/ApplicationKit/ComponentEditorManager.h"
 
 using namespace VCF;
 
@@ -80,6 +82,9 @@ void ComponentEditorManager::closeComponentEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/08/28 05:14:17  ddiego
+*small changes to component editor class.
+*
 *Revision 1.2.6.1  2005/08/25 02:38:06  ddiego
 *minor update to component editor manager.
 *
