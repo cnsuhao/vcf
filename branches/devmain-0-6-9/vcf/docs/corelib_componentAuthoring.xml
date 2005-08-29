@@ -28,10 +28,86 @@ NB: This software will not save the world.
 
 <section><title>Component Authoring </title>
 	<para>
+	The VCF supports components as a way of re-using code, and a way to 
+	manipulate this code from within a design time UI editor. The VCF
+	Builder project aims to provide one type of an editor like this.
+	The rest of this documet will explain how to write custom components 
+	such that a tool like the <ulink url="http://vcfbuilder.org">VCF Builder</ulink> 
+	can re-use them and make them available to other developers.
+	</para>
+	<para>
+	Components are edited at design time by editing their properties. 
+	Components also have event's, to which event handler's can be added to. 
+	In addition to properties and events, a component instance can also 
+	be edited as a unit (known as component editing).  
+	</para>
+	
+	<para>
+	A component is persisted in a text based format that's very simple to read
+	and can even be edited by hand if need be. The storage layout is basically a 
+	listing of all the properties exposed by the component in a name/value format.
+	The result of storing the component results in a hierarchical layout - each 
+	child of the component is also stored. To actually store a component the 
+	VFFOutputStream class is used. Please see the source documentation for this
+	class for more information about it and the VFF component file format.
 	</para>
 	<section><title>Property Editing </title>
 		<para>
+		Property editing is the primary way of editing a component in a UI designer,
+		like the one in the <ulink url="http://vcfbuilder.org">VCF Builder</ulink>.
+		Each component class can expose various properties by using the VCF's RTTI 
+		system. When selected, these properties are then displayed in a UI that allows
+		the user to editing them individually. 
 		</para>
+		<para>
+		Allowing the user to edit a property is the job of a property editor, which 
+		is defined by the PropertyEditor interface. Property editors are associated
+		with a particular type name (like and "int", "String", or even some class
+		name) which is managed by the PropertyEditorManager class. The property editor
+		can provide a custom UI for the user to use, and can also control how the 
+		property is presented visually to the user. For example this is the default
+		display for properties that are number types (such as an int or a double):
+		
+		<screenshot>
+			<graphic fileref="gfx/default-pe.png"></graphic>
+		</screenshot>
+		The next example shows how the display is customized for a Font property, 
+		showing the actual font settings to give the user a preview of what the
+		property will look like:
+		<screenshot>
+			<graphic fileref="gfx/custom-pe.png"></graphic>
+		</screenshot>
+		</para>
+		
+		<para>
+		A property editor can have attributes that indicate how it is to be used. These
+		can indicate that the property should be displayed as a series of potential values,
+		or that the property is itself an object, and that it has child properties that can 
+		also be edited. The Font property is a good example. The Font itself is an object
+		with properties, and we can see in the screen shot below that the UI shows this:
+		<screenshot>
+			<graphic fileref="gfx/pe-subprops.png"></graphic>
+		</screenshot>		
+		</para>
+		
+		<section><title>Creating a new property editor class</title>
+			<para>
+			When creating a custom property editor, the easiest way to do so is to derive a 
+			new class from VCF::AbstractPropertyEditor. This provides some basic implementations
+			for you, nad just in general makes it easier than starting from scratch implementing 
+			the PropertyEditor interface.
+			<programlisting>
+			</programlisting>
+			</para>
+			
+			<para>			
+			</para>
+			
+			<para>			
+			</para>
+			<para>			
+			</para>
+		</section>
 	</section>
 	
 	<section><title>Component Editing </title>
@@ -58,6 +134,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.1  2005/08/29 03:26:19  ddiego
+adding compoent editing docs.
+
 Revision 1.2  2003/12/18 05:15:52  ddiego
 merge from devmain-0-6-2 branch into the stable branch
 
