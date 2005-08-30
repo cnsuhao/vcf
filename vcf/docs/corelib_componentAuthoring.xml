@@ -170,7 +170,7 @@ public:
 			then this indicates that the editor can paint itself, and the host should call
 			the editor's paintValue() method during the paint cycle. A complete list is diplayed
 			in the table below:
-			<table>
+			<table frame="none" pgwide="1">
 				<tgroup cols="2" align="left" colsep="0" rowsep="0">
 					<thead>
 						<row>
@@ -238,6 +238,41 @@ public:
 			</table>	
 			</para>
 			<para>
+			You can change the attributes your editor supports by modifying the 
+			AbstractPropertyEditor::attributes_ member variable. For example, to make the
+			editor read-only:
+			<programlisting>
+			<![CDATA[
+class MyPropertyEditor : public AbstractPropertyEditor {
+public:
+	MyPropertyEditor(){
+		attributes_ = PropertyEditor::paReadOnly;
+	}
+
+};			
+			]]>
+			</programlisting>
+			If you wanted to make the editor have values, for example, the values "One" and "Two":
+			<programlisting>
+			<![CDATA[
+class MyPropertyEditor : public AbstractPropertyEditor {
+public:
+	MyPropertyEditor(){
+		attributes_ = PropertyEditor::paHasValues;
+	}
+	
+	virtual std::vector<String> getStringValues(){
+		std::vector<String> result(2);
+		result[0] = "One";
+		result[1] = "Two";
+		return result;
+	}
+};			
+			]]>
+			</programlisting>
+			When the host displays your editor, it will use a combo box control, and populate it's
+			list with two elements - "One" and "Two" - after calling the getStringValues() method
+			of your editor instance.
 			</para>
 			</section>
 			<section><title>Storing the property's value</title>
@@ -255,12 +290,32 @@ public:
 			property editor having the PropertyEditor::paValueNeedsDuplicating attribute. 
 			The default implementation in the AbstractPropertyEditor class handles this for you.
 			</para>
-			</section>
 			<para>
+			In addition to setting the value of the property editor by way of a VariantData object,
+			the editor also needs to accept data in the form of a string. This is what the 
+			PropertyEditor::setValueAsText() method is for. Again the AbstractPropertyEditor
+			implements this for us, by simply calling the VariantData's setFromString()
+			method.
 			</para>
+			</section>
+			<section><title>Retreiving the property's value</title>
+			<para>
+			When the host needs to get the data stored by the property editor, it calls either
+			PropertyEditor::getValue() or PropertyEditor::getValueAsText(). The AbstractPropertyEditor			
+			implements both of these for us, so in general we don't need to worry about them.
+			</para>
+			</section>
+			<section><title>Sub Properties</title>
+			<para>
+			Some propert editor's have what are called "sub properties". In other words, the
+			object that the property editor represents is itself made of properties, and 
+			you can edit these properties as well. For example, if we were representing a 
+			Font, the font itself contains properties, thus our property editor would have 
+			"sub properties" and it would have the PropertyEditor::paHasSubProperties
+			set.
+			</para>
+			</section>
 			
-			<para>			
-			</para>
 			<para>			
 			</para>
 		</section>
@@ -290,7 +345,7 @@ public:
 <!--
 CVS Log info
 $Log$
-Revision 1.2.12.5  2005/08/30 20:39:11  ddiego
+Revision 1.2.12.6  2005/08/30 21:05:04  ddiego
 comp authoring updates.
 
 Revision 1.2.12.2  2005/08/30 03:39:36  ddiego
