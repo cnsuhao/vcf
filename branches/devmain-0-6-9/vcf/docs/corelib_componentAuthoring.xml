@@ -234,7 +234,7 @@ public:
 							object's Object::clone() method.</entry>
 						</row>
 					</tbody>	
-				<tgroup>
+				</tgroup>
 			</table>	
 			</para>
 			<para>
@@ -290,7 +290,7 @@ public:
 <!--
 CVS Log info
 $Log$
-Revision 1.2.12.3  2005/08/30 20:34:25  ddiego
+Revision 1.2.12.4  2005/08/30 20:37:24  ddiego
 comp authoring updates.
 
 Revision 1.2.12.2  2005/08/30 03:39:36  ddiego
