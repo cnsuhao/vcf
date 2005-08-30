@@ -97,10 +97,79 @@ NB: This software will not save the world.
 			for you, nad just in general makes it easier than starting from scratch implementing 
 			the PropertyEditor interface.
 			<programlisting>
+			<![CDATA[
+class MyPropertyEditor : public AbstractPropertyEditor {
+public:
+	MyPropertyEditor(){}
+
+};			
+			]]>
 			</programlisting>
+			Deriving from VCF::AbstractPropertyEditor simplifies what you need to implement for
+			your property editor. This gives us a basic, bare bones implementation to work from. 
+			It's also possible to derive from some other existing property editors, such as:
+			<table frame="none" pgwide="1">
+			</table>
+				<tgroup cols="2" align="left" colsep="0" rowsep="0">
+					<thead>
+						<row>
+							<entry>Type(s)</entry>
+							<entry>Property editor class</entry>
+						</row>							
+					</thead>
+					<tbody>
+						<row>
+							<entry>int, long, or short</entry>
+							<entry>VCF::IntegerPropertyEditor</entry>
+						</row>
+						<row>
+							<entry>double, float</entry>
+							<entry>VCF::DoublePropertyEditor</entry>
+						</row>
+						
+						<row>
+							<entry>bool</entry>
+							<entry>VCF::BoolPropertyEditor</entry>
+						</row>
+						
+						<row>
+							<entry>String</entry>
+							<entry>VCF::StringPropertyEditor</entry>
+						</row>
+						
+						<row>
+							<entry>double, float</entry>
+							<entry>VCF::IntegerPropertyEditor</entry>
+						</row>
+						
+						<row>
+							<entry>enum</entry>
+							<entry>VCF::EnumPropertyEditor</entry>
+						</row>
+						
+						<row>
+							<entry>VCF::Color</entry>
+							<entry>VCF::ColorPropertyEditor</entry>
+						</row>
+						
+						<row>
+							<entry>VCF::Font</entry>
+							<entry>VCF::FontPropertyEditor</entry>
+						</row>					
+					</tbody>
+				</tgroup>
 			</para>
 			
-			<para>			
+			<section><title>Storing the property's value</title>							
+			<para>
+			The value for a property is set or retreived by using a VariantData class. The 
+			PropertyEditor::setValue() and PropertyEditor::getValue() are the methods
+			that deal with this. Since we're deriving from AbstractPropertyEditor, a member 
+			variable is provided for us, and the default implementation handles getting and 
+			setting these values. 
+			</para>
+			</section>
+			<para>
 			</para>
 			
 			<para>			
@@ -134,6 +203,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.2  2005/08/30 03:39:36  ddiego
+more component authoring info.
+
 Revision 1.2.12.1  2005/08/29 03:26:19  ddiego
 adding compoent editing docs.
 
