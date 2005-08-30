@@ -108,8 +108,7 @@ public:
 			Deriving from VCF::AbstractPropertyEditor simplifies what you need to implement for
 			your property editor. This gives us a basic, bare bones implementation to work from. 
 			It's also possible to derive from some other existing property editors, such as:
-			<table frame="none" pgwide="1">
-			</table>
+			<table frame="none" pgwide="1">			
 				<tgroup cols="2" align="left" colsep="0" rowsep="0">
 					<thead>
 						<row>
@@ -158,15 +157,103 @@ public:
 						</row>					
 					</tbody>
 				</tgroup>
+			</table>
 			</para>
 			
-			<section><title>Storing the property's value</title>							
+			<section><title>Attributes</title>
+			<para>
+			Each property editor has a series of attributes that tell the "host"
+			UI how the editor should be displayed or how it should be handled. For example,
+			if the property editor has the PropertyEditor::paReadOnly attribute, this 
+			indicates that the property is read-only, it cannot be modified by the 
+			editor. If the editor has the PropertyEditor::paNeedsCustomPaint attribute,
+			then this indicates that the editor can paint itself, and the host should call
+			the editor's paintValue() method during the paint cycle. A complete list is diplayed
+			in the table below:
+			</table>
+				<tgroup cols="2" align="left" colsep="0" rowsep="0">
+					<thead>
+						<row>
+							<entry>Attribute</entry>
+							<entry>Meaning</entry>
+						</row>							
+					</thead>
+					<tbody>
+						<row>
+							<entry>PropertyEditor::paHasValues</entry>
+							<entry>	Indicates that the property editor can return a vector of 
+							string values that represent possible values for the property. For 
+							example, a color property editor might return a list of color names. 
+							A Font editor might return a list of system fonts.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paSortValues </entry>
+							<entry>Indicates that the values returned by the editor need to be 
+							sorted.	The sort process should call the PropertyEditor::sort() method 
+							while iterating through the list.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paHasSubProperties </entry>
+							<entry>Indicates that the source object's property itself has sub 
+							properties. Things like a font or color property may use this to 
+							indicate separate elements that can be set.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paAllowsMultiSelect </entry>
+							<entry>Indicates whether or not the editor allows multiple selection. 
+							If the editor does have this set, then it needs to implement the 
+							PropertyEditor::setSources() method.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paReadOnly </entry>
+							<entry>Indicates that the editor is read only - the value cannot be 
+							changed and is only for display.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paNeedsCustomPaint </entry>
+							<entry>Indicates that the editor can paint it's representation when 
+							the editor is not active.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paUsesModalDialogForEditing  </entry>
+							<entry>This indicates that the implementor will display a modal dialog 
+							when the PropertyEditor::edit() method is called.</entry>
+						</row>
+						
+						<row>
+							<entry>PropertyEditor::paValueNeedsDuplicating </entry>
+							<entry>This indicates that the property value of the editor needs to 
+							be cloned. This only makes sense if the property type is some sort of 
+							Object instance. The object should be cloned by a call to the original 
+							object's Object::clone() method.</entry>
+						</row>
+					</tbody>	
+				<tgroup>
+			</table>	
+			</para>
+			<para>
+			</para>
+			</section>
+			<section><title>Storing the property's value</title>
 			<para>
 			The value for a property is set or retreived by using a VariantData class. The 
 			PropertyEditor::setValue() and PropertyEditor::getValue() are the methods
 			that deal with this. Since we're deriving from AbstractPropertyEditor, a member 
 			variable is provided for us, and the default implementation handles getting and 
 			setting these values. 
+			</para>
+			<para>
+			Most of the time the values will be basic types like an int, a bool, or a
+			String. However, sometimes the value is an Object instance, which may need to
+			be copied, as opposed to just copying the pointer value. This is indicated by the 
+			property editor having the PropertyEditor::paValueNeedsDuplicating attribute. 
+			The default implementation in the AbstractPropertyEditor class handles this for you.
 			</para>
 			</section>
 			<para>
@@ -203,6 +290,9 @@ public:
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.3  2005/08/30 20:34:25  ddiego
+comp authoring updates.
+
 Revision 1.2.12.2  2005/08/30 03:39:36  ddiego
 more component authoring info.
 
