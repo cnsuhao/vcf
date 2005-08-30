@@ -170,7 +170,7 @@ public:
 			then this indicates that the editor can paint itself, and the host should call
 			the editor's paintValue() method during the paint cycle. A complete list is diplayed
 			in the table below:
-			</table>
+			<table>
 				<tgroup cols="2" align="left" colsep="0" rowsep="0">
 					<thead>
 						<row>
@@ -290,7 +290,7 @@ public:
 <!--
 CVS Log info
 $Log$
-Revision 1.2.12.4  2005/08/30 20:37:24  ddiego
+Revision 1.2.12.5  2005/08/30 20:39:11  ddiego
 comp authoring updates.
 
 Revision 1.2.12.2  2005/08/30 03:39:36  ddiego
