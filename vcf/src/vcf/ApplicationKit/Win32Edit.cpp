@@ -479,6 +479,12 @@ void Win32Edit::setCaretPosition( const unsigned long& caretPos )
 
 }
 
+//Ugly hack for bcb6 w. Stlport w. fixed ctype.h header
+#if defined(__BORLANDC__) && defined(__SGI_STL_PORT) && ((__BORLANDC__ >= 0x0560) && (__BORLANDC__ < 0x0570))
+#define toupper std::_ltoupper
+#define tolower std::_ltolower
+#endif
+
 uint32 Win32Edit::convertCharToVKCode( VCFChar ch )
 {
 	uint32 result = 0;
@@ -1695,6 +1701,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/08/31 20:29:23  kiklop74
+*Added fix for bcb6 rtl
+*
 *Revision 1.5  2005/07/09 23:14:57  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
