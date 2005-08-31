@@ -123,7 +123,7 @@ public:
   }
 
   virtual void paint( VCF::GraphicsContext* ctx ) {
-     CustomControl::paint(ctx);
+     VCF::CustomControl::paint(ctx);
      dnc.cdtDraw( reinterpret_cast<HDC>(ctx->getPeer()->getContextID()),
                   0, 0,
                   (myDrawMode == FaceDown) ? myDeckItem : myCardItem,
@@ -152,6 +152,9 @@ DynoCardLoader CardControl::dnc;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/08/31 20:00:15  kiklop74
+*Minor fix for Borland free compiler
+*
 *Revision 1.2  2005/07/09 23:14:14  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
