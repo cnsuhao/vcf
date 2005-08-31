@@ -224,7 +224,9 @@ CPPFILES=AbstractApplication.cpp \
          Toolbar.cpp \
          ToolbarDock.cpp \
          TreeControl.cpp \
-         TreeListControl.cpp
+         TreeListControl.cpp \
+         MenuManager.cpp \
+         Win32MenuManagerPeer.cpp
 
 RESFILE=$(RESSRCFILE:.rc=.res^ )
 OBJFILES=$(CPPFILES:.cpp=.obj^ )
