@@ -14,27 +14,30 @@ using namespace VCF;
 
 
 
-MenuItemEvent::MenuItemEvent( Object * source ):
+/*MenuItemEvent::MenuItemEvent( Object * source ):
 	Event( source )
 {
 
-}
+}*/
 
-MenuItemEvent::MenuItemEvent( Object* source, const unsigned long& eventType ):
+/*MenuItemEvent::MenuItemEvent( Object* source, const unsigned long& eventType ):
 	Event( source, eventType )
 {
 
-}
+}*/
 
-MenuItemEvent::~MenuItemEvent()
+/*MenuItemEvent::~MenuItemEvent()
 {
 
-}
+}*/
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/08/31 20:09:56  kiklop74
+*Fix (?) either implement class in cpp or in header. You can not have it both ways.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
