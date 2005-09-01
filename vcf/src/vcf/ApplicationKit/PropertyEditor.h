@@ -106,7 +106,14 @@ public:
 		this indicates an error condition). The object should be cloned by a 
 		call to the original object's Object::clone() method.
 		*/
-		paValueNeedsDuplicating = 0x040
+		paValueNeedsDuplicating = 0x040,
+
+		/**
+		This indicates to the host that the proeprty editor's 
+		string description of the property should be used over
+		the value that is retreived from calling Property::getDescription().
+		*/
+		paOverridePropertyDescription = 0x010000
 
 	};
 
@@ -238,8 +245,17 @@ public:
 	*/
 	virtual bool sort( const String& strVal1, const String& strVal2 ) = 0;
 	
+	/**
+	This returns a string that describes the property. A host that
+	displays a UI should first try and call the property's 
+	Property::getDescription() method. If this returns an empty string,
+	then the host should call the property editor's getPropertyDescription().
+	@see Property::getDescription()
+	@see paOverridePropertyDescription
+	*/
+	virtual String getPropertyDescription() = 0;
 	/*
-	Useful shortcut methods for determing which attributes are set
+	Useful shortcut methods for determining which attributes are set
 	for a property editor
 	*/
 	bool hasValues() {
@@ -275,6 +291,9 @@ public:
 		return (getAttributes() & PropertyEditor::paValueNeedsDuplicating) ? true : false;		
 	}
 	
+	bool overridesPropertyDescription() { 
+		return (getAttributes() & PropertyEditor::paOverridePropertyDescription) ? true : false;		
+	}
 
 	
 };
@@ -291,6 +310,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/01 03:56:57  ddiego
+*doc updates and some minor mods to the property editor interface.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

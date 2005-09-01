@@ -288,7 +288,13 @@ public:
 			String. However, sometimes the value is an Object instance, which may need to
 			be copied, as opposed to just copying the pointer value. This is indicated by the 
 			property editor having the PropertyEditor::paValueNeedsDuplicating attribute. 
-			The default implementation in the AbstractPropertyEditor class handles this for you.
+			The default implementation in the AbstractPropertyEditor class handles 
+			copying the object if PropertyEditor::paValueNeedsDuplicating is set. 
+			</para>
+			<para>
+			As a rule, if the value your proeprty editor wraps is an Object instance, then
+			you'll probably need to have the PropertyEditor::paValueNeedsDuplicating attribute 
+			set.
 			</para>
 			<para>
 			In addition to setting the value of the property editor by way of a VariantData object,
@@ -312,10 +318,70 @@ public:
 			you can edit these properties as well. For example, if we were representing a 
 			Font, the font itself contains properties, thus our property editor would have 
 			"sub properties" and it would have the PropertyEditor::paHasSubProperties
-			set.
+			set. The host implementation will do the rest in terms of presenting a suitable 
+			UI for the sub proeprties. In the case of the VCF Builder that's why we see the
+			tree view presentation with the disclosure button to display the sub properties.
 			</para>
 			</section>
 			
+			<section><title>Multiple values and sorting</title>
+			<para>
+			As mentioned earlier, some property editors can display one or more default values
+			in list. This is done by making sure the PropertyEditor::paHasValues attribute is
+			set and then implementing the getStringValues() method to return a suitable vector
+			of string values. For example, the Color property editor returns a list of 
+			color names like so:
+			<programlisting>
+			<![CDATA[
+
+std::vector<String> ColorPropertyEditor::getStringValues()
+{
+	int count = ColorNames::uniqueColorLast-ColorNames::uniqueColorFirst;
+	std::vector<String> result(count);
+
+	for ( int i=ColorNames::uniqueColorFirst;i<ColorNames::uniqueColorLast;i++ ) {
+		result[i-ColorNames::uniqueColorFirst] = ColorNames::at( (ColorNames::ColorID)i );
+	}
+
+	return result;
+}			
+			]]>
+			</programlisting>
+			We determine the number of unique color names (count), set a vector of strings
+			to be this size, and then loop through the color names, retreiving each one. The
+			host will call this and fill in a suitable presentation for the user to select one
+			of the values. In the VCF Builder this is accomplished by using an ComboBoxControl 
+			and populating it's ListModel.
+			<screenshot>
+				<graphic fileref="gfx/pe-hasvalues.png"></graphic>
+			</screenshot>			
+			</para>
+			<para>
+			In addition to having a list of values, the property editor can also specify a specific 
+			sort order for these values. By implementing the PropertyEditor::sort() method, you
+			can control how the host will display your values. The PropertyEditor::sort() takes
+			two string values, and returns a boolean value. An example of this can be seen in 
+			the Color property editor, which simply implements this as a simple string compare:
+			<programlisting>
+			<![CDATA[
+bool ColorPropertyEditor::sort( const String& strVal1, const String& strVal2 )
+{
+	return strVal1 > strVal2;
+}			
+			]]>
+			</para>
+			</section>
+			<section><title>Painting the display of a property</title>
+			<para>
+			You can control the way a property editor display's a property by setting the 
+			PropertyEditor::paNeedsCustomPaint attribute, and implementing the 
+			PropertyEditor::paintValue() method. The host will call your paintValue()
+			method and pass in a VariantData pointer for the property value, a GraphicsContext
+			instance for the current GraphicsContext to paint on, a Rect instance that defines
+			the drawable area you can paint in, and finally a DrawUIState that indicates the 
+			current UI state.
+			</para>
+			</section>
 			<para>			
 			</para>
 		</section>
@@ -345,6 +411,9 @@ public:
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.7  2005/09/01 03:56:52  ddiego
+doc updates and some minor mods to the property editor interface.
+
 Revision 1.2.12.6  2005/08/30 21:05:04  ddiego
 comp authoring updates.
 
