@@ -382,14 +382,69 @@ bool ColorPropertyEditor::sort( const String& strVal1, const String& strVal2 )
 			the drawable area you can paint in, and finally a DrawUIState that indicates the 
 			current UI state.
 			</para>
-			</section>
-			<para>			
+			<para>
+			For an example of this lets look at the ColorPropertyEditor code for this.
+			We can see the result of this here:
+			<screenshot>
+				<graphic fileref="gfx/pe-custom-paint.png"></graphic>
+			</screenshot>
+			<programlisting>
+			<![CDATA[
+void ColorPropertyEditor::paintValue( VariantData* value, GraphicsContext* context, const Rect& bounds, const DrawUIState& state )
+{
+	Color* c = (Color*)(Object*)(*value);
+	Color* oldColor = context->getColor();
+
+	Rect innerBds = bounds;
+
+	innerBds.inflate( -2, -2 );
+	context->setColor( Color::getColor("black") );
+	context->rectangle( &innerBds );
+	context->strokePath();
+
+	innerBds.inflate( -3, -3 );
+	context->setColor( c );
+	context->rectangle( &innerBds );
+	context->fillPath();
+	context->setColor( oldColor );
+}			
+			]]>
+			</programlisting>
+			We retreive the color value from the variant value. We then draw a black rectangle
+			the size of	our bounds. We shrink this rect and then paint a solid filled rectangle 
+			the same color as our value. 
 			</para>
+			<para>
+			It's not very hard to customize the disaplay, just remember that you're drawing must be
+			limited to the bounds argument passed in to your paintValue() method.
+			</para>
+			</section>
+		</section>
+		<section><title>Editing a Property</title>
+		<para>
+		A property can be edited in one of two ways. The property value from the 
+		editor is is transfered for display/editing to a control of some sort. This 
+		value is changed and then written back to the property and the property 
+		editor. The second way is for the host to call the property editor's edit() 
+		method, which may then display a modal dialog where the user can makes 
+		changes. If these changes are accepted, then the propert and the property 
+		editor's values are changed.
+		</para>
+		<para>
+		What method is used depends on the property editor and whether or not the 
+		editor has the PropertyEditor::paUsesModalDialogForEditing attribute set. 
+		If the PropertyEditor::paUsesModalDialogForEditing is set, then the editor 
+		must display a UI in a modal dialog in the edit() method implementation. 
+		Whatever method is used, the host will set the current value of the property
+		by calling the property editor's setValue() method <emphasis>before</emphasis>
+		calling the edit() method. 
+		</para>
 		</section>
 	</section>
 	
 	<section><title>Component Editing </title>
 		<para>
+		
 		</para>
 	</section>
 	
@@ -412,6 +467,9 @@ bool ColorPropertyEditor::sort( const String& strVal1, const String& strVal2 )
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.9  2005/09/01 21:04:20  ddiego
+updates
+
 Revision 1.2.12.8  2005/09/01 04:00:49  ddiego
 update
 
