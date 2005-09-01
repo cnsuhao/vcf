@@ -87,6 +87,11 @@ public:
 		return false;
 	}
 
+	virtual String getPropertyDescription() {
+		return propertyDescription_;
+	}
+
+
 	virtual bool equalTo( PropertyEditor* editor ) {
 		if ( NULL == editor ) {
 			return false;
@@ -114,6 +119,7 @@ protected:
 	int attributes_;
 	VariantData data_;
 	String propertyType_;
+	String propertyDescription_;
 	Component* rootDesignerComponent_;
 private:
 
@@ -128,6 +134,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/01 03:56:57  ddiego
+*doc updates and some minor mods to the property editor interface.
+*
 *Revision 1.3.2.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *
