@@ -14,7 +14,7 @@
     
 
     <add-formats>
-        autoconf,borland,dmars_smake,dmars,mingw,msvc,msvc6prj,msevc4prj,watcom,cbuilderx,cbx_unix,gnu
+        autoconf,borland,dmars_smake,dmars,mingw,msvc,msvc6prj,msevc4prj,watcom,cbuilderx,cbx_unix,gnu,xcode2
     </add-formats>
 
     <disable-formats>cbuilderx,cbx_unix</disable-formats>
@@ -80,6 +80,9 @@
     <add-flags files="VCF.bkl" formats="gnu">
         -o../bakefiles.gen/makefile.gnu
     </add-flags>
+    <add-flags files="VCF.bkl" formats="xcode2">
+        -o../bakefiles.gen/VCF.xcode
+    </add-flags>    
 
 
     <add-flags formats="autoconf">
