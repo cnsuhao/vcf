@@ -604,7 +604,7 @@ void ParticleEditor::onEndingSystem(TextEvent *e){
 }
 
 void ParticleEditor::onNewTexture(ButtonEvent *e){
-	CommonFileOpen *dialog=new CommonFileOpen();
+	CommonFileOpenDialog *dialog=new CommonFileOpenDialog();
 	FilePath path(Application::getRunningInstance()->getFileName());
 	dialog->setDirectory(path.getPathName());
 	dialog->addFilter("Bitmaps (*.bmp)","*.bmp");
@@ -643,7 +643,7 @@ void ParticleEditor::onDeleteTexture(ButtonEvent *e){
 }
 
 void ParticleEditor::onFileLoad(MenuItemEvent *e){
-	CommonFileOpen *dialog=new CommonFileOpen();
+	CommonFileOpenDialog *dialog=new CommonFileOpenDialog();
 	FilePath path(Application::getRunningInstance()->getFileName());
 	dialog->setDirectory(path.getPathName());
 	dialog->addFilter("Particle XML Files (*.xml)","*.xml");
@@ -683,7 +683,7 @@ void ParticleEditor::onFileLoad(MenuItemEvent *e){
 }
 
 void ParticleEditor::onFileSave(MenuItemEvent *e){
-	CommonFileOpen *dialog=new CommonFileOpen();
+	CommonFileOpenDialog *dialog=new CommonFileOpenDialog();
 	FilePath path(Application::getRunningInstance()->getFileName());
 	dialog->setDirectory(path.getPathName());
 	dialog->addFilter("Particle XML Files (*.xml)","*.xml");
@@ -736,6 +736,9 @@ void ParticleEditor::onFileExit(MenuItemEvent *e){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/02 01:01:19  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.3.2.1  2005/07/23 21:45:39  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

@@ -1107,7 +1107,7 @@ void CurveTool::reset()
 void ImageTool::onMouseDown( VCF::MouseEvent* e )
 {
 	if ( e->hasLeftButton() ) {
-		CommonFileOpen openDlg;
+		CommonFileOpenDialog openDlg;
 		if ( openDlg.execute() ) {
 			FilePath fp = openDlg.getFileName();
 
@@ -1152,6 +1152,9 @@ void ImageTool::paintState( VCF::GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:41  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

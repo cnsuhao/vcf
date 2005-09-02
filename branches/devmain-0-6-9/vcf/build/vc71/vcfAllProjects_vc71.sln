@@ -19,6 +19,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alignment", "..\..\examples
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1", ".\AllIn1\AllIn1_vc71.vcproj", "{9d3b86b8-bddc-425a-8741-26b15a73dea6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1DLL", ".\AllIn1\AllIn1DLL_vc71.vcproj", "{cbfabe9f-56ba-43ed-8fa4-284b8b3f7fe7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anchors", "..\..\examples\Anchors\Anchors_vc71.vcproj", "{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -521,6 +529,10 @@ Global
 		{B2888126-5123-4467-8324-D9EB0893DB3C}.Debug.ActiveCfg = Debug|Win32
 		{B2888126-5123-4467-8324-D9EB0893DB3C}.GTK Debug.ActiveCfg = Debug|Win32
 		{B2888126-5123-4467-8324-D9EB0893DB3C}.Release.ActiveCfg = Release|Win32
+		{9d3b86b8-bddc-425a-8741-26b15a73dea6}.Debug.ActiveCfg = Debug|Win32
+		{9d3b86b8-bddc-425a-8741-26b15a73dea6}.Release.ActiveCfg = Release|Win32
+		{cbfabe9f-56ba-43ed-8fa4-284b8b3f7fe7}.Debug.ActiveCfg = Debug|Win32
+		{cbfabe9f-56ba-43ed-8fa4-284b8b3f7fe7}.Release.ActiveCfg = Release|Win32
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}.Debug.ActiveCfg = Debug|Win32
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}.GTK Debug.ActiveCfg = Debug|Win32
 		{8E3F2DF3-8287-45BA-ADC1-4EEEA8E375C1}.Release.ActiveCfg = Release|Win32

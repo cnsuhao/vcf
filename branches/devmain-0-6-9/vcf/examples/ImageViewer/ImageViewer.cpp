@@ -83,7 +83,7 @@ public:
 	}
 
 	void openImage( MenuItemEvent* e ) {
-		CommonFileOpen dlg( this );
+		CommonFileOpenDialog dlg( this );
 
 		//get the available image loader extensions
 		std::vector< std::pair<String,String> > contentTypes;
@@ -162,6 +162,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2005/09/02 01:01:19  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.7.2.1  2005/07/23 21:45:37  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

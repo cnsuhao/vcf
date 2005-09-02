@@ -63,6 +63,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "AllIn1"=".\AllIn1\AllIn1_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "AllIn1DLL"=".\AllIn1\AllIn1DLL_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Anchors"="..\..\examples\Anchors\Anchors_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -786,7 +810,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_icl7.dsp" - Package Owner=<4>
+Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\____LibJPEG\LibJPEG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -810,7 +834,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\LibPNG\LibPNG_icl7.dsp" - Package Owner=<4>
+Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\___LibPNG\LibPNG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1374,7 +1398,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_icl7.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\___ZLib\ZLib_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

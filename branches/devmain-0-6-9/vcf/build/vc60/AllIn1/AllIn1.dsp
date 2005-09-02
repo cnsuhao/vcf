@@ -23,8 +23,6 @@ CFG=AllIn1 - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -41,7 +39,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "vc6\ReleaseS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm200 /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /Zm200 /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "VCF_ALLIN1_LIB" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm200 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /D "VCF_ALLIN1_LIB" /Fd"..\..\..\lib\VCF_vc6_sd.pdb" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm200 /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe

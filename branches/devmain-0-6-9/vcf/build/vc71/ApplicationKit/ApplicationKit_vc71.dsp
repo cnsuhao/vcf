@@ -104,15 +104,27 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManager.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColorDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManagerPeer.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFontDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.h
 # End Source File
 # End Group
 # Begin Group "Res"
@@ -289,11 +301,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommandGroup.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColor.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColor.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -301,11 +309,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommonDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowse.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -317,35 +321,19 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpen.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSave.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFont.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFont.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrint.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrint.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -537,14 +525,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Light3DBorder.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\LightweightComponent.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\LightweightComponent.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Menu.cpp
 # End Source File
 # Begin Source File
@@ -566,6 +546,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MenuItem.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManager.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManager.h
 # End Source File
 # Begin Source File
 
@@ -710,6 +694,14 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\COMUtils.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\EnumObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\LightweightComponent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\LightweightComponent.h
 # End Source File
 # Begin Source File
 
@@ -882,6 +874,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuItem.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.h
 # End Source File
 # Begin Source File
 
@@ -1666,6 +1662,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\MenuBarPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\MenuItemPeer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\MenuManagerPeer.h
 # End Source File
 # Begin Source File
 

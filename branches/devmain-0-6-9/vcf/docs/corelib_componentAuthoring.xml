@@ -439,6 +439,29 @@ void ColorPropertyEditor::paintValue( VariantData* value, GraphicsContext* conte
 		by calling the property editor's setValue() method <emphasis>before</emphasis>
 		calling the edit() method. 
 		</para>
+		<para>
+		For an example of this let's look at how the FontPropertyEditor handles this:
+		<programlisting>
+		<![CDATA[
+void FontPropertyEditor::edit()
+{
+	CommonFont fontDlg(NULL);
+	Font* f = (Font*)(Object*)(*(this->getValue()));
+	fontDlg.setSelectedFont( f );
+	if ( true == fontDlg.execute() ){
+		VariantData data;
+		f->copy( fontDlg.getSelectedFont() );
+		data = f;
+		this->setValue( &data );
+	}
+}		
+		]]>
+		</programlisting>
+		All this does is create a CommonFontDialog instance and then call the execute() 
+		method. This will display the dialog modally. If the dialog's execute() method returns
+		true, then the selected font of the dialog is copied into the font stored in the
+		property editor.
+		</para>
 		</section>
 	</section>
 	
@@ -467,6 +490,9 @@ void ColorPropertyEditor::paintValue( VariantData* value, GraphicsContext* conte
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.10  2005/09/02 01:01:18  ddiego
+changed some of the common dialogs around, was using a less clear class name.
+
 Revision 1.2.12.9  2005/09/01 21:04:20  ddiego
 updates
 

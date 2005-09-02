@@ -95,7 +95,7 @@ public:
 	virtual ~PrintingWindow(){};
 
 	void onPrint( Event* e ) {
-		CommonPrint dlg(this);
+		CommonPrintDialog dlg(this);
 
 		dlg.setTitle( "Print Dialog from Printing Example" );
 		

@@ -203,7 +203,7 @@ public:
 			listBox_ = NULL;
 		}
 
-		CommonFileOpen dlg( this );
+		CommonFileOpenDialog dlg( this );
 
 		//get the available image loader extensions
 		std::vector< std::pair<String,String> > contentTypes;
@@ -348,6 +348,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.6.2.1  2005/07/23 21:45:40  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

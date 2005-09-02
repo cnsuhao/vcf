@@ -125,7 +125,7 @@ void ColorPropertyEditor::setValueAsText( const String& textValue )
 
 void ColorPropertyEditor::edit()
 {
-	CommonColor clrDlg;
+	CommonColorDialog clrDlg;
 	Color* c = (Color*)(Object*)(*(this->getValue()));
 	clrDlg.setSelectedColor( c );
 	if ( clrDlg.execute() ) {
@@ -192,7 +192,7 @@ void FontPropertyEditor::paintValue( VariantData* value, GraphicsContext* contex
 
 void FontPropertyEditor::edit()
 {
-	CommonFont fontDlg(NULL);
+	CommonFontDialog fontDlg(NULL);
 	Font* f = (Font*)(Object*)(*(this->getValue()));
 	fontDlg.setSelectedFont( f );
 	if ( true == fontDlg.execute() ){
@@ -253,6 +253,9 @@ DefaultListModelPropertyEditor::~DefaultListModelPropertyEditor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.3.2.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

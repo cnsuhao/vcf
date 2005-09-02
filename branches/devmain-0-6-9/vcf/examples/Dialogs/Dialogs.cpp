@@ -277,7 +277,7 @@ public:
 	This example shows how to call up the common font dialog
 	*/
 	void example4( Event* e ) {
-		CommonFont dlg(this);
+		CommonFontDialog dlg(this);
 		dlg.setSelectedFont( getFont() );
 		if ( dlg.execute() ) {
 			Font font = *dlg.getSelectedFont();
@@ -290,7 +290,7 @@ public:
 	This example shows how to call up the common Color dialog
 	*/	
 	void example5( Event* e ) {
-		CommonColor dlg(this);
+		CommonColorDialog dlg(this);
 		dlg.setSelectedColor( getColor() );
 		if ( dlg.execute() ) {
 			Color color = *dlg.getSelectedColor();
@@ -305,7 +305,7 @@ public:
 	This example shows how to call up the common file browse dialog
 	*/
 	void example6( Event* e ) {
-		CommonFileBrowse dlg(this);
+		CommonFileBrowseDialog dlg(this);
 		
 		dlg.setDirectory( System::getCurrentWorkingDirectory() );
 
@@ -318,7 +318,7 @@ public:
 	This example shows how to call up the common file open dialog
 	*/
 	void example7( Event* e ) {
-		CommonFileOpen dlg(this);
+		CommonFileOpenDialog dlg(this);
 		
 		dlg.addFilter( "Pumpernikel Bread", "*.pmk" );
 		if ( dlg.execute() ) {
@@ -330,7 +330,7 @@ public:
 	This example shows how to call up the common file save dialog
 	*/
 	void example8( Event* e ) {
-		CommonFileSave dlg(this);
+		CommonFileSaveDialog dlg(this);
 		
 		if ( dlg.execute() ) {
 
@@ -341,7 +341,7 @@ public:
 	This example shows how to call up the common print dialog
 	*/
 	void example9( Event* e ) {
-		CommonPrint dlg(this);
+		CommonPrintDialog dlg(this);
 		
 		if ( dlg.execute() ) {
 
