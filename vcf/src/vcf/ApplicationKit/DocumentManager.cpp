@@ -430,7 +430,7 @@ DocumentManager* DocumentManager::getDocumentManager()
 	return DocumentManager::docManagerInstance;
 }
 
-void DocumentManager::prepareOpenDialog( CommonFileOpen* openDialog )
+void DocumentManager::prepareOpenDialog( CommonFileOpenDialog* openDialog )
 {
 	DocumentInfoMap::iterator it = docInfo_.begin();
 
@@ -456,7 +456,7 @@ void DocumentManager::prepareOpenDialog( CommonFileOpen* openDialog )
 
 }
 
-void DocumentManager::prepareSaveDialog( CommonFileSave* saveDialog, Document* doc )
+void DocumentManager::prepareSaveDialog( CommonFileSaveDialog* saveDialog, Document* doc )
 {
 	String fileType;
 	String fileTypes;
@@ -613,6 +613,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.4.2.2  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *

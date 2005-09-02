@@ -23,8 +23,6 @@ CFG=ApplicationKitDLL - Win32 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -70,7 +68,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_GRAPHICSKIT_DLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /Yu"vcf/ApplicationKit/ApplicationKit.h" /Fd"..\..\..\bin\ApplicationKit_vc6_d.pdb" /FD /GZ /Zm200 /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_GRAPHICSKIT_DLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /Fd"..\..\..\bin\ApplicationKit_vc6_d.pdb" /Yu"vcf/ApplicationKit/ApplicationKit.h" /FD /GZ /Zm200 /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -110,6 +108,30 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitPrivate.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColorDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFontDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.h
 # End Source File
 # End Group
 # Begin Group "Res"
@@ -286,11 +308,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommandGroup.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColor.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColor.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -298,11 +316,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommonDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowse.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -314,35 +328,19 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileOpen.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFileSave.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFont.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFont.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrint.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrint.h
+SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 # End Source File
 # Begin Source File
 

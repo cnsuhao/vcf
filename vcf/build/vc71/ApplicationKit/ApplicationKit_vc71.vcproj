@@ -132,13 +132,22 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ApplicationKitSelectLib.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManager.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonColorDialog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManagerPeer.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFontDialog.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.h">
 			</File>
 		</Filter>
 		<Filter
@@ -296,19 +305,13 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\CommandGroup.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonColor.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonColor.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonDialog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileBrowse.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileDialog.cpp">
@@ -317,28 +320,16 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileDialog.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileOpen.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileSave.cpp">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFileSave.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFont.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonFont.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonPrint.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonPrint.h">
+				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Component.cpp">
@@ -482,12 +473,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Light3DBorder.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\LightweightComponent.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\LightweightComponent.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Menu.cpp">
 			</File>
 			<File
@@ -504,6 +489,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManager.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MessageDialog.cpp">
@@ -613,6 +601,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\EnumObject.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\LightweightComponent.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\LightweightComponent.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\SystemTray.h">
@@ -742,6 +736,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32MenuManagerPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Object.cpp">
@@ -1334,6 +1331,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuItemPeer.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\MenuManagerPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\PopupMenuPeer.h">

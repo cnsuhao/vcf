@@ -42,7 +42,7 @@ void TextEdit::onPrint( VCF::Event* e )
 
 	TextEditDocument* currentDoc = (TextEditDocument*)getCurrentDocument();
 
-	CommonPrint dlg( currentDoc->getWindow() );
+	CommonPrintDialog dlg( currentDoc->getWindow() );
 
 	
 
@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.3.2.1  2005/07/23 21:45:43  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

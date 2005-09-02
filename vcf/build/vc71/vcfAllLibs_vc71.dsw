@@ -135,7 +135,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_vc71.dsp" - Package Owner=<4>
+Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\____LibJPEG\LibJPEG_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -159,7 +159,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\LibPNG\LibPNG_vc71.dsp" - Package Owner=<4>
+Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\___LibPNG\LibPNG_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -315,7 +315,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_vc71.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\___ZLib\ZLib_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

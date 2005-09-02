@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedUI", "..\..\example
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alignment", "..\..\examples\Alignment\Alignment_vc70.vcproj", "{AF01E4A0-E95A-4368-915E-63EB09C70F04}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1", ".\AllIn1\AllIn1_vc70.vcproj", "{9d3b86b8-bddc-425a-8741-26b15a73dea6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1DLL", ".\AllIn1\AllIn1DLL_vc70.vcproj", "{cbfabe9f-56ba-43ed-8fa4-284b8b3f7fe7}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anchors", "..\..\examples\Anchors\Anchors_vc70.vcproj", "{EA1E48AF-3896-4FC3-8585-B8D2A901DB21}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppResources", "..\..\examples\AppResources\AppResources_vc70.vcproj", "{2C907F6E-2550-4487-838B-E4725EBED10C}"
@@ -331,6 +335,10 @@ Global
 		{AF01E4A0-E95A-4368-915E-63EB09C70F04}.Generate YY and LL files.ActiveCfg = Release|Win32
 		{AF01E4A0-E95A-4368-915E-63EB09C70F04}.GTK Debug.ActiveCfg = Debug|Win32
 		{AF01E4A0-E95A-4368-915E-63EB09C70F04}.Release.ActiveCfg = Release|Win32
+		{9d3b86b8-bddc-425a-8741-26b15a73dea6}.Debug.ActiveCfg = Debug|Win32
+		{9d3b86b8-bddc-425a-8741-26b15a73dea6}.Release.ActiveCfg = Release|Win32
+		{cbfabe9f-56ba-43ed-8fa4-284b8b3f7fe7}.Debug.ActiveCfg = Debug|Win32
+		{cbfabe9f-56ba-43ed-8fa4-284b8b3f7fe7}.Release.ActiveCfg = Release|Win32
 		{EA1E48AF-3896-4FC3-8585-B8D2A901DB21}.Debug.ActiveCfg = Debug|Win32
 		{EA1E48AF-3896-4FC3-8585-B8D2A901DB21}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{EA1E48AF-3896-4FC3-8585-B8D2A901DB21}.GTK Debug.ActiveCfg = Debug|Win32

@@ -1,6 +1,6 @@
-#ifndef _VCF_COMMONFILEOPEN_H__
-#define _VCF_COMMONFILEOPEN_H__
-//CommonFileOpen.h
+#ifndef _VCF_COMMONFILEOPENDIALOG_H__
+#define _VCF_COMMONFILEOPENDIALOG_H__
+//CommonFileOpenDialog.h
 
 /*
 Copyright 2000-2004 The VCF Project.
@@ -23,11 +23,11 @@ namespace VCF{
 
 class Control;
 
-class APPLICATIONKIT_API CommonFileOpen : public VCF::CommonFileDialog {
+class APPLICATIONKIT_API CommonFileOpenDialog : public VCF::CommonFileDialog {
 public:
-	CommonFileOpen( Control* owner=NULL, const String& startDir="" );
+	CommonFileOpenDialog( Control* owner=NULL, const String& startDir="" );
 
-	virtual ~CommonFileOpen();
+	virtual ~CommonFileOpenDialog();
 
 	/**
 	* opens the dialog used to choose the filename(s) to be opened.
@@ -64,6 +64,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.3  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
@@ -152,6 +155,6 @@ protected:
 */
 
 
-#endif // _VCF_COMMONFILEOPEN_H__
+#endif // _VCF_COMMONFILEOPENDIALOG_H__
 
 

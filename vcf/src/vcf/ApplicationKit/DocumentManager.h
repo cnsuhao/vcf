@@ -604,16 +604,16 @@ protected:
 	DocumentInfo* getDocumentInfo( Document* doc );
 
 	/** called to prepare a file open dialog */
-	virtual void prepareOpenDialog( CommonFileOpen* openDialog );
+	virtual void prepareOpenDialog( CommonFileOpenDialog* openDialog );
 
 	/** called after the file open dialog has been closed by the user and confirmed Ok */
-	virtual void openDialogFinished( CommonFileOpen* openDialog ){};
+	virtual void openDialogFinished( CommonFileOpenDialog* openDialog ){};
 
 	/** called to prepare a file save dialog */
-	virtual void prepareSaveDialog( CommonFileSave* saveDialog, Document* doc );
+	virtual void prepareSaveDialog( CommonFileSaveDialog* saveDialog, Document* doc );
 
 	/** called after the file save dialog has been closed by the user and confirmed Ok */
-	virtual void saveDialogFinished( CommonFileSave* saveDialog ){};
+	virtual void saveDialogFinished( CommonFileSaveDialog* saveDialog ){};
 
 	/** called when this target gets notified for update events of the UI of a save operation */
 	virtual void updateSave( ActionEvent* event, Document* doc );
@@ -1364,7 +1364,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc
 			}
 		}
 
-		CommonFileSave saveDialog( doc->getWindow(), currentDir );
+		CommonFileSaveDialog saveDialog( doc->getWindow(), currentDir );
 
 		saveDialog.setFileName( currentDir + basename );
 		prepareSaveDialog( &saveDialog, doc );
@@ -1430,7 +1430,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile()
 
 	String currentDir = System::getCurrentWorkingDirectory();
 
-	CommonFileOpen openDialog( Frame::getActiveFrame(), currentDir );
+	CommonFileOpenDialog openDialog( Frame::getActiveFrame(), currentDir );
 
 	prepareOpenDialog( &openDialog );
 
@@ -1859,6 +1859,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

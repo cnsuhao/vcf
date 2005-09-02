@@ -54,7 +54,7 @@ public:
 			if ( NULL == ev ) {
 				ev = new ComponentEventHandler<DataExchangeType>(this, &DataExchangeType::onDestroy, "DataExchangeType::onDestroy" );
 			}
-			control_->ComponentDeleted += ev;
+			control_->ComponentDestroyed += ev;
 			update( false );
 		}
 		return *this;
@@ -67,7 +67,7 @@ public:
 			if ( NULL == ev ) {
 				ev = new ComponentEventHandler<DataExchangeType>(this, &DataExchangeType::onDestroy, "DataExchangeType::onDestroy" );
 			}
-			control_->ComponentDeleted += ev;
+			control_->ComponentDestroyed += ev;
 			update( false );
 		}
 		return *this;

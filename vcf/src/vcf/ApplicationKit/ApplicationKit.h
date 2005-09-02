@@ -152,12 +152,12 @@ Action classes
 #include "vcf/ApplicationKit/CommonDialog.h"
 
 #include "vcf/ApplicationKit/CommonFileDialog.h"
-#include "vcf/ApplicationKit/CommonFileOpen.h"
-#include "vcf/ApplicationKit/CommonFileSave.h"
-#include "vcf/ApplicationKit/CommonFont.h"
-#include "vcf/ApplicationKit/CommonPrint.h"
-#include "vcf/ApplicationKit/CommonColor.h"
-#include "vcf/ApplicationKit/CommonFileBrowse.h"
+#include "vcf/ApplicationKit/CommonFileOpenDialog.h"
+#include "vcf/ApplicationKit/CommonFileSaveDialog.h"
+#include "vcf/ApplicationKit/CommonFontDialog.h"
+#include "vcf/ApplicationKit/CommonPrintDialog.h"
+#include "vcf/ApplicationKit/CommonColorDialog.h"
+#include "vcf/ApplicationKit/CommonFileBrowseDialog.h"
 
 /**
 *Button classes
@@ -272,6 +272,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.3.4.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

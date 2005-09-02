@@ -1284,7 +1284,7 @@ void MainQTWindow::onFilesDropped( VCF::DropTargetEvent* e )
 void MainQTWindow::onFileOpenMovie( Event* e )
 {
 	movieLoaded_ = false;
-	CommonFileOpen openDlg( this );
+	CommonFileOpenDialog openDlg( this );
 	openDlg.addFilter( "Quicktime Movie", "*.mov" );
 	openDlg.addFilter( "MPEG movies", "*.mpg;*.mpeg" );
 	openDlg.addFilter( "AVI movies", "*.avi" );
@@ -1838,7 +1838,7 @@ void MainQTWindow::onPlaylistFilesDropped( VCF::DropTargetEvent* e )
 
 void MainQTWindow::onAddToFilesPlaylist(  VCF::Event* event )
 {
-	CommonFileOpen openDlg( this );
+	CommonFileOpenDialog openDlg( this );
 	openDlg.setAllowsMultiSelect( true );
 	openDlg.addFilter( "Quicktime Movie", "*.mov" );
 	openDlg.addFilter( "MPEG movies", "*.mpg;*.mpeg" );
@@ -2094,7 +2094,7 @@ void MainQTWindow::onCreateSearchCatalogThreadDone(  VCF::Event* event )
 
 void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 {
-	CommonFileBrowse browse;
+	CommonFileBrowseDialog browse;
 
 	browse.setTitle( L"Select Directory to catalog" );
 
@@ -2117,6 +2117,9 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/09/02 01:01:20  ddiego
+*changed some of the common dialogs around, was using a less clear class name.
+*
 *Revision 1.5.2.3  2005/08/25 01:48:42  ddiego
 *minor update to popupmenu code
 *
