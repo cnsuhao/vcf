@@ -31,7 +31,7 @@ NB: This software will not save the world.
 	The VCF supports components as a way of re-using code, and a way to 
 	manipulate this code from within a design time UI editor. The VCF
 	Builder project aims to provide one type of an editor like this.
-	The rest of this documet will explain how to write custom components 
+	The rest of this document will explain how to write custom components 
 	such that a tool like the <ulink url="http://vcfbuilder.org">VCF Builder</ulink> 
 	can re-use them and make them available to other developers.
 	</para>
@@ -51,6 +51,9 @@ NB: This software will not save the world.
 	VFFOutputStream class is used. Please see the source documentation for this
 	class for more information about it and the VFF component file format.
 	</para>
+	<section><title>Writing a Component</title>
+	</section>
+	
 	<section><title>Property Editing </title>
 		<para>
 		Property editing is the primary way of editing a component in a UI designer,
@@ -462,7 +465,57 @@ void FontPropertyEditor::edit()
 		true, then the selected font of the dialog is copied into the font stored in the
 		property editor.
 		</para>
+		<para>
+		If the property editor doesn't need to be edited modally, <emphasis>but</emphasis>
+		you want to provide a custom a UI for the editing control, then you need to make
+		sure that the PropertyEditor::paUsesModalDialogForEditing attribute is not set, and 
+		that your implementation of createEditingControl() returns a valid Control instance.
+		The host will take care of embedding this control and manage it's lifetime. When the 
+		host determines that it's time to edit the custom control, the property editor's 
+		edit() method will be called. At this point the imeplementor is responsible for 
+		ensuring that changes made to the control are reflected in the variant data the property
+		editor is responsible for. When the editing control loses focus, the host will
+		get the current value from the property editor, destroy the editing control, and 
+		assign this value back to the appropriate property.
+		</para>
 		</section>
+		<section><title>Registering Property Editors</title>
+		<para>
+		The VCF will create your property editor dynamically by using the class name of
+		the property editor. This means that you need to register your class with the
+		VCF's ClassRegistry. You need to declare RTTI information for your class,
+		and then register it. For example:
+		<programlisting>
+		<![CDATA[
+class MyPropertyEditor : public AbstractPropertyEditor {
+public:
+	//rest omitted
+};	
+
+#define MYPROPERTYEDITOR_CLASSID		"2226cebc-faca-4fc9-beae-ef6d0867d05d"
+
+_class_rtti_(MyPropertyEditor, "VCF::AbstractPropertyEditor", MYPROPERTYEDITOR_CLASSID)
+_class_rtti_end_
+		]]>		
+		</programlisting>
+		To register your class you can use the REGISTER_CLASSINFO_EXTERNAL macro somewhere
+		in your startup code:
+		<programlisting>
+		<![CDATA[
+REGISTER_CLASSINFO_EXTERNAL( MyPropertyEditor )
+		]]>		
+		</programlisting>		
+		In order for the VCF to be able to associate a property type with your editor class you
+		need to associate it with the PropertyEditorManager. You can so like this:
+		<programlisting>
+		<![CDATA[
+PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER );		
+		]]>		
+		</programlisting>
+		This will register your property editor class, "MyPropertyEditor", as the editor 
+		to use when an integer property is found.
+		</para>		
+		</section>		
 	</section>
 	
 	<section><title>Component Editing </title>
@@ -481,6 +534,13 @@ void FontPropertyEditor::edit()
 		</para>
 	</section>
 	
+	<section><title>Distributing your Components and Editors</title>
+		<para>
+		If you are writing your property editor and distributing it in a VPL or Visual Package 
+		Library, then there's a 
+		</para>
+	</section>
+		
 	<section><title></title>
 		<para>
 		</para>
@@ -490,8 +550,8 @@ void FontPropertyEditor::edit()
 <!--
 CVS Log info
 $Log$
-Revision 1.2.12.10  2005/09/02 01:01:18  ddiego
-changed some of the common dialogs around, was using a less clear class name.
+Revision 1.2.12.11  2005/09/02 03:42:59  ddiego
+updates to component authoring.
 
 Revision 1.2.12.9  2005/09/01 21:04:20  ddiego
 updates
