@@ -49,15 +49,15 @@
         vcf/ApplicationKit/Command.h
         vcf/ApplicationKit/CommandButton.h
         vcf/ApplicationKit/CommandGroup.h
-        vcf/ApplicationKit/CommonColor.h
+        vcf/ApplicationKit/CommonColorDialog.h
         vcf/ApplicationKit/CommonDialog.h
         vcf/ApplicationKit/CommonDialogPeer.h
-        vcf/ApplicationKit/CommonFileBrowse.h
+        vcf/ApplicationKit/CommonFileBrowseDialog.h
         vcf/ApplicationKit/CommonFileDialog.h
-        vcf/ApplicationKit/CommonFileOpen.h
-        vcf/ApplicationKit/CommonFileSave.h
-        vcf/ApplicationKit/CommonFont.h
-        vcf/ApplicationKit/CommonPrint.h
+        vcf/ApplicationKit/CommonFileOpenDialog.h
+        vcf/ApplicationKit/CommonFileSaveDialog.h
+        vcf/ApplicationKit/CommonFontDialog.h
+        vcf/ApplicationKit/CommonPrintDialog.h
         vcf/ApplicationKit/Component.h
         vcf/ApplicationKit/ComponentEditor.h
         vcf/ApplicationKit/ComponentEditorManager.h
@@ -237,13 +237,13 @@
         vcf/ApplicationKit/ComboBoxControl.cpp
         vcf/ApplicationKit/CommandButton.cpp
         vcf/ApplicationKit/CommandGroup.cpp
-        vcf/ApplicationKit/CommonColor.cpp
-        vcf/ApplicationKit/CommonFileBrowse.cpp
+        vcf/ApplicationKit/CommonColorDialog.cpp
+        vcf/ApplicationKit/CommonFileBrowseDialog.cpp
         vcf/ApplicationKit/CommonFileDialog.cpp
-        vcf/ApplicationKit/CommonFileOpen.cpp
-        vcf/ApplicationKit/CommonFileSave.cpp
-        vcf/ApplicationKit/CommonFont.cpp
-        vcf/ApplicationKit/CommonPrint.cpp
+        vcf/ApplicationKit/CommonFileOpenDialog.cpp
+        vcf/ApplicationKit/CommonFileSaveDialog.cpp
+        vcf/ApplicationKit/CommonFontDialog.cpp
+        vcf/ApplicationKit/CommonPrintDialog.cpp
         vcf/ApplicationKit/Component.cpp
         vcf/ApplicationKit/ComponentEditorManager.cpp
         vcf/ApplicationKit/ComponentInfo.cpp
