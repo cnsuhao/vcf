@@ -500,13 +500,13 @@ APPLICATIONKIT_LIB_OBJECTS =  \
 	$(OBJDIR)\ApplicationKit_lib_ComboBoxControl.obj \
 	$(OBJDIR)\ApplicationKit_lib_CommandButton.obj \
 	$(OBJDIR)\ApplicationKit_lib_CommandGroup.obj \
-	$(OBJDIR)\ApplicationKit_lib_CommonColor.obj \
-	$(OBJDIR)\ApplicationKit_lib_CommonFileBrowse.obj \
+	$(OBJDIR)\ApplicationKit_lib_CommonColorDialog.obj \
+	$(OBJDIR)\ApplicationKit_lib_CommonFileBrowseDialog.obj \
 	$(OBJDIR)\ApplicationKit_lib_CommonFileDialog.obj \
-	$(OBJDIR)\ApplicationKit_lib_CommonFileOpen.obj \
-	$(OBJDIR)\ApplicationKit_lib_CommonFileSave.obj \
-	$(OBJDIR)\ApplicationKit_lib_CommonFont.obj \
-	$(OBJDIR)\ApplicationKit_lib_CommonPrint.obj \
+	$(OBJDIR)\ApplicationKit_lib_CommonFileOpenDialog.obj \
+	$(OBJDIR)\ApplicationKit_lib_CommonFileSaveDialog.obj \
+	$(OBJDIR)\ApplicationKit_lib_CommonFontDialog.obj \
+	$(OBJDIR)\ApplicationKit_lib_CommonPrintDialog.obj \
 	$(OBJDIR)\ApplicationKit_lib_Component.obj \
 	$(OBJDIR)\ApplicationKit_lib_ComponentEditorManager.obj \
 	$(OBJDIR)\ApplicationKit_lib_ComponentInfo.obj \
@@ -666,13 +666,13 @@ APPLICATIONKIT_DLL_OBJECTS =  \
 	$(OBJDIR)\ApplicationKit_dll_ComboBoxControl.obj \
 	$(OBJDIR)\ApplicationKit_dll_CommandButton.obj \
 	$(OBJDIR)\ApplicationKit_dll_CommandGroup.obj \
-	$(OBJDIR)\ApplicationKit_dll_CommonColor.obj \
-	$(OBJDIR)\ApplicationKit_dll_CommonFileBrowse.obj \
+	$(OBJDIR)\ApplicationKit_dll_CommonColorDialog.obj \
+	$(OBJDIR)\ApplicationKit_dll_CommonFileBrowseDialog.obj \
 	$(OBJDIR)\ApplicationKit_dll_CommonFileDialog.obj \
-	$(OBJDIR)\ApplicationKit_dll_CommonFileOpen.obj \
-	$(OBJDIR)\ApplicationKit_dll_CommonFileSave.obj \
-	$(OBJDIR)\ApplicationKit_dll_CommonFont.obj \
-	$(OBJDIR)\ApplicationKit_dll_CommonPrint.obj \
+	$(OBJDIR)\ApplicationKit_dll_CommonFileOpenDialog.obj \
+	$(OBJDIR)\ApplicationKit_dll_CommonFileSaveDialog.obj \
+	$(OBJDIR)\ApplicationKit_dll_CommonFontDialog.obj \
+	$(OBJDIR)\ApplicationKit_dll_CommonPrintDialog.obj \
 	$(OBJDIR)\ApplicationKit_dll_Component.obj \
 	$(OBJDIR)\ApplicationKit_dll_ComponentEditorManager.obj \
 	$(OBJDIR)\ApplicationKit_dll_ComponentInfo.obj \
@@ -1132,13 +1132,13 @@ ______Allin1_lib_AK_SRC_FILENAMES_OBJECTS =  \
 	$(OBJDIR)\Allin1_lib_ComboBoxControl.obj \
 	$(OBJDIR)\Allin1_lib_CommandButton.obj \
 	$(OBJDIR)\Allin1_lib_CommandGroup.obj \
-	$(OBJDIR)\Allin1_lib_CommonColor.obj \
-	$(OBJDIR)\Allin1_lib_CommonFileBrowse.obj \
+	$(OBJDIR)\Allin1_lib_CommonColorDialog.obj \
+	$(OBJDIR)\Allin1_lib_CommonFileBrowseDialog.obj \
 	$(OBJDIR)\Allin1_lib_CommonFileDialog.obj \
-	$(OBJDIR)\Allin1_lib_CommonFileOpen.obj \
-	$(OBJDIR)\Allin1_lib_CommonFileSave.obj \
-	$(OBJDIR)\Allin1_lib_CommonFont.obj \
-	$(OBJDIR)\Allin1_lib_CommonPrint.obj \
+	$(OBJDIR)\Allin1_lib_CommonFileOpenDialog.obj \
+	$(OBJDIR)\Allin1_lib_CommonFileSaveDialog.obj \
+	$(OBJDIR)\Allin1_lib_CommonFontDialog.obj \
+	$(OBJDIR)\Allin1_lib_CommonPrintDialog.obj \
 	$(OBJDIR)\Allin1_lib_Component.obj \
 	$(OBJDIR)\Allin1_lib_ComponentEditorManager.obj \
 	$(OBJDIR)\Allin1_lib_ComponentInfo.obj \
@@ -1399,13 +1399,13 @@ ______Allin1_dll_AK_SRC_FILENAMES_OBJECTS =  \
 	$(OBJDIR)\Allin1_dll_ComboBoxControl.obj \
 	$(OBJDIR)\Allin1_dll_CommandButton.obj \
 	$(OBJDIR)\Allin1_dll_CommandGroup.obj \
-	$(OBJDIR)\Allin1_dll_CommonColor.obj \
-	$(OBJDIR)\Allin1_dll_CommonFileBrowse.obj \
+	$(OBJDIR)\Allin1_dll_CommonColorDialog.obj \
+	$(OBJDIR)\Allin1_dll_CommonFileBrowseDialog.obj \
 	$(OBJDIR)\Allin1_dll_CommonFileDialog.obj \
-	$(OBJDIR)\Allin1_dll_CommonFileOpen.obj \
-	$(OBJDIR)\Allin1_dll_CommonFileSave.obj \
-	$(OBJDIR)\Allin1_dll_CommonFont.obj \
-	$(OBJDIR)\Allin1_dll_CommonPrint.obj \
+	$(OBJDIR)\Allin1_dll_CommonFileOpenDialog.obj \
+	$(OBJDIR)\Allin1_dll_CommonFileSaveDialog.obj \
+	$(OBJDIR)\Allin1_dll_CommonFontDialog.obj \
+	$(OBJDIR)\Allin1_dll_CommonPrintDialog.obj \
 	$(OBJDIR)\Allin1_dll_Component.obj \
 	$(OBJDIR)\Allin1_dll_ComponentEditorManager.obj \
 	$(OBJDIR)\Allin1_dll_ComponentInfo.obj \
@@ -3133,25 +3133,25 @@ $(OBJDIR)\ApplicationKit_lib_CommandButton.obj: ..\..\src\vcf\ApplicationKit\Com
 $(OBJDIR)\ApplicationKit_lib_CommandGroup.obj: ..\..\src\vcf\ApplicationKit\CommandGroup.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_CommonColor.obj: ..\..\src\vcf\ApplicationKit\CommonColor.cpp
+$(OBJDIR)\ApplicationKit_lib_CommonColorDialog.obj: ..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_CommonFileBrowse.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
+$(OBJDIR)\ApplicationKit_lib_CommonFileBrowseDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_lib_CommonFileDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_CommonFileOpen.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+$(OBJDIR)\ApplicationKit_lib_CommonFileOpenDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_CommonFileSave.obj: ..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+$(OBJDIR)\ApplicationKit_lib_CommonFileSaveDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_CommonFont.obj: ..\..\src\vcf\ApplicationKit\CommonFont.cpp
+$(OBJDIR)\ApplicationKit_lib_CommonFontDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_CommonPrint.obj: ..\..\src\vcf\ApplicationKit\CommonPrint.cpp
+$(OBJDIR)\ApplicationKit_lib_CommonPrintDialog.obj: ..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_lib_Component.obj: ..\..\src\vcf\ApplicationKit\Component.cpp
@@ -3604,25 +3604,25 @@ $(OBJDIR)\ApplicationKit_dll_CommandButton.obj: ..\..\src\vcf\ApplicationKit\Com
 $(OBJDIR)\ApplicationKit_dll_CommandGroup.obj: ..\..\src\vcf\ApplicationKit\CommandGroup.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_dll_CommonColor.obj: ..\..\src\vcf\ApplicationKit\CommonColor.cpp
+$(OBJDIR)\ApplicationKit_dll_CommonColorDialog.obj: ..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_dll_CommonFileBrowse.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
+$(OBJDIR)\ApplicationKit_dll_CommonFileBrowseDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_dll_CommonFileDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_dll_CommonFileOpen.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+$(OBJDIR)\ApplicationKit_dll_CommonFileOpenDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_dll_CommonFileSave.obj: ..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+$(OBJDIR)\ApplicationKit_dll_CommonFileSaveDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_dll_CommonFont.obj: ..\..\src\vcf\ApplicationKit\CommonFont.cpp
+$(OBJDIR)\ApplicationKit_dll_CommonFontDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_dll_CommonPrint.obj: ..\..\src\vcf\ApplicationKit\CommonPrint.cpp
+$(OBJDIR)\ApplicationKit_dll_CommonPrintDialog.obj: ..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_dll_Component.obj: ..\..\src\vcf\ApplicationKit\Component.cpp
@@ -4306,25 +4306,25 @@ $(OBJDIR)\Allin1_lib_CommandButton.obj: ..\..\src\vcf\ApplicationKit\CommandButt
 $(OBJDIR)\Allin1_lib_CommandGroup.obj: ..\..\src\vcf\ApplicationKit\CommandGroup.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_lib_CommonColor.obj: ..\..\src\vcf\ApplicationKit\CommonColor.cpp
+$(OBJDIR)\Allin1_lib_CommonColorDialog.obj: ..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_lib_CommonFileBrowse.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
+$(OBJDIR)\Allin1_lib_CommonFileBrowseDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_lib_CommonFileDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_lib_CommonFileOpen.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+$(OBJDIR)\Allin1_lib_CommonFileOpenDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_lib_CommonFileSave.obj: ..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+$(OBJDIR)\Allin1_lib_CommonFileSaveDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_lib_CommonFont.obj: ..\..\src\vcf\ApplicationKit\CommonFont.cpp
+$(OBJDIR)\Allin1_lib_CommonFontDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_lib_CommonPrint.obj: ..\..\src\vcf\ApplicationKit\CommonPrint.cpp
+$(OBJDIR)\Allin1_lib_CommonPrintDialog.obj: ..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_lib_Component.obj: ..\..\src\vcf\ApplicationKit\Component.cpp
@@ -5059,25 +5059,25 @@ $(OBJDIR)\Allin1_dll_CommandButton.obj: ..\..\src\vcf\ApplicationKit\CommandButt
 $(OBJDIR)\Allin1_dll_CommandGroup.obj: ..\..\src\vcf\ApplicationKit\CommandGroup.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_CommonColor.obj: ..\..\src\vcf\ApplicationKit\CommonColor.cpp
+$(OBJDIR)\Allin1_dll_CommonColorDialog.obj: ..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_CommonFileBrowse.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
+$(OBJDIR)\Allin1_dll_CommonFileBrowseDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_dll_CommonFileDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_CommonFileOpen.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+$(OBJDIR)\Allin1_dll_CommonFileOpenDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_CommonFileSave.obj: ..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+$(OBJDIR)\Allin1_dll_CommonFileSaveDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_CommonFont.obj: ..\..\src\vcf\ApplicationKit\CommonFont.cpp
+$(OBJDIR)\Allin1_dll_CommonFontDialog.obj: ..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_CommonPrint.obj: ..\..\src\vcf\ApplicationKit\CommonPrint.cpp
+$(OBJDIR)\Allin1_dll_CommonPrintDialog.obj: ..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_dll_Component.obj: ..\..\src\vcf\ApplicationKit\Component.cpp

@@ -1105,11 +1105,11 @@ SOURCE=..\..\src\vcf\ApplicationKit\CommandGroup.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonColor.cpp
+SOURCE=..\..\src\vcf\ApplicationKit\CommonColorDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFileBrowse.cpp
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -1117,19 +1117,19 @@ SOURCE=..\..\src\vcf\ApplicationKit\CommonFileDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFileOpen.cpp
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFileSave.cpp
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFont.cpp
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFontDialog.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonPrint.cpp
+SOURCE=..\..\src\vcf\ApplicationKit\CommonPrintDialog.cpp
 # End Source File
 # Begin Source File
 
@@ -1821,7 +1821,7 @@ SOURCE=..\..\src\vcf\ApplicationKit\CommandGroup.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonColor.h
+SOURCE=..\..\src\vcf\ApplicationKit\CommonColorDialog.h
 # End Source File
 # Begin Source File
 
@@ -1833,7 +1833,7 @@ SOURCE=..\..\src\vcf\ApplicationKit\CommonDialogPeer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFileBrowse.h
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFileBrowseDialog.h
 # End Source File
 # Begin Source File
 
@@ -1841,19 +1841,19 @@ SOURCE=..\..\src\vcf\ApplicationKit\CommonFileDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFileOpen.h
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFileOpenDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFileSave.h
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFileSaveDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonFont.h
+SOURCE=..\..\src\vcf\ApplicationKit\CommonFontDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\CommonPrint.h
+SOURCE=..\..\src\vcf\ApplicationKit\CommonPrintDialog.h
 # End Source File
 # Begin Source File
 
