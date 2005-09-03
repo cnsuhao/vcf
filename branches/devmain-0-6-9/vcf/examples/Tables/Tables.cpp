@@ -29,14 +29,24 @@ public:
 
 		model->empty();
 
+		table->setDefaultTableCellFont( &Font("Tahoma") );
+
 		model->addColumns( 12 );
 		model->addRows(300);
 		model->setFixedRowsCount( 1 );
-		model->setFixedColumnsCount( 1 );
+		model->setFixedColumnsCount( 1 );		
 
 		for (int y=0;y<model->getRowCount();y++ ){
 			for ( int x=0;x<model->getColumnCount();x++ ) {
 				model->getItem( y, x )->setCaption( Format( "Cell [%d,%d]" ) % y % x );
+				if ( y == 10 && x == 5 ) {
+					Font font = model->getItem( y, x )->getFont();
+					font.setName( "Times New Roman" );
+					font.setPointSize( 12.6 );
+					font.setBold( true );
+					model->getItem( y, x )->setFont( &font );
+					model->getItem( y, x )->setColor( Color::getColor("yellow") );
+				}
 			}
 		}
 
@@ -89,6 +99,10 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:43  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

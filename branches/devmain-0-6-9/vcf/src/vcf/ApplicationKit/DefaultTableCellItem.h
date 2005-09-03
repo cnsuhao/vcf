@@ -191,6 +191,14 @@ public:
 	virtual double getTextCellWidth( GraphicsContext* context );
 
 	virtual double getTextCellHeight( GraphicsContext* context );
+
+	virtual const Color& getColor();
+
+	virtual void setColor( Color* color );
+
+	virtual const Font& getFont();
+
+	virtual void setFont( Font* font );
 private:
 	void init();
 	Control* owningControl_;
@@ -200,6 +208,16 @@ private:
 	long state_;
 	String caption_;
 	long imageIndex_;
+
+	Color* color_;
+	typedef std::map<uint32,Color> ColorMap;
+	static  ColorMap tableCellsColorMap;
+
+	Font* font_;
+	typedef std::map<String,Font> FontMap;
+	static FontMap tableCellsFontMap;
+
+	void onFontChanged( Event* e );
 };
 
 }; //end of namespace VCF
@@ -208,6 +226,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

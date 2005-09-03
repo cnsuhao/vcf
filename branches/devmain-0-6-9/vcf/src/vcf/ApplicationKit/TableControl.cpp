@@ -40,7 +40,9 @@ TableControl::TableControl( TableModel* model ):
 	allowFixedColumnSelection_(true),
 	allowFixedRowSelection_(true),
 	allowLiveResizing_(true),
-	autoSizeStyle_(TableControl::asoBoth)
+	autoSizeStyle_(TableControl::asoBoth),
+	defaultCellColor_(NULL),
+	defaultCellFont_(NULL)
 {
 	setContainerDelegate( this );
 
@@ -51,7 +53,11 @@ TableControl::TableControl( TableModel* model ):
 
 TableControl::~TableControl()
 {
+	defaultCellFont_->free();
+	defaultCellFont_ = NULL;
 
+	defaultCellColor_->free();
+	defaultCellColor_ = NULL;
 }
 
 void TableControl::setDrawGridLinesStyle( DrawGridLines val )
@@ -88,6 +94,9 @@ void TableControl::paint( GraphicsContext * context )
 	ulong32 columnCount = tm->getColumnCount();
 
 	if ( (rowCount > 0) && (columnCount > 0) ) {
+
+		int gcs = context->saveState();
+
 
 		ulong32 fixedRowCount = tm->getFixedRowsCount();
 		ulong32 fixedColumnCount = tm->getFixedColumnsCount();
@@ -142,6 +151,11 @@ void TableControl::paint( GraphicsContext * context )
 				cellItem->paint( context, &rect );
 			}
 		}
+		
+		context->restoreState( gcs );
+
+		gcs = context->saveState();
+
 
 		// draw fixed column cells:  m_nFixedRows..n, 0..m_nFixedCols-1
 		rect.bottom_ = fixedRowHeight-1;
@@ -186,6 +200,10 @@ void TableControl::paint( GraphicsContext * context )
 				cellItem->paint( context, &rect );
 			}
 		}
+
+		context->restoreState( gcs );
+
+		gcs = context->saveState();
 
 		// draw fixed row cells  0..m_nFixedRows, m_nFixedCols..n
 		rect.bottom_ = -1;
@@ -240,6 +258,10 @@ void TableControl::paint( GraphicsContext * context )
 			}
 
 		}
+
+		context->restoreState( gcs );
+
+		gcs = context->saveState();
 
 		// draw rest of non-fixed cells
 
@@ -309,6 +331,10 @@ void TableControl::paint( GraphicsContext * context )
 			}
 		}
 
+		context->restoreState( gcs );
+
+		gcs = context->saveState();
+
 		context->setStrokeWidth( 1 );
 		context->setColor( &Color(0.0,0.0,0.0) );
 		// draw vertical lines (drawn at ends of cells)
@@ -349,7 +375,8 @@ void TableControl::paint( GraphicsContext * context )
 			context->strokePath();
 		}
 
-	}
+		context->restoreState( gcs );
+	}	
 
 	paintChildren( context );
 }
@@ -364,6 +391,15 @@ void TableControl::init()
 	listMode_ = false;
 	allowColumnHide_ = false;
 	allowRowHide_ = false;
+
+
+	defaultCellColor_ = new Color();
+
+	*defaultCellColor_ = *GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW );
+
+	defaultCellFont_ = new Font();
+	*defaultCellFont_ = *getFont();
+
 
 	//selectedCellItem_ = NULL;
 
@@ -484,12 +520,14 @@ void TableControl::onTableModelChanged( TableModelEvent* event )
 
 				for (int col=start;col<event->getNumberOfColumnsAffected()+start;col++ ) {
 
-					Item* item = tm->getItem( row, col );
+					TableCellItem* item = tm->getItem( row, col );
 					if ( NULL != item ){
 						if ( NULL != itemHandler ) {
 							item->addItemSelectedHandler( itemHandler );
 						}
 						item->setControl( this );
+						item->setColor( getDefaultTableCellColor() );
+						item->setFont( getDefaultTableCellFont() );
 					}
 				}
 			}
@@ -512,12 +550,14 @@ void TableControl::onTableModelChanged( TableModelEvent* event )
 
 				for (int col=0;col<colCount;col++ ) {
 
-					Item* item = tm->getItem( row, col );
+					TableCellItem* item = tm->getItem( row, col );
 					if ( NULL != item ){
 						if ( NULL != itemHandler ) {
 							item->addItemSelectedHandler( itemHandler );
 						}
 						item->setControl( this );
+						item->setColor( getDefaultTableCellColor() );
+						item->setFont( getDefaultTableCellFont() );
 					}
 				}
 			}
@@ -2388,10 +2428,33 @@ void TableControl::keyDown( KeyboardEvent* e )
 	}
 }
 
+Color* TableControl::getDefaultTableCellColor()
+{
+	return defaultCellColor_;
+}
+
+void TableControl::setDefaultTableCellColor( Color* color )
+{
+	*defaultCellColor_ = *color;
+}
+
+Font* TableControl::getDefaultTableCellFont()
+{
+	return defaultCellFont_;
+}
+
+void TableControl::setDefaultTableCellFont( Font* font )
+{
+	*defaultCellFont_ = *font;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.4  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

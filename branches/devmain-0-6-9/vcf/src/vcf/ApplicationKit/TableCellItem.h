@@ -95,6 +95,24 @@ public:
 	*/
 	virtual double getTextCellWidth( GraphicsContext* context ) = 0;
 	virtual double getTextCellHeight( GraphicsContext* context ) = 0;
+
+	/**
+	Returns a non modifiable color reference. If you need to 
+	change the cell's color, you should call setColor().
+	@see setColor()
+	*/
+	virtual const Color& getColor() = 0;
+
+	virtual void setColor( Color* color ) = 0;
+
+	/**
+	Returns a non modifiable font reference. If you need to 
+	change the cell's font, you should call setFont().
+	@see setFont()
+	*/
+	virtual const Font& getFont() = 0;
+
+	virtual void setFont( Font* font ) = 0;
 };
 
 }
@@ -103,6 +121,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

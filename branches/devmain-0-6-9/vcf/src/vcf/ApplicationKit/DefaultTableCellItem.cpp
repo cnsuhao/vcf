@@ -16,16 +16,30 @@ where you installed the VCF.
 using namespace VCF;
 
 
+DefaultTableCellItem::ColorMap DefaultTableCellItem::tableCellsColorMap;
+DefaultTableCellItem::FontMap DefaultTableCellItem::tableCellsFontMap;
 
-DefaultTableCellItem::DefaultTableCellItem()
+static int defaultTableCellItemCount = 0;
+
+
+DefaultTableCellItem::DefaultTableCellItem():
+	color_(NULL),
+	font_(NULL)
 {
 	init();
+	defaultTableCellItemCount ++;
 }
 
 DefaultTableCellItem::~DefaultTableCellItem()
 {
 	//delete basicItemEditor_;
 	//basicItemEditor_ = NULL;
+	--defaultTableCellItemCount;
+
+	if ( 0 == defaultTableCellItemCount ) {
+		DefaultTableCellItem::tableCellsColorMap.clear();
+		DefaultTableCellItem::tableCellsFontMap.clear();
+	}
 }
 
 void DefaultTableCellItem::init()
@@ -36,6 +50,8 @@ void DefaultTableCellItem::init()
 	model_ = NULL;
 	owningControl_ = NULL;
 	state_ = 0;
+	color_ = NULL;
+	font_ = NULL;
 	//basicItemEditor_ = new BasicTableItemEditor( this );
 }
 
@@ -83,12 +99,14 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 {
 	bounds_ = *paintRect;
 
-	Font* f = context->getCurrentFont();
-	Color oldColor = *f->getColor();
+	const Font& currentFont = getFont();	
+	const Color& currentColor = getColor();
+	double fontPixelSize = currentFont.getPixelSize();
 
 	if ( isFixed() ){
-		bool bold = f->getBold();
-		f->setBold( true );
+		Font fixedFont(currentFont);
+
+		fixedFont.setBold( true );
 		
 		bounds_.right_ += 1;
 		bounds_.bottom_ += 1;
@@ -116,23 +134,21 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 
 		border.paint( &bounds_, context );
 
-		f->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT ) );
-
 		bounds_.right_ -= 1;
 		bounds_.bottom_ -= 1;
 
-		f->setBold( bold );
+		fontPixelSize = fixedFont.getPixelSize();
+
+		context->setCurrentFont( &fixedFont );
 	}
 	else {
 		Rect tmp(bounds_);
 
 		if ( isSelected() ){
 			context->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION ) );
-			f->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT ) );
 		}
 		else {
-			f->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT ) );
-			context->setColor( &Color(1.0,1.0,1.0) );
+			context->setColor( &currentColor );
 		}
 
 
@@ -145,13 +161,14 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 			context->drawThemeSelectionRect( &tmp, state );
 		}
 
+		context->setCurrentFont( &currentFont );
 	}
 
 	double x = paintRect->left_ + 5;
 
 
 
-	double y = paintRect->top_ + ((paintRect->getHeight() / 2) - (f->getPixelSize()/2));
+	double y = paintRect->top_ + ((paintRect->getHeight() / 2) - (fontPixelSize/2));
 
 	Rect textRect( x, y, paintRect->right_, paintRect->bottom_ );
 	textRect.inflate( -1, -1 );
@@ -163,16 +180,7 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 		options |= GraphicsContext::tdoLeftAlign;
 	}
 
-	bool bold = f->getBold();
-	if ( isFixed() ){
-		f->setBold( true );
-	}
-
-	context->textBoundedBy( &textRect, caption_, options );
-
-	f->setBold( bold );
-
-	f->setColor( &oldColor );
+	context->textBoundedBy( &textRect, caption_, options );	
 }
 
 void DefaultTableCellItem::setSelected( const bool& val )
@@ -294,10 +302,166 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 	bounds_ = *bounds;
 }
 
+const Color& DefaultTableCellItem::getColor()
+{
+	if ( DefaultTableCellItem::tableCellsColorMap.empty() ) {		
+		Color* color = GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW );
+		DefaultTableCellItem::tableCellsColorMap [color_->getColorRef32()] = 
+			*color;
+
+		ColorMap::iterator found = 
+			DefaultTableCellItem::tableCellsColorMap.find( color->getColorRef32() );
+
+		if ( found != DefaultTableCellItem::tableCellsColorMap.end() ) {
+			color_ = &found->second;
+		}
+	}
+	else if ( NULL == color_ ) {
+		Color* color = GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW );
+
+		ColorMap::iterator found = 
+			DefaultTableCellItem::tableCellsColorMap.find( color->getColorRef32() );
+
+		if ( found != DefaultTableCellItem::tableCellsColorMap.end() ) {
+			color_ = &found->second;
+		}
+	}
+
+	VCF_ASSERT( NULL != color_ );
+
+	return *color_;
+}
+
+void DefaultTableCellItem::setColor( Color* color )
+{
+	VCF_ASSERT( NULL != color );
+	ColorMap::iterator found = 
+		DefaultTableCellItem::tableCellsColorMap.find( color->getColorRef32() );
+
+	if ( found != DefaultTableCellItem::tableCellsColorMap.end() ) {
+		color_ = &found->second;
+	}
+	else { //new entry!
+		DefaultTableCellItem::tableCellsColorMap [color->getColorRef32()] = *color;
+
+		found = 
+		DefaultTableCellItem::tableCellsColorMap.find( color->getColorRef32() );
+		if ( found != DefaultTableCellItem::tableCellsColorMap.end() ) {
+			color_ = &found->second;
+		}
+	}
+}
+
+
+String fontToString( Font* font )
+{
+	String result = "";
+	result += font->getName();
+	result += (int)font->getPixelSize();
+	result += font->getBold();
+	result += font->getUnderlined();
+	result += font->getStrikeOut();
+	result += font->getItalic();
+	return result;
+}
+
+const Font& DefaultTableCellItem::getFont()
+{
+	UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
+
+	if ( DefaultTableCellItem::tableCellsFontMap.empty() ) {
+		Font font = mgr->getDefaultFontFor( UIMetricsManager::ftControlFont ); 
+		font.setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT ) );
+
+		String key = fontToString(&font);
+
+		DefaultTableCellItem::tableCellsFontMap [key] = 
+			font;
+
+		FontMap::iterator found = 
+			DefaultTableCellItem::tableCellsFontMap.find( key );
+
+		if ( found != DefaultTableCellItem::tableCellsFontMap.end() ) {
+			font_ = &found->second;
+
+			EventHandler* ev = getEventHandler("DefaultTableCellItem::onFontChanged");
+
+			if ( NULL == ev ) {
+				ev = new GenericEventHandler<DefaultTableCellItem>(this,&DefaultTableCellItem::onFontChanged,"DefaultTableCellItem::onFontChanged");
+			}
+			font_->FontChanged += ev;			
+		}
+	}
+	else if ( NULL == font_ ) {
+		Font font = mgr->getDefaultFontFor( UIMetricsManager::ftControlFont );
+		font.setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT ) );
+		String key = fontToString(&font);
+
+		FontMap::iterator found = 
+			DefaultTableCellItem::tableCellsFontMap.find( key );
+
+		if ( found != DefaultTableCellItem::tableCellsFontMap.end() ) {
+			font_ = &found->second;
+
+			EventHandler* ev = getEventHandler("DefaultTableCellItem::onFontChanged");
+
+			if ( NULL == ev ) {
+				ev = new GenericEventHandler<DefaultTableCellItem>(this,&DefaultTableCellItem::onFontChanged,"DefaultTableCellItem::onFontChanged");
+			}
+			font_->FontChanged += ev;
+		}
+	}
+
+	VCF_ASSERT( NULL != font_ );
+	return *font_;
+}
+
+
+void DefaultTableCellItem::setFont( Font* font )
+{
+	String key = fontToString(font);
+
+	FontMap::iterator found = 
+		DefaultTableCellItem::tableCellsFontMap.find( key );
+
+	if ( found != DefaultTableCellItem::tableCellsFontMap.end() ) {
+		font_ = &found->second;
+	}
+	else { //new entry!
+		DefaultTableCellItem::tableCellsFontMap [key] = *font;
+
+		found = 
+		DefaultTableCellItem::tableCellsFontMap.find( key );
+		if ( found != DefaultTableCellItem::tableCellsFontMap.end() ) {
+			font_ = &found->second;
+		}
+	}
+}
+
+void DefaultTableCellItem::onFontChanged( Event* e )
+{
+	Font* font = (Font*)e->getSource();
+
+	FontMap::iterator found = DefaultTableCellItem::tableCellsFontMap.begin();
+	while ( found != DefaultTableCellItem::tableCellsFontMap.end() ) {
+		if ( font == &found->second ) {			
+			String key = fontToString(font);
+
+			DefaultTableCellItem::tableCellsFontMap[key] = *font;
+
+			DefaultTableCellItem::tableCellsFontMap.erase( found );
+		}
+		found ++;
+	}
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.3  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

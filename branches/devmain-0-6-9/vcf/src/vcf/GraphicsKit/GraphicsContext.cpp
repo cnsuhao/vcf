@@ -272,6 +272,14 @@ void GraphicsContext::setCurrentFont(Font * font)
 	currentFont.setPointSize( currentFont.getPointSize() );
 }
 
+void GraphicsContext::setCurrentFont( const Font * font )
+{
+	Font& currentFont = currentGraphicsState_->font_;
+	currentFont = *font;
+	currentFont.setGraphicsContext( this );
+	currentFont.setPointSize( currentFont.getPointSize() );
+}
+
 void GraphicsContext::setCurrentFill(Fill * fill)
 {
 	if ( NULL != fill ){
@@ -650,6 +658,13 @@ Font* GraphicsContext::getCurrentFont()
 }
 
 void GraphicsContext::setColor( Color* color )
+{
+	if ( NULL != color ) {
+		currentGraphicsState_->color_ = *color;
+	}
+}
+
+void GraphicsContext::setColor( const Color* color )
 {
 	if ( NULL != color ) {
 		currentGraphicsState_->color_ = *color;
@@ -1492,6 +1507,10 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/09/03 14:03:53  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.6  2005/07/09 23:05:58  ddiego
 *added missing gtk files
 *

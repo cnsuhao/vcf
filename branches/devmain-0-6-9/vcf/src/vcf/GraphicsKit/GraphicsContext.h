@@ -165,8 +165,15 @@ public:
 	/**
 	sets the current font
 	A copy of the Font is made when this is set
+	@deprecated
 	*/
-	void setCurrentFont(Font * font );
+	void setCurrentFont( Font * font );
+
+	/**
+	sets the current font
+	A copy of the Font is made when this is set
+	*/
+	void setCurrentFont( const Font * font );
 
 	/**
 	returns the current Font
@@ -260,7 +267,18 @@ public:
 	void restoreState( int state );
 
 
+	/**
+	Sets the current color of the graphics context to use for filling
+	or stroking paths.
+	@deprecated
+	*/
 	void setColor( Color* color );
+
+	/**
+	Sets the current color of the graphics context to use for filling
+	or stroking paths.
+	*/
+	void setColor( const Color* color );
 
 	Color* getColor( );
 
@@ -800,6 +818,10 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.1  2005/09/03 14:03:53  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.7  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

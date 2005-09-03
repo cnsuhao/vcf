@@ -55,6 +55,8 @@ void FoundationKit::init( int argc, char** argv )
 
 		ThreadManager::create();
 
+		PackageManager::init();
+
 	}
 	catch ( BasicException& e ) {
 		StringUtils::trace( "unknown exception occurred during FoundationKit::init()\n\terror is: " +
@@ -93,6 +95,8 @@ void FoundationKit::terminate()
 
 	ThreadManager::terminate();
 
+	PackageManager::terminate();
+
 #ifdef _VCF_DEBUG_NEW
 	Mutex* mutex = Object::accessMutex_;
 	Object::accessMutex_ = NULL;
@@ -125,6 +129,10 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/03 14:03:53  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.3  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
