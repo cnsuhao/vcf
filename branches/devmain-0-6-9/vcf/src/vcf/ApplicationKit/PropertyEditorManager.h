@@ -102,7 +102,7 @@ public:
 	Removes a PropertyEditor with a given class/type name from the
 	list of registered propertyEditors.
 	*/
-	static void removePropertyEditor( const String& className );	
+	static void removePropertyEditor( const String& editorClassName, const String& className );	
 
 private:
 	PropertyEditorManager();
@@ -124,6 +124,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/03 16:26:41  ddiego
+*adjusted function in proeprty editor manager class.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
