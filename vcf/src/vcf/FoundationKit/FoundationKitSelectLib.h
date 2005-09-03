@@ -18,7 +18,7 @@ where you installed the VCF.
 *Helps linking with the right library
 */
 //If using the All-in-1 library, this task has already been done
-#if !defined(VCF_ALLIN1_DLL) && !defined(VCF_ALLIN1_LIB)
+#if !defined(VCF_USE_ALLIN1_DLL) && !defined(VCF_USE_ALLIN1_LIB)
 
 #ifdef _LIB_CPLVERNUM
 #		undef _LIB_CPLVERNUM
@@ -83,6 +83,9 @@ defined to use the DLL or static libraries.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/03 20:48:46  kdmix
+*All-in-1 library building fixed: VCF_ALLIN1_* have been replaced with VCF_USE_ALLIN1_*.
+*
 *Revision 1.5  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
