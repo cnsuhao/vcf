@@ -513,7 +513,9 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 		]]>		
 		</programlisting>
 		This will register your property editor class, "MyPropertyEditor", as the editor 
-		to use when an integer property is found.
+		to use when an integer property is found. When you're ready to actually distribute
+		your property editor, you'll want to see the "Distributing your Components and Editors"
+		section.
 		</para>		
 		</section>		
 	</section>
@@ -544,6 +546,62 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 		Library, then there are a few extra steps you need to take. 
 		</para>
 		<section><title>VPL Exported Functions</title>
+		<para>
+		First you'll need to create a dynamic or shared library. The exact specifics of
+		how you do this depend on the operating system, so I'll focus on doing this on Win32
+		for simplicities sake. 
+		</para>
+		<para>
+		You code will need to export at least two functions, namely _vpl_init()
+		and _vpl_terminate() like so:
+		<programlisting>
+		<![CDATA[
+extern "C" {
+	
+MYEDITORS_API void _vpl_init()
+{
+	
+}
+
+
+
+MYEDITORS_API void _vpl_terminate()
+{
+	
+}
+
+
+}		
+		]]>
+		</programlisting>
+		<note>
+		The use of the <function>extern "C" {}</function> block. This is mandatory
+		becuase it's important that these two function are <emphasis>not</emphasis>
+		name-mangled. 
+		</note>
+		The macro MYEDITORS_API might be defined like so:
+		<programlisting>
+		<![CDATA[
+#ifdef WIN32
+/**
+*this is only here for microsoft VPL implementation
+*/
+	#ifdef MYEDITORS_EXPORTS
+	#define MYEDITORS_API __declspec(dllexport)
+	#else
+	#define MYEDITORS_API __declspec(dllimport)
+	#endif //MYEDITORS_EXPORTS
+#else
+	#define MYEDITORS_API
+#endif //WIN32		
+		]]>
+		</programlisting>		
+		</para>
+		<para>
+		The _vpl_init and _vpl_terminate functions are used by the VCF when your library is 
+		loaded and unloaded. You should put you initialization and termination code in these 
+		functions as appropriate.		
+		</para>
 		</section>
 		
 		<section><title>VPL Initialization</title>
@@ -562,6 +620,10 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.13  2005/09/03 14:03:52  ddiego
+added a package manager to support package info instances, and
+fixed feature request 1278069 - Background color of the TableControl cells.
+
 Revision 1.2.12.12  2005/09/02 03:48:16  ddiego
 updates to component authoring.
 

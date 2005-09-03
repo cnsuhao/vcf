@@ -451,6 +451,13 @@ public:
 	*/
 	bool autoSizeRow( int row, bool resetScroll=true);
 
+	Color* getDefaultTableCellColor();
+
+	void setDefaultTableCellColor( Color* color );
+
+	Font* getDefaultTableCellFont();
+
+	void setDefaultTableCellFont( Font* font );
 protected:
 
 	enum MouseState{
@@ -595,6 +602,8 @@ protected:
 
 	std::map<CellID,TableCellItem*> previouslySelectedCellMap_;
 
+	Color* defaultCellColor_;
+	Font* defaultCellFont_;
 
 
 };
@@ -607,6 +616,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
