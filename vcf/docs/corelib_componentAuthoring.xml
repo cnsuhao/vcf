@@ -638,6 +638,83 @@ MYEDITORS_API void _vpl_terminate();
 		</programlisting>
 		The associated cpp file might look like this: 
 		<programlisting><filename>MyEditor.cpp</filename>
+		<![CDATA[
+//MyEditors.cpp
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/AbstractPropertyEditor.h"
+#include "vcf/ApplicationKit/PropertyEditorManager.h"
+
+#include "vcf/FoundationKit/RTTIMacros.h"
+
+
+#include "MyEditors.h"
+
+using namespace VCF;
+
+
+#define MYEDITORSPACKAGEUUID		"93b97631-78b2-4d61-94ee-c1cd84a12274"
+
+
+class MyEditorsPackage : public PackageInfo {
+public:
+	MyEditorsPackage() : PackageInfo(
+								"MyEditors", 
+								MYEDITORSPACKAGEUUID,
+								"",
+								"MyEditors.vpl",
+								PackageInfo::lfSharedLibLinkage,
+								"Bob",
+								"Bob's World Inc.",
+								"2005",
+								""){
+
+	}
+};
+
+
+
+
+class MyPropertyEditor : public AbstractPropertyEditor {
+public:
+	MyPropertyEditor(){
+		attributes_ = PropertyEditor::paHasValues;
+	}
+
+	virtual std::vector<String> getStringValues(){
+		std::vector<String> result(2);
+		result[0] = "One";
+		result[1] = "Two";
+		return result;
+	}
+};
+
+
+#define MYPROPERTYEDITOR_CLASSID		"2226cebc-faca-4fc9-beae-ef6d0867d05d"
+
+_class_rtti_(MyPropertyEditor, "VCF::AbstractPropertyEditor", MYPROPERTYEDITOR_CLASSID)
+_class_rtti_end_
+
+
+
+extern "C" {
+	
+MYEDITORS_API void _vpl_init()
+{
+	REGISTER_CLASSINFO_EXTERNAL( MyPropertyEditor );
+	PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER );
+}
+
+
+
+MYEDITORS_API void _vpl_terminate()
+{
+	PropertyEditorManager::removePropertyEditor( "MyPropertyEditor", "CLASS_INTEGER" );
+	ClassRegistry::removeClassByID( MYPROPERTYEDITOR_CLASSID );
+}
+
+
+}		
+		]]>
 		</programlisting>
 		</para>
 		<para>
@@ -663,8 +740,8 @@ MYEDITORS_API void _vpl_terminate();
 <!--
 CVS Log info
 $Log$
-Revision 1.2.12.14  2005/09/03 16:26:41  ddiego
-adjusted function in proeprty editor manager class.
+Revision 1.2.12.15  2005/09/03 17:13:23  ddiego
+added a new argument to _vpl_init and _vpl_terminate functions.
 
 Revision 1.2.12.13  2005/09/03 14:03:52  ddiego
 added a package manager to support package info instances, and

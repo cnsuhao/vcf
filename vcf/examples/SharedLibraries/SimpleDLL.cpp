@@ -26,11 +26,20 @@ int getAnInteger( int val1, double d )
 	return result;
 }
 
-#ifdef __BORLANDC__
-void vpl_init (void) {}
 
-void vpl_terminate (void) {}
-#endif
+
+
+SIMPLEDLL_API void _vpl_init ( void* handle ) 
+{
+	printf( "Lib initialized! Handle: %p\n", handle );
+}
+
+SIMPLEDLL_API void _vpl_terminate ( void* handle ) 
+{
+	printf( "Lib terminated! Handle: %p\n", handle );
+}
+
+
 
 }
 
@@ -38,6 +47,9 @@ void vpl_terminate (void) {}
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/03 17:13:23  ddiego
+*added a new argument to _vpl_init and _vpl_terminate functions.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:41  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

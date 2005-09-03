@@ -42,6 +42,11 @@ public:
 
 	virtual void unload() = 0;
 
+	/**
+	Returns an OS handle to the loaded library.
+	*/
+	virtual OSHandleID getHandleID() = 0;
+
 };
 
 }; //end of namespace VCF
@@ -50,6 +55,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/03 17:13:23  ddiego
+*added a new argument to _vpl_init and _vpl_terminate functions.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
