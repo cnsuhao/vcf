@@ -72,7 +72,7 @@ bool PropertyEditorManager::registerPropertyEditor( const String& editorClassNam
 	return false;
 }
 
-void PropertyEditorManager::removePropertyEditor( const String& className )
+void PropertyEditorManager::removePropertyEditor( const String& editorClassName, const String& className )
 {
 	Class* editorClass = NULL;
 
@@ -86,23 +86,25 @@ void PropertyEditorManager::removePropertyEditor( const String& className )
 		return; //nothing to do
 	}
 
-	//prep to remove dupes if neccessary
-	std::map<String,Class*>::iterator it =
-		 PropertyEditorManager::propertyEditorMgr->propertEditorMap_.begin();
-
-	std::vector<std::map<String,Class*>::iterator> removeList;
-	while ( it != PropertyEditorManager::propertyEditorMgr->propertEditorMap_.end() ) {
-		if ( it->second == editorClass ) {
-			removeList.push_back( it );			
+	if ( (editorClass->getClassName() == editorClassName) || (editorClass->getID() == editorClassName) ) {
+		//prep to remove dupes if neccessary
+		std::map<String,Class*>::iterator it =
+			PropertyEditorManager::propertyEditorMgr->propertEditorMap_.begin();
+		
+		std::vector<std::map<String,Class*>::iterator> removeList;
+		while ( it != PropertyEditorManager::propertyEditorMgr->propertEditorMap_.end() ) {
+			if ( it->second == editorClass ) {
+				removeList.push_back( it );			
+			}
+			it ++;
 		}
-		it ++;
-	}
-
-	std::vector<std::map<String,Class*>::iterator>::iterator it2 = 
-		removeList.begin();
-	while ( it2 != removeList.end() ) {
-		PropertyEditorManager::propertyEditorMgr->propertEditorMap_.erase( *it2 );
-		it2 ++;
+		
+		std::vector<std::map<String,Class*>::iterator>::iterator it2 = 
+			removeList.begin();
+		while ( it2 != removeList.end() ) {
+			PropertyEditorManager::propertyEditorMgr->propertEditorMap_.erase( *it2 );
+			it2 ++;
+		}
 	}
 }
 
@@ -131,6 +133,9 @@ void PropertyEditorManager::closePropertyEditorManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/03 16:26:41  ddiego
+*adjusted function in proeprty editor manager class.
+*
 *Revision 1.3.2.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

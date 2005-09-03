@@ -595,12 +595,55 @@ MYEDITORS_API void _vpl_terminate()
 	#define MYEDITORS_API
 #endif //WIN32		
 		]]>
-		</programlisting>		
+		</programlisting>
+		Win32 platforms need the explicit "export" or "import" keywords so that the 
+		functions or classes in the module are properly exported in the DLL and automatically 
+		imported by the developer using the DLL at link time. Most other platforms don't
+		need to hassle with this, and the "MYEDITORS_API" macro is just a blank.
+		</para>
+		<para>
+		Typically you would put this in the main header to be distributed with your code, and the
+		rest in a .cpp file that you build, perhaps like so:		
+		<programlisting><filename class='headerfile'>MyEditor.h</filename>
+		<![CDATA[
+//MyEditors.h
+
+#ifndef MYEDITORS_H__
+#define MYEDITORS_H__
+
+#ifdef WIN32
+/**
+*this is only here for microsoft VPL implementation
+*/
+	#ifdef MYEDITORS_EXPORTS
+	#define MYEDITORS_API __declspec(dllexport)
+	#else
+	#define MYEDITORS_API __declspec(dllimport)
+	#endif //MYEDITORS_EXPORTS
+#else
+	#define MYEDITORS_API
+#endif //WIN32
+
+
+extern "C"  {
+	
+MYEDITORS_API void _vpl_init();
+MYEDITORS_API void _vpl_terminate();
+
+}
+
+#endif //MYEDITORS_H__
+		
+		]]>
+		</programlisting>
+		The associated cpp file might look like this: 
+		<programlisting><filename>MyEditor.cpp</filename>
+		</programlisting>
 		</para>
 		<para>
 		The _vpl_init and _vpl_terminate functions are used by the VCF when your library is 
 		loaded and unloaded. You should put you initialization and termination code in these 
-		functions as appropriate.		
+		functions as appropriate.
 		</para>
 		</section>
 		
@@ -620,6 +663,9 @@ MYEDITORS_API void _vpl_terminate()
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.14  2005/09/03 16:26:41  ddiego
+adjusted function in proeprty editor manager class.
+
 Revision 1.2.12.13  2005/09/03 14:03:52  ddiego
 added a package manager to support package info instances, and
 fixed feature request 1278069 - Background color of the TableControl cells.
