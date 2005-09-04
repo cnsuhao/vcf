@@ -313,6 +313,38 @@ public:
 			PropertyEditor::getValue() or PropertyEditor::getValueAsText(). The AbstractPropertyEditor			
 			implements both of these for us, so in general we don't need to worry about them.
 			</para>
+			
+			<section><title>Custom property types</title>
+			<para>
+			Sometimes what you way to do is to edit a custom type of existing property type. For 
+			example, if you had a property that was a filename, you would still be dealing with a
+			String, but you'd want your editor associated with a string specific to file names. 
+			You can do this by making a typedef of a String type, and then associating this
+			typedef symbol with both your component's RTTI decalarations, and when you register 
+			your property editor. The ImageControl does just this:
+			<programlisting><filename>ImageControl.h</filename>
+			<![CDATA[
+typedef String ImageFilenameString;			
+			]]>
+			</programlisting>
+			<programlisting><filename>ApplicationKitRTTI.inl</filename>
+			<![CDATA[
+_class_rtti_(ImageControl, "VCF::CustomControl", IMAGECONTROL_CLASSID)
+//rest omitted...
+_property_typedef_( String, "filename", getFilename, setFilename, "VCF::ImageFilenameString", "" );
+_class_rtti_end_
+			]]>
+			</programlisting>
+			The <fucntion>_property_typedef_</function> macro associates the "real" type (a String)
+			with it's typedef-ed name ("VCF::ImageFilenameString") which will allow us to register a 
+			property editor with the typedef-ed name like so:
+			<programlisting><filename>UIToolkit.cpp</filename>
+			<![CDATA[
+PropertyEditorManager::registerPropertyEditor( "VCF::ImageFilenamePropertyEditor", "VCF::ImageFilenameString" );
+			]]>
+			</programlisting>
+			</para>
+			</section>
 			</section>
 			<section><title>Sub Properties</title>
 			<para>
@@ -522,8 +554,110 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 	
 	<section><title>Component Editing </title>
 		<para>
-		
+		While a property editor focuses on a single property of a component, a component
+		editor allows you to edit the complete component. A component editor works by
+		exposing 1 or more commands, which the host then displays in some fashion to the 
+		user (typically a context menu). The user then selects one, and the component 
+		editor's command is executed.
 		</para>
+		<section><title>Creating a new component editor class</title>	
+			<para>
+			When creating a custom component editor, the simplest way to start is to derive a new
+			class from AbstractComponentEditor, which provides a basic implementation
+			of the ComponentEditor interface.
+			<programlisting>
+			<![CDATA[
+class MyComponentEditor : public VCF::AbstractComponentEditor {
+public:
+	MyComponentEditor(){}
+};
+			]]>			
+			</programlisting>
+			</para>
+			<section><title>Attributes</title>
+			<para>
+			Component editors may have a set of attributes per 
+			command. The attribute set is accessed by calling the editor's
+			ComponentEditor::getAttributes() method and passing in the 
+			0 based index of the command. 
+			</para>
+			<para>
+			If you need to set attributes, you can do so by calling the 
+			AbstractComponentEditor::setAttributes() method, and pass in 
+			the index of the command you want to set attributes for, and the
+			attribute mask you want to set. For example:
+			<programlisting>
+			<![CDATA[
+class MyComponentEditor : public VCF::AbstractComponentEditor {
+public:
+	MyComponentEditor(){
+		setCommandCount( 3 );
+		setAttributes( 1, ComponentEditor::caSeparator );
+	}
+};
+			]]>			
+			</programlisting>
+			This would tell the host that your editor had 3 commands and that the "comand" at index 1
+			was a separator for commands at index 0 and index 2.
+			</para>
+			<para>
+			The following table lists the current possible component editor
+			attributes:
+			<table frame="none" pgwide="1">
+				<tgroup cols="2" align="left" colsep="0" rowsep="0">
+					<thead>
+						<row>
+							<entry>Attribute</entry>
+							<entry>Meaning</entry>
+						</row>							
+					</thead>
+					<tbody>
+						<row>
+							<entry>ComponentEditor::caSeparator</entry>
+							<entry>Indicates that the index is not a command
+							per se, but rather should be treated as a separator,
+							to break the list of commands into logical groups.
+							The exact display of this is up to the host. The 
+							VCF Builder will intrepret this as an indicator to
+							create a separator menu item.</entry>
+						</row>
+						
+						<row>
+							<entry>ComponentEditor::caHasParentIndex </entry>
+							<entry>Indicates that the command is a child command
+							of some other command. To get the parent command index,
+							the host calls the component editor's ComponentEditor::getCommandParentIndex(),
+							passing in the child commands index, and is returned the parent's index
+							value, or -1 if no index is found. The VCF Builder interprets this
+							to mean that the child will be a child menu item of it's parent.</entry>
+						</row>
+						
+						<row>
+							<entry>ComponentEditor::caUsesModalDialogForEditing </entry>
+							<entry>TODO</entry>
+						</row>
+					</tbody>	
+				</tgroup>
+			</table>
+			</para>
+			</section>
+			
+			<section><title>Accessing the Component Instance</title>
+			<para>
+			You can access the component editor's current component by calling 
+			ComponentEditor::getComponent(). This may be used 
+			</para>
+			</section>
+			
+			<section><title>Providing Commands</title>
+			</section>
+		</section>
+		
+		<section><title>Editing a Component</title>		
+		</section>
+		
+		<section><title>Registering Component Editors</title>		
+		</section>
 	</section>
 	
 	<section><title>Saving and Loading Component State </title>
@@ -533,6 +667,8 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 	
 	<section><title>Registering Components </title>
 		<para>
+		All component's that you want to be shared need to be registered with the
+		VCF at some point.
 		</para>
 		<section><title>Component Info</title>
 		</section>	
@@ -542,6 +678,11 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 	
 	<section><title>Distributing your Components and Editors</title>
 		<para>
+		Typically your code for you component, property editor(s) and/or component editor(s)
+		will be distributed in what's referred to as a Visual Package Library. This 
+		is simply a dynamic (or shared) library with an extension of ".vpl". 
+		</para>
+		<para>
 		If you are writing your property editor and distributing it in a VPL or Visual Package 
 		Library, then there are a few extra steps you need to take. 
 		</para>
@@ -550,6 +691,12 @@ PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER
 		First you'll need to create a dynamic or shared library. The exact specifics of
 		how you do this depend on the operating system, so I'll focus on doing this on Win32
 		for simplicities sake. 
+		</para>
+		<para>
+		In your development environment, create a new DLL project. If you're using Visual Studio
+		(6, 7, or 7.1) there are already wizards that can build the skeleton for a VPL for
+		you. If not, then make sure to setup your DLL project with the appropriate compiler
+		and linker options for building a VCF based project.
 		</para>
 		<para>
 		You code will need to export at least two functions, namely _vpl_init()
@@ -725,23 +872,56 @@ MYEDITORS_API void _vpl_terminate()
 		</section>
 		
 		<section><title>VPL Initialization</title>
+		<para>
+		This happens once the the DLL is loaded by the operating system. The VCF will attempt
+		to call your DLL's _vpl_init() function and pass in the new loaded DLL's instance handle. 
+		At this point you can initialize your library, for example, by registering classes 
+		with the VCF's ClassRegistry, or register property or component editor's. In our case 
+		we do:
+		<programlisting>
+		<![CDATA[
+MYEDITORS_API void _vpl_init()
+{
+	REGISTER_CLASSINFO_EXTERNAL( MyPropertyEditor );
+	PropertyEditorManager::registerPropertyEditor( "MyPropertyEditor", CLASS_INTEGER );
+}		
+		]]>
+		</programlisting>
+		We register our property editor class (MyPropertyEditor) and then make sure to register 
+		the class name and property type with the VCF's PropertyEditorManager.
+		</para>
 		</section>
 		
 		<section><title>VPL Termination</title>
-		</section>
-	</section>
-		
-	<section><title></title>
 		<para>
+		When a library is unloaded, the VCF will attempt to call the DLL's _vpl_terminate() 
+		function, passing in the instance handle of the library. At this point you should do 
+		any clean up that your library needs. To be absolutely safe, you should un-register 
+		and classes, editors, etc that your register in your _vpl_init() function. You need
+		to do this, because the VCF may unload your DLL and the program may continue to run.
+		Dangling pointers to dynamically allocated memory by your DLL (or any other) that 
+		has been unloaded can cause run time crashes if they are referenced by the VCF.
+		<programlisting>
+		<![CDATA[
+MYEDITORS_API void _vpl_terminate()
+{
+	PropertyEditorManager::removePropertyEditor( "MyPropertyEditor", "CLASS_INTEGER" );
+	ClassRegistry::removeClassByID( MYPROPERTYEDITOR_CLASSID );
+}		
+		]]>
+		</programlisting>
+		In our example, we remove our property editor from the PropertyEditorManager
+		and remove our class from the VCF's ClassRegistry.
 		</para>
+		</section>
 	</section>
 </section>
 
 <!--
 CVS Log info
 $Log$
-Revision 1.2.12.15  2005/09/03 17:13:23  ddiego
-added a new argument to _vpl_init and _vpl_terminate functions.
+Revision 1.2.12.16  2005/09/04 04:03:03  ddiego
+more comp editing docs.
 
 Revision 1.2.12.13  2005/09/03 14:03:52  ddiego
 added a package manager to support package info instances, and
