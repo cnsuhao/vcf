@@ -335,7 +335,7 @@ _property_typedef_( String, "filename", getFilename, setFilename, "VCF::ImageFil
 _class_rtti_end_
 			]]>
 			</programlisting>
-			The <fucntion>_property_typedef_</function> macro associates the "real" type (a String)
+			The <function>_property_typedef_</function> macro associates the "real" type (a String)
 			with it's typedef-ed name ("VCF::ImageFilenameString") which will allow us to register a 
 			property editor with the typedef-ed name like so:
 			<programlisting><filename>UIToolkit.cpp</filename>
@@ -920,6 +920,9 @@ MYEDITORS_API void _vpl_terminate()
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.17  2005/09/04 04:05:05  ddiego
+more comp editing docs.
+
 Revision 1.2.12.16  2005/09/04 04:03:03  ddiego
 more comp editing docs.
 
