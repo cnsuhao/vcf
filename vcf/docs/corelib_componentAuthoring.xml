@@ -645,23 +645,161 @@ public:
 			<section><title>Accessing the Component Instance</title>
 			<para>
 			You can access the component editor's current component by calling 
-			ComponentEditor::getComponent(). This may be used 
+			ComponentEditor::getComponent(). This may be used when creating command 
+			instances to hand this pointer over to the command.
 			</para>
 			</section>
 			
 			<section><title>Providing Commands</title>
+			<para>
+			The main responsibility of the component editor is to provide a list
+			of 1 or more commands that can operate on the component. The component 
+			editor will need to return the number of commands it supports, and an 
+			optional index of the default command to use when editing the component.
+			The default command is the preferred command to use for some user action
+			in the host. For example, double clicking a control/component, will 
+			result in the VCF Builder requesting the default command index from the 
+			current component editor (if one exists), and then invoking that command.
+			</para>
+			<para>
+			If you derive from AbstractComponentEditor, you can easily specify all 
+			of this. You can set the number of commands to use like so:
+			<programlisting>
+			<![CDATA[
+class MyComponentEditor : public VCF::AbstractComponentEditor {
+public:
+	MyComponentEditor(){
+		setCommandCount( 3 );
+	}
+};
+			]]>
+			</programlisting>
+			This sets your command count at 3. As mentioned before, you can 
+			set any attributes for your commands at this point as well.
+			</para>
+			<para>
+			You can specify the default command to use like so:
+			<programlisting>
+			<![CDATA[
+class MyComponentEditor : public VCF::AbstractComponentEditor {
+public:
+	MyComponentEditor(){
+		setCommandCount( 3 );
+		
+		defaultCommandIndex_ = 0;
+	}
+	
+};			
+			]]>
+			</programlisting>
+			This sets our default index to 0, so our first command is our default command.
+			</para>
+			<para>
+			The component editors supplies a count of the commands available. This is implemented
+			for you if you derive from the AbstractComponentEditor. Setting the command count using
+			the AbstractComponentEditor::setCommandCount() will allow the ComponentEditor::getCommandCount
+			method to return the correct value. A host will use this value to loop and retreive each
+			command by calling ComponentEditor::createCommand(), passing a 0 based index 
+			value for the index of the comamnd. Implementing ComponentEditor::createCommand()
+			is up to the component editor implementor. One example might be:
+			<programlisting>
+			<![CDATA[
+class MyCommand : public VCF::AbstractCommand {
+public:
+	MyCommand( VCF::Component* component ) : component_(component) {
+		setName( "My Custom Component command" );
+		isUndoable_ = false; //our comand is NOT undo-able 
+	}
+	
+	virtual void undo() { //no-op }
+	
+	virtual void redo() { //no-op }
+	
+	virtual void execute() {
+		Dialog::showMessage( "Hello from MyCommand!" );
+	}
+	
+	VCF::Component* component_;
+};
+
+class MyComponentEditor : public VCF::AbstractComponentEditor {
+public:
+	MyComponentEditor(){
+		setCommandCount( 1 );
+		
+		defaultCommandIndex_ = 0;
+	}
+	
+	virtual Command* createCommand( const ulong32& index ) {
+		Command* result = NULL;
+		
+		switch ( index ) {
+			case 0 : {
+				result = new MyCommand( getComponent() );
+			}
+			break;
+		}
+		
+		return result;
+	}
+};			
+			]]>
+			</programlisting>
+			Now we've added a new command class, which in this example does nothing other than
+			displaying a simple message box in the command's execute() method.
+			<note>
+			The example command class is set to only be executable, and is <emphasis>not</emphasis>
+			allowed to be reversed or "undoable", hence the reason for setting isUndoable_ to
+			false. This means that the Command::undo() and Command::redo() methods will never be 
+			called. By default any command that derives from AbstractCommand <emphasis>is</emphasis>
+			undoable (isUndoable_ defaults to true).
+			</note>
+			In turn the MyComponentEditor::createCommand() is implemented by verifying the index
+			is 0, and if it is, then a new MyCommand instance is created.
+			</para>
+			
+			<para>
+			Finally, you can control copying your component to the clipboard by overriding the 
+			default implementation of the AbstractComponentEditor::copy() method. All the 
+			copy() method has to do is copy the component, in some format, to the clipboard. If you 
+			don't need to deal with this, then just leave it alone. The default behaviour, handled
+			by the host, is to simply copy the component's VFF format to the clipboard as text.
+			</para>
 			</section>
 		</section>
 		
 		<section><title>Editing a Component</title>		
+		<para>
+		The component editor is invoked by the host based on some user action. Currently the
+		VCF Builder uses the component editor when the user right clicks on a component or
+		double clicks the component. In either case, the host has the component editor create
+		a command, if possible. This new command instance is then placed on the Undo/Redo stack
+		where it is executed and saved for undo/redo (if appropriate).
+		</para>
 		</section>
 		
-		<section><title>Registering Component Editors</title>		
+		<section><title>Registering Component Editors</title>
+		<para>
+		For a component editor to be made available to the host, you need to register it
+		with the ComponentEditorManager class. This is done by calling the 
+		ComponentEditorManager::registerComponentEditor() method. You can so like this:
+		<programlisting>
+		<![CDATA[
+ComponentEditorManager::registerComponentEditor( new MyComponentEditor(), "SomeComponentClassName" );		
+		]]>
+		</programlisting>
+		You pass in a new instance of your component editor, and the class name of the component type
+		you want to associate it with. 
+		</para>
 		</section>
 	</section>
 	
 	<section><title>Saving and Loading Component State </title>
 		<para>
+		Saving and loading a component is performed by the VFFOutputStream and VFFInputStream classes, 
+		respectively. These take the component (and any of it's children) and write out a 
+		text based graph of the component and it's properties. For more information about the VFF
+		format see the VFFOutputStream class documentation in the source docs.
 		</para>
 	</section>
 	
@@ -920,6 +1058,9 @@ MYEDITORS_API void _vpl_terminate()
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.18  2005/09/05 02:36:52  ddiego
+more docs
+
 Revision 1.2.12.17  2005/09/04 04:05:05  ddiego
 more comp editing docs.
 
