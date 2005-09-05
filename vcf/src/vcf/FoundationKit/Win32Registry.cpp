@@ -281,6 +281,11 @@ bool Win32Registry::getDataBufValue( const String& valuename, uint32& dataBuffer
 				dataBufferSize = (uint32)size;
 				result = true;
 			}
+			else {
+				dataBufferSize = 0;
+				*dataBuffer = NULL;
+				delete [] buf;
+			}
 		}
 	}
 
@@ -380,6 +385,10 @@ String Win32Registry::getCurrentKey()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/05 18:26:59  ddiego
+*adjusted reg class methods for reading data so that they now throw
+*exceptions for bad reads.
+*
 *Revision 1.4.2.1  2005/09/05 18:17:17  ddiego
 *adjusted reg class methods for reading data so that they now throw
 *exceptions for bad reads.
