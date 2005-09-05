@@ -200,7 +200,7 @@ bool Win32Registry::getIntValue( const String& valuename, uint32& value )
 	bool result = false;
 
 	DWORD type = 0;
-	DWORD size = sizeof(result);
+	DWORD size = sizeof(value);
 	LONG resVal = 0;
 
 	if ( System::isUnicodeEnabled() ) {
@@ -385,6 +385,10 @@ String Win32Registry::getCurrentKey()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/05 18:48:12  ddiego
+*adjusted reg class methods for reading data so that they now throw
+*exceptions for bad reads.
+*
 *Revision 1.4.2.2  2005/09/05 18:26:59  ddiego
 *adjusted reg class methods for reading data so that they now throw
 *exceptions for bad reads.
