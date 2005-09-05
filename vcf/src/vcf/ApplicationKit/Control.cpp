@@ -43,7 +43,8 @@ Control::Control():
 	tabOrder_(-1),
 	useRenderBuffer_(false),
 	container_(NULL),
-	ignoredForLayout_(false)
+	ignoredForLayout_(false),
+	allowPaintNotification_(false)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -1547,9 +1548,28 @@ bool Control::isChild()
 	return getParent() != NULL;
 }
 
+void Control::internal_beforePaint( GraphicsContext* context )
+{
+	if ( getAllowPaintNotification() ) {
+		ControlEvent e(this,Control::BEFORE_CONTROL_PAINTED,context);
+		BeforeControlPainted.fireEvent( &e );
+	}	
+}
+
+void Control::internal_afterPaint( GraphicsContext* context )
+{
+	if ( getAllowPaintNotification() ) {
+		ControlEvent e(this,Control::AFTER_CONTROL_PAINTED,context);
+		AfterControlPainted.fireEvent( &e );
+	}
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.4  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.8.2.3  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

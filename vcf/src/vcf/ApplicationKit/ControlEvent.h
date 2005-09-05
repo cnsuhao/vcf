@@ -49,6 +49,13 @@ public:
 	*/
 	ControlEvent( Object* source, Control* newParent );
 
+	/**
+	*use this constructor for creating BEFORE_CONTROL_PAINTED or
+	AFTER_CONTROL_PAINTED events
+	*/
+	ControlEvent( Object* source, const ulong32& eventType, GraphicsContext* gc );
+
+
 	ControlEvent( const ControlEvent& rhs ):Event(rhs) {
 		init();
 		*this = rhs;
@@ -62,6 +69,8 @@ public:
 		newSize_ = rhs.newSize_;
 		newPosition_ = rhs.newPosition_;
 		newParent_ = rhs.newParent_;
+
+		gc_ = rhs.gc_;
 
 		return *this;
 	}
@@ -93,10 +102,14 @@ public:
 		return 	newParent_;
 	};
 
+	GraphicsContext* getPaintGraphicsContext() {
+		return gc_;
+	}
 protected:
 	Size newSize_;
 	Point newPosition_;
 	Control* newParent_;
+	GraphicsContext* gc_;
 };
 
 
@@ -128,6 +141,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -17,7 +17,7 @@ using namespace VCF;
 ControlEvent::ControlEvent( Object* source ):
 	Event( source )
 {
-	//this->init();
+	init();
 }
 
 
@@ -54,6 +54,13 @@ ControlEvent::ControlEvent( Object* source, Control* newParent ):
 	newParent_ = newParent;
 };
 
+ControlEvent::ControlEvent( Object* source, const ulong32& eventType, GraphicsContext* gc ):
+	Event( source, eventType )
+{
+	init();
+	gc_ = gc;
+}
+
 ControlEvent::~ControlEvent()
 {
 
@@ -62,13 +69,17 @@ ControlEvent::~ControlEvent()
 
 void ControlEvent::init()
 {
-	this->newParent_ = NULL;
+	newParent_ = NULL;
+	gc_ = NULL;
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

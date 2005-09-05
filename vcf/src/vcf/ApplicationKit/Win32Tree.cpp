@@ -410,7 +410,12 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			int gcs = ctx->saveState();
 
 			//paint the control here - double buffered
+			
+			peerControl_->internal_beforePaint( ctx );
+
 			peerControl_->paint( ctx );
+
+			peerControl_->internal_afterPaint( ctx );
 
 
 			ctx->restoreState( gcs );
@@ -1381,6 +1386,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.5  2005/07/09 23:14:59  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
