@@ -30,6 +30,20 @@ enum RegistryDataType{
 };
 
 
+class FOUNDATIONKIT_API RegistryException : public RuntimeException {
+public:
+	RegistryException( const VCF::String & message ):
+		RuntimeException( message ){
+
+	};
+		
+	RegistryException( const VCF::String & message, const int lineNumber ):
+		VCF::RuntimeException(message, lineNumber){};
+
+	virtual ~RegistryException() throw() {};
+
+};
+
 /**
 *a class that wraps up a specific registry value that may
 *be a string, integer, bool, or stream of binary data
@@ -146,6 +160,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/05 18:17:17  ddiego
+*adjusted reg class methods for reading data so that they now throw
+*exceptions for bad reads.
+*
 *Revision 1.4  2005/07/09 23:15:04  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
