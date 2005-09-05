@@ -375,14 +375,23 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 					break;
 
 					case cpControlOnly : {
+						peerControl_->internal_beforePaint( paintCtx );
+
 						peerControl_->paint( paintCtx );
+
+						peerControl_->internal_afterPaint( paintCtx );
 
 					}
 					break;
 
 					case cpBorderAndControl : {
 						peerControl_->paintBorder( paintCtx );
+						
+						peerControl_->internal_beforePaint( paintCtx );
+
 						peerControl_->paint( paintCtx );
+
+						peerControl_->internal_afterPaint( paintCtx );
 					}
 					break;
 				}
@@ -440,14 +449,23 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 				break;
 
 				case cpControlOnly : {
+
+					peerControl_->internal_beforePaint( ctx );
+
 					peerControl_->paint( ctx );
 
+					peerControl_->internal_afterPaint( ctx );
 				}
 				break;
 
 				case cpBorderAndControl : {
 					peerControl_->paintBorder( ctx );
+					
+					peerControl_->internal_beforePaint( ctx );
+
 					peerControl_->paint( ctx );
+
+					peerControl_->internal_afterPaint( ctx );
 				}
 				break;
 			}
@@ -489,14 +507,22 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 				break;
 
 				case cpControlOnly : {
+					peerControl_->internal_beforePaint( ctx );
+
 					peerControl_->paint( ctx );
 
+					peerControl_->internal_afterPaint( ctx );
 				}
 				break;
 
 				case cpBorderAndControl : {
 					peerControl_->paintBorder( ctx );
+					
+					peerControl_->internal_beforePaint( ctx );
+
 					peerControl_->paint( ctx );
+
+					peerControl_->internal_afterPaint( ctx );
 				}
 				break;
 			}
@@ -1616,6 +1642,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.4  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.7.2.3  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *

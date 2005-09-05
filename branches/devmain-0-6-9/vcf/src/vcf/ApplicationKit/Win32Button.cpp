@@ -166,7 +166,12 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				((ControlGraphicsContext*)ctx)->setOwningControl( NULL );
 
+				peerControl_->internal_beforePaint( ctx );
+
 				peerControl_->paint( ctx );
+
+				peerControl_->internal_afterPaint( ctx );
+
 
 				((ControlGraphicsContext*)ctx)->setOwningControl( peerControl_ );
 
@@ -194,7 +199,11 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				ctx->getPeer()->setContextID( (OSHandleID)drawItem->hDC );
 
+				peerControl_->internal_beforePaint( ctx );
+
 				peerControl_->paint( ctx );
+
+				peerControl_->internal_afterPaint( ctx );
 			}
 			wndProcResult = TRUE;
 			result = true;
@@ -272,6 +281,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.5  2005/07/09 23:14:57  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

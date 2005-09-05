@@ -78,6 +78,8 @@ class Frame;
 	@del Control::ToolTipRequested
 	@del Control::ToolTip
 	@del Control::ControlModelChanged
+	@del Control::BeforeControlPainted
+	@del Control::AfterControlPainted
  */
 class APPLICATIONKIT_API Control : public Component, public AbstractView {
 public:
@@ -110,6 +112,8 @@ public:
 		MOUSE_DBLCLICK,
 		MOUSE_ENTERED,
 		MOUSE_LEAVE,
+		BEFORE_CONTROL_PAINTED,
+		AFTER_CONTROL_PAINTED,
 		CONTROL_EVENTS_LAST
 	};
 
@@ -300,6 +304,31 @@ public:
 	*/
 	DELEGATE(ControlModelChanged);
 
+	/**
+	@delegate BeforeControlPainted fires an ControlEvent.
+	Fired by the control just before the control's
+	paint() method is called. This will only happen if the
+	control's getAllowPaintNotification() returns true.	The
+	ControlEvent's getPaintGraphicsContext() method will
+	return the same GraphicsContext that passed to the
+	control's paint() method.
+	@event ControlEvent
+	@eventtype Control::BEFORE_CONTROL_PAINTED
+	*/
+	DELEGATE(BeforeControlPainted);
+
+	/**
+	@delegate AfterControlPainted fires an ControlEvent.
+	Fired by the control after the control's
+	paint() method is called. This will only happen if the
+	control's getAllowPaintNotification() returns true. The
+	ControlEvent's getPaintGraphicsContext() method will
+	return the same GraphicsContext that passed to the
+	control's paint() method.
+	@event ControlEvent
+	@eventtype Control::AFTER_CONTROL_PAINTED
+	*/
+	DELEGATE(AfterControlPainted);
 	
 
 	/**
@@ -575,18 +604,29 @@ public:
 	void setEnabled( const bool& enabled );
 
 	/**
-	*paints the control. Called by the underlying windowing system whenever
-	*the control needs to be painted. Note that in some cases the GraphicsContext
-	*passed in to this method may not be the same pointer as the GraphicsContext
-	*that the control holds itself. During the paint() mehtod you should only
-	*use the context value for all your drawing and not the one returned in
-	*getContext(). The value returned by getContext() should be used for drawing
-	*that takes place outside of the paint() method.
-	*<p>Note: This should <b><i>NEVER</i></b> be called
-	*by programmers using the VCF, it will be called for during the course of your
-	*applications native event loop, and is only here for providing custom drawing
-	*routines for controls. In other words: you implement it, you never call it
-	*yourself.
+	\par
+	Paints the control. Called by the underlying windowing system whenever
+	the control needs to be painted. Note that in some cases the GraphicsContext
+	passed in to this method may not be the same pointer as the GraphicsContext
+	that the control holds itself. During the paint() method you should only
+	use the context value for all your drawing and not the one returned in
+	getContext(). The value returned by getContext() should be used for drawing
+	that takes place outside of the paint() method.
+	\par
+	If the control allows paint notification, then the framework will fire an 
+	event to the BeforeControlPainted delegate \em prior to calling the 
+	control's paint() method. After the paint() method has returned, if
+	the control allows paint notification, the framework will fire an event to
+	the AfterControlPainted delegate. This allows outside observers to take 
+	part in the paint cycle, \em but beware that this does come at a bit of a 
+	cost, so use this feature sparingly.
+	\par
+	\em Note: This should \em NEVER be called
+	by programmers using the VCF, it will be called for you during the course 
+	of your applications native event loop, and is only here for providing 
+	custom drawing routines for controls. In other words: you implement it, 
+	you never call it yourself.
+	@see getAllowPaintNotification
 	*/
 	virtual void paint( GraphicsContext * context )=0;
 
@@ -1287,6 +1327,28 @@ public:
 	bool isChild();
 
 	/**
+	Returns whether or not the control will
+	allow paint notification. 
+	@see paint()
+	@see BeforeControlPainted
+	@see AfterControlPainted
+	*/
+	bool getAllowPaintNotification() {
+		return allowPaintNotification_;
+	}
+
+	/**
+	Sets whether or not the control will allow 
+	paint notification.
+	@see paint()
+	@see BeforeControlPainted
+	@see AfterControlPainted
+	*/
+	void setAllowPaintNotification( const bool& val ) {
+		allowPaintNotification_ = val;
+	}
+
+	/**
 	sets a new model for the view
 	Once set, the control fires a ControlModelChanged event.
 	*/
@@ -1319,6 +1381,15 @@ public:
 
 	static void buildTabList( Control* control, std::vector<Control*>& tabList );
 
+	/**
+	called by the internals of the framework - DO NOT CALL!
+	*/
+	void internal_beforePaint( GraphicsContext* context );
+
+	/**
+	called by the internals of the framework - DO NOT CALL!
+	*/
+	void internal_afterPaint( GraphicsContext* context );
 protected:
 	void updateAnchorDeltas();
 
@@ -1357,6 +1428,7 @@ protected:
 	bool useRenderBuffer_;
 	Container* container_;
 	bool ignoredForLayout_;
+	bool allowPaintNotification_;
 
 };
 
@@ -1367,6 +1439,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/05 14:38:31  ddiego
+*added pre and post paint delegates to the control class.
+*
 *Revision 1.4.2.2  2005/08/08 03:18:40  ddiego
 *minor updates
 *
