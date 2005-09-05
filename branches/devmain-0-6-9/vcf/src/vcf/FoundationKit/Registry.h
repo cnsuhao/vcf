@@ -137,12 +137,68 @@ public:
 
 	bool setValue( void* dataBuffer, const uint32& dataBufferSize, const String& valuename );
 
+	/**
+	Returns a named string value from the registry and the
+	current open key. If no such value name exists, or there 
+	is some other problem reading the value, the function throws 
+	a RegistryException exception.
+	@param String the name of the value under the current open key
+	@return String the value returned
+	*/
 	String getStringValue( const String& valuename );
 
+	/**
+	Returns a named int value from the registry and the
+	current open key. If no such value name exists, or there 
+	is some other problem reading the value, the function throws 
+	a RegistryException exception.
+	@param String the name of the value under the current open key
+	@return uint32 the value returned
+	*/
 	uint32 getIntValue( const String& valuename );
 
+	/**
+	Returns a named bool value from the registry and the
+	current open key. If no such value name exists, or there 
+	is some other problem reading the value, the function throws 
+	a RegistryException exception.
+	@param String the name of the value under the current open key
+	@return bool the value returned
+	*/
 	bool getBoolValue( const String& valuename );
 
+	/**
+	Returns a named data buffer from the registry and the
+	current open key. If no such value name exists, or there 
+	is some other problem reading the value, the function throws 
+	a RegistryException exception.
+	\par
+	Note that the function allocates a data buffer for the caller,
+	however it is the caller's responsibility to delete the 
+	data buffer when the caller is finished with it.
+	\par example usage
+	\code
+	Registry reg; 
+	//reg already opened to some key...
+
+	void* buf = NULL;
+	uint32 dataBufferSize = 0;
+	try {
+		reg.getDataBufValue( "MyData", dataBufferSize, &buf );
+	}
+	catch ( RegistryException& ) {
+		System::println( "Oops - an error occured!" );
+	}
+
+	//do stuff with buffer ...
+
+	//clean up buffer - delete it!
+	delete buf; 
+	\endcode
+	@param String the name of the value under the current open key
+	@param uint32 the size of the newly allocated  data buffer in bytes
+	@param void** a pointer to a data buffer pointer.
+	*/
 	void getDataBufValue( const String& valuename, uint32& dataBufferSize, void** dataBuffer );
 
 	Enumerator<String>* getKeyNames();
@@ -160,6 +216,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/05 18:26:59  ddiego
+*adjusted reg class methods for reading data so that they now throw
+*exceptions for bad reads.
+*
 *Revision 1.4.2.1  2005/09/05 18:17:17  ddiego
 *adjusted reg class methods for reading data so that they now throw
 *exceptions for bad reads.
