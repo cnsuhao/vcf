@@ -150,13 +150,14 @@ bool Win32Registry::setValue( void* dataBuffer, const uint32& dataBufferSize, co
 	return (resVal == ERROR_SUCCESS);
 }
 
-String Win32Registry::getStringValue( const String& valuename )
+bool Win32Registry::getStringValue( const String& valuename, String& value )
 {
-
+	
 	DWORD type = 0;
 	BYTE* buf = NULL;
 	DWORD size = 0;
-	String result;
+	bool result = false;
+
 	LONG resVal = 0;
 	if ( System::isUnicodeEnabled() ) {
 		resVal = RegQueryValueExW( currentKeyHandle_, valuename.c_str(), 0, &type, NULL, &size );
@@ -173,10 +174,8 @@ String Win32Registry::getStringValue( const String& valuename )
 				resVal = RegQueryValueExW( currentKeyHandle_, valuename.c_str(), 0, &type, buf, &size );
 				if ( resVal == ERROR_SUCCESS ){
 
-					result = (VCFChar*)buf;
-				}
-				else {
-					//throw exception
+					value = (VCFChar*)buf;
+					result = true;
 				}
 			}
 			else {
@@ -184,76 +183,73 @@ String Win32Registry::getStringValue( const String& valuename )
 				resVal = RegQueryValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, &type, buf, &size );
 				if ( resVal == ERROR_SUCCESS ){
 
-					result = (char*)buf;
-				}
-				else {
-					//throw exception
+					value = (char*)buf;
+					result = true;
 				}
 			}
 
 			delete [] buf;
 		}
 	}
-	else {
-		//throw exception
-	}
 
 	return result;
 }
 
-uint32 Win32Registry::getIntValue( const String& valuename )
+bool Win32Registry::getIntValue( const String& valuename, uint32& value )
 {
-	uint32 result = 0;
+	bool result = false;
 
 	DWORD type = 0;
 	DWORD size = sizeof(result);
 	LONG resVal = 0;
 
 	if ( System::isUnicodeEnabled() ) {
-		resVal = RegQueryValueExW( currentKeyHandle_, valuename.c_str(), 0, &type, (BYTE*)&result, &size );
+		resVal = RegQueryValueExW( currentKeyHandle_, valuename.c_str(), 0, &type, (BYTE*)&value, &size );
 	}
 	else {
-		resVal = RegQueryValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, &type, (BYTE*)&result, &size );
+		resVal = RegQueryValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, &type, (BYTE*)&value, &size );
 	}
 	if ( resVal == ERROR_SUCCESS ){
+		result = true;
 		if ( (type != REG_DWORD) && (size <= 0) ){
-			//throw exception
+			result = false;
 		}
-	}
-	else {
-
-		//throw exception
 	}
 
 	return result;
 }
 
-bool Win32Registry::getBoolValue( const String& valuename )
+bool Win32Registry::getBoolValue( const String& valuename, bool& value )
 {
-	DWORD result = 0;
+	bool result = false;
+	DWORD tmp = 0;
 	DWORD type = 0;
 	DWORD size = sizeof(DWORD);
 	LONG resVal = 0;
 	if ( System::isUnicodeEnabled() ) {
-		resVal = RegQueryValueExW( currentKeyHandle_, valuename.c_str(), 0, &type, (BYTE*)&result, &size );
+		resVal = RegQueryValueExW( currentKeyHandle_, valuename.c_str(), 0, &type, (BYTE*)&tmp, &size );
 	}
 	else {
-		resVal = RegQueryValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, &type, (BYTE*)&result, &size );
+		resVal = RegQueryValueExA( currentKeyHandle_, valuename.ansi_c_str(), 0, &type, (BYTE*)&tmp, &size );
 	}
 	if ( resVal == ERROR_SUCCESS ){
+		result = true;
 		if ( (type != REG_DWORD) && (size <= 0) ){
-			//throw exception
+			result = false;
+		}
+
+		if ( result ) {
+			value = tmp ? true : false;
 		}
 	}
-	else {
-		//throw exception
-	}
 
-	return result ? true : false;
+	return result;
 }
 
-void Win32Registry::getDataBufValue( const String& valuename, uint32& dataBufferSize, void** dataBuffer )
+bool Win32Registry::getDataBufValue( const String& valuename, uint32& dataBufferSize, void** dataBuffer )
 {
+	bool result = false;
+
 	DWORD type = 0;
 	BYTE* buf = NULL;
 	DWORD size = 0;
@@ -283,15 +279,12 @@ void Win32Registry::getDataBufValue( const String& valuename, uint32& dataBuffer
 			if ( resVal == ERROR_SUCCESS ){
 				*dataBuffer = (void*)buf;
 				dataBufferSize = (uint32)size;
-			}
-			else {
-				//throw exception
+				result = true;
 			}
 		}
 	}
-	else {
-		//throw exception
-	}
+
+	return result;
 }
 
 Enumerator<String>* Win32Registry::getKeyNames()
@@ -387,6 +380,10 @@ String Win32Registry::getCurrentKey()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/05 18:17:17  ddiego
+*adjusted reg class methods for reading data so that they now throw
+*exceptions for bad reads.
+*
 *Revision 1.4  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
