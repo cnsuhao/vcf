@@ -1776,6 +1776,108 @@ control->setView( view );
 		</para>
 	</section>
 	
+	<section><title>Help</title>
+		<para>
+		The VCF tries to integrate with the standard Help system of the windowing system. For the
+		Win32 platform this means using HTMLHelp, on Mac OSX this means using Apple Help.
+		Help is displayed by either opening a new window that displays the help contents, or by 
+		displaying little popup windows that show some context specific piece of help text (think
+		of the "What's This?" popups in Win32 dialogs). 
+		</para>
+		<para>
+		Help that is displayed in a new window can show either the index page, the contents page 
+		or a specific page, based on the context. Creating these pages is platform specific and 
+		we'll cover that later, at least for Win32.
+		</para>
+		<para>
+		The "What's This?" help popups can display some helpful text to a user to inform them
+		of how to use a certain piece of functionality. For example, you might have a dialog with
+		multiple edit controls for entering different bits of data. If the user clicked for help on one of
+		these control's they might get a popup describing what the control did.
+		</para>
+		
+		<section><title>Implementing Help for Win32 systems</title>
+		<para>
+		For Win32 you'll need to implement HTML Help. This will guide you through the 
+		bare bones fo doing this for a given project.
+		<note>
+		These instructions are, for the most part, not specific to the VCF - any Win32
+		project that want to add user help using HTML Help can do this.
+		</note>
+		</para>
+		
+		<section><title>Creating the HTML Help project file</title>
+		<para>		
+		First you need to create the HTML Help project file. There are a variety of 
+		software packages out there that can help with this, and there's a free tool from
+		Microsoft, that while not very good as software, does the job, and it's free. 
+		You can download it here: <ulink url="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hwMicrosoftHTMLHelpDownloads.asp">
+		Microsoft HTML Help Workshop</ulink> or here <ulink url="http://go.microsoft.com/fwlink/?LinkId=14188">
+		Microsoft HTML Help Installer</ulink>. 
+		</para>
+		<para>
+		The project file is simply a plain text file that contains the instructions to build your 
+		compiled HTML help project. It ends in the extension ".hhp". 
+		</para>
+		</section>
+		
+		<section><title>Adding HTML content</title>
+		<para>
+		Add content to your project. The actual pages can reside anywhere you want - you'll
+		just need to specify their location in the project when you add them. As a rule of thumb 
+		keep your HTML relatively simple. That said, you can use CSS, DHTML, etc. Just make
+		sure to add any of these resource files (like the .css stylesheets) to the project.
+		</para>
+		</section>
+		
+		<section><title>Adding Index/Search support</title>
+		<para>
+		Make sure to add an index page through your authoring tool. When this is done, you
+		should end up with a file that ends in the .hhk extension. This is also a plain text file
+		that just contains a series of index entries and uses HTML syntax. How you
+		add index entries is up to you as an author.
+		</para>		
+		</section>
+		
+		<section><title>Adding a Table of Contents</title>
+		<para>
+		Make sure to add an TOC page through your authoring tool. When this is done, you
+		should end up with a file that ends in the .hhc extension, and generally called "TOC.hhc". 
+		This is also a plain text file that just contains a series of index entries and uses HTML 
+		syntax. How you add index entries is up to you as an author, though some tools will 
+		do this automatically. Tools like doxygen and docbook can generate these entries for
+		you.
+		</para>		
+		</section>
+		
+		<section><title>Adding Context Sensitive entries</title>
+		<para>
+		
+		</para>
+		</section>
+		
+		<section><title>Adding "What's This" entries</title>
+		</section>
+		
+		<section><title>Compiling the help with the HTML Help Compiler</title>
+		<para>
+		Once you've got your content ready to go, you can "compile" the project. If you're using 
+		a third party tool they probably do this for you in the application. If you're using 
+		HTML Help Workshop, then it has a gui for compiling the project. However you can
+		also build the project from the command line using the HTML Help Compiler. If
+		you've installed the HTML Help workshop, you should see it in the same directory 
+		as the Workshop program. Look for the "hhc.exe", and then invoke it at a commandline
+		by passing in the name of the project file. Based on the settings in your project file,
+		this will create a .chm file (and possibly a .chi file if you're using binary TOC) in your 
+		output directory.
+		</para>
+		</section>
+		
+		</section>
+		
+		
+	</section>
+	
 	<section><title>Control Focus and Activation </title>
 	<para>
 		A control with focus is able to receive
@@ -1815,6 +1917,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.1  2005/09/06 21:09:19  ddiego
+help authoring
+
 Revision 1.6  2005/07/13 04:04:32  ddiego
 updated more doc stuff.
 
