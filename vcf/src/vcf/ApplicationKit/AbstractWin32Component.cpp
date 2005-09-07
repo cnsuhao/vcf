@@ -802,6 +802,9 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						helpInfo->dwContextId % helpInfo->iContextType %
 						helpInfo->hItemHandle % helpInfo->iCtrlId %
 						helpInfo->MousePos.x % helpInfo->MousePos.y );
+
+			UIToolkit::displayContextHelpForControl( peerControl_ );
+
 			wndProcResult = 1;
 			result = true;
 		}
@@ -838,26 +841,6 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			result = true;
 		}
 		break;
-/*
-
-
-		case WM_HELP : {
-			if ( !peerControl_->isDestroying() ) {
-				HELPINFO* helpInfo = (HELPINFO*) lParam;
-				if ( HELPINFO_WINDOW == helpInfo->iContextType ) {
-					if ( helpInfo->hItemHandle == hwnd_ ) {
-						peerControl_->processWhatsThisHelpEvent();
-					}
-				}
-				else if ( HELPINFO_MENUITEM == helpInfo->iContextType ) {
-					HelpEvent event(peerControl_);
-					peerControl_->fireOnHelpRequested( &event );
-				}
-			}
-		}
-		break;
-
-*/
 
 		case WM_DESTROY: {
 			VCF_ASSERT( !destroyed_ );
@@ -1655,6 +1638,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.6  2005/09/07 20:24:48  ddiego
+*added some more help support.
+*
 *Revision 1.7.2.5  2005/09/07 04:19:54  ddiego
 *filled in initial code for help support.
 *
