@@ -435,6 +435,26 @@ public:
 
 
 	/**
+	Returns a new ProgramInfo instance from a given info.xml or info.plist.
+	If the infoFileName points to an invalid file, or there is some other 
+	problem reading the file, then the return value is NULL. The caller
+	is responsible for deleting the ProgramInfo instance if a valid 
+	instance is returned.
+	*/
+	static ProgramInfo* getProgramInfoFromInfoFile( const String& infoFileName );
+
+	/**
+	Returns a new ProgramInfo instance from a given info.xml or info.plist.
+	If the infoFileName points to an invalid file, or there is some other 
+	problem reading the file, then the return value is NULL. The caller
+	is responsible for deleting the ProgramInfo instance if a valid 
+	instance is returned.
+	@param String the full path of the info.plist/info.xml file
+	@param String the path of the initial value for the program file
+	*/
+	static ProgramInfo* getProgramInfoFromInfoFile( const String& infoFileName, const String& programFileName );
+
+	/**
 	Returns a string that is the package directory for the
 	executable file name. If the file name is not a bundle, then an
 	empty string is returned. For example, if passed in a file name such as 
@@ -479,6 +499,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.2  2005/09/07 04:19:55  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.8.2.1  2005/07/24 02:30:27  ddiego
 *fixed bug in retreiving program info.
 *

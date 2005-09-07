@@ -81,6 +81,11 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h"
 
+#include "thirdparty/win32/Microsoft/htmlhelp.h"
+
+
+//link in the HTML Help lib
+#pragma comment( lib, "htmlhelp.lib" )
 
 using namespace VCF;
 using namespace VCFWin32;
@@ -1000,6 +1005,8 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		}
 		break;
 
+		
+
 		case WM_ACTIVATEAPP: {
 
 			BOOL fActive = (BOOL) wParam;
@@ -1359,6 +1366,9 @@ Win32ToolKit::Win32ToolKit():
 
 Win32ToolKit::~Win32ToolKit()
 {
+
+	::HtmlHelp( NULL, NULL, HH_CLOSE_ALL, 0 );
+
 #if defined( _LIB ) && defined ( USE_WIN32HTMLBROWSER_LIB )
 	terminateWin32HTMLBrowserLib();
 #endif
@@ -2250,10 +2260,27 @@ Size Win32ToolKit::internal_getDragDropDelta()
 	return result;
 }
 
+void Win32ToolKit::internal_displayHelpContents( const String& helpBookName, const String& helpDirectory )
+{
+
+}
+
+void Win32ToolKit::internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory )
+{
+
+}
+
+void Win32ToolKit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
+{
+
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.6.2.4  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

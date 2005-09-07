@@ -45,19 +45,6 @@ void terminateLoadedLibraryApplications()
 }
 
 
-/*
-class AppTerm {
-public:
-	AppTerm(){}
-
-	~AppTerm() {
-
-	}
-};
-
-static AppTerm appTerm;
-*/
-
 
 Application::Application( int argc, char** argv ):
 	mainWindow_(NULL),
@@ -462,10 +449,28 @@ void Application::setAutoLoadSaveAppState( const bool& autoLoadSaveState )
 	autoLoadSaveAppState_ = autoLoadSaveState;
 }
 
+bool Application::displayHelpContents()
+{
+	return false;
+}
+
+bool Application::displayHelpIndex()
+{
+	return false;
+}
+
+void Application::getHelpInfo( String& helpBookName, String& helpDirectory )
+{
+	helpBookName = "";
+	helpDirectory = "";
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.5  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

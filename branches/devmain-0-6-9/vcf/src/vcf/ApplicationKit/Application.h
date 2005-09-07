@@ -139,6 +139,34 @@ public:
 
 	void setAutoLoadSaveAppState( const bool& autoLoadSaveState );
 
+	/**
+	This gets called by the internals of the framework 
+	in response standard OS events. You can customize how
+	or what help contents are loaded by overriding this function.
+	@return bool returns true if this function handles
+	the help message. Otherwise it returns false, in which
+	case the framework handles the rest. The default behaviour
+	is to return false.
+	*/
+	virtual bool displayHelpContents();
+
+	/**
+	This gets called by the internals of the framework 
+	in response standard OS events. You can customize how
+	or what help index is loaded by overriding this function.
+	@return bool returns true if this function handles
+	the help message. Otherwise it returns false, in which
+	case the framework handles the rest. The default behaviour
+	is to return false.
+	*/
+	virtual bool displayHelpIndex();
+
+	/**
+	returns the values for the help book and the directory it's 
+	located in. The default returns empty strings for both values.
+	*/
+	virtual void getHelpInfo( String& helpBookName, String& helpDirectory );
+
 	//Event handlers
 
 	/**
@@ -192,6 +220,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.3  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

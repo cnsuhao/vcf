@@ -149,6 +149,12 @@ public:
 
 	virtual Size internal_getDragDropDelta();
 
+	virtual void internal_displayHelpContents( const String& helpBookName, const String& helpDirectory );
+
+	virtual void internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory );
+
+	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
+
 	static HINSTANCE getInstanceHandle();
 protected:
 
@@ -184,6 +190,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.5  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

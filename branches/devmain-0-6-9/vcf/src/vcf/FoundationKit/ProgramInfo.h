@@ -30,7 +30,9 @@ namespace VCF {
 						const String& company,
 						const String& description,
 						const String& programVersion,
-						const String& fileVersion):
+						const String& fileVersion,
+						const String& helpDirectory,
+						const String& helpName):
 							programName_(programName),
 							programFileName_(programFileName),
 							author_(author),
@@ -38,7 +40,9 @@ namespace VCF {
 							company_(company),
 							description_(description),
 							programVersion_(programVersion),
-							fileVersion_(fileVersion){}
+							fileVersion_(fileVersion),
+							helpDirectory_(helpDirectory),
+							helpName_(helpName){}
 
 
 
@@ -82,6 +86,34 @@ namespace VCF {
 		String getProgramFileName() const {
 			return programFileName_;	
 		}
+
+		/**
+		This returns the name of the directory 
+		that the help content lives in. The content
+		may be individual HTML files (and other 
+		resources) for systems like Mac OSX, or it
+		may be a single binary file, like a .CHM
+		file, for Win32 systems. Typically this is
+		\em not a complete path, but rather a single
+		directory name under the main application
+		directory, or under the appropriate 
+		resources directory. Localized help will
+		need to be duplicated per localized resource
+		directory.
+		*/
+		String getHelpDirectory() const {
+			return helpDirectory_;	
+		}
+
+		/**
+		This returns the name of the help "book".
+		This may be the book name for Mac OSX, or 
+		it may be the name of the .CHM file for
+		Win32 systems. 
+		*/
+		String getHelpName() const {
+			return helpName_;	
+		}
 	protected:
 		String programName_;
 		String programFileName_;
@@ -91,6 +123,8 @@ namespace VCF {
 		String description_;
 		String programVersion_;
 		String fileVersion_;
+		String helpDirectory_;
+		String helpName_;
 	};
 
 

@@ -96,27 +96,19 @@ class MenuManagerPeer;
 
 
 /**
+\par
 The UIToolkit is used to create instances of various peer's needed by the VCF,
 as well as providing certain low level services, such as modal and non-modal
 event loops, and getting at UI metrics. Each system the VCF is ported to has
 a concrete implementation of the UIToolkit. The UIToolkit is a singleton, and
 there should only be one instance for a given process running the VCF libraries.
-
-To work with the toolkit you retreive it's instance via a static function,
-UIToolkit::getDefaultUIToolkit(). If no toolkit is found (which is an extremely bad thing!)
-a NoToolKitFoundException is thrown. A quick example:
-<pre>
-try {
-	UIToolkit* toolkit = UIToolkit::getDefaultUIToolkit();
-}
-catch ( NoToolKitFoundException & e ) {
-	//we are screwed!!!
-	System::print( e.getMessage() );
-}
-</pre>
+\par
+To work with the toolkit you just call it's static functions. These
+in turn forward the call to the toolkit instance. 
+\par
 The UIToolkit is a singleton, meaning there is only ever one single instance of it.
 Developers porting the VCF to another platform will have to create a derived class
-from UIToolkit and implement various functions.
+from UIToolkit and implement the various virtual functions.
 */
 class APPLICATIONKIT_API UIToolkit : public ObjectWithEvents {
 public:
@@ -427,6 +419,12 @@ public:
 
 	static UIPolicyManager* getUIPolicyManager();
 
+	static void displayHelpContents();
+
+	static void displayHelpIndex();
+
+	static void displayContextHelpForControl( Control* control );
+
 	/**
 	public so platform implementers can get at it easily
 	*/
@@ -585,6 +583,12 @@ protected:
 	*/
 	virtual Size internal_getDragDropDelta() = 0;
 
+	virtual void internal_displayHelpContents( const String& helpBookName, const String& helpDirectory ) = 0;
+
+	virtual void internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory ) = 0;
+
+	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory ) = 0;
+
 	virtual void internal_handleKeyboardEvent( KeyboardEvent* event );
 
 	virtual VirtualKeyCode internal_findMnemonic( const String& caption );
@@ -651,6 +655,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.5  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
