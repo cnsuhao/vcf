@@ -22,6 +22,10 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/Win32Font.h"
 #include "vcf/ApplicationKit/CursorPeer.h"
 
+#include "thirdparty/win32/Microsoft/htmlhelp.h"
+
+
+
 using namespace VCF;
 
 using namespace VCFWin32;
@@ -781,16 +785,25 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		case WM_COPYDATA: {
 			Application* app = Application::getRunningInstance();
 			if ( NULL != app ){
-				/*
-				PCOPYDATASTRUCT pcd = (PCOPYDATASTRUCT) lParam;
-				VCF::ulong32 dwData = (VCF::ulong32) pcd->dwData;
-				VCF::ulong32 cbData = (VCF::ulong32) pcd->cbData;
-				*/
 				Win32MSG msg( hwnd_, message, wParam, lParam, peerControl_ );
 				Event e(peerControl_) ;
 				e.setUserData( &msg );
 				app->onOSNativeEvent( &e );
 			}
+		}
+		break;
+
+		case WM_HELP : {
+			HELPINFO* helpInfo = (HELPINFO*) lParam;
+
+			
+			StringUtils::trace( Format("hwnd: %p, ctx: %d, type %d, handle %p, id: %d, x %d, y %d\n") % 
+						hwnd_ %
+						helpInfo->dwContextId % helpInfo->iContextType %
+						helpInfo->hItemHandle % helpInfo->iCtrlId %
+						helpInfo->MousePos.x % helpInfo->MousePos.y );
+			wndProcResult = 1;
+			result = true;
 		}
 		break;
 
@@ -1642,6 +1655,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.5  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.7.2.4  2005/09/05 14:38:31  ddiego
 *added pre and post paint delegates to the control class.
 *

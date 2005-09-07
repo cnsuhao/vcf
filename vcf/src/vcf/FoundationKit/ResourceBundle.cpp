@@ -74,21 +74,23 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 			}	
 
 			if ( found ) {
-				String name;
+				//String name;
 				String programFileName;
-				String author;
-				String copyright;
-				String company;
-				String description;
-				String programVersion;
-				String fileVersion;
+				//String author;
+				//String copyright;
+			//	String company;
+			//	String description;
+			//	String programVersion;
+			//	String fileVersion;
 
 				CommandLine cmdLine = FoundationKit::getCommandLine();
 				programFileName = cmdLine.getArgument(0);
 
+				result = System::getProgramInfoFromInfoFile(infoFilename, programFileName);
+/*
 				XMLParser xmlParser;
 				FileInputStream fs(infoFilename);
-				xmlParser.parse( &fs );				
+				xmlParser.parse( &fs );
 				fs.close();
 
 				XMLNode* dictNode = NULL;
@@ -170,7 +172,9 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 					}
 
 					result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
+					
 				}
+				*/
 			}
 		}
 	}
@@ -188,6 +192,9 @@ String ResourceBundle::getResourcesDirectory()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/07 04:19:55  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.4.2.1  2005/07/24 02:30:26  ddiego
 *fixed bug in retreiving program info.
 *

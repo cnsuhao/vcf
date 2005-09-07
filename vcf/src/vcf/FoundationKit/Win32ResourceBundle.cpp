@@ -673,7 +673,7 @@ ProgramInfo* Win32ResourceBundle::getProgramInfoFromFileName( const String& file
 		programFileName = fileName;
 
 
-		result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
+		result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion, "", "" );
 	}
 
 	return result;
@@ -703,6 +703,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/07 04:19:55  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.3  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

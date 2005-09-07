@@ -556,7 +556,79 @@ UIPolicyManager* UIToolkit::getUIPolicyManager()
 	return UIToolkit::toolKitInstance->internal_getUIPolicyManager();
 }
 
+void UIToolkit::displayHelpContents()
+{
+	Application* app = Application::getRunningInstance();
+	String helpBookName;
+	String helpDirectory;
 
+
+	bool helpDisplayed = false;
+	if ( NULL != app ) {
+		helpDisplayed = app->displayHelpContents();
+
+		if ( !helpDisplayed ) {
+			app->getHelpInfo( helpBookName, helpDirectory );
+		}
+	}
+
+	if ( !helpDisplayed ) {
+
+		if ( helpBookName.empty() || helpDirectory.empty() ) {
+			ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
+			helpDirectory = info->getHelpDirectory();
+			helpBookName = info->getHelpName();
+			delete info;
+		}
+
+
+		UIToolkit::toolKitInstance->internal_displayHelpContents(helpBookName,helpDirectory);
+	}	
+}
+
+void UIToolkit::displayHelpIndex()
+{
+	Application* app = Application::getRunningInstance();
+	bool helpDisplayed = false;
+	String helpBookName;
+	String helpDirectory;
+	if ( NULL != app ) {
+		helpDisplayed = app->displayHelpIndex();
+		if ( !helpDisplayed ) {
+			app->getHelpInfo( helpBookName, helpDirectory );
+		}
+	}
+
+	if ( !helpDisplayed ) {
+		if ( helpBookName.empty() || helpDirectory.empty() ) {
+			ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
+			helpDirectory = info->getHelpDirectory();
+			helpBookName = info->getHelpName();
+			delete info;
+		}
+
+		UIToolkit::toolKitInstance->internal_displayHelpIndex(helpBookName, helpDirectory);
+	}
+}
+
+void UIToolkit::displayContextHelpForControl( Control* control )
+{
+	Application* app = Application::getRunningInstance();
+	String helpBookName;
+	String helpDirectory;
+	if ( NULL != app ) {		
+		app->getHelpInfo( helpBookName, helpDirectory );
+	}
+
+	if ( helpBookName.empty() || helpDirectory.empty() ) {
+		ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
+		helpDirectory = info->getHelpDirectory();
+		helpBookName = info->getHelpName();
+		delete info;
+	}
+
+	UIToolkit::toolKitInstance->internal_displayContextHelpForControl( control, helpBookName, helpDirectory );
+}
 
 
 
@@ -1235,6 +1307,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/07 04:19:54  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.5.2.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

@@ -570,112 +570,144 @@ ProgramInfo* System::getProgramInfoFromFileName( const String& fileName )
 			
 		String infoFilename = System::getInfoFileFromFileName( fileName );
 		
-		if ( !infoFilename.empty() ) {
-			String name;
-			String programFileName;
-			String author;
-			String copyright;
-			String company;
-			String description;
-			String programVersion;
-			String fileVersion;				
-			
-			XMLParser xmlParser;
-			FileInputStream fs(infoFilename);
-			xmlParser.parse( &fs );				
-			fs.close();
-			
-			XMLNode* dictNode = NULL;
-			Enumerator<XMLNode*>* nodes = xmlParser.getParsedNodes();
-			while ( nodes->hasMoreElements() ) {
-				XMLNode* node = nodes->nextElement();
-				if ( node->getName() == L"plist" ) {
-					dictNode = node->getNodeByName( L"dict" );
-					break;
-				}
-			}
-			
-			if ( NULL != dictNode ) {
-				nodes = dictNode->getChildNodes();
-				while ( nodes->hasMoreElements() ) {
-					XMLNode* node = nodes->nextElement();
-					XMLNode* val = NULL;
-					
-					if ( nodes->hasMoreElements() ) {
-						val = nodes->nextElement();
-					}
-					
-					if ( (NULL != val) && (node->getName() == "key") ) {
-						String cdata = node->getCDATA();
-						StringUtils::trimWhiteSpaces( cdata );
-
-						if ( cdata == "CFBundleName" ) {
-							name = val->getCDATA();
-							StringUtils::trimWhiteSpaces( name );
-						}
-						else if ( cdata == "CFBundleDisplayName" ) {
-							name = val->getCDATA();
-							StringUtils::trimWhiteSpaces( name );
-						}
-						else if ( cdata == "CFBundleVersion" ) {
-							fileVersion = programVersion = val->getCDATA();
-							StringUtils::trimWhiteSpaces( fileVersion );
-						}
-						else if ( cdata == "CFBundleGetInfoString" ) {
-							copyright = programVersion = val->getCDATA();
-							StringUtils::trimWhiteSpaces( copyright );
-						}
-						else if ( cdata == "NSHumanReadableCopyright" ) {
-							copyright = programVersion = val->getCDATA();	
-							StringUtils::trimWhiteSpaces( copyright );
-						}
-						else if ( cdata == "CFBundleExecutable" ) {
-							programFileName = programVersion = val->getCDATA();
-							StringUtils::trimWhiteSpaces( programFileName );
-						}
-						
-						
-						//VCF cross platform keys
-						else if ( cdata == "ProgramVersion" ) {
-							programVersion = val->getCDATA();
-							StringUtils::trimWhiteSpaces( programVersion );
-						}
-						else if ( cdata == "FileVersion" ) {
-							programVersion = val->getCDATA();
-							StringUtils::trimWhiteSpaces( programVersion );
-						}
-						else if ( cdata == "ProductName" ) {
-							name = val->getCDATA();
-							StringUtils::trimWhiteSpaces( name );
-						}
-						else if ( cdata == "Copyright" ) {
-							copyright = val->getCDATA();
-							StringUtils::trimWhiteSpaces( copyright );
-						}
-						else if ( cdata == "Author" ) {
-							author = val->getCDATA();
-							StringUtils::trimWhiteSpaces( author );
-						}
-						else if ( cdata == "Company" ) {
-							author = val->getCDATA();
-							StringUtils::trimWhiteSpaces( author );
-						}
-						else if ( cdata == "Description" ) {
-							description = val->getCDATA();
-							StringUtils::trimWhiteSpaces( description );
-						}
-						else if ( cdata == "Executable" ) {
-							programFileName = val->getCDATA();
-							StringUtils::trimWhiteSpaces( programFileName );
-						}
-					}
-				}
-				
-				result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
-			}
-		}		
+		result = System::getProgramInfoFromInfoFile( infoFilename );
 	}
 	return result;
+}
+
+ProgramInfo* System::getProgramInfoFromInfoFile( const String& infoFileName, const String& programFileName )
+{
+	ProgramInfo* result = NULL;
+
+	if ( !infoFileName.empty() ) {
+		String name;
+		String programFileName2 = programFileName;
+		String author;
+		String copyright;
+		String company;
+		String description;
+		String programVersion;
+		String fileVersion;		
+		String helpDirectory;
+		String helpName;
+
+		
+		XMLParser xmlParser;
+		FileInputStream fs(infoFileName);
+		xmlParser.parse( &fs );				
+		fs.close();
+		
+		XMLNode* dictNode = NULL;
+		Enumerator<XMLNode*>* nodes = xmlParser.getParsedNodes();
+		while ( nodes->hasMoreElements() ) {
+			XMLNode* node = nodes->nextElement();
+			if ( node->getName() == L"plist" ) {
+				dictNode = node->getNodeByName( L"dict" );
+				break;
+			}
+		}
+		
+		if ( NULL != dictNode ) {
+			nodes = dictNode->getChildNodes();
+			while ( nodes->hasMoreElements() ) {
+				XMLNode* node = nodes->nextElement();
+				XMLNode* val = NULL;
+				
+				if ( nodes->hasMoreElements() ) {
+					val = nodes->nextElement();
+				}
+				
+				if ( (NULL != val) && (node->getName() == "key") ) {
+					String cdata = node->getCDATA();
+					StringUtils::trimWhiteSpaces( cdata );
+
+					if ( cdata == "CFBundleName" ) {
+						name = val->getCDATA();
+						StringUtils::trimWhiteSpaces( name );
+					}
+					else if ( cdata == "CFBundleDisplayName" ) {
+						name = val->getCDATA();
+						StringUtils::trimWhiteSpaces( name );
+					}
+					else if ( cdata == "CFBundleVersion" ) {
+						fileVersion = programVersion = val->getCDATA();
+						StringUtils::trimWhiteSpaces( fileVersion );
+					}
+					else if ( cdata == "CFBundleGetInfoString" ) {
+						copyright = programVersion = val->getCDATA();
+						StringUtils::trimWhiteSpaces( copyright );
+					}
+					else if ( cdata == "NSHumanReadableCopyright" ) {
+						copyright = programVersion = val->getCDATA();	
+						StringUtils::trimWhiteSpaces( copyright );
+					}
+					else if ( cdata == "CFBundleExecutable" ) {
+						programFileName2 = programVersion = val->getCDATA();
+						StringUtils::trimWhiteSpaces( programFileName2 );
+					}
+					else if ( cdata == "CFBundleHelpBookName" ) {
+						helpName = val->getCDATA();	
+						StringUtils::trimWhiteSpaces( helpName );
+					}
+					else if ( cdata == "CFBundleHelpBookFolder" ) {
+						helpDirectory = val->getCDATA();
+						StringUtils::trimWhiteSpaces( helpDirectory );
+					}
+					
+					//VCF cross platform keys
+					else if ( cdata == "ProgramVersion" ) {
+						programVersion = val->getCDATA();
+						StringUtils::trimWhiteSpaces( programVersion );
+					}
+					else if ( cdata == "FileVersion" ) {
+						programVersion = val->getCDATA();
+						StringUtils::trimWhiteSpaces( programVersion );
+					}
+					else if ( cdata == "ProductName" ) {
+						name = val->getCDATA();
+						StringUtils::trimWhiteSpaces( name );
+					}
+					else if ( cdata == "Copyright" ) {
+						copyright = val->getCDATA();
+						StringUtils::trimWhiteSpaces( copyright );
+					}
+					else if ( cdata == "Author" ) {
+						author = val->getCDATA();
+						StringUtils::trimWhiteSpaces( author );
+					}
+					else if ( cdata == "Company" ) {
+						author = val->getCDATA();
+						StringUtils::trimWhiteSpaces( author );
+					}
+					else if ( cdata == "Description" ) {
+						description = val->getCDATA();
+						StringUtils::trimWhiteSpaces( description );
+					}
+					else if ( cdata == "Executable" ) {
+						programFileName2 = val->getCDATA();
+						StringUtils::trimWhiteSpaces( programFileName2 );
+					}
+					else if ( cdata == "HelpName" ) {
+						helpName = val->getCDATA();	
+						StringUtils::trimWhiteSpaces( helpName );
+					}
+					else if ( cdata == "HelpDirectory" ) {
+						helpDirectory = val->getCDATA();
+						StringUtils::trimWhiteSpaces( helpDirectory );
+					}
+				}
+			}
+			
+			result = new ProgramInfo( name, programFileName2, author, copyright, company, description, programVersion, fileVersion, helpDirectory, helpName );
+		}
+	}
+
+	return result;
+}
+
+ProgramInfo* System::getProgramInfoFromInfoFile( const String& infoFileName )
+{
+	return System::getProgramInfoFromInfoFile( infoFileName, "" );
 }
 
 void System::internal_replaceResourceBundleInstance( ResourceBundle* newInstance )
@@ -823,6 +855,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/09/07 04:19:55  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.6.2.2  2005/07/30 16:54:17  iamfraggle
 *CW workarounds for console output
 *

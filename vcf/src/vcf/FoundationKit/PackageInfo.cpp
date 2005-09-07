@@ -16,7 +16,7 @@ PackageInfo::PackageInfo( const String& packageName, const String& packageUUID,
 							long linkageFlags,
 							const String& author, const String& company,
 							const String& copyright, const String& additionalInfo):
-	ProgramInfo(packageName,"",author,copyright,company,additionalInfo,"","")
+	ProgramInfo(packageName,"",author,copyright,company,additionalInfo,"","","","")
 {	
 	packageUUID_ = packageUUID;	
 	additionalInfo_ = additionalInfo;
@@ -166,6 +166,9 @@ PackageManager::~PackageManager()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2005/09/07 04:19:55  ddiego
+*filled in initial code for help support.
+*
 *Revision 1.3.4.1  2005/09/03 14:03:53  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.
