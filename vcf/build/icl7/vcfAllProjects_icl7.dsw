@@ -465,6 +465,9 @@ Package=<4>
     Project_Dep_Name HelloWorld3
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Help
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ImageBasics
     End Project Dependency
     Begin Project Dependency
@@ -759,6 +762,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Help"="..\..\examples\Help\Help_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ImageBasics"="..\..\examples\ImageBasics\ImageBasics_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -810,7 +825,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\____LibJPEG\LibJPEG_icl7.dsp" - Package Owner=<4>
+Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -834,7 +849,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\___LibPNG\LibPNG_icl7.dsp" - Package Owner=<4>
+Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\LibPNG\LibPNG_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1344,6 +1359,198 @@ Package=<4>
 
 ###############################################################################
 
+Project: "VCF_ApplicationKit"="..\bakefiles.gen\VCF_ApplicationKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_FoundationKit"="..\bakefiles.gen\VCF_FoundationKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_FreeImage_lib"="..\bakefiles.gen\VCF_FreeImage_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_GraphicsKit"="..\bakefiles.gen\VCF_GraphicsKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_ImageFormats"="..\bakefiles.gen\VCF_ImageFormats_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_LibJPEG_lib"="..\bakefiles.gen\VCF_LibJPEG_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_LibMNG_lib"="..\bakefiles.gen\VCF_LibMNG_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_LibPNG_lib"="..\bakefiles.gen\VCF_LibPNG_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_LibTIFF_lib"="..\bakefiles.gen\VCF_LibTIFF_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_NetworkKit"="..\bakefiles.gen\VCF_NetworkKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_OpenGLKit"="..\bakefiles.gen\VCF_OpenGLKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_RegExx_lib"="..\bakefiles.gen\VCF_RegExx_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_RemoteObjectKit"="..\bakefiles.gen\VCF_RemoteObjectKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_Win32HTMLBrowser"="..\bakefiles.gen\VCF_Win32HTMLBrowser_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_ZLib_lib"="..\bakefiles.gen\VCF_ZLib_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "VCF_libAGG_lib"="..\bakefiles.gen\VCF_libAGG_lib_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "VisualFormFiles"="..\..\examples\VisualFormFiles\VisualFormFiles_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1398,7 +1605,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\___ZLib\ZLib_icl7.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -696,6 +696,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Help"=.\Help\Help.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ImageBasics"=.\ImageBasics\ImageBasics.dsp - Package Owner=<4>
 
 Package=<5>
