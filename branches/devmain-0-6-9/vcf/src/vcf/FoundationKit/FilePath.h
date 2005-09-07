@@ -102,6 +102,11 @@ format so that more complex operations can be performed without repetitions.
 			filename_ = transformToNative( filename );
 			return *this;
 		}
+
+		inline FilePath& operator+= ( const String& filename ) {
+			filename_ += transformToNative( filename );
+			return *this;
+		}
 		
 		/**
 		Returns the string value of hte FilePath. This is done 
@@ -493,6 +498,9 @@ inline std::vector<String> FilePath::getPathComponents() const {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/09/07 20:24:49  ddiego
+*added some more help support.
+*
 *Revision 1.6  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

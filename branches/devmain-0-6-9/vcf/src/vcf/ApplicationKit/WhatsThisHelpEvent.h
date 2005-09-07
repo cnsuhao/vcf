@@ -23,13 +23,16 @@ namespace VCF  {
 
 class WhatsThisHelpEvent : public Event {
 public:
-	WhatsThisHelpEvent( Object* source, const String& helpString="" );
+	WhatsThisHelpEvent( Object* source, const String& helpString="" ):
+	  Event( source, WHAT_THIS_EVENT_TYPE ), helpString_(helpString) {
+
+	}
 
 	WhatsThisHelpEvent( const WhatsThisHelpEvent& rhs ):Event(rhs) {
 		*this = rhs;
 	}
 
-	virtual ~WhatsThisHelpEvent();
+	virtual ~WhatsThisHelpEvent(){};
 
 	WhatsThisHelpEvent& operator= ( const WhatsThisHelpEvent& rhs ) {
 		Event::operator =( rhs );
@@ -47,7 +50,6 @@ public:
 	}
 protected:
 	String helpString_;
-private:
 };
 
 
@@ -77,6 +79,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/07 20:24:48  ddiego
+*added some more help support.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

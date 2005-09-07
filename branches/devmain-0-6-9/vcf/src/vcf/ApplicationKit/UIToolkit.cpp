@@ -556,32 +556,57 @@ UIPolicyManager* UIToolkit::getUIPolicyManager()
 	return UIToolkit::toolKitInstance->internal_getUIPolicyManager();
 }
 
-void UIToolkit::displayHelpContents()
+
+void getHelpInfo( String& helpBookName, String& helpDirectory )
 {
 	Application* app = Application::getRunningInstance();
-	String helpBookName;
-	String helpDirectory;
 
+	if ( NULL != app ) {		
+		app->getHelpInfo( helpBookName, helpDirectory );		
+	}	
 
-	bool helpDisplayed = false;
-	if ( NULL != app ) {
-		helpDisplayed = app->displayHelpContents();
-
-		if ( !helpDisplayed ) {
-			app->getHelpInfo( helpBookName, helpDirectory );
-		}
-	}
-
-	if ( !helpDisplayed ) {
-
-		if ( helpBookName.empty() || helpDirectory.empty() ) {
-			ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
+	if ( helpBookName.empty() || helpDirectory.empty() ) {
+		ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
+		if ( NULL != info ) {
 			helpDirectory = info->getHelpDirectory();
 			helpBookName = info->getHelpName();
 			delete info;
 		}
+	}
 
+	if ( helpBookName.empty() || helpDirectory.empty() ) {
+		//damn, we're STILL not finished - now try 
+		//and assume the stuff is in the res directory
+		//and the help name is the app name
 
+		if ( helpBookName.empty() ) {
+			if ( NULL != app ) {
+				helpBookName = app->getName();
+			}
+			else {
+				FilePath fp = FoundationKit::getCommandLine().getArgument(0);
+				helpBookName = fp.getBaseName();
+			}
+		}
+
+		if ( helpDirectory.empty() ) {
+			helpDirectory = "Help";
+		}
+	}	
+}
+
+void UIToolkit::displayHelpContents()
+{
+	Application* app = Application::getRunningInstance();
+	bool helpDisplayed = false;
+	if ( NULL != app ) {
+		helpDisplayed = app->displayHelpContents();
+	}
+
+	if ( !helpDisplayed ) {
+		String helpBookName;
+		String helpDirectory;
+		getHelpInfo( helpBookName, helpDirectory );
 		UIToolkit::toolKitInstance->internal_displayHelpContents(helpBookName,helpDirectory);
 	}	
 }
@@ -590,43 +615,24 @@ void UIToolkit::displayHelpIndex()
 {
 	Application* app = Application::getRunningInstance();
 	bool helpDisplayed = false;
-	String helpBookName;
-	String helpDirectory;
+	
 	if ( NULL != app ) {
 		helpDisplayed = app->displayHelpIndex();
-		if ( !helpDisplayed ) {
-			app->getHelpInfo( helpBookName, helpDirectory );
-		}
 	}
 
 	if ( !helpDisplayed ) {
-		if ( helpBookName.empty() || helpDirectory.empty() ) {
-			ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
-			helpDirectory = info->getHelpDirectory();
-			helpBookName = info->getHelpName();
-			delete info;
-		}
-
+		String helpBookName;
+		String helpDirectory;
+		getHelpInfo( helpBookName, helpDirectory );
 		UIToolkit::toolKitInstance->internal_displayHelpIndex(helpBookName, helpDirectory);
 	}
 }
 
 void UIToolkit::displayContextHelpForControl( Control* control )
 {
-	Application* app = Application::getRunningInstance();
 	String helpBookName;
 	String helpDirectory;
-	if ( NULL != app ) {		
-		app->getHelpInfo( helpBookName, helpDirectory );
-	}
-
-	if ( helpBookName.empty() || helpDirectory.empty() ) {
-		ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
-		helpDirectory = info->getHelpDirectory();
-		helpBookName = info->getHelpName();
-		delete info;
-	}
-
+	getHelpInfo( helpBookName, helpDirectory );
 	UIToolkit::toolKitInstance->internal_displayContextHelpForControl( control, helpBookName, helpDirectory );
 }
 
@@ -1307,6 +1313,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/09/07 20:24:48  ddiego
+*added some more help support.
+*
 *Revision 1.5.2.2  2005/09/07 04:19:54  ddiego
 *filled in initial code for help support.
 *

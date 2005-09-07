@@ -70,7 +70,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -132,7 +138,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -954,9 +966,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ValidationEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\WhatsThisHelpEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\WhatsThisHelpEvent.h">

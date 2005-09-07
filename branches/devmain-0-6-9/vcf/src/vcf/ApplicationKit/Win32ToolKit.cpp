@@ -2261,23 +2261,90 @@ Size Win32ToolKit::internal_getDragDropDelta()
 }
 
 void Win32ToolKit::internal_displayHelpContents( const String& helpBookName, const String& helpDirectory )
-{
+{	
+	FilePath helpPath = FilePath::makeDirectoryName(helpDirectory)  + helpBookName;
 
+	//check to see if need to add the .chm extension
+	if ( helpBookName.find( ".chm" ) == String::npos ) {
+		helpPath += ".chm";
+	}
+
+	//check to see if the file exists
+	if ( !File::exists( helpPath ) ) {
+		//oops it doesn't try a fill path, and assume that 
+		//the current value in helpPath is not complete 
+		String path = System::findResourceDirectory();
+		helpPath = path + helpPath;
+	}
+
+
+	if ( File::exists( helpPath ) ) {
+		if ( System::isUnicodeEnabled() ) {
+			::HtmlHelpW( 0, helpPath.getFileName().c_str(), HH_DISPLAY_TOC, NULL );	
+		}
+		else {
+			::HtmlHelpA( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_TOC, NULL );	
+		}
+	}
 }
 
 void Win32ToolKit::internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory )
 {
+	FilePath helpPath = FilePath::makeDirectoryName(helpDirectory)  + helpBookName;
 
+	//check to see if need to add the .chm extension
+	if ( helpBookName.find( ".chm" ) == String::npos ) {
+		helpPath += ".chm";
+	}
+
+	//check to see if the file exists
+	if ( !File::exists( helpPath ) ) {
+		//oops it doesn't try a fill path, and assume that 
+		//the current value in helpPath is not complete 
+		String path = System::findResourceDirectory();
+		helpPath = path + helpPath;
+	}
+
+
+	if ( File::exists( helpPath ) ) {
+		if ( System::isUnicodeEnabled() ) {
+			::HtmlHelpW( 0, helpPath.getFileName().c_str(), HH_DISPLAY_INDEX, NULL );	
+		}
+		else {
+			::HtmlHelpA( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_INDEX, NULL );	
+		}
+	}
 }
 
 void Win32ToolKit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
 {
+	String whatsThis = control->getWhatThisHelpString();
 
+	if ( whatsThis.empty() ) {
+
+	}
+	else {	
+		HH_POPUP popup;
+		memset( &popup, 0, sizeof(popup));
+		popup.cbStruct = sizeof(popup);
+
+		::GetCursorPos(	&popup.pt );
+
+		popup.pszText = whatsThis.ansi_c_str();
+		popup.clrForeground = -1;
+		popup.clrBackground = -1;
+		memset( &popup.rcMargins, -1, sizeof(popup.rcMargins) );
+
+		::HtmlHelp( (HWND)control->getPeer()->getHandleID(), NULL, HH_DISPLAY_TEXT_POPUP, (DWORD) &popup );
+	}
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.6  2005/09/07 20:24:48  ddiego
+*added some more help support.
+*
 *Revision 1.6.2.5  2005/09/07 04:19:54  ddiego
 *filled in initial code for help support.
 *

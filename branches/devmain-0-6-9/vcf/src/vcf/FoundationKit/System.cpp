@@ -130,10 +130,17 @@ String System::findResourceDirectory( const String& fileName, Locale* locale )
 		tmp = result + FilePath::getDirectorySeparator() + localeName;
 		if ( File::exists( tmp ) ) {
 			result = tmp;
+			
+			//add the dir sep at the end to be proper
+			result += FilePath::getDirectorySeparator();
 		}
-
-		//add the dir sep at the end to be proper
-		result += FilePath::getDirectorySeparator();
+		else {
+			//if we still don't have anything, then
+			//assume the path where the application lives.
+			//this works for app's that aren't using the 
+			//bundle dir layout.
+			result = appPath.getPathName(true);
+		}
 	}
 
 	return result;
@@ -855,6 +862,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2005/09/07 20:24:49  ddiego
+*added some more help support.
+*
 *Revision 1.6.2.3  2005/09/07 04:19:55  ddiego
 *filled in initial code for help support.
 *
