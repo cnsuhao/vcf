@@ -411,6 +411,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", "Help\Help.vcproj", "{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", "Help\Help_vc71.vcproj", "{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
@@ -752,6 +758,14 @@ Global
 		{33E6788C-E2AC-4136-8367-B3F40A3CFA35}.Generate YY and LL files.ActiveCfg = GTK Debug|Win32
 		{33E6788C-E2AC-4136-8367-B3F40A3CFA35}.GTK Debug.ActiveCfg = GTK Debug|Win32
 		{33E6788C-E2AC-4136-8367-B3F40A3CFA35}.Release.ActiveCfg = Release|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.ActiveCfg = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.Build.0 = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Generate YY and LL files.ActiveCfg = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Generate YY and LL files.Build.0 = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.GTK Debug.ActiveCfg = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.GTK Debug.Build.0 = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.ActiveCfg = Release|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.Build.0 = Release|Win32
 		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.ActiveCfg = Debug|Win32
 		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.Build.0 = Debug|Win32
 		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Generate YY and LL files.ActiveCfg = Debug|Win32

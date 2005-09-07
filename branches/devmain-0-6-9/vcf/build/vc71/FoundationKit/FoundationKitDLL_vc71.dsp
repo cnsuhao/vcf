@@ -556,14 +556,6 @@ SOURCE=..\..\..\src\vcf\FoundationKit\MIMEType.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\FoundationKit\Parser.cpp
 # End Source File
 # Begin Source File
@@ -677,6 +669,14 @@ SOURCE=..\..\..\src\vcf\FoundationKit\ObjectWithEvents.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\FoundationKit\ObjectWithEvents.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\FoundationKit\PackageInfo.h
 # End Source File
 # Begin Source File
 

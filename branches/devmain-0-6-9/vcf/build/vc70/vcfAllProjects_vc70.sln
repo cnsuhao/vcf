@@ -79,6 +79,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsKitDLL", ".\Graphic
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HeavyAndLight", "..\..\examples\HeavyAndLight\HeavyAndLight_vc70.vcproj", "{C89F9F54-3F86-40D4-B7C7-56525B5A0448}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", "..\..\examples\Help\Help_vc70.vcproj", "{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "..\..\examples\HelloWorld\HelloWorld_vc70.vcproj", "{C82B73B9-208A-4004-BB72-D515FDD96E73}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld2", "..\..\examples\HelloWorld2\HelloWorld2_vc70.vcproj", "{8C635B8A-3750-4A6D-BC34-2B1AD7056BC2}"
@@ -316,7 +318,9 @@ Global
 		{27256A05-B779-4AC7-8AEF-39021EFB0251}.3 = {CE13B427-317B-4F78-B379-EABC81519E0E}
 		{89D27C93-4106-4B3B-BBB0-92EC16FC6BF0}.0 = {14EF3DA3-3B87-4397-85D0-890DBD6A3A60}
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
+	GlobalSection(ProjectConfiguration) = postSolution		
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.ActiveCfg = Debug|Win32
+		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.ActiveCfg = Release|Win32
 		{837cacfe-411c-48ef-b378-96fc8be178ec}.Debug.ActiveCfg = Debug|Win32
 		{837cacfe-411c-48ef-b378-96fc8be178ec}.Release.ActiveCfg = Release|Win32
 		{5934541A-5748-4418-A15B-07F102747B28}.Debug.ActiveCfg = Debug|Win32

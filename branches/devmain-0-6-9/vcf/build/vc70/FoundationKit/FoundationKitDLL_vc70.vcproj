@@ -502,12 +502,6 @@
 				RelativePath="..\..\..\src\vcf\FoundationKit\MIMEType.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\Parser.cpp">
 			</File>
 			<File
@@ -594,6 +588,12 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\ObjectWithEvents.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\FoundationKit\PackageInfo.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\FoundationKit\ProgramInfo.h">
