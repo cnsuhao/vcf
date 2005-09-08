@@ -20,8 +20,6 @@ namespace VCF{
 typedef std::basic_string<char> AnsiString;
 
 
-
-
 class TextCodec;
 
 
@@ -71,6 +69,8 @@ class compatible with the std::basic_string class.
 */
 class FOUNDATIONKIT_API UnicodeString {
 public:
+		
+
 	typedef char AnsiChar;
 
 	//JC - see VCFChar.h for definiton of WideChar
@@ -84,7 +84,15 @@ public:
 
 
 	enum {
-		npos = (unsigned int)-1
+		npos = (unsigned int)-1,
+		UTF8BOMSize = sizeof(uchar) * 3,
+		UTF16BOMSize = sizeof(ushort),
+		UTF32BOMSize = sizeof(ulong32),
+		UTF8BOM = 0xEFBBBF,
+		UTF16LittleEndianBOM = 0xFFFE,
+		UTF16BigEndianBOM = 0xFEFF,
+		UTF32LittleEndianBOM = 0xFFFE0000,
+		UTF32BigEndianBOM = 0x0000FEFF
 	};
 
 
@@ -943,6 +951,8 @@ public:
 
 	static UniChar transformAnsiCharToUnicodeChar( AnsiChar c );
 	static AnsiChar transformUnicodeCharToAnsiChar( UniChar c );
+
+	static int adjustForBOMMarker( const AnsiChar*& stringPtr, uint32& len );
 protected:
 	StringData data_;
 	mutable AnsiChar* ansiDataBuffer_;
@@ -1087,6 +1097,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/08 03:16:58  ddiego
+*fix for BOM marker in input stream handling and xml parser.
+*
 *Revision 1.4.2.1  2005/07/30 16:57:34  iamfraggle
 *Fix operator < overloads for AnsiChar and UniChar
 *

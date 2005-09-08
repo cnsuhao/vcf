@@ -98,8 +98,6 @@ void TextInputStream::read( double& val )
 
 void TextInputStream::read( String& val )
 {
-	//val = readTillTokenPair( '\n' );
-
 	readLine( val );
 }
 
@@ -198,6 +196,9 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/08 03:16:58  ddiego
+*fix for BOM marker in input stream handling and xml parser.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -54,18 +54,31 @@ void InputStream::read( double& val )
 
 void InputStream::read( String& val )
 {
-	const unsigned long BUFFER_SIZE = 4096;
+	const ulong32 BUFFER_SIZE = 4096;
 	AnsiString tmpStr;
 
 	val = "";
-	unsigned long size = getSize();
+	ulong32 size = getSize();
 
 	ulong32 seekPos = getCurrentSeekPos();
 
+	ulong32 totalBytesRead = 0;
 	/*
 	JC
 	WARNING!!!
 	We are treating the stream as if it just had ASCII bytes - this may not be right
+	*/
+
+	/*
+	Current STATUS:
+	We are now picking up the BOM marker.
+	We *only* handle the case where it's UTF16 little endian - 
+	the others we punt!
+	If this get's called repeatedly, we will no longer be treating the
+	string as a unicode string which will cause a problem
+	because we will intepret the 2 byte code points incorrectly.
+	We need a way to know if the stream we are reading is actually 
+	a UTF16 stream
 	*/
 
 	char buffer[BUFFER_SIZE];
@@ -73,38 +86,117 @@ void InputStream::read( String& val )
 
 	read( (char*) buffer, bufferRead );
 
+	totalBytesRead += bufferRead;
+
+	bool BOM16Str = false;
+
+
 	char* tmp = buffer;
 	char* start = tmp;
 	size -= bufferRead;
 	bool done = false;
-	while ( false == done ){
+	while ( !done ){
+
 		while ( bufferRead > 0 ) {
-			if ( *tmp == '\0' ) {
-				done = true;
-				break;
+			if ( BOM16Str ) {
+				if ( (tmp[0] == '\0') && (tmp[1] == '\0') ) {
+					done = true;
+					break;
+				}
+				tmp += sizeof(UnicodeString::UniChar);
+				bufferRead --;
+				if ( bufferRead != 0 ) {
+					bufferRead --;
+				}
 			}
-			tmp ++;
-			bufferRead --;
+			else {
+				if ( *tmp == '\0' ) {
+					done = true;
+					break;
+				}
+				tmp ++;
+				bufferRead --;
+			}
 		}
 
 		done = (done || (size == 0));
 
-		tmpStr.append( start, tmp - start );
+		if ( 0 == seekPos ) {		
+			uint32 sz = tmp - start;
 
-		if ( false == done ) {
+			int bom = UnicodeString::adjustForBOMMarker( start, sz );
+			switch ( bom ) {
+				case UnicodeString::UTF8BOM : {
+					tmpStr.append( start, sz );
+				}
+				break;
+
+				case UnicodeString::UTF16LittleEndianBOM : {
+					
+					BOM16Str = true;
+					if ( done && (sz < bufferRead) ) {
+						done = false;
+						while ( bufferRead > 0 ) {
+							if ( (tmp[0] == '\0') && (tmp[1] == '\0') ) {
+								done = true;
+								break;
+							}
+							tmp += sizeof(UnicodeString::UniChar);
+							bufferRead --;
+							if ( bufferRead != 0 ) {
+								bufferRead --;
+							}
+						}
+						done = (done || (size == 0));
+					}
+
+					val.append( (UnicodeString::UniChar*)start, (tmp - start) / sizeof(UnicodeString::UniChar) );
+
+				}
+				break;
+
+				case UnicodeString::UTF32BigEndianBOM : //case UnicodeString::UTF16BigEndianBOM :
+				case UnicodeString::UTF32LittleEndianBOM :  {
+					//barf!!!
+					throw RuntimeException( MAKE_ERROR_MSG_2("Unable to handle this kind of Unicode BOM marked text!") );
+				}
+				break;
+
+				default : {
+					tmpStr.append( start, sz );
+				}
+				break;
+			}
+		}
+		else {
+
+			if ( BOM16Str ) {				
+				val.append( (UnicodeString::UniChar*)start, tmp - start );
+			}
+			else {
+				tmpStr.append( start, tmp - start );
+			}
+		}
+
+		if ( !done ) {
 			bufferRead = VCF::minVal<ulong32>( BUFFER_SIZE * sizeof(char), size );
 			read( buffer, bufferRead );
 			tmp = buffer;
 			start = tmp;
 			size -= bufferRead;
+			totalBytesRead += bufferRead;
 		}
 	}
 
 
-	val = tmpStr;
-
-	//the +1 is to take the null char (0) into account
-	seek( seekPos + val.size() + 1, stSeekFromStart );
+	if ( !BOM16Str ) {
+		val = tmpStr;
+		seek( val.size() + 1, stSeekFromStart );	
+	}
+	else {
+		//the +1 is to take the null char (0) into account
+		seek( totalBytesRead + 1, stSeekFromStart );	
+	}	
 }
 
 
@@ -258,6 +350,9 @@ void OutputStream::write( const String& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/08 03:16:58  ddiego
+*fix for BOM marker in input stream handling and xml parser.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
