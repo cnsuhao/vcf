@@ -42,6 +42,7 @@ public:
 		
 	}
 
+
 	virtual ~HelpWindow(){};
 
 	void showContents( Event* e ) {
