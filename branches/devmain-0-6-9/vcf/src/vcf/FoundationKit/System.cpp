@@ -125,12 +125,13 @@ String System::findResourceDirectory( const String& fileName, Locale* locale )
 	if ( !result.empty() ) {
 		//found the top level res dir
 		//now attempt to see if we can use a more locale specific dir
-		//if not, fall back on the default Resources dir
-		String localeName = locale->getName();
-		tmp = result + FilePath::getDirectorySeparator() + localeName;
-		if ( File::exists( tmp ) ) {
-			result = tmp;
-			
+		//if not, fall back on the default Resources dir		
+		if ( File::exists( result ) ) {
+			String localeName = locale->getName();
+			tmp = result + FilePath::getDirectorySeparator() + localeName;
+			if ( File::exists( tmp ) ) {
+				result = tmp;
+			}
 			//add the dir sep at the end to be proper
 			result += FilePath::getDirectorySeparator();
 		}
@@ -862,6 +863,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2005/09/08 03:39:57  ddiego
+*resource dir fix
+*
 *Revision 1.6.2.4  2005/09/07 20:24:49  ddiego
 *added some more help support.
 *
