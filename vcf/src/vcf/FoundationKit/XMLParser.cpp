@@ -22,7 +22,6 @@ String XMLAttr::toString()
 
 XMLNode::XMLNode( const String& name, XMLNode* parentNode )
 {
-	StringUtils::trace( Format("XMLNode( parent: %p) %p\n") % parentNode % this );
 	name_ = name;
 	parentNode_ = parentNode;
 	attrsContainer_.initContainer( attrs_ );
@@ -37,7 +36,6 @@ XMLNode::XMLNode( const String& name, XMLNode* parentNode )
 XMLNode::XMLNode( const XMLNode& node ) :
     Object(node)
 {
-	StringUtils::trace( Format("XMLNode( node: %p) %p\n") % &node % this );
 	name_ = node.name_;
 	parentNode_ = node.parentNode_;
 	CDATA_ = node.CDATA_;
@@ -59,7 +57,6 @@ XMLNode::XMLNode( const XMLNode& node ) :
 
 XMLNode::~XMLNode()
 {
-	StringUtils::trace( Format("~XMLNode %p\n") % this );
 	clearChildNodes();
 }
 
@@ -809,6 +806,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/08 03:43:06  ddiego
+*fix for BOM marker in input stream handling and xml parser.
+*
 *Revision 1.4.2.1  2005/09/08 03:16:58  ddiego
 *fix for BOM marker in input stream handling and xml parser.
 *
