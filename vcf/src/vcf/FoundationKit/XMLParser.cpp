@@ -22,6 +22,7 @@ String XMLAttr::toString()
 
 XMLNode::XMLNode( const String& name, XMLNode* parentNode )
 {
+	StringUtils::trace( Format("XMLNode( parent: %p) %p\n") % parentNode % this );
 	name_ = name;
 	parentNode_ = parentNode;
 	attrsContainer_.initContainer( attrs_ );
@@ -36,6 +37,7 @@ XMLNode::XMLNode( const String& name, XMLNode* parentNode )
 XMLNode::XMLNode( const XMLNode& node ) :
     Object(node)
 {
+	StringUtils::trace( Format("XMLNode( node: %p) %p\n") % &node % this );
 	name_ = node.name_;
 	parentNode_ = node.parentNode_;
 	CDATA_ = node.CDATA_;
@@ -57,6 +59,7 @@ XMLNode::XMLNode( const XMLNode& node ) :
 
 XMLNode::~XMLNode()
 {
+	StringUtils::trace( Format("~XMLNode %p\n") % this );
 	clearChildNodes();
 }
 
@@ -273,7 +276,7 @@ void XMLParser::parse( const String& xmlString )
 
 void XMLParser::parse( InputStream* stream )
 {
-	int sz = stream->getSize();
+	uint32 sz = stream->getSize();
 
 	if ( sz == 0 ) { //nothing to parse
 		return;
@@ -285,7 +288,35 @@ void XMLParser::parse( InputStream* stream )
 	stream->seek( 0, stSeekFromStart );
 	stream->read( tmpBuffer, sz );
 
-	String xmlText = tmpBuffer;
+	
+	const UnicodeString::AnsiChar* strBuf = tmpBuffer;
+
+	int bom = UnicodeString::adjustForBOMMarker( strBuf, sz );
+
+	String xmlText;
+	switch ( bom ) {
+		case UnicodeString::UTF8BOM : {
+			xmlText.assign( strBuf, sz );
+		}
+		break;
+
+		case UnicodeString::UTF16LittleEndianBOM : {
+			xmlText.assign( (UnicodeString::UniChar*)strBuf, sz / sizeof(UnicodeString::UniChar) );
+		}
+		break;
+
+		case UnicodeString::UTF32BigEndianBOM : //case UnicodeString::UTF16BigEndianBOM :
+		case UnicodeString::UTF32LittleEndianBOM :  {
+			//barf!!!
+			throw RuntimeException( MAKE_ERROR_MSG_2("Unable to handle this kind of Unicode BOM marked text!") );
+		}
+		break;
+
+		default : {
+			xmlText.assign( strBuf, sz );
+		}
+		break;
+	}
 
 	delete [] tmpBuffer;
 
@@ -562,7 +593,6 @@ const VCFChar* XMLParser::parseNode( const VCFChar* nodePtrStart, const VCFChar*
 
 	P = skipWhitespace( P, end-P );
 
-
 	P = parseAttrs( P, nodePtrEnd );
 
 	while ( (*P != XMLParser::TagClose) && (*P != 0) ) {
@@ -779,6 +809,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/08 03:16:58  ddiego
+*fix for BOM marker in input stream handling and xml parser.
+*
 *Revision 1.4  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

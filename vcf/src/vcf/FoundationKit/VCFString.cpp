@@ -17,7 +17,58 @@ using namespace VCF;
 
 
 
+int UnicodeString::adjustForBOMMarker( const UnicodeString::AnsiChar*& stringPtr, uint32& len )
+{
+	//for now only handle UTF16 Little endian - bail on anything else!
+	int result = 0;
 
+	ulong32 bom = 0;
+	if ( len > UnicodeString::UTF16BOMSize ) {
+		bom  = ((stringPtr[0] << 8) | stringPtr[1]) & 0x0000FFFF;
+		if ( UnicodeString::UTF16LittleEndianBOM == bom ) {
+			stringPtr += UnicodeString::UTF16BOMSize; //skip over the BOM
+			len -= UnicodeString::UTF16BOMSize;
+			result = UnicodeString::UTF16LittleEndianBOM;
+		}
+		else {
+			if ( UnicodeString::UTF16BigEndianBOM == bom ) {
+				result = UnicodeString::UTF16BigEndianBOM;
+				StringUtils::trace( "Unable to translate UTF16BigEndianBOM string\n" );
+			}
+			else {
+				if ( len > UnicodeString::UTF8BOMSize ) {
+					bom = 0;
+					bom  = ((stringPtr[0] << 16) | (stringPtr[1] << 8) | stringPtr[0]) & 0x00FFFFFF;
+					if ( UnicodeString::UTF8BOM == bom ) {
+						result = UnicodeString::UTF8BOM;
+						stringPtr += UnicodeString::UTF8BOMSize; //skip over the BOM
+						len -= UnicodeString::UTF8BOMSize;
+					}
+					else {
+						if ( len > UnicodeString::UTF8BOMSize ) {
+							bom = 0;
+							bom  = (stringPtr[0] << 24) | (stringPtr[1] << 16) | (stringPtr[2] << 8) | stringPtr[3];
+
+							if ( (UnicodeString::UTF32LittleEndianBOM == bom) || 
+									(UnicodeString::UTF32BigEndianBOM == bom) ) {
+								StringUtils::trace( "Unable to translate UTF32 BOM string\n" );
+
+								if ( UnicodeString::UTF32LittleEndianBOM == bom ) {
+									result = UnicodeString::UTF32LittleEndianBOM;
+								}
+								else if ( UnicodeString::UTF32BigEndianBOM == bom ) {
+									result = UnicodeString::UTF32BigEndianBOM;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return result;
+}
 
 UnicodeString::UnicodeString(const std::string& rhs):
 	ansiDataBuffer_(NULL)
@@ -824,6 +875,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/08 03:16:58  ddiego
+*fix for BOM marker in input stream handling and xml parser.
+*
 *Revision 1.5  2005/07/09 23:15:06  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
