@@ -84,8 +84,12 @@ where you installed the VCF.
 #include "thirdparty/win32/Microsoft/htmlhelp.h"
 
 
-//link in the HTML Help lib
-#pragma comment( lib, "htmlhelp.lib" )
+typedef HWND  (WINAPI *HtmlHelpW_Func)(HWND hwndCaller, LPCWSTR pszFile, UINT uCommand, DWORD_PTR dwData );
+typedef HWND (WINAPI *HtmlHelpA_Func)(HWND hwndCaller, LPCSTR pszFile, UINT uCommand, DWORD_PTR dwData );
+
+static HtmlHelpW_Func HtmlHelp_W = NULL;
+static HtmlHelpA_Func HtmlHelp_A = NULL;
+static HMODULE HtmlHelpLibHandle = NULL;
 
 using namespace VCF;
 using namespace VCFWin32;
@@ -1361,13 +1365,34 @@ Win32ToolKit::Win32ToolKit():
 
 
 	VCFCOM::COMUtils::registerDataTypes();
+
+	//Load HTML Help module
+
+	HtmlHelpLibHandle = LoadLibrary( "hhctrl.ocx" );
+
+	if ( NULL != HtmlHelpLibHandle ) {
+		HtmlHelp_W = (HtmlHelpW_Func)::GetProcAddress(HtmlHelpLibHandle,"HtmlHelpW");
+		HtmlHelp_A = (HtmlHelpA_Func)::GetProcAddress(HtmlHelpLibHandle,"HtmlHelpA");
+	}
+	else {
+		StringUtils::trace( "Oops - looks like your system doesn't support HTML Help, as you don't have the hhctrl.ocx in your path." );
+	}
 }
 
 
 Win32ToolKit::~Win32ToolKit()
 {
 
-	::HtmlHelp( NULL, NULL, HH_CLOSE_ALL, 0 );
+	if ( NULL != HtmlHelpLibHandle ) {
+		if ( System::isUnicodeEnabled() ) {
+			HtmlHelp_W( NULL, NULL, HH_CLOSE_ALL, 0 );
+		}
+		else {
+			HtmlHelp_A( NULL, NULL, HH_CLOSE_ALL, 0 );
+		}
+
+		FreeLibrary( HtmlHelpLibHandle );
+	}
 
 #if defined( _LIB ) && defined ( USE_WIN32HTMLBROWSER_LIB )
 	terminateWin32HTMLBrowserLib();
@@ -2262,6 +2287,10 @@ Size Win32ToolKit::internal_getDragDropDelta()
 
 void Win32ToolKit::internal_displayHelpContents( const String& helpBookName, const String& helpDirectory )
 {	
+	if ( NULL == HtmlHelpLibHandle ) {
+		StringUtils::trace( "HTML Help features are not available on your system. Please install HTML Help to rectify this." );
+		return;
+	}
 	FilePath helpPath = FilePath::makeDirectoryName(helpDirectory)  + helpBookName;
 
 	//check to see if need to add the .chm extension
@@ -2280,16 +2309,21 @@ void Win32ToolKit::internal_displayHelpContents( const String& helpBookName, con
 
 	if ( File::exists( helpPath ) ) {
 		if ( System::isUnicodeEnabled() ) {
-			::HtmlHelpW( 0, helpPath.getFileName().c_str(), HH_DISPLAY_TOC, NULL );	
+			HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_TOC, NULL );	
 		}
 		else {
-			::HtmlHelpA( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_TOC, NULL );	
+			HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_TOC, NULL );	
 		}
 	}
 }
 
 void Win32ToolKit::internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory )
 {
+	if ( NULL == HtmlHelpLibHandle ) {
+		StringUtils::trace( "HTML Help features are not available on your system. Please install HTML Help to rectify this." );
+		return;
+	}
+
 	FilePath helpPath = FilePath::makeDirectoryName(helpDirectory)  + helpBookName;
 
 	//check to see if need to add the .chm extension
@@ -2308,16 +2342,21 @@ void Win32ToolKit::internal_displayHelpIndex( const String& helpBookName, const 
 
 	if ( File::exists( helpPath ) ) {
 		if ( System::isUnicodeEnabled() ) {
-			::HtmlHelpW( 0, helpPath.getFileName().c_str(), HH_DISPLAY_INDEX, NULL );	
+			HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_INDEX, NULL );	
 		}
 		else {
-			::HtmlHelpA( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_INDEX, NULL );	
+			HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_INDEX, NULL );	
 		}
 	}
 }
 
 void Win32ToolKit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
 {
+	if ( NULL == HtmlHelpLibHandle ) {
+		StringUtils::trace( "HTML Help features are not available on your system. Please install HTML Help to rectify this." );
+		return;
+	}
+
 	String whatsThis = control->getWhatThisHelpString();
 
 	if ( whatsThis.empty() ) {
@@ -2335,13 +2374,16 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 		popup.clrBackground = -1;
 		memset( &popup.rcMargins, -1, sizeof(popup.rcMargins) );
 
-		::HtmlHelp( (HWND)control->getPeer()->getHandleID(), NULL, HH_DISPLAY_TEXT_POPUP, (DWORD) &popup );
+		HtmlHelp_A( (HWND)control->getPeer()->getHandleID(), NULL, HH_DISPLAY_TEXT_POPUP, (DWORD) &popup );
 	}
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.7  2005/09/10 00:12:44  ddiego
+*fixed the html help calls so that the library is now loaded on the fly. if its not present the calls revert to no-ops.
+*
 *Revision 1.6.2.6  2005/09/07 20:24:48  ddiego
 *added some more help support.
 *
