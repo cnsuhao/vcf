@@ -19,9 +19,19 @@
         <cxx-exceptions>on</cxx-exceptions>
         <warnings>default</warnings>
 
+        <define>$(substituteFromDict(OPTION_DEBUG, {'0':'NDEBUG', '1':'_DEBUG'}))</define>
+
+        <if cond="PLATFORM_WIN32=='1'">
+           <define>_WINDOWS</define>
+           <define>_WIN32</define>
+           <define>WIN32</define>
+        </if>
+
         <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">        
 		    <if cond="FORMAT=='borland'">
                 <sys-lib>ole2w32</sys-lib>
+                <sys-lib>comsupp</sys-lib>
+                <lib-path>$(VCF_LIB_BCC)</lib-path>
             </if>
 
 	        <if cond="FORMAT!='borland'">
@@ -45,11 +55,11 @@
                 <sys-lib>ws2_32</sys-lib>
                 <sys-lib>opengl32</sys-lib>
                 <sys-lib>glu32</sys-lib>
-                <sys-lib>glaux</sys-lib>
             </if>
 
             <if cond="FORMAT in ['msvc','msvc6prj','borland']">
                 <sys-lib>oleacc</sys-lib>
+                <sys-lib>glaux</sys-lib>
             </if>
         </if>
 
@@ -92,9 +102,12 @@
         </set>
         <libname>$(LIBRARY_FILENAME)</libname>
 
+        <if cond="PLATFORM_WIN32=='1'">
+           <define>_LIB</define>
+        </if>
+
         <if cond="FORMAT in ['msvc','msvc6prj']">
            <define>_MBCS</define>
-           <define>_LIB</define>
            <define>NO_MFC</define>
         </if>
     </template>
@@ -112,7 +125,7 @@
         <libname>$(LIBRARY_FILENAME)</libname>
         <dllname>..$(DIRSEP)bin$(DIRSEP)$(LIBRARY_FILENAME)</dllname>
         
-        <if cond="FORMAT in ['msvc','msvc6prj']">
+        <if cond="PLATFORM_WIN32=='1'">
             <define>_USRDLL</define>
         </if>
     </template>
@@ -131,11 +144,15 @@
         <if cond="FORMAT in ['msvc','msvc6prj']">
             <ldflags>/ENTRY:"mainCRTStartup"</ldflags>
         </if>
+        <if cond="FORMAT=='borland'">
+            <set var="__startup_obj_type">x</set>
+        </if>
     </template>
 
     
     <template id="vcf_exe_console" template="vcf_exe">
         <app-type>console</app-type>
     </template>
+
 
 </makefile>

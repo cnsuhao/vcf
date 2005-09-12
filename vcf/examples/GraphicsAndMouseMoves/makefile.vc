@@ -16,8 +16,9 @@ OBJDIR = msvc$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY)
 GRAPHICSANDMOUSEMOVES_CXXFLAGS = \
 	/M$(__RUNTIME_LIBS_8)$(__DEBUG_RUNTIME_LIBS_3) /DWIN32 $(__DEBUG_INFO_0) \
 	/Fd.\GraphicsAndMouseMoves$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).pdb \
-	$(____DEBUG_RUNTIME_LIBS_2_p) $(__OPTIMIZE_4) /I..\..\src /D_WINDOWS \
-	$(__USE_APPLICATIONKIT_p) /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
+	$(____DEBUG_RUNTIME_LIBS_2_p) $(__OPTIMIZE_4) $(____OPTION_DEBUG_12_p) \
+	/D_WINDOWS /D_WIN32 /DWIN32 /I..\..\src /D_WINDOWS $(__USE_APPLICATIONKIT_p) \
+	/GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 GRAPHICSANDMOUSEMOVES_OBJECTS =  \
 	$(OBJDIR)\GraphicsAndMouseMoves_GraphicsAndMouseMoves.obj
 
@@ -43,9 +44,6 @@ SUFFIX_SELECTLIB = _vc71
 !endif
 !if "$(OPTION_SELECTLIB)" == "bcc"
 SUFFIX_SELECTLIB = _bcc
-!endif
-!if "$(OPTION_SELECTLIB)" == "default"
-SUFFIX_SELECTLIB = _vc6
 !endif
 !if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
 SUFFIX_LIBRARY = 
@@ -104,6 +102,12 @@ __RUNTIME_LIBS_8 = D
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_8 = T
 !endif
+!if "$(OPTION_DEBUG)" == "0"
+____OPTION_DEBUG_12_p = /DNDEBUG
+!endif
+!if "$(OPTION_DEBUG)" == "1"
+____OPTION_DEBUG_12_p = /D_DEBUG
+!endif
 !if "$(OPTION_ALLIN1)" == "0"
 __USE_APPLICATIONKIT_p = /DUSE_APPLICATIONKIT_$(SUFFIX_VAR)
 !endif
@@ -130,7 +134,7 @@ clean:
 
 .\GraphicsAndMouseMoves$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(GRAPHICSANDMOUSEMOVES_OBJECTS)
 	link /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_1)  /LIBPATH:..\..\lib /SUBSYSTEM:WINDOWS /ENTRY:"mainCRTStartup" @<<
-	$(GRAPHICSANDMOUSEMOVES_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib glaux.lib oleacc.lib
+	$(GRAPHICSANDMOUSEMOVES_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib
 <<
 
 $(OBJDIR)\GraphicsAndMouseMoves_GraphicsAndMouseMoves.obj: .\GraphicsAndMouseMoves.cpp

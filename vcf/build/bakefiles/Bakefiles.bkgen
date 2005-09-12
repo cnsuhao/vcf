@@ -99,6 +99,7 @@
 
 
     <add-flags files="*">-DVCFDIR=../..</add-flags>
+    <add-flags files="../../*/*">-DVCFDIR=..</add-flags>
     <add-flags files="../../*/*/*">-DVCFDIR=../..</add-flags>
 
 
@@ -123,6 +124,30 @@
     <add-flags files="VCF.bkl" formats="gnu">
         -DOPTIONS_FILE=config.gnu
     </add-flags>
+
+
+    <add-flags files="../../*/*" formats="borland">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.bcc
+    </add-flags>
+    <add-flags files="../../*/*" formats="dmars_smake">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.dms
+    </add-flags>
+    <add-flags files="../../*/*" formats="dmars">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.dmc
+    </add-flags>
+    <add-flags files="../../*/*" formats="mingw">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.mgw
+    </add-flags>
+    <add-flags files="../../*/*" formats="msvc">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.vc
+    </add-flags>
+    <add-flags files="../../*/*" formats="watcom">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.wat
+    </add-flags>
+    <add-flags files="../../*/*" formats="gnu">
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.gnu
+    </add-flags>
+
 
     <add-flags files="../../*/*/*" formats="borland">
         -DOPTIONS_FILE=../../build/bakefiles.gen/config.bcc

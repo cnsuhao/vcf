@@ -331,7 +331,6 @@
         vcf/ApplicationKit/ValidationEvent.cpp
         vcf/ApplicationKit/VFFInputStream.cpp
         vcf/ApplicationKit/VFFOutputStream.cpp
-        vcf/ApplicationKit/WhatsThisHelpEvent.cpp
         vcf/ApplicationKit/Window.cpp
         vcf/ApplicationKit/WindowEvent.cpp
     </set>

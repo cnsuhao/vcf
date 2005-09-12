@@ -28,8 +28,8 @@ CPPFLAGS =
 # Standard linker flags 
 LDFLAGS = 
 
-# Your preference: [default,bcc,icl6,icl7,vc5,vc6,vc70,vc71]
-OPTION_SELECTLIB = default
+# Your preference: [icl6,icl7,vc5,vc6,vc70,vc71]
+OPTION_SELECTLIB = vc6
 
 # The type of libraries: [0,1]
 OPTION_SHARED = 1

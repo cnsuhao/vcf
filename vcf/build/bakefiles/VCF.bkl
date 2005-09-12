@@ -42,4 +42,47 @@
 
     <include file="Actions.bkl"/>
 
+
+    <action id="createinfo">
+        <is-phony>1</is-phony>
+        <depends>createinfo_</depends>
+    </action>
+    <subproject id="createinfo_">
+        <installable>no</installable>
+        <dir>../../src/createinfo</dir>
+        <dependency-of>all</dependency-of>
+    </subproject>
+
+
+    <action id="CreateBundle">
+        <is-phony>1</is-phony>
+        <depends>CreateBundle_</depends>
+    </action>
+    <subproject id="CreateBundle_">
+        <installable>no</installable>
+        <dir>../../src/CreateBundle</dir>
+        <dependency-of>all</dependency-of>
+    </subproject>
+
+
+    <action id="xmake">
+        <is-phony>1</is-phony>
+        <depends>xmake_</depends>
+    </action>
+    <subproject id="xmake_">
+        <installable>no</installable>
+        <dir>../../src/xmake</dir>
+        <dependency-of>all</dependency-of>
+    </subproject>
+
+
+    <action id="examples">
+        <is-phony>1</is-phony>
+        <depends>examples_</depends>
+    </action>
+    <subproject id="examples_">
+        <installable>no</installable>
+        <dir>../../examples</dir>
+    </subproject>
+
 </makefile>

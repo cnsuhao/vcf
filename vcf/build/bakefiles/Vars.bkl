@@ -59,9 +59,6 @@
             <if cond="OPTION_SELECTLIB=='vc70'">_vc70</if>
             <if cond="OPTION_SELECTLIB=='vc71'">_vc71</if>
             <if cond="OPTION_SELECTLIB=='bcc'">_bcc</if>
-
-            <if cond="OPTION_SELECTLIB=='default' and COMPILER=='vc'">_vc6</if>
-            <if cond="OPTION_SELECTLIB=='default' and COMPILER!='vc'">_$(COMPILER)</if>
         </set>
     </if>
 
