@@ -76,6 +76,30 @@ public:
 
 
 
+class APPLICATIONKIT_API EnumSetPropertyEditor : public AbstractPropertyEditor{
+public:
+	EnumSetPropertyEditor();
+
+	virtual ~EnumSetPropertyEditor();
+	
+	virtual std::vector<PropertyEditor*> getSubProperties();
+
+	virtual String getValueAsText();
+};
+
+class APPLICATIONKIT_API CursorPropertyEditor : public AbstractPropertyEditor{
+public:
+	CursorPropertyEditor();
+
+	virtual ~CursorPropertyEditor();
+	
+	virtual std::vector<String> getStringValues();
+
+	virtual void setValueAsText( const String& textValue );
+
+	virtual String getValueAsText();
+};
+
 class APPLICATIONKIT_API ColorPropertyEditor : public AbstractPropertyEditor {
 public:
 	ColorPropertyEditor();
@@ -138,6 +162,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.3.2.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

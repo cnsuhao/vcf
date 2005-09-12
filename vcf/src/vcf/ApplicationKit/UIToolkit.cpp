@@ -103,6 +103,9 @@ void UIToolkit::init()
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextAlignmentType" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextVerticalAlignment" );
 
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumSetPropertyEditor", "VCF::AnchorTypes" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::CursorPropertyEditor", "VCF::Cursor::SystemCursorType" );
+
 	PropertyEditorManager::registerPropertyEditor( "VCF::ColorPropertyEditor", "VCF::Color" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::FontPropertyEditor", "VCF::Font" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::DefaultMenuItemPropertyEditor", "VCF::DefaultMenuItem" );
@@ -1313,6 +1316,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.5.2.3  2005/09/07 20:24:48  ddiego
 *added some more help support.
 *

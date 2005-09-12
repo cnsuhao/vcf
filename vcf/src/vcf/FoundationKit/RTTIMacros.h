@@ -191,8 +191,8 @@ in ClassInfo.h any more.
 										upper,description); \
 										 \
 
-#define _property_enumset_(propName,getFunc,setFunc, count, values, enumNames, description) \
-	VCF::registerEnumSetPropertyWithLabels( tmpClassName, VCF::String(propName), \
+#define _property_enumset_( type, propName,getFunc,setFunc, count, values, enumNames, description) \
+	VCF::registerEnumSetPropertyWithLabels( #type, tmpClassName, VCF::String(propName), \
 									    (EnumSetProperty::GetFunction)&RttiClassType::getFunc, \
 										(EnumSetProperty::SetFunction)&RttiClassType::setFunc, \
 										count, \
@@ -200,8 +200,8 @@ in ClassInfo.h any more.
 										enumNames,description ); \
 													\
 
-#define _property_enumset_ro_(propName,getFunc, count, values, enumNames, description) \
-	VCF::registerEnumSetReadOnlyPropertyWithLabels( tmpClassName, VCF::String(propName), \
+#define _property_enumset_ro_(type, propName,getFunc, count, values, enumNames, description) \
+	VCF::registerEnumSetReadOnlyPropertyWithLabels( #type, tmpClassName, VCF::String(propName), \
 									    (EnumSetProperty::GetFunction)&RttiClassType::getFunc, \
 										count, \
 										values, \
@@ -436,6 +436,9 @@ in ClassInfo.h any more.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/09/12 03:47:05  ddiego
+*more prop editor updates.
+*
 *Revision 1.2  2005/07/09 23:15:04  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

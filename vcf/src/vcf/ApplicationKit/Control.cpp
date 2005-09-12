@@ -1114,7 +1114,8 @@ void Control::setToolTipText( const String& tooltip )
 
 void Control::setCursorID( const long& cursorID )
 {
-	cursor_ = CursorManager::getCursorManager()->getCursor( cursorID );
+	cursorID_ = cursorID;
+	cursor_ = CursorManager::getCursorManager()->getCursor( cursorID_ );
 }
 
 void Control::setAnchor( const unsigned long& anchor )
@@ -1567,6 +1568,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.5  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.8.2.4  2005/09/05 14:38:31  ddiego
 *added pre and post paint delegates to the control class.
 *

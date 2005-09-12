@@ -39,9 +39,10 @@ public:
 	typedef unsigned long (Object::*GetFunction)(void);
 	typedef void (Object::*SetFunction)(const unsigned long& );
 
-	EnumSetProperty( GetFunction propGetFunction, int count, unsigned long* setArray, String* names ){
+	EnumSetProperty( const String& typeName, GetFunction propGetFunction, int count, unsigned long* setArray, String* names ){
 		init();
 
+		typeName_ = typeName;
 		getFunction_ = propGetFunction;
 		setType( pdEnumMask );
 		isReadOnly_ = true;
@@ -51,10 +52,11 @@ public:
 		}
 	};
 
-	EnumSetProperty( GetFunction propGetFunction, SetFunction propSetFunction,
+	EnumSetProperty( const String& typeName, GetFunction propGetFunction, SetFunction propSetFunction,
 					int count, unsigned long* setArray, String* names ){
 		init();
 
+		typeName_ = typeName;
 		getFunction_ = propGetFunction;
 		setFunction_ = propSetFunction;
 		setType( pdEnumMask );
@@ -68,12 +70,17 @@ public:
 		Property( prop ){
 
 		init();
+		typeName_ = prop.typeName_;
 		getFunction_ = prop.getFunction_;
 		setFunction_ = prop.setFunction_;
 		nameVals_ = prop.nameVals_;
 	};
 
 	virtual ~EnumSetProperty(){};
+
+	virtual String getTypeClassName() {
+		return typeName_;
+	}
 
 
 	void addAsString( const String& val ) {
@@ -108,11 +115,7 @@ public:
 
 	bool hasNames()  {
 		return !nameVals_.empty();
-	}
-
-	virtual String getTypeClassName() {
-		return StringUtils::getClassNameFromTypeInfo( typeid(unsigned long) );
-	}
+	}	
 
 	virtual Property* clone(){
 		return new EnumSetProperty(*this);
@@ -193,7 +196,20 @@ public:
 
 		return result;
 	}
+
+	bool getNameValuesAsSet( std::vector<String>& names, std::vector<unsigned long>& values ) {
+		std::map<String,unsigned long>::iterator it = nameVals_.begin();
+		while ( it != nameVals_.end() ) {
+			names.push_back( it->first );			
+			values.push_back( it->second );
+			it ++;
+		}
+
+		return (!names.empty()) && (!values.empty());
+	}
+
 protected:
+	String typeName_;
 	GetFunction getFunction_;
 	SetFunction setFunction_;
 	std::map<String,unsigned long> nameVals_;
@@ -2735,7 +2751,7 @@ void registerEnumReadOnlyPropertyWithLabels( const String& className, const Stri
 
 
 
-static void registerEnumSetReadOnlyPropertyWithLabels( const String& className, const String& propertyName,
+static void registerEnumSetReadOnlyPropertyWithLabels( const String& typeName, const String& className, const String& propertyName,
 												         EnumSetProperty::GetFunction propertyGetFunction,												         
 												         const unsigned long& enumNameCount, 
 														 unsigned long* enumMaskValues, 
@@ -2748,7 +2764,8 @@ static void registerEnumSetReadOnlyPropertyWithLabels( const String& className, 
 	if ( NULL != clazz ){
 		if ( false == clazz->hasProperty( propertyName ) ){
 			EnumSetProperty* newProperty = 
-							new EnumSetProperty( propertyGetFunction,
+							new EnumSetProperty( typeName, 
+												propertyGetFunction,
 												enumNameCount,
 												enumMaskValues,
 												enumNames );
@@ -2759,7 +2776,7 @@ static void registerEnumSetReadOnlyPropertyWithLabels( const String& className, 
 	}
 };
 
-static void registerEnumSetPropertyWithLabels( const String& className, const String& propertyName,
+static void registerEnumSetPropertyWithLabels( const String& typeName, const String& className, const String& propertyName,
 								         EnumSetProperty::GetFunction propertyGetFunction,
 										 EnumSetProperty::SetFunction propertySetFunction,
 								         const unsigned long& enumNameCount, 
@@ -2773,7 +2790,8 @@ static void registerEnumSetPropertyWithLabels( const String& className, const St
 	if ( NULL != clazz ){
 		if ( false == clazz->hasProperty( propertyName ) ){
 			EnumSetProperty* newProperty = 
-							new EnumSetProperty( propertyGetFunction,
+							new EnumSetProperty( typeName,
+												propertyGetFunction,
 												propertySetFunction,	
 												enumNameCount,
 												enumMaskValues,
@@ -3447,6 +3465,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/12 03:47:05  ddiego
+*more prop editor updates.
+*
 *Revision 1.4  2005/07/09 23:15:05  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

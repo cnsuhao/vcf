@@ -149,7 +149,9 @@ _property_object_( Container, "container", getContainer, setContainer, "" );
 _property_enum_labeled_( AlignmentType, "alignment", getAlignment, setAlignment,
 					   AlignNone, AlignClient, 6, AlignmentTypeNames, "");
 
-_property_enumset_( "anchor", getAnchor, setAnchor, 5, AnchorTypeValues, AnchorTypeNames, ""  );
+_property_enumset_( VCF::AnchorTypes, "anchor", getAnchor, setAnchor, 5, AnchorTypeValues, AnchorTypeNames, ""  );
+
+_property_typedef_( long, "cursor", getCursorID, setCursorID, "VCF::Cursor::SystemCursorType", "" );
 
 _event_("VCF::ControlEventHandler",  VCF::ControlEvent, ControlSized );
 _event_("VCF::ControlEventHandler", VCF::ControlEvent, ControlPositioned );
@@ -728,6 +730,19 @@ _class_rtti_(EnumPropertyEditor, "VCF::AbstractPropertyEditor", ENUMPROPERTYEDIT
 _class_rtti_end_
 
 
+
+#define ENUMSETPROPERTYEDITOR_CLASSID "7503b6d1-fe95-4167-9430-41e2d583bbdb"
+
+_class_rtti_(EnumSetPropertyEditor, "VCF::AbstractPropertyEditor", ENUMSETPROPERTYEDITOR_CLASSID)
+_class_rtti_end_
+
+
+#define CURSORPROPERTYEDITOR_CLASSID "145181bc-70d6-47cb-9dc4-163540e82cf3"
+
+_class_rtti_(CursorPropertyEditor, "VCF::AbstractPropertyEditor", CURSORPROPERTYEDITOR_CLASSID)
+_class_rtti_end_
+
+
 #define COLORPROPERTYEDITOR_CLASSID "5f7c1d05-78da-4e6b-b22b-fc290e5207e4"
 
 _class_rtti_(ColorPropertyEditor, "VCF::AbstractPropertyEditor", COLORPROPERTYEDITOR_CLASSID)
@@ -761,6 +776,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.4.2.1  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

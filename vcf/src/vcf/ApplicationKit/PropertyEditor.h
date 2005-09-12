@@ -22,6 +22,7 @@ class Control;
 class GraphicsContext;
 class DrawUIState;
 
+
 /**
 This is the common base class for any editor that is specific
 of any property.
@@ -108,17 +109,40 @@ public:
 		*/
 		paValueNeedsDuplicating = 0x040,
 
+		paEditorRequestsProperty = 0x080,
+
 		/**
-		This indicates to the host that the proeprty editor's 
+		This indicates that the proeprty editor's value
+		is part of a set of values, such as a bit mask.
+		*/
+		paCompositeValue = 0x0100,
+
+		/**
+		This indicates to the host that the property editor's 
 		string description of the property should be used over
 		the value that is retreived from calling Property::getDescription().
 		*/
-		paOverridePropertyDescription = 0x010000
+		paOverridePropertyDescription = 0x010000,
+
+		/**
+		This indicates to the host that the property editor's 
+		string name of the property should be used over
+		the value that is retreived from calling Property::getName().
+		*/
+		paOverridePropertyName = 0x020000
 
 	};
 
 	virtual ~PropertyEditor(){};
 
+
+	/**
+	This sets the current property instance for
+	the property editor. This should \em only 
+	get called if the property editor has the 
+	paEditorRequestsProperty attribute set.
+	*/
+	virtual void setProperty( Property* property ) = 0;
 
 	/**
 	This method needs to be oveeriden so to specify when two PropertyEditor(s)
@@ -254,6 +278,17 @@ public:
 	@see paOverridePropertyDescription
 	*/
 	virtual String getPropertyDescription() = 0;
+
+	/**
+	This returns a string that describes the property. A host that
+	displays a UI should first try and call the property's 
+	Property::getName() method. If this returns an empty string,
+	then the host should call the property editor's getPropertyName().
+	@see Property::getName()
+	@see paOverridePropertyName
+	*/
+	virtual String getPropertyName() = 0;
+
 	/*
 	Useful shortcut methods for determining which attributes are set
 	for a property editor
@@ -294,12 +329,21 @@ public:
 	bool overridesPropertyDescription() { 
 		return (getAttributes() & PropertyEditor::paOverridePropertyDescription) ? true : false;		
 	}
+	
+	bool overridesPropertyName() { 
+		return (getAttributes() & PropertyEditor::paOverridePropertyName) ? true : false;		
+	}
+
+	bool editorRequestsProperty() { 
+		return (getAttributes() & PropertyEditor::paEditorRequestsProperty) ? true : false;		
+	}
+
+	bool isCompositeValue() { 
+		return (getAttributes() & PropertyEditor::paCompositeValue) ? true : false;		
+	}
 
 	
 };
-
-
-
 
 
 
@@ -310,6 +354,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.3.2.1  2005/09/01 03:56:57  ddiego
 *doc updates and some minor mods to the property editor interface.
 *
