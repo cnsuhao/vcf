@@ -74,6 +74,8 @@ void ApplicationKit::init( int argc, char** argv )
 		REGISTER_CLASSINFO_EXTERNAL( BoolPropertyEditor );
 		REGISTER_CLASSINFO_EXTERNAL( DoublePropertyEditor );
 		REGISTER_CLASSINFO_EXTERNAL( IntegerPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( EnumSetPropertyEditor );
+		REGISTER_CLASSINFO_EXTERNAL( CursorPropertyEditor );
 
 
 		REGISTER_CLASSINFO_EXTERNAL( Item );
@@ -212,6 +214,9 @@ void ApplicationKit::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.4.2.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

@@ -32,6 +32,8 @@ class AcceleratorKey;
 class Container;
 class Frame;
 
+typedef unsigned long AnchorTypes;
+
 #define CONTROL_CLASSID		"B91B1828-3639-4bcf-9882-342F16C90E21"
 
 
@@ -1097,7 +1099,7 @@ public:
 	*</tr>
 	*</table>
 	*/
-	unsigned long getAnchor() {
+	AnchorTypes getAnchor() {
 		return anchor_;
 	}
 
@@ -1107,7 +1109,7 @@ public:
 	*and what they mean for the control's alignment.
 	*@see getAnchor()
 	*/
-	void setAnchor( const unsigned long& anchor );
+	void setAnchor( const AnchorTypes& anchor );
 
 	/**
 	*returns the current delta for each of the anchors.
@@ -1439,6 +1441,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.4.2.3  2005/09/05 14:38:31  ddiego
 *added pre and post paint delegates to the control class.
 *

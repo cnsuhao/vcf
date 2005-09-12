@@ -908,6 +908,23 @@ void TreeListControl::clearSelectedItems()
 	repaint();
 }
 
+void TreeListControl::mouseClick(  MouseEvent* event )
+{
+	CustomControl::mouseDblClick( event );
+
+	if ( event->hasLeftButton() ) {
+		allowMultipleSelection_ = (event->hasControlKey()  || event->hasShiftKey() );
+		//setAllowsMultipleSelection(  );
+
+		if ( allowMultipleSelection_ ) {
+			multiSelectionChange( event );
+		}
+		else {
+			singleSelectionChange( event );
+		}
+	}	
+}
+
 void TreeListControl::mouseDblClick(  MouseEvent* event )
 {
 	CustomControl::mouseDblClick( event );
@@ -1395,25 +1412,7 @@ void TreeListControl::mouseDown( MouseEvent* event )
 
 	draggingSelectionRect_ = false;
 	Point pt = *event->getPoint();
-	draggingSelectedItems_.clear();
-
-	Rect borderRect(0,0,getWidth(), getHeight() );
-	Border* border = getBorder();
-	if ( NULL != border ) {
-		borderRect = border->getClientRect( &borderRect, this );
-	}
-
-	if ( event->hasLeftButton() ) {
-		allowMultipleSelection_ = (event->hasControlKey()  || event->hasShiftKey() );
-		//setAllowsMultipleSelection(  );
-
-		if ( allowMultipleSelection_ ) {
-			multiSelectionChange( event );
-		}
-		else {
-			singleSelectionChange( event );
-		}
-	}	
+	draggingSelectedItems_.clear();	
 }
 
 
@@ -2142,6 +2141,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/12 03:47:04  ddiego
+*more prop editor updates.
+*
 *Revision 1.4.2.1  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *
