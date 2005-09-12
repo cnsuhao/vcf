@@ -63,7 +63,7 @@
             <depends>Win32HTMLBrowser_lib</depends>
             <depends>Win32HTMLBrowser_dll</depends>
         </action>
-        
+
     </if>
 
 </makefile>

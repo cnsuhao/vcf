@@ -2,15 +2,19 @@
 
 <makefile>
 
-    <if cond="FORMAT in ['borland','msvc','msvc6prj']">
+    <if cond="FORMAT in ['msvc','msvc6prj']">
         <option name="OPTION_SELECTLIB">
-            <values>default,bcc,icl6,icl7,vc5,vc6,vc70,vc71</values>
-            <values-description>default,bcc,icl6,icl7,vc5,vc6,vc70,vc71</values-description>
-            <default-value>default</default-value>
+            <values>icl6,icl7,vc5,vc6,vc70,vc71</values>
+            <values-description>icl6,icl7,vc5,vc6,vc70,vc71</values-description>
+            <default-value>vc6</default-value>
             <description>
                 Your preference:
             </description>
         </option>
+    </if>
+
+    <if cond="FORMAT=='borland'">
+        <set var="OPTION_SELECTLIB">bcc</set>
     </if>
 
     <option name="OPTION_SHARED">

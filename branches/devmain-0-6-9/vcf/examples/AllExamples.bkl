@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
 
 <makefile>
+    <include file="../build/bakefiles/Options.bkl"/>
 
     <template id="example">
         <dir>$(id)</dir>
         <dependency-of>all</dependency-of>
     </template>
-    
+
     <subproject id="Accelerators" template="example"/>
     <subproject id="Actions" template="example"/>
     <subproject id="AdvancedAlignment" template="example"/>
@@ -39,6 +40,7 @@
     <subproject id="HelloWorld" template="example"/>
     <subproject id="HelloWorld2" template="example"/>
     <subproject id="HelloWorld3" template="example"/>
+    <subproject id="Help" template="example"/>
     <subproject id="ImageBasics" template="example"/>
     <subproject id="ImageViewer" template="example"/>
     <subproject id="Labels" template="example"/>

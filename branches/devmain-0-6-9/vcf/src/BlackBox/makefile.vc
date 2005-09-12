@@ -16,9 +16,10 @@ OBJDIR = msvc$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY)
 BLACKBOX_DLL_CXXFLAGS = /M$(__RUNTIME_LIBS_9)$(__DEBUG_RUNTIME_LIBS_4) \
 	/DWIN32 $(__DEBUG_INFO_1) \
 	/Fd..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).pdb \
-	$(____DEBUG_RUNTIME_LIBS_3_p) $(__OPTIMIZE_5) /I..\..\src /D_USRDLL \
-	/Iinclude /DBLACKBOX_DLL /DBLACKBOX_EXPORTS /DSTRICT \
-	/DWORK_AROUND_SRCLINE_BUG /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
+	$(____DEBUG_RUNTIME_LIBS_3_p) $(__OPTIMIZE_5) $(____OPTION_DEBUG_13_p) \
+	/D_WINDOWS /D_WIN32 /DWIN32 /I..\..\src /D_USRDLL /Iinclude /DBLACKBOX_DLL \
+	/DBLACKBOX_EXPORTS /DSTRICT /DWORK_AROUND_SRCLINE_BUG /GR /EHsc $(CPPFLAGS) \
+	$(CXXFLAGS)
 BLACKBOX_DLL_OBJECTS =  \
 	$(OBJDIR)\BlackBox_dll_AllocAndFillProcessModuleList.obj \
 	$(OBJDIR)\BlackBox_dll_BlackBox.obj \
@@ -59,9 +60,6 @@ SUFFIX_SELECTLIB = _vc71
 !endif
 !if "$(OPTION_SELECTLIB)" == "bcc"
 SUFFIX_SELECTLIB = _bcc
-!endif
-!if "$(OPTION_SELECTLIB)" == "default"
-SUFFIX_SELECTLIB = _vc6
 !endif
 !if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
 SUFFIX_LIBRARY = 
@@ -121,6 +119,18 @@ __RUNTIME_LIBS_9 = D
 __RUNTIME_LIBS_9 = T
 !endif
 !if "$(OPTION_DEBUG)" == "0"
+____OPTION_DEBUG_13_p = /DNDEBUG
+!endif
+!if "$(OPTION_DEBUG)" == "1"
+____OPTION_DEBUG_13_p = /D_DEBUG
+!endif
+!if "$(OPTION_DEBUG)" == "0"
+____OPTION_DEBUG_13_p_1 = /d NDEBUG
+!endif
+!if "$(OPTION_DEBUG)" == "1"
+____OPTION_DEBUG_13_p_1 = /d _DEBUG
+!endif
+!if "$(OPTION_DEBUG)" == "0"
 __BlackBox_dll_SUFFIX_SHARED = 
 !endif
 !if "$(OPTION_DEBUG)" == "1"
@@ -147,7 +157,7 @@ clean:
 
 ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).dll: $(BLACKBOX_DLL_OBJECTS) $(OBJDIR)\BlackBox_dll_BlackBox.res
 	link /DLL /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_2)  /LIBPATH:..\..\lib /LIBPATH:lib @<<
-	$(BLACKBOX_DLL_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib glaux.lib oleacc.lib DbgHelp.lib Psapi.lib /IMPLIB:..\..\lib\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).lib
+	$(BLACKBOX_DLL_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib DbgHelp.lib Psapi.lib /IMPLIB:..\..\lib\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).lib
 <<
 
 $(OBJDIR)\BlackBox_dll_AllocAndFillProcessModuleList.obj: .\AllocAndFillProcessModuleList.cpp
@@ -196,5 +206,5 @@ $(OBJDIR)\BlackBox_dll_TLHELPProcessInfo.obj: .\TLHELPProcessInfo.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(BLACKBOX_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\BlackBox_dll_BlackBox.res: .\BlackBox.rc
-	rc /fo$@  /d WIN32 $(____DEBUG_RUNTIME_LIBS_3_p_1) /i ..\..\src /d _USRDLL /i include /d BLACKBOX_DLL /d BLACKBOX_EXPORTS /d STRICT /d WORK_AROUND_SRCLINE_BUG $**
+	rc /fo$@  /d WIN32 $(____DEBUG_RUNTIME_LIBS_3_p_1) $(____OPTION_DEBUG_13_p_1) /d _WINDOWS /d _WIN32 /d WIN32 /i ..\..\src /d _USRDLL /i include /d BLACKBOX_DLL /d BLACKBOX_EXPORTS /d STRICT /d WORK_AROUND_SRCLINE_BUG $**
 
