@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="../../build/bakefiles/VCFCommon.bkl"/>
+
+    <exe id="Help" template="vcf_exe_gui">
+        <dirname>.</dirname>
+        <sources>Help.cpp</sources>
+        <vcf-use-ApplicationKit/>
+        <clean-files>
+            "Help$(DIRSEP)Help App.chm"
+        </clean-files>
+    </exe>
+
+    <action id="hhc_Help">
+        <is-phony>1</is-phony>
+        <dependency-of>all</dependency-of>
+        <command>
+            -hhc "Help App.hhp"
+        </command>
+    </action>
+</makefile>
