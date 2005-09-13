@@ -94,6 +94,7 @@ public:
 		}
 	};
 
+	
 private:
 	MapType::iterator containerIterator_;
 	MapType* container_;
@@ -133,8 +134,32 @@ FileInputStream fs("test.dict.txt");
 fs &gt;&gt; &amp;dict;
 \endcode
 
+\par
+The reason for deriving the Dictionary class from the Object root class
+is so that a Dictionary instance may itself be a value in a "parent"
+dictionary. For example:
+\code
+Dictionary stuff;
+Dictionary moreStuff;
+
+stuff["food"] = "empty";
+
+moreStuff["paintings"] = 10;
+moreStuff["lightbulbs"] = 1298;
+
+stuff["junk"] = &moreStuff;
+
+\endcode
+
+\par
+If you'd like a fancier persistence scheme, in the Dictionaries
+example there's a simple implementation of reading and writing the
+dictionary to an xml based stream. The format for the xml tags is
+the same as that used Apple's PList xml format. See
+http://developer.apple.com/documentation/Cocoa/Conceptual/PropertyLists/Concepts/XMLPListsConcept.html
+for more information on this format.
 */
-class FOUNDATIONKIT_API Dictionary : public Persistable {
+class FOUNDATIONKIT_API Dictionary : public Object, public Persistable {
 public:
 
 	typedef std::map<String,VariantData> DictionaryMap;
@@ -158,16 +183,35 @@ public:
 
 	virtual ~Dictionary();
 
+	virtual Object* clone( bool deep=false ) {
+		return new Dictionary(*this);
+	};
 
+	/**
+	returns the number of elements in the dictionary.
+	*/
     size_type size() const;
 
+	/**
+	returns the maximum size of the dictionary.
+	*/
     size_type max_size() const;
 
+	/**
+	Returns true if the dictionary has no values in it, otherwise
+	returns false.
+	*/
     bool empty() const;
 
 
+	/**
+	Returns a VariantData \em reference to the specified key
+	*/
 	Value& operator[](const Key& key);
 
+	/**
+	Returns a VariantData \em copy to the specified key
+	*/
 	Value operator[](const Key& key) const;
 
 	void insert( const Key& key, const Value& value );
@@ -176,14 +220,33 @@ public:
 
 	void clear();
 
+	/**
+	Returns whether or not the dictionary "owns" the
+	object values in it. If it does it will clean up these 
+	instances when the dictionary is destroyed.
+	*/
+	bool getOwnsObjectValues() const {
+		return ownsObjectValues_;
+	}
+
+	/**
+	Sets the owns object value flag, which tells the 
+	dictionary whether or not it should clean up 
+	object values when the dictionary is destroyed.
+	*/
+	void setOwnsObjectValues( const bool& val ) {
+		ownsObjectValues_ = val;
+	}
+
 	virtual void loadFromStream( InputStream* stream );
 
 	virtual void saveToStream( OutputStream* stream );
 
-	Dictionary::Enumerator* getEnumerator();
+	Dictionary::Enumerator* getEnumerator();	
 protected:
 	DictionaryMap data_;
-	DictionaryEnumerator dataContainer_;
+	DictionaryEnumerator dataContainer_;	
+	bool ownsObjectValues_;
 };
 
 
@@ -195,6 +258,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/13 01:58:07  ddiego
+*minor changes to dictionary class.
+*
 *Revision 1.4  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

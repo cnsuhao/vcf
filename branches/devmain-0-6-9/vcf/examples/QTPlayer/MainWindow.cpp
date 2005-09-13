@@ -26,7 +26,7 @@ using namespace VCF;
 
 
 
-class PlayListDictionary : public Object, public Dictionary {
+class PlayListDictionary : public Dictionary {
 public:
 
 
@@ -2117,6 +2117,9 @@ void MainQTWindow::onEditCreateSearchCatalog(  VCF::Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/09/13 01:58:06  ddiego
+*minor changes to dictionary class.
+*
 *Revision 1.5.2.4  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *
