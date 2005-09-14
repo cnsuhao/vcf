@@ -207,18 +207,21 @@ void Win32Window::setVisible( const bool& visible )
 }
 
 void Win32Window::handleActivate()
-{
-	//do nothing if we are in design mode
-	if ( peerControl_->isDesigning() ) {
-		return;
-	}
+{	
+	if ( NULL != peerControl_ ) {
+		//do nothing if we are in design mode
 
-	activatesPending_ = true;
+		if ( peerControl_->isDesigning() ) {
+			return;
+		}
 
-	Frame* frame = (Frame*)peerControl_;
-	if ( peerControl_->isNormal() ) {
-		frame->activate();
-	}
+		activatesPending_ = true;
+		
+		Frame* frame = (Frame*)peerControl_;
+		if ( peerControl_->isNormal() ) {
+			frame->activate();
+		}
+	}	
 }
 
 bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
@@ -719,6 +722,10 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/09/14 18:55:17  ddiego
+*update to win32window. initial code for new pixels
+*type to replace imagebits class.
+*
 *Revision 1.5.2.3  2005/09/14 01:50:07  ddiego
 *minor adjustment to control for enable setting. and registered
 *more proeprty editors.

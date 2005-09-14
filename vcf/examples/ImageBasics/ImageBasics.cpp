@@ -10,6 +10,135 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 
 
+
+namespace VCF {
+
+	class PixelException : public BasicException {
+	public:
+
+		PixelException( const String & message ): BasicException( message ){};
+
+		virtual ~PixelException() throw() {};
+	};
+
+	template <typename PixelType>
+	class Pixels {
+	public:
+		typedef _typename_ PixelType Type;
+
+		Pixels( Image* img ):buffer_(NULL),currentImage_(NULL),width_(0),height_(0) {
+			assign( img );
+		}
+
+		~Pixels() {
+			unLockImageBuffer( currentImage_ );
+		}
+
+		Pixels& operator=( Image* img ) {
+			assign( img );
+			return *this;
+		}
+
+
+		operator Type* () {
+			return (Type*)buffer_;
+		}
+
+		operator agg::rendering_buffer& () {
+			return renderBuffer_;
+		}
+
+		Type& at( uint32 x, uint32 y ) {
+			
+			return ((Type*)buffer_)[(y*width_)+x];
+		}
+
+		Type at( uint32 x, uint32 y ) const {
+			
+			return ((Type*)buffer_)[(y*width_)+x];
+		}
+
+
+		Type* buffer() {
+			return (Type*)buffer_;
+		}
+
+		uint32 width() {
+			if ( width_ != currentImage_->getWidth() ) {
+				throw PixelException( "You've modified an image's width, potentially while it's locked! Any pixel access may be bogus!" );
+			}
+			return currentImage_->getWidth();
+		}
+
+		uint32 height() {
+			if ( height_ != currentImage_->getHeight() ) {
+				throw PixelException( "You've modified an image's width, potentially while it's locked! Any pixel access may be bogus!" );
+			}
+			return currentImage_->getHeight();
+		}
+	protected:
+
+		void assign( Image* img ) {
+
+			if ( NULL != currentImage_ ) {
+				unLockImageBuffer( currentImage_ );
+			}
+
+			if ( (Type::Traits::getTraitsImageType() != img->getType()) || 
+					(Type::ChannelSize != img->getChannelSize()) ) {
+				throw PixelException( "Incompatible pixel type for this image. The image channel size doesn't match the pixel's expected size." );
+			}
+			
+
+			currentImage_ = img;
+
+			lockImageBuffer( currentImage_ );
+			
+			width_ = currentImage_->getWidth();
+			height_ = currentImage_->getHeight();
+
+			buffer_ = currentImage_->getImageBits()->pixels_;
+
+			renderBuffer_.attach( (unsigned char*)buffer_, width_, height_,
+								width_ * (Type::Traits::getTraitsImageType()) );
+		}
+
+		void lockImageBuffer( Image* img ) {
+			
+		}
+
+		void unLockImageBuffer( Image* img ) {
+			if ( NULL != currentImage_ ) {
+
+				width_ = 0;
+				height_ = 0;
+				renderBuffer_.attach( NULL, 0, 0, 0 );
+
+				buffer_ = NULL;
+				currentImage_ = NULL;
+			}
+		}
+
+		void* buffer_;
+		Image* currentImage_;
+		uint32 width_;
+		uint32 height_;
+		agg::rendering_buffer renderBuffer_;
+	private:
+		Pixels();
+		Pixels(const Pixels&);
+		Pixels& operator=(const Pixels&);
+
+	};
+
+
+
+	typedef Pixels<SysPixelType> ColorPixels;
+	typedef Pixels<SysGrayscalePixelType> GreyPixels;
+};
+
+
+
 using namespace VCF;
 
 /**
@@ -30,10 +159,32 @@ public:
 		Window::paint( ctx );
 
 
+		
+
+
 		/**
 		This will create an image from a given file name
 		*/
 		Image* logoImage = GraphicsToolkit::createImage( "logo.bmp" );
+
+		{
+			ColorPixels pixels = logoImage;
+
+			SysPixelType* p = pixels;
+
+			SysPixelType p1 = pixels[1];
+			
+
+			try {
+				GreyPixels pixels2 = logoImage;
+			}
+			catch ( BasicException& e ) {
+				StringUtils::trace( "Error: " + e.getMessage() + "\n" );
+			}
+
+			pixels = logoImage;
+		}
+
 
 		/**
 		Simplest way to draw an image
@@ -138,21 +289,23 @@ public:
 		retrieve the image bits - you'll get a pointer to
 		a SysPixelType
 		*/
-		SysPixelType* pix = logoImage->getImageBits()->pixels_;
-
-		/**
-		Calculate the size, width * height
-		*/
-		int size = logoImage->getHeight() * logoImage->getWidth();
-		/**
-		manipulate the values of the green color channel
-		*/
-		for ( int i=0;i<size;i++ ) {
-			pix[i].g = minVal<>( 255, pix[i].g + 50 );
+		{
+			ColorPixels pix = logoImage;//->getImageBits()->pixels_;
+			
+										/**
+										Calculate the size, width * height
+			*/
+			int size = logoImage->getHeight() * logoImage->getWidth();
+			/**
+			manipulate the values of the green color channel
+			*/
+			for ( int i=0;i<size;i++ ) {
+				pix[i].g = minVal<>( 255, pix[i].g + 50 );
+			}
+			
+			
+			ctx->drawImage( x, y, logoImage );
 		}
-
-
-		ctx->drawImage( x, y, logoImage );
 
 		/**
 		delete the image cause we don't need it anymore
@@ -198,6 +351,10 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/14 18:55:15  ddiego
+*update to win32window. initial code for new pixels
+*type to replace imagebits class.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:37  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

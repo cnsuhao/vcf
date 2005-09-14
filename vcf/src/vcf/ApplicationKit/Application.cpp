@@ -218,7 +218,7 @@ void Application::main()
 	catch ( BasicException& e  ){
 		String errString = e.getMessage().c_str();
 
-		StringUtils::trace( "Framework Exception: " + errString + "\n" );
+		StringUtils::trace( "!!! Framework Exception: !!!\n\t" + errString + "\n" );
 		if ( NULL != mainWindow ) {
 			Dialog::showMessage( errString, "Framework Exception", Dialog::mbOK, Dialog::msError  );
 		}
@@ -232,7 +232,7 @@ void Application::main()
 		errString += e.what();
 		errString += "\".\nApplication exiting abnormally.";
 
-		StringUtils::trace( "Framework Exception: " + errString + "\n" );
+		StringUtils::trace( "!!! Framework Exception: !!!\n\t" + errString + "\n" );
 		if ( NULL != mainWindow ) {
 			Dialog::showMessage( errString, "Framework Assertion Exception", Dialog::mbOK, Dialog::msError  );
 		}
@@ -468,6 +468,10 @@ void Application::getHelpInfo( String& helpBookName, String& helpDirectory )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/14 18:55:17  ddiego
+*update to win32window. initial code for new pixels
+*type to replace imagebits class.
+*
 *Revision 1.5.2.1  2005/09/07 04:19:54  ddiego
 *filled in initial code for help support.
 *
