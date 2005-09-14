@@ -44,7 +44,8 @@ Control::Control():
 	useRenderBuffer_(false),
 	container_(NULL),
 	ignoredForLayout_(false),
-	allowPaintNotification_(false)
+	allowPaintNotification_(false),
+	enabled_(true)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -825,7 +826,7 @@ Control* Control::setFocused()
 
 bool Control::isEnabled()
 {
-	return peer_->isEnabled();
+	return enabled_;//peer_->isEnabled();
 }
 
 bool Control::areParentsEnabled()
@@ -847,7 +848,12 @@ bool Control::areParentsEnabled()
 
 void Control::setEnabled( const bool& enabled )
 {
-	peer_->setEnabled( enabled );
+	enabled_ = enabled;
+
+	if ( ! isDesigning() ) {
+		peer_->setEnabled( enabled_ );
+	}
+
 	repaint();
 }
 
@@ -1568,6 +1574,10 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.6  2005/09/14 01:50:07  ddiego
+*minor adjustment to control for enable setting. and registered
+*more proeprty editors.
+*
 *Revision 1.8.2.5  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *

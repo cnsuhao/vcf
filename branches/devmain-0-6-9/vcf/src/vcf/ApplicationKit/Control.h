@@ -1431,6 +1431,7 @@ protected:
 	Container* container_;
 	bool ignoredForLayout_;
 	bool allowPaintNotification_;
+	bool enabled_;
 
 };
 
@@ -1441,6 +1442,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/09/14 01:50:07  ddiego
+*minor adjustment to control for enable setting. and registered
+*more proeprty editors.
+*
 *Revision 1.4.2.4  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *

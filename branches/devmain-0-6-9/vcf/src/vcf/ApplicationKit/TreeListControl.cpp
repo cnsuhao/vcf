@@ -912,17 +912,7 @@ void TreeListControl::mouseClick(  MouseEvent* event )
 {
 	CustomControl::mouseDblClick( event );
 
-	if ( event->hasLeftButton() ) {
-		allowMultipleSelection_ = (event->hasControlKey()  || event->hasShiftKey() );
-		//setAllowsMultipleSelection(  );
-
-		if ( allowMultipleSelection_ ) {
-			multiSelectionChange( event );
-		}
-		else {
-			singleSelectionChange( event );
-		}
-	}	
+	
 }
 
 void TreeListControl::mouseDblClick(  MouseEvent* event )
@@ -1413,6 +1403,18 @@ void TreeListControl::mouseDown( MouseEvent* event )
 	draggingSelectionRect_ = false;
 	Point pt = *event->getPoint();
 	draggingSelectedItems_.clear();	
+
+	if ( event->hasLeftButton() ) {
+		allowMultipleSelection_ = (event->hasControlKey()  || event->hasShiftKey() );
+		//setAllowsMultipleSelection(  );
+
+		if ( allowMultipleSelection_ ) {
+			multiSelectionChange( event );
+		}
+		else {
+			singleSelectionChange( event );
+		}
+	}	
 }
 
 
@@ -2126,14 +2128,14 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 			currentEditingControl_->setBounds( &bounds );
 			EventHandler* ev = getEventHandler( "TreeListControl::onEditorFocusLost" );
 			currentEditingControl_->FocusLost += ev;
-			
-			add( currentEditingControl_ );
-			
-			currentEditingControl_->setVisible( true );
-			currentEditingControl_->setFocused();
-			
+
 			ev = getEventHandler( "TreeListControl::onEditingControlKeyPressed" );
 			currentEditingControl_->KeyDown.addHandler( ev );
+			
+			add( currentEditingControl_ );
+
+			currentEditingControl_->setVisible( true );
+			currentEditingControl_->setFocused();			
 		}
 	}		
 }
@@ -2141,6 +2143,10 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/14 01:50:07  ddiego
+*minor adjustment to control for enable setting. and registered
+*more proeprty editors.
+*
 *Revision 1.4.2.2  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *
