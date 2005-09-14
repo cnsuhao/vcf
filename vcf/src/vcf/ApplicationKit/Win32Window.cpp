@@ -208,6 +208,11 @@ void Win32Window::setVisible( const bool& visible )
 
 void Win32Window::handleActivate()
 {
+	//do nothing if we are in design mode
+	if ( peerControl_->isDesigning() ) {
+		return;
+	}
+
 	activatesPending_ = true;
 
 	Frame* frame = (Frame*)peerControl_;
@@ -313,18 +318,24 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 			//StringUtils::trace( Format( "WM_ACTIVATEAPP, fActive: %d\n" ) % fActive );
 			if ( !fActive && (NULL != peerControl_) ) {
-				Frame* frame = (Frame*)peerControl_;
 
-				switch ( frame->getFrameStyle() ){
-
-					case fstNoBorder : case fstNoBorderFixed : {
-						Frame::internal_setActiveFrame( NULL );
-						if ( frame->getComponentState() == Component::csNormal ) {
-							VCF::WindowEvent event( frame, Frame::ACTIVATION_EVENT );
-							frame->FrameActivation.fireEvent( &event );
+				//do nothing if we are in design mode
+				if ( !peerControl_->isDesigning() ) {
+					
+					
+					Frame* frame = (Frame*)peerControl_;
+					
+					switch ( frame->getFrameStyle() ){
+						
+						case fstNoBorder : case fstNoBorderFixed : {
+							Frame::internal_setActiveFrame( NULL );
+							if ( frame->getComponentState() == Component::csNormal ) {
+								VCF::WindowEvent event( frame, Frame::ACTIVATION_EVENT );
+								frame->FrameActivation.fireEvent( &event );
+							}
 						}
+						break;
 					}
-					break;
 				}
 			}
 			else if ( fActive && (NULL != peerControl_) ) {
@@ -345,7 +356,9 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 			if ( active ) {
 				handleActivate();
 
-				::BringWindowToTop( hwnd_ );
+				if ( !peerControl_->isDesigning() ) {
+					::BringWindowToTop( hwnd_ );
+				}
 			}
 		}
 		break;
@@ -361,69 +374,79 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_MOUSEACTIVATE : {
 
-			Frame* frame = (Frame*)peerControl_;
-
-			switch ( frame->getFrameStyle() ){
-				case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
-					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
-				}
-				break;
-
-				case fstNoBorder : case fstNoBorderFixed : {
-
-					/**
-					NOTE!!!!
-					This MUST return true. Returning true means that we have handled all the processing
-					and no further processing by the DefWndProc is required. If we don't return 
-					true here (i.e. result = true), then we end up with focus/activate issues with the
-					controls that popup a fixed window, like the drop down list box for the
-					ComboBoxControl.
-					*/
-					result = true;
-					wndProcResult = MA_NOACTIVATE;
-				}
-				break;
+			if ( peerControl_->isDesigning() ) {
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 			}
+			else {
+				Frame* frame = (Frame*)peerControl_;
 
-			handleActivate();
+				switch ( frame->getFrameStyle() ){
+					case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
+						result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+					}
+					break;
+
+					case fstNoBorder : case fstNoBorderFixed : {
+
+						/**
+						NOTE!!!!
+						This MUST return true. Returning true means that we have handled all the processing
+						and no further processing by the DefWndProc is required. If we don't return 
+						true here (i.e. result = true), then we end up with focus/activate issues with the
+						controls that popup a fixed window, like the drop down list box for the
+						ComboBoxControl.
+						*/
+						result = true;
+						wndProcResult = MA_NOACTIVATE;
+					}
+					break;
+				}
+
+				handleActivate();
+			}
 		}
 		break;
 
 		case WM_CLOSE:{
-			result = false;
-			wndProcResult = 0;
-			//check if we need to re notify the listeners of the close event
-
-			VCF::Window* window = (VCF::Window*)getControl();
-
-			if ( window->allowClose() ) {
-
-				VCF::WindowEvent event( getControl(), WINDOW_EVENT_CLOSE );
-
-
-				window->FrameClose.fireEvent( &event );
-
-				if ( false == internalClose_ ){
-					//check if the main window is clossing - if it is
-					//then close the app !
-
-					Application* app = Application::getRunningInstance();
-					if ( NULL != app ){
-						Window* mainWindow = app->getMainWindow();
-						if ( mainWindow == getControl() ){
-							::PostMessage( hwnd_, WM_QUIT, 0, 0 );
+			if ( peerControl_->isDesigning() ) {
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			}
+			else {
+				result = false;
+				wndProcResult = 0;
+				//check if we need to re notify the listeners of the close event
+				
+				VCF::Window* window = (VCF::Window*)getControl();
+				
+				if ( window->allowClose() ) {
+					
+					VCF::WindowEvent event( getControl(), WINDOW_EVENT_CLOSE );
+					
+					
+					window->FrameClose.fireEvent( &event );
+					
+					if ( false == internalClose_ ){
+						//check if the main window is clossing - if it is
+						//then close the app !
+						
+						Application* app = Application::getRunningInstance();
+						if ( NULL != app ){
+							Window* mainWindow = app->getMainWindow();
+							if ( mainWindow == getControl() ){
+								::PostMessage( hwnd_, WM_QUIT, 0, 0 );
+							}
+							else {
+								result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+							}
 						}
-						else {
-							result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
-						}
+					}
+					else {
+						result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 					}
 				}
 				else {
-					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+					result = true;
 				}
-			}
-			else {
-				result = true;
 			}
 		}
 		break;
@@ -696,6 +719,10 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/09/14 01:50:07  ddiego
+*minor adjustment to control for enable setting. and registered
+*more proeprty editors.
+*
 *Revision 1.5.2.2  2005/08/05 01:11:38  ddiego
 *splitter fixes finished.
 *

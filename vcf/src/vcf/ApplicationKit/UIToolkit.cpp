@@ -102,6 +102,8 @@ void UIToolkit::init()
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::IconAlignType" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextAlignmentType" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::TextVerticalAlignment" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::FrameStyleType" );
+	PropertyEditorManager::registerPropertyEditor( "VCF::EnumPropertyEditor", "VCF::ButtonCommandType" );
 
 	PropertyEditorManager::registerPropertyEditor( "VCF::EnumSetPropertyEditor", "VCF::AnchorTypes" );
 	PropertyEditorManager::registerPropertyEditor( "VCF::CursorPropertyEditor", "VCF::Cursor::SystemCursorType" );
@@ -1316,6 +1318,10 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/09/14 01:50:07  ddiego
+*minor adjustment to control for enable setting. and registered
+*more proeprty editors.
+*
 *Revision 1.5.2.4  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *
