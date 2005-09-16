@@ -45,7 +45,8 @@ Control::Control():
 	container_(NULL),
 	ignoredForLayout_(false),
 	allowPaintNotification_(false),
-	enabled_(true)
+	enabled_(true),
+	visible_(false)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -270,7 +271,7 @@ double Control::getHeight() /**throw( InvalidPeer ); -JEC - FIXME later*/
 
 bool Control::getVisible() /**throw( InvalidPeer ); -JEC - FIXME later*/
 {
-	return peer_->getVisible();
+	return visible_;//peer_->getVisible();
 }
 
 AlignmentType Control::getAlignment()
@@ -425,8 +426,13 @@ void Control::setVisible( const bool& visible ) /**throw( InvalidPeer ); -JEC - 
 {
 	bool oldVisible = peer_->getVisible();
 
+	visible_ = visible;
+
 	if ( oldVisible != visible ) {	
-		peer_->setVisible( visible );
+		
+		if ( !isLoading() ) {
+			peer_->setVisible( visible_ );
+		}
 
 		Control* parent = getParent();
 		if ( NULL != parent ) {
@@ -1574,6 +1580,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.7  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.8.2.6  2005/09/14 01:50:07  ddiego
 *minor adjustment to control for enable setting. and registered
 *more proeprty editors.

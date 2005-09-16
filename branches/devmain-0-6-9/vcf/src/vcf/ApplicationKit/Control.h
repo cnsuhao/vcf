@@ -1432,6 +1432,7 @@ protected:
 	bool ignoredForLayout_;
 	bool allowPaintNotification_;
 	bool enabled_;
+	bool visible_;
 
 };
 
@@ -1442,6 +1443,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.4.2.5  2005/09/14 01:50:07  ddiego
 *minor adjustment to control for enable setting. and registered
 *more proeprty editors.

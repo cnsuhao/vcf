@@ -18,7 +18,8 @@ VFFInputStream::VFFInputStream( InputStream* stream ):
 	parser_(NULL),
 	stream_(stream),
 	atTopLevel_(true),
-	topLevelComponent_(NULL)
+	topLevelComponent_(NULL),
+	topLevelControlVisibility_(false)
 {
 	parser_ = new VCF::Parser( this );
 }
@@ -166,6 +167,13 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 						}
 						else {
 							prop->set( value );
+
+							if ( 0 == componentInputLevel_ ) {
+								if ( (prop->getName() == "visible") ||
+									(prop->getDisplayName() == "visible") ) {
+									topLevelControlVisibility_ = *prop->get();
+								}
+							}
 						}
 					}
 				}
@@ -246,21 +254,36 @@ void VFFInputStream::processAsignmentTokens( const VCFChar& token, const String&
 
 void VFFInputStream::readNewComponentInstance( VCF::Component* component )
 {
-	componentInputLevel_ = 0;
+	componentInputLevel_ = -1;
+
 	if ( NULL == topLevelComponent_ ) {
 		topLevelComponent_ = component;
+
+		Control* control = dynamic_cast<Control*>(component);
+		if ( NULL != control ) {
+			control->setVisible( false );
+		}
+		
+		component->loading();
 	}
 
 	readObject( component, VFFInputStream::ufCreateChildren );// | VFFInputStream::ufCreateChildrenIfNoInstance );
 
 	assignDeferredProperties(component);
-
+	
 	componentInputLevel_ = -1;
+
+	component->loaded();
+
+	Control* control = dynamic_cast<Control*>(component);
+	if ( NULL != control ) {
+		control->setVisible( topLevelControlVisibility_ );
+	}
 }
 
 void VFFInputStream::assignDeferredProperties( Component* component )
 {
-	if ( 0 == componentInputLevel_ ) {
+	if ( -1 == componentInputLevel_ ) {
 		std::vector<DeferredPropertySetter*>::iterator it = deferredProperties_.begin();
 		while ( it != deferredProperties_.end() ) {
 			DeferredPropertySetter* dps = *it;
@@ -286,12 +309,15 @@ VCF::Component* VFFInputStream::readObject( VCF::Component* componentInstance, i
 {
 	VCF::Component* result = NULL;
 	
+	componentInputLevel_ ++;
+
 	String s;
 	Control* control = NULL;
 	Class* clazz = NULL;
 	Container* controlContainer = NULL;
 	Component* childComponent = NULL;
 
+	
 	if ( parser_->tokenSymbolIs( "object" ) ) {
 		String currentSymbol;
 		String objectName;
@@ -526,15 +552,23 @@ VCF::Component* VFFInputStream::readObject( VCF::Component* componentInstance, i
 		}
 	}
 
+	componentInputLevel_ --;
 
 	return result;
 }
 
 void VFFInputStream::readComponentInstance( Component* component )
 {
-	componentInputLevel_ = 0;
+	componentInputLevel_ = -1;
 	if ( NULL == topLevelComponent_ ) {
-		topLevelComponent_ = component;
+		topLevelComponent_ = component;	
+
+		Control* control = dynamic_cast<Control*>(component);
+		if ( NULL != control ) {
+			control->setVisible( false );
+		}
+
+		component->loading();
 	}
 
 	readObject( component, 0 );
@@ -542,22 +576,34 @@ void VFFInputStream::readComponentInstance( Component* component )
 	assignDeferredProperties(component);	
 
 	componentInputLevel_ = -1;
+	
+	component->loaded();
+
+	Control* control = dynamic_cast<Control*>(component);
+	if ( NULL != control ) {
+		control->setVisible( topLevelControlVisibility_ );
+	}
 }
 
 Component* VFFInputStream::readNewComponent()
 {
-	Component* result = NULL;
-
-	componentInputLevel_ ++;
+	Component* result = NULL;	
 	
 	result = readObject( NULL, VFFInputStream::ufCreateComponent | VFFInputStream::ufCreateChildren );
+
 
 	assignDeferredProperties( result );
 
 	if ( NULL != result ) {
 		result->loaded();
+	}	
+
+	if ( -1 == componentInputLevel_ ) {		
+		Control* control = dynamic_cast<Control*>(result);
+		if ( NULL != control ) {
+			control->setVisible( topLevelControlVisibility_ );
+		}
 	}
-	componentInputLevel_ --;
 
 	return result;
 }
@@ -600,6 +646,9 @@ void VFFInputStream::hexToBin( const String& hexString, Persistable* persistable
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.3.2.1  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *

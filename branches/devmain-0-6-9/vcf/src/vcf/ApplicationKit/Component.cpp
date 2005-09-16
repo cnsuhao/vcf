@@ -453,16 +453,20 @@ void Component::saving()
 
 void Component::loaded()
 {
-	componentState_ &= ~Component::csLoading;
-	ComponentEvent e( this, Component::COMPONENT_LOADED );
-	ComponentLoaded.fireEvent( &e );
+	if ( componentState_ & Component::csLoading ) {
+		componentState_ &= ~Component::csLoading;
+		ComponentEvent e( this, Component::COMPONENT_LOADED );
+		ComponentLoaded.fireEvent( &e );
+	}
 }
 
 void Component::saved()
 {
-	componentState_ &= ~Component::csSaving;
-	ComponentEvent e( this, Component::COMPONENT_SAVED );
-	ComponentSaved.fireEvent( &e );
+	if ( componentState_ & Component::csSaving ) {
+		componentState_ &= ~Component::csSaving;
+		ComponentEvent e( this, Component::COMPONENT_SAVED );
+		ComponentSaved.fireEvent( &e );
+	}
 }
 
 bool Component::isNormal() const
@@ -591,6 +595,9 @@ Component* Component::createComponentFromResources( Class* clazz, Class* rootCla
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.4.2.2  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

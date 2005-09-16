@@ -226,6 +226,10 @@ VCF::Rect AbstractWin32Component::getBounds()
 
 void AbstractWin32Component::setVisible( const bool& visible )
 {
+	if ( (peerControl_->isDesigning()) && (NULL == GetParent(hwnd_)) ) {
+		return; //do nothing! can't show the control till it's parented
+	}
+
 	if ( true == visible ){
 		::ShowWindow( hwnd_, SW_SHOW );
 	}
@@ -1638,6 +1642,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.7  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.7.2.6  2005/09/07 20:24:48  ddiego
 *added some more help support.
 *

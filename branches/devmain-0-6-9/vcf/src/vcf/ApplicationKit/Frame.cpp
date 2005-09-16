@@ -205,6 +205,9 @@ void Frame::activate()
 		return;
 	}
 
+	if ( this->isDesigning() ) {
+		return;
+	}
 	
 
 	if ( this != Frame::currentActiveFrame ) {
@@ -297,6 +300,9 @@ Frame* Frame::createWindow( Class* windowClazz, ResourceBundle* resBundle )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.4.2.3  2005/08/24 05:03:21  ddiego
 *better component loading and creation functions.
 *
