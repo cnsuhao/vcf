@@ -225,43 +225,13 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 		case BN_CLICKED :{
 
-			commandButton_->click();
-/*
-			HWND wnd = (HWND)peerControl_->getParent()->getPeer()->getHandleID();
-			WPARAM msgWParam = 0;
-			switch ( commandButton_->getCommandType() ){
-				case BC_NONE : {
-
-				}
-				break;
-
-				case BC_OK : {
-					msgWParam = MAKEWPARAM(0,IDOK);
-				}
-				break;
-
-				case BC_CANCEL : {
-					msgWParam = MAKEWPARAM(0,IDCANCEL);
-				}
-				break;
-
-				case BC_YES : {
-					msgWParam = MAKEWPARAM(0,IDYES);
-				}
-				break;
-
-				case BC_NO : {
-					msgWParam = MAKEWPARAM(0,IDNO);
-				}
-				break;
-
-				case BC_MAYBE : {
-
-				}
-				break;
+			if ( peerControl_->isDesigning() ) {
+				wndProcResult = 0;
+				result = true;
 			}
-			PostMessage( wnd, WM_COMMAND, msgWParam, NULL );
-			*/
+			else {
+				commandButton_->click();
+			}
 		}
 		break;
 
@@ -281,6 +251,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.5.2.1  2005/09/05 14:38:31  ddiego
 *added pre and post paint delegates to the control class.
 *

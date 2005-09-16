@@ -123,6 +123,7 @@ protected:
 	VCF::Component* topLevelComponent_;
 	bool atTopLevel_;
 	long componentInputLevel_;
+	bool topLevelControlVisibility_;
 };
 
 
@@ -132,6 +133,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.2.6.1  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *

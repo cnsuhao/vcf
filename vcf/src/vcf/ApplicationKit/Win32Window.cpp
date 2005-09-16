@@ -182,27 +182,40 @@ void Win32Window::setBounds( VCF::Rect* rect )
 
 void Win32Window::setVisible( const bool& visible )
 {
-	//StringUtils::trace( Format( "Win32Window::setVisible( %d )\n" ) % visible );
-	if ( true == visible ){
-
-		Frame* frame = (Frame*)peerControl_;
-
-		switch ( frame->getFrameStyle() ){
+	if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
+		
+		if ( NULL != GetParent(hwnd_) ) {
+			if ( visible ){
+				::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );
+			}
+			else{
+				::ShowWindow( hwnd_, SW_HIDE );
+			}
+		}
+	}
+	else {
+		//StringUtils::trace( Format( "Win32Window::setVisible( %d )\n" ) % visible );
+		if ( true == visible ){
+			
+			Frame* frame = (Frame*)peerControl_;
+			
+			switch ( frame->getFrameStyle() ){
 			case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
 				::ShowWindow( hwnd_, SW_SHOW );//SW_SHOWNORMAL );
 				//not sure if we want this here...
 				::BringWindowToTop( hwnd_ );
-			}
-			break;
-
+										 }
+				break;
+				
 			case fstNoBorder : case fstNoBorderFixed : {
 				::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );
+							   }
+				break;
 			}
-			break;
 		}
-	}
-	else{
-		::ShowWindow( hwnd_, SW_HIDE );
+		else{
+			::ShowWindow( hwnd_, SW_HIDE );
+		}
 	}
 }
 
@@ -211,7 +224,7 @@ void Win32Window::handleActivate()
 	if ( NULL != peerControl_ ) {
 		//do nothing if we are in design mode
 
-		if ( peerControl_->isDesigning() ) {
+		if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
 			return;
 		}
 
@@ -280,8 +293,6 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		
 
 		case VCF_CONTROL_CREATE: {
-					
-
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			if ( activatesPending_ ) {
@@ -291,27 +302,49 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		}
 		break;
 
+		case WM_SYSCOMMAND: {
+			
+			if ( peerControl_->isDesigning() ) {
+				wndProcResult = 0;
+				result = true;
+			}
+			else {
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			}		
+		}
+		break;
+
 		case WM_NCLBUTTONDOWN: {
-			handleActivate();			
+			handleActivate();
 
-			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
-
-			wndProcResult = 0;
-			result = false;
+			if ( peerControl_->isDesigning() ) {
+				wndProcResult = 0;
+				result = false;
+			}
+			else {
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+				wndProcResult = 0;
+				result = false;
+			}			
 		}
 		break;
 
 		case WM_NCACTIVATE : {
 			BOOL active = (BOOL)wParam;
 
-
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
-
-			Frame* frame = (Frame*)peerControl_;
-			//StringUtils::trace( Format( "WM_NCACTIVATE, active: %d\n" ) % active );
-
-			if ( active ) {
-				handleActivate();
+			if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
+				wndProcResult = TRUE;
+				result = true;
+			}
+			else {
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+				
+				Frame* frame = (Frame*)peerControl_;
+				//StringUtils::trace( Format( "WM_NCACTIVATE, active: %d\n" ) % active );
+				
+				if ( active ) {
+					handleActivate();
+				}
 			}
 		}
 		break;
@@ -319,12 +352,14 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		case WM_ACTIVATEAPP : {
 			BOOL fActive = (BOOL) wParam;
 
-			//StringUtils::trace( Format( "WM_ACTIVATEAPP, fActive: %d\n" ) % fActive );
-			if ( !fActive && (NULL != peerControl_) ) {
-
-				//do nothing if we are in design mode
-				if ( !peerControl_->isDesigning() ) {
-					
+			//do nothing if we are in design mode
+			if ( peerControl_->isDesigning() ) {
+				wndProcResult = 0;
+				result = true;
+			}
+			else {
+				//StringUtils::trace( Format( "WM_ACTIVATEAPP, fActive: %d\n" ) % fActive );
+				if ( !fActive && (NULL != peerControl_) ) {
 					
 					Frame* frame = (Frame*)peerControl_;
 					
@@ -339,12 +374,13 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 						}
 						break;
 					}
+					
 				}
+				else if ( fActive && (NULL != peerControl_) ) {
+					RedrawWindow( hwnd_, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN );	
+				}
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 			}
-			else if ( fActive && (NULL != peerControl_) ) {
-				RedrawWindow( hwnd_, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN );	
-			}
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 		}
 		break;
 
@@ -352,15 +388,21 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 			BOOL active = LOWORD(wParam);
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
-
-			//StringUtils::trace( Format( "WM_ACTIVATE, active: %d\n" ) % active );
-
-			if ( active ) {
-				handleActivate();
-
-				if ( !peerControl_->isDesigning() ) {
-					::BringWindowToTop( hwnd_ );
+			if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
+				wndProcResult = 0;
+				result = (WA_INACTIVE == active) ? false : true;
+			}
+			else {
+				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+				
+				//StringUtils::trace( Format( "WM_ACTIVATE, active: %d\n" ) % active );
+				
+				if ( active ) {
+					handleActivate();
+					
+					if ( !peerControl_->isDesigning() ) {
+						::BringWindowToTop( hwnd_ );
+					}
 				}
 			}
 		}
@@ -377,8 +419,9 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_MOUSEACTIVATE : {
 
-			if ( peerControl_->isDesigning() ) {
-				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
+				wndProcResult = MA_NOACTIVATE;
+				result = true;
 			}
 			else {
 				Frame* frame = (Frame*)peerControl_;
@@ -590,8 +633,11 @@ void Win32Window::setFrameTopmost( const bool& isTopmost )
 
 void Win32Window::setParent( VCF::Control* parent )
 {
+	bool showWindow = false;
+
 	DWORD oldStyle = ::GetWindowLong( hwnd_, GWL_STYLE );
 	DWORD style = oldStyle;
+
 	if ( NULL == parent ) {
 		style &= ~WS_CHILD;
 		style |= WS_POPUP;
@@ -606,12 +652,22 @@ void Win32Window::setParent( VCF::Control* parent )
 		VCF::ControlPeer* peer = parent->getPeer();
 		HWND wndParent = (HWND)peer->getHandleID();
 		::SetParent( hwnd_, wndParent );
+
+		if ( (peerControl_->isDesigning()) && (NULL != wndParent) && (style & WS_CHILD) ) {
+			showWindow = peerControl_->getVisible();
+		}
 	}
 
 	if ( oldStyle != style ) {
 		::SetWindowLong( hwnd_, GWL_STYLE, style );
 		::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
 	}
+
+	if ( showWindow ) {
+		setVisible( true );
+	}
+
+	
 }
 
 bool Win32Window::isMaximized()
@@ -722,6 +778,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/09/16 01:12:01  ddiego
+*fixed bug in component loaded function.
+*
 *Revision 1.5.2.4  2005/09/14 18:55:17  ddiego
 *update to win32window. initial code for new pixels
 *type to replace imagebits class.
