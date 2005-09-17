@@ -127,9 +127,9 @@ public:
 	};
 
 	virtual VariantData* get( Object* source ){
-		if ( (NULL != getFunction_) && (NULL != source) ){
-			value_.type = getType();
+		if ( (NULL != getFunction_) && (NULL != source) ){			
 			value_ = (source->*getFunction_)();
+			value_.type = getType();
 			return &value_;
 		}
 		else {
@@ -505,9 +505,9 @@ public:
 	};
 
 	virtual VariantData* get( Object* source ){
-		if ( (NULL != getFunction_) && (NULL != source) ){
-			value_.type = getType();
+		if ( (NULL != getFunction_) && (NULL != source) ){			
 			value_ = (source->*getFunction_)();
+			value_.type = getType();
 			return &value_;
 		}
 		else {
@@ -625,9 +625,9 @@ public:
 	};
 
 	virtual VariantData* get( Object* source ){
-		if ( (NULL != getFunction_) && (NULL != source) ){
-			value_.type = getType();
+		if ( (NULL != getFunction_) && (NULL != source) ){			
 			value_ = (Object*)(source->*getFunction_)();
+			value_.type = getType();
 			return &value_;
 		}
 		else {
@@ -708,9 +708,9 @@ public:
 
 	virtual VariantData* get( Object* source ){
 		if ( (NULL != getFunction_) && (NULL != source) ){
-			value_.type = getType();
-			//value_ = (Object&)(source->*getFunction_)();
+			
 			value_ = (source->*getFunction_)();
+			value_.type = getType();
 			return &value_;
 		}
 		else {
@@ -827,10 +827,10 @@ public:
 	};
 
 	virtual VariantData* get( Object* source ){
-		if ( (NULL != getFunction_) && (NULL != source) ){
-			value_.type = getType();
+		if ( (NULL != getFunction_) && (NULL != source) ){			
 			enum_->set( (source->*getFunction_)() );
 			value_ = enum_;
+			value_.type = getType();
 			return &value_;
 		}
 		else {
@@ -3465,6 +3465,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/17 21:37:44  ddiego
+*minor update
+*
 *Revision 1.4.2.1  2005/09/12 03:47:05  ddiego
 *more prop editor updates.
 *

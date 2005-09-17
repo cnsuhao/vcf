@@ -66,6 +66,7 @@ public:
 		}
 		else {
 			data_ = *value;
+			VCF_ASSERT( pdUndefined != data_.type );
 		}
 	}
 
@@ -144,6 +145,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/09/17 21:37:43  ddiego
+*minor update
+*
 *Revision 1.3.2.3  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *

@@ -221,6 +221,11 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
+		case pdEnumMask:{
+			ULongVal = StringUtils::fromStringAsULong( value );
+		}
+		break;
+
 		case pdULong:{
 			ULongVal = StringUtils::fromStringAsULong( value );
 		}
@@ -369,6 +374,11 @@ void VariantData::setValue( const VariantData& value )
 		}
 		break;
 
+		case pdEnumMask:{
+			ULongVal = value.ULongVal;
+		}
+		break;
+
 		case pdShort : {
 			ShortVal = value.ShortVal;
 		}
@@ -437,6 +447,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/17 21:37:44  ddiego
+*minor update
+*
 *Revision 1.5.2.1  2005/08/01 18:52:23  marcelloptr
 *minor changes
 *
