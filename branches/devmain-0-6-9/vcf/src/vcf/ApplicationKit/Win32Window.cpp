@@ -639,9 +639,11 @@ void Win32Window::setParent( VCF::Control* parent )
 	DWORD style = oldStyle;
 
 	if ( NULL == parent ) {
-		style &= ~WS_CHILD;
-		style |= WS_POPUP;
-		::SetParent( hwnd_, NULL );
+		if ( !peerControl_->isDesigning() ) {
+			style &= ~WS_CHILD;
+			style |= WS_POPUP;
+			::SetParent( hwnd_, NULL );
+		}
 	}
 	else {
 		Frame* frame = (Frame*)peerControl_;
@@ -778,6 +780,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2005/09/17 17:41:40  ddiego
+*minor update
+*
 *Revision 1.5.2.5  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *
