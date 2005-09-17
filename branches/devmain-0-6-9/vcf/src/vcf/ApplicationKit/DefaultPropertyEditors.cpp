@@ -108,6 +108,7 @@ public:
 		}
 
 		VariantData enumVal = enumVal_;
+		enumVal.type = pdEnumMask;
 		parent_->setValue(&enumVal) ;
 	}
 
@@ -127,6 +128,7 @@ public:
 
 
 		VariantData enumVal = enumVal_;
+		enumVal.type = pdEnumMask;
 		parent_->setValue(&enumVal) ;
 	}
 	
@@ -464,6 +466,9 @@ DefaultListModelPropertyEditor::~DefaultListModelPropertyEditor()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/09/17 21:37:43  ddiego
+*minor update
+*
 *Revision 1.3.2.3  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *
