@@ -387,15 +387,23 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		case WM_ACTIVATE : {
 
 			BOOL active = LOWORD(wParam);
-
+			
 			if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
 				wndProcResult = 0;
 				result = (WA_INACTIVE == active) ? false : true;
+
+				HWND hwndPrevious = (HWND) lParam; 
+
+				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndPrevious );			
+
+				if ( (NULL != win32Obj) && active ) {
+					SetActiveWindow( hwndPrevious );
+				}
 			}
 			else {
 				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 				
-				//StringUtils::trace( Format( "WM_ACTIVATE, active: %d\n" ) % active );
+				
 				
 				if ( active ) {
 					handleActivate();
@@ -792,6 +800,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.8  2005/09/18 23:56:30  ddiego
+*fixed minor bug in recv active win state for a win in design mode.
+*
 *Revision 1.5.2.7  2005/09/18 22:54:47  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *
