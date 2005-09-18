@@ -205,12 +205,20 @@ VCFChar Parser::nextToken()
 							}
 							break;
 						}
+						
+
 						if ( (*P != '\n') && (*P != '\r') ) {
 							*S = *P;
 						}
 						else {
 							*S = '\0';
 						}
+
+						if ( finished2 ) {
+							S++;
+							break;//out of while loop
+						}
+
 						P++;
 						S++;
 					}
@@ -331,6 +339,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/09/18 22:54:48  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.3.2.2  2005/08/08 03:19:17  ddiego
 *minor updates
 *

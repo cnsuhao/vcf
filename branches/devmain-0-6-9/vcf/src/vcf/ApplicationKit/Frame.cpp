@@ -83,7 +83,8 @@ void Frame::State::saveToStream( OutputStream* stream )
 Frame::Frame():
 	frameStyle_(fstSizeable),
 	isTopmostFrame_(false),
-	useColorForBackground_(false)
+	useColorForBackground_(false),
+	allowFrameAsChildControl_(false)
 {
 	setContainerDelegate( this );
 	setContainer( new StandardContainer() );	
@@ -300,6 +301,9 @@ Frame* Frame::createWindow( Class* windowClazz, ResourceBundle* resBundle )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.4.2.4  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *

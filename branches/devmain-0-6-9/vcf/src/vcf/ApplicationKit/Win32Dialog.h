@@ -51,7 +51,9 @@ public:
 	virtual UIToolkit::ModalReturnType showMessage( const String& message, const String& caption,
 													const long& messageButtons,	const Dialog::MessageStyle& messageStyle );
 
-private:
+protected:
+	virtual DWORD generateStyleForSetParent(VCF::Control* parent);
+
 	Control* owner_;
 	Dialog* dialogComponent_;
 };
@@ -63,6 +65,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.4  2005/07/09 23:14:57  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

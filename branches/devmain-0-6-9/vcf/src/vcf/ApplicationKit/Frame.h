@@ -231,16 +231,19 @@ public:
 	virtual void setFrameStyle( const FrameStyleType& frameStyle ) = 0;
 
 	/**
-	override this function to changes the frame's default
-	parenting behaviour. By default a frame may have it's
-	parent set to another control without becoming a child
-	control itself.
+	By default a frame may have it's parent set to another control 
+	without becoming a child control itself.
 	@return bool returns true if the frame is to be allowed to
 	act as a child control when it's setParent() method is called.
 	*/
-	virtual bool allowFrameAsChildControl() {
-		return false;
+	bool allowFrameAsChildControl() {
+		return allowFrameAsChildControl_;
 	}
+
+	void setAllowFrameAsChildControl( const bool& val ) {
+		allowFrameAsChildControl_ = val;
+	}
+
 
 	/**
 	Indicates whether or not this frame is active.
@@ -339,6 +342,7 @@ protected:
 	FrameStyleType frameStyle_;
 	bool isTopmostFrame_;
 	bool useColorForBackground_;
+	bool allowFrameAsChildControl_;
 
 
 	virtual void destroy();
@@ -351,6 +355,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.4.2.1  2005/08/24 05:03:21  ddiego
 *better component loading and creation functions.
 *
