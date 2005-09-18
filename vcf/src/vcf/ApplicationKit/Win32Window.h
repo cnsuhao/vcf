@@ -72,6 +72,8 @@ protected:
 	Control* owner_;
 
 	void handleActivate();
+
+	virtual DWORD generateStyleForSetParent(VCF::Control* parent);
 };
 
 
@@ -81,6 +83,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.4  2005/07/09 23:14:59  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

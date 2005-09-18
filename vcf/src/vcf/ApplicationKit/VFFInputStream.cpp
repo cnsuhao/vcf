@@ -19,7 +19,8 @@ VFFInputStream::VFFInputStream( InputStream* stream ):
 	stream_(stream),
 	atTopLevel_(true),
 	topLevelComponent_(NULL),
-	topLevelControlVisibility_(false)
+	topLevelControlVisibility_(false),
+	setDesignMode_(false)
 {
 	parser_ = new VCF::Parser( this );
 }
@@ -305,6 +306,20 @@ void VFFInputStream::assignDeferredProperties( Component* component )
 	}
 }
 
+Object* VFFInputStream::createClassInstance( const String& className, const String& classID, const String& fallbackClassName )
+{
+	Object* result = NULL;
+
+	try {
+		result = ClassRegistry::createNewInstance( className );
+	}
+	catch (BasicException&) {
+		result = ClassRegistry::createNewInstance( fallbackClassName );
+	}
+
+	return result;
+}
+
 VCF::Component* VFFInputStream::readObject( VCF::Component* componentInstance, int flags )
 {
 	VCF::Component* result = NULL;
@@ -352,14 +367,29 @@ VCF::Component* VFFInputStream::readObject( VCF::Component* componentInstance, i
 			parser_->checkToken( ',' );
 			parser_->nextToken();
 			String classID = parser_->tokenString();
+
+			String fallbackClassName;
 			
+			bool skipNextToken = false;
+			parser_->nextToken();
+			if ( parser_->getToken() == ',' ) {
+				parser_->nextToken();
+				fallbackClassName = parser_->tokenString();
+			}
+			else {
+				skipNextToken = true;
+			}
+
 			if ( flags & VFFInputStream::ufCreateComponent ) {
-				result = (Component*)ClassRegistry::createNewInstance( className );
+				result = (Component*)createClassInstance( className, classID, fallbackClassName );
 				if ( NULL == topLevelComponent_ ) {
 					topLevelComponent_ = result;
 				}
 				
 				if ( NULL != result ) {
+					if ( setDesignMode_ ) {
+						result->setDesigning( true );
+					}
 					result->loading();
 					
 					clazz = result->getClass();
@@ -395,13 +425,17 @@ VCF::Component* VFFInputStream::readObject( VCF::Component* componentInstance, i
 				}
 
 				if ( NULL == result ) {
-					result = (Component*)ClassRegistry::createNewInstance( className );
+					result = (Component*)createClassInstance( className, classID, fallbackClassName );
 					if ( NULL == topLevelComponent_ ) {
 						topLevelComponent_ = result;
 					}					
 				}
 
 				if ( NULL != result ) {
+					if ( setDesignMode_ ) {
+						result->setDesigning( true );
+					}
+
 					result->loading();
 					
 					clazz = result->getClass();
@@ -463,7 +497,9 @@ VCF::Component* VFFInputStream::readObject( VCF::Component* componentInstance, i
 				}
 			}
 			
-			parser_->nextToken();
+			if ( !skipNextToken ) {
+				parser_->nextToken();
+			}
 		}
 		catch ( BasicException& e ) {
 			StringUtils::trace( e.getMessage() + "\n" );
@@ -646,6 +682,9 @@ void VFFInputStream::hexToBin( const String& hexString, Persistable* persistable
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.3.2.2  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *

@@ -81,6 +81,11 @@ public:
 	*/
 	void readNewComponentInstance( VCF::Component* component );
 
+
+	void setAllComponentsInDesignMode( const bool& val ) {
+		setDesignMode_ = val;
+	}
+
 	virtual bool isEOS()
 	{
 		// stub impl.
@@ -119,11 +124,14 @@ protected:
 
 	void assignDeferredProperties( VCF::Component* component );
 
+	Object* createClassInstance( const String& className, const String& classID, const String& fallbackClassName );
+
 	std::vector<DeferredPropertySetter*> deferredProperties_;
 	VCF::Component* topLevelComponent_;
 	bool atTopLevel_;
 	long componentInputLevel_;
 	bool topLevelControlVisibility_;
+	bool setDesignMode_;
 };
 
 
@@ -133,6 +141,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.2.6.2  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *

@@ -631,26 +631,40 @@ void Win32Window::setFrameTopmost( const bool& isTopmost )
 	}
 }
 
-void Win32Window::setParent( VCF::Control* parent )
+DWORD Win32Window::generateStyleForSetParent(VCF::Control* parent)
 {
-	bool showWindow = false;
-
-	DWORD oldStyle = ::GetWindowLong( hwnd_, GWL_STYLE );
-	DWORD style = oldStyle;
+	DWORD result = ::GetWindowLong( hwnd_, GWL_STYLE );
 
 	if ( NULL == parent ) {
 		if ( !peerControl_->isDesigning() ) {
-			style &= ~WS_CHILD;
-			style |= WS_POPUP;
-			::SetParent( hwnd_, NULL );
+			result &= ~WS_CHILD;
+			result |= WS_POPUP;
 		}
 	}
 	else {
 		Frame* frame = (Frame*)peerControl_;
 		if ( frame->allowFrameAsChildControl() ) {
-			style &= ~WS_POPUP;
-			style |= WS_CHILD;
+			result &= ~WS_POPUP;
+			result |= WS_CHILD;
+		}		
+	}
+
+	return result;
+}
+
+void Win32Window::setParent( VCF::Control* parent )
+{
+	bool showWindow = false;
+
+	DWORD oldStyle = ::GetWindowLong( hwnd_, GWL_STYLE );
+	DWORD style = generateStyleForSetParent(parent);
+
+	if ( NULL == parent ) {
+		if ( !peerControl_->isDesigning() ) {
+			::SetParent( hwnd_, NULL );
 		}
+	}
+	else {
 		VCF::ControlPeer* peer = parent->getPeer();
 		HWND wndParent = (HWND)peer->getHandleID();
 		::SetParent( hwnd_, wndParent );
@@ -662,14 +676,12 @@ void Win32Window::setParent( VCF::Control* parent )
 
 	if ( oldStyle != style ) {
 		::SetWindowLong( hwnd_, GWL_STYLE, style );
-		::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
+		::SetWindowPos( hwnd_, NULL, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
 	}
 
 	if ( showWindow ) {
 		setVisible( true );
 	}
-
-	
 }
 
 bool Win32Window::isMaximized()
@@ -780,6 +792,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2005/09/18 22:54:47  ddiego
+*fixed some minor bugs in vffinput stream and parser class.
+*
 *Revision 1.5.2.6  2005/09/17 17:41:40  ddiego
 *minor update
 *
