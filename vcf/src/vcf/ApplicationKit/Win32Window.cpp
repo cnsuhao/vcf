@@ -297,7 +297,9 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 			if ( activatesPending_ ) {
 				activatesPending_ = false;
-				::PostMessage( hwnd_, WM_ACTIVATE, MAKEWPARAM (WA_ACTIVE,0), 0 );
+				if ( !(peerControl_->isDesigning() || peerControl_->isLoading()) ) {
+					::PostMessage( hwnd_, WM_ACTIVATE, MAKEWPARAM (WA_ACTIVE,0), 0 );
+				}
 			}
 		}
 		break;
@@ -800,6 +802,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.9  2005/09/19 04:55:46  ddiego
+*minor updates.
+*
 *Revision 1.5.2.8  2005/09/18 23:56:30  ddiego
 *fixed minor bug in recv active win state for a win in design mode.
 *
