@@ -149,32 +149,6 @@ String Win32ResourceBundle::getVFF( const String& resourceName )
 		//throw exception- resource not found !!!!
 	}
 
-
-	if ( failedToFindRes ) {
-		//try res directory
-
-		String localeName = System::getCurrentThreadLocale()->getName();
-
-		bool fileExists = false;
-		String vffFile = System::findResourceDirectory() + resourceName;
-
-		if ( File::exists( vffFile ) ) {
-			fileExists = true;
-		}
-		else {
-			vffFile += ".vff";
-			if ( File::exists( vffFile ) ) {
-				fileExists = true;
-			}
-		}
-
-		if ( fileExists ) {
-			FileInputStream fs(vffFile);
-
-			fs >> result;
-		}
-	}
-
 	return result;
 }
 
@@ -703,6 +677,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/19 04:55:56  ddiego
+*minor updates.
+*
 *Revision 1.3.2.1  2005/09/07 04:19:55  ddiego
 *filled in initial code for help support.
 *

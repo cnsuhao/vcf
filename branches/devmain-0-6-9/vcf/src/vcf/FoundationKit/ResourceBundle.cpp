@@ -40,7 +40,30 @@ String ResourceBundle::getString( const String& resourceName )
 
 String ResourceBundle::getVFF( const String& resourceName )
 {
-	return peer_->getVFF( resourceName );
+	String result = peer_->getVFF( resourceName );
+	if ( result.empty() ) {
+		String localeName = System::getCurrentThreadLocale()->getName();
+
+		bool fileExists = false;
+		String vffFile = getResourcesDirectory() + resourceName;
+
+		if ( File::exists( vffFile ) ) {
+			fileExists = true;
+		}
+		else {
+			vffFile += ".vff";
+			if ( File::exists( vffFile ) ) {
+				fileExists = true;
+			}
+		}
+
+		if ( fileExists ) {
+			FileInputStream fs(vffFile);
+
+			fs >> result;
+		}
+	}
+	return result;
 }
 
 Resource* ResourceBundle::getResource( const String& resourceName )
@@ -192,6 +215,9 @@ String ResourceBundle::getResourcesDirectory()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/19 04:55:56  ddiego
+*minor updates.
+*
 *Revision 1.4.2.2  2005/09/07 04:19:55  ddiego
 *filled in initial code for help support.
 *
