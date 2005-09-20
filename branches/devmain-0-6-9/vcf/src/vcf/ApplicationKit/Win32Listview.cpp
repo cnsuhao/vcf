@@ -935,7 +935,9 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 					String caption;
 					if ( displayInfo->item.iSubItem > 0 ) {
 						ListItem::SubItem* subItem = item->getSubItem( displayInfo->item.iSubItem - 1 );
-						caption = subItem->getCaption();
+						if ( NULL != subItem ) {
+							caption = subItem->getCaption();
+						}
 					}
 					else{
 						caption = item->getCaption();
@@ -960,7 +962,9 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 					AnsiString caption;
 					if ( displayInfo->item.iSubItem > 0 ) {
 						ListItem::SubItem* subItem = item->getSubItem( displayInfo->item.iSubItem - 1 );
-						caption = subItem->getCaption();
+						if ( NULL != subItem ) {
+							caption = subItem->getCaption();
+						}
 					}
 					else{
 						caption = item->getCaption();
@@ -2408,6 +2412,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/20 03:24:18  ddiego
+*minor fixes.
+*
 *Revision 1.5  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

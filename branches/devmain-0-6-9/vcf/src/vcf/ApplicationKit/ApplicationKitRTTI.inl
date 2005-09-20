@@ -492,6 +492,7 @@ _property_enum_labeled_( IconStyleType, "iconStyle", getIconStyle, setIconStyle,
 _property_enum_labeled_( IconAlignType, "iconAlignment", getIconAlignment, setIconAlignment,
 					   iaNone, iaAutoArrange, 4, IconAlignTypeNames, "");
 _property_object_( ListModel, "listModel", getListModel, setListModel, "" );
+_property_object_ro_( ColumnModel, "columnModel", getColumnModel, "" );
 
 _event_("VCF::ItemEventHandler", VCF::ItemEvent, ItemSelectionChanged );
 _event_("VCF::MouseEventHandler", VCF::MouseEvent, ColumnItemClicked );
@@ -776,6 +777,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/20 03:24:18  ddiego
+*minor fixes.
+*
 *Revision 1.4.2.2  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *
