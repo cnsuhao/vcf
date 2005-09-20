@@ -339,9 +339,6 @@ Package=<4>
     Project_Dep_Name Actions
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name AdvancedAlignment
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name AdvancedUI
     End Project Dependency
     Begin Project Dependency
