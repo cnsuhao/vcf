@@ -48,7 +48,7 @@ public:
 		return currentSize_;
 	}
 
-	inline void write( const char* buffer, const ulong32& sizeOfBuffer ) {
+	inline unsigned long write( const unsigned char* buffer, const ulong32& sizeOfBuffer ) {
 		if ( currentAllocationSize_ < (seekPos_ + sizeOfBuffer) ) {
 			allocate( sizeOfBuffer );
 		}
@@ -64,9 +64,10 @@ public:
 			currentSize_ += sizeOfBuffer;
 		}
 
+		return sizeOfBuffer;
 	}
 
-	inline void read( char* buffer, const ulong32& sizeOfBuffer ) {
+	inline unsigned long read( unsigned char* buffer, const ulong32& sizeOfBuffer ) {
 		if ( currentAllocationSize_ < (seekPos_ + sizeOfBuffer) ) {
 			throw NoFreeMemException("No longer have enough memory in this buffer to read from.");
 		}
@@ -77,6 +78,8 @@ public:
 		memcpy( buffer, tmp, sizeOfBuffer );
 
 		seekPos_ += sizeOfBuffer;
+
+		return sizeOfBuffer;
 	}
 
 	inline void setSeekPos( ulong32 pos ) {
@@ -148,6 +151,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -9,6 +9,8 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/GraphicsKit.h"
 #include "vcf/GraphicsKit/GraphicsKitPrivate.h"
+#include "vcf/GraphicsKit/JPEGLoader.h"
+
 
 using namespace VCF;
 
@@ -480,7 +482,10 @@ void GraphicsToolkit::initGraphicsToolkit()
 
 	System::internal_replaceResourceBundleInstance( new GraphicsResourceBundle() );
 
-	//GraphicsToolkit::graphicsToolkitInstance->init();
+
+	GraphicsToolkit::registerImageLoader( "image/jpeg", new JPEGLoader() );
+
+	//GraphicsToolkit::registerImageLoader( "image/png", new PNGLoader() );
 }
 
 void GraphicsToolkit::terminate()
@@ -1335,6 +1340,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.5  2005/07/09 23:05:59  ddiego
 *added missing gtk files
 *

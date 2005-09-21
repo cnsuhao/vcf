@@ -19,37 +19,37 @@ void InputStream::read( Persistable* persistableObject ){
 
 void InputStream::read( short& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( long& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( int& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( bool& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( char& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( float& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( double& val )
 {
-	read( (char*)&val, sizeof(val) );
+	read( (unsigned char*)&val, sizeof(val) );
 }
 
 void InputStream::read( String& val )
@@ -84,7 +84,7 @@ void InputStream::read( String& val )
 	char buffer[BUFFER_SIZE];
 	unsigned long bufferRead = minVal<ulong32>( BUFFER_SIZE * sizeof(char), size-seekPos );
 
-	read( (char*) buffer, bufferRead );
+	read( (unsigned char*) buffer, bufferRead );
 
 	totalBytesRead += bufferRead;
 
@@ -180,7 +180,7 @@ void InputStream::read( String& val )
 
 		if ( !done ) {
 			bufferRead = VCF::minVal<ulong32>( BUFFER_SIZE * sizeof(char), size );
-			read( buffer, bufferRead );
+			read( (unsigned char*)buffer, bufferRead );
 			tmp = buffer;
 			start = tmp;
 			size -= bufferRead;
@@ -301,48 +301,48 @@ OutputStream& OutputStream::operator<<( Persistable* val ){
 
 void OutputStream::write( const short& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const long& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const int& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const bool& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const char& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const float& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const double& val )
 {
-	write( (char*)&val, sizeof(val) );
+	write( (const unsigned char*)&val, sizeof(val) );
 }
 
 void OutputStream::write( const String& val )
 {
-	write( val.ansi_c_str(), val.size() );
+	write( (const unsigned char*)val.ansi_c_str(), val.size() );
 	/**
 	JC
 	WARNING - we are treating writes to the stream as if it were Ascii - this
 	will lose precision!!!
 	*/
-	char c = 0;
+	unsigned char c = 0;
 	write( &c, sizeof(c) );
 }
 
@@ -350,6 +350,9 @@ void OutputStream::write( const String& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2.6.1  2005/09/08 03:16:58  ddiego
 *fix for BOM marker in input stream handling and xml parser.
 *

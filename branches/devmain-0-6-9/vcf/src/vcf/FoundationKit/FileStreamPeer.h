@@ -54,7 +54,7 @@ public:
 	*@param unsigned long the number of bytes to read from the file, starting
 	*at the current seek position.
 	*/
-	virtual void read( char* bytesToRead, unsigned long sizeOfBytes ) = 0;
+	virtual unsigned long read( unsigned char* bytesToRead, unsigned long sizeOfBytes ) = 0;
 
 	/**
 	*writes sizeOfBytes bytes to the file stream from the buffer bytesToWrite.
@@ -62,7 +62,7 @@ public:
 	*the data that will written out to the file stream
 	*@param @ unsigned long the number of bytes to write
 	*/
-	virtual void write( const char* bytesToWrite, unsigned long sizeOfBytes ) = 0;
+	virtual unsigned long write( const unsigned char* bytesToWrite, unsigned long sizeOfBytes ) = 0;
 
 	/**
 	*returns a pointer to the buffer that represents the file contents
@@ -77,6 +77,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

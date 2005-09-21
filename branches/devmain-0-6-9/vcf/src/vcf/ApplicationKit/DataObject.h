@@ -52,11 +52,11 @@ public:
 	}
 
 	virtual void saveToStream( OutputStream * stream )	{
-		stream->write( (const char*)data_, dataSize_ );
+		stream->write( data_, dataSize_ );
 	}
 
     virtual void loadFromStream( InputStream * stream ) {
-		stream->read( (char*)data_, dataSize_ );
+		stream->read( data_, dataSize_ );
 	}
 
 	unsigned char* getData() {
@@ -134,6 +134,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2  2004/08/07 02:49:07  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

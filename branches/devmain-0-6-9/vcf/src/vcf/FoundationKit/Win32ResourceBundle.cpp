@@ -213,7 +213,7 @@ Resource* Win32ResourceBundle::getResource( const String& resourceName )
 		FileInputStream fs(fileName);
 		ulong32 size = fs.getSize();
 		char* buf = new char[size];
-		fs.read( buf, size );
+		fs.read( (unsigned char*)buf, size );
 		
 
 		result = new Resource( buf, size, resourceName );
@@ -677,6 +677,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.3.2.2  2005/09/19 04:55:56  ddiego
 *minor updates.
 *

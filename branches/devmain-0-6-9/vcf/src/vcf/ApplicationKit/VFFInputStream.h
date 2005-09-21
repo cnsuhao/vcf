@@ -49,8 +49,8 @@ public:
 		return stream_->getCurrentSeekPos();
 	}
 
-	virtual void read( char* bytesToRead, unsigned long sizeOfBytes ) {
-		stream_->read( bytesToRead, sizeOfBytes );
+	virtual unsigned long read( unsigned char* bytesToRead, unsigned long sizeOfBytes ) {
+		return stream_->read( bytesToRead, sizeOfBytes );
 	}
 
 	/**
@@ -141,6 +141,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2.6.3  2005/09/18 22:54:47  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *

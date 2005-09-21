@@ -154,8 +154,8 @@ public:
 		return outStream_->getCurrentSeekPos();
 	}
 
-	virtual void write( const char* bytesToRead, unsigned long sizeOfBytes ) {
-		outStream_->write( bytesToRead, sizeOfBytes );
+	virtual unsigned long write( const unsigned char* bytesToRead, unsigned long sizeOfBytes ) {
+		return outStream_->write( bytesToRead, sizeOfBytes );
 	}
 
 	virtual void write( Persistable* persistableObject ) {
@@ -196,7 +196,7 @@ public:
 		String s;
 		s = "<string>" + val + "</string>\n";
 		AnsiString tmp = s;
-		write( tmp.c_str(), tmp.length() );
+		write( (const unsigned char*)tmp.c_str(), tmp.length() );
 	}
 
 
@@ -206,21 +206,21 @@ public:
 		String s;
 		s = val ? "<true/>" : "<false/>\n";
 		AnsiString tmp = s;
-		write( tmp.c_str(), tmp.length() );
+		write( (const unsigned char*)tmp.c_str(), tmp.length() );
 	}
 
 	void writeInteger( int val ) {
 		String s;
 		s = "<integer>" + StringUtils::toString(val) + "</integer>\n";
 		AnsiString tmp = s;
-		write( tmp.c_str(), tmp.length() );
+		write( (const unsigned char*)tmp.c_str(), tmp.length() );
 	}
 
 	void writeReal( double val ) {
 		String s;
 		s = "<real>" + StringUtils::toString(val) + "</real>\n";
 		AnsiString tmp = s;
-		write( tmp.c_str(), tmp.length() );
+		write( (const unsigned char*)tmp.c_str(), tmp.length() );
 	}
 
 	void writeData( const unsigned char* buffer, ulong32 bufferSize ) {
@@ -229,7 +229,7 @@ public:
 		AnsiString tmp;
 		tmp = "<data>\n" + output + "/n</data>\n";
 
-		write( tmp.c_str(), tmp.length() );
+		write( (const unsigned char*)tmp.c_str(), tmp.length() );
 	}
 
 	void writeVariantData( VariantData* data ) {
@@ -303,27 +303,27 @@ public:
 		AnsiString s;
 		if ( isRootDictionary ) {
 			s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<plist>\n";
-			write( s.c_str(), s.length() );	
+			write( (const unsigned char*)s.c_str(), s.length() );	
 		}
 
 		s = "<dict>\n";
-		write( s.c_str(), s.length() );
+		write( (const unsigned char*)s.c_str(), s.length() );
 
 		Dictionary::Enumerator* items = dict.getEnumerator();
 		while ( items->hasMoreElements() ) {
 			Dictionary::pair item = items->nextElement();
 			s = "<key>" + item.first + "</key>\n";
-			write( s.c_str(), s.length() );
+			write( (const unsigned char*)s.c_str(), s.length() );
 
 			writeVariantData( &item.second );
 		}
 
 		s = "</dict>\n";
-		write( s.c_str(), s.length() );
+		write( (const unsigned char*)s.c_str(), s.length() );
 
 		if ( isRootDictionary ) {
 			s = "</plist>\n";
-			write( s.c_str(), s.length() );	
+			write( (const unsigned char*)s.c_str(), s.length() );	
 		}
 	}
 };
@@ -349,8 +349,8 @@ public:
 		return inStream_->getBuffer();
 	}
 
-	virtual void read( char* bytesToRead, unsigned long sizeOfBytes ) {
-		inStream_->read( bytesToRead, sizeOfBytes );
+	virtual unsigned long read( unsigned char* bytesToRead, unsigned long sizeOfBytes ) {
+		return inStream_->read( bytesToRead, sizeOfBytes );
 	}
 
 	virtual void read( Persistable* persistableObject ) {
@@ -561,6 +561,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.9.2.2  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.9.2.1  2005/07/23 21:45:35  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

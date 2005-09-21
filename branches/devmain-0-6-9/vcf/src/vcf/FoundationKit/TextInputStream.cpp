@@ -41,11 +41,14 @@ char* TextInputStream::getBuffer()
 	return NULL;
 }
 
-void TextInputStream::read( char* bytesToRead, unsigned long sizeOfBytes )
+unsigned long TextInputStream::read( unsigned char* bytesToRead, unsigned long sizeOfBytes )
 {
+	unsigned long result = 0;
 	if ( NULL != inStream_ ){
-		inStream_->read( bytesToRead, sizeOfBytes );
+		result = inStream_->read( bytesToRead, sizeOfBytes );
 	}
+
+	return result;
 }
 
 void TextInputStream::read( short& val )
@@ -114,13 +117,13 @@ void TextInputStream::readLine( String& line )
 	if ( NULL != this->inStream_ )
 	{
 		char c = '\0';
-		inStream_->read( &c, sizeof(c) );
+		inStream_->read( (unsigned char*)&c, sizeof(c) );
 		totCharRead_++;
 
 		while ( (c != '\n' && c!= '\r') && (totCharRead_ <= size_) )
 		{
 			line += c;
-			inStream_->read( &c, sizeof(c) );
+			inStream_->read( (unsigned char*)&c, sizeof(c) );
 			totCharRead_++;
 		}
 
@@ -129,7 +132,7 @@ void TextInputStream::readLine( String& line )
 
 		//last character!
 		if ( c == '\r' && (totCharRead_ <= size_) ) {
-			inStream_->read( &c, sizeof(c) );
+			inStream_->read( (unsigned char*)&c, sizeof(c) );
 			totCharRead_++;
 			if ( c != '\n' ) {
 				//back up 1
@@ -145,17 +148,17 @@ String TextInputStream::readTillWhiteSpace()
 	String result = "";
 	if ( NULL != this->inStream_ ){
 		char c = '\0';
-		inStream_->read( &c, sizeof(c) );
+		inStream_->read( (unsigned char*)&c, sizeof(c) );
 		totCharRead_++;
 
 		while ( ((c == ' ') || (c == '\0')) && (totCharRead_ < size_) ){
-			inStream_->read( &c, sizeof(c) );
+			inStream_->read( (unsigned char*)&c, sizeof(c) );
 			totCharRead_++;
 		}
 		//get all the nonwhitespace characters
 		while ( (c != ' ') && (c != '\0')  && (totCharRead_ < size_) ){
 			result += c;
-			inStream_->read( &c, sizeof(c) );
+			inStream_->read( (unsigned char*)&c, sizeof(c) );
 			totCharRead_++;
 		}
 	}
@@ -167,17 +170,17 @@ String TextInputStream::readTillTokenPair( const char& token )
 	String result = "";
 	if ( NULL != this->inStream_ ){
 		char c = '\0';
-		inStream_->read( &c, sizeof(c) );
+		inStream_->read( (unsigned char*)&c, sizeof(c) );
 		totCharRead_++;
 
 		while ( (c != token) && (c != ' ') && (totCharRead_ < size_) ){
-			inStream_->read( &c, sizeof(c) );
+			inStream_->read( (unsigned char*)&c, sizeof(c) );
 			totCharRead_++;
 		}
 
 		while ( (c != token) && (totCharRead_ < size_) ){
 			result += c;
-			inStream_->read( &c, sizeof(c) );
+			inStream_->read( (unsigned char*)&c, sizeof(c) );
 			totCharRead_++;
 		}
 	}
@@ -196,6 +199,9 @@ ulong32 TextInputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2.6.1  2005/09/08 03:16:58  ddiego
 *fix for BOM marker in input stream handling and xml parser.
 *

@@ -182,8 +182,8 @@ public:
 		return stream_->getCurrentSeekPos();
 	}
 
-	virtual void write( const char* bytesToWrite, unsigned long sizeOfBytes ) {
-		stream_->write( bytesToWrite, sizeOfBytes );
+	virtual unsigned long write( const unsigned char* bytesToWrite, unsigned long sizeOfBytes ) {
+		return stream_->write( bytesToWrite, sizeOfBytes );
 	}
 
 	void writeComponent( Component* component );
@@ -222,6 +222,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2.6.3  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *
