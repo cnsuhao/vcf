@@ -40,7 +40,7 @@ void Parser::resetStream()
 
 	stream_->seek( 0, stSeekFromStart );
 
-	stream_->read( tmp, stream_->getSize() );
+	stream_->read( (unsigned char*)tmp, stream_->getSize() );
 
 	String tmpStr = tmp;
 	delete [] tmp;
@@ -339,6 +339,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.3.2.3  2005/09/18 22:54:48  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *

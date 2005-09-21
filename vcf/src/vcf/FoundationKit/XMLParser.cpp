@@ -283,7 +283,7 @@ void XMLParser::parse( InputStream* stream )
 	memset( tmpBuffer, 0, (sz+1)*sizeof(char));
 
 	stream->seek( 0, stSeekFromStart );
-	stream->read( tmpBuffer, sz );
+	stream->read( (unsigned char*)tmpBuffer, sz );
 
 	
 	const UnicodeString::AnsiChar* strBuf = tmpBuffer;
@@ -806,6 +806,9 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.4.2.2  2005/09/08 03:43:06  ddiego
 *fix for BOM marker in input stream handling and xml parser.
 *

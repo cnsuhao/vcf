@@ -107,7 +107,7 @@ public:
 	// new introduced by tiziano
 	virtual bool isEOS() = 0;
 
-	virtual void read( char* bytesToRead, unsigned long sizeOfBytes ) = 0;
+	virtual unsigned long read( unsigned char* bytesToRead, unsigned long sizeOfBytes ) = 0;
 
 	virtual void read( Persistable* persistableObject ) ;
 
@@ -157,7 +157,7 @@ class FOUNDATIONKIT_API OutputStream : public Stream {
 public:
 	virtual ~OutputStream(){};
 
-	virtual void write( const char* bytesToWrite, unsigned long sizeOfBytes )=0;
+	virtual unsigned long write( const unsigned char* bytesToWrite, unsigned long sizeOfBytes )=0;
 
 	virtual void write( Persistable* persistableObject );
 
@@ -204,6 +204,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.3  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

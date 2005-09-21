@@ -57,11 +57,11 @@ public:
 		return inStream_->getCurrentSeekPos();
 	}
 
-	virtual void read( char* bytesToRead, unsigned long sizeOfBytes ) {
+	virtual unsigned long read( unsigned char* bytesToRead, unsigned long sizeOfBytes ) {
 		if ( NULL == inStream_ ) {
 			throw InvalidPointerException();
 		}
-		inStream_->read( bytesToRead, sizeOfBytes );
+		return inStream_->read( bytesToRead, sizeOfBytes );		
 	}
 
 	virtual bool isEOS() {
@@ -198,11 +198,11 @@ public:
 		return outStream_->getCurrentSeekPos();
 	}
 
-	virtual void write( const char* bytesToWrite, unsigned long sizeOfBytes ) {
+	virtual unsigned long write( const unsigned char* bytesToWrite, unsigned long sizeOfBytes ) {
 		if ( NULL == outStream_ ) {
 			throw InvalidPointerException();
 		}
-		outStream_->write( bytesToWrite, sizeOfBytes );
+		return outStream_->write( bytesToWrite, sizeOfBytes );
 	}
 
 	void writeVariantData( const VariantData* data ) {
@@ -291,6 +291,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.3  2005/01/02 03:04:23  ddiego
 *merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
 *

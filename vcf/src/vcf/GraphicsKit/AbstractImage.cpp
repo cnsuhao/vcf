@@ -79,7 +79,7 @@ void AbstractImage::saveToStream( OutputStream * stream )
 	stream->write( (long)height_ );
 	stream->write( (long)width_ );
 
-	char* buffer = (char*)imageBits_->pixels_;
+	const unsigned char* buffer = (const unsigned char*)imageBits_->pixels_;
 	stream->write( buffer, height_ * width_ * getType() );
 
 }
@@ -95,7 +95,7 @@ void AbstractImage::loadFromStream( InputStream * stream )
 	stream->read( height );
 	stream->read( width );
 	setSize( width, height );
-	char* buffer = (char*)imageBits_->pixels_;
+	unsigned char* buffer = (unsigned char*)imageBits_->pixels_;
 	stream->read( buffer, height_ * width_ * getType() );
 }
 
@@ -124,6 +124,9 @@ Image::PixelLayoutOrder AbstractImage::getPixelLayoutOrder() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2  2004/08/07 02:49:16  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

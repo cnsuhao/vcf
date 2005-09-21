@@ -62,8 +62,10 @@ defined to use the DLL or static libraries.
 	//link to libAgg automatically here
 	#	ifdef _DEBUG
 	#		pragma comment(lib, "libAGG_"_LIB_CPLVERNUM"_sd.lib")
+	#		pragma comment(lib, "LibJPEG_"_LIB_CPLVERNUM"_sd.lib")
 	#	else
 	#		pragma comment(lib, "libAGG_"_LIB_CPLVERNUM"_s.lib")
+	#		pragma comment(lib, "LibJPEG_"_LIB_CPLVERNUM"_s.lib")
 	#	endif
 
 
@@ -91,6 +93,9 @@ defined to use the DLL or static libraries.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.4  2005/07/09 23:05:59  ddiego
 *added missing gtk files
 *

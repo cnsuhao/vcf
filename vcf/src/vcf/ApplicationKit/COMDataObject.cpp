@@ -330,7 +330,7 @@ void COMDataObject::setDataObject( VCF::DataObject* data )
 
 
 			if ( 0 != stgMedium.hGlobal ){
-				char* globalMemPtr = (char*)::GlobalLock( stgMedium.hGlobal );
+				unsigned char* globalMemPtr = (unsigned char*)::GlobalLock( stgMedium.hGlobal );
 				if ( NULL != globalMemPtr ){
 					memStream.read( globalMemPtr, memStream.getSize() );
 				}
@@ -442,6 +442,9 @@ String COMDataObject::translateClipboardFmt( const UINT& fmtType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2.6.1  2005/08/12 03:13:44  ddiego
 *minor changes
 *

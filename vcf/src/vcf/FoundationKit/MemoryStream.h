@@ -58,9 +58,9 @@ public:
 
 	virtual void write( Persistable* persistableObject );
 
-	virtual void write( const char* bytesToWrite, unsigned long sizeOfBytes );
+	virtual unsigned long write( const unsigned char* bytesToWrite, unsigned long sizeOfBytes );
 
-	virtual void read( char* bytesToRead, unsigned long sizeOfBytes );
+	virtual unsigned long read( unsigned char* bytesToRead, unsigned long sizeOfBytes );
 
 	void init();
 
@@ -83,6 +83,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
+*started to integrate jpeg support directly into graphicskit.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
