@@ -23,6 +23,8 @@ CFG=LibJPEG - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -47,7 +49,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../lib/LibJPEG_vc6_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../../lib/LibJPEG_vc6_s.lib"
+# ADD LIB32 /nologo /out:"../../../../lib/LibJPEG_vc6_s.lib"
 
 !ELSEIF  "$(CFG)" == "LibJPEG - Win32 Debug"
 
@@ -62,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6\Debug\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"..\..\..\..\..\..\lib\LibJPEG_vc6_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /Fd"..\..\..\..\lib\LibJPEG_vc6_sd.pdb" /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -70,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../lib/LibJPEG_vc6_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../../lib/LibJPEG_vc6_sd.lib"
+# ADD LIB32 /nologo /out:"../../../../lib/LibJPEG_vc6_sd.lib"
 
 !ENDIF 
 

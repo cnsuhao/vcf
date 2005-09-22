@@ -825,7 +825,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\____LibJPEG\LibJPEG.dsp" - Package Owner=<4>
+Project: "LibJPEG"="..\..\src\thirdparty\common\LibJPEG\LibJPEG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -849,7 +849,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\___LibPNG\LibPNG.dsp" - Package Owner=<4>
+Project: "LibPNG"="..\..\src\thirdparty\common\LibPNG\LibPNG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1605,7 +1605,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\___ZLib\ZLib.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\src\thirdparty\common\ZLib\ZLib.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

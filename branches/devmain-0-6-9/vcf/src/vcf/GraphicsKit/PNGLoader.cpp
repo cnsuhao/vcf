@@ -476,7 +476,9 @@ void PNGLoader::saveImageToFile( const String& fileName, Image* image )
 
 	// write out the image data	
 
-//	unsigned char* tmpBuffer = new unsigned char[ cinfo.image_width * cinfo.input_components ];	
+	unsigned char* tmpBuffer = new unsigned char[  width * png_ptr->channels ];	
+
+	SysPixelType* pix = image->getImageBits()->pixels_;
 
 	switch( image->getType() ) {
 		case Image::itGrayscale :
@@ -487,5 +489,51 @@ void PNGLoader::saveImageToFile( const String& fileName, Image* image )
 
 		case Image::itColor :
 		break;
+	}
+
+	for (png_uint_32 k = 0; k < height; k++) {
+
+		for ( int x=0;x<width;x++ ) {
+			tmpBuffer[(x * png_ptr->channels)] = pix[x].r; 
+
+			for (int channel=0;channel<png_ptr->channels;channel++ ) {				
+				switch ( channel ) {
+					case 0 : {
+						tmpBuffer[(x * png_ptr->channels) + channel] = pix[x].b;
+					}
+					break;
+
+					case 1 : {
+						tmpBuffer[(x * png_ptr->channels) + channel] = pix[x].g;
+					}
+					break;
+
+					case 2 : {
+						tmpBuffer[(x * png_ptr->channels) + channel] = pix[x].r;
+					}
+					break;
+				}
+			}
+		}
+
+		png_write_row(png_ptr, tmpBuffer );
+
+		pix += width;
+	}
+
+	delete [] tmpBuffer;
+
+
+	// It is REQUIRED to call this to finish writing the rest of the file
+	// Bug with png_flush
+	
+	png_write_end(png_ptr, info_ptr);
+	
+	// clean up after the write, and free any memory allocated
+	
+	png_destroy_write_struct(&png_ptr, &info_ptr);
+
+	if (palette) {
+		png_free(png_ptr, palette);	
 	}
 }

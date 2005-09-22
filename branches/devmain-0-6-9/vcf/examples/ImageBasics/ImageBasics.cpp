@@ -165,7 +165,7 @@ public:
 		/**
 		This will create an image from a given file name
 		*/
-		Image* logoImage = GraphicsToolkit::createImage( "logo.png" );
+		Image* logoImage = GraphicsToolkit::createImage( "logo.bmp" );
 
 		{
 			ColorPixels pixels = logoImage;
@@ -307,7 +307,6 @@ public:
 			ctx->drawImage( x, y, logoImage );
 		}
 
-
 		/**
 		delete the image cause we don't need it anymore
 		*/
@@ -352,6 +351,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/09/22 18:16:56  ddiego
+*added save support for png loader.
+*
 *Revision 1.5.2.4  2005/09/22 04:02:55  ddiego
 *added more png support. we can read png files now.
 *
