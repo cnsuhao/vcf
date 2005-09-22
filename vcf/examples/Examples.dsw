@@ -753,6 +753,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "LibPNG"=..\src\thirdparty\common\LibPNG\LibPNG.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ListBox"=.\ListBox\ListBox.dsp - Package Owner=<4>
 
 Package=<5>
@@ -1228,6 +1240,18 @@ Package=<4>
 ###############################################################################
 
 Project: "WorkingWithEnumerators"=.\WorkingWithEnumerators\WorkingWithEnumerators.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ZLib"=..\src\thirdparty\common\ZLib\ZLib.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -272,6 +272,14 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\PixelFormats.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\PNGLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\PNGLoader.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Point.cpp
 # End Source File
 # Begin Source File
