@@ -1,7 +1,6 @@
 
-#ifndef _VCF_JPEGLOADER_H__
-#define _VCF_JPEGLOADER_H__
-
+#ifndef _VCF_PNGLOADER_H__
+#define _VCF_PNGLOADER_H__
 /*
 Copyright 2000-2004 The VCF Project.
 Please see License.txt in the top level directory
@@ -16,11 +15,11 @@ where you installed the VCF.
 
 namespace VCF {
 
-class GRAPHICSKIT_API JPEGLoader : public Object, public ImageLoader {
+class GRAPHICSKIT_API PNGLoader : public Object, public ImageLoader {
 public:
-	JPEGLoader();
+	PNGLoader();
 
-	virtual ~JPEGLoader();
+	virtual ~PNGLoader();
 
 	virtual Image* loadImageFromFile( const String& fileName );
 
@@ -34,5 +33,5 @@ public:
 
 };
 
-#endif //_VCF_JPEGLOADER_H__
+#endif //_VCF_PNGLOADER_H__
 

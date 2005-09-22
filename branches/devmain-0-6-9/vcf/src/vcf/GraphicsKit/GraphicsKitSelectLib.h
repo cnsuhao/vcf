@@ -63,9 +63,13 @@ defined to use the DLL or static libraries.
 	#	ifdef _DEBUG
 	#		pragma comment(lib, "libAGG_"_LIB_CPLVERNUM"_sd.lib")
 	#		pragma comment(lib, "LibJPEG_"_LIB_CPLVERNUM"_sd.lib")
+	#		pragma comment(lib, "ZLib_"_LIB_CPLVERNUM"_sd.lib")
+	#		pragma comment(lib, "LibPNG_"_LIB_CPLVERNUM"_sd.lib")
 	#	else
 	#		pragma comment(lib, "libAGG_"_LIB_CPLVERNUM"_s.lib")
 	#		pragma comment(lib, "LibJPEG_"_LIB_CPLVERNUM"_s.lib")
+	#		pragma comment(lib, "ZLib_"_LIB_CPLVERNUM"_s.lib")
+	#		pragma comment(lib, "LibPNG_"_LIB_CPLVERNUM"_s.lib")
 	#	endif
 
 
@@ -93,6 +97,9 @@ defined to use the DLL or static libraries.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/09/22 02:43:42  ddiego
+*added png loader.
+*
 *Revision 1.4.2.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *
