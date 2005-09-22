@@ -47,7 +47,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../lib/ZLib_icl7_s.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../../lib/ZLib_icl7_s.lib"
+# ADD LIB32 /nologo /out:"../../../../lib/ZLib_icl7_s.lib"
 
 !ELSEIF  "$(CFG)" == "ZLib - Win32 Debug"
 
@@ -62,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "icl7\Debug\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"..\..\..\..\..\..\lib\ZLib_icl7_sd.pdb" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"..\..\..\..\lib\ZLib_icl7_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -70,7 +70,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../../lib/ZLib_icl7_sd.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../../../../lib/ZLib_icl7_sd.lib"
+# ADD LIB32 /nologo /out:"../../../../lib/ZLib_icl7_sd.lib"
 
 !ENDIF 
 

@@ -408,13 +408,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\Gra
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", "Help\Help.vcproj", "{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", "Help\Help_vc71.vcproj", "{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", "Help\Help_vc71.vcproj", "{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibJPEG", "..\src\thirdparty\common\LibJPEG\LibJPEG_vc71.vcproj", "{ECA9E369-14DB-410D-9874-AF12CC824025}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibPNG", "..\src\thirdparty\common\LibPNG\LibPNG_vc71.vcproj", "{FF4477C9-98CF-40DC-8858-2852BE09EC22}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "..\src\thirdparty\common\ZLib\ZLib_vc71.vcproj", "{93D469AB-F9C1-4182-83B7-3EBC62235476}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -766,14 +772,30 @@ Global
 		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.GTK Debug.Build.0 = Debug|Win32
 		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.ActiveCfg = Release|Win32
 		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.Build.0 = Release|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.ActiveCfg = Debug|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Debug.Build.0 = Debug|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Generate YY and LL files.ActiveCfg = Debug|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Generate YY and LL files.Build.0 = Debug|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.GTK Debug.ActiveCfg = Debug|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.GTK Debug.Build.0 = Debug|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.ActiveCfg = Release|Win32
-		{1BBF8886-EF76-4F87-B6D5-0B0B173E5726}.Release.Build.0 = Release|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.Debug.ActiveCfg = Debug|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.Debug.Build.0 = Debug|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.Generate YY and LL files.ActiveCfg = Debug|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.Generate YY and LL files.Build.0 = Debug|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.GTK Debug.ActiveCfg = Debug|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.GTK Debug.Build.0 = Debug|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.Release.ActiveCfg = Release|Win32
+		{ECA9E369-14DB-410D-9874-AF12CC824025}.Release.Build.0 = Release|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.Debug.ActiveCfg = Debug|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.Debug.Build.0 = Debug|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.Generate YY and LL files.ActiveCfg = Release|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.Generate YY and LL files.Build.0 = Release|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.GTK Debug.ActiveCfg = Debug|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.GTK Debug.Build.0 = Debug|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.Release.ActiveCfg = Release|Win32
+		{FF4477C9-98CF-40DC-8858-2852BE09EC22}.Release.Build.0 = Release|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.Debug.ActiveCfg = Debug|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.Debug.Build.0 = Debug|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.Generate YY and LL files.ActiveCfg = Release|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.Generate YY and LL files.Build.0 = Release|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.GTK Debug.ActiveCfg = Debug|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.GTK Debug.Build.0 = Debug|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.Release.ActiveCfg = Release|Win32
+		{93D469AB-F9C1-4182-83B7-3EBC62235476}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
