@@ -293,6 +293,12 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PixelFormats.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PNGLoader.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\PNGLoader.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Point.cpp">
 			</File>
 			<File

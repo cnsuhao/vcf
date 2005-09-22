@@ -165,7 +165,7 @@ public:
 		/**
 		This will create an image from a given file name
 		*/
-		Image* logoImage = GraphicsToolkit::createImage( "logo.jpg" );
+		Image* logoImage = GraphicsToolkit::createImage( "logo.png" );
 
 		{
 			ColorPixels pixels = logoImage;
@@ -352,6 +352,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/09/22 04:02:55  ddiego
+*added more png support. we can read png files now.
+*
 *Revision 1.5.2.3  2005/09/22 00:32:51  ddiego
 *added jpeg support to graphics kit.
 *
