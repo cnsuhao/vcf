@@ -929,9 +929,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ValidationEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\WhatsThisHelpEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\WhatsThisHelpEvent.h">
 			</File>
 			<File

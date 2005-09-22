@@ -165,7 +165,7 @@ public:
 		/**
 		This will create an image from a given file name
 		*/
-		Image* logoImage = GraphicsToolkit::createImage( "logo.bmp" );
+		Image* logoImage = GraphicsToolkit::createImage( "logo.jpg" );
 
 		{
 			ColorPixels pixels = logoImage;
@@ -307,6 +307,7 @@ public:
 			ctx->drawImage( x, y, logoImage );
 		}
 
+
 		/**
 		delete the image cause we don't need it anymore
 		*/
@@ -351,6 +352,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/09/22 00:32:51  ddiego
+*added jpeg support to graphics kit.
+*
 *Revision 1.5.2.2  2005/09/14 18:55:15  ddiego
 *update to win32window. initial code for new pixels
 *type to replace imagebits class.

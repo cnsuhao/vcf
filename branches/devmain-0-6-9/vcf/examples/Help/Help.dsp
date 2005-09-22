@@ -23,8 +23,6 @@ CFG=Help - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -106,7 +104,7 @@ SOURCE=Help.cpp
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=".\Help App.hhp"
+SOURCE=Help App.hhp
 # End Source File
 # Begin Source File
 
@@ -118,7 +116,7 @@ SOURCE=index.html
 # End Source File
 # Begin Source File
 
-SOURCE=".\Table of Contents.hhc"
+SOURCE=Table of Contents.hhc
 # End Source File
 # End Group
 # End Target

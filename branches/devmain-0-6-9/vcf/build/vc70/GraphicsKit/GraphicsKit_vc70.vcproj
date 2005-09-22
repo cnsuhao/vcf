@@ -245,6 +245,12 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\ImageLoaderException.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\JPEGLoader.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\JPEGLoader.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Matrix2D.cpp">
 			</File>
 			<File

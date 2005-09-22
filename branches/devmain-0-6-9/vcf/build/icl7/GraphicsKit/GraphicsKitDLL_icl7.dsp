@@ -252,6 +252,14 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\ImageLoaderException.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\JPEGLoader.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Matrix2D.cpp
 # End Source File
 # Begin Source File
