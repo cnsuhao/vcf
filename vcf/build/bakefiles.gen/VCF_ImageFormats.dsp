@@ -46,8 +46,6 @@ CFG=ImageFormats - Win32 icl6 Release
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -60,11 +58,11 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc71_d\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc71_d\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc71_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc71_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc71_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /Fd"..\..\bin\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -74,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc71_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc71_d.lib" /debug
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /debug /machine:i386 /implib:"..\..\lib\ImageFormats_vc71_d.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_sd.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc71 DLL Release"
 
@@ -85,11 +83,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc71\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc71\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc71.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc71.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc71.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -99,7 +97,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc71.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc71.lib"
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /implib:"..\..\lib\ImageFormats_vc71.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_s.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc71 Debug"
 
@@ -110,11 +108,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc71_sd\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc71_sd\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc71_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc71_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc71_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /Fd"..\..\lib\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -133,11 +131,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc71_s\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc71_s\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc71_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc71_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc71_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -156,11 +154,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc70_d\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc70_d\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc70_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc70_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc70_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /Fd"..\..\bin\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -170,7 +168,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc70_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc70_d.lib" /debug
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /debug /machine:i386 /implib:"..\..\lib\ImageFormats_vc70_d.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_sd.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc70 DLL Release"
 
@@ -181,11 +179,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc70\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc70\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc70.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc70.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc70.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -195,7 +193,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc70.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc70.lib"
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /implib:"..\..\lib\ImageFormats_vc70.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_s.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc70 Debug"
 
@@ -206,11 +204,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc70_sd\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc70_sd\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc70_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc70_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc70_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /Fd"..\..\lib\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -229,11 +227,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc70_s\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc70_s\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc70_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc70_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc70_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -252,11 +250,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc6_d\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc6_d\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc6_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc6_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc6_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /Fd"..\..\bin\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -266,7 +264,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc6_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc6_d.lib" /debug
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /debug /machine:i386 /implib:"..\..\lib\ImageFormats_vc6_d.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_sd.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc6 DLL Release"
 
@@ -277,11 +275,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc6\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc6\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc6.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc6.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc6.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -291,7 +289,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc6.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc6.lib"
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /implib:"..\..\lib\ImageFormats_vc6.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_s.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc6 Debug"
 
@@ -302,11 +300,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc6_sd\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc6_sd\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc6_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc6_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc6_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /Fd"..\..\lib\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -325,11 +323,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc6_s\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc6_s\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc6_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc6_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc6_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -348,11 +346,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5_d\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc5_d\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc5_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc5_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_vc5_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /Fd"..\..\bin\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -362,7 +360,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc5_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc5_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc5_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc5_d.lib" /debug
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /debug /machine:i386 /implib:"..\..\lib\ImageFormats_vc5_d.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_sd.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc5 DLL Release"
 
@@ -373,11 +371,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc5\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc5.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc5.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_vc5.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -387,7 +385,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc5.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc5.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_vc5.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_vc5.lib"
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /implib:"..\..\lib\ImageFormats_vc5.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_s.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 vc5 Debug"
 
@@ -398,11 +396,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5_sd\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc5_sd\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc5_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc5_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_vc5_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /Fd"..\..\lib\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -421,11 +419,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5_s\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_vc5_s\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc5_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc5_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\ImageFormats_vc5_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -444,11 +442,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl7_d\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl7_d\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_icl7_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_icl7_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_icl7_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /Fd"..\..\bin\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -458,7 +456,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl7_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl7_d.lib" /debug
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /debug /machine:i386 /implib:"..\..\lib\ImageFormats_icl7_d.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_sd.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 icl7 DLL Release"
 
@@ -469,11 +467,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl7\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl7\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_icl7.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_icl7.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_icl7.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -483,7 +481,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl7.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl7.lib"
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /implib:"..\..\lib\ImageFormats_icl7.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_s.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 icl7 Debug"
 
@@ -494,11 +492,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl7_sd\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl7_sd\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_icl7_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_icl7_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_icl7_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /Fd"..\..\lib\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -517,11 +515,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl7_s\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl7_s\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_icl7_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_icl7_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\ImageFormats_icl7_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -540,11 +538,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl6_d\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl6_d\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_icl6_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_icl6_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ImageFormats_icl6_d.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /Fd"..\..\bin\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -554,7 +552,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl6_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl6_d.lib" /debug
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /debug /machine:i386 /implib:"..\..\lib\ImageFormats_icl6_d.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_sd.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 icl6 DLL Release"
 
@@ -565,11 +563,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl6\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl6\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_icl6.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_icl6.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\..\bin\ImageFormats_icl6.pdb /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /c
 # ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_APPLICATIONKIT_DLL" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "IMAGEFORMATS_DLL" /D "IMAGEFORMATS_EXPORTS" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "USE_APPLICATIONKIT_DLL" /d "FREEIMAGE_LIB" /d "USE_FREEIMAGE_LIB" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "IMAGEFORMATS_DLL" /d IMAGEFORMATS_EXPORTS
@@ -579,7 +577,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl6.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ImageFormats_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ImageFormats_icl6.lib"
+# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /implib:"..\..\lib\ImageFormats_icl6.lib" /out:"..\..\bin\ImageFormats_icl6_vc6_s.lib" /libpath:"..\..\lib"
 
 !ELSEIF  "$(CFG)" == "ImageFormats - Win32 icl6 Debug"
 
@@ -590,11 +588,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl6_sd\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl6_sd\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_icl6_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_icl6_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /GR /EHsc /W1 /Od /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ImageFormats_icl6_sd.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /Fd"..\..\lib\ImageFormats_icl6_vc6_sd.pdb" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -613,11 +611,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_icl6_s\ImageFormats"
+# PROP Output_Dir "..\..\lib\"
+# PROP Intermediate_Dir "msvc6prj_icl6_s\ImageFormats\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_icl6_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ImageFormats_icl6_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /GR /EHsc /W1 /O1 /I "..\..\src" /Fd..\..\lib\ImageFormats_icl6_s.pdb /D "WIN32" /D "_LIB" /D "USE_APPLICATIONKIT_LIB" /D "FREEIMAGE_LIB" /D "USE_FREEIMAGE_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe

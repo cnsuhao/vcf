@@ -1140,10 +1140,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ValidationEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\WhatsThisHelpEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\WhatsThisHelpEvent.h
 # End Source File
 # Begin Source File
