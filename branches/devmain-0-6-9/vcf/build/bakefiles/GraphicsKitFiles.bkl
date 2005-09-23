@@ -33,6 +33,7 @@
         vcf/GraphicsKit/ImageLoaderException.h
         vcf/GraphicsKit/ImageTile.h
         vcf/GraphicsKit/InvalidImage.h
+        vcf/GraphicsKit/JPEGLoader.h
         vcf/GraphicsKit/Kernel.h
         vcf/GraphicsKit/Layer.h
         vcf/GraphicsKit/MagicFMLibType.h
@@ -40,6 +41,7 @@
         vcf/GraphicsKit/NoGraphicsToolkitFoundException.h
         vcf/GraphicsKit/Path.h
         vcf/GraphicsKit/PixelFormats.h
+        vcf/GraphicsKit/PNGLoader.h
         vcf/GraphicsKit/Point.h
         vcf/GraphicsKit/Printable.h
         vcf/GraphicsKit/PrintContext.h
@@ -66,7 +68,9 @@
         vcf/GraphicsKit/GraphicsResourceBundle.cpp
         vcf/GraphicsKit/GraphicsToolKit.cpp
         vcf/GraphicsKit/ImageEvent.cpp
+        vcf/GraphicsKit/JPEGLoader.cpp
         vcf/GraphicsKit/Matrix2D.cpp
+        vcf/GraphicsKit/PNGLoader.cpp
         vcf/GraphicsKit/Point.cpp
         vcf/GraphicsKit/PrintSession.cpp
         vcf/GraphicsKit/Rect.cpp
