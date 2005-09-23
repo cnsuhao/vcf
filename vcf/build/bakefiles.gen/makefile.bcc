@@ -419,7 +419,9 @@ GRAPHICSKIT_LIB_OBJECTS =  \
 	$(OBJDIR)\GraphicsKit_lib_GraphicsResourceBundle.obj \
 	$(OBJDIR)\GraphicsKit_lib_GraphicsToolKit.obj \
 	$(OBJDIR)\GraphicsKit_lib_ImageEvent.obj \
+	$(OBJDIR)\GraphicsKit_lib_JPEGLoader.obj \
 	$(OBJDIR)\GraphicsKit_lib_Matrix2D.obj \
+	$(OBJDIR)\GraphicsKit_lib_PNGLoader.obj \
 	$(OBJDIR)\GraphicsKit_lib_Point.obj \
 	$(OBJDIR)\GraphicsKit_lib_PrintSession.obj \
 	$(OBJDIR)\GraphicsKit_lib_Rect.obj \
@@ -446,7 +448,9 @@ GRAPHICSKIT_DLL_OBJECTS =  \
 	$(OBJDIR)\GraphicsKit_dll_GraphicsResourceBundle.obj \
 	$(OBJDIR)\GraphicsKit_dll_GraphicsToolKit.obj \
 	$(OBJDIR)\GraphicsKit_dll_ImageEvent.obj \
+	$(OBJDIR)\GraphicsKit_dll_JPEGLoader.obj \
 	$(OBJDIR)\GraphicsKit_dll_Matrix2D.obj \
+	$(OBJDIR)\GraphicsKit_dll_PNGLoader.obj \
 	$(OBJDIR)\GraphicsKit_dll_Point.obj \
 	$(OBJDIR)\GraphicsKit_dll_PrintSession.obj \
 	$(OBJDIR)\GraphicsKit_dll_Rect.obj \
@@ -1202,7 +1206,9 @@ ______Allin1_lib_GK_SRC_FILENAMES_OBJECTS =  \
 	$(OBJDIR)\Allin1_lib_GraphicsResourceBundle.obj \
 	$(OBJDIR)\Allin1_lib_GraphicsToolKit.obj \
 	$(OBJDIR)\Allin1_lib_ImageEvent.obj \
+	$(OBJDIR)\Allin1_lib_JPEGLoader.obj \
 	$(OBJDIR)\Allin1_lib_Matrix2D.obj \
+	$(OBJDIR)\Allin1_lib_PNGLoader.obj \
 	$(OBJDIR)\Allin1_lib_Point.obj \
 	$(OBJDIR)\Allin1_lib_PrintSession.obj \
 	$(OBJDIR)\Allin1_lib_Rect.obj \
@@ -1467,7 +1473,9 @@ ______Allin1_dll_GK_SRC_FILENAMES_OBJECTS =  \
 	$(OBJDIR)\Allin1_dll_GraphicsResourceBundle.obj \
 	$(OBJDIR)\Allin1_dll_GraphicsToolKit.obj \
 	$(OBJDIR)\Allin1_dll_ImageEvent.obj \
+	$(OBJDIR)\Allin1_dll_JPEGLoader.obj \
 	$(OBJDIR)\Allin1_dll_Matrix2D.obj \
+	$(OBJDIR)\Allin1_dll_PNGLoader.obj \
 	$(OBJDIR)\Allin1_dll_Point.obj \
 	$(OBJDIR)\Allin1_dll_PrintSession.obj \
 	$(OBJDIR)\Allin1_dll_Rect.obj \
@@ -2960,7 +2968,13 @@ $(OBJDIR)\GraphicsKit_lib_GraphicsToolKit.obj: ..\..\src\vcf\GraphicsKit\Graphic
 $(OBJDIR)\GraphicsKit_lib_ImageEvent.obj: ..\..\src\vcf\GraphicsKit\ImageEvent.cpp
 	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_LIB_CXXFLAGS) $**
 
+$(OBJDIR)\GraphicsKit_lib_JPEGLoader.obj: ..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
+	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_LIB_CXXFLAGS) $**
+
 $(OBJDIR)\GraphicsKit_lib_Matrix2D.obj: ..\..\src\vcf\GraphicsKit\Matrix2D.cpp
+	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_LIB_CXXFLAGS) $**
+
+$(OBJDIR)\GraphicsKit_lib_PNGLoader.obj: ..\..\src\vcf\GraphicsKit\PNGLoader.cpp
 	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\GraphicsKit_lib_Point.obj: ..\..\src\vcf\GraphicsKit\Point.cpp
@@ -3026,7 +3040,13 @@ $(OBJDIR)\GraphicsKit_dll_GraphicsToolKit.obj: ..\..\src\vcf\GraphicsKit\Graphic
 $(OBJDIR)\GraphicsKit_dll_ImageEvent.obj: ..\..\src\vcf\GraphicsKit\ImageEvent.cpp
 	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_DLL_CXXFLAGS) $**
 
+$(OBJDIR)\GraphicsKit_dll_JPEGLoader.obj: ..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
+	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_DLL_CXXFLAGS) $**
+
 $(OBJDIR)\GraphicsKit_dll_Matrix2D.obj: ..\..\src\vcf\GraphicsKit\Matrix2D.cpp
+	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_DLL_CXXFLAGS) $**
+
+$(OBJDIR)\GraphicsKit_dll_PNGLoader.obj: ..\..\src\vcf\GraphicsKit\PNGLoader.cpp
 	$(CXX) -q -c -P -o$@ $(GRAPHICSKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\GraphicsKit_dll_Point.obj: ..\..\src\vcf\GraphicsKit\Point.cpp
@@ -4727,7 +4747,13 @@ $(OBJDIR)\Allin1_lib_GraphicsToolKit.obj: ..\..\src\vcf\GraphicsKit\GraphicsTool
 $(OBJDIR)\Allin1_lib_ImageEvent.obj: ..\..\src\vcf\GraphicsKit\ImageEvent.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
+$(OBJDIR)\Allin1_lib_JPEGLoader.obj: ..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
+	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
+
 $(OBJDIR)\Allin1_lib_Matrix2D.obj: ..\..\src\vcf\GraphicsKit\Matrix2D.cpp
+	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
+
+$(OBJDIR)\Allin1_lib_PNGLoader.obj: ..\..\src\vcf\GraphicsKit\PNGLoader.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_lib_Point.obj: ..\..\src\vcf\GraphicsKit\Point.cpp
@@ -5477,7 +5503,13 @@ $(OBJDIR)\Allin1_dll_GraphicsToolKit.obj: ..\..\src\vcf\GraphicsKit\GraphicsTool
 $(OBJDIR)\Allin1_dll_ImageEvent.obj: ..\..\src\vcf\GraphicsKit\ImageEvent.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
+$(OBJDIR)\Allin1_dll_JPEGLoader.obj: ..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
+	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
+
 $(OBJDIR)\Allin1_dll_Matrix2D.obj: ..\..\src\vcf\GraphicsKit\Matrix2D.cpp
+	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
+
+$(OBJDIR)\Allin1_dll_PNGLoader.obj: ..\..\src\vcf\GraphicsKit\PNGLoader.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_dll_Point.obj: ..\..\src\vcf\GraphicsKit\Point.cpp
