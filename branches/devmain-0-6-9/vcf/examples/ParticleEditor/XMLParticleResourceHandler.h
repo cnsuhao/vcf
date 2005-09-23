@@ -214,7 +214,7 @@ public:
 
 		// Write it out this way, so the XML doesn't end with a null
 		data=node->toString();
-		out->write(data.ansi_c_str(),data.size());
+		out->write((unsigned char*)data.ansi_c_str(),data.size());
 
 		delete node;
 	}
@@ -224,6 +224,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/09/23 05:30:34  kdmix
+*The first parameter of the OutputStream.write() method is const unsigned char* now.
+*
 *Revision 1.3.2.1  2005/07/23 21:45:39  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *
