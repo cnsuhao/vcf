@@ -77,12 +77,17 @@ defined to use the DLL or static libraries.
 	//	creating the static or dynamic link library
 	#endif // APPLICATIONKIT_LIB
 
+	//Always link to comctl32.lib no matter what
+	#		pragma comment(lib, "comctl32.lib")
 #endif //_MSC_VER
 
 #endif //VCF_USE_ALLIN1_DLL/LIB
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/09/28 14:06:38  ddiego
+*fixed up auto linkage of win32 libs.
+*
 *Revision 1.4  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

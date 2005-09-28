@@ -77,12 +77,18 @@ defined to use the DLL or static libraries.
 	//	creating the static or dynamic link library
 	#endif // FOUNDATIONKIT_LIB
 
+	//Always link to Rpcrt4.lib version.lib no matter what
+	#		pragma comment(lib, "Rpcrt4.lib")
+	#		pragma comment(lib, "version.lib")
 #endif //_MSC_VER
 
 #endif //VCF_ALLIN1_DLL/LIB
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/09/28 14:06:39  ddiego
+*fixed up auto linkage of win32 libs.
+*
 *Revision 1.5.2.1  2005/09/03 20:48:46  kdmix
 *All-in-1 library building fixed: VCF_ALLIN1_* have been replaced with VCF_USE_ALLIN1_*.
 *
