@@ -1,0 +1,10 @@
+cd ../
+for i in `find ./ -iname *.dsp`
+do
+  unix2dos $i
+done
+
+for i in `find ./ -iname *.dsw`
+do
+  unix2dos $i
+done
