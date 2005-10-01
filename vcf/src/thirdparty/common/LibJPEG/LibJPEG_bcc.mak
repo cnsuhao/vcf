@@ -18,10 +18,10 @@ BMODE = RELEASE
 
 PROJECT=$(PROJECT1)
 SYSDEFINES=_LIB;BUILD_LIBJPEG_LIB
-OUTDIR=..\..\..\..\..\..\lib
+OUTDIR=..\..\..\..\lib
 TDIR=S
 
-!include <..\..\..\..\..\..\build\bcc\defaultmake.inc>
+!include <..\..\..\..\build\bcc\defaultmake.inc>
 
 CFLAGS=$(CFLAGS) -w-8057
 
@@ -38,8 +38,8 @@ CFLAGS=$(CFLAGS) -w-8057
 
 LIBNAME=LibJPEG_bcc_s$(DBG).lib
 DLLNAME=
-INCDIR=..\..\..\..\..\..\src
-LIBDIR=..\..\..\..\..\..\lib
+INCDIR=..\..\..\..\src
+LIBDIR=..\..\..\..\lib
 SRC=
 OBJ=.\$(OBJDIR)
 BIN=.\$(OUTDIR)

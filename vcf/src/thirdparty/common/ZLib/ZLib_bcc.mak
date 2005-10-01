@@ -16,11 +16,11 @@ BMODE = RELEASE
 !  error Illegal value for BMODE option
 !endif
 
-!include <..\..\..\..\..\..\build\bcc\defaultmake.inc>
+!include <..\..\..\..\build\bcc\defaultmake.inc>
 
 PROJECT=$(PROJECT1)
 SYSDEFINES=_LIB;BUILD_ZLIB_LIB
-OUTDIR=..\..\..\..\..\..\lib
+OUTDIR=..\..\..\..\lib
 TDIR=S
 
 CFLAGS=$(CFLAGS) -w-8057 -w-8012
@@ -37,8 +37,8 @@ CFLAGS=$(CFLAGS) -w-8057 -w-8012
 
 LIBNAME=ZLib_bcc_s$(DBG).lib
 DLLNAME=
-INCDIR=..\..\..\..\..\..\src
-LIBDIR=..\..\..\..\..\..\lib
+INCDIR=..\..\..\..\src
+LIBDIR=..\..\..\..\lib
 SRC=
 OBJ=.\$(OBJDIR)
 BIN=.\$(OUTDIR)
