@@ -88,8 +88,10 @@ CPPFILES=GraphicsKit.cpp \
          Win32GraphicsResourceBundle.cpp \
          Win32GraphicsToolkit.cpp \
          Win32Image.cpp \
-         Win32PrintSession.cpp
-	
+         Win32PrintSession.cpp\
+        JPEGLoader.cpp\
+        PNGLoader.cpp
+
 OBJFILES=$(CPPFILES:.cpp=.obj^ )         
 LIBFILES=ODBC32.LIB UUID.LIB
 DEFFILE=
