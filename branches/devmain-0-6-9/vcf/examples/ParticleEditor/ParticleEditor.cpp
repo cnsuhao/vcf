@@ -462,8 +462,7 @@ void ParticleEditor::onInitialSpeed(TextEvent *e){
 	try{
 		value=StringUtils::fromStringAsFloat(mInitialSpeed->getTextModel()->getText());
 	}
-	catch(std::exception &e){
-		e.what(); // Get rid of unused e warning
+	catch(std::exception&){
 		value=0;
 	}
 
@@ -475,8 +474,7 @@ void ParticleEditor::onInitialVariance(TextEvent *e){
 	try{
 		value=StringUtils::fromStringAsFloat(mInitialVariance->getTextModel()->getText());
 	}
-	catch(std::exception &e){
-		e.what(); // Get rid of unused e warning
+	catch(std::exception&){
 		value=0;
 	}
 
@@ -488,8 +486,7 @@ void ParticleEditor::onGravity(TextEvent *e){
 	try{
 		value=StringUtils::fromStringAsFloat(mGravity->getTextModel()->getText());
 	}
-	catch(std::exception &e){
-		e.what(); // Get rid of unused e warning
+	catch(std::exception&){
 		value=0;
 	}
 
@@ -501,8 +498,7 @@ void ParticleEditor::onGravityVariance(TextEvent *e){
 	try{
 		value=StringUtils::fromStringAsFloat(mGravityVariance->getTextModel()->getText());
 	}
-	catch(std::exception &e){
-		e.what(); // Get rid of unused e warning
+	catch(std::exception&){
 		value=0;
 	}
 
@@ -656,8 +652,7 @@ void ParticleEditor::onFileLoad(MenuItemEvent *e){
 		try{
 			in=new FileInputStream(dialog->getFileName());
 		}
-		catch(std::exception &e){
-			e.what();
+		catch(std::exception&){
 		}
 
 		if(in){
@@ -736,6 +731,9 @@ void ParticleEditor::onFileExit(MenuItemEvent *e){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/10/01 00:54:18  kiklop74
+*minor sample fixes
+*
 *Revision 1.3.2.2  2005/09/02 01:01:19  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *
