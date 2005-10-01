@@ -86,13 +86,13 @@ CPPFILES=AbstractApplication.cpp \
          Clipboard.cpp \
          ColorEtchedBorder.cpp \
          CommandGroup.cpp \
-         CommonColor.cpp \
-         CommonFileBrowse.cpp \
+         CommonColorDialog.cpp \
+         CommonFileBrowseDialog.cpp \
          CommonFileDialog.cpp \
-         CommonFileOpen.cpp \
-         CommonFileSave.cpp \
-         CommonFont.cpp \
-         CommonPrint.cpp \
+         CommonFileOpenDialog.cpp \
+         CommonFileSaveDialog.cpp \
+         CommonFontDialog.cpp \
+         CommonPrintDialog.cpp \
          Component.cpp \
          ComponentEditorManager.cpp \
          ComponentInfo.cpp \
@@ -177,7 +177,6 @@ CPPFILES=AbstractApplication.cpp \
          TreeModelEvent.cpp \
          UndoRedoEvent.cpp \
          ValidationEvent.cpp \
-         WhatsThisHelpEvent.cpp \
          AbstractListModel.cpp \
          AbstractTreeModel.cpp \
          AbstractView.cpp \

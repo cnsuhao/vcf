@@ -49,15 +49,15 @@ clean::
 	-@$(MK) -fOpenGLKit.mak -DBMODE=$(BMODE) -DTARGET=$(TARGET) clean	
 	-@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\FreeImageLib
 	-@$(MK) -fFreeImageLib_bcc.mak -DBMODE=$(BMODE) clean
-	-@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\LibJPEG
+	-@cd $(VCFBIN)\..\src\thirdparty\common\LibJPEG
 	-@$(MK) -fLibJPEG_bcc.mak -DBMODE=$(BMODE) clean
 	-@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\LibMNG
 	-@$(MK) -fLibMNG_bcc.mak -DBMODE=$(BMODE) clean
-	-@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\LibPNG
+	-@cd $(VCFBIN)\..\src\thirdparty\common\LibPNG
 	-@$(MK) -fLibPNG_bcc.mak -DBMODE=$(BMODE) clean
 	-@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\LibTIFF
 	-@$(MK) -fLibTIFF_bcc.mak -DBMODE=$(BMODE) clean
-	-@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\ZLib
+	-@cd $(VCFBIN)\..\src\thirdparty\common\ZLib
 	-@$(MK) -fZLib_bcc.mak -DBMODE=$(BMODE) clean
 	-@cd $(VCFBUILDROOT)
 
@@ -149,7 +149,7 @@ FreeImageLib:: LibJPEG LibMNG LibPNG LibTIFF ZLib
 	@cd $(VCFBUILDROOT)
 
 LibJPEG::
-	@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\LibJPEG
+	@cd $(VCFBIN)\..\src\thirdparty\common\LibJPEG
 	@$(MK) -fLibJPEG_bcc.mak -DBMODE=$(BMODE)
 	@cd $(VCFBUILDROOT)
 
@@ -158,7 +158,7 @@ LibMNG::
 	@$(MK) -fLibMNG_bcc.mak -DBMODE=$(BMODE)
 	@cd $(VCFBUILDROOT)
 LibPNG::
-	@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\LibPNG
+	@cd $(VCFBIN)\..\src\thirdparty\common\LibPNG
 	@$(MK) -fLibPNG_bcc.mak -DBMODE=$(BMODE)
 	@cd $(VCFBUILDROOT)
 
@@ -168,6 +168,6 @@ LibTIFF::
 	@cd $(VCFBUILDROOT)
 
 ZLib::
-	@cd $(VCFBIN)\..\src\thirdparty\common\FreeImage\Source\ZLib
+	@cd $(VCFBIN)\..\src\thirdparty\common\ZLib
 	@$(MK) -fZLib_bcc.mak -DBMODE=$(BMODE)
 	@cd $(VCFBUILDROOT)
