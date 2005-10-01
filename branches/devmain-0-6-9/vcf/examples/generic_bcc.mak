@@ -50,7 +50,7 @@ ALLOBJS=$(BCC32STARTUP) $(OBJFILES)
 ALLLIBS=$(LIBFILES) import32.lib $(BCC32RTLIB)
 LIBDIR=..\..\lib
 
-CPPFLAGS=$(TFLAGS) $(CUSTOMCPP) -q -6 -tWM -VF -RT -x -a8 -b -X- -D$(SYSDEFINES);$(USERDEFINES)
+CPPFLAGS=$(TFLAGS) $(CUSTOMCPP) -q -Q+ -6 -tWM -VF -RT -x -a8 -b -X- -w-aus -w-sig -w-voi -w-use -w-def -w-pin  -w-8084 -D$(SYSDEFINES);$(USERDEFINES)
 CFLAGS=$(TFLAGS)  $(CUSTOMC) -q -6 -tWM -VF -w-aus -w-sus -w-pia -w-rch -w-ccc -w-eff -D$(SYSDEFINES);$(USERDEFINES)
 SLINKFLAGS=-q $(LFLAGS) $(CUSTOMLFLAGS) -Gn -c -Af:0x1000 -Ao:0x1000 -L$(LIBDIR)
 
