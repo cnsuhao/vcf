@@ -27,7 +27,7 @@ class ListItem;
 #define LIST_MODEL_ITEM_DELETED			CUSTOM_EVENT_TYPES + LIST_MODEL_CONST + 4
 
 
-class ListModelEvent : public Event
+class APPLICATIONKIT_API ListModelEvent : public Event
 {
 public:
 	ListModelEvent( Object* source );
@@ -94,6 +94,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/10/03 19:16:02  scottpearson
+*Minor export bug overcome.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
