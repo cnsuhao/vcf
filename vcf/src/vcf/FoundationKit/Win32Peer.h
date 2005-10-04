@@ -78,6 +78,8 @@ public:
 	static VCF::ulong32 translateVKCode( UINT vkCode );
 
 	static VCF::String getErrorString( const DWORD& errorCode );
+
+	static VCF::uint32 convertCharToVKCode( VCF::VCFChar ch );
 };
 
 
@@ -87,6 +89,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.3  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

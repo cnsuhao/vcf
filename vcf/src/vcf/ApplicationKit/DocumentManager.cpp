@@ -523,7 +523,7 @@ void DocumentManager::addDocumentInfo( const VCF::String& mimeType, const Docume
 void DocumentManager::addDocument( Document* document )
 {
 	openDocuments_.push_back( document );
-	document->addRef();
+	//document->addRef();
 }
 
 void DocumentManager::removeDocument( Document* document )
@@ -531,7 +531,7 @@ void DocumentManager::removeDocument( Document* document )
 	std::vector<Document*>::iterator found = std::find( openDocuments_.begin(), openDocuments_.end(), document );
 	if ( found != openDocuments_.end() ) {
 		openDocuments_.erase( found );
-		document->release();
+		//document->release();
 	}
 }
 
@@ -613,6 +613,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4.2.3  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

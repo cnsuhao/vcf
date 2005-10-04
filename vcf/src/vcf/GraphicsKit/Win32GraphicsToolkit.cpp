@@ -100,12 +100,12 @@ FontPeer* Win32GraphicsToolkit::internal_createFontPeer( const String& fontName,
 }
 
 
-Image* Win32GraphicsToolkit::internal_createImage( const unsigned long& width, const unsigned long& height )
+Image* Win32GraphicsToolkit::internal_createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType )
 {
 	return new Win32Image( width, height );
 }
 
-Image* Win32GraphicsToolkit::internal_createImage( GraphicsContext* context, Rect* rect  )
+Image* Win32GraphicsToolkit::internal_createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType )
 {
 	if ( NULL != context ){
 		return new Win32Image( context, rect );
@@ -220,6 +220,9 @@ GraphicsResourceBundlePeer* Win32GraphicsToolkit::internal_createGraphicsResourc
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.5  2005/07/09 23:06:02  ddiego
 *added missing gtk files
 *

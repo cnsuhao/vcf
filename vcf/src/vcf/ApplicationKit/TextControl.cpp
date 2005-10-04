@@ -38,6 +38,7 @@ TextControl::TextControl( const bool& multiLineControl ):
 
 	setTextModel( new DefaultTextModel() );
 
+	addComponent( getViewModel() );
 
 	//if we are a single line control then add a
 	//handler for getting the focus so we can
@@ -711,6 +712,9 @@ void TextControl::redo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.2  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.8.2.1  2005/08/01 18:50:31  marcelloptr
 *minor changes
 *

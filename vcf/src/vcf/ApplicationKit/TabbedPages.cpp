@@ -38,6 +38,7 @@ void TabbedPages::init()
 
 	setTabModel( new DefaultTabModel() );
 
+	addComponent( getViewModel() );
 
 	borderWidth_ = 8.0;
 	tabHeight_ = 21.0;
@@ -46,36 +47,12 @@ void TabbedPages::init()
 
 
 	EventHandler* ev = new ButtonEventHandler<TabbedPages>( this, &TabbedPages::onScrollButtonClicked, "onScrollButtonClicked" );
-	/*
-	scrollForward_ = new ScrollButton();
-	scrollForward_->setHeight( tabHeight_ );
-	scrollForward_->setWidth(  tabHeight_ );
-
-	scrollBackward_ = new ScrollButton();
-	scrollBackward_->setHeight( tabHeight_ );
-	scrollBackward_->setWidth(  tabHeight_ );
-
-	scrollBackward_->setTag( SCROLL_BKWD_TAG );
-	scrollForward_->setTag( SCROLL_FWD_TAG );
-
-
-	scrollForward_->addButtonClickHandler( ev );
-	scrollBackward_->addButtonClickHandler( ev );
-
-	add( scrollBackward_ );
-	add( scrollForward_ );
-
-	scrollForward_->setVisible( false );
-	scrollBackward_->setVisible( false );
-	*/
-
+	
 }
 
 TabbedPages::~TabbedPages()
 {
-	if ( NULL != model_ ){
-		//model_->release();
-	}
+	
 }
 
 void TabbedPages::recalcScrollerButtonsPos()
@@ -560,6 +537,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -119,9 +119,9 @@ public:
 
 	static FontPeer* createFontPeer( const String& fontName, const double& pointSize );
 
-	static Image* createImage( const unsigned long& width, const unsigned long& height );
+	static Image* createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType = Image::itColor );
 
-	static Image* createImage( GraphicsContext* context, Rect* rect );
+	static Image* createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType = Image::itColor );
 
 	static PrintSessionPeer* createPrintSessionPeer();
 
@@ -193,9 +193,9 @@ protected:
 
 	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize )  = 0;
 
-	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height ) = 0;
+	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType ) = 0;
 
-	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect ) = 0;
+	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType ) = 0;
 
 	virtual PrintSessionPeer* internal_createPrintSessionPeer() = 0;
 
@@ -303,6 +303,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.6  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

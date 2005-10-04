@@ -114,6 +114,62 @@ void VFFOutputStream::getComponentHeader( Component* component, String& classNam
 	classID = clazz->getID();
 }
 
+void VFFOutputStream::writeProperty( Property* property )
+{
+	String tabString = getTabString();
+	String s;
+
+
+	VariantData* value = property->get();
+	switch ( value->type ) {
+		case pdObject : {
+			Object* obj = (Object*)(*value);
+			if ( NULL != obj ) {
+				Component* subComponent = dynamic_cast<Component*>(obj);
+				if ( NULL != subComponent ) {
+					//this is a reference to a component -
+					//we don't want to write it out here otherwise
+					//it will be written out twice
+					if ( subComponent->getName().empty() ) {
+						StringUtils::trace( Format("Warning - property '%s' references an un-named component of type '%s'\n")
+							% property->getName() % subComponent->getClassName() );
+					}
+					else {
+						s  = tabString + property->getName() + " = @" + subComponent->getName() + "\n";
+						stream_->write( s );
+					}
+				}
+				else {
+					writeObject( obj, property->getName() );
+				}
+			}
+			else {
+				s = tabString + property->getName() + " = null\n";
+				stream_->write( s );
+			}
+		}
+		break;
+
+		case pdString : {
+			s = tabString + property->getName() + " = '" + value->toString() + "'\n";
+			stream_->write( s );
+		}
+		break;
+
+		case pdEnumMask : {
+			s = tabString + property->getName() + " = [" + property->toString() + "]\n";
+			stream_->write( s );
+		}
+		break;
+
+		default : {
+			s = tabString + property->getName() + " = " + value->toString() + "\n";
+			stream_->write( s );
+		}
+		break;
+	}
+}
+
 void VFFOutputStream::writeComponent( Component* component )
 {
 	if ( !saveUnNamedComponents_ && (component->getName().empty()) ) {
@@ -133,43 +189,10 @@ void VFFOutputStream::writeComponent( Component* component )
 		Enumerator<Property*>* props = clazz->getProperties();
 		if ( NULL != props ) {
 			tabLevel_ ++;
-			tabString = getTabString();
 			while ( true == props->hasMoreElements() ) {
 				Property* prop = props->nextElement();
 				if ( NULL != prop ) {
-					VariantData* value = prop->get();
-					if ( pdObject == prop->getType() ) {
-						Object* obj = (Object*)(*value);
-						if ( NULL != obj ) {
-							Component* subComponent = dynamic_cast<Component*>(obj);
-							if ( NULL != subComponent ) {
-								//this is a reference to a component -
-								//we don't want to write it out here other wise
-								//it will be written out twice
-								s  = tabString + prop->getName() + " = @" + subComponent->getName() + "\n";
-								stream_->write( s );
-							}
-							else {
-								writeObject( obj, prop->getName() );
-							}
-						}
-						else {
-							s = tabString + prop->getName() + " = null\n";
-							stream_->write( s );
-						}
-					}
-					else if ( pdString == value->type ) {
-						s = tabString + prop->getName() + " = '" + value->toString() + "'\n";
-						stream_->write( s );
-					}
-					else if ( pdEnumMask == value->type ) {
-						s = tabString + prop->getName() + " = [" + prop->toString() + "]\n";
-						stream_->write( s );
-					}
-					else {
-						s = tabString + prop->getName() + " = " + value->toString() + "\n";
-						stream_->write( s );
-					}
+					writeProperty( prop );
 				}
 			}
 			tabLevel_ --;
@@ -328,6 +351,9 @@ void VFFOutputStream::writeEvents( Component* component )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.3.2.3  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *

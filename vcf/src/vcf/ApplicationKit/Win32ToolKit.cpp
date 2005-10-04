@@ -1898,34 +1898,48 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 
 		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP: {
 			KeyboardData keyData = Win32Utils::translateKeyData( msg->msg_.hwnd, msg->msg_.lParam );
+			
 			unsigned long eventType = 0;
+			unsigned long repeatCount = keyData.repeatCount;
+
+			unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+
+			VCFChar keyVal = 0;
+			
+			VirtualKeyCode virtualKeyCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
+
 			switch ( msg->msg_.message ){
 				case WM_CHAR: {
 					eventType = Control::KEYBOARD_PRESSED;
+					keyVal = (VCFChar)msg->msg_.wParam;
+					if ( isgraph( keyVal ) ) {
+						virtualKeyCode = (VirtualKeyCode)Win32Utils::convertCharToVKCode( keyVal );
+					}
 				}
 				break;
 
 				case WM_KEYDOWN: {
+					keyVal = keyData.character;
 					eventType = Control::KEYBOARD_DOWN;//KEYBOARD_EVENT_DOWN;
+					virtualKeyCode = (VirtualKeyCode)Win32Utils::translateVKCode( msg->msg_.wParam );
 				}
 				break;
 
 				case WM_KEYUP: {
 					eventType = Control::KEYBOARD_UP;
+					keyVal = keyData.character;
+					virtualKeyCode = (VirtualKeyCode)Win32Utils::translateVKCode( msg->msg_.wParam );
 				}
 				break;
 			}
 
-			unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
 
-			ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
 			result = new VCF::KeyboardEvent( msg->control_,
 											eventType,
-											keyData.repeatCount,
+											repeatCount,
 											keyMask,
-											(VCF::VCFChar)keyData.character,
-											(VirtualKeyCode)virtKeyCode );
-
+											keyVal,
+											virtualKeyCode );
 
 		}
 		break;
@@ -2381,6 +2395,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.8  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.6.2.7  2005/09/10 00:12:44  ddiego
 *fixed the html help calls so that the library is now loaded on the fly. if its not present the calls revert to no-ops.
 *

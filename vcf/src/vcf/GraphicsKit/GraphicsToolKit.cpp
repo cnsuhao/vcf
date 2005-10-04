@@ -77,14 +77,14 @@ FontPeer* GraphicsToolkit::createFontPeer( const String& fontName, const double&
 }
 
 
-Image* GraphicsToolkit::createImage( const unsigned long& width, const unsigned long& height )
+Image* GraphicsToolkit::createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType )
 {
-	return GraphicsToolkit::graphicsToolkitInstance->internal_createImage( width, height );
+	return GraphicsToolkit::graphicsToolkitInstance->internal_createImage( width, height, imageType );
 }
 
-Image* GraphicsToolkit::createImage( GraphicsContext* context, Rect* rect )
+Image* GraphicsToolkit::createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType )
 {
-	return GraphicsToolkit::graphicsToolkitInstance->internal_createImage( context, rect );
+	return GraphicsToolkit::graphicsToolkitInstance->internal_createImage( context, rect, imageType );
 }
 
 Image* GraphicsToolkit::createImage( const String& fileName )
@@ -1341,6 +1341,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.5.2.2  2005/09/22 02:43:42  ddiego
 *added png loader.
 *

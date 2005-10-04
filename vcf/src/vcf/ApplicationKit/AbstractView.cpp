@@ -15,9 +15,7 @@ using namespace VCF;
 
 AbstractView::~AbstractView()
 {
-	if ( NULL != viewModel_ ) {
-		viewModel_->release();
-	}
+	
 }
 
 void AbstractView::updateView( Model* updatedModel )
@@ -37,21 +35,16 @@ void AbstractView::setViewModel( Model* viewModel ){
 		return;
 	}
 
-	if ( NULL != viewModel_ ) {
-		viewModel_->release();
-	}
-
 	viewModel_ = viewModel;
-
-	if ( NULL != viewModel_ ) {
-		viewModel_->addRef();
-	}
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

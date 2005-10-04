@@ -308,6 +308,8 @@ void ComboBoxControl::init()
 
 	setListModel( new DefaultListModel() );
 
+	addComponent( getViewModel() );
+
 	setContainer( new ComboBoxContainer() );
 
 	selectedIndex_ = 0;
@@ -1046,6 +1048,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.5.2.1  2005/08/01 18:50:31  marcelloptr
 *minor changes
 *

@@ -70,6 +70,8 @@ void TreeControl::init()
 
 	setTreeModel( new DefaultTreeModel() );
 
+	addComponent( getViewModel() );
+
 	setBorder( new Basic3DBorder( true ) );
 
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
@@ -355,6 +357,9 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
