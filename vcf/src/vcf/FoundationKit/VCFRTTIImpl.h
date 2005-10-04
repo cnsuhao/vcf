@@ -625,8 +625,14 @@ public:
 	};
 
 	virtual VariantData* get( Object* source ){
-		if ( (NULL != getFunction_) && (NULL != source) ){			
-			value_ = (Object*)(source->*getFunction_)();
+		if ( (NULL != getFunction_) && (NULL != source) ){
+			PROPERTY* propVal = (source->*getFunction_)();
+			if ( NULL != propVal ) {
+				value_ = dynamic_cast<Object*>( propVal );
+			}
+			else {
+				value_ = NULL;
+			}
 			value_.type = getType();
 			return &value_;
 		}
@@ -3465,6 +3471,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/10/04 03:09:03  ddiego
+*fixed typed object property getter.
+*
 *Revision 1.4.2.2  2005/09/17 21:37:44  ddiego
 *minor update
 *
