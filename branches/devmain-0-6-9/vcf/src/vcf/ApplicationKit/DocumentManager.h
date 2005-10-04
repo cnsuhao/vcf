@@ -1451,17 +1451,24 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 
 	Document* currentDoc = DocInterfacePolicy::getCurrentDocument();
 
-	// remove the current document form the list of opened documents
-	// and frees it.
-	removeDocument( currentDoc );
-
+	Component* owner = currentDoc->getOwner();
+	if ( NULL != owner ) {
+		owner->removeComponent( currentDoc );
+	}
 	// closes the current document window ( and so the window 
 	// associated  to the just deleted document ).
 	DocInterfacePolicy::closeDocument();
 
+
+	// remove the current document form the list of opened documents
+	// and frees it.
+	removeDocument( currentDoc );	
+
 	closingDocument_ = false;
 
 	removeUndoRedoStackForDocument( currentDoc );
+
+	currentDoc->free();
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -1554,6 +1561,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 	initializeWindowMenus( window, document, info );
 
 	document->setWindow( window );
+	window->addComponent( document );
 
 	if ( NULL == docEv ) {
 
@@ -1859,6 +1867,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4.2.1  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

@@ -211,6 +211,8 @@ protected:
 
 	void writeObject( Object* object, const String& objectPropertyName );
 
+	void writeProperty( Property* property );
+
 	void writeEvents( Component* component );
 
 	String generateEventHandlerString( EventProperty* eventProperty, EventHandler* handler );
@@ -222,6 +224,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.5  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.2.6.4  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

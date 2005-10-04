@@ -130,6 +130,7 @@ public:
 		setVisible( true );
 
 		CircleModel* model = new CircleModel();
+		addComponent( model );
 
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
@@ -198,6 +199,7 @@ public:
 		setVisible( true );
 
 		CircleModel* model = new CircleModel();
+		addComponent( model );
 
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
@@ -219,6 +221,7 @@ public:
 		setVisible( true );
 
 		CircleModel* model = new CircleModel();
+		addComponent( model );
 
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
@@ -493,6 +496,7 @@ public:
 		wnd->setCaption( "MVCBasics Part 4" );
 
 		CircleModel* model = new CircleModel();
+		wnd->addComponent( model );
 
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
@@ -522,6 +526,7 @@ public:
 		wnd->setCaption( "MVCBasics Part 5" );
 
 		CircleModel* model = new CircleModel();
+		wnd->addComponent( model );
 
 		model->addCircle( Point(100,200), 100 );
 		model->addCircle( Point(234,550), 300 );
@@ -593,6 +598,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/10/04 01:57:02  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4.2.1  2005/07/23 21:45:38  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

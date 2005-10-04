@@ -68,6 +68,8 @@ void TreeListControl::init()
 
 	setTreeModel( new DefaultTreeModel() );
 
+	addComponent( getViewModel() );
+
 	itemHeight_ = getContext()->getTextHeight("EM") + 2.0;
 	itemIndent_ = 19;
 	stateItemIndent_ = 19;
@@ -2143,6 +2145,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4.2.3  2005/09/14 01:50:07  ddiego
 *minor adjustment to control for enable setting. and registered
 *more proeprty editors.

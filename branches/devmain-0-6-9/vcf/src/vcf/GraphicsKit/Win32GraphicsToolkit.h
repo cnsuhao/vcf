@@ -33,9 +33,9 @@ public:
 
 	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize );
 
-	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height );
+	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType );
 
-	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect );
+	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType );
 
 	virtual PrintSessionPeer* internal_createPrintSessionPeer();
 
@@ -60,6 +60,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4  2005/01/02 03:04:26  ddiego
 *merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
 *

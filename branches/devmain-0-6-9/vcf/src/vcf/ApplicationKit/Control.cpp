@@ -145,7 +145,7 @@ void Control::destroy()
 
 	
 	container_ = NULL;
-
+	
 	Component::destroy();
 }
 
@@ -1530,8 +1530,16 @@ bool Control::isActive()
 void Control::setViewModel( Model* viewModel )
 {
 	bool modelChanged = (viewModel != getViewModel()) ? true : false;
-
+	
+	/**
+	NOTE!!
+	Control's will assume that the model is added as a component
+	some where along the line. Failure to do this will result in
+	a memory leak. It will also result in the model NOT being written
+	out for storage
+	*/
 	AbstractView::setViewModel( viewModel );
+	
 	if ( modelChanged ) {
 		ControlEvent event( this, Control::CONTROL_MODELCHANGED );
 		ControlModelChanged.fireEvent(&event);
@@ -1580,6 +1588,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.8  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.8.2.7  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *

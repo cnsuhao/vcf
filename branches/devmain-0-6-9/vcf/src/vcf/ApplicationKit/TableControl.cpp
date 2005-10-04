@@ -419,6 +419,7 @@ void TableControl::init()
 
 	if ( NULL == getViewModel() ){
 		setTableModel( new DefaultTableModel() );
+		addComponent( getViewModel() );
 	}
 	EventHandler* tmh =
 		new TableModelEventHandler<TableControl>( this, &TableControl::onTableModelChanged, "TableModelHandler" );
@@ -2451,6 +2452,9 @@ void TableControl::setDefaultTableCellFont( Font* font )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.4.2.1  2005/09/03 14:03:52  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

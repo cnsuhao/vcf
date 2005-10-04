@@ -28,7 +28,9 @@ HeaderControl::HeaderControl():
 	pressedColumn_(NULL),
 	minColumnWidth_(5)
 {
-	columnModel_ = new DefaultColumnModel();
+	setColumnModel( new DefaultColumnModel() );
+	addComponent( getViewModel() );
+
 	aligment_ = AlignTop;
 	setHeight( getPreferredHeight() );
 	setTabStop(false);
@@ -37,21 +39,21 @@ HeaderControl::HeaderControl():
 HeaderControl::~HeaderControl()
 {
 	if ( NULL != columnModel_ ) {
-		columnModel_->release();
+		//columnModel_->release();
 	}
 }
 
 void HeaderControl::setColumnModel( ColumnModel* model )
 {
-	if ( NULL != columnModel_ ) {
-		columnModel_->release();
-	}
+//	if ( NULL != columnModel_ ) {
+//		columnModel_->release();
+//	}
 
 	columnModel_ = model;
 
-	if ( NULL != columnModel_ ) {
-		columnModel_->addRef();
-	}
+//	if ( NULL != columnModel_ ) {
+//		columnModel_->addRef();
+//	}
 
 	setViewModel( columnModel_ );
 }
@@ -360,6 +362,9 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -65,8 +65,7 @@ defined to use the DLL or static libraries.
 	#	else
 	#		pragma comment(lib, "FoundationKit_"_LIB_CPLVERNUM".lib")
 	#	endif
-	#elif defined USE_FOUNDATIONKIT_LIB
-	#		pragma comment(lib, "version.lib") //link to the version lib for retreiving version info
+	#elif defined USE_FOUNDATIONKIT_LIB	
 	//	using statically linked library
 	#	ifdef _DEBUG
 	#		pragma comment(lib, "FoundationKit_"_LIB_CPLVERNUM"_sd.lib")
@@ -86,6 +85,9 @@ defined to use the DLL or static libraries.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.5.2.2  2005/09/28 14:06:39  ddiego
 *fixed up auto linkage of win32 libs.
 *

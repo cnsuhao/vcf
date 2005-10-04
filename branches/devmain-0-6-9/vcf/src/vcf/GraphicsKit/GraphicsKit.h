@@ -24,6 +24,9 @@ where you installed the VCF.
 
 #include "vcf/GraphicsKit/Color.h"
 
+#include "vcf/GraphicsKit/Image.h"
+#include "vcf/GraphicsKit/ImageBits.h"
+
 #include "vcf/GraphicsKit/GraphicsToolKit.h"
 #include "vcf/GraphicsKit/NoGraphicsToolkitFoundException.h"
 
@@ -32,8 +35,7 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/Matrix2D.h"
 #include "vcf/GraphicsKit/ContextPeer.h"
 #include "vcf/GraphicsKit/GraphicsContext.h"
-#include "vcf/GraphicsKit/Image.h"
-#include "vcf/GraphicsKit/ImageBits.h"
+
 #include "vcf/GraphicsKit/ImageLoader.h"
 #include "vcf/GraphicsKit/Path.h"
 #include "vcf/GraphicsKit/BezierCurve.h"
@@ -88,6 +90,9 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
 *Revision 1.5  2005/07/09 23:05:59  ddiego
 *added missing gtk files
 *
