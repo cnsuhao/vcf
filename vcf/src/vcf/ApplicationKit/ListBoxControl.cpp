@@ -128,6 +128,10 @@ ListModel* ListBoxControl::getListModel()
 
 void ListBoxControl::setListModel( ListModel * model )
 {
+	if ( model == listModel_ ) {
+		return;
+	}
+
 	if ( NULL != listModel_ ) {
 		EventHandler* ev = getEventHandler( "ListBoxControl::onItemAdded" );
 		if ( NULL != ev ) {
@@ -898,6 +902,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/10/05 03:37:11  ddiego
+*minor fix to typed object property class.
+*
 *Revision 1.6.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

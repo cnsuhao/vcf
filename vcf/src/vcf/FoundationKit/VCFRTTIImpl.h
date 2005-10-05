@@ -644,12 +644,17 @@ public:
 	void set( Object* source, VariantData* value ){
 		if ( (NULL != setFunction_) && (NULL != source) ){
 			Object* object = *value;
+
+			PROPERTY* propVal = NULL;
+			if ( NULL != object ) {
+				propVal = dynamic_cast<PROPERTY*>(object);
+			}
 			if ( true == isBound() ){
 				VariantData* originalValue = get( source );
 				PropertyChangeEvent changeEvent( source, originalValue, value );
 				try {
 					PropertyChanged.fireEvent( &changeEvent );
-					(source->*setFunction_)( (PROPERTY*)(object) );
+					(source->*setFunction_)( propVal );
 				}
 				catch ( PropertyChangeException ){
 					//do not call the set method
@@ -657,7 +662,7 @@ public:
 				}
 			}
 			else {
-				(source->*setFunction_)( (PROPERTY*)(object) );
+				(source->*setFunction_)( propVal );
 			}
 		}
 	};
@@ -3471,6 +3476,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/10/05 03:37:12  ddiego
+*minor fix to typed object property class.
+*
 *Revision 1.4.2.3  2005/10/04 03:09:03  ddiego
 *fixed typed object property getter.
 *
