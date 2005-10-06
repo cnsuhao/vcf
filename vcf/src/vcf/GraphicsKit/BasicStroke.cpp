@@ -196,6 +196,15 @@ void BasicStroke::render( Path * path )
 									currentXFrm[Matrix2D::mei21] );
 			
 
+			//JC
+			//I added this to account for anti-aliasing "defects"
+			//that occur with thin lines (1-2 pixels wide)
+			//See http://antigrain.com/tips/line_alignment/line_alignment.agdoc.html
+			//for more information about why this happens, and why this 
+			//may not be the optimal solution
+			mat*=agg::trans_affine_translation(0.5,0.5);
+			
+
 			agg::conv_curve< agg::path_storage > smooth(strokePath);
 
 			agg::conv_transform< agg::conv_curve< agg::path_storage > > xfrmedPath(smooth,mat);
@@ -264,6 +273,9 @@ void BasicStroke::line( const double& x1, const double& y1,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/06 23:45:52  ddiego
+*fixed a small display bug in the BasicStroke class when rendering lines.
+*
 *Revision 1.4  2005/07/09 23:05:56  ddiego
 *added missing gtk files
 *
