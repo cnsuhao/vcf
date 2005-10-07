@@ -440,10 +440,11 @@ _class_rtti_end_
 _class_rtti_(Dialog, "VCF::Frame", DIALOG_CLASSID )
 _class_rtti_end_
 
-
+#ifndef VCF_NO_ATL
 _class_rtti_(HTMLBrowserControl, "VCF::Control", HTMLBROWSERCONTROL_CLASSID)
 _property_( String, "currentURL", getCurrentURL, setCurrentURL, "" );
 _class_rtti_end_
+#endif
 
 _class_rtti_(HeaderControl, "VCF::CustomControl", HEADERCONTROL_CLASSID)
 	_property_object_( ColumnModel, "columnModel", getColumnModel, setColumnModel, "" );
@@ -777,6 +778,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/10/07 16:41:21  kiklop74
+*Added support for building ApplicationKit with Borland Free Compiler
+*
 *Revision 1.4.2.3  2005/09/20 03:24:18  ddiego
 *minor fixes.
 *

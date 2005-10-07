@@ -145,7 +145,9 @@ void UIToolkit::init()
 	Component::registerComponent( "VCF::PushButton", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::OpenGLControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::ImageControl", ADDITIONAL_CATEGORY );
+#ifndef VCF_NO_ATL	  
 	Component::registerComponent( "VCF::HTMLBrowserControl", ADDITIONAL_CATEGORY );
+#endif	  
 	Component::registerComponent( "VCF::TableControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::Splitter", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::TreeListControl", ADDITIONAL_CATEGORY );
@@ -254,10 +256,12 @@ TextEditPeer* UIToolkit::createTextEditPeer( TextControl* component, const bool&
 	return UIToolkit::toolKitInstance->internal_createTextEditPeer( component, isMultiLineControl );
 }
 
+#ifndef VCF_NO_ATL
 HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
 {
 	return UIToolkit::toolKitInstance->internal_createHTMLBrowserPeer( control );
 }
+#endif
 
 ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component)
 {
@@ -1318,6 +1322,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2005/10/07 16:41:21  kiklop74
+*Added support for building ApplicationKit with Borland Free Compiler
+*
 *Revision 1.5.2.5  2005/09/14 01:50:07  ddiego
 *minor adjustment to control for enable setting. and registered
 *more proeprty editors.

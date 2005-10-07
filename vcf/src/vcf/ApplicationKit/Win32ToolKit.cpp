@@ -15,7 +15,9 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32Tree.h"
 #include "vcf/ApplicationKit/ListViewControl.h"
 #include "vcf/ApplicationKit/Win32Listview.h"
+#ifndef VCF_NO_ATL
 #include "vcf/ApplicationKit/HTMLBrowserPeer.h"
+#endif
 #include "vcf/ApplicationKit/Win32Dialog.h"
 #include "vcf/ApplicationKit/Win32MenuItem.h"
 #include "vcf/ApplicationKit/Win32MenuBar.h"
@@ -61,25 +63,25 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32MenuManagerPeer.h"
 
 
-
-#ifdef _LIB
-    /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
-       link the Win32HTMLBrowser_StaticLib, but also he will not have to
-       link to it either if is not using it in any of his projects */
-#   ifdef USE_WIN32HTMLBROWSER_LIB
-//     ApplicationKit statically linked in
-#      include "vcf/ApplicationKit/Win32HTMLBrowserApplication.h"
-#      pragma message ( "Win32HTMLBrowser is linked in statically" )
-#   endif
-#else
-    /* Win32HTMLBrowser will be loaded at runtime */
-#   define RUNTIME_LOADLIBRARY
-#   pragma message ( "Win32HTMLBrowser is linked dynamically" )
+#ifndef VCF_NO_ATL
+  #ifdef _LIB
+      /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
+         link the Win32HTMLBrowser_StaticLib, but also he will not have to
+         link to it either if is not using it in any of his projects */
+  #   ifdef USE_WIN32HTMLBROWSER_LIB
+  //     ApplicationKit statically linked in
+  #      include "vcf/ApplicationKit/Win32HTMLBrowserApplication.h"
+  #      pragma message ( "Win32HTMLBrowser is linked in statically" )
+  #   endif
+  #else
+      /* Win32HTMLBrowser will be loaded at runtime */
+  #   define RUNTIME_LOADLIBRARY
+  #   pragma message ( "Win32HTMLBrowser is linked dynamically" )
+  #endif
+  #include "vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h"
 #endif
 
 
-
-#include "vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h"
 
 #include "thirdparty/win32/Microsoft/htmlhelp.h"
 
@@ -1441,6 +1443,7 @@ ListviewPeer* Win32ToolKit::internal_createListViewPeer( ListViewControl* compon
 	return new Win32Listview( component );
 }
 
+#ifndef VCF_NO_ATL
 HTMLBrowserPeer* Win32ToolKit::internal_createHTMLBrowserPeer( Control* control )
 {
 	HTMLBrowserPeer* result = NULL;
@@ -1473,6 +1476,7 @@ HTMLBrowserPeer* Win32ToolKit::internal_createHTMLBrowserPeer( Control* control 
 	}
 	return result;
 }
+#endif
 
 DialogPeer* Win32ToolKit::internal_createDialogPeer( Control* owner, Dialog* component )
 {
@@ -2395,6 +2399,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.9  2005/10/07 16:41:21  kiklop74
+*Added support for building ApplicationKit with Borland Free Compiler
+*
 *Revision 1.6.2.8  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
