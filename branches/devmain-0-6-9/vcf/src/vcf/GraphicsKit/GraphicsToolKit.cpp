@@ -483,10 +483,13 @@ void GraphicsToolkit::initGraphicsToolkit()
 
 	System::internal_replaceResourceBundleInstance( new GraphicsResourceBundle() );
 
-
+#if !defined(VCF_MINGW) /* cant compile ImageLoaders for now, so just turn they off for MINGW */
+	
 	GraphicsToolkit::registerImageLoader( "image/jpeg", new JPEGLoader() );
 
 	GraphicsToolkit::registerImageLoader( "image/png", new PNGLoader() );
+#endif
+	
 }
 
 void GraphicsToolkit::terminate()
@@ -1341,8 +1344,8 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
-*Revision 1.5.2.3  2005/10/04 01:57:03  ddiego
-*fixed some miscellaneous issues, especially with model ownership.
+*Revision 1.5.2.4  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
 *
 *Revision 1.5.2.2  2005/09/22 02:43:42  ddiego
 *added png loader.

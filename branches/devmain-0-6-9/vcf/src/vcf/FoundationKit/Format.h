@@ -154,8 +154,9 @@ namespace VCF {
 		// specialization for a String value.
 		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 		template <String>
-		#elif defined(VCF_GCC) && defined(VCF_OSX)
+		#elif defined(VCF_GCC) && (defined(VCF_OSX) || defined (VCF_MINGW)) //added
 		//nothing needed here, GCC on OSX 10.3.x doesn't like anything here
+		//mingw too
 		#else
 		template <>
 		#endif
@@ -350,6 +351,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.2.2.2  2005/07/31 02:37:31  marcelloptr
 *made the Format class 10% faster and fixed handling on the %% character sequence
 *

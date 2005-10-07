@@ -20,10 +20,12 @@ where you installed the VCF.
 
 
 
-#ifdef __GNUWIN32__
+#if defined(__GNUWIN32__) || defined(VCF_MINGW)
 
 //add some stupid defines here since they seem to be missing from the mingw Win32 API headers
 #if (_WIN32_IE >= 0x0400)
+
+#if !defined(VCF_MINGW)
 typedef struct tagNMLVGETINFOTIPA
 {
     NMHDR hdr;
@@ -45,6 +47,7 @@ typedef struct tagNMLVGETINFOTIPW
     int iSubItem;
     LPARAM lParam;
 } NMLVGETINFOTIPW, *LPNMLVGETINFOTIPW;
+#endif
 
 // NMLVGETINFOTIPA.dwFlag values
 
@@ -2412,6 +2415,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.5.2.1  2005/09/20 03:24:18  ddiego
 *minor fixes.
 *

@@ -33,10 +33,12 @@ linux platforms - gcc doesn't like
 std::basic_string<unsigned short> on linux, but
 doesn't like std::basic_string<wchar_t> on OSX, go figure :(
 */
-#ifdef VCF_POSIX
+#ifdef VCF_POSIX 
 	typedef wchar_t WideChar;
-#elif __GNUWIN32__
+#elif __GNUWIN32__ 
     typedef wchar_t WideChar;
+#elif VCF_MINGW
+    typedef wchar_t WideChar;	
 #elif (__BORLANDC__)
     typedef wchar_t WideChar;
 #elif defined(VCF_CW_W32)
@@ -169,6 +171,9 @@ struct char_traits<VCF::WideChar> {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.3  2005/07/09 23:15:05  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

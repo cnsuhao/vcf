@@ -26,6 +26,8 @@ namespace VCF{
  */
 
 template <class COLLECTION_TYPE> class Enumerator{
+protected:
+	bool supportsEditing_;  /* moved to begin for MINGW */
 public:
 	Enumerator(){
 		supportsEditing_ = false;
@@ -75,8 +77,6 @@ public:
 	bool supportsEditing(){
 		return supportsEditing_;
 	};
-protected:
-	bool supportsEditing_;
 };
 
 
@@ -106,6 +106,10 @@ call the initContainer() method with a reference to the collection
 */
 template <class COLLECTION, class COLLECTION_TYPE> class EnumeratorContainer : public Enumerator<COLLECTION_TYPE>{
 public:
+
+	#if defined(VCF_MINGW) 
+	using Enumerator<COLLECTION_TYPE>::supportsEditing_; /* mingw follows the standart */
+	#endif
 
 	EnumeratorContainer( COLLECTION &container ): container_(&container) {
 		reset();
@@ -281,6 +285,9 @@ private:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.3  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

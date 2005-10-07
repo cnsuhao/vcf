@@ -604,7 +604,7 @@ public:
 	*/
 	template <typename DateLogic>
 	class Iterator 
-	#if defined(VCF_BCC) || defined(__INTEL_COMPILER) || defined(VCF_CW)
+	#if defined(VCF_BCC) || defined(__INTEL_COMPILER) || defined(VCF_CW)  || defined(VCF_MINGW) 
 	;
 	#else
 	{
@@ -692,7 +692,7 @@ protected:
 };
 
 
-#if defined(VCF_BCC) || defined(__INTEL_COMPILER) || defined(VCF_CW)
+#if defined(VCF_BCC) || defined(__INTEL_COMPILER) || defined(VCF_CW) || defined(VCF_MINGW)  
 	template <typename DateLogic>
 	class DateTime::Iterator {
 	public:
@@ -972,6 +972,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.6  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

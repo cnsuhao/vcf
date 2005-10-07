@@ -18,6 +18,13 @@ where you installed the VCF.
 #include "thirdparty/win32/Microsoft/textserv.h"
 #include <Richole.h>
 
+#if defined(VCF_MINGW)  /* mingw misses some richedit defines */
+#include "imm.h"
+
+#define RICHEDIT_CLASSA		"RichEdit20A"
+#define RICHEDIT_CLASSW		L"RichEdit20W"
+
+#endif
 
 using namespace VCFWin32;
 using namespace VCF;
@@ -1354,6 +1361,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.5.2.2  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

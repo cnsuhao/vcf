@@ -124,7 +124,13 @@ void InputStream::read( String& val )
 		if ( 0 == seekPos ) {		
 			uint32 sz = tmp - start;
 
-			int bom = UnicodeString::adjustForBOMMarker( start, sz );
+			#if defined(VCF_MINGW)
+			const char* const_start = const_cast<char*>(start);
+			int bom = UnicodeString::adjustForBOMMarker(const_start, sz ); //it seems like mingw is a little bit confused with type const char*&...
+			#else
+			int bom = UnicodeString::adjustForBOMMarker( start, sz );			
+			#endif
+			
 			switch ( bom ) {
 				case UnicodeString::UTF8BOM : {
 					tmpStr.append( start, sz );
@@ -350,6 +356,9 @@ void OutputStream::write( const String& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.2.6.2  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *
