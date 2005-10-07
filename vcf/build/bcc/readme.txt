@@ -47,7 +47,7 @@ NOTE: For Borland Free compiler
 
 4b. Make sure you setup environment variables VCF_BIN, VCF_INCLUDE and VCF_LIB. Without that you can not build and use them. 
     VCF_BIN should have this path: <PATH_TO_VCF>\bin
-    VCF_INCLUDE : <PATH_TO_VCF>\src\vcf
+    VCF_INCLUDE : <PATH_TO_VCF>\src
     VCF_LIB: <PATH_TO_VCF>\lib
     
 5. After you do all this preparations build libraries by issuing this command 
