@@ -29,13 +29,22 @@ TARGET = LIB
 PROJECT=$(PROJECT1)
 TDIR=S
 OUTDIR=..\..\..\lib
-SYSDEFINES=_LIB;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_WIN32HTMLBROWSER_LIB
+SYSDEFINES=_LIB;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB
+!if $(FREECOMP) == FALSE
+SYSDEFINES=$(SYSDEFINES);USE_WIN32HTMLBROWSER_LIB
+!else
+SYSDEFINES=$(SYSDEFINES);VCF_NO_ATL
+!endif
 !else
 PROJECT=$(RESFILE) $(PROJECT2)
 TDIR=DLL
 OUTDIR=..\..\..\bin
 SYSDEFINES=_WINDOWS;_USRDLL;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS
+!if $(FREECOMP) == TRUE
+SYSDEFINES=$(SYSDEFINES);VCF_NO_ATL
 !endif
+!endif
+
 
 !if $(BMODE) == RELEASE
 	USERDEFINES=NDEBUG
@@ -200,7 +209,6 @@ CPPFILES=AbstractApplication.cpp \
          ControlContainer.cpp \
          CustomControl.cpp \
          HeaderControl.cpp \
-         HTMLBrowserControl.cpp \
          ImageControl.cpp \
          Label.cpp \
          ListBoxControl.cpp \
@@ -227,8 +235,14 @@ CPPFILES=AbstractApplication.cpp \
          MenuManager.cpp \
          Win32MenuManagerPeer.cpp
 
+!if $(FREECOMP) == TRUE
+NONFREEFILES =
+!else
+NONFREEFILES = HTMLBrowserControl.cpp
+!endif
+
 RESFILE=$(RESSRCFILE:.rc=.res^ )
-OBJFILES=$(CPPFILES:.cpp=.obj^ )
+OBJFILES=$(CPPFILES:.cpp=.obj^ ) $(NONFREEFILES:.cpp=.obj^ )
 
 LIBFILES=comsupp.lib comctl32.lib
 DEFFILE=
