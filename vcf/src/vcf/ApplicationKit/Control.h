@@ -93,6 +93,21 @@ public:
 		ANCHOR_DRIGHT
 	};
 
+	enum ControlState {
+		csVisible					= 0x00000001,
+		csEnabled					= 0x00000002,
+		csUseParentFont				= 0x00000004,
+		csDoubleBuffered			= 0x00000008,
+		csAutoStartDragDrop			= 0x00000010,
+		csTabStop					= 0x00000020,
+		csIgnoreForLayout			= 0x00000040,
+		csIgnoreForParentScrolling  = 0x00000080,
+		csAllowPaintNotification	= 0x00000100,
+		csHasMouseCapture			= 0x00000200,
+		csUseRenderBuffer			= 0x00000400,
+		csDefaultControlState = csEnabled | csTabStop | csDoubleBuffered
+	};
+
 	enum ControlEvents {
 		CONTROL_EVENTS = COMPONENT_EVENTS_LAST + 200,
 		CONTROL_SIZED,
@@ -870,7 +885,7 @@ public:
 	render buffer for anti-aliased vector graphics (based on the AGG library).
 	*/
 	bool isUsingRenderBuffer() {
-		return useRenderBuffer_;
+		return (controlState_ & Control::csUseRenderBuffer) ? true : false;
 	};
 
 	/**
@@ -883,7 +898,12 @@ public:
 	control is resized the image is resized as well
 	*/
 	void setUsingRenderBuffer( const bool& useRenderBuffer ) {
-		useRenderBuffer_ = useRenderBuffer;
+		if ( useRenderBuffer ) {
+			controlState_  |= Control::csUseRenderBuffer;
+		}
+		else {
+			controlState_  &= ~Control::csUseRenderBuffer;
+		}
 	}
 	/**
 	*this keeps the mouse events being sent to this control, even if the
@@ -1181,7 +1201,7 @@ public:
 	*to the tab key and will not become focused.
 	*/
 	bool getTabStop() {
-		return tabStop_;
+		return (controlState_ & Control::csTabStop) ? true : false;
 	}
 
 	/**
@@ -1336,7 +1356,7 @@ public:
 	@see AfterControlPainted
 	*/
 	bool getAllowPaintNotification() {
-		return allowPaintNotification_;
+		return (controlState_ & Control::csAllowPaintNotification) ? true : false;
 	}
 
 	/**
@@ -1347,7 +1367,26 @@ public:
 	@see AfterControlPainted
 	*/
 	void setAllowPaintNotification( const bool& val ) {
-		allowPaintNotification_ = val;
+		if ( val ) {
+			controlState_  |= Control::csAllowPaintNotification;
+		}
+		else {
+			controlState_  &= ~Control::csAllowPaintNotification;
+		}
+	}
+
+
+	bool ignoreForParentScrolling() {
+		return (controlState_ & Control::csIgnoreForParentScrolling) ? true : false;		
+	}
+
+	void setIgnoreForParentScrolling( const bool& val ) {
+		if ( val ) {
+			controlState_  |= Control::csIgnoreForParentScrolling;
+		}
+		else {
+			controlState_  &= ~Control::csIgnoreForParentScrolling;
+		}
 	}
 
 	/**
@@ -1413,10 +1452,10 @@ protected:
 	Color* color_;
 	Font* font_;
 	View* view_;
-	bool useParentFont_;
-	bool doubleBuffered_;
-	bool hasMouseCapture_;
-	bool autoStartDragDrop_;
+	//bool useParentFont_;
+	//bool doubleBuffered_;
+	//bool hasMouseCapture_;
+	//bool autoStartDragDrop_;
 	PopupMenu* popupMenu_;
 	Scrollable* scrollable_;
 	String whatThisHelpString_;
@@ -1424,15 +1463,18 @@ protected:
 	long cursorID_;
 	Cursor* cursor_;
 	float anchorDeltas_[4];
-	bool tabStop_;
+	//bool tabStop_;
 	long tabOrder_;
 	Point clickPt_;
-	bool useRenderBuffer_;
+	//bool useRenderBuffer_;
 	Container* container_;
+	/*
 	bool ignoredForLayout_;
 	bool allowPaintNotification_;
 	bool enabled_;
 	bool visible_;
+	*/
+	uint32 controlState_;
 
 };
 
@@ -1443,6 +1485,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/10/07 04:06:24  ddiego
+*minor adjustment to control state variables
+*
 *Revision 1.4.2.6  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *

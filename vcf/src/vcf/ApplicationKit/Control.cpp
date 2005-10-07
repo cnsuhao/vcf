@@ -31,22 +31,13 @@ Control::Control():
 	color_(NULL),
 	font_(NULL),
 	view_(NULL),
-	useParentFont_(false),
-	doubleBuffered_(true),
-	hasMouseCapture_(false),
-	autoStartDragDrop_(false),
 	popupMenu_(NULL),
 	scrollable_(NULL),
 	cursorID_(0),
 	cursor_(NULL),
-	tabStop_(true),
 	tabOrder_(-1),
-	useRenderBuffer_(false),
 	container_(NULL),
-	ignoredForLayout_(false),
-	allowPaintNotification_(false),
-	enabled_(true),
-	visible_(false)
+	controlState_(Control::csDefaultControlState)
 {
 	//this (Font) cast is to avoid an internal compiler error on some vc6 versions
 	font_ = new Font( (Font) UIToolkit::getUIMetricsManager()->getDefaultFontFor( UIMetricsManager::ftControlFont ) );
@@ -91,7 +82,7 @@ Control::~Control()
 void Control::destroy()
 {
 	
-	if ( this->isLightWeight() ) {
+	if ( isLightWeight() ) {
 		//have to handle a Component::COMPONENT_DESTROYED event manually
 		//as they will NOT recv notification from the underlying windowing system
 		VCF::ComponentEvent event( this, Component::COMPONENT_DESTROYED );
@@ -271,7 +262,7 @@ double Control::getHeight() /**throw( InvalidPeer ); -JEC - FIXME later*/
 
 bool Control::getVisible() /**throw( InvalidPeer ); -JEC - FIXME later*/
 {
-	return visible_;//peer_->getVisible();
+	return (controlState_ & Control::csVisible) ? true : false;//peer_->getVisible();
 }
 
 AlignmentType Control::getAlignment()
@@ -281,12 +272,17 @@ AlignmentType Control::getAlignment()
 
 bool Control::isIgnoredForLayout()
 {
-	return ignoredForLayout_;
+	return (controlState_ & Control::csIgnoreForLayout) ? true : false;
 }
 
 void Control::setIgnoredForLayout( const bool& val )
 {
-	ignoredForLayout_ = val;
+	if ( val ) {
+		controlState_ |= Control::csIgnoreForLayout;
+	}
+	else {
+		controlState_ &= ~Control::csIgnoreForLayout;
+	}
 
 	Control* parent = getParent();
 	if ( NULL != parent ) {
@@ -348,7 +344,7 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 		peer_->setBounds( bounds_ );
 	}
 
-	if ( useRenderBuffer_ ) {
+	if ( isUsingRenderBuffer() ) {
 		if ( NULL == context_->getDrawingArea() ) {
 			context_->setDrawingArea( *bounds_ );
 		}
@@ -425,13 +421,18 @@ void Control::setHeight( const double& height ) /**throw( InvalidPeer ); -JEC - 
 void Control::setVisible( const bool& visible ) /**throw( InvalidPeer ); -JEC - FIXME later*/
 {
 	bool oldVisible = peer_->getVisible();
-
-	visible_ = visible;
+	
+	if ( visible ) {
+		controlState_  |= Control::csVisible;
+	}
+	else {
+		controlState_  &= ~Control::csVisible;
+	}
 
 	if ( oldVisible != visible ) {	
 		
 		if ( !isLoading() ) {
-			peer_->setVisible( visible_ );
+			peer_->setVisible( visible );
 		}
 
 		Control* parent = getParent();
@@ -487,7 +488,7 @@ void Control::handleEvent( Event* event )
 				//bounds_->bottom_ = bounds_->top_ + controlEvent->getNewSize().height_;
 				ControlSized.fireEvent( (ControlEvent*)event );
 
-				if ( useRenderBuffer_ ) {
+				if ( isUsingRenderBuffer() ) {
 					Rect bounds = getClientBounds(false);
 					context_->setDrawingArea( bounds );						
 				}
@@ -543,7 +544,7 @@ void Control::handleEvent( Event* event )
 				MouseEvent* mouseEvent = (MouseEvent*)event;
 
 				if (mouseEvent->hasLeftButton() || mouseEvent->hasRightButton() || mouseEvent->hasMiddleButton() ) {
-					if ( (true == autoStartDragDrop_) ) { //&& (false == dragDropStarted_) ) {
+					if ( (true == getAutoStartDragDrop()) ) { //&& (false == dragDropStarted_) ) {
 						if ( true == canBeginDragDrop( mouseEvent->getPoint() ) ) {
 							//dragDropStarted_ = true;							
 							if ( beginDragDrop ( mouseEvent ) ) {
@@ -725,12 +726,17 @@ bool Control::canBeginDragDrop( Point* point )
 
 void Control::setAutoStartDragDrop(const bool& canAutoStartDragDrop)
 {
-	autoStartDragDrop_ = canAutoStartDragDrop;
+	if ( canAutoStartDragDrop ) {
+		controlState_  |= Control::csAutoStartDragDrop;
+	}
+	else {
+		controlState_  &= ~Control::csAutoStartDragDrop;
+	}
 }
 
 bool Control::getAutoStartDragDrop()
 {
-	return autoStartDragDrop_;
+	return (controlState_ & Control::csAutoStartDragDrop) ? true : false;
 }
 
 bool Control::beginDragDrop( MouseEvent* event )
@@ -832,7 +838,7 @@ Control* Control::setFocused()
 
 bool Control::isEnabled()
 {
-	return enabled_;//peer_->isEnabled();
+	return (controlState_ & Control::csEnabled) ? true : false;//peer_->isEnabled();
 }
 
 bool Control::areParentsEnabled()
@@ -854,10 +860,15 @@ bool Control::areParentsEnabled()
 
 void Control::setEnabled( const bool& enabled )
 {
-	enabled_ = enabled;
+	if ( enabled ) {
+		controlState_  |= Control::csEnabled;
+	}
+	else {
+		controlState_  &= ~Control::csEnabled;
+	}
 
 	if ( ! isDesigning() ) {
-		peer_->setEnabled( enabled_ );
+		peer_->setEnabled( enabled );
 	}
 
 	repaint();
@@ -993,12 +1004,17 @@ void Control::setFont( Font* font )
 
 bool Control::useParentFont()
 {
-	return useParentFont_;
+	return (controlState_ & Control::csUseParentFont) ? true : false;
 }
 
 void Control::setUseParentFont( const bool& useParentFont )
 {
-	useParentFont_ = useParentFont;
+	if ( useParentFont ) {
+		controlState_  |= Control::csUseParentFont;
+	}
+	else {
+		controlState_  &= ~Control::csUseParentFont;
+	}
 }
 
 void Control::afterCreate( ComponentEvent* event )
@@ -1009,7 +1025,7 @@ void Control::afterCreate( ComponentEvent* event )
 void Control::repaint( Rect* repaintRect )
 {	
 	peer_->repaint( repaintRect, false );
-	if ( useRenderBuffer_ ) {
+	if ( isUsingRenderBuffer() ) {
 		context_->markRenderAreaDirty();
 	}
 }
@@ -1017,31 +1033,36 @@ void Control::repaint( Rect* repaintRect )
 void Control::repaintNow( Rect* repaintRect )
 {
 	peer_->repaint( repaintRect, true );
-	if ( useRenderBuffer_ ) {
+	if ( isUsingRenderBuffer() ) {
 		context_->markRenderAreaDirty();
 	}
 }
 
 bool Control::isDoubleBuffered()
 {
-	return doubleBuffered_;
+	return (controlState_ & Control::csDoubleBuffered) ? true : false;
 }
 
 void Control::setDoubleBuffered( const bool& doubleBuffered )
 {
-	doubleBuffered_ = doubleBuffered;
+	if ( doubleBuffered ) {
+		controlState_  |= Control::csDoubleBuffered;
+	}
+	else {
+		controlState_  &= ~Control::csDoubleBuffered;
+	}
 }
 
 void Control::keepMouseEvents()
 {
-	hasMouseCapture_ = true;
+	controlState_  |= Control::csHasMouseCapture;
 	Control::setCapturedMouseControl( this );
 	peer_->keepMouseEvents();
 }
 
 void Control::releaseMouseEvents()
 {
-	hasMouseCapture_ = false;
+	controlState_  &= ~Control::csHasMouseCapture;
 	Control::setCapturedMouseControl( NULL );
 	peer_->releaseMouseEvents();
 }
@@ -1197,7 +1218,12 @@ void Control::addAcceleratorKey( AcceleratorKey* accelerator )
 
 void Control::setTabStop( const bool& tabStop )
 {
-	tabStop_ = tabStop;
+	if ( tabStop ) {
+		controlState_  |= Control::csTabStop;
+	}
+	else {
+		controlState_  &= ~Control::csTabStop;
+	}
 }
 
 void Control::setTabOrder( const long& tabOrder )
@@ -1371,7 +1397,7 @@ void Control::adjustViewableBoundsAndOriginForScrollable( GraphicsContext* conte
 		Rect innerBounds = getClientBounds(true);
 
 		//account for any children that overlap
-		if ( NULL != this->container_ ) {
+		if ( NULL != container_ ) {
 			Enumerator<Control*>* children = container_->getChildren();
 			Rect childBounds;
 			while ( children->hasMoreElements() ) {
@@ -1588,6 +1614,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.9  2005/10/07 04:06:24  ddiego
+*minor adjustment to control state variables
+*
 *Revision 1.8.2.8  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
