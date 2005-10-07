@@ -364,10 +364,6 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 			Scrollable* scrollable = parent->getScrollable();
 			if ( (NULL != container) && (NULL != scrollable) ) {
 				Rect r = getBounds();
-				Rect r2 = parent->getClientBounds();
-
-			//	r2 = r2.makeUnion( &r );
-
 
 				if ( scrollable->getVirtualViewHeight() < r.bottom_ ) {
 					scrollable->setVirtualViewHeight( r.bottom_ );
@@ -1640,6 +1636,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.11  2005/10/07 04:38:47  ddiego
+*scroll fixes.
+*
 *Revision 1.8.2.10  2005/10/07 04:37:44  ddiego
 *another scroll fix.
 *
