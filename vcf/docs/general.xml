@@ -497,6 +497,51 @@ NB: This software will not save the world.
 				just the static libraries, build the "vcfAllStaticLibs" project. To
 				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
 				</para>
+				
+				
+				<formalpara><title>Borland C++ Compiler</title>
+				The following section deals with building the VCF libraries using Borland's 
+				C++ compiler/linker. This includes the free commandline version. 
+				<note>
+				Due to restrictions on the free commandline compiler, there is no support 
+				for the HTMLBrowser control due to dependencies on Microsoft's ATL 
+				library. This is being addressed so that in the near future this will
+				no longer be an issue.
+				</note>
+				For more information regarding the build instructions for Borland compilers,
+				see the notes in the readme.txt file in vcf/build/bcc/readme.txt.
+				</formalpara>
+				<para>
+				There are some missing libs that did not get distributed with the Borland 
+				compiler install. These are found in the vcf/build/bcc/missing_libs directory.
+				Copy them either to your &lt;PATH_TO_BCB_INST&gt;\Lib directory  or the vcf/lib 
+				directory.
+				</para>
+				<para>
+				Make sure that the bcc32.cfg file is correctly set up. You should have some 
+				thing like this (assuming you have installed you compiler in "c:\bcb6", if 
+				not replace as neccessary):
+				<programlisting>
+				<![CDATA[
+-I"C:\bcb6\Include";"C:\bcb6\Include\vcl";"C:\bcb6\Include\Atl"
+-L"C:\bcb6\lib\PSDK";"C:\bcb6\lib";"C:\bcb6\lib\obj";"C:\bcb6\lib\release"
+]]>
+				</programlisting>
+				The order of the folders is important. Especially for linker folders. So 
+				copy them as shown here.
+				</para>
+				For the Borland Free compiler the bcc32.cfg file should look like this:
+				<programlisting>
+				<![CDATA[
+-I"C:\Borland\BCC55\Include"
+-L"C:\Borland\BCC55\lib\PSDK";"C:\Borland\BCC55\lib"
+]]>
+				</programlisting>
+				Of course replace the "C:\bcb6\" or "C:\Borland\BCC55" part with the 
+				appropriate path where you installed the Borland Free compiler.
+				<para>
+				
+				</para>
 			</section>
 			
 			<section><title>MacOSX</title>
@@ -1613,6 +1658,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.1  2005/10/07 17:16:05  ddiego
+started adding bcb build docs.
+
 Revision 1.6  2005/07/09 23:14:10  ddiego
 merging in changes from devmain-0-6-7 branch.
 
