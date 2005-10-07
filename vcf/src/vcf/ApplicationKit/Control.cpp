@@ -353,6 +353,32 @@ void Control::setBounds( Rect* rect, const bool& anchorDeltasNeedUpdating ) /**t
 	if ( true == anchorDeltasNeedUpdating ) {
 		updateAnchorDeltas();
 	}
+
+
+	//check to see if we need to adjust the scrollable's virtual height/width
+	//of our parent
+	if ( (getAlignment() == AlignNone) && (!ignoreForParentScrolling()) ) {
+		Control* parent = getParent();
+		if ( NULL != parent ) {
+			Container* container = parent->getContainer();
+			Scrollable* scrollable = parent->getScrollable();
+			if ( (NULL != container) && (NULL != scrollable) ) {
+				Rect r = getBounds();
+				Rect r2 = parent->getClientBounds();
+
+			//	r2 = r2.makeUnion( &r );
+
+
+				if ( scrollable->getVirtualViewHeight() < r.bottom_ ) {
+					scrollable->setVirtualViewHeight( r.bottom_ );
+				}
+
+				if ( scrollable->getVirtualViewWidth() < r.right_ ) {
+					scrollable->setVirtualViewWidth( r.right_ );
+				}
+			}
+		}
+	}
 }
 
 void Control::setAlignment( const AlignmentType& alignment )
@@ -1614,6 +1640,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.10  2005/10/07 04:37:44  ddiego
+*another scroll fix.
+*
 *Revision 1.8.2.9  2005/10/07 04:06:24  ddiego
 *minor adjustment to control state variables
 *
