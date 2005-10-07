@@ -738,6 +738,42 @@ Package=<4>
 
 ###############################################################################
 
+Project: "InetKit"=.\InetKit\InetKit.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKit"=..\BUILD\VC60\InternetKit\InternetKit.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKitDLL"=..\BUILD\VC60\INTERNETKIT\InternetKitDLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Labels"=.\Labels\Labels.dsp - Package Owner=<4>
 
 Package=<5>

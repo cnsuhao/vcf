@@ -474,6 +474,9 @@ Package=<4>
     Project_Dep_Name ImageViewer
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name InetKit
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Labels
     End Project Dependency
     Begin Project Dependency
@@ -813,6 +816,42 @@ Package=<4>
 
 ###############################################################################
 
+Project: "InetKit"="..\..\examples\InetKit\InetKit.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKit"=".\InternetKit\InternetKit.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKitDLL"=".\InternetKit\InternetKitDLL.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Labels"="..\..\examples\Labels\Labels.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -825,7 +864,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"="..\..\src\thirdparty\common\LibJPEG\LibJPEG.dsp" - Package Owner=<4>
+Project: "LibJPEG"="..\..\src\thirdparty\common\FreeImage\Source\____LibJPEG\LibJPEG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -849,7 +888,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibPNG"="..\..\src\thirdparty\common\LibPNG\LibPNG.dsp" - Package Owner=<4>
+Project: "LibPNG"="..\..\src\thirdparty\common\FreeImage\Source\___LibPNG\LibPNG.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1605,7 +1644,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib"="..\..\src\thirdparty\common\ZLib\ZLib.dsp" - Package Owner=<4>
+Project: "ZLib"="..\..\src\thirdparty\common\FreeImage\Source\___ZLib\ZLib.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
