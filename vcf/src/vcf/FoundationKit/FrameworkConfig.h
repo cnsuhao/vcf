@@ -310,7 +310,7 @@ this define is to fix:
 //the wrong menu structs which cause problems in WinNT4
 
 
-#if !defined(__GNUWIN32__) && !defined(__BORLANDC__) 
+#if !defined(__GNUWIN32__) && !defined(__BORLANDC__)  
 # ifdef WINVER
 #   undef WINVER
 # endif
@@ -321,6 +321,10 @@ this define is to fix:
 #define _WIN32_WINNT 0x0400
 #endif
 
+#if defined(VCF_MINGW)  
+#define _WIN32_IE 0x0500
+#define _WIN32_WINNT 0x0500
+#endif
 
 //#endif
 
@@ -661,6 +665,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.6  2005/07/21 00:41:36  ddiego
 *minor changes.
 *

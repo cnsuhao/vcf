@@ -144,8 +144,13 @@ template <class T> class EnumObject {
 
 
 	protected:
+		#if defined(VCF_MINGW)  /* mingw doesn't understand vector<_typename_ T> */
+		std::vector<T> items_;
+		_typename_ std::vector<T>::iterator itemIterator_;
+		#else
 		std::vector<_typename_ T> items_;
 		_typename_ std::vector<_typename_ T>::iterator itemIterator_;
+		#endif
 		unsigned long currentPos_;
 
 };
@@ -156,6 +161,9 @@ template <class T> class EnumObject {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -14,7 +14,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32Clipboard.h"
 #include <shellapi.h>
 
-#if !defined(__GNUWIN32__) && !defined(VCF_CW_W32)
+#if !defined(__GNUWIN32__) && !defined(VCF_CW_W32) && !defined(VCF_MINGW)
 #include <comdef.h>
 #endif
 
@@ -32,7 +32,7 @@ HRESULT COMUtils::createCOMObject( const String& progID, IID interfaceID,
 
 	CLSID clsid;
 
-#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
+#if defined(__GNUWIN32__) || defined(VCF_CW_W32) || defined(VCF_MINGW)
 	wchar_t* tmp = new wchar_t[progID.size()+1];
 	memset( tmp, 0 , (progID.size()+1)*sizeof(wchar_t) );
 	AnsiString id = progID;
@@ -96,7 +96,7 @@ HRESULT COMUtils::createCOMObject( CLSID clsid, IID interfaceID,
 HRESULT COMUtils::BSTRtoString( const BSTR src, String& dest )
 {
 	HRESULT result = E_FAIL;
-#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
+#if defined(__GNUWIN32__) || defined(VCF_CW_W32) || defined(VCF_MINGW)
 	String tmpString;
 	SAFEARRAY* safeArray = NULL;
 	result = VectorFromBstr(src, &safeArray );
@@ -254,7 +254,7 @@ HRESULT COMUtils::StringtoBSTR( const String& src, BSTR& dest )
 	AnsiString asrc = src;
 	if ( 0 == MultiByteToWideChar( CP_ACP, 0, asrc.c_str(), asrc.size(), tmp, src.size() ) ) {
 	    return result;*/
-#if defined(__GNUWIN32__) || defined(VCF_CW_W32)
+#if defined(__GNUWIN32__) || defined(VCF_CW_W32)  || defined(VCF_MINGW)
 	wchar_t* tmp = new wchar_t[src.size()+1];
 	memset( tmp, 0 , (src.size()+1)*sizeof(wchar_t) );
 	AnsiString asrc = src;
@@ -946,6 +946,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/10/07 19:31:53  ddiego
+*merged patch 1315995 and 1315991 into dev repos.
+*
 *Revision 1.3.2.1  2005/08/12 03:13:44  ddiego
 *minor changes
 *
