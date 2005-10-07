@@ -86,7 +86,9 @@ public:
 
 	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component);
 
+#ifndef VCF_NO_ATL
 	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
+#endif
 
 	virtual ContextPeer* internal_createContextPeer( Control* component );
 
@@ -190,6 +192,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/10/07 16:41:21  kiklop74
+*Added support for building ApplicationKit with Borland Free Compiler
+*
 *Revision 1.5.2.1  2005/09/07 04:19:54  ddiego
 *filled in initial code for help support.
 *
