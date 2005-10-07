@@ -129,7 +129,16 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 		bool hasVertSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(vScrollHWnd_));
 		bool hasHorzSB = (scrollable->hasHorizontalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
 
+		int x, origX;
+		x = origX = 0;
+
+		int y, origY;
+		y = origY = 0;
+
 		if ( true == hasVertSB ) {
+			origY = y = GetScrollPos( vScrollHWnd_, SB_CTL );
+			y = (int)yPosition;
+
 			si.cbSize = sizeof(SCROLLINFO);
 			si.fMask = SIF_POS;
 			si.nPos = (long)yPosition;
@@ -137,11 +146,29 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 		}
 
 		if ( true == hasHorzSB ) {
+			origX = x = GetScrollPos( hScrollHWnd_, SB_CTL );
+			x = (int)xPosition;
+
 			memset( &si, 0, sizeof(si) );
 			si.cbSize = sizeof(SCROLLINFO);
 			si.fMask = SIF_POS ;
 			si.nPos = (long)xPosition;
 			SetScrollInfo( hScrollHWnd_, SB_CTL, &si, TRUE );
+		}
+
+		if ( hasHorzSB || hasVertSB ) {
+			Container* container = scrollableControl_->getContainer();
+			if ( NULL != container ) {
+				Enumerator<Control*>* children = container->getChildren();
+				while ( children->hasMoreElements() ) {
+					Control* child = children->nextElement();
+					if ( !child->ignoreForParentScrolling() ) {
+						Rect r = child->getBounds();
+						r.offset( -(x-origX), -(y-origY) );
+						child->setBounds( &r );
+					}
+				}
+			}
 		}
 	}
 }
@@ -466,6 +493,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/07 04:06:24  ddiego
+*minor adjustment to control state variables
+*
 *Revision 1.4  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
