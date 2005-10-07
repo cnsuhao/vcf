@@ -16,6 +16,9 @@ where you installed the VCF.
 using namespace VCF;
 
 
+
+
+
 class ScrollingWindow : public Window {
 public:
 	ScrollingWindow(): currentImage_(NULL), listBox_(NULL) {
@@ -100,6 +103,7 @@ public:
 		Scrollable* scrollable = getScrollable();
 		scrollable->getHorizontalScrollRects( NULL, &r );
 		panel_->setBounds( &r );
+		panel_->setIgnoreForParentScrolling( true );
 	}
 
 	virtual ~ScrollingWindow(){
@@ -348,6 +352,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/10/07 04:06:44  ddiego
+*added new internet kit.
+*
 *Revision 1.6.2.2  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *
