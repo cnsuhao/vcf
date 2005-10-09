@@ -32,7 +32,7 @@ VFFInputStream::~VFFInputStream()
 	parser_ = NULL;
 }
 
-void VFFInputStream::getOuterClassNameAndUUID( String& className, String& UUID )
+void VFFInputStream::getOuterClassNameAndUUID( String& className, String& UUID, String& fallbackClassName )
 {
 	className = "";
 	UUID = "";
@@ -54,6 +54,12 @@ void VFFInputStream::getOuterClassNameAndUUID( String& className, String& UUID )
 						parser_->checkToken( ',' );
 						parser_->nextToken();
 						UUID = parser_->tokenString();
+
+						parser_->nextToken();
+						if ( parser_->getToken() == ',' ) {
+							parser_->nextToken();
+							fallbackClassName = parser_->tokenString();
+						}
 					}
 					break;
 				}
@@ -682,6 +688,9 @@ void VFFInputStream::hexToBin( const String& hexString, Persistable* persistable
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.3.2.3  2005/09/18 22:54:47  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *

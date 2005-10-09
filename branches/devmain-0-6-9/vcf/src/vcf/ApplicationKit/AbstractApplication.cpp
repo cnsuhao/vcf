@@ -42,56 +42,34 @@ String AbstractApplication::getFileName()
 	return applicationPeer_->getFileName();
 }
 
-Frame* AbstractApplication::createFrame( const String& frameClassName )
+Frame* AbstractApplication::createWindow( Class* windowClass )
 {
 	Frame* result = NULL;
 
-	ResourceBundle* resBundle = getResourceBundle();
-	if ( NULL != resBundle ){
-		String vffString = resBundle->getVFF( frameClassName );
-
-		if ( false == vffString.empty() ){
-			BasicInputStream bis( vffString );
-			VFFInputStream vis( &bis );
-			result = (Frame*)vis.readNewComponent();
-		}
-		else{
-			String errMsg = "VFF Resource \"" + frameClassName + "\" has no data.";
-			throw InvalidPointerException( MAKE_ERROR_MSG( errMsg ) );
-		}
-	}
-	else{
-		String errMsg = "Resource \"" + frameClassName + "\" not found.";
-		throw InvalidPointerException( MAKE_ERROR_MSG( errMsg ) );
-	}
+	result = Frame::createWindow( windowClass, getResourceBundle() );
 
 	return result;
 }
 
-void AbstractApplication::loadFrame( Frame** frame )
+Frame* AbstractApplication::createDialog( Class* dialogClass )
 {
+	Frame* result = NULL;
 
-	String frameClassName = (*frame)->getClassName();
+	result = Frame::createDialog( dialogClass, getResourceBundle() );
 
-	ResourceBundle* resBundle = getResourceBundle();
-	if ( NULL != resBundle ){
-		String vffString = resBundle->getVFF( frameClassName );
-
-		if ( false == vffString.empty() ){
-			BasicInputStream bis( vffString );
-			VFFInputStream vis( &bis );
-			vis.readComponentInstance( *frame );
-		}
-		else{
-			String errMsg = "VFF Resource \"" + frameClassName + "\" has no data.";
-			throw InvalidPointerException( MAKE_ERROR_MSG( errMsg ) );
-		}
-	}
-	else{
-		String errMsg = "Resource \"" + frameClassName + "\" not found.";
-		throw InvalidPointerException( MAKE_ERROR_MSG( errMsg ) );
-	}
+	return result;
 }
+
+void AbstractApplication::loadWindow( Frame* frame )
+{
+	Component::initComponent( frame, frame->getClass(), classid(VCF::Window), getResourceBundle() );
+}
+
+void AbstractApplication::loadDialog( Frame* frame )
+{
+	Component::initComponent( frame, frame->getClass(), classid(VCF::Dialog), getResourceBundle() );
+}
+
 
 void AbstractApplication::idleTime()
 {
@@ -132,6 +110,9 @@ void AbstractApplication::setName( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.4.2.1  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *
