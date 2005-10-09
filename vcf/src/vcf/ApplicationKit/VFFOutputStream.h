@@ -207,7 +207,7 @@ protected:
 	simply retrieves the class name and UUID from the component's Class
 	instance.
 	*/
-	virtual void getComponentHeader( Component* component, String& className, String& classID );
+	virtual void getComponentHeader( Component* component, String& className, String& classID, String& fallBackClassName );
 
 	void writeObject( Object* object, const String& objectPropertyName );
 
@@ -224,6 +224,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.6  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.2.6.5  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

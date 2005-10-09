@@ -57,7 +57,7 @@ public:
 	*retreives the outer most class/UUID that contains all other obejcts
 	*in this VFF stream
 	*/
-	void getOuterClassNameAndUUID( VCF::String& className, VCF::String& UUID );
+	void getOuterClassNameAndUUID( VCF::String& className, VCF::String& UUID, VCF::String& fallbackClassName );
 
 	/**
 	*reads in a new component, that is the caller passes in a pointer to
@@ -141,6 +141,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.5  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.2.6.4  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

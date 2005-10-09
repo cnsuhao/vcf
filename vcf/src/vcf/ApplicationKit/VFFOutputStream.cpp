@@ -107,11 +107,12 @@ void VFFOutputStream::writeObject( Object* object, const String& objectPropertyN
 	}
 }
 
-void VFFOutputStream::getComponentHeader( Component* component, String& className, String& classID )
+void VFFOutputStream::getComponentHeader( Component* component, String& className, String& classID, String& fallBackClassName )
 {
 	Class* clazz = component->getClass();
 	className = clazz->getClassName();
 	classID = clazz->getID();
+	fallBackClassName = "";
 }
 
 void VFFOutputStream::writeProperty( Property* property )
@@ -181,10 +182,16 @@ void VFFOutputStream::writeComponent( Component* component )
 	if ( NULL != clazz ) {
 		String className;// = clazz->getClassName();
 		String classID;
+		String fallBackClassName;
 
-		getComponentHeader( component, className, classID );
+		getComponentHeader( component, className, classID, fallBackClassName );
 
-		String s = tabString + "object " + component->getName() + " : " + className + ", \'" + classID + "\'\n";
+		String s = tabString + "object " + component->getName() + " : " + className + ", \'" + classID + "\'";
+		if ( !fallBackClassName.empty() ) {
+			s += ", " + fallBackClassName;
+		}
+		s += "\n";
+
 		stream_->write( s );
 		Enumerator<Property*>* props = clazz->getProperties();
 		if ( NULL != props ) {
@@ -351,6 +358,9 @@ void VFFOutputStream::writeEvents( Component* component )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.3.2.4  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

@@ -1393,8 +1393,15 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc
 		fileType = fp.getExtension();
 	}
 
+	//store off the current name
+	String oldName = doc->getName();
+	//set the name to the new file
+	doc->setFileName( fp );
 	try {
 		result = doc->saveAsType( fp, fileType );
+
+		//reset it back to the old name, we'll change it later
+		doc->setFileName( oldName );
 	}
 	catch ( BasicException& e) {
 		Dialog::showMessage( "Error saving '" + doc->getName() + "'\nError: " + e.getMessage() );
@@ -1867,6 +1874,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.4.2.2  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

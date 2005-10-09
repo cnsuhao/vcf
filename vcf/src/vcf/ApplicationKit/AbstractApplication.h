@@ -126,14 +126,18 @@ public:
 	*or the class doesn't exist. Otherwise it represent a full loaded
 	*instance, using the data from the resource VFF.
 	*/
-	Frame* createFrame( const String& frameClassName );
+	Frame* createWindow( Class* windowClass );
+
+	Frame* createDialog( Class* dialogClass );
 
 	/**
 	*Loads an already existing Frame from a frame derived class name
 	*@param Frame a pointer to new instance of the type specified
 	*in the frameClassName argument.
 	*/
-	void loadFrame( Frame** frame );
+	void loadWindow( Frame* frame );
+
+	void loadDialog( Frame* frame );
 
 	/**
 	*This virtual function is called during the event loops idle phase.
@@ -172,6 +176,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/10/09 04:32:44  ddiego
+*added some minor fixes in component persistence for vcf builder.
+*
 *Revision 1.5  2005/07/09 23:14:50  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
