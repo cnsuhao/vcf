@@ -40,12 +40,12 @@ TDIR=DLL
 !if $(BMODE) == RELEASE
 	USERDEFINES=NDEBUG
 	OBJDIR=bcc\Release$(TDIR)
-	LPARAMS=/P64
+	LPARAM=/P64
 	!message Building release version of project
 !else
 	USERDEFINES=_DEBUG
 	OBJDIR=bcc\Debug$(TDIR)
-	LPARAMS=/P256
+	LPARAM=/P256
 	!message Building debug version of project
 !endif
 
@@ -89,8 +89,8 @@ CPPFILES=GraphicsKit.cpp \
          Win32GraphicsToolkit.cpp \
          Win32Image.cpp \
          Win32PrintSession.cpp\
-        JPEGLoader.cpp\
-        PNGLoader.cpp
+         JPEGLoader.cpp\
+         PNGLoader.cpp
 
 OBJFILES=$(CPPFILES:.cpp=.obj^ )         
 LIBFILES=ODBC32.LIB UUID.LIB
@@ -129,8 +129,7 @@ dirs::
 ##################################
 $(PROJECT1):: $(OBJFILES)
    @echo Linking $(<F) static library
-   @$(LB) @&&|
-   $< $(LPARAM) &
+   @$(LB) $< $(LPARAM) @&&|
    -+$(?: = &^
    -+)
    
