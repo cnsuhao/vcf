@@ -52,8 +52,8 @@ BOOL __cdecl InitF__(void) {
       libHandle__ = LoadLibraryA("hhctrl.ocx");
     }
     if (libHandle__ != NULL) {
-      HHA__ = (dHtmlHelpA)GetProcAddress(libHandle__,"HtmlHelpA");
-      HHW__ = (dHtmlHelpW)GetProcAddress(libHandle__,"HtmlHelpW");
+      HHA__ = (dHtmlHelpA)GetProcAddress(libHandle__, ATOM_HTMLHELP_API_ANSI   );
+      HHW__ = (dHtmlHelpW)GetProcAddress(libHandle__, ATOM_HTMLHELP_API_UNICODE);
       if ((HHA__ == NULL) || (HHW__ == NULL)) {
         hhctrl_cleanup();
       }
